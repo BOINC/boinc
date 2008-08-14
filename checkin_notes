@@ -6626,3 +6626,16 @@ Rom    14 Aug 2008
     clientscr/
         screensaver.cpp
         screensaver_win.cpp, .h
+
+David  14 Aug 2008
+    - scheduler: fixed bug that caused spurious messages
+        saying "no work was available for the apps you requested"
+        with locality scheduling (i.e. Einstein@home)
+        even if the user hasn't select apps.
+
+        Note: the logic for printing these messages won't work
+        for matchmaker scheduling.
+
+    sched/
+        sched_send.C
+        server_types.h

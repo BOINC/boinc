@@ -39,8 +39,8 @@ struct APP_INFO {
 // Details concerning a host
 //
 struct HOST_INFO {
-	int allow_non_preferred_apps;
-	int allow_beta_work;
+	bool allow_non_preferred_apps;
+	bool allow_beta_work;
 	bool reliable;
 	std::vector<APP_INFO> preferred_apps;
 };
@@ -110,6 +110,8 @@ struct WORK_REQ {
     bool reliable_only;
     bool user_apps_only;
     bool beta_only;
+        // The above are used by old-style (non-score-based) scheduling
+
     HOST_INFO host_info;
     double seconds_to_fill;
 		// in "normalized CPU seconds"; see

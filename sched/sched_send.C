@@ -1107,39 +1107,50 @@ static void explain_to_user(SCHEDULER_REPLY& reply) {
     unsigned int i;
     int j;
 
-    // If work was sent from apps // the user did not select, explain
+    // If work was sent from apps the user did not select, explain.
+    // NOTE: this will have to be done differently with matchmaker scheduling
     //
-    if (reply.wreq.nresults && !reply.wreq.user_apps_only) {
-        USER_MESSAGE um("No work can be sent for the applications you have selected", "high");
-        reply.insert_message(um);
+    if (!config.locality_scheduling && !config.matchmaker) {
+        if (reply.wreq.nresults && !reply.wreq.user_apps_only) {
+            USER_MESSAGE um(
+                "No work can be sent for the applications you have selected",
+                "high"
+            );
+            reply.insert_message(um);
 
-        // Inform the user about applications with no work
-        for (i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
-         	if (!reply.wreq.host_info.preferred_apps[i].work_available) {
-         		APP* app = ssp->lookup_app(reply.wreq.host_info.preferred_apps[i].appid);
-         		// don't write message if the app is deprecated
-         		if (app) {
-           			char explanation[256];
-           			sprintf(explanation,
-                        "No work is available for %s",
-                        find_user_friendly_name(reply.wreq.host_info.preferred_apps[i].appid)
-                    );
-        			USER_MESSAGE um2(explanation, "high");
-           			reply.insert_message(um2);
-         		}
-           	}
-        }
+            // Inform the user about applications with no work
+            //
+            for (i=0; i<reply.wreq.host_info.preferred_apps.size(); i++) {
+                if (!reply.wreq.host_info.preferred_apps[i].work_available) {
+                    APP* app = ssp->lookup_app(reply.wreq.host_info.preferred_apps[i].appid);
+                    // don't write message if the app is deprecated
+                    //
+                    if (app) {
+                        char explanation[256];
+                        sprintf(explanation,
+                            "No work is available for %s",
+                            find_user_friendly_name(reply.wreq.host_info.preferred_apps[i].appid)
+                        );
+                        USER_MESSAGE um2(explanation, "high");
+                        reply.insert_message(um2);
+                    }
+                }
+            }
 
-        // Tell the user about applications they didn't qualify for
-        //
-        for (j=0; j<preferred_app_message_index; j++){
-            reply.insert_message(reply.wreq.no_work_messages.at(j));
+            // Tell the user about applications they didn't qualify for
+            //
+            for (j=0; j<preferred_app_message_index; j++){
+                reply.insert_message(reply.wreq.no_work_messages.at(j));
+            }
+            USER_MESSAGE um1(
+                "You have selected to receive work from other applications if no work is available for the applications you selected",
+                "high"
+            );
+            reply.insert_message(um1);
+            USER_MESSAGE um2("Sending work from other applications", "high");
+            reply.insert_message(um2);
         }
-        USER_MESSAGE um1("You have selected to receive work from other applications if no work is available for the applications you selected", "high");
-        reply.insert_message(um1);
-        USER_MESSAGE um2("Sending work from other applications", "high");
-        reply.insert_message(um2);
-     }
+    }
 
     // if client asked for work and we're not sending any, explain why
     //
