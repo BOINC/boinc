@@ -6533,3 +6533,33 @@ Rom    13 Aug 2008
         boinc_ss_2003.rc
     clienttray/
         boinc_tray.rc
+
+Rom    13 Aug 2008
+    - WIN: Remove Visual Studio 2003 solution and project files
+    - WIN: Fix build files so all build configurations work again
+    - WIN: Create the 'Samples - Debug' and 'Samples - Release'
+        configurations to build sample files.  Leave the previous
+        configurations to build just the client software.
+    - WIN: Remove Seed project files
+        
+    client/win/
+        boinc.exe.manifest
+        boinc_cli_2003.rc
+        boinc_cmd_2003.rc
+        boinccmd.exe.manifest
+    clientgui/
+        BOINCGUIApp_2003.rc
+        boincmgr.exe.manifest
+    clientlib/win/
+        boinc.dll.manifest
+        boinc_dll_2003.rc
+    clientscr/
+        boinc.scr.manifest
+        boinc_ss_2003.rc
+    samples/win_build/
+        samples_2003.sln
+    win_build/
+        boinc.sln
+        boinc_2003.sln
+        seed.sln
+        <Various .vcproj files>
