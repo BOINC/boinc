@@ -69,10 +69,10 @@ $w638= array(
     "type"=>"win_new",
 );
 
-$w6216= array(
-    "num"=>"6.2.16",
+$w6217= array(
+    "num"=>"6.2.17",
     "status"=>"Development version",
-    "file"=>"boinc_6.2.16_windows_intelx86.exe",
+    "file"=>"boinc_6.2.17_windows_intelx86.exe",
     "date"=>"8 Aug 2008",
     "type"=>"win_new",
 );
@@ -93,10 +93,10 @@ $w638x64= array(
     "type"=>"win_new",
 );
 
-$w6216x64= array(
-    "num"=>"6.2.16",
+$w6217x64= array(
+    "num"=>"6.2.17",
     "status"=>"Development version",
-    "file"=>"boinc_6.2.16_windows_x86_64.exe",
+    "file"=>"boinc_6.2.17_windows_x86_64.exe",
     "date"=>"8 Aug 2008",
     "type"=>"win_new",
 );
@@ -251,7 +251,7 @@ $windows = array(
     "dbname" => "windows_intelx86",
     "versions"=>array(
         $w638,
-        $w6216,
+        $w6217,
         $w51045,
         $w5816,
     )
@@ -263,7 +263,7 @@ $windowsx64 = array(
     "dbname" => "windows_x86_64",
     "versions"=>array(
         $w638x64,
-        $w6216x64,
+        $w6217x64,
         $w51045x64,
     )
 );
