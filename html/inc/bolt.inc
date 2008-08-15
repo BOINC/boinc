@@ -23,8 +23,12 @@ ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
 abstract class BoltUnit {
-    public $name;   // logical name.
+    public $name;
+        // Logical name.  Changing this makes it a different unit.
+        // For items, this is the filename with query string;
+        // for structures, it must be specified with name()
     public $title;
+        // Optional; used when showing course history outline.
     public $is_item;
 
     abstract function walk(&$iter, $incr, &$frac_done);
@@ -43,7 +47,7 @@ abstract class BoltUnit {
 class BoltItem extends BoltUnit {
     public $filename;
     public $query_string;
-    function __construct($name, $title, $filename) {
+    function __construct($filename, $title) {
         $p = strpos($filename, '?');
         if ($p === false) {
             $this->filename = $filename;
@@ -52,7 +56,7 @@ class BoltItem extends BoltUnit {
             $this->filename = substr($filename, 0, $p);
             $this->query_string = substr($filename, $p+1);
         }
-        $this->name = $name;
+        $this->name = $filename;
         $this->title = $title;
         $this->is_item = true;
     }
@@ -243,56 +247,49 @@ function filename($n) {
 }
 
 function lesson() {
-    $name = "";
-    $file = "";
+    $filename = "";
     $title = "";
     $args = func_get_args();
     foreach ($args as $arg) {
         if (is_array($arg)) {
             switch ($arg[0]) {
-            case 'name': $name = $arg[1]; break;
             case 'title': $title = $arg[1]; break;
-            case 'filename': $file = $arg[1]; break;
-            default: echo "Unrecognized array arg: ", $arg[0], "\n"; break;
+            case 'filename': $filename = $arg[1]; break;
+            default: echo "Unrecognized lesson parameter: ", $arg[0], "\n"; break;
             }
         } else {
             echo "unprocessed arg of class ".get_class($arg);
         }
     }
-    if (!$name) {
-        $name = $file;
-    }
     if (!$title) {
-        $title = $name;
+        $title = $filename;
     }
-    if (!$file) {
+    if (!$filename) {
         error_page("Missing filename in lesson");
     }
-    return new BoltLesson($name, $title, $file);
+    return new BoltLesson($filename, $title);
 }
 
 function exercise() {
-    $name = "";
-    $file = "";
+    $filename = "";
     $title = "";
     $args = func_get_args();
     foreach ($args as $arg) {
         if (is_array($arg)) {
             switch ($arg[0]) {
-            case 'name': $name = $arg[1]; break;
             case 'title': $title = $arg[1]; break;
-            case 'filename': $file = $arg[1]; break;
-            default: echo "Unrecognized array arg: ", $arg[0], "\n"; break;
+            case 'filename': $filename = $arg[1]; break;
+            default: echo "Unrecognized exercise parameter: ", $arg[0], "\n"; break;
             }
         }
     }
-    if (!$name) {
-        $name = $file;
+    if (!$title) {
+        $title = $filename;
     }
-    if (!$file) {
+    if (!$filename) {
         error_page("Missing filename in lesson");
     }
-    return new BoltExercise($name, $title, $file);
+    return new BoltExercise($filename, $title);
 }
 
 require_once('../inc/bolt_seq.inc');

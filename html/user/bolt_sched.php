@@ -78,8 +78,15 @@ function create_view($iter, $mode, $prev_view_id) {
     return BoltView::insert("(user_id, course_id, item_name, start_time, mode, state, fraction_done, prev_view_id) values ($user->id, $course->id, '$item->name', $now, $mode, '$state', $iter->frac_done, $prev_view_id)");
 }
 
-function page_header($title) {
-    echo "<html><head><title>$title</title>
+function page_header($title=null) {
+    echo "<html><head>
+    ";
+    if ($title) {
+        echo "
+            <title>$title</title>
+        ";
+    }
+    echo "
         <link rel=stylesheet type=text/css href=white.css>
         </head><body>
     ";
@@ -160,7 +167,7 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
     global $url_args;
 
     $item = $iter->item;
-    page_header($item->title);
+    page_header();
     $bolt_query_string = $item->query_string;
 
     $links = array();
@@ -251,7 +258,7 @@ function show_answer_page($iter, $score) {
     $bolt_ex_index = 0;
 
     $item = $iter->item;
-    page_header($item->title);
+    page_header();
     $bolt_query_string = $item->query_string;
     require_once($item->filename);
     if (function_exists('bolt_divide')) bolt_divide();

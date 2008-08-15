@@ -50,9 +50,6 @@ require_once("../inc/bolt_cat.inc");
 require_once("../inc/bolt_util.inc");
 require_once("../inc/bolt.inc");
 
-echo "
- <link rel=\"stylesheet\" type=\"text/css\" href=\"".URL_BASE."bolt.css\">
-";
 // the following are to minimize argument passing
 
 $snap = null;
@@ -87,7 +84,7 @@ function show_snap_form() {
         <input type=hidden name=action value=snap_action>
         <input type=hidden name=course_id value=$course_id>
         Create a new snapshot using data from the last
-        <input name=dur> days.
+        <input name=dur value=7> days.
         <input type=submit value=OK>
         </form>
     ";
@@ -167,6 +164,7 @@ function outcomes($views) {
         switch ($v->action) {
         case BOLT_ACTION_NONE: $x[0]++; break;
         case BOLT_ACTION_NEXT: $x[1]++; break;
+        case BOLT_ACTION_SUBMIT: $x[1]++; break;
         default: $x[2]++; break;
         }
     }
@@ -215,11 +213,15 @@ function class_name($class) {
     }
 }
 
+$rownum = 0;
+
 function show_unit_row($unit, $class, $level, $is_answer) {
     global $breakdown, $breakdown_cat;
+    global $rownum;
 
     $a = $is_answer?" (answer)":"";
-    echo "<tr>";
+    $j = ($rownum++)%2;
+    echo "<tr class=row$j>";
     if ($breakdown && $breakdown_cat) {
         echo "
             <td><br></td>
@@ -276,6 +278,10 @@ function show_unit_row($unit, $class, $level, $is_answer) {
         echo empty_cell();
         break;
     default:
+        echo empty_cell();
+        echo empty_cell();
+        echo empty_cell();
+        echo empty_cell();
     }
     echo "</tr>\n";
 }
@@ -327,6 +333,7 @@ function show_unit_recurse($unit, $level) {
 
 function show_map() {
     global $snap, $course_id, $top_unit, $filter, $filter_cat, $breakdown;
+    global $course;
 
     $breakdown_name = get_str('breakdown', true);
     if ($breakdown_name && $breakdown_name != 'none') {
@@ -348,10 +355,11 @@ function show_map() {
         $filter = null;
     }
 
-    page_head("Course map");
+    page_head("Course map for '$course->name'");
+    bolt_style();
     $snap = read_map_snapshot($course_id);
+    start_table();
     echo "
-        <table class=\"bolt_box\">
         <tr>
             <th>Name</th>
             <th>Type</th>
@@ -361,7 +369,11 @@ function show_map() {
     }
     echo "
             <th>Views</th>
-            <th>Outcome<br><span class=note>Green=Next,<br>Yellow=Back,<br>Red=None</span></th>
+            <th>Outcome<br>
+                <span class=green>Next</span>
+                <span class=yellow>Back</span>
+                <span class=red>None</span>
+            </th>
             <th>Score</th>
             <th>Time</th>
         </tr>

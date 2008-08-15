@@ -187,3 +187,22 @@ David  August 14 2008
             bolt_course.php
             bolt_sched.php
             white.css
+
+David  August 15 2008
+    - The logical name of an item is now its filename.
+        Items can also have titles, but they're used only
+        when showing outline to students
+    - Fixed bugs and improved appearance of course maps and lesson compare
+
+    html/
+        inc/
+            bolt.inc
+            bolt_util.inc
+            bolt_select.inc
+            util.inc
+        ops/
+            bolt_map.php
+            bolt_datagen.php
+            bolt_compare.php (moved here from user/)
+        user/
+            bolt_sched.php

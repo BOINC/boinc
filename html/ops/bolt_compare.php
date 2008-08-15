@@ -31,6 +31,7 @@
 require_once("../inc/util.inc");
 require_once("../inc/bolt_db.inc");
 require_once("../inc/bolt_util.inc");
+require_once("../inc/bolt.inc");
 require_once("../inc/bolt_cat.inc");
 
 function compare_case(
@@ -82,7 +83,7 @@ function compare_aux($select_name, $xset_name, $snap) {
     global $course_id;
 
     $breakdown_name = get_str('breakdown', true);
-    if ($breakdown_name) {
+    if ($breakdown_name && $breakdown_name != 'none') {
         $breakdown = lookup_categorization($breakdown_name);
         if (!$breakdown) error_page("unknown breakdown $breakdown_name");
     } else {
@@ -180,7 +181,7 @@ function show_snap_form($top_unit) {
         <input type=hidden name=select_name value=\"$select_name\">
         <input type=hidden name=xset_name value=\"$xset_name\">
         Create a new snapshot using data from the last
-        <input name=dur> days.
+        <input name=dur value=7> days.
         <input type=submit value=OK>
         </form>
     ";

@@ -46,7 +46,6 @@ class BoltSelect extends BoltSet {
 
         $state_rec = $iter->state[$this->name];
         $child_name = $state_rec['child_name'];
-        echo "FINISHED: $child_name";
         $now = time();
         BoltSelectFinished::insert("(user_id, course_id, end_time, name, selected_unit, view_id) values ($user->id, $course->id, $now, '$this->name', '$child_name', $view->id)");
         parent::finished($iter);

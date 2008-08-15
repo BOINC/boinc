@@ -129,7 +129,9 @@ function request_info($user, $course) {
 ////// stuff related to snapshots
 
 function compare_snapshot_filename($course_id, $select_name, $xset_name) {
-    return "../bolt_snap/compare_snapshot_".$course_id."_".$select_name."_".$xset_name;
+    @mkdir("../bolt_snap");
+    $x = urlencode($course_id."_".$select_name."_".$xset_name);
+    return "../bolt_snap/compare_snapshot_$x";
 }
 
 // a "snapshot" is a condensed representation of the results
@@ -172,10 +174,10 @@ function write_compare_snapshot($course_id, $select_name, $xset_name, $dur) {
         $x = $a[$uid];
         $xr = $x->xr;
         if ($sf->end_time > $xr->create_time) {
-            echo "select finish is too late";
+            //echo "select finish is too late";
             continue;
         }
-        if (!isset($x->sf) || $sf->create_time > $s.create_time) {
+        if (!isset($x->sf) || $sf->end_time > $x->sf->end_time) {
             $x->sf = $sf;
             $a[$uid] = $x;
         }
@@ -264,7 +266,7 @@ function write_map_snapshot($course_id, $dur) {
         if (!array_key_exists($r->user_id, $users)) {
             $user = BoincUser::lookup_id($r->user_id);
             BoltUser::lookup($user);
-            $users[$v->user_id] = $user;
+            $users[$r->user_id] = $user;
         }
     }
 
@@ -280,7 +282,7 @@ function write_map_snapshot($course_id, $dur) {
         if (!array_key_exists($xr->user_id, $users)) {
             $user = BoincUser::lookup_id($xr->user_id);
             BoltUser::lookup($user);
-            $users[$v->user_id] = $user;
+            $users[$xr->user_id] = $user;
         }
     }
 
@@ -394,14 +396,25 @@ function outcome_graph($x, $width) {
     } else {
         $t0 = "";
     }
-    return "<td>
+    $s = "<td>
         <table class=bolt_bar><tr>
-            <td class=bolt_bar height=10 width=$x0 bgcolor=#88ff88><span class=note>$t0</span></td>
-            <td class=bolt_bar height=10 width=$x1 bgcolor=#ff8888></td>
-            <td class=bolt_bar height=10 width=$x2 bgcolor=#ffff88></td>
-        </tr></table>
+    ";
+    if ($x0) {
+        $s .= "<td class=bolt_bar height=10 width=$x0 bgcolor=#88ff88><span class=note>$t0</span></td>
+        ";
+    }
+    if ($x1) {
+        $s .= "<td class=bolt_bar height=10 width=$x1 bgcolor=#ff8888><br></td>
+        ";
+    }
+    if ($x2) {
+        $s .= "<td class=bolt_bar height=10 width=$x2 bgcolor=#ffff88><br></td>
+        ";
+    }
+    $s .= "</tr></table>
         </td>
     ";
+    return $s;
 }
 
 function time_graph($t, $w) {
@@ -410,7 +423,7 @@ function time_graph($t, $w) {
     $t = number_format($t, 1);
     return "<td>
         <table class=bolt_bar><tr>
-            <td class=bolt_bar height=10 width=$x bgcolor=#cccccc>$t sec</td>
+            <td class=bolt_bar height=10 width=$x bgcolor=#ffffcc><span class=note>$t sec</span></td>
         </tr></table>
     </td>";
 }
@@ -420,16 +433,28 @@ function score_graph($t, $w) {
     $x = $t*$w;
     $y = (1-$t)*$w;
     $t = number_format($t*100);
-    return "<td>
+    $s = "<td>
         <table class=bolt_bar><tr>
-            <td class=bolt_bar height=10 width=$x bgcolor=#cccccc><span class=note>$t%</span></td>
-            <td class=bolt_bar width=$y bgcolor=white></td>
-        </tr></table>
-    </td>";
+    ";
+    if ($x) {
+        $s .= "<td class=bolt_bar height=10 width=$x bgcolor=#ffffcc><span class=note>$t%</span></td>
+        ";
+    }
+    if ($y) {
+        $s .= "<td class=bolt_bar width=$y bgcolor=gray></td>
+        ";
+    }
+    $s .= "</tr></table></td>
+    ";
+    return $s;
 }
 
 function empty_cell() {
     return "<td><br></td>";
+}
+
+function empty_row() {
+    return "<tr><td><br></td></tr>";
 }
 
 //////////// show refresh schedule //////////////
@@ -458,6 +483,12 @@ function show_refreshes() {
         show_refresh($r);
     }
     end_table();
+}
+
+function bolt_style() {
+    echo "
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"".URL_BASE."bolt.css\">
+    ";
 }
 
 ?>

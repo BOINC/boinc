@@ -16,10 +16,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// generate synthetic usage data for a Bolt course (for debugging analytics)
+// Generate synthetic usage data for a Bolt course (for debugging analytics),
+// or to clear out existing data.
+// See comments below for how to use this.
 
 require_once("../inc/bolt_db.inc");
 require_once("../inc/bolt_util.inc");
+require_once("../inc/bolt.inc");
 require_once("../inc/bolt_cat.inc");
 
 // generate a random student
@@ -67,7 +70,7 @@ function compare_gen(
     $a2, $d2            // avg and dev of score for chosen alternative
 ) {
     global $course;
-    $top_unit = require_once("../user/$course->doc_file");
+    $top_unit = require_once($course->doc_file());
     $select_unit = lookup_unit($top_unit, $select_name);
     if (!$select_unit) error_page("no such select unit");
     if (!lookup_unit($top_unit, $xset_name)) error_page("no such xset");
@@ -104,7 +107,7 @@ function compare_gen(
 function map_gen($n, $sb1, $sb2, $sel, $sel_cat) {
     global $course;
 
-    $top_unit = require_once("../user/$course->doc_file");
+    $top_unit = require_once($course->doc_file());
     for ($i=0; $i<$n; $i++) {
         $uid = random_student();
         $user = BoincUser::lookup_id($uid);
@@ -191,7 +194,9 @@ function clear() {
     $db->do_query("delete from DBNAME.bolt_select_finished where course_id=$course->id");
 }
 
-$course = BoltCourse::lookup_id(2);
+// put your course ID here:
+
+$course = BoltCourse::lookup_id(4);
 if (!$course) error_page("no such course");
 $now = time();
 
@@ -201,7 +206,12 @@ if (1) {
 
 if (0) {
     compare_gen(
-        'sample select', 'exercise set 1', 10, .5, .1, 'lesson 1', .8, .1
+        'Conifer/deciduous alternative',        // select name
+        'Intro exercises',      // xset name
+        50,                     // # of records to create
+        .5, .1,                 // mean and dev of default score
+        'conifer_decid2.php',  // name of chosen alternative
+        .8, .1                  // mean and dev of score for that alternative
     );
 }
 
