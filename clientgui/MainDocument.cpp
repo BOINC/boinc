@@ -432,7 +432,7 @@ int CMainDocument::OnExit() {
         // Use a critical section to prevent a crash during 
         // manager shutdown due to a rare race condition 
 #ifndef __WXMSW__
-		m_critsect.Enter();
+        m_critsect.Enter();
         m_RPCThread->Delete();
         // On some platforms, Delete() takes effect only when thread calls TestDestroy()
         m_RPCThread->Resume();
@@ -451,8 +451,8 @@ int CMainDocument::OnExit() {
         m_RPCThread = NULL;
     }
     
-        rpcClient.close();
-    
+    rpcClient.close();
+
     if (m_pNetworkConnection) {
         delete m_pNetworkConnection;
         m_pNetworkConnection = NULL;
@@ -726,7 +726,7 @@ void CMainDocument::RunPeriodicRPCs() {
     if (!IsConnected()) return;
 
     int currentTabView = wxGetApp().GetCurrentViewPage();
-
+    
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
@@ -932,7 +932,7 @@ void CMainDocument::RunPeriodicRPCs() {
 }
 
 
-// TODO: CAF: Is it enough to just reset m_dtCachedStateTimestamp 
+// TODO: Is it enough to just reset m_dtCachedStateTimestamp 
 // and let RunPeriodicRPCs() update the state?  This would avoid 
 // displaying the "Please wait" dialog on multi-processor computers.  
 // Possible exceptions might be when ForceCacheUpdate() is called 

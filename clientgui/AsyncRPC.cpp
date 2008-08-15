@@ -24,7 +24,6 @@
 #include <vector>
 
 #include "stdwx.h"
-//#include "wx/artprov.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
 #include "AsyncRPC.h"
@@ -32,8 +31,6 @@
 
 // Delay in milliseconds before showing AsyncRPCDlg
 #define RPC_WAIT_DLG_DELAY 1500
-
-bool LogRPCs = false;        // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
 
 ASYNC_RPC_REQUEST::ASYNC_RPC_REQUEST() {
     clear();
@@ -100,8 +97,6 @@ int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2,
     request.arg4 = arg4;
 
     retval = m_Doc->RequestRPC(request, hasPriority);
-// wxLogMessage(wxT("RequestRPC %d returned %d"), which_rpc, retval);
-    
     return retval;
 }
 
@@ -145,7 +140,6 @@ void *RPCThread::Entry() {
 
        if (! m_Doc->IsConnected()) {
             Yield();
-//            continue;
         }
 
         retval = ProcessRPCRequest();
@@ -169,8 +163,6 @@ int RPCThread::ProcessRPCRequest() {
     ASYNC_RPC_REQUEST       *current_request;
     
     current_request = m_Doc->GetCurrentRPCRequest();
-//Sleep(5000);     // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
-
     switch (current_request->which_rpc) {
     // RPC_SELECTORS with no arguments
     case RPC_RUN_BENCHMARKS:
@@ -218,7 +210,6 @@ int RPCThread::ProcessRPCRequest() {
             int n = ((CC_STATE*)(current_request->exchangeBuf))->projects.size();
             for (int i=0; i<n; i++) {
                 PROJECT* p = new PROJECT();
-//                p->copy(*((CC_STATE*)(current_request->exchangeBuf))->projects[i]);
                 // get_project_status RPC needs master_url and will fill in everything else
                 p->master_url = ((CC_STATE*)(current_request->exchangeBuf))->projects[i]->master_url;
                 ((CC_STATE*)(current_request->arg1))->projects.push_back(p);
@@ -398,7 +389,7 @@ int RPCThread::ProcessRPCRequest() {
 }
 
 
-// We don't need critical sections because:
+// We don't need critical sections (except when exiting Manager) because:
 // 1. CMainDocument never modifies mDoc->current_rpc_request while the 
 // async RPC thread is using it.
 // 2. The async RPC thread never modifies either mDoc->current_rpc_request 
@@ -427,8 +418,9 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     }
     
     if (hasPriority) {
-        // hasPriority should be set if this is a user-initiated event. 
-        // Since the user is waiting, insert this at head of request queue
+        // We may want to set hasPriority for some user-initiated events. 
+        // Since the user is waiting, insert this at head of request queue.
+        // As of 8/14/08, hasPriority is never set true, so hasn't been tested.
         iter = RPC_requests.insert(RPC_requests.begin(), request);
     } else {
            RPC_requests.push_back(request);
@@ -443,7 +435,6 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     }
 #ifndef __WXMSW__       // Deadlocks on Windows
     if (current_rpc_request.isActive && m_RPCThread->IsPaused()) {
-// wxLogMessage(wxT("RequestRPC Resume"));
         m_RPCThread->Resume();
     }
 #endif //  !!__WXMSW__       // Deadlocks on Windows
@@ -451,7 +442,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     // If no completion event specified, this is a user-initiated event so 
     // wait for completion but show a dialog allowing the user to cancel.
     if (request.event == 0) {
-    // TODO: proper handling if a second user request is received while first is pending
+    // TODO: proper handling if a second user request is received while first is pending ??
         if (m_bWaitingForRPC) {
             wxLogMessage(wxT("Second user RPC request while another was pending"));
             wxASSERT(false);
@@ -459,11 +450,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         }
         m_bWaitingForRPC = true;
         // Don't show dialog if RPC completes before RPC_WAIT_DLG_DELAY
-        wxStopWatch Dlgdelay = wxStopWatch();
-
-//        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-//        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-        
+        wxStopWatch Dlgdelay = wxStopWatch();        
         m_RPCWaitDlg = new AsyncRPCDlg();
         do {
         // Simulate handling of CRPCFinishedEvent but don't allow any other events (so no user activity)
@@ -481,7 +468,6 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                 } else {
                 // for safety
                 if (m_RPCThread->IsPaused()) {
-// wxLogMessage(wxT("RequestRPC 2 Resume"));
                     m_RPCThread->Resume();
                }
 #endif //  !!__WXMSW__       // Deadlocks on Windows
@@ -498,7 +484,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
             if (m_RPCWaitDlg->ShowModal() != wxID_OK) {
                 // TODO: If user presses Cancel in Please Wait dialog but request 
                 // has not yet been started, should we just remove it from queue? 
-                // If wemake that change, should we also add a separate menu item  
+                // If we make that change, should we also add a separate menu item  
                 // to reset the RPC connection (or does one already exist)?
 
                 retval = -1;
@@ -510,7 +496,6 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                 // start a new RPC thread.
                 if (current_rpc_request.isActive) {
                     current_rpc_request.isActive = false;
-// wxLogMessage(wxT("RequestRPC Cancel Pause"));
                     m_RPCThread->Pause();   // Needed on Windows
                     rpcClient.close();
                     m_RPCThread->Kill();
@@ -522,9 +507,6 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                     current_rpc_request.clear();
                     // We will be reconnected to the same client (if possible) by 
                     // CBOINCDialUpManager::OnPoll() and CNetworkConnection::Poll().
-//                wxString strComputer = wxEmptyString;
-//                GetConnectedComputerName(strComputer);
-//                retval2 = rpcClient.init(strComputer.mb_str(), m_pNetworkConnection->GetGUI_RPC_Port());
                     m_pNetworkConnection->SetStateDisconnected();
                     m_RPCThread = new RPCThread(this);
                     wxASSERT(m_RPCThread);
@@ -532,15 +514,14 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                     wxASSERT(!retval2);
                     retval2 = m_RPCThread->Run();
                     wxASSERT(!retval2);
-// wxLogMessage(wxT("RequestRPC Cancel 2 Pause"));
 //                    m_RPCThread->Pause();
                 }
-                if (m_RPCWaitDlg) {
-                    m_RPCWaitDlg->Destroy();
-                }
-                m_RPCWaitDlg = NULL;
-                m_bWaitingForRPC = false;
             }
+            if (m_RPCWaitDlg) {
+                m_RPCWaitDlg->Destroy();
+            }
+            m_RPCWaitDlg = NULL;
+            m_bWaitingForRPC = false;
         }
     }
     return retval;
@@ -732,11 +713,9 @@ void CMainDocument::HandleCompletedRPC() {
         current_rpc_request.isActive = true;
 #ifndef __WXMSW__       // Deadlocks on Windows
         if (m_RPCThread->IsPaused()) {
-// wxLogMessage(wxT("HandleCompletedRPC Resume"));
             m_RPCThread->Resume();
         }
     } else {
-// wxLogMessage(wxT("HandleCompletedRPC Pause"));
         m_RPCThread->Pause();
         while (!m_RPCThread->IsPaused()) {
 #ifdef __WXMSW__
@@ -773,10 +752,6 @@ AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPositio
     wxBoxSizer *topsizer = new wxBoxSizer( wxVERTICAL );
     wxBoxSizer *icon_text = new wxBoxSizer( wxHORIZONTAL );
 
-//    wxBitmap bitmap = wxArtProvider::GetIcon(wxART_INFORMATION, wxART_MESSAGE_BOX);
-//    wxStaticBitmap *icon = new wxStaticBitmap(this, wxID_ANY, bitmap);
-//    icon_text->Add( icon, 0, wxCENTER );
-
     icon_text->Add( CreateTextSizer( message ), 0, wxALIGN_CENTER | wxLEFT, 10 );
     topsizer->Add( icon_text, 1, wxCENTER | wxLEFT|wxRIGHT|wxTOP, 10 );
     
@@ -798,37 +773,13 @@ AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPositio
     }
 
     Centre( wxBOTH | wxCENTER_FRAME);
-    
-#if USE_RPC_DLG_TIMER
-    m_pDlgDelayTimer = new wxTimer(this, wxID_ANY);
-    wxASSERT(m_pDlgDelayTimer);
-
-    m_pDlgDelayTimer->Start(100, false); 
-#endif  // USE_RPC_DLG_TIMER
 }
 
 
-#if USE_RPC_DLG_TIMER
-BEGIN_EVENT_TABLE(AsyncRPCDlg, wxMessageDialog)
-    EVT_TIMER(wxID_ANY, AsyncRPCDlg::OnRPCDlgTimer)
-END_EVENT_TABLE()
-
-AsyncRPCDlg::~AsyncRPCDlg() {
-    if (m_pDlgDelayTimer) {
-        m_pDlgDelayTimer->Stop();
-        delete m_pDlgDelayTimer;
-        m_pDlgDelayTimer = NULL;
-    }
-}
-
-
-void AsyncRPCDlg::OnRPCDlgTimer(wxTimerEvent& WXUNUSED(event)) {
-    ::wxWakeUpIdle();
-}
-#endif  // USE_RPC_DLG_TIMER
+#if 0
 
 /// For testing: triggered by Advanced / Options menu item.
-void CMainDocument::TestAsyncRPC() {        // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
+void CMainDocument::TestAsyncRPC() {
     ALL_PROJECTS_LIST pl;
     ASYNC_RPC_REQUEST request;
     wxDateTime completionTime = wxDateTime((time_t)0);
@@ -846,7 +797,7 @@ void CMainDocument::TestAsyncRPC() {        // TEMPORARY FOR TESTING ASYNC RPCs 
     request.eventHandler = NULL;
     request.completionTime = &completionTime;
 //    request.result = NULL;
-    request.resultPtr = &rpc_result;        // TEMPORARY FOR TESTING ASYNC RPCs -- CAF
+    request.resultPtr = &rpc_result;        // For testing async RPCs
     request.isActive = false;
     
 //retval = rpcClient.get_all_projects_list(pl);
@@ -860,3 +811,4 @@ void CMainDocument::TestAsyncRPC() {        // TEMPORARY FOR TESTING ASYNC RPCs 
     wxLogMessage(wxT("rpcClient.get_all_projects_list returned %d\n"), rpc_result);
 }
 
+#endif

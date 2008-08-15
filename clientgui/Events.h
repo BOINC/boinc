@@ -27,7 +27,6 @@
 #define ID_REFRESHSTATETIMER                    6003
 #define ID_FRAMERENDERTIMER                     6004
 #define ID_FRAMETASKRENDERTIMER                 6005
-#define ID_FRAMELISTRENDERTIMER                 6006
 #define ID_DOCUMENTPOLLTIMER                    6007
 #define ID_ALERTPOLLTIMER                       6009
 #define ID_FILEACTIVITYRUNALWAYS                6010

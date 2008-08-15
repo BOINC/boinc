@@ -179,7 +179,7 @@ public:
     void                        OnRPCComplete(CRPCFinishedEvent& event);
     void                        HandleCompletedRPC();
     ASYNC_RPC_REQUEST*          GetCurrentRPCRequest() { return &current_rpc_request; };
-void TestAsyncRPC();        // TEMPORARY -- CAF
+//    void                      TestAsyncRPC();      // For testing Async RPCs
     RPCThread*                  m_RPCThread;
     wxCriticalSection           m_critsect;
 

@@ -31,8 +31,6 @@
 //#include "common_defs.h"
 //#include "gui_rpc_client.h"
 
-#define USE_RPC_DLG_TIMER 0
-
 class CBOINCGUIApp;     // Forward declaration
 class CMainDocument;    // Forward declaration
 
@@ -272,14 +270,6 @@ class AsyncRPCDlg : public wxDialog
 public:
     AsyncRPCDlg();
     void                        OnRPCDlgTimer(wxTimerEvent &event);
-
-#if USE_RPC_DLG_TIMER
-    ~AsyncRPCDlg();
-private:
-    wxTimer*                    m_pDlgDelayTimer;
-
-    DECLARE_EVENT_TABLE()
-#endif  // USE_RPC_DLG_TIMER
 };
 
 

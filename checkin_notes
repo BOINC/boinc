@@ -6219,3 +6219,12 @@ Charlie 14 Aug 2008
     clientgui/
         AsyncRPC.cpp
         MainDocument.cpp
+
+Charlie 14 Aug 2008
+    - MGR: async GUI RPCs: Code cleanup.
+    
+    clientgui/
+        AdvancedFrame.cpp, .h
+        AsyncRPC.cpp, .h
+        Events.h
+        MainDocument.cpp, .h
