@@ -44,8 +44,6 @@ boinc_gui_SOURCES = \
     BOINCListCtrl.cpp \
     BOINCTaskBar.cpp \
     BOINCTaskCtrl.cpp \
-    BOINCGridCtrl.cpp	\
-    BOINCGridCtrl.h		\
     browser.C \
     CompletionErrorPage.cpp \
     CompletionPage.cpp \
@@ -89,15 +87,11 @@ boinc_gui_SOURCES = \
     ValidateEmailAddress.cpp \
     ValidateURL.cpp \
     ViewMessages.cpp \
-    ViewMessagesGrid.cpp \
     ViewProjects.cpp \
-    ViewProjectsGrid.cpp \
     ViewResources.cpp \
     ViewStatistics.cpp \
     ViewTransfers.cpp \
-    ViewTransfersGrid.cpp \
     ViewWork.cpp \
-    ViewWorkGrid.cpp \
     WelcomePage.cpp \
     WizardAccountManager.cpp \
     WizardAttachProject.cpp \
