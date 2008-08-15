@@ -89,6 +89,40 @@ enum RPC_SELECTOR {
 };
 
 
+// Pass the following structure to CMainDocument::RequestRPC()
+// The members are as follows:
+//
+//   arg1 is usually the buffer to read into
+//
+//   exchangeBuf is the (optional) buffer to exchange with after 
+//     completing the RPC, the buffer used by the Manager code.
+//     Pass NULL if you don't want the buffer exchanged.
+//
+//  arg2, arg3, arg4 are additional arguments when needed by the 
+//      RPC call; their usage varies for different RPC requests.
+//
+//  event is an (optional) event to be posted on completion of a 
+//      periodic RPC.  If a periodic RPC should not post an event  
+//      on completion, set this to (wxEvent*)-1.  A NULL value 
+//      indicates a user-initiated (demand) RPC request; the call 
+//      will not return until the RPC completes.
+//
+//  eventHandler is the eventhandler to which to displatch the 
+//      completion event (typically a wxWindow, wxFrame, or wxApp).  
+//      If it is NULL, the current CBOINCBaseFrame is used.  It is 
+//      ignored if the event parameter is NULL or -1.
+//
+//  completionTime is a pointer to a wxDateTime variable into which 
+//      to write the completion time of the RPC.  It may be NULL.
+//
+//  resultPtr is a pointer to an int into which to write the result 
+//      returned by the RPC call.  It may be NULL.
+//
+//  retval is for internal use by the async RPC logic; do not use.
+//
+//  isActive is for internal use by the async RPC logic; do not use.
+//
+
 struct ASYNC_RPC_REQUEST {
     RPC_SELECTOR which_rpc;
     void *arg1;
