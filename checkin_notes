@@ -6727,3 +6727,10 @@ David  15 Aug 2008
 			tr.po
 		user/
 			language_select.php
+
+Rom    15 Aug 2008
+    - WINBUILD: Remove 'Samples - Debug' and 'Samples - Release'
+        build configurations.
+        
+    win_build/
+        BOINC.sln
