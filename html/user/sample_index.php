@@ -71,6 +71,7 @@ function show_nav() {
         <li><a href=\"forum_index.php\">Message boards</a>
         <li><a href=\"forum_help_desk.php\">Questions and answers</a>
         <li><a href=\"stats.php\">Statistics</a>
+        <li><a href=language_select.php>Languages</a>
         </ul>
         </div>
     ";
@@ -86,16 +87,22 @@ $stopped = web_stopped();
 $rssname = PROJECT . " RSS 2.0" ;
 $rsslink = URL_BASE . "rss_main.php";
 
-if (defined("CHARSET")) {
-    header("Content-type: text/html; charset=".tr(CHARSET));
+$charset = tra("CHARSET");
+
+if ($charset != "CHARSET") {
+    header("Content-type: text/html; charset=$charset");
 }
 
-echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd\">";
+echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
+
 echo "<html>
     <head>
     <title>".PROJECT."</title>
     <link rel=\"stylesheet\" type=\"text/css\" href=\"".STYLESHEET."\">
     <link rel=\"alternate\" type=\"application/rss+xml\" title=\"".$rssname."\" href=\"".$rsslink."\">
+";
+include 'schedulers.txt';
+echo "
     </head><body>
     <span class=page_title>".PROJECT."</span>
     <table cellpadding=\"8\" cellspacing=\"4\">
@@ -148,7 +155,6 @@ echo "
     </tr></table>
 ";
 
-include 'schedulers.txt';
 
 if ($caching) {
     page_tail_main(true);

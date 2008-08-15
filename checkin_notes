@@ -6686,3 +6686,20 @@ Charlie 15 Aug 2008
             project.pbxproj
     win_build/
         boincmgr_curl.vcproj
+
+David  15 Aug 2008
+    - web: start working towards the goal of passing the
+        "HTML 4.01 Transitional" test.
+        The BOINC home page, project home page, and forum index now pass.
+    - web: .po files need to have CHARSET, LANG_NAME_NATIVE,
+        and LANG_NAME_INTERNATIONAL
+
+    html/
+        inc/
+            uotd.inc
+            forum.inc
+            util.inc
+        languates/translations/
+            en.po
+        user/
+            sample_index.php

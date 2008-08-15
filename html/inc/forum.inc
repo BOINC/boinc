@@ -108,12 +108,14 @@ $special_user_bitfield[S_SCIENTIST]="Project scientist";
 // show a banner with search form on left and PM info on right
 //
 function show_forum_header($user) {
+    echo "<form action=\"forum_search_action.php\" method=\"POST\">
+    ";
     start_table_noborder();
-    echo "<tr>\n";
+    echo "<tr>
+    ";
     
     // Search
     echo "
-        <form action=\"forum_search_action.php\" method=\"POST\">
         <td>
         <input type=\"hidden\" name=\"search_max_time\" value=\"30\">
         <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
@@ -122,7 +124,6 @@ function show_forum_header($user) {
         <input class=\"btn\" title=\"".tra("Search for words in forum messages")."\" type=\"submit\" value=\"".tra("Search forums")."\"><br>
         <span class=\"smalltext\"><a href=\"forum_search.php\">".tra("Advanced search")."</a></span>
         </td>
-        </form>
     ";
     
     if ($user) {
@@ -130,8 +131,11 @@ function show_forum_header($user) {
         echo "<p>".tra("Private messages").": ", pm_notification($user);
         echo "</td>\n";
     }
-    echo "</tr>\n";
+    echo "</tr>
+    ";
     end_table();
+    echo "</form>
+    ";
 }
 
 // Output the forum/thread title.

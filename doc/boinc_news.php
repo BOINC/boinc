@@ -3,22 +3,22 @@
 $project_news = array(
 array("July 30, 2008",
     "BOINC 6.2.14 is now the recommended version for all platforms. 
-    <a href=http://boinc.berkeley.edu/download.php>Upgrade now</a>."
+    <a href=\"http://boinc.berkeley.edu/download.php\">Upgrade now</a>."
 ),
 array("July 29, 2008",
-    "The <a href=http://qcn.stanford.edu>Quake Catcher Network</a>
-    detected today's <a href=http://qcn.stanford.edu/EVENTS/2008_211/>
+    "The <a href=\"http://qcn.stanford.edu\">Quake Catcher Network</a>
+    detected today's <a href=\"http://qcn.stanford.edu/EVENTS/2008_211/\">
     magnitude 5.4 earthquake in Los Angeles</a> within 7 seconds."
 ),
 array("July 24, 2008",
-    "The <a href=http://gcl.cis.udel.edu/EastCoast08/>First
+    "The <a href=\"http://gcl.cis.udel.edu/EastCoast08/\">First
     East Coast BOINC Meeting</a>
     will take place August 29 2008 at the University of Delaware.
     "
 ),
 array("July 17, 2008",
     "GPU computing has arrived to BOINC!
-    The <a href=http://www.gpugrid.net>GPUGRID.net</a> project
+    The <a href=\"http://www.gpugrid.net\">GPUGRID.net</a> project
     from the Barcelona Biomedical Research Park (PRBB)
     uses CUDA-capable NVIDIA chips
     to create an infrastructure for biomolecular simulations.
@@ -26,17 +26,17 @@ array("July 17, 2008",
     To participate, follow the instructions on the web site)."
 ),
 array("July 10, 2008",
-    "<a href=http://boinc.berkeley.edu/wiki/BOINC_logo_merchandise>BOINC-logo merchandise</a> (T-shirts, mouse pads) is now available."
+    "<a href=\"http://boinc.berkeley.edu/wiki/BOINC_logo_merchandise\">BOINC-logo merchandise</a> (T-shirts, mouse pads) is now available."
 ),
 array("July 9, 2008",
-    "New add-on software: <a href=http://boinc.berkeley.edu/addon_item.php?platform=web&item=phpBOINCer-1.5.zip>phpBOINCer</a>,
+    "New add-on software: <a href=\"http://boinc.berkeley.edu/addon_item.php?platform=web&amp;item=phpBOINCer-1.5.zip\">phpBOINCer</a>,
     a PHP script to display BOINC stats on a webpage,
     and store or retrieve these stats to a mySQL database."
 ),
 array("June 26, 2008",
     "Congratulations and thanks to volunteer
-    <a href=http://boinc.netsoft-online.com/e107_plugins/boinc/get_user.php?cpid=4b03581a7c1802a7bd62649720327b04&html=1>Banshee</a> from
-    <a href=http://www.boinc-af.org/>L'Alliance Francophone</a>,
+    <a href=\"http://boinc.netsoft-online.com/e107_plugins/boinc/get_user.php?cpid=4b03581a7c1802a7bd62649720327b04&amp;html=1\">Banshee</a> from
+    <a href=\"http://www.boinc-af.org/\">L'Alliance Francophone</a>,
     who has recently contributed over 10 TeraFLOPS to several projects."
 ),
 array("June 16, 2008",

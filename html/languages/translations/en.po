@@ -9,6 +9,14 @@ Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-Poedit-SourceCharset: utf-8
 
+msgid "CHARSET"
+msgstr "ISO-8859-1"
+
+msgid "LANG_NAME_NATIVE"
+msgstr "English"
+
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "English"
 
 msgid "Rank"
 msgstr ""

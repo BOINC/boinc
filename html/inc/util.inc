@@ -114,8 +114,9 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = URL_BASE."rss_main.php";
     
-    if (defined("CHARSET")) {
-        header("Content-type: text/html; charset=".tra("CHARSET"));
+    $charset = tra("CHARSET");
+    if ($charset != "CHARSET") {
+        header("Content-type: text/html; charset=$charset");
     }
     if (!$caching) {
         header ("Expires: Mon, 26 Jul 1997 05:00:00 UTC");    // Date in the past
@@ -124,7 +125,9 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
         header ("Pragma: no-cache");                          // HTTP/1.0
     }
     
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd\">\n";
+    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
+    ";
+           
     
     if (!$title_plain) {
         echo "<html><head><title>".strip_tags($title)."</title>\n";

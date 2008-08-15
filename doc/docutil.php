@@ -10,13 +10,13 @@ if (0) {
 
 function search_form() {
     echo "
-    <form method=get action=http://google.com/search>
-    <input type=hidden name=domains value=http://boinc.berkeley.edu>
-    <input type=hidden name=sitesearch value=http://boinc.berkeley.edu>
-    <nobr>
+    <form method=get action=\"http://google.com/search\">
+    <input type=hidden name=domains value=\"http://boinc.berkeley.edu\">
+    <input type=hidden name=sitesearch value=\"http://boinc.berkeley.edu\">
+    <span class=\"nobar\">
     <input class=small name=q size=20>
     <input class=small type=submit value=Search>
-    </nobr>
+    </span>
     </form>
 ";
 }
@@ -99,7 +99,7 @@ function page_tail($translatable=false, $is_main=false) {
     ";
     if ($translatable) {
         echo "
-            This page is <a href=trac/wiki/TranslateIntro>translatable</a>.<br>
+            This page is <a href=\"trac/wiki/TranslateIntro\">translatable</a>.<br>
         ";
     }
     echo "
@@ -118,7 +118,7 @@ function html_text($x) {
     ";
 }
 
-function list_start($attrs = 'width=100%') {
+function list_start($attrs = 'width="100%"') {
     echo "<p><table $attrs border=0 cellpadding=6>\n";
 }
 
