@@ -754,7 +754,7 @@ AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPositio
     topsizer->Add( icon_text, 1, wxCENTER | wxLEFT|wxRIGHT|wxTOP, 10 );
     
     int center_flag = wxEXPAND;
-    wxSizer *sizerBtn = CreateSeparatedButtonSizer(wxCANCEL|wxNO_DEFAULT);
+    wxSizer *sizerBtn = CreateStdDialogButtonSizer(wxCANCEL|wxNO_DEFAULT);
     if ( sizerBtn )
         topsizer->Add(sizerBtn, 0, center_flag | wxALL, 10 );
 
