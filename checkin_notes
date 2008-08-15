@@ -6649,3 +6649,38 @@ Rom    15 Aug 2008
         hostinfo_win.C
     lib/
         hostinfo.C, .h
+Charlie 15 Aug 2008
+    - MGR: async GUI RPCs: Merge GUI RPC code from private workspace into trunk.
+        All RPCs now go through separate thread.  There are two categories:
+          - Periodic RPCs are called from a timer event and optionally generate 
+            a secondary event upon completion.
+          - Demand RPCs are run one at a time and don't return to requesting 
+            call until each RPC is completed. 
+    - MGR: async GUI RPCs: don't perform preiodic RPCs in Advanced View when 
+        hidden / minimized.
+    - MGR: async GUI RPCs: FireRefreshView() runs preiodic RPCs before posting 
+        wxEVT_FRAME_REFRESHVIEW event.
+    - MGR: Under SimpleGUI, call acct_mgr_info RPC every 10 minutes
+    - MGR: eliminate Grid views, since all their functionality is now implemented 
+        in List Views.  View menu now has 2 choices: Simple and Advanced.
+        NOTE: The Grid View source files still should be removed from makefiles 
+        for Linux, etc. and possibly from SVN trunk.
+
+    clientgui/
+        AdvancedFrame.cpp,.h
+        AsyncRPC.cpp,.h  (Added)
+        BOINCBaseFrame.cpp,.h
+        BOINCBaseView.cpp,.h
+        BOINCDialupManager.cpp
+        BOINCGUIApp.cpp,.h
+        BOINCTaskBar.cpp
+        Events.h
+        MainDocument.cpp,.h
+        Makefile.am
+        sg_BoincSimpleGUI.cpp,.h
+        sg_DlgMessages.cpp,.h
+        sg_ProjectsComponent.cpp,.h
+        ViewWork.cpp
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

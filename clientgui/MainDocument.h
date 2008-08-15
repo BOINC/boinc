@@ -25,6 +25,7 @@
 #include <vector>
 #include "common_defs.h"
 #include "gui_rpc_client.h"
+#include "AsyncRPC.h"
 
 typedef struct {
     int slot;
@@ -144,28 +145,57 @@ public:
     int                         SetActivityRunMode(int iMode, int iTimeout);
     int                         SetNetworkRunMode(int iMode, int iTimeout);
 
-    int                         ForceCacheUpdate();
+    void                        RefreshRPCs();
+    void                        RunPeriodicRPCs();
+    int                         ForceCacheUpdate(bool immediate = true);
     int                         RunBenchmarks();
 
     bool                        IsUserAuthorized();
 
     CNetworkConnection*         m_pNetworkConnection;
     CBOINCClientManager*        m_pClientManager;
-    RPC_CLIENT                  rpc;
+    AsyncRPC                    rpc;
+    RPC_CLIENT                  rpcClient;
     CC_STATE                    state;
+    CC_STATE                    async_state_buf;
+    int                         m_iGet_state_rpc_result;
+    
     CC_STATUS                   status;
+    CC_STATUS                   async_status_buf;
+    int                         m_iGet_status_rpc_result;
+    
     HOST_INFO                   host;
+    HOST_INFO                   async_host_buf;
+    int                         m_iGet_host_info_rpc_result;
     wxDateTime                  m_dtCachedStateTimestamp;
 
+    //
+    // Async RPC support
+    //
+public:
+    int                         RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority = false);
+    void                        OnRPCComplete(CRPCFinishedEvent& event);
+    void                        HandleCompletedRPC();
+    ASYNC_RPC_REQUEST*          GetCurrentRPCRequest() { return &current_rpc_request; };
+//    void                      TestAsyncRPC();      // For testing Async RPCs
+    RPCThread*                  m_RPCThread;
+    wxCriticalSection           m_critsect;
+
+private:
+    ASYNC_RPC_REQUEST           current_rpc_request;
+    AsyncRPCDlg*                m_RPCWaitDlg;
+    std::vector<ASYNC_RPC_REQUEST> RPC_requests;
+    bool                        m_bWaitingForRPC;
 
     //
     // Project Tab
     //
 private:
-    int                         CachedProjectStatusUpdate();
+    int                         m_iGet_project_status1_rpc_result;
     wxDateTime                  m_dtProjecStatusTimestamp;
 
 public:
+    int                         CachedProjectStatusUpdate(bool bForce = false);
     PROJECT*                    project(unsigned int);
 	PROJECT*                    project(const wxString& projectname);
     float                       m_fProjectTotalResourceShare;
@@ -208,6 +238,9 @@ private:
 
 public:
     RESULTS                     results;
+    RESULTS                     async_results_buf;
+    int                         m_iGet_results_rpc_result;
+    
     RESULT*                     result(unsigned int);
     RESULT*                     result(const wxString& name, const wxString& project_url);
 
@@ -237,6 +270,9 @@ private:
 
 public:
     MESSAGES                    messages;
+    MESSAGES                    async_messages_buf;
+    int                         m_iGet_messages_rpc_result;
+    
     MESSAGE*                    message(unsigned int);
     int                         CachedMessageUpdate();
 
@@ -256,6 +292,9 @@ private:
 
 public:
     FILE_TRANSFERS              ft;
+    FILE_TRANSFERS              async_ft_buf;
+    int                         m_iGet_file_transfers_rpc_result;
+    
     FILE_TRANSFER*              file_transfer(unsigned int);
     FILE_TRANSFER*              file_transfer(const wxString& fileName, const wxString& project_url);
 
@@ -275,6 +314,9 @@ private:
 
 public:
     DISK_USAGE                  disk_usage;
+    DISK_USAGE                  async_disk_usage_buf;
+    int                         m_iGet_dsk_usage_rpc_result;
+    
     PROJECT*                    DiskUsageProject(unsigned int);
     int                         CachedDiskUsageUpdate();
 
@@ -286,8 +328,10 @@ private:
     wxDateTime                  m_dtStatisticsStatusTimestamp;
 
 public:
-	PROJECTS                    statistics_status;
+    PROJECTS                    statistics_status;
+    PROJECTS                    async_statistics_status_buf;
     PROJECT*                    statistic(unsigned int);
+    int                         m_iGet_statistics_rpc_result;
 
     int                         GetStatisticsCount();
 	
@@ -306,11 +350,16 @@ public:
     //
     // Simple GUI Updates
     //
+    int                         m_iGet_simple_gui2_rpc_result;
+    int                         CachedSimpleGUIUpdate(bool bForce = false);
+    int                         m_iAcct_mgr_info_rpc_result;
 private:
     wxDateTime                  m_dtCachedSimpleGUITimestamp;
-    int                         CachedSimpleGUIUpdate();
+    wxDateTime                  m_dtCachedAcctMgrInfoTimestamp;
 
 public:
+    ACCT_MGR_INFO               ami;
+    ACCT_MGR_INFO               async_ami_buf;
     int                         GetSimpleGUIWorkCount();
 
 };

@@ -414,12 +414,15 @@ void CProjectsComponent::OnMessages(wxCommandEvent& /*event*/) {
 
     MessagesViewed();
 
-    pPanel->SetDlgOpen(true);
 
 	CDlgMessages dlg(GetParent());
+    pPanel->SetDlgOpen(true);
+    ((CSimpleFrame*)pPanel->GetParent())->SetMsgsDlgOpen(&dlg);
+    
     dlg.ShowModal();
 
     pPanel->SetDlgOpen(false);
+    ((CSimpleFrame*)pPanel->GetParent())->SetMsgsDlgOpen(NULL);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnMessages - Function End"));
 }
@@ -561,16 +564,14 @@ void CProjectsComponent::UpdateInterface()
 		}
 	}
 
-    // Should we display the syncronize button instead of the
+    // Should we display the synchronize button instead of the
     //   attach to project button?
-    ACCT_MGR_INFO ami;
-	CC_STATUS     status;
-    bool                   is_acct_mgr_detected = false;
+	CC_STATUS       status;
+    bool            is_acct_mgr_detected = false;
 
 	pDoc->GetCoreClientStatus(status);
-    pDoc->rpc.acct_mgr_info(ami);
 
-    is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
+    is_acct_mgr_detected = pDoc->ami.acct_mgr_url.size() ? true : false;
 
     if (is_acct_mgr_detected) {
 		btnAddProj->Show(false);
@@ -729,6 +730,7 @@ void CProjectsComponent::OnEraseBackground(wxEraseEvent& event){
 void CProjectsComponent::OnMessageCheck(wxTimerEvent& WXUNUSED(event)) {
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	MESSAGE* message;
+
 	// Only look at the messages recieved since the last time we looked
 	if ( pDoc->GetMessageCount() > (int) lastMessageId ) {
 		// Loop through and check for any messages recieved that are error messages

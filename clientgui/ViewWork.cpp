@@ -710,6 +710,7 @@ void CViewWork::GetDocProjectName(wxInt32 item, wxString& strBuffer) const {
     wxASSERT(wxDynamicCast(doc, CMainDocument));
 
     if (result) {
+        // TODO: should we get the name directly with result->project->get_name(project_name) ?
         state_project = doc->state.lookup_project(result->project_url);
         if (state_project) {
             state_project->get_name(project_name);

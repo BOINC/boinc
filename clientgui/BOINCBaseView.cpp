@@ -377,31 +377,6 @@ wxListItemAttr* CBOINCBaseView::OnListGetItemAttr(long WXUNUSED(item)) const {
 }
 
 
-void CBOINCBaseView::OnGridSelectCell( wxGridEvent& event ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnGridSelectCell - Function Begin"));
-
-    if (!m_bIgnoreUIEvents) {
-	    m_bForceUpdateSelection = true;
-        UpdateSelection();
-        event.Skip();
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnGridSelectCell - Function End"));
-}
-
-void CBOINCBaseView::OnGridSelectRange( wxGridRangeSelectEvent& event ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnGridSelectRange - Function Begin"));
-
-    if (!m_bIgnoreUIEvents) {
-        m_bForceUpdateSelection = true;
-        UpdateSelection();
-	    event.Skip();
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnGridSelectRange - Function End"));
-}
-
-
 int CBOINCBaseView::GetDocCount() {
     return 0;
 }

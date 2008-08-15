@@ -62,8 +62,14 @@ EXTERN_C DWORD BOINCGetIdleTickCount();
 #endif
 
 
+DEFINE_EVENT_TYPE(wxEVT_RPC_FINISHED)
+
 IMPLEMENT_APP(CBOINCGUIApp)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
+
+BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
+    EVT_RPC_FINISHED(CBOINCGUIApp::OnRPCFinished)
+END_EVENT_TABLE ()
 
 
 bool CBOINCGUIApp::OnInit() {
@@ -641,6 +647,16 @@ int CBOINCGUIApp::ClientLibraryShutdown() {
 }
 
 
+void CBOINCGUIApp::OnRPCFinished( CRPCFinishedEvent& event ) {
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+   
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    
+    pDoc->OnRPCComplete(event);
+}
+
+
 int CBOINCGUIApp::UpdateSystemIdleDetection() {
 #ifdef __WXMSW__
     return BOINCGetIdleTickCount();
@@ -730,6 +746,34 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     m_pConfig->Write(wxT("GUISelection"), iGUISelection);
 
     return true;
+}
+
+
+int CBOINCGUIApp::GetCurrentViewPage() {
+    if (m_iGUISelected == BOINC_SIMPLEGUI) {
+        if (((CSimpleFrame*)m_pFrame)->isMessagesDlgOpen()) {
+            return VW_SGUI | VW_SMSG;
+        } else {
+            return VW_SGUI;
+        }
+    }
+    
+    switch (((CAdvancedFrame*)m_pFrame)->GetViewTabIndex()) {
+    case 0:
+        return VW_PROJ;
+    case 1:
+        return VW_TASK;
+    case 2:
+        return VW_XFER;
+    case 3:
+        return VW_MSGS;
+    case 4:
+        return VW_STAT;
+    case 5:
+        return VW_DISK;
+    }
+    
+    return 0;       // Should never happen.
 }
 
 

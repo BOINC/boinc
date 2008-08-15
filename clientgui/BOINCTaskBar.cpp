@@ -131,7 +131,7 @@ void CTaskBarIcon::OnClose(wxCloseEvent& event) {
 void CTaskBarIcon::OnRefresh(wxTimerEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function Begin"));
 
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+   CMainDocument* pDoc = wxGetApp().GetDocument();
     CC_STATUS      status;
 
     wxASSERT(pDoc);
@@ -485,7 +485,10 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon) {
     
     currentIcon = &icon;
     
-    result = wxGetApp().GetMacSystemMenu()->SetIcon(icon);
+    CMacSystemMenu* sysMenu = wxGetApp().GetMacSystemMenu();
+    if (sysMenu == NULL) return 0;
+    
+    result = sysMenu->SetIcon(icon);
 
     RestoreApplicationDockTileImage();      // Remove any previous badge
 

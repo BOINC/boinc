@@ -102,7 +102,7 @@ void CBOINCDialUpManager::OnPoll() {
 
 
     // We are ready to rock and roll.
-    if (!bAlreadyRunningLoop && pDoc) {
+    if (!bAlreadyRunningLoop && pDoc && pFrame) {
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 

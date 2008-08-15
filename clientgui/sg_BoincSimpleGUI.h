@@ -29,6 +29,7 @@ class ImageLoader;
 class CProjectsComponent;
 class ClientStateIndicator;
 class WorkunitNotebook;
+class CDlgMessages;
 
 class CSimplePanel : public wxPanel
 {
@@ -64,6 +65,7 @@ public:
 	void UpdateProjectView();
 	void InitNotebook();
 	void DestroyNotebook();
+    void OnFrameRender();
 	void OnProjectsAttachToProject();
 	void SetDlgOpen(bool newDlgState) { dlgOpen = newDlgState; }
 	bool GetDlgOpen() { return dlgOpen; }
@@ -82,7 +84,6 @@ public:
     DECLARE_EVENT_TABLE()
 
 protected:
-    void OnFrameRender(wxTimerEvent& event );
     void OnEraseBackground(wxEraseEvent& event);
 
 private:
@@ -107,10 +108,15 @@ public:
 	void OnConnect(CFrameEvent& event );
     void OnProjectsAttachToProject();
     void OnReloadSkin( CFrameEvent& event );
+    void OnRefreshView( CFrameEvent& event );
+
+	void SetMsgsDlgOpen(CDlgMessages* newDlgPtr) { dlgMsgsPtr = newDlgPtr; }
+    bool isMessagesDlgOpen() { return (dlgMsgsPtr != NULL); }
 
 private:
     bool SaveState();
     bool RestoreState();
+    CDlgMessages* dlgMsgsPtr;
 
 protected:
 

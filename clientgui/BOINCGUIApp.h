@@ -29,12 +29,24 @@
 #define BOINC_ADVANCEDGUI                   1
 #define BOINC_SIMPLEGUI                     2
 
+// Bit values for CBOINCGUIApp::GetCurrentView() and 
+// CMainDocument::RunPeriodicRPCs()
+#define VW_PROJ 1
+#define VW_TASK 2
+#define VW_XFER 4
+#define VW_MSGS 8
+#define VW_STAT 16
+#define VW_DISK 32
+#define VW_SGUI 1024
+#define VW_SMSG 2048
+
 
 class wxLogBOINC;
 class CBOINCBaseFrame;
 class CMainDocument;
 class CTaskBarIcon;
 class CSkinManager;
+class CRPCFinishedEvent;
 
 
 class CBOINCGUIApp : public wxApp {
@@ -103,6 +115,7 @@ public:
     wxLocale*           GetLocale()                 { return m_pLocale; }
     CSkinManager*       GetSkinManager()            { return m_pSkinManager; }
     CBOINCBaseFrame*    GetFrame()                  { return m_pFrame; }
+    void                FrameClosed()               { m_pFrame = NULL; }
     CMainDocument*      GetDocument()               { return m_pDocument; }
     wxString            GetArguments()              { return m_strBOINCArguments; }
     wxString            GetRootDirectory()          { return m_strBOINCMGRRootDirectory; }
@@ -123,8 +136,13 @@ public:
     void                FireReloadSkin();
 
     bool                SetActiveGUI(int iGUISelection, bool bShowWindow = true);
+    int                 GetCurrentViewPage();
+
+    virtual void        OnRPCFinished( CRPCFinishedEvent& event );
     
     int                 ConfirmExit();
+
+DECLARE_EVENT_TABLE()
 };
 
 

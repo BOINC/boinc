@@ -39,13 +39,9 @@
 #include "BOINCTaskBar.h"
 #include "BOINCDialupManager.h"
 #include "AdvancedFrame.h"
-#include "ViewProjectsGrid.h"
 #include "ViewProjects.h"
-#include "ViewWorkGrid.h"
 #include "ViewWork.h"
-#include "ViewTransfersGrid.h"
 #include "ViewTransfers.h"
-#include "ViewMessagesGrid.h"
 #include "ViewMessages.h"
 #include "ViewStatistics.h"
 #include "ViewResources.h"
@@ -66,8 +62,7 @@
 
 // Which of the view sets should we display.
 //
-#define VIEW_GRID       1
-#define VIEW_LIST       2
+//#define VIEW_LIST       2
 
 
 enum STATUSBARFIELDS {
@@ -167,7 +162,6 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_FILERUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
     EVT_MENU(ID_FILESELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
     EVT_MENU(ID_SHUTDOWNCORECLIENT, CAdvancedFrame::OnClientShutdown)
-    EVT_MENU_RANGE(ID_VIEWACCESSIBLE, ID_VIEWGRID, CAdvancedFrame::OnSwitchView)
     EVT_MENU(ID_FILESWITCHGUI, CAdvancedFrame::OnSwitchGUI)
 	EVT_MENU(ID_READ_PREFS, CAdvancedFrame::Onread_prefs)
 	EVT_MENU(ID_READ_CONFIG, CAdvancedFrame::Onread_config)
@@ -187,12 +181,10 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCWEBSITE, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CAdvancedFrame::OnHelpAbout)
     EVT_SHOW(CAdvancedFrame::OnShow)
-    EVT_FRAME_REFRESH(CAdvancedFrame::OnRefreshView)
     EVT_FRAME_CONNECT(CAdvancedFrame::OnConnect)
     EVT_FRAME_UPDATESTATUS(CAdvancedFrame::OnUpdateStatus)
     EVT_TIMER(ID_REFRESHSTATETIMER, CAdvancedFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CAdvancedFrame::OnFrameRender)
-    EVT_TIMER(ID_FRAMELISTRENDERTIMER, CAdvancedFrame::OnListPanelRender)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CAdvancedFrame::OnNotebookSelectionChanged)
 END_EVENT_TABLE ()
 
@@ -216,7 +208,6 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32) :
     // Working Variables
     m_strBaseTitle = title;
     m_bDisplayShutdownClientWarning = true;
-	m_iDisplayViewType = VIEW_GRID;
 
     // Initialize Application
     wxIconBundle icons;
@@ -226,16 +217,6 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32) :
 
     // Restore main application frame settings
     RestoreState();
-
-    // Screen reader in use? If so, force the list view so that they
-    //   can still use us.
-#ifdef __WXMSW__
-    BOOL bScreenReaderEnabled = false;
-    SystemParametersInfo(SPI_GETSCREENREADER, NULL, &bScreenReaderEnabled, NULL);
-    if (bScreenReaderEnabled) {
-        m_iDisplayViewType = VIEW_LIST;
-    }
-#endif
 
     // Create UI elements
     wxCHECK_RET(CreateMenu(), _T("Failed to create menu bar."));
@@ -252,12 +233,8 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32) :
     m_pFrameRenderTimer = new wxTimer(this, ID_FRAMERENDERTIMER);
     wxASSERT(m_pFrameRenderTimer);
 
-    m_pFrameListPanelRenderTimer = new wxTimer(this, ID_FRAMELISTRENDERTIMER);
-    wxASSERT(m_pFrameListPanelRenderTimer);
-
     m_pRefreshStateTimer->Start(300000);             // Send event every 5 minutes
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
-    m_pFrameListPanelRenderTimer->Start(1000);       // Send event every 1 second
 
     // Limit the number of times the UI can update itself to two times a second
     //   NOTE: Linux and Mac were updating several times a second and eating
@@ -273,7 +250,6 @@ CAdvancedFrame::~CAdvancedFrame() {
 
     wxASSERT(m_pRefreshStateTimer);
     wxASSERT(m_pFrameRenderTimer);
-    wxASSERT(m_pFrameListPanelRenderTimer);
     wxASSERT(m_pMenubar);
     wxASSERT(m_pNotebook);
     wxASSERT(m_pStatusbar);
@@ -291,12 +267,6 @@ CAdvancedFrame::~CAdvancedFrame() {
         m_pFrameRenderTimer->Stop();
         delete m_pFrameRenderTimer;
         m_pFrameRenderTimer = NULL;
-    }
-
-    if (m_pFrameListPanelRenderTimer) {
-        m_pFrameListPanelRenderTimer->Stop();
-        delete m_pFrameListPanelRenderTimer;
-        m_pFrameListPanelRenderTimer = NULL;
     }
 
     if (m_pStatusbar)
@@ -356,15 +326,9 @@ bool CAdvancedFrame::CreateMenu() {
     wxMenu *menuView = new wxMenu;
 
     menuView->AppendRadioItem(
-        ID_VIEWACCESSIBLE,
-        _("&Accessible View"),
-        _("Accessible views are compatible with accessibility aids such as screen readers.")
-    );
-
-    menuView->AppendRadioItem(
-        ID_VIEWGRID,
-        _("&Grid View"),
-        _("Grid views allow you to sort various columns and displays graphical progress bars.")
+        ID_VIEWLIST,
+        _("&Advanced View"),
+        _("Advanced views allow you to sort various columns and displays graphical progress bars.")
     );
 
     menuView->Append(
@@ -377,10 +341,6 @@ bool CAdvancedFrame::CreateMenu() {
     if (wxGetDisplaySize().GetHeight() < 600) {
         menuView->Enable(ID_FILESWITCHGUI, false);
     }
-    
-    menuView->Check(ID_VIEWACCESSIBLE, VIEW_LIST == m_iDisplayViewType);
-    menuView->Check(ID_VIEWGRID, VIEW_GRID == m_iDisplayViewType);
-
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
@@ -696,22 +656,12 @@ bool CAdvancedFrame::RepopulateNotebook() {
     DeleteNotebook();
 
     // Create the various notebook pages
-    if ( VIEW_GRID == m_iDisplayViewType ) {
-	    CreateNotebookPage(new CViewProjectsGrid(m_pNotebook));
-	    CreateNotebookPage(new CViewWorkGrid(m_pNotebook));
-	    CreateNotebookPage(new CViewTransfersGrid(m_pNotebook));
-        CreateNotebookPage(new CViewMessages(m_pNotebook));
-	    CreateNotebookPage(new CViewStatistics(m_pNotebook));
-        CreateNotebookPage(new CViewResources(m_pNotebook));
-    } else {
-	    CreateNotebookPage(new CViewProjects(m_pNotebook));
-	    CreateNotebookPage(new CViewWork(m_pNotebook));
-	    CreateNotebookPage(new CViewTransfers(m_pNotebook));
-        CreateNotebookPage(new CViewMessages(m_pNotebook));
-	    CreateNotebookPage(new CViewStatistics(m_pNotebook));
-        CreateNotebookPage(new CViewResources(m_pNotebook));
-    }
-
+    CreateNotebookPage(new CViewProjects(m_pNotebook));
+    CreateNotebookPage(new CViewWork(m_pNotebook));
+    CreateNotebookPage(new CViewTransfers(m_pNotebook));
+    CreateNotebookPage(new CViewMessages(m_pNotebook));
+    CreateNotebookPage(new CViewStatistics(m_pNotebook));
+    CreateNotebookPage(new CViewResources(m_pNotebook));
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RepopulateNotebook - Function End"));
     return true;
@@ -832,7 +782,6 @@ bool CAdvancedFrame::SaveState() {
     pConfig->SetPath(strBaseConfigLocation);
 
     pConfig->Write(wxT("DisplayShutdownClientWarning"), m_bDisplayShutdownClientWarning);
-    pConfig->Write(wxT("DisplayViewType"), m_iDisplayViewType);
 
 
 #ifdef __WXMAC__
@@ -932,7 +881,6 @@ bool CAdvancedFrame::RestoreState() {
     pConfig->SetPath(strBaseConfigLocation);
 
     pConfig->Read(wxT("DisplayShutdownClientWarning"), &m_bDisplayShutdownClientWarning, true);
-    pConfig->Read(wxT("DisplayViewType"), &m_iDisplayViewType, VIEW_GRID);
 
 #ifdef __WXMAC__
     RestoreWindowDimensions();
@@ -1093,7 +1041,6 @@ void CAdvancedFrame::OnActivitySelection(wxCommandEvent& event) {
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
 
     switch(event.GetId()) {
     case ID_FILEACTIVITYRUNALWAYS:
@@ -1297,33 +1244,6 @@ void CAdvancedFrame::Onread_prefs(wxCommandEvent& WXUNUSED(event)) {
 void CAdvancedFrame::Onread_config(wxCommandEvent& WXUNUSED(event)) {
 	CMainDocument* pDoc = wxGetApp().GetDocument();
 	pDoc->rpc.read_cc_config();
-}
-
-
-void CAdvancedFrame::OnSwitchView(wxCommandEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchView - Function Begin"));
-
-    switch(event.GetId()) {
-    case ID_VIEWACCESSIBLE:
-        m_iDisplayViewType = VIEW_LIST;
-        break;
-    case ID_VIEWGRID:
-    default:
-        m_iDisplayViewType = VIEW_GRID;
-        break;
-    }
-
-    // Save the current view state
-    SaveViewState();
-
-    // Delete the old pages and then create/display the new pages.
-    RepopulateNotebook();
-
-    // Restore the current view state settings to the newly
-    //   constructed views.
-    RestoreViewState();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchView - Function End"));
 }
 
 
@@ -1556,7 +1476,6 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
-
 
     // General Tab
     dlg.m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
@@ -1934,7 +1853,6 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
     CMainDocument*    pDoc     = wxGetApp().GetDocument();
     wxMenuBar*        pMenuBar = GetMenuBar();
 
-
     if (!bAlreadyRunningLoop && m_pFrameRenderTimer->IsRunning()) {
         bAlreadyRunningLoop = true;
 
@@ -2021,17 +1939,19 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
 }
 
 
-void CAdvancedFrame::OnListPanelRender(wxTimerEvent& WXUNUSED(event)) {
-    FireRefreshView();
-}
-
-
 void CAdvancedFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNotebookSelectionChanged - Function Begin"));
 
     if ((-1 != event.GetSelection())) {
         UpdateRefreshTimerInterval(event.GetSelection());
-        FireRefreshView();
+
+        CMainDocument*  pDoc = wxGetApp().GetDocument();
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+        
+        pDoc->RunPeriodicRPCs();
+        
+        wxTimerEvent event (wxEVT_TIMER, ID_PERIODICRPCTIMER);
+        AddPendingEvent(event);
     }
 
     event.Skip();
@@ -2110,7 +2030,6 @@ void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) 
     if (IsShown()) {
         wxWindow*       pwndNotebookPage = NULL;
         CBOINCBaseView* pView = NULL;
-        CMainDocument*  pDoc = wxGetApp().GetDocument();
 
 
         wxASSERT(m_pNotebook);
@@ -2121,8 +2040,10 @@ void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) 
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
         wxASSERT(pView);
 
-        if (m_pFrameListPanelRenderTimer && m_pFrameListPanelRenderTimer->IsRunning()) {
-            m_pFrameListPanelRenderTimer->Stop();
+        CMainDocument*  pDoc = wxGetApp().GetDocument();
+
+        if (m_pPeriodicRPCTimer && m_pPeriodicRPCTimer->IsRunning()) {
+            m_pPeriodicRPCTimer->Stop();
 
             // View specific refresh rates only apply when a connection to the core
             //   client has been established, otherwise the refresh rate should be 1
@@ -2131,10 +2052,10 @@ void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) 
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
                 if (pDoc->IsConnected()) {
                     // Set new view specific refresh rate
-                    m_pFrameListPanelRenderTimer->Start(pView->GetViewRefreshRate() * 1000); 
+                    m_pPeriodicRPCTimer->Start(pView->GetViewRefreshRate() * 1000); 
                 } else {
                     // Set view refresh rate to 1 second
-                    m_pFrameListPanelRenderTimer->Start(1000); 
+                    m_pPeriodicRPCTimer->Start(1000); 
                 }
             }
         }
@@ -2147,22 +2068,18 @@ void CAdvancedFrame::UpdateRefreshTimerInterval( wxInt32 iCurrentNotebookPage ) 
 void CAdvancedFrame::StartTimers() {
     wxASSERT(m_pRefreshStateTimer);
     wxASSERT(m_pFrameRenderTimer);
-    wxASSERT(m_pFrameListPanelRenderTimer);
     CBOINCBaseFrame::StartTimers();
     m_pRefreshStateTimer->Start();
     m_pFrameRenderTimer->Start();
-    m_pFrameListPanelRenderTimer->Start();
 }
 
 
 void CAdvancedFrame::StopTimers() {
     wxASSERT(m_pRefreshStateTimer);
     wxASSERT(m_pFrameRenderTimer);
-    wxASSERT(m_pFrameListPanelRenderTimer);
     CBOINCBaseFrame::StopTimers();
     m_pRefreshStateTimer->Stop();
     m_pFrameRenderTimer->Stop();
-    m_pFrameListPanelRenderTimer->Stop();
 }
 
 

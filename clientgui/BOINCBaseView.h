@@ -131,9 +131,6 @@ protected:
 
     void                    OnColClick(wxListEvent& event);
     
-    virtual void            OnGridSelectCell( wxGridEvent& event );
-    virtual void            OnGridSelectRange( wxGridRangeSelectEvent& event );
-
     virtual int             GetDocCount();
     virtual wxString        OnDocGetItemImage( long item ) const;
     virtual wxString        OnDocGetItemAttr( long item ) const;

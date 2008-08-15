@@ -63,7 +63,6 @@ IMPLEMENT_DYNAMIC_CLASS( CPanelMessages, wxPanel )
 BEGIN_EVENT_TABLE( CPanelMessages, wxPanel )
 ////@begin CPanelPreferences event table entries
     EVT_ERASE_BACKGROUND( CPanelMessages::OnEraseBackground )
-    EVT_TIMER(ID_REFRESHMESSAGESTIMER, CPanelMessages::OnRefresh)
     EVT_BUTTON( wxID_OK, CPanelMessages::OnOK )
     EVT_BUTTON(ID_COPYAll, CPanelMessages::OnMessagesCopyAll)
     EVT_BUTTON(ID_COPYSELECTED, CPanelMessages::OnMessagesCopySelected)
@@ -111,21 +110,12 @@ bool CPanelMessages::Create()
     m_pMessageInfoAttr = new wxListItemAttr(*wxBLACK, *wxWHITE, wxNullFont);
     m_pMessageErrorAttr = new wxListItemAttr(*wxRED, *wxWHITE, wxNullFont);
 
-	m_pRefreshMessagesTimer = new wxTimer(this, ID_REFRESHMESSAGESTIMER);
-    wxASSERT(m_pRefreshMessagesTimer);
-
-    m_pRefreshMessagesTimer->Start(1000);  
-
     return true;
 }
 
 
 CPanelMessages::~CPanelMessages()
 {
-	if (m_pRefreshMessagesTimer) {
-        m_pRefreshMessagesTimer->Stop();
-        delete m_pRefreshMessagesTimer;
-    }
 	if (m_pMessageInfoAttr) {
         delete m_pMessageInfoAttr;
         m_pMessageInfoAttr = NULL;
@@ -330,10 +320,10 @@ void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
 
 
 /*!
- * wxEVT_TIMER event handler for ID_REFRESHMESSAGESTIMER
+ * called from CSimpleFrame::OnRefreshView()
  */
 
-void CPanelMessages::OnRefresh(wxTimerEvent& event) {
+void CPanelMessages::OnRefresh() {
     bool isConnected;
     static bool was_connected = false;
     
@@ -377,8 +367,6 @@ void CPanelMessages::OnRefresh(wxTimerEvent& event) {
 
         m_bProcessingRefreshEvent = false;
     }
-
-    event.Skip();
 }
 
 

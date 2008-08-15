@@ -50,8 +50,10 @@ public:
 
     ~CBOINCBaseFrame();
 
+    void                OnPeriodicRPC( wxTimerEvent& event );
     void                OnDocumentPoll( wxTimerEvent& event );
     void                OnAlertPoll( wxTimerEvent& event );
+    virtual void        OnRefreshView( CFrameEvent& event );
 
     void                OnInitialized( CFrameEvent& event );
 
@@ -59,6 +61,7 @@ public:
     virtual void        OnClose( wxCloseEvent& event );
     virtual void        OnCloseWindow( wxCommandEvent& event );
     virtual void        OnExit( wxCommandEvent& event );
+    void                OnUpdateMessages( CFrameEvent& event );
     
     int                 GetReminderFrequency() { return m_iReminderFrequency; }
     wxString            GetDialupConnectionName() { return m_strNetworkDialupConnectionName; }
@@ -98,6 +101,7 @@ protected:
 
     wxTimer*            m_pDocumentPollTimer;
     wxTimer*            m_pAlertPollTimer;
+    wxTimer*            m_pPeriodicRPCTimer;
 
     int                 m_iSelectedLanguage;
     int                 m_iReminderFrequency;
@@ -180,6 +184,8 @@ DECLARE_EVENT_TYPE( wxEVT_FRAME_INITIALIZED, 10004 )
 DECLARE_EVENT_TYPE( wxEVT_FRAME_REFRESHVIEW, 10005 )
 DECLARE_EVENT_TYPE( wxEVT_FRAME_UPDATESTATUS, 10006 )
 DECLARE_EVENT_TYPE( wxEVT_FRAME_RELOADSKIN, 10007 )
+DECLARE_EVENT_TYPE( wxEVT_FRAME_UPDATEMESSAGES, 10008 )
+
 END_DECLARE_EVENT_TYPES()
 
 #define EVT_FRAME_ALERT(fn)              DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_ALERT, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
@@ -188,6 +194,7 @@ END_DECLARE_EVENT_TYPES()
 #define EVT_FRAME_REFRESH(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_REFRESHVIEW, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_FRAME_UPDATESTATUS(fn)       DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_UPDATESTATUS, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_FRAME_RELOADSKIN(fn)         DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_RELOADSKIN, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+#define EVT_FRAME_UPDATEMESSAGES(fn)     DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_UPDATEMESSAGES, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 
 
 #endif

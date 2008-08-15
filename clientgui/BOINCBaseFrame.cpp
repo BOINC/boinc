@@ -43,6 +43,7 @@ DEFINE_EVENT_TYPE(wxEVT_FRAME_INITIALIZED)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_REFRESHVIEW)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_UPDATESTATUS)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_RELOADSKIN)
+DEFINE_EVENT_TYPE(wxEVT_FRAME_UPDATEMESSAGES)
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
@@ -50,8 +51,11 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
 BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
     EVT_TIMER(ID_DOCUMENTPOLLTIMER, CBOINCBaseFrame::OnDocumentPoll)
     EVT_TIMER(ID_ALERTPOLLTIMER, CBOINCBaseFrame::OnAlertPoll)
+    EVT_TIMER(ID_PERIODICRPCTIMER, CBOINCBaseFrame::OnPeriodicRPC)
     EVT_FRAME_INITIALIZED(CBOINCBaseFrame::OnInitialized)
     EVT_FRAME_ALERT(CBOINCBaseFrame::OnAlert)
+    EVT_FRAME_UPDATEMESSAGES(CBOINCBaseFrame::OnUpdateMessages)
+    EVT_FRAME_REFRESH(CBOINCBaseFrame::OnRefreshView)
     EVT_CLOSE(CBOINCBaseFrame::OnClose)
     EVT_MENU(ID_FILECLOSEWINDOW, CBOINCBaseFrame::OnCloseWindow)
 END_EVENT_TABLE ()
@@ -94,6 +98,10 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
 
     m_pAlertPollTimer->Start(1000);                  // Send event every 1000 milliseconds
 
+    m_pPeriodicRPCTimer = new wxTimer(this, ID_PERIODICRPCTIMER);
+    wxASSERT(m_pPeriodicRPCTimer);
+
+    m_pPeriodicRPCTimer->Start(1000);                  // Send event every 1000 milliseconds
 
     // Limit the number of times the UI can update itself to two times a second
     //   NOTE: Linux and Mac were updating several times a second and eating
@@ -114,8 +122,14 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
 CBOINCBaseFrame::~CBOINCBaseFrame() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::~CBOINCBaseFrame - Function Begin"));
 
+    wxASSERT(m_pPeriodicRPCTimer);
     wxASSERT(m_pAlertPollTimer);
     wxASSERT(m_pDocumentPollTimer);
+
+    if (m_pPeriodicRPCTimer) {
+        m_pPeriodicRPCTimer->Stop();
+        delete m_pPeriodicRPCTimer;
+    }
 
     if (m_pAlertPollTimer) {
         m_pAlertPollTimer->Stop();
@@ -131,6 +145,23 @@ CBOINCBaseFrame::~CBOINCBaseFrame() {
         delete m_pDialupManager;
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::~CBOINCBaseFrame - Function End"));
+}
+
+
+void CBOINCBaseFrame::OnPeriodicRPC(wxTimerEvent& WXUNUSED(event)) {
+    static bool        bAlreadyRunningLoop = false;
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    if (!bAlreadyRunningLoop && m_pPeriodicRPCTimer->IsRunning()) {
+        bAlreadyRunningLoop = true;
+
+        pDoc->RunPeriodicRPCs();
+        
+        bAlreadyRunningLoop = false;
+    }
 }
 
 
@@ -183,6 +214,10 @@ void CBOINCBaseFrame::OnAlertPoll(wxTimerEvent& WXUNUSED(event)) {
 void CBOINCBaseFrame::OnInitialized(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnInitialized - Function Begin"));
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnInitialized - Function End"));
+}
+
+
+void CBOINCBaseFrame::OnRefreshView(CFrameEvent& event) {
 }
 
 
@@ -266,11 +301,13 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
 
 #if defined(__WXMSW__) || defined(__WXMAC__)
     if (!event.CanVeto()) {
+        wxGetApp().FrameClosed();
         Destroy();
     } else {
         Hide();
     }
 #else
+    wxGetApp().FrameClosed();
     Destroy();
 #endif
 
@@ -312,6 +349,23 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
+void CBOINCBaseFrame::OnUpdateMessages(CFrameEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateMessages - Function Begin"));
+
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    
+    pDoc->CachedMessageUpdate();
+
+    CFrameEvent refreshEvent(wxEVT_FRAME_REFRESHVIEW, this);
+    AddPendingEvent(refreshEvent);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateMessages - Function End"));
+}
+
+
 void CBOINCBaseFrame::FireInitialize() {
     CFrameEvent event(wxEVT_FRAME_INITIALIZED, this);
     AddPendingEvent(event);
@@ -319,8 +373,20 @@ void CBOINCBaseFrame::FireInitialize() {
 
 
 void CBOINCBaseFrame::FireRefreshView() {
-    CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, this);
-    AddPendingEvent(event);
+    // This no longer directly posts a wxEVT_FRAME_REFRESHVIEW
+    // It now calls RunPeriodicRPCs() to call any RPCs which 
+    // ar due.  The async RPC code then posts the event, but 
+    // only if an RPC was actually invoked.
+    // TODO: we may want to add code to force the RPCs.
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    
+    pDoc->RunPeriodicRPCs();
+
+//    CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, this);
+//    AddPendingEvent(event);
 }
 
 

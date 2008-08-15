@@ -93,8 +93,7 @@ public:
     /// wxEVT_ERASE_BACKGROUND event handler for ID_DLGMESSAGES
     void OnEraseBackground( wxEraseEvent& event );
 
-    /// wxEVT_TIMER event handler for ID_REFRESHMESSAGESTIMER
-    void OnRefresh( wxTimerEvent& event );
+    void OnRefresh();
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );
@@ -114,13 +113,13 @@ public:
 ////@end CPanelMessages member function declarations
 
     virtual wxString        OnListGetItemText( long item, long column ) const;
-	virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
+    virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
 
     bool                    OnSaveState(wxConfigBase* pConfig);
     bool                    OnRestoreState(wxConfigBase* pConfig);
 
 private:
-	wxInt32                 m_iPreviousDocCount;
+    wxInt32                 m_iPreviousDocCount;
 
     CSGUIListCtrl*          m_pList;
     wxListItemAttr*         m_pMessageInfoAttr;
@@ -129,10 +128,8 @@ private:
     bool                    m_bProcessingRefreshEvent;
     bool                    m_bForceUpdateSelection;
 
-	wxTimer*                m_pRefreshMessagesTimer;
-
     bool                    EnsureLastItemVisible();
-	wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatTime( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatMessage( wxInt32 item, wxString& strBuffer ) const;
 
@@ -172,7 +169,9 @@ public:
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );
-
+    
+    void OnRefresh() { m_pBackgroundPanel->OnRefresh(); }
+    
 private:
 
     bool SaveState();
