@@ -6703,3 +6703,12 @@ David  15 Aug 2008
             en.po
         user/
             sample_index.php
+
+Rom    15 Aug 2008
+    - WINSETUP: For some reason BOINCTray.exe was only being installed
+        when the 'Protected Applcation Mode' was selected. I don't
+        remember why we did this, so install it on all scenarios.
+        
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.sm
