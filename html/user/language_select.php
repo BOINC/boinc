@@ -17,7 +17,6 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-
 require_once("../inc/util.inc");
 require_once("../inc/translation.inc");
 $imgdir = "img/flags/";
@@ -67,7 +66,7 @@ row2("",
     "<a href=language_select.php?set_lang=auto>Use browser language setting</a>"
 );
 for ($i=0; $i<sizeof($languages);$i++){
-    $lang_native[$i] = trSpecific(LANG_NAME_NATIVE,$languages[$i]);
+    $lang_native[$i] = trSpecific(LANG_NAME_NATIVE, $languages[$i]);
     $lang_international[$i] = trSpecific(LANG_NAME_INTERNATIONAL, $languages[$i]);
 }
 

@@ -458,9 +458,6 @@ msgstr ""
 msgid "Add as friend"
 msgstr ""
 
-msgid "CHARSET"
-msgstr ""
-
 msgid "Use BBCode tags to format your text"
 msgstr ""
 

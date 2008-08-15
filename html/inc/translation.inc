@@ -41,23 +41,24 @@ function getSupportedLanguages(){
             }
         }
     } else {
-	echo "\"".$lang_language_dir.$lang_compiled_dir."\" is not a directory. Please consult the documentation for correctly setting up the translation system.";
-	exit;
+        echo "\"".$lang_language_dir.$lang_compiled_dir."\" is not a directory. Please consult the documentation for correctly setting up the translation system.";
+        exit;
     }
     return $list;
 }
 
-function trSpecific($tokennumber, $language=""){
+function trSpecific($token, $language=""){
     global $lang_language_dir, $lang_compiled_dir;
     $language= substr($language,0,5);
     if ($language!="" && file_exists($lang_language_dir.$lang_compiled_dir.$language.".po.inc")){
         //If we have the language, include it
         //echo "[$language]";
         require($lang_language_dir.$lang_compiled_dir.$language.".po.inc");
-        return $language_lookup_array[$tokennumber];
-    } else {
-        return false;
+        if (array_key_exists($token, $language_lookup_array)) {
+            return $language_lookup_array[$token];
+        }
     }
+    return false;
 }
 
 /*************************

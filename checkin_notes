@@ -6712,3 +6712,18 @@ Rom    15 Aug 2008
     win_build/installerv2/
         BOINC.ism
         BOINCx64.sm
+
+David  15 Aug 2008
+	- web: fix bugs in translation system
+		(language_select.php wasn't working)
+	- tr.po had some syntax error, and was way out of date.
+		replaced it with en.po
+
+	html/
+		inc/
+			translation.inc
+		languages/translations/
+			en.po
+			tr.po
+		user/
+			language_select.php
