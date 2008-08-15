@@ -6639,3 +6639,13 @@ David  14 Aug 2008
     sched/
         sched_send.C
         server_types.h
+
+Rom    15 Aug 2008
+    - WIN: remove accelerators from the HOST_INFO class.  It doesn't appear
+        to be used by anybody, and was only meant as a stop-gap until
+        we had some formal way to deal with co-processors.
+        
+    client/
+        hostinfo_win.C
+    lib/
+        hostinfo.C, .h

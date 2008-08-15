@@ -57,9 +57,6 @@ public:
     char os_name[256];
     char os_version[256];
 
-    char accelerators[256];
-        // text description of graphics coprocessors or other accelerators
-
     HOST_INFO();
     int parse(MIOFILE&);
     int write(MIOFILE&, bool suppress_net_info);

@@ -65,8 +65,6 @@ void HOST_INFO::clear_host_info() {
 
     strcpy(os_name, "");
     strcpy(os_version, "");
-
-    strcpy(accelerators, "");
 }
 
 int HOST_INFO::parse(MIOFILE& in) {
@@ -105,7 +103,6 @@ int HOST_INFO::parse(MIOFILE& in) {
         else if (parse_double(buf, "<d_free>", d_free)) continue;
         else if (parse_str(buf, "<os_name>", os_name, sizeof(os_name))) continue;
         else if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;
-        else if (parse_str(buf, "<accelerators>", accelerators, sizeof(accelerators))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -144,7 +141,6 @@ int HOST_INFO::write(MIOFILE& out, bool suppress_net_info) {
         "    <d_free>%f</d_free>\n"
         "    <os_name>%s</os_name>\n"
         "    <os_version>%s</os_version>\n"
-        "    <accelerators>%s</accelerators>\n"
         "</host_info>\n",
         host_cpid,
         p_ncpus,
@@ -161,8 +157,7 @@ int HOST_INFO::write(MIOFILE& out, bool suppress_net_info) {
         d_total,
         d_free,
         os_name,
-        os_version,
-        accelerators
+        os_version
     );
     return 0;
 }

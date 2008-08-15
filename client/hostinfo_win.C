@@ -764,43 +764,6 @@ int get_processor_count(int& processor_count) {
 }
 
 
-// Returns the accelerator list.
-//
-int get_accelerators(
-    char* accelerators, int accelerators_size
-)
-{
-    // Detect video accelerators on the system.
-    DWORD iDevice = 0;
-    INTERNALMONITORINFO dispdev;
-    dispdev.cb = sizeof(dispdev);
-    strcpy(accelerators, "");
-    while(EnumDisplayDevices(NULL, iDevice, (PDISPLAY_DEVICE)&dispdev, 0)) {
-        // Ignore NetMeeting's mirrored displays
-        if ((dispdev.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER) == 0) {
-            // Is the entry already listed?
-            if (!strstr(accelerators, dispdev.DeviceString)) {
-                // Is this the first entry?
-                if (!strlen(accelerators)) {
-                    strncat(accelerators, dispdev.DeviceString, accelerators_size - strlen(accelerators));
-                } else {
-                    strncat(accelerators, "/", accelerators_size - strlen(accelerators));
-                    strncat(accelerators, dispdev.DeviceString, accelerators_size - strlen(accelerators));
-                }
-            }
-        }
-        iDevice++;
-    }
-
-    // TODO: Detect the ClearSpeed accelerator card(s)
-    // TODO: Detect any other types of accelerators that might be useful
-    //   for the scheduler to know about.
-
-    strip_whitespace(accelerators);
-    return 0;
-}
-
-
 // Gets host information; called on startup and before each sched RPC
 //
 int HOST_INFO::get_host_info() {
@@ -817,7 +780,6 @@ int HOST_INFO::get_host_info() {
     );
     get_processor_count(p_ncpus);
     get_local_network_info();
-    get_accelerators(accelerators, sizeof(accelerators));
     if (!strlen(host_cpid)) {
         generate_host_cpid();
     }
