@@ -6684,3 +6684,5 @@ Charlie 15 Aug 2008
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+    win_build/
+        boincmgr_curl.vcproj

@@ -2894,14 +2894,6 @@
 				Name="Views"
 				>
 				<File
-					RelativePath="..\clientgui\BOINCGridCtrl.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\BOINCGridCtrl.h"
-					>
-				</File>
-				<File
 					RelativePath="..\clientgui\BOINCListCtrl.cpp"
 					>
 				</File>
@@ -2934,27 +2926,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewMessagesGrid.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewMessagesGrid.h"
-					>
-				</File>
-				<File
 					RelativePath="..\clientgui\ViewProjects.cpp"
 					>
 				</File>
 				<File
 					RelativePath="..\clientgui\ViewProjects.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewProjectsGrid.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewProjectsGrid.h"
 					>
 				</File>
 				<File
@@ -2982,27 +2958,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewTransfersGrid.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewTransfersGrid.h"
-					>
-				</File>
-				<File
 					RelativePath="..\clientgui\ViewWork.cpp"
 					>
 				</File>
 				<File
 					RelativePath="..\clientgui\ViewWork.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewWorkGrid.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewWorkGrid.h"
 					>
 				</File>
 			</Filter>
@@ -3105,6 +3065,14 @@
 			<Filter
 				Name="Support"
 				>
+				<File
+					RelativePath="..\clientgui\AsyncRPC.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\AsyncRPC.h"
+					>
+				</File>
 				<File
 					RelativePath="..\lib\gui_rpc_client.C"
 					>
