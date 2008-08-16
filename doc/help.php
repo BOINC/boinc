@@ -11,7 +11,7 @@ echo "
 ".sprintf(tr(HELP_P1_1), "<ul><li>", "<li>", "<li>", "<li>")."
 </ul>
 <p>
-".sprintf(tr(HELP_P1_2), "<a href=http://www.skype.com>", "</a>", "<a href=http://www.skype.com>", "</a>")."
+".sprintf(tr(HELP_P1_2), "<a href=\"http://www.skype.com\">", "</a>", "<a href=\"http://www.skype.com\">", "</a>")."
 <p>
 ".tr(HELP_P1_3),"
 
@@ -29,14 +29,14 @@ foreach ($langs as $lang) {
         echo "<br>";
     }
     $n++;
-    echo "<a href=help_lang.php?lang=$lang_enc><b>$lang</b></a>";
+    echo "<a href=\"help_lang.php?lang=$lang_enc\"><b>$lang</b></a>";
 }
 echo "
 <h2>".tr(HELP_HEADING3)."</h2>
 <p>
-".sprintf(tr(HELP_P3_1), "<a href=trac/wiki/HelpVolunteer>", "</a>")."
+".sprintf(tr(HELP_P3_1), "<a href=\"trac/wiki/HelpVolunteer\">", "</a>")."
 <p>
-".sprintf(tr(HELP_P3_2), "<a href=help_vol_edit.php?edit_login=1>", "</a>")."
+".sprintf(tr(HELP_P3_2), "<a href=\"help_vol_edit.php?edit_login=1\">", "</a>")."
 ";
 page_tail();
 ?>

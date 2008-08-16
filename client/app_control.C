@@ -135,12 +135,11 @@ int ACTIVE_TASK::kill_task(bool restart) {
 #endif
     kill(pid, SIGKILL);
 #endif
-    free_coprocs();
+    cleanup_task();
 	if (restart) {
 		set_task_state(PROCESS_UNINITIALIZED, "kill_task");
 		gstate.request_enforce_schedule("Task restart");
 	} else {
-		cleanup_task();
 		set_task_state(PROCESS_ABORTED, "kill_task");
 	}
     return 0;
@@ -252,7 +251,6 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
         set_task_state(PROCESS_ABORTED, "handle_exited_app");
     } else {
 #ifdef _WIN32
-        close_process_handles();
         result->exit_status = exit_code;
         switch(exit_code) {
         case STATUS_SUCCESS:
@@ -364,7 +362,12 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 #endif
     }
 
-    cleanup_task();         // Always release shared memory
+    cleanup_task();
+
+    if (gstate.exit_after_finish) {
+        exit(0);
+    }
+
     if (!will_restart) {
         copy_output_files();
         read_stderr_file();
@@ -372,7 +375,6 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     }
     gstate.request_schedule_cpus("application exited");
     gstate.request_work_fetch("application exited");
-    free_coprocs();
 }
 
 bool ACTIVE_TASK::finish_file_present() {

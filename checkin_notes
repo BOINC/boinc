@@ -6734,3 +6734,21 @@ Rom    15 Aug 2008
         
     win_build/
         BOINC.sln
+
+David  16 Aug 2008
+    - client: don't leak handles to shared-mem files
+    - client: don't leak process handles when abort jobs
+    - client: if an app exits or we kill it, always destroy the shmem segment.
+    - web: more HTML 4.01 Transitional conformity changes
+
+    client/
+        app.C,h
+        app_control.C
+        app_start.C
+    html/
+        inc/
+            util.inc
+            team.inc
+        user/
+            team.phhp
+            white.css

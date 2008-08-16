@@ -29,12 +29,12 @@ function download_link($pname) {
     $num = $v['num'];
     $path = "dl/$file";
     $url = $url_base.$file;
-    $dlink = "<a href=$url>$file</a>";
+    $dlink = "<a href=\"$url\">$file</a>";
     $s = number_format(filesize($path)/1000000, 2);
 
     echo "
         <table border=4 cellpadding=10><tr><td class=heading>
-        <a href=$url><font size=4><u>".tra("Download BOINC")."</u></font></a>
+        <a href=\"$url\"><font size=4><u>".tra("Download BOINC")."</u></font></a>
         <br>".
         sprintf(tra("%s for %s (%s MB)"), $num, $long_name, $s )."
         </td></tr> </table>
@@ -47,11 +47,11 @@ function download_link($pname) {
 function link_row($pname) {
     echo "<tr><td>";
     if ($pname=='win') {
-        echo "<img src=images/ico-win.png> <b>Windows</b>";
+        echo "<img src=\"images/ico-win.png\" alt=\"Windows icon\"> <b>Windows</b>";
     } else if ($pname=='mac') {
-        echo "<img src=images/ico-osx-uni.png> <b>Mac OS X</b>";
+        echo "<img src=\"images/ico-osx-uni.png\" alt=\"Mac icon\"> <b>Mac OS X</b>";
     } else if ($pname=='linux') {
-        echo "<img src=images/ico-tux.png> <b>Linux/x86</b>";
+        echo "<img src=\"images/ico-tux.png\" alt=\"Linux icon\"> <b>Linux/x86</b>";
     }
     echo "</td><td>";
     download_link($pname);
@@ -76,12 +76,12 @@ function show_pictures() {
     $f1 = $a1[0];
     echo "
         <div style=\"max-height: 300px\">
-        <img src=images/mgrwork.png><br>
+        <img src=\"images/mgrwork.png\" alt=\"BOINC manager\"><br>
         <div style=\"position:relative; top:-80px; left:30px\">
-            <img src=images/$f0><br>
+            <img src=\"images/$f0\" alt=\"BOINC project\"><br>
         </div>
         <div style=\"position:relative; top:-160px; left:70px\">
-            <img src=images/$f1><br>
+            <img src=\"images/$f1\" alt=\"BOINC project\"><br>
         </div>
         </div>
     ";
@@ -109,16 +109,16 @@ function show_download($pname) {
     }
     echo "
         <p>
-        <a href=wiki/System_requirements><nobr>".tra("System requirements")."</nobr></a>
-        | <a href=wiki/Release_Notes><nobr>".tra("Release notes")."</nobr></a>
-        | <a href=wiki/BOINC_Help><nobr>".tra("Help")."</nobr></a>
+        <a href=\"wiki/System_requirements\"><span class=nobr>".tra("System requirements")."</span></a>
+        | <a href=\"wiki/Release_Notes\"><span class=nobr>".tra("Release notes")."</span></a>
+        | <a href=\"wiki/BOINC_Help\"><span class=nobr>".tra("Help")."</span></a>
     ";
     if ($pname) {
-        //echo " | <a href=download.php?all_platforms=1><nobr>".tra("Other systems")."</nobr></a>
-        echo " | <a href=download_all.php><nobr>".tra("All versions")."</nobr></a>
+        //echo " | <a href=\"download.php?all_platforms=1\"><span class=nobr>".tra("Other systems")."</span></a>
+        echo " | <a href=download_all.php><span class=nobr>".tra("All versions")."</span></a>
         ";
     } else {
-        echo " | <a href=download_all.php><nobr>".tra("All versions")."</nobr></a>
+        echo " | <a href=download_all.php><span class=nobr>".tra("All versions")."</span></a>
         <p>"
         .tra("If your computer is not of one of the above types, you can")."
         <ul>
@@ -128,8 +128,8 @@ function show_download($pname) {
         ";
     }
     echo "
-        | <a href=trac/wiki/VersionHistory>Version history</a>
-        | <a href=http://boincfaq.mundayweb.com/index.php?view=376>FAQ</a>
+        | <a href=\"trac/wiki/VersionHistory\">Version history</a>
+        | <a href=\"http://boincfaq.mundayweb.com/index.php?view=376\">FAQ</a>
         <p>
         </td><td valign=top>
     ";

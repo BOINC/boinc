@@ -18,7 +18,7 @@ function show_linux_info() {
           <pre>yum install boinc-client boinc-manager</pre> as root.
         <li> Debian and Ubuntu: package names <b>boinc-client</b>,
             <b>boinc-manager</b>
-            (more info <a href=http://wiki.debian.org/BOINC>here</a>).
+            (more info <a href=\"http://wiki.debian.org/BOINC\">here</a>).
             Also <b>boinc-dev</b> (for project developers).
         <li> Gentoo: package name <b>sci-misc/boinc</b>
         </ul>

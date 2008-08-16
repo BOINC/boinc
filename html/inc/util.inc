@@ -135,8 +135,8 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
     } else {
         echo "<html><head><title>".strip_tags($title_plain)."</title>\n";
     }
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"$stylesheet\">
-        <link rel=\"alternate\" type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
+    echo "<link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
+        <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
         </head>
     ";
     if ($java_onload){
@@ -151,7 +151,9 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
 
 function page_tail_aux($show_return, $show_date, $prefix="") {
     project_footer($show_return, $show_date, $prefix);
-    echo "</body>\n</html>";
+    echo "</body>
+        </html>
+    ";
 }
 function page_tail_main($show_date=false) {
     page_tail_aux(false, $show_date);
@@ -177,8 +179,6 @@ function db_error_page() {
     page_head("Database error");
     echo "A database error occurred while handling your request.
         <br>Please try again later.
-        <br>If the error persists, please submit a
-        <a href=\"bug_report_form.php\">problem report</a>.
     ";
     page_tail();
 }
@@ -239,7 +239,7 @@ function start_table($extra="width=\"100%\"") {
 }
 
 function start_table_noborder($width="100%") {
-    echo "<table border=\"0\" cellpadding=\"5\" width=\"$width\">";
+    echo "<table border=0 cellpadding=5 width=\"$width\">";
 }
 
 function end_table() {
@@ -290,11 +290,11 @@ function row2($x, $y, $show_error=false) {
         $class1 = 'fieldname';
         $class2 = 'fieldvalue';
     }
-    echo "<tr><td width=\"40%\" class=\"$class1\">$x</td><td class=\"$class2\">$y</td></tr>\n";
+    echo "<tr><td width=\"40%\" class=$class1>$x</td><td class=$class2>$y</td></tr>\n";
 }
 
 function row2_init($x, $y) {
-    echo "<tr><td class=\"fieldname\" width=\"40%\">$x</td><td valign=\"top\"><b>$y\n";
+    echo "<tr><td class=fieldname width=\"40%\">$x</td><td class=fieldvalue>$y\n";
 }
 
 function row2_plain($x, $y) {
@@ -302,11 +302,11 @@ function row2_plain($x, $y) {
 }
 
 function row3($x, $y, $z) {
-    echo "<tr><td width=\"30%\" valign=\"top\" align=\"right\">$x</td><td>$y</td><td>$z</td></tr>\n";
+    echo "<tr><td width=\"30%\" align=\"right\">$x</td><td>$y</td><td>$z</td></tr>\n";
 }
 
 function row4($xx, $xy, $yx, $yy) {
-    echo "<tr><td width=\"25%\" valign=\"top\">$xx</td><td width=\"25%\">$xy</td>"
+    echo "<tr><td width=\"25%\">$xx</td><td width=\"25%\">$xy</td>"
         . "<td width=\"25%\">$yx</td><td width=\"%25\">$yy</td></tr>
     ";
 }
@@ -381,7 +381,7 @@ function print_login_form_aux($next_url, $user) {
     ";
     start_table();
     row2("Email address:", '<input name="email_addr" size="40" tabindex="1">');
-    row2("Password:<br><font size=\"-2\"><a href=\"get_passwd.php\">Forgot password?</a>",
+    row2("Password:<br><span class=note><a href=get_passwd.php>Forgot password?</a></span>",
         '<input type="password" name="passwd" size="40" tabindex="2">'
     );
     row2("Stay logged in on this computer",
@@ -400,7 +400,7 @@ function print_login_form_aux($next_url, $user) {
     end_table();
     echo "
         </form>
-        <script>
+        <script type=\"text/javascript\">
             document.f.email_addr.focus();
         </script>
     ";

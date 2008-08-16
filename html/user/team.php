@@ -47,7 +47,7 @@ echo "
 ";
 
 for ($i=1; $i<8; $i++) {
-    echo "<li> <a href=top_teams.php?type=$i>".team_type_name($i)." teams</a>
+    echo "<li> <a href=\"top_teams.php?type=$i\">".team_type_name($i)." teams</a>
     ";
 }
 

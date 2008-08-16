@@ -310,6 +310,10 @@ span.highlight {
     background-color: #ffffcc;
 }
 
+.nobr{
+    white-space: nowrap;
+}
+
 .code {
     font-family: "Courier New", courier, monospace;
     display: block;

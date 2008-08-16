@@ -27,6 +27,11 @@ function last_mod($datefile) {
 
 function html_tag() {
     global $language_in_use;
+     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
+     ";
+
+    // if language is arabic, go right to left
+    //
     if ($language_in_use == 'ar') {
         echo "<html dir=\"rtl\">";
     } else {
@@ -48,15 +53,15 @@ function page_head($title) {
     html_tag();
     echo "
         <head>
-        <link rel=\"stylesheet\" type=\"text/css\" href=\"white.css\"/>
-        <link rel=\"shortcut icon\" href=\"logo/favicon.gif\"/>
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"white.css\">
+        <link rel=\"shortcut icon\" href=\"logo/favicon.gif\">
         <title>$title</title>
         </head>
         <body bgcolor='ffffff'>
         <table width='100%'>
         <tr>
         <td><center><h1>$title</h1></center>
-        <td align=right><a href=index.php><img src=logo/www_logo.gif></a>
+        <td align=right><a href=index.php><img src=\"logo/www_logo.gif\" alt=\"BOINC logo\"></a>
         <br>
 ";
         search_form();

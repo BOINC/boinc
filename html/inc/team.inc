@@ -40,8 +40,8 @@ function team_search_form($params) {
     echo "</select></td></tr>\n";
     row2(tra('Type of team'), team_type_select($params->type, true));
     $checked = $params->active?"checked":"";
-    row2(tra('Show only active teams'), '<input type="checkbox" name="active" $checked>');
-    row2('', '<input type="submit" name="submit" value="'.tra('Search').'">');
+    row2(tra('Show only active teams'), "<input type=checkbox name=active $checked>");
+    row2("", "<input type=submit name=submit value=\"".tra('Search')."\">");
     end_table();
     echo '</form>';
 }
