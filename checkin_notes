@@ -4361,3 +4361,13 @@ David  3 Aug 2008
     client/
         file_xfer.C
         http_curl.C,h
+
+David  16 Aug 2008
+    - client: don't leak handles to shared-mem files
+    - client: don't leak process handles when abort jobs
+    - client: if an app exits or we kill it, always destroy the shmem segment.
+
+    client/
+        app.C,h
+        app_control.C
+        app_start.C

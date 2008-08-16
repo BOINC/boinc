@@ -151,7 +151,6 @@ public:
     ACTIVE_TASK();
 	~ACTIVE_TASK();
     int init(RESULT*);
-    void close_process_handles();
     void cleanup_task();
 
     int start(bool first_time);         // start a process
