@@ -100,7 +100,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
         file_size_query = true;
         const char* url = fip->get_current_url(is_upload);
         if (!url) return ERR_INVALID_URL;
-        return HTTP_OP::init_post2(url, header, NULL, 0);
+        return HTTP_OP::init_post2(url, header, sizeof(header), NULL, 0);
     } else {
         bytes_xferred = file_info.upload_offset;
         sprintf(header,
@@ -130,7 +130,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
         const char* url = fip->get_current_url(is_upload);
         if (!url) return ERR_INVALID_URL;
         return HTTP_OP::init_post2(
-            url , header, pathname, fip->upload_offset
+            url , header, sizeof(header), pathname, fip->upload_offset
         );
     }
 }
