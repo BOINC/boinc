@@ -6752,3 +6752,9 @@ David  16 Aug 2008
         user/
             team.phhp
             white.css
+
+Rom    17 Aug 2008
+    - WINSCR: Comment updates from Nicolas Alvarez
+    
+    clientscr/
+        screensaver_win.cpp

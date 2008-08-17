@@ -1077,15 +1077,15 @@ void CScreensaver::HandleRPCError()
 
 
 
-// Some science application take a really long time to display something on their
+// Some graphics applications take a really long time to display something on their
 // window, during this time the window will appear to eat keyboard and mouse event
 // messages and not respond to other system events.  These windows are considered
 // ghost windows, normally they have an outline and can be moved around and resized.
-// In the science application case where the borders are hidden from view, the
+// In the graphic applications case where the borders are hidden from view, the
 // window just takes on the background of the previous window which happens to be
 // the black screensaver window owned by this process.
 //
-// Verify that their hasn't been any keyboard or mouse activity.  If there has
+// Verify that their hasn't been any keyboard or mouse activity.  If there has,
 // we should hide the window from this process and exit out of the screensaver to
 // return control back to the user as quickly as possible.
 //
