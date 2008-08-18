@@ -6772,3 +6772,10 @@ Rom    18 Aug 2008
         
     client/
         hostinfo_win.C
+
+Rom    18 Aug 2008
+    - SCR: Fix my checkin that causes the CPU util to spike on Macs and
+        possibly Windows.
+        
+    clientscr/
+        screensaver.cpp
