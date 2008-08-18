@@ -267,6 +267,16 @@ int get_os_information(
     {
         case VER_PLATFORM_WIN32_NT:
 
+            if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 1 )
+            {
+                if( osvi.wProductType == VER_NT_WORKSTATION ) {
+                    strcat(os_name, "Windows 7");
+                } else {
+                    strcat(os_name, "Windows Server 2008 \"R2\"");
+                }
+                pGPI( 6, 1, 0, 0, &dwType);
+            }
+
             if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 0 )
             {
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
