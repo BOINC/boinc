@@ -447,21 +447,7 @@ void *CScreensaver::DataManagementProc() {
                 previous_result_ptr = NULL;
                 // waitpid test will clear m_hGraphicsApplication
            }
-#if 0
-            // Safety check that task is actually running
-            if (last_run_check_time && ((dtime() - last_run_check_time) > TASK_RUN_CHECK_PERIOD)) {
-                if (FindProcessPID(NULL, ? ? ?) == 0) {
-                    terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
-                    if (m_hGraphicsApplication == 0) {
-                        graphics_app_result_ptr = NULL;
-                        // Save previous_result and previous_result_ptr for get_random_graphics_app() call
-                    } else {
-                        // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
-                    }
-                    previous_result_ptr = NULL;
-                }
-            }
-#endif
+
             if (last_change_time && ((dtime() - last_change_time) > GFX_CHANGE_PERIOD)) {
                 if (count_active_graphic_apps(results, previous_result_ptr) > 0) {
                         if (previous_result_ptr) {
