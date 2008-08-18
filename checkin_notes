@@ -6773,8 +6773,8 @@ Rom    18 Aug 2008
     client/
         hostinfo_win.C
 
-Rom    18 Aug 2008
-    - SCR: Fix my checkin that causes the CPU util to spike on Macs and
+Rom & Charlie    18 Aug 2008
+    - SCR: Fix 8/14 checkin that causes the CPU util to spike on Macs and
         possibly Windows.
         
     clientscr/

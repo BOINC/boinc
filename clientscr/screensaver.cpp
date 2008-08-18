@@ -1,19 +1,21 @@
-// This file is part of BOINC.
+// Berkeley Open Infrastructure for Network Computing
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2005 University of California
 //
-// BOINC is free software; you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License
-// as published by the Free Software Foundation,
-// either version 3 of the License, or (at your option) any later version.
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
 //
-// BOINC is distributed in the hope that it will be useful,
+// This software is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // See the GNU Lesser General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 // 
 
 #ifdef _WIN32
@@ -311,7 +313,6 @@ void *CScreensaver::DataManagementProc() {
     double          launch_time             = 0.0;
     double          last_change_time        = 0.0;
     double          last_run_check_time     = 0.0;
-    time_t          long_poll_timer         = 0;
 
 #ifdef _WIN32
     BOINCTRACE(_T("CScreensaver::DataManagementProc - Display screen saver loading message\n"));
@@ -324,221 +325,228 @@ void *CScreensaver::DataManagementProc() {
 #endif         
 
     while (true) {
-
+        for (int i = 0; i < 4; i++) {
         // ***
         // *** Things that should be run frequently.
         // ***   4 times per second.
         // ***
 
         // Are we supposed to exit the screensaver?
-        if (m_QuitDataManagementProc) {     // If main thread has requested we exit
-            if (m_hGraphicsApplication || graphics_app_result_ptr) {
-                terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
-                graphics_app_result_ptr = NULL;
-                previous_result_ptr = NULL;
-                m_hGraphicsApplication = 0;
+            if (m_QuitDataManagementProc) {     // If main thread has requested we exit
+                if (m_hGraphicsApplication || graphics_app_result_ptr) {
+                    terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
+                    graphics_app_result_ptr = NULL;
+                    previous_result_ptr = NULL;
+                    m_hGraphicsApplication = 0;
+                }
+                return 0;       // Exit the thread
             }
-            return 0;       // Exit the thread
-        }
 
 #ifdef _WIN32
 
-        // Check for keyboard and mouse activity just in case the
-        // user wants to blow out of the screensaver.
-        //
-        CheckKeyboardMouseActivity();
+            // Check for keyboard and mouse activity just in case the
+            // user wants to blow out of the screensaver.
+            //
+            CheckKeyboardMouseActivity();
 
-        // Check to see if there are any notification windows from
-        // personal firewalls, virus scanners, or anything else that
-        // demands the users attention. If there is blow out of the
-        // screensaver
-        CheckForNotificationWindow();
+            // Check to see if there are any notification windows from
+            // personal firewalls, virus scanners, or anything else that
+            // demands the users attention. If there is blow out of the
+            // screensaver
+            CheckForNotificationWindow();
 
 #endif
 
+            boinc_sleep(0.25);
+        }
 
         // ***
         // *** Things that should be run frequently.
         // *** 1 time per second.
         // ***
 
-        if (time(0) > long_poll_timer) {
-            long_poll_timer = time(0);
+        // Blank screen saver?
+        if ((m_dwBlankScreen) && (time(0) > m_dwBlankTime)) {
+            BOINCTRACE(_T("CScreensaver::DataManagementProc - Time to blank\n"));
+            SetError(FALSE, SCRAPPERR_SCREENSAVERBLANKED);
+            m_QuitDataManagementProc = true;
+        }
 
-            // Blank screen saver?
-            if ((m_dwBlankScreen) && (time(0) > m_dwBlankTime)) {
-                BOINCTRACE(_T("CScreensaver::DataManagementProc - Time to blank\n"));
-                SetError(FALSE, SCRAPPERR_SCREENSAVERBLANKED);
-                m_QuitDataManagementProc = true;
-            }
-
-            // Do we need to get the core client state?
-            if (m_bResetCoreState) {
-                // Try and get the current state of the CC
-                retval = rpc->get_state(state);
-                if (retval) {
-                    // CC may not yet be running
-                    HandleRPCError();
-                    continue;
-                }
-
-                m_bResetCoreState = false;
-            }
-    
-            BOINCTRACE(_T("CScreensaver::DataManagementProc - ErrorMode = '%d', ErrorCode = '%x'\n"), m_bErrorMode, m_hrError);
-
-            // Update our task list
-            m_updating_results = true;
-            retval = rpc->get_screensaver_tasks(suspend_reason, results);
-            m_updating_results = false;
+        // Do we need to get the core client state?
+        if (m_bResetCoreState) {
+            // Try and get the current state of the CC
+            retval = rpc->get_state(state);
             if (retval) {
-                // rpc call returned error
+                // CC may not yet be running
                 HandleRPCError();
-                m_bResetCoreState = true;
                 continue;
             }
 
-            // Core client suspended?
-            if (suspend_reason && !(suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
-                SetError(TRUE, SCRAPPERR_BOINCSUSPENDED);
-                if (m_hGraphicsApplication || previous_result_ptr) {
-                    // use previous_result_ptr because graphics_app_result_ptr may no longer be valid
-                    terminate_screensaver(m_hGraphicsApplication, previous_result_ptr);
+            m_bResetCoreState = false;
+        }
+    
+        BOINCTRACE(_T("CScreensaver::DataManagementProc - ErrorMode = '%d', ErrorCode = '%x'\n"), m_bErrorMode, m_hrError);
+
+        // Update our task list
+        m_updating_results = true;
+        retval = rpc->get_screensaver_tasks(suspend_reason, results);
+        m_updating_results = false;
+        if (retval) {
+            // rpc call returned error
+            HandleRPCError();
+            m_bResetCoreState = true;
+            continue;
+        }
+
+        // Core client suspended?
+        if (suspend_reason && !(suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+            SetError(TRUE, SCRAPPERR_BOINCSUSPENDED);
+            if (m_hGraphicsApplication || previous_result_ptr) {
+                // use previous_result_ptr because graphics_app_result_ptr may no longer be valid
+                terminate_screensaver(m_hGraphicsApplication, previous_result_ptr);
+                if (m_hGraphicsApplication == 0) {
+                    graphics_app_result_ptr = NULL;
+                } else {
+                    // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
+                }
+                previous_result_ptr = NULL;
+            }
+            continue;
+        }
+
+#if SIMULATE_NO_GRAPHICS /* FOR TESTING */
+
+        SetError(TRUE, SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING);
+
+#else                   /* NORMAL OPERATION */
+
+        // Is the current graphics app's associated task still running?
+        if ((m_hGraphicsApplication) || (graphics_app_result_ptr)) {
+
+            iResultCount = results.results.size();
+            graphics_app_result_ptr = NULL;
+
+            // Find the current task in the new results vector (if it still exists)
+            for (iIndex = 0; iIndex < iResultCount; iIndex++) {
+                theResult = results.results.at(iIndex);
+
+                if (is_same_task(theResult, previous_result_ptr)) {
+                   graphics_app_result_ptr = theResult;
+                    previous_result = *theResult;
+                    previous_result_ptr = &previous_result;
+                    break;
+                }
+            }
+
+            // V6 graphics only: if worker application has stopped running, terminate_screensaver
+            if ((graphics_app_result_ptr == NULL) && (m_hGraphicsApplication != 0)) {
+                if (previous_result_ptr) {
+                    BOINCTRACE(_T("CScreensaver::DataManagementProc - %s finished\n"), previous_result.name.c_str());
+                }
+                terminate_screensaver(m_hGraphicsApplication, previous_result_ptr);
+                previous_result_ptr = NULL;
+                // waitpid test will clear m_hGraphicsApplication
+           }
+#if 0
+            // Safety check that task is actually running
+            if (last_run_check_time && ((dtime() - last_run_check_time) > TASK_RUN_CHECK_PERIOD)) {
+                if (FindProcessPID(NULL, ? ? ?) == 0) {
+                    terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
                     if (m_hGraphicsApplication == 0) {
                         graphics_app_result_ptr = NULL;
+                        // Save previous_result and previous_result_ptr for get_random_graphics_app() call
                     } else {
                         // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
                     }
                     previous_result_ptr = NULL;
                 }
-                continue;
             }
-
-#if SIMULATE_NO_GRAPHICS /* FOR TESTING */
-
-            SetError(TRUE, SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING);
-
-#else                   /* NORMAL OPERATION */
-
-            // Is the current graphics app's associated task still running?
-            if ((m_hGraphicsApplication) || (graphics_app_result_ptr)) {
-
-                iResultCount = results.results.size();
-                graphics_app_result_ptr = NULL;
-
-                // Find the current task in the new results vector (if it still exists)
-                for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-                    theResult = results.results.at(iIndex);
-
-                    if (is_same_task(theResult, previous_result_ptr)) {
-                       graphics_app_result_ptr = theResult;
-                        previous_result = *theResult;
-                        previous_result_ptr = &previous_result;
-                        break;
-                    }
-                }
-
-                // V6 graphics only: if worker application has stopped running, terminate_screensaver
-                if ((graphics_app_result_ptr == NULL) && (m_hGraphicsApplication != 0)) {
-                    if (previous_result_ptr) {
-                        BOINCTRACE(_T("CScreensaver::DataManagementProc - %s finished\n"), previous_result.name.c_str());
-                    }
-                    terminate_screensaver(m_hGraphicsApplication, previous_result_ptr);
-                    previous_result_ptr = NULL;
-                    // waitpid test will clear m_hGraphicsApplication
-                }
-
-                if (last_change_time && ((dtime() - last_change_time) > GFX_CHANGE_PERIOD)) {
-                    if (count_active_graphic_apps(results, previous_result_ptr) > 0) {
+#endif
+            if (last_change_time && ((dtime() - last_change_time) > GFX_CHANGE_PERIOD)) {
+                if (count_active_graphic_apps(results, previous_result_ptr) > 0) {
                         if (previous_result_ptr) {
                             BOINCTRACE(_T("CScreensaver::DataManagementProc - time to change: %s\n"), previous_result.name.c_str());
                         }
-                        terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
-                        if (m_hGraphicsApplication == 0) {
-                            graphics_app_result_ptr = NULL;
-                            // Save previous_result and previous_result_ptr for get_random_graphics_app() call
-                        } else {
-                            // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
-                        }
+                    terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
+                    if (m_hGraphicsApplication == 0) {
+                        graphics_app_result_ptr = NULL;
+                        // Save previous_result and previous_result_ptr for get_random_graphics_app() call
+                    } else {
+                        // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
                     }
-                    last_change_time = dtime();
                 }
+                last_change_time = dtime();
             }
-        
-            // If no current graphics app, pick an active task at random and launch its graphics app
-            if ((m_hGraphicsApplication == 0) && (graphics_app_result_ptr == NULL)) {
-                graphics_app_result_ptr = get_random_graphics_app(results, previous_result_ptr);
-                previous_result_ptr = NULL;
-                
-                if (graphics_app_result_ptr) {
-                    retval = launch_screensaver(graphics_app_result_ptr, m_hGraphicsApplication);
-                    if (retval) {
-                        m_hGraphicsApplication = 0;
-                        previous_result_ptr = NULL;
-                        graphics_app_result_ptr = NULL;
-                    } else {
-#ifdef __APPLE__
-                        SetError(FALSE, SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING);
-#endif
-                        SetError(FALSE, SCRAPPERR_SCREENSAVERRUNNING);
-                        launch_time = dtime();
-                        last_change_time = launch_time;
-                        last_run_check_time = launch_time;
-                        // Make a local copy of current result, since original pointer 
-                        // may have been freed by the time we perform later tests
-                        previous_result = *graphics_app_result_ptr;
-                        previous_result_ptr = &previous_result;
-                        if (previous_result_ptr) {
-                            BOINCTRACE(_T("CScreensaver::DataManagementProc - launching %s\n"), previous_result.name.c_str());
-                        }
-                    }
-                } else {
-                    if (state.projects.size() == 0) {
-                        // We are not attached to any projects
-                        SetError(TRUE, SCRAPPERR_BOINCNOPROJECTSDETECTED);
-                    } else if (results.results.size() == 0) {
-                        // We currently do not have any applications to run
-                        SetError(TRUE, SCRAPPERR_BOINCNOAPPSEXECUTING);
-                    } else {
-                        // We currently do not have any graphics capable application
-                        SetError(TRUE, m_bV5_GFX_app_is_running ? 
-                                SCRAPPERR_DAEMONALLOWSNOGRAPHICS : SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING
-                        );
-                    }
-                }
-            } else {    // End if ((m_hGraphicsApplication == 0) && (graphics_app_result_ptr == NULL))
-
-                // Is the graphics app still running?
-                if (m_hGraphicsApplication) {
-#ifdef _WIN32
-                    DWORD dwStatus = STILL_ACTIVE;
-                    BOOL  bRetVal = FALSE;
-                    bRetVal = GetExitCodeProcess(m_hGraphicsApplication, &dwStatus);
-                    BOINCTRACE(_T("CScreensaver::DataManagementProc - GetExitCodeProcess RetVal = '%d', Status = '%d'\n"), bRetVal, dwStatus);
-                    if (bRetVal && (dwStatus != STILL_ACTIVE)) {
-                        // Something has happened to the previously selected screensaver
-                        //   application. Start a different one.
-                        m_hGraphicsApplication = 0;
-                        graphics_app_result_ptr = NULL;
-                        continue;
-                    } else {
-                        CheckForegroundWindow();
-                    }
-#else
-                    if (waitpid(m_hGraphicsApplication, 0, WNOHANG) == m_hGraphicsApplication) {
-                        m_hGraphicsApplication = 0;
-                        graphics_app_result_ptr = NULL;
-                        continue;
-                    }
-#endif
-                }
-            }
-#endif      // ! SIMULATE_NO_GRAPHICS
         }
+                
+        // If no current graphics app, pick an active task at random and launch its graphics app
+        if ((m_hGraphicsApplication == 0) && (graphics_app_result_ptr == NULL)) {
+            graphics_app_result_ptr = get_random_graphics_app(results, previous_result_ptr);
+            previous_result_ptr = NULL;
+            
+            if (graphics_app_result_ptr) {
+                retval = launch_screensaver(graphics_app_result_ptr, m_hGraphicsApplication);
+                if (retval) {
+                    m_hGraphicsApplication = 0;
+                    previous_result_ptr = NULL;
+                    graphics_app_result_ptr = NULL;
+                } else {
+#ifdef __APPLE__
+                    SetError(FALSE, SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING);
+#endif
+                    SetError(FALSE, SCRAPPERR_SCREENSAVERRUNNING);
+                    launch_time = dtime();
+                    last_change_time = launch_time;
+                    last_run_check_time = launch_time;
+                    // Make a local copy of current result, since original pointer 
+                    // may have been freed by the time we perform later tests
+                    previous_result = *graphics_app_result_ptr;
+                    previous_result_ptr = &previous_result;
+                    if (previous_result_ptr) {
+                        BOINCTRACE(_T("CScreensaver::DataManagementProc - launching %s\n"), previous_result.name.c_str());
+                    }
+                }
+            } else {
+                if (state.projects.size() == 0) {
+                    // We are not attached to any projects
+                    SetError(TRUE, SCRAPPERR_BOINCNOPROJECTSDETECTED);
+                } else if (results.results.size() == 0) {
+                    // We currently do not have any applications to run
+                    SetError(TRUE, SCRAPPERR_BOINCNOAPPSEXECUTING);
+                } else {
+                    // We currently do not have any graphics capable application
+                    SetError(TRUE, m_bV5_GFX_app_is_running ? 
+                            SCRAPPERR_DAEMONALLOWSNOGRAPHICS : SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING
+                    );
+                }
+            }
+        } else {    // End if ((m_hGraphicsApplication == 0) && (graphics_app_result_ptr == NULL))
 
-        // Only loop through the data management proc 4 times a second.
-        //
-        boinc_sleep(0.25);
-
-    } // end while(true)
+            // Is the graphics app still running?
+            if (m_hGraphicsApplication) {
+#ifdef _WIN32
+                DWORD dwStatus = STILL_ACTIVE;
+                BOOL  bRetVal = FALSE;
+                bRetVal = GetExitCodeProcess(m_hGraphicsApplication, &dwStatus);
+                BOINCTRACE(_T("CScreensaver::DataManagementProc - GetExitCodeProcess RetVal = '%d', Status = '%d'\n"), bRetVal, dwStatus);
+                if (bRetVal && (dwStatus != STILL_ACTIVE)) {
+                    // Something has happened to the previously selected screensaver
+                    //   application. Start a different one.
+                    m_hGraphicsApplication = 0;
+                    graphics_app_result_ptr = NULL;
+                    continue;
+                } else {
+                    CheckForegroundWindow();
+                }
+#else
+                if (waitpid(m_hGraphicsApplication, 0, WNOHANG) == m_hGraphicsApplication) {
+                    m_hGraphicsApplication = 0;
+                    graphics_app_result_ptr = NULL;
+                    continue;
+                }
+#endif
+            }
+        }
+#endif      // ! SIMULATE_NO_GRAPHICS
+    }                           // end while(true)
 }
