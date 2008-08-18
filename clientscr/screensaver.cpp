@@ -307,6 +307,7 @@ void *CScreensaver::DataManagementProc() {
     RESULT*         theResult               = NULL;
     RESULT*         graphics_app_result_ptr = NULL;
     RESULT          previous_result;
+    // previous_result_ptr = &previous_result when previous_result is valid, else NULL
     RESULT*         previous_result_ptr     = NULL;
     int             iResultCount            = 0;
     int             iIndex                  = 0;
@@ -431,7 +432,7 @@ void *CScreensaver::DataManagementProc() {
                 theResult = results.results.at(iIndex);
 
                 if (is_same_task(theResult, previous_result_ptr)) {
-                   graphics_app_result_ptr = theResult;
+                    graphics_app_result_ptr = theResult;
                     previous_result = *theResult;
                     previous_result_ptr = &previous_result;
                     break;
@@ -446,13 +447,13 @@ void *CScreensaver::DataManagementProc() {
                 terminate_screensaver(m_hGraphicsApplication, previous_result_ptr);
                 previous_result_ptr = NULL;
                 // waitpid test will clear m_hGraphicsApplication
-           }
+            }
 
             if (last_change_time && ((dtime() - last_change_time) > GFX_CHANGE_PERIOD)) {
                 if (count_active_graphic_apps(results, previous_result_ptr) > 0) {
-                        if (previous_result_ptr) {
-                            BOINCTRACE(_T("CScreensaver::DataManagementProc - time to change: %s\n"), previous_result.name.c_str());
-                        }
+                    if (previous_result_ptr) {
+                        BOINCTRACE(_T("CScreensaver::DataManagementProc - time to change: %s\n"), previous_result.name.c_str());
+                    }
                     terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
                     if (m_hGraphicsApplication == 0) {
                         graphics_app_result_ptr = NULL;
@@ -478,6 +479,7 @@ void *CScreensaver::DataManagementProc() {
                     graphics_app_result_ptr = NULL;
                 } else {
 #ifdef __APPLE__
+                    // Show ScreenSaverAppStartingMsg for GFX_STARTING_MSG_DURATION seconds
                     SetError(FALSE, SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING);
 #endif
                     SetError(FALSE, SCRAPPERR_SCREENSAVERRUNNING);
@@ -501,9 +503,11 @@ void *CScreensaver::DataManagementProc() {
                     SetError(TRUE, SCRAPPERR_BOINCNOAPPSEXECUTING);
                 } else {
                     // We currently do not have any graphics capable application
-                    SetError(TRUE, m_bV5_GFX_app_is_running ? 
-                            SCRAPPERR_DAEMONALLOWSNOGRAPHICS : SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING
-                    );
+                    if (m_bV5_GFX_app_is_running) {
+                        SetError(TRUE, SCRAPPERR_DAEMONALLOWSNOGRAPHICS);
+                    } else {
+                        SetError(TRUE, SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING);
+                    }
                 }
             }
         } else {    // End if ((m_hGraphicsApplication == 0) && (graphics_app_result_ptr == NULL))
