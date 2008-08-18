@@ -6758,3 +6758,11 @@ Rom    17 Aug 2008
     
     clientscr/
         screensaver_win.cpp
+
+Bruce   18 Aug 2008
+    - User web pages, scheduler logs: link was missing because of incorrect path
+
+    html/
+        inc/
+            host.inc
+

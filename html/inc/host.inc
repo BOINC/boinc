@@ -34,7 +34,7 @@ function sched_log_name($x) {
 }
 
 function sched_log_link($x) {
-    if (file_exists("../sched_logs")) {
+    if (file_exists("sched_logs")) {
         return "<a href=\"../sched_logs/" . sched_log_name($x) . "\">" . time_str($x) . "</a>";
     } else {
         return time_str($x);
