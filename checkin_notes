@@ -4380,3 +4380,10 @@ Rom    14 Aug 2008
         configure.ac
         version.h
 
+Rom & Charlie    18 Aug 2008
+    - SCR: Fix 8/14 checkin that causes the CPU util to spike on Macs and
+        possibly Windows.  
+        Checked into boinc_core_release_6_2_18 for Mac release.
+        
+    clientscr/
+        screensaver.cpp

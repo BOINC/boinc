@@ -1,19 +1,21 @@
-// This file is part of BOINC.
+// Berkeley Open Infrastructure for Network Computing
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2005 University of California
 //
-// BOINC is free software; you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License
-// as published by the Free Software Foundation,
-// either version 3 of the License, or (at your option) any later version.
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
 //
-// BOINC is distributed in the hope that it will be useful,
+// This software is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // See the GNU Lesser General Public License for more details.
 //
-// You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 // 
 
 #ifdef _WIN32
@@ -323,14 +325,13 @@ void *CScreensaver::DataManagementProc() {
 #endif         
 
     while (true) {
-        if ((m_dwBlankScreen) && (time(0) > m_dwBlankTime)) {
-            BOINCTRACE(_T("CScreensaver::DataManagementProc - Time to blank\n"));
-            SetError(FALSE, SCRAPPERR_SCREENSAVERBLANKED);
-            m_QuitDataManagementProc = true;
-        }
-
         for (int i = 0; i < 4; i++) {
-            // Check for exit request 4 times per second
+        // ***
+        // *** Things that should be run frequently.
+        // ***   4 times per second.
+        // ***
+
+        // Are we supposed to exit the screensaver?
             if (m_QuitDataManagementProc) {     // If main thread has requested we exit
                 if (m_hGraphicsApplication || graphics_app_result_ptr) {
                     terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
@@ -340,8 +341,38 @@ void *CScreensaver::DataManagementProc() {
                 }
                 return 0;       // Exit the thread
             }
+
+#ifdef _WIN32
+
+            // Check for keyboard and mouse activity just in case the
+            // user wants to blow out of the screensaver.
+            //
+            CheckKeyboardMouseActivity();
+
+            // Check to see if there are any notification windows from
+            // personal firewalls, virus scanners, or anything else that
+            // demands the users attention. If there is blow out of the
+            // screensaver
+            CheckForNotificationWindow();
+
+#endif
+
+            boinc_sleep(0.25);
         }
 
+        // ***
+        // *** Things that should be run frequently.
+        // *** 1 time per second.
+        // ***
+
+        // Blank screen saver?
+        if ((m_dwBlankScreen) && (time(0) > m_dwBlankTime)) {
+            BOINCTRACE(_T("CScreensaver::DataManagementProc - Time to blank\n"));
+            SetError(FALSE, SCRAPPERR_SCREENSAVERBLANKED);
+            m_QuitDataManagementProc = true;
+        }
+
+        // Do we need to get the core client state?
         if (m_bResetCoreState) {
             // Try and get the current state of the CC
             retval = rpc->get_state(state);
@@ -356,6 +387,7 @@ void *CScreensaver::DataManagementProc() {
     
         BOINCTRACE(_T("CScreensaver::DataManagementProc - ErrorMode = '%d', ErrorCode = '%x'\n"), m_bErrorMode, m_hrError);
 
+        // Update our task list
         m_updating_results = true;
         retval = rpc->get_screensaver_tasks(suspend_reason, results);
         m_updating_results = false;
@@ -366,6 +398,7 @@ void *CScreensaver::DataManagementProc() {
             continue;
         }
 
+        // Core client suspended?
         if (suspend_reason && !(suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
             SetError(TRUE, SCRAPPERR_BOINCSUSPENDED);
             if (m_hGraphicsApplication || previous_result_ptr) {
@@ -414,26 +447,12 @@ void *CScreensaver::DataManagementProc() {
                 previous_result_ptr = NULL;
                 // waitpid test will clear m_hGraphicsApplication
            }
-#if 0
-            // Safety check that task is actually running
-            if (last_run_check_time && ((dtime() - last_run_check_time) > TASK_RUN_CHECK_PERIOD)) {
-                if (FindProcessPID(NULL, ? ? ?) == 0) {
-                    terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
-                    if (m_hGraphicsApplication == 0) {
-                        graphics_app_result_ptr = NULL;
-                        // Save previous_result and previous_result_ptr for get_random_graphics_app() call
-                    } else {
-                        // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
-                    }
-                    previous_result_ptr = NULL;
-                }
-            }
-#endif
+
             if (last_change_time && ((dtime() - last_change_time) > GFX_CHANGE_PERIOD)) {
                 if (count_active_graphic_apps(results, previous_result_ptr) > 0) {
-                    if (previous_result_ptr) {
-                        BOINCTRACE(_T("CScreensaver::DataManagementProc - time to change: %s\n"), previous_result.name.c_str());
-                    }
+                        if (previous_result_ptr) {
+                            BOINCTRACE(_T("CScreensaver::DataManagementProc - time to change: %s\n"), previous_result.name.c_str());
+                        }
                     terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
                     if (m_hGraphicsApplication == 0) {
                         graphics_app_result_ptr = NULL;
@@ -489,22 +508,6 @@ void *CScreensaver::DataManagementProc() {
             }
         } else {    // End if ((m_hGraphicsApplication == 0) && (graphics_app_result_ptr == NULL))
 
-#ifdef _WIN32
-
-            // Check for keyboard and mouse activity just in case the
-            // user wants to blow out of the screensaver.
-            //
-            CheckKeyboardMouseActivity();
-
-            // Check to see if there are any notification windows from
-            // personal firewalls, virus scanners, or anything else that
-            // demands the users attention. If there is blow out of the
-            // screensaver
-            CheckForNotificationWindow();
-
-#endif
-
-
             // Is the graphics app still running?
             if (m_hGraphicsApplication) {
 #ifdef _WIN32
@@ -531,11 +534,5 @@ void *CScreensaver::DataManagementProc() {
             }
         }
 #endif      // ! SIMULATE_NO_GRAPHICS
-
-
-        // Only loop through the data management proc 4 times a second.
-        //
-        boinc_sleep(0.25);
-
-    } // end while(true)
+    }                           // end while(true)
 }
