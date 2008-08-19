@@ -843,4 +843,37 @@ char* windows_format_error_string(
 }
 #endif
 
+// string substitution:
+// haystack is the input string
+// out is the output buffer
+// out_len is the length of the output buffer
+// needle is string to search for within the haystack
+// target is string to replace with
+//
+int string_substitute(
+    const char* haystack, char* out, int out_len,
+    const char* needle, const char* target
+) {
+    unsigned int i=0, j=0;
+    int needle_len = strlen(needle);
+    int target_len = strlen(target);
+    int retval = 0;
+
+    while (haystack[i]) {
+        if (j+target_len >= out_len-1) {
+            retval = ERR_BUFFER_OVERFLOW;
+            break;
+        }
+        if (!strncmp(&haystack[i], needle, needle_len)){
+            strcpy(out+j, target);
+            i += strlen(needle);
+            j += strlen(target);
+        } else {
+            out[j++] = haystack[i++];
+        }
+    }
+    out[j] = 0;
+    return retval;
+}
+
 const char *BOINC_RCSID_ab90e1e = "$Id$";

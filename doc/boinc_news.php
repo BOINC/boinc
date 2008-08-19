@@ -33,12 +33,6 @@ array("July 9, 2008",
     a PHP script to display BOINC stats on a webpage,
     and store or retrieve these stats to a mySQL database."
 ),
-array("June 26, 2008",
-    "Congratulations and thanks to volunteer
-    <a href=\"http://boinc.netsoft-online.com/e107_plugins/boinc/get_user.php?cpid=4b03581a7c1802a7bd62649720327b04&amp;html=1\">Banshee</a> from
-    <a href=\"http://www.boinc-af.org/\">L'Alliance Francophone</a>,
-    who has recently contributed over 10 TeraFLOPS to several projects."
-),
 array("June 16, 2008",
     "<a href=logo/logo_3d>3-D versions of the BOINC logo</a>
     are now available; thanks to John from Ireland for creating these."

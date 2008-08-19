@@ -78,6 +78,11 @@ inline void downcase_string(std::string& w) {
     }
 }
 
+extern int string_substitute(
+    const char* haystack, char* out, int out_len,
+    const char* needle, const char* target
+);
+
 // convert UNIX time to MySQL timestamp (yyyymmddhhmmss)
 //
 extern void mysql_timestamp(double, char*);

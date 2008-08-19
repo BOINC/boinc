@@ -6809,3 +6809,13 @@ Charlie 18 Aug 2008
     
     clientgui/
         AsyncRPC.cpp
+
+David  19 Aug 2008
+    - lib: added string_substitute() function
+    - lib: changed boinc_copy() to replace " " with "\ " in its args
+        (to allow pathnames containing spaces).
+        From Tolu Aina
+
+    lib/
+        filesys.C
+        str_util.C,h
