@@ -181,7 +181,7 @@ BEST_APP_VERSION* get_app_version(
             if (av.appid != wu.appid) continue;
             if (av.platformid != p->id) continue;
             if (reply.wreq.core_client_version < av.min_core_version) {
-                log_messages.printf(MSG_DEBUG,
+                log_messages.printf(MSG_NORMAL,
                     "outdated client version %d < min core version %d\n",
                     reply.wreq.core_client_version, av.min_core_version
                 );
@@ -680,8 +680,7 @@ int insert_after(char* buffer, const char* after, const char* text) {
 
     if (strlen(buffer) + strlen(text) > BLOB_SIZE-1) {
         log_messages.printf(MSG_CRITICAL,
-            "insert_after: overflow: %d %d\n",
-            strlen(buffer), strlen(text)
+            "insert_after: overflow: %d %d\n", strlen(buffer), strlen(text)
         );
         return ERR_BUFFER_OVERFLOW;
     }
@@ -770,7 +769,7 @@ int add_wu_to_reply(
     wu2 = wu;       // make copy since we're going to modify its XML field
     retval = insert_wu_tags(wu2, *app);
     if (retval) {
-        log_messages.printf(MSG_NORMAL, "insert_wu_tags failed %d\n", retval);
+        log_messages.printf(MSG_CRITICAL, "insert_wu_tags failed %d\n", retval);
         return retval;
     }
     wu3=wu2;

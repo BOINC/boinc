@@ -96,10 +96,12 @@ static int send_assigned_job(
         }
         asg.resultid = result_id;
     }
-    log_messages.printf(MSG_DEBUG,
-        "[WU#%d] [RESULT#%d] [HOST#%d] send assignment %d\n",
-        wu.id, result_id, reply.host.id, asg.id
-    );
+    if (config.debug_assignment) {
+        log_messages.printf(MSG_DEBUG,
+            "[WU#%d] [RESULT#%d] [HOST#%d] send assignment %d\n",
+            wu.id, result_id, reply.host.id, asg.id
+        );
+    }
     return 0;
 }
 

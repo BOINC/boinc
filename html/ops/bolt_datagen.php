@@ -204,18 +204,18 @@ if (1) {
     clear();
 }
 
-if (0) {
+if (1) {
     compare_gen(
         'Conifer/deciduous alternative',        // select name
         'Intro exercises',      // xset name
         50,                     // # of records to create
-        .5, .1,                 // mean and dev of default score
+        .5, .3,                 // mean and dev of default score
         'conifer_decid2.php',  // name of chosen alternative
-        .8, .1                  // mean and dev of score for that alternative
+        .8, .2                  // mean and dev of score for that alternative
     );
 }
 
-if (1) {
+if (0) {
     $sb1->attr = 0.1;
     $sb1->time_mean = 20;
     $sb1->time_dev = 10;

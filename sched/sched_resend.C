@@ -69,20 +69,24 @@ static int possibly_give_result_new_deadline(
     // If infeasible, return without modifying result
     //
     if (estimate_cpu_duration(wu, reply) > result_report_deadline-now) {
-        log_messages.printf(MSG_DEBUG,
-            "[RESULT#%d] [HOST#%d] not resending lost result: can't complete in time\n",
-            result.id, reply.host.id
-        );
+        if (config.debug_resend) {
+            log_messages.printf(MSG_DEBUG,
+                "[RESULT#%d] [HOST#%d] not resending lost result: can't complete in time\n",
+                result.id, reply.host.id
+            );
+        }
         return 1;
     }
     
     // update result with new report time and sent time
     //
-    log_messages.printf(MSG_DEBUG,
-        "[RESULT#%d] [HOST#%d] %s report_deadline (resend lost work)\n",
-        result.id, reply.host.id,
-        result_report_deadline==result.report_deadline?"NO update to":"Updated"
-    );
+    if (config.debug_resend) {
+        log_messages.printf(MSG_DEBUG,
+            "[RESULT#%d] [HOST#%d] %s report_deadline (resend lost work)\n",
+            result.id, reply.host.id,
+            result_report_deadline==result.report_deadline?"NO update to":"Updated"
+        );
+    }
     result.sent_time = now;
     result.report_deadline = result_report_deadline;
     return 0;
@@ -121,10 +125,12 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (found) continue;
 
         num_eligible_to_resend++;
-        log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] found lost [RESULT#%d]: %s\n",
-            reply.host.id, result.id, result.name
-        );
+        if (config.debug_resend) {
+            log_messages.printf(MSG_DEBUG,
+                "[HOST#%d] found lost [RESULT#%d]: %s\n",
+                reply.host.id, result.id, result.name
+            );
+        }
 
         DB_WORKUNIT wu;
         retval = wu.lookup_id(result.workunitid);
@@ -157,10 +163,12 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             wu.canonical_resultid ||
             possibly_give_result_new_deadline(result, wu, reply)
         ) {
-            log_messages.printf(MSG_DEBUG,
-                "[HOST#%d][RESULT#%d] not needed or too close to deadline, expiring\n",
-                reply.host.id, result.id
-            );
+            if (config.debug_resend) {
+                log_messages.printf(MSG_DEBUG,
+                    "[HOST#%d][RESULT#%d] not needed or too close to deadline, expiring\n",
+                    reply.host.id, result.id
+                );
+            }
             result.report_deadline = time(0)-1;
             retval = result.mark_as_sent(result.server_state);
             if (retval) {
@@ -199,7 +207,7 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
     }
 
-    if (num_eligible_to_resend) {
+    if (num_eligible_to_resend && config.debug_resend) {
         log_messages.printf(MSG_DEBUG,
             "[HOST#%d] %d lost results, resent %d\n", reply.host.id, num_eligible_to_resend, num_resent 
         );

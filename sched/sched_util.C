@@ -48,7 +48,7 @@ const int STOP_SIGNAL = SIGHUP;
 void write_pid_file(const char* filename) {
     FILE* fpid = fopen(filename, "w");
     if (!fpid) {
-        log_messages.printf(MSG_NORMAL, "Couldn't write pid\n");
+        log_messages.printf(MSG_CRITICAL, "Couldn't write pid file\n");
         return;
     }
     fprintf(fpid, "%d\n", (int)getpid());
@@ -70,7 +70,7 @@ void install_stop_signal_handler() {
 
 void check_stop_daemons() {
     if (caught_stop_signal) {
-        log_messages.printf(MSG_CRITICAL, "Quitting due to SIGHUP\n");
+        log_messages.printf(MSG_NORMAL, "Quitting due to SIGHUP\n");
         exit(0);
     }
     if (boinc_file_exists(STOP_DAEMONS_FILENAME)) {

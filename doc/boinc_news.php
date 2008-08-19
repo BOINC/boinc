@@ -2,7 +2,7 @@
 
 $project_news = array(
 array("July 30, 2008",
-    "BOINC 6.2.14 is now the recommended version for all platforms. 
+    "BOINC 6.2 is now the recommended version for all platforms. 
     <a href=\"http://boinc.berkeley.edu/download.php\">Upgrade now</a>."
 ),
 array("July 29, 2008",

@@ -195,6 +195,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool(tag, "debug_assignment", debug_assignment)) continue;
         if (xp.parse_bool(tag, "debug_prefs", debug_prefs)) continue;
         if (xp.parse_bool(tag, "debug_send", debug_send)) continue;
+        if (xp.parse_bool(tag, "debug_resend", debug_resend)) continue;
         if (xp.parse_bool(tag, "debug_request_headers", debug_request_headers)) continue;
         if (xp.parse_bool(tag, "debug_user_messages", debug_user_messages)) continue;
         if (xp.parse_bool(tag, "debug_request_details", debug_request_details)) continue;
