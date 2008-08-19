@@ -6779,3 +6779,10 @@ Rom & Charlie    18 Aug 2008
         
     clientscr/
         screensaver.cpp
+
+Eric	18 Aug 2008
+    - Fixed potential memory leak and other minor problems with
+      APP_INIT_DATA.
+
+    lib/
+      app_ipc.[Ch]

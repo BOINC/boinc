@@ -48,8 +48,7 @@ GRAPHICS_MSG::GRAPHICS_MSG() {
     memset(this, 0, sizeof(GRAPHICS_MSG));
 }
 
-APP_INIT_DATA::APP_INIT_DATA() {
-    project_preferences = 0;
+APP_INIT_DATA::APP_INIT_DATA() : project_preferences(NULL) {
 }
 
 APP_INIT_DATA::~APP_INIT_DATA() {
@@ -63,8 +62,11 @@ APP_INIT_DATA::APP_INIT_DATA(const APP_INIT_DATA& a) {
     copy(a);
 }
 
-void APP_INIT_DATA::operator=(const APP_INIT_DATA& a) {
-    copy(a);
+APP_INIT_DATA &APP_INIT_DATA::operator=(const APP_INIT_DATA& a) {
+    if (this != &a) {
+      copy(a);
+    }
+    return *this;
 }
 
 void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
@@ -253,9 +255,9 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     return ERR_XML_PARSE;
 }
 
-APP_CLIENT_SHM::APP_CLIENT_SHM() {
-    shm = 0;
+APP_CLIENT_SHM::APP_CLIENT_SHM() : shm(NULL) {
 }
+
 bool MSG_CHANNEL::get_msg(char *msg) {
     if (!buf[0]) return false;
     strlcpy(msg, buf+1, MSG_CHANNEL_SIZE-1);
