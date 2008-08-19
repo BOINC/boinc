@@ -6803,3 +6803,9 @@ David  18 Aug 2008
         sched_resend.C
         sched_assign.C
         sched_util.C
+
+Charlie 18 Aug 2008
+    - MGR: async GUI RPCs: Bug fix.
+    
+    clientgui/
+        AsyncRPC.cpp

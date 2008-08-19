@@ -586,7 +586,6 @@ void CMainDocument::HandleCompletedRPC() {
                 exchangeBuf->global_prefs = arg1->global_prefs;
                 exchangeBuf->version_info = arg1->version_info;
                 exchangeBuf->executing_as_daemon = arg1->executing_as_daemon;
-                arg1->results.swap(exchangeBuf->results);
             }
             break;
         case RPC_GET_RESULTS:
