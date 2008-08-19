@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("August 19, 2008",
+    "LinkedIn users: join a
+    <a href=\"http://www.linkedin.com/groups?gid=678497\">BOINC Users group</a>."
+),
 array("July 30, 2008",
     "BOINC 6.2 is now the recommended version for all platforms. 
     <a href=\"http://boinc.berkeley.edu/download.php\">Upgrade now</a>."

@@ -143,6 +143,7 @@ $misc_sites = array(
     array("http://www.myboinc.com/", "BOINC Users of the Day"),
     //array("http://groups.myspace.com/BOINConMYSPACE", "BOINC on MySpace"),
     array("http://www.boincuk.com/repository.php", "bunc", "(excellent newsletter produced by BOINC UK)"),
+    array("http://www.linkedin.com/groups?gid=678497", "BOINC Users group on LinkedIn"),
 );
 echo "<ul>";
 foreach ($misc_sites as $m) {

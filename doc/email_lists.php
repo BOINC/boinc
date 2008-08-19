@@ -26,10 +26,10 @@ and help for BOINC is available <a href=help.php>here</a>.
 </font></b>
 ";
 list_start();
-list_item(
-    "<a href=http://lists.ssl.berkeley.edu/mailman/listinfo/boinc_announce>boinc_announce</a>",
-    "Announcements of new versions of BOINC client software."
-);
+//list_item(
+//    "<a href=http://lists.ssl.berkeley.edu/mailman/listinfo/boinc_announce>boinc_announce</a>",
+//    "Announcements of new versions of BOINC client software."
+//);
 list_item(
     "<a href=http://lists.ssl.berkeley.edu/mailman/listinfo/boinc_projects>boinc_projects</a>",
     "For people developing and operating BOINC projects.
