@@ -6786,3 +6786,9 @@ Eric	18 Aug 2008
 
     lib/
       app_ipc.[Ch]
+
+Charlie 18 Aug 2008
+    - MGR: async GUI RPCs: Fix show_graphics RPC.
+    
+    clientgui/
+        AsyncRPC.h

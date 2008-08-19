@@ -184,7 +184,7 @@ public:
             { return RPC_Wait(RPC_GET_DISK_USAGE, (void*)&arg1); }
     int show_graphics(
         const char* project, const char* result_name, int graphics_mode, DISPLAY_INFO& di)
-            { return RPC_Wait(RPC_SHOW_GRAPHICS, (void*)&project, (void*)result_name, (void*)&graphics_mode, (void*)&di); }
+            { return RPC_Wait(RPC_SHOW_GRAPHICS, (void*)project, (void*)result_name, (void*)&graphics_mode, (void*)&di); }
     int project_op(PROJECT& arg1, const char* op)
             { return RPC_Wait(RPC_PROJECT_OP, (void*)&arg1, (void*)op); }
     int set_run_mode(int mode, double duration)
