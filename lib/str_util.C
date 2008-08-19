@@ -854,7 +854,7 @@ int string_substitute(
     const char* haystack, char* out, int out_len,
     const char* needle, const char* target
 ) {
-    unsigned int i=0, j=0;
+    int i=0, j=0;
     int needle_len = strlen(needle);
     int target_len = strlen(target);
     int retval = 0;
