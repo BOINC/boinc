@@ -271,7 +271,7 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
             pTransfer->m_strFileName.c_str()
         );
 
-        iAnswer = ::wxMessageBox(
+        iAnswer = wxGetApp().SafeMessageBox(
             strMessage,
             _("Abort File Transfer"),
             wxYES_NO | wxICON_QUESTION,

@@ -21,6 +21,7 @@
 
 #include "stdwx.h"
 #include "ValidateURL.h"
+#include "BOINCGUIApp.h"
 #include "str_util.h"
 
 
@@ -121,7 +122,7 @@ bool CValidateURL::Validate(wxWindow *parent) {
         wxString buf;
         buf.Printf(m_errormsg, control->GetValue().c_str());
 
-        wxMessageBox(buf, m_errortitle,
+        wxGetApp().SafeMessageBox(buf, m_errortitle,
             wxOK | wxICON_EXCLAMATION, parent
         );
     }

@@ -310,7 +310,7 @@ int CBOINCDialUpManager::Connect() {
                     _("%s needs to connect to the Internet.\nMay it do so now?"),
                     pSkinAdvanced->GetApplicationShortName().c_str()
                 );
-                iAnswer = ::wxMessageBox(
+                iAnswer = wxGetApp().SafeMessageBox(
                     strDialogMessage,
                     m_strDialogTitle,
                     wxYES_NO | wxICON_QUESTION,

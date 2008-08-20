@@ -6835,3 +6835,29 @@ Charlie 19 Aug 2008
     samples/
         mac_build/
             UpperCase2.xcodeproj
+
+Charlie 20 Aug 2008
+    - MGR: async GUI RPCs: Suspend periodic RPCs during modal dialogs.
+    
+    clientgui/
+        AccountInfoPage.cpp
+        AdvancedFrame.cpp
+        BOINCBaseFrame.cpp,.h
+        BOINCDialupManager.cpp
+        BOINCGUIApp.cpp,.h
+        BOINCTaskBar.cpp
+        DlgAdvPreferences.cpp
+        hyperlink.cpp
+        MainDocument.cpp
+        sg_StatImageLoader.cpp
+        sg_ViewTabPage.cpp
+        ValidateAccountKey.cpp
+        ValidateEmailAddress.cpp
+        ValidateURL.cpp
+        ViewProjects.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+        WizardAccountManager.cpp
+        WizardAttachProject.cpp
+        common/
+            wxFlatNotebook.cpp

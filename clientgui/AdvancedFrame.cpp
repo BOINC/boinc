@@ -1365,7 +1365,7 @@ void CAdvancedFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
 
-        iAnswer = ::wxMessageBox(
+        iAnswer = wxGetApp().SafeMessageBox(
             strMessage,
             strTitle,
             wxYES_NO | wxICON_QUESTION,

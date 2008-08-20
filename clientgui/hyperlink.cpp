@@ -195,7 +195,7 @@ void wxHyperLink::ExecuteLink (const wxString &strLink) {
             wxGetApp().GetSkinManager()->GetAdvanced()->GetApplicationName().c_str()
         );
 
-        ::wxMessageBox(
+        ::wxGetApp().SafeMessageBox(
             strDialogMessage,
             strDialogTitle,
             wxOK | wxICON_INFORMATION

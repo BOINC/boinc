@@ -21,6 +21,7 @@
 
 #include "stdwx.h"
 #include "ValidateEmailAddress.h"
+#include "BOINCGUIApp.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CValidateEmailAddress, wxValidator)
@@ -82,7 +83,7 @@ bool CValidateEmailAddress::Validate(wxWindow *parent) {
         wxString buf;
         buf.Printf(m_errormsg, control->GetValue().c_str());
 
-        wxMessageBox(buf, _("Validation conflict"),
+        wxGetApp().SafeMessageBox(buf, _("Validation conflict"),
             wxOK | wxICON_EXCLAMATION, parent
         );
     }

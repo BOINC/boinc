@@ -392,7 +392,7 @@ void CViewProjects::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
             pProject->m_strProjectName.c_str()
         );
 
-        iAnswer = ::wxMessageBox(
+        iAnswer = wxGetApp().SafeMessageBox(
             strMessage,
             _("Reset Project"),
             wxYES_NO | wxICON_QUESTION,
@@ -447,7 +447,7 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
             pProject->m_strProjectName.c_str()
         );
 
-        iAnswer = ::wxMessageBox(
+        iAnswer = wxGetApp().SafeMessageBox(
             strMessage,
             _("Detach from Project"),
             wxYES_NO | wxICON_QUESTION,

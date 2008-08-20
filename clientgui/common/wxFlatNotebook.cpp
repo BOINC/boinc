@@ -1390,7 +1390,7 @@ int wxPageContainerBase::HitTest(const wxPoint& pt, wxPageInfo& pageInfo, int &t
 		if(tabRect.Inside(pt))
 		{
 			// We have a match
-			// wxMessageBox(pgInfo.m_strCaption);
+			// wxGetApp().SafeMessageBox(pgInfo.m_strCaption);
 			pageInfo = pgInfo;
 			tabIdx = (int)cur;
 			return wxFNB_TAB;

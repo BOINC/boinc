@@ -99,6 +99,8 @@ protected:
     // The last value defined in the wxLanguage enum is wxLANGUAGE_USER_DEFINED.
     // defined in: wx/intl.h
     wxArrayString       m_astrLanguages;
+    
+    int                 m_bSafeMessageBoxDisplayed;
 
 public:
 
@@ -141,6 +143,14 @@ public:
     virtual void        OnRPCFinished( CRPCFinishedEvent& event );
     
     int                 ConfirmExit();
+
+    int                 SafeMessageBox(const wxString& message,
+                             const wxString& caption = wxMessageBoxCaptionStr,
+                             long style = wxOK | wxCENTRE,
+                             wxWindow *parent = NULL,
+                             int x = wxDefaultCoord, int y = wxDefaultCoord);
+
+    bool                IsModalDialogDisplayed();
 
 DECLARE_EVENT_TABLE()
 };

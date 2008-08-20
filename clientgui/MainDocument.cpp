@@ -31,6 +31,7 @@
 #include "BOINCBaseFrame.h"
 #include "MainDocument.h"
 #include "BOINCClientManager.h"
+#include "Events.h"
 
 #ifndef _WIN32
 #include <sys/wait.h>
@@ -730,6 +731,20 @@ void CMainDocument::RunPeriodicRPCs() {
 
     // TODO: modify SimpleGUI to not do RPCs when hidden / minimized
     if (! ((currentTabView & VW_SGUI) || pFrame->IsShown()) ) return;
+
+    // several functions (such as Abort, Reset, Detach) display an 
+    // "Are you sure?" dialog before passing a pointer to a result 
+    // or project in a demand RPC call.  If Periodic RPCs continue 
+    // to run during these dialogs, that pointer may no longer be 
+    // valid by the time the demand RPC is executed.  So we suspend 
+    // periodic RPCs during modal dialogs.  Search for the dialog 
+    // by ID since all of BOINC Manager's dialog IDs are 10000.
+    //
+    // Note that this depends on using wxGetApp().SafeMessageBox()
+    // instead of wxMessageBox in all tab views.
+    if (wxGetApp().IsModalDialogDisplayed()) {
+        return;
+    }
 
     wxDateTime dtNow(wxDateTime::Now());
     

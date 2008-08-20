@@ -572,7 +572,7 @@ void CDlgAdvPreferences::ShowErrorMessage(wxString& message,wxTextCtrl* errorCtr
 	if(message.IsEmpty()){
 		message = _("invalid input value detected");
 	}
-	wxMessageBox(message,_("Validation Error"),wxOK | wxCENTRE | wxICON_ERROR,this);
+	wxGetApp().SafeMessageBox(message,_("Validation Error"),wxOK | wxCENTRE | wxICON_ERROR,this);
 }
 
 /* checks if ch is a valid character for float values */
@@ -706,7 +706,7 @@ void CDlgAdvPreferences::OnClear(wxCommandEvent& ev) {
 }
 
 bool CDlgAdvPreferences::ConfirmClear() {
-	int res = wxMessageBox(_("Do you really want to clear all local preferences ?"),
+	int res = wxGetApp().SafeMessageBox(_("Do you really want to clear all local preferences ?"),
 		_("Confirmation"),wxCENTER | wxICON_QUESTION | wxYES_NO | wxNO_DEFAULT,this);
 	
 	return res==wxYES;

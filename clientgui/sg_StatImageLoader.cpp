@@ -217,7 +217,7 @@ void StatImageLoader::OnProjectDetach() {
         strProjectName.c_str()
     );
 
-    iAnswer = ::wxMessageBox(
+    iAnswer = wxGetApp().SafeMessageBox(
         strMessage,
         _("Detach from Project"),
         wxYES_NO | wxICON_QUESTION,

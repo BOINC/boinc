@@ -633,13 +633,12 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
 
     // BOINC Manager crashes if user selects "Exit" from taskbar menu while 
     //  a dialog is open, so we must disable the "Exit" menu item if a dialog 
-    //  is open. So lets search for the dialog by ID since all of BOINC
-    //   Manager's dialog IDs are 10000.
+    //  is open. 
     // On the Mac, the user can open multiple instances of the About dialog 
     //  by repeatedly selecting "About" menu item from the taskbar, so we 
     //  must also disable that item.  For consistency with the Mac standard, 
     //  we disable the entire taskbar menu when a modal dialog is open.
-    if (wxDynamicCast(wxWindow::FindWindowById(ID_ANYDIALOG), wxDialog)) {
+    if (wxGetApp().IsModalDialogDisplayed()) {
         is_dialog_detected = true;
     }
         

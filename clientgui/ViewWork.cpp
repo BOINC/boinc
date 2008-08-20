@@ -297,7 +297,7 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 #if (defined(_WIN32) || defined(__WXMAC__))
     pDoc->GetConnectedComputerName(strMachineName);
     if (!pDoc->IsComputerNameLocal(strMachineName)) {
-        iAnswer = ::wxMessageBox(
+        iAnswer = wxGetApp().SafeMessageBox(
             _("Are you sure you want to display graphics on a remote machine?"),
             _("Show graphics"),
             wxYES_NO | wxICON_QUESTION,
@@ -375,7 +375,7 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
            strStatus.c_str()
         );
 
-        iAnswer = ::wxMessageBox(
+        iAnswer = wxGetApp().SafeMessageBox(
             strMessage,
             _("Abort task"),
             wxYES_NO | wxICON_QUESTION,

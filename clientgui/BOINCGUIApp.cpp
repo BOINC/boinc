@@ -92,6 +92,7 @@ bool CBOINCGUIApp::OnInit() {
     m_strDefaultDesktop = wxEmptyString;
     m_strDefaultDisplay = wxEmptyString;
     m_iGUISelected = BOINC_SIMPLEGUI;
+    m_bSafeMessageBoxDisplayed = 0;
 #ifdef __WXMSW__
     m_hClientLibraryDll = NULL;
 #endif
@@ -574,10 +575,9 @@ OSErr CBOINCGUIApp::QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEven
         FSSpec			fileSpec;
  	OSStatus		anErr;
 
-        // Refuse to quit if a modal dialog is open.  Search for the dialog 
-        // by ID since all of BOINC Manager's dialog IDs are 10000.
+        // Refuse to quit if a modal dialog is open.  
         // Unfortunately, I know of no way to disable the Quit item in our Dock menu
-        if (wxDynamicCast(wxWindow::FindWindowById(ID_ANYDIALOG), wxDialog)) {
+        if (wxGetApp().IsModalDialogDisplayed()) {
             SysBeep(4);
             return userCanceledErr;
         }
@@ -830,6 +830,36 @@ int CBOINCGUIApp::ConfirmExit() {
     }
 #endif
     return 0;       // User cancelled exit
+}
+
+
+// Use this instead of wxMessageBox from all tab Views to suppress 
+// Periodic RPCs.  See comment in CMainDocument::RunPeriodicRPCs()
+// for a fuller explanation.
+int CBOINCGUIApp::SafeMessageBox(const wxString& message, const wxString& caption, long style,
+                 wxWindow *parent, int x, int y )
+{
+    int retval;
+    
+    m_bSafeMessageBoxDisplayed++;
+    
+    retval = wxMessageBox(message, caption, style, parent, x, y);
+
+    m_bSafeMessageBoxDisplayed--;
+
+    return retval;
+}
+
+
+bool CBOINCGUIApp::IsModalDialogDisplayed() {
+    if (m_bSafeMessageBoxDisplayed) return true;
+    
+    // Search for the dialog by ID since all of BOINC Manager's 
+    // dialog IDs are 10000.
+    if (wxDynamicCast(wxWindow::FindWindowById(ID_ANYDIALOG), wxDialog)) {
+        return true;
+    }
+    return false;
 }
 
 

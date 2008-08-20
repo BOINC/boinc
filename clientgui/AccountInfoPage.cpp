@@ -492,7 +492,7 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event )
         }
  
         if (bDisplayError) {
-            ::wxMessageBox(
+            wxGetApp().SafeMessageBox(
                 strMessage,
                 strTitle,
                 wxICON_ERROR | wxOK,

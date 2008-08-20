@@ -462,7 +462,7 @@ void CWizardAttachProject::_ProcessCancelEvent( wxWizardExEvent& event ) {
     bool bCancelWithoutNextPage = false;
     wxWizardPageEx* page = GetCurrentPage();
 
-    int iRetVal = ::wxMessageBox(
+    int iRetVal =  wxGetApp().SafeMessageBox(
         _("Do you really want to cancel?"), 
         _("Question"),
         wxICON_QUESTION | wxYES_NO,

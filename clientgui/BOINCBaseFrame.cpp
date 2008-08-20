@@ -240,7 +240,7 @@ void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
                     Show();
                 }
 
-                retval = ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
+                retval = SafeMessageBox(event.m_message, event.m_title, event.m_style, this);
                 if (event.m_alert_event_type == AlertProcessResponse) {
                     event.ProcessResponse(retval);
                 }
@@ -271,7 +271,7 @@ void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
             );
         }
 #elif defined (__WXMAC__)
-        // wxMessageBox() / ProcessResponse() hangs the Manager if hidden.
+        // SafeMessageBox() / ProcessResponse() hangs the Manager if hidden.
         // Currently, the only non-notification-only alert is Connection Failed,
         // which is now has logic to be displayed when Manager is maximized.
 
@@ -282,7 +282,7 @@ void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
         if (IsShown() && !event.m_notification_only) {
             int retval = 0;
 
-            retval = ::wxMessageBox(event.m_message, event.m_title, event.m_style, this);
+            retval = wxGetApp().SafeMessageBox(event.m_message, event.m_title, event.m_style, this);
             if (event.m_alert_event_type == AlertProcessResponse) {
                 event.ProcessResponse(retval);
             }
