@@ -35,6 +35,7 @@ create table bossa_job_inst (
     app_id              integer     not null,
     job_id              integer     not null,
     user_id             integer     not null,
+    batch_id            integer     not null,
     finish_time         integer     not null,
     timeout             integer     not null,
     calibration         tinyint     not null,

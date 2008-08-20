@@ -6862,3 +6862,9 @@ Charlie 20 Aug 2008
         WizardAttachProject.cpp
         common/
             wxFlatNotebook.cpp
+
+David  20 Aug 2008
+    - lib: fix typo
+
+    lib/
+        filesys.C

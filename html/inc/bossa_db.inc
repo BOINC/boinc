@@ -257,9 +257,13 @@ class BossaJobInst {
         }
 
         $now = time();
-        $clause = "(create_time, app_id, job_id, user_id, calibration) values ($now, $app->id, $job->id, $user->id, $job->calibration)";
+        $clause = "(create_time, app_id, job_id, user_id, batch_id, calibration) values ($now, $app->id, $job->id, $user->id, $job->batch_id, $job->calibration)";
         $id = BossaJobInst::insert($clause);
         return BossaJobInst::lookup_id($id);
+    }
+    function delete_aux($clause) {
+        $db = BossaDb::get();
+        return $db->delete_aux('bossa_job_inst', $clause);
     }
 
     // app-callable functions

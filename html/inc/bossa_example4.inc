@@ -56,7 +56,7 @@ function job_show($job, $inst, $user) {
         echo "
             <span class=link>
             <a href=\"javascript: void(0)\">
-            <img border=0 align = left src=images/info_icon.png>
+            <img border=0 align = left src=example4_images/info_icon.png>
             <span>
             $f->type $c
             </span>
@@ -64,7 +64,7 @@ function job_show($job, $inst, $user) {
             </span>
         ";
         echo "
-            <a href=bossa_example4.php?bji=$inst->id&action=delete&index=$i><img border=0 align=right src=images/close_button.jpg></a>
+            <a href=bossa_example4.php?bji=$inst->id&action=delete&index=$i><img border=0 align=right src=example4_images/close_button.jpg></a>
             </span>
         ";
         $i++;

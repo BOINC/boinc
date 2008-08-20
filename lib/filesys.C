@@ -494,11 +494,11 @@ int boinc_copy(const char* orig, const char* newf) {
 #elif defined(__EMX__)
     char cmd[1024];
     sprintf(cmd, "copy \"%s\" \"%s\"", orig, newf);
-    return system(cmd_esc);
+    return system(cmd);
 #else
     char cmd[1024], cmd_esc[1024];
     sprintf(cmd, "cp \"%s\" \"%s\"", orig, newf);
-    return system(cmd_esc);
+    return system(cmd);
 #endif
 }
 

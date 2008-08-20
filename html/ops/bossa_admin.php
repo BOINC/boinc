@@ -201,7 +201,7 @@ function show_batches($app_id) {
     table_header("ID", "Name", "Calibration?", "Created", "Jobs", "Completed");
     foreach ($batches as $batch) {
         table_row(
-            "$batch->id <a href=bossa_admin.php?action=show_batch&batch_id=$batch->id>(show jobs)</a>",
+            "$batch->id | <a href=bossa_admin.php?action=show_batch&batch_id=$batch->id>show jobs</a> | <a href=bossa_admin.php?action=clear_batch_confirm&batch_id=$batch->id>delete instances</a>",
             "$batch->name",
             $batch->calibration?"yes":"no",
             time_str($batch->create_time),
@@ -254,6 +254,28 @@ function show_user() {
         );
     }
     end_table();
+    page_tail();
+}
+
+function clear_batch_confirm($batch_id) {
+    page_head("Confirm delete instances");
+    echo "
+        This will permanently delete all results from this batch.
+        <p>
+        Are you sure you want to do this?
+        <p>
+        <a href=bossa_admin.php?action=clear_batch&batch_id=$batch_id>Yes</a>
+    ";
+    page_tail();
+}
+
+function clear_batch($batch_id) {
+    page_head("Deleting instances");
+    if (BossaJobInst::delete_aux("batch_id=$batch_id")) {
+        echo "Job instances deleted.";
+    } else {
+        echo "Database error.";
+    }
     page_tail();
 }
 
@@ -320,15 +342,15 @@ case 'show_user':
     show_user();
     exit;
 case 'show_batches':
-    $app_id = $_GET['app_id'];
+    $app_id = get_int('app_id');
     show_batches($app_id);
     exit;
 case 'show_batch':
-    $batch_id = $_GET['batch_id'];
+    $batch_id = get_int('batch_id');
     show_batch($batch_id);
     exit;
 case 'job_show_insts':
-    $job_id = $_GET['job_id'];
+    $job_id = get_int('job_id');
     job_show_insts($job_id);
     exit;
 case 'hide':
@@ -343,6 +365,14 @@ case 'unhide':
     if (!$app) error_page("no such app");
     $app->update("hidden=0");
     break;
+case 'clear_batch_confirm':
+    $batch_id = get_int('batch_id');
+    clear_batch_confirm($batch_id);
+    exit;
+case 'clear_batch':
+    $batch_id = get_int('batch_id');
+    clear_batch($batch_id);
+    exit;
 case '':
     show_all();
     exit;
