@@ -6837,12 +6837,13 @@ Charlie 19 Aug 2008
             UpperCase2.xcodeproj
 
 Charlie 20 Aug 2008
-    - MGR: async GUI RPCs: Suspend periodic RPCs during modal dialogs.
+    - MGR: async GUI RPCs: Create SafeMessageBox function to suspend
+        periodic RPCs during modal dialogs.
     
     clientgui/
         AccountInfoPage.cpp
         AdvancedFrame.cpp
-        BOINCBaseFrame.cpp,.h
+        BOINCBaseFrame.cpp
         BOINCDialupManager.cpp
         BOINCGUIApp.cpp,.h
         BOINCTaskBar.cpp
