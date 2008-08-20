@@ -251,7 +251,7 @@ int CLIENT_STATE::init() {
         msg_printf(NULL, MSG_INFO, strs[i].c_str());
     }
 #if 0
-    fake_cuda(coprocs, 2);
+    fake_cuda(coprocs, 1);
 #endif
     if (coprocs.coprocs.size() == 0) {
         msg_printf(NULL, MSG_INFO, "No coprocessors");

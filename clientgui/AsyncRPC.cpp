@@ -205,7 +205,7 @@ int RPCThread::ProcessRPCRequest() {
     case RPC_GET_PROJECT_STATUS1:
         if (current_request->exchangeBuf) {
             ((CC_STATE*)(current_request->arg1))->projects.clear();
-            int n = ((CC_STATE*)(current_request->exchangeBuf))->projects.size();
+            int n = (int)((CC_STATE*)(current_request->exchangeBuf))->projects.size();
             for (int i=0; i<n; i++) {
                 PROJECT* p = new PROJECT();
                 // get_project_status RPC needs master_url and will fill in everything else
@@ -225,31 +225,36 @@ int RPCThread::ProcessRPCRequest() {
         retval = (m_Doc->rpcClient).get_disk_usage(*(DISK_USAGE*)(current_request->arg1));
         break;
     case RPC_SHOW_GRAPHICS:
-        retval = (m_Doc->rpcClient).show_graphics((const char*)(current_request->arg1), 
-                                                        (const char*)(current_request->arg2), 
-                                                        *(int*)(current_request->arg3), 
-                                                        *(DISPLAY_INFO*)(current_request->arg4)
-                                                    );
+        retval = (m_Doc->rpcClient).show_graphics(
+            (const char*)(current_request->arg1), 
+            (const char*)(current_request->arg2), 
+            *(int*)(current_request->arg3), 
+            *(DISPLAY_INFO*)(current_request->arg4)
+        );
         break;
     case RPC_PROJECT_OP:
-        retval = (m_Doc->rpcClient).project_op(*(PROJECT*)(current_request->arg1), 
-                                                        (const char*)(current_request->arg2)
-                                                    );
+        retval = (m_Doc->rpcClient).project_op(
+            *(PROJECT*)(current_request->arg1), 
+            (const char*)(current_request->arg2)
+        );
         break;
     case RPC_SET_RUN_MODE:
-        retval = (m_Doc->rpcClient).set_run_mode(*(int*)(current_request->arg1), 
-                                                        *(double*)(current_request->arg2)
-                                                    );
+        retval = (m_Doc->rpcClient).set_run_mode(
+            *(int*)(current_request->arg1), 
+            *(double*)(current_request->arg2)
+        );
         break;
     case RPC_SET_NETWORK_MODE:
-        retval = (m_Doc->rpcClient).set_network_mode(*(int*)(current_request->arg1),
-                                                        *(double*)(current_request->arg2)
-                                                    );
+        retval = (m_Doc->rpcClient).set_network_mode(
+            *(int*)(current_request->arg1),
+            *(double*)(current_request->arg2)
+        );
         break;
     case RPC_GET_SCREENSAVER_TASKS:
-        retval = (m_Doc->rpcClient).get_screensaver_tasks(*(int*)(current_request->arg1),
-                                                        *(RESULTS*)(current_request->arg2)
-                                                    );
+        retval = (m_Doc->rpcClient).get_screensaver_tasks(
+            *(int*)(current_request->arg1),
+            *(RESULTS*)(current_request->arg2)
+        );
         break;
     case RPC_RUN_BENCHMARKS:
         retval = (m_Doc->rpcClient).run_benchmarks();
@@ -261,19 +266,22 @@ int RPCThread::ProcessRPCRequest() {
         retval = (m_Doc->rpcClient).get_proxy_settings(*(GR_PROXY_INFO*)(current_request->arg1));
         break;
     case RPC_GET_MESSAGES:
-        retval = (m_Doc->rpcClient).get_messages(*(int*)(current_request->arg1), 
-                                                        *(MESSAGES*)(current_request->arg2)
-                                                    );
+        retval = (m_Doc->rpcClient).get_messages(
+            *(int*)(current_request->arg1), 
+            *(MESSAGES*)(current_request->arg2)
+        );
         break;
     case RPC_FILE_TRANSFER_OP:
-        retval = (m_Doc->rpcClient).file_transfer_op(*(FILE_TRANSFER*)(current_request->arg1), 
-                                                        (const char*)(current_request->arg2)
-                                                    );
+        retval = (m_Doc->rpcClient).file_transfer_op(
+            *(FILE_TRANSFER*)(current_request->arg1), 
+            (const char*)(current_request->arg2)
+        );
         break;
     case RPC_RESULT_OP:
-        retval = (m_Doc->rpcClient).result_op(*(RESULT*)(current_request->arg1),
-                                                        (const char*)(current_request->arg2)
-                                                    );
+        retval = (m_Doc->rpcClient).result_op(
+            *(RESULT*)(current_request->arg1),
+            (const char*)(current_request->arg2)
+        );
         break;
     case RPC_GET_HOST_INFO:
         retval = (m_Doc->rpcClient).get_host_info(*(HOST_INFO*)(current_request->arg1));
@@ -312,10 +320,11 @@ int RPCThread::ProcessRPCRequest() {
         retval = (m_Doc->rpcClient).create_account_poll(*(ACCOUNT_OUT*)(current_request->arg1));
         break;
     case RPC_PROJECT_ATTACH:
-        retval = (m_Doc->rpcClient).project_attach((const char*)(current_request->arg1), 
-                                                        (const char*)(current_request->arg2), 
-                                                        (const char*)(current_request->arg3)
-                                                    );
+        retval = (m_Doc->rpcClient).project_attach(
+            (const char*)(current_request->arg1), 
+            (const char*)(current_request->arg2), 
+            (const char*)(current_request->arg3)
+        );
         break;
     case RPC_PROJECT_ATTACH_FROM_FILE:
         retval = (m_Doc->rpcClient).project_attach_from_file();
@@ -324,11 +333,12 @@ int RPCThread::ProcessRPCRequest() {
         retval = (m_Doc->rpcClient).project_attach_poll(*(PROJECT_ATTACH_REPLY*)(current_request->arg1));
         break;
     case RPC_ACCT_MGR_RPC:
-        retval = (m_Doc->rpcClient).acct_mgr_rpc((const char*)(current_request->arg1), 
-                                                        (const char*)(current_request->arg2), 
-                                                        (const char*)(current_request->arg3),
-                                                        (bool*)(current_request->arg4)
-                                                    );
+        retval = (m_Doc->rpcClient).acct_mgr_rpc(
+            (const char*)(current_request->arg1), 
+            (const char*)(current_request->arg2), 
+            (const char*)(current_request->arg3),
+            (bool*)(current_request->arg4)
+        );
         break;
     case RPC_ACCT_MGR_RPC_POLL:
         retval = (m_Doc->rpcClient).acct_mgr_rpc_poll(*(ACCT_MGR_RPC_REPLY*)(current_request->arg1));
@@ -526,10 +536,9 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 }
 
 
-void CMainDocument::OnRPCComplete(CRPCFinishedEvent& event) {
+void CMainDocument::OnRPCComplete(CRPCFinishedEvent&) {
     HandleCompletedRPC();
-    return;
- }   
+}   
     
 void CMainDocument::HandleCompletedRPC() {
     int retval;

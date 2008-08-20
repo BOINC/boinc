@@ -182,7 +182,7 @@ void* worker(void* p) {
 void main_thread(int nthreads) {
     int i;
 #ifdef _WIN32
-    BOINC_STATUS status;
+    static BOINC_STATUS status;
 #endif
     THREAD_SET thread_set;
     for (i=0; i<nthreads; i++) {
@@ -193,13 +193,13 @@ void main_thread(int nthreads) {
         boinc_fraction_done(f);
         if (thread_set.all_done()) break;
 #ifdef _WIN32
-        bool old_susp = status.suspended;
+        int old_susp = status.suspended;
         boinc_get_status(&status);
         if (status.quit_request || status.abort_request || status.no_heartbeat) {
             exit(0);
         }
         if (status.suspended != old_susp) {
-            thread_set.suspend(status.suspended);
+            thread_set.suspend(status.suspended != 0);
         }
         boinc_sleep(0.1);
 #else

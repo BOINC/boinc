@@ -6320,11 +6320,11 @@ David  7 Aug 2008
         white.css
 
 David  7 Aug 2008
-	- web: add table.noborder class for S@h
+    - web: add table.noborder class for S@h
 
-	html/user/
-		forum_forum.php
-		white.css
+    html/user/
+        forum_forum.php
+        white.css
 
 David  7 Aug 2008
     - validator: get_credit_from_wu() returns an error, rather than exiting,
@@ -6714,19 +6714,19 @@ Rom    15 Aug 2008
         BOINCx64.sm
 
 David  15 Aug 2008
-	- web: fix bugs in translation system
-		(language_select.php wasn't working)
-	- tr.po had some syntax error, and was way out of date.
-		replaced it with en.po
+    - web: fix bugs in translation system
+        (language_select.php wasn't working)
+    - tr.po had some syntax error, and was way out of date.
+        replaced it with en.po
 
-	html/
-		inc/
-			translation.inc
-		languages/translations/
-			en.po
-			tr.po
-		user/
-			language_select.php
+    html/
+        inc/
+            translation.inc
+        languages/translations/
+            en.po
+            tr.po
+        user/
+            language_select.php
 
 Rom    15 Aug 2008
     - WINBUILD: Remove 'Samples - Debug' and 'Samples - Release'
@@ -6780,7 +6780,7 @@ Rom & Charlie    18 Aug 2008
     clientscr/
         screensaver.cpp
 
-Eric	18 Aug 2008
+Eric    18 Aug 2008
     - Fixed potential memory leak and other minor problems with
       APP_INIT_DATA.
 
@@ -6888,3 +6888,17 @@ David  20 Aug 2008
         app.C
     lib/
         coproc.h
+
+David  20 Aug 2008
+    - fix compile warnings and Manager error
+
+    client/
+        client_state.C
+    clientgui/
+        AsyncRPC.cpp
+        BOINCBaseFrame.cpp
+    lib/
+        boinc_cmd.C
+        str_util.C
+    samples/multi_thread/
+        multi_thread.C

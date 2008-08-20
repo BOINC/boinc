@@ -855,8 +855,8 @@ int string_substitute(
     const char* needle, const char* target
 ) {
     int i=0, j=0;
-    int needle_len = strlen(needle);
-    int target_len = strlen(target);
+    int needle_len = (int)strlen(needle);
+    int target_len = (int)strlen(target);
     int retval = 0;
 
     while (haystack[i]) {
@@ -866,8 +866,8 @@ int string_substitute(
         }
         if (!strncmp(&haystack[i], needle, needle_len)){
             strcpy(out+j, target);
-            i += strlen(needle);
-            j += strlen(target);
+            i += (int)strlen(needle);
+            j += (int)strlen(target);
         } else {
             out[j++] = haystack[i++];
         }

@@ -217,7 +217,7 @@ void CBOINCBaseFrame::OnInitialized(CFrameEvent& WXUNUSED(event)) {
 }
 
 
-void CBOINCBaseFrame::OnRefreshView(CFrameEvent& event) {
+void CBOINCBaseFrame::OnRefreshView(CFrameEvent& ) {
 }
 
 
@@ -240,7 +240,7 @@ void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
                     Show();
                 }
 
-                retval = SafeMessageBox(event.m_message, event.m_title, event.m_style, this);
+                retval = wxGetApp().SafeMessageBox(event.m_message, event.m_title, event.m_style, this);
                 if (event.m_alert_event_type == AlertProcessResponse) {
                     event.ProcessResponse(retval);
                 }
