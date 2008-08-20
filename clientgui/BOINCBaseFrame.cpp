@@ -349,7 +349,7 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CBOINCBaseFrame::OnUpdateMessages(CFrameEvent& event) {
+void CBOINCBaseFrame::OnUpdateMessages(CFrameEvent& ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateMessages - Function Begin"));
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
