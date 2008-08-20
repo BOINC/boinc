@@ -72,11 +72,14 @@ struct COPROCS {
     std::vector<std::string> get();
     int parse(FILE*);
     COPROC* lookup(char*);
-    bool sufficient_coprocs(COPROCS&, bool verbose);
-    void reserve_coprocs(COPROCS&, void*, bool verbose);
+    bool sufficient_coprocs(COPROCS&, bool verbose, const char* prefix);
+    void reserve_coprocs(COPROCS&, void*, bool verbose, const char* prefix);
     void free_coprocs(COPROCS&, void*, bool verbose);
 
-    // used in round-robin simulator, to avoid messing w/ master copy
+    // Copy a coproc set, setting usage to zero.
+    // used in round-robin simulator and CPU scheduler,
+    // to avoid messing w/ master copy
+    //
     void clone(COPROCS& c) {
         for (unsigned int i=0; i<c.coprocs.size(); i++) {
             COPROC* cp = c.coprocs[i];

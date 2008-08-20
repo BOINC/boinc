@@ -68,12 +68,13 @@ using std::vector;
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
-bool COPROCS::sufficient_coprocs(COPROCS& needed, bool verbose) {
+bool COPROCS::sufficient_coprocs(
+    COPROCS& needed, bool verbose, const char* prefix) {
     for (unsigned int i=0; i<needed.coprocs.size(); i++) {
         COPROC* cp = needed.coprocs[i];
         COPROC* cp2 = lookup(cp->type);
         if (!cp2) {
-            msg_printf(NULL, MSG_INFO,
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
                 "Missing a %s coprocessor", cp->type
             );
             return false;
@@ -81,8 +82,8 @@ bool COPROCS::sufficient_coprocs(COPROCS& needed, bool verbose) {
         if (cp2->used + cp->count > cp2->count) {
             if (verbose) {
                 msg_printf(NULL, MSG_INFO,
-                    "insufficient coproc %s (%d + %d > %d)",
-                    cp2->type, cp2->used, cp->count, cp2->count
+                    "%sinsufficient coproc %s (%d + %d > %d)",
+                    prefix, cp2->type, cp2->used, cp->count, cp2->count
                 );
             }
             return false;
@@ -91,7 +92,9 @@ bool COPROCS::sufficient_coprocs(COPROCS& needed, bool verbose) {
     return true;
 }
 
-void COPROCS::reserve_coprocs(COPROCS& needed, void* owner, bool verbose) {
+void COPROCS::reserve_coprocs(
+    COPROCS& needed, void* owner, bool verbose, const char* prefix
+) {
     for (unsigned int i=0; i<needed.coprocs.size(); i++) {
         COPROC* cp = needed.coprocs[i];
         COPROC* cp2 = lookup(cp->type);
@@ -103,7 +106,7 @@ void COPROCS::reserve_coprocs(COPROCS& needed, void* owner, bool verbose) {
         }
         if (verbose) {
             msg_printf(NULL, MSG_INFO,
-                "reserving %d of coproc %s", cp->count, cp2->type
+                "%sreserving %d of coproc %s", prefix, cp->count, cp2->type
             );
         }
         cp2->used += cp->count;
@@ -533,28 +536,32 @@ void CLIENT_STATE::print_deadline_misses() {
     }
 }
 
+struct PROC_RESOURCES {
+    double ncpus_used;
+    double ram_left;
+    COPROCS coprocs;
+};
+
 static bool schedule_if_possible(
-    RESULT* rp, double& ncpus_used, double& ram_left, double rrs, double expected_payoff
+    RESULT* rp, PROC_RESOURCES& proc_rsc, double rrs, double expected_payoff
 ) {
     ACTIVE_TASK* atp;
 
     atp = gstate.lookup_active_task_by_result(rp);
-    if (!atp || atp->task_state() == PROCESS_UNINITIALIZED) {
-        if (!gstate.coprocs.sufficient_coprocs(
-            rp->avp->coprocs, log_flags.cpu_sched_debug)
-        ) {
-            if (log_flags.cpu_sched_debug) {
-                msg_printf(rp->project, MSG_INFO,
-                    "[cpu_sched_debug] insufficient coprocessors for %s", rp->name
-                );
-            }
-            return false;
+    if (!proc_rsc.coprocs.sufficient_coprocs(
+        rp->avp->coprocs, log_flags.cpu_sched_debug, "(CPU sched sim) ")
+    ) {
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(rp->project, MSG_INFO,
+                "[cpu_sched_debug] insufficient coprocessors for %s", rp->name
+            );
         }
+        return false;
     }
     if (atp) {
         // see if it fits in available RAM
         //
-        if (atp->procinfo.working_set_size_smoothed > ram_left) {
+        if (atp->procinfo.working_set_size_smoothed > proc_rsc.ram_left) {
             if (log_flags.cpu_sched_debug) {
                 msg_printf(rp->project, MSG_INFO,
                     "[cpu_sched_debug]  %s misses deadline but too large: %.2fMB",
@@ -568,20 +575,28 @@ static bool schedule_if_possible(
         
         if (gstate.retry_shmem_time > gstate.now) {
             if (atp->app_client_shm.shm == NULL) {
+                if (log_flags.cpu_sched_debug) {
+                    msg_printf(rp->project, MSG_INFO,
+                        "[cpu_sched_debug] waiting for shared mem: %s",
+                        rp->name
+                    );
+                }
                 atp->needs_shmem = true;
                 return false;
             }
             atp->needs_shmem = false;
         }
-        ram_left -= atp->procinfo.working_set_size_smoothed;
+        proc_rsc.ram_left -= atp->procinfo.working_set_size_smoothed;
     }
     if (log_flags.cpu_sched_debug) {
         msg_printf(rp->project, MSG_INFO,
-            "[cpu_sched_debug] scheduling %s",
-            rp->name
+            "[cpu_sched_debug] scheduling %s", rp->name
         );
     }
-    ncpus_used += rp->avp->avg_ncpus;
+    proc_rsc.coprocs.reserve_coprocs(
+        rp->avp->coprocs, rp, log_flags.cpu_sched_debug, "(CPU sched sim) "
+    );
+    proc_rsc.ncpus_used += rp->avp->avg_ncpus;
     rp->project->anticipated_debt -= (rp->project->resource_share / rrs) * expected_payoff;
     return true;
 }
@@ -595,7 +610,11 @@ void CLIENT_STATE::schedule_cpus() {
     double expected_payoff;
     unsigned int i;
     double rrs = runnable_resource_share();
-    double ncpus_used = 0;
+    PROC_RESOURCES proc_rsc;
+
+    proc_rsc.ncpus_used = 0;
+    proc_rsc.ram_left = available_ram();
+    proc_rsc.coprocs.clone(gstate.coprocs);
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] schedule_cpus(): start");
@@ -629,19 +648,18 @@ void CLIENT_STATE::schedule_cpus() {
 
     expected_payoff = global_prefs.cpu_scheduling_period();
     ordered_scheduled_results.clear();
-    double ram_left = available_ram();
 
     // First choose results from projects with P.deadlines_missed>0
     //
 #ifdef SIM
     if (!cpu_sched_rr_only) {
 #endif
-    while (ncpus_used < ncpus) {
+    while (proc_rsc.ncpus_used < ncpus) {
         rp = earliest_deadline_result();
         if (!rp) break;
         rp->already_selected = true;
 
-        if (!schedule_if_possible(rp, ncpus_used, ram_left, rrs, expected_payoff)) continue;
+        if (!schedule_if_possible(rp, proc_rsc, rrs, expected_payoff)) continue;
 
         rp->project->deadlines_missed--;
         rp->edf_scheduled = true;
@@ -653,11 +671,11 @@ void CLIENT_STATE::schedule_cpus() {
 
     // Next, choose results from projects with large debt
     //
-    while (ncpus_used < ncpus) {
+    while (proc_rsc.ncpus_used < ncpus) {
         assign_results_to_projects();
         rp = largest_debt_project_best_result();
         if (!rp) break;
-        if (!schedule_if_possible(rp, ncpus_used, ram_left, rrs, expected_payoff)) continue;
+        if (!schedule_if_possible(rp, proc_rsc, rrs, expected_payoff)) continue;
         ordered_scheduled_results.push_back(rp);
     }
 
@@ -998,7 +1016,7 @@ bool CLIENT_STATE::enforce_schedule() {
             switch (atp->task_state()) {
             case PROCESS_UNINITIALIZED:
                 if (!coprocs.sufficient_coprocs(
-                    atp->app_version->coprocs, log_flags.cpu_sched_debug
+                    atp->app_version->coprocs, log_flags.cpu_sched_debug, ""
                 )){
                     continue;
                 }
@@ -1098,10 +1116,14 @@ struct RR_SIM_STATUS {
     COPROCS coprocs;
 
     inline bool can_run(RESULT* rp) {
-        return coprocs.sufficient_coprocs(rp->avp->coprocs, log_flags.rr_simulation);
+        return coprocs.sufficient_coprocs(
+            rp->avp->coprocs, log_flags.rr_simulation, ""
+        );
     }
     inline void activate(RESULT* rp) {
-        coprocs.reserve_coprocs(rp->avp->coprocs, rp, log_flags.rr_simulation);
+        coprocs.reserve_coprocs(
+            rp->avp->coprocs, rp, log_flags.rr_simulation, ""
+        );
         active.push_back(rp);
     }
     // remove *rpbest from active set,
