@@ -24,6 +24,10 @@
         <user_friendly_name>Mac OS 10.4 or later running on Intel</user_friendly_name>
     </platform>
     <platform>
+        <name>x86_64-apple-darwin</name>
+        <user_friendly_name>Intel 64-bit Mac OS 10.5 or later</user_friendly_name>
+    </platform>
+    <platform>
         <name>sparc-sun-solaris2.7</name>
         <user_friendly_name>Solaris 2.7 running on a SPARC-compatible CPU</user_friendly_name>
     </platform>

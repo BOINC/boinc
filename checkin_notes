@@ -6902,3 +6902,22 @@ David  20 Aug 2008
         str_util.C
     samples/multi_thread/
         multi_thread.C
+
+Rom    20 Aug 2008
+    - web: fix a parsing error in sample_index.php which would
+        cause new projects to report an error when they first
+        attempt to start up.
+    - tools: Add the missing x86_64-apple-darwin platform type
+        used for 64-bit Mac OS X applications.  I used the
+        description from the alpha project.
+    - MGR: delete obselete make files.
+    
+
+    clientgui/
+        Makefile.linux.fedora
+        Makefile.linux.suse
+        Makefile.linux.ubuntu
+    html/user/
+        sample_index.php
+    tools/
+        project.xml
