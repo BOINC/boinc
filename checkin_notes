@@ -6935,3 +6935,9 @@ David  20 Aug 2008
             create_forums.php
         user/
             team_search.php
+
+Charlie 20 Aug 2008
+    - lib: remove unused variable char cmd_esc[1024].
+
+    lib/
+        filesys.C
