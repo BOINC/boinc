@@ -6824,9 +6824,14 @@ Charlie 19 Aug 2008
     - lib: changed boinc_copy() to enclose path strings in quotes instead 
         of escaping spaces.
     - Mac lib: set visibility of symbols to hidden by default.
+    - Mac Samples: adjust XCode project for new SVN tree layout, set 
+        visibility of symbols to hidden by default.
         
     lib/
         filesys.C
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+    samples/
+        mac_build/
+            UpperCase2.xcodeproj
