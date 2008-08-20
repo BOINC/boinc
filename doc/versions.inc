@@ -285,7 +285,6 @@ $linuxcompat = array(
     "description"=>"For older Linux versions, both x86 and x64; command-line interface only",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-        $l638,
         $l6215,
         $l51045,
         $l5816,
@@ -297,7 +296,6 @@ $linux = array(
     "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-        $l638ubuntu,
         $l6215ubuntu,
         $l51045ubuntu,
     )
@@ -308,7 +306,6 @@ $linuxx64 = array(
     "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
-        $l638ubuntux64,
         $l6215ubuntux64,
         $l51045ubuntux64,
     )
