@@ -84,7 +84,8 @@ AsyncRPC::~AsyncRPC() {}
 
 
 int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2, 
-                            void *arg3, void *arg4, bool hasPriority) {
+    void *arg3, void *arg4, bool hasPriority
+) {
     ASYNC_RPC_REQUEST request;
     int retval = 0;
 
@@ -198,9 +199,10 @@ int RPCThread::ProcessRPCRequest() {
         retval = (m_Doc->rpcClient).get_simple_gui_info(*(SIMPLE_GUI_INFO*)(current_request->arg1));
         break;
     case RPC_GET_SIMPLE_GUI_INFO2:
-        retval = (m_Doc->rpcClient).get_simple_gui_info(*(CC_STATE*)(current_request->arg1), 
-                                                            *(RESULTS*)(current_request->arg2)
-                                                        );
+        retval = (m_Doc->rpcClient).get_simple_gui_info(
+            *(CC_STATE*)(current_request->arg1), 
+            *(RESULTS*)(current_request->arg2)
+        );
         break;
     case RPC_GET_PROJECT_STATUS1:
         if (current_request->exchangeBuf) {
@@ -362,9 +364,10 @@ int RPCThread::ProcessRPCRequest() {
         retval = (m_Doc->rpcClient).get_global_prefs_working(*(std::string*)(current_request->arg1));
         break;
     case RPC_GET_GLOBAL_PREFS_WORKING_STRUCT:
-        retval = (m_Doc->rpcClient).get_global_prefs_working_struct(*(GLOBAL_PREFS*)(current_request->arg1), 
-                                                        *(GLOBAL_PREFS_MASK*)(current_request->arg2)
-                                                    );
+        retval = (m_Doc->rpcClient).get_global_prefs_working_struct(
+            *(GLOBAL_PREFS*)(current_request->arg1), 
+            *(GLOBAL_PREFS_MASK*)(current_request->arg2)
+        );
         break;
     case RPC_GET_GLOBAL_PREFS_OVERRIDE:
         retval = (m_Doc->rpcClient).get_global_prefs_override(*(std::string*)(current_request->arg1));
@@ -373,14 +376,16 @@ int RPCThread::ProcessRPCRequest() {
          retval = (m_Doc->rpcClient).set_global_prefs_override(*(std::string*)(current_request->arg1));
         break;
     case RPC_GET_GLOBAL_PREFS_OVERRIDE_STRUCT:
-        retval = (m_Doc->rpcClient).get_global_prefs_override_struct(*(GLOBAL_PREFS*)(current_request->arg1), 
-                                                        *(GLOBAL_PREFS_MASK*)(current_request->arg2)
-                                                    );
+        retval = (m_Doc->rpcClient).get_global_prefs_override_struct(
+            *(GLOBAL_PREFS*)(current_request->arg1), 
+            *(GLOBAL_PREFS_MASK*)(current_request->arg2)
+        );
         break;
     case RPC_SET_GLOBAL_PREFS_OVERRIDE_STRUCT:
-        retval = (m_Doc->rpcClient).set_global_prefs_override_struct(*(GLOBAL_PREFS*)(current_request->arg1), 
-                                                        *(GLOBAL_PREFS_MASK*)(current_request->arg2)
-                                                    );
+        retval = (m_Doc->rpcClient).set_global_prefs_override_struct(
+            *(GLOBAL_PREFS*)(current_request->arg1), 
+            *(GLOBAL_PREFS_MASK*)(current_request->arg2)
+        );
         break;
     case RPC_SET_DEBTS:
         retval = (m_Doc->rpcClient).set_debts(*(std::vector<PROJECT>*)(current_request->arg1));

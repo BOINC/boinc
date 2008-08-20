@@ -6921,3 +6921,17 @@ Rom    20 Aug 2008
         sample_index.php
     tools/
         project.xml
+
+David  20 Aug 2008
+    - make_project: fix --test_app
+    - fix formatting (no long indents)
+
+    clientgui/
+        AsynchRPC.cpp
+    tools/
+        make_project
+    html/
+        ops/
+            create_forums.php
+        user/
+            team_search.php

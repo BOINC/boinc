@@ -149,7 +149,7 @@ function search($params) {
 $user = get_logged_in_user(false);
 if (isset($_GET['submit'])) {
     $params = null;
-    $params->keywords = get_str('keywords');
+    $params->keywords = get_str('keywords', true);
     $params->country = $_GET['country'];
     $params->type = $_GET['type'];
     $params->active = get_str('active', true);

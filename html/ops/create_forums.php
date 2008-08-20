@@ -16,7 +16,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Create message boards.
 // RUN THIS AS A SCRIPT, NOT VIA A BROWSER.
+// TODO: rewrite this using the DB abstraction layer
 // First, edit the set of forums (below) and remove the following line
 exit();
 
@@ -61,6 +63,6 @@ create_forum($catid, 3, "Getting started", "Creating your account");
 create_forum($catid, 4, "Preferences", "Using preferences");
 create_forum($catid, 5, "Wish list", "What new features would you like to see?");
 create_forum($catid, 6, "Web site", "Issues involving this web site");
-admin_page_tail();
+
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>
