@@ -6963,3 +6963,11 @@ Rom    21 Aug 2008
     win_build/installerv2/redist/Windows/src/boinccas/
         CAGrantBOINCMasterRights.cpp
         CAGrantBOINCProjectRights.cpp
+
+Rom    21 Aug 2008
+    - Tag for 6.3.9 release, all platforms
+      boinc_core_release_6_3_9
+
+    /
+        configure.ac
+        version.h
