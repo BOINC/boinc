@@ -1013,11 +1013,11 @@ int GUI_RPC_CONN::handle_rpc() {
 
     mf.printf("<boinc_gui_rpc_reply>\n");
     if (match_tag(request_msg, "<auth1")) {
-        if (got_auth1) return ERR_AUTHENTICATOR;
+        if (got_auth1 && auth_needed) return ERR_AUTHENTICATOR;
         handle_auth1(mf);
         got_auth1 = true;
     } else if (match_tag(request_msg, "<auth2")) {
-        if (!got_auth1 || got_auth2) return ERR_AUTHENTICATOR;
+        if (!got_auth1 || got_auth2 && auth_needed) return ERR_AUTHENTICATOR;
         retval = handle_auth2(request_msg, mf);
         got_auth2 = true;
     } else if (auth_needed && !is_local) {

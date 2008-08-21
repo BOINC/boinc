@@ -6981,3 +6981,12 @@ David  21 Aug 2008
     sched/
         main.C
         validator.C,h
+
+David  21 Aug 2008
+    - client: in GUI RPC, allow <auth1> and <auth2> if the peer
+        is already authenticated.
+        This is needed to make BOINCView work;
+        it authenticates before every operation for some reason.
+
+    client/
+        gui_rpc_server_ops.C
