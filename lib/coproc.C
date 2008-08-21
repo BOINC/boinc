@@ -150,19 +150,29 @@ const char* COPROC_CUDA::get(COPROCS& coprocs) {
         return "Library doesn't have cudaGetDeviceProperties()";
     }
 #endif
-    bool found = false;
+
+    // NOTE: our design is flawed:
+    // there's no provision for having two coprocs of type CUDA.
+    // So on systems with two GPUs (possibly of different hardware type)
+    // we have to count them as two of the same
+    //
     (*__cudaGetDeviceCount)(&count);
+    int real_count = 0;
+    COPROC_CUDA cc, cc2;
     for (int i=0; i<count; i++) {
-        COPROC_CUDA* cc = new COPROC_CUDA;
-        (*__cudaGetDeviceProperties)(&cc->prop, i);
-        if (cc->prop.major >= 1) {
-            found = true;
-            cc->count = 1;
-            strcpy(cc->type, "CUDA");
-            coprocs.coprocs.push_back(cc);
+        (*__cudaGetDeviceProperties)(&cc.prop, i);
+        if (cc.prop.major >= 1) {       // major == 0 means emulation
+            cc2 = cc;
+            real_count++;
         }
     }
-    if (!found) {
+    if (real_count) {
+        COPROC_CUDA* ccp = new COPROC_CUDA;
+        *ccp = cc2;
+        ccp->count = real_count;
+        strcpy(ccp->type, "CUDA");
+        coprocs.coprocs.push_back(ccp);
+    } else {
         return "No CUDA devices found";
     }
     return "CUDA devices found";

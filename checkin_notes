@@ -6941,3 +6941,17 @@ Charlie 20 Aug 2008
 
     lib/
         filesys.C
+
+David  20 Aug 2008
+    - client: if the host has two CUDA GPUs,
+        they were being recorded as two COPROC structures of type CUDA.
+        Unfortunately, the logic doesn't handle this correctly;
+        it expects there to be a single structure with count==2.
+        Change things to do this.
+
+        Unfortunately this means that if the two GPUs are different,
+        that difference will get lost.
+        This is a design flaw, and would take some work to fix.
+
+    lib/
+        coproc.C
