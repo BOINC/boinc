@@ -6955,3 +6955,11 @@ David  20 Aug 2008
 
     lib/
         coproc.C
+
+Rom    21 Aug 2008
+    - WINSETUP: For safety sake, disable the logon via terminal services
+        user right for both boinc_master and boinc_project.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAGrantBOINCMasterRights.cpp
+        CAGrantBOINCProjectRights.cpp

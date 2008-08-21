@@ -137,7 +137,18 @@ UINT CAGrantBOINCProjectRights::OnExecution()
 
         GrantUserRight(pSid, L"SeDenyBatchLogonRight", FALSE);
         GrantUserRight(pSid, L"SeDenyServiceLogonRight", FALSE);
-        GrantUserRight(pSid, L"SeDenyRemoteInteractiveLogonRight", FALSE);
+
+        if (!GrantUserRight(pSid, L"SeDenyRemoteInteractiveLogonRight", TRUE))
+        {
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                NULL,
+                _T("Failed call to GrantUserRight - SeDenyRemoteInteractiveLogonRight")
+            );
+        }
 
         // Privileges
         GrantUserRight(pSid, L"SeTcbPrivilege", FALSE);
