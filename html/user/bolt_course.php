@@ -62,7 +62,8 @@ function show_view($view) {
     if ($view->result_id) {
         $result = BoltResult::lookup_id($view->result_id);
         $qs = str_replace("action=answer", "action=answer_page", $result->response);
-        $x = "<br>Score: $result->score
+        $score = number_format($result->score*100);
+        $x = "<br>Score: $score%
             <br><a href=bolt_sched.php?$qs>Answer page</a>";
     }
     echo "<tr>
@@ -83,7 +84,7 @@ function show_views() {
     global $user;
     global $course;
 
-    $views = BoltView::enum("user_id=$user->id and course_id=$course->id order by id desc");
+    $views = BoltView::enum("user_id=$user->id and course_id=$course->id order by id");
     start_table();
 
     table_header("ID", "Time", "Duration", "Item", "Mode",

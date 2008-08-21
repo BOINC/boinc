@@ -168,9 +168,13 @@ class BoltEnrollment {
         $db = BoltDb::get();
         $db->update_aux('bolt_enrollment', "$clause where user_id=$this->user_id and course_id=$this->course_id");
     }
-    function delete($user_id, $course_id) {
+    static function delete($user_id, $course_id) {
         $db = BoltDb::get();
         $db->delete_aux('bolt_enrollment', "user_id=$user_id and course_id=$course_id");
+    }
+    static function delete_aux($clause) {
+        $db = BoltDb::get();
+        $db->delete_aux('bolt_enrollment', $clause);
     }
 }
 
@@ -193,6 +197,10 @@ class BoltView {
         $db = BoltDb::get();
         return $db->enum('bolt_view', 'BoltView', $clause);
     }
+    static function delete_aux($clause) {
+        $db = BoltDb::get();
+        $db->delete_aux('bolt_view', $clause);
+    }
 }
 
 class BoltResult {
@@ -210,6 +218,10 @@ class BoltResult {
         $db = BoltDb::get();
         return $db->enum('bolt_result', 'BoltResult', $clause);
     }
+    static function delete_aux($clause) {
+        $db = BoltDb::get();
+        $db->delete_aux('bolt_result', $clause);
+    }
 }
 
 class BoltXsetResult {
@@ -226,6 +238,10 @@ class BoltXsetResult {
     static function enum($clause) {
         $db = BoltDb::get();
         return $db->enum('bolt_xset_result', 'BoltXsetResult', $clause);
+    }
+    static function delete_aux($clause) {
+        $db = BoltDb::get();
+        $db->delete_aux('bolt_xset_result', $clause);
     }
 }
 
@@ -256,6 +272,10 @@ class BoltRefreshRec {
         $db = BoltDb::get();
         $db->update($this, 'bolt_refresh', $clause);
     }
+    static function delete_aux($clause) {
+        $db = BoltDb::get();
+        $db->delete_aux('bolt_refresh', $clause);
+    }
 }
 
 class BoltSelectFinished {
@@ -267,6 +287,10 @@ class BoltSelectFinished {
         $db = BoltDb::get();
         return $db->enum('bolt_select_finished', 'BoltSelectFinished', $clause);
     }
+    static function delete_aux($clause) {
+        $db = BoltDb::get();
+        $db->delete_aux('bolt_select_finished', $clause);
+    }
 }
 
 class BoltQuestion {
@@ -277,6 +301,10 @@ class BoltQuestion {
     static function enum($clause) {
         $db = BoltDb::get();
         return $db->enum('bolt_question', 'BoltQuestion', $clause);
+    }
+    static function delete_aux($clause) {
+        $db = BoltDb::get();
+        $db->delete_aux('bolt_question', $clause);
     }
 }
 

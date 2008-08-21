@@ -51,7 +51,7 @@ foreach ($courses as $course) {
             ";
         }
         $status .= "<br><a href=bolt_sched.php?course_id=$course->id&action=start>Restart</a>
-            <br><a href=bolt_course.php?course_id=$course->id>History</a>
+            | <a href=bolt_course.php?course_id=$course->id>History</a>
         ";
     } else {
         $status = "

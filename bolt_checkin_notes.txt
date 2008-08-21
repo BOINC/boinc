@@ -206,3 +206,16 @@ David  August 15 2008
             bolt_compare.php (moved here from user/)
         user/
             bolt_sched.php
+
+David  August 15 2008
+    - Add admin "clear data" function
+
+    html/
+        inc/
+            bolt_util.inc
+            bolt_db.inc
+        ops/
+            bolt_admin.php
+        user/
+            bolt.php
+            bolt_sched.php

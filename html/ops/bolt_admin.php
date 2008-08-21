@@ -34,6 +34,7 @@ function show_course($course) {
     } else {
         show_button("bolt_admin.php?action=hide&course_id=$course->id", "Hide", "Hide this course");
     }
+    show_button("bolt_admin.php?action=clear_confirm&course_id=$course->id", "Clear data", "Clear student data for this course");
     echo "</td></tr>";
 }
 
@@ -86,6 +87,37 @@ function show_all() {
         <a href=bolt_admin.php?action=add_course_form>Add course</a>
         <p>
         <a href=bolt_admin.php?action=update_user_form>User settings</a>
+    ";
+    admin_page_tail();
+}
+
+function clear_confirm() {
+    global $course_id;
+
+    admin_page_head("Bolt course administration");
+    echo "This will clear all student data for this course.
+        This is irrevocable.
+        Are you sure you want to do this?
+        <p>
+        <a href=bolt_admin.php?action=clear&course_id=$course_id>Yes</a>
+    ";
+    admin_page_tail();
+}
+
+function clear() {
+    global $course_id;
+
+    admin_page_head("Deleting course data");
+    BoltEnrollment::delete_aux("course_id = $course_id");
+    BoltView::delete_aux("course_id = $course_id");
+    BoltResult::delete_aux("course_id = $course_id");
+    BoltXsetResult::delete_aux("course_id = $course_id");
+    BoltSelectFinished::delete_aux("course_id = $course_id");
+    BoltRefreshRec::delete_aux("course_id = $course_id");
+    BoltQuestion::delete_aux("course_id = $course_id");
+    
+    echo "
+        Course data deleted.
     ";
     admin_page_tail();
 }
@@ -151,6 +183,12 @@ case 'unhide':
     if (!$course) error_page("no such course");
     $course->update("hidden=0");
     Header('Location: bolt_admin.php');
+    break;
+case 'clear_confirm':
+    clear_confirm();
+    break;
+case 'clear':
+    clear();
     break;
 case '':
     show_all();

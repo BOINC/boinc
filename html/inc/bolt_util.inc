@@ -461,12 +461,12 @@ function empty_row() {
 
 function show_refresh($r) {
     echo "<tr>
-        <td>".time_str($r->create_time)."</td>
-        <td>$r->name
-            <a href=bolt_sched.php?course_id=$r->course_id&refresh_id=$r->id&action=start>Start</a>
-            <a href=bolt_sched.php?course_id=$r->course_id&refresh_id=$r->id&action=resume>Resume</a>
-        </td>
+        <td>$r->name</td>
         <td>".time_str($r->due_time)."</td>
+        <td>
+            <a href=bolt_sched.php?course_id=$r->course_id&refresh_id=$r->id&action=start>Start</a>
+            | <a href=bolt_sched.php?course_id=$r->course_id&refresh_id=$r->id&action=resume>Resume</a>
+        </td>
         </tr>
     ";
 }
@@ -478,7 +478,7 @@ function show_refreshes() {
     $refreshes = BoltRefreshRec::enum("user_id=$user->id and course_id=$course->id");
     if (!count($refreshes)) return;
     start_table();
-    table_header("Created", "Unit", "Due");
+    echo "<tr><th colspan=3>Refresh schedule</th></tr>\n";
     foreach ($refreshes as $r) {
         show_refresh($r);
     }

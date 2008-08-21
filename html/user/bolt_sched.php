@@ -288,7 +288,7 @@ function start_repeat() {
     global $refresh;
 
     $xset_result = BoltXsetResult::lookup_id($refresh->xset_result_id);
-    if (!$xset_result) error_page("result not found");
+    if (!$xset_result) error_page("Exercise set result not found");
     $view = BoltView::lookup_id($xset_result->view_id);
     if (!$view) error_page("view not found");
     $iter = new BoltIter($course_doc);
