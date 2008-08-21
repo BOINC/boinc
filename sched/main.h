@@ -57,7 +57,6 @@
 #define DELAY_MAX (2*86400)
     // maximum delay request
 
-extern SCHED_CONFIG config;
 extern GUI_URLS gui_urls;
 extern PROJECT_FILES project_files;
 extern key_t sema_key;

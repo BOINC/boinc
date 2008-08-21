@@ -6971,3 +6971,13 @@ Rom    21 Aug 2008
     /
         configure.ac
         version.h
+
+David  21 Aug 2008
+    - validator: add a global variable WORKUNIT* g_wup;
+        that points to the workunit being processed;
+        you can use this in your init_result(), compare_result() etc.
+        if you need it.
+
+    sched/
+        main.C
+        validator.C,h

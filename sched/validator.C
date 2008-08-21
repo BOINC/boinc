@@ -50,6 +50,7 @@ using namespace std;
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
+#include "validator.h"
 #include "validate_util.h"
 
 #define LOCKFILE "validate.out"
@@ -87,6 +88,7 @@ bool grant_claimed_credit = false;
 bool update_credited_job = false;
 bool credit_from_wu = false;
 bool simulation = false;
+WORKUNIT* g_wup;
 
 void signal_handler(int) {
     log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
@@ -283,6 +285,7 @@ int handle_wu(
     unsigned int i;
 
     WORKUNIT& wu = items[0].wu;
+    g_wup = &wu;
 
     if (wu.canonical_resultid) {
         log_messages.printf(MSG_NORMAL,

@@ -17,8 +17,13 @@
 
 #include "sched_config.h"
 
-extern SCHED_CONFIG config;
-
 extern double max_granted_credit;
+    // the -max_granted_credit cmdline arg, or 0
 extern double max_claimed_credit;
+    // the -max_claimed_credit cmdline arg, or 0
 extern bool grant_claimed_credit;
+    // the -grant_claimed_credit cmdline arg, or false
+
+extern WORKUNIT* g_wup;
+    // A pointer to the WU currently being processed;
+    // you can use this in your init_result() etc. functions
