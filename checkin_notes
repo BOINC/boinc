@@ -4399,3 +4399,9 @@ Charlie 19 Aug 2008
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    22 Aug 2008
+    - client: coprocessor support isn't supported in 6.2.
+    
+    client/
+        client_state.C

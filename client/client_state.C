@@ -233,6 +233,7 @@ int CLIENT_STATE::init() {
     set_ncpus();
     show_host_info();
 
+#if 0
     coprocs.get();
 #if 0
     fake_cuda(coprocs);
@@ -245,6 +246,7 @@ int CLIENT_STATE::init() {
             msg_printf(NULL, MSG_INFO, "Coprocessor: %s (%d)", c->type, c->count);
         }
     }
+#endif
 
     // Check to see if we can write the state file.
     //
