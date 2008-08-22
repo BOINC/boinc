@@ -6990,3 +6990,9 @@ David  21 Aug 2008
 
     client/
         gui_rpc_server_ops.C
+
+David  21 Aug 2008
+    - client: if <app_send_msg> is set, log heartbeats too
+
+    client/
+        app_control.C
