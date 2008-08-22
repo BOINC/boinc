@@ -101,12 +101,15 @@ struct cudaDeviceProp {
   size_t memPitch;
   int    maxThreadsPerBlock;
   int    maxThreadsDim[3];
-  int    maxGridSize[3];
-  size_t totalConstMem;
+  int    maxGridSize[3]; 
+  int    clockRate;
+  size_t totalConstMem; 
   int    major;
   int    minor;
-  int    clockRate;
   size_t textureAlignment;
+  int    deviceOverlap;
+  int    multiProcessorCount;
+  int    __cudaReserved[40];
 };
 
 struct COPROC_CUDA : public COPROC {

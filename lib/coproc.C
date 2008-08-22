@@ -99,26 +99,37 @@ COPROC* COPROCS::lookup(char* type) {
     return NULL;
 }
 
+#ifdef _WIN32
+
+
+#endif
+
 const char* COPROC_CUDA::get(COPROCS& coprocs) {
     int count;
 
 #ifdef _WIN32
-    int (__stdcall* __cudaGetDeviceCount)(int*);
-    int (__stdcall* __cudaGetDeviceProperties)(cudaDeviceProp*, int);
+
+    typedef int (__stdcall *PCGDC)(int *count);
+    typedef int (__stdcall *PCGDP)(struct cudaDeviceProp *prop, int device);
+
+    PCGDC __cudaGetDeviceCount = NULL;
+    PCGDP __cudaGetDeviceProperties = NULL;
+
     HMODULE cudalib = LoadLibrary("cudart.dll");
     if (!cudalib) {
         return "Can't load library cudart.dll";
     }
-    __cudaGetDeviceCount = (int(__stdcall*)(int*)) GetProcAddress(
-        cudalib, "cudaGetDeviceCount"
-    );
-    if(!__cudaGetDeviceCount) {
+
+    __cudaGetDeviceCount = (PCGDC)GetProcAddress( cudalib, "cudaGetDeviceCount" );
+    if (!__cudaGetDeviceCount) {
         return "Library doesn't have cudaGetDeviceCount()";
     }
-    __cudaGetDeviceProperties = (int(__stdcall*)(cudaDeviceProp*, int)) GetProcAddress( cudalib, "cudaGetDeviceProperties" );
+
+    __cudaGetDeviceProperties = (PCGDP)GetProcAddress( cudalib, "cudaGetDeviceProperties" );
     if (!__cudaGetDeviceProperties) {
         return "Library doesn't have cudaGetDeviceProperties()";
     }
+
 #else
     void* cudalib;
     void (*__cudaGetDeviceCount)(int*);

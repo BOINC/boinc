@@ -6996,3 +6996,23 @@ David  21 Aug 2008
 
     client/
         app_control.C
+
+Rom    22 Aug 2008
+    - client: Both Windows x86 and Windows x64 CUDA Runtime libraries
+        should be 2.0.  This avoids crashes related to data structure
+        changes in the Runtime.
+        
+    coprocs/CUDA/mswin/Win32/Debug/bin/
+        cudart.dll
+    coprocs/CUDA/mswin/Win32/Release/bin/
+        cudart.dll
+    coprocs/CUDA/mswin/Win32/ReleaseSigned/bin/
+        cudart.dll
+    coprocs/CUDA/mswin/x64/Debug/bin/
+        cudart.dll
+    coprocs/CUDA/mswin/x64/Release/bin/
+        cudart.dll
+    coprocs/CUDA/mswin/x64/ReleaseSigned/bin/
+        cudart.dll
+    lib/
+        coproc.C, .h
