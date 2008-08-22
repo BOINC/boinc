@@ -418,7 +418,20 @@ void ACTIVE_TASK_SET::send_heartbeats() {
 			"<max_wss>%f</max_wss>",
 			atp->procinfo.working_set_size, ar
 		);
-        atp->app_client_shm.shm->heartbeat.send_msg(buf);
+        bool sent = atp->app_client_shm.shm->heartbeat.send_msg(buf);
+        if (log_flags.app_msg_send) {
+            if (sent) {
+                msg_printf(atp->result->project, MSG_INFO,
+                    "[app_msg_send] sent heartbeat to %s",
+                    atp->result->name
+                );
+            } else {
+                msg_printf(atp->result->project, MSG_INFO,
+                    "[app_msg_send] failed to send heartbeat to %s",
+                    atp->result->name
+                );
+            }
+        }
     }
 }
 
