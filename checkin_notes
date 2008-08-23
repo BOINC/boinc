@@ -7016,3 +7016,12 @@ Rom    22 Aug 2008
         cudart.dll
     lib/
         coproc.C, .h
+
+Rom    23 Aug 2008
+    - Tag for 6.3.10 release, all platforms
+      boinc_core_release_6_3_10
+
+    /
+        configure.ac
+        version.h
+
