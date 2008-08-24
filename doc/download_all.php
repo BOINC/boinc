@@ -136,7 +136,7 @@ function show_platform($short_name, $p, $dev) {
 function show_platform_xml($short_name, $p, $dev) {
     foreach ($p["versions"] as $i=>$v) {
         if (!$dev && is_dev($v)) continue;
-        //if (!$dev && ((time() - strtodate($v["date"])) > 86400*30) continue;
+        //if (!$dev && ((time() - strtodate($v["date"])) >= 86400*30) continue;
         show_version_xml($v, $p);
     }
 }
@@ -163,16 +163,13 @@ if ($pname && $version) {
 
 if ($xml) {
     header('Content-type: text/xml');
-    echo "
-<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
-    <versions>
+    echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
+<versions>
 ";
     foreach($platforms as $short_name=>$p) {
         show_platform_xml($short_name, $p, $dev);
     }
-    echo "
-    </versions>\n
-";
+    echo "</versions>\n";
 } else {
     if ($pname) {
         $p = $platforms[$pname];
