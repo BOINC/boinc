@@ -166,13 +166,15 @@ if ($pname && $version) {
 
 if ($xml) {
     header('Content-type: text/xml');
-    echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
-<versions>
+    echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n
+<versions>\n
 ";
     foreach($platforms as $short_name=>$p) {
         show_platform_xml($short_name, $p, $dev);
     }
-    echo "</versions>\n";
+    echo "
+</versions>\n
+";
 } else {
     if ($pname) {
         $p = $platforms[$pname];
