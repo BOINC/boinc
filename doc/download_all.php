@@ -136,7 +136,7 @@ function show_platform($short_name, $p, $dev) {
 function show_platform_xml($short_name, $p, $dev) {
     foreach ($p["versions"] as $i=>$v) {
         if (!$dev && is_dev($v)) continue;
-        if (!$dev && ((time() - strtodate($v["date"])) > 86400*30) continue;
+        //if (!$dev && ((time() - strtodate($v["date"])) > 86400*30) continue;
         show_version_xml($v, $p);
     }
 }
