@@ -7025,3 +7025,39 @@ Rom    23 Aug 2008
         configure.ac
         version.h
 
+Rom    24 Aug 2008
+    - win_build: Finally figured out what the problem was with how I
+        was previously configuring pre-compiled headers.  Visual Studio
+        automaticaaly specifies the stdafx.cpp as the source file that
+        is supposed to create the pre-compiled header for auto generated
+        project files.  The project is just configured to use a pre-compiled
+        header.  All I had done in the past was enable pre-compiled
+        headers, but didn't create a stub cpp file to create the pre-compiled
+        header with.  Now all the client projects are configured to use
+        pre-compiled headers.  BOINC now compiles in 20 seconds. BOINC Manager
+        in a minute. Everything else builds in 5 seconds or less.
+        
+        After sync'ing up Rebuild the solution.
+        
+    lib/
+        boinc_win.cpp
+    win_build/
+        boinc.sln
+        boinc_cli_curl.vcproj
+        boinc_dll.vcproj
+        boinc_ss.vcproj
+        boinccmd.vcproj
+        boincmgr_curl.vcproj
+        boinctray.vcproj
+        libboinc.vcproj
+        libboinc_staticcrt.vcproj
+        libboincapi_staticcrt.vcproj
+        libgraphics2.vcproj
+        multi_thread.vcproj
+        sim.vcproj
+        sleeper.vcproj
+        uc2.vcproj
+        uc2_graphics.vcproj
+        updater.vcproj
+        worker.vcproj
+        wrapper.vcproj
