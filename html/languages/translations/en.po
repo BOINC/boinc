@@ -10,7 +10,7 @@ Content-Transfer-Encoding: 8bit
 X-Poedit-SourceCharset: utf-8
 
 msgid "CHARSET"
-msgstr "ISO-8859-1"
+msgstr "UTF-8"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "English"
