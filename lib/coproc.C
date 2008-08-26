@@ -138,15 +138,7 @@ const char* COPROC_CUDA::get(COPROCS& coprocs) {
 #ifdef __APPLE__
     cudalib = dlopen("./libcudart.dylib", RTLD_NOW);
 #else
-
-    const char* libname;
-#ifdef __x86_64__
-    libname = "./libcudart64.so";
-#else
-    libname = "./libcudart32.so";
-#endif
-    cudalib = dlopen(libname, RTLD_NOW);
-
+    cudalib = dlopen("./libcudart.so", RTLD_NOW);
 #endif
     if (!cudalib) {
         return "Can't load library libcudart";

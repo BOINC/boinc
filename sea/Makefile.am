@@ -6,14 +6,14 @@ vers = \
 sea = boinc_$(vers).sh
 tarfiles = BOINC/boinc BOINC/boincmgr BOINC/boinccmd BOINC/binstall.sh\
 	BOINC/boincmgr.16x16.png BOINC/boincmgr.32x32.png BOINC/boincmgr.48x48.png \
-	BOINC/libcudart32.so BOINC/libcudart64.so BOINC/ca-bundle.crt
+	BOINC/libcudart.so BOINC/ca-bundle.crt
 
 sea_debug = boinc_$(vers)_debug.sh
 tarfiles_debug = BOINC_debug/boinc.unmodified BOINC_debug/boincmgr.unmodified\
 	BOINC_debug/boinccmd.unmodified BOINC_debug/binstall.sh\
 	BOINC_debug/boincmgr.16x16.png BOINC_debug/boincmgr.32x32.png\
 	BOINC_debug/boincmgr.48x48.png \
-	BOINC_debug/libcudart32.so BOINC_debug/libcudart64.so BOINC_debug/ca-bundle.crt
+	BOINC_debug/libcudart.so BOINC_debug/ca-bundle.crt
 
 all: $(sea) $(sea_debug)
 
@@ -38,14 +38,11 @@ BOINC/boinc: ../client/boinc BOINC
 BOINC/boincmgr: ../clientgui/boincmgr BOINC
 	cp ../clientgui/boincmgr BOINC/boincmgr
 
-BOINC/boinccmd: ../lib/boinccmd  BOINC
+BOINC/boinccmd: ../lib/boinccmd BOINC
 	cp ../lib/boinccmd BOINC/boinccmd
 
-BOINC/libcudart32.so: ../lib/libcudart32.so  BOINC
-	cp ../lib/libcudart32.so BOINC/libcudart32.so
-
-BOINC/libcudart64.so: ../lib/libcudart64.so  BOINC
-	cp ../lib/libcudart64.so BOINC/libcudart64.so
+BOINC/libcudart.so: ../coprocs/CUDA/posix/@boinc_platform@/libcudart.so BOINC
+	cp ../coprocs/CUDA/posix/@boinc_platform@/libcudart.so BOINC/libcudart.so
 
 BOINC/boincmgr.16x16.png: boincmgr.16x16.png
 	cp boincmgr.16x16.png BOINC/boincmgr.16x16.png
@@ -65,11 +62,8 @@ BOINC_debug/boincmgr.unmodified: ../clientgui/boincmgr.unmodified BOINC_debug
 BOINC_debug/boinccmd.unmodified: ../lib/boinccmd.unmodified BOINC_debug
 	cp ../lib/boinccmd.unmodified BOINC_debug/boinccmd.unmodified
 
-BOINC_debug/libcudart32.so: ../lib/libcudart32.so  BOINC_debug
-	cp ../lib/libcudart32.so BOINC_debug/libcudart32.so
-
-BOINC_debug/libcudart64.so: ../lib/libcudart64.so  BOINC_debug
-	cp ../lib/libcudart64.so BOINC_debug/libcudart64.so
+BOINC_debug/libcudart.so: ../coprocs/CUDA/posix/@boinc_platform@/libcudart.so BOINC_debug
+	cp ../coprocs/CUDA/posix/@boinc_platform@/libcudart.so BOINC_debug/libcudart.so
 
 BOINC_debug/boincmgr.16x16.png: boincmgr.16x16.png
 	cp boincmgr.16x16.png BOINC_debug/boincmgr.16x16.png

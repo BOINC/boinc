@@ -7061,3 +7061,18 @@ Rom    24 Aug 2008
         updater.vcproj
         worker.vcproj
         wrapper.vcproj
+
+Rom    26 Aug 2008
+    - SEA: Grab the libcudart.so from a directory based on the detected
+        platform, so we can support multiple posix compatible platforms.
+
+    coprocs/CUDA/posix/i686-pc-linux-gnu
+        libcudart.so
+    coprocs/CUDA/posix/i686-pc-linux-gnu
+        libcudart.so
+    lib/
+        coproc.C
+        libcudart32.so
+        libcudart64.so
+    sea/
+        Makefile.am
