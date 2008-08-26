@@ -66,6 +66,7 @@ GUI_RPC_CONN::GUI_RPC_CONN(int s):
     au_mgr_state = AU_MGR_INIT;
     got_auth1 = false;
     got_auth2 = false;
+    sent_unauthorized = false;
 }
 
 GUI_RPC_CONN::~GUI_RPC_CONN() {
@@ -395,6 +396,11 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
                 gr->auth_needed = true;
             }
             gr->is_local = is_local;
+            if (log_flags.guirpc_debug) {
+                msg_printf(0, MSG_INFO,
+                    "[guirpc_debug] got new GUI RPC connection"
+                );
+            }
             insert(gr);
         }
     }

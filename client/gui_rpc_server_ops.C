@@ -1011,18 +1011,31 @@ int GUI_RPC_CONN::handle_rpc() {
         );
     }
 
+    // Policy:
+    // - the first auth failure gets an error message; after that, disconnect
+    // - if we get an unexpected auth1 or auth2, disconnect
+
     mf.printf("<boinc_gui_rpc_reply>\n");
     if (match_tag(request_msg, "<auth1")) {
-        if (got_auth1 && auth_needed) return ERR_AUTHENTICATOR;
-        handle_auth1(mf);
-        got_auth1 = true;
+        if (got_auth1 && auth_needed) {
+            retval = ERR_AUTHENTICATOR;
+        } else {
+            handle_auth1(mf);
+            got_auth1 = true;
+        }
     } else if (match_tag(request_msg, "<auth2")) {
-        if (!got_auth1 || got_auth2 && auth_needed) return ERR_AUTHENTICATOR;
-        retval = handle_auth2(request_msg, mf);
-        got_auth2 = true;
+        if ((!got_auth1 || got_auth2) && auth_needed) {
+            retval = ERR_AUTHENTICATOR;
+        } else {
+            retval = handle_auth2(request_msg, mf);
+            got_auth2 = true;
+        }
     } else if (auth_needed && !is_local) {
         auth_failure(mf);
-        retval = ERR_AUTHENTICATOR;
+        if (sent_unauthorized) {
+            retval = ERR_AUTHENTICATOR;
+        }
+        sent_unauthorized = true;
 
     // operations that require authentication only for non-local clients start here.
     // Use this only for information that should be available to people
@@ -1064,7 +1077,10 @@ int GUI_RPC_CONN::handle_rpc() {
 
     } else if (auth_needed) {
         auth_failure(mf);
-        retval = ERR_AUTHENTICATOR;
+        if (sent_unauthorized) {
+            retval = ERR_AUTHENTICATOR;
+        }
+        sent_unauthorized = true;
     } else if (match_tag(request_msg, "<project_nomorework")) {
          handle_project_op(request_msg, mf, "nomorework");
      } else if (match_tag(request_msg, "<project_allowmorework")) {
@@ -1172,7 +1188,7 @@ int GUI_RPC_CONN::handle_rpc() {
         // AUTHENTICATION AND NETWORK REQUIREMENTS FIRST
 
         } else {
-            mf.printf("<error>unrecognized op</error>\n");
+            mf.printf("<error>unrecognized op: %s</error>\n", request_msg);
             gstate.gui_rpcs.time_of_last_rpc_needing_network = saved_time;
         }
     }

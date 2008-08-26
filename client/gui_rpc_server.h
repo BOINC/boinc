@@ -44,6 +44,9 @@ public:
     bool got_auth2;
         // keep track of whether we've got the 2 authentication msgs;
         // don't accept more than one of each (to prevent DoS)
+    bool sent_unauthorized;
+        // we've send one <unauthorized>.
+        // On next auth failure, disconnect
     bool is_local;
         // connection is from local host
     int au_ss_state;
