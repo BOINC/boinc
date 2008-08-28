@@ -67,6 +67,11 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         for (unsigned int i=0; i<sreq.coprocs.coprocs.size(); i++) {
             COPROC* cp = sreq.coprocs.coprocs[i];
             if (!strcmp(cp->type, "CUDA")) {
+                COPROC_CUDA* cp2 = (COPROC_CUDA*) cp;
+                if ((cp2->prop.major)*100 + (cp2->prop.minor) <= 100) {
+                    log_messages.printf(MSG_DEBUG, "Host GPU architecture < 1.1");
+                    return false;
+                } 
                 COPROC* cu = new COPROC (cp->type);
                 cu->count = 1;
                 hu.coprocs.coprocs.push_back(cu);

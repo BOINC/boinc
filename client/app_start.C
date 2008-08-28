@@ -771,9 +771,12 @@ int ACTIVE_TASK::start(bool first_time) {
         //
         char libpath[8192];
         get_project_dir(wup->project, buf, sizeof(buf));
-        sprintf(libpath, "%s:../../%s:.:../..",
-            getenv("LD_LIBRARY_PATH"), buf
-        );
+        char* p = getenv("LD_LIBRARY_PATH");
+        if (p) {
+            sprintf(libpath, "%s:../../%s:.:../..", p, buf);
+        } else {
+            sprintf(libpath, "../../%s:.:../..", buf);
+        }
         fprintf(stderr, "LD PATH: %s\n", libpath);
         setenv("LD_LIBRARY_PATH", libpath, 1);
 

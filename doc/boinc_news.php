@@ -1,6 +1,13 @@
 <?
 
 $project_news = array(
+array("August 26, 2008",
+    "Welcome to the
+    <a href=\"http://nqueens.ing.udec.cl/\">NQueens@home</a> project,
+    from the Universidad de Concepción in Chile,
+    which seeks to find the solutions to the N Queens problem
+    for values of 26 and greater."
+),
 array("August 19, 2008",
     "LinkedIn users: join a
     <a href=\"http://www.linkedin.com/groups?gid=678497\">BOINC Users group</a>."

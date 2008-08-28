@@ -24,8 +24,8 @@ function show_course($course) {
             <br>Description: $course->description
             <br>Created: ".date_str($course->create_time)."
     ";
-    $y = "<a href=bolt_map.php?course_id=$course->id>Course map</a>
-        <br><a href=bolt_compare.php?course_id=$course->id>Lesson compare</a>
+    $y = "<a href=bolt_map.php?course_id=$course->id>Map</a>
+        <br><a href=bolt_compare.php?course_id=$course->id>Experiments</a>
         <br>
     ";
     row2_init($x, $y);
