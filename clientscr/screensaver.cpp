@@ -327,12 +327,12 @@ void *CScreensaver::DataManagementProc() {
 
     while (true) {
         for (int i = 0; i < 4; i++) {
-        // ***
-        // *** Things that should be run frequently.
-        // ***   4 times per second.
-        // ***
+            // ***
+            // *** Things that should be run frequently.
+            // ***   4 times per second.
+            // ***
 
-        // Are we supposed to exit the screensaver?
+            // Are we supposed to exit the screensaver?
             if (m_QuitDataManagementProc) {     // If main thread has requested we exit
                 if (m_hGraphicsApplication || graphics_app_result_ptr) {
                     terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
@@ -514,27 +514,18 @@ void *CScreensaver::DataManagementProc() {
 
             // Is the graphics app still running?
             if (m_hGraphicsApplication) {
-#ifdef _WIN32
-                DWORD dwStatus = STILL_ACTIVE;
-                BOOL  bRetVal = FALSE;
-                bRetVal = GetExitCodeProcess(m_hGraphicsApplication, &dwStatus);
-                BOINCTRACE(_T("CScreensaver::DataManagementProc - GetExitCodeProcess RetVal = '%d', Status = '%d'\n"), bRetVal, dwStatus);
-                if (bRetVal && (dwStatus != STILL_ACTIVE)) {
+                if (!process_exists(m_hGraphicsApplication)) {
                     // Something has happened to the previously selected screensaver
                     //   application. Start a different one.
+                    BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics application isn't running, start a new one.\n"));
                     m_hGraphicsApplication = 0;
                     graphics_app_result_ptr = NULL;
                     continue;
                 } else {
+#ifdef _WIN32
                     CheckForegroundWindow();
-                }
-#else
-                if (waitpid(m_hGraphicsApplication, 0, WNOHANG) == m_hGraphicsApplication) {
-                    m_hGraphicsApplication = 0;
-                    graphics_app_result_ptr = NULL;
-                    continue;
-                }
 #endif
+                }
             }
         }
 #endif      // ! SIMULATE_NO_GRAPHICS

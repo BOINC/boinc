@@ -7090,3 +7090,23 @@ David  28 Aug 2008
 
     client/
         app_start.C
+
+Rom    29 Aug 2008
+    - winsetup: Change the delete file after reboot code to use
+        MoveFileEx instead of the RunOnce registry key.  It does what
+        I was originally trying to do directly to:
+        HKLM\SYSTEM\CurrentControlSet\Control\
+        Session Manager\PendingFileRenameOperations
+        But I ran into issues across various versions of Windows.
+        
+        Thanks to Nicolas Alvarez for pointing out the API.
+    - scrsave: Some more screensaver clean-up.
+    - lib: Fix an infinate loop problem in get_exit_status,
+        luckly BOINC wasn't using it.
+        
+    clientscr/
+        screensaver.cpp
+    lib/
+        util.C
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAValidateRebootRequest.cpp

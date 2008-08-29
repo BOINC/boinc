@@ -70,9 +70,6 @@ UINT CAValidateRebootRequest::OnExecution()
     uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
-    uiReturnValue = GetProperty( _T("RETURN_REBOOTREQUESTED"), strRebootRequested );
-    if ( uiReturnValue ) return uiReturnValue;
-
 
     // Create reboot pending file
     //
@@ -82,43 +79,10 @@ UINT CAValidateRebootRequest::OnExecution()
     if (fRebootPending) fclose(fRebootPending);
 
 
-    // Create a registry key to delete the RebootInProgress.txt flag
-    //   file on a reboot.
+    // Schedule the file for deletion after a reboot.
     //
-    if ( _T("1") == strRebootRequested )
-    {
-	    LONG lReturnValue;
-	    HKEY hkSetupHive;
+    MoveFileEx(strRebootPendingFilename.c_str(), NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
 
-	    lReturnValue = RegCreateKeyEx(
-            HKEY_LOCAL_MACHINE, 
-            _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce"),
-		    0,
-            NULL,
-            REG_OPTION_NON_VOLATILE,
-            KEY_READ | KEY_WRITE,
-            NULL,
-            &hkSetupHive,
-            NULL
-        );
-	    if (lReturnValue == ERROR_SUCCESS) 
-        {
-            tstring strCommand;
-
-            strCommand = _T("cmd.exe /c \"del \"") + strRebootPendingFilename + _T("\"\"");
-
-            RegSetValueEx(
-                hkSetupHive, 
-                _T("*BOINCRebootPendingCleanup"),
-                0,
-                REG_SZ,
-                (CONST BYTE *)strCommand.c_str(),
-                (DWORD)(strCommand.size()*sizeof(TCHAR))
-            );
-
-	        RegCloseKey(hkSetupHive);
-        }
-    }
 
     return ERROR_SUCCESS;
 }

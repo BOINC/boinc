@@ -440,6 +440,8 @@ int get_exit_status(HANDLE pid_handle) {
         if (GetExitCodeProcess(pid_handle, &status)) {
             if (status == STILL_ACTIVE) {
                 boinc_sleep(1);
+            } else {
+                break;
             }
         }
     }
