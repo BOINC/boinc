@@ -1,4 +1,4 @@
-﻿##########################################
+##########################################
 # Language: Czech
 # FileID  : $Id$
 # Author  : Martin Suchan
@@ -211,6 +211,9 @@ msgstr "Příspěvků"
 msgid "Topic"
 msgstr "Téma"
 
+msgid "Thread"
+msgstr "Vlákno"
+
 msgid "Threads"
 msgstr "Vlákna"
 
@@ -227,7 +230,7 @@ msgid "In order to create a new thread in %1 you must have a certain amount of c
 msgstr "Pro vytvoření nového vlákna v %1 musíte mít určité množství kreditu. Toto omezení slouží jako ochrana proti zneužití systému."
 
 msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
-msgstr Nové vlákno nemůžete vytvořit hned teď. Počkejte prosím chvíli a zkuste to znovu. Tato prodleva byla zavedena proti zneužití systému."
+msgstr "Nové vlákno nemůžete vytvořit hned teď. Počkejte prosím chvíli a zkuste to znovu. Tato prodleva byla zavedena proti zneužití systému."
 
 msgid "Create a new thread"
 msgstr "Vytvořit nové vlákno"
@@ -314,7 +317,7 @@ msgid "Forum index"
 msgstr "Obsah fóra"
 
 msgid "Send private message"
-msgstr "Vytvořit novou"
+msgstr "Poslat soukromou zprávu"
 
 msgid "Preview"
 msgstr "Náhled"
@@ -329,13 +332,13 @@ msgid "Subject"
 msgstr "Předmět"
 
 msgid "Send message"
-msgstr "Poslat zprávu"
+msgstr "Odeslat zprávu"
 
 msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
 msgstr "Není možné posílat tolik soukromých zpráv během tak krátké chvíle. Počkejte prosím před posláním další zprávy."
 
 msgid "Your message has been sent."
-msgstr "Vaše zpráva byla poslána."
+msgstr "Vaše zpráva byla odeslána."
 
 msgid "You have no private messages."
 msgstr "Nemáte žádné soukromé zprávy."
@@ -368,13 +371,13 @@ msgid "%1 is not a unique username; you will have to use user ID"
 msgstr "%1 není jedinečné uživatelské jméno; budete muset použít uživatelské ID"
 
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "Uživatel %1 (ID: %2) od vás nepřijímá soukromé zprávy (jste blokován)."
+msgstr "Uživatel %1 (ID: %2) od vás nepřijímá soukromé zprávy."
 
 msgid "Really block %1?"
 msgstr "Opravdu zablokovat %1?"
 
 msgid "Are you really sure you want to block user %1 from sending you private messages?"
-msgstr "Jste si jistí, že chcete zablokovat uživatele %1, aby vám nemohl posílat soukromé zprávy?"
+msgstr "Jste si opravdu jistí, že chcete zablokovat uživatele %1, aby vám nemohl posílat soukromé zprávy?"
 
 msgid "Please note that you can only block a limited amount of users."
 msgstr "Vemte prosím na vědomí, že můžete zablokovat jen určitý počet uživatelů."
@@ -470,7 +473,7 @@ msgid "Community"
 msgstr "Komunita"
 
 msgid "Community preferences"
-msgstr "Nastavení komunity"
+msgstr "Komunitní nastavení"
 
 msgid "Create"
 msgstr "Vytvořit"
@@ -621,7 +624,7 @@ msgid "Project"
 msgstr "Projekt"
 
 msgid "Click for user page"
-msgstr "Klikněte pro vstup na uživatelskou stránku"
+msgstr "Klikněte pro vstup na uživatelovu stránku"
 
 msgid "Since"
 msgstr "Od"
@@ -646,8 +649,7 @@ msgstr "Přidat jako přítele"
 #########################################
 
 msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
-msgstr "'Slabý klíč k ůčtu' Vám umožňuje přidávat počítače s omezenými právy k Vašemu účtu - "
-"bez možnosti přístupu na účet či ke změně nastavení."
+msgstr "'Slabý klíč k ůčtu' Vám umožňuje přidávat počítače s omezenými právy k Vašemu účtu - bez možnosti přístupu na účet či ke změně nastavení."
 
 msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
 msgstr "Tento mechanismus funguje pouze tehdy, pokud byl server projektu upgradován po 7. prosinci 2007."
@@ -656,12 +658,56 @@ msgid "Your weak account key for this project is:"
 msgstr "Váš slabý klíč k účtu pro tento projekt je:"
 
 msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
-msgstr "K použití slabého klíče na daném stroji najděte nebo vytvořte 'soubor s účtem' k danému projektu. "
-"Tento soubor má jméno ve tvaru <b>účet_ADRESA_PROJEKTU.xml</b>. Soubor s účtem pro %1 je <b>%2</b>."
+msgstr "K použití slabého klíče na daném stroji najděte nebo vytvořte 'soubor s účtem' k danému projektu. Tento soubor má jméno ve tvaru <b>account_ADRESA_PROJEKTU.xml</b>. Soubor s účtem pro %1 je <b>%2</b>."
 
 msgid "Create this file if needed. Set its contents to:"
 msgstr "Vytvořte tento soubor, pokud je to třeba. Nastavte jeho obsah na:"
 
 msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
-msgstr "Váš slabý klíč k účtu popisuje funkci k Vašemu heslu. Pokud změníte Vaše heslo, "
-"Váš slabý klíč se také změní a Váš předchozí slabý klíč se tímto zneplatní."
+msgstr "Váš slabý klíč k účtu popisuje funkci k Vašemu heslu. Pokud změníte Vaše heslo, Váš slabý klíč se také změní a Váš předchozí slabý klíč se tímto zneplatní."
+
+#########################################
+# Participant profiles
+#########################################
+
+msgid "Profiles"
+msgstr "Profily"
+
+msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
+msgstr "%1Profily%2 umožňují uživatelům sdílet své osobní zázemí a názory s komunitou %3. "
+
+msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
+msgstr "Prozkoumejte, jak různorodý svět je mezi Vámi dobrovolníky a přispějte i Vaším vlastním pohledem pro pobavení ostatních. "
+
+msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
+msgstr "Pokud se tak ještě nestalo, můžete si %1vytvořit svůj vlastní uživatelský profil%2, který ukážete ostatním!"
+
+msgid "User of the Day"
+msgstr "Uživatel dne"
+
+msgid "User Profile Explorer"
+msgstr "Prohlížení uživatelských profilů"
+
+msgid "View the %1User Picture Gallery%2."
+msgstr "Prohlédněte si %1Galerii uživatelských obrázků%2."
+
+msgid "Browse profiles %1by country%2."
+msgstr "Procházet profily %1podle země%2."
+
+msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
+msgstr "Procházet profily %1náhodně%2, %3náhodně ty s obrázky%2, nebo %4náhodně ty bez obrázků%2."
+
+msgid "Alphabetical profile listings:"
+msgstr "Abecední výčet profilů:"
+
+msgid "Search profile text"
+msgstr "Hledat v textech profilů"
+
+msgid "Search"
+msgstr "Hledat"
+
+msgid "No profiles"
+msgstr "Žádné profily"
+
+msgid "No profiles matched your query."
+msgstr "Nenalezen žádný profil odpovídající vašemu dotazu."

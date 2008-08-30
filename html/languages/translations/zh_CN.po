@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: rev.15601\n"
+"Project-Id-Version: rev.15858\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-07-15 15:37+0800\n"
+"PO-Revision-Date: 2008-08-18 10:15+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -11,30 +11,459 @@ msgstr ""
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-Country: CHINA\n"
 
-# #########################################
-# Language: English (International)
-# FileID  : $Id$
-# Author  : Janus Kristensen
-# Email   : jbk@visualgroup.dk
-# #########################################
-# For more information please see:
-# http://boinc.berkeley.edu/web_translation.php
-# #########################################
-# The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
 
-# The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "简体中文"
 
-# The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Simplified Chinese"
 
-# ########################################
-# Apps page (apps.php)
-# ########################################
+msgid "Rank"
+msgstr "名次"
+
+msgid "Name"
+msgstr "用户名"
+
+msgid "Search for words in forum messages"
+msgstr "在论坛的所有帖子中搜索关键字"
+
+msgid "Search forums"
+msgstr "搜索论坛"
+
+msgid "Advanced search"
+msgstr "高级搜索"
+
+msgid "Private messages"
+msgstr "私人消息"
+
+msgid "Questions and Answers"
+msgstr "疑难解答"
+
+msgid "Message boards"
+msgstr "留言板"
+
+msgid "%1 message board"
+msgstr "%1 留言板"
+
+msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgstr "您必须在已经获得了一定的积分后才能在 %1 发表一个新主题。这是为了防止对论坛系统的滥用。"
+
+msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+msgstr "您暂时不能发表更多的新主题，请稍后再试，这是为了防止对论坛系统的滥用而采取的延时。"
+
+msgid "Thread"
+msgstr "主题"
+
+msgid "Posts"
+msgstr "贴数"
+
+msgid "Author"
+msgstr "作者"
+
+msgid "Views"
+msgstr "查看次数"
+
+msgid "Last post"
+msgstr "最近发贴"
+
+msgid "Mark all threads as read"
+msgstr "标记所有主题为已读"
+
+msgid "Mark all threads in all message boards as 'read'."
+msgstr "标记所有留言板块的所有主题为已读。"
+
+msgid "Inbox"
+msgstr "收件箱"
+
+msgid "Write"
+msgstr "写信"
+
+msgid "Send private message"
+msgstr "发送私人消息"
+
+msgid "Preview"
+msgstr "预览"
+
+msgid "To"
+msgstr "收件人"
+
+msgid "User IDs or unique usernames, separated with commas"
+msgstr "用户ID或唯一的用户名，多个收件人之间用逗号分开"
+
+msgid "Subject"
+msgstr "标题"
+
+msgid "Message"
+msgstr "消息"
+
+msgid "Send message"
+msgstr "发送消息"
+
+msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+msgstr "您发送消息的间隔时间太短，请等待一段时间再发送更多的消息。"
+
+msgid "unread"
+msgstr "未读"
+
+msgid "Search criteria (use one or more)"
+msgstr "搜索条件 ( 可使用一个或多个 )"
+
+msgid "Key words"
+msgstr "关键字"
+
+msgid "Find teams with these words in their names or descriptions"
+msgstr "寻找名称或描述中包含这些关键字的团队"
+
+msgid "Country"
+msgstr "国家或地区"
+
+msgid "Type of team"
+msgstr "团队类型"
+
+msgid "Show only active teams"
+msgstr "只显示活跃的团队"
+
+msgid "Search"
+msgstr "搜索"
+
+msgid "Requested by you, and founder response deadline has passed."
+msgstr "请求已由您发起过，而且原创建人的回复期限已过。"
+
+msgid "Complete foundership transfer"
+msgstr "完成创建人的转换"
+
+msgid "Requested by you"
+msgstr "请求已由您发起过"
+
+msgid "founder response deadline is %1"
+msgstr "原创建人的回复期限是 %1"
+
+msgid "None"
+msgstr "未加入团队"
+
+msgid "Initiate request"
+msgstr "发起请求"
+
+msgid "Deferred"
+msgstr "延期处理中"
+
+msgid "Team info"
+msgstr "团队信息"
+
+msgid "Description"
+msgstr "描述"
+
+msgid "Web site"
+msgstr "网站"
+
+msgid "Total credit"
+msgstr "总积分"
+
+msgid "Recent average credit"
+msgstr "近期平均积分"
+
+msgid "Type"
+msgstr "类型"
+
+msgid "Message board"
+msgstr "留言板"
+
+msgid "Threads"
+msgstr "主题"
+
+msgid "Join this team"
+msgstr "加入该团队"
+
+msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
+msgstr "如果你在项目参数中设置了允许接收电子邮件，加入团队后该团队的创建人将可以年到您的电子邮件地址。"
+
+msgid "Foundership change requested"
+msgstr "创建人改变请求待处理"
+
+msgid "Respond by %1"
+msgstr "回复期限 %1"
+
+msgid "Team foundership change"
+msgstr "团队创建人改变"
+
+msgid "Members"
+msgstr "成员"
+
+msgid "Founder"
+msgstr "创建人"
+
+msgid "Admins"
+msgstr "管理员"
+
+msgid "New members in last day"
+msgstr "昨天新加入的成员"
+
+msgid "Total members"
+msgstr "所有成员"
+
+msgid "view"
+msgstr "查看"
+
+msgid "Active members"
+msgstr "活跃的成员"
+
+msgid "Members with credit"
+msgstr "有积分的成员"
+
+msgid "Admin"
+msgstr "管理员"
+
+msgid "Last %1"
+msgstr "最近 %1"
+
+msgid "Next %1"
+msgstr "后面 %1"
+
+msgid "No such team."
+msgstr "没有这个团队。"
+
+msgid "This operation requires foundership."
+msgstr "本操作需要创建人权限。"
+
+msgid "This operation requires team admin privileges"
+msgstr "本操作需要团队创建人的权限"
+
+msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
+msgstr "%1隐私事项%2：如果您要创建一个团队，则您的项目参数 ( 资源分享率，图形参数设置等 ) 将会对团队成员公开。"
+
+msgid "Team name, text version"
+msgstr "团队名称，文字版本"
+
+msgid "Don't use HTML tags."
+msgstr "请不要使用 HTML 标记。"
+
+msgid "Team name, HTML version"
+msgstr "团队名称，HTML 版本"
+
+msgid "You may use %1limited HTML tags%2."
+msgstr "您可以使用 %1有限的 HTML 标记%2。"
+
+msgid "If you don't know HTML, leave this box blank."
+msgstr "如果您不了解 HTML，请保持本编辑框为空。"
+
+msgid "URL of team web page, if any"
+msgstr "团队的网址 ( 如果有的话 )："
+
+msgid "without \"http://\""
+msgstr "不包括 \"http://\""
+
+msgid "This URL will be linked to from the team's page on this site."
+msgstr "本网站该团队的页面上将链接到这个网址。"
+
+msgid "Description of team"
+msgstr "团队描述"
+
+msgid "Projects in which you are participating"
+msgstr "您已参与的项目"
+
+msgid "Projects in which %1 is participating"
+msgstr "%1 已参与的项目"
+
+msgid "Project"
+msgstr "项目"
+
+msgid "Click for user page"
+msgstr "点击访问用户页面"
+
+msgid "Average credit"
+msgstr "平均积分"
+
+msgid "Since"
+msgstr "加入日期"
+
+msgid "Computing and credit"
+msgstr "计算和积分情况"
+
+msgid "Pending credit"
+msgstr "待授予的积分"
+
+msgid "View"
+msgstr "查看"
+
+msgid "Computers on this account"
+msgstr "本帐户所属的计算机"
+
+msgid "Tasks"
+msgstr "任务"
+
+msgid "Cross-project ID"
+msgstr "跨项目标识符 (CPID)"
+
+msgid "Cross-project statistics"
+msgstr "跨项目的统计网站"
+
+msgid "Certificate"
+msgstr "计算证书"
+
+msgid "Stats on your cell phone"
+msgstr "用手机查看您的统计信息"
+
+msgid "Account information"
+msgstr "帐户信息"
+
+msgid "Email address"
+msgstr "电子邮件地址"
+
+msgid "URL"
+msgstr "网址"
+
+msgid "Postal code"
+msgstr "邮编"
+
+msgid "%1 member since"
+msgstr "加入 %1 的日期"
+
+msgid "Change"
+msgstr "修改"
+
+msgid "email address"
+msgstr "电子邮件地址"
+
+msgid "password"
+msgstr "用户口令"
+
+msgid "other account info"
+msgstr "其它帐户信息"
+
+msgid "Log out"
+msgstr "注销"
+
+msgid "User ID"
+msgstr "用户 ID"
+
+msgid "Used in community functions"
+msgstr "在社区功能中使用"
+
+msgid "Account key"
+msgstr "帐户密钥"
+
+msgid "Provides full access to your account"
+msgstr "可用于完全访问您的帐户"
+
+msgid "Weak account key"
+msgstr "弱帐户密钥"
+
+msgid "Provides"
+msgstr "可用于"
+
+msgid "limited access"
+msgstr "受限制地访问"
+
+msgid "to your account"
+msgstr "您的帐户"
+
+msgid "Preferences"
+msgstr "参数设置"
+
+msgid "When and how BOINC uses your computer"
+msgstr "BOINC 如何使用您的计算机"
+
+msgid "Computing preferences"
+msgstr "计算参数设置"
+
+msgid "Message boards and private messages"
+msgstr "留言板和私人消息"
+
+msgid "Community preferences"
+msgstr "社区参数设置"
+
+msgid "Resource share and graphics"
+msgstr "资源分享和项目图形"
+
+msgid "%1 preferences"
+msgstr "%1 参数设置"
+
+msgid "Community"
+msgstr "社区"
+
+msgid "Delete"
+msgstr "删除"
+
+msgid "Create"
+msgstr "创建"
+
+msgid "Profile"
+msgstr "档案"
+
+msgid "%1 posts"
+msgstr "%1 个帖子"
+
+msgid "Notifications"
+msgstr "通知"
+
+msgid "Quit team"
+msgstr "退出团队"
+
+msgid "Administer"
+msgstr "管理"
+
+msgid "(foundership change request pending)"
+msgstr "( 创建人转换请求待处理 )"
+
+msgid "Member of team"
+msgstr "团队成员"
+
+msgid "Team"
+msgstr "团队"
+
+msgid "find a team"
+msgstr "寻找团队"
+
+msgid "Founder but not member of"
+msgstr "创建人 ( 已退出团队 )"
+
+msgid "Find friends"
+msgstr "寻找好友"
+
+msgid "Friends"
+msgstr "好友"
+
+msgid "Computers"
+msgstr "计算机"
+
+msgid "hidden"
+msgstr "隐藏"
+
+msgid "Donor"
+msgstr "捐助者"
+
+msgid "Contact"
+msgstr "联系"
+
+msgid "This person is a friend"
+msgstr "这是一位好友"
+
+msgid "Cancel friendship"
+msgstr "删除该好友"
+
+msgid "Request pending"
+msgstr "请求待处理"
+
+msgid "Add as friend"
+msgstr "添加为好友"
+
+msgid "Use BBCode tags to format your text"
+msgstr "使用 BBCode 标记来格式化您的正文"
+
+msgid "Identifies you on our web site. Use your real name or a nickname."
+msgstr "您在我们网站上的标识，可以使用您的真实姓名或是昵称。"
+
+msgid "Select the country you want to represent, if any."
+msgstr "选择您所希望代表的国家或地区。"
+
+msgid "Postal or ZIP Code"
+msgstr "邮编"
+
+msgid "Optional"
+msgstr "可选的"
+
 msgid "Applications"
 msgstr "计算程序"
 
@@ -50,9 +479,177 @@ msgstr "当前版本"
 msgid "Installation time"
 msgstr "发布时间"
 
-# ########################################
-# Rules and Policies page (info.php)
-# ########################################
+msgid "You must supply an invitation code to create an account."
+msgstr "您必须提供一个邀请码才能创建帐户。"
+
+msgid "The invitation code you gave is not valid."
+msgstr "您提供的邀请码是错误的。"
+
+msgid "Create an account"
+msgstr "创建帐户"
+
+msgid "Account creation is disabled"
+msgstr "账号创建功能已被禁用"
+
+msgid "Account creation is currently disabled. Please try again later."
+msgstr "新帐户创建功能当前已暂停，请以后再试。"
+
+msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgstr "注意：如果您正在使用5.2版本之后的客户端，请不要使用这个表单。运行 BOINC，运行菜单中的“加入项目”，然后输入电子邮件地址并设置一个用户口令。"
+
+msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgstr "此帐户将属于 %1 团队并且其项目参数的默认值和团队创建人的项目参数相同。"
+
+msgid "Invitation Code"
+msgstr "邀请码"
+
+msgid "A valid invitation code is required to create an account."
+msgstr "创建帐户时需要一个正确的邀请码。"
+
+msgid "Email Address"
+msgstr "电子邮件地址"
+
+msgid "Must be a valid address of the form 'name@domain'."
+msgstr "必须是有效的电子邮件地址，形式如 '用户名@域名'。"
+
+msgid "Password"
+msgstr "用户口令"
+
+msgid "Must be at least %1 characters"
+msgstr "必须至少包含 %1 个字符"
+
+msgid "Confirm password"
+msgstr "确认用户口令"
+
+msgid "Create account"
+msgstr "创建帐户"
+
+msgid "Title"
+msgstr "标题"
+
+msgid "Add my signature to this post"
+msgstr "在帖子后附上我的个性签名"
+
+msgid "%1 Message boards"
+msgstr "%1 留言板"
+
+msgid "Topic"
+msgstr "主题"
+
+msgid "Your message has been sent."
+msgstr "您的消息已被发送。"
+
+msgid "You have no private messages."
+msgstr "您目前没有私人消息。"
+
+msgid "Sender"
+msgstr "发送人"
+
+msgid "Date"
+msgstr "日期"
+
+msgid "Mark as read"
+msgstr "标记为已读"
+
+msgid "Mark as unread"
+msgstr "标记为未读"
+
+msgid "With selected"
+msgstr "对选择的消息"
+
+msgid "No such message"
+msgstr "没有这个消息"
+
+msgid "Block user"
+msgstr "阻止用户"
+
+msgid "Reply"
+msgstr "回复"
+
+msgid "Really delete?"
+msgstr "确定要删除吗？"
+
+msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+msgstr "您确定要删除标题为 &quot;%1&quot; 的消息吗？该消息由 %2 于 %3 发送给您。"
+
+msgid "Yes, delete"
+msgstr "是的，删除"
+
+msgid "No, cancel"
+msgstr "不，取消"
+
+msgid "No such message."
+msgstr "没有这个消息。"
+
+msgid "You need to fill all fields to send a private message"
+msgstr "要发送私人消息，您必须填写所有字段"
+
+msgid "Could not find user with id %1"
+msgstr "无法找到用户ID为 %1 的用户"
+
+msgid "Could not find user with username %1"
+msgstr "无法找到用户名为 %1 的用户"
+
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "因为 %1 不是唯一的用户名，您将只能使用用户ID"
+
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "用户 %1 ( 用户ID为 %2) 已禁止接受您的私人消息。"
+
+msgid "Really block %1?"
+msgstr "确定要阻止 %1 吗？"
+
+msgid "Are you really sure you want to block user %1 from sending you private messages?"
+msgstr "您确定要阻止用户 %1 向您发送私人消息吗？"
+
+msgid "Please note that you can only block a limited amount of users."
+msgstr "请注意您只有阻止有限数量的用户。"
+
+msgid "Once the user has been blocked you can unblock it using forum preferences page."
+msgstr "一旦该用户被您阻止，您可以在论坛的参数设置页面中解除该阻止。"
+
+msgid "Add user to filter"
+msgstr "添加用户到过滤器"
+
+msgid "No such user"
+msgstr "没有这个用户"
+
+msgid "User %1 blocked"
+msgstr "用户 %1 已被阻止"
+
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "用户 %1 已被阻止向您发送私人消息。"
+
+msgid "To unblock, visit %1message board preferences%2"
+msgstr "要解除阻止，请访问 %1留言板的参数设置%2"
+
+msgid "Create a new thread"
+msgstr "创建新主题"
+
+msgid "Post to thread"
+msgstr "回复该主题"
+
+msgid "Forum search results"
+msgstr "论坛搜索结果"
+
+msgid "Forum search"
+msgstr "搜索论坛"
+
+msgid "This thread has been hidden for administrative purposes"
+msgstr "该主题出于管理目的已被隐藏"
+
+msgid "Unsubscribe"
+msgstr "退订该主题"
+
+msgid "Subscribe"
+msgstr "订阅该主题"
+
+msgid "Welcome to %1"
+msgstr "欢迎访问 %1"
+
+msgid "View and edit your account preferences using the links below."
+msgstr "使用下面的链接查看及编辑您的帐户参数"
+
 msgid "Read our rules and policies"
 msgstr "阅读规定和政策"
 
@@ -110,576 +707,9 @@ msgstr "除了 %1，还有其它一些项目也使用BOINC平台。您也许会�
 msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
 msgstr "其它项目同 %1 没有关系，所以我们也无法保证这些项目的安全性以及确切的研究内容，请您自行决定是否参加其他项目。"
 
-# ########################################
-# Create account form (create_account_form.php)
-# ########################################
-msgid "Create an account"
-msgstr "创建帐户"
-
-msgid "Name"
-msgstr "用户名"
-
-msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr "您在我们网站上的标识，可以使用您的真实姓名或是昵称。"
-
-msgid "Email Address"
-msgstr "电子邮件地址"
-
-msgid "Must be a valid address of the form 'name@domain'."
-msgstr "必须是有效的电子邮件地址，形式如 '用户名@域名'。"
-
-msgid "Country"
-msgstr "国家或地区"
-
-msgid "Select the country you want to represent, if any."
-msgstr "选择您所希望代表的国家或地区。"
-
-msgid "Postal or ZIP Code"
-msgstr "邮编"
-
-msgid "Create account"
-msgstr "创建帐户"
-
-msgid "Account creation is disabled"
-msgstr "账号创建功能已被禁用"
-
-msgid "Account creation is disabled for %1 at the moment. Please try again later."
-msgstr "%1 当前已经暂停了新帐户的创建功能，请以后再试。"
-
-msgid "This account will belong to the team %1 and will have the project preferences of its founder."
-msgstr "此帐户将属于 %1 团队并且其项目参数的默认值和团队创建人的项目参数相同。"
-
-msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
-msgstr "注意：如果您正在使用5.2版本之后的客户端，请不要使用这个表单。运行 BOINC，运行菜单中的“加入项目”，然后输入电子邮件地址并设置一个用户口令。"
-
-msgid "Password"
-msgstr "用户口令"
-
-msgid "Must be at least %1 characters"
-msgstr "必须至少包含 %1 个字符"
-
-msgid "Confirm password"
-msgstr "确认用户口令"
-
-msgid "Invitation Code"
-msgstr "邀请码"
-
-msgid "A valid invitation code is required to create an account."
-msgstr "创建帐户时需要一个正确的邀请码。"
-
-msgid "You must supply an invitation code to create an account."
-msgstr "您必须提供一个邀请码才能创建帐户。"
-
-msgid "The invitation code you gave is not valid."
-msgstr "您提供的邀请码是错误的。"
-
-# ########################################
-# Forum sample index page
-# ########################################
-msgid "%1 Message boards"
-msgstr "%1 留言板"
-
-msgid "Message boards"
-msgstr "留言板"
-
-# ########################################
-# General stuff (create_account_form.php and others)
-# ########################################
-msgid "Optional"
-msgstr "可选的"
-
-# ########################################
-# Various top table pages (top users, computers, teams)
-# ########################################
-msgid "Top participants"
-msgstr "用户排名"
-
-msgid "Rank"
-msgstr "名次"
-
-msgid "Total credit"
-msgstr "总积分"
-
-msgid "Recent average credit"
-msgstr "近期平均积分"
-
-msgid "Participant since"
-msgstr "参加时间"
-
-msgid "Top %1 teams"
-msgstr "%s 团队排名"
-
-msgid "Members"
-msgstr "成员"
-
-msgid "Top hosts"
-msgstr "主机排名"
-
-# ########################################
-# Forum
-# ########################################
-msgid "Posts"
-msgstr "贴数"
-
-msgid "Topic"
-msgstr "主题"
-
-msgid "Thread"
-msgstr "主题"
-
-msgid "Threads"
-msgstr "主题"
-
-msgid "Last post"
-msgstr "最近发贴"
-
-msgid "Author"
-msgstr "作者"
-
-msgid "Views"
-msgstr "查看次数"
-
-msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
-msgstr "您必须在已经获得了一定的积分后才能在 %1 发表一个新主题。这是为了防止对论坛系统的滥用。"
-
-msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
-msgstr "您暂时不能发表更多的新主题，请稍后再试，这是为了防止对论坛系统的滥用而采取的延时。"
-
-msgid "Create a new thread"
-msgstr "创建新主题"
-
-msgid "Title"
-msgstr "标题"
-
-msgid "Add my signature to this post"
-msgstr "在帖子后附上我的个性签名"
-
-msgid "Message"
-msgstr "消息"
-
-msgid "Edit message"
-msgstr "编辑消息"
-
-msgid "Use BBCode tags to format your text"
-msgstr "使用 BBCode 标记来格式化您的正文"
-
-msgid "%1 message board"
-msgstr "%1 留言板"
-
-msgid "Mark all threads as read"
-msgstr "标记所有主题为已读"
-
-msgid "Mark all threads in all message boards as 'read'."
-msgstr "标记所有留言板块的所有主题为已读。"
-
-# ########################################
-# Forum thread
-# ########################################
-msgid "This thread has been hidden for administrative purposes"
-msgstr "该主题出于管理目的已被隐藏"
-
-msgid "Post to thread"
-msgstr "回复该主题"
-
-msgid "Unsubscribe"
-msgstr "退订该主题"
-
-msgid "Subscribe"
-msgstr "订阅该主题"
-
-# ########################################
-# Forum search features
-# ########################################
-msgid "Forum search"
-msgstr "搜索论坛"
-
-msgid "Titles containing '%1'"
-msgstr "包含 '%1' 的标题"
-
-msgid "Posts containing '%1'"
-msgstr "包含 '%1' 的正文"
-
-msgid "No titles containing '%1' could be found."
-msgstr "没有找到标题中包含 '%1' 的主题"
-
-msgid "No posts containing '%1' could be found."
-msgstr "没有找到正文中包含 '%1' 的帖子"
-
-msgid "Advanced search"
-msgstr "高级搜索"
-
-msgid "Search for words in forum messages"
-msgstr "在论坛的所有帖子中搜索关键字"
-
-msgid "Search forums"
-msgstr "搜索论坛"
-
-# ########################################
-# Private messages
-# ########################################
-msgid "Private messages"
-msgstr "私人消息"
-
-msgid "Inbox"
-msgstr "收件箱"
-
-msgid "Write"
-msgstr "写信"
-
-msgid "Forum index"
-msgstr "论坛索引"
-
-msgid "Send private message"
-msgstr "发送私人消息"
-
-msgid "Preview"
-msgstr "预览"
-
-msgid "To"
-msgstr "收件人"
-
-msgid "User IDs or unique usernames, separated with commas"
-msgstr "用户ID或唯一的用户名，多个收件人之间用逗号分开"
-
-msgid "Subject"
-msgstr "标题"
-
-msgid "Send message"
-msgstr "发送消息"
-
-msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
-msgstr "您发送消息的间隔时间太短，请等待一段时间再发送更多的消息。"
-
-msgid "Your message has been sent."
-msgstr "您的消息已被发送。"
-
-msgid "You have no private messages."
-msgstr "您目前没有私人消息。"
-
-msgid "No such message"
-msgstr "没有这个消息"
-
-msgid "Really delete?"
-msgstr "确定要删除吗？"
-
-msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
-msgstr "您确定要删除标题为 &quot;%1&quot; 的消息吗？该消息由 %2 于 %3 发送给您。"
-
-msgid "Yes, delete"
-msgstr "是的，删除"
-
-msgid "No, cancel"
-msgstr "不，取消"
-
-msgid "You need to fill all fields to send a private message"
-msgstr "要发送私人消息，您必须填写所有字段"
-
-msgid "Could not find user with id %1"
-msgstr "无法找到用户ID为 %1 的用户"
-
-msgid "Could not find user with username %1"
-msgstr "无法找到用户名为 %1 的用户"
-
-msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "因为 %1 不是唯一的用户名，您将只能使用用户ID"
-
-msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "用户 %1 (用户ID为 %2) 已禁止接受您的私人消息。"
-
-msgid "Really block %1?"
-msgstr "确定要阻止 %1 吗？"
-
-msgid "Are you really sure you want to block user %1 from sending you private messages?"
-msgstr "您确定要阻止用户 %1 向您发送私人消息吗？"
-
-msgid "Please note that you can only block a limited amount of users."
-msgstr "请注意您只有阻止有限数量的用户。"
-
-msgid "Once the user has been blocked you can unblock it using forum preferences page."
-msgstr "一旦该用户被您阻止，您可以在论坛的参数设置页面中解除该阻止。"
-
-msgid "Add user to filter"
-msgstr "添加用户到过滤器"
-
-msgid "No such user"
-msgstr "没有这个用户"
-
-msgid "User %1 blocked"
-msgstr "用户 %1 已被阻止"
-
-msgid "User %1 has been blocked from sending you private messages."
-msgstr "用户 %1 已被阻止向您发送私人消息。"
-
-msgid "To unblock, visit %1message board preferences%2"
-msgstr "要解除阻止，请访问 %1留言板的参数设置%2"
-
 msgid "Sender and date"
 msgstr "发送人及日期"
 
-msgid "Delete"
-msgstr "删除"
-
-msgid "Reply"
-msgstr "回复"
-
-msgid "Block user"
-msgstr "阻止用户"
-
-msgid "With selected messages"
-msgstr "对选择的消息"
-
-msgid "Mark as read"
-msgstr "标记为已读"
-
-msgid "Mark as unread"
-msgstr "标记为未读"
-
-# ########################################
-# Links from the main page
-# ########################################
-msgid "Questions and Answers"
-msgstr "疑难解答"
-
-# ########################################
-# "Your account" page (home.php)
-# ########################################
-msgid "Your account"
-msgstr "您的帐户"
-
-msgid "Welcome to %1"
-msgstr "欢迎访问 %1"
-
-msgid "View and edit your account preferences using the links below."
-msgstr "使用下面的链接查看及编辑您的帐户参数"
-
-msgid "If you have not already done so, %1download BOINC client software%2."
-msgstr "如果您还未这么做，%1下载 BOINC 的客户端软件%2。"
-
-msgid "Account information"
-msgstr "帐户信息"
-
-msgid "Email address"
-msgstr "电子邮件地址"
-
-msgid "URL"
-msgstr "网址"
-
-msgid "Postal code"
-msgstr "邮编"
-
-msgid "Change"
-msgstr "修改"
-
-msgid "email address"
-msgstr "电子邮件地址"
-
-msgid "password"
-msgstr "用户口令"
-
-msgid "other account info"
-msgstr "其它帐户信息"
-
-msgid "Log out"
-msgstr "注销"
-
-msgid "Community"
-msgstr "社区"
-
-msgid "Community preferences"
-msgstr "社区参数设置"
-
-msgid "Create"
-msgstr "创建"
-
-msgid "Profile"
-msgstr "档案"
-
-msgid "Teams"
-msgstr "团队"
-
-msgid "Team"
-msgstr "团队"
-
-msgid "Member of team"
-msgstr "团队成员"
-
-msgid "%1 posts"
-msgstr "%1 个帖子"
-
-msgid "None"
-msgstr "未加入团队"
-
-msgid "Administer"
-msgstr "管理"
-
-msgid "Founder but not member of"
-msgstr "创建人(目前非该团队成员)"
-
-msgid "administrative functions"
-msgstr "管理功能"
-
-msgid "Quit team"
-msgstr "退出团队"
-
-msgid "find a team"
-msgstr "寻找团队"
-
-msgid "Preferences"
-msgstr "参数设置"
-
-msgid "Computing preferences"
-msgstr "计算参数设置"
-
-msgid "When and how BOINC uses your computer"
-msgstr "BOINC 如何使用您的计算机"
-
-msgid "%1 preferences"
-msgstr "%1 参数设置"
-
-msgid "Resource share and graphics"
-msgstr "资源分享和项目图形"
-
-msgid "Message board preferences"
-msgstr "留言板参数设置"
-
-msgid "Message boards and private messages"
-msgstr "留言板和私人消息"
-
-msgid "Computing and credit"
-msgstr "计算和积分情况"
-
-msgid "%1 member since"
-msgstr "加入 %1 的日期"
-
-msgid "Pending credit"
-msgstr "待授予的积分"
-
-msgid "View"
-msgstr "查看"
-
-msgid "Computers on this account"
-msgstr "本帐户所属的计算机"
-
-msgid "Tasks"
-msgstr "任务"
-
-msgid "Cross-project ID"
-msgstr "跨项目标识符(CPID)"
-
-msgid "Cross-project statistics"
-msgstr "跨项目的统计网站"
-
-msgid "Stats on your cell phone"
-msgstr "用手机查看您的统计信息"
-
-msgid "Account number"
-msgstr "帐户编号"
-
-msgid "Used in URLs"
-msgstr "在网址(URL)中使用"
-
-msgid "unread"
-msgstr "未读"
-
-msgid "User ID"
-msgstr "用户 ID"
-
-msgid "Used in community functions"
-msgstr "在社区功能中使用"
-
-msgid "Account key"
-msgstr "帐户密钥"
-
-msgid "Provides full access to your account"
-msgstr "可用于完全访问您的帐户"
-
-msgid "Weak account key"
-msgstr "弱帐户密钥"
-
-msgid "Provides"
-msgstr "可用于"
-
-msgid "limited access"
-msgstr "受限制地访问"
-
-msgid "to your account"
-msgstr "您的帐户"
-
-msgid "Friends"
-msgstr "好友"
-
-msgid "Find friends"
-msgstr "寻找好友"
-
-msgid "hidden"
-msgstr "隐藏"
-
-msgid "Donor"
-msgstr "捐助者"
-
-msgid "Notifications"
-msgstr "通知"
-
-msgid "(foundership change request pending)"
-msgstr "( 好友请求待处理 )"
-
-#########################################
-# Public user page (show_user.php)
-#########################################
-msgid "Projects in which you are participating"
-msgstr "您已参与的项目"
-
-msgid "Projects in which %1 is participating"
-msgstr "%1 已参与的项目"
-
-msgid "Project"
-msgstr "项目"
-
-msgid "Click for user page"
-msgstr "点击访问用户页面"
-
-msgid "Since"
-msgstr "加入日期"
-
-msgid "Contact"
-msgstr "联系"
-
-msgid "This person is a friend"
-msgstr "这是一位好友"
-
-msgid "Cancel friendship"
-msgstr "删除该好友"
-
-msgid "Request pending"
-msgstr "请求待处理"
-
-msgid "Add as friend"
-msgstr "添加为好友"
-
-# ########################################
-# "Weak account key" page (weak_auth.php)
-# ########################################
-msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
-msgstr "'弱帐户密钥'仅用于在客户端加入项目，而不能用来登录您在项目网站上的帐户。"
-
-msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
-msgstr "该机制只对于那些已更新至2007年12月7日版本服务端软件的项目才有效。"
-
-msgid "Your weak account key for this project is:"
-msgstr "您在本项目的弱帐户密钥为："
-
-msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
-msgstr "要在指定的主机上使用您的弱帐户密钥，得先找到或创建相应项目的'帐户文件'，该文件的名称类似于 <b>account_项目网址.xml</b>。%1 的帐户文件为 <b>%2</b>。"
-
-msgid "Create this file if needed. Set its contents to:"
-msgstr "根据需要创建该文件，并将其内容设置为："
-
-msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
-msgstr "弱帐户密钥是根据您的帐户密码计算而来。如果您修改了您的帐户密码，您的弱帐户密钥也随之改变，您之前的弱帐户密钥将失效。"
-
-#########################################
-# Participant profiles
-#########################################
 msgid "Profiles"
 msgstr "档案"
 
@@ -713,12 +743,42 @@ msgstr "按字母表顺序的档案列表："
 msgid "Search profile text"
 msgstr "搜索档案文本"
 
-msgid "Search"
-msgstr "搜索"
-
 msgid "No profiles"
 msgstr "没有档案"
 
 msgid "No profiles matched your query."
 msgstr "没有档案符合您的查询条件。"
+
+msgid "Top hosts"
+msgstr "主机排名"
+
+msgid "Top participants"
+msgstr "用户排名"
+
+msgid "Top %1 teams"
+msgstr "%s 团队排名"
+
+msgid "Participant since"
+msgstr "参加时间"
+
+msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgstr "'弱帐户密钥'仅用于在客户端加入项目，而不能用来登录您在项目网站上的帐户。"
+
+msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+msgstr "该机制只对于那些已更新至2007年12月7日版本服务端软件的项目才有效。"
+
+msgid "Your weak account key for this project is:"
+msgstr "您在本项目的弱帐户密钥为："
+
+msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr "要在指定的主机上使用您的弱帐户密钥，得先找到或创建相应项目的'帐户文件'，该文件的名称类似于 <b>account_项目网址.xml</b>。%1 的帐户文件为 <b>%2</b>。"
+
+msgid "Create this file if needed. Set its contents to:"
+msgstr "根据需要创建该文件，并将其内容设置为："
+
+msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgstr "弱帐户密钥是根据您的帐户密码计算而来。如果您修改了您的帐户密码，您的弱帐户密钥也随之改变，您之前的弱帐户密钥将失效。"
+
+msgid "Your account"
+msgstr "您的帐户"
 
