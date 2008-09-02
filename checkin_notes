@@ -7110,3 +7110,11 @@ Rom    29 Aug 2008
         util.C
     win_build/installerv2/redist/Windows/src/boinccas/
         CAValidateRebootRequest.cpp
+
+Eric	2 Sep 2007
+    - calculate_credit_multiplier:  fixed bug that caused credit multiplier
+      overshoot.  Added check of replica database gap,  use main database if
+      replica is more than a day behind.
+
+    tools/
+        calculate_credit_multiplier

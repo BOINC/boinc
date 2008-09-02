@@ -1,14 +1,4 @@
 #! /bin/sh
-dbhost=`grep db_host ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
-replica_dbhost=`grep replica_db_host ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
-dbuser=`grep db_user ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
-dbname=`grep db_name ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
-if [ -z "${replica_dbhost}" ] ; then
-  replica_dbhost=${dbhost}
-fi
-
-MYSQL="mysql -D $dbname -h $dbhost -u $dbuser -N -B"
-MYSQL_R="mysql -D $dbname -h $replica_dbhost -u $dbuser -N -B"
 
 DECAY_TIME=30*86400
 RUN_INCREMENT=86400
@@ -17,13 +7,29 @@ FILE_DELETE_READY=1
 FILE_DELETE_DONE=2
 FILE_DELETE_ERROR=3
 
+dbhost=`grep db_host ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
+replica_dbhost=`grep replica_db_host ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
+dbuser=`grep db_user ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
+dbname=`grep db_name ../config.xml | tr '[\<\>]' '[  ]' | head -1 | awk '{print $2}'`
+
+if test ! -z "${replica_dbhost}" ; then
+  slave_gap=`mysql -E -h ${replica_dbhost} --execute="show slave status" | grep Seconds_Behind_Master | awk '{print $2}'`
+fi
+
+if test -z "${replica_dbhost}" || test "$slave_gap" = "NULL" || test $slave_gap -gt $RUN_INCREMENT ; then
+  replica_dbhost=${dbhost}
+fi
+
+MYSQL="mysql -D $dbname -h $dbhost -u $dbuser -N -B"
+MYSQL_R="mysql -D $dbname -h $replica_dbhost -u $dbuser -N -B"
+
 function median_host_query() {
   $MYSQL --execute="
      create temporary table medians (id int auto_increment primary key)
        select $1 from host 
        where rpc_time>unix_timestamp(now())-($DECAY_TIME)
              and credit_per_cpu_sec>0
-       order by $1; 
+       order by $1;
      create temporary table ids
        select round(avg(id)-0.5) as id from medians;
      insert into ids select round(avg(id)+0.5) from medians;
@@ -36,6 +42,7 @@ function median_host_query() {
 
 function get_recent_credited_results() {
   $MYSQL_R --execute="
+    set session transaction isolation level read uncommitted;
     create temporary table recent_results 
       select 
         granted_credit,
@@ -86,9 +93,13 @@ for appid in $appids ; do
   fi
 
     last_value=`$MYSQL --execute="select multiplier from credit_multiplier where appid=$appid and (unix_timestamp(now())-time)=(select min(unix_timestamp(now())-time) from credit_multiplier where appid=$appid)"`
+    echo -n "appid=${appid} last_value=${last_value}"
     last_time=`$MYSQL --execute="select unix_timestamp(now())-time from credit_multiplier where appid=$appid and (unix_timestamp(now())-time)=(select min(unix_timestamp(now())-time) from credit_multiplier where appid=$appid)"`
+    echo -n "   desired_value=${ratio}"
 
-    value=`$MYSQL --execute="select ($last_value*((($DECAY_TIME)-$last_time)+$ratio*$last_time))/($DECAY_TIME)"`
+    value=`$MYSQL --execute="select ($last_value*(($DECAY_TIME)-$last_time)+$ratio*$last_time)/($DECAY_TIME)"`
+    echo -n "   new_value=${value}"
+    echo
 
     $MYSQL --execute="insert into credit_multiplier values (0,$appid,unix_timestamp(now()),$value);"
 done
