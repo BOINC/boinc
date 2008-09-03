@@ -950,7 +950,7 @@ void CMainDocument::RunPeriodicRPCs() {
 // displaying the "Please wait" dialog on multi-processor computers.  
 // Possible exceptions might be when ForceCacheUpdate() is called 
 // from these routines (which may need immediate results):
-//      CAdvancedFrame::OnConnect()->CMainDocument::GetProjectCount()
+//      CAdvancedFrame::OnConnect()
 //      CDlgItemProperties::FormatApplicationName()
 //      WorkunitNotebook::AddTab()
 //      CMainDocument::CachedProjectStatusUpdate()
