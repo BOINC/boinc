@@ -570,6 +570,17 @@ void CMainDocument::HandleCompletedRPC() {
         }
     }
     
+    if (! stillWaitingForPendingRequests) {
+        if (m_RPCWaitDlg) {
+            if (m_RPCWaitDlg->IsShown()) {
+                m_RPCWaitDlg->EndModal(wxID_OK);
+            }
+                m_RPCWaitDlg->Destroy();
+                m_RPCWaitDlg = NULL;
+        }
+        m_bWaitingForRPC = false;
+    }
+
     if (requestIndex >= 0) {
         // Remove completed request from the queue
         RPC_requests[requestIndex].event = NULL;  // Is this needed to prevent calling the event's destructor?
@@ -696,23 +707,8 @@ void CMainDocument::HandleCompletedRPC() {
         }
     }
     
-    if ( (current_rpc_request.event) && (current_rpc_request.event != (wxEvent*)-1) ) {
-        if (! retval) {
-            if (current_rpc_request.eventHandler) {
-                current_rpc_request.eventHandler->AddPendingEvent(*current_rpc_request.event);
-            } else {
-                // We must get the frame immediately before using it, 
-                // since it may have been changed by SetActiveGUI().
-                CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-                if (pFrame) {
-                    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-                    pFrame->AddPendingEvent(*current_rpc_request.event);
-                }
-            }
-        }
-        delete current_rpc_request.event;
-        current_rpc_request.event = NULL;
-    }
+    wxEvent *crr_event = current_rpc_request.event;
+    wxEvtHandler *crr_eventHandler = current_rpc_request.eventHandler;
 
     current_rpc_request.clear();
 
@@ -729,27 +725,29 @@ void CMainDocument::HandleCompletedRPC() {
     } else {
         m_RPCThread->Pause();
         while (!m_RPCThread->IsPaused()) {
-#ifdef __WXMSW__
-            SwitchToThread();
-#else
             // TODO: is there a way for main UNIX thread to yield wih no minimum delay?
             timespec ts = {0, 1};   /// 1 nanosecond
             nanosleep(&ts, NULL);   /// 1 nanosecond or less 
-#endif
         }
 #endif  // ! __WXMSW__       // Deadlocks on Windows
     }
 
-
-    if (! stillWaitingForPendingRequests) {
-        if (m_RPCWaitDlg) {
-            if (m_RPCWaitDlg->IsShown()) {
-                m_RPCWaitDlg->EndModal(wxID_OK);
+    if ( (crr_event) && (crr_event != (wxEvent*)-1) ) {
+        if (! retval) {
+            if (crr_eventHandler) {
+                crr_eventHandler->ProcessEvent(*crr_event);
+            } else {
+                // We must get the frame immediately before using it, 
+                // since it may have been changed by SetActiveGUI().
+                CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+                if (pFrame) {
+                    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+                    pFrame->ProcessEvent(*crr_event);
+                }
             }
-                m_RPCWaitDlg->Destroy();
-                m_RPCWaitDlg = NULL;
         }
-        m_bWaitingForRPC = false;
+        delete crr_event;
+        crr_event = NULL;
     }
 }
 

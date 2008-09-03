@@ -7130,3 +7130,11 @@ David  3 Sept 2008
 
     html/user/
         white.css
+
+Charlie 3 Sep 2008
+    MGR: Fix Async GUI RPC bugs when connecting to a different host.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        AsyncRPC.cpp
+        MainDocument.cpp

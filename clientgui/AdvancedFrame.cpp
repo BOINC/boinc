@@ -1713,7 +1713,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-    pDoc->GetCoreClientStatus(status);
+    pDoc->GetCoreClientStatus(status, true);
 
     // Do we need to bug out to the simple view?
     if (status.simple_gui_only) {
@@ -1737,6 +1737,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         wxGetApp().StartBOINCScreensaverTest();
     }
 
+    pDoc->ForceCacheUpdate();
 
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
