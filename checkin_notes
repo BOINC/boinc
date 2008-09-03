@@ -7124,3 +7124,9 @@ Charlie 2 Sep 2008
     
     client/
         switcher.C
+
+David  3 Sept 2008
+    - web: improve stylesheet for quoted messages (from Michael Roberts)
+
+    html/user/
+        white.css
