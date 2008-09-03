@@ -18,8 +18,10 @@
 // switcher.C
 //
 // When run as
-// switcher Path X1 ... Xn
-// runs program at Path with args X1. ... Xn
+// switcher Full-Path Executable-Name X1 ... Xn
+// runs program at Full-Path with args X1. ... Xn
+// note that the executable name nust be specified twice: 
+//  once as part of the Full_Path and again as just the name
 
 #include <unistd.h>
 #include <stdio.h>
