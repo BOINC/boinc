@@ -239,6 +239,9 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
 
         wxASSERT(m_pListPane);
 
+        // Remember the key values of currently selected items
+        SaveSelections();
+    
         int iDocCount = GetDocCount();
         int iCacheCount = GetCacheCount();
         if (iDocCount != iCacheCount) {
@@ -294,8 +297,6 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
         }
         
         // Find the previously selected items by their key values and reselect them
-        // CMainDocument::HandleCompletedRPC() called SaveSelections() before it 
-        // updated the underlying data
         RestoreSelections();
         
         UpdateSelection();

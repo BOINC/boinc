@@ -62,8 +62,6 @@ public:
     virtual void        OnCloseWindow( wxCommandEvent& event );
     virtual void        OnExit( wxCommandEvent& event );
     void                OnUpdateMessages( CFrameEvent& event );
-    virtual void        SaveSelections();
-    virtual void        RestoreSelections();
 
     
     int                 GetReminderFrequency() { return m_iReminderFrequency; }

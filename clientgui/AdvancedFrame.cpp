@@ -961,38 +961,6 @@ bool CAdvancedFrame::RestoreViewState() {
 }
 
 
-void CAdvancedFrame::SaveSelections() {
-    wxWindow*       pwndNotebookPage = NULL;
-    CBOINCBaseView* pView = NULL;
-
-    wxASSERT(m_pNotebook);
-
-    pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
-    wxASSERT(pwndNotebookPage);
-
-    pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-//    wxASSERT(pView);
-    
-    pView->SaveSelections();
-}
-
-
-void CAdvancedFrame::RestoreSelections() {
-    wxWindow*       pwndNotebookPage = NULL;
-    CBOINCBaseView* pView = NULL;
-
-    wxASSERT(m_pNotebook);
-
-    pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
-    wxASSERT(pwndNotebookPage);
-
-    pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-    wxASSERT(pView);
-    
-    pView->RestoreSelections();
-}
-
-
 void CAdvancedFrame::SaveWindowDimensions() {
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);

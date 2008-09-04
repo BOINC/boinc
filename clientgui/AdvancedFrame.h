@@ -110,7 +110,7 @@ private:
     bool            CreateNotebook();
     bool            RepopulateNotebook();
     template < class T >
-        bool        CreateNotebookPage( T pwndNewNotebookPage );
+    bool            CreateNotebookPage( T pwndNewNotebookPage );
     bool            DeleteNotebook();
 
     bool            CreateStatusbar();
@@ -120,8 +120,6 @@ private:
     bool            SaveViewState();
     bool            RestoreState();
     bool            RestoreViewState();
-    virtual void    SaveSelections();
-    virtual void    RestoreSelections();
 
     void            SaveWindowDimensions();
     void            RestoreWindowDimensions();
