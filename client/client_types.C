@@ -636,7 +636,7 @@ FILE_INFO::FILE_INFO() {
     strcpy(signed_xml, "");
     strcpy(xml_signature, "");
     strcpy(file_signature, "");
-    certificates = 0;
+    cert_sigs = 0;
 }
 
 FILE_INFO::~FILE_INFO() {
@@ -747,7 +747,7 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
             continue;
         }
         if (match_tag(buf, "<signatures>")) {
-            if (!certificates->parse_miofile_embed(in)) {
+            if (!cert_sigs->parse_miofile_embed(in)) {
                 msg_printf(0, MSG_INTERNAL_ERROR,
                     "FILE_INFO::parse(): cannot parse <signatures>\n");
                 return ERR_XML_PARSE;

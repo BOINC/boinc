@@ -41,9 +41,9 @@ struct CERT_SIG {
 
 class CERT_SIGS {
 public:
-    std::vector<CERT_SIG> cert_sigs;
-    CERT_SIG();
-    ~CERT_SIG();
+    std::vector<CERT_SIG> signatures;
+    CERT_SIGS();
+    ~CERT_SIGS();
     //
     // Parses an .xml signature file with the following structure:
     //
@@ -64,12 +64,10 @@ public:
     int parse_file(const char* filename);
     int parse_buffer(char* buf);
     int write(MIOFILE &f);
-    int write(MIOFILE &f, int max);
     // Parses from an already opened MIOFILE, the pointer should have
     // passed the opening <signatures> tag (no check is done for that).
     int parse_miofile_embed(MIOFILE &mf);
     int parse_buffer_embed(char* buf);
-    void dump();
     void clear();
     int count();        // return the total number of signatures.
 private:

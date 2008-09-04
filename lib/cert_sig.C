@@ -21,40 +21,40 @@
 #include <stdbool.h>
 #include "miofile.h"
 #include "error_numbers.h"
-#include "certificate.h"
+#include "cert_sig.h"
 
-CERTIFICATE::CERTIFICATE() {
+CERT_SIG::CERT_SIG() {
     this->clear();
 }
 
-CERTIFICATE::~CERTIFICATE() {
+CERT_SIG::~CERT_SIG() {
     // TODO
 }
 
-void CERTIFICATE::clear() {
+void CERT_SIG::clear() {
     this->type = MD5_HASH;     // md5 hash by default
     memset(this->subject, 0, sizeof(this->subject));
     memset(this->signature, 0, sizeof(this->signature));    
 }
 
-CERTIFICATES::CERTIFICATES() {
+CERT_SIGS::CERT_SIGS() {
     // TODO
 }
 
-CERTIFICATES::~CERTIFICATES() {
+CERT_SIGS::~CERT_SIGS() {
     // TODO
 }
 
-void CERTIFICATES::clear() {
+void CERT_SIGS::clear() {
     this->signatures.clear();
 }
 
-int CERTIFICATES::count() {
+int CERT_SIGS::count() {
     return this->signatures.size();
 }
 
-int CERTIFICATES::parse(XML_PARSER &xp) {
-    CERTIFICATE sig;
+int CERT_SIGS::parse(XML_PARSER &xp) {
+    CERT_SIG sig;
     int is_tag = false;
     int in_entry = false;
     int in_sig = false;
@@ -62,12 +62,12 @@ int CERTIFICATES::parse(XML_PARSER &xp) {
     char tag[4096];
     char buf[256];
     
-    //printf("CERTIFICATES::parse() starts.\n");
+    //printf("CERT_SIGS::parse() starts.\n");
     //fflush(stdout);
     
     while (!xp.get(tag, sizeof(tag), (bool&)is_tag)) {
         if (!strcmp(tag, "/signatures")) {
-            //printf("CERTIFICATES::parse() ends.\n");
+            //printf("CERT_SIGS::parse() ends.\n");
             //fflush(stdout);
             return !in_entry && !in_sig && parsed_one;
         }
@@ -77,7 +77,7 @@ int CERTIFICATES::parse(XML_PARSER &xp) {
             continue;
         } 
         if (!is_tag) {
-            printf("(CERTIFICATES): unexpected text: %s\n", tag);
+            printf("(CERT_SIGS): unexpected text: %s\n", tag);
             continue;
         }
         if (in_entry) {
@@ -128,12 +128,12 @@ int CERTIFICATES::parse(XML_PARSER &xp) {
     return false;
 }
 
-int CERTIFICATES::parse_miofile_embed(MIOFILE &mf) {
+int CERT_SIGS::parse_miofile_embed(MIOFILE &mf) {
     XML_PARSER xp(&mf);
     return this->parse(xp);    
 }
 
-int CERTIFICATES::parse_file(const char* filename) {
+int CERT_SIGS::parse_file(const char* filename) {
     FILE* f;
     int retval;
 
@@ -151,7 +151,7 @@ int CERTIFICATES::parse_file(const char* filename) {
     return retval;
 }
 
-int CERTIFICATES::parse_buffer(char* buf) {
+int CERT_SIGS::parse_buffer(char* buf) {
     MIOFILE mf;
     int retval;
 
@@ -161,7 +161,7 @@ int CERTIFICATES::parse_buffer(char* buf) {
     return retval;
 }
 
-int CERTIFICATES::parse_buffer_embed(char* buf) {
+int CERT_SIGS::parse_buffer_embed(char* buf) {
     MIOFILE mf;
     char tag[4096];
     int is_tag;
@@ -181,16 +181,7 @@ int CERTIFICATES::parse_buffer_embed(char* buf) {
         return false;
 }
 
-void CERTIFICATES::dump() {
-    MIOFILE m;
-    char buf[4096];
-    
-    m.init_buf_write((char *)buf, 4096);
-    this->write(m, 4096);
-    printf("%s", buf);
-}
-
-int CERTIFICATES::write(MIOFILE &f) {
+int CERT_SIGS::write(MIOFILE &f) {
     if (this->signatures.size()==0) 
         return true;
     f.printf("<signatures>\n");

@@ -7170,3 +7170,16 @@ David  4 Sep 2008
     sched/
         handle_request.C
         sched_config.C,h
+
+David  4 Sep 2008
+    - Add support for code-signing using x509 certificates
+        (from Attila Marosi)
+
+    client/
+        client_types.C,h
+        cs_files.C
+        log_flags.C,h
+    lib/
+        Makefile.am
+        cert_sig.C,h (new)
+        crypt.C,h

@@ -22,24 +22,9 @@
 // We use our own data structures (R_RSA_PUBLIC_KEY and R_RSA_PRIVATE_KEY)
 // to store keys in either case.
 
-// Only define these here if they haven't been defined elsewhere
-#if !(defined(USE_OPENSSL) || defined(USE_RSAEURO))
-#define USE_OPENSSL 1
-//#define USE_RSAEURO 1
-#endif
-
 #include <stdio.h>
 #include <string.h>
 
-#ifdef USE_RSAEURO
-#include "rsaeuro.h"
-extern "C" {
-#include "rsa.h"
-}
-
-#endif
-
-#ifdef USE_OPENSSL
 #include <openssl/rsa.h>
 
 #define MAX_RSA_MODULUS_BITS 1024
@@ -71,8 +56,6 @@ extern void openssl_to_keys(
 );
 extern void private_to_openssl(R_RSA_PRIVATE_KEY& priv, RSA* rp);
 extern void public_to_openssl(R_RSA_PUBLIC_KEY& pub, RSA* rp);
-
-#endif
 
 struct KEY {
     unsigned short int bits;
@@ -138,7 +121,9 @@ extern int check_validity_of_cert(
     unsigned char *sfileMsg, const int sfsize, char* caPath
 );
 
+class CERT_SIGS;
+
 int cert_verify_file(
-    SIGNATURES* signatures, const char* origFile, char* trustLocation
+    CERT_SIGS* signatures, const char* origFile, char* trustLocation
 );
 #endif

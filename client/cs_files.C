@@ -36,7 +36,7 @@
 #include "crypt.h"
 #include "str_util.h"
 #include "filesys.h"
-#include "certificate.h"
+#include "cert_sig.h"
 #include "error_numbers.h"
 
 #include "file_names.h"
@@ -92,15 +92,15 @@ int CLIENT_STATE::make_project_dirs() {
 // Is app signed by one of the Application Certifiers?
 //
 bool FILE_INFO::verify_file_certs() {
-    string file;
+    char file[256];
     bool retval = false;
 
     if (!is_dir(CERTIFICATE_DIRECTORY)) return false;
     DIRREF dir = dir_open(CERTIFICATE_DIRECTORY);
-    while (dir_scan(file, dir)) {
-        if (cert_verify_file(certificates, file.c_str(), CERTIFICATE_DIRECTORY)) {
+    while (dir_scan(file, dir, sizeof(dir))) {
+        if (cert_verify_file(cert_sigs, file, CERTIFICATE_DIRECTORY)) {
             msg_printf(project, MSG_INFO,
-                "Signature verified using certificate %s", file.c_str()
+                "Signature verified using certificate %s", file
             );
             retval = true;
             break;
@@ -159,7 +159,7 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
     if (!strict) return 0;
 
     if (signature_required) {
-        if (!strlen(file_signature) && !certificates) {
+        if (!strlen(file_signature) && !cert_sigs) {
             msg_printf(project, MSG_INTERNAL_ERROR,
                 "Application file %s missing signature", name
             );

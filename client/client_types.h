@@ -31,7 +31,7 @@
 #endif
 
 #include "md5_file.h"
-#include "certificate.h"
+#include "cert_sig.h"
 #include "hostinfo.h"
 #include "coproc.h"
 #include "miofile.h"
@@ -95,7 +95,7 @@ public:
         // this is the signature
     std::string error_msg;       // if permanent error occurs during file xfer,
                             // it's recorded here
-    CERTIFICATES* certificates;
+    CERT_SIGS* cert_sigs;
 
     FILE_INFO();
     ~FILE_INFO();

@@ -25,9 +25,23 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #endif
 
+#include <openssl/ssl.h>
+#include <openssl/md5.h>
+#include <openssl/bio.h>
+#include <openssl/evp.h>
+#include <openssl/pem.h>
+#include <openssl/conf.h>
+#include <openssl/engine.h>
+#include <openssl/err.h>
+
+
 #include "md5_file.h"
+#include "cert_sig.h"
 #include "error_numbers.h"
 
 #include "crypt.h"
@@ -491,7 +505,9 @@ int check_validity_of_cert(const char *cFile, const unsigned char *md5_md, unsig
     return retval;
 }
 
-int cert_verify_file(SIGNATURES* signatures, const char* origFile, char* trustLocation) {
+int cert_verify_file(
+    CERT_SIGS* signatures, const char* origFile, char* trustLocation
+) {
     MD5_CTX md5CTX;
     int of, rbytes;
     struct stat ostat;
