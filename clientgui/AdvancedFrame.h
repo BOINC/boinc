@@ -120,6 +120,8 @@ private:
     bool            SaveViewState();
     bool            RestoreState();
     bool            RestoreViewState();
+    virtual void    SaveSelections();
+    virtual void    RestoreSelections();
 
     void            SaveWindowDimensions();
     void            RestoreWindowDimensions();

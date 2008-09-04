@@ -40,6 +40,7 @@ public:
     float m_fTimeToCompletion;
     time_t m_tReportDeadline;
     wxString m_strStatus;
+    wxString m_strProjectURL;   // Used internally, not displayed
 };
 
 
@@ -56,6 +57,9 @@ public:
     virtual wxString&       GetViewName();
     virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
+    virtual wxString        GetKeyValue1(int iRowIndex);
+    virtual wxString        GetKeyValue2(int iRowIndex);
+    virtual int             FindRowIndexByKeyValues(wxString& key1, wxString& key2);
 
     void                    OnWorkSuspend( wxCommandEvent& event );
     void                    OnWorkShowGraphics( wxCommandEvent& event );
@@ -95,7 +99,7 @@ protected:
     wxInt32                 FormatReportDeadline( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocStatus(wxInt32 item, wxString& strBuffer) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
-
+    void                    GetDocProjectURL(wxInt32 item, wxString& strBuffer) const;
     virtual double          GetProgressValue(long item);
 
     DECLARE_EVENT_TABLE()

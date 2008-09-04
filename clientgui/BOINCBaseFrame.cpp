@@ -366,6 +366,14 @@ void CBOINCBaseFrame::OnUpdateMessages(CFrameEvent& ) {
 }
 
 
+void CBOINCBaseFrame::SaveSelections() {
+}
+
+
+void CBOINCBaseFrame::RestoreSelections() {
+}
+
+
 void CBOINCBaseFrame::FireInitialize() {
     CFrameEvent event(wxEVT_FRAME_INITIALIZED, this);
     AddPendingEvent(event);

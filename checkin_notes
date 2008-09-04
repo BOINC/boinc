@@ -7183,3 +7183,18 @@ David  4 Sep 2008
         Makefile.am
         cert_sig.C,h (new)
         crypt.C,h
+
+Charlie 3 Sep 2008
+    MGR: Save and restore selected items by key values when refreshing, to 
+        prevent wrong items from becoming selected when projects, tasks or
+        transfers are added to or deleted from the list in Advanced View.
+    
+    clientgui/
+        AdvancedFrame.cpp,.h
+        AsyncRPC.cpp
+        BOINCBaseFrame.cpp,.h
+        BOINCBaseView.cpp,.h
+        BOINCListCtrl.cpp,.h
+        ViewProjects.cpp,.h
+        ViewTransfers.cpp,.h
+        ViewWork.cpp,.h

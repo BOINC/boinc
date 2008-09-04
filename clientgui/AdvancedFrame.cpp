@@ -961,6 +961,38 @@ bool CAdvancedFrame::RestoreViewState() {
 }
 
 
+void CAdvancedFrame::SaveSelections() {
+    wxWindow*       pwndNotebookPage = NULL;
+    CBOINCBaseView* pView = NULL;
+
+    wxASSERT(m_pNotebook);
+
+    pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
+    wxASSERT(pwndNotebookPage);
+
+    pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
+//    wxASSERT(pView);
+    
+    pView->SaveSelections();
+}
+
+
+void CAdvancedFrame::RestoreSelections() {
+    wxWindow*       pwndNotebookPage = NULL;
+    CBOINCBaseView* pView = NULL;
+
+    wxASSERT(m_pNotebook);
+
+    pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
+    wxASSERT(pwndNotebookPage);
+
+    pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
+    wxASSERT(pView);
+    
+    pView->RestoreSelections();
+}
+
+
 void CAdvancedFrame::SaveWindowDimensions() {
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
@@ -1706,6 +1738,9 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     ACCT_MGR_INFO ami;
     PROJECT_INIT_STATUS pis;
 	CC_STATUS     status;
+    wxWindow* pwndNotebookPage = NULL;
+    CBOINCBaseView* pView = NULL;
+    int iItemCount = 0, iIndex;
 
     wxASSERT(m_pNotebook);
     wxASSERT(pDoc);
@@ -1735,6 +1770,18 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->GetConnectedComputerName(strComputer);
     if (pDoc->IsComputerNameLocal(strComputer)) {
         wxGetApp().StartBOINCScreensaverTest();
+    }
+
+    // Clear selected rows in all tab pages when connecting to a different host
+    iItemCount = (int)m_pNotebook->GetPageCount() - 1;
+    for (iIndex = 0; iIndex <= iItemCount; iIndex++) {   
+        pwndNotebookPage = m_pNotebook->GetPage(iIndex);
+        wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
+
+        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
+        wxASSERT(pView);
+        
+        pView->ClearSelections();
     }
 
     pDoc->ForceCacheUpdate();

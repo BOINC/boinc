@@ -236,6 +236,30 @@ const char** CViewWork::GetViewIcon() {
 }
 
 
+wxString CViewWork::GetKeyValue1(int iRowIndex) {
+    CWork*          work = m_WorkCache.at(m_iSortedIndexes[iRowIndex]);
+    return work->m_strName;
+}
+
+
+wxString CViewWork::GetKeyValue2(int iRowIndex) {
+    CWork*          work = m_WorkCache.at(m_iSortedIndexes[iRowIndex]);
+    return work->m_strProjectURL;
+}
+
+
+int CViewWork::FindRowIndexByKeyValues(wxString& key1, wxString& key2) {
+    CWork* work;
+    unsigned int iRowIndex, n = GetCacheCount();
+	for(iRowIndex=0; iRowIndex < n; iRowIndex++) {
+        work = m_WorkCache.at(m_iSortedIndexes[iRowIndex]);
+        if(! (work->m_strName).IsSameAs(key1)) continue;
+        if((work->m_strProjectURL).IsSameAs(key2)) return iRowIndex;
+	}
+	return -1;
+}
+
+
 void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkSuspend - Function Begin"));
 
@@ -631,6 +655,7 @@ void CViewWork::UpdateSelection() {
 
 bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
     wxString    strDocumentText  = wxEmptyString;
+    wxString    strDocumentText2 = wxEmptyString;
     float       fDocumentFloat = 0.0;
     time_t      tDocumentTime = (time_t)0;
     CWork*      work = m_WorkCache.at(m_iSortedIndexes[iRowIndex]);
@@ -640,8 +665,10 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
     switch (iColumnIndex) {
         case COLUMN_PROJECT:
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
-            if (!strDocumentText.IsSameAs(work->m_strProjectName)) {
+            GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText2);
+            if (!strDocumentText.IsSameAs(work->m_strProjectName) || !strDocumentText2.IsSameAs(work->m_strProjectURL)) {
                 work->m_strProjectName = strDocumentText;
+                work->m_strProjectURL = strDocumentText2;
                 return true;
             }
             break;
@@ -1048,6 +1075,17 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     strBuffer = work->m_strStatus;
 
     return 0;
+}
+
+
+void CViewWork::GetDocProjectURL(wxInt32 item, wxString& strBuffer) const {
+    RESULT* result = wxGetApp().GetDocument()->result(item);
+
+    wxASSERT(result);
+
+    if (result) {
+        strBuffer = wxString(result->project_url.c_str(), wxConvUTF8);
+    }
 }
 
 

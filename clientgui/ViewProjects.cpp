@@ -243,6 +243,23 @@ const char** CViewProjects::GetViewIcon() {
 }
 
 
+wxString CViewProjects::GetKeyValue1(int iRowIndex) {
+    CProject*   project = m_ProjectCache.at(m_iSortedIndexes[iRowIndex]);
+    return project->m_strProjectURL;
+}
+
+
+int CViewProjects::FindRowIndexByKeyValues(wxString& key1, wxString&) {
+    CProject* project;
+    unsigned int iRowIndex, n = GetCacheCount();
+	for(iRowIndex=0; iRowIndex < n; iRowIndex++) {
+        project = m_ProjectCache.at(m_iSortedIndexes[iRowIndex]);
+        if((project->m_strProjectURL).IsSameAs(key1)) return iRowIndex;
+	}
+	return -1;
+}
+
+
 void CViewProjects::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectUpdate - Function Begin"));
 
@@ -691,6 +708,7 @@ void CViewProjects::UpdateSelection() {
 
 bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
     wxString    strDocumentText  = wxEmptyString;
+    wxString    strDocumentText2 = wxEmptyString;
     float       fDocumentFloat = 0.0;
     CProject*   project = m_ProjectCache.at(m_iSortedIndexes[iRowIndex]);
 
@@ -699,8 +717,10 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
     switch (iColumnIndex) {
         case COLUMN_PROJECT:
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
-            if (!strDocumentText.IsSameAs(project->m_strProjectName)) {
+            GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText2);
+            if (!strDocumentText.IsSameAs(project->m_strProjectName) || !strDocumentText2.IsSameAs(project->m_strProjectURL)) {
                 project->m_strProjectName = strDocumentText;
+                project->m_strProjectURL = strDocumentText2;
                 return true;
             }
             break;
@@ -916,6 +936,17 @@ wxInt32 CViewProjects::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     strBuffer = project->m_strStatus;
 
     return 0;
+}
+
+
+void CViewProjects::GetDocProjectURL(wxInt32 item, wxString& strBuffer) const {
+    PROJECT* project = wxGetApp().GetDocument()->project(item);
+
+    if (project) {
+        strBuffer = wxString(project->master_url.c_str(), wxConvUTF8);
+    } else {
+        strBuffer = wxEmptyString;
+    }
 }
 
 

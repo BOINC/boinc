@@ -39,6 +39,7 @@ public:
     double m_dTime;
     double m_dSpeed;
     wxString m_strStatus;
+    wxString m_strProjectURL;   // Used internally, not displayed
 };
 
 
@@ -54,6 +55,9 @@ public:
     virtual wxString&       GetViewName();
     virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
+    virtual wxString        GetKeyValue1(int iRowIndex);
+    virtual wxString        GetKeyValue2(int iRowIndex);
+    virtual int             FindRowIndexByKeyValues(wxString& key1, wxString& key2);
 
     void                    OnTransfersRetryNow( wxCommandEvent& event );
     void                    OnTransfersAbort( wxCommandEvent& event );
@@ -88,6 +92,7 @@ protected:
     wxInt32                 FormatSpeed( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocStatus(wxInt32 item, wxString& strBuffer) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
+    void                    GetDocProjectURL(wxInt32 item, wxString& strBuffer) const;
 
     virtual double          GetProgressValue(long item);
 

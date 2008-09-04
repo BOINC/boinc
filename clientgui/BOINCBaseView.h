@@ -94,6 +94,9 @@ public:
     virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
     virtual const int       GetViewRefreshRate();
+    virtual wxString        GetKeyValue1(int iRowIndex);
+    virtual wxString        GetKeyValue2(int iRowIndex);
+    virtual int             FindRowIndexByKeyValues(wxString& key1, wxString& key2);
 
     bool                    FireOnSaveState( wxConfigBase* pConfig );
     bool                    FireOnRestoreState( wxConfigBase* pConfig );
@@ -110,11 +113,21 @@ public:
     virtual double          GetProgressValue(long item);
 
     void                    InitSort();
+    
+	void                    SaveSelections();
+	void                    RestoreSelections();
+	void                    ClearSavedSelections();
+	void                    ClearSelections();
 
     std::vector<CTaskItemGroup*> m_TaskGroups;
 
     int                     m_iSortColumn;
     bool                    m_bReverseSort;
+
+private:
+
+	wxArrayString           m_arrSelectedKeys1;     //array for remembering the current selected rows by primary key column value
+	wxArrayString           m_arrSelectedKeys2;     //array for remembering the current selected rows by secondary key column value
 
 protected:
 

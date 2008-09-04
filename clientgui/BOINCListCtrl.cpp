@@ -177,6 +177,11 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 
+void CBOINCListCtrl::SelectRow(int row, bool setSelected) {
+    SetItemState(row,  setSelected ? wxLIST_STATE_SELECTED : 0, wxLIST_STATE_SELECTED);
+}
+
+
 void CBOINCListCtrl::OnClick(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCListCtrl::OnClick - Function Begin"));
 

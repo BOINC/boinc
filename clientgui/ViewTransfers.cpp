@@ -207,6 +207,30 @@ const char** CViewTransfers::GetViewIcon() {
 }
 
 
+wxString CViewTransfers::GetKeyValue1(int iRowIndex) {
+    CTransfer*  transfer = m_TransferCache.at(m_iSortedIndexes[iRowIndex]);
+    return transfer->m_strFileName;
+}
+
+
+wxString CViewTransfers::GetKeyValue2(int iRowIndex) {
+    CTransfer*  transfer = m_TransferCache.at(m_iSortedIndexes[iRowIndex]);
+    return transfer->m_strProjectURL;
+}
+
+
+int CViewTransfers::FindRowIndexByKeyValues(wxString& key1, wxString& key2) {
+    CTransfer*  transfer;
+    unsigned int iRowIndex, n = GetCacheCount();
+	for(iRowIndex=0; iRowIndex < n; iRowIndex++) {
+        transfer = m_TransferCache.at(m_iSortedIndexes[iRowIndex]);
+        if(! (transfer->m_strFileName).IsSameAs(key1)) continue;
+        if((transfer->m_strProjectURL).IsSameAs(key2)) return iRowIndex;
+	}
+	return -1;
+}
+
+
 void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTransfers::OnTransfersRetryNow - Function Begin"));
 
@@ -385,6 +409,7 @@ void CViewTransfers::UpdateSelection() {
 
 bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
     wxString    strDocumentText  = wxEmptyString;
+    wxString    strDocumentText2 = wxEmptyString;
     float       fDocumentFloat = 0.0;
     double      fDocumentDouble = 0.0;
     CTransfer*  transfer = m_TransferCache.at(m_iSortedIndexes[iRowIndex]);
@@ -395,8 +420,10 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
     switch(iColumnIndex) {
         case COLUMN_PROJECT:
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
-            if (!strDocumentText.IsSameAs(transfer->m_strProjectName)) {
+            GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText2);
+            if (!strDocumentText.IsSameAs(transfer->m_strProjectName) || !strDocumentText2.IsSameAs(transfer->m_strProjectURL)) {
                 transfer->m_strProjectName = strDocumentText;
+                transfer->m_strProjectURL = strDocumentText2;
                 bNeedRefresh =  true;
             }
             break;
@@ -674,6 +701,17 @@ wxInt32 CViewTransfers::FormatStatus(wxInt32 item, wxString& strBuffer) const {
     strBuffer = transfer->m_strStatus;
 
     return 0;
+}
+
+
+void CViewTransfers::GetDocProjectURL(wxInt32 item, wxString& strBuffer) const {
+    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
+
+    wxASSERT(transfer);
+
+    if (transfer) {
+        strBuffer = wxString(transfer->project_url.c_str(), wxConvUTF8);
+    }
 }
 
 

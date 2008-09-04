@@ -596,6 +596,15 @@ void CMainDocument::HandleCompletedRPC() {
         *(current_rpc_request.resultPtr) = retval;
     }
 
+    // We must get the frame immediately before using it, 
+    // since it may have been changed by SetActiveGUI().
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+    
+    // Remember the key values of currently selected items, then deselect all
+    if (pFrame) {
+        pFrame->SaveSelections();
+    }
+    
     // Post-processing
     if (! retval) {
         switch (current_rpc_request.which_rpc) {
@@ -737,9 +746,6 @@ void CMainDocument::HandleCompletedRPC() {
             if (crr_eventHandler) {
                 crr_eventHandler->ProcessEvent(*crr_event);
             } else {
-                // We must get the frame immediately before using it, 
-                // since it may have been changed by SetActiveGUI().
-                CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
                 if (pFrame) {
                     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
                     pFrame->ProcessEvent(*crr_event);
@@ -748,6 +754,11 @@ void CMainDocument::HandleCompletedRPC() {
         }
         delete crr_event;
         crr_event = NULL;
+    }
+    
+    // Find the previously selected items by their key values and reselect them
+    if (pFrame) {
+        pFrame->RestoreSelections();
     }
 }
 

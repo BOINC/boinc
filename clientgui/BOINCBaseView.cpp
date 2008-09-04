@@ -132,6 +132,8 @@ CBOINCBaseView::~CBOINCBaseView() {
     if (m_SortArrows) {
         delete m_SortArrows;
     }
+    m_arrSelectedKeys1.Empty();
+    m_arrSelectedKeys2.Empty();
 }
 
 
@@ -167,6 +169,21 @@ const char** CBOINCBaseView::GetViewIcon() {
 //
 const int CBOINCBaseView::GetViewRefreshRate() {
     return 1;
+}
+
+
+wxString CBOINCBaseView::GetKeyValue1(int) {
+    return wxEmptyString;
+}
+
+
+wxString CBOINCBaseView::GetKeyValue2(int) {
+    return wxEmptyString;
+}
+
+
+int CBOINCBaseView::FindRowIndexByKeyValues(wxString& key1, wxString& key2) {
+    return -1;
 }
 
 
@@ -422,7 +439,8 @@ int CBOINCBaseView::SynchronizeCache() {
 
     iRowTotal = GetDocCount();
     iColumnTotal = m_pListPane->GetColumnCount();
-
+    Freeze();   // To reduce flicker
+    
     for (iRowIndex = 0; iRowIndex < iRowTotal; iRowIndex++) {
         bNeedRefreshData = false;
 
@@ -441,8 +459,10 @@ int CBOINCBaseView::SynchronizeCache() {
     }
 
     if (bNeedSort) {
-        sortData();     // Will mark entire list as needing refresh
+        sortData();     // Will mark moved items as needing refresh
     }
+    
+    Thaw();
     return 0;
 }
 
@@ -455,6 +475,9 @@ bool CBOINCBaseView::SynchronizeCacheItem(wxInt32 WXUNUSED(iRowIndex), wxInt32 W
 void CBOINCBaseView::OnColClick(wxListEvent& event) {
     wxListItem      item;
     int             newSortColumn = event.GetColumn();
+     wxArrayInt selections;
+    int i, j, m;
+    
 
     item.SetMask(wxLIST_MASK_IMAGE);
     if (newSortColumn == m_iSortColumn) {
@@ -471,7 +494,31 @@ void CBOINCBaseView::OnColClick(wxListEvent& event) {
     
     item.SetImage(m_bReverseSort ? 0 : 1);
     m_pListPane->SetColumn(newSortColumn, item);
+    
+    Freeze();   // To reduce flicker
+    // Remember which cache elements are selected and deselect them
+    m_bIgnoreUIEvents = true;
+    i = -1;
+    while (1) {
+        i = m_pListPane->GetNextSelected(i);
+        if (i < 0) break;
+        selections.Add(m_iSortedIndexes[i]);
+        m_pListPane->SelectRow(i, false);
+    }
+    
     sortData();
+
+    // Reselect previously selected cache elements in the sorted list 
+    m = (int)selections.GetCount();
+    for (i=0; i<m; i++) {
+        if (selections[i] >= 0) {
+            j = m_iSortedIndexes.Index(selections[i]);
+            m_pListPane->SelectRow(j, true);
+        }
+    }
+    m_bIgnoreUIEvents = false;
+
+    Thaw();
 }
 
 
@@ -482,7 +529,9 @@ void CBOINCBaseView::InitSort() {
     item.SetMask(wxLIST_MASK_IMAGE);
     item.SetImage(m_bReverseSort ? 0 : 1);
     m_pListPane->SetColumn(m_iSortColumn, item);
+    Freeze();   // To reduce flicker
     sortData();
+    Thaw();
 }
 
 
@@ -490,31 +539,10 @@ void CBOINCBaseView::sortData() {
     if (m_iSortColumn < 0) return;
     
     wxArrayInt oldSortedIndexes(m_iSortedIndexes);
-    wxArrayInt selections;
-    int i, j, m, n = (int)m_iSortedIndexes.GetCount();
-    
-    // Remember which cache elements are selected and deselect them
-    m_bIgnoreUIEvents = true;
-    i = -1;
-    while (1) {
-        i = m_pListPane->GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-        if (i < 0) break;
-        selections.Add(m_iSortedIndexes[i]);
-        m_pListPane->SetItemState(i, 0, wxLIST_STATE_SELECTED);
-    }
+    int i, n = (int)m_iSortedIndexes.GetCount();
     
     std::stable_sort(m_iSortedIndexes.begin(), m_iSortedIndexes.end(), m_funcSortCompare);
     
-    // Reselect previously selected cache elements in the sorted list 
-    m = (int)selections.GetCount();
-    for (i=0; i<m; i++) {
-        if (selections[i] >= 0) {
-            j = m_iSortedIndexes.Index(selections[i]);
-            m_pListPane->SetItemState(j, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-        }
-    }
-    m_bIgnoreUIEvents = false;
-
     // Refresh rows which have moved
     for (i=0; i<n; i++) {
         if (m_iSortedIndexes[i] != oldSortedIndexes[i]) {
@@ -538,6 +566,71 @@ void CBOINCBaseView::EmptyTasks() {
 }
 
     
+void CBOINCBaseView::ClearSavedSelections() {
+    m_arrSelectedKeys1.Empty();
+    m_arrSelectedKeys2.Empty();
+}
+
+
+// Save the key values of the currently selected rows for later restore
+void CBOINCBaseView::SaveSelections() {
+    int currentTabView = wxGetApp().GetCurrentViewPage();
+    if (! (currentTabView & (VW_PROJ | VW_TASK | VW_XFER))) {
+        return;
+    }
+
+    m_bIgnoreUIEvents = true;
+    wxArrayInt arrSelRows;	
+    int i = -1;
+    while (1) {
+        i = m_pListPane->GetNextSelected(i);
+        if (i < 0) break;
+        arrSelRows.Add(i);
+        m_pListPane->SelectRow(i, false);
+    }
+
+    m_arrSelectedKeys1.Empty();
+    m_arrSelectedKeys2.Empty();
+    for(unsigned int i=0; i< arrSelRows.GetCount();i++) {
+        m_arrSelectedKeys1.Add(GetKeyValue1(arrSelRows[i]));
+        m_arrSelectedKeys2.Add(GetKeyValue2(arrSelRows[i]));
+    }
+    m_bIgnoreUIEvents = false;
+}
+
+// Select all rows, that were formerly selected
+void CBOINCBaseView::RestoreSelections() {
+    int currentTabView = wxGetApp().GetCurrentViewPage();
+    if (! (currentTabView & (VW_PROJ | VW_TASK | VW_XFER))) {
+        return;
+    }
+    
+	ClearSelections();
+    m_bIgnoreUIEvents = true;
+	for(unsigned int i=0;i < m_arrSelectedKeys1.size();i++) {
+		int index = FindRowIndexByKeyValues(m_arrSelectedKeys1[i], m_arrSelectedKeys2[i]);
+		if(index >=0) {
+			m_pListPane->SelectRow(index, true);
+		}
+	}
+    m_bIgnoreUIEvents = false;
+}
+
+
+void CBOINCBaseView::ClearSelections() {
+    if (!m_pListPane) return;
+    
+    m_bIgnoreUIEvents = true;
+    int i = -1;
+    while (1) {
+        i = m_pListPane->GetNextSelected(i);
+        if (i < 0) break;
+        m_pListPane->SelectRow(i, false);
+    }
+    m_bIgnoreUIEvents = false;
+}
+
+
 void CBOINCBaseView::PreUpdateSelection(){
 }
 

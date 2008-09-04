@@ -53,7 +53,9 @@ public:
 
     long                    GetFocusedItem() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_FOCUSED); }
     long                    GetFirstSelected() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); }
-
+    long                    GetNextSelected(int i) { return GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); }
+    void                    SelectRow(int row, bool setSelected);
+    
     bool                    m_bIsSingleSelection;
 
 private:
