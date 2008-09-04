@@ -7184,7 +7184,7 @@ David  4 Sep 2008
         cert_sig.C,h (new)
         crypt.C,h
 
-Charlie 3 Sep 2008
+Charlie 4 Sep 2008
     MGR: Save and restore selected items by key values when refreshing, to 
         prevent wrong items from becoming selected when projects, tasks or
         transfers are added to or deleted from the list in Advanced View.
@@ -7198,3 +7198,10 @@ Charlie 3 Sep 2008
         ViewProjects.cpp,.h
         ViewTransfers.cpp,.h
         ViewWork.cpp,.h
+
+Charlie 4 Sep 2008
+    Mac: Add new files cert_sig.C,h to XCode project.
+
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
