@@ -7145,3 +7145,9 @@ Charlie 3 Sep 2008
     mac_installer/
         release_boinc.sh
         release_GridRepublic.sh
+
+David  4 Sep 2008
+    - web: stylesheet tweak
+
+    html/user/
+        white.css

@@ -271,10 +271,9 @@ div.authorcol {
 .authorcol input { margin: 4px 10px; } 
 
 blockquote.postbody {
-    border: 1px solid #0069a1;
-    border-left: 3px solid #0069a1;
+    border-left: 2px solid #0089e1;
     background-color: #f5fffa;
-    padding: 4px 6px;
+    padding: 2px 6px;
     margin: 0px 6px 0px 10px;
     font-style: italic;
 } 
