@@ -78,7 +78,7 @@ public:
     class PERS_FILE_XFER* pers_file_xfer;
         // nonzero if in the process of being up/downloaded
     struct RESULT* result;         // for upload files (to authenticate)
-    struct PROJECT* project;
+    class PROJECT* project;
     int ref_cnt;
     std::vector<std::string> urls;
     int start_url;

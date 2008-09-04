@@ -42,6 +42,7 @@
 
 #include "md5_file.h"
 #include "cert_sig.h"
+#include "filesys.h"
 #include "error_numbers.h"
 
 #include "crypt.h"
@@ -395,8 +396,6 @@ int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key) {
     return 0;
 }
 
-#ifdef USE_OPENSSL
-
 static void bn_to_bin(BIGNUM* bn, unsigned char* bin, int n) {
     memset(bin, 0, n);
     int m = BN_num_bytes(bn);
@@ -442,7 +441,6 @@ int check_validity_of_cert(const char *cFile, const unsigned char *md5_md, unsig
     char* caPath) {
     int retval = 0;
     X509 *cert;
-    X509_NAME *subj;    
     X509_STORE *store;
     X509_LOOKUP *lookup;
     X509_STORE_CTX *ctx = 0;
@@ -509,8 +507,7 @@ int cert_verify_file(
     CERT_SIGS* signatures, const char* origFile, char* trustLocation
 ) {
     MD5_CTX md5CTX;
-    int of, rbytes;
-    struct stat ostat;
+    int rbytes;
     unsigned char md5_md[MD5_DIGEST_LENGTH],  rbuf[2048];
     char buf[256];
     char fbuf[512];
@@ -527,17 +524,17 @@ int cert_verify_file(
         fflush(stdout);
         return false;
     }
-    SSL_library_init();    
-    if (-1 == stat(origFile, &ostat))
-	    return false;
-    if (-1 == (of = open(origFile, O_RDONLY))) 
-	    return false;
+    SSL_library_init();
+    if (!is_file(origFile)) return false;
+    FILE* of = boinc_fopen(origFile, "r");
+    if (!of) return false;
     MD5_Init(&md5CTX);
-    while (0 != (rbytes = read(of, rbuf, sizeof(rbuf))))
+    while (0 != (rbytes = fread(rbuf, 1, sizeof(rbuf), of))) {
 	    MD5_Update(&md5CTX, rbuf, rbytes);
+    }
     MD5_Final(md5_md, &md5CTX);
-    close(of);
-    for(int i=0;i < signatures->signatures.size(); i++) {
+    fclose(of);
+    for(unsigned int i=0;i < signatures->signatures.size(); i++) {
         sig_db.data = (unsigned char*)calloc(128, sizeof(char));
         if (sig_db.data == NULL) {
             printf("Cannot allocate 128 bytes for signature buffer\n");
@@ -585,5 +582,4 @@ int cert_verify_file(
     return verified;
 }
 
-#endif
 const char *BOINC_RCSID_4f0c2e42ea = "$Id$";

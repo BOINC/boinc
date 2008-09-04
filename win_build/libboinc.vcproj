@@ -872,6 +872,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\cert_sig.C"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\coproc.C"
 				>
 			</File>
@@ -1259,6 +1263,10 @@
 			</File>
 			<File
 				RelativePath="..\lib\boinc_win.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\cert_sig.h"
 				>
 			</File>
 			<File

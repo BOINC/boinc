@@ -18,7 +18,6 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-#include <stdbool.h>
 #include "miofile.h"
 #include "error_numbers.h"
 #include "cert_sig.h"
@@ -50,7 +49,7 @@ void CERT_SIGS::clear() {
 }
 
 int CERT_SIGS::count() {
-    return this->signatures.size();
+    return (int)(this->signatures.size());
 }
 
 int CERT_SIGS::parse(XML_PARSER &xp) {
@@ -182,10 +181,9 @@ int CERT_SIGS::parse_buffer_embed(char* buf) {
 }
 
 int CERT_SIGS::write(MIOFILE &f) {
-    if (this->signatures.size()==0) 
-        return true;
+    if (this->signatures.size()==0) return true;
     f.printf("<signatures>\n");
-    for(int i=0;i < this->signatures.size(); i++) {
+    for(unsigned int i=0;i < this->signatures.size(); i++) {
         f.printf("  <entry>\n");
         f.printf("    <signature>\n%s\n", this->signatures.at(i).signature);
         f.printf("    </signature>\n");
