@@ -7205,3 +7205,12 @@ Charlie 4 Sep 2008
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  4 Sep 2008
+    - added some code for generating x.509 signatures
+
+    client/
+        cs_files.C
+    lib/
+        crypt.C,h
+        crypt_prog.C

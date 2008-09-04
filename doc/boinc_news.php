@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("September 4, 2008",
+    "BOINC is featured on the
+    <a href=http://www.udel.edu/udaily/2009/sep/boinc090308.html>University of Delware news site</a>."
+),
 array("August 26, 2008",
     "Welcome to the
     <a href=\"http://nqueens.ing.udec.cl/\">NQueens@home</a> project,

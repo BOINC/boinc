@@ -89,6 +89,26 @@ int sprint_hex_data(char* out_buf, DATA_BLOCK& x) {
     return 0;
 }
 
+int print_raw_data(FILE* f, DATA_BLOCK& x) {
+    unsigned int i;
+    for (i=0; i<x.len; i++) {
+        //printf("%x ", x.data[i]);
+        fprintf(f, "%c", x.data[i]);
+    }
+    return 0;
+}
+
+// NOTE: buffer must be big enough; no checking is done.
+int scan_raw_data(FILE *f, DATA_BLOCK& x) {
+    int i=0,j;
+    while(EOF!=(j=fgetc(f))) {
+        x.data[i]=j;
+        i++;
+    }
+    x.len = i;    
+    return 0;
+}
+
 // scan data in hex notation.
 // stop when you reach a non-parsed character.
 // NOTE: buffer must be big enough; no checking is done.
@@ -437,8 +457,43 @@ void public_to_openssl(R_RSA_PUBLIC_KEY& pub, RSA* rp) {
     rp->e = BN_bin2bn(pub.exponent, sizeof(pub.exponent), 0);
 }
 
-int check_validity_of_cert(const char *cFile, const unsigned char *md5_md, unsigned char *sfileMsg, const int sfsize, 
-    char* caPath) {
+static int _bn2bin(BIGNUM *from, unsigned char *to, int max) {
+	int i;
+	i=BN_num_bytes(from);
+	if (i > max) {
+		return(0);
+	}
+	memset(to,0,(unsigned int)max);
+	if (!BN_bn2bin(from,&(to[max-i])))
+		return(0);
+	return(1);
+}
+
+int openssl_to_private(RSA *from, R_RSA_PRIVATE_KEY *to) {
+	to->bits = BN_num_bits(from->n);
+	if (!_bn2bin(from->n,to->modulus,MAX_RSA_MODULUS_LEN)) 
+	    return(0);
+	if (!_bn2bin(from->e,to->publicExponent,MAX_RSA_MODULUS_LEN)) 
+	    return(0);
+	if (!_bn2bin(from->d,to->exponent,MAX_RSA_MODULUS_LEN)) 
+	    return(0);
+	if (!_bn2bin(from->p,to->prime[0],MAX_RSA_PRIME_LEN)) 
+	    return(0);
+	if (!_bn2bin(from->q,to->prime[1],MAX_RSA_PRIME_LEN)) 
+	    return(0);
+	if (!_bn2bin(from->dmp1,to->primeExponent[0],MAX_RSA_PRIME_LEN)) 
+	    return(0);
+	if (!_bn2bin(from->dmq1,to->primeExponent[1],MAX_RSA_PRIME_LEN)) 
+	    return(0);
+	if (!_bn2bin(from->iqmp,to->coefficient,MAX_RSA_PRIME_LEN)) 
+	    return(0);
+    return 1;
+}
+
+int check_validity_of_cert(
+    const char *cFile, const unsigned char *md5_md, unsigned char *sfileMsg,
+    const int sfsize, char* caPath
+) {
     int retval = 0;
     X509 *cert;
     X509_STORE *store;
@@ -501,6 +556,46 @@ int check_validity_of_cert(const char *cFile, const unsigned char *md5_md, unsig
     X509_free(cert);
     BIO_vfree(bio);
     return retval;
+}
+
+char *check_validity(
+    const char *certPath, const char *origFile, unsigned char *signature,
+    char* caPath
+) {
+    MD5_CTX md5CTX;
+    int sf, rbytes;
+    unsigned char md5_md[MD5_DIGEST_LENGTH],  rbuf[2048];
+
+    SSL_load_error_strings();
+    SSL_library_init();
+
+    if (!is_file(origFile)) {
+        return NULL;
+    }
+    FILE* of = boinc_fopen(origFile, "r");
+    if (!of) return NULL;
+    MD5_Init(&md5CTX);
+    while (0 != (rbytes = fread(rbuf, 1, sizeof(rbuf), of))) {
+	    MD5_Update(&md5CTX, rbuf, rbytes);
+    }
+    MD5_Final(md5_md, &md5CTX);
+    fclose(of);
+
+    DIRREF dir = dir_open(certPath);
+
+    char file[256];
+    while (dir_scan(file, dir, sizeof(file))) {
+        char fpath[512];
+	    snprintf(fpath, sizeof(fpath), "%s/%s", certPath, file);
+        // TODO : replace '128'  
+	    if (check_validity_of_cert(fpath, md5_md, signature, 128, caPath)) {
+	        dir_close(dir);
+	        return strdup(fpath);
+	    }
+    }
+
+    dir_close(dir);
+    return NULL;
 }
 
 int cert_verify_file(

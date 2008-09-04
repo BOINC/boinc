@@ -97,7 +97,7 @@ bool FILE_INFO::verify_file_certs() {
 
     if (!is_dir(CERTIFICATE_DIRECTORY)) return false;
     DIRREF dir = dir_open(CERTIFICATE_DIRECTORY);
-    while (dir_scan(file, dir, sizeof(dir))) {
+    while (dir_scan(file, dir, sizeof(file))) {
         if (cert_verify_file(cert_sigs, file, CERTIFICATE_DIRECTORY)) {
             msg_printf(project, MSG_INFO,
                 "Signature verified using certificate %s", file

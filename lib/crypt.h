@@ -56,6 +56,7 @@ extern void openssl_to_keys(
 );
 extern void private_to_openssl(R_RSA_PRIVATE_KEY& priv, RSA* rp);
 extern void public_to_openssl(R_RSA_PUBLIC_KEY& pub, RSA* rp);
+extern int openssl_to_private(RSA *from, R_RSA_PRIVATE_KEY *to);
 
 struct KEY {
     unsigned short int bits;
@@ -106,6 +107,8 @@ extern int verify_string(
 extern int verify_string2(
     const char* text, const char* signature, const char* key, bool&
 );
+extern int print_raw_data(FILE* f, DATA_BLOCK& x);
+extern int scan_raw_data(FILE *f, DATA_BLOCK& x);
 extern int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key);
 extern int generate_signature(
     char* text_to_sign, char* signature_hex, R_RSA_PRIVATE_KEY& key
@@ -119,6 +122,10 @@ extern int generate_signature(
 extern int check_validity_of_cert(
     const char *cFile, const unsigned char *sha1_md, 
     unsigned char *sfileMsg, const int sfsize, char* caPath
+);
+
+extern char *check_validity(const char *certPath, const char *origFile, 
+    unsigned char *signature, char* caPath
 );
 
 class CERT_SIGS;
