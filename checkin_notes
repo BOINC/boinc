@@ -7151,3 +7151,22 @@ David  4 Sep 2008
 
     html/user/
         white.css
+
+David  4 Sep 2008
+    - DB interface: in update(), check that 1 row was updated
+    - API: in APP_INIT_DATA, enclose project preferences in tags
+        so that it's legal XML
+    - scheduler: add <multiple_clients_per_host> option.
+        Use this if your project runs on Condor or grids
+        and (to use multicore machines) you're running
+        multiple clients per host.
+        This will skip the host lookup based on IP address.
+
+    db/
+        db_base.C
+    lib/
+        app_ipc.C
+        parse.C,h
+    sched/
+        handle_request.C
+        sched_config.C,h

@@ -156,7 +156,10 @@ int DB_BASE::update() {
     char vals[MAX_QUERY_LEN], query[MAX_QUERY_LEN];
     db_print(vals);
     sprintf(query, "update %s set %s where id=%d", table_name, vals, get_id());
-    return db->do_query(query);
+    int retval = db->do_query(query);
+    if (retval) return retval;
+    if (db->affected_rows() != 1) return ERR_DB_NOT_FOUND;
+    return 0;
 }
 
 // update one or more fields

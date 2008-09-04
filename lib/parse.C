@@ -146,7 +146,8 @@ int strcatdup(char*& p, char* buf) {
     return 0;
 }
 
-// copy from a file to a malloc'd string until the end tag is reached
+// Copy from a file to a malloc'd string until the end tag is reached
+// Does NOT copy the start and end tags.
 //
 int dup_element_contents(FILE* in, const char* end_tag, char** pp) {
     char buf[256];
@@ -155,6 +156,28 @@ int dup_element_contents(FILE* in, const char* end_tag, char** pp) {
     char* p = strdup("");
     while (fgets(buf, 256, in)) {
         if (strstr(buf, end_tag)) {
+            *pp = p;
+            return 0;
+        }
+        retval = strcatdup(p, buf);
+        if (retval) return retval;
+    }
+    return ERR_XML_PARSE;
+}
+
+int dup_element(FILE* in, const char* tag_name, char** pp) {
+    char buf[256], end_tag[256];
+    int retval;
+
+    sprintf(buf, "<%s>\n", tag_name);
+    sprintf(end_tag, "</%s>", tag_name);
+
+    char* p = strdup(buf);
+    while (fgets(buf, 256, in)) {
+        if (strstr(buf, end_tag)) {
+            sprintf(buf, "</%s>\n", tag_name);
+            retval = strcatdup(p, buf);
+            if (retval) return retval;
             *pp = p;
             return 0;
         }

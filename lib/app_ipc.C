@@ -198,7 +198,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         }
         if (!strcmp(tag, "/app_init_data")) return 0;
         if (!strcmp(tag, "project_preferences")) {
-            retval = dup_element_contents(f, "</project_preferences>", &ai.project_preferences);
+            retval = dup_element(f, "project_preferences", &ai.project_preferences);
             if (retval) return retval;
             continue;
         }

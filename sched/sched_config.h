@@ -125,6 +125,7 @@ public:
     int mm_max_slots;
     bool job_size_matching;
     bool use_credit_multiplier;
+    bool multiple_clients_per_host;
 
     // log flags
     //

@@ -396,7 +396,10 @@ make_new_host:
         // If found, use the existing host record,
         // and mark in-progress results as over.
         //
-        if (find_host_by_other(user, sreq.host, host)) {
+        // NOTE: if the project allows multiple clients per host
+        // (e.g. those that run on grids), skip this.
+        //
+        if (!config.multiple_clients_per_host && find_host_by_other(user, sreq.host, host)) {
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d] [USER#%d] Found similar existing host for this user - assigned.\n",
                 host.id, host.userid
