@@ -293,6 +293,11 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
             }
         }
         
+        // Find the previously selected items by their key values and reselect them
+        // CMainDocument::HandleCompletedRPC() called SaveSelections() before it 
+        // updated the underlying data
+        RestoreSelections();
+        
         UpdateSelection();
 
         m_bProcessingListRenderEvent = false;
@@ -586,7 +591,6 @@ void CBOINCBaseView::SaveSelections() {
         i = m_pListPane->GetNextSelected(i);
         if (i < 0) break;
         arrSelRows.Add(i);
-        m_pListPane->SelectRow(i, false);
     }
 
     m_arrSelectedKeys1.Empty();

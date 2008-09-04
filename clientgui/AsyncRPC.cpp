@@ -600,7 +600,8 @@ void CMainDocument::HandleCompletedRPC() {
     // since it may have been changed by SetActiveGUI().
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     
-    // Remember the key values of currently selected items, then deselect all
+    // Remember the key values of currently selected items
+    // CBOINCBaseView::OnListRender() will call RestoreSelections()
     if (pFrame) {
         pFrame->SaveSelections();
     }
@@ -754,11 +755,6 @@ void CMainDocument::HandleCompletedRPC() {
         }
         delete crr_event;
         crr_event = NULL;
-    }
-    
-    // Find the previously selected items by their key values and reselect them
-    if (pFrame) {
-        pFrame->RestoreSelections();
     }
 }
 
