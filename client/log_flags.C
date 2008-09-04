@@ -253,6 +253,9 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             downcase_string(force_auth);
             continue;
         }
+        if (xp.parse_bool(tag, "allow_multiple_clients", allow_multiple_clients)) continue;
+        if (xp.parse_bool(tag, "use_certs", use_certs)) continue;
+        if (xp.parse_bool(tag, "use_certs_only", use_certs_only)) continue;
         msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );

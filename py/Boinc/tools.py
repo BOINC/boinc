@@ -119,7 +119,10 @@ def process_app_file(file, signature_text=None, quiet=False, executable=True):
     if executable:
         xml += '    <executable/>\n'
     if signature_text:
-        xml += '    <file_signature>\n%s    </file_signature>\n'%signature_text
+        if signature_text.find('<signatures>') >= 0:
+            xml += signature_text
+        else:
+            xml += '    <file_signature>\n%s    </file_signature>\n'%signature_text
     else:
         xml += '    <md5_cksum>%s</md5_cksum>\n' % md5_file(target_path)
 

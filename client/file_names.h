@@ -87,5 +87,6 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define JOB_LOG_BASE                "job_log_"
 #define CA_BUNDLE_FILENAME          "ca-bundle.crt"
 #define CLIENT_AUTH_FILENAME        "client_auth.xml"
+#define CERTIFICATE_DIRECTORY       "certificates"
 
 #endif

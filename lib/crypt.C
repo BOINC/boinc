@@ -424,5 +424,150 @@ void public_to_openssl(R_RSA_PUBLIC_KEY& pub, RSA* rp) {
     rp->e = BN_bin2bn(pub.exponent, sizeof(pub.exponent), 0);
 }
 
+int check_validity_of_cert(const char *cFile, const unsigned char *md5_md, unsigned char *sfileMsg, const int sfsize, 
+    char* caPath) {
+    int retval = 0;
+    X509 *cert;
+    X509_NAME *subj;    
+    X509_STORE *store;
+    X509_LOOKUP *lookup;
+    X509_STORE_CTX *ctx = 0;
+    EVP_PKEY *pubKey;
+    BIO *bio;
+
+    bio = BIO_new(BIO_s_file());
+    BIO_read_filename(bio, cFile);
+    if (NULL == (cert = PEM_read_bio_X509(bio, NULL, 0, NULL))) {
+	    BIO_vfree(bio);
+	    return 0;
+    }
+    // verify certificate
+    store = X509_STORE_new();
+    lookup = X509_STORE_add_lookup(store, X509_LOOKUP_hash_dir());
+    X509_LOOKUP_add_dir(lookup, (char *)caPath, X509_FILETYPE_PEM);
+    if ((ctx = X509_STORE_CTX_new()) != 0) {
+        if (X509_STORE_CTX_init(ctx, store, cert, 0) == 1)
+            retval = X509_verify_cert(ctx);
+        X509_STORE_CTX_free(ctx);
+    }
+    X509_STORE_free(store);
+    
+    if (retval != 1) {
+        fprintf(stderr,"ERROR: Cannot verify certificate ('%s')\n", cFile);
+        return 0;
+    }        
+    pubKey = X509_get_pubkey(cert);
+    if (!pubKey) {
+        X509_free(cert);
+        BIO_vfree(bio);
+        return 0;
+    }
+    if (pubKey->type == EVP_PKEY_RSA) {
+        BN_CTX *c;
+        if (!(c = BN_CTX_new())) {
+	        X509_free(cert);
+	        EVP_PKEY_free(pubKey);
+	        BIO_vfree(bio);
+	        return 0;
+	    }
+	    if (!RSA_blinding_on(pubKey->pkey.rsa, c)) {
+	        X509_free(cert);
+	        EVP_PKEY_free(pubKey);
+	        BIO_vfree(bio);
+	        BN_CTX_free(c);
+	        return 0;
+	    }
+	    retval = RSA_verify(NID_md5, md5_md, MD5_DIGEST_LENGTH, sfileMsg, sfsize, pubKey->pkey.rsa);
+	    RSA_blinding_off(pubKey->pkey.rsa);
+	    BN_CTX_free(c);
+    }
+    if (pubKey->type == EVP_PKEY_DSA) {
+        fprintf(stderr, "ERROR: DSA keys are not supported.\n");
+        return 0;
+    }
+    EVP_PKEY_free(pubKey);
+    X509_free(cert);
+    BIO_vfree(bio);
+    return retval;
+}
+
+int cert_verify_file(SIGNATURES* signatures, const char* origFile, char* trustLocation) {
+    MD5_CTX md5CTX;
+    int of, rbytes;
+    struct stat ostat;
+    unsigned char md5_md[MD5_DIGEST_LENGTH],  rbuf[2048];
+    char buf[256];
+    char fbuf[512];
+    int verified = false;
+    int file_counter = 0;
+    DATA_BLOCK sig_db;
+    BIO *bio;
+    X509 *cert;
+    X509_NAME *subj;
+    FILE *f = NULL;
+
+    if (signatures->signatures.size() == 0) {
+        printf("No signatures available for file ('%s').\n", origFile);
+        fflush(stdout);
+        return false;
+    }
+    SSL_library_init();    
+    if (-1 == stat(origFile, &ostat))
+	    return false;
+    if (-1 == (of = open(origFile, O_RDONLY))) 
+	    return false;
+    MD5_Init(&md5CTX);
+    while (0 != (rbytes = read(of, rbuf, sizeof(rbuf))))
+	    MD5_Update(&md5CTX, rbuf, rbytes);
+    MD5_Final(md5_md, &md5CTX);
+    close(of);
+    for(int i=0;i < signatures->signatures.size(); i++) {
+        sig_db.data = (unsigned char*)calloc(128, sizeof(char));
+        if (sig_db.data == NULL) {
+            printf("Cannot allocate 128 bytes for signature buffer\n");
+            return false;
+        }
+        sig_db.len=128;
+        sscan_hex_data(signatures->signatures.at(i).signature, sig_db);
+        file_counter = 0;
+        while (1) {
+            snprintf(fbuf, 512, "%s/%s.%d", trustLocation, signatures->signatures.at(i).hash,
+                file_counter);
+            f = fopen(fbuf, "r");
+            if (f==NULL)
+                break;
+            fclose(f);
+            bio = BIO_new(BIO_s_file());
+            BIO_read_filename(bio, fbuf);
+            if (NULL == (cert = PEM_read_bio_X509(bio, NULL, 0, NULL))) {
+        	    BIO_vfree(bio);
+                printf("Cannot read certificate ('%s')\n", fbuf);
+                file_counter++;
+        	    continue;
+            }
+            fflush(stdout);
+            subj = X509_get_subject_name(cert);
+            X509_NAME_oneline(subj, buf, 256);
+            // ???
+            //X509_NAME_free(subj);
+            X509_free(cert);
+    	    BIO_vfree(bio);
+            if (strcmp(buf, signatures->signatures.at(i).subject)) {
+                printf("Subject does not match ('%s' <-> '%s')\n", buf, signatures->signatures.at(i).subject);
+                file_counter++;
+                continue;
+            } 
+            verified = check_validity_of_cert(fbuf, md5_md, sig_db.data, 128, trustLocation);
+            if (verified) 
+                break;
+            file_counter++;
+        }
+        free(sig_db.data);
+        if (!verified)
+            return false;
+    }
+    return verified;
+}
+
 #endif
 const char *BOINC_RCSID_4f0c2e42ea = "$Id$";

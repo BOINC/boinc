@@ -102,6 +102,9 @@ struct CONFIG {
     bool run_apps_manually;
     std::string force_auth;
     bool allow_multiple_clients;
+    bool use_certs;
+    bool use_certs_only;
+        // overrides use_certs
 
     CONFIG();
     void defaults();

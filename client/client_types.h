@@ -31,6 +31,7 @@
 #endif
 
 #include "md5_file.h"
+#include "certificate.h"
 #include "hostinfo.h"
 #include "coproc.h"
 #include "miofile.h"
@@ -77,7 +78,7 @@ public:
     class PERS_FILE_XFER* pers_file_xfer;
         // nonzero if in the process of being up/downloaded
     struct RESULT* result;         // for upload files (to authenticate)
-    class PROJECT* project;
+    struct PROJECT* project;
     int ref_cnt;
     std::vector<std::string> urls;
     int start_url;
@@ -94,6 +95,7 @@ public:
         // this is the signature
     std::string error_msg;       // if permanent error occurs during file xfer,
                             // it's recorded here
+    CERTIFICATES* certificates;
 
     FILE_INFO();
     ~FILE_INFO();
@@ -111,6 +113,7 @@ public:
     void failure_message(std::string&);
     int merge_info(FILE_INFO&);
     int verify_file(bool, bool);
+    bool verify_file_certs();
     int gzip();     // gzip file and add .gz to name
 };
 

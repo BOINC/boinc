@@ -128,4 +128,17 @@ extern int generate_signature(
     char* text_to_sign, char* signature_hex, R_RSA_PRIVATE_KEY& key
 );
 
+//   Check if sfileMsg (of length sfsize) has been created from sha1_md using the
+//   private key beloning to the public key file cFile
+//   Return:
+//    1: YES
+//    0: NO or error
+extern int check_validity_of_cert(
+    const char *cFile, const unsigned char *sha1_md, 
+    unsigned char *sfileMsg, const int sfsize, char* caPath
+);
+
+int cert_verify_file(
+    SIGNATURES* signatures, const char* origFile, char* trustLocation
+);
 #endif

@@ -36,6 +36,7 @@
 #include "crypt.h"
 #include "str_util.h"
 #include "filesys.h"
+#include "certificate.h"
 #include "error_numbers.h"
 
 #include "file_names.h"
@@ -88,6 +89,27 @@ int CLIENT_STATE::make_project_dirs() {
     return 0;
 }
 
+// Is app signed by one of the Application Certifiers?
+//
+bool FILE_INFO::verify_file_certs() {
+    string file;
+    bool retval = false;
+
+    if (!is_dir(CERTIFICATE_DIRECTORY)) return false;
+    DIRREF dir = dir_open(CERTIFICATE_DIRECTORY);
+    while (dir_scan(file, dir)) {
+        if (cert_verify_file(certificates, file.c_str(), CERTIFICATE_DIRECTORY)) {
+            msg_printf(project, MSG_INFO,
+                "Signature verified using certificate %s", file.c_str()
+            );
+            retval = true;
+            break;
+        }
+    }
+    dir_close(dir);
+    return retval;
+}
+
 // Check the existence and/or validity of a file
 // If "strict" is true, check either the digital signature of the file
 // (if signature_required is set) or its MD5 checksum.
@@ -137,7 +159,7 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
     if (!strict) return 0;
 
     if (signature_required) {
-        if (!strlen(file_signature)) {
+        if (!strlen(file_signature) && !certificates) {
             msg_printf(project, MSG_INTERNAL_ERROR,
                 "Application file %s missing signature", name
             );
@@ -146,6 +168,18 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
             );
             error_msg = "missing signature";
             status = ERR_NO_SIGNATURE;
+            return ERR_NO_SIGNATURE;
+        }
+        if (config.use_certs || config.use_certs_only) {
+            if (verify_file_certs()) {
+                verified = true;
+                return 0;
+            }
+        }
+        if (config.use_certs_only) {
+            msg_printf(project, MSG_INTERNAL_ERROR,
+                "Unable to verify %s using certificates", name
+            );
             return ERR_NO_SIGNATURE;
         }
         retval = verify_file2(
