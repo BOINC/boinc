@@ -106,9 +106,9 @@ pkginclude_HEADERS = \
 md5_test_SOURCES = md5_test.C md5.c md5_file.C
 shmem_test_SOURCES = shmem_test.C shmem.C
 msg_test_SOURCES = msg_test.C msg_queue.C
-crypt_prog_SOURCES = crypt_prog.C crypt.C md5.c md5_file.C
+crypt_prog_SOURCES = crypt_prog.C crypt.C md5.c md5_file.C filesys.C
 crypt_prog_DEPENDENCIES =
-crypt_prog_LDADD = $(RSA_LIBS) $(PTHREAD_LIBS)
+crypt_prog_LDADD = $(lib_LIBRARIES) $(RSA_LIBS) $(PTHREAD_LIBS)
 
 clean-local:
 	rm -f @CLIENT_CMD_BIN_FILENAME@
