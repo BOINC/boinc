@@ -7138,3 +7138,10 @@ Charlie 3 Sep 2008
         AdvancedFrame.cpp
         AsyncRPC.cpp
         MainDocument.cpp
+
+Charlie 3 Sep 2008
+    Mac Installer: add COPYING.LESSER to release packages.
+    
+    mac_installer/
+        release_boinc.sh
+        release_GridRepublic.sh
