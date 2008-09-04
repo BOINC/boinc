@@ -181,6 +181,8 @@
 		DD63F7510B64EECE0053037F /* libwx_mac_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA90F260B64673D008F2E87 /* libwx_mac_static.a */; };
 		DD6617880A3FFD8C00FFEBEB /* check_security.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.C */; };
 		DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */; };
+		DD6802300E701ACD0067D009 /* cert_sig.C in Sources */ = {isa = PBXBuildFile; fileRef = DD68022E0E701ACD0067D009 /* cert_sig.C */; };
+		DD6802310E701ACD0067D009 /* cert_sig.C in Sources */ = {isa = PBXBuildFile; fileRef = DD68022E0E701ACD0067D009 /* cert_sig.C */; };
 		DD69FEF508416C6B00C01361 /* gui_rpc_client.C in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.C */; };
 		DD69FEF708416C9A00C01361 /* boinc_cmd.C in Sources */ = {isa = PBXBuildFile; fileRef = DD69FEF608416C9A00C01361 /* boinc_cmd.C */; };
 		DD69FF0C084171CF00C01361 /* network.C in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.C */; };
@@ -696,6 +698,8 @@
 		DD65020809F599B9008E8A3A /* txf_util.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = txf_util.C; path = ../api/txf_util.C; sourceTree = SOURCE_ROOT; };
 		DD65020909F599B9008E8A3A /* txf_util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = txf_util.h; path = ../api/txf_util.h; sourceTree = SOURCE_ROOT; };
 		DD6617870A3FFD8C00FFEBEB /* check_security.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = check_security.C; sourceTree = "<group>"; };
+		DD68022E0E701ACD0067D009 /* cert_sig.C */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cert_sig.C; path = ../lib/cert_sig.C; sourceTree = SOURCE_ROOT; };
+		DD68022F0E701ACD0067D009 /* cert_sig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cert_sig.h; path = ../lib/cert_sig.h; sourceTree = SOURCE_ROOT; };
 		DD69FEE808416C1300C01361 /* boinccmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinccmd; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD69FEF608416C9A00C01361 /* boinc_cmd.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = boinc_cmd.C; path = ../lib/boinc_cmd.C; sourceTree = SOURCE_ROOT; };
 		DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; name = browser_safari.mm; path = ../clientgui/mac/browser_safari.mm; sourceTree = SOURCE_ROOT; };
@@ -1359,6 +1363,8 @@
 				DD81C5F007C5D8290098A04D /* boinc_win.h */,
 				DD7168360AAD72040051642B /* common_defs.h */,
 				DD7475500D86273300860636 /* coproc.C */,
+				DD68022E0E701ACD0067D009 /* cert_sig.C */,
+				DD68022F0E701ACD0067D009 /* cert_sig.h */,
 				DD2049DC0D862516009EEE7A /* coproc.h */,
 				F51DA64D02DB97FF010E292A /* crypt.C */,
 				F51DA64E02DB97FF010E292A /* crypt.h */,
@@ -2329,6 +2335,7 @@
 				DDA6BD1E0BD4551F008F7921 /* QSymbols.c in Sources */,
 				DDA6BD1F0BD4551F008F7921 /* QTaskMemory.c in Sources */,
 				DD7475510D86273300860636 /* coproc.C in Sources */,
+				DD6802300E701ACD0067D009 /* cert_sig.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2511,6 +2518,7 @@
 				DDBE74390C03B1C600453BB8 /* cs_platforms.C in Sources */,
 				DD80C83F0CBAEB4F00F1121D /* sandbox.C in Sources */,
 				DD7475520D86273300860636 /* coproc.C in Sources */,
+				DD6802310E701ACD0067D009 /* cert_sig.C in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
