@@ -284,6 +284,7 @@ void CNetworkConnection::SetStateReconnecting() {
             m_strNewComputerName = m_strConnectedComputerName;
             m_strNewComputerPassword = m_strConnectedComputerPassword;
         }
+        m_pDocument->RefreshSlowRPCs();
         pFrame->FireRefreshView();
     }
 }
@@ -718,9 +719,14 @@ void CMainDocument::RefreshRPCs() {
 }
 
 
+void CMainDocument::RefreshSlowRPCs() {
+    m_dtDiskUsageTimestamp = wxDateTime((time_t)0);
+    m_dtStatisticsStatusTimestamp = wxDateTime((time_t)0);
+}
+
+
 void CMainDocument::RunPeriodicRPCs() {
     ASYNC_RPC_REQUEST request;
-//    int retval = 0;
 
     if (!IsConnected()) return;
 

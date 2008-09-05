@@ -7227,3 +7227,11 @@ Charlie 4 Sep 2008
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 4 Sep 2008
+    MGR: Fix updates of Statistics tab when pressng buttons or connecting 
+        to a different host under async GUI RPCs.
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        MainDocument.cpp,.h

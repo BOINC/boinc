@@ -385,8 +385,11 @@ void CBOINCBaseFrame::FireRefreshView() {
     
     pDoc->RunPeriodicRPCs();
 
-//    CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, this);
-//    AddPendingEvent(event);
+    int currentTabView = wxGetApp().GetCurrentViewPage();
+    if (currentTabView & VW_STAT) {
+        CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, this);
+        AddPendingEvent(event);
+    }
 }
 
 
