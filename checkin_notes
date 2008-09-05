@@ -7233,5 +7233,6 @@ Charlie 4 Sep 2008
         to a different host under async GUI RPCs.
     
     clientgui/
+        AdvancedFrame.cpp
         BOINCBaseFrame.cpp
         MainDocument.cpp,.h

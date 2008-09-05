@@ -146,7 +146,6 @@ public:
     int                         SetNetworkRunMode(int iMode, int iTimeout);
 
     void                        RefreshRPCs();
-    void                        RefreshSlowRPCs();
     void                        RunPeriodicRPCs();
     int                         ForceCacheUpdate(bool immediate = true);
     int                         RunBenchmarks();

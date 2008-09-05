@@ -385,6 +385,8 @@ void CBOINCBaseFrame::FireRefreshView() {
     
     pDoc->RunPeriodicRPCs();
 
+    // RunPeriodicRPCs() calls rpc.get_statistics() only once a 
+    // minute, so we need to post the event directly here.
     int currentTabView = wxGetApp().GetCurrentViewPage();
     if (currentTabView & VW_STAT) {
         CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, this);

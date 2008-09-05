@@ -1752,6 +1752,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         pView->ClearSelections();
     }
 
+    pDoc->RefreshRPCs();
     pDoc->ForceCacheUpdate();
 
     pDoc->rpc.get_project_init_status(pis);
