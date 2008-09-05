@@ -7236,3 +7236,8 @@ Charlie 4 Sep 2008
         AdvancedFrame.cpp
         BOINCBaseFrame.cpp
         MainDocument.cpp,.h
+
+Charlie 5 Sep 2008
+    MGR: Eliminate flicker in list controls due to Freeze() / Thaw() calls.
+    clientgui/
+        BOINCBaseView.cpp
