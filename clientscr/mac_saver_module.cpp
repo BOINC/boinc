@@ -37,7 +37,8 @@
 #include "util.h"
 #include "Mac_Saver_Module.h"
 #include "screensaver.h"
- 
+#include "diagnostics.h"
+
 //#include <drivers/event_status_driver.h>
 
 // It would be nice to always display the scrolled progress info in case the 
@@ -96,6 +97,19 @@ const char *  ScreenSaverAppStartingMsg = "Starting screensaver graphics.\nPleas
 
 // Returns desired Animation Frequency (per second) or 0 for no change
 int initBOINCSaver(Boolean ispreview) {
+#ifdef _DEBUG
+    char buf1[256], buf2[256];
+    strcpy(buf1, getenv("HOME"));
+    strcat(buf1, "/Documents/ss_stdout");
+    strcpy(buf2, getenv("HOME"));
+    strcat(buf2, "/Documents/ss_stderr");
+
+    diagnostics_init(BOINC_DIAG_REDIRECTSTDOUTOVERWRITE
+        | BOINC_DIAG_REDIRECTSTDERROVERWRITE
+        | BOINC_DIAG_TRACETOSTDOUT, buf1, buf2
+        );
+#endif
+
     if (ispreview)
         return 8;
         
@@ -166,6 +180,10 @@ int CScreensaver::Create() {
     // occur when the screensaver is run normally (from the screensaver 
     // engine.)  So we just display a message and don't access the core 
     // client.
+    // With V6 graphics when using gfx_switcher, the graphics application 
+    // fails to run and stderr shows the message: 
+    // "The process has forked and you cannot use this CoreFoundation 
+    // functionality safely. You MUST exec()" 
     GetCurrentProcess(&psn);
     memset(&pInfo, 0, sizeof(pInfo));
     pInfo.processInfoLength = sizeof( ProcessInfoRec );
@@ -315,8 +333,9 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
             // Take care of the possible race condition where the Core Client was in the  
             // process of shutting down just as ScreenSaver started, so initBOINCApp() 
             // found it already running but now it has shut down.
-            if (m_wasAlreadyRunning)  // If we launched it, then just wait for it to start
+            if (m_wasAlreadyRunning) { // If we launched it, then just wait for it to start
                 saverState = SaverState_RelaunchCoreClient;
+            }
          break;
 
     case SaverState_CoreClientRunning:
@@ -773,4 +792,8 @@ void strip_cr(char *buf)
         *theCR = '\0';
 }
 #endif	// CREATE_LOG
+
+void PrintBacktrace(void) {
+}
+
 const char *BOINC_RCSID_7ce0778d35="$Id$";

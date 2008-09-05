@@ -7214,3 +7214,16 @@ David  4 Sep 2008
     lib/
         crypt.C,h
         crypt_prog.C
+
+Charlie 4 Sep 2008
+    SCR: Fix trace statements in screensaver.cpp; enable diagnostics in 
+        Mac screensaver.
+
+    clientscr/
+        mac_saver_module.cpp
+        Mac_Saver_Module.h
+        Mac_Saver_ModuleView.m
+        screensaver.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

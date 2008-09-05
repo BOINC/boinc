@@ -211,7 +211,9 @@ int signof(float x) {
     NSRect windowFrame = [ myWindow frame ];
     if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
         // Hide window on second display to aid in debugging
-//      [[[ NSView focusView] window ] setLevel:kCGMinimumWindowLevel ];
+#ifdef _DEBUG
+      [[[ NSView focusView] window ] setLevel:kCGMinimumWindowLevel ];
+#endif
         return;         // We draw only to main screen
     }
 

@@ -24,7 +24,9 @@
 
 #include <Carbon/Carbon.h>
 
-
+#ifdef _DEBUG
+    #define _T(x) x
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,6 +38,7 @@ void drawPreview(CGContextRef myContext);
 void closeBOINCSaver(void);
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
+void PrintBacktrace(void);
 
 #ifdef __cplusplus
 }	// extern "C"

@@ -442,7 +442,8 @@ void *CScreensaver::DataManagementProc() {
             // V6 graphics only: if worker application has stopped running, terminate_screensaver
             if ((graphics_app_result_ptr == NULL) && (m_hGraphicsApplication != 0)) {
                 if (previous_result_ptr) {
-                    BOINCTRACE(_T("CScreensaver::DataManagementProc - %s finished\n"), previous_result.name.c_str());
+                    BOINCTRACE(_T("CScreensaver::DataManagementProc - %s finished\n"), 
+                            previous_result.graphics_exec_path.c_str());
                 }
                 terminate_screensaver(m_hGraphicsApplication, previous_result_ptr);
                 previous_result_ptr = NULL;
@@ -452,7 +453,8 @@ void *CScreensaver::DataManagementProc() {
             if (last_change_time && ((dtime() - last_change_time) > GFX_CHANGE_PERIOD)) {
                 if (count_active_graphic_apps(results, previous_result_ptr) > 0) {
                     if (previous_result_ptr) {
-                        BOINCTRACE(_T("CScreensaver::DataManagementProc - time to change: %s\n"), previous_result.name.c_str());
+                        BOINCTRACE(_T("CScreensaver::DataManagementProc - time to change: %s / %s\n"), 
+                                previous_result.name.c_str(), previous_result.graphics_exec_path.c_str());
                     }
                     terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
                     if (m_hGraphicsApplication == 0) {
@@ -491,7 +493,8 @@ void *CScreensaver::DataManagementProc() {
                     previous_result = *graphics_app_result_ptr;
                     previous_result_ptr = &previous_result;
                     if (previous_result_ptr) {
-                        BOINCTRACE(_T("CScreensaver::DataManagementProc - launching %s\n"), previous_result.name.c_str());
+                        BOINCTRACE(_T("CScreensaver::DataManagementProc - launching %s\n"), 
+                                previous_result.graphics_exec_path.c_str());
                     }
                 }
             } else {
