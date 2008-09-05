@@ -182,7 +182,7 @@ wxString CBOINCBaseView::GetKeyValue2(int) {
 }
 
 
-int CBOINCBaseView::FindRowIndexByKeyValues(wxString& key1, wxString& key2) {
+int CBOINCBaseView::FindRowIndexByKeyValues(wxString&, wxString&) {
     return -1;
 }
 
