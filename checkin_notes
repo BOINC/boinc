@@ -7249,3 +7249,9 @@ David  6 Sept 2008
 
     client/
         cpu_sched.C
+
+David  6 Sept 2008
+    - scheduler: fix typos in CUDA parsing
+
+    lib/
+        coproc.C

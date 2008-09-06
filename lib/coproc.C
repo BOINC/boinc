@@ -277,13 +277,13 @@ int COPROC_CUDA::parse(FILE* fin) {
         if (strstr(buf, "</coproc_cuda>")) return 0;
         if (parse_int(buf, "<count>", count)) continue;
         if (parse_str(buf, "<name>", prop.name, sizeof(prop.name))) continue;
-        if (parse_int(buf, "<totalGlobalMem`>", (int&)prop.totalGlobalMem)) continue;
-        if (parse_int(buf, "<sharedMemPerBlock`>", (int&)prop.sharedMemPerBlock)) continue;
-        if (parse_int(buf, "<regsPerBlock`>", prop.regsPerBlock)) continue;
-        if (parse_int(buf, "<warpSize`>", prop.warpSize)) continue;
-        if (parse_int(buf, "<memPitch`>", (int&)prop.memPitch)) continue;
-        if (parse_int(buf, "<maxThreadsPerBlock`>", prop.maxThreadsPerBlock)) continue;
-        if (parse_str(buf, "<maxThreadsDim`>", buf2, sizeof(buf2))) {
+        if (parse_int(buf, "<totalGlobalMem>", (int&)prop.totalGlobalMem)) continue;
+        if (parse_int(buf, "<sharedMemPerBlock>", (int&)prop.sharedMemPerBlock)) continue;
+        if (parse_int(buf, "<regsPerBlock>", prop.regsPerBlock)) continue;
+        if (parse_int(buf, "<warpSize>", prop.warpSize)) continue;
+        if (parse_int(buf, "<memPitch>", (int&)prop.memPitch)) continue;
+        if (parse_int(buf, "<maxThreadsPerBlock>", prop.maxThreadsPerBlock)) continue;
+        if (parse_str(buf, "<maxThreadsDim>", buf2, sizeof(buf2))) {
             // can't use sscanf here (FCGI)
             //
             prop.maxThreadsDim[0] = atoi(buf2);
@@ -297,7 +297,7 @@ int COPROC_CUDA::parse(FILE* fin) {
             }
             continue;
         }
-        if (parse_str(buf, "<maxGridSize`>", buf2, sizeof(buf2))) {
+        if (parse_str(buf, "<maxGridSize>", buf2, sizeof(buf2))) {
             prop.maxGridSize[0] = atoi(buf2);
             char* p = strchr(buf2, ' ');
             if (p) {
@@ -309,11 +309,11 @@ int COPROC_CUDA::parse(FILE* fin) {
             }
             continue;
         }
-        if (parse_int(buf, "<totalConstMem`>", (int&)prop.totalConstMem)) continue;
-        if (parse_int(buf, "<major`>", prop.major)) continue;
-        if (parse_int(buf, "<minor`>", prop.minor)) continue;
-        if (parse_int(buf, "<clockRate`>", prop.clockRate)) continue;
-        if (parse_int(buf, "<textureAlignment`>", (int&)prop.textureAlignment)) continue;
+        if (parse_int(buf, "<totalConstMem>", (int&)prop.totalConstMem)) continue;
+        if (parse_int(buf, "<major>", prop.major)) continue;
+        if (parse_int(buf, "<minor>", prop.minor)) continue;
+        if (parse_int(buf, "<clockRate>", prop.clockRate)) continue;
+        if (parse_int(buf, "<textureAlignment>", (int&)prop.textureAlignment)) continue;
     }
     return ERR_XML_PARSE;
 }
