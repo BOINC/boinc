@@ -7255,3 +7255,10 @@ David  6 Sept 2008
 
     lib/
         coproc.C
+
+Rytis  6 Sept 2008
+    - web: significantly reduce file size of blue_gradient.png to reduce
+        loading times (more dialup friendly).
+    
+    html/user/img/
+        blue_gradient.png
