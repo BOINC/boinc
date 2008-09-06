@@ -2,8 +2,13 @@
 
 $project_news = array(
 array("September 4, 2008",
+    "The talks and tutorials from the upcoming BOINC Workshop
+    (Sept 10-12) will be broadcast
+    <a href=http://boinc.berkeley.edu/trac/wiki/WorkShop08#webcast>live on the Web</a>."
+),
+array("September 4, 2008",
     "BOINC is featured on the
-    <a href=http://www.udel.edu/udaily/2009/sep/boinc090308.html>University of Delware news site</a>."
+    <a href=http://www.udel.edu/udaily/2009/sep/boinc090308.html>University of Delaware news site</a>."
 ),
 array("August 26, 2008",
     "Welcome to the

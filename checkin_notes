@@ -7241,3 +7241,11 @@ Charlie 5 Sep 2008
     MGR: Eliminate flicker in list controls due to Freeze() / Thaw() calls.
     clientgui/
         BOINCBaseView.cpp
+
+David  6 Sept 2008
+    client: CPU scheduler keeps trying to schedule jobs if either
+        not all CPUs are used or not all coprocessors are used
+        (avoid GPU idleness)
+
+    client/
+        cpu_sched.C

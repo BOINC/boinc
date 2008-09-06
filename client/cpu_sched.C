@@ -540,6 +540,14 @@ struct PROC_RESOURCES {
     double ncpus_used;
     double ram_left;
     COPROCS coprocs;
+    bool all_resources_used(int ncpus) {
+        if (ncpus_used < ncpus) return false;
+        for (unsigned int i=0; i<coprocs.coprocs.size(); i++) {
+            COPROC* cp = coprocs.coprocs[i];
+            if (cp->used < cp->count) return false;
+        }
+        return true;
+    }
 };
 
 static bool schedule_if_possible(
@@ -654,7 +662,7 @@ void CLIENT_STATE::schedule_cpus() {
 #ifdef SIM
     if (!cpu_sched_rr_only) {
 #endif
-    while (proc_rsc.ncpus_used < ncpus) {
+    while (!proc_rsc.all_resources_used(ncpus)) {
         rp = earliest_deadline_result();
         if (!rp) break;
         rp->already_selected = true;
@@ -671,7 +679,7 @@ void CLIENT_STATE::schedule_cpus() {
 
     // Next, choose results from projects with large debt
     //
-    while (proc_rsc.ncpus_used < ncpus) {
+    while (!proc_rsc.all_resources_used(ncpus)) {
         assign_results_to_projects();
         rp = largest_debt_project_best_result();
         if (!rp) break;
