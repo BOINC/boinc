@@ -22,7 +22,7 @@ require_once("../inc/db_ops.inc");
 db_init();
 
 $show_aggregate = false;
-parse_str(getenv("QUERY_STRING"));
+$table = get_str("table");
 
 $title = table_title($table);
 admin_page_head($title);

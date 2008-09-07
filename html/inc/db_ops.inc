@@ -312,11 +312,8 @@ class SqlQueryString {
         $this->addeq_not_CHOOSE_ALL('outcome');
         $this->addeq_not_CHOOSE_ALL('client_state');
         $this->addeq_not_CHOOSE_ALL('validate_state');
-        if (isset($_GET['clauses'])) {
-            $clauses = undo_magic_quotes($_GET['clauses']);
-        } else {
-            $clauses = null;
-        }
+        $clauses = get_str("clauses", true);
+        if (strstr($clauses, ";")) error_page("bad clause");
         if ($clauses) {
             $this->addclause($clauses);
         }

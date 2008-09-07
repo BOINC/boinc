@@ -23,7 +23,14 @@ db_init();
 
 $detail = null;
 $show_aggregate = false;
-parse_str(getenv("QUERY_STRING"));
+
+$nresults = get_int("nresults", true);
+$entries_to_show = get_int("entries_to_show", true);
+$last_pos = get_int("last_pos", true);
+$table = get_str("table", true);
+$detail = get_str("detail", true);
+$clauses = get_str("clauses", true);
+if (strstr($clauses, ";")) error_page("bad clause");
 
 $q = new SqlQueryString();
 $q->process_form_items();
@@ -116,7 +123,6 @@ if ($table == "host") {
     if ($show_aggregate) {
         $query = "select sum(d_total) as tot_sum, sum(d_free) as free_sum, sum(m_nbytes) as tot_mem from host";
         if ($clauses) {
-            $clauses = stripslashes(urldecode($clauses));
             $query .= " WHERE $clauses";
         }
         $result = mysql_query($query);

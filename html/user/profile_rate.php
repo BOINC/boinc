@@ -19,8 +19,8 @@
 require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
 
-$userid = $_GET['userid'];
-$vote = $_GET['vote'];
+$userid = get_int('userid');
+$vote = get_str('vote');
 
 if ($vote != "recommend" && $vote != "reject") {
     echo "Invalid vote type.<br>";

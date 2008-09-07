@@ -24,106 +24,85 @@ require_once("../inc/util.inc");
 require_once("../inc/host.inc");
 require_once("../inc/cache.inc");
 
-// This function takes as input a GET variable name X and value Y.
-// It returns the corresponding text GET variable string, appended with
-// any existing GET variable names and values, with &X=Y.
-//
-// This is useful for constructing urls for sorting a table by different
-// columns.
-//
-function make_GET_list($variable_name, $variable_value) {
-    $retval="";
-    $sepchar='?';
-    $modified=false;
-    foreach ($_GET as $key => $value) {
-        $retval .= "$sepchar"."$key=";
-        $sepchar='&';
-        if ($key==$variable_name) {
-            $modified=true;
-            if ($value!=$variable_value) {
-                $retval .= "$variable_value";
-            } else {
-                $retval .= "$variable_value"."_reversed";
-            }
-        }
-        else {
-            $retval .= "$value";
-        }
+function link_url($sort, $rev, $show_all) {
+    return "hosts_user.php?sort=$sort&rev=$rev&show_all=$show_all";
+}
+
+function link_url_rev($actual_sort, $sort, $rev, $show_all) {
+    if ($actual_sort == $sort) {
+        $rev = 1 - $rev;
     }
-    if (!$modified) $retval .= "$sepchar$variable_name=$variable_value";
-    return $retval;
+    return link_url($sort, $rev, $show_all);
 }
 
-function link_with_GET_variables(
-    $text, $baseurl, $variable_name, $variable_value
-) {
-    $list=make_GET_list($variable_name, $variable_value);
-    return "<a href=\"$baseurl$list\">$text</a>";
-}
-
-function more_or_less($show_all) {
+function more_or_less($sort, $rev, $show_all) {
+    echo "<p>";
     if ($show_all) {
-        echo "<p>Show: All computers | ".link_with_GET_variables("Only computers active in past 30 days<p>", "hosts_user.php", 'show_all', '0');
+        $url = link_url($sort, $rev, 0);
+        echo "Show: All computers | <a href=$url>Only computers active in past 30 days</a>";
     } else {
-        echo "<p>Show: ".link_with_GET_variables("All computers", "hosts_user.php", 'show_all', '1')." | Only computers active in past 30 days<p>";;
+        $url = link_url($sort, $rev, 1);
+        echo "Show: <a href=$url>All computers</a> | Only computers active in past 30 days";
     }
+    echo "<p>";
 }
 
-// The following is used to show a user's hosts
-//
-function user_host_table_start($private) {
+function user_host_table_start($private, $sort, $rev, $show_all) {
     start_table();
     echo "<tr>";
-    echo "<th>".link_with_GET_variables("Computer ID", "hosts_user.php", 'sort', 'id')."<br><font size=-2>Click for more info</font></th>\n";
+    $url = link_url_rev($sort, "id", $rev, $show_all);
+    echo "<th><a href=$url>Computer ID</a><br><span class=note>Click for more info</span></th>\n";
     if ($private) {
-        echo "<th>".link_with_GET_variables("Name", "hosts_user.php", 'sort', 'name')."</th>\n";
-        echo "<th>".link_with_GET_variables("Location", "hosts_user.php", 'sort', 'venue')."</th>\n";
+        $url = link_url_rev($sort, "name", $rev, $show_all);
+        echo "<th><a href=$url>Name</a></th>\n";
+        $url = link_url_rev($sort, "venue", $rev, $show_all);
+        echo "<th><a href=$url>Location</th>\n";
     } else {
         echo "<th>Rank</th>";
     }
-    echo "
-        <th>".link_with_GET_variables("Avg. credit", "hosts_user.php", 'sort', 'expavg_credit')."</th>
-        <th>".link_with_GET_variables("Total credit", "hosts_user.php", 'sort', 'total_credit')."</th>
-        <th>".link_with_GET_variables("CPU type", "hosts_user.php", 'sort', 'cpu')."</th>
-        <th>".link_with_GET_variables("Operating system", "hosts_user.php", 'sort', 'os')."</th>
-    ";
-    echo "<th>".link_with_GET_variables("Last contact", "hosts_user.php", 'sort', 'rpc_time')."</th>";
+    $url = link_url_rev($sort, "expavg_credit", $rev, $show_all);
+    echo "<th><a href=$url>Avg. credit</a></th>\n";
+    $url = link_url_rev($sort, "total_credit", $rev, $show_all);
+    echo "<th><a href=$url>Total credit</a></th>\n";
+    $url = link_url_rev($sort, "cpu", $rev, $show_all);
+    echo "<th><a href=$url>CPU type</a></th>\n";
+    $url = link_url_rev($sort, "os", $rev, $show_all);
+    echo "<th><a href=$url>Operating System</a></th>\n";
+    $url = link_url_rev($sort, "rpc_time", $rev, $show_all);
+    echo "<th><a href=$url>Last contact</a></th>\n";
 }
 
-// get the _GET variables which determine how to display the page
-//
 $show_all = get_int("show_all", true);
 if ($show_all != 1) {
-    // default value -- show last 30 days
     $show_all = 0;
-    $_GET['show_all'] = 0;
+}
+
+$rev = get_int("rev", true);
+if ($rev != 1) {
+    $rev = 0;
 }
 
 $sort = get_str("sort", true);
+$desc = false;  // whether the sort order's default is decreasing
 switch ($sort) {
-case "total_credit": $sort_clause = "total_credit desc"; break;
-case "total_credit_reversed": $sort_clause = "total_credit"; break;
-case "expavg_credit": $sort_clause = "expavg_credit desc"; break;
-case "expavg_credit_reversed": $sort_clause = "expavg_credit"; break;
+case "total_credit": $sort_clause = "total_credit"; $desc = true; break;
+case "expavg_credit": $sort_clause = "expavg_credit"; $desc = true; break;
 case "name": $sort_clause = "domain_name"; break;
-case "name_reversed": $sort_clause = "domain_name desc"; break;
 case "id": $sort_clause = "id"; break;
-case "id_reversed": $sort_clause = "id desc"; break;
-case "expavg_credit": $sort_clause = "expavg_credit desc"; break;
-case "expavg_credit_reversed": $sort_clause = "expavg_credit "; break;
 case "cpu": $sort_clause = "p_vendor"; break;
-case "cpu_reversed": $sort_clause = "p_vendor desc"; break;
 case "os": $sort_clause = "os_name"; break;
-case "os_reversed": $sort_clause = "os_name desc"; break;
 case "venue": $sort_clause = "venue"; break;
-case "venue_reversed": $sort_clause = "venue desc"; break;
-case "rpc_time_reversed": $sort_clause = "rpc_time"; break;
 default:
     // default value -- sort by RPC time
     $sort = "rpc_time";
-    $sort_clause = "rpc_time desc"; 
-    $_GET['sort']=$sort;
+    $sort_clause = "rpc_time"; 
+    $desc = true;
 }
+
+if ($rev != $desc) {
+    $sort_clause .= " desc";
+}
+
 
 $user = get_logged_in_user(false);
 $userid = get_int("userid", true);
@@ -141,12 +120,12 @@ if ($userid) {
     // At this point, we know that $userid, $show_all and $sort all have
     // valid values.
     //
-    $cache_args="userid=$userid&show_all=$show_all&sort=$sort";
+    $cache_args="userid=$userid&show_all=$show_all&sort=$sort&rev=$rev";
     start_cache(USER_PAGE_TTL, $cache_args);
     if ($user->show_hosts) {
         page_head("Computers belonging to $user->name");
-        more_or_less($show_all);
-        user_host_table_start(false);
+        more_or_less($sort, $rev, $show_all);
+        user_host_table_start(false, $sort, $rev, $show_all);
     } else {
         page_head("Computers hidden");
         echo "This user has chosen not to show information about their computers.\n";
@@ -160,8 +139,8 @@ if ($userid) {
     $caching = false;
     $userid = $user->id;
     page_head("Your computers");
-    more_or_less($show_all);
-    user_host_table_start(true);
+    more_or_less($sort, $rev, $show_all);
+    user_host_table_start(true, $sort, $rev, $show_all);
     $private = true;
 }
 
@@ -182,7 +161,7 @@ foreach ($hosts as $host) {
 echo "</table>\n";
 
 if ($old_hosts>0) {
-    more_or_less($show_all);
+    more_or_less($sort, $rev, $show_all);
 }
 
 if ($private) {

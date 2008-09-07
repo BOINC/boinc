@@ -37,17 +37,17 @@ function search_thread_titles(
         $search_string.=mysql_escape_string($word)."%";
     }        
     $query = "title like '".$search_string."'";
-    if ($forum!="" && $forum!="all") {
-        $query.=" and forum = ".intval($forum->id);
+    if ($forum && $forum != "all") {
+        $query .= " and forum = $forum->id";
     }
-    if ($user!="" && $user!="all") {
-        $query.=" and owner = ".intval($user->id);
+    if ($user && $user != "all") {
+        $query .= " and owner = $user->id";
     }
-    if ($time!="" && $user!="all") {
-        $query.=" and timestamp > ".intval($time);
+    if ($time && $user != "all") {
+        $query .= " and timestamp > $time";
     }
-    if ($show_hidden == false) {
-        $query .= " AND thread.hidden = 0";
+    if (!$show_hiddenfalse) {
+        $query .= " and thread.hidden = 0";
     }
     switch($sort_style) {
     case MODIFIED_NEW:
@@ -73,7 +73,7 @@ function search_thread_titles(
         break;
     }
 
-    $query.= " limit ".intval($limit);
+    $query .= " limit $limit";
     return BoincThread::enum($query);
 }
 
@@ -139,7 +139,7 @@ if ($logged_in_user && $logged_in_user->prefs->privilege(S_MODERATOR)){
 page_head(tra("Forum search results"));
 
 $search_keywords = post_str("search_keywords", true);
-$search_author = post_str("search_author", true);
+$search_author = post_int("search_author", true);
 $search_max_time = post_int("search_max_time");
 $search_forum = post_int("search_forum");
 $search_sort = post_int("search_sort");

@@ -7262,3 +7262,18 @@ Rytis  6 Sept 2008
     
     html/user/img/
         blue_gradient.png
+
+David  7 Sept 2008
+    - web: various security fixes
+
+    html/
+        inc/
+            db_ops.inc
+        ops/
+            db_form.php
+            db_action.php
+        user/
+            forum_search_action.php
+            hosts_user.php
+            login_form.php
+            top_users.php
