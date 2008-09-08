@@ -58,6 +58,8 @@ protected:
 
     wxListItemAttr*         m_pMessageInfoAttr;
     wxListItemAttr*         m_pMessageErrorAttr;
+    wxListItemAttr*         m_pMessageInfoGrayAttr;
+    wxListItemAttr*         m_pMessageErrorGrayAttr;
 
     virtual void            OnListRender( wxTimerEvent& event );
 

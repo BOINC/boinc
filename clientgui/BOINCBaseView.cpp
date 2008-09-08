@@ -60,6 +60,9 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     SetName(GetViewName());
 
     SetAutoLayout(TRUE);
+
+    m_pWhiteBackgroundAttr = NULL;
+    m_pGrayBackgroundAttr = NULL;
 }
 
 
@@ -118,6 +121,9 @@ CBOINCBaseView::CBOINCBaseView(
     m_SortArrows->Add( wxIcon( sortascending_xpm ) );
     m_SortArrows->Add( wxIcon( sortdescending_xpm ) );
     m_pListPane->SetImageList(m_SortArrows, wxIMAGE_LIST_SMALL);
+    
+    m_pWhiteBackgroundAttr = new wxListItemAttr(*wxBLACK, *wxWHITE, wxNullFont);
+    m_pGrayBackgroundAttr = new wxListItemAttr(*wxBLACK, wxColour(240, 240, 240), wxNullFont);
 }
 
 
@@ -134,6 +140,16 @@ CBOINCBaseView::~CBOINCBaseView() {
     }
     m_arrSelectedKeys1.Empty();
     m_arrSelectedKeys2.Empty();
+
+    if (m_pWhiteBackgroundAttr) {
+        delete m_pWhiteBackgroundAttr;
+        m_pWhiteBackgroundAttr = NULL;
+    }
+
+    if (m_pGrayBackgroundAttr) {
+        delete m_pGrayBackgroundAttr;
+        m_pGrayBackgroundAttr = NULL;
+    }
 }
 
 
@@ -252,15 +268,13 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                 int iIndex = 0;
                 int iReturnValue = -1;
                 if (iDocCount > iCacheCount) {
-                    for (iIndex = 0; iIndex < (iDocCount - iCacheCount); iIndex++
-                    ) {
+                    for (iIndex = 0; iIndex < (iDocCount - iCacheCount); iIndex++) {
                         iReturnValue = AddCacheElement();
                         wxASSERT(!iReturnValue);
                     }
                     wxASSERT(GetDocCount() == GetCacheCount());
                 } else {
-                    for (iIndex = 0; iIndex < (iCacheCount - iDocCount); iIndex++
-                    ) {
+                    for (iIndex = 0; iIndex < (iCacheCount - iDocCount); iIndex++) {
                         iReturnValue = RemoveCacheElement();
                         wxASSERT(!iReturnValue);
                     }
@@ -395,8 +409,8 @@ int CBOINCBaseView::OnListGetItemImage(long WXUNUSED(item)) const {
 }
 
 
-wxListItemAttr* CBOINCBaseView::OnListGetItemAttr(long WXUNUSED(item)) const {
-    return NULL;
+wxListItemAttr* CBOINCBaseView::OnListGetItemAttr(long item) const {
+    return item % 2 ? m_pGrayBackgroundAttr : m_pWhiteBackgroundAttr;
 }
 
 

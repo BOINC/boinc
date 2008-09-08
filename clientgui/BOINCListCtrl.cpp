@@ -254,10 +254,8 @@ void CBOINCListCtrl::DrawBarGraphs()
 
 #ifdef __WXMAC__
     wxColour progressColor = wxColour( 40, 170, 170, 60);
-    wxColour rowStripeColor = wxColour( 0, 0, 0, 10);
 #else
     wxColour progressColor = wxTheColourDatabase->Find(wxT("LIGHT BLUE"));
-    wxColour rowStripeColor = wxColour( 240, 240, 240);
     dc.SetLogicalFunction(wxAND);
 #endif
 
@@ -285,12 +283,6 @@ void CBOINCListCtrl::DrawBarGraphs()
 #if ! USE_NATIVE_LISTCONTROL
             r.y = r.y - GetHeaderHeight() - 1;
 #endif
-            if (item % 2) {
-                dc.SetPen(rowStripeColor);
-                dc.SetBrush(rowStripeColor);
-                dc.DrawRectangle( r );
-            }
-
             if (progressColumn < 0) continue;
             r.x = x;
             r.width = w;

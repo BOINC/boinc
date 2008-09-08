@@ -119,6 +119,8 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
 
     m_pMessageInfoAttr = new wxListItemAttr(*wxBLACK, *wxWHITE, wxNullFont);
     m_pMessageErrorAttr = new wxListItemAttr(*wxRED, *wxWHITE, wxNullFont);
+    m_pMessageInfoGrayAttr = new wxListItemAttr(*wxBLACK, wxColour(240, 240, 240), wxNullFont);
+    m_pMessageErrorGrayAttr = new wxListItemAttr(*wxRED, wxColour(240, 240, 240), wxNullFont);
 
     UpdateSelection();
 }
@@ -134,6 +136,17 @@ CViewMessages::~CViewMessages() {
         delete m_pMessageErrorAttr;
         m_pMessageErrorAttr = NULL;
     }
+
+    if (m_pMessageInfoGrayAttr) {
+        delete m_pMessageInfoGrayAttr;
+        m_pMessageInfoGrayAttr = NULL;
+    }
+
+    if (m_pMessageErrorGrayAttr) {
+        delete m_pMessageErrorGrayAttr;
+        m_pMessageErrorGrayAttr = NULL;
+    }
+
     EmptyTasks();
     m_strFilteredProjectName.clear();
     m_iFilteredIndexes.Clear();
@@ -335,10 +348,14 @@ void CViewMessages::OnListRender (wxTimerEvent& event) {
                 if (isConnected) {
                     m_pMessageInfoAttr->SetTextColour(*wxBLACK);
                     m_pMessageErrorAttr->SetTextColour(*wxRED);
+                    m_pMessageInfoGrayAttr->SetTextColour(*wxBLACK);
+                    m_pMessageErrorGrayAttr->SetTextColour(*wxRED);
                 } else {
                     wxColourDatabase colorBase;
                     m_pMessageInfoAttr->SetTextColour(wxColour(128, 128, 128));
                     m_pMessageErrorAttr->SetTextColour(wxColour(255, 128, 128));
+                    m_pMessageInfoGrayAttr->SetTextColour(wxColour(128, 128, 128));
+                    m_pMessageErrorGrayAttr->SetTextColour(wxColour(255, 128, 128));
                 }
                 // Force a complete update
                 m_pListPane->DeleteAllItems();
@@ -402,10 +419,10 @@ wxListItemAttr* CViewMessages::OnListGetItemAttr(long item) const {
     if (message) {
         switch(message->priority) {
         case MSG_USER_ERROR:
-            pAttribute = m_pMessageErrorAttr;
+            pAttribute = item % 2 ? m_pMessageErrorGrayAttr : m_pMessageErrorAttr;
             break;
         default:
-            pAttribute = m_pMessageInfoAttr;
+            pAttribute = item % 2 ? m_pMessageInfoGrayAttr : m_pMessageInfoAttr;
             break;
         }
     }

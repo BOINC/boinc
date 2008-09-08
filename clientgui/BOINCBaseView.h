@@ -185,6 +185,10 @@ protected:
 
     CBOINCTaskCtrl*         m_pTaskPane;
     CBOINCListCtrl*         m_pListPane;
+
+    wxListItemAttr*         m_pWhiteBackgroundAttr;
+    wxListItemAttr*         m_pGrayBackgroundAttr;
+
 };
 
 
