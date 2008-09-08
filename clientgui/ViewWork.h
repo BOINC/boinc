@@ -41,6 +41,10 @@ public:
     time_t m_tReportDeadline;
     wxString m_strStatus;
     wxString m_strProjectURL;   // Used internally, not displayed
+    wxString m_strCPUTime;
+    wxString m_strProgress;
+    wxString m_strTimeToCompletion;
+    wxString m_strReportDeadline;
 };
 
 
@@ -84,19 +88,16 @@ protected:
     virtual void            UpdateSelection();
 
     void                    GetDocProjectName(wxInt32 item, wxString& strBuffer) const;
-    wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocApplicationName(wxInt32 item, wxString& strBuffer) const;
-    wxInt32                 FormatApplicationName( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocName(wxInt32 item, wxString& strBuffer) const;
-    wxInt32                 FormatName( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocCPUTime(wxInt32 item, float& fBuffer) const;
-    wxInt32                 FormatCPUTime( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatCPUTime( float fBuffer, wxString& strBuffer ) const;
     void                    GetDocProgress(wxInt32 item, float& fBuffer) const;
-    wxInt32                 FormatProgress( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatProgress( float fBuffer, wxString& strBuffer ) const;
     void                    GetDocTimeToCompletion(wxInt32 item, float& fBuffer) const;
-    wxInt32                 FormatTimeToCompletion( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatTimeToCompletion( float fBuffer, wxString& strBuffer ) const;
     void                    GetDocReportDeadline(wxInt32 item, time_t& time) const;
-    wxInt32                 FormatReportDeadline( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatReportDeadline( time_t deadline, wxString& strBuffer ) const;
     void                    GetDocStatus(wxInt32 item, wxString& strBuffer) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocProjectURL(wxInt32 item, wxString& strBuffer) const;

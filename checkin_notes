@@ -7277,3 +7277,14 @@ David  7 Sept 2008
             hosts_user.php
             login_form.php
             top_users.php
+
+Charlie 8 Sep 2008
+    MGR: Make formatting of List Views more efficient; fix bug which showed 
+        progress bars in wrong rows in transfers tab.
+
+    clientgui/
+        BOINCBaseView.cpp
+        ViewProjects.cpp,.h
+        ViewTransfers.cpp,.h
+        ViewWork.cpp,.h
+

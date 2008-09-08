@@ -445,7 +445,6 @@ int CBOINCBaseView::SynchronizeCache() {
 
     iRowTotal = GetDocCount();
     iColumnTotal = m_pListPane->GetColumnCount();
-//    Freeze();   // To reduce flicker
     
     for (iRowIndex = 0; iRowIndex < iRowTotal; iRowIndex++) {
         bNeedRefreshData = false;
@@ -468,7 +467,6 @@ int CBOINCBaseView::SynchronizeCache() {
         sortData();     // Will mark moved items as needing refresh
     }
     
-//    Thaw();
     return 0;
 }
 

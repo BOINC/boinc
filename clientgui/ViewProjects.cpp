@@ -57,6 +57,9 @@
 
 
 CProject::CProject() {
+    m_fTotalCredit = -1.0;
+    m_fAVGCredit = -1.0;
+    m_fResourceShare = -1.0;
 }
 
 
@@ -64,9 +67,6 @@ CProject::~CProject() {
     m_strProjectName.Clear();
     m_strAccountName.Clear();
     m_strTeamName.Clear();
-    m_fTotalCredit = 0.0;
-    m_fAVGCredit = 0.0;
-    m_fResourceShare = 0.0;
     m_strStatus.Clear();
 }
 
@@ -528,33 +528,43 @@ wxInt32 CViewProjects::GetDocCount() {
 
 
 wxString CViewProjects::OnListGetItemText(long item, long column) const {
+    CProject* project     = NULL;
     wxString       strBuffer = wxEmptyString;
 
-    switch(column) {
-    case COLUMN_PROJECT:
-        FormatProjectName(item, strBuffer);
-        break;
-    case COLUMN_ACCOUNTNAME:
-        FormatAccountName(item, strBuffer);
-        break;
-    case COLUMN_TEAMNAME:
-        FormatTeamName(item, strBuffer);
-        break;
-    case COLUMN_TOTALCREDIT:
-        FormatTotalCredit(item, strBuffer);
-        break;
-    case COLUMN_AVGCREDIT:
-        FormatAVGCredit(item, strBuffer);
-        break;
-    case COLUMN_RESOURCESHARE:
-        FormatResourceShare(item, strBuffer);
-        break;
-    case COLUMN_STATUS:
-        FormatStatus(item, strBuffer);
-        break;
+    try {
+        project = m_ProjectCache.at(m_iSortedIndexes[item]);
+    } catch ( std::out_of_range ) {
+        project = NULL;
     }
 
-    return strBuffer;
+
+    if (project) {
+        switch(column) {
+            case COLUMN_PROJECT:
+                strBuffer = project->m_strProjectName;
+                break;
+            case COLUMN_ACCOUNTNAME:
+                strBuffer = project->m_strAccountName;
+                break;
+            case COLUMN_TEAMNAME:
+                strBuffer = project->m_strTeamName;
+                break;
+            case COLUMN_TOTALCREDIT:
+                strBuffer = project->m_strTotalCredit;
+                break;
+            case COLUMN_AVGCREDIT:
+                strBuffer = project->m_strAVGCredit;
+                break;
+            case COLUMN_RESOURCESHARE:
+                strBuffer = project->m_strResourceShare;
+                break;
+            case COLUMN_STATUS:
+                strBuffer = project->m_strStatus;
+                break;
+        }
+    }
+
+     return strBuffer;
 }
 
 
@@ -742,6 +752,7 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
             GetDocTotalCredit(m_iSortedIndexes[iRowIndex], fDocumentFloat);
             if (fDocumentFloat != project->m_fTotalCredit) {
                 project->m_fTotalCredit = fDocumentFloat;
+                FormatTotalCredit(fDocumentFloat, project->m_strTotalCredit);
                 return true;
             }
             break;
@@ -749,6 +760,7 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
             GetDocAVGCredit(m_iSortedIndexes[iRowIndex], fDocumentFloat);
             if (fDocumentFloat != project->m_fAVGCredit) {
                 project->m_fAVGCredit = fDocumentFloat;
+                FormatAVGCredit(fDocumentFloat, project->m_strAVGCredit);
                 return true;
             }
             break;
@@ -756,6 +768,7 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
             GetDocResourceShare(m_iSortedIndexes[iRowIndex], fDocumentFloat);
             if (fDocumentFloat != project->m_fResourceShare) {
                 project->m_fResourceShare = fDocumentFloat;
+                FormatResourceShare(fDocumentFloat, project->m_strResourceShare);
                 return true;
             }
             break;
@@ -778,7 +791,7 @@ void CViewProjects::GetDocProjectName(wxInt32 item, wxString& strBuffer) const {
 
     if (project) {
         project->get_name(project_name);
-        strBuffer = wxString(project_name.c_str(), wxConvUTF8);
+        strBuffer = strBuffer = HtmlEntityDecode(wxString(project_name.c_str(), wxConvUTF8));
     } else {
         strBuffer = wxEmptyString;
     }
@@ -787,7 +800,7 @@ void CViewProjects::GetDocProjectName(wxInt32 item, wxString& strBuffer) const {
 
 wxInt32 CViewProjects::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
     CProject* project = m_ProjectCache.at(m_iSortedIndexes[item]);
-    strBuffer = HtmlEntityDecode(project->m_strProjectName);
+    strBuffer = project->m_strProjectName;
 
     return 0;
 }
@@ -797,7 +810,7 @@ void CViewProjects::GetDocAccountName(wxInt32 item, wxString& strBuffer) const {
     PROJECT* project = wxGetApp().GetDocument()->project(item);
 
     if (project) {
-        strBuffer = wxString(project->user_name.c_str(), wxConvUTF8);
+        strBuffer = HtmlEntityDecode(wxString(project->user_name.c_str(), wxConvUTF8));
     } else {
         strBuffer = wxEmptyString;
     }
@@ -806,7 +819,7 @@ void CViewProjects::GetDocAccountName(wxInt32 item, wxString& strBuffer) const {
 
 wxInt32 CViewProjects::FormatAccountName(wxInt32 item, wxString& strBuffer) const {
     CProject* project = m_ProjectCache.at(m_iSortedIndexes[item]);
-    strBuffer = HtmlEntityDecode(project->m_strAccountName);
+    strBuffer = project->m_strAccountName;
 
     return 0;
 }
@@ -816,7 +829,7 @@ void CViewProjects::GetDocTeamName(wxInt32 item, wxString& strBuffer) const {
     PROJECT* project = wxGetApp().GetDocument()->project(item);
 
     if (project) {
-        strBuffer = wxString(project->team_name.c_str(), wxConvUTF8);
+        strBuffer = HtmlEntityDecode(wxString(project->team_name.c_str(), wxConvUTF8));
     } else {
         strBuffer = wxEmptyString;
     }
@@ -825,7 +838,7 @@ void CViewProjects::GetDocTeamName(wxInt32 item, wxString& strBuffer) const {
 
 wxInt32 CViewProjects::FormatTeamName(wxInt32 item, wxString& strBuffer) const {
     CProject* project = m_ProjectCache.at(m_iSortedIndexes[item]);
-    strBuffer = HtmlEntityDecode(project->m_strTeamName);
+    strBuffer = project->m_strTeamName;
 
     return 0;
 }
@@ -842,9 +855,8 @@ void CViewProjects::GetDocTotalCredit(wxInt32 item, float& fBuffer) const {
 }
 
 
-wxInt32 CViewProjects::FormatTotalCredit(wxInt32 item, wxString& strBuffer) const {
-    CProject* project = m_ProjectCache.at(m_iSortedIndexes[item]);
-    strBuffer.Printf(wxT("%0.2f"), project->m_fTotalCredit);
+wxInt32 CViewProjects::FormatTotalCredit(float fBuffer, wxString& strBuffer) const {
+    strBuffer.Printf(wxT("%0.2f"), fBuffer);
 
     return 0;
 }
@@ -861,9 +873,8 @@ void CViewProjects::GetDocAVGCredit(wxInt32 item, float& fBuffer) const {
 }
 
 
-wxInt32 CViewProjects::FormatAVGCredit(wxInt32 item, wxString& strBuffer) const {
-    CProject* project = m_ProjectCache.at(m_iSortedIndexes[item]);
-    strBuffer.Printf(wxT("%0.2f"), project->m_fAVGCredit);
+wxInt32 CViewProjects::FormatAVGCredit(float fBuffer, wxString& strBuffer) const {
+    strBuffer.Printf(wxT("%0.2f"), fBuffer);
 
     return 0;
 }
@@ -880,17 +891,16 @@ void CViewProjects::GetDocResourceShare(wxInt32 item, float& fBuffer) const {
 }
 
 
-wxInt32 CViewProjects::FormatResourceShare(wxInt32 item, wxString& strBuffer) const {
+wxInt32 CViewProjects::FormatResourceShare(float fBuffer, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    CProject* project = m_ProjectCache.at(m_iSortedIndexes[item]);
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    if (project && pDoc) {
+    if (pDoc) {
         strBuffer.Printf(wxT("%0.0f (%0.2f%%)"), 
-            project->m_fResourceShare, 
-            ((project->m_fResourceShare / pDoc->m_fProjectTotalResourceShare) * 100)
+            fBuffer, 
+            ((fBuffer / pDoc->m_fProjectTotalResourceShare) * 100)
         );
     }
         

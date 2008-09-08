@@ -40,6 +40,10 @@ public:
     double m_dSpeed;
     wxString m_strStatus;
     wxString m_strProjectURL;   // Used internally, not displayed
+    wxString m_strProgress;
+    wxString m_strSize;
+    wxString m_strTime;
+    wxString m_strSpeed;
 };
 
 
@@ -78,20 +82,17 @@ protected:
     virtual void            UpdateSelection();
 
     void                    GetDocProjectName(wxInt32 item, wxString& strBuffer) const;
-    wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocFileName(wxInt32 item, wxString& strBuffer) const;
-    wxInt32                 FormatFileName( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocProgress(wxInt32 item, float& fBuffer) const;
-    wxInt32                 FormatProgress( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatProgress( float fBuffer, wxString& strBuffer ) const;
     void                    GetDocBytesXferred(wxInt32 item, double& fBuffer) const;
     void                    GetDocTotalBytes(wxInt32 item, double& fBuffer) const;
-    wxInt32                 FormatSize( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatSize( double fBytesSent, double fFileSize, wxString& strBuffer ) const;
     void                    GetDocTime(wxInt32 item, double& fBuffer) const;
-    wxInt32                 FormatTime( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatTime( double fBuffer, wxString& strBuffer ) const;
     void                    GetDocSpeed(wxInt32 item, double& fBuffer) const;
-    wxInt32                 FormatSpeed( wxInt32 item, wxString& strBuffer ) const;
+    wxInt32                 FormatSpeed( double fBuffer, wxString& strBuffer ) const;
     void                    GetDocStatus(wxInt32 item, wxString& strBuffer) const;
-    wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocProjectURL(wxInt32 item, wxString& strBuffer) const;
 
     virtual double          GetProgressValue(long item);
