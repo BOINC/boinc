@@ -7293,3 +7293,9 @@ Charlie 8 Sep 2008
         ViewProjects.cpp,.h
         ViewTransfers.cpp,.h
         ViewWork.cpp,.h
+
+David  8 Sept 2008
+    - web: fix bug in host list page
+
+    html/user/
+        hosts_user.php

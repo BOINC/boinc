@@ -25,7 +25,9 @@ require_once("../inc/host.inc");
 require_once("../inc/cache.inc");
 
 function link_url($sort, $rev, $show_all) {
-    return "hosts_user.php?sort=$sort&rev=$rev&show_all=$show_all";
+    global $userid;
+    $x = $userid ? "&userid=$userid":"";
+    return "hosts_user.php?sort=$sort&rev=$rev&show_all=$show_all$x";
 }
 
 function link_url_rev($actual_sort, $sort, $rev, $show_all) {
