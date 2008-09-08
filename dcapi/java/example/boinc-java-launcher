@@ -6,19 +6,12 @@
 
 set +v
 
-file=`sed -n '/^<soft_link>/ s/<[^>]*>//gp' libdc-jre.tar`
+libdc-jre=`sed -n '/^<soft_link>/ s/<[^>]*>//gp' libdc-jre.tar`
+app-jar=`sed -n '/^<soft_link>/ s/<[^>]*>//gp' Uppercase.jar`
 
-jar=`sed -n '/^<soft_link>/ s/<[^>]*>//gp' Uppercase.jar`
+[ -d jre ] || gunzip -c "$libdc-jre" | tar xf -
 
-if
-  [ ! -d jre ]
-then
-  tar xzf $file
-fi
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/lib
+export LD_LIBRARY_PATH
 
-  path=`pwd`
-
-  LD_LIBRARY_PATH=$path/lib
-  export LD_LIBRARY_PATH
-
-./jre/bin/java -jar $jar
+exec ./jre/bin/java -jar "$app-jar"
