@@ -6649,6 +6649,7 @@ Rom    15 Aug 2008
         hostinfo_win.C
     lib/
         hostinfo.C, .h
+
 Charlie 15 Aug 2008
     - MGR: async GUI RPCs: Merge GUI RPC code from private workspace into trunk.
         All RPCs now go through separate thread.  There are two categories:
