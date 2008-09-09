@@ -531,6 +531,8 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const {
     CProject* project     = NULL;
     wxString       strBuffer = wxEmptyString;
 
+    m_pListPane->AddPendingBarGraph(item);
+
     try {
         project = m_ProjectCache.at(m_iSortedIndexes[item]);
     } catch ( std::out_of_range ) {

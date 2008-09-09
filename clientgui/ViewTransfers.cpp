@@ -325,6 +325,8 @@ wxString CViewTransfers::OnListGetItemText(long item, long column) const {
     CTransfer* transfer;
     wxString   strBuffer  = wxEmptyString;
 
+    m_pListPane->AddPendingBarGraph(item);
+
     try {
         transfer = m_TransferCache.at(m_iSortedIndexes[item]);
     } catch ( std::out_of_range ) {

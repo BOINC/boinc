@@ -7284,7 +7284,7 @@ Charlie 8 Sep 2008
         progress bars in wrong rows in transfers tab.
     MGR: Use item attributes to create gray backgroound stripes in List 
         Views instead of overlaying them in CBOINCListCtrl::DrawBarGraphs(); 
-        this eliminates remaining flicker on Windows.
+        this eliminates most remaining flicker on Windows.
 
     clientgui/
         BOINCBaseView.cpp,.h
@@ -7305,3 +7305,14 @@ David  9 Sept 2008
 
     html/user/
         show_user.php
+
+Charlie 8 Sep 2008
+    MGR: Draw only those progress bars which are actually needed, further 
+        reducing flicker and improving efficiency.
+
+    clientgui/
+        BOINCBaseView.cpp
+        BOINCListCtrl.cpp,.h
+        ViewProjects.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp

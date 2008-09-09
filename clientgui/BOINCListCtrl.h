@@ -55,6 +55,7 @@ public:
     long                    GetFirstSelected() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); }
     long                    GetNextSelected(int i) { return GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); }
     void                    SelectRow(int row, bool setSelected);
+    void                    AddPendingBarGraph(int row);
     
     bool                    m_bIsSingleSelection;
 
@@ -66,6 +67,7 @@ private:
     virtual wxListItemAttr* OnGetItemAttr(long item) const;
 
     CBOINCBaseView*         m_pParentView;
+    wxArrayInt              m_iRowsNeedingProgressBars;
 
 #if USE_NATIVE_LISTCONTROL
 public:

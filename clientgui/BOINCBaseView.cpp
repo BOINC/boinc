@@ -140,6 +140,7 @@ CBOINCBaseView::~CBOINCBaseView() {
     }
     m_arrSelectedKeys1.Empty();
     m_arrSelectedKeys2.Empty();
+    m_iSortedIndexes.Empty();
 
     if (m_pWhiteBackgroundAttr) {
         delete m_pWhiteBackgroundAttr;

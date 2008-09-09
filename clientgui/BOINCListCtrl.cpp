@@ -67,6 +67,7 @@ CBOINCListCtrl::CBOINCListCtrl(
 
 CBOINCListCtrl::~CBOINCListCtrl()
 {
+    m_iRowsNeedingProgressBars.Empty();
 }
 
 
@@ -182,6 +183,20 @@ void CBOINCListCtrl::SelectRow(int row, bool setSelected) {
 }
 
 
+void CBOINCListCtrl::AddPendingBarGraph(int row) {
+    bool duplicate = false;
+    int n = (int)m_iRowsNeedingProgressBars.GetCount();
+    for (int i=0; i<n; ++i) {
+        if (m_iRowsNeedingProgressBars[i] == row) {
+            duplicate = true;
+        }
+    }
+    if (!duplicate) {
+        m_iRowsNeedingProgressBars.Add(row);
+    }
+}
+
+
 void CBOINCListCtrl::OnClick(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCListCtrl::OnClick - Function Begin"));
 
@@ -241,10 +256,11 @@ wxListItemAttr* CBOINCListCtrl::OnGetItemAttr(long item) const {
 
 void CBOINCListCtrl::DrawBarGraphs()
 {
-    long topItem, numItems, numVisibleItems, i, item;
+    long topItem, numItems, numVisibleItems, i, row;
     wxRect r;
     int w = 0, x = 0;
     int progressColumn = m_pParentView->GetProgressColumn();
+    
 #if USE_NATIVE_LISTCONTROL
     wxClientDC dc(this);
     m_bBarGraphEventPending = false;
@@ -252,6 +268,14 @@ void CBOINCListCtrl::DrawBarGraphs()
     wxClientDC dc(GetMainWin());   // Available only in wxGenericListCtrl
 #endif
 
+    if (progressColumn < 0) {
+        m_iRowsNeedingProgressBars.Empty();
+        return;
+    }
+
+    int n = (int)m_iRowsNeedingProgressBars.GetCount();
+    if (n <= 0) return;
+    
 #ifdef __WXMAC__
     wxColour progressColor = wxColour( 40, 170, 170, 60);
 #else
@@ -261,7 +285,7 @@ void CBOINCListCtrl::DrawBarGraphs()
 
     numItems = GetItemCount();
     if (numItems) {
-        topItem = GetTopItem();     // Doesn't work properly for Mac Native control
+        topItem = GetTopItem();     // Doesn't work properly for Mac Native control in wxMac-2.8.7
 
         numVisibleItems = GetCountPerPage();
         ++numVisibleItems;
@@ -269,36 +293,38 @@ void CBOINCListCtrl::DrawBarGraphs()
         if (numItems <= (topItem + numVisibleItems)) numVisibleItems = numItems - topItem;
 
         x = 0;
-
-        if (progressColumn >= 0) {
-            for (i=0; i< progressColumn; i++) {
-                x += GetColumnWidth(i);
-            }
-            w = GetColumnWidth(progressColumn);
+        for (i=0; i< progressColumn; i++) {
+            x += GetColumnWidth(i);
         }
+        w = GetColumnWidth(progressColumn);
         
-        for (i=0; i<numVisibleItems; i++) {
-            item = topItem + i;
-            GetItemRect(item, r);
+        for (int i=0; i<n; ++i) {
+            row = m_iRowsNeedingProgressBars[i];
+            if (row < topItem) continue;
+            if (row > (topItem + numVisibleItems -1)) continue;
+        
+
+            GetItemRect(row, r);
 #if ! USE_NATIVE_LISTCONTROL
             r.y = r.y - GetHeaderHeight() - 1;
 #endif
-            if (progressColumn < 0) continue;
             r.x = x;
             r.width = w;
             r.Inflate(-1, -1);
+            
             dc.SetPen(progressColor);
             dc.SetBrush(*wxTRANSPARENT_BRUSH);
             dc.DrawRectangle( r );
             r.Inflate(-1, 0);
             dc.DrawRectangle( r );
 
-            r.width = r.width * m_pParentView->GetProgressValue(item);
+            r.width = r.width * m_pParentView->GetProgressValue(row);
             dc.SetPen(*wxTRANSPARENT_PEN);
             dc.SetBrush(progressColor);
             dc.DrawRectangle( r );
         }
     }
+    m_iRowsNeedingProgressBars.Empty();
 }
 
 #if USE_NATIVE_LISTCONTROL
