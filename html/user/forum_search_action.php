@@ -46,7 +46,7 @@ function search_thread_titles(
     if ($time && $user != "all") {
         $query .= " and timestamp > $time";
     }
-    if (!$show_hiddenfalse) {
+    if (!$show_hidden) {
         $query .= " and thread.hidden = 0";
     }
     switch($sort_style) {

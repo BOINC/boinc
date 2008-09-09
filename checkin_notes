@@ -7316,3 +7316,9 @@ Charlie 8 Sep 2008
         ViewProjects.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+
+Rytis  9 Sep 2008
+    Web: fix David's fix from Sep 7.
+    
+    html/user/
+        forum_search_action.php
