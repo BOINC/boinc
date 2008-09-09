@@ -41,7 +41,7 @@
 #include "sched_util.h"
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
+#include "boinc_fcgi.h"
 #endif
 #include "sched_msgs.h"
 
@@ -554,11 +554,14 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
 }
 
 int get_key(R_RSA_PUBLIC_KEY& key) {
-    FILE* f;
     int retval;
     char buf[256];
     sprintf(buf, "%s/upload_public", config.key_dir);
-    f = fopen(buf, "r");
+#ifndef _USING_FCGI_
+    FILE *f = fopen(buf, "r");
+#else
+    FCGI_FILE *f = FCGI::fopen(buf, "r");
+#endif
     if (!f) return -1;
     retval = scan_key_hex(f, (KEY*)&key, sizeof(key));
     fclose(f);
@@ -620,8 +623,7 @@ int main() {
         exit(1);
     }
 #else
-    FILE* f;
-    f = fopen(log_path, "a");
+    FCGI_FILE *f = FCGI::fopen(log_path, "a");
     if (f) {
        log_messages.redirect(f);
     } else {

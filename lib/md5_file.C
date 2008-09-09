@@ -23,26 +23,30 @@
 #include <wincrypt.h>
 #else
 #include "config.h"
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#else
 #include <cstdio>
+#endif
 #endif
 
 #include "md5.h"
 #include "md5_file.h"
 #include "error_numbers.h"
 
-#ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
-#endif
 
 int md5_file(const char* path, char* output, double& nbytes) {
     unsigned char buf[4096];
     unsigned char binout[16];
-    FILE* f;
     md5_state_t state;
     int i, n;
 
     nbytes = 0;
-    f = fopen(path, "rb");
+#ifndef _USING_FCGI_
+    FILE *f = fopen(path, "rb");
+#else
+    FILE *f = FCGI::fopen(path, "rb");
+#endif
     if (!f) {
         fprintf(stderr, "md5_file: can't open %s\n", path);
         perror("md5_file");
@@ -101,7 +105,11 @@ int make_random_string(char* out) {
         
     CryptReleaseContext(hCryptProv, 0);
 #else
+#ifndef _USING_FCGI_
     FILE* f = fopen("/dev/random", "r");
+#else
+    FILE* f = FCGI::fopen("/dev/random", "r");
+#endif
     if (!f) {
         return -1;
     }

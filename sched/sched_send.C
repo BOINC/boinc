@@ -52,9 +52,7 @@ using namespace std;
 #include "sched_send.h"
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
-#else
-#define FCGI_ToFILE(x) (x)
+#include "boinc_fcgi.h"
 #endif
 
 

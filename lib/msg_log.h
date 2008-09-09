@@ -22,7 +22,7 @@
 #include <cstdarg>
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
+#include "boinc_fcgi.h"
 #endif
 
 // the __attribute((format...)) tags are GCC extensions that let the compiler

@@ -17,6 +17,10 @@
 
 // Parse a server configuration file
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#endif
+
 #include <cstring>
 #include <string>
 #include <unistd.h>
@@ -28,9 +32,6 @@
 #include "sched_util.h"
 #include "sched_config.h"
 
-#ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
-#endif
 
 const char* CONFIG_FILE = "config.xml";
 
@@ -219,7 +220,11 @@ int SCHED_CONFIG::parse_file(const char* dir) {
     int retval;
 
     sprintf(path, "%s/%s", dir, CONFIG_FILE);
+#ifndef _USING_FCGI_
     FILE* f = fopen(path, "r");
+#else
+    FCGI_FILE *f = FCGI::fopen(path, "r");
+#endif
     if (!f) return ERR_FOPEN;
     retval = parse(f);
     fclose(f);

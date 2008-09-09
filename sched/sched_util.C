@@ -35,7 +35,7 @@ using namespace std;
 #include "util.h"
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
+#include "boinc_fcgi.h"
 #endif
 
 const char* STOP_DAEMONS_FILENAME = "../stop_daemons";
@@ -46,7 +46,12 @@ const int STOP_SIGNAL = SIGHUP;
     // NOTE: this must be same as in the "start" script
 
 void write_pid_file(const char* filename) {
+#ifndef _USING_FCGI_
     FILE* fpid = fopen(filename, "w");
+#else
+    FCGI_FILE* fpid = FCGI::fopen(filename,"w");
+#endif
+
     if (!fpid) {
         log_messages.printf(MSG_CRITICAL, "Couldn't write pid file\n");
         return;
@@ -94,12 +99,21 @@ bool check_stop_sched() {
 //     (this is generally a recoverable error,
 //     like NFS mount failure, that may go away later)
 //
+#ifndef _USING_FCGI_
 int try_fopen(const char* path, FILE*& f, const char* mode) {
+#else
+int try_fopen(const char* path, FCGI_FILE*& f, const char *mode) {
+#endif
     char* p;
     DIR* d;
     char dirpath[256];
 
+#ifndef _USING_FCGI_
     f = fopen(path, mode);
+#else
+    f = FCGI::fopen(path, mode);
+#endif
+
     if (!f) {
         memset(dirpath, '\0', sizeof(dirpath));
         p = strrchr(path, '/');

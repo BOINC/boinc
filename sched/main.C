@@ -27,7 +27,11 @@
 
 #include "config.h"
 #include <cassert>
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#else
 #include <cstdio>
+#endif
 #include <cstdlib>
 #include <vector>
 #include <string>
@@ -57,9 +61,6 @@ using namespace std;
 #include "sched_msgs.h"
 #include "main.h"
 
-#ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
-#endif
 
 // Useful for debugging, if your cgi script keeps crashing.  This
 // makes it dump a core file that you can load into a debugger to see
@@ -90,7 +91,11 @@ void debug_sched(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *trigger
 ) {
     char tmpfilename[256];
+#ifndef _USING_FCGI_
     FILE *fp;
+#else
+    FCGI_FILE *fp;
+#endif
 
     if (!boinc_file_exists(trigger)) {
         return;
@@ -100,7 +105,11 @@ void debug_sched(
     // use _XXXXXX if you want random filenames rather than
     // deterministic mkstemp(tmpfilename);
 
+#ifndef _USING_FCGI_
     fp=fopen(tmpfilename, "w");
+#else
+    fp=FCGI::fopen(tmpfilename,"w");
+#endif
 
     if (!fp) {
         log_messages.printf(MSG_CRITICAL,
@@ -117,7 +126,11 @@ void debug_sched(
     fclose(fp);
 
     sprintf(tmpfilename, "sched_request_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
+#ifndef _USING_FCGI_
     fp=fopen(tmpfilename, "w");
+#else
+    fp=FCGI::fopen(tmpfilename,"w");
+#endif
 
     if (!fp) {
         log_messages.printf(MSG_CRITICAL,
@@ -179,7 +192,7 @@ void sigterm_handler(int signo) {
        "Caught signal %d [scheduler ran %f seconds].  Exit(1)ing\n",
        signo, elapsed_wallclock_time()
     );
-    fflush(NULL);
+    fflush((FILE*)NULL);
     exit(1);
     return;
 }
@@ -294,7 +307,11 @@ void attach_to_feeder_shmem() {
 }
 
 int main(int argc, char** argv) {
+#ifndef _USING_FCGI_
     FILE* fin, *fout;
+#else
+    FCGI_FILE *fin, *fout;
+#endif
     int i, retval;
     char req_path[256], reply_path[256], path[256];
     unsigned int counter=0;
@@ -339,8 +356,7 @@ int main(int argc, char** argv) {
         );
     }
 #else
-    FILE* f;
-    f = fopen(path, "a");
+    FCGI_FILE* f = FCGI::fopen(path, "a");
     if (f) {
        log_messages.redirect(f);
     } else {
@@ -426,7 +442,11 @@ int main(int argc, char** argv) {
         //
         sprintf(req_path, "%s%d_%u", REQ_FILE_PREFIX, g_pid, counter);
         sprintf(reply_path, "%s%d_%u", REPLY_FILE_PREFIX, g_pid, counter);
+#ifndef _USING_FCGI_
         fout = fopen(req_path, "w");
+#else
+	fout = FCGI::fopen(req_path,"w");
+#endif
         if (!fout) {
             log_messages.printf(MSG_CRITICAL,
                 "can't write request file\n"
@@ -443,14 +463,22 @@ int main(int argc, char** argv) {
             );
         }
 
+#ifndef _USING_FCGI_
         fin = fopen(req_path, "r");
+#else
+	fin = FCGI::fopen(req_path,"w");
+#endif
         if (!fin) {
             log_messages.printf(MSG_CRITICAL,
                 "can't read request file\n"
             );
             exit(1);
         }
+#ifndef _USING_FCGI_
         fout = fopen(reply_path, "w");
+#else
+        fout = FCGI::fopen(reply_path, "w");
+#endif
         if (!fout) {
             log_messages.printf(MSG_CRITICAL,
                 "can't write reply file\n"
@@ -461,7 +489,11 @@ int main(int argc, char** argv) {
         handle_request(fin, fout, code_sign_key);
         fclose(fin);
         fclose(fout);
+#ifndef _USING_FCGI_
         fin = fopen(reply_path, "r");
+#else
+        fin = FCGI::fopen(reply_path, "r");
+#endif
         if (!fin) {
             log_messages.printf(MSG_CRITICAL,
                 "can't read reply file\n"

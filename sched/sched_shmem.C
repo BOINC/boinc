@@ -33,7 +33,7 @@
 #include "sched_msgs.h"
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
+#include "boinc_fcgi.h"
 #endif
 
 void SCHED_SHMEM::init(int nwu_results) {

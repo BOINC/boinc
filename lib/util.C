@@ -52,7 +52,7 @@
 
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
+#include "boinc_fcgi.h"
 #endif
 
 using std::min;
@@ -298,14 +298,17 @@ void boinc_crash() {
 // read file (at most max_len chars, if nonzero) into malloc'd buf
 //
 int read_file_malloc(const char* path, char*& buf, int max_len, bool tail) {
-    FILE* f;
     int retval, isize;
     double size;
 
     retval = file_size(path, size);
     if (retval) return retval;
 
-    f = fopen(path, "r");
+#ifndef _USING_FCGI_
+    FILE *f = fopen(path, "r");
+#else
+    FCGI_FILE *f = FCGI::fopen(path, "r");
+#endif 
     if (!f) return ERR_FOPEN;
 
 #ifndef _USING_FCGI_

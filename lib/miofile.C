@@ -82,7 +82,11 @@ int MIOFILE::printf(const char* format, ...) {
 
 char* MIOFILE::fgets(char* dst, int dst_len) {
     if (f) {
+#ifndef _USING_FCGI_
         return ::fgets(dst, dst_len, f);
+#else
+        return FCGI::fgets(dst, dst_len, f);
+#endif
     }
     const char* q = strchr(buf, '\n');
     if (!q) return 0;

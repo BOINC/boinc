@@ -21,7 +21,11 @@
 
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 #include "config.h"
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#else
 #include <cstdio>
+#endif
 #include <fcntl.h>
 #include <cerrno>
 #include <sys/stat.h>
@@ -62,10 +66,6 @@ typedef BOOL (CALLBACK* FreeFn)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULAR
 #include "str_util.h"
 #include "error_numbers.h"
 #include "filesys.h"
-
-#ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
-#endif
 
 
 using std::string;
@@ -269,6 +269,7 @@ int boinc_delete_file(const char* path) {
         return 0;
     }
     retval = boinc_delete_file_aux(path);
+#ifdef _WIN32
     if (retval) {
         double start = dtime();
         do {
@@ -277,6 +278,7 @@ int boinc_delete_file(const char* path) {
             if (!retval) break;
         } while (dtime() < start + FILE_RETRY_INTERVAL);
     }
+#endif
     if (retval) {
         safe_strcpy(boinc_failed_file, path);
         return ERR_UNLINK;
@@ -404,7 +406,6 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
 }
 
 FILE* boinc_fopen(const char* path, const char* mode) {
-    FILE* f;
 
     // if opening for read, and file isn't there,
     // leave now (avoid 5-second delay!!)
@@ -414,7 +415,12 @@ FILE* boinc_fopen(const char* path, const char* mode) {
             return 0;
         }
     }
-    f = fopen(path, mode);
+#ifndef _USING_FCGI_
+    FILE *f = fopen(path, mode);
+#else
+    FCGI_FILE *f = FCGI::fopen(path,mode);
+#endif
+
 #ifdef _WIN32
     // on Windows: if fopen fails, try again for 5 seconds
     // (since the file might be open by FastFind, Diskeeper etc.)
@@ -435,7 +441,11 @@ FILE* boinc_fopen(const char* path, const char* mode) {
         for (int i=0; i<5; i++) {
             boinc_sleep(drand());
             if (errno != EINTR) break;
+#ifndef _USING_FCGI_
             f = fopen(path, mode);
+#else
+            f = FCGI::fopen(path, mode);
+#endif
             if (f) break;
         }
     }
@@ -472,12 +482,15 @@ int boinc_file_or_symlink_exists(const char* path) {
 // returns zero on success, nonzero if didn't touch file
 //
 int boinc_touch_file(const char *path) {
-    FILE *fp;
 
     if (boinc_file_exists(path)) {
         return 0;
     }
-    fp = fopen(path, "w");
+#ifndef _USING_FCGI_
+    FILE *fp = fopen(path, "w");
+#else
+    FCGI_FILE *fp = FCGI::fopen(path, "w");
+#endif
     if (fp) {
         fclose(fp);
         return 0;
@@ -516,6 +529,7 @@ int boinc_rename(const char* old, const char* newf) {
     int retval=0;
 
     retval = boinc_rename_aux(old, newf);
+#ifdef _WIN32
     if (retval) {
         double start = dtime();
         do {
@@ -524,6 +538,7 @@ int boinc_rename(const char* old, const char* newf) {
             if (!retval) break;
         } while (dtime() < start + FILE_RETRY_INTERVAL);
     }
+#endif
     return retval;
 }
 

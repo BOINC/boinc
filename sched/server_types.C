@@ -33,7 +33,7 @@ using namespace std;
 #include "server_types.h"
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
+#include "boinc_fcgi.h"
 #endif
 
 // remove (by truncating) any quotes from the given string.

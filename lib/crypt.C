@@ -48,7 +48,7 @@
 #include "crypt.h"
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
+#include "boinc_fcgi.h"
 #endif
 
 // NOTE: the fast CGI I/O library doesn't have fscanf(),
@@ -402,7 +402,11 @@ int verify_string2(
 
 int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key) {
     int retval;
+#ifndef _USING_FCGI_
     FILE* fkey = fopen(keyfile, "r");
+#else
+    FCGI_FILE* fkey = FCGI::fopen(keyfile, "r");
+#endif
     if (!fkey) {
         fprintf(stderr, "can't open key file (%s)\n", keyfile);
         return ERR_FOPEN;
@@ -563,7 +567,7 @@ char *check_validity(
     char* caPath
 ) {
     MD5_CTX md5CTX;
-    int sf, rbytes;
+    int rbytes;
     unsigned char md5_md[MD5_DIGEST_LENGTH],  rbuf[2048];
 
     SSL_load_error_strings();
@@ -612,7 +616,6 @@ int cert_verify_file(
     BIO *bio;
     X509 *cert;
     X509_NAME *subj;
-    FILE *f = NULL;
 
     if (signatures->signatures.size() == 0) {
         printf("No signatures available for file ('%s').\n", origFile);
@@ -641,7 +644,11 @@ int cert_verify_file(
         while (1) {
             snprintf(fbuf, 512, "%s/%s.%d", trustLocation, signatures->signatures.at(i).hash,
                 file_counter);
-            f = fopen(fbuf, "r");
+#ifndef _USING_FCGI_
+            FILE *f = fopen(fbuf, "r");
+#else
+            FCGI_FILE *f = FCGI::fopen(fbuf, "r");
+#endif 
             if (f==NULL)
                 break;
             fclose(f);

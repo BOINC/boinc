@@ -43,9 +43,7 @@
 
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
-#else
-#define FCGI_ToFILE(x) (x)
+#include "boinc_fcgi.h"
 #endif
 
 // Assign a new deadline for the result;

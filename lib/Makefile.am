@@ -85,8 +85,9 @@ libboinc_a_SOURCES = \
 pkginclude_HEADERS = \
     app_ipc.h \
     boinc_win.h \
-	common_defs.h	\
-	coproc.h \
+    boinc_fcgi.h \
+    common_defs.h	\
+    coproc.h \
     crypt.h \
     diagnostics.h \
     error_numbers.h \

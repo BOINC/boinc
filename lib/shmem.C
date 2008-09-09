@@ -64,7 +64,7 @@ extern "C" int debug_printf(const char *fmt, ...);
 #include "shmem.h"
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
+#include "boinc_fcgi.h"
 #endif
 
 #ifdef _WIN32

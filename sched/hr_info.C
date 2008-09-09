@@ -14,8 +14,11 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-
+#ifndef _USING_FCGI_
 #include <stdio.h>
+#else
+#include "boinc_fcgi.h"
+#endif
 #include <malloc.h>
 #include <math.h>
 
@@ -27,7 +30,11 @@
 int HR_INFO::write_file() {
     int i, j;
 
+#ifndef _USING_FCGI_
     FILE* f = fopen(HR_INFO_FILENAME, "w");
+#else 
+    FCGI_FILE* f = FCGI::fopen(HR_INFO_FILENAME, "w");
+#endif
     if (!f) return ERR_FOPEN;
     for (i=1; i<HR_NTYPES; i++) {
         fprintf(f, "--------- %s ----------\n", hr_names[i]);
@@ -41,7 +48,11 @@ int HR_INFO::write_file() {
 
 int HR_INFO::read_file() {
     char buf[256];
-    FILE* f = fopen(HR_INFO_FILENAME, "r");
+#ifndef _USING_FCGI_
+    FILE* f = fopen(HR_INFO_FILENAME, "w");
+#else 
+    FCGI_FILE* f = FCGI::fopen(HR_INFO_FILENAME, "w");
+#endif
     if (!f) return ERR_FOPEN;
     int i, j, jj;
     double x;
@@ -183,6 +194,8 @@ bool HR_INFO::accept(int hrt, int hrc) {
         return false;
     }
     cur_slots[hrt][hrc]++;
+// A return statement was missing.  I assume it is supposed to return true.
+    return true;
 }
 
 void HR_INFO::show(FILE* f) {
@@ -201,7 +214,11 @@ void HR_INFO::show(FILE* f) {
 }
 
 int PERF_INFO::write_file() {
+#ifndef _USING_FCGI_
     FILE* f = fopen(PERF_INFO_FILENAME, "w");
+#else
+    FCGI_FILE* f = FCGI::fopen(PERF_INFO_FILENAME, "w");
+#endif
     if (!f) return ERR_FOPEN;
     fprintf(f, "%f %f\n",
         host_fpops_mean,

@@ -18,15 +18,16 @@
 #ifndef _MIOFILE_
 #define _MIOFILE_
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#endif
+
 #ifndef _WIN32
 #include <string>
 #endif
 
 #include "mfile.h"
 
-#ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
-#endif
 
 // MIOFILE lets you do formatted I/O to either a FILE or a memory buffer,
 // depending on how you initialize it.
@@ -53,7 +54,11 @@ public:
     MIOFILE();
     ~MIOFILE();
     void init_mfile(MFILE*);
+#ifndef _USING_FCGI_
     void init_file(FILE*);
+#else
+    void init_file(FCGI_FILE *);
+#endif
     void init_buf_read(const char*);
 	void init_buf_write(char*, int len);
     int printf(const char* format, ...);
@@ -61,11 +66,7 @@ public:
     int _ungetc(int);
     inline int _getc() {
         if (f) {
-#ifdef _USING_FCGI_
-            return FCGI_fgetc(f);
-#else
-            return getc(f);
-#endif
+            return fgetc(f);
         }
         return (*buf)?(*buf++):EOF;
     }

@@ -7322,3 +7322,59 @@ Rytis  9 Sep 2008
     
     html/user/
         forum_search_action.php
+
+Eric K 10 Sep 2008
+    - Fixed fcgi builds to use an installed version of fcgi_stdio.h rather than
+      a modified boinc version.
+    - Added new header "boinc_fcgi.h" to be used instead of "fcgi_stdio.h".
+      This header defines I/O functions in the namespace FCGI rather than using
+      redefined functions the way "fcgi_stdio.h" does.  This was causing a lot
+      of headaches when both <cstdio> and "fcgi_stdio.h" was called.  Using
+      overloaded functions fixes this problem, except when the only difference
+      between functions is the return type (for example ::fopen() returns FILE*
+      and FCGI::fopen() returns FCGI_FILE*).
+    - Fixed some missing "#ifdef _WIN32" blocks in filesys.C
+
+    tools/
+        backend_lib.C
+    sched/
+	Makefile.am
+	edf_sim.C
+	fcgi_stdio.h  (removed)
+	file_upload_handler.C
+	handle_request.C
+	hr_info.C
+	main.C
+	sched_array.C
+	sched_config.C
+	sched_hr.C
+	sched_msgs.h
+	sched_resend.C
+        sched_send.C
+	server_types.C
+	sched_shmem.C
+	sched_timezone.C
+	sched_util.C
+	time_stats_log.C
+    lib/
+	Makefile.am
+	base64.C
+	boinc_fcgi.[Ch]  (new files)
+        coproc.h
+	crypt.C
+	filesys.C
+	md5_file.C
+	miofile.[Ch]
+	msg_log.[Ch]
+	parse.C
+	shmem.C
+        str_util.C
+	synch.C
+	util.C
+
+
+
+
+
+
+

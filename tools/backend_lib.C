@@ -39,7 +39,7 @@
 #include "backend_lib.h"
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
+#include "boinc_fcgi.h"
 #else
 #define FCGI_ToFILE(x) (x)
 #endif
@@ -60,7 +60,11 @@ int read_file(FILE* f, char* buf, int len) {
 
 int read_filename(const char* path, char* buf, int len) {
     int retval;
+#ifndef _USING_FCGI_
     FILE* f = fopen(path, "r");
+#else
+    FCGI_FILE *f=FCGI::fopen(path, "r");
+#endif
     if (!f) return -1;
     retval = read_file(f, buf, len);
     fclose(f);
@@ -78,8 +82,7 @@ static bool got_md5_info(
     // look for file named FILENAME.md5 containing md5sum and length.
     // If found, and newer mod time than file, read md5 sum and file
     // length from it.
-  
-    FILE *fp;
+
     char md5name[512];
     struct stat md5stat, filestat;
     char endline='\0';
@@ -95,15 +98,20 @@ static bool got_md5_info(
         return retval;
     
     // if cached md5 newer, then open it
-    if (!(fp=fopen(md5name, "r")))
+#ifndef _USING_FCGI_
+    FILE *fp=fopen(md5name, "r");
+#else
+    FCGI_FILE *fp=FCGI::fopen(md5name, "r");
+#endif
+    if (!fp)
         return retval;
   
     // read two quantities: md5 sum and length.  If we can't read
     // these, or there is MORE stuff in the file' it's not an md5
     // cache file
-    if (3 == fscanf(FCGI_ToFILE(fp), "%s %lf%c", md5data, nbytes, &endline) &&
+    if (3 == fscanf(fp, "%s %lf%c", md5data, nbytes, &endline) &&
         endline=='\n' &&
-        EOF==fgetc(FCGI_ToFILE(fp))
+        EOF==fgetc(fp)
        )
         retval=true; 
     fclose(fp);
@@ -126,7 +134,6 @@ static void write_md5_info(
 ) {
     // Write file FILENAME.md5 containing md5sum and length
     //
-    FILE *fp;
     char md5name[512];
     struct stat statbuf;
     int retval;
@@ -137,8 +144,12 @@ static void write_md5_info(
     if (!stat(md5name, &statbuf)) {
         return;
     }
- 
-    fp=fopen(md5name, "w");
+
+#ifndef _USING_FCGI_
+    FILE *fp=fopen(md5name, "w");
+#else
+    FCGI_FILE *fp=FCGI::fopen(md5name, "w");
+#endif
 
     // if can't open the file, give up
     //

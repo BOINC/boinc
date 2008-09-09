@@ -56,7 +56,7 @@ using namespace std;
 #include "time_stats_log.h"
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
+#include "boinc_fcgi.h"
 #endif
 
 // find the user's most recently-created host with given various characteristics

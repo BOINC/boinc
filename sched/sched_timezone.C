@@ -29,9 +29,7 @@
 #include "sched_msgs.h"
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
-#else
-#define FCGI_ToFILE(x) (x)
+#include "boinc_fcgi.h"
 #endif
 
 typedef struct urltag {
@@ -104,13 +102,19 @@ static URLTYPE *cached=NULL;
 #define BLOCKSIZE 32
 
 URLTYPE* read_download_list() {
-    FILE *fp;
     int count=0;
     int i;
     
     if (cached) return cached;
+
+#ifndef _USING_FCGI_
+    FILE *fp=fopen("../download_servers", "r");
+#else 
+    FCGI_FILE *fp=FCGI::fopen("../download_servers", "r");
+#endif
+
     
-    if (!(fp=fopen("../download_servers", "r"))) {
+    if (!fp) {
         log_messages.printf(MSG_CRITICAL,
             "File ../download_servers not found or unreadable!\n"
         );
@@ -126,7 +130,7 @@ URLTYPE* read_download_list() {
         }
         // read timezone offset and URL from file, and store in cache
         // list
-        if (2==fscanf(FCGI_ToFILE(fp), "%d %s", &(cached[count].zone), cached[count].name)) {
+        if (2==fscanf(fp, "%d %s", &(cached[count].zone), cached[count].name)) {
             count++;
         } else {
             // provide a null terminator so we don't need to keep

@@ -21,7 +21,7 @@
 #include "msg_log.h"
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
+#include "boinc_fcgi.h"
 #endif
 
 enum { MSG_CRITICAL=1, MSG_NORMAL, MSG_DEBUG };

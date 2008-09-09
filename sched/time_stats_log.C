@@ -56,7 +56,11 @@ void write_time_stats_log(SCHEDULER_REPLY& reply) {
         }
     }
     sprintf(filename, "../time_stats_log/%d/%d", dirnum, hostid);
+#ifndef _USING_FCGI_
     FILE* f = fopen(filename, "w");
+#else
+    FCGI_FILE *f = FCGI::fopen(filename, "w");
+#endif
     if (!f) {
         log_messages.printf(MSG_CRITICAL,
             "Can't create time stats file %s\n", filename

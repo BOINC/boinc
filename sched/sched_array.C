@@ -35,9 +35,7 @@
 
 
 #ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
-#else
-#define FCGI_ToFILE(x) (x)
+#include "boinc_fcgi.h"
 #endif
 
 // Make a pass through the wu/results array, sending work.

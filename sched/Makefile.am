@@ -56,7 +56,6 @@ libsched_a_SOURCES = \
 EXTRA_DIST = \
     assimilate_handler.h \
     fcgiapp.h \
-    fcgi_stdio.h \
     handle_request.h \
     main.h \
     sched_locality.h \
@@ -179,6 +178,7 @@ fcgi_SOURCES = \
     ../db/boinc_db.C \
     ../db/db_base.C \
     ../lib/base64.C \
+    ../lib/boinc_fcgi.C \
     ../lib/coproc.C \
     ../lib/crypt.C \
     ../lib/filesys.C \
@@ -194,19 +194,20 @@ fcgi_SOURCES = \
     ../tools/process_result_template.C \
     ../tools/backend_lib.C
 
-fcgi_CPPFLAGS = -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
+fcgi_CPPFLAGS = -D_USING_FCGI_ -include boinc_fcgi.h $(AM_CPPFLAGS)
 fcgi_LDADD = -lfcgi $(MYSQL_LIBS)
 
 fcgi_file_upload_handler_SOURCES = \
     file_upload_handler.C \
     sched_config.C \
     sched_msgs.C \
+    ../lib/boinc_fcgi.C \
     ../lib/miofile.C \
     ../lib/msg_log.C \
     ../lib/parse.C \
     ../lib/crypt.C
 
-fcgi_file_upload_handler_CPPFLAGS = -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
+fcgi_file_upload_handler_CPPFLAGS = -D_USING_FCGI_ -include boinc_fcgi.h $(AM_CPPFLAGS)
 fcgi_file_upload_handler_LDADD = $(LDADD) -lfcgi
 
 .PHONY: PHONY-start
