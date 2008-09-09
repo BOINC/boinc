@@ -33,9 +33,11 @@ require_once("../inc/user.inc");
 require_once("../inc/forum.inc");
 require_once("../project/project.inc");
 
-$id = get_int("userid", true);
-$format = get_str("format", true);
 $auth = get_str("auth", true);
+if (!$auth) {
+    $id = get_int("userid");
+}
+$format = get_str("format", true);
 
 if ($format=="xml"){
     // XML doesn't need translating, so use the full-file cache for this

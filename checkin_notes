@@ -7299,3 +7299,9 @@ David  8 Sept 2008
 
     html/user/
         hosts_user.php
+
+David  9 Sept 2008
+    - web: report error correctly
+
+    html/user/
+        show_user.php
