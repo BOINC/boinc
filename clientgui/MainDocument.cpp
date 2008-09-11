@@ -747,7 +747,7 @@ void CMainDocument::RunPeriodicRPCs() {
     //
     // Note that this depends on using wxGetApp().SafeMessageBox()
     // instead of wxMessageBox in all tab views.
-    if (wxGetApp().IsModalDialogDisplayed()) {
+    if (wxGetApp().IsModalDialogDisplayed() && !(currentTabView & VW_SMSG)) {
         return;
     }
 
@@ -1664,16 +1664,11 @@ int CMainDocument::WorkAbort(std::string& strProjectURL, std::string& strName) {
 
 int CMainDocument::CachedMessageUpdate() {
     static bool in_this_func = false;
-//    static bool was_connected = false;
 
     if (in_this_func) return 0;
     in_this_func = true;
 
     if (IsConnected()) {
-//        if (! was_connected) {
-//            ResetMessageState();
-//            was_connected = true;
-//        }
         // rpc.get_messages is now called from RunPeriodicRPCs()
 //        retval = rpc.get_messages(m_iMessageSequenceNumber, messages);
         if (m_iGet_messages_rpc_result) {
@@ -1685,8 +1680,6 @@ int CMainDocument::CachedMessageUpdate() {
             size_t last_ind = messages.messages.size()-1;
             m_iMessageSequenceNumber = messages.messages[last_ind]->seqno;
         }
-//    } else {
-//        was_connected = false;
     }
 done:
     in_this_func = false;

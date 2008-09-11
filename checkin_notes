@@ -7375,6 +7375,7 @@ Eric K 10 Sep 2008
 Charlie 11 Sep 2008
     MGR: Fix bugs when connection to client is lost or reestablished under 
         async GUI RPCs.
+    MGR: Fix Simple GUI messages window.
 
     clientgui/
         AsyncRPC.cpp
