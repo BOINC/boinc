@@ -323,6 +323,7 @@ void CNetworkConnection::SetStateDisconnected() {
         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
         m_bConnected = false;
         m_bReconnecting = false;
+        m_pDocument->results.clear();
     }
 }
 
@@ -721,13 +722,18 @@ void CMainDocument::RefreshRPCs() {
 void CMainDocument::RunPeriodicRPCs() {
     ASYNC_RPC_REQUEST request;
 
-    if (!IsConnected()) return;
-
-    int currentTabView = wxGetApp().GetCurrentViewPage();
-    
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+    if (!pFrame) return;
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
+    if (!IsConnected()) {
+        CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
+        pFrame->AddPendingEvent(event);
+        return;
+    }
+    
+    int currentTabView = wxGetApp().GetCurrentViewPage();
+    
     // TODO: modify SimpleGUI to not do RPCs when hidden / minimized
     if (! ((currentTabView & VW_SGUI) || pFrame->IsShown()) ) return;
 
@@ -1353,7 +1359,7 @@ RESULT* CMainDocument::result(const wxString& name, const wxString& project_url)
 
 int CMainDocument::GetWorkCount() {
     int iCount = -1;
-
+    
     CachedResultsStatusUpdate();
     CachedStateUpdate();
 
@@ -1658,17 +1664,17 @@ int CMainDocument::WorkAbort(std::string& strProjectURL, std::string& strName) {
 
 int CMainDocument::CachedMessageUpdate() {
     static bool in_this_func = false;
-    static bool was_connected = false;
+//    static bool was_connected = false;
 
     if (in_this_func) return 0;
     in_this_func = true;
 
     if (IsConnected()) {
-        if (! was_connected) {
-            ResetMessageState();
-            was_connected = true;
-        }
-        // rpc.get_messages is now called from 
+//        if (! was_connected) {
+//            ResetMessageState();
+//            was_connected = true;
+//        }
+        // rpc.get_messages is now called from RunPeriodicRPCs()
 //        retval = rpc.get_messages(m_iMessageSequenceNumber, messages);
         if (m_iGet_messages_rpc_result) {
             wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'"), m_iGet_messages_rpc_result);
@@ -1679,8 +1685,8 @@ int CMainDocument::CachedMessageUpdate() {
             size_t last_ind = messages.messages.size()-1;
             m_iMessageSequenceNumber = messages.messages[last_ind]->seqno;
         }
-    } else {
-        was_connected = false;
+//    } else {
+//        was_connected = false;
     }
 done:
     in_this_func = false;

@@ -373,11 +373,6 @@ void CBOINCBaseFrame::FireInitialize() {
 
 
 void CBOINCBaseFrame::FireRefreshView() {
-    // This no longer directly posts a wxEVT_FRAME_REFRESHVIEW
-    // It now calls RunPeriodicRPCs() to call any RPCs which 
-    // ar due.  The async RPC code then posts the event, but 
-    // only if an RPC was actually invoked.
-    // TODO: we may want to add code to force the RPCs.
     CMainDocument* pDoc      = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
@@ -385,13 +380,8 @@ void CBOINCBaseFrame::FireRefreshView() {
     
     pDoc->RunPeriodicRPCs();
 
-    // RunPeriodicRPCs() calls rpc.get_statistics() only once a 
-    // minute, so we need to post the event directly here.
-    int currentTabView = wxGetApp().GetCurrentViewPage();
-    if (currentTabView & VW_STAT) {
-        CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, this);
-        AddPendingEvent(event);
-    }
+    CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, this);
+    AddPendingEvent(event);
 }
 
 

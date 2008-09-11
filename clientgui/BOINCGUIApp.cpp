@@ -750,6 +750,8 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
 
 
 int CBOINCGUIApp::GetCurrentViewPage() {
+    if (!m_pFrame) return 0;
+
     if (m_iGUISelected == BOINC_SIMPLEGUI) {
         if (((CSimpleFrame*)m_pFrame)->isMessagesDlgOpen()) {
             return VW_SGUI | VW_SMSG;

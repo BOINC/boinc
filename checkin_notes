@@ -7372,9 +7372,13 @@ Eric K 10 Sep 2008
 	synch.C
 	util.C
 
+Charlie 11 Sep 2008
+    MGR: Fix bugs when connection to client is lost or reestablished under 
+        async GUI RPCs.
 
-
-
-
-
-
+    clientgui/
+        AsyncRPC.cpp
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp
+        MainDocument.cpp
+        sg_BoincSimpleGUI.cpp

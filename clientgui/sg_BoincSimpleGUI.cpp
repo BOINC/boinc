@@ -421,7 +421,10 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    pDoc->GetCoreClientStatus(status);
+    pDoc->ForceCacheUpdate();
+    pDoc->RefreshRPCs();
+    pDoc->GetCoreClientStatus(status, true);
+    pDoc->CachedProjectStatusUpdate();
 
 	// If we are connected to the localhost, run a really quick screensaver
     //   test to trigger a firewall popup.
