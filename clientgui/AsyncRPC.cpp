@@ -737,12 +737,14 @@ void CMainDocument::HandleCompletedRPC() {
     }
 
     if ( (crr_event) && (crr_event != (wxEvent*)-1) ) {
-        if (crr_eventHandler) {
-            crr_eventHandler->ProcessEvent(*crr_event);
-        } else {
-            if (pFrame) {
-                wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-                pFrame->ProcessEvent(*crr_event);
+        if (!retval) {
+            if (crr_eventHandler) {
+                crr_eventHandler->ProcessEvent(*crr_event);
+            } else {
+                if (pFrame) {
+                    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+                    pFrame->ProcessEvent(*crr_event);
+                }
             }
         }
         delete crr_event;
