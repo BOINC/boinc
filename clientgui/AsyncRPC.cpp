@@ -736,6 +736,15 @@ void CMainDocument::HandleCompletedRPC() {
 #endif  // ! __WXMSW__       // Deadlocks on Windows
     }
 
+    // We must call ProcessEvent() rather than AddPendingEvent() here to 
+    // guarantee integrity of data when other events are handled (such as 
+    // Abort, Suspend/Resume, Show Graphics, Update, Detach, Reset, No 
+    // New Work, etc.)  Otherwise, if one of those events is pending it 
+    // might be processed first, and the data in the selected rows may not 
+    // match the data which the user selected if any rows were added or 
+    // deleted due to the RPC.  
+    // The refresh event called here adjusts the selections to fix any 
+    // such mismatch before other pending events are processed.  
     if ( (crr_event) && (crr_event != (wxEvent*)-1) ) {
         if (!retval) {
             if (crr_eventHandler) {

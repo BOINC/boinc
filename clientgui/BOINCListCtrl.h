@@ -32,6 +32,12 @@
 #define LISTCTRL_BASE wxListCtrl
 #include "wx/listctrl.h"
 #else
+// In wxMac-2.8.7, default wxListCtrl::RefreshItem() does not work
+// so use traditional generic implementation.
+// This has been fixed in wxMac-2.8.8, but the Mac native implementation:
+//  - takes 3 times the CPU time as the Mac generic version.
+//  - seems to always redraw entire control even if asked to refresh only one row.
+//  - causes major flicker of progress bars, (probably due to full redraws.)
 #define LISTCTRL_BASE wxGenericListCtrl
 #include "wx/generic/listctrl.h"
 #endif

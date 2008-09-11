@@ -207,6 +207,10 @@ bool CBOINCGUIApp::OnInit() {
 #if wxCHECK_VERSION(2,8,0)
 // In wxMac-2.8.7, default wxListCtrl::RefreshItem() does not work
 // so use traditional generic implementation.
+// This has been fixed in wxMac-2.8.8, but the Mac native implementation:
+//  - takes 3 times the CPU time as the Mac generic version.
+//  - seems to always redraw entire control even if asked to refresh only one row.
+//  - causes major flicker of progress bars, (probably due to full redraws.)
     wxSystemOptions::SetOption(wxT("mac.listctrl.always_use_generic"), 1);
 #endif
 	
