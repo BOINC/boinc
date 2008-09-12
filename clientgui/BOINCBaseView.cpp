@@ -629,7 +629,7 @@ void CBOINCBaseView::RestoreSelections() {
     // To minimize flicker, this method selects or deselects only 
     // those rows which actually need their selection status changed.
     // First, get a list of which rows should be selected
-    int i, j, m = 0, newCount = 0, oldCount = m_arrSelectedKeys1.size();
+    int i, j, m = 0, newCount = 0, oldCount = (int)m_arrSelectedKeys1.size();
     bool found;
     wxArrayInt arrSelRows;
     for(i=0; i< oldCount; ++i) {
@@ -638,7 +638,7 @@ void CBOINCBaseView::RestoreSelections() {
             arrSelRows.Add(index);
 		}
 	}
-    newCount = arrSelRows.GetCount();
+    newCount = (int)arrSelRows.GetCount();
     
     // Step through the currently selected row numbers and for each one determine 
     // whether it should remain selected.
@@ -648,7 +648,7 @@ void CBOINCBaseView::RestoreSelections() {
         found = false;
         i = m_pListPane->GetNextSelected(i);
         if (i < 0) break;
-        m = arrSelRows.GetCount();
+        m = (int)arrSelRows.GetCount();
         for (j=0; j<m; ++j) {
             if (arrSelRows[j] == i) {
                 arrSelRows.RemoveAt(j); // We have handled this one so remove from list
@@ -662,7 +662,7 @@ void CBOINCBaseView::RestoreSelections() {
     }
     
     // Now select those rows which were not previously selected but should now be
-    m = arrSelRows.GetCount();
+    m = (int)arrSelRows.GetCount();
     for (j=0; j<m; ++j) {
         m_pListPane->SelectRow(arrSelRows[j], true);
     }
