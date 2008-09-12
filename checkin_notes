@@ -7395,3 +7395,11 @@ Charlie 12 Sep 2008
     clientgui/
         BOINCBaseView.cpp
         ViewWork.cpp
+
+David  12 Sept 2008
+    - web: if user requests foundership of a team with userid=0
+        (which in theory shouldn't happen, but apparently can)
+        immediately make them the founder
+
+    html/user/
+        team_founder_transfer_form.php

@@ -29,6 +29,15 @@ if (!$team) {
 page_head("Request foundership of $team->name");
 $now = time();
 
+// it should never happen, but just in case
+//
+if (!$team->userid) {
+    $team->update("userid=$user->id, ping_user=0, ping_time=0");
+    echo "You are now founder of team $team->name.";
+    page_tail();
+    exit;
+}
+
 if ($user->id == $team->ping_user) {
     echo "<p>You requested the foundership of $team->name
         on ".date_str($team->ping_time).".
