@@ -301,20 +301,21 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
 
                     long desiredstate = wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED;
                     m_pListPane->SetItemState(0, desiredstate, desiredstate);
+                    UpdateSelection();
                 }
 #else
                 if ((m_pListPane->GetFirstSelected() < 0) &&
-                    (m_pListPane->GetItemCount() >= 1))
+                    (m_pListPane->GetItemCount() >= 1)) {
                     m_pListPane->SetItemState(0, wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED, 
                                                     wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED);
+                    UpdateSelection();
+                }
 #endif
             }
         }
         
         // Find the previously selected items by their key values and reselect them
         RestoreSelections();
-        
-        UpdateSelection();
 
         m_bProcessingListRenderEvent = false;
     }
@@ -598,40 +599,79 @@ void CBOINCBaseView::SaveSelections() {
         return;
     }
 
+    m_arrSelectedKeys1.Empty();
+    m_arrSelectedKeys2.Empty();
     m_bIgnoreUIEvents = true;
-    wxArrayInt arrSelRows;	
     int i = -1;
     while (1) {
         i = m_pListPane->GetNextSelected(i);
         if (i < 0) break;
-        arrSelRows.Add(i);
-    }
-
-    m_arrSelectedKeys1.Empty();
-    m_arrSelectedKeys2.Empty();
-    for(unsigned int i=0; i< arrSelRows.GetCount();i++) {
-        m_arrSelectedKeys1.Add(GetKeyValue1(arrSelRows[i]));
-        m_arrSelectedKeys2.Add(GetKeyValue2(arrSelRows[i]));
+        m_arrSelectedKeys1.Add(GetKeyValue1(i));
+        m_arrSelectedKeys2.Add(GetKeyValue2(i));
     }
     m_bIgnoreUIEvents = false;
 }
 
-// Select all rows, that were formerly selected
+// Select all rows with formerly selected data based on key values
+//
+// Each RPC may add (insert) or delete items from the list, so 
+// the selected row numbers may now point to different data.  
+// We called SaveSelections() before updating the underlying 
+// data; this routine finds the data corresponding to each 
+// previous selection and makes any adjustments to ensure that 
+// the rows containing the originally selected data are selected.
 void CBOINCBaseView::RestoreSelections() {
     int currentTabView = wxGetApp().GetCurrentViewPage();
     if (! (currentTabView & (VW_PROJ | VW_TASK | VW_XFER))) {
         return;
     }
-    
-	ClearSelections();
-    m_bIgnoreUIEvents = true;
-	for(unsigned int i=0;i < m_arrSelectedKeys1.size();i++) {
+
+    // To minimize flicker, this method selects or deselects only 
+    // those rows which actually need their selection status changed.
+    // First, get a list of which rows should be selected
+    int i, j, m = 0, newCount = 0, oldCount = m_arrSelectedKeys1.size();
+    bool found;
+    wxArrayInt arrSelRows;
+    for(i=0; i< oldCount; ++i) {
 		int index = FindRowIndexByKeyValues(m_arrSelectedKeys1[i], m_arrSelectedKeys2[i]);
-		if(index >=0) {
-			m_pListPane->SelectRow(index, true);
+		if(index >= 0) {
+            arrSelRows.Add(index);
 		}
 	}
+    newCount = arrSelRows.GetCount();
+    
+    // Step through the currently selected row numbers and for each one determine 
+    // whether it should remain selected.
+    m_bIgnoreUIEvents = true;
+    i = -1;
+    while (1) {
+        found = false;
+        i = m_pListPane->GetNextSelected(i);
+        if (i < 0) break;
+        m = arrSelRows.GetCount();
+        for (j=0; j<m; ++j) {
+            if (arrSelRows[j] == i) {
+                arrSelRows.RemoveAt(j); // We have handled this one so remove from list
+                found = true;           // Already selected, so no change needed
+                break;
+            }
+        }
+        if (!found) {
+            m_pListPane->SelectRow(i, false);  // This row should no longer be selected
+        }
+    }
+    
+    // Now select those rows which were not previously selected but should now be
+    m = arrSelRows.GetCount();
+    for (j=0; j<m; ++j) {
+        m_pListPane->SelectRow(arrSelRows[j], true);
+    }
     m_bIgnoreUIEvents = false;
+    
+    if (oldCount != newCount) {
+        m_bForceUpdateSelection = true;
+        UpdateSelection();
+    }
 }
 
 

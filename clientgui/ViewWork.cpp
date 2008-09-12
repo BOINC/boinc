@@ -620,7 +620,8 @@ void CViewWork::UpdateSelection() {
                      m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
                 }
  
-            if (result->suspended_via_gui || result->project_suspended_via_gui) {
+            if (result->suspended_via_gui || result->project_suspended_via_gui || 
+                    (result->scheduler_state != CPU_SCHED_SCHEDULED)) {
                  m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
             }
            
