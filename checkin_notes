@@ -7388,8 +7388,6 @@ Charlie 11 Sep 2008
 Charlie 12 Sep 2008
     MGR: To reduce flicker when saving & restoring selections, select 
         or deselect rows only if their selection status changed.
-    MGR: To reduce flicker, UpdateSelections() only when selected 
-        rows have changed.
     MGR: Disable Show Graphics button if task is "Waiting to Run."
 
     clientgui/

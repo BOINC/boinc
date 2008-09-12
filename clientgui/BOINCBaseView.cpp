@@ -301,14 +301,12 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
 
                     long desiredstate = wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED;
                     m_pListPane->SetItemState(0, desiredstate, desiredstate);
-                    UpdateSelection();
                 }
 #else
                 if ((m_pListPane->GetFirstSelected() < 0) &&
                     (m_pListPane->GetItemCount() >= 1)) {
                     m_pListPane->SetItemState(0, wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED, 
                                                     wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED);
-                    UpdateSelection();
                 }
 #endif
             }
@@ -316,6 +314,8 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
         
         // Find the previously selected items by their key values and reselect them
         RestoreSelections();
+
+        UpdateSelection();
 
         m_bProcessingListRenderEvent = false;
     }
