@@ -569,7 +569,11 @@ void CViewWork::UpdateSelection() {
     int                 i, n, row;
     bool                wasSuspended=false, all_same_project=false;
     std::string         first_project_url;
- 
+    bool                enableShowGraphics = false;
+    bool                enableSuspendResume = false;
+    bool                enableAbort = false;
+    bool                enableProperties = false;
+    
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(NULL != m_pTaskPane);
@@ -580,14 +584,14 @@ void CViewWork::UpdateSelection() {
     
     n = m_pListPane->GetSelectedItemCount();
     if (n > 0) {
-        m_pTaskPane->EnableTaskGroupTasks(pGroup);
+        enableShowGraphics = true;
+        enableSuspendResume = true;
+        enableAbort = true;
+        
         pDoc->GetCoreClientStatus(status);
         if (status.task_suspend_reason & ~(SUSPEND_REASON_CPU_USAGE_LIMIT)) {
-            m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
+            enableShowGraphics = false;
         }
-        m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_PROPERTIES]);
-    } else {
-        m_pTaskPane->DisableTaskGroupTasks(pGroup);
     }
    
     row = -1;
@@ -617,7 +621,7 @@ void CViewWork::UpdateSelection() {
                 if (wasSuspended != result->suspended_via_gui) {
                     // Disable Suspend / Resume button if the multiple selection
                     // has a mix of suspended and not suspended tasks
-                    m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_SUSPEND]);
+                    enableSuspendResume = false;
                 }
             }
             
@@ -625,12 +629,12 @@ void CViewWork::UpdateSelection() {
             if (((!result->supports_graphics) || pDoc->GetState()->executing_as_daemon) 
                         && result->graphics_exec_path.empty()
                 ) {
-                     m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
+                    enableShowGraphics = false;
                 }
  
             if (result->suspended_via_gui || result->project_suspended_via_gui || 
                     (result->scheduler_state != CPU_SCHED_SCHEDULED)) {
-                 m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_GRAPHICS]);
+                    enableShowGraphics = false;
             }
            
             // Disable Abort button if any selected task already aborted
@@ -639,7 +643,7 @@ void CViewWork::UpdateSelection() {
                 result->active_task_state == PROCESS_ABORTED ||
                 result->state == RESULT_ABORTED 
             ) {
-                m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_ABORT]);
+                enableAbort = false;
             }
 
            if (i == 0) {
@@ -652,10 +656,16 @@ void CViewWork::UpdateSelection() {
             }
             
             if (n == 1) {
-                m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_PROPERTIES]);
+                enableProperties = true;
             }
         }
     }
+
+    // To minimize flicker, set each button only once to the final desired state
+    pGroup->m_Tasks[BTN_GRAPHICS]->m_pButton->Enable(enableShowGraphics);
+    pGroup->m_Tasks[BTN_SUSPEND]->m_pButton->Enable(enableSuspendResume);
+    pGroup->m_Tasks[BTN_ABORT]->m_pButton->Enable(enableAbort);
+    pGroup->m_Tasks[BTN_PROPERTIES]->m_pButton->Enable(enableProperties);
 
     if (all_same_project) {
         project = pDoc->state.lookup_project(result->project_url);

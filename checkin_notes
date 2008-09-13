@@ -7413,3 +7413,11 @@ Charlie 12 Sep 2008
         ViewProjects.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+
+Charlie 13 Sep 2008
+    MGR: To minimize flicker, UpdateSelections() sets each button only 
+        once to its final desired state.
+
+    clientgui/
+        ViewProjects.cpp
+        ViewWork.cpp

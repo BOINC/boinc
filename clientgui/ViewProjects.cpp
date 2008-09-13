@@ -636,15 +636,19 @@ void CViewProjects::UpdateSelection() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     int                 i, n, row;
     bool                wasSuspended=false, wasNoNewWork=false;
+    bool                enableUpdate = false;
+    bool                enableSuspendResume = false;
+    bool                enableNoNewTasks = false;
+    bool                enableReset = false;
+    bool                enableDetach = false;
+    bool                enableProperties = false;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
-
     CBOINCBaseView::PreUpdateSelection();
-
 
     // Update the tasks static box buttons
     //
@@ -652,12 +656,14 @@ void CViewProjects::UpdateSelection() {
 
     n = m_pListPane->GetSelectedItemCount();
     if (n > 0) {
-        m_pTaskPane->EnableTaskGroupTasks(pGroup);
-        m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_PROPERTIES]);
+        enableUpdate = true;
+        enableSuspendResume = true;
+        enableNoNewTasks = true;
+        enableReset = true;
+        enableDetach = true;
     } else {
-        m_pTaskPane->DisableTaskGroupTasks(pGroup);
         UpdateWebsiteSelection(GRP_WEBSITES, NULL);
-        if(m_TaskGroups.size()>1) {
+        if(m_TaskGroups.size() > 1) {
             m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]);
         }
     }
@@ -692,7 +698,7 @@ void CViewProjects::UpdateSelection() {
             if (wasSuspended != project->suspended_via_gui) {
                 // Disable Suspend / Resume button if the multiple selection
                 // has a mix of suspended and not suspended projects
-                m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_SUSPEND]);
+                enableSuspendResume = false;
             }
         }
 
@@ -711,28 +717,36 @@ void CViewProjects::UpdateSelection() {
             if (wasNoNewWork != project->dont_request_more_work) {
                 // Disable Allow New Work / No New Work button if the multiple 
                 // selection has a mix of Allow New Work and No New Work projects
-                m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_NOWORK]);
+                enableNoNewTasks = false;
             }
         }
         
         if (project->attached_via_acct_mgr) {
-            m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_DETACH]);
-        }
-        
-        if (n == 1) {
-            m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_PROPERTIES]);
-            
-            UpdateWebsiteSelection(GRP_WEBSITES, project);
-            if(m_TaskGroups.size()>1) {
-                m_pTaskPane->EnableTaskGroupTasks(m_TaskGroups[1]);
-            }
-        } else {
-            UpdateWebsiteSelection(GRP_WEBSITES, NULL);
-            if(m_TaskGroups.size()>1) {
-                m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]);
-            }
+            enableDetach = false;
         }
     }
+        
+    if (n == 1) {
+        enableProperties = true;
+        
+        UpdateWebsiteSelection(GRP_WEBSITES, project);
+        if(m_TaskGroups.size()>1) {
+            m_pTaskPane->EnableTaskGroupTasks(m_TaskGroups[1]);
+        }
+    } else {
+        UpdateWebsiteSelection(GRP_WEBSITES, NULL);
+        if(m_TaskGroups.size()>1) {
+            m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]);
+        }
+    }
+
+    // To minimize flicker, set each button only once to the final desired state
+    pGroup->m_Tasks[BTN_UPDATE]->m_pButton->Enable(enableUpdate);
+    pGroup->m_Tasks[BTN_SUSPEND]->m_pButton->Enable(enableSuspendResume);
+    pGroup->m_Tasks[BTN_NOWORK]->m_pButton->Enable(enableNoNewTasks);
+    pGroup->m_Tasks[BTN_RESET]->m_pButton->Enable(enableReset);
+    pGroup->m_Tasks[BTN_DETACH]->m_pButton->Enable(enableDetach);
+    pGroup->m_Tasks[BTN_PROPERTIES]->m_pButton->Enable(enableProperties);
 
     CBOINCBaseView::PostUpdateSelection();
 }
