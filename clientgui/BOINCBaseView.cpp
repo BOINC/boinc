@@ -314,8 +314,9 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
         
         // Find the previously selected items by their key values and reselect them
         RestoreSelections();
-
         UpdateSelection();
+        
+        m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
 
         m_bProcessingListRenderEvent = false;
     }

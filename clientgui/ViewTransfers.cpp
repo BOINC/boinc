@@ -242,6 +242,9 @@ void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
+    wxASSERT(m_pListPane);
+
+    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
 
     pFrame->UpdateStatusText(_("Retrying transfer now..."));
     row = -1;
@@ -276,6 +279,9 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
+    wxASSERT(m_pListPane);
+
+    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
 
     if (!pDoc->IsUserAuthorized())
         return;

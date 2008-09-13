@@ -271,6 +271,9 @@ void CViewProjects::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
+    wxASSERT(m_pListPane);
+
+    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
 
     pFrame->UpdateStatusText(_("Updating project..."));
     row = -1;
@@ -304,6 +307,8 @@ void CViewProjects::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pListPane);
+
+    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
 
     row = -1;
     while (1) {
@@ -345,6 +350,8 @@ void CViewProjects::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pListPane);
+
+    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
 
     row = -1;
     while (1) {
@@ -390,6 +397,9 @@ void CViewProjects::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
+    wxASSERT(m_pListPane);
+
+    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
 
     if (!pDoc->IsUserAuthorized())
         return;
@@ -445,6 +455,9 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
+    wxASSERT(m_pListPane);
+
+    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
 
     if (!pDoc->IsUserAuthorized())
         return;
@@ -490,6 +503,10 @@ void CViewProjects::OnShowItemProperties( wxCommandEvent& WXUNUSED(event) ) {
     long item = m_pListPane->GetFirstSelected();
     PROJECT* project = wxGetApp().GetDocument()->project(m_iSortedIndexes[item]);
 
+    wxASSERT(m_pListPane);
+
+    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
+
     if(!project) return;
     //displaying the infos on a dialog
     CDlgItemProperties dlg(this);
@@ -505,6 +522,9 @@ void CViewProjects::OnProjectWebsiteClicked( wxEvent& event ) {
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
+    wxASSERT(m_pListPane);
+
+    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
 
     pFrame->UpdateStatusText(_("Launching browser..."));
 

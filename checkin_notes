@@ -7401,3 +7401,15 @@ David  12 Sept 2008
 
     html/user/
         team_founder_transfer_form.php
+
+Charlie 12 Sep 2008
+    MGR: Restore focus to ListCtrl after user clicks on a button and 
+        after each refresh so selection highlighting is maintained on 
+        Windows.
+
+    clientgui/
+        BOINCBaseView.cpp
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
