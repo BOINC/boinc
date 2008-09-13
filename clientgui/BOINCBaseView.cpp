@@ -316,8 +316,10 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
         RestoreSelections();
         UpdateSelection();
         
-        m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
-
+        if (wxGetApp().IsActive()) {
+            m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
+        }
+        
         m_bProcessingListRenderEvent = false;
     }
 

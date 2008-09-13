@@ -7417,7 +7417,10 @@ Charlie 12 Sep 2008
 Charlie 13 Sep 2008
     MGR: To minimize flicker, UpdateSelections() sets each button only 
         once to its final desired state.
+    MGR: Restore focus to ListCtrl after each refresh only when 
+        application is active.
 
     clientgui/
+        BOINCBaseView.cpp
         ViewProjects.cpp
         ViewWork.cpp
