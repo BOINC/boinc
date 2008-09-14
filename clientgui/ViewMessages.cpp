@@ -286,10 +286,8 @@ void CViewMessages::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
     m_pListPane->DeleteAllItems();
     m_pListPane->SetItemCount(m_iFilteredDocCount);
     UpdateSelection();
+    pFrame->FireRefreshView();
     pFrame->UpdateStatusText(wxT(""));
-    CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
-    pFrame->AddPendingEvent(event);
-
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesFilter - Function End"));
 }

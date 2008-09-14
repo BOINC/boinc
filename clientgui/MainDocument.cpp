@@ -1662,6 +1662,7 @@ int CMainDocument::WorkAbort(std::string& strProjectURL, std::string& strName) {
 }
 
 
+// Call this only when message buffer is stable
 int CMainDocument::CachedMessageUpdate() {
     static bool in_this_func = false;
 
@@ -1705,7 +1706,8 @@ MESSAGE* CMainDocument::message(unsigned int i) {
 int CMainDocument::GetMessageCount() {
     int iCount = -1;
 
-    CachedMessageUpdate();
+    // CachedMessageUpdate() is now called from CMainDocument::OnRPCComplete() 
+    // only after a get_messages RPC completes so messages buffer is stable.
     CachedStateUpdate();
 
     if (!messages.messages.empty()) {

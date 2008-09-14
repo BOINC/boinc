@@ -361,11 +361,6 @@ void CBOINCBaseFrame::FireRefreshView() {
     
     pDoc->RunPeriodicRPCs();
 
-    int currentTabView = wxGetApp().GetCurrentViewPage();
-    if (currentTabView & (VW_MSGS | VW_SGUI)) {
-        return;
-    }
-
     CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, this);
     AddPendingEvent(event);
 }

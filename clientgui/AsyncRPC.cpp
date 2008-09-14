@@ -674,6 +674,9 @@ void CMainDocument::HandleCompletedRPC() {
                 MESSAGES* exchangeBuf = (MESSAGES*)current_rpc_request.exchangeBuf;
                 arg2->messages.swap(exchangeBuf->messages);
             }
+            if (!retval) {
+                CachedMessageUpdate();  // Call this only when message buffer is stable
+            }
             break;
         case RPC_GET_HOST_INFO:
             if (current_rpc_request.exchangeBuf && !retval) {
