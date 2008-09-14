@@ -711,12 +711,35 @@ void CMainDocument::HandleCompletedRPC() {
         }
     }
     
-    wxEvent *crr_event = current_rpc_request.event;
-    wxEvtHandler *crr_eventHandler = current_rpc_request.eventHandler;
-
+    // We must call ProcessEvent() rather than AddPendingEvent() here to 
+    // guarantee integrity of data when other events are handled (such as 
+    // Abort, Suspend/Resume, Show Graphics, Update, Detach, Reset, No 
+    // New Work, etc.)  Otherwise, if one of those events is pending it 
+    // might be processed first, and the data in the selected rows may not 
+    // match the data which the user selected if any rows were added or 
+    // deleted due to the RPC.  
+    // The refresh event called here adjusts the selections to fix any 
+    // such mismatch before other pending events are processed.  
+    if ( (current_rpc_request.event) && (current_rpc_request.event != (wxEvent*)-1) ) {
+        if (!retval) {
+            if (current_rpc_request.eventHandler) {
+                current_rpc_request.eventHandler->ProcessEvent(*current_rpc_request.event);
+            } else {
+                if (pFrame) {
+                    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+                    pFrame->ProcessEvent(*current_rpc_request.event);
+                }
+            }
+        }
+        delete current_rpc_request.event;
+        current_rpc_request.event = NULL;
+    }
+    
     current_rpc_request.clear();
 
-    // Start the next RPC request.
+    // Start the next RPC request.  
+    // We can't start this until finished processing the previous RPC's 
+    // event because the two requests may write into the same buffer.
     if (RPC_requests.size() > 0) {
         // Make sure activation is an atomic operation
         RPC_requests[0].isActive = false;
@@ -734,30 +757,6 @@ void CMainDocument::HandleCompletedRPC() {
             nanosleep(&ts, NULL);   /// 1 nanosecond or less 
         }
 #endif  // ! __WXMSW__       // Deadlocks on Windows
-    }
-
-    // We must call ProcessEvent() rather than AddPendingEvent() here to 
-    // guarantee integrity of data when other events are handled (such as 
-    // Abort, Suspend/Resume, Show Graphics, Update, Detach, Reset, No 
-    // New Work, etc.)  Otherwise, if one of those events is pending it 
-    // might be processed first, and the data in the selected rows may not 
-    // match the data which the user selected if any rows were added or 
-    // deleted due to the RPC.  
-    // The refresh event called here adjusts the selections to fix any 
-    // such mismatch before other pending events are processed.  
-    if ( (crr_event) && (crr_event != (wxEvent*)-1) ) {
-        if (!retval) {
-            if (crr_eventHandler) {
-                crr_eventHandler->ProcessEvent(*crr_event);
-            } else {
-                if (pFrame) {
-                    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-                    pFrame->ProcessEvent(*crr_event);
-                }
-            }
-        }
-        delete crr_event;
-        crr_event = NULL;
     }
 }
 

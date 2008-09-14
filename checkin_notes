@@ -7424,3 +7424,13 @@ Charlie 13 Sep 2008
         BOINCBaseView.cpp
         ViewProjects.cpp
         ViewWork.cpp
+
+Charlie 14 Sep 2008
+    - MGR: async GUI RPCs: Finish processing event handling for each RPC 
+        before starting next RPC, because the 2 RPCs may write into the 
+        same buffer, especially when switching between Simple and Advanced
+        GUIs.
+
+    clientgui/
+        AsyncRPC.cpp
+        sg_BoincSimpleGUI.cpp

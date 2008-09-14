@@ -81,11 +81,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32) :
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Overloaded Constructor Function Begin"));
 
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
     RestoreState();
 
     // Initialize Application
@@ -195,9 +190,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32) :
     m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
     SetAcceleratorTable(*m_pAccelTable);
     
-    pDoc->CachedSimpleGUIUpdate(true);
-    pDoc->CachedProjectStatusUpdate(true);
-
     dlgMsgsPtr = NULL;
     m_pBackgroundPanel = new CSimplePanel(this);
 }
@@ -422,9 +414,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     pDoc->ForceCacheUpdate();
-    pDoc->RefreshRPCs();
     pDoc->GetCoreClientStatus(status, true);
-    pDoc->CachedProjectStatusUpdate();
 
 	// If we are connected to the localhost, run a really quick screensaver
     //   test to trigger a firewall popup.
@@ -476,7 +466,6 @@ IMPLEMENT_DYNAMIC_CLASS(CSimplePanel, wxPanel)
 BEGIN_EVENT_TABLE(CSimplePanel, wxPanel)
     EVT_SIZE(CSimplePanel::OnSize)
     EVT_ERASE_BACKGROUND(CSimplePanel::OnEraseBackground)
-//    EVT_TIMER(ID_SIMPLEFRAMERENDERTIMER, CSimplePanel::OnFrameRender)
 END_EVENT_TABLE()
 
 
