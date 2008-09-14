@@ -199,7 +199,6 @@ void CViewMessages::OnMessagesCopyAll( wxCommandEvent& WXUNUSED(event) ) {
 #endif
 
     UpdateSelection();
-    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesCopyAll - Function End"));
 }
@@ -220,7 +219,7 @@ void CViewMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
 
     wxInt32 iIndex = -1;
 
-    pFrame->UpdateStatusText(_("Aborting transfer..."));
+    pFrame->UpdateStatusText(_("Copying selected messages to the clipboard..."));
     OpenClipboard();
 
     for (;;) {
@@ -238,7 +237,6 @@ void CViewMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
 #endif
 
     UpdateSelection();
-    pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesCopySelected - Function End"));
 }
@@ -288,8 +286,10 @@ void CViewMessages::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
     m_pListPane->DeleteAllItems();
     m_pListPane->SetItemCount(m_iFilteredDocCount);
     UpdateSelection();
-    pFrame->FireRefreshView();
     pFrame->UpdateStatusText(wxT(""));
+    CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
+    pFrame->AddPendingEvent(event);
+
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewMessages::OnMessagesFilter - Function End"));
 }
@@ -383,9 +383,9 @@ void CViewMessages::OnListRender (wxTimerEvent& event) {
             pDoc->GetConnectedComputerName(strNewMachineName);
             if (strLastMachineName != strNewMachineName) {
                 strLastMachineName = strNewMachineName;
-                if (iRowCount) {
-                    m_pListPane->EnsureVisible(iRowCount - 1);
-                }
+                     if (iRowCount) {
+                        m_pListPane->EnsureVisible(iRowCount - 1);
+                    }
             }
         }
 
@@ -473,7 +473,7 @@ void CViewMessages::UpdateSelection() {
         m_pTaskPane->UpdateTask(
             pGroup->m_Tasks[BTN_FILTERMSGS], 
             _("Show all messages"), 
-            _("Resume tasks for this project.")
+            _("Show messages for all projects.")
         );
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_FILTERMSGS]);
           

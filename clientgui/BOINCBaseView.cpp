@@ -138,9 +138,9 @@ CBOINCBaseView::~CBOINCBaseView() {
     if (m_SortArrows) {
         delete m_SortArrows;
     }
-    m_arrSelectedKeys1.Empty();
-    m_arrSelectedKeys2.Empty();
-    m_iSortedIndexes.Empty();
+    m_arrSelectedKeys1.Clear();
+    m_arrSelectedKeys2.Clear();
+    m_iSortedIndexes.Clear();
 
     if (m_pWhiteBackgroundAttr) {
         delete m_pWhiteBackgroundAttr;
@@ -590,8 +590,8 @@ void CBOINCBaseView::EmptyTasks() {
 
     
 void CBOINCBaseView::ClearSavedSelections() {
-    m_arrSelectedKeys1.Empty();
-    m_arrSelectedKeys2.Empty();
+    m_arrSelectedKeys1.Clear();
+    m_arrSelectedKeys2.Clear();
 }
 
 
@@ -602,8 +602,8 @@ void CBOINCBaseView::SaveSelections() {
         return;
     }
 
-    m_arrSelectedKeys1.Empty();
-    m_arrSelectedKeys2.Empty();
+    m_arrSelectedKeys1.Clear();
+    m_arrSelectedKeys2.Clear();
     m_bIgnoreUIEvents = true;
     int i = -1;
     while (1) {

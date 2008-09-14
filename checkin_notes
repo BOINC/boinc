@@ -7426,11 +7426,19 @@ Charlie 13 Sep 2008
         ViewWork.cpp
 
 Charlie 14 Sep 2008
-    - MGR: async GUI RPCs: Finish processing event handling for each RPC 
+    - MGR: Async GUI RPCs: Finish processing event handling for each RPC 
         before starting next RPC, because the 2 RPCs may write into the 
         same buffer, especially when switching between Simple and Advanced
         GUIs.
+    - MGR: Simplify Messages display logic; fix "Show all messages" button 
+        tooltip.
+    - MGR: Call Clear() instead of Empty() to fix possible memory leaks.
 
     clientgui/
         AsyncRPC.cpp
+        BOINCBaseFrame.cpp,.h
+        BOINCBaseView.cpp
+        BOINCListCtrl.cpp
+        MainDocument.cpp
         sg_BoincSimpleGUI.cpp
+        ViewMessages.cpp

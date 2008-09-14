@@ -43,7 +43,6 @@ DEFINE_EVENT_TYPE(wxEVT_FRAME_INITIALIZED)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_REFRESHVIEW)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_UPDATESTATUS)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_RELOADSKIN)
-DEFINE_EVENT_TYPE(wxEVT_FRAME_UPDATEMESSAGES)
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
@@ -54,7 +53,6 @@ BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
     EVT_TIMER(ID_PERIODICRPCTIMER, CBOINCBaseFrame::OnPeriodicRPC)
     EVT_FRAME_INITIALIZED(CBOINCBaseFrame::OnInitialized)
     EVT_FRAME_ALERT(CBOINCBaseFrame::OnAlert)
-    EVT_FRAME_UPDATEMESSAGES(CBOINCBaseFrame::OnUpdateMessages)
     EVT_FRAME_REFRESH(CBOINCBaseFrame::OnRefreshView)
     EVT_CLOSE(CBOINCBaseFrame::OnClose)
     EVT_MENU(ID_FILECLOSEWINDOW, CBOINCBaseFrame::OnCloseWindow)
@@ -349,23 +347,6 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CBOINCBaseFrame::OnUpdateMessages(CFrameEvent& ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateMessages - Function Begin"));
-
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    
-    pDoc->CachedMessageUpdate();
-
-    CFrameEvent refreshEvent(wxEVT_FRAME_REFRESHVIEW, this);
-    AddPendingEvent(refreshEvent);
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateMessages - Function End"));
-}
-
-
 void CBOINCBaseFrame::FireInitialize() {
     CFrameEvent event(wxEVT_FRAME_INITIALIZED, this);
     AddPendingEvent(event);
@@ -379,6 +360,11 @@ void CBOINCBaseFrame::FireRefreshView() {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     
     pDoc->RunPeriodicRPCs();
+
+    int currentTabView = wxGetApp().GetCurrentViewPage();
+    if (currentTabView & (VW_MSGS | VW_SGUI)) {
+        return;
+    }
 
     CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, this);
     AddPendingEvent(event);

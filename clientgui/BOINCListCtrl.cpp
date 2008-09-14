@@ -67,7 +67,7 @@ CBOINCListCtrl::CBOINCListCtrl(
 
 CBOINCListCtrl::~CBOINCListCtrl()
 {
-    m_iRowsNeedingProgressBars.Empty();
+    m_iRowsNeedingProgressBars.Clear();
 }
 
 
@@ -269,7 +269,7 @@ void CBOINCListCtrl::DrawBarGraphs()
 #endif
 
     if (progressColumn < 0) {
-        m_iRowsNeedingProgressBars.Empty();
+        m_iRowsNeedingProgressBars.Clear();
         return;
     }
 
@@ -324,7 +324,7 @@ void CBOINCListCtrl::DrawBarGraphs()
             dc.DrawRectangle( r );
         }
     }
-    m_iRowsNeedingProgressBars.Empty();
+    m_iRowsNeedingProgressBars.Clear();
 }
 
 #if USE_NATIVE_LISTCONTROL

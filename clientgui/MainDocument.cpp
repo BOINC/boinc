@@ -734,10 +734,10 @@ void CMainDocument::RunPeriodicRPCs() {
     
     int currentTabView = wxGetApp().GetCurrentViewPage();
     
-    // TODO: modify SimpleGUI to not do RPCs when hidden / minimized
+    // TODO: modify SimpleGUI to not do direct RPC calls when hidden / minimized
     if (! ((currentTabView & VW_SGUI) || pFrame->IsShown()) ) return;
 
-    // several functions (such as Abort, Reset, Detach) display an 
+    // Several functions (such as Abort, Reset, Detach) display an 
     // "Are you sure?" dialog before passing a pointer to a result 
     // or project in a demand RPC call.  If Periodic RPCs continue 
     // to run during these dialogs, that pointer may no longer be 
@@ -864,7 +864,7 @@ void CMainDocument::RunPeriodicRPCs() {
         request.arg2 = &messages;
 //        request.arg2 = &async_messages_buf;
 //        request.exchangeBuf = &messages;
-        request.event = new CFrameEvent(wxEVT_FRAME_UPDATEMESSAGES, pFrame);
+        request.event = new CFrameEvent(wxEVT_FRAME_REFRESHVIEW, pFrame);
         // NULL request.eventHandler means use CBOINCBaseFrame when RPC has  
         // finished, which may have changed since request was made
         request.completionTime = NULL;
@@ -1705,9 +1705,7 @@ MESSAGE* CMainDocument::message(unsigned int i) {
 int CMainDocument::GetMessageCount() {
     int iCount = -1;
 
-    // CachedMessageUpdate() is now called from 
-    //    CAdvancedFrame::OnUpdateMessages() and
-    //    CPanelMessages::OnRefresh()
+    CachedMessageUpdate();
     CachedStateUpdate();
 
     if (!messages.messages.empty()) {
@@ -1721,7 +1719,6 @@ int CMainDocument::GetMessageCount() {
 int CMainDocument::ResetMessageState() {
     messages.clear();
     m_iMessageSequenceNumber = 0;
-//    m_iGet_messages_rpc_result = -1;
     return 0;
 }
 
