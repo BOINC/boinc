@@ -1,3 +1,9 @@
+dcapi (0.9-15) unstable; urgency=low
+
+  * Do not use "-Wl,-B..." in .pc files.
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Mon, 15 Sep 2008 15:43:46 +0200
+
 dcapi (0.9-14) unstable; urgency=low
 
   * Memory handling bug fixes.
