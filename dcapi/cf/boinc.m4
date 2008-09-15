@@ -28,55 +28,17 @@ AC_DEFUN([SZDG_BOINC_COMMON], [
 				# version
 				if test -d "$with_boinc/sched"; then
 					BOINC_CPPFLAGS="-I$with_boinc/api -I$with_boinc/lib -I$with_boinc/sched -I$with_boinc/tools -I$with_boinc/db"
-					if test -d "$with_boinc/RSAEuro/source"; then
-						BOINC_CPPFLAGS="$BOINC_CPPFLAGS -I$with_boinc/RSAEuro/source"
-					fi
 					BOINC_LDFLAGS="-L$with_boinc/api -L$with_boinc/lib -L$with_boinc/sched"
 				else
 					BOINC_CPPFLAGS="-I$with_boinc/include/BOINC"
-					if test -d "$with_boinc/RSAEuro"; then
-						BOINC_CPPFLAGS="$BOINC_CPPFLAGS -I$with_boinc/RSAEuro"
-					fi
 					BOINC_LDFLAGS="-L$with_boinc/lib"
 				fi
 				;;
 		esac
 	fi
 
-	dnl
-	dnl Check if BOINC uses RSAEuro or OpenSSL
-	dnl
 	if test "$no_boinc" != yes; then
-		AC_CACHE_CHECK([if BOINC still uses RSAEuro], [boinc_cv_use_rsaeuro], [
-			save_CPPFLAGS="$CPPFLAGS"
-			CPPFLAGS="$CPPFLAGS $BOINC_CPPFLAGS"
-			AC_LANG_PUSH([C++])
-			AC_EGREP_HEADER([rsaeuro.h], [crypt.h], [boinc_cv_use_rsaeuro=yes],
-				[boinc_cv_use_rsaeuro=no])
-			AC_LANG_POP([C++])
-			CPPFLAGS="$save_CPPFLAGS"
-		])
-
-		BOINC_COMMON_LIBS="-lboinc"
-
-		if test "$boinc_cv_use_rsaeuro" = yes; then
-			if test -d "$BOINC_INCLUDES/RSAEuro/source"; then
-				BOINC_CPPFLAGS="$BOINC_CPPFLAGS -I$BOINC_INCLUDES/RSAEuro/source"
-			else
-				if test -d "$BOINC_INCLUDES/RSAEuro"; then
-					BOINC_CPPFLAGS="$BOINC_CPPFLAGS -I$BOINC_INCLUDES/RSAEuro"
-				fi
-			fi
-
-			save_CPPFLAGS="$CPPFLAGS"
-			CPPFLAGS="$CPPFLAGS $BOINC_CPPFLAGS"
-			AC_CHECK_HEADER([rsaeuro.h],,
-				[AC_MSG_ERROR([rsaeuro.h is required but missing])])
-			CPPFLAGS="$save_CPPFLAGS"
-			BOINC_COMMON_LIBS="$BOINC_COMMON_LIBS -lrsaeuro"
-		else
-			BOINC_COMMON_LIBS="$BOINC_COMMON_LIBS -lcrypto"
-		fi
+		BOINC_COMMON_LIBS="-lboinc -lcrypto"
 	fi
 
 	AC_SUBST([BOINC_CPPFLAGS])
@@ -160,6 +122,6 @@ AC_DEFUN([SZDG_BOINC_CLIENT], [
 		AC_MSG_ERROR([BOINC development environment was not found])
 	fi
 
-	BOINC_CLIENT_LIBS="-lboinc_api $BOINC_COMMON_LIBS -Wl,-Bstatic -lstdc++ -Wl,-Bdynamic -lpthread -lm"
+	BOINC_CLIENT_LIBS="-lboinc_api $BOINC_COMMON_LIBS -lstdc++ -lpthread -lm"
 	AC_SUBST([BOINC_CLIENT_LIBS])
 ])
