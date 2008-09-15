@@ -826,13 +826,9 @@ static void fill_wu_params(const DC_Workunit *wu, struct wu_params *params)
 	if (params->min_quorum < 1)
 		params->min_quorum = 1;
 
-	/* Calculate with logarithmic error */
-	if (params->min_quorum == 1)
-		params->target_nresults = 1;
-	else
-		params->target_nresults = params->min_quorum +
-			(int)log(params->min_quorum);
+	params->target_nresults = params->min_quorum;
 
+	/* Calculate with logarithmic error */
 	params->max_error_results = params->target_nresults +
 		(int)log(params->min_quorum + 2) + 1;
 	params->max_total_results = (params->target_nresults +
