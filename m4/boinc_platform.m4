@@ -11,7 +11,7 @@ AC_DEFUN([BOINC_PLATFORM],[
 	      [boinc_alt_platform=])
   AC_MSG_CHECKING([boinc platform])
   if test -z "${boinc_platform}" ; then
-    boinc_platform=`echo $target | $SED -e 's/redhat/pc/' -e 's/x86_64-unknown/x86_64-pc/' -e 's/[[0-9]]$//' -e 's/[[0-9]]$//' -e 's/\.$//' -e 's/[[0-9]]$//' -e 's/\.$//' -e 's/[[0-9]]$//'`
+    boinc_platform=`echo $target | $SED -e 's/amd64/x86_64/' -e 's/portbld/pc/' -e 's/redhat/pc/' -e 's/x86_64-unknown/x86_64-pc/' -e 's/[[0-9]]$//' -e 's/[[0-9]]$//' -e 's/\.$//' -e 's/[[0-9]]$//' -e 's/\.$//' -e 's/[[0-9]]$//'`
     case "${boinc_platform}" in
       sparc-sun-solaris)
     	if test "$COMPILER_MODEL_BITS" = "64" ; then
