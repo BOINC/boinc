@@ -7442,3 +7442,10 @@ Charlie 14 Sep 2008
         MainDocument.cpp
         sg_BoincSimpleGUI.cpp
         ViewMessages.cpp
+
+Rom    15 Sept 2008
+    - SCR: Fix GDI/Memory leak in the screen saver. Pointed out by David
+        Barnard.
+        
+    clientscr/
+        screensaver_win.cpp
