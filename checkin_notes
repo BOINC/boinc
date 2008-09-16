@@ -7449,3 +7449,9 @@ Rom    15 Sept 2008
         
     clientscr/
         screensaver_win.cpp
+
+Eric  16 Sept 2008
+    -  Added additional spam fighting measure to profile.inc.  Profiles for
+       users with RAC less than <profile_min_credit> with only be displayed if
+       the viewing user is logged in.
+

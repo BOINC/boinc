@@ -190,6 +190,17 @@ function get_profile_summary($profile) {
 //
 function show_profile($user, $logged_in_user, $screen_mode = false) {
     BoincForumPrefs::lookup($user);
+
+    $is_logged_in = isset($logged_in_user);
+
+    $can_edit = isset($logged_in_user) && $logged_in_user && $user->id == $logged_in_user->id;
+
+    $min_credit = parse_config(get_config(), "<profile_min_credit>");
+    if ((!$is_logged_in) && $min_credit && $user->expavg_credit < $min_credit ) {
+      error_page(
+         "To prevent spam, profiles of users with an average credit of less than $min_credit will only be displayed to users who are logged in to their accounts.  We appologize for this inconvenience."
+      );
+    }
     if (is_banished($user)) {
         error_page("User is banished");
     }
@@ -197,8 +208,6 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
     if (!$profile) {
         error_page("No user profile exists for that user ID.");
     }
-
-    $can_edit = isset($logged_in_user) && $logged_in_user && $user->id == $logged_in_user->id;
 
     if ($can_edit) {
         row1("<a href=create_profile.php>Edit your profile</a>");
