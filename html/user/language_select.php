@@ -58,8 +58,6 @@ echo "
     </p>
 ";
 
-
-
 start_table();
 row2("Language symbol", "Language name (click to select)");
 row2("",

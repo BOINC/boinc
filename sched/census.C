@@ -64,9 +64,11 @@ int main(int argc, char** argv) {
         log_messages.printf(MSG_CRITICAL, "Can't open DB\n");
         exit(1);
     }
+    log_messages.printf(MSG_NORMAL, "Starting\n");
     boinc_db.set_isolation_level(READ_UNCOMMITTED);
     hri.init();
     hri.scan_db();
     hri.write_file();
     hri.perf_info.write_file();
+    log_messages.printf(MSG_NORMAL, "Finished\n");
 }

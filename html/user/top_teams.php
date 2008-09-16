@@ -54,9 +54,12 @@ function store_to_teams($data){
     return unserialize($data);
 }
 
-if (isset($_GET["sort_by"])) {
-    $sort_by = $_GET["sort_by"];
-} else {
+$sort_by = get_str("sort_by", true);
+switch ($sort_by) {
+case "total_credit":
+case "expavg_credit":
+    break;
+default:
     $sort_by = "expavg_credit";
 }
 

@@ -154,20 +154,20 @@ const char* COPROC_CUDA::get(COPROCS& coprocs) {
     }
 #endif
 
-    // NOTE: our design is flawed:
+    // NOTE: our design is slightly flawed:
     // there's no provision for having two coprocs of type CUDA.
-    // So on systems with two GPUs (possibly of different hardware type)
-    // we have to count them as two of the same
+    // So on systems with two GPUs (possibly of different hardware types)
+    // we have to count them as two of the same type.
     //
     (*__cudaGetDeviceCount)(&count);
     int real_count = 0;
     COPROC_CUDA cc, cc2;
     for (int i=0; i<count; i++) {
         (*__cudaGetDeviceProperties)(&cc.prop, i);
-        if (cc.prop.major >= 1) {       // major == 0 means emulation
-            cc2 = cc;
-            real_count++;
-        }
+        if (cc.prop.major == 0) break;  // major == 0 means emulation
+        if (cc.prop.major > 100) break;  // e.g. 9999 is an error
+        cc2 = cc;
+        real_count++;
     }
     if (real_count) {
         COPROC_CUDA* ccp = new COPROC_CUDA;

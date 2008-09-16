@@ -25,6 +25,8 @@ function show_profile_link2($profile, $n) {
 }
 
 $search_string = get_str('search_string');
+$search_string = strip_tags($search_string);
+$search_string = boinc_real_escape_string($search_string);
 $offset = get_int('offset', true);
 if (!$offset) $offset=0;
 $count = 10;

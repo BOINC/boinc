@@ -60,7 +60,7 @@ int HR_INFO::read_file() {
     for (i=1; i<HR_NTYPES; i++) {
         char* p = fgets(buf, sizeof(buf), f);
         if (!p) {
-            fprintf(stderr, "missing delimeter line in HR info");
+            fprintf(stderr, "missing delimiter line in HR info");
             exit(1);
         }
         for (j=0; j<hr_nclasses[i]; j++) {

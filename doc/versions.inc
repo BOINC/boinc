@@ -268,7 +268,7 @@ $windowsx64 = array(
 
 $mac = array(
     "name"=>"Mac OS X",
-    "description"=>"Version 10.3+",
+    "description"=>"Version 10.3.9+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
         $m6218,

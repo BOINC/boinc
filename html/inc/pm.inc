@@ -17,6 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once("boinc_db.inc");
+require_once("sanitize_html.inc");
 
 function pm_header() {
     echo "<div>\n";
@@ -129,8 +130,8 @@ function pm_web_line($notify) {
 
 function pm_send($to_user, $subject, $content) {
     global $g_logged_in_user;
-    $sql_subject = mysql_real_escape_string($subject);
-    $sql_content = mysql_real_escape_string($content);
+    $sql_subject = boinc_real_escape_string(strip_tags($subject));
+    $sql_content = boinc_real_escape_string(strip_tags($content));
     $mid = BoincPrivateMessage::insert("(userid, senderid, date, subject, content) VALUES ($to_user->id, $g_logged_in_user->id, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
     if (!$mid) {
         error_page("Couldn't create message");

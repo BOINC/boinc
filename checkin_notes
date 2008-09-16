@@ -7455,3 +7455,22 @@ Eric  16 Sept 2008
        users with RAC less than <profile_min_credit> with only be displayed if
        the viewing user is logged in.
 
+David  16 Sept 2008
+    - client: ignore CUDA devices with major versions > 100
+        (apparently some report 9999)
+    - web: security changes: sanitize some params; escape some strings
+
+    html/
+        inc/
+            pm.inc
+        user/
+            language_select.php
+            profile_search_action.php
+            top_hosts.php
+            top_teams.php
+            user_search.php
+    lib/
+        coproc.C
+    sched/
+        census.C
+        hr_info.C

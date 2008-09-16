@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("September 15, 2008",
+    "<a href=https://forja.unex.es/projects/ogm>OGM (Organizational Grid Manager)</a>
+    has been released by the University of Extremadura.
+    OGM is a system for grid computing
+    on organizational resources using BOINC."
+),
 array("September 4, 2008",
     "The talks and tutorials from the upcoming BOINC Workshop
     (Sept 10-12) will be broadcast
