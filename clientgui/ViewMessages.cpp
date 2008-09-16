@@ -179,8 +179,6 @@ void CViewMessages::OnMessagesCopyAll( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pListPane);
 
-    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
-
 #ifdef wxUSE_CLIPBOARD
 
     wxInt32 iIndex          = -1;
@@ -212,8 +210,6 @@ void CViewMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pListPane);
-
-    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
 
 #ifdef wxUSE_CLIPBOARD
 
@@ -252,8 +248,6 @@ void CViewMessages::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pListPane);
-
-    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
 
     m_iFilteredIndexes.Clear();
     m_strFilteredProjectName.clear();

@@ -279,7 +279,6 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
-    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
     row = -1;
     while (1) {
         // Step through all selected items
@@ -320,7 +319,6 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pListPane);
 
-    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
     pFrame->UpdateStatusText(_("Showing graphics for task..."));
 
     // We don't change "Show Graphics" button to "Hide Graphics" because Mac allows user to bring 
@@ -381,8 +379,6 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
-    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
-
     if (!pDoc->IsUserAuthorized())
         return;
     pFrame->UpdateStatusText(_("Aborting result..."));
@@ -430,8 +426,6 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
 void CViewWork::OnShowItemProperties( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(m_pListPane);
 
-    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
-
     long item = m_pListPane->GetFirstSelected();
     RESULT* result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
 
@@ -453,7 +447,6 @@ void CViewWork::OnProjectWebsiteClicked( wxEvent& event ) {
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
-    m_pListPane->SetFocus();    // Keep selections highlighted properly on Windows
     pFrame->UpdateStatusText(_("Launching browser..."));
 
     int website_task_index = event.GetId() - ID_TASK_PROJECT_WEB_PROJDEF_MIN;

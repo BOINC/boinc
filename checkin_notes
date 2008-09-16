@@ -7474,3 +7474,14 @@ David  16 Sept 2008
     sched/
         census.C
         hr_info.C
+
+Charlie 16 Sep 2008
+    MGR: Reverse change of 9/12, 9/13: do not force focus changes because  
+        it interferes with disability access via alternate input devices.
+
+    clientgui/
+        BOINCBaseView.cpp
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
