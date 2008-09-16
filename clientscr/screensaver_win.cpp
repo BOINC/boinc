@@ -1774,9 +1774,11 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
         (INT)(pMonitorInfo->xError + pMonitorInfo->widthError),
         (INT)(pMonitorInfo->yError + pMonitorInfo->heightError)
     );
-//  This fill rect is useful when testing
-//	FillRect(hdc, &rc, hbrushRed);
-	rcOrginal = rc;
+
+    // This fill rect is useful when testing
+    //FillRect(hdc, &rc, hbrushRed);
+
+    rcOrginal = rc;
 
 
     // Draw the bitmap rectangle and copy the bitmap into 
@@ -1802,11 +1804,19 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
     {
         SelectObject(hdc, hf);
     }
-	rc2 = rc;
+
+    // Try using the "Arial Narrow" font, if that fails use whatever
+    // the system default font is.  Something is better than nothing.
+    rc2 = rc;
     iTextHeight = DrawText(hdc, szError, -1, &rc, DT_CENTER | DT_CALCRECT);
 	rc = rc2;
-	rc2.top+=bm.bmHeight+20;
+	rc2.top += bm.bmHeight+20;
     DrawText(hdc, szError, -1, &rc2, DT_CENTER);
+
+    if(hf)
+    {
+        DeleteObject(hf);
+    }
 }
 
 

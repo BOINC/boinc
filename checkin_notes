@@ -4405,3 +4405,10 @@ Rom    22 Aug 2008
     
     client/
         client_state.C
+
+Rom    15 Sept 2008
+    - SCR: Fix GDI/Memory leak in the screen saver. Pointed out by David
+        Barnard.
+        
+    clientscr/
+        screensaver_win.cpp
