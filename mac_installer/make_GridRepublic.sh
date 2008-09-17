@@ -21,7 +21,7 @@
 
 ##
 # Script to convert Macintosh BOINC installer to GridRepublic Desktop installer
-# updated 8/13/08 by Charlie Fenton
+# updated 9/3/08 by Charlie Fenton
 ##
 
 ## Usage:
@@ -33,6 +33,7 @@
 ##     GR_install.icns
 ##     GR_uninstall.icns
 ##     COPYING
+##     COPYING.LESSER (for version 6.3.x and later only)
 ##     COPYRIGHT
 ##     gridrepublic.tiff (for screensaver)
 ##     gridrepublic_ss_logo (for screensaver)
@@ -80,6 +81,12 @@ exit 1
 fi
 
 pushd ./
+
+## Make sure sed uses UTF-8 text encoding
+unset LC_CTYPE
+unset LC_MESSAGES
+unset __CF_USER_TEXT_ENCODING
+export LANG=en_US.UTF-8
 
 if [ -f /Developer/usr/bin/packagemaker ]; then
     PACKAGEMAKER_VERSION=3
@@ -187,7 +194,7 @@ sudo mv -f "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Un
 # Update Uninstall application's info.plist, InfoPlist.strings files
 sudo sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app/Contents/Info.plist"
 sudo sed -i "" s/MacUninstaller.icns/"${UNINSTALLER_ICNS_FILE}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app/Contents/Info.plist"
-#### sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
+sudo sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
 
 # Replace the Uninstall application's MacUninstaller.icns file
 sudo cp -fp "${UNINSTALLER_ICNS_FILE}" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app/Contents/Resources/${UNINSTALLER_ICNS_FILE}"
@@ -221,6 +228,13 @@ sudo cp -fp "COPYRIGHT" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_univer
 sudo chown -R 501:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/COPYRIGHT"
 sudo chmod -R 644 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/COPYRIGHT"
 
+# COPYING.LESSER is part of GNU License v3, included only with BOINC 6.3.x and later
+if [ -f "COPYING.LESSER" ]; then
+    sudo cp -fp "COPYING.LESSER" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras"
+    sudo chown -R 501:admin "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/COPYING.LESSER"
+    sudo chmod -R 644 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/COPYING.LESSER"
+fi
+
 # Make temporary copies of Pkg-Info.plist and Description.plist for PackageMaker and update for this branding
 sudo cp -fp "${SOURCE_PKG_PATH}/Info.plist" "${NEW_DIR_PATH}/Pkg-Info.plist"
 sudo chown -R 501:admin "${NEW_DIR_PATH}/Pkg-Info.plist"
@@ -233,10 +247,13 @@ fi
 sudo chown -R 501:admin "${NEW_DIR_PATH}/Description.plist"
 sudo chmod -R 666 "${NEW_DIR_PATH}/Description.plist"
 
-sudo sed -i "" s/"BOINC Manager"/"${MANAGER_NAME}"/g "${NEW_DIR_PATH}/Pkg-Info.plist"
-sudo sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/Pkg-Info.plist"
-sudo sed -i "" s/"BOINC Manager"/"${MANAGER_NAME}"/g "${NEW_DIR_PATH}/Description.plist"
-sudo sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/Description.plist"
+# Update Pkg-Info.plist name and ensure it is in XML format
+defaults write "`pwd`/${NEW_DIR_PATH}/Pkg-Info" "CFBundleGetInfoString" "$BRAND_NAME $1.$2.$3"
+plutil -convert xml1 "`pwd`/${NEW_DIR_PATH}/Pkg-Info.plist"
+
+# Update Description.plist name and ensure it is in XML format
+defaults write "`pwd`/${NEW_DIR_PATH}/Description" "IFPkgDescriptionTitle" "$MANAGER_NAME"
+plutil -convert xml1 "`pwd`/${NEW_DIR_PATH}/Description.plist"
 
 # Copy the installer wrapper application "${BRAND_NAME} Installer.app"
 sudo cp -fpR "BOINC Installer.app" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app"
@@ -245,7 +262,7 @@ sudo rm -dfR "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND
 # Update the installer wrapper application's info.plist, InfoPlist.strings files
 sudo sed -i "" s/BOINC/"${BRAND_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Info.plist"
 sudo sed -i "" s/MacInstaller.icns/"${INSTALLER_ICNS_FILE}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Info.plist"
-## sed -i "" s/BOINC/"${MANAGER_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/English.lproj/InfoPlist.strings"
+sudo sed -i "" s/BOINC/"${MANAGER_NAME}"/g "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/English.lproj/InfoPlist.strings"
 
 # Replace the installer wrapper application's MacInstaller.icns file
 sudo cp -fp "${INSTALLER_ICNS_FILE}" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${INSTALLER_ICNS_FILE}"
@@ -267,6 +284,17 @@ else
 ##  /Developer/Tools/packagemaker -build -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_universal/BOINC\ Installer.app/Contents/Resources/BOINC.pkg -f ../BOINC_Installer/Pkg_Root -r ../BOINC_Installer/Installer\ Resources/ -i mac_build/Pkg-Info.plist -d mac_Installer/Description.plist -ds 
     /Developer/Tools/packagemaker -build -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg" -f "${PR_PATH}" -r "${IR_PATH}" -i "${NEW_DIR_PATH}/Pkg-Info.plist" -d "${NEW_DIR_PATH}/Description.plist" -ds 
 fi
+
+## for debugging
+## if [  $? -ne 0 ]; then
+## echo ""
+## echo "********** /Pkg-Info.plist File contents: *************"
+## echo ""
+## cp "${NEW_DIR_PATH}/Pkg-Info.plist" /dev/stdout
+## echo ""
+## echo "********** End /Pkg-Info.plist File contents *************"
+## echo ""
+## fi
 
 # Allow the installer wrapper application to modify the package's Info.plist file
 sudo chmod u+w,g+w,o+w "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg/Contents/Info.plist"

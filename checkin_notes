@@ -7507,3 +7507,10 @@ Charlie 17 Sep 2008
 
     lib/
         filesys.C
+
+Charlie 17 Sep 2008
+    Mac branding: fix bugs in make_GridRepublic.sh script which converts 
+        standard BOINC installers to GridRepublic installers.
+    
+    mac_installer/
+        make_GridRepublic.sh
