@@ -219,7 +219,12 @@ int SCHED_CONFIG::parse_file(const char* dir) {
     char path[256];
     int retval;
 
-    sprintf(path, "%s/%s", dir, CONFIG_FILE);
+	char* p = getenv("BOINC_CONFIG_XML");
+	if (p) [
+		strcpy(path, p)
+	} else {
+		sprintf(path, "%s/%s", dir, CONFIG_FILE);
+	}
 #ifndef _USING_FCGI_
     FILE* f = fopen(path, "r");
 #else

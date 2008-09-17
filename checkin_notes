@@ -7494,3 +7494,10 @@ David  17 Sept 2008
         language_select.php
     sched/
         hr_info.C
+
+David  17 Sept 2008
+    - back end programs: optional BOINC_CONFIG_XML environment variable
+        specifies path of config file (default: ../config.xml)
+
+	sched/
+		sched_config.C
