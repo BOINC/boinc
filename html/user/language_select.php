@@ -28,7 +28,7 @@ $prefs = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
 $set_lang = get_str("set_lang", true);
 if ($set_lang){
     if (!in_array($set_lang, $languages) && $set_lang!="auto"){
-        error_page("Language $set_lang is not supported");
+        error_page("Language not supported");
     } else {
         send_cookie('lang', $set_lang, true);
         header("Location: index.php");

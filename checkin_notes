@@ -7485,3 +7485,12 @@ Charlie 16 Sep 2008
         ViewProjects.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+
+David  17 Sept 2008
+    - feeder: fix bug from changset 15984 that changed "r" to "w",
+        causing the feeder to truncate hr_info.txt on startup
+
+    html/user/
+        language_select.php
+    sched/
+        hr_info.C

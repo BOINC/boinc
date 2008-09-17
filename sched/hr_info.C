@@ -49,9 +49,9 @@ int HR_INFO::write_file() {
 int HR_INFO::read_file() {
     char buf[256];
 #ifndef _USING_FCGI_
-    FILE* f = fopen(HR_INFO_FILENAME, "w");
+    FILE* f = fopen(HR_INFO_FILENAME, "r");
 #else 
-    FCGI_FILE* f = FCGI::fopen(HR_INFO_FILENAME, "w");
+    FCGI_FILE* f = FCGI::fopen(HR_INFO_FILENAME, "r");
 #endif
     if (!f) return ERR_FOPEN;
     int i, j, jj;
@@ -60,7 +60,7 @@ int HR_INFO::read_file() {
     for (i=1; i<HR_NTYPES; i++) {
         char* p = fgets(buf, sizeof(buf), f);
         if (!p) {
-            fprintf(stderr, "missing delimiter line in HR info");
+            fprintf(stderr, "missing delimiter line in HR info\n");
             exit(1);
         }
         for (j=0; j<hr_nclasses[i]; j++) {
@@ -194,7 +194,6 @@ bool HR_INFO::accept(int hrt, int hrc) {
         return false;
     }
     cur_slots[hrt][hrc]++;
-// A return statement was missing.  I assume it is supposed to return true.
     return true;
 }
 
