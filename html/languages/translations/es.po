@@ -2,14 +2,33 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-08-09 13:31-0000\n"
-"Last-Translator: David M <davidcomp@telefonica.net>\n"
+"PO-Revision-Date: 2008-09-01 14:49-0000\n"
+"Last-Translator: davidcomp at telefonica dot-net <davidcomp at telefonica dot-net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-SourceCharset: utf-8\n"
+
+# #########################################
+# Language: Spanish (Spain)
+# FileID  : $Id$
+# Author  : Janus Kristensen (Translator: Alejandro Martín Covarrubias)
+# Email   : jbk@visualgroup.dk (alex.covarrubias@gmail.com)
+# #########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+# #########################################
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+msgid "CHARSET"
+msgstr "UTF-8"
+
+msgid "LANG_NAME_NATIVE"
+msgstr "Español"
+
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Spanish"
 
 msgid "Rank"
 msgstr "Posición"
@@ -466,19 +485,6 @@ msgstr "Solicitud pediente"
 
 msgid "Add as friend"
 msgstr "Añadir como amigo"
-
-# #########################################
-# Language: Spanish (Spain)
-# FileID  : $Id$
-# Author  : Janus Kristensen (Translator: Alejandro Martín Covarrubias)
-# Email   : jbk@visualgroup.dk (alex.covarrubias@gmail.com)
-# #########################################
-# For more information please see:
-# http://boinc.berkeley.edu/web_translation.php
-# #########################################
-# The charset used for the text in this file (please try to use UTF-8 if possible)
-msgid "CHARSET"
-msgstr "UTF-8"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Use etiquetas BBCode para formatear su texto"
