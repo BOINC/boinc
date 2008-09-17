@@ -147,14 +147,6 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_int(tag, "feeder_query_size", feeder_query_size)) continue;
         if (xp.parse_int(tag, "granted_credit_ramp_up", granted_credit_ramp_up)) continue;
         if (xp.parse_double(tag, "granted_credit_weight", granted_credit_weight)) continue;
-		
-        if (xp.parse_bool(tag, "no_darwin_6", no_darwin_6)) {
-            if (no_darwin_6) {
-                regcomp(&re, ".*Darwin.*\t.*(5\\.|6\\.).*", REG_EXTENDED|REG_NOSUB);
-                ban_os->push_back(re);
-            }
-            continue;
-        }
         if (xp.parse_bool(tag, "no_amd_k6", no_amd_k6)) {
             if (no_amd_k6) {
                 regcomp(&re, ".*AMD.*\t.*Family 5 Model 8 Stepping 0.*", REG_EXTENDED|REG_NOSUB);

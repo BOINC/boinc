@@ -424,7 +424,7 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
     }
     if (config.debug_send) {
         log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] is%s reliable (OS = %s) error_rate = %.3f avg_turn_hrs = %.0f \n",
+            "[HOST#%d] is%s reliable (OS = %s) error_rate = %.6f avg_turn_hrs = %.3f \n",
             reply.host.id,
             reply.wreq.host_info.reliable?"":" not",
             reply.host.os_name, reply.host.error_rate,
@@ -1341,9 +1341,23 @@ static void send_work_old(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 //
 void set_trust(SCHEDULER_REPLY& reply) {
     reply.wreq.trust = false;
-    if (reply.host.error_rate > ER_MAX) return;
+    if (reply.host.error_rate > ER_MAX) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_DEBUG,
+                "set_trust: error rate %f > %f, don't trust\n",
+                reply.host.error_rate, ER_MAX
+            );
+        }
+        return;
+    }
     double x = reply.host.error_rate/ER_MAX;
     if (drand() > x) reply.wreq.trust = true;
+    if (config.debug_send) {
+        log_messages.printf(MSG_DEBUG,
+            "set_trust: random choice for error rate %f: %s\n",
+            reply.host.error_rate, reply.wreq.trust?"yes":"no"
+        );
+    }
 }
 
 void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
@@ -1421,7 +1435,7 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
 // Matchmaker scheduling code follows
 
-struct JOB{
+struct JOB {
     int index;
     double score;
     double est_time;
@@ -1439,6 +1453,12 @@ struct JOB_SET {
     double disk_limit;
     std::list<JOB> jobs;     // sorted high to low
 
+    JOB_SET(double wr, double dl) {
+        work_req = wr;
+        est_time = 0;
+        disk_usage = 0;
+        disk_limit = dl;
+    }
     void add_job(JOB&);
     double higher_score_disk_usage(double);
     double lowest_score();
@@ -1472,7 +1492,8 @@ int read_sendable_result(DB_RESULT& result) {
 }
 
 // compute a "score" for sending this job to this host.
-// return false if the WU is infeasible
+// Return false if the WU is infeasible.
+// Otherwise set est_time and disk_usage.
 //
 bool JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     WORKUNIT wu;
@@ -1505,7 +1526,7 @@ bool JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     // check if user has selected apps,
     // and send beta work to beta users
     //
-    if(app->beta && !config.distinct_beta_apps) {
+    if (app->beta && !config.distinct_beta_apps) {
         if (reply.wreq.host_info.allow_beta_work) {
             score += 1;
         } else {
@@ -1552,6 +1573,8 @@ bool JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     // try to send them jobs from the selected apps
     //
 
+    est_time = estimate_wallclock_duration(wu, sreq, reply);
+    disk_usage = wu.rsc_disk_bound;
     return true;
 }
 
@@ -1655,6 +1678,7 @@ void JOB_SET::add_job(JOB& job) {
             est_time -= worst_job.est_time;
             disk_usage -= worst_job.disk_usage;
             jobs.pop_back();
+            ssp->wu_results[worst_job.index].state = WR_STATE_PRESENT;
         } else {
             break;
         }
@@ -1665,6 +1689,7 @@ void JOB_SET::add_job(JOB& job) {
             est_time -= worst_job.est_time;
             disk_usage -= worst_job.disk_usage;
             jobs.pop_back();
+            ssp->wu_results[worst_job.index].state = WR_STATE_PRESENT;
         } else {
             break;
         }
@@ -1682,6 +1707,12 @@ void JOB_SET::add_job(JOB& job) {
     }
     est_time += job.est_time;
     disk_usage += job.disk_usage;
+    if (config.debug_send) {
+        log_messages.printf(MSG_DEBUG,
+            "added job to set.  est_time %f disk_usage %f\n",
+            est_time, disk_usage
+        );
+    }
 }
 
 // return the disk usage of jobs above the given score
@@ -1718,7 +1749,7 @@ void JOB_SET::send(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
 void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     int i, slots_locked=0;
-    JOB_SET jobs;
+    JOB_SET jobs (sreq.work_req_seconds, reply.wreq.disk_available);
     int min_slots = config.mm_min_slots;
     if (!min_slots) min_slots = ssp->max_wu_results/2;
     int max_slots = config.mm_max_slots;
@@ -1736,7 +1767,7 @@ void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         case WR_STATE_PRESENT:
             break;
         default:
-            if (g_pid == wu_result.state) break;
+            if (wu_result.state == g_pid) break;
             slots_locked++;
             continue;
         }
@@ -1755,8 +1786,10 @@ void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             ssp->wu_results[i].state = g_pid;
             unlock_sema();
             if (wu_is_infeasible_slow(wu_result, sreq, reply)) {
+                // if we can't use this job, put it back in pool
+                //
                 lock_sema();
-                ssp->wu_results[i].state = WR_STATE_EMPTY;
+                ssp->wu_results[i].state = WR_STATE_PRESENT;
                 continue;
             }
             lock_sema();

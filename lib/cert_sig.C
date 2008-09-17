@@ -1,22 +1,19 @@
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2008 University of California
 //
-// Copyright (C) 2006-2008 MTA SZTAKI
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
-// Marosi Attila Csaba <atisu@sztaki.hu>
-//
-// This is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation;
-// either version 2.1 of the License, or (at your option) any later version.
-//
-// This software is distributed in the hope that it will be useful,
+// BOINC is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // See the GNU Lesser General Public License for more details.
 //
-// To view the GNU Lesser General Public License visit
-// http://www.gnu.org/copyleft/lesser.html
-// or write to the Free Software Foundation, Inc.,
-// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "miofile.h"
 #include "error_numbers.h"
@@ -60,9 +57,6 @@ int CERT_SIGS::parse(XML_PARSER &xp) {
     int parsed_one = false;
     char tag[4096];
     char buf[256];
-    
-    //printf("CERT_SIGS::parse() starts.\n");
-    //fflush(stdout);
     
     while (!xp.get(tag, sizeof(tag), (bool&)is_tag)) {
         if (!strcmp(tag, "/signatures")) {

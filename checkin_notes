@@ -7514,3 +7514,14 @@ Charlie 17 Sep 2008
     
     mac_installer/
         make_GridRepublic.sh
+
+David  17 Sept 2008
+    - scheduler: various bug fixes in score-based schedule;
+        get rid of no_darwin_6 option
+
+    lib/
+        cert_sig.C,h
+    sched/
+        sched_config.C,h
+        sched_send.C
+        validate_util2.C

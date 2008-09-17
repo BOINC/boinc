@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Simple validator framework:
-// Lets you create a custom validator by supplying three simple functions.
-// See http://boinc.berkeley.edu/validate_simple.php
+// Lets you create a custom validator by supplying three functions.
+// See http://boinc.berkeley.edu/trac/wiki/ValidationSimple
 //
 
 #include "config.h"
@@ -37,12 +37,16 @@
 
 using std::vector;
 
+// Given a set of results, check for a canonical result,
+// i.e. a set of at least min_quorum/2+1 results for which
+// that are equivalent according to check_pair().
+//
 // invariants:
 // results.size() >= wu.min_quorum
 // for each result:
 //   result.outcome == SUCCESS
 //   result.validate_state == INIT
-
+//
 int check_set(
     vector<RESULT>& results, WORKUNIT& wu,
     int& canonicalid, double& credit, bool& retry
