@@ -269,7 +269,6 @@ int boinc_delete_file(const char* path) {
         return 0;
     }
     retval = boinc_delete_file_aux(path);
-#ifdef _WIN32
     if (retval) {
         double start = dtime();
         do {
@@ -278,7 +277,6 @@ int boinc_delete_file(const char* path) {
             if (!retval) break;
         } while (dtime() < start + FILE_RETRY_INTERVAL);
     }
-#endif
     if (retval) {
         safe_strcpy(boinc_failed_file, path);
         return ERR_UNLINK;
@@ -529,7 +527,6 @@ int boinc_rename(const char* old, const char* newf) {
     int retval=0;
 
     retval = boinc_rename_aux(old, newf);
-#ifdef _WIN32
     if (retval) {
         double start = dtime();
         do {
@@ -538,7 +535,6 @@ int boinc_rename(const char* old, const char* newf) {
             if (!retval) break;
         } while (dtime() < start + FILE_RETRY_INTERVAL);
     }
-#endif
     return retval;
 }
 

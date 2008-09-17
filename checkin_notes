@@ -7501,3 +7501,9 @@ David  17 Sept 2008
 
 	sched/
 		sched_config.C
+
+Charlie 17 Sep 2008
+    - Remove incorrect "#ifdef _WIN32" blocks added 9/10/08 to filesys.C.
+
+    lib/
+        filesys.C
