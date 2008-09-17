@@ -466,7 +466,7 @@ int main(int argc, char** argv) {
 #ifndef _USING_FCGI_
         fin = fopen(req_path, "r");
 #else
-	fin = FCGI::fopen(req_path,"w");
+	fin = FCGI::fopen(req_path,"r");
 #endif
         if (!fin) {
             log_messages.printf(MSG_CRITICAL,
