@@ -21,7 +21,7 @@
 
 ##
 # Script to convert Macintosh BOINC installer to GridRepublic Desktop installer
-# updated 9/3/08 by Charlie Fenton
+# updated 9/18/08 by Charlie Fenton
 ##
 
 ## Usage:
@@ -38,6 +38,7 @@
 ##     gridrepublic.tiff (for screensaver)
 ##     gridrepublic_ss_logo (for screensaver)
 ##     skins directory containing GridRepublic skin (optional)
+##     acct_mgr_url.xml (to have BOINC automatically connect to Account Manager)
 ##
 ## NOTE: This script uses PackageMaker, which is installed as part of the 
 ##   XCode developer tools.  So you must have installed XCode Developer 
@@ -151,6 +152,11 @@ sudo echo ${BRANDING_INFO} > "${PR_PATH}/Library/Application Support/BOINC Data/
 ## If skins folder is present. copy it into BOINC Data folder
 if [ -d "skins" ]; then
     sudo cp -fR "skins" "${PR_PATH}/Library/Application Support/BOINC Data/"
+fi
+
+## If account manager URL file is present, copy it into BOINC Data folder
+if [ -f "acct_mgr_url.xml" ]; then
+    sudo cp -fR "acct_mgr_url.xml" "${PR_PATH}/Library/Application Support/BOINC Data/acct_mgr_url.xml"
 fi
 
 ## Modify for Grid Republic

@@ -7503,7 +7503,8 @@ David  17 Sept 2008
 		sched_config.C
 
 Charlie 17 Sep 2008
-    lib: - Remove incorrect "#ifdef _WIN32" blocks added 9/10/08 to filesys.C.
+    lib: - Remove incorrect "#ifdef _WIN32" blocks added 9/10/08 to 
+        filesys.C.
 
     lib/
         filesys.C
@@ -7525,3 +7526,11 @@ David  17 Sept 2008
         sched_config.C,h
         sched_send.C
         validate_util2.C
+
+Charlie 18 Sep 2008
+    Mac branding: make_GridRepublic.sh script copy acct_mgr_url.xml file 
+        to BOINC Data directory so BOINC will connect to GridRepublic 
+        account manager automatically.
+     
+    mac_installer/
+        make_GridRepublic.sh
