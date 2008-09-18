@@ -454,6 +454,7 @@ void CViewMessages::UpdateSelection() {
 
     pGroup = m_TaskGroups[0];
     int n = m_pListPane->GetSelectedItemCount();
+    if (m_iTotalDocCount <= 0) n = 0;
 
     if (n > 0) {
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_COPYSELECTED]);
