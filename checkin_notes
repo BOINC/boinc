@@ -7540,3 +7540,10 @@ David  18 Sept 2008
 
     sched/
         sched_config.C
+
+Charlie 18 Sep 2008
+    Mgr: Ignore GetSelectedItemCount()if message count <= 0 to fix 
+	crash bug.
+     
+    clientgui/
+        ViewMessages.cpp
