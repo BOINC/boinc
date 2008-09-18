@@ -4412,3 +4412,11 @@ Rom    15 Sept 2008
         
     clientscr/
         screensaver_win.cpp
+
+Rom    18 Sep 2008
+    - Tag for 6.2.19 release, all platforms
+      boinc_core_release_6_2_19
+
+    /
+        configure.ac
+        version.h
