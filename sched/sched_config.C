@@ -212,8 +212,8 @@ int SCHED_CONFIG::parse_file(const char* dir) {
     int retval;
 
 	char* p = getenv("BOINC_CONFIG_XML");
-	if (p) [
-		strcpy(path, p)
+	if (p) {
+		strcpy(path, p);
 	} else {
 		sprintf(path, "%s/%s", dir, CONFIG_FILE);
 	}

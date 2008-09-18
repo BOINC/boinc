@@ -7534,3 +7534,9 @@ Charlie 18 Sep 2008
      
     mac_installer/
         make_GridRepublic.sh
+
+David  18 Sept 2008
+    - typo
+
+    sched/
+        sched_config.C
