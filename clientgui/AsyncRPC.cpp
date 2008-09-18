@@ -339,7 +339,7 @@ int RPCThread::ProcessRPCRequest() {
             (const char*)(current_request->arg1), 
             (const char*)(current_request->arg2), 
             (const char*)(current_request->arg3),
-            (bool*)(current_request->arg4)
+            (bool)(current_request->arg4)
         );
         break;
     case RPC_ACCT_MGR_RPC_POLL:

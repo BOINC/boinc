@@ -7547,3 +7547,12 @@ Charlie 18 Sep 2008
      
     clientgui/
         ViewMessages.cpp
+
+David  18 Sept 2008
+	- client: print error msg if missing acct mgr info
+	- manager: last arg to acct_mgr_rpc is bool, not bool*
+
+	client/
+		gui_rpc_server_ops.C
+	clientgui/
+		AsyncRPC.cpp,h

@@ -760,6 +760,9 @@ static void handle_acct_mgr_rpc(char* buf, MIOFILE& fout) {
     } else {
         if (!strlen(gstate.acct_mgr_info.acct_mgr_url) || !strlen(gstate.acct_mgr_info.acct_mgr_url) || !strlen(gstate.acct_mgr_info.acct_mgr_url)) {
             bad_arg = true;
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
+                "Account manager info missing from config file"
+            );
         } else {
             url = gstate.acct_mgr_info.acct_mgr_url;
             name = gstate.acct_mgr_info.login_name;

@@ -248,7 +248,7 @@ public:
     int acct_mgr_rpc(
         const char* url, const char* name, const char* passwd,
         bool use_config_file=false
-    )       { return RPC_Wait(RPC_ACCT_MGR_RPC, (void*)url, (void*)name, (void*)passwd, (void*)&use_config_file); }
+    )       { return RPC_Wait(RPC_ACCT_MGR_RPC, (void*)url, (void*)name, (void*)passwd, (void*)use_config_file); }
     int acct_mgr_rpc_poll(ACCT_MGR_RPC_REPLY& arg1)
             { return RPC_Wait(RPC_ACCT_MGR_RPC_POLL, (void*)&arg1); }
 
