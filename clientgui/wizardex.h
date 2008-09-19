@@ -247,7 +247,8 @@ private:
     // wizard controls
 protected:
     wxButton    *m_btnPrev,     // the "<Back" button
-                *m_btnNext;     // the "Next>" or "Finish" button
+                *m_btnNext,     // the "Next>" or "Finish" button
+                *m_btnCancel;   // the "Cancel" button
 private:
     wxStaticBitmap *m_statbmp;  // the control for the bitmap
 

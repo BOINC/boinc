@@ -400,10 +400,10 @@ void wxWizardEx::AddButtonRow(wxBoxSizer *mainColumn)
 #endif
 
     m_btnNext = new wxButton(this, wxID_FORWARD, _("&Next >"));
-    wxButton *btnCancel=new wxButton(this, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, buttonStyle);
+    m_btnCancel = new wxButton(this, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, buttonStyle);
 #ifndef __WXMAC__
     if (GetExtraStyle() & wxWIZARD_EX_HELPBUTTON)
-        btnHelp=new wxButton(this, wxID_HELP, _("&Help"), wxDefaultPosition, wxDefaultSize, buttonStyle);
+        btnHelp = new wxButton(this, wxID_HELP, _("&Help"), wxDefaultPosition, wxDefaultSize, buttonStyle);
 #endif
     m_btnPrev = new wxButton(this, wxID_BACKWARD, _("< &Back"), wxDefaultPosition, wxDefaultSize, buttonStyle);
 
@@ -424,7 +424,7 @@ void wxWizardEx::AddButtonRow(wxBoxSizer *mainColumn)
     AddBackNextPair(buttonRow);
 
     buttonRow->Add(
-        btnCancel,
+        m_btnCancel,
         0, // Horizontally unstretchable
         wxALL, // Border all around, top aligned
         5 // Border width
