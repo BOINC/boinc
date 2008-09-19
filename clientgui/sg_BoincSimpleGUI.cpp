@@ -547,6 +547,13 @@ void CSimplePanel::OnProjectsAttachToProject() {
 // called from CSimpleFrame::OnRefreshView()
 void CSimplePanel::OnFrameRender() {
     CMainDocument*    pDoc = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
+
+    // OnFrameRender() may be called while SimpleGUI initialization is 
+    // in progress due to completion of a periodic get_messages RPC, 
+    // causing unintended recursion in CMainDocument::RequestRPC().  
+    // Check for that situation here.
+    if (pDoc->WaitingForRPC()) return;
 
     if (IsShown()) {
 

@@ -7557,7 +7557,7 @@ David  18 Sept 2008
 	clientgui/
 		AsyncRPC.cpp,h
 
-Charlie 18 Sep 2008
+Charlie 19 Sep 2008
     Mgr: The system handles timer events during modal dialogs, such as 
         while the RPC Wait dialog is shown. This may cause unintended 
         recursion and repeatedly posting the same RPC requests from 
@@ -7567,3 +7567,4 @@ Charlie 18 Sep 2008
     clientgui/
         BOINCBaseFrame.cpp
         MainDocument.cpp,.h
+        sg_BoincSimpleGUI.cpp
