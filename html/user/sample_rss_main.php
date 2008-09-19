@@ -80,27 +80,35 @@ echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
 // write news items
 //
 $tot = count($project_news);
-$news = min( $tot, $news);
-for( $item=0; $item < $news; $item++ ) {
-    $j = $tot - $item;
-    if( count($project_news[$item]) >= 2) {
-        $d = strtotime($project_news[$item][0]);
-        $news_date=gmdate('D, d M Y H:i:s',$d) . ' GMT';
-        $unique_url=URL_BASE."all_news.php#$j";
-        if (isset($project_news[$item][2])) {
-            $title = strip_tags($project_news[$item][2]);
-        } else {
-            $title = "Project News ".strip_tags($project_news[$item][0]);
-        }
-        echo "<item>
-            <title>".$title."</title>
-            <link>$unique_url</link>
-            <guid isPermaLink=\"true\">$unique_url</guid>
-            <description><![CDATA[".strip_tags($project_news[$item][1])."]]></description>
-            <pubDate>$news_date</pubDate>
-            </item>
+$news = min($tot, $news);
+for ($i=0; $i < $news; $i++) {
+    $j = $tot - $i;
+    $item = $project_news[$i];
+    if (count($item) < 2) continue;
+    $d = strtotime($item[0]);
+    $news_date=gmdate('D, d M Y H:i:s',$d) . ' GMT';
+    $unique_url=URL_BASE."all_news.php#$j";
+    if (isset($item[2])) {
+        $title = strip_tags($item[2]);
+    } else {
+        $title = "Project News ".strip_tags($$item[0]);
+    }
+    echo "<item>
+        <title>".$title."</title>
+        <link>$unique_url</link>
+        <guid isPermaLink=\"true\">$unique_url</guid>
+        <description><![CDATA[".strip_tags($item[1])."]]></description>
+        <pubDate>$news_date</pubDate>
+    ";
+    if (isset($item[3])) {
+        $category = $item[3];
+        echo "
+            <category>$category</category>
         ";
     }
+    echo "
+        </item>
+    ";
 }
 
 // Close XML content

@@ -7573,3 +7573,35 @@ Charlie 19 Sep 2008
         BOINCTaskBar.cpp
         MainDocument.cpp,.h
         sg_BoincSimpleGUI.cpp
+
+David  19 Sept 2008
+    - lib: change XML_PARSER to handle attributes and spaces in tags.
+        e.g. it handles <foo /> correctly,
+        and handles <foo attr="x">
+        (it doesn't return the attributes, but it doesn't choke on them).
+    - GUI RPC client lib:
+        use XML_PARSER to process authorization replies,
+        e.g. so that it handles <authorized />
+
+        TODO: use XML_PARSER to parse all GUI RPC requests and replies
+
+    - web: add a CSS entry for news item titles
+    - web (news items): add an optional "category" field to news items:
+        suggested values: "server status", "news", "emergency".
+        These are not used to display the items,
+        but are passed in the RSS feed and could be used by news aggregators.
+    - manager: replace "BOINC-based account managers" with "account managers"
+
+    clientgui/
+        AccountManagerInfoPage.cpp
+    html/
+        inc/
+            news.inc
+        project.sample/
+            project_news.inc
+        user/
+            sample_rss_main.php
+            white.css
+    lib/
+        gui_rpc_client.C
+        parse.C

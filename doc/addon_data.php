@@ -348,7 +348,7 @@ array('rc.boinc-slackware-linux-latest.txt',
     'http://markhill.me.uk',
     'Slackware',
     'rc.boinc is a script to start BOINC automatically on Slackware Linux. It is written for Slackware Linux but may work on similar Linux distributions',
-    1111810676
+    1221845757
 ),
 );
 

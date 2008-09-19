@@ -17,8 +17,11 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 function news_item($date, $text, $title="") {
-    echo "<span class=\"news_date\">$date</span> <span class=\"news_title\">$title</span>
-        <br><span class=\"news_content\">$text</span><br><br>
+    echo "
+        <span class=news_title>$title</span>
+        <br><span class=news_date>$date</span>
+        <br><span class=news_content>$text</span>
+        <br>
     ";
 }
 
@@ -27,9 +30,9 @@ function show_news($items, $n) {
         $n = count($items);
     }
     for ($i=0; $i<$n; $i++) {
-        $date = null;
-        if (isset($items[$i][2])) $date = $items[$i][2];
-        news_item($items[$i][0], $items[$i][1], $date);
+        $title = null;
+        if (isset($items[$i][2])) $title = $items[$i][2];
+        news_item($items[$i][0], $items[$i][1], $title);
     }
 }
 

@@ -65,7 +65,6 @@ function show_news_items() {
         <center>
         <span class=section_title>News</span>
         </center>
-        <br>
     ";
     $nnews_items = 6;
     show_news($project_news, $nnews_items);

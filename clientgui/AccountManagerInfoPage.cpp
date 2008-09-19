@@ -182,7 +182,7 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         _("Account Manager &URL:")
     );
     m_pBOINCPromoStaticCtrl->SetLabel(
-        _("For a list of BOINC-based account managers go to:")
+        _("For a list of account managers go to:")
     );
     m_pBOINCPromoUrlCtrl->SetLabel(
         wxT("http://boinc.berkeley.edu/")

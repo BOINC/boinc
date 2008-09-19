@@ -461,6 +461,7 @@ int XML_PARSER::scan_comment() {
 int XML_PARSER::scan_tag(char* buf, int len) {
     int c;
     char* buf_start = buf;
+    bool found_space = false;
     for (int i=0; ; i++) {
         c = f->_getc();
         if (c == EOF) return 2;
@@ -468,8 +469,13 @@ int XML_PARSER::scan_tag(char* buf, int len) {
             *buf = 0;
             return 0;
         }
+        if (isspace(c)) {
+            found_space = true;
+        }
         if (--len > 0) {
-            *buf++ = c;
+            if (c == '/' || !found_space) {
+                *buf++ = c;
+            }
         }
 
         // check for comment start
@@ -803,7 +809,7 @@ void parse(FILE* f) {
             printf("got bool: %d\n", flag);
         } else {
             printf("unparsed tag: %s\n", tag);
-            xp.skip_unexpected(tag);
+            xp.skip_unexpected(tag, true, "xml test");
         }
     }
     printf("unexpected EOF\n");

@@ -300,6 +300,9 @@ span.news_date {
     color: #646464;
     font-size: 0.9em;
 }
+span.news_title {
+    font-weight: bold;
+}
 
 span.inboxunread {
     font-weight: bold;
