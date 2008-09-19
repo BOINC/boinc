@@ -69,6 +69,10 @@ public:
     void SimulateBackButton();
     void EnableBackButton();
     void DisableBackButton();
+    wxButton* GetCancelButton() const;
+    void SimulateCancelButton();
+    void EnableCancelButton();
+    void DisableCancelButton();
 
     /// Wizard Detection
     bool IsAttachToProjectWizard;

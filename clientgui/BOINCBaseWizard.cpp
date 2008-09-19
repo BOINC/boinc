@@ -171,3 +171,21 @@ void CBOINCBaseWizard::DisableBackButton() {
     m_btnPrev->Disable();
 }
 
+wxButton* CBOINCBaseWizard::GetCancelButton() const {
+    return m_btnCancel;
+}
+
+void CBOINCBaseWizard::SimulateCancelButton() {
+    wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, m_btnCancel->GetId());
+    event.SetEventObject(GetCancelButton());
+    AddPendingEvent(event);
+}
+ 
+void CBOINCBaseWizard::EnableCancelButton() {
+    m_btnCancel->Enable();
+}
+
+void CBOINCBaseWizard::DisableCancelButton() {
+    m_btnCancel->Disable();
+}
+

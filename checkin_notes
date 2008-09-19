@@ -4420,3 +4420,12 @@ Rom    18 Sep 2008
     /
         configure.ac
         version.h
+
+Rom   19 Sept 2008
+    - MGR: Add support for simulating somebody hitting the cancel button in
+        the wizards.  This is needed for a WCG feature.
+        
+    clientgui/
+        BOINCBaseWizard.cpp, .h
+        wizardex.cpp, .h
+
