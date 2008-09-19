@@ -170,6 +170,11 @@ void CBOINCBaseFrame::OnDocumentPoll(wxTimerEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
+    // Timer events are handled while the RPC Wait dialog is shown 
+    // which may cause unintended recursion and repeatedly posting 
+    // the same RPC requests from timer routines.
+    if (pDoc->WaitingForRPC()) return;
+ 
     if (!bAlreadyRunOnce && m_pDocumentPollTimer->IsRunning()) {
         // Complete any remaining initialization that has to happen after we are up
         //   and running
@@ -194,7 +199,10 @@ void CBOINCBaseFrame::OnAlertPoll(wxTimerEvent& WXUNUSED(event)) {
         // Check to see if there is anything that we need to do from the
         //   dial up user perspective.
         if (pDoc && m_pDialupManager) {
-            if (pDoc->IsConnected()) {
+            // Timer events are handled while the RPC Wait dialog is shown 
+            // which may cause unintended recursion and repeatedly posting 
+            // the same RPC requests from timer routines.
+            if (pDoc->IsConnected() && !pDoc->WaitingForRPC()) {
                 m_pDialupManager->OnPoll();
             }
         }
@@ -595,13 +603,21 @@ void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
 
 void CBOINCBaseFrame::StartTimers() {
     wxASSERT(m_pAlertPollTimer);
+    wxASSERT(m_pPeriodicRPCTimer);
+    wxASSERT(m_pDocumentPollTimer);
     m_pAlertPollTimer->Start();
+    m_pPeriodicRPCTimer->Start();
+    m_pDocumentPollTimer->Start();
 }
 
 
 void CBOINCBaseFrame::StopTimers() {
     wxASSERT(m_pAlertPollTimer);
+    wxASSERT(m_pPeriodicRPCTimer);
+    wxASSERT(m_pDocumentPollTimer);
     m_pAlertPollTimer->Stop();
+    m_pPeriodicRPCTimer->Stop();
+    m_pDocumentPollTimer->Stop();
 }
 
 

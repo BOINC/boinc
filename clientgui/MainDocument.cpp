@@ -722,6 +722,11 @@ void CMainDocument::RefreshRPCs() {
 void CMainDocument::RunPeriodicRPCs() {
     ASYNC_RPC_REQUEST request;
 
+    // Timer events are handled while the RPC Wait dialog is shown 
+    // which may cause unintended recursion and repeatedly posting 
+    // the same RPC requests from timer routines.
+    if (WaitingForRPC()) return;
+
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (!pFrame) return;
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));

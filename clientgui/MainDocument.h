@@ -176,7 +176,8 @@ public:
     int                         RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority = false);
     void                        OnRPCComplete(CRPCFinishedEvent& event);
     void                        HandleCompletedRPC();
-    ASYNC_RPC_REQUEST*          GetCurrentRPCRequest() { return &current_rpc_request; };
+    ASYNC_RPC_REQUEST*          GetCurrentRPCRequest() { return &current_rpc_request; }
+    bool                        WaitingForRPC() { return m_bWaitingForRPC; }
 //    void                      TestAsyncRPC();      // For testing Async RPCs
     RPCThread*                  m_RPCThread;
     wxCriticalSection           m_critsect;

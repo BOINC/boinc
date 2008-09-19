@@ -7556,3 +7556,14 @@ David  18 Sept 2008
 		gui_rpc_server_ops.C
 	clientgui/
 		AsyncRPC.cpp,h
+
+Charlie 18 Sep 2008
+    Mgr: The system handles timer events during modal dialogs, such as 
+        while the RPC Wait dialog is shown. This may cause unintended 
+        recursion and repeatedly posting the same RPC requests from 
+        timer routines while waitung for the first one to complete, so 
+        ignore timer events during that dialog.
+     
+    clientgui/
+        BOINCBaseFrame.cpp
+        MainDocument.cpp,.h
