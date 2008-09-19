@@ -7563,8 +7563,11 @@ Charlie 19 Sep 2008
         recursion and repeatedly posting the same RPC requests from 
         timer routines while waitung for the first one to complete, so 
         ignore timer events during that dialog.
+    Mgr: Fix a rare crash bug in CTaskBarIcon::OnMouseMove() if it is 
+        called when exiting Manager after CmainDocument deleted.
      
     clientgui/
         BOINCBaseFrame.cpp
+        BOINCTaskBar.cpp
         MainDocument.cpp,.h
         sg_BoincSimpleGUI.cpp

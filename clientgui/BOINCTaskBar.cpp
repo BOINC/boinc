@@ -310,8 +310,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         wxInt32        iIndex               = 0;
         CC_STATUS      status;
 
-        wxASSERT(pDoc);
-        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+        if (!pDoc) return;
 
         if (pDoc->IsConnected()) {
             pDoc->GetConnectedComputerName(strMachineName);
