@@ -250,7 +250,7 @@ $windows = array(
     "description"=>"98/ME/2000/XP/Vista ",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w6218,
+        $w6219,
         $w51045,
         $w5816,
     )
@@ -261,7 +261,7 @@ $windowsx64 = array(
     "description"=>"XP/Vista",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-        $w6218x64,
+        $w6219x64,
         $w51045x64,
     )
 );
