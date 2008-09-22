@@ -4,6 +4,14 @@ $biomed = array(
     "Biology and Medicine",
     array(
         array(
+            "Docking@Home",
+            "http://docking.cis.udel.edu/",
+            "University of Delaware",
+            "Study of protein - ligand interactions",
+            "Docking@Home has both bioscience and computer science goals. The project aims to further knowledge of the atomic details of protein-ligand interactions and, by doing so, will search for insights into the discovery of novel pharmaceuticals.",
+            "docking.png"
+        ),
+        array(
             "GPU Grid - PS3 Grid",
             "http://www.ps3grid.net/",
             "Barcelona Biomedical Research Park (PRBB)",
@@ -194,14 +202,14 @@ $math = array(
             "Find all the generalized binary number systems (in which bases are matrices and digits are vectors) up to dimension 11.",
             "szdg1_small.jpg"
         ),
-        array(
-            "Riesel Sieve",
-            "http://boinc.rieselsieve.com/",
-            "Riesel Sieve community",
-            "Mathematics",
-            "Find prime numbers of the form k*2<sup>n</sup>-1",
-            ""
-        ),
+//        array(
+//            "Riesel Sieve",
+//            "http://boinc.rieselsieve.com/",
+//            "Riesel Sieve community",
+//            "Mathematics",
+//            "Find prime numbers of the form k*2<sup>n</sup>-1",
+//            ""
+//        ),
         array(
             "Rectilinear Crossing Number",
             "http://dist.ist.tugraz.at/cape5/",

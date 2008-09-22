@@ -566,7 +566,7 @@ struct TRANSITIONER_ITEM {
 struct CREDIT_MULTIPLIER {
     int id;
     int appid;
-    int time;
+    int _time;
     double multiplier;
 
     void clear();

@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("September 20, 2008",
+    "Welcome back to <a href=http://docking.cis.udel.edu/>Docking@Home</a>,
+    a project at the University of Delaware that studies
+    protein-ligand interactions (and BOINC itself)."
+),
 array("September 15, 2008",
     "<a href=http://forja.unex.es/projects/ogm>OGM (Organizational Grid Manager)</a>
     has been released by the University of Extremadura.

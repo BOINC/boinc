@@ -444,12 +444,15 @@ int boinc_finish(int status) {
 // Win: called from the worker or timer thread.
 //
 // make static eventually
+//
 void boinc_exit(int status) {
     if (options.backwards_compatible_graphics) {
         graphics_cleanup();
     }
     
-    file_lock.unlock(LOCKFILE);
+    if (options.main_program) {
+        file_lock.unlock(LOCKFILE);
+    }
 
     fflush(NULL);
 
@@ -461,7 +464,7 @@ void boinc_exit(int status) {
     //
     BOINCINFO("Exit Status: %d", status);
 #if   defined(_WIN32)
-    // Halts all the threads and then cleans up.
+    // Halt all the threads and cleans up.
     TerminateProcess(GetCurrentProcess(), status);
 #elif defined(__APPLE_CC__)
     // stops endless exit()/atexit() loops.

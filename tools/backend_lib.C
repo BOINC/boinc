@@ -35,6 +35,7 @@
 #include "common_defs.h"
 #include "filesys.h"
 #include "sched_util.h"
+#include "util.h"
 
 #include "backend_lib.h"
 

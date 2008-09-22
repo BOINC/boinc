@@ -7638,3 +7638,34 @@ David  22 Sept 2008
             update_profile_pages.php
         user/
             language_select.php
+
+David  22 Sept 2008
+    - API: in boinc_exit(), release the lockfile only if
+        we're the main program (otherwise we didn't lock it in
+        the first place, and a crash results).  From Artyom Sharov.
+    - scheduler: add support for the GCL simulator,
+        which uses special versions of backend programs
+        that use virtual time,
+        and that wait for signals instead of sleep()ing.
+
+        To compile:
+            make clean
+            configure CXXFLAGS="-DGCL_SIMULATOR"
+            make
+
+    api/
+        boinc_api.C
+    db/
+        boinc_db.C,h
+    lib/
+        util.C,h
+    sched/
+        feeder.C
+        hr_info.C
+        pymw_assimilator.C
+        sched_util.C,h
+        transitioner.C
+        trickle_handler.C
+        validator.C
+    tools/
+        backend_lib.C

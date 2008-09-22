@@ -93,4 +93,10 @@ extern bool process_exists(int);
 #endif
 
 extern int wait_client_mutex(const char* dir, double timeout);
+
+#ifdef GCL_SIMULATOR
+extern double simtime;
+#define time(x) ((int)simtime)
+#endif
+
 #endif

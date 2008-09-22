@@ -29,6 +29,7 @@
 #endif
 
 #include "str_util.h"
+#include "util.h"
 #include "error_numbers.h"
 #include "boinc_db.h"
 
@@ -921,7 +922,7 @@ void DB_CREDIT_MULTIPLIER::db_print(char* buf) {
         "time=%d, "
         "multiplier=%f ",
         appid,
-        time,
+        _time,
         multiplier
     );
 }
@@ -931,7 +932,7 @@ void DB_CREDIT_MULTIPLIER::db_parse(MYSQL_ROW& r) {
     clear();
     id = atoi(r[i++]);
     appid = atoi(r[i++]);
-    time = atoi(r[i++]);
+    _time = atoi(r[i++]);
     multiplier = atof(r[i++]);
 }
 
@@ -943,7 +944,7 @@ void DB_CREDIT_MULTIPLIER::get_nearest(int _appid, int t) {
     // set default values.
     clear();
     multiplier = 1;
-    time = ::time(NULL);
+    _time = time(0);
     appid = _appid;
 
     snprintf(query,MAX_QUERY_LEN,

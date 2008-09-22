@@ -62,9 +62,16 @@ using std::vector;
 #define EPOCHFILETIME_SEC (11644473600.)
 #define TEN_MILLION 10000000.
 
+#ifdef GCL_SIMULATOR
+double simtime;
+#endif
+
 // return time of day (seconds since 1970) as a double
 //
 double dtime() {
+#ifdef GCL_SIMULATOR
+    return simtime;
+#else
 #ifdef _WIN32
     LARGE_INTEGER time;
     FILETIME sysTime;
@@ -80,6 +87,7 @@ double dtime() {
     struct timeval tv;
     gettimeofday(&tv, 0);
     return tv.tv_sec + (tv.tv_usec/1.e6);
+#endif
 #endif
 }
 
