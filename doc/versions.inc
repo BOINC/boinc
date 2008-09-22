@@ -69,17 +69,17 @@ $w638= array(
     "type"=>"win_new",
 );
 
-$w6218= array(
-    "num"=>"6.2.18",
+$w6219= array(
+    "num"=>"6.2.19",
     "status"=>"Recommended version",
-    "file"=>"boinc_6.2.18_windows_intelx86.exe",
-    "date"=>"17 Aug 2008",
+    "file"=>"boinc_6.2.19_windows_intelx86.exe",
+    "date"=>"22 Sep 2008",
     "type"=>"win_new",
 );
 
 $w51045= array(
     "num"=>"5.10.45",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_5.10.45_windows_intelx86.exe",
     "date"=>"5 Mar 2008",
     "type"=>"win_new",
@@ -93,17 +93,17 @@ $w638x64= array(
     "type"=>"win_new",
 );
 
-$w6218x64= array(
-    "num"=>"6.2.18",
+$w6219x64= array(
+    "num"=>"6.2.19",
     "status"=>"Recommended version",
-    "file"=>"boinc_6.2.18_windows_x86_64.exe",
-    "date"=>"17 Aug 2008",
+    "file"=>"boinc_6.2.19_windows_x86_64.exe",
+    "date"=>"22 Sep 2008",
     "type"=>"win_new",
 );
 
 $w51045x64= array(
     "num"=>"5.10.45",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_5.10.45_windows_x86_64.exe",
     "date"=>"5 Mar 2008",
     "type"=>"win_new",
@@ -183,7 +183,7 @@ $l6215 = array(
 
 $l51045 = array(
     "num"=>"5.10.45",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_5.10.45_i686-pc-linux-gnu.sh",
     "date"=>"5 Mar 2008",
     "type"=>"sea",
@@ -207,7 +207,7 @@ $l6215ubuntu = array(
 
 $l51045ubuntu = array(
     "num"=>"5.10.45",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_ubuntu_5.10.45_i686-pc-linux-gnu.sh",
     "date"=>"5 Mar 2008",
     "type"=>"sea",
@@ -231,7 +231,7 @@ $l6215ubuntux64 = array(
 
 $l51045ubuntux64 = array(
     "num"=>"5.10.45",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_ubuntu_5.10.45_x86_64-pc-linux-gnu.sh",
     "date"=>"5 Mar 2008",
     "type"=>"sea",
