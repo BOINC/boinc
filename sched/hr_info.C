@@ -58,15 +58,13 @@ int HR_INFO::read_file() {
     double x;
 
     for (i=1; i<HR_NTYPES; i++) {
-        char* p = fgets(buf, sizeof(buf), f);
-        if (!p) {
-            fprintf(stderr, "missing delimiter line in HR info\n");
+        if (!fgets(buf, sizeof(buf), f)) {
+            fprintf(stderr, "unexpected EOF in HR info\n");
             exit(1);
         }
         for (j=0; j<hr_nclasses[i]; j++) {
-            char* p = fgets(buf, sizeof(buf), f);
-            if (!p) {
-                fprintf(stderr, "missing data line in HR info");
+            if (!fgets(buf, sizeof(buf), f)) {
+                fprintf(stderr, "unexpected EOF in HR info");
                 exit(1);
             }
             int n = sscanf(buf, "%d %lf", &jj, &x);

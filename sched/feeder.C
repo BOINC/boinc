@@ -114,6 +114,9 @@ using std::vector;
 #include "sched_util.h"
 #include "sched_msgs.h"
 #include "hr_info.h"
+#ifdef GCL_SIMULATOR
+#include "gcl_simulator.h"
+#endif
 
 #define DEFAULT_SLEEP_INTERVAL  5
 
@@ -143,7 +146,6 @@ int napps;
 HR_INFO hr_info;
 bool using_hr;
     // true iff any app is using HR
-bool simulation = false;
 
 void signal_handler(int) {
     log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
@@ -508,15 +510,16 @@ void feeder_loop() {
         bool action = scan_work_array(work_items);
         ssp->ready = true;
         if (!action) {
-            if (simulation) {
-                 signal(SIGUSR2, signal_handler);
-                 pause();
-            } else {
-                log_messages.printf(MSG_DEBUG,
-                    "No action; sleeping %.2f sec\n", sleep_interval
-                );
-                boinc_sleep(sleep_interval);
-            }
+#ifdef GCL_SIMULATOR
+            log_messages.printf(MSG_DEBUG, "Waiting for signal\n");
+            signal(SIGUSR2, simulator_signal_handler);
+            pause();
+#else
+            log_messages.printf(MSG_DEBUG,
+                "No action; sleeping %.2f sec\n", sleep_interval
+            );
+            boinc_sleep(sleep_interval);
+#endif
         } else {
             if (config.job_size_matching) {
                 update_stats();
@@ -653,8 +656,6 @@ int main(int argc, char** argv) {
             sprintf(mod_select_clause, "and workunit.id %% %d = %d ", n, j);
         } else if (!strcmp(argv[i], "-sleep_interval")) {
             sleep_interval = atof(argv[++i]);
-        } else if (!strcmp(argv[i], "-simulator")) {
-            simulation = true;
         } else {
             log_messages.printf(MSG_CRITICAL,
                 "bad cmdline arg: %s\n", argv[i]

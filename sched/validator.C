@@ -52,6 +52,9 @@ using namespace std;
 #include "sched_msgs.h"
 #include "validator.h"
 #include "validate_util.h"
+#ifdef GCL_SIMULATOR
+#include "gcl_simulator.h"
+#endif
 
 #define LOCKFILE "validate.out"
 #define PIDFILE  "validate.pid"
@@ -87,13 +90,7 @@ double max_claimed_credit = 0;
 bool grant_claimed_credit = false;
 bool update_credited_job = false;
 bool credit_from_wu = false;
-bool simulation = false;
 WORKUNIT* g_wup;
-
-void signal_handler(int) {
-    log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
-    return;
-}
 
 bool is_unreplicated(WORKUNIT& wu) {
     return (wu.target_nresults == 1 && app.target_nresults > 1);
@@ -660,12 +657,12 @@ int main_loop() {
         did_something = do_validate_scan();
         if (!did_something) {
             if (one_pass) break;
-            if (simulation) {
-                 signal(SIGUSR2, signal_handler);
-                 pause();
-            } else {
-                sleep(sleep_interval);
-            }
+#ifdef GCL_SIMULATOR
+             signal(SIGUSR2, simulator_signal_handler);
+             pause();
+#else
+            sleep(sleep_interval);
+#endif
         }
     }
     return 0;
@@ -735,8 +732,6 @@ int main(int argc, char** argv) {
             update_credited_job = true;
         } else if (!strcmp(argv[i], "-credit_from_wu")) {
             credit_from_wu = true;
-        } else if (!strcmp(argv[i], "-simulator")) {
-            simulation = true;
         } else {
             fprintf(stderr, "Invalid option '%s'\nTry `%s --help` for more information\n", argv[i], argv[0]);
             log_messages.printf(MSG_CRITICAL, "unrecognized arg: %s\n", argv[i]);

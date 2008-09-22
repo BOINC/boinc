@@ -19,6 +19,7 @@
 #define SCHED_UTIL_H
 
 #include "boinc_db.h"
+#include "util.h"
 
 // "average credit" uses an exponential decay so that recent
 // activity is weighted more heavily.
@@ -77,4 +78,10 @@ extern double fpops_to_credit(double fpops, double intops);
 
 extern int count_workunits(int&, const char* query);
 extern int count_unsent_results(int&, int appid);
+
+#ifdef GCL_SIMULATOR
+extern void simulator_signal_handler(int signum);
+extern void continue_simulation(const char *daemonname);
+#endif
+
 #endif

@@ -96,9 +96,10 @@ bool do_trickle_scan() {
 int main_loop(bool one_pass) {
     int retval;
     bool did_something;
-    char buf[256];
 
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "boinc_db.open failed: %d\n", retval);
         exit(1);

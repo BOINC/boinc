@@ -14,6 +14,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
 // A sample assimilator that:
 // 1) if success, copy the output file(s) to a directory
 // 2) if failure, append a message to an error log

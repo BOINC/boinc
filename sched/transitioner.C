@@ -44,6 +44,9 @@ using namespace std;
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
+#ifdef GCL_SIMULATOR
+#include "gcl_simulator.h"
+#endif
 
 #define LOCKFILE                "transitioner.out"
 #define PIDFILE                 "transitioner.pid"
@@ -60,7 +63,6 @@ R_RSA_PRIVATE_KEY key;
 int mod_n, mod_i;
 bool do_mod = false;
 bool one_pass = false;
-bool simulation = false;
 
 void signal_handler(int) {
     log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
@@ -649,13 +651,14 @@ void main_loop() {
         log_messages.printf(MSG_DEBUG, "doing a pass\n");
         if (!do_pass()) {
             if (one_pass) break;
-            if (simulation) {
-                signal(SIGUSR2, signal_handler);
-                pause();
-            } else {
-                log_messages.printf(MSG_DEBUG, "sleeping %d\n", SLEEP_INTERVAL);
-                sleep(SLEEP_INTERVAL);
-            }
+#ifdef GCL_SIMULATOR
+            continue_simulation("transitioner");
+            signal(SIGUSR2, simulator_signal_handler);
+            pause();
+#else
+            log_messages.printf(MSG_DEBUG, "sleeping %d\n", SLEEP_INTERVAL);
+            sleep(SLEEP_INTERVAL);
+#endif
         }
     }
 }
@@ -674,8 +677,6 @@ int main(int argc, char** argv) {
             mod_n = atoi(argv[++i]);
             mod_i = atoi(argv[++i]);
             do_mod = true;
-        } else if (!strcmp(argv[i], "-simulator")) {
-            simulation = true;
         }
     }
     if (!one_pass) check_stop_daemons();
