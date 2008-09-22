@@ -7613,3 +7613,11 @@ Rom   19 Sept 2008
     clientgui/
         BOINCBaseWizard.cpp, .h
         wizardex.cpp, .h
+
+Rom    22 Sep 2008
+    - Tag for 6.3.11 release, all platforms
+      boinc_core_release_6_3_11
+
+    /
+        configure.ac
+        version.h
