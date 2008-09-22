@@ -127,7 +127,7 @@ $m6218 = array(
 
 $m51045 = array(
     "num"=>"5.10.45",
-    "status"=>"Recommended version (standard GUI)",
+    "status"=>"Older version (standard GUI)",
     "file"=>"boinc_5.10.45_macOSX_universal.zip",
     "date"=>"5 Mar 2008",
     "type"=>"mac_advanced",
@@ -151,7 +151,7 @@ $m6218c = array(
 
 $m51045c = array(
     "num"=>"5.10.45",
-    "status"=>"Recommended version (Unix command-line version)",
+    "status"=>"Older version (Unix command-line version)",
     "file"=>"boinc_5.10.45_universal-apple-darwin.zip",
     "date"=>"5 Mar 2008",
     "type"=>"bare_core",
