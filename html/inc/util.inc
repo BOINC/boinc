@@ -433,21 +433,23 @@ function get_legal_filename($name) {
 function sub_sentence($sentence, $delimiter, $max_chars, $ellipsis=false) {
     $words = explode($delimiter, $sentence);
     $total_chars = 0;
-    $count = 0;
-    $result = '';
+    $trunc = false;
+    $result = null;
 
-    do {
-        if ($count > 0) {
-            $result = $result . ' ' . $words[$count];
-        } else {
-            $result = $result . $words[$count];
+    foreach ($words as $word) {
+        if (strlen($result) + strlen($word) > $max_chars) {
+            $trunc = true;
+            break;
         }
-        $total_chars += strlen($words[$count]) + 1;
-        $count++;
-    } while ($count < count($words) && ($total_chars + strlen($words[$count])) <= $max_chars);
+        if ($result) {
+            $result .= " $word";
+        } else {
+            $result = $word;
+        }
+    }
 
-    if ($ellipsis && ($count < count($words))) {
-        $result = $result . '...';
+    if ($ellipsis && $trunc) {
+        $result .= "...";
     }
 
     return $result;

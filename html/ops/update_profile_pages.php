@@ -23,7 +23,8 @@ require_once("../inc/uotd.inc");
 require_once("../inc/db.inc");
 require_once("../inc/profile.inc");
 
-echo date(DATE_RFC822), ": Starting\n";
+// this causes "cannot modify header" errors
+//echo date(DATE_RFC822), ": Starting\n";
 
 set_time_limit(0);
 ini_set("memory_limit", "1024M");

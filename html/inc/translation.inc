@@ -31,12 +31,10 @@ $lang_log_file = $lang_language_dir."translator.log";
 function getSupportedLanguages(){
     global $lang_language_dir, $lang_compiled_dir;
     if (is_dir($lang_language_dir.$lang_compiled_dir)) {
-        if ($dh = opendir($lang_language_dir.$lang_compiled_dir)) {                        //If dir exists
-            while (($file = readdir($dh)) !== false) {
-                //read contents
-                if (substr($file,-7)!=".po.inc") continue;
+        if ($dh = opendir($lang_language_dir.$lang_compiled_dir)) {
+            while ($file = readdir($dh)) {
+                if (substr($file, -7) != ".po.inc") continue;
                 if (is_numeric(substr($file, 0, 5))) continue;
-
                 $list[] = substr($file,0,-7);
             }
         }
@@ -50,10 +48,9 @@ function getSupportedLanguages(){
 function trSpecific($token, $language=""){
     global $lang_language_dir, $lang_compiled_dir;
     $language= substr($language,0,5);
-    if ($language!="" && file_exists($lang_language_dir.$lang_compiled_dir.$language.".po.inc")){
-        //If we have the language, include it
-        //echo "[$language]";
-        require($lang_language_dir.$lang_compiled_dir.$language.".po.inc");
+    $fname = $lang_language_dir.$lang_compiled_dir.$language.".po.inc";
+    if ($language!="" && file_exists($fname)){
+        require($fname);
         if (array_key_exists($token, $language_lookup_array)) {
             return $language_lookup_array[$token];
         }

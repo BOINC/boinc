@@ -63,7 +63,7 @@ row2("Language symbol", "Language name (click to select)");
 row2("",
     "<a href=language_select.php?set_lang=auto>Use browser language setting</a>"
 );
-for ($i=0; $i<sizeof($languages);$i++){
+for ($i=0; $i<sizeof($languages); $i++){
     $lang_native[$i] = trSpecific(LANG_NAME_NATIVE, $languages[$i]);
     $lang_international[$i] = trSpecific(LANG_NAME_INTERNATIONAL, $languages[$i]);
 }
@@ -71,12 +71,6 @@ for ($i=0; $i<sizeof($languages);$i++){
 array_multisort($lang_international, $languages, $lang_native);
 
 for ($i=0; $i<sizeof($languages);$i++){
-//    if (file_exists($imgdir.$languages[$i].".png")){
-//        $im = "<a href=\"language_select.php?set_lang=".$languages[$i]."\"><img src=\"".$imgdir.$languages[$i].".png\" border=0></a>";
-//    } else {
-//        $im="";
-//    }
-//    row3($im,
     row2(
         "<a href=\"language_select.php?set_lang=".$languages[$i]."\">".$languages[$i]."</a>",
         "<a href=\"language_select.php?set_lang=".$languages[$i]."\">".$lang_international[$i]."</a>"

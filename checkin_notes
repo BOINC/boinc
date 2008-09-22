@@ -7621,3 +7621,20 @@ Rom    22 Sep 2008
     /
         configure.ac
         version.h
+
+David  22 Sept 2008
+    - web: sub_sentence() went into an infinite loop
+        for a particular (non-ASCII) profile text.
+        Not sure why, but I rewrote sub_sentence() in
+        less obscure way and it works now
+    - web: slight cleanup of translation code.
+        Can we please replace this with gettext()??
+
+    html/
+        inc/
+            translation.inc
+            util.inc
+        ops/
+            update_profile_pages.php
+        user/
+            language_select.php
