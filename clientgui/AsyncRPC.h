@@ -89,6 +89,20 @@ enum RPC_SELECTOR {
 };
 
 
+enum ASYNC_RPC_TYPE {
+    // Demand RPC: wait for completion before returning (usually 
+    // a user-initiated request.)
+    RPC_TYPE_WAIT_FOR_COMPLETION = 1,
+    // Periodic RPC: post request on queue and return immediately 
+    // (requested due to a timer interrupt.)
+    RPC_TYPE_ASYNC_NO_REFRESH,
+    // Periodic RPCas above, but on completion also process a 
+    // wxEVT_FRAME_REFRESHVIEW event to refresh the display.
+    RPC_TYPE_ASYNC_WITH_REFRESH_AFTER,
+    NUM_RPC_TYPES
+
+};
+
 // Pass the following structure to CMainDocument::RequestRPC()
 // The members are as follows:
 //
@@ -101,16 +115,7 @@ enum RPC_SELECTOR {
 //  arg2, arg3, arg4 are additional arguments when needed by the 
 //      RPC call; their usage varies for different RPC requests.
 //
-//  event is an (optional) event to be posted on completion of a 
-//      periodic RPC.  If a periodic RPC should not post an event  
-//      on completion, set this to (wxEvent*)-1.  A NULL value 
-//      indicates a user-initiated (demand) RPC request; the call 
-//      will not return until the RPC completes.
-//
-//  eventHandler is the eventhandler to which to displatch the 
-//      completion event (typically a wxWindow, wxFrame, or wxApp).  
-//      If it is NULL, the current CBOINCBaseFrame is used.  It is 
-//      ignored if the event parameter is NULL or -1.
+//  rpcType is as described above 
 //
 //  completionTime is a pointer to a wxDateTime variable into which 
 //      to write the completion time of the RPC.  It may be NULL.
@@ -130,8 +135,7 @@ struct ASYNC_RPC_REQUEST {
     void *arg2;
     void *arg3;
     void *arg4;
-    wxEvent *event;
-    wxEvtHandler *eventHandler;
+    ASYNC_RPC_TYPE rpcType;
     wxDateTime *completionTime;
     int *resultPtr;
     int retval;

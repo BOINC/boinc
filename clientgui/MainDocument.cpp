@@ -401,6 +401,7 @@ int CMainDocument::OnInit() {
 
     m_RPCWaitDlg = NULL;
     m_bWaitingForRPC = false;
+    m_bNeedRefresh = false;
     current_rpc_request.clear();
 
     m_RPCThread = new RPCThread(this);
@@ -747,8 +748,7 @@ void CMainDocument::RunPeriodicRPCs() {
     // or project in a demand RPC call.  If Periodic RPCs continue 
     // to run during these dialogs, that pointer may no longer be 
     // valid by the time the demand RPC is executed.  So we suspend 
-    // periodic RPCs during modal dialogs.  Search for the dialog 
-    // by ID since all of BOINC Manager's dialog IDs are 10000.
+    // periodic RPCs during modal dialogs.
     //
     // Note that this depends on using wxGetApp().SafeMessageBox()
     // instead of wxMessageBox in all tab views.
@@ -767,7 +767,7 @@ void CMainDocument::RunPeriodicRPCs() {
         request.which_rpc = RPC_GET_CC_STATUS;
         request.arg1 = &async_status_buf;
         request.exchangeBuf = &status;
-        request.event = (wxEvent*)-1;
+        request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
         request.completionTime = &m_dtCachedCCStatusTimestamp;
         request.resultPtr = &m_iGet_status_rpc_result;
        
@@ -783,7 +783,7 @@ void CMainDocument::RunPeriodicRPCs() {
         request.which_rpc = RPC_GET_STATE;
         request.arg1 = &async_state_buf;
         request.exchangeBuf = &state;
-        request.event = (wxEvent*)-1;
+        request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
         request.resultPtr = &m_iGet_state_rpc_result;
        
         RequestRPC(request);
@@ -794,7 +794,7 @@ void CMainDocument::RunPeriodicRPCs() {
         request.which_rpc = RPC_GET_HOST_INFO;
         request.arg1 = &async_host_buf;
         request.exchangeBuf = &host;
-        request.event = (wxEvent*)-1;
+        request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
         request.completionTime = &m_dtCachedStateTimestamp;
         request.resultPtr = &m_iGet_host_info_rpc_result;
        
@@ -810,9 +810,7 @@ void CMainDocument::RunPeriodicRPCs() {
             request.which_rpc = RPC_GET_PROJECT_STATUS1;
             request.arg1 = &async_state_buf;
             request.exchangeBuf = &state;
-            request.event = new CFrameEvent(wxEVT_FRAME_REFRESHVIEW, pFrame);
-            // NULL request.eventHandler means use CBOINCBaseFrame when RPC has  
-            // finished, which may have changed since request was made
+            request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
             request.completionTime = &m_dtProjecStatusTimestamp;
             request.resultPtr = &m_iGet_project_status1_rpc_result;
            
@@ -829,9 +827,7 @@ void CMainDocument::RunPeriodicRPCs() {
             request.which_rpc = RPC_GET_RESULTS;
             request.arg1 = &async_results_buf;
             request.exchangeBuf = &results;
-            request.event = new CFrameEvent(wxEVT_FRAME_REFRESHVIEW, pFrame);
-            // NULL request.eventHandler means use CBOINCBaseFrame when RPC has  
-            // finished, which may have changed since request was made
+            request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
             request.completionTime = &m_dtResultsTimestamp;
             request.resultPtr = &m_iGet_results_rpc_result;
            
@@ -848,9 +844,7 @@ void CMainDocument::RunPeriodicRPCs() {
             request.which_rpc = RPC_GET_FILE_TRANSFERS;
             request.arg1 = &async_ft_buf;
             request.exchangeBuf = &ft;
-            request.event = new CFrameEvent(wxEVT_FRAME_REFRESHVIEW, pFrame);
-            // NULL request.eventHandler means use CBOINCBaseFrame when RPC has  
-            // finished, which may have changed since request was made
+            request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
             request.completionTime = &m_dtFileTransfersTimestamp;
             request.resultPtr = &m_iGet_file_transfers_rpc_result;
            
@@ -869,9 +863,7 @@ void CMainDocument::RunPeriodicRPCs() {
         request.arg2 = &messages;
 //        request.arg2 = &async_messages_buf;
 //        request.exchangeBuf = &messages;
-        request.event = new CFrameEvent(wxEVT_FRAME_REFRESHVIEW, pFrame);
-        // NULL request.eventHandler means use CBOINCBaseFrame when RPC has  
-        // finished, which may have changed since request was made
+        request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
         request.completionTime = NULL;
         request.resultPtr = &m_iGet_messages_rpc_result;
        
@@ -887,9 +879,7 @@ void CMainDocument::RunPeriodicRPCs() {
             request.which_rpc = RPC_GET_STATISTICS;
             request.arg1 = &async_statistics_status_buf;
             request.exchangeBuf = &statistics_status;
-            request.event = new CFrameEvent(wxEVT_FRAME_REFRESHVIEW, pFrame);
-            // NULL request.eventHandler means use CBOINCBaseFrame when RPC has  
-            // finished, which may have changed since request was made
+            request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
             request.completionTime = &m_dtStatisticsStatusTimestamp;
             request.resultPtr = &m_iGet_statistics_rpc_result;
            
@@ -906,9 +896,7 @@ void CMainDocument::RunPeriodicRPCs() {
             request.which_rpc = RPC_GET_DISK_USAGE;
             request.arg1 = &async_disk_usage_buf;
             request.exchangeBuf = &disk_usage;
-            request.event = new CFrameEvent(wxEVT_FRAME_REFRESHVIEW, pFrame);
-            // NULL request.eventHandler means use CBOINCBaseFrame when RPC has  
-            // finished, which may have changed since request was made
+            request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
             request.completionTime = &m_dtDiskUsageTimestamp;
             request.resultPtr = &m_iGet_dsk_usage_rpc_result;
            
@@ -927,9 +915,7 @@ void CMainDocument::RunPeriodicRPCs() {
             request.exchangeBuf = &state;
             request.arg2 = &async_results_buf;
             request.arg3 = &results;
-            request.event = new CFrameEvent(wxEVT_FRAME_REFRESHVIEW, pFrame);
-            // NULL request.eventHandler means use CBOINCBaseFrame when RPC has  
-            // finished, which may have changed since request was made
+            request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
             request.completionTime = &m_dtCachedSimpleGUITimestamp;
             request.resultPtr = &m_iGet_simple_gui2_rpc_result;
            
@@ -945,7 +931,7 @@ void CMainDocument::RunPeriodicRPCs() {
             request.which_rpc = RPC_ACCT_MGR_INFO;
             request.arg1 = &async_ami_buf;
             request.exchangeBuf = &ami;
-            request.event = (wxEvent*)-1;
+            request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
             request.completionTime = &m_dtCachedAcctMgrInfoTimestamp;
             request.resultPtr = &m_iAcct_mgr_info_rpc_result;
            

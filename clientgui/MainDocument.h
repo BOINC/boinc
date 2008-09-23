@@ -181,6 +181,7 @@ public:
 //    void                      TestAsyncRPC();      // For testing Async RPCs
     RPCThread*                  m_RPCThread;
     wxCriticalSection           m_critsect;
+    bool                        m_bNeedRefresh;
 
 private:
     ASYNC_RPC_REQUEST           current_rpc_request;

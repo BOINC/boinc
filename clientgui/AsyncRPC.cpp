@@ -47,10 +47,10 @@ void ASYNC_RPC_REQUEST::clear() {
     arg2 = NULL;
     arg3 = NULL;
     arg4 = NULL;
-    event = NULL;
-    eventHandler = NULL;
+    rpcType = (ASYNC_RPC_TYPE) 0;
     completionTime = NULL;
     resultPtr = NULL;
+    retval = 0;
     isActive = false;
 }
 
@@ -62,15 +62,10 @@ bool ASYNC_RPC_REQUEST::isSameAs(ASYNC_RPC_REQUEST& otherRequest) {
     if (arg2 != otherRequest.arg2) return false;
     if (arg3 != otherRequest.arg3) return false;
     if (arg4 != otherRequest.arg4) return false;
-    if (event != otherRequest.event) {
-        if (event->GetEventType() != (otherRequest.event)->GetEventType()) return false;
-        if (event->GetId() != (otherRequest.event)->GetId()) return false;
-        if (event->GetEventObject() != (otherRequest.event)->GetEventObject()) return false;
-    }
-    if (eventHandler != otherRequest.eventHandler) return false;
+    if (rpcType != otherRequest.rpcType) return false;
     if (completionTime != otherRequest.completionTime) return false;
     if (resultPtr != otherRequest.resultPtr) return false;
-    // OK if isActive doesn't match.
+    // OK if isActive and retval don't match.
     return true;
 }
 
@@ -94,6 +89,7 @@ int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2,
     request.arg2 = arg2;
     request.arg3 = arg3;
     request.arg4 = arg4;
+    request.rpcType = RPC_TYPE_WAIT_FOR_COMPLETION;
 
     retval = m_Doc->RequestRPC(request, hasPriority);
     return retval;
@@ -414,6 +410,12 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     std::vector<ASYNC_RPC_REQUEST>::iterator iter;
     int retval = 0, retval2 = 0;
     
+    if ( (request.rpcType < RPC_TYPE_WAIT_FOR_COMPLETION) || 
+            (request.rpcType >= NUM_RPC_TYPES) ) {
+        wxASSERT(false);
+        return -1;
+    }
+    
     // If we are quitting, cancel any pending RPCs
     if (request.which_rpc == RPC_QUIT) {
         RPC_requests.clear();
@@ -426,7 +428,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         }
     }
 
-    if ((request.event == 0) && (request.resultPtr == NULL)) {
+    if ((request.rpcType == RPC_TYPE_WAIT_FOR_COMPLETION) && (request.resultPtr == NULL)) {
         request.resultPtr = &retval;
     }
     
@@ -452,9 +454,9 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     }
 #endif //  !!__WXMSW__       // Deadlocks on Windows
 
-    // If no completion event specified, this is a user-initiated event so 
-    // wait for completion but show a dialog allowing the user to cancel.
-    if (request.event == 0) {
+    // If this is a user-initiated event wait for completion but show 
+    // a dialog allowing the user to cancel.
+    if (request.rpcType == RPC_TYPE_WAIT_FOR_COMPLETION) {
     // TODO: proper handling if a second user request is received while first is pending ??
         if (m_bWaitingForRPC) {
             wxLogMessage(wxT("Second user RPC request while another was pending"));
@@ -564,7 +566,7 @@ void CMainDocument::HandleCompletedRPC() {
         if (RPC_requests[i].isSameAs(current_rpc_request)) {
             requestIndex = i;
         } else {
-            if (RPC_requests[i].event == 0) {
+            if (RPC_requests[i].rpcType == RPC_TYPE_WAIT_FOR_COMPLETION) {
                 stillWaitingForPendingRequests = true;
             }
         }
@@ -583,7 +585,6 @@ void CMainDocument::HandleCompletedRPC() {
 
     if (requestIndex >= 0) {
         // Remove completed request from the queue
-        RPC_requests[requestIndex].event = NULL;  // Is this needed to prevent calling the event's destructor?
         RPC_requests.erase(RPC_requests.begin()+requestIndex);
     }
     
@@ -596,10 +597,6 @@ void CMainDocument::HandleCompletedRPC() {
         *(current_rpc_request.resultPtr) = retval;
     }
 
-    // We must get the frame immediately before using it, 
-    // since it may have been changed by SetActiveGUI().
-    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-    
     // Post-processing
     if (! retval) {
         switch (current_rpc_request.which_rpc) {
@@ -714,6 +711,12 @@ void CMainDocument::HandleCompletedRPC() {
         }
     }
     
+    if (current_rpc_request.rpcType == RPC_TYPE_ASYNC_WITH_REFRESH_AFTER) {
+        if (!retval) {
+            m_bNeedRefresh = true;
+        }
+    }
+    
     // We must call ProcessEvent() rather than AddPendingEvent() here to 
     // guarantee integrity of data when other events are handled (such as 
     // Abort, Suspend/Resume, Show Graphics, Update, Detach, Reset, No 
@@ -723,19 +726,23 @@ void CMainDocument::HandleCompletedRPC() {
     // deleted due to the RPC.  
     // The refresh event called here adjusts the selections to fix any 
     // such mismatch before other pending events are processed.  
-    if ( (current_rpc_request.event) && (current_rpc_request.event != (wxEvent*)-1) ) {
-        if (!retval) {
-            if (current_rpc_request.eventHandler) {
-                current_rpc_request.eventHandler->ProcessEvent(*current_rpc_request.event);
-            } else {
-                if (pFrame) {
-                    wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-                    pFrame->ProcessEvent(*current_rpc_request.event);
-                }
-            }
+    //
+    // However, the refresh code may itself request a Demand RPC, which 
+    // would cause undesirable recursion if we are already waiting for 
+    // another Demand RPC to complete.  In that case, we defer the refresh 
+    // until all pending Demand RPCs have been done.
+    //
+    if (m_bNeedRefresh && !m_bWaitingForRPC) {
+        m_bNeedRefresh = false;
+        // We must get the frame immediately before using it, 
+        // since it may have been changed by SetActiveGUI().
+        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+
+        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+        if (pFrame) {
+            CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
+            pFrame->ProcessEvent(event);
         }
-        delete current_rpc_request.event;
-        current_rpc_request.event = NULL;
     }
     
     current_rpc_request.clear();
@@ -814,8 +821,7 @@ void CMainDocument::TestAsyncRPC() {
     request.arg2 = NULL;
     request.arg3 = NULL;
     request.arg4 = NULL;
-    request.event = NULL;
-    request.eventHandler = NULL;
+    request.rpcType = RPC_TYPE_WAIT_FOR_COMPLETION;
     request.completionTime = &completionTime;
 //    request.result = NULL;
     request.resultPtr = &rpc_result;        // For testing async RPCs
