@@ -7669,3 +7669,14 @@ David  22 Sept 2008
         validator.C
     tools/
         backend_lib.C
+
+Charlie 22 Sep 2008
+    Mgr: Simplify Async GUI RPC refresh event logic; if a 
+        Periodic RPC completes while waiting for a Demand RPC, 
+        defer the refresh until all Demand RPCs have also 
+        finished to prevent possible undesirable recursion, 
+        because refresh code could request another Demand RPC.
+
+    clientgui/
+        AsyncRPC.cpp,.h
+        MainDocument.cpp,.h

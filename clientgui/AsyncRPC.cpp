@@ -520,6 +520,8 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                     m_RPCThread = NULL;
                     RPC_requests.clear();
                     current_rpc_request.clear();
+                    m_bNeedRefresh = false;
+
                     // We will be reconnected to the same client (if possible) by 
                     // CBOINCDialUpManager::OnPoll() and CNetworkConnection::Poll().
                     m_pNetworkConnection->SetStateDisconnected();
