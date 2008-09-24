@@ -364,10 +364,6 @@ int ACTIVE_TASK::start(bool first_time) {
     int retval;
     bool coprocs_reserved = false;
 
-#ifdef _WIN32
-    get_sandbox_account_service_token();
-        // do this first because it affects how we create shmem seg
-#endif
     if (first_time && log_flags.task) {
         msg_printf(result->project, MSG_INFO,
             "Starting %s", result->name

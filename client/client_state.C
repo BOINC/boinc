@@ -380,6 +380,10 @@ int CLIENT_STATE::init() {
 #ifdef SANDBOX
     get_project_gid();
 #endif
+#ifdef _WIN32
+    get_sandbox_account_service_token();
+    if (sandbox_account_service_token != NULL) g_use_sandbox = true;
+#endif
 
     check_file_existence();
     if (!boinc_file_exists(ALL_PROJECTS_LIST_FILENAME)) {

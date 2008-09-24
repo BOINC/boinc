@@ -947,8 +947,8 @@ inline bool device_idle(time_t t, const char *device) {
 }
 
 static const struct dir_dev {
-  char *dir;
-  char *dev;
+    const char *dir;
+    const char *dev;
 } tty_patterns[] = {
 #ifdef unix
     { "/dev","tty" },

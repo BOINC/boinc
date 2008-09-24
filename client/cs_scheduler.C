@@ -46,6 +46,7 @@
 
 #include "client_msgs.h"
 #include "scheduler_op.h"
+#include "sandbox.h"
 
 #include "client_state.h"
 
@@ -117,7 +118,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         "    <rrs_fraction>%f</rrs_fraction>\n"
         "    <prrs_fraction>%f</prrs_fraction>\n"
         "    <estimated_delay>%f</estimated_delay>\n"
-        "    <duration_correction_factor>%f</duration_correction_factor>\n",
+        "    <duration_correction_factor>%f</duration_correction_factor>\n"
+        "    <sandbox>%d</sandbox>\n",
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
@@ -129,7 +131,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         rrs_fraction,
         prrs_fraction,
         time_until_work_done(p, proj_min_results(p, prrs)-1, prrs),
-        p->duration_correction_factor
+        p->duration_correction_factor,
+        g_use_sandbox?1:0
     );
 
     // write client capabilities

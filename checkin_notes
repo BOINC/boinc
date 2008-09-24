@@ -7680,3 +7680,20 @@ Charlie 22 Sep 2008
     clientgui/
         AsyncRPC.cpp,.h
         MainDocument.cpp,.h
+
+
+David  24 Sept 2008
+    - client: add <sandbox> element to scheduler request.
+        Some projects (GPUgrid, QCN) don't work on some platforms
+        if sandboxing is used.
+        Better to send an error message than send jobs.
+    - get rid of a few compiler warnings
+
+    client/
+        app_start.C
+        client_state.C
+        cpu_sched.C
+        cs_scheduler.C
+        hostinfo_unix.C
+    lib/
+        crypt.C,h

@@ -111,9 +111,9 @@ void COPROCS::reserve_coprocs(
         }
         cp2->used += cp->count;
         int n = cp->count;
-        for (int i=0; i<cp2->count; i++) {
-            if (!cp2->owner[i]) {
-                cp2->owner[i] = owner;
+        for (int j=0; j<cp2->count; j++) {
+            if (!cp2->owner[j]) {
+                cp2->owner[j] = owner;
                 n--;
                 if (!n) break;
             }
@@ -132,9 +132,9 @@ void COPROCS::free_coprocs(COPROCS& needed, void* owner, bool verbose) {
             );
         }
         cp2->used -= cp->count;
-        for (int i=0; i<cp2->count; i++) {
-            if (cp2->owner[i] == owner) {
-                cp2->owner[i] = 0;
+        for (int j=0; j<cp2->count; j++) {
+            if (cp2->owner[j] == owner) {
+                cp2->owner[j] = 0;
             }
         }
     }

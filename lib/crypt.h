@@ -121,7 +121,7 @@ extern int generate_signature(
 //    0: NO or error
 extern int check_validity_of_cert(
     const char *cFile, const unsigned char *sha1_md, 
-    unsigned char *sfileMsg, const int sfsize, char* caPath
+    unsigned char *sfileMsg, const int sfsize, const char* caPath
 );
 
 extern char *check_validity(const char *certPath, const char *origFile, 
@@ -131,6 +131,6 @@ extern char *check_validity(const char *certPath, const char *origFile,
 class CERT_SIGS;
 
 int cert_verify_file(
-    CERT_SIGS* signatures, const char* origFile, char* trustLocation
+    CERT_SIGS* signatures, const char* origFile, const char* trustLocation
 );
 #endif

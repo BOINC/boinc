@@ -496,7 +496,7 @@ int openssl_to_private(RSA *from, R_RSA_PRIVATE_KEY *to) {
 
 int check_validity_of_cert(
     const char *cFile, const unsigned char *md5_md, unsigned char *sfileMsg,
-    const int sfsize, char* caPath
+    const int sfsize, const char* caPath
 ) {
     int retval = 0;
     X509 *cert;
@@ -603,7 +603,7 @@ char *check_validity(
 }
 
 int cert_verify_file(
-    CERT_SIGS* signatures, const char* origFile, char* trustLocation
+    CERT_SIGS* signatures, const char* origFile, const char* trustLocation
 ) {
     MD5_CTX md5CTX;
     int rbytes;
