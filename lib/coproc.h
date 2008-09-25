@@ -75,6 +75,13 @@ struct COPROCS {
     bool sufficient_coprocs(COPROCS&, bool verbose, const char* prefix);
     void reserve_coprocs(COPROCS&, void*, bool verbose, const char* prefix);
     void free_coprocs(COPROCS&, void*, bool verbose);
+    bool fully_used() {
+        for (unsigned int i=0; i<coprocs.size(); i++) {
+            COPROC* cp = coprocs[i];
+            if (cp->used < cp->count) return false;
+        }
+        return true;
+    }
 
     // Copy a coproc set, setting usage to zero.
     // used in round-robin simulator and CPU scheduler,

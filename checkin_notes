@@ -7697,3 +7697,13 @@ David  24 Sept 2008
         hostinfo_unix.C
     lib/
         crypt.C,h
+
+David  24 Sept 2008
+    - client: attempt to fix CPU sched bug in the presence of GPUs
+        (if there was an idle GPU, it would run unboundedly many CPU jobs)
+
+    client/
+        client_types.h
+        cpu_sched.C
+    lib/
+        coproc.h

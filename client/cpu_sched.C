@@ -537,35 +537,63 @@ void CLIENT_STATE::print_deadline_misses() {
 }
 
 struct PROC_RESOURCES {
+    int ncpus;
     double ncpus_used;
     double ram_left;
+    int ncoproc_jobs;   // # of runnable jobs that use coprocs
     COPROCS coprocs;
-    bool all_resources_used(int ncpus) {
-        if (ncpus_used < ncpus) return false;
-        for (unsigned int i=0; i<coprocs.coprocs.size(); i++) {
-            COPROC* cp = coprocs.coprocs[i];
-            if (cp->used < cp->count) return false;
+
+    // should we stop scanning jobs?
+    //
+    bool stop_scan() {
+        if (ncoproc_jobs) {
+            // if any coproc jobs remain, stop iff all coprocs used
+            //
+            return coprocs.fully_used();
+        } else {
+            // otherwise stop iff all CPUs used
+            //
+            return (ncpus_used >= ncpus);
         }
-        return true;
+    }
+
+    // should we consider scheduling this job?
+    //
+    bool can_schedule(RESULT* rp) {
+        if (rp->uses_coprocs()) {
+            // if it uses coprocs, and they're available, yes
+            //
+            if (coprocs.sufficient_coprocs(
+                rp->avp->coprocs, log_flags.cpu_sched_debug, "(CPU sched sim) ")
+            ) {
+                return true;
+            } else {
+                if (log_flags.cpu_sched_debug) {
+                    msg_printf(rp->project, MSG_INFO,
+                        "[cpu_sched_debug] insufficient coprocessors for %s", rp->name
+                    );
+                }
+                return false;
+            }
+        } else {
+            // otherwise, only if CPUs are available
+            //
+            return (ncpus_used < ncpus);
+        }
     }
 };
 
+// Check whether the job can be run:
+// - it will fit in RAM
+// - we have enough shared-mem segments (old Mac problem)
+// If so, update proc_rsc accordingly and return true
+//
 static bool schedule_if_possible(
     RESULT* rp, PROC_RESOURCES& proc_rsc, double rrs, double expected_payoff
 ) {
     ACTIVE_TASK* atp;
 
     atp = gstate.lookup_active_task_by_result(rp);
-    if (!proc_rsc.coprocs.sufficient_coprocs(
-        rp->avp->coprocs, log_flags.cpu_sched_debug, "(CPU sched sim) ")
-    ) {
-        if (log_flags.cpu_sched_debug) {
-            msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched_debug] insufficient coprocessors for %s", rp->name
-            );
-        }
-        return false;
-    }
     if (atp) {
         // see if it fits in available RAM
         //
@@ -605,6 +633,9 @@ static bool schedule_if_possible(
         rp->avp->coprocs, rp, log_flags.cpu_sched_debug, "(CPU sched sim) "
     );
     proc_rsc.ncpus_used += rp->avp->avg_ncpus;
+    if (rp->uses_coprocs()) {
+        proc_rsc.ncoproc_jobs--;
+    }
     rp->project->anticipated_debt -= (rp->project->resource_share / rrs) * expected_payoff;
     return true;
 }
@@ -620,9 +651,11 @@ void CLIENT_STATE::schedule_cpus() {
     double rrs = runnable_resource_share();
     PROC_RESOURCES proc_rsc;
 
+    proc_rsc.ncpus = ncpus;
     proc_rsc.ncpus_used = 0;
     proc_rsc.ram_left = available_ram();
     proc_rsc.coprocs.clone(gstate.coprocs);
+    proc_rsc.ncoproc_jobs = 0;
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] schedule_cpus(): start");
@@ -643,6 +676,7 @@ void CLIENT_STATE::schedule_cpus() {
         rp = results[i];
         rp->already_selected = false;
         rp->edf_scheduled = false;
+        if (rp->uses_coprocs()) proc_rsc.ncoproc_jobs++;
     }
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
@@ -662,11 +696,12 @@ void CLIENT_STATE::schedule_cpus() {
 #ifdef SIM
     if (!cpu_sched_rr_only) {
 #endif
-    while (!proc_rsc.all_resources_used(ncpus)) {
+    while (!proc_rsc.stop_scan()) {
         rp = earliest_deadline_result();
         if (!rp) break;
         rp->already_selected = true;
 
+        if (!proc_rsc.can_schedule(rp)) continue;
         if (!schedule_if_possible(rp, proc_rsc, rrs, expected_payoff)) continue;
 
         rp->project->deadlines_missed--;
@@ -679,10 +714,11 @@ void CLIENT_STATE::schedule_cpus() {
 
     // Next, choose results from projects with large debt
     //
-    while (!proc_rsc.all_resources_used(ncpus)) {
+    while (!proc_rsc.stop_scan()) {
         assign_results_to_projects();
         rp = largest_debt_project_best_result();
         if (!rp) break;
+        if (!proc_rsc.can_schedule(rp)) continue;
         if (!schedule_if_possible(rp, proc_rsc, rrs, expected_payoff)) continue;
         ordered_scheduled_results.push_back(rp);
     }

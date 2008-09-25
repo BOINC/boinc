@@ -583,6 +583,9 @@ struct RESULT {
     bool some_download_stalled();
         // some input or app file is downloading, and backed off
         // i.e. it may be a long time before we can run this result
+    bool uses_coprocs() {
+        return (avp->coprocs.coprocs.size() > 0);
+    }
 
     // temporaries used in CLIENT_STATE::rr_simulation():
     double rrsim_cpu_left;
