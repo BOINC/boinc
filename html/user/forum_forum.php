@@ -81,6 +81,7 @@ case 1:
 
 echo '
     <p>
+    <form action=\"forum_forum.php\" method=\"get\">
     <table width="100%" cellspacing="0" cellpadding="0">
     <tr valign="top">
     <td colspan=2>
@@ -89,16 +90,15 @@ echo '
 show_button("forum_post.php?id=$id", "New thread", "Add a new thread to this forum");
 
 echo "</td>
-	<form action=\"forum_forum.php\" method=\"get\">
 	<td valign=top align=\"right\">
     <input type=\"hidden\" name=\"id\" value=\"$forum->id\">
 ";
 echo select_from_array("sort", $forum_sort_styles, $sort_style);
 echo "<input type=\"submit\" value=\"Sort\">
 	</td>
-	</form>
 	</tr>
 	</table>
+	</form>
 ";
 
 show_forum($forum, $start, $sort_style, $user);
