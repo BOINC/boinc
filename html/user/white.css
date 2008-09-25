@@ -303,7 +303,7 @@ blockquote.postbody {
 #thread {
     width: 100%;
     table-layout: fixed;
-    overflow: overflow;
+    overflow: visible;
     word-wrap: break-word;
 }
 
