@@ -120,10 +120,11 @@ function show_message_row($thread, $parent_post) {
 
     $x2 .= " method=\"post\">\n";
     $x2 .= form_tokens($g_logged_in_user->authenticator);
-    $x2 .= "<textarea name=\"content\" rows=\"18\" cols=\"80\">";
+    $x2 .= "<textarea name=\"content\" rows=\"18\" cols=\"80\">";        
+    $no_quote = get_int("no_quote", true)==1;
     if ($preview) {
         $x2 .= htmlspecialchars($content);
-    } else {
+    } else if (!$no_quote) {
         if ($parent_post) $x2 .= quote_text(htmlspecialchars($parent_post->content), 80)."\n";
     }
     if (!$g_logged_in_user->prefs->no_signature_by_default){

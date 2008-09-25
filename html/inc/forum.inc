@@ -627,9 +627,11 @@ function show_post(
             echo "</a>";
         }
         if (($controls == FORUM_CONTROLS) && (can_reply($thread, $forum, $logged_in_user))) {
-            $url = "forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "#input";
-			echo "&nbsp;&nbsp;&nbsp;&nbsp;";
+	    echo "&nbsp;&nbsp;&nbsp;&nbsp;";
+            $url = "forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "&no_quote=1#input";
             show_button($url, "Reply", "Post a reply to this message");
+            $url = "forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "#input";
+	    show_button($url, "Quote", "Post a reply by quoting this message");
         }
         echo "</td></tr>";
     } else {
