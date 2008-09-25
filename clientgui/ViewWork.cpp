@@ -1019,7 +1019,7 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
                     strBuffer = _("Running");
                 }
                 if (result->resources.size()) {
-                    strBuffer += " (" + result->resources + ")";
+                    strBuffer += wxString(wxT(" (")) + result->resources + wxString(wxT(")"));
                 }
 #if 0
                 // doesn't work - result pointer not there
