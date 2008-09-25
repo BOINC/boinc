@@ -122,8 +122,9 @@ if ($forum->parent_type == 0) {
 
 echo "
     <p>
+    <form action=\"forum_thread.php\">
     <table width=\"100%\" cellspacing=0 cellpadding=0>
-    <tr>
+    <tr class=\"forum_toplinks\">
     <td align=\"left\">
 ";
 
@@ -168,15 +169,14 @@ if (is_moderator($logged_in_user, $forum)) {
 }
 
 // Display a box that allows the user to select sorting of the posts
-echo "</td><td align=right style=\"border:0px\">
-    <form action=\"forum_thread.php\">
+echo "</td><td align=\"right\">
     <input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">
     Sort 
 ";
 echo select_from_array("sort", $thread_sort_styles, $sort_style);
 echo "<input type=submit value=Sort>
-    </form>
-    </td></tr></table>
+    
+    </td></tr></table></form>
 ";
 
 // Here is where the actual thread begins.
