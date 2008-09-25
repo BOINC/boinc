@@ -1425,10 +1425,10 @@ int DC_getWUNumber(DC_WUState state)
 			return val;
 		case DC_WU_RUNNING:
 			query = g_strdup_printf("SELECT COUNT(DISTINCT wu.id) "
-				"FROM workunit wu JOIN result res ON res.workunitid = wu.id "
-				"WHERE wu.name LIKE '%s\\_%%' AND "
-				"res.workunitid = wu.id AND "
-				"(res.server_state = %d OR res.server_state = %d)",
+				"FROM result res FORCE INDEX(ind_res_st), workunit wu "
+				"WHERE res.workunitid = wu.id AND "
+					"wu.name LIKE '%s\\_%%' AND "
+					"(res.server_state = %d OR res.server_state = %d)",
 				project_uuid_str, RESULT_SERVER_STATE_UNSENT,
 				RESULT_SERVER_STATE_IN_PROGRESS);
 			ret = db.get_integer(query, val);
