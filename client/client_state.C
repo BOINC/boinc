@@ -38,6 +38,7 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "filesys.h"
+#include "proc_control.h"
 
 #include "file_names.h"
 #include "hostinfo.h"
@@ -250,7 +251,7 @@ int CLIENT_STATE::init() {
     for (i=0; i<strs.size(); i++) {
         msg_printf(NULL, MSG_INFO, strs[i].c_str());
     }
-#if 0
+#if 1
     fake_cuda(coprocs, 1);
 #endif
     if (coprocs.coprocs.size() == 0) {
