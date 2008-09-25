@@ -529,7 +529,7 @@ function show_post(
     
     $url = "pm.php?action=new&userid=".$user->id;
     $name = $user->name;
-    show_button($url, "Send message", "Send $name a private message");
+    show_button($url, "Send&nbsp;message", "Send $name a private message");
     echo "Joined: ", gmdate('M j y', $user->create_time), "<br>";
 
     if (!isset($user->nposts)) {

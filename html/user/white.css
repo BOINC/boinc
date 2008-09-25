@@ -121,21 +121,43 @@ td.friend {
 
 tr.message { background-color: #e0e0e0; }
 
-input, select, textarea{
+input, select, textarea, .button {
     border: 1px solid #d8d8d8;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-    padding: 2px;
+    padding: 2px 4px;
     font-size: 12px;
 }
 
 input[type="button"], input[type="submit"], input.btn {
-    padding: 2px 4px;
     margin: 2px 0px;
+    background: #d4d0c8;
+    margin-right: 0.5em;
     color: #203C66;
     border: 1px solid #a8a8a8;
     font-size: 12px;
     font-weight: normal;
+}
+
+/* IE6 doesn't understand [type=XXXX] so we factor this out into its own */
+.button {
+    margin: 2px 0px;
+    background: #d4d0c8;
+    margin-right: 0.5em;
+    color: #203C66;
+    border: 1px solid #a8a8a8;
+    font-size: 0.9em;
+    font-weight: normal;
+    line-height: 2em;
+}
+
+.button:hover {
+    background: #edece8;
+    text-decoration:none;
+}
+
+input[type="button"]:hover, input[type="submit"]:hover, input.btn:hover, .forum_toplinks a:hover {
+    background: #edece8;
 }
 
 img { border: 0px; }
@@ -283,6 +305,10 @@ blockquote.postbody {
     table-layout: fixed;
     overflow: overflow;
     word-wrap: break-word;
+}
+
+.forum_toplinks td {
+    vertical-align: middle;
 }
 
 span.page_title {

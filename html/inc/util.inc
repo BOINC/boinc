@@ -685,17 +685,8 @@ function current_url() {
     return $url;
 }
 
-function show_button($url, $text, $desc) {
-    $text_esc = addslashes($text);      // for javascript
-    $desc_esc = addslashes($desc);
-    echo "
-        <script>
-        document.write('<input onClick=\"document.location.href=\'$url\'\" class=\"btn\" type=\"button\" value=\"$text_esc\" title=\"$desc_esc\">')
-        </script>
-        <noscript>
-        <a href=\"$url\" title=\"$desc\">$text</a>
-        </noscript>
-    ";
+function show_button($url, $text, $desc, $class="button") {
+    echo "<a href=\"".$url."\" title=\"".addslashes($desc)."\" class=\"".$class."\">".$text."</a>";
 }
 
 function show_image($src, $title, $alt, $height=null) {
