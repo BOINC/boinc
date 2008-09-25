@@ -499,6 +499,18 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
             graphics_mode_acked
         );
     }
+    if (app_version->coprocs.coprocs.size() || app_version->avg_ncpus!= 1) {
+        char buf[256], desc[256];
+        sprintf(desc, "%.2f CPUs", app_version->avg_ncpus);
+        for (unsigned int i=0; i<app_version->coprocs.coprocs.size(); i++) {
+            COPROC* cp = app_version->coprocs.coprocs[i];
+            sprintf(buf, ", %d %s", cp->count, cp->type);
+            strcat(desc, buf);
+        }
+        fout.printf(
+            "    <resources>%s</resources\n", desc
+        );
+    }
     fout.printf("</active_task>\n");
     return 0;
 }

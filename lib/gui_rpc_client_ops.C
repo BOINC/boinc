@@ -394,6 +394,7 @@ int RESULT::parse(MIOFILE& in) {
         if (parse_bool(buf, "edf_scheduled", edf_scheduled)) continue;
         if (parse_str(buf, "graphics_exec_path", graphics_exec_path)) continue;
         if (parse_str(buf, "slot_path", slot_path)) continue;
+        if (parse_str(buf, "resources", resources)) continue;
     }
     return ERR_XML_PARSE;
 }

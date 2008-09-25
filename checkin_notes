@@ -7707,3 +7707,14 @@ David  24 Sept 2008
         cpu_sched.C
     lib/
         coproc.h
+
+David  24 Sept 2008
+    - client/manager: show # CPUs and coprocessors in task display
+
+    client/
+        app.C
+    clientgui/
+        ViewWork.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.C

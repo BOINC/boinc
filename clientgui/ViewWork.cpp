@@ -1018,6 +1018,9 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
                 } else {
                     strBuffer = _("Running");
                 }
+                if (result->resources.size()) {
+                    strBuffer += " (" + result->resources + ")";
+                }
 #if 0
                 // doesn't work - result pointer not there
                 if (result->project->non_cpu_intensive) {

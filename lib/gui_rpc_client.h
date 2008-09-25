@@ -215,6 +215,7 @@ public:
     bool edf_scheduled;
     std::string graphics_exec_path;
     std::string slot_path;
+    std::string resources;
 
     APP* app;
     WORKUNIT* wup;
