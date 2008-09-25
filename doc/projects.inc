@@ -83,14 +83,6 @@ $biomed = array(
             "Calculate similarities between proteins. SIMAP provides a public database of the resulting data, which plays a key role in many bioinformatics research projects.",
             "simaplogo.jpg"
         ),
-        array(
-            "World Community Grid",
-            "http://www.worldcommunitygrid.org/",
-            "IBM Corporate Community Relations",
-            "Humanitarian research on new and infectious disease, natural disasters and hunger.",
-            "To further critical non-profit research on some of humanity's most pressing problems by creating the world's largest volunteer computing grid.  Research includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more.",
-            "wcg.jpg",
-        ),
     ),
 );
 $earth = array(
@@ -167,6 +159,27 @@ $astro_phys_chem = array(
         ),
     ),
 );
+$mixed = array(
+    "Multiple applications",
+    array(
+        array(
+            "Ibercivis",
+            "http://registro.ibercivis.es/",
+            "Spanish universities and research centers",
+            "Support Spanish research",
+            "Research in physics, material science, and biomedicine",
+            "cabecera2.jpg"
+        ),
+        array(
+            "World Community Grid",
+            "http://www.worldcommunitygrid.org/",
+            "IBM Corporate Community Relations",
+            "Humanitarian research on disease, natural disasters and hunger.",
+            "To further critical non-profit research on some of humanity's most pressing problems by creating the world's largest volunteer computing grid.  Research includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more.",
+            "wcg.jpg",
+        ),
+    ),
+);
 $math = array(
     "Mathematics and strategy games",
     array(
@@ -237,6 +250,6 @@ $math = array(
     ),
 );
 
-$areas = array($biomed, $astro_phys_chem, $math, $earth);
+$areas = array($biomed, $astro_phys_chem, $math, $earth, $mixed);
 
 ?>

@@ -7726,3 +7726,14 @@ Rom    25 Sep 2008
     /
         configure.ac
         version.h
+
+David  25 Sept 2008
+    - web: don't send an email after account is created via web;
+        it serves no purpose and some people apparently view it as spam.
+
+    html/
+        inc/
+            email.inc
+        user/
+            create_account_action.php
+            mail_passwd.php

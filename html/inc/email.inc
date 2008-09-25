@@ -82,32 +82,21 @@ function send_email($user, $subject, $body, $body_html=null) {
 // 2) the account was created administratively
 // 3) the user requested account key for existing account
 //
-function send_auth_email($user, $is_new) {
+function send_auth_email($user) {
     global $master_url;
     $body = "";
 
-    if ($is_new) {
-        $subject = PROJECT." account confirmation";
-        $body = "Welcome to ".PROJECT.".
-
-This email confirms your account with ".PROJECT.":
-    Project URL:         $master_url
-    User name:           $user->name
-    E-mail:              $user->email_addr
-";
-    } else {
-        $now = time();
-        $x = md5($user->id.$user->authenticator.$now);
-        $x = substr($x, 0, 16);
-        $subject = PROJECT." account information";
-        $body = "This email was sent in reponse to a request on the ".PROJECT." web site.
+    $now = time();
+    $x = md5($user->id.$user->authenticator.$now);
+    $x = substr($x, 0, 16);
+    $subject = PROJECT." account information";
+    $body = "This email was sent in reponse to a request on the ".PROJECT." web site.
 
 To log in to your ".PROJECT." account, visit:
 ".$master_url."login_action.php?id=$user->id&t=$now&h=$x
 (This link is valid for 1 day).
 After logging in, you can change your account's password or email address.
 ";
-    }
 
 $body .= "
 For further information and assistance with ".PROJECT.", visit

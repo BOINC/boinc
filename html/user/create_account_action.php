@@ -130,14 +130,12 @@ if (!$user) {
     show_error("Couldn't create account");
 }
 
-// In success case, redirect to a fixed page so that user can
-// return to it without getting "Repost form data" stuff
-
-send_auth_email($user, true, false);
-
 if(defined('INVITE_CODES')) {
     error_log("Account '$new_email_addr' created using invitation code '$invite_code'");
 }
+
+// In success case, redirect to a fixed page so that user can
+// return to it without getting "Repost form data" stuff
 
 $next_url = post_str('next_url', true);
 if ($next_url) {
