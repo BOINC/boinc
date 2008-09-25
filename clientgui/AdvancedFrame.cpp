@@ -1512,7 +1512,9 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     dlg.m_HTTPAddressCtrl->SetValue(wxString(pDoc->proxy_info.http_server_name.c_str(), wxConvUTF8));
     dlg.m_HTTPUsernameCtrl->SetValue(wxString(pDoc->proxy_info.http_user_name.c_str(), wxConvUTF8));
     dlg.m_HTTPPasswordCtrl->SetValue(wxString(pDoc->proxy_info.http_user_passwd.c_str(), wxConvUTF8));
-
+	//FW
+	dlg.m_HTTPNoProxiesCtrl->SetValue(wxString(pDoc->proxy_info.noproxy_hosts.c_str(), wxConvUTF8));
+	//FW
     strBuffer.Printf(wxT("%d"), pDoc->proxy_info.http_server_port);
     dlg.m_HTTPPortCtrl->SetValue(strBuffer);
 
@@ -1520,7 +1522,9 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
     dlg.m_SOCKSAddressCtrl->SetValue(wxString(pDoc->proxy_info.socks_server_name.c_str(), wxConvUTF8));
     dlg.m_SOCKSUsernameCtrl->SetValue(wxString(pDoc->proxy_info.socks5_user_name.c_str(), wxConvUTF8));
     dlg.m_SOCKSPasswordCtrl->SetValue(wxString(pDoc->proxy_info.socks5_user_passwd.c_str(), wxConvUTF8));
-
+	//FW
+	dlg.m_SOCKSNoProxiesCtrl->SetValue(wxString(pDoc->proxy_info.noproxy_hosts.c_str(),wxConvUTF8));
+	//FW
     strBuffer.Printf(wxT("%d"), pDoc->proxy_info.socks_server_port);
     dlg.m_SOCKSPortCtrl->SetValue(strBuffer);
 
@@ -1566,7 +1570,11 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
             pDoc->proxy_info.http_server_name = (const char*)dlg.m_HTTPAddressCtrl->GetValue().mb_str();
             pDoc->proxy_info.http_user_name = (const char*)dlg.m_HTTPUsernameCtrl->GetValue().mb_str();
             pDoc->proxy_info.http_user_passwd = (const char*)dlg.m_HTTPPasswordCtrl->GetValue().mb_str();
-
+			//FW
+			if(pDoc->proxy_info.use_http_proxy) {
+				pDoc->proxy_info.noproxy_hosts = (const char*)dlg.m_HTTPNoProxiesCtrl->GetValue().mb_str();
+			}
+			//FW
             strBuffer = dlg.m_HTTPPortCtrl->GetValue();
             strBuffer.ToLong((long*)&iBuffer);
             pDoc->proxy_info.http_server_port = iBuffer;
@@ -1575,7 +1583,11 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
             pDoc->proxy_info.socks_server_name = (const char*)dlg.m_SOCKSAddressCtrl->GetValue().mb_str();
             pDoc->proxy_info.socks5_user_name = (const char*)dlg.m_SOCKSUsernameCtrl->GetValue().mb_str();
             pDoc->proxy_info.socks5_user_passwd = (const char*)dlg.m_SOCKSPasswordCtrl->GetValue().mb_str();
-
+			//FW
+			if(pDoc->proxy_info.use_socks_proxy) {
+				pDoc->proxy_info.noproxy_hosts = (const char*)dlg.m_SOCKSNoProxiesCtrl->GetValue().mb_str();
+			}
+			//FW
             strBuffer = dlg.m_SOCKSPortCtrl->GetValue();
             strBuffer.ToLong((long*)&iBuffer);
             pDoc->proxy_info.socks_server_port = iBuffer;

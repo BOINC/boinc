@@ -290,6 +290,9 @@ public:
     std::string http_user_passwd;
     std::string socks5_user_name;
     std::string socks5_user_passwd;
+	//FW
+	std::string noproxy_hosts;
+	//FW
 
     GR_PROXY_INFO();
     ~GR_PROXY_INFO();
