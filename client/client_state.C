@@ -251,7 +251,7 @@ int CLIENT_STATE::init() {
     for (i=0; i<strs.size(); i++) {
         msg_printf(NULL, MSG_INFO, strs[i].c_str());
     }
-#if 1
+#if 0
     fake_cuda(coprocs, 1);
 #endif
     if (coprocs.coprocs.size() == 0) {

@@ -164,7 +164,7 @@ const char* COPROC_CUDA::get(COPROCS& coprocs) {
     COPROC_CUDA cc, cc2;
     for (int i=0; i<count; i++) {
         (*__cudaGetDeviceProperties)(&cc.prop, i);
-        if (cc.prop.major == 0) break;  // major == 0 means emulation
+        if (cc.prop.major <= 0) break;  // major == 0 means emulation
         if (cc.prop.major > 100) break;  // e.g. 9999 is an error
         cc2 = cc;
         real_count++;
@@ -202,7 +202,7 @@ void fake_cuda(COPROCS& coprocs, int count) {
    cc->prop.maxGridSize[2] = 10;
    cc->prop.totalConstMem = 10;
    cc->prop.major = 1;
-   cc->prop.minor = 1;
+   cc->prop.minor = 2;
    cc->prop.clockRate = 10000;
    cc->prop.textureAlignment = 1000;
    coprocs.coprocs.push_back(cc);
