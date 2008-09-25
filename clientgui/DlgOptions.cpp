@@ -103,6 +103,9 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
     m_SOCKSPortCtrl = NULL;
     m_SOCKSUsernameCtrl = NULL;
     m_SOCKSPasswordCtrl = NULL;
+	m_HTTPNoProxiesCtrl = NULL;
+	m_SOCKSNoProxiesCtrl = NULL;
+
 ////@end CDlgOptions member initialisation
 
     wxString strCaption = caption;
@@ -252,6 +255,14 @@ void CDlgOptions::CreateControls()
     m_HTTPPortCtrl->Create( itemPanel27, ID_HTTPPORTCTRL, _T(""), wxDefaultPosition, wxSize(50, -1), 0 );
     itemFlexGridSizer32->Add(m_HTTPPortCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
+	wxStaticText* itemStaticText62 = new wxStaticText;
+    itemStaticText62->Create( itemPanel27, wxID_STATIC, _("Don't use proxy for:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer32->Add(itemStaticText62, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+	m_HTTPNoProxiesCtrl = new wxTextCtrl;
+	m_HTTPNoProxiesCtrl->Create(itemPanel27,ID_HTTPNOPROXYCTRL,_T(""),wxDefaultPosition,wxSize(150,-1),0);
+	itemFlexGridSizer32->Add(m_HTTPNoProxiesCtrl,0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
     wxStaticBox* itemStaticBoxSizer37Static = new wxStaticBox(itemPanel27, wxID_ANY, _("Leave these blank if not needed"));
     wxStaticBoxSizer* itemStaticBoxSizer37 = new wxStaticBoxSizer(itemStaticBoxSizer37Static, wxVERTICAL);
     itemStaticBoxSizer30->Add(itemStaticBoxSizer37, 0, wxGROW|wxALL, 5);
@@ -307,6 +318,14 @@ void CDlgOptions::CreateControls()
     m_SOCKSPortCtrl = new wxTextCtrl;
     m_SOCKSPortCtrl->Create( itemPanel43, ID_SOCKSPORTCTRL, _T(""), wxDefaultPosition, wxSize(50, -1), 0 );
     itemFlexGridSizer48->Add(m_SOCKSPortCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+	wxStaticText* itemStaticText63 = new wxStaticText;
+    itemStaticText63->Create( itemPanel43, wxID_STATIC, _("Don't use proxy for:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer48->Add(itemStaticText63, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+	m_SOCKSNoProxiesCtrl = new wxTextCtrl;
+	m_SOCKSNoProxiesCtrl->Create(itemPanel43,ID_SOCKSNOPROXYCTRL,_T(""),wxDefaultPosition,wxSize(150,-1),0);
+	itemFlexGridSizer48->Add(m_SOCKSNoProxiesCtrl,0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticBox* itemStaticBoxSizer53Static = new wxStaticBox(itemPanel43, wxID_ANY, _("Leave these blank if not needed"));
     wxStaticBoxSizer* itemStaticBoxSizer53 = new wxStaticBoxSizer(itemStaticBoxSizer53Static, wxVERTICAL);
@@ -400,11 +419,13 @@ void CDlgOptions::OnEnableHTTPProxyCtrlClick(wxCommandEvent& event) {
         m_HTTPPortCtrl->Enable(true);
         m_HTTPUsernameCtrl->Enable(true);
         m_HTTPPasswordCtrl->Enable(true);
+		m_HTTPNoProxiesCtrl->Enable(true);
     } else {
         m_HTTPAddressCtrl->Enable(false);
         m_HTTPPortCtrl->Enable(false);
         m_HTTPUsernameCtrl->Enable(false);
         m_HTTPPasswordCtrl->Enable(false);
+		m_HTTPNoProxiesCtrl->Enable(false);
     }
 
     event.Skip();
@@ -421,11 +442,13 @@ void CDlgOptions::OnEnableHTTPProxyCtrlUpdate(wxUpdateUIEvent& event) {
         m_HTTPPortCtrl->Enable(true);
         m_HTTPUsernameCtrl->Enable(true);
         m_HTTPPasswordCtrl->Enable(true);
+		m_HTTPNoProxiesCtrl->Enable(true);
     } else {
         m_HTTPAddressCtrl->Enable(false);
         m_HTTPPortCtrl->Enable(false);
         m_HTTPUsernameCtrl->Enable(false);
         m_HTTPPasswordCtrl->Enable(false);
+		m_HTTPNoProxiesCtrl->Enable(false);
     }
     event.Skip();
 }
@@ -441,11 +464,13 @@ void CDlgOptions::OnEnableSOCKSProxyCtrlClick(wxCommandEvent& event) {
         m_SOCKSPortCtrl->Enable(true);
         m_SOCKSUsernameCtrl->Enable(true);
         m_SOCKSPasswordCtrl->Enable(true);
+		m_SOCKSNoProxiesCtrl->Enable(true);
     } else {
         m_SOCKSAddressCtrl->Enable(false);
         m_SOCKSPortCtrl->Enable(false);
         m_SOCKSUsernameCtrl->Enable(false);
         m_SOCKSPasswordCtrl->Enable(false);
+		m_SOCKSNoProxiesCtrl->Enable(false);
     }
     event.Skip();
 }
@@ -461,11 +486,13 @@ void CDlgOptions::OnEnableSOCKSProxyCtrlUpdate(wxUpdateUIEvent& event) {
         m_SOCKSPortCtrl->Enable(true);
         m_SOCKSUsernameCtrl->Enable(true);
         m_SOCKSPasswordCtrl->Enable(true);
+		m_SOCKSNoProxiesCtrl->Enable(true);
     } else {
         m_SOCKSAddressCtrl->Enable(false);
         m_SOCKSPortCtrl->Enable(false);
         m_SOCKSUsernameCtrl->Enable(false);
         m_SOCKSPasswordCtrl->Enable(false);
+		m_SOCKSNoProxiesCtrl->Enable(false);
     }
     event.Skip();
 }

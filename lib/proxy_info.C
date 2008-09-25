@@ -50,6 +50,7 @@ int PROXY_INFO::parse(MIOFILE& in) {
         else if (parse_str(buf, "<socks5_user_passwd>", socks5_user_passwd,sizeof(socks5_user_passwd))) continue;
         else if (parse_str(buf, "<http_user_name>", http_user_name,sizeof(http_user_name))) continue;
         else if (parse_str(buf, "<http_user_passwd>", http_user_passwd,sizeof(http_user_passwd))) continue;
+		else if (parse_str(buf, "<no_proxy>", noproxy_hosts, sizeof(noproxy_hosts))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -74,7 +75,8 @@ int PROXY_INFO::write(MIOFILE& out) {
         "    <socks5_user_passwd>%s</socks5_user_passwd>\n"
         "    <http_user_name>%s</http_user_name>\n"
         "    <http_user_passwd>%s</http_user_passwd>\n"
-        "</proxy_info>\n",
+		"    <no_proxy>%s</no_proxy>\n"
+		"</proxy_info>\n",        
         use_http_proxy?"    <use_http_proxy/>\n":"",
         use_socks_proxy?"    <use_socks_proxy/>\n":"",
         use_http_auth?"    <use_http_auth/>\n":"",
@@ -86,7 +88,8 @@ int PROXY_INFO::write(MIOFILE& out) {
         s5un,
         s5up,
         hun,
-        hup
+        hup,
+		noproxy_hosts
     );
     return 0;
 }
@@ -104,6 +107,7 @@ void PROXY_INFO::clear() {
     strcpy(http_user_name, "");
     strcpy(http_user_passwd, "");
     socks_version = 0;
+	strcpy(noproxy_hosts, "");
 }
 
 const char *BOINC_RCSID_af13db88e5 = "$Id$";

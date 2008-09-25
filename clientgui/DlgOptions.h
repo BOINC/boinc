@@ -74,6 +74,8 @@
 #define ID_SOCKSPORTCTRL 10014
 #define ID_SOCKSUSERNAMECTRL 10015
 #define ID_SOCKSPASSWORDCTRL 10016
+#define ID_HTTPNOPROXYCTRL 10017
+#define ID_SOCKSNOPROXYCTRL 10018
 ////@end control identifiers
 
 /*!
@@ -169,6 +171,8 @@ public:
     wxTextCtrl* m_SOCKSPortCtrl;
     wxTextCtrl* m_SOCKSUsernameCtrl;
     wxTextCtrl* m_SOCKSPasswordCtrl;
+	wxTextCtrl* m_HTTPNoProxiesCtrl;
+	wxTextCtrl* m_SOCKSNoProxiesCtrl;
 ////@end CDlgOptions member variables
 };
 

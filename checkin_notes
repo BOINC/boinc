@@ -7737,3 +7737,19 @@ David  25 Sept 2008
         user/
             create_account_action.php
             mail_passwd.php
+
+David  25 Sept 2008
+	- Add the ability to exclude certain URLs from the use of proxies.
+		E.g. if you're running a project locally,
+		while attached to outside projects via a proxy.
+		Currently accessible only via the Manager's Options dialog.
+		From Frank Weiler.
+
+	client/
+		http_curl.C,h
+	clientgui/
+		AdvancedFrame.cpp
+		DlgOptions.cpp,h
+		gui_rpc_client.h
+		gui_rpc_client_ops.C
+		proxy_info.C,h

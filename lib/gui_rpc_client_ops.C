@@ -542,6 +542,7 @@ GR_PROXY_INFO::~GR_PROXY_INFO() {
 
 int GR_PROXY_INFO::parse(MIOFILE& in) {
     char buf[4096];
+	std::string noproxy;
     use_http_proxy = false;
     use_socks_proxy = false;
     use_http_authentication = false;
@@ -559,6 +560,7 @@ int GR_PROXY_INFO::parse(MIOFILE& in) {
         if (parse_bool(buf, "use_http_proxy", use_http_proxy)) continue;
         if (parse_bool(buf, "use_socks_proxy", use_socks_proxy)) continue;
         if (parse_bool(buf, "use_http_auth", use_http_authentication)) continue;
+		if (parse_str(buf, "<no_proxy>", noproxy_hosts)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -576,6 +578,7 @@ void GR_PROXY_INFO::clear() {
     http_user_passwd.clear();
     socks5_user_name.clear();
     socks5_user_passwd.clear();
+	noproxy_hosts.clear();
 }
 
 CC_STATE::CC_STATE() {
@@ -1712,7 +1715,8 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
         "        <socks_server_port>%d</socks_server_port>\n"
         "        <socks_version>%d</socks_version>\n"
         "        <socks5_user_name>%s</socks5_user_name>\n"
-        "        <socks5_user_passwd>%s</socks5_user_passwd>\n"
+        "        <socks5_user_passwd>%s</socks5_user_passwd>\n"		
+		"        <no_proxy>%s%</no_proxy\n"
         "    </proxy_info>\n"
         "</set_proxy_settings>\n",
         pi.use_http_proxy?"   <use_http_proxy/>\n":"",
@@ -1726,7 +1730,8 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
         pi.socks_server_port,
         pi.socks_version,
         pi.socks5_user_name.c_str(),
-        pi.socks5_user_passwd.c_str()
+        pi.socks5_user_passwd.c_str(),
+		pi.noproxy_hosts.c_str()
     );
     retval = rpc.do_rpc(buf);
     return retval;

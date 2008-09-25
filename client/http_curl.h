@@ -136,7 +136,8 @@ public:
     );
     bool http_op_done();
 	int set_proxy(PROXY_INFO *new_pi);
-	void setupProxyCurl();
+	void setupProxyCurl(bool no_proxy);
+	bool no_proxy_for_url(const char* url);
 	bool is_active() {
 		return curlEasy!=NULL;
 	}

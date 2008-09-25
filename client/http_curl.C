@@ -250,6 +250,42 @@ int HTTP_OP::init_post2(
     return HTTP_OP::libcurl_exec(url, in, NULL, offset, true);
 }
 
+// is URL in proxy exception list?
+//
+bool HTTP_OP::no_proxy_for_url(const char* url) {
+	if (log_flags.proxy_debug) {
+        msg_printf(0, MSG_INFO, "[proxy_debug] HTTP_OP::no_proxy_for_url(): %s", url);
+    }
+	char hosturl[256];
+	char hostnoproxy[256];	
+	char file[256];
+	char noproxy[256];
+	int port;
+
+	// extract the host from the url
+	parse_url(url,hosturl,port,file);
+
+	// tokenize the noproxy-entry and check for identical hosts
+    //
+	strcpy(noproxy,pi.noproxy_hosts);
+	char* token = strtok(noproxy,",");
+	while(token!= NULL) {
+		// extract the host from the no_proxy url
+		parse_url(token,hostnoproxy,port,file);
+		if (!strcmp(hostnoproxy,hosturl)) {
+			if (log_flags.proxy_debug) {
+				msg_printf(0, MSG_INFO, "[proxy_debug] disabling proxy for %s",url);
+			}
+			return true;
+		}
+		token = strtok(NULL,",");
+	}
+	if (log_flags.proxy_debug) {
+		msg_printf(0, MSG_INFO, "[proxy_debug] returning false");
+	}
+	return false;
+}
+
 // the following will do an HTTP GET or POST using libcurl
 //
 int HTTP_OP::libcurl_exec(
@@ -411,10 +447,11 @@ int HTTP_OP::libcurl_exec(
     if (!out || !ends_with(std::string(out), std::string(".gz"))) {
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "");
     }
-
-    // setup any proxy they may need
+	
+	// setup any proxy they may need
     //
-    setupProxyCurl();
+    setupProxyCurl(no_proxy_for_url(url));
+
 
     // set the content type in the header
     //
@@ -612,6 +649,7 @@ int HTTP_OP::set_proxy(PROXY_INFO *new_pi) {
     strcpy(pi.http_server_name, new_pi->http_server_name);
     pi.http_server_port = new_pi->http_server_port;
     pi.use_http_auth = new_pi->use_http_auth;
+	strcpy(pi.noproxy_hosts, new_pi->noproxy_hosts);
 
     pi.use_socks_proxy = new_pi->use_socks_proxy;
     strcpy(pi.socks5_user_name, new_pi->socks5_user_name);
@@ -761,7 +799,7 @@ int libcurl_debugfunction(
 }
 
 
-void HTTP_OP::setupProxyCurl() {
+void HTTP_OP::setupProxyCurl(bool no_proxy) {
 // PROXY_INFO pi useful members:
 //  pi.http_server_name
 //  pi.http_server_port
@@ -793,7 +831,15 @@ void HTTP_OP::setupProxyCurl() {
     // the proxy connection), so it has been placed as a member data for HTTP_OP
     memset(szCurlProxyUserPwd,0x00,128);
 
-    if (pi.use_http_proxy) {
+	if (no_proxy) {
+		curlErr = curl_easy_setopt(curlEasy,CURLOPT_PROXY,"");
+		return;
+	}
+
+	if (pi.use_http_proxy) {
+		if (log_flags.proxy_debug) {
+			msg_printf(0, MSG_INFO,"[proxy_debug]: setting up proxy %s:%d",pi.http_server_name,pi.http_server_port);
+	    }
         // setup a basic http proxy
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.http_server_port);
