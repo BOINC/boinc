@@ -564,7 +564,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\api\boinc_api.C"
+				RelativePath="..\api\boinc_api.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -684,7 +684,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\graphics2.C"
+				RelativePath="..\api\graphics2.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -720,7 +720,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\graphics2_util.C"
+				RelativePath="..\api\graphics2_util.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -756,7 +756,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\graphics2_win.C"
+				RelativePath="..\api\graphics2_win.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -792,7 +792,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\gutil.C"
+				RelativePath="..\api\gutil.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -828,7 +828,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\gutil_text.C"
+				RelativePath="..\api\gutil_text.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -864,7 +864,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\reduce_lib.C"
+				RelativePath="..\api\reduce_lib.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -900,7 +900,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\reduce_main.C"
+				RelativePath="..\api\reduce_main.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -972,7 +972,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\texture.C"
+				RelativePath="..\api\texture.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1008,7 +1008,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\tgalib.C"
+				RelativePath="..\api\tgalib.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1044,7 +1044,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\txf_util.C"
+				RelativePath="..\api\txf_util.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"

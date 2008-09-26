@@ -417,7 +417,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\samples\uppercase\uc_graphics.C"
+				RelativePath="..\samples\uppercase\uc_graphics.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -469,7 +469,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\samples\uppercase\upper_case.C"
+				RelativePath="..\samples\uppercase\upper_case.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"

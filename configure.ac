@@ -85,7 +85,7 @@ dnl generate .tar.gz, .tar.bz2, .zip
 dnl AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
 AM_INIT_AUTOMAKE(dist-zip)
 
-AC_CONFIG_SRCDIR(lib/shmem.C)
+AC_CONFIG_SRCDIR(lib/shmem.cpp)
 
 AC_COPYRIGHT([
 Berkeley Open Infrastructure for Network Computing

@@ -614,7 +614,7 @@
 			Name="libboinc"
 			Filter="">
 			<File
-				RelativePath="..\lib\app_ipc.C">
+				RelativePath="..\lib\app_ipc.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
@@ -632,7 +632,7 @@
 				RelativePath="..\lib\app_ipc.h">
 			</File>
 			<File
-				RelativePath="..\lib\diagnostics.C">
+				RelativePath="..\lib\diagnostics.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
@@ -650,7 +650,7 @@
 				RelativePath="..\lib\diagnostics.h">
 			</File>
 			<File
-				RelativePath="..\lib\diagnostics_win.C">
+				RelativePath="..\lib\diagnostics_win.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
@@ -668,7 +668,7 @@
 				RelativePath="..\lib\error_numbers.h">
 			</File>
 			<File
-				RelativePath="..\lib\filesys.C">
+				RelativePath="..\lib\filesys.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
@@ -686,7 +686,7 @@
 				RelativePath="..\lib\filesys.h">
 			</File>
 			<File
-				RelativePath="..\lib\hostinfo.C">
+				RelativePath="..\lib\hostinfo.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
@@ -722,7 +722,7 @@
 				RelativePath="..\lib\md5.h">
 			</File>
 			<File
-				RelativePath="..\lib\md5_file.C">
+				RelativePath="..\lib\md5_file.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
@@ -740,7 +740,7 @@
 				RelativePath="..\lib\md5_file.h">
 			</File>
 			<File
-				RelativePath="..\lib\mfile.C">
+				RelativePath="..\lib\mfile.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
@@ -758,7 +758,7 @@
 				RelativePath="..\lib\mfile.h">
 			</File>
 			<File
-				RelativePath="..\lib\miofile.C">
+				RelativePath="..\lib\miofile.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
@@ -776,7 +776,7 @@
 				RelativePath="..\lib\miofile.h">
 			</File>
 			<File
-				RelativePath="..\lib\network.C">
+				RelativePath="..\lib\network.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
@@ -794,7 +794,7 @@
 				RelativePath="..\lib\network.h">
 			</File>
 			<File
-				RelativePath="..\lib\parse.C">
+				RelativePath="..\lib\parse.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
@@ -812,7 +812,7 @@
 				RelativePath="..\lib\parse.h">
 			</File>
 			<File
-				RelativePath="..\lib\prefs.C">
+				RelativePath="..\lib\prefs.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
@@ -830,7 +830,7 @@
 				RelativePath="..\lib\prefs.h">
 			</File>
 			<File
-				RelativePath="..\lib\proxy_info.C">
+				RelativePath="..\lib\proxy_info.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
@@ -860,7 +860,7 @@
 				RelativePath="..\lib\std_fixes.h">
 			</File>
 			<File
-				RelativePath="..\lib\util.C">
+				RelativePath="..\lib\util.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
@@ -1262,7 +1262,7 @@
 				Name="Support"
 				Filter="">
 				<File
-					RelativePath="..\lib\gui_rpc_client.C">
+					RelativePath="..\lib\gui_rpc_client.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
@@ -1308,7 +1308,7 @@
 					RelativePath="..\lib\gui_rpc_client.h">
 				</File>
 				<File
-					RelativePath="..\lib\gui_rpc_client_ops.C">
+					RelativePath="..\lib\gui_rpc_client_ops.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool

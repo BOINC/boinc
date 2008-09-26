@@ -1120,7 +1120,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\client\app.C"
+				RelativePath="..\client\app.cpp"
 				>
 			</File>
 			<File
@@ -1208,63 +1208,63 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\client_msgs.C"
+				RelativePath="..\client\client_msgs.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\coproc.C"
+				RelativePath="..\lib\coproc.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cpu_sched.C"
+				RelativePath="..\client\cpu_sched.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_apps.C"
+				RelativePath="..\client\cs_apps.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\sched\edf_sim.C"
+				RelativePath="..\sched\edf_sim.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\log_flags.C"
+				RelativePath="..\client\log_flags.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\mfile.C"
+				RelativePath="..\lib\mfile.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\miofile.C"
+				RelativePath="..\lib\miofile.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\parse.C"
+				RelativePath="..\lib\parse.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\prefs.C"
+				RelativePath="..\lib\prefs.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\sim.C"
+				RelativePath="..\client\sim.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\sim_util.C"
+				RelativePath="..\client\sim_util.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\str_util.C"
+				RelativePath="..\lib\str_util.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\time_stats.C"
+				RelativePath="..\client\time_stats.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\work_fetch.C"
+				RelativePath="..\client\work_fetch.cpp"
 				>
 			</File>
 		</Filter>

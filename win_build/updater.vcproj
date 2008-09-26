@@ -1204,7 +1204,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\tools\updater.C"
+				RelativePath="..\tools\updater.cpp"
 				>
 			</File>
 		</Filter>

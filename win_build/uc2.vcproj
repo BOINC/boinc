@@ -813,11 +813,11 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\api\graphics2_util.C"
+				RelativePath="..\api\graphics2_util.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\samples\example_app\uc2.C"
+				RelativePath="..\samples\example_app\uc2.cpp"
 				>
 			</File>
 		</Filter>

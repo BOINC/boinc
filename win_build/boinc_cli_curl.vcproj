@@ -1123,31 +1123,31 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\client\acct_mgr.C"
+				RelativePath="..\client\acct_mgr.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\acct_setup.C"
+				RelativePath="..\client\acct_setup.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\app.C"
+				RelativePath="..\Client\app.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\app_control.C"
+				RelativePath="..\client\app_control.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\app_graphics.C"
+				RelativePath="..\client\app_graphics.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\app_start.C"
+				RelativePath="..\client\app_start.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\auto_update.C"
+				RelativePath="..\client\auto_update.cpp"
 				>
 			</File>
 			<File
@@ -1235,143 +1235,143 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\check_state.C"
+				RelativePath="..\client\check_state.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\client_msgs.C"
+				RelativePath="..\client\client_msgs.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\client_state.C"
+				RelativePath="..\Client\client_state.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\client_types.C"
+				RelativePath="..\Client\client_types.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cpu_sched.C"
+				RelativePath="..\client\cpu_sched.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_account.C"
+				RelativePath="..\client\cs_account.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\cs_apps.C"
+				RelativePath="..\Client\cs_apps.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_benchmark.C"
+				RelativePath="..\client\cs_benchmark.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_cmdline.C"
+				RelativePath="..\client\cs_cmdline.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\cs_files.C"
+				RelativePath="..\Client\cs_files.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_platforms.C"
+				RelativePath="..\client\cs_platforms.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_prefs.C"
+				RelativePath="..\client\cs_prefs.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\cs_scheduler.C"
+				RelativePath="..\Client\cs_scheduler.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_statefile.C"
+				RelativePath="..\client\cs_statefile.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\cs_trickle.C"
+				RelativePath="..\client\cs_trickle.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\dhrystone.C"
+				RelativePath="..\client\dhrystone.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\dhrystone2.C"
+				RelativePath="..\client\dhrystone2.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\file_names.C"
+				RelativePath="..\Client\file_names.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\file_xfer.C"
+				RelativePath="..\Client\file_xfer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\gui_http.C"
+				RelativePath="..\client\gui_http.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\gui_rpc_server.C"
+				RelativePath="..\client\gui_rpc_server.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\gui_rpc_server_ops.C"
+				RelativePath="..\client\gui_rpc_server_ops.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\hostinfo_network.C"
+				RelativePath="..\client\hostinfo_network.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\hostinfo_win.C"
+				RelativePath="..\client\hostinfo_win.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\http_curl.C"
+				RelativePath="..\client\http_curl.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\log_flags.C"
+				RelativePath="..\Client\log_flags.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\main.C"
+				RelativePath="..\client\main.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\msg_log.C"
+				RelativePath="..\lib\msg_log.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\net_stats.C"
+				RelativePath="..\Client\net_stats.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\pers_file_xfer.C"
+				RelativePath="..\Client\pers_file_xfer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\procinfo_win.C"
+				RelativePath="..\lib\procinfo_win.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\sandbox.C"
+				RelativePath="..\client\sandbox.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\scheduler_op.C"
+				RelativePath="..\Client\scheduler_op.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Client\time_stats.C"
+				RelativePath="..\Client\time_stats.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\client\whetstone.C"
+				RelativePath="..\client\whetstone.cpp"
 				>
 			</File>
 			<File
@@ -1379,7 +1379,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\client\work_fetch.C"
+				RelativePath="..\client\work_fetch.cpp"
 				>
 			</File>
 		</Filter>

@@ -1445,7 +1445,7 @@
 			Name="libboinc"
 			>
 			<File
-				RelativePath="..\lib\app_ipc.C"
+				RelativePath="..\lib\app_ipc.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1533,7 +1533,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\base64.C"
+				RelativePath="..\lib\base64.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1625,7 +1625,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\diagnostics.C"
+				RelativePath="..\lib\diagnostics.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1713,7 +1713,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\diagnostics_win.C"
+				RelativePath="..\lib\diagnostics_win.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1801,7 +1801,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\filesys.C"
+				RelativePath="..\lib\filesys.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1889,7 +1889,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\hostinfo.C"
+				RelativePath="..\lib\hostinfo.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2065,7 +2065,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\md5_file.C"
+				RelativePath="..\lib\md5_file.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2153,7 +2153,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\mfile.C"
+				RelativePath="..\lib\mfile.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2241,7 +2241,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\miofile.C"
+				RelativePath="..\lib\miofile.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2329,7 +2329,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\network.C"
+				RelativePath="..\lib\network.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2417,7 +2417,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\parse.C"
+				RelativePath="..\lib\parse.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2505,7 +2505,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\prefs.C"
+				RelativePath="..\lib\prefs.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2593,7 +2593,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\proc_control.C"
+				RelativePath="..\lib\proc_control.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2681,7 +2681,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\proxy_info.C"
+				RelativePath="..\lib\proxy_info.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2785,7 +2785,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\str_util.C"
+				RelativePath="..\lib\str_util.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2873,7 +2873,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\util.C"
+				RelativePath="..\lib\util.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2961,7 +2961,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\win_util.C"
+				RelativePath="..\lib\win_util.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -3285,7 +3285,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\clientgui\browser.C"
+				RelativePath="..\clientgui\browser.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -3656,7 +3656,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\lib\gui_rpc_client.C"
+					RelativePath="..\lib\gui_rpc_client.cpp"
 					>
 					<FileConfiguration
 						Name="Release|Win32"
@@ -3744,7 +3744,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\lib\gui_rpc_client_ops.C"
+					RelativePath="..\lib\gui_rpc_client_ops.cpp"
 					>
 					<FileConfiguration
 						Name="Release|Win32"

@@ -571,7 +571,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\api\boinc_api.C"
+				RelativePath="..\api\boinc_api.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"

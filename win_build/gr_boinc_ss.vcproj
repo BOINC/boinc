@@ -172,49 +172,49 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath="..\lib\diagnostics.C">
+				RelativePath="..\lib\diagnostics.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\exception.C">
+				RelativePath="..\lib\exception.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\filesys.C">
+				RelativePath="..\lib\filesys.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\gui_rpc_client.C">
+				RelativePath="..\lib\gui_rpc_client.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\gui_rpc_client_ops.C">
+				RelativePath="..\lib\gui_rpc_client_ops.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\hostinfo.C">
+				RelativePath="..\lib\hostinfo.cpp">
 			</File>
 			<File
 				RelativePath="..\lib\md5.c">
 			</File>
 			<File
-				RelativePath="..\lib\md5_file.C">
+				RelativePath="..\lib\md5_file.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\mfile.C">
+				RelativePath="..\lib\mfile.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\miofile.C">
+				RelativePath="..\lib\miofile.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\network.C">
+				RelativePath="..\lib\network.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\parse.C">
+				RelativePath="..\lib\parse.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\prefs.C">
+				RelativePath="..\lib\prefs.cpp">
 			</File>
 			<File
 				RelativePath="..\lib\stackwalker_win.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\util.C">
+				RelativePath="..\lib\util.cpp">
 			</File>
 			<File
 				RelativePath="..\client\win\win_screensaver.cpp">

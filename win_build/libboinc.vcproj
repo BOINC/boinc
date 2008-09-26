@@ -748,7 +748,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\lib\app_ipc.C"
+				RelativePath="..\lib\app_ipc.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -784,7 +784,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\base64.C"
+				RelativePath="..\lib\base64.cpp"
 				>
 			</File>
 			<File
@@ -872,59 +872,19 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\cert_sig.C"
+				RelativePath="..\lib\cert_sig.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\coproc.C"
+				RelativePath="..\lib\coproc.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\crypt.C"
+				RelativePath="..\lib\crypt.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\diagnostics.C"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Samples - Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Samples - Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\lib\diagnostics_win.C"
-				>
-			</File>
-			<File
-				RelativePath="..\lib\filesys.C"
+				RelativePath="..\lib\diagnostics.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -960,7 +920,47 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\hostinfo.C"
+				RelativePath="..\lib\diagnostics_win.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\filesys.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Samples - Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Samples - Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\lib\hostinfo.cpp"
 				>
 			</File>
 			<File
@@ -968,51 +968,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\md5_file.C"
+				RelativePath="..\lib\md5_file.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\mem_usage.C"
+				RelativePath="..\lib\mem_usage.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\mfile.C"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Samples - Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Samples - Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\lib\miofile.C"
+				RelativePath="..\lib\mfile.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1048,11 +1012,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\network.C"
-				>
-			</File>
-			<File
-				RelativePath="..\lib\parse.C"
+				RelativePath="..\lib\miofile.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1088,7 +1048,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\prefs.C"
+				RelativePath="..\lib\network.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\parse.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1124,15 +1088,51 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\proc_control.C"
+				RelativePath="..\lib\prefs.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Samples - Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Samples - Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\lib\proc_control.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\proxy_info.C"
+				RelativePath="..\lib\proxy_info.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\shmem.C"
+				RelativePath="..\lib\shmem.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1204,11 +1204,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\str_util.C"
+				RelativePath="..\lib\str_util.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\util.C"
+				RelativePath="..\lib\util.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1244,7 +1244,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\win_util.C"
+				RelativePath="..\lib\win_util.cpp"
 				>
 			</File>
 		</Filter>

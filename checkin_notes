@@ -7780,3 +7780,6 @@ David  25 Sept 2008
 
 David  25 Sept 2008
     - rename .C files to .cpp so that Doxygen will work
+
+David  25 Sept 2008
+    - update .vcproj files accordingly

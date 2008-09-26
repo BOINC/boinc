@@ -209,7 +209,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath="..\lib\app_ipc.C">
+				RelativePath="..\lib\app_ipc.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -224,13 +224,13 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\base64.C">
+				RelativePath="..\lib\base64.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\crypt.C">
+				RelativePath="..\lib\crypt.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\diagnostics.C">
+				RelativePath="..\lib\diagnostics.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -245,10 +245,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\diagnostics_win.C">
+				RelativePath="..\lib\diagnostics_win.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\filesys.C">
+				RelativePath="..\lib\filesys.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -263,19 +263,19 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\hostinfo.C">
+				RelativePath="..\lib\hostinfo.cpp">
 			</File>
 			<File
 				RelativePath="..\lib\md5.c">
 			</File>
 			<File
-				RelativePath="..\lib\md5_file.C">
+				RelativePath="..\lib\md5_file.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\mem_usage.C">
+				RelativePath="..\lib\mem_usage.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\mfile.C">
+				RelativePath="..\lib\mfile.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -290,7 +290,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\miofile.C">
+				RelativePath="..\lib\miofile.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -305,10 +305,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\network.C">
+				RelativePath="..\lib\network.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\parse.C">
+				RelativePath="..\lib\parse.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -323,7 +323,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\prefs.C">
+				RelativePath="..\lib\prefs.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -338,13 +338,13 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\procinfo_win.C">
+				RelativePath="..\lib\procinfo_win.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\proxy_info.C">
+				RelativePath="..\lib\proxy_info.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\shmem.C">
+				RelativePath="..\lib\shmem.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -374,7 +374,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\util.C">
+				RelativePath="..\lib\util.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool

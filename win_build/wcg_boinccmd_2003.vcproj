@@ -326,16 +326,16 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath="..\lib\boinc_cmd.C">
+				RelativePath="..\lib\boinc_cmd.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\gui_rpc_client.C">
+				RelativePath="..\lib\gui_rpc_client.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\gui_rpc_client_ops.C">
+				RelativePath="..\lib\gui_rpc_client_ops.cpp">
 			</File>
 			<File
-				RelativePath="..\lib\gui_rpc_client_print.C">
+				RelativePath="..\lib\gui_rpc_client_print.cpp">
 			</File>
 		</Filter>
 		<Filter

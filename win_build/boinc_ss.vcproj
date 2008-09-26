@@ -1108,7 +1108,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\lib\base64.C"
+				RelativePath="..\lib\base64.cpp"
 				>
 			</File>
 			<File
@@ -1196,27 +1196,27 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\lib\diagnostics.C"
+				RelativePath="..\lib\diagnostics.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\diagnostics_win.C"
+				RelativePath="..\lib\diagnostics_win.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\filesys.C"
+				RelativePath="..\lib\filesys.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\gui_rpc_client.C"
+				RelativePath="..\lib\gui_rpc_client.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\gui_rpc_client_ops.C"
+				RelativePath="..\lib\gui_rpc_client_ops.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\hostinfo.C"
+				RelativePath="..\lib\hostinfo.cpp"
 				>
 			</File>
 			<File
@@ -1224,27 +1224,27 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\md5_file.C"
+				RelativePath="..\lib\md5_file.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\mfile.C"
+				RelativePath="..\lib\mfile.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\miofile.C"
+				RelativePath="..\lib\miofile.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\network.C"
+				RelativePath="..\lib\network.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\parse.C"
+				RelativePath="..\lib\parse.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\prefs.C"
+				RelativePath="..\lib\prefs.cpp"
 				>
 			</File>
 			<File
@@ -1260,15 +1260,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\str_util.C"
+				RelativePath="..\lib\str_util.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\util.C"
+				RelativePath="..\lib\util.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\lib\win_util.C"
+				RelativePath="..\lib\win_util.cpp"
 				>
 			</File>
 		</Filter>

@@ -813,7 +813,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\samples\multi_thread\multi_thread.C"
+				RelativePath="..\samples\multi_thread\multi_thread.cpp"
 				>
 			</File>
 		</Filter>

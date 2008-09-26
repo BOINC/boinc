@@ -813,7 +813,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\samples\sleeper\sleeper.C"
+				RelativePath="..\samples\sleeper\sleeper.cpp"
 				>
 			</File>
 		</Filter>
