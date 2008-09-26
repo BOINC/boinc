@@ -936,7 +936,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\texfont.c"
+				RelativePath="..\api\texfont.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
