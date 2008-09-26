@@ -365,6 +365,9 @@ int main(int argc, char** argv) {
         pi.socks_version = atoi(next_arg(argc, argv, i));
         pi.socks5_user_name = next_arg(argc, argv, i);
         pi.socks5_user_passwd = next_arg(argc, argv, i);
+		//FW
+		pi.noproxy_hosts = next_arg(argc,argv,i);
+		//FW
         retval = rpc.set_proxy_settings(pi);
     } else if (!strcmp(cmd, "--get_messages")) {
         int seqno = atoi(next_arg(argc, argv, i));
