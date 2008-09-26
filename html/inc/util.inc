@@ -71,13 +71,6 @@ function get_logged_in_user($must_be_logged_in=true) {
 
 	check_web_stopped();
 
-    $x = ereg(
-        "curl|wget|libww|lwp::simple|lwp-trivial|fetch|rufusbot|java/|microsoft url control|webreaper",
-        strtolower($_SERVER["HTTP_USER_AGENT"])
-    );
-    if ($x > 0) {
-        error_page("bad user agent");
-    }
     $authenticator = null;
     if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
 

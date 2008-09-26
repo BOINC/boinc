@@ -7791,3 +7791,9 @@ David  25 Sept 2008
     client/
         app_start.C
         client_state.C
+
+David  25 Sept 2008
+    - web: remove check on user agent
+
+    html/inc/
+        util.inc
