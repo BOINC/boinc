@@ -7753,3 +7753,20 @@ David  25 Sept 2008
 		gui_rpc_client.h
 		gui_rpc_client_ops.C
 		proxy_info.C,h
+
+Janus  25 Sept 2008
+    - web: Changed javascript generated input buttons into normal links with
+        css that makes them look like buttons
+    - css: Fixed some (of many) incompatibility issue with IE series of browsers
+    - css: Added forum_toplinks class. Describes links at the top of forum pages
+    - forum: You can now either reply to a post or quote a post
+
+    html/
+        inc/
+	    forum.inc
+	    util.inc
+	user/
+	    white.css
+	    forum_thread.php
+	    forum_reply.php
+
