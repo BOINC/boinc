@@ -56,23 +56,23 @@ all: $(PROGS)
 clean:
 	/bin/rm -f $(PROGS) $(OBJ)
 
-uc2_ppc.o: uc2.C
-	$(CXX_PPC) -c $(CXXFLAGS_PPC) uc2.C -o uc2_ppc.o
+uc2_ppc.o: uc2.cpp
+	$(CXX_PPC) -c $(CXXFLAGS_PPC) uc2.cpp -o uc2_ppc.o
 
-uc2_graphics_ppc.o: uc2_graphics.C
-	$(CXX_PPC) -c $(CXXFLAGS_PPC) uc2_graphics.C -o uc2_graphics_ppc.o
+uc2_graphics_ppc.o: uc2_graphics.cpp
+	$(CXX_PPC) -c $(CXXFLAGS_PPC) uc2_graphics.cpp -o uc2_graphics_ppc.o
 
-uc2_i386.o: uc2.C
-	$(CXX_i386) -c $(CXXFLAGS_i386) uc2.C -o uc2_i386.o
+uc2_i386.o: uc2.cpp
+	$(CXX_i386) -c $(CXXFLAGS_i386) uc2.cpp -o uc2_i386.o
 
-uc2_graphics_i386.o: uc2_graphics.C
-	$(CXX_i386) -c $(CXXFLAGS_i386) uc2_graphics.C -o uc2_graphics_i386.o
+uc2_graphics_i386.o: uc2_graphics.cpp
+	$(CXX_i386) -c $(CXXFLAGS_i386) uc2_graphics.cpp -o uc2_graphics_i386.o
 
-uc2_x86_64.o: uc2.C
-	$(CXX_x86_64) -c $(CXXFLAGS_x86_64) uc2.C -o uc2_x86_64.o
+uc2_x86_64.o: uc2.cpp
+	$(CXX_x86_64) -c $(CXXFLAGS_x86_64) uc2.cpp -o uc2_x86_64.o
 
-uc2_graphics_x86_64.o: uc2_graphics.C
-	$(CXX_x86_64) -c $(CXXFLAGS_x86_64) uc2_graphics.C -o uc2_graphics_x86_64.o
+uc2_graphics_x86_64.o: uc2_graphics.cpp
+	$(CXX_x86_64) -c $(CXXFLAGS_x86_64) uc2_graphics.cpp -o uc2_graphics_x86_64.o
 
 
 uc2_ppc: uc2_ppc.o $(BOINC_LIB_LINK_DIR)/libboinc_api.a $(BOINC_LIB_LINK_DIR)/libboinc.a
