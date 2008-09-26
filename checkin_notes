@@ -7777,3 +7777,6 @@ David  25 Sept 2008
     lib/
         gui_rpc_client_print.C
         boinc_cmd.C
+
+David  25 Sept 2008
+    - rename .C files to .cpp so that Doxygen will work

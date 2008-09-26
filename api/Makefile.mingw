@@ -23,10 +23,10 @@ $(BIN): $(LINKOBJ)
 	$(AR) rc $@ $(LINKOBJ)
 	ranlib $@
 
-%.o: $(BOINCDIR)/api/%.C
+%.o: $(BOINCDIR)/api/%.cpp
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
-%.o: $(BOINCDIR)/lib/%.C
+%.o: $(BOINCDIR)/lib/%.cpp
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
 md5.o: $(BOINCDIR)/lib/md5.c

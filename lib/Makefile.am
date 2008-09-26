@@ -16,7 +16,7 @@ all-local: client-bin
 client-bin: @CLIENT_CMD_BIN_FILENAME@
 
 boinc_cmd_SOURCES = \
-    boinc_cmd.C \
+    boinc_cmd.cpp \
     gui_rpc_client.h
 
 boinc_cmd_LDADD = $(lib_LIBRARIES) $(PTHREAD_LIBS)
@@ -30,12 +30,12 @@ boinc_cmd_LDADD = $(lib_LIBRARIES) $(PTHREAD_LIBS)
 	@STRIP@ $@
 
 lib_LIBRARIES = libboinc.a 
-EXTRA_DIST = *.h *.C
+EXTRA_DIST = *.h *.cpp
 
 if OS_DARWIN
 mac_sources = \
 	mac/dyld_gdb.h \
-	mac/mac_backtrace.C \
+	mac/mac_backtrace.cpp \
 	mac/mac_backtrace.h \
 	mac/QBacktrace.c \
 	mac/QBacktrace.h \
@@ -54,32 +54,32 @@ mac_sources =
 endif
 
 libboinc_a_SOURCES = \
-    app_ipc.C \
-    base64.C \
-	cert_sig.C \
-    coproc.C \
-    crypt.C \
-    diagnostics.C \
-    filesys.C \
-    gui_rpc_client.C \
-    gui_rpc_client_ops.C \
-    gui_rpc_client_print.C \
-    hostinfo.C \
+    app_ipc.cpp \
+    base64.cpp \
+	cert_sig.cpp \
+    coproc.cpp \
+    crypt.cpp \
+    diagnostics.cpp \
+    filesys.cpp \
+    gui_rpc_client.cpp \
+    gui_rpc_client_ops.cpp \
+    gui_rpc_client_print.cpp \
+    hostinfo.cpp \
     md5.c \
-    md5_file.C \
-    mem_usage.C \
-    mfile.C \
-    miofile.C \
-    msg_log.C \
-    network.C \
-    parse.C \
-    prefs.C \
-    procinfo_unix.C \
-    proxy_info.C \
-    shmem.C \
-    str_util.C \
-    util.C	\
-    unix_util.C \
+    md5_file.cpp \
+    mem_usage.cpp \
+    mfile.cpp \
+    miofile.cpp \
+    msg_log.cpp \
+    network.cpp \
+    parse.cpp \
+    prefs.cpp \
+    procinfo_unix.cpp \
+    proxy_info.cpp \
+    shmem.cpp \
+    str_util.cpp \
+    util.cpp	\
+    unix_util.cpp \
 	$(mac_sources)
 
 pkginclude_HEADERS = \
@@ -104,10 +104,10 @@ pkginclude_HEADERS = \
     str_util.h \
     util.h
 
-md5_test_SOURCES = md5_test.C md5.c md5_file.C
-shmem_test_SOURCES = shmem_test.C shmem.C
-msg_test_SOURCES = msg_test.C msg_queue.C
-crypt_prog_SOURCES = crypt_prog.C crypt.C md5.c md5_file.C filesys.C
+md5_test_SOURCES = md5_test.cpp md5.c md5_file.cpp
+shmem_test_SOURCES = shmem_test.cpp shmem.cpp
+msg_test_SOURCES = msg_test.cpp msg_queue.cpp
+crypt_prog_SOURCES = crypt_prog.cpp crypt.cpp md5.c md5_file.cpp filesys.cpp
 crypt_prog_DEPENDENCIES =
 crypt_prog_LDADD = $(lib_LIBRARIES) $(RSA_LIBS) $(PTHREAD_LIBS)
 

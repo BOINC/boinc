@@ -8,23 +8,23 @@ AM_LDFLAGS = @GLUT_LIBS@
 
 # stuff linked into both main app and graphics app
 api_files= \
-	boinc_api.C \
-	reduce_main.C \
-    graphics2_util.C
+	boinc_api.cpp \
+	reduce_main.cpp \
+    graphics2_util.cpp
 
 # stuff linked into graphics app
 graphics2_files = \
-	gutil.C	            \
-	gutil_text.C	    \
-	reduce_lib.C		\
-    texfont.C           \
-    texture.C           \
-    txf_util.C          \
-    graphics2.C \
-    graphics2_unix.C
+	gutil.cpp	            \
+	gutil_text.cpp	    \
+	reduce_lib.cpp		\
+    texfont.cpp           \
+    texture.cpp           \
+    txf_util.cpp          \
+    graphics2.cpp \
+    graphics2_unix.cpp
 
 if OS_DARWIN
-    graphics2_files += mac_icon.C
+    graphics2_files += mac_icon.cpp
     graphics2_files += macglutfix.m
 endif
 
@@ -55,6 +55,6 @@ pkginclude_HEADERS = 	\
 
 EXTRA_PROGRAMS = api_app api_test
 
-api_app_SOURCES = api_app.C boinc_api.C ../lib/parse.C
-api_test_SOURCES = boinc_api.C api_test.C ../lib/parse.C
+api_app_SOURCES = api_app.cpp boinc_api.cpp ../lib/parse.cpp
+api_test_SOURCES = boinc_api.cpp api_test.cpp ../lib/parse.cpp
 

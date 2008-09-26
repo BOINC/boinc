@@ -53,13 +53,13 @@ LIBS = -L ../lib \
     -lssl \
     -L /usr/local/lib/ -lcurl
 
-.C.o:
+.cpp.o:
 	$(CC) -c -o $*.o $<
 
 boinc_client: $(OBJ)
 	$(CC) $(OBJ) $(LIBS) -o boinc_client
 
-dependencies: *.C
-	$(CC) -M *.C > dependencies
+dependencies: *.cpp
+	$(CC) -M *.cpp > dependencies
 
 include dependencies

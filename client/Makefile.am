@@ -18,47 +18,47 @@ endif
 bin_PROGRAMS = boinc_client switcher
 
 boinc_client_SOURCES = \
-    acct_mgr.C \
-    acct_setup.C \
-    app.C \
-    app_control.C \
-    app_graphics.C \
-    app_start.C \
-    auto_update.C \
-    check_state.C \
-    client_msgs.C \
-    client_state.C \
-    client_types.C \
-    cpu_sched.C \
-    cs_account.C \
-    cs_apps.C \
-    cs_benchmark.C \
-    cs_cmdline.C \
-    cs_files.C \
-    cs_platforms.C \
-    cs_prefs.C \
-    cs_scheduler.C \
-    cs_statefile.C \
-    cs_trickle.C \
-    dhrystone.C \
-    dhrystone2.C \
-    file_names.C \
-    file_xfer.C \
-    gui_http.C \
-    gui_rpc_server.C \
-    gui_rpc_server_ops.C \
-    hostinfo_network.C \
-    hostinfo_unix.C \
-    http_curl.C \
-    log_flags.C \
-    main.C \
-    net_stats.C \
-    pers_file_xfer.C \
-    sandbox.C \
-    scheduler_op.C \
-    time_stats.C \
-    whetstone.C \
-    work_fetch.C
+    acct_mgr.cpp \
+    acct_setup.cpp \
+    app.cpp \
+    app_control.cpp \
+    app_graphics.cpp \
+    app_start.cpp \
+    auto_update.cpp \
+    check_state.cpp \
+    client_msgs.cpp \
+    client_state.cpp \
+    client_types.cpp \
+    cpu_sched.cpp \
+    cs_account.cpp \
+    cs_apps.cpp \
+    cs_benchmark.cpp \
+    cs_cmdline.cpp \
+    cs_files.cpp \
+    cs_platforms.cpp \
+    cs_prefs.cpp \
+    cs_scheduler.cpp \
+    cs_statefile.cpp \
+    cs_trickle.cpp \
+    dhrystone.cpp \
+    dhrystone2.cpp \
+    file_names.cpp \
+    file_xfer.cpp \
+    gui_http.cpp \
+    gui_rpc_server.cpp \
+    gui_rpc_server_ops.cpp \
+    hostinfo_network.cpp \
+    hostinfo_unix.cpp \
+    http_curl.cpp \
+    log_flags.cpp \
+    main.cpp \
+    net_stats.cpp \
+    pers_file_xfer.cpp \
+    sandbox.cpp \
+    scheduler_op.cpp \
+    time_stats.cpp \
+    whetstone.cpp \
+    work_fetch.cpp
 
 boinc_client_DEPENDENCIES =
 boinc_client_CPPFLAGS = -O3 -fomit-frame-pointer -fforce-addr -ffast-math $(AM_CPPFLAGS)
@@ -68,7 +68,7 @@ boinc_client_LDADD = $(LIBBOINC) $(PTHREAD_LIBS)
 boinc_clientdir = $(bindir)
 boinc_client_DATA = ../curl/ca-bundle.crt
 
-switcher_SOURCES = switcher.C
+switcher_SOURCES = switcher.cpp
 
 all-local: client-bin
 
