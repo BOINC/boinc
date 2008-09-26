@@ -7783,3 +7783,11 @@ David  25 Sept 2008
 
 David  25 Sept 2008
     - update .vcproj files accordingly
+
+David  25 Sept 2008
+    - client: don't lower priority of apps that use >0 coprocessors and <1 CPU.
+        Otherwise they don't run efficiently.
+
+    client/
+        app_start.C
+        client_state.C

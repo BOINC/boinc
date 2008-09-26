@@ -364,6 +364,10 @@ int ACTIVE_TASK::start(bool first_time) {
     int retval;
     bool coprocs_reserved = false;
 
+    // if this job uses a GPU and not much CPU, run it at normal priority
+    //
+    bool high_priority = result->uses_coprocs() & app_version->avg_ncpus < 1;
+
     if (first_time && log_flags.task) {
         msg_printf(result->project, MSG_INFO,
             "Starting %s", result->name
@@ -536,6 +540,8 @@ int ACTIVE_TASK::start(bool first_time) {
             tDEB    pDEB = NULL;
             HMODULE hUserEnvLib = NULL;
 
+            int prio_mask = high_priority?0:IDLE_PRIORITY_CLASS;
+
             hUserEnvLib = LoadLibrary("userenv.dll");
             if (hUserEnvLib) {
                 pCEB = (tCEB) GetProcAddress(hUserEnvLib, "CreateEnvironmentBlock");
@@ -558,7 +564,7 @@ int ACTIVE_TASK::start(bool first_time) {
                 NULL,
                 NULL,
                 FALSE,
-                CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS|CREATE_UNICODE_ENVIRONMENT,
+                CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|prio_mask|CREATE_UNICODE_ENVIRONMENT,
                 environment_block,
                 slotdirpath,
                 &startup_info,
@@ -596,7 +602,7 @@ int ACTIVE_TASK::start(bool first_time) {
                 NULL,
                 NULL,
                 FALSE,
-                CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+                CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|prio_mask,
                 NULL,
                 slotdirpath,
                 &startup_info,
@@ -682,9 +688,10 @@ int ACTIVE_TASK::start(bool first_time) {
         );
     }
 
-    // set idle process priority
-    if (setpriority(PRIO_PROCESS, pid, PROCESS_IDLE_PRIORITY)) {
-        perror("setpriority");
+    if (!high_priority) {
+        if (setpriority(PRIO_PROCESS, pid, PROCESS_IDLE_PRIORITY)) {
+            perror("setpriority");
+        }
     }
 
 #else
@@ -806,10 +813,11 @@ int ACTIVE_TASK::start(bool first_time) {
         //
         freopen(STDERR_FILE, "a", stderr);
 
-        // set idle process priority
 #ifdef HAVE_SETPRIORITY
-        if (setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY)) {
-            perror("setpriority");
+        if (!high_priority) {
+            if (setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY)) {
+                perror("setpriority");
+            }
         }
 #endif
         sprintf(cmdline, "%s %s", wup->command_line.c_str(), app_version->cmdline);

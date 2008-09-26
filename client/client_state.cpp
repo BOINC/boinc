@@ -38,7 +38,9 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "filesys.h"
+#ifdef _WIN32
 #include "proc_control.h"
+#endif
 
 #include "file_names.h"
 #include "hostinfo.h"
