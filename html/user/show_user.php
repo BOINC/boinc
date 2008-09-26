@@ -41,7 +41,6 @@ $format = get_str("format", true);
 
 if ($format=="xml"){
     // XML doesn't need translating, so use the full-file cache for this
-    //
     $cache_args="userid=".$id."&auth=".$auth;
     start_cache(USER_PAGE_TTL, $cache_args);
     xml_header();
@@ -52,9 +51,6 @@ if ($format=="xml"){
         $show_hosts = true;
     } else {
         $user = lookup_user_id($id);
-        if ($user) {
-            $user = get_other_projects($user);
-        }
         $show_hosts = false;
     }
     if (!$user) xml_error(-136);
@@ -77,7 +73,7 @@ if ($format=="xml"){
         // No data was found, generate new data for the cache and store it
         $user = lookup_user_id($id);
         BoincForumPrefs::lookup($user);
-        $user = get_other_projects($user);
+        $user = @get_other_projects($user);
         set_cache_data(serialize($user), $cache_args);
     }
     if (!$user->id) {
