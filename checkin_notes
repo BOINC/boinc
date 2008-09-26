@@ -7770,3 +7770,10 @@ Janus  25 Sept 2008
 	    forum_thread.php
 	    forum_reply.php
 
+David  25 Sept 2008
+    - boinc_cmd: add no_proxy item to --set_proxy_settings args
+        (from Frank Weiler)
+
+    lib/
+        gui_rpc_client_print.C
+        boinc_cmd.C

@@ -1,6 +1,15 @@
 <?
 
 $project_news = array(
+array("September 25, 2008",
+    "Read <a href=http://www.economist.com/science/displaystory.cfm?story_id=12295198>an article about Quake Catcher Network</a> in Economist.com."
+),
+array("September 25, 2008",
+    "<a href=http://registro.ibercivis.es/>Ibercivis</a>,
+    a joint project of several Spanish universities and research institutes,
+    is now open to the public.
+    Sign up and support Spanish research."
+),
 array("September 20, 2008",
     "Welcome back to <a href=http://docking.cis.udel.edu/>Docking@Home</a>,
     a project at the University of Delaware that studies
