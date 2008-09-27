@@ -158,7 +158,7 @@ function bb2html($text) {
         "<pre>\\1</pre>",
         "<img src=\"http://\\2\">",
         "<font color=\"\\1\">\\2</font>",
-        "\\1<li>\\2</li>\n\\3",
+        "\\1<li>\\2\n</li>\\3",
         "<span style=\"font-size: \\1px;\">\\2</span>",
         "<div class=\"code\">\\1</div>",
         "<a href=\"mailto:\\1\">\\1</a>",
