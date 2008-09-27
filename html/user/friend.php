@@ -136,13 +136,10 @@ function handle_query($user) {
         echo "<p>$srcuser->name says: $friend->message<p>";
     }
     echo "
-        <p>
-        <a href=friend.php?action=accept&userid=$srcid>Accept</a>
-        (click if $srcuser->name is in fact a friend)
-        <p>
-        <a href=friend.php?action=ignore&userid=$srcid>Decline</a>
-        (click if $srcuser->name is not a friend)
-        <p>
+        <p><ul class=\"actionlist\">";
+    show_actionlist_button("friend.php?action=accept&userid=".$srcid, tra("Accept friendship"), tra("Click accept if %1 is in fact a friend", $srcuser->name));
+    show_actionlist_button("friend.php?action=ignore&userid=".$srcid, tra("Decline"), tra("Click decline if %1 is not a friend", $srcuser->name));
+    echo "    <p>
     ";
     page_tail();
 }
@@ -236,10 +233,10 @@ function handle_cancel_confirm($user) {
     echo "
         Are you sure you want to cancel your friendship with $destuser->name?
         <p>
-    ";
-    show_button("friend.php?action=cancel&userid=$destid", "Yes", "Cancel friendship");
-    echo "<p>";
-    show_button("home.php", "No", "Don't cancel friendship");
+    <ul class=\"actionlist\">";
+    show_actionlist_button("friend.php?action=cancel&userid=$destid", tra("Yes"), "Cancel friendship");
+    show_actionlist_button("home.php", tra("No"), "Stay friends");
+    echo "</ul>";
     page_tail();
 }
 

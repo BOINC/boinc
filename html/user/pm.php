@@ -100,9 +100,10 @@ function do_inbox($logged_in_user) {
             echo "<br>".time_str($msg->date)."</td>\n";
             echo "<td valign=top>".output_transform($msg->content, $options)."<p>";
             $tokens = url_tokens($logged_in_user->authenticator);
-            show_button("pm.php?action=delete&id=$msg->id&$tokens", tra("Delete"), "Delete this message");
-            show_button("pm.php?action=new&replyto=$msg->id", tra("Reply"), "Reply to this message");
-            echo "</td></tr>\n";
+	    echo "<ul class=\"actionlist\">";
+            show_actionlist_button("pm.php?action=delete&id=$msg->id&$tokens", tra("Delete"), "Delete this message");
+            show_actionlist_button("pm.php?action=new&replyto=$msg->id", tra("Reply"), "Reply to this message");
+            echo "</ul></td></tr>\n";
         }
         echo "
             <tr><td>
@@ -111,8 +112,7 @@ function do_inbox($logged_in_user) {
             <a href=\"javascript:set_all(0)\">Unselect all</a>
             </td>
             <td colspan=2>
-            <input type=\"submit\" name=\"action_select\" value=\"".tra("Delete")."\">
-            selected messages
+            <input type=\"submit\" name=\"action_select\" value=\"".tra("Delete selected messages")."\">
             </td></tr>
         ";
         end_table();
