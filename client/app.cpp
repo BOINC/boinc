@@ -508,7 +508,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
             strcat(desc, buf);
         }
         fout.printf(
-            "    <resources>%s</resources\n", desc
+            "    <resources>%s</resources>\n", desc
         );
     }
     fout.printf("</active_task>\n");
