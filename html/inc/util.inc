@@ -678,8 +678,29 @@ function current_url() {
     return $url;
 }
 
+/**
+ * Show a single link formatted to look like a button.
+ * @param url The destination URL of the button
+ * @param text The text to display on the button
+ * @param desc The title of the destination - typically used as a popup
+ * @param class The optional CSS class of the button. Defaults to a standard button
+ */ 
 function show_button($url, $text, $desc, $class="button") {
     echo "<a href=\"".$url."\" title=\"".addslashes($desc)."\" class=\"".$class."\">".$text."</a>";
+}
+
+/**
+ * When multiple buttons (or actions) are presented in a list you can
+ * use this convenience method to avoid having to wrap each button in <li></li> elements
+ * @param url The destination URL of the button
+ * @param text The text to display on the button
+ * @param desc The title of the destination - typically used as a popup
+ * @param class The optional CSS class of the button. Defaults to a standard button
+ */
+function show_actionlist_button($url, $text, $desc, $class="button"){
+    echo "<li>";
+    echo show_button($url, $text, $desc, $class);
+    echo "</li>";
 }
 
 function show_image($src, $title, $alt, $height=null) {

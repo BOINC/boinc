@@ -572,13 +572,14 @@ function show_post(
     if ($post->parent_post) {
         echo " - in response to <a href=\"forum_thread.php?id=".$thread->id."&nowrap=true#".$post->parent_post."\">Message ".$post->parent_post."</a>.";
     }
-    echo " ";
+    echo " <ul class=\"actionlist\">";
     if ($can_edit && $controls != NO_CONTROLS) {
-        show_button("forum_edit.php?id=".$post->id."$tokens", "Edit", "Edit this message");
+        show_actionlist_button("forum_edit.php?id=".$post->id."$tokens", "Edit", "Edit this message");
     }
     if (is_moderator($logged_in_user, $forum)) {
         show_post_moderation_links($config, $logged_in_user, $post, $forum, $tokens);
     }
+    echo "</ul>";
     if ($post->modified) {
         echo "<br>Last modified: ", pretty_time_Str($post->modified);
     }
@@ -627,11 +628,12 @@ function show_post(
             echo "</a>";
         }
         if (($controls == FORUM_CONTROLS) && (can_reply($thread, $forum, $logged_in_user))) {
-	    echo "&nbsp;&nbsp;&nbsp;&nbsp;";
+	    echo "&nbsp;&nbsp;&nbsp;&nbsp;<ul class=\"actionlist\">";
             $url = "forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "&no_quote=1#input";
-            show_button($url, "Reply", "Post a reply to this message");
+            show_actionlist_button($url, "Reply", "Post a reply to this message");
             $url = "forum_reply.php?thread=" . $thread->id . "&post=" . $post->id . "#input";
-	    show_button($url, "Quote", "Post a reply by quoting this message");
+	    show_actionlist_button($url, "Quote", "Post a reply by quoting this message");
+	    echo "</ul>";
         }
         echo "</td></tr>";
     } else {
@@ -969,27 +971,27 @@ function show_post_moderation_links(
     $moderators_vote_to_ban = parse_bool($config, "moderators_vote_to_ban");
 
     if ($post->hidden) {
-        show_button("forum_moderate_post_action.php?action=unhide&id=".$post->id."$tokens", "Unhide", "Unhide this post");
+        show_actionlist_button("forum_moderate_post_action.php?action=unhide&id=".$post->id."$tokens", "Unhide", "Unhide this post");
     } else {
-        show_button("forum_moderate_post.php?action=hide&id=".$post->id."$tokens", "Hide", "Hide this post");
+        show_actionlist_button("forum_moderate_post.php?action=hide&id=".$post->id."$tokens", "Hide", "Hide this post");
     }
 
-    show_button(
+    show_actionlist_button(
         "forum_moderate_post.php?action=move&id=".$post->id."$tokens",
         "Move", "Move post to a different thread"
     );
 
     if ($forum->parent_type == 0) {
         if ($logged_in_user->prefs->privilege(S_ADMIN) || ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_allowed_to_ban)) {
-            show_button("forum_moderate_post.php?action=banish_user&id=".$post->id."&userid=".$post->user."$tokens", "Banish author", "Banish author");
+            show_actionlist_button("forum_moderate_post.php?action=banish_user&id=".$post->id."&userid=".$post->user."$tokens", "Banish author", "Banish author");
         }
         if ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_vote_to_ban) {
             require_once("../inc/forum_banishment_vote.inc");
             if (vote_is_in_progress($post->user)) {
-                show_button("forum_banishment_vote.php?action=yes&userid=".$post->user, "Vote to banish author", "Vote to banish author");
-                show_button("forum_banishment_vote.php?action=no&userid=".$post->user, "Vote not to banish author", "Vote not to banish author");
+                show_actionlist_button("forum_banishment_vote.php?action=yes&userid=".$post->user, "Vote to banish author", "Vote to banish author");
+                show_actionlist_button("forum_banishment_vote.php?action=no&userid=".$post->user, "Vote not to banish author", "Vote not to banish author");
             } else {
-                show_button("forum_banishment_vote.php?action=start&userid=".$post->user, "Start vote to banish author", "Start vote to banish author");
+                show_actionlist_button("forum_banishment_vote.php?action=start&userid=".$post->user, "Start vote to banish author", "Start vote to banish author");
             }
         }
     }
