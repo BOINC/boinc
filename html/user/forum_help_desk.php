@@ -38,8 +38,8 @@ foreach ($categories as $category) {
     if ($first) {
         $first = false;
         show_forum_title($category, null, null);
-        show_mark_as_read_button($user);
         echo "<p>";
+        show_mark_as_read_button($user);
         start_forum_table(array("Topic", "# Questions", "Last post"));
     }
     if (strlen($category->name)) {
