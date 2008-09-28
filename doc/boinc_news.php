@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("September 27, 2008",
+    "See an <a href=http://boinc.berkeley.edu/eff.php>open letter
+    to the Electronic Frontier Foundation</a>."
+),
 array("September 25, 2008",
     "Read <a href=http://www.economist.com/science/displaystory.cfm?story_id=12295198>an article about Quake Catcher Network</a> in Economist.com."
 ),
