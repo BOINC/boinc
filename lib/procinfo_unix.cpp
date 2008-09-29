@@ -304,7 +304,6 @@ void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
             pi.user_time += p.user_time;
             pi.swap_size += p.swap_size;
             pi.working_set_size += p.working_set_size;
-            p.is_boinc_app = true;
         }
     }
 }

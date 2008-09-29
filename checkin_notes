@@ -7803,3 +7803,11 @@ David  28 Sept 2008
 
     lib/mac/
         mac_backtrace.cpp
+
+David  28 Sept 2008
+    - prepare for "don't run while playing game" feature
+
+    lib/
+        procinfo.h
+        procinfo_unix.cpp
+        procinfo_win.cpp

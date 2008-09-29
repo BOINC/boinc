@@ -30,6 +30,7 @@ struct PROCINFO {
     double user_time;
     double kernel_time;
 	bool is_boinc_app;
+    char command[256];
 
 	double page_fault_rate;		// derived by higher-level code
 };

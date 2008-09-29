@@ -40,8 +40,9 @@ static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
         );
 
         if (*pcbBuffer < cbBuffer) {
-            // Somebody is trying to screw us up, so set the value back to the cached
-            //   size so we can do something smart like increase the buffer size.
+            // Somebody is trying to screw us up,
+            // so set the value back to the cached size
+            // so we can do something smart like increase the buffer size.
             *pcbBuffer = cbBuffer;
         }
 
@@ -159,7 +160,6 @@ void procinfo_other(PROCINFO& pi, vector<PROCINFO>& piv) {
 			pi.user_time += p.user_time;
 			pi.swap_size += p.swap_size;
 			pi.working_set_size += p.working_set_size;
-			p.is_boinc_app = true;
 		}
 	}
 }
