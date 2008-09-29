@@ -1007,6 +1007,9 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
             if (status.task_suspend_reason & SUSPEND_REASON_DISK_SIZE) {
                 strBuffer += _(" - need disk space");
             }
+            if (status.task_suspend_reason & SUSPEND_REASON_EXCLUSIVE_APP) {
+                strBuffer += _(" - an exclusive app is running");
+            }
         } else if (result->active_task) {
             if (result->too_large) {
                 strBuffer = _("Waiting for memory");

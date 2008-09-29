@@ -105,6 +105,7 @@ struct CONFIG {
     bool use_certs;
     bool use_certs_only;
         // overrides use_certs
+    std::vector<std::string> exclusive_apps;
 
     CONFIG();
     void defaults();

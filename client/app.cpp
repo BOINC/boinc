@@ -225,6 +225,16 @@ void ACTIVE_TASK_SET::free_mem() {
 }
 #endif
 
+bool app_running(vector<PROCINFO>& piv, const char* p) {
+    for (unsigned int i=0; i<piv.size(); i++) {
+        PROCINFO& pi = piv[i];
+        if (!strcmp(pi.command, p)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void ACTIVE_TASK_SET::get_memory_usage() {
     static double last_mem_time=0;
     unsigned int i;
@@ -265,6 +275,14 @@ void ACTIVE_TASK_SET::get_memory_usage() {
                     pi.user_time, pi.kernel_time
                 );
             }
+        }
+    }
+
+    exclusive_app_running = false;
+    for (i=0; i<config.exclusive_apps.size(); i++) {
+        if (app_running(piv, config.exclusive_apps[i].c_str())) {
+            exclusive_app_running = true;
+            break;
         }
     }
 

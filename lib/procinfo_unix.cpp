@@ -43,6 +43,7 @@
 #endif
 
 #include "procinfo.h"
+#include "str_util.h"
 #include "client_msgs.h"
 
 using std::vector;
@@ -179,10 +180,11 @@ int procinfo_setup(vector<PROCINFO>& pi) {
                 fd = fopen(pidpath, "r");
                 if (fd) {
                     if (fread(&psinfo, sizeof(psinfo_t), 1, fd) == 1) {
-                        p.id=psinfo.pr_pid;
-                        p.parentid=psinfo.pr_ppid;
-                        p.swap_size=psinfo.pr_size*1024.;
+                        p.id = psinfo.pr_pid;
+                        p.parentid = psinfo.pr_ppid;
+                        p.swap_size = psinfo.pr_size*1024.;
                         p.working_set_size = psinfo.pr_rssize * 1024.;
+                        strlcpy(p.command, psinfo.pr_fname, sizeof(p.command));
                     }
                     fclose(fd);
                     sprintf(pidpath, "/proc/%s/usage", piddir->d_name);
@@ -210,9 +212,9 @@ int procinfo_setup(vector<PROCINFO>& pi) {
                     ps.parse(buf);
                     fclose(fd);
 
-                    p.id=ps.pid;
-                    p.parentid=ps.ppid;
-                    p.swap_size=ps.vsize;
+                    p.id = ps.pid;
+                    p.parentid = ps.ppid;
+                    p.swap_size = ps.vsize;
                     // rss = pages, need bytes
                     // assumes page size = 4k
                     p.working_set_size = ps.rss * (float)getpagesize();
@@ -222,6 +224,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
                     // assumes 100 jiffies per second
                     p.user_time = ps.utime / 100.;
                     p.kernel_time = ps.stime / 100.;
+                    strlcpy(p.command, ps.comm, sizeof(p.command));
                     p.is_boinc_app = false;
                     pi.push_back(p);
                 }

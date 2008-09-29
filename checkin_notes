@@ -7079,12 +7079,12 @@ Rom    26 Aug 2008
         Makefile.am
 
 David  26 Aug 2008
-	- client: get BOINCView to work again;
-		allow one auth failure before closing connection.
+    - client: get BOINCView to work again;
+        allow one auth failure before closing connection.
 
-	client/
-		gui_rpc_server.C,h
-		gui_rpc_server_ops.C
+    client/
+        gui_rpc_server.C,h
+        gui_rpc_server_ops.C
 
 David  28 Aug 2008
     - client (Unix): don't assume that LD_LIBRARY_PATH is defined
@@ -7338,39 +7338,39 @@ Eric K 10 Sep 2008
     tools/
         backend_lib.C
     sched/
-	Makefile.am
-	edf_sim.C
-	fcgi_stdio.h  (removed)
-	file_upload_handler.C
-	handle_request.C
-	hr_info.C
-	main.C
-	sched_array.C
-	sched_config.C
-	sched_hr.C
-	sched_msgs.h
-	sched_resend.C
+    Makefile.am
+    edf_sim.C
+    fcgi_stdio.h  (removed)
+    file_upload_handler.C
+    handle_request.C
+    hr_info.C
+    main.C
+    sched_array.C
+    sched_config.C
+    sched_hr.C
+    sched_msgs.h
+    sched_resend.C
         sched_send.C
-	server_types.C
-	sched_shmem.C
-	sched_timezone.C
-	sched_util.C
-	time_stats_log.C
+    server_types.C
+    sched_shmem.C
+    sched_timezone.C
+    sched_util.C
+    time_stats_log.C
     lib/
-	Makefile.am
-	base64.C
-	boinc_fcgi.[Ch]  (new files)
+    Makefile.am
+    base64.C
+    boinc_fcgi.[Ch]  (new files)
         coproc.h
-	crypt.C
-	filesys.C
-	md5_file.C
-	miofile.[Ch]
-	msg_log.[Ch]
-	parse.C
-	shmem.C
+    crypt.C
+    filesys.C
+    md5_file.C
+    miofile.[Ch]
+    msg_log.[Ch]
+    parse.C
+    shmem.C
         str_util.C
-	synch.C
-	util.C
+    synch.C
+    util.C
 
 Charlie 11 Sep 2008
     MGR: Fix bugs when connection to client is lost or reestablished under 
@@ -7499,8 +7499,8 @@ David  17 Sept 2008
     - back end programs: optional BOINC_CONFIG_XML environment variable
         specifies path of config file (default: ../config.xml)
 
-	sched/
-		sched_config.C
+    sched/
+        sched_config.C
 
 Charlie 17 Sep 2008
     lib: - Remove incorrect "#ifdef _WIN32" blocks added 9/10/08 to 
@@ -7543,19 +7543,19 @@ David  18 Sept 2008
 
 Charlie 18 Sep 2008
     Mgr: Ignore GetSelectedItemCount()if message count <= 0 to fix 
-	crash bug.
+    crash bug.
      
     clientgui/
         ViewMessages.cpp
 
 David  18 Sept 2008
-	- client: print error msg if missing acct mgr info
-	- manager: last arg to acct_mgr_rpc is bool, not bool*
+    - client: print error msg if missing acct mgr info
+    - manager: last arg to acct_mgr_rpc is bool, not bool*
 
-	client/
-		gui_rpc_server_ops.C
-	clientgui/
-		AsyncRPC.cpp,h
+    client/
+        gui_rpc_server_ops.C
+    clientgui/
+        AsyncRPC.cpp,h
 
 Charlie 19 Sep 2008
     Mgr: Add control of Periodic RPC timer and Document Poll Timer to 
@@ -7739,20 +7739,20 @@ David  25 Sept 2008
             mail_passwd.php
 
 David  25 Sept 2008
-	- Add the ability to exclude certain URLs from the use of proxies.
-		E.g. if you're running a project locally,
-		while attached to outside projects via a proxy.
-		Currently accessible only via the Manager's Options dialog.
-		From Frank Weiler.
+    - Add the ability to exclude certain URLs from the use of proxies.
+        E.g. if you're running a project locally,
+        while attached to outside projects via a proxy.
+        Currently accessible only via the Manager's Options dialog.
+        From Frank Weiler.
 
-	client/
-		http_curl.C,h
-	clientgui/
-		AdvancedFrame.cpp
-		DlgOptions.cpp,h
-		gui_rpc_client.h
-		gui_rpc_client_ops.C
-		proxy_info.C,h
+    client/
+        http_curl.C,h
+    clientgui/
+        AdvancedFrame.cpp
+        DlgOptions.cpp,h
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
+        proxy_info.C,h
 
 Janus  25 Sept 2008
     - web: Changed javascript generated input buttons into normal links with
@@ -7763,12 +7763,12 @@ Janus  25 Sept 2008
 
     html/
         inc/
-	    forum.inc
-	    util.inc
-	user/
-	    white.css
-	    forum_thread.php
-	    forum_reply.php
+        forum.inc
+        util.inc
+    user/
+        white.css
+        forum_thread.php
+        forum_reply.php
 
 David  25 Sept 2008
     - boinc_cmd: add no_proxy item to --set_proxy_settings args
@@ -7816,11 +7816,29 @@ Charlie 29 Sep 2008
     Mgr: Fix XCode project for all .C files renamed to .cpp.
     lib: Fix error in RPC_CLIENT::set_proxy_settings() changes of 9/25/08.
 
-	clientgui/
-		AdvancedFrame.cpp
-		DlgOptions.cpp,h
-		gui_rpc_client.h
-		gui_rpc_client_ops.C
+    clientgui/
+        AdvancedFrame.cpp
+        DlgOptions.cpp,h
+        gui_rpc_client.h
+        gui_rpc_client_ops.C
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  29 Sept 2008
+    - client: add "exclusive app" feature.  If you put
+        <exclusive_app>foo.exe</exclusive_app>
+        in your cc_config.xml, BOINC will suspend computing
+        whenever foo.exe is running (e.g., a game).
+
+        Eventually we might want to put the interface in preferences
+        instead of cc_config.xml
+
+    client/
+        app.h,cpp
+        log_flags.h,cpp
+    clientgui/
+        ViewWork.cpp
+    lib/
+        common_defs.h
+        procinfo_unix.cpp

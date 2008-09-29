@@ -204,6 +204,10 @@ void CONFIG::defaults() {
     start_delay = 0;
     run_apps_manually = false;
     force_auth = "default";
+    allow_multiple_clients = false;
+    use_certs = false;
+    use_certs_only = false;
+    exclusive_apps.clear();
 }
 
 int CONFIG::parse_options(XML_PARSER& xp) {
@@ -256,6 +260,10 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "allow_multiple_clients", allow_multiple_clients)) continue;
         if (xp.parse_bool(tag, "use_certs", use_certs)) continue;
         if (xp.parse_bool(tag, "use_certs_only", use_certs_only)) continue;
+        if (xp.parse_string(tag, "exclusive_app", s)) {
+            exclusive_apps.push_back(s);
+            continue;
+        }
         msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );

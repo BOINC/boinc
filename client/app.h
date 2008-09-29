@@ -232,6 +232,7 @@ public:
     void free_mem();
     bool slot_taken(int);
     void get_memory_usage();
+    bool exclusive_app_running;
 
     // graphics-related functions
     void graphics_poll();
