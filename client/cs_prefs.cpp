@@ -155,6 +155,10 @@ int CLIENT_STATE::check_suspend_processing() {
             }
         }
     }
+
+    if (active_tasks.exclusive_app_running) {
+        return SUSPEND_REASON_EXCLUSIVE_APP_RUNNING;
+    }
     return 0;
 }
 
