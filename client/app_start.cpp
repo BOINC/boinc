@@ -366,7 +366,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     // if this job uses a GPU and not much CPU, run it at normal priority
     //
-    bool high_priority = result->uses_coprocs() & app_version->avg_ncpus < 1;
+    bool high_priority = result->uses_coprocs() && (app_version->avg_ncpus < 1);
 
     if (first_time && log_flags.task) {
         msg_printf(result->project, MSG_INFO,
@@ -532,6 +532,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
+    int prio_mask = high_priority?0:IDLE_PRIORITY_CLASS;
 
     for (i=0; i<5; i++) {
         if (sandbox_account_service_token != NULL) {
@@ -539,8 +540,6 @@ int ACTIVE_TASK::start(bool first_time) {
             tCEB    pCEB = NULL;
             tDEB    pDEB = NULL;
             HMODULE hUserEnvLib = NULL;
-
-            int prio_mask = high_priority?0:IDLE_PRIORITY_CLASS;
 
             hUserEnvLib = LoadLibrary("userenv.dll");
             if (hUserEnvLib) {

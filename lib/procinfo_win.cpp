@@ -3,6 +3,7 @@
 #include "boinc_win.h"
 #include "error_numbers.h"
 #include "diagnostics_win.h"
+#include "str_util.h"
 #include "procinfo.h"
 
 using std::vector;
@@ -89,6 +90,13 @@ int get_procinfo_XP(vector<PROCINFO>& pi) {
         p.kernel_time = ((double) pProcesses->KernelTime.QuadPart)/1e7;
 		p.id = pProcesses->ProcessId;
 		p.parentid = pProcesses->InheritedFromProcessId;
+        WideCharToMultiByte(CP_ACP, 0,
+            pProcesses->ProcessName.Buffer,
+            pProcesses->ProcessName.Length,
+            p.command,
+            sizeof(p.command),
+            NULL, NULL
+        );
 		p.is_boinc_app = false;
         pi.push_back(p);
         if (!pProcesses->NextEntryDelta) {
