@@ -19,13 +19,12 @@
 #pragma implementation "AsyncRPC.h"
 #endif
 
-#include <vector>
-
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
 #include "AsyncRPC.h"
 #include "BOINCBaseFrame.h"
+
 
 // Delay in milliseconds before showing AsyncRPCDlg
 #define RPC_WAIT_DLG_DELAY 1500
@@ -41,13 +40,13 @@ ASYNC_RPC_REQUEST::~ASYNC_RPC_REQUEST() {
 
 
 void ASYNC_RPC_REQUEST::clear() {
+    rpcType = (ASYNC_RPC_TYPE) 0;
     which_rpc = (RPC_SELECTOR) 0;
-    arg1 = NULL;
     exchangeBuf = NULL;
+    arg1 = NULL;
     arg2 = NULL;
     arg3 = NULL;
     arg4 = NULL;
-    rpcType = (ASYNC_RPC_TYPE) 0;
     completionTime = NULL;
     resultPtr = NULL;
     retval = 0;
@@ -133,13 +132,13 @@ void *RPCThread::Entry() {
             continue;
         }
 
-       if (! m_Doc->IsConnected()) {
+        if (! m_Doc->IsConnected()) {
             Yield();
         }
 
         retval = ProcessRPCRequest();
         wxPostEvent( wxTheApp, RPC_done_event );
-        }
+    }
 
 #ifndef __WXMSW__       // Deadlocks on Windows
 
@@ -147,6 +146,7 @@ void *RPCThread::Entry() {
     // manager shutdown due to a rare race condition 
     m_Doc->m_critsect.Enter();
     m_Doc->m_critsect.Leave();
+
 #endif //  !!__WXMSW__       // Deadlocks on Windows
 
     return NULL;
@@ -202,7 +202,9 @@ int RPCThread::ProcessRPCRequest() {
         break;
     case RPC_GET_PROJECT_STATUS1:
         if (current_request->exchangeBuf) {
+
             ((CC_STATE*)(current_request->arg1))->projects.clear();
+
             int n = (int)((CC_STATE*)(current_request->exchangeBuf))->projects.size();
             for (int i=0; i<n; i++) {
                 PROJECT* p = new PROJECT();
@@ -210,6 +212,7 @@ int RPCThread::ProcessRPCRequest() {
                 p->master_url = ((CC_STATE*)(current_request->exchangeBuf))->projects[i]->master_url;
                 ((CC_STATE*)(current_request->arg1))->projects.push_back(p);
             }
+
         }
         retval = (m_Doc->rpcClient).get_project_status(*(CC_STATE*)(current_request->arg1));
         break;

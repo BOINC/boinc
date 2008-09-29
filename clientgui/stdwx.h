@@ -107,10 +107,8 @@
 #include <wx/sysopt.h>
 #include <wx/cshelp.h>
 #include <wx/grid.h>
-
-#if wxCHECK_VERSION(2,8,0)
+#include <wx/thread.h>
 #include <wx/imaglist.h>
-#endif
 
 #ifdef _WIN32
 

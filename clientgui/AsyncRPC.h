@@ -22,12 +22,6 @@
 #pragma interface "AsyncRPC.cpp"
 #endif
 
-#include "wx/thread.h"
-
-//#include "BOINCBaseFrame.h"
-
-//#include "common_defs.h"
-//#include "gui_rpc_client.h"
 
 class CBOINCGUIApp;     // Forward declaration
 class CMainDocument;    // Forward declaration
@@ -155,11 +149,11 @@ public:
     AsyncRPC(CMainDocument *pDoc);
     ~AsyncRPC();
 
-    int                         RPC_Wait(
-                                    RPC_SELECTOR which_rpc, void* arg1 = NULL, void* 
-                                    arg2 = NULL, void* arg3 = NULL, void* arg4 = NULL, 
-                                    bool hasPriority = false
-                                );
+    int RPC_Wait(
+            RPC_SELECTOR which_rpc, void* arg1 = NULL, void* 
+            arg2 = NULL, void* arg3 = NULL, void* arg4 = NULL, 
+            bool hasPriority = false
+    );
 
     // Manager must do all RPC data transfers through AsyncRPC calls, so 
     // this class must have methods corresponding to all RPC_CLIENT data 
