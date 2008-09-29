@@ -237,7 +237,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				AdditionalIncludeDirectories="..;&quot;$(WXWINPROD)\include&quot;;&quot;$(WXWINPROD)\contrib\include&quot;;&quot;$(WXWINPROD)\lib\vc_lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win"
-				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
+				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1;_WCG"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="false"
