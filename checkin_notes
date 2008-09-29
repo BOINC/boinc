@@ -7811,3 +7811,16 @@ David  28 Sept 2008
         procinfo.h
         procinfo_unix.cpp
         procinfo_win.cpp
+
+Charlie 29 Sep 2008
+    Mgr: Fix XCode project for all .C files renamed to .cpp.
+    lib: Fix error in RPC_CLIENT::set_proxy_settings() changes of 9/25/08.
+
+	clientgui/
+		AdvancedFrame.cpp
+		DlgOptions.cpp,h
+		gui_rpc_client.h
+		gui_rpc_client_ops.C
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

@@ -1716,7 +1716,7 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
         "        <socks_version>%d</socks_version>\n"
         "        <socks5_user_name>%s</socks5_user_name>\n"
         "        <socks5_user_passwd>%s</socks5_user_passwd>\n"		
-		"        <no_proxy>%s%</no_proxy\n"
+		"        <no_proxy>%s</no_proxy\n"
         "    </proxy_info>\n"
         "</set_proxy_settings>\n",
         pi.use_http_proxy?"   <use_http_proxy/>\n":"",
