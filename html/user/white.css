@@ -316,7 +316,6 @@ blockquote.postbody {
     width: 100%;
     table-layout: fixed;
     overflow: visible;
-    word-wrap: break-word;
 }
 
 .forum_toplinks td {

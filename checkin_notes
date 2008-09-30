@@ -7872,3 +7872,12 @@ Charlie 30 Sep 2008
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.C
+
+David  30 Sept 2008
+    - add an interface for parsing XML attributes
+
+    html/user/
+        white.css
+    lib/
+        parse.cpp,h
+        prefs.cpp

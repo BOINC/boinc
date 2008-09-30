@@ -391,14 +391,14 @@ int GLOBAL_PREFS::parse_day(XML_PARSER& xp) {
 int GLOBAL_PREFS::parse_override(
     XML_PARSER& xp, const char* host_venue, bool& found_venue, GLOBAL_PREFS_MASK& mask
 ) {
-    char tag[256], buf2[256];
+    char tag[256], buf2[256], attrs[256];
     bool in_venue = false, in_correct_venue=false, is_tag;
     double dtemp;
 
     found_venue = false;
     mask.clear();
 
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
+    while (!xp.get(tag, sizeof(tag), is_tag, attrs, sizeof(attrs))) {
         if (!is_tag) continue;
         if (!strcmp(tag, "global_preferences")) continue;
         if (!strcmp(tag, "/global_preferences")) {
@@ -418,7 +418,7 @@ int GLOBAL_PREFS::parse_override(
         } else {
             if (strstr(tag, "venue")) {
                 in_venue = true;
-                parse_attr(tag, "name", buf2, sizeof(buf2));
+                parse_attr(attrs, "name", buf2, sizeof(buf2));
                 if (!strcmp(buf2, host_venue)) {
                     defaults();
                     clear_bools();
