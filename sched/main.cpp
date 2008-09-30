@@ -327,6 +327,11 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[i], "--mark_jobs_done")) {
             mark_jobs_done = true;
         }
+#ifdef GCL_SIMULATOR
+        if (!strcmp(argv[i], "--simulator")) {
+            simtime = atof(argv[++i]);
+        }
+#endif 
     }
 
     // initialized timer

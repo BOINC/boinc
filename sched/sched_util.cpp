@@ -299,7 +299,8 @@ void simulator_signal_handler(int signum){
     char currenttime[64];
     fsim = fopen("../simulator/sim_time.txt","r");
     if(fsim){
-        fscanf(fsim, "%f", &simtime);
+        fscanf(fsim,"%s", currenttime);
+        simtime = atof(currenttime); 
         fclose(fsim);
     }
     log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
@@ -312,18 +313,21 @@ int itime() {
 }
 
 void continue_simulation(const char *daemonname){
-    char daemonfile[64];    
-    sprintf(daemonfile,"../simulator/sim_%s",daemonname);
-    FILE *fsimlok=fopen(strcat(daemonfile,".lok"),"w");
-    if(fsimlok){
+    char daemonfilelok[64];
+    char daemonfile[64];
+    sprintf(daemonfile, "../simulator/sim_%s.txt",daemonname);
+    sprintf(daemonfilelok, "../simulator/sim_%s.lok",daemonname);
+    FILE *fsimlok = fopen(daemonfilelok, "w");
+    if (fsimlok){
         fclose(fsimlok);
-        FILE *fsim=fopen(strcat(daemonfile,".txt"),"w");  
-        if (fsim){            
+        FILE *fsim = fopen(daemonfile, "w");
+        if (fsim) {
             fclose(fsim);
         }
     }
-    remove(strcat(daemonfile,".lok"));
+    remove(daemonfilelok);
 }
+
 #endif
 
 const char *BOINC_RCSID_affa6ef1e4 = "$Id$";

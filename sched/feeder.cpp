@@ -511,6 +511,7 @@ void feeder_loop() {
         ssp->ready = true;
         if (!action) {
 #ifdef GCL_SIMULATOR
+            continue_simulation("feeder");
             log_messages.printf(MSG_DEBUG, "Waiting for signal\n");
             signal(SIGUSR2, simulator_signal_handler);
             pause();

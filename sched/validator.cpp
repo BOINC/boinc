@@ -658,6 +658,9 @@ int main_loop() {
         if (!did_something) {
             if (one_pass) break;
 #ifdef GCL_SIMULATOR
+             char nameforsim[64];
+             sprintf(nameforsim, "validator%i", app.id);
+             continue_simulation(nameforsim);
              signal(SIGUSR2, simulator_signal_handler);
              pause();
 #else

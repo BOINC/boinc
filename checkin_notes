@@ -7881,3 +7881,12 @@ David  30 Sept 2008
     lib/
         parse.cpp,h
         prefs.cpp
+
+David  30 Sept 2008
+    - scheduler: #ifdef'd tweaks for server simulator
+
+    sched/
+        feeder.cpp
+        main.cpp
+        sched_util.cpp
+        validator.cpp
