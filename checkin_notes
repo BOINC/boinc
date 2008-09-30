@@ -7842,3 +7842,17 @@ David  29 Sept 2008
     lib/
         common_defs.h
         procinfo_unix.cpp
+
+Charlie 29 Sep 2008
+    Mgr: Fix async GUI RPC handling of RPC_GET_PROJECT_STATUS1 and 
+        RPC_GET_SIMPLE_GUI_INFO2, both of which must replace project 
+        structs in the state struct in place.  We hope this will 
+        also fix a memory leak.
+    Mgr: Fix XCode project for browser.C files renamed to browser.cpp.
+
+    clientgui/
+        AsyncRPC.cpp,.h
+        MainDocument.cpp,.h
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

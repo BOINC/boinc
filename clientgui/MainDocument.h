@@ -156,6 +156,8 @@ public:
     CBOINCClientManager*        m_pClientManager;
     AsyncRPC                    rpc;
     RPC_CLIENT                  rpcClient;
+    PROJECTS                    async_projects_update_buf;
+    
     CC_STATE                    state;
     CC_STATE                    async_state_buf;
     int                         m_iGet_state_rpc_result;
@@ -184,6 +186,7 @@ public:
     bool                        m_bNeedRefresh;
 
 private:
+    int                         CopyProjectsToStateFile(PROJECTS& p, CC_STATE& state);
     ASYNC_RPC_REQUEST           current_rpc_request;
     AsyncRPCDlg*                m_RPCWaitDlg;
     std::vector<ASYNC_RPC_REQUEST> RPC_requests;

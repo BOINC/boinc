@@ -24,6 +24,7 @@
 #include "MainDocument.h"
 #include "AsyncRPC.h"
 #include "BOINCBaseFrame.h"
+#include "error_numbers.h"
 
 
 // Delay in milliseconds before showing AsyncRPCDlg
@@ -195,26 +196,13 @@ int RPCThread::ProcessRPCRequest() {
         retval = (m_Doc->rpcClient).get_simple_gui_info(*(SIMPLE_GUI_INFO*)(current_request->arg1));
         break;
     case RPC_GET_SIMPLE_GUI_INFO2:
-        retval = (m_Doc->rpcClient).get_simple_gui_info(
-            *(CC_STATE*)(current_request->arg1), 
-            *(RESULTS*)(current_request->arg2)
-        );
+        // RPC_GET_SIMPLE_GUI_INFO2 is equivalent to doing both 
+        // RPC_GET_PROJECT_STATUS1 and RPC_GET_RESULTS
+        retval = (m_Doc->rpcClient).get_project_status(*(PROJECTS*)(current_request->arg1));
+        retval = (m_Doc->rpcClient).get_results(*(RESULTS*)(current_request->arg3));
         break;
     case RPC_GET_PROJECT_STATUS1:
-        if (current_request->exchangeBuf) {
-
-            ((CC_STATE*)(current_request->arg1))->projects.clear();
-
-            int n = (int)((CC_STATE*)(current_request->exchangeBuf))->projects.size();
-            for (int i=0; i<n; i++) {
-                PROJECT* p = new PROJECT();
-                // get_project_status RPC needs master_url and will fill in everything else
-                p->master_url = ((CC_STATE*)(current_request->exchangeBuf))->projects[i]->master_url;
-                ((CC_STATE*)(current_request->arg1))->projects.push_back(p);
-            }
-
-        }
-        retval = (m_Doc->rpcClient).get_project_status(*(CC_STATE*)(current_request->arg1));
+        retval = (m_Doc->rpcClient).get_project_status(*(PROJECTS*)(current_request->arg1));
         break;
     case RPC_GET_PROJECT_STATUS2:
         retval = (m_Doc->rpcClient).get_project_status(*(PROJECTS*)(current_request->arg1));
@@ -595,13 +583,12 @@ void CMainDocument::HandleCompletedRPC() {
     
     retval = current_rpc_request.retval;
 
-    if (current_rpc_request.completionTime) {
-        *(current_rpc_request.completionTime) = wxDateTime::Now();
+    if (current_rpc_request.rpcType == RPC_TYPE_ASYNC_WITH_REFRESH_AFTER) {
+        if (!retval) {
+            m_bNeedRefresh = true;
+        }
     }
-    if (current_rpc_request.resultPtr) {
-        *(current_rpc_request.resultPtr) = retval;
-    }
-
+    
     // Post-processing
     if (! retval) {
         switch (current_rpc_request.which_rpc) {
@@ -634,22 +621,18 @@ void CMainDocument::HandleCompletedRPC() {
             }
             break;
         case RPC_GET_SIMPLE_GUI_INFO2:
-            if (current_rpc_request.exchangeBuf && !retval) {
-                CC_STATE* arg1 = (CC_STATE*)current_rpc_request.arg1;
-                CC_STATE* exchangeBuf = (CC_STATE*)current_rpc_request.exchangeBuf;
-                arg1->projects.swap(exchangeBuf->projects);
+            if (!retval) {
+                retval = CopyProjectsToStateFile(*(PROJECTS*)(current_rpc_request.arg1), *(CC_STATE*)(current_rpc_request.arg2));
             }
-            if (current_rpc_request.arg3) {
-                RESULTS* arg2 = (RESULTS*)current_rpc_request.arg2;
+            if (current_rpc_request.exchangeBuf && !retval) {
                 RESULTS* arg3 = (RESULTS*)current_rpc_request.arg3;
-                arg2->results.swap(arg3->results);
+                RESULTS* exchangeBuf = (RESULTS*)current_rpc_request.exchangeBuf;
+                arg3->results.swap(exchangeBuf->results);
             }
             break;
         case RPC_GET_PROJECT_STATUS1:
-            if (current_rpc_request.exchangeBuf && !retval) {
-                CC_STATE* arg1 = (CC_STATE*)current_rpc_request.arg1;
-                CC_STATE* exchangeBuf = (CC_STATE*)current_rpc_request.exchangeBuf;
-                arg1->projects.swap(exchangeBuf->projects);
+            if (!retval) {
+                retval = CopyProjectsToStateFile(*(PROJECTS*)(current_rpc_request.arg1), *(CC_STATE*)(current_rpc_request.arg2));
             }
             break;
         case RPC_GET_ALL_PROJECTS_LIST:
@@ -716,12 +699,13 @@ void CMainDocument::HandleCompletedRPC() {
         }
     }
     
-    if (current_rpc_request.rpcType == RPC_TYPE_ASYNC_WITH_REFRESH_AFTER) {
-        if (!retval) {
-            m_bNeedRefresh = true;
-        }
+    if (current_rpc_request.completionTime) {
+        *(current_rpc_request.completionTime) = wxDateTime::Now();
     }
-    
+    if (current_rpc_request.resultPtr) {
+        *(current_rpc_request.resultPtr) = retval;
+    }
+
     // We must call ProcessEvent() rather than AddPendingEvent() here to 
     // guarantee integrity of data when other events are handled (such as 
     // Abort, Suspend/Resume, Show Graphics, Update, Detach, Reset, No 
@@ -773,6 +757,45 @@ void CMainDocument::HandleCompletedRPC() {
         }
 #endif  // ! __WXMSW__       // Deadlocks on Windows
     }
+}
+
+
+int CMainDocument::CopyProjectsToStateFile(PROJECTS& p, CC_STATE& state) {
+    int retval = noErr;
+    SET_LOCALE sl;
+    unsigned int i;
+    PROJECT* state_project = NULL;
+
+    // flag for delete
+    for (i=0; i<state.projects.size(); i++) {
+        state_project = state.projects[i];
+        state_project->flag_for_delete = true;
+    }
+
+    for (i=0; i<p.projects.size(); i++) {
+        state_project = state.lookup_project(p.projects[i]->master_url);
+        if (state_project && (p.projects[i]->master_url == state_project->master_url)) {
+            // Because the CC_STATE contains several pointers to each element of the 
+            // CC_STATE::projects vector, we must update these elements in place.
+            state_project->copy(*(p.projects[i]));
+            state_project->flag_for_delete = false;
+        } else {
+            retval = ERR_NOT_FOUND;
+        }
+        continue;
+    }
+
+    // Anything need to be deleted?
+    if (!retval) {
+        for (i=0; i<state.projects.size(); i++) {
+            state_project = state.projects[i];
+            if (state_project->flag_for_delete) {
+                retval = ERR_FILE_MISSING;
+            }
+        }
+    }
+    
+    return retval;
 }
 
 

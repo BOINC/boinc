@@ -164,7 +164,7 @@
 		DD4C561A0AD389A2009E23C6 /* sg_ImageButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C560E0AD389A2009E23C6 /* sg_ImageButton.cpp */; };
 		DD4C561C0AD389A2009E23C6 /* sg_ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C56100AD389A2009E23C6 /* sg_ProgressBar.cpp */; };
 		DD4C561E0AD389A2009E23C6 /* sg_SGUIListControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C56120AD389A2009E23C6 /* sg_SGUIListControl.cpp */; };
-		DD4E704C0BCDAC360010A522 /* browser.C in Sources */ = {isa = PBXBuildFile; fileRef = DD4E70490BCDAC360010A522 /* browser.C */; };
+		DD4E704C0BCDAC360010A522 /* browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4E70490BCDAC360010A522 /* browser.cpp */; };
 		DD4EC65A08A0A7AF009AA08F /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
 		DD4EC65B08A0A83F009AA08F /* gui_rpc_client_print.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34F08A0694100656EB1 /* gui_rpc_client_print.cpp */; };
 		DD51DC8F0A4943A300BD24E6 /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
@@ -631,7 +631,7 @@
 		DD4C56110AD389A2009E23C6 /* sg_ProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ProgressBar.h; path = ../clientgui/sg_ProgressBar.h; sourceTree = SOURCE_ROOT; };
 		DD4C56120AD389A2009E23C6 /* sg_SGUIListControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_SGUIListControl.cpp; path = ../clientgui/sg_SGUIListControl.cpp; sourceTree = SOURCE_ROOT; };
 		DD4C56130AD389A2009E23C6 /* sg_SGUIListControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_SGUIListControl.h; path = ../clientgui/sg_SGUIListControl.h; sourceTree = SOURCE_ROOT; };
-		DD4E70490BCDAC360010A522 /* browser.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = browser.C; path = ../clientgui/browser.C; sourceTree = SOURCE_ROOT; };
+		DD4E70490BCDAC360010A522 /* browser.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = browser.cpp; sourceTree = "<group>"; };
 		DD4E704A0BCDAC360010A522 /* browser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = browser.h; path = ../clientgui/browser.h; sourceTree = SOURCE_ROOT; };
 		DD4EC60F08A0A083009AA08F /* texture.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = texture.cpp; sourceTree = "<group>"; };
 		DD4EC61008A0A083009AA08F /* texture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = texture.h; path = ../api/texture.h; sourceTree = SOURCE_ROOT; };
@@ -1184,7 +1184,7 @@
 				DD81C40607C5D1020098A04D /* BOINCTaskCtrl.cpp */,
 				DD81C43807C5D2240098A04D /* BOINCTaskCtrl.h */,
 				DD58C43608F3347D00C1DF66 /* BOINCWizards.h */,
-				DD4E70490BCDAC360010A522 /* browser.C */,
+				DD4E70490BCDAC360010A522 /* browser.cpp */,
 				DD4E704A0BCDAC360010A522 /* browser.h */,
 				DDCE78220A70BD29008218B6 /* common */,
 				DD58C43708F3347D00C1DF66 /* CompletionErrorPage.cpp */,
@@ -2284,7 +2284,7 @@
 				DD7DD7C90B8BFD4800B11279 /* ViewMessages.cpp in Sources */,
 				DD7BF7E60B8E7B6C00A009F7 /* str_util.cpp in Sources */,
 				DD205A1A0BAF596E0008D473 /* ProjectListCtrl.cpp in Sources */,
-				DD4E704C0BCDAC360010A522 /* browser.C in Sources */,
+				DD4E704C0BCDAC360010A522 /* browser.cpp in Sources */,
 				DDA6BD210BD4551F008F7921 /* mac_backtrace.cpp in Sources */,
 				DDA6BD230BD4551F008F7921 /* QBacktrace.c in Sources */,
 				DDA6BD250BD4551F008F7921 /* QCrashReport.c in Sources */,

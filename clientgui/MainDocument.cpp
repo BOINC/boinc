@@ -808,8 +808,8 @@ void CMainDocument::RunPeriodicRPCs() {
         if (ts.GetSeconds() > 0) {
             request.clear();
             request.which_rpc = RPC_GET_PROJECT_STATUS1;
-            request.arg1 = &async_state_buf;
-            request.exchangeBuf = &state;
+            request.arg1 = &async_projects_update_buf;
+            request.arg2 = &state;
             request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
             request.completionTime = &m_dtProjecStatusTimestamp;
             request.resultPtr = &m_iGet_project_status1_rpc_result;
@@ -905,16 +905,15 @@ void CMainDocument::RunPeriodicRPCs() {
     }
     
     // *********** GET_SIMPLE_GUI_INFO2 **************
-
     if (currentTabView & VW_SGUI) {
         wxTimeSpan ts(dtNow - m_dtCachedSimpleGUITimestamp);
         if (ts.GetSeconds() > 0) {
             request.clear();
             request.which_rpc = RPC_GET_SIMPLE_GUI_INFO2;
-            request.arg1 = &async_state_buf;
-            request.exchangeBuf = &state;
-            request.arg2 = &async_results_buf;
-            request.arg3 = &results;
+            request.arg1 = &async_projects_update_buf;
+            request.arg2 = &state;
+            request.arg3 = &async_results_buf;
+            request.exchangeBuf = &results;
             request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
             request.completionTime = &m_dtCachedSimpleGUITimestamp;
             request.resultPtr = &m_iGet_simple_gui2_rpc_result;
@@ -1066,7 +1065,7 @@ int CMainDocument::CachedProjectStatusUpdate(bool bForce) {
 
     if (bForce) {
         m_dtProjecStatusTimestamp = wxDateTime::Now();
-        m_iGet_project_status1_rpc_result = rpc.get_project_status(state);
+        m_iGet_project_status1_rpc_result = rpc.get_project_status(async_projects_update_buf, state);
     }
 
     if (m_iGet_project_status1_rpc_result) {
@@ -1939,7 +1938,7 @@ int CMainDocument::CachedSimpleGUIUpdate(bool bForce) {
 
     if (bForce) {
         m_dtCachedSimpleGUITimestamp = wxDateTime::Now();
-        m_iGet_simple_gui2_rpc_result = rpc.get_simple_gui_info(state, results);
+        m_iGet_simple_gui2_rpc_result = rpc.get_simple_gui_info(async_projects_update_buf, state, results);
     }
 
     if (m_iGet_simple_gui2_rpc_result) {
