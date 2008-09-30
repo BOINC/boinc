@@ -7890,3 +7890,11 @@ David  30 Sept 2008
         main.cpp
         sched_util.cpp
         validator.cpp
+
+David  30 Sept 2008
+    - client: make statefile parsing a bit more efficient
+    - GUI RPC and app_init file: add source project to global prefs
+
+    lib/
+        parse.cpp
+        prefs.cpp

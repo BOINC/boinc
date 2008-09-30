@@ -605,6 +605,7 @@ int GLOBAL_PREFS::parse_file(
 int GLOBAL_PREFS::write(MIOFILE& f) {
     f.printf(
         "<global_preferences>\n"
+        "   <source_project>%s</source_project>\n"
         "   <mod_time>%f</mod_time>\n"
         "%s%s"
         "   <suspend_if_no_recent_input>%f</suspend_if_no_recent_input>\n"
@@ -628,6 +629,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <max_bytes_sec_up>%f</max_bytes_sec_up>\n"
         "   <max_bytes_sec_down>%f</max_bytes_sec_down>\n"
         "   <cpu_usage_limit>%f</cpu_usage_limit>\n",
+        source_project,
         mod_time,
         run_on_batteries?"   <run_on_batteries/>\n":"",
         run_if_user_active?"   <run_if_user_active/>\n":"",
