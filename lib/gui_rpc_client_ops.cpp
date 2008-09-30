@@ -1199,68 +1199,6 @@ int RPC_CLIENT::get_simple_gui_info(SIMPLE_GUI_INFO& sgi) {
 }
 
 
-// Updates the PROJECT array in the CC_STATE in place;
-// flags any projects that don't exist anymore.
-//
-int RPC_CLIENT::get_simple_gui_info(CC_STATE& state, RESULTS& results) {
-    int retval;
-    SET_LOCALE sl;
-    char buf[256];
-    unsigned int i;
-    static PROJECT project;
-    PROJECT* state_project = NULL;
-    RPC rpc(this);
-
-    results.clear();
-
-    retval = rpc.do_rpc("<get_simple_gui_info/>\n");
-    if (!retval) {
-
-        // mark all projects for deletion (undo if client still has them)
-        //
-        for (i=0; i<state.projects.size(); i++) {
-            state_project = state.projects[i];
-            state_project->flag_for_delete = true;
-        }
-
-        while (rpc.fin.fgets(buf, 256)) {
-            if (match_tag(buf, "</simple_gui_info>")) break;
-            else if (match_tag(buf, "<project>")) {
-                project.clear();
-                project.parse(rpc.fin);
-                state_project = state.lookup_project(project.master_url);
-                if (state_project && (project.master_url == state_project->master_url)) {
-                    state_project->copy(project);
-                    state_project->flag_for_delete = false;
-                } else {
-                    retval = ERR_NOT_FOUND;
-                }
-                continue;
-            }
-            else if (match_tag(buf, "<result>")) {
-                RESULT* result = new RESULT();
-                result->parse(rpc.fin);
-                results.results.push_back(result);
-                continue;
-            }
-        }
-
-        // Does any project need to be deleted?
-        // return cryptic error code if so
-        //
-        if (!retval) {
-            for (i=0; i<state.projects.size(); i++) {
-                state_project = state.projects[i];
-                if (state_project->flag_for_delete) {
-                    retval = ERR_FILE_MISSING;
-                }
-            }
-        }
-
-    }
-    return retval;
-}
-
 // creates new array of PROJECTs
 //
 int RPC_CLIENT::get_project_status(PROJECTS& p) {
@@ -1280,56 +1218,6 @@ int RPC_CLIENT::get_project_status(PROJECTS& p) {
                 project->parse(rpc.fin);
                 p.projects.push_back(project);
                 continue;
-            }
-        }
-    }
-    return retval;
-}
-
-// Updates the PROJECT array in the CC_STATE in place;
-// flags any projects that don't exist anymore.
-// KLUDGE - doesn't belong here
-//
-int RPC_CLIENT::get_project_status(CC_STATE& state) {
-    int retval;
-    SET_LOCALE sl;
-    unsigned int i;
-    char buf[256];
-    static PROJECT project;
-    PROJECT* state_project = NULL;
-    RPC rpc(this);
-
-    retval = rpc.do_rpc("<get_project_status/>\n");
-    if (!retval) {
-        // flag for delete
-        for (i=0; i<state.projects.size(); i++) {
-            state_project = state.projects[i];
-            state_project->flag_for_delete = true;
-        }
-
-        while (rpc.fin.fgets(buf, 256)) {
-            if (match_tag(buf, "</projects>")) break;
-            else if (match_tag(buf, "<project>")) {
-                project.clear();
-                project.parse(rpc.fin);
-                state_project = state.lookup_project(project.master_url);
-                if (state_project && (project.master_url == state_project->master_url)) {
-                    state_project->copy(project);
-                    state_project->flag_for_delete = false;
-                } else {
-                    retval = ERR_NOT_FOUND;
-                }
-                continue;
-            }
-        }
-
-        // Anything need to be deleted?
-        if (!retval) {
-            for (i=0; i<state.projects.size(); i++) {
-                state_project = state.projects[i];
-                if (state_project->flag_for_delete) {
-                    retval = ERR_FILE_MISSING;
-                }
             }
         }
     }

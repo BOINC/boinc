@@ -559,8 +559,6 @@ public:
     int get_results(RESULTS&);
     int get_file_transfers(FILE_TRANSFERS&);
     int get_simple_gui_info(SIMPLE_GUI_INFO&);
-    int get_simple_gui_info(CC_STATE&, RESULTS&);
-    int get_project_status(CC_STATE&);
     int get_project_status(PROJECTS&);
     int get_all_projects_list(ALL_PROJECTS_LIST&);
     int get_disk_usage(DISK_USAGE&);
