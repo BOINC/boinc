@@ -436,7 +436,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             // If successful, hide the main window
             Hide();
         }
-    } else if ((pis.url.size() || (0 >= pDoc->GetProjectCount())) && !status.disallow_attach) {
+    } else if ((pis.url.size() || (0 >= pDoc->GetSimpleProjectCount())) && !status.disallow_attach) {
         if (!IsShown()) {
             Show();
         }

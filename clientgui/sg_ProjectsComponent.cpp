@@ -299,7 +299,7 @@ void CProjectsComponent::UpdateProjectArray() {
 	CMainDocument* pDoc = wxGetApp().GetDocument();
 
 	if ( pDoc->IsConnected() ) {
-		int m_projCnt = pDoc->GetProjectCount();
+		int m_projCnt = pDoc->GetSimpleProjectCount();
 
 		// If a new project has been added, figure out which one and then add it;
 		if ( m_projCnt > (int) m_statProjects.size() ) {

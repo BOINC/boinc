@@ -271,7 +271,8 @@ bool ClientStateIndicator::Suspended() {
 bool ClientStateIndicator::ProjectUpdateScheduled() {
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
 	PROJECT* project;
-	for(int i=0; i<pDoc->GetProjectCount(); i++) {
+	int prjCount = pDoc->GetSimpleProjectCount();
+	for(int i=0; i<prjCount; i++) {
 		project = pDoc->state.projects[i];
 		if ( project->sched_rpc_pending || project->master_url_fetch_pending || project->scheduler_rpc_in_progress ) {
 			return true;

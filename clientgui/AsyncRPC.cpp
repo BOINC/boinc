@@ -585,6 +585,15 @@ void CMainDocument::HandleCompletedRPC() {
     
     retval = current_rpc_request.retval;
 
+    
+    if (current_rpc_request.completionTime) {
+        *(current_rpc_request.completionTime) = wxDateTime::Now();
+    }
+    
+    if (current_rpc_request.resultPtr) {
+        *(current_rpc_request.resultPtr) = retval;
+    }
+    
     if (current_rpc_request.rpcType == RPC_TYPE_ASYNC_WITH_REFRESH_AFTER) {
         if (!retval) {
             m_bNeedRefresh = true;
@@ -701,10 +710,8 @@ void CMainDocument::HandleCompletedRPC() {
         }
     }
     
-    if (current_rpc_request.completionTime) {
-        *(current_rpc_request.completionTime) = wxDateTime::Now();
-    }
     if (current_rpc_request.resultPtr) {
+        // In case post-processing changed retval
         *(current_rpc_request.resultPtr) = retval;
     }
 

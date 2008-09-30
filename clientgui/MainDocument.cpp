@@ -803,7 +803,7 @@ void CMainDocument::RunPeriodicRPCs() {
     
     // *********** RPC_GET_PROJECT_STATUS1 **************
 
-    if (currentTabView & (VW_PROJ | VW_SGUI)) {
+    if (currentTabView & VW_PROJ) {
         wxTimeSpan ts(dtNow - m_dtProjecStatusTimestamp);
         if (ts.GetSeconds() > 0) {
             request.clear();
@@ -1097,6 +1097,7 @@ PROJECT* CMainDocument::project(unsigned int i) {
     return pProject;
 }
 
+
 PROJECT* CMainDocument::project(const wxString& projectname) {
 	for (unsigned int i=0; i< state.projects.size(); i++) {
 		PROJECT* tp = state.projects[i];
@@ -1120,6 +1121,7 @@ int CMainDocument::GetProjectCount() {
 
     return iCount;
 }
+
 
 int CMainDocument::ProjectDetach(int iIndex) {
     PROJECT* pProject = NULL;
@@ -1952,6 +1954,19 @@ int CMainDocument::CachedSimpleGUIUpdate(bool bForce) {
     }
 
     return m_iGet_simple_gui2_rpc_result;
+}
+
+
+int CMainDocument::GetSimpleProjectCount() {
+    int iCount = -1;
+
+    CachedSimpleGUIUpdate();
+    CachedStateUpdate();
+
+    if (!state.projects.empty())
+        iCount = (int)state.projects.size();
+
+    return iCount;
 }
 
 

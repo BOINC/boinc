@@ -203,7 +203,7 @@ void StatImageLoader::OnProjectDetach() {
         return;
 
 	int indexOfProj = -1;
-	int prjCount = pDoc->GetProjectCount();
+	int prjCount = pDoc->GetSimpleProjectCount();
 	for(int m = 0; m < prjCount; m++){
 		PROJECT* project = pDoc->project(m);
 		project->get_name(strProjectName);

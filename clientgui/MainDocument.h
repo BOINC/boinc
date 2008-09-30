@@ -365,6 +365,7 @@ private:
 public:
     ACCT_MGR_INFO               ami;
     ACCT_MGR_INFO               async_ami_buf;
+    int                         GetSimpleProjectCount();
     int                         GetSimpleGUIWorkCount();
 
 };

@@ -7856,3 +7856,14 @@ Charlie 29 Sep 2008
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 30 Sep 2008
+        - MGR: async GUI RPCs: eliminate redundant RPC calls in SimpleGUI.
+
+    clientgui/
+        AsyncRPC.cpp
+        MainDocument.cpp,.h
+        sg_BoincSimpleGUI.cpp
+        sg_ClientStateIndicator.cpp
+        sg_ProjectsComponent.cpp
+        sg_StatImageLoader.cpp
