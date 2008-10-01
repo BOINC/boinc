@@ -44,7 +44,7 @@ boinc_gui_SOURCES = \
     BOINCListCtrl.cpp \
     BOINCTaskBar.cpp \
     BOINCTaskCtrl.cpp \
-    browser.C \
+    browser.cpp \
     CompletionErrorPage.cpp \
     CompletionPage.cpp \
     common/wxPieCtrl.cpp \
