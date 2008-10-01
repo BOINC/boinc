@@ -7937,3 +7937,9 @@ David  1 Oct 2008
         main.cpp
         sched_send.cpp
         server_types.cpp,h
+
+Rom    1 Oct 2008
+    - Win: Update to OpenSSL 0.9.8i
+    
+    OpenSSL/
+        <Various Files>
