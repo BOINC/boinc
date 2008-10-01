@@ -178,10 +178,10 @@ BEST_APP_VERSION* get_app_version(
             APP_VERSION& av = ssp->app_versions[j];
             if (av.appid != wu.appid) continue;
             if (av.platformid != p->id) continue;
-            if (reply.wreq.core_client_version < av.min_core_version) {
+            if (sreq.core_client_version < av.min_core_version) {
                 log_messages.printf(MSG_NORMAL,
                     "outdated client version %d < min core version %d\n",
-                    reply.wreq.core_client_version, av.min_core_version
+                    sreq.core_client_version, av.min_core_version
                 );
                 reply.wreq.outdated_core = true;
                 continue;
@@ -719,16 +719,6 @@ int insert_wu_tags(WORKUNIT& wu, APP& app) {
     return insert_after(wu.xml_doc, "<workunit>\n", buf);
 }
 
-// verify that the given APP_VERSION will work with the core client
-//
-bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av) {
-    if (wreq.core_client_version < av.min_core_version) {
-        wreq.outdated_core = true;
-        return false;
-    }
-    return true;
-}
-
 // add the given workunit to a reply.
 // Add the app and app_version to the reply also.
 //
@@ -1099,7 +1089,7 @@ int add_result_to_reply(
 
 // send messages to user about why jobs were or weren't sent
 //
-static void explain_to_user(SCHEDULER_REPLY& reply) {
+static void explain_to_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     char helpful[512];
     unsigned int i;
     int j;
@@ -1183,7 +1173,7 @@ static void explain_to_user(SCHEDULER_REPLY& reply) {
             reply.insert_message(um);
         }
         if (reply.wreq.speed.insufficient) {
-            if (reply.wreq.core_client_version>419) {
+            if (sreq.core_client_version>419) {
                 sprintf(helpful,
                     "(won't finish in time) "
                     "BOINC runs %.1f%% of time, computation enabled %.1f%% of that",
@@ -1271,8 +1261,8 @@ static void explain_to_user(SCHEDULER_REPLY& reply) {
     }
 }
 
-static void get_running_frac(SCHEDULER_REPLY& reply) {
-    if (reply.wreq.core_client_version<=419) {
+static void get_running_frac(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    if (sreq.core_client_version<=419) {
         reply.wreq.running_frac = reply.host.on_frac;
     } else {
         reply.wreq.running_frac = reply.host.active_frac * reply.host.on_frac;
@@ -1374,7 +1364,7 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     set_trust(reply);
 
-    get_running_frac(reply);
+    get_running_frac(sreq, reply);
 
     if (config.debug_send) {
         log_messages.printf(MSG_DEBUG,
@@ -1430,7 +1420,7 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         send_work_old(sreq, reply);
     }
 
-    explain_to_user(reply);
+    explain_to_user(sreq, reply);
 }
 
 // Matchmaker scheduling code follows

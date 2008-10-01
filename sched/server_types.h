@@ -118,7 +118,6 @@ struct WORK_REQ {
         // http://boinc.berkeley.edu/trac/wiki/ClientSched#NormalizedCPUTime
     double disk_available;
     int nresults;
-    int core_client_version;
     double running_frac;
     bool trust;     // allow unreplicated jobs to be sent
 
@@ -264,6 +263,7 @@ struct SCHEDULER_REQUEST {
     int core_client_major_version;
     int core_client_minor_version;
     int core_client_release;
+    int core_client_version;    // 100*major + minor
     int rpc_seqno;
     double work_req_seconds;
 		// in "normalized CPU seconds" (see work_req.php)
@@ -357,7 +357,7 @@ struct SCHEDULER_REPLY {
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();
-    int write(FILE*);
+    int write(FILE*, SCHEDULER_REQUEST&);
     void insert_app_unique(APP&);
     void insert_app_version_unique(APP_VERSION&);
     void insert_workunit_unique(WORKUNIT&);

@@ -7927,3 +7927,13 @@ David  1 Oct 2008
 
     sched/
         sched_send.cpp
+
+David  1 Oct 2008
+    - scheduler: move core_client_version from WORK_REQ to SCHEDULER_REQUEST;
+        WORK_REQ doesn't get initialized in all cases.
+
+    sched/
+        handle_request.cpp
+        main.cpp
+        sched_send.cpp
+        server_types.cpp,h

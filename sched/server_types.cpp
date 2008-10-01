@@ -133,6 +133,8 @@ SCHEDULER_REQUEST::SCHEDULER_REQUEST() {
 SCHEDULER_REQUEST::~SCHEDULER_REQUEST() {
 }
 
+// return an error message or NULL
+//
 const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     char buf[256];
     RESULT result;
@@ -177,7 +179,10 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
             continue;
         }
 
-        if (match_tag(buf, "</scheduler_request>")) return NULL;
+        if (match_tag(buf, "</scheduler_request>")) {
+            core_client_version = 100*core_client_major_version + core_client_minor_version;
+            return NULL;
+        }
         if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) {
             remove_quotes(authenticator);
             continue;
@@ -518,7 +523,7 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
 SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 }
 
-int SCHEDULER_REPLY::write(FILE* fout) {
+int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     unsigned int i;
     char buf[BLOB_SIZE];
 
@@ -563,7 +568,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         host.id, wreq.nresults, request_delay, elapsed_wallclock_time() 
     );
 
-    if (wreq.core_client_version <= 419) {
+    if (sreq.core_client_version <= 419) {
         std::string msg;
         std::string pri = "low";
         for (i=0; i<messages.size(); i++) {

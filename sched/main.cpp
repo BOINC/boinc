@@ -122,7 +122,7 @@ void debug_sched(
         "Found %s, so writing %s\n", trigger, tmpfilename
     );
 
-    sreply.write(fp);
+    sreply.write(fp, sreq);
     fclose(fp);
 
     sprintf(tmpfilename, "sched_request_%06d_%06d", sreq.hostid, sreq.rpc_seqno);

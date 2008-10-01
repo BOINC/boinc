@@ -955,13 +955,7 @@ bool send_code_sign_key(
 void warn_user_if_core_client_upgrade_scheduled(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 ) {
-
-    int core_ver;
-
-    core_ver  = sreq.core_client_major_version*100;
-    core_ver += sreq.core_client_minor_version;
-
-    if (core_ver < config.min_core_client_version_announced) {
+    if (sreq.core_client_version < config.min_core_client_version_announced) {
 
         // time remaining in hours, before upgrade required
         int remaining = config.min_core_client_upgrade_deadline-time(0);
@@ -1351,9 +1345,6 @@ void process_request(
         goto leave;
     }
 
-    reply.wreq.core_client_version =
-        sreq.core_client_major_version*100 + sreq.core_client_minor_version;
-         
     handle_global_prefs(sreq, reply);
 
     handle_results(sreq, reply);
@@ -1476,7 +1467,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
         log_user_messages(sreply);
     }
 
-    sreply.write(fout);
+    sreply.write(fout, sreq);
 
     if (strlen(config.sched_lockfile_dir)) {
         unlock_sched(sreply);
