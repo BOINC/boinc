@@ -7910,3 +7910,13 @@ Charlie 30 Sep 2008
         setupForBOINC.sh
         boinc.xcodeproj/
             project.pbxproj
+
+David  1 Oct 2008
+    - scheduler: add <no_vista_sandbox> option.
+        If set, don't send work to sandboxed Vista clients
+        (e.g., because of CUDA issue)
+
+    sched/
+        handle_request.cpp
+        sched_config.cpp,h
+        server_types.cpp,h

@@ -124,6 +124,7 @@ public:
     bool job_size_matching;
     bool use_credit_multiplier;
     bool multiple_clients_per_host;
+    bool no_vista_sandbox;
 
     // log flags
     //

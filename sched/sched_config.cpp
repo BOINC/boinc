@@ -183,6 +183,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool(tag, "job_size_matching", job_size_matching)) continue;
         if (xp.parse_bool(tag, "use_credit_multiplier", use_credit_multiplier)) continue;
         if (xp.parse_bool(tag, "multiple_clients_per_host", multiple_clients_per_host)) continue;
+        if (xp.parse_bool(tag, "no_vista_sandbox", no_vista_sandbox)) continue;
 
 
         if (xp.parse_bool(tag, "debug_version_select", debug_version_select)) continue;

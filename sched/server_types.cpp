@@ -161,6 +161,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     have_ip_results_list = false;
     have_time_stats_log = false;
     client_cap_plan_class = false;
+    sandbox = -1;
 
     fgets(buf, sizeof(buf), fin);
     if (!match_tag(buf, "<scheduler_request>")) return "no start tag";
@@ -318,6 +319,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
             continue;
         }
         if (parse_bool(buf, "client_cap_plan_class", client_cap_plan_class)) continue;
+        if (parse_int(buf, "<sandbox>", sandbox)) continue;
 
         if (match_tag(buf, "<active_task_set>")) continue;
         if (match_tag(buf, "<app>")) continue;

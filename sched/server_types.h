@@ -306,6 +306,7 @@ struct SCHEDULER_REQUEST {
     bool have_ip_results_list;
     bool have_time_stats_log;
     bool client_cap_plan_class;
+    int sandbox;    // -1 = don't know
 
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST();

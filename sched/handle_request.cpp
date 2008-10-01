@@ -1160,6 +1160,27 @@ static void log_request(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     log_messages.set_indent_level(2);
 }
 
+bool bad_install_type(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    if (config.no_vista_sandbox) {
+        if (!strcmp(sreq.host.os_name, "Microsoft Windows Vista")) {
+            if (sreq.sandbox == 1) {
+                log_messages.printf(MSG_INFO,
+                    "Vista secure install - not sending work\n"
+                );
+                USER_MESSAGE um(
+                    "Unable to send work to Vista with BOINC installed in protected mode", "high"
+                );
+                reply.insert_message(um);
+                USER_MESSAGE um2(
+                    "Please reinstall BOINC and uncheck 'Protected application execution'", "high"
+                );
+                reply.insert_message(um2);
+            }
+        }
+    }
+    return false;
+}
+
 void process_request(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, char* code_sign_key
 ) {
@@ -1337,9 +1358,15 @@ void process_request(
 
     handle_results(sreq, reply);
 
+    // Do this before resending lost jobs
+    //
+    if (bad_install_type(sreq, reply)) {
+        ok_to_send_work = false;
+    }
+
     reply.wreq.nresults_on_host = sreq.other_results.size();
     if (sreq.have_other_results_list) {
-        if (config.resend_lost_results) {
+        if (config.resend_lost_results && ok_to_send_work) {
             if (resend_lost_work(sreq, reply)) {
                 ok_to_send_work = false;
             }
