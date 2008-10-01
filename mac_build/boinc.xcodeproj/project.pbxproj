@@ -3136,11 +3136,11 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.19.0/include";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Security,
-					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../curl-7.19.0/lib/.libs/libcurl.a",
 					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
@@ -3165,9 +3165,9 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.19.0/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../curl-7.19.0/lib/.libs/libcurl.a",
 					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
@@ -3724,9 +3724,9 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.19.0/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../curl-7.19.0/lib/.libs/libcurl.a",
 					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
@@ -4041,9 +4041,9 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.18.0/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.19.0/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../curl-7.19.0/lib/.libs/libcurl.a",
 					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
@@ -4319,11 +4319,11 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.19.0/include";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Security,
-					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../curl-7.19.0/lib/.libs/libcurl.a",
 					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
@@ -4345,9 +4345,9 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.19.0/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../curl-7.19.0/lib/.libs/libcurl.a",
 					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",
@@ -4661,9 +4661,9 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.17.1/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.19.0/include";
 				OTHER_LDFLAGS = (
-					"../../curl-7.18.0/lib/.libs/libcurl.a",
+					"../../curl-7.19.0/lib/.libs/libcurl.a",
 					"../../c-ares-1.5.1/.libs/libcares.a",
 					"-lcrypto",
 					"-lssl",

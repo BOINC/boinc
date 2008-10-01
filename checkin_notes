@@ -7898,3 +7898,15 @@ David  30 Sept 2008
     lib/
         parse.cpp
         prefs.cpp
+
+Charlie 30 Sep 2008
+    - client: Update Mac XCode project, build scripts and documentation 
+        for c-ares 1.5.3 and cURL-7.19.0.
+
+     mac_build/
+        buildc-ares.sh
+        buildcurl.sh
+        HowToBuildBOINC_XCode.rtf
+        setupForBOINC.sh
+        boinc.xcodeproj/
+            project.pbxproj

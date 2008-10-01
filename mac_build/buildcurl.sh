@@ -20,14 +20,14 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 #
-# Script to build Macintosh Universal Binary library of curl-7.18.0 for
+# Script to build Macintosh Universal Binary library of curl-7.19.0 for
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
-# Updated 5/14/08
+# Updated 9/30/08
 #
-## In Terminal, CD to the curl-7.18.0 directory.
-##     cd [path]/curl-7.18.0/
+## In Terminal, CD to the curl-7.19.0 directory.
+##     cd [path]/curl-7.19.0/
 ## then run this script:
 ##     source [path]/buildcurl.sh [ -clean ] [ -gcc33 ]
 ##
@@ -58,7 +58,7 @@ fi
 fi
 
 if [ $AlreadyBuilt -ne 0 ]; then
-    echo "curl-7.18.0 already built"
+    echo "curl-7.19.0 already built"
     return 0
 fi
 
@@ -83,9 +83,9 @@ fi
 export PATH=/usr/local/bin:$PATH
 
 CURL_DIR=`pwd`
-# curl configure and make expect a path to _installed_ c-ares-1.5.1
+# curl configure and make expect a path to _installed_ c-ares-1.5.3
 # so temporarily install c-ares at a path that does not contain spaces.
-cd ../c-ares-1.5.1
+cd ../c-ares-1.5.3
 sudo make install 
 cd "${CURL_DIR}"
 
@@ -96,6 +96,12 @@ rm -f lib/.libs/libcurl.a
 rm -f lib/.libs/libcurl_ppc.a
 rm -f lib/.libs/libcurl_i386.a
 rm -f lib/.libs/libcurl_x86_64.a
+
+# cURL configure creates a different curlbuild.h file for each architecture
+rm -f include/curl/curlbuild.h include/curl/curlbuild.h
+rm -f include/curl/curlbuild.h include/curl/curlbuild_ppc.h
+rm -f include/curl/curlbuild.h include/curl/curlbuild_i386.h
+rm -f include/curl/curlbuild.h include/curl/curlbuild_x86_64.h
 
 if [ $usegcc33 -ne 0 ]; then
 
@@ -121,6 +127,7 @@ make clean
 
 make
 if [  $? -ne 0 ]; then return 1; fi
+mv -f include/curl/curlbuild.h include/curl/curlbuild_ppc.h
 mv -f lib/.libs/libcurl.a lib/libcurl_ppc.a
 
 make clean
@@ -157,6 +164,7 @@ fi
 
 # Build for x86_64 architecture if OS 10.5 SDK is present
 
+mv -f include/curl/curlbuild.h include/curl/curlbuild_i386.h
 mv -f lib/.libs/libcurl.a lib/libcurl_i386.a
 
 make clean
@@ -182,6 +190,8 @@ export CPPFLAGS=""
 export CFLAGS=""
 export SDKROOT=""
 
+mv -f include/curl/curlbuild.h include/curl/curlbuild_x86_64.h
+
 mv -f lib/.libs/libcurl.a lib/.libs/libcurl_x86_64.a
 mv -f lib/libcurl_ppc.a lib/.libs/
 mv -f lib/libcurl_i386.a lib/.libs/
@@ -190,5 +200,38 @@ if [  $? -ne 0 ]; then return 1; fi
 
 # Delete temporarily installed c-ares.
 sudo rm -Rf /tmp/installed-c-ares/
+
+rm -f include/curl/curlbuild.h include/curl/curlbuild.h
+
+# Create a custom curlbuild.h file which directs BOINC builds 
+# to the correct curlbuild_xxx.h file for each architecture.
+cat >> include/curl/curlbuild.h include/curl/curlbuild.h << ENDOFFILE
+/***************************************************************************
+*
+* This file was created for BOINC by the buildcurl.sh script
+*
+* You should not need to modify it manually
+*
+ ***************************************************************************/
+
+#ifndef __BOINC_CURLBUILD_H
+#define __BOINC_CURLBUILD_H
+
+#ifndef __APPLE__
+#error - this file is for Macintosh only
+#endif
+
+#ifdef __x86_64__
+#include "curl/curlbuild_x86_64.h"
+#elif defined(__ppc__)
+#include "curl/curlbuild_ppc.h"
+#elif defined(__i386__)
+#include "curl/curlbuild_i386.h"
+#else
+#error - unknown architecture
+#endif
+
+#endif /* __BOINC_CURLBUILD_H */
+ENDOFFILE
 
 return 0
