@@ -7920,3 +7920,10 @@ David  1 Oct 2008
         handle_request.cpp
         sched_config.cpp,h
         server_types.cpp,h
+
+David  1 Oct 2008
+    - scheduler: enforce max_wus_to_end, daily_result_quota,
+        and max_wus_in_progress when using score-based scheduling
+
+    sched/
+        sched_send.cpp
