@@ -98,10 +98,10 @@ rm -f lib/.libs/libcurl_i386.a
 rm -f lib/.libs/libcurl_x86_64.a
 
 # cURL configure creates a different curlbuild.h file for each architecture
-rm -f include/curl/curlbuild.h include/curl/curlbuild.h
-rm -f include/curl/curlbuild.h include/curl/curlbuild_ppc.h
-rm -f include/curl/curlbuild.h include/curl/curlbuild_i386.h
-rm -f include/curl/curlbuild.h include/curl/curlbuild_x86_64.h
+rm -f include/curl/curlbuild.h
+rm -f include/curl/curlbuild_ppc.h
+rm -f include/curl/curlbuild_i386.h
+rm -f include/curl/curlbuild_x86_64.h
 
 if [ $usegcc33 -ne 0 ]; then
 
@@ -201,11 +201,11 @@ if [  $? -ne 0 ]; then return 1; fi
 # Delete temporarily installed c-ares.
 sudo rm -Rf /tmp/installed-c-ares/
 
-rm -f include/curl/curlbuild.h include/curl/curlbuild.h
+rm -f include/curl/curlbuild.h
 
 # Create a custom curlbuild.h file which directs BOINC builds 
 # to the correct curlbuild_xxx.h file for each architecture.
-cat >> include/curl/curlbuild.h include/curl/curlbuild.h << ENDOFFILE
+cat >> include/curl/curlbuild.h << ENDOFFILE
 /***************************************************************************
 *
 * This file was created for BOINC by the buildcurl.sh script
