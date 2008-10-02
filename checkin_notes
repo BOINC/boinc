@@ -7966,3 +7966,11 @@ David  2 Oct 2008
 
     sched/
         server_types.cpp
+
+Rom    2 Oct 2008
+    - Tag for 6.3.13 release, all platforms
+      boinc_core_release_6_3_13
+
+    /
+        configure.ac
+        version.h
