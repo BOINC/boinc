@@ -7949,3 +7949,14 @@ Rom    2 Oct 2008
     
     cURL/
         <Various Files>
+
+David  2 Oct 2008
+    - scheduler: FCGI: use mysql_ping() to check that DB connection
+        is still alive before handling a request.  If not, try to reconnect.
+        This will hopefully make things work better if MySQL goes down and up
+        when using FCGI.
+
+    db/
+        db_base.cpp,h
+    sched/
+        main.cpp

@@ -75,11 +75,12 @@ public:
     int insert_id();
     void print_error(const char*);
     const char* error_string();
-
-    MYSQL* mysql;
+    int ping();
     int start_transaction();
     int rollback_transaction();
     int commit_transaction();
+
+    MYSQL* mysql;
 };
 
 // Base for derived classes that can access the DB

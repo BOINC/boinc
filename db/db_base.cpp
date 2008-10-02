@@ -125,6 +125,12 @@ int DB_CONN::rollback_transaction() {
 	return do_query("ROLLBACK");
 }
 
+int DB_CONN::ping() {
+    int retval = mysql_ping(mysql);
+    if (retval) return ERR_DB_CANT_CONNECT;
+    return 0;
+}
+
 DB_BASE::DB_BASE(const char *tn, DB_CONN* p) : db(p), table_name(tn) {
 }
 

@@ -167,15 +167,22 @@ static void send_message(const char* msg, int delay) {
 int open_database() {
     int retval;
 
-    if (db_opened) return 0;
+    if (db_opened) {
+        retval = boinc_db.ping();
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "lost connection to database - trying to reconnect\n"
+            );
+        } else {
+            return 0;
+        }
+    }
 
     retval = boinc_db.open(
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
     if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "can't open database\n"
-        );
+        log_messages.printf(MSG_CRITICAL, "can't open database\n");
         return retval;
     }
     db_opened = true;
@@ -450,7 +457,7 @@ int main(int argc, char** argv) {
 #ifndef _USING_FCGI_
         fout = fopen(req_path, "w");
 #else
-	fout = FCGI::fopen(req_path,"w");
+        fout = FCGI::fopen(req_path,"w");
 #endif
         if (!fout) {
             log_messages.printf(MSG_CRITICAL,
@@ -471,7 +478,7 @@ int main(int argc, char** argv) {
 #ifndef _USING_FCGI_
         fin = fopen(req_path, "r");
 #else
-	fin = FCGI::fopen(req_path,"r");
+        fin = FCGI::fopen(req_path,"r");
 #endif
         if (!fin) {
             log_messages.printf(MSG_CRITICAL,
