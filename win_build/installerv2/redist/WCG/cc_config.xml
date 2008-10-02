@@ -2,6 +2,8 @@
     <log_flags>
     </log_flags>
     <options>
-        <dont_contact_ref_site>1</dont_contact_ref_site>
+        <version_check_server>www.worldcommunitygrid.org</version_check_server>
+        <proxy_test_server>www.ibm.com</proxy_test_server>
+        <start_delay>120</start_delay>
     </options>
 </cc_config>
