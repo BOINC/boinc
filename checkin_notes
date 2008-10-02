@@ -7960,3 +7960,9 @@ David  2 Oct 2008
         db_base.cpp,h
     sched/
         main.cpp
+
+David  2 Oct 2008
+    - scheduler: add a \n after projects_files.xml, in case it doesn't have one
+
+    sched/
+        server_types.cpp

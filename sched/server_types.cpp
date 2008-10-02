@@ -784,6 +784,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     fputs(buf, fout);
     if (project_files.text) {
         fputs(project_files.text, fout);
+        fprintf(fout, "\n");
     }
 
 end:
