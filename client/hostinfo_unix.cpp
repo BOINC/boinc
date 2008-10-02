@@ -1117,8 +1117,9 @@ bool interrupts_idle(time_t t) {
             strcasestr(line, "keyboard") != NULL ||
             strcasestr(line, "i8042") != NULL) {
             // If any IRQ count changed, update last_irq.
-            if (sscanf(line, "%d: %ld", &i, &ccount) == 2 &&
-                irq_count[i] != ccount) {
+            if (sscanf(line, "%d: %ld", &i, &ccount) == 2
+                && irq_count[i] != ccount
+            ) {
                 last_irq = time(NULL);
                 irq_count[i] = ccount;
             }
@@ -1133,15 +1134,21 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
 
 #ifdef HAVE_UTMP_H
     if (check_all_logins) {
-        if (!all_logins_idle(idle_time)) return false;
+        if (!all_logins_idle(idle_time)) {
+            return false;
+        }
     }
 #endif
 
-    if (!all_tty_idle(idle_time)) return false;
+    if (!all_tty_idle(idle_time)) {
+        return false;
+    }
 
 #if LINUX_LIKE_SYSTEM
     // Check /proc/interrupts to detect keyboard or mouse activity.
-    if (!interrupts_idle(idle_time)) return false;
+    if (!interrupts_idle(idle_time)) {
+        return false;
+    }
 #else
     // We should find out which of the following are actually relevant
     // on which systems (if any)
