@@ -123,6 +123,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "mem_usage_debug", mem_usage_debug)) continue;
         if (xp.parse_bool(tag, "network_status_debug", network_status_debug)) continue;
         if (xp.parse_bool(tag, "checkpoint_debug", checkpoint_debug)) continue;
+        if (xp.parse_bool(tag, "coproc_debug", coproc_debug)) continue;
         msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );
@@ -175,6 +176,7 @@ void LOG_FLAGS::show() {
     show_flag(buf, mem_usage_debug, "mem_usage_debug");
     show_flag(buf, network_status_debug, "network_status_debug");
     show_flag(buf, checkpoint_debug, "checkpoint_debug");
+    show_flag(buf, coproc_debug, "coproc_debug");
     if (strlen(buf)) {
         msg_printf(NULL, MSG_INFO, "log flags: %s", buf);
     }

@@ -69,11 +69,12 @@ struct LOG_FLAGS {
     bool poll_debug;        // show what polls are responding
     bool guirpc_debug;
     bool scrsave_debug;
-    bool app_msg_send;       // show shared-mem message to apps
-    bool app_msg_receive;    // show shared-mem message from apps
-	bool mem_usage_debug;	 // memory usage
+    bool app_msg_send;      // show shared-mem message to apps
+    bool app_msg_receive;   // show shared-mem message from apps
+	bool mem_usage_debug;	// memory usage
 	bool network_status_debug;
     bool checkpoint_debug;
+	bool coproc_debug;		// show coproc reserve/free
 
     LOG_FLAGS();
     void defaults();

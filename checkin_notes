@@ -7997,7 +7997,7 @@ Charlie 2 Oct 2008
         BOINCListCtrl.cpp
         ViewProjects.cpp
 
-David  2 Oct 2008
+David  3 Oct 2008
     - Manager: show resource requirements of all jobs, running or not
     - Back-end programs: start adding --help option to all of them
 
@@ -8007,3 +8007,14 @@ David  2 Oct 2008
         assimilator.cpp
         census.cpp
         db_dump.cpp
+
+David  3 Oct 2008
+    - client: fix bugs in coprocessor scheduling;
+        add new <coproc_debug> log flag
+
+    client/
+        app.cpp
+        cpu_sched.cpp
+        log_flags.cpp,h
+    lib/
+        coproc.h

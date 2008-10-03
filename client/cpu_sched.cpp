@@ -68,8 +68,7 @@ using std::vector;
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
-bool COPROCS::sufficient_coprocs(
-    COPROCS& needed, bool verbose, const char* prefix) {
+bool COPROCS::sufficient_coprocs(COPROCS& needed, bool log_flag, const char* prefix) {
     for (unsigned int i=0; i<needed.coprocs.size(); i++) {
         COPROC* cp = needed.coprocs[i];
         COPROC* cp2 = lookup(cp->type);
@@ -80,21 +79,19 @@ bool COPROCS::sufficient_coprocs(
             return false;
         }
         if (cp2->used + cp->count > cp2->count) {
-            if (verbose) {
-                msg_printf(NULL, MSG_INFO,
-                    "%sinsufficient coproc %s (%d + %d > %d)",
-                    prefix, cp2->type, cp2->used, cp->count, cp2->count
-                );
-            }
+			if (log_flag) {
+				msg_printf(NULL, MSG_INFO,
+					"[%s] rr_sim: insufficient coproc %s (%d + %d > %d)",
+					prefix, cp2->type, cp2->used, cp->count, cp2->count
+				);
+			}
             return false;
         }
     }
     return true;
 }
 
-void COPROCS::reserve_coprocs(
-    COPROCS& needed, void* owner, bool verbose, const char* prefix
-) {
+void COPROCS::reserve_coprocs(COPROCS& needed, void* owner, bool log_flag, const char* prefix) {
     for (unsigned int i=0; i<needed.coprocs.size(); i++) {
         COPROC* cp = needed.coprocs[i];
         COPROC* cp2 = lookup(cp->type);
@@ -104,11 +101,11 @@ void COPROCS::reserve_coprocs(
             );
             continue;
         }
-        if (verbose) {
-            msg_printf(NULL, MSG_INFO,
-                "%sreserving %d of coproc %s", prefix, cp->count, cp2->type
-            );
-        }
+		if (log_flag) {
+			msg_printf(NULL, MSG_INFO,
+				"[%s] reserving %d of coproc %s", prefix, cp->count, cp2->type
+			);
+		}
         cp2->used += cp->count;
         int n = cp->count;
         for (int j=0; j<cp2->count; j++) {
@@ -121,16 +118,16 @@ void COPROCS::reserve_coprocs(
     }
 }
 
-void COPROCS::free_coprocs(COPROCS& needed, void* owner, bool verbose) {
+void COPROCS::free_coprocs(COPROCS& needed, void* owner, bool log_flag, const char* prefix) {
     for (unsigned int i=0; i<needed.coprocs.size(); i++) {
         COPROC* cp = needed.coprocs[i];
         COPROC* cp2 = lookup(cp->type);
         if (!cp2) continue;
-        if (verbose) {
-            msg_printf(NULL, MSG_INFO,
-                "freeing %d of coproc %s", cp->count, cp2->type
-            );
-        }
+		if (log_flag) {
+			msg_printf(NULL, MSG_INFO,
+				"[%s] freeing %d of coproc %s", prefix, cp->count, cp2->type
+			);
+		}
         cp2->used -= cp->count;
         for (int j=0; j<cp2->count; j++) {
             if (cp2->owner[j] == owner) {
@@ -546,25 +543,30 @@ struct PROC_RESOURCES {
     // should we stop scanning jobs?
     //
     bool stop_scan() {
-        if (ncoproc_jobs) {
-            // if any coproc jobs remain, stop iff all coprocs used
-            //
-            return coprocs.fully_used();
-        } else {
-            // otherwise stop iff all CPUs used
-            //
-            return (ncpus_used >= ncpus);
-        }
+		if (ncpus_used >= ncpus) {
+			if (!ncoproc_jobs) return true;
+			if (coprocs.fully_used()) return true;
+		}
+		return false;
     }
 
     // should we consider scheduling this job?
     //
-    bool can_schedule(RESULT* rp) {
+    bool can_schedule(RESULT* rp, ACTIVE_TASK* atp) {
         if (rp->uses_coprocs()) {
+
             // if it uses coprocs, and they're available, yes
             //
+			if (atp && atp->coprocs_reserved) {
+				if (log_flags.cpu_sched_debug) {
+					msg_printf(rp->project, MSG_INFO,
+						"[cpu_sched_debug] already reserved coprocessors for %s", rp->name
+					);
+				}
+				return true;
+			}
             if (coprocs.sufficient_coprocs(
-                rp->avp->coprocs, log_flags.cpu_sched_debug, "(CPU sched sim) ")
+                rp->avp->coprocs, log_flags.cpu_sched_debug, "cpu_sched_debug")
             ) {
                 return true;
             } else {
@@ -589,11 +591,8 @@ struct PROC_RESOURCES {
 // If so, update proc_rsc accordingly and return true
 //
 static bool schedule_if_possible(
-    RESULT* rp, PROC_RESOURCES& proc_rsc, double rrs, double expected_payoff
+    RESULT* rp, ACTIVE_TASK* atp, PROC_RESOURCES& proc_rsc, double rrs, double expected_payoff
 ) {
-    ACTIVE_TASK* atp;
-
-    atp = gstate.lookup_active_task_by_result(rp);
     if (atp) {
         // see if it fits in available RAM
         //
@@ -629,9 +628,11 @@ static bool schedule_if_possible(
             "[cpu_sched_debug] scheduling %s", rp->name
         );
     }
-    proc_rsc.coprocs.reserve_coprocs(
-        rp->avp->coprocs, rp, log_flags.cpu_sched_debug, "(CPU sched sim) "
-    );
+	if (!atp || !atp->coprocs_reserved) {
+		proc_rsc.coprocs.reserve_coprocs(
+			rp->avp->coprocs, rp, log_flags.cpu_sched_debug, "cpu_sched_debug"
+		);
+	}
     proc_rsc.ncpus_used += rp->avp->avg_ncpus;
     if (rp->uses_coprocs()) {
         proc_rsc.ncoproc_jobs--;
@@ -650,11 +651,12 @@ void CLIENT_STATE::schedule_cpus() {
     unsigned int i;
     double rrs = runnable_resource_share();
     PROC_RESOURCES proc_rsc;
+    ACTIVE_TASK* atp;
 
     proc_rsc.ncpus = ncpus;
     proc_rsc.ncpus_used = 0;
     proc_rsc.ram_left = available_ram();
-    proc_rsc.coprocs.clone(gstate.coprocs);
+    proc_rsc.coprocs.clone(coprocs, true);
     proc_rsc.ncoproc_jobs = 0;
 
     if (log_flags.cpu_sched_debug) {
@@ -700,9 +702,10 @@ void CLIENT_STATE::schedule_cpus() {
         rp = earliest_deadline_result();
         if (!rp) break;
         rp->already_selected = true;
+		atp = lookup_active_task_by_result(rp);
 
-        if (!proc_rsc.can_schedule(rp)) continue;
-        if (!schedule_if_possible(rp, proc_rsc, rrs, expected_payoff)) continue;
+        if (!proc_rsc.can_schedule(rp, atp)) continue;
+        if (!schedule_if_possible(rp, atp, proc_rsc, rrs, expected_payoff)) continue;
 
         rp->project->deadlines_missed--;
         rp->edf_scheduled = true;
@@ -718,8 +721,9 @@ void CLIENT_STATE::schedule_cpus() {
         assign_results_to_projects();
         rp = largest_debt_project_best_result();
         if (!rp) break;
-        if (!proc_rsc.can_schedule(rp)) continue;
-        if (!schedule_if_possible(rp, proc_rsc, rrs, expected_payoff)) continue;
+		atp = lookup_active_task_by_result(rp);
+        if (!proc_rsc.can_schedule(rp, atp)) continue;
+        if (!schedule_if_possible(rp, atp, proc_rsc, rrs, expected_payoff)) continue;
         ordered_scheduled_results.push_back(rp);
     }
 
@@ -1060,7 +1064,7 @@ bool CLIENT_STATE::enforce_schedule() {
             switch (atp->task_state()) {
             case PROCESS_UNINITIALIZED:
                 if (!coprocs.sufficient_coprocs(
-                    atp->app_version->coprocs, log_flags.cpu_sched_debug, ""
+                    atp->app_version->coprocs, log_flags.cpu_sched_debug, "cpu_sched_debug"
                 )){
                     continue;
                 }
@@ -1161,12 +1165,12 @@ struct RR_SIM_STATUS {
 
     inline bool can_run(RESULT* rp) {
         return coprocs.sufficient_coprocs(
-            rp->avp->coprocs, log_flags.rr_simulation, ""
+            rp->avp->coprocs, log_flags.rr_simulation, "rr_simulation"
         );
     }
     inline void activate(RESULT* rp) {
         coprocs.reserve_coprocs(
-            rp->avp->coprocs, rp, log_flags.rr_simulation, ""
+            rp->avp->coprocs, rp, log_flags.rr_simulation, "rr_simulation"
         );
         active.push_back(rp);
     }
@@ -1174,7 +1178,7 @@ struct RR_SIM_STATUS {
     // and adjust CPU time left for other results
     //
     inline void remove_active(RESULT* rpbest) {
-        coprocs.free_coprocs(rpbest->avp->coprocs, rpbest, log_flags.rr_simulation);
+        coprocs.free_coprocs(rpbest->avp->coprocs, rpbest, log_flags.rr_simulation, "rr_simulation");
         vector<RESULT*>::iterator it = active.begin();
         while (it != active.end()) {
             RESULT* rp = *it;
@@ -1226,7 +1230,7 @@ void CLIENT_STATE::rr_simulation() {
     RR_SIM_STATUS sim_status;
     unsigned int i;
 
-    sim_status.coprocs.clone(coprocs);
+    sim_status.coprocs.clone(coprocs, false);
     double ar = available_ram();
 
     if (log_flags.rr_simulation) {

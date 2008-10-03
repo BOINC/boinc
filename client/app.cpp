@@ -112,6 +112,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     needs_shmem = false;
     want_network = 0;
     premature_exit_count = 0;
+	coprocs_reserved = false;
     quit_time = 0;
     memset(&procinfo, 0, sizeof(procinfo));
 #ifdef _WIN32
@@ -628,16 +629,16 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
 
 void ACTIVE_TASK::reserve_coprocs() {
     gstate.coprocs.reserve_coprocs(
-        app_version->coprocs, this, log_flags.cpu_sched_debug, ""
-    );
+		app_version->coprocs, this, log_flags.coproc_debug, "coproc_debug"
+	);
     coprocs_reserved = true;
 }
 
 void ACTIVE_TASK::free_coprocs() {
     if (!coprocs_reserved) return;
     gstate.coprocs.free_coprocs(
-        app_version->coprocs, this, log_flags.cpu_sched_debug
-    );
+		app_version->coprocs, this, log_flags.coproc_debug, "coproc_debug"
+	);
     coprocs_reserved = false;
 }
 
