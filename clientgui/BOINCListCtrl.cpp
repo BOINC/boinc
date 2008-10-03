@@ -298,6 +298,13 @@ void CBOINCListCtrl::DrawBarGraphs()
         }
         w = GetColumnWidth(progressColumn);
         
+#if USE_NATIVE_LISTCONTROL
+        x -= GetScrollPos(wxHORIZONTAL);
+#else
+        int yy;
+        GetMainWin()->CalcScrolledPosition(x, 0, &x, &yy);
+#endif
+        
         for (int i=0; i<n; ++i) {
             row = m_iRowsNeedingProgressBars[i];
             if (row < topItem) continue;

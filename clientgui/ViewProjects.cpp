@@ -645,13 +645,8 @@ void CViewProjects::UpdateSelection() {
         enableNoNewTasks = true;
         enableReset = true;
         enableDetach = true;
-    } else {
-        UpdateWebsiteSelection(GRP_WEBSITES, NULL);
-        if(m_TaskGroups.size() > 1) {
-            m_pTaskPane->DisableTaskGroupTasks(m_TaskGroups[1]);
-        }
     }
-   
+       
     row = -1;
     for (i=0; i<n; i++) {
         // Step through all selected items

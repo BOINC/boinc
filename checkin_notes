@@ -7986,3 +7986,14 @@ David  2 Oct 2008
         Makefile.am
     samples/wrapper/
         wrapper.cpp
+
+Charlie 2 Oct 2008
+    - MGR: Fix position of progress bars in Projects and Tasks tabs when 
+        scrolled horizontally.
+    - MGR: Eliminate unnecessary clearing of web site selection buttons 
+        in Projects tab, hoping to fix an occasional drawing problem.
+
+    clientgui/
+        BOINCListCtrl.cpp
+        ViewProjects.cpp
+
