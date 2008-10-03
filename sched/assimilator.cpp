@@ -53,6 +53,28 @@ int one_pass_N_WU=0;
 int g_argc;
 char** g_argv;
 
+void usage(char** argv) {
+    fprintf(stderr,
+        "This program is an 'assimilator'; it handles completed jobs.\n"
+        "Normally it is run as a daemon from config.xml.\n"
+        "See: http://boinc.berkeley.edu/trac/wiki/BackendPrograms\n\n"
+    );
+
+    fprintf(stderr, "usage: %s [options]\n"
+        "    Options:\n"
+        "    -app name            Process jobs for the given application\n"
+        "    [-sleep_interval X]  Sleep X seconds if no jobs to process (default 10)\n"
+        "    [-mod N R]           Process jobs with mod(ID, N) == R\n"
+        "    [-one_pass]          Do one DB enumeration, then exit\n"
+        "    [-one_pass_N_WU N]   Process at most N jobs\n"
+        "    [-d N]               Set verbosity level (1, 2, 3=most verbose)\n"
+        "    [-dont_update_db]    Don't update DB (for testing)\n"
+        "    [-noinsert]          Don't insert records in app-specific DB\n",
+        argv[0]
+    );
+    exit(0);
+}
+
 // assimilate all WUs that need it
 // return nonzero if did anything
 //
@@ -172,14 +194,6 @@ bool do_pass(APP& app) {
     return did_something;
 }
 
-void show_help() {
-    fprintf(stderr,
-        "This program is an 'assimilator'; it handles validated results.\n"
-        "Normally it is run as a daemon from config.xml.\n"
-        "For more info: http://boinc.berkeley.edu/trac/wiki/BackendPrograms\n"
-    );
-}
-
 int main(int argc, char** argv) {
     int retval;
     bool one_pass = false;
@@ -187,6 +201,7 @@ int main(int argc, char** argv) {
     int i;
     char buf[256];
 
+    strcpy(app.name, "");
     check_stop_daemons();
     g_argc = argc;
     g_argv = argv;
@@ -218,11 +233,15 @@ int main(int argc, char** argv) {
             wu_id_modulus   = atoi(argv[++i]);
             wu_id_remainder = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
-            show_help();
-            exit(0);
+            usage(argv);
         } else {
             log_messages.printf(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
+            usage(argv);
         }
+    }
+
+    if (!strlen(app.name)) {
+        usage(argv);
     }
 
     if (wu_id_modulus) {

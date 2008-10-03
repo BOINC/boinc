@@ -29,14 +29,19 @@
 #include "sched_msgs.h"
 #include "hr_info.h"
 
-void show_help() {
+void usage(char** argv) {
     fprintf(stderr,
-        "This program writes a file '%s' containing the distribution of\n"
-        "host platforms (needed if you use homogeneous redundancy).\n"
-        "This should be run ~once/day as a periodic task from config.xml.\n"
-        "For more info, see http://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy",
-        HR_INFO_FILENAME
+        "This program scans the 'host' DB table and creates two files:\n\n"
+        "%s: how much RAC each HR class is getting\n"
+        "    (needed if you use homogeneous redundancy).\n"
+        "%s: statistics of host performance\n"
+        "    (needed if you use the 'job_size_matching' scheduling option).\n\n"
+        "This should be run as a periodic task (about once a day) from config.xml.\n"
+        "For more info, see http://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy\n\n"
+        "Usage: %s [--help]\n",
+        HR_INFO_FILENAME, PERF_INFO_FILENAME, argv[0]
     );
+    exit(0);
 }
 
 int main(int argc, char** argv) {
@@ -45,8 +50,7 @@ int main(int argc, char** argv) {
     
     for (int i=0; i<argc; i++) {
         if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
-            show_help();
-            exit(0);
+            usage(argv);
         }
     }
     check_stop_daemons();

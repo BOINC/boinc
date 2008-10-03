@@ -7997,3 +7997,13 @@ Charlie 2 Oct 2008
         BOINCListCtrl.cpp
         ViewProjects.cpp
 
+David  2 Oct 2008
+    - Manager: show resource requirements of all jobs, running or not
+    - Back-end programs: start adding --help option to all of them
+
+    clientgui/
+        ViewWork.cpp
+    sched/
+        assimilator.cpp
+        census.cpp
+        db_dump.cpp

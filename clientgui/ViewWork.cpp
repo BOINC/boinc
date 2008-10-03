@@ -1010,6 +1010,9 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
             if (status.task_suspend_reason & SUSPEND_REASON_EXCLUSIVE_APP_RUNNING) {
                 strBuffer += _(" - an exclusive app is running");
             }
+            if (result->resources.size()) {
+                strBuffer += wxString(wxT(" (")) + wxString(result->resources.c_str()) + wxString(wxT(")"));
+            }
         } else if (result->active_task) {
             if (result->too_large) {
                 strBuffer = _("Waiting for memory");
@@ -1021,9 +1024,6 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
                 } else {
                     strBuffer = _("Running");
                 }
-                if (result->resources.size()) {
-                    strBuffer += wxString(wxT(" (")) + wxString(result->resources.c_str()) + wxString(wxT(")"));
-                }
 #if 0
                 // doesn't work - project pointer not there
                 if (result->project->non_cpu_intensive) {
@@ -1034,6 +1034,9 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
                 strBuffer = _("Waiting to run");
             } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
                 strBuffer = _("Ready to start");
+            }
+            if (result->resources.size()) {
+                strBuffer += wxString(wxT(" (")) + wxString(result->resources.c_str()) + wxString(wxT(")"));
             }
         } else {
             strBuffer = _("Ready to start");

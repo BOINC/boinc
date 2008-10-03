@@ -753,12 +753,20 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     return 0;
 }
 
-void show_help() {
+void usage(char** argv) {
     fprintf(stderr,
         "This program generates XML files containing project statistics.\n"
         "It should be run once a day as a periodic task in config.xml.\n"
-        "For more info, see http://boinc.berkeley.edu/trac/wiki/DbDump\n"
+        "For more info, see http://boinc.berkeley.edu/trac/wiki/DbDump\n\n"
+        "Usage: %s [options]\n"
+        "Options:\n"
+        "    -dump_spec filename  Use the given config file (use ../db_dump_spec.xml)\n"
+        "    [-d N]               Set verbosity level (1, 2, 3=most verbose)\n"
+        "    [-db_host H]         Use the DB server on host H\n"
+        "    [-h | --help]        Show this\n",
+        argv[0]
     );
+    exit(0);
 }
 
 int main(int argc, char** argv) {
@@ -781,17 +789,16 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-db_host")) {
             db_host = argv[++i];
         } else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
-            show_help();
-            exit(0);
+            usage(argv);
         } else {
             log_messages.printf(MSG_CRITICAL, "Bad arg: %s\n", argv[i]);
-            exit(1);
+            usage(argv);
         }
     }
 
     if (!strlen(spec_filename)) {
         log_messages.printf(MSG_CRITICAL, "no spec file given\n");
-        exit(1);
+        usage(argv);
     }
 
     FILE* f = fopen(spec_filename, "r");
