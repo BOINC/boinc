@@ -282,7 +282,7 @@ int TASK::run(int argct, char** argvt) {
     startup_info.dwFlags = STARTF_USESTDHANDLES;
 	if (stdout_filename != "") {
 		boinc_resolve_filename_s(stdout_filename.c_str(), stdout_path);
-		startup_info.hStdOutput = win_fopen(stdout_path.c_str(), "w");
+		startup_info.hStdOutput = win_fopen(stdout_path.c_str(), "a");
 	}
 	if (stdin_filename != "") {
 		boinc_resolve_filename_s(stdin_filename.c_str(), stdin_path);
@@ -290,7 +290,7 @@ int TASK::run(int argct, char** argvt) {
 	}
     if (stderr_filename != "") {
         boinc_resolve_filename_s(stderr_filename.c_str(), stderr_path);
-        startup_info.hStdError = win_fopen(stderr_path.c_str(), "w");
+        startup_info.hStdError = win_fopen(stderr_path.c_str(), "a");
     } else {
         startup_info.hStdError = win_fopen(STDERR_FILE, "a");
     }
@@ -335,7 +335,7 @@ int TASK::run(int argct, char** argvt) {
 		//
 		if (stdout_filename != "") {
 			boinc_resolve_filename_s(stdout_filename.c_str(), stdout_path);
-			stdout_file = freopen(stdout_path.c_str(), "w", stdout);
+			stdout_file = freopen(stdout_path.c_str(), "a", stdout);
 			if (!stdout_file) return ERR_FOPEN;
 		}
 		if (stdin_filename != "") {
@@ -345,7 +345,7 @@ int TASK::run(int argct, char** argvt) {
 		}
         if (stderr_filename != "") {
             boinc_resolve_filename_s(stderr_filename.c_str(), stderr_path);
-            stderr_file = freopen(stderr_path.c_str(), "w", stderr);
+            stderr_file = freopen(stderr_path.c_str(), "a", stderr);
             if (!stderr_file) return ERR_FOPEN;
         }
 

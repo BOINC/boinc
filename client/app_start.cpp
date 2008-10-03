@@ -779,7 +779,6 @@ int ACTIVE_TASK::start(bool first_time) {
         } else {
             sprintf(libpath, "../../%s:.:../..", buf);
         }
-        fprintf(stderr, "LD PATH: %s\n", libpath);
         setenv("LD_LIBRARY_PATH", libpath, 1);
 
         retval = chdir(slot_dir);

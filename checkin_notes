@@ -7974,3 +7974,15 @@ Rom    2 Oct 2008
     /
         configure.ac
         version.h
+
+David  2 Oct 2008
+    - Makefile fix
+    - client: remove extraneous message
+    - wrapper: open stderr/stdout in append mode, not write
+
+    client/
+        app_start.cpp
+    clientgui/
+        Makefile.am
+    samples/wrapper/
+        wrapper.cpp
