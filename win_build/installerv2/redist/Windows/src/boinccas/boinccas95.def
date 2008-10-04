@@ -20,4 +20,4 @@ EXPORTS
     ValidateRebootRequest
     SaveExecutionState
     RestoreExecutionState
-    
+    CCConfigMd5sum
