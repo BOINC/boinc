@@ -86,8 +86,8 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
     return 0;
 }
 
-// Remove files when ack has been received
-// remove only this ending with ".sent"
+// Remove files when ack has been received.
+// Remove only those ending with ".sent"
 // (others arrived from application while RPC was happening)
 //
 int CLIENT_STATE::remove_trickle_files(PROJECT* project) {

@@ -1000,8 +1000,10 @@ bool CLIENT_STATE::garbage_collect_always() {
                     "garbage_collect(); still have active task for acked result %s; state %d",
                     rp->name, atp->task_state()
                 );
-                atp->set_task_state(PROCESS_EXITED, "garbage_collect");
-                // this will get rid of it
+                atp->abort_task(
+                    EXIT_ABORTED_BY_CLIENT,
+                    "Got ack for job that's till active"
+                );
             } else {
                 if (log_flags.state_debug) {
                     msg_printf(0, MSG_INFO,
@@ -1038,8 +1040,6 @@ bool CLIENT_STATE::garbage_collect_always() {
         for (i=0; i<rp->output_files.size(); i++) {
             // If one of the output files had an upload failure,
             // mark the result as done and report the error.
-            // The result, workunits, and file infos
-            // will be cleaned up after the server is notified
             //
             if (!rp->ready_to_report) {
                 fip = rp->output_files[i].file_info;
@@ -1053,6 +1053,20 @@ bool CLIENT_STATE::garbage_collect_always() {
             rp->output_files[i].file_info->ref_cnt++;
         }
         if (found_error) {
+            // check for process still running; this can happen
+            // e.g. if an intermediate upload fails
+            //
+            ACTIVE_TASK* atp = active_tasks.lookup_result(rp);
+            if (atp) {
+                switch (atp->task_state()) {
+                case PROCESS_EXECUTING:
+                case PROCESS_SUSPENDED:
+                    atp->abort_task(
+                        EXIT_ABORTED_BY_CLIENT,
+                        "Got ack for job that's till active"
+                    );
+                }
+            }
             report_result_error(*rp, "%s", error_str.c_str());
         }
         rp->avp->ref_cnt++;

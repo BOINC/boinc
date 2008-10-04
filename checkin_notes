@@ -8025,3 +8025,12 @@ Charlie 3 Oct 2008
 
     clientgui/
         BOINCListCtrl.cpp
+
+David  4 Oct 2008
+    - client: it a file upload fails for a job that's in progress,
+        abort the task.  Otherwise we end up reporting the job
+        while the app is still running.
+
+    client/
+        client_state.cpp
+        cs_trickle.cpp
