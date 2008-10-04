@@ -164,6 +164,7 @@ void wait_for_results(int wu_id) {
         }
         if (count > 0) return;
         sleep(10);
+        check_stop_daemons();
     }
 }
 

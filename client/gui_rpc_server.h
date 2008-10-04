@@ -38,17 +38,17 @@ class GUI_RPC_CONN {
 public:
     int sock;
     char nonce[256];
+        /// if true, don't allow operations other than authentication
     bool auth_needed;
-        // if true, don't allow operations other than authentication
     bool got_auth1;
+        /// keep track of whether we've got the 2 authentication msgs;
+        /// don't accept more than one of each (to prevent DoS)
     bool got_auth2;
-        // keep track of whether we've got the 2 authentication msgs;
-        // don't accept more than one of each (to prevent DoS)
+        /// we've send one <unauthorized>.
+        /// On next auth failure, disconnect
     bool sent_unauthorized;
-        // we've send one <unauthorized>.
-        // On next auth failure, disconnect
+        /// connection is from local host
     bool is_local;
-        // connection is from local host
     int au_ss_state;
     int au_mgr_state;
     GUI_HTTP gui_http;
@@ -83,8 +83,8 @@ class GUI_RPC_CONN_SET {
     bool remote_hosts_file_exists;
 public:
     int lsock;
+        /// time of the last RPC that needs network access to handle
     double time_of_last_rpc_needing_network;
-        // time of the last RPC that needs network access to handle
 
     GUI_RPC_CONN_SET();
     char password[256];

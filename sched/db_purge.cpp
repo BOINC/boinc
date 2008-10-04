@@ -95,21 +95,21 @@ FILE *re_stream=NULL;
 FILE *wu_index_stream=NULL;
 FILE *re_index_stream=NULL;
 int time_int=0;
-int min_age_days=0;
+int min_age_days = 0;
 bool no_archive = false;
-int purged_workunits= 0;
+int purged_workunits = 0;
     // used if limiting the total number of workunits to eliminate
-int max_number_workunits_to_purge=0;
+int max_number_workunits_to_purge = 0;
     // If nonzero, maximum number of workunits to purge.
     // Since all results associated with a purged workunit are also purged,
     // this also limits the number of purged results.
-const char *suffix[3]={"", ".gz", ".zip"};
+const char *suffix[3] = {"", ".gz", ".zip"};
     // subscripts MUST be in agreement with defines above
-int compression_type=COMPRESSION_NONE;
-int max_wu_per_file=0;
+int compression_type = COMPRESSION_NONE;
+int max_wu_per_file = 0;
     // set on command line if archive files should be closed and re-opened
     // after getting some max no of WU in the file
-int wu_stored_in_file=0;
+int wu_stored_in_file = 0;
     // keep track of how many WU archived in file so far
 
 bool time_to_quit() {
@@ -132,11 +132,11 @@ void open_archive(const char* filename_prefix, FILE*& f){
     strcat(path, suffix[compression_type]);
 
     // and construct appropriate command if needed
-    if (compression_type==COMPRESSION_GZIP) {
+    if (compression_type == COMPRESSION_GZIP) {
         sprintf(command, "gzip - > %s", path);
     }
    
-    if (compression_type==COMPRESSION_ZIP) {
+    if (compression_type == COMPRESSION_ZIP) {
         sprintf(command, "zip %s -", path);
     }
 
@@ -147,7 +147,7 @@ void open_archive(const char* filename_prefix, FILE*& f){
     // in the case with no compression, just open the file, else open
     // a pipe to the compression executable.
     //
-    if (compression_type==COMPRESSION_NONE) {   
+    if (compression_type == COMPRESSION_NONE) {   
         if (!(f = fopen( path,"w"))) {
             log_messages.printf(MSG_CRITICAL,
                 "Can't open archive file %s %s\n",
@@ -180,7 +180,7 @@ void close_archive(const char *filename, FILE*& fp){
 
     // In case of errors, carry on anyway.  This is deliberate, not lazy
     //
-    if (compression_type==COMPRESSION_NONE) {
+    if (compression_type == COMPRESSION_NONE) {
         fclose(fp);
     } else {
         pclose(fp);
@@ -419,13 +419,13 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
     sprintf(buf, "where workunitid=%d", wu.id);
     while (!result.enumerate(buf)) {
         if (!no_archive) {
-            retval= archive_result(result);
+            retval = archive_result(result);
             if (retval) return retval;
             log_messages.printf(MSG_DEBUG,
                 "Archived result [%d] to a file\n", result.id
             );
         }
-        retval= result.delete_from_db();
+        retval = result.delete_from_db();
         if (retval) return retval;
         log_messages.printf(MSG_DEBUG,
             "Purged result [%d] from database\n", result.id
@@ -438,7 +438,7 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
 // return true if did anything
 //
 bool do_pass() {
-    int retval= 0;
+    int retval = 0;
 
     // The number of workunits/results purged in a single pass of do_pass().
     // Since do_pass() may be invoked multiple times,
@@ -534,7 +534,7 @@ bool do_pass() {
             //
             if (max_wu_per_file && wu_stored_in_file>=max_wu_per_file) {
                 close_all_archives();
-                wu_stored_in_file=0;
+                wu_stored_in_file = 0;
             }
         }
 
@@ -561,7 +561,7 @@ bool do_pass() {
     if (do_pass_purged_workunits > DB_QUERY_LIMIT/2) {
         return true;
     } else {
-       	return false;
+        return false;
     }
 }
 
@@ -638,10 +638,8 @@ int main(int argc, char** argv) {
         }
         if (!do_pass()) {
             if (one_pass) break;
-            log_messages.printf(MSG_NORMAL,
-            	"Sleeping....\n"
-            );
-	    sleep(sleep_sec);
+            log_messages.printf(MSG_NORMAL, "Sleeping....\n");
+            sleep(sleep_sec);
         }
     }
 

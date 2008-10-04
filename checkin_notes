@@ -8043,3 +8043,8 @@ David  4 Oct 2008
 
     Makefile.am
     samples/*/Makefile
+
+David  4 Oct 2008
+    - changed some comments for Doxygen
+
+    client/*.h

@@ -25,11 +25,6 @@
 #include "http_curl.h"
 #include "prefs.h"
 
-// SCHEDULER_OP encapsulates the mechanism for
-// 1) fetching master files
-// 2) communicating with scheduling servers
-// Only one such operation can be in progress at once.
-
 #define SCHEDULER_OP_STATE_IDLE         0
     // invariant: in this state, our HTTP_OP is not in the HTTP_OP_SET
 #define SCHEDULER_OP_STATE_GET_MASTER   1
@@ -54,18 +49,26 @@
 #define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 
 
+/// SCHEDULER_OP encapsulates the mechanism for
+/// 1) fetching master files
+/// 2) communicating with scheduling servers
+/// Only one such operation can be in progress at once.
+
 class SCHEDULER_OP {
 private:
     int scheduler_op_retval;
     HTTP_OP http_op;
     HTTP_OP_SET* http_ops;
     char scheduler_url[256];
-    int url_index;                  // index within project's URL list
+        /// index within project's URL list
+    int url_index;
 public:
-    PROJECT* cur_proj;               // project we're currently contacting
+        /// project we're currently contacting
+    PROJECT* cur_proj;
     int state;
     int reason;
-    double url_random;              // used to randomize order
+        /// used to randomize order
+    double url_random;
 
 public:
     SCHEDULER_OP(HTTP_OP_SET*);
@@ -75,8 +78,8 @@ public:
     int init_master_fetch(PROJECT*);
     bool check_master_fetch_start();
     void backoff(PROJECT* p, const char *error_msg);
+        /// if we're doing an op to this project, abort it
     void abort(PROJECT*);
-        // if we're doing an op to this project, abort it
 private:
     bool update_urls(PROJECT*, std::vector<std::string> &urls);
     int start_op(PROJECT*);
@@ -95,12 +98,12 @@ struct SCHEDULER_REPLY {
     double request_delay;
     double next_rpc_delay;
     std::vector<USER_MESSAGE> messages;
+        /// not including <global_preferences> tags;
+        /// may include <venue> elements
     char* global_prefs_xml;
-        // not including <global_preferences> tags;
-        // may include <venue> elements
+        /// not including <project_preferences> tags
+        /// may include <venue> elements
     char* project_prefs_xml;
-        // not including <project_preferences> tags
-        // may include <venue> elements
     char master_url[256];
     char host_venue[256];
     unsigned int user_create_time;

@@ -61,8 +61,10 @@ public:
     PROXY_INFO pi;
 
 	char m_url[256];  
-	char m_curl_ca_bundle_location[256]; // string needed for ssl support
-	char szCurlProxyUserPwd[128]; // string needed for proxy username/password
+        /// string needed for ssl support
+	char m_curl_ca_bundle_location[256];
+        /// string needed for proxy username/password
+	char szCurlProxyUserPwd[128];
 
     int content_length;
     double file_offset;
@@ -70,51 +72,65 @@ public:
     char request_header[4096];
 
     FILE* fileIn;
-	FILE* fileOut;  // CMC need an output file for POST responses
-	CURL* curlEasy; // the "easy curl" handle for this net_xfer request
-	struct curl_slist *pcurlList; // curl slist for http headers
-	struct curl_httppost *pcurlFormStart; // a pointer to a form item for POST
-	struct curl_httppost *pcurlFormEnd; // a pointer to a form item for POST
-	unsigned char* pByte;  // pointer to bytes for reading via libcurl_read function
+        /// CMC need an output file for POST responses
+	FILE* fileOut;
+        /// the "easy curl" handle for this net_xfer request
+	CURL* curlEasy;
+        /// curl slist for http headers
+	struct curl_slist *pcurlList;
+        /// a pointer to a form item for POST
+	struct curl_httppost *pcurlFormStart;
+        /// a pointer to a form item for POST
+	struct curl_httppost *pcurlFormEnd;
+        /// pointer to bytes for reading via libcurl_read function
+	unsigned char* pByte;
 
+        /// offset within the file or memory buffer we're reading,
 	long lSeek;
-        // offset within the file or memory buffer we're reading,
     char infile[256];
     char outfile[256];
-    char error_msg[256];    // put Curl error message here
-	bool bTempOutfile; // CMC -- flag that outfile is really a tempfile we should delete
+        /// put Curl error message here
+    char error_msg[256];
+        /// CMC -- flag that outfile is really a tempfile we should delete
+	bool bTempOutfile;
     char* req1;
     int req1_len;
-	bool bSentHeader;  // CMC -- a flag that I already sent the header
-	CURLcode CurlResult;   // CMC -- send up curl result code
+        /// CMC -- a flag that I already sent the header
+	bool bSentHeader;
+        /// CMC -- send up curl result code
+	CURLcode CurlResult;
 
     bool want_download;     // at most one should be true
     bool want_upload;
-    long connect_error;      // errno from connect() (not used for anything)
-	long response;          // HTTP status code from server
-        // the above two MUST be long (not int)
-        // otherwise breaks on 64-bit machines
+        /// errno from connect() (not used for anything)
+    long connect_error;
+        /// HTTP status code from server
+        /// the above two MUST be long (not int)
+        /// otherwise breaks on 64-bit machines
+	long response;
     double start_time;
+        /// Uncompressed bytes transferred.
+
+        /// In the case of "post2" this includes only the file part
+        /// In the case of restartable ops (file upload/download)
+        /// this includes previous count (i.e. file offset)
     double bytes_xferred;
-        // Uncompressed bytes transferred.
-        // In the case of "post2" this includes only the file part
-        // In the case of restartable ops (file upload/download)
-        // this includes previous count (i.e. file offset)
+        /// bytes_xferred at the start of this operation;
+        /// used to compute transfer speed
 	double start_bytes_xferred;
-        // bytes_xferred at the start of this operation;
-        // used to compute transfer speed
+        /// tranfer rate based on elapsed time and bytes_xferred
+        /// (hence doesn't reflect compression; used only for GUI)
     double xfer_speed;
-        // tranfer rate based on elapsed time and bytes_xferred
-        // (hence doesn't reflect compression; used only for GUI)
 	int http_op_state;      // values above
-    int http_op_type;       // HTTP_OP_* (see above)
+        /// HTTP_OP_* (see above)
+    int http_op_type;
+        /// Either:
+        /// 0
+        /// ERR_GETHOSTBYNAME (if no such host)
+        /// ERR_CONNECT (if server down)
+        /// ERR_FILE_NOT_FOUND (if 404)
+        /// ERR_HTTP_ERROR (other failures)
     int http_op_retval;
-        // Either:
-        // 0
-        // ERR_GETHOSTBYNAME (if no such host)
-        // ERR_CONNECT (if server down)
-        // ERR_FILE_NOT_FOUND (if 404)
-        // ERR_HTTP_ERROR (other failures)
 
     void reset();
     void init();
@@ -159,8 +175,8 @@ int libcurl_debugfunction(CURL *handle, curl_infotype type,
 	unsigned char *data, size_t size, HTTP_OP* phop
 );
 
-// represents a set of HTTP requests in progress
-//
+/// represents a set of HTTP requests in progress
+
 class HTTP_OP_SET {
     std::vector<HTTP_OP*> http_ops;
 public:
@@ -169,12 +185,13 @@ public:
     int remove(HTTP_OP*);
     int nops();
 
+        /// total bytes transferred
     double bytes_up, bytes_down;
-        // total bytes transferred
 
 	void get_fdset(FDSET_GROUP&);
     void got_select(FDSET_GROUP&, double);
-    HTTP_OP* lookup_curl(CURL* pcurl);   // lookup by easycurl handle
+        /// lookup by easycurl handle
+    HTTP_OP* lookup_curl(CURL* pcurl);
     void cleanup_temp_files();
 
 };

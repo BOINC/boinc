@@ -33,8 +33,8 @@
 class PROJECT;
 
 
-// the following stores a message in memory, where it can be retrieved via RPC
-//
+/// stores a message in memory, where it can be retrieved via RPC
+
 struct MESSAGE_DESC {
     char project_name[256];
     int priority;
@@ -54,8 +54,8 @@ extern void show_message(class PROJECT *p, char* message, int priority);
 #define __attribute__(x) /*nothing*/
 #endif
 
-// Show a message, preceded by timestamp and project name
-//
+/// Show a message, preceded by timestamp and project name
+
 extern void msg_printf(PROJECT *p, int priority, const char *fmt, ...) __attribute__ ((format (printf, 3, 4)));
 
 #endif
