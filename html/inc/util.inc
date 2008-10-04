@@ -367,6 +367,7 @@ function check_tokens($auth) {
     );
 }
 
+if (!function_exists("print_login_form_aux")){
 function print_login_form_aux($next_url, $user) {
     echo "
         <form name=\"f\" method=\"post\" action=\"login_action.php\">
@@ -398,12 +399,15 @@ function print_login_form_aux($next_url, $user) {
         </script>
     ";
 }
+}
 
+if (!function_exists("print_login_form")){
 function print_login_form() {
     page_head("Please log in");
     $next_url = $_SERVER['REQUEST_URI'];
     print_login_form_aux($next_url, null);
     page_tail();
+}
 }
 
 function no_computing() {
