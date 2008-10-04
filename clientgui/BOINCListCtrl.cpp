@@ -279,8 +279,8 @@ void CBOINCListCtrl::DrawBarGraphs()
 #ifdef __WXMAC__
     wxColour progressColor = wxColour( 40, 170, 170, 60);
 #else
-    wxColour progressColor = wxColour( 80, 40, 30);
-    dc.SetLogicalFunction(wxAND_INVERT);
+    wxColour progressColor = wxColour( 175, 215, 225);
+    dc.SetLogicalFunction(wxAND);
 #endif
 
     numItems = GetItemCount();

@@ -8020,9 +8020,8 @@ David  3 Oct 2008
         coproc.h
 
 Charlie 3 Oct 2008
-    - MGR: On Windows, draw progress bars using wxAND_INVERT transfer 
-        mode instead of wx_AND for slightly better appearance when 
-        selected.
+    - MGR: On Windows, adjust progress bar color for slightly 
+        better appearance when selected.
 
     clientgui/
         BOINCListCtrl.cpp
