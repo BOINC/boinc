@@ -9,7 +9,7 @@ ACLOCAL_AMFLAGS = -I m4
 API_SUBDIRS = api lib zip
 
 if ENABLE_SERVER
-   SERVER_SUBDIRS = db test py sched apps tools
+   SERVER_SUBDIRS = db test py sched apps tools samples/example_app
 endif
 
 if ENABLE_CLIENT

@@ -1,10 +1,5 @@
 # This should work on Linux.  Modify as needed for other platforms.
 
-# Do this first:
-# ln -s `g++ -print-file-name=libstdc++.a`
-# This creates a symbolic link to the C++ library,
-# which is linked statically
-
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
@@ -21,8 +16,11 @@ PROGS = multi_thread
 
 all: $(PROGS)
 
+libstdc++.a:
+	ln -s `g++ -print-file-name=libstdc++.a`
+
 clean:
 	/bin/rm -f $(PROGS)
 
-multi_thread: multi_thread.o $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
+multi_thread: multi_thread.o libstdc++.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS) -o multi_thread multi_thread.o libstdc++.a -pthread -lboinc_api -lboinc

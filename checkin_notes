@@ -8034,3 +8034,12 @@ David  4 Oct 2008
     client/
         client_state.cpp
         cs_trickle.cpp
+
+David  4 Oct 2008
+    - Unix build system: build samples/example_app/,
+        and change the samples/ makefiles so that they automatically
+        create the symbolic link to libstdc++.a
+        Fixes #725
+
+    Makefile.am
+    samples/*/Makefile

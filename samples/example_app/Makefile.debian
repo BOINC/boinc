@@ -1,10 +1,5 @@
 # This should work on Linux.  Modify as needed for other platforms.
 
-# Do this first:
-# ln -s `g++ -print-file-name=libstdc++.a`
-# This creates a symbolic link to the C++ library,
-# which is linked statically
-
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
@@ -29,13 +24,16 @@ PROGS = uc2 uc2_graphics
 
 all: $(PROGS)
 
+libstdc++.a:
+	ln -s `g++ -print-file-name=libstdc++.a`
+
 clean:
 	/bin/rm -f $(PROGS)
 
-uc2: uc2.o $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
+uc2: uc2.o libstdc++.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS) -o uc2 uc2.o libstdc++.a -pthread -lboinc_api -lboinc
 
-uc2_graphics: uc2_graphics.o $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_graphics2.a
+uc2_graphics: uc2_graphics.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS) -o uc2_graphics uc2_graphics.o libstdc++.a -pthread \
     -lboinc_graphics2 -lboinc_api -lboinc \
     $(LIBGLUT) $(LIBGLU) $(LIBJPEG) \
