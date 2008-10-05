@@ -8048,3 +8048,33 @@ David  4 Oct 2008
     - changed some comments for Doxygen
 
     client/*.h
+
+Janus	5 Oct 2008
+    - Projects can override the login form by defining their own replacement
+      print_login_form_aux/print_login_form in their project.inc file
+    - Fixed a case of bad coding where variables where called "1", "2"... instead
+      of something more telling like "role1" etc.
+    - Fixed forum posts display to work even in the case of minor
+      database inconsistencies
+    - Added "Highlight special user"-feature which will highlight special user
+      posts on the forum. (requires database update)
+    - Made the forum post body background 25% transparent in white.css for 
+      browsers that support transparency. This gives a nice effect combined
+      with the highlight-feature.
+
+    html/
+        inc/
+	    forum.inc
+	    util.inc    
+        ops/
+	    db_update.php
+	    manage_special_users_action.php	    
+	    manage_special_users.php	    
+        user/
+	    img/
+	        75pct_white.png
+	    edit_forum_preferences_action.php
+	    edit_forum_preferences_form.php	    
+	    white.css
+	    forum_forum.php
+
