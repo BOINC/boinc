@@ -26,7 +26,7 @@ admin_page_head("Manage special users action");
 $bitset = '';
 
 for ($i=0;$i<=6;$i++) {
-    if (post_int($i, TRUE) == '1') {
+    if (post_int("role".$i, TRUE) == '1') {
         $bitset = str_pad($bitset, $i+1, '1');
     } else {
         $bitset = str_pad($bitset, $i+1, '0');

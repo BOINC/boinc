@@ -42,7 +42,7 @@ for($i=1;$i<=mysql_num_rows($result);$i++){
           <tr><td>$foo->name</td>";
     for ($j=0;$j<=6;$j++) {
         $bit = substr($foo->special_user, $j, 1);
-        echo "<td><input type=\"checkbox\" name=\"".$j."\" value=\"1\"";
+        echo "<td><input type=\"checkbox\" name=\"role".$j."\" value=\"1\"";
         if ($bit == 1) {
             echo " checked=\"checked\"";
         }
@@ -56,7 +56,7 @@ echo "<tr><form action=\"manage_special_users_action.php\" method=\"POST\">\n";
 echo "<td>Add UserID:<input type=\"text\" name=\"userid\" size=\"6\"></td>";
 
 for ($j=0;$j<=6;$j++) {
-        echo "<td><input type=\"checkbox\" name=\"".$j."\" value=\"1\"";
+        echo "<td><input type=\"checkbox\" name=\"role".$j."\" value=\"1\"";
         echo "></td>\n";
     }
     echo "<td><input type=\"submit\" value=\"Update\"></form></td>";
