@@ -502,25 +502,34 @@ function show_post(
         }
     }
 
+
+    // Print the special user lines, if any
+    global $special_user_bitfield; 
+    $fstatus="";
+    $keys = array_keys($special_user_bitfield);
+    $is_posted_by_special = false;
+    for ($i=0; $i<sizeof($special_user_bitfield);$i++) {
+        if ($user->prefs && $user->prefs->privilege($keys[$i])) {
+            $fstatus.=$special_user_bitfield[$keys[$i]]."<br>";
+	    $is_posted_by_special = true;
+        }
+    }
+    
+    // Highlight special users if set in prefs;
+    if ($logged_in_user && $logged_in_user->prefs){
+	$highlight = $logged_in_user->prefs->highlight_special && $is_posted_by_special;
+    } else {
+	$highlight = $is_posted_by_special;
+    }
     echo "
         <tr>
-        <td class=\"row$n\" rowspan=\"3\">
+	    <td class=\"".($highlight?"highlighted_":"")."row$n\" rowspan=\"3\">
         <a name=\"$post->id\"></a>
         <div class=\"authorcol\">
     ";
 
     echo user_links($user);
     echo "<br>";
-
-    // Print the special user lines, if any
-    global $special_user_bitfield; 
-    $fstatus="";
-    $keys = array_keys($special_user_bitfield);
-    for ($i=0; $i<sizeof($special_user_bitfield);$i++) {
-        if ($user->prefs && $user->prefs->privilege($keys[$i])) {
-            $fstatus.=$special_user_bitfield[$keys[$i]]."<br>";
-        }
-    }
     if ($user->create_time > time()-ST_NEW_TIME) $fstatus.=ST_NEW."<br>";
     if ($fstatus) echo "<font size=\"-2\">$fstatus</font>";
 
@@ -596,7 +605,7 @@ function show_post(
     echo "</td>
         </tr>
         </form>
-        <tr class=\"row$n\">
+        <tr class=\"".($highlight?"highlighted_":"")."row$n\">
         <td class=\"postbody\">
     ";
 

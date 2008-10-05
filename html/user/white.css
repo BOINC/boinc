@@ -109,9 +109,17 @@ td.friend {
     background-color: #d9d9d9;
     text-align: left;
 }
-
 .row1 {
     background-color: #eeeeee;
+    text-align: left;
+}
+
+.highlighted_row0 {
+    background-color: #b9d9f9;
+    text-align: left;
+}
+.highlighted_row1 {
+    background-color: #ceeefe;
     text-align: left;
 }
 
@@ -239,7 +247,7 @@ td.postheader {
 td.postbody { 
     font-size: 9pt;
     margin-left: 4px;
-    background-color: white;
+    background: transparent url('img/75pct_white.png');
 }
 
 td.postfooter {

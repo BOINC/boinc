@@ -141,6 +141,11 @@ if ($user->prefs->ignore_sticky_posts){
 } else {
     $forum_ignore_sticky_posts="";
 }
+if ($user->prefs->highlight_special){
+    $forum_highlight_special="checked=\"checked\"";
+} else {
+    $forum_highlight_special="";
+}
 
 $forum_minimum_wrap_postcount = intval($user->prefs->minimum_wrap_postcount);
 $forum_display_wrap_postcount = intval($user->prefs->display_wrap_postcount);
@@ -152,6 +157,7 @@ row2(
     <input type=\"checkbox\" name=\"forum_hide_signatures\" ".$forum_hide_signatures."> Hide signatures<br>
     <input type=\"checkbox\" name=\"forum_images_as_links\" ".$forum_image_as_link."> Show images as links<br>
     <input type=\"checkbox\" name=\"forum_link_popup\" ".$forum_link_popup."> Open links in new window/tab<br>
+    <input type=\"checkbox\" name=\"forum_highlight_special\" ".$forum_highlight_special."> Highlight special users<br>
     "
 );
 

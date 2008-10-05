@@ -105,6 +105,7 @@ $images_as_links = ($_POST["forum_images_as_links"]!="")?1:0;
 $link_popup = ($_POST["forum_link_popup"]!="")?1:0;
 $hide_avatars = ($_POST["forum_hide_avatars"]!="")?1:0;
 $hide_signatures = ($_POST["forum_hide_signatures"]!="")?1:0;
+$highlight_special = ($_POST["forum_highlight_special"]!="")?1:0;
 $jump_to_unread = ($_POST["forum_jump_to_unread"]!="")?1:0;
 $ignore_sticky_posts = ($_POST["forum_ignore_sticky_posts"]!="")?1:0;
 $no_signature_by_default = ($_POST["signature_by_default"]!="")?0:1;
@@ -129,7 +130,7 @@ if ($display_wrap_postcount<5) $display_wrap_postcount=5;
 
 $signature = BoincDb::escape_string($signature);
 
-$user->prefs->update("images_as_links=$images_as_links, link_popup=$link_popup, hide_avatars=$hide_avatars, hide_signatures=$hide_signatures, jump_to_unread=$jump_to_unread, ignore_sticky_posts=$ignore_sticky_posts, no_signature_by_default=$no_signature_by_default, pm_notification=$pm_notification, avatar='$avatar_url', signature='$signature', forum_sorting=$forum_sort, thread_sorting=$thread_sort, minimum_wrap_postcount=$minimum_wrap_postcount, display_wrap_postcount=$display_wrap_postcount");
+$user->prefs->update("images_as_links=$images_as_links, link_popup=$link_popup, hide_avatars=$hide_avatars, hide_signatures=$hide_signatures, highlight_special=$highlight_special, jump_to_unread=$jump_to_unread, ignore_sticky_posts=$ignore_sticky_posts, no_signature_by_default=$no_signature_by_default, pm_notification=$pm_notification, avatar='$avatar_url', signature='$signature', forum_sorting=$forum_sort, thread_sorting=$thread_sort, minimum_wrap_postcount=$minimum_wrap_postcount, display_wrap_postcount=$display_wrap_postcount");
 
 
 $add_user_to_filter = ($_POST["add_user_to_filter"]!="");
