@@ -457,6 +457,10 @@ function show_post(
     if (is_banished($user) && !is_moderator($logged_in_user, $forum)) {
         return;
     }
+    // If the user no longer exists, skip the post
+    if (!$user){
+	return;
+    }
 
     $config = get_config();
     $no_forum_rating = parse_bool($config, "no_forum_rating");
@@ -513,7 +517,7 @@ function show_post(
     $fstatus="";
     $keys = array_keys($special_user_bitfield);
     for ($i=0; $i<sizeof($special_user_bitfield);$i++) {
-        if ($user->prefs->privilege($keys[$i])) {
+        if ($user->prefs && $user->prefs->privilege($keys[$i])) {
             $fstatus.=$special_user_bitfield[$keys[$i]]."<br>";
         }
     }
@@ -522,7 +526,7 @@ function show_post(
 
     echo "<span class=\"authorinfo\">";
     if (!$filter || !$rated_below_threshold){
-        if ($user->prefs->avatar!=""  && (!$logged_in_user || ($logged_in_user->prefs->hide_avatars==false))) {
+        if ($user->prefs && $user->prefs->avatar!="" && (!$logged_in_user || ($logged_in_user->prefs->hide_avatars==false))) {
             echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->prefs->avatar."\" alt=\"Avatar\"><br>";
         }
     }
