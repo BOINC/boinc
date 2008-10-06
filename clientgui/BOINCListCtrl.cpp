@@ -314,7 +314,7 @@ void CBOINCListCtrl::DrawProgressBars()
 #endif
             r.x = x;
             r.width = w;
-            r.Inflate(-1, -1);
+            r.Inflate(-1, -2);
 
             wxString progressString = m_pParentView->GetProgressText(row);
             dc.GetTextExtent(progressString, &xx, &yy);
