@@ -8107,3 +8107,11 @@ Charlie 3 Oct 2008
         ViewProjects.cpp,.h
         ViewTransfers.cpp,.h
         ViewWork.cpp,.h
+
+Rom    6 Oct 2008
+    - Tag for 6.3.14 release, all platforms
+      boinc_core_release_6_3_14
+
+    /
+        configure.ac
+        version.h
