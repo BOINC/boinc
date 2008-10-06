@@ -16,9 +16,16 @@ CXXFLAGS = -g \
 
 # the following should be freeglut; use nm to check
 # you may have to change the paths for your system
-LIBGLUT = /usr/local/lib/libglut.a
-LIBGLU = /usr/local/lib/libGLU.a
-LIBJPEG = /usr/local/lib/libjpeg.a
+
+ifeq ($(wildcard /usr/local/lib/libglut.a),)
+	LIBGLUT = /usr/lib/libglut.a
+	LIBGLU = /usr/lib/libGLU.a
+	LIBJPEG = /usr/lib/libjpeg.a
+else
+	LIBGLUT = /usr/local/lib/libglut.a
+	LIBGLU = /usr/local/lib/libGLU.a
+	LIBJPEG = /usr/local/lib/libjpeg.a
+endif
 
 PROGS = uc2 uc2_graphics
 
@@ -28,14 +35,12 @@ libstdc++.a:
 	ln -s `g++ -print-file-name=libstdc++.a`
 
 clean:
-	/bin/rm -f $(PROGS) *.o
-distclean:
-	/bin/rm -f $(PROGS) *.o libstdc++.a
+	/bin/rm -f $(PROGS)
 
 uc2: uc2.o libstdc++.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS) -o uc2 uc2.o libstdc++.a -pthread -lboinc_api -lboinc
 
-uc2_graphics: libstdc++.a uc2_graphics.o $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_graphics2.a
+uc2_graphics: uc2_graphics.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS) -o uc2_graphics uc2_graphics.o libstdc++.a -pthread \
     -lboinc_graphics2 -lboinc_api -lboinc \
     $(LIBGLUT) $(LIBGLU) $(LIBJPEG) \

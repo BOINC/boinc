@@ -16,9 +16,16 @@ CXXFLAGS = -g \
 
 # the following should be freeglut; use nm to check
 # you may have to change the paths for your system
-LIBGLUT = /usr/lib/libglut.a
-LIBGLU = /usr/lib/libGLU.a
-LIBJPEG = /usr/lib/libjpeg.a
+
+ifeq ($wildcard /usr/lib/libglut.a),)
+	LIBGLUT = /usr/lib/libglut.a
+	LIBGLU = /usr/lib/libGLU.a
+	LIBJPEG = /usr/lib/libjpeg.a
+else
+	LIBGLUT = /usr/local/lib/libglut.a
+	LIBGLU = /usr/local/lib/libGLU.a
+	LIBJPEG = /usr/local/lib/libjpeg.a
+endif
 
 PROGS = uc2 uc2_graphics
 
@@ -28,6 +35,7 @@ libstdc++.a:
 	ln -s `g++ -print-file-name=libstdc++.a`
 
 clean:
+	echo $(LIBGLUT)
 	/bin/rm -f $(PROGS)
 
 uc2: uc2.o libstdc++.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
