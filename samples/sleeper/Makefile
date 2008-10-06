@@ -21,6 +21,8 @@ libstdc++.a:
 
 clean:
 	rm $(PROGS)
+distclean:
+	/bin/rm -f $(PROGS) *.o libstdc++.a
 
 sleeper: sleeper.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
 	g++ $(CXXFLAGS) -o sleeper sleeper.o libstdc++.a -pthread -lboinc_api -lboinc

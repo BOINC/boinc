@@ -17,7 +17,7 @@ function show_participant() {
     $i = rand(0, 99);
     $j = $i+1;
     echo "<table cellpadding=8 cellspacing=0>
-        <tr><td class=heading>
+        <tr><td class=heading_right>
         <center>
         <span class=section_title>Computing power</span>
         <br>
@@ -61,7 +61,7 @@ function show_news_items() {
     require_once("../html/inc/news.inc");
     echo "
         <table border=0 cellpadding=8>
-        <tr><td class=heading>
+        <tr><td class=heading_right>
         <center>
         <span class=section_title>News</span>
         </center>
@@ -81,7 +81,7 @@ function show_news_items() {
 
 function show_participate() {
     echo "
-        <tr><td class=heading>
+        <tr><td class=heading_left>
         <center>
         <span class=section_title>".tr(HOME_HEADING1)."</span>
         <br>
@@ -102,7 +102,7 @@ function show_participate() {
 
 function show_create() {
     echo "
-        <tr><td class=heading>
+        <tr><td class=heading_left>
         <center>
         <span class=section_title>Compute with BOINC</span>
         <br>
@@ -112,21 +112,20 @@ function show_create() {
         </center>
         </td></tr>
         <tr><td>
-        <b>Scientists</b>: 
+        <ul>
+        <li><b>Scientists</b>: 
         use BOINC to create a
         <a href=volunteer.php>volunteer computing project</a>,
         giving you the computing power of thousands of CPUs.
-        <br>
-        <b>Universities</b>: use BOINC to create a
+        <li><b>Universities</b>: use BOINC to create a
         <a href=\"trac/wiki/VirtualCampusSupercomputerCenter\">Virtual Campus Supercomputing Center</a>.
-        <br>
-        <b>Companies</b>:
+        <li><b>Companies</b>:
         use BOINC for <a href=dg.php>desktop Grid computing</a>.
-        <br>
-        And check out:
+        </ul>
+        Related software:
         <ul>
-            <li> <a href=\"http://bolt.berkeley.edu/\">Bolt</a>: software for web-based education and training
-            <li> <a href=\"http://bossa.berkeley.edu/\">Bossa</a>: software for distributed thinking projects
+            <li> <a href=\"http://bolt.berkeley.edu/\">Bolt</a>: middleware for web-based education and training
+            <li> <a href=\"http://bossa.berkeley.edu/\">Bossa</a>: middleware for distributed thinking projects
         </ul>
         </td></tr>
     ";
@@ -134,21 +133,26 @@ function show_create() {
 
 function show_other() {
     echo "
-        <tr><td class=heading>
+        <tr><td class=heading_left>
         <center>
         <span class=section_title>The BOINC project</span>
         </center>
         </td></tr>
         <tr><td>
             <ul>
-            <li> <a href=\"trac/wiki/BoincIntro/\">Overview</a>
+            <li> Help wanted!
+            <ul>
+                <li> <a href=\"trac/wiki/DevProjects\">Programming</a>
+                <li> <a href=\"trac/wiki/TranslateIntro\">Translation</a>
+                <li> <a href=\"trac/wiki/AlphaInstructions\">Testing</a>
+                <li> <a href=\"trac/wiki/WikiMeta\">Documentation</a>
+            </ul>
+            <li> <a href=\"trac/wiki/SoftwareAddon\">APIs for add-on software</a>
             <li> <a href=\"trac/wiki/ProjectPeople\">Personnel and contributors</a>
-            <li> <a href=\"trac/wiki/SoftwareDevelopment\">Software development</a>
-            <li> <a href=email_lists.php>Email lists</a>
             <li> <a href=\"dev/\">Message boards</a>
+            <li> <a href=email_lists.php>Email lists</a>
             <li> <a href=\"trac/wiki/BoincEvents\">Events</a>
-            <li> <a href=\"trac/wiki/BoincPapers\">Papers and talks</a> on BOINC
-            <li> <a href=\"trac/wiki/TranslateIntro\">Translation</a> of web and GUI text
+            <li> <a href=\"trac/wiki/BoincPapers\">Papers and talks</a>
             <li> <a href=logo.php>Logos and graphics</a>
             </ul>
             <br>

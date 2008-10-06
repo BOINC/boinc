@@ -22,6 +22,8 @@ libstdc++.a:
 
 clean:
 	rm $(PROGS) *.o
+distclean:
+	/bin/rm -f $(PROGS) *.o libstdc++.a
 
 wrapper: wrapper.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
 	g++ $(CXXFLAGS) -o wrapper wrapper.o libstdc++.a -pthread -lboinc_api -lboinc

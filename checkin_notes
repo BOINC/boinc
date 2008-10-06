@@ -8115,3 +8115,6 @@ Rom    6 Oct 2008
     /
         configure.ac
         version.h
+
+David  6 Oct 2008
+    - add distclean target for samples/ makefiles

@@ -42,7 +42,7 @@ The colors are based on U.C. Berkeley's blue-and-gold colors.
 <li> <a href=logo/boinc_logo.wmf>Windows meta-file (.wmf)</a>
 <li> <a href=logo/logo_3d>3D versions (various sizes)</a>
 </ul>
-<
+
 Icon:
 <ul>
 <li> Bitmaps (.bmp):
