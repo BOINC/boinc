@@ -26,10 +26,10 @@
 
 
 #if USE_NATIVE_LISTCONTROL
-DEFINE_EVENT_TYPE(wxEVT_DRAW_BARGRAPH)
+DEFINE_EVENT_TYPE(wxEVT_DRAW_PROGRESSBAR)
 
 BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
-    EVT_DRAW_BARGRAPH(CBOINCListCtrl::OnDrawBarGraph)
+    EVT_DRAW_PROGRESSBAR(CBOINCListCtrl::OnDrawProgressBar)
 END_EVENT_TABLE()
 #endif
 
@@ -54,7 +54,7 @@ CBOINCListCtrl::CBOINCListCtrl(
     m_bIsSingleSelection = (iListWindowFlags & wxLC_SINGLE_SEL) ? true : false ;
     
 #if USE_NATIVE_LISTCONTROL
-    m_bBarGraphEventPending = false;
+    m_bProgressBarEventPending = false;
 #endif
 
     Connect(
@@ -183,7 +183,7 @@ void CBOINCListCtrl::SelectRow(int row, bool setSelected) {
 }
 
 
-void CBOINCListCtrl::AddPendingBarGraph(int row) {
+void CBOINCListCtrl::AddPendingProgressBar(int row) {
     bool duplicate = false;
     int n = (int)m_iRowsNeedingProgressBars.GetCount();
     for (int i=0; i<n; ++i) {
@@ -254,16 +254,16 @@ wxListItemAttr* CBOINCListCtrl::OnGetItemAttr(long item) const {
 }
 
 
-void CBOINCListCtrl::DrawBarGraphs()
+void CBOINCListCtrl::DrawProgressBars()
 {
     long topItem, numItems, numVisibleItems, i, row;
-    wxRect r;
-    int w = 0, x = 0;
+    wxRect r, rr;
+    int w = 0, x = 0, xx, yy, ww;
     int progressColumn = m_pParentView->GetProgressColumn();
     
 #if USE_NATIVE_LISTCONTROL
     wxClientDC dc(this);
-    m_bBarGraphEventPending = false;
+    m_bProgressBarEventPending = false;
 #else
     wxClientDC dc(GetMainWin());   // Available only in wxGenericListCtrl
 #endif
@@ -276,13 +276,9 @@ void CBOINCListCtrl::DrawBarGraphs()
     int n = (int)m_iRowsNeedingProgressBars.GetCount();
     if (n <= 0) return;
     
-#ifdef __WXMAC__
-    wxColour progressColor = wxColour( 40, 170, 170, 60);
-#else
-    wxColour progressColor = wxColour( 175, 215, 225);
-    dc.SetLogicalFunction(wxAND);
-#endif
-
+    wxColour progressColor = wxTheColourDatabase->Find(wxT("LIGHT BLUE"));
+    wxBrush progressBrush(progressColor);
+    
     numItems = GetItemCount();
     if (numItems) {
         topItem = GetTopItem();     // Doesn't work properly for Mac Native control in wxMac-2.8.7
@@ -301,9 +297,10 @@ void CBOINCListCtrl::DrawBarGraphs()
 #if USE_NATIVE_LISTCONTROL
         x -= GetScrollPos(wxHORIZONTAL);
 #else
-        int yy;
         GetMainWin()->CalcScrolledPosition(x, 0, &x, &yy);
 #endif
+        wxFont theFont = GetFont();
+        dc.SetFont(theFont);
         
         for (int i=0; i<n; ++i) {
             row = m_iRowsNeedingProgressBars[i];
@@ -318,17 +315,59 @@ void CBOINCListCtrl::DrawBarGraphs()
             r.x = x;
             r.width = w;
             r.Inflate(-1, -1);
-            
-            dc.SetPen(progressColor);
-            dc.SetBrush(*wxTRANSPARENT_BRUSH);
-            dc.DrawRectangle( r );
-            r.Inflate(-1, 0);
-            dc.DrawRectangle( r );
 
-            r.width = r.width * m_pParentView->GetProgressValue(row);
-            dc.SetPen(*wxTRANSPARENT_PEN);
-            dc.SetBrush(progressColor);
-            dc.DrawRectangle( r );
+            wxString progressString = m_pParentView->GetProgressText(row);
+            dc.GetTextExtent(progressString, &xx, &yy);
+            
+            // Adapted from ellipis code in wxRendererGeneric::DrawHeaderButtonContents()
+            if (xx > r.width) {
+                int ellipsisWidth;
+                dc.GetTextExtent( wxT("..."), &ellipsisWidth, NULL);
+                if (ellipsisWidth > r.width) {
+                    progressString.Clear();
+                    xx = 0;
+                } else {
+                    do {
+                        progressString.Truncate( progressString.length() - 1 );
+                        dc.GetTextExtent( progressString, &xx, &yy);
+                    } while (xx + ellipsisWidth > r.width && progressString.length() );
+                    progressString.append( wxT("...") );
+                    xx += ellipsisWidth;
+                }
+            }
+
+            rr = r;
+            
+            dc.SetLogicalFunction(wxCOPY);
+            dc.SetBackgroundMode(wxSOLID);
+            dc.SetPen(progressColor);
+            dc.SetBrush(progressBrush);
+            dc.DrawRectangle( rr );
+
+            rr.Inflate(-2, -1);
+            ww = rr.width * m_pParentView->GetProgressValue(row);
+            rr.x += ww;
+            rr.width -= ww;
+
+#if 0
+            // Show background stripes behind progress bars
+            wxListItemAttr* attr = m_pParentView->FireOnListGetItemAttr(row);
+            wxColour bkgd = attr->GetBackgroundColour();
+            dc.SetPen(bkgd);
+            dc.SetBrush(bkgd);
+#else
+            dc.SetPen(*wxWHITE_PEN);
+            dc.SetBrush(*wxWHITE_BRUSH);
+#endif
+            dc.DrawRectangle( rr );
+
+            dc.SetPen(*wxBLACK_PEN);
+            dc.SetBackgroundMode(wxTRANSPARENT);
+            if (xx > (r.width - 7)) {
+                dc.DrawText(progressString, r.x, r.y);
+            } else {
+                dc.DrawText(progressString, r.x + (w - 8 - xx), r.y);
+            }
         }
     }
     m_iRowsNeedingProgressBars.Clear();
@@ -340,20 +379,20 @@ void MyEvtHandler::OnPaint(wxPaintEvent & event)
 {
     event.Skip();
     if (m_listCtrl) {
-        m_listCtrl->PostDrawBarGraphEvent();
+        m_listCtrl->PostDrawProgressBarEvent();
     }
 }
 
-void CBOINCListCtrl::PostDrawBarGraphEvent() {
-    if (m_bBarGraphEventPending) return;
+void CBOINCListCtrl::PostDrawProgressBarEvent() {
+    if (m_bProgressBarEventPending) return;
     
-    CDrawBarGraphEvent newEvent(wxEVT_DRAW_BARGRAPH, this);
+    CDrawProgressBarEvent newEvent(wxEVT_DRAW_PROGRESSBAR, this);
     AddPendingEvent(newEvent);
-    m_bBarGraphEventPending = true;
+    m_bProgressBarEventPending = true;
 }
 
-void CBOINCListCtrl::OnDrawBarGraph(CDrawBarGraphEvent& event) {
-    DrawBarGraphs();
+void CBOINCListCtrl::OnDrawProgressBar(CDrawProgressBarEvent& event) {
+    DrawProgressBars();
     event.Skip();
 }
 
@@ -363,7 +402,7 @@ void MyEvtHandler::OnPaint(wxPaintEvent & event)
 {
     if (m_listCtrl) {
         (m_listCtrl->GetMainWin())->ProcessEvent(event);
-        m_listCtrl->DrawBarGraphs();
+        m_listCtrl->DrawProgressBars();
     } else {
         event.Skip();
     }

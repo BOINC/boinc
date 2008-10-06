@@ -535,7 +535,7 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const {
     CProject* project     = NULL;
     wxString       strBuffer = wxEmptyString;
 
-    m_pListPane->AddPendingBarGraph(item);
+    m_pListPane->AddPendingProgressBar(item);
 
     try {
         project = m_ProjectCache.at(m_iSortedIndexes[item]);
@@ -562,7 +562,7 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const {
                 strBuffer = project->m_strAVGCredit;
                 break;
             case COLUMN_RESOURCESHARE:
-                strBuffer = project->m_strResourceShare;
+                strBuffer = wxEmptyString;
                 break;
             case COLUMN_STATUS:
                 strBuffer = project->m_strStatus;
@@ -987,6 +987,23 @@ double CViewProjects::GetProgressValue(long item) {
     }
 
     return 0.0;
+}
+
+
+wxString CViewProjects::GetProgressText( long item) {
+    CProject* project     = NULL;
+    wxString       strBuffer = wxEmptyString;
+
+    try {
+        project = m_ProjectCache.at(m_iSortedIndexes[item]);
+    } catch ( std::out_of_range ) {
+        project = NULL;
+    }
+
+    if (project) {
+        strBuffer = project->m_strResourceShare;
+    }
+    return strBuffer;
 }
 
 

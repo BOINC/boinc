@@ -782,6 +782,11 @@ double CBOINCBaseView::GetProgressValue(long) {
 }
 
 
+wxString CBOINCBaseView::GetProgressText( long item) {
+    return wxEmptyString;
+}
+
+
 void CBOINCBaseView::append_to_status(wxString& existing, const wxChar* additional) {
     if (existing.size() == 0) {
         existing = additional;

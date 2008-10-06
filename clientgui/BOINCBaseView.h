@@ -111,6 +111,7 @@ public:
     
     int                     GetProgressColumn() { return m_iProgressColumn; }
     virtual double          GetProgressValue(long item);
+    virtual wxString        GetProgressText( long item);
 
     void                    InitSort();
     

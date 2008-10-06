@@ -736,7 +736,6 @@ void CMainDocument::HandleCompletedRPC() {
         // since it may have been changed by SetActiveGUI().
         CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
 
-        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
         if (pFrame) {
             CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
             pFrame->ProcessEvent(event);

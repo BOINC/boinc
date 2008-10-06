@@ -43,7 +43,7 @@
 #endif
 
 class CBOINCBaseView;
-class CDrawBarGraphEvent;
+class CDrawProgressBarEvent;
 
 class CBOINCListCtrl : public LISTCTRL_BASE {
     DECLARE_DYNAMIC_CLASS(CBOINCListCtrl)
@@ -61,7 +61,7 @@ public:
     long                    GetFirstSelected() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); }
     long                    GetNextSelected(int i) { return GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); }
     void                    SelectRow(int row, bool setSelected);
-    void                    AddPendingBarGraph(int row);
+    void                    AddPendingProgressBar(int row);
     
     bool                    m_bIsSingleSelection;
 
@@ -77,39 +77,39 @@ private:
 
 #if USE_NATIVE_LISTCONTROL
 public:
-   void                     PostDrawBarGraphEvent();
+   void                     PostDrawProgressBarEvent();
 private:
-    void                    OnDrawBarGraph(CDrawBarGraphEvent& event);
-    void                    DrawBarGraphs(void);
+    void                    OnDrawProgressBar(CDrawProgressBarEvent& event);
+    void                    DrawProgressBars(void);
     
-    bool                    m_bBarGraphEventPending;
+    bool                    m_bProgressBarEventPending;
 
     DECLARE_EVENT_TABLE()
 #else
  public:
-    void                    DrawBarGraphs(void);
+    void                    DrawProgressBars(void);
     wxScrolledWindow*       GetMainWin(void) { return (wxScrolledWindow*) m_mainWin; }
     wxCoord                 GetHeaderHeight(void) { return m_headerHeight; }
 #endif
 };
 
-class CDrawBarGraphEvent : public wxEvent
+class CDrawProgressBarEvent : public wxEvent
 {
 public:
-    CDrawBarGraphEvent(wxEventType evtType, CBOINCListCtrl* myCtrl)
+    CDrawProgressBarEvent(wxEventType evtType, CBOINCListCtrl* myCtrl)
         : wxEvent(-1, evtType)
         {
             SetEventObject(myCtrl);
         }
 
-    virtual wxEvent *       Clone() const { return new CDrawBarGraphEvent(*this); }
+    virtual wxEvent *       Clone() const { return new CDrawProgressBarEvent(*this); }
 };
 
 BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE( wxEVT_DRAW_BARGRAPH, 12000 )
+DECLARE_EVENT_TYPE( wxEVT_DRAW_PROGRESSBAR, 12000 )
 END_DECLARE_EVENT_TYPES()
 
-#define EVT_DRAW_BARGRAPH(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_DRAW_BARGRAPH, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+#define EVT_DRAW_PROGRESSBAR(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_DRAW_PROGRESSBAR, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 
 
 // Define a custom event handler

@@ -102,6 +102,7 @@ protected:
     void                    GetDocProjectURL(wxInt32 item, wxString& strBuffer) const;
 
     virtual double          GetProgressValue(long item);
+    virtual wxString        GetProgressText( long item);
 
     bool                    IsWebsiteLink( const wxString& strLink );
     wxInt32                 ConvertWebsiteIndexToLink( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strLink );

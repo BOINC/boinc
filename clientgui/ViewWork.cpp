@@ -472,7 +472,7 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
     CWork*    work      = NULL;
     wxString  strBuffer = wxEmptyString;
     
-    m_pListPane->AddPendingBarGraph(item);
+    m_pListPane->AddPendingProgressBar(item);
 
     try {
         work = m_WorkCache.at(m_iSortedIndexes[item]);
@@ -495,7 +495,7 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
                 strBuffer = work->m_strCPUTime;
                 break;
             case COLUMN_PROGRESS:
-                strBuffer = work->m_strProgress;
+                strBuffer = wxEmptyString;
                 break;
             case COLUMN_TOCOMPLETION:
                 strBuffer = work->m_strTimeToCompletion;
@@ -1113,6 +1113,23 @@ double CViewWork::GetProgressValue(long item) {
     }
 
     return fBuffer;
+}
+
+
+wxString CViewWork::GetProgressText( long item) {
+    CWork*    work      = NULL;
+    wxString  strBuffer = wxEmptyString;
+    
+    try {
+        work = m_WorkCache.at(m_iSortedIndexes[item]);
+    } catch ( std::out_of_range ) {
+        work = NULL;
+    }
+
+    if (work) {
+        strBuffer = work->m_strProgress;
+    }
+    return strBuffer;
 }
 
 

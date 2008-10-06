@@ -327,7 +327,7 @@ wxString CViewTransfers::OnListGetItemText(long item, long column) const {
     CTransfer* transfer;
     wxString   strBuffer  = wxEmptyString;
 
-    m_pListPane->AddPendingBarGraph(item);
+    m_pListPane->AddPendingProgressBar(item);
 
     try {
         transfer = m_TransferCache.at(m_iSortedIndexes[item]);
@@ -344,7 +344,7 @@ wxString CViewTransfers::OnListGetItemText(long item, long column) const {
             strBuffer = transfer->m_strFileName;
             break;
         case COLUMN_PROGRESS:
-            strBuffer = transfer->m_strProgress;
+            strBuffer = wxEmptyString;
             break;
         case COLUMN_SIZE:
             strBuffer = transfer->m_strSize;
@@ -721,6 +721,23 @@ double CViewTransfers::GetProgressValue(long item) {
     if ( 0.0 == fFileSize ) return 0.0;
     
     return (fBytesSent / fFileSize);
+}
+
+
+wxString CViewTransfers::GetProgressText( long item) {
+    CTransfer* transfer;
+    wxString   strBuffer  = wxEmptyString;
+
+    try {
+        transfer = m_TransferCache.at(m_iSortedIndexes[item]);
+    } catch ( std::out_of_range ) {
+        transfer = NULL;
+    }
+
+    if (transfer) {
+        strBuffer = transfer->m_strProgress;
+    }
+    return strBuffer;
 }
 
 

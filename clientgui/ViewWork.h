@@ -102,6 +102,7 @@ protected:
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocProjectURL(wxInt32 item, wxString& strBuffer) const;
     virtual double          GetProgressValue(long item);
+    virtual wxString        GetProgressText( long item);
 
     DECLARE_EVENT_TABLE()
 };

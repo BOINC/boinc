@@ -8094,3 +8094,16 @@ David  5 Oct 2008
             db_update.php
         inc/
             host.inc
+
+Charlie 3 Oct 2008
+    - MGR: Async GUI RPCs: remove spurious assert.
+    - MGR: Erase under progress bars so they overwrite selection highlight color 
+        and gray stripes for better appearance (color and visibility).
+    
+    clientgui/
+        AsyncRPC.cpp
+        BOINCBaseView.cpp,.h
+        BOINCListCtrl.cpp,.h
+        ViewProjects.cpp,.h
+        ViewTransfers.cpp,.h
+        ViewWork.cpp,.h
