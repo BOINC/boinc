@@ -616,7 +616,7 @@ function update_7_28_2008() {
 }
 
 function update_10_05_2008(){
-    do_query("ALTER TABLE `forum_preferences` ADD `highlight_special` TINYINT DEFAULT '1' NOT NULL AFTER `hide_signatures`");
+    do_query("alter table forum_preferences add highlight_special tinyint default '1' not null");
 }
 
 // modify the following to call the function you want.

@@ -15,36 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// db_dump: dump database views in XML format
-//
-// usage: db_dump [-d n] -dump_spec file
-// -d   debug level (1,2,3)
-//
-// dump_spec file:
-// <boinc_db_dump_spec>
-//   <output_dir>x</output_dir>
-//   <final_output_dir>x</final_output_dir>
-//   [ <archive_dir>X</archive_dir> ]
-//   <enumeration>
-//     <table>user</table>
-//     <filename>x</filename>
-//     <sort>x</sort>      x = id, total_credit, expavg_credit
-//     <output>
-//       [<recs_per_file>n</recs_per_file>]
-//       [<detail/>]
-//       [<compression>x</compression> ] x = zip or gzip
-//     </output>
-//     ...
-//   </enumeration>
-// ...
-// </boinc_db_dump_spec>
-
-// output_dir is temp directory (usually ../html/stats_tmp)
-// final_out_dir is what to rename this to when done (usually ../html/stats)
-//   (this is to avoid exporting incomplete stats)
-// archive_dir: if present, when done, move old final_out_dir
-//   to archive_dir/stats_DATE
-//   Otherwise rename old final_out_dir to final_out_dir_DATE
+/// db_dump: dump database views in XML format
+// see http://boinc.berkeley.edu/trac/wiki/DbDump
 
 // Note: this program is way more configurable than it needs to be.
 // All projects export stats in the same format,

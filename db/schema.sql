@@ -443,6 +443,7 @@ create table forum_preferences (
         -- 0 = no email
         -- 1 = email per event
         -- 2 = digest email
+    highlight_special   tinyint     not null default 1,
     primary key (userid)
 ) engine=MyISAM; 
 

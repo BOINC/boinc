@@ -331,12 +331,12 @@ function os_compatible($host1, $host2) {
 // that their time intervals are disjoint.
 // So the CPU/OS checks don't have to be very strict.
 //
-function hosts_compatible($host1, $host2, $detail) {
+function hosts_compatible($host1, $host2, $show_detail) {
     // skip disjoint-time check if one host or other has no credit
     //
     if ($host1->total_credit && $host2->total_credit) {
         if (!times_disjoint($host1, $host2)) {
-            if ($detail) {
+            if ($show_detail) {
                 $c1 = date_str($host1->create_time);
                 $r1 = date_str($host1->rpc_time);
                 $c2 = date_str($host2->create_time);
@@ -347,13 +347,13 @@ function hosts_compatible($host1, $host2, $detail) {
         }
     }
     if (!os_compatible($host1, $host2)) {
-        if ($detail) {
+        if ($show_detail) {
             echo "<br>Host $host2->id has incompatible OS: ($host1->os_name, $host2->os_name)\n";
         }
         return false;
     }
     if (!cpus_compatible($host1, $host2)) {
-        if ($detail) {
+        if ($show_detail) {
             echo "<br>Host $host2->id: CPU not compatible ($host1->p_vendor $host1->p_model, $host2->p_vendor $host2->p_model)\n";
         }
         return false;
@@ -423,7 +423,7 @@ function merge_hosts($old_host, $new_host) {
     if ($old_host->id == $new_host->id) {
         return "same host";
     }
-    if (!hosts_compatible($old_host, $new_host)) {
+    if (!hosts_compatible($old_host, $new_host, false)) {
         return "Can't merge host $old_host->id into $new_host->id - they're incompatible";
     }
 

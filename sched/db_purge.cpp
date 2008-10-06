@@ -29,31 +29,6 @@
 // where TIME is the time it was created.
 // In addition there are index files associating each WU and result ID
 // with the timestamp of the file it's in.
-//
-// Options:
-//
-// -min_age_days n      purge WUs with mod_time at least N days in the past
-// -max n               purge at most N WUs
-// -one_pass            go until nothing left to purge, then exit
-//                      default: keep scanning indefinitely
-// -max_wu_per_file n   write at most N WUs to an archive file
-                // The file is then closed and another file is opened.
-                // This can be used to get a series of small files
-                // instead of one huge file.
-// -zip
-            // compress output files using zip.  If used with
-            // -max_wu_per_file then the files get compressed after
-            // being closed.  In any case the files are compressed
-            // when db_purge exits on a signal.
-// -gzip
-            // compress output files using gzip.  If used with
-            // -max_wu_per_file then the files get compressed after
-            // being closed.  In any case the files are compressed
-            // when db_purge exits on a signal.
-
-// -sleep N // when done with a pass of purging the DB, sleep
-            // for N seconds before the next pass.  Default
-            // value is 600 seconds.
 
 #include "config.h"
 #include <cstdio>
@@ -565,12 +540,31 @@ bool do_pass() {
     }
 }
 
+void usage(char** argv) {
+    fprintf(stderr,
+        "Purge workunit and result records that are no longer needed.\n\n"
+        "Usage: %s [options]\n"
+        "    [-d N]               Set verbosity level (1, 2, 3=most verbose)\n"
+        "    [-min_age_days N]    Purge Wus w/ mod time at least N days ago\n"
+        "    [-max N]             Purge at more N WUs\n"
+        "    [-zip]               Compuress output files using zip\n"
+        "    [-gzip]              Compuress output files using gzip\n"
+        "    [-no_archive]        Don't write output files, just purge\n"
+        "    [-max_wu_per_file N] Write at most N WUs per output file\n"
+        "    [-sleep N]           Sleep N sec after DB scan\n"
+        "    [-one_pass]         Make one DB scan, then exit\n",
+        argv[0]
+    );
+    exit(0);
+}
+
 int main(int argc, char** argv) {
     int retval;
     bool one_pass = false;
     int i;
     int sleep_sec = 600;
     check_stop_daemons();
+
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
@@ -595,13 +589,15 @@ int main(int argc, char** argv) {
                     "Unreasonable value of sleep interval: %d seconds\n",
                     sleep_sec
                 );
-                exit(1);
+                usage(argv);
             }
+        } else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
+            usage(argv);
         } else {
             log_messages.printf(MSG_CRITICAL,
                 "Unrecognized arg: %s\n", argv[i]
             );
-            exit(1);
+            usage(argv);
         }
     }
 

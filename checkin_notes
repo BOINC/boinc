@@ -8049,7 +8049,7 @@ David  4 Oct 2008
 
     client/*.h
 
-Janus	5 Oct 2008
+Janus  5 Oct 2008
     - Projects can override the login form by defining their own replacement
       print_login_form_aux/print_login_form in their project.inc file
     - Fixed a case of bad coding where variables where called "1", "2"... instead
@@ -8064,17 +8064,33 @@ Janus	5 Oct 2008
 
     html/
         inc/
-	    forum.inc
-	    util.inc    
+            forum.inc
+            util.inc    
         ops/
-	    db_update.php
-	    manage_special_users_action.php	    
-	    manage_special_users.php	    
+            db_update.php
+            manage_special_users_action.php
+            manage_special_users.php  
         user/
-	    img/
-	        75pct_white.png
-	    edit_forum_preferences_action.php
-	    edit_forum_preferences_form.php	    
-	    white.css
-	    forum_forum.php
+            img/
+                75pct_white.png
+            edit_forum_preferences_action.php
+            edit_forum_preferences_form.php
+            white.css
+            forum_forum.php
 
+David  5 Oct 2008
+    - Added the above DB change to schema.sql
+    - Omit the "after" clause from update.
+    - Web: add missing arg; fixes #749
+    - server: more --help additions
+
+    db/
+        schema.sql
+    sched/
+        db_purge.cpp
+        db_dump.cpp
+    html/
+        ops/
+            db_update.php
+        inc/
+            host.inc
