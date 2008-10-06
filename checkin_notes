@@ -8118,3 +8118,10 @@ Rom    6 Oct 2008
 
 David  6 Oct 2008
     - add distclean target for samples/ makefiles
+
+David  6 Oct 2008
+    - example_app: make the same Makefile work for both FC and Debian
+
+    samples/example_app/
+        Makefile
+        Makefile.debian (deleted)
