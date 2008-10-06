@@ -344,6 +344,8 @@ wxString CViewTransfers::OnListGetItemText(long item, long column) const {
             strBuffer = transfer->m_strFileName;
             break;
         case COLUMN_PROGRESS:
+            // CBOINCListCtrl::DrawProgressBars() will draw this using 
+            // data provided by GetProgressText() and GetProgressValue.
             strBuffer = wxEmptyString;
             break;
         case COLUMN_SIZE:

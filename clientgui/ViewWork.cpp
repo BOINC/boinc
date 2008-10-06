@@ -495,6 +495,8 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
                 strBuffer = work->m_strCPUTime;
                 break;
             case COLUMN_PROGRESS:
+                // CBOINCListCtrl::DrawProgressBars() will draw this using 
+                // data provided by GetProgressText() and GetProgressValue.
                 strBuffer = wxEmptyString;
                 break;
             case COLUMN_TOCOMPLETION:
