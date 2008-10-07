@@ -412,6 +412,15 @@ int CLIENT_STATE::handle_scheduler_reply(
         msg_printf(project, MSG_INFO, "Scheduler request completed: got %d new tasks", (int)sr.results.size());
     }
     if (log_flags.sched_op_debug) {
+        if (sr.results.size()) {
+            double x = 0;
+            for (i=0; i<sr.results.size(); i++) {
+                x += sr.results[i].estimated_cpu_time(false);
+            }
+            msg_printf(project, MSG_INFO,
+                "[sched_ops_debug] estimated total CPU time: %.0f seconds", x
+            );
+        }
         if (sr.scheduler_version) {
             msg_printf(project, MSG_INFO,
                 "[sched_ops_debug] Server version %d",

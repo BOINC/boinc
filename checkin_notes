@@ -8125,3 +8125,10 @@ David  6 Oct 2008
     samples/example_app/
         Makefile
         Makefile.debian (deleted)
+
+David  6 Oct 2008
+    - client: show est CPC time of jobs returned by sched RPC,
+        if sched_op_debug; fixes #256
+
+    client/
+        cs_scheduler.cpp
