@@ -8144,3 +8144,9 @@ David  7 Oct 2008
         file_names.h
         file_xfer.cpp
         time_stats.cpp
+
+David  7 Oct 2008
+    - added a script (from Nicolas) to generate en.po
+
+    html/ops
+        build_po.php

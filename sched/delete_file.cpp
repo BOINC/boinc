@@ -16,8 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // delete_file         [-host_id host_id -file_name file_name]
-// -host_id            number of host to upload from
-//                     or 'all' if for all active hosts
+// -host_id            number of host to delete file from
 // -file_name          name of the file to delete
 //
 // Create a msg_to_host_that requests that the host delete the
@@ -38,6 +37,15 @@
 
 #include "sched_config.h"
 #include "sched_util.h"
+
+void usage(char** argv) {
+    fprintf(stderr,
+        "Arrange to delete a file from a host.\n\n"
+        "Usage: %s -host_id H -file_name F\n",
+        argv[0]
+    );
+    exit(0);
+}
 
 int delete_host_file(int host_id, const char* file_name) {
     DB_MSG_TO_HOST mth;
@@ -66,30 +74,22 @@ int main(int argc, char** argv) {
 
     check_stop_daemons();
 
-    for(i=1; i<argc; i++) {
+    for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-host_id")) {
             host_id = atoi(argv[++i]);
         } else if(!strcmp(argv[i], "-file_name")) {
             strcpy(file_name, argv[++i]);
-        } else if (!strcmp(argv[i], "-help")) {
-            fprintf(stdout,
-                    "delete_file: deletes a file on a specific host\n\n"
-                    "It takes the following arguments and types:\n"
-                    "-host_id (int); the number of the host\n"
-                    "-file_name (string); the name of the file to delete\n");
+        } else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
+            usage(argv);
             exit(0);
         } else {
-            if (!strncmp("-",argv[i],1)) {
-                fprintf(stderr, "delete_file: bad argument '%s'\n", argv[i]);
-                fprintf(stderr, "type delete_file -help for more information\n");
-                exit(1);
-            }
+            fprintf(stderr, "bad arg %s\n", argv[i]);
+            usage(argv);
         }
     }
 
     if (!strlen(file_name) || host_id == 0) {
-        fprintf(stderr, "delete_file: bad command line, requires a valid host_id and file_name\n");
-        exit(1);
+        usage(argv);
     }
 
     retval = config.parse_file(".");
