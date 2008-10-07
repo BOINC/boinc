@@ -104,7 +104,7 @@ void TIME_STATS::trim_stats_log() {
     if (size < 1e6) return;
     FILE* f = fopen(TIME_STATS_LOG, "r");
     if (!f) return;
-    FILE* f2 = fopen(TEMP_FILE_NAME, "w");
+    FILE* f2 = fopen(TEMP_TIME_STATS_FILE_NAME, "w");
     if (!f2) {
         fclose(f);
         return;

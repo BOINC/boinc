@@ -8132,3 +8132,15 @@ David  6 Oct 2008
 
     client/
         cs_scheduler.cpp
+
+David  7 Oct 2008
+    - client: use different temp file names for different purposes
+    - client: change logic in a pathological file xfer case
+        (we asked for tail of file, proxy returned whole file)
+        to report fopen() errors correctly, and to close all open files
+
+    client/
+        cs_account.cpp
+        file_names.h
+        file_xfer.cpp
+        time_stats.cpp

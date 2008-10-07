@@ -335,18 +335,31 @@ bool FILE_XFER_SET::poll() {
             if (file_size(pathname, size)) continue;
             if (size > fxp->fip->nbytes) {
                 FILE* f1 = boinc_fopen(pathname, "rb");
-                FILE* f2 = boinc_fopen(TEMP_FILE_NAME, "wb");
-                if (f1 && f2) {
-                    fseek(f1, (long)fxp->starting_size, SEEK_SET);
-                    copy_stream(f1, f2);
-                    fclose(f1);
-                    fclose(f2);
-                    f1 = boinc_fopen(TEMP_FILE_NAME, "rb");
-                    f2 = boinc_fopen(pathname, "wb");
-                    copy_stream(f1, f2);
-                    fclose(f1);
-                    fclose(f2);
+                if (!f1) {
+                    fxp->file_xfer_retval = ERR_FOPEN;
+                    msg_printf(fxp->fip->project, MSG_INTERNAL_ERROR,
+                        "File size mismatch, can't open %s", pathname
+                    );
+                    continue;
                 }
+                FILE* f2 = boinc_fopen(TEMP_FILE_NAME, "wb");
+                if (!f2) {
+                    msg_printf(fxp->fip->project, MSG_INTERNAL_ERROR,
+                        "File size mismatch, can't open temp %s", TEMP_FILE_NAME
+                    );
+                    fxp->file_xfer_retval = ERR_FOPEN;
+                    fclose(f1);
+                    continue;
+                }
+                fseek(f1, (long)fxp->starting_size, SEEK_SET);
+                copy_stream(f1, f2);
+                fclose(f1);
+                fclose(f2);
+                f1 = boinc_fopen(TEMP_FILE_NAME, "rb");
+                f2 = boinc_fopen(pathname, "wb");
+                copy_stream(f1, f2);
+                fclose(f1);
+                fclose(f2);
             }
         }
     }

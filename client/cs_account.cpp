@@ -55,7 +55,7 @@ int PROJECT::write_account_file() {
     int retval;
 
     get_account_filename(master_url, path);
-    f = boinc_fopen(TEMP_FILE_NAME, "w");
+    f = boinc_fopen(TEMP_ACCT_FILE_NAME, "w");
     if (!f) return ERR_FOPEN;
 
     fprintf(f,
@@ -77,7 +77,7 @@ int PROJECT::write_account_file() {
     fprintf(f, gui_urls.c_str());
     fprintf(f, "</account>\n");
     fclose(f);
-    retval = boinc_rename(TEMP_FILE_NAME, path);
+    retval = boinc_rename(TEMP_ACCT_FILE_NAME, path);
     if (retval) return ERR_RENAME;
     return 0;
 }
@@ -367,7 +367,7 @@ int PROJECT::write_statistics_file() {
     int retval;
 
     get_statistics_filename(master_url, path);
-    f = boinc_fopen(TEMP_FILE_NAME, "w");
+    f = boinc_fopen(TEMP_STATS_FILE_NAME, "w");
     if (!f) return ERR_FOPEN;
     fprintf(f, 
         "<project_statistics>\n"
@@ -399,7 +399,7 @@ int PROJECT::write_statistics_file() {
     );
 
     fclose(f);
-    retval = boinc_rename(TEMP_FILE_NAME, path);
+    retval = boinc_rename(TEMP_STATS_FILE_NAME, path);
     if (retval) return ERR_RENAME;
     return 0;
 }
