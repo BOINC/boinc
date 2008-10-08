@@ -78,10 +78,10 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 	CMainDocument* pDoc = wxGetApp().GetDocument();
 	pDoc->CachedDiskUsageUpdate();
     
-    // CachedDiskUsageUpdate() may have invalidated our project 
-    // pointer, so get an updated pointer to this project
-    PROJECT* project = pDoc->project(projectname.c_str());
-    if(!project) return;     // TODO: display some sort of error alert?
+	// CachedDiskUsageUpdate() may have invalidated our project 
+	// pointer, so get an updated pointer to this project
+	PROJECT* project = pDoc->project(projectname.c_str());
+	if(!project) return;     // TODO: display some sort of error alert?
 
 	std::vector<PROJECT*> dp = pDoc->disk_usage.projects;
 	double diskusage=0.0;	
