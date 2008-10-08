@@ -1,39 +1,469 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-07-20 19:20+0100\n"
+"PO-Revision-Date: 2008-09-26 14:33+0100\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Catalan\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
 
-##########################################
-# Language: Catalan
-# FileID  : $Id$
-# Author  : Janus Kristensen (Translator: Xavier Mor-Mur - based on en.po rev. 15601)
-# Email   : jbk@visualgroup.dk (xmormur@telepolis.com)
-##########################################
-# For more information please see:
-# http://boinc.berkeley.edu/web_translation.php
-##########################################
-# The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
 
-# The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "Català"
 
-# The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Catalan"
 
-#########################################
-# Apps page (apps.php)
-#########################################
+msgid "Rank"
+msgstr "Categoria"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Search for words in forum messages"
+msgstr "Cercar paraules en els fòrums de missatges"
+
+msgid "Search forums"
+msgstr "Cercar en els fòrums"
+
+msgid "Advanced search"
+msgstr "Recerca avançada"
+
+msgid "Private messages"
+msgstr "Missatges privats"
+
+msgid "Questions and Answers"
+msgstr "Preguntes i respostes"
+
+msgid "Message boards"
+msgstr "Panells de missatges"
+
+msgid "%1 message board"
+msgstr "Tauler de missatges %1"
+
+msgid "In order to create a new thread in %1 you mus have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgstr "Per poder crear un nou fil a %1 heu de tenir una certa quantitat de crèdits. Això es per prevenir i protegir d'un del sistema."
+
+msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+msgstr "No pot crear cap més fil en aquest moment. Si us plau esperi una estona abans de provar-ho de nou. Aquest espera es necessària per protegir d'un abús del sistema."
+
+msgid "Thread"
+msgstr "Fil"
+
+msgid "Posts"
+msgstr "Correu"
+
+msgid "Author"
+msgstr "Autor"
+
+msgid "Views"
+msgstr "Opinions"
+
+msgid "Last post"
+msgstr "Últim correu"
+
+msgid "Mark all threads as read"
+msgstr "Marcar tots el fils com a llegits"
+
+msgid "Mark all threads in all message boards as 'read'."
+msgstr "Marcar com a llegits tots els fils a tots els taulers de missatges."
+
+msgid "Inbox"
+msgstr "Bústia d'entrada"
+
+msgid "Write"
+msgstr "Escriure"
+
+msgid "Send private message"
+msgstr "Enviar un missatge privat"
+
+msgid "Preview"
+msgstr "Vista prèvia"
+
+msgid "To"
+msgstr "Per"
+
+msgid "User IDs or unique usernames, separated with commas"
+msgstr "Identificadors (ID) o noms d'usuaris únics, separats per comes"
+
+msgid "Subject"
+msgstr "Assumpte"
+
+msgid "Message"
+msgstr "Missatge"
+
+msgid "Send message"
+msgstr "Enviar missatge"
+
+msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+msgstr "Vostè no te permès lliurar missatges tan sovint. Si us plau esperi una estona abans de lliurar nous missatges."
+
+msgid "unread"
+msgstr "no llegit"
+
+msgid "Search criteria (use one or more)"
+msgstr "Criteri de recerca (utilitzar un o mes)"
+
+msgid "Key words"
+msgstr "Paraules clau"
+
+msgid "Find teams with these words in their names or descriptions"
+msgstr "Trobar equips amb aquestes paraules en els seus noms o descripcions"
+
+msgid "Country"
+msgstr "País"
+
+msgid "Type of team"
+msgstr "Tipus d'equip"
+
+msgid "Show only active teams"
+msgstr "Mostrar només equips actius"
+
+msgid "Search"
+msgstr "Cerca"
+
+msgid "Requested by you, and founder response deadline has passed."
+msgstr "La seva petició no ha obtingut resposta del fundador."
+
+msgid "Complete foundership transfer"
+msgstr "Transferència finalitzada del lliurament del fundador."
+
+msgid "Requested by you"
+msgstr "Sol·licitat per vostè"
+
+msgid "founder response deadline is %1"
+msgstr "el temps de resposta del fundador es %1"
+
+msgid "None"
+msgstr "Cap"
+
+msgid "Initiate request"
+msgstr "Iniciï la petició"
+
+msgid "Deferred"
+msgstr "Posposat"
+
+msgid "Team info"
+msgstr "Informació de l'equip"
+
+msgid "Description"
+msgstr "Descripció"
+
+msgid "Web site"
+msgstr "Pàgina web"
+
+msgid "Total credit"
+msgstr "Crèdit total"
+
+msgid "Recent average credit"
+msgstr "Crèdit promig més recent"
+
+msgid "Type"
+msgstr "Tipus"
+
+msgid "Message board"
+msgstr "Panell de missatges"
+
+msgid "Threads"
+msgstr "Fils"
+
+msgid "Join this team"
+msgstr "Ajuntar-se a aquest equip"
+
+msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
+msgstr "Nota: si activa 'Permetre email' a les preferències del projecte, en ajuntant-se a un equip permet als seus fundadors accedir a la vostra adreça de correu"
+
+msgid "Foundership change requested"
+msgstr "Canvi sol·licitat per el fundador"
+
+msgid "Respond by %1"
+msgstr "Resposta per %1"
+
+msgid "Team foundership change"
+msgstr "Canvi de l'equip fundador"
+
+msgid "Members"
+msgstr "Membres"
+
+msgid "Founder"
+msgstr "Fundador"
+
+msgid "Admins"
+msgstr "Administradors"
+
+msgid "New members in last day"
+msgstr "Nous membres en el darrer dia"
+
+msgid "Total members"
+msgstr "Total de membres"
+
+msgid "view"
+msgstr "mirar"
+
+msgid "Active members"
+msgstr "Membres actius"
+
+msgid "Members with credit"
+msgstr "Membres amb crèdits"
+
+msgid "Admin"
+msgstr "Administrador"
+
+msgid "Last %1"
+msgstr "Últim %1"
+
+msgid "Next %1"
+msgstr "Següent %1"
+
+msgid "No such team."
+msgstr "Equip inexistent"
+
+msgid "This operation requires foundership."
+msgstr "Aquesta operació requereix ser fundador."
+
+msgid "This operation requires team admin privileges"
+msgstr "Aquesta operació requereix privilegis d'administrador d'equip"
+
+msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
+msgstr "%1Nota de privacitat%2: si vostè crea un equip, les preferències del seu projecte (compartició de recursos, preferències gràfiques) seran visibles per a tothom."
+
+msgid "Team name, text version"
+msgstr "Nom de l'equip, versió text"
+
+msgid "Don't use HTML tags."
+msgstr "No utilitzi etiquetes HTML."
+
+msgid "Team name, HTML version"
+msgstr "Nom de l'equip, versió HTML."
+
+msgid "You may use %1limited HTML tags%2."
+msgstr "Pot utilitzar %1algunes etiquetes HTML%2."
+
+msgid "If you don't know HTML, leave this box blank."
+msgstr "Si desconeix HTML, no seleccioni aquesta opció."
+
+msgid "URL of team web page, if any"
+msgstr "URL de la pàgina web de l'equip, si en té"
+
+msgid "without \"http://\""
+msgstr "sense \"http://\""
+
+msgid "This URL will be linked to from the team's page on this site."
+msgstr "Aquesta URL enllaçarà amb la pàgina de l'equip des d'aquest lloc."
+
+msgid "Description of team"
+msgstr "Descripció de l'equip"
+
+msgid "Projects in which you are participating"
+msgstr "Projectes en els quals esteu participant"
+
+msgid "Projects in which %1 is participating"
+msgstr "Projectes en els quals %1 està participant"
+
+msgid "Project"
+msgstr "Projecte"
+
+msgid "Click for user page"
+msgstr "Prémer per accedir a la pàgina de l'usuari"
+
+msgid "Average credit"
+msgstr "Crèdit promig"
+
+msgid "Since"
+msgstr "Des de"
+
+msgid "Computing and credit"
+msgstr "Computació i crèdits"
+
+msgid "Pending credit"
+msgstr "Crèdits pendents"
+
+msgid "View"
+msgstr "Mirar"
+
+msgid "Computers on this account"
+msgstr "Ordinadors d'aquest compte"
+
+msgid "Tasks"
+msgstr "Feines"
+
+msgid "Cross-project ID"
+msgstr "Identificador multi-projecte"
+
+msgid "Cross-project statistics"
+msgstr "Estadístiques multi-projecte"
+
+msgid "Certificate"
+msgstr "Certificat"
+
+msgid "Stats on your cell phone"
+msgstr "Estadístiques en el seu mòbil"
+
+msgid "Account information"
+msgstr "Informació del compte"
+
+msgid "Email address"
+msgstr "Adreça de correu"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Postal code"
+msgstr "Codi postal"
+
+msgid "%1 member since"
+msgstr "%1 membre des de"
+
+msgid "Change"
+msgstr "Canviar"
+
+msgid "email address"
+msgstr "adreça de correu electrònic"
+
+msgid "password"
+msgstr "contrasenya"
+
+msgid "other account info"
+msgstr "altre informació del compte"
+
+msgid "Log out"
+msgstr "Finalitzar la sessió"
+
+msgid "User ID"
+msgstr "ID d'usuari"
+
+msgid "Used in community functions"
+msgstr "Utilitzat en funcions comunitàries"
+
+msgid "Account key"
+msgstr "Clau del compte"
+
+msgid "Provides full access to your account"
+msgstr "Proporciona accés total al vostre compte"
+
+msgid "Weak account key"
+msgstr "Clau de compte feble"
+
+msgid "Provides"
+msgstr "Proporciona"
+
+msgid "limited access"
+msgstr "accés limitat"
+
+msgid "to your account"
+msgstr "al vostre compte"
+
+msgid "Preferences"
+msgstr "Preferències"
+
+msgid "When and how BOINC uses your computer"
+msgstr "Quan i com BOINC utilitza el seu ordinador"
+
+msgid "Computing preferences"
+msgstr "Preferències de computació"
+
+msgid "Message boards and private messages"
+msgstr "Panell de missatges i missatges privats"
+
+msgid "Community preferences"
+msgstr "Preferències de la comunitat"
+
+msgid "Resource share and graphics"
+msgstr "Compartició de recursos i gràfics"
+
+msgid "%1 preferences"
+msgstr "Preferències de %1"
+
+msgid "Community"
+msgstr "Comunitat"
+
+msgid "Delete"
+msgstr "Esborrar"
+
+msgid "Create"
+msgstr "Crear"
+
+msgid "Profile"
+msgstr "Perfil"
+
+msgid "%1 posts"
+msgstr "%1 correus"
+
+msgid "Notifications"
+msgstr "Notificacions"
+
+msgid "Quit team"
+msgstr "Deixar el grup"
+
+msgid "Administer"
+msgstr "Administrador"
+
+msgid "(foundership change request pending)"
+msgstr "(petició de canvi del fundador pendent)"
+
+msgid "Member of team"
+msgstr "Membre de l'equip"
+
+msgid "Team"
+msgstr "Grup"
+
+msgid "find a team"
+msgstr "Trobar un grup"
+
+msgid "Founder but not member of"
+msgstr "Fundador però no membre de "
+
+msgid "Find friends"
+msgstr "Trobar amics"
+
+msgid "Friends"
+msgstr "Amics"
+
+msgid "Computers"
+msgstr "Ordinadors"
+
+msgid "hidden"
+msgstr "ocult"
+
+msgid "Donor"
+msgstr "Donant"
+
+msgid "Contact"
+msgstr "Contactar"
+
+msgid "This person is a friend"
+msgstr "Aquesta persona és un amic"
+
+msgid "Cancel friendship"
+msgstr "Finalitzar amistat"
+
+msgid "Request pending"
+msgstr "Petició pendent"
+
+msgid "Add as friend"
+msgstr "Afegir com amic"
+
+msgid "Use BBCode tags to format your text"
+msgstr "Utilitzar les marques BBCode per formatar el text"
+
+msgid "Identifies you on our web site. Use your real name or a nickname."
+msgstr "Us identifica a la pàgina web. Utilitzeu el vostre nom real o un àlies."
+
+msgid "Select the country you want to represent, if any."
+msgstr "Seleccioneu el país que voleu representar, si ho desitgeu."
+
+msgid "Postal or ZIP Code"
+msgstr "Codi postal o ZIP"
+
+msgid "Optional"
+msgstr "Opcional"
+
 msgid "Applications"
 msgstr "Aplicacions"
 
@@ -49,9 +479,177 @@ msgstr "Versió actual"
 msgid "Installation time"
 msgstr "Temps d'instal·lació"
 
-#########################################
-# Rules and Policies page (info.php)
-#########################################
+msgid "You must supply an invitation code to create an account."
+msgstr "Heu d'introduir un codi d'alta per la creació d'un compte."
+
+msgid "The invitation code you gave is not valid."
+msgstr "El codi d'alta que heu introduït no és vàlid."
+
+msgid "Create an account"
+msgstr "Crear un compte"
+
+msgid "Account creation is disabled"
+msgstr "La creació de comptes està desactivada"
+
+msgid "Account creation is currently disabled. Please try again later."
+msgstr "La creació de comptes està desactivada. Si us plau provi-ho mes tard."
+
+msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgstr "NOTA: Si utilitzeu la versió BOINC 5.2+ amb el gestor BOINC, no utilitzeu aquest formulari. Senzillament executeu BOINC, seleccioneu Unir-vos a un Projecte, i introduïu una adreça de correu i contrasenya."
+
+msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgstr "Aquest compte formarà part del grup %1 i tindrà les preferències del creador del projecte."
+
+msgid "Invitation Code"
+msgstr "Codi d'alta"
+
+msgid "A valid invitation code is required to create an account."
+msgstr "Es requereix un codi d'invitació vàlid per a crear un compte."
+
+msgid "Email Address"
+msgstr "Adreça de correu electrònic"
+
+msgid "Must be a valid address of the form 'name@domain'."
+msgstr "Ha de ser una adreça de correu vàlida del tipus 'nom@domini'."
+
+msgid "Password"
+msgstr "Contrasenya"
+
+msgid "Must be at least %1 characters"
+msgstr "Ha de tenir al menys %1 caràcters"
+
+msgid "Confirm password"
+msgstr "Introduïu de nou la contrasenya"
+
+msgid "Create account"
+msgstr "Crear un compte"
+
+msgid "Title"
+msgstr "Títol"
+
+msgid "Add my signature to this post"
+msgstr "Afegir la meva firma a aquest correu"
+
+msgid "%1 Message boards"
+msgstr "Panell de missatges de %1"
+
+msgid "Topic"
+msgstr "Tema"
+
+msgid "Your message has been sent."
+msgstr "El vostre missatge ha estat lliurat."
+
+msgid "You have no private messages."
+msgstr "No teniu missatges privats."
+
+msgid "Sender"
+msgstr "Enviar"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Mark as read"
+msgstr "Marcar com llegit"
+
+msgid "Mark as unread"
+msgstr "Marcar com no llegit"
+
+msgid "With selected"
+msgstr "Amplada seleccionada"
+
+msgid "No such message"
+msgstr "No hi ha tal missatge"
+
+msgid "Block user"
+msgstr "Bloquejar usuari"
+
+msgid "Reply"
+msgstr "Contestar"
+
+msgid "Really delete?"
+msgstr "Segur d'esborrar-lo?"
+
+msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+msgstr "Està segur que vol esborrar el missatge amb l'assumpte &quot;%1&quot; (enviat per %2 el %3)?"
+
+msgid "Yes, delete"
+msgstr "Si, esborrar"
+
+msgid "No, cancel"
+msgstr "No, cancel·lar"
+
+msgid "No such message."
+msgstr "No hi ha tal missatge."
+
+msgid "You need to fill all fields to send a private message"
+msgstr "Necessita omplir tots els camps per enviar un missatge privat"
+
+msgid "Could not find user with id %1"
+msgstr "No es pot trobar l'usuari amb l'identificador %1"
+
+msgid "Could not find user with username %1"
+msgstr "No es pot trobar l'usuari de nom %1"
+
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "%1 no es un nom d'usuari únic; teniu que utilitzar l'identificador (ID)"
+
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "L'usuari %1 (ID: %2) no accepta missatges privats de vostè."
+
+msgid "Really block %1?"
+msgstr "Segur de bloquejar %1?"
+
+msgid "Are you really sure you want to block user %1 from sending you private messages?"
+msgstr "Està segur que vol bloquejar que l'usuari %1 li enviï missatges privats?"
+
+msgid "Please note that you can only block a limited amount of users."
+msgstr "Si us plau, tingui en compte que només pot bloquejar un nombre limitat d'usuaris."
+
+msgid "Once the user has been blocked you can unblock it using forum preferences page."
+msgstr "Un cop bloquejat un usuari el podeu desbloquejar utilitzant la pàgina de preferències del fòrum."
+
+msgid "Add user to filter"
+msgstr "Afegir l'usuari al filtre"
+
+msgid "No such user"
+msgstr "No existeix l'usuari"
+
+msgid "User %1 blocked"
+msgstr "L'usuari %1 està bloquejat"
+
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "L'usuari %1 té bloquejat el lliurament de missatges privats a vostè."
+
+msgid "To unblock, visit %1message board preferences%2"
+msgstr "Per desbloquejar, visiti les %1preferències del panell de missatges%2"
+
+msgid "Create a new thread"
+msgstr "Crear un nou fil"
+
+msgid "Post to thread"
+msgstr "Correu del fil"
+
+msgid "Forum search results"
+msgstr "Resultats de la recerca al fòrum"
+
+msgid "Forum search"
+msgstr "Recerca al fòrum"
+
+msgid "This thread has been hidden for administrative purposes"
+msgstr "Aquest fil ha estat ocultat amb propòsits administratius"
+
+msgid "Unsubscribe"
+msgstr "Finalitzar subscripció"
+
+msgid "Subscribe"
+msgstr "Subscriure"
+
+msgid "Welcome to %1"
+msgstr "Benvingut a %1"
+
+msgid "View and edit your account preferences using the links below."
+msgstr "Revisi i editi les preferències del seu compte utilitzant els vincles següents."
+
 msgid "Read our rules and policies"
 msgstr "Llegiu les regles i normes nostres"
 
@@ -109,577 +707,8 @@ msgstr "Altres projectes utilitzen la mateixa plataforma, BOINC, com %1. Podeu c
 msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
 msgstr "Aquests altres projectes no estan associats amb %1, i no podem garantir la seva seguretat o la naturalesa de la seva recerca. Uniu-vos-hi sota la vostra responsabilitat."
 
-#########################################
-# Create account form (create_account_form.php)
-#########################################
-msgid "Create an account"
-msgstr "Crear un compte"
-
-msgid "Name"
-msgstr "Nom"
-
-msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr "Us identifica a la pàgina web. Utilitzeu el vostre nom real o un àlies."
-
-msgid "Email Address"
-msgstr "Adreça de correu"
-
-msgid "Must be a valid address of the form 'name@domain'."
-msgstr "Ha de ser una adreça de correu vàlida del tipus 'nom@domini'."
-
-msgid "Country"
-msgstr "País"
-
-msgid "Select the country you want to represent, if any."
-msgstr "Seleccioneu el país que voleu representar, si ho desitgeu."
-
-msgid "Postal or ZIP Code"
-msgstr "Codi postal o ZIP"
-
-msgid "Create account"
-msgstr "Crear un compte"
-
-msgid "Account creation is disabled"
-msgstr "La creació de comptes està desactivada"
-
-msgid "Account creation is disabled for %1 at the moment. Please try again later."
-msgstr "La creació de comptes per %1 de moment està desactivada. Si us plau provi-ho mes tard."
-
-msgid "This account will belong to the team %1 and will have the project preferences of its founder."
-msgstr "Aquest compte formarà part del grup %1 i tindrà les preferències del creador del projecte."
-
-msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
-msgstr "NOTA: Si utilitzeu la versió BOINC 5.2+ amb el gestor BOINC, no utilitzeu aquest formulari. Senzillament executeu BOINC, seleccioneu Unir-vos a un Projecte, i introduïu una adreça de correu i contrasenya."
-
-msgid "Password"
-msgstr "Contrasenya"
-
-msgid "Must be at least %1 characters"
-msgstr "Ha de tenir al menys %1 caràcters"
-
-msgid "Confirm password"
-msgstr "Introduïu de nou la contrasenya"
-
-msgid "Invitation Code"
-msgstr "Codi d'alta"
-
-msgid "A valid invitation code is required to create an account."
-msgstr "Es rquereix un codi d'invitació vàlid per a crear un compte."
-
-msgid "You must supply an invitation code to create an account."
-msgstr "Heu d'introduir un codi d'alta per la creació d'un compte."
-
-msgid "The invitation code you gave is not valid."
-msgstr "El codi d'alta que heu introduït no és vàlid."
-
-#########################################
-# Forum sample index page
-#########################################
-msgid "%1 Message boards"
-msgstr "Pannell de missatges de %1"
-
-msgid "Message boards"
-msgstr "Pannells de missatges"
-
-#########################################
-# General stuff (create_account_form.php and others)
-#########################################
-msgid "Optional"
-msgstr "Opcional"
-
-#########################################
-# Various top table pages (top users, computers, teams)
-#########################################
-msgid "Top participants"
-msgstr "Participants principals"
-
-msgid "Rank"
-msgstr "Categoria"
-
-msgid "Total credit"
-msgstr "Crèdit total"
-
-msgid "Recent average credit"
-msgstr "Crèdit promig més recent"
-
-msgid "Participant since"
-msgstr "Participant des de"
-
-msgid "Top %1 teams"
-msgstr "Els %1 Grups principals"
-
-msgid "Members"
-msgstr "Membres"
-
-msgid "Top hosts"
-msgstr "Servidors principals"
-
-#########################################
-# Forum
-#########################################
-msgid "Posts"
-msgstr "Correu"
-
-msgid "Topic"
-msgstr "Tema"
-
-msgid "Thread"
-msgstr "Fil"
-
-msgid "Threads"
-msgstr "Fils"
-
-msgid "Last post"
-msgstr "Últim correu"
-
-msgid "Author"
-msgstr "Autor"
-
-msgid "Views"
-msgstr "Opinions"
-
-msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
-msgstr "Per tal de crear un nou fil a %1 ha de disposar d'un cert nombre de crèdits. Això es per prevenir i protegir contra l'abús del sistema."
-
-msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
-msgstr "De moment no pot crear mes fils. Si us plau esperi abans de intentar-ho de nou. Aquesta espera és imposada per protegir contra abusos els sistema."
-
-msgid "Create a new thread"
-msgstr "Crear un nou fil"
-
-msgid "Title"
-msgstr "Títol"
-
-msgid "Add my signature to this post"
-msgstr "Afegir la meva firma a aquest correu"
-
-msgid "Message"
-msgstr "Missatge"
-
-msgid "Edit message"
-msgstr "Editar el missatge"
-
-msgid "Use BBCode tags to format your text"
-msgstr "Utilitzar les marques BBCode per formatar el text"
-
-msgid "%1 message board"
-msgstr "Tauler de missatges %1"
-
-msgid "Mark all threads as read"
-msgstr "Marcar tots el fils com a llegits"
-
-msgid "Mark all threads in all message boards as 'read'."
-msgstr "Marcar com a llegits tots els fils a tots els taulers de missatges."
-
-#########################################
-# Forum thread
-#########################################
-msgid "This thread has been hidden for administrative purposes"
-msgstr "Aquest fil ha estat ocultat amb propòsits administratius"
-
-msgid "Post to thread"
-msgstr "Correu del fil"
-
-msgid "Unsubscribe"
-msgstr "Finalitzar subscripció"
-
-msgid "Subscribe"
-msgstr "Subscriure"
-
-#########################################
-# Forum search features
-#########################################
-msgid "Forum search"
-msgstr "Recerca al fòrum"
-
-msgid "Titles containing '%1'"
-msgstr "Títols que contenen '%1'"
-
-msgid "Posts containing '%1'"
-msgstr "Correus que contenen '%1'"
-
-msgid "No titles containing '%1' could be found."
-msgstr "No s'han trobat títols que continguin '%1'."
-
-msgid "No posts containing '%1' could be found."
-msgstr "No s'han trobat correus que continguin '%1'."
-
-msgid "Advanced search"
-msgstr "Recerca avançada"
-
-msgid "Search for words in forum messages"
-msgstr "Cercar paraules en els fòrums de missatges"
-
-msgid "Search forums"
-msgstr "Cercar en els fòrums"
-
-#########################################
-# Private messages
-#########################################
-msgid "Private messages"
-msgstr "Missatges privats"
-
-msgid "Inbox"
-msgstr "Bústia d'entrada"
-
-msgid "Write"
-msgstr "Escriure"
-
-msgid "Forum index"
-msgstr "Índex del fòrum"
-
-msgid "Send private message"
-msgstr "Enviar un missatge privat"
-
-msgid "Preview"
-msgstr "Vista prèvia"
-
-msgid "To"
-msgstr "Per"
-
-msgid "User IDs or unique usernames, separated with commas"
-msgstr "Identificadors (ID) o noms d'usuaris únics, separats per comes"
-
-msgid "Subject"
-msgstr "Assumpte"
-
-msgid "Send message"
-msgstr "Enviar missatge"
-
-msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
-msgstr "No teniu permès enviar missatges privats tan sovint. Si us plau espereu una estona abans d'enviar mes missatges."
-
-msgid "Your message has been sent."
-msgstr "El vostre missatge ha estat lliurat."
-
-msgid "You have no private messages."
-msgstr "No teniu missatges privats."
-
-msgid "No such message"
-msgstr "No hi ha tal missatge"
-
-msgid "Really delete?"
-msgstr "Segur d'esborrar-lo?"
-
-msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
-msgstr "Està segur que vol esborrar el missatge amb l'assumpte &quot;%1&quot; (enviat per %2 el %3)?"
-
-msgid "Yes, delete"
-msgstr "Si, esborrar"
-
-msgid "No, cancel"
-msgstr "No, cancel·lar"
-
-msgid "You need to fill all fields to send a private message"
-msgstr "Necessita omplir tots els camps per enviar un missatge privat"
-
-msgid "Could not find user with id %1"
-msgstr "No es pot trobar l'usuari amb l'identificador %1"
-
-msgid "Could not find user with username %1"
-msgstr "No es pot trobar l'usuari de nom %1"
-
-msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "%1 no es un nom d'usuari únic; teniu que utilitzar l'identificador (ID)"
-
-msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "L'usuari %1 (ID: %2) no accepta missatges privats de vostè."
-
-msgid "Really block %1?"
-msgstr "Segur de bloquejar %1?"
-
-msgid "Are you really sure you want to block user %1 from sending you private messages?"
-msgstr "Està segur que vol bloquejar que l'usuari %1 li enviï missatges privats?"
-
-msgid "Please note that you can only block a limited amount of users."
-msgstr "Si us plau, tingui en compte que només pot bloquejar un nombre limitat d'usuaris."
-
-msgid "Once the user has been blocked you can unblock it using forum preferences page."
-msgstr "Un cop bloquejat un usuari el podeu desbloquejar utilitzant la pàgina de preferències del fòrum."
-
-msgid "Add user to filter"
-msgstr "Afegir l'usuari al filtre"
-
-msgid "No such user"
-msgstr "No existeix l'usuari"
-
-msgid "User %1 blocked"
-msgstr "L'usuari %1 està bloquejat"
-
-msgid "User %1 has been blocked from sending you private messages."
-msgstr "L'usuari %1 té bloquejat el lliurament de missatges privats a vostè."
-
-msgid "To unblock, visit %1message board preferences%2"
-msgstr "Per desbloquejar, visiti les %1preferències del pannell de missatges%2"
-
 msgid "Sender and date"
-msgstr "Remitent i data"
-
-msgid "Delete"
-msgstr "Esborrar"
-
-msgid "Reply"
-msgstr "Contestar"
-
-msgid "Block user"
-msgstr "Bloquejar usuari"
-
-msgid "With selected messages"
-msgstr "Amb els missatges seleccionats"
-
-msgid "Mark as read"
-msgstr "Marcar com llegit"
-
-msgid "Mark as unread"
-msgstr "Marcar com no llegit"
-
-#########################################
-# Links from the main page
-#########################################
-msgid "Questions and Answers"
-msgstr "Preguntes i respostes"
-
-#########################################
-# "Your account" page (home.php)
-#########################################
-msgid "Your account"
-msgstr "El seu compte"
-
-msgid "Welcome to %1"
-msgstr "Benvingut a %1"
-
-msgid "View and edit your account preferences using the links below."
-msgstr "Revisi i editi les preferències del seu compte utilitzant els vincles següents."
-
-msgid "If you have not already done so, %1download BOINC client software%2."
-msgstr "Si no ho heu fet ja, %1descarregueu el client BOINC%2."
-
-msgid "Account information"
-msgstr "Informació del compte"
-
-msgid "Email address"
-msgstr "Adreça de correu electrònic"
-
-msgid "URL"
-msgstr "URL"
-
-msgid "Postal code"
-msgstr "Codi postal"
-
-msgid "Change"
-msgstr "Canviar"
-
-msgid "email address"
-msgstr "adreça de correu electrònic"
-
-msgid "password"
-msgstr "contrasenya"
-
-msgid "other account info"
-msgstr "altre informació del compte"
-
-msgid "Log out"
-msgstr "Finalitzar la sessió"
-
-msgid "Community"
-msgstr "Comunitat"
-
-msgid "Community preferences"
-msgstr "Preferències de la comunitat"
-
-msgid "Create"
-msgstr "Crear"
-
-msgid "Profile"
-msgstr "Perfil"
-
-msgid "Teams"
-msgstr "Grups"
-
-msgid "Team"
-msgstr "Grup"
-
-msgid "Member of team"
-msgstr "Membre de l'equip"
-
-msgid "%1 posts"
-msgstr "%1 correus"
-
-msgid "None"
-msgstr "Cap"
-
-msgid "Administer"
-msgstr "Administrador"
-
-msgid "Founder but not member of"
-msgstr "Fundador però no membre de "
-
-msgid "administrative functions"
-msgstr "funcions administratives"
-
-msgid "Quit team"
-msgstr "Deixar el grup"
-
-msgid "find a team"
-msgstr "Trobar un grup"
-
-msgid "Preferences"
-msgstr "Preferències"
-
-msgid "Computing preferences"
-msgstr "Preferències de computació"
-
-msgid "When and how BOINC uses your computer"
-msgstr "Quan i com BOINC utilitza el seu ordinador"
-
-msgid "%1 preferences"
-msgstr "Preferències de %1"
-
-msgid "Resource share and graphics"
-msgstr "Compartició de recursos i gràfics"
-
-msgid "Message board preferences"
-msgstr "Preferències del pannell de missatges"
-
-msgid "Message boards and private messages"
-msgstr "Pannell de missatges i missatges privats"
-
-msgid "Computing and credit"
-msgstr "Computació i crèdits"
-
-msgid "%1 member since"
-msgstr "%1 membre des de"
-
-msgid "Pending credit"
-msgstr "Crèdits pendents"
-
-msgid "View"
-msgstr "Mirar"
-
-msgid "Computers on this account"
-msgstr "Ordinadors d'aquest compte"
-
-msgid "Tasks"
-msgstr "Feines"
-
-msgid "Cross-project ID"
-msgstr "Identificador multi-projecte"
-
-msgid "Cross-project statistics"
-msgstr "Estadístiques multi-projecte"
-
-msgid "Stats on your cell phone"
-msgstr "Estadístiques en el seu mòbil"
-
-msgid "Account number"
-msgstr "Número de compte"
-
-msgid "Used in URLs"
-msgstr "Utilitzat en les URL"
-
-msgid "unread"
-msgstr "no llegit"
-
-msgid "User ID"
-msgstr "ID d'usuari"
-
-msgid "Used in community functions"
-msgstr "Utilitzat en funcions comunitàries"
-
-msgid "Account key"
-msgstr "Clau del compte"
-
-msgid "Provides full access to your account"
-msgstr "Proporciona accés total al vostre compte"
-
-msgid "Weak account key"
-msgstr "Clau de compte feble"
-
-msgid "Provides"
-msgstr "Proporciona"
-
-msgid "limited access"
-msgstr "accés limitat"
-
-msgid "to your account"
-msgstr "al vostre compte"
-
-msgid "Friends"
-msgstr "Amics"
-
-msgid "Find friends"
-msgstr "Trobar amics"
-
-msgid "hidden"
-msgstr "ocult"
-
-msgid "Donor"
-msgstr "Donant"
-
-msgid "Notifications"
-msgstr "Notificacions"
-
-msgid "(foundership change request pending)"
-msgstr "(petició de canvi del fundador pendent)"
-
-#########################################
-# Public user page (show_user.php)
-#########################################
-
-msgid "Projects in which you are participating"
-msgstr "Projectes en els quals esteu participant"
-
-msgid "Projects in which %1 is participating"
-msgstr "Projectes en els quals %1 està participant"
-
-msgid "Project"
-msgstr "Projecte"
-
-msgid "Click for user page"
-msgstr "Prémer per accedir a la pàgina de l'usuari"
-
-msgid "Since"
-msgstr "Des de"
-
-msgid "Contact"
-msgstr "Contactar"
-
-msgid "This person is a friend"
-msgstr "Aquesta persona és un amic"
-
-msgid "Cancel friendship"
-msgstr "Finalitzar amistat"
-
-msgid "Request pending"
-msgstr "Petició pendent"
-
-msgid "Add as friend"
-msgstr "Afegir com amic"
-
-#########################################
-# "Weak account key" page (weak_auth.php)
-#########################################
-msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
-msgstr "La seva 'clau de compte feble' li permet associar ordinadors al seu compte en aquest projecte, sense permetre d'iniciar una sessió amb el seu compte o canviar-lo."
-
-msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
-msgstr "Això només funciona amb projectes que tenen el seu software servidor actualitzat a la versió del 7 de Dec 2007 o posterior."
-
-msgid "Your weak account key for this project is:"
-msgstr "La clau de compte feble per aquest projecte és:"
-
-msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
-msgstr "Per utilitzar la clau de compte feble en un ordinador, trobeu o creeu 'el fitxer del compte' per aquest projecte. El nom d'aquest fitxer és de la forma <b>compte_URL_DEL_PROJECTE.xml</b>. El fitxer del compte per %1 és <b>%2</b>."
-
-msgid "Create this file if needed. Set its contents to:"
-msgstr "Crear aquest fitxer si és necessari. Configureu el seu contingut com:"
-
-msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
-msgstr "La seva clau de compte feble és una funció de la seva contrasenya. Si canvia la contrasenya, la clau de compte feble canvia, i la clau de compte feble anterior deixa de ser vàlida."
-
-#########################################
-# Participant profiles
-#########################################
+msgstr "Envio i data"
 
 msgid "Profiles"
 msgstr "Perfils"
@@ -703,7 +732,7 @@ msgid "View the %1User Picture Gallery%2."
 msgstr "Veure la %1Galeria d'Imatges de l'Usuari%2"
 
 msgid "Browse profiles %1by country%2."
-msgstr "Veure els perfils %1per pais%2"
+msgstr "Veure els perfils %1per país%2"
 
 msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
 msgstr "Veure els perfils %1a l'atzar%2, %3a l'atzar amb imatges%2, or %4a l'atzar sense imatges%2."
@@ -714,11 +743,42 @@ msgstr "Llistat alfabètic de perfils:"
 msgid "Search profile text"
 msgstr "Cerca un text en el perfil"
 
-msgid "Search"
-msgstr "Cerca"
-
 msgid "No profiles"
 msgstr "No hi ha perfils"
 
 msgid "No profiles matched your query."
 msgstr "No hi ha perfils que coincideixin amb la seva cerca"
+
+msgid "Top hosts"
+msgstr "Servidors principals"
+
+msgid "Top participants"
+msgstr "Participants principals"
+
+msgid "Top %1 teams"
+msgstr "Els %1 Grups principals"
+
+msgid "Participant since"
+msgstr "Participant des de"
+
+msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgstr "La seva 'clau de compte feble' li permet associar ordinadors al seu compte en aquest projecte, sense permetre d'iniciar una sessió amb el seu compte o canviar-lo."
+
+msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+msgstr "Això només funciona amb projectes que tenen el seu programari servidor actualitzat a la versió del 7 de Dec 2007 o posterior."
+
+msgid "Your weak account key for this project is:"
+msgstr "La clau de compte feble per aquest projecte és:"
+
+msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr "Per utilitzar la clau de compte feble en un ordinador, trobeu o creeu 'el fitxer del compte' per aquest projecte. El nom d'aquest fitxer és de la forma <b>compte_URL_DEL_PROJECTE.xml</b>. El fitxer del compte per %1 és <b>%2</b>."
+
+msgid "Create this file if needed. Set its contents to:"
+msgstr "Crear aquest fitxer si és necessari. Configureu el seu contingut com:"
+
+msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgstr "La seva clau de compte feble és una funció de la seva contrasenya. Si canvia la contrasenya, la clau de compte feble canvia, i la clau de compte feble anterior deixa de ser vàlida."
+
+msgid "Your account"
+msgstr "El seu compte"
+
