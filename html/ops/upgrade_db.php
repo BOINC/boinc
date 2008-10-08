@@ -20,24 +20,24 @@
 // Perform DB updates.
 // To be run in project/html/ops.
 
+echo "Checking for DB updates...\n";
+
 $db_revision = 0;
 if (file_exists("../../db_revision")) {
     $db_revision = (int) file_get_contents("../../db_revision");
 }
 require_once("db_update.php");
 
-echo "Checking for DB updates...\n";
-
-$n = 0;
+$updates = array();
 foreach($db_updates as $db_update) {
     if ($db_update[0] > $db_revision) {
         $func = $db_update[1];
         echo "need update $func\n";
-        $n++;
+        $updates[] = $db_update;
     }
 }
 
-if (!$n) {
+if (empty($updates)) {
     echo "\nNo updates needed\n";
     exit;
 }
@@ -51,15 +51,11 @@ or run this script again later.
     exit;
 }
 
-foreach($db_updates as $db_update) {
-    if ($db_update[0] > $db_revision) {
-        $func = $db_update[1];
-        echo "performing update $func\n";
-        call_user_func($func);
-        $f = fopen("../../db_revision", "w");
-        fwrite($f, $db_update[0]);
-        fclose($f);
-    }
+foreach($updates as $update) {
+    list($rev, $func) = $update;
+    echo "performing update $func\n";
+    call_user_func($func);
+    file_put_contents("../../db_revision", $rev);
 }
 echo "All done.\n";
 

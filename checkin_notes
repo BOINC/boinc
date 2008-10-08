@@ -8208,3 +8208,9 @@ David  8 Oct 2008
 
     html/inc/
         host.inc
+
+David  8 Oct 2008
+    - enhancements to upgrade_db.php from Nicolas
+
+    html/ops/
+        upgrade_db.php
