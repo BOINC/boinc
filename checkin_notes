@@ -8195,3 +8195,8 @@ David  8 Oct 2008
             feeder.cpp
         tools/
             upgrade
+
+David  8 Oct 2008
+    - manager: fix strings in Project Properties
+
+    clientgui/DlgItemProperties.cpp

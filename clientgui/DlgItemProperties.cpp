@@ -100,31 +100,39 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 	wxTitle.append(wxString(projectname.c_str(),wxConvUTF8));
 	this->SetTitle(wxTitle);
 	//layout controls
-	this->addSection(_("general infos"));
-	this->addProperty(_("master url:"),wxString(project->master_url.c_str(),wxConvUTF8));
-	this->addProperty(_("user name:"),wxString(project->user_name.c_str(),wxConvUTF8));
-	this->addProperty(_("team name:"),wxString(project->team_name.c_str(),wxConvUTF8));
-	this->addProperty(_("resource share:"),wxString::Format(wxT("%0.0f"),project->resource_share));
-	this->addSection(_("credit infos"));
-	this->addProperty(_("user total credit:"),wxString::Format(wxT("%0.2f"),project->user_total_credit));
-	this->addProperty(_("user avg. credit:"),wxString::Format(wxT("%0.2f"),project->user_expavg_credit));
-	this->addProperty(_("host total credit:"),wxString::Format(wxT("%0.2f"),project->host_total_credit));
-	this->addProperty(_("host avg. credit:"),wxString::Format(wxT("%0.2f"),project->host_expavg_credit));
-	this->addSection(_("disk usage infos"));
+	this->addSection(_("General"));
+	this->addProperty(_("Master URL"),wxString(project->master_url.c_str(),wxConvUTF8));
+	this->addProperty(_("User name"),wxString(project->user_name.c_str(),wxConvUTF8));
+	this->addProperty(_("Team name"),wxString(project->team_name.c_str(),wxConvUTF8));
+	this->addProperty(_("Resource share"),wxString::Format(wxT("%0.0f"),project->resource_share));
+	this->addProperty(_("Disk usage"),this->FormatDiskSpace(diskusage));
+	this->addProperty(_("Non CPU intensive"),project->non_cpu_intensive ? _("yes") : _("no"));
+	this->addProperty(_("Suspended via GUI"),project->suspended_via_gui ? _("yes") : _("no"));
+	this->addProperty(_("Don't request more work"),project->dont_request_more_work ? _("yes") : _("no"));
+	this->addProperty(_("Scheduler call in progress"),project->scheduler_rpc_in_progress ? _("yes") : _("no"));
+	this->addProperty(_("Attached via account manager"),project->attached_via_acct_mgr ? _("yes") : _("no"));
+	this->addProperty(_("Detach when done"),project->detach_when_done ? _("yes") : _("no"));
+	this->addProperty(_("Ended"),project->ended ? _("yes") : _("no"));
+	this->addSection(_("Credit"));
+	this->addProperty(_("User"),
+        wxString::Format(
+            wxT("%0.2f total, %0.2f average"),
+            project->user_total_credit
+            project->user_expavg_credit
+        )
+    );
+	this->addProperty(_("Host"),
+        wxString::Format(
+            wxT("%0.2f total, %0.2f average"),
+            project->host_total_credit
+            project->host_expavg_credit
+        )
+    );
 	
-	this->addProperty(_("disk usage:"),this->FormatDiskSpace(diskusage));
-	this->addSection(_("scheduling infos"));
-	this->addProperty(_("short term debt:"),wxString::Format(wxT("%0.2f"),project->short_term_debt));
-	this->addProperty(_("long term debt:"),wxString::Format(wxT("%0.2f"),project->long_term_debt));
-	this->addProperty(_("duration corr. factor:"),wxString::Format(wxT("%0.4f"),project->duration_correction_factor));
-	this->addSection(_("diverse infos"));
-	this->addProperty(_("non cpu intensive:"),project->non_cpu_intensive ? _("yes") : _("no"));
-	this->addProperty(_("suspended via gui:"),project->suspended_via_gui ? _("yes") : _("no"));
-	this->addProperty(_("don't request more work:"),project->dont_request_more_work ? _("yes") : _("no"));
-	this->addProperty(_("scheduler call in progress:"),project->scheduler_rpc_in_progress ? _("yes") : _("no"));
-	this->addProperty(_("attached via account mgr.:"),project->attached_via_acct_mgr ? _("yes") : _("no"));
-	this->addProperty(_("detach when done:"),project->detach_when_done ? _("yes") : _("no"));
-	this->addProperty(_("ended:"),project->ended ? _("yes") : _("no"));
+	this->addSection(_("Scheduling"));
+	this->addProperty(_("Short term debt"),wxString::Format(wxT("%0.2f"),project->short_term_debt));
+	this->addProperty(_("Long term debt"),wxString::Format(wxT("%0.2f"),project->long_term_debt));
+	this->addProperty(_("Duration correction factor"),wxString::Format(wxT("%0.4f"),project->duration_correction_factor));
 	this->m_gbSizer->Layout();
 	this->m_scrolledWindow->FitInside();
 }
