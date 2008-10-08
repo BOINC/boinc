@@ -2005,7 +2005,7 @@ int CMainDocument::CachedSimpleGUIUpdate(bool bForce) {
     if (! IsConnected()) return -1;
 
     wxTimeSpan ts(wxDateTime::Now() - m_dtCachedSimpleGUITimestamp);
-    if (ts.GetSeconds() >= (2 * FILETRANSFERSRPC_INTERVAL)) bForce = true;
+    if (ts.GetSeconds() >= (2 * CACHEDSIMPLEGUIRPC_INTERVAL)) bForce = true;
     if (bForce) {
         m_dtCachedSimpleGUITimestamp = wxDateTime::Now();
         m_iGet_simple_gui2_rpc_result = rpc.get_simple_gui_info(async_projects_update_buf, state, results);
