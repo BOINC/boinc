@@ -619,11 +619,20 @@ function update_10_05_2008(){
     do_query("alter table forum_preferences add highlight_special tinyint default '1' not null");
 }
 
+function update_10_7_2008() {
+    do_query("alter table team add joinable tinyint default '1' not null");
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see
 // which ones you need).
 
 //update_6_3_2008();
+
+
+$db_updates = array (
+    array(16160, "update_10_7_2008"),
+);
 
 ?>

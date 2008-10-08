@@ -50,6 +50,7 @@ if ($country == "") {
 if (!is_valid_country($country)) {
     error_page("bad country");
 }
+$joinable = post_str('joinable', true)?1:0;
 
 $t = BoincTeam::lookup("name='$team_name'");
 if ($t && $t->id != $teamid) {
@@ -68,14 +69,16 @@ $clause = sprintf(
     url = '%s',
     description = '%s',
     type = %d,
-    country='%s'",
+    country='%s',
+    joinable=%d",
     $team_name,
     $team_name_lc,
     $team_name_html,
     $team_url,
     $team_description,
     $type,
-    $country
+    $country,
+    $joinable
 );
 
 $ret = $team->update($clause);

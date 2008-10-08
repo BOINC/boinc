@@ -127,7 +127,7 @@ if (!is_null($teamid)) {
         user_quit_team($user);
     } else {
         $team = lookup_team($teamid);
-        if ($team) {
+        if ($team && $team->joinable) {
             user_join_team($team, $user);
         }
     }

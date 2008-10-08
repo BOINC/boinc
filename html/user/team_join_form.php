@@ -25,6 +25,9 @@ $user = get_logged_in_user();
 $teamid = get_int("id");
 
 $team = lookup_team($teamid);
+if (!$team->joinable) {
+    error_page("The team is not joinable.");
+}
 $team_name = $team->name;
 page_head("Join $team_name");
 echo " <p><b>Please note:</b>

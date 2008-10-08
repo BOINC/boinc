@@ -146,13 +146,13 @@ function name_search($filter) {
     }
     $s = boinc_real_escape_string($search_string);
     $s = escape_pattern($s);
-    $fields = "id, create_time, name, country, total_credit, expavg_credit, teamid, url, has_profile";
+    $fields = "id, create_time, name, country, total_credit, expavg_credit, teamid, url, has_profile, donated";
     $users = BoincUser::enum_fields($fields, "name like '$s%'", "limit $count");
     $n=0;
     foreach ($users as $user) {
         if (!filter_user($user, $filter)) continue;
         if ($n==0) {
-            echo "<h3>User names starting with '".htmlspecialchars($search_string)."' $nice_name</h3>\n";
+            echo "<h3>User names starting with '".htmlspecialchars($search_string)."'</h3>\n";
             start_table();
             table_header("Name", "Team", "Average credit", "Total credit", "Country", "Joined");
 

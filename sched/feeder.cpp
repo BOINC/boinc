@@ -102,6 +102,7 @@
 #include <vector>
 using std::vector;
 
+#include "version.h"
 #include "boinc_db.h"
 #include "shmem.h"
 #include "error_numbers.h"
@@ -619,6 +620,14 @@ void show_state(int) {
     hr_info.show(stderr);
 }
 
+void show_version() {
+    log_messages.printf(MSG_NORMAL,"Version %d.%d.%d\n",
+        BOINC_MAJOR_VERSION,
+        BOINC_MINOR_VERSION,
+        BOINC_RELEASE
+    );
+}
+
 int main(int argc, char** argv) {
     int i, retval;
     void* p;
@@ -634,6 +643,10 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
+    if (argc == 2 && !strcmp(argv[1], "--version")) {
+        show_version();
+        exit(0);
+    }
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
@@ -666,6 +679,7 @@ int main(int argc, char** argv) {
     }
 
     log_messages.printf(MSG_NORMAL, "Starting\n");
+    show_version();
 
     if (config.feeder_query_size) {
         enum_limit = config.feeder_query_size;

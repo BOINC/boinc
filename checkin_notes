@@ -8166,3 +8166,32 @@ Charlie 8 Oct 2008
         MainDocument.cpp
         ViewProjects.cpp
         ViewWork.cpp
+
+David  8 Oct 2008
+    - add a script "upgrade_db.php" that updates project DB structure
+        (after user confirmation).
+        This is called from "upgrade", and can also be run by itself.
+
+        NOTE: this mechanism will handle all DB updates going forward.
+        Older updates must be done the old way (edit and run db_update.php)
+
+    - Web: let teams determine whether they're accepting new members
+
+    html/
+        inc/
+            forum.inc
+            team.inc
+        ops/
+            db_update.php
+            upgrade_db.php
+        user/
+            am_set_info.phph
+            team_edit_action.php
+            team_join.php
+            team_join_action.php
+            team_join_form.php
+            user_search.php
+        sched/
+            feeder.cpp
+        tools/
+            upgrade

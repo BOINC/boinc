@@ -103,11 +103,15 @@ function display_team_page($team, $user) {
     }
     if ($user) {
         if ($user->teamid != $team->id) {
-            $tokens = url_tokens($user->authenticator);
-            row2("",
-                '<a href="team_join.php?'.$tokens.'&amp;teamid='.$team->id.'">'.tra('Join this team').'</a>
-                <br><span class="note">'.tra('Note: if \'OK to email\' is set in your project preferences, joining a team gives its founder access to your email address.').'</span>'
-            );
+            if ($team->joinable) {
+                $tokens = url_tokens($user->authenticator);
+                row2("",
+                    '<a href="team_join.php?'.$tokens.'&amp;teamid='.$team->id.'">'.tra('Join this team').'</a>
+                    <br><span class="note">'.tra('Note: if \'OK to email\' is set in your project preferences, joining a team gives its founder access to your email address.').'</span>'
+                );
+            } else {
+                row2(tra("Not accepting new members"), "");
+            }
         }
         if (($user->teamid == $team->id)) {
             if (($user->id == $team->userid)) {
@@ -417,7 +421,9 @@ function team_edit_form($team, $label, $url) {
     );
     print_country_select($team->country);
     
-    echo "</select></b></td></tr>\n";
+    echo "</select></td></tr>\n";
+    $x = $team->joinable?"checked":"";
+    row2("Accept new members?", "<input type=checkbox name=joinable $x>");
     row2("",
         "<input type=submit name=new value='$label'>"
     );

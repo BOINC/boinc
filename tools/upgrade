@@ -62,9 +62,6 @@ init()
 install_boinc_files(INSTALL_DIR, options.web_only)
 
 print "Upgrading files... done"
-print "You may need to do database upgrades also."
-print "(see html/ops/db_update.php)"
-print "Run `bin/start' to restart the project."
 
 svn_version_file = INSTALL_DIR+'/local.revision'
 try:
@@ -72,5 +69,6 @@ try:
 except:
     print '''Couldn't find svnversion'''
 
-#if os.system(os.path.join(INSTALL_DIR,'bin/start')):
-#    raise SystemExit("Couldn't start BOINC!")
+os.system('cd '+INSTALL_DIR+'/html/ops; upgrade_db.php')
+
+print "Run `bin/start' to restart the project."

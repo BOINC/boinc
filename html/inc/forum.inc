@@ -696,7 +696,11 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
 }
 
 function is_banished($user) {
-    return ($user->prefs->banished_until > time());
+    if (isset($user->prefs)) {
+        return ($user->prefs->banished_until > time());
+    } else {
+        return false;
+    }
 }
 
 function check_banished($user) {

@@ -26,6 +26,9 @@ check_tokens($user->authenticator);
 $teamid = get_int("teamid");
 $team = BoincTeam::lookup_id($teamid);
 require_team($team);
+if (!$team->joinable) {
+    error_page("The team is not joinable.");
+}
 if ($user->teamid == $team->id) {
     page_head("Already a member");
     echo "You are already a member of $team->name.";
