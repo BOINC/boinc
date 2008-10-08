@@ -8155,7 +8155,10 @@ Charlie 8 Oct 2008
     - MGR: Fix crash in Projects:Properties.
     - MGR: Always update underlying data when changing tabs, attaching, 
         detaching, forcing refresh, etc.
+    - client: Fix CUDA detection on Mac.
 
+    client/
+        coproc.cpp
     clientgui/
         AdvancedFrame.cpp
         BOINCBaseFrame.cpp
