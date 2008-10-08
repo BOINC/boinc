@@ -332,9 +332,12 @@ function os_compatible($host1, $host2) {
 // So the CPU/OS checks don't have to be very strict.
 //
 function hosts_compatible($host1, $host2, $show_detail) {
-    // skip disjoint-time check if one host or other has no credit
+    // A host is "new" if it has no credit and no results.
+    // Skip disjoint-time check if one host or other is new
     //
-    if ($host1->total_credit && $host2->total_credit) {
+    $new1 = !$host1->total_credit && !host_nresults($host1);
+    $new2 = !$host2->total_credit && !host_nresults($host2);
+    if (!$new1 && !$new2) {
         if (!times_disjoint($host1, $host2)) {
             if ($show_detail) {
                 $c1 = date_str($host1->create_time);

@@ -8200,3 +8200,11 @@ David  8 Oct 2008
     - manager: fix strings in Project Properties
 
     clientgui/DlgItemProperties.cpp
+
+David  8 Oct 2008
+    - web: in checking if hosts can be merged,
+        do time-overlap check if either host has pending results
+        Fixes #748
+
+    html/inc/
+        host.inc

@@ -107,8 +107,7 @@ function show_create() {
         <span class=section_title>Compute with BOINC</span>
         <br>
         <a class=heading href=\"trac/wiki/ProjectMain\">Documentation</a>
-        &middot; <a class=heading href=\"trac/wiki/ServerUpdates\">Updates</a>
-        &middot; <a class=heading href=\"trac/wiki/ConferenceList\">Conferences</a>
+        &middot; <a class=heading href=\"trac/wiki/ServerUpdates\">Software updates</a>
         </center>
         </td></tr>
         <tr><td>
@@ -152,6 +151,7 @@ function show_other() {
             <li> <a href=\"dev/\">Message boards</a>
             <li> <a href=email_lists.php>Email lists</a>
             <li> <a href=\"trac/wiki/BoincEvents\">Events</a>
+            <li> <a href=\"trac/wiki/ConferenceList\">Conferences</a>
             <li> <a href=\"trac/wiki/BoincPapers\">Papers and talks</a>
             <li> <a href=logo.php>Logos and graphics</a>
             </ul>
