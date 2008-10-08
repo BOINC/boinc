@@ -69,7 +69,8 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
 CDlgItemProperties::~CDlgItemProperties() {
 }
 
-// renders infos for a project
+// show project properties
+//
 void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 	std::string projectname;
 	//collecting infos
@@ -96,7 +97,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 		}
 	}
 	//set dialog title
-	wxString wxTitle = _("Properties for ");
+	wxString wxTitle = _("Properties of project ");
 	wxTitle.append(wxString(projectname.c_str(),wxConvUTF8));
 	this->SetTitle(wxTitle);
 	//layout controls
@@ -117,14 +118,14 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 	this->addProperty(_("User"),
         wxString::Format(
             wxT("%0.2f total, %0.2f average"),
-            project->user_total_credit
+            project->user_total_credit,
             project->user_expavg_credit
         )
     );
 	this->addProperty(_("Host"),
         wxString::Format(
             wxT("%0.2f total, %0.2f average"),
-            project->host_total_credit
+            project->host_total_credit,
             project->host_expavg_credit
         )
     );
@@ -137,23 +138,26 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 	this->m_scrolledWindow->FitInside();
 }
 
-// renders infos for a task/result
+// show task properties
+//
 void CDlgItemProperties::renderInfos(RESULT* result) {
-	wxString wxTitle = _("Properties for ");
+    wxDateTime dt;
+	wxString wxTitle = _("Properties of task ");
 	wxTitle.append(wxString(result->name.c_str(),wxConvUTF8));
 	this->SetTitle(wxTitle);
 
-	this->addSection(_("general infos"));
-	this->addProperty(_("application name:"),this->FormatApplicationName(result));
-	this->addProperty(_("workunit name:"),wxString(result->wu_name.c_str(),wxConvUTF8));
-	this->addSection(_("state infos"));
-	this->addProperty(_("state:"),this->FormatStatus(result));
-	if(result->active_task) {
-		this->addSection(_("calculation infos"));
-		this->addProperty(_("checkpoint cpu time:"),FormatTime(result->checkpoint_cpu_time));
-		this->addProperty(_("current cpu time:"),FormatTime(result->current_cpu_time));
-		this->addProperty(_("est. cpu time remaining:"),FormatTime(result->estimated_cpu_time_remaining));
-		this->addProperty(_("fraction done:"),wxString::Format(wxT("%.3f %%"),floor(result->fraction_done * 100000)/1000));
+	this->addProperty(_("Application"), FormatApplicationName(result));
+	this->addProperty(_("Workunit name"),wxString(result->wu_name.c_str(),wxConvUTF8));
+	this->addProperty(_("State"), FormatStatus(result));
+    dt.Set((time_t)result->report_deadline);
+	this->addProperty(_("Report deadline"), dt.Format());
+    if (result->active_task) {
+		this->addProperty(_("Checkpoint CPU time"), FormatTime(result->checkpoint_cpu_time));
+		this->addProperty(_("Current CPU time"), FormatTime(result->current_cpu_time));
+		this->addProperty(_("Estimated CPU time remaining"),FormatTime(result->estimated_cpu_time_remaining));
+		this->addProperty(_("Fraction done"),wxString::Format(wxT("%.3f %%"),floor(result->fraction_done * 100000)/1000));
+		this->addProperty(_("Virtual memory size"), FormatDiskSpace(result->swap_size));
+		this->addProperty(_("Working set size"), FormatDiskSpace(result->working_set_size_smoothed));
 	}
 	this->m_gbSizer->Layout();
 	this->m_scrolledWindow->FitInside();
