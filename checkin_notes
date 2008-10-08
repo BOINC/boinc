@@ -8095,7 +8095,7 @@ David  5 Oct 2008
         inc/
             host.inc
 
-Charlie 3 Oct 2008
+Charlie 6 Oct 2008
     - MGR: Async GUI RPCs: remove spurious assert.
     - MGR: Erase under progress bars so they overwrite selection highlight color 
         and gray stripes for better appearance (color and visibility).
@@ -8150,3 +8150,16 @@ David  7 Oct 2008
 
     html/ops
         build_po.php
+
+Charlie 8 Oct 2008
+    - MGR: Fix crash in Projects:Properties.
+    - MGR: Always update underlying data when changing tabs, attaching, 
+        detaching, forcing refresh, etc.
+
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCBaseFrame.cpp
+        DlgItemProperties.cpp
+        MainDocument.cpp
+        ViewProjects.cpp
+        ViewWork.cpp

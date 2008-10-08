@@ -1283,6 +1283,7 @@ void CAdvancedFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(e
 
         DeleteMenu();
         CreateMenu();
+        pDoc->ForceCacheUpdate();
         FireRefreshView();
 
         // Restart timers to continue normal operations.
@@ -1319,6 +1320,7 @@ void CAdvancedFrame::OnAccountManagerUpdate(wxCommandEvent& WXUNUSED(event)) {
 
         DeleteMenu();
         CreateMenu();
+        pDoc->ForceCacheUpdate();
         FireRefreshView();
         ResetReminderTimers();
 
@@ -1384,6 +1386,7 @@ void CAdvancedFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
 
         DeleteMenu();
         CreateMenu();
+        pDoc->ForceCacheUpdate();
         FireRefreshView();
 
     } else {
@@ -1428,6 +1431,7 @@ void CAdvancedFrame::OnProjectsAttachToProject( wxCommandEvent& WXUNUSED(event) 
 
         UpdateStatusText(wxT(""));
 
+        pDoc->ForceCacheUpdate();
         FireRefreshView();
     } else {
         ShowNotCurrentlyConnectedAlert();
@@ -1969,10 +1973,8 @@ void CAdvancedFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
         CMainDocument*  pDoc = wxGetApp().GetDocument();
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
         
+        pDoc->RefreshRPCs();
         pDoc->RunPeriodicRPCs();
-        
-        wxTimerEvent event (wxEVT_TIMER, ID_PERIODICRPCTIMER);
-        AddPendingEvent(event);
     }
 
     event.Skip();

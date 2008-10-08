@@ -367,10 +367,11 @@ void CBOINCBaseFrame::FireRefreshView() {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     
+    pDoc->RefreshRPCs();
     pDoc->RunPeriodicRPCs();
 
-    CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, this);
-    AddPendingEvent(event);
+//    CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, this);
+//    AddPendingEvent(event);
 }
 
 

@@ -41,6 +41,35 @@
 #include <grp.h>
 #endif
 
+// *** RPC update intervals in seconds ***
+// m_dtCachedCCStatusTimestamp
+#define CCSTATUS_RPC_INTERVAL 1
+
+//m_dtCachedStateTimestamp
+#define STATERPC_INTERVAL 3600
+
+//m_dtProjecStatusTimestamp
+#define PROJECTSTATUSRPC_INTERVAL 1
+
+//m_dtResultsTimestamp
+#define RESULTSRPC_INTERVAL 1
+
+//m_dtFileTransfersTimestamp
+#define FILETRANSFERSRPC_INTERVAL 1
+
+// m_dtStatisticsStatusTimestamp
+#define STATISTICSSTATUSRPC_INTERVAL 60
+
+// m_dtDiskUsageTimestamp
+#define DISKUSAGERPC_INTERVAL 60
+
+// m_dtCachedSimpleGUITimestamp
+#define CACHEDSIMPLEGUIRPC_INTERVAL 1
+
+// m_dtCachedAcctMgrInfoTimestamp
+#define CACHEDACCTMGRINFORPC_INTERVAL 600
+
+
 bool g_use_sandbox = false;
 
 using std::string;
@@ -620,6 +649,8 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
     int              iRetVal = 0;
 
     if (IsConnected()) {
+        wxTimeSpan ts(wxDateTime::Now() - m_dtCachedCCStatusTimestamp);
+        if (ts.GetSeconds() >= (2 * CCSTATUS_RPC_INTERVAL)) bForce = true;
         if (bForce) {
             m_dtCachedCCStatusTimestamp = wxDateTime::Now();
 
@@ -693,6 +724,10 @@ int CMainDocument::SetNetworkRunMode(int iMode, int iTimeout) {
 
 
 void CMainDocument::RefreshRPCs() {
+
+    m_dtCachedCCStatusTimestamp = wxDateTime((time_t)0);
+//    m_iGet_status_rpc_result = -1;
+    
     m_dtProjecStatusTimestamp = wxDateTime((time_t)0);
 //  m_iGet_project_status1_rpc_result = -1;
         
@@ -761,7 +796,7 @@ void CMainDocument::RunPeriodicRPCs() {
     // *********** RPC_GET_CC_STATUS **************
     
     wxTimeSpan ts(dtNow - m_dtCachedCCStatusTimestamp);
-    if (ts.GetSeconds() > 0) {
+    if (ts.GetSeconds() >= CCSTATUS_RPC_INTERVAL) {
         m_dtCachedCCStatusTimestamp = wxDateTime::Now();
         request.clear();
         request.which_rpc = RPC_GET_CC_STATUS;
@@ -775,7 +810,7 @@ void CMainDocument::RunPeriodicRPCs() {
     }
 
     ts = dtNow - m_dtCachedStateTimestamp;
-    if (ts.GetSeconds() > 3600) {
+    if (ts.GetSeconds() >= STATERPC_INTERVAL) {
 
     // *********** RPC_GET_STATE **************
 
@@ -805,7 +840,7 @@ void CMainDocument::RunPeriodicRPCs() {
 
     if (currentTabView & VW_PROJ) {
         wxTimeSpan ts(dtNow - m_dtProjecStatusTimestamp);
-        if (ts.GetSeconds() > 0) {
+        if (ts.GetSeconds() >= PROJECTSTATUSRPC_INTERVAL) {
             request.clear();
             request.which_rpc = RPC_GET_PROJECT_STATUS1;
             request.arg1 = &async_projects_update_buf;
@@ -822,7 +857,7 @@ void CMainDocument::RunPeriodicRPCs() {
 
     if (currentTabView & VW_TASK) {
         wxTimeSpan ts(dtNow - m_dtResultsTimestamp);
-        if (ts.GetSeconds() > 0) {
+        if (ts.GetSeconds() >= RESULTSRPC_INTERVAL) {
             request.clear();
             request.which_rpc = RPC_GET_RESULTS;
             request.arg1 = &async_results_buf;
@@ -839,7 +874,7 @@ void CMainDocument::RunPeriodicRPCs() {
 
     if (currentTabView & VW_XFER) {
         wxTimeSpan ts(dtNow - m_dtFileTransfersTimestamp);
-        if (ts.GetSeconds() > 0) {
+        if (ts.GetSeconds() >= FILETRANSFERSRPC_INTERVAL) {
             request.clear();
             request.which_rpc = RPC_GET_FILE_TRANSFERS;
             request.arg1 = &async_ft_buf;
@@ -874,7 +909,7 @@ void CMainDocument::RunPeriodicRPCs() {
 
     if (currentTabView & VW_STAT) {
         wxTimeSpan ts(dtNow - m_dtStatisticsStatusTimestamp);
-        if (ts.GetSeconds() > 60) {
+        if (ts.GetSeconds() >= STATISTICSSTATUSRPC_INTERVAL) {
             request.clear();
             request.which_rpc = RPC_GET_STATISTICS;
             request.arg1 = &async_statistics_status_buf;
@@ -891,7 +926,7 @@ void CMainDocument::RunPeriodicRPCs() {
 
     if (currentTabView & VW_DISK) {
         wxTimeSpan ts(dtNow - m_dtDiskUsageTimestamp);
-        if ((ts.GetSeconds() > 60) || disk_usage.projects.empty()) {
+        if ((ts.GetSeconds() >= DISKUSAGERPC_INTERVAL) || disk_usage.projects.empty()) {
             request.clear();
             request.which_rpc = RPC_GET_DISK_USAGE;
             request.arg1 = &async_disk_usage_buf;
@@ -907,7 +942,7 @@ void CMainDocument::RunPeriodicRPCs() {
     // *********** GET_SIMPLE_GUI_INFO2 **************
     if (currentTabView & VW_SGUI) {
         wxTimeSpan ts(dtNow - m_dtCachedSimpleGUITimestamp);
-        if (ts.GetSeconds() > 0) {
+        if (ts.GetSeconds() >= CACHEDSIMPLEGUIRPC_INTERVAL) {
             request.clear();
             request.which_rpc = RPC_GET_SIMPLE_GUI_INFO2;
             request.arg1 = &async_projects_update_buf;
@@ -925,7 +960,7 @@ void CMainDocument::RunPeriodicRPCs() {
 
     if (currentTabView & VW_SGUI) {
         wxTimeSpan ts(dtNow - m_dtCachedAcctMgrInfoTimestamp);
-        if (ts.GetSeconds() > 600) {
+        if (ts.GetSeconds() >= CACHEDACCTMGRINFORPC_INTERVAL) {
             request.clear();
             request.which_rpc = RPC_ACCT_MGR_INFO;
             request.arg1 = &async_ami_buf;
@@ -1063,6 +1098,8 @@ int CMainDocument::CachedProjectStatusUpdate(bool bForce) {
 
     if (! IsConnected()) return -1;
 
+    wxTimeSpan ts(wxDateTime::Now() - m_dtProjecStatusTimestamp);
+    if (ts.GetSeconds() >= (2 * PROJECTSTATUSRPC_INTERVAL)) bForce = true;
     if (bForce) {
         m_dtProjecStatusTimestamp = wxDateTime::Now();
         m_iGet_project_status1_rpc_result = rpc.get_project_status(async_projects_update_buf, state);
@@ -1299,6 +1336,12 @@ int CMainDocument::ProjectAllowMoreWork(const wxString& projectname) {
 int CMainDocument::CachedResultsStatusUpdate() {
     if (! IsConnected()) return -1;
 
+    wxTimeSpan ts(wxDateTime::Now() - m_dtResultsTimestamp);
+    if (ts.GetSeconds() >= (2 * RESULTSRPC_INTERVAL)) {
+        m_dtResultsTimestamp = wxDateTime::Now();
+        m_iGet_results_rpc_result = rpc.get_results(results);
+    }
+    
     if (m_iGet_results_rpc_result) {
         wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'"), m_iGet_results_rpc_result);
         ForceCacheUpdate();
@@ -1720,9 +1763,15 @@ int CMainDocument::ResetMessageState() {
 int CMainDocument::CachedFileTransfersUpdate() {
     if (! IsConnected()) return -1;
 
+    wxTimeSpan ts(wxDateTime::Now() - m_dtFileTransfersTimestamp);
+    if (ts.GetSeconds() >= (2* FILETRANSFERSRPC_INTERVAL)) {
+        m_dtFileTransfersTimestamp = wxDateTime::Now();
+        m_iGet_file_transfers_rpc_result = rpc.get_file_transfers(ft);
+    }
+ 
      if (m_iGet_file_transfers_rpc_result) {
         wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedFileTransfersUpdate - Get File Transfers Failed '%d'"), m_iGet_file_transfers_rpc_result);
-                ForceCacheUpdate();
+        ForceCacheUpdate();
     }
 
     return m_iGet_file_transfers_rpc_result;
@@ -1835,6 +1884,16 @@ int CMainDocument::TransferAbort(const wxString& fileName, const wxString& proje
 int CMainDocument::CachedDiskUsageUpdate() {
     if (! IsConnected()) return -1;
 
+    wxTimeSpan ts(wxDateTime::Now() - m_dtDiskUsageTimestamp);
+
+    // don't get disk usage more than once per minute
+            // unless we just connected to a client
+    //
+    if ((ts.GetSeconds() >= (2 * DISKUSAGERPC_INTERVAL)) || disk_usage.projects.empty()) {
+        m_dtDiskUsageTimestamp = wxDateTime::Now();
+        m_iGet_dsk_usage_rpc_result = rpc.get_disk_usage(disk_usage);
+    }
+    
     if (m_iGet_dsk_usage_rpc_result) {
         wxLogTrace(wxT("Function Status"), wxT("Get Disk Usage Failed '%d'"), m_iGet_dsk_usage_rpc_result);
         ForceCacheUpdate();
@@ -1861,6 +1920,13 @@ PROJECT* CMainDocument::DiskUsageProject(unsigned int i) {
 
 int CMainDocument::CachedStatisticsStatusUpdate() {
     if (! IsConnected()) return -1;
+
+    wxTimeSpan ts(wxDateTime::Now() - m_dtStatisticsStatusTimestamp);
+    if ((ts.GetSeconds() >= (2 * STATISTICSSTATUSRPC_INTERVAL)) || statistics_status.projects.empty()) {
+        m_dtStatisticsStatusTimestamp = wxDateTime::Now();
+
+        m_dtStatisticsStatusTimestamp = rpc.get_statistics(statistics_status);
+    }
 
     if (m_iGet_statistics_rpc_result) {
         wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedStatisticsStatusUpdate - Get Statistics Failed '%d'"), m_iGet_statistics_rpc_result);
@@ -1938,6 +2004,8 @@ int CMainDocument::CachedSimpleGUIUpdate(bool bForce) {
 
     if (! IsConnected()) return -1;
 
+    wxTimeSpan ts(wxDateTime::Now() - m_dtCachedSimpleGUITimestamp);
+    if (ts.GetSeconds() >= (2 * FILETRANSFERSRPC_INTERVAL)) bForce = true;
     if (bForce) {
         m_dtCachedSimpleGUITimestamp = wxDateTime::Now();
         m_iGet_simple_gui2_rpc_result = rpc.get_simple_gui_info(async_projects_update_buf, state, results);

@@ -495,7 +495,7 @@ void CViewProjects::OnShowItemProperties( wxCommandEvent& WXUNUSED(event) ) {
     long item = m_pListPane->GetFirstSelected();
     PROJECT* project = wxGetApp().GetDocument()->project(m_iSortedIndexes[item]);
 
-    if(!project) return;
+    if(!project) return;     // TODO: display some sort of error alert?
     //displaying the infos on a dialog
     CDlgItemProperties dlg(this);
     dlg.renderInfos(project);

@@ -429,7 +429,7 @@ void CViewWork::OnShowItemProperties( wxCommandEvent& WXUNUSED(event) ) {
     long item = m_pListPane->GetFirstSelected();
     RESULT* result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
 
-    if(!result) return;
+    if(!result) return;     // TODO: display some sort of error alert?
     //displaying the infos on a dialog
     CDlgItemProperties dlg(this);
     dlg.renderInfos(result);
