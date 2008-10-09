@@ -31,8 +31,8 @@ IMPLEMENT_DYNAMIC_CLASS(CDlgItemProperties, wxDialog)
 CDlgItemProperties::CDlgItemProperties(wxWindow* parent) : 
     wxDialog( parent, ID_ANYDIALOG, wxEmptyString, wxDefaultPosition, 
                 wxSize( 503,480 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER ) {
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
-	this->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
+	SetSizeHints( wxDefaultSize, wxDefaultSize );
+	SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
 	
 	m_bSizer1 = new wxBoxSizer( wxVERTICAL );
 	
@@ -57,12 +57,12 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
 	m_btnClose->SetDefault(); 
 	m_bSizer1->Add( m_btnClose, 0, wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
 	
-	this->SetSizer( m_bSizer1 );
-	this->Layout();
+	SetSizer( m_bSizer1 );
+	Layout();
 	
-	this->Centre( wxBOTH );
+	Centre( wxBOTH );
 
-	this->m_current_row=0;
+	m_current_row=0;
 }
 
 // destructor
@@ -99,30 +99,30 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 	//set dialog title
 	wxString wxTitle = _("Properties of project ");
 	wxTitle.append(wxString(projectname.c_str(),wxConvUTF8));
-	this->SetTitle(wxTitle);
+	SetTitle(wxTitle);
 	//layout controls
-	this->addSection(_("General"));
-	this->addProperty(_("Master URL"),wxString(project->master_url.c_str(),wxConvUTF8));
-	this->addProperty(_("User name"),wxString(project->user_name.c_str(),wxConvUTF8));
-	this->addProperty(_("Team name"),wxString(project->team_name.c_str(),wxConvUTF8));
-	this->addProperty(_("Resource share"),wxString::Format(wxT("%0.0f"),project->resource_share));
-	this->addProperty(_("Disk usage"),this->FormatDiskSpace(diskusage));
-	this->addProperty(_("Non CPU intensive"),project->non_cpu_intensive ? _("yes") : _("no"));
-	this->addProperty(_("Suspended via GUI"),project->suspended_via_gui ? _("yes") : _("no"));
-	this->addProperty(_("Don't request more work"),project->dont_request_more_work ? _("yes") : _("no"));
-	this->addProperty(_("Scheduler call in progress"),project->scheduler_rpc_in_progress ? _("yes") : _("no"));
-	this->addProperty(_("Attached via account manager"),project->attached_via_acct_mgr ? _("yes") : _("no"));
-	this->addProperty(_("Detach when done"),project->detach_when_done ? _("yes") : _("no"));
-	this->addProperty(_("Ended"),project->ended ? _("yes") : _("no"));
-	this->addSection(_("Credit"));
-	this->addProperty(_("User"),
+	addSection(_("General"));
+	addProperty(_("Master URL"),wxString(project->master_url.c_str(),wxConvUTF8));
+	addProperty(_("User name"),wxString(project->user_name.c_str(),wxConvUTF8));
+	addProperty(_("Team name"),wxString(project->team_name.c_str(),wxConvUTF8));
+	addProperty(_("Resource share"),wxString::Format(wxT("%0.0f"),project->resource_share));
+	addProperty(_("Disk usage"),FormatDiskSpace(diskusage));
+	addProperty(_("Non CPU intensive"),project->non_cpu_intensive ? _("yes") : _("no"));
+	addProperty(_("Suspended via GUI"),project->suspended_via_gui ? _("yes") : _("no"));
+	addProperty(_("Don't request more work"),project->dont_request_more_work ? _("yes") : _("no"));
+	addProperty(_("Scheduler call in progress"),project->scheduler_rpc_in_progress ? _("yes") : _("no"));
+	addProperty(_("Attached via account manager"),project->attached_via_acct_mgr ? _("yes") : _("no"));
+	addProperty(_("Detach when done"),project->detach_when_done ? _("yes") : _("no"));
+	addProperty(_("Ended"),project->ended ? _("yes") : _("no"));
+	addSection(_("Credit"));
+	addProperty(_("User"),
         wxString::Format(
             wxT("%0.2f total, %0.2f average"),
             project->user_total_credit,
             project->user_expavg_credit
         )
     );
-	this->addProperty(_("Host"),
+	addProperty(_("Host"),
         wxString::Format(
             wxT("%0.2f total, %0.2f average"),
             project->host_total_credit,
@@ -130,12 +130,12 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
         )
     );
 	
-	this->addSection(_("Scheduling"));
-	this->addProperty(_("Short term debt"),wxString::Format(wxT("%0.2f"),project->short_term_debt));
-	this->addProperty(_("Long term debt"),wxString::Format(wxT("%0.2f"),project->long_term_debt));
-	this->addProperty(_("Duration correction factor"),wxString::Format(wxT("%0.4f"),project->duration_correction_factor));
-	this->m_gbSizer->Layout();
-	this->m_scrolledWindow->FitInside();
+	addSection(_("Scheduling"));
+	addProperty(_("Short term debt"),wxString::Format(wxT("%0.2f"),project->short_term_debt));
+	addProperty(_("Long term debt"),wxString::Format(wxT("%0.2f"),project->long_term_debt));
+	addProperty(_("Duration correction factor"),wxString::Format(wxT("%0.4f"),project->duration_correction_factor));
+	m_gbSizer->Layout();
+	m_scrolledWindow->FitInside();
 }
 
 // show task properties
@@ -144,26 +144,26 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
     wxDateTime dt;
 	wxString wxTitle = _("Properties of task ");
 	wxTitle.append(wxString(result->name.c_str(),wxConvUTF8));
-	this->SetTitle(wxTitle);
+	SetTitle(wxTitle);
 
-	this->addProperty(_("Application"), FormatApplicationName(result));
-	this->addProperty(_("Workunit name"),wxString(result->wu_name.c_str(),wxConvUTF8));
-	this->addProperty(_("State"), FormatStatus(result));
+	addProperty(_("Application"), FormatApplicationName(result));
+	addProperty(_("Workunit name"),wxString(result->wu_name.c_str(),wxConvUTF8));
+	addProperty(_("State"), FormatStatus(result));
     dt.Set((time_t)result->report_deadline);
-	this->addProperty(_("Report deadline"), dt.Format());
+	addProperty(_("Report deadline"), dt.Format());
 	if (result->resources.size()) {
 		addProperty(_("Resources"), wxString(result->resources.c_str(), wxConvUTF8));
 	}
     if (result->active_task) {
-		this->addProperty(_("Checkpoint CPU time"), FormatTime(result->checkpoint_cpu_time));
-		this->addProperty(_("Current CPU time"), FormatTime(result->current_cpu_time));
-		this->addProperty(_("Estimated CPU time remaining"),FormatTime(result->estimated_cpu_time_remaining));
-		this->addProperty(_("Fraction done"),wxString::Format(wxT("%.3f %%"),floor(result->fraction_done * 100000)/1000));
-		this->addProperty(_("Virtual memory size"), FormatDiskSpace(result->swap_size));
-		this->addProperty(_("Working set size"), FormatDiskSpace(result->working_set_size_smoothed));
+		addProperty(_("Checkpoint CPU time"), FormatTime(result->checkpoint_cpu_time));
+		addProperty(_("Current CPU time"), FormatTime(result->current_cpu_time));
+		addProperty(_("Estimated CPU time remaining"),FormatTime(result->estimated_cpu_time_remaining));
+		addProperty(_("Fraction done"),wxString::Format(wxT("%.3f %%"),floor(result->fraction_done * 100000)/1000));
+		addProperty(_("Virtual memory size"), FormatDiskSpace(result->swap_size));
+		addProperty(_("Working set size"), FormatDiskSpace(result->working_set_size_smoothed));
 	}
-	this->m_gbSizer->Layout();
-	this->m_scrolledWindow->FitInside();
+	m_gbSizer->Layout();
+	m_scrolledWindow->FitInside();
 }
 
 //

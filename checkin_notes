@@ -8239,3 +8239,14 @@ David  9 Oct 2008
             forum_post.php
             forum_reply.php
             pm.php
+
+David  9 Oct 2008
+    - client: major changes to enforce_schedule() to handle GPUs
+
+    client/
+        client_state.h
+        cpu_sched.cpp
+    clientgui/
+        DlgItemProperties.cpp
+    html/ops/
+        db_update.php

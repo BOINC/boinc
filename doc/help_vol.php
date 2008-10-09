@@ -33,10 +33,9 @@ function show_info($vol) {
     return $x;
 }
 
-function live_contact($vol, $rating) {
+function live_contact($vol) {
     $skypeid = $vol->skypeid;
     echo "
-        <table class=box cellpadding=8 width=100%><tr><td>
     <font size=+2><b>Contact $vol->name on Skype</b></font>
     <script>
         if (navigator.userAgent.indexOf('MSIE') != -1) {
@@ -63,12 +62,14 @@ function live_contact($vol, $rating) {
     Their advise is not endorsed by BOINC
     or the University of California.</span>
     <hr>
-    After the conversation is over, please give us your
-    feedback:
+    ";
+}
 
-    <form action=help_vol.php>
-    <input type=hidden name=volid value=\"$vol->id\">
-
+function show_rating($vol, $rating) {
+    echo "
+        If $vol->name has helped you, please give us your feedback:
+        <form action=help_vol.php>
+        <input type=hidden name=volid value=\"$vol->id\">
     ";
     list_start();
     list_item(
@@ -80,13 +81,12 @@ function live_contact($vol, $rating) {
     list_end();
     echo "
     </form>
-    </td></tr></table>
     ";
 }
 
 function email_contact($vol) {
     echo "
-        <p><table class=box width=100%><tr><td>
+        <p>
         <h2>Contact $vol->name by email</h2>
         <form action=help_vol.php>
         <input type=hidden name=volid value=\"$vol->id\">
@@ -104,7 +104,6 @@ function email_contact($vol) {
     list_item("", "<input type=submit name=send_email value=OK>");
     list_end();
     echo "</form>
-        </td></tr></table>
     ";
 }
 
@@ -199,12 +198,18 @@ if ($send_email) {
         <script type=\"text/javascript\" src=\"http://download.skype.com/share/skypebuttons/js/skypeCheck.js\"></script>
         <img src=images/help/$image><p>
     ";
+    echo "<table class=box cellpadding=8 width=100%><tr><td>";
     if (online($status)) {
-        $rating = rating_vol_auth($vol->id, $uid);
-        if (!$rating) $rating->rating = -1;
-        live_contact($vol, $rating);
+        live_contact($vol);
     }
     email_contact($vol);
+    echo "</td></tr></table><p>\n";
+    echo "<table class=box cellpadding=8 width=100%><tr><td>";
+    $rating = rating_vol_auth($vol->id, $uid);
+    if (!$rating) $rating->rating = -1;
+    show_rating($vol, $rating);
+    echo "</td></tr></table>\n";
+
     page_tail();
 }
 ?>

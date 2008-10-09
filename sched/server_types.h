@@ -163,7 +163,7 @@ struct WORK_REQ {
     int  daily_result_quota; // for this machine: number of cpus * daily_quota/cpu
     bool cache_size_exceeded;
     int nresults_on_host;
-        // How many results from this project are (or should be) on the host.
+        // How many results from this project are in progress on the host.
         // Initially this is the number of "other_results"
         // reported in the request message.
         // If the resend_lost_results option is used,
