@@ -1,0 +1,12 @@
+<cc_config>
+    <log_flags>
+    </log_flags>
+    <options>
+        <disallow_attach>0</disallow_attach>
+        <dont_contact_ref_site>1</dont_contact_ref_site>
+        <simple_gui_only>0</simple_gui_only>
+        <report_results_immediately>1</report_results_immediately>
+    </options>
+</cc_config>
+<!-- View http://boinc.berkeley.edu/trac/wiki/ClientMessages for more options 
+   and information about this file -->
