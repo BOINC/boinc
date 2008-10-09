@@ -8220,3 +8220,22 @@ Charlie 8 Oct 2008
 
         DlgItemProperties.cpp
         ViewWork.cpp
+
+David  9 Oct 2008
+    - client: show message when suspending because of exclusive app
+    - web: remove file_get_contents() workaround for PHP4
+    - web: If Akismet or ReCaptcha failure,
+        display the form again with a warning message at the top.
+        That way the user doesn't lose the text they just typed.
+
+    client/
+        cs_prefs.cpp
+    html/
+        inc/
+            akismet.inc
+            util_basics.inc
+        user/
+            create_profile.php
+            forum_post.php
+            forum_reply.php
+            pm.php

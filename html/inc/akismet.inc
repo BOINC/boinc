@@ -43,12 +43,7 @@ function akismet_check($user, $post) {
         $response = akismet_request($request, "$key.rest.akismet.com", "/1.1/comment-check");
 
         if ("true" == $response[1]) { // Akismet says it's spam
-            error_page(
-                "Your text has been marked as spam by the akismet.net
-                anti-spam system.
-                If you feel that this is wrong,
-                please try editing your message.
-            ");
+            return false;
         } else {
             return true;
         }

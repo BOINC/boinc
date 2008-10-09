@@ -59,6 +59,7 @@ if (!$sort_style) {
     $logged_in_user->prefs->update("thread_sorting=$sort_style");
 }
 
+$warning = null;
 if ($content && (!$preview)){
     if (post_str('add_signature',true)=="add_it"){
         $add_signature=true;    // set a flag and concatenate later
@@ -66,9 +67,18 @@ if ($content && (!$preview)){
         $add_signature=false;
     }
     check_tokens($logged_in_user->authenticator);
-    akismet_check($logged_in_user, $content);
-    create_post($content, $parent_post_id, $logged_in_user, $forum, $thread, $add_signature);
-    header('Location: forum_thread.php?id='.$thread->id);
+    if (!akismet_check($logged_in_user, $content)) {
+        $warning = "Your post has been flagged as spam by the Akismet
+            anti-spam system.  Please modify your text and try again.
+        ";
+        $preview = tra("Preview");
+    } else {
+        create_post(
+            $content, $parent_post_id, $logged_in_user, $forum,
+            $thread, $add_signature
+        );
+        header('Location: forum_thread.php?id='.$thread->id);
+    }
 }
 
 page_head(tra("Post to thread"));

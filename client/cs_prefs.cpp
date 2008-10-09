@@ -188,6 +188,9 @@ static string reason_string(int reason) {
     if (reason & SUSPEND_REASON_INITIAL_DELAY) {
         s_reason += " - initial delay";
     }
+    if (reason & SUSPEND_REASON_EXCLUSIVE_APP_RUNNING) {
+        s_reason += " - an exclusive app is running";
+    }
     return s_reason;
 }
 

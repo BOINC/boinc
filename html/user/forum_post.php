@@ -37,6 +37,7 @@ check_create_thread_access($logged_in_user, $forum);
 $title = post_str("title", true);
 $content = post_str("content", true);
 $preview = post_str("preview", true);
+$warning = null;
 
 if ($content && $title && (!$preview)){
     if (post_str('add_signature',true)=="add_it"){
@@ -45,15 +46,25 @@ if ($content && $title && (!$preview)){
         $add_signature=false;
     }
     check_tokens($logged_in_user->authenticator);
-    akismet_check($logged_in_user, $content);
-    $thread = create_thread(
-        $title, $content, $logged_in_user, $forum, $add_signature
-    );
-    header('Location: forum_thread.php?id=' . $thread->id);
+    if (!akismet_check($logged_in_user, $content)) {
+        $warning = "Your message was flagged as spam by the Akismet
+            anti-spam system.  Please modify your text and try again.
+        ";
+        preview = tra("Preview");
+    } else {
+        $thread = create_thread(
+            $title, $content, $logged_in_user, $forum, $add_signature
+        );
+        header('Location: forum_thread.php?id=' . $thread->id);
+    }
 }
 
 page_head('Create new thread');
 show_forum_header($logged_in_user);
+
+if ($warning) {
+    echo "<span class=error>$warning</span><p>";
+}
 
 switch ($forum->parent_type) {
 case 0:
@@ -82,7 +93,6 @@ row1(tra("Create a new thread")); //New thread
 $submit_help = "";
 $body_help = "";
 
-//Title
 if ($content && !$title) {
     $submit_help = "<br /><font color=\"red\">Remember to add a title</font>";
 }

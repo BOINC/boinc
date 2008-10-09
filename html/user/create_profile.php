@@ -201,8 +201,34 @@ function process_create_profile($user, $profile) {
     $response2 = post_str('response2', true);
     $language = post_str('language');
 
-    akismet_check($user, $response1);
-    akismet_check($user, $response2);
+    $profile->response1 = $response1;
+    $profile->response2 = $response2;
+    $privatekey = parse_config($config, "<recaptcha_private_key>");
+    if ($privatekey) {
+        $resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"],
+            $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]
+        );
+        if (!$resp->is_valid) {
+            show_profile_form($profile,
+                "Your ReCaptcha response was not correct.  Please try again."
+            );
+            return;
+        }
+    }
+    if (!akismet_check($user, $response1)) {
+        show_profile_form($profile,
+            "Your first response was flagged as spam by the Akismet
+            anti-spam system.  Please modify your text and try again."
+        );
+        return;
+    }
+    if (!akismet_check($user, $response2)) {
+        show_profile_form($profile,
+            "Your second response was flagged as spam by the Akismet
+            anti-spam system.  Please modify your text and try again."
+        );
+        return;
+    }
 
     if (isset($_POST['delete_pic'])) {
         $delete_pic = $_POST['delete_pic'];
@@ -282,40 +308,16 @@ function process_create_profile($user, $profile) {
     page_tail();
 }
 
-function show_profile_creation_page($user) {
-    $config = get_config();
-    $min_credit = parse_config($config, "<profile_min_credit>");
-    if ($min_credit && $user->expavg_credit < $min_credit) {
-        error_page(
-            "To prevent spam, an average credit of $min_credit or greater is required to create or edit a profile.  We apologize for this inconvenience."
-        );
-    }
-
-    // If the user already has a profile,
-    // fill in the fields with their current values.
-    //
-    $profile = get_profile($user->id);
-    if (post_str("submit", true)) {
-        $privatekey = parse_config($config, "<recaptcha_private_key>");
-        if ($privatekey) {
-            $resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"],
-                $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]
-            );
-            if (!$resp->is_valid) {
-                error_page("The reCAPTCHA wasn't entered correctly. Go back and try it again.<br>".
-                    "(reCAPTCHA said: " . $resp->error . ")"
-                );
-            }
-        }
-
-        process_create_profile($user, $profile);
-        exit();
-    }
-
+function show_profile_form($profile, $warning=null) {
     if ($profile) {
         page_head("Edit your profile");
     } else {
         page_head("Create a profile");
+    }
+
+    if ($warning) {
+        echo "<span class=error>$warning</span><p>
+        ";
     }
 
     echo "
@@ -329,9 +331,24 @@ function show_profile_creation_page($user) {
     end_table();
     echo "</form>";
     page_tail();
+
 }
 
 $user = get_logged_in_user(true);
-show_profile_creation_page($user);
+$profile = get_profile($user->id);
+$config = get_config();
+$min_credit = parse_config($config, "<profile_min_credit>");
+if ($min_credit && $user->expavg_credit < $min_credit) {
+    error_page(
+        "To prevent spam, an average credit of $min_credit or greater is required to create or edit a profile.  We apologize for this inconvenience."
+    );
+}
+
+if (post_str("submit", true)) {
+    process_create_profile($user, $profile);
+    exit;
+}
+
+show_profile_form($profile);
 
 ?>

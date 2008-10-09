@@ -60,18 +60,6 @@ function xml_error($num, $msg=null) {
     exit();
 }
 
-if (!function_exists("file_get_contents")) {
-function file_get_contents($path) {
-    $x = "";
-    $f = fopen($path, "r");
-    if ($f) {
-        while (!feof($f)) $x .= fread($f, 4096);
-        fclose($f);
-    }
-    return $x;
-}
-}
-
 $g_config = null;
 function get_config() {
     global $g_config;

@@ -180,7 +180,12 @@ function do_send($logged_in_user) {
     if (($to == null) || ($subject == null) || ($content == null)) {
         pm_create_new(tra("You need to fill all fields to send a private message"));
     } else {
-        akismet_check($logged_in_user, $content);
+        if (!akismet_check($logged_in_user, $content)) {
+            pm_create_new("Your message was flagged as spam
+                by the Akismet anti-spam system.
+                Please modify your text and try again."
+            );
+        }
         $to = str_replace(", ", ",", $to); // Filter out spaces after separator
         $users = explode(",", $to);
         
