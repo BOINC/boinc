@@ -62,11 +62,6 @@
 					<imagesrc>graphic/project_image.png</imagesrc>
 				</image>
 			</workunit_animation_background_image>
-			<workunit_animation_image>
-				<image>
-					<imagesrc>graphic/wcg_black_background.gif</imagesrc>
-				</image>
-			</workunit_animation_image>
 			<workunit_gauge_background_image>
 				<image>
 					<imagesrc>graphic/gauge_bg.png</imagesrc>
