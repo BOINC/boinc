@@ -31,7 +31,7 @@ public:
     virtual UINT OnExecution();
 
 private:
-	bool ComputeDigest(char *);
+	bool CheckFile(char *);
 };
 
 

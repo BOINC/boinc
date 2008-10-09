@@ -21,8 +21,8 @@
 #include "stdafx.h"
 #include "boinccas.h"
 #include "CACCConfigMd5sum.h"
-#include <iostream>
-#include <fstream>
+#include <stdio.h>
+#include <ctype.h>
 
 #define CUSTOMACTION_NAME               _T("CACCConfigMd5sum")
 #define CUSTOMACTION_PROGRESSTITLE      _T("Obtain the md5sum of the current cc_config.xml file.")
@@ -52,6 +52,18 @@ CACCConfigMd5sum::~CACCConfigMd5sum()
     BOINCCABase::~BOINCCABase();
 }
 
+void remove_white(char *contents) {
+	int i=0,j=0;
+	while ( contents[j] != '\0' ) {
+		if ( isspace(contents[j]) ) {
+			j++;
+			continue;
+		}
+		contents[i++]=contents[j++];
+	}
+	contents[i]='\0';
+}
+
 
 /////////////////////////////////////////////////////////////////////
 // 
@@ -62,96 +74,100 @@ CACCConfigMd5sum::~CACCConfigMd5sum()
 /////////////////////////////////////////////////////////////////////
 UINT CACCConfigMd5sum::OnExecution()
 {
+	std::string strDataDirectory;
 	std::string strInstallDirectory;
 	std::string strLocation;
-	std::ifstream ccFile;
 	char contents[8196];
     UINT    uiReturnValue = 0;
-    TCHAR   szMessage[2048];
+    TCHAR   szMessage[16392];
+	FILE *file;
+	memset(&contents,'\0',sizeof(contents));
 
     uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );
     if ( uiReturnValue ) return uiReturnValue;
-
-    SetProperty(_T("CCCONFIGMD5SUM"), _T("0"));
-
-    strLocation = strInstallDirectory + _T("\\cc_config.xml");
-
-	ccFile.open(strLocation.c_str()); // open for reading
-	if ( ccFile.bad() ) {
-		_sntprintf(szMessage,sizeof(szMessage),_T("No file found at: '%s'"),strLocation);
+	if (strInstallDirectory.rfind('\\') != strInstallDirectory.size() - 1 ) {
+		strInstallDirectory = strInstallDirectory + "\\";
+		_sntprintf(szMessage,sizeof(szMessage),_T("Added trailing slash to install dir"),strLocation.c_str());
 		LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
-		SetProperty(_T("CCCONFIGMD5SUM"), _T("1"));
+	}
+
+    uiReturnValue = GetProperty( _T("DATADIR"), strDataDirectory );
+    if ( uiReturnValue ) return uiReturnValue;
+	if (strDataDirectory.rfind('\\') != strDataDirectory.size() - 1 ) {
+		strDataDirectory = strDataDirectory + "\\";
+		_sntprintf(szMessage,sizeof(szMessage),_T("Added trailing slash to data dir"),strLocation.c_str());
+		LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
+	}
+
+	// Figure out of the file is in the data directory or the install directory
+	// it should be in the data directory, but if it isn't we will check the install directory
+    strLocation = strDataDirectory + _T("cc_config.xml");
+	file = fopen(strLocation.c_str(),"r");
+	if ( file == NULL ) {
+		_sntprintf(szMessage,sizeof(szMessage),_T("fopen: Error Message '%s': '%s'"),strerror(errno),strLocation.c_str());
+		LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
+		strLocation = strInstallDirectory + _T("cc_config.xml");
+		file = fopen(strLocation.c_str(),"r");
+		if ( file == NULL ) {
+			_sntprintf(szMessage,sizeof(szMessage),_T("fopen: Error Message '%s': '%s'"),strerror(errno),strLocation.c_str());
+			LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
+			SetProperty(_T("CCCONFIGMD5SUM"), _T("1"));
+			return ERROR_SUCCESS;
+		} else {
+			_sntprintf(szMessage,sizeof(szMessage),_T("fopen: File found at: '%s'"),strLocation.c_str());
+			LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
+		}
+	} else {
+		_sntprintf(szMessage,sizeof(szMessage),_T("fopen: File found at: '%s'"),strLocation.c_str());
+		LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
+	}
+
+	int bytesread = (int) fread(&contents, sizeof(char), sizeof(contents), file);
+	if ( bytesread > 0 && bytesread < sizeof(char) ) {
+		contents[bytesread]='\0';
+	}
+
+	if ( !feof(file) ) {
+		_sntprintf(szMessage,sizeof(szMessage),_T("File is more than 8kb: '%s'"),strLocation);
+		LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
+		fclose(file);
 		return ERROR_SUCCESS;
 	}
 
-	ccFile.read((char*) &contents,8192);
-	if ( ccFile.bad() ) {
+	if ( ferror(file) ) {
 		_sntprintf(szMessage,sizeof(szMessage),_T("Error reading file at: '%s'"),strLocation);
 		LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
 		return ERROR_FILE_INVALID;
 	}
-	if ( !ccFile.eof() ) {
-		_sntprintf(szMessage,sizeof(szMessage),_T("File is more than 8kb: '%s'"),strLocation);
+
+	fclose(file);
+
+	remove_white(contents);
+
+	_sntprintf(szMessage,sizeof(szMessage),_T("File contents: '%s'"),contents);
+	LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
+
+	if ( CheckFile(contents) ) {
+		if ( remove(strLocation.c_str()) ) {
+			_sntprintf(szMessage,sizeof(szMessage),_T("Failed to delete CCConfig version from previous install.  Error Message '%s'"),strerror(errno));
+			LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
+			return ERROR_FAIL_I24;
+		}
+		_sntprintf(szMessage,sizeof(szMessage),_T("CCConfig was a version from previous install.  Deleted"));
 		LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
 		return ERROR_SUCCESS;
 	}
-
-	ccFile.close();  
-	// done with file, now to get md5sum
-
-	if ( !ComputeDigest(contents) ) {
-		return ERROR_FUNCTION_FAILED;
-	}
-
+	_sntprintf(szMessage,sizeof(szMessage),_T("CCConfig was not a version from previous install"));
+	LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
     return ERROR_SUCCESS;
 }
 
-bool CACCConfigMd5sum::ComputeDigest(char *contents)
+bool CACCConfigMd5sum::CheckFile(char *contents)
 {
-    HCRYPTPROV provider; 
-    HCRYPTHASH hash; 
-    BYTE bHash[0x7f]; 
-    DWORD hashSize= 16;
-    TCHAR   szMessage[2048];
-	std::string cc510="03f2dde88c69fd548df12c43da18e31e";
-
-    if(CryptAcquireContext(&provider,NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_MACHINE_KEYSET)) {
-		if(CryptCreateHash(provider,CALG_MD5,0, 0, &hash)) {
-			if(CryptHashData(hash, (BYTE *) contents, (DWORD) strlen(contents), 0)) {
-				if(CryptGetHashParam(hash, HP_HASHVAL, bHash, &hashSize, 0)) {
-					// Make a string version of the numeric digest value
-					char tmp;
-					for (int i = 0; i<16; i++) {
-						sprintf(&tmp,"%02x",bHash[i]);
-						if ( tmp != cc510.at(i) ) {
-							return true;
-						}
-					}
-				} else {
-		 			_sntprintf(szMessage,sizeof(szMessage),_T("Error getting hash param"));
-					LogMessage(INSTALLMESSAGE_ERROR,NULL, NULL,NULL,NULL,szMessage);
-					return false;
-				}
-			} else {
-				_sntprintf(szMessage,sizeof(szMessage),_T("Error hashing data"));
-				LogMessage(INSTALLMESSAGE_ERROR,NULL, NULL,NULL,NULL,szMessage);
-				return false;
-			}
-		} else {
-			_sntprintf(szMessage,sizeof(szMessage),_T("Error creating hash"));
-			LogMessage(INSTALLMESSAGE_ERROR,NULL, NULL,NULL,NULL,szMessage);
-			return false;
-		}
-	} else {
-		_sntprintf(szMessage,sizeof(szMessage),_T("Error acquiring context"));
-		LogMessage(INSTALLMESSAGE_ERROR,NULL, NULL,NULL,NULL,szMessage);
-		return false;
-	}
-
-	SetProperty(_T("CCCONFIGMD5SUM"), _T("1"));
-    CryptDestroyHash(hash); 
-    CryptReleaseContext(provider, 0); 
-    return true; 
+	bool match = false;
+	char *cc510="<cc_config><log_flags></log_flags><options><dont_contact_ref_site>1</dont_contact_ref_site></options></cc_config>";
+	if ( strstr(contents, cc510) ) match = true;
+    return match; 
 }
 
 UINT __stdcall CCConfigMd5sum(MSIHANDLE hInstall)
