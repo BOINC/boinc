@@ -8214,3 +8214,9 @@ David  8 Oct 2008
 
     html/ops/
         upgrade_db.php
+
+Charlie 8 Oct 2008
+    - MGR: Fix build breaks on Linux.
+
+        DlgItemProperties.cpp
+        ViewWork.cpp

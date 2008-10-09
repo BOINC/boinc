@@ -1013,7 +1013,7 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
                 strBuffer += _(" - an exclusive app is running");
             }
             if (result->resources.size()) {
-                strBuffer += wxString(wxT(" (")) + wxString(result->resources.c_str()) + wxString(wxT(")"));
+                strBuffer += wxString(wxT(" (")) + wxString(result->resources.c_str(), wxConvUTF8) + wxString(wxT(")"));
             }
         } else if (result->active_task) {
             if (result->too_large) {
@@ -1038,7 +1038,7 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
                 strBuffer = _("Ready to start");
             }
             if (result->resources.size()) {
-                strBuffer += wxString(wxT(" (")) + wxString(result->resources.c_str()) + wxString(wxT(")"));
+                strBuffer += wxString(wxT(" (")) + wxString(result->resources.c_str(), wxConvUTF8) + wxString(wxT(")"));
             }
         } else {
             strBuffer = _("Ready to start");
