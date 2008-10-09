@@ -151,6 +151,9 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
 	this->addProperty(_("State"), FormatStatus(result));
     dt.Set((time_t)result->report_deadline);
 	this->addProperty(_("Report deadline"), dt.Format());
+	if (result->resources.size()) {
+		addProperty(_("Resources"), wxString(result->resources.c_str(), wxConvUTF8));
+	}
     if (result->active_task) {
 		this->addProperty(_("Checkpoint CPU time"), FormatTime(result->checkpoint_cpu_time));
 		this->addProperty(_("Current CPU time"), FormatTime(result->current_cpu_time));
