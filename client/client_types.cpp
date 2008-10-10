@@ -1678,6 +1678,18 @@ int RESULT::write_gui(MIOFILE& out) {
     if (suspended_via_gui) out.printf("    <suspended_via_gui/>\n");
     if (project->suspended_via_gui) out.printf("    <project_suspended_via_gui/>\n");
     if (edf_scheduled) out.printf("    <edf_scheduled/>\n");
+    if (avp->coprocs.coprocs.size() || avp->avg_ncpus!= 1) {
+        char buf[256], desc[256];
+        sprintf(desc, "%.2f CPUs", avp->avg_ncpus);
+        for (unsigned int i=0; i<avp->coprocs.coprocs.size(); i++) {
+            COPROC* cp = avp->coprocs.coprocs[i];
+            sprintf(buf, ", %d %s", cp->count, cp->type);
+            strcat(desc, buf);
+        }
+        out.printf(
+            "    <resources>%s</resources>\n", desc
+        );
+    }
     ACTIVE_TASK* atp = gstate.active_tasks.lookup_result(this);
     if (atp) {
         atp->write_gui(out);

@@ -8283,3 +8283,10 @@ David  10 Oct 2008
         log_flags.cpp,h
         main.cpp
         sim.cpp
+
+David  10 Oct 2008
+    - client: report job resources even when no active task
+
+    client/
+        app.cpp
+        client_types.cpp
