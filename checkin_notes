@@ -8274,3 +8274,12 @@ Charlie 10 Oct 2008
         BOINCBaseView.cpp
         BOINCListCtrl.cpp,.h
         MainDocument.cpp
+
+David  10 Oct 2008
+    - client: print a message, and recompute ncpus, when reread cc_config.xml
+
+    client/
+        gui_rpc_server_ops.cpp
+        log_flags.cpp,h
+        main.cpp
+        sim.cpp

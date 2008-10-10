@@ -718,7 +718,7 @@ int main(int argc, char** argv) {
         total_results.divide((int)(dirs.size()));
         total_results.print(stdout, "Total");
     } else {
-        read_config_file();
+        read_config_file(true);
         int retval;
         bool flag;
 

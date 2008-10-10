@@ -1143,7 +1143,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_set_cc_config(request_msg, mf);
     } else if (match_tag(request_msg, "<read_cc_config/>")) {
         mf.printf("<success/>\n");
-        read_config_file();
+        read_config_file(false);
+        gstate.set_ncpus();
         gstate.request_schedule_cpus("Core client configuration");
         gstate.request_work_fetch("Core client configuration");
     } else if (match_tag(request_msg, "<get_all_projects_list/>")) {

@@ -310,12 +310,15 @@ int CONFIG::parse(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-int read_config_file() {
+int read_config_file(bool init) {
     FILE* f;
 
     log_flags.defaults();
     config.defaults();
 
+    if (!init) {
+        msg_printf(NULL, MSG_INFO, "Re-reading cc_config.xml");
+    }
     f = boinc_fopen(CONFIG_FILE, "r");
     if (!f) return ERR_FOPEN;
     config.parse(f);

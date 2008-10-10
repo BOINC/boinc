@@ -306,9 +306,7 @@ static void init_core_client(int argc, char** argv) {
 
     diagnostics_init(flags, "stdoutdae", "stderrdae");
 
-    // Read config and parse the commandline after initializing the
-    // diagnostics framework.
-    read_config_file();
+    read_config_file(true);
 
     // Set the max file sizes of the logs based on user preferences.
     //
