@@ -62,6 +62,7 @@ public:
     long                    GetNextSelected(int i) { return GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); }
     void                    SelectRow(int row, bool setSelected);
     void                    AddPendingProgressBar(int row);
+    void                    RefreshCell(int row, int col);
     
     bool                    m_bIsSingleSelection;
 

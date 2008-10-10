@@ -466,13 +466,19 @@ int CBOINCBaseView::SynchronizeCache() {
 
         for (iColumnIndex = 0; iColumnIndex < iColumnTotal; iColumnIndex++) {
             if (SynchronizeCacheItem(iRowIndex, iColumnIndex)) {
+#ifdef __WXMAC__
                 bNeedRefreshData = true;
+#else
+                // To reduce flicker, refresh only changed columns
+                m_pListPane->RefreshCell(iRowIndex, iColumnIndex);
+#endif
                 if (iColumnIndex == m_iSortColumn) {
                     bNeedSort = true;
                 }
             }
         }
 
+        // Mac is double-buffered to avoid flicker, so this is more efficient
         if (bNeedRefreshData) {
             m_pListPane->RefreshItem(iRowIndex);
         }

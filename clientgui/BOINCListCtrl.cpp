@@ -412,4 +412,27 @@ void MyEvtHandler::OnPaint(wxPaintEvent & event)
 #endif
 
 
+// To reduce flicker, refresh only changed columns (except 
+// on Mac, which is double-buffered to eliminate flicker.)
+void CBOINCListCtrl::RefreshCell(int row, int col) {
+    wxRect r;
+    
+#if (defined (__WXMSW__) && wxCHECK_VERSION(2,8,0))
+    GetSubItemRect(row, col, r);
+#else
+    int i;
+    
+    GetItemRect(row, r);
+#if ! USE_NATIVE_LISTCONTROL
+    r.y = r.y - GetHeaderHeight() - 1;
+#endif
+    for (i=0; i< col; i++) {
+        r.x += GetColumnWidth(i);
+    }
+    r.width = GetColumnWidth(col);;
+#endif
+
+    RefreshRect(r);
+}
+
 const char *BOINC_RCSID_5cf411daa0 = "$Id$";
