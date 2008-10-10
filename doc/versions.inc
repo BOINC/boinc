@@ -165,11 +165,11 @@ $m5817c = array(
     "type"=>"bare_core",
 );
 
-$l638 = array(
-    "num"=>"6.3.8",
+$l63 = array(
+    "num"=>"6.3.14",
     "status"=>"Development version",
-    "file"=>"boinc_compat_6.3.8_i686-pc-linux-gnu.sh",
-    "date"=>"9 Aug 2008",
+    "file"=>"boinc_compat_6.3.14_i686-pc-linux-gnu.sh",
+    "date"=>"9 Oct 2008",
     "type"=>"sea",
 );
 
@@ -189,11 +189,11 @@ $l51045 = array(
     "type"=>"sea",
 );
 
-$l638ubuntu = array(
-    "num"=>"6.3.8",
+$l63ubuntu = array(
+    "num"=>"6.3.14",
     "status"=>"Development version",
-    "file"=>"boinc_6.3.8_i686-pc-linux-gnu.sh",
-    "date"=>"9 Aug 2008",
+    "file"=>"boinc_6.3.14_i686-pc-linux-gnu.sh",
+    "date"=>"9 Oct 2008",
     "type"=>"sea",
 );
 
@@ -213,11 +213,11 @@ $l51045ubuntu = array(
     "type"=>"sea",
 );
 
-$l638ubuntux64 = array(
-    "num"=>"6.3.8",
+$l63ubuntux64 = array(
+    "num"=>"6.3.14",
     "status"=>"Development version",
-    "file"=>"boinc_6.3.8_x86_64-pc-linux-gnu.sh",
-    "date"=>"9 Aug 2008",
+    "file"=>"boinc_6.3.14_x86_64-pc-linux-gnu.sh",
+    "date"=>"9 Oct 2008",
     "type"=>"sea",
 );
 
@@ -287,8 +287,9 @@ $linuxcompat = array(
     "description"=>"For older Linux versions, both x86 and x64; command-line interface only",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-        $l6215,
-        $l51045,
+		$l63,
+		$l6215,
+		$l51045,
         $l5816,
     )
 );
@@ -298,8 +299,9 @@ $linux = array(
     "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-        $l6215ubuntu,
-        $l51045ubuntu,
+		$l63ubuntu,
+		$l6215ubuntu,
+		$l51045ubuntu,
     )
 );
 
@@ -308,8 +310,9 @@ $linuxx64 = array(
     "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
-        $l6215ubuntux64,
-        $l51045ubuntux64,
+		$l63ubuntux64,
+		$l6215ubuntux64,
+		$l51045ubuntux64,
     )
 );
 
