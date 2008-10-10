@@ -86,6 +86,13 @@ CViewTabPage::CViewTabPage(WorkunitNotebook* parent,RESULT* result,std::string n
     //create page
 	CreatePage();
 	project_files_downloaded_time = 0;
+	
+#if wxCHECK_VERSION(2,8,0)
+    // Workaround for unknown problem with newer versions of wxWidgets
+    // Without this, the size of the panel would be reduced to 336,300
+    SetMinSize(wxSize(343, 314));
+#endif
+
 }
 
 CViewTabPage::~CViewTabPage() {
@@ -509,12 +516,6 @@ CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewTabPage::DrawText - Begin"));
     
-#if wxCHECK_VERSION(2,8,0)
-    // Workaround for unknown problem with newer versions of wxWidgets
-    // At this point, the size of the panel has been reduced to 336,300
-    this->SetSize(343,314);
-#endif
-
 #if (defined(__WXMAC__) && (! wxCHECK_VERSION(2,8,0)))
     // wxBufferedDC.GetTextExtent() fails with wxMac-2.6.3, causing Manager to hang
     wxClientDC dc(this);

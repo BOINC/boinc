@@ -352,11 +352,18 @@ void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
 void CSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRefreshView - Function Start"));
     
+    static bool bAlreadyRunning = false;
+    
+    if (bAlreadyRunning) return;
+    bAlreadyRunning = true;
+    
     m_pBackgroundPanel->OnFrameRender();
     
     if (dlgMsgsPtr) {
         dlgMsgsPtr->OnRefresh();
     }
+
+    bAlreadyRunning = false;
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRefreshView - Function End"));
 }
@@ -489,7 +496,6 @@ CSimplePanel::CSimplePanel(wxWindow* parent) :
 	notebookViewInitialized = false;
 	dlgOpen = false;
 
-    
 	InitEmptyView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Overloaded Constructor Function End"));
