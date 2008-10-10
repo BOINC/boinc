@@ -66,3 +66,8 @@ wxListItemAttr* CSGUIListCtrl::OnGetItemAttr(long item) const {
 
     return m_pParentView->OnListGetItemAttr(item);
 }
+
+
+wxColour CSGUIListCtrl::GetBackgroundColour() {
+    return *wxWHITE;
+}

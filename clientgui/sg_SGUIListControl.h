@@ -38,6 +38,7 @@ private:
     virtual wxString        OnGetItemText(long item, long column) const;
     virtual int             OnGetItemImage(long item) const;
     virtual wxListItemAttr* OnGetItemAttr(long item) const;
+    virtual wxColour        GetBackgroundColour();
 
     bool                    m_bIsSingleSelection;
 

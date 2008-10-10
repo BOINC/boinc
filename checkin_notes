@@ -8252,9 +8252,15 @@ David  9 Oct 2008
     html/ops/
         db_update.php
 
-Charlie 8 Oct 2008
+Charlie 9 Oct 2008
     - MGR: Fix SimpleGUI to work with wxWidgets 2.8.7.
 
     clientgui/
         sg_BoincSimpleGUI.cpp
         sg_ViewTabPage.cpp
+
+Charlie 9 Oct 2008
+    - MGR: Fix for (future) compatibility with wxWidgets 2.8.9.
+
+    clientgui/
+        sg_SGUIListControl.cpp,.h
