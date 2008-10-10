@@ -8268,7 +8268,9 @@ Charlie 9 Oct 2008
 Charlie 10 Oct 2008
     - MGR: To reduce flicker, redraw only changed cells in List Control 
         (not entire row) on non-Mac systems.
+    - MGR: Fix flashing red Messages button in SimpleGUI.
 
     clientgui/
         BOINCBaseView.cpp
         BOINCListCtrl.cpp,.h
+        MainDocument.cpp

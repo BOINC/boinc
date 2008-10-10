@@ -898,7 +898,9 @@ void CMainDocument::RunPeriodicRPCs() {
         request.arg2 = &messages;
 //        request.arg2 = &async_messages_buf;
 //        request.exchangeBuf = &messages;
-        request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
+
+        request.rpcType = (currentTabView & VW_SGUI) ? 
+                RPC_TYPE_ASYNC_NO_REFRESH : RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
         request.completionTime = NULL;
         request.resultPtr = &m_iGet_messages_rpc_result;
        
