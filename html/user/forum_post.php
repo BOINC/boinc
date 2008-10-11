@@ -50,7 +50,7 @@ if ($content && $title && (!$preview)){
         $warning = "Your message was flagged as spam by the Akismet
             anti-spam system.  Please modify your text and try again.
         ";
-        preview = tra("Preview");
+        $preview = tra("Preview");
     } else {
         $thread = create_thread(
             $title, $content, $logged_in_user, $forum, $add_signature

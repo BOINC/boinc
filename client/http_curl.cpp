@@ -1065,8 +1065,8 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
             );
         } else {
             strcpy(req1, "");
-            if (dSize > (size_t)req1_len) {
-                dSize = req1_len;
+            if (dSize >= (size_t)req1_len) {
+                dSize = req1_len-1;
             }
             size_t nread = fread(req1, 1, dSize, fileOut); 
             if (nread != dSize) {
@@ -1077,7 +1077,7 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
                     );
                 }
             }
-            req1[req1_len-1] = 0;   // make sure null-terminated
+            req1[nread] = 0;
         }
     }
 

@@ -8290,3 +8290,12 @@ David  10 Oct 2008
     client/
         app.cpp
         client_types.cpp
+
+David  10 Oct 2008
+    - client: correctly null-terminate file upload handler reply
+    - web: fix typo
+
+    client/
+        http_curl.cpp
+    html/user/
+        forum_post.php
