@@ -8299,3 +8299,9 @@ David  10 Oct 2008
         http_curl.cpp
     html/user/
         forum_post.php
+
+David  12 Oct 2008
+    - web: avoid error if subscribed user doesn't exist
+
+    html/inc/
+        forum.inc

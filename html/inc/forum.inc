@@ -775,7 +775,9 @@ function create_post($content, $parent_id, $user, $forum, $thread, $signature) {
     foreach ($subs as $sub) {
         if ($user->id == $sub->userid) continue;
         $user2 = BoincUser::lookup_id($sub->userid);
-        notify_subscriber($thread, $user2);
+        if ($user2) {
+            notify_subscriber($thread, $user2);
+        }
     }
     $user->update("posts=posts+1");
     $thread->update("replies=replies+1, timestamp=$now");
