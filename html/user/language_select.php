@@ -19,8 +19,6 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/translation.inc");
-$imgdir = "img/flags/";
-
 
 $languages = getSupportedLanguages();
 $prefs = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
@@ -41,7 +39,7 @@ page_head("Language selection");
 echo "
     <p>
     This web site is available in several languages.
-    The currently selected language is: <em>".tr(LANG_NAME_INTERNATIONAL)."</em> (".tr(LANG_NAME_NATIVE).").
+    The currently selected language is: <em>".tra("LANG_NAME_INTERNATIONAL")."</em> (".tra("LANG_NAME_NATIVE").").
     <p>
     Normally the choice of language
     is determined by your browser's language setting,
@@ -63,17 +61,11 @@ row2("Language symbol", "Language name (click to select)");
 row2("",
     "<a href=language_select.php?set_lang=auto>Use browser language setting</a>"
 );
-for ($i=0; $i<sizeof($languages); $i++){
-    $lang_native[$i] = trSpecific(LANG_NAME_NATIVE, $languages[$i]);
-    $lang_international[$i] = trSpecific(LANG_NAME_INTERNATIONAL, $languages[$i]);
-}
-
-array_multisort($lang_international, $languages, $lang_native);
-
+sort($languages);
 for ($i=0; $i<sizeof($languages);$i++){
     row2(
         "<a href=\"language_select.php?set_lang=".$languages[$i]."\">".$languages[$i]."</a>",
-        "<a href=\"language_select.php?set_lang=".$languages[$i]."\">".$lang_international[$i]."</a>"
+        "<a href=\"language_select.php?set_lang=".$languages[$i]."\">".tr_specific("LANG_NAME_INTERNATIONAL", $languages[$i])." (".tr_specific("LANG_NAME_NATIVE", $languages[$i]).")</a>"
     );
 }
 end_table();
