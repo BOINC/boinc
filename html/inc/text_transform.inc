@@ -74,6 +74,9 @@ function output_transform($text, $options = NULL) {
         //$text = htmlentities($text);
         $text = htmlspecialchars($text);
     }
+    if (is_array($options->highlight_terms)) {
+        $text = highlight_terms($text, $options->highlight_terms);
+    }    
 //    if ($options->htmlscrub) {
 //        $text = sanitize_html($text);
 //    }
@@ -89,9 +92,6 @@ function output_transform($text, $options = NULL) {
     if ($options->link_popup) {
         $text = externalize_links($text);
     }
-    if (is_array($options->highlight_terms)) {
-        $text = highlight_terms($text, $options->highlight_terms);
-    }    
     return $text;
 }
 
