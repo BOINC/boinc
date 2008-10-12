@@ -69,7 +69,6 @@ function output_transform($text, $options = NULL) {
     if (!$options) {
         $options = new output_options; // Defaults in the class definition
     }
-    
     if ($options->htmlitems) {
         //$text = htmlentities($text);
         $text = htmlspecialchars($text);
