@@ -201,14 +201,14 @@ function process_create_profile($user, $profile) {
     $response2 = post_str('response2', true);
     $language = post_str('language');
 
-    $profile->response1 = $response1;
-    $profile->response2 = $response2;
     $privatekey = parse_config($config, "<recaptcha_private_key>");
     if ($privatekey) {
         $resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"],
             $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]
         );
         if (!$resp->is_valid) {
+            $profile->response1 = $response1;
+            $profile->response2 = $response2;
             show_profile_form($profile,
                 "Your ReCaptcha response was not correct.  Please try again."
             );
@@ -216,6 +216,8 @@ function process_create_profile($user, $profile) {
         }
     }
     if (!akismet_check($user, $response1)) {
+        $profile->response1 = $response1;
+        $profile->response2 = $response2;
         show_profile_form($profile,
             "Your first response was flagged as spam by the Akismet
             anti-spam system.  Please modify your text and try again."
@@ -223,6 +225,8 @@ function process_create_profile($user, $profile) {
         return;
     }
     if (!akismet_check($user, $response2)) {
+        $profile->response1 = $response1;
+        $profile->response2 = $response2;
         show_profile_form($profile,
             "Your second response was flagged as spam by the Akismet
             anti-spam system.  Please modify your text and try again."

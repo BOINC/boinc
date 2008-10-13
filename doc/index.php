@@ -11,7 +11,7 @@ if ($host == "bolt.berkeley.edu") {
 }
 
 require_once("docutil.php");
-require_once("../html/inc/translation.inc");
+require_once("translation.inc");
 
 function show_participant() {
     $i = rand(0, 99);

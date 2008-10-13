@@ -8305,3 +8305,9 @@ David  12 Oct 2008
 
     html/inc/
         forum.inc
+
+David  12 Oct 2008
+    - web: fix bug in profile creation.  fixes #755
+
+    html/user/
+        create_profile.php
