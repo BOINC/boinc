@@ -875,7 +875,7 @@ bool CLIENT_STATE::enforce_schedule() {
         atp = NULL;
         for (vector<ACTIVE_TASK*>::iterator it = preemptable_tasks.begin(); it != preemptable_tasks.end(); it++) {
             ACTIVE_TASK *atp1 = *it;
-            if (atp1 && atp1->result == rp) {
+            if (atp1->result == rp) {
                 atp = atp1;
                 it = preemptable_tasks.erase(it);
                 std::make_heap(
@@ -917,9 +917,8 @@ bool CLIENT_STATE::enforce_schedule() {
         // Preempt tasks if needed (and possible).
         //
         bool failed_to_preempt = false;
-        while (next_ncpus_used >= ncpus && preemptable_tasks.size()) {
-            // examine the most preemptable task.
-            // Preempt it if either
+        while (next_ncpus_used > ncpus && preemptable_tasks.size()) {
+            // Preempt the most preemptable task if either
             // 1) it's completed its time slice and has checkpointed recently
             // 2) the scheduled result is in deadline trouble
             //
@@ -953,7 +952,7 @@ bool CLIENT_STATE::enforce_schedule() {
                 if (log_flags.cpu_sched_debug) {
                     msg_printf(rp->project, MSG_INFO,
                         "[cpu_sched_debug] didn't preempt %s: tr %f tsc %f",
-                        atp->result->name, time_running, time_since_checkpoint
+                        preempt_atp->result->name, time_running, time_since_checkpoint
                     );
                 }
                 failed_to_preempt = true;
@@ -989,7 +988,7 @@ bool CLIENT_STATE::enforce_schedule() {
         );
     }
 
-    // There may be some preemptable tasks that we're allowing to run;
+    // any jobs still in the preemptable list at this point are runnable;
     // make sure they don't exceed RAM limits
     //
     for (i=0; i<preemptable_tasks.size(); i++) {

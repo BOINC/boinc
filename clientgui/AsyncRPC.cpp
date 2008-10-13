@@ -453,7 +453,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     // TODO: proper handling if a second user request is received while first is pending ??
         if (m_bWaitingForRPC) {
             wxLogMessage(wxT("Second user RPC request while another was pending"));
-            wxASSERT(false);
+            //wxASSERT(false);
             return -1;
         }
         m_bWaitingForRPC = true;
