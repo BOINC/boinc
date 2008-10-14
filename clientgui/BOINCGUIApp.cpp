@@ -901,12 +901,16 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
     }
     
 #if 0
-    // Allow all events except Command and Timer events
+    // Allow all except Command, Timer and Mouse Moved events
     if (event.IsCommandEvent()) {
         return false;
     }
     
     if (theEventType == wxEVT_TIMER) {
+        return false;
+    }
+    
+    if (theEventType == wxEVT_TASKBAR_MOVE) {
         return false;
     }
    
