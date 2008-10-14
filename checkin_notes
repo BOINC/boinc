@@ -4442,3 +4442,9 @@ Rom    14 Oct 2008
     
     OpenSSL/
         <Various Files>
+
+Rom    14 Oct 2008
+    - Win: Update to cURL 7.19.0
+    
+    cURL/
+        <Various Files>
