@@ -8367,6 +8367,22 @@ David  14 Oct 2008
         In addition: the client maintains a min_rpc_time which is set based
         on request_delay and also by various exponential backoff schemes.
         new_rpc_delay now overrides this as well, in the same sense.
+
     client/
         cs_scheduler.cpp
         work_fetch.cpp
+
+David  14 Oct 2008
+    - web: make some things in sample front page translatable.
+        TODO: make them all translatable.
+    - manager: compile fix for Linux
+
+    client/
+        client_types.h
+    clientgui/
+        AsyncRPC.cpp
+    html/
+        inc/
+            translation.inc
+        user/
+            sample_index.php

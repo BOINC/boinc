@@ -146,6 +146,7 @@ function show_other() {
                 <li> <a href=\"trac/wiki/AlphaInstructions\">Testing</a>
                 <li> <a href=\"trac/wiki/WikiMeta\">Documentation</a>
             </ul>
+            <li> <a href=\"trac/wiki/SoftwareDevelopment\">Software development</a>
             <li> <a href=\"trac/wiki/SoftwareAddon\">APIs for add-on software</a>
             <li> <a href=\"trac/wiki/ProjectPeople\">Personnel and contributors</a>
             <li> <a href=\"dev/\">Message boards</a>

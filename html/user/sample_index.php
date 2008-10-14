@@ -63,13 +63,14 @@ function show_nav() {
         <li><a href=\"team.php\">Teams</a> - create or join a team
         <li><a href=\"cert1.php\">Certificate</a>
         <li> <a href=\"apps.php\">".tra("Applications")."</a>
+
         </ul>
-        <h2>Community</h2>
+        <h2>".tra("Community")."</h2>
         <ul>
-        <li><a href=\"profile_menu.php\">Profiles</a>
+        <li><a href=\"profile_menu.php\">".tra("Profiles")."</a>
         <li><a href=\"user_search.php\">User search</a>
-        <li><a href=\"forum_index.php\">Message boards</a>
-        <li><a href=\"forum_help_desk.php\">Questions and answers</a>
+        <li><a href=\"forum_index.php\">".tra("Message boards")."</a>
+        <li><a href=\"forum_help_desk.php\">".tra("Questions and Answers")."</a>
         <li><a href=\"stats.php\">Statistics</a>
         <li><a href=language_select.php>Languages</a>
         </ul>
@@ -131,7 +132,7 @@ if (!$stopped) {
     if ($profile) {
         echo "
             <td id=\"uotd\">
-            <h2>User of the day</h2>
+            <h2>".tra("User of the day")."</h2>
         ";
         show_uotd($profile);
         echo "</td></tr>\n";

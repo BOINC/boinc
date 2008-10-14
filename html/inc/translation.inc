@@ -62,26 +62,26 @@ function buildLanguages($langdir,$transdir,$compdir,$append=false){
         if ($dh = opendir($langdir.$transdir)) {
             while (($file = readdir($dh)) !== false) {
                 if ($file==".." or $file=="."){
-		    // Skip parent and current dir
+                    // Skip parent and current dir
                 } else if (substr($file,-3)==".po"){
                     // and only do files ending in .po
                     language_log("-------------Compiling $transdir$file------------",0);
                     $language = parseLanguage(
                         $langdir.$transdir.$file, $interface
-                    );		    
-		    if (!$language){
-			language_log(
-			    "WARNING: Could not parse language ".$file
-			);
-			continue;
-		    }
+                    );
+                    if (!$language){
+                        language_log(
+                            "WARNING: Could not parse language ".$file
+                        );
+                        continue;
+                    }
                     if (!$fh = fopen($langdir.$compdir.$file.".inc",$append?"a":"w")) {
                         language_log(
                             "ERROR: could not access $langdir $compdir - please check permissions",2
                         );
                         exit;
                     }
-                    fwrite($fh, "<?php\n");		    
+                    fwrite($fh, "<?php\n");                    
                     foreach ($language as $key => $value){
                         if ($value !== "") {
                             //Skip if the msgstr is empty
@@ -133,7 +133,7 @@ function parseLanguage($file){
     
     // Get the last token
     if ($current_token && $current_token_text){
-	$output[$current_token]=$current_token_text;
+        $output[$current_token]=$current_token_text;
     }
     return $output;
 }
@@ -156,16 +156,16 @@ function tra($text /* ...arglist... */){
     
     // Find the string in the user's language
     foreach ($languages_in_use as $language){
-	if ($language_lookup_array[$language][$text]){
-	    $text = $language_lookup_array[$language][$text];
-	    break;
-	}
+        if ($language_lookup_array[$language][$text]){
+            $text = $language_lookup_array[$language][$text];
+            break;
+        }
     }
 
     // Replace relevant substrings with given arguments    
     for ($i = 1; $i<func_num_args(); $i++){
-	$arg = func_get_arg($i);
-	$text = str_replace("%".$i, $arg, $text);
+        $arg = func_get_arg($i);
+        $text = str_replace("%".$i, $arg, $text);
     }
     return $text;
 }
@@ -174,8 +174,8 @@ function tr_specific($text, $language){
     global $lang_language_dir, $lang_compiled_dir, $language_lookup_array;
     $file_name = $lang_language_dir.$lang_compiled_dir.$language.".po.inc";
     if (file_exists($file_name)) {
-	require_once($file_name);
-	$text = $language_lookup_array[$language][$text];
+        require_once($file_name);
+        $text = $language_lookup_array[$language][$text];
     }    
     return $text;
 }
@@ -257,26 +257,21 @@ for ($i=0; $i<sizeof($client_languages); $i++) {
     // If we have a translation for the language, include it
     $file_name = $lang_language_dir.$lang_compiled_dir.$language.".po.inc";
     if (file_exists($file_name)) {
-	if (!in_array($language, $languages_in_use)){
+        if (!in_array($language, $languages_in_use)){
             require_once($file_name);
-    	    $languages_in_use[] = $language;
-	}
+                $languages_in_use[] = $language;
+        }
     }
     if ($language2) {
         $file_name = $lang_language_dir.$lang_compiled_dir.$language2.".po.inc";
         if (file_exists($file_name)) {
-	    if (!in_array($language2, $languages_in_use)){
-        	require_once($file_name);
-        	$languages_in_use[] = $language2;
-	    }
+            if (!in_array($language2, $languages_in_use)){
+                require_once($file_name);
+                $languages_in_use[] = $language2;
+            }
         }
     }
 }
-
-// If you include this file, $language_in_use is now set
-// to the language actually being used
-$language_in_use = $languages_in_use[sizeof($languages_in_use)];
-
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

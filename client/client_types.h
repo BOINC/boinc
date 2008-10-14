@@ -270,6 +270,10 @@ public:
         /// earliest time to contact any server of this project (or zero)
     double min_rpc_time;
     void set_min_rpc_time(double future_time, const char* reason);
+        /// if nonzero, specifies a time when another scheduler RPC
+        /// should be done (as requested by server).
+        /// An RPC could be done sooner than this.
+    double next_rpc_time;
         /// returns true if min_rpc_time > now
     bool waiting_until_min_rpc_time();
         /// need to fetch and parse the master URL
@@ -278,9 +282,6 @@ public:
         /// user request, propagate host CPID, time-based, etc.
 		/// Reasons are enumerated in scheduler_op.h
     int sched_rpc_pending;
-        /// if nonzero, specifies a time when another scheduler RPC
-        /// should be done (as requested by server)
-    double next_rpc_time;
         /// we need to call request_work_fetch() when a project
         /// transitions from being backed off to not.
         /// This (slightly misnamed) keeps track of whether this
