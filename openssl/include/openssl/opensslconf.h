@@ -10,6 +10,12 @@
 #ifndef OPENSSL_NO_CAMELLIA
 # define OPENSSL_NO_CAMELLIA
 #endif
+#ifndef OPENSSL_NO_CAPIENG
+# define OPENSSL_NO_CAPIENG
+#endif
+#ifndef OPENSSL_NO_CMS
+# define OPENSSL_NO_CMS
+#endif
 #ifndef OPENSSL_NO_GMP
 # define OPENSSL_NO_GMP
 #endif
@@ -45,6 +51,12 @@
 # if defined(OPENSSL_NO_CAMELLIA) && !defined(NO_CAMELLIA)
 #  define NO_CAMELLIA
 # endif
+# if defined(OPENSSL_NO_CAPIENG) && !defined(NO_CAPIENG)
+#  define NO_CAPIENG
+# endif
+# if defined(OPENSSL_NO_CMS) && !defined(NO_CMS)
+#  define NO_CMS
+# endif
 # if defined(OPENSSL_NO_GMP) && !defined(NO_GMP)
 #  define NO_GMP
 # endif
@@ -75,8 +87,8 @@
 
 #if !(defined(VMS) || defined(__VMS)) /* VMS uses logical names instead */
 #if defined(HEADER_CRYPTLIB_H) && !defined(OPENSSLDIR)
-#define ENGINESDIR "C:/Src/SDKs/openssl-0.9.8g/lib/engines"
-#define OPENSSLDIR "C:/Src/SDKs/openssl-0.9.8g/ssl"
+#define ENGINESDIR "C:/Src/SDKs/openssl-0.9.8i/lib/engines"
+#define OPENSSLDIR "C:/Src/SDKs/openssl-0.9.8i/ssl"
 #endif
 #endif
 
