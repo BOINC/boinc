@@ -865,8 +865,34 @@ bool CBOINCGUIApp::IsModalDialogDisplayed() {
     if (wxDynamicCast(wxWindow::FindWindowById(ID_ANYDIALOG), wxDialog)) {
         return true;
     }
+    
+    if (m_pDocument) {
+        if (m_pDocument->WaitingForRPC()) {
+            return true;
+        }
+    }
     return false;
 }
 
+
+// Prevent recursive entry of CMainDocument::RequestRPC()
+int CBOINCGUIApp::FilterEvent(wxEvent &event) {
+    if (!m_pDocument) return -1;
+    if (!m_pDocument->WaitingForRPC()) return -1;
+
+    // If in RPC Please Wait dialog, reject all events except 
+    // RPC Finished or those for that dialog or its children.
+    if (event.GetEventType() == wxEVT_RPC_FINISHED) return -1;
+
+    wxDialog* theRPCWaitDialog = m_pDocument->GetRPCWaitDialog();
+    wxObject * theObject = event.GetEventObject();
+    while (theObject) {
+        if (! theObject->IsKindOf(CLASSINFO(wxWindow))) break;
+        if (theObject == theRPCWaitDialog) return -1;
+        theObject = ((wxWindow*)theObject)->GetParent();
+    }
+    
+    return false;
+}
 
 const char *BOINC_RCSID_487cbf3018 = "$Id$";

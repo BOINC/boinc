@@ -451,15 +451,17 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     // a dialog allowing the user to cancel.
     if (request.rpcType == RPC_TYPE_WAIT_FOR_COMPLETION) {
     // TODO: proper handling if a second user request is received while first is pending ??
+        // CBOINCGUIApp::FilterEvent() blocks eventrs during our "Please 
+        //  Wait" dialog, which could cause undesirable recursion here
         if (m_bWaitingForRPC) {
             wxLogMessage(wxT("Second user RPC request while another was pending"));
-            //wxASSERT(false);
+            wxASSERT(false);
             return -1;
         }
-        m_bWaitingForRPC = true;
         // Don't show dialog if RPC completes before RPC_WAIT_DLG_DELAY
         wxStopWatch Dlgdelay = wxStopWatch();        
         m_RPCWaitDlg = new AsyncRPCDlg();
+        m_bWaitingForRPC = true;
         do {
         // Simulate handling of CRPCFinishedEvent but don't allow any other events (so no user activity)
         // Allow RPC thread to run while we wait for it
@@ -514,6 +516,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                     RPC_requests.clear();
                     current_rpc_request.clear();
                     m_bNeedRefresh = false;
+                    m_bNeedTaskBarRefresh = false;
 
                     // We will be reconnected to the same client (if possible) by 
                     // CBOINCDialUpManager::OnPoll() and CNetworkConnection::Poll().
@@ -594,15 +597,21 @@ void CMainDocument::HandleCompletedRPC() {
         *(current_rpc_request.resultPtr) = retval;
     }
     
-    if (current_rpc_request.rpcType == RPC_TYPE_ASYNC_WITH_REFRESH_AFTER) {
-        if (!retval) {
-            m_bNeedRefresh = true;
-        }
-    }
-    
     // Post-processing
     if (! retval) {
-        switch (current_rpc_request.which_rpc) {
+         if (current_rpc_request.rpcType == RPC_TYPE_ASYNC_WITH_REFRESH_AFTER) {
+            if (!retval) {
+                m_bNeedRefresh = true;
+            }
+        }
+    
+         if (current_rpc_request.rpcType == RPC_TYPE_ASYNC_WITH_UPDATE_TASKBAR_ICON_AFTER) {
+            if (!retval) {
+                m_bNeedTaskBarRefresh = true;
+            }
+        }
+    
+       switch (current_rpc_request.which_rpc) {
         case RPC_GET_STATE:
             if (current_rpc_request.exchangeBuf && !retval) {
                 CC_STATE* arg1 = (CC_STATE*)current_rpc_request.arg1;
@@ -740,6 +749,21 @@ void CMainDocument::HandleCompletedRPC() {
             CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
             pFrame->ProcessEvent(event);
         }
+    }
+    
+    if (m_bNeedTaskBarRefresh && !m_bWaitingForRPC) {
+        m_bNeedTaskBarRefresh = false;
+        CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
+
+        if (pTaskbar) {
+            CTaskbarEvent event(wxEVT_TASKBAR_REFRESH, pTaskbar);
+            pTaskbar->ProcessEvent(event);
+        }
+    }
+
+    // CachedMessageUpdate() does not do any RPCs, so it is safe here
+    if (current_rpc_request.rpcType == RPC_TYPE_ASYNC_WITH_UPDATE_MESSAGE_LIST_AFTER) {
+        CachedMessageUpdate();
     }
     
     current_rpc_request.clear();

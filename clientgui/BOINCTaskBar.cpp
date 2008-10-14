@@ -41,12 +41,12 @@
 
 
 DEFINE_EVENT_TYPE(wxEVT_TASKBAR_RELOADSKIN)
-
+DEFINE_EVENT_TYPE(wxEVT_TASKBAR_REFRESH)
 
 BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_IDLE(CTaskBarIcon::OnIdle)
     EVT_CLOSE(CTaskBarIcon::OnClose)
-    EVT_TIMER(ID_TB_TIMER, CTaskBarIcon::OnRefresh)
+    EVT_TASKBAR_REFRESH(CTaskBarIcon::OnRefresh)
     EVT_TASKBAR_RELOADSKIN(CTaskBarIcon::OnReloadSkin)
     EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
     EVT_MENU(wxID_OPEN, CTaskBarIcon::OnOpen)
@@ -88,19 +88,11 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     m_dtLastHoverDetected = wxDateTime((time_t)0);
 
     m_bMouseButtonPressed = false;
-
-    m_pRefreshTimer = new wxTimer(this, ID_TB_TIMER);
-    m_pRefreshTimer->Start(1000);  // Send event every second
 }
 
 
 CTaskBarIcon::~CTaskBarIcon() {
     RemoveIcon();
-
-    if (m_pRefreshTimer) {
-        m_pRefreshTimer->Stop();
-        delete m_pRefreshTimer;
-    }
 }
 
 
@@ -128,7 +120,7 @@ void CTaskBarIcon::OnClose(wxCloseEvent& event) {
 }
 
 
-void CTaskBarIcon::OnRefresh(wxTimerEvent& WXUNUSED(event)) {
+void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function Begin"));
 
    CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -643,7 +635,7 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
         
     for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
         pMenuItem = pMenu->FindItemByPosition(loc);
-        if (is_dialog_detected) {
+        if (is_dialog_detected && (pMenuItem->GetId() != wxID_OPEN)) {
             pMenuItem->Enable(false);
         } else {
             pMenuItem->Enable(!(pMenuItem->IsSeparator()));
@@ -680,11 +672,15 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
             pMenu->Enable(ID_TB_SUSPEND, false);
         } else {
             pMenu->Check(ID_TB_SUSPEND, true);
+            if (!is_dialog_detected) {
             pMenu->Enable(ID_TB_SUSPEND, true);
+            }
         }
     } else {
         pMenu->Check(ID_TB_SUSPEND, false);
+            if (!is_dialog_detected) {
         pMenu->Enable(ID_TB_SUSPEND, true);
+            }
     }
 }
 

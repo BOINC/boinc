@@ -431,6 +431,7 @@ int CMainDocument::OnInit() {
     m_RPCWaitDlg = NULL;
     m_bWaitingForRPC = false;
     m_bNeedRefresh = false;
+    m_bNeedTaskBarRefresh = false;
     current_rpc_request.clear();
 
     m_RPCThread = new RPCThread(this);
@@ -775,9 +776,6 @@ void CMainDocument::RunPeriodicRPCs() {
     
     int currentTabView = wxGetApp().GetCurrentViewPage();
     
-    // TODO: modify SimpleGUI to not do direct RPC calls when hidden / minimized
-    if (! ((currentTabView & VW_SGUI) || pFrame->IsShown()) ) return;
-
     // Several functions (such as Abort, Reset, Detach) display an 
     // "Are you sure?" dialog before passing a pointer to a result 
     // or project in a demand RPC call.  If Periodic RPCs continue 
@@ -787,7 +785,7 @@ void CMainDocument::RunPeriodicRPCs() {
     //
     // Note that this depends on using wxGetApp().SafeMessageBox()
     // instead of wxMessageBox in all tab views.
-    if (wxGetApp().IsModalDialogDisplayed() && !(currentTabView & VW_SMSG)) {
+    if (wxGetApp().IsModalDialogDisplayed() && (currentTabView != (VW_SGUI | VW_SMSG)) ) {
         return;
     }
 
@@ -802,12 +800,29 @@ void CMainDocument::RunPeriodicRPCs() {
         request.which_rpc = RPC_GET_CC_STATUS;
         request.arg1 = &async_status_buf;
         request.exchangeBuf = &status;
-        request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
+        request.rpcType = RPC_TYPE_ASYNC_WITH_UPDATE_TASKBAR_ICON_AFTER;
         request.completionTime = &m_dtCachedCCStatusTimestamp;
         request.resultPtr = &m_iGet_status_rpc_result;
        
         RequestRPC(request);
     }
+
+    // *********** RPC_GET_MESSAGES **************
+
+    request.clear();
+    request.which_rpc = RPC_GET_MESSAGES;
+    // m_iMessageSequenceNumber could change between request and execution
+    // of RPC, so pass in a pointer rather than its value
+    request.arg1 = &m_iMessageSequenceNumber;
+    request.arg2 = &messages;
+//        request.arg2 = &async_messages_buf;
+//        request.exchangeBuf = &messages;
+     request.rpcType = (currentTabView & VW_MSGS) ? 
+            RPC_TYPE_ASYNC_WITH_REFRESH_AFTER : RPC_TYPE_ASYNC_WITH_UPDATE_MESSAGE_LIST_AFTER;
+    request.completionTime = NULL;
+    request.resultPtr = &m_iGet_messages_rpc_result;
+   
+    RequestRPC(request);
 
     ts = dtNow - m_dtCachedStateTimestamp;
     if (ts.GetSeconds() >= STATERPC_INTERVAL) {
@@ -835,7 +850,10 @@ void CMainDocument::RunPeriodicRPCs() {
        
         RequestRPC(request);
     }
-    
+     
+    // TODO: modify SimpleGUI to not do direct RPC calls when hidden / minimized
+    if (! ((currentTabView & VW_SGUI) || pFrame->IsShown()) ) return;
+   
     // *********** RPC_GET_PROJECT_STATUS1 **************
 
     if (currentTabView & VW_PROJ) {
@@ -852,7 +870,7 @@ void CMainDocument::RunPeriodicRPCs() {
             RequestRPC(request);
         }
     }
-    
+
     // *********** RPC_GET_RESULTS **************
 
     if (currentTabView & VW_TASK) {
@@ -887,26 +905,6 @@ void CMainDocument::RunPeriodicRPCs() {
         }
     }
     
-    // *********** RPC_GET_MESSAGES **************
-
-    if (currentTabView & (VW_MSGS | VW_SGUI)) {
-        request.clear();
-        request.which_rpc = RPC_GET_MESSAGES;
-        // m_iMessageSequenceNumber could change between request and execution
-        // of RPC, so pass in a pointer rather than its value
-        request.arg1 = &m_iMessageSequenceNumber;
-        request.arg2 = &messages;
-//        request.arg2 = &async_messages_buf;
-//        request.exchangeBuf = &messages;
-
-        request.rpcType = (currentTabView & VW_SGUI) ? 
-                RPC_TYPE_ASYNC_NO_REFRESH : RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
-        request.completionTime = NULL;
-        request.resultPtr = &m_iGet_messages_rpc_result;
-       
-        RequestRPC(request);
-    }
-
     // *********** RPC_GET_STATISTICS **************
 
     if (currentTabView & VW_STAT) {
@@ -1700,6 +1698,7 @@ int CMainDocument::WorkAbort(std::string& strProjectURL, std::string& strName) {
 
 
 // Call this only when message buffer is stable
+// Note: This must not call any rpcs.
 int CMainDocument::CachedMessageUpdate() {
     static bool in_this_func = false;
 

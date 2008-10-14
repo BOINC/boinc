@@ -90,9 +90,15 @@ enum ASYNC_RPC_TYPE {
     // Periodic RPC: post request on queue and return immediately 
     // (requested due to a timer interrupt.)
     RPC_TYPE_ASYNC_NO_REFRESH,
-    // Periodic RPCas above, but on completion also process a 
+    // Periodic RPC as above, but on completion also process a 
     // wxEVT_FRAME_REFRESHVIEW event to refresh the display.
     RPC_TYPE_ASYNC_WITH_REFRESH_AFTER,
+    // Periodic RPC as above, but on completion also update message 
+    // list by calling CMainDocument::CachedMessageUpdate().
+    RPC_TYPE_ASYNC_WITH_UPDATE_MESSAGE_LIST_AFTER,
+    // Periodic RPC as above, but on completion also process a 
+    // wxEVT_TASKBAR_REFRESH event to refresh the taskbar icon.
+    RPC_TYPE_ASYNC_WITH_UPDATE_TASKBAR_ICON_AFTER,
     NUM_RPC_TYPES
 
 };

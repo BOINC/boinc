@@ -8311,3 +8311,24 @@ David  12 Oct 2008
 
     html/user/
         create_profile.php
+
+Charlie 13 Oct 2008
+    - MGR: Multiple fixes to Async GUI RPCs:
+        - Reject most events during RPC Wait dialog.  This should 
+            eliminate most asserts due to undesired recursion in 
+            CMainDocument::RequestRPC().
+        - Always update message list every second, even when in other 
+            view tabs or when manager is minimized.
+        - Eliminate separate task bar update timer, update with other 
+            periodic RPCs.
+        - Always update task information in task bar icon tooltip when 
+            user hovers mouse over task bar icon.
+        - Improve enabling / disabling of task bar icon menu items.
+
+    clientgui/
+        AsyncRPC.cpp,.h
+        BOINCGUIApp.cpp,.h
+        BOINCTaskBar.cpp,.h
+        Events.h
+        MainDocument.cpp,.h
+    

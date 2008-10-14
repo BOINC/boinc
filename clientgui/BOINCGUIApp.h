@@ -157,6 +157,7 @@ public:
                              int x = wxDefaultCoord, int y = wxDefaultCoord);
 
     bool                IsModalDialogDisplayed();
+    int                 FilterEvent(wxEvent &event);
 
 DECLARE_EVENT_TABLE()
 };

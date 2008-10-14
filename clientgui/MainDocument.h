@@ -180,10 +180,12 @@ public:
     void                        HandleCompletedRPC();
     ASYNC_RPC_REQUEST*          GetCurrentRPCRequest() { return &current_rpc_request; }
     bool                        WaitingForRPC() { return m_bWaitingForRPC; }
+    wxDialog*                   GetRPCWaitDialog() { return m_RPCWaitDlg; }
 //    void                      TestAsyncRPC();      // For testing Async RPCs
     RPCThread*                  m_RPCThread;
     wxCriticalSection           m_critsect;
     bool                        m_bNeedRefresh;
+    bool                        m_bNeedTaskBarRefresh;
 
 private:
     int                         CopyProjectsToStateFile(PROJECTS& p, CC_STATE& state);
