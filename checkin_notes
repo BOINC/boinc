@@ -4429,3 +4429,11 @@ Rom   19 Sept 2008
         BOINCBaseWizard.cpp, .h
         wizardex.cpp, .h
 
+Rom    14 Oct 2008
+    - Tag for 6.2.20 release, all platforms
+      boinc_core_release_6_2_20
+
+    /
+        configure.ac
+        version.h
+
