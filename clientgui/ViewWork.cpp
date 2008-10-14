@@ -95,10 +95,22 @@ END_EVENT_TABLE ()
 static CViewWork* myCViewWork;
 
 static bool CompareViewWorkItems(int iRowIndex1, int iRowIndex2) {
-    CWork*          work1 = myCViewWork->m_WorkCache.at(iRowIndex1);
-    CWork*          work2 = myCViewWork->m_WorkCache.at(iRowIndex2);
+    CWork*          work1;
+    CWork*          work2;
     int             result = false;
     
+    try {
+        work1 = myCViewWork->m_WorkCache.at(iRowIndex1);
+    } catch ( std::out_of_range ) {
+        return 0;
+    }
+
+    try {
+        work2 = myCViewWork->m_WorkCache.at(iRowIndex2);
+    } catch ( std::out_of_range ) {
+        return 0;
+    }
+
     switch (myCViewWork->m_iSortColumn) {
         case COLUMN_PROJECT:
 	result = work1->m_strProjectName.CmpNoCase(work2->m_strProjectName);
@@ -242,13 +254,23 @@ const char** CViewWork::GetViewIcon() {
 
 
 wxString CViewWork::GetKeyValue1(int iRowIndex) {
-    CWork*          work = m_WorkCache.at(m_iSortedIndexes[iRowIndex]);
+    CWork*          work;
+
+    if (GetWorkCacheAtIndex(work, m_iSortedIndexes[iRowIndex])) {
+        return wxEmptyString;
+    }
+
     return work->m_strName;
 }
 
 
 wxString CViewWork::GetKeyValue2(int iRowIndex) {
-    CWork*          work = m_WorkCache.at(m_iSortedIndexes[iRowIndex]);
+     CWork*          work;
+
+    if (GetWorkCacheAtIndex(work, m_iSortedIndexes[iRowIndex])) {
+        return wxEmptyString;
+    }
+
     return work->m_strProjectURL;
 }
 
@@ -257,7 +279,9 @@ int CViewWork::FindRowIndexByKeyValues(wxString& key1, wxString& key2) {
     CWork* work;
     unsigned int iRowIndex, n = GetCacheCount();
 	for(iRowIndex=0; iRowIndex < n; iRowIndex++) {
-        work = m_WorkCache.at(m_iSortedIndexes[iRowIndex]);
+        if (GetWorkCacheAtIndex(work, m_iSortedIndexes[iRowIndex])) {
+            continue;
+        }
         if(! (work->m_strName).IsSameAs(key1)) continue;
         if((work->m_strProjectURL).IsSameAs(key2)) return iRowIndex;
 	}
@@ -390,8 +414,9 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
         if (row < 0) break;
         
         iResult = m_iSortedIndexes[row];
-        work = m_WorkCache.at(m_iSortedIndexes[row]);
-
+        if (GetWorkCacheAtIndex(work, m_iSortedIndexes[row])) {
+            return;
+        }
         strMessage.Printf(
            _("Are you sure you want to abort this task '%s'?\n(Progress: %s, Status: %s)"), 
            (work->m_strName).c_str(),
@@ -684,11 +709,15 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
     wxString    strDocumentText2 = wxEmptyString;
     float       fDocumentFloat = 0.0;
     time_t      tDocumentTime = (time_t)0;
-    CWork*      work = m_WorkCache.at(m_iSortedIndexes[iRowIndex]);
+    CWork*      work;
 
     strDocumentText.Empty();
 
-    switch (iColumnIndex) {
+     if (GetWorkCacheAtIndex(work, m_iSortedIndexes[iRowIndex])) {
+        return false;
+    }
+        
+   switch (iColumnIndex) {
         case COLUMN_PROJECT:
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
             GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText2);
@@ -827,8 +856,6 @@ void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
 
 void CViewWork::GetDocName(wxInt32 item, wxString& strBuffer) const {
     RESULT* result = wxGetApp().GetDocument()->result(item);
-
-    wxASSERT(result);
 
     if (result) {
         strBuffer = wxString(result->name.c_str(), wxConvUTF8);
@@ -1080,17 +1107,25 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
 
 
 wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
-    CWork*          work = m_WorkCache.at(m_iSortedIndexes[item]);
-    strBuffer = work->m_strStatus;
+    CWork*          work;
 
+    try {
+        work = m_WorkCache.at(m_iSortedIndexes[item]);
+    } catch ( std::out_of_range ) {
+        work = NULL;
+    }
+
+    if (work) {
+        strBuffer = work->m_strStatus;
+    } else {
+        strBuffer = wxEmptyString;
+    }
     return 0;
 }
 
 
 void CViewWork::GetDocProjectURL(wxInt32 item, wxString& strBuffer) const {
     RESULT* result = wxGetApp().GetDocument()->result(item);
-
-    wxASSERT(result);
 
     if (result) {
         strBuffer = wxString(result->project_url.c_str(), wxConvUTF8);
@@ -1122,16 +1157,25 @@ wxString CViewWork::GetProgressText( long item) {
     CWork*    work      = NULL;
     wxString  strBuffer = wxEmptyString;
     
-    try {
-        work = m_WorkCache.at(m_iSortedIndexes[item]);
-    } catch ( std::out_of_range ) {
-        work = NULL;
-    }
-
-    if (work) {
+    if (GetWorkCacheAtIndex(work, m_iSortedIndexes[item])) {
+        strBuffer = wxEmptyString;
+    } else {
         strBuffer = work->m_strProgress;
     }
+
     return strBuffer;
+}
+
+
+int CViewWork::GetWorkCacheAtIndex(CWork*& workPtr, int index) {
+    try {
+        workPtr = m_WorkCache.at(index);
+    } catch ( std::out_of_range ) {
+        workPtr = NULL;
+        return -1;
+    }
+    
+    return 0;
 }
 
 

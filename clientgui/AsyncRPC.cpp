@@ -24,6 +24,7 @@
 #include "MainDocument.h"
 #include "AsyncRPC.h"
 #include "BOINCBaseFrame.h"
+#include "BOINCTaskBar.h"
 #include "error_numbers.h"
 
 
@@ -402,6 +403,7 @@ int RPCThread::ProcessRPCRequest() {
 int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     std::vector<ASYNC_RPC_REQUEST>::iterator iter;
     int retval = 0, retval2 = 0;
+    bool keepLooping = true;
     
     if ( (request.rpcType < RPC_TYPE_WAIT_FOR_COMPLETION) || 
             (request.rpcType >= NUM_RPC_TYPES) ) {
@@ -459,6 +461,8 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
             return -1;
         }
         // Don't show dialog if RPC completes before RPC_WAIT_DLG_DELAY
+        // or while BOINC is minimized
+        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
         wxStopWatch Dlgdelay = wxStopWatch();        
         m_RPCWaitDlg = new AsyncRPCDlg();
         m_bWaitingForRPC = true;
@@ -487,7 +491,17 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
             if (! m_bWaitingForRPC) {
                 return retval;
             }
-        } while (Dlgdelay.Time() < RPC_WAIT_DLG_DELAY);
+            
+            keepLooping = (Dlgdelay.Time() < RPC_WAIT_DLG_DELAY);
+            if (pFrame) {
+                if (!pFrame->IsShown()) {
+                    keepLooping = true;
+                }
+            }
+            if (wxGetApp().Pending()) {
+                wxGetApp().Dispatch();
+            }
+        } while (keepLooping);
 //      GetCurrentProcess(&psn);    // Mac only
 //      SetFrontProcess(&psn);  // Mac only: Shows process if hidden
         if (m_RPCWaitDlg) {

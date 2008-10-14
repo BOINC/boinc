@@ -8331,4 +8331,22 @@ Charlie 13 Oct 2008
         BOINCTaskBar.cpp,.h
         Events.h
         MainDocument.cpp,.h
-    
+
+Charlie 14 Oct 2008
+    - MGR: Multiple fixes to Async GUI RPCs:
+        - Don't show RPC Please Wait dialog while BOINC is minimized.
+        - Filter events to block all events while RPC Please Wait dialog 
+            is displayed, except:
+             - Allow "Open BOINC Manager" Taskbar menu command.
+            - Allow Paint and Erase events.
+    - MGR: Use try / catch blocks for all cached data in Projects, Tasks 
+        and Transfers tabs.
+        
+    clientgui/
+        AsyncRPC.cpp
+        BOINCGUIApp.cpp
+        BOINCTaskBar.cpp
+        MainDocument.cpp
+        ViewProjects.cpp,.h
+        ViewTransfers.cpp,.h
+        ViewWork.cpp,.h

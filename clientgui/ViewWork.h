@@ -104,6 +104,8 @@ protected:
     virtual double          GetProgressValue(long item);
     virtual wxString        GetProgressText( long item);
 
+    int                     GetWorkCacheAtIndex(CWork*& workPtr, int index);
+
     DECLARE_EVENT_TABLE()
 };
 

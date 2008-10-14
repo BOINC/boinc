@@ -78,16 +78,28 @@ END_EVENT_TABLE ()
 static CViewTransfers* MyCViewTransfers;
 
 static bool CompareViewTransferItems(int iRowIndex1, int iRowIndex2) {
-    CTransfer*      transfer1 = MyCViewTransfers->m_TransferCache.at(iRowIndex1);
-    CTransfer*      transfer2 = MyCViewTransfers->m_TransferCache.at(iRowIndex2);
+    CTransfer*      transfer1;
+    CTransfer*      transfer2;
     int             result = 0;
-    
+
+    try {
+        transfer1 = MyCViewTransfers->m_TransferCache.at(iRowIndex1);
+    } catch ( std::out_of_range ) {
+        return 0;
+    }
+
+    try {
+        transfer2 = MyCViewTransfers->m_TransferCache.at(iRowIndex2);
+    } catch ( std::out_of_range ) {
+        return 0;
+    }
+
     switch (MyCViewTransfers->m_iSortColumn) {
-        case COLUMN_PROJECT:
-	result = transfer1->m_strProjectName.CmpNoCase(transfer2->m_strProjectName);
+    case COLUMN_PROJECT:
+        result = transfer1->m_strProjectName.CmpNoCase(transfer2->m_strProjectName);
         break;
     case COLUMN_FILE:
-	result = transfer1->m_strFileName.CmpNoCase(transfer2->m_strFileName);
+        result = transfer1->m_strFileName.CmpNoCase(transfer2->m_strFileName);
         break;
     case COLUMN_PROGRESS:
         if (transfer1->m_fProgress < transfer2->m_fProgress) {
@@ -208,13 +220,23 @@ const char** CViewTransfers::GetViewIcon() {
 
 
 wxString CViewTransfers::GetKeyValue1(int iRowIndex) {
-    CTransfer*  transfer = m_TransferCache.at(m_iSortedIndexes[iRowIndex]);
+    CTransfer*  transfer;
+    
+    if (GetTransferCacheAtIndex(transfer, m_iSortedIndexes[iRowIndex])) {
+        return wxEmptyString;
+    }
+
     return transfer->m_strFileName;
 }
 
 
 wxString CViewTransfers::GetKeyValue2(int iRowIndex) {
-    CTransfer*  transfer = m_TransferCache.at(m_iSortedIndexes[iRowIndex]);
+    CTransfer*  transfer;
+    
+    if (GetTransferCacheAtIndex(transfer, m_iSortedIndexes[iRowIndex])) {
+        return wxEmptyString;
+    }
+    
     return transfer->m_strProjectURL;
 }
 
@@ -223,7 +245,9 @@ int CViewTransfers::FindRowIndexByKeyValues(wxString& key1, wxString& key2) {
     CTransfer*  transfer;
     unsigned int iRowIndex, n = GetCacheCount();
 	for(iRowIndex=0; iRowIndex < n; iRowIndex++) {
-        transfer = m_TransferCache.at(m_iSortedIndexes[iRowIndex]);
+        if (GetTransferCacheAtIndex(transfer, m_iSortedIndexes[iRowIndex])) {
+            continue;
+        }
         if(! (transfer->m_strFileName).IsSameAs(key1)) continue;
         if((transfer->m_strProjectURL).IsSameAs(key2)) return iRowIndex;
 	}
@@ -290,7 +314,9 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
         
-        pTransfer = m_TransferCache.at(m_iSortedIndexes[row]);
+        if (GetTransferCacheAtIndex(pTransfer, m_iSortedIndexes[row])) {
+            return;
+        }
 
         strMessage.Printf(
             _("Are you sure you want to abort this file transfer '%s'?\nNOTE: Aborting a transfer will invalidate a task and you\nwill not receive credit for it."), 
@@ -427,10 +453,14 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
     wxString    strDocumentText2 = wxEmptyString;
     float       fDocumentFloat = 0.0;
     double      fDocumentDouble = 0.0, fDocumentDouble2 = 0.0;
-    CTransfer*  transfer = m_TransferCache.at(m_iSortedIndexes[iRowIndex]);
+    CTransfer*  transfer;
     bool        bNeedRefresh = false;
 
     strDocumentText.Empty();
+
+    if (GetTransferCacheAtIndex(transfer, m_iSortedIndexes[iRowIndex])) {
+        return false;
+    }
 
     switch(iColumnIndex) {
         case COLUMN_PROJECT:
@@ -730,16 +760,23 @@ wxString CViewTransfers::GetProgressText( long item) {
     CTransfer* transfer;
     wxString   strBuffer  = wxEmptyString;
 
-    try {
-        transfer = m_TransferCache.at(m_iSortedIndexes[item]);
-    } catch ( std::out_of_range ) {
-        transfer = NULL;
-    }
-
+    GetTransferCacheAtIndex(transfer, m_iSortedIndexes[item]);
     if (transfer) {
         strBuffer = transfer->m_strProgress;
     }
     return strBuffer;
+}
+
+
+int CViewTransfers::GetTransferCacheAtIndex(CTransfer*& transferPtr, int index) {
+    try {
+        transferPtr = m_TransferCache.at(index);
+    } catch ( std::out_of_range ) {
+        transferPtr = NULL;
+        return -1;
+    }
+    
+    return 0;
 }
 
 

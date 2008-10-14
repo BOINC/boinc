@@ -91,10 +91,22 @@ END_EVENT_TABLE ()
 static CViewProjects* myCViewProjects;
 
 static bool CompareViewProjectsItems(int iRowIndex1, int iRowIndex2) {
-    CProject*  project1 = myCViewProjects->m_ProjectCache.at(iRowIndex1);
-    CProject*  project2 = myCViewProjects->m_ProjectCache.at(iRowIndex2);
-    int             result = 0;
+    CProject*   project1;
+    CProject*   project2;
+    int         result = 0;
     
+    try {
+        project1 = myCViewProjects->m_ProjectCache.at(iRowIndex1);
+    } catch ( std::out_of_range ) {
+        return 0;
+    }
+
+    try {
+        project2 = myCViewProjects->m_ProjectCache.at(iRowIndex2);
+    } catch ( std::out_of_range ) {
+        return 0;
+    }
+
     switch (myCViewProjects->m_iSortColumn) {
         case COLUMN_PROJECT:
 	result = project1->m_strProjectName.CmpNoCase(project2->m_strProjectName);
@@ -244,7 +256,12 @@ const char** CViewProjects::GetViewIcon() {
 
 
 wxString CViewProjects::GetKeyValue1(int iRowIndex) {
-    CProject*   project = m_ProjectCache.at(m_iSortedIndexes[iRowIndex]);
+    CProject*   project;
+    
+    if (GetProjectCacheAtIndex(project, m_iSortedIndexes[iRowIndex])) {
+        return wxEmptyString;
+    }
+
     return project->m_strProjectURL;
 }
 
@@ -253,7 +270,9 @@ int CViewProjects::FindRowIndexByKeyValues(wxString& key1, wxString&) {
     CProject* project;
     unsigned int iRowIndex, n = GetCacheCount();
 	for(iRowIndex=0; iRowIndex < n; iRowIndex++) {
-        project = m_ProjectCache.at(m_iSortedIndexes[iRowIndex]);
+        if (GetProjectCacheAtIndex(project, m_iSortedIndexes[iRowIndex])) {
+            continue;
+        }
         if((project->m_strProjectURL).IsSameAs(key1)) return iRowIndex;
 	}
 	return -1;
@@ -404,7 +423,9 @@ void CViewProjects::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
         
-        pProject = m_ProjectCache.at(m_iSortedIndexes[row]);
+        if (GetProjectCacheAtIndex(pProject, m_iSortedIndexes[row])) {
+            return;
+        }
 
         strMessage.Printf(
             _("Are you sure you want to reset project '%s'?"), 
@@ -460,7 +481,9 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (row < 0) break;
         
-        pProject = m_ProjectCache.at(m_iSortedIndexes[row]);
+        if (GetProjectCacheAtIndex(pProject, m_iSortedIndexes[row])) {
+            return;
+        }
 
         strMessage.Printf(
             _("Are you sure you want to detach from project '%s'?"), 
@@ -542,7 +565,6 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const {
     } catch ( std::out_of_range ) {
         project = NULL;
     }
-
 
     if (project) {
         switch(column) {
@@ -737,7 +759,11 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
     wxString    strDocumentText  = wxEmptyString;
     wxString    strDocumentText2 = wxEmptyString;
     float       fDocumentFloat = 0.0;
-    CProject*   project = m_ProjectCache.at(m_iSortedIndexes[iRowIndex]);
+    CProject*   project;
+ 
+    if (GetProjectCacheAtIndex(project, m_iSortedIndexes[iRowIndex])) {
+            return false;
+    }
 
     strDocumentText.Empty();
 
@@ -816,8 +842,19 @@ void CViewProjects::GetDocProjectName(wxInt32 item, wxString& strBuffer) const {
 
 
 wxInt32 CViewProjects::FormatProjectName(wxInt32 item, wxString& strBuffer) const {
-    CProject* project = m_ProjectCache.at(m_iSortedIndexes[item]);
-    strBuffer = project->m_strProjectName;
+    CProject* project;
+    
+    try {
+        project = m_ProjectCache.at(m_iSortedIndexes[item]);
+    } catch ( std::out_of_range ) {
+        project = NULL;
+    }
+
+    if (project) {
+        strBuffer = project->m_strProjectName;
+    } else {
+        strBuffer = wxEmptyString;
+    }
 
     return 0;
 }
@@ -835,8 +872,18 @@ void CViewProjects::GetDocAccountName(wxInt32 item, wxString& strBuffer) const {
 
 
 wxInt32 CViewProjects::FormatAccountName(wxInt32 item, wxString& strBuffer) const {
-    CProject* project = m_ProjectCache.at(m_iSortedIndexes[item]);
-    strBuffer = project->m_strAccountName;
+    CProject* project;
+    
+    try {
+        project = m_ProjectCache.at(m_iSortedIndexes[item]);
+    } catch ( std::out_of_range ) {
+        project = NULL;
+    }
+    if (project) {
+        strBuffer = project->m_strAccountName;
+    } else {
+        strBuffer = wxEmptyString;
+    }
 
     return 0;
 }
@@ -854,8 +901,19 @@ void CViewProjects::GetDocTeamName(wxInt32 item, wxString& strBuffer) const {
 
 
 wxInt32 CViewProjects::FormatTeamName(wxInt32 item, wxString& strBuffer) const {
-    CProject* project = m_ProjectCache.at(m_iSortedIndexes[item]);
-    strBuffer = project->m_strTeamName;
+    CProject* project;
+    
+    try {
+        project = m_ProjectCache.at(m_iSortedIndexes[item]);
+    } catch ( std::out_of_range ) {
+        project = NULL;
+    }
+
+    if (project) {
+        strBuffer = project->m_strTeamName;
+    } else {
+        strBuffer = wxEmptyString;
+    }
 
     return 0;
 }
@@ -959,8 +1017,19 @@ void CViewProjects::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
 
 
 wxInt32 CViewProjects::FormatStatus(wxInt32 item, wxString& strBuffer) const {
-    CProject* project = m_ProjectCache.at(m_iSortedIndexes[item]);
-    strBuffer = project->m_strStatus;
+    CProject* project;
+    
+    try {
+        project = m_ProjectCache.at(m_iSortedIndexes[item]);
+    } catch ( std::out_of_range ) {
+        project = NULL;
+    }
+
+    if (project) {
+        strBuffer = project->m_strStatus;
+    } else {
+        strBuffer = wxEmptyString;
+    }
 
     return 0;
 }
@@ -979,10 +1048,16 @@ void CViewProjects::GetDocProjectURL(wxInt32 item, wxString& strBuffer) const {
 
 double CViewProjects::GetProgressValue(long item) {
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    CProject* project = m_ProjectCache.at(m_iSortedIndexes[item]);
+    CProject* project;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    try {
+        project = m_ProjectCache.at(m_iSortedIndexes[item]);
+    } catch ( std::out_of_range ) {
+        project = NULL;
+    }
 
     if (project && pDoc) {
         return (project->m_fResourceShare / pDoc->m_fProjectTotalResourceShare);
@@ -1039,6 +1114,18 @@ wxInt32 CViewProjects::ConvertLinkToWebsiteIndex(const wxString& strLink, wxInt3
     strBuffer = strBuffer.Mid(strBuffer.Find(wxT(":")) + 1);
     strBuffer.ToLong((long*) &iWebsiteIndex);
 
+    return 0;
+}
+
+
+int CViewProjects::GetProjectCacheAtIndex(CProject*& projectPtr, int index) {
+    try {
+        projectPtr = m_ProjectCache.at(index);
+    } catch ( std::out_of_range ) {
+        projectPtr = NULL;
+        return -1;
+    }
+    
     return 0;
 }
 

@@ -880,9 +880,17 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
     if (!m_pDocument) return -1;
     if (!m_pDocument->WaitingForRPC()) return -1;
 
-    // If in RPC Please Wait dialog, reject all events except 
-    // RPC Finished or those for that dialog or its children.
-    if (event.GetEventType() == wxEVT_RPC_FINISHED) return -1;
+    // If in RPC Please Wait dialog, reject all command 
+    // and timer events except: 
+    //  - RPC Finished
+    //  - those for that dialog or its children
+    //  - Open Manager menu item from system tray icon
+    int theEventType = event.GetEventType();
+
+    if ((theEventType == wxEVT_COMMAND_MENU_SELECTED)
+            && (event.GetId() == wxID_OPEN)) {
+        return -1;        
+    }
 
     wxDialog* theRPCWaitDialog = m_pDocument->GetRPCWaitDialog();
     wxObject * theObject = event.GetEventObject();
@@ -892,7 +900,48 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
         theObject = ((wxWindow*)theObject)->GetParent();
     }
     
+#if 0
+    // Allow all events except Command and Timer events
+    if (event.IsCommandEvent()) {
+        return false;
+    }
+    
+    if (theEventType == wxEVT_TIMER) {
+        return false;
+    }
+   
+    return -1;
+#else
+    // Reject all events except:
+    //  - Taskbar Menu
+    //  - Paint
+    //  - Erase Background
+    if (theEventType == wxEVT_RPC_FINISHED) {
+        return -1;
+    }
+    
+#ifdef __WXMSW__
+    if (theEventType == wxEVT_TASKBAR_CONTEXT_MENU) {
+        return -1;
+     }
+    if (theEventType == wxEVT_TASKBAR_RIGHT_DOWN) {
+        return -1;
+    }
+    if (theEventType == wxEVT_TASKBAR_RIGHT_UP) {
+        return -1;
+    }
+#endif
+
+    if (theEventType == wxEVT_PAINT) {
+        return -1;
+    }
+
+    if (theEventType == wxEVT_ERASE_BACKGROUND) {
+        return -1;
+    }
+
     return false;
+#endif
 }
 
 const char *BOINC_RCSID_487cbf3018 = "$Id$";

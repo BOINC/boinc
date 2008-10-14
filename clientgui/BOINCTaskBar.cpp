@@ -123,7 +123,7 @@ void CTaskBarIcon::OnClose(wxCloseEvent& event) {
 void CTaskBarIcon::OnRefresh(CTaskbarEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnRefresh - Function Begin"));
 
-   CMainDocument* pDoc = wxGetApp().GetDocument();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
     CC_STATUS      status;
 
     wxASSERT(pDoc);
@@ -288,7 +288,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
         m_dtLastHoverDetected = wxDateTime::Now();
 
         CMainDocument* pDoc                 = wxGetApp().GetDocument();
-        wxString       strMachineName       = wxEmptyString;
+       wxString       strMachineName       = wxEmptyString;
         wxString       strMessage           = wxEmptyString;
         wxString       strProjectName       = wxEmptyString;
         wxString       strBuffer            = wxEmptyString;
@@ -567,10 +567,13 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-    // Account managers have a different menu arrangement
-    pDoc->rpc.acct_mgr_info(ami);
-    is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
-
+    // Prevent recursive entry of CMainDocument::RequestRPC() 
+     if (!pDoc->WaitingForRPC()) {
+        // Account managers have a different menu arrangement
+        pDoc->rpc.acct_mgr_info(ami);
+        is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
+    }
+    
     if (is_acct_mgr_detected) {
         menuName.Printf(
             _("Open %s Web..."),
@@ -664,6 +667,9 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
         }
     }
 #endif
+
+    // Prevent recursive entry of CMainDocument::RequestRPC() 
+    if (pDoc->WaitingForRPC()) return;
 
     pDoc->GetCoreClientStatus(status);
     if (RUN_MODE_NEVER == status.task_mode) {

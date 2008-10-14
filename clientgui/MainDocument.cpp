@@ -650,8 +650,10 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
     int              iRetVal = 0;
 
     if (IsConnected()) {
-        wxTimeSpan ts(wxDateTime::Now() - m_dtCachedCCStatusTimestamp);
-        if (ts.GetSeconds() >= (2 * CCSTATUS_RPC_INTERVAL)) bForce = true;
+        if (!m_bWaitingForRPC) {    // Prevent recursive entry of RequestRPC() 
+            wxTimeSpan ts(wxDateTime::Now() - m_dtCachedCCStatusTimestamp);
+            if (ts.GetSeconds() >= (10 * CCSTATUS_RPC_INTERVAL)) bForce = true;
+        }
         if (bForce) {
             m_dtCachedCCStatusTimestamp = wxDateTime::Now();
 
