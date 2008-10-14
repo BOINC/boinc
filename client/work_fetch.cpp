@@ -97,16 +97,16 @@ void CLIENT_STATE::check_project_timeout() {
 }
 
 void PROJECT::set_min_rpc_time(double future_time, const char* reason) {
-    if (future_time > min_rpc_time) {
-        min_rpc_time = future_time;
-		possibly_backed_off = true;
-        if (log_flags.sched_op_debug) {
-            msg_printf(this, MSG_INFO,
-                "[sched_op_debug] Deferring communication for %s",
-                timediff_format(min_rpc_time - gstate.now).c_str()
-            );
-            msg_printf(this, MSG_INFO, "[sched_op_debug] Reason: %s\n", reason);
-        }
+    if (future_time <= min_rpc_time) return;
+    if (next_rpc_time && (future_time > next_rpc_time)) return;
+    min_rpc_time = future_time;
+	possibly_backed_off = true;
+    if (log_flags.sched_op_debug) {
+        msg_printf(this, MSG_INFO,
+            "[sched_op_debug] Deferring communication for %s",
+            timediff_format(min_rpc_time - gstate.now).c_str()
+        );
+        msg_printf(this, MSG_INFO, "[sched_op_debug] Reason: %s\n", reason);
     }
 }
 
@@ -134,7 +134,6 @@ PROJECT* CLIENT_STATE::next_project_master_pending() {
 }
 
 // find a project for which a scheduler RPC is pending
-// and we're not backed off
 //
 PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
     unsigned int i;
@@ -142,10 +141,14 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
 
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
-        if (p->waiting_until_min_rpc_time()) continue;
+
+        // project request overrides backoff
+        //
         if (p->next_rpc_time && p->next_rpc_time<now) {
             p->sched_rpc_pending = RPC_REASON_PROJECT_REQ;
             p->next_rpc_time = 0;
+        } else {
+            if (p->waiting_until_min_rpc_time()) continue;
         }
         // if (p->suspended_via_gui) continue;
         // do the RPC even if suspended.
@@ -764,15 +767,18 @@ double RESULT::estimated_cpu_time_uncorrected() {
 
 // estimate how long a result will take on this host
 //
-double RESULT::estimated_cpu_time(bool for_work_fetch) {
 #ifdef SIM
+double RESULT::estimated_cpu_time(bool for_work_fetch) {
     SIM_PROJECT* spp = (SIM_PROJECT*)project;
     if (dual_dcf && for_work_fetch && spp->completions_ratio_mean) {
         return estimated_cpu_time_uncorrected()*spp->completions_ratio_mean;
     }
-#endif
+}
+#else
+double RESULT::estimated_cpu_time(bool) {
     return estimated_cpu_time_uncorrected()*project->duration_correction_factor;
 }
+#endif
 
 double RESULT::estimated_cpu_time_remaining(bool for_work_fetch) {
     if (computing_done()) return 0;

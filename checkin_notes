@@ -8350,3 +8350,23 @@ Charlie 14 Oct 2008
         ViewProjects.cpp,.h
         ViewTransfers.cpp,.h
         ViewWork.cpp,.h
+
+David  14 Oct 2008
+    - client: clarify and fix the semantics of "next RPC time".
+        Here's are the new semantics: a scheduler reply can include
+        <next_rpc_delay>
+            Make another RPC ASAP after this amount of time elapses.
+            This is specified by the <next_rpc_delay> element in config.xml.
+        <request_delay>
+            Don't make another RPC until this amount of time elapses.
+            This is sent automatically (and sometimes with large delays)
+            by various parts of the scheduler.
+        next_rpc_delay now "overrides" request_delay in the sense that
+        request_delay is ignored if it's greater than next_rpc_delay.
+
+        In addition: the client maintains a min_rpc_time which is set based
+        on request_delay and also by various exponential backoff schemes.
+        new_rpc_delay now overrides this as well, in the same sense.
+    client/
+        cs_scheduler.cpp
+        work_fetch.cpp
