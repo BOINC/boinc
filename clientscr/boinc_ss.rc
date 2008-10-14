@@ -238,7 +238,7 @@ IDB_BOINCSPLAT          BITMAP                  "res\\boinc.bmp"
 
 #else
 
-IDB_BOINCSPLAT          BITMAP                  "res\\boinc.bmp"
+IDB_BOINCSPLAT          BITMAP                  "res\\wcg.bmp"
 
 #endif
 

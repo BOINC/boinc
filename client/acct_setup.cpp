@@ -31,6 +31,7 @@
 #include "str_util.h"
 #include "util.h"
 #include "client_msgs.h"
+#include "log_flags.h"
 
 #include "acct_setup.h"
 
@@ -193,11 +194,9 @@ void CREATE_ACCOUNT_OP::handle_reply(int http_op_retval) {
 
 int GET_CURRENT_VERSION_OP::do_rpc() {
     int retval;
-    char buf[256];
 
-    sprintf(buf, "http://boinc.berkeley.edu/download.php?xml=1");
     retval = gui_http->do_rpc(
-        this, string(buf), GET_CURRENT_VERSION_FILENAME
+        this, config.client_version_check_url, GET_CURRENT_VERSION_FILENAME
     );
     if (retval) {
         error_num = retval;
@@ -253,8 +252,10 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
                         "A new version of BOINC (%s) is available for your computer",
                         new_version
                     );
+
                     msg_printf(0, MSG_USER_ERROR,
-                        "Visit http://boinc.berkeley.edu/download.php to get it."
+                        "Visit %s to get it.",
+						config.client_download_url.c_str()
                     );
                     gstate.newer_version = string(new_version);
                     break;

@@ -8386,3 +8386,27 @@ David  14 Oct 2008
             translation.inc
         user/
             sample_index.php
+
+David  14 Oct 2008
+    - client: new config flags
+        <network_test_url>: where to go to see if network is up
+        <client_version_check_url>: where to get list of client versions
+        <client_download_url>: where to direct user to get new version
+    - manager: some different text for WCG version
+
+    client/
+        acct_setup.cpp
+        gui_rpc_server_ops.cpp
+        log_flags.cpp,h
+        net_stats.cpp
+        win/
+            boinc_cli.rc
+            boinc_cmd.rc
+    clientgui/
+        BOINCWizards.h
+        ProxyInfoPage.cpp
+        WelcomePage.cpp,h
+    clientscr/
+        boinc_ss.rc
+
+

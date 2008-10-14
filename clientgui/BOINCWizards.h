@@ -66,6 +66,9 @@
 // Completion Error Page Multiline Text Control
 #define ID_TEXTCTRL 11002
 
+// Change applications button control
+#define ID_CHANGEAPPS 11003
+
 // Debug Flag Controls
 #define ID_ERRPROJECTPROPERTIES 11100
 #define ID_ERRPROJECTCOMM 11101

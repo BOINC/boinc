@@ -210,6 +210,9 @@ void CONFIG::defaults() {
     use_certs = false;
     use_certs_only = false;
     exclusive_apps.clear();
+    client_version_check_url = "http://boinc.berkeley.edu/download.php?xml=1";
+    client_download_url = "http://boinc.berkeley.edu/download.php";
+    network_test_url = "http://www.google.com/";
 }
 
 int CONFIG::parse_options(XML_PARSER& xp) {
@@ -264,6 +267,18 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "use_certs_only", use_certs_only)) continue;
         if (xp.parse_string(tag, "exclusive_app", s)) {
             exclusive_apps.push_back(s);
+            continue;
+        }
+        if (xp.parse_string(tag, "client_version_check_url", client_version_check_url)) {
+            downcase_string(client_version_check_url);
+            continue;
+        }
+        if (xp.parse_string(tag, "client_download_url", client_download_url)) {
+            downcase_string(client_download_url);
+            continue;
+        }
+        if (xp.parse_string(tag, "network_test_url", network_test_url)) {
+            downcase_string(network_test_url);
             continue;
         }
         msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",

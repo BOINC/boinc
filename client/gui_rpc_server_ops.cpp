@@ -568,6 +568,17 @@ static void handle_network_available(char*, MIOFILE& fout) {
 }
 
 static void handle_get_project_init_status(char*, MIOFILE& fout) {
+    // If we're already attached to the project specified in the
+    // project init file, delete the file.
+    //
+    for (unsigned i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (!strcmp(p->master_url, gstate.project_init.url)) {
+            gstate.project_init.remove();
+            break;
+        }
+    }
+
     fout.printf(
         "<get_project_init_status>\n"
         "    <url>%s</url>\n"

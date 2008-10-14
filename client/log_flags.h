@@ -125,6 +125,9 @@ struct CONFIG {
     bool use_certs_only;
         // overrides use_certs
     std::vector<std::string> exclusive_apps;
+    std::string client_version_check_url;
+    std::string client_download_url;
+    std::string network_test_url;
 
     CONFIG();
     void defaults();

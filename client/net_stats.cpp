@@ -197,13 +197,13 @@ void NET_STATUS::got_http_error() {
 }
 
 void NET_STATUS::contact_reference_site() {
-    std::string url = "http://www.google.com";
 	if (log_flags.network_status_debug) {
 		msg_printf(0, MSG_INFO,
-			"[network_status_debug] need_phys_conn %d; trying google", need_physical_connection
+			"[network_status_debug] need_phys_conn %d; trying %s",
+            need_physical_connection, config.network_test_url.c_str()
 		);
 	}
-    gstate.lookup_website_op.do_rpc(url);
+    gstate.lookup_website_op.do_rpc(config.network_test_url);
 	need_to_contact_reference_site = false;
 }
 

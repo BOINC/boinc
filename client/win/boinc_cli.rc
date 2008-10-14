@@ -30,6 +30,9 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 #ifdef _GRIDREPUBLIC
+
+#elif defined(_WCG)
+IDI_MAIN_ICON           ICON                    "res\\wcg.ico"
 #else
 IDI_MAIN_ICON           ICON                    "res\\icon.ico"
 #endif

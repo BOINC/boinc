@@ -38,6 +38,7 @@
 #include "WizardAttachProject.h"
 #include "WizardAccountManager.h"
 #include "WelcomePage.h"
+#include "hyperlink.h"
 
 ////@begin XPM images
 ////@end XPM images
@@ -61,6 +62,8 @@ BEGIN_EVENT_TABLE( CWelcomePage, wxWizardPageEx )
     EVT_WIZARDEX_CANCEL( -1, CWelcomePage::OnCancel )
     EVT_SET_FOCUS( CWelcomePage::OnSetFocus )
     EVT_SHOW( CWelcomePage::OnShow )
+	EVT_BUTTON( ID_CHANGEAPPS, CWelcomePage::OpenWCG )
+
 ////@end CWelcomePage event table entries
  
 END_EVENT_TABLE()
@@ -84,6 +87,16 @@ CWelcomePage::CWelcomePage( CBOINCBaseWizard* parent )
  
 bool CWelcomePage::Create( CBOINCBaseWizard* parent )
 {
+	// Determine if we are the wcg version of the client
+	// and connect to wcg
+	wcg = false;
+#if defined (_WCG)
+	std::string wcgUrl="http://www.worldcommunitygrid.org/";
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+	if ( pDoc->state.lookup_project(wcgUrl) ) {
+		wcg=true;
+	}
+#endif
 
 ////@begin CWelcomePage member initialisation
     m_pTitleStaticCtrl = NULL;
@@ -205,12 +218,18 @@ void CWelcomePage::CreateControls()
     m_pDirectionsStaticCtrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer3->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
+	if ( wcg ) {
+		m_pAppButton = new wxButton(this,ID_CHANGEAPPS,"Change Research Applications at World Community Grid");
+		wxSizer* appSizer = this->GetSizer();
+		appSizer->Add(m_pAppButton,0, wxALIGN_CENTER,5);
+	}
+
     itemWizardPage2->SetSizer(itemBoxSizer3);
 
 ////@end CWelcomePage content construction
 }
 
-/*!
+/*
  * Gets the previous page.
  */
  
@@ -327,9 +346,25 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             m_pTitleStaticCtrl->SetLabel(
                 _("Attach to project")
             );
-            m_pDescriptionStaticCtrl->SetLabel(
-                _("We'll now guide you through the process of attaching\nto a project.")
-            );
+            if (!wcg) {
+                m_pDescriptionStaticCtrl->SetLabel(
+                    _("We'll now guide you through the process of attaching\n"
+                    "to a project.")
+                );
+            } else {
+                m_pDescriptionStaticCtrl->SetLabel(
+                    _("You have selected to attach to a new BOINC project.  Attaching to a new\n"
+                    "project means that you will be connecting your computer to a new website\n"
+                    "and organization.  If this is what you wanted to do, then please click on\n"
+                    "the 'Next' button below.\n\n"
+                    "Some projects like World Community Grid run multiple research applications.\n"
+                    "If you want to change which research applications are sent to your computer\n"
+                    "to run, then you should visit the project's website and modify your\n"
+                    "preferences there.\n\n"
+                    "To change which research applications are sent to you from\n"
+                    "World Community Grid then please click on the following button:")
+                );
+            }
         }
     } else if (IS_ACCOUNTMANAGERREMOVEWIZARD()) {
         wxASSERT(pWAM);
@@ -398,10 +433,11 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
         _("Net Detection Failure")
     );
 #endif
-
-    m_pDirectionsStaticCtrl->SetLabel(
-        _("To continue, click Next.")
-    );
+	if (!wcg) {
+		m_pDirectionsStaticCtrl->SetLabel(
+			_("To continue, click Next.")
+		);
+	}
 
     Fit();
     wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnPageChanged - Function End"));
@@ -479,5 +515,18 @@ void CWelcomePage::OnShow( wxShowEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnShow - Function Begin"));
     event.Skip();    
     wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnShow - Function End"));
+}
+
+/*!
+ * event handler for ID_WELCOMEPAGE
+ */
+
+void CWelcomePage::OpenWCG( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OpenWCG - Function Begin"));
+	wxString wcgUrl = "http://www.worldcommunitygrid.org/ms/viewMyProjects.do";
+    wxHyperLink::ExecuteLink(wcgUrl);
+	CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
+	pWAP->SimulateCancelButton();
+    wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OpenWCG- Function End"));
 }
 
