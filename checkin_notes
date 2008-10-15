@@ -4448,3 +4448,11 @@ Rom    14 Oct 2008
     
     cURL/
         <Various Files>
+
+Rom    14 Oct 2008
+    - Tag for 6.2.21 release, all platforms
+      boinc_core_release_6_2_21
+
+    /
+        configure.ac
+        version.h
