@@ -900,7 +900,7 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
         theObject = ((wxWindow*)theObject)->GetParent();
     }
     
-#if 0
+#if 1
     // Allow all except Command, Timer and Mouse Moved events
     if (event.IsCommandEvent()) {
         return false;

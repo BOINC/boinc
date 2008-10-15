@@ -453,8 +453,6 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     // a dialog allowing the user to cancel.
     if (request.rpcType == RPC_TYPE_WAIT_FOR_COMPLETION) {
     // TODO: proper handling if a second user request is received while first is pending ??
-        // CBOINCGUIApp::FilterEvent() blocks eventrs during our "Please 
-        //  Wait" dialog, which could cause undesirable recursion here
         if (m_bWaitingForRPC) {
             wxLogMessage(wxT("Second user RPC request while another was pending"));
             wxASSERT(false);
@@ -466,9 +464,10 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         wxStopWatch Dlgdelay = wxStopWatch();        
         m_RPCWaitDlg = new AsyncRPCDlg();
         m_bWaitingForRPC = true;
+        
+        // Allow RPC_WAIT_DLG_DELAY seconds for Demand RPC to complete before 
+        // displaying "Please Wait" dialog, but keep checking for completion.
         do {
-        // Simulate handling of CRPCFinishedEvent but don't allow any other events (so no user activity)
-        // Allow RPC thread to run while we wait for it
 #ifdef __WXMSW__
             SwitchToThread();
 #else
@@ -476,34 +475,56 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
             timespec ts = {0, 1};   /// 1 nanosecond
             nanosleep(&ts, NULL);   /// 1 nanosecond or less 
 #endif
-            if (!current_rpc_request.isActive) {
-                HandleCompletedRPC();
-#ifndef __WXMSW__       // Deadlocks on Windows
-                } else {
-                // for safety
-                if (m_RPCThread->IsPaused()) {
-                    m_RPCThread->Resume();
-               }
-#endif //  !!__WXMSW__       // Deadlocks on Windows
-            }
-
             // OnRPCComplete() clears m_bWaitingForRPC if RPC completed 
             if (! m_bWaitingForRPC) {
                 return retval;
             }
             
             keepLooping = (Dlgdelay.Time() < RPC_WAIT_DLG_DELAY);
-            if (pFrame) {
-                if (!pFrame->IsShown()) {
-                    keepLooping = true;
+            if (keepLooping) {
+                // Simulate handling of CRPCFinishedEvent but don't allow any other 
+                // events (so no user activity) to prevent undesirable recursion.
+                // Allow RPC thread to run while we wait for it.
+                if (!current_rpc_request.isActive) {
+                    HandleCompletedRPC();
+#ifndef __WXMSW__       // Deadlocks on Windows
+                    } else {
+                    // for safety
+                    if (m_RPCThread->IsPaused()) {
+                        m_RPCThread->Resume();
+                   }
+#endif //  __WXMSW__       // Deadlocks on Windows
+                }
+            } else {
+                // RPC_WAIT_DLG_DELAY has expired; check if Manager is minimized.
+                if (pFrame) {
+                    if (!pFrame->IsShown()) {
+                        // Don't show dialog while Manager is minimized, but do 
+                        // process events so user can maximize the manager. 
+                        //
+                        // NOTE: CBOINCGUIApp::FilterEvent() blocks those events 
+                        // which might cause posting of more RPC requests while 
+                        // we are in this loop, to prevent undesirable recursion.
+                        //
+                        keepLooping = true;
+                        if (wxGetApp().Pending()) {
+                            wxGetApp().Dispatch();
+                        }
+                    }
                 }
             }
-            if (wxGetApp().Pending()) {
-                wxGetApp().Dispatch();
-            }
         } while (keepLooping);
-//      GetCurrentProcess(&psn);    // Mac only
-//      SetFrontProcess(&psn);  // Mac only: Shows process if hidden
+        
+        // Demand RPC has taken longer than RPC_WAIT_DLG_DELAY seconds and 
+        // Manager is not minimized, so display the "Please Wait" dialog 
+        // with a Cancel button.  If the RPC does complete while the dialog 
+        // is up, HandleCompletedRPC() will call EndModal with wxID_OK.
+        //
+        // NOTE: the Modal dialog permits processing of all events, but 
+        // CBOINCGUIApp::FilterEvent() blocks those events which might cause 
+        // posting of more RPC requests while in this dialog, to prevent 
+        // undesirable recursion.
+        //
         if (m_RPCWaitDlg) {
             if (m_RPCWaitDlg->ShowModal() != wxID_OK) {
                 // TODO: If user presses Cancel in Please Wait dialog but request 
