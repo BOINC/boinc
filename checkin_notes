@@ -4486,3 +4486,11 @@ Rom    15 Oct 2008
     /
         configure.ac
         version.h
+
+Rom    15 Oct 2008
+    - Tag for 6.2.23 release, all platforms
+      boinc_core_release_6_2_23
+
+    /
+        configure.ac
+        version.h
