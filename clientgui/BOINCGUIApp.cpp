@@ -470,6 +470,7 @@ int CBOINCGUIApp::OnExit() {
     if (m_pDocument) {
         m_pDocument->OnExit();
         delete m_pDocument;
+        m_pDocument = NULL;
     }
 
     if (m_pSkinManager) {

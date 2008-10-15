@@ -8417,3 +8417,11 @@ Charlie 14 Oct 2008
     clientgui/
         AsyncRPC.cpp
         BOINCGUIApp.cpp
+
+Charlie 15 Oct 2008
+    - MGR: Fix updating task bar icon on disconnect from Client, fix a crash 
+        on exiting.
+
+    clientgui/
+        BOINCGUIApp.cpp
+        MainDocument.cpp

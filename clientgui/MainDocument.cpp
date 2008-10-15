@@ -31,6 +31,7 @@
 #include "BOINCBaseFrame.h"
 #include "MainDocument.h"
 #include "BOINCClientManager.h"
+#include "BOINCTaskBar.h"
 #include "Events.h"
 
 #ifndef _WIN32
@@ -773,6 +774,14 @@ void CMainDocument::RunPeriodicRPCs() {
     if (!IsConnected()) {
         CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
         pFrame->AddPendingEvent(event);
+
+#if defined(__WXMSW__) || defined(__WXMAC__)
+        CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
+        if (pTaskbar) {
+            CTaskbarEvent event(wxEVT_TASKBAR_REFRESH, pTaskbar);
+            pTaskbar->AddPendingEvent(event);
+        }
+#endif
         return;
     }
     
