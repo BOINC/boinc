@@ -378,6 +378,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CACCConfigMd5sum.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CACleanupOldBinaries.cpp"
 				>
 			</File>
@@ -484,6 +488,10 @@
 			>
 			<File
 				RelativePath=".\boinccas.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CACCConfigMd5sum.h"
 				>
 			</File>
 			<File
