@@ -8409,4 +8409,11 @@ David  14 Oct 2008
     clientscr/
         boinc_ss.rc
 
+Charlie 14 Oct 2008
+    - MGR: discard only Command, Timer and Mouse Moved events during RPC 
+        "Please Wait" dialog; no event processing during first RPC_WAIT_DLG_DELAY 
+        seconds of Demand RPC.
 
+    clientgui/
+        AsyncRPC.cpp
+        BOINCGUIApp.cpp
