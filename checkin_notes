@@ -4478,3 +4478,11 @@ David  14 Oct 2008
         WelcomePage.cpp,h
     clientscr/
         boinc_ss.rc
+
+Rom    15 Oct 2008
+    - Tag for 6.2.22 release, all platforms
+      boinc_core_release_6_2_22
+
+    /
+        configure.ac
+        version.h
