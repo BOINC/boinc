@@ -197,20 +197,41 @@ void CErrProxyInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     m_pTitleStaticCtrl->SetLabel(
         _("Network communication failure")
     );
+#if defined (_WCG)
     m_pDescriptionStaticCtrl->SetLabel(
-        _("BOINC failed to communicate on the Internet. The most likely\n"
-          "reasons are:\n"
-          "\n"
-          "1) Connectivity problem.  Check your network\n"
-          "or modem connection and click Back to try again.\n"
-          "\n"
-          "2) Personal firewall software is blocking BOINC.\n"
-          "Configure your personal firewall to let BOINC\n"
-          "communicate on port 80, then click Back to try again.\n"
-          "\n"
-          "3) You are using a proxy server.\n"
-          "Click Next to configure BOINC's proxy settings.")
+        _("The World Community Grid - BOINC software failed to communicate\n"
+            "over the Internet. The most likely reasons are:\n"
+            "\n"
+            "1) Connectivity problem.  Check your network or modem connection\n"
+            "and then click Back to try again.\n"
+            "\n"
+            "2) Personal firewall software is blocking the World Community\n"
+            "Grid - BOINC software.  Configure your personal firewall to let\n"
+            "BOINC and BOINC Manager communicate on port 80 and port 443,\n"
+            "then click Back to try again.\n"
+            "\n"
+            "3) You are using a proxy server.\n"
+            "Click Next to configure BOINC's proxy settings."
+        )
     );
+#else
+    m_pDescriptionStaticCtrl->SetLabel(
+        _("BOINC failed to communicate on the Internet.\n"
+            "The most likely reasons are:\n"
+            "\n"
+            "1) Connectivity problem.  Check your network\n"
+            "or modem connection and then click Back to try again.\n"
+            "\n"
+            "2) Personal firewall software is blocking BOINC.\n"
+            "Configure your personal firewall to let BOINC and\n"
+            "BOINC Manager communicate on port 80,\n"
+            "then click Back to try again.\n"
+            "\n"
+            "3) You are using a proxy server.\n"
+            "Click Next to configure BOINC's proxy settings."
+        )
+    );
+#endif
 
     Fit();
 }

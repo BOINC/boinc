@@ -104,6 +104,9 @@ struct CONFIG {
     double start_delay;
     bool run_apps_manually;
     std::string force_auth;
+    std::string client_version_check_url;
+    std::string client_download_url;
+    std::string network_test_url;
 
     CONFIG();
     void defaults();

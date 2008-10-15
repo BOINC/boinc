@@ -189,7 +189,7 @@ BEGIN
             VALUE "FileDescription", "BOINC Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "Â© 2003-2008 University of California"
+            VALUE "LegalCopyright", "© 2003-2008 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -269,7 +269,7 @@ IDB_BOINCSPLAT          BITMAP                  "res\\gridrepublic.bmp"
 
 #elif defined(_WCG)
 
-IDB_BOINCSPLAT          BITMAP                  "res\\boinc.bmp"
+IDB_BOINCSPLAT          BITMAP                  "res\\wcg.bmp"
 
 #elif defined(_SEED)
 

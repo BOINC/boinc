@@ -62,6 +62,9 @@ public:
     /// wxEVT_SHOW event handler for ID_WELCOMEPAGE
     void OnShow( wxShowEvent& event );
 
+	/// wxEVT_BUTTON event handler for ID_CHANGEAPPS
+	void OpenWCG( wxCommandEvent& event );
+
 ////@end CWelcomePage event handler declarations
 
 ////@begin CWelcomePage member function declarations
@@ -82,6 +85,10 @@ public:
     /// Should we show tooltips?
     static bool ShowToolTips();
 
+	/// Show button for changing application selections
+	wxButton* m_pAppButton;
+	bool wcg;
+
 ////@begin CWelcomePage member variables
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDescriptionStaticCtrl;
@@ -97,7 +104,6 @@ public:
     wxCheckBox* m_pErrProjectAlreadyAttachedCtrl;
     wxCheckBox* m_pErrProjectAttachFailureCtrl;
     wxCheckBox* m_pErrGoogleCommCtrl;
-    wxCheckBox* m_pErrYahooCommCtrl;
     wxCheckBox* m_pErrNetDetectionCtrl;
 #endif
 ////@end CWelcomePage member variables
