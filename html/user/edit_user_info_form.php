@@ -22,10 +22,12 @@ require_once("../inc/countries.inc");
 
 db_init();
 $user = get_logged_in_user();
+check_tokens($user->authenticator);
 
 page_head("Edit account information");
 
 echo "<form method=post action=edit_user_info_action.php>";
+echo form_tokens($user->authenticator);
 start_table();
 row2("Name<br><font size=-2>real name or nickname</font>",
     "<input name=user_name size=30 value='$user->name'>"

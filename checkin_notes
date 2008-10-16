@@ -8425,3 +8425,13 @@ Charlie 15 Oct 2008
     clientgui/
         BOINCGUIApp.cpp
         MainDocument.cpp
+
+David  15 Oct 2008
+    - web: prevent a cross-site request forgery attack
+    
+    html/
+        inc/
+            user.inc
+        user/
+            edit_user_info_action.php
+            edit_user_info_form.php
