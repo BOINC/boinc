@@ -38,6 +38,7 @@ public:
     float m_fTotalCredit;
     float m_fAVGCredit;
     float m_fResourceShare;
+    float m_fResourcePercent;
     wxString m_strStatus;
     wxString m_strProjectURL;   // Used internally, not displayed
     wxString m_strTotalCredit;
@@ -96,7 +97,8 @@ protected:
     void                    GetDocAVGCredit(wxInt32 item, float& fBuffer) const;
     wxInt32                 FormatAVGCredit( float fBuffer, wxString& strBuffer ) const;
     void                    GetDocResourceShare(wxInt32 item, float& fBuffer) const;
-    wxInt32                 FormatResourceShare( float fBuffer, wxString& strBuffer ) const;
+    void                    GetDocResourcePercent(wxInt32 item, float& fBuffer) const;
+    wxInt32                 FormatResourceShare( float fBuffer, float fBufferPercent, wxString& strBuffer ) const;
     void                    GetDocStatus(wxInt32 item, wxString& strBuffer) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocProjectURL(wxInt32 item, wxString& strBuffer) const;

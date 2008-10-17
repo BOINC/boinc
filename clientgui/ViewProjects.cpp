@@ -60,6 +60,7 @@ CProject::CProject() {
     m_fTotalCredit = -1.0;
     m_fAVGCredit = -1.0;
     m_fResourceShare = -1.0;
+    m_fResourcePercent = -1.0;
 }
 
 
@@ -759,7 +760,9 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
     wxString    strDocumentText  = wxEmptyString;
     wxString    strDocumentText2 = wxEmptyString;
     float       fDocumentFloat = 0.0;
+    float       fDocumentPercent = 0.0;
     CProject*   project;
+    bool        dirty = false;
  
     if (GetProjectCacheAtIndex(project, m_iSortedIndexes[iRowIndex])) {
             return false;
@@ -811,7 +814,15 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
             GetDocResourceShare(m_iSortedIndexes[iRowIndex], fDocumentFloat);
             if (fDocumentFloat != project->m_fResourceShare) {
                 project->m_fResourceShare = fDocumentFloat;
-                FormatResourceShare(fDocumentFloat, project->m_strResourceShare);
+                dirty = true;
+            }
+            GetDocResourcePercent(m_iSortedIndexes[iRowIndex], fDocumentPercent);
+            if (fDocumentPercent != project->m_fResourcePercent) {
+                project->m_fResourcePercent = fDocumentPercent;
+                dirty = true;
+            }
+            if (dirty) {
+                FormatResourceShare(fDocumentFloat, fDocumentPercent, project->m_strResourceShare);
                 return true;
             }
             break;
@@ -966,17 +977,26 @@ void CViewProjects::GetDocResourceShare(wxInt32 item, float& fBuffer) const {
 }
 
 
-wxInt32 CViewProjects::FormatResourceShare(float fBuffer, wxString& strBuffer) const {
+void CViewProjects::GetDocResourcePercent(wxInt32 item, float& fBuffer) const {
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    PROJECT* project = wxGetApp().GetDocument()->project(item);
+
+    if (project && pDoc) {
+        fBuffer = (project->resource_share / pDoc->m_fProjectTotalResourceShare) * 100;
+    } else {
+        fBuffer = 0.0;
+    }
+}
+
+
+wxInt32 CViewProjects::FormatResourceShare(float fBuffer, float fBufferPercent, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     if (pDoc) {
-        strBuffer.Printf(wxT("%0.0f (%0.2f%%)"), 
-            fBuffer, 
-            ((fBuffer / pDoc->m_fProjectTotalResourceShare) * 100)
-        );
+        strBuffer.Printf(wxT("%0.0f (%0.2f%%)"), fBuffer, fBufferPercent);
     }
         
     return 0;
@@ -1047,11 +1067,9 @@ void CViewProjects::GetDocProjectURL(wxInt32 item, wxString& strBuffer) const {
 
 
 double CViewProjects::GetProgressValue(long item) {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
     CProject* project;
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     try {
         project = m_ProjectCache.at(m_iSortedIndexes[item]);
@@ -1059,8 +1077,8 @@ double CViewProjects::GetProgressValue(long item) {
         project = NULL;
     }
 
-    if (project && pDoc) {
-        return (project->m_fResourceShare / pDoc->m_fProjectTotalResourceShare);
+    if (project) {
+        return (project->m_fResourcePercent) / 100.0;
     }
 
     return 0.0;

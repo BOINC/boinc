@@ -8435,3 +8435,10 @@ David  15 Oct 2008
         user/
             edit_user_info_action.php
             edit_user_info_form.php
+
+Charlie 16 Oct 2008
+    - MGR: When any project's resource share changes, update all percentages 
+        that have changed (which is probably all of them) in Projects tab.
+
+    clientgui/
+        ViewProjects.cpp,.h
