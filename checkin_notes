@@ -8448,3 +8448,9 @@ David  17 Oct 2008
 
     html/user/
         edit_user_info_action.php
+
+David  17 Oct 2008
+    - forgot to add team.joinable to schema.sql
+
+    db/
+        schema.sql

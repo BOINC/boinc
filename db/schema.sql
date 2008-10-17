@@ -118,6 +118,7 @@ create table team (
     seti_id             integer     not null,
     ping_user           integer     not null default 0,
     ping_time           integer unsigned not null default 0,
+    joinable            tinyint     not null default 1,
     primary key (id)
 ) engine=MyISAM;  
 
