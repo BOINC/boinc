@@ -8454,3 +8454,9 @@ David  17 Oct 2008
 
     db/
         schema.sql
+
+David  17 Oct 2008
+    - manager: compile fixes from Nicolas
+
+    clientgui/
+        WelcomePage.cpp

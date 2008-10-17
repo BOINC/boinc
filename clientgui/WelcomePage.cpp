@@ -62,7 +62,7 @@ BEGIN_EVENT_TABLE( CWelcomePage, wxWizardPageEx )
     EVT_WIZARDEX_CANCEL( -1, CWelcomePage::OnCancel )
     EVT_SET_FOCUS( CWelcomePage::OnSetFocus )
     EVT_SHOW( CWelcomePage::OnShow )
-	EVT_BUTTON( ID_CHANGEAPPS, CWelcomePage::OpenWCG )
+    EVT_BUTTON( ID_CHANGEAPPS, CWelcomePage::OpenWCG )
 
 ////@end CWelcomePage event table entries
  
@@ -87,15 +87,15 @@ CWelcomePage::CWelcomePage( CBOINCBaseWizard* parent )
  
 bool CWelcomePage::Create( CBOINCBaseWizard* parent )
 {
-	// Determine if we are the wcg version of the client
-	// and connect to wcg
-	wcg = false;
+    // Determine if we are the wcg version of the client
+    // and connect to wcg
+    wcg = false;
 #if defined (_WCG)
-	std::string wcgUrl="http://www.worldcommunitygrid.org/";
+    std::string wcgUrl="http://www.worldcommunitygrid.org/";
     CMainDocument* pDoc = wxGetApp().GetDocument();
-	if ( pDoc->state.lookup_project(wcgUrl) ) {
-		wcg=true;
-	}
+    if ( pDoc->state.lookup_project(wcgUrl) ) {
+        wcg=true;
+    }
 #endif
 
 ////@begin CWelcomePage member initialisation
@@ -218,11 +218,11 @@ void CWelcomePage::CreateControls()
     m_pDirectionsStaticCtrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer3->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-	if ( wcg ) {
-		m_pAppButton = new wxButton(this,ID_CHANGEAPPS,"Change Research Applications at World Community Grid");
-		wxSizer* appSizer = this->GetSizer();
-		appSizer->Add(m_pAppButton,0, wxALIGN_CENTER,5);
-	}
+    if (wcg) {
+        m_pAppButton = new wxButton(this, ID_CHANGEAPPS, _("Change Research Applications at World Community Grid"));
+        wxSizer* appSizer = this->GetSizer();
+        appSizer->Add(m_pAppButton,0, wxALIGN_CENTER,5);
+    }
 
     itemWizardPage2->SetSizer(itemBoxSizer3);
 
@@ -392,7 +392,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
         );
         m_pDescriptionStaticCtrl->SetLabel(
             _("We'll now guide you through the process of attaching\nto an account manager.\n\nIf you want to attach to a single project, click Cancel,\nthen select the 'Attach to project' menu item instead."
-			)
+            )
         );
     } else {
         wxASSERT(FALSE);
@@ -433,11 +433,11 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
         _("Net Detection Failure")
     );
 #endif
-	if (!wcg) {
-		m_pDirectionsStaticCtrl->SetLabel(
-			_("To continue, click Next.")
-		);
-	}
+    if (!wcg) {
+        m_pDirectionsStaticCtrl->SetLabel(
+            _("To continue, click Next.")
+        );
+    }
 
     Fit();
     wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnPageChanged - Function End"));
@@ -523,10 +523,10 @@ void CWelcomePage::OnShow( wxShowEvent& event ) {
 
 void CWelcomePage::OpenWCG( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OpenWCG - Function Begin"));
-	wxString wcgUrl = "http://www.worldcommunitygrid.org/ms/viewMyProjects.do";
+    wxString wcgUrl("http://www.worldcommunitygrid.org/ms/viewMyProjects.do", wxConvUTF8);
     wxHyperLink::ExecuteLink(wcgUrl);
-	CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
-	pWAP->SimulateCancelButton();
+    CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
+    pWAP->SimulateCancelButton();
     wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OpenWCG- Function End"));
 }
 
