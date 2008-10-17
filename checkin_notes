@@ -8442,3 +8442,9 @@ Charlie 16 Oct 2008
 
     clientgui/
         ViewProjects.cpp,.h
+
+David  17 Oct 2008
+    - web: fix typo
+
+    html/user/
+        edit_user_info_action.php

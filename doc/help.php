@@ -2,7 +2,7 @@
 require_once("docutil.php");
 require_once("spoken_languages.php");
 require_once("help_db.php");
-require_once("../html/inc/translation.inc");
+require_once("translation.inc");
 
 page_head("Live help via Internet phone or email");
 

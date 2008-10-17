@@ -33,7 +33,7 @@ function download_link($pname) {
     $s = number_format(filesize($path)/1000000, 2);
 
     echo "
-        <table border=4 cellpadding=10><tr><td class=heading>
+        <table cellpadding=10><tr><td class=heading>
         <a href=\"$url\"><font size=4><u>".tra("Download BOINC")."</u></font></a>
         <br>".
         sprintf(tra("%s for %s (%s MB)"), $num, $long_name, $s )."
@@ -129,7 +129,6 @@ function show_download($pname) {
     }
     echo "
         | <a href=\"trac/wiki/VersionHistory\">Version history</a>
-        | <a href=\"http://boincfaq.mundayweb.com/index.php?view=376\">FAQ</a>
         <p>
         </td><td valign=top>
     ";

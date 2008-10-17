@@ -22,7 +22,7 @@ require_once("../inc/util.inc");
 require_once("../inc/countries.inc");
 
 $user = get_logged_in_user();
-check_tokens($user->authentictor);
+check_tokens($user->authenticator);
 
 $name = boinc_htmlentities(post_str("user_name"));
 if ($name != strip_tags($name)) {

@@ -1,7 +1,7 @@
 <?php
 
 require_once('docutil.php');
-require_once('../html/inc/translation.inc');
+require_once('translation.inc');
 
 $cachefile = "cache/poll_results_$language_in_use.html";
 
