@@ -198,11 +198,9 @@ function show_user_info_private($user) {
     row2(tra("Name"), $user->name);
     row2(tra("Email address"), $email_text);
     if (strlen($user->url)) {
-        $x = "http://$user->url";
-    } else {
-        $x = "none";
+        $x = "<a href=http://$user->url>http://$user->url</a>";
+        row2(tra("URL"), $x);
     }
-    row2(tra("URL"), $x);
     row2(tra("Country"), $user->country);
     row2(tra("Postal code"), $user->postal_code);
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
