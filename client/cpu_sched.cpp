@@ -780,6 +780,7 @@ bool CLIENT_STATE::enforce_schedule() {
     static double last_time = 0;
     int retval;
     double ncpus_used;
+    bool preempt_by_quit;
 
     // Do this when requested, and once a minute as a safety net
     //
@@ -1036,7 +1037,7 @@ bool CLIENT_STATE::enforce_schedule() {
             switch (atp->task_state()) {
             case PROCESS_EXECUTING:
                 action = true;
-                bool preempt_by_quit = !global_prefs.leave_apps_in_memory;
+                preempt_by_quit = !global_prefs.leave_apps_in_memory;
                 if (check_swap && swap_left < 0) {
                     if (log_flags.mem_usage_debug) {
                         msg_printf(atp->result->project, MSG_INFO,
@@ -1054,6 +1055,14 @@ bool CLIENT_STATE::enforce_schedule() {
                     preempt_by_quit = true;
                 }
                 atp->preempt(preempt_by_quit);
+                break;
+            case PROCESS_SUSPENDED:
+                // Handle the case where user changes prefs from
+                // "leave in memory" to "remove from memory".
+                // Need to quit suspended tasks.
+                if (!global_prefs.leave_apps_in_memory) {
+                    atp->preempt(true);
+                }
                 break;
             }
             atp->scheduler_state = CPU_SCHED_PREEMPTED;

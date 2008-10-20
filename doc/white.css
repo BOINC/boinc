@@ -95,14 +95,14 @@ td.heading{
 
 td.heading_left {
     background-color: rgb(223, 240, 255);
-    border: 1px solid lightblue;
+    border: 1px solid lightgray;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
 }
 
 td.heading_right {
     background-color: rgb(255, 255, 214);
-    border: 1px solid lightblue;
+    border: 1px solid goldenrod;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
 }

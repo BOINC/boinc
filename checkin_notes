@@ -8469,3 +8469,8 @@ Rom    20 Oct 2008
         configure.ac
         version.h
 
+David  20 Oct 2008
+    - client: if "leave in memory" pref changes, quit suspended tasks
+
+    client/
+        cpu_sched.cpp

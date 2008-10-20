@@ -121,6 +121,9 @@ art_list_head();
 echo "
 ";
 $logos = array(
+    array("Markus Beck",
+        "<img width=400 src=logos/markus_beck.jpg>"
+    ),
     array("Keijo Simonen",
         "<img src=logos/BOINC_logo_16b.png>
         <img src=logos/BOINC_logo_16c.png>"

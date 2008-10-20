@@ -1,6 +1,9 @@
 <?
 
 $project_news = array(
+array("October 17, 2008",
+    "Read <a href=http://www.isgtw.org/?pid=1001391>Reaching for the Exa-scale with volunteer computing</a> in International Science Grid This Week."
+),
 array("September 30, 2008",
     "An <a href=http://www.isgtw.org/?pid=1001381>article on
     the recent BOINC workshop in Grenoble</a>
