@@ -8460,3 +8460,12 @@ David  17 Oct 2008
 
     clientgui/
         WelcomePage.cpp
+
+Rom    20 Oct 2008
+    - Tag for 6.3.15 release, all platforms
+      boinc_core_release_6_3_15
+
+    /
+        configure.ac
+        version.h
+
