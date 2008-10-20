@@ -122,11 +122,6 @@ class BoltExerciseSet extends BoltRandom {
         }
         return false;
     }
-
-    function start_repeat(&$iter) {
-        $this->restart($iter);
-    }
-
 }
 
 class BoltRefresh{

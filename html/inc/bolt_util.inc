@@ -464,8 +464,18 @@ function show_refresh($r) {
         <td>$r->name</td>
         <td>".time_str($r->due_time)."</td>
         <td>
-            <a href=bolt_sched.php?course_id=$r->course_id&refresh_id=$r->id&action=start>Start</a>
+    ";
+    if ($r->last_view_id) {
+        echo "
+            <a href=bolt_sched.php?course_id=$r->course_id&refresh_id=$r->id&action=start>Restart</a>
             | <a href=bolt_sched.php?course_id=$r->course_id&refresh_id=$r->id&action=resume>Resume</a>
+        ";
+    } else {
+        echo "
+            <a href=bolt_sched.php?course_id=$r->course_id&refresh_id=$r->id&action=start>Start</a>
+        ";
+    }
+    echo "
         </td>
         </tr>
     ";

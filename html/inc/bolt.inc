@@ -110,7 +110,7 @@ class BoltSet extends BoltUnit {
         $this->ordered = false;
     }
 
-    // restart this unit
+    // restart this unit - set its state record to an initial state
     //
     function restart(&$iter) {
         $state_rec = $iter->state[$this->name];

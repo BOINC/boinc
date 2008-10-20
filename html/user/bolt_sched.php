@@ -302,7 +302,7 @@ function start_course() {
     show_item($iter, $view_id, 0, $mode);
 }
 
-function start_repeat() {
+function start_refresh() {
     global $course_doc;
     global $refresh;
 
@@ -317,7 +317,7 @@ function start_repeat() {
     if (!$xset || $xset->name != $xset_result->name) {
         error_page("missing exercise set");
     }
-    $xset->start_repeat($iter);
+    $xset->restart($iter);
     $iter->at();
     $mode = default_mode($iter->item);
     $view_id = create_view($iter, $mode, 0);
@@ -352,7 +352,7 @@ case 'start':
         exit();
     }
     if ($refresh) {
-        start_repeat();
+        start_refresh();
         exit();
     }
     $e = BoltEnrollment::lookup($user->id, $course_id);
@@ -412,8 +412,19 @@ case 'next':            // "next" button in lesson or exercise answer page
 
     $iter = new BoltIter($course_doc);
     $iter->decode_state($view->state);
-
     $iter->next();
+
+    if ($refresh) {
+        $iter->at();
+        if (!$iter->xset) {
+            // if we're doing a refresh and are no longer in an xset,
+            // we must have finished the refresh
+            //
+            show_refresh_finished();
+            $refresh->update('count=count+1');
+            break;
+        }
+    }
 
     if ($iter->item) {
         $state = $iter->encode_state();
@@ -421,18 +432,14 @@ case 'next':            // "next" button in lesson or exercise answer page
         $view_id = create_view($iter, $mode, $view->id);
         show_item($iter, $view_id, $view->id, $mode);
     } else {
-        if ($refresh) {
-            show_refresh_finished();
-            $refresh->update('count=count+1');
-        } else {
-            $iter->frac_done = 1;
-            $fin_view_id = create_view($iter, BOLT_MODE_FINISHED, $view_id);
-            $e = new BoltEnrollment();
-            $e->user_id = $user->id;
-            $e->course_id = $course->id;
-            $e->update("last_view_id=$fin_view_id");
-            show_finished_page($fin_view_id, $view->id);
-        }
+        // course finished
+        $iter->frac_done = 1;
+        $fin_view_id = create_view($iter, BOLT_MODE_FINISHED, $view_id);
+        $e = new BoltEnrollment();
+        $e->user_id = $user->id;
+        $e->course_id = $course->id;
+        $e->update("last_view_id=$fin_view_id");
+        show_finished_page($fin_view_id, $view->id);
     }
     break;
 case 'answer':          // submit answer in exercise
@@ -535,6 +542,8 @@ case 'course_home':
     Header("Location: bolt.php");
     break;
 case 'review':
+    // user chose to do review then repeat an exercise set
+    //
     $view = finalize_view($view_id, BOLT_ACTION_REVIEW);
     debug_show_state(json_decode($view->state, true), "Initial");
     $iter = new BoltIter($course_doc);
@@ -555,6 +564,8 @@ case 'review':
     show_item($iter, $view_id, $view->id, $mode);
     break;
 case 'repeat':
+    // user chose to repeat an exercise set
+    //
     $view = finalize_view($view_id, BOLT_ACTION_REPEAT);
     debug_show_state(json_decode($view->state, true), "Initial");
     $iter = new BoltIter($course_doc);
@@ -564,23 +575,20 @@ case 'repeat':
         echo "NO XSET"; exit;
     }
     $xset = $iter->xset;
-    $xset->start_repeat($iter);
+    $xset->restart($iter);
     $iter->at();
     $mode = default_mode($iter->item);
     $view_id = create_view($iter, $mode, $view->id);
     show_item($iter, $view_id, $view->id, $mode);
     break;
-case 'refresh':
-    $refresh_id = get_int('refresh_id');
-    $refresh = BoltRefreshRec::lookup_id($refresh_id);
-    if (!$refresh) error_page("refresh not found");
-    // fall through
 case 'resume':
+    // user chose to resume a course or refresh
+    //
     if ($refresh) {
         if ($refresh->last_view_id) {
             $view = BoltView::lookup_id($refresh->last_view_id);
         } else {
-            start_repeat();
+            start_refresh();
             exit();
         }
     } else {

@@ -219,3 +219,14 @@ David  August 15 2008
         user/
             bolt.php
             bolt_sched.php
+
+David  Oct 20 2008
+    - Detect when a refresh has finished
+
+    html/
+        inc/
+            bolt_util.inc
+            bolt.inc
+            bolt_xset.inc
+        user/
+            bolt_sched.php
