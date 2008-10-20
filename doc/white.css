@@ -88,7 +88,7 @@ td.indent {
 
 td.heading{
     background-color: rgb(223, 240, 255);
-    border: 4px solid lightblue;
+    border: 1px solid lightblue;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
 }

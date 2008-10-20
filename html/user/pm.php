@@ -29,15 +29,11 @@ function show_block_link($userid) {
 }
 
 $action = get_str("action", true);
-if ($action == null) {
+if (!$action) {
     $action = post_str("action", true);
 }
 
-if ($action == null) {
-    // Prepend "select_" because translated actions may clash with default actions
-    $action = "select_".post_str("action_select", true);
-}
-if ($action == "select_") {
+if (!$action) {
     $action = "inbox";
 }
 
@@ -81,7 +77,9 @@ function do_inbox($logged_in_user) {
     if (count($msgs) == 0) {
         echo tra("You have no private messages.");
     } else {
-        echo "<form name=msg_list action=\"pm.php\" method=\"POST\">\n";
+        echo "<form name=msg_list action=pm.php method=post>
+            <input type=hidden name=action value=delete_selected>
+        ";
         echo form_tokens($logged_in_user->authenticator);
         start_table();
         echo "<tr><th>".tra("Subject")."</th><th>".tra("Sender and date")."</th><th>".tra("Message")."</th></tr>\n";
@@ -112,7 +110,7 @@ function do_inbox($logged_in_user) {
             <a href=\"javascript:set_all(0)\">Unselect all</a>
             </td>
             <td colspan=2>
-            <input type=\"submit\" name=\"action_select\" value=\"".tra("Delete selected messages")."\">
+            <input type=submit value=\"".tra("Delete selected messages")."\">
             </td></tr>
         ";
         end_table();
@@ -272,30 +270,6 @@ function do_delete_selected($logged_in_user) {
     Header("Location: pm.php?action=inbox&deleted=1");
 }
 
-function do_mark_as_read_selected($logged_in_user) {
-    check_tokens($logged_in_user->authenticator);
-    foreach ($_POST["pm_select"] as $id) {
-        $id = BoincDb::escape_string($id);
-        $msg = BoincPrivateMessage::lookup_id($id);
-        if ($msg && $msg->userid == $logged_in_user->id) {
-            $msg->update("opened=1");
-        }
-    }
-    Header("Location: pm.php?action=inbox");
-}
-
-function do_mark_as_unread_selected($logged_in_user) {
-    check_tokens($logged_in_user->authenticator);
-    foreach ($_POST["pm_select"] as $id) {
-        $id = BoincDb::escape_string($id);
-        $msg = BoincPrivateMessage::lookup_id($id);
-        if ($msg && $msg->userid == $logged_in_user->id) {
-            $msg->update("opened=0");
-        }
-    }
-    Header("Location: pm.php?action=inbox");
-}
-
 if ($action == "inbox") {
     do_inbox($logged_in_user);
 } elseif ($action == "read") {
@@ -310,12 +284,8 @@ if ($action == "inbox") {
     do_block($logged_in_user);
 } elseif ($action == "confirmedblock") {
     do_confirmedblock($logged_in_user);
-} elseif ($action == "select_".tra("Delete")) {
+} elseif ($action == "delete_selected") {
     do_delete_selected($logged_in_user);
-} elseif ($action == "select_".tra("Mark as read")) {
-    do_mark_as_read_selected($logged_in_user);
-} elseif ($action == "select_".tra("Mark as unread")) {
-    do_mark_as_unread_selected($logged_in_user);
 } else {
     error_page("Unknown action");
 }

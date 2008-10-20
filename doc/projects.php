@@ -6,10 +6,14 @@ page_head("Choosing BOINC projects");
 
 echo "
 <p>
-BOINC software is used by many volunteer computing <b>projects</b>.
-These projects are completely independent.
+BOINC is used by many independent volunteer computing <b>projects</b>.
 Some are based at universities and research labs,
 others are run by companies and individuals.
+You can participate in several projects (ensuring that
+your computer will be kept busy even when one project has no work)
+and you can control how your computer's resources
+are divided among these projects.
+<p>
 In deciding whether to participate in a project,
 read its web site and consider the following questions:
 
@@ -24,6 +28,7 @@ A list of scientific publications of BOINC projects</a>.
   Will they be freely available to the public
   or will they belong to a for-profit business?
 </ul>
+<p>
 
 We at BOINC have communicated with the following projects,
 and we believe that their descriptions
@@ -64,12 +69,10 @@ foreach ($areas as $area) {
 list_end();
 echo "
 </ul>
-<p>
-You can participate in several projects, ensuring that
-your computer will be kept busy even when one project has no work.
-You can control how your resources (such as computer time
-and disk space) are divided among these projects.
 
+<p>
+If you would like to have your project included on this list,
+please <a href=http://boinc.berkeley.edu/trac/wiki/ProjectPeople>contact us</a>.
 <script language=\"JavaScript\" type=\"text/javascript\" src=\"wz_tooltip.js\"></script>
 ";
 page_tail();

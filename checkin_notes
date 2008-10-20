@@ -8474,3 +8474,9 @@ David  20 Oct 2008
 
     client/
         cpu_sched.cpp
+
+David  20 Oct 2008
+    - web: delete all private msgs was broken
+
+    html/user/
+        pm.php

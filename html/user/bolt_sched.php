@@ -28,6 +28,25 @@ require_once("../inc/bolt_ex.inc");
 require_once("../inc/bolt_util.inc");
 require_once("../inc/util.inc");
 
+function debug_show_state($state, $tag) {
+    global $user;
+    global $refresh;
+    if ($user->bolt->flags&BOLT_FLAGS_DEBUG) {
+        echo "$tag state: <pre>"; print_r($state); echo "</pre>\n";
+        if ($refresh) {
+            echo "<p>Refresh ID: $refresh->id<p>";
+        }
+        echo "<hr>\n";
+    }
+}
+function debug_show_item($item) {
+    global $user;
+    if ($user->bolt->flags&BOLT_FLAGS_DEBUG) {
+        echo "Item:<pre>"; print_r($item); echo "</pre>\n";
+        echo "<hr>\n";
+    }
+}
+
 function update_info() {
     global $user;
     $sex = get_int('sex');
@@ -35,8 +54,10 @@ function update_info() {
     $user->bolt->update("sex=$sex, birth_year=$birth_year");
 }
 
-// The user clicked something on a view page.
-// Make a record of it, and of the time
+// The user clicked something on a page.
+// Look up the view record (the ID is in the URL) and update it
+// with the action and the time.
+// Return the record.
 //
 function finalize_view($view_id, $action) {
     global $user;
@@ -72,9 +93,7 @@ function create_view($iter, $mode, $prev_view_id) {
         $item->name = '--end--';
     }
     $state = $iter->encode_state();
-    if ($user->bolt->flags&BOLT_FLAGS_DEBUG) {
-        echo "<pre>Ending state: "; print_r($iter->state); echo "</pre>\n";
-    }
+    debug_show_state($iter->state, "Ending");
     return BoltView::insert("(user_id, course_id, item_name, start_time, mode, state, fraction_done, prev_view_id) values ($user->id, $course->id, '$item->name', $now, $mode, '$state', $iter->frac_done, $prev_view_id)");
 }
 
@@ -367,6 +386,7 @@ case 'update_info':
     break;
 case 'prev':
     $view = finalize_view($view_id, BOLT_ACTION_PREV);
+    debug_show_state(json_decode($view->state, true), "Initial");
     if ($view->prev_view_id) {
         $view = BoltView::lookup_id($view->prev_view_id);
         $iter = new BoltIter($course_doc);
@@ -388,18 +408,13 @@ case 'prev':
     break;
 case 'next':            // "next" button in lesson or exercise answer page
     $view = finalize_view($view_id, BOLT_ACTION_NEXT);
+    debug_show_state(json_decode($view->state, true), "Initial");
 
     $iter = new BoltIter($course_doc);
     $iter->decode_state($view->state);
-    if ($user->bolt->flags&BOLT_FLAGS_DEBUG) {
-        echo "<pre>Initial state: "; print_r($iter->state); echo "</pre>\n";
-    }
 
     $iter->next();
 
-    if ($user->bolt->flags&BOLT_FLAGS_DEBUG) {
-        echo "<pre>Item: "; print_r($iter->item); echo "</pre>\n";
-    }
     if ($iter->item) {
         $state = $iter->encode_state();
         $mode = default_mode($iter->item);
@@ -422,16 +437,12 @@ case 'next':            // "next" button in lesson or exercise answer page
     break;
 case 'answer':          // submit answer in exercise
     $view = finalize_view($view_id, BOLT_ACTION_SUBMIT);
+    debug_show_state(json_decode($view->state, true), "Initial");
     $iter = new BoltIter($course_doc);
     $iter->decode_state($view->state);
-    if ($user->bolt->flags&BOLT_FLAGS_DEBUG) {
-        echo "<pre>Initial state:"; print_r($iter->state); echo "</pre>\n";
-    }
     $iter->at();
 
-    if ($user->bolt->flags&BOLT_FLAGS_DEBUG) {
-        echo "<pre>Item: "; print_r($iter->item); echo "</pre>\n";
-    }
+    debug_show_item($iter->item);
     $item = $iter->item;
     if (!$item->is_exercise()) {
         print_r($item);
@@ -477,21 +488,21 @@ case 'answer':          // submit answer in exercise
             //
             $now = time();
             $id = BoltXsetResult::insert("(create_time, user_id, course_id, name, score, view_id) values ($now, $user->id, $course->id, '$xset->name', $avg_score, $view_id)");
-            $refresh = $xset->refresh;
-            if ($refresh) {
+            $refresh_intervals = $xset->refresh;
+            if ($refresh_intervals) {
                 $refresh_rec = BoltRefreshRec::lookup(
                     "user_id=$user->id and course_id=$course->id and name='$xset->name'"
                 );
                 if ($refresh_rec) {
                     $count = $refresh_rec->count;
-                    $n = count($refresh->intervals);
+                    $n = count($refresh_intervals->intervals);
                     if ($count >= $n) {
                         $count = $n - 1;
                     }
-                    $due_time = time() + $refresh->intervals[$count]*86400;
+                    $due_time = time() + $refresh_intervals->intervals[$count]*86400;
                     $refresh_rec->update("create_time=$now, xset_result_id=$id, due_time=$due_time");
                 } else {
-                    $due_time = time() + $refresh->intervals[0]*86400;
+                    $due_time = time() + $refresh_intervals->intervals[0]*86400;
                     BoltRefreshRec::insert(
                         "(user_id, course_id, name, create_time, xset_result_id, due_time, count) values ($user->id, $course->id, '$xset->name', $now, $id, $due_time, 0)"
                     );
@@ -525,6 +536,7 @@ case 'course_home':
     break;
 case 'review':
     $view = finalize_view($view_id, BOLT_ACTION_REVIEW);
+    debug_show_state(json_decode($view->state, true), "Initial");
     $iter = new BoltIter($course_doc);
     $iter->decode_state($view->state);
     $iter->at();
@@ -544,6 +556,7 @@ case 'review':
     break;
 case 'repeat':
     $view = finalize_view($view_id, BOLT_ACTION_REPEAT);
+    debug_show_state(json_decode($view->state, true), "Initial");
     $iter = new BoltIter($course_doc);
     $iter->decode_state($view->state);
     $iter->at();
@@ -608,6 +621,7 @@ case 'resume':
     break;
 case 'question':
     $view = finalize_view($view_id, BOLT_ACTION_QUESTION);
+    debug_show_state(json_decode($view->state, true), "Initial");
     $now = time();
     $question = BoltDb::escape_string(get_str('question'));
     BoltQuestion::insert("(create_time, user_id, course_id, name, question, state) values ($now, $user->id, $course->id, '$view->item_name', '$question', 0)");
