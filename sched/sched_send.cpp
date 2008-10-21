@@ -77,10 +77,21 @@ const char* infeasible_string(int code) {
 const int MIN_SECONDS_TO_SEND = 0;
 const int MAX_SECONDS_TO_SEND = (28*SECONDS_IN_DAY);
 
-inline int effective_ncpus(HOST& host) {
-    int ncpus = host.p_ncpus;
+// return a number that
+// - is the # of CPUs in EDF simulation
+// - scales the daily result quota
+// - scales max_wus_in_progress
+
+inline int effective_ncpus(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    int ncpus = reply.host.p_ncpus;
     if (ncpus > config.max_ncpus) ncpus = config.max_ncpus;
     if (ncpus < 1) ncpus = 1;
+    if (config.have_cuda_apps) {
+        COPROC* cp = sreq.coprocs.lookup("cuda");
+        if (cp && cp->count > ncpus) {
+            ncpus = cp->count;
+        }
+    }
     return ncpus;
 }
 
@@ -653,7 +664,7 @@ int wu_is_infeasible_fast(
         }
         IP_RESULT candidate("", wu.delay_bound, est_cpu);
         strcpy(candidate.name, wu.name);
-        if (check_candidate(candidate, effective_ncpus(reply.host), request.ip_results)) {
+        if (check_candidate(candidate, effective_ncpus(request, reply), request.ip_results)) {
             // it passed the feasibility test,
             // but don't add it the the workload yet;
             // wait until we commit to sending it
@@ -833,47 +844,49 @@ void unlock_sema() {
 // and we haven't exceeded result per RPC limit,
 // and we haven't exceeded results per day limit
 //
-bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
+bool work_needed(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, bool locality_sched
+) {
     if (locality_sched) {
         // if we've failed to send a result because of a transient condition,
         // return false to preserve invariant
         //
-        if (wreq.disk.insufficient || wreq.speed.insufficient || wreq.mem.insufficient || wreq.no_allowed_apps_available) {
+        if (reply.wreq.disk.insufficient || reply.wreq.speed.insufficient || reply.wreq.mem.insufficient || reply.wreq.no_allowed_apps_available) {
             return false;
         }
     }
-    if (wreq.seconds_to_fill <= 0) return false;
-    if (wreq.disk_available <= 0) {
+    if (reply.wreq.seconds_to_fill <= 0) return false;
+    if (reply.wreq.disk_available <= 0) {
         return false;
     }
-    if (wreq.nresults >= config.max_wus_to_send) return false;
+    if (reply.wreq.nresults >= config.max_wus_to_send) return false;
 
-    int ncpus = effective_ncpus(host);
+    int ncpus = effective_ncpus(sreq, reply);
 
     // host.max_results_day is between 1 and config.daily_result_quota inclusive
     // wreq.daily_result_quota is between ncpus
     // and ncpus*host.max_results_day inclusive
     //
     if (config.daily_result_quota) {
-        if (host.max_results_day == 0 || host.max_results_day>config.daily_result_quota) {
-            host.max_results_day = config.daily_result_quota;
+        if (reply.host.max_results_day == 0 || reply.host.max_results_day>config.daily_result_quota) {
+            reply.host.max_results_day = config.daily_result_quota;
         }
-        wreq.daily_result_quota = ncpus*host.max_results_day;
-        if (host.nresults_today >= wreq.daily_result_quota) {
-            wreq.daily_result_quota_exceeded = true;
+        reply.wreq.daily_result_quota = ncpus*reply.host.max_results_day;
+        if (reply.host.nresults_today >= reply.wreq.daily_result_quota) {
+            reply.wreq.daily_result_quota_exceeded = true;
             return false;
         }
     }
 
     if (config.max_wus_in_progress) {
-        if (wreq.nresults_on_host >= config.max_wus_in_progress*ncpus) {
+        if (reply.wreq.nresults_on_host >= config.max_wus_in_progress*ncpus) {
             if (config.debug_send) {
                 log_messages.printf(MSG_DEBUG,
                     "in-progress job limit exceeded; %d > %d*%d\n",
-                    wreq.nresults_on_host, config.max_wus_in_progress, ncpus
+                    reply.wreq.nresults_on_host, config.max_wus_in_progress, ncpus
                 );
             }
-            wreq.cache_size_exceeded = true;
+            reply.wreq.cache_size_exceeded = true;
             return false;
         }
     }
@@ -1022,7 +1035,7 @@ int add_result_to_reply(
     result.bavp = bavp;
     reply.insert_result(result);
     reply.wreq.seconds_to_fill -= wu_seconds_filled;
-    request.estimated_delay += wu_seconds_filled/effective_ncpus(reply.host);
+    request.estimated_delay += wu_seconds_filled/effective_ncpus(request, reply);
     reply.wreq.nresults++;
     reply.wreq.nresults_on_host++;
     if (!resent_result) reply.host.nresults_today++;
@@ -1407,7 +1420,7 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     if (config.workload_sim && sreq.have_other_results_list) {
         init_ip_results(
-            sreq.global_prefs.work_buf_min(), effective_ncpus(reply.host), sreq.ip_results
+            sreq.global_prefs.work_buf_min(), effective_ncpus(sreq, reply), sreq.ip_results
         );
     }
 
@@ -1450,7 +1463,7 @@ struct JOB_SET {
         disk_usage = 0;
         disk_limit = reply.wreq.disk_available;
         max_jobs = config.max_wus_to_send;
-        int ncpus = effective_ncpus(reply.host), n;
+        int ncpus = effective_ncpus(sreq, reply), n;
 
         if (config.daily_result_quota) {
             if (reply.host.max_results_day == 0 || reply.host.max_results_day>config.daily_result_quota) {

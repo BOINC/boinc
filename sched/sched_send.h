@@ -62,3 +62,4 @@ extern void lock_sema();
 extern void unlock_sema();
 extern const char* infeasible_string(int);
 extern bool app_not_selected(WORKUNIT&, SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
+extern bool work_needed(SCHEDULER_REQUEST&, SCHEDULER_REPLY&, bool);

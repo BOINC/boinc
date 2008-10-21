@@ -125,6 +125,7 @@ public:
     bool use_credit_multiplier;
     bool multiple_clients_per_host;
     bool no_vista_sandbox;
+    bool have_cuda_apps;
 
     // log flags
     //

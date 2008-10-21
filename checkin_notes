@@ -8511,3 +8511,16 @@ David  21 Oct 2008
     - make "make distclean" work in all directories
 
     samples/*/Makefile
+
+David  21 Oct 2008
+    - scheduler: add <have_cuda_apps> config flag.
+        If set the "effective NCPUS" (which is used to scale
+        daily_result_quota and max_wus_in_progress)
+        is max'd with the # of CUDA GPUs.
+
+    sched/
+        sched_array.cpp
+        sched_config.cpp,h
+        sched_locality.cpp
+        sched_send.cpp,h
+        server_types.h

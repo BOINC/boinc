@@ -488,7 +488,7 @@ static int send_results_for_file(
 
     nsent = 0;
 
-    if (!reply.work_needed(true)) {
+    if (!work_needed(sreq, reply, true)) {
         return 0;
     }
 
@@ -519,7 +519,7 @@ static int send_results_for_file(
     for (i=0; i<100; i++) {     // avoid infinite loop
         int query_retval;
 
-        if (!reply.work_needed(true)) break;
+        if (!work_needed(sreq, reply, true)) break;
 
         log_messages.printf(MSG_DEBUG,
             "in_send_results_for_file(%s, %d) prev_result.id=%d\n", filename, i, prev_result.id
@@ -740,7 +740,7 @@ static int send_new_file_work_deterministic_seeded(
 
         if (retval==ERR_NO_APP_VERSION || retval==ERR_INSUFFICIENT_RESOURCE) return retval;
 
-        if (nsent>0 || !reply.work_needed(true)) break; 
+        if (nsent>0 || !work_needed(sreq, reply, true)) break; 
         // construct a name which is lexically greater than the name of any result
         // which uses this file.
         sprintf(min_resultname, "%s__~", filename);
@@ -793,7 +793,7 @@ static int send_new_file_work_deterministic(
 
     // continue deterministic search at lexically first possible
     // filename, continue to randomly choosen one
-    if (!getfile_retval && reply.work_needed(true)) {
+    if (!getfile_retval && work_needed(sreq, reply, true)) {
         send_new_file_work_deterministic_seeded(
             sreq, reply, nsent, "", start_filename
         );
@@ -834,7 +834,7 @@ static int send_new_file_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 ) {
 
-    while (reply.work_needed(true)) {
+    while (work_needed(sreq, reply, true)) {
         int retval_sow, retval_snfwws;
         double frac=((double)rand())/(double)RAND_MAX;
         int now   = time(0);
@@ -857,7 +857,7 @@ static int send_new_file_work(
         if (retval_sow==ERR_NO_APP_VERSION || retval_sow==ERR_INSUFFICIENT_RESOURCE) return retval_sow;
 
     
-        while (reply.work_needed(true) && retry<5) {
+        while (work_needed(sreq, reply, true) && retry<5) {
             log_messages.printf(MSG_DEBUG,
                 "send_new_file_work(%d): try to send from working set\n", retry
             );
@@ -867,7 +867,7 @@ static int send_new_file_work(
 
         }    
 
-        if (reply.work_needed(true)) {
+        if (work_needed(sreq, reply, true)) {
             log_messages.printf(MSG_DEBUG,
                 "send_new_file_work(): try deterministic method\n"
             );
@@ -878,7 +878,7 @@ static int send_new_file_work(
                 return 1;
             }
         }
-    } // while reply.work_needed(true)
+    } // while reply.work_needed(sreq, reply, true)
     return 0;
 }
 
@@ -898,7 +898,7 @@ static int send_old_work(
     DB_RESULT result;
     int now=time(0);
 
-    if (!reply.work_needed(true)) {
+    if (!work_needed(sreq, reply, true)) {
         return 0;
     }
 
@@ -1067,7 +1067,7 @@ void send_work_locality(
         int k = (i+j)%nfiles;
         int retval_srff;
 
-        if (!reply.work_needed(true)) break;
+        if (!work_needed(sreq, reply, true)) break;
         FILE_INFO& fi = sreq.file_infos[k];
         retval_srff=send_results_for_file(
             fi.name, nsent, sreq, reply, false
@@ -1081,7 +1081,7 @@ void send_work_locality(
         // If the work was not sent for other (dynamic) reason such as insufficient
         // cpu, then DON'T delete the file.
         //
-        if (nsent == 0 && reply.work_needed(true) && config.file_deletion_strategy == 1) {
+        if (nsent == 0 && work_needed(sreq, reply, true) && config.file_deletion_strategy == 1) {
             reply.file_deletes.push_back(fi);
             log_messages.printf(MSG_DEBUG,
                 "[HOST#%d]: delete file %s (not needed)\n", reply.host.id, fi.name
@@ -1104,7 +1104,7 @@ void send_work_locality(
 
     // send new files if needed
     //
-    if (reply.work_needed(true)) {
+    if (work_needed(sreq, reply, true)) {
         send_new_file_work(sreq, reply);
     }
 }

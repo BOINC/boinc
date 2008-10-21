@@ -54,7 +54,7 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     rnd_off = rand() % ssp->max_wu_results;
     for (j=0; j<ssp->max_wu_results; j++) {
         i = (j+rnd_off) % ssp->max_wu_results;
-        if (!reply.work_needed()) break;
+        if (!work_needed(sreq, reply, false)) break;
 
         WU_RESULT& wu_result = ssp->wu_results[i];
 
