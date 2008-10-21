@@ -8524,3 +8524,11 @@ David  21 Oct 2008
         sched_locality.cpp
         sched_send.cpp,h
         server_types.h
+
+Charlie 21 Oct 2008
+    - MGR: More thorough validity checking to prevent crashes.
+
+    clientgui/
+        ViewProjects.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp

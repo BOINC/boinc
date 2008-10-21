@@ -826,20 +826,29 @@ void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
         }
         wxASSERT(state_result);
 
+        if (!state_result) return;
+        WORKUNIT* wup = state_result->wup;
+        if (!wup) return;
+        APP* app = wup->app;
+        if (!app) return;
+
         wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
         setlocale(LC_NUMERIC, "C");
 
-        if (state_result->wup->app->user_friendly_name.size()) {
+        if (app->user_friendly_name.size()) {
             strAppBuffer = HtmlEntityDecode(wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8));
         } else {
             strAppBuffer = HtmlEntityDecode(wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8));
         }
         
-        if (state_result->wup->avp->plan_class.size()) {
-            strClassBuffer.Printf(
-                wxT(" (%s)"),
-                wxString(state_result->wup->avp->plan_class.c_str(), wxConvUTF8).c_str()
-            );
+        APP_VERSION* avp = wup->avp;
+        if (avp) {
+            if (avp->plan_class.size()) {
+                strClassBuffer.Printf(
+                    wxT(" (%s)"),
+                    wxString(avp->plan_class.c_str(), wxConvUTF8).c_str()
+                );
+            }
         }
         
         strBuffer.Printf(
@@ -987,15 +996,16 @@ wxInt32 CViewWork::FormatReportDeadline(time_t deadline, wxString& strBuffer) co
 
 void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* doc = wxGetApp().GetDocument();
-    RESULT*        result = wxGetApp().GetDocument()->result(item);
-    CC_STATUS      status;
+    RESULT*         result = wxGetApp().GetDocument()->result(item);
+    CC_STATUS       status;
+    int             retval;
 
     wxASSERT(doc);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
 
-    doc->GetCoreClientStatus(status);
+    retval = doc->GetCoreClientStatus(status);
 
-    if (!result) {
+    if (retval || !result) {
         strBuffer.Clear();
         return;
     }

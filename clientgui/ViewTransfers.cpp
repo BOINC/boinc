@@ -529,7 +529,12 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
 
 
 void CViewTransfers::GetDocProjectName(wxInt32 item, wxString& strBuffer) const {
-    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
+    FILE_TRANSFER* transfer = NULL;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    
+    if (pDoc) {
+        transfer = pDoc->file_transfer(item);
+    }
 
     if (transfer) {
         strBuffer = HtmlEntityDecode(wxString(transfer->project_name.c_str(), wxConvUTF8));
@@ -540,7 +545,12 @@ void CViewTransfers::GetDocProjectName(wxInt32 item, wxString& strBuffer) const 
 
 
 void CViewTransfers::GetDocFileName(wxInt32 item, wxString& strBuffer) const {
-    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
+    FILE_TRANSFER* transfer = NULL;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    
+    if (pDoc) {
+        transfer = pDoc->file_transfer(item);
+    }
 
     if (transfer) {
         strBuffer = wxString(transfer->name.c_str(), wxConvUTF8);
@@ -553,7 +563,12 @@ void CViewTransfers::GetDocFileName(wxInt32 item, wxString& strBuffer) const {
 void CViewTransfers::GetDocProgress(wxInt32 item, float& fBuffer) const {
     float          fBytesSent = 0;
     float          fFileSize = 0;
-    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
+    FILE_TRANSFER* transfer = NULL;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    
+    if (pDoc) {
+        transfer = pDoc->file_transfer(item);
+    }
 
     fBuffer = 0;
     if (transfer) {
@@ -581,7 +596,12 @@ wxInt32 CViewTransfers::FormatProgress(float fBuffer, wxString& strBuffer) const
 
 
 void CViewTransfers::GetDocBytesXferred(wxInt32 item, double& fBuffer) const {
-    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
+    FILE_TRANSFER* transfer = NULL;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    
+    if (pDoc) {
+        transfer = pDoc->file_transfer(item);
+    }
 
     if (transfer) {
         fBuffer = transfer->bytes_xferred;
@@ -592,7 +612,12 @@ void CViewTransfers::GetDocBytesXferred(wxInt32 item, double& fBuffer) const {
 
 
 void CViewTransfers::GetDocTotalBytes(wxInt32 item, double& fBuffer) const {
-    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
+    FILE_TRANSFER* transfer = NULL;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    
+    if (pDoc) {
+        transfer = pDoc->file_transfer(item);
+    }
 
     if (transfer) {
         fBuffer = transfer->nbytes;
@@ -639,7 +664,12 @@ wxInt32 CViewTransfers::FormatSize(double fBytesSent, double fFileSize, wxString
 
 
 void CViewTransfers::GetDocTime(wxInt32 item, double& fBuffer) const {
-    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
+    FILE_TRANSFER* transfer = NULL;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    
+    if (pDoc) {
+        transfer = pDoc->file_transfer(item);
+    }
 
     if (transfer) {
         fBuffer = transfer->time_so_far;
@@ -668,7 +698,12 @@ wxInt32 CViewTransfers::FormatTime(double fBuffer, wxString& strBuffer) const {
 
 
 void CViewTransfers::GetDocSpeed(wxInt32 item, double& fBuffer) const {
-    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
+    FILE_TRANSFER* transfer = NULL;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    
+    if (pDoc) {
+        transfer = pDoc->file_transfer(item);
+    }
 
     if (transfer) {
         if (transfer->xfer_active)
@@ -687,19 +722,24 @@ wxInt32 CViewTransfers::FormatSpeed(double fBuffer, wxString& strBuffer) const {
 
 
 void CViewTransfers::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
-    CMainDocument* doc = wxGetApp().GetDocument();
-    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
+    FILE_TRANSFER* transfer = NULL;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    int            retval;
+    
+    if (pDoc) {
+        transfer = pDoc->file_transfer(item);
+    }
     CC_STATUS      status;
 
-    wxASSERT(doc);
-    wxASSERT(wxDynamicCast(doc, CMainDocument));
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    doc->GetCoreClientStatus(status);
+    retval = pDoc->GetCoreClientStatus(status);
 
     wxDateTime dtNextRequest((time_t)transfer->next_request_time);
     wxDateTime dtNow(wxDateTime::Now());
 
-    if (transfer) {
+    if (transfer && !retval) {
         if      (dtNextRequest > dtNow) {
             wxTimeSpan tsNextRequest(dtNextRequest - dtNow);
             strBuffer = _("Retry in ") + tsNextRequest.Format();
@@ -723,7 +763,12 @@ void CViewTransfers::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
 
 
 void CViewTransfers::GetDocProjectURL(wxInt32 item, wxString& strBuffer) const {
-    FILE_TRANSFER* transfer = wxGetApp().GetDocument()->file_transfer(item);
+    FILE_TRANSFER* transfer = NULL;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    
+    if (pDoc) {
+        transfer = pDoc->file_transfer(item);
+    }
 
     wxASSERT(transfer);
 
@@ -736,7 +781,12 @@ void CViewTransfers::GetDocProjectURL(wxInt32 item, wxString& strBuffer) const {
 double CViewTransfers::GetProgressValue(long item) {
     double          fBytesSent = 0;
     double          fFileSize = 0;
-    FILE_TRANSFER*  transfer = wxGetApp().GetDocument()->file_transfer(m_iSortedIndexes[item]);
+    FILE_TRANSFER* transfer = NULL;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    
+    if (pDoc) {
+        transfer = pDoc->file_transfer(m_iSortedIndexes[item]);
+    }
 
     if (transfer) {
         fBytesSent = transfer->bytes_xferred;
