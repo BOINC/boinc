@@ -8480,3 +8480,9 @@ David  20 Oct 2008
 
     html/user/
         pm.php
+
+David  21 Oct 2008
+    - manager: fix disk display when talking to pre-6.3 client
+    clientgui/
+        ViewProjects.cpp
+        ViewResources.cpp

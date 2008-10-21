@@ -58,7 +58,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	m_pieCtrlTotal->SetHorLegendBorder(10);
 	m_pieCtrlTotal->SetLabelFont(*wxSWISS_FONT);
 	m_pieCtrlTotal->SetLabelColour(wxColour(0,0,0));
-	m_pieCtrlTotal->SetLabel(_("total disk usage"));
+	m_pieCtrlTotal->SetLabel(_("Total disk usage"));
 
 	// create pie chart ctrl for BOINC disk usage
 	m_pieCtrlBOINC = new wxPieCtrl(this, ID_LIST_RESOURCEUTILIZATIONVIEW, wxDefaultPosition, wxSize(-1,-1));
@@ -68,7 +68,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	m_pieCtrlBOINC->SetHorLegendBorder(10);
 	m_pieCtrlBOINC->SetLabelFont(*wxSWISS_FONT);
 	m_pieCtrlBOINC->SetLabelColour(wxColour(0,0,0));
-	m_pieCtrlBOINC->SetLabel(_("disk usage by BOINC projects"));
+	m_pieCtrlBOINC->SetLabel(_("Disk usage by BOINC projects"));
 	//init the flexGrid
     itemGridSizer->Add(m_pieCtrlTotal,1,wxGROW|wxALL,1);
     itemGridSizer->Add(m_pieCtrlBOINC,1, wxGROW|wxALL,1);
@@ -202,7 +202,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 				double usage = project->disk_usage;
 				project_total += usage;
 				wxPiePart part;
-				part.SetLabel(projectname + wxT(" - ") + diskspace);
+                part.SetLabel(projectname + wxT(": ") + diskspace);
 				part.SetValue(usage);
                 unsigned char r=128+(rand()&127);
                 unsigned char g=128+(rand()&127);
@@ -217,7 +217,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 			//paint an empty black pie
 			m_pieCtrlBOINC->m_Series.Clear();
 			wxPiePart part;
-			part.SetLabel(_("not attached to any BOINC project - 0 bytes"));
+            part.SetLabel(_("not attached to any BOINC project: 0 bytes"));
 			part.SetValue(1);
 			part.SetColour(wxColour(0,0,0));
 			m_pieCtrlBOINC->m_Series.Add(part);
@@ -226,6 +226,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 			refreshBOINC=true;
 		}
 	}
+    //pDoc->disk_usage.d_allowed = 0;
 	//data for pie chart 2 (total disk usage)
 	//
 	// good source of color palettes:
@@ -252,36 +253,45 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		// used by BOINC
         double boinc_total = project_total + pDoc->disk_usage.d_boinc;
         FormatDiskSpace(boinc_total, diskspace);
-		part.SetLabel(_("used by BOINC - ") + diskspace);
+        part.SetLabel(_("used by BOINC: ") + diskspace);
 		part.SetValue(boinc_total);
 		part.SetColour(wxColour(0,0,0));
 		m_pieCtrlTotal->m_Series.Add(part);
 
-        double avail = pDoc->disk_usage.d_allowed - boinc_total;
-        if (avail > 0) {
-            if (avail > free) avail = free;
-		    FormatDiskSpace(avail, diskspace);
-		    part.SetLabel(_("free, available to BOINC - ") + diskspace);
-		    part.SetValue(avail);
-		    part.SetColour(wxColour(128, 128, 128));
+        if (pDoc->disk_usage.d_allowed > 0) {
+            double avail = pDoc->disk_usage.d_allowed - boinc_total;
+            if (avail > 0) {
+                if (avail > free) avail = free;
+		        FormatDiskSpace(avail, diskspace);
+                part.SetLabel(_("free, available to BOINC: ") + diskspace);
+		        part.SetValue(avail);
+		        part.SetColour(wxColour(128, 128, 128));
+		        m_pieCtrlTotal->m_Series.Add(part);
+            } else {
+                avail = 0;
+            }
+            double not_avail = free - avail;
+		    FormatDiskSpace(not_avail, diskspace);
+            part.SetLabel(_("free, not available to BOINC: ") + diskspace);
+		    part.SetValue(not_avail);
+		    part.SetColour(wxColour(238,238,238));
 		    m_pieCtrlTotal->m_Series.Add(part);
         } else {
-            avail = 0;
+            // if d_allowed is zero, we must be talking to a pre-6.3 client.
+            // Just show free space
+            //
+		    FormatDiskSpace(free, diskspace);
+            part.SetLabel(_("free: ") + diskspace);
+		    part.SetValue(free);
+		    part.SetColour(wxColour(238,238,238));
+		    m_pieCtrlTotal->m_Series.Add(part);
         }
-
-        // free disk space
-        double not_avail = free - avail;
-		FormatDiskSpace(not_avail, diskspace);
-		part.SetLabel(_("free, not available to BOINC - ") + diskspace);
-		part.SetValue(not_avail);
-		part.SetColour(wxColour(238,238,238));
-		m_pieCtrlTotal->m_Series.Add(part);
 
 
 		// used by others
         double used_by_others = total-boinc_total-free;
 		FormatDiskSpace(used_by_others, diskspace);
-		part.SetLabel(_("used by other programs - ") + diskspace);
+        part.SetLabel(_("used by other programs: ") + diskspace);
 		part.SetValue(used_by_others);
 		part.SetColour(wxColour(192,192,192));
 		m_pieCtrlTotal->m_Series.Add(part);

@@ -1069,7 +1069,7 @@ void CViewProjects::GetDocProjectURL(wxInt32 item, wxString& strBuffer) const {
 double CViewProjects::GetProgressValue(long item) {
     CProject* project;
 
-     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+     //wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     try {
         project = m_ProjectCache.at(m_iSortedIndexes[item]);
