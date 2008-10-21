@@ -387,6 +387,15 @@ function team_edit_form($team, $label, $url) {
     if ($team) {
         echo "<input type=hidden name=teamid value=$team->id>\n";
     }
+    if ($team->seti_id) {
+        echo "<p><span class=error>WARNING: this is a BOINC-wide team.
+            If you make changes here, they will soon be overwritten.
+            Edit the
+            <a href=http://boinc.berkeley.edu/teams/>BOINC-wide team</a>
+            instead.</span>
+            <p>
+        ";
+    }
     echo '
         <p>
         '.tra('%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public.', '<b>', '</b>').'

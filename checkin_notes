@@ -8499,3 +8499,10 @@ David  21 Oct 2008
             profile_screen_action.php
         project.sample/
             project.inc
+
+David  21 Oct 2008
+    - web: if user tries to edit a BOINC-wide team,
+        warn them that changes will get overwritten.
+
+    html/inc/
+        team.inc
