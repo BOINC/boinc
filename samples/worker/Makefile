@@ -6,6 +6,7 @@ all: $(PROGS)
 
 clean:
 	rm $(PROGS)
+
 distclean:
 	rm $(PROGS)
 

@@ -22,6 +22,7 @@ libstdc++.a:
 
 clean:
 	rm $(PROGS) *.o
+
 distclean:
 	/bin/rm -f $(PROGS) *.o libstdc++.a
 
