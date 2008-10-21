@@ -8483,6 +8483,19 @@ David  20 Oct 2008
 
 David  21 Oct 2008
     - manager: fix disk display when talking to pre-6.3 client
+
     clientgui/
         ViewProjects.cpp
         ViewResources.cpp
+
+David  21 Oct 2008
+    - web: add optional $project_http_proxy to project.inc;
+        if project is behind an HTTP proxy,
+        this fixes the SVN fetch in ops/index.php
+
+    html/
+        ops/
+            index.php
+            profile_screen_action.php
+        project.sample/
+            project.inc

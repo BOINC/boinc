@@ -24,6 +24,10 @@ define("UOTD_ADMIN_EMAIL", "admin@$master_url");
 // offensive forum posts.
 define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
 
+// set the following var if your project is behind a proxy.
+// This is used on ops/index.php to get the current SVN rev from BOINC
+//$project_http_proxy = "http://host.domain:port"
+
 function project_banner($title, $prefix) {
     // Put your project title and logo here
     // If you include any links, prepend URL with $prefix

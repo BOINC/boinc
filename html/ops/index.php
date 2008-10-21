@@ -19,6 +19,7 @@
 require_once("../inc/db_ops.inc");
 require_once("../inc/util_ops.inc");
 require_once("../inc/uotd.inc");
+require_once("../project/project.inc");
 
 $config = get_config();
 $cgi_url = parse_config($config, "<cgi_url>");
@@ -32,32 +33,49 @@ admin_page_head($title);
 // Notification area
 echo "<ul>\n";
 
+echo "<li>";
 if (file_exists("../../local.revision")) {
     $local_rev = file_get_contents("../../local.revision");
 }
-
-// Check if latest revision is cached and cache has not yet expired
-if (!file_exists("../cache/remote.revision") || (filemtime("../cache/remote.revision")+(24*60*60) < time())) {
-    // Get latest revision
-    $handle = fopen("http://boinc.berkeley.edu/svn/", "r");
-    $remote = fread($handle, 255);
-    fclose($handle);
-    preg_match("/Revision (\d+)/", $remote, $remote_rev);
-    $remote_rev = $remote_rev[1];
-    
-    $handle = fopen("../cache/remote.revision", "w");
-    fwrite($handle, $remote_rev);
-    fclose($handle);
-} else {
-    // Read cached revision
-    $remote_rev = file_get_contents("../cache/remote.revision");
-}
-
-echo "<li>";
 if ($local_rev) {
     echo "Currently used SVN revision: ".$local_rev."; ";
 }
-echo "Latest SVN revision: ".$remote_rev."</li>\n";
+
+if (file_exists("../cache/remote.revision")
+    && (time() < filemtime("../cache/remote.revision")+(24*60*60))
+) {
+    $remote_rev = file_get_contents("../cache/remote.revision");
+} else {
+    // Get latest revision
+    if (isset($project_http_proxy)) {
+        $context = stream_context_create(
+            array(
+                'http' => array(
+                    'proxy' => $project_http_proxy
+                )
+            )
+        );
+        $handle = fopen("http://boinc.berkeley.edu/svn/", "r", false, $context);
+    } else {
+        $handle = fopen("http://boinc.berkeley.edu/svn/", "r");
+    }
+    if ($handle) {
+        $remote = fread($handle, 255);
+        fclose($handle);
+        preg_match("/Revision (\d+)/", $remote, $remote_rev);
+        $remote_rev = $remote_rev[1];
+
+        $handle = fopen("../cache/remote.revision", "w");
+        fwrite($handle, $remote_rev);
+        fclose($handle);
+    } else {
+        echo "Can't get latest SVN revision";
+    }
+}
+
+if ($remote_rev) {
+    echo "Latest SVN revision: ".$remote_rev."</li>\n";
+}
 
 if (!file_exists(".htaccess")) {
     echo "<li><span style=\"color: #ff0000\">The Project Management directory is not
