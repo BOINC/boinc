@@ -269,7 +269,6 @@ int signof(float x) {
     }
 
     if (coveredFreq) {
-    print_to_log_file("launched gfx app\n");
         myWindowNumber = [ myWindow windowNumber ];
 
         windowList[0] = 0;
@@ -281,7 +280,6 @@ int signof(float x) {
                 // Don't waste CPU cycles since our window is obscured by application graphics
                 newFrequency = coveredFreq;
                 msg = NULL;
-    print_to_log_file("Window is covered\n");
             }
         }
     }
