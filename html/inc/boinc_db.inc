@@ -102,6 +102,7 @@ class BoincUser {
     }
     function delete() {
         $db = BoincDb::get();
+        $db->delete_aux('profile', "userid=$this->id");
         return $db->delete($this, 'user');
     }
 }

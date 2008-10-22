@@ -2,27 +2,27 @@
 
 $project_news = array(
 array("October 17, 2008",
-    "Read <a href=http://www.isgtw.org/?pid=1001391>Reaching for the Exa-scale with volunteer computing</a> in International Science Grid This Week."
+    "Read <a href=\"http://www.isgtw.org/?pid=1001391\">Reaching for the Exa-scale with volunteer computing</a> in International Science Grid This Week."
 ),
 array("September 30, 2008",
-    "An <a href=http://www.isgtw.org/?pid=1001381>article on
+    "An <a href=\"http://www.isgtw.org/?pid=1001381\">article on
     the recent BOINC workshop in Grenoble</a>
     appeared in International Science Grid This Week."
 ),
 array("September 29, 2008",
-    "An article on <a href=http://ps3grid.net>PS3grid.net</a> project,
+    "An article on <a href=\"http://ps3grid.net\">PS3grid.net</a> project,
     which does scientific computing on Sony Playstations, appeared recently in
-    <a href=http://www.sciencemag.org/cgi/content/long/321/5895/1425b>Science</a>."
+    <a href=\"http://www.sciencemag.org/cgi/content/long/321/5895/1425b\">Science</a>."
 ),
 array("September 27, 2008",
-    "See an <a href=http://boinc.berkeley.edu/eff.php>open letter
+    "See an <a href=\"http://boinc.berkeley.edu/eff.php\">open letter
     to the Electronic Frontier Foundation</a>."
 ),
 array("September 25, 2008",
-    "Read <a href=http://www.economist.com/science/displaystory.cfm?story_id=12295198>an article about Quake Catcher Network</a> in Economist.com."
+    "Read <a href=\"http://www.economist.com/science/displaystory.cfm?story_id=12295198\">an article about Quake Catcher Network</a> in Economist.com."
 ),
 array("September 25, 2008",
-    "<a href=http://registro.ibercivis.es/>Ibercivis</a>,
+    "<a href=\"http://registro.ibercivis.es/\">Ibercivis</a>,
     a joint project of several Spanish universities and research institutes,
     is now open to the public.
     Sign up and support Spanish research."

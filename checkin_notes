@@ -8555,3 +8555,11 @@ Charlie 22 Oct 2008
     clientscr/
         mac_saver_module.cpp
         Mac_Saver_ModuleView.m
+
+David  22 Oct 2008
+    - web: don't select orphaned profile as UOTD;
+        delete profile when delete user.  Fixes #761
+
+    html/inc/
+        uotd.inc
+        boinc_db.inc

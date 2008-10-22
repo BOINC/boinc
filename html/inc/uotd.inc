@@ -106,6 +106,13 @@ function select_uotd() {
     $profile = mysql_fetch_object($result);
     $user = lookup_user_id($profile->userid);
 
+    // if profile is "orphaned", delete it and try again
+    //
+    if (!$user) {
+        $profile->delete_aux("userid=$profile->userid");
+        select_uotd();
+    }
+
     $sql = "UPDATE profile SET uotd_time = ".time()." WHERE userid=$user->id";
     mysql_query($sql);
 

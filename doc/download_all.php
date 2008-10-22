@@ -24,7 +24,7 @@ $type_name = $_GET["type"];
 require_once("versions.inc");
 
 function dl_item($x, $y) {
-    echo "<tr><td valign=top  align=right width=30%>$x</td>
+    echo "<tr><td valign=top  align=right width=\"30%\">$x</td>
         <td>$y</td></tr>
     ";
 }
@@ -91,9 +91,9 @@ function show_version($pname, $i, $v) {
     $status = $v["status"];
     if (is_dev($v)) {
         $status = $status."
-            <br><span class=dev><b>
+            <br><span class=dev>
             (MAY BE UNSTABLE - USE ONLY FOR TESTING)
-            </b></font>
+            </span>
         ";
     }
     $path = "dl/$file";
@@ -176,13 +176,13 @@ if ($xml) {
         $p = $platforms[$pname];
         $name = $p['name'];
         page_head("Download BOINC client software for $name");
-        echo "<table width=100% cellpadding=4 >";
+        echo "<table width=\"100%\" cellpadding=4 >";
         show_platform($pname, $p, $dev);
         list_end();
     } else {
         page_head("Download BOINC client software");
         echo "
-            <table width=100% cellpadding=4 >
+            <table width=\"100%\" cellpadding=4 >
         ";
         foreach($platforms as $short_name=>$p) {
             show_platform($short_name, $p, $dev);
@@ -192,8 +192,8 @@ if ($xml) {
             <h3>Other platforms</h3>
             If your computer is not of one of these types, you can
             <ul>
-            <li> <a href=trac/wiki/AnonymousPlatform>make your own client software</a> or
-            <li> <a href=trac/wiki/DownloadOther>download executables from a third-party site</a>
+            <li> <a href=\"trac/wiki/AnonymousPlatform\">make your own client software</a> or
+            <li> <a href=\"trac/wiki/DownloadOther\">download executables from a third-party site</a>
                 (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
             </ul>
 
@@ -204,7 +204,7 @@ if ($xml) {
     echo "
         <h3>Customizing this page</h3>
         The information on this page can be
-        <a href=trac/wiki/DownloadInfo>
+        <a href=\"trac/wiki/DownloadInfo\">
         restricted by platform and/or version number,
         or presented  in XML format</a>.
     ";
