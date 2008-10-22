@@ -21,7 +21,7 @@
 
 ##
 # Script to convert Macintosh BOINC installer to GridRepublic Desktop installer
-# updated 9/18/08 by Charlie Fenton
+# updated 10/21/08 by Charlie Fenton
 ##
 
 ## Usage:
@@ -39,6 +39,7 @@
 ##     gridrepublic_ss_logo (for screensaver)
 ##     skins directory containing GridRepublic skin (optional)
 ##     acct_mgr_url.xml (to have BOINC automatically connect to Account Manager)
+##     PostInstall.app (needed only for version 6.2.x or earlier)
 ##
 ## NOTE: This script uses PackageMaker, which is installed as part of the 
 ##   XCode developer tools.  So you must have installed XCode Developer 
@@ -139,7 +140,11 @@ fi
 
 cp -fp "${SOURCE_PKG_PATH}/Resources/postinstall" "${SCRIPTS_PATH}/"
 cp -fp "${SOURCE_PKG_PATH}/Resources/postupgrade" "${SCRIPTS_PATH}/"
-cp -fpR "${SOURCE_PKG_PATH}/Resources/PostInstall.app" "${IR_PATH}/"
+if [ "$1" = "6" ] && [ "$2" = "2" ]; then
+    cp -fpR "PostInstall.app" "${IR_PATH}/"
+else
+    cp -fpR "${SOURCE_PKG_PATH}/Resources/PostInstall.app" "${IR_PATH}/"
+fi
 cp -fp "${SOURCE_PKG_PATH}/Resources/all_projects_list.xml" "${IR_PATH}/"
 
 ##### We've decided not to customize BOINC Data directory name for branding

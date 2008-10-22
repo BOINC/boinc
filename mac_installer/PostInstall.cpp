@@ -753,7 +753,7 @@ int FindSkinName(char *name, size_t len)
 
     name[0] = '\0';
     
-    f = popen("lsbom -ds ./Contents/Archive.bom", "r");
+    f = popen("lsbom -d -s ./Contents/Archive.bom", "r");
     if (f == NULL)
         return 0;
     

@@ -8532,3 +8532,10 @@ Charlie 21 Oct 2008
         ViewProjects.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+
+Charlie 21 Oct 2008
+    Mac branding: fix branding problem with GridRepublic installer.
+     
+    mac_installer/
+        make_GridRepublic.sh
+        PostInstall.cpp
