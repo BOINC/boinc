@@ -412,6 +412,11 @@ void CLIENT_STATE::read_global_prefs() {
     // max_cpus, bandwidth limits may have changed
     //
     set_ncpus();
+    if (ncpus != host_info.p_ncpus) {
+        msg_printf(NULL, MSG_INFO,
+            "Preferences limit # CPUs to %d", ncpus
+        );
+    }
 	file_xfers->set_bandwidth_limits(true);
 	file_xfers->set_bandwidth_limits(false);
 	request_schedule_cpus("Prefs update");
