@@ -666,7 +666,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         cpu_usage_limit
     );
     if (max_ncpus) {
-        f.printf("   <max_ncpus>%d<</max_ncpus>\n", max_ncpus);
+        f.printf("   <max_ncpus>%d</max_ncpus>\n", max_ncpus);
     }
 
     for (int i=0; i<7; i++) {
