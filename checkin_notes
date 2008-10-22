@@ -8539,3 +8539,10 @@ Charlie 21 Oct 2008
     mac_installer/
         make_GridRepublic.sh
         PostInstall.cpp
+
+David  21 Oct 2008
+    - admin web: add dbinfo.php (shows row counts and disk usage per table)
+
+    html/ops/
+        dbinfo.php
+        index.php

@@ -165,3 +165,34 @@ input.btn {
 	font-weight: normal;
 }
 
+/* Download All */
+
+#dlall, #dlall td, #dlall tr{  
+    padding: 3px;
+    border-spacing: 0px 4px;
+}
+
+.rowline {
+    border-bottom: 1px solid lightblue;
+    border-top: 1px solid lightblue;
+    white-space: nowrap;
+}
+
+.rowlineleft {
+    border: 1px solid lightblue;
+    border-right: none;
+    padding: 3px 6px;
+    white-space: nowrap;
+    font-weight: bold;
+    -moz-border-radius: 6px 0px 0px 6px;
+    -webkit-border-radius: 6px 0px 0px 6px;
+}
+
+.rowlineright {
+    border: 1px solid lightblue;
+    border-left: none;
+    -moz-border-radius: 0px 6px 6px 0px;
+    -webkit-border-radius: 0px 6px 6px 0px;
+}
+
+.dev { color: red; font-weight: bold }

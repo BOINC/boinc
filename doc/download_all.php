@@ -24,8 +24,7 @@ $type_name = $_GET["type"];
 require_once("versions.inc");
 
 function dl_item($x, $y) {
-    global $light_blue;
-    echo "<tr><td valign=top  align=right width=30% bgcolor=$light_blue>$x</td>
+    echo "<tr><td valign=top  align=right width=30%>$x</td>
         <td>$y</td></tr>
     ";
 }
@@ -92,7 +91,7 @@ function show_version($pname, $i, $v) {
     $status = $v["status"];
     if (is_dev($v)) {
         $status = $status."
-            <br><font color=ff0000><b>
+            <br><span class=dev><b>
             (MAY BE UNSTABLE - USE ONLY FOR TESTING)
             </b></font>
         ";
@@ -103,14 +102,11 @@ function show_version($pname, $i, $v) {
     $type = $v["type"];
     $type_text = type_text($type);
     $url = version_url($v);
-    echo "<tr><td width=3%><nobr>
-        $num</td><td> $status
-        </nobr>
-        </td>
-        <td>
-        <a href=$url><b>Download</b></a> ($s MB)
-        </td>
-        <td > $date </td>
+    echo "<tr>
+       <td class=\"rowlineleft\">$num</td>
+        <td class=\"rowline\">$status</td>
+        <td class=\"rowline\"><a href=\"$url\"><b>Download</b></a> ($s MB)</td>
+        <td class=\"rowlineright\">$date</td>
         </tr>
     ";
 }
@@ -122,7 +118,7 @@ function show_platform($short_name, $p, $dev) {
     $description = $p["description"];
     if ($p["url"]) {
         $url = $p["url"];
-        $long_name .= " <a href=$url><font size=-2>details</a>";
+        $long_name .= " <a href=$url><span class=description>details</span></a>";
     }
     list_bar($long_name, $description);
     foreach ($p["versions"] as $i=>$v) {
@@ -180,13 +176,13 @@ if ($xml) {
         $p = $platforms[$pname];
         $name = $p['name'];
         page_head("Download BOINC client software for $name");
-        echo "<table border=2 cellpadding=4 width=100%>";
+        echo "<table width=100% cellpadding=4 >";
         show_platform($pname, $p, $dev);
         list_end();
     } else {
         page_head("Download BOINC client software");
         echo "
-            <table border=2 cellpadding=4 width=100%>
+            <table width=100% cellpadding=4 >
         ";
         foreach($platforms as $short_name=>$p) {
             show_platform($short_name, $p, $dev);
@@ -215,4 +211,4 @@ if ($xml) {
     page_tail();
 }
 
-//?>
+?>

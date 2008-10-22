@@ -126,6 +126,7 @@ echo "
         <li><a href=\"db_form.php?table=host&amp;detail=low\">Hosts</a></li>
         <li><a href=\"db_form.php?table=workunit\">Workunits</a></li>
         <li><a href=\"db_form.php?table=result&amp;detail=low\">Results</a></li>
+        <li><a href=dbinfo.php>DB row counts and disk usage</a>
     </ul>
     
     </td> 
