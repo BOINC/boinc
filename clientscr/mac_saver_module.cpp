@@ -366,10 +366,11 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
         case SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING:
         case SCRAPPERR_SCREENSAVERRUNNING:
 #if ! ALWAYS_DISPLAY_PROGRESS_TEXT
-            // NOTE: My tests seem to confirm that the first window returned by NSWindowList
-            // is always the top window under OS 10.5, but not under earlier systems.  However, 
-            // Apple's documentation is unclear whether we can depend on this.  So I have added 
-            // some safety by doing two things:
+            // NOTE: My tests seem to confirm that the top window is always the first 
+            // window returned by NSWindowList under OS 10.5 and the second window 
+            // returned by NSWindowList under OS 10.3.9 and OS 10.4.  However, Apple's 
+            // documentation is unclear whether we can depend on this.  So I have 
+            // added some safety by doing two things:
             // [1] Only use the NSWindowList test when we have started project graphics.
             // [2] Assume that our window is covered 45 seconds after starting project 
             //     graphics even if the NSWindowList test did not indicate that is so.
@@ -379,10 +380,8 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
             //
             // Tell the calling routine to set the frame rate to NOTEXTLOGOFREQUENCY if 
             // NSWindowList indicates that science app graphics window has covered our window.
-
-            if (gSystemVersion >= 0x1050) {
-                *coveredFreq = NOTEXTLOGOFREQUENCY;
-            }
+            *coveredFreq = NOTEXTLOGOFREQUENCY;
+            
             if (m_iGraphicsStartingMsgCounter > 0) {
                 // Show ScreenSaverAppStartingMsg for GFX_STARTING_MSG_DURATION seconds or until 
                 // NSWindowList indicates that science app graphics window has covered our window

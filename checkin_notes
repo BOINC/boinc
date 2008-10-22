@@ -8534,7 +8534,7 @@ Charlie 21 Oct 2008
         ViewWork.cpp
 
 Charlie 21 Oct 2008
-    Mac branding: fix branding problem with GridRepublic installer.
+    - Mac branding: fix branding problem with GridRepublic installer.
      
     mac_installer/
         make_GridRepublic.sh
@@ -8546,3 +8546,12 @@ David  21 Oct 2008
     html/ops/
         dbinfo.php
         index.php
+
+Charlie 22 Oct 2008
+    - Mac SCR: reinitialize if startanimation() called after stopanimation().
+    - Mac SCR: detect when covered by application graphics under all versions 
+        of OS X and stop displaying the moving logo to reduce CPU usage.
+
+    clientscr/
+        mac_saver_module.cpp
+        Mac_Saver_ModuleView.m
