@@ -4494,3 +4494,15 @@ Rom    15 Oct 2008
     /
         configure.ac
         version.h
+
+Charlie 21 Oct 2008
+    - Mac: Remove -fvisibility* compiler flags from BOINC boinc_cmd build 
+        (should have been done as part of April 1 changes).
+    - Mac branding: fix branding problem with GridRepublic installer.
+     
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        make_GridRepublic.sh
+        PostInstall.cpp
