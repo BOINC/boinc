@@ -26,7 +26,7 @@ define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
 
 // set the following var if your project is behind a proxy.
 // This is used on ops/index.php to get the current SVN rev from BOINC
-//$project_http_proxy = "http://host.domain:port"
+//$project_http_proxy = "tcp://proxyname:port"
 
 function project_banner($title, $prefix) {
     // Put your project title and logo here

@@ -8563,3 +8563,18 @@ David  22 Oct 2008
     html/inc/
         uotd.inc
         boinc_db.inc
+
+David  22 Oct 2008
+    - client: restore support for max_ncpus preference.
+        This and max_ncpus_pct can both be specified.
+        If both are specified, we take the min.
+
+    client/
+        cpu_sched.cpp
+    html/
+        ops/
+            index.php
+        project.sample/
+            project.inc
+    lib/
+        prefs.cpp,h

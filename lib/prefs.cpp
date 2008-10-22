@@ -58,6 +58,7 @@ void GLOBAL_PREFS_MASK::set_all() {
     work_buf_min_days = true;
     work_buf_additional_days = true;
     max_ncpus_pct = true;
+    max_ncpus= true;
     cpu_scheduling_period_minutes = true;
     disk_interval = true;
     disk_max_used_gb = true;
@@ -88,6 +89,7 @@ bool GLOBAL_PREFS_MASK::are_prefs_set() {
     if (work_buf_min_days) return true;
     if (work_buf_additional_days) return true;
     if (max_ncpus_pct) return true;
+    if (max_ncpus) return true;
     if (cpu_scheduling_period_minutes) return true;
     if (disk_interval) return true;
     if (disk_max_used_gb) return true;
@@ -278,7 +280,8 @@ void GLOBAL_PREFS::defaults() {
     dont_verify_images = false;
     work_buf_min_days = 0.1;
     work_buf_additional_days = 0.25;
-    max_ncpus_pct = 100;
+    max_ncpus_pct = 0;
+    max_ncpus = 0;
     cpu_scheduling_period_minutes = 60;
     disk_interval = 60;
     disk_max_used_gb = 10;
@@ -510,6 +513,10 @@ int GLOBAL_PREFS::parse_override(
             mask.max_ncpus_pct = true;
             continue;
         }
+        if (xp.parse_int(tag, "max_ncpus", max_ncpus)) {
+            if (max_ncpus < 0) max_ncpus = 0;
+            mask.max_ncpus = true;
+        }
         if (xp.parse_double(tag, "disk_interval", disk_interval)) {
             if (disk_interval<0) disk_interval = 0;
             mask.disk_interval = true;
@@ -658,6 +665,9 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         max_bytes_sec_down,
         cpu_usage_limit
     );
+    if (max_ncpus) {
+        f.printf("   <max_ncpus>%d<</max_ncpus>\n", max_ncpus);
+    }
 
     for (int i=0; i<7; i++) {
         TIME_SPAN* cpu = cpu_times.week.get(i);
@@ -749,6 +759,9 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     }
     if (mask.max_ncpus_pct) {
         f.printf("   <max_ncpus_pct>%f</max_ncpus_pct>\n", max_ncpus_pct);
+    }
+    if (mask.max_ncpus) {
+        f.printf("   <max_ncpus>%d</max_ncpus>\n", max_ncpus);
     }
     if (mask.cpu_scheduling_period_minutes) {
         f.printf("   <cpu_scheduling_period_minutes>%f</cpu_scheduling_period_minutes>\n", cpu_scheduling_period_minutes);

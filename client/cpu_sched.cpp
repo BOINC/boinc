@@ -1631,10 +1631,17 @@ void CLIENT_STATE::set_ncpus() {
     if (config.ncpus>0) {
         ncpus = config.ncpus;
     } else if (host_info.p_ncpus>0) {
-        ncpus = (int)((host_info.p_ncpus * global_prefs.max_ncpus_pct)/100);
-        if (ncpus == 0) ncpus = 1;
+        ncpus = host_info.p_ncpus;
     } else {
         ncpus = 1;
+    }
+
+    if (global_prefs.max_ncpus_pct) {
+        ncpus = (int)((host_info.p_ncpus * global_prefs.max_ncpus_pct)/100);
+    }
+    if (ncpus == 0) ncpus = 1;
+    if (global_prefs.max_ncpus && global_prefs.max_ncpus < ncpus) {
+        ncpus = global_prefs.max_ncpus;
     }
 
     if (initialized && ncpus != ncpus_old) {
