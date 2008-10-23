@@ -8661,10 +8661,10 @@ Rom    23 Oct 2008
         version.h
 
 David  23 Oct 2008
-	- client: fix prefs parsing
+    - client: fix prefs parsing
 
-	lib/
-		prefs.cpp
+    lib/
+        prefs.cpp
 
 Rom    23 Oct 2008
     - Tag for 6.3.17 release, all platforms
@@ -8674,3 +8674,8 @@ Rom    23 Oct 2008
         configure.ac
         version.h
 
+David  23 Oct 2008
+    - client: --help: show all options, and alphabetize them
+
+    client/
+        cs_cmdline.cpp
