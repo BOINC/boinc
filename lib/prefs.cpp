@@ -516,6 +516,7 @@ int GLOBAL_PREFS::parse_override(
         if (xp.parse_int(tag, "max_cpus", max_ncpus)) {
             if (max_ncpus < 0) max_ncpus = 0;
             mask.max_ncpus = true;
+            continue;
         }
         if (xp.parse_double(tag, "disk_interval", disk_interval)) {
             if (disk_interval<0) disk_interval = 0;
