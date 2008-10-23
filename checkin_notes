@@ -8659,9 +8659,3 @@ Rom    23 Oct 2008
     /
         configure.ac
         version.h
-
-David  23 Oct 2008
-    - client: tweak to set_ncpus()
-
-    client/
-        cpu_sched.cpp
