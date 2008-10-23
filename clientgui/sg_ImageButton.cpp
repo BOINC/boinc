@@ -102,6 +102,8 @@ wxString CImageButton::GetStatusText() {
 		return wxString(_("Paused: Benchmarks running"));
 	} else if ( status == TAB_STATUS_PAUSED )  {
 		return wxString(_("Paused"));
+	} else if ( status == TAB_STATUS_INITIAL_DELAY )  {
+		return wxString(_("Paused: Application start delayed"));
 	} else {
 		return wxEmptyString;
 	}

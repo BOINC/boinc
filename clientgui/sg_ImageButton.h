@@ -32,6 +32,7 @@
 #define TAB_STATUS_PAUSED_TIME_OF_DAY 6
 #define TAB_STATUS_PAUSED_BENCHMARKS 7
 #define TAB_STATUS_PAUSED 8
+#define TAB_STATUS_INITIAL_DELAY 9
 
 class CImageButton : public wxPanel 
 { 

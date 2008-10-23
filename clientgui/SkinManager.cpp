@@ -893,10 +893,19 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
         } else if (parse_str(buf, "<organizaton_name>", strBuffer)) {
             m_strOrganizationName = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
+        } else if (parse_str(buf, "<organization_name>", strBuffer)) {
+            m_strOrganizationName = wxString(strBuffer.c_str(), wxConvUTF8);
+            continue;
         } else if (parse_str(buf, "<organizaton_website>", strBuffer)) {
             m_strOrganizationWebsite = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
+        } else if (parse_str(buf, "<organization_website>", strBuffer)) {
+            m_strOrganizationWebsite = wxString(strBuffer.c_str(), wxConvUTF8);
+            continue;
         } else if (parse_str(buf, "<organizaton_help_url>", strBuffer)) {
+            m_strOrganizationHelpUrl = wxString(strBuffer.c_str(), wxConvUTF8);
+            continue;
+        } else if (parse_str(buf, "<organization_help_url>", strBuffer)) {
             m_strOrganizationHelpUrl = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
         } else if (parse_int(buf, "<open_tab>", m_iDefaultTab)) {

@@ -173,6 +173,8 @@ int CViewTabPage::ComputeState() {
 			status = TAB_STATUS_PAUSED_TIME_OF_DAY;
 		} else if ( ccStatus.task_suspend_reason & SUSPEND_REASON_BENCHMARKS ) {
 			status = TAB_STATUS_PAUSED_BENCHMARKS;
+		} else if ( ccStatus.task_suspend_reason & SUSPEND_REASON_INITIAL_DELAY ) {
+			status = TAB_STATUS_INITIAL_DELAY;
 		}
 	}
 	return status;
@@ -582,8 +584,15 @@ void MyCanvas::LoadSlideShow() {
 			wxImage img = image->ConvertToImage();
 			img.Rescale((int) (image->GetWidth()*ratio), (int) (image->GetHeight()*ratio));
 			image = new wxBitmap(img);
-		} 
-		il = new ImageLoader(this, true);
+		}
+		if ( xRatio == yRatio ) {
+			// If it perfectly fills the window, don't center
+			// Centering causes a bug (at least on windows) where if the taskbar
+			// is at the top of the page, the images are offset
+			il = new ImageLoader(this, false);
+		} else {
+			il = new ImageLoader(this, true);
+		}
 		il->LoadImage(*image);
 		if ( ratio < 1.0 ) {
 			delete image;
