@@ -125,7 +125,7 @@ bool DebuggerLoadLibrary(
     return true;
 }
 
-BOOL CALLBACK SymbolServerCallbackProc(UINT_PTR ActionCode, ULONG64 CallbackData, ULONG64 /* UserContext */)
+BOOL CALLBACK SymbolServerCallbackProc64(UINT_PTR ActionCode, ULONG64 CallbackData, ULONG64 /* UserContext */)
 {
     BOOL bRetVal = FALSE;
     PIMAGEHLP_CBA_EVENT pEvent = NULL;
@@ -158,7 +158,7 @@ BOOL CALLBACK SymbolServerCallbackProc(UINT_PTR ActionCode, ULONG64 CallbackData
     return bRetVal;
 }
 
-BOOL CALLBACK SymRegisterCallbackProc(HANDLE /* hProcess */, ULONG ActionCode, ULONG64 CallbackData, ULONG64 /* UserContext */)
+BOOL CALLBACK SymRegisterCallbackProc64(HANDLE /* hProcess */, ULONG ActionCode, ULONG64 CallbackData, ULONG64 /* UserContext */)
 {
     BOOL bRetVal = FALSE;
     PIMAGEHLP_CBA_EVENT pEvent = NULL;
@@ -191,7 +191,7 @@ BOOL CALLBACK SymRegisterCallbackProc(HANDLE /* hProcess */, ULONG ActionCode, U
     return bRetVal;
 }
 
-BOOL CALLBACK SymEnumerateModulesProc(LPSTR /* ModuleName */, DWORD64 BaseOfDll, PVOID /* UserContext */)
+BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfDll, PVOID /* UserContext */)
 {
     IMAGEHLP_MODULE64   Module;
     char                szSymbolType[32];
@@ -442,7 +442,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
                 if (!pSSSO(SSRVOPT_TRACE, (ULONG64)TRUE)) {
                     _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Trace Failed, GetLastError = %lu\n"), gle);
                 }
-                if (!pSSSO(SSRVOPT_CALLBACK, (ULONG64)SymbolServerCallbackProc)) {
+                if (!pSSSO(SSRVOPT_CALLBACK, (ULONG64)SymbolServerCallbackProc64)) {
                     _ftprintf(stderr, _T("SymbolServerSetOptions(): Register Callback Failed, GetLastError = %lu\n"), gle);
                 }
                 if (!pSSSO(SSRVOPT_UNATTENDED, (ULONG64)TRUE)) {
@@ -613,7 +613,7 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
         return 1;
     }
 
-    if (!pSRC(g_hProcess, SymRegisterCallbackProc, (ULONG64)g_hProcess))
+    if (!pSRC(g_hProcess, SymRegisterCallbackProc64, (ULONG64)g_hProcess))
     {
         _ftprintf(stderr, _T("SymRegisterCallback64(): GetLastError = %lu\n"), gle);
     }
@@ -642,7 +642,7 @@ int DebuggerDisplayDiagnostics()
     _ftprintf( stderr, _T("Symbol Search Path: %s\n"), buf);
     _ftprintf( stderr, _T("\n\n"));
 
-    if (!pSEM(g_hProcess, SymEnumerateModulesProc, NULL))
+    if (!pSEM(g_hProcess, (PSYM_ENUMMODULES_CALLBACK64)SymEnumerateModulesProc64, NULL))
     {
         _ftprintf(stderr, _T("SymEnumerateModules64(): GetLastError = %lu\n"), gle );
     }

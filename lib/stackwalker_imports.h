@@ -164,7 +164,7 @@ typedef struct _STACKFRAME64 {
 
 typedef BOOL
 (CALLBACK *PSYM_ENUMMODULES_CALLBACK64)(
-    PSTR ModuleName,
+    LPCSTR ModuleName,
     DWORD64 BaseOfDll,
     PVOID UserContext
     );
@@ -179,7 +179,7 @@ typedef BOOL
 
 typedef
 BOOL
-(__stdcall *PREAD_PROCESS_MEMORY_ROUTINE64)(
+(CALLBACK *PREAD_PROCESS_MEMORY_ROUTINE64)(
     HANDLE      hProcess,
     DWORD64     qwBaseAddress,
     PVOID       lpBuffer,
@@ -189,21 +189,21 @@ BOOL
 
 typedef
 PVOID
-(__stdcall *PFUNCTION_TABLE_ACCESS_ROUTINE64)(
+(CALLBACK *PFUNCTION_TABLE_ACCESS_ROUTINE64)(
     HANDLE  hProcess,
     DWORD64 AddrBase
     );
 
 typedef
 DWORD64
-(__stdcall *PGET_MODULE_BASE_ROUTINE64)(
+(CALLBACK *PGET_MODULE_BASE_ROUTINE64)(
     HANDLE  hProcess,
     DWORD64 Address
     );
 
 typedef
 DWORD64
-(__stdcall *PTRANSLATE_ADDRESS_ROUTINE64)(
+(CALLBACK *PTRANSLATE_ADDRESS_ROUTINE64)(
     HANDLE    hProcess,
     HANDLE    hThread,
     LPADDRESS64 lpaddr

@@ -8578,3 +8578,11 @@ David  22 Oct 2008
             project.inc
     lib/
         prefs.cpp,h
+
+Rom    22 Oct 2008
+    - LIB: Fix the windows callstack dump routine for
+        Visual Studio 2008
+        
+    lib/
+        stackwalker_imports.h
+        stackwalker_win.cpp
