@@ -4,7 +4,7 @@ create table bolt_user (
     sex             tinyint         not null,
     flags           integer         not null,
     attrs           text            not null,
-        -- project-defined.  Use JSON.
+        -- project-defined.  Use serialized PHP object
     primary key (user_id)
 );
 

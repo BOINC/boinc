@@ -19,10 +19,14 @@
 class BoltExerciseSet extends BoltRandom {
     public $repeats;
     public $refresh;
-    function __construct($name, $units, $number, $repeats, $refresh) {
+    public $callback;
+    function __construct(
+        $name, $units, $number, $repeats, $refresh, $callback
+    ) {
         parent::__construct($name, $units, $number);
         $this->repeats = $repeats;
         $this->refresh = $refresh;
+        $this->callback = $callback;
     }
 
     // called when an exercise in this set has just been graded.
@@ -33,7 +37,9 @@ class BoltExerciseSet extends BoltRandom {
     //   - repeat now
     //   - next
     //
-    function xset_callback(&$iter, $score, $view_id, &$avg_score, &$repeat) {
+    function xset_record_score(
+        &$iter, $score, $view_id, &$avg_score, &$repeat
+    ) {
         global $course;
         global $user;
 
@@ -159,14 +165,16 @@ function exercise_set() {
     $units = array();
     $repeats = array();
     $refresh = null;
+    $callback = null;
     $name = "";
-    $number = 1;
+    $number = 0;
     foreach ($args as $arg) {
         if (is_array($arg)) {
             switch ($arg[0]) {
             case 'name': $name = $arg[1]; break;
             case 'title': $title = $arg[1]; break;
             case 'number': $number = $arg[1]; break;
+            case 'callback': $callback = $arg[1]; break;
             default: echo "Unrecognized array arg: ", $arg[0], "\n"; break;
             }
         } else if (is_object($arg)) {
@@ -179,9 +187,14 @@ function exercise_set() {
             } else {
                 echo "Can't include object of type ".get_class($arg)." within an exercise set.";
             }
+        } else {
+            echo "Unexpected arg to exercise_set(): "; print_r($arg);
         }
     }
-    return new BoltExerciseSet($name, $units, $number, $repeats, $refresh);
+    if ($number == 0) $number = count($units);
+    return new BoltExerciseSet(
+        $name, $units, $number, $repeats, $refresh, $callback
+    );
 }
 
 ?>

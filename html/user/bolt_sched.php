@@ -386,7 +386,7 @@ case 'update_info':
     break;
 case 'prev':
     $view = finalize_view($view_id, BOLT_ACTION_PREV);
-    debug_show_state(json_decode($view->state, true), "Initial");
+    debug_show_state(unserialize($view->state), "Initial");
     if ($view->prev_view_id) {
         $view = BoltView::lookup_id($view->prev_view_id);
         $iter = new BoltIter($course_doc);
@@ -408,7 +408,7 @@ case 'prev':
     break;
 case 'next':            // "next" button in lesson or exercise answer page
     $view = finalize_view($view_id, BOLT_ACTION_NEXT);
-    debug_show_state(json_decode($view->state, true), "Initial");
+    debug_show_state(unserialize($view->state), "Initial");
 
     $iter = new BoltIter($course_doc);
     $iter->decode_state($view->state);
@@ -444,7 +444,7 @@ case 'next':            // "next" button in lesson or exercise answer page
     break;
 case 'answer':          // submit answer in exercise
     $view = finalize_view($view_id, BOLT_ACTION_SUBMIT);
-    debug_show_state(json_decode($view->state, true), "Initial");
+    debug_show_state(unserialize($view->state), "Initial");
     $iter = new BoltIter($course_doc);
     $iter->decode_state($view->state);
     $iter->at();
@@ -467,11 +467,21 @@ case 'answer':          // submit answer in exercise
     $bolt_ex_score = 0;
     $bolt_query_string = $item->query_string;
     srand($view_id);
-    ob_start();     // turn on output buffering
+    ob_start();     // buffer output to avoid showing exercise text
     require($item->filename);
     ob_end_clean();
 
     $bolt_ex_score /= $bolt_ex_index;
+
+    if ($item->callback) {
+        $user->bolt->attrs = unserialize($user->bolt->attrs);
+        call_user_func(
+            $item->callback, $user, $bolt_ex_score, $bolt_ex_query_string
+        );
+        $user->bolt->attrs = serialize($user->bolt->attrs);
+        $attrs = $user->bolt->attrs;
+        $user->bolt->update("attrs='$attrs'");
+    }
 
     // make a record of the result
 
@@ -488,11 +498,20 @@ case 'answer':          // submit answer in exercise
     $repeat = null;
     $xset = $iter->xset;
     if ($xset) {
-        $is_last = $xset->xset_callback($iter, $bolt_ex_score, $view->id, $avg_score, $repeat);
+        $is_last = $xset->xset_record_score(
+            $iter, $bolt_ex_score, $view->id, $avg_score, $repeat
+        );
         if ($repeat) $repeat->avg_score = $avg_score;
         if ($is_last) {
             // if the exercise set if finished, make or update DB records
             //
+            if ($xset->callback) {
+                $user->bolt->attrs = unserialize($user->bolt->attrs);
+                call_user_func($xset->callback, $user, $avg_score);
+                $user->bolt->attrs = serialize($user->bolt->attrs);
+                $attrs = $user->bolt->attrs;
+                $user->bolt->update("attrs='$attrs'");
+            }
             $now = time();
             $id = BoltXsetResult::insert("(create_time, user_id, course_id, name, score, view_id) values ($now, $user->id, $course->id, '$xset->name', $avg_score, $view_id)");
             $refresh_intervals = $xset->refresh;
@@ -545,7 +564,7 @@ case 'review':
     // user chose to do review then repeat an exercise set
     //
     $view = finalize_view($view_id, BOLT_ACTION_REVIEW);
-    debug_show_state(json_decode($view->state, true), "Initial");
+    debug_show_state(unserialize($view->state), "Initial");
     $iter = new BoltIter($course_doc);
     $iter->decode_state($view->state);
     $iter->at();
@@ -567,7 +586,7 @@ case 'repeat':
     // user chose to repeat an exercise set
     //
     $view = finalize_view($view_id, BOLT_ACTION_REPEAT);
-    debug_show_state(json_decode($view->state, true), "Initial");
+    debug_show_state(unserialize($view->state), "Initial");
     $iter = new BoltIter($course_doc);
     $iter->decode_state($view->state);
     $iter->at();
@@ -629,7 +648,7 @@ case 'resume':
     break;
 case 'question':
     $view = finalize_view($view_id, BOLT_ACTION_QUESTION);
-    debug_show_state(json_decode($view->state, true), "Initial");
+    debug_show_state(unserialize($view->state), "Initial");
     $now = time();
     $question = BoltDb::escape_string(get_str('question'));
     BoltQuestion::insert("(create_time, user_id, course_id, name, question, state) values ($now, $user->id, $course->id, '$view->item_name', '$question', 0)");

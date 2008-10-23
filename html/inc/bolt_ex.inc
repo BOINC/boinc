@@ -156,7 +156,7 @@ function image_rect($img, $rect) {
 
     switch ($bolt_ex_mode) {
     case BOLT_MODE_SHOW:
-        echo "<img src=$img";
+        echo "<img src=$img>";
         break;
     }
 }

@@ -75,6 +75,12 @@ class BoltLesson extends BoltItem {
 }
 
 class BoltExercise extends BoltItem {
+    public $callback;
+        // called as func($student, $score, $query_string) after scoring
+    function __construct($filename, $title, $callback) {
+        parent::__construct($filename, $title);
+        $this->callback = $callback;
+    }
     function is_exercise() {
         return true;
     }
@@ -246,6 +252,10 @@ function filename($n) {
     return array('filename', $n);
 }
 
+function callback($n) {
+    return array('callback', $n);
+}
+
 function lesson() {
     $filename = "";
     $title = "";
@@ -274,11 +284,13 @@ function exercise() {
     $filename = "";
     $title = "";
     $args = func_get_args();
+    $callback = null;
     foreach ($args as $arg) {
         if (is_array($arg)) {
             switch ($arg[0]) {
             case 'title': $title = $arg[1]; break;
             case 'filename': $filename = $arg[1]; break;
+            case 'callback': $callback = $arg[1]; break;
             default: echo "Unrecognized exercise parameter: ", $arg[0], "\n"; break;
             }
         }
@@ -289,7 +301,7 @@ function exercise() {
     if (!$filename) {
         error_page("Missing filename in lesson");
     }
-    return new BoltExercise($filename, $title);
+    return new BoltExercise($filename, $title, $callback);
 }
 
 require_once('../inc/bolt_seq.inc');

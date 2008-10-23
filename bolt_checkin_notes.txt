@@ -230,3 +230,7 @@ David  Oct 20 2008
             bolt_xset.inc
         user/
             bolt_sched.php
+
+David  Oct 23 2008
+    - Add callback mechanism for exercises and exercise sets
+    - Default count for exercise sets is N, not 1

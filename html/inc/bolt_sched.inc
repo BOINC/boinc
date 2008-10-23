@@ -43,11 +43,11 @@ class BoltIter {
     }
 
     function decode_state($encoded_state) {
-        $this->state = json_decode($encoded_state, true);
+        $this->state = unserialize($encoded_state);
     }
 
     function encode_state() {
-        return json_encode($this->state);
+        return serialize($this->state);
     }
 
     // get current item and fraction done
