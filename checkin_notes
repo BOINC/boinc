@@ -8586,3 +8586,19 @@ Rom    22 Oct 2008
     lib/
         stackwalker_imports.h
         stackwalker_win.cpp
+
+Rom    22 Oct 2008
+    - WINSETUP: Don't allow parent permissions to be inhertied
+        from the parent directory when we setup the data
+        directories permissions.
+
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CASetPermissionBOINCData.cpp
+        CASetPermissionBOINCDataProjects.cpp
+        CASetPermissionBOINCDataSlots.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll

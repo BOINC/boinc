@@ -154,7 +154,7 @@ UINT CASetPermissionBOINCDataProjects::OnExecution()
     dwRes = SetNamedSecurityInfo( 
         (LPWSTR)strBOINCDataProjectsDirectory.c_str(),
         SE_FILE_OBJECT,
-        DACL_SECURITY_INFORMATION,
+        DACL_SECURITY_INFORMATION | PROTECTED_DACL_SECURITY_INFORMATION,
         NULL,
         NULL,
         pACL,
