@@ -513,7 +513,7 @@ int GLOBAL_PREFS::parse_override(
             mask.max_ncpus_pct = true;
             continue;
         }
-        if (xp.parse_int(tag, "max_ncpus", max_ncpus)) {
+        if (xp.parse_int(tag, "max_cpus", max_ncpus)) {
             if (max_ncpus < 0) max_ncpus = 0;
             mask.max_ncpus = true;
         }
