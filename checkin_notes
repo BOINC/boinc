@@ -8651,3 +8651,12 @@ Rom    23 Oct 2008
     
     client/
         cpu_sched.cpp
+
+Rom    23 Oct 2008
+    - Tag for 6.3.16 release, all platforms
+      boinc_core_release_6_3_16
+
+    /
+        configure.ac
+        version.h
+
