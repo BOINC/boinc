@@ -8636,4 +8636,11 @@ Rom    23 Oct 2008
     win_build/installerv2/
         BOINC.ism
         BOINCx64.ism
-    
+
+Rom    23 Oct 2008
+    - LIB: The max cpu preferences was named 'max_cpus' and
+        not 'max_ncpus' back in the day.
+        
+    lib/
+        prefs.cpp
+ 
