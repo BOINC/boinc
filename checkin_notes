@@ -8612,3 +8612,16 @@ Rom    22 Oct 2008
     win_build/installerv2/
         BOINC.ism
         BOINCx64.ism
+
+Rom    23 Oct 2008
+    - MGR: Have the SkinManager parse the correct spelling
+        of 'organization'.
+    - MGR: Add a new tab status to the Simple GUI for when
+        the client has been instructed to delay starting
+        applications via the <delay_start> option in cc_config.xml
+        (From Kevin Reed)
+
+    clientgui/
+        sg_ImageButton.cpp, .h
+        sg_ViewTabPage.cpp
+        SkinManager.cpp

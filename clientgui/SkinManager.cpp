@@ -888,13 +888,13 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
                 m_bitmapApplicationLogo = wxBitmap(wxImage(str.c_str(), wxBITMAP_TYPE_ANY));
             }
             continue;
-        } else if (parse_str(buf, "<organizaton_name>", strBuffer)) {
+        } else if (parse_str(buf, "<organization_name>", strBuffer)) {
             m_strOrganizationName = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
-        } else if (parse_str(buf, "<organizaton_website>", strBuffer)) {
+        } else if (parse_str(buf, "<organization_website>", strBuffer)) {
             m_strOrganizationWebsite = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
-        } else if (parse_str(buf, "<organizaton_help_url>", strBuffer)) {
+        } else if (parse_str(buf, "<organization_help_url>", strBuffer)) {
             m_strOrganizationHelpUrl = wxString(strBuffer.c_str(), wxConvUTF8);
             continue;
         } else if (parse_int(buf, "<open_tab>", m_iDefaultTab)) {
