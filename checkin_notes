@@ -4591,3 +4591,12 @@ David  23 Oct 2008
 
 	lib/
 		prefs.cpp
+
+Rom    24 Oct 2008
+    - Tag for 6.2.25 release, all platforms
+      boinc_core_release_6_2_25
+
+    /
+        configure.ac
+        version.h
+
