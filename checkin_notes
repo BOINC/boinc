@@ -8602,3 +8602,13 @@ Rom    22 Oct 2008
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rom    22 Oct 2008
+    - WINSETUP: Include a fix for the ALLUSERS flag so that
+        based on the user preference, the installation settings
+        are honored
+        (From Kevin Reed)
+        
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
