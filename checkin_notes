@@ -8644,3 +8644,10 @@ Rom    23 Oct 2008
     lib/
         prefs.cpp
  
+Rom    23 Oct 2008
+    - client: the max percent needs to be based on the max cpu
+        preference not the total number of CPUs if we are 
+        actually calculating the min of both of them.
+    
+    client/
+        cpu_sched.cpp

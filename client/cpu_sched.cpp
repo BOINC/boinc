@@ -1637,9 +1637,11 @@ void CLIENT_STATE::set_ncpus() {
     }
 
     if (global_prefs.max_ncpus_pct) {
-        ncpus = (int)((host_info.p_ncpus * global_prefs.max_ncpus_pct)/100);
+        ncpus = (int)((ncpus * global_prefs.max_ncpus_pct)/100);
     }
+
     if (ncpus == 0) ncpus = 1;
+
     if (global_prefs.max_ncpus && global_prefs.max_ncpus < ncpus) {
         ncpus = global_prefs.max_ncpus;
     }
