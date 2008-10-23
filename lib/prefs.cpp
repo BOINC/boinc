@@ -666,7 +666,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         cpu_usage_limit
     );
     if (max_ncpus) {
-        f.printf("   <max_ncpus>%d</max_ncpus>\n", max_ncpus);
+        f.printf("   <max_cpus>%d</max_cpus>\n", max_ncpus);
     }
 
     for (int i=0; i<7; i++) {
@@ -761,7 +761,7 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
         f.printf("   <max_ncpus_pct>%f</max_ncpus_pct>\n", max_ncpus_pct);
     }
     if (mask.max_ncpus) {
-        f.printf("   <max_ncpus>%d</max_ncpus>\n", max_ncpus);
+        f.printf("   <max_cpus>%d</max_cpus>\n", max_ncpus);
     }
     if (mask.cpu_scheduling_period_minutes) {
         f.printf("   <cpu_scheduling_period_minutes>%f</cpu_scheduling_period_minutes>\n", cpu_scheduling_period_minutes);
