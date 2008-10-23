@@ -4506,3 +4506,15 @@ Charlie 21 Oct 2008
     mac_installer/
         make_GridRepublic.sh
         PostInstall.cpp
+
+Rom    22 Oct 2008
+    - WINSETUP: Don't allow parent permissions to be inhertied
+        from the parent directory when we setup the data
+        directories permissions.
+
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
