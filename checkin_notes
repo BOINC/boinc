@@ -8625,3 +8625,15 @@ Rom    23 Oct 2008
         sg_ImageButton.cpp, .h
         sg_ViewTabPage.cpp
         SkinManager.cpp
+
+Rom    23 Oct 2008
+    - WINSETUP: When the shortcut to BOINC Manager remove the
+        minimize flag, it apparently was causing the small
+        manager window.  The '/s' parameter already takes
+        care of minimizing the window.
+        (From Kevin Reed)
+        
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
+    
