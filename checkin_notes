@@ -8665,3 +8665,12 @@ David  23 Oct 2008
 
 	lib/
 		prefs.cpp
+
+Rom    23 Oct 2008
+    - Tag for 6.3.17 release, all platforms
+      boinc_core_release_6_3_17
+
+    /
+        configure.ac
+        version.h
+
