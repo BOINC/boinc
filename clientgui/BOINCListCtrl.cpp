@@ -429,7 +429,7 @@ void CBOINCListCtrl::RefreshCell(int row, int col) {
     for (i=0; i< col; i++) {
         r.x += GetColumnWidth(i);
     }
-    r.width = GetColumnWidth(col);;
+    r.width = GetColumnWidth(col);
 #endif
 
     RefreshRect(r);

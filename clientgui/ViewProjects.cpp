@@ -145,7 +145,7 @@ static bool CompareViewProjectsItems(int iRowIndex1, int iRowIndex2) {
     }
 
     // Always return FALSE for equality (result == 0)
-    return (myCViewProjects->m_bReverseSort ? (result > 0) : (result <= 0));
+    return (myCViewProjects->m_bReverseSort ? (result > 0) : (result < 0));
 }
 
 

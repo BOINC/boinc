@@ -135,7 +135,7 @@ static bool CompareViewTransferItems(int iRowIndex1, int iRowIndex2) {
     }
 
     // Always return FALSE for equality (result == 0)
-    return (MyCViewTransfers->m_bReverseSort ? (result > 0) : (result <= 0));
+    return (MyCViewTransfers->m_bReverseSort ? (result > 0) : (result < 0));
 }
 
 

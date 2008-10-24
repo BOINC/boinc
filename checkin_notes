@@ -8679,3 +8679,13 @@ David  23 Oct 2008
 
     client/
         cs_cmdline.cpp
+
+Charlie 24 Oct 2008
+    - MGR: Fix typo in BOINCListCtrl.cpp: remove extra semicolon. 
+    - MGR: Sort compare functions return false if values are equal (to 
+        fix asserts in stable_sort).
+
+    clientgui/
+        BOINCListCtrl.cpp
+        ViewProjects.cpp
+        ViewTransfers.cpp
