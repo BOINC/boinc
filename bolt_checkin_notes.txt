@@ -237,7 +237,7 @@ David  Oct 23 2008
     - Switch from JSON to PHP serialization
         (NOTE: this requires cleaning out your DB)
 
-David  Oct 23 2008
+David  Oct 24 2008
     - Change the info passed to/from exercise functions from
          bunch of globals to a single global struct
     - Change the arguments to exercise functions
@@ -246,3 +246,16 @@ David  Oct 23 2008
     html/
         inc/
             bolt_ex.inc
+
+David  Oct 24 2008
+    - added "image" exercise type
+
+    html/
+        inc/
+            bolt_ex.inc
+        ops/
+            bolt_compare.php
+        user/
+            bolt.css
+            bolt_admin.css
+            bolt_sched.php

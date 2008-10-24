@@ -106,7 +106,7 @@ function page_header($title=null) {
         ";
     }
     echo "
-        <link rel=stylesheet type=text/css href=white.css>
+        <link rel=stylesheet type=text/css href=bolt.css>
         </head><body>
     ";
     if (function_exists('bolt_header')) bolt_header($title);

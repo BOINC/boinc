@@ -197,9 +197,54 @@ function image_rect($img, $rect) {
 
     switch ($bolt_ex->mode) {
     case BOLT_MODE_SHOW:
-        echo "<img src=$img>";
+        echo "<form name=main action=bolt_sched.php>
+            <input type=image name=pic_$bolt_ex->index src=$img>
+        ";
+        break;
+    case BOLT_MODE_SCORE:
+        $x = get_int("pic_".$bolt_ex->index."_x");
+        $y = get_int("pic_".$bolt_ex->index."_y");
+        $right = true;
+        if ($x < $rect[0]) $right = false;
+        if ($x > $rect[1]) $right = false;
+        if ($y < $rect[2]) $right = false;
+        if ($y > $rect[3]) $right = false;
+        if ($right) {
+            $bolt_ex->score += 1;
+        }
+        $bolt_ex->weight += $weight;
+        break;
+    case BOLT_MODE_ANSWER:
+        $x = get_int("pic_".$bolt_ex->index."_x");
+        $y = get_int("pic_".$bolt_ex->index."_y");
+        $right = true;
+        if ($x < $rect[0]) $right = false;
+        if ($x > $rect[1]) $right = false;
+        if ($y < $rect[2]) $right = false;
+        if ($y > $rect[3]) $right = false;
+        $cx = $rect[0];
+        $cy = $rect[2];
+        $sizex = $rect[1]-$rect[0];
+        $sizey = $rect[3]-$rect[2];
+        $ax = $x-4;
+        $ay = $y-4;
+        $color = $right?"green":"red";
+        if ($right) {
+            echo "The point you selected (shown in green) is correct.";
+        } else {
+            echo "The point you selected (shown in red) is not correct.";
+        }
+        echo "
+            <div style=\"position:relative; \">
+            <span style=\"width:".$sizex."px;height:".$sizey."px;position:absolute;top:".$cy.";left:".$cx.";color:white;border-style:solid;border-width:3px\"><br></span>
+            <span style=\"width:8;height:8;position:absolute;top:".$ay.";left:".$ax.";color:$color;border-style:solid;border-width:4px\"><br></span>
+            <img src=$img align=left>
+            </div>
+            <br clear=all>
+        ";
         break;
     }
+    $bolt_ex->index++;
 }
 
 ?>

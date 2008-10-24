@@ -107,7 +107,7 @@ function compare_aux($select_name, $xset_name, $snap) {
 
     page_head("Unit comparison");
     echo "
-        <link rel=\"stylesheet\" type=\"text/css\" href=\"".URL_BASE."bolt.css\">
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"".URL_BASE."bolt_admin.css\">
         The following compares the alternatives of
         <b>$select_name</b> with respect to <b>$xset_name</b>.
         <p>
