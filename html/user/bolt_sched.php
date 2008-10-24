@@ -178,10 +178,7 @@ function show_nav($links, $up_link, $view_id) {
 function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
     global $user;
     global $course;
-    global $bolt_ex_mode;
-    global $bolt_ex_index;
-    global $bolt_ex_score;
-    global $bolt_query_string;
+    global $bolt_ex;
     global $refresh;
     global $url_args;
 
@@ -197,8 +194,8 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
     $next = "<a href=bolt_sched.php?$url_args&action=next&view_id=$view_id><img src=img/next.gif></a>";
 
     if ($item->is_exercise()) {
-        $bolt_ex_mode = $mode;
-        $bolt_ex_index = 0;
+        $bolt_ex->mode = $mode;
+        $bolt_ex->index = 0;
         switch ($mode) {
         case BOLT_MODE_SHOW:
             echo "
@@ -220,7 +217,7 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
         case BOLT_MODE_ANSWER:
             require($item->filename);
             if (function_exists('bolt_divide')) bolt_divide();
-            $score_pct = number_format($bolt_ex_score*100);
+            $score_pct = number_format($bolt_ex->score*100);
             echo "Score: $score_pct%";
             break;
         }
@@ -269,12 +266,10 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
 // Show the student the results of an old exercise; no navigation items
 //
 function show_answer_page($iter, $score) {
-    global $bolt_ex_mode;
-    global $bolt_ex_index;
-    global $bolt_query_string;
+    global $bolt_ex;
 
-    $bolt_ex_mode = BOLT_MODE_ANSWER;
-    $bolt_ex_index = 0;
+    $bolt_ex->mode = BOLT_MODE_ANSWER;
+    $bolt_ex->index = 0;
 
     $item = $iter->item;
     page_header();
@@ -397,8 +392,8 @@ case 'prev':
             $v2 = BoltView::lookup_id($view->prev_view_id);
             $result = BoltResult::lookup_id($v2->result_id);
             srand($v2->id);
-            $bolt_ex_score = $result->score;
-            $bolt_ex_query_string = $result->response;
+            $bolt_ex->score = $result->score;
+            $bolt_ex->query_string = $result->response;
         }
         $view_id = create_view($iter, $mode, $view->prev_view_id);
         show_item($iter, $view_id, $view->prev_view_id, $mode);
@@ -461,22 +456,22 @@ case 'answer':          // submit answer in exercise
 
     // compute the score
 
-    $bolt_ex_query_string = $_SERVER['QUERY_STRING'];
-    $bolt_ex_mode = BOLT_MODE_SCORE;
-    $bolt_ex_index = 0;
-    $bolt_ex_score = 0;
+    $bolt_ex->query_string = $_SERVER['QUERY_STRING'];
+    $bolt_ex->mode = BOLT_MODE_SCORE;
+    $bolt_ex->index = 0;
+    $bolt_ex->score = 0;
     $bolt_query_string = $item->query_string;
     srand($view_id);
     ob_start();     // buffer output to avoid showing exercise text
     require($item->filename);
     ob_end_clean();
 
-    $bolt_ex_score /= $bolt_ex_index;
+    $bolt_ex->score /= $bolt_ex->index;
 
     if ($item->callback) {
         $user->bolt->attrs = unserialize($user->bolt->attrs);
         call_user_func(
-            $item->callback, $user, $bolt_ex_score, $bolt_ex_query_string
+            $item->callback, $user, $bolt_ex->score, $bolt_ex->query_string
         );
         $user->bolt->attrs = serialize($user->bolt->attrs);
         $attrs = $user->bolt->attrs;
@@ -489,7 +484,7 @@ case 'answer':          // submit answer in exercise
     $now = time();
     $result_id = BoltResult::insert(
         "(create_time, user_id, course_id, view_id, item_name, score, response)
-        values ($now, $user->id, $course->id, $view->id, '$view->item_name', $bolt_ex_score, '$qs')"
+        values ($now, $user->id, $course->id, $view->id, '$view->item_name', $bolt_ex->score, '$qs')"
     );
     $view->update("result_id=$result_id");
 
@@ -499,7 +494,7 @@ case 'answer':          // submit answer in exercise
     $xset = $iter->xset;
     if ($xset) {
         $is_last = $xset->xset_record_score(
-            $iter, $bolt_ex_score, $view->id, $avg_score, $repeat
+            $iter, $bolt_ex->score, $view->id, $avg_score, $repeat
         );
         if ($repeat) $repeat->avg_score = $avg_score;
         if ($is_last) {
@@ -553,7 +548,7 @@ case 'answer_page':
     }
     $result = BoltResult::lookup_id($view->result_id);
     srand($view_id);
-    $bolt_ex_query_string = $result->response;
+    $bolt_ex->query_string = $result->response;
     show_answer_page($iter, $result->score);
     break;
 case 'course_home':
@@ -636,9 +631,9 @@ case 'resume':
         $view_orig = BoltView::lookup_id($view->prev_view_id);
         $result = BoltResult::lookup_id($view_orig->result_id);
         srand($view_orig->id);
-        $bolt_ex_query_string = $result->response;
-        $bolt_ex_score = $result->score;
-        $bolt_ex_index = 0;
+        $bolt_ex->query_string = $result->response;
+        $bolt_ex->score = $result->score;
+        $bolt_ex->index = 0;
         $view_id = create_view($iter, $mode, $view_orig->id);
         show_item($iter, $view_id, $view_orig->id, $mode);
     } else {

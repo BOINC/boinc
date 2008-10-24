@@ -18,27 +18,55 @@
 
 // Bolt exercise API
 
-$bolt_ex_mode = 0;
-$bolt_ex_index = 0;
-$bolt_ex_state = 0;
-$bolt_ex_score = 0;
-$bolt_ex_query_string = "";
+// The following is a global var accessed by exercise functions.
+//
+$bolt_ex = null;
+$bolt_ex->mode = 0;     // input: SHOW/SCORE/ANSWER
+$bolt_ex->index = 0;    // input: sequence of this exercise in file
+$bolt_ex->score = 0;    // input/output: cumulative score (if mode = SCORE)
+$bolt_ex->weight = 0;   // input/output: cumulative weight
+$bolt_ex->query_string = "";    // user's response (if SCORE or ANSWER)
 
-function exclusive_choice($choices) {
-    global $bolt_ex_mode;   // input
-    global $bolt_ex_index;  // input
-    global $bolt_ex_score;  // incremental output if SCORE
-    global $bolt_ex_query_string;
+class BoltWeight {
+    public $weight;
+    function __construct($weight) {
+        $this->weight = $weight;
+    }
+}
 
-    parse_str($bolt_ex_query_string);
+function weight($w) {
+    return new BoltWeight($w);
+}
 
-    switch ($bolt_ex_mode) {
+function exclusive_choice() {
+    global $bolt_ex;
+    $weight = 1;
+
+    $choices = array();
+    $args = func_get_args();
+    foreach ($args as $arg) {
+        if (is_string($arg)) {
+            $choices[] = $arg;
+        } else if (is_object($arg)) {
+            if (get_class($arg) == 'BoltWeight') {
+                $weight = $arg->weight;
+            } else {
+                "bad arg to exclusive_choice()";
+            }
+        } else {
+            "bad arg to exclusive_choice()";
+        }
+    }
+
+    parse_str($bolt_ex->query_string);
+
+    switch ($bolt_ex->mode) {
     case BOLT_MODE_SHOW:
         shuffle($choices);
         $i = 0;
         start_table();
         foreach ($choices as $choice) {
-            row2($choice, "<input name=q_$bolt_ex_index type=radio value=$i>");
+            row2($choice, "<input name=q_$bolt_ex->index type=radio value=$i>");
             $i++;
         }
         end_table();
@@ -46,18 +74,19 @@ function exclusive_choice($choices) {
     case BOLT_MODE_SCORE:
         $right_ans = $choices[0];
         shuffle($choices);
-        $key = "q_$bolt_ex_index";
+        $key = "q_$bolt_ex->index";
         if (isset($$key)) {
             $response = $$key;
             if ($choices[$response] == $right_ans) {
-                $bolt_ex_score += 1;
+                $bolt_ex->score += 1;
             }
         }
+        $bolt_ex->weight += $weight;
         break;
     case BOLT_MODE_ANSWER:
         $right_ans = $choices[0];
         shuffle($choices);
-        $key = "q_$bolt_ex_index";
+        $key = "q_$bolt_ex->index";
         if (isset($$key)) {
             $response = $$key;
         } else {
@@ -84,25 +113,39 @@ function exclusive_choice($choices) {
         end_table();
         break;
     }
-    $bolt_ex_index++;
+    $bolt_ex->index++;
 }
 
-function inclusive_choice($choices) {
-    global $bolt_ex_mode;   // input
-    global $bolt_ex_index;  // input
-    global $bolt_ex_score;  // incremental output if SCORE
-    global $bolt_ex_query_string;
+function inclusive_choice() {
+    global $bolt_ex;
+    $weight = 1;
 
-    parse_str($bolt_ex_query_string);
+    $choices = array();
+    $args = func_get_args();
+    foreach ($args as $arg) {
+        if (is_array($arg)) {
+            $choices[] = $arg;
+        } else if (is_object($arg)) {
+            if (get_class($arg) == 'BoltWeight') {
+                $weight = $arg->weight;
+            } else {
+                "bad arg to inclusive_choice()";
+            }
+        } else {
+            "bad arg to inclusive_choice()";
+        }
+    }
 
-    switch ($bolt_ex_mode) {
+    parse_str($bolt_ex->query_string);
+
+    switch ($bolt_ex->mode) {
     case BOLT_MODE_SHOW:
         shuffle($choices);
         $i = 0;
         start_table();
         foreach ($choices as $choice) {
             $c = $choice[0];
-            row2("<input name=q_".$bolt_ex_index."_$i type=checkbox>", $c);
+            row2("<input name=q_".$bolt_ex->index."_$i type=checkbox>", $c);
             $i++;
         }
         end_table();
@@ -113,14 +156,15 @@ function inclusive_choice($choices) {
         $score = 0;
         shuffle($choices);
         foreach ($choices as $choice) {
-            $key = "q_".$bolt_ex_index."_$i";
+            $key = "q_".$bolt_ex->index."_$i";
             $response = isset($$key);
             $r = $choice[1];
             $correct = ($r && $response) || (!$r && !$response);
             if ($correct) $score += 1./$n;
             $i++;
         }
-        $bolt_ex_score += $score;
+        $bolt_ex->score += $score;
+        $bolt_ex->weight += $weight;
         break;
     case BOLT_MODE_ANSWER:
         $i = 0;
@@ -130,7 +174,7 @@ function inclusive_choice($choices) {
         table_header("Choice", "Correct?", "Your answer");
         foreach ($choices as $choice) {
             $c = $choice[0];
-            $key = "q_".$bolt_ex_index."_$i";
+            $key = "q_".$bolt_ex->index."_$i";
             $response = isset($$key);
             $r = $choice[1];
             $correct = ($r && $response) || (!$r && !$response);
@@ -143,18 +187,15 @@ function inclusive_choice($choices) {
         end_table();
         break;
     }
-    $bolt_ex_index++;
+    $bolt_ex->index++;
 }
 
 function image_rect($img, $rect) {
-    global $bolt_ex_mode;   // input
-    global $bolt_ex_index;  // input
-    global $bolt_ex_state;  // output if SHOW, else input
-    global $bolt_ex_score;  // incremental output if SCORE
+    global $bolt_ex;
 
-    parse_str($bolt_ex_query_string);
+    parse_str($bolt_ex->query_string);
 
-    switch ($bolt_ex_mode) {
+    switch ($bolt_ex->mode) {
     case BOLT_MODE_SHOW:
         echo "<img src=$img>";
         break;

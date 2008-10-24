@@ -234,3 +234,15 @@ David  Oct 20 2008
 David  Oct 23 2008
     - Add callback mechanism for exercises and exercise sets
     - Default count for exercise sets is N, not 1
+    - Switch from JSON to PHP serialization
+        (NOTE: this requires cleaning out your DB)
+
+David  Oct 23 2008
+    - Change the info passed to/from exercise functions from
+         bunch of globals to a single global struct
+    - Change the arguments to exercise functions
+        to allow for a weight() arg
+
+    html/
+        inc/
+            bolt_ex.inc
