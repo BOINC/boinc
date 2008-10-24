@@ -51,7 +51,7 @@ if (file_exists("../cache/remote.revision")
         $context = stream_context_create(
             array(
                 'http' => array(
-                    'request_fulluri' = true,
+                    'request_fulluri' => true,
                     'proxy' => $project_http_proxy
                 )
             )
