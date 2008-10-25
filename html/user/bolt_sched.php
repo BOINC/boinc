@@ -97,19 +97,14 @@ function create_view($iter, $mode, $prev_view_id) {
     return BoltView::insert("(user_id, course_id, item_name, start_time, mode, state, fraction_done, prev_view_id) values ($user->id, $course->id, '$item->name', $now, $mode, '$state', $iter->frac_done, $prev_view_id)");
 }
 
-function page_header($title=null) {
+function page_header() {
+    global $course;
     echo "<html><head>
-    ";
-    if ($title) {
-        echo "
-            <title>$title</title>
-        ";
-    }
-    echo "
+        <title>$course->name</title>
         <link rel=stylesheet type=text/css href=bolt.css>
         </head><body>
     ";
-    if (function_exists('bolt_header')) bolt_header($title);
+    if (function_exists('bolt_header')) bolt_header();
 }
 
 function page_footer() {
@@ -352,7 +347,7 @@ case 'start':
     }
     $e = BoltEnrollment::lookup($user->id, $course_id);
     if ($e) {
-        page_header("Confirm restart");
+        page_header();
         echo "You are already enrolled in $course->name.
             <p>
             Are you sure you want to start over from the beginning?
@@ -647,7 +642,7 @@ case 'question':
     $now = time();
     $question = BoltDb::escape_string(get_str('question'));
     BoltQuestion::insert("(create_time, user_id, course_id, name, question, state) values ($now, $user->id, $course->id, '$view->item_name', '$question', 0)");
-    page_header("Question recorded");
+    page_header();
     echo "
         Thanks; we have recorded your question.
         Questions help us improve this course.

@@ -8689,3 +8689,9 @@ Charlie 24 Oct 2008
         BOINCListCtrl.cpp
         ViewProjects.cpp
         ViewTransfers.cpp
+
+David  25 Oct 2008
+    - client: ignore max_cpus if max_ncpus_pct is nonzero
+
+    client/
+        cpu_sched.cpp
