@@ -62,10 +62,10 @@ function type_text($type) {
 }
 
 $w63= array(
-    "num"=>"6.3.14",
+    "num"=>"6.3.17",
     "status"=>"Development version",
-    "file"=>"boinc_6.3.14_windows_intelx86.exe",
-    "date"=>"8 Oct 2008",
+    "file"=>"boinc_6.3.17_windows_intelx86.exe",
+    "date"=>"24 Oct 2008",
     "type"=>"win_new",
 );
 
@@ -86,10 +86,10 @@ $w51045= array(
 );
 
 $w63x64= array(
-    "num"=>"6.3.14",
+    "num"=>"6.3.17",
     "status"=>"Development version",
-    "file"=>"boinc_6.3.14_windows_x86_64.exe",
-    "date"=>"8 Oct 2008",
+    "file"=>"boinc_6.3.17_windows_x86_64.exe",
+    "date"=>"24 Oct 2008",
     "type"=>"win_new",
 );
 
@@ -117,11 +117,11 @@ $w5816= array(
     "type"=>"win_new",
 );
 
-$m6314 = array(
-    "num"=>"6.3.14",
+$m6317 = array(
+    "num"=>"6.3.17",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_6.3.14_macOSX_universal.zip",
-    "date"=>"9 0CT 2008",
+    "file"=>"boinc_6.3.17_macOSX_universal.zip",
+    "date"=>"24 0CT 2008",
     "type"=>"mac_advanced",
 );
 
@@ -149,11 +149,11 @@ $m5817 = array(
     "type"=>"mac_advanced",
 );
 
-$m6314c = array(
-    "num"=>"6.3.14",
+$m6317c = array(
+    "num"=>"6.3.17",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_6.3.14_universal-apple-darwin.zip",
-    "date"=>"9 Oct 2008",
+    "file"=>"boinc_6.3.17_universal-apple-darwin.zip",
+    "date"=>"24 Oct 2008",
     "type"=>"bare_core",
 );
 
@@ -289,8 +289,8 @@ $mac = array(
     "description"=>"Version 10.3.9+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m6314,
-        $m6314c,
+        $m6317,
+        $m6317c,
         $m6218,
         $m6218c,
         $m51045,
