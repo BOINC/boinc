@@ -207,7 +207,7 @@ int CLIENT_STATE::suspend_tasks(int reason) {
         active_tasks.suspend_all(true);
     } else {
         print_suspend_tasks_message(reason);
-        active_tasks.suspend_all(global_prefs.leave_apps_in_memory);
+        active_tasks.suspend_all(false);
     }
     return 0;
 }

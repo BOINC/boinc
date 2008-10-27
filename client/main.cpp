@@ -295,7 +295,6 @@ static void init_core_client(int argc, char** argv) {
     int flags =
         BOINC_DIAG_DUMPCALLSTACKENABLED |
         BOINC_DIAG_HEAPCHECKENABLED |
-        BOINC_DIAG_HEAPCHECKEVERYALLOC |
         BOINC_DIAG_TRACETOSTDOUT;
 
     if (gstate.redirect_io || gstate.executing_as_daemon || gstate.detach_console) {

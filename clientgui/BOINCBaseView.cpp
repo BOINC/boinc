@@ -788,7 +788,7 @@ double CBOINCBaseView::GetProgressValue(long) {
 }
 
 
-wxString CBOINCBaseView::GetProgressText( long item) {
+wxString CBOINCBaseView::GetProgressText( long ) {
     return wxEmptyString;
 }
 

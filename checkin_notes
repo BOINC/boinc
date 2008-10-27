@@ -8704,3 +8704,19 @@ Rom    27 Oct 2008
         configure.ac
         version.h
 
+David  27 Oct 2008
+	- client: for CPU throttling, don't suspend apps that
+		are non-CPU-intensive or that use < 1 CPU (e.g., CUDA)
+	- client: get rid of spurious "internal error,
+		expected process to be executing" msg
+	- diag: don't check heap on every alloc
+	- fix a few compile warnings
+	client/
+		app_control.cpp
+		cpu_sched.cpp
+		cs_prefs.cpp
+		main.cpp
+		time_stats.cpp
+		work_fetch.cpp
+	clientgui/
+		BOINCBaseView.cpp

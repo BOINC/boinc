@@ -1060,7 +1060,7 @@ bool CLIENT_STATE::enforce_schedule() {
                 // Handle the case where user changes prefs from
                 // "leave in memory" to "remove from memory".
                 // Need to quit suspended tasks.
-                if (!global_prefs.leave_apps_in_memory) {
+				if (atp->checkpoint_cpu_time && !global_prefs.leave_apps_in_memory) {
                     atp->preempt(true);
                 }
                 break;
@@ -1656,7 +1656,7 @@ void CLIENT_STATE::set_ncpus() {
 
 // preempt this task
 // called from the CLIENT_STATE::schedule_cpus()
-// if quit_task is true do this by quitting
+// if quit_task is true, do this by quitting
 //
 int ACTIVE_TASK::preempt(bool quit_task) {
     int retval;

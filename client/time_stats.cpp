@@ -313,12 +313,14 @@ void TIME_STATS::quit() {
     log_append("power_off", gstate.now);
 }
 
+#ifdef SIM
+void TIME_STATS::log_append(const char* , double ) {}
+#else
 void TIME_STATS::log_append(const char* msg, double t) {
-#ifndef SIM
     if (!time_stats_log) return;
     fprintf(time_stats_log, "%f %s\n", t, msg);
-#endif
 }
+#endif
 
 void TIME_STATS::log_append_net(int new_state) {
     switch(new_state) {

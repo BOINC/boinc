@@ -773,6 +773,7 @@ double RESULT::estimated_cpu_time(bool for_work_fetch) {
     if (dual_dcf && for_work_fetch && spp->completions_ratio_mean) {
         return estimated_cpu_time_uncorrected()*spp->completions_ratio_mean;
     }
+    return estimated_cpu_time_uncorrected()*project->duration_correction_factor;
 }
 #else
 double RESULT::estimated_cpu_time(bool) {
