@@ -18,8 +18,8 @@
 
 class BoltRandom extends BoltSet {
     public $units;
-    function __construct($name, $units, $number) {
-        parent::__construct($name, $units, $number);
+    function __construct($name, $units, $number, $attrs) {
+        parent::__construct($name, $units, $number, $attrs);
     }
 
     function order(&$iter) {
@@ -49,12 +49,14 @@ function random() {
     $units = array();
     $name = "";
     $number = 0;
+	$attrs = null;
     foreach ($args as $arg) {
         if (is_array($arg)) {
             switch ($arg[0]) {
             case 'name': $name = $arg[1]; break;
             case 'title': $title = $arg[1]; break;
             case 'number': $number = $arg[1]; break;
+            case 'attrs': $attrs = $arg[1]; break;
             default: echo "Unrecognized array arg: ", $arg[0], "\n"; break;
             }
         } else if (is_object($arg)) {
@@ -67,7 +69,7 @@ function random() {
         }
     }
     if ($number == 0) $number = count($units);
-    return new BoltRandom($name, $units, $number);
+    return new BoltRandom($name, $units, $number, $attrs);
 }
 
 ?>

@@ -17,8 +17,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 class BoltSequence extends BoltSet {
-    function __construct($name, $units) {
-        parent::__construct($name, $units, count($units));
+    function __construct($name, $units, $attrs) {
+        parent::__construct($name, $units, count($units), $attrs);
     }
 
     function order() {
@@ -39,11 +39,13 @@ function sequence() {
     $args = func_get_args();
     $units = array();
     $name = "";
+	$attrs = null;
     foreach ($args as $arg) {
         if (is_array($arg)) {
             switch ($arg[0]) {
             case 'name': $name = $arg[1]; break;
             case 'title': $title = $arg[1]; break;
+            case 'attrs': $attrs = $arg[1]; break;
             default: echo "Unrecognized array arg: ", $arg[0], "\n"; break;
             }
         } else if (is_object($arg)) {
@@ -55,7 +57,7 @@ function sequence() {
             }
         }
     }
-    return new BoltSequence($name, $units);
+    return new BoltSequence($name, $units, $attrs);
 }
 
 ?>

@@ -20,10 +20,12 @@ class BoltExerciseSet extends BoltRandom {
     public $repeats;
     public $refresh;
     public $callback;
+
     function __construct(
-        $name, $units, $number, $repeats, $refresh, $callback
+        $name, $units, $number, $repeats, $refresh, $attrs, $callback
     ) {
-        parent::__construct($name, $units, $number);
+        parent::__construct($name, $units, $number, $attrs);
+
         $this->repeats = $repeats;
         $this->refresh = $refresh;
         $this->callback = $callback;
@@ -168,12 +170,14 @@ function exercise_set() {
     $callback = null;
     $name = "";
     $number = 0;
+	$attrs = null;
     foreach ($args as $arg) {
         if (is_array($arg)) {
             switch ($arg[0]) {
             case 'name': $name = $arg[1]; break;
             case 'title': $title = $arg[1]; break;
             case 'number': $number = $arg[1]; break;
+            case 'attrs': $attrs = $arg[1]; break;
             case 'callback': $callback = $arg[1]; break;
             default: echo "Unrecognized array arg: ", $arg[0], "\n"; break;
             }
@@ -191,9 +195,10 @@ function exercise_set() {
             echo "Unexpected arg to exercise_set(): "; print_r($arg);
         }
     }
+
     if ($number == 0) $number = count($units);
     return new BoltExerciseSet(
-        $name, $units, $number, $repeats, $refresh, $callback
+        $name, $units, $number, $repeats, $refresh, $attrs, $callback
     );
 }
 

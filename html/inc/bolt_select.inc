@@ -24,9 +24,9 @@ function select_cmp($a, $b) {
 class BoltSelect extends BoltSet {
     public $valuator;
 
-    function __construct($name, $units, $valuator) {
+    function __construct($name, $units, $valuator, $attrs) {
         $this->valuator = $valuator;
-        parent::__construct($name, $units, 1);
+        parent::__construct($name, $units, 1, $attrs);
     }
 
     function order() {
@@ -60,12 +60,14 @@ function select() {
     $args = func_get_args();
     $units = array();
     $name = "";
+	$attrs = null;
     foreach ($args as $arg) {
         if (is_array($arg)) {
             switch ($arg[0]) {
             case 'name': $name = $arg[1]; break;
             case 'title': $title = $arg[1]; break;
             case 'valuator': $valuator = $arg[1]; break;
+            case 'attrs': $attrs = $arg[1]; break;
             default: echo "Unrecognized array arg: ", $arg[0], "\n"; break;
             }
         } else if (is_object($arg)) {
@@ -80,7 +82,7 @@ function select() {
     if (!$valuator) {
         error_page("missing valuator");
     }
-    return new BoltSelect($name, $units, $valuator);
+    return new BoltSelect($name, $units, $valuator, $attrs);
 }
 
 ?>

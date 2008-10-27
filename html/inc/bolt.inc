@@ -30,6 +30,7 @@ abstract class BoltUnit {
     public $title;
         // Optional; used when showing course history outline.
     public $is_item;
+	public $attrs;		// course-defined
 
     abstract function walk(&$iter, $incr, &$frac_done);
         // multi-purpose function for traversing a course.
@@ -47,7 +48,7 @@ abstract class BoltUnit {
 class BoltItem extends BoltUnit {
     public $filename;
     public $query_string;
-    function __construct($filename, $title) {
+    function __construct($filename, $title, $attrs) {
         $p = strpos($filename, '?');
         if ($p === false) {
             $this->filename = $filename;
@@ -59,6 +60,7 @@ class BoltItem extends BoltUnit {
         $this->name = $filename;
         $this->title = $title;
         $this->is_item = true;
+		$this->attrs = $attrs;
     }
     function begin() {
         return array(new BoltFrame($this));
@@ -108,12 +110,13 @@ class BoltExercise extends BoltItem {
 //
 class BoltSet extends BoltUnit {
     public $units;
-    function __construct($name, $units, $ntoshow) {
+    function __construct($name, $units, $ntoshow, $attrs) {
         $this->name = $name;
         $this->is_item = false;
         $this->units = $units;
         $this->ntoshow = $ntoshow;
         $this->ordered = false;
+		$this->attrs = $attrs;
     }
 
     // restart this unit - set its state record to an initial state
@@ -252,6 +255,10 @@ function filename($n) {
     return array('filename', $n);
 }
 
+function attrs($n) {
+    return array('attrs', $n);
+}
+
 function callback($n) {
     return array('callback', $n);
 }
@@ -259,12 +266,15 @@ function callback($n) {
 function lesson() {
     $filename = "";
     $title = "";
+	$attrs = null;
+
     $args = func_get_args();
     foreach ($args as $arg) {
         if (is_array($arg)) {
             switch ($arg[0]) {
             case 'title': $title = $arg[1]; break;
             case 'filename': $filename = $arg[1]; break;
+            case 'attrs': $attrs = $arg[1]; break;
             default: echo "Unrecognized lesson parameter: ", $arg[0], "\n"; break;
             }
         } else {
@@ -277,12 +287,14 @@ function lesson() {
     if (!$filename) {
         error_page("Missing filename in lesson");
     }
-    return new BoltLesson($filename, $title);
+    return new BoltLesson($filename, $title, $attrs);
 }
 
 function exercise() {
     $filename = "";
     $title = "";
+	$attrs = null;
+
     $args = func_get_args();
     $callback = null;
     foreach ($args as $arg) {
@@ -290,6 +302,7 @@ function exercise() {
             switch ($arg[0]) {
             case 'title': $title = $arg[1]; break;
             case 'filename': $filename = $arg[1]; break;
+            case 'attrs': $attrs = $arg[1]; break;
             case 'callback': $callback = $arg[1]; break;
             default: echo "Unrecognized exercise parameter: ", $arg[0], "\n"; break;
             }
@@ -301,7 +314,7 @@ function exercise() {
     if (!$filename) {
         error_page("Missing filename in lesson");
     }
-    return new BoltExercise($filename, $title, $callback);
+    return new BoltExercise($filename, $title, $attrs, $callback);
 }
 
 require_once('../inc/bolt_seq.inc');
