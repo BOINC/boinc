@@ -412,15 +412,6 @@ int CLIENT_STATE::handle_scheduler_reply(
         msg_printf(project, MSG_INFO, "Scheduler request completed: got %d new tasks", (int)sr.results.size());
     }
     if (log_flags.sched_op_debug) {
-        if (sr.results.size()) {
-            double x = 0;
-            for (i=0; i<sr.results.size(); i++) {
-                x += sr.results[i].estimated_cpu_time(false);
-            }
-            msg_printf(project, MSG_INFO,
-                "[sched_ops_debug] estimated total CPU time: %.0f seconds", x
-            );
-        }
         if (sr.scheduler_version) {
             msg_printf(project, MSG_INFO,
                 "[sched_ops_debug] Server version %d",
@@ -722,6 +713,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         wup->clear_errors();
         workunits.push_back(wup);
     }
+    double est_cpu_time = 0;
     for (i=0; i<sr.results.size(); i++) {
         if (lookup_result(project, sr.results[i].name)) {
             msg_printf(project, MSG_INTERNAL_ERROR,
@@ -758,6 +750,15 @@ int CLIENT_STATE::handle_scheduler_reply(
         results.push_back(rp);
         rp->set_state(RESULT_NEW, "handle_scheduler_reply");
         nresults++;
+        est_cpu_time += rp->estimated_cpu_time(false);
+    }
+    if (log_flags.sched_op_debug) {
+        if (sr.results.size()) {
+            msg_printf(project, MSG_INFO,
+                "[sched_ops_debug] estimated total CPU time: %.0f seconds",
+                est_cpu_time
+            );
+        }
     }
 
     // update records for ack'ed results

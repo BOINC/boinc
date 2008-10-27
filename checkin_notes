@@ -8743,3 +8743,8 @@ David  27 Oct 2008
         trickle_handler.cpp
         update_stats.cpp
 
+David  27 Oct 2008
+	- client: fix crash when sched_op_debug is enabled
+
+	client/
+		cs_scheduler.cpp
