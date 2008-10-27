@@ -32,6 +32,7 @@
 
 #include "boinc_db.h"
 #include "str_util.h"
+#include "error_numbers.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -55,7 +56,16 @@ int request_file_list(int host_id) {
 
 int request_files_from_all() {
     DB_HOST host;
-    while(!host.enumerate()) {
+
+    while(1) {
+        int retval = host.enumerate();
+        if (retval) {
+            if (retval != ERR_DB_NOT_FOUND) {
+                fprintf(stderr, "lost DB connection\n");
+                exit(1);
+            }
+            break;
+        }
         request_file_list(host.get_id());
     }
     return 0;

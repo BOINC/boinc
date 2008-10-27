@@ -8720,3 +8720,26 @@ David  27 Oct 2008
 		work_fetch.cpp
 	clientgui/
 		BOINCBaseView.cpp
+
+David  27 Oct 2008
+    - scheduler: notify user if we're not sending work
+        because we don't have any (matchmaker only).
+    - back end programs: for programs that do enumerations,
+        check for error returns and exit
+        (otherwise we'll get stuck forever if DB fails)
+
+    NOTE: In the course of researching this I came across a bug
+    in the transitioner: if there's a WU with more than 1000 results,
+    the enumeration will always return ERR_DB_NOT_FOUND,
+    and the transitioner won't ever do anything again.
+    Fixing this is a little tricky, so I'm not going to do it right now.
+
+    sched/
+        file_deleter.cpp
+        request_file_list.cpp
+        sched_send.cpp
+        server_types.h
+        transitioner.cpp
+        trickle_handler.cpp
+        update_stats.cpp
+

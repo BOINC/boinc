@@ -35,6 +35,7 @@
 #include "boinc_db.h"
 #include "util.h"
 #include "str_util.h"
+#include "error_numbers.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -53,7 +54,16 @@ int update_users() {
     int retval;
     char buf[256];
 
-    while (!user.enumerate("where expavg_credit>0.1")) {
+    while (1) {
+        retval = user.enumerate("where expavg_credit>0.1");
+        if (retval) {
+            if (retval != ERR_DB_NOT_FOUND) {
+                log_messages.printf(MSG_CRITICAL, "lost DB conn\n");
+                exit(1);
+            }
+            break;
+        }
+
         if (user.expavg_time > update_time_cutoff) continue;
         update_average(0, 0, CREDIT_HALF_LIFE, user.expavg_credit, user.expavg_time);
         sprintf( buf, "expavg_credit=%f, expavg_time=%f",
@@ -74,7 +84,16 @@ int update_hosts() {
     int retval;
     char buf[256];
 
-    while (!host.enumerate("where expavg_credit>0.1")) {
+    while (1) {
+        retval = host.enumerate("where expavg_credit>0.1");
+        if (retval) {
+            if (retval != ERR_DB_NOT_FOUND) {
+                log_messages.printf(MSG_CRITICAL, "lost DB conn\n");
+                exit(1);
+            }
+            break;
+        }
+
         if (host.expavg_time > update_time_cutoff) continue;
         update_average(0, 0, CREDIT_HALF_LIFE, host.expavg_credit, host.expavg_time);
         sprintf(
@@ -123,7 +142,16 @@ int update_teams() {
     int retval;
     char buf[256];
 
-    while (!team.enumerate("where expavg_credit>0.1")) {
+    while (1) {
+        retval = team.enumerate("where expavg_credit>0.1");
+        if (retval) {
+            if (retval != ERR_DB_NOT_FOUND) {
+                log_messages.printf(MSG_CRITICAL, "lost DB conn\n");
+                exit(1);
+            }
+            break;
+        }
+
         retval = get_team_totals(team);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,

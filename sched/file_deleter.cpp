@@ -275,9 +275,7 @@ bool do_pass(bool retry_error) {
         retval = wu.enumerate(buf);
         if (retval) {
             if (retval != ERR_DB_NOT_FOUND) {
-                log_messages.printf(MSG_DEBUG,
-                    "DB connection lost, exiting\n"
-                );
+                log_messages.printf(MSG_DEBUG, "DB connection lost, exiting\n");
                 exit(0);
             }
             break;
@@ -306,7 +304,16 @@ bool do_pass(bool retry_error) {
         clause, RESULTS_PER_ENUM
     );
 
-    while (!result.enumerate(buf)) {
+    while (1) {
+        retval = result.enumerate(buf);
+        if (retval) {
+            if (retval != ERR_DB_NOT_FOUND) {
+                log_messages.printf(MSG_DEBUG, "DB connection lost, exiting\n");
+                exit(0);
+            }
+            break;
+        }
+
         did_something = true;
         retval = 0;
         if (!preserve_result_files) {

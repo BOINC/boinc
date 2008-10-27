@@ -162,6 +162,7 @@ struct WORK_REQ {
     bool daily_result_quota_exceeded;
     int  daily_result_quota; // for this machine: number of cpus * daily_quota/cpu
     bool cache_size_exceeded;
+    bool no_jobs_available;     // project has no work right now
     int nresults_on_host;
         // How many results from this project are in progress on the host.
         // Initially this is the number of "other_results"

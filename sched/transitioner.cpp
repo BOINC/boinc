@@ -40,6 +40,7 @@ using namespace std;
 #include "util.h"
 #include "backend_lib.h"
 #include "common_defs.h"
+#include "error_numbers.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -619,11 +620,21 @@ bool do_pass() {
 
     // loop over entries that are due to be checked
     //
-    while (!transitioner.enumerate((int)time(0), SELECT_LIMIT, mod_n, mod_i, items)) {
+    while (1) {
+        retval = transitioner.enumerate(
+            (int)time(0), SELECT_LIMIT, mod_n, mod_i, items
+        );
+        if (retval) {
+            if (retval != ERR_DB_NOT_FOUND) {
+                log_messages.printf(MSG_CRITICAL,
+                    "WU enum error%d; exiting\n", retval
+                );
+                exit(1);
+            }
+            break;
+        }
         did_something = true;
-
         TRANSITIONER_ITEM& wu_item = items[0];
-
         retval = handle_wu(transitioner, items);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,

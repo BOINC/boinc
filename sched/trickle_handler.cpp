@@ -28,13 +28,14 @@
 //
 // return nonzero on error
 
-using namespace std;
 #include "config.h"
 #include <unistd.h>
 
 #include "boinc_db.h"
 #include "util.h"
+#include "error_numbers.h"
 #include "str_util.h"
+
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
@@ -82,7 +83,15 @@ bool do_trickle_scan() {
     int retval;
 
     sprintf(buf, "where variety='%s' and handled=0", variety);
-    while (!mfh.enumerate(buf)) {
+    while (1) {
+        retval = mfh.enumerate(buf);
+        if (retval) {
+            if (retval != ERR_DB_NOT_FOUND) {
+                fprintf(stderr, "lost DB conn\n");
+                exit(1);
+            }
+            break;
+        }
         retval = handle_trickle(mfh);
         if (!retval) {
             mfh.handled = true;

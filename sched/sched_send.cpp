@@ -985,7 +985,7 @@ int add_result_to_reply(
         }
     }
     retval = result.mark_as_sent(old_server_state);
-    if (retval==ERR_DB_NOT_FOUND) {
+    if (retval == ERR_DB_NOT_FOUND) {
         log_messages.printf(MSG_CRITICAL,
             "[RESULT#%d] [HOST#%d]: CAN'T SEND, already sent to another host\n",
             result.id, reply.host.id
@@ -1163,9 +1163,11 @@ static void explain_to_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
          	if (!reply.wreq.host_info.preferred_apps[i].work_available) {
          		APP* app = ssp->lookup_app(reply.wreq.host_info.preferred_apps[i].appid);
          		// don't write message if the app is deprecated
-         		if ( app != NULL ) {
+         		if (app != NULL) {
            			char explanation[256];
-           			sprintf(explanation,"No work is available for %s",find_user_friendly_name(reply.wreq.host_info.preferred_apps[i].appid));
+           			sprintf(explanation, "No work is available for %s",
+                        find_user_friendly_name(reply.wreq.host_info.preferred_apps[i].appid)
+                    );
         			USER_MESSAGE um(explanation, "high");
            			reply.insert_message(um);
          		}
@@ -1230,6 +1232,13 @@ static void explain_to_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (reply.wreq.excessive_work_buf) {
             USER_MESSAGE um(
                 "(Your network connection interval is longer than WU deadline)",
+                "high"
+            );
+            reply.insert_message(um);
+        }
+        if (reply.wreq.no_jobs_available) {
+            USER_MESSAGE um(
+                "(Project has no jobs available)",
                 "high"
             );
             reply.insert_message(um);
@@ -1778,7 +1787,7 @@ void JOB_SET::send(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 }
 
 void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
-    int i, slots_locked=0;
+    int i, slots_locked=0, slots_nonempty=0;
     JOB_SET jobs (sreq, reply);
     int min_slots = config.mm_min_slots;
     if (!min_slots) min_slots = ssp->max_wu_results/2;
@@ -1799,8 +1808,10 @@ void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         case WR_STATE_EMPTY:
             continue;
         case WR_STATE_PRESENT:
+            slots_nonempty++;
             break;
         default:
+            slots_nonempty++;
             if (wu_result.state == g_pid) break;
             slots_locked++;
             continue;
@@ -1837,6 +1848,13 @@ void send_work_matchmaker(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
 
         if (jobs.request_satisfied() && slots_scanned>=min_slots) break;
+    }
+
+    if (!slots_nonempty) {
+        log_messages.printf(MSG_CRITICAL,
+            "Job cache is empty - check feeder\n"
+        );
+        reply.wreq.no_jobs_available = true;
     }
 
     // TODO: trim jobs from tail of list until we pass the EDF check
