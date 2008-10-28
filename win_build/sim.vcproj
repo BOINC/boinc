@@ -1248,6 +1248,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\rr_sim.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\client\sim.cpp"
 				>
 			</File>
@@ -1282,6 +1286,10 @@
 			</File>
 			<File
 				RelativePath="..\client\client_types.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\rr_sim.h"
 				>
 			</File>
 			<File

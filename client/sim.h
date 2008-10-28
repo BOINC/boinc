@@ -21,6 +21,7 @@
 #include "time_stats.h"
 #include "client_types.h"
 #include "../sched/edf_sim.h"
+#include "rr_sim.h"
 
 using std::vector;
 
