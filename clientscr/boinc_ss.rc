@@ -234,11 +234,11 @@ IDB_BOINCSPLAT          BITMAP                  "res\\gridrepublic.bmp"
 
 #elif defined(_WCG)
 
-IDB_BOINCSPLAT          BITMAP                  "res\\boinc.bmp"
+IDB_BOINCSPLAT          BITMAP                  "res\\wcg.bmp"
 
 #else
 
-IDB_BOINCSPLAT          BITMAP                  "res\\wcg.bmp"
+IDB_BOINCSPLAT          BITMAP                  "res\\boinc.bmp"
 
 #endif
 

@@ -8765,3 +8765,9 @@ David  27 Oct 2008
         cs_cmdlines.cpp
     clientgui/
         BOINCClientManager.cpp
+
+Rom    28 Oct 2008
+    - SCR: Fix the screensaver logo.
+    
+    clientscr/
+        boinc_ss.rc
