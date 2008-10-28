@@ -8793,3 +8793,22 @@ Charlie 28 Oct 2008
 
 	clientgui/
 		BOINCBaseView.cpp
+
+David  28 Oct 2008
+    - client: move round-robin simulation to its own file
+    - web: check for profile existence before trying to show it
+    - file deleter: add some debugging msgs
+
+    client/
+        rr_sim.cpp,h (new)
+        Makefile.am
+        client_state.h
+        client_types.h
+        cpu_sched.cpp
+    html/
+        inc/
+            profile.inc
+        user/
+            view_profile.php
+    sched/
+        file_deleter.cpp

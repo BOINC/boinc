@@ -66,7 +66,7 @@
 
 // how often to retry errors
 //
-#define ERROR_INTERVAL      86400
+#define ERROR_INTERVAL      3600
 
 #include "config.h"
 #include <list>
@@ -361,6 +361,9 @@ std::list<FILE_RECORD> files_to_delete;
 int delete_antique_files() {
     int nfiles=0;
 
+    log_messages.printf(MSG_DEBUG,
+        "delete_antique_files(): start (%d files)\n", files_to_delete.size()
+    );
     while (!files_to_delete.empty()) {
         char timestamp[128];
         char pathname[1024];
@@ -378,7 +381,7 @@ int delete_antique_files() {
                 "get_file_path(%s) failed: %d\n",
                 fr.name.c_str(), retval
             );
-            return -1;
+            return retval;
         }
 
         strcpy(timestamp, time_to_string(fr.date_modified));
@@ -392,13 +395,16 @@ int delete_antique_files() {
                 "unlink(%s) failed: %s\n",
                 pathname, strerror(save_error)
             );
-            return -1;
+            return retval;
         } else {
             nfiles++;
             files_to_delete.pop_front();
         }
     }
-    return nfiles;
+    log_messages.printf(MSG_DEBUG,
+        "delete_antique_files(): done, deleted %d files\n", nfiles
+    );
+    return 0;
 }
 
 
@@ -550,7 +556,7 @@ void do_antique_pass() {
     }
 
     retval = delete_antique_files();
-    if (retval < 0) {
+    if (retval) {
         log_messages.printf(MSG_CRITICAL,
             "Problem 2 [%d] in antique file deletion: turning OFF -delete_antiques switch\n", retval
         );

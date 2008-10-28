@@ -23,6 +23,9 @@ $user = BoincUser::lookup_id($userid);
 if (!$user) {
     error_page("No such user");
 }
+if (!$user->has_profile) {
+    error_page("No profile");
+}
  
 $logged_in_user = get_logged_in_user(false);
 $caching = false;

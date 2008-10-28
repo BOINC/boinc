@@ -182,12 +182,12 @@ private:
         /// when the most recent app was started
     double app_started;
 
-// --------------- acct_mgr.C:
+// --------------- acct_mgr.cpp:
 public:
     ACCT_MGR_OP acct_mgr_op;
     ACCT_MGR_INFO acct_mgr_info;
 
-// --------------- acct_setup.C:
+// --------------- acct_setup.cpp:
 public:
     PROJECT_INIT project_init;
     PROJECT_ATTACH project_attach;
@@ -200,11 +200,11 @@ public:
     double all_projects_list_check_time;
     string newer_version;
 
-// --------------- auto_update.C:
+// --------------- auto_update.cpp:
 public:
     AUTO_UPDATE auto_update;
 
-// --------------- client_state.C:
+// --------------- client_state.cpp:
 public:
     CLIENT_STATE();
     void show_host_info();
@@ -242,7 +242,7 @@ private:
     int nresults_for_project(PROJECT*);
     void check_clock_reset();
 
-// --------------- cpu_sched.C:
+// --------------- cpu_sched.cpp:
 private:
     double debt_interval_start;
     double total_wall_cpu_time_this_debt_interval;
@@ -263,7 +263,6 @@ private:
     void schedule_cpus();
     bool enforce_schedule();
     bool no_work_for_a_cpu();
-    void rr_simulation();
     void make_preemptable_task_list(vector<ACTIVE_TASK*>&, double&);
     void print_deadline_misses();
 public:
@@ -295,7 +294,7 @@ public:
         /// - any result op is done via RPC (suspend/resume)
     void request_schedule_cpus(const char*);
 
-// --------------- cs_account.C:
+// --------------- cs_account.cpp:
 public:
     int add_project(
         const char* master_url, const char* authenticator,
@@ -308,7 +307,7 @@ private:
     int parse_statistics_files();
         // should be move to a new file, but this will do it for testing
 
-// --------------- cs_apps.C:
+// --------------- cs_apps.cpp:
 private:
     double total_resource_share();
     double potentially_runnable_resource_share();
@@ -344,7 +343,7 @@ private:
 public:
     ACTIVE_TASK* get_task(RESULT*);
 
-// --------------- cs_benchmark.C:
+// --------------- cs_benchmark.cpp:
 public:
     bool should_run_cpu_benchmarks();
 	void start_cpu_benchmarks();
@@ -355,13 +354,13 @@ public:
 	void cpu_benchmarks_set_defaults();
     void print_benchmark_results();
 
-// --------------- cs_cmdline.C:
+// --------------- cs_cmdline.cpp:
 public:
     void parse_cmdline(int argc, char** argv);
     void parse_env_vars();
     void do_cmdline_actions();
 
-// --------------- cs_files.C:
+// --------------- cs_files.cpp:
 public:
     void check_file_existence();
     bool start_new_file_xfer(PERS_FILE_XFER&);
@@ -369,7 +368,7 @@ private:
     int make_project_dirs();
     bool handle_pers_file_xfers();
 
-// --------------- cs_platforms.C:
+// --------------- cs_platforms.cpp:
 public:
     const char* get_primary_platform();
 private:
@@ -378,7 +377,7 @@ private:
     void write_platforms(PROJECT*, MIOFILE&);
     bool is_supported_platform(const char*);
 
-// --------------- cs_prefs.C:
+// --------------- cs_prefs.cpp:
 public:
     int project_disk_usage(PROJECT*, double&);
         /// returns the total disk usage of BOINC on this host
@@ -400,7 +399,7 @@ private:
     PROJECT* global_prefs_source_project();
     void show_global_prefs_source(bool);
 
-// --------------- cs_scheduler.C:
+// --------------- cs_scheduler.cpp:
 public:
     int make_scheduler_request(PROJECT*);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
@@ -413,7 +412,7 @@ private:
     double avg_proc_rate();
     bool should_get_work();
 
-// --------------- cs_statefile.C:
+// --------------- cs_statefile.cpp:
 public:
     void set_client_state_dirty(const char*);
     int parse_state_file();
@@ -426,14 +425,14 @@ public:
     int write_file_transfers_gui(MIOFILE&);
     int write_tasks_gui(MIOFILE&);
 
-// --------------- cs_trickle.C:
+// --------------- cs_trickle.cpp:
 private:
     int read_trickle_files(PROJECT*, FILE*);
     int remove_trickle_files(PROJECT*);
 public:
     int handle_trickle_down(PROJECT*, FILE*);
 
-// --------------- check_state.C:
+// --------------- check_state.cpp:
 // stuff related to data-structure integrity checking
 //
 public:
@@ -459,7 +458,10 @@ public:
     void check_all();
     void free_mem();
 
-// --------------- work_fetch.C:
+// --------------- rr_sim.cpp:
+    void rr_simulation();
+
+// --------------- work_fetch.cpp:
 public:
     int proj_min_results(PROJECT*, double);
 	void check_project_timeout();
@@ -491,5 +493,9 @@ extern void print_suspend_tasks_message(int);
     // the client will handle I/O (including GUI RPCs)
     // for up to POLL_INTERVAL seconds before calling poll_slow_events()
     // to call the polling functions
+
+#define CPU_PESSIMISM_FACTOR 0.9
+    // assume actual CPU utilization will be this multiple
+    // of what we've actually measured recently
 
 #endif

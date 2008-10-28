@@ -54,6 +54,7 @@ boinc_client_SOURCES = \
     main.cpp \
     net_stats.cpp \
     pers_file_xfer.cpp \
+	rr_sim.cpp \
     sandbox.cpp \
     scheduler_op.cpp \
     time_stats.cpp \

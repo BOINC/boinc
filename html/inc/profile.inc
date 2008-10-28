@@ -190,6 +190,11 @@ function get_profile_summary($profile) {
 //
 function show_profile($user, $logged_in_user, $screen_mode = false) {
     BoincForumPrefs::lookup($user);
+    $profile = BoincProfile::lookup("userid = $user->id");
+    if (!$profile) {
+        error_page("No user profile exists for that user ID.");
+        $user->update("has_profile = 0");
+    }
 
     $is_logged_in = isset($logged_in_user);
 
@@ -203,10 +208,6 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
     }
     if (is_banished($user)) {
         error_page("User is banished");
-    }
-    $profile = get_profile($user->id);
-    if (!$profile) {
-        error_page("No user profile exists for that user ID.");
     }
 
     if ($can_edit) {
