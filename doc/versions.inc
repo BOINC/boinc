@@ -62,10 +62,10 @@ function type_text($type) {
 }
 
 $w63= array(
-    "num"=>"6.3.17",
+    "num"=>"6.3.19",
     "status"=>"Development version",
-    "file"=>"boinc_6.3.17_windows_intelx86.exe",
-    "date"=>"24 Oct 2008",
+    "file"=>"boinc_6.3.19_windows_intelx86.exe",
+    "date"=>"28 Oct 2008",
     "type"=>"win_new",
 );
 
@@ -86,10 +86,10 @@ $w51045= array(
 );
 
 $w63x64= array(
-    "num"=>"6.3.17",
+    "num"=>"6.3.19",
     "status"=>"Development version",
-    "file"=>"boinc_6.3.17_windows_x86_64.exe",
-    "date"=>"24 Oct 2008",
+    "file"=>"boinc_6.3.19_windows_x86_64.exe",
+    "date"=>"28 Oct 2008",
     "type"=>"win_new",
 );
 
