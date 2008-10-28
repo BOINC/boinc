@@ -79,8 +79,8 @@ class BoltLesson extends BoltItem {
 class BoltExercise extends BoltItem {
     public $callback;
         // called as func($student, $score, $query_string) after scoring
-    function __construct($filename, $title, $callback) {
-        parent::__construct($filename, $title);
+    function __construct($filename, $title, $attrs, $callback) {
+        parent::__construct($filename, $title, $attrs);
         $this->callback = $callback;
     }
     function is_exercise() {

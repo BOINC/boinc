@@ -55,7 +55,9 @@ static void print_options(char* prog) {
         "    --file_xfer_giveup_period N    give up on file xfers after N sec\n"
         "    --gui_rpc_port <port>          port for GUI RPCs\n"
         "    --help                         show options\n"
+#ifdef SANDBOX
         "    --insecure                     disable app sandboxing (Unix)\n"
+#endif
         "    --launched_by_manager          client was launched by Manager\n"
         "    --master_fetch_period N        reload master URL after N RPC failures\n"
         "    --master_fetch_retry_cap N     exponential backoff limit\n"
@@ -68,8 +70,6 @@ static void print_options(char* prog) {
         "    --redirectio                   redirect stdout and stderr to log files\n"
         "    --retry_cap N                  exponential backoff limit\n"
         "    --run_cpu_benchmarks           run the CPU benchmarks\n"
-#ifdef SANDBOX
-#endif
         "    --run_by_updater               set by updater\n"
         "    --saver                        client was launched by screensaver\n"
         "    --sched_retry_delay_min N      min for RPC exponential backoff\n"
@@ -205,8 +205,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             }
         } else if (ARG(no_gui_rpc)) {
             no_gui_rpc = true;
-#ifdef SANDBOX
         } else if (ARG(insecure)) {
+#ifdef SANDBOX
             g_use_sandbox = false;
 #endif
         } else if (ARG(launched_by_manager)) {

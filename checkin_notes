@@ -8755,3 +8755,13 @@ Charlie 27 Oct 2008
 
     clientgui/
         AdvancedFrame.cpp
+
+David  27 Oct 2008
+    - client: accept --insecure flag even if not compiled with -DSANDBOX
+    - manager: pass --insecure flab only if compiled with -DSANDBOX
+        (from Nicolas; fixes #762)
+
+    client/
+        cs_cmdlines.cpp
+    clientgui/
+        BOINCClientManager.cpp
