@@ -8786,3 +8786,10 @@ Rom    28 Oct 2008
     /
         configure.ac
         version.h
+
+Charlie 28 Oct 2008
+    - MGR: When removing a row Projects, Tasks and Transfers tabs, refresh 
+        all rows.  Fixes a bug where display was not always properly updated.
+
+	clientgui/
+		BOINCBaseView.cpp

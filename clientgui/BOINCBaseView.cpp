@@ -280,6 +280,7 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                         wxASSERT(!iReturnValue);
                     }
                     wxASSERT(GetDocCount() == GetCacheCount());
+                    m_pListPane->RefreshItems(0, iDocCount - 1);
                 }
 
                 m_pListPane->SetItemCount(iDocCount);
