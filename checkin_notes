@@ -8778,3 +8778,11 @@ David  28 Oct 2008
 
     html/ops/
         update_profile_pages.php
+
+Rom    28 Oct 2008
+    - Tag for 6.3.19 release, all platforms
+      boinc_core_release_6_3_19
+
+    /
+        configure.ac
+        version.h
