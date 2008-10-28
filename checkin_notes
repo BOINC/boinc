@@ -8771,3 +8771,10 @@ Rom    28 Oct 2008
     
     clientscr/
         boinc_ss.rc
+
+David  28 Oct 2008
+    - web: make the ordering of profiles in "browse profiles with pictures"
+        deterministic
+
+    html/ops/
+        update_profile_pages.php

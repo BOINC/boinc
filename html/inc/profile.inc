@@ -197,9 +197,9 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
 
     $min_credit = parse_config(get_config(), "<profile_min_credit>");
     if ((!$is_logged_in) && $min_credit && $user->expavg_credit < $min_credit ) {
-      error_page(
-         "To prevent spam, profiles of users with an average credit of less than $min_credit will only be displayed to users who are logged in to their accounts.  We appologize for this inconvenience."
-      );
+        error_page(
+           "To prevent spam, profiles of users with an average credit of less than $min_credit will only be displayed to users who are logged in to their accounts.  We appologize for this inconvenience."
+        );
     }
     if (is_banished($user)) {
         error_page("User is banished");
