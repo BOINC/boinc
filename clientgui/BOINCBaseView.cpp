@@ -265,6 +265,7 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
             if (0 >= iDocCount) {
                 EmptyCache();
                 m_pListPane->DeleteAllItems();
+                m_pListPane->SetItemCount(iDocCount);
             } else {
                 int iIndex = 0;
                 int iReturnValue = -1;
@@ -274,16 +275,16 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                         wxASSERT(!iReturnValue);
                     }
                     wxASSERT(GetDocCount() == GetCacheCount());
-                } else {
+                    m_pListPane->SetItemCount(iDocCount);
+               } else {
                     for (iIndex = 0; iIndex < (iCacheCount - iDocCount); iIndex++) {
                         iReturnValue = RemoveCacheElement();
                         wxASSERT(!iReturnValue);
                     }
                     wxASSERT(GetDocCount() == GetCacheCount());
+                    m_pListPane->SetItemCount(iDocCount);
                     m_pListPane->RefreshItems(0, iDocCount - 1);
                 }
-
-                m_pListPane->SetItemCount(iDocCount);
             }
         }
 
