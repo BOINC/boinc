@@ -501,34 +501,6 @@ bool CLIENT_STATE::possibly_schedule_cpus() {
     return true;
 }
 
-void CLIENT_STATE::print_deadline_misses() {
-    unsigned int i;
-    RESULT* rp;
-    PROJECT* p;
-    for (i=0; i<results.size(); i++){
-        rp = results[i];
-        if (rp->rr_sim_misses_deadline && !rp->last_rr_sim_missed_deadline) {
-            msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched_debug] Result %s projected to miss deadline.", rp->name
-            );
-        }
-        else if (!rp->rr_sim_misses_deadline && rp->last_rr_sim_missed_deadline) {
-            msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched_debug] Result %s projected to meet deadline.", rp->name
-            );
-        }
-    }
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        if (p->rr_sim_status.deadlines_missed) {
-            msg_printf(p, MSG_INFO,
-                "[cpu_sched_debug] Project has %d projected deadline misses",
-                p->rr_sim_status.deadlines_missed
-            );
-        }
-    }
-}
-
 struct PROC_RESOURCES {
     int ncpus;
     double ncpus_used;
@@ -1124,42 +1096,6 @@ bool CLIENT_STATE::no_work_for_a_cpu() {
         count++;
     }
     return ncpus > count;
-}
-
-// Set the project's rrsim_proc_rate:
-// the fraction of each CPU that it will get in round-robin mode.
-// Precondition: the project's "active" array is populated
-//
-void PROJECT::set_rrsim_proc_rate(double rrs) {
-    int nactive = (int)rr_sim_status.active.size();
-    if (nactive == 0) return;
-    double x;
-
-    if (rrs) {
-        x = resource_share/rrs;
-    } else {
-        x = 1;      // pathological case; maybe should be 1/# runnable projects
-    }
-
-    // if this project has fewer active results than CPUs,
-    // scale up its share to reflect this
-    //
-    if (nactive < gstate.ncpus) {
-        x *= ((double)gstate.ncpus)/nactive;
-    }
-
-    // But its rate on a given CPU can't exceed 1
-    //
-    if (x>1) {
-        x = 1;
-    }
-    rr_sim_status.proc_rate = x*gstate.overall_cpu_frac();
-    if (log_flags.rr_simulation) {
-        msg_printf(this, MSG_INFO,
-            "[rr_sim] set_rrsim_proc_rate: %f (rrs %f, rs %f, nactive %d, ocf %f",
-            rr_sim_status.proc_rate, rrs, resource_share, nactive, gstate.overall_cpu_frac()
-        );
-    }
 }
 
 // trigger CPU schedule enforcement.

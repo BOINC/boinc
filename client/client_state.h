@@ -264,7 +264,6 @@ private:
     bool enforce_schedule();
     bool no_work_for_a_cpu();
     void make_preemptable_task_list(vector<ACTIVE_TASK*>&, double&);
-    void print_deadline_misses();
 public:
         /// if we fail to start a task due to no shared-mem segments,
         /// wait until at least this time to try running
@@ -460,6 +459,7 @@ public:
 
 // --------------- rr_sim.cpp:
     void rr_simulation();
+    void print_deadline_misses();
 
 // --------------- work_fetch.cpp:
 public:
