@@ -8748,3 +8748,10 @@ David  27 Oct 2008
 
 	client/
 		cs_scheduler.cpp
+
+Charlie 27 Oct 2008
+    - MGR: If simple_gui_only flag is set in cc_config.xml, trigger call 
+        of CSimpleFrame::OnConnect().
+
+    clientgui/
+        AdvancedFrame.cpp
