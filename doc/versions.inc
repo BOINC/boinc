@@ -182,10 +182,10 @@ $m5817c = array(
 );
 
 $l63 = array(
-    "num"=>"6.3.18",
+    "num"=>"6.3.19",
     "status"=>"Development version",
-    "file"=>"boinc_compat_6.3.18_i686-pc-linux-gnu.sh",
-    "date"=>"27 Oct 2008",
+    "file"=>"boinc_compat_6.3.19_i686-pc-linux-gnu.sh",
+    "date"=>"28 Oct 2008",
     "type"=>"sea",
 );
 
@@ -206,10 +206,10 @@ $l51045 = array(
 );
 
 $l63ubuntu = array(
-    "num"=>"6.3.18",
+    "num"=>"6.3.19",
     "status"=>"Development version",
-    "file"=>"boinc_6.3.18_i686-pc-linux-gnu.sh",
-    "date"=>"27 Oct 2008",
+    "file"=>"boinc_6.3.19_i686-pc-linux-gnu.sh",
+    "date"=>"28 Oct 2008",
     "type"=>"sea",
 );
 
@@ -230,10 +230,10 @@ $l51045ubuntu = array(
 );
 
 $l63ubuntux64 = array(
-    "num"=>"6.3.14",
+    "num"=>"6.3.19",
     "status"=>"Development version",
-    "file"=>"boinc_6.3.14_x86_64-pc-linux-gnu.sh",
-    "date"=>"9 Oct 2008",
+    "file"=>"boinc_6.3.19_x86_64-pc-linux-gnu.sh",
+    "date"=>"28 Oct 2008",
     "type"=>"sea",
 );
 
