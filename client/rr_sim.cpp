@@ -15,7 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifdef SIM
+#include "sim.h"
+#else
 #include "client_state.h"
+#endif
 #include "client_msgs.h"
 
 struct RR_SIM_STATUS {
