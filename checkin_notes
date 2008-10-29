@@ -8815,6 +8815,10 @@ David  28 Oct 2008
 
 Charlie 29 Oct 2008
     - MGR: Fix bug introduced yesterday.
+    - Mac: Add new files rr_sim.cpp,.h to XCode project.
 
 	clientgui/
 		BOINCBaseView.cpp
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
