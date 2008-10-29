@@ -133,10 +133,21 @@ void COPROCS::free_coprocs(COPROCS& needed, void* owner, bool log_flag, const ch
     }
 }
 
+// return true if the task has finished its time slice
+// and has checkpointed in last 10 secs
+//
+static inline bool finished_time_slice(ACTIVE_TASK* atp) {
+    double time_running = gstate.now - atp->run_interval_start_wall_time;
+    bool running_beyond_sched_period = time_running >= gstate.global_prefs.cpu_scheduling_period();
+    double time_since_checkpoint = gstate.now - atp->checkpoint_wall_time;
+    bool checkpointed_recently = time_since_checkpoint < 10;
+    return (running_beyond_sched_period && checkpointed_recently);
+}
+
 static bool more_preemptable(ACTIVE_TASK* t0, ACTIVE_TASK* t1) {
     // returning true means t1 is more preemptable than t0,
     // the "largest" result is at the front of a heap, 
-    // and we want the best replacement at the front,
+    // and we want the most preemptable task at the front
     //
     if (t0->result->project->deadlines_missed && !t1->result->project->deadlines_missed) return false;
     if (!t0->result->project->deadlines_missed && t1->result->project->deadlines_missed) return true;
@@ -144,12 +155,13 @@ static bool more_preemptable(ACTIVE_TASK* t0, ACTIVE_TASK* t1) {
         if (t0->result->report_deadline > t1->result->report_deadline) return true;
         return false;
     } else {
-        double t0_episode_time = gstate.now - t0->run_interval_start_wall_time;
-        double t1_episode_time = gstate.now - t1->run_interval_start_wall_time;
-        if (t0_episode_time < t1_episode_time) return false;
-        if (t0_episode_time > t1_episode_time) return true;
+		bool fin0 = finished_time_slice(t0);
+		bool fin1 = finished_time_slice(t1);
+		if (fin1 && !fin0) return true;
+		if (fin0 && !fin1) return false;
         if (t0->result->report_deadline > t1->result->report_deadline) return true;
-        return false;
+        if (t0->result->report_deadline < t1->result->report_deadline) return false;
+        return (t0 < t1);
     }
 }
 
@@ -892,13 +904,7 @@ bool CLIENT_STATE::enforce_schedule() {
             // 2) the scheduled result is in deadline trouble
             //
             preempt_atp = preemptable_tasks[0];
-            double time_running = now - preempt_atp->run_interval_start_wall_time;
-            bool running_beyond_sched_period = time_running >= global_prefs.cpu_scheduling_period();
-            double time_since_checkpoint = now - preempt_atp->checkpoint_wall_time;
-            bool checkpointed_recently = time_since_checkpoint < 10;
-            if (rp->project->deadlines_missed
-                || (running_beyond_sched_period && checkpointed_recently)
-            ) {
+            if (rp->project->deadlines_missed || finished_time_slice(preempt_atp)) {
                 if (rp->project->deadlines_missed) {
                     rp->project->deadlines_missed--;
                 }
@@ -921,7 +927,9 @@ bool CLIENT_STATE::enforce_schedule() {
                 if (log_flags.cpu_sched_debug) {
                     msg_printf(rp->project, MSG_INFO,
                         "[cpu_sched_debug] didn't preempt %s: tr %f tsc %f",
-                        preempt_atp->result->name, time_running, time_since_checkpoint
+                        preempt_atp->result->name,
+						now - preempt_atp->run_interval_start_wall_time,
+						now - preempt_atp->checkpoint_wall_time
                     );
                 }
                 failed_to_preempt = true;
