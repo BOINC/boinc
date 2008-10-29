@@ -155,7 +155,7 @@ bool CBOINCClientManager::StartupBOINCCore() {
     LPTSTR  szDataDirectory = NULL;
 
     if (IsBOINCConfiguredAsDaemon()) {
-        return (StartBOINCService());
+        return StartBOINCService() == TRUE;
     }
 
     // Append boinc.exe to the end of the strExecute string and get ready to rock

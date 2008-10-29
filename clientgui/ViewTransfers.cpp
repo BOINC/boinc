@@ -433,6 +433,11 @@ wxInt32 CViewTransfers::RemoveCacheElement() {
 }
 
 
+bool CViewTransfers::ManageSelections() {
+    return true;
+}
+
+
 void CViewTransfers::UpdateSelection() {
     CTaskItemGroup* pGroup = m_TaskGroups[0];
 

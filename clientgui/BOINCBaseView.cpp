@@ -603,8 +603,7 @@ void CBOINCBaseView::ClearSavedSelections() {
 
 // Save the key values of the currently selected rows for later restore
 void CBOINCBaseView::SaveSelections() {
-    int currentTabView = wxGetApp().GetCurrentViewPage();
-    if (! (currentTabView & (VW_PROJ | VW_TASK | VW_XFER))) {
+    if (!_ManageSelections()) {
         return;
     }
 
@@ -630,8 +629,7 @@ void CBOINCBaseView::SaveSelections() {
 // previous selection and makes any adjustments to ensure that 
 // the rows containing the originally selected data are selected.
 void CBOINCBaseView::RestoreSelections() {
-    int currentTabView = wxGetApp().GetCurrentViewPage();
-    if (! (currentTabView & (VW_PROJ | VW_TASK | VW_XFER))) {
+    if (!_ManageSelections()) {
         return;
     }
 
@@ -774,6 +772,16 @@ void CBOINCBaseView::UpdateWebsiteSelection(long lControlGroup, PROJECT* project
         m_bForceUpdateSelection = false;
     }
 
+}
+
+
+bool CBOINCBaseView::_ManageSelections() {
+    return ManageSelections();
+}
+
+
+bool CBOINCBaseView::ManageSelections() {
+    return false;
 }
 
 

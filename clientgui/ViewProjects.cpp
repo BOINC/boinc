@@ -643,6 +643,10 @@ wxInt32 CViewProjects::RemoveCacheElement() {
 }
 
 
+bool CViewProjects::ManageSelections() {
+    return true;
+}
+
 void CViewProjects::UpdateSelection() {
     CTaskItemGroup*     pGroup = NULL;
     PROJECT*            project = NULL;

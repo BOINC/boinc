@@ -521,7 +521,7 @@ void CWelcomePage::OnShow( wxShowEvent& event ) {
  * event handler for ID_WELCOMEPAGE
  */
 
-void CWelcomePage::OpenWCG( wxCommandEvent& event ) {
+void CWelcomePage::OpenWCG( wxCommandEvent& /* event */ ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OpenWCG - Function Begin"));
     wxString wcgUrl("http://www.worldcommunitygrid.org/ms/viewMyProjects.do", wxConvUTF8);
     wxHyperLink::ExecuteLink(wcgUrl);

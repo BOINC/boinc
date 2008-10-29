@@ -497,6 +497,8 @@
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="boinc_win.h"
 				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
+				ExpandAttributedSource="true"
+				AssemblerOutput="2"
 				AssemblerListingLocation=""
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"

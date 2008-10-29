@@ -79,6 +79,8 @@ protected:
     virtual wxInt32         RemoveCacheElement();
     virtual bool            SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex);
 
+    virtual bool            ManageSelections();
+
     virtual void            UpdateSelection();
 
     void                    GetDocProjectName(wxInt32 item, wxString& strBuffer) const;

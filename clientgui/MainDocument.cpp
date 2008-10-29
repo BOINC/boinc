@@ -28,8 +28,10 @@
 #endif
 
 #include "BOINCGUIApp.h"
-#include "BOINCBaseFrame.h"
 #include "MainDocument.h"
+#include "BOINCBaseFrame.h"
+#include "AdvancedFrame.h"
+#include "sg_BoincSimpleGUI.h"
 #include "BOINCClientManager.h"
 #include "BOINCTaskBar.h"
 #include "Events.h"
@@ -769,6 +771,7 @@ void CMainDocument::RunPeriodicRPCs() {
 
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (!pFrame) return;
+
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
     if (!IsConnected()) {
@@ -782,10 +785,11 @@ void CMainDocument::RunPeriodicRPCs() {
             pTaskbar->AddPendingEvent(event);
         }
 #endif
+
         return;
     }
     
-    int currentTabView = wxGetApp().GetCurrentViewPage();
+    int currentTabView = pFrame->GetCurrentViewPage();
     
     // Several functions (such as Abort, Reset, Detach) display an 
     // "Are you sure?" dialog before passing a pointer to a result 
@@ -828,7 +832,7 @@ void CMainDocument::RunPeriodicRPCs() {
     request.arg2 = &messages;
 //        request.arg2 = &async_messages_buf;
 //        request.exchangeBuf = &messages;
-     request.rpcType = (currentTabView & VW_MSGS) ? 
+    request.rpcType = (currentTabView & VW_MSGS) ? 
             RPC_TYPE_ASYNC_WITH_REFRESH_AFTER : RPC_TYPE_ASYNC_WITH_UPDATE_MESSAGE_LIST_AFTER;
     request.completionTime = NULL;
     request.resultPtr = &m_iGet_messages_rpc_result;

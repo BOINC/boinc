@@ -23,6 +23,18 @@
 #pragma interface "AdvancedFrame.cpp"
 #endif
 
+
+///
+/// Bitmask values for CMainDocument::RunPeriodicRPCs()
+///
+#define VW_PROJ 1
+#define VW_TASK 2
+#define VW_XFER 4
+#define VW_MSGS 8
+#define VW_STAT 16
+#define VW_DISK 32
+
+
 class CStatusBar : public wxStatusBar
 {
     DECLARE_DYNAMIC_CLASS(CStatusBar)
@@ -83,7 +95,6 @@ public:
     void OnFrameRender( wxTimerEvent& event );
 
     void OnNotebookSelectionChanged( wxNotebookEvent& event );
-    int GetViewTabIndex() { return m_pNotebook->GetSelection(); }
 
     void OnRefreshView( CFrameEvent& event );
     void OnConnect( CFrameEvent& event );
@@ -93,6 +104,13 @@ public:
 
     wxTimer*        m_pRefreshStateTimer;
     wxTimer*        m_pFrameRenderTimer;
+
+
+protected:
+    virtual int     _GetCurrentViewPage();
+
+    wxAcceleratorEntry  m_Shortcuts[1];     // For HELP keyboard shortcut
+    wxAcceleratorTable* m_pAccelTable;
 
 private:
 
@@ -130,13 +148,6 @@ private:
 
     void            StartTimers();
     void            StopTimers();
-
-#ifdef __WXMAC__
-protected:
-
-    wxAcceleratorEntry  m_Shortcuts[1];     // For HELP keyboard shortcut
-    wxAcceleratorTable* m_pAccelTable;
-#endif
 
     DECLARE_EVENT_TABLE()
 };

@@ -43,6 +43,7 @@ DEFINE_EVENT_TYPE(wxEVT_FRAME_INITIALIZED)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_REFRESHVIEW)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_UPDATESTATUS)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_RELOADSKIN)
+DEFINE_EVENT_TYPE(wxEVT_FRAME_RPCFINISHED)
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
@@ -54,6 +55,7 @@ BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
     EVT_FRAME_INITIALIZED(CBOINCBaseFrame::OnInitialized)
     EVT_FRAME_ALERT(CBOINCBaseFrame::OnAlert)
     EVT_FRAME_REFRESH(CBOINCBaseFrame::OnRefreshView)
+    EVT_FRAME_RPCFINISHED(CBOINCBaseFrame::OnRPCFinished)
     EVT_CLOSE(CBOINCBaseFrame::OnClose)
     EVT_MENU(ID_FILECLOSEWINDOW, CBOINCBaseFrame::OnCloseWindow)
 END_EVENT_TABLE ()
@@ -160,6 +162,16 @@ void CBOINCBaseFrame::OnPeriodicRPC(wxTimerEvent& WXUNUSED(event)) {
         
         bAlreadyRunningLoop = false;
     }
+}
+
+
+void CBOINCBaseFrame::OnRPCFinished( CFrameEvent& /* event */ ) {
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+   
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    
+    pDoc->OnRPCComplete();
 }
 
 
@@ -355,6 +367,11 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
+int CBOINCBaseFrame::GetCurrentViewPage() {
+    return _GetCurrentViewPage();
+}
+
+
 void CBOINCBaseFrame::FireInitialize() {
     CFrameEvent event(wxEVT_FRAME_INITIALIZED, this);
     AddPendingEvent(event);
@@ -369,9 +386,6 @@ void CBOINCBaseFrame::FireRefreshView() {
     
     pDoc->RefreshRPCs();
     pDoc->RunPeriodicRPCs();
-
-//    CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, this);
-//    AddPendingEvent(event);
 }
 
 
@@ -383,6 +397,12 @@ void CBOINCBaseFrame::FireConnect() {
 
 void CBOINCBaseFrame::FireReloadSkin() {
     CFrameEvent event(wxEVT_FRAME_RELOADSKIN, this);
+    AddPendingEvent(event);
+}
+
+
+void CBOINCBaseFrame::FireRPCFinished() {
+    CFrameEvent event(wxEVT_FRAME_RPCFINISHED, this);
     AddPendingEvent(event);
 }
 
@@ -755,25 +775,26 @@ bool CBOINCBaseFrame::RestoreState() {
     return true;
 }
 
-
-#ifdef __WXMAC__
-bool CBOINCBaseFrame::Show(bool show) {
-    ProcessSerialNumber psn;
-
-    GetCurrentProcess(&psn);
-    if (show) {
-        SetFrontProcess(&psn);  // Shows process if hidden
+/*
+bool CBOINCBaseFrame::Show(bool bShow) {
+    if (bShow) {
+        wxGetApp().ShowApplication(true);
     } else {
-//        GetWindowDimensions();
-        if (wxGetApp().GetCurrentGUISelection() == m_iWindowType)
-            if (IsProcessVisible(&psn))
-                ShowHideProcess(&psn, false);
+        if ( this == wxGetApp().GetFrame() ) {
+            if (wxGetApp().IsApplicationVisible()) {
+                wxGetApp().ShowApplication(false);
+            }
+        }
     }
-    
     return wxFrame::Show(show);
 }
+*/
 
-#endif // __WXMAC__
+
+int CBOINCBaseFrame::_GetCurrentViewPage() {
+    wxASSERT(false);
+    return 0;
+}
 
 
 void CFrameAlertEvent::ProcessResponse(const int response) const {

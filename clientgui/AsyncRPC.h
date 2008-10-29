@@ -23,9 +23,7 @@
 #endif
 
 
-class CBOINCGUIApp;     // Forward declaration
 class CMainDocument;    // Forward declaration
-
 
 enum RPC_SELECTOR {
     RPC_AUTHORIZE = 1,
@@ -282,7 +280,7 @@ public:
             { return RPC_Wait(RPC_SET_DEBTS, (void*)&arg1); }
     
 private:
-    CMainDocument               *m_Doc;
+    CMainDocument*              m_pDoc;
 };
 
 
@@ -295,7 +293,7 @@ public:
     
 private:
     int                         ProcessRPCRequest();
-    CMainDocument               *m_Doc;
+    CMainDocument*              m_pDoc;
 };
 
 
@@ -307,27 +305,6 @@ public:
     AsyncRPCDlg();
     void                        OnRPCDlgTimer(wxTimerEvent &event);
 };
-
-
-class CRPCFinishedEvent : public wxEvent
-{
-public:
-    CRPCFinishedEvent(wxEventType evtType)
-        : wxEvent(-1, evtType)
-        {
-            SetEventObject(wxTheApp);
-        }
-
-    virtual wxEvent *Clone() const { return new CRPCFinishedEvent(*this); }
-};
-
-BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE( wxEVT_RPC_FINISHED, -1 )
-END_DECLARE_EVENT_TYPES()
-
-#define EVT_RPC_FINISHED(fn) \
-    DECLARE_EVENT_TABLE_ENTRY(wxEVT_RPC_FINISHED, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-
 
 
 #endif // _ASYNCRPC_H_

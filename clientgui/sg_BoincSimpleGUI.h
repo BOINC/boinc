@@ -23,6 +23,14 @@
 #pragma interface "sg_BoincSimpleGUI.cpp"
 #endif
 
+
+///
+/// Bitmask values for CMainDocument::RunPeriodicRPCs()
+///
+#define VW_SGUI 1024
+#define VW_SMSG 2048
+
+
 class CViewTabPage;
 class StatImageLoader;
 class ImageLoader;
@@ -113,21 +121,22 @@ public:
 	void SetMsgsDlgOpen(CDlgMessages* newDlgPtr) { dlgMsgsPtr = newDlgPtr; }
     bool isMessagesDlgOpen() { return (dlgMsgsPtr != NULL); }
 
-private:
-    bool SaveState();
-    bool RestoreState();
-    CDlgMessages* dlgMsgsPtr;
-
 protected:
+    virtual int _GetCurrentViewPage();
+
+    wxAcceleratorEntry  m_Shortcuts[1];
+    wxAcceleratorTable* m_pAccelTable;
+
+	CSimplePanel* m_pBackgroundPanel;
 
 #ifdef __WXMAC__
 	wxMenuBar* m_pMenubar;
 #endif
 
-	wxAcceleratorEntry  m_Shortcuts[1];
-    wxAcceleratorTable* m_pAccelTable;
-
-	CSimplePanel* m_pBackgroundPanel;
+private:
+    bool SaveState();
+    bool RestoreState();
+    CDlgMessages* dlgMsgsPtr;
 
     DECLARE_EVENT_TABLE()
 };

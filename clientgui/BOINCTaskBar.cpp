@@ -231,24 +231,19 @@ void CTaskBarIcon::OnSuspendResume(wxCommandEvent& WXUNUSED(event)) {
 
 
 void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
-#ifdef __WXMAC__
-    ProcessSerialNumber psn;
+    bool bWasVisible;
 
-    GetCurrentProcess(&psn);
-    bool wasVisible = IsProcessVisible(&psn);
-    SetFrontProcess(&psn);  // Shows process if hidden
-#endif
+    bWasVisible = wxGetApp().IsApplicationVisible();
+    wxGetApp().ShowApplication(true);
 
     ResetTaskBar();
 
     CDlgAbout dlg(NULL);
     dlg.ShowModal();
 
-#ifdef __WXMAC__
-    if (!wasVisible) {
-        ShowHideProcess(&psn, false);
+    if (!bWasVisible) {
+        wxGetApp().ShowApplication(false);
     }
-#endif
 }
 
 

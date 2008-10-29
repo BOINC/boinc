@@ -298,6 +298,16 @@ bool CSimpleFrame::SaveState() {
 }
 
 
+int CSimpleFrame::_GetCurrentViewPage() {
+    if (isMessagesDlgOpen()) {
+        return VW_SGUI | VW_SMSG;
+    } else {
+        return VW_SGUI;
+    }
+    return 0;       // Should never happen.
+}
+
+
 void CSimpleFrame::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function Begin"));
 

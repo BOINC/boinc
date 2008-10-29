@@ -32,19 +32,11 @@
 #include "mac/MacSysMenu.h"     // Must be included before MainDocument.h
 #endif
 
+///
+/// Which view is on display
+///
 #define BOINC_ADVANCEDGUI                   1
 #define BOINC_SIMPLEGUI                     2
-
-// Bit values for CBOINCGUIApp::GetCurrentView() and 
-// CMainDocument::RunPeriodicRPCs()
-#define VW_PROJ 1
-#define VW_TASK 2
-#define VW_XFER 4
-#define VW_MSGS 8
-#define VW_STAT 16
-#define VW_DISK 32
-#define VW_SGUI 1024
-#define VW_SMSG 2048
 
 
 class wxLogBOINC;
@@ -56,6 +48,7 @@ class CRPCFinishedEvent;
 
 
 class CBOINCGUIApp : public wxApp {
+
     DECLARE_DYNAMIC_CLASS(CBOINCGUIApp)
 
 protected:
@@ -65,12 +58,10 @@ protected:
     bool                OnCmdLineParsed(wxCmdLineParser &parser);
 
     void                DetectDisplayInfo();
+    void                DetectRootDirectory();
+    void                DetectDataDirectory();
 
     void                InitSupportedLanguages();
-
-#ifdef __WXMAC__
-    static OSErr        QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon );
-#endif
 
     int                 ClientLibraryStartup();
     int                 IdleTrackerAttach();
@@ -101,6 +92,10 @@ protected:
 #ifdef __WXMSW__
     HINSTANCE           m_hClientLibraryDll;
 #endif
+#ifdef __WXMAC__
+    ProcessSerialNumber m_psnCurrentProcess;
+#endif
+
 
     // The last value defined in the wxLanguage enum is wxLANGUAGE_USER_DEFINED.
     // defined in: wx/intl.h
@@ -116,14 +111,9 @@ public:
 
     bool                OnInit();
 
-    int                 UpdateSystemIdleDetection();
-
-    int                 StartBOINCScreensaverTest();
-
     wxLocale*           GetLocale()                 { return m_pLocale; }
     CSkinManager*       GetSkinManager()            { return m_pSkinManager; }
     CBOINCBaseFrame*    GetFrame()                  { return m_pFrame; }
-    void                FrameClosed()               { m_pFrame = NULL; }
     CMainDocument*      GetDocument()               { return m_pDocument; }
     wxString            GetArguments()              { return m_strBOINCArguments; }
     wxString            GetRootDirectory()          { return m_strBOINCMGRRootDirectory; }
@@ -133,33 +123,41 @@ public:
 #endif
 #ifdef __WXMAC__
     CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
-    int                 GetCurrentGUISelection()    { return m_iGUISelected; }
 #endif
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
 
-    int                 GetDisplayExitWarning() { return m_iDisplayExitWarning; }
+    int                 GetDisplayExitWarning()     { return m_iDisplayExitWarning; }
     void                SetDisplayExitWarning(int display) { m_iDisplayExitWarning = display; }
 
     void                FireReloadSkin();
+    void                FrameClosed()               { m_pFrame = NULL; }
+
+    int                 StartBOINCScreensaverTest();
 
     bool                SetActiveGUI(int iGUISelection, bool bShowWindow = true);
-    int                 GetCurrentViewPage();
 
-    virtual void        OnRPCFinished( CRPCFinishedEvent& event );
+    void                OnRPCFinished( CRPCFinishedEvent& event );
     
     int                 ConfirmExit();
 
-    int                 SafeMessageBox(const wxString& message,
-                             const wxString& caption = wxMessageBoxCaptionStr,
-                             long style = wxOK | wxCENTRE,
-                             wxWindow *parent = NULL,
-                             int x = wxDefaultCoord, int y = wxDefaultCoord);
+    int                 SafeMessageBox(
+                            const wxString& message,
+                            const wxString& caption = wxMessageBoxCaptionStr,
+                            long style = wxOK | wxCENTRE,
+                            wxWindow *parent = NULL,
+                            int x = wxDefaultCoord,
+                            int y = wxDefaultCoord
+                        );
+
+    bool                IsApplicationVisible();
+    void                ShowApplication(bool bShow);
 
     bool                IsModalDialogDisplayed();
+
     int                 FilterEvent(wxEvent &event);
 
-DECLARE_EVENT_TABLE()
+    int                 UpdateSystemIdleDetection();
 };
 
 

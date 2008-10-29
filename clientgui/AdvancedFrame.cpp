@@ -1034,6 +1034,25 @@ void CAdvancedFrame::RestoreWindowDimensions() {
 }
 
 
+int CAdvancedFrame::_GetCurrentViewPage() {
+    switch (m_pNotebook->GetSelection()) {
+    case 0:
+        return VW_PROJ;
+    case 1:
+        return VW_TASK;
+    case 2:
+        return VW_XFER;
+    case 3:
+        return VW_MSGS;
+    case 4:
+        return VW_STAT;
+    case 5:
+        return VW_DISK;
+    }
+    return 0;       // Should never happen.
+}
+
+
 void CAdvancedFrame::OnActivitySelection(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnActivitySelection - Function Begin"));
 
@@ -1135,11 +1154,11 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
             // Connect to the remote machine
             wxString sHost = dlg.m_ComputerNameCtrl->GetValue(); 
             long lPort = GUI_RPC_PORT; 
-            int iPos = sHost.find(_(":")); 
+            size_t iPos = sHost.find(_(":")); 
             if (iPos != wxNOT_FOUND) { 
-                wxString sPort = sHost.substr((size_t)iPos + 1); 
+                wxString sPort = sHost.substr(iPos + 1); 
                 if (!sPort.ToLong(&lPort)) lPort = GUI_RPC_PORT; 
-                sHost.erase((size_t)iPos); 
+                sHost.erase(iPos); 
             } 
             lRetVal = pDoc->Connect(
                 sHost,

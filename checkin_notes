@@ -8851,3 +8851,46 @@ David  29 Oct 2008
         client_state.h
         cpu_sched.cpp
         sim.h
+        
+Rom    29 Oct 2008
+    - client: include precompiled header in rr_sim.cpp so memory
+        leak detection will work.
+    - MGR: Have the BaseFrame call a function to determine if the
+        selection list should be saved instead of traversing
+        the application pointer.  Each view just overrides the function
+        returning a true/false value.  We don't have to worry about null
+        pointers and the like.
+    - MGR: BOINCGUIApp should never need to know how either the views
+        work or the document.  Move the code that determines which
+        RPCs should be fired into each of the views.  Have the document
+        look for it there.
+    - MGR: Reduce duplicate code for hiding and showing an application
+    - MGR: Move some Windows and Mac specific code into functions
+        and streamline the application startup and shutdown rountines.
+    - MGR: Move the event processing that was in BOINCGUIApp into the
+        BaseFrame.
+    - MGR: General cleanup.
+    - MGR: Doxygen comments.
+    - MGR: Cleanup some warnings.
+
+    client/
+        rr_sim.cpp
+    clientgui/
+        AdvancedFrame.cpp, .h
+        AsyncRPC.cpp, .h
+        BOINCBaseFrame.cpp, .h
+        BOINCBaseView.cpp, .h
+        BOINCClientManager.cpp
+        BOINCGUIApp.cpp, .h
+        BOINCTaskBar.cpp
+        MainDocument.cpp, .h
+        sg_BoincSimpleGUI.cpp, .h
+        ViewProjects.cpp, .h
+        ViewTransfers.cpp, .h
+        ViewWork.cpp, .h
+        WelcomePage.cpp
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
+    win_build/
+        sim.vcproj

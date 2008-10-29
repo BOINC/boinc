@@ -580,6 +580,11 @@ wxInt32 CViewWork::RemoveCacheElement() {
 }
 
 
+bool CViewWork::ManageSelections() {
+    return true;
+}
+
+
 void CViewWork::UpdateSelection() {
     CTaskItemGroup*     pGroup = NULL;
     RESULT*             result = NULL;
