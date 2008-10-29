@@ -8843,3 +8843,11 @@ David  29 Oct 2008
 
     client/
         cpu_sched.cpp
+
+David  29 Oct 2008
+    - client: cleaned up CPU scheduler logic somewhat
+
+    client/
+        client_state.h
+        cpu_sched.cpp
+        sim.h

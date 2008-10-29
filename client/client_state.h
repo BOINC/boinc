@@ -253,7 +253,6 @@ private:
     bool must_enforce_cpu_schedule;
     bool must_schedule_cpus;
     bool must_check_work_fetch;
-    std::vector <RESULT*> ordered_scheduled_results;
     void assign_results_to_projects();
     RESULT* largest_debt_project_best_result();
     RESULT* earliest_deadline_result();
@@ -265,6 +264,7 @@ private:
     bool no_work_for_a_cpu();
     void make_preemptable_task_list(vector<ACTIVE_TASK*>&, double&);
 public:
+    std::vector <RESULT*> ordered_scheduled_results;
         /// if we fail to start a task due to no shared-mem segments,
         /// wait until at least this time to try running
         /// another task that needs a shared-mem seg

@@ -185,7 +185,6 @@ private:
     bool must_enforce_cpu_schedule;
     bool must_schedule_cpus;
     bool must_check_work_fetch;
-    std::vector <RESULT*> ordered_scheduled_results;
     void assign_results_to_projects();
     RESULT* largest_debt_project_best_result();
     RESULT* earliest_deadline_result();
@@ -199,6 +198,7 @@ private:
     void make_preemptable_task_list(vector<ACTIVE_TASK*>&, double&);
     void print_deadline_misses();
 public:
+    std::vector <RESULT*> ordered_scheduled_results;
     double retry_shmem_time;
     inline double work_buf_min() {
         return global_prefs.work_buf_min_days * 86400;

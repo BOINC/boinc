@@ -711,22 +711,32 @@ void CLIENT_STATE::schedule_cpus() {
     set_client_state_dirty("schedule_cpus");
 }
 
+static inline bool in_ordered_scheduled_results(ACTIVE_TASK* atp) {
+	for (unsigned int i=0; i<gstate.ordered_scheduled_results.size(); i++) {
+		if (atp->result == gstate.ordered_scheduled_results[i]) return true;
+	}
+	return false;
+}
+
 // Make a list of preemptable tasks, ordered by their preemptability.
-// "Preemptable" means: running, non-GPU, and not non-CPU-intensive.
-// Also compute # of CPUs used by all running tasks.
+// "Preemptable" means: running, non-GPU, not non-CPU-intensive,
+// not in the scheduled results list.
 //
 void CLIENT_STATE::make_preemptable_task_list(
-    vector<ACTIVE_TASK*> &preemptable_tasks, double& ncpus_used
+	vector<ACTIVE_TASK*> &preemptable_tasks, double& ncpus_used
 ) {
     unsigned int i;
     ACTIVE_TASK* atp;
 
-    ncpus_used = 0;
+	ncpus_used = 0;
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
+		if (in_ordered_scheduled_results(atp)) continue;
+		if (!atp->result->runnable()) continue;
         if (atp->result->project->non_cpu_intensive) continue;
-        if (atp->next_scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        ncpus_used += atp->app_version->avg_ncpus;
+        if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
+		ncpus_used += atp->app_version->avg_ncpus;
+		atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         if (atp->result->uses_coprocs()) continue;
         preemptable_tasks.push_back(atp);
     }
@@ -789,33 +799,14 @@ bool CLIENT_STATE::enforce_schedule() {
         projects[i]->deadlines_missed = projects[i]->rr_sim_status.deadlines_missed;
     }
 
-    // Set next_scheduler_state to current scheduler_state
-    // (or preempt, if not runnable)
+    // Set next_scheduler_state to preempt
     //
     for (i=0; i< active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
-        if (atp->result->runnable()) {
-            atp->next_scheduler_state = atp->scheduler_state;
-        } else {
-            atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
-        }
+        atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
     }
 
     make_preemptable_task_list(preemptable_tasks, ncpus_used);
-
-    // if we're using too many CPUs, preempt tasks until we're not
-    //
-    while (ncpus_used > ncpus && preemptable_tasks.size()) {
-        preempt_atp = preemptable_tasks[0];
-        preempt_atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
-        ncpus_used -= preempt_atp->app_version->avg_ncpus;
-        std::pop_heap(
-            preemptable_tasks.begin(),
-            preemptable_tasks.end(),
-            more_preemptable
-        );
-        preemptable_tasks.pop_back();
-    }
 
     double ram_left = available_ram();
 
@@ -851,34 +842,10 @@ bool CLIENT_STATE::enforce_schedule() {
             );
         }
 
-        // remove job from preemptable list
-        //
-        atp = NULL;
-        for (vector<ACTIVE_TASK*>::iterator it = preemptable_tasks.begin(); it != preemptable_tasks.end(); it++) {
-            ACTIVE_TASK *atp1 = *it;
-            if (atp1->result == rp) {
-                atp = atp1;
-                it = preemptable_tasks.erase(it);
-                std::make_heap(
-                    preemptable_tasks.begin(),
-                    preemptable_tasks.end(),
-                    more_preemptable
-                );
-                break;
-            }
-        }
-
-        double next_ncpus_used = ncpus_used;
-            // the # of CPUs used if we run this job
-
         atp = lookup_active_task_by_result(rp);
         if (atp) {
             atp->too_large = false;
             if (atp->procinfo.working_set_size_smoothed > ram_left) {
-                if (atp->next_scheduler_state == CPU_SCHED_SCHEDULED) {
-                    ncpus_used -= rp->avp->avg_ncpus;
-                }
-                atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
                 atp->too_large = true;
                 if (log_flags.mem_usage_debug) {
                     msg_printf(rp->project, MSG_INFO,
@@ -888,17 +855,26 @@ bool CLIENT_STATE::enforce_schedule() {
                 }
                 continue;
             }
-            if (atp->next_scheduler_state != CPU_SCHED_SCHEDULED) {
-                next_ncpus_used += rp->avp->avg_ncpus;
-            }
-        } else {
-            next_ncpus_used += rp->avp->avg_ncpus;
         }
 
         // Preempt tasks if needed (and possible).
         //
         bool failed_to_preempt = false;
-        while (next_ncpus_used > ncpus && preemptable_tasks.size()) {
+		while (1) {
+			double next_ncpus_used = ncpus_used + rp->avp->avg_ncpus;
+				// the # of CPUs used if we run this job
+
+			if (log_flags.cpu_sched_debug) {
+				msg_printf(0, MSG_INFO, "ncpus_used %f next_ncpus_used %f",
+					ncpus_used, next_ncpus_used
+				);
+			}
+			if (!preemptable_tasks.size()) break;
+			if (rp->uses_coprocs()) {
+				if (ncpus_used <= ncpus) break;
+			} else {
+				if (ncpus_used < ncpus) break;
+			}
             // Preempt the most preemptable task if either
             // 1) it's completed its time slice and has checkpointed recently
             // 2) the scheduled result is in deadline trouble
@@ -910,7 +886,6 @@ bool CLIENT_STATE::enforce_schedule() {
                 }
                 preempt_atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
                 ncpus_used -= preempt_atp->app_version->avg_ncpus;
-                next_ncpus_used -= preempt_atp->app_version->avg_ncpus;
                 std::pop_heap(
                     preemptable_tasks.begin(),
                     preemptable_tasks.end(),
@@ -938,23 +913,15 @@ bool CLIENT_STATE::enforce_schedule() {
         }
 
         if (failed_to_preempt && !rp->uses_coprocs()) {
-            if (atp && atp->next_scheduler_state == CPU_SCHED_SCHEDULED) {
-                ncpus_used -= rp->avp->avg_ncpus;
-                atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
-            }
             continue;
         }
 
         // We've decided to run this job; create an ACTIVE_TASK if needed.
         //
-        if (atp) {
-            if (atp->next_scheduler_state != CPU_SCHED_SCHEDULED) {
-                ncpus_used += rp->avp->avg_ncpus;
-            }
-        } else {
-            atp = get_task(rp);
-            ncpus_used += rp->avp->avg_ncpus;
+        if (!atp) {
+			atp = get_task(rp);
         }
+        ncpus_used += rp->avp->avg_ncpus;
         atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         ram_left -= atp->procinfo.working_set_size_smoothed;
     }
