@@ -177,6 +177,7 @@ protected:
 
     bool                    m_bForceUpdateSelection;
     bool                    m_bIgnoreUIEvents;
+    bool                    m_bNeedSort;
     
     int                     m_iProgressColumn;
 
