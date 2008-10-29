@@ -8812,3 +8812,9 @@ David  28 Oct 2008
             view_profile.php
     sched/
         file_deleter.cpp
+
+Charlie 29 Oct 2008
+    - MGR: Fix bug introduced yesterday.
+
+	clientgui/
+		BOINCBaseView.cpp

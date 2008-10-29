@@ -265,7 +265,6 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
             if (0 >= iDocCount) {
                 EmptyCache();
                 m_pListPane->DeleteAllItems();
-                m_pListPane->SetItemCount(iDocCount);
             } else {
                 int iIndex = 0;
                 int iReturnValue = -1;
