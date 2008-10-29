@@ -47,6 +47,7 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
 
     m_bForceUpdateSelection = true;
     m_bIgnoreUIEvents = false;
+    m_bNeedSort = false;
 
     //
     // Setup View
@@ -275,6 +276,7 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                     }
                     wxASSERT(GetDocCount() == GetCacheCount());
                     m_pListPane->SetItemCount(iDocCount);
+                    m_bNeedSort = true;
                } else {
                     for (iIndex = 0; iIndex < (iCacheCount - iDocCount); iIndex++) {
                         iReturnValue = RemoveCacheElement();
@@ -283,6 +285,7 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                     wxASSERT(GetDocCount() == GetCacheCount());
                     m_pListPane->SetItemCount(iDocCount);
                     m_pListPane->RefreshItems(0, iDocCount - 1);
+                    m_bNeedSort = true;
                 }
             }
         }
@@ -457,7 +460,6 @@ int CBOINCBaseView::SynchronizeCache() {
     int         iColumnIndex     = 0;
     int         iColumnTotal     = 0;
     bool        bNeedRefreshData = false;
-    bool        bNeedSort = false;
 
     iRowTotal = GetDocCount();
     iColumnTotal = m_pListPane->GetColumnCount();
@@ -474,7 +476,7 @@ int CBOINCBaseView::SynchronizeCache() {
                 m_pListPane->RefreshCell(iRowIndex, iColumnIndex);
 #endif
                 if (iColumnIndex == m_iSortColumn) {
-                    bNeedSort = true;
+                    m_bNeedSort = true;
                 }
             }
         }
@@ -485,8 +487,9 @@ int CBOINCBaseView::SynchronizeCache() {
         }
     }
 
-    if (bNeedSort) {
+    if (m_bNeedSort) {
         sortData();     // Will mark moved items as needing refresh
+        m_bNeedSort = false;
     }
     
     return 0;

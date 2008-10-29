@@ -8815,10 +8815,11 @@ David  28 Oct 2008
 
 Charlie 29 Oct 2008
     - MGR: Fix bug introduced yesterday.
+    - MGR: Always sort after a row is added or deleted.
     - Mac: Add new files rr_sim.cpp,.h to XCode project.
 
 	clientgui/
-		BOINCBaseView.cpp
+		BOINCBaseView.cpp,.h
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
