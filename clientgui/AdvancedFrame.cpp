@@ -1154,7 +1154,7 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
             // Connect to the remote machine
             wxString sHost = dlg.m_ComputerNameCtrl->GetValue(); 
             long lPort = GUI_RPC_PORT; 
-            size_t iPos = sHost.find(_(":")); 
+            int iPos = sHost.Find(wxT(":")); 
             if (iPos != wxNOT_FOUND) { 
                 wxString sPort = sHost.substr(iPos + 1); 
                 if (!sPort.ToLong(&lPort)) lPort = GUI_RPC_PORT; 
