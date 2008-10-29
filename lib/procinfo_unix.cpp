@@ -99,7 +99,7 @@ struct PROC_STAT {
 
 int PROC_STAT::parse(char* buf) {
     int n = sscanf(buf,
-        "%d %s %c %d %d %d %d %d "
+        "%d (%s %c %d %d %d %d %d "
         "%lu %lu %lu %lu %lu %lu %lu "
         "%d %d %d %d %d %d "
         "%lu %lu "
@@ -146,7 +146,11 @@ int PROC_STAT::parse(char* buf) {
         &exit_signal,
         &processor
     );
-    if (n == 39) return 0;
+    if (n == 39) {
+        char* p = strchr(comm, ')');
+        if (p) *p = 0;
+        return 0;
+    }
 
     // I don't see a good choice of ERR_ for this...
     //

@@ -8831,3 +8831,9 @@ Charlie 29 Oct 2008
     /
         configure.ac
         version.h
+
+David  29 Oct 2008
+    - client: /proc/N/stat has () around the command name.  Remove these.
+
+    lib/
+        procinfo_unix.cpp
