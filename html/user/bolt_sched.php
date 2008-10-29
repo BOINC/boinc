@@ -464,13 +464,9 @@ case 'answer':          // submit answer in exercise
     $bolt_ex->score /= $bolt_ex->index;
 
     if ($item->callback) {
-        $user->bolt->attrs = unserialize($user->bolt->attrs);
         call_user_func(
-            $item->callback, $user, $bolt_ex->score, $bolt_ex->query_string
+            $item->callback, $bolt_ex->score, $bolt_ex->query_string
         );
-        $user->bolt->attrs = serialize($user->bolt->attrs);
-        $attrs = $user->bolt->attrs;
-        $user->bolt->update("attrs='$attrs'");
     }
 
     // make a record of the result
@@ -496,11 +492,7 @@ case 'answer':          // submit answer in exercise
             // if the exercise set if finished, make or update DB records
             //
             if ($xset->callback) {
-                $user->bolt->attrs = unserialize($user->bolt->attrs);
-                call_user_func($xset->callback, $user, $avg_score);
-                $user->bolt->attrs = serialize($user->bolt->attrs);
-                $attrs = $user->bolt->attrs;
-                $user->bolt->update("attrs='$attrs'");
+                call_user_func($xset->callback, $avg_score);
             }
             $now = time();
             $id = BoltXsetResult::insert("(create_time, user_id, course_id, name, score, view_id) values ($now, $user->id, $course->id, '$xset->name', $avg_score, $view_id)");

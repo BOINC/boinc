@@ -79,9 +79,11 @@ class BoltLesson extends BoltItem {
 class BoltExercise extends BoltItem {
     public $callback;
         // called as func($student, $score, $query_string) after scoring
-    function __construct($filename, $title, $attrs, $callback) {
+    public $weight;
+    function __construct($filename, $title, $attrs, $callback, $weight) {
         parent::__construct($filename, $title, $attrs);
         $this->callback = $callback;
+        $this->weight = $weight;
     }
     function is_exercise() {
         return true;
@@ -294,6 +296,7 @@ function exercise() {
     $filename = "";
     $title = "";
 	$attrs = null;
+    $weight = 1;
 
     $args = func_get_args();
     $callback = null;
@@ -304,6 +307,7 @@ function exercise() {
             case 'filename': $filename = $arg[1]; break;
             case 'attrs': $attrs = $arg[1]; break;
             case 'callback': $callback = $arg[1]; break;
+            case 'weight': $weight = $arg[1]; break;
             default: echo "Unrecognized exercise parameter: ", $arg[0], "\n"; break;
             }
         }
@@ -314,7 +318,46 @@ function exercise() {
     if (!$filename) {
         error_page("Missing filename in lesson");
     }
-    return new BoltExercise($filename, $title, $attrs, $callback);
+    return new BoltExercise($filename, $title, $attrs, $callback, $weight);
+}
+
+function item_attrs() {
+    global $item;
+    return $item->attrs;
+}
+
+function student_sex() {
+    global $user;
+    return $user->bolt->sex;
+}
+
+function student_age() {
+    global $user;
+    if (!$user->bolt->birth_year) return -1;
+    $date = getdate();
+    $this_year = $date["year"];
+    return $this_year - $user->bolt->birth_year;
+}
+
+function student_country() {
+    global $user;
+    return $user->country;
+}
+
+function student_name() {
+    global $user;
+    return $user->name;
+}
+
+function student_attrs() {
+    global $user;
+    return unserialize($user->bolt->attrs);
+}
+
+function set_student_attrs($attrs) {
+    global $user;
+    $attrs = serialize($attrs);
+    $user->bolt->update("attrs='$attrs'");
 }
 
 require_once('../inc/bolt_seq.inc');
