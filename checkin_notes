@@ -8913,3 +8913,9 @@ David  30 Oct 2008
         user/
             language_select.php
             white.css
+
+Rom    30 Oct 2008
+    - Rebuild libcurl x86 and x64 (turn off async DNS)
+    
+    curl/
+        <Various Files>
