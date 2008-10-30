@@ -33,6 +33,7 @@ require_once("../inc/bolt_db.inc");
 require_once("../inc/bolt_util.inc");
 require_once("../inc/bolt.inc");
 require_once("../inc/bolt_cat.inc");
+require_once("../inc/bolt_snap.inc");
 
 function compare_case(
     $title, $select_unit, $snap, $filter, $filter_cat, $breakdown, $breakdown_cat

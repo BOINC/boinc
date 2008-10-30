@@ -271,3 +271,20 @@ David  Oct 30 2008
         user/
             bolt.css
             bolt_sched.php
+
+David  Oct 30 2008
+    - moved snapshot code to its own file
+    - added link to questions in Map
+    - added "mode" to question table
+
+    db/
+        bolt_schema.sql
+    html/
+        inc/
+            bolt_snap.inc
+            bolt_util.inc
+        ops/
+            bolt_map.php
+            bolt_compare.php
+        user/
+            bolt_sched.php

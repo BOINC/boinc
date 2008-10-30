@@ -49,6 +49,7 @@ require_once("../inc/bolt_db.inc");
 require_once("../inc/bolt_cat.inc");
 require_once("../inc/bolt_util.inc");
 require_once("../inc/bolt.inc");
+require_once("../inc/bolt_snap.inc");
 
 // the following are to minimize argument passing
 
@@ -108,7 +109,8 @@ function spaces($level) {
     return $x;
 }
 
-// used to filter arrays of views or xset_results
+// filter arrays of anything that has a user_id field
+// (view, xset_result, question)
 //
 function filter_array($array) {
     global $snap, $filter, $filter_cat, $breakdown, $breakdown_cat;
@@ -171,6 +173,20 @@ function outcomes($views) {
     return $x;
 }
 
+function get_nquestions($unit, $mode) {
+    global $snap;
+
+    if (array_key_exists($unit->name, $snap->questions)) {
+        $a = filter_array($snap->questions[$unit->name]);
+        $n = 0;
+        foreach ($a as $q) {
+            if ($q->mode == $mode) $n++;
+        }
+        return $n;
+    }
+    return 0;
+}
+
 function get_views($unit, $mode) {
     global $snap;
 
@@ -217,7 +233,7 @@ $rownum = 0;
 
 function show_unit_row($unit, $class, $level, $is_answer) {
     global $breakdown, $breakdown_cat;
-    global $rownum;
+    global $rownum, $course_id;
 
     $a = $is_answer?" (answer)":"";
     $j = ($rownum++)%2;
@@ -243,21 +259,36 @@ function show_unit_row($unit, $class, $level, $is_answer) {
     }
     switch ($class) {
     case "BoltLesson":
-        $views = get_views($unit, BOLT_MODE_LESSON);
+        $mode = BOLT_MODE_LESSON;
+        $views = get_views($unit, $mode);
         $n = count($views);
         $out = outcomes($views);
         $t = avg_time($views);
         echo "<td>$n</td>";
+        $n = get_nquestions($unit, $mode);
+        if ($n) {
+            echo "<td><a href=bolt_map.php?action=questions&course_id=$course_id&name=$unit->name&mode=$mode>$n</a></td>\n";
+        } else {
+            echo "<td>0</td>\n";
+        }
+
         echo outcome_graph($out, 200);
         echo empty_cell();
         echo time_graph($t, 200);
         break;
     case "BoltExercise":
-        $views = get_views($unit, $is_answer?BOLT_MODE_ANSWER:BOLT_MODE_SHOW);
+        $mode = $is_answer?BOLT_MODE_ANSWER:BOLT_MODE_SHOW;
+        $views = get_views($unit, $mode);
         $n = count($views);
         $out = outcomes($views);
         $t = avg_time($views);
         echo "<td>$n</td>";
+        $n = get_nquestions($unit, $mode);
+        if ($n) {
+            echo "<td><a href=bolt_map.php?action=questions&course_id=$course_id&name=$unit->name&mode=$mode>$n</a></td>\n";
+        } else {
+            echo "<td>0</td>\n";
+        }
         echo outcome_graph($out, 200);
         if ($is_answer) {
             echo empty_cell();
@@ -273,11 +304,13 @@ function show_unit_row($unit, $class, $level, $is_answer) {
         $n = count($xr);
         echo "<td>$n</td>";
         echo empty_cell();
+        echo empty_cell();
         $score = avg_score($xr);
         echo score_graph($score, 200);
         echo empty_cell();
         break;
     default:
+        echo empty_cell();
         echo empty_cell();
         echo empty_cell();
         echo empty_cell();
@@ -369,6 +402,7 @@ function show_map() {
     }
     echo "
             <th>Views</th>
+            <th>Questions</th>
             <th>Outcome<br>
                 <span class=green>Next</span>
                 <span class=yellow>Back</span>
@@ -398,6 +432,32 @@ function show_map() {
     page_tail();
 }
 
+function show_questions() {
+    $name = get_str('name');
+    global $course_id;
+    $snap = read_map_snapshot($course_id);
+    $qs = $snap->questions[$name];
+    page_head("Questions about $name");
+    start_table();
+    echo "<tr>
+        <th>When</th>
+        <th>Who</th>
+        <th>Question</th>
+        </tr>
+    ";
+    foreach ($qs as $q) {
+        $user = $snap->users[$q->user_id];
+        echo "<tr>
+            <td>".time_str($q->create_time)."</td>
+            <td><a href=student>$user->name</td>
+            <td>$q->question</td>
+            </tr>
+        ";
+    }
+    end_table();
+    page_tail();
+}
+
 $course_id = get_int('course_id');
 $course = BoltCourse::lookup_id($course_id);
 if (!$course) error_page("no course");
@@ -413,6 +473,9 @@ case "snap_action":
     break;
 case "map":
     show_map();
+    break;
+case "questions":
+    show_questions();
     break;
 default:
     error_page("Unknown action $action");

@@ -145,6 +145,8 @@ create table bolt_question (
     course_id       integer         not null,
     name            varchar(255)    not null,
 		-- logical name of item where question was asked
+    mode            integer         not null,
+        -- distinguishes exercise show/answer
 	question		text			not null,
 	state			integer			not null,
 		-- whether question has been handled

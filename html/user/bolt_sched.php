@@ -642,7 +642,7 @@ case 'question':
     debug_show_state(unserialize($view->state), "Initial");
     $now = time();
     $question = BoltDb::escape_string(get_str('question'));
-    BoltQuestion::insert("(create_time, user_id, course_id, name, question, state) values ($now, $user->id, $course->id, '$view->item_name', '$question', 0)");
+    BoltQuestion::insert("(create_time, user_id, course_id, name, mode, question, state) values ($now, $user->id, $course->id, '$view->item_name', $view->mode, '$question', 0)");
     page_header();
     echo "
         Thanks; we have recorded your question.
