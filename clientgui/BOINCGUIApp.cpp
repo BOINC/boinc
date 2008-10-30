@@ -746,6 +746,7 @@ void CBOINCGUIApp::FireReloadSkin() {
 
 bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     CBOINCBaseFrame* pNewFrame = NULL;
+    CBOINCBaseFrame* pOldFrame = m_pFrame;
 
     // Create the new window
     if ((iGUISelection != m_iGUISelected) || !m_pFrame) {
@@ -774,18 +775,18 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
         if (pNewFrame) {
             SetTopWindow(pNewFrame);
 
+            // Store the new frame for future use
+            m_pFrame = pNewFrame;
+
             // Hide the old one if it exists
-            if (m_pFrame) m_pFrame->Hide();
+            if (pOldFrame) pOldFrame->Hide();
 
             // Show the new frame if needed, and prevent Mac OSX from
             // hiding the application
             if (pNewFrame && bShowWindow) pNewFrame->Show();
 
             // Delete the old one if it exists
-            if (m_pFrame) m_pFrame->Destroy();
-
-            // Store the new frame for future use
-            m_pFrame = pNewFrame;
+            if (pOldFrame) pOldFrame->Destroy();
         }
     }
 
@@ -889,18 +890,19 @@ bool CBOINCGUIApp::IsApplicationVisible() {
 /// @param bShow
 ///   true will show the process, false will hide the process.
 ///
+#ifdef __WXMAC__
 void CBOINCGUIApp::ShowApplication(bool bShow) {
-#ifndef __WXMAC__
-    bool b = bShow;
-    b = true;
-#else
     if (bShow) {
         SetFrontProcess(&m_psnCurrentProcess);
     } else {
         ShowHideProcess(&m_psnCurrentProcess, false);
     }
-#endif
 }
+#else
+void CBOINCGUIApp::ShowApplication(bool) {
+}
+#endif
+
 
 bool CBOINCGUIApp::IsModalDialogDisplayed() {
     if (m_bSafeMessageBoxDisplayed) return true;

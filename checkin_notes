@@ -8894,3 +8894,10 @@ Rom & Charlie    29 Oct 2008
         BOINCx64.ism
     win_build/
         sim.vcproj
+
+Charlie 30 Oct 2008
+    - MGR: Fix show / hide on Mac broken by previous changes.
+
+    clientgui/
+        BOINCBaseFrame.cpp, .h
+        BOINCGUIApp.cpp

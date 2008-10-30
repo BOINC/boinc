@@ -757,7 +757,7 @@ bool CBOINCBaseFrame::RestoreState() {
     return true;
 }
 
-/*
+
 bool CBOINCBaseFrame::Show(bool bShow) {
     if (bShow) {
         wxGetApp().ShowApplication(true);
@@ -768,9 +768,8 @@ bool CBOINCBaseFrame::Show(bool bShow) {
             }
         }
     }
-    return wxFrame::Show(show);
+    return wxFrame::Show(bShow);
 }
-*/
 
 
 int CBOINCBaseFrame::_GetCurrentViewPage() {

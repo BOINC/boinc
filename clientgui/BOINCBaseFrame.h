@@ -91,7 +91,7 @@ public:
 
     void                ExecuteBrowserLink( const wxString& strLink );
 
-    //bool                Show( bool bShow = true );
+    bool                Show( bool bShow = true );
 
 protected:
 
