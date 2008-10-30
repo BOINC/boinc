@@ -580,7 +580,7 @@ wxInt32 CViewWork::RemoveCacheElement() {
 }
 
 
-bool CViewWork::ManageSelections() {
+bool CViewWork::IsSelectionManagementNeeded() {
     return true;
 }
 

@@ -60,8 +60,15 @@ EXTERN_C DWORD BOINCGetIdleTickCount();
 #endif
 
 
+DEFINE_EVENT_TYPE(wxEVT_RPC_FINISHED)
+
 IMPLEMENT_APP(CBOINCGUIApp)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
+
+BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
+    EVT_RPC_FINISHED(CBOINCGUIApp::OnRPCFinished)
+END_EVENT_TABLE ()
+
 
 static bool s_bSkipExitConfirmation = false;
 
@@ -153,6 +160,7 @@ bool CBOINCGUIApp::OnInit() {
     // Initialize local variables
     int      iErrorCode = 0;
     wxString strDialogMessage = wxEmptyString;
+    bool success;
 
 
     // Dump useful debugging information
@@ -209,17 +217,17 @@ bool CBOINCGUIApp::OnInit() {
 
     // Switch the current directory to the BOINC Data directory
     if (!GetDataDirectory().IsEmpty()) {
-        if (!wxSetWorkingDirectory(GetDataDirectory())) {
+    	success = wxSetWorkingDirectory(GetDataDirectory());
+        if (!success) {
             if (!g_use_sandbox) {
                 if (!wxDirExists(GetDataDirectory())) {
-                    if (!wxMkdir(GetDataDirectory(), 0777)) {    // Does nothing if dir exists
-                        iErrorCode = -1016;
-                    }
+                    success = wxMkdir(GetDataDirectory(), 0777);    // Does nothing if dir exists
                 }
             }
         }
     }
 
+    if (!success) iErrorCode = -1016;
  
 #ifdef SANDBOX
     // Make sure owners, groups and permissions are correct for the current setting of g_use_sandbox
@@ -235,8 +243,6 @@ bool CBOINCGUIApp::OnInit() {
 #endif
         iErrorCode = check_security(g_use_sandbox, true);
     }
-#endif
-
 
     if (iErrorCode) {
 
@@ -255,7 +261,7 @@ bool CBOINCGUIApp::OnInit() {
 
         return false;
     }
-
+#endif      // SANDBOX
 
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =
@@ -377,6 +383,16 @@ bool CBOINCGUIApp::OnInit() {
 #endif
     }
 
+#ifdef __WXMAC__
+#if 0       // We may still need this code; don't remove it yet -- CAF 1/30/08
+    // When running BOINC Client as a daemon / service, the menubar icon is sometimes 
+    // unresponsive to mouse clicks if we create it before connecting to the Client.
+    CBOINCClientManager* pcm = m_pDocument->m_pClientManager;
+    if (pcm->IsSystemBooting() && pcm->IsBOINCConfiguredAsDaemon()) {
+        pcm->StartupBOINCCore();
+    }
+#endif
+#endif
 
     // Initialize the task bar icon
 #if defined(__WXMSW__) || defined(__WXMAC__)
@@ -408,13 +424,13 @@ bool CBOINCGUIApp::OnInit() {
     IdleTrackerAttach();
 
 #ifdef __WXMAC__
+    ProcessSerialNumber psn;
     ProcessInfoRec pInfo;
     OSStatus err;
     
-    GetCurrentProcess(&psn);
     memset(&pInfo, 0, sizeof(pInfo));
     pInfo.processInfoLength = sizeof( ProcessInfoRec );
-    err = GetProcessInformation(&psn, &pInfo);
+    err = GetProcessInformation(&m_psnCurrentProcess, &pInfo);
     if (!err) {
         psn = pInfo.processLauncher;
         memset(&pInfo, 0, sizeof(pInfo));
@@ -677,6 +693,16 @@ int CBOINCGUIApp::ClientLibraryShutdown() {
 }
 
 
+void CBOINCGUIApp::OnRPCFinished( CRPCFinishedEvent& event ) {
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+   
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    
+    pDoc->OnRPCComplete(event);
+}
+
+
 int CBOINCGUIApp::UpdateSystemIdleDetection() {
 #ifdef __WXMSW__
     return BOINCGetIdleTickCount();
@@ -918,6 +944,7 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
         theObject = ((wxWindow*)theObject)->GetParent();
     }
     
+#if 1
     // Allow all except Command, Timer and Mouse Moved events
     if (event.IsCommandEvent()) {
         return false;
@@ -932,6 +959,37 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
     }
    
     return -1;
+#else
+    // Reject all events except:
+    //  - Taskbar Menu
+    //  - Paint
+    //  - Erase Background
+    if (theEventType == wxEVT_RPC_FINISHED) {
+        return -1;
+    }
+    
+#ifdef __WXMSW__
+    if (theEventType == wxEVT_TASKBAR_CONTEXT_MENU) {
+        return -1;
+     }
+    if (theEventType == wxEVT_TASKBAR_RIGHT_DOWN) {
+        return -1;
+    }
+    if (theEventType == wxEVT_TASKBAR_RIGHT_UP) {
+        return -1;
+    }
+#endif
+
+    if (theEventType == wxEVT_PAINT) {
+        return -1;
+    }
+
+    if (theEventType == wxEVT_ERASE_BACKGROUND) {
+        return -1;
+    }
+
+    return false;
+#endif
 }
 
 const char *BOINC_RCSID_487cbf3018 = "$Id$";

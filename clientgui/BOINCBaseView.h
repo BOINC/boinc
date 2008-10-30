@@ -166,8 +166,8 @@ protected:
     virtual void            UpdateWebsiteSelection(long lControlGroup, PROJECT* project);
 
 
-    bool                    _ManageSelections();
-    virtual bool            ManageSelections();
+    bool                    _IsSelectionManagementNeeded();
+    virtual bool            IsSelectionManagementNeeded();
 
     bool                    _EnsureLastItemVisible();
     virtual bool            EnsureLastItemVisible();

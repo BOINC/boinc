@@ -643,7 +643,7 @@ wxInt32 CViewProjects::RemoveCacheElement() {
 }
 
 
-bool CViewProjects::ManageSelections() {
+bool CViewProjects::IsSelectionManagementNeeded() {
     return true;
 }
 

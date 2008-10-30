@@ -41,7 +41,6 @@ public:
     void                ShutdownBOINCCore();
 #ifdef __WXMAC__
     bool                ProcessExists(pid_t thePID);
-    static OSErr        QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon );
 #endif
 
 protected:

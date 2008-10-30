@@ -43,7 +43,6 @@ DEFINE_EVENT_TYPE(wxEVT_FRAME_INITIALIZED)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_REFRESHVIEW)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_UPDATESTATUS)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_RELOADSKIN)
-DEFINE_EVENT_TYPE(wxEVT_FRAME_RPCFINISHED)
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
@@ -55,7 +54,6 @@ BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
     EVT_FRAME_INITIALIZED(CBOINCBaseFrame::OnInitialized)
     EVT_FRAME_ALERT(CBOINCBaseFrame::OnAlert)
     EVT_FRAME_REFRESH(CBOINCBaseFrame::OnRefreshView)
-    EVT_FRAME_RPCFINISHED(CBOINCBaseFrame::OnRPCFinished)
     EVT_CLOSE(CBOINCBaseFrame::OnClose)
     EVT_MENU(ID_FILECLOSEWINDOW, CBOINCBaseFrame::OnCloseWindow)
 END_EVENT_TABLE ()
@@ -162,16 +160,6 @@ void CBOINCBaseFrame::OnPeriodicRPC(wxTimerEvent& WXUNUSED(event)) {
         
         bAlreadyRunningLoop = false;
     }
-}
-
-
-void CBOINCBaseFrame::OnRPCFinished( CFrameEvent& /* event */ ) {
-    CMainDocument*      pDoc = wxGetApp().GetDocument();
-   
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    
-    pDoc->OnRPCComplete();
 }
 
 
@@ -397,12 +385,6 @@ void CBOINCBaseFrame::FireConnect() {
 
 void CBOINCBaseFrame::FireReloadSkin() {
     CFrameEvent event(wxEVT_FRAME_RELOADSKIN, this);
-    AddPendingEvent(event);
-}
-
-
-void CBOINCBaseFrame::FireRPCFinished() {
-    CFrameEvent event(wxEVT_FRAME_RPCFINISHED, this);
     AddPendingEvent(event);
 }
 

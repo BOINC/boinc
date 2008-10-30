@@ -603,7 +603,7 @@ void CBOINCBaseView::ClearSavedSelections() {
 
 // Save the key values of the currently selected rows for later restore
 void CBOINCBaseView::SaveSelections() {
-    if (!_ManageSelections()) {
+    if (!_IsSelectionManagementNeeded()) {
         return;
     }
 
@@ -629,7 +629,7 @@ void CBOINCBaseView::SaveSelections() {
 // previous selection and makes any adjustments to ensure that 
 // the rows containing the originally selected data are selected.
 void CBOINCBaseView::RestoreSelections() {
-    if (!_ManageSelections()) {
+    if (!_IsSelectionManagementNeeded()) {
         return;
     }
 
@@ -775,12 +775,12 @@ void CBOINCBaseView::UpdateWebsiteSelection(long lControlGroup, PROJECT* project
 }
 
 
-bool CBOINCBaseView::_ManageSelections() {
-    return ManageSelections();
+bool CBOINCBaseView::_IsSelectionManagementNeeded() {
+    return IsSelectionManagementNeeded();
 }
 
 
-bool CBOINCBaseView::ManageSelections() {
+bool CBOINCBaseView::IsSelectionManagementNeeded() {
     return false;
 }
 

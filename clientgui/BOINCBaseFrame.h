@@ -51,8 +51,6 @@ public:
     ~CBOINCBaseFrame();
 
     void                OnPeriodicRPC( wxTimerEvent& event );
-    void                OnRPCFinished( CFrameEvent& event );
-
     void                OnDocumentPoll( wxTimerEvent& event );
     void                OnAlertPoll( wxTimerEvent& event );
     virtual void        OnRefreshView( CFrameEvent& event );
@@ -73,7 +71,6 @@ public:
     void                FireRefreshView();
     void                FireConnect();
     void                FireReloadSkin();
-    void                FireRPCFinished();
     void                ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword, int m_iReadGUIRPCAuthFailure );
     void                ShowConnectionFailedAlert();
     void                ShowDaemonStartFailedAlert();
@@ -187,7 +184,7 @@ DECLARE_EVENT_TYPE( wxEVT_FRAME_INITIALIZED, 10004 )
 DECLARE_EVENT_TYPE( wxEVT_FRAME_REFRESHVIEW, 10005 )
 DECLARE_EVENT_TYPE( wxEVT_FRAME_UPDATESTATUS, 10006 )
 DECLARE_EVENT_TYPE( wxEVT_FRAME_RELOADSKIN, 10007 )
-DECLARE_EVENT_TYPE( wxEVT_FRAME_RPCFINISHED, 10008 )
+
 END_DECLARE_EVENT_TYPES()
 
 #define EVT_FRAME_ALERT(fn)              DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_ALERT, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
@@ -196,7 +193,7 @@ END_DECLARE_EVENT_TYPES()
 #define EVT_FRAME_REFRESH(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_REFRESHVIEW, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_FRAME_UPDATESTATUS(fn)       DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_UPDATESTATUS, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_FRAME_RELOADSKIN(fn)         DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_RELOADSKIN, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_FRAME_RPCFINISHED(fn)        DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_RPCFINISHED, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+
 
 #endif
 

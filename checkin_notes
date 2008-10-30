@@ -8852,7 +8852,7 @@ David  29 Oct 2008
         cpu_sched.cpp
         sim.h
         
-Rom    29 Oct 2008
+Rom & Charlie    29 Oct 2008
     - client: include precompiled header in rr_sim.cpp so memory
         leak detection will work.
     - MGR: Have the BaseFrame call a function to determine if the
@@ -8880,7 +8880,7 @@ Rom    29 Oct 2008
         AsyncRPC.cpp, .h
         BOINCBaseFrame.cpp, .h
         BOINCBaseView.cpp, .h
-        BOINCClientManager.cpp
+        BOINCClientManager.cpp, .h
         BOINCGUIApp.cpp, .h
         BOINCTaskBar.cpp
         MainDocument.cpp, .h

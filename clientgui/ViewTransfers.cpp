@@ -433,7 +433,7 @@ wxInt32 CViewTransfers::RemoveCacheElement() {
 }
 
 
-bool CViewTransfers::ManageSelections() {
+bool CViewTransfers::IsSelectionManagementNeeded() {
     return true;
 }
 

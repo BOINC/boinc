@@ -116,6 +116,7 @@ void RPCThread::OnExit() {
 
 void *RPCThread::Entry() {
     int retval;
+    CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED );
 
     while(true) {
         // check if we were asked to exit
@@ -137,11 +138,7 @@ void *RPCThread::Entry() {
         }
 
         retval = ProcessRPCRequest();
-        
-        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-        if (pFrame) {
-            pFrame->FireRPCFinished();
-        }
+        wxPostEvent( wxTheApp, RPC_done_event );
     }
 
 #ifndef __WXMSW__       // Deadlocks on Windows
@@ -578,7 +575,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 }
 
 
-void CMainDocument::OnRPCComplete() {
+void CMainDocument::OnRPCComplete(CRPCFinishedEvent&) {
     HandleCompletedRPC();
 }   
     

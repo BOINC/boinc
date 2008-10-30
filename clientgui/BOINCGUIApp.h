@@ -46,6 +46,10 @@ class CTaskBarIcon;
 class CSkinManager;
 class CRPCFinishedEvent;
 
+#ifdef __WXMAC__
+    OSErr        QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon );
+#endif
+
 
 class CBOINCGUIApp : public wxApp {
 
@@ -157,7 +161,10 @@ public:
 
     int                 FilterEvent(wxEvent &event);
 
+
     int                 UpdateSystemIdleDetection();
+
+DECLARE_EVENT_TABLE()
 };
 
 
