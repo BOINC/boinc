@@ -160,7 +160,7 @@ bool CBOINCGUIApp::OnInit() {
     // Initialize local variables
     int      iErrorCode = 0;
     wxString strDialogMessage = wxEmptyString;
-    bool success;
+    bool success = false;
 
 
     // Dump useful debugging information
