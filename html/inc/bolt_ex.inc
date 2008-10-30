@@ -27,15 +27,8 @@ $bolt_ex->score = 0;    // input/output: cumulative score (if mode = SCORE)
 $bolt_ex->weight = 0;   // input/output: cumulative weight
 $bolt_ex->query_string = "";    // user's response (if SCORE or ANSWER)
 
-class BoltWeight {
-    public $weight;
-    function __construct($weight) {
-        $this->weight = $weight;
-    }
-}
-
 function weight($w) {
-    return new BoltWeight($w);
+    return array('weight', $w);
 }
 
 function exclusive_choice() {
@@ -47,14 +40,13 @@ function exclusive_choice() {
     foreach ($args as $arg) {
         if (is_string($arg)) {
             $choices[] = $arg;
-        } else if (is_object($arg)) {
-            if (get_class($arg) == 'BoltWeight') {
-                $weight = $arg->weight;
-            } else {
-                "bad arg to exclusive_choice()";
+        } else if (is_array($arg)) {
+            switch ($arg[0]) {
+            case 'weight': $weight = $arg[1]; break;
+            default: echo "bad arg to exclusive_choice()";
             }
         } else {
-            "bad arg to exclusive_choice()";
+            echo "bad arg to exclusive_choice()";
         }
     }
 
@@ -129,10 +121,10 @@ function inclusive_choice() {
             if (get_class($arg) == 'BoltWeight') {
                 $weight = $arg->weight;
             } else {
-                "bad arg to inclusive_choice()";
+                echo "bad arg to inclusive_choice()";
             }
         } else {
-            "bad arg to inclusive_choice()";
+            echo "bad arg to inclusive_choice()";
         }
     }
 
@@ -197,8 +189,7 @@ function image_rect($img, $rect) {
 
     switch ($bolt_ex->mode) {
     case BOLT_MODE_SHOW:
-        echo "<form name=main action=bolt_sched.php>
-            <input type=image name=pic_$bolt_ex->index src=$img>
+        echo "<input type=image name=pic_$bolt_ex->index src=$img>
         ";
         break;
     case BOLT_MODE_SCORE:
@@ -242,6 +233,112 @@ function image_rect($img, $rect) {
             </div>
             <br clear=all>
         ";
+        break;
+    }
+    $bolt_ex->index++;
+}
+
+class BoltFitbField {
+    public $textarea, $nrows, $ncols;
+    function __construct($textarea, $nrows, $ncols) {
+        $this->textarea = $textarea;
+        $this->nrows = $nrows;
+        $this->ncols = $ncols;
+    }
+}
+
+function field($n) {
+    return new BoltFitbField(false, 1, $n);
+}
+
+function box($nr, $nc) {
+    return new BoltFitbField(true, $nr, $nc);
+}
+
+class BoltFitbAnswer {
+    public $type;   // 0=constant, 1=regexp, 2=func
+    public $ans;
+    function __construct($type, $ans) {
+        $this->type = $type;
+        $this->ans = $ans;
+    }
+}
+
+function answer($ans) {
+    return new BoltFitbAnswer(0, $ans);
+}
+
+function answer_regexp($ans) {
+    return new BoltFitbAnswer(1, $ans);
+}
+
+function answer_func($ans) {
+    return new BoltFitbAnswer(2, $ans);
+}
+
+function fitb() {
+    global $bolt_ex;
+    $args = func_get_args();
+    $field = new BoltFitbField(false, 1, 20);
+    $answer = null;
+    foreach ($args as $arg) {
+        if (is_array($arg)) {
+            $choices[] = $arg;
+        } else if (is_object($arg)) {
+            if (get_class($arg) == 'BoltFitbField') {
+                $field = $arg;
+            } else if (get_class($arg) == 'BoltFitbAns') {
+                $answer = $arg;
+            } else {
+                echo "bad arg to fitb()";
+            }
+        } else {
+            echo "bad arg to fitb()";
+        }
+    }
+
+    switch ($bolt_ex->mode) {
+    case BOLT_MODE_SHOW:
+        if ($field->textarea) {
+            echo "<textarea name=q_".$bolt_ex->index." nrows=$field->nrows ncols=$field->ncols>
+                </textarea>
+            ";
+        } else {
+            echo "<input name=q_".$bolt_ex->index." length=$field->ncols>";
+        }
+        break;
+    case BOLT_MODE_SCORE:
+        if (!$answer) break;
+        $bolt_ex->score = 0;
+        $key = "q_".$bolt_ex->index;
+        if (isset($$key)) {
+            $response = $$key;
+        } else {
+            $response = "";
+        }
+        switch ($answer->type) {
+        case 0:
+            if ($response == $answer->ans) {
+                $bolt_ex->score = 1;
+            }
+            break;
+        case 1:
+            if (ereg($answer->ans, $response)) {
+                $bolt_ex->score = 1;
+            }
+            break;
+        case 2:
+            $bolt_ex->score = call_user_func($answer->ans, $response);
+            break;
+        }
+        break;
+    case BOLT_MODE_ANSWER:
+        $key = "q_".$bolt_ex->index;
+        if (isset($$key)) {
+            $response = $$key;
+        } else {
+            $response = "";
+        }
         break;
     }
     $bolt_ex->index++;

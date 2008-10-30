@@ -8901,3 +8901,15 @@ Charlie 30 Oct 2008
     clientgui/
         BOINCBaseFrame.cpp, .h
         BOINCGUIApp.cpp
+
+David  30 Oct 2008
+    - web: change style sheet so tables are bordered only if class is "bordered"
+    - web: fix error if translation string missing
+
+    html/
+        inc/
+            util.inc
+            translation.inc
+        user/
+            language_select.php
+            white.css

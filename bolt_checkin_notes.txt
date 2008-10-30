@@ -259,3 +259,15 @@ David  Oct 24 2008
             bolt.css
             bolt_admin.css
             bolt_sched.php
+
+David  Oct 30 2008
+    - added "fill in the blank" (FITB) exercise type
+    - added "has_answer_page()" option for exercises
+
+    html/
+        inc/
+            bolt_ex.inc
+            bolt.inc
+        user/
+            bolt.css
+            bolt_sched.php

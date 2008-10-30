@@ -150,7 +150,7 @@ function show_nav($links, $up_link, $view_id) {
         <table width=60%><tr>
     ";
     foreach ($links as $link) {
-        echo "<td align=center>$link</td>";
+        echo "<td align=center>$link</td>\n";
     }
     echo "</tr></table> </center>
         <hr>
@@ -159,7 +159,7 @@ function show_nav($links, $up_link, $view_id) {
         <input type=hidden name=course_id value=$course->id>
         <input type=hidden name=action value=question>
         <input type=hidden name=view_id value=$view_id>
-        <textarea name=question cols=60>Enter question or comment here</textarea>
+        <textarea name=question cols=60 onfocus=\"this.value=''\">Enter question or comment here</textarea>
         <br>
         <input type=submit value=Submit>
         </form>
@@ -186,7 +186,7 @@ function show_item($iter, $view_id, $prev_view_id, $mode, $repeat=null) {
         $links[] = "<a href=bolt_sched.php?$url_args&action=prev&view_id=$view_id><img src=img/prev.gif></a>";
     }
 
-    $next = "<a href=bolt_sched.php?$url_args&action=next&view_id=$view_id><img src=img/next.gif></a>";
+    $next = "<a href=bolt_sched.php?$url_args&action=next&view_id=$view_id><img src=img/next.gif border=0></a>";
 
     if ($item->is_exercise()) {
         $bolt_ex->mode = $mode;
@@ -314,6 +314,39 @@ function start_refresh() {
     show_item($iter, $view_id, 0, $mode);
 }
 
+function show_next($iter, $view) {
+    global $refresh, $user, $course;
+    $iter->next();
+
+    if ($refresh) {
+        $iter->at();
+        if (!$iter->xset) {
+            // if we're doing a refresh and are no longer in an xset,
+            // we must have finished the refresh
+            //
+            show_refresh_finished();
+            $refresh->update('count=count+1');
+            break;
+        }
+    }
+
+    if ($iter->item) {
+        $state = $iter->encode_state();
+        $mode = default_mode($iter->item);
+        $view_id = create_view($iter, $mode, $view->id);
+        show_item($iter, $view_id, $view->id, $mode);
+    } else {
+        // course finished
+        $iter->frac_done = 1;
+        $fin_view_id = create_view($iter, BOLT_MODE_FINISHED, $view->id);
+        $e = new BoltEnrollment();
+        $e->user_id = $user->id;
+        $e->course_id = $course->id;
+        $e->update("last_view_id=$fin_view_id");
+        show_finished_page($fin_view_id, $view->id);
+    }
+}
+
 $user = get_logged_in_user();
 BoltUser::lookup($user);
 $course_id = get_int('course_id');
@@ -402,35 +435,7 @@ case 'next':            // "next" button in lesson or exercise answer page
 
     $iter = new BoltIter($course_doc);
     $iter->decode_state($view->state);
-    $iter->next();
-
-    if ($refresh) {
-        $iter->at();
-        if (!$iter->xset) {
-            // if we're doing a refresh and are no longer in an xset,
-            // we must have finished the refresh
-            //
-            show_refresh_finished();
-            $refresh->update('count=count+1');
-            break;
-        }
-    }
-
-    if ($iter->item) {
-        $state = $iter->encode_state();
-        $mode = default_mode($iter->item);
-        $view_id = create_view($iter, $mode, $view->id);
-        show_item($iter, $view_id, $view->id, $mode);
-    } else {
-        // course finished
-        $iter->frac_done = 1;
-        $fin_view_id = create_view($iter, BOLT_MODE_FINISHED, $view_id);
-        $e = new BoltEnrollment();
-        $e->user_id = $user->id;
-        $e->course_id = $course->id;
-        $e->update("last_view_id=$fin_view_id");
-        show_finished_page($fin_view_id, $view->id);
-    }
+    show_next($iter, $view);
     break;
 case 'answer':          // submit answer in exercise
     $view = finalize_view($view_id, BOLT_ACTION_SUBMIT);
@@ -521,9 +526,13 @@ case 'answer':          // submit answer in exercise
 
     // show the answer page
 
-    srand($view_id);
-    $view_id = create_view($iter, BOLT_MODE_ANSWER, $view->id);
-    show_item($iter, $view_id, $view->id, BOLT_MODE_ANSWER, $repeat);
+    if ($item->has_answer_page) {
+        srand($view_id);
+        $view_id = create_view($iter, BOLT_MODE_ANSWER, $view->id);
+        show_item($iter, $view_id, $view->id, BOLT_MODE_ANSWER, $repeat);
+    } else {
+        show_next($iter, $view);
+    }
     break;
 case 'answer_page':
     $view = BoltView::lookup_id($view_id);

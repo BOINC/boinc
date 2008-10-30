@@ -62,10 +62,10 @@ row2("",
     "<a href=language_select.php?set_lang=auto>Use browser language setting</a>"
 );
 sort($languages);
-for ($i=0; $i<sizeof($languages);$i++){
+foreach ($languages as $language) {
     row2(
-        "<a href=\"language_select.php?set_lang=".$languages[$i]."\">".$languages[$i]."</a>",
-        "<a href=\"language_select.php?set_lang=".$languages[$i]."\">".tr_specific("LANG_NAME_INTERNATIONAL", $languages[$i])." (".tr_specific("LANG_NAME_NATIVE", $languages[$i]).")</a>"
+        "<a href=\"language_select.php?set_lang=$language\">$language</a>",
+        "<a href=\"language_select.php?set_lang=$language\">".tr_specific("LANG_NAME_INTERNATIONAL", $language)." (".tr_specific("LANG_NAME_NATIVE", $language).")</a>"
     );
 }
 end_table();

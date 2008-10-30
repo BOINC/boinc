@@ -156,7 +156,7 @@ function tra($text /* ...arglist... */){
     
     // Find the string in the user's language
     foreach ($languages_in_use as $language){
-        if ($language_lookup_array[$language][$text]){
+        if (isset($language_lookup_array[$language][$text])) {
             $text = $language_lookup_array[$language][$text];
             break;
         }

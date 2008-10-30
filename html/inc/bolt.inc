@@ -80,10 +80,15 @@ class BoltExercise extends BoltItem {
     public $callback;
         // called as func($student, $score, $query_string) after scoring
     public $weight;
-    function __construct($filename, $title, $attrs, $callback, $weight) {
+    public $has_answer_page;
+
+    function __construct(
+        $filename, $title, $attrs, $callback, $weight, $has_answer_page
+    ) {
         parent::__construct($filename, $title, $attrs);
         $this->callback = $callback;
         $this->weight = $weight;
+        $this->has_answer_page = $has_answer_page;
     }
     function is_exercise() {
         return true;
@@ -257,6 +262,10 @@ function filename($n) {
     return array('filename', $n);
 }
 
+function has_answer_page($n) {
+    return array('has_answer_page', $n);
+}
+
 function attrs($n) {
     return array('attrs', $n);
 }
@@ -297,6 +306,7 @@ function exercise() {
     $title = "";
 	$attrs = null;
     $weight = 1;
+    $has_answer_page = true;
 
     $args = func_get_args();
     $callback = null;
@@ -308,6 +318,7 @@ function exercise() {
             case 'attrs': $attrs = $arg[1]; break;
             case 'callback': $callback = $arg[1]; break;
             case 'weight': $weight = $arg[1]; break;
+            case 'has_answer_page': $has_answer_page = $arg[1]; break;
             default: echo "Unrecognized exercise parameter: ", $arg[0], "\n"; break;
             }
         }
@@ -318,7 +329,9 @@ function exercise() {
     if (!$filename) {
         error_page("Missing filename in lesson");
     }
-    return new BoltExercise($filename, $title, $attrs, $callback, $weight);
+    return new BoltExercise(
+        $filename, $title, $attrs, $callback, $weight, $has_answer_page
+    );
 }
 
 function item_attrs() {

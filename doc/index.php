@@ -21,9 +21,8 @@ function show_participant() {
         <center>
         <span class=section_title>Computing power</span>
         <br>
-        <a class=heading href=chart_list.php><b>Top 100</b></a>
-        &middot; <a class=heading href=\"http://boinc.netsoft-online.com/e107_plugins/boinc/u_rank.php?list=tc_p1c1\"><b>Single-computer</b></a>
-        &middot; <a class=heading href=\"http://boinc.netsoft-online.com/e107_plugins/boinc/bu_rankselect.php\"><b>Other lists</b></a>
+        <a class=heading href=chart_list.php><b>Top 100 volunteers</b></a>
+        &middot; <a class=heading href=\"links.php#stats\"><b>Statistics</b></a>
         </center>
         </td></tr>
         <tr><td>

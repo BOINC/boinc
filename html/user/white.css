@@ -36,15 +36,14 @@ hr {
 }
 
 table {
-    border: 2px solid #e8e8e8;
     padding: 4px;
     margin: 2px;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
 }
 
-table.noborder {
-    border: none;
+table.bordered {
+    border: 2px solid #e8e8e8;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
 }
 
 th {
@@ -129,7 +128,7 @@ td.friend {
 
 tr.message { background-color: #e0e0e0; }
 
-input, select, textarea, .button {
+input[type="text"], select, textarea, .button {
     border: 1px solid #d8d8d8;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;

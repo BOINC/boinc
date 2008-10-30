@@ -227,12 +227,13 @@ function time_str($x) {
 function pretty_time_str($x) {
     return time_str($x);
 }
+
 function start_table($extra="width=\"100%\"") {
-    echo "<table $extra>";
+    echo "<table class=bordered $extra>";
 }
 
 function start_table_noborder($width="100%") {
-    echo "<table border=0 cellpadding=5 width=\"$width\">";
+    echo "<table cellpadding=5 width=\"$width\">";
 }
 
 function end_table() {
@@ -565,10 +566,13 @@ function post_int($name, $optional=false) {
 }
 
 function get_str($name, $optional=false) {
-    $x = null;
-    if (isset($_GET[$name])) $x = $_GET[$name];
-    if (!$x && !$optional) {
-        error_page("missing or bad parameter: $name");
+    if (!isset($_GET[$name])) {
+        if (!$optional) {
+            error_page("missing or bad parameter: $name");
+        }
+        $x = null;
+    } else {
+        $x = $_GET[$name];
     }
     return undo_magic_quotes($x);
 }
