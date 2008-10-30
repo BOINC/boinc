@@ -29,6 +29,7 @@
 struct RR_SIM_STATUS {
     std::vector<RESULT*> active;
     COPROCS coprocs;
+	double active_ncpus;
 
     inline bool can_run(RESULT* rp) {
         return coprocs.sufficient_coprocs(
@@ -40,6 +41,7 @@ struct RR_SIM_STATUS {
             rp->avp->coprocs, rp, log_flags.rr_simulation, "rr_simulation"
         );
         active.push_back(rp);
+		active_ncpus += rp->avp->avg_ncpus;
     }
     // remove *rpbest from active set,
     // and adjust CPU time left for other results
@@ -56,22 +58,46 @@ struct RR_SIM_STATUS {
                 it++;
             }
         }
+		active_ncpus -= rpbest->avp->avg_ncpus;
     }
+#if 0
     inline int nactive() {
         return (int) active.size();
     }
+#endif
+	RR_SIM_STATUS() {
+		active_ncpus = 0;
+	}
     ~RR_SIM_STATUS() {
         coprocs.delete_coprocs();
     }
 };
 
+void RR_SIM_PROJECT_STATUS::activate(RESULT* rp) {
+    active.push_back(rp);
+	active_ncpus += rp->avp->avg_ncpus;
+}
+
+bool RR_SIM_PROJECT_STATUS::can_run(RESULT* rp, int ncpus) {
+	if (rp->uses_coprocs()) return true;
+    return active_ncpus < ncpus;
+}
+void RR_SIM_PROJECT_STATUS::remove_active(RESULT* r) {
+    std::vector<RESULT*>::iterator it = active.begin();
+    while (it != active.end()) {
+        if (*it == r) {
+            it = active.erase(it);
+        } else {
+            it++;
+        }
+    }
+	active_ncpus -= r->avp->avg_ncpus;
+}
+
 // Set the project's rrsim_proc_rate:
-// the fraction of each CPU that it will get in round-robin mode.
-// Precondition: the project's "active" array is populated
+// the fraction of CPU that it will get in round-robin mode.
 //
 void PROJECT::set_rrsim_proc_rate(double rrs) {
-    int nactive = (int)rr_sim_status.active.size();
-    if (nactive == 0) return;
     double x;
 
     if (rrs) {
@@ -80,23 +106,11 @@ void PROJECT::set_rrsim_proc_rate(double rrs) {
         x = 1;      // pathological case; maybe should be 1/# runnable projects
     }
 
-    // if this project has fewer active results than CPUs,
-    // scale up its share to reflect this
-    //
-    if (nactive < gstate.ncpus) {
-        x *= ((double)gstate.ncpus)/nactive;
-    }
-
-    // But its rate on a given CPU can't exceed 1
-    //
-    if (x>1) {
-        x = 1;
-    }
     rr_sim_status.proc_rate = x*gstate.overall_cpu_frac();
     if (log_flags.rr_simulation) {
         msg_printf(this, MSG_INFO,
-            "[rr_sim] set_rrsim_proc_rate: %f (rrs %f, rs %f, nactive %d, ocf %f",
-            rr_sim_status.proc_rate, rrs, resource_share, nactive, gstate.overall_cpu_frac()
+            "[rr_sim] set_rrsim_proc_rate: %f (rrs %f, rs %f, ocf %f",
+            rr_sim_status.proc_rate, rrs, resource_share, gstate.overall_cpu_frac()
         );
     }
 }
@@ -136,7 +150,7 @@ void CLIENT_STATE::print_deadline_misses() {
 // For efficiency, we simulate a crude approximation of WRR.
 // We don't model time-slicing.
 // Instead we use a continuous model where, at a given point,
-// each project has a set of running jobs that uses all CPUs
+// each project has a set of running jobs that uses at most all CPUs
 // (and obeys coprocessor limits).
 // These jobs are assumed to run at a rate proportionate to their avg_ncpus,
 // and each project gets CPU proportionate to its RRS.
@@ -220,17 +234,27 @@ void CLIENT_STATE::rr_simulation() {
     //
     double sim_now = now;
     cpu_shortfall = 0;
-    while (sim_status.nactive()) {
+    while (sim_status.active.size()) {
 
         // compute finish times and see which result finishes first
         //
         rpbest = NULL;
+		double best_rate;
         for (i=0; i<sim_status.active.size(); i++) {
             rp = sim_status.active[i];
             p = rp->project;
-            rp->rrsim_finish_delay = rp->rrsim_cpu_left/p->rr_sim_status.proc_rate;
+			double rate = p->rr_sim_status.proc_rate;
+			if (p->rr_sim_status.active_ncpus < ncpus) {
+				rate *= (ncpus/p->rr_sim_status.active_ncpus);
+			}
+			rate *= rp->avp->avg_ncpus/p->rr_sim_status.active_ncpus;
+			if (rate > rp->avp->avg_ncpus * overall_cpu_frac()) {
+				rate = rp->avp->avg_ncpus * overall_cpu_frac();
+			}
+            rp->rrsim_finish_delay = rp->rrsim_cpu_left/rate;
             if (!rpbest || rp->rrsim_finish_delay < rpbest->rrsim_finish_delay) {
                 rpbest = rp;
+				best_rate = rate;
             }
         }
 
@@ -240,7 +264,7 @@ void CLIENT_STATE::rr_simulation() {
             msg_printf(pbest, MSG_INFO,
                 "[rr_sim] result %s finishes after %f (%f/%f)",
                 rpbest->name, rpbest->rrsim_finish_delay,
-                rpbest->rrsim_cpu_left, pbest->rr_sim_status.proc_rate
+                rpbest->rrsim_cpu_left, best_rate
             );
         }
 
@@ -268,8 +292,8 @@ void CLIENT_STATE::rr_simulation() {
             }
         }
 
-        int last_active_size = sim_status.nactive();
-        int last_proj_active_size = pbest->rr_sim_status.cpus_used();
+        double last_active_ncpus = sim_status.active_ncpus;
+        double last_proj_active_ncpus = pbest->rr_sim_status.active_ncpus;
 
         sim_status.remove_active(rpbest);
  
@@ -312,19 +336,19 @@ void CLIENT_STATE::rr_simulation() {
             double end_time = sim_now + rpbest->rrsim_finish_delay;
             if (end_time > buf_end) end_time = buf_end;
             double d_time = end_time - sim_now;
-            int nidle_cpus = ncpus - last_active_size;
+            double nidle_cpus = ncpus - last_active_ncpus;
             if (nidle_cpus<0) nidle_cpus = 0;
             if (nidle_cpus > 0) cpu_shortfall += d_time*nidle_cpus;
 
             double rsf = trs?pbest->resource_share/trs:1;
             double proj_cpu_share = ncpus*rsf;
 
-            if (last_proj_active_size < proj_cpu_share) {
-                pbest->rr_sim_status.cpu_shortfall += d_time*(proj_cpu_share - last_proj_active_size);
+            if (last_proj_active_ncpus < proj_cpu_share) {
+                pbest->rr_sim_status.cpu_shortfall += d_time*(proj_cpu_share - last_proj_active_ncpus);
                 if (log_flags.rr_simulation) {
                     msg_printf(pbest, MSG_INFO,
-                        "[rr_sim] new shortfall %f d_time %f proj_cpu_share %f lpas %d",
-                        pbest->rr_sim_status.cpu_shortfall, d_time, proj_cpu_share, last_proj_active_size
+                        "[rr_sim] new shortfall %f d_time %f proj_cpu_share %f lpan %f",
+                        pbest->rr_sim_status.cpu_shortfall, d_time, proj_cpu_share, last_proj_active_ncpus
                     );
                 }
             }
@@ -343,15 +367,15 @@ void CLIENT_STATE::rr_simulation() {
             }
             if (log_flags.rr_simulation) {
                 msg_printf(0, MSG_INFO,
-                    "[rr_sim] total: idle cpus %d, last active %d, active %d, shortfall %f",
-                    nidle_cpus, last_active_size, sim_status.nactive(),
+                    "[rr_sim] total: idle cpus %f, last active %f, active %f, shortfall %f",
+                    nidle_cpus, last_active_ncpus, sim_status.active_ncpus,
                     cpu_shortfall
                     
                 );
                 msg_printf(0, MSG_INFO,
-                    "[rr_sim] proj %s: last active %d, active %d, shortfall %f",
-                    pbest->get_project_name(), last_proj_active_size,
-                    pbest->rr_sim_status.cpus_used(),
+                    "[rr_sim] proj %s: last active %f, active %f, shortfall %f",
+                    pbest->get_project_name(), last_proj_active_ncpus,
+                    pbest->rr_sim_status.active_ncpus,
                     pbest->rr_sim_status.cpu_shortfall
                 );
             }

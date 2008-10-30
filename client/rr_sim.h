@@ -18,8 +18,6 @@
 #ifndef __RR_SIM__
 #define __RR_SIM__
 
-#include "client_types.h"
-
 struct RESULT;
 
 struct RR_SIM_PROJECT_STATUS {
@@ -31,6 +29,7 @@ struct RR_SIM_PROJECT_STATUS {
         /// fraction of each CPU this project will get
         /// set in CLIENT_STATE::rr_misses_deadline();
     double proc_rate;
+	double active_ncpus;
     double cpu_shortfall;
 
     inline void clear() {
@@ -39,37 +38,25 @@ struct RR_SIM_PROJECT_STATUS {
         deadlines_missed = 0;
         proc_rate = 0;
         cpu_shortfall = 0;
+		active_ncpus = 0;
     }
-    inline void activate(RESULT* rp) {
-        active.push_back(rp);
-    }
+    void activate(RESULT* rp);
     inline void add_pending(RESULT* rp) {
         pending.push_back(rp);
     }
     inline bool none_active() {
         return !active.size();
     }
-    inline bool can_run(RESULT*, int ncpus) {
-        return (int)active.size() < ncpus;
-    }
-    inline void remove_active(RESULT* r) {
-        std::vector<RESULT*>::iterator it = active.begin();
-        while (it != active.end()) {
-            if (*it == r) {
-                it = active.erase(it);
-            } else {
-                it++;
-            }
-        }
-    }
+    bool can_run(RESULT* rp, int ncpus);
+    void remove_active(RESULT* r);
     inline RESULT* get_pending() {
         if (!pending.size()) return NULL;
         RESULT* rp = pending[0];
         pending.erase(pending.begin());
         return rp;
     }
-    inline int cpus_used() {
-        return (int) active.size();
+    inline double cpus_used() {
+        return active_ncpus;
     }
 };
 

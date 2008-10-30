@@ -8919,3 +8919,9 @@ Rom    30 Oct 2008
     
     curl/
         <Various Files>
+
+David  30 Oct 2008
+    - client: revise round-robin simulation to take variable avg_ncpus into account
+
+    client/
+        rr_sim.cpp.h
