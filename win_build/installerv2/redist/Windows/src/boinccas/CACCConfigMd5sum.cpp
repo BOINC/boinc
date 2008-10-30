@@ -83,6 +83,7 @@ UINT CACCConfigMd5sum::OnExecution()
 	FILE *file;
 	memset(&contents,'\0',sizeof(contents));
 
+	SetProperty(_T("KEEPEXISTINGCONFIG"), _T("0"));
     uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 	if (strInstallDirectory.rfind('\\') != strInstallDirectory.size() - 1 ) {
@@ -111,7 +112,6 @@ UINT CACCConfigMd5sum::OnExecution()
 		if ( file == NULL ) {
 			_sntprintf(szMessage,sizeof(szMessage),_T("fopen: Error Message '%s': '%s'"),strerror(errno),strLocation.c_str());
 			LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
-			SetProperty(_T("CCCONFIGMD5SUM"), _T("1"));
 			return ERROR_SUCCESS;
 		} else {
 			_sntprintf(szMessage,sizeof(szMessage),_T("fopen: File found at: '%s'"),strLocation.c_str());
@@ -157,7 +157,9 @@ UINT CACCConfigMd5sum::OnExecution()
 		LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
 		return ERROR_SUCCESS;
 	}
+
 	_sntprintf(szMessage,sizeof(szMessage),_T("CCConfig was not a version from previous install"));
+	SetProperty(_T("KEEPEXISTINGCONFIG"), _T("1"));
 	LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
     return ERROR_SUCCESS;
 }
