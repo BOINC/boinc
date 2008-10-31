@@ -220,12 +220,11 @@ _DC_create_message(char *box,
 		if (message)
 			fprintf(f, "%s", message);
 		else if (msgfile)
-			{
-				if ((ret= _DC_copyFile(msgfile, fn)) != 0)
-					DC_log(LOG_ERR, "copyFile(%s,%s) "
-					       "error: %s", msgfile, fn,
-					       strerror(errno));
-			}
+		{
+			if (_DC_copyFile(msgfile, fn))
+				DC_log(LOG_ERR, "copyFile(%s,%s) error",
+				       msgfile, fn);
+		}
 		else
 		{
 			DC_log(LOG_WARNING, "No message specified for "

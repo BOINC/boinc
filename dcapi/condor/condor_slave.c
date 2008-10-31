@@ -190,7 +190,7 @@ int DC_sendResult(const char *logicalFileName,
 	if ((ret= _DC_copyFile(path, fn)) != DC_OK)
 	{
 		DC_log(LOG_ERR, "Failed to copy subresult file %s to "
-		       "%s: %s", path, fn, strerror(errno));
+		       "%s", path, fn);
 		free(fn);
 		return(ret);
 	}
