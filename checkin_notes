@@ -8948,3 +8948,13 @@ Rom    31 Oct 2008
     clientgui/
         BOINCGUIApp.cpp
         DlgAbout.cpp
+
+Rom    31 Oct 2008
+    - MGR: Fix up the OnHelp features of the BOINC Manager so they
+        all point to manager_links.php.
+        
+    clientgui/
+        DlgAdvPreferences.cpp
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+        

@@ -560,16 +560,22 @@ void CPanelPreferences::OnConnectBetweenBeginSelected( wxCommandEvent& /*event*/
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
  */
 
-void CPanelPreferences::OnButtonHelp( wxCommandEvent& WXUNUSED(event) ) {
+void CPanelPreferences::OnButtonHelp( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CPanelPreferences::OnHelp - Function Begin"));
 
-	std::string url;
-	url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationWebsite().mb_str();
-	canonicalize_master_url(url);
+    if (IsShown()) {
+		std::string url;
+		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
 
-	wxString wxurl;
-	wxurl.Printf(wxT("%smanager_links.php?target=simple"), url.c_str());
-    wxHyperLink::ExecuteLink(wxurl);
+		wxString wxurl;
+		wxurl.Printf(
+            wxT("%s?target=simple_preferences&version=%s&controlid=%d"),
+            wxString(url.c_str(), wxConvUTF8).c_str(),
+            wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
+            event.GetId()
+        );
+        ExecuteBrowserLink(wxurl);
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CPanelPreferences::OnHelp - Function End"));
 }
@@ -1069,13 +1075,13 @@ void CDlgPreferences::OnHelp(wxHelpEvent& event) {
 		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
 
 		wxString wxurl;
-	    wxurl.Printf(
+		wxurl.Printf(
             wxT("%s?target=simple_preferences&version=%s&controlid=%d"),
-            url.c_str(),
-            BOINC_VERSION_STRING,
+            wxString(url.c_str(), wxConvUTF8).c_str(),
+            wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );
-        wxHyperLink::ExecuteLink(wxurl);
+        ExecuteBrowserLink(wxurl);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgPreferences::OnHelp - Function End"));
