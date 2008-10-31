@@ -79,6 +79,7 @@ bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption,
     m_AboutBOINCSloganCtrl = NULL;
     m_AboutBOINCURLCtrl = NULL;
     m_strVersion = wxT(BOINC_VERSION_STRING);
+    m_strWidgetsVersion.Printf(wxT("%s"), &wxMAKE_VERSION_DOT_STRING(wxMAJOR_VERSION, wxMINOR_VERSION, wxRELEASE_NUMBER));
 ////@end CDlgAbout member initialisation
     
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
@@ -155,7 +156,7 @@ void CDlgAbout::CreateControls() {
     itemFlexGridSizer7->Add(itemStaticText8, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     wxStaticText* itemStaticText9 = new wxStaticText;
-    itemStaticText9->Create( itemDialog1, wxID_STATIC, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText9->Create( itemDialog1, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer7->Add(itemStaticText9, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     wxStaticText* itemStaticText10 = new wxStaticText;
@@ -163,7 +164,7 @@ void CDlgAbout::CreateControls() {
     itemFlexGridSizer7->Add(itemStaticText10, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     wxStaticText* itemStaticText11 = new wxStaticText;
-    itemStaticText11->Create( itemDialog1, wxID_STATIC, wxString(wxMAKE_VERSION_DOT_STRING(wxMAJOR_VERSION, wxMINOR_VERSION, wxRELEASE_NUMBER)), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText11->Create( itemDialog1, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer7->Add(itemStaticText11, 11, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     wxStaticText* itemStaticText12 = new wxStaticText;
@@ -197,6 +198,7 @@ void CDlgAbout::CreateControls() {
 
     // Set validators
     itemStaticText9->SetValidator( wxGenericValidator(& m_strVersion) );
+    itemStaticText11->SetValidator( wxGenericValidator(& m_strWidgetsVersion) );
 ////@end CDlgAbout content construction
 }
 

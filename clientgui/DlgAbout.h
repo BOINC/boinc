@@ -110,6 +110,7 @@ public:
     wxStaticText* m_AboutBOINCSloganCtrl;
     wxHyperLink* m_AboutBOINCURLCtrl;
     wxString m_strVersion;
+    wxString m_strWidgetsVersion;
 ////@end CDlgAbout member variables
 };
 
