@@ -47,14 +47,17 @@ int _DC_copyFile(const char *src, const char *dst)
 
 	buf = (char *)malloc(COPY_BUFSIZE);
 	if (!buf)
+	{
+		DC_log(LOG_ERR, "_DC_copyFile: Out of memory");
 		return DC_ERR_SYSTEM;
+	}
 
 	sfd = open(src, O_RDONLY);
 	if (sfd == -1)
 	{
-		ret = errno;
+		DC_log(LOG_ERR, "_DC_copyFile: failed to open source file %s: %s",
+			src, strerror(errno));
 		free(buf);
-		errno = ret;
 		return DC_ERR_SYSTEM;
 	}
 
@@ -62,10 +65,10 @@ int _DC_copyFile(const char *src, const char *dst)
 	dfd = open(dst, O_WRONLY | O_CREAT | O_TRUNC, s.st_mode);
 	if (dfd == -1)
 	{
-		ret = errno;
+		DC_log(LOG_ERR, "_DC_copyFile: failed to create destination file %s: %s",
+			dst, strerror(errno));
 		free(buf);
 		close(sfd);
-		errno = ret;
 		return DC_ERR_SYSTEM;
 	}
 
@@ -76,10 +79,7 @@ int _DC_copyFile(const char *src, const char *dst)
 		{
 			ssize_t ret2 = write(dfd, ptr, ret);
 			if (ret2 < 0)
-			{
-				ret = errno;
 				goto error;
-			}
 			ret -= ret2;
 			ptr += ret2;
 		}
@@ -92,20 +92,18 @@ int _DC_copyFile(const char *src, const char *dst)
 	close(sfd);
 	if (close(dfd))
 	{
-		ret = errno;
+		DC_log(LOG_ERR, "_DC_copyFile: I/O error: %s", strerror(errno));
 		unlink(dst);
-		errno = ret;
 		return DC_ERR_SYSTEM;
 	}
 	return 0;
 
 error:
-	ret = errno;
+	DC_log(LOG_ERR, "_DC_copyFile: I/O error: %s", strerror(errno));
 	free(buf);
 	close(sfd);
 	close(dfd);
 	unlink(dst);
-	errno = ret;
 	return DC_ERR_SYSTEM;
 }
 #endif /* _WIN32 */

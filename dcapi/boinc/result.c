@@ -73,8 +73,8 @@ DC_Result *_DC_createResult(const char *wu_name, int db_id,
 			ret = _DC_copyFile(upload_path, workdir_path);
 			if (ret)
 				DC_log(LOG_ERR, "Failed to copy the output "
-					"file %s to %s: %s", upload_path,
-					workdir_path, strerror(errno));
+					"file %s to %s", upload_path,
+					workdir_path);
 		}
 		g_free(workdir_path);
 		g_free(upload_path);
