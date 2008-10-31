@@ -31,8 +31,9 @@ void strip_cr(char *buf);
 
 int gGoToBlank;      // True if we are to blank the screen
 int gBlankingTime;   // Delay in minutes before blanking the screen
-NSString *gPathToBundleResources;
-NSImage *gBOINC_Logo;
+NSString *gPathToBundleResources = NULL;
+NSString *mBundleID = NULL; // our bundle ID
+NSImage *gBOINC_Logo = NULL;
 
 int gTopWindowListIndex = -1;
 
@@ -42,7 +43,7 @@ float gTextBoxHeight;
 NSPoint gCurrentPosition;
 NSPoint gCurrentDelta;
 
-ATSUStyle  theStyle;
+ATSUStyle  theStyle = NULL;
 ATSUFontID theFontID;
 Fixed   atsuSize;
 char myFontName[] = "Helvetica";
@@ -83,10 +84,14 @@ int signof(float x) {
         if (self) {
             myBundle = [ NSBundle bundleForClass:[self class]];
             // grab the screensaver defaults
-            mBundleID = [ myBundle bundleIdentifier ];
+            if (mBundleID == NULL) {
+                mBundleID = [ myBundle bundleIdentifier ];
+            }
 
             // Path to our copy of switcher utility application in this screensaver bundle
-            gPathToBundleResources = [ myBundle resourcePath ];
+            if (gPathToBundleResources == NULL) {
+                gPathToBundleResources = [ myBundle resourcePath ];
+            }
             
             ScreenSaverDefaults *defaults = [ ScreenSaverDefaults defaultsForModuleWithName:mBundleID ];
             
@@ -150,8 +155,10 @@ int signof(float x) {
     
     [ super startAnimation ];
 
-    if ( [ self isPreview ] )
+    if ( [ self isPreview ] ) {
+        [ self setAnimationTimeInterval:1.0/8.0 ];
         return;
+    }
     
     newFrequency = initBOINCSaver([ self isPreview ]);        
     if (newFrequency)
@@ -161,23 +168,21 @@ int signof(float x) {
 - (void)stopAnimation {
     [ super stopAnimation ];
 
-    if ( [ self isPreview ] )
-        return;
-        
+    if ( ! [ self isPreview ] ) {
+        closeBOINCSaver();
+    }
+ 
     gTopWindowListIndex = -1;
     
-    [ mBundleID release ];
-    mBundleID = NULL;
-    
-    [ gPathToBundleResources release ];
-    gPathToBundleResources = NULL;
-    
-    [ gBOINC_Logo release ];
+    if (gBOINC_Logo) {
+        [ gBOINC_Logo release ];
+    }
     gBOINC_Logo = NULL;
     
-    ATSUDisposeStyle(theStyle);
-    
-    closeBOINCSaver();
+    if (theStyle) {
+        ATSUDisposeStyle(theStyle);
+    }
+    theStyle = NULL;
 }
 
 - (void)drawRect:(NSRect)rect {
@@ -228,7 +233,7 @@ int signof(float x) {
     if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
         // Hide window on second display to aid in debugging
 #ifdef _DEBUG
-      [[[ NSView focusView] window ] setLevel:kCGMinimumWindowLevel ];
+        [ myWindow setLevel:kCGMinimumWindowLevel ];
 #endif
         return;         // We draw only to main screen
     }

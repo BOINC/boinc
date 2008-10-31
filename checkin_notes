@@ -8925,3 +8925,10 @@ David  30 Oct 2008
 
     client/
         rr_sim.cpp.h
+
+Charlie 31 Oct 2008
+    - Mac SCR: fix some real and potential crash bugs.
+    
+    clientscr/
+        mac_saver_module.cpp
+        Mac_Saver_ModuleView.m,.h

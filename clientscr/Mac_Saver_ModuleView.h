@@ -24,8 +24,6 @@
 
 @interface BOINC_Saver_ModuleView : ScreenSaverView 
 {
-    NSString *mBundleID;                        // our bundle ID
-    
     IBOutlet id mConfigureSheet;		// our configuration sheet
     IBOutlet NSButton *mGoToBlankCheckbox;
     IBOutlet NSTextField *mBlankingTimeTextField;

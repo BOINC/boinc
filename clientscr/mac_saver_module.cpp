@@ -112,24 +112,38 @@ int initBOINCSaver(Boolean ispreview) {
 
     if (ispreview)
         return 8;
-        
-    gspScreensaver = new CScreensaver();
-    
-    return gspScreensaver->Create();
+
+    if (gspScreensaver == NULL) {
+        gspScreensaver = new CScreensaver();
+        return gspScreensaver->Create();
+    }
+    return TEXTLOGOFREQUENCY;
 }
 
 int getSSMessage(char **theMessage, int* coveredFreq) {
-    return gspScreensaver->getSSMessage(theMessage, coveredFreq);
+    if (gspScreensaver) {
+        return gspScreensaver->getSSMessage(theMessage, coveredFreq);
+    } else {
+        *theMessage = "";
+        *coveredFreq = 0;
+        return NOTEXTLOGOFREQUENCY;
+    }
 };
 
 
 void drawPreview(CGContextRef myContext) {
-    gspScreensaver->drawPreview(myContext);
+    if (gspScreensaver) {
+        gspScreensaver->drawPreview(myContext);
+    }
 };
 
 
 void closeBOINCSaver() {
-    gspScreensaver->ShutdownSaver();
+    if (gspScreensaver) {
+        gspScreensaver->ShutdownSaver();
+        delete gspScreensaver;
+        gspScreensaver = NULL;
+    }
 }
 
 CScreensaver::CScreensaver() {
