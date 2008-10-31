@@ -481,8 +481,8 @@ DC_addWUInput(DC_Workunit *wu,
 		ret= _DC_copyFile(URL, file->path);
 		if (ret)
 		{
-			DC_log(LOG_ERR, "Failed to link %s to %s: %s",
-			       URL, file->path, strerror(errno));
+			DC_log(LOG_ERR, "Failed to copy %s to %s",
+			       URL, file->path);
 			_DC_destroyPhysicalFile(file);
 			return(DC_ERR_BADPARAM);	/* XXX */
 		}

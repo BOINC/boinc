@@ -684,6 +684,8 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 			ret = _DC_copyFile(URL, file->path);
 			if (ret)
 			{
+				DC_log(LOG_ERR, "Failed to copy the input file %s to %s",
+					URL, file->path);
 				_DC_destroyPhysicalFile(file);
 				return ret;
 			}
