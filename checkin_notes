@@ -8915,7 +8915,7 @@ David  30 Oct 2008
             white.css
 
 Rom    30 Oct 2008
-    - Rebuild libcurl x86 and x64 (turn off async DNS)
+    - Rebuild libcurl x86 and x64 (turn off async DNS) for Windows only.
     
     curl/
         <Various Files>
