@@ -8932,3 +8932,11 @@ Charlie 31 Oct 2008
     clientscr/
         mac_saver_module.cpp
         Mac_Saver_ModuleView.m,.h
+
+Rom    31 Oct 2008
+    - Tag for 6.3.21 release, all platforms
+      boinc_core_release_6_3_21
+
+    /
+        configure.ac
+        version.h
