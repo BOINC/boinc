@@ -20,17 +20,19 @@
 #endif
 
 #include "stdwx.h"
+#include "BOINCGUIApp.h"
+#include "MainDocument.h"
+#include "SkinManager.h"
+#include "BOINCBaseFrame.h"
 #include "DlgAdvPreferences.h"
 #include "res/usage.xpm"
 #include "res/xfer.xpm"
 #include "res/proj.xpm"
 #include "res/warning.xpm"
-#include "BOINCGUIApp.h"
-#include "MainDocument.h"
-#include "SkinManager.h"
 #include "hyperlink.h"
 #include "Events.h"
 #include "error_numbers.h"
+#include "version.h"
 
 using std::string;
 
@@ -692,9 +694,9 @@ void CDlgAdvPreferences::OnHelp(wxCommandEvent& ev) {
             wxT("%s?target=advanced_preferences&version=%s&controlid=%d"),
             wxString(url.c_str(), wxConvUTF8).c_str(),
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
-            event.GetId()
+            ev.GetId()
         );
-        ExecuteBrowserLink(wxurl);
+        wxGetApp().GetFrame()->ExecuteBrowserLink(wxurl);
     }
 }
 

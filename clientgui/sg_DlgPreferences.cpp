@@ -30,6 +30,7 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
+#include "BOINCBaseFrame.h"
 #include "hyperlink.h"
 #include "version.h"
 
@@ -574,7 +575,7 @@ void CPanelPreferences::OnButtonHelp( wxCommandEvent& event ) {
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );
-        ExecuteBrowserLink(wxurl);
+        wxGetApp().GetFrame()->ExecuteBrowserLink(wxurl);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CPanelPreferences::OnHelp - Function End"));
@@ -1081,7 +1082,7 @@ void CDlgPreferences::OnHelp(wxHelpEvent& event) {
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );
-        ExecuteBrowserLink(wxurl);
+        wxGetApp().GetFrame()->ExecuteBrowserLink(wxurl);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgPreferences::OnHelp - Function End"));
