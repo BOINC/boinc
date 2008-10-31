@@ -8940,3 +8940,11 @@ Rom    31 Oct 2008
     /
         configure.ac
         version.h
+
+Rom    31 Oct 2008
+    - MGR: Move the wxWidget version information to the about box.
+        printf and Unicode strings don't play well with one another.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        DlgAbout.cpp

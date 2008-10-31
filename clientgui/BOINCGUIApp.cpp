@@ -163,10 +163,6 @@ bool CBOINCGUIApp::OnInit() {
     bool success = false;
 
 
-    // Dump useful debugging information
-    printf(wxT("BOINC Manager compiled with wxWidgets %s.\n"), wxVERSION_STRING);
-
-
     // Commandline parsing is done in wxApp::OnInit()
     if (!wxApp::OnInit()) {
         return false;

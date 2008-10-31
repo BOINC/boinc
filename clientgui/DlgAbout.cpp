@@ -74,11 +74,11 @@ CDlgAbout::CDlgAbout(wxWindow* parent, wxWindowID id, const wxString& caption, c
 
 bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style) {
 ////@begin CDlgAbout member initialisation
-    m_strVersion = wxT(BOINC_VERSION_STRING);
     m_AboutBOINCTitleCtrl = NULL;
     m_AboutBOINCLogoCtrl = NULL;
     m_AboutBOINCSloganCtrl = NULL;
     m_AboutBOINCURLCtrl = NULL;
+    m_strVersion = wxT(BOINC_VERSION_STRING);
 ////@end CDlgAbout member initialisation
     
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
@@ -147,7 +147,7 @@ void CDlgAbout::CreateControls() {
     m_AboutBOINCLogoCtrl->Create( itemDialog1, wxID_STATIC, m_AboutBOINCLogoCtrlBitmap, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer5->Add(m_AboutBOINCLogoCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer7 = new wxFlexGridSizer(0, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer7 = new wxFlexGridSizer(3, 2, 0, 0);
     itemBoxSizer4->Add(itemFlexGridSizer7, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText8 = new wxStaticText;
@@ -159,20 +159,28 @@ void CDlgAbout::CreateControls() {
     itemFlexGridSizer7->Add(itemStaticText9, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     wxStaticText* itemStaticText10 = new wxStaticText;
-    itemStaticText10->Create( itemDialog1, wxID_STATIC, _("Copyright:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer7->Add(itemStaticText10, 0, wxALIGN_RIGHT|wxALIGN_TOP|wxLEFT|wxRIGHT, 5);
+    itemStaticText10->Create( itemDialog1, wxID_STATIC, _("wxWidgets Version:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer7->Add(itemStaticText10, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     wxStaticText* itemStaticText11 = new wxStaticText;
-    itemStaticText11->Create( itemDialog1, wxID_STATIC, _("(C) 2003-2008 University of California, Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer7->Add(itemStaticText11, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
+    itemStaticText11->Create( itemDialog1, wxID_STATIC, wxMAKE_VERSION_DOT_STRING(wxMAJOR_VERSION, wxMINOR_VERSION, wxRELEASE_NUMBER), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer7->Add(itemStaticText11, 11, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
+
+    wxStaticText* itemStaticText12 = new wxStaticText;
+    itemStaticText12->Create( itemDialog1, wxID_STATIC, _("Copyright:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer7->Add(itemStaticText12, 0, wxALIGN_RIGHT|wxALIGN_TOP|wxLEFT|wxRIGHT, 5);
+
+    wxStaticText* itemStaticText13 = new wxStaticText;
+    itemStaticText13->Create( itemDialog1, wxID_STATIC, _("(C) 2003-2008 University of California, Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer7->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     m_AboutBOINCSloganCtrl = new wxStaticText;
     m_AboutBOINCSloganCtrl->Create( itemDialog1, wxID_STATIC, _("Berkeley Open Infrastructure for Network Computing"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer2->Add(m_AboutBOINCSloganCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxStaticText* itemStaticText13 = new wxStaticText;
-    itemStaticText13->Create( itemDialog1, wxID_STATIC, _("Berkeley Open Infrastructure for Network Computing"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer2->Add(itemStaticText13, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxStaticText* itemStaticText14 = new wxStaticText;
+    itemStaticText14->Create( itemDialog1, wxID_STATIC, _("Berkeley Open Infrastructure for Network Computing"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer2->Add(itemStaticText14, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     m_AboutBOINCURLCtrl = new wxHyperLink;
     m_AboutBOINCURLCtrl->Create( itemDialog1, ID_ABOUTBOINCLINK, wxT("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
