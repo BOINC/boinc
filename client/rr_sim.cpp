@@ -239,7 +239,7 @@ void CLIENT_STATE::rr_simulation() {
         // compute finish times and see which result finishes first
         //
         rpbest = NULL;
-		double best_rate;
+		double best_rate = 0.0;
         for (i=0; i<sim_status.active.size(); i++) {
             rp = sim_status.active[i];
             p = rp->project;

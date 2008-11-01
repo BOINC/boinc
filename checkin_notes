@@ -8957,4 +8957,9 @@ Rom    31 Oct 2008
         DlgAdvPreferences.cpp
         sg_DlgMessages.cpp
         sg_DlgPreferences.cpp
-        
+
+Charlie 31 Oct 2008
+    - client: fix compiler warning.
+ 
+    client/
+        rr_sim.cpp
