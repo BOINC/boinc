@@ -8705,21 +8705,21 @@ Rom    27 Oct 2008
         version.h
 
 David  27 Oct 2008
-	- client: for CPU throttling, don't suspend apps that
-		are non-CPU-intensive or that use < 1 CPU (e.g., CUDA)
-	- client: get rid of spurious "internal error,
-		expected process to be executing" msg
-	- diag: don't check heap on every alloc
-	- fix a few compile warnings
-	client/
-		app_control.cpp
-		cpu_sched.cpp
-		cs_prefs.cpp
-		main.cpp
-		time_stats.cpp
-		work_fetch.cpp
-	clientgui/
-		BOINCBaseView.cpp
+    - client: for CPU throttling, don't suspend apps that
+        are non-CPU-intensive or that use < 1 CPU (e.g., CUDA)
+    - client: get rid of spurious "internal error,
+        expected process to be executing" msg
+    - diag: don't check heap on every alloc
+    - fix a few compile warnings
+    client/
+        app_control.cpp
+        cpu_sched.cpp
+        cs_prefs.cpp
+        main.cpp
+        time_stats.cpp
+        work_fetch.cpp
+    clientgui/
+        BOINCBaseView.cpp
 
 David  27 Oct 2008
     - scheduler: notify user if we're not sending work
@@ -8744,10 +8744,10 @@ David  27 Oct 2008
         update_stats.cpp
 
 David  27 Oct 2008
-	- client: fix crash when sched_op_debug is enabled
+    - client: fix crash when sched_op_debug is enabled
 
-	client/
-		cs_scheduler.cpp
+    client/
+        cs_scheduler.cpp
 
 Charlie 27 Oct 2008
     - MGR: If simple_gui_only flag is set in cc_config.xml, trigger call 
@@ -8791,8 +8791,8 @@ Charlie 28 Oct 2008
     - MGR: When removing a row in Projects, Tasks and Transfers tabs, refresh 
         all rows.  Fixes a bug where display was not always properly updated.
 
-	clientgui/
-		BOINCBaseView.cpp
+    clientgui/
+        BOINCBaseView.cpp
 
 David  28 Oct 2008
     - client: move round-robin simulation to its own file
@@ -8818,8 +8818,8 @@ Charlie 29 Oct 2008
     - MGR: Always sort after a row is added or deleted.
     - Mac: Add new files rr_sim.cpp,.h to XCode project.
 
-	clientgui/
-		BOINCBaseView.cpp,.h
+    clientgui/
+        BOINCBaseView.cpp,.h
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
@@ -8971,4 +8971,11 @@ Charlie 1 Nov 2008
         mac_saver_module.cpp
         Mac_Saver_Module.h
         Mac_Saver_ModuleView.m,h
- 
+
+David  1 Nov 2008
+    - client: fix the updating of CPU time left in RR simulation;
+        don't print msgs about non-CPU-intensive projects.
+
+    client/
+        client_types.h
+        rr_sim.cpp

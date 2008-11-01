@@ -559,6 +559,8 @@ struct RESULT {
     // temporaries used in CLIENT_STATE::rr_simulation():
     double rrsim_cpu_left;
     double rrsim_finish_delay;
+    double rrsim_rate;
+
         /// used to keep cpu scheduler from scheduling a result twice
         /// transient; used only within schedule_cpus()
     bool already_selected;
