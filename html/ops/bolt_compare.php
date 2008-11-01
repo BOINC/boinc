@@ -28,12 +28,16 @@
 //      show comparison.
 //      show form to set or change filter or breakdown.
 
-require_once("../inc/util.inc");
+require_once("../inc/bolt_util_ops.inc");
 require_once("../inc/bolt_db.inc");
-require_once("../inc/bolt_util.inc");
 require_once("../inc/bolt.inc");
 require_once("../inc/bolt_cat.inc");
 require_once("../inc/bolt_snap.inc");
+
+$filter = null;
+$filter_cat = null;
+$breakdown = null;
+$breakdown_cat = null;
 
 function compare_case(
     $title, $select_unit, $snap, $filter, $filter_cat, $breakdown, $breakdown_cat
@@ -80,33 +84,15 @@ function compare_case(
 }
 
 function compare_aux($select_name, $xset_name, $snap) {
-    global $top_unit;
-    global $course_id;
+    global $top_unit, $course_id, $filter, $filter_cat;
+    global $breakdown, $breakdown_cat;
 
-    $breakdown_name = get_str('breakdown', true);
-    if ($breakdown_name && $breakdown_name != 'none') {
-        $breakdown = lookup_categorization($breakdown_name);
-        if (!$breakdown) error_page("unknown breakdown $breakdown_name");
-    } else {
-        $breakdown = null;
-    }
-    $filter_info = get_str('filter', true);
-    if ($filter_info && $filter_info != "none") {
-        $arr = explode(":", $filter_info);
-        $filter_name = $arr[0];
-        $filter_cat = $arr[1];
-        $filter = lookup_categorization($filter_name);
-        if (!$filter) error_page("unknown filter $filter_name");
-    } else {
-        $filter_name = "";
-        $filter_cat = "";
-        $filter = null;
-    }
+    get_filters_from_form();
 
     $select_unit = lookup_unit($top_unit, $select_name);
     if (!$select_unit) error_page("no select unit");
 
-    page_head("Unit comparison");
+    admin_page_head("Unit comparison");
     echo "
         <link rel=\"stylesheet\" type=\"text/css\" href=\"".URL_BASE."bolt_admin.css\">
         The following compares the alternatives of
@@ -119,7 +105,7 @@ function compare_aux($select_name, $xset_name, $snap) {
 
     compare_case(null, $select_unit, $snap, $filter, $filter_cat, null, null);
     if ($breakdown) {
-        echo "<tr class=bolt_head1><td colspan=2>Breakdown by $breakdown_name</td></tr>";
+        echo "<tr class=bolt_head1><td colspan=2>Breakdown by ".$breakdown->name()."</td></tr>";
         foreach ($breakdown->categories() as $c) {
             compare_case($c, $select_unit, $snap, $filter, $filter_cat, $breakdown, $c);
             echo "<p>";
@@ -135,16 +121,16 @@ function compare_aux($select_name, $xset_name, $snap) {
         <input type=hidden name=xset_name value=\"$xset_name\">
         <table width=600><tr><td>
     ";
-    filter_form($filter_name, $filter_cat);
+    filter_form($filter?$filter->name():"", $filter_cat);
     echo "</td><td>";
-    breakdown_form($breakdown_name);
+    breakdown_form($breakdown?$breakdown->name():"");
     echo "
         </td></tr></table>
         <p>
         <input type=submit value=OK>
         </form>
     ";
-    page_tail();
+    admin_page_tail();
 }
 
 function show_compare() {
@@ -159,7 +145,7 @@ function show_snap_form($top_unit) {
     global $course_id;
     $select_name = get_str('select_name');
     $xset_name = get_str('xset_name');
-    page_head("Data snapshot");
+    admin_page_head("Data snapshot");
     $s = read_compare_snapshot($course_id, $select_name, $xset_name);
 
     if ($s) {
@@ -186,7 +172,7 @@ function show_snap_form($top_unit) {
         <input type=submit value=OK>
         </form>
     ";
-    page_tail();
+    admin_page_tail();
 }
 
 function snap_action() {
@@ -200,7 +186,7 @@ function snap_action() {
 
 function show_choice($top_unit) {
     global $course_id;
-    page_head("Unit comparison");
+    admin_page_head("Unit comparison");
     echo "
         <form action=bolt_compare.php>
         <input type=hidden name=course_id value=$course_id>
@@ -222,6 +208,7 @@ function show_choice($top_unit) {
         <p>
         <input type=submit value=OK>
     ";
+    admin_page_tail();
 }
 
 $course_id = get_int('course_id');

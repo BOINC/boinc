@@ -288,3 +288,16 @@ David  Oct 30 2008
             bolt_compare.php
         user/
             bolt_sched.php
+
+David  Oct 30 2008
+    - code reorg
+
+    html/
+        inc/
+            bolt_cat.inc
+            bolt_util.inc
+            bolt_util_ops.inc (new)
+        ops/
+            bolt_compare.php
+            bolt_map.php
+            bossa_admin.php

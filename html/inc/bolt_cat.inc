@@ -119,4 +119,35 @@ function breakdown_form($sel_name) {
     echo "</ul>";
 }
 
+// get filter and breakdown from form vars
+//
+function get_filters_from_form() {
+    global $breakdown, $breakdown_cat, $filter, $filter_cat;
+
+    $breakdown_cat = null;
+    $breakdown_info = get_str('breakdown', true);
+    if ($breakdown_info && $breakdown_info != 'none') {
+        $arr = explode(":", $breakdown_info);
+        $breakdown_name = $arr[0];
+        if (count($arr) == 2) {
+            $breakdown_cat = $arr[1];
+        }
+        $breakdown = lookup_categorization($breakdown_name);
+        if (!$breakdown) error_page("unknown breakdown $breakdown_name");
+    } else {
+        $breakdown = null;
+    }
+    $filter_info = get_str('filter', true);
+    if ($filter_info && $filter_info != "none") {
+        $arr = explode(":", $filter_info);
+        $filter_name = $arr[0];
+        $filter_cat = $arr[1];
+        $filter = lookup_categorization($filter_name);
+        if (!$filter) error_page("unknown filter $filter_name");
+    } else {
+        $filter_cat = "";
+        $filter = null;
+    }
+}
+
 ?>

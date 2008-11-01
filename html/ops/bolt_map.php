@@ -44,10 +44,9 @@
 // When breakdown is used, each of above has N lines
 // Total, followed by each breakdown category
 
-require_once("../inc/util.inc");
+require_once("../inc/bolt_util_ops.inc");
 require_once("../inc/bolt_db.inc");
 require_once("../inc/bolt_cat.inc");
-require_once("../inc/bolt_util.inc");
 require_once("../inc/bolt.inc");
 require_once("../inc/bolt_snap.inc");
 
@@ -64,7 +63,7 @@ $breakdown_cat = null;
 function show_snap_form() {
     global $course_id;
 
-    page_head("Data snapshot");
+    admin_page_head("Data snapshot");
     $s = read_map_snapshot($course_id);
 
     if ($s) {
@@ -89,7 +88,7 @@ function show_snap_form() {
         <input type=submit value=OK>
         </form>
     ";
-    page_tail();
+    admin_page_tail();
 }
 
 function snap_action() {
@@ -368,27 +367,9 @@ function show_map() {
     global $snap, $course_id, $top_unit, $filter, $filter_cat, $breakdown;
     global $course;
 
-    $breakdown_name = get_str('breakdown', true);
-    if ($breakdown_name && $breakdown_name != 'none') {
-        $breakdown = lookup_categorization($breakdown_name);
-        if (!$breakdown) error_page("unknown breakdown $breakdown_name");
-    } else {
-        $breakdown = null;
-    }
-    $filter_info = get_str('filter', true);
-    if ($filter_info && $filter_info != "none") {
-        $arr = explode(":", $filter_info);
-        $filter_name = $arr[0];
-        $filter_cat = $arr[1];
-        $filter = lookup_categorization($filter_name);
-        if (!$filter) error_page("unknown filter $filter_name");
-    } else {
-        $filter_name = "";
-        $filter_cat = "";
-        $filter = null;
-    }
+    get_filters_from_form();
 
-    page_head("Course map for '$course->name'");
+    admin_page_head("Course map for '$course->name'");
     bolt_style();
     $snap = read_map_snapshot($course_id);
     start_table();
@@ -420,16 +401,16 @@ function show_map() {
         <input type=hidden name=course_id value=$course_id>
         <table width=600><tr><td valign=top>
     ";
-    filter_form($filter_name, $filter_cat);
+    filter_form($filter?$filter->name():"", $filter_cat);
     echo "</td><td valign=top>";
-    breakdown_form($breakdown_name);
+    breakdown_form($breakdown?$breakdown->name():"");
     echo "
         </td></tr></table>
         <p>
         <input type=submit value=OK>
         </form>
     ";
-    page_tail();
+    admin_page_tail();
 }
 
 function show_questions() {
@@ -437,7 +418,7 @@ function show_questions() {
     global $course_id;
     $snap = read_map_snapshot($course_id);
     $qs = $snap->questions[$name];
-    page_head("Questions about $name");
+    admin_page_head("Questions about $name");
     start_table();
     echo "<tr>
         <th>When</th>
@@ -455,7 +436,7 @@ function show_questions() {
         ";
     }
     end_table();
-    page_tail();
+    admin_page_tail();
 }
 
 $course_id = get_int('course_id');

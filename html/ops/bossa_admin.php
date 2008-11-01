@@ -18,7 +18,7 @@
 
 require_once("../inc/bossa_db.inc");
 require_once("../inc/bolt_db.inc");
-require_once("../inc/util.inc");
+require_once("../inc/util_ops.inc");
 
 function job_state_string($s) {
     switch ($s) {
@@ -111,13 +111,13 @@ function user_settings() {
 }
 
 function show_all() {
-    page_head("Bossa administration");
+    admin_page_head("Bossa administration");
     show_apps();
     echo "<p>";
     add_app_form();
     echo "<p>";
     user_settings();
-    page_tail();
+    admin_page_tail();
 }
 
 function job_duration($inst) {
@@ -163,7 +163,7 @@ function show_batch($batch_id) {
     $batch = BossaBatch::lookup_id($batch_id);
     if (!$batch) error_page("No such batch");
     include_app_file($batch->app_id);
-    page_head("Jobs for batch $batch->name");
+    admin_page_head("Jobs for batch $batch->name");
     $jobs = BossaJob::enum("batch_id=$batch_id");
     start_table();
     table_header("ID", "Created", "State", "Instances");
@@ -190,13 +190,13 @@ function show_batch($batch_id) {
         ";
     }
     end_table();
-    page_tail();
+    admin_page_tail();
 }
 
 function show_batches($app_id) {
     $batches = BossaBatch::enum("app_id = $app_id");
     $app = BossaApp::lookup_id($app_id);
-    page_head("Batches ($app->name)");
+    admin_page_head("Batches ($app->name)");
     start_table();
     table_header("ID", "Name", "Calibration?", "Created", "Jobs", "Completed");
     foreach ($batches as $batch) {
@@ -210,15 +210,15 @@ function show_batches($app_id) {
         );
     }
     end_table();
-    page_tail();
+    admin_page_tail();
 }
 
 function job_show_insts($job_id) {
     $job = BossaJob::lookup_id($job_id);
     include_app_file($job->app_id);
-    page_head("Instances of job $job_id");
+    admin_page_head("Instances of job $job_id");
     job_show_instances($job);
-    page_tail();
+    admin_page_tail();
 }
 
 function calibration_job_string($inst, $job) {
@@ -238,7 +238,7 @@ function show_user() {
     $app = BossaApp::lookup_id($app_id);
 
     include_app_file($app_id);
-    page_head("Bossa user ($app->name)");
+    admin_page_head("Bossa user ($app->name)");
     echo user_summary($user);
     $insts = BossaJobInst::enum("user_id=$user_id");
     start_table();
@@ -254,11 +254,11 @@ function show_user() {
         );
     }
     end_table();
-    page_tail();
+    admin_page_tail();
 }
 
 function clear_batch_confirm($batch_id) {
-    page_head("Confirm delete instances");
+    admin_page_head("Confirm delete instances");
     echo "
         This will permanently delete all results from this batch.
         <p>
@@ -266,17 +266,17 @@ function clear_batch_confirm($batch_id) {
         <p>
         <a href=bossa_admin.php?action=clear_batch&batch_id=$batch_id>Yes</a>
     ";
-    page_tail();
+    admin_page_tail();
 }
 
 function clear_batch($batch_id) {
-    page_head("Deleting instances");
+    admin_page_head("Deleting instances");
     if (BossaJobInst::delete_aux("batch_id=$batch_id")) {
         echo "Job instances deleted.";
     } else {
         echo "Database error.";
     }
-    page_tail();
+    admin_page_tail();
 }
 
 $user = get_logged_in_user();
@@ -286,7 +286,7 @@ if (!$db) error_page("Can't connect to database server");
 
 if (0) {
 if (!$db->table_exists('bossa_app')) {
-    page_head("Create Bossa database");
+    admin_page_head("Create Bossa database");
     $db_name = $db->db_name;
     echo "
         The database tables for Bossa don't seem to exist.
@@ -296,7 +296,7 @@ mysql $db_name < bossa_schema.sql
 </pre>
     Then <a href=bossa_admin.php>reload this page</a>.
     ";
-    page_tail();
+    admin_page_tail();
     exit;
 }
 }
