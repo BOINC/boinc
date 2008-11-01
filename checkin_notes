@@ -8979,3 +8979,12 @@ David  1 Nov 2008
     client/
         client_types.h
         rr_sim.cpp
+
+David  1 Nov 2008
+    - client, scheduler: there were a few places where we had 1e9
+        instead of 1 gig (2^20)
+
+    client/
+        cs_prefs.cpp
+    sched/
+        sched_send.cpp

@@ -57,9 +57,9 @@ double CLIENT_STATE::allowed_disk_usage() {
 
     percent_space = host_info.d_total*global_prefs.disk_max_used_pct/100.0;
 
-    min_val = host_info.d_free - global_prefs.disk_min_free_gb*1e9;
+    min_val = host_info.d_free - global_prefs.disk_min_free_gb*GIGA;
 
-    double size = min(min(global_prefs.disk_max_used_gb*(1e9), percent_space), min_val);
+    double size = min(min(global_prefs.disk_max_used_gb*(GIGA), percent_space), min_val);
     if (size < 0) size = 0;
     return size;
 }

@@ -281,10 +281,10 @@ double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
         // The post 4 oct 2005 case.
         // Compute the max allowable additional disk usage based on prefs
         //
-        x1 = prefs.disk_max_used_gb*1e9 - host.d_boinc_used_total;
+        x1 = prefs.disk_max_used_gb*GIGA - host.d_boinc_used_total;
         x2 = host.d_total*prefs.disk_max_used_pct/100.
             - host.d_boinc_used_total;
-        x3 = host.d_free - prefs.disk_min_free_gb*1e9;      // may be negative
+        x3 = host.d_free - prefs.disk_min_free_gb*GIGA;      // may be negative
         x = min(x1, min(x2, x3));
 
         // see which bound is the most stringent
@@ -303,7 +303,7 @@ double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
         // We can't honor the max_used for max_used_pct preferences.
         // We can only honor the min_free pref.
         //
-        x = host.d_free - prefs.disk_min_free_gb*1e9;      // may be negative
+        x = host.d_free - prefs.disk_min_free_gb*GIGA;      // may be negative
         reply.disk_limits.min_free = x;
         x1 = x2 = x3 = 0;
     }
@@ -1396,7 +1396,7 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         );
         log_messages.printf(MSG_DEBUG,
             "available disk %f GB, work_buf_min %d\n",
-            reply.wreq.disk_available/1e9,
+            reply.wreq.disk_available/GIGA,
             (int)sreq.global_prefs.work_buf_min()
         );
         log_messages.printf(MSG_DEBUG,
