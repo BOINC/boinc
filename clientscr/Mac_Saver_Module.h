@@ -32,7 +32,7 @@
 extern "C" {
 #endif
 
-int initBOINCSaver(Boolean ispreview);
+int initBOINCSaver(void);
 int getSSMessage(char **theMessage, int* coveredFreq);
 void drawPreview(CGContextRef myContext);
 void closeBOINCSaver(void);

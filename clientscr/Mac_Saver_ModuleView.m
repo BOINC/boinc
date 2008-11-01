@@ -75,6 +75,9 @@ int signof(float x) {
     return self;
 }
 
+// If there are multiple displays, this may get called 
+// multiple times (once for each display), so we need to guard 
+// against any problems that may cause.
 - (void)startAnimation {
     NSBundle * myBundle;
     OSStatus err;
@@ -160,11 +163,14 @@ int signof(float x) {
         return;
     }
     
-    newFrequency = initBOINCSaver([ self isPreview ]);        
+    newFrequency = initBOINCSaver();        
     if (newFrequency)
         [ self setAnimationTimeInterval:1.0/newFrequency ];
 }
 
+// If there are multiple displays, this may get called 
+// multiple times (once for each display), so we need to guard 
+// against any problems that may cause.
 - (void)stopAnimation {
     [ super stopAnimation ];
 
@@ -185,12 +191,18 @@ int signof(float x) {
     theStyle = NULL;
 }
 
+// If there are multiple displays, this may get called 
+// multiple times (once for each display), so we need to guard 
+// against any problems that may cause.
 - (void)drawRect:(NSRect)rect {
     [ super drawRect:rect ];
 
 //  optionally draw here
 }
 
+// If there are multiple displays, this may get called 
+// multiple times (once for each display), so we need to guard 
+// against any problems that may cause.
 - (void)animateOneFrame {
     int newFrequency = 0;
     int coveredFreq = 0;

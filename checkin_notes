@@ -8963,3 +8963,12 @@ Charlie 31 Oct 2008
  
     client/
         rr_sim.cpp
+
+Charlie 1 Nov 2008
+    - Mac SCR: eliminate unused argument, add comments.
+    
+    clientscr/
+        mac_saver_module.cpp
+        Mac_Saver_Module.h
+        Mac_Saver_ModuleView.m,h
+ 

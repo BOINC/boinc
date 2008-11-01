@@ -94,9 +94,10 @@ const char *  ScreenSaverAppStartingMsg = "Starting screensaver graphics.\nPleas
 
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
 
-
-// Returns desired Animation Frequency (per second) or 0 for no change
-int initBOINCSaver(Boolean ispreview) {
+// If there are multiple displays, this may get called 
+// multiple times (once for each display), so we need to guard 
+// against any problems that may cause.
+int initBOINCSaver() {
 #ifdef _DEBUG
     char buf1[256], buf2[256];
     strcpy(buf1, getenv("HOME"));
@@ -109,9 +110,6 @@ int initBOINCSaver(Boolean ispreview) {
         | BOINC_DIAG_TRACETOSTDOUT, buf1, buf2
         );
 #endif
-
-    if (ispreview)
-        return 8;
 
     if (gspScreensaver == NULL) {
         gspScreensaver = new CScreensaver();
@@ -138,6 +136,9 @@ void drawPreview(CGContextRef myContext) {
 };
 
 
+// If there are multiple displays, this may get called 
+// multiple times (once for each display), so we need to guard 
+// against any problems that may cause.
 void closeBOINCSaver() {
     if (gspScreensaver) {
         gspScreensaver->ShutdownSaver();
@@ -460,9 +461,6 @@ void CScreensaver::drawPreview(CGContextRef myContext) {
 }
 
 
-// If there are multiple displays, closeBOINCSaver may get called 
-// multiple times (once for each display), so we need to guard 
-// against any problems that may cause.
 void CScreensaver::ShutdownSaver() {
     DestroyDataManagementThread();
     
