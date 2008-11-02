@@ -9002,3 +9002,9 @@ David  2 Nov 2008
         ViewResources.cpp
     lib/
         filesys.cpp
+
+David  2 Nov 2008
+    - web: free result in count().  Fixes #763
+
+    html/inc/
+        db_conn.inc

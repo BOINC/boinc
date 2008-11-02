@@ -135,9 +135,9 @@ class DbConn {
         $query = "select count(*) as total from DBNAME.$table where $clause";
         $result = $this->do_query($query);
         $cnt = mysql_fetch_object($result);
+        mysql_free_result($result);
         if ($cnt) return $cnt->total;
         return null;
-        mysql_free_result($result);
     }
     function replace($table, $clause) {
         $query = "replace into DBNAME.$table set $clause";
