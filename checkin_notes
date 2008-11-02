@@ -8988,3 +8988,17 @@ David  1 Nov 2008
         cs_prefs.cpp
     sched/
         sched_send.cpp
+
+David  2 Nov 2008
+    - client: fix a long-standing error: if prefs say leave X GB free,
+        and BOINC is using Y GB, and there are Z GB free,
+        the limit on BOINC is Y + Z - X (not Z - X).
+
+    client/
+        client_state.h
+        cs_prefs.cpp
+        gui_rpc_server_ops.cpp
+    clientgui/
+        ViewResources.cpp
+    lib/
+        filesys.cpp

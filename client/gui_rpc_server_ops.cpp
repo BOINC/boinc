@@ -121,13 +121,13 @@ static void handle_get_project_status(MIOFILE& fout) {
 
 static void handle_get_disk_usage(MIOFILE& fout) {
     unsigned int i;
-    double size, d_boinc, d_allowed;
+    double size, boinc_non_project, d_allowed, boinc_total;
 
     fout.printf("<disk_usage_summary>\n");
     get_filesystem_info(gstate.host_info.d_total, gstate.host_info.d_free);
-    dir_size(".", d_boinc, false);
+    dir_size(".", boinc_non_project, false);
     dir_size("locale", size, false);
-    d_boinc += size;
+    boinc_non_project += size;
 #ifdef __APPLE__
     if (gstate.launched_by_manager) {
         // If launched by Manager, get Manager's size on disk
@@ -140,17 +140,10 @@ static void handle_get_disk_usage(MIOFILE& fout) {
         if (! err) err = GetProcessBundleLocation(&managerPSN, &ourFSRef);
         if (! err) err = FSRefMakePath (&ourFSRef, (UInt8*)path, sizeof(path));
         if (! err) dir_size(path, manager_size, true);
-        if (! err) d_boinc += manager_size;
+        if (! err) boinc_non_project += manager_size;
     }
 #endif
-    d_allowed = gstate.allowed_disk_usage();
-    fout.printf(
-        "<d_total>%f</d_total>\n"
-        "<d_free>%f</d_free>\n"
-        "<d_boinc>%f</d_boinc>\n"
-        "<d_allowed>%f</d_allowed>\n",
-        gstate.host_info.d_total, gstate.host_info.d_free, d_boinc, d_allowed
-    );
+    boinc_total = boinc_non_project;
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         gstate.project_disk_usage(p, size);
@@ -161,7 +154,16 @@ static void handle_get_disk_usage(MIOFILE& fout) {
             "</project>\n",
             p->master_url, size
         );
+        boinc_total += size;
     }
+    d_allowed = gstate.allowed_disk_usage(boinc_total);
+    fout.printf(
+        "<d_total>%f</d_total>\n"
+        "<d_free>%f</d_free>\n"
+        "<d_boinc>%f</d_boinc>\n"
+        "<d_allowed>%f</d_allowed>\n",
+        gstate.host_info.d_total, gstate.host_info.d_free, boinc_non_project, d_allowed
+    );
     fout.printf("</disk_usage_summary>\n");
 }
 

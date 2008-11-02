@@ -52,14 +52,14 @@ using std::string;
 // There are three different settings in the prefs;
 // return the least of the three.
 //
-double CLIENT_STATE::allowed_disk_usage() {
-    double percent_space, min_val;
+double CLIENT_STATE::allowed_disk_usage(double boinc_total) {
+    double limit_pct, limit_min_free, limit_abs;
 
-    percent_space = host_info.d_total*global_prefs.disk_max_used_pct/100.0;
+    limit_pct = host_info.d_total*global_prefs.disk_max_used_pct/100.0;
+    limit_min_free = boinc_total + host_info.d_free - global_prefs.disk_min_free_gb*GIGA;
+    limit_abs = global_prefs.disk_max_used_gb*(GIGA);
 
-    min_val = host_info.d_free - global_prefs.disk_min_free_gb*GIGA;
-
-    double size = min(min(global_prefs.disk_max_used_gb*(GIGA), percent_space), min_val);
+    double size = min(min(limit_abs, limit_pct), limit_min_free);
     if (size < 0) size = 0;
     return size;
 }
@@ -86,22 +86,6 @@ int CLIENT_STATE::project_disk_usage(PROJECT* p, double& size) {
 int CLIENT_STATE::total_disk_usage(double& size) {
     return dir_size(".", size);
 }
-
-#if 0
-int CLIENT_STATE::allowed_project_disk_usage(double& size) {
-    double other_disk_used;
-    double total_disk_available;
-    double project_disk_used;
-    total_disk_usage(other_disk_used);
-    allowed_disk_usage(total_disk_available);
-    for(unsigned int i=0; i<projects.size(); i++) {
-        project_disk_usage(projects[i], project_disk_used);
-        other_disk_used -= project_disk_used;
-    }
-    size = total_disk_available - other_disk_used;
-    return 0;
-}
-#endif
 
 // See if we should suspend processing
 //
@@ -405,9 +389,11 @@ void CLIENT_STATE::read_global_prefs() {
 		"Preferences limit memory usage when idle to %.2fMB",
 		(host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/MEGA
     );
+    double x;
+    total_disk_usage(x);
     msg_printf(NULL, MSG_INFO,
 		"Preferences limit disk usage to %.2fGB",
-        allowed_disk_usage()/GIGA
+        allowed_disk_usage(x)/GIGA
     );
     // max_cpus, bandwidth limits may have changed
     //

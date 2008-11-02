@@ -381,7 +381,7 @@ public:
     int project_disk_usage(PROJECT*, double&);
         /// returns the total disk usage of BOINC on this host
     int total_disk_usage(double&);
-    double allowed_disk_usage();
+    double allowed_disk_usage(double boinc_total);
     int allowed_project_disk_usage(double&);
     int suspend_tasks(int reason);
     int resume_tasks(int reason=0);

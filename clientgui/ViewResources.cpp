@@ -271,11 +271,13 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
                 avail = 0;
             }
             double not_avail = free - avail;
-		    FormatDiskSpace(not_avail, diskspace);
-            part.SetLabel(_("free, not available to BOINC: ") + diskspace);
-		    part.SetValue(not_avail);
-		    part.SetColour(wxColour(238,238,238));
-		    m_pieCtrlTotal->m_Series.Add(part);
+            if (not_avail > 0) {
+		        FormatDiskSpace(not_avail, diskspace);
+                part.SetLabel(_("free, not available to BOINC: ") + diskspace);
+		        part.SetValue(not_avail);
+		        part.SetColour(wxColour(238,238,238));
+		        m_pieCtrlTotal->m_Series.Add(part);
+            }
         } else {
             // if d_allowed is zero, we must be talking to a pre-6.3 client.
             // Just show free space

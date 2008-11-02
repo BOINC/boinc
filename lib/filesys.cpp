@@ -352,26 +352,23 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
     size = 0.0;
     WIN32_FIND_DATA findData;
     HANDLE hFind = ::FindFirstFile(path2, &findData);
-    if (INVALID_HANDLE_VALUE != hFind) {
-        do {
-            if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-                if (!recurse) continue;
-                if (!strcmp(findData.cFileName, ".")) continue;
-                if (!strcmp(findData.cFileName, "..")) continue;
+    if (INVALID_HANDLE_VALUE == hFind) return ERR_OPENDIR;
+    do {
+        if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+            if (!recurse) continue;
+            if (!strcmp(findData.cFileName, ".")) continue;
+            if (!strcmp(findData.cFileName, "..")) continue;
 
-                double dsize = 0;
-                char buf[_MAX_PATH];
-                ::sprintf(buf, "%s/%s", dirpath, findData.cFileName);
-                dir_size(buf, dsize, recurse);
-                size += dsize;
-            } else {
-                size += findData.nFileSizeLow + ((__int64)(findData.nFileSizeHigh) << 32);
-            }
-        } while (FindNextFile(hFind, &findData));
-		::FindClose(hFind);
-    }  else {
-        return ERR_OPENDIR;
-    }
+            double dsize = 0;
+            char buf[_MAX_PATH];
+            ::sprintf(buf, "%s/%s", dirpath, findData.cFileName);
+            dir_size(buf, dsize, true);
+            size += dsize;
+        } else {
+            size += findData.nFileSizeLow + ((__int64)(findData.nFileSizeHigh) << 32);
+        }
+    } while (FindNextFile(hFind, &findData));
+	::FindClose(hFind);
 #else
     char filename[256], subdir[256];
     int retval=0;
