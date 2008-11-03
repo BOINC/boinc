@@ -381,7 +381,7 @@ void CLIENT_STATE::rr_simulation() {
                     
                 );
                 msg_printf(pbest, MSG_INFO,
-                    "[rr_sim] last active %f, active %f, shortfall %f",
+                    "[rr_sim] %s: last active %f, active %f, shortfall %f",
                     pbest->get_project_name(), last_proj_active_ncpus,
                     pbest->rr_sim_status.active_ncpus,
                     pbest->rr_sim_status.cpu_shortfall

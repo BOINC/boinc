@@ -9008,3 +9008,8 @@ David  2 Nov 2008
 
     html/inc/
         db_conn.inc
+
+Charlie 3 Nov 2008
+    - client: fix compiler warning indicating real error in RR simulation.
+    client/
+        rr_sim.cpp
