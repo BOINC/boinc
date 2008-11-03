@@ -738,11 +738,13 @@ void CLIENT_STATE::make_preemptable_task_list(
 		atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         if (atp->result->uses_coprocs()) continue;
         preemptable_tasks.push_back(atp);
+#if 0
 		msg_printf(0, MSG_INFO, "%s: misses %d deadline %f finished %d ptr %x",
 			atp->result->project->deadlines_missed,
 			atp->result->report_deadline,
 			finished_time_slice(atp), atp
 		);
+#endif
     }
 
     std::sort(
@@ -750,10 +752,12 @@ void CLIENT_STATE::make_preemptable_task_list(
         preemptable_tasks.end(),
         more_preemptable
     );
+#if 0
 	for (i=0; i<preemptable_tasks.size(); i++) {
 		atp = preemptable_tasks[i];
 		msg_printf(0, MSG_INFO, "list %d: %s", i, atp->result->name);
 	}
+#endif
 }
 
 // Enforce the CPU schedule.
