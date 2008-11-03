@@ -119,6 +119,21 @@ function breakdown_form($sel_name) {
     echo "</ul>";
 }
 
+// return filter and breakdown info for URLs
+//
+function filter_url() {
+    global $filter, $filter_cat, $breakdown, $breakdown_cat;
+
+    $x = "";
+    if ($filter && $filter_cat) {
+        $x .= "&filter=".$filter->name.":$filter_cat";
+    }
+    if ($breakdown && $breakdown_cat) {
+        $x .= "&breakdown=".$breakdown->name.":$breakdown_cat";
+    }
+    return $x;
+}
+
 // get filter and breakdown from form vars
 //
 function get_filters_from_form() {

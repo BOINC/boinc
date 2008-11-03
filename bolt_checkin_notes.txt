@@ -301,3 +301,12 @@ David  Oct 30 2008
             bolt_compare.php
             bolt_map.php
             bossa_admin.php
+
+David  Nov 2 2008
+    - Filter questions
+
+    html/
+        inc/
+            bolt_cat.inc
+        ops/
+            bolt_map.php

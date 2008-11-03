@@ -266,7 +266,7 @@ function show_unit_row($unit, $class, $level, $is_answer) {
         echo "<td>$n</td>";
         $n = get_nquestions($unit, $mode);
         if ($n) {
-            echo "<td><a href=bolt_map.php?action=questions&course_id=$course_id&name=$unit->name&mode=$mode>$n</a></td>\n";
+            echo "<td><a href=bolt_map.php?action=questions&course_id=$course_id&name=$unit->name&mode=$mode".filter_url().">$n</a></td>\n";
         } else {
             echo "<td>0</td>\n";
         }
@@ -414,8 +414,11 @@ function show_map() {
 }
 
 function show_questions() {
-    $name = get_str('name');
     global $course_id;
+
+    $name = get_str('name');
+    $mode = get_int('mode');
+    get_filters_from_form();
     $snap = read_map_snapshot($course_id);
     $qs = $snap->questions[$name];
     admin_page_head("Questions about $name");
@@ -427,6 +430,7 @@ function show_questions() {
         </tr>
     ";
     foreach ($qs as $q) {
+        if ($q->mode != $mode) continue;
         $user = $snap->users[$q->user_id];
         echo "<tr>
             <td>".time_str($q->create_time)."</td>
