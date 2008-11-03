@@ -9013,3 +9013,14 @@ Charlie 3 Nov 2008
     - client: fix compiler warning indicating real error in RR simulation.
     client/
         rr_sim.cpp
+
+David  3 Nov 2008
+    - client: fix bug that caused occasional assert in pop_heap()
+        for the preemptable_task_list.
+        The problem was that the ordering predicate (more_preemptable())
+        could change on the fly, making the heap inconsistent.
+        Instead, we create a vector, sort it by increasing preemptability,
+        then pop off the end.
+
+    client/
+        cpu_sched.cpp

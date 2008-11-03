@@ -144,27 +144,6 @@ static inline bool finished_time_slice(ACTIVE_TASK* atp) {
     return (running_beyond_sched_period && checkpointed_recently);
 }
 
-static bool more_preemptable(ACTIVE_TASK* t0, ACTIVE_TASK* t1) {
-    // returning true means t1 is more preemptable than t0,
-    // the "largest" result is at the front of a heap, 
-    // and we want the most preemptable task at the front
-    //
-    if (t0->result->project->deadlines_missed && !t1->result->project->deadlines_missed) return false;
-    if (!t0->result->project->deadlines_missed && t1->result->project->deadlines_missed) return true;
-    if (t0->result->project->deadlines_missed && t1->result->project->deadlines_missed) {
-        if (t0->result->report_deadline > t1->result->report_deadline) return true;
-        return false;
-    } else {
-		bool fin0 = finished_time_slice(t0);
-		bool fin1 = finished_time_slice(t1);
-		if (fin1 && !fin0) return true;
-		if (fin0 && !fin1) return false;
-        if (t0->result->report_deadline > t1->result->report_deadline) return true;
-        if (t0->result->report_deadline < t1->result->report_deadline) return false;
-        return (t0 < t1);
-    }
-}
-
 // Choose a "best" runnable result for each project
 //
 // Values are returned in project->next_runnable_result
@@ -718,7 +697,27 @@ static inline bool in_ordered_scheduled_results(ACTIVE_TASK* atp) {
 	return false;
 }
 
-// Make a list of preemptable tasks, ordered by their preemptability.
+// return true if t1 is more preemptable than t0
+//
+static inline bool more_preemptable(ACTIVE_TASK* t0, ACTIVE_TASK* t1) {
+    if (t0->result->project->deadlines_missed && !t1->result->project->deadlines_missed) return false;
+    if (!t0->result->project->deadlines_missed && t1->result->project->deadlines_missed) return true;
+    if (t0->result->project->deadlines_missed && t1->result->project->deadlines_missed) {
+        if (t0->result->report_deadline > t1->result->report_deadline) return true;
+        if (t0->result->report_deadline < t1->result->report_deadline) return false;
+        return (t0 < t1);
+    } else {
+		bool fin0 = finished_time_slice(t0);
+		bool fin1 = finished_time_slice(t1);
+		if (fin1 && !fin0) return true;
+		if (fin0 && !fin1) return false;
+        if (t0->result->report_deadline > t1->result->report_deadline) return true;
+        if (t0->result->report_deadline < t1->result->report_deadline) return false;
+        return (t0 < t1);
+    }
+}
+
+// Make a list of preemptable tasks, in increasing order of preemptability.
 // "Preemptable" means: running, non-GPU, not non-CPU-intensive,
 // not in the scheduled results list.
 //
@@ -739,13 +738,22 @@ void CLIENT_STATE::make_preemptable_task_list(
 		atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         if (atp->result->uses_coprocs()) continue;
         preemptable_tasks.push_back(atp);
+		msg_printf(0, MSG_INFO, "%s: misses %d deadline %f finished %d ptr %x",
+			atp->result->project->deadlines_missed,
+			atp->result->report_deadline,
+			finished_time_slice(atp), atp
+		);
     }
 
-    std::make_heap(
+    std::sort(
         preemptable_tasks.begin(),
         preemptable_tasks.end(),
         more_preemptable
     );
+	for (i=0; i<preemptable_tasks.size(); i++) {
+		atp = preemptable_tasks[i];
+		msg_printf(0, MSG_INFO, "list %d: %s", i, atp->result->name);
+	}
 }
 
 // Enforce the CPU schedule.
@@ -879,18 +887,13 @@ bool CLIENT_STATE::enforce_schedule() {
             // 1) it's completed its time slice and has checkpointed recently
             // 2) the scheduled result is in deadline trouble
             //
-            preempt_atp = preemptable_tasks[0];
+            preempt_atp = preemptable_tasks.back();
             if (rp->project->deadlines_missed || finished_time_slice(preempt_atp)) {
                 if (rp->project->deadlines_missed) {
                     rp->project->deadlines_missed--;
                 }
                 preempt_atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
                 ncpus_used -= preempt_atp->app_version->avg_ncpus;
-                std::pop_heap(
-                    preemptable_tasks.begin(),
-                    preemptable_tasks.end(),
-                    more_preemptable
-                );
                 preemptable_tasks.pop_back();
                 if (log_flags.cpu_sched_debug) {
                     msg_printf(rp->project, MSG_INFO,
