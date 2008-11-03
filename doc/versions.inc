@@ -62,10 +62,10 @@ function type_text($type) {
 }
 
 $w63= array(
-    "num"=>"6.3.19",
+    "num"=>"6.3.21",
     "status"=>"Development version",
-    "file"=>"boinc_6.3.19_windows_intelx86.exe",
-    "date"=>"28 Oct 2008",
+    "file"=>"boinc_6.3.21_windows_intelx86.exe",
+    "date"=>"3 Nov 2008",
     "type"=>"win_new",
 );
 
@@ -86,10 +86,10 @@ $w51045= array(
 );
 
 $w63x64= array(
-    "num"=>"6.3.19",
+    "num"=>"6.3.21",
     "status"=>"Development version",
     "file"=>"boinc_6.3.19_windows_x86_64.exe",
-    "date"=>"28 Oct 2008",
+    "date"=>"3 Nov 2008",
     "type"=>"win_new",
 );
 
@@ -117,11 +117,11 @@ $w5816= array(
     "type"=>"win_new",
 );
 
-$m6320 = array(
-    "num"=>"6.3.20",
+$m63 = array(
+    "num"=>"6.3.21",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_6.3.20_macOSX_universal.zip",
-    "date"=>"29 0CT 2008",
+    "file"=>"boinc_6.3.21_macOSX_universal.zip",
+    "date"=>"3 Oct 2008",
     "type"=>"mac_advanced",
 );
 
@@ -149,11 +149,11 @@ $m5817 = array(
     "type"=>"mac_advanced",
 );
 
-$m6320c = array(
-    "num"=>"6.3.20",
+$m63c = array(
+    "num"=>"6.3.21",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_6.3.20_universal-apple-darwin.zip",
-    "date"=>"29 Oct 2008",
+    "file"=>"boinc_6.3.21_universal-apple-darwin.zip",
+    "date"=>"3 Nov 2008",
     "type"=>"bare_core",
 );
 
@@ -182,10 +182,10 @@ $m5817c = array(
 );
 
 $l63 = array(
-    "num"=>"6.3.19",
+    "num"=>"6.3.21",
     "status"=>"Development version",
-    "file"=>"boinc_compat_6.3.19_i686-pc-linux-gnu.sh",
-    "date"=>"28 Oct 2008",
+    "file"=>"boinc_compat_6.3.21_i686-pc-linux-gnu.sh",
+    "date"=>"3 Nov 2008",
     "type"=>"sea",
 );
 
@@ -206,10 +206,10 @@ $l51045 = array(
 );
 
 $l63ubuntu = array(
-    "num"=>"6.3.19",
+    "num"=>"6.3.21",
     "status"=>"Development version",
-    "file"=>"boinc_6.3.19_i686-pc-linux-gnu.sh",
-    "date"=>"28 Oct 2008",
+    "file"=>"boinc_6.3.21_i686-pc-linux-gnu.sh",
+    "date"=>"3 Nov 2008",
     "type"=>"sea",
 );
 
@@ -230,10 +230,10 @@ $l51045ubuntu = array(
 );
 
 $l63ubuntux64 = array(
-    "num"=>"6.3.19",
+    "num"=>"6.3.21",
     "status"=>"Development version",
-    "file"=>"boinc_6.3.19_x86_64-pc-linux-gnu.sh",
-    "date"=>"28 Oct 2008",
+    "file"=>"boinc_6.3.21_x86_64-pc-linux-gnu.sh",
+    "date"=>"3 Nov 2008",
     "type"=>"sea",
 );
 
@@ -289,8 +289,8 @@ $mac = array(
     "description"=>"Version 10.3.9+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m6320,
-        $m6320c,
+        $m63,
+        $m63c,
         $m6218,
         $m6218c,
         $m51045,
