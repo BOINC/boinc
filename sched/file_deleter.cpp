@@ -16,41 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-// file_deleter: deletes files that are no longer needed.
-//
-// default operation:
-// 1) enumerate N WUs and M results (N,M compile params)
-//    that are ready to file-delete, and try to delete their files
-// 2) if the enums didn't yield anything, sleep for K seconds
-// 3) repeat from 1)
-// 4) every 1 hour, enumerate everything in state FILE_DELETE_ERROR
-//    and try to delete it.
-// 5) after 1 hour, and every 24 hours thereafter,
-//    scan for and delete all files in the upload/download directories
-//    that are older than any WU in the database,
-//    and were created at least one month ago.
-//    This deletes files uploaded by hosts after the WU was deleted.
-//
-// options:
-//
-// -d N
-//      set debug output level (1/2/3)
-// -mod M R
-//      handle only WUs with ID mod M == R
-// -one_pass
-//      instead of sleeping in 2), exit
-// -dont_retry_error
-//      don't do 4)
-// -dont_delete_antiques
-//      don't do 5)
-// -preserve_result_files
-//      update the DB, but don't delete output files.
-//      For debugging.
-// -preserve_wu_files
-//      update the DB, but don't delete input files.
-//      For debugging.
-// -dont_delete_batches
-//      don't delete anything with positive batch number
+// file deleter.  See usage() below for usage.
 
 // enum sizes.  RESULT_PER_ENUM is three times larger on the
 // assumption of 3-fold average redundancy.
@@ -108,9 +74,56 @@ bool dont_retry_errors = false;
 bool dont_delete_antiques = false;
 bool dont_delete_batches = false;
 int antique_delay = ANTIQUE_DELAY;
+bool do_input_files = true;
+bool do_output_files = true;
 
-// Given a filename, find its full path in the upload directory hierarchy
-// Return an error if file isn't there.
+void usage() {
+    fprintf(stderr,
+"file_deleter: deletes files that are no longer needed.\n"
+"\n"
+"default operation:\n"
+"1) enumerate N WUs and M results (N,M compile params)\n"
+"   that are ready to file-delete, and try to delete their files\n"
+"2) if the enums didn't yield anything, sleep for K seconds\n"
+"3) repeat from 1)\n"
+"4) every 1 hour, enumerate everything in state FILE_DELETE_ERROR\n"
+"   and try to delete it.\n"
+"5) after 1 hour, and every 24 hours thereafter,\n"
+"   scan for and delete all files in the upload directories\n"
+"   that are older than any WU in the database,\n"
+"   and were created at least one month ago.\n"
+"   This deletes files uploaded by hosts after the WU was deleted.\n"
+"\n"
+"options:\n"
+"\n"
+"-d N\n"
+"     set debug output level (1/2/3)\n"
+"-mod M R\n"
+"     handle only WUs with ID mod M == R\n"
+"-one_pass\n"
+"     instead of sleeping in 2), exit\n"
+"-dont_retry_error\n"
+"     don't do 4)\n"
+"-dont_delete_antiques\n"
+"     don't do 5)\n"
+"-preserve_result_files\n"
+"     update the DB, but don't delete output files.\n"
+"     For debugging.\n"
+"-preserve_wu_files\n"
+"     update the DB, but don't delete input files.\n"
+"     For debugging.\n"
+"-dont_delete_batches\n"
+"     don't delete anything with positive batch number\n"
+"-input_files_only\n"
+"     delete only input (download) files\n"
+"-output_files_only\n"
+"     delete only output (upload) files\n"
+    );
+    exit(1);
+}
+
+// Given a filename, find its full path in the upload directory hierarchy\n"
+// Return an error if file isn't there.\n"
 //
 int get_file_path(
     const char *filename, char* upload_dir, int fanout, char* path
@@ -271,7 +284,7 @@ bool do_pass(bool retry_error) {
         clause, WUS_PER_ENUM
     );
 
-    while (1) {
+    while (do_input_files) {
         retval = wu.enumerate(buf);
         if (retval) {
             if (retval != ERR_DB_NOT_FOUND) {
@@ -304,7 +317,7 @@ bool do_pass(bool retry_error) {
         clause, RESULTS_PER_ENUM
     );
 
-    while (1) {
+    while (do_output_files) {
         retval = result.enumerate(buf);
         if (retval) {
             if (retval != ERR_DB_NOT_FOUND) {
@@ -590,10 +603,18 @@ int main(int argc, char** argv) {
             dont_delete_batches = true;
         } else if (!strcmp(argv[i], "-delete_antiques_now")) {
             antique_delay = 0;
+        } else if (!strcmp(argv[i], "-input_files_only")) {
+            do_output_files = false;
+            dont_delete_antiques = true;
+        } else if (!strcmp(argv[i], "-output_files_only")) {
+            do_input_files = false;
+        } else if (!strcmp(argv[i], "-help")) {
+            usage();
         } else {
             log_messages.printf(MSG_CRITICAL,
                 "Unrecognized arg: %s\n", argv[i]
             );
+            usage();
         }
     }
 

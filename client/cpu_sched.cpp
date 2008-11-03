@@ -1231,7 +1231,7 @@ static const char* result_state_name(int val) {
     case RESULT_COMPUTE_ERROR: return "COMPUTE_ERROR";
     case RESULT_FILES_UPLOADING: return "FILES_UPLOADING";
     case RESULT_FILES_UPLOADED: return "FILES_UPLOADED";
-    case RESULT_ABORTED: return "FILES_ABORTED";
+    case RESULT_ABORTED: return "ABORTED";
     }
     return "Unknown";
 }

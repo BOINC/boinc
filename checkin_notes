@@ -9024,3 +9024,15 @@ David  3 Nov 2008
 
     client/
         cpu_sched.cpp
+
+David  3 Nov 2008
+    - file_deleter: add -input_files_only and -output_files_only options.
+        If you store input and output files on different servers,
+        you can run 2 file_deleters, each one on the same machine
+        as the files it's going to be deleting.
+    - file_deleter: add -help option and usage()
+
+    client/
+        cpu_sched.cpp
+    sched/
+        file_deleter.cpp
