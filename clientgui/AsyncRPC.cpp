@@ -125,7 +125,7 @@ void *RPCThread::Entry() {
         if (!m_pDoc->GetCurrentRPCRequest()->isActive) {
 #ifdef __WXMSW__       // Until we can suspend the thread without Deadlock on Windows
             Sleep(1);
-#elif defined(__WXMAC__
+#elif defined(__WXMAC__)
             Yield();
 #else
             // Some Linux systems may not support POSIX sched_yield(), 
