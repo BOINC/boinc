@@ -9071,3 +9071,12 @@ David  3 Nov 2008
     - client: preemptability ordering was messed up
     client/
         cpu_sched.cpp
+
+Charlie 3 Nov 2008
+    - MGR: Reverse earlier change in RPC thread logic: restore Yield() because 
+        Sleep(100) caused undesirable latency.  Pause the thread immediately on 
+        receipt of wxEVT_RPC_FINISHED event.  Reduce RPC thread CPU usage while 
+        not connected to a client.
+        
+    clientgui/
+        AsyncRPC.cpp
