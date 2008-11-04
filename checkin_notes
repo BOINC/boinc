@@ -9114,6 +9114,10 @@ Rom    4 Nov 2008
 
 Charlie 4 Nov 2008
     - MGR: Fix Simple_GUI help button URL.
+    - Mac: Add new source files DlgExitMessage.cpp,.h to XCode project.
     
     clientgui/
         sg_ProjectsComponent.cpp
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
