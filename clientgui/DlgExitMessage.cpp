@@ -141,12 +141,23 @@ void CDlgExitMessage::CreateControls()
     itemFlexGridSizer4->Add(5, 5, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_DialogShutdownCoreClient = new wxCheckBox;
-    m_DialogShutdownCoreClient->Create( itemDialog1, ID_CDLGEXITMESSAGE_SHUTDOWNCORECLIENT, _("Exit both BOINC Manager and BOINC."), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
+    m_DialogShutdownCoreClient->Create(
+        itemDialog1,
+        ID_CDLGEXITMESSAGE_SHUTDOWNCORECLIENT,
+#ifndef __WXMAC__
+        _("Always exit both BOINC Manager and BOINC."),
+#else
+        _("Always quit both BOINC Manager and BOINC."),
+#endif
+        wxDefaultPosition,
+        wxDefaultSize,
+        wxCHK_2STATE
+    );
     m_DialogShutdownCoreClient->SetValue(true);
     itemFlexGridSizer4->Add(m_DialogShutdownCoreClient, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_DialogDisplay = new wxCheckBox;
-    m_DialogDisplay->Create( itemDialog1, ID_CDLGEXITMESSAGE_DISPLAY, _("Click here to disable displaying this message in the future."), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
+    m_DialogDisplay->Create( itemDialog1, ID_CDLGEXITMESSAGE_DISPLAY, _("Don't show this dialog again."), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
     m_DialogDisplay->SetValue(false);
     itemFlexGridSizer4->Add(m_DialogDisplay, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 

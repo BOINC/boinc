@@ -109,7 +109,7 @@ void CDlgGenericMessage::CreateControls()
     itemFlexGridSizer4->Add(5, 5, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_DialogDisableMessage = new wxCheckBox;
-    m_DialogDisableMessage->Create( itemDialog1, ID_DISABLEDIALOG, _("Click here to disable displaying this message in the future."), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
+    m_DialogDisableMessage->Create( itemDialog1, ID_DISABLEDIALOG, _("Don't show this dialog again."), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
     m_DialogDisableMessage->SetValue(false);
     itemFlexGridSizer4->Add(m_DialogDisableMessage, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 

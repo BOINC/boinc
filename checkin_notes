@@ -9129,3 +9129,10 @@ Charlie 4 Nov 2008
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    4 Nov 2008
+    - MGR: Text cleanup
+    
+    clientgui
+        DlgExitMessage.cpp
+        DlgGenericMessage.cpp
