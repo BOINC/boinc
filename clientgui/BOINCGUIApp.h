@@ -132,6 +132,8 @@ public:
     CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
 #endif
 
+    int                 ShouldShutdownCoreClient()
+                                                    { return m_iShutdownCoreClient; }
     int                 GetBOINCMGRDisableAutoStart()
                                                     { return m_iBOINCMGRDisableAutoStart; }
     void                SetBOINCMGRDisableAutoStart(int iDisableAutoStart)

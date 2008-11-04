@@ -840,9 +840,11 @@ int CBOINCGUIApp::ConfirmExit() {
     if (m_iShutdownCoreClient && !m_iDisplayExitDialog)
         return 1;   // User doesn't want to display the dialog and wants to shutdown the client.
 
+#ifdef __WXMAC__
     // Don't run confirmation dialog if logging out or shutting down
     if (s_bSkipExitConfirmation)
         return 1;
+#endif
 
     bWasVisible = IsApplicationVisible();
     ShowApplication(true);
@@ -853,17 +855,25 @@ int CBOINCGUIApp::ConfirmExit() {
         dlg.m_DialogExitMessage->SetLabel(pSkinAdvanced->GetExitMessage());
     }
 
-    dlg.m_DialogShutdownCoreClient->SetValue(1 == m_iShutdownCoreClient);
-    dlg.m_DialogDisplay->SetValue(1 == m_iDisplayExitDialog);
+    if (m_iShutdownCoreClient) {
+        dlg.m_DialogShutdownCoreClient->SetValue(TRUE);
+    }
+
+    if (m_iDisplayExitDialog) {
+        dlg.m_DialogDisplay->SetValue(FALSE);
+    }
+
     dlg.Fit();
     dlg.Centre();
 
     if (wxID_OK == dlg.ShowModal()) {
         m_iShutdownCoreClient = dlg.m_DialogShutdownCoreClient->GetValue();
         m_iDisplayExitDialog = dlg.m_DialogDisplay->GetValue();
-        retval = m_iShutdownCoreClient;
+        retval = true;
 
+#ifdef __WXMAC__
         s_bSkipExitConfirmation = true;     // Don't ask twice (only affects Mac)
+#endif
     }
 
     if (!bWasVisible) {

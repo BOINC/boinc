@@ -332,7 +332,17 @@ void CBOINCBaseFrame::OnCloseWindow(wxCommandEvent& WXUNUSED(event)) {
 void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExit - Function Begin"));
 
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
     if (wxGetApp().ConfirmExit()) {
+
+        if (!wxGetApp().ShouldShutdownCoreClient()) {
+            pDoc->m_pClientManager->DisableBOINCStartedByManager();
+        }
+
         // Under wxWidgets 2.8.0, the task bar icons must be deleted for app to exit its main loop
 #ifdef __WXMAC__
         CMacSystemMenu* pMSM = wxGetApp().GetMacSystemMenu();
@@ -348,8 +358,8 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
         }
 #endif
         Close(true);
-
     }
+
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExit - Function End"));
 }
 

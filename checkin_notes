@@ -9136,3 +9136,13 @@ Rom    4 Nov 2008
     clientgui
         DlgExitMessage.cpp
         DlgGenericMessage.cpp
+
+Rom    4 Nov 2008
+    - MGR: Bug fixes for the new Exit dialog.
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCClientManager.h
+        BOINCGUIApp.cpp, .h
+        BOINCTaskBar.cpp
+        screensaver_win.cpp

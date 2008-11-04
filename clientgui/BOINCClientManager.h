@@ -34,6 +34,8 @@ public:
 
     bool                IsSystemBooting();
     int                 IsBOINCConfiguredAsDaemon();
+
+    void                DisableBOINCStartedByManager() { m_bBOINCStartedByManager = false; };
     bool                WasBOINCStartedByManager() { return m_bBOINCStartedByManager; };
 
     bool                IsBOINCCoreRunning();
