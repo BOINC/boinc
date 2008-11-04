@@ -9036,3 +9036,14 @@ David  3 Nov 2008
         cpu_sched.cpp
     sched/
         file_deleter.cpp
+
+Rom    3 Nov 2008
+    - MGR: Use Sleep instead of Yield for the async thread loop.  On Posix
+        systems all Yield translates to is sched_yield but only if
+        HAVE_SCHED_YIELD is defined in the wxWidget config file.  If it isn't
+        defined it becomes a null op. The async thread doesn't really need
+        millisecond response times.  Have it check every 100 milliseconds
+        for an RPC to process.
+        
+    clientgui/
+        AsyncRPC.cpp

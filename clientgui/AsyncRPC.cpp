@@ -118,23 +118,17 @@ void *RPCThread::Entry() {
     int retval;
     CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED );
 
-    while(true) {
-        // check if we were asked to exit
-        if ( TestDestroy() )
-            break;
+    // check if we were asked to exit
+    while(!TestDestroy()) {
 
-        if (! m_pDoc->GetCurrentRPCRequest()->isActive) {
-            // Wait until CMainDocument issues next RPC request
-#ifdef __WXMSW__       // Until we can suspend the thread without Deadlock on Windows
-            Sleep(1);
-#else
-            Yield();
-#endif
+        // Wait until CMainDocument issues next RPC request
+        if (!m_pDoc->GetCurrentRPCRequest()->isActive) {
+            Sleep(100);
             continue;
         }
 
-        if (! m_pDoc->IsConnected()) {
-            Yield();
+        if (!m_pDoc->IsConnected()) {
+            Sleep(100);
         }
 
         retval = ProcessRPCRequest();
