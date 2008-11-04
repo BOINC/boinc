@@ -9096,3 +9096,18 @@ Rom    4 Nov 2008
         SkinManager.cpp
     win_build/
         boincmgr_curl.vcproj
+
+Rom    4 Nov 2008
+    - MGR: Provide a way to enable/disable launching from the BOINC Manager
+        at startup from within the BOINC Manager itself.
+    - MGR: Add a command line argument which specifies that the Manager was
+        launched by the OS.
+    - SCR: Remove the code that checks for the BOINC Manager shortcuts.
+
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCGUIApp.cpp, .h
+        DlgOptions.cpp, .h
+        boinc_ss.h
+        boinc_ss.rc
+        screensaver_win.cpp, .h

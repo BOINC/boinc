@@ -127,8 +127,6 @@ protected:
     int             UtilSetRegKey(LPCTSTR name, DWORD value);
     int             UtilGetRegStartupStr(LPCTSTR name, LPTSTR str);
 
-	BOOL			IsConfigStartupBOINC();
-
     BOOL            CreateInfrastructureMutexes();
 
     BOOL            GetError( BOOL& bErrorMode, HRESULT& hrError, TCHAR* pszError, size_t iErrorSize );
@@ -142,9 +140,6 @@ protected:
     BOOL			m_bErrorMode;        // Whether to display an error
     HRESULT			m_hrError;           // Error code to display
     TCHAR			m_szError[400];      // Error message text
-
-    BOOL            m_bBOINCConfigChecked;
-    BOOL            m_bBOINCStartupConfigured;
     DWORD           m_dwBlankScreen;
     DWORD           m_dwBlankTime;
 

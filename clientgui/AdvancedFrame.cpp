@@ -1495,6 +1495,7 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
 
     dlg.m_LanguageSelectionCtrl->SetSelection(m_iSelectedLanguage);
     dlg.m_ReminderFrequencyCtrl->SetValue(m_iReminderFrequency);
+    dlg.m_EnableBOINCManagerAutoStartCtrl->SetValue(!wxGetApp().GetBOINCMGRDisableAutoStart());
 
 #ifdef __WXMSW__
     // Connection Tab
@@ -1567,6 +1568,7 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
 
         m_iSelectedLanguage = dlg.m_LanguageSelectionCtrl->GetSelection();
         m_iReminderFrequency = dlg.m_ReminderFrequencyCtrl->GetValue();
+        wxGetApp().SetBOINCMGRDisableAutoStart(!dlg.m_EnableBOINCManagerAutoStartCtrl->GetValue());
 
 #ifdef __WXMSW__
         // Connection Tab

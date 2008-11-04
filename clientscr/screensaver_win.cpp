@@ -188,8 +188,6 @@ CScreensaver::CScreensaver() {
     m_hGraphicsApplication = NULL;
     m_bResetCoreState = TRUE;
     m_QuitDataManagementProc = FALSE;
-    m_bBOINCConfigChecked = FALSE;
-    m_bBOINCStartupConfigured = FALSE;
     memset(&m_running_result, 0, sizeof(m_running_result));
 
     ZeroMemory(m_Monitors, sizeof(m_Monitors));
@@ -668,121 +666,6 @@ int CScreensaver::UtilGetRegStartupStr(LPCTSTR name, LPTSTR str) {
 
 
 
-// Determine if BOINC is configured to automatically start at logon/startup.
-//
-BOOL CScreensaver::IsConfigStartupBOINC() {
-	BOOL				bRetVal;
-	BOOL				bCheckFileExists;
-	TCHAR				szBuffer[MAX_PATH];
-	TCHAR				szShortcutBuffer[MAX_PATH];
-	HANDLE				hFileHandle;
-    HMODULE				hShell32;
-	MYSHGETFOLDERPATH	pfnMySHGetFolderPath = NULL;
-
-
-	// Lets set the default value to FALSE
-	bRetVal = FALSE;
-
-    // Load the shortcut filename into the shortcut buffer.
-    LoadString(NULL, IDS_SHORTCUTNAME, szShortcutBuffer, sizeof(szShortcutBuffer)/sizeof(TCHAR));
-
-	// Attempt to link to dynamic function if it exists
-    hShell32 = LoadLibrary(_T("SHELL32.DLL"));
-	if (NULL != hShell32)
-		pfnMySHGetFolderPath = (MYSHGETFOLDERPATH) GetProcAddress(hShell32, _T("SHGetFolderPathA"));
-
-
-	// Now lets begin looking in the registry
-	if (ERROR_SUCCESS == UtilGetRegStartupStr(REG_STARTUP_NAME, szBuffer)) {
-		bRetVal = TRUE;
-	} else {
-		// It could be in the global startup group
-		ZeroMemory(szBuffer, sizeof(szBuffer));
-		bCheckFileExists = FALSE;
-		if (NULL != pfnMySHGetFolderPath) {
-			if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer))) {
-				BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
-                StringCchCatN(szBuffer, sizeof(szBuffer), _T("\\"), sizeof(_T("\\"))/sizeof(TCHAR));
-				if (SUCCEEDED(StringCchCatN(szBuffer, sizeof(szBuffer), szShortcutBuffer, sizeof(szShortcutBuffer)/sizeof(TCHAR)))) {
-					BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
-					bCheckFileExists = TRUE;
-				} else {
-					BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_STARTUP Append Operation\n"));
-				}
-			} else {
-				BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_STARTUP\n"));
-			}
-		}
-
-
-		if (bCheckFileExists) {
-			hFileHandle = CreateFile(
-				szBuffer,
-				GENERIC_READ,
-				FILE_SHARE_READ,
-				NULL,
-				OPEN_EXISTING,
-				FILE_ATTRIBUTE_NORMAL,
-				NULL);
-
-			if (INVALID_HANDLE_VALUE != hFileHandle) {
-				BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: CreateFile returned a valid handle '%d'\n"), hFileHandle);
-				CloseHandle(hFileHandle);
-				bRetVal = TRUE;
-			} else {
-				BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: CreateFile returned INVALID_HANDLE_VALUE - GetLastError() '%d'\n"), GetLastError());
-
-				// It could be in the global startup group
-        		ZeroMemory(szBuffer, sizeof(szBuffer));
-				bCheckFileExists = FALSE;
-				if (NULL != pfnMySHGetFolderPath) {
-					if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_COMMON_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer))) {
-						BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
-                            StringCchCatN(szBuffer, sizeof(szBuffer), _T("\\"), sizeof(_T("\\"))/sizeof(TCHAR));
-				            if (SUCCEEDED(StringCchCatN(szBuffer, sizeof(szBuffer), szShortcutBuffer, sizeof(szShortcutBuffer)/sizeof(TCHAR)))) {
-							BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
-							bCheckFileExists = TRUE;
-						} else {
-							BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP Append Operation\n"));
-						}
-					} else {
-						BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP\n"));
-					}
-				}
-
-
-				if (bCheckFileExists) {
-					hFileHandle = CreateFile(
-						szBuffer,
-						GENERIC_READ,
-						FILE_SHARE_READ,
-						NULL,
-						OPEN_EXISTING,
-						FILE_ATTRIBUTE_NORMAL,
-						NULL);
-
-					if (INVALID_HANDLE_VALUE != hFileHandle) {
-						BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: CreateFile returned a valid handle '%d'\n"), hFileHandle);
-						CloseHandle(hFileHandle);
-						bRetVal = TRUE;
-					} else {
-						BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: CreateFile returned INVALID_HANDLE_VALUE - GetLastError() '%d'\n"), GetLastError());
-					}
-				}
-			}
-		}
-	}
-
-	// Free the dynamically linked to library
-	FreeLibrary(hShell32);
-
-	BOINCTRACE(_T("CScreensaver::IsConfigStartupBOINC: Returning '%d'\n"), bRetVal);
-	return bRetVal;
-}
-
-
-
-
 // Desc: Create the infrastructure for thread safe acccess to the infrastructure
 //       layer of the screen saver.
 //
@@ -1059,19 +942,9 @@ void CScreensaver::HandleRPCError()
     rpc->init(NULL);
     m_bResetCoreState = TRUE;
 
-    if (!m_bBOINCConfigChecked) {
-        m_bBOINCConfigChecked = TRUE;
-        m_bBOINCStartupConfigured = IsConfigStartupBOINC();
-    }
-
     if ((time(0) - m_tThreadCreateTime) > 3) {
-                if (m_bBOINCStartupConfigured) {
-            SetError(TRUE, SCRAPPERR_BOINCNOTDETECTED);
-        } else {
-            SetError(TRUE, SCRAPPERR_BOINCNOTDETECTEDSTARTUP);
-        }
+        SetError(TRUE, SCRAPPERR_BOINCNOTDETECTED);
     }
-
 }
 
 

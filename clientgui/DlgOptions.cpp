@@ -85,6 +85,7 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
 ////@begin CDlgOptions member initialisation
     m_LanguageSelectionCtrl = NULL;
     m_ReminderFrequencyCtrl = NULL;
+    m_EnableBOINCManagerAutoStartCtrl = NULL;
     m_DialupStaticBoxCtrl = NULL;
 #if defined(__WXMSW__)
     m_DialupConnectionsCtrl = NULL;
@@ -149,22 +150,22 @@ void CDlgOptions::CreateControls()
     wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxVERTICAL);
     itemPanel4->SetSizer(itemBoxSizer5);
 
-    wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(2, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(3, 2, 0, 0);
     itemBoxSizer5->Add(itemFlexGridSizer6, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
     wxStaticText* itemStaticText7 = new wxStaticText;
     itemStaticText7->Create( itemPanel4, wxID_STATIC, _("Language Selection:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer6->Add(itemStaticText7, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer6->Add(itemStaticText7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxString* m_LanguageSelectionCtrlStrings = NULL;
     m_LanguageSelectionCtrl = new wxComboBox;
     m_LanguageSelectionCtrl->Create( itemPanel4, ID_LANGUAGESELECTION, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_LanguageSelectionCtrlStrings, wxCB_READONLY );
     if (ShowToolTips())
         m_LanguageSelectionCtrl->SetToolTip(_("What language should the manager display by default."));
-    itemFlexGridSizer6->Add(m_LanguageSelectionCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer6->Add(m_LanguageSelectionCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText9 = new wxStaticText;
     itemStaticText9->Create( itemPanel4, wxID_STATIC, _("Reminder Frequency:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer6->Add(itemStaticText9, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer6->Add(itemStaticText9, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ReminderFrequencyCtrl = new wxSlider;
     m_ReminderFrequencyCtrl->Create( itemPanel4, ID_REMINDERFREQUENCY, 60, 0, 120, wxDefaultPosition,
@@ -176,7 +177,18 @@ void CDlgOptions::CreateControls()
                                      wxSL_HORIZONTAL|wxSL_LABELS);
     if (ShowToolTips())
         m_ReminderFrequencyCtrl->SetToolTip(_("How often, in minutes, should the manager remind you of possible connection events."));
-    itemFlexGridSizer6->Add(m_ReminderFrequencyCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer6->Add(m_ReminderFrequencyCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    wxStaticText* itemStaticText10 = new wxStaticText;
+    itemStaticText10->Create( itemPanel4, wxID_STATIC, _("Run BOINC Manager at startup:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer6->Add(itemStaticText10, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_EnableBOINCManagerAutoStartCtrl = new wxCheckBox;
+    m_EnableBOINCManagerAutoStartCtrl->Create( itemPanel4, ID_ENABLEAUTOSTART, wxT(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    if (ShowToolTips())
+        m_EnableBOINCManagerAutoStartCtrl->SetToolTip(_("Launch BOINC Manager when you log on."));
+    itemFlexGridSizer6->Add(m_EnableBOINCManagerAutoStartCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
 
     itemNotebook3->AddPage(itemPanel4, _("General"));
 

@@ -152,6 +152,8 @@ bool CBOINCGUIApp::OnInit() {
     m_strDefaultWindowStation = wxEmptyString;
     m_strDefaultDesktop = wxEmptyString;
     m_strDefaultDisplay = wxEmptyString;
+    m_bBOINCMGRAutoStarted = false;
+    m_iBOINCMGRDisableAutoStart = 0;
     m_iShutdownCoreClient = 0;
     m_iDisplayExitDialog = 1;
     m_iGUISelected = BOINC_SIMPLEGUI;
@@ -207,6 +209,19 @@ bool CBOINCGUIApp::OnInit() {
 
     m_pConfig->SetPath(wxT("/"));
 
+
+    // Restore Application State
+    m_pConfig->Read(wxT("AutomaticallyShutdownClient"), &m_iShutdownCoreClient, 1L);
+    m_pConfig->Read(wxT("DisplayShutdownClientDialog"), &m_iDisplayExitDialog, 1L);
+    m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
+    m_pConfig->Read(wxT("Language"), &iSelectedLanguage, 0L);
+    m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
+
+
+    // Should we abort the BOINC Manager startup process?
+    if (m_bBOINCMGRAutoStarted && m_iBOINCMGRDisableAutoStart) {
+        return false;
+    }
 
     // Detect where BOINC Manager was installed too.
     DetectRootDirectory();
@@ -326,15 +341,8 @@ bool CBOINCGUIApp::OnInit() {
     wxASSERT(m_pSkinManager);
 
 
-    // Restore Application State
-    m_pConfig->Read(wxT("AutomaticallyShutdownClient"), &m_iShutdownCoreClient, 1L);
-    m_pConfig->Read(wxT("DisplayShutdownClientDialog"), &m_iDisplayExitDialog, 1L);
-    m_pConfig->Read(wxT("Language"), &iSelectedLanguage, 0L);
-    m_pConfig->Read(wxT("Skin"), &strDesiredSkinName, m_pSkinManager->GetDefaultSkinName());
-    m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
-
-
     // Load desired manager skin
+    m_pConfig->Read(wxT("Skin"), &strDesiredSkinName, m_pSkinManager->GetDefaultSkinName());
     m_pSkinManager->ReloadSkin(
         m_pLocale, 
         strDesiredSkinName
@@ -488,6 +496,7 @@ int CBOINCGUIApp::OnExit() {
     // Save Application State
     m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
     m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
+    m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
 
     diagnostics_finish();
 
@@ -501,6 +510,7 @@ int CBOINCGUIApp::OnExit() {
 void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
     wxApp::OnInitCmdLine(parser);
     static const wxCmdLineEntryDesc cmdLineDesc[] = {
+        { wxCMD_LINE_SWITCH, wxT("a"), wxT("autostart"), _("BOINC Manager was started by the operating system automatically")},
         { wxCMD_LINE_SWITCH, wxT("s"), wxT("systray"), _("Startup BOINC so only the system tray icon is visible")},
         { wxCMD_LINE_SWITCH, wxT("b"), wxT("boincargs"), _("Startup BOINC with these optional arguments")},
         { wxCMD_LINE_SWITCH, wxT("i"), wxT("insecure"), _("disable BOINC security users and permissions")},
@@ -518,6 +528,9 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     wxApp::OnCmdLineParsed(parser);
 
     parser.Found(wxT("boincargs"), &m_strBOINCArguments);
+    if (parser.Found(wxT("autostart"))) {
+        m_bBOINCMGRAutoStarted = true;
+    }
     if (parser.Found(wxT("systray"))) {
         m_bGUIVisible = false;
     }

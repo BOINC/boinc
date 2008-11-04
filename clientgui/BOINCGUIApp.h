@@ -88,6 +88,8 @@ protected:
     wxString            m_strBOINCMGRDataDirectory;
     wxString            m_strBOINCArguments;
 
+    bool                m_bBOINCMGRAutoStarted;
+    int                 m_iBOINCMGRDisableAutoStart;
     int                 m_iShutdownCoreClient;
     int                 m_iDisplayExitDialog;
 
@@ -129,6 +131,12 @@ public:
 #ifdef __WXMAC__
     CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
 #endif
+
+    int                 GetBOINCMGRDisableAutoStart()
+                                                    { return m_iBOINCMGRDisableAutoStart; }
+    void                SetBOINCMGRDisableAutoStart(int iDisableAutoStart)
+                                                    { m_iBOINCMGRDisableAutoStart = iDisableAutoStart; }
+
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
 

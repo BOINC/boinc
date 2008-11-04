@@ -254,8 +254,6 @@ BEGIN
     IDS_ERR_GENERIC         "There was an unspecified problem\nwith the GridRepublic screensaver."
     IDS_ERR_BOINCNOTDETECTED 
                             "GridRepublic is not running.\n\nPlease launch GridRepublic to display graphics."
-    IDS_ERR_BOINCNOTDETECTEDSTARTUP 
-                            "GridRepublic is not running.\n(Automatic Startup not detected)\n\nWe recommend running GridRepublic at startup;\nplease reinstall GridRepublic and select this option."
     IDS_ERR_BOINCSUSPENDED  "GridRepublic is currently suspended."
     IDS_ERR_BOINCNOAPPSEXECUTING
                             "GridRepublic is currently idle."
@@ -280,8 +278,6 @@ BEGIN
     IDS_ERR_GENERIC         "There was an unspecified problem\nwith the World Community Grid screensaver."
     IDS_ERR_BOINCNOTDETECTED 
                             "World Community Grid is not running.\n\nPlease launch World Community Grid\nto display graphics."
-    IDS_ERR_BOINCNOTDETECTEDSTARTUP 
-                            "World Community Grid is not running.\n(Automatic Startup not detected)\n\nWe recommend running World Community Grid at startup;\nplease reinstall World Community Grid and select this option."
     IDS_ERR_BOINCSUSPENDED  "World Community Grid is currently suspended."
     IDS_ERR_BOINCNOAPPSEXECUTING
                             "World Community Grid is currently idle."
@@ -306,8 +302,6 @@ BEGIN
     IDS_ERR_GENERIC         "There was an unspecified problem\nwith the BOINC screensaver."
     IDS_ERR_BOINCNOTDETECTED 
                             "BOINC is not running.\n\nPlease launch BOINC to display graphics."
-    IDS_ERR_BOINCNOTDETECTEDSTARTUP 
-                            "BOINC is not running.\n(Automatic Startup not detected)\n\nWe recommend running BOINC at startup;\nplease reinstall BOINC and select this option."
     IDS_ERR_BOINCSUSPENDED  "BOINC is currently suspended."
     IDS_ERR_BOINCNOAPPSEXECUTING
                             "BOINC is currently idle."
@@ -332,34 +326,6 @@ BEGIN
     IDS_ERR_OUTOFMEMORY     "Not enough memory."
     IDS_ERR_NOPREVIEW       "No preview available"
 END
-
-
-
-#if defined(_GRIDREPUBLIC)
-
-STRINGTABLE 
-BEGIN
-    IDS_DESCRIPTION         "GridRepublic"
-    IDS_SHORTCUTNAME        "GridRepublic Manager.lnk"
-END
-
-#elif defined(_WCG)
-
-STRINGTABLE 
-BEGIN
-    IDS_DESCRIPTION         "World Community Grid"
-    IDS_SHORTCUTNAME        "World Community Grid Manager.lnk"
-END
-
-#else
-
-STRINGTABLE 
-BEGIN
-    IDS_DESCRIPTION         "BOINC"
-    IDS_SHORTCUTNAME        "BOINC Manager.lnk"
-END
-
-#endif
 
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
