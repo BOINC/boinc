@@ -9178,3 +9178,10 @@ Rom    4 Nov 2008
         
     clientgui/
         BOINCGUIApp.cpp
+
+Rom    4 Nov 2008
+    - MGR: properly save the 'DisplayShutdownClientDialog' setting.
+    
+    clientgui/
+        BOINCGUIApp.cpp
+     

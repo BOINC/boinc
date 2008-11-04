@@ -878,7 +878,7 @@ int CBOINCGUIApp::ConfirmExit() {
 
     if (wxID_OK == dlg.ShowModal()) {
         m_iShutdownCoreClient = dlg.m_DialogShutdownCoreClient->GetValue();
-        m_iDisplayExitDialog = dlg.m_DialogDisplay->GetValue();
+        m_iDisplayExitDialog = !dlg.m_DialogDisplay->GetValue();
         retval = true;
 
 #ifdef __WXMAC__
