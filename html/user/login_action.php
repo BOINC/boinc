@@ -23,6 +23,9 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/user.inc");
 
+$next_url = $_POST["next_url"];
+if (strlen($next_url) == 0) $next_url = "home.php";
+
 // check for email/password case
 //
 $email_addr = strtolower(process_user_text(post_str("email_addr", true)));
@@ -31,7 +34,13 @@ $passwd = post_str("passwd", true);
 if ($email_addr && $passwd) {
     $user = lookup_user_email_addr($email_addr);
     if (!$user) {
-        error_page("No account found with email address $email_addr");
+        page_head("No such account");
+        echo "No account with email address <b>$email_addr</b> exists.
+            Please try again.
+        ";
+        print_login_form_aux($next_url, null);
+        page_tail();
+        exit;
     }
 	if (substr($user->authenticator, 0, 1) == 'x'){
 		//User has been bad so we are going to take away ability to post for awhile.
@@ -39,25 +48,13 @@ if ($email_addr && $passwd) {
 	}
     $passwd_hash = md5($passwd.$email_addr);
     if ($passwd_hash != $user->passwd_hash) {
-        page_head("Login failed");
-        echo "Login failed: Wrong password for $email_addr.
-            <br>Use your browser's Back button to try again.
-            <p>
-            If you've forgotten your password, you can either
-            <ul>
-            <li> <a href=edit_passwd_form.php>Change your password</a>
-                (requires account key).
-                <p>
-                or
-            <li> <a href=get_passwd.php>Have your account key emailed to you</a>.
-            </ul>
-        ";
+        page_head("Password incorrect");
+        echo "The password you entered is incorrect. Please try again.\n";
+        print_login_form_aux($next_url, null, $email_addr);
         page_tail();
-        exit();
+        exit;
     }
     $authenticator = $user->authenticator;
-    $next_url = $_POST["next_url"];
-    if (strlen($next_url) == 0) $next_url = "home.php";
     Header("Location: $next_url");
     $perm = $_POST['stay_logged_in'];
     send_cookie('auth', $authenticator, $perm);
@@ -115,11 +112,11 @@ if (substr($user->authenticator, 0, 1) == 'x'){
 $user = lookup_user_auth($authenticator);
 if (!$user) {
     page_head("Login failed");
-    echo "No such account.";
+    echo "There is no account with that authenticator.
+        Please <a href=get_passwd.php>try again</a>.
+    ";
     page_tail();
 } else {
-    $next_url = $_POST["next_url"];
-    if (strlen($next_url) == 0) $next_url = "home.php";
     Header("Location: $next_url");
     $perm = $_POST['stay_logged_in'];
     send_cookie('auth', $authenticator, $perm);

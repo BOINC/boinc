@@ -9047,3 +9047,22 @@ Rom    3 Nov 2008
         
     clientgui/
         AsyncRPC.cpp
+
+David  3 Nov 2008
+    - web: smooth things out a bit for confused users:
+        - add a "forgot email address?" link
+        - change text to say that the authenticator method can be used
+            in case of forgotten email OR forgotten password
+        - if bad password on login, show them the login form again
+            (with email field populated)
+            instead of a harsh failure message
+        - if bad email on login, show login form again instead of harsh message
+        - update authenticator method instructions
+            with new BOINC data directory paths
+
+    html/
+        inc/
+            util.inc
+        user/
+            get_passwd.php
+            login_action.php

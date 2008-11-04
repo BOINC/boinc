@@ -369,14 +369,14 @@ function check_tokens($auth) {
 }
 
 if (!function_exists("print_login_form_aux")){
-function print_login_form_aux($next_url, $user) {
+function print_login_form_aux($next_url, $user, $email_addr="") {
     echo "
         <form name=\"f\" method=\"post\" action=\"login_action.php\">
         <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
     ";
     start_table();
-    row2("Email address:", '<input name="email_addr" size="40" tabindex="1">');
-    row2("Password:<br><span class=note><a href=get_passwd.php>Forgot password?</a></span>",
+    row2("Email address:<br><span class=note><a href=get_passwd.php>forgot email address?</a></span>", "<input name=email_addr size=40 tabindex=1 value=\"$email_addr\">");
+    row2("Password:<br><span class=note><a href=get_passwd.php>forgot password?</a></span>",
         '<input type="password" name="passwd" size="40" tabindex="2">'
     );
     row2("Stay logged in on this computer",
