@@ -9170,3 +9170,11 @@ David  4 Nov 2008
         Makefile.am
     sched/
         handle_request.cpp
+
+Rom    4 Nov 2008
+    - MGR: Give the option to shutdown the CC even if the manager
+        didn't launch it.  This only applies to when the manager
+        and client are on the same machine.
+        
+    clientgui/
+        BOINCGUIApp.cpp

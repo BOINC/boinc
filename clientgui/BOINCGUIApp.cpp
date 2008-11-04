@@ -826,6 +826,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
 int CBOINCGUIApp::ConfirmExit() {
     CSkinAdvanced*  pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CMainDocument*  pDoc = wxGetApp().GetDocument();
+    wxString        strConnectedCompter = wxEmptyString;
     bool            bWasVisible;
     int             retval = 0;
 
@@ -834,11 +835,20 @@ int CBOINCGUIApp::ConfirmExit() {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     
-    if (!(pDoc->m_pClientManager->WasBOINCStartedByManager()))
-        return 1;   // Don't display dialog if exiting manager won't shut down client or its tasks
-        
-    if (m_iShutdownCoreClient && !m_iDisplayExitDialog)
+    // If we are connected to the local core client and the manager is exiting
+    //   give the user the option to shutdown the core client, even if the
+    //   manager didn't launch the core client anyway.
+    if (!pDoc->m_pClientManager->WasBOINCStartedByManager()) {
+        pDoc->GetConnectedComputerName(strConnectedCompter);
+        if (!pDoc->IsComputerNameLocal(strConnectedCompter)) {
+            // Don't shutdown remote clients
+            return 1;
+        }
+    }
+
+    if (m_iShutdownCoreClient && !m_iDisplayExitDialog) {
         return 1;   // User doesn't want to display the dialog and wants to shutdown the client.
+    }
 
 #ifdef __WXMAC__
     // Don't run confirmation dialog if logging out or shutting down
