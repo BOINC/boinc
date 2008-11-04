@@ -52,7 +52,7 @@ boinc_gui_SOURCES = \
     DlgAbout.cpp 		\
     DlgAdvPreferences.cpp \
     DlgAdvPreferencesBase.cpp \
-    DlgDlgExitMessage.cpp \
+    DlgExitMessage.cpp \
     DlgGenericMessage.cpp \
     DlgItemProperties.cpp \
     DlgOptions.cpp \

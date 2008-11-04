@@ -759,7 +759,7 @@ int send_result_abort( SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             ); 
             // send user message 
             char buf[256];
-            sprintf(buf, "Result %s is no longer usable\n", orp.name.c_str());
+            sprintf(buf, "Result %s is no longer usable", orp.name.c_str());
             USER_MESSAGE um(buf, "high");
             reply.insert_message(um);
         } else if (orp.abort_if_not_started) {

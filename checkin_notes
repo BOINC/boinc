@@ -9161,3 +9161,12 @@ Rom    4 Nov 2008
     
     clientgui/
         Makefile.am
+
+David  4 Nov 2008
+    - fix makefile typo
+    - fix scheduler error (can't end with \n)
+
+    clientgui/
+        Makefile.am
+    sched/
+        handle_request.cpp
