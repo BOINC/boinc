@@ -9115,6 +9115,10 @@ Rom    4 Nov 2008
 Charlie 4 Nov 2008
     - MGR: Fix Simple_GUI help button URL.
     - Mac: Add new source files DlgExitMessage.cpp,.h to XCode project.
+    - MGR: On non-Mac and Non-Windows systems, have RPC thread call 
+        nanosleep() for 1 microsecond instead of wxThread::Yield(), 
+        because some Linux systems may not support POSIX sched_yield(), 
+        in which case wxThread::Yield() returns immediately.
     
     clientgui/
         sg_ProjectsComponent.cpp

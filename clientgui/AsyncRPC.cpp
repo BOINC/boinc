@@ -125,8 +125,13 @@ void *RPCThread::Entry() {
         if (!m_pDoc->GetCurrentRPCRequest()->isActive) {
 #ifdef __WXMSW__       // Until we can suspend the thread without Deadlock on Windows
             Sleep(1);
-#else
+#elif defined(__WXMAC__
             Yield();
+#else
+            // Some Linux systems may not support POSIX sched_yield(), 
+            // in  which case wxThread::Yield() returns immediately.
+            timespec ts = {0, 1};    /// 1 microsecond
+            nanosleep(&ts, NULL);       /// 1 microsecond or less 
 #endif
             continue;
         }
