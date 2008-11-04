@@ -9155,3 +9155,9 @@ Rom    4 Nov 2008
         
     clientgui/
         DlgOptions.cpp
+
+Rom    4 Nov 2008
+    - MGR: Add DlgExitMessage.cpp to Makefile.am.
+    
+    clientgui/
+        Makefile.am
