@@ -45,6 +45,8 @@
 #include "WizardAttachProject.h"
 #include "WizardAccountManager.h"
 #include "app_ipc.h"
+#include "version.h"
+
 
 
 IMPLEMENT_DYNAMIC_CLASS(CProjectsComponent, wxPanel)
