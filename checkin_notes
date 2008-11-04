@@ -9119,8 +9119,12 @@ Charlie 4 Nov 2008
         nanosleep() for 1 microsecond instead of wxThread::Yield(), 
         because some Linux systems may not support POSIX sched_yield(), 
         in which case wxThread::Yield() returns immediately.
+    - MGR: RPC thread: wait for connection with 1 ms delays initially, 
+        pause RPC thread after creation on non-Windows systems.
     
     clientgui/
+        AsyncRPC.cpp
+        MainDocument.cpp
         sg_ProjectsComponent.cpp
      mac_build/
         boinc.xcodeproj/

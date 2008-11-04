@@ -444,6 +444,9 @@ int CMainDocument::OnInit() {
     wxASSERT(!iRetVal);
     
     m_RPCThread->Run();
+#ifndef __WXMSW__
+    m_RPCThread->Pause();
+#endif
 
     return iRetVal;
 }

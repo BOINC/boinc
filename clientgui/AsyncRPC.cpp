@@ -121,6 +121,15 @@ void *RPCThread::Entry() {
     // check if we were asked to exit
     while(!TestDestroy()) {
 
+        if (! m_pDoc->IsConnected()) {
+#ifdef __WXMSW__
+            Sleep(1);
+#else
+            timespec ts = {0, 1000};    /// 1 millisecond
+            nanosleep(&ts, NULL);       /// 1 millisecond or less 
+#endif
+        }
+
         // Wait until CMainDocument issues next RPC request
         if (!m_pDoc->GetCurrentRPCRequest()->isActive) {
 #ifdef __WXMSW__       // Until we can suspend the thread without Deadlock on Windows
@@ -134,15 +143,6 @@ void *RPCThread::Entry() {
             nanosleep(&ts, NULL);       /// 1 microsecond or less 
 #endif
             continue;
-        }
-
-        if (! m_pDoc->IsConnected()) {
-#ifdef _WIN32
-            Sleep(1);
-#else
-            timespec ts = {0, 1000};    /// 1 millisecond
-            nanosleep(&ts, NULL);       /// 1 millisecond or less 
-#endif
         }
 
         retval = ProcessRPCRequest();
