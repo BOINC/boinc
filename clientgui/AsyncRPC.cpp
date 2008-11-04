@@ -123,12 +123,21 @@ void *RPCThread::Entry() {
 
         // Wait until CMainDocument issues next RPC request
         if (!m_pDoc->GetCurrentRPCRequest()->isActive) {
-            Sleep(100);
+#ifdef __WXMSW__       // Until we can suspend the thread without Deadlock on Windows
+            Sleep(1);
+#else
+            Yield();
+#endif
             continue;
         }
 
-        if (!m_pDoc->IsConnected()) {
-            Sleep(100);
+        if (! m_pDoc->IsConnected()) {
+#ifdef _WIN32
+            Sleep(1);
+#else
+            timespec ts = {0, 1000};    /// 1 millisecond
+            nanosleep(&ts, NULL);       /// 1 millisecond or less 
+#endif
         }
 
         retval = ProcessRPCRequest();
@@ -584,6 +593,17 @@ void CMainDocument::HandleCompletedRPC() {
     // called from RequestRPC, the CRPCFinishedEvent will still be 
     // on the event queue, so we get called twice.  Check for this here.
     if (current_rpc_request.which_rpc == 0) return; // already handled by a call from RequestRPC
+#ifndef __WXMSW__       // Deadlocks on Windows
+    m_RPCThread->Pause();
+    // Pause() does not take effect until the RPC thread calls TestDestroy()
+    // We must wait for that to happen to avoid  a possible race condition.
+    do {
+        // TODO: is there a way for main UNIX thread to yield wih no minimum delay?
+        timespec ts = {0, 1};   /// 1 nanosecond
+        nanosleep(&ts, NULL);   /// 1 nanosecond or less 
+    } while (!m_RPCThread->IsPaused());
+
+#endif
 
     // Find our completed request in the queue
     n = RPC_requests.size();
@@ -808,13 +828,6 @@ void CMainDocument::HandleCompletedRPC() {
 #ifndef __WXMSW__       // Deadlocks on Windows
         if (m_RPCThread->IsPaused()) {
             m_RPCThread->Resume();
-        }
-    } else {
-        m_RPCThread->Pause();
-        while (!m_RPCThread->IsPaused()) {
-            // TODO: is there a way for main UNIX thread to yield wih no minimum delay?
-            timespec ts = {0, 1};   /// 1 nanosecond
-            nanosleep(&ts, NULL);   /// 1 nanosecond or less 
         }
 #endif  // ! __WXMSW__       // Deadlocks on Windows
     }
