@@ -9080,3 +9080,19 @@ Charlie 3 Nov 2008
         
     clientgui/
         AsyncRPC.cpp
+
+Rom    4 Nov 2008
+    - MGR: Create an Exit dialog for the Manager.
+    - MGR: Allow the manager to shutdown the CC even when it was installed as
+        a daemon.
+    - MGR: Code cleanup.
+
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.cpp
+        BOINCClientManager.cpp
+        BOINCGUIApp.cpp, .h
+        DlgExitMessage.cpp, .h (Added)
+        SkinManager.cpp
+    win_build/
+        boincmgr_curl.vcproj

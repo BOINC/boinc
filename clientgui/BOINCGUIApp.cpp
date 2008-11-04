@@ -49,7 +49,8 @@
 #include "sg_ImageLoader.h"
 #include "sg_StatImageLoader.h"
 #include "sg_BoincSimpleGUI.h"
-#include "DlgGenericMessage.h"
+#include "DlgExitMessage.h"
+
 
 #ifdef __WXMSW__
 EXTERN_C BOOL  ClientLibraryStartup();
@@ -151,6 +152,8 @@ bool CBOINCGUIApp::OnInit() {
     m_strDefaultWindowStation = wxEmptyString;
     m_strDefaultDesktop = wxEmptyString;
     m_strDefaultDisplay = wxEmptyString;
+    m_iShutdownCoreClient = 0;
+    m_iDisplayExitDialog = 1;
     m_iGUISelected = BOINC_SIMPLEGUI;
     m_bSafeMessageBoxDisplayed = 0;
 #ifdef __WXMSW__
@@ -159,8 +162,10 @@ bool CBOINCGUIApp::OnInit() {
 
     // Initialize local variables
     int      iErrorCode = 0;
+    int      iSelectedLanguage = 0;
+    wxString strDesiredSkinName = wxEmptyString;
     wxString strDialogMessage = wxEmptyString;
-    bool success = false;
+    bool     success = false;
 
 
     // Commandline parsing is done in wxApp::OnInit()
@@ -296,8 +301,6 @@ bool CBOINCGUIApp::OnInit() {
     m_pLocale = new wxLocale();
     wxASSERT(m_pLocale);
 
-    wxInt32 iSelectedLanguage = m_pConfig->Read(wxT("Language"), 0L);
-
 
     // Look for the localization files by absolute and relative locations.
     //   preference given to the absolute location.
@@ -322,9 +325,19 @@ bool CBOINCGUIApp::OnInit() {
     m_pSkinManager = new CSkinManager();
     wxASSERT(m_pSkinManager);
 
+
+    // Restore Application State
+    m_pConfig->Read(wxT("AutomaticallyShutdownClient"), &m_iShutdownCoreClient, 1L);
+    m_pConfig->Read(wxT("DisplayShutdownClientDialog"), &m_iDisplayExitDialog, 1L);
+    m_pConfig->Read(wxT("Language"), &iSelectedLanguage, 0L);
+    m_pConfig->Read(wxT("Skin"), &strDesiredSkinName, m_pSkinManager->GetDefaultSkinName());
+    m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
+
+
+    // Load desired manager skin
     m_pSkinManager->ReloadSkin(
         m_pLocale, 
-        m_pConfig->Read(wxT("Skin"), m_pSkinManager->GetDefaultSkinName())
+        strDesiredSkinName
     );
 
 
@@ -355,10 +368,6 @@ bool CBOINCGUIApp::OnInit() {
     wxASSERT(m_pDocument);
 
     m_pDocument->OnInit();
-
-
-    // Which GUI should be displayed?
-    m_iGUISelected = m_pConfig->Read(wxT("GUISelection"), BOINC_SIMPLEGUI);
 
 
     // Is there a condition in which the Simple GUI should not be used?
@@ -475,6 +484,10 @@ int CBOINCGUIApp::OnExit() {
     if (m_pLocale) {
         delete m_pLocale;
     }
+
+    // Save Application State
+    m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
+    m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
 
     diagnostics_finish();
 
@@ -800,19 +813,19 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
 int CBOINCGUIApp::ConfirmExit() {
     CSkinAdvanced*  pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CMainDocument*  pDoc = wxGetApp().GetDocument();
-    wxString        strTitle;
     bool            bWasVisible;
+    int             retval = 0;
 
     wxASSERT(pDoc);
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     
-    if (! (pDoc->m_pClientManager->WasBOINCStartedByManager()))
-        return 1;   // Don't run dialog if exiting manager won't shut down Client or its tasks
+    if (!(pDoc->m_pClientManager->WasBOINCStartedByManager()))
+        return 1;   // Don't display dialog if exiting manager won't shut down client or its tasks
         
-    if (!m_iDisplayExitWarning)
-        return 1;
+    if (m_iShutdownCoreClient && !m_iDisplayExitDialog)
+        return 1;   // User doesn't want to display the dialog and wants to shutdown the client.
 
     // Don't run confirmation dialog if logging out or shutting down
     if (s_bSkipExitConfirmation)
@@ -821,31 +834,30 @@ int CBOINCGUIApp::ConfirmExit() {
     bWasVisible = IsApplicationVisible();
     ShowApplication(true);
 
-    strTitle.Printf(
-        _("%s - Exit Confirmation"), 
-        pSkinAdvanced->GetApplicationName().c_str()
-    );
+    CDlgExitMessage dlg(NULL);
 
-    CDlgGenericMessage dlg(NULL);
+    if (!pSkinAdvanced->GetExitMessage().IsEmpty()) {
+        dlg.m_DialogExitMessage->SetLabel(pSkinAdvanced->GetExitMessage());
+    }
 
-    dlg.SetTitle(strTitle);
-    dlg.m_DialogMessage->SetLabel(pSkinAdvanced->GetExitMessage());
+    dlg.m_DialogShutdownCoreClient->SetValue(1 == m_iShutdownCoreClient);
+    dlg.m_DialogDisplay->SetValue(1 == m_iDisplayExitDialog);
     dlg.Fit();
     dlg.Centre();
 
     if (wxID_OK == dlg.ShowModal()) {
-        if (dlg.m_DialogDisableMessage->GetValue()) {
-            m_iDisplayExitWarning = 0;
-        }
+        m_iShutdownCoreClient = dlg.m_DialogShutdownCoreClient->GetValue();
+        m_iDisplayExitDialog = dlg.m_DialogDisplay->GetValue();
+        retval = m_iShutdownCoreClient;
+
         s_bSkipExitConfirmation = true;     // Don't ask twice (only affects Mac)
-        return 1;
     }
 
     if (!bWasVisible) {
         ShowApplication(false);
     }
 
-    return 0;       // User cancelled exit
+    return retval;       // User cancelled exit
 }
 
 

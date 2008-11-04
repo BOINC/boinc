@@ -3452,6 +3452,14 @@
 				Name="Dialogs"
 				>
 				<File
+					RelativePath="..\clientgui\DlgExitMessage.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgExitMessage.h"
+					>
+				</File>
+				<File
 					RelativePath="..\clientgui\DlgGenericMessage.cpp"
 					>
 				</File>

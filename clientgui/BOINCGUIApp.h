@@ -88,7 +88,8 @@ protected:
     wxString            m_strBOINCMGRDataDirectory;
     wxString            m_strBOINCArguments;
 
-    int                 m_iDisplayExitWarning;
+    int                 m_iShutdownCoreClient;
+    int                 m_iDisplayExitDialog;
 
     bool                m_bGUIVisible;
     int                 m_iGUISelected;
@@ -130,9 +131,6 @@ public:
 #endif
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
-
-    int                 GetDisplayExitWarning()     { return m_iDisplayExitWarning; }
-    void                SetDisplayExitWarning(int display) { m_iDisplayExitWarning = display; }
 
     void                FireReloadSkin();
     void                FrameClosed()               { m_pFrame = NULL; }

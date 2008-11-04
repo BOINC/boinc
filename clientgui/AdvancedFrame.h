@@ -118,8 +118,6 @@ private:
     wxNotebook*     m_pNotebook;
     CStatusBar*     m_pStatusbar;
 
-    bool            m_bDisplayShutdownClientWarning;
-
     wxString        m_strBaseTitle;
 
     bool            CreateMenu();

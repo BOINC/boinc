@@ -207,7 +207,6 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32) :
 
     // Working Variables
     m_strBaseTitle = title;
-    m_bDisplayShutdownClientWarning = true;
 
     // Initialize Application
     wxIconBundle icons;
@@ -781,9 +780,6 @@ bool CAdvancedFrame::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Write(wxT("DisplayShutdownClientWarning"), m_bDisplayShutdownClientWarning);
-
-
 #ifdef __WXMAC__
     // Reterieve and store the latest window dimensions.
     SaveWindowDimensions();
@@ -879,8 +875,6 @@ bool CAdvancedFrame::RestoreState() {
     // Restore Frame State
     //
     pConfig->SetPath(strBaseConfigLocation);
-
-    pConfig->Read(wxT("DisplayShutdownClientWarning"), &m_bDisplayShutdownClientWarning, true);
 
 #ifdef __WXMAC__
     RestoreWindowDimensions();
@@ -1235,10 +1229,6 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     dlg.Centre();
 
     if (wxID_OK == dlg.ShowModal()) {
-        if (dlg.m_DialogDisableMessage->GetValue()) {
-            m_bDisplayShutdownClientWarning = false;
-        }
-
         pDoc->CoreClientQuit();
         pDoc->ForceDisconnect();
         
