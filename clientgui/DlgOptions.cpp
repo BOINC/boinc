@@ -179,6 +179,7 @@ void CDlgOptions::CreateControls()
         m_ReminderFrequencyCtrl->SetToolTip(_("How often, in minutes, should the manager remind you of possible connection events."));
     itemFlexGridSizer6->Add(m_ReminderFrequencyCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
+#ifdef __WXMSW__
     wxStaticText* itemStaticText10 = new wxStaticText;
     itemStaticText10->Create( itemPanel4, wxID_STATIC, _("Run BOINC Manager at startup:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer6->Add(itemStaticText10, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -188,7 +189,7 @@ void CDlgOptions::CreateControls()
     if (ShowToolTips())
         m_EnableBOINCManagerAutoStartCtrl->SetToolTip(_("Launch BOINC Manager when you log on."));
     itemFlexGridSizer6->Add(m_EnableBOINCManagerAutoStartCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
+#endif
 
     itemNotebook3->AddPage(itemPanel4, _("General"));
 

@@ -9146,3 +9146,12 @@ Rom    4 Nov 2008
         BOINCGUIApp.cpp, .h
         BOINCTaskBar.cpp
         screensaver_win.cpp
+
+Rom    4 Nov 2008
+    - MGR: Don't display the 'Run BOINC at startup checkbox for
+        any platform other than Windows.  It has no effect on Mac
+        since the Mac doesn't automatically start BOINC Manager
+        with any command line arguments.
+        
+    clientgui/
+        DlgOptions.cpp
