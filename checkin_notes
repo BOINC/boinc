@@ -9111,3 +9111,9 @@ Rom    4 Nov 2008
         boinc_ss.h
         boinc_ss.rc
         screensaver_win.cpp, .h
+
+Charlie 4 Nov 2008
+    - MGR: Fix Simple_GUI help button URL.
+    
+    clientgui/
+        sg_ProjectsComponent.cpp
