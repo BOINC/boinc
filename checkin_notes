@@ -9066,3 +9066,8 @@ David  3 Nov 2008
         user/
             get_passwd.php
             login_action.php
+
+David  3 Nov 2008
+    - client: preemptability ordering was messed up
+    client/
+        cpu_sched.cpp

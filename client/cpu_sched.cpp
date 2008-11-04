@@ -700,19 +700,19 @@ static inline bool in_ordered_scheduled_results(ACTIVE_TASK* atp) {
 // return true if t1 is more preemptable than t0
 //
 static inline bool more_preemptable(ACTIVE_TASK* t0, ACTIVE_TASK* t1) {
-    if (t0->result->project->deadlines_missed && !t1->result->project->deadlines_missed) return false;
-    if (!t0->result->project->deadlines_missed && t1->result->project->deadlines_missed) return true;
+    if (t0->result->project->deadlines_missed && !t1->result->project->deadlines_missed) return true;
+    if (!t0->result->project->deadlines_missed && t1->result->project->deadlines_missed) return false;
     if (t0->result->project->deadlines_missed && t1->result->project->deadlines_missed) {
-        if (t0->result->report_deadline > t1->result->report_deadline) return true;
-        if (t0->result->report_deadline < t1->result->report_deadline) return false;
+        if (t0->result->report_deadline < t1->result->report_deadline) return true;
+        if (t0->result->report_deadline > t1->result->report_deadline) return false;
         return (t0 < t1);
     } else {
 		bool fin0 = finished_time_slice(t0);
 		bool fin1 = finished_time_slice(t1);
 		if (fin1 && !fin0) return true;
 		if (fin0 && !fin1) return false;
-        if (t0->result->report_deadline > t1->result->report_deadline) return true;
-        if (t0->result->report_deadline < t1->result->report_deadline) return false;
+        if (t0->result->report_deadline < t1->result->report_deadline) return true;
+        if (t0->result->report_deadline > t1->result->report_deadline) return false;
         return (t0 < t1);
     }
 }
@@ -740,6 +740,7 @@ void CLIENT_STATE::make_preemptable_task_list(
         preemptable_tasks.push_back(atp);
 #if 0
 		msg_printf(0, MSG_INFO, "%s: misses %d deadline %f finished %d ptr %x",
+			atp->result->name,
 			atp->result->project->deadlines_missed,
 			atp->result->report_deadline,
 			finished_time_slice(atp), atp
