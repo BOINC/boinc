@@ -127,11 +127,8 @@ void CDlgExitMessage::CreateControls()
     itemBoxSizer3->Add(itemFlexGridSizer4, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     strExitMessage.Printf(
-        _("You have requested to exit %s.  %s is the part of %s that allows you to view and manage the research applications running on your computer.\nIf you also want to stop running the research applications when you exit %s, then choose from the following options:")
-        pSkinAdvanced->GetApplicationName().c_str(),
-        pSkinAdvanced->GetApplicationName().c_str(),
-        pSkinAdvanced->GetApplicationShortName().c_str(),
-        pSkinAdvanced->GetApplicationName().c_str(),
+        _("You have requested to exit the %s.\n\nThe manager is the part of the software that allows you to view and\nmanage the research applications running on your computer.\n\nIf you also want to stop running the research applications when you\nexit the manager, then choose from the following options:"),
+        pSkinAdvanced->GetApplicationName().c_str()
     );
 
     m_DialogExitMessage = new wxStaticText;
@@ -143,13 +140,12 @@ void CDlgExitMessage::CreateControls()
 #ifndef __WXMAC__
 
     strAlwaysExitMessage.Printf(
-        _("Stop running research applications when exiting %s"),
-        pSkinAdvanced->GetApplicationName().c_str(),
-    );
+        _("Stop running research applications when exiting the manager")
+	);
 
     m_DialogShutdownCoreClient = new wxCheckBox;
     m_DialogShutdownCoreClient->Create( itemDialog1, ID_CDLGEXITMESSAGE_SHUTDOWNCORECLIENT, strAlwaysExitMessage, wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
-    m_DialogShutdownCoreClient->SetValue(true);
+    m_DialogShutdownCoreClient->SetValue(false);
     itemFlexGridSizer4->Add(m_DialogShutdownCoreClient, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 #endif

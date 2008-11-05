@@ -211,7 +211,7 @@ bool CBOINCGUIApp::OnInit() {
 
 
     // Restore Application State
-    m_pConfig->Read(wxT("AutomaticallyShutdownClient"), &m_iShutdownCoreClient, 1L);
+    m_pConfig->Read(wxT("AutomaticallyShutdownClient"), &m_iShutdownCoreClient, 0L);
     m_pConfig->Read(wxT("DisplayShutdownClientDialog"), &m_iDisplayExitDialog, 1L);
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
     m_pConfig->Read(wxT("Language"), &iSelectedLanguage, 0L);
@@ -855,9 +855,9 @@ int CBOINCGUIApp::ConfirmExit() {
         return 1;   // User doesn't want to display the dialog and wants to shutdown the client.
     }
 #else
-    if (m_iShutdownCoreClient && !m_iDisplayExitDialog) {
-        return 1;   // User doesn't want to display the dialog and wants to shutdown the client.
-    }
+    if (!m_iDisplayExitDialog) {
+		return 1;   // User doesn't want to display the dialog and just wants to use their previous value
+	}
 #endif
 
     bWasVisible = IsApplicationVisible();

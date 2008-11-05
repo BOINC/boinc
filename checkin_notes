@@ -9225,3 +9225,11 @@ Rom    5 Nov 2008
     
     clientgui/
         DlgExitMessage.cpp
+
+Rom    5 Nov 2008
+    - MGR: Revise text one more time.
+        From: Kevin Reed
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        DlgExitMessage.cpp
