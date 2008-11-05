@@ -9190,7 +9190,7 @@ Charlie 4 Nov 2008
         one RPC and exits.  Main thread creates a new RPC thread for 
         each RPC request after waiting for any previous RPC thread to 
         exit.  This simplifies the logic, eliminates Yield(), Sleep() 
-        and nanosleep() calls from RPC threadm and will hopefully 
+        and nanosleep() calls from RPC thread and will hopefully 
         eliminate exess CPU usage on Fedora.
     
     clientgui/
