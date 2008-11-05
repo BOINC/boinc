@@ -9208,3 +9208,14 @@ Charlie 5 Nov 2008
         AsyncRPC.cpp
         BOINCGUIApp.cpp, .h
         DlgExitMessage.cpp
+
+Rom    5 Nov 2008
+    - MGR: Tweak the shutdown logic so that it can still shutdown the
+        BOINC service even though it didn't start it.
+    - MGR: It BOINC Manager starts the BOINC deamon on the mac don't bother
+        trying to shut it down. (reverting to previous behaviour)
+        
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCClientManager.cpp, .h
+        BOINCTaskBar.cpp

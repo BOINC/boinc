@@ -339,7 +339,9 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 
     if (wxGetApp().ConfirmExit()) {
 
-        if (!wxGetApp().ShouldShutdownCoreClient()) {
+        if (wxGetApp().ShouldShutdownCoreClient()) {
+            pDoc->m_pClientManager->EnableBOINCStartedByManager();
+        } else {
             pDoc->m_pClientManager->DisableBOINCStartedByManager();
         }
 

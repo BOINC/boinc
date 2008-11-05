@@ -219,8 +219,6 @@ bool CBOINCClientManager::StartupBOINCCore() {
     if (IsBOINCConfiguredAsDaemon() == NewStyleDaemon) {
         system ("launchctl load /Library/LaunchDaemons/edu.berkeley.boinc.plist");
         system ("launchctl start edu.berkeley.boinc");
-
-        m_bBOINCStartedByManager = true;
         bReturnValue = IsBOINCCoreRunning();
     } else {
         
