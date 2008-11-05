@@ -9262,3 +9262,11 @@ David  5 Nov 2008
         Makefile.am
     sched/
         sched_send.cpp
+
+Rom    5 Nov 2008
+    - MGR: Only tweak the BOINC was started by us variable on
+        Windows.
+        
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCTaskBar.cpp

@@ -339,11 +339,13 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 
     if (wxGetApp().ConfirmExit()) {
 
+#ifdef __WXMSW__
         if (wxGetApp().ShouldShutdownCoreClient()) {
             pDoc->m_pClientManager->EnableBOINCStartedByManager();
         } else {
             pDoc->m_pClientManager->DisableBOINCStartedByManager();
         }
+#endif
 
         // Under wxWidgets 2.8.0, the task bar icons must be deleted for app to exit its main loop
 #ifdef __WXMAC__

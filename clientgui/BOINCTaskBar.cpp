@@ -260,11 +260,13 @@ void CTaskBarIcon::OnExit(wxCommandEvent& event) {
     if (wxGetApp().ConfirmExit()) 
 #endif
     {
+#ifdef __WXMSW__
         if (wxGetApp().ShouldShutdownCoreClient()) {
             pDoc->m_pClientManager->EnableBOINCStartedByManager();
         } else {
             pDoc->m_pClientManager->DisableBOINCStartedByManager();
         }
+#endif
 
         wxCloseEvent eventClose;
         OnClose(eventClose);
