@@ -1495,9 +1495,9 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
 
     dlg.m_LanguageSelectionCtrl->SetSelection(m_iSelectedLanguage);
     dlg.m_ReminderFrequencyCtrl->SetValue(m_iReminderFrequency);
+#ifdef __WXMSW__
     dlg.m_EnableBOINCManagerAutoStartCtrl->SetValue(!wxGetApp().GetBOINCMGRDisableAutoStart());
 
-#ifdef __WXMSW__
     // Connection Tab
     if (m_pDialupManager) {
         m_pDialupManager->GetISPNames(astrDialupConnections);
@@ -1568,9 +1568,9 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
 
         m_iSelectedLanguage = dlg.m_LanguageSelectionCtrl->GetSelection();
         m_iReminderFrequency = dlg.m_ReminderFrequencyCtrl->GetValue();
+#ifdef __WXMSW__
         wxGetApp().SetBOINCMGRDisableAutoStart(!dlg.m_EnableBOINCManagerAutoStartCtrl->GetValue());
 
-#ifdef __WXMSW__
         // Connection Tab
         m_strNetworkDialupConnectionName = dlg.GetDefaultDialupConnection();
 #endif
