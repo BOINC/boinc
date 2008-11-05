@@ -65,6 +65,7 @@ libboinc_a_SOURCES = \
     gui_rpc_client_ops.cpp \
     gui_rpc_client_print.cpp \
     hostinfo.cpp \
+	mac_address.cpp \
     md5.c \
     md5_file.cpp \
     mem_usage.cpp \
@@ -94,6 +95,7 @@ pkginclude_HEADERS = \
     filesys.h \
     gui_rpc_client.h \
     hostinfo.h \
+    mac_address.h \
     mfile.h \
     miofile.h \
     msg_log.h \

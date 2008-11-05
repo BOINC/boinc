@@ -97,7 +97,7 @@ void HOST_INFO::generate_host_cpid() {
     char buffer[8192] = "";
         // must be big enough to accommodate aa:bb:cc:dd:ee:ff
         // times the number of network interfaces,
-        // plus the domain name, plus the ip addr.
+        // plus the domain name, IP addr, and OS name.
         // 8K should suffice
 
     if (!get_mac_addresses(buffer) || ! strcmp(buffer, "")) {
@@ -106,6 +106,7 @@ void HOST_INFO::generate_host_cpid() {
     }
     strcat(buffer, domain_name);
     strcat(buffer, ip_addr);
+    strcat(buffer, os_name);
     md5_block((unsigned char*)buffer, (int)strlen(buffer), host_cpid);
 #else
     make_random_string("", host_cpid);

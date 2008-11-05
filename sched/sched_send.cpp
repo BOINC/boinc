@@ -1362,7 +1362,7 @@ void set_trust(SCHEDULER_REPLY& reply) {
         }
         return;
     }
-    double x = reply.host.error_rate/ER_MAX;
+    double x = sqrt(reply.host.error_rate/ER_MAX);
     if (drand() > x) reply.wreq.trust = true;
     if (config.debug_send) {
         log_messages.printf(MSG_DEBUG,

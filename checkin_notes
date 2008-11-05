@@ -9249,3 +9249,16 @@ David  5 Nov 2008
     win_build/
         boinc_cli_curl.vcproj
         libboinc.vcproj
+
+David  5 Nov 2008
+    - client: add OS name into the hash for host CPID
+        (for multi-OS hosts)
+    - scheduler: use sqrt(x) instead of x in stop-checking
+        for single redundancy.
+
+    client/
+        hostinfo_network.cpp
+    lib/
+        Makefile.am
+    sched/
+        sched_send.cpp
