@@ -9196,3 +9196,13 @@ Charlie 4 Nov 2008
     clientgui/
         AsyncRPC.cpp
         MainDocument.cpp, .h
+
+Charlie 5 Nov 2008
+    - MGR: Async RPCs: fix memory leaks, KillRPCThread() tries to end 
+        thread gracefully before killing it.
+    - MGR: On Mac only, remove checkbox asking whether to shutdown CC.
+    
+     clientgui/
+        AsyncRPC.cpp
+        BOINCGUIApp.cpp, .h
+        DlgExitMessage.cpp

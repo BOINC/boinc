@@ -30,6 +30,8 @@
 
 // Delay in milliseconds before showing AsyncRPCDlg
 #define RPC_WAIT_DLG_DELAY 1500
+// Delay in milliseconds to allow thread to exit before killing it
+#define RPC_KILL_DELAY 100
 
 ASYNC_RPC_REQUEST::ASYNC_RPC_REQUEST() {
     clear();
@@ -126,8 +128,6 @@ void *RPCThread::Entry() {
     current_request->isActive = false;
     wxPostEvent( wxTheApp, RPC_done_event );
     
-    // Tell CMainDocument that thread has gracefully ended 
-    m_pDoc->m_RPCThread = NULL;
     Exit();
     return NULL;
 }
@@ -407,6 +407,8 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     if (RPC_requests.size() == 1) {
         if (m_RPCThread) {
             m_RPCThread->Wait();
+            delete m_RPCThread;
+            m_RPCThread = NULL;
         }
         // We don't need critical sections because the RPC thread is 
         // joinable and the main thread calls Wait().
@@ -542,14 +544,29 @@ void CMainDocument::KillRPCThread() {
         return;
     }
 
-    current_rpc_request.isActive = false;
     m_RPCThread->Pause();   // May be needed on Windows ??
     rpcClient.close();
-    m_RPCThread->Kill();
-#ifdef __WXMSW__
-    m_RPCThread->Delete();  // My be needed on Windows, but may crash on Mac/Linux ??
+    
+#ifndef __WXMSW__
+    // Wait up to RPC_KILL_DELAY for thread to exit on its own
+    wxStopWatch threadDelay = wxStopWatch();        
+    while (threadDelay.Time() < RPC_KILL_DELAY) {
+        if (!current_rpc_request.isActive) {
+            m_RPCThread->Wait();
+            delete m_RPCThread;
+            m_RPCThread = NULL;
+        }
+    }
 #endif
-    m_RPCThread = NULL;
+    
+    if (m_RPCThread) {
+        // If thread did not exit, kill it
+        m_RPCThread->Kill();
+        delete m_RPCThread;
+        m_RPCThread = NULL;
+    }
+    
+    current_rpc_request.isActive = false;
     RPC_requests.clear();
     current_rpc_request.clear();
     m_bNeedRefresh = false;
@@ -785,13 +802,16 @@ void CMainDocument::HandleCompletedRPC() {
     
     current_rpc_request.clear();
 
+    if (m_RPCThread) {
+        m_RPCThread->Wait();
+        delete m_RPCThread;
+        m_RPCThread = NULL;
+    }
+    
     // Start the next RPC request.  
     // We can't start this until finished processing the previous RPC's 
     // event because the two requests may write into the same buffer.
     if (RPC_requests.size() > 0) {
-        if (m_RPCThread) {
-            m_RPCThread->Wait();
-        }
         // We don't need critical sections because the RPC thread is 
         // joinable and the main thread calls Wait().
 //        wxCriticalSectionLocker(this->m_critsect);    // Make sure activation is an atomic operation

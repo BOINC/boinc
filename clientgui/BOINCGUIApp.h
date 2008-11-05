@@ -130,10 +130,13 @@ public:
 #endif
 #ifdef __WXMAC__
     CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
-#endif
+    int                 ShouldShutdownCoreClient()
+                                                    { return true; }
+#else
 
     int                 ShouldShutdownCoreClient()
                                                     { return m_iShutdownCoreClient; }
+#endif
     int                 GetBOINCMGRDisableAutoStart()
                                                     { return m_iBOINCMGRDisableAutoStart; }
     void                SetBOINCMGRDisableAutoStart(int iDisableAutoStart)
