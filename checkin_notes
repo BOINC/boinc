@@ -9184,4 +9184,15 @@ Rom    4 Nov 2008
     
     clientgui/
         BOINCGUIApp.cpp
-     
+
+Charlie 4 Nov 2008
+    - MGR: Async RPCs: RPC thread is now a joinable thread which does 
+        one RPC and exits.  Main thread creates a new RPC thread for 
+        each RPC request after waiting for any previous RPC thread to 
+        exit.  This simplifies the logic, eliminates Yield(), Sleep() 
+        and nanosleep() calls from RPC threadm and will hopefully 
+        eliminate exess CPU usage on Fedora.
+    
+    clientgui/
+        AsyncRPC.cpp
+        MainDocument.cpp, .h

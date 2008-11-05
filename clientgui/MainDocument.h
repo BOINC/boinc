@@ -177,22 +177,23 @@ public:
 public:
     int                         RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority = false);
     void                        OnRPCComplete(CRPCFinishedEvent& event);
-    void                        HandleCompletedRPC();
     ASYNC_RPC_REQUEST*          GetCurrentRPCRequest() { return &current_rpc_request; }
     bool                        WaitingForRPC() { return m_bWaitingForRPC; }
     wxDialog*                   GetRPCWaitDialog() { return m_RPCWaitDlg; }
 //    void                      TestAsyncRPC();      // For testing Async RPCs
     RPCThread*                  m_RPCThread;
     wxCriticalSection           m_critsect;
-    bool                        m_bNeedRefresh;
-    bool                        m_bNeedTaskBarRefresh;
 
 private:
+    void                        HandleCompletedRPC();
+    void                        KillRPCThread();
     int                         CopyProjectsToStateFile(PROJECTS& p, CC_STATE& state);
     ASYNC_RPC_REQUEST           current_rpc_request;
     AsyncRPCDlg*                m_RPCWaitDlg;
     std::vector<ASYNC_RPC_REQUEST> RPC_requests;
     bool                        m_bWaitingForRPC;
+    bool                        m_bNeedRefresh;
+    bool                        m_bNeedTaskBarRefresh;
 
     //
     // Project Tab

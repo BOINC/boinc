@@ -431,22 +431,12 @@ int CMainDocument::OnInit() {
     m_pClientManager = new CBOINCClientManager();
     wxASSERT(m_pClientManager);
 
+    m_RPCThread = NULL;
     m_RPCWaitDlg = NULL;
     m_bWaitingForRPC = false;
     m_bNeedRefresh = false;
     m_bNeedTaskBarRefresh = false;
     current_rpc_request.clear();
-
-    m_RPCThread = new RPCThread(this);
-    wxASSERT(m_RPCThread);
-
-    iRetVal = m_RPCThread->Create();
-    wxASSERT(!iRetVal);
-    
-    m_RPCThread->Run();
-#ifndef __WXMSW__
-    m_RPCThread->Pause();
-#endif
 
     return iRetVal;
 }
@@ -466,25 +456,7 @@ int CMainDocument::OnExit() {
     }
 
     if (m_RPCThread) {
-        // Use a critical section to prevent a crash during 
-        // manager shutdown due to a rare race condition 
-#ifndef __WXMSW__
-        m_critsect.Enter();
-        m_RPCThread->Delete();
-        // On some platforms, Delete() takes effect only when thread calls TestDestroy()
-        m_RPCThread->Resume();
-        m_critsect.Leave();
-#endif        
-        wxStopWatch ThreadDeleteTimer = wxStopWatch();
-        // RPC thread sets m_RPCThread to NULL when it exits
-        while (m_RPCThread) {
-            // Allow 5 seconds for RPC thread to exit gracefully
-           if (ThreadDeleteTimer.Time() > 5000) {
-                m_RPCThread->Pause();   // Needed on Windows
-                m_RPCThread->Kill();
-                break;
-            }
-        }
+        KillRPCThread();
         m_RPCThread = NULL;
     }
     
