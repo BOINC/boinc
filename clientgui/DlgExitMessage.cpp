@@ -109,6 +109,7 @@ void CDlgExitMessage::CreateControls()
 {    
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString strExitMessage = wxEmptyString;
+    wxString strAlwaysExitMessage = wxEmptyString;
 
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
@@ -126,13 +127,12 @@ void CDlgExitMessage::CreateControls()
     itemBoxSizer3->Add(itemFlexGridSizer4, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     strExitMessage.Printf(
-        _("This will shut down %s and its tasks entirely until either the\n%s application or the %s screen saver is run again.\n\nIn most cases, it is better just to close the %s window\nrather than to exit the application; that will allow %s to run its\ntasks at the times you selected in your preferences."),
-            pSkinAdvanced->GetApplicationShortName().c_str(),
-            pSkinAdvanced->GetApplicationName().c_str(),
-            pSkinAdvanced->GetApplicationShortName().c_str(),
-            pSkinAdvanced->GetApplicationName().c_str(),
-            pSkinAdvanced->GetApplicationShortName().c_str()
-        );
+        _("You have requested to exit %s.  %s is the part of %s that allows you to view and manage the research applications running on your computer.\nIf you also want to stop running the research applications when you exit %s, then choose from the following options:")
+        pSkinAdvanced->GetApplicationName().c_str(),
+        pSkinAdvanced->GetApplicationName().c_str(),
+        pSkinAdvanced->GetApplicationShortName().c_str(),
+        pSkinAdvanced->GetApplicationName().c_str(),
+    );
 
     m_DialogExitMessage = new wxStaticText;
     m_DialogExitMessage->Create( itemDialog1, wxID_STATIC, strExitMessage, wxDefaultPosition, wxDefaultSize, 0);
@@ -141,21 +141,21 @@ void CDlgExitMessage::CreateControls()
     itemFlexGridSizer4->Add(5, 5, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 #ifndef __WXMAC__
-    m_DialogShutdownCoreClient = new wxCheckBox;
-    m_DialogShutdownCoreClient->Create(
-        itemDialog1,
-        ID_CDLGEXITMESSAGE_SHUTDOWNCORECLIENT,
-        _("Always exit both BOINC Manager and BOINC."),
-        wxDefaultPosition,
-        wxDefaultSize,
-        wxCHK_2STATE
+
+    strAlwaysExitMessage.Printf(
+        _("Stop running research applications when exiting %s"),
+        pSkinAdvanced->GetApplicationName().c_str(),
     );
+
+    m_DialogShutdownCoreClient = new wxCheckBox;
+    m_DialogShutdownCoreClient->Create( itemDialog1, ID_CDLGEXITMESSAGE_SHUTDOWNCORECLIENT, strAlwaysExitMessage, wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
     m_DialogShutdownCoreClient->SetValue(true);
     itemFlexGridSizer4->Add(m_DialogShutdownCoreClient, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
 #endif
 
     m_DialogDisplay = new wxCheckBox;
-    m_DialogDisplay->Create( itemDialog1, ID_CDLGEXITMESSAGE_DISPLAY, _("Don't show this dialog again."), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
+    m_DialogDisplay->Create( itemDialog1, ID_CDLGEXITMESSAGE_DISPLAY, _("Remember this decision and do not show this dialog."), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
     m_DialogDisplay->SetValue(false);
     itemFlexGridSizer4->Add(m_DialogDisplay, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 

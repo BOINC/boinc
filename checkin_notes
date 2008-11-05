@@ -9219,3 +9219,9 @@ Rom    5 Nov 2008
         BOINCBaseFrame.cpp
         BOINCClientManager.cpp, .h
         BOINCTaskBar.cpp
+
+Rom    5 Nov 2008
+    - MGR: revise exit dialog text, use the names in the skin file.
+    
+    clientgui/
+        DlgExitMessage.cpp
