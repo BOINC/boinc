@@ -47,9 +47,11 @@
 
 #include "str_util.h"
 #include "parse.h"
+#include "util.h"
 #include "file_names.h"
 #include "client_msgs.h"
 #include "error_numbers.h"
+#include "mac_address.h"
 
 #include "hostinfo.h"
 
@@ -75,5 +77,40 @@ int HOST_INFO::get_local_network_info() {
     strlcpy(ip_addr, inet_ntoa(addr), sizeof(ip_addr));
     return 0;
 }
+
+// make a random string using host info.
+// Not recommended for password generation;
+// use as a last resort if more secure methods fail
+//
+void HOST_INFO::make_random_string(const char* salt, char* out) {
+    char buf[1024];
+
+    sprintf(buf, "%f%s%s%f%s", dtime(), domain_name, ip_addr, d_free, salt);
+    md5_block((const unsigned char*) buf, (int)strlen(buf), out);
+}
+
+// make a host cross-project ID.
+// Should be unique across hosts with very high probability
+//
+void HOST_INFO::generate_host_cpid() {
+#if defined(__linux__) || defined(_WIN32) || defined(__APPLE__ )
+    char buffer[8192] = "";
+        // must be big enough to accommodate aa:bb:cc:dd:ee:ff
+        // times the number of network interfaces,
+        // plus the domain name, plus the ip addr.
+        // 8K should suffice
+
+    if (!get_mac_addresses(buffer) || ! strcmp(buffer, "")) {
+        make_random_string("", host_cpid);
+        return;
+    }
+    strcat(buffer, domain_name);
+    strcat(buffer, ip_addr);
+    md5_block((unsigned char*)buffer, (int)strlen(buffer), host_cpid);
+#else
+    make_random_string("", host_cpid);
+#endif
+}
+
 
 const char *BOINC_RCSID_9275b20aa5 = "$Id$";

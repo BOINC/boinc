@@ -964,6 +964,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\mac_address.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\md5.c"
 				>
 			</File>
@@ -1295,6 +1299,10 @@
 			</File>
 			<File
 				RelativePath="..\lib\hostinfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\mac_address.h"
 				>
 			</File>
 			<File

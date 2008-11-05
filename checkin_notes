@@ -9233,3 +9233,19 @@ Rom    5 Nov 2008
     clientgui/
         BOINCGUIApp.cpp
         DlgExitMessage.cpp
+
+David  5 Nov 2008
+    - client: make host CPID a function of:
+        MAC addresses + hostname + IP addr
+        This means that a given host will generally always get the same CPID.
+        Helpful e.g. on grids where the client gets installed repeatedly.
+        From Artyom Sharov.
+
+    client/
+        hostinfo_network.cpp
+    lib/
+        hostinfo.cpp
+        mac_address.cpp,h
+    win_build/
+        boinc_cli_curl.vcproj
+        libboinc.vcproj
