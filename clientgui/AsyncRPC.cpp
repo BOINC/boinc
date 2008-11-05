@@ -125,8 +125,8 @@ void *RPCThread::Entry() {
 #ifdef __WXMSW__
             Sleep(1);
 #else
-            timespec ts = {0, 1000};    /// 1 millisecond
-            nanosleep(&ts, NULL);       /// 1 millisecond or less 
+            timespec ts = {0, 1000000};    /// 1 imllisecond
+            nanosleep(&ts, NULL);       /// 1 imllisecond or less 
 #endif
         }
 
@@ -139,8 +139,8 @@ void *RPCThread::Entry() {
 #else
             // Some Linux systems may not support POSIX sched_yield(), 
             // in  which case wxThread::Yield() returns immediately.
-            timespec ts = {0, 1};    /// 1 microsecond
-            nanosleep(&ts, NULL);       /// 1 microsecond or less 
+            timespec ts = {0, 1};    /// 1 nanosecond
+            nanosleep(&ts, NULL);       /// 1 nanosecond or less 
 #endif
             continue;
         }
