@@ -1005,9 +1005,11 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
         return false;
     }
     
+#ifdef __WXMSW__
     if (theEventType == wxEVT_TASKBAR_MOVE) {
         return false;
     }
+#endif
    
     return -1;
 #else

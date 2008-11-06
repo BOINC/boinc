@@ -9274,9 +9274,11 @@ Rom    5 Nov 2008
 Charlie 4 Nov 2008
     - Mac: Add new source files mac_address.cpp,.h to XCode project.
     - MGR: Fix compiler warnings on non-Windows builds.
+    - MGR: Filter wxEVT_TASKBAR_MOVE events only on Windows.
     
     clientgui/
         BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp
         BOINCTaskBar.cpp
      mac_build/
         boinc.xcodeproj/
