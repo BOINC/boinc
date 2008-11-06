@@ -251,16 +251,16 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
 void CTaskBarIcon::OnExit(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnExit - Function Begin"));
 
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
 #ifndef __WXMAC__
     if (wxGetApp().ConfirmExit()) 
 #endif
     {
 #ifdef __WXMSW__
+        CMainDocument* pDoc = wxGetApp().GetDocument();
+
+        wxASSERT(pDoc);
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
         if (wxGetApp().ShouldShutdownCoreClient()) {
             pDoc->m_pClientManager->EnableBOINCStartedByManager();
         } else {

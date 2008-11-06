@@ -332,14 +332,14 @@ void CBOINCBaseFrame::OnCloseWindow(wxCommandEvent& WXUNUSED(event)) {
 void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExit - Function Begin"));
 
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
     if (wxGetApp().ConfirmExit()) {
 
 #ifdef __WXMSW__
+        CMainDocument* pDoc = wxGetApp().GetDocument();
+
+        wxASSERT(pDoc);
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
         if (wxGetApp().ShouldShutdownCoreClient()) {
             pDoc->m_pClientManager->EnableBOINCStartedByManager();
         } else {

@@ -9270,3 +9270,14 @@ Rom    5 Nov 2008
     clientgui/
         BOINCBaseFrame.cpp
         BOINCTaskBar.cpp
+
+Charlie 4 Nov 2008
+    - Mac: Add new source files mac_address.cpp,.h to XCode project.
+    - MGR: Fix compiler warnings on non-Windows builds.
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCTaskBar.cpp
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
