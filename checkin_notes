@@ -9297,3 +9297,10 @@ David  6 Nov
         handle_request.cpp
     zip/
         boinc_zip.cpp
+
+Charlie 7 Nov 2008
+    - MGR: On Mac, restore using original exit dialog text from skin file 
+        or use old default if none in skin file.
+
+    clientgui/
+        SkinManager.cpp
