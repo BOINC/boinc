@@ -20,6 +20,10 @@ if test "X$with_apple_opengl_framework" = "Xyes"; then
 else
   AC_LANG_PUSH(C)
 
+  if test x$prefix = xNONE ; then
+    prefix=$ac_default_prefix
+  fi
+
   AX_LANG_COMPILER_MS
   if test X$ax_compiler_ms = Xno; then
     GL_CFLAGS="${PTHREAD_CFLAGS}"
@@ -32,10 +36,10 @@ else
   #
   if test "X$no_x" != "Xyes"; then
     if test -n "$x_includes"; then
-      GL_CFLAGS="-I${x_includes} ${GL_CFLAGS}"
+      GL_CFLAGS="-I${x_includes} -I${prefix}/include ${GL_CFLAGS}"
     fi
     if test -n "$x_libraries"; then
-      GL_LIBS="-L${x_libraries} -lX11 ${GL_LIBS}"
+      GL_LIBS="-L${x_libraries} -L${prefix}/lib -lX11 ${GL_LIBS}"
     fi
   fi
 
