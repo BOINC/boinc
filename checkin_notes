@@ -9271,7 +9271,7 @@ Rom    5 Nov 2008
         BOINCBaseFrame.cpp
         BOINCTaskBar.cpp
 
-Charlie 4 Nov 2008
+Charlie 5 Nov 2008
     - Mac: Add new source files mac_address.cpp,.h to XCode project.
     - MGR: Fix compiler warnings on non-Windows builds.
     - MGR: Filter wxEVT_TASKBAR_MOVE events only on Windows.
@@ -9283,3 +9283,17 @@ Charlie 4 Nov 2008
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  6 Nov
+    - API: remove debugging printf from trickly down code
+    - API: use non-verbose option to zip
+    - scheduler: if multiple_client_per_host is set,
+        don't mark results as over if get repeat CPID
+
+    api/
+        boinc_api.C
+    sched/
+        sched_send.cpp
+        handle_request.cpp
+    zip/
+        boinc_zip.cpp

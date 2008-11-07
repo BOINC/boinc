@@ -1079,7 +1079,8 @@ int add_result_to_reply(
         } else {
             DB_WORKUNIT dbwu;
             char buf[256];
-            sprintf(buf, "target_nresults=%d, min_quorum=%d, transition_time=%ld",
+            sprintf(buf,
+                "target_nresults=%d, min_quorum=%d, transition_time=%ld",
                 app->target_nresults, app->target_nresults, time(0)
             );
             dbwu.id = wu.id;

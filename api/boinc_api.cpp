@@ -1088,7 +1088,6 @@ int boinc_receive_trickle_down(char* buf, int len) {
         relative_to_absolute("", path);
         DirScanner dirscan(path);
         while (dirscan.scan(filename)) {
-            fprintf(stderr, "scan: %s\n", filename.c_str());
             if (strstr(filename.c_str(), "trickle_down")) {
                 strncpy(buf, filename.c_str(), len);
                 return true;
