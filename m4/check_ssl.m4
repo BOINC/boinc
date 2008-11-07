@@ -7,7 +7,7 @@ AC_ARG_WITH(ssl,
        [Use openssl (in specified installation directory)]),
     [check_ssl_dir="$withval"],
     [check_ssl_dir=])
-for dir in $check_ssl_dir /usr/local/ssl /usr/lib/ssl /usr/ssl /usr/pkg /usr/local /usr; do
+for dir in $check_ssl_dir ${prefix} /usr/local/ssl /usr/lib/ssl /usr/ssl /usr/pkg /usr/local /usr; do
    ssldir="$dir"
    if test -f "$dir/include/openssl/ssl.h"; then
      found_ssl="yes";
