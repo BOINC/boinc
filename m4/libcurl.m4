@@ -96,6 +96,14 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
               LIBCURL_CPPFLAGS=`$_libcurl_config --cflags`
            fi
            if test x"$LIBCURL" = "x" ; then
+	      if test "x${disable_static_linkage}" = "xno" ; then
+	        if $_libcurl_config --static-libs 2>&1 > /dev/null ; then
+	          LIBCURL="`$_libcurl_config --static-libs` -lgcrypt"
+                fi
+	      fi
+	   fi
+
+           if test x"$LIBCURL" = "x" ; then
               LIBCURL=`$_libcurl_config --libs`
 
               # This is so silly, but Apple actually has a bug in their
@@ -183,6 +191,12 @@ x=CURLOPT_VERBOSE;
 	      AC_DEFINE_UNQUOTED(AS_TR_CPP(libcurl_feature_$_libcurl_feature),[1])
 	      eval AS_TR_SH(libcurl_feature_$_libcurl_feature)=yes
            done
+
+	   if test x$libcurl_feature_SSL = xyes ; then
+	      LIBCURL_CABUNDLE=`$_libcurl_config --ca 2>/dev/null`
+              AC_DEFINE_UNQUOTED(LIBCURL_CABUNDLE,"${LIBCURL_CABUNDLE}",[Define to the name of libcurl's certification file])
+           fi
+
 
 	   if test "x$_libcurl_protocols" = "x" ; then
 
