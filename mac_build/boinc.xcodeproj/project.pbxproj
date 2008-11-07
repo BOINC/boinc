@@ -230,6 +230,8 @@
 		DDA6BD290BD4551F008F7921 /* QMachOImageList.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD0C0BD4551F008F7921 /* QMachOImageList.c */; };
 		DDA6BD2B0BD4551F008F7921 /* QSymbols.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD0E0BD4551F008F7921 /* QSymbols.c */; };
 		DDA6BD2D0BD4551F008F7921 /* QTaskMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD100BD4551F008F7921 /* QTaskMemory.c */; };
+		DDAD31D80EC26B14002DA09D /* mac_address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAD31D60EC26B14002DA09D /* mac_address.cpp */; };
+		DDAD31D90EC26B14002DA09D /* mac_address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAD31D60EC26B14002DA09D /* mac_address.cpp */; };
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.cpp */; };
 		DDB693500ABFE9C600689FD8 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
 		DDB6E3EF0D5B27AA00ED12B8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
@@ -790,6 +792,8 @@
 		DDA6BD110BD4551F008F7921 /* QTaskMemory.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QTaskMemory.h; path = ../lib/mac/QTaskMemory.h; sourceTree = SOURCE_ROOT; };
 		DDA90F260B64673D008F2E87 /* libwx_mac_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_mac_static.a; path = "../../wxMac-2.8.7/src/build/Deployment/libwx_mac_static.a"; sourceTree = SOURCE_ROOT; };
 		DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mac_GUI.cpp; path = ../clientgui/mac/Mac_GUI.cpp; sourceTree = SOURCE_ROOT; };
+		DDAD31D60EC26B14002DA09D /* mac_address.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_address.cpp; path = ../lib/mac_address.cpp; sourceTree = SOURCE_ROOT; };
+		DDAD31D70EC26B14002DA09D /* mac_address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mac_address.h; path = ../lib/mac_address.h; sourceTree = SOURCE_ROOT; };
 		DDAEC9E107FA583B00A7BC36 /* SetVersion */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SetVersion; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDAEC9E707FA58A000A7BC36 /* SetVersion.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SetVersion.cpp; path = ../clientgui/mac/SetVersion.cpp; sourceTree = SOURCE_ROOT; };
 		DDB506F80958446900181B75 /* ProxyInfoPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ProxyInfoPage.cpp; path = ../clientgui/ProxyInfoPage.cpp; sourceTree = SOURCE_ROOT; };
@@ -1389,6 +1393,8 @@
 				DD344BB607C5AEEE0043025C /* hostinfo.cpp */,
 				DD344BB707C5AEEE0043025C /* hostinfo.h */,
 				DDA6BCED0BD4546D008F7921 /* mac */,
+				DDAD31D60EC26B14002DA09D /* mac_address.cpp */,
+				DDAD31D70EC26B14002DA09D /* mac_address.h */,
 				F5159562029EB02001F5651B /* md5.c */,
 				F5159563029EB02001F5651B /* md5.h */,
 				F5159564029EB02001F5651B /* md5_file.cpp */,
@@ -2348,6 +2354,7 @@
 				DDA6BD1F0BD4551F008F7921 /* QTaskMemory.c in Sources */,
 				DD7475510D86273300860636 /* coproc.cpp in Sources */,
 				DD6802300E701ACD0067D009 /* cert_sig.cpp in Sources */,
+				DDAD31D80EC26B14002DA09D /* mac_address.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2533,6 +2540,7 @@
 				DDE3A8810E90D21A00A363A7 /* sandbox.cpp in Sources */,
 				DDE3A8850E90D23400A363A7 /* scheduler_op.cpp in Sources */,
 				DD9AB0340EB7D5DE00AF1616 /* rr_sim.cpp in Sources */,
+				DDAD31D90EC26B14002DA09D /* mac_address.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
