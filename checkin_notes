@@ -9310,3 +9310,12 @@ David  7 Nov 2008
 
 	clientgui/
 		DlgExitMessage.cpp
+
+David  7 Nov 2008
+    - accelerate dup_element_contents()
+    - manager: truncate task progress bar (display) at 100%
+
+    clientgui/
+        ViewWork.cpp
+    lib/
+        parse.cpp

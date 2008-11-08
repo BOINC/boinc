@@ -150,18 +150,27 @@ int strcatdup(char*& p, char* buf) {
 // Does NOT copy the start and end tags.
 //
 int dup_element_contents(FILE* in, const char* end_tag, char** pp) {
-    char buf[256];
-    int retval;
+    char line[256];
+    int bufsize = 4000000;
+    int nused=0;        // not counting ending NULL
+    char* buf = (char*)malloc(bufsize);
 
-    char* p = strdup("");
-    while (fgets(buf, 256, in)) {
-        if (strstr(buf, end_tag)) {
-            *pp = p;
+    while (fgets(line, 256, in)) {
+        if (strstr(line, end_tag)) {
+            *pp = (char*)malloc(nused+1);
+            strcpy(*pp, buf);
+            free(buf);
             return 0;
         }
-        retval = strcatdup(p, buf);
-        if (retval) return retval;
+        int n = strlen(line);
+        if (nused + n >= bufsize) {
+            bufsize *= 2;
+            buf = (char*)realloc(buf, bufsize);
+        }
+        strcpy(buf+nused, line);
+        nused += n;
     }
+    free(buf);
     return ERR_XML_PARSE;
 }
 

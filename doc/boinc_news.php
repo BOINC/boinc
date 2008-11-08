@@ -1,7 +1,7 @@
 <?
 
 $project_news = array(
-array("November 17, 2008",
+array("November 7, 2008",
     "On 27-28 November 2008, AlmereGrid and EDGeS will organise a two-day <a href=http://edges-grid.eu/web/userforum/1sttraining>Desktop Grid workshop</a> in Almere, The Netherlands."
 ),
 array("October 17, 2008",

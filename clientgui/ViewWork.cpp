@@ -1163,6 +1163,7 @@ double CViewWork::GetProgressValue(long item) {
             }
         }
     }
+    if (fBuffer > 1) fBuffer = 1;
 
     return fBuffer;
 }
