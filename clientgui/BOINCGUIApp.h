@@ -77,7 +77,10 @@ protected:
     wxString            m_strBOINCMGRDataDirectory;
     wxString            m_strBOINCArguments;
 
-    int                 m_iDisplayExitWarning;
+    bool                m_bBOINCMGRAutoStarted;
+    int                 m_iBOINCMGRDisableAutoStart;
+    int                 m_iShutdownCoreClient;
+    int                 m_iDisplayExitDialog;
 
     bool                m_bGUIVisible;
     int                 m_iGUISelected;
@@ -114,13 +117,26 @@ public:
 #endif
 #ifdef __WXMAC__
     CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
-    int                 GetCurrentGUISelection()    { return m_iGUISelected; }
+#endif
+#ifdef __WXMAC__
+    int                 ShouldShutdownCoreClient()
+                                                    { return true; }
+#else
+    int                 ShouldShutdownCoreClient()
+                                                    { return m_iShutdownCoreClient; }
 #endif
 
-    wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
+    int                 GetBOINCMGRDisableAutoStart()
+                                                    { return m_iBOINCMGRDisableAutoStart; }
+    void                SetBOINCMGRDisableAutoStart(int iDisableAutoStart)
+                                                    { m_iBOINCMGRDisableAutoStart = iDisableAutoStart; }
 
-    int                 GetDisplayExitWarning() { return m_iDisplayExitWarning; }
-    void                SetDisplayExitWarning(int display) { m_iDisplayExitWarning = display; }
+    int                 GetBOINCMGRDisplayExitMessage()
+                                                    { return m_iDisplayExitDialog; }
+    void                SetBOINCMGRDisplayExitMessage(int iDisplayExitMessage)
+                                                    { m_iDisplayExitDialog = iDisplayExitMessage; }
+
+    wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
 
     void                FireReloadSkin();
 

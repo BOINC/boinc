@@ -32,6 +32,7 @@
 #include "MainDocument.h"
 #include "BOINCTaskBar.h"
 #include "BOINCBaseFrame.h"
+#include "BOINCClientManager.h"
 #include "DlgAbout.h"
 #include "Events.h"
 
@@ -269,6 +270,19 @@ void CTaskBarIcon::OnExit(wxCommandEvent& event) {
     if (wxGetApp().ConfirmExit()) 
 #endif
     {
+#ifdef __WXMSW__
+        CMainDocument* pDoc = wxGetApp().GetDocument();
+
+        wxASSERT(pDoc);
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+        if (wxGetApp().ShouldShutdownCoreClient()) {
+            pDoc->m_pClientManager->EnableBOINCStartedByManager();
+        } else {
+            pDoc->m_pClientManager->DisableBOINCStartedByManager();
+        }
+#endif
+
         wxCloseEvent eventClose;
         OnClose(eventClose);
         if (eventClose.GetSkipped()) event.Skip();

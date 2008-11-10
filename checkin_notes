@@ -4605,3 +4605,137 @@ Rom    30 Oct 2008
     
     curl/
         <Various Files>
+
+Rom    4 Nov 2008
+    - MGR: Create an Exit dialog for the Manager.
+    - MGR: Allow the manager to shutdown the CC even when it was installed as
+        a daemon.
+    - MGR: Code cleanup.
+
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.cpp
+        BOINCClientManager.cpp
+        BOINCGUIApp.cpp, .h
+        DlgExitMessage.cpp, .h (Added)
+        SkinManager.cpp
+    win_build/
+        boincmgr_curl.vcproj
+
+Rom    4 Nov 2008
+    - MGR: Provide a way to enable/disable launching from the BOINC Manager
+        at startup from within the BOINC Manager itself.
+    - MGR: Add a command line argument which specifies that the Manager was
+        launched by the OS.
+    - SCR: Remove the code that checks for the BOINC Manager shortcuts.
+
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCGUIApp.cpp, .h
+        DlgOptions.cpp, .h
+        boinc_ss.h
+        boinc_ss.rc
+        screensaver_win.cpp, .h
+
+Rom    4 Nov 2008
+    - MGR: Text cleanup
+    
+    clientgui
+        DlgExitMessage.cpp
+        DlgGenericMessage.cpp
+
+Rom    4 Nov 2008
+    - MGR: Bug fixes for the new Exit dialog.
+    
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCClientManager.h
+        BOINCGUIApp.cpp, .h
+        BOINCTaskBar.cpp
+        screensaver_win.cpp
+
+Rom    4 Nov 2008
+    - MGR: Don't display the 'Run BOINC at startup checkbox' for
+        any platform other than Windows.  It has no effect on Mac
+        since the Mac doesn't automatically start BOINC Manager
+        with any command line arguments.
+        
+    clientgui/
+        DlgOptions.cpp
+
+Rom    4 Nov 2008
+    - MGR: Add DlgExitMessage.cpp to Makefile.am.
+    
+    clientgui/
+        Makefile.am
+
+Rom    4 Nov 2008
+    - MGR: Give the option to shutdown the CC even if the manager
+        didn't launch it.  This only applies to when the manager
+        and client are on the same machine.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+
+Rom    4 Nov 2008
+    - MGR: properly save the 'DisplayShutdownClientDialog' setting.
+    
+    clientgui/
+        BOINCGUIApp.cpp
+
+Rom    5 Nov 2008
+    - MGR: Tweak the shutdown logic so that it can still shutdown the
+        BOINC service even though it didn't start it.
+    - MGR: It BOINC Manager starts the BOINC deamon on the mac don't bother
+        trying to shut it down. (reverting to previous behaviour)
+        
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCClientManager.cpp, .h
+        BOINCTaskBar.cpp
+
+Rom    5 Nov 2008
+    - MGR: revise exit dialog text, use the names in the skin file.
+    
+    clientgui/
+        DlgExitMessage.cpp
+
+Rom    5 Nov 2008
+    - MGR: Revise text one more time.
+        From: Kevin Reed
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        DlgExitMessage.cpp
+
+Rom    5 Nov 2008
+    - MGR: Only tweak the BOINC was started by us variable on
+        Windows.
+        
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCTaskBar.cpp
+
+Charlie 7 Nov 2008
+    - MGR: On Mac, restore using original exit dialog text from skin file 
+        or use old default if none in skin file.
+
+    clientgui/
+        SkinManager.cpp
+
+David  7 Nov 2008
+	- MGR: fix verbose text
+
+	clientgui/
+		DlgExitMessage.cpp
+
+Rom    10 Nov 2008
+    - MGR: Move the old exit message from the SkinManager file to
+        the new Exit dialog.
+    - MGR: Consolidate the new exit message to one line. Sun Studio
+        doesn't concat the seperate strings together during compilation
+        like the other compilers to when building for Unicode.
+        
+    clientgui/
+        SkinManager.cpp
+        DlgExitMessage.cpp

@@ -104,7 +104,6 @@ private:
     wxNotebook*     m_pNotebook;
     CStatusBar*     m_pStatusbar;
 
-    bool            m_bDisplayShutdownClientWarning;
 	wxInt32			m_iDisplayViewType;
 
     wxString        m_strBaseTitle;

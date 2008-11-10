@@ -157,52 +157,56 @@ bool CBOINCClientManager::StartupBOINCCore() {
     LPTSTR  szDataDirectory = NULL;
 
     if (IsBOINCConfiguredAsDaemon()) {
-        return (StartBOINCService());
-    }
+        StartBOINCService();
 
-    // Append boinc.exe to the end of the strExecute string and get ready to rock
-    strExecute.Printf(
-        wxT("\"%s\\boinc.exe\" --redirectio --launched_by_manager %s"),
-        wxGetApp().GetRootDirectory().c_str(),
-        wxGetApp().GetArguments().c_str()
-    );
-
-    PROCESS_INFORMATION pi;
-    STARTUPINFO         si;
-    BOOL                bProcessStarted;
-
-    memset(&pi, 0, sizeof(pi));
-    memset(&si, 0, sizeof(si));
-
-    si.cb = sizeof(si);
-    si.dwFlags = STARTF_USESHOWWINDOW;
-    si.wShowWindow = SW_HIDE;
-
-    szExecute = (LPTSTR)strExecute.c_str();
-    if (wxGetApp().GetDataDirectory().empty()) {
-        szDataDirectory = NULL;
+        m_bBOINCStartedByManager = true;
+        bReturnValue = IsBOINCCoreRunning();
     } else {
-        szDataDirectory = (LPTSTR)wxGetApp().GetDataDirectory().c_str();
-    }
 
-    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), szExecute);
-    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), szDataDirectory);
+        // Append boinc.exe to the end of the strExecute string and get ready to rock
+        strExecute.Printf(
+            wxT("\"%s\\boinc.exe\" --redirectio --launched_by_manager %s"),
+            wxGetApp().GetRootDirectory().c_str(),
+            wxGetApp().GetArguments().c_str()
+        );
 
-    bProcessStarted = CreateProcess(
-        NULL,
-        szExecute,
-        NULL,
-        NULL,
-        FALSE,
-        CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
-        NULL,
-        szDataDirectory,
-        &si,
-        &pi
-    );
-    if (bProcessStarted) {
-        m_lBOINCCoreProcessId = pi.dwProcessId;
-        m_hBOINCCoreProcess = pi.hProcess;
+        PROCESS_INFORMATION pi;
+        STARTUPINFO         si;
+        BOOL                bProcessStarted;
+
+        memset(&pi, 0, sizeof(pi));
+        memset(&si, 0, sizeof(si));
+
+        si.cb = sizeof(si);
+        si.dwFlags = STARTF_USESHOWWINDOW;
+        si.wShowWindow = SW_HIDE;
+
+        szExecute = (LPTSTR)strExecute.c_str();
+        if (wxGetApp().GetDataDirectory().empty()) {
+            szDataDirectory = NULL;
+        } else {
+            szDataDirectory = (LPTSTR)wxGetApp().GetDataDirectory().c_str();
+        }
+
+        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), szExecute);
+        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), szDataDirectory);
+
+        bProcessStarted = CreateProcess(
+            NULL,
+            szExecute,
+            NULL,
+            NULL,
+            FALSE,
+            CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
+            NULL,
+            szDataDirectory,
+            &si,
+            &pi
+        );
+        if (bProcessStarted) {
+            m_lBOINCCoreProcessId = pi.dwProcessId;
+            m_hBOINCCoreProcess = pi.hProcess;
+        }
     }
 
 #elif defined(__WXMAC__)
@@ -298,44 +302,49 @@ void CBOINCClientManager::ShutdownBOINCCore() {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     if (m_bBOINCStartedByManager) {
-        pDoc->GetConnectedComputerName(strConnectedCompter);
-        if (!pDoc->IsComputerNameLocal(strConnectedCompter)) {
-            RPC_CLIENT rpc;
-            if (!rpc.init("localhost")) {
-                pDoc->m_pNetworkConnection->GetLocalPassword(strPassword);
-                rpc.authorize((const char*)strPassword.mb_str());
+        if (IsBOINCConfiguredAsDaemon()) {
+            StopBOINCService();
+            bClientQuit = true;
+        } else {
+            pDoc->GetConnectedComputerName(strConnectedCompter);
+            if (!pDoc->IsComputerNameLocal(strConnectedCompter)) {
+                RPC_CLIENT rpc;
+                if (!rpc.init("localhost")) {
+                    pDoc->m_pNetworkConnection->GetLocalPassword(strPassword);
+                    rpc.authorize((const char*)strPassword.mb_str());
+                    if (GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
+                        if (STILL_ACTIVE == dwExitCode) {
+                            rpc.quit();
+                            for (iCount = 0; iCount <= 10; iCount++) {
+                                if (!bClientQuit && GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
+                                    if (STILL_ACTIVE != dwExitCode) {
+                                        wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - (localhost) Application Exit Detected"));
+                                        bClientQuit = true;
+                                        break;
+                                    }
+                                }
+                                wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - (localhost) Application Exit NOT Detected, Sleeping..."));
+                                ::wxSleep(1);
+                            }
+                        }
+                    }
+                }
+                rpc.close();
+            } else {
                 if (GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
                     if (STILL_ACTIVE == dwExitCode) {
-                        rpc.quit();
+                        pDoc->CoreClientQuit();
                         for (iCount = 0; iCount <= 10; iCount++) {
                             if (!bClientQuit && GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
                                 if (STILL_ACTIVE != dwExitCode) {
-                                    wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - (localhost) Application Exit Detected"));
+                                    wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - Application Exit Detected"));
                                     bClientQuit = true;
                                     break;
                                 }
                             }
-                            wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - (localhost) Application Exit NOT Detected, Sleeping..."));
+                            wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - Application Exit NOT Detected, Sleeping..."));
                             ::wxSleep(1);
                         }
-                    }
-                }
-            }
-            rpc.close();
-        } else {
-            if (GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
-                if (STILL_ACTIVE == dwExitCode) {
-                    pDoc->CoreClientQuit();
-                    for (iCount = 0; iCount <= 10; iCount++) {
-                        if (!bClientQuit && GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
-                            if (STILL_ACTIVE != dwExitCode) {
-                                wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - Application Exit Detected"));
-                                bClientQuit = true;
-                                break;
-                            }
-                        }
-                        wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - Application Exit NOT Detected, Sleeping..."));
-                        ::wxSleep(1);
                     }
                 }
             }

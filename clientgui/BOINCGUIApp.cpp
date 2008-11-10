@@ -51,7 +51,7 @@
 #include "sg_ImageLoader.h"
 #include "sg_StatImageLoader.h"
 #include "sg_BoincSimpleGUI.h"
-#include "DlgGenericMessage.h"
+#include "DlgExitMessage.h"
 
 static bool s_bSkipExitConfirmation = false;
 
@@ -87,6 +87,10 @@ bool CBOINCGUIApp::OnInit() {
     m_strDefaultWindowStation = wxEmptyString;
     m_strDefaultDesktop = wxEmptyString;
     m_strDefaultDisplay = wxEmptyString;
+    m_bBOINCMGRAutoStarted = false;
+    m_iBOINCMGRDisableAutoStart = 0;
+    m_iShutdownCoreClient = 0;
+    m_iDisplayExitDialog = 1;
     m_iGUISelected = BOINC_SIMPLEGUI;
 #ifdef __WXMSW__
     m_hClientLibraryDll = NULL;
@@ -101,6 +105,13 @@ bool CBOINCGUIApp::OnInit() {
 #else
     g_use_sandbox = false;
 #endif
+
+    // Initialize local variables
+    int      iErrorCode = 0;
+    int      iSelectedLanguage = 0;
+    wxString strDesiredSkinName = wxEmptyString;
+    wxString strDialogMessage = wxEmptyString;
+    bool     success = false;
 
     // Commandline parsing is done in wxApp::OnInit()
     if (!wxApp::OnInit()) {
@@ -123,6 +134,19 @@ bool CBOINCGUIApp::OnInit() {
     wxASSERT(m_pConfig);
 
     m_pConfig->SetPath(wxT("/"));
+
+    // Restore Application State
+    m_pConfig->Read(wxT("AutomaticallyShutdownClient"), &m_iShutdownCoreClient, 0L);
+    m_pConfig->Read(wxT("DisplayShutdownClientDialog"), &m_iDisplayExitDialog, 1L);
+    m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
+    m_pConfig->Read(wxT("Language"), &iSelectedLanguage, 0L);
+    m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
+
+
+    // Should we abort the BOINC Manager startup process?
+    if (m_bBOINCMGRAutoStarted && m_iBOINCMGRDisableAutoStart) {
+        return false;
+    }
 
 #ifdef __WXMSW__
 
@@ -298,8 +322,6 @@ bool CBOINCGUIApp::OnInit() {
     m_pLocale = new wxLocale();
     wxASSERT(m_pLocale);
 
-    wxInt32 iSelectedLanguage = m_pConfig->Read(wxT("Language"), 0L);
-
     // Look for the localization files by absolute and relative locations.
     //   preference given to the absolute location.
     m_pLocale->Init(iSelectedLanguage);
@@ -323,7 +345,8 @@ bool CBOINCGUIApp::OnInit() {
 
     m_pSkinManager->ReloadSkin(
         m_pLocale, 
-        m_pConfig->Read(wxT("Skin"), m_pSkinManager->GetDefaultSkinName())
+        m_pConfig->Read(wxT("Skin"), 
+        m_pSkinManager->GetDefaultSkinName())
     );
 
 #ifdef __WXMSW__
@@ -352,9 +375,6 @@ bool CBOINCGUIApp::OnInit() {
     wxASSERT(m_pDocument);
 
     m_pDocument->OnInit();
-
-    // Which GUI should be displayed?
-    m_iGUISelected = m_pConfig->Read(wxT("GUISelection"), BOINC_SIMPLEGUI);
 
     // Is there a condition in which the Simple GUI should not be used?
     if (BOINC_SIMPLEGUI == m_iGUISelected) {
@@ -472,6 +492,13 @@ int CBOINCGUIApp::OnExit() {
         delete m_pLocale;
     }
 
+    // Save Application State
+    m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
+    m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
+    m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
+
+    diagnostics_finish();
+
     return wxApp::OnExit();
 }
 
@@ -479,6 +506,7 @@ int CBOINCGUIApp::OnExit() {
 void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
     wxApp::OnInitCmdLine(parser);
     static const wxCmdLineEntryDesc cmdLineDesc[] = {
+        { wxCMD_LINE_SWITCH, wxT("a"), wxT("autostart"), _("BOINC Manager was started by the operating system automatically")},
         { wxCMD_LINE_SWITCH, wxT("s"), wxT("systray"), _("Startup BOINC so only the system tray icon is visible")},
         { wxCMD_LINE_SWITCH, wxT("b"), wxT("boincargs"), _("Startup BOINC with these optional arguments")},
         { wxCMD_LINE_SWITCH, wxT("i"), wxT("insecure"), _("disable BOINC security users and permissions")},
@@ -492,6 +520,9 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     // Give default processing (-?, --help and --verbose) the chance to do something.
     wxApp::OnCmdLineParsed(parser);
     parser.Found(wxT("boincargs"), &m_strBOINCArguments);
+    if (parser.Found(wxT("autostart"))) {
+        m_bBOINCMGRAutoStarted = true;
+    }
     if (parser.Found(wxT("systray"))) {
         m_bGUIVisible = false;
     }
@@ -736,20 +767,41 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
 
 
 int CBOINCGUIApp::ConfirmExit() {
-    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-    wxString strTitle;
+    CSkinAdvanced*  pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CMainDocument*  pDoc = wxGetApp().GetDocument();
+    wxString        strConnectedCompter = wxEmptyString;
+    bool            bWasVisible;
+    int             retval = 0;
 
     wxASSERT(pDoc);
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     
-    if (! (pDoc->m_pClientManager->WasBOINCStartedByManager()))
-        return 1;   // Don't run dialog if exiting manager won't shut down Client or its tasks
-        
-    if (!m_iDisplayExitWarning)
+    // If we are connected to the local core client and the manager is exiting
+    //   give the user the option to shutdown the core client, even if the
+    //   manager didn't launch the core client anyway.
+    if (!pDoc->m_pClientManager->WasBOINCStartedByManager()) {
+        pDoc->GetConnectedComputerName(strConnectedCompter);
+        if (!pDoc->IsComputerNameLocal(strConnectedCompter)) {
+            // Don't shutdown remote clients
+            return 1;
+        }
+    }
+
+#ifdef __WXMAC__
+    // Don't run confirmation dialog if logging out or shutting down
+    if (s_bSkipExitConfirmation)
         return 1;
+
+    if (!m_iDisplayExitDialog) {
+        return 1;   // User doesn't want to display the dialog and wants to shutdown the client.
+    }
+#else
+    if (!m_iDisplayExitDialog) {
+		return 1;   // User doesn't want to display the dialog and just wants to use their previous value
+	}
+#endif
 
 #ifdef __WXMAC__
     // Don't run confirmation dialog if logging out or shutting down
@@ -763,31 +815,43 @@ int CBOINCGUIApp::ConfirmExit() {
     SetFrontProcess(&psn);  // Shows process if hidden
 #endif
 
-    strTitle.Printf(
-        _("%s - Exit Confirmation"), 
-        pSkinAdvanced->GetApplicationName().c_str()
-    );
+    CDlgExitMessage dlg(NULL);
 
-    CDlgGenericMessage dlg(NULL);
+    if (!pSkinAdvanced->GetExitMessage().IsEmpty()) {
+        dlg.m_DialogExitMessage->SetLabel(pSkinAdvanced->GetExitMessage());
+    }
 
-    dlg.SetTitle(strTitle);
-    dlg.m_DialogMessage->SetLabel(pSkinAdvanced->GetExitMessage());
+#ifndef __WXMAC__
+    if (m_iShutdownCoreClient) {
+        dlg.m_DialogShutdownCoreClient->SetValue(TRUE);
+    }
+#endif
+
+    if (m_iDisplayExitDialog) {
+        dlg.m_DialogDisplay->SetValue(FALSE);
+    }
+
     dlg.Fit();
     dlg.Centre();
 
     if (wxID_OK == dlg.ShowModal()) {
-        if (dlg.m_DialogDisableMessage->GetValue()) {
-            m_iDisplayExitWarning = 0;
-        }
+#ifdef __WXMAC__
         s_bSkipExitConfirmation = true;     // Don't ask twice (only affects Mac)
-        return 1;
+#else
+        m_iShutdownCoreClient = dlg.m_DialogShutdownCoreClient->GetValue();
+#endif
+        m_iDisplayExitDialog = !dlg.m_DialogDisplay->GetValue();
+        retval = true;
+
     }
+
 #ifdef __WXMAC__
     if (!wasVisible) {
         ShowHideProcess(&psn, false);
     }
 #endif
-    return 0;       // User cancelled exit
+
+    return retval;
 }
 
 

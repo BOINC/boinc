@@ -74,7 +74,6 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     // Configuration Settings
     m_iSelectedLanguage = 0;
     m_iReminderFrequency = 0;
-    wxGetApp().SetDisplayExitWarning(1);
 
     m_strNetworkDialupConnectionName = wxEmptyString;
 
@@ -293,6 +292,19 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExit - Function Begin"));
 
     if (wxGetApp().ConfirmExit()) {
+#ifdef __WXMSW__
+        CMainDocument* pDoc = wxGetApp().GetDocument();
+
+        wxASSERT(pDoc);
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+        if (wxGetApp().ShouldShutdownCoreClient()) {
+            pDoc->m_pClientManager->EnableBOINCStartedByManager();
+        } else {
+            pDoc->m_pClientManager->DisableBOINCStartedByManager();
+        }
+#endif
+
         // Under wxWidgets 2.8.0, the task bar icons must be deleted for app to exit its main loop
 #ifdef __WXMAC__
         CMacSystemMenu* pMSM = wxGetApp().GetMacSystemMenu();
@@ -617,7 +629,6 @@ bool CBOINCBaseFrame::SaveState() {
 
     pConfig->Write(wxT("Language"), m_iSelectedLanguage);
     pConfig->Write(wxT("ReminderFrequency"), m_iReminderFrequency);
-    pConfig->Write(wxT("DisplayExitWarning"), wxGetApp().GetDisplayExitWarning());
 
     pConfig->Write(wxT("NetworkDialupConnectionName"), m_strNetworkDialupConnectionName);
 
@@ -658,7 +669,6 @@ bool CBOINCBaseFrame::RestoreState() {
     wxString        strValue;
     long            iIndex;
     bool            bKeepEnumerating = false;
-    int             iDisplayExitWarning;
 
 
     wxASSERT(pConfig);
@@ -676,8 +686,6 @@ bool CBOINCBaseFrame::RestoreState() {
 
     pConfig->Read(wxT("Language"), &m_iSelectedLanguage, 0L);
     pConfig->Read(wxT("ReminderFrequency"), &m_iReminderFrequency, 60L);
-    pConfig->Read(wxT("DisplayExitWarning"), &iDisplayExitWarning, 1L);
-    wxGetApp().SetDisplayExitWarning(iDisplayExitWarning);
 
     pConfig->Read(wxT("NetworkDialupConnectionName"), &m_strNetworkDialupConnectionName, wxEmptyString);
 
@@ -715,10 +723,12 @@ bool CBOINCBaseFrame::Show(bool show) {
     if (show) {
         SetFrontProcess(&psn);  // Shows process if hidden
     } else {
-//        GetWindowDimensions();
-        if (wxGetApp().GetCurrentGUISelection() == m_iWindowType)
-            if (IsProcessVisible(&psn))
-                ShowHideProcess(&psn, false);
+//      GetWindowDimensions();
+        if ( this == wxGetApp().GetFrame() ) {
+            if (IsProcessVisible(&psn)) {
+              ShowHideProcess(&psn, false);
+            }
+        }
     }
     
     return wxFrame::Show(show);
