@@ -53,6 +53,7 @@
 #define ID_LANGUAGESELECTION 10004
 #define ID_REMINDERFREQUENCY 10018
 #define ID_ENABLEAUTOSTART 10031
+#define ID_ENABLEEXITMESSAGE 10032
 #define ID_CONNECTONS 10019
 #define ID_NETWORKAUTODETECT 10020
 #define ID_NETWORKLAN 10021
@@ -157,6 +158,7 @@ public:
     wxComboBox* m_LanguageSelectionCtrl;
     wxSlider* m_ReminderFrequencyCtrl;
     wxCheckBox* m_EnableBOINCManagerAutoStartCtrl;
+    wxCheckBox* m_EnableBOINCManagerExitMessageCtrl;
     wxStaticBoxSizer* m_DialupStaticBoxCtrl;
     wxListBox* m_DialupConnectionsCtrl;
     wxButton* m_DialupSetDefaultCtrl;

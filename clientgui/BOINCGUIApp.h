@@ -142,6 +142,11 @@ public:
     void                SetBOINCMGRDisableAutoStart(int iDisableAutoStart)
                                                     { m_iBOINCMGRDisableAutoStart = iDisableAutoStart; }
 
+    int                 GetBOINCMGRDisplayExitMessage()
+                                                    { return m_iDisplayExitDialog; }
+    void                SetBOINCMGRDisplayExitMessage(int iDisplayExitMessage)
+                                                    { m_iDisplayExitDialog = iDisplayExitMessage; }
+
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
 

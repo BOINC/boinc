@@ -86,6 +86,7 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
     m_LanguageSelectionCtrl = NULL;
     m_ReminderFrequencyCtrl = NULL;
     m_EnableBOINCManagerAutoStartCtrl = NULL;
+    m_EnableBOINCManagerExitMessageCtrl = NULL;
     m_DialupStaticBoxCtrl = NULL;
 #if defined(__WXMSW__)
     m_DialupConnectionsCtrl = NULL;
@@ -189,6 +190,16 @@ void CDlgOptions::CreateControls()
     if (ShowToolTips())
         m_EnableBOINCManagerAutoStartCtrl->SetToolTip(_("Launch BOINC Manager when you log on."));
     itemFlexGridSizer6->Add(m_EnableBOINCManagerAutoStartCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    wxStaticText* itemStaticText11 = new wxStaticText;
+    itemStaticText11->Create( itemPanel4, wxID_STATIC, _("Enable BOINC Manager exit message:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer6->Add(itemStaticText11, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_EnableBOINCManagerExitMessageCtrl = new wxCheckBox;
+    m_EnableBOINCManagerExitMessageCtrl->Create( itemPanel4, ID_ENABLEEXITMESSAGE, wxT(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    if (ShowToolTips())
+        m_EnableBOINCManagerExitMessageCtrl->SetToolTip(_("Display the exit message dialog when shutting down BOINC Manager."));
+    itemFlexGridSizer6->Add(m_EnableBOINCManagerExitMessageCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
 
     itemNotebook3->AddPage(itemPanel4, _("General"));

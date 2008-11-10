@@ -9330,3 +9330,11 @@ Rom    10 Nov 2008
     clientgui/
         SkinManager.cpp
         DlgExitMessage.cpp
+
+Rom    10 Nov 2008
+    - MGR: Provide a way to re-enable the Exit Dialog.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCGUIApp.h
+        DlgOptions.cpp, .h
