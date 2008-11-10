@@ -4739,3 +4739,12 @@ Rom    10 Nov 2008
     clientgui/
         SkinManager.cpp
         DlgExitMessage.cpp
+
+Rom    10 Nov 2008
+    - Tag for 6.2.26 release, all platforms
+      boinc_core_release_6_2_26
+
+    /
+        configure.ac
+        version.h
+
