@@ -30,7 +30,6 @@
 //-----------------------------------------------------------------------------
 
 #define SCRAPPERR_BOINCNOTDETECTED                          0x82000001
-#define SCRAPPERR_BOINCNOTDETECTEDSTARTUP                   0x82000002
 #define SCRAPPERR_BOINCSUSPENDED                            0x82000003
 #define SCRAPPERR_BOINCNOTGRAPHICSCAPABLE                   0x82000004
 #define SCRAPPERR_BOINCNOAPPSEXECUTING                      0x82000005

@@ -4,14 +4,12 @@
 //
 #define IDI_MAIN_ICON                        1
 #define IDS_DESCRIPTION                      1
-#define IDS_SHORTCUTNAME                     2
 #define DLG_CONFIG                           104
 #define IDB_BOINCSPLAT                       108
 #define IDC_BLANK                            1000
 #define IDC_BLANK_TIME                       1001
 #define IDS_ERR_GENERIC                      2100
 #define IDS_ERR_BOINCNOTDETECTED             2101
-#define IDS_ERR_BOINCNOTDETECTEDSTARTUP      2102
 #define IDS_ERR_BOINCSUSPENDED               2103
 #define IDS_ERR_BOINCNOAPPSEXECUTING         2104
 #define IDS_ERR_BOINCNOAPPSEXECUTINGNOPROJECTSDETECTED 2105
