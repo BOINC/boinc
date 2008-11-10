@@ -9319,3 +9319,14 @@ David  7 Nov 2008
         ViewWork.cpp
     lib/
         parse.cpp
+
+Rom    10 Nov 2008
+    - MGR: Move the old exit message from the SkinManager file to
+        the new Exit dialog.
+    - MGR: Consolidate the new exit message to one line. Sun Studio
+        doesn't concat the seperate strings together during compilation
+        like the other compilers to when building for Unicode.
+        
+    clientgui/
+        SkinManager.cpp
+        DlgExitMessage.cpp
