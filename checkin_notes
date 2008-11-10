@@ -9338,3 +9338,11 @@ Rom    10 Nov 2008
         AdvancedFrame.cpp
         BOINCGUIApp.h
         DlgOptions.cpp, .h
+
+Rom    31 Oct 2008
+    - Tag for 6.3.22 release, all platforms
+      boinc_core_release_6_3_22
+
+    /
+        configure.ac
+        version.h
