@@ -4748,3 +4748,11 @@ Rom    10 Nov 2008
         configure.ac
         version.h
 
+Rom    10 Nov 2008
+    - Tag for 6.2.27 release, all platforms
+      boinc_core_release_6_2_27
+
+    /
+        configure.ac
+        version.h
+
