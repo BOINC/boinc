@@ -9348,7 +9348,12 @@ Rom    10 Nov 2008
         version.h
         
 Charlie 10 Nov 2008
-    - MGR: Fix build break on Mac.
+    - MGR: Fix build break on non_Windows systems.
+    - MGR: Provide a way to re-enable the Exit Dialog on non-Windows 
+        systems, too.
     
     clientgui/
+    clientgui/
+        AdvancedFrame.cpp
         DlgExitMessage.cpp
+        DlgOptions.cpp
