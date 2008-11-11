@@ -56,7 +56,7 @@ if (get_str("submit",true)){
     }
 }
 
-
+$no_forum_rating = parse_bool($config, "no_forum_rating"); 
 
 //__--------------- Display part
 if ($success_page==1) {
@@ -69,12 +69,14 @@ if ($success_page==1) {
     echo "<a href=\"forum_thread.php?id=", $thread->id, "#", $post->id, "\">Return to thread</a>";
 } elseif ($success_page==0){
     page_head('Report a forum post'); 
-    echo "<p>Before reporting this post <em>please</em>
-        consider using the +/- rating system instead.
-        If enough users agree on rating a post negatively it will
-        eventually be hidden.
-        <br />You can find the rating system at the bottom of the post.</p>
-    ";
+    if (!$no_forum_rating) {
+        echo "<p>Before reporting this post <em>please</em>
+            consider using the +/- rating system instead.
+            If enough users agree on rating a post negatively it will
+            eventually be hidden.
+            <br>You can find the rating system at the bottom of the post.</br>
+        ";
+    }
     start_forum_table(array(tra("Author"), tra("Message"),""));
     show_post($post, $thread, $forum, $user, 0, 0);
     echo "<form action=\"forum_report_post.php\" method=\"get\">\n";

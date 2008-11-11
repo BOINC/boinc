@@ -9375,3 +9375,10 @@ David  11 Nov 2008
 
     api/
         boinc_api.cpp
+
+David  11 Nov 2008
+    - web: don't show misleading message if forum rating disabled
+        fixes #768; from Nicolas
+
+    html/user/
+        forum_report_post.php
