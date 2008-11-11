@@ -9347,7 +9347,7 @@ Rom    10 Nov 2008
         configure.ac
         version.h
         
-Charlie 10 Nov 2008
+Charlie 10 Nov 2008 (checked into boinc_core_release_6_3_22 tag)
     - MGR: Fix build break on non_Windows systems.
     - MGR: Provide a way to re-enable the Exit Dialog on non-Windows 
         systems, too.
