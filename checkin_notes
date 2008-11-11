@@ -9382,3 +9382,10 @@ David  11 Nov 2008
 
     html/user/
         forum_report_post.php
+
+David  11 Nov 2008
+    - upgrade: run "upgrade_db.php" correctly when "." not in search path
+        Fixes #769;  from Nicolas
+
+    tools/
+        upgrade

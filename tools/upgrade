@@ -69,6 +69,6 @@ try:
 except:
     print '''Couldn't find svnversion'''
 
-os.system('cd '+INSTALL_DIR+'/html/ops; upgrade_db.php')
+os.system('cd '+INSTALL_DIR+'/html/ops; ./upgrade_db.php')
 
 print "Run `bin/start' to restart the project."
