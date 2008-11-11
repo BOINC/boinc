@@ -113,12 +113,16 @@ void *RPCThread::Entry() {
     CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED );
     ASYNC_RPC_REQUEST *current_request = m_pDoc->GetCurrentRPCRequest();
 
+    // check if we were asked to exit
+    if(TestDestroy()) {
+        current_request->retval = retval;
+        current_request->isActive = false;
+        return NULL;
+    }
+    
     // Do nothing if no active RPC request (should never happen)
     if (m_pDoc->GetCurrentRPCRequest()->isActive) {
-        // check if we were asked to exit
-        if(! TestDestroy()) {
-            retval = ProcessRPCRequest();
-        }
+        retval = ProcessRPCRequest();
     }
     
     // We don't need critical sections because the RPC thread is 
@@ -128,7 +132,6 @@ void *RPCThread::Entry() {
     current_request->isActive = false;
     wxPostEvent( wxTheApp, RPC_done_event );
     
-    Exit();
     return NULL;
 }
 
@@ -544,10 +547,8 @@ void CMainDocument::KillRPCThread() {
         return;
     }
 
-    m_RPCThread->Pause();   // May be needed on Windows ??
     rpcClient.close();
     
-#ifndef __WXMSW__
     // Wait up to RPC_KILL_DELAY for thread to exit on its own
     wxStopWatch threadDelay = wxStopWatch();        
     while (threadDelay.Time() < RPC_KILL_DELAY) {
@@ -557,7 +558,6 @@ void CMainDocument::KillRPCThread() {
             m_RPCThread = NULL;
         }
     }
-#endif
     
     if (m_RPCThread) {
         // If thread did not exit, kill it
