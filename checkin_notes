@@ -9369,3 +9369,9 @@ David  11 Nov 2008
         time_stats.cpp
     lib/
         parse.cpp
+
+David  11 Nov 2008
+    - API: free project prefs before parsing init file
+
+    api/
+        boinc_api.cpp

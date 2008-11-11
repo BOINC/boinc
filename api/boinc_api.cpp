@@ -505,8 +505,10 @@ int boinc_parse_init_data_file() {
     FILE* f;
     int retval;
 
-    // in principle should free project_preferences here if it's nonzero
-
+    if (aid.project_preferences) {
+        free(aid.project_preferences);
+        aid.project_preferences = NULL;
+    }
     memset(&aid, 0, sizeof(aid));
     strcpy(aid.user_name, "");
     strcpy(aid.team_name, "");
