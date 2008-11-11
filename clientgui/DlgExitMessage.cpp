@@ -132,13 +132,13 @@ void CDlgExitMessage::CreateControls()
         pSkinAdvanced->GetApplicationName().c_str()
     );
 #else
-    m_strExitMessage.Printf(
+    strExitMessage.Printf(
         _("This will shut down %s and its tasks entirely until either the\n%s application or the %s screen saver is run again.\n\nIn most cases, it is better just to close the %s window\nrather than to exit the application; that will allow %s to run its\ntasks at the times you selected in your preferences."),
-        m_strApplicationShortName.c_str(),
-        m_strApplicationName.c_str(),
-        m_strApplicationShortName.c_str(),
-        m_strApplicationName.c_str(),
-        m_strApplicationShortName.c_str()
+        pSkinAdvanced->GetApplicationShortName().c_str(),
+        pSkinAdvanced->GetApplicationName().c_str(),
+        pSkinAdvanced->GetApplicationShortName().c_str(),
+        pSkinAdvanced->GetApplicationName().c_str(),
+        pSkinAdvanced->GetApplicationShortName().c_str()
     );
 #endif
 
