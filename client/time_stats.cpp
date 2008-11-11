@@ -138,7 +138,9 @@ void send_log_after(const char* filename, double t, MIOFILE& mf) {
 // copy the log file after a given time
 //
 void TIME_STATS::get_log_after(double t, MIOFILE& mf) {
-    fclose(time_stats_log);     // win: can't open twice
+    if (time_stats_log) {
+        fclose(time_stats_log);     // win: can't open twice
+    }
     send_log_after(TIME_STATS_LOG, t, mf);
     time_stats_log = fopen(TIME_STATS_LOG, "a");
 }

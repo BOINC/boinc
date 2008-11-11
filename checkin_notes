@@ -9360,3 +9360,12 @@ Charlie 10 Nov 2008 (checked into boinc_core_release_6_3_22 tag)
         AsyncRPC.cpp
         DlgExitMessage.cpp
         DlgOptions.cpp
+
+David  11 Nov 2008
+    - client: don't fclose() time_stats_log if it's NULL
+        Fixes #772
+
+    client/
+        time_stats.cpp
+    lib/
+        parse.cpp

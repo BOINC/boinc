@@ -155,6 +155,9 @@ int dup_element_contents(FILE* in, const char* end_tag, char** pp) {
     int nused=0;        // not counting ending NULL
     char* buf = (char*)malloc(bufsize);
 
+    // Start with a big buffer.
+    // When done, copy to an exact-size buffer
+    //
     while (fgets(line, 256, in)) {
         if (strstr(line, end_tag)) {
             *pp = (char*)malloc(nused+1);
