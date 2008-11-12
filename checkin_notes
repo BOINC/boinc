@@ -9389,3 +9389,10 @@ David  11 Nov 2008
 
     tools/
         upgrade
+
+David  11 Nov 2008
+    - example_app: don't build the graphics app by default.
+        Fixes #771
+
+    samples/example_app/
+        Makefile

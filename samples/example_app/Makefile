@@ -27,7 +27,9 @@ else
 	LIBJPEG = /usr/local/lib/libjpeg.a
 endif
 
-PROGS = uc2 uc2_graphics
+PROGS = uc2 \
+# uc2_graphics
+# make this optional so compile doesn't break on systems without OpenGL
 
 all: $(PROGS)
 
