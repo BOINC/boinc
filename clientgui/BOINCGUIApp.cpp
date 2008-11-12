@@ -107,11 +107,9 @@ bool CBOINCGUIApp::OnInit() {
 #endif
 
     // Initialize local variables
-    int      iErrorCode = 0;
     int      iSelectedLanguage = 0;
     wxString strDesiredSkinName = wxEmptyString;
     wxString strDialogMessage = wxEmptyString;
-    bool     success = false;
 
     // Commandline parsing is done in wxApp::OnInit()
     if (!wxApp::OnInit()) {
@@ -770,7 +768,6 @@ int CBOINCGUIApp::ConfirmExit() {
     CSkinAdvanced*  pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CMainDocument*  pDoc = wxGetApp().GetDocument();
     wxString        strConnectedCompter = wxEmptyString;
-    bool            bWasVisible;
     int             retval = 0;
 
     wxASSERT(pDoc);
