@@ -8125,3 +8125,10 @@ David  6 Oct 2008
     samples/example_app/
         Makefile
         Makefile.debian (deleted)
+
+David  11 Nov 2008
+    - example_app: don't build the graphics app by default.
+
+    samples/example_app/
+        Makefile
+

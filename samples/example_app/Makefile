@@ -27,7 +27,9 @@ else
 	LIBJPEG = /usr/local/lib/libjpeg.a
 endif
 
-PROGS = uc2 uc2_graphics
+PROGS = uc2 \
+# uc2_graphics
+# make this optional so compile doesn't break on systems without OpenGL
 
 all: $(PROGS)
 
@@ -35,7 +37,10 @@ libstdc++.a:
 	ln -s `g++ -print-file-name=libstdc++.a`
 
 clean:
-	/bin/rm -f $(PROGS)
+	/bin/rm -f $(PROGS) *.o
+
+distclean:
+	/bin/rm -f $(PROGS) *.o libstdc++.a
 
 uc2: uc2.o libstdc++.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS) -o uc2 uc2.o libstdc++.a -pthread -lboinc_api -lboinc
