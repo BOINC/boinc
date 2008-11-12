@@ -775,6 +775,14 @@ void CBOINCBaseView::UpdateWebsiteSelection(long lControlGroup, PROJECT* project
 }
 
 
+// Make sure task pane background is properly erased
+void CBOINCBaseView::RefreshTaskPane() {
+    if (m_pTaskPane) {
+        m_pTaskPane->Refresh(true);
+    }
+}
+
+
 bool CBOINCBaseView::_IsSelectionManagementNeeded() {
     return IsSelectionManagementNeeded();
 }

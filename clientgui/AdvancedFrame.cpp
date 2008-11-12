@@ -1981,8 +1981,12 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
 void CAdvancedFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNotebookSelectionChanged - Function Begin"));
 
-    if ((-1 != event.GetSelection())) {
-        UpdateRefreshTimerInterval(event.GetSelection());
+    wxWindow*       pwndNotebookPage = NULL;
+    CBOINCBaseView* pView = NULL;
+    int             selection = event.GetSelection();
+    
+    if ((-1 != selection)) {
+        UpdateRefreshTimerInterval(selection);
 
         CMainDocument*  pDoc = wxGetApp().GetDocument();
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -1991,6 +1995,13 @@ void CAdvancedFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
         pDoc->RunPeriodicRPCs();
     }
 
+    pwndNotebookPage = m_pNotebook->GetPage(selection);
+    wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
+
+    pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
+    wxASSERT(pView);
+    
+    pView->RefreshTaskPane();
     event.Skip();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNotebookSelectionChanged - Function End"));

@@ -119,7 +119,8 @@ public:
 	void                    RestoreSelections();
 	void                    ClearSavedSelections();
 	void                    ClearSelections();
-
+    void                    RefreshTaskPane();
+ 
     std::vector<CTaskItemGroup*> m_TaskGroups;
 
     int                     m_iSortColumn;

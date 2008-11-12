@@ -9396,3 +9396,11 @@ David  11 Nov 2008
 
     samples/example_app/
         Makefile
+
+Charlie 12 Nov 2008
+    - MGR: Erase and refresh entire Tasks panel when selecting a new tab
+        to try to fix cosmetic bug reported by David on Windows.
+
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCBaseView.cpp, .h
