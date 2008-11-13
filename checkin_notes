@@ -4769,3 +4769,11 @@ Charlie 10 Nov 2008
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 13 Nov 2008
+    - MGR: Fix another Mac bug caused by incomplete merging of sources from 
+        6.3 branch: switching between Advanced and Simple views hid Manager.
+        
+    clientgui/
+        BOINCBaseFrame.h
+        BOINCGUIApp.cpp

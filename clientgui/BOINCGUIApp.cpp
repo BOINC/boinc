@@ -715,6 +715,7 @@ void CBOINCGUIApp::FireReloadSkin() {
 
 bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     CBOINCBaseFrame* pNewFrame = NULL;
+    CBOINCBaseFrame* pOldFrame = m_pFrame;
 
     // Create the new window
     if ((iGUISelection != m_iGUISelected) || !m_pFrame) {
@@ -738,19 +739,23 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
                 break;
         }
         wxASSERT(pNewFrame);
+
         if (pNewFrame) {
             SetTopWindow(pNewFrame);
 
-#ifdef __WXMAC__
-            // So closing old view doesn't hide application
-            pNewFrame->m_iWindowType = iGUISelection;
-            m_iGUISelected = iGUISelection;
-#endif
-            // Delete the old one if it exists
-            if (m_pFrame) m_pFrame->Destroy();
-
             // Store the new frame for future use
             m_pFrame = pNewFrame;
+
+            // Hide the old one if it exists.  We must do this 
+            // after updating m_pFrame to prevent Mac OSX from
+            // hiding the application
+            if (pOldFrame) pOldFrame->Hide();
+
+            // Show the new frame if needed
+            if (pNewFrame && bShowWindow) pNewFrame->Show();
+
+            // Delete the old one if it exists
+            if (pOldFrame) pOldFrame->Destroy();
         }
     }
 

@@ -91,7 +91,6 @@ public:
 
 #ifdef __WXMAC__
     bool                Show( bool show = true );
-    int                 m_iWindowType;              // BOINC_SIMPLEGUI or BOINC_ADVANCEDGUI
 #endif
 
 protected:
