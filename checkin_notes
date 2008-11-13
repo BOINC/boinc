@@ -9430,3 +9430,11 @@ Rom    13 Nov 2008
     win_build/
         boinc.sln
         boincsvcctrl.vcproj
+
+Rom    10 Nov 2008
+    - Tag for 6.3.23 release, all platforms
+      boinc_core_release_6_3_23
+
+    /
+        configure.ac
+        version.h
