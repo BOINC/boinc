@@ -88,7 +88,7 @@ $w51045= array(
 $w63x64= array(
     "num"=>"6.3.21",
     "status"=>"Development version",
-    "file"=>"boinc_6.3.19_windows_x86_64.exe",
+    "file"=>"boinc_6.3.21_windows_x86_64.exe",
     "date"=>"3 Nov 2008",
     "type"=>"win_new",
 );
@@ -121,7 +121,7 @@ $m63 = array(
     "num"=>"6.3.21",
     "status"=>"Development version (standard GUI)",
     "file"=>"boinc_6.3.21_macOSX_universal.zip",
-    "date"=>"3 Oct 2008",
+    "date"=>"3 Nov 2008",
     "type"=>"mac_advanced",
 );
 
