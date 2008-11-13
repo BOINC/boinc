@@ -9412,3 +9412,21 @@ David  12 Nov 2008
 
     html/user/
         team_join_action.php
+
+Rom    13 Nov 2008
+    - SVCCTRL: Introduce a new binary that is used to start and stop
+        the BOINC service, if it is installed as a service.
+        
+        NOTE: If UAC is turned on in Windows Vista then even an
+          administrator cannot start/stop a service without elevating
+          their priviliages.  The new application includes the
+          requiresAdmin tag in its manifest file to cause the UAC
+          dialog to be displayed when it is launched.
+
+    clientctrl/
+        boincsvcctrl.cpp, .h
+        boincsvcctrl.rc
+        boincsvcctrl.xml
+    win_build/
+        boinc.sln
+        boincsvcctrl.vcproj
