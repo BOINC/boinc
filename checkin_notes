@@ -9404,3 +9404,11 @@ Charlie 12 Nov 2008
     clientgui/
         AdvancedFrame.cpp
         BOINCBaseView.cpp, .h
+
+David  12 Nov 2008
+    - web: fix team join bug
+        ?? Why does omitting the "$" from a PHP variable
+        cause PHP to emit a blank page?  How about an error memssage?
+
+    html/user/
+        team_join_action.php

@@ -26,8 +26,8 @@ check_tokens($user->authenticator);
 $teamid = post_int("teamid");
 $team = BoincTeam::lookup_id($teamid);
 require_team($team);
-if (!team->joinable) {
-    error_page("The team is not joinabld.");
+if (!$team->joinable) {
+    error_page("The team is not joinable.");
 }
 if ($user->teamid == $team->id) {
     page_head("Unable to add $user->name");
