@@ -62,10 +62,10 @@ function type_text($type) {
 }
 
 $w63= array(
-    "num"=>"6.3.21",
+    "num"=>"6.3.23",
     "status"=>"Development version",
-    "file"=>"boinc_6.3.21_windows_intelx86.exe",
-    "date"=>"3 Nov 2008",
+    "file"=>"boinc_6.3.23_windows_intelx86.exe",
+    "date"=>"14 Nov 2008",
     "type"=>"win_new",
 );
 
@@ -86,10 +86,10 @@ $w51045= array(
 );
 
 $w63x64= array(
-    "num"=>"6.3.21",
+    "num"=>"6.3.23",
     "status"=>"Development version",
-    "file"=>"boinc_6.3.21_windows_x86_64.exe",
-    "date"=>"3 Nov 2008",
+    "file"=>"boinc_6.3.23_windows_x86_64.exe",
+    "date"=>"14 Nov 2008",
     "type"=>"win_new",
 );
 
@@ -118,10 +118,10 @@ $w5816= array(
 );
 
 $m63 = array(
-    "num"=>"6.3.21",
+    "num"=>"6.3.23",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_6.3.21_macOSX_universal.zip",
-    "date"=>"3 Nov 2008",
+    "file"=>"boinc_6.3.23_macOSX_universal.zip",
+    "date"=>"14 Nov 2008",
     "type"=>"mac_advanced",
 );
 
@@ -150,10 +150,10 @@ $m5817 = array(
 );
 
 $m63c = array(
-    "num"=>"6.3.21",
+    "num"=>"6.3.23",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_6.3.21_universal-apple-darwin.zip",
-    "date"=>"3 Nov 2008",
+    "file"=>"boinc_6.3.23_universal-apple-darwin.zip",
+    "date"=>"14 Nov 2008",
     "type"=>"bare_core",
 );
 
