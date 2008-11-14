@@ -55,10 +55,15 @@ struct RR_SIM_STATUS {
                 it = active.erase(it);
             } else {
                 rp->rrsim_cpu_left -= rp->rrsim_rate*rpbest->rrsim_finish_delay;
-                if (rp->rrsim_cpu_left < 0) {
+
+                // can be slightly less than 0 due to roundoff
+                //
+                if (rp->rrsim_cpu_left < -1) {
                     msg_printf(rp->project, MSG_INTERNAL_ERROR,
                         "%s: negative CPU time left %f", rp->name, rp->rrsim_cpu_left
                     );
+                }
+                if (rp->rrsim_cpu_left < 0) {
                     rp->rrsim_cpu_left = 0;
                 }
                 it++;

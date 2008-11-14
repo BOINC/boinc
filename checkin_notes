@@ -9438,3 +9438,13 @@ Rom    10 Nov 2008
     /
         configure.ac
         version.h
+
+David  14 Nov 2008
+    - client (Unix): if app uses < 1 CPU, run at nice 10 (not 0)
+    - client: suppress specious error message
+
+    client/
+        app_start.cpp
+        rr_sim.cpp
+    lib/
+        util.h

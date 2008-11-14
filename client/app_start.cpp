@@ -687,10 +687,10 @@ int ACTIVE_TASK::start(bool first_time) {
         );
     }
 
-    if (!high_priority) {
-        if (setpriority(PRIO_PROCESS, pid, PROCESS_IDLE_PRIORITY)) {
-            perror("setpriority");
-        }
+    if (setpriority(PRIO_PROCESS, pid,
+        high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)
+    ) {
+        perror("setpriority");
     }
 
 #else
@@ -812,10 +812,10 @@ int ACTIVE_TASK::start(bool first_time) {
         freopen(STDERR_FILE, "a", stderr);
 
 #ifdef HAVE_SETPRIORITY
-        if (!high_priority) {
-            if (setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY)) {
-                perror("setpriority");
-            }
+        if (setpriority(PRIO_PROCESS, 0,
+            high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)
+        ) {
+            perror("setpriority");
         }
 #endif
         sprintf(cmdline, "%s %s", wup->command_line.c_str(), app_version->cmdline);
