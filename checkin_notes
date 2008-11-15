@@ -9448,3 +9448,14 @@ David  14 Nov 2008
         rr_sim.cpp
     lib/
         util.h
+
+Charlie 15 Nov 08
+    - MGR: Async RPCs: RPC thread is again a detached thread which stays
+        running until Manager exits.  Use wxCondition to block RPC thread 
+        when it is idle.  This still avoids any Yield(), Sleep() and 
+        calls from RPC thread and reduces CPU usage from creating a new 
+        RPC thread for each RPC operation.
+    
+    clientgui/
+        AsyncRPC.cpp, .h
+        MainDocument.cpp, .h

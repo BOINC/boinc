@@ -183,6 +183,7 @@ public:
 //    void                      TestAsyncRPC();      // For testing Async RPCs
     RPCThread*                  m_RPCThread;
     wxCriticalSection           m_critsect;
+    bool                        m_bShutDownRPCThread;
 
 private:
     void                        HandleCompletedRPC();
@@ -194,6 +195,8 @@ private:
     bool                        m_bWaitingForRPC;
     bool                        m_bNeedRefresh;
     bool                        m_bNeedTaskBarRefresh;
+    wxMutex*                    m_pRPC_Thread_Mutex;
+    wxCondition*                m_pRPC_Thread_Condition;
 
     //
     // Project Tab

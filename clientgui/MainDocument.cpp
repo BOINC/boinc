@@ -431,12 +431,26 @@ int CMainDocument::OnInit() {
     m_pClientManager = new CBOINCClientManager();
     wxASSERT(m_pClientManager);
 
-    m_RPCThread = NULL;
     m_RPCWaitDlg = NULL;
     m_bWaitingForRPC = false;
     m_bNeedRefresh = false;
     m_bNeedTaskBarRefresh = false;
+    m_bShutDownRPCThread = false;
     current_rpc_request.clear();
+
+
+    m_pRPC_Thread_Mutex = new wxMutex();
+    wxASSERT(m_pRPC_Thread_Mutex);
+
+    m_pRPC_Thread_Condition = new wxCondition(*m_pRPC_Thread_Mutex);
+   
+    m_RPCThread = new RPCThread(this, m_pRPC_Thread_Mutex, m_pRPC_Thread_Condition);
+    wxASSERT(m_RPCThread);
+
+    iRetVal = m_RPCThread->Create();
+    wxASSERT(!iRetVal);
+    
+    m_RPCThread->Run();
 
     return iRetVal;
 }
@@ -459,6 +473,12 @@ int CMainDocument::OnExit() {
         KillRPCThread();
         m_RPCThread = NULL;
     }
+    
+    delete m_pRPC_Thread_Mutex;
+    m_pRPC_Thread_Mutex = NULL;
+    
+    delete m_pRPC_Thread_Condition;
+    m_pRPC_Thread_Condition = NULL;
     
     rpcClient.close();
 
