@@ -9465,3 +9465,11 @@ Rom    17 Nov 2008
     
     client/
         client_state.cpp
+
+Rom    10 Nov 2008
+      boinc_core_release_6_5_0
+
+    /
+        configure.ac
+        version.h
+
