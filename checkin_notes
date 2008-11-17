@@ -9459,3 +9459,10 @@ Charlie 15 Nov 08
     clientgui/
         AsyncRPC.cpp, .h
         MainDocument.cpp, .h
+
+Rom    17 Nov 2008
+      boinc_core_release_6_4
+
+    /
+        configure.ac
+        version.h
