@@ -788,6 +788,9 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
             if (status.task_suspend_reason & SUSPEND_REASON_DISK_SIZE) {
                 strBuffer += _(" - need disk space");
             }
+            if (result->resources.size()) {
+                strBuffer += wxString(wxT(" (")) + wxString(result->resources.c_str(), wxConvUTF8) + wxString(wxT(")"));
+            }
         } else if (result->active_task) {
             if (result->too_large) {
                 strBuffer = _("Waiting for memory");
@@ -809,6 +812,9 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
                 strBuffer = _("Waiting to run");
             } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
                 strBuffer = _("Ready to start");
+            }
+            if (result->resources.size()) {
+                strBuffer += wxString(wxT(" (")) + wxString(result->resources.c_str(), wxConvUTF8) + wxString(wxT(")"));
             }
         } else {
             strBuffer = _("Ready to start");
