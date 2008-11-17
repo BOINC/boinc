@@ -9466,3 +9466,10 @@ Rom    17 Nov 2008
     /
         configure.ac
         version.h
+
+Rom    17 Nov 2008
+    - MGR: Delete the new BOINC Manager, we are going to use the 6.2
+        BOINC Manager for the 6.4 release.
+        
+    clientgui/
+        <various files deleted>
