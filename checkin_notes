@@ -4777,3 +4777,11 @@ Charlie 13 Nov 2008
     clientgui/
         BOINCBaseFrame.h
         BOINCGUIApp.cpp
+
+Rom    17 Nov 2008
+    - Tag for 6.2.28 release, all platforms
+      boinc_core_release_6_2_28
+
+    /
+        configure.ac
+        version.h
