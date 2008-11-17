@@ -1,0 +1,69 @@
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2005 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+/* XPM */
+static char *workunit_gauge_progress_indicator_image_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"8 7 37 1",
+"@ c #26323F",
+"X c #6587A9",
+"2 c #95C7F9",
+": c #2E3D4C",
+"q c #10161B",
+"i c #010101",
+"1 c #40566B",
+"& c #93C4F5",
+"6 c #89B6E4",
+"y c #5C7A99",
+"4 c #2F3E4E",
+"# c #020203",
+"* c #99CCFF",
+"+ c #6282A3",
+"3 c #92C2F3",
+"5 c #354658",
+"$ c #10151A",
+"t c #82AED9",
+"< c #202B36",
+"o c #85B2DE",
+"u c #1E2832",
+", c #7EA8D2",
+"8 c #171E26",
+"> c #86B3E0",
+"- c #4A627B",
+"O c #84B0DC",
+"7 c #273441",
+"  c #040607",
+"9 c #91C2F2",
+"e c #5F7F9F",
+"w c #020304",
+"% c #55718D",
+"= c #8FBFEF",
+"r c #85B1DD",
+". c #2D3C4B",
+"; c #0A0E11",
+"0 c #587592",
+/* pixels */
+" .XoO+@#",
+"$%&**=-;",
+":>****,<",
+"12****34",
+"5=****67",
+"8+9**=0q",
+"w@ertyui"
+};

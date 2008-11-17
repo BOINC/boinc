@@ -1,0 +1,91 @@
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2005 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+/* XPM */
+static char *error_indicator_image_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"69 20 46 1",
+"  c Black",
+"= c #FF6666",
+"q c #110000",
+"h c #993333",
+"- c #FF2222",
+"$ c #220000",
+"* c #FFFFFF",
+"> c #900000",
+"8 c #330000",
+"f c #200000",
+"p c #FFBBBB",
+"a c #440000",
+"e c #550000",
+"1 c #FF7777",
+"3 c #660000",
+"O c #B00000",
+"X c #400000",
+"% c #770000",
+"6 c #FF3333",
+"0 c #880000",
+": c #D93333",
+"7 c #990000",
+"2 c #D00000",
+"j c #FFCCCC",
+"g c #600000",
+"s c #AA0000",
+"w c #BB0000",
+"u c #FF8888",
+"9 c #CC0000",
+"t c #F00000",
+"i c #DD0000",
+"4 c #FF4444",
+"# c #800000",
+"o c #100000",
+"r c #EE0000",
+"+ c #FF0000",
+", c #FFDDDD",
+"5 c #A00000",
+"< c #FF9999",
+". c #300000",
+"y c #FF5555",
+"& c #DFAAAA",
+"k c #C00000",
+"d c #FF1111",
+"; c #FFEEEE",
+"@ c #E00000",
+/* pixels */
+"                                                                     ",
+"           .Xo                                                       ",
+"        XO++++@#o        $++++++++%                                  ",
+"       &**=++-;*:o       $++++++++%                                  ",
+"      >-;*,++<*1+2o      $++3                                        ",
+"     X++1**14*,+++#      $++3                                        ",
+"     5+++,*;,*6+++@      $++3       %+7897 ++$%+$  %+++0q   w+3er3   ",
+"     t+++y***u+++++.     $++3       %+7i+7 ++%++$ 9+++++iq  w+%++3   ",
+"     +++++p**y+++++X     $+++++++3  %+r9$  ++r%  %+ra $i+0  w+rs     ",
+"     ++++d,**,+++++X     $+++++++3  %++8   ++s   9+%   3+r  w+r      ",
+"     ++++u*p**1++++X     $++3       %+r    ++%   ++a   $++q w+s      ",
+"     @++4*,+,*;-+++.     $++3       %+i    ++3   ++a   $++q w+7      ",
+"     5++,*4+=**<++@      $++3       %+i    ++3   9+%   3+r  w+7      ",
+"     f+u*<+++p**4+g      $++3       %+i    ++3   %+ra 8i+%  w+7      ",
+"      h*;d+++4**j2       $++++++++7 %+i    ++3    9+++++9q  w+7      ",
+"       >++++++++ko       $++++++++7 %+i    ++3    q0+++%    w+7      ",
+"        X5t+++Og                                                     ",
+"                                                                     ",
+"                                                                     ",
+"                                                                     "
+};

@@ -1,0 +1,101 @@
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2005 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+/* XPM */
+static char *help_clicked_button_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"18 18 58 1",
+"0 c #6370B5",
+"v c #707FBA",
+". c #B8E0E4",
+"r c #94AED1",
+"3 c #333399",
+"# c #B8DAE2",
+"s c #6E7FBB",
+"> c #92AED1",
+"O c #B6DDE2",
+"o c #B6DDE6",
+"@ c #B6DAE2",
+"a c #B6DAE6",
+"X c #B9DEE2",
+"; c #5058A9",
+"h c #5058AA",
+"2 c #393B9C",
+"4 c #393B9D",
+"5 c #6F80BA",
+"w c #6F80BC",
+"u c #99CCFF",
+"j c #92C2F8",
+"& c #707EBA",
+"M c #6E7EBA",
+"l c #7EA3E4",
+"= c #3B3D9D",
+"y c #8BB8F1",
+"- c #3B3D9E",
+"6 c #A7CADB",
+", c #BBDAE3",
+"c c #717FBC",
+"9 c #6270B5",
+"+ c #B9DDE6",
+"f c #7799DD",
+": c #6F7FBA",
+"7 c #BEDEE7",
+"$ c #B9DAE6",
+"8 c #AAC5DA",
+"z c #637AC9",
+"i c #708FD6",
+"n c #6371B3",
+"B c #5158A9",
+"< c #A8C5DC",
+"m c #A6C8D9",
+"V c #94AFCE",
+"q c #A6C8DC",
+"t c #5C70C2",
+"N c #A6C5DC",
+"p c #94ACD1",
+"1 c #6E80BC",
+"% c #92ACD1",
+"x c #5566BB",
+"  c #BBDCE3",
+"* c #5059A9",
+"b c #6F81BB",
+"d c #4E5CB4",
+"g c #6F7EBB",
+"e c #6F7EBC",
+"k c #3A3DA0",
+/* pixels */
+" .X.oO.Xo+@O#$OX.X",
+". Oo$%&*=-;:>+$.@$",
+"X,+<12333333456++7",
+"$o8933333333330q..",
+".Xw333333333333e#$",
+"+r4333tyuui33332pO",
+"as333duf3duf3333g+",
+"$h33333333jy3333*O",
+".=333333kluz3333=.",
+"$=33333kyjt33333- ",
+"o*33333xuz333333h.",
+"+c33333333333333v@",
+"$>43333xuz333334r+",
+".,b3333xuz33333boo",
+"@Oqn333333333396aO",
+"XoomM23333332wNa,@",
+"OO  +rg;-=BMVo+O++",
+".+ .X#$+Oo.O$@o@,o"
+};

@@ -9473,3 +9473,9 @@ Rom    17 Nov 2008
         
     clientgui/
         <various files deleted>
+
+Rom    17 Nov 2008
+    - MGR: Add the 6.2 BOINC Manager.
+        
+    clientgui/
+        <various files added>

@@ -1,0 +1,116 @@
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2005 University of California
+//
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
+//
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+/* XPM */
+static char *suspend_link_image_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"59 20 71 1",
+"r c #C4E2E4",
+"+ c #C4E2EC",
+"Z c #1C1E1C",
+"K c #9CB6C4",
+"p c #7C9294",
+"; c #ACD2DC",
+"y c #54666C",
+"t c #7C929C",
+"8 c #B4DADC",
+"1 c #B4DAE4",
+"g c #ACC6D4",
+"w c #040204",
+"o c #BCE2E4",
+"  c #BCE2EC",
+"n c #8CA2AC",
+"z c #64767C",
+"e c #3C4A4C",
+": c #B4CEDC",
+"0 c #B4CEE4",
+"& c #BCD6DC",
+"j c #94AAB4",
+"4 c #BCD6E4",
+"F c #44525C",
+"2 c #C4DEE4",
+"s c #242E2C",
+"X c #C4DEEC",
+"< c #B4E2E4",
+"G c #ACCED4",
+"C c #84A2A4",
+"N c #546264",
+"6 c #ACCEDC",
+"D c #54626C",
+"v c #2C363C",
+"= c #B4D6DC",
+"a c #5C6A6C",
+"q c #84969C",
+"M c #8CAAB4",
+"% c #B4D6E4",
+"A c #94B2B4",
+"O c #BCDEE4",
+"L c #94B2BC",
+"u c #6C868C",
+"$ c #BCDEEC",
+"h c #3C464C",
+"7 c #B4CADC",
+"9 c #BCD2E4",
+"J c #748E9C",
+"c c #A4C2C4",
+"@ c #C4DAE4",
+"b c #7C969C",
+"m c #74828C",
+"x c #242A2C",
+"i c #4C565C",
+"# c #C4DAEC",
+"V c #7C96A4",
+", c #B4DEE4",
+"P c #5C7274",
+"> c #ACCAD4",
+"k c #545E64",
+"5 c #ACCADC",
+"B c #8CA6AC",
+"- c #B4D2DC",
+"H c #5C666C",
+"f c #343A3C",
+"d c #0C0E0C",
+"l c #8CA6B4",
+"* c #B4D2E4",
+"I c #94AEB4",
+". c #BCDAE4",
+"S c #6C828C",
+"3 c #BCDAEC",
+/* pixels */
+" .XoXXO+@ XOX+#$#$O@O..%&*=%-;::>O,o.,,<,OOO,1<1<.1,1.O,<.,",
+"#OX2$O XO2+XXO2O Xo314144***:::56=11,.1Oo.,,O,,OO.<.<,.<O,.",
+"$$2XX$ XoX$o2$2$3o3O...4.=4:=-6;65O.O1,.11.O1,O1,.,O,.O1o1.",
+"2X3+$OXX$+X X$+#OO#3$3134.%*;-*7668,,OO1O,O,,.1O,.1,.1$<$O<",
+"$X+XX2X+2oXX X$OX$O.$...%4.990-:7>-.1,1o31,O,O,.,,,13oO,,.,",
+"2.+3$+O X+OOqwwwwwe 3..O.4%*-=0;:56OOO1.1O..1OOO1O,O.1,O,O,",
+"+3X2rX#+$+XXtwy2Ouwi.@.44%4=%-*;065-111.<,O,O1OO1OOO1O,$8o.",
+"O+ X$+$2$$O+pwa#$6ws@udwwfg%hwj=kwl7zwwxcO,ywwvcO111$1O1$,O",
+"XrX OX+$+2+Xbwy Xzwinwm1cdz%hwM:NwBVwC1fs1yZ1Oss,OO,O,O,<,O",
+"X X XOOX+O$+pwwwwwi@O3O3.dN4hwl:kwBzwAO,,Ode,,SwC,.O,11o.1,",
+"2$XrX+X 2 2$qwy2O$O 2zZwwwy.hwj-DwB6vwxyt>wwwwwwz1O,O1O,,O.",
+"+X$$OX X+X+2bwaXOXX2zwiO.dD8hwj-Fwl:G8uvwAdeO1,,,,,O,OO,.,O",
+"XXrXX$2+$r$ qwyXO32$zwpOzdH4iwJKZwCDdL,zwCydL1yd6o.OoOO,,O,",
+" 2$ $rXX$XXXpwaO$$X#-vwwzfe.>xwvPwM7Fwwdz.,FwwsI,O1Oo1O.1O.",
+"XX2$X$O+Xo$+ XX$Xr2O+O2.O3.4.4%-=*-6;>=1O1,O.11OoO,,O,<.1o1",
+"+ +2$XX$ X+OX$+XX  23$3.OO.O1%4%-:0:766,.O.,.1,O3,,O,.,O,O.",
+"2XX X+ 2$rXXrXr$22XO$OX$.O44.4&=*%=6-6>1,.,,.,,O1O$,o.,O,O.",
+"$ 2$+$$+XXoX X$ X rX$r.o$.@.O4%4%-*-;:6:8OOO<O1,.,O,1,OO1,1",
+"+X XXX$X X 2X+X#+#X$ #$32$..$1%.-%=::;6G,O11O,O11$1o1O,,O3,",
+"XOX2$X+$+$XX2$X$$X $2$#O.$$3O14.4%=0-666-,O,O1,O,O<O,.<Oo,,"
+};
