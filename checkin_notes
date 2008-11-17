@@ -9459,3 +9459,9 @@ Charlie 15 Nov 08
     clientgui/
         AsyncRPC.cpp, .h
         MainDocument.cpp, .h
+
+Rom    17 Nov 2008
+    - CLI: Fix a build break when creating new stable branches.
+    
+    client/
+        client_state.cpp
