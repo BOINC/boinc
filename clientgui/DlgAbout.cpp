@@ -1,21 +1,19 @@
-// Berkeley Open Infrastructure for Network Computing
+// This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// Copyright (C) 2008 University of California
 //
-// This is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation;
-// either version 2.1 of the License, or (at your option) any later version.
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
-// This software is distributed in the hope that it will be useful,
+// BOINC is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // See the GNU Lesser General Public License for more details.
 //
-// To view the GNU Lesser General Public License visit
-// http://www.gnu.org/copyleft/lesser.html
-// or write to the Free Software Foundation, Inc.,
-// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "DlgAbout.h"
@@ -76,11 +74,12 @@ CDlgAbout::CDlgAbout(wxWindow* parent, wxWindowID id, const wxString& caption, c
 
 bool CDlgAbout::Create(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style) {
 ////@begin CDlgAbout member initialisation
-    m_strVersion = wxT(BOINC_VERSION_STRING);
     m_AboutBOINCTitleCtrl = NULL;
     m_AboutBOINCLogoCtrl = NULL;
     m_AboutBOINCSloganCtrl = NULL;
     m_AboutBOINCURLCtrl = NULL;
+    m_strVersion = wxT(BOINC_VERSION_STRING);
+    m_strWidgetsVersion.Printf(wxT("%d.%d.%d"), wxMAJOR_VERSION, wxMINOR_VERSION, wxRELEASE_NUMBER);
 ////@end CDlgAbout member initialisation
     
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
@@ -149,7 +148,7 @@ void CDlgAbout::CreateControls() {
     m_AboutBOINCLogoCtrl->Create( itemDialog1, wxID_STATIC, m_AboutBOINCLogoCtrlBitmap, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer5->Add(m_AboutBOINCLogoCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer7 = new wxFlexGridSizer(0, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer7 = new wxFlexGridSizer(3, 2, 0, 0);
     itemBoxSizer4->Add(itemFlexGridSizer7, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText8 = new wxStaticText;
@@ -157,24 +156,32 @@ void CDlgAbout::CreateControls() {
     itemFlexGridSizer7->Add(itemStaticText8, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     wxStaticText* itemStaticText9 = new wxStaticText;
-    itemStaticText9->Create( itemDialog1, wxID_STATIC, _T(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText9->Create( itemDialog1, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer7->Add(itemStaticText9, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     wxStaticText* itemStaticText10 = new wxStaticText;
-    itemStaticText10->Create( itemDialog1, wxID_STATIC, _("Copyright:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer7->Add(itemStaticText10, 0, wxALIGN_RIGHT|wxALIGN_TOP|wxLEFT|wxRIGHT, 5);
+    itemStaticText10->Create( itemDialog1, wxID_STATIC, _("wxWidgets Version:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer7->Add(itemStaticText10, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     wxStaticText* itemStaticText11 = new wxStaticText;
-    itemStaticText11->Create( itemDialog1, wxID_STATIC, _("(C) 2003-2008 University of California, Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer7->Add(itemStaticText11, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
+    itemStaticText11->Create( itemDialog1, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer7->Add(itemStaticText11, 11, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
+
+    wxStaticText* itemStaticText12 = new wxStaticText;
+    itemStaticText12->Create( itemDialog1, wxID_STATIC, _("Copyright:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer7->Add(itemStaticText12, 0, wxALIGN_RIGHT|wxALIGN_TOP|wxLEFT|wxRIGHT, 5);
+
+    wxStaticText* itemStaticText13 = new wxStaticText;
+    itemStaticText13->Create( itemDialog1, wxID_STATIC, _("(C) 2003-2008 University of California, Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer7->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     m_AboutBOINCSloganCtrl = new wxStaticText;
     m_AboutBOINCSloganCtrl->Create( itemDialog1, wxID_STATIC, _("Berkeley Open Infrastructure for Network Computing"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer2->Add(m_AboutBOINCSloganCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxStaticText* itemStaticText13 = new wxStaticText;
-    itemStaticText13->Create( itemDialog1, wxID_STATIC, _("Berkeley Open Infrastructure for Network Computing"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer2->Add(itemStaticText13, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxStaticText* itemStaticText14 = new wxStaticText;
+    itemStaticText14->Create( itemDialog1, wxID_STATIC, _("Berkeley Open Infrastructure for Network Computing"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer2->Add(itemStaticText14, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     m_AboutBOINCURLCtrl = new wxHyperLink;
     m_AboutBOINCURLCtrl->Create( itemDialog1, ID_ABOUTBOINCLINK, wxT("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
@@ -191,6 +198,7 @@ void CDlgAbout::CreateControls() {
 
     // Set validators
     itemStaticText9->SetValidator( wxGenericValidator(& m_strVersion) );
+    itemStaticText11->SetValidator( wxGenericValidator(& m_strWidgetsVersion) );
 ////@end CDlgAbout content construction
 }
 
@@ -224,4 +232,4 @@ wxIcon CDlgAbout::GetIconResource(const wxString& WXUNUSED(name)) {
 ////@end CDlgAbout icon retrieval
 }
 
-const char *BOINC_RCSID_b40c2996e6="$Id: DlgAbout.cpp 15067 2008-04-17 16:18:16Z romw $";
+const char *BOINC_RCSID_b40c2996e6="$Id: DlgAbout.cpp 16381 2008-10-31 22:11:38Z romw $";

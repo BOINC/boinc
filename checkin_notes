@@ -9479,3 +9479,24 @@ Rom    17 Nov 2008
         
     clientgui/
         <various files added>
+
+Rom    17 Nov 2008
+    - CLI: Fix build break after a stable branch creation.
+    - MGR: Make the BOINC Manager compile again on Windows.
+    - MGR: Make the BOINC Manager compile again on Linux.
+    - MGR: Merge changes for the new exit dialog
+    - MGR: Merge changes for the about dialog
+    
+    client/
+        client_state.cpp
+    clientgui/
+        browser.C (deleted)
+        browser.cpp (added)
+        DlgAbout.cpp, .h
+        DlgExitMessage.cpp, .h
+        Makefile.am
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
+    win_build/
+        boincmgr_curl.vcproj
