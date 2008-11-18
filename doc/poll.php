@@ -8,6 +8,11 @@ require_once("poll_data.inc");
 
 page_head(tr(POLL_TITLE));
 
+echo "The BOINC poll is closed.  See results
+    <a href=poll_results.php>here</a>.";
+page_tail();
+exit;
+
 echo "
 <body onload=\"disable_all();\">
 <p>

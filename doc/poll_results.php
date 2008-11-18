@@ -15,6 +15,7 @@ if (file_exists($cachefile)) {
     }
 }
 set_time_limit(0);
+ini_set("memory_limit", "2048M");
 ob_start();
 ob_implicit_flush(0);
 
@@ -25,6 +26,20 @@ mysql_pconnect("localhost", "boincadm", null);
 mysql_select_db("poll");
 
 $last_time = 0;
+
+function parse_xml2($resp, &$sums) {
+    $x = array();
+    $xml = $resp->xml;
+    $lines = explode("\n", $xml);
+    foreach ($lines as $line) {
+        $matches = array();
+        $retval = ereg('<([^>]*)>([^<]*)', $line, $matches);
+        $tag = $matches[1];
+        $val = $matches[2];
+        $x[$tag] = $val;
+    }
+    return $x;
+}
 
 function parse_xml($resp, &$sums) {
     global $last_time;
@@ -163,7 +178,18 @@ $sums = array();
 $result = mysql_query("select * from response order by update_time");
 while ($resp = mysql_fetch_object($result)) {
     parse_xml($resp, $sums);
+    if (0) {
+        $x = parse_xml2($resp, $sums);
+        if ($x['fother_text'] == "") continue;
+        if ($x['wother_text'] == "") continue;
+        if ($x['nother_text'] == "") continue;
+        if ($x['cother_text'] == "") continue;
+        if ($x['vother_text'] == "") continue;
+        echo "deleting $resp->uid\n";
+        mysql_query("delete from response where uid='$resp->uid'");
+    }
 }
+//exit;
 //print_r($sums);
 
 page_head(tr(POLL_RESULTS_TITLE));

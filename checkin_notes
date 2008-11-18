@@ -9486,3 +9486,13 @@ Charlie 18 Nov 08
         MainDocument.cpp, .h
         mac/
             MacSysMenu.cpp
+
+David  18 Nov 2008
+    - client: if bind fails, print port#
+    - web: don't randomize order of profiles
+        (fixes checkin of 28 Oct)
+
+    client/
+        gui_rpc_server.cpp
+    html/ops/
+        update_profile_pages.php

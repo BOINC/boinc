@@ -4,6 +4,7 @@ require_once("poll.inc");
 require_once("translation.inc");
 require_once("poll_data.inc");
 
+error_page("The poll is closed");
 function error() {
     page_head(tr(POLL_ERROR_TITLE));
     echo tr(POLL_ERROR_TEXT);
