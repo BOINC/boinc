@@ -9473,7 +9473,7 @@ Rom    10 Nov 2008
         configure.ac
         version.h
 
-Charlie 15 Nov 08
+Charlie 18 Nov 08
     - MGR: Async RPCs: Eliminate nanosleep() call while waiting for 
         Demand RPC to finish; use wxCondition with timeout to block main 
         thread instead.  
