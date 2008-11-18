@@ -221,9 +221,8 @@ void CWelcomePage::CreateControls()
     itemBoxSizer3->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
 	if ( wcg ) {
-		m_pAppButton = new wxButton(this,ID_CHANGEAPPS,"Change Research Applications at World Community Grid");
-		wxSizer* appSizer = this->GetSizer();
-		appSizer->Add(m_pAppButton,0, wxALIGN_CENTER,5);
+		m_pAppButton = new wxButton(itemWizardPage2, ID_CHANGEAPPS, _("Change Research Applications at World Community Grid"));
+		itemBoxSizer3->Add(m_pAppButton,0, wxALIGN_CENTER,5);
 	}
 
     itemWizardPage2->SetSizer(itemBoxSizer3);
@@ -525,7 +524,7 @@ void CWelcomePage::OnShow( wxShowEvent& event ) {
 
 void CWelcomePage::OpenWCG( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OpenWCG - Function Begin"));
-	wxString wcgUrl = "http://www.worldcommunitygrid.org/ms/viewMyProjects.do";
+	wxString wcgUrl = wxT("http://www.worldcommunitygrid.org/ms/viewMyProjects.do");
     wxHyperLink::ExecuteLink(wcgUrl);
 	CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
 	pWAP->SimulateCancelButton();
