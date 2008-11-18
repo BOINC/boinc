@@ -9528,3 +9528,11 @@ Rom    18 Nov 2008
     
     locale/client/
         <Various files> 
+
+Rom    18 Nov 2008
+    - Tag for 6.4.1 release, all platforms
+      boinc_core_release_6_4_1
+
+    /
+        configure.ac
+        version.h
