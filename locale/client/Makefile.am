@@ -46,8 +46,8 @@ install-exec-hook:
 	mydir=$(DESTDIR)$(datadir) ;\
 	for ldir in $(locale_dirs) ; do \
 	  $(INSTALL) -d $$mydir/$$ldir ; \
-	  if [ -f $$ldir/BOINC-Manager.po ] ; then \
-	    $(INSTALL) $$ldir/BOINC-Manager.po $$mydir/$$ldir/BOINC-Manager.po ; \
+	  if [ -f "$$ldir/BOINC Manager.mo" ] ; then \
+	    $(INSTALL) "$$ldir/BOINC Manager.mo" "$$mydir/$$ldir/BOINC Manager.mo" ; \
 	  fi ;\
 	done
 

@@ -9509,10 +9509,16 @@ Rom    17 Nov 2008
         ViewWork.cpp
         ViewWorkGrid.cpp
 
-Rom    10 Nov 2008
+Rom    17 Nov 2008
     - Tag for 6.4.0 release, all platforms
       boinc_core_release_6_4_0
 
     /
         configure.ac
         version.h
+
+Rom    18 Nov 2008
+    - MGR: Remove 6.5 Manager's localization files.
+    
+    locale/client/
+        <Various files> 
