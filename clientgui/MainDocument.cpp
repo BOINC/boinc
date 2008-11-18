@@ -443,8 +443,20 @@ int CMainDocument::OnInit() {
     wxASSERT(m_pRPC_Thread_Mutex);
 
     m_pRPC_Thread_Condition = new wxCondition(*m_pRPC_Thread_Mutex);
-   
-    m_RPCThread = new RPCThread(this, m_pRPC_Thread_Mutex, m_pRPC_Thread_Condition);
+     wxASSERT(m_pRPC_Thread_Condition);
+  
+    m_pRPC_Request_Mutex = new wxMutex();
+    wxASSERT(m_pRPC_Request_Mutex);
+
+    m_pRPC_Request_Condition = new wxCondition(*m_pRPC_Request_Mutex);
+     wxASSERT(m_pRPC_Request_Condition);
+  
+    m_RPCThread = new RPCThread(this, 
+                                m_pRPC_Thread_Mutex, 
+                                m_pRPC_Thread_Condition, 
+                                m_pRPC_Request_Mutex, 
+                                m_pRPC_Request_Condition
+                    );
     wxASSERT(m_RPCThread);
 
     iRetVal = m_RPCThread->Create();
@@ -458,9 +470,6 @@ int CMainDocument::OnInit() {
 
 int CMainDocument::OnExit() {
     int iRetVal = 0;
-
-    RPC_requests.clear();
-    current_rpc_request.clear();
 
     if (m_pClientManager) {
         m_pClientManager->ShutdownBOINCCore();
@@ -479,6 +488,12 @@ int CMainDocument::OnExit() {
     
     delete m_pRPC_Thread_Condition;
     m_pRPC_Thread_Condition = NULL;
+    
+    delete m_pRPC_Request_Mutex;
+    m_pRPC_Request_Mutex = NULL;
+    
+    delete m_pRPC_Request_Condition;
+    m_pRPC_Request_Condition = NULL;
     
     rpcClient.close();
 

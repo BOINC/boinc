@@ -299,6 +299,7 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                 return eventNotHandledErr;
 
              pMSM = wxGetApp().GetMacSystemMenu();
+             if (!pMSM) break;
                 
            // wxMac "helpfully" converts wxID_ABOUT to kHICommandAbout, wxID_EXIT to kHICommandQuit, 
             //  wxID_PREFERENCES to kHICommandPreferences
@@ -352,10 +353,8 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
                 // Note that if the main window is open, CBOINCBaseFrame::OnExit() will be 
                 // called and SysMenuEventHandler() (i.e., this code) will not be called.
                 if (commandID == wxID_EXIT) {
-                    delete pMSM;
-                    CTaskBarIcon* pTBI = wxGetApp().GetTaskBarIcon();
-                    if (pTBI)
-                        delete pTBI;
+                    wxGetApp().DeleteMacSystemMenu();
+                    wxGetApp().DeleteTaskBarIcon();
                 }
                 return noErr ;
             }

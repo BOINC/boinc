@@ -182,7 +182,6 @@ public:
     wxDialog*                   GetRPCWaitDialog() { return m_RPCWaitDlg; }
 //    void                      TestAsyncRPC();      // For testing Async RPCs
     RPCThread*                  m_RPCThread;
-    wxCriticalSection           m_critsect;
     bool                        m_bShutDownRPCThread;
 
 private:
@@ -197,6 +196,8 @@ private:
     bool                        m_bNeedTaskBarRefresh;
     wxMutex*                    m_pRPC_Thread_Mutex;
     wxCondition*                m_pRPC_Thread_Condition;
+    wxMutex*                    m_pRPC_Request_Mutex;
+    wxCondition*                m_pRPC_Request_Condition;
 
     //
     // Project Tab

@@ -30,6 +30,8 @@
 
 // Delay in milliseconds before showing AsyncRPCDlg
 #define RPC_WAIT_DLG_DELAY 1500
+// How often to check for events when minimized and waiting for Demand RPC
+#define DELAY_WHEN_MINIMIZED 500
 // Delay in milliseconds to allow thread to exit before killing it
 #define RPC_KILL_DELAY 100
 
@@ -99,10 +101,17 @@ int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2,
 }
 
 
-RPCThread::RPCThread(CMainDocument *pDoc, wxMutex* pRPC_Thread_Mutex, wxCondition* pRPC_Thread_Condition) : wxThread() {
+RPCThread::RPCThread(CMainDocument *pDoc, 
+                        wxMutex* pRPC_Thread_Mutex, 
+                        wxCondition* pRPC_Thread_Condition, 
+                        wxMutex* pRPC_Request_Mutex, 
+                        wxCondition* pRPC_Request_Condition)
+                        : wxThread() {
     m_pDoc = pDoc;
     m_pRPC_Thread_Mutex = pRPC_Thread_Mutex;
     m_pRPC_Thread_Condition = pRPC_Thread_Condition;
+    m_pRPC_Request_Mutex = pRPC_Request_Mutex;
+    m_pRPC_Request_Condition = pRPC_Request_Condition;
 }
 
 
@@ -116,6 +125,7 @@ void *RPCThread::Entry() {
     int retval = 0;
     CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED );
     ASYNC_RPC_REQUEST *current_request;
+    wxMutexError mutexErr = wxMUTEX_NO_ERROR;
     wxCondError condErr = wxCOND_NO_ERROR;
    
     m_pRPC_Thread_Mutex->Lock();
@@ -123,8 +133,8 @@ void *RPCThread::Entry() {
     while(true) {
         // Wait for main thread to wake us
         // This does the following:
-        // (1) Unlocks the Mutex an puts the thread to sleep as an atomic operation.
-        // (2) On Signal from main thread, wakes and then automatically locks m_pRPC_Thread_Mutex again.
+        // (1) Unlocks the Mutex and puts the RPC thread to sleep as an atomic operation.
+        // (2) On Signal from main thread: locks Mutex again and wakes the RPC thread.
         if (!m_pDoc->m_bShutDownRPCThread) {
             condErr = m_pRPC_Thread_Condition->Wait();
             wxASSERT(condErr == wxCOND_NO_ERROR);
@@ -154,9 +164,19 @@ void *RPCThread::Entry() {
         retval = ProcessRPCRequest();
         
         current_request->retval = retval;
-        current_request->isActive = false;
 
+        mutexErr = m_pRPC_Request_Mutex->Lock();
+        wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
+
+        current_request->isActive = false;
         wxPostEvent( wxTheApp, RPC_done_event );
+
+        // Signal() is ignored / discarded unless the main thread is 
+        // currently blocked by m_pRPC_Request_Condition->Wait[Timeout]()
+        m_pRPC_Request_Condition->Signal();
+        
+        mutexErr = m_pRPC_Request_Mutex->Unlock();
+        wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
     }
 
     return NULL;
@@ -401,8 +421,11 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     std::vector<ASYNC_RPC_REQUEST>::iterator iter;
     int retval = 0;
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
-    bool keepLooping = true;
+    long delayTimeRemaining, timeToSleep;
+    bool shown = false;
     
+    if (!m_RPCThread) return -1;
+
     if ( (request.rpcType < RPC_TYPE_WAIT_FOR_COMPLETION) || 
             (request.rpcType >= NUM_RPC_TYPES) ) {
         wxASSERT(false);
@@ -445,10 +468,10 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
+        m_pRPC_Thread_Condition->Signal();  // Unblock the thread
+
         mutexErr = m_pRPC_Thread_Mutex->Unlock(); // Release the mutex so thread can lock it
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
-
-        m_pRPC_Thread_Condition->Signal();  // Unblock the thread
     }
 
     // If this is a user-initiated event wait for completion but show 
@@ -469,48 +492,62 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         
         // Allow RPC_WAIT_DLG_DELAY seconds for Demand RPC to complete before 
         // displaying "Please Wait" dialog, but keep checking for completion.
-        do {
-#ifdef __WXMSW__
-            SwitchToThread();
-#else
-            // TODO: is there a way for main UNIX thread to yield wih no minimum delay?
-            timespec ts = {0, 1};   /// 1 nanosecond
-            nanosleep(&ts, NULL);   /// 1 nanosecond or less 
-#endif
+        delayTimeRemaining = RPC_WAIT_DLG_DELAY;
+        while (true) {
+            if (delayTimeRemaining >= 0) {  // Prevent overflow if minimized for a very long time
+                delayTimeRemaining = RPC_WAIT_DLG_DELAY - Dlgdelay.Time();
+            }
+            
+            if (pFrame) {
+                shown = pFrame->IsShown();
+            } else {
+                shown = false;
+            }
+            
+            if (shown) {
+                if (delayTimeRemaining <= 0) break; // Display the Please Wait dialog
+                timeToSleep = delayTimeRemaining;
+            } else {
+                // Don't show dialog while Manager is minimized, but do 
+                // process events so user can maximize the manager. 
+                //
+                // NOTE: CBOINCGUIApp::FilterEvent() blocks those events 
+                // which might cause posting of more RPC requests while 
+                // we are in this loop, to prevent undesirable recursion.
+                // It does allow wxEVT_RPC_FINISHED. 
+                //
+                timeToSleep = DELAY_WHEN_MINIMIZED; // Allow user to maximize Manager
+                wxSafeYield(NULL, true);
+            }
+            
             // OnRPCComplete() clears m_bWaitingForRPC if RPC completed 
             if (! m_bWaitingForRPC) {
                 return retval;
             }
             
-            keepLooping = (Dlgdelay.Time() < RPC_WAIT_DLG_DELAY);
-            if (keepLooping) {
-                // Simulate handling of CRPCFinishedEvent but don't allow any other 
-                // events (so no user activity) to prevent undesirable recursion.
-                // Allow RPC thread to run while we wait for it.
-                if (!current_rpc_request.isActive) {
-                    HandleCompletedRPC();
-                }
-            } else {
-                // RPC_WAIT_DLG_DELAY has expired; check if Manager is minimized.
-                if (pFrame) {
-                    if (!pFrame->IsShown()) {
-                        // Don't show dialog while Manager is minimized, but do 
-                        // process events so user can maximize the manager. 
-                        //
-                        // NOTE: CBOINCGUIApp::FilterEvent() blocks those events 
-                        // which might cause posting of more RPC requests while 
-                        // we are in this loop, to prevent undesirable recursion.
-                        // It does allow wxEVT_RPC_FINISHED so we don't need to 
-                        // explicity call HandleCompletedRPC() here. 
-                        //
-                        keepLooping = true;
-                        if (wxGetApp().Pending()) {
-                            wxGetApp().Dispatch();
-                        }
-                    }
-                }
+            mutexErr = m_pRPC_Request_Mutex->Lock();
+            wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
+
+            // Simulate handling of CRPCFinishedEvent but don't allow any other 
+            // events (so no user activity) to prevent undesirable recursion.
+            // Allow RPC thread to run while we wait for it.
+            if (!current_rpc_request.isActive) {
+                mutexErr = m_pRPC_Request_Mutex->Unlock();
+                wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
+                
+                HandleCompletedRPC();
+                continue;
             }
-        } while (keepLooping);
+
+            // Wait for RPC thread to wake us
+            // This does the following:
+            // (1) Unlocks the Mutex and puts the main thread to sleep as an atomic operation.
+            // (2) On Signal from RPC thread: locks Mutex again and wakes the main thread.
+            m_pRPC_Request_Condition->WaitTimeout(timeToSleep);
+
+            mutexErr = m_pRPC_Request_Mutex->Unlock();
+            wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
+        }
         
         // Demand RPC has taken longer than RPC_WAIT_DLG_DELAY seconds and 
         // Manager is not minimized, so display the "Please Wait" dialog 
@@ -568,10 +605,9 @@ void CMainDocument::KillRPCThread() {
     }
 
     rpcClient.close();
-    RPC_requests.clear();
-    current_rpc_request.clear();
     m_bNeedRefresh = false;
     m_bNeedTaskBarRefresh = false;
+    
     m_bShutDownRPCThread = true;
    
     // On some platforms, Delete() takes effect only when thread calls TestDestroy()
@@ -583,6 +619,10 @@ void CMainDocument::KillRPCThread() {
     wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
     m_pRPC_Thread_Condition->Signal();  // Unblock the thread
+    m_RPCThread->Delete();
+
+    RPC_requests.clear();
+    current_rpc_request.clear();
 
     wxStopWatch ThreadDeleteTimer = wxStopWatch();
     // RPC thread sets m_RPCThread to NULL when it exits
@@ -606,6 +646,8 @@ void CMainDocument::HandleCompletedRPC() {
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
     int i, n, requestIndex = -1;
     bool stillWaitingForPendingRequests = false;
+    
+    if (!m_RPCThread) return;
    
     if (current_rpc_request.isActive) return;
     

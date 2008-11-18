@@ -971,6 +971,24 @@ bool CBOINCGUIApp::IsModalDialogDisplayed() {
 }
 
 
+void CBOINCGUIApp::DeleteTaskBarIcon() {
+    if (m_pTaskBarIcon) {
+        delete m_pTaskBarIcon;
+    }
+    m_pTaskBarIcon = NULL;
+}
+
+
+#ifdef __WXMAC__
+void CBOINCGUIApp::DeleteMacSystemMenu() {
+    if (m_pMacSystemMenu) {
+        delete m_pMacSystemMenu;
+    }
+    m_pMacSystemMenu = NULL;
+}
+#endif
+
+
 // Prevent recursive entry of CMainDocument::RequestRPC()
 int CBOINCGUIApp::FilterEvent(wxEvent &event) {
     if (!m_pDocument) return -1;

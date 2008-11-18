@@ -127,9 +127,11 @@ public:
     wxString            GetDataDirectory()          { return m_strBOINCMGRDataDirectory; }
 #if defined(__WXMSW__) || defined(__WXMAC__)
     CTaskBarIcon*       GetTaskBarIcon()            { return m_pTaskBarIcon; }
+   void                 DeleteTaskBarIcon();
 #endif
 #ifdef __WXMAC__
     CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
+    void                DeleteMacSystemMenu();
     int                 ShouldShutdownCoreClient()
                                                     { return true; }
 #else

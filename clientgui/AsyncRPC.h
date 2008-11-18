@@ -287,7 +287,12 @@ private:
 class RPCThread : public wxThread
 {
 public:
-    RPCThread(CMainDocument *pDoc, wxMutex* pRPC_Thread_Mutex, wxCondition* pRPC_Thread_Condition);
+    RPCThread(CMainDocument *pDoc, 
+                wxMutex* pRPC_Thread_Mutex, 
+                wxCondition* pRPC_Thread_Condition, 
+                wxMutex* pRPC_Request_Mutex, 
+                wxCondition* RPC_Request_Condition
+            );
     virtual void                *Entry();
     virtual void                OnExit();
     
@@ -296,6 +301,8 @@ private:
     CMainDocument*              m_pDoc;
     wxMutex*                    m_pRPC_Thread_Mutex;
     wxCondition*                m_pRPC_Thread_Condition;
+    wxMutex*                    m_pRPC_Request_Mutex;
+    wxCondition*                m_pRPC_Request_Condition;
 };
 
 
