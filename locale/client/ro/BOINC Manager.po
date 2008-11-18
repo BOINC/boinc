@@ -1,0 +1,1491 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC Manager 4.x\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2005-09-26 01:18-0500\n"
+"Last-Translator: Mathe Stefan <mstefan@cs.toronto.edu>\n"
+"Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Romanian\n"
+"X-Poedit-Country: ROMANIA\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Basepath: C:\\BOINCSRC\\Main\\boinc\n"
+"X-Poedit-SearchPath-0: clientgui\n"
+
+#: clientgui/BOINCGUIApp.cpp:266
+msgid "Startup BOINC so only the system tray icon is visible"
+msgstr "Rulează BOINC numai în System Tray"
+
+#: clientgui/BOINCGUIApp.cpp:326
+msgid "(Automatic Detection)"
+msgstr "(Detectare Automata)"
+
+#: clientgui/BOINCGUIApp.cpp:327
+msgid "(Unknown)"
+msgstr "(Necunoscut)"
+
+#: clientgui/BOINCGUIApp.cpp:328
+msgid "(User Defined)"
+msgstr "(Definit de utilizator)"
+
+#: clientgui/BOINCTaskBar.cpp:68
+#: clientgui/DlgAbout.cpp:103
+msgid "BOINC Manager"
+msgstr "BOINC Manager"
+
+#: clientgui/BOINCTaskBar.cpp:363
+#: clientgui/MainFrame.cpp:385
+#: clientgui/mac/MacSysMenu.cpp:76
+msgid "E&xit"
+msgstr "I&eşire"
+
+#: clientgui/BOINCTaskBar.cpp:382
+#: clientgui/BOINCTaskBar.cpp:389
+msgid "&Open BOINC Manager..."
+msgstr "Deschide B&OINC Manager"
+
+#: clientgui/BOINCTaskBar.cpp:393
+#: clientgui/MainFrame.cpp:333
+msgid "&Run always"
+msgstr "&Rulează continuu"
+
+#: clientgui/BOINCTaskBar.cpp:394
+#: clientgui/MainFrame.cpp:338
+msgid "Run based on &preferences"
+msgstr "Rulează conform &preferinţelor"
+
+#: clientgui/BOINCTaskBar.cpp:395
+#: clientgui/MainFrame.cpp:343
+msgid "&Suspend"
+msgstr "&Suspendă"
+
+#: clientgui/BOINCTaskBar.cpp:397
+#: clientgui/MainFrame.cpp:351
+msgid "&Network activity always available"
+msgstr "Acces la reţea disponibil perma&nent"
+
+#: clientgui/BOINCTaskBar.cpp:398
+#: clientgui/MainFrame.cpp:356
+msgid "Network activity based on &preferences"
+msgstr "Acces la reţea conform &preferinţelor"
+
+#: clientgui/BOINCTaskBar.cpp:399
+#: clientgui/MainFrame.cpp:361
+msgid "&Network activity suspended"
+msgstr "Suspendă accesul la retea"
+
+#: clientgui/BOINCTaskBar.cpp:401
+#: clientgui/MainFrame.cpp:423
+msgid "&About BOINC Manager..."
+msgstr "Despre BOINC Manager"
+
+#: clientgui/DlgAbout.cpp:122
+msgid "Version:"
+msgstr "Versiunea:"
+
+#: clientgui/DlgAbout.cpp:130
+msgid "Copyright:"
+msgstr "Drepturi de autor:"
+
+#: clientgui/DlgAbout.cpp:134
+msgid ""
+"(C) 2005 University of California at Berkeley.\n"
+"All Rights Reserved."
+msgstr ""
+"(C) 2005 University of California at Berkeley.\n"
+"Toate drepturile rezervate."
+
+#: clientgui/DlgAbout.cpp:138
+msgid "Berkeley Open Infrastructure for Network Computing"
+msgstr "Berkeley Open Infrastructure for Network Computing"
+
+#: clientgui/DlgAbout.cpp:142
+msgid "A software platform for distributed computing using volunteered computer resources"
+msgstr "O platformă software pentru procesare distribuită cu ajutorul resurselor de calcul puse la dispoziţie de voluntari"
+
+#: clientgui/DlgAbout.cpp:154
+#: clientgui/DlgAccountManagerSignup.cpp:143
+#: clientgui/DlgDialupCredentials.cpp:136
+#: clientgui/DlgOptions.cpp:396
+#: clientgui/DlgSelectComputer.cpp:130
+msgid "&OK"
+msgstr "&OK"
+
+#: clientgui/DlgAccountManagerSignup.cpp:105
+msgid ""
+"Account managers make it easy to find and join BOINC projects.\n"
+"For more information, click on the link below."
+msgstr ""
+"Account managers facilitează găsirea si implicarea in proiectele BOINC. \n"
+" Pentru mai multe informaţii, accesaţi linkul de mai jos."
+
+#: clientgui/DlgAccountManagerSignup.cpp:116
+msgid "Account Manager URL:"
+msgstr "URL Account Manager:"
+
+#: clientgui/DlgAccountManagerSignup.cpp:124
+msgid "Login:"
+msgstr "Login:"
+
+#: clientgui/DlgAccountManagerSignup.cpp:132
+#: clientgui/DlgDialupCredentials.cpp:122
+#: clientgui/DlgOptions.cpp:325
+#: clientgui/DlgOptions.cpp:381
+#: clientgui/DlgSelectComputer.cpp:119
+#: clientgui/WizAttachProject.cpp:1927
+#: clientgui/WizAttachProject.cpp:4210
+#: clientgui/WizAttachProject.cpp:4432
+msgid "Password:"
+msgstr "Parola:"
+
+#: clientgui/DlgAccountManagerSignup.cpp:148
+#: clientgui/DlgAccountManagerStatus.cpp:145
+#: clientgui/DlgDialupCredentials.cpp:141
+#: clientgui/DlgOptions.cpp:401
+#: clientgui/DlgSelectComputer.cpp:135
+msgid "&Cancel"
+msgstr "&Renunţă"
+
+#: clientgui/DlgAccountManagerStatus.cpp:110
+msgid "Your current account manager is:"
+msgstr "Account managerul curent este:"
+
+#: clientgui/DlgAccountManagerStatus.cpp:117
+msgid "Name:"
+msgstr "Nume:"
+
+#: clientgui/DlgAccountManagerStatus.cpp:121
+msgid "foo"
+msgstr "foo"
+
+#: clientgui/DlgAccountManagerStatus.cpp:125
+msgid "URL:"
+msgstr "URL:"
+
+#: clientgui/DlgAccountManagerStatus.cpp:136
+msgid "&Update"
+msgstr "&Actualizare"
+
+#: clientgui/DlgAccountManagerStatus.cpp:141
+msgid "Change"
+msgstr "Schimbă"
+
+#: clientgui/DlgDialupCredentials.cpp:111
+#: clientgui/WizAttachProject.cpp:2024
+msgid "Username:"
+msgstr "Nume utilizator:"
+
+#: clientgui/DlgOptions.cpp:189
+msgid "Language Selection:"
+msgstr "Selecţie limbă:"
+
+#: clientgui/DlgOptions.cpp:196
+msgid "What language should the manager display by default."
+msgstr "Limba utilizată implicit de manager."
+
+#: clientgui/DlgOptions.cpp:200
+msgid "Reminder Frequency:"
+msgstr "Frecvenţa reminder-ului:"
+
+#: clientgui/DlgOptions.cpp:206
+msgid "How often, in minutes, should the manager remind you of possible connection events."
+msgstr "Cât de des, în minute, va raporta managerul posibile evenimente ale conexiunii."
+
+#: clientgui/DlgOptions.cpp:209
+msgid "General"
+msgstr "General"
+
+#: clientgui/DlgOptions.cpp:218
+msgid "&Automatically detect network connection settings"
+msgstr "Detectează &automat setările pentru conectarea la retea"
+
+#: clientgui/DlgOptions.cpp:223
+msgid "Use my &Local Area Network(LAN) connection"
+msgstr "Utilizează conexiunea mea la reţeaua locală (LAN)"
+
+#: clientgui/DlgOptions.cpp:228
+msgid "Use my &Dial-up and Virtual Private Network connection"
+msgstr "Utilizează conexiunea mea Dial-up şi Virtual Private Network"
+
+#: clientgui/DlgOptions.cpp:232
+msgid "Dial-up and Virtual Private Network settings"
+msgstr "Setări Dial-up si Virtual Private Network"
+
+#: clientgui/DlgOptions.cpp:246
+msgid "&Set Default"
+msgstr "&Setează ca implicit"
+
+#: clientgui/DlgOptions.cpp:251
+msgid "&Clear Default"
+msgstr "Anulează setarea implicit"
+
+#: clientgui/DlgOptions.cpp:258
+msgid "Default Connection:"
+msgstr "Conexiune implicită:"
+
+#: clientgui/DlgOptions.cpp:268
+msgid "&Prompt for username and password"
+msgstr "Solicită nume utilizator si parola"
+
+#: clientgui/DlgOptions.cpp:275
+msgid "Connections"
+msgstr "Conexiuni"
+
+#: clientgui/DlgOptions.cpp:284
+msgid "Connect via HTTP proxy server"
+msgstr "Conectare prin HTTP proxy server"
+
+#: clientgui/DlgOptions.cpp:288
+msgid "HTTP Proxy Server Configuration"
+msgstr "Configurare HTTP Proxy server"
+
+#: clientgui/DlgOptions.cpp:296
+#: clientgui/DlgOptions.cpp:352
+msgid "Address:"
+msgstr "Adresa:"
+
+#: clientgui/DlgOptions.cpp:304
+#: clientgui/DlgOptions.cpp:360
+#: clientgui/WizAttachProject.cpp:4194
+#: clientgui/WizAttachProject.cpp:4416
+msgid "Port:"
+msgstr "Port:"
+
+#: clientgui/DlgOptions.cpp:311
+#: clientgui/DlgOptions.cpp:367
+msgid "Leave these blank if not needed"
+msgstr "Nu completaţi dacă nu e necesar"
+
+#: clientgui/DlgOptions.cpp:317
+#: clientgui/DlgOptions.cpp:373
+#: clientgui/WizAttachProject.cpp:4202
+#: clientgui/WizAttachProject.cpp:4424
+msgid "User Name:"
+msgstr "Nume utilizator:"
+
+#: clientgui/DlgOptions.cpp:332
+msgid "HTTP Proxy"
+msgstr "HTTP Proxy"
+
+#: clientgui/DlgOptions.cpp:340
+msgid "Connect via SOCKS proxy server"
+msgstr "Conectare prin SOCKS proxy server"
+
+#: clientgui/DlgOptions.cpp:344
+msgid "SOCKS Proxy Server Configuration"
+msgstr "Configurare SOCKS Proxy server"
+
+#: clientgui/DlgOptions.cpp:388
+msgid "SOCKS Proxy"
+msgstr "SOCKS Proxy"
+
+#: clientgui/DlgSelectComputer.cpp:110
+msgid "Host name:"
+msgstr "Nume host:"
+
+#: clientgui/hyperlink.cpp:78
+msgid "Failed to create wxStaticText, needed by wxHyperLink!"
+msgstr "Creare wxStaticText necesară pentru wxHyperLink eşuată!"
+
+#: clientgui/Localization.cpp:31
+msgid "Message boards"
+msgstr "Panouri de mesaje"
+
+#: clientgui/Localization.cpp:33
+msgid "Correspond with other users on the SETI@home message boards"
+msgstr "Corespondează cu alţi useri de pe panourile de mesaje SETI@home"
+
+#: clientgui/Localization.cpp:35
+msgid "Help"
+msgstr "Ajutor"
+
+#: clientgui/Localization.cpp:37
+msgid "Ask questions and report problems"
+msgstr "Intrebări şi probleme"
+
+#: clientgui/Localization.cpp:39
+msgid "Your account"
+msgstr "Contul dumneavoastră"
+
+#: clientgui/Localization.cpp:41
+msgid "View your account information and credit totals"
+msgstr "Vizualizaţii informaţii despre cont si total credit"
+
+#: clientgui/Localization.cpp:43
+msgid "Your preferences"
+msgstr "Preferinţele dumneavoastră"
+
+#: clientgui/Localization.cpp:45
+msgid "View and modify your SETI@home account profile and preferences"
+msgstr "Vizualizaţi şi modificaţi profilul si preferinţele contului dvs. SETI@home"
+
+#: clientgui/Localization.cpp:47
+msgid "Your results"
+msgstr "Rezultatele dumneavoastră"
+
+#: clientgui/Localization.cpp:49
+msgid "View your last week (or more) of computational results and work"
+msgstr "Vizualizaţii rezultatele procesării din ultima saptamană (sau mai mult)"
+
+#: clientgui/Localization.cpp:51
+msgid "Your computers"
+msgstr "Computerele dumneavoastră"
+
+#: clientgui/Localization.cpp:53
+msgid "View a listing of all the computers on which you are running SETI@Home"
+msgstr "Vizualizaţi toate computerele dvs. pe care rulează SETI@home"
+
+#: clientgui/Localization.cpp:55
+msgid "Your team"
+msgstr "Echipa dvs."
+
+#: clientgui/Localization.cpp:57
+msgid "View information about your team: BOINC Synergy"
+msgstr "Informaţii despre echipa dvs.: BOINC Synergy"
+
+#: clientgui/MainDocument.cpp:159
+msgid "BOINC Manager - Connection Error"
+msgstr "BOINC Manager - Eroare la conectare"
+
+#: clientgui/MainDocument.cpp:160
+msgid "The password you have provided is incorrect, please try again."
+msgstr "Parola este incorectă, va rugăm reîncercaţi."
+
+#: clientgui/MainDocument.cpp:178
+msgid "BOINC Manager - Connection failed"
+msgstr "BOINC Manager - Conexiune eşuată"
+
+#: clientgui/MainDocument.cpp:179
+#: clientgui/MainFrame.cpp:916
+#: clientgui/MainFrame.cpp:917
+msgid "Connection failed."
+msgstr "Conexiune eşuată"
+
+#: clientgui/MainDocument.cpp:285
+msgid "Retrieving system state; please wait..."
+msgstr "Recuperare informaţii despre starea sistemului; va rugam asteptaţi..."
+
+#: clientgui/MainDocument.cpp:294
+msgid "Retrieving host information; please wait..."
+msgstr "Recuperare informaţii despre host; vă rugăm aşteptaţi..."
+
+#: clientgui/MainDocument.cpp:848
+msgid "BOINC error"
+msgstr "Eroare BOINC"
+
+#: clientgui/MainDocument.cpp:858
+msgid "BOINC info"
+msgstr "Info BOINC"
+
+#: clientgui/MainFrame.cpp:80
+msgid "Connected"
+msgstr "Conectat"
+
+#: clientgui/MainFrame.cpp:88
+msgid "Disconnected"
+msgstr "Deconectat"
+
+#: clientgui/MainFrame.cpp:326
+msgid "&Hide"
+msgstr "Ascunde"
+
+#: clientgui/MainFrame.cpp:327
+msgid "Hides the main BOINC Manager window"
+msgstr "Ascunde fereastra principala BOINC Manager"
+
+#: clientgui/MainFrame.cpp:334
+msgid "Does work regardless of preferences"
+msgstr "Lucrează indiferent de preferinţte"
+
+#: clientgui/MainFrame.cpp:339
+msgid "Does work according to your preferences"
+msgstr "Lucrează conform preferinţelor"
+
+#: clientgui/MainFrame.cpp:344
+msgid "Stops work regardless of preferences"
+msgstr "Suspendă lucrul indiferent de preferinţe"
+
+#: clientgui/MainFrame.cpp:352
+msgid "Does network activity regardless of preferences"
+msgstr "Activează în reţea indiferent de preferinţe"
+
+#: clientgui/MainFrame.cpp:357
+msgid "Does network activity according to your preferences"
+msgstr "Activează în reţea în funcţie de preferinţe"
+
+#: clientgui/MainFrame.cpp:362
+msgid "Stops BOINC network activity"
+msgstr "Suspendă activitatea de reţea BOINC"
+
+#: clientgui/MainFrame.cpp:369
+msgid "Run &Benchmarks"
+msgstr "Rulează &Benchmarks"
+
+#: clientgui/MainFrame.cpp:370
+msgid "Runs BOINC CPU benchmarks"
+msgstr "Rulează benchmarks CPU BOINC"
+
+#: clientgui/MainFrame.cpp:377
+msgid "Select Computer..."
+msgstr "Selectează Computer..."
+
+#: clientgui/MainFrame.cpp:378
+msgid "Connect to another computer running BOINC"
+msgstr "Conectare la alt computer care rulează BOINC"
+
+#: clientgui/MainFrame.cpp:386
+msgid "Exit the BOINC Manager"
+msgstr "Ieşire BOINC Manager"
+
+#: clientgui/MainFrame.cpp:393
+msgid "&Manage Accounts"
+msgstr "&Gestionează conturile"
+
+#: clientgui/MainFrame.cpp:394
+msgid "Connect to an account manager website and update all of your accounts"
+msgstr "Conectare la websit-ul account manager si actualizează toate conturile"
+
+#: clientgui/MainFrame.cpp:401
+msgid "&Options"
+msgstr "&Opţiuni"
+
+#: clientgui/MainFrame.cpp:402
+msgid "Configure GUI options and proxy settings"
+msgstr "Configurează opţiunile GUI şi setările proxy"
+
+#: clientgui/MainFrame.cpp:409
+msgid "&BOINC Manager\tF1"
+msgstr "&BOINC Manager\tF1"
+
+#: clientgui/MainFrame.cpp:410
+msgid "Show information about the BOINC Manager"
+msgstr "Afisează informaţii despre BOINC Manager"
+
+#: clientgui/MainFrame.cpp:415
+msgid "BOINC &Website"
+msgstr "BOINC &Website"
+
+#: clientgui/MainFrame.cpp:416
+msgid "Show information about BOINC and BOINC Manager"
+msgstr "Afisează informaţii despre BOINC si BOINC Manager"
+
+#: clientgui/MainFrame.cpp:424
+msgid "Licensing and copyright information."
+msgstr "Informaţii despre licenţă şi drepturi de autor."
+
+#: clientgui/MainFrame.cpp:431
+msgid "&File"
+msgstr "&Fişier"
+
+#: clientgui/MainFrame.cpp:435
+msgid "&Tools"
+msgstr "&Unelte"
+
+#: clientgui/MainFrame.cpp:439
+msgid "&Help"
+msgstr "Ajutor"
+
+#: clientgui/MainFrame.cpp:1089
+msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
+msgstr "Setările de limbă pentru BOINC Manager au fost schimbate. Pentru a vizualiza efectele, restartaţi BOINC manager."
+
+#: clientgui/MainFrame.cpp:1090
+msgid "Language Selection..."
+msgstr "Selecţie limbă..."
+
+#: clientgui/MainFrame.cpp:1455
+#: clientgui/MainFrame.cpp:1472
+#: clientgui/MainFrame.cpp:1478
+#: clientgui/MainFrame.cpp:1521
+#: clientgui/MainFrame.cpp:1549
+#: clientgui/MainFrame.cpp:1558
+#: clientgui/MainFrame.cpp:1572
+#: clientgui/MainFrame.cpp:1580
+msgid "BOINC Manager - Network Status"
+msgstr "BOINC Manager - Starea reţelei"
+
+#: clientgui/MainFrame.cpp:1456
+msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
+msgstr "BOINC necesită o conexiune la Internet pentru operaţii de mentenanţă. Deschideţi BOINC Manager pentru conectare şi efectuarea operaţiilor necesare. "
+
+#: clientgui/MainFrame.cpp:1471
+msgid ""
+"BOINC needs to connect to the network.\n"
+"May it do so now?"
+msgstr ""
+"BOINC necesită conectarea la retea.\n"
+"Poate face asta acum?"
+
+#: clientgui/MainFrame.cpp:1479
+msgid "BOINC is connecting to the internet."
+msgstr "BOINC se conectează la Internet."
+
+#: clientgui/MainFrame.cpp:1522
+msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
+msgstr "BOINC este acum conectat la Internet. Actualizează toate proiectele şi reinitializează toate transferurile."
+
+#: clientgui/MainFrame.cpp:1550
+msgid "BOINC has successfully disconnected from the internet."
+msgstr "Deconectarea BOINC de la Internet s-a încheiat cu succes."
+
+#: clientgui/MainFrame.cpp:1559
+msgid "BOINC failed to disconnected from the internet."
+msgstr "Deconectarea BOINC de la Internet a eşuat."
+
+#: clientgui/MainFrame.cpp:1573
+msgid "BOINC has successfully connected to the internet."
+msgstr "Conectarea BOINC la Internet s-a încheiat cu succes."
+
+#: clientgui/MainFrame.cpp:1581
+msgid "BOINC failed to connect to the internet."
+msgstr "Conectarea BOINC la Internet a eşuat."
+
+#: clientgui/MainFrame.cpp:1659
+#: clientgui/MainFrame.cpp:1662
+#, c-format
+msgid "%s - (%s)"
+msgstr "%s - (%s)"
+
+#: clientgui/MainFrame.cpp:1660
+#, c-format
+msgid "Connecting to %s"
+msgstr "In curs de conectare la %s"
+
+#: clientgui/MainFrame.cpp:1663
+#, c-format
+msgid "Connected to %s"
+msgstr "Conectat la %s"
+
+#: clientgui/ValidateAccountKey.cpp:69
+msgid "Please specify an account key to continue."
+msgstr "Vă rugăm specificaţi un cheie de cont pentru a continua."
+
+#: clientgui/ValidateAccountKey.cpp:72
+msgid "Invalid Account Key; please enter a valid Account Key"
+msgstr "Cheie de cont nevalidă; va rugăm să introduceţi o cheie de cont validă."
+
+#: clientgui/ValidateAccountKey.cpp:83
+msgid "Validation conflict"
+msgstr "Conflict de validare"
+
+#: clientgui/ValidateURL.cpp:79
+msgid "Missing URL"
+msgstr "URL absent"
+
+#: clientgui/ValidateURL.cpp:80
+msgid ""
+"Please specify a URL.\n"
+"For example:\n"
+"http://www.example.com/"
+msgstr ""
+"Va rugăm specificaţi un URL.\n"
+"De exemplu:\n"
+"http://www.example.com/"
+
+#: clientgui/ValidateURL.cpp:83
+#: clientgui/ValidateURL.cpp:87
+#: clientgui/ValidateURL.cpp:91
+#: clientgui/ValidateURL.cpp:103
+#: clientgui/ValidateURL.cpp:107
+#: clientgui/ValidateURL.cpp:110
+msgid "Invalid URL"
+msgstr "URL nevalid"
+
+#: clientgui/ValidateURL.cpp:84
+#: clientgui/ValidateURL.cpp:88
+#: clientgui/ValidateURL.cpp:92
+msgid ""
+"Please specify a valid host name.\n"
+"For example:\n"
+"boincproject.example.com"
+msgstr ""
+"Va rugăm specificaţi un nume de host valid.\n"
+"De exemplu:\n"
+"boincproject.example.com"
+
+#: clientgui/ValidateURL.cpp:104
+#: clientgui/ValidateURL.cpp:108
+#, c-format
+msgid "'%s' does not contain a valid host name."
+msgstr "'%s' nu conţine un nume de host valid."
+
+#: clientgui/ValidateURL.cpp:111
+#, c-format
+msgid "'%s' does not contain a valid path."
+msgstr "'%s' nu conţine o cale de căutare validă."
+
+#: clientgui/ViewMessages.cpp:73
+#: clientgui/ViewProjects.cpp:106
+#: clientgui/ViewStatistics.cpp:315
+#: clientgui/ViewTransfers.cpp:91
+#: clientgui/ViewWork.cpp:94
+msgid "Tasks"
+msgstr "Sarcini"
+
+#: clientgui/ViewMessages.cpp:77
+msgid "Copy all messages"
+msgstr "Copiază toate mesajele"
+
+#: clientgui/ViewMessages.cpp:78
+msgid "Copy all the messages to the clipboard."
+msgstr "Copiază toate mesajele in clipboard."
+
+#: clientgui/ViewMessages.cpp:84
+msgid "Copy selected messages"
+msgstr "Copiază mesajele selectate"
+
+#: clientgui/ViewMessages.cpp:85
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
+msgstr "Copiază mesajele selectate in clipboard. Puteţi selecta mai multe mesaje prin apăsarea si menţinerea tastelor shift sau control în timp ce selectaţi cu mouse-ul mesajele."
+
+#: clientgui/ViewMessages.cpp:97
+#: clientgui/ViewProjects.cpp:173
+#: clientgui/ViewResources.cpp:75
+#: clientgui/ViewTransfers.cpp:114
+#: clientgui/ViewWork.cpp:124
+msgid "Project"
+msgstr "Proiect"
+
+#: clientgui/ViewMessages.cpp:98
+msgid "Time"
+msgstr "Timp"
+
+#: clientgui/ViewMessages.cpp:99
+msgid "Message"
+msgstr "Mesaj"
+
+#: clientgui/ViewMessages.cpp:123
+msgid "Messages"
+msgstr "Mesaje"
+
+#: clientgui/ViewMessages.cpp:144
+msgid "Copying all messages to the clipboard..."
+msgstr "Se copiază toate mesajele in clipboard..."
+
+#: clientgui/ViewMessages.cpp:176
+#: clientgui/ViewTransfers.cpp:182
+msgid "Aborting transfer..."
+msgstr "Renunţare la transfer..."
+
+#: clientgui/ViewProjects.cpp:110
+msgid "Update"
+msgstr "Actualizare"
+
+#: clientgui/ViewProjects.cpp:111
+msgid "Report all completed work, get latest credit, get latest preferences, and possibly get more work."
+msgstr "Raportează toate sarcinile incheiate, actualizează creditul, actualizeazaă preferinţele si, eventual, cere alte sarcini."
+
+#: clientgui/ViewProjects.cpp:118
+msgid "Update All"
+msgstr "Actualizează totul"
+
+#: clientgui/ViewProjects.cpp:119
+msgid "Report all upload items, completed work, get latest credit, get latest preferences, and possibly get more work."
+msgstr "Raportează toate elementele de upload, sarcinile incheiate, actualizează creditul, actualizează preferinţele şi, eventual, cere alte sarcini."
+
+#: clientgui/ViewProjects.cpp:126
+#: clientgui/ViewProjects.cpp:640
+#: clientgui/ViewWork.cpp:98
+#: clientgui/ViewWork.cpp:448
+msgid "Suspend"
+msgstr "Suspendă"
+
+#: clientgui/ViewProjects.cpp:127
+#: clientgui/ViewProjects.cpp:640
+msgid "Suspend work for this project."
+msgstr "Suspendă lucrul la acest proiect."
+
+#: clientgui/ViewProjects.cpp:133
+#: clientgui/ViewProjects.cpp:652
+msgid "No new work"
+msgstr "Nici o sarcină nouă."
+
+#: clientgui/ViewProjects.cpp:134
+#: clientgui/ViewProjects.cpp:652
+msgid "Don't fetch new work for this project."
+msgstr "Nu lua sarcini noi pentru acest proiect."
+
+#: clientgui/ViewProjects.cpp:140
+msgid "Reset project"
+msgstr "Resetează proiectul"
+
+# ?
+#: clientgui/ViewProjects.cpp:141
+msgid "Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
+msgstr "Sterge toate fişierele si sarcinile asociate acestui proiect si caută noi sarcini. Puteţi actualiza proiectul intâi, pentru a raporta sarcinile incheiate."
+
+#: clientgui/ViewProjects.cpp:150
+msgid "Detach"
+msgstr "Detaşează"
+
+# ?
+#: clientgui/ViewProjects.cpp:151
+msgid "Detach this computer from this project.  Work in progress will be lost. You can update the project first to report any completed work."
+msgstr "Detaşează acest computer de la proiect. Lucrul in curs se va pierde. Puteţi actualiza proiectul intâi, pentru a raporta sarcinile incheiate."
+
+#: clientgui/ViewProjects.cpp:160
+msgid "Attach to new project"
+msgstr "Ataşează la un proiect nou"
+
+#: clientgui/ViewProjects.cpp:161
+msgid "Attach this computer to a BOINC project.  You'll need a project URL and account key (visit the project's web site to get these)."
+msgstr "Ataşează acest computer la un proiect BOINC. Veţi avea nevoie de un URL al proiectului si o cheie de cont (account key). Vizitaţi site-ul proiectului pentru a le obţine."
+
+#: clientgui/ViewProjects.cpp:174
+msgid "Account"
+msgstr "Cont"
+
+#: clientgui/ViewProjects.cpp:175
+msgid "Team"
+msgstr "Echipa"
+
+#: clientgui/ViewProjects.cpp:176
+msgid "Total credit"
+msgstr "Credit total"
+
+#: clientgui/ViewProjects.cpp:177
+msgid "Avg. credit"
+msgstr "Credit mediu"
+
+#: clientgui/ViewProjects.cpp:178
+msgid "Resource share"
+msgstr "Resurse partajate"
+
+#: clientgui/ViewProjects.cpp:179
+#: clientgui/ViewTransfers.cpp:120
+#: clientgui/ViewWork.cpp:131
+msgid "Status"
+msgstr "Stare"
+
+#: clientgui/ViewProjects.cpp:192
+msgid "Projects"
+msgstr "Proiecte"
+
+#: clientgui/ViewProjects.cpp:214
+msgid "Updating project..."
+msgstr "In curs de actualizare proiect..."
+
+#: clientgui/ViewProjects.cpp:238
+msgid "Updating all project(s)..."
+msgstr "In curs de actualizare a tuturor proiectelor..."
+
+#: clientgui/ViewProjects.cpp:264
+msgid "Resuming project..."
+msgstr "Reluare proiect..."
+
+#: clientgui/ViewProjects.cpp:268
+msgid "Suspending project..."
+msgstr "Suspendare proiect..."
+
+# Hmmm... could've done better...
+#: clientgui/ViewProjects.cpp:295
+msgid "Telling project to allow additional work downloads..."
+msgstr "Informare proiect pentru a accepta download-ul de sarcini adiţionale..."
+
+#: clientgui/ViewProjects.cpp:299
+msgid "Telling project to not fetch additional work..."
+msgstr "Informare proiect de a nu accepta sarcini adiţionale..."
+
+#: clientgui/ViewProjects.cpp:329
+msgid "Resetting project..."
+msgstr "Resetare proiect..."
+
+#: clientgui/ViewProjects.cpp:335
+#, c-format
+msgid "Are you sure you want to reset project '%s'?"
+msgstr "Sunteti sigur ca doriţi să resetaţi proiectul '%s'?"
+
+#: clientgui/ViewProjects.cpp:341
+msgid "Reset Project"
+msgstr "Resetare Proiect"
+
+#: clientgui/ViewProjects.cpp:375
+msgid "Detaching from project..."
+msgstr "Detaşare de la proiect..."
+
+#: clientgui/ViewProjects.cpp:381
+#, c-format
+msgid "Are you sure you want to detach from project '%s'?"
+msgstr "Sunteţi sigur că doriţi să vă detaşaţi de la proiectul '%s'?"
+
+#: clientgui/ViewProjects.cpp:387
+msgid "Detach from Project"
+msgstr "Detaşare de la proiect"
+
+#: clientgui/ViewProjects.cpp:419
+msgid "Attaching to project..."
+msgstr "Ataşare la proiect..."
+
+#: clientgui/ViewProjects.cpp:461
+msgid "Launching browser..."
+msgstr "Lansare browser..."
+
+#: clientgui/ViewProjects.cpp:636
+#: clientgui/ViewWork.cpp:444
+msgid "Resume"
+msgstr "Reluare"
+
+#: clientgui/ViewProjects.cpp:636
+msgid "Resume work for this project."
+msgstr "Reluare calcul pentru proiect."
+
+#: clientgui/ViewProjects.cpp:648
+msgid "Allow new work"
+msgstr "Acceptă sarcini noi"
+
+#: clientgui/ViewProjects.cpp:648
+msgid "Allow fetching new work for this project."
+msgstr "Acceptăa aducerea de sarcini noi pentru acest proiect."
+
+#: clientgui/ViewProjects.cpp:690
+msgid "Web sites"
+msgstr "Sit-uri web"
+
+#: clientgui/ViewProjects.cpp:804
+#: clientgui/ViewWork.cpp:656
+msgid "Suspended by user"
+msgstr "Suspendat de utilizator"
+
+#: clientgui/ViewProjects.cpp:807
+msgid "Won't get new work"
+msgstr "Nu vor fi luate sarcini noi"
+
+#: clientgui/ViewProjects.cpp:810
+msgid "Scheduler request pending"
+msgstr "Cerere către planificator în aşteptare"
+
+#: clientgui/ViewProjects.cpp:816
+msgid "Communication deferred "
+msgstr "Comunicarea este amânată"
+
+#: clientgui/ViewResources.cpp:76
+msgid "Disk Space"
+msgstr "Spaţiu pe disk"
+
+#: clientgui/ViewResources.cpp:89
+msgid "Disk"
+msgstr "Disc"
+
+#: clientgui/ViewStatistics.cpp:40
+#: clientgui/ViewStatistics.cpp:46
+#: clientgui/ViewStatistics.cpp:372
+msgid "User Total"
+msgstr "Total utilizator"
+
+#: clientgui/ViewStatistics.cpp:319
+msgid "Show user total"
+msgstr "Afişează total utilizator"
+
+#: clientgui/ViewStatistics.cpp:326
+msgid "Show user average"
+msgstr "Afisează media utilizator"
+
+#: clientgui/ViewStatistics.cpp:333
+msgid "Show host total"
+msgstr "Afisează total host"
+
+#: clientgui/ViewStatistics.cpp:340
+msgid "Show host average"
+msgstr "Afisează media pentru host"
+
+#: clientgui/ViewStatistics.cpp:359
+msgid "Statistics"
+msgstr "Statistici"
+
+#: clientgui/ViewStatistics.cpp:371
+#: clientgui/ViewStatistics.cpp:391
+#: clientgui/ViewStatistics.cpp:411
+#: clientgui/ViewStatistics.cpp:431
+msgid "Updating charts..."
+msgstr "Actualizare grafice..."
+
+#: clientgui/ViewStatistics.cpp:392
+msgid "User Average"
+msgstr "Media utilizator"
+
+#: clientgui/ViewStatistics.cpp:412
+msgid "Host Total"
+msgstr "Total host"
+
+#: clientgui/ViewStatistics.cpp:432
+msgid "Host Average"
+msgstr "Media host"
+
+#: clientgui/ViewTransfers.cpp:95
+msgid "Retry Now"
+msgstr "Reîncearcă"
+
+#: clientgui/ViewTransfers.cpp:96
+msgid "Click 'Retry now' to transfer the file now"
+msgstr "Apasaţi 'Reîncearcă' pentru a transfera fişierul acum"
+
+#: clientgui/ViewTransfers.cpp:102
+msgid "Abort Transfer"
+msgstr "Renunţă la transfer"
+
+#: clientgui/ViewTransfers.cpp:103
+msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
+msgstr "Apasaţi 'Renunţă la transfer' pentru a şterge fişierul din coada de aşteptare. In urma acestei acţiuni nu veţi primi credit pentru acest rezultat."
+
+#: clientgui/ViewTransfers.cpp:115
+msgid "File"
+msgstr "Fişier"
+
+#: clientgui/ViewTransfers.cpp:116
+#: clientgui/ViewWork.cpp:128
+msgid "Progress"
+msgstr "Progres"
+
+#: clientgui/ViewTransfers.cpp:117
+msgid "Size"
+msgstr "Dimensiune"
+
+#: clientgui/ViewTransfers.cpp:118
+msgid "Elapsed Time"
+msgstr "Timp scurs"
+
+#: clientgui/ViewTransfers.cpp:119
+msgid "Speed"
+msgstr "Viteză"
+
+#: clientgui/ViewTransfers.cpp:133
+msgid "Transfers"
+msgstr "Transferuri"
+
+#: clientgui/ViewTransfers.cpp:155
+msgid "Retrying transfer now..."
+msgstr "Reiniţializare transfer..."
+
+#: clientgui/ViewTransfers.cpp:185
+#, c-format
+msgid "Are you sure you want to abort this file transfer '%s'?"
+msgstr "Sunteţi sigur că doriti să renunţaţi la transferul fişierului '%s'?"
+
+#: clientgui/ViewTransfers.cpp:190
+msgid "Abort File Transfer"
+msgstr "Renunţă la transferul fişierului"
+
+#: clientgui/ViewTransfers.cpp:507
+msgid "Retry in "
+msgstr "Reincearcă în"
+
+#: clientgui/ViewTransfers.cpp:509
+#: clientgui/ViewWork.cpp:647
+msgid "Download failed"
+msgstr "Download-ul a eşuat"
+
+#: clientgui/ViewTransfers.cpp:511
+#: clientgui/ViewWork.cpp:683
+msgid "Upload failed"
+msgstr "Upload-ul a eşuat"
+
+#: clientgui/ViewTransfers.cpp:514
+#: clientgui/ViewTransfers.cpp:523
+msgid "Suspended"
+msgstr "Suspendat"
+
+#: clientgui/ViewTransfers.cpp:516
+#: clientgui/ViewWork.cpp:685
+msgid "Uploading"
+msgstr "In curs de upload"
+
+#: clientgui/ViewTransfers.cpp:516
+#: clientgui/ViewWork.cpp:649
+msgid "Downloading"
+msgstr "In curs de download"
+
+#: clientgui/ViewWork.cpp:99
+#: clientgui/ViewWork.cpp:448
+msgid "Suspend work for this result."
+msgstr "Suspendare lucru pentru acest rezultat."
+
+#: clientgui/ViewWork.cpp:105
+#: clientgui/ViewWork.cpp:208
+msgid "Show graphics"
+msgstr "Afişează graficele"
+
+#: clientgui/ViewWork.cpp:106
+msgid "Show application graphics in a window."
+msgstr "Afişează graficele aplicaţiei într-o nouă fereastră."
+
+#: clientgui/ViewWork.cpp:112
+msgid "Abort"
+msgstr "Renunţă"
+
+#: clientgui/ViewWork.cpp:113
+msgid "Abandon work on the result. You will get no credit for it."
+msgstr "Abandonează lucrul la rezultat. Nu veţi primi credit pentru el."
+
+#: clientgui/ViewWork.cpp:125
+msgid "Application"
+msgstr "Aplicaţia"
+
+#: clientgui/ViewWork.cpp:126
+msgid "Name"
+msgstr "Nume"
+
+#: clientgui/ViewWork.cpp:127
+msgid "CPU time"
+msgstr "Timp CPU"
+
+#: clientgui/ViewWork.cpp:129
+msgid "To completion"
+msgstr "Până la finalizare"
+
+#: clientgui/ViewWork.cpp:130
+msgid "Report deadline"
+msgstr "Ultima zi pentru raport"
+
+#: clientgui/ViewWork.cpp:144
+msgid "Work"
+msgstr "Lucru"
+
+#: clientgui/ViewWork.cpp:168
+msgid "Resuming result..."
+msgstr "Reluare rezultat..."
+
+#: clientgui/ViewWork.cpp:172
+msgid "Suspending result..."
+msgstr "Suspendare rezultat..."
+
+#: clientgui/ViewWork.cpp:198
+msgid "Showing graphics for result..."
+msgstr "Afişare grafice pentru rezultat..."
+
+# Not quite pleasing...
+#: clientgui/ViewWork.cpp:207
+msgid "Are you sure you wish to display graphics on a remote machine?"
+msgstr "Sunteţi sigur că doriţi să afişaţi graficele pe o altă maşină?"
+
+#: clientgui/ViewWork.cpp:256
+msgid "Aborting result..."
+msgstr "Renunţare la rezultat..."
+
+#: clientgui/ViewWork.cpp:259
+#, c-format
+msgid "Are you sure you want to abort this result '%s'?"
+msgstr "Sunteţi sigur că doriţi să renunţaţi la acest rezultat '%s'?"
+
+#: clientgui/ViewWork.cpp:265
+msgid "Abort result"
+msgstr "Renunţare rezultat"
+
+#: clientgui/ViewWork.cpp:444
+msgid "Resume work for this result."
+msgstr "Reluare lucru pentru acest rezultat."
+
+#: clientgui/ViewWork.cpp:643
+msgid "New"
+msgstr "Nou"
+
+#: clientgui/ViewWork.cpp:654
+#: clientgui/ViewWork.cpp:676
+msgid "Aborted by user"
+msgstr "Renunţat de utilizator"
+
+#: clientgui/ViewWork.cpp:658
+msgid "Activities suspended"
+msgstr "Activităţi suspendate"
+
+#: clientgui/ViewWork.cpp:661
+msgid "Running"
+msgstr "Rulează"
+
+#: clientgui/ViewWork.cpp:663
+msgid "Preempted"
+msgstr "Înlocuit"
+
+#: clientgui/ViewWork.cpp:665
+#: clientgui/ViewWork.cpp:668
+msgid "Ready to run"
+msgstr "Gata de rulare"
+
+#: clientgui/ViewWork.cpp:678
+msgid "Computation error"
+msgstr "Eroare de calcul"
+
+#: clientgui/ViewWork.cpp:690
+msgid "Acknowledged"
+msgstr "Acreditat"
+
+#: clientgui/ViewWork.cpp:692
+msgid "Ready to report"
+msgstr "Gata de raport"
+
+#: clientgui/ViewWork.cpp:694
+#, c-format
+msgid "Error: invalid state '%d'"
+msgstr "Eroare: stare nevalidă cu codul '%d'"
+
+#: clientgui/ViewWork.cpp:702
+msgid "Activities suspended by user"
+msgstr "Activităţi suspendate de utilizator"
+
+#: clientgui/WizAttachProject.cpp:149
+msgid "Attach to Project"
+msgstr "Ataşare la Proiect"
+
+#: clientgui/WizAttachProject.cpp:494
+msgid "Do you really want to cancel?"
+msgstr "Sunteţi sigur că doriţi să abandonaţi?"
+
+#: clientgui/WizAttachProject.cpp:495
+msgid "Question"
+msgstr "Întrebare"
+
+#: clientgui/WizAttachProject.cpp:702
+msgid "Attach to project"
+msgstr "Ataşare la proiect"
+
+#: clientgui/WizAttachProject.cpp:707
+msgid "We'll now guide you through the process of attaching to a project."
+msgstr "Acum vă vom ghida in procesul de ataşare la un proiect."
+
+#: clientgui/WizAttachProject.cpp:713
+msgid "Debug Flags"
+msgstr "Indicatori de depanare"
+
+#: clientgui/WizAttachProject.cpp:723
+msgid "Project Properties Failure"
+msgstr "Eşuare Proprietăţi Proiect"
+
+#: clientgui/WizAttachProject.cpp:728
+msgid "Project Comm Failure"
+msgstr "Eşuare Comunicare Proiect"
+
+#: clientgui/WizAttachProject.cpp:733
+msgid "Project Properties URL Failure"
+msgstr "Eşuare URL Proprietăţi Proiect"
+
+#: clientgui/WizAttachProject.cpp:738
+msgid "Account Creation Disabled"
+msgstr "Creare Cont Dezactivată"
+
+#: clientgui/WizAttachProject.cpp:743
+msgid "Client Account Creation Disabled"
+msgstr "Creare Cont Client Dezactivată"
+
+#: clientgui/WizAttachProject.cpp:748
+msgid "Account Already Exists"
+msgstr "Contul Există Deja"
+
+#: clientgui/WizAttachProject.cpp:753
+msgid "Project Already Attached"
+msgstr "Proiect Deja Ataşat"
+
+#: clientgui/WizAttachProject.cpp:758
+msgid "Project Attach Failure"
+msgstr "Eşuare Ataşare Proiect"
+
+#: clientgui/WizAttachProject.cpp:763
+msgid "Google Comm Failure"
+msgstr "Eşuare Comunicare Google"
+
+#: clientgui/WizAttachProject.cpp:770
+msgid "Yahoo Comm Failure"
+msgstr "Eşuare Comunicare Yahoo"
+
+#: clientgui/WizAttachProject.cpp:777
+msgid "Net Detection Failure"
+msgstr "Eşuare Detectare Reţea"
+
+#: clientgui/WizAttachProject.cpp:784
+msgid "To continue, click Next."
+msgstr "Pentru a continua, apăsaţi Next."
+
+#: clientgui/WizAttachProject.cpp:996
+msgid "Project URL"
+msgstr "URL proiect"
+
+#: clientgui/WizAttachProject.cpp:1001
+msgid "Enter the URL of the project's web site."
+msgstr "Introduceţi URL-ul proiectului."
+
+#: clientgui/WizAttachProject.cpp:1007
+msgid "You can copy and paste the URL from your browsers address bar."
+msgstr "Puteţi copia URL-ul din bara de adrese a browserului dvs."
+
+#: clientgui/WizAttachProject.cpp:1017
+msgid "Project URL:"
+msgstr "URL proiect:"
+
+#: clientgui/WizAttachProject.cpp:1027
+msgid "For a list of BOINC-based projects go to:"
+msgstr "Pentru o listă a proiectelor bazate pe BOINC accesaţi:"
+
+#: clientgui/WizAttachProject.cpp:1204
+#: clientgui/WizAttachProject.cpp:2189
+msgid "Communicating with project - please wait"
+msgstr "În curs de comunicare cu proiectul - vă rugăm să asteptaţi"
+
+#: clientgui/WizAttachProject.cpp:1692
+msgid "Enter account key"
+msgstr "Introduceţi cheia de cont (account key)"
+
+#: clientgui/WizAttachProject.cpp:1699
+msgid "This project uses an \"account key\" to identify you."
+msgstr "Acest proiect utilizează o \"cheie de cont\" pentru a vă identifica."
+
+#: clientgui/WizAttachProject.cpp:1703
+msgid ""
+"Go to the project's web site to create an account. Your account\n"
+"key will be emailed to you."
+msgstr ""
+"Accesaţi web site-ul proiectului pentru a vă crea un cont.\n"
+"Veţi primi prin e-maill cheia de cont."
+
+#: clientgui/WizAttachProject.cpp:1707
+msgid "An account key looks like:"
+msgstr "O cheie de cont are forma:"
+
+#: clientgui/WizAttachProject.cpp:1711
+msgid "82412313ac88e9a3638f66ea82186948"
+msgstr "82412313ac88e9a3638f66ea82186948"
+
+#: clientgui/WizAttachProject.cpp:1722
+msgid "Account key:"
+msgstr "Cheia de cont (Account key):"
+
+#: clientgui/WizAttachProject.cpp:1890
+msgid "Account information"
+msgstr "Informaţii cont"
+
+#: clientgui/WizAttachProject.cpp:1895
+msgid "Do you wish to use an existing account or create a new one?"
+msgstr "Doriţi să utilizaţi un cont existent sau să creaţi un cont nou?"
+
+#: clientgui/WizAttachProject.cpp:1905
+msgid "Create new account"
+msgstr "Crează cont nou"
+
+#: clientgui/WizAttachProject.cpp:1910
+msgid "Use existing account"
+msgstr "Utilizează contul existent"
+
+#: clientgui/WizAttachProject.cpp:1919
+#: clientgui/WizAttachProject.cpp:2028
+msgid "Email address:"
+msgstr "Adresa email:"
+
+#: clientgui/WizAttachProject.cpp:1935
+msgid "Confirm password:"
+msgstr "Confirmaţi parola:"
+
+#: clientgui/WizAttachProject.cpp:2044
+msgid "Attach to Project Wizard"
+msgstr "Wizard ataşare la proiect"
+
+#: clientgui/WizAttachProject.cpp:2055
+#, c-format
+msgid "The minimum password length for this project is %d. Please choose a different password."
+msgstr "Lungimea minimă pentru parolă este '%d'. Va rugăm alegeţi o alta parolă."
+
+#: clientgui/WizAttachProject.cpp:2064
+msgid "The password and confirmation password do not match. Please type them again."
+msgstr "Parola si confirmarea parolei nu sunt identice. Vă rugăm să le reintroduceţi."
+
+#: clientgui/WizAttachProject.cpp:2645
+msgid "Attached to project"
+msgstr "Ataşat la proiect"
+
+#: clientgui/WizAttachProject.cpp:2650
+msgid "You are now successfully attached to this project."
+msgstr "Ataşarea la proiect s-a incheiat cu succes."
+
+#: clientgui/WizAttachProject.cpp:2656
+#: clientgui/WizAttachProject.cpp:2722
+msgid ""
+"When you click Finish, your web browser will go to a page where\n"
+"you can set your account name and preferences."
+msgstr ""
+"Cand apăsati butonul Finish, browserul dvs. va incărca o pagină unde \n"
+"puteţi seta numele contului dvs. si preferinţele."
+
+#: clientgui/WizAttachProject.cpp:2724
+#: clientgui/WizAttachProject.cpp:2817
+msgid "Click Finish to close."
+msgstr "Apăsaţi Finish pentru a inchide."
+
+#: clientgui/WizAttachProject.cpp:2810
+msgid "Failed to attach to project"
+msgstr "Ataşare la proiect eşuată."
+
+#: clientgui/WizAttachProject.cpp:2960
+msgid "Project not found"
+msgstr "Proiectul nu a fost găsit."
+
+#: clientgui/WizAttachProject.cpp:2967
+msgid "The URL you supplied is not that of a BOINC-based project."
+msgstr "URL-ul pe care l-aţi folosit nu este cel al unui proiect BOINC."
+
+#: clientgui/WizAttachProject.cpp:2971
+msgid "Please check the URL and try again."
+msgstr "Vă rugam verificaţi URL-ul şi reîncercaţi."
+
+#: clientgui/WizAttachProject.cpp:3116
+msgid "Project temporarily unavailable"
+msgstr "Pentru moment proiectul nu este accesibil."
+
+#: clientgui/WizAttachProject.cpp:3123
+msgid ""
+"The project is currently unavailable.\n"
+"\n"
+"Please try again later."
+msgstr ""
+"Pentru moment proiectul nu este accesibil.\n"
+"\n"
+"Vă rugăm încercaţi mai tarziu."
+
+#: clientgui/WizAttachProject.cpp:3263
+msgid "Already attached to project"
+msgstr "Deja ataşat la proiect"
+
+#: clientgui/WizAttachProject.cpp:3270
+msgid "You are already attached to this project."
+msgstr "Sunteţi deja ataşat la acest proiect."
+
+#: clientgui/WizAttachProject.cpp:3408
+msgid "No Internet connection"
+msgstr "Lipsă conexiune Internet"
+
+#: clientgui/WizAttachProject.cpp:3415
+msgid "Please connect to the Internet and try again."
+msgstr "Vă rugăm conectaţi-vă la Internet si reîncercaţi."
+
+#: clientgui/WizAttachProject.cpp:3554
+msgid "Account not found"
+msgstr "Contul nu a fost găsit."
+
+#: clientgui/WizAttachProject.cpp:3561
+msgid "Verify your account name and password are correct and try again."
+msgstr "Verificaţi numele de cont si parola si reîncercaţi."
+
+#: clientgui/WizAttachProject.cpp:3700
+msgid "Email address already in use"
+msgstr "Adresa de email este deja in uz."
+
+#: clientgui/WizAttachProject.cpp:3707
+msgid ""
+"An account with that email address already exists and has a\n"
+"different password than the one you entered.\n"
+"\n"
+"Please visit the project's web site and follow the instructions there."
+msgstr ""
+"Exista deja un cont cu această adresă de email, dar cu o parolă diferită de cea pe care aţi introdus-o dvs.\n"
+"\n"
+"Va rugăm accesaţi web site-ul proiectului si urmaţi instrucţiunile de acolo."
+
+#: clientgui/WizAttachProject.cpp:3847
+msgid "Account creation disabled"
+msgstr "Crearea conturilor dezactivată"
+
+#: clientgui/WizAttachProject.cpp:3854
+msgid "This project is not accepting new accounts at this time."
+msgstr "Momentan acest proiect nu acceptă conturi noi."
+
+#: clientgui/WizAttachProject.cpp:3995
+msgid "Network communication failed"
+msgstr "Comunicare in reţea esuată"
+
+#: clientgui/WizAttachProject.cpp:4002
+msgid ""
+"We were unable to communicate with the project or other web\n"
+"sites.\n"
+"\n"
+"Often this means that you are using a proxy server, and you need\n"
+"to tell us about it.\n"
+"\n"
+"Click Next to do proxy configuration."
+msgstr ""
+"Nu am reusit să comunicăm cu proiectul sau alte adrese web.\n"
+"\n"
+"De regulă aceasta se datorează faptului că dvs. utilizaţi un proxy server.\n"
+"Este necesar să specificati date în legătură cu acesta.\n"
+"\n"
+"Apasaţi Next pentru a seta configuraţia proxy."
+
+#: clientgui/WizAttachProject.cpp:4161
+msgid "HTTP proxy"
+msgstr "Proxy HTTP"
+
+#: clientgui/WizAttachProject.cpp:4168
+msgid ""
+"If you're using an HTTP proxy, enter its info here.\n"
+"\n"
+"If you're not sure, click Autodetect."
+msgstr ""
+"Dacă utilizaţi un proxy HTTP, introduceti informaţiile necesare aici.\n"
+"\n"
+"Dacă nu sunteţi sigur, apăsaţi Autodetectare."
+
+#: clientgui/WizAttachProject.cpp:4174
+#: clientgui/WizAttachProject.cpp:4396
+msgid "Autodetect"
+msgstr "Autodetectare"
+
+#: clientgui/WizAttachProject.cpp:4182
+#: clientgui/WizAttachProject.cpp:4404
+msgid "Server:"
+msgstr "Server:"
+
+#: clientgui/WizAttachProject.cpp:4383
+msgid "SOCKS proxy"
+msgstr "Proxy SOCKS"
+
+#: clientgui/WizAttachProject.cpp:4390
+msgid ""
+"If you're using a SOCKS proxy, enter its info here.\n"
+"\n"
+"If you're not sure, click Autodetect."
+msgstr ""
+"Dacă utilizaţi un proxy SOCKS, introduceţi informaţiile necesare aici.\n"
+"\n"
+"Dacă nu sunteţi sigur, apăsaţi Autodetectare."
+
+#: clientgui/WizAttachProject.cpp:4595
+msgid "Proxy configuration complete"
+msgstr "Configurarea proxy completă"
+
+#: clientgui/WizAttachProject.cpp:4600
+msgid "Click Next to continue."
+msgstr "Apăsaţi Next pentru a continua."
+
+#: clientgui/WizAttachProject.cpp:4745
+msgid "Ref Count Page"
+msgstr "Ref Count Page"
+
+#: clientgui/WizAttachProject.cpp:4750
+msgid "This page should never be used in the wizard itself."
+msgstr "Această pagină nu trebuie folosită în wizard."
+
+#: clientgui/WizAttachProject.cpp:4756
+msgid ""
+"This page just increases the refcount of various bitmap resources\n"
+"so that DialogBlocks doesn't nuke the refences to them."
+msgstr ""
+"Această pagină are doar rolul de a mări numărul de referinţe ale diverselor resurse de tip bitmap \n"
+" astfel încât DiagBlocks nu le elimină."
+
+#: clientgui/DlgAbout.h:51
+msgid "About BOINC Manager"
+msgstr "Despre BOINC Manager"
+
+#: clientgui/DlgAccountManagerSignup.h:50
+#: clientgui/DlgAccountManagerStatus.h:50
+msgid "Account Manager"
+msgstr "Managerul de conturi"
+
+#: clientgui/DlgDialupCredentials.h:49
+msgid "Dialup Logon"
+msgstr "Logon prin Dial-up"
+
+#: clientgui/DlgOptions.h:49
+msgid "Options"
+msgstr "Opţiuni"
+
+#: clientgui/DlgSelectComputer.h:49
+msgid "Select Computer"
+msgstr "Selectează computer"
+

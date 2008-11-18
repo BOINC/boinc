@@ -9522,3 +9522,9 @@ Rom    18 Nov 2008
     
     locale/client/
         <Various files> 
+
+Rom    18 Nov 2008
+    - MGR: Add 6.2 Manager's localization files.
+    
+    locale/client/
+        <Various files> 
