@@ -511,10 +511,13 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                 // Don't show dialog while Manager is minimized, but do 
                 // process events so user can maximize the manager. 
                 //
-                // NOTE: CBOINCGUIApp::FilterEvent() blocks those events 
+                // NOTE: CBOINCGUIApp::FilterEvent() discards those events 
                 // which might cause posting of more RPC requests while 
                 // we are in this loop, to prevent undesirable recursion.
-                // It does allow wxEVT_RPC_FINISHED. 
+                // Since the manager is minimized, we don't have to worry about 
+                // discarding crucial drawing or command events. 
+                // The filter does allow the the Open Manager menu item from 
+                // the system tray icon and wxEVT_RPC_FINISHED event. 
                 //
                 timeToSleep = DELAY_WHEN_MINIMIZED; // Allow user to maximize Manager
                 wxSafeYield(NULL, true);
@@ -530,6 +533,8 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 
             // Simulate handling of CRPCFinishedEvent but don't allow any other 
             // events (so no user activity) to prevent undesirable recursion.
+            // Since we don't need to filter and discard events, they remain on 
+            // the queue until it is safe to process them.
             // Allow RPC thread to run while we wait for it.
             if (!current_rpc_request.isActive) {
                 mutexErr = m_pRPC_Request_Mutex->Unlock();
