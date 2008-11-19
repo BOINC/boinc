@@ -532,7 +532,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
-    int prio_mask = high_priority?0:IDLE_PRIORITY_CLASS;
+    int prio_mask = high_priority?BELOW_NORMAL_PRIORITY_CLASS:IDLE_PRIORITY_CLASS;
 
     for (i=0; i<5; i++) {
         if (sandbox_account_service_token != NULL) {

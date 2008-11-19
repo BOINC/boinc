@@ -874,14 +874,6 @@ bool CLIENT_STATE::enforce_schedule() {
         //
         bool failed_to_preempt = false;
 		while (1) {
-			double next_ncpus_used = ncpus_used + rp->avp->avg_ncpus;
-				// the # of CPUs used if we run this job
-
-			if (log_flags.cpu_sched_debug) {
-				msg_printf(0, MSG_INFO, "ncpus_used %f next_ncpus_used %f",
-					ncpus_used, next_ncpus_used
-				);
-			}
 			if (!preemptable_tasks.size()) break;
 			if (rp->uses_coprocs()) {
 				if (ncpus_used <= ncpus) break;

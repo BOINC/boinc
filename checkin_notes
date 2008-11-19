@@ -9504,3 +9504,11 @@ David  18 Nov 2008
 
     db/
         db_base.cpp
+
+David  19 Nov 2008
+	- client: use BELOW_NORMAL_PRIORITY_CLASS instead of 0;
+		remove specious message
+
+	client/
+		cpu_sched.cpp
+		app_start.cpp
