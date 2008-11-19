@@ -9496,3 +9496,11 @@ David  18 Nov 2008
         gui_rpc_server.cpp
     html/ops/
         update_profile_pages.php
+
+David  18 Nov 2008
+    - back-end programs: set MySQL option to reconnect to server
+        if the connection goes away
+        (which it apparently does if idle for a while)
+
+    db/
+        db_base.cpp

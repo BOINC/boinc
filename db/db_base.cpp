@@ -41,8 +41,20 @@ DB_CONN::DB_CONN() {
 int DB_CONN::open(char* db_name, char* db_host, char* db_user, char* dbpassword) {
     mysql = mysql_init(0);
     if (!mysql) return ERR_DB_CANT_INIT;
+#if MYSQL_VERSION_ID >= 50106
+    my_bool mbReconnect = 1;
+    mysql_options(mysql, MYSQL_OPT_RECONNECT, &mbReconnect);
+#endif
     mysql = mysql_real_connect(mysql, db_host, db_user, dbpassword, db_name, 0, 0, 0);
     if (mysql == 0) return ERR_DB_CANT_CONNECT;
+
+    // older versions of MySQL lib need to set the option AFTER connecting;
+    // see http://dev.mysql.com/doc/refman/5.1/en/mysql-options.html
+    //
+#if MYSQL_VERSION_ID >= 50013 && MYSQL_VERSION_ID < 50106
+    my_bool mbReconnect = 1;
+    mysql_options(mysql, MYSQL_OPT_RECONNECT, &mbReconnect);
+#endif
     return 0;
 }
 
