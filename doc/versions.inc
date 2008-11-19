@@ -7,7 +7,7 @@ function show_linux_info() {
         <ul>
         <li> Fedora Core 7 and 8
         <li> Debian 4.1
-        <li> Ubuntu 7.10 and 8.04
+        <li> Ubuntu 7.10, 8.04, and 8.10
         <li> Mandriva, Sabayon, Mint, Gentoo, other Debian-based distributions
         </ul>
         <p>
@@ -181,11 +181,11 @@ $m5817c = array(
     "type"=>"bare_core",
 );
 
-$l63 = array(
-    "num"=>"6.3.21",
+$l64 = array(
+    "num"=>"6.4.1",
     "status"=>"Development version",
-    "file"=>"boinc_compat_6.3.21_i686-pc-linux-gnu.sh",
-    "date"=>"3 Nov 2008",
+    "file"=>"boinc_compat_6.4.1_i686-pc-linux-gnu.sh",
+    "date"=>"18 Nov 2008",
     "type"=>"sea",
 );
 
@@ -205,11 +205,11 @@ $l51045 = array(
     "type"=>"sea",
 );
 
-$l63ubuntu = array(
-    "num"=>"6.3.21",
+$l64ubuntu = array(
+    "num"=>"6.4.1",
     "status"=>"Development version",
-    "file"=>"boinc_6.3.21_i686-pc-linux-gnu.sh",
-    "date"=>"3 Nov 2008",
+    "file"=>"boinc_6.4.1_i686-pc-linux-gnu.sh",
+    "date"=>"18 Nov 2008",
     "type"=>"sea",
 );
 
@@ -229,11 +229,11 @@ $l51045ubuntu = array(
     "type"=>"sea",
 );
 
-$l63ubuntux64 = array(
-    "num"=>"6.3.21",
+$l64ubuntux64 = array(
+    "num"=>"6.4.1",
     "status"=>"Development version",
-    "file"=>"boinc_6.3.21_x86_64-pc-linux-gnu.sh",
-    "date"=>"3 Nov 2008",
+    "file"=>"boinc_6.4.1_x86_64-pc-linux-gnu.sh",
+    "date"=>"18 Nov 2008",
     "type"=>"sea",
 );
 
@@ -305,7 +305,7 @@ $linuxcompat = array(
     "description"=>"For older Linux versions, both x86 and x64; command-line interface only",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-		$l63,
+		$l64,
 		$l6215,
 		$l51045,
         $l5816,
@@ -317,7 +317,7 @@ $linux = array(
     "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-		$l63ubuntu,
+		$l64ubuntu,
 		$l6215ubuntu,
 		$l51045ubuntu,
     )
@@ -328,7 +328,7 @@ $linuxx64 = array(
     "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
-		$l63ubuntux64,
+		$l64ubuntux64,
 		$l6215ubuntux64,
 		$l51045ubuntux64,
     )
