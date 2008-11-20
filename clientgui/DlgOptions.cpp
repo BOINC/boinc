@@ -154,18 +154,18 @@ void CDlgOptions::CreateControls()
     wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(3, 2, 0, 0);
     itemBoxSizer5->Add(itemFlexGridSizer6, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
     wxStaticText* itemStaticText7 = new wxStaticText;
-    itemStaticText7->Create( itemPanel4, wxID_STATIC, _("Language Selection:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText7->Create( itemPanel4, wxID_STATIC, _("Language:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer6->Add(itemStaticText7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxString* m_LanguageSelectionCtrlStrings = NULL;
     m_LanguageSelectionCtrl = new wxComboBox;
     m_LanguageSelectionCtrl->Create( itemPanel4, ID_LANGUAGESELECTION, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_LanguageSelectionCtrlStrings, wxCB_READONLY );
     if (ShowToolTips())
-        m_LanguageSelectionCtrl->SetToolTip(_("What language should the manager display by default."));
+        m_LanguageSelectionCtrl->SetToolTip(_("What language should the manager use?"));
     itemFlexGridSizer6->Add(m_LanguageSelectionCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText9 = new wxStaticText;
-    itemStaticText9->Create( itemPanel4, wxID_STATIC, _("Reminder Frequency:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText9->Create( itemPanel4, wxID_STATIC, _("Network reminder interval:\n(minutes)"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemFlexGridSizer6->Add(itemStaticText9, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_ReminderFrequencyCtrl = new wxSlider;
@@ -177,29 +177,29 @@ void CDlgOptions::CreateControls()
 #endif
                                      wxSL_HORIZONTAL|wxSL_LABELS);
     if (ShowToolTips())
-        m_ReminderFrequencyCtrl->SetToolTip(_("How often, in minutes, should the manager remind you of possible connection events."));
+        m_ReminderFrequencyCtrl->SetToolTip(_("How often should the Manager remind you when a network connection is needed?"));
     itemFlexGridSizer6->Add(m_ReminderFrequencyCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 #ifdef __WXMSW__
     wxStaticText* itemStaticText10 = new wxStaticText;
-    itemStaticText10->Create( itemPanel4, wxID_STATIC, _("Run BOINC Manager at startup:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText10->Create( itemPanel4, wxID_STATIC, _("Run Manager at login?"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer6->Add(itemStaticText10, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_EnableBOINCManagerAutoStartCtrl = new wxCheckBox;
     m_EnableBOINCManagerAutoStartCtrl->Create( itemPanel4, ID_ENABLEAUTOSTART, wxT(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
     if (ShowToolTips())
-        m_EnableBOINCManagerAutoStartCtrl->SetToolTip(_("Launch BOINC Manager when you log on."));
+        m_EnableBOINCManagerAutoStartCtrl->SetToolTip(_("Run the BOINC Manager when you log on."));
     itemFlexGridSizer6->Add(m_EnableBOINCManagerAutoStartCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
 
     wxStaticText* itemStaticText11 = new wxStaticText;
-    itemStaticText11->Create( itemPanel4, wxID_STATIC, _("Enable BOINC Manager exit message:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText11->Create( itemPanel4, wxID_STATIC, _("Enable Manager exit dialog?"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer6->Add(itemStaticText11, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_EnableBOINCManagerExitMessageCtrl = new wxCheckBox;
     m_EnableBOINCManagerExitMessageCtrl->Create( itemPanel4, ID_ENABLEEXITMESSAGE, wxT(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
     if (ShowToolTips())
-        m_EnableBOINCManagerExitMessageCtrl->SetToolTip(_("Display the exit message dialog when shutting down BOINC Manager."));
+        m_EnableBOINCManagerExitMessageCtrl->SetToolTip(_("Display the exit dialog when shutting down the Manager."));
     itemFlexGridSizer6->Add(m_EnableBOINCManagerExitMessageCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemNotebook3->AddPage(itemPanel4, _("General"));

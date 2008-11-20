@@ -9512,3 +9512,9 @@ David  19 Nov 2008
 	client/
 		cpu_sched.cpp
 		app_start.cpp
+
+David  20 Nov 2008
+	- manager: tweak strings in Options dialog
+
+	clientgui/
+		DlgOptions.cpp
