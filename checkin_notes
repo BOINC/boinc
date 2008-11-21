@@ -9536,3 +9536,11 @@ Rom    18 Nov 2008
     /
         configure.ac
         version.h
+
+Charlie 20 Nov 08
+    - Mac: Fix XCode project to build old Manager with Grid Views; 
+        rename SetVersion.C to SetVersion.cpp.
+
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

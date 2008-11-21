@@ -165,6 +165,10 @@
 		DD4C561C0AD389A2009E23C6 /* sg_ProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C56100AD389A2009E23C6 /* sg_ProgressBar.cpp */; };
 		DD4C561E0AD389A2009E23C6 /* sg_SGUIListControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4C56120AD389A2009E23C6 /* sg_SGUIListControl.cpp */; };
 		DD4E704C0BCDAC360010A522 /* browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4E70490BCDAC360010A522 /* browser.cpp */; };
+		DD4E91010ED6BA1D00673A56 /* BOINCGridCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4E90F90ED6BA1D00673A56 /* BOINCGridCtrl.cpp */; };
+		DD4E91020ED6BA1D00673A56 /* ViewProjectsGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4E90FB0ED6BA1D00673A56 /* ViewProjectsGrid.cpp */; };
+		DD4E91030ED6BA1D00673A56 /* ViewTransfersGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4E90FD0ED6BA1D00673A56 /* ViewTransfersGrid.cpp */; };
+		DD4E91040ED6BA1D00673A56 /* ViewWorkGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4E90FF0ED6BA1D00673A56 /* ViewWorkGrid.cpp */; };
 		DD4EC65A08A0A7AF009AA08F /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
 		DD4EC65B08A0A83F009AA08F /* gui_rpc_client_print.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34F08A0694100656EB1 /* gui_rpc_client_print.cpp */; };
 		DD51DC8F0A4943A300BD24E6 /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
@@ -251,9 +255,7 @@
 		DDBC6CA50D5D458700564C49 /* boinc_ss_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */; };
 		DDBD51760C169B770074905B /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */; };
 		DDBE74390C03B1C600453BB8 /* cs_platforms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */; };
-		DDC132F30E2DAB1B0014D305 /* AsyncRPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC132F20E2DAB1B0014D305 /* AsyncRPC.cpp */; };
 		DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */; };
-		DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */; };
 		DDD095490A3EDF2D00C95BA4 /* switcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.cpp */; };
 		DDD52DCA0C03CAE6009B5FC0 /* ViewProjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */; };
 		DDD52DCC0C03CAE6009B5FC0 /* ViewTransfers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC60C03CAE6009B5FC0 /* ViewTransfers.cpp */; };
@@ -637,6 +639,14 @@
 		DD4C56130AD389A2009E23C6 /* sg_SGUIListControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_SGUIListControl.h; path = ../clientgui/sg_SGUIListControl.h; sourceTree = SOURCE_ROOT; };
 		DD4E70490BCDAC360010A522 /* browser.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = browser.cpp; sourceTree = "<group>"; };
 		DD4E704A0BCDAC360010A522 /* browser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = browser.h; path = ../clientgui/browser.h; sourceTree = SOURCE_ROOT; };
+		DD4E90F90ED6BA1D00673A56 /* BOINCGridCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCGridCtrl.cpp; path = ../clientgui/BOINCGridCtrl.cpp; sourceTree = SOURCE_ROOT; };
+		DD4E90FA0ED6BA1D00673A56 /* BOINCGridCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BOINCGridCtrl.h; path = ../clientgui/BOINCGridCtrl.h; sourceTree = SOURCE_ROOT; };
+		DD4E90FB0ED6BA1D00673A56 /* ViewProjectsGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ViewProjectsGrid.cpp; path = ../clientgui/ViewProjectsGrid.cpp; sourceTree = SOURCE_ROOT; };
+		DD4E90FC0ED6BA1D00673A56 /* ViewProjectsGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewProjectsGrid.h; path = ../clientgui/ViewProjectsGrid.h; sourceTree = SOURCE_ROOT; };
+		DD4E90FD0ED6BA1D00673A56 /* ViewTransfersGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ViewTransfersGrid.cpp; path = ../clientgui/ViewTransfersGrid.cpp; sourceTree = SOURCE_ROOT; };
+		DD4E90FE0ED6BA1D00673A56 /* ViewTransfersGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewTransfersGrid.h; path = ../clientgui/ViewTransfersGrid.h; sourceTree = SOURCE_ROOT; };
+		DD4E90FF0ED6BA1D00673A56 /* ViewWorkGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ViewWorkGrid.cpp; path = ../clientgui/ViewWorkGrid.cpp; sourceTree = SOURCE_ROOT; };
+		DD4E91000ED6BA1D00673A56 /* ViewWorkGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewWorkGrid.h; path = ../clientgui/ViewWorkGrid.h; sourceTree = SOURCE_ROOT; };
 		DD4EC60F08A0A083009AA08F /* texture.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = texture.cpp; sourceTree = "<group>"; };
 		DD4EC61008A0A083009AA08F /* texture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = texture.h; path = ../api/texture.h; sourceTree = SOURCE_ROOT; };
 		DD531BC50C193D3800742E50 /* MacInstaller.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = MacInstaller.icns; path = ../clientgui/res/MacInstaller.icns; sourceTree = SOURCE_ROOT; };
@@ -810,8 +820,6 @@
 		DDBDF4A90987091800464F83 /* ValidateEmailAddress.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ValidateEmailAddress.cpp; path = ../clientgui/ValidateEmailAddress.cpp; sourceTree = SOURCE_ROOT; };
 		DDBDF4AA0987091800464F83 /* ValidateEmailAddress.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ValidateEmailAddress.h; path = ../clientgui/ValidateEmailAddress.h; sourceTree = SOURCE_ROOT; };
 		DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = cs_platforms.cpp; sourceTree = "<group>"; };
-		DDC132F10E2DAB1B0014D305 /* AsyncRPC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncRPC.h; sourceTree = "<group>"; };
-		DDC132F20E2DAB1B0014D305 /* AsyncRPC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AsyncRPC.cpp; sourceTree = "<group>"; };
 		DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCClientManager.cpp; path = ../clientgui/BOINCClientManager.cpp; sourceTree = SOURCE_ROOT; };
 		DDC3D55D0D507D1700BE6D23 /* BOINCClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BOINCClientManager.h; path = ../clientgui/BOINCClientManager.h; sourceTree = SOURCE_ROOT; };
 		DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgGenericMessage.cpp; path = ../clientgui/DlgGenericMessage.cpp; sourceTree = SOURCE_ROOT; };
@@ -831,8 +839,6 @@
 		DDCE78320A70BD55008218B6 /* wxFNBDropTarget.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wxFNBDropTarget.h; path = ../clientgui/common/wxFNBDropTarget.h; sourceTree = SOURCE_ROOT; };
 		DDCE783E0A70BF72008218B6 /* sg_ProjectsComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProjectsComponent.cpp; path = ../clientgui/sg_ProjectsComponent.cpp; sourceTree = SOURCE_ROOT; };
 		DDCE783F0A70BF72008218B6 /* sg_ProjectsComponent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_ProjectsComponent.h; path = ../clientgui/sg_ProjectsComponent.h; sourceTree = SOURCE_ROOT; };
-		DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DlgItemProperties.cpp; sourceTree = "<group>"; };
-		DDCF84070E1B7C0A005EDC45 /* DlgItemProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DlgItemProperties.h; sourceTree = "<group>"; };
 		DDD0953F0A3EDD2500C95BA4 /* switcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = switcher; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD095480A3EDF2D00C95BA4 /* switcher.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = switcher.cpp; sourceTree = "<group>"; };
 		DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewProjects.cpp; path = ../clientgui/ViewProjects.cpp; sourceTree = SOURCE_ROOT; };
@@ -1173,8 +1179,6 @@
 				DD58C42308F3343F00C1DF66 /* AlreadyAttachedPage.h */,
 				DD58C42408F3343F00C1DF66 /* AlreadyExistsPage.cpp */,
 				DD58C42508F3343F00C1DF66 /* AlreadyExistsPage.h */,
-				DDC132F10E2DAB1B0014D305 /* AsyncRPC.h */,
-				DDC132F20E2DAB1B0014D305 /* AsyncRPC.cpp */,
 				DD9C94A20A5A3A4100AB0D10 /* BOINCBaseFrame.cpp */,
 				DD9C94A30A5A3A4100AB0D10 /* BOINCBaseFrame.h */,
 				DD81C3FE07C5D1020098A04D /* BOINCBaseView.cpp */,
@@ -1185,6 +1189,8 @@
 				DDC3D55D0D507D1700BE6D23 /* BOINCClientManager.h */,
 				DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */,
 				DD8DD4A609D9432F0043019E /* BOINCDialupManager.h */,
+				DD4E90F90ED6BA1D00673A56 /* BOINCGridCtrl.cpp */,
+				DD4E90FA0ED6BA1D00673A56 /* BOINCGridCtrl.h */,
 				DD81C40507C5D1020098A04D /* BOINCGUIApp.cpp */,
 				DD81C43B07C5D2240098A04D /* BOINCGUIApp.h */,
 				DD81C40407C5D1020098A04D /* BOINCListCtrl.cpp */,
@@ -1211,8 +1217,6 @@
 				DDDE43B80EC04C3C00083520 /* DlgExitMessage.h */,
 				DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */,
 				DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */,
-				DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */,
-				DDCF84070E1B7C0A005EDC45 /* DlgItemProperties.h */,
 				DD81C3FF07C5D1020098A04D /* DlgOptions.cpp */,
 				DD81C43907C5D2240098A04D /* DlgOptions.h */,
 				DD2D25CB07FAB41700151141 /* DlgSelectComputer.cpp */,
@@ -1286,14 +1290,20 @@
 				DD81C46407C5D29F0098A04D /* ViewMessages.h */,
 				DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */,
 				DDD52DC50C03CAE6009B5FC0 /* ViewProjects.h */,
+				DD4E90FB0ED6BA1D00673A56 /* ViewProjectsGrid.cpp */,
+				DD4E90FC0ED6BA1D00673A56 /* ViewProjectsGrid.h */,
 				DD81C42307C5D1D70098A04D /* ViewResources.cpp */,
 				DD81C47207C5D2BF0098A04D /* ViewResources.h */,
 				DDEF388E0802B73500E87552 /* ViewStatistics.cpp */,
 				DDEF388F0802B73500E87552 /* ViewStatistics.h */,
 				DDD52DC60C03CAE6009B5FC0 /* ViewTransfers.cpp */,
 				DDD52DC70C03CAE6009B5FC0 /* ViewTransfers.h */,
+				DD4E90FD0ED6BA1D00673A56 /* ViewTransfersGrid.cpp */,
+				DD4E90FE0ED6BA1D00673A56 /* ViewTransfersGrid.h */,
 				DDD52DC80C03CAE6009B5FC0 /* ViewWork.cpp */,
 				DDD52DC90C03CAE6009B5FC0 /* ViewWork.h */,
+				DD4E90FF0ED6BA1D00673A56 /* ViewWorkGrid.cpp */,
+				DD4E91000ED6BA1D00673A56 /* ViewWorkGrid.h */,
 				DD58C46308F334EA00C1DF66 /* WelcomePage.cpp */,
 				DD58C46408F334EA00C1DF66 /* WelcomePage.h */,
 				DD58C46508F334EA00C1DF66 /* WizardAccountManager.cpp */,
@@ -2313,9 +2323,11 @@
 				DDD52DCC0C03CAE6009B5FC0 /* ViewTransfers.cpp in Sources */,
 				DDD52DCE0C03CAE6009B5FC0 /* ViewWork.cpp in Sources */,
 				DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */,
-				DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */,
-				DDC132F30E2DAB1B0014D305 /* AsyncRPC.cpp in Sources */,
 				DDDE43B10EC04C1800083520 /* DlgExitMessage.cpp in Sources */,
+				DD4E91010ED6BA1D00673A56 /* BOINCGridCtrl.cpp in Sources */,
+				DD4E91020ED6BA1D00673A56 /* ViewProjectsGrid.cpp in Sources */,
+				DD4E91030ED6BA1D00673A56 /* ViewTransfersGrid.cpp in Sources */,
+				DD4E91040ED6BA1D00673A56 /* ViewWorkGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
