@@ -462,6 +462,9 @@ struct PROJECT_CONFIG {
     bool account_creation_disabled;
     bool client_account_creation_disabled;
     std::vector<std::string> messages;
+    std::string terms_of_use;
+        // if present, show this text in an "accept terms of use?" dialog
+        // before allowing attachment to continue.
 
     PROJECT_CONFIG();
     ~PROJECT_CONFIG();

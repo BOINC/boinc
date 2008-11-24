@@ -9561,3 +9561,12 @@ Rom    24 Nov 2008
         
     lib/
         stackwalker_win.cpp
+
+David  24 Nov 2008
+    - GUI RPC: add optional terms_of_use field to project config.
+        If present, the manager will display this text in a yes/no dialog
+        before attachment continues.
+
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp

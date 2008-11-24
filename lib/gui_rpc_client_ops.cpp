@@ -915,6 +915,13 @@ int PROJECT_CONFIG::parse(MIOFILE& in) {
             messages.push_back(msg);
             continue;
         }
+        if (parse_str(buf, "<terms_of_use>", msg)) {
+            while (in.fgets(buf, 256)) {
+                if (match_tag(buf, "</terms_of_use>")) break;
+                terms_of_use += buf;
+            }
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -923,6 +930,7 @@ void PROJECT_CONFIG::clear() {
     error_num = 0;
     name.clear();
     messages.clear();
+    terms_of_use.clear();
     min_passwd_length = 6;
     account_manager = false;
     uses_username = false;
