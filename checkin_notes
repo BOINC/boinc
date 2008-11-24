@@ -9577,3 +9577,9 @@ David  24 Nov 2008
 
     client/
         cs_prefs.cpp
+
+David  24 Nov 2008
+    - upgrade script: don't stop/start project if --web_only
+
+    tools/
+        upgrade

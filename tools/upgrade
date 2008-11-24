@@ -52,8 +52,9 @@ INSTALL_DIR = os.path.join(options.project_root, project_shortname)
 if not tools.query_noyes("Overwrite files in "+INSTALL_DIR):
     raise SystemExit
 
-if os.system(os.path.join(INSTALL_DIR,'bin/stop')):
-    raise SystemExit("Couldn't stop project!")
+if not options.web_only:
+    if os.system(os.path.join(INSTALL_DIR,'bin/stop')):
+        raise SystemExit("Couldn't stop project!")
 
 print "Upgrading files... "
 
@@ -71,4 +72,5 @@ except:
 
 os.system('cd '+INSTALL_DIR+'/html/ops; ./upgrade_db.php')
 
-print "Run `bin/start' to restart the project."
+if not options.web_only:
+    print "Run `bin/start' to restart the project."
