@@ -9550,3 +9550,14 @@ David  24 Nov 2008
             project_specific_prefs.php
     test/
         shrm
+
+Rom    24 Nov 2008
+    - DIAG: On Windows move the symbol store directory under the
+        BOINC data directory structure.  Depending on the version
+        of Windows, sometimes the temp directory was being set
+        to the system temp directory which is not setup for
+        everyone to use.  It is just best to use out data
+        directory structure.
+        
+    lib/
+        stackwalker_win.cpp
