@@ -9583,3 +9583,9 @@ David  24 Nov 2008
 
     tools/
         upgrade
+
+David  24 Nov 2008
+    - web: fix remaining Bossa name conflicts
+
+    html/ops/
+        bossa_admin.php

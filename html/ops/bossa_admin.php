@@ -230,7 +230,7 @@ function calibration_job_string($inst, $job) {
     }
 }
 
-function show_user() {
+function show_bossa_user() {
     $user_id = get_int('user_id');
     $app_id = get_int('app_id');
     $user = BoincUser::lookup_id("$user_id");
@@ -339,7 +339,7 @@ case 'update_user':
     Header('Location: bossa_admin.php');
     exit;
 case 'show_user':
-    show_user();
+    show_bossa_user();
     exit;
 case 'show_batches':
     $app_id = get_int('app_id');
