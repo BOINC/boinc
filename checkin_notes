@@ -9306,10 +9306,10 @@ Charlie 7 Nov 2008
         SkinManager.cpp
 
 David  7 Nov 2008
-	- MGR: fix verbose text
+    - MGR: fix verbose text
 
-	clientgui/
-		DlgExitMessage.cpp
+    clientgui/
+        DlgExitMessage.cpp
 
 David  7 Nov 2008
     - accelerate dup_element_contents()
@@ -9506,18 +9506,18 @@ David  18 Nov 2008
         db_base.cpp
 
 David  19 Nov 2008
-	- client: use BELOW_NORMAL_PRIORITY_CLASS instead of 0;
-		remove specious message
+    - client: use BELOW_NORMAL_PRIORITY_CLASS instead of 0;
+        remove specious message
 
-	client/
-		cpu_sched.cpp
-		app_start.cpp
+    client/
+        cpu_sched.cpp
+        app_start.cpp
 
 David  20 Nov 2008
-	- manager: tweak strings in Options dialog
+    - manager: tweak strings in Options dialog
 
-	clientgui/
-		DlgOptions.cpp
+    clientgui/
+        DlgOptions.cpp
 
 Eric K 24 Nov 2008
     - manager: Fixed missing "#if defined(__WXMSW__) || defined(__WXMAC__)"
@@ -9526,3 +9526,15 @@ Eric K 24 Nov 2008
     clientgui/
         BOINCGUIApp.cpp 
 
+David  24 Nov 2008
+    - client: in round-robin simulation, only increment CPU shortfall
+        (per-project or overall) if there are no pending tasks.
+        This is needed when there are coproc (i.e. CUDA) jobs;
+        CPUs may be idle because pending jobs are waiting for active jobs
+        to release coprocs.
+        In this situation the CPU idleness should not be counted as shortfall;
+        otherwise (if there are only coproc jobs) there will always be a shortfall,
+        and the client will fetch infinite work.
+
+    client/
+        rr_sim.cpp,h

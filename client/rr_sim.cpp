@@ -248,6 +248,7 @@ void CLIENT_STATE::rr_simulation() {
     //
     double sim_now = now;
     cpu_shortfall = 0;
+	bool any_pending = false;
     while (sim_status.active.size()) {
 
         // compute finish times and see which result finishes first
@@ -311,7 +312,13 @@ void CLIENT_STATE::rr_simulation() {
  
         pbest->rr_sim_status.remove_active(rpbest);
 
+		// record whether project has pending jobs;
+		// if so, we won't increment CPU shortfall
+		//
+		bool pbest_had_pending = (pbest->rr_sim_status.pending.size() > 0);
+
         // If project has more results, add one or more to active set.
+		// TODO: do this for other projects too, since coproc may have been freed
         //
         while (1) {
             rp = pbest->rr_sim_status.get_pending();
@@ -343,6 +350,16 @@ void CLIENT_STATE::rr_simulation() {
             }
         }
 
+		any_pending = false;
+        for (i=0; i<projects.size(); i++) {
+            p = projects[i];
+            if (p->non_cpu_intensive) continue;
+			if (p->rr_sim_status.pending.size()) {
+				any_pending = true;
+				break;
+			}
+		}
+
         // increment CPU shortfalls if necessary
         //
         if (sim_now < buf_end) {
@@ -351,12 +368,14 @@ void CLIENT_STATE::rr_simulation() {
             double d_time = end_time - sim_now;
             double nidle_cpus = ncpus - last_active_ncpus;
             if (nidle_cpus<0) nidle_cpus = 0;
-            if (nidle_cpus > 0) cpu_shortfall += d_time*nidle_cpus;
+			if (nidle_cpus > 0 && !any_pending) {
+				cpu_shortfall += d_time*nidle_cpus;
+			}
 
             double rsf = trs?pbest->resource_share/trs:1;
             double proj_cpu_share = ncpus*rsf;
 
-            if (last_proj_active_ncpus < proj_cpu_share) {
+            if (!pbest_had_pending && last_proj_active_ncpus < proj_cpu_share) {
                 pbest->rr_sim_status.cpu_shortfall += d_time*(proj_cpu_share - last_proj_active_ncpus);
                 if (log_flags.rr_simulation) {
                     msg_printf(pbest, MSG_INFO,
@@ -369,7 +388,7 @@ void CLIENT_STATE::rr_simulation() {
             if (end_time < buf_end) {
                 d_time = buf_end - end_time;
                 // if this is the last result for this project, account for the tail
-                if (pbest->rr_sim_status.none_active()) { 
+                if (pbest->rr_sim_status.none_active() && pbest->rr_sim_status.none_pending()) { 
                     pbest->rr_sim_status.cpu_shortfall += d_time * proj_cpu_share;
                     if (log_flags.rr_simulation) {
                          msg_printf(pbest, MSG_INFO, "[rr_sim] proj out of work; shortfall %f d %f pcs %f",
@@ -397,7 +416,7 @@ void CLIENT_STATE::rr_simulation() {
         sim_now += rpbest->rrsim_finish_delay;
     }
 
-    if (sim_now < buf_end) {
+    if (sim_now < buf_end && !any_pending) {
         cpu_shortfall += (buf_end - sim_now) * ncpus;
     }
 
