@@ -9538,3 +9538,15 @@ David  24 Nov 2008
 
     client/
         rr_sim.cpp,h
+
+David  24 Nov 2008
+    - web: rename Bossa functions to avoid name conflict
+    - web: bug fix in example core for app selection
+
+    html/
+        ops/
+            bossa_admin.php
+        project.sample/
+            project_specific_prefs.php
+    test/
+        shrm

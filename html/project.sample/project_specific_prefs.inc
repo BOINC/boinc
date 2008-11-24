@@ -148,7 +148,7 @@ function project_specific_prefs_parse_form(&$error) {
             $app_id = $app[0];
             $present = isset($_GET["app_id_$app_id"]);
             if ($present) {
-                $x .= "<app_id>$app_id</app_id>\n";
+                $y .= "<app_id>$app_id</app_id>\n";
             } else {
                 $some_unchecked = true;
             }

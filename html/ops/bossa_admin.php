@@ -34,7 +34,7 @@ function include_app_file($app_id) {
     require_once($file);
 }
 
-function show_app($app, $i) {
+function show_bossa_app($app, $i) {
     $j = $i%2;
     echo "<tr class=row$j>
         <td>Name: $app->name<br>
@@ -53,14 +53,14 @@ function show_app($app, $i) {
     show_button("bossa_admin.php?action=show_batches&app_id=$app->id", "Show batches", "Show batches");
 }
 
-function show_apps() {
+function show_bossa_apps() {
     $apps = BossaApp::enum();
     start_table();
     row1("Existing apps", 2);
     table_header("Name/description", "");
     $i = 0;
     foreach ($apps as $app) {
-        show_app($app, $i++);
+        show_bossa_app($app, $i++);
     }
     end_table();
 }
@@ -112,7 +112,7 @@ function user_settings() {
 
 function show_all() {
     admin_page_head("Bossa administration");
-    show_apps();
+    show_bossa_apps();
     echo "<p>";
     add_app_form();
     echo "<p>";

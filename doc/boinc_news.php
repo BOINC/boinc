@@ -1,6 +1,15 @@
 <?
 
 $project_news = array(
+array("November 20, 2008",
+    "See a video celebrating the
+    <a href=http://www.worldcommunitygrid.org/newsletter/video/viewIDedicate.do>fourth anniversary of IBM World Community Grid</a>."
+),
+array("November 20, 2008",
+    "<a href=http://jarifa.unex.es/>Jarifa</a>,
+    a system for organizational grid computing using BOINC,
+    has a new name, logo, and domain."
+),
 array("November 7, 2008",
     "On 27-28 November 2008, AlmereGrid and EDGeS will organise a two-day <a href=http://edges-grid.eu/web/userforum/1sttraining>Desktop Grid workshop</a> in Almere, The Netherlands."
 ),
