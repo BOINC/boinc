@@ -9518,3 +9518,11 @@ David  20 Nov 2008
 
 	clientgui/
 		DlgOptions.cpp
+
+Eric K 24 Nov 2008
+    - manager: Fixed missing "#if defined(__WXMSW__) || defined(__WXMAC__)"
+        around CBOINCGUIApp::DeleteTaskBarIcon() 
+
+    clientgui/
+        BOINCGUIApp.cpp 
+
