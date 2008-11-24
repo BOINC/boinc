@@ -519,6 +519,8 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     CHAR* tt;
     CHAR* p;
     DWORD symOptions; // symbol handler settings
+    std::string strCurrentDirectory;
+    std::string strExecutableDirectory;
     std::string strLocalSymbolStore;
     std::string strSymbolSearchPath;
 
@@ -526,61 +528,92 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     if (!tt) return 1;  // not enough memory...
 
     // build symbol search path from:
+    strCurrentDirectory = "";
+    strExecutableDirectory = "";
     strLocalSymbolStore = "";
     strSymbolSearchPath = "";
 
-    // current directory
-    if ( GetCurrentDirectoryA( TTBUFLEN, tt ) )
-        strSymbolSearchPath += tt + std::string( ";" );
+    // Detect Current Directory
+    if ( GetCurrentDirectoryA( TTBUFLEN, tt ) ) {
+        strCurrentDirectory = tt;
+    }
 
-    // dir with executable
+    // Detect Executable Directory
     if ( GetModuleFileNameA( 0, tt, TTBUFLEN ) )
     {
         for ( p = tt + strlen( tt ) - 1; p >= tt; -- p )
         {
             // locate the rightmost path separator
-            if ( *p == '\\' || *p == '/' || *p == ':' )
+            if ( *p == '\\' || *p == '/' || *p == ':' ) {
                 break;
+            }
         }
+
         // if we found one, p is pointing at it; if not, tt only contains
         // an exe name (no path), and p points before its first byte
         if ( p != tt ) // path sep found?
         {
-            if ( *p == ':' ) // we leave colons in place
+            if ( *p == ':' )  { // we leave colons in place
                 ++p;
+            }
+
             *p = '\0'; // eliminate the exe name and last path sep
-            strSymbolSearchPath += tt + std::string( ";" );
+            strExecutableDirectory += tt;
         }
     }
 
-    // environment variable _NT_SYMBOL_PATH
-    if ( GetEnvironmentVariableA( "_NT_SYMBOL_PATH", tt, TTBUFLEN ) )
-        strSymbolSearchPath += tt + std::string( ";" );
-    // environment variable _NT_ALTERNATE_SYMBOL_PATH
-    if ( GetEnvironmentVariableA( "_NT_ALT_SYMBOL_PATH", tt, TTBUFLEN ) )
-        strSymbolSearchPath += tt + std::string( ";" );
+    // Current Directory
+    if (!strCurrentDirectory.empty()) {
+        strSymbolSearchPath += strCurrentDirectory + std::string( ";" );
+    }
 
-    if ( GetTempPathA( TTBUFLEN, tt ) )
-        strLocalSymbolStore += tt + std::string("symbols");
+    // Executable Directory
+    if (!strExecutableDirectory.empty()) {
+        strSymbolSearchPath += strExecutableDirectory + std::string( ";" );
+    }
+
+    // Environment Variable _NT_SYMBOL_PATH
+    if ( GetEnvironmentVariableA( "_NT_SYMBOL_PATH", tt, TTBUFLEN ) ) {
+        strSymbolSearchPath += tt + std::string( ";" );
+    }
+
+    // Environment Variable _NT_ALTERNATE_SYMBOL_PATH
+    if ( GetEnvironmentVariableA( "_NT_ALT_SYMBOL_PATH", tt, TTBUFLEN ) ) {
+        strSymbolSearchPath += tt + std::string( ";" );
+    }
 
     if (!diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION) || 
-        (diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION) || (0 < strlen(pszSymbolStore)))) {
+        (diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION) || (0 < strlen(pszSymbolStore))))
+    {
+        // Depending on if we are a BOINC application or a project application
+        // we'll need to store our symbol files in two different locations.
+        //
+        // BOINC:
+        //   [DATADIR]\symbols
+        // Project:
+        //   [DATADIR]\projects\project_dir\symbols
+        //
+        if (!diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION)) {
+            strLocalSymbolStore += strCurrentDirectory + std::string("symbols");
+        } else {
+            strLocalSymbolStore += strExecutableDirectory + std::string("symbols");
+        }
 
-        // microsoft public symbol server
+        // Microsoft Public Symbol Server
         if (std::string::npos == strSymbolSearchPath.find("http://msdl.microsoft.com/download/symbols")) {
             strSymbolSearchPath += 
                 std::string( "srv*" ) + strLocalSymbolStore + 
                 std::string( "*http://msdl.microsoft.com/download/symbols;" );
         }
 
-        // project symbol server
+        // Project Symbol Server
         if ((std::string::npos == strSymbolSearchPath.find(pszSymbolStore)) && (0 < strlen(pszSymbolStore))) {
             strSymbolSearchPath += 
                 std::string( "srv*" ) + strLocalSymbolStore + std::string( "*" ) +
                 std::string( pszSymbolStore ) + std::string( ";" );
         }
 
-        // boinc symbol server
+        // BOINC Symbol Server
         if (std::string::npos == strSymbolSearchPath.find("http://boinc.berkeley.edu/symstore")) {
             strSymbolSearchPath += 
                 std::string( "srv*" ) + strLocalSymbolStore + 
@@ -591,8 +624,9 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
     if ( strSymbolSearchPath.size() > 0 ) // if we added anything, we have a trailing semicolon
         strSymbolSearchPath = strSymbolSearchPath.substr( 0, strSymbolSearchPath.size() - 1 );
 
-    if (tt) 
+    if (tt) {
         free( tt );
+    }
 
     // Setting symbol options to the WinDbg defaults.
     symOptions = (DWORD)NULL;
