@@ -9570,3 +9570,10 @@ David  24 Nov 2008
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+David  24 Nov 2008
+    - client: if an exclusive app is running, suspend network
+        as well as processing
+
+    client/
+        cs_prefs.cpp
