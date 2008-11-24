@@ -9306,10 +9306,10 @@ Charlie 7 Nov 2008
         SkinManager.cpp
 
 David  7 Nov 2008
-	- MGR: fix verbose text
+    - MGR: fix verbose text
 
-	clientgui/
-		DlgExitMessage.cpp
+    clientgui/
+        DlgExitMessage.cpp
 
 David  7 Nov 2008
     - accelerate dup_element_contents()
@@ -9522,7 +9522,6 @@ Rom    18 Nov 2008
     
     locale/client/
         <Various files> 
-
 Rom    18 Nov 2008
     - MGR: Add 6.2 Manager's localization files.
     
@@ -9544,3 +9543,17 @@ Charlie 20 Nov 08
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  24 Nov 2008
+    - client: in round-robin simulation, only increment CPU shortfall
+        (per-project or overall) if there are no pending tasks.
+        This is needed when there are coproc (i.e. CUDA) jobs;
+        CPUs may be idle because pending jobs are waiting for active jobs
+        to release coprocs.
+        In this situation the CPU idleness should not be counted as shortfall;
+        otherwise (if there are only coproc jobs) there will always be a shortfall,
+        and the client will fetch infinite work.
+
+    client/
+        rr_sim.cpp,h
+

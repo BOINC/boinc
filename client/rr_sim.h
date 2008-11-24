@@ -47,7 +47,10 @@ struct RR_SIM_PROJECT_STATUS {
     inline bool none_active() {
         return !active.size();
     }
-    bool can_run(RESULT* rp, int ncpus);
+    inline bool none_pending() {
+        return !pending.size();
+    }
+	bool can_run(RESULT* rp, int ncpus);
     void remove_active(RESULT* r);
     inline RESULT* get_pending() {
         if (!pending.size()) return NULL;
