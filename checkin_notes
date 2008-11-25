@@ -9601,3 +9601,12 @@ Rom    25 Nov 2008
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+Rom    25 Nov 2008
+    - MGR: Make the error message processing work for the
+        get_project_config rpc, use the same scheme as
+        the ACCOUNT_OUT structure.  I missed the Account
+        Manager scenario in the first checkin.
+        
+    clientgui/
+        AccountManagerPropertiesPage.cpp, .h
