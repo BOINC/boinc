@@ -103,7 +103,7 @@ for ($i=0; $i<$nfiles; $i++) {
     $case = make_test_case($ellipse_frac);
     $f = fopen($anspath, 'w');
     fwrite($f, serialize($case));
-    fclose(f);
+    fclose($f);
     imagepng(make_image($case), $path);
 }
 
