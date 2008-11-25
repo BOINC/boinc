@@ -9610,3 +9610,10 @@ Rom    25 Nov 2008
         
     clientgui/
         AccountManagerPropertiesPage.cpp, .h
+
+David  25 Nov 2008
+    - client, Win: 32-bit client running on a 64-bit machine
+        should report winx64 as primary platform
+
+    client/
+        cs_platforms.cpp

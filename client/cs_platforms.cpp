@@ -22,6 +22,8 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
+LPFN_ISWOW64PROCESS fnIsWow64Process;
 #endif
 
 #ifndef _WIN32
@@ -71,33 +73,36 @@ void CLIENT_STATE::detect_platforms() {
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 #if defined(_WIN64) && defined(_M_X64)
-
     add_platform("windows_x86_64");
     add_platform("windows_intelx86");
-
 #else
-
+    // see if 32-bit client is running on 64-bit machine
+    //
+    BOOL bIsWow64 = FALSE;
+    fnIsWow64Process = (LPFN_ISWOW64PROCESS)GetProcAddress(
+        GetModuleHandle(TEXT("kernel32")),"IsWow64Process"
+    );
+    if (fnIsWow64Process) {
+        if (fnIsWow64Process(GetCurrentProcess(), &bIsWow64)) {
+            if (bIsWow64) {
+                add_platform("windows_x86_64");
+            }
+        }
+    }
     add_platform("windows_intelx86");
-
 #endif
 
 #elif defined(__APPLE__)
 #if defined(__x86_64__)
-
     add_platform("x86_64-apple-darwin");
-
 #endif
 
 #if defined(__i386__) || defined(__x86_64__)
-
     // Supported on both Mac Intel architectures
     add_platform("i686-apple-darwin");
-
 #endif
-
     // Supported on all 3 Mac architectures
     add_platform("powerpc-apple-darwin");
-
 #elif defined(sun)
     // Check if we can run 64 bit binaries...
 
@@ -147,9 +152,7 @@ void CLIENT_STATE::detect_platforms() {
 #endif
 #endif // else defined sparc      
 
-
 #else
-
     // Any other platform, fall back to the previous method
     add_platform(HOSTTYPE);
 #ifdef HOSTTYPEALT
