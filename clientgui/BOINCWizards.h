@@ -30,7 +30,7 @@
 
 // Generic Pages
 #define ID_WELCOMEPAGE 10100
-#define ID_ACCOUNTKEYPAGE 10101
+#define ID_TERMSOFUSEPAGE 10113
 #define ID_ACCOUNTINFOPAGE 10102
 #define ID_COMPLETIONPAGE 10103
 #define ID_COMPLETIONERRORPAGE 10104
@@ -87,9 +87,10 @@
 #define ID_PROJECTURLDESCRIPTIONSTATICCTRL 11202
 #define ID_PROJECTURLCTRL 11203
 
-// Account Key Controls
-#define ID_ACCOUNTKEYSTATICCTRL 11300
-#define ID_ACCOUNTKEYCTRL 11301
+// Terms Of Use Controls
+#define ID_TERMSOFUSECTRL 11300
+#define ID_TERMSOFUSEAGREECTRL 11301
+#define ID_TERMSOFUSEDISAGREECTRL 11302
 
 // Account Info Controls
 #define ID_ACCOUNTCREATECTRL 11400
@@ -132,8 +133,8 @@
 // Forward declare the generic page classes
 //
 class CWelcomePage;
-class CAccountKeyPage;
 class CAccountInfoPage;
+class CTermsOfUsePage;
 class CCompletionPage;
 class CCompletionErrorPage;
 class CErrNotDetectedPage;
@@ -164,6 +165,7 @@ class wxHyperLink;
 #define WIZDEBUG_ERRCLIENTACCOUNTCREATIONDISABLED     0x00000200
 #define WIZDEBUG_ERRPROJECTATTACH                     0x00000400
 #define WIZDEBUG_ERRPROJECTALREADYATTACHED            0x00000800
+#define WIZDEBUG_ERRTERMSOFUSEREQUIRED                0x00001000
 
 #define PROCESS_DEBUG_FLAG(ulFlags) \
     ((CBOINCBaseWizard*)GetParent())->SetDiagFlags(ulFlags)

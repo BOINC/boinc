@@ -9617,3 +9617,21 @@ David  25 Nov 2008
 
     client/
         cs_platforms.cpp
+
+Rom    25 Nov 2008
+    - MGR: Remove the Account Key page from the Wizard.
+    - MGR: Add a Terms of Use page to the Wizard.
+    
+    clientgui/
+        AccountInfoPage.cpp
+        AccountKeyPage.cpp, .h (removed)
+        AccountManagerPropertiesPage.cpp, .h
+        BOINCWizards.h
+        ProjectProcessingPage.cpp
+        ProjectPropertiesPage.cpp, .h
+        ProxyPage.cpp
+        TermsOfUsePage .cpp, .h (added)
+        WizardAccountManager.cpp, .h
+        WizardAttachProject.cpp, .h
+    win_build/
+        boincmgr_curl.vcproj

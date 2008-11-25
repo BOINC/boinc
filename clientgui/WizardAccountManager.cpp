@@ -40,6 +40,7 @@
 #include "AccountManagerInfoPage.h"
 #include "AccountManagerPropertiesPage.h"
 #include "AccountManagerProcessingPage.h"
+#include "TermsOfUsePage.h"
 #include "AccountInfoPage.h"
 #include "CompletionPage.h"
 #include "CompletionErrorPage.h"
@@ -94,6 +95,7 @@ bool CWizardAccountManager::Create( wxWindow* parent, wxWindowID id, const wxPoi
     m_AccountManagerInfoPage = NULL;
     m_AccountManagerPropertiesPage = NULL;
     m_AccountManagerProcessingPage = NULL;
+    m_TermsOfUsePage = NULL;
     m_AccountInfoPage = NULL;
     m_CompletionPage = NULL;
     m_CompletionErrorPage = NULL;
@@ -173,13 +175,17 @@ void CWizardAccountManager::CreateControls()
     m_AccountManagerPropertiesPage->Create( itemWizard1 );
     GetPageAreaSizer()->Add(m_AccountManagerPropertiesPage);
 
+    m_AccountManagerProcessingPage = new CAccountManagerProcessingPage;
+    m_AccountManagerProcessingPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_AccountManagerProcessingPage);
+
     m_AccountInfoPage = new CAccountInfoPage;
     m_AccountInfoPage->Create( itemWizard1 );
     GetPageAreaSizer()->Add(m_AccountInfoPage);
 
-    m_AccountManagerProcessingPage = new CAccountManagerProcessingPage;
-    m_AccountManagerProcessingPage->Create( itemWizard1 );
-    GetPageAreaSizer()->Add(m_AccountManagerProcessingPage);
+    m_TermsOfUsePage = new CTermsOfUsePage;
+    m_TermsOfUsePage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_TermsOfUsePage);
 
     m_CompletionPage = new CCompletionPage;
     m_CompletionPage->Create( itemWizard1 );
@@ -219,8 +225,9 @@ void CWizardAccountManager::CreateControls()
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_WelcomePage = id: '%d', location: '%p'"), m_WelcomePage->GetId(), m_WelcomePage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerInfoPage = id: '%d', location: '%p'"), m_AccountManagerInfoPage->GetId(), m_AccountManagerInfoPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerPropertiesPage = id: '%d', location: '%p'"), m_AccountManagerPropertiesPage->GetId(), m_AccountManagerPropertiesPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), m_AccountInfoPage->GetId(), m_AccountInfoPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountManagerProcessingPage = id: '%d', location: '%p'"), m_AccountManagerProcessingPage->GetId(), m_AccountManagerProcessingPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_TermsOfUsePage = id: '%d', location: '%p'"), m_TermsOfUsePage->GetId(), m_TermsOfUsePage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), m_AccountInfoPage->GetId(), m_AccountInfoPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_CompletionPage = id: '%d', location: '%p'"), m_CompletionPage->GetId(), m_CompletionPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_CompletionErrorPage = id: '%d', location: '%p'"), m_CompletionErrorPage->GetId(), m_CompletionErrorPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -     m_ErrNotDetectedPage = id: '%d', location: '%p'"), m_ErrNotDetectedPage->GetId(), m_ErrNotDetectedPage);
@@ -382,11 +389,14 @@ wxWizardPageEx* CWizardAccountManager::_PushPageTransition( wxWizardPageEx* pCur
         if (ID_ACCOUNTMANAGERPROPERTIESPAGE == ulPageID)
             pPage = m_AccountManagerPropertiesPage;
  
-        if (ID_ACCOUNTINFOPAGE == ulPageID)
-            pPage = m_AccountInfoPage;
- 
         if (ID_ACCOUNTMANAGERPROCESSINGPAGE == ulPageID)
             pPage = m_AccountManagerProcessingPage;
+ 
+        if (ID_TERMSOFUSEPAGE == ulPageID)
+            pPage = m_TermsOfUsePage;
+ 
+        if (ID_ACCOUNTINFOPAGE == ulPageID)
+            pPage = m_AccountInfoPage;
  
         if (ID_COMPLETIONPAGE == ulPageID)
             pPage = m_CompletionPage;

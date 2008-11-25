@@ -60,7 +60,6 @@ BEGIN_EVENT_TABLE( CAccountInfoPage, wxWizardPageEx )
     EVT_WIZARDEX_PAGE_CHANGED( -1, CAccountInfoPage::OnPageChanged )
     EVT_WIZARDEX_PAGE_CHANGING( -1, CAccountInfoPage::OnPageChanging )
     EVT_WIZARDEX_CANCEL( -1, CAccountInfoPage::OnCancel )
-
     EVT_RADIOBUTTON( ID_ACCOUNTCREATECTRL, CAccountInfoPage::OnAccountCreateCtrlSelected )
     EVT_RADIOBUTTON( ID_ACCOUNTUSEEXISTINGCTRL, CAccountInfoPage::OnAccountUseExistingCtrlSelected )
 ////@end CAccountInfoPage event table entries
@@ -417,9 +416,9 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountEmailAddressCtrl->SetValidator( CValidateEmailAddress(& m_strAccountEmailAddress) );
     }
 
-    if (((CBOINCBaseWizard*)GetParent())->project_config.min_passwd_length) {
+    if (pc.min_passwd_length) {
         wxString str;
-        str.Printf(_("minimum length %d"), ((CBOINCBaseWizard*)GetParent())->project_config.min_passwd_length);
+        str.Printf(_("minimum length %d"), pc.min_passwd_length);
         m_pAccountPasswordRequirmentsStaticCtrl->SetLabel( str );
     }
 

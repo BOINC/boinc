@@ -3061,14 +3061,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\clientgui\AccountKeyPage.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\AccountKeyPage.h"
-				>
-			</File>
-			<File
 				RelativePath="..\clientgui\AccountManagerInfoPage.cpp"
 				>
 			</File>
@@ -3186,6 +3178,14 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\ProxyPage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\TermsOfUsePage .cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\TermsOfUsePage.h"
 				>
 			</File>
 			<File

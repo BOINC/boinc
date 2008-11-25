@@ -40,9 +40,9 @@
 #include "WelcomePage.h"
 #include "ProjectInfoPage.h"
 #include "ProjectPropertiesPage.h"
-#include "AccountInfoPage.h"
-#include "AccountKeyPage.h"
 #include "ProjectProcessingPage.h"
+#include "TermsOfUsePage.h"
+#include "AccountInfoPage.h"
 #include "CompletionPage.h"
 #include "CompletionErrorPage.h"
 #include "NotDetectedPage.h"
@@ -102,9 +102,9 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
     m_WelcomePage = NULL;
     m_ProjectInfoPage = NULL;
     m_ProjectPropertiesPage = NULL;
-    m_AccountKeyPage = NULL;
-    m_AccountInfoPage = NULL;
     m_ProjectProcessingPage = NULL;
+    m_TermsOfUsePage = NULL;
+    m_AccountInfoPage = NULL;
     m_CompletionPage = NULL;
     m_CompletionErrorPage = NULL;
     m_ErrNotDetectedPage = NULL;
@@ -191,17 +191,17 @@ void CWizardAttachProject::CreateControls()
     m_ProjectPropertiesPage->Create( itemWizard1 );
     GetPageAreaSizer()->Add(m_ProjectPropertiesPage);
 
-    m_AccountKeyPage = new CAccountKeyPage;
-    m_AccountKeyPage->Create( itemWizard1 );
-    GetPageAreaSizer()->Add(m_AccountKeyPage);
+    m_ProjectProcessingPage = new CProjectProcessingPage;
+    m_ProjectProcessingPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ProjectProcessingPage);
 
     m_AccountInfoPage = new CAccountInfoPage;
     m_AccountInfoPage->Create( itemWizard1 );
     GetPageAreaSizer()->Add(m_AccountInfoPage);
 
-    m_ProjectProcessingPage = new CProjectProcessingPage;
-    m_ProjectProcessingPage->Create( itemWizard1 );
-    GetPageAreaSizer()->Add(m_ProjectProcessingPage);
+    m_TermsOfUsePage = new CTermsOfUsePage;
+    m_TermsOfUsePage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_TermsOfUsePage);
 
     m_CompletionPage = new CCompletionPage;
     m_CompletionPage->Create( itemWizard1 );
@@ -244,14 +244,13 @@ void CWizardAttachProject::CreateControls()
     GetPageAreaSizer()->Add(m_ErrProxyPage);
 
 ////@end CWizardAttachProject content construction
- 
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls - Begin Page Map"));
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_WelcomePage = id: '%d', location: '%p'"), m_WelcomePage->GetId(), m_WelcomePage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectInfoPage = id: '%d', location: '%p'"), m_ProjectInfoPage->GetId(), m_ProjectInfoPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectPropertiesPage = id: '%d', location: '%p'"), m_ProjectPropertiesPage->GetId(), m_ProjectPropertiesPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_AccountKeyPage = id: '%d', location: '%p'"), m_AccountKeyPage->GetId(), m_AccountKeyPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), m_AccountInfoPage->GetId(), m_AccountInfoPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectProcessingPage = id: '%d', location: '%p'"), m_ProjectProcessingPage->GetId(), m_ProjectProcessingPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_TermsOfUsePage = id: '%d', location: '%p'"), m_TermsOfUsePage->GetId(), m_TermsOfUsePage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), m_AccountInfoPage->GetId(), m_AccountInfoPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_CompletionPage = id: '%d', location: '%p'"), m_CompletionPage->GetId(), m_CompletionPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_CompletionErrorPage = id: '%d', location: '%p'"), m_CompletionErrorPage->GetId(), m_CompletionErrorPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrNotDetectedPage = id: '%d', location: '%p'"), m_ErrNotDetectedPage->GetId(), m_ErrNotDetectedPage);
@@ -287,7 +286,7 @@ bool CWizardAttachProject::Run( wxString& WXUNUSED(strName), wxString& strURL, b
         if (detect_setup_authenticator(url, authenticator)) {
             m_bCredentialsDetected = true;
             close_when_completed = true;
-            m_AccountKeyPage->m_strAccountKey = wxString(authenticator.c_str(), wxConvUTF8);
+            SetProjectAuthenticator(wxString(authenticator.c_str(), wxConvUTF8));
         }
     }
 
@@ -405,14 +404,14 @@ wxWizardPageEx* CWizardAttachProject::_PushPageTransition( wxWizardPageEx* pCurr
         if (ID_PROJECTPROPERTIESPAGE == ulPageID)
             pPage = m_ProjectPropertiesPage;
  
-        if (ID_ACCOUNTINFOPAGE == ulPageID)
-            pPage = m_AccountInfoPage;
- 
-        if (ID_ACCOUNTKEYPAGE == ulPageID)
-            pPage = m_AccountKeyPage;
- 
         if (ID_PROJECTPROCESSINGPAGE == ulPageID)
             pPage = m_ProjectProcessingPage;
+ 
+        if (ID_TERMSOFUSEPAGE == ulPageID)
+            pPage = m_TermsOfUsePage;
+ 
+        if (ID_ACCOUNTINFOPAGE == ulPageID)
+            pPage = m_AccountInfoPage;
  
         if (ID_COMPLETIONPAGE == ulPageID)
             pPage = m_CompletionPage;
@@ -477,8 +476,6 @@ void CWizardAttachProject::_ProcessCancelEvent( wxWizardExEvent& event ) {
     if (wxYES == iRetVal) {
         if (page == m_ProjectInfoPage) {
             m_ProjectInfoPage->m_pProjectUrlCtrl->SetValidator(wxDefaultValidator);
-        } else if (page == m_AccountKeyPage) {
-            m_AccountKeyPage->m_pAccountKeyCtrl->SetValidator(wxDefaultValidator);
         } else if (page == m_AccountInfoPage) {
             m_AccountInfoPage->m_pAccountEmailAddressCtrl->SetValidator(wxDefaultValidator);
             m_AccountInfoPage->m_pAccountPasswordCtrl->SetValidator(wxDefaultValidator);

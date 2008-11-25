@@ -316,9 +316,6 @@ void CErrProxyPage::OnPageChanged( wxWizardExEvent& WXUNUSED(event) ) {
     wxASSERT(m_pProxyHTTPUsernameCtrl);
     wxASSERT(m_pProxyHTTPPasswordStaticCtrl);
     wxASSERT(m_pProxyHTTPPasswordCtrl);
-#if 0
-    wxASSERT(m_pProxyHTTPAutodetectCtrl);
-#endif
     wxASSERT(m_pProxySOCKSDescriptionCtrl);
     wxASSERT(m_pProxySOCKSServerStaticCtrl);
     wxASSERT(m_pProxySOCKSServerCtrl);

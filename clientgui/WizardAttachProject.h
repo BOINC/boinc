@@ -108,9 +108,9 @@ public:
     CWelcomePage* m_WelcomePage;
     CProjectInfoPage* m_ProjectInfoPage;
     CProjectPropertiesPage* m_ProjectPropertiesPage;
-    CAccountKeyPage* m_AccountKeyPage;
-    CAccountInfoPage* m_AccountInfoPage;
     CProjectProcessingPage* m_ProjectProcessingPage;
+    CTermsOfUsePage* m_TermsOfUsePage;
+    CAccountInfoPage* m_AccountInfoPage;
     CCompletionPage* m_CompletionPage;
     CCompletionErrorPage* m_CompletionErrorPage;
     CErrNotDetectedPage* m_ErrNotDetectedPage;
@@ -124,7 +124,7 @@ public:
 ////@end CWizardAttachProject member variables
     bool m_bCredentialsCached;
     bool m_bCredentialsDetected;
-    wxString strProjectName;
+    wxString m_strProjectName;
 };
 
 #endif // _WIZ_ATTACHPROJECT_H_
