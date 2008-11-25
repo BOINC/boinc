@@ -37,6 +37,7 @@
 #include "WizardAttachProject.h"
 #include "ProjectPropertiesPage.h"
 #include "ProjectInfoPage.h"
+#include "CompletionErrorPage.h"
 
 
 ////@begin XPM images
@@ -111,6 +112,7 @@ bool CProjectPropertiesPage::Create( CBOINCBaseWizard* parent )
     m_bProjectAccountCreationDisabled = false;
     m_bProjectClientAccountCreationDisabled = false;
     m_bNetworkConnectionDetected = false;
+    m_bServerReportedError = false;
     m_iBitmapIndex = 0;
     m_iCurrentState = PROJPROP_INIT;
  
@@ -192,6 +194,9 @@ wxWizardPageEx* CProjectPropertiesPage::GetNext() const
     } else if (GetProjectPropertiesURLFailure()) {
         // Not a BOINC based project
         return PAGE_TRANSITION_NEXT(ID_ERRNOTDETECTEDPAGE);
+    } else if (GetServerReportedError()) {
+        // Server reported an error, display the error
+        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     } else {
         // The project must be down for maintenance
         return PAGE_TRANSITION_NEXT(ID_ERRUNAVAILABLEPAGE);
@@ -359,6 +364,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
     wxDateTime dtStartExecutionTime;
     wxDateTime dtCurrentExecutionTime;
     wxTimeSpan tsExecutionTime;
+    wxString strBuffer = wxEmptyString;
     bool bPostNewEvent = true;
     bool bSuccessfulCondition = false;
     int  iReturnValue = 0;
@@ -442,6 +448,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 SetNextState(PROJPROP_CLEANUP);
             } else {
                 SetProjectPropertiesSucceeded(false);
+
                 bSuccessfulCondition = 
                     (!iReturnValue) && (ERR_FILE_NOT_FOUND == pc->error_num) ||
                     (!iReturnValue) && (ERR_GETHOSTBYNAME == pc->error_num) ||
@@ -451,6 +458,25 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 } else {
                     SetProjectPropertiesURLFailure(false);
                 }
+
+                bSuccessfulCondition = 
+                    ((!iReturnValue) && (ERR_FILE_NOT_FOUND != pc->error_num)) &&
+                    ((!iReturnValue) && (ERR_GETHOSTBYNAME != pc->error_num)) &&
+                    ((!iReturnValue) && (ERR_XML_PARSE != pc->error_num)) &&
+                    (!iReturnValue);
+                if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
+                    SetServerReportedError(true);
+
+                    strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+				    if (pc->error_msg.size()) {
+                        strBuffer += wxString(pc->error_msg.c_str(), wxConvUTF8) + wxString(wxT("\n"));
+                    }
+                    pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+
+                } else {
+                    SetServerReportedError(false);
+                }
+
                 SetNextState(PROJPROP_DETERMINENETWORKSTATUS_BEGIN);
             }
             break;

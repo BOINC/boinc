@@ -461,7 +461,7 @@ struct PROJECT_CONFIG {
     bool uses_username;
     bool account_creation_disabled;
     bool client_account_creation_disabled;
-    std::vector<std::string> messages;
+	std::string error_msg;
     std::string terms_of_use;
         // if present, show this text in an "accept terms of use?" dialog
         // before allowing attachment to continue.

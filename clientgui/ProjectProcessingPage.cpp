@@ -192,7 +192,7 @@ wxWizardPageEx* CProjectProcessingPage::GetNext() const
         // The requested account does not exist or the password is bad
         return PAGE_TRANSITION_NEXT(ID_ERRNOTFOUNDPAGE);
     } else {
-        // Ann error must have occurred
+        // An error must have occurred
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     } 
     return NULL;
