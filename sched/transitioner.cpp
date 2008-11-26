@@ -24,6 +24,7 @@
 //   [ -one_pass ]          do one pass, then exit
 //   [ -d x ]               debug level x
 //   [ -mod n i ]           process only WUs with (id mod n) == i
+//   [ -sleep_interval x ]  sleep x seconds if nothing to do
 
 using namespace std;
 #include "config.h"
@@ -53,17 +54,15 @@ using namespace std;
 #define PIDFILE                 "transitioner.pid"
 
 #define SELECT_LIMIT    1000
-#ifdef EINSTEIN_AT_HOME
-#define SLEEP_INTERVAL  1
-#else
-#define SLEEP_INTERVAL  5
-#endif
+
+#define DEFAULT_SLEEP_INTERVAL  5
 
 int startup_time;
 R_RSA_PRIVATE_KEY key;
 int mod_n, mod_i;
 bool do_mod = false;
 bool one_pass = false;
+double sleep_interval = DEFAULT_SLEEP_INTERVAL;
 
 void signal_handler(int) {
     log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
@@ -667,8 +666,8 @@ void main_loop() {
             signal(SIGUSR2, simulator_signal_handler);
             pause();
 #else
-            log_messages.printf(MSG_DEBUG, "sleeping %d\n", SLEEP_INTERVAL);
-            sleep(SLEEP_INTERVAL);
+            log_messages.printf(MSG_DEBUG, "sleeping %d\n", sleep_interval);
+            sleep(sleep_interval);
 #endif
         }
     }
@@ -688,6 +687,8 @@ int main(int argc, char** argv) {
             mod_n = atoi(argv[++i]);
             mod_i = atoi(argv[++i]);
             do_mod = true;
+        } else if (!strcmp(argv[i], "-sleep_interval")) {
+            sleep_interval = atof(argv[++i]);
         }
     }
     if (!one_pass) check_stop_daemons();

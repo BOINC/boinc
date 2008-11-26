@@ -9662,3 +9662,13 @@ Charlie 26 Nov 2008
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  26 Nov 2008
+    - server: add -sleep_interval args to file_deleter and transitioner
+        (from Nicolas; fixes #783)
+
+    client/
+        cs_scheduler.cpp
+    sched/
+        file_deleter.cpp
+        transitioner.cpp

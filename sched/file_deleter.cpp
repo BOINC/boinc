@@ -66,7 +66,7 @@ using namespace std;
 #define LOCKFILE "file_deleter.out"
 #define PIDFILE  "file_deleter.pid"
 
-#define SLEEP_INTERVAL 5
+#define DEFAULT_SLEEP_INTERVAL 5
 #define RESULTS_PER_WU 4        // an estimate of redundancy 
 
 int id_modulus=0, id_remainder=0;
@@ -76,6 +76,7 @@ bool dont_delete_batches = false;
 int antique_delay = ANTIQUE_DELAY;
 bool do_input_files = true;
 bool do_output_files = true;
+double sleep_interval = DEFAULT_SLEEP_INTERVAL;
 
 void usage() {
     fprintf(stderr,
@@ -608,6 +609,8 @@ int main(int argc, char** argv) {
             dont_delete_antiques = true;
         } else if (!strcmp(argv[i], "-output_files_only")) {
             do_input_files = false;
+        } else if (!strcmp(argv[i], "-sleep_interval")) {
+            sleep_interval = atof(argv[++i]);
         } else if (!strcmp(argv[i], "-help")) {
             usage();
         } else {
@@ -667,7 +670,7 @@ int main(int argc, char** argv) {
         }
         if (!got_any) {
             if (one_pass) break;
-            sleep(SLEEP_INTERVAL);
+            sleep(sleep_interval);
         }
         if (!dont_delete_antiques && (dtime() > next_antique_time)) {
             log_messages.printf(MSG_DEBUG,
