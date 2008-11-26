@@ -666,7 +666,7 @@ int main(int argc, char** argv) {
         }
     }
 #elif defined __EMX__
-#else
+#elif ! defined (__APPLE__)
     // non-Apple Unix
     int i;
     
@@ -749,8 +749,8 @@ int main(int argc, char** argv) {
         SetBOINCDataOwnersGroupsAndPermissions();
     }
 #endif  // _DEBUG && __APPLE__
-    i = check_security(g_use_sandbox, false);
-    if (i) {
+    int securityErr = check_security(g_use_sandbox, false);
+    if (securityErr) {
         printf(
             "File ownership or permissions are set in a way that\n"
             "does not allow sandboxed execution of BOINC applications.\n"
@@ -761,7 +761,7 @@ int main(int argc, char** argv) {
 #else
             " or run\n the shell script secure.sh"
 #endif
-            ". (Error code %d)\n", i
+            ". (Error code %d)\n", securityErr
         );
         return ERR_USER_PERMISSION;
     }

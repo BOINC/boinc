@@ -9649,3 +9649,16 @@ David  25 Nov 2008
 
     html/user/
         get_project_config.php
+
+Charlie 26 Nov 2008
+    - Mac: Add new source files TermsOfUsePage.cpp,.h to XCode project.
+    - client: Fix erroneous #else introduced in changeset 14415 which caused 
+        Mac client to call daemon() if it was passed -daemon argument. This 
+        caused problems when using launchd to launch the client as a daemon 
+        with the keepAlive option set.  Fixes #782.
+        
+    client/
+        main.cpp
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
