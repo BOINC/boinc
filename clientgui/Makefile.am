@@ -27,7 +27,6 @@ bin_PROGRAMS = boinc_gui
 
 boinc_gui_SOURCES = \
     AccountInfoPage.cpp \
-    AccountKeyPage.cpp \
     AccountManagerInfoPage.cpp \
     AccountManagerProcessingPage.cpp \
     AccountManagerPropertiesPage.cpp \
