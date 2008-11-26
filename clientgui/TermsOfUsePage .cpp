@@ -225,7 +225,7 @@ void CTermsOfUsePage::OnPageChanged( wxWizardExEvent& event ) {
     );
 
     m_pDisagreeCtrl->SetLabel(
-        _("I disagree with the terms of use.")
+        _("I do not agree to the terms of use.")
     );
 
     Fit();
