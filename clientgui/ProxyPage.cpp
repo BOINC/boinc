@@ -17,6 +17,7 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //
+
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "ProxyPage.h"
 #endif
@@ -318,9 +319,6 @@ void CErrProxyPage::OnPageChanged( wxWizardExEvent& WXUNUSED(event) ) {
     wxASSERT(m_pProxyHTTPUsernameCtrl);
     wxASSERT(m_pProxyHTTPPasswordStaticCtrl);
     wxASSERT(m_pProxyHTTPPasswordCtrl);
-#if 0
-    wxASSERT(m_pProxyHTTPAutodetectCtrl);
-#endif
     wxASSERT(m_pProxySOCKSDescriptionCtrl);
     wxASSERT(m_pProxySOCKSServerStaticCtrl);
     wxASSERT(m_pProxySOCKSServerCtrl);

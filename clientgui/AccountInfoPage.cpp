@@ -17,6 +17,7 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //
+
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "AccountInfoPage.h"
 #endif
@@ -62,7 +63,6 @@ BEGIN_EVENT_TABLE( CAccountInfoPage, wxWizardPageEx )
     EVT_WIZARDEX_PAGE_CHANGED( -1, CAccountInfoPage::OnPageChanged )
     EVT_WIZARDEX_PAGE_CHANGING( -1, CAccountInfoPage::OnPageChanging )
     EVT_WIZARDEX_CANCEL( -1, CAccountInfoPage::OnCancel )
-
     EVT_RADIOBUTTON( ID_ACCOUNTCREATECTRL, CAccountInfoPage::OnAccountCreateCtrlSelected )
     EVT_RADIOBUTTON( ID_ACCOUNTUSEEXISTINGCTRL, CAccountInfoPage::OnAccountUseExistingCtrlSelected )
 ////@end CAccountInfoPage event table entries
@@ -335,15 +335,11 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (!IS_ACCOUNTMANAGERWIZARD() && !IS_ACCOUNTMANAGERUPDATEWIZARD()) {
 		if (pc.client_account_creation_disabled) {
 			m_pAccountQuestionStaticCtrl->SetLabel(
-				_("Please enter your account information\n"
-				"(to create an account, visit the project's web site)"
-				)
+				_("Please enter your account information\n(to create an account, visit the project's web site)")
 			);
 		} else if (pc.account_creation_disabled) {
 			m_pAccountQuestionStaticCtrl->SetLabel(
-				_("This project is not currently accepting new accounts.\n"
-					"You can attach only if you already have an account."
-				)
+				_("This project is not currently accepting new accounts.\nYou can attach only if you already have an account.")
 			);
 		} else {
 			m_pAccountQuestionStaticCtrl->SetLabel(
@@ -423,9 +419,9 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountEmailAddressCtrl->SetValidator( CValidateEmailAddress(& m_strAccountEmailAddress) );
     }
 
-    if (((CBOINCBaseWizard*)GetParent())->project_config.min_passwd_length) {
+    if (pc.min_passwd_length) {
         wxString str;
-        str.Printf(_("minimum length %d"), ((CBOINCBaseWizard*)GetParent())->project_config.min_passwd_length);
+        str.Printf(_("minimum length %d"), pc.min_passwd_length);
         m_pAccountPasswordRequirmentsStaticCtrl->SetLabel( str );
     }
 
@@ -498,7 +494,7 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event )
         }
  
         if (bDisplayError) {
-            ::wxMessageBox(
+            wxGetApp().SafeMessageBox(
                 strMessage,
                 strTitle,
                 wxICON_ERROR | wxOK,
@@ -546,4 +542,3 @@ void CAccountInfoPage::OnAccountCreateCtrlSelected( wxCommandEvent& WXUNUSED(eve
     m_pAccountEmailAddressCtrl->SetFocus();
     Fit();
 }
-

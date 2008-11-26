@@ -17,6 +17,7 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //
+
 #ifndef _BOINCWIZARDS_H_
 #define _BOINCWIZARDS_H_
 
@@ -32,7 +33,7 @@
 
 // Generic Pages
 #define ID_WELCOMEPAGE 10100
-#define ID_ACCOUNTKEYPAGE 10101
+#define ID_TERMSOFUSEPAGE 10113
 #define ID_ACCOUNTINFOPAGE 10102
 #define ID_COMPLETIONPAGE 10103
 #define ID_COMPLETIONERRORPAGE 10104
@@ -81,7 +82,6 @@
 #define ID_ERRPROJECTALREADYATTACHED 11106
 #define ID_ERRPROJECTATTACHFAILURE 11107
 #define ID_ERRGOOGLECOMM 11108
-#define ID_ERRYAHOOCOMM 11109
 #define ID_ERRNETDETECTION 11110
 
 // Project Info/Account Manager Info Controls
@@ -90,9 +90,10 @@
 #define ID_PROJECTURLDESCRIPTIONSTATICCTRL 11202
 #define ID_PROJECTURLCTRL 11203
 
-// Account Key Controls
-#define ID_ACCOUNTKEYSTATICCTRL 11300
-#define ID_ACCOUNTKEYCTRL 11301
+// Terms Of Use Controls
+#define ID_TERMSOFUSECTRL 11300
+#define ID_TERMSOFUSEAGREECTRL 11301
+#define ID_TERMSOFUSEDISAGREECTRL 11302
 
 // Account Info Controls
 #define ID_ACCOUNTCREATECTRL 11400
@@ -135,8 +136,8 @@
 // Forward declare the generic page classes
 //
 class CWelcomePage;
-class CAccountKeyPage;
 class CAccountInfoPage;
+class CTermsOfUsePage;
 class CCompletionPage;
 class CCompletionErrorPage;
 class CErrNotDetectedPage;
@@ -158,7 +159,6 @@ class wxHyperLink;
 //
 #define WIZDEBUG_ERRPROJECTPROPERTIES                 0x00000001
 #define WIZDEBUG_ERRPROJECTPROPERTIESURL              0x00000002
-#define WIZDEBUG_ERRYAHOOCOMM                         0x00000004
 #define WIZDEBUG_ERRGOOGLECOMM                        0x00000008
 #define WIZDEBUG_ERRNETDETECTION                      0x00000010
 #define WIZDEBUG_ERRPROJECTCOMM                       0x00000020
@@ -168,6 +168,7 @@ class wxHyperLink;
 #define WIZDEBUG_ERRCLIENTACCOUNTCREATIONDISABLED     0x00000200
 #define WIZDEBUG_ERRPROJECTATTACH                     0x00000400
 #define WIZDEBUG_ERRPROJECTALREADYATTACHED            0x00000800
+#define WIZDEBUG_ERRTERMSOFUSEREQUIRED                0x00001000
 
 #define PROCESS_DEBUG_FLAG(ulFlags) \
     ((CBOINCBaseWizard*)GetParent())->SetDiagFlags(ulFlags)

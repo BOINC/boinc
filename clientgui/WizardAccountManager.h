@@ -17,6 +17,7 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //
+
 #ifndef _WIZ_ACCOUNTMANAGER_H_
 #define _WIZ_ACCOUNTMANAGER_H_
 
@@ -109,6 +110,7 @@ public:
     CAccountManagerInfoPage* m_AccountManagerInfoPage;
     CAccountManagerPropertiesPage* m_AccountManagerPropertiesPage;
     CAccountManagerProcessingPage* m_AccountManagerProcessingPage;
+    CTermsOfUsePage* m_TermsOfUsePage;
     CAccountInfoPage* m_AccountInfoPage;
     CCompletionPage* m_CompletionPage;
     CCompletionErrorPage* m_CompletionErrorPage;
@@ -124,3 +126,4 @@ public:
 };
 
 #endif // _WIZ_ACCOUNTMANAGER_H_
+

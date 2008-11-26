@@ -39,7 +39,6 @@
 #include "WizardAttachProject.h"
 #include "ProjectProcessingPage.h"
 #include "ProjectInfoPage.h"
-#include "AccountKeyPage.h"
 #include "AccountInfoPage.h"
 #include "CompletionErrorPage.h"
 
@@ -387,12 +386,12 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
 
             ai->url = (const char*)pWAP->m_ProjectInfoPage->GetProjectURL().mb_str();
 
-            if (!pWAP->m_AccountKeyPage->m_strAccountKey.IsEmpty() || 
+            if (!pWAP->GetProjectAuthenticator().IsEmpty() || 
                 pWAP->m_bCredentialsCached || 
                 pWAP->m_bCredentialsDetected
             ) {
                 if (!pWAP->m_bCredentialsCached || pWAP->m_bCredentialsDetected) {
-                    ao->authenticator = (const char*)pWAP->m_AccountKeyPage->m_strAccountKey.mb_str();
+                    ao->authenticator = (const char*)pWAP->GetProjectAuthenticator().mb_str();
                 }
                 SetProjectCommunitcationsSucceeded(true);
             } else {
@@ -580,4 +579,3 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
         AddPendingEvent(TransitionEvent);
     }
 }
-

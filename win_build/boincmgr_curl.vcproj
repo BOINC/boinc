@@ -3181,6 +3181,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\clientgui\TermsOfUsePage .cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\TermsOfUsePage.h"
+				>
+			</File>
+			<File
 				RelativePath="..\clientgui\UnavailablePage.cpp"
 				>
 			</File>

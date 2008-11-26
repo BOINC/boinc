@@ -17,6 +17,7 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //
+
 #ifndef _WIZ_PROJECTPROPERTIESPAGE_H_
 #define _WIZ_PROJECTPROPERTIESPAGE_H_
 
@@ -129,6 +130,9 @@ public:
     bool GetServerReportedError() const { return m_bServerReportedError ; }
     void SetServerReportedError(bool value) { m_bServerReportedError = value ; }
 
+    bool GetTermsOfUseRequired() const { return m_bTermsOfUseRequired ; }
+    void SetTermsOfUseRequired(bool value) { m_bTermsOfUseRequired = value ; }
+
     wxInt32 GetCurrentState() const { return m_iCurrentState ; }
     void SetNextState(wxInt32 value) { m_iCurrentState = value ; }
 
@@ -151,8 +155,10 @@ public:
     bool m_bProjectAlreadyAttached;
     bool m_bNetworkConnectionDetected;
     bool m_bServerReportedError;
+    bool m_bTermsOfUseRequired;
     int m_iBitmapIndex;
     int m_iCurrentState;
 };
 
 #endif // _WIZ_PROJECTPROPERTIESPAGE_H_
+

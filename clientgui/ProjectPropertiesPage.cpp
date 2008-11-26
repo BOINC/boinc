@@ -41,6 +41,7 @@
 #include "ProjectPropertiesPage.h"
 #include "ProjectInfoPage.h"
 #include "CompletionErrorPage.h"
+#include "TermsOfUsePage.h"
 
 
 ////@begin XPM images
@@ -116,6 +117,7 @@ bool CProjectPropertiesPage::Create( CBOINCBaseWizard* parent )
     m_bProjectClientAccountCreationDisabled = false;
     m_bNetworkConnectionDetected = false;
     m_bServerReportedError = false;
+    m_bTermsOfUseRequired = true;
     m_iBitmapIndex = 0;
     m_iCurrentState = PROJPROP_INIT;
  
@@ -188,6 +190,9 @@ wxWizardPageEx* CProjectPropertiesPage::GetNext() const
     } else if (GetProjectPropertiesSucceeded() && GetProjectAlreadyAttached()) {
         // Already attach to the project
         return PAGE_TRANSITION_NEXT(ID_ERRALREADYATTACHEDPAGE);
+    } else if (GetProjectPropertiesSucceeded() && GetTermsOfUseRequired()) {
+        // Terms of Use are required before requesting account information
+        return PAGE_TRANSITION_NEXT(ID_TERMSOFUSEPAGE);
     } else if (GetProjectPropertiesSucceeded()) {
         // We were successful in retrieving the project properties
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
@@ -446,6 +451,13 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                     SetProjectClientAccountCreationDisabled(true);
                 } else {
                     SetProjectClientAccountCreationDisabled(false);
+                }
+ 
+                bSuccessfulCondition = !pc->terms_of_use.empty();
+                if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRTERMSOFUSEREQUIRED)) {
+                    SetTermsOfUseRequired(true);
+                } else {
+                    SetTermsOfUseRequired(false);
                 }
  
                 SetNextState(PROJPROP_CLEANUP);

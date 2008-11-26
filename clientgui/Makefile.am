@@ -27,7 +27,6 @@ bin_PROGRAMS = boinc_gui
 
 boinc_gui_SOURCES = \
     AccountInfoPage.cpp \
-    AccountKeyPage.cpp \
     AccountManagerInfoPage.cpp \
     AccountManagerProcessingPage.cpp \
     AccountManagerPropertiesPage.cpp \
@@ -83,6 +82,7 @@ boinc_gui_SOURCES = \
     sg_ViewTabPage.cpp \
     SkinManager.cpp \
     stdwx.cpp \
+    TermsOfUsePage.cpp \
     UnavailablePage.cpp \
     ValidateAccountKey.cpp \
     ValidateEmailAddress.cpp \
