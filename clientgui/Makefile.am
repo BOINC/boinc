@@ -83,6 +83,7 @@ boinc_gui_SOURCES = \
     sg_ViewTabPage.cpp \
     SkinManager.cpp \
     stdwx.cpp \
+    TermsOfUsePage.cpp \
     UnavailablePage.cpp \
     ValidateAccountKey.cpp \
     ValidateEmailAddress.cpp \
