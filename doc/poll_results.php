@@ -9,10 +9,10 @@ $cachefile = "cache/poll_results_$language_in_use.html";
 $cache_time = 3600*24;
 if (file_exists($cachefile)) {
     $age = time() - filemtime($cachefile);
-    if ($age < $cache_time) {
+    //if ($age < $cache_time) {
         readfile($cachefile);
         exit();
-    }
+    //}
 }
 set_time_limit(0);
 ini_set("memory_limit", "2048M");

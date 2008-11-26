@@ -165,7 +165,7 @@ function control_bar($features, $inst) {
         $str2 = "a";
     }
     echo "
-        <div style=\"position:fixed; top:0px; left:0px; padding-top: 10px; padding-left: 20px; width:100%; background-color:white\">
+        <div style=\"position:absolute; top:0px; left:0px; padding-top: 10px; padding-left: 20px; width:100%; background-color:white\">
         <input type=hidden name=bji value=\"$inst->id\">
         If you see $str2 feature:
     ";

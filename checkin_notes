@@ -9641,3 +9641,11 @@ Rom    25 Nov 2008
     
     clientgui/
         TermsOfUsePage.cpp,
+
+David  25 Nov 2008
+    - server: if "terms_of_use.txt" exists in project dir,
+        send it in get_project_config.php;
+        6.4 clients will display a dialog to accept terms of use during attach.
+
+    html/user/
+        get_project_config.php
