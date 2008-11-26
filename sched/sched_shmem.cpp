@@ -253,7 +253,7 @@ void SCHED_SHMEM::show(FILE* f) {
             fprintf(f, "%4d: ---\n", i);
             break;
         default:
-            fprintf(f, "%d: PID %d: result %d\n", i, wu_result.state, wu_result.resultid);
+            fprintf(f, "%4d: PID %d: result %d\n", i, wu_result.state, wu_result.resultid);
         }
     }
 }

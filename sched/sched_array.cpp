@@ -126,8 +126,8 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // don't send if host can't handle it
         //
         retval = wu_is_infeasible_fast(wu, sreq, reply, *app);
-        if (retval && retval != last_retval) {
-            if (config.debug_send) {
+        if (retval) {
+            if (retval != last_retval && config.debug_send) {
                 log_messages.printf(MSG_DEBUG,
                     "[HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
                     reply.host.id, wu.id, wu.name, infeasible_string(retval)

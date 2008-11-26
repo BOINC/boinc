@@ -406,9 +406,7 @@ make_new_host:
                 "[HOST#%d] [USER#%d] Found similar existing host for this user - assigned.\n",
                 host.id, host.userid
             );
-            if (!config.multiple_clients_per_host) {
-                mark_results_over(host);
-            }
+            mark_results_over(host);
             goto got_host;
         }
         // either of the above cases,

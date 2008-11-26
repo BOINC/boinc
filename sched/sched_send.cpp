@@ -857,9 +857,6 @@ bool work_needed(
         }
     }
     if (reply.wreq.seconds_to_fill <= 0) return false;
-    if (reply.wreq.disk_available <= 0) {
-        return false;
-    }
     if (reply.wreq.nresults >= config.max_wus_to_send) return false;
 
     int ncpus = effective_ncpus(sreq, reply);

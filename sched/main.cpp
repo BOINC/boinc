@@ -325,6 +325,7 @@ int main(int argc, char** argv) {
     char* code_sign_key;
     int length=-1;
     log_messages.pid = getpid();
+    bool debug_log = false;
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--batch")) {
@@ -333,6 +334,9 @@ int main(int argc, char** argv) {
         }
         if (!strcmp(argv[i], "--mark_jobs_done")) {
             mark_jobs_done = true;
+        }
+        if (!strcmp(argv[i], "--debug_log")) {
+            debug_log = true;
         }
 #ifdef GCL_SIMULATOR
         if (!strcmp(argv[i], "--simulator")) {
@@ -349,42 +353,46 @@ int main(int argc, char** argv) {
     //
     signal(SIGTERM, sigterm_handler);
 
-    char *stderr_buffer, buf[256];
-    get_log_path(path, "scheduler.log");
-#ifndef _USING_FCGI_
-    if (!freopen(path, "a", stderr)) {
-        fprintf(stderr, "Can't redirect stderr\n");
-        sprintf(buf, "Server can't open log file (%s)", path);
-        send_message(buf, 3600);
-        exit(1);
-    }
-    // install a larger buffer for stderr.  This ensures that
-    // log information from different scheduler requests running
-    // in parallel don't collide in the log file and appear intermingled.
-    //
-    if (!(stderr_buffer=(char *)malloc(32768)) || setvbuf(stderr, stderr_buffer, _IOFBF, 32768)) {
-        log_messages.printf(MSG_CRITICAL,
-            "Unable to change stderr buffering preferences\n"
-        );
-    }
-#else
-    FCGI_FILE* f = FCGI::fopen(path, "a");
-    if (f) {
-       log_messages.redirect(f);
+    if (debug_log) {
+        freopen("debug_log", "w", stderr);
     } else {
-        char buf[256];
-        fprintf(stderr, "Can't redirect FCGI log messages\n");
-        sprintf(buf, "Server can't open log file for FCGI (%s)", path);
-        send_message(buf, 3600);
-        exit(1);
-    }
-    // set buffer as above, note that f is really a struct from fcgi_stdio.h
-    if (!(stderr_buffer=(char *)malloc(32768)) || setvbuf(f->stdio_stream, stderr_buffer, _IOFBF, 32768)) {
-        log_messages.printf(MSG_CRITICAL,
-            "Unable to change stderr FCGI buffering preferences\n"
-        );
-    }
+        char *stderr_buffer, buf[256];
+        get_log_path(path, "scheduler.log");
+#ifndef _USING_FCGI_
+        if (!freopen(path, "a", stderr)) {
+            fprintf(stderr, "Can't redirect stderr\n");
+            sprintf(buf, "Server can't open log file (%s)", path);
+            send_message(buf, 3600);
+            exit(1);
+        }
+        // install a larger buffer for stderr.  This ensures that
+        // log information from different scheduler requests running
+        // in parallel don't collide in the log file and appear intermingled.
+        //
+        if (!(stderr_buffer=(char *)malloc(32768)) || setvbuf(stderr, stderr_buffer, _IOFBF, 32768)) {
+            log_messages.printf(MSG_CRITICAL,
+                "Unable to change stderr buffering preferences\n"
+            );
+        }
+#else
+        FCGI_FILE* f = FCGI::fopen(path, "a");
+        if (f) {
+           log_messages.redirect(f);
+        } else {
+            char buf[256];
+            fprintf(stderr, "Can't redirect FCGI log messages\n");
+            sprintf(buf, "Server can't open log file for FCGI (%s)", path);
+            send_message(buf, 3600);
+            exit(1);
+        }
+        // set buffer as above, note that f is really a struct from fcgi_stdio.h
+        if (!(stderr_buffer=(char *)malloc(32768)) || setvbuf(f->stdio_stream, stderr_buffer, _IOFBF, 32768)) {
+            log_messages.printf(MSG_CRITICAL,
+                "Unable to change stderr FCGI buffering preferences\n"
+            );
+        }
 #endif
+    }
 
     srand(time(0)+getpid());
     log_messages.set_debug_level(DEBUG_LEVEL);

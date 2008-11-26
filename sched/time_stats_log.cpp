@@ -69,6 +69,8 @@ void write_time_stats_log(SCHEDULER_REPLY& reply) {
     }
     fputs(stats_buf, f);
     fclose(f);
+    free(stats_buf);
+    stats_buf = 0;
 }
 
 bool have_time_stats_log(SCHEDULER_REPLY& reply) {
