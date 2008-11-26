@@ -17,6 +17,7 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //
+
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "ProjectProcessingPage.h"
 #endif
@@ -194,7 +195,7 @@ wxWizardPageEx* CProjectProcessingPage::GetNext() const
         // The requested account does not exist or the password is bad
         return PAGE_TRANSITION_NEXT(ID_ERRNOTFOUNDPAGE);
     } else {
-        // Ann error must have occurred
+        // An error must have occurred
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     } 
     return NULL;
@@ -484,8 +485,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                     if ((HTTP_STATUS_NOT_FOUND == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
                         strBuffer += 
-                            _("Required wizard file(s) are missing from the target server.\n"
-                              "(lookup_account.php/create_account.php)\n");
+                            _("Required wizard file(s) are missing from the target server.\n(lookup_account.php/create_account.php)\n");
                     } else if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == ao->error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
                         strBuffer += 
                             _("An internal server error has occurred.\n");

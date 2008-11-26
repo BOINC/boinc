@@ -911,10 +911,7 @@ int PROJECT_CONFIG::parse(MIOFILE& in) {
         if (parse_bool(buf, "uses_username", uses_username)) continue;
         if (parse_bool(buf, "account_creation_disabled", account_creation_disabled)) continue;
         if (parse_bool(buf, "client_account_creation_disabled", client_account_creation_disabled)) continue;
-        if (parse_str(buf, "<message>", msg)) {
-            messages.push_back(msg);
-            continue;
-        }
+        if (parse_str(buf, "<error_msg>", error_msg)) continue;
         if (parse_str(buf, "<terms_of_use>", msg)) {
             while (in.fgets(buf, 256)) {
                 if (match_tag(buf, "</terms_of_use>")) break;
@@ -929,7 +926,7 @@ int PROJECT_CONFIG::parse(MIOFILE& in) {
 void PROJECT_CONFIG::clear() {
     error_num = 0;
     name.clear();
-    messages.clear();
+    error_msg.clear();
     terms_of_use.clear();
     min_passwd_length = 6;
     account_manager = false;
