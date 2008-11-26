@@ -912,7 +912,7 @@ int PROJECT_CONFIG::parse(MIOFILE& in) {
         if (parse_bool(buf, "account_creation_disabled", account_creation_disabled)) continue;
         if (parse_bool(buf, "client_account_creation_disabled", client_account_creation_disabled)) continue;
         if (parse_str(buf, "<error_msg>", error_msg)) continue;
-        if (parse_str(buf, "<terms_of_use>", msg)) {
+        if (match_tag(buf, "<terms_of_use>")) {
             while (in.fgets(buf, 256)) {
                 if (match_tag(buf, "</terms_of_use>")) break;
                 terms_of_use += buf;
