@@ -119,7 +119,7 @@ void CTermsOfUsePage::CreateControls()
     itemBoxSizer97->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     m_pTermsOfUseCtrl = new wxTextCtrl;
-    m_pTermsOfUseCtrl->Create( itemWizardPage96, ID_TERMSOFUSECTRL, wxEmptyString, wxDefaultPosition, wxSize(300, 125), wxTE_MULTILINE );
+    m_pTermsOfUseCtrl->Create( itemWizardPage96, ID_TERMSOFUSECTRL, wxEmptyString, wxDefaultPosition, wxSize(300, 125), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH );
     itemBoxSizer97->Add(m_pTermsOfUseCtrl, 0, wxGROW|wxALL, 5);
 
     m_pAgreeCtrl = new wxRadioButton;
@@ -219,6 +219,7 @@ void CTermsOfUsePage::OnPageChanged( wxWizardExEvent& event ) {
     m_pTermsOfUseCtrl->SetValue(
         wxString(pc.terms_of_use.c_str(), wxConvUTF8)
     );
+    m_pTermsOfUseCtrl->SetSelection(0, 0);
 
     m_pAgreeCtrl->SetLabel(
         _("I agree to the terms of use.")

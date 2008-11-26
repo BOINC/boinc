@@ -9635,3 +9635,9 @@ Rom    25 Nov 2008
         WizardAttachProject.cpp, .h
     win_build/
         boincmgr_curl.vcproj
+
+Rom    25 Nov 2008
+    - MGR: Make the Terms of Use text control read-only
+    
+    clientgui/
+        TermsOfUsePage.cpp,
