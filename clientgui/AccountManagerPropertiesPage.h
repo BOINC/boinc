@@ -17,6 +17,7 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //
+
 #ifndef _WIZ_ACCOUNTMANAGERPROPERTIESPAGE_H_
 #define _WIZ_ACCOUNTMANAGERPROPERTIESPAGE_H_
 
@@ -123,6 +124,9 @@ public:
     bool GetNetworkConnectionDetected() const { return m_bNetworkConnectionDetected ; }
     void SetNetworkConnectionDetected(bool value) { m_bNetworkConnectionDetected = value ; }
 
+    bool GetServerReportedError() const { return m_bServerReportedError ; }
+    void SetServerReportedError(bool value) { m_bServerReportedError = value ; }
+
     wxInt32 GetCurrentState() const { return m_iCurrentState ; }
     void SetNextState(wxInt32 value) { m_iCurrentState = value ; }
 
@@ -144,6 +148,7 @@ public:
     bool m_bProjectAccountCreationDisabled;
     bool m_bProjectClientAccountCreationDisabled;
     bool m_bNetworkConnectionDetected;
+    bool m_bServerReportedError;
     int m_iBitmapIndex;
     int m_iCurrentState;
 };

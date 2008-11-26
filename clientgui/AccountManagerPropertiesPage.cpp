@@ -17,6 +17,7 @@
 // or write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //
+
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "AccountManagerPropertiesPage.h"
 #endif
@@ -39,6 +40,7 @@
 #include "WizardAccountManager.h"
 #include "AccountManagerPropertiesPage.h"
 #include "AccountManagerInfoPage.h"
+#include "CompletionErrorPage.h"
 
 
 ////@begin XPM images
@@ -114,6 +116,7 @@ bool CAccountManagerPropertiesPage::Create( CBOINCBaseWizard* parent )
     m_bProjectAccountCreationDisabled = false;
     m_bProjectClientAccountCreationDisabled = false;
     m_bNetworkConnectionDetected = false;
+    m_bServerReportedError = false;
     m_iBitmapIndex = 0;
     m_iCurrentState = ACCTMGRPROP_INIT;
  
@@ -237,6 +240,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
     wxDateTime dtStartExecutionTime;
     wxDateTime dtCurrentExecutionTime;
     wxTimeSpan tsExecutionTime;
+    wxString strBuffer = wxEmptyString;
     bool bPostNewEvent = true;
     bool bSuccessfulCondition = false;
     int  iReturnValue = 0;
@@ -311,6 +315,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 SetNextState(ACCTMGRPROP_CLEANUP);
             } else {
                 SetProjectPropertiesSucceeded(false);
+
                 bSuccessfulCondition = 
                     (!iReturnValue) && (ERR_FILE_NOT_FOUND == pc->error_num) ||
                     (!iReturnValue) && (ERR_GETHOSTBYNAME == pc->error_num) ||
@@ -320,6 +325,25 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 } else {
                     SetProjectPropertiesURLFailure(false);
                 }
+
+                bSuccessfulCondition = 
+                    ((!iReturnValue) && (ERR_FILE_NOT_FOUND != pc->error_num)) &&
+                    ((!iReturnValue) && (ERR_GETHOSTBYNAME != pc->error_num)) &&
+                    ((!iReturnValue) && (ERR_XML_PARSE != pc->error_num)) &&
+                    (!iReturnValue);
+                if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
+                    SetServerReportedError(true);
+
+                    strBuffer = pWAM->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+				    if (pc->error_msg.size()) {
+                        strBuffer += wxString(pc->error_msg.c_str(), wxConvUTF8) + wxString(wxT("\n"));
+                    }
+                    pWAM->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+
+                } else {
+                    SetServerReportedError(false);
+                }
+
                 SetNextState(ACCTMGRPROP_DETERMINENETWORKSTATUS_BEGIN);
             }
             break;
@@ -407,6 +431,9 @@ wxWizardPageEx* CAccountManagerPropertiesPage::GetNext() const
     } else if (GetProjectPropertiesURLFailure()) {
         // Not a BOINC based project
         return PAGE_TRANSITION_NEXT(ID_ERRNOTDETECTEDPAGE);
+    } else if (GetServerReportedError()) {
+        // Server reported an error, display the error
+        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     } else {
         // The project must be down for maintenance
         return PAGE_TRANSITION_NEXT(ID_ERRUNAVAILABLEPAGE);
@@ -526,4 +553,3 @@ wxIcon CAccountManagerPropertiesPage::GetIconResource( const wxString& WXUNUSED(
     return wxNullIcon;
 ////@end CAccountManagerPropertiesPage icon retrieval
 }
-
