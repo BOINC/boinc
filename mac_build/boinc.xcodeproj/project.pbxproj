@@ -35,6 +35,7 @@
 /* Begin PBXBuildFile section */
 		DD01B6790C16723C0023A806 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD01B7120C16723D0023A806 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
+		DD04BE1B0EDD836A006D5603 /* TermsOfUsePage .cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD04BE190EDD836A006D5603 /* TermsOfUsePage .cpp */; };
 		DD0A06F50869A2D2007CD86E /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BE407C5B1670043025C /* prefs.cpp */; };
 		DD0C5A8B0816711400CEC5D7 /* boinc.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DD0C5A8A0816711400CEC5D7 /* boinc.jpg */; };
 		DD1277C2081F3E73007B5DE1 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */; };
@@ -63,7 +64,6 @@
 		DD3E14DC0A774397007E0084 /* BOINCMgr.icns in Resources */ = {isa = PBXBuildFile; fileRef = DDF3028907CCCE2C00701169 /* BOINCMgr.icns */; };
 		DD3E14DD0A774397007E0084 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD3E14DF0A774397007E0084 /* AccountInfoPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C41808F3343F00C1DF66 /* AccountInfoPage.cpp */; };
-		DD3E14E00A774397007E0084 /* AccountKeyPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C41A08F3343F00C1DF66 /* AccountKeyPage.cpp */; };
 		DD3E14E10A774397007E0084 /* AccountManagerInfoPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C41C08F3343F00C1DF66 /* AccountManagerInfoPage.cpp */; };
 		DD3E14E20A774397007E0084 /* AccountManagerProcessingPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C41E08F3343F00C1DF66 /* AccountManagerProcessingPage.cpp */; };
 		DD3E14E30A774397007E0084 /* AccountManagerPropertiesPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C42008F3343F00C1DF66 /* AccountManagerPropertiesPage.cpp */; };
@@ -531,6 +531,8 @@
 		AA8B6B1C046C364400A80164 /* app_ipc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = app_ipc.h; path = ../lib/app_ipc.h; sourceTree = SOURCE_ROOT; };
 		AAA31C97042157A800A80164 /* shmem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = shmem.cpp; sourceTree = "<group>"; };
 		AAA31C98042157A800A80164 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../lib/shmem.h; sourceTree = SOURCE_ROOT; };
+		DD04BE190EDD836A006D5603 /* TermsOfUsePage .cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "TermsOfUsePage .cpp"; path = "../clientgui/TermsOfUsePage .cpp"; sourceTree = SOURCE_ROOT; };
+		DD04BE1A0EDD836A006D5603 /* TermsOfUsePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TermsOfUsePage.h; path = ../clientgui/TermsOfUsePage.h; sourceTree = SOURCE_ROOT; };
 		DD0C5A8A0816711400CEC5D7 /* boinc.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = boinc.jpg; path = ../clientscr/res/boinc.jpg; sourceTree = SOURCE_ROOT; };
 		DD1277B3081F3D67007B5DE1 /* PostInstall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PostInstall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD1277B5081F3D67007B5DE1 /* PostInstall-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "PostInstall-Info.plist"; sourceTree = "<group>"; };
@@ -643,8 +645,6 @@
 		DD531BC70C193D5200742E50 /* MacUninstaller.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = MacUninstaller.icns; path = ../clientgui/res/MacUninstaller.icns; sourceTree = SOURCE_ROOT; };
 		DD58C41808F3343F00C1DF66 /* AccountInfoPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountInfoPage.cpp; path = ../clientgui/AccountInfoPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C41908F3343F00C1DF66 /* AccountInfoPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AccountInfoPage.h; path = ../clientgui/AccountInfoPage.h; sourceTree = SOURCE_ROOT; };
-		DD58C41A08F3343F00C1DF66 /* AccountKeyPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountKeyPage.cpp; path = ../clientgui/AccountKeyPage.cpp; sourceTree = SOURCE_ROOT; };
-		DD58C41B08F3343F00C1DF66 /* AccountKeyPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AccountKeyPage.h; path = ../clientgui/AccountKeyPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C41C08F3343F00C1DF66 /* AccountManagerInfoPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountManagerInfoPage.cpp; path = ../clientgui/AccountManagerInfoPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C41D08F3343F00C1DF66 /* AccountManagerInfoPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AccountManagerInfoPage.h; path = ../clientgui/AccountManagerInfoPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C41E08F3343F00C1DF66 /* AccountManagerProcessingPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountManagerProcessingPage.cpp; path = ../clientgui/AccountManagerProcessingPage.cpp; sourceTree = SOURCE_ROOT; };
@@ -1159,8 +1159,6 @@
 			children = (
 				DD58C41808F3343F00C1DF66 /* AccountInfoPage.cpp */,
 				DD58C41908F3343F00C1DF66 /* AccountInfoPage.h */,
-				DD58C41A08F3343F00C1DF66 /* AccountKeyPage.cpp */,
-				DD58C41B08F3343F00C1DF66 /* AccountKeyPage.h */,
 				DD58C41C08F3343F00C1DF66 /* AccountManagerInfoPage.cpp */,
 				DD58C41D08F3343F00C1DF66 /* AccountManagerInfoPage.h */,
 				DD58C41E08F3343F00C1DF66 /* AccountManagerProcessingPage.cpp */,
@@ -1274,6 +1272,8 @@
 				DD247AF70AEA308A0034104A /* SkinManager.cpp */,
 				DD247AF80AEA308A0034104A /* SkinManager.h */,
 				DD81C45B07C5D2880098A04D /* stdwx.h */,
+				DD04BE190EDD836A006D5603 /* TermsOfUsePage .cpp */,
+				DD04BE1A0EDD836A006D5603 /* TermsOfUsePage.h */,
 				DD58C46108F334EA00C1DF66 /* UnavailablePage.cpp */,
 				DD58C46208F334EA00C1DF66 /* UnavailablePage.h */,
 				DD81C42707C5D1D70098A04D /* ValidateAccountKey.cpp */,
@@ -2216,7 +2216,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD3E14DF0A774397007E0084 /* AccountInfoPage.cpp in Sources */,
-				DD3E14E00A774397007E0084 /* AccountKeyPage.cpp in Sources */,
 				DD3E14E10A774397007E0084 /* AccountManagerInfoPage.cpp in Sources */,
 				DD3E14E20A774397007E0084 /* AccountManagerProcessingPage.cpp in Sources */,
 				DD3E14E30A774397007E0084 /* AccountManagerPropertiesPage.cpp in Sources */,
@@ -2316,6 +2315,7 @@
 				DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */,
 				DDC132F30E2DAB1B0014D305 /* AsyncRPC.cpp in Sources */,
 				DDDE43B10EC04C1800083520 /* DlgExitMessage.cpp in Sources */,
+				DD04BE1B0EDD836A006D5603 /* TermsOfUsePage .cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
