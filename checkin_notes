@@ -9672,3 +9672,11 @@ David  26 Nov 2008
     sched/
         file_deleter.cpp
         transitioner.cpp
+
+David  26 Nov 2008
+    - server: sleep intervals are integers
+
+    sched/
+        file_deleter.cpp
+        sched_send.cpp
+        transitioner.cpp

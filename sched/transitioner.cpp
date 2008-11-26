@@ -62,7 +62,7 @@ R_RSA_PRIVATE_KEY key;
 int mod_n, mod_i;
 bool do_mod = false;
 bool one_pass = false;
-double sleep_interval = DEFAULT_SLEEP_INTERVAL;
+int sleep_interval = DEFAULT_SLEEP_INTERVAL;
 
 void signal_handler(int) {
     log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
@@ -688,7 +688,7 @@ int main(int argc, char** argv) {
             mod_i = atoi(argv[++i]);
             do_mod = true;
         } else if (!strcmp(argv[i], "-sleep_interval")) {
-            sleep_interval = atof(argv[++i]);
+            sleep_interval = atoi(argv[++i]);
         }
     }
     if (!one_pass) check_stop_daemons();

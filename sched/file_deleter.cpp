@@ -76,7 +76,7 @@ bool dont_delete_batches = false;
 int antique_delay = ANTIQUE_DELAY;
 bool do_input_files = true;
 bool do_output_files = true;
-double sleep_interval = DEFAULT_SLEEP_INTERVAL;
+int sleep_interval = DEFAULT_SLEEP_INTERVAL;
 
 void usage() {
     fprintf(stderr,
@@ -610,7 +610,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-output_files_only")) {
             do_input_files = false;
         } else if (!strcmp(argv[i], "-sleep_interval")) {
-            sleep_interval = atof(argv[++i]);
+            sleep_interval = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-help")) {
             usage();
         } else {
