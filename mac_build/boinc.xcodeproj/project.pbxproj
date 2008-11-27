@@ -35,7 +35,6 @@
 /* Begin PBXBuildFile section */
 		DD01B6790C16723C0023A806 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD01B7120C16723D0023A806 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
-		DD04BE1B0EDD836A006D5603 /* TermsOfUsePage .cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD04BE190EDD836A006D5603 /* TermsOfUsePage .cpp */; };
 		DD0A06F50869A2D2007CD86E /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BE407C5B1670043025C /* prefs.cpp */; };
 		DD0C5A8B0816711400CEC5D7 /* boinc.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DD0C5A8A0816711400CEC5D7 /* boinc.jpg */; };
 		DD1277C2081F3E73007B5DE1 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */; };
@@ -253,6 +252,7 @@
 		DDBE74390C03B1C600453BB8 /* cs_platforms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */; };
 		DDC132F30E2DAB1B0014D305 /* AsyncRPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC132F20E2DAB1B0014D305 /* AsyncRPC.cpp */; };
 		DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */; };
+		DDC836E60EDEA5DB001C2EF9 /* TermsOfUsePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */; };
 		DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */; };
 		DDD095490A3EDF2D00C95BA4 /* switcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.cpp */; };
 		DDD52DCA0C03CAE6009B5FC0 /* ViewProjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */; };
@@ -531,7 +531,6 @@
 		AA8B6B1C046C364400A80164 /* app_ipc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = app_ipc.h; path = ../lib/app_ipc.h; sourceTree = SOURCE_ROOT; };
 		AAA31C97042157A800A80164 /* shmem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = shmem.cpp; sourceTree = "<group>"; };
 		AAA31C98042157A800A80164 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../lib/shmem.h; sourceTree = SOURCE_ROOT; };
-		DD04BE190EDD836A006D5603 /* TermsOfUsePage .cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "TermsOfUsePage .cpp"; path = "../clientgui/TermsOfUsePage .cpp"; sourceTree = SOURCE_ROOT; };
 		DD04BE1A0EDD836A006D5603 /* TermsOfUsePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TermsOfUsePage.h; path = ../clientgui/TermsOfUsePage.h; sourceTree = SOURCE_ROOT; };
 		DD0C5A8A0816711400CEC5D7 /* boinc.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = boinc.jpg; path = ../clientscr/res/boinc.jpg; sourceTree = SOURCE_ROOT; };
 		DD1277B3081F3D67007B5DE1 /* PostInstall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PostInstall.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -816,6 +815,7 @@
 		DDC3D55D0D507D1700BE6D23 /* BOINCClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BOINCClientManager.h; path = ../clientgui/BOINCClientManager.h; sourceTree = SOURCE_ROOT; };
 		DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgGenericMessage.cpp; path = ../clientgui/DlgGenericMessage.cpp; sourceTree = SOURCE_ROOT; };
 		DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgGenericMessage.h; path = ../clientgui/DlgGenericMessage.h; sourceTree = SOURCE_ROOT; };
+		DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TermsOfUsePage.cpp; path = ../clientgui/TermsOfUsePage.cpp; sourceTree = SOURCE_ROOT; };
 		DDCAD7D10A6C603A0086C7EE /* sg_BoincSimpleGUI.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_BoincSimpleGUI.cpp; path = ../clientgui/sg_BoincSimpleGUI.cpp; sourceTree = SOURCE_ROOT; };
 		DDCAD7D20A6C603A0086C7EE /* sg_BoincSimpleGUI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_BoincSimpleGUI.h; path = ../clientgui/sg_BoincSimpleGUI.h; sourceTree = SOURCE_ROOT; };
 		DDCAD7D30A6C603A0086C7EE /* sg_DlgPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_DlgPreferences.cpp; path = ../clientgui/sg_DlgPreferences.cpp; sourceTree = SOURCE_ROOT; };
@@ -1272,7 +1272,7 @@
 				DD247AF70AEA308A0034104A /* SkinManager.cpp */,
 				DD247AF80AEA308A0034104A /* SkinManager.h */,
 				DD81C45B07C5D2880098A04D /* stdwx.h */,
-				DD04BE190EDD836A006D5603 /* TermsOfUsePage .cpp */,
+				DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */,
 				DD04BE1A0EDD836A006D5603 /* TermsOfUsePage.h */,
 				DD58C46108F334EA00C1DF66 /* UnavailablePage.cpp */,
 				DD58C46208F334EA00C1DF66 /* UnavailablePage.h */,
@@ -2315,7 +2315,7 @@
 				DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */,
 				DDC132F30E2DAB1B0014D305 /* AsyncRPC.cpp in Sources */,
 				DDDE43B10EC04C1800083520 /* DlgExitMessage.cpp in Sources */,
-				DD04BE1B0EDD836A006D5603 /* TermsOfUsePage .cpp in Sources */,
+				DDC836E60EDEA5DB001C2EF9 /* TermsOfUsePage.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
