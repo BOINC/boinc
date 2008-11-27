@@ -846,7 +846,7 @@ int CBOINCGUIApp::ConfirmExit() {
         }
     }
 
-#ifdef __WXMAC__
+#ifndef __WXMSW__
     // Don't run confirmation dialog if logging out or shutting down
     if (s_bSkipExitConfirmation)
         return 1;
@@ -869,7 +869,7 @@ int CBOINCGUIApp::ConfirmExit() {
         dlg.m_DialogExitMessage->SetLabel(pSkinAdvanced->GetExitMessage());
     }
 
-#ifndef __WXMAC__
+#ifdef __WXMSW__
     if (m_iShutdownCoreClient) {
         dlg.m_DialogShutdownCoreClient->SetValue(TRUE);
     }
@@ -883,7 +883,7 @@ int CBOINCGUIApp::ConfirmExit() {
     dlg.Centre();
 
     if (wxID_OK == dlg.ShowModal()) {
-#ifdef __WXMAC__
+#ifndef __WXMSW__
         s_bSkipExitConfirmation = true;     // Don't ask twice (only affects Mac)
 #else
         m_iShutdownCoreClient = dlg.m_DialogShutdownCoreClient->GetValue();

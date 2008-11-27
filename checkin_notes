@@ -9686,3 +9686,11 @@ David  26 Nov 2008
 
     html/user/
         login_action.php
+
+Rom    27 Nov 2008
+    - MGR: fix exit dialog so that both the Mac and Linux clients don't
+        display the 'close core client...' checkbox.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        DlgExitMessage.cpp
