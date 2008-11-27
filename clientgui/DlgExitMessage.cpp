@@ -29,11 +29,10 @@
 #include "parse.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
+#include "DlgExitMessage.h"
 
 ////@begin includes
 ////@end includes
-
-#include "DlgExitMessage.h"
 
 ////@begin XPM images
 ////@end XPM images
@@ -126,7 +125,7 @@ void CDlgExitMessage::CreateControls()
     wxFlexGridSizer* itemFlexGridSizer4 = new wxFlexGridSizer(3, 1, 0, 0);
     itemBoxSizer3->Add(itemFlexGridSizer4, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-#ifndef __WXMAC__
+#ifdef __WXMSW__
     strExitMessage.Printf(
         _("You have requested to exit the %s,\nwhich allows you to view and manage\nthe science applications running on your computer.\n\nIf you also want to stop running the science applications when you\nexit the Manager, then choose from the following options:"),
         pSkinAdvanced->GetApplicationName().c_str()
@@ -148,7 +147,7 @@ void CDlgExitMessage::CreateControls()
 
     itemFlexGridSizer4->Add(5, 5, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-#ifndef __WXMAC__
+#ifdef __WXMSW__
 
     strAlwaysExitMessage.Printf(
         _("Stop running science applications when exiting the Manager")
