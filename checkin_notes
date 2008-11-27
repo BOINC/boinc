@@ -9680,3 +9680,9 @@ David  26 Nov 2008
         file_deleter.cpp
         sched_send.cpp
         transitioner.cpp
+
+David  26 Nov 2008
+    - web: fix scripting attack vulnerability
+
+    html/user/
+        login_action.php
