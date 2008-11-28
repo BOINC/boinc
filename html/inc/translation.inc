@@ -22,7 +22,6 @@ $lang_prj_translations_dir = "project_specific_translations/";
 $lang_compiled_dir = "compiled/";
 $lang_log_level = 0;
 $lang_log_file = $lang_language_dir."translator.log";
-$PROJECT = PROJECT; // Default constant usable from .po files
 
 /**
  * Fetches a list of compiled languages from the directory
@@ -66,9 +65,7 @@ function buildLanguages($langdir,$transdir,$compdir,$append=false){
                 } else if (substr($file,-3)==".po"){
                     // and only do files ending in .po
                     language_log("-------------Compiling $transdir$file------------",0);
-                    $language = parseLanguage(
-                        $langdir.$transdir.$file, $interface
-                    );
+                    $language = parseLanguage($langdir.$transdir.$file);
                     if (!$language){
                         language_log(
                             "WARNING: Could not parse language ".$file
@@ -119,7 +116,7 @@ function parseLanguage($file){
             //If found msgid entry
             if (!$first_entry){
                 //If this is not the first, save the previous entry
-                if ($id!==false){
+                if ($current_token_text){
                     $output[$current_token]=$current_token_text;
                 }
             }
@@ -188,6 +185,10 @@ function language_log($message, $loglevel=0){
 
     if ($loglevel>=$lang_log_level){
         $fh = fopen($lang_log_file,"a");
+        if (!$fh) {
+            echo "failed to open log file $lang_log_file\n";
+            return;
+        }
         fwrite($fh, date("Y-m-d H:i:s",time())." ".$msg." ".$message."\n");
         fclose($fh);
     }

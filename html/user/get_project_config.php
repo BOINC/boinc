@@ -53,6 +53,33 @@ function show_platforms() {
 
 $config = get_config();
 $long_name = parse_config($config, "<long_name>");
+
+// if project has a min client version, enforce it
+//
+$min_core_client_version = parse_config($config, "<min_core_client_version>");
+if ($min_core_client_version) {
+    $x = $_SERVER['HTTP_USER_AGENT'];
+    list($platform, $maj, $min)  = sscanf($x, "BOINC client (%s %d.%d)");
+    $too_old = false;
+    if ($maj !== null && $min !== null) {
+        $v = $maj*100 + $min;
+        if ($v < $min_core_client_version) {
+            $too_old = true;
+        }
+    } else {
+        $too_old = true;
+    }
+    if ($too_old) {
+        $rmaj = $min_core_client_version/100;
+        $rmin = $min_core_client_version%100;
+        echo "<error_msg>This project requires BOINC client version $rmaj.$rmin or later.</error_msg>
+<error_num>-190</error_num>
+</project_config>
+";
+        exit;
+    }
+}
+
 $min_passwd_length = parse_config($config, "<min_passwd_length>");
 if (!$min_passwd_length) {
     $min_passwd_length = 6;

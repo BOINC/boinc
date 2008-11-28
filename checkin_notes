@@ -9701,3 +9701,16 @@ Charlie 28 Nov 2008
 
     clientgui/
         BOINCBaseView.cpp
+
+David  28 Nov 2008
+    - get_project_config.php: if config.xml has min client version,
+        get client version from HTTP user agent string and enforce.
+    - update translations script: fix apparent typos
+
+    html/
+        inc/
+            translation.inc
+        ops/
+            update_translations.php
+        user/
+            get_project_config.php
