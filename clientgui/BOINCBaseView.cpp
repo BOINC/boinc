@@ -708,6 +708,7 @@ void CBOINCBaseView::PostUpdateSelection(){
     wxASSERT(m_pTaskPane);
     m_pTaskPane->UpdateControls();
     Layout();
+    RefreshTaskPane();
 }
 
 

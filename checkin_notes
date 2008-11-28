@@ -9694,3 +9694,10 @@ Rom    27 Nov 2008
     clientgui/
         BOINCGUIApp.cpp
         DlgExitMessage.cpp
+
+Charlie 28 Nov 2008
+    - MGR: Erase and refresh entire Tasks panel when changing selections to try 
+        to fix another instance of cosmetic bug reported by David on Windows.
+
+    clientgui/
+        BOINCBaseView.cpp
