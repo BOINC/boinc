@@ -590,7 +590,7 @@ void CViewWork::UpdateSelection() {
     RESULT*             result = NULL;
     PROJECT*            project = NULL;
     CC_STATUS           status;
-    CMainDocument*      pDoc = wxGetApp().GetDocument();
+    CMainDocument*      pDoc = NULL;
     int                 i, n, row;
     bool                wasSuspended=false, all_same_project=false;
     std::string         first_project_url;
@@ -598,6 +598,12 @@ void CViewWork::UpdateSelection() {
     bool                enableSuspendResume = false;
     bool                enableAbort = false;
     bool                enableProperties = false;
+    
+    if(!m_bForceUpdateSelection) {
+        return;
+    }
+
+    pDoc = wxGetApp().GetDocument();
     
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));

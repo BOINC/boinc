@@ -650,7 +650,7 @@ bool CViewProjects::IsSelectionManagementNeeded() {
 void CViewProjects::UpdateSelection() {
     CTaskItemGroup*     pGroup = NULL;
     PROJECT*            project = NULL;
-    CMainDocument*      pDoc = wxGetApp().GetDocument();
+    CMainDocument*      pDoc = NULL;
     int                 i, n, row;
     bool                wasSuspended=false, wasNoNewWork=false;
     bool                enableUpdate = false;
@@ -660,6 +660,12 @@ void CViewProjects::UpdateSelection() {
     bool                enableDetach = false;
     bool                enableProperties = false;
 
+    if(!m_bForceUpdateSelection) {
+        return;
+    }
+
+    pDoc = wxGetApp().GetDocument();
+    
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(m_pTaskPane);

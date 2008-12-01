@@ -441,6 +441,10 @@ bool CViewTransfers::IsSelectionManagementNeeded() {
 void CViewTransfers::UpdateSelection() {
     CTaskItemGroup* pGroup = m_TaskGroups[0];
 
+    if(!m_bForceUpdateSelection) {
+        return;
+    }
+
     CBOINCBaseView::PreUpdateSelection();
 
     if (m_pListPane->GetSelectedItemCount()) {

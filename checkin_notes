@@ -9714,3 +9714,16 @@ David  28 Nov 2008
             update_translations.php
         user/
             get_project_config.php
+
+Charlie 1 Dec 2008
+    - MGR: In Messages tab, work around Mac wxWidgets bug: virtual list control 
+        does not post deselection events; I had previously done this for the 
+        Projects, Tasks and Transfers tabs.
+    - MGR: Update Tasks panel only when necessary to try again to fix latest
+        instance of cosmetic bug reported by David on Windows.
+
+    clientgui/
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
