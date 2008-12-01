@@ -5,7 +5,7 @@ require_once("docutil.php");
 include("../html/inc/stats_sites.inc");
 
 function language($lang, $sites) {
-    echo "<tr><td bgcolor=eeeeee valign=top>$lang</td><td>\n";
+    echo "<tr><td bgcolor=eeeeee valign=top width=250>$lang</td><td>\n";
     shuffle($sites);
     foreach ($sites as $s) {
         echo "$s<br>\n";
@@ -268,6 +268,7 @@ language("Hungarian", array(
     site("http://seti.hwsw.hu/", "HWSW SETI@home Team")
 ));
 language("Italian", array(
+    site("http://www.boincitaly.org/", "BOINC.Italy"),
     site("http://gaming.ngi.it/forum/forumdisplay.php?f=73", "NGI forum"),
     site("http://it.groups.yahoo.com/group/BOINC-ITALIA/", "BOINC-ITALIA")
 ));

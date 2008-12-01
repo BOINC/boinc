@@ -9727,3 +9727,10 @@ Charlie 1 Dec 2008
         ViewProjects.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+
+David  1 Dec 2008
+    - client: work-fetch tweak: don't increment overall CPU shortfall
+        if any jobs pending in simulation
+
+    client/
+        rr_sim.cpp

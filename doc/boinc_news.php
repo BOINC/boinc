@@ -1,6 +1,18 @@
 <?
 
 $project_news = array(
+array("December 1, 2008",
+    "Wikipedia'a <a href=http://en.wikipedia.org/wiki/Wikipedia:Today%27s_featured_article/December_1,_2008>featured article for today</a> is about Rosetta@home."
+),
+array("November 29, 2008",
+    "Check out <a href=http://www.boincitaly.org/>BOINC.Italy</a>,
+    a new Italian BOINC portal."
+),
+array("November 29, 2008",
+    "Rechenkraft.net is <a href=http://www.rechenkraft.net/wiki/index.php?title=Verein:E-Petition/en>petitioning the German government</a>
+    to use non-security sensitive institutional computers to
+    assist scientific research."
+),
 array("November 20, 2008",
     "See a video celebrating the
     <a href=http://www.worldcommunitygrid.org/newsletter/video/viewIDedicate.do>fourth anniversary of IBM World Community Grid</a>."
