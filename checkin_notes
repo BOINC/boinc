@@ -9636,3 +9636,14 @@ Rom    27 Nov 2008
     clientgui/
         BOINCGUIApp.cpp
         DlgExitMessage.cpp
+
+Rom    1 Dec 2008
+    - WININSTALL: Change the default to not use protected application
+        install.
+    - WININSTALL: Change the advanced install text to point out
+        that on Windows Vista CUDA applications won't work with
+        protected application installs.
+        
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
