@@ -68,7 +68,7 @@ int line_limit = 1000000;
 SIM_RESULTS sim_results;
 
 void SIM_PROJECT::update_dcf_stats(RESULT* rp) {
-    double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();
+    double raw_ratio = rp->final_cpu_time/rp->estimated_duration_uncorrected();
     // see http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Algorithm_III
     ++completed_task_count;
     double delta = raw_ratio - completions_ratio_mean;
@@ -162,7 +162,7 @@ void CLIENT_STATE::handle_completed_results() {
 void CLIENT_STATE::get_workload(vector<IP_RESULT>& ip_results) {
     for (unsigned int i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
-        double x = rp->estimated_cpu_time_remaining(false);
+        double x = rp->estimated_time_remaining(false);
         if (x == 0) continue;
         IP_RESULT ipr(rp->name, rp->report_deadline, x);
         ip_results.push_back(ipr);
