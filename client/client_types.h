@@ -158,7 +158,7 @@ struct DAILY_STATS {
     int parse(FILE*);
 };
 bool operator < (const DAILY_STATS&, const DAILY_STATS&);
-
+class ACTIVE_TASK;
 class PROJECT {
 public:
     // the following items come from the account file
@@ -293,7 +293,7 @@ public:
         /// it goes down slowly but if a new estimate X is larger,
         /// the factor is set to X.
     double duration_correction_factor;
-    void update_duration_correction_factor(RESULT*);
+    void update_duration_correction_factor(ACTIVE_TASK*);
     
     // fields used by CPU scheduler and work fetch
     // everything from here on applies only to CPU intensive projects

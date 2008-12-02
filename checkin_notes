@@ -9775,3 +9775,16 @@ David  2 Dec 2008
         app.h,cpp
         app_control.cpp
         work_fetch.cpp
+
+David  2 Dec 2008
+    - client: compute duration_correction_factor based on elapsed time, not CPU time
+        (otherwise it doesn't work for coproc or multi-proc apps)
+    - client: in estimate of job completion time,
+        weight the estimate based on fraction done more heavily
+        (quadratic rather than linear)
+
+    client/
+        client_types.h
+        cpu_sched.cpp
+        cs_apps.cpp
+        work_fetch.cpp

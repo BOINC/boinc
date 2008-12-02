@@ -1313,7 +1313,8 @@ int ACTIVE_TASK::preempt(bool quit_task) {
 // Update the correction factor used to predict
 // completion time for this project's results
 //
-void PROJECT::update_duration_correction_factor(RESULT* rp) {
+void PROJECT::update_duration_correction_factor(ACTIVE_TASK* atp) {
+	RESULT* rp = atp->result;
 #ifdef SIM
     if (dcf_dont_use) {
         duration_correction_factor = 1.0;
@@ -1324,8 +1325,8 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
         return;
     }
 #endif
-    double raw_ratio = rp->final_cpu_time/rp->estimated_duration_uncorrected();
-    double adj_ratio = rp->final_cpu_time/rp->estimated_duration(false);
+    double raw_ratio = atp->elapsed_time/rp->estimated_duration_uncorrected();
+    double adj_ratio = atp->elapsed_time/rp->estimated_duration(false);
     double old_dcf = duration_correction_factor;
 
     // it's OK to overestimate completion time,
