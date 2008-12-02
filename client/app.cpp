@@ -106,6 +106,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     checkpoint_cpu_time = 0;
     checkpoint_wall_time = 0;
     current_cpu_time = 0;
+    elapsed_time = 0;
+    checkpoint_elapsed_time = 0;
     have_trickle_down = false;
     send_upload_file_status = false;
     too_large = false;
@@ -450,6 +452,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <app_version_num>%d</app_version_num>\n"
         "    <slot>%d</slot>\n"
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
+        "    <checkpoint_elapsed_time>%f</checkpoint_elapsed_time>\n"
         "    <fraction_done>%f</fraction_done>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
         "    <swap_size>%f</swap_size>\n"
@@ -462,6 +465,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         app_version->version_num,
         slot,
         checkpoint_cpu_time,
+        checkpoint_elapsed_time,
         fraction_done,
         current_cpu_time,
         procinfo.swap_size,
@@ -483,6 +487,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "    <fraction_done>%f</fraction_done>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
+        "    <elapsed_time>%f</elapsed_time>\n"
         "    <swap_size>%f</swap_size>\n"
         "    <working_set_size>%f</working_set_size>\n"
         "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
@@ -496,6 +501,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         checkpoint_cpu_time,
         fraction_done,
         current_cpu_time,
+        elapsed_time,
         procinfo.swap_size,
         procinfo.working_set_size,
         procinfo.working_set_size_smoothed,

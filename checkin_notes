@@ -9766,3 +9766,12 @@ David  1 Dec 2008
         cs_scheduler.cpp
         rr_sim.cpp
         work_fetch.cpp
+
+David  2 Dec 2008
+    - client: estimate time to completion based on elapsed time, not CPU time
+        (improves estimates for coproc apps)
+
+    client/
+        app.h,cpp
+        app_control.cpp
+        work_fetch.cpp
