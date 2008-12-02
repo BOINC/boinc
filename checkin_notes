@@ -9752,3 +9752,17 @@ Charlie 1 Dec 2008
         ViewProjects.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+
+David  1 Dec 2008
+    - client: use FLOPs, rather than CPU time,
+        as the basis for estimating job completion times.
+        This should improve estimates for GPU apps,
+        and prevent the DCF from getting messed up.
+
+    client/
+        app.h
+        client_types.h,cpp
+        cpu_sched.cpp
+        cs_scheduler.cpp
+        rr_sim.cpp
+        work_fetch.cpp

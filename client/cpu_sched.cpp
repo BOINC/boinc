@@ -290,8 +290,8 @@ RESULT* CLIENT_STATE::earliest_deadline_result() {
         //
         ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
         if (best_atp && !atp) continue;
-        if (rp->estimated_cpu_time_remaining(false)
-            < best_result->estimated_cpu_time_remaining(false)
+        if (rp->estimated_time_remaining(false)
+            < best_result->estimated_time_remaining(false)
             || (!best_atp && atp)
         ) {
             best_result = rp;
@@ -1324,8 +1324,8 @@ void PROJECT::update_duration_correction_factor(RESULT* rp) {
         return;
     }
 #endif
-    double raw_ratio = rp->final_cpu_time/rp->estimated_cpu_time_uncorrected();
-    double adj_ratio = rp->final_cpu_time/rp->estimated_cpu_time(false);
+    double raw_ratio = rp->final_cpu_time/rp->estimated_duration_uncorrected();
+    double adj_ratio = rp->final_cpu_time/rp->estimated_duration(false);
     double old_dcf = duration_correction_factor;
 
     // it's OK to overestimate completion time,

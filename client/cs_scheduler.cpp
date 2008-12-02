@@ -303,7 +303,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     fprintf(f, "<in_progress_results>\n");
     for (i=0; i<results.size(); i++) {
         rp = results[i];
-        double x = rp->estimated_cpu_time_remaining(false);
+        double x = rp->estimated_time_remaining(false);
         if (x == 0) continue;
         fprintf(f,
             "    <ip_result>\n"
@@ -716,7 +716,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         wup->clear_errors();
         workunits.push_back(wup);
     }
-    double est_cpu_time = 0;
+    double est_duration = 0;
     for (i=0; i<sr.results.size(); i++) {
         if (lookup_result(project, sr.results[i].name)) {
             msg_printf(project, MSG_INTERNAL_ERROR,
@@ -753,13 +753,13 @@ int CLIENT_STATE::handle_scheduler_reply(
         results.push_back(rp);
         rp->set_state(RESULT_NEW, "handle_scheduler_reply");
         nresults++;
-        est_cpu_time += rp->estimated_cpu_time(false);
+        est_duration += rp->estimated_duration(false);
     }
     if (log_flags.sched_op_debug) {
         if (sr.results.size()) {
             msg_printf(project, MSG_INFO,
-                "[sched_ops_debug] estimated total CPU time: %.0f seconds",
-                est_cpu_time
+                "[sched_ops_debug] estimated total job duration: %.0f seconds",
+                est_duration
             );
         }
     }

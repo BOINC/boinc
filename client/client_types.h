@@ -538,9 +538,13 @@ struct RESULT {
 
     // stuff related to CPU scheduling
 
-    double estimated_cpu_time(bool for_work_fetch);
-    double estimated_cpu_time_uncorrected();
-    double estimated_cpu_time_remaining(bool for_work_fetch);
+    double estimated_duration(bool for_work_fetch);
+    double estimated_duration_uncorrected();
+    double estimated_time_remaining(bool for_work_fetch);
+    inline double estimated_flops_remaining() {
+        return estimated_time_remaining(false)*avp->flops;
+    }
+
     bool computing_done();
         /// downloaded, not finished, not suspended, project not suspended
     bool runnable();
@@ -557,9 +561,9 @@ struct RESULT {
     }
 
     // temporaries used in CLIENT_STATE::rr_simulation():
-    double rrsim_cpu_left;
+    double rrsim_flops_left;
     double rrsim_finish_delay;
-    double rrsim_rate;
+    double rrsim_flops;
 
         /// used to keep cpu scheduler from scheduling a result twice
         /// transient; used only within schedule_cpus()
