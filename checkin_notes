@@ -9734,3 +9734,21 @@ David  1 Dec 2008
 
     client/
         rr_sim.cpp
+
+Charlie 1 Dec 2008
+    - MGR: Earlier atempts at fixing Task Pane background erase glitch were 
+        unsuccessful, and Rom told me this bug has been around for a very 
+        long time.  So remove the unsuccessful changes and add new window 
+        style wxFULL_REPAINT_ON_RESIZE to Task Pane as recommended by 
+        wxWidgets documentation.  
+    - MGR: Remove m_bForceUpdateSelection logic; instead remove call to 
+        UpdateSelection() from the only place the force flag was not set, 
+        in CBOINCBaseView::OnListRender().
+        
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCBaseView.cpp,.h
+        sg_DlgMessages.h
+        ViewProjects.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp

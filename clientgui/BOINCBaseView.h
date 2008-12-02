@@ -22,7 +22,7 @@
 #pragma interface "BOINCBaseView.cpp"
 #endif
 
-#define DEFAULT_TASK_FLAGS             wxTAB_TRAVERSAL | wxADJUST_MINSIZE
+#define DEFAULT_TASK_FLAGS             wxTAB_TRAVERSAL | wxADJUST_MINSIZE | wxFULL_REPAINT_ON_RESIZE
 #define DEFAULT_LIST_SINGLE_SEL_FLAGS  wxLC_REPORT | wxLC_VIRTUAL | wxLC_SINGLE_SEL
 #define DEFAULT_LIST_MULTI_SEL_FLAGS   wxLC_REPORT | wxLC_VIRTUAL
 
@@ -119,7 +119,6 @@ public:
 	void                    RestoreSelections();
 	void                    ClearSavedSelections();
 	void                    ClearSelections();
-    void                    RefreshTaskPane();
  
     std::vector<CTaskItemGroup*> m_TaskGroups;
 
@@ -180,7 +179,6 @@ protected:
     bool                    m_bProcessingTaskRenderEvent;
     bool                    m_bProcessingListRenderEvent;
 
-    bool                    m_bForceUpdateSelection;
     bool                    m_bIgnoreUIEvents;
     bool                    m_bNeedSort;
     

@@ -2001,7 +2001,6 @@ void CAdvancedFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
     pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
     wxASSERT(pView);
     
-    pView->RefreshTaskPane();
     event.Skip();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNotebookSelectionChanged - Function End"));

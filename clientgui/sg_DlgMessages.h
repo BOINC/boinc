@@ -126,7 +126,6 @@ private:
     wxListItemAttr*         m_pMessageErrorAttr;
 
     bool                    m_bProcessingRefreshEvent;
-    bool                    m_bForceUpdateSelection;
 
     bool                    EnsureLastItemVisible();
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
