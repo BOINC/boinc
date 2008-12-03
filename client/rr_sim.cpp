@@ -316,6 +316,15 @@ void CLIENT_STATE::rr_simulation() {
 		// if so, we won't increment CPU shortfall
 		//
 		bool pbest_had_pending = (pbest->rr_sim_status.pending.size() > 0);
+		any_pending = false;
+        for (i=0; i<projects.size(); i++) {
+            p = projects[i];
+            if (p->non_cpu_intensive) continue;
+			if (p->rr_sim_status.pending.size()) {
+				any_pending = true;
+				break;
+			}
+		}
 
         // If project has more results, add one or more to active set.
 		// TODO: do this for other projects too, since coproc may have been freed
@@ -349,16 +358,6 @@ void CLIENT_STATE::rr_simulation() {
                 p->set_rrsim_proc_rate(rrs);
             }
         }
-
-		any_pending = false;
-        for (i=0; i<projects.size(); i++) {
-            p = projects[i];
-            if (p->non_cpu_intensive) continue;
-			if (p->rr_sim_status.pending.size()) {
-				any_pending = true;
-				break;
-			}
-		}
 
         // increment CPU shortfalls if necessary
         //
