@@ -477,6 +477,7 @@ bool CLIENT_STATE::compute_work_requests() {
         // see if this project can be ruled out completely
         //
         if (p->non_cpu_intensive) continue;
+		if (!p->rr_sim_status.cpu_shortfall) continue;
         if (!p->contactable()) {
             if (log_flags.work_fetch_debug) {
                 msg_printf(p, MSG_INFO, "[work_fetch_debug] work fetch: project not contactable; skipping");

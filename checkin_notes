@@ -9819,3 +9819,11 @@ David  3 Dec 2008
         handle_request.cpp
         sched_send.cpp
         server_types.cpp
+
+David  3 Dec 2008
+    - client: fix calculation of CPU shortfall;
+         don't fetch work from projects with zero CPU shortfall
+
+    client/
+        rr_sim.cpp
+        work_fetch.cpp

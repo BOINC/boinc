@@ -36,10 +36,15 @@ struct RR_SIM_STATUS {
             rp->avp->coprocs, log_flags.rr_simulation, "rr_simulation"
         );
     }
-    inline void activate(RESULT* rp) {
+    inline void activate(RESULT* rp, double when) {
         coprocs.reserve_coprocs(
             rp->avp->coprocs, rp, log_flags.rr_simulation, "rr_simulation"
         );
+		if (log_flags.rr_simulation) {
+			msg_printf(rp->project, MSG_INFO,
+				"[rr_sim] starting at %f: %s", when, rp->name
+			);
+		}
         active.push_back(rp);
 		active_ncpus += rp->avp->avg_ncpus;
     }
@@ -192,8 +197,8 @@ void CLIENT_STATE::rr_simulation() {
 
     if (log_flags.rr_simulation) {
         msg_printf(0, MSG_INFO,
-            "[rr_sim] rr_sim start: work_buf_total %f rrs %f trs %f ncpus %d",
-            work_buf_total(), rrs, trs, ncpus
+            "[rr_sim] rr_sim start: now %f work_buf_total %f rrs %f trs %f ncpus %d",
+            now, work_buf_total(), rrs, trs, ncpus
         );
     }
 
@@ -215,7 +220,7 @@ void CLIENT_STATE::rr_simulation() {
         if (rp->rrsim_flops_left <= 0) continue;
         p = rp->project;
         if (p->rr_sim_status.can_run(rp, gstate.ncpus) && sim_status.can_run(rp)) {
-            sim_status.activate(rp);
+            sim_status.activate(rp, now);
             p->rr_sim_status.activate(rp);
         } else {
             p->rr_sim_status.add_pending(rp);
@@ -249,7 +254,7 @@ void CLIENT_STATE::rr_simulation() {
     //
     double sim_now = now;
     cpu_shortfall = 0;
-	bool any_pending = false;
+	bool all_projects_have_pending = false;
     while (sim_status.active.size()) {
 
         // compute finish times and see which result finishes first
@@ -311,26 +316,74 @@ void CLIENT_STATE::rr_simulation() {
             }
         }
 
-        double last_active_ncpus = sim_status.active_ncpus;
-        double last_proj_active_ncpus = pbest->rr_sim_status.active_ncpus;
+        // increment CPU shortfalls if necessary
+        //
+        if (sim_now < buf_end) {
+			// check whether all projects have pending jobs;
+			// if so, we won't increment overall CPU shortfall
+			//
+			all_projects_have_pending = true;
+			for (i=0; i<projects.size(); i++) {
+				p = projects[i];
+				if (p->non_cpu_intensive) continue;
+				if (!p->rr_sim_status.pending.size()) {
+					all_projects_have_pending = false;
+					break;
+				}
+			}
+            double end_time = sim_now + rpbest->rrsim_finish_delay;
+            if (end_time > buf_end) end_time = buf_end;
+            double d_time = end_time - sim_now;
+            double nidle_cpus = ncpus - sim_status.active_ncpus;
+            if (nidle_cpus<0) nidle_cpus = 0;
+
+			if (nidle_cpus > 0 && !all_projects_have_pending) {
+				cpu_shortfall += d_time*nidle_cpus;
+				if (log_flags.rr_simulation) {
+					msg_printf(0, MSG_INFO,
+						"[rr_sim] new overall CPU shortfall: %f", cpu_shortfall
+					);
+				}
+			} else {
+				if (log_flags.rr_simulation) {
+					msg_printf(0, MSG_INFO,
+						"[rr_sim] no change in overall CPU shortfall: nidle %f all have pending %d",
+						nidle_cpus, all_projects_have_pending
+					);
+				}
+			}
+
+			for (i=0; i<projects.size(); i++) {
+				p = projects[i];
+				if (p->non_cpu_intensive) continue;
+				if (p->rr_sim_status.pending.size()) continue;
+				double rsf = trs?p->resource_share/trs:1;
+				double proj_cpu_share = ncpus*rsf;
+				
+				if (log_flags.rr_simulation) {
+					msg_printf(p, MSG_INFO,
+						"[rr_sim] npending %d last ncpus %f cpu share %f",
+						p->rr_sim_status.pending.size(), p->rr_sim_status.active_ncpus, proj_cpu_share
+					);
+				}
+				if (nidle_cpus > 0) {
+					p->rr_sim_status.cpu_shortfall += d_time*nidle_cpus*rsf;
+				}
+				double x = proj_cpu_share - p->rr_sim_status.active_ncpus;
+				if (x > 0) {
+					p->rr_sim_status.cpu_shortfall += d_time*x;
+				}
+				if (log_flags.rr_simulation) {
+					msg_printf(p, MSG_INFO,
+						"[rr_sim] new shortfall %f d_time %f proj_cpu_share %f lpan %f",
+						p->rr_sim_status.cpu_shortfall, d_time, proj_cpu_share, p->rr_sim_status.active_ncpus
+					);
+				}
+            }
+        }
 
         sim_status.remove_active(rpbest);
- 
         pbest->rr_sim_status.remove_active(rpbest);
-
-		// record whether project has pending jobs;
-		// if so, we won't increment CPU shortfall
-		//
-		bool pbest_had_pending = (pbest->rr_sim_status.pending.size() > 0);
-		any_pending = false;
-        for (i=0; i<projects.size(); i++) {
-            p = projects[i];
-            if (p->non_cpu_intensive) continue;
-			if (p->rr_sim_status.pending.size()) {
-				any_pending = true;
-				break;
-			}
-		}
 
         // If project has more results, add one or more to active set.
 		// TODO: do this for other projects too, since coproc may have been freed
@@ -339,7 +392,7 @@ void CLIENT_STATE::rr_simulation() {
             rp = pbest->rr_sim_status.get_pending();
             if (!rp) break;
             if (pbest->rr_sim_status.can_run(rp, gstate.ncpus) && sim_status.can_run(rp)) {
-                sim_status.activate(rp);
+                sim_status.activate(rp, sim_now);
                 pbest->rr_sim_status.activate(rp);
             } else {
                 pbest->rr_sim_status.add_pending(rp);
@@ -365,64 +418,21 @@ void CLIENT_STATE::rr_simulation() {
             }
         }
 
-        // increment CPU shortfalls if necessary
-        //
-        if (sim_now < buf_end) {
-            double end_time = sim_now + rpbest->rrsim_finish_delay;
-            if (end_time > buf_end) end_time = buf_end;
-            double d_time = end_time - sim_now;
-            double nidle_cpus = ncpus - last_active_ncpus;
-            if (nidle_cpus<0) nidle_cpus = 0;
-			if (nidle_cpus > 0 && !any_pending) {
-				cpu_shortfall += d_time*nidle_cpus;
-			}
-
-            double rsf = trs?pbest->resource_share/trs:1;
-            double proj_cpu_share = ncpus*rsf;
-
-            if (!pbest_had_pending && last_proj_active_ncpus < proj_cpu_share) {
-                pbest->rr_sim_status.cpu_shortfall += d_time*(proj_cpu_share - last_proj_active_ncpus);
-                if (log_flags.rr_simulation) {
-                    msg_printf(pbest, MSG_INFO,
-                        "[rr_sim] new shortfall %f d_time %f proj_cpu_share %f lpan %f",
-                        pbest->rr_sim_status.cpu_shortfall, d_time, proj_cpu_share, last_proj_active_ncpus
-                    );
-                }
-            }
-
-            if (end_time < buf_end) {
-                d_time = buf_end - end_time;
-                // if this is the last result for this project, account for the tail
-                if (pbest->rr_sim_status.none_active() && pbest->rr_sim_status.none_pending()) { 
-                    pbest->rr_sim_status.cpu_shortfall += d_time * proj_cpu_share;
-                    if (log_flags.rr_simulation) {
-                         msg_printf(pbest, MSG_INFO, "[rr_sim] proj out of work; shortfall %f d %f pcs %f",
-                             pbest->rr_sim_status.cpu_shortfall, d_time, proj_cpu_share
-                         );
-                    }
-                }
-            }
-            if (log_flags.rr_simulation) {
-                msg_printf(0, MSG_INFO,
-                    "[rr_sim] total: idle cpus %f, last active %f, active %f, shortfall %f",
-                    nidle_cpus, last_active_ncpus, sim_status.active_ncpus,
-                    cpu_shortfall
-                    
-                );
-                msg_printf(pbest, MSG_INFO,
-                    "[rr_sim] %s: last active %f, active %f, shortfall %f",
-                    pbest->get_project_name(), last_proj_active_ncpus,
-                    pbest->rr_sim_status.active_ncpus,
-                    pbest->rr_sim_status.cpu_shortfall
-                );
-            }
-        }
-
         sim_now += rpbest->rrsim_finish_delay;
     }
 
-    if (sim_now < buf_end && !any_pending) {
-        cpu_shortfall += (buf_end - sim_now) * ncpus;
+	// if simulation ends before end of buffer, take the tail into account
+	//
+    if (sim_now < buf_end) {
+		double d_time = buf_end - sim_now;
+        cpu_shortfall += d_time * ncpus;
+		for (i=0; i<projects.size(); i++) {
+			p = projects[i];
+			if (p->non_cpu_intensive) continue;
+			double rsf = trs?p->resource_share/trs:1;
+			double proj_cpu_share = ncpus*rsf;
+			p->rr_sim_status.cpu_shortfall += d_time*proj_cpu_share;
+		}
     }
 
     if (log_flags.rr_simulation) {
