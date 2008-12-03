@@ -998,16 +998,29 @@ bool ACTIVE_TASK_SET::get_msgs() {
     ACTIVE_TASK *atp;
     double old_time;
     bool action = false;
+    static double last_time=0;
+    double delta_t;
+    if (last_time) {
+        delta_t = gstate.now - last_time;
+    } else {
+        delta_t = 0;
+    }
+    last_time = gstate.now;
+
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
         old_time = atp->checkpoint_cpu_time;
+        if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
+            atp->elapsed_time += delta_t;
+        }
         if (atp->get_app_status_msg()) {
             if (old_time != atp->checkpoint_cpu_time) {
                 gstate.request_enforce_schedule("Checkpoint reached");
                 atp->checkpoint_wall_time = gstate.now;
                 atp->premature_exit_count = 0;
+                atp->checkpoint_elapsed_time = atp->elapsed_time;
                 action = true;
                 if (log_flags.task_debug) {
                     msg_printf(atp->wup->project, MSG_INFO,

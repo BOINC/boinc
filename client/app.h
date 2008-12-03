@@ -78,6 +78,7 @@ public:
         /// Note: "CPU time" refers to the sum over all episodes.
         /// (not counting the "lost" time after the last checkpoint
         /// in episodes before the current one)
+        /// TODO: debt should be based on FLOPs, not CPU time
     double debt_interval_start_cpu_time;
         /// CPU time at the start of current episode
     double episode_start_cpu_time;
@@ -89,6 +90,10 @@ public:
     double checkpoint_wall_time;
         /// most recent CPU time reported by app
     double current_cpu_time;
+        /// current total elapsed (running) time
+    double elapsed_time;
+        /// elapsed time at last checkpoint
+    double checkpoint_elapsed_time;
         /// disk used by output files and temp files of this task
     int current_disk_usage(double&);
         /// directory where process runs (relative)

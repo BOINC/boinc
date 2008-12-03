@@ -799,7 +799,7 @@ double ACTIVE_TASK::est_time_to_completion(bool for_work_fetch) {
     if (fraction_done >= 1) return 0;
     double wu_est = result->estimated_duration(for_work_fetch);
     if (fraction_done <= 0) return wu_est;
-    double frac_est = (current_cpu_time / fraction_done) - current_cpu_time;
+    double frac_est = (elapsed_time / fraction_done) - elapsed_time;
     double fraction_left = 1-fraction_done;
     double x = fraction_done*frac_est + fraction_left*fraction_left*wu_est;
     return x;
