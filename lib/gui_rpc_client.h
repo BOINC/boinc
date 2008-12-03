@@ -205,6 +205,7 @@ public:
     double checkpoint_cpu_time;
     double current_cpu_time;
     double fraction_done;
+    double elapsed_time;
     double swap_size;
     double working_set_size_smoothed;
     double estimated_cpu_time_remaining;

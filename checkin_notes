@@ -9788,3 +9788,13 @@ David  2 Dec 2008
         cpu_sched.cpp
         cs_apps.cpp
         work_fetch.cpp
+
+David  3 Dec 2008
+    - manager: in task properties, display elapsed time if available,
+        and replace "estimated CPU time remaining" with "estimated time remaining"
+
+    clientgui/
+        DltItemProperties.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp

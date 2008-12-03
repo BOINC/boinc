@@ -337,10 +337,10 @@ void WORKUNIT::clear() {
     name.clear();
     app_name.clear();
     version_num = 0;
-    rsc_fpops_est = 0.0;
-    rsc_fpops_bound = 0.0;
-    rsc_memory_bound = 0.0;
-    rsc_disk_bound = 0.0;
+    rsc_fpops_est = 0;
+    rsc_fpops_bound = 0;
+    rsc_memory_bound = 0;
+    rsc_disk_bound = 0;
     project = NULL;
     app = NULL;
     avp = NULL;
@@ -385,6 +385,7 @@ int RESULT::parse(MIOFILE& in) {
         if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
+        if (parse_double(buf, "<elapsed_time>", elapsed_time)) continue;
         if (parse_double(buf, "<swap_size>", swap_size)) continue;
         if (parse_double(buf, "<working_set_size_smoothed>", working_set_size_smoothed)) continue;
         if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
@@ -423,6 +424,7 @@ void RESULT::clear() {
     checkpoint_cpu_time = 0.0;
     current_cpu_time = 0.0;
     fraction_done = 0.0;
+    elapsed_time = -1;
     swap_size = 0;
     working_set_size_smoothed = 0;
     estimated_cpu_time_remaining = 0.0;
