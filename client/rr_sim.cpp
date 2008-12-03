@@ -54,17 +54,17 @@ struct RR_SIM_STATUS {
             if (rp == rpbest) {
                 it = active.erase(it);
             } else {
-                rp->rrsim_cpu_left -= rp->rrsim_rate*rpbest->rrsim_finish_delay;
+                rp->rrsim_flops_left -= rp->rrsim_flops*rpbest->rrsim_finish_delay;
 
                 // can be slightly less than 0 due to roundoff
                 //
-                if (rp->rrsim_cpu_left < -1) {
+                if (rp->rrsim_flops_left < -1) {
                     msg_printf(rp->project, MSG_INTERNAL_ERROR,
-                        "%s: negative CPU time left %f", rp->name, rp->rrsim_cpu_left
+                        "%s: negative FLOPs left %f", rp->name, rp->rrsim_flops_left
                     );
                 }
-                if (rp->rrsim_cpu_left < 0) {
-                    rp->rrsim_cpu_left = 0;
+                if (rp->rrsim_flops_left < 0) {
+                    rp->rrsim_flops_left = 0;
                 }
                 it++;
             }
@@ -107,6 +107,7 @@ void RR_SIM_PROJECT_STATUS::remove_active(RESULT* r) {
 
 // Set the project's rrsim_proc_rate:
 // the fraction of CPU that it will get in round-robin mode.
+// This should not be applied only to coproc jobs.
 //
 void PROJECT::set_rrsim_proc_rate(double rrs) {
     double x;
@@ -210,8 +211,8 @@ void CLIENT_STATE::rr_simulation() {
         if (!rp->nearly_runnable()) continue;
         if (rp->some_download_stalled()) continue;
         if (rp->project->non_cpu_intensive) continue;
-        rp->rrsim_cpu_left = rp->estimated_cpu_time_remaining(false);
-        if (rp->rrsim_cpu_left <= 0) continue;
+        rp->rrsim_flops_left = rp->estimated_flops_remaining();
+        if (rp->rrsim_flops_left <= 0) continue;
         p = rp->project;
         if (p->rr_sim_status.can_run(rp, gstate.ncpus) && sim_status.can_run(rp)) {
             sim_status.activate(rp);
@@ -256,16 +257,21 @@ void CLIENT_STATE::rr_simulation() {
         rpbest = NULL;
         for (i=0; i<sim_status.active.size(); i++) {
             rp = sim_status.active[i];
-            p = rp->project;
-			rp->rrsim_rate = p->rr_sim_status.proc_rate;
-			if (p->rr_sim_status.active_ncpus < ncpus) {
-				rp->rrsim_rate *= (ncpus/p->rr_sim_status.active_ncpus);
-			}
-			rp->rrsim_rate *= rp->avp->avg_ncpus/p->rr_sim_status.active_ncpus;
-			if (rp->rrsim_rate > rp->avp->avg_ncpus * overall_cpu_frac()) {
-				rp->rrsim_rate = rp->avp->avg_ncpus * overall_cpu_frac();
-			}
-            rp->rrsim_finish_delay = rp->rrsim_cpu_left/rp->rrsim_rate;
+            if (rp->uses_coprocs()) {
+                rp->rrsim_flops = rp->avp->flops;
+            } else {
+                p = rp->project;
+                rp->rrsim_flops = p->rr_sim_status.proc_rate;
+                if (p->rr_sim_status.active_ncpus < ncpus) {
+                    rp->rrsim_flops *= (ncpus/p->rr_sim_status.active_ncpus);
+                }
+                rp->rrsim_flops *= rp->avp->avg_ncpus/p->rr_sim_status.active_ncpus;
+                if (rp->rrsim_flops > rp->avp->avg_ncpus * overall_cpu_frac()) {
+                    rp->rrsim_flops = rp->avp->avg_ncpus * overall_cpu_frac();
+                }
+                rp->rrsim_flops *= gstate.host_info.p_fpops;
+            }
+            rp->rrsim_finish_delay = rp->rrsim_flops_left/rp->rrsim_flops;
             if (!rpbest || rp->rrsim_finish_delay < rpbest->rrsim_finish_delay) {
                 rpbest = rp;
             }
@@ -277,7 +283,7 @@ void CLIENT_STATE::rr_simulation() {
             msg_printf(pbest, MSG_INFO,
                 "[rr_sim] result %s finishes after %f (%f/%f)",
                 rpbest->name, rpbest->rrsim_finish_delay,
-                rpbest->rrsim_cpu_left, rpbest->rrsim_rate
+                rpbest->rrsim_flops_left, rpbest->rrsim_flops
             );
         }
 

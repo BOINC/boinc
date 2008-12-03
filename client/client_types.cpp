@@ -1670,7 +1670,7 @@ int RESULT::write_gui(MIOFILE& out) {
         exit_status,
         state(),
         report_deadline,
-        estimated_cpu_time_remaining(false)
+        estimated_time_remaining(false)
     );
     if (got_server_ack) out.printf("    <got_server_ack/>\n");
     if (ready_to_report) out.printf("    <ready_to_report/>\n");
@@ -1793,7 +1793,7 @@ void RESULT::append_log_record() {
     FILE* f = fopen(filename, "ab");
     if (!f) return;
     fprintf(f, "%f ue %f ct %f fe %f nm %s\n",
-        gstate.now, estimated_cpu_time_uncorrected(), final_cpu_time,
+        gstate.now, estimated_duration_uncorrected(), final_cpu_time,
         wup->rsc_fpops_est, name
     );
     fclose(f);
