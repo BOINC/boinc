@@ -291,7 +291,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
     fraction_done = 0;
     episode_start_cpu_time = 0;
     run_interval_start_wall_time = gstate.now;
-    debt_interval_start_cpu_time = 0;
     checkpoint_cpu_time = 0;
     checkpoint_wall_time = 0;
     current_cpu_time = 0;

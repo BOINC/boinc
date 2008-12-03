@@ -348,7 +348,7 @@ public:
         /// X seconds of wall-clock time to complete,
         /// taking into account
         /// 1) this project's fractional resource share
-        /// 2) on_frac, active_frac, and cpu_effiency
+        /// 2) on_frac and active_frac
         /// see doc/sched.php
     double work_request;
     int work_request_urgency;

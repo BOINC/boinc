@@ -73,18 +73,15 @@ public:
         /// Passed from the application via an API call;
         /// will be zero if the app doesn't use this call
     double fraction_done;
-        /// CPU time when adjust_debts() last ran
-
-        /// Note: "CPU time" refers to the sum over all episodes.
-        /// (not counting the "lost" time after the last checkpoint
-        /// in episodes before the current one)
-        /// TODO: debt should be based on FLOPs, not CPU time
-    double debt_interval_start_cpu_time;
-        /// CPU time at the start of current episode
     double episode_start_cpu_time;
         /// Wall time at the start of the current run interval
     double run_interval_start_wall_time;
         /// CPU at the last checkpoint
+        /// Note: "CPU time" refers to the sum over all episodes.
+        /// (not counting the "lost" time after the last checkpoint
+        /// in episodes before the current one)
+        /// TODO: debt should be based on FLOPs, not CPU time
+        /// CPU time at the start of current episode
     double checkpoint_cpu_time;
         /// wall time at the last checkpoint
     double checkpoint_wall_time;

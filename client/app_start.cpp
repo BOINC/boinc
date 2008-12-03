@@ -400,7 +400,6 @@ int ACTIVE_TASK::start(bool first_time) {
     }
     current_cpu_time = checkpoint_cpu_time;
     episode_start_cpu_time = checkpoint_cpu_time;
-    debt_interval_start_cpu_time = checkpoint_cpu_time;
 
     graphics_request_queue.init(result->name);        // reset message queues
     process_control_queue.init(result->name);

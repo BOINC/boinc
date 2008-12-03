@@ -235,7 +235,7 @@ struct HOST {
     double on_frac;         // see client/time_stats.h
     double connected_frac;
     double active_frac;
-    double cpu_efficiency;
+    double cpu_efficiency;  // deprecated as of 6.4 client
     double duration_correction_factor;
 
     int p_ncpus;            // Number of CPUs on host
