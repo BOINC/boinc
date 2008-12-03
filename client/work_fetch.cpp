@@ -392,7 +392,7 @@ bool CLIENT_STATE::compute_work_requests() {
             for (unsigned int j=0; j<results.size(); j++) {
                 RESULT* rp = results[j];
                 if (rp->project != p) continue;
-                d += rp->estimated_duration_remaining(true);
+                d += rp->estimated_time_remaining(true);
             }
             double rrs = p->resource_share/trs;
             double minq = total_buf*rrs;
