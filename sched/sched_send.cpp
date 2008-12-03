@@ -359,9 +359,6 @@ static double estimate_wallclock_duration(
     if (reply.host.duration_correction_factor) {
         ewd *= reply.host.duration_correction_factor;
     }
-    if (reply.host.cpu_efficiency) {
-        ewd /= reply.host.cpu_efficiency;
-    }
     if (config.debug_send) {
         log_messages.printf(MSG_DEBUG,
             "est cpu dur %f;  est wall dur %f\n", ecd, ewd
@@ -1399,10 +1396,9 @@ void send_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             (int)sreq.global_prefs.work_buf_min()
         );
         log_messages.printf(MSG_DEBUG,
-            "running frac %f DCF %f CPU effic %f est delay %d\n",
+            "running frac %f DCF %f est delay %d\n",
             reply.wreq.running_frac,
             reply.host.duration_correction_factor,
-            reply.host.cpu_efficiency,
             (int)sreq.estimated_delay
         );
     }

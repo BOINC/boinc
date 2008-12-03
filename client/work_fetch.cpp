@@ -280,7 +280,7 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
 // the fraction of time a given CPU is working for BOINC
 //
 double CLIENT_STATE::overall_cpu_frac() {
-    double running_frac = time_stats.on_frac * time_stats.active_frac * time_stats.cpu_efficiency;
+    double running_frac = time_stats.on_frac * time_stats.active_frac;
     if (running_frac < 0.01) running_frac = 0.01;
     if (running_frac > 1) running_frac = 1;
 	return running_frac;

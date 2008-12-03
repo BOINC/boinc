@@ -83,7 +83,6 @@ TIME_STATS::TIME_STATS() {
     on_frac = 1;
     connected_frac = 1;
     active_frac = 1;
-    cpu_efficiency = 1;
     previous_connected_state = CONNECTED_STATE_UNINITIALIZED;
     inactive_start = 0;
     trim_stats_log();
@@ -236,24 +235,6 @@ void TIME_STATS::update(int suspend_reason) {
     }
 }
 
-void TIME_STATS::update_cpu_efficiency(double cpu_wall_time, double cpu_time) {
-    double old_cpu_efficiency = cpu_efficiency;
-    if (cpu_wall_time < .01) return;
-    double w = exp(-cpu_wall_time/SECONDS_PER_DAY);
-    double e = cpu_time/cpu_wall_time;
-    if (e<0) {
-        return;
-    }
-    cpu_efficiency = w*cpu_efficiency + (1-w)*e;
-    if (log_flags.cpu_sched_debug){
-        msg_printf(0, MSG_INFO,
-            "[cpu_sched_debug] CPU efficiency old %f new %f wall %f CPU %f w %f e %f",
-            old_cpu_efficiency, cpu_efficiency, cpu_wall_time,
-            cpu_time, w, e
-        );
-    }
-}
-
 // Write XML based time statistics
 //
 int TIME_STATS::write(MIOFILE& out, bool to_server) {
@@ -261,12 +242,10 @@ int TIME_STATS::write(MIOFILE& out, bool to_server) {
         "<time_stats>\n"
         "    <on_frac>%f</on_frac>\n"
         "    <connected_frac>%f</connected_frac>\n"
-        "    <active_frac>%f</active_frac>\n"
-        "    <cpu_efficiency>%f</cpu_efficiency>\n",
+        "    <active_frac>%f</active_frac>\n",
         on_frac,
         connected_frac,
-        active_frac,
-        cpu_efficiency
+        active_frac
     );
     if (!to_server) {
         out.printf(
@@ -289,11 +268,7 @@ int TIME_STATS::parse(MIOFILE& in) {
         else if (parse_double(buf, "<on_frac>", on_frac)) continue;
         else if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
         else if (parse_double(buf, "<active_frac>", active_frac)) continue;
-        else if (parse_double(buf, "<cpu_efficiency>", cpu_efficiency)) {
-            if (cpu_efficiency < 0) cpu_efficiency = 1;
-            if (cpu_efficiency > 1) cpu_efficiency = 1;
-            continue;
-        } else {
+        else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,
                     "[unparsed_xml] TIME_STATS::parse(): unrecognized: %s\n", buf

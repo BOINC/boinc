@@ -1045,7 +1045,6 @@ int HOST::parse_time_stats(FILE* fin) {
         if (parse_double(buf, "<on_frac>", on_frac)) continue;
         if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
         if (parse_double(buf, "<active_frac>", active_frac)) continue;
-        if (parse_double(buf, "<cpu_efficiency>", cpu_efficiency)) continue;
         if (match_tag(buf, "<outages>")) continue;
         if (match_tag(buf, "<outage>")) continue;
         if (match_tag(buf, "<start>")) continue;

@@ -9798,3 +9798,24 @@ David  3 Dec 2008
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+David  3 Dec 2008
+    - Remove the notion of "CPU efficiency" from both client and server.
+        This wasn't being measured correctly for coproc/multithread apps,
+        and its effect is now subsumed in DCF.
+
+    client/
+        app.h,cpp
+        app_start.cpp
+        client_types.h
+        cpu_sched.cpp
+        cs_apps.cpp
+        sim_util.cpp
+        time_stats.h,cpp
+        work_fetch.cpp
+    db/
+        boinc_db.h
+    sched/
+        handle_request.cpp
+        sched_send.cpp
+        server_types.cpp

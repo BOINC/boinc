@@ -316,12 +316,7 @@ void CLIENT_STATE::reset_debt_accounting() {
         PROJECT* p = projects[i];
         p->wall_cpu_time_this_debt_interval = 0.0;
     }
-    for (i = 0; i < active_tasks.active_tasks.size(); ++i) {
-        ACTIVE_TASK* atp = active_tasks.active_tasks[i];
-        atp->debt_interval_start_cpu_time = atp->current_cpu_time;
-    }
     total_wall_cpu_time_this_debt_interval = 0.0;
-    total_cpu_time_this_debt_interval = 0.0;
     debt_interval_start = now;
 }
 
@@ -376,12 +371,7 @@ void CLIENT_STATE::adjust_debts() {
 
         atp->result->project->wall_cpu_time_this_debt_interval += wall_cpu_time;
         total_wall_cpu_time_this_debt_interval += wall_cpu_time;
-        total_cpu_time_this_debt_interval += atp->current_cpu_time - atp->debt_interval_start_cpu_time;
     }
-
-    time_stats.update_cpu_efficiency(
-        total_wall_cpu_time_this_debt_interval, total_cpu_time_this_debt_interval
-    );
 
     rrs = runnable_resource_share();
     prrs = potentially_runnable_resource_share();

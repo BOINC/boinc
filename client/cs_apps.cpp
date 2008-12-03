@@ -205,7 +205,6 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     double wall_cpu_time = now - debt_interval_start;
     at.result->project->wall_cpu_time_this_debt_interval += wall_cpu_time;
     total_wall_cpu_time_this_debt_interval += wall_cpu_time;
-    total_cpu_time_this_debt_interval += at.current_cpu_time - at.debt_interval_start_cpu_time;
 
     return 0;
 }

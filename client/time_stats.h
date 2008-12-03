@@ -42,13 +42,11 @@ public:
         /// May be less than one if
         /// 1) apps page or do I/O
         /// 2) other CPU-intensive apps run
-    double cpu_efficiency;
 
     FILE* time_stats_log;
     double inactive_start;
 
     void update(int suspend_reason);
-    void update_cpu_efficiency(double cpu_wall_time, double cpu_time);
 
     TIME_STATS();
     int write(MIOFILE&, bool to_server);
