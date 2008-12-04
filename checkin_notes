@@ -9749,3 +9749,11 @@ David  4 Dec 2008
 
 	client/
 		cpu_sched.cpp
+
+Rom    4 Dec 2008
+    - Tag for 6.4.3 release, all platforms
+      boinc_core_release_6_4_3
+
+    /
+        configure.ac
+        version.h
