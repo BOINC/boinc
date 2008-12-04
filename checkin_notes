@@ -9736,7 +9736,7 @@ David  1 Dec 2008
         rr_sim.cpp
 
 Charlie 1 Dec 2008
-    - MGR: Earlier atempts at fixing Task Pane background erase glitch were 
+    - MGR: Earlier attempts at fixing Task Pane background erase glitch were 
         unsuccessful, and Rom told me this bug has been around for a very 
         long time.  So remove the unsuccessful changes and add new window 
         style wxFULL_REPAINT_ON_RESIZE to Task Pane as recommended by 
@@ -9843,3 +9843,13 @@ David  3 Dec 2008
     client/
         app.cpp
         cpu_sched.cpp
+
+Charlie 4 Dec 2008
+    - MGR: Restore UpdateSelection() call in CBOINCBaseView::OnListRender() 
+        because it is needed to set texct in Suspend/Resume button.
+    - MGR: Set wxWidgets option "msw.staticbox.optimized-paint" in another 
+        attempt at fixing Task Pane background erase glitch.
+        
+    clientgui/
+        BOINCBaseView.cpp
+        BOINCGUIApp.cpp

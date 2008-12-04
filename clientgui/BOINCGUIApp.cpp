@@ -160,6 +160,8 @@ bool CBOINCGUIApp::OnInit() {
     m_bSafeMessageBoxDisplayed = 0;
 #ifdef __WXMSW__
     m_hClientLibraryDll = NULL;
+    
+    wxSystemOptions::SetOption(wxT("msw.staticbox.optimized-paint"), 0);
 #endif
 
     // Initialize local variables
