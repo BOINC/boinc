@@ -772,7 +772,7 @@ bool CLIENT_STATE::enforce_schedule() {
     vector<ACTIVE_TASK*> preemptable_tasks;
     static double last_time = 0;
     int retval;
-    double ncpus_used;
+    double ncpus_used, new_ncpus_used;
     bool preempt_by_quit;
 
     // Do this when requested, and once a minute as a safety net
@@ -833,20 +833,23 @@ bool CLIENT_STATE::enforce_schedule() {
 
     double swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
 
-    // see whether we have any coproc jobs
+    // see whether we have any coproc jobs, and total their CPU usage
     //
+	new_ncpus_used = 0;
     bool have_coproc_job = false;
     for (i=0; i<ordered_scheduled_results.size(); i++) {
         RESULT* rp = ordered_scheduled_results[i];
         if (rp->uses_coprocs()) {
             have_coproc_job = true;
-            break;
+            new_ncpus_used += rp->avp->avg_ncpus;
         }
     }
 
     // Loop through the jobs we want to schedule.
     // Invariant: "ncpus_used" is the sum of CPU usage
     // of tasks with next_scheduler_state == CPU_SCHED_SCHEDULED
+	// (including preemptable jobs).
+	// "new_ncpus_used" is the sum excluding preemptable jobs.
     //
     for (i=0; i<ordered_scheduled_results.size(); i++) {
         RESULT* rp = ordered_scheduled_results[i];
@@ -855,6 +858,11 @@ bool CLIENT_STATE::enforce_schedule() {
                 "[cpu_sched_debug] processing %s", rp->name
             );
         }
+		// if we have a coproc job, don't saturate CPUs
+		//
+		if (have_coproc_job && !rp->uses_coprocs()) {
+			if (new_ncpus_used + rp->avp->avg_ncpus >= ncpus) continue;
+		}
 
         atp = lookup_active_task_by_result(rp);
         if (atp) {
@@ -923,6 +931,9 @@ bool CLIENT_STATE::enforce_schedule() {
 			atp = get_task(rp);
         }
         ncpus_used += rp->avp->avg_ncpus;
+		if (!rp->uses_coprocs()) {
+			new_ncpus_used += rp->avp->avg_ncpus;
+		}
         atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         ram_left -= atp->procinfo.working_set_size_smoothed;
     }
