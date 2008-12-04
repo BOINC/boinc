@@ -9833,3 +9833,13 @@ Charlie 3 Dec 2008
 
     client/
         rr_sim.cpp
+
+David  3 Dec 2008
+    - client: parse checkpoint_elapsed_time from state file;
+        if missing, use checkpoint CPU time.
+    - client: enforce CPU schedule: if we're running a coproc job,
+        keep CPU utilization strictly less than NCPUS.
+
+    client/
+        app.cpp
+        cpu_sched.cpp

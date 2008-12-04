@@ -833,6 +833,17 @@ bool CLIENT_STATE::enforce_schedule() {
 
     double swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
 
+    // see whether we have any coproc jobs
+    //
+    bool have_coproc_job = false;
+    for (i=0; i<ordered_scheduled_results.size(); i++) {
+        RESULT* rp = ordered_scheduled_results[i];
+        if (rp->uses_coprocs()) {
+            have_coproc_job = true;
+            break;
+        }
+    }
+
     // Loop through the jobs we want to schedule.
     // Invariant: "ncpus_used" is the sum of CPU usage
     // of tasks with next_scheduler_state == CPU_SCHED_SCHEDULED
@@ -865,8 +876,8 @@ bool CLIENT_STATE::enforce_schedule() {
         bool failed_to_preempt = false;
 		while (1) {
 			if (!preemptable_tasks.size()) break;
-			if (rp->uses_coprocs()) {
-				if (ncpus_used <= ncpus) break;
+			if (have_coproc_job) {
+				if (ncpus_used + rp->avp->avg_ncpus < ncpus) break;
 			} else {
 				if (ncpus_used < ncpus) break;
 			}

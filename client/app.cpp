@@ -595,15 +595,28 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
                     return ERR_BAD_RESULT_STATE;
                 }
             }
+
+            // for 6.2/6.4 transition
+            //
+            if (checkpoint_elapsed_time == 0) {
+                elapsed_time = checkpoint_cpu_time;
+                checkpoint_elapsed_time = elapsed_time;
+            }
             return 0;
         }
         else if (parse_str(buf, "<result_name>", result_name, sizeof(result_name))) continue;
         else if (parse_str(buf, "<project_master_url>", project_master_url, sizeof(project_master_url))) continue;
         else if (parse_int(buf, "<slot>", slot)) continue;
         else if (parse_int(buf, "<active_task_state>", dummy)) continue;
-        else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
+        else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) {
+            current_cpu_time = checkpoint_cpu_time;
+            continue;
+        }
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
-        else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
+        else if (parse_double(buf, "<checkpoint_elapsed_time>", checkpoint_elapsed_time)) {
+            elapsed_time = checkpoint_elapsed_time;
+            continue;
+        }
         else if (parse_int(buf, "<app_version_num>", n)) continue;
         else if (parse_double(buf, "<swap_size>", procinfo.swap_size)) continue;
         else if (parse_double(buf, "<working_set_size>", procinfo.working_set_size)) continue;
