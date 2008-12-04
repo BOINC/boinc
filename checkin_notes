@@ -9827,3 +9827,9 @@ David  3 Dec 2008
     client/
         rr_sim.cpp
         work_fetch.cpp
+
+Charlie 3 Dec 2008
+    - client: fix compiler warning.
+
+    client/
+        rr_sim.cpp

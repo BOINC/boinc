@@ -363,7 +363,7 @@ void CLIENT_STATE::rr_simulation() {
 				if (log_flags.rr_simulation) {
 					msg_printf(p, MSG_INFO,
 						"[rr_sim] npending %d last ncpus %f cpu share %f",
-						p->rr_sim_status.pending.size(), p->rr_sim_status.active_ncpus, proj_cpu_share
+						(int)p->rr_sim_status.pending.size(), p->rr_sim_status.active_ncpus, proj_cpu_share
 					);
 				}
 				if (nidle_cpus > 0) {
