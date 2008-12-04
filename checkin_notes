@@ -9854,3 +9854,9 @@ Charlie 4 Dec 2008
         BOINCBaseView.cpp,.h
         BOINCGUIApp.cpp
         ViewProjects.cpp
+
+David  4 Dec 2008
+	- client: fix last checkin
+
+	client/
+		cpu_sched.cpp
