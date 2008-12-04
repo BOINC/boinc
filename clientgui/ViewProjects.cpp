@@ -304,6 +304,7 @@ void CViewProjects::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
     }
     pFrame->UpdateStatusText(wxT(""));
 
+    m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->ResetReminderTimers();
     pFrame->FireRefreshView();
@@ -345,6 +346,7 @@ void CViewProjects::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
         }
     }
     
+    m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
 
@@ -385,6 +387,7 @@ void CViewProjects::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
         }
     }
     
+    m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
 
@@ -444,6 +447,7 @@ void CViewProjects::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
     
     pFrame->UpdateStatusText(wxT(""));
 
+    m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
 
@@ -501,6 +505,7 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(wxT(""));
 
+    m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
 
@@ -645,7 +650,7 @@ bool CViewProjects::IsSelectionManagementNeeded() {
 void CViewProjects::UpdateSelection() {
     CTaskItemGroup*     pGroup = NULL;
     PROJECT*            project = NULL;
-    CMainDocument*       pDoc = wxGetApp().GetDocument();
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
     int                 i, n, row;
     bool                wasSuspended=false, wasNoNewWork=false;
     bool                enableUpdate = false;

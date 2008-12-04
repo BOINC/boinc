@@ -9845,11 +9845,12 @@ David  3 Dec 2008
         cpu_sched.cpp
 
 Charlie 4 Dec 2008
-    - MGR: Restore UpdateSelection() call in CBOINCBaseView::OnListRender() 
-        because it is needed to set texct in Suspend/Resume button.
+    - MGR: Restore m_bForceUpdateSelection logic because it is needed to 
+        set text in Suspend/Resume button and prevent flicker.
     - MGR: Set wxWidgets option "msw.staticbox.optimized-paint" in another 
-        attempt at fixing Task Pane background erase glitch.
+        attempt at fixing Task Pane background erase glitch on Windows.
         
     clientgui/
-        BOINCBaseView.cpp
+        BOINCBaseView.cpp,.h
         BOINCGUIApp.cpp
+        ViewProjects.cpp

@@ -179,6 +179,7 @@ protected:
     bool                    m_bProcessingTaskRenderEvent;
     bool                    m_bProcessingListRenderEvent;
 
+    bool                    m_bForceUpdateSelection;
     bool                    m_bIgnoreUIEvents;
     bool                    m_bNeedSort;
     
