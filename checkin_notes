@@ -9847,8 +9847,8 @@ David  3 Dec 2008
 Charlie 4 Dec 2008
     - MGR: Restore m_bForceUpdateSelection logic because it is needed to 
         set text in Suspend/Resume button and prevent flicker.
-    - MGR: Set wxWidgets option "msw.staticbox.optimized-paint" in another 
-        attempt at fixing Task Pane background erase glitch on Windows.
+    - MGR: Set wxWidgets option "msw.staticbox.optimized-paint" to 0 in 
+        another try to fix Task Pane background erase glitch on Windows.
         
     clientgui/
         BOINCBaseView.cpp,.h
@@ -9860,3 +9860,13 @@ David  4 Dec 2008
 
 	client/
 		cpu_sched.cpp
+
+Charlie 4 Dec 2008
+    - MGR: the last changes seemed to help the Task Pane background erase 
+        glitch on Windows but introduced a new problem, so restore code 
+        which erases and refreshes entire Tasks panel when changing tabs 
+        or selections.
+
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCBaseView.cpp, .h

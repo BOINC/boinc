@@ -708,6 +708,7 @@ void CBOINCBaseView::PostUpdateSelection(){
     wxASSERT(m_pTaskPane);
     m_pTaskPane->UpdateControls();
     Layout();
+    RefreshTaskPane();
 }
 
 
@@ -771,6 +772,14 @@ void CBOINCBaseView::UpdateWebsiteSelection(long lControlGroup, PROJECT* project
             m_bForceUpdateSelection = false;
         }
 
+    }
+}
+
+
+// Make sure task pane background is properly erased
+void CBOINCBaseView::RefreshTaskPane() {
+    if (m_pTaskPane) {
+        m_pTaskPane->Refresh(true);
     }
 }
 
