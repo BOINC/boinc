@@ -62,10 +62,10 @@ function type_text($type) {
 }
 
 $w64= array(
-    "num"=>"6.4.2",
+    "num"=>"6.4.3",
     "status"=>"Development version",
-    "file"=>"boinc_6.4.2_windows_intelx86.exe",
-    "date"=>"1 Dec 2008",
+    "file"=>"boinc_6.4.3_windows_intelx86.exe",
+    "date"=>"5 Dec 2008",
     "type"=>"win_new",
 );
 
@@ -86,10 +86,10 @@ $w51045= array(
 );
 
 $w64x64= array(
-    "num"=>"6.4.2",
+    "num"=>"6.4.3",
     "status"=>"Development version",
-    "file"=>"boinc_6.4.2_windows_x86_64.exe",
-    "date"=>"1 Dec 2008",
+    "file"=>"boinc_6.4.3_windows_x86_64.exe",
+    "date"=>"5 Dec 2008",
     "type"=>"win_new",
 );
 

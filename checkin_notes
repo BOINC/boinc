@@ -9869,3 +9869,25 @@ Charlie 4 Dec 2008
     clientgui/
         AdvancedFrame.cpp
         BOINCBaseView.cpp, .h
+
+Rom    5 Dec 2008
+    - WININSTALL: Disable "Protected Application Execution" mode
+        by default.
+    - WININSTALL: Turn off the check for Internet Explorer 5.x
+
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        CACreateBOINCAccounts.cpp
+        CACreateBOINCGroups.cpp
+        CACreateClientAuthFile.cpp
+        CARestoreSetupState.cpp
+        CASaveSetupState.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll

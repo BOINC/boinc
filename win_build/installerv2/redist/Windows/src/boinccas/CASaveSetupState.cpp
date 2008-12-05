@@ -76,7 +76,7 @@ UINT CASaveSetupState::OnExecution()
     GetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
     GetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
     GetProperty( _T("ENABLESCREENSAVER"), strEnableScreensaver );
-    GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION"), strEnableProtectedApplicationExecution );
+    GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strEnableProtectedApplicationExecution );
     GetProperty( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
 
     SetRegistryValue( _T("INSTALLDIR"), strInstallDirectory );
@@ -84,7 +84,7 @@ UINT CASaveSetupState::OnExecution()
     SetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
     SetRegistryValue( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
     SetRegistryValue( _T("ENABLESCREENSAVER"), strEnableScreensaver );
-    SetRegistryValue( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION"), strEnableProtectedApplicationExecution );
+    SetRegistryValue( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strEnableProtectedApplicationExecution );
     SetRegistryValue( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
     SetRegistryValue( _T("SETUPSTATESTORED"), strSetupStateStored );
 
