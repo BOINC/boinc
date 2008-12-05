@@ -9864,8 +9864,7 @@ David  4 Dec 2008
 Charlie 4 Dec 2008
     - MGR: the last changes seemed to help the Task Pane background erase 
         glitch on Windows but introduced a new problem, so restore code 
-        which erases and refreshes entire Tasks panel when changing tabs 
-        or selections.
+        which erases and refreshes entire Tasks panel when changing tabs.
 
     clientgui/
         AdvancedFrame.cpp

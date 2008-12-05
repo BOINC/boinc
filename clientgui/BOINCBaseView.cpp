@@ -708,7 +708,6 @@ void CBOINCBaseView::PostUpdateSelection(){
     wxASSERT(m_pTaskPane);
     m_pTaskPane->UpdateControls();
     Layout();
-    RefreshTaskPane();
 }
 
 
@@ -768,10 +767,8 @@ void CBOINCBaseView::UpdateWebsiteSelection(long lControlGroup, PROJECT* project
                     pGroup->m_Tasks.push_back(pItem);
                 }
             }
-
-            m_bForceUpdateSelection = false;
         }
-
+        m_bForceUpdateSelection = false;
     }
 }
 
