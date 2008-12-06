@@ -417,7 +417,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (log_flags.sched_op_debug) {
         if (sr.scheduler_version) {
             msg_printf(project, MSG_INFO,
-                "[sched_ops_debug] Server version %d",
+                "[sched_op_debug] Server version %d",
                 sr.scheduler_version
             );
         }
@@ -758,7 +758,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (log_flags.sched_op_debug) {
         if (sr.results.size()) {
             msg_printf(project, MSG_INFO,
-                "[sched_ops_debug] estimated total job duration: %.0f seconds",
+                "[sched_op_debug] estimated total job duration: %.0f seconds",
                 est_duration
             );
         }

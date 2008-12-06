@@ -9891,3 +9891,12 @@ Rom    5 Dec 2008
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+David  5 Dec 2008
+    - client: app_info.xml's are parsed before p_fpops is known,
+        so avp->fpops is zero.
+        Fix this by filling in zero avp->fpops later on.
+
+    client/
+        client_state.cpp
+        cs_scheduler.cpp
