@@ -12,11 +12,11 @@ $biomed = array(
             "docking.png"
         ),
         array(
-            "GPU Grid - PS3 Grid",
-            "http://www.ps3grid.net/",
+            "GPUGrid.net ",
+            "http://www.gpugrid.net/",
             "Barcelona Biomedical Research Park (PRBB)",
             "Molecular simulations of proteins",
-            "PS3GRID opens novel computational scenarios by the first full-atom molecular dynamics code (CellMD) specially optimized to run on the Cell processor and the PlayStation3. New biomedical applications suddenly become possible giving a new role to computational biology for biomedical research.",
+            "GPUGrid.net opens novel computational scenarios by the first full-atom molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs and the Sony PlayStation 3. New biomedical applications suddenly become possible giving a new role to computational biology for biomedical research.",
             "ps3grid.png"
         ),
         array(
