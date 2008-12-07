@@ -9781,3 +9781,11 @@ David  5 Dec 2008
     client/
         client_state.cpp
         cs_scheduler.cpp
+
+Rom    4 Dec 2008
+    - Tag for 6.4.4 release, all platforms
+      boinc_core_release_6_4_4
+
+    /
+        configure.ac
+        version.h
