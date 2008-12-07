@@ -9900,3 +9900,11 @@ David  5 Dec 2008
     client/
         client_state.cpp
         cs_scheduler.cpp
+
+David  7 Dec 2008
+    - client: tweak CPU scheduling policy.  When there's a coproc job:
+        Windows: don't saturate CPUs
+        Unix: saturate CPUs
+
+    client/
+        cpu_sched.cpp
