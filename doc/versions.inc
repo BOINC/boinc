@@ -62,10 +62,10 @@ function type_text($type) {
 }
 
 $w64= array(
-    "num"=>"6.4.3",
+    "num"=>"6.4.4",
     "status"=>"Development version",
-    "file"=>"boinc_6.4.3_windows_intelx86.exe",
-    "date"=>"5 Dec 2008",
+    "file"=>"boinc_6.4.4_windows_intelx86.exe",
+    "date"=>"6 Dec 2008",
     "type"=>"win_new",
 );
 
@@ -86,10 +86,10 @@ $w51045= array(
 );
 
 $w64x64= array(
-    "num"=>"6.4.3",
+    "num"=>"6.4.4",
     "status"=>"Development version",
-    "file"=>"boinc_6.4.3_windows_x86_64.exe",
-    "date"=>"5 Dec 2008",
+    "file"=>"boinc_6.4.4_windows_x86_64.exe",
+    "date"=>"6 Dec 2008",
     "type"=>"win_new",
 );
 
@@ -182,10 +182,10 @@ $m5817c = array(
 );
 
 $l64 = array(
-    "num"=>"6.4.3",
+    "num"=>"6.4.4",
     "status"=>"Development version",
-    "file"=>"boinc_compat_6.4.3_i686-pc-linux-gnu.sh",
-    "date"=>"4 Dec 2008",
+    "file"=>"boinc_compat_6.4.4_i686-pc-linux-gnu.sh",
+    "date"=>"6 Dec 2008",
     "type"=>"sea",
 );
 
@@ -206,10 +206,10 @@ $l51045 = array(
 );
 
 $l64ubuntu = array(
-    "num"=>"6.4.3",
+    "num"=>"6.4.4",
     "status"=>"Development version",
-    "file"=>"boinc_6.4.3_i686-pc-linux-gnu.sh",
-    "date"=>"4 Dec 2008",
+    "file"=>"boinc_6.4.4_i686-pc-linux-gnu.sh",
+    "date"=>"6 Dec 2008",
     "type"=>"sea",
 );
 
@@ -230,10 +230,10 @@ $l51045ubuntu = array(
 );
 
 $l64ubuntux64 = array(
-    "num"=>"6.4.3",
+    "num"=>"6.4.4",
     "status"=>"Development version",
-    "file"=>"boinc_6.4.3_x86_64-pc-linux-gnu.sh",
-    "date"=>"4 Dec 2008",
+    "file"=>"boinc_6.4.4_x86_64-pc-linux-gnu.sh",
+    "date"=>"6 Dec 2008",
     "type"=>"sea",
 );
 
