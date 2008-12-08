@@ -33,12 +33,12 @@ struct RR_SIM_STATUS {
 
     inline bool can_run(RESULT* rp) {
         return coprocs.sufficient_coprocs(
-            rp->avp->coprocs, log_flags.rr_simulation, "rr_simulation"
+            rp->avp->coprocs, log_flags.rr_simulation, "rr_sim"
         );
     }
     inline void activate(RESULT* rp, double when) {
         coprocs.reserve_coprocs(
-            rp->avp->coprocs, rp, log_flags.rr_simulation, "rr_simulation"
+            rp->avp->coprocs, rp, log_flags.rr_simulation, "rr_sim"
         );
 		if (log_flags.rr_simulation) {
 			msg_printf(rp->project, MSG_INFO,
@@ -52,7 +52,7 @@ struct RR_SIM_STATUS {
     // and adjust CPU time left for other results
     //
     inline void remove_active(RESULT* rpbest) {
-        coprocs.free_coprocs(rpbest->avp->coprocs, rpbest, log_flags.rr_simulation, "rr_simulation");
+        coprocs.free_coprocs(rpbest->avp->coprocs, rpbest, log_flags.rr_simulation, "rr_sim");
         vector<RESULT*>::iterator it = active.begin();
         while (it != active.end()) {
             RESULT* rp = *it;
@@ -186,7 +186,7 @@ void CLIENT_STATE::print_deadline_misses() {
 //
 void CLIENT_STATE::rr_simulation() {
     double rrs = nearly_runnable_resource_share();
-    double trs = total_resource_share();
+    double trs;
     PROJECT* p, *pbest;
     RESULT* rp, *rpbest;
     RR_SIM_STATUS sim_status;
@@ -197,8 +197,8 @@ void CLIENT_STATE::rr_simulation() {
 
     if (log_flags.rr_simulation) {
         msg_printf(0, MSG_INFO,
-            "[rr_sim] rr_sim start: now %f work_buf_total %f rrs %f trs %f ncpus %d",
-            now, work_buf_total(), rrs, trs, ncpus
+            "[rr_sim] rr_sim start: now %f work_buf_total %f rrs %f ncpus %d",
+            now, work_buf_total(), rrs, ncpus
         );
     }
 
@@ -227,12 +227,21 @@ void CLIENT_STATE::rr_simulation() {
         }
         rp->last_rr_sim_missed_deadline = rp->rr_sim_misses_deadline;
         rp->rr_sim_misses_deadline = false;
+		if (rp->uses_coprocs()) {
+			p->rr_sim_status.has_coproc_jobs = true;
+		} else {
+			p->rr_sim_status.has_cpu_jobs = true;
+		}
     }
 
+	trs = 0;
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->non_cpu_intensive) continue;
         p->set_rrsim_proc_rate(rrs);
+		if (!p->rr_sim_status.has_coproc_jobs || p->rr_sim_status.has_cpu_jobs) {
+			trs += p->resource_share;
+		}
     }
 
     double buf_end = now + work_buf_total();

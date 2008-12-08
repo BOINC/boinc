@@ -31,6 +31,8 @@ struct RR_SIM_PROJECT_STATUS {
     double proc_rate;
 	double active_ncpus;
     double cpu_shortfall;
+	bool has_coproc_jobs;
+	bool has_cpu_jobs;
 
     inline void clear() {
         active.clear();
@@ -39,6 +41,8 @@ struct RR_SIM_PROJECT_STATUS {
         proc_rate = 0;
         cpu_shortfall = 0;
 		active_ncpus = 0;
+		has_coproc_jobs = false;
+		has_cpu_jobs = false;
     }
     void activate(RESULT* rp);
     inline void add_pending(RESULT* rp) {
