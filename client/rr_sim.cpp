@@ -233,19 +233,6 @@ void CLIENT_STATE::rr_simulation() {
         p = projects[i];
         if (p->non_cpu_intensive) continue;
         p->set_rrsim_proc_rate(rrs);
-        // if there are no results for a project,
-        // the shortfall is its entire share.
-        //
-        if (p->rr_sim_status.none_active()) {
-            double rsf = trs ? p->resource_share/trs : 1;
-            p->rr_sim_status.cpu_shortfall = work_buf_total() * overall_cpu_frac() * ncpus * rsf;
-            if (log_flags.rr_simulation) {
-                msg_printf(p, MSG_INFO,
-                    "[rr_sim] no results; shortfall %f wbt %f ocf %f rsf %f",
-                    p->rr_sim_status.cpu_shortfall, work_buf_total(), overall_cpu_frac(), rsf
-                );
-            }
-        }
     }
 
     double buf_end = now + work_buf_total();
@@ -365,9 +352,6 @@ void CLIENT_STATE::rr_simulation() {
 						"[rr_sim] npending %d last ncpus %f cpu share %f",
 						(int)p->rr_sim_status.pending.size(), p->rr_sim_status.active_ncpus, proj_cpu_share
 					);
-				}
-				if (nidle_cpus > 0) {
-					p->rr_sim_status.cpu_shortfall += d_time*nidle_cpus*rsf;
 				}
 				double x = proj_cpu_share - p->rr_sim_status.active_ncpus;
 				if (x > 0) {
