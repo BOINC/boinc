@@ -75,11 +75,24 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 COPROC* cu = new COPROC (cp->type);
                 cu->count = 1;
                 hu.coprocs.coprocs.push_back(cu);
-                double x = 1e9/sreq.host.p_fpops;
+
+                // assume we'll need 100 MFLOPS to keep the GPU fed
+                //
+                double x = 1e8/sreq.host.p_fpops;
                 if (x > 1) x = 1;
                 hu.avg_ncpus = x;
                 hu.max_ncpus = x;
-                hu.flops = 5e11;
+                
+                // estimate the FLOPS we're going to get from the GPU.
+                // The following is based on SETI@home CUDA,
+                // which gets 50 GFLOPS on a Quadro FX 3700,
+                // which has 14 MPs and a clock rate of 1.25 MHz
+                //
+                x = (double)cp2->prop.clockRate * (double)cp2->prop.multiProcessorCount;
+                double y = 14.*1250000.;
+                if (!x) x = y;
+
+                hu.flops = 5e10 * (x/y);
                 return true;
             }
         }

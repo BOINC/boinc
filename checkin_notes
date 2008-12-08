@@ -9682,6 +9682,24 @@ David  26 Nov 2008
         transitioner.cpp
 
 David  26 Nov 2008
+    - scheduler: fix memory leak when reporting time stats logs
+    - scheduler: fix egregious bug where wu_is_infeasible_fast() result
+        is ignored, and we send jobs to hosts that can't handle them.
+    - scheduler: don't check for disk space in work_needed();
+        do it in check_disk(), which generates a message to user.
+    - scheduler: add -debug_log flag, which sends stderr to
+        "debug_log" rather than scheduler_log.txt (for debugging)
+
+    sched/
+        handle_request.cpp
+        main.cpp
+        sched_array.cpp
+        sched_send.cpp
+        sched_shmem.cpp
+        server_types.cpp
+        time_stats_log.cpp
+
+David  26 Nov 2008
     - web: fix scripting attack vulnerability
 
     html/user/
@@ -9937,3 +9955,14 @@ David  8 Dec 2008
 
     lib/
         coproc.cpp
+
+David  8 Dec 2008
+    - scheduler: estimate CUDA device speed based on clock rate an #MP
+    - web: close table in WU page
+    - web: fix PHP error in translation script
+
+    html/
+        inc/
+            translation.inc
+        user/
+            workunit.php

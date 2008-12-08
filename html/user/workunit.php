@@ -48,6 +48,7 @@ if ($wu->canonical_resultid) {
 
 if ($app->target_nresults>0 && $wu->assimilate_state < 2) {
     row2("Tasks in progress", "suppressed pending completion");
+    end_table();
 } else {
     row2("minimum quorum", $wu->min_quorum);
     row2("initial replication", $wu->target_nresults);

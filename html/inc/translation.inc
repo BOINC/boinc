@@ -116,9 +116,7 @@ function parseLanguage($file){
             //If found msgid entry
             if (!$first_entry){
                 //If this is not the first, save the previous entry
-                if ($current_token_text){
-                    $output[$current_token]=$current_token_text;
-                }
+                $output[$current_token]=$current_token_text;
             }
             $current_token = getPOLineContent($entry);
             $current_token_text="";
