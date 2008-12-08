@@ -9908,3 +9908,15 @@ David  7 Dec 2008
 
     client/
         cpu_sched.cpp
+
+David  7 Dec 2008
+    - manager: clamp percentages at [0,100] in prefs dialog
+        fixes #794
+    - wrapper: if app checkpoints, write CPU time to checkpoint file
+        fixes #792 (I hope)
+        
+
+    clientgui/
+        DlgAdvPreferences.cpp
+    samples/wrapper/
+        wrapper.cpp

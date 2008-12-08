@@ -300,6 +300,11 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 	this->UpdateControlStates();
 }
 
+void clamp_pct(double& x) {
+    if (x < 0) x = 0;
+    if (x > 100) x = 100;
+}
+
 /* write overridden preferences to disk (global_prefs_override.xml) */
 bool CDlgAdvPreferences::SavePreferencesSettings() {
 	double td;
@@ -346,6 +351,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 	//
 
 	m_txtProcUseProcessors->GetValue().ToDouble(&td);
+    clamp_pct(td);
 	prefs.max_ncpus_pct=td;
 	mask.max_ncpus_pct=true;
 
@@ -410,6 +416,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 	mask.disk_min_free_gb=true;
 	//
 	m_txtDiskMaxOfTotal->GetValue().ToDouble(&td);
+    clamp_pct(td);
 	prefs.disk_max_used_pct=td;
 	mask.disk_max_used_pct=true;
 	//
@@ -418,16 +425,19 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 	mask.disk_interval=true;
 	//
 	m_txtDiskMaxSwap->GetValue().ToDouble(&td);
+    clamp_pct(td);
 	td = td / 100.0 ;
 	prefs.vm_max_used_frac=td;
 	mask.vm_max_used_frac=true;
 	//Memory
 	m_txtMemoryMaxInUse->GetValue().ToDouble(&td);
+    clamp_pct(td);
 	td = td / 100.0;
 	prefs.ram_max_used_busy_frac=td;
 	mask.ram_max_used_busy_frac=true;
 	//
 	m_txtMemoryMaxOnIdle->GetValue().ToDouble(&td);
+    clamp_pct(td);
 	td = td / 100.0;
 	prefs.ram_max_used_idle_frac=td;
 	mask.ram_max_used_idle_frac=true;

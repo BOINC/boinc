@@ -22,12 +22,8 @@
 // - suspend/resume/quit/abort
 // - reporting CPU time
 // - loss of heartbeat from core client
-//
-// Does NOT handle:
 // - checkpointing
-// If your app does checkpointing,
-// and there's some way to figure out when it's done it,
-// this program could be modified to report to the core client.
+//      (at the level of task; or potentially within task)
 //
 // See http://boinc.berkeley.edu/wrapper.php for details
 // Contributor: Andrew J. Younge (ajy4490@umiacs.umd.edu)
@@ -69,8 +65,6 @@ struct TASK {
     string stderr_filename;
     string checkpoint_filename;
         // name of task's checkpoint file, if any
-    double checkpoint_cpu_time;
-        // CPU time at last checkpoint
     string command_line;
     double weight;
         // contribution of this task to overall fraction done
@@ -125,7 +119,7 @@ int TASK::parse(XML_PARSER& xp) {
     stat_first = true;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
-            fprintf(stderr, "SCHED_CONFIG::parse(): unexpected text %s\n", tag);
+            fprintf(stderr, "TASK::parse(): unexpected text %s\n", tag);
             continue;
         }
         if (!strcmp(tag, "/task")) {
@@ -470,14 +464,13 @@ double TASK::cpu_time() {
 #endif
 }
 
-void send_status_message(TASK& task, double frac_done) {
+void send_status_message(
+    TASK& task, double frac_done, double checkpoint_cpu_time
+) {
     double current_cpu_time = task.starting_cpu + task.cpu_time();
-    if (task.has_checkpointed()) {
-        task.checkpoint_cpu_time = current_cpu_time;
-    }
     boinc_report_app_status(
         current_cpu_time,
-        task.checkpoint_cpu_time,
+        checkpoint_cpu_time,
         frac_done
     );
 }
@@ -512,7 +505,9 @@ int main(int argc, char** argv) {
     BOINC_OPTIONS options;
     int retval, ntasks;
     unsigned int i;
-    double cpu, total_weight=0, w=0;
+    double total_weight=0, w=0;
+    double checkpoint_cpu_time;
+        // overall CPU time at last checkpoint
 
     for (i=1; i<(unsigned int)argc; i++) {
         if (!strcmp(argv[i], "--graphics")) {
@@ -539,7 +534,7 @@ int main(int argc, char** argv) {
         boinc_finish(retval);
     }
 
-    read_checkpoint(ntasks, cpu);
+    read_checkpoint(ntasks, checkpoint_cpu_time);
     if (ntasks > (int)tasks.size()) {
         fprintf(stderr, "Checkpoint file: ntasks %d too large\n", ntasks);
         boinc_finish(1);
@@ -553,8 +548,7 @@ int main(int argc, char** argv) {
         if ((int)i<ntasks) continue;
         double frac_done = w/total_weight;
 
-        task.starting_cpu = cpu;
-        task.checkpoint_cpu_time = cpu;
+        task.starting_cpu = checkpoint_cpu_time;
         retval = task.run(argc, argv);
         if (retval) {
             fprintf(stderr, "can't run app: %d\n", retval);
@@ -576,11 +570,15 @@ int main(int argc, char** argv) {
                 break;
             }
             poll_boinc_messages(task);
-            send_status_message(task, frac_done);
+            send_status_message(task, frac_done, checkpoint_cpu_time);
+            if (task.has_checkpointed()) {
+                checkpoint_cpu_time = task.starting_cpu + task.cpu_time();
+                write_checkpoint(i, checkpoint_cpu_time);
+            }
             boinc_sleep(POLL_PERIOD);
         }
-        cpu += task.final_cpu_time;
-        write_checkpoint(i+1, cpu);
+        checkpoint_cpu_time = task.starting_cpu + task.final_cpu_time;
+        write_checkpoint(i+1, checkpoint_cpu_time);
     }
     boinc_finish(0);
 }
