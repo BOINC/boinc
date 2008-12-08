@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("December 8, 2008",
+    "IBM World Community Grid and Harvard launch
+    <a href=http://www.reuters.com/article/environmentNews/idUSTRE4B70QS20081208>an application to study a new type of photovoltaic solar cells</a>.
+    "
+),
 array("December 1, 2008",
     "Wikipedia'a <a href=http://en.wikipedia.org/wiki/Wikipedia:Today%27s_featured_article/December_1,_2008>featured article for today</a> is about Rosetta@home."
 ),

@@ -9930,3 +9930,10 @@ David  8 Dec 2008
 
     client/
         rr_sim.cpp
+
+David  8 Dec 2008
+    - client: include deviceOverlap and multiProcessorCount
+        in XML for CUDA devices.  They were mistakenly omitted.
+
+    lib/
+        coproc.cpp

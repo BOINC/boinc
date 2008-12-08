@@ -227,6 +227,8 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
         "   <minor>%d</minor>\n"
         "   <clockRate>%d</clockRate>\n"
         "   <textureAlignment>%u</textureAlignment>\n"
+        "   <deviceOverlap>%d</deviceOverlap>\n"
+        "   <multiProcessorCount>%d</multiProcessorCount>\n"
         "</coproc_cuda>\n",
         count,
         prop.name,
@@ -242,7 +244,9 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
         prop.major,
         prop.minor,
         prop.clockRate,
-        (unsigned int)prop.textureAlignment
+        (unsigned int)prop.textureAlignment,
+        prop.deviceOverlap,
+        prop.multiProcessorCount
     );
 }
 #endif
