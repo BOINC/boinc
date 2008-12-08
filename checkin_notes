@@ -9782,10 +9782,18 @@ David  5 Dec 2008
         client_state.cpp
         cs_scheduler.cpp
 
-Rom    4 Dec 2008
+Rom    6 Dec 2008
     - Tag for 6.4.4 release, all platforms
       boinc_core_release_6_4_4
 
     /
         configure.ac
         version.h
+
+David  7 Dec 2008
+    - client: tweak CPU scheduling policy.  When there's a coproc job:
+        Windows: don't saturate CPUs
+        Unix: saturate CPUs
+
+    client/
+        cpu_sched.cpp
