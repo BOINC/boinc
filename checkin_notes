@@ -9856,10 +9856,10 @@ Charlie 4 Dec 2008
         ViewProjects.cpp
 
 David  4 Dec 2008
-	- client: fix last checkin
+    - client: fix last checkin
 
-	client/
-		cpu_sched.cpp
+    client/
+        cpu_sched.cpp
 
 Charlie 4 Dec 2008
     - MGR: the last changes seemed to help the Task Pane background erase 
@@ -9920,3 +9920,13 @@ David  7 Dec 2008
         DlgAdvPreferences.cpp
     samples/wrapper/
         wrapper.cpp
+
+David  8 Dec 2008
+    - client: in round-robin simulation, remove code that sets CPU shortfall
+        for projects with no active results.
+        This is now wrong because there coproc apps might have pending results.
+        Also remove nidle_cpus > 0 conditional that increments CPU shortfall;
+        I think this is vestigial code.
+
+    client/
+        rr_sim.cpp
