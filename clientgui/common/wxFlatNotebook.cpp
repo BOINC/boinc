@@ -878,7 +878,7 @@ void wxPageContainerBase::OnPaint(wxPaintEvent &event)
 		}
 
 		// Draw the image for the tab if any
-#ifdef __WXMSW__
+#if (defined(__WXMSW__) || defined(__WXMAC__))
 		imageYCoord = style & wxFNB_BOTTOM ? 3 : 6;
 #else
 		imageYCoord = style & wxFNB_BOTTOM ? 3 : 10;
