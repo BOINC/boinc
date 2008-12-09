@@ -9991,3 +9991,12 @@ Rom    9 Dec 2008
     
     clientgui/
         TermsOfUsePage.cpp
+
+David  9 Dec 2008
+	- client: fix calculation of a job's FLOPS rate in round-robin simulation
+
+	client/
+		client_state.h
+		client_types.h
+		rr_sim.cpp,h
+		sim.h

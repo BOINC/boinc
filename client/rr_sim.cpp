@@ -76,11 +76,7 @@ struct RR_SIM_STATUS {
         }
 		active_ncpus -= rpbest->avp->avg_ncpus;
     }
-#if 0
-    inline int nactive() {
-        return (int) active.size();
-    }
-#endif
+
 	RR_SIM_STATUS() {
 		active_ncpus = 0;
 	}
@@ -110,24 +106,44 @@ void RR_SIM_PROJECT_STATUS::remove_active(RESULT* r) {
 	active_ncpus -= r->avp->avg_ncpus;
 }
 
-// Set the project's rrsim_proc_rate:
-// the fraction of CPU that it will get in round-robin mode.
-// This should not be applied only to coproc jobs.
+// estimate the rate (FLOPS) that this job will get long-term
+// with weighted round-robin scheduling
 //
-void PROJECT::set_rrsim_proc_rate(double rrs) {
-    double x;
-
-    if (rrs) {
-        x = resource_share/rrs;
-    } else {
-        x = 1;      // pathological case; maybe should be 1/# runnable projects
+void CLIENT_STATE::set_rrsim_flops(RESULT* rp, double rrs) {
+	// if it's a coproc job, use app version estimate
+    if (rp->uses_coprocs()) {
+        rp->rrsim_flops = rp->avp->flops;
+		return;
     }
+    PROJECT* p = rp->project;
 
-    rr_sim_status.proc_rate = x*gstate.overall_cpu_frac();
+	// first, estimate how many CPU seconds per second this job would get
+	// running with other jobs of this project, ignoring other factors
+	//
+	double x = 1;
+	if (p->rr_sim_status.active_ncpus > ncpus) {
+		x = ncpus/p->rr_sim_status.active_ncpus;
+	}
+	double r1 = x*rp->avp->avg_ncpus;
+
+	// if the project's total CPU usage is more than its share, scale
+	//
+	double share_frac = rrs ? p->resource_share/rrs : 1;
+	double share_cpus = share_frac*ncpus;
+	double r2 = r1;
+	if (p->rr_sim_status.active_ncpus > share_cpus) {
+		r2 *= (share_cpus / p->rr_sim_status.active_ncpus);
+	}
+
+	// scale by overall CPU availability
+	//
+	double r3 = r2 * overall_cpu_frac();
+
+    rp->rrsim_flops = r3 * host_info.p_fpops;
     if (log_flags.rr_simulation) {
-        msg_printf(this, MSG_INFO,
-            "[rr_sim] set_rrsim_proc_rate: %f (rrs %f, rs %f, ocf %f",
-            rr_sim_status.proc_rate, rrs, resource_share, gstate.overall_cpu_frac()
+        msg_printf(p, MSG_INFO,
+            "[rr_sim] set_rrsim_flops: %f (r1 %f r2 %f r3 %f)",
+            rp->rrsim_flops, r1, r2, r3
         );
     }
 }
@@ -185,8 +201,6 @@ void CLIENT_STATE::print_deadline_misses() {
 // that are too large to run in RAM right now.
 //
 void CLIENT_STATE::rr_simulation() {
-    double rrs = nearly_runnable_resource_share();
-    double trs;
     PROJECT* p, *pbest;
     RESULT* rp, *rpbest;
     RR_SIM_STATUS sim_status;
@@ -197,8 +211,8 @@ void CLIENT_STATE::rr_simulation() {
 
     if (log_flags.rr_simulation) {
         msg_printf(0, MSG_INFO,
-            "[rr_sim] rr_sim start: now %f work_buf_total %f rrs %f ncpus %d",
-            now, work_buf_total(), rrs, ncpus
+            "[rr_sim] rr_sim start: now %f work_buf_total %f ncpus %d",
+            now, work_buf_total(), ncpus
         );
     }
 
@@ -234,13 +248,18 @@ void CLIENT_STATE::rr_simulation() {
 		}
     }
 
-	trs = 0;
+	double trs = 0;		// total resource share of CPU-int projects;
+						// determines CPU share (for shortfall computation)
+	double rrs = 0;		// total resource share of nearly runnable CPU-int projects
+						// determines processing rate
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->non_cpu_intensive) continue;
-        p->set_rrsim_proc_rate(rrs);
 		if (!p->rr_sim_status.has_coproc_jobs || p->rr_sim_status.has_cpu_jobs) {
 			trs += p->resource_share;
+			if (p->nearly_runnable()) {
+				rrs += p->resource_share;
+			}
 		}
     }
 
@@ -258,20 +277,7 @@ void CLIENT_STATE::rr_simulation() {
         rpbest = NULL;
         for (i=0; i<sim_status.active.size(); i++) {
             rp = sim_status.active[i];
-            if (rp->uses_coprocs()) {
-                rp->rrsim_flops = rp->avp->flops;
-            } else {
-                p = rp->project;
-                rp->rrsim_flops = p->rr_sim_status.proc_rate;
-                if (p->rr_sim_status.active_ncpus < ncpus) {
-                    rp->rrsim_flops *= (ncpus/p->rr_sim_status.active_ncpus);
-                }
-                rp->rrsim_flops *= rp->avp->avg_ncpus/p->rr_sim_status.active_ncpus;
-                if (rp->rrsim_flops > rp->avp->avg_ncpus * overall_cpu_frac()) {
-                    rp->rrsim_flops = rp->avp->avg_ncpus * overall_cpu_frac();
-                }
-                rp->rrsim_flops *= gstate.host_info.p_fpops;
-            }
+			set_rrsim_flops(rp, rrs);
             rp->rrsim_finish_delay = rp->rrsim_flops_left/rp->rrsim_flops;
             if (!rpbest || rp->rrsim_finish_delay < rpbest->rrsim_finish_delay) {
                 rpbest = rp;
@@ -394,21 +400,11 @@ void CLIENT_STATE::rr_simulation() {
         }
 
         // If all work done for a project, subtract that project's share
-        // and recompute processing rates
         //
         if (pbest->rr_sim_status.none_active()) {
-            rrs -= pbest->resource_share;
-            if (log_flags.rr_simulation) {
-                msg_printf(pbest, MSG_INFO,
-                    "[rr_sim] decr rrs by %f, new value %f",
-                    pbest->resource_share, rrs
-                );
-            }
-            for (i=0; i<projects.size(); i++) {
-                p = projects[i];
-                if (p->non_cpu_intensive) continue;
-                p->set_rrsim_proc_rate(rrs);
-            }
+			if (!pbest->rr_sim_status.has_coproc_jobs || pbest->rr_sim_status.has_cpu_jobs) {
+				rrs -= pbest->resource_share;
+			}
         }
 
         sim_now += rpbest->rrsim_finish_delay;

@@ -316,7 +316,6 @@ public:
 
     RR_SIM_PROJECT_STATUS rr_sim_status;
         // temps used in CLIENT_STATE::rr_simulation();
-    void set_rrsim_proc_rate(double rrs);
 
         /// used as scratch by scheduler, enforcer
     int deadlines_missed;

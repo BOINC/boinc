@@ -458,7 +458,8 @@ public:
     void free_mem();
 
 // --------------- rr_sim.cpp:
-    void rr_simulation();
+	void set_rrsim_flops(RESULT* rp, double rrs);
+	void rr_simulation();
     void print_deadline_misses();
 
 // --------------- work_fetch.cpp:

@@ -26,9 +26,6 @@ struct RR_SIM_PROJECT_STATUS {
         /// jobs runnable but not running yet
     std::vector<RESULT*>pending;
     int deadlines_missed;
-        /// fraction of each CPU this project will get
-        /// set in CLIENT_STATE::rr_misses_deadline();
-    double proc_rate;
 	double active_ncpus;
     double cpu_shortfall;
 	bool has_coproc_jobs;
@@ -38,7 +35,6 @@ struct RR_SIM_PROJECT_STATUS {
         active.clear();
         pending.clear();
         deadlines_missed = 0;
-        proc_rate = 0;
         cpu_shortfall = 0;
 		active_ncpus = 0;
 		has_coproc_jobs = false;
