@@ -9814,3 +9814,10 @@ David  8 Dec 2008
 
     lib/
         coproc.cpp
+
+David  8 Dec 2008
+	- client: in round-robin simulation, don't count a project in
+		total resource share if it has coproc jobs and no CPU jobs.
+
+	client/
+		rr_sim.cpp,h
