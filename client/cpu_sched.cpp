@@ -64,6 +64,10 @@ using std::vector;
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
+//#ifdef _WIN32
+//#define DONT_SATURATE_CPUS_IF_COPROC_RUNNING
+//#endif
+
 bool COPROCS::sufficient_coprocs(COPROCS& needed, bool log_flag, const char* prefix) {
     for (unsigned int i=0; i<needed.coprocs.size(); i++) {
         COPROC* cp = needed.coprocs[i];
@@ -833,7 +837,7 @@ bool CLIENT_STATE::enforce_schedule() {
 
     double swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
 
-#ifdef _WIN32
+#ifdef DONT_SATURATE_CPUS_IF_COPROC_RUNNING
     // see whether we have any coproc jobs, and total their CPU usage
     //
 	double new_ncpus_used = 0;
@@ -861,8 +865,7 @@ bool CLIENT_STATE::enforce_schedule() {
             );
         }
 
-#ifdef _WIN32
-		// Windows: if we have a coproc job, don't saturate CPUs
+#ifdef DONT_SATURATE_CPUS_IF_COPROC_RUNNING
 		//
 		if (have_coproc_job && !rp->uses_coprocs()) {
 			if (new_ncpus_used + rp->avp->avg_ncpus >= ncpus) continue;
@@ -889,7 +892,7 @@ bool CLIENT_STATE::enforce_schedule() {
         bool failed_to_preempt = false;
 		while (1) {
 			if (!preemptable_tasks.size()) break;
-#ifdef _WIN32
+#ifdef DONT_SATURATE_CPUS_IF_COPROC_RUNNING
 			if (have_coproc_job) {
 				if (ncpus_used + rp->avp->avg_ncpus < ncpus) break;
 			} else {
@@ -940,7 +943,7 @@ bool CLIENT_STATE::enforce_schedule() {
 			atp = get_task(rp);
         }
         ncpus_used += rp->avp->avg_ncpus;
-#ifdef _WIN32
+#ifdef DONT_SATURATE_CPUS_IF_COPROC_RUNNING
 		if (!rp->uses_coprocs()) {
 			new_ncpus_used += rp->avp->avg_ncpus;
 		}

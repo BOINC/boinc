@@ -9968,11 +9968,11 @@ David  8 Dec 2008
             workunit.php
 
 David  8 Dec 2008
-	- client: in round-robin simulation, don't count a project in
-		total resource share if it has coproc jobs and no CPU jobs.
+    - client: in round-robin simulation, don't count a project in
+        total resource share if it has coproc jobs and no CPU jobs.
 
-	client/
-		rr_sim.cpp,h
+    client/
+        rr_sim.cpp,h
 
 Charlie 9 Dec 2008
     Mac SG: Remove ugly hack added 8/20/07 for unknown alignment problem on Mac 
@@ -9993,10 +9993,17 @@ Rom    9 Dec 2008
         TermsOfUsePage.cpp
 
 David  9 Dec 2008
-	- client: fix calculation of a job's FLOPS rate in round-robin simulation
+    - client: fix calculation of a job's FLOPS rate in round-robin simulation
 
-	client/
-		client_state.h
-		client_types.h
-		rr_sim.cpp,h
-		sim.h
+    client/
+        client_state.h
+        client_types.h
+        rr_sim.cpp,h
+        sim.h
+
+David  9 Dec 2008
+    - client: allow CPU saturation even if GPU running, all platforms
+        (once GPUgrid.net fixes it app, this isn't needed anymore)
+
+    client/
+        cpu_sched.cpp
