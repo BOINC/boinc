@@ -9827,3 +9827,11 @@ Rom    9 Dec 2008
     
     clientgui/
         TermsOfUsePage.cpp
+
+Rom    9 Dec 2008
+    - Tag for 6.4.5 release, all platforms
+      boinc_core_release_6_4_5
+
+    /
+        configure.ac
+        version.h
