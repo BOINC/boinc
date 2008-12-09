@@ -218,7 +218,7 @@ function do_send($logged_in_user) {
         
         foreach ($userlist as $user) {
             check_pm_count($logged_in_user->id);
-            pm_send($user, $subject, $content);
+            pm_send($user, $subject, $content, true);
         }
         
         Header("Location: pm.php?action=inbox&sent=1");

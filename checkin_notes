@@ -10007,3 +10007,14 @@ David  9 Dec 2008
 
     client/
         cpu_sched.cpp
+
+David  9 Dec 2008
+    - web: send only 1 email on team founder transfer request
+    - web: if no transfer request is pending, say so
+
+    html/
+        inc/
+            pm.inc
+        user/
+            pm.php
+            team_founder_transfer_action.php

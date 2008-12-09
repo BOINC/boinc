@@ -128,7 +128,7 @@ function pm_web_line($notify) {
     return "<a href=pm.php>Private message</a> from $from_user->name, subject: $pm->subject";
 }
 
-function pm_send($to_user, $subject, $content) {
+function pm_send($to_user, $subject, $content, $send_email) {
     global $g_logged_in_user;
     $sql_subject = boinc_real_escape_string(strip_tags($subject));
     $sql_content = boinc_real_escape_string(strip_tags($content));
@@ -138,21 +138,23 @@ function pm_send($to_user, $subject, $content) {
     }
     // send email notification if needed
     //
-    BoincForumPrefs::lookup($to_user);
-    switch ($to_user->prefs->pm_notification) {
-    case 0:
-    case 2:
-        break;
-    case 1:
-        send_pm_notification_email(
-            $g_logged_in_user, $to_user, $subject, $content
-        );
-        break;
-    }
+    if ($send_email) {
+        BoincForumPrefs::lookup($to_user);
+        switch ($to_user->prefs->pm_notification) {
+        case 0:
+        case 2:
+            break;
+        case 1:
+            send_pm_notification_email(
+                $g_logged_in_user, $to_user, $subject, $content
+            );
+            break;
+        }
 
-    // create notification in any case
-    //
-    BoincNotify::insert("(userid, create_time, type, opaque) values ($to_user->id, ".time().", ".NOTIFY_PM.", $mid)");
+        // create notification in any case
+        //
+        BoincNotify::insert("(userid, create_time, type, opaque) values ($to_user->id, ".time().", ".NOTIFY_PM.", $mid)");
+    }
 }
 
 function pm_count($userid, $duration) {
