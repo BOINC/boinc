@@ -9973,3 +9973,11 @@ David  8 Dec 2008
 
 	client/
 		rr_sim.cpp,h
+
+Charlie 9 Dec 2008
+    Mac SG: Remove ugly hack added 8/20/07 for unknown alignment problem on Mac 
+        which caused bottom of slide show to be cut off.  The original problem 
+        no longer exists and the hack now caused the top to be cut off.
+
+    clientgui/
+        sg_ViewTabPage.cpp
