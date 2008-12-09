@@ -9985,3 +9985,9 @@ Charlie 9 Dec 2008
         sg_ViewTabPage.cpp
         common/
             wxFlatNotebook.cpp
+
+Rom    9 Dec 2008
+    - MGR: fix the terms of use wizard page.
+    
+    clientgui/
+        TermsOfUsePage.cpp

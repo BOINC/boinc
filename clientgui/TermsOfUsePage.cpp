@@ -82,6 +82,7 @@ bool CTermsOfUsePage::Create( CBOINCBaseWizard* parent )
     m_pTermsOfUseCtrl = NULL;
     m_pAgreeCtrl = NULL;
     m_pDisagreeCtrl = NULL;
+    m_bUserAgrees = false;
 ////@end CTermsOfUsePage member initialisation
  
 ////@begin CTermsOfUsePage creation
@@ -219,15 +220,19 @@ void CTermsOfUsePage::OnPageChanged( wxWizardExEvent& event ) {
     m_pTermsOfUseCtrl->SetValue(
         wxString(pc.terms_of_use.c_str(), wxConvUTF8)
     );
-    m_pTermsOfUseCtrl->SetSelection(0, 0);
+    m_pTermsOfUseCtrl->SetSelection(0,0);
 
     m_pAgreeCtrl->SetLabel(
         _("I agree to the terms of use.")
     );
+    m_pAgreeCtrl->SetValue(false);
+
 
     m_pDisagreeCtrl->SetLabel(
-        _("I do not agree to the terms of use.")
+        _("I do not agree with the terms of use.")
     );
+    m_pDisagreeCtrl->SetValue(true);
+    SetUserAgrees(false);
 
     Fit();
 }
@@ -244,15 +249,21 @@ void CTermsOfUsePage::OnCancel( wxWizardExEvent& event ) {
  * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_TERMSOFUSEAGREECTRL
  */
 
-void CTermsOfUsePage::OnAgree( wxCommandEvent& /* event */ ) {
-    SetUserAgrees(true);
+void CTermsOfUsePage::OnAgree( wxCommandEvent& event ) {
+    if (event.IsChecked()){
+        wxLogTrace(wxT("Function Status"), wxT("CTermsOfUsePage::OnAgree - SetUserAgrees(true)"));
+        SetUserAgrees(true);
+    }
 }
 
 /*!
  * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_TERMSOFUSEDISAGREECTRL
  */
 
-void CTermsOfUsePage::OnDisagree( wxCommandEvent& /* event */ ) {
-    SetUserAgrees(false);
+void CTermsOfUsePage::OnDisagree( wxCommandEvent& event ) {
+    if (event.IsChecked()) {
+        wxLogTrace(wxT("Function Status"), wxT("CTermsOfUsePage::OnDisagree - SetUserAgrees(false)"));
+        SetUserAgrees(false);
+    }
 }
 
