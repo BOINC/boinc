@@ -68,6 +68,8 @@ if ($team->ping_user != 0) {
             <p>
         ";
     }
+} else {
+    echo "No transfer request is pending.<p>";
 }
 
 echo "
@@ -99,8 +101,8 @@ foreach ($users as $user) {
             <tr>
             <td align="center"><input type="radio" name="userid" value="'.$user->id.'">
             <td>'.$user->name.'</td>
-            <td>'.$user_total_credit.'</td>
-            <td>'.$user_expavg_credit.'</td>
+            <td align=right>'.$user_total_credit.'</td>
+            <td align=right>'.$user_expavg_credit.'</td>
             </tr>
         ';
         $navailable_users++;
