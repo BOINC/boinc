@@ -10019,3 +10019,9 @@ David  9 Dec 2008
             pm.php
             team_founder_transfer_action.php
             team_founder_transfer_form.php
+
+David  9 Dec 2008
+    - scheduler: in sample code for CUDA, require 256MB RAM
+
+    sched/
+        sched_plan.cpp
