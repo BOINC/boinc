@@ -182,10 +182,10 @@ $m5817c = array(
 );
 
 $l64 = array(
-    "num"=>"6.4.4",
+    "num"=>"6.4.5",
     "status"=>"Development version",
-    "file"=>"boinc_compat_6.4.4_i686-pc-linux-gnu.sh",
-    "date"=>"6 Dec 2008",
+    "file"=>"boinc_compat_6.4.5_i686-pc-linux-gnu.sh",
+    "date"=>"9 Dec 2008",
     "type"=>"sea",
 );
 
@@ -206,10 +206,10 @@ $l51045 = array(
 );
 
 $l64ubuntu = array(
-    "num"=>"6.4.4",
+    "num"=>"6.4.5",
     "status"=>"Development version",
-    "file"=>"boinc_6.4.4_i686-pc-linux-gnu.sh",
-    "date"=>"6 Dec 2008",
+    "file"=>"boinc_6.4.5_i686-pc-linux-gnu.sh",
+    "date"=>"9 Dec 2008",
     "type"=>"sea",
 );
 
@@ -230,10 +230,10 @@ $l51045ubuntu = array(
 );
 
 $l64ubuntux64 = array(
-    "num"=>"6.4.4",
+    "num"=>"6.4.5",
     "status"=>"Development version",
-    "file"=>"boinc_6.4.4_x86_64-pc-linux-gnu.sh",
-    "date"=>"6 Dec 2008",
+    "file"=>"boinc_6.4.5_x86_64-pc-linux-gnu.sh",
+    "date"=>"9 Dec 2008",
     "type"=>"sea",
 );
 
