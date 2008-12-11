@@ -1,6 +1,9 @@
 <?
 
 $project_news = array(
+array("December 10, 2008",
+    "<a href=http://aqua.dwavesys.com/>AQUA@home</a> is now open to volunteers.  AQUA (Adiabatic QUantum Algorithms) is a research project, based at D-Wave Systems, Inc.,  whose goal is to predict the performance of superconducting adiabatic quantum computers on a variety of hard problems arising in fields ranging from materials science to machine learning."
+),
 array("December 8, 2008",
     "IBM World Community Grid and Harvard launch
     <a href=http://www.reuters.com/article/environmentNews/idUSTRE4B70QS20081208>an application to study a new type of photovoltaic solar cells</a>.

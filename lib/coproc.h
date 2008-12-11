@@ -46,7 +46,6 @@ struct COPROC {
         used = 0;
         memset(&owner, 0, sizeof(owner));
     }
-    virtual void description(char*){};
     virtual ~COPROC(){}
     int parse(MIOFILE&);
 };
@@ -128,17 +127,20 @@ struct COPROC_CUDA : public COPROC {
 #endif
     COPROC_CUDA(): COPROC("CUDA"){}
     virtual ~COPROC_CUDA(){}
-    static const char* get(COPROCS&);
-    virtual void description(char*);
+    static std::string get(COPROCS&);
     void clear();
     int parse(FILE*);
+
+    // rough estimate of FLOPS
+    inline double flops() {
+        return 2500*prop.clockRate * prop.multiProcessorCount;
+    }
 };
 
 
 struct COPROC_CELL_SPE : public COPROC {
-    static const char* get(COPROCS&);
+    static std::string get(COPROCS&);
     COPROC_CELL_SPE() : COPROC("Cell SPE"){}
-    virtual void description(char*);
     virtual ~COPROC_CELL_SPE(){}
 };
 

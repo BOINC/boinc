@@ -66,10 +66,10 @@ int COPROC::parse(MIOFILE& fin) {
 
 vector<string> COPROCS::get() {
     vector<string> strings;
-    const char* p = COPROC_CUDA::get(*this);
-    if (p) strings.push_back(p);
-    p = COPROC_CELL_SPE::get(*this);
-    if (p) strings.push_back(p);
+    string s = COPROC_CUDA::get(*this);
+    if (s.size()) strings.push_back(s);
+    s = COPROC_CELL_SPE::get(*this);
+    if (s.size()) strings.push_back(s);
     return strings;
 }
 
@@ -104,7 +104,7 @@ COPROC* COPROCS::lookup(char* type) {
 
 #endif
 
-const char* COPROC_CUDA::get(COPROCS& coprocs) {
+string COPROC_CUDA::get(COPROCS& coprocs) {
     int count;
 
 #ifdef _WIN32
@@ -156,29 +156,44 @@ const char* COPROC_CUDA::get(COPROCS& coprocs) {
 
     // NOTE: our design is slightly flawed:
     // there's no provision for having two coprocs of type CUDA.
-    // So on systems with two GPUs (possibly of different hardware types)
+    // So on systems with two GPUs of different hardware types
     // we have to count them as two of the same type.
+    // Pick the fastest.
     //
     (*__cudaGetDeviceCount)(&count);
     int real_count = 0;
     COPROC_CUDA cc, cc2;
+    string s;
     for (int i=0; i<count; i++) {
         (*__cudaGetDeviceProperties)(&cc.prop, i);
-        if (cc.prop.major <= 0) break;  // major == 0 means emulation
-        if (cc.prop.major > 100) break;  // e.g. 9999 is an error
-        cc2 = cc;
+        if (cc.prop.major <= 0) continue;  // major == 0 means emulation
+        if (cc.prop.major > 100) continue;  // e.g. 9999 is an error
+
+        if (real_count) {
+            if (cc.flops() > cc2.flops()) {
+                cc2 = cc;
+            }
+            s += ", ";
+            s += cc.prop.name;
+        } else {
+            s = cc.prop.name;
+            cc2 = cc;
+        }
         real_count++;
     }
-    if (real_count) {
-        COPROC_CUDA* ccp = new COPROC_CUDA;
-        *ccp = cc2;
-        ccp->count = real_count;
-        strcpy(ccp->type, "CUDA");
-        coprocs.coprocs.push_back(ccp);
-    } else {
+    if (!real_count) {
         return "No CUDA devices found";
     }
-    return "CUDA devices found";
+    COPROC_CUDA* ccp = new COPROC_CUDA;
+    *ccp = cc2;
+    ccp->count = real_count;
+    strcpy(ccp->type, "CUDA");
+    coprocs.coprocs.push_back(ccp);
+    if (real_count == 1) {
+        return "CUDA device: "+s;
+    } else {
+        return "CUDA devices: "+s;
+    }
 }
 
 // add a non-existent CUDA coproc (for debugging)
@@ -322,10 +337,6 @@ int COPROC_CUDA::parse(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
-void COPROC_CUDA::description(char* p) {
-    sprintf(p, "%s (%d)", prop.name, count);
-}
-
-const char* COPROC_CELL_SPE::get(COPROCS&) {
-    return NULL;
+string COPROC_CELL_SPE::get(COPROCS&) {
+    return "";
 }

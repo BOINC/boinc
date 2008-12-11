@@ -102,6 +102,14 @@ $astro_phys_chem = array(
     "Astronomy/Physics/Chemistry",
     array(
         array(
+            "AQUA@home",
+            "http://aqua.dwavesys.com/",
+            "D-Wave Systems, Inc.",
+            "Quantum computing",
+            "D-Wave's AQUA (Adiabatic QUantum Algorithms) is a research project whose goal is to predict the performance of superconducting adiabatic quantum computers on a variety of hard problems arising in fields ranging from materials science to machine learning. AQUA@home uses Internet-connected computers to help design and analyze quantum computing algorithms, using Quantum Monte Carlo techniques.",
+            "logo_dwave2.png"
+        ),
+        array(
             "Leiden Classical",
             "http://boinc.gorlaeus.net/",
             "Leiden University, The Netherlands",

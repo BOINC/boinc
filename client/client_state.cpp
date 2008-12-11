@@ -272,12 +272,6 @@ int CLIENT_STATE::init() {
 #endif
     if (coprocs.coprocs.size() == 0) {
         msg_printf(NULL, MSG_INFO, "No coprocessors");
-    } else {
-        for (i=0; i<coprocs.coprocs.size(); i++) {
-            COPROC* c = coprocs.coprocs[i];
-            c->description(buf);
-            msg_printf(NULL, MSG_INFO, "Coprocessor: %s", buf);
-        }
     }
 
     // Check to see if we can write the state file.
