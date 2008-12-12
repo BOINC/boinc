@@ -10044,3 +10044,11 @@ Charlie 11 Dec 2008
 
     clientgui/
         CompletionPage.cpp
+
+David  12 Dec 2008
+    - scheduler: add <ignore_dcf> option;
+        use this temporarily when you've fixed FLOPS estimate
+
+    sched/
+        sched_config.cpp,h
+        sched_send.cpp

@@ -356,7 +356,7 @@ static double estimate_wallclock_duration(
 ) {
     double ecd = estimate_cpu_duration(wu, reply);
     double ewd = ecd/reply.wreq.running_frac;
-    if (reply.host.duration_correction_factor) {
+    if (!config.ignore_dcf && reply.host.duration_correction_factor) {
         ewd *= reply.host.duration_correction_factor;
     }
     if (config.debug_send) {
