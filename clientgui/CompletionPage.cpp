@@ -316,9 +316,11 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     Fit();
-    int w, h;
-    m_pCompletionBrandedMessage->GetSize(&w, &h);
-    m_pCompletionBrandedMessage->Wrap(w - 5);
+    int x, y, x1, y1, w, h;
+    GetPosition(&x, &y);
+    m_pCompletionBrandedMessage->GetPosition(&x1, &y1);
+    pWAP->GetSize(&w, &h);
+    m_pCompletionBrandedMessage->Wrap(w - x - x1 - 5);
     Fit();
     
     // Is this supposed to be completely automated?
