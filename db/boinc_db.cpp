@@ -1205,6 +1205,8 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
     res.opaque = atof(r[i++]);
     res.exit_status = atoi(r[i++]);
     res.hostid = atoi(r[i++]);
+    res.userid = atoi(r[i++]);
+    res.teamid = atoi(r[i++]);
     res.sent_time = atoi(r[i++]);
     res.received_time = atoi(r[i++]);
     res.appid = atoi(r[i++]);
@@ -1260,6 +1262,8 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   res.opaque, "
             "   res.exit_status, "
             "   res.hostid, "
+            "   res.userid, "
+            "   res.teamid, "
             "   res.sent_time, "
             "   res.received_time, "
             "   res.appid "
