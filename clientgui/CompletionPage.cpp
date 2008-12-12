@@ -316,7 +316,11 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     Fit();
-
+    int w, h;
+    m_pCompletionBrandedMessage->GetSize(&w, &h);
+    m_pCompletionBrandedMessage->Wrap(w - 5);
+    Fit();
+    
     // Is this supposed to be completely automated?
     // If so, then go ahead and close the wizard down now.
     if (pWAP->close_when_completed) {

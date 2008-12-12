@@ -10035,3 +10035,12 @@ David  11 Dec 2008
         client_state.cpp
     lib/
         coproc.cpp,h
+
+Charlie 11 Dec 2008
+
+    - MGR: in Attach to Account manager Wizard Completion page, word-wrap the 
+        CompletionBrandedMessage static text item so it won't run off the 
+        edge of the dialog for GridRepublic on the Mac.
+
+    clientgui/
+        CompletionPage.cpp
