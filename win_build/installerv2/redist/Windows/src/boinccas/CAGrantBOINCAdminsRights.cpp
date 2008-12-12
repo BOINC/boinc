@@ -63,7 +63,13 @@ CAGrantBOINCAdminsRights::~CAGrantBOINCAdminsRights()
 UINT CAGrantBOINCAdminsRights::OnExecution()
 {
     PSID        pSid;
+    tstring     strOSVersion;
     UINT        uiReturnValue = -1;
+
+
+    uiReturnValue = GetProperty( _T("VersionNT"), strOSVersion );
+    if ( uiReturnValue ) return uiReturnValue;
+
 
     //
     // Obtain the SID of the user/group.
@@ -124,9 +130,13 @@ UINT CAGrantBOINCAdminsRights::OnExecution()
         GrantUserRight(pSid, L"SeDenyServiceLogonRight", FALSE);
         LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
 
-        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeDenyRemoteInteractiveLogonRight' right."));
-        GrantUserRight(pSid, L"SeDenyRemoteInteractiveLogonRight", FALSE);
-        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+        // Windows 2000 and older does not have the SeDenyRemoteInteractiveLogonRight user right
+        //
+        if (strOSVersion > _T("500")) {
+            LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeDenyRemoteInteractiveLogonRight' right."));
+            GrantUserRight(pSid, L"SeDenyRemoteInteractiveLogonRight", FALSE);
+            LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
+        }
 
         // Privileges
         LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeTcbPrivilege' right."));

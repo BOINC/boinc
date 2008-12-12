@@ -64,10 +64,14 @@ UINT CAGrantBOINCMasterRights::OnExecution()
 {
     PSID        pSid;
     tstring     strBOINCMasterAccountUsername;
+    tstring     strOSVersion;
     UINT        uiReturnValue = -1;
 
 
     uiReturnValue = GetProperty( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = GetProperty( _T("VersionNT"), strOSVersion );
     if ( uiReturnValue ) return uiReturnValue;
 
 
@@ -128,17 +132,22 @@ UINT CAGrantBOINCMasterRights::OnExecution()
         GrantUserRight(pSid, L"SeDenyBatchLogonRight", FALSE);
         GrantUserRight(pSid, L"SeDenyServiceLogonRight", FALSE);
 
-        if (!GrantUserRight(pSid, L"SeDenyRemoteInteractiveLogonRight", TRUE))
-        {
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                _T("Failed call to GrantUserRight - SeDenyRemoteInteractiveLogonRight")
-            );
+        // Windows 2000 and older does not have the SeDenyRemoteInteractiveLogonRight user right
+        //
+        if (strOSVersion > _T("500")) {
+            if (!GrantUserRight(pSid, L"SeDenyRemoteInteractiveLogonRight", TRUE))
+            {
+                LogMessage(
+                    INSTALLMESSAGE_ERROR,
+                    NULL, 
+                    NULL,
+                    NULL,
+                    NULL,
+                    _T("Failed call to GrantUserRight - SeDenyRemoteInteractiveLogonRight")
+                );
+            }
         }
+
 
         // Privileges
         GrantUserRight(pSid, L"SeTcbPrivilege", FALSE);

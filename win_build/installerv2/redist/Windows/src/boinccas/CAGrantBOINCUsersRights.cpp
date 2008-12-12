@@ -63,7 +63,13 @@ CAGrantBOINCUsersRights::~CAGrantBOINCUsersRights()
 UINT CAGrantBOINCUsersRights::OnExecution()
 {
     PSID        pSid;
+    tstring     strOSVersion;
     UINT        uiReturnValue = -1;
+
+
+    uiReturnValue = GetProperty( _T("VersionNT"), strOSVersion );
+    if ( uiReturnValue ) return uiReturnValue;
+
 
     //
     // Obtain the SID of the user/group.
@@ -97,7 +103,13 @@ UINT CAGrantBOINCUsersRights::OnExecution()
         GrantUserRight(pSid, L"SeDenyInteractiveLogonRight", FALSE);
         GrantUserRight(pSid, L"SeDenyBatchLogonRight", FALSE);
         GrantUserRight(pSid, L"SeDenyServiceLogonRight", FALSE);
-        GrantUserRight(pSid, L"SeDenyRemoteInteractiveLogonRight", FALSE);
+
+        // Windows 2000 and older does not have the SeDenyRemoteInteractiveLogonRight user right
+        //
+        if (strOSVersion > _T("500")) {
+            GrantUserRight(pSid, L"SeDenyRemoteInteractiveLogonRight", FALSE);
+        }
+
 
         // Privileges
         GrantUserRight(pSid, L"SeTcbPrivilege", FALSE);

@@ -10052,3 +10052,16 @@ David  12 Dec 2008
     sched/
         sched_config.cpp,h
         sched_send.cpp
+
+Rom    12 Dec 2008
+    - WINSETUP: Make sure we don't try and do anything with the
+        SeDenyRemoteInteractiveLogonRight user right on Windows 
+        2000 or older. Fixes #789
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        CAGrantBOINCAdminsRights.cpp
+        CAGrantBOINCMasterRights.cpp
+        CAGrantBOINCProjectRights.cpp
+        CAGrantBOINCProjectsRights.cpp
+        CAGrantBOINCUsersRights.cpp
