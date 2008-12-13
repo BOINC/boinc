@@ -22,41 +22,38 @@ include_once("../inc/team.inc");
 
 page_head("Teams");
 
-echo "<p>".PROJECT." participants may form <b>teams</b>.
+echo "<p>".tra("%1 participants may form %2teams%3", PROJECT, "<b>", "</b>") ."
     <p>
-    You may belong to only one team.
-    You can join or quit a team at any time.
-    <p>
-    Each team has a <b>founder</b>, who may
+    ". tra("You may belong to only one team. You can join or quit a team at any time."). "
+    <p>" .
+    tra("Each team has a %1founder%2 who may:", "<b>", "</b>") . "
     <ul>
-    <li> access team members' email addresses
-    <li> edit the team's name and description
-    <li> remove members from the team
-    <li> disband a team if it has no members
+    <li> " . tra("access team members' email addresses") . "
+    <li> " . tra("edit the team's name and description") . "
+    <li> " . tra("remove members from the team") . "
+    <li> " . tra("disband a team if it has no members") . "
     </ul>
-    <p>
-    To join a team, visit its team page and click <b>Join this team</b>.
-    <h3>Find a team</h3>
+    <p>" .
+    tra("To join a team, visit its team page and click %1Join this team%2.", "<b>", "</b>") . "
+    <h3>" . tra("Find a team") . "</h3>
 ";
 team_search_form(null);
 echo "
 
-    <h3>Top teams</h3>
+    <h3>" . tra("Top teams") . "</h3>
     <ul>
-    <li> <a href=top_teams.php>All teams</a>
+    <li> <a href=\"top_teams.php\">" . tra("All teams") . "</a>
 ";
 
 for ($i=1; $i<8; $i++) {
-    echo "<li> <a href=\"top_teams.php?type=$i\">".team_type_name($i)." teams</a>
+    echo "<li> <a href=\"top_teams.php?type=".$i."\">".tra("%1 teams", team_type_name($i))."</a>
     ";
 }
 
 echo "
     </ul>
-    <h3>Create a new team</h3>
-    If you can't find a team that's right for you, you can
-    <a href=team_create_form.php>create a team</a>.
-";
+    <h3>" . tra("Create a new team") . "</h3>
+    " . tra("If you cannot find a team that is right for you, you can %1create a team%2.", "<a href=\"team_create_form.php\">","</a>");
 page_tail();
 
 ?>
