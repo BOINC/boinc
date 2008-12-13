@@ -28,16 +28,15 @@ function check_pending($user, $destuser) {
     $friend = BoincFriend::lookup($user->id, $destuser->id);
     if ($friend) {
         if ($friend->reciprocated) {
-            error_page("Already friends");
+            error_page(tra("Already friends"));
         }
         $notify = BoincNotify::lookup($destuser->id, NOTIFY_FRIEND_REQ, $user->id);
         if ($notify) {
-            page_head("Request pending");
+            page_head(tra("Request pending"));
             $t = date_str($friend->create_time);
-            echo "You requested friendship with $destuser->name on $t.
-                <p>
-                This request is still pending confirmation.
-            ";
+            echo tra("You requested friendship with %1 on %2.", $destuser->name,$t) . "
+                <p>" .
+                tra("This request is still pending confirmation.");
             page_tail();
             exit();
         }
@@ -48,7 +47,7 @@ function check_pending($user, $destuser) {
 function check_ignoring($srcuser, $destuser) {
     BoincForumPrefs::lookup($destuser);
     if (is_ignoring($destuser, $srcuser)) {
-        error_page("$destuser->name is not accepting friendship requests from you");
+        error_page(tra("%1 is not accepting friendship requests from you",$destuser->name));
     }
 }
 
@@ -57,24 +56,23 @@ function check_ignoring($srcuser, $destuser) {
 function handle_add($user) {
     $destid = get_int('userid');
     if ($destid == $user->id) {
-        error_page("You can't be friends with yourself");
+        error_page(tra("You can't be friends with yourself"));
     }
     $destuser = BoincUser::lookup_id($destid);
-    if (!$destuser) error_page("No such user");
+    if (!$destuser) error_page(tra("No such user"));
 
     check_pending($user, $destuser);
     check_ignoring($user, $destuser);
 
-    page_head("Add friend");
+    page_head(tra("Add friend"));
     echo "
         <form method=post action=friend.php>
         <input type=hidden name=userid value=$destid>
-        <input type=hidden name=action value=add_confirm>
-        You have asked to add <b>$destuser->name</b> as a friend.
-        We will notify <b>$destuser->name</b> and will ask him/her to
-        confirm that you are friends.
-        <p>
-        Add an optional message here:
+        <input type=hidden name=action value=add_confirm>" .
+        tra("You have asked to add %1 as a friend. We will notify %2 and will ask him/her to confirm that you are friends.",
+	"<b>".$destuser->name."</b>","<b>".$destuser->name."</b>") ."
+        <p>" .
+        tra("Add an optional message here:") ."
         <br>
         <textarea name=message cols=64 rows=4></textarea>
         <p>
@@ -89,7 +87,7 @@ function handle_add($user) {
 function handle_add_confirm($user) {
     $destid = post_int('userid');
     $destuser = BoincUser::lookup_id($destid);
-    if (!$destuser) error_page("No such user");
+    if (!$destuser) error_page(tra("No such user"));
 
     check_pending($user, $destuser);
     check_ignoring($user, $destuser);
@@ -102,7 +100,7 @@ function handle_add_confirm($user) {
         "user_src=$user->id, user_dest=$destid, message='$msg', create_time=$now, reciprocated=0"
     );
     if (!$ret) {
-        error_page("database error");
+        error_page(tra("Database error"));
     }
     $now = time();
     $type = NOTIFY_FRIEND_REQ;
@@ -112,10 +110,8 @@ function handle_add_confirm($user) {
     if ($destuser->prefs->pm_notification == 1) {
         send_friend_request_email($user, $destuser, $msg);
     }
-    page_head("Friend request sent");
-    echo "
-        We have notified <b>$destuser->name</b> of your request.
-    ";
+    page_head(tra("Friend request sent"));
+    echo tra("We have notified %1 of your request.","<b>".$destuser->name."</b>");
     page_tail();
 }
 
@@ -124,16 +120,14 @@ function handle_add_confirm($user) {
 function handle_query($user) {
     $srcid = get_int('userid');
     $srcuser = BoincUser::lookup_id($srcid);
-    if (!$srcuser) error_page("No such user");
+    if (!$srcuser) error_page(tra("No such user"));
     $friend = BoincFriend::lookup($srcid, $user->id);
-    if (!$friend) error_page("Request not found");
-    page_head("Friend request");
+    if (!$friend) error_page(tra("Request not found"));
+    page_head(tra("Friend request"));
     $x = user_links($srcuser, true);
-    echo "
-        $x has added you as a friend.
-    ";
+    echo tra("%1 has added you as a friend.", $x);
     if (strlen($friend->message)) {
-        echo "<p>$srcuser->name says: $friend->message<p>";
+        echo "<p>".tra("%1 says: %2", $srcuser->name, $friend->message)."</p>";
     }
     echo "
         <p><ul class=\"actionlist\">";
@@ -149,11 +143,11 @@ function handle_query($user) {
 function handle_accept($user) {
     $srcid = get_int('userid');
     $srcuser = BoincUser::lookup_id($srcid);
-    if (!$srcuser) error_page("No such user");
+    if (!$srcuser) error_page(tra("No such user"));
 
     $friend = BoincFriend::lookup($srcid, $user->id);
     if (!$friend) {
-        error_page("No request");
+        error_page(tra("No request"));
     }
     $friend->update("reciprocated=1");
 
@@ -163,7 +157,7 @@ function handle_accept($user) {
     $now = time();
     $ret = BoincFriend::replace("user_src=$user->id, user_dest=$srcid, message='$msg', create_time=$now, reciprocated=1");
     if (!$ret) {
-        error_page("database error");
+        error_page(tra("Database error"));
     }
     $type = NOTIFY_FRIEND_ACCEPT;
     BoincNotify::replace("userid=$srcid, create_time=$now, type=$type, opaque=$user->id");
@@ -177,10 +171,8 @@ function handle_accept($user) {
         $notify->delete();
     }
 
-    page_head("Friendship confirmed");
-    echo "
-        Your friendship with <b>$srcuser->name</b> has been confirmed.
-    ";
+    page_head(tra("Friendship confirmed"));
+    echo tra("Your friendship with %1 has been confirmed.","<b>" . $srcuser->name ."</b>");
     page_tail();
 }
 
@@ -198,10 +190,8 @@ function handle_ignore($user) {
     if ($notify) {
         $notify->delete();
     }
-    page_head("Friendship declined");
-    echo "
-        You have declined friendship with <b>$srcuser->name</b>
-    ";
+    page_head(tra("Friendship declined"));
+    echo tra("You have declined friendship with %1","<b>".$srcuser->name."</b>");
     page_tail();
 }
 
@@ -211,31 +201,28 @@ function handle_ignore($user) {
 function handle_accepted($user) {
     $destid = get_int('userid');
     $destuser = BoincUser::lookup_id($destid);
-    if (!$destuser) error_page("No such user");
+    if (!$destuser) error_page(tra("No such user"));
     $notify = BoincNotify::lookup($user->id, NOTIFY_FRIEND_ACCEPT, $destid);
     if ($notify) {
         $notify->delete();
     } else {
-        echo "?? notification not found";
+        echo tra("Notification not found");
     }
-    page_head("Friend confirmed");
-    echo "
-        You are now friends with $destuser->name.
-    ";
+    page_head(tra("Friend confirmed"));
+    echo tra("You are now friends with %1.",$destuser->name);
     page_tail();
 }
 
 function handle_cancel_confirm($user) {
     $destid = get_int('userid');
     $destuser = BoincUser::lookup_id($destid);
-    if (!$destuser) error_page("No such user");
-    page_head("Cancel friendship?");
-    echo "
-        Are you sure you want to cancel your friendship with $destuser->name?
+    if (!$destuser) error_page(tra("No such user"));
+    page_head(tra("Cancel friendship?"));
+    echo tra("Are you sure you want to cancel your friendship with %1?",$destuser->name) ."
         <p>
     <ul class=\"actionlist\">";
-    show_actionlist_button("friend.php?action=cancel&userid=$destid", tra("Yes"), "Cancel friendship");
-    show_actionlist_button("home.php", tra("No"), "Stay friends");
+    show_actionlist_button("friend.php?action=cancel&userid=$destid", tra("Yes"), tra("Cancel friendship"));
+    show_actionlist_button("home.php", tra("No"), tra("Stay friends"));
     echo "</ul>";
     page_tail();
 }
@@ -243,12 +230,10 @@ function handle_cancel_confirm($user) {
 function handle_cancel($user) {
     $destid = get_int('userid');
     $destuser = BoincUser::lookup_id($destid);
-    if (!$destuser) error_page("No such user");
+    if (!$destuser) error_page(tra("No such user"));
     BoincFriend::delete($user->id, $destid);
-    page_head("Friendship cancelled");
-    echo "
-        Your friendship with $destuser->name has been cancelled.
-    ";
+    page_head(tra("Friendship cancelled"));
+    echo tra("Your friendship with %1 has been cancelled.",$destuser->name);
     page_tail();
 }
 
@@ -286,7 +271,7 @@ case 'cancel':
     handle_cancel($user);
     break;
 default:
-    error_page("unknown action");
+    error_page(tra("Unknown action"));
 }
 
 ?>
