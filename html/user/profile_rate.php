@@ -22,26 +22,26 @@ require_once("../inc/boinc_db.inc");
 $userid = get_int('userid');
 $vote = get_str('vote');
 
+$logged_in_user = get_logged_in_user();
 if ($vote != "recommend" && $vote != "reject") {
-    echo "Invalid vote type.<br>";
-    exit();
+    error_page(tra("Invalid vote type:")." ".htmlentities($vote));
 }
 
 BoincProfile::update_aux("$vote=$vote+1 WHERE userid = $userid");
 
-page_head("Vote Recorded");
+page_head(tra("Vote Recorded"));
 
 start_table_noborder();
 
-row1("Thank you");
+row1(tra("Thank you"));
 
 if ($vote == "recommend") {
-    rowify("Your recommendation has been recorded.");
+    rowify(tra("Your recommendation has been recorded."));
 } else {
-    rowify("Your vote to reject has been recorded.");
+    rowify(tra("Your vote to reject this profile has been recorded."));
 }
 end_table();
-echo "<br><a href=\"view_profile.php?userid=", $userid ,"\">Return to profile.</a>";
+echo "<br><a href=\"view_profile.php?userid=", $userid ,"\">" . tra("Return to profile.") . "</a>";
 
 page_tail();
 
