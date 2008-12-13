@@ -28,8 +28,7 @@ require_once("../inc/akismet.inc");
 //
 function show_combo_box($name, $filename, $selection=null) {
     if (!file_exists($filename)) {
-        echo "ERROR: $filename does not exist!  Cannot create combo box.<br>";
-        exit();
+        error_page(tra("ERROR: %1 does not exist!  Cannot create combo box.<br>", htmlentities($filename)));
     }
     echo "<select name=\"$name\">\n";
 
@@ -49,7 +48,7 @@ function show_combo_box($name, $filename, $selection=null) {
 
 
 function show_picture_option($profile) {
-    row1("Picture");
+    row1(tra("Picture"));
 
     $warning = "";
     if (profile_screening() && $profile->has_picture) {
@@ -63,13 +62,12 @@ function show_picture_option($profile) {
 <tr>
 <td valign=top><a href=\"" . IMAGE_URL . $profile->userid . '.jpg' . "\"><img src=\"" . IMAGE_URL . $profile->userid . '_sm.jpg' . "\"></a>
 </td>
-<td valign=top> $warning Your profile picture is shown at left.
-<p>
-To replace it,
-click the \"Browse\" button and select a JPEG or PNG file (50KB or less).
+<td valign=top>" .tra("%1 Your profile picture is shown to the left.",  $warning) ."
+<p>". 
+tra("To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 or less).", "50KB") ."<br />
 <input name=picture type=file><br>
-<p>
-To remove it from your profile, check this box:
+<p>". 
+tra("To remove it from your profile, check this box:") . "
 <input type=checkbox name=delete_pic>
 <p>
 </td></tr>";
@@ -77,10 +75,7 @@ To remove it from your profile, check this box:
         end_table();
         echo "</td></tr>";
     } else {
-        rowify("
-If you would like include a picture with your profile,
-click the \"Browse\" button and select a JPEG or PNG file.
-Please select images of 50KB or less.
+        rowify(tra("If you would like include a picture with your profile, click the \"Browse\" button and select a JPEG or PNG file. Please select images of %1 or less.", "50KB") . "
 <p>
 <input name=picture type=file>
         ");
@@ -89,10 +84,10 @@ Please select images of 50KB or less.
 }
 
 function show_language_selection($profile) {
-    row1("Language");
+    row1(tra("Language"));
     echo "<tr><td>
-        <p>
-        Select the language in which your profile is written:
+        <p>" . 
+        tra("Select the language in which your profile is written:") . "
         <p>
     ";
     if (isset($profile->language)) {
@@ -104,15 +99,15 @@ function show_language_selection($profile) {
 }
 
 function show_submit() {
-    row1("Submit profile");
+    row1(tra("Submit profile"));
     echo "<script>var RecaptchaOptions = { theme : 'white' };</script>";
     $config = get_config();
     $publickey = parse_config($config, "<recaptcha_public_key>");
     if ($publickey) {
-        table_row("To protect project's webpages from spam, we ask you to type in two words shown in the image:<br>\n".
+        table_row(tra("To protect the project's webpages from spam, we kindly ask you to type in the two words shown in the image:<br>\n").
             recaptcha_get_html($publickey));
     }
-    table_row("<p><input type=\"submit\" value=\"Create/edit profile\" name=\"submit\">");
+    table_row("<p><input type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
 }
 
 // Returns an array containing:
@@ -134,7 +129,7 @@ function getImages($fileName) {
         $image = imageCreateFromPNG($fileName);
         break;
     default:
-        error_page("The format of your uploaded image is not supported.");
+        error_page(tra("The format of your uploaded image is not supported."));
     }
 
     $width = $size[0];
@@ -163,9 +158,7 @@ function getImages($fileName) {
 
 function show_description() {
     echo "
-        <p>
-        Your <b>profile</b> lets you share your opinions and background
-        with the ".PROJECT." community.
+        <p>" .tra("Your %1profile%2 lets you share your opinions and background with the %3 community.", "<b>", "</b>", PROJECT) . "
         <p>
     ";
 }
@@ -197,6 +190,8 @@ function show_textarea($name, $text) {
 // Don't assign to $profile->x if this is the case.
 //
 function process_create_profile($user, $profile) {
+    global $config;
+    
     $response1 = post_str('response1', true);
     $response2 = post_str('response2', true);
     $language = post_str('language');
@@ -210,7 +205,7 @@ function process_create_profile($user, $profile) {
             $profile->response1 = $response1;
             $profile->response2 = $response2;
             show_profile_form($profile,
-                "Your ReCaptcha response was not correct.  Please try again."
+                tra("Your ReCaptcha response was not correct.  Please try again.")
             );
             return;
         }
@@ -219,8 +214,7 @@ function process_create_profile($user, $profile) {
         $profile->response1 = $response1;
         $profile->response2 = $response2;
         show_profile_form($profile,
-            "Your first response was flagged as spam by the Akismet
-            anti-spam system.  Please modify your text and try again."
+            tra("Your first response was flagged as spam by the Akismet anti-spam system.  Please modify your text and try again.")
         );
         return;
     }
@@ -228,8 +222,7 @@ function process_create_profile($user, $profile) {
         $profile->response1 = $response1;
         $profile->response2 = $response2;
         show_profile_form($profile,
-            "Your second response was flagged as spam by the Akismet
-            anti-spam system.  Please modify your text and try again."
+            tra("Your second response was flagged as spam by the Akismet anti-spam system.  Please modify your text and try again.")
         );
         return;
     }
@@ -245,7 +238,7 @@ function process_create_profile($user, $profile) {
         $delete_pic != "on" &&
         !is_uploaded_file($_FILES['picture']['tmp_name'])
     ) {
-        error_page("Your profile submission was empty.");
+        error_page(tra("Your profile submission was empty."));
         exit();
     }
 
@@ -284,7 +277,7 @@ function process_create_profile($user, $profile) {
             ." WHERE userid = '$user->id'";
         $result = BoincProfile::update_aux($query);
         if (!$result) {
-            error_page("Couldn't update profile: database error");
+            error_page(tra("Could not update the profile: database error"));
         }
     } else {
         $query = 'SET '
@@ -296,27 +289,23 @@ function process_create_profile($user, $profile) {
             ." verification=0";
         $result = BoincProfile::insert($query);
         if (!$result) {
-            error_page("Couldn't create profile: database error");
+            error_page(tra("Could not create the profile: database error"));
         }
         $user->update("has_profile=1");
     }
 
-    page_head("Profile saved");
+    page_head(tra("Profile saved"));
 
-    echo "
-        Congratulations!
-        Your profile was successfully entered into our database.<br><br>
-        <a href=view_profile.php?userid=$user->id>View your profile</a><br>
-    ";
-
+    echo tra("Congratulations! Your profile was successfully entered into our database.").
+	"<br><br>". tra("%1View your profile%2", "<a href=\"view_profile.php?userid=".$user->id."\">", "</a><br>");
     page_tail();
 }
 
 function show_profile_form($profile, $warning=null) {
     if ($profile) {
-        page_head("Edit your profile");
+        page_head(tra("Edit your profile"));
     } else {
-        page_head("Create a profile");
+        page_head(tra("Create a profile"));
     }
 
     if ($warning) {
@@ -344,7 +333,7 @@ $config = get_config();
 $min_credit = parse_config($config, "<profile_min_credit>");
 if ($min_credit && $user->expavg_credit < $min_credit) {
     error_page(
-        "To prevent spam, an average credit of $min_credit or greater is required to create or edit a profile.  We apologize for this inconvenience."
+        tra("To prevent spam, an average credit of %1 or greater is required to create or edit a profile.  We apologize for this inconvenience.", $min_credit)
     );
 }
 
