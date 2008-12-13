@@ -24,7 +24,7 @@ require_once("../inc/result.inc");
 
 $config = get_config();
 if (!parse_bool($config, "show_results")) {
-    error_page("This feature is turned off temporarily");
+    error_page(tra("This feature is turned off temporarily"));
 }
 
 $results_per_page = 20;
@@ -36,17 +36,19 @@ if (!$offset) $offset=0;
 
 if ($hostid) {
     $host = BoincHost::lookup_id($hostid);
-    $type = "computer";
+    if (!$host) error_page(tra("No host with hostid %1 found", $hostid));
     $clause = "hostid=$hostid";
-} else {
+    page_head(tra("Tasks for host %1", $host->id));
+} else if ($userid){
     $user = get_logged_in_user();
     if ($userid != $user->id) {
-        error_page("No access");
+        error_page(tra("No access"));
     }
-    $type = "user";
     $clause = "userid=$userid";
+    page_head(tra("Tasks for user"));
+} else {
+    error_page(tra("You must provide either a hostid or a userid as parameter"));
 }
-page_head("Tasks for $type");
 result_table_start(true, false, true);
 $query = "$clause order by id desc limit $offset,".($results_per_page+1);
 $results = BoincResult::enum($query);
