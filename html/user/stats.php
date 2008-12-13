@@ -20,35 +20,25 @@
 
 require_once('../inc/util.inc');
 require_once('../inc/stats_sites.inc');
-page_head('Statistics and leaderboards');
+page_head(tra('Statistics and leaderboards'));
 
 echo "
-<p>
-Statistics for ".PROJECT.":
+<p>"
+. tra("Statistics for %1",PROJECT).":
 <ul>
-<li><a href=\"top_users.php\">Top participants</a>
-<li><a href=\"top_hosts.php\">Top computers</a>
-<li><a href=\"top_teams.php\">Top teams</a>
+<li><a href=\"top_users.php\">" . tra("Top participants")."</a>
+<li><a href=\"top_hosts.php\">" . tra("Top computers")."</a>
+<li><a href=\"top_teams.php\">" . tra("Top teams"). "</a>
 </ul>
 
-<p>
-More detailed statistics for ".PROJECT."
-and other BOINC-based projects are available
-at several web sites:
-";
+<p>".
+tra("More detailed statistics for %1 and other BOINC-based projects are available at several web sites:", PROJECT);
 shuffle($stats_sites);
 site_list($stats_sites);
-echo "
-You can get your current statistics in the form
-of a 'signature image':
-";
+echo tra("You can also get your current statistics in the form of a \"signature image\":");
 shuffle($sig_sites);
 site_list($sig_sites);
-echo "
-You can get your individual statistics
-across all BOINC projects from several sites;
-see your <a href=\"home.php\">home page</a>.
-";
+echo tra("Additionally you can get your individual statistics summed across all BOINC projects from several sites; see your %1home page%2.", '<a href=\"home.php\">','</a>');
 
 page_tail();
 ?>
