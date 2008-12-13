@@ -22,15 +22,12 @@ require_once("../inc/team.inc");
 
 $user = get_logged_in_user();
 
-page_head("Create a team");
+page_head(tra("Create a team"));
 if ($user->teamid) {
     $team = BoincTeam::lookup_id($user->teamid);
-    echo "You belong to 
-        <a href=team_display.php?teamid=$team->id>$team->name</a>.
-        You must <a href=team_quit_form.php>quit this team</a> before creating a new one.
-    ";
+    echo tra("You belong to %1. You must %2quit this team%3 before creating a new one.", "<a href=\"team_display.php?teamid=".$team->id."\">".$team->name."</a>", "<a href=\"team_quit_form.php\">", "</a>");
 } else {
-    team_edit_form(null, "Create team", "team_create_action.php");
+    team_edit_form(null, tra("Create a team"), "team_create_action.php");
 }
 page_tail();
 ?>
