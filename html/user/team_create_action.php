@@ -22,14 +22,14 @@ require_once("../inc/team.inc");
 
 $user = get_logged_in_user();
 
-$name = post_str("name"); 
+$name = post_str("name", true); 
 if (strlen($name) == 0) {
-    error_page("You must choose a non-blank team name");
+    error_page(tra("You must choose a non-blank team name"));
 }
 
 $new_team = lookup_team_name($name);
 if ($new_team) {
-    error_page("A team named '$name' already exists - try another name");
+    error_page(tra("A team named %1 already exists - try another name", htmlentities($name)));
 }
 
 $url = post_str("url", true);
@@ -49,7 +49,7 @@ if ($new_team) {
     user_join_team($new_team, $user);
     Header("Location: team_display.php?teamid=$new_team->id");
 } else {
-    error_page("Could not create team - please try later.");
+    error_page(tra("Could not create team - please try later."));
 }
 
 ?>
