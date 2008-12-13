@@ -22,23 +22,20 @@ require_once("../inc/cache.inc");
 
 
 start_cache(3600);
-page_head("Download BOINC add-on software");
+page_head(tra("Download BOINC add-on software"));
 echo "
-    <p>
-    You can download applications in several categories.
+    <p>" .
+    tra("You can download applications in several categories.") ."
     <ul>
-    <li>
-    These applications are not endorsed by ".PROJECT." and
-    you use them at your own risk.
-    <li>
-    We do not provide instructions for installing these applications.
-    However, the author may have provided some help on installing or
-    uninstalling the application.
-    If this is not enough you should contact the author.
-    Instructions for installing and running BOINC are
-    <a href=http://boinc.berkeley.edu/participate.php>here</a>.
-    <li>
-    This list is managed centrally at <a href='http://boinc.berkeley.edu/addons.php'>the BOINC website</a>.
+    <li>".
+    tra("These applications are not endorsed by %1 and you use them at your own risk.", PROJECT) ."
+    <li>" .
+    tra("We do not provide instructions for installing these applications.
+However, the author may have provided some help on installing or uninstalling the application. 
+If this is not enough you should contact the author.").
+    tra("Instructions for installing and running BOINC are %1here%2.", "<a href=http://boinc.berkeley.edu/participate.php>", "</a>")
+    . "<li>" . 
+    tra("This list is managed centrally at %1the BOINC website%2.", "<a href=\"http://boinc.berkeley.edu/addons.php\">", "</a>") ."
     </ul>
 ";
 
