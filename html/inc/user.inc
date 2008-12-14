@@ -381,12 +381,12 @@ function make_user(
     $now = time();
     if (!is_valid_country($country)) return null;
 
-    $email_addr = process_user_text($email_addr);
-    $name = process_user_text($name);
-    $passwd_hash = process_user_text($passwd_hash);
+    $email_addr = BoincDb::escape_string($email_addr);
+    $name = BoincDb::escape_string($name);
+    $passwd_hash = BoincDb::escape_string($passwd_hash);
 
     $country = BoincDb::escape_string($country);
-    $postal_code = strip_tags(process_user_text($postal_code));
+    $postal_code = strip_tags(BoincDb::escape_string($postal_code));
 
     $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, 1, 1, '$cross_project_id', '$passwd_hash')");
 

@@ -93,7 +93,7 @@ function handle_add_confirm($user) {
     check_ignoring($user, $destuser);
 
     $msg = post_str('message', true);
-    if ($msg) $msg = strip_tags(process_user_text($msg));
+    if ($msg) $msg = strip_tags(BoincDb::escape_string($msg));
 
     $now = time();
     $ret = BoincFriend::replace(
@@ -153,7 +153,7 @@ function handle_accept($user) {
 
     // "accept message" not implemented in interface yet
     $msg = post_str('message', true);
-    if ($msg) $msg = strip_tags(process_user_text($msg));
+    if ($msg) $msg = strip_tags(BoincDb::escape_string($msg));
     $now = time();
     $ret = BoincFriend::replace("user_src=$user->id, user_dest=$srcid, message='$msg', create_time=$now, reciprocated=1");
     if (!$ret) {

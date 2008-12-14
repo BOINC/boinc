@@ -32,7 +32,7 @@ $format = get_str("format", true);
 if ($format == "xml") {
     xml_header();
     
-    $auth = process_user_text(get_str('authenticator'));
+    $auth = BoincDb::escape_string(get_str('authenticator'));
     $user = BoincUser::lookup("authenticator='$auth'");
     if (!$user) {
         echo "<error>".xml_error(-136)."</error>\n";

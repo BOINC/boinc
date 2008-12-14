@@ -10065,3 +10065,25 @@ Rom    12 Dec 2008
         CAGrantBOINCProjectRights.cpp
         CAGrantBOINCProjectsRights.cpp
         CAGrantBOINCUsersRights.cpp
+
+David  14 Dec 2008
+    - web: replace the vaguely-named process_user_text()
+        with BoincDb::escape_string()
+    - web: have BoincDb::escape_string() also do a trim()
+
+    html/
+        inc/
+            boinc_db.inc
+            db.inc
+            user.inc
+            util.inc
+        user/
+            account_finish_action.php
+            am_set_host_info.php
+            am_set_info.php
+            edit_email_action.php
+            edit_user_info_action.php
+            forum_moderate_thread_action.php
+            friend.php
+            pending.php
+            team_edit_action.php

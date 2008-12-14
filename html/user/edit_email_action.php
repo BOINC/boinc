@@ -50,7 +50,7 @@ if (!is_valid_email_addr($email_addr)) {
             echo "Invalid password.";
         } else {
             $passwd_hash = md5($passwd.$email_addr);
-            $email_addr = process_user_text($email_addr);
+            $email_addr = BoincDb::escape_string($email_addr);
             $result = $user->update(
                 "email_addr='$email_addr', passwd_hash='$passwd_hash', email_validated=0"
             );

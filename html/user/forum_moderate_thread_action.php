@@ -88,7 +88,7 @@ case "move":
     break;
 case "title":
     $new_title = post_str('newtitle');
-    $title = process_user_text($new_title);
+    $title = BoincDb::escape_string($new_title);
     $result = $thread->update("title='$title'");
     $action_name = "renamed from '$thread->title' to '$new_title'";
     break;

@@ -113,15 +113,6 @@ function boinc_real_escape_string($x) {
     }
 }
 
-// Process user-supplied text prior to using in query;
-// trims whitespace and escapes quotes.
-// Does NOT remove HTML tags.
-//
-function process_user_text($x) {
-    $x = trim($x);
-    return boinc_real_escape_string($x);
-}
-
 // escape a string for MySQL "like"
 //
 function escape_pattern($str) {

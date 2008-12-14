@@ -74,7 +74,7 @@ function get_logged_in_user($must_be_logged_in=true) {
     $authenticator = null;
     if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
 
-    $authenticator = process_user_text($authenticator);
+    $authenticator = BoincDb::escape_string($authenticator);
     if ($authenticator) {
         $g_logged_in_user = BoincUser::lookup("authenticator='$authenticator'");
     }

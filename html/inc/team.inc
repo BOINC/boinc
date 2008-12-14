@@ -515,20 +515,19 @@ function transfer_ok($team, $now) {
 function make_team(
     $userid, $name, $url, $type, $name_html, $description, $country
 ) {
-    $name = process_user_text(strip_tags($name));
+    $name = BoincDb::escape_string(strip_tags($name));
     if (strlen($name) == 0) return null;
     $name_lc = strtolower($name);
-    $url = process_user_text(strip_tags($url));
+    $url = BoincDb::escape_string(strip_tags($url));
     if (strstr($url, "http://")) {
         $url = substr($url, 7);
     }
-    $name_html = process_user_text($name_html);
-    $description = process_user_text($description);
-    $country = process_user_text($country);
+    $name_html = BoincDb::escape_string($name_html);
+    $description = BoincDb::escape_string($description);
     if (!is_valid_country($country)) {
         $country = 'None';
     }
-    $country = boinc_real_escape_string($country);  // for Cote d'Ivoire
+    $country = BoincDb::escape_string($country);  // for Cote d'Ivoire
 
     $clause = sprintf(
         "(userid, create_time, name, name_lc, url, type, name_html, description, country, nusers, expavg_time) values(%d, %d, '%s', '%s', '%s', %d, '%s', '%s', '%s', %d, unix_timestamp())",

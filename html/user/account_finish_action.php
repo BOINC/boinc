@@ -34,11 +34,12 @@ $country = post_str("country");
 if (!is_valid_country($country)) {
     error_page( "invalid country");
 }
+$country = BoincDb::escape_string($country);
+$postal_code = BoincDb::escape_string(strip_tags(post_str("postal_code", true)));
+$auth = BoincDb::escape_string($auth);
 
-$postal_code = strip_tags(post_str("postal_code", true));
-
-$name = process_user_text($name);
-$postal_code = process_user_text($postal_code);
+$name = BoincDb::escape_string($name);
+$postal_code = BoincDb::escape_string($postal_code);
 
 $user = BoincUser::lookup("authenticator='$auth'");
 if (!$user) {

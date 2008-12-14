@@ -40,12 +40,13 @@ if ($country == "") {
 if (!is_valid_country($country)) {
     error_page("bad country");
 }
+$country = BoincDb::escape_string($country);
 $postal_code = post_str("postal_code", true);
 $postal_code = strip_tags($postal_code);
 
-$name = process_user_text($name);
-$url = process_user_text($url);
-$postal_code = process_user_text($postal_code);
+$name = BoincDb::escape_string($name);
+$url = BoincDb::escape_string($url);
+$postal_code = BoincDb::escape_string($postal_code);
 
 $result = $user->update(
     "name='$name', url='$url', country='$country', postal_code='$postal_code'"

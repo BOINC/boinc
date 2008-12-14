@@ -28,22 +28,22 @@ $team = BoincTeam::lookup_id($teamid);
 if (!$team) error_page("no such team");
 require_admin($user, $team);
 
-$team_url = process_user_text(strip_tags(post_str("url", true)));
+$team_url = BoincDb::escape_string(strip_tags(post_str("url", true)));
 $x = strstr($team_url, "http://");
 if ($x) {
     $team_url = substr($team_url, 7);
 }
-$team_name = process_user_text(strip_tags(post_str("name")));
+$team_name = BoincDb::escape_string(strip_tags(post_str("name")));
 $team_name_lc = strtolower($team_name);
 
 $tnh = post_str("name_html", true);
 $team_name_html = sanitize_html($tnh);
 
-$team_name_html = process_user_text($team_name_html);
+$team_name_html = BoincDb::escape_string($team_name_html);
 
-$team_description = process_user_text(post_str("description", true));
-$type = process_user_text(post_str("type", true));
-$country = process_user_text(post_str("country", true));
+$team_description = BoincDb::escape_string(post_str("description", true));
+$type = BoincDb::escape_string(post_str("type", true));
+$country = BoincDb::escape_string(post_str("country", true));
 if ($country == "") {
     $country = "International";
 }

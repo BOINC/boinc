@@ -24,7 +24,7 @@ xml_header();
 $db = BoincDb::get();
 if (!$db) xml_error($retval);
 
-$auth = process_user_text(get_str("account_key"));
+$auth = BoincDb::escape_string(get_str("account_key"));
 $user = BoincUser::lookup("authenticator='$auth'");
 if (!$user) {
     xml_error(-136);
@@ -37,7 +37,7 @@ if (!$host || $host->userid != $user->id) {
     xml_error(-136);
 }
 
-$venue = process_user_text(get_str("venue"));
+$venue = BoincDb::escape_string(get_str("venue"));
 
 $result = $host->update("venue='$venue'");
 if ($result) {
