@@ -110,6 +110,7 @@ function bb2html($text) {
     $httpsregex = "(?:\"?)https\:\/\/([^\[\"<\ ]+)(?:\"?)";
     // List of allowable tags
     $bbtags = array (
+        "@\[code\](.*?)\[/code\]@eis",
         "@\[b\](.*?)\[/b\]@is",
         "@\[i\](.*?)\[/i\]@is",
         "@\[u\](.*?)\[/u\]@is",
@@ -128,7 +129,6 @@ function bb2html($text) {
         "@\[color=(?:\"?)(.{3,8})(?:\"?)\](.*?)\[/color\]@is",
         "@((?:<ol>|<ul>).*?)\n\*([^\n]+)\n(.*?(</ol>|</ul>))@is",
         "@\[size=([1-9]|[0-2][0-9])\](.*?)\[/size\]@is",
-        "@\[code\](.*?)\[/code\]@is",
         "@\[mailto\](.*?)\[/mailto\]@is",
         "@\[email\](.*?)\[/email\]@is",
         "@\[trac\](?:\#|ticket:)(\d+)\[/trac\]@is",
@@ -141,6 +141,7 @@ function bb2html($text) {
     
     // What the above tags are turned in to
     $htmltags = array (
+        "'<div class=\"code\">'.stop_recursion('\\1').'</div>'",
         "<b>\\1</b>",
         "<i>\\1</i>",
         "<u>\\1</u>",
@@ -159,7 +160,6 @@ function bb2html($text) {
         "<font color=\"\\1\">\\2</font>",
         "\\1<li>\\2\n\\3",
         "<span style=\"font-size: \\1px;\">\\2</span>",
-        "<div class=\"code\">\\1</div>",
         "<a href=\"mailto:\\1\">\\1</a>",
         "<a href=\"mailto:\\1\">\\1</a>",
         "<a href=\"http://boinc.berkeley.edu/trac/ticket/\\1\">#\\1</a>",
@@ -179,8 +179,16 @@ function bb2html($text) {
     return $text;
 }
 
-// Make links open in new windows.
+/**
+ * Stops recursion of BBCode by escaping any [ in the given text
+ * @param $text The text to stop recursion in
+ * @return A text that no longer can cause recursion
+ **/
+function stop_recursion($text){
+    return str_replace("[", "&#91;", $text);
+}
 
+// Make links open in new windows.
 function externalize_links($text) {
     // TODO:  Convert this to PCRE
     $i=0;$linkpos=true;
