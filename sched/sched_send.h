@@ -46,15 +46,14 @@ extern bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av);
 #define INFEASIBLE_HR       8
 #define INFEASIBLE_BANDWIDTH 9
 
-extern int wu_is_infeasible_fast(
-    WORKUNIT&, SCHEDULER_REQUEST&, SCHEDULER_REPLY&, APP&
-);
+extern int wu_is_infeasible_fast(WORKUNIT&, APP&, BEST_APP_VERSION&);
  
 extern double max_allowable_disk(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
 
 extern bool wu_already_in_reply(WORKUNIT& wu, SCHEDULER_REPLY& reply);
 
-extern double estimate_cpu_duration(WORKUNIT& wu, SCHEDULER_REPLY& reply);
+//extern double estimate_cpu_duration(WORKUNIT& wu, SCHEDULER_REPLY& reply);
+extern double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION&);
 
 extern int update_wu_transition_time(WORKUNIT wu, time_t x);
 

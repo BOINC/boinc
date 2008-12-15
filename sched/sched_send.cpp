@@ -334,6 +334,7 @@ double max_allowable_disk(SCHEDULER_REQUEST& req, SCHEDULER_REPLY& reply) {
 //
 const double HOST_ACTIVE_FRAC_MIN = 0.1;
 
+#if 0
 // estimate the number of CPU seconds that a workunit requires
 // running on this host.
 //
@@ -344,6 +345,13 @@ double estimate_cpu_duration(WORKUNIT& wu, SCHEDULER_REPLY& reply) {
     if (rsc_fpops_est <= 0) rsc_fpops_est = 1e12;
     return rsc_fpops_est/p_fpops;
 }
+#endif
+
+static double estimate_duration_unscaled(WORKUNIT& wu, BEST_APP_VERSION& bav) {
+    double rsc_fpops_est = wu.rsc_fpops_est;
+    if (rsc_fpops_est <= 0) rsc_fpops_est = 1e12;
+    return rsc_fpops_est/bav.host_usage.flops;
+}
 
 // estimate the amount of real time to complete this WU,
 // taking into account active_frac etc.
@@ -351,17 +359,15 @@ double estimate_cpu_duration(WORKUNIT& wu, SCHEDULER_REPLY& reply) {
 // The core client no longer necessarily does round-robin
 // across all projects.
 //
-static double estimate_wallclock_duration(
-    WORKUNIT& wu, SCHEDULER_REQUEST&, SCHEDULER_REPLY& reply
-) {
-    double ecd = estimate_cpu_duration(wu, reply);
-    double ewd = ecd/reply.wreq.running_frac;
-    if (!config.ignore_dcf && reply.host.duration_correction_factor) {
-        ewd *= reply.host.duration_correction_factor;
+double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
+    double x = estimate_duration_unscaled(wu, bav);
+    double ewd = x/g_reply->wreq.running_frac;
+    if (!config.ignore_dcf && g_reply->host.duration_correction_factor) {
+        ewd *= g_reply->host.duration_correction_factor;
     }
     if (config.debug_send) {
         log_messages.printf(MSG_DEBUG,
-            "est cpu dur %f;  est wall dur %f\n", ecd, ewd
+            "est. duration for WU %d: unscaled %f scaled %f\n", wu.id, x, ewd
         );
     }
     return ewd;
@@ -569,7 +575,7 @@ static inline bool hard_app(APP& app) {
 }
 
 static inline int check_deadline(
-    WORKUNIT& wu, APP& app, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
+    WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav
 ) {
     if (config.ignore_delay_bound) return 0;
 
@@ -577,28 +583,28 @@ static inline int check_deadline(
     // and it's not a hard app.
     // (i.e. everyone gets one result, no matter how slow they are)
     //
-    if (request.estimated_delay == 0 && !hard_app(app)) return 0;
+    if (g_request->estimated_delay == 0 && !hard_app(app)) return 0;
 
     // if it's a hard app, don't send it to a host with no credit
     //
-    if (hard_app(app) && reply.host.total_credit == 0) {
+    if (hard_app(app) && g_reply->host.total_credit == 0) {
         return INFEASIBLE_CPU;
     }
 
-    double ewd = estimate_wallclock_duration(wu, request, reply);
+    double ewd = estimate_duration(wu, bav);
     if (hard_app(app)) ewd *= 1.3;
-    double est_completion_delay = request.estimated_delay + ewd;
-    double est_report_delay = max(est_completion_delay, request.global_prefs.work_buf_min());
+    double est_completion_delay = g_request->estimated_delay + ewd;
+    double est_report_delay = max(est_completion_delay, g_request->global_prefs.work_buf_min());
     double diff = est_report_delay - wu.delay_bound;
     if (diff > 0) {
         if (config.debug_send) {
             log_messages.printf(MSG_DEBUG,
                 "[WU#%d %s] est report delay %d on [HOST#%d]; delay_bound is %d\n",
                 wu.id, wu.name, (int)est_report_delay,
-                reply.host.id, wu.delay_bound
+                g_reply->host.id, wu.delay_bound
             );
         }
-        reply.wreq.speed.set_insufficient(diff);
+        g_reply->wreq.speed.set_insufficient(diff);
         return INFEASIBLE_CPU;
     }
     return 0;
@@ -612,28 +618,26 @@ static inline int check_deadline(
 //    the host probably won't get the result done within the delay bound
 // 4) app isn't in user's "approved apps" list
 //
-int wu_is_infeasible_fast(
-    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply, APP& app
-) {
+int wu_is_infeasible_fast(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
     int retval;
 
     // homogeneous redundancy, quick check
     //
     if (app_hr_type(app)) {
-        if (hr_unknown_platform_type(reply.host, app_hr_type(app))) {
+        if (hr_unknown_platform_type(g_reply->host, app_hr_type(app))) {
             if (config.debug_send) {
                 log_messages.printf(MSG_DEBUG,
                     "[HOST#%d] [WU#%d %s] host is of unknown class in HR type %d\n",
-                    reply.host.id, wu.id, wu.name, app_hr_type(app)
+                    g_reply->host.id, wu.id, wu.name, app_hr_type(app)
                 );
             }
             return INFEASIBLE_HR;
         }
-        if (already_sent_to_different_platform_quick(request, wu, app)) {
+        if (already_sent_to_different_platform_quick(*g_request, wu, app)) {
             if (config.debug_send) {
                 log_messages.printf(MSG_DEBUG,
                     "[HOST#%d] [WU#%d %s] failed quick HR check: WU is class %d, host is class %d\n",
-                    reply.host.id, wu.id, wu.name, wu.hr_class, hr_class(request.host, app_hr_type(app))
+                    g_reply->host.id, wu.id, wu.name, wu.hr_class, hr_class(g_request->host, app_hr_type(app))
                 );
             }
             return INFEASIBLE_HR;
@@ -641,38 +645,38 @@ int wu_is_infeasible_fast(
     }
     
     if (config.one_result_per_user_per_wu || config.one_result_per_host_per_wu) {
-        if (wu_already_in_reply(wu, reply)) {
+        if (wu_already_in_reply(wu, *g_reply)) {
             return INFEASIBLE_DUP;
         }
     }
 
-    retval = check_memory(wu, request, reply);
+    retval = check_memory(wu, *g_request, *g_reply);
     if (retval) return retval;
-    retval = check_disk(wu, request, reply);
+    retval = check_disk(wu, *g_request, *g_reply);
     if (retval) return retval;
-    retval = check_bandwidth(wu, request, reply);
+    retval = check_bandwidth(wu, *g_request, *g_reply);
     if (retval) return retval;
 
     // do this last because EDF sim uses some CPU
     //
-    if (config.workload_sim && request.have_other_results_list) {
-        double est_cpu = estimate_cpu_duration(wu, reply);
-        if (reply.wreq.edf_reject_test(est_cpu, wu.delay_bound)) {
+    if (config.workload_sim && g_request->have_other_results_list) {
+        double est_dur = estimate_duration(wu, bav);
+        if (g_reply->wreq.edf_reject_test(est_dur, wu.delay_bound)) {
             return INFEASIBLE_WORKLOAD;
         }
-        IP_RESULT candidate("", wu.delay_bound, est_cpu);
+        IP_RESULT candidate("", wu.delay_bound, est_dur);
         strcpy(candidate.name, wu.name);
-        if (check_candidate(candidate, effective_ncpus(request, reply), request.ip_results)) {
+        if (check_candidate(candidate, effective_ncpus(*g_request, *g_reply), g_request->ip_results)) {
             // it passed the feasibility test,
             // but don't add it the the workload yet;
             // wait until we commit to sending it
         } else {
-            reply.wreq.edf_reject(est_cpu, wu.delay_bound);
-            reply.wreq.speed.set_insufficient(0);
+            g_reply->wreq.edf_reject(est_dur, wu.delay_bound);
+            g_reply->wreq.speed.set_insufficient(0);
             return INFEASIBLE_WORKLOAD;
         }
     } else {
-        retval = check_deadline(wu, app, request, reply);
+        retval = check_deadline(wu, app, bav);
         if (retval) return INFEASIBLE_WORKLOAD;
     }
 
@@ -941,7 +945,7 @@ int add_result_to_reply(
         if (config.reliable_on_priority && result.priority >= config.reliable_on_priority && config.reliable_reduced_delay_bound > 0.01
         ) {
 			double reduced_delay_bound = delay_bound*config.reliable_reduced_delay_bound;
-			double est_wallclock_duration = estimate_wallclock_duration(wu, request, reply);
+			double est_wallclock_duration = estimate_duration(wu, *bavp);
             // Check to see how reasonable this reduced time is.
             // Increase it to twice the estimated delay bound
             // if all the following apply:
@@ -949,7 +953,10 @@ int add_result_to_reply(
 			// 1) Twice the estimate is longer then the reduced delay bound
 			// 2) Twice the estimate is less then the original delay bound
 			// 3) Twice the estimate is less then the twice the reduced delay bound
-			if (est_wallclock_duration*2 > reduced_delay_bound && est_wallclock_duration*2 < delay_bound && est_wallclock_duration*2 < delay_bound*config.reliable_reduced_delay_bound*2 ) {
+			if (est_wallclock_duration*2 > reduced_delay_bound
+                && est_wallclock_duration*2 < delay_bound
+                && est_wallclock_duration*2 < delay_bound*config.reliable_reduced_delay_bound*2
+            ) {
         		reduced_delay_bound = est_wallclock_duration*2;
             }
 			delay_bound = (int) reduced_delay_bound;
@@ -992,7 +999,7 @@ int add_result_to_reply(
     }
     if (retval) return retval;
 
-    wu_seconds_filled = estimate_wallclock_duration(wu, request, reply);
+    wu_seconds_filled = estimate_duration(wu, *bavp);
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
             "[HOST#%d] Sending [RESULT#%d %s] (fills %.2f seconds)\n",
@@ -1038,8 +1045,8 @@ int add_result_to_reply(
     // add this result to workload for simulation
     //
     if (config.workload_sim && request.have_other_results_list) {
-        double est_cpu = estimate_cpu_duration(wu, reply);
-        IP_RESULT ipr ("", time(0)+wu.delay_bound, est_cpu);
+        double est_dur = estimate_duration(wu, *bavp);
+        IP_RESULT ipr ("", time(0)+wu.delay_bound, est_dur);
         request.ip_results.push_back(ipr);
     }
 
@@ -1536,7 +1543,7 @@ bool JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     bavp = get_app_version(sreq, reply, wu);
     if (!bavp) return false;
 
-    retval = wu_is_infeasible_fast(wu, sreq, reply, *app);
+    retval = wu_is_infeasible_fast(wu, *app, *bavp);
     if (retval) {
         if (config.debug_send) {
             log_messages.printf(MSG_DEBUG,
@@ -1599,7 +1606,7 @@ bool JOB::get_score(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     // try to send them jobs from the selected apps
     //
 
-    est_time = estimate_wallclock_duration(wu, sreq, reply);
+    est_time = estimate_duration(wu, *bavp);
     disk_usage = wu.rsc_disk_bound;
     return true;
 }

@@ -36,6 +36,9 @@ using namespace std;
 #include "boinc_fcgi.h"
 #endif
 
+SCHEDULER_REQUEST* g_request;
+SCHEDULER_REPLY* g_reply;
+
 // remove (by truncating) any quotes from the given string.
 // This is for things (e.g. authenticator) that will be used in
 // a SQL query, to prevent SQL injection attacks

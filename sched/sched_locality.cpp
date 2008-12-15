@@ -295,7 +295,7 @@ static int possibly_send_result(
     if (!bavp) return ERR_NO_APP_VERSION;
 
     APP* app = ssp->lookup_app(wu.appid);
-    if (wu_is_infeasible_fast(wu, sreq, reply, *app)) {
+    if (wu_is_infeasible_fast(wu, *app, *bavp)) {
         return ERR_INSUFFICIENT_RESOURCE;
     }
 

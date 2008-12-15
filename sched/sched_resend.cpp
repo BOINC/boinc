@@ -51,7 +51,7 @@
 // TODO: EXPLAIN THE FORMULA FOR NEW DEADLINE
 //
 static int possibly_give_result_new_deadline(
-    DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REPLY& reply
+    DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION& bav
 ) {
     const double resend_frac = 0.5;  // range [0, 1)
     int now = time(0);
@@ -66,11 +66,11 @@ static int possibly_give_result_new_deadline(
 
     // If infeasible, return without modifying result
     //
-    if (estimate_cpu_duration(wu, reply) > result_report_deadline-now) {
+    if (estimate_duration(wu, bav) > result_report_deadline-now) {
         if (config.debug_resend) {
             log_messages.printf(MSG_DEBUG,
                 "[RESULT#%d] [HOST#%d] not resending lost result: can't complete in time\n",
-                result.id, reply.host.id
+                result.id, g_reply->host.id
             );
         }
         return 1;
@@ -81,7 +81,7 @@ static int possibly_give_result_new_deadline(
     if (config.debug_resend) {
         log_messages.printf(MSG_DEBUG,
             "[RESULT#%d] [HOST#%d] %s report_deadline (resend lost work)\n",
-            result.id, reply.host.id,
+            result.id, g_reply->host.id,
             result_report_deadline==result.report_deadline?"NO update to":"Updated"
         );
     }
@@ -159,7 +159,7 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (
             wu.error_mask ||
             wu.canonical_resultid ||
-            possibly_give_result_new_deadline(result, wu, reply)
+            possibly_give_result_new_deadline(result, wu, *bavp)
         ) {
             if (config.debug_resend) {
                 log_messages.printf(MSG_DEBUG,

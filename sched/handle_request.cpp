@@ -1445,6 +1445,9 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     SCHEDULER_REPLY sreply;
     char buf[1024];
 
+    g_request = &sreq;
+    g_reply = &sreply;
+
     memset(&sreq, 0, sizeof(sreq));
     sreply.nucleus_only = true;
 

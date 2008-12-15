@@ -123,9 +123,17 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             }
         }
 
+        // Find the app and best app_version for this host.
+        //
+        BEST_APP_VERSION* bavp;
+        bavp = get_app_version(sreq, reply, wu);
+        if (!bavp) {
+            continue;
+        }
+
         // don't send if host can't handle it
         //
-        retval = wu_is_infeasible_fast(wu, sreq, reply, *app);
+        retval = wu_is_infeasible_fast(wu, *app, *bavp);
         if (retval) {
             if (retval != last_retval && config.debug_send) {
                 log_messages.printf(MSG_DEBUG,
@@ -134,14 +142,6 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 );
             }
             last_retval = retval;
-            continue;
-        }
-
-        // Find the app and best app_version for this host.
-        //
-        BEST_APP_VERSION* bavp;
-        bavp = get_app_version(sreq, reply, wu);
-        if (!bavp) {
             continue;
         }
 

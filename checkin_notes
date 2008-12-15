@@ -10094,3 +10094,19 @@ David  14 Dec 2008
 
     html/user/
         info.php
+
+David  15 Dec 2008
+    - scheduler: estimate job durations based on the FLOPS estimate
+        for the selected APP_VERSION, rather than on the CPU benchmarks.
+        Otherwise estimates are wrong for GPU or multi-thread apps.
+    - scheduler: start switching from having SCHED_REQUEST and
+        SCHED_REPLY as globals instead of passing them around as args;
+        to be continued.
+
+    sched/
+        handle_request.cpp
+        sched_array.cpp
+        sched_locality.cpp
+        sched_resend.cpp
+        sched_send.cpp,h
+        server_types.cpp,h

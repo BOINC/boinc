@@ -89,6 +89,7 @@ struct HOST_USAGE {
         avg_ncpus = 1;
         max_ncpus = 1;
         flops = x;
+        if (flops <= 0) flops = 1e9;
         strcpy(cmdline, "");
     }
     ~HOST_USAGE(){}
@@ -368,5 +369,8 @@ struct SCHEDULER_REPLY {
     void got_good_result();     // adjust max_results_day
     void got_bad_result();      // adjust max_results_day
 };
+
+extern SCHEDULER_REQUEST* g_request;
+extern SCHEDULER_REPLY* g_reply;
 
 #endif
