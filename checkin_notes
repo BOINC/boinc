@@ -10116,3 +10116,9 @@ David  15 Dec 2008
 
     sched/
         main.cpp
+
+David  15 Dec 2008
+    - scheduler: fix typo; enforce 256MB CUDA memory limit
+
+    sched/
+        sched_plan.cpp
