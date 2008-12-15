@@ -10087,3 +10087,9 @@ David  14 Dec 2008
             friend.php
             pending.php
             team_edit_action.php
+
+David  14 Dec 2008
+    - web: fix link text
+
+    html/user/
+        info.php
