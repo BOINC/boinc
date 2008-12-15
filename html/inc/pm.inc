@@ -131,7 +131,7 @@ function pm_web_line($notify) {
 function pm_send($to_user, $subject, $content, $send_email) {
     global $g_logged_in_user;
     $sql_subject = boinc_real_escape_string(strip_tags($subject));
-    $sql_content = boinc_real_escape_string(strip_tags($content));
+    $sql_content = boinc_real_escape_string($content);
     $mid = BoincPrivateMessage::insert("(userid, senderid, date, subject, content) VALUES ($to_user->id, $g_logged_in_user->id, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
     if (!$mid) {
         error_page("Couldn't create message");
