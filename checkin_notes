@@ -10110,3 +10110,9 @@ David  15 Dec 2008
         sched_resend.cpp
         sched_send.cpp,h
         server_types.cpp,h
+
+David  15 Dec 2008
+    - scheduler: add --help option
+
+    sched/
+        main.cpp

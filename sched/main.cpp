@@ -16,14 +16,12 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // The BOINC scheduling server.
+
+// Note: use_files is a compile setting that records everything in files.
+// Also, You can call debug_sched() for whatever situation is of
+// interest to you.  It won't do anything unless you create
+// (touch) the file 'debug_sched' in the project root directory.
 //
-// command-line options:
-//  --batch
-//      stdin contains a catenated sequence of request messages.
-//      Do them all, and ignore rpc_seqno
-//
-// Note: use_files is a debugging option (see below).
-// But it's a compile setting, not a cmdline flag
 
 #include "config.h"
 #include <cassert>
@@ -83,10 +81,22 @@ SCHED_SHMEM* ssp = 0;
 bool batch = false;
 bool mark_jobs_done = false;
 
-// You can call debug_sched() for whatever situation is of
-// interest to you.  It won't do anything unless you create
-// (touch) the file 'debug_sched' in the project root directory.
-//
+static void usage(char* p) {
+    fprintf(stderr,
+        "usage: %s [options]\n"
+        "\n"
+        "--batch            stdin contains a sequence of request messages.\n"
+        "                   Do them all, and ignore rpc_seqno.\n"
+        "--mark_jobs_done   When send a job, also mark it as done.\n"
+        "                   (for performance testing)\n"
+        "--debug_log        Write messages to the file 'debug_log'\n"
+        "--simulator X      Start with simulated time X\n"
+        "                   (only if compiled with GCL_SIMULATOR)\n",
+        p
+    );
+    exit(1);
+}
+
 void debug_sched(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *trigger
 ) {
@@ -331,18 +341,17 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[i], "--batch")) {
             batch = true;
             continue;
-        }
-        if (!strcmp(argv[i], "--mark_jobs_done")) {
+        } else if (!strcmp(argv[i], "--mark_jobs_done")) {
             mark_jobs_done = true;
-        }
-        if (!strcmp(argv[i], "--debug_log")) {
+        } else if (!strcmp(argv[i], "--debug_log")) {
             debug_log = true;
-        }
 #ifdef GCL_SIMULATOR
-        if (!strcmp(argv[i], "--simulator")) {
+        } else if (!strcmp(argv[i], "--simulator")) {
             simtime = atof(argv[++i]);
-        }
 #endif 
+        } else {
+            usage(argv[0]);
+        }
     }
 
     // initialized timer
