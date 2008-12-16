@@ -65,7 +65,7 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
     char buf[256];
     if (!nfiles) {
 
-        double maxdisk=max_allowable_disk(sreq, sreply);
+        double maxdisk=max_allowable_disk();
 
         log_messages.printf(MSG_CRITICAL,
             "[HOST#%d]: no disk space but no files we can delete!\n", sreply.host.id
@@ -279,7 +279,7 @@ static int possibly_send_result(
     retval = wu.lookup_id(result.workunitid);
     if (retval) return ERR_DB_NOT_FOUND;
 
-    bavp = get_app_version(sreq, reply, wu);
+    bavp = get_app_version(wu);
 
     if (!bavp && anonymous(sreq.platforms.list[0])) {
         char help_msg_buf[512];
@@ -306,7 +306,7 @@ static int possibly_send_result(
         if (count > 0) return ERR_WU_USER_RULE;
     }
 
-    return add_result_to_reply(result, wu, sreq, reply, bavp);
+    return add_result_to_reply(result, wu, bavp);
 }
 
 // returns true if the work generator can not make more work for this
@@ -1138,7 +1138,7 @@ void send_file_deletes(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
 
     if (sreply.results.size()==0 && sreply.hostid && sreq.work_req_seconds>1.0) {
         debug_sched(sreq, sreply, "../debug_sched");
-    } else if (max_allowable_disk(sreq, sreply)<0 || (sreply.wreq.disk.insufficient || sreply.wreq.disk_available<0)) {
+    } else if (max_allowable_disk()<0 || (sreply.wreq.disk.insufficient || sreply.wreq.disk_available<0)) {
         debug_sched(sreq, sreply, "../debug_sched");
     }
 }

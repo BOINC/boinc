@@ -38,6 +38,7 @@ using namespace std;
 
 SCHEDULER_REQUEST* g_request;
 SCHEDULER_REPLY* g_reply;
+WORK_REQ* g_wreq;
 
 // remove (by truncating) any quotes from the given string.
 // This is for things (e.g. authenticator) that will be used in

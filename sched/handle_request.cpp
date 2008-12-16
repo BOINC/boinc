@@ -1395,7 +1395,7 @@ void process_request(
             }
         }
         if (ok_to_send_work) {
-            send_work(sreq, reply);
+            send_work();
         }
     }
 
@@ -1447,6 +1447,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
 
     g_request = &sreq;
     g_reply = &sreply;
+    g_wreq = &sreply.wreq;
 
     memset(&sreq, 0, sizeof(sreq));
     sreply.nucleus_only = true;

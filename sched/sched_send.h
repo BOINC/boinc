@@ -17,20 +17,17 @@
 
 #include <string.h>
 
-extern void send_work(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
+extern void send_work();
 
 extern int add_result_to_reply(
-    DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REQUEST&, SCHEDULER_REPLY&,
-    BEST_APP_VERSION* bavp
+    DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp
 );
 
 inline bool anonymous(PLATFORM* platform) {
     return (!strcmp(platform->name, "anonymous"));
 }
 
-extern BEST_APP_VERSION* get_app_version(
-    SCHEDULER_REQUEST&, SCHEDULER_REPLY&, WORKUNIT&
-);
+extern BEST_APP_VERSION* get_app_version(WORKUNIT&);
 
 extern bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av);
 
@@ -48,11 +45,10 @@ extern bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av);
 
 extern int wu_is_infeasible_fast(WORKUNIT&, APP&, BEST_APP_VERSION&);
  
-extern double max_allowable_disk(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
+extern double max_allowable_disk();
 
 extern bool wu_already_in_reply(WORKUNIT& wu, SCHEDULER_REPLY& reply);
 
-//extern double estimate_cpu_duration(WORKUNIT& wu, SCHEDULER_REPLY& reply);
 extern double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION&);
 
 extern int update_wu_transition_time(WORKUNIT wu, time_t x);
@@ -60,5 +56,5 @@ extern int update_wu_transition_time(WORKUNIT wu, time_t x);
 extern void lock_sema();
 extern void unlock_sema();
 extern const char* infeasible_string(int);
-extern bool app_not_selected(WORKUNIT&, SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
+extern bool app_not_selected(WORKUNIT&);
 extern bool work_needed(SCHEDULER_REQUEST&, SCHEDULER_REPLY&, bool);

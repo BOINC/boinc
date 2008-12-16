@@ -372,5 +372,6 @@ struct SCHEDULER_REPLY {
 
 extern SCHEDULER_REQUEST* g_request;
 extern SCHEDULER_REPLY* g_reply;
+extern WORK_REQ* g_wreq;
 
 #endif

@@ -58,7 +58,7 @@ static int send_assigned_job(
         return retval;
     }
 
-    bavp = get_app_version(request, reply, wu);
+    bavp = get_app_version(wu);
     if (!bavp) {
         log_messages.printf(MSG_CRITICAL,
             "App version for assigned WU not found\n"
@@ -78,7 +78,7 @@ static int send_assigned_job(
     int result_id = boinc_db.insert_id();
     DB_RESULT result;
     retval = result.lookup_id(result_id);
-    add_result_to_reply(result, wu, request, reply, bavp);
+    add_result_to_reply(result, wu, bavp);
 
     // if this is a one-job assignment, fill in assignment.resultid
     // so that it doesn't get sent again

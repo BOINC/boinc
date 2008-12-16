@@ -140,7 +140,7 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             continue;
         }
 
-        bavp = get_app_version(sreq, reply, wu);
+        bavp = get_app_version(wu);
         if (!bavp) {
             log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] no app version [RESULT#%d]\n",
@@ -189,7 +189,7 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             USER_MESSAGE um(warning_msg, "high");
             reply.insert_message(um);
         } else {
-            retval = add_result_to_reply(result, wu, sreq, reply, bavp);
+            retval = add_result_to_reply(result, wu, bavp);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "[HOST#%d] failed to send [RESULT#%d]\n",

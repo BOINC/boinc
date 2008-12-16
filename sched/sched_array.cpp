@@ -111,7 +111,7 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (reply.wreq.user_apps_only &&
             (!reply.wreq.beta_only || config.distinct_beta_apps)
         ) {
-            if (app_not_selected(wu, sreq, reply)) {
+            if (app_not_selected(wu)) {
                 reply.wreq.no_allowed_apps_available = true;
                 if (config.debug_send) {
                     log_messages.printf(MSG_DEBUG,
@@ -126,7 +126,7 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // Find the app and best app_version for this host.
         //
         BEST_APP_VERSION* bavp;
-        bavp = get_app_version(sreq, reply, wu);
+        bavp = get_app_version(wu);
         if (!bavp) {
             continue;
         }
@@ -257,7 +257,7 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             goto done;
         }
 
-        retval = add_result_to_reply(result, wu, sreq, reply, bavp);
+        retval = add_result_to_reply(result, wu, bavp);
 
         // add_result_to_reply() fails only in fairly pathological cases -
         // e.g. we couldn't update the DB record or modify XML fields.
