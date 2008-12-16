@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("December 16, 2008",
+      "BOINC 6.4 is now the recommended version for Windows and Linux. 
+       <a href=\"http://boinc.berkeley.edu/download.php\">Upgrade now</a>.
+      "
+),
 array("December 10, 2008",
     "<a href=http://aqua.dwavesys.com/>AQUA@home</a> is now open to volunteers.  AQUA (Adiabatic QUantum Algorithms) is a research project, based at D-Wave Systems, Inc.,  whose goal is to predict the performance of superconducting adiabatic quantum computers on a variety of hard problems arising in fields ranging from materials science to machine learning."
 ),
