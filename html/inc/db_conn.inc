@@ -50,6 +50,10 @@ class DbConn {
         return $ret;
     }
 
+    function affected_rows() {
+        return mysql_affected_rows($this->db_conn);
+    }
+
     function lookup_fields($table, $classname, $fields, $clause) {
         $query = "select $fields from DBNAME.$table where $clause";
         $result = $this->do_query($query);

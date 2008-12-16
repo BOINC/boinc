@@ -10170,3 +10170,13 @@ David  16 Dec 2008
 
     html/inc
         text_transform.inc
+
+David  16 Dec 2008
+    - web: added ops/autolock.php script;
+        locks threads not modified in last 60 days
+
+    html/
+        inc/
+            db_conn.inc
+        ops/
+            autolock.php
