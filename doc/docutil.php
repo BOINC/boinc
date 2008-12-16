@@ -123,6 +123,14 @@ function html_text($x) {
     ";
 }
 
+function start_table($extra="width=\"100%\"") {
+    echo "<table class=bordered $extra>";
+}
+
+function end_table() {
+    echo "</table>\n";
+}
+
 function list_start($attrs = 'width="100%"') {
     echo "<p><table $attrs border=0 cellpadding=6>\n";
 }
@@ -142,7 +150,7 @@ function list_heading($x, $y, $z=null) {
 function list_heading_array($x) {
     echo "<tr>";
     foreach ($x as $h) {
-        echo "<th>$h</th>";
+        echo "<td class=heading valign=top><center><b>$h</b></center></td>";
     }
     echo "</tr>\n";
 }
@@ -163,7 +171,7 @@ function list_item($x, $y, $z=null) {
 function list_item_array($x) {
     echo "<tr>";
     foreach ($x as $h) {
-        echo "<td valign=top>$h<br></td>";
+        echo "<td valign=top>$h</td>";
     }
     echo "</tr>\n";
 }

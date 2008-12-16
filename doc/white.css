@@ -39,6 +39,12 @@ table.box {
     padding: 8;
 }
 
+table.bordered {
+    border: 2px solid #e8e8e8;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+
 body {
 	background-color: white;
     color: black;
@@ -183,7 +189,6 @@ input.btn {
     border-right: none;
     padding: 3px 6px;
     white-space: nowrap;
-    font-weight: bold;
     -moz-border-radius: 6px 0px 0px 6px;
     -webkit-border-radius: 6px 0px 0px 6px;
 }

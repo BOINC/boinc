@@ -19,7 +19,9 @@ function latest_version($p) {
     }
 }
 
-function download_link($pname) {
+// show a download link as a button or table row
+//
+function download_link($pname, $button=false) {
     global $platforms;
     global $url_base;
     $p = $platforms[$pname];
@@ -32,31 +34,25 @@ function download_link($pname) {
     $dlink = "<a href=\"$url\">$file</a>";
     $s = number_format(filesize($path)/1000000, 2);
 
-    echo "
-        <table cellpadding=10><tr><td class=heading>
-        <a href=\"$url\"><font size=4><u>".tra("Download BOINC")."</u></font></a>
-        <br>".
-        sprintf(tra("%s for %s (%s MB)"), $num, $long_name, $s )."
-        </td></tr> </table>
-    ";
-    if ($pname == 'linux'||$pname == 'linuxx64') {
-        show_linux_info();
+    if ($button) {
+        echo "
+            <table cellpadding=10><tr><td class=heading>
+            <a href=\"$url\"><font size=4><u>".tra("Download BOINC")."</u></font></a>
+            <br>".
+            sprintf(tra("%s for %s (%s MB)"), $num, $long_name, $s )."
+            </td></tr> </table>
+        ";
+        if ($pname == 'linux'||$pname == 'linuxx64') {
+            show_linux_info();
+        }
+    } else {
+        echo "<tr>
+            <td class=rowlineleft>$long_name</td>
+            <td class=rowline> $num</td>
+            <td class=rowlineright><a href=$url>Download</a> ($s MB)</td>
+            </tr>
+        ";
     }
-}
-
-function link_row($pname) {
-    echo "<tr><td>";
-    if ($pname=='win') {
-        echo "<img src=\"images/ico-win.png\" alt=\"Windows icon\"> <b>Windows</b>";
-    } else if ($pname=='mac') {
-        echo "<img src=\"images/ico-osx-uni.png\" alt=\"Mac icon\"> <b>Mac OS X</b>";
-    } else if ($pname=='linux') {
-        echo "<img src=\"images/ico-tux.png\" alt=\"Linux icon\"> <b>Linux/x86</b>";
-    }
-    echo "</td><td>";
-    download_link($pname);
-    echo "</td></tr>
-    ";
 }
 
 $apps = array(
@@ -93,43 +89,38 @@ function show_download($pname) {
         ".tra("BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like.").
         "<p>"
     ;
+    if ($_GET['foo']) $pname = null;
     if ($pname) {
-        download_link($pname);
+        download_link($pname, true);
     } else {
-        echo "<table cellpadding=8>
-        ";
-        link_row('win');
-        link_row('winx64');
-        link_row('mac');
-        link_row('linux');
-        link_row('linuxx64');
-        link_row('linuxcompat');
-        echo "</table>
-        ";
+        list_start();
+        list_heading_array(array(
+            'Computer type',
+            'Current version ',
+            'Size'
+        ));
+        download_link('win');
+        download_link('winx64');
+        download_link('mac');
+        download_link('linux');
+        download_link('linuxx64');
+        download_link('linuxcompat');
+        end_table();
     }
     echo "
         <p>
+        <b>Note: if your computer is equipped with an NVIDIA
+        Graphics Processing Unit (GPU),
+        you may be able to
+            <a href=cuda.php>use it to compute faster</a>.</b>
+        <br><br>
+        <center>
         <a href=\"wiki/System_requirements\"><span class=nobr>".tra("System requirements")."</span></a>
         | <a href=\"wiki/Release_Notes\"><span class=nobr>".tra("Release notes")."</span></a>
         | <a href=\"wiki/BOINC_Help\"><span class=nobr>".tra("Help")."</span></a>
-    ";
-    if ($pname) {
-        //echo " | <a href=\"download.php?all_platforms=1\"><span class=nobr>".tra("Other systems")."</span></a>
-        echo " | <a href=download_all.php><span class=nobr>".tra("All versions")."</span></a>
-        ";
-    } else {
-        echo " | <a href=download_all.php><span class=nobr>".tra("All versions")."</span></a>
-        <p>"
-        .tra("If your computer is not of one of the above types, you can")."
-        <ul>
-        <li> ".sprintf(tra("%s make your own client software %s or"), "<a href=anonymous_platform.php>", "</a>")."
-        <li> ".sprintf(tra("%s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."), "<a href=download_other.php>", "</a>")."
-        </ul>
-        ";
-    }
-    echo "
+        | <a href=download_all.php><span class=nobr>".tra("All versions")."</span></a>
         | <a href=\"trac/wiki/VersionHistory\">Version history</a>
-        <p>
+        </center>
         </td><td valign=top>
     ";
     show_pictures();

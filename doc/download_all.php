@@ -103,10 +103,10 @@ function show_version($pname, $i, $v) {
     $type_text = type_text($type);
     $url = version_url($v);
     echo "<tr>
-       <td class=\"rowlineleft\">$num</td>
-        <td class=\"rowline\">$status</td>
-        <td class=\"rowline\"><a href=\"$url\"><b>Download</b></a> ($s MB)</td>
-        <td class=\"rowlineright\">$date</td>
+       <td class=rowlineleft>$num</td>
+        <td class=rowline>$status</td>
+        <td class=rowline><a href=\"$url\"><b>Download</b></a> ($s MB)</td>
+        <td class=rowlineright>$date</td>
         </tr>
     ";
 }
@@ -189,6 +189,11 @@ if ($xml) {
         }
         list_end();
         echo "
+            <h3>GPU computing</h3>
+            If your computer is equipped with an NVIDIA
+            Graphics Processing Unit (GPU),
+            you may be able to
+            <a href=cuda.php>use it to compute faster</a>.
             <h3>Other platforms</h3>
             If your computer is not of one of these types, you can
             <ul>
