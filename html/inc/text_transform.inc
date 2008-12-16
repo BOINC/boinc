@@ -29,7 +29,6 @@ class output_options {
     var $bb2html;            // BBCode as HTML? (on)
     var $images_as_links;    // Images as hyperlinks? (off)
     var $link_popup;        // Links in new windows? (off)
-    var $closeTags;            // Close extra HTML tags? (on)
     var $nl2br;                // Convert newlines to <br>'s? (on)
     var $htmlitems;            // Convert special chars to HTML entities? (on)
     var $htmlscrub;            // Scrub "bad" HTML tags? (off)
@@ -41,7 +40,6 @@ class output_options {
         $this->bb2html = 1;
         $this->images_as_links = 0;
         $this->link_popup = 0;
-        $this->closeTags = 1;
         $this->nl2br = 1;
         $this->htmlitems = 1;
         $this->htmlscrub = 0;
@@ -212,56 +210,6 @@ function image_as_link($text){
     $text = preg_replace($pattern, $replacement, $text);
     return $text;
 }
-
-// Closes open HTML tags.  Not quite perfect...
-
-function closeTags($str = null) {
-    // Function from http://episteme.arstechnica.com/eve/ubb.x/a/tpc/f/6330927813/m/139006252731/r/287008552731#287008552731
-    // (thanks Ageless for finding it)
-    // Edited by Rob to better fit in with boinc's needs
-    
-    // List of tags to check $str for
-    // TODO:  Adapt to use the pre-existing array of tags above
-    $tags = array('b', 'i', 'a', 'p', 'font[^>]?', 'strong', 'ul', 'li', 'pre', 'blockquote', 'u');
-    // Note on $tags - no br or img, as they have no closing tags - can we define this above?
-    // Maybe define two arrays, those with closing tags and those without, and combine the
-    // two of them for the standard HTML sanitizing function?
-
-    // Don't do anything if the string is too short
-    if (strlen($str) < 3) {
-        return $str;
-    } else {
-        // Loop over $str and count the opening and closing for each tag in $tags
-        foreach ($tags as $tag) {
-            $m = array();
-            $o = preg_match_all("/<(".$tag.")>/", $str, $m);
-            $c = substr_count($str, "</{$tag}>");
-
-            $open[$tag]  = ($o < $c) ? $c - $o : 0;
-            $close[$tag] = ($c < $o) ? $o - $c : 0;
-
-            // Debuggin'
-            //echo "<pre>Tag: {$tag}\nOpen: {$o}\nClose: {$c}\nOT: {$open[$tag]}\nCT: {$close[$tag]}</pre><hr />";
-        }
-
-        // Prepend the return string with an opening tag as needed
-        /* $pre = '';  ...uhh... doesn't work right
-
-        foreach ($open as $tag => $cnt) {
-            $pre .= ($cnt > 0) ? "<{$tag}>" : '';
-        }  */
-
-        // Append the return string with a closing tag as needed
-        $post = '';
-
-        foreach ($close as $tag => $cnt) {
-            $post .= ($cnt > 0) ? "</{$tag}>" : '';
-        }
-
-        return /*$pre.*/$str.$post;
-    }
-}
-
 
 // Highlight terms in text (most likely used with searches)
 

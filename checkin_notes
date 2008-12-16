@@ -10164,3 +10164,9 @@ David  16 Dec 2008
         db_dump.cpp
         handle_request.cpp
         server_types.cpp
+
+David  16 Dec 2008
+    - web: remove unused code
+
+    html/inc
+        text_transform.inc
