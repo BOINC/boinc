@@ -63,7 +63,7 @@ function type_text($type) {
 
 $w64= array(
     "num"=>"6.4.5",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_6.4.5_windows_intelx86.exe",
     "date"=>"9 Dec 2008",
     "type"=>"win_new",
@@ -71,7 +71,7 @@ $w64= array(
 
 $w6219= array(
     "num"=>"6.2.19",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_6.2.19_windows_intelx86.exe",
     "date"=>"22 Sep 2008",
     "type"=>"win_new",
@@ -87,7 +87,7 @@ $w51045= array(
 
 $w64x64= array(
     "num"=>"6.4.5",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_6.4.5_windows_x86_64.exe",
     "date"=>"9 Dec 2008",
     "type"=>"win_new",
@@ -95,7 +95,7 @@ $w64x64= array(
 
 $w6219x64= array(
     "num"=>"6.2.19",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_6.2.19_windows_x86_64.exe",
     "date"=>"22 Sep 2008",
     "type"=>"win_new",
@@ -183,7 +183,7 @@ $m5817c = array(
 
 $l64 = array(
     "num"=>"6.4.5",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_compat_6.4.5_i686-pc-linux-gnu.sh",
     "date"=>"9 Dec 2008",
     "type"=>"sea",
@@ -191,7 +191,7 @@ $l64 = array(
 
 $l6215 = array(
     "num"=>"6.2.15",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_compat_6.2.15_i686-pc-linux-gnu.sh",
     "date"=>"4 Aug 2008",
     "type"=>"sea",
@@ -207,7 +207,7 @@ $l51045 = array(
 
 $l64ubuntu = array(
     "num"=>"6.4.5",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_6.4.5_i686-pc-linux-gnu.sh",
     "date"=>"9 Dec 2008",
     "type"=>"sea",
@@ -215,7 +215,7 @@ $l64ubuntu = array(
 
 $l6215ubuntu = array(
     "num"=>"6.2.15",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_6.2.15_i686-pc-linux-gnu.sh",
     "date"=>"4 Aug 2008",
     "type"=>"sea",
@@ -231,7 +231,7 @@ $l51045ubuntu = array(
 
 $l64ubuntux64 = array(
     "num"=>"6.4.5",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_6.4.5_x86_64-pc-linux-gnu.sh",
     "date"=>"9 Dec 2008",
     "type"=>"sea",
@@ -239,7 +239,7 @@ $l64ubuntux64 = array(
 
 $l6215ubuntux64 = array(
     "num"=>"6.2.15",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_6.2.15_x86_64-pc-linux-gnu.sh",
     "date"=>"4 Aug 2008",
     "type"=>"sea",
