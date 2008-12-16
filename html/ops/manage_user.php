@@ -25,7 +25,6 @@
  * and forum suspension (banishment).   Put this in html/ops,
  * (or could be used by moderators for bans < 24 hrs).
  *
- * @(#) $Id$
 \***********************************************************************/
 
 require_once("../inc/util.inc");
@@ -101,7 +100,7 @@ $matches="";
 
 if( isset($_POST['search_submit']) ){
     $search_name = post_str('search_text');
-    $search_name = process_user_text(strip_tags($search_name));
+    $search_name = BoincDb::escape_string(strip_tags($search_name));
 
     if( !empty($search_name) ){ 
         $result = mysql_query("SELECT * FROM user WHERE name='$search_name'");

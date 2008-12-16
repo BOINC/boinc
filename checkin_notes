@@ -10139,3 +10139,11 @@ David  16 Dec 2008
     sched/
         handle_request.cpp
         sched_*.cpp
+
+David  16 Dec 2008
+    - web: final purge of process_user_text()
+
+    html/ops/
+        login_action.php
+        manage_user.php
+        team_import.php

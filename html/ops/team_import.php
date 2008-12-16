@@ -98,10 +98,10 @@ function update_team($t, $team, $user) {
         return;
     }
     echo "   updating\n";
-    $url = process_user_text($t->url);
-    $name_html = process_user_text($t->name_html);
-    $description = process_user_text($t->description);
-    $country = process_user_text($t->country);
+    $url = BoincDb::escape_string($t->url);
+    $name_html = BoincDb::escape_string($t->name_html);
+    $description = BoincDb::escape_string($t->description);
+    $country = BoincDb::escape_string($t->country);
     $query = "update team set url='$url', type=$t->type, name_html='$name_html', description='$description', country='$country', seti_id=$t->id where id=$team->id";
     if ($dry_run) {
         echo "   $query\n";
