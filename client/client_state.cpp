@@ -263,15 +263,19 @@ int CLIENT_STATE::init() {
 
     check_clock_reset();
 
-    vector<string> strs = coprocs.get();
-    for (i=0; i<strs.size(); i++) {
-        msg_printf(NULL, MSG_INFO, strs[i].c_str());
-    }
+    if (config.no_gpus) {
+        msg_printf(NULL, MSG_INFO, "Configured to not use coprocessors");
+    } else {
+        vector<string> strs = coprocs.get();
+        for (i=0; i<strs.size(); i++) {
+            msg_printf(NULL, MSG_INFO, strs[i].c_str());
+        }
 #if 0
-    fake_cuda(coprocs, 1);
+        fake_cuda(coprocs, 1);
 #endif
-    if (coprocs.coprocs.size() == 0) {
-        msg_printf(NULL, MSG_INFO, "No coprocessors");
+        if (coprocs.coprocs.size() == 0) {
+            msg_printf(NULL, MSG_INFO, "No coprocessors");
+        }
     }
 
     // Check to see if we can write the state file.

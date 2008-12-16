@@ -10122,3 +10122,10 @@ David  15 Dec 2008
 
     sched/
         sched_plan.cpp
+
+David  15 Dec 2008
+    - client: add <no_gpus> config option
+
+    client/
+        client_state.cpp
+        log_flags.cpp,h
