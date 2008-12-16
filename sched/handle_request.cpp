@@ -610,7 +610,7 @@ static void compute_credit_rating(HOST& host) {
 static int modify_host_struct(SCHEDULER_REQUEST& sreq, HOST& host) {
     host.timezone = sreq.host.timezone;
     strncpy(host.domain_name, sreq.host.domain_name, sizeof(host.domain_name));
-    strncpy(host.serialnum, sreq.host.serialnum, sizeof(host.serialnum));
+    sreq.coprocs.summary_string(host.serialnum, sizeof(host.serialnum));
     if (strcmp(host.last_ip_addr, sreq.host.last_ip_addr)) {
         strncpy(host.last_ip_addr, sreq.host.last_ip_addr, sizeof(host.last_ip_addr));
     } else {

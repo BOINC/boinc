@@ -95,6 +95,9 @@ function show_host($host, $user, $ipprivate) {
     row2("Avg. credit", format_credit($host->expavg_credit));
     row2("CPU type", "$host->p_vendor <br> $host->p_model");
     row2("Number of CPUs", $host->p_ncpus);
+    if ($host->serialnum) {
+        row2("Coprocessors", $host->serialnum);
+    }
     row2("Operating System", "$host->os_name <br> $host->os_version");
     $x = $host->m_nbytes/(1024*1024);
     $y = round($x, 2);

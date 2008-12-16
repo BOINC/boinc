@@ -30,6 +30,7 @@
 #include "error_numbers.h"
 #include "filesys.h"
 #include "parse.h"
+#include "str_util.h"
 
 #include "coproc.h"
 
@@ -62,6 +63,23 @@ int COPROC::parse(MIOFILE& fin) {
         if (parse_int(buf, "<count>", count)) continue;
     }
     return ERR_XML_PARSE;
+}
+
+void COPROCS::summary_string(char* buf, int len) {
+    char bigbuf[8192], buf2[1024];
+
+    strcpy(bigbuf, "");
+    for (unsigned int i=0; i<coprocs.size(); i++) {
+        COPROC* cp = coprocs[i];
+        if (!strcmp(cp->type, "CUDA")) {
+            COPROC_CUDA* cp2 = (COPROC_CUDA*) cp;
+            int mem = (int)(cp2->prop.totalGlobalMem/MEGA);
+            sprintf(buf2, "[CUDA|%s|%d|%dMB]", cp2->prop.name, cp2->count, mem);
+            strcat(bigbuf, buf2);
+        }
+    }
+    bigbuf[len-1] = 0;
+    strcpy(buf, bigbuf);
 }
 
 vector<string> COPROCS::get() {

@@ -991,7 +991,6 @@ int HOST::parse(FILE* fin) {
         if (match_tag(buf, "</host_info>")) return 0;
         if (parse_int(buf, "<timezone>", timezone)) continue;
         if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
-        if (parse_str(buf, "<serialnum>", serialnum, sizeof(serialnum))) continue;
         if (parse_str(buf, "<ip_addr>", last_ip_addr, sizeof(last_ip_addr))) continue;
         if (parse_str(buf, "<host_cpid>", host_cpid, sizeof(host_cpid))) continue;
         if (parse_int(buf, "<p_ncpus>", p_ncpus)) continue;

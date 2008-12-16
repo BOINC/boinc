@@ -228,7 +228,7 @@ struct HOST {
     int timezone;           // local STANDARD time at host - UTC time
                             // (in seconds) 
     char domain_name[256];
-    char serialnum[256];
+    char serialnum[256];    // textual description of coprocessors
     char last_ip_addr[256]; // internal IP address as of last RPC
     int nsame_ip_addr;      // # of RPCs with same IP address
 

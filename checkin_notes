@@ -10147,3 +10147,20 @@ David  16 Dec 2008
         login_action.php
         manage_user.php
         team_import.php
+
+David  16 Dec 2008
+    - scheduler: if client has coprocs,
+        put a textual summary of them in host.serialnum (currently unused)
+    - web: show coprocs on host detail page
+    - db_dump: include coproc info in host XML
+
+    db/
+        boinc_db.h
+    html/inc/
+        hostl.inc
+    lib/
+        coproc.cpp,h
+    sched/
+        db_dump.cpp
+        handle_request.cpp
+        server_types.cpp

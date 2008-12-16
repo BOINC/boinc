@@ -70,6 +70,7 @@ struct COPROCS {
 #endif
     std::vector<std::string> get();
     int parse(FILE*);
+    void summary_string(char*, int);
     COPROC* lookup(char*);
     bool sufficient_coprocs(COPROCS&, bool log_flag, const char* prefix);
     void reserve_coprocs(COPROCS&, void*, bool log_flag, const char* prefix);

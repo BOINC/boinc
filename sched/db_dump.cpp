@@ -337,6 +337,16 @@ void write_host(HOST& host, FILE* f, bool detail) {
         os_name,
         os_version
     );
+
+    // host.serialnum stores coprocessor description
+    //
+    if (strlen(host.serialnum)) {
+        char serialnum[1024];
+        xml_escape(host.serialnum, serialnum, sizeof(serialnum));
+        fprintf(f,
+            "    <coprocs>%s</coprocs>\n", serialnum
+        );
+    }
     if (detail) {
         fprintf(f,
             "  <create_time>%d</create_time>\n"
