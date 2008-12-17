@@ -85,9 +85,22 @@ include $(top_srcdir)/gtk-doc.make
 # e.g. EXTRA_DIST += version.xml.in
 EXTRA_DIST += 
 
-# LaTeX output
+CLEANFILES += $(DOC_MODULE)-docs.pdf \
+		$(DOC_MODULE)-docs.odf \
+		$(DOC_MODULE)-docs-combined.xml
+
+# Additional formats
 $(DOC_MODULE)-docs.tex: html-build.stamp customize.xsl
-	xsltproc --nonet --xinclude -o $(DOC_MODULE)-docs.tex customize.xsl $(DOC_MODULE)-docs.xml
+	dblatex -t tex -p customize.xsl $(DOC_MODULE)-docs.xml
 
 $(DOC_MODULE)-docs.pdf: $(DOC_MODULE)-docs.tex
 	rubber --pdf $(DOC_MODULE)-docs
+
+$(DOC_MODULE)-docs-combined.xml: $(DOC_MODULE)-docs.xml
+	xmllint --xinclude $< > $@
+
+$(DOC_MODULE)-docs.odf: $(DOC_MODULE)-docs-combined.xml
+	docbook2odf --output-file $@ $<
+
+clean-local:
+	-test -e $(DOC_MODULE)-docs.tex && (rubber --clean --pdf $(DOC_MODULE)-docs.tex; rm -f $(DOC_MODULE)-docs.tex)
