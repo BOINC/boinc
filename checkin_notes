@@ -10225,16 +10225,9 @@ Rom    17 Dec 2008
         configure.ac
         version.h
 
-David  17 Dec 2008
-    - feeder: include all app versions that have maximal version num
-        within their plan class
-
-    sched/
-        sched_shmem.cpp
-
 Charlie 17 Dec 2008
     - Mac client: update build scripts, XCode project for curl-7.19.2 and 
-        c-ares 1.6.0.
+        c-ares 1.6.0.  (Checked into boinc_core_release_6_5_0 tag.)
     
      mac_build/
         HowToBuildBOINC_XCode.rtf
@@ -10243,3 +10236,10 @@ Charlie 17 Dec 2008
         setupForBOINC.sh
         boinc.xcodeproj/
             project.pbxproj
+
+David  17 Dec 2008
+    - feeder: include all app versions that have maximal version num
+        within their plan class
+
+    sched/
+        sched_shmem.cpp
