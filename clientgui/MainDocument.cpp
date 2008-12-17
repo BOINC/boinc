@@ -343,6 +343,7 @@ void CNetworkConnection::SetStateSuccess(wxString& strComputer, wxString& strCom
         );
 
         m_bConnectEvent = false;
+        m_pDocument->ResetMessageState();
 
         pFrame->FireConnect();
     }
@@ -583,9 +584,10 @@ int CMainDocument::ResetState() {
 
 
 int CMainDocument::Connect(const wxChar* szComputer, int iPort, const wxChar* szComputerPassword, const bool bDisconnect, const bool bUseDefaultPassword) {
-    wxString strOldMachineName = wxEmptyString;
-
-   GetConnectedComputerName(strOldMachineName);
+    if (IsComputerNameLocal(szComputer)) {
+        // Restart client if not already running
+        m_pClientManager->AutoRestart();
+    }
    
    if (bDisconnect) {
         m_pNetworkConnection->ForceReconnect();

@@ -10188,3 +10188,18 @@ David  16 Dec 2008
 
     api/
         boinc_api.cpp,h
+
+Charlie 17 Dec 2008
+
+    - MGR: Reset messages whether client is restarted by manager or elsewhere 
+        to guarantee they are refreshed.  
+    - MGR: Always scroll Messages displays to last message if connection 
+        status changes. 
+    - MGR: If user requests localhost in Select Computer dialog, relaunch 
+        client if it is not running.  This allows a user to restart the Client 
+        by selecting "Shut down connected client" and then selecting localhost.
+    
+    clientgui/
+        MainDocument.cpp
+        ViewMessages.cpp
+        sg_DlgMessages.cpp

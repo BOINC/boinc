@@ -362,10 +362,13 @@ void CViewMessages::OnListRender (wxTimerEvent& event) {
                 // Force a complete update
                 m_pListPane->DeleteAllItems();
                 m_pListPane->SetItemCount(iRowCount);
-           }
-            
-            if (m_iPreviousRowCount != iRowCount)
-                m_pListPane->SetItemCount(iRowCount);
+                m_iPreviousRowCount = 0;    // Force scrolling to bottom
+            } else {
+                // Connection status didn't change
+                if (m_iPreviousRowCount != iRowCount) {
+                    m_pListPane->SetItemCount(iRowCount);
+                }
+            }
         }
 
         if ((iRowCount) && (_EnsureLastItemVisible()) && (m_iPreviousRowCount != iRowCount)) {

@@ -352,10 +352,13 @@ void CPanelMessages::OnRefresh() {
                 // Force a complete update
                 m_pList->DeleteAllItems();
                 m_pList->SetItemCount(iDocCount);
-           }
-            
-            if (m_iPreviousDocCount != iDocCount)
-                m_pList->SetItemCount(iDocCount);
+                 m_iPreviousDocCount = 0;    // Force scrolling to bottom
+            } else {
+                // Connection status didn't change
+                if (m_iPreviousDocCount != iDocCount) {
+                    m_pList->SetItemCount(iDocCount);
+                }
+            }
         }
 
         if ((iDocCount) && (EnsureLastItemVisible()) && (m_iPreviousDocCount != iDocCount)) {
