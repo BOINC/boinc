@@ -20,14 +20,14 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 #
-# Script to build Macintosh Universal Binary library of curl-7.19.0 for
+# Script to build Macintosh Universal Binary library of curl-7.19.2 for
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
-# Updated 9/30/08
+# Updated 12/17/08
 #
-## In Terminal, CD to the curl-7.19.0 directory.
-##     cd [path]/curl-7.19.0/
+## In Terminal, CD to the curl-7.19.2 directory.
+##     cd [path]/curl-7.19.2/
 ## then run this script:
 ##     source [path]/buildcurl.sh [ -clean ] [ -gcc33 ]
 ##
@@ -58,7 +58,7 @@ fi
 fi
 
 if [ $AlreadyBuilt -ne 0 ]; then
-    echo "curl-7.19.0 already built"
+    echo "curl-7.19.2 already built"
     return 0
 fi
 
