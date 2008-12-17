@@ -1103,8 +1103,9 @@ typedef enum {
   CINIT(NEW_FILE_PERMS, LONG, 159),
   CINIT(NEW_DIRECTORY_PERMS, LONG, 160),
 
-  /* Obey RFC 2616/10.3.2 and keep POSTs as POSTs after a 301 */
-  CINIT(POST301, LONG, 161),
+  /* Set the behaviour of POST when redirecting. Values must be set to one
+     of CURL_REDIR* defines below. This used to be called CURLOPT_POST301 */
+  CINIT(POSTREDIR, LONG, 161),
 
   /* used by scp/sftp to verify the host's public key */
   CINIT(SSH_HOST_PUBLIC_KEY_MD5, OBJECTPOINT, 162),
@@ -1135,6 +1136,19 @@ typedef enum {
   /* (IPv6) Address scope */
   CINIT(ADDRESS_SCOPE, LONG, 171),
 
+  /* Collect certificate chain info and allow it to get retrievable with
+     CURLINFO_CERTINFO after the transfer is complete. (Unfortunately) only
+     working with OpenSSL-powered builds. */
+  CINIT(CERTINFO, LONG, 172),
+
+  /* "name" and "pwd" to use when fetching. */
+  CINIT(USERNAME, OBJECTPOINT, 173),
+  CINIT(PASSWORD, OBJECTPOINT, 174),
+
+    /* "name" and "pwd" to use with Proxy when fetching. */
+  CINIT(PROXYUSERNAME, OBJECTPOINT, 175),
+  CINIT(PROXYPASSWORD, OBJECTPOINT, 176),
+
   CURLOPT_LASTENTRY /* the last unused */
 } CURLoption;
 
@@ -1142,6 +1156,11 @@ typedef enum {
                           the obsolete stuff removed! */
 
 /* Backwards compatibility with older names */
+/* These are scheduled to disappear by 2011 */
+
+/* This was added in version 7.19.1 */
+#define CURLOPT_POST301 CURLOPT_POSTREDIR
+
 /* These are scheduled to disappear by 2009 */
 
 /* The following were added in 7.17.0 */
@@ -1206,6 +1225,14 @@ enum {
   CURL_SSLVERSION_LAST /* never use, keep last */
 };
 
+/* symbols to use with CURLOPT_POSTREDIR.
+   CURL_REDIR_POST_301 and CURL_REDIR_POST_302 can be bitwise ORed so that
+   CURL_REDIR_POST_301 | CURL_REDIR_POST_302 == CURL_REDIR_POST_ALL */
+
+#define CURL_REDIR_GET_ALL  0
+#define CURL_REDIR_POST_301 1
+#define CURL_REDIR_POST_302 2
+#define CURL_REDIR_POST_ALL (CURL_REDIR_POST_301|CURL_REDIR_POST_302)
 
 typedef enum {
   CURL_TIMECOND_NONE,
@@ -1491,6 +1518,15 @@ CURL_EXTERN void curl_slist_free_all(struct curl_slist *);
  */
 CURL_EXTERN time_t curl_getdate(const char *p, const time_t *unused);
 
+/* info about the certificate chain, only for OpenSSL builds. Asked
+   for with CURLOPT_CERTINFO / CURLINFO_CERTINFO */
+struct curl_certinfo {
+  int num_of_certs;             /* number of certificates with information */
+  struct curl_slist **certinfo; /* for each index in this array, there's a
+                                   linked list with textual information in the
+                                   format "name: value" */
+};
+
 #define CURLINFO_STRING   0x100000
 #define CURLINFO_LONG     0x200000
 #define CURLINFO_DOUBLE   0x300000
@@ -1533,9 +1569,10 @@ typedef enum {
   CURLINFO_REDIRECT_URL     = CURLINFO_STRING + 31,
   CURLINFO_PRIMARY_IP       = CURLINFO_STRING + 32,
   CURLINFO_APPCONNECT_TIME  = CURLINFO_DOUBLE + 33,
+  CURLINFO_CERTINFO         = CURLINFO_SLIST  + 34,
   /* Fill in new entries below here! */
 
-  CURLINFO_LASTONE          = 33
+  CURLINFO_LASTONE          = 34
 } CURLINFO;
 
 /* CURLINFO_RESPONSE_CODE is the new name for the option previously known as
@@ -1746,7 +1783,8 @@ CURL_EXTERN CURLcode curl_easy_pause(CURL *handle, int bitmask);
 #include "multi.h"
 
 /* the typechecker doesn't work in C++ (yet) */
-#if (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 3)) && \
+#if defined(__GNUC__) && defined(__GNUC_MINOR__) && \
+    ((__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 3)) && \
     !defined(__cplusplus) && !defined(CURL_DISABLE_TYPECHECK)
 #include "typecheck-gcc.h"
 #else

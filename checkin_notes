@@ -10190,7 +10190,6 @@ David  16 Dec 2008
         boinc_api.cpp,h
 
 Charlie 17 Dec 2008
-
     - MGR: Reset messages whether client is restarted by manager or elsewhere 
         to guarantee they are refreshed.  
     - MGR: Always scroll Messages displays to last message if connection 
@@ -10203,3 +10202,10 @@ Charlie 17 Dec 2008
         MainDocument.cpp
         ViewMessages.cpp
         sg_DlgMessages.cpp
+
+Rom    17 Dec 2008
+     LIB: Update to libcurl 7.19.2
+     
+     curl/
+         <various Files>
+ 
