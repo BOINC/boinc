@@ -24,6 +24,9 @@
 #include <cstdlib>
 #include <cstring>
 #include <string>
+#include <vector>
+
+using std::vector;
 
 #include "boinc_db.h"
 #include "error_numbers.h"
@@ -125,14 +128,15 @@ int SCHED_SHMEM::scan_tables() {
             char query[1024];
             sprintf(query,
                 "where appid=%d and platformid=%d and deprecated=0",
-                sapp.id, splatform.id, max_version
+                sapp.id, splatform.id
             );
             while (!app_version.enumerate(query)) {
                 avs.push_back(app_version);
             }
             for (unsigned int k=0; k<avs.size(); k++) {
                 APP_VERSION& av1 = avs[k];
-                for (unsigned int kk=k+1; kk<avs.size(); kk++) {
+                for (unsigned int kk=0; kk<avs.size(); kk++) {
+                    if (k == kk) continue;
                     APP_VERSION& av2 = avs[kk];
                     if (!strcmp(av1.plan_class, av2.plan_class) && av1.version_num > av2.version_num) {
                         av2.deprecated = 1;
