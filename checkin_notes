@@ -10231,3 +10231,15 @@ David  17 Dec 2008
 
     sched/
         sched_shmem.cpp
+
+Charlie 17 Dec 2008
+    - Mac client: update build scripts, XCode project for curl-7.19.2 and 
+        c-ares 1.6.0.
+    
+     mac_build/
+        HowToBuildBOINC_XCode.rtf
+        buildcurl.sh
+        buildc-ares.sh
+        setupForBOINC.sh
+        boinc.xcodeproj/
+            project.pbxproj
