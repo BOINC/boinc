@@ -10216,3 +10216,11 @@ David  17 Dec 2008
         sched_plan.cpp
         sched_send.cpp
         server_types.cpp
+
+Rom    17 Dec 2008
+    - Tag for 6.5.0 release, all platforms
+      boinc_core_release_6_5_0
+
+    /
+        configure.ac
+        version.h
