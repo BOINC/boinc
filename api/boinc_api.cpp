@@ -989,9 +989,11 @@ int start_timer_thread() {
         return errno;
     }
     
-    // lower our (worker thread) priority
-    //
-    SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_IDLE);
+    if (!options.normal_thread_priority) {
+        // lower our (worker thread) priority
+        //
+        SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_IDLE);
+    }
 #else
     pthread_attr_t thread_attrs;
     pthread_attr_init(&thread_attrs);

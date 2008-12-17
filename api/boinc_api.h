@@ -53,6 +53,9 @@ typedef struct BOINC_OPTIONS {
     int backwards_compatible_graphics;
         // V6 apps should set this so that "Show Graphics" will work
         // with pre-V6 clients
+    int normal_thread_priority;
+        // run app at normal thread priority on Win.
+        // (default is idle priority)
 } BOINC_OPTIONS;
 
 typedef struct BOINC_STATUS {
@@ -145,6 +148,7 @@ inline void boinc_options_defaults(BOINC_OPTIONS& b) {
     b.direct_process_action = 1;
     b.worker_thread_stack_size = 0;
     b.backwards_compatible_graphics = 1;
+    b.normal_thread_priority = 0;
 }
 
 

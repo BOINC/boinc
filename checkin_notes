@@ -10180,3 +10180,11 @@ David  16 Dec 2008
             db_conn.inc
         ops/
             autolock.php
+
+David  16 Dec 2008
+    - API: add "normal_thread_priority" to BOINC_OPTIONS.
+        If set, the worker thread runs at normal priority on Win.
+        May be useful for CUDA apps.
+
+    api/
+        boinc_api.cpp,h
