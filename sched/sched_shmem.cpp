@@ -115,31 +115,36 @@ int SCHED_SHMEM::scan_tables() {
     n = 0;
 
     // for each (app, platform) pair,
-    // find the greatest version num of a non-deprecated version
-    // greater than app.min_version, if any.
-    // Then get all versions with that number.
+    // get all versions with numbers maximal in their plan class.
     //
     for (i=0; i<nplatforms; i++) {
         PLATFORM& splatform = platforms[i];
         for (j=0; j<napps; j++) {
-            char query[1024];
-            int max_version;
             APP& sapp = apps[j];
+            vector<APP_VERSION> avs;
+            char query[1024];
             sprintf(query,
-                "select max(version_num) from app_version where appid=%d and platformid=%d and version_num>=%d and deprecated=0",
-                sapp.id, splatform.id, sapp.min_version
+                "where appid=%d and platformid=%d and deprecated=0",
+                sapp.id, splatform.id, max_version
             );
-            retval = app_version.get_integer(query, max_version);
-            if (!retval) {
-                sprintf(query,
-                    "where appid=%d and platformid=%d and version_num=%d and deprecated=0",
-                    sapp.id, splatform.id, max_version
-                );
-                while (!app_version.enumerate(query)) {
-                    app_versions[n++] = app_version;
-                    if (n == MAX_APP_VERSIONS) {
-                        overflow("app_versions", "MAX_APP_VERSIONS");
+            while (!app_version.enumerate(query)) {
+                avs.push_back(app_version);
+            }
+            for (unsigned int k=0; k<avs.size(); k++) {
+                APP_VERSION& av1 = avs[k];
+                for (unsigned int kk=k+1; kk<avs.size(); kk++) {
+                    APP_VERSION& av2 = avs[kk];
+                    if (!strcmp(av1.plan_class, av2.plan_class) && av1.version_num > av2.version_num) {
+                        av2.deprecated = 1;
                     }
+                }
+            }
+            for (unsigned int k=0; k<avs.size(); k++) {
+                APP_VERSION& av1 = avs[k];
+                if (av1.deprecated) continue;
+                app_versions[n++] = av1;
+                if (n == MAX_APP_VERSIONS) {
+                    overflow("app_versions", "MAX_APP_VERSIONS");
                 }
             }
         }

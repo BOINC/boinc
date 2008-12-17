@@ -10224,3 +10224,10 @@ Rom    17 Dec 2008
     /
         configure.ac
         version.h
+
+David  17 Dec 2008
+    - feeder: include all app versions that have maximal version num
+        within their plan class
+
+    sched/
+        sched_shmem.cpp
