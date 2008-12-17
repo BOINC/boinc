@@ -1,10 +1,27 @@
 <?
 
 $project_news = array(
+array("December 17, 2008",
+    "BOINC now supports <a href=cuda.php>computing using NVIDIA GPUs</a>.
+    Two projects currently have GPU-enabled applications:
+    <a href=http://gpugrid.net/>GPUgrid.net</a> and
+    <a href=http://setiathome.berkeley.edu/>SETI@home</a>.
+    If your computer has a recent NVIDIA GPU,
+    you can compute 2X to 10X faster than with your CPU alone.
+    "
+),
+array("December 17, 2008",
+    "A press release from NVIDIA announcing BOINC's GPU support
+    is available in
+    <a href=http://www.imim.es/news/view.php?ID=37>English</a>,
+    <a href=http://www.imim.es/noticias/view.php?ID=91>Spanish</a>,
+    and <a href=http://www.imim.es/noticies/view.php?ID=183>Catalan</a>."
+),
 array("December 16, 2008",
-      "BOINC 6.4 is now the recommended version for Windows and Linux. 
-       <a href=\"http://boinc.berkeley.edu/download.php\">Upgrade now</a>.
-      "
+    "Version 6.4 of the BOINC client software has been released.
+    This is the recommended version for Windows and Linux. 
+    <a href=\"http://boinc.berkeley.edu/download.php\">Upgrade now</a>.
+    "
 ),
 array("December 10, 2008",
     "<a href=http://aqua.dwavesys.com/>AQUA@home</a> is now open to volunteers.  AQUA (Adiabatic QUantum Algorithms) is a research project, based at D-Wave Systems, Inc.,  whose goal is to predict the performance of superconducting adiabatic quantum computers on a variety of hard problems arising in fields ranging from materials science to machine learning."
