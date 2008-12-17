@@ -10209,3 +10209,10 @@ Rom    17 Dec 2008
      curl/
          <various Files>
  
+David  17 Dec 2008
+    - scheduler: add some debugging msgs
+
+    sched/
+        sched_plan.cpp
+        sched_send.cpp
+        server_types.cpp

@@ -68,8 +68,11 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             COPROC* cp = sreq.coprocs.coprocs[i];
             if (!strcmp(cp->type, "CUDA")) {
                 COPROC_CUDA* cp2 = (COPROC_CUDA*) cp;
-                if ((cp2->prop.major)*100 + (cp2->prop.minor) <= 100) {
-                    log_messages.printf(MSG_DEBUG, "CUDA version < 1.1\n");
+                int v = (cp2->prop.major)*100 + cp2->prop.minor;
+                if (v < 101) {
+                    log_messages.printf(MSG_DEBUG,
+                        "CUDA version %d < 1.1\n", v
+                    );
                     return false;
                 } 
 
@@ -98,6 +101,12 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 if (!x) x = y;
 
                 hu.flops = 5e10 * (x/y);
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_DEBUG,
+                        "CUDA app estimated %f FLOPS (clock %d count %d)\n",
+                        hu.flops, cp2->prop.clockRate, cp2->prop.multiProcessorCount
+                    );
+                }
                 return true;
             }
         }

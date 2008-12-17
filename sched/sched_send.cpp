@@ -734,8 +734,10 @@ int add_wu_to_reply(
         g_reply->insert_app_version_unique(*avp2);
         if (config.debug_send) {
             log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] Sending app_version %s %d %d\n",
-                g_reply->host.id, app->name, avp2->platformid, avp2->version_num
+                "[HOST#%d] Sending app_version %s %d %d %s; %f FLOPS\n",
+                g_reply->host.id, app->name,
+                avp2->platformid, avp2->version_num, avp2->plan_class,
+                bavp->host_usage.flops
             );
         }
     }
