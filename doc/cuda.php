@@ -36,17 +36,20 @@ If your GPU is listed here and has at least 256MB of RAM, it's compatible.
 </ul>
 </dd>
 <p>
-<b>2) Get the latest NVIDIA driver</b>
-<dd>
-<a href=http://www.nvidia.com/page/drivers.html>Download and install the latest driver</a> (a reboot will be required).
-</dd>
-<p>
-<b>3) Get the latest BOINC software</b>
+<b>2) Get the latest BOINC software</b>
 <dd>
 <a href=download.php>Download and install</a>
 version 6.4.5 or later of the BOINC software.
 </dd>
-
+<p>
+<b>3) Get the latest NVIDIA driver</b>
+<dd>
+Run BOINC, and look at the Messages.
+If BOINC reports a CUDA device, your current driver is OK.
+Otherwise
+<a href=http://www.nvidia.com/page/drivers.html>download and install the latest driver</a> (a reboot will be required).
+</dd>
+<p>
 <p>
 You're done!
 Now start up BOINC, and soon you'll be racking up big credit numbers.
