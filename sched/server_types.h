@@ -119,7 +119,6 @@ struct WORK_REQ {
         // http://boinc.berkeley.edu/trac/wiki/ClientSched#NormalizedCPUTime
     double disk_available;
     int nresults;
-    double running_frac;
     bool trust;     // allow unreplicated jobs to be sent
 
     // The following keep track of the "easiest" job that was rejected

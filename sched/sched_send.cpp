@@ -329,10 +329,6 @@ double max_allowable_disk() {
     return x;
 }
 
-// if a host has active_frac < 0.1, assume 0.1 so we don't deprive it of work.
-//
-const double HOST_ACTIVE_FRAC_MIN = 0.1;
-
 static double estimate_duration_unscaled(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     double rsc_fpops_est = wu.rsc_fpops_est;
     if (rsc_fpops_est <= 0) rsc_fpops_est = 1e12;
@@ -346,17 +342,42 @@ static double estimate_duration_unscaled(WORKUNIT& wu, BEST_APP_VERSION& bav) {
 // across all projects.
 //
 double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
-    double x = estimate_duration_unscaled(wu, bav);
-    double ewd = x/g_reply->wreq.running_frac;
-    if (!config.ignore_dcf && g_reply->host.duration_correction_factor) {
-        ewd *= g_reply->host.duration_correction_factor;
+    double edu = estimate_duration_unscaled(wu, bav);
+    double rf;
+
+    if (g_request->core_client_version<=419) {
+        rf = g_reply->host.on_frac;
+    } else {
+        rf = g_reply->host.active_frac * g_reply->host.on_frac;
+    }
+
+    // clamp running_frac and DCF to a reasonable range
+    //
+    if (rf > 1) {
+        log_messages.printf(MSG_NORMAL, "running_frac=%f; setting to 1\n");
+        rf = 1;
+    } else if (rf < .1) {
+        log_messages.printf(MSG_NORMAL, "running_frac=%f; setting to 0.1\n");
+        rf = .1;
+    }
+    double ed = edu/rf;
+    if (!config.ignore_dcf) {
+        double dcf = g_reply->host.duration_correction_factor;
+        if (dcf > 10) {
+            log_messages.printf(MSG_NORMAL, "DCF=%f; setting to 10\n", dcf);
+            dcf = 10;
+        } else if (dcf < 0.1) {
+            log_messages.printf(MSG_NORMAL, "DCF=%f; setting to 0.1\n", dcf);
+            dcf = 0.1;
+        }
+        ed *= dcf;
     }
     if (config.debug_send) {
         log_messages.printf(MSG_DEBUG,
-            "est. duration for WU %d: unscaled %f scaled %f\n", wu.id, x, ewd
+            "est. duration for WU %d: unscaled %f scaled %f\n", wu.id, edu, ed
         );
     }
-    return ewd;
+    return ed;
 }
 
 // Find or compute various info about the host;
@@ -1260,18 +1281,6 @@ static void explain_to_user() {
     }
 }
 
-static void get_running_frac() {
-    if (g_request->core_client_version<=419) {
-        g_wreq->running_frac = g_reply->host.on_frac;
-    } else {
-        g_wreq->running_frac = g_reply->host.active_frac * g_reply->host.on_frac;
-    }
-    if (g_wreq->running_frac < HOST_ACTIVE_FRAC_MIN) {
-        g_wreq->running_frac = HOST_ACTIVE_FRAC_MIN;
-    }
-    if (g_wreq->running_frac > 1) g_wreq->running_frac = 1;
-}
-
 static void send_work_old() {
     g_wreq->beta_only = false;
     g_wreq->user_apps_only = true;
@@ -1363,8 +1372,6 @@ void send_work() {
 
     set_trust();
 
-    get_running_frac();
-
     if (config.debug_send) {
         log_messages.printf(MSG_DEBUG,
             "%s matchmaker scheduling; %s EDF sim\n",
@@ -1377,8 +1384,9 @@ void send_work() {
             (int)g_request->global_prefs.work_buf_min()
         );
         log_messages.printf(MSG_DEBUG,
-            "running frac %f DCF %f est delay %d\n",
-            g_wreq->running_frac,
+            "active_frac %f on_frac %f DCF %f est delay %d\n",
+            g_reply->host.active_frac,
+            g_reply->host.on_frac,
             g_reply->host.duration_correction_factor,
             (int)g_request->estimated_delay
         );

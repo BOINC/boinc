@@ -10243,3 +10243,11 @@ David  17 Dec 2008
 
     sched/
         sched_shmem.cpp
+
+David  17 Dec 2008
+    - scheduler: in estimating job duration,
+        clamp running fraction to [.1, 1] and clamp DCF to [.1, 100]
+
+    sched/
+        sched_send.cpp
+        server_types.h
