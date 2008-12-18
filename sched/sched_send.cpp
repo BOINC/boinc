@@ -380,10 +380,7 @@ double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     return ed;
 }
 
-// Find or compute various info about the host;
-// this info affects which jobs are sent to the host.
-//
-static int get_host_info(SCHEDULER_REPLY& reply) {
+static void get_prefs_info() {
     char buf[8096];
     string str;
     unsigned int pos = 0;
@@ -396,22 +393,30 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
     // scan user's project prefs for elements of the form <app_id>N</app_id>,
     // indicating the apps they want to run.
     //
-    g_wreq->host_info.preferred_apps.clear();
+    g_wreq->preferred_apps.clear();
     while (parse_int(str.substr(pos,str.length()-pos).c_str(), "<app_id>", temp_int)) {
         APP_INFO ai;
         ai.appid = temp_int;
         ai.work_available = false;
-        g_wreq->host_info.preferred_apps.push_back(ai);
+        g_wreq->preferred_apps.push_back(ai);
 
         pos = str.find("<app_id>", pos) + 1;
     }
 	if (parse_bool(buf,"allow_non_preferred_apps", flag)) {
-	    g_wreq->host_info.allow_non_preferred_apps = flag;
+	    g_wreq->allow_non_preferred_apps = flag;
     }
 	if (parse_bool(buf,"allow_beta_work", flag)) {
-        g_wreq->host_info.allow_beta_work = flag;
+        g_wreq->allow_beta_work = flag;
 	}
- 
+	if (parse_bool(buf,"no_gpus", flag)) {
+        g_wreq->no_gpus = flag;
+    }
+}
+
+// Find or compute various info about the host;
+// this info affects which jobs are sent to the host.
+//
+static void get_host_info() {
     // Decide whether or not this computer is 'reliable'
     // A computer is reliable if the following conditions are true
     // (for those that are set in the config file)
@@ -442,18 +447,17 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
         && (config.reliable_max_error_rate == 0 || g_reply->host.error_rate < config.reliable_max_error_rate*multiplier)
         && (config.daily_result_quota == 0 || g_reply->host.max_results_day >= config.daily_result_quota)
      ) {
-        g_wreq->host_info.reliable = true;
+        g_wreq->reliable = true;
     }
     if (config.debug_send) {
         log_messages.printf(MSG_DEBUG,
             "[HOST#%d] is%s reliable (OS = %s) error_rate = %.6f avg_turn_hrs = %.3f \n",
             g_reply->host.id,
-            g_wreq->host_info.reliable?"":" not",
+            g_wreq->reliable?"":" not",
             g_reply->host.os_name, g_reply->host.error_rate,
             g_reply->host.avg_turnaround/3600
         );
     }
-    return 0;
 }
 
 // Return true if the user has set application preferences,
@@ -462,10 +466,10 @@ static int get_host_info(SCHEDULER_REPLY& reply) {
 bool app_not_selected(WORKUNIT& wu) {
     unsigned int i;
 
-    if (g_wreq->host_info.preferred_apps.size() == 0) return false;
-    for (i=0; i<g_wreq->host_info.preferred_apps.size(); i++) {
-        if (wu.appid == g_wreq->host_info.preferred_apps[i].appid) {
-    	    g_wreq->host_info.preferred_apps[i].work_available = true;
+    if (g_wreq->preferred_apps.size() == 0) return false;
+    for (i=0; i<g_wreq->preferred_apps.size(); i++) {
+        if (wu.appid == g_wreq->preferred_apps[i].appid) {
+    	    g_wreq->preferred_apps[i].work_available = true;
             return false;
         }
     }
@@ -1118,16 +1122,16 @@ static void explain_to_user() {
 
             // Inform the user about applications with no work
             //
-            for (i=0; i<g_wreq->host_info.preferred_apps.size(); i++) {
-                if (!g_wreq->host_info.preferred_apps[i].work_available) {
-                    APP* app = ssp->lookup_app(g_wreq->host_info.preferred_apps[i].appid);
+            for (i=0; i<g_wreq->preferred_apps.size(); i++) {
+                if (!g_wreq->preferred_apps[i].work_available) {
+                    APP* app = ssp->lookup_app(g_wreq->preferred_apps[i].appid);
                     // don't write message if the app is deprecated
                     //
                     if (app) {
                         char explanation[256];
                         sprintf(explanation,
                             "No work is available for %s",
-                            find_user_friendly_name(g_wreq->host_info.preferred_apps[i].appid)
+                            find_user_friendly_name(g_wreq->preferred_apps[i].appid)
                         );
                         USER_MESSAGE um2(explanation, "high");
                         g_reply->insert_message(um2);
@@ -1157,14 +1161,14 @@ static void explain_to_user() {
         USER_MESSAGE um2("No work sent", "high");
         g_reply->insert_message(um2);
         // Inform the user about applications with no work
-        for (i=0; i<g_wreq->host_info.preferred_apps.size(); i++) {
-         	if (!g_wreq->host_info.preferred_apps[i].work_available) {
-         		APP* app = ssp->lookup_app(g_wreq->host_info.preferred_apps[i].appid);
+        for (i=0; i<g_wreq->preferred_apps.size(); i++) {
+         	if (!g_wreq->preferred_apps[i].work_available) {
+         		APP* app = ssp->lookup_app(g_wreq->preferred_apps[i].appid);
          		// don't write message if the app is deprecated
          		if (app != NULL) {
            			char explanation[256];
            			sprintf(explanation, "No work is available for %s",
-                        find_user_friendly_name(g_wreq->host_info.preferred_apps[i].appid)
+                        find_user_friendly_name(g_wreq->preferred_apps[i].appid)
                     );
         			USER_MESSAGE um(explanation, "high");
            			g_reply->insert_message(um);
@@ -1287,7 +1291,7 @@ static void send_work_old() {
 
     // give top priority to results that require a 'reliable host'
     //
-    if (g_wreq->host_info.reliable) {
+    if (g_wreq->reliable) {
         g_wreq->reliable_only = true;
         g_wreq->infeasible_only = false;
         scan_work_array(*g_request, *g_reply);
@@ -1298,7 +1302,7 @@ static void send_work_old() {
     // (projects should load beta work with care,
     // otherwise your users won't get production work done!
     //
-    if (g_wreq->host_info.allow_beta_work) {
+    if (g_wreq->allow_beta_work) {
         g_wreq->beta_only = true;
         if (config.debug_send) {
             log_messages.printf(MSG_DEBUG,
@@ -1321,7 +1325,7 @@ static void send_work_old() {
     // If user has selected apps but will accept any,
     // and we haven't found any jobs for selected apps, try others
     //
-    if (!g_wreq->nresults && g_wreq->host_info.allow_non_preferred_apps ) {
+    if (!g_wreq->nresults && g_wreq->allow_non_preferred_apps ) {
         g_wreq->user_apps_only = false;
         preferred_app_message_index = g_wreq->no_work_messages.size();
         if (config.debug_send) {
@@ -1368,7 +1372,8 @@ void send_work() {
         return;
     }
 
-    get_host_info(*g_reply); // parse project prefs for app details
+    get_host_info();
+    get_prefs_info();
 
     set_trust();
 
@@ -1542,14 +1547,14 @@ bool JOB::get_score() {
     // and send beta work to beta users
     //
     if (app->beta && !config.distinct_beta_apps) {
-        if (g_wreq->host_info.allow_beta_work) {
+        if (g_wreq->allow_beta_work) {
             score += 1;
         } else {
             return false;
         }
     } else {
         if (app_not_selected(wu)) {
-            if (!g_wreq->host_info.allow_non_preferred_apps) {
+            if (!g_wreq->allow_non_preferred_apps) {
                 return false;
             } else {
             // Allow work to be sent, but it will not get a bump in its score
@@ -1561,7 +1566,7 @@ bool JOB::get_score() {
             
     // if job needs to get done fast, send to fast/reliable host
     //
-    if (g_wreq->host_info.reliable && (wu_result.need_reliable)) {
+    if (g_wreq->reliable && (wu_result.need_reliable)) {
         score += 1;
     }
     

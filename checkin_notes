@@ -10244,10 +10244,21 @@ David  17 Dec 2008
     sched/
         sched_shmem.cpp
 
-David  17 Dec 2008
+David  18 Dec 2008
     - scheduler: in estimating job duration,
         clamp running fraction to [.1, 1] and clamp DCF to [.1, 100]
 
     sched/
+        sched_send.cpp
+        server_types.h
+
+David  18 Dec 2008
+    - web/scheduler: add a project-specific preferences for
+        whether to accept GPU jobs
+
+    html/project.sample/
+        project_specific_prefs.inc
+    sched/
+        sched_plan.cpp
         sched_send.cpp
         server_types.h

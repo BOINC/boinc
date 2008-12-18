@@ -36,15 +36,6 @@ struct APP_INFO {
 	int work_available;
 };
 
-// Details concerning a host
-//
-struct HOST_INFO {
-	bool allow_non_preferred_apps;
-	bool allow_beta_work;
-	bool reliable;
-	std::vector<APP_INFO> preferred_apps;
-};
-
 // represents a resource (disk etc.) that the client may not have enough of
 //
 struct RESOURCE {
@@ -107,19 +98,31 @@ struct BEST_APP_VERSION {
 // Note: this is zeroed out in SCHEDULER_REPLY constructor
 //
 struct WORK_REQ {
+    // Flags used by old-style scheduling,
+    // while making multiple passes through the work array
     bool infeasible_only;
     bool reliable_only;
     bool user_apps_only;
     bool beta_only;
-        // The above are used by old-style (non-score-based) scheduling
 
-    HOST_INFO host_info;
+    // user preferences
+    bool no_gpus;
+	bool allow_non_preferred_apps;
+	bool allow_beta_work;
+	std::vector<APP_INFO> preferred_apps;
+
+	bool reliable;
+        // whether the host is classified as "reliable"
+        // (misnomer: means low turnaround time and low error rate
+
+    bool trust;
+        // whether to send unreplicated jobs
+
     double seconds_to_fill;
 		// in "normalized CPU seconds"; see
         // http://boinc.berkeley.edu/trac/wiki/ClientSched#NormalizedCPUTime
     double disk_available;
     int nresults;
-    bool trust;     // allow unreplicated jobs to be sent
 
     // The following keep track of the "easiest" job that was rejected
     // by EDF simulation.

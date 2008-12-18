@@ -61,6 +61,14 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         hu.flops = 0.95*sreq.host.p_fpops*nthreads;
         return true;
     } else if (!strcmp(plan_class, "cuda")) {
+        if (g_wreq->no_gpus) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_DEBUG,
+                    "Skipping CUDA version - user prefs say no GPUS\n"
+                );
+            }
+            return false;
+        }
         // the following is for an app that uses a CUDA GPU
         // and some CPU also, and gets 50 GFLOPS total
         //
