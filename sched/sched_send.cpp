@@ -354,10 +354,10 @@ double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     // clamp running_frac and DCF to a reasonable range
     //
     if (rf > 1) {
-        log_messages.printf(MSG_NORMAL, "running_frac=%f; setting to 1\n");
+        log_messages.printf(MSG_NORMAL, "running_frac=%f; setting to 1\n", rf);
         rf = 1;
     } else if (rf < .1) {
-        log_messages.printf(MSG_NORMAL, "running_frac=%f; setting to 0.1\n");
+        log_messages.printf(MSG_NORMAL, "running_frac=%f; setting to 0.1\n", rf);
         rf = .1;
     }
     double ed = edu/rf;
@@ -759,10 +759,10 @@ int add_wu_to_reply(
         g_reply->insert_app_version_unique(*avp2);
         if (config.debug_send) {
             log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] Sending app_version %s %d %d %s; %f FLOPS\n",
+                "[HOST#%d] Sending app_version %s %d %d %s; %.2f GFLOPS\n",
                 g_reply->host.id, app->name,
                 avp2->platformid, avp2->version_num, avp2->plan_class,
-                bavp->host_usage.flops
+                bavp->host_usage.flops/GIGA
             );
         }
     }

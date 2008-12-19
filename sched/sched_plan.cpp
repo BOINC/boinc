@@ -25,6 +25,7 @@
 //    (and write-protect that)
 // In either case, put your version under source-code control, e.g. SVN
 
+#include "str_util.h"
 #include "sched_config.h"
 #include "sched_msgs.h"
 #include "sched_plan.h"
@@ -113,8 +114,9 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 hu.flops = 5e10 * (x/y);
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_DEBUG,
-                        "CUDA app estimated %f FLOPS (clock %d count %d)\n",
-                        hu.flops, cp2->prop.clockRate, cp2->prop.multiProcessorCount
+                        "CUDA app estimated %.2f GFLOPS (clock %d count %d)\n",
+                        hu.flops/GIGA, cp2->prop.clockRate,
+                        cp2->prop.multiProcessorCount
                     );
                 }
                 return true;

@@ -10296,3 +10296,11 @@ David  19 Dec 2008
     sched/
         sched_plan.cpp
         server_types.cpp
+
+David  19 Dec 2008
+    - scheduler: fix message that showed running_frac as garbage;
+        show FLOPS as GFLOPS
+
+    sched/
+        sched_plan.cpp
+        sched_send.cpp
