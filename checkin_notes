@@ -10287,3 +10287,12 @@ David  19 Dec 2008
             view_profile.php
     sched/
         (many files)
+
+David  19 Dec 2008
+    - client: error checking for on/connected/active_frac values from XML
+
+    client/
+        time_stats.cpp
+    sched/
+        sched_plan.cpp
+        server_types.cpp

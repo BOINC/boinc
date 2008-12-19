@@ -1023,8 +1023,7 @@ int HOST::parse(FILE* fin) {
         if (match_tag(buf, "<accelerators>")) continue;
 
 #if 1
-        // not sure where thees fields belong in the above
-        // categories
+        // not sure where these fields belong in the above categories
         //
         if (match_tag(buf, "<cpu_caps>")) continue;
         if (match_tag(buf, "<cache_l1>")) continue;

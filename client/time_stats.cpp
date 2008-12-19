@@ -261,14 +261,47 @@ int TIME_STATS::write(MIOFILE& out, bool to_server) {
 //
 int TIME_STATS::parse(MIOFILE& in) {
     char buf[256];
+    double x;
 
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</time_stats>")) return 0;
-        else if (parse_double(buf, "<last_update>", last_update)) continue;
-        else if (parse_double(buf, "<on_frac>", on_frac)) continue;
-        else if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
-        else if (parse_double(buf, "<active_frac>", active_frac)) continue;
-        else {
+        else if (parse_double(buf, "<last_update>", x)) {
+            if (x < 0 || x > gstate.now) {
+                msg_printf(0, MSG_INTERNAL_ERROR,
+                    "bad value %f of time stats last update; ignoring", x
+                );
+            } else {
+                last_update = x;
+            }
+            continue;
+        } else if (parse_double(buf, "<on_frac>", on_frac)) {
+            if (x < 0 || x > 1) {
+                msg_printf(0, MSG_INTERNAL_ERROR,
+                    "bad value %f of time stats on_frac; ignoring", x
+                );
+            } else {
+                on_frac = x;
+            }
+            continue;
+        } else if (parse_double(buf, "<connected_frac>", x)) {
+            if (x < 0 || x > 1) {
+                msg_printf(0, MSG_INTERNAL_ERROR,
+                    "bad value %f of time stats connected_frac; ignoring", x
+                );
+            } else {
+                connected_frac = x;
+            }
+            continue;
+        } else if (parse_double(buf, "<active_frac>", active_frac)) {
+            if (x < 0 || x > 1) {
+                msg_printf(0, MSG_INTERNAL_ERROR,
+                    "bad value %f of time stats active_frac; ignoring", x
+                );
+            } else {
+                active_frac = x;
+            }
+            continue;
+        } else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,
                     "[unparsed_xml] TIME_STATS::parse(): unrecognized: %s\n", buf

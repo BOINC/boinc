@@ -85,7 +85,9 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 } 
 
                 if (cp2->prop.totalGlobalMem < 256*1024*1024) {
-                    log_messages.printf(MSG_DEBUG, "CUDA mem < 256MB\n");
+                    log_messages.printf(MSG_DEBUG,
+                        "CUDA mem %d < 256MB\n", cp2->prop.totalGlobalMem
+                    );
                     return false;
                 }
                 COPROC* cu = new COPROC (cp->type);
