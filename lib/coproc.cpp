@@ -299,11 +299,13 @@ void COPROC_CUDA::clear() {
     prop.maxGridSize[0] = 0;
     prop.maxGridSize[1] = 0;
     prop.maxGridSize[2] = 0;
+    prop.clockRate = 0;
     prop.totalConstMem = 0;
     prop.major = 0;
     prop.minor = 0;
-    prop.clockRate = 0;
     prop.textureAlignment = 0;
+    prop.deviceOverlap = 0;
+    prop.multiProcessorCount = 0;
 }
 
 int COPROC_CUDA::parse(FILE* fin) {
@@ -346,11 +348,13 @@ int COPROC_CUDA::parse(FILE* fin) {
             }
             continue;
         }
+        if (parse_int(buf, "<clockRate>", prop.clockRate)) continue;
         if (parse_int(buf, "<totalConstMem>", (int&)prop.totalConstMem)) continue;
         if (parse_int(buf, "<major>", prop.major)) continue;
         if (parse_int(buf, "<minor>", prop.minor)) continue;
-        if (parse_int(buf, "<clockRate>", prop.clockRate)) continue;
         if (parse_int(buf, "<textureAlignment>", (int&)prop.textureAlignment)) continue;
+        if (parse_int(buf, "<deviceOverlap>", prop.deviceOverlap)) continue;
+        if (parse_int(buf, "<multiProcessorCount>", prop.multiProcessorCount)) continue;
     }
     return ERR_XML_PARSE;
 }
