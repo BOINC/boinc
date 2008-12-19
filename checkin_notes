@@ -10262,3 +10262,12 @@ David  18 Dec 2008
         sched_plan.cpp
         sched_send.cpp
         server_types.h
+
+Charlie 17 Dec 2008
+    - Mac: Fix compiler warning.
+    
+     mac_build/
+        HowToBuildBOINC_XCode.rtf
+        boinc.xcodeproj/
+            project.pbxproj
+
