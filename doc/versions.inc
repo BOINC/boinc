@@ -61,6 +61,14 @@ function type_text($type) {
     }
 }
 
+$w65= array(
+    "num"=>"6.5.0",
+    "status"=>"Development version",
+    "file"=>"boinc_6.5.0_windows_intelx86.exe",
+    "date"=>"18 Dec 2008",
+    "type"=>"win_new",
+);
+
 $w64= array(
     "num"=>"6.4.5",
     "status"=>"Recommended version",
@@ -77,11 +85,11 @@ $w6219= array(
     "type"=>"win_new",
 );
 
-$w51045= array(
-    "num"=>"5.10.45",
-    "status"=>"Older version",
-    "file"=>"boinc_5.10.45_windows_intelx86.exe",
-    "date"=>"5 Mar 2008",
+$w65x64= array(
+    "num"=>"6.5.0",
+    "status"=>"Development version",
+    "file"=>"boinc_6.5.0_windows_x86_64.exe",
+    "date"=>"18 Dec 2008",
     "type"=>"win_new",
 );
 
@@ -98,14 +106,6 @@ $w6219x64= array(
     "status"=>"Older version",
     "file"=>"boinc_6.2.19_windows_x86_64.exe",
     "date"=>"22 Sep 2008",
-    "type"=>"win_new",
-);
-
-$w51045x64= array(
-    "num"=>"5.10.45",
-    "status"=>"Older version",
-    "file"=>"boinc_5.10.45_windows_x86_64.exe",
-    "date"=>"5 Mar 2008",
     "type"=>"win_new",
 );
 
@@ -266,9 +266,9 @@ $windows = array(
     "description"=>"98/ME/2000/XP/Vista ",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-		$w64,
-		$w6219,
-		$w51045,
+        $w65,
+        $w64,
+        $w6219,
         $w5816,
     )
 );
@@ -278,9 +278,9 @@ $windowsx64 = array(
     "description"=>"XP/Vista",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-		$w64x64,
+        $w65x64,
+        $w64x64,
 		$w6219x64,
-        $w51045x64,
     )
 );
 
