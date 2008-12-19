@@ -28,12 +28,16 @@ if (!$user->has_profile) {
 }
  
 $logged_in_user = get_logged_in_user(false);
+
+check_whether_to_show_profile($user, $logged_in_user);
+
 $caching = false;
 if (!$logged_in_user) {
     $caching = true;
     $cache_args = "userid=$userid";
     start_cache(USER_PROFILE_TTL, $cache_args);
 }
+
 page_head("Profile: $user->name");
 start_table();
 echo "<tr><td valign=top>";

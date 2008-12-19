@@ -29,9 +29,7 @@
 
 #include "sched_assign.h"
 
-static int send_assigned_job(
-    ASSIGNMENT& asg, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
-) {
+static int send_assigned_job(ASSIGNMENT& asg) {
     int retval;
     DB_WORKUNIT wu;
     char rtfpath[256], suffix[256], path[256], buf[256];
@@ -99,7 +97,7 @@ static int send_assigned_job(
     if (config.debug_assignment) {
         log_messages.printf(MSG_DEBUG,
             "[WU#%d] [RESULT#%d] [HOST#%d] send assignment %d\n",
-            wu.id, result_id, reply.host.id, asg.id
+            wu.id, result_id, g_reply->host.id, asg.id
         );
     }
     return 0;
@@ -108,7 +106,7 @@ static int send_assigned_job(
 // Send this host any jobs assigned to it, or to its user/team
 // Return true iff we sent anything
 //
-bool send_assigned_jobs(SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply) {
+bool send_assigned_jobs() {
     DB_RESULT result;
     int retval;
     char buf[256];
@@ -128,46 +126,46 @@ bool send_assigned_jobs(SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply) {
         switch (asg.target_type) {
         case ASSIGN_NONE:
             sprintf(buf, "where hostid=%d and workunitid=%d",
-                reply.host.id, asg.workunitid
+                g_reply->host.id, asg.workunitid
             );
             retval = result.lookup(buf);
             if (retval == ERR_DB_NOT_FOUND) {
-                retval = send_assigned_job(asg, request, reply);
+                retval = send_assigned_job(asg);
                 if (!retval) sent_something = true;
             }
             break;
         case ASSIGN_HOST:
-            if (reply.host.id != asg.target_id) continue;
+            if (g_reply->host.id != asg.target_id) continue;
             sprintf(buf, "where workunitid=%d", asg.workunitid);
             retval = result.lookup(buf);
             if (retval == ERR_DB_NOT_FOUND) {
-                retval = send_assigned_job(asg, request, reply);
+                retval = send_assigned_job(asg);
                 if (!retval) sent_something = true;
             }
             break;
         case ASSIGN_USER:
-            if (reply.user.id != asg.target_id) continue;
+            if (g_reply->user.id != asg.target_id) continue;
             if (asg.multi) {
-                sprintf(buf, "where workunitid=%d and hostid=%d", asg.workunitid, reply.host.id);
+                sprintf(buf, "where workunitid=%d and hostid=%d", asg.workunitid, g_reply->host.id);
             } else {
                 sprintf(buf, "where workunitid=%d", asg.workunitid);
             }
             retval = result.lookup(buf);
             if (retval == ERR_DB_NOT_FOUND) {
-                retval = send_assigned_job(asg, request, reply);
+                retval = send_assigned_job(asg);
                 if (!retval) sent_something = true;
             }
             break;
         case ASSIGN_TEAM:
-            if (reply.team.id != asg.target_id) continue;
+            if (g_reply->team.id != asg.target_id) continue;
             if (asg.multi) {
-                sprintf(buf, "where workunitid=%d and hostid=%d", asg.workunitid, reply.host.id);
+                sprintf(buf, "where workunitid=%d and hostid=%d", asg.workunitid, g_reply->host.id);
             } else {
                 sprintf(buf, "where workunitid=%d", asg.workunitid);
             }
             retval = result.lookup(buf);
             if (retval == ERR_DB_NOT_FOUND) {
-                retval = send_assigned_job(asg, request, reply);
+                retval = send_assigned_job(asg);
                 if (!retval) sent_something = true;
             }
             break;

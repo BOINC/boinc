@@ -15,12 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-extern bool already_sent_to_different_platform_quick(
-    SCHEDULER_REQUEST& sreq, WORKUNIT&, APP&
-);
+extern bool already_sent_to_different_platform_quick(WORKUNIT&, APP&);
 
 extern bool already_sent_to_different_platform_careful(
-    SCHEDULER_REQUEST& sreq, WORK_REQ& wreq, WORKUNIT& workunit, APP&
+    WORKUNIT& workunit, APP&
 );
 
 extern bool hr_unknown_platform(HOST&);

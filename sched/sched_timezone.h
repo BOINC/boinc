@@ -15,10 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-extern void process_av_timezone(
-    SCHEDULER_REPLY& reply, APP_VERSION* avp, APP_VERSION& av2
-);
+extern void process_av_timezone(APP_VERSION* avp, APP_VERSION& av2);
 
-extern void process_wu_timezone(
-    SCHEDULER_REPLY& reply, WORKUNIT& wu2, WORKUNIT& wu3
-);
+extern void process_wu_timezone(WORKUNIT& wu2, WORKUNIT& wu3);

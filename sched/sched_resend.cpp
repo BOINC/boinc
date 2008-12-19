@@ -96,7 +96,7 @@ static int possibly_give_result_new_deadline(
 // 3) aren't present on the host
 // Return true if there were any such jobs
 //
-bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+bool resend_lost_work() {
     DB_RESULT result;
     std::vector<DB_RESULT>results;
     unsigned int i;
@@ -109,12 +109,12 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     int retval;
 
     sprintf(buf, " where hostid=%d and server_state=%d ",
-        reply.host.id, RESULT_SERVER_STATE_IN_PROGRESS
+        g_reply->host.id, RESULT_SERVER_STATE_IN_PROGRESS
     );
     while (!result.enumerate(buf)) {
         bool found = false;
-        for (i=0; i<sreq.other_results.size(); i++) {
-            OTHER_RESULT& orp = sreq.other_results[i];
+        for (i=0; i<g_request->other_results.size(); i++) {
+            OTHER_RESULT& orp = g_request->other_results[i];
             if (!strcmp(orp.name.c_str(), result.name)) {
                 found = true;
                 break;
@@ -126,7 +126,7 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (config.debug_resend) {
             log_messages.printf(MSG_DEBUG,
                 "[HOST#%d] found lost [RESULT#%d]: %s\n",
-                reply.host.id, result.id, result.name
+                g_reply->host.id, result.id, result.name
             );
         }
 
@@ -135,7 +135,7 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] WU not found for [RESULT#%d]\n",
-                reply.host.id, result.id
+                g_reply->host.id, result.id
             );
             continue;
         }
@@ -144,7 +144,7 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (!bavp) {
             log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] no app version [RESULT#%d]\n",
-                reply.host.id, result.id
+                g_reply->host.id, result.id
             );
             continue;
         }
@@ -164,7 +164,7 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             if (config.debug_resend) {
                 log_messages.printf(MSG_DEBUG,
                     "[HOST#%d][RESULT#%d] not needed or too close to deadline, expiring\n",
-                    reply.host.id, result.id
+                    g_reply->host.id, result.id
                 );
             }
             result.report_deadline = time(0)-1;
@@ -187,19 +187,19 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 "Didn't resend lost result %s (expired)", result.name
             );
             USER_MESSAGE um(warning_msg, "high");
-            reply.insert_message(um);
+            g_reply->insert_message(um);
         } else {
             retval = add_result_to_reply(result, wu, bavp);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "[HOST#%d] failed to send [RESULT#%d]\n",
-                    reply.host.id, result.id
+                    g_reply->host.id, result.id
                 );
                 continue;
             }
             sprintf(warning_msg, "Resent lost result %s", result.name);
             USER_MESSAGE um(warning_msg, "high");
-            reply.insert_message(um);
+            g_reply->insert_message(um);
             num_resent++;
             did_any = true;
         }
@@ -207,7 +207,7 @@ bool resend_lost_work(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     if (num_eligible_to_resend && config.debug_resend) {
         log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] %d lost results, resent %d\n", reply.host.id, num_eligible_to_resend, num_resent 
+            "[HOST#%d] %d lost results, resent %d\n", g_reply->host.id, num_eligible_to_resend, num_resent 
         );
     }
 

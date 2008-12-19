@@ -39,10 +39,10 @@ void handle_time_stats_log(FILE* fin) {
 // The host has been authenticated, so write the stats.
 // Use a directory hierarchy since there may be many hosts
 //
-void write_time_stats_log(SCHEDULER_REPLY& reply) {
+void write_time_stats_log() {
     char dirname[256], filename[256];
 
-    int hostid = reply.host.id;
+    int hostid = g_reply->host.id;
     int dirnum = hostid % 1000;
     sprintf(dirname, "../time_stats_log/%d", dirnum);
     if (!is_dir(dirname)) {
@@ -73,10 +73,10 @@ void write_time_stats_log(SCHEDULER_REPLY& reply) {
     stats_buf = 0;
 }
 
-bool have_time_stats_log(SCHEDULER_REPLY& reply) {
+bool have_time_stats_log() {
     char filename[256];
 
-    int hostid = reply.host.id;
+    int hostid = g_reply->host.id;
     int dirnum = hostid % 1000;
     sprintf(filename, "../time_stats_log/%d/%d", dirnum, hostid);
     return is_file(filename);

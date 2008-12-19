@@ -242,7 +242,7 @@ int add_download_servers(char *old_xml, char *new_xml, int tz) {
         
         // advance pointer to start looking for next <url> tag.
         //
-        p=r;
+        p = r;
     }
     
     strcpy(new_xml, r);
@@ -252,23 +252,21 @@ int add_download_servers(char *old_xml, char *new_xml, int tz) {
 // replace the download URL for apps with a list of
 // multiple download servers.
 //
-void process_av_timezone(
-    SCHEDULER_REPLY& reply, APP_VERSION* avp, APP_VERSION& av2
-) {
+void process_av_timezone(APP_VERSION* avp, APP_VERSION& av2) {
     int retval;
 
     // set these global variables, needed by the compare()
     // function so that the download URL list can be sorted by timezone
     //
-    tzone=reply.host.timezone;
-    hostid=reply.host.id;
-    retval = add_download_servers(avp->xml_doc, av2.xml_doc, reply.host.timezone);
+    tzone = g_reply->host.timezone;
+    hostid = g_reply->host.id;
+    retval = add_download_servers(avp->xml_doc, av2.xml_doc, g_reply->host.timezone);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
             "add_download_servers(to APP version) failed\n"
         );
         // restore original WU!
-        av2=*avp;
+        av2 = *avp;
     }
 }
 
@@ -276,20 +274,20 @@ void process_av_timezone(
 // multiple download servers.
 //
 void process_wu_timezone(
-    SCHEDULER_REPLY& reply, WORKUNIT& wu2, WORKUNIT& wu3
+    WORKUNIT& wu2, WORKUNIT& wu3
 ) {
     int retval;
 
-    tzone=reply.host.timezone;
-    hostid=reply.host.id;
+    tzone = g_reply->host.timezone;
+    hostid = g_reply->host.id;
         
-    retval = add_download_servers(wu2.xml_doc, wu3.xml_doc, reply.host.timezone);
+    retval = add_download_servers(wu2.xml_doc, wu3.xml_doc, g_reply->host.timezone);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
             "add_download_servers(to WU) failed\n"
         );
         // restore original WU!
-        wu3=wu2;
+        wu3 = wu2;
     }
 }
 

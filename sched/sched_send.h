@@ -47,7 +47,7 @@ extern int wu_is_infeasible_fast(WORKUNIT&, APP&, BEST_APP_VERSION&);
  
 extern double max_allowable_disk();
 
-extern bool wu_already_in_reply(WORKUNIT& wu, SCHEDULER_REPLY& reply);
+extern bool wu_already_in_reply(WORKUNIT& wu);
 
 extern double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION&);
 
@@ -57,4 +57,4 @@ extern void lock_sema();
 extern void unlock_sema();
 extern const char* infeasible_string(int);
 extern bool app_not_selected(WORKUNIT&);
-extern bool work_needed(SCHEDULER_REQUEST&, SCHEDULER_REPLY&, bool);
+extern bool work_needed(bool);

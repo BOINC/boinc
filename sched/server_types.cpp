@@ -610,7 +610,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     );
 
     if (config.request_time_stats_log) {
-        if (!have_time_stats_log(*this)) {
+        if (!have_time_stats_log()) {
             fprintf(fout, "<send_time_stats_log>1</send_time_stats_log>\n");
         }
     }

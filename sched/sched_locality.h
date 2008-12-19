@@ -15,12 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-extern void send_work_locality(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
+extern void send_work_locality();
 
-extern int decrement_disk_space_locality(
-    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
-);
+extern int decrement_disk_space_locality(WORKUNIT& wu);
 
-extern int delete_file_from_host(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
+extern int delete_file_from_host();
 
-extern void send_file_deletes(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
+extern void send_file_deletes();

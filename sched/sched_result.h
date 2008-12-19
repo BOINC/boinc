@@ -15,4 +15,4 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-extern int handle_results(SCHEDULER_REQUEST&, SCHEDULER_REPLY&);
+extern int handle_results();

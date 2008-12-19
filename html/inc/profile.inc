@@ -183,6 +183,19 @@ function get_profile_summary($profile) {
     return $summary;
 }
 
+function check_whether_to_show_profile($user, $logged_in_user) {
+    $min_credit = parse_config(get_config(), "<profile_min_credit>");
+    if (!$logged_in_user && $min_credit && $user->expavg_credit < $min_credit ) {
+        error_page(
+           "To prevent spam, profiles of users with an average credit of less than $min_credit are displayed only to logged-in users.  We apologize for this inconvenience."
+        );
+    }
+    if (is_banished($user)) {
+        error_page("User is banished");
+    }
+
+}
+
 // Displays a user's profile (if they have one);
 // $screen_mode is set if we're in the administrative profile-screening page,
 // in which case we show everything
@@ -192,23 +205,12 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
     BoincForumPrefs::lookup($user);
     $profile = BoincProfile::lookup("userid = $user->id");
     if (!$profile) {
-        error_page("No user profile exists for that user ID.");
+        row1("No profile exists for that user ID.");
         $user->update("has_profile = 0");
+        return;
     }
 
-    $is_logged_in = isset($logged_in_user);
-
-    $can_edit = isset($logged_in_user) && $logged_in_user && $user->id == $logged_in_user->id;
-
-    $min_credit = parse_config(get_config(), "<profile_min_credit>");
-    if ((!$is_logged_in) && $min_credit && $user->expavg_credit < $min_credit ) {
-        error_page(
-           "To prevent spam, profiles of users with an average credit of less than $min_credit will only be displayed to users who are logged in to their accounts.  We appologize for this inconvenience."
-        );
-    }
-    if (is_banished($user)) {
-        error_page("User is banished");
-    }
+    $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
 
     if ($can_edit) {
         row1("<a href=create_profile.php>Edit your profile</a>");

@@ -93,11 +93,11 @@ static void get_weak_auth(USER& user, char* buf) {
     sprintf(buf, "%d_%s", user.id, out);
 }
 
-static void send_error_message(SCHEDULER_REPLY& reply, const char* msg, int delay) {
+static void send_error_message(const char* msg, int delay) {
     USER_MESSAGE um(msg, "low");
-    reply.insert_message(um);
-    reply.set_delay(delay);
-    reply.nucleus_only = true;
+    g_reply->insert_message(um);
+    g_reply->set_delay(delay);
+    g_reply->nucleus_only = true;
 }
 
 // Try to lock a file with name based on host ID,
@@ -109,14 +109,14 @@ static void send_error_message(SCHEDULER_REPLY& reply, const char* msg, int dela
 // PID (>0) if another process has lock
 // -1 if error (e.g. can't create file)
 //
-int lock_sched(SCHEDULER_REPLY& reply) {
+int lock_sched() {
     char filename[256];
     char pid_string[16];
     int fd, pid, count;
 
-    reply.lockfile_fd=-1;
+    g_reply->lockfile_fd=-1;
 
-    sprintf(filename, "%s/CGI_%07d", config.sched_lockfile_dir, reply.host.id);
+    sprintf(filename, "%s/CGI_%07d", config.sched_lockfile_dir, g_reply->host.id);
 
     fd = open(filename, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
     if (fd < 0) return -1;
@@ -137,19 +137,19 @@ int lock_sched(SCHEDULER_REPLY& reply) {
     write(fd, pid_string, count);
     fsync(fd);
 
-    reply.lockfile_fd = fd;
+    g_reply->lockfile_fd = fd;
     return 0;
 }
 
 // unlock and delete per-host lockfile
 //
-void unlock_sched(SCHEDULER_REPLY& reply) {
+void unlock_sched() {
     char filename[256];
 
-    if (reply.lockfile_fd < 0) return;
-    sprintf(filename, "%s/CGI_%07d", config.sched_lockfile_dir, reply.host.id);
+    if (g_reply->lockfile_fd < 0) return;
+    sprintf(filename, "%s/CGI_%07d", config.sched_lockfile_dir, g_reply->host.id);
     unlink(filename);
-    close(reply.lockfile_fd);
+    close(g_reply->lockfile_fd);
 }
 
 
@@ -213,7 +213,7 @@ static void mark_results_over(DB_HOST& host) {
 // Some special cases:
 //  1) If no host ID is supplied, or if RPC seqno mismatch,
 //     create a new host record
-//  2) If the host record specified by sreq.hostid is a "zombie"
+//  2) If the host record specified by g_request->hostid is a "zombie"
 //     (i.e. it was merged with another host via the web site)
 //     then follow links to find the proper host
 //
@@ -223,46 +223,46 @@ static void mark_results_over(DB_HOST& host) {
 // - reply.user contains a valid user record
 // - if user belongs to a team, reply.team contains team record
 //
-int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+int authenticate_user() {
     int retval;
     char buf[256];
     DB_HOST host;
     DB_USER user;
     DB_TEAM team;
 
-    if (sreq.hostid) {
-        retval = host.lookup_id(sreq.hostid);
+    if (g_request->hostid) {
+        retval = host.lookup_id(g_request->hostid);
         while (!retval && host.userid==0) {
             // if host record is zombie, follow link to new host
             //
             retval = host.lookup_id(host.rpc_seqno);
             if (!retval) {
-                reply.hostid = host.id;
+                g_reply->hostid = host.id;
                 log_messages.printf(MSG_NORMAL,
                     "[HOST#%d] forwarding to new host ID %d\n",
-                    sreq.hostid, host.id
+                    g_request->hostid, host.id
                 );
             }
         }
         if (retval) {
             USER_MESSAGE um("Can't find host record", "low");
-            reply.insert_message(um);
+            g_reply->insert_message(um);
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d?] can't find host\n",
-                sreq.hostid
+                g_request->hostid
             );
-            sreq.hostid = 0;
+            g_request->hostid = 0;
             goto lookup_user_and_make_new_host;
         }
 
-        reply.host = host;
+        g_reply->host = host;
 
         // look up user based on the ID in host record,
         // and see if the authenticator matches (regular or weak)
         //
         sprintf(buf, "where id=%d", host.userid);
         retval = user.lookup(buf);
-        if (!retval && !strcmp(user.authenticator, sreq.authenticator)) {
+        if (!retval && !strcmp(user.authenticator, g_request->authenticator)) {
             // req auth matches user auth - go on
         } else {
             bool weak_auth = false;
@@ -270,7 +270,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 // user for host.userid exists - check weak auth
                 //
                 get_weak_auth(user, buf);
-                if (!strcmp(buf, sreq.authenticator)) {
+                if (!strcmp(buf, g_request->authenticator)) {
                     weak_auth = true;
                     log_messages.printf(MSG_DEBUG,
                         "[HOST#%d] accepting weak authenticator\n",
@@ -282,7 +282,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 // weak auth failed - look up user based on authenticator
                 //
                 strlcpy(
-                    user.authenticator, sreq.authenticator, sizeof(user.authenticator)
+                    user.authenticator, g_request->authenticator, sizeof(user.authenticator)
                 );
                 sprintf(buf, "where authenticator='%s'", user.authenticator);
                 retval = user.lookup(buf);
@@ -291,19 +291,19 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                         "Detach and reattach to this project to fix this.",
                         "high"
                     );
-                    reply.insert_message(um);
-                    reply.set_delay(DELAY_MISSING_KEY);
-                    reply.nucleus_only = true;
+                    g_reply->insert_message(um);
+                    g_reply->set_delay(DELAY_MISSING_KEY);
+                    g_reply->nucleus_only = true;
                     log_messages.printf(MSG_CRITICAL,
                         "[HOST#%d] [USER#%d] Bad authenticator '%s'\n",
-                        host.id, user.id, sreq.authenticator
+                        host.id, user.id, g_request->authenticator
                     );
                     return ERR_AUTHENTICATOR;
                 }
             }
         }
 
-        reply.user = user;
+        g_reply->user = user;
 
         if (host.userid != user.id) {
             // If the request's host ID isn't consistent with the authenticator,
@@ -321,11 +321,11 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // the user must have copied the state file to a different host.
         // Make a new host record.
         //
-        if (!batch && sreq.rpc_seqno < reply.host.rpc_seqno) {
-            sreq.hostid = 0;
+        if (!batch && g_request->rpc_seqno < g_reply->host.rpc_seqno) {
+            g_request->hostid = 0;
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d] [USER#%d] RPC seqno %d less than expected %d; creating new host\n",
-                reply.host.id, user.id, sreq.rpc_seqno, reply.host.rpc_seqno
+                g_reply->host.id, user.id, g_request->rpc_seqno, g_reply->host.rpc_seqno
             );
             goto make_new_host;
         }
@@ -337,18 +337,18 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 lookup_user_and_make_new_host:
         // if authenticator contains _, it's a weak auth
         //
-        if (strchr(sreq.authenticator, '_')) {
-            int userid = atoi(sreq.authenticator);
+        if (strchr(g_request->authenticator, '_')) {
+            int userid = atoi(g_request->authenticator);
             retval = user.lookup_id(userid);
             if (!retval) {
                 get_weak_auth(user, buf);
-                if (strcmp(buf, sreq.authenticator)) {
+                if (strcmp(buf, g_request->authenticator)) {
                     retval = ERR_AUTHENTICATOR;
                 }
             }
         } else {
             strlcpy(
-                user.authenticator, sreq.authenticator,
+                user.authenticator, g_request->authenticator,
                 sizeof(user.authenticator)
             );
             sprintf(buf, "where authenticator='%s'", user.authenticator);
@@ -360,15 +360,15 @@ lookup_user_and_make_new_host:
                 "Detach and reattach to this project to fix this.",
                 "low"
             );
-            reply.insert_message(um);
-            reply.set_delay(DELAY_MISSING_KEY);
+            g_reply->insert_message(um);
+            g_reply->set_delay(DELAY_MISSING_KEY);
             log_messages.printf(MSG_CRITICAL,
                 "[HOST#<none>] Bad authenticator '%s': %d\n",
-                sreq.authenticator, retval
+                g_request->authenticator, retval
             );
             return ERR_AUTHENTICATOR;
         }
-        reply.user = user;
+        g_reply->user = user;
 
         // If host CPID is present,
         // scan backwards through this user's hosts,
@@ -377,8 +377,8 @@ lookup_user_and_make_new_host:
         // Use the existing host record,
         // and mark in-progress results as over.
         //
-        if (strlen(sreq.host.host_cpid)) {
-            if (find_host_by_cpid(user, sreq.host.host_cpid, host)) {
+        if (strlen(g_request->host.host_cpid)) {
+            if (find_host_by_cpid(user, g_request->host.host_cpid, host)) {
                 log_messages.printf(MSG_CRITICAL,
                     "[HOST#%d] [USER#%d] User has another host with same CPID.\n",
                     host.id, host.userid
@@ -401,7 +401,7 @@ make_new_host:
         // NOTE: if the project allows multiple clients per host
         // (e.g. those that run on grids), skip this.
         //
-        if (!config.multiple_clients_per_host && find_host_by_other(user, sreq.host, host)) {
+        if (!config.multiple_clients_per_host && find_host_by_other(user, g_request->host, host)) {
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d] [USER#%d] Found similar existing host for this user - assigned.\n",
                 host.id, host.userid
@@ -414,21 +414,21 @@ make_new_host:
         // or RPC seqno was too low.
         //
         // Create a new host.
-        // reply.user is filled in and valid at this point
+        // g_reply->user is filled in and valid at this point
         //
-        host = sreq.host;
+        host = g_request->host;
         host.id = 0;
         host.create_time = time(0);
-        host.userid = reply.user.id;
+        host.userid = g_reply->user.id;
         host.rpc_seqno = 0;
         host.expavg_time = time(0);
         host.error_rate = 0.1;
-        strcpy(host.venue, reply.user.venue);
+        strcpy(host.venue, g_reply->user.venue);
         host.fix_nans();
         retval = host.insert();
         if (retval) {
             USER_MESSAGE um("Couldn't create host record in database", "low");
-            reply.insert_message(um);
+            g_reply->insert_message(um);
             boinc_db.print_error("host.insert()");
             log_messages.printf(MSG_CRITICAL, "host.insert() failed\n");
             return retval;
@@ -436,39 +436,39 @@ make_new_host:
         host.id = boinc_db.insert_id();
 
 got_host:
-        reply.host = host;
-        reply.hostid = reply.host.id;
+        g_reply->host = host;
+        g_reply->hostid = g_reply->host.id;
         // this tells client to updates its host ID
-        sreq.rpc_seqno = 0;
+        g_request->rpc_seqno = 0;
             // this value eventually gets written to host DB record;
             // for new hosts it must be zero.
             // This kludge forces this.
     }
 
-    // have user record in reply.user at this point
+    // have user record in g_reply->user at this point
     //
 
-    if (reply.user.teamid) {
-        retval = team.lookup_id(reply.user.teamid);
-        if (!retval) reply.team = team;
+    if (g_reply->user.teamid) {
+        retval = team.lookup_id(g_reply->user.teamid);
+        if (!retval) g_reply->team = team;
     }
 
     // compute email hash
     //
     md5_block(
-        (unsigned char*)reply.user.email_addr,
-        strlen(reply.user.email_addr),
-        reply.email_hash
+        (unsigned char*)g_reply->user.email_addr,
+        strlen(g_reply->user.email_addr),
+        g_reply->email_hash
     );
 
     // if new user CPID, update user record
     //
-    if (strlen(sreq.cross_project_id)) {
-        if (strcmp(sreq.cross_project_id, reply.user.cross_project_id)) {
-            user.id = reply.user.id;
-            escape_string(sreq.cross_project_id, sizeof(sreq.cross_project_id));
-            sprintf(buf, "cross_project_id='%s'", sreq.cross_project_id);
-            unescape_string(sreq.cross_project_id, sizeof(sreq.cross_project_id));
+    if (strlen(g_request->cross_project_id)) {
+        if (strcmp(g_request->cross_project_id, g_reply->user.cross_project_id)) {
+            user.id = g_reply->user.id;
+            escape_string(g_request->cross_project_id, sizeof(g_request->cross_project_id));
+            sprintf(buf, "cross_project_id='%s'", g_request->cross_project_id);
+            unescape_string(g_request->cross_project_id, sizeof(g_request->cross_project_id));
             user.update_field(buf);
         }
     }
@@ -607,44 +607,44 @@ static void compute_credit_rating(HOST& host) {
 // modify host struct based on request.
 // Copy all fields that are determined by the client.
 //
-static int modify_host_struct(SCHEDULER_REQUEST& sreq, HOST& host) {
-    host.timezone = sreq.host.timezone;
-    strncpy(host.domain_name, sreq.host.domain_name, sizeof(host.domain_name));
-    sreq.coprocs.summary_string(host.serialnum, sizeof(host.serialnum));
-    if (strcmp(host.last_ip_addr, sreq.host.last_ip_addr)) {
-        strncpy(host.last_ip_addr, sreq.host.last_ip_addr, sizeof(host.last_ip_addr));
+static int modify_host_struct(HOST& host) {
+    host.timezone = g_request->host.timezone;
+    strncpy(host.domain_name, g_request->host.domain_name, sizeof(host.domain_name));
+    g_request->coprocs.summary_string(host.serialnum, sizeof(host.serialnum));
+    if (strcmp(host.last_ip_addr, g_request->host.last_ip_addr)) {
+        strncpy(host.last_ip_addr, g_request->host.last_ip_addr, sizeof(host.last_ip_addr));
     } else {
         host.nsame_ip_addr++;
     }
-    host.on_frac = sreq.host.on_frac;
-    host.connected_frac = sreq.host.connected_frac;
-    host.active_frac = sreq.host.active_frac;
-    host.duration_correction_factor = sreq.host.duration_correction_factor;
-    host.p_ncpus = sreq.host.p_ncpus;
-    strncpy(host.p_vendor, sreq.host.p_vendor, sizeof(host.p_vendor));
+    host.on_frac = g_request->host.on_frac;
+    host.connected_frac = g_request->host.connected_frac;
+    host.active_frac = g_request->host.active_frac;
+    host.duration_correction_factor = g_request->host.duration_correction_factor;
+    host.p_ncpus = g_request->host.p_ncpus;
+    strncpy(host.p_vendor, g_request->host.p_vendor, sizeof(host.p_vendor));
         // unlikely this will change
-    strncpy(host.p_model, sreq.host.p_model, sizeof(host.p_model));
-    host.p_fpops = sreq.host.p_fpops;
-    host.p_iops = sreq.host.p_iops;
-    host.p_membw = sreq.host.p_membw;
-    strncpy(host.os_name, sreq.host.os_name, sizeof(host.os_name));
-    strncpy(host.os_version, sreq.host.os_version, sizeof(host.os_version));
-    host.m_nbytes = sreq.host.m_nbytes;
-    host.m_cache = sreq.host.m_cache;
-    host.m_swap = sreq.host.m_swap;
-    host.d_total = sreq.host.d_total;
-    host.d_free = sreq.host.d_free;
-    host.d_boinc_used_total = sreq.host.d_boinc_used_total;
-    host.d_boinc_used_project = sreq.host.d_boinc_used_project;
-    host.n_bwup = sreq.host.n_bwup;
-    host.n_bwdown = sreq.host.n_bwdown;
-    if (strlen(sreq.host.host_cpid)) {
-        strcpy(host.host_cpid, sreq.host.host_cpid);
+    strncpy(host.p_model, g_request->host.p_model, sizeof(host.p_model));
+    host.p_fpops = g_request->host.p_fpops;
+    host.p_iops = g_request->host.p_iops;
+    host.p_membw = g_request->host.p_membw;
+    strncpy(host.os_name, g_request->host.os_name, sizeof(host.os_name));
+    strncpy(host.os_version, g_request->host.os_version, sizeof(host.os_version));
+    host.m_nbytes = g_request->host.m_nbytes;
+    host.m_cache = g_request->host.m_cache;
+    host.m_swap = g_request->host.m_swap;
+    host.d_total = g_request->host.d_total;
+    host.d_free = g_request->host.d_free;
+    host.d_boinc_used_total = g_request->host.d_boinc_used_total;
+    host.d_boinc_used_project = g_request->host.d_boinc_used_project;
+    host.n_bwup = g_request->host.n_bwup;
+    host.n_bwdown = g_request->host.n_bwdown;
+    if (strlen(g_request->host.host_cpid)) {
+        strcpy(host.host_cpid, g_request->host.host_cpid);
     }
     host.fix_nans();
 
     compute_credit_rating(host);
-    sreq.host.claimed_credit_per_cpu_sec = host.claimed_credit_per_cpu_sec;
+    g_request->host.claimed_credit_per_cpu_sec = host.claimed_credit_per_cpu_sec;
     return 0;
 }
 
@@ -681,21 +681,21 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
 // Figure out which of the results the host currently has
 // should be aborted outright, or aborted if not started yet
 //
-int send_result_abort( SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+int send_result_abort() {
     int aborts_sent = 0;
     int retval = 0;
     DB_IN_PROGRESS_RESULT result;
     std::string result_names;
     unsigned int i;
     
-    if (sreq.other_results.size() == 0) {
+    if (g_request->other_results.size() == 0) {
         return 0;
     }
 
     // build list of result names
     //
-    for (i=0; i<sreq.other_results.size(); i++) {
-        OTHER_RESULT& orp=sreq.other_results[i];
+    for (i=0; i<g_request->other_results.size(); i++) {
+        OTHER_RESULT& orp=g_request->other_results[i];
         orp.abort = true;
         orp.abort_if_not_started = false;
         orp.reason = ABORT_REASON_NOT_FOUND;
@@ -708,9 +708,9 @@ int send_result_abort( SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     // look up selected fields from the results and their WUs,
     // and decide if they should be aborted
     //
-    while (!(retval = result.enumerate(reply.host.id, result_names.c_str()))) {
-        for (i=0; i<sreq.other_results.size(); i++) {
-            OTHER_RESULT& orp = sreq.other_results[i];
+    while (!(retval = result.enumerate(g_reply->host.id, result_names.c_str()))) {
+        for (i=0; i<g_request->other_results.size(); i++) {
+            OTHER_RESULT& orp = g_request->other_results[i];
             if (!strcmp(orp.name.c_str(), result.result_name)) {
                 if (result.error_mask&WU_ERROR_CANCELLED ) {
                     // if the WU has been canceled, abort the result
@@ -750,24 +750,24 @@ int send_result_abort( SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     // loop through the results and send the appropriate message (if any)
     //
-    for (i=0; i<sreq.other_results.size(); i++) {
-        OTHER_RESULT& orp = sreq.other_results[i];
+    for (i=0; i<g_request->other_results.size(); i++) {
+        OTHER_RESULT& orp = g_request->other_results[i];
         if (orp.abort) {
-            reply.result_aborts.push_back(orp.name);
+            g_reply->result_aborts.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d]: Send result_abort for result %s; reason %d\n",
-                reply.host.id, orp.name.c_str(), orp.reason
+                g_reply->host.id, orp.name.c_str(), orp.reason
             ); 
             // send user message 
             char buf[256];
             sprintf(buf, "Result %s is no longer usable", orp.name.c_str());
             USER_MESSAGE um(buf, "high");
-            reply.insert_message(um);
+            g_reply->insert_message(um);
         } else if (orp.abort_if_not_started) {
-            reply.result_abort_if_not_starteds.push_back(orp.name);
+            g_reply->result_abort_if_not_starteds.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d]: Send result_abort_if_unstarted for result %s; reason %d\n",
-                reply.host.id, orp.name.c_str(), orp.reason
+                g_reply->host.id, orp.name.c_str(), orp.reason
             ); 
         }
     }
@@ -779,26 +779,26 @@ int send_result_abort( SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 // - <working_global_prefs> from request msg
 // - <global_prefs> from request message
 // - prefs from user DB record
-// and parse them into sreq.global_prefs.
+// and parse them into g_request->global_prefs.
 // 2) update prefs in user record if needed
 // 2) send global prefs in reply msg if needed
 //
-int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+int handle_global_prefs() {
     char buf[BLOB_SIZE];
-    reply.send_global_prefs = false;
-    bool have_working_prefs = (strlen(sreq.working_global_prefs_xml)>0);
-    bool have_master_prefs = (strlen(sreq.global_prefs_xml)>0);
-    bool have_db_prefs = (strlen(reply.user.global_prefs)>0);
+    g_reply->send_global_prefs = false;
+    bool have_working_prefs = (strlen(g_request->working_global_prefs_xml)>0);
+    bool have_master_prefs = (strlen(g_request->global_prefs_xml)>0);
+    bool have_db_prefs = (strlen(g_reply->user.global_prefs)>0);
     bool same_account = !strcmp(
-        sreq.global_prefs_source_email_hash, reply.email_hash
+        g_request->global_prefs_source_email_hash, g_reply->email_hash
     );
     double master_mod_time=0, db_mod_time=0;
     if (have_master_prefs) {
-        parse_double(sreq.global_prefs_xml, "<mod_time>", master_mod_time);
+        parse_double(g_request->global_prefs_xml, "<mod_time>", master_mod_time);
         if (master_mod_time > dtime()) master_mod_time = dtime();
     }
     if (have_db_prefs) {
-        parse_double(reply.user.global_prefs, "<mod_time>", db_mod_time);
+        parse_double(g_reply->user.global_prefs, "<mod_time>", db_mod_time);
         if (db_mod_time > dtime()) db_mod_time = dtime();
     }
 
@@ -810,34 +810,34 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     }
 
     // decide which prefs to use for sched decisions,
-    // and parse them into sreq.global_prefs
+    // and parse them into g_request->global_prefs
     //
     if (have_working_prefs) {
-        sreq.global_prefs.parse(sreq.working_global_prefs_xml, "");
+        g_request->global_prefs.parse(g_request->working_global_prefs_xml, "");
         if (config.debug_prefs) {
             log_messages.printf(MSG_DEBUG, "using working prefs\n");
         }
     } else {
         if (have_master_prefs) {
             if (have_db_prefs && db_mod_time > master_mod_time) {
-                sreq.global_prefs.parse(reply.user.global_prefs, reply.host.venue);
+                g_request->global_prefs.parse(g_reply->user.global_prefs, g_reply->host.venue);
                 if (config.debug_prefs) {
                     log_messages.printf(MSG_DEBUG, "using db prefs - more recent\n");
                 }
             } else {
-                sreq.global_prefs.parse(sreq.global_prefs_xml, reply.host.venue);
+                g_request->global_prefs.parse(g_request->global_prefs_xml, g_reply->host.venue);
                 if (config.debug_prefs) {
                     log_messages.printf(MSG_DEBUG, "using master prefs\n");
                 }
             }
         } else {
             if (have_db_prefs) {
-                sreq.global_prefs.parse(reply.user.global_prefs, reply.host.venue);
+                g_request->global_prefs.parse(g_reply->user.global_prefs, g_reply->host.venue);
                 if (config.debug_prefs) {
                     log_messages.printf(MSG_DEBUG, "using db prefs\n");
                 }
             } else {
-                sreq.global_prefs.defaults();
+                g_request->global_prefs.defaults();
                 if (config.debug_prefs) {
                     log_messages.printf(MSG_DEBUG, "using default prefs\n");
                 }
@@ -858,12 +858,12 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
         if (update_user_record) {
             log_messages.printf(MSG_DEBUG, "updating db prefs\n");
-            strcpy(reply.user.global_prefs, sreq.global_prefs_xml);
+            strcpy(g_reply->user.global_prefs, g_request->global_prefs_xml);
             DB_USER user;
-            user.id = reply.user.id;
-            escape_string(sreq.global_prefs_xml, sizeof(sreq.global_prefs_xml));
-            sprintf(buf, "global_prefs='%s'", sreq.global_prefs_xml);
-            unescape_string(sreq.global_prefs_xml, sizeof(sreq.global_prefs_xml));
+            user.id = g_reply->user.id;
+            escape_string(g_request->global_prefs_xml, sizeof(g_request->global_prefs_xml));
+            sprintf(buf, "global_prefs='%s'", g_request->global_prefs_xml);
+            unescape_string(g_request->global_prefs_xml, sizeof(g_request->global_prefs_xml));
             int retval = user.update_field(buf);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
@@ -878,14 +878,14 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     if (config.debug_prefs) {
         log_messages.printf(MSG_DEBUG,
             "have db %d; dbmod %f; global mod %f\n",
-            have_db_prefs, db_mod_time, sreq.global_prefs.mod_time
+            have_db_prefs, db_mod_time, g_request->global_prefs.mod_time
         );
     }
     if (have_db_prefs && db_mod_time > master_mod_time) {
         if (config.debug_prefs) {
             log_messages.printf(MSG_DEBUG, "sending db prefs in reply\n");
         }
-        reply.send_global_prefs = true;
+        g_reply->send_global_prefs = true;
     }
     return 0;
 }
@@ -894,15 +894,13 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 // send it the new one, with a signature based on the old one.
 // If they don't have a code sign key, send them one
 //
-bool send_code_sign_key(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, char* code_sign_key
-) {
+bool send_code_sign_key(char* code_sign_key) {
     char* oldkey, *signature;
     int i, retval;
     char path[256];
 
-    if (strlen(sreq.code_sign_key)) {
-        if (strcmp(sreq.code_sign_key, code_sign_key)) {
+    if (strlen(g_request->code_sign_key)) {
+        if (strcmp(g_request->code_sign_key, code_sign_key)) {
             log_messages.printf(MSG_NORMAL, "received old code sign key\n");
 
             // look for a signature file
@@ -917,10 +915,10 @@ bool send_code_sign_key(
                        "If the problem persists, detach/attach the project. ",
                        "high"
                     );
-                    reply.insert_message(um);
+                    g_reply->insert_message(um);
                     return false;
                 }
-                if (!strcmp(oldkey, sreq.code_sign_key)) {
+                if (!strcmp(oldkey, g_request->code_sign_key)) {
                     sprintf(path, "%s/signature_%d", config.key_dir, i);
                     retval = read_file_malloc(path, signature);
                     if (retval) {
@@ -930,10 +928,10 @@ bool send_code_sign_key(
                            "If the problem persists, detach/attach the project. ",
                            "high"
                         );
-                        reply.insert_message(um);
+                        g_reply->insert_message(um);
                     } else {
-                        safe_strcpy(reply.code_sign_key, code_sign_key);
-                        safe_strcpy(reply.code_sign_key_signature, signature);
+                        safe_strcpy(g_reply->code_sign_key, code_sign_key);
+                        safe_strcpy(g_reply->code_sign_key_signature, signature);
                         free(signature);
                     }
                 }
@@ -942,7 +940,7 @@ bool send_code_sign_key(
             }
         }
     } else {
-        safe_strcpy(reply.code_sign_key, code_sign_key);
+        safe_strcpy(g_reply->code_sign_key, code_sign_key);
     }
     return true;
 }
@@ -953,10 +951,8 @@ bool send_code_sign_key(
 // given in <min_core_client_upgrade_deadline> in Unix time(2) format
 // expires.
 //
-void warn_user_if_core_client_upgrade_scheduled(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
-) {
-    if (sreq.core_client_version < config.min_core_client_version_announced) {
+void warn_user_if_core_client_upgrade_scheduled() {
+    if (g_request->core_client_version < config.min_core_client_version_announced) {
 
         // time remaining in hours, before upgrade required
         int remaining = config.min_core_client_upgrade_deadline-time(0);
@@ -975,25 +971,25 @@ void warn_user_if_core_client_upgrade_scheduled(
                 days, hours,
                 config.min_core_client_version_announced / 100,
                 config.min_core_client_version_announced % 100,
-                sreq.core_client_major_version,
-                sreq.core_client_minor_version,
-                sreq.core_client_release
+                g_request->core_client_major_version,
+                g_request->core_client_minor_version,
+                g_request->core_client_release
             );
             // make this low priority until three days are left.  Then
             // bump to high.
             //
             if (days<3) {
                 USER_MESSAGE um(msg, "high");
-                reply.insert_message(um);
+                g_reply->insert_message(um);
             } else {
                 USER_MESSAGE um(msg, "low");
-                reply.insert_message(um);
+                g_reply->insert_message(um);
             }
             log_messages.printf(MSG_DEBUG,
                 "Sending warning: upgrade client %d.%d.%d within %d days %d hours\n",
-                sreq.core_client_major_version,
-                sreq.core_client_minor_version,
-                sreq.core_client_release,
+                g_request->core_client_major_version,
+                g_request->core_client_minor_version,
+                g_request->core_client_release,
                 days, hours
             );
         }
@@ -1001,89 +997,83 @@ void warn_user_if_core_client_upgrade_scheduled(
     return;
 }
 
-bool unacceptable_os(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
-) {
+bool unacceptable_os() {
     unsigned int i;
     char buf[1024];
 
     for (i=0; i<config.ban_os->size(); i++) {
         regex_t& re = (*config.ban_os)[i];
-        strcpy(buf, sreq.host.os_name);
+        strcpy(buf, g_request->host.os_name);
         strcat(buf, "\t");
-        strcat(buf, sreq.host.os_version);
+        strcat(buf, g_request->host.os_version);
         if (!regexec(&re, buf, 0, NULL, 0)) {
             log_messages.printf(MSG_NORMAL,
                 "Unacceptable OS %s %s\n",
-                sreq.host.os_name, sreq.host.os_version
+                g_request->host.os_name, g_request->host.os_version
             );
             sprintf(buf, "This project doesn't support OS type %s %s",
-                sreq.host.os_name, sreq.host.os_version
+                g_request->host.os_name, g_request->host.os_version
             );
             USER_MESSAGE um(buf, "low");
-            reply.insert_message(um);
-            reply.set_delay(DELAY_UNACCEPTABLE_OS);
+            g_reply->insert_message(um);
+            g_reply->set_delay(DELAY_UNACCEPTABLE_OS);
             return true;
         }
     }
     return false;
 }
 
-bool unacceptable_cpu(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
-) {
+bool unacceptable_cpu() {
     unsigned int i;
     char buf[1024];
 
     for (i=0; i<config.ban_cpu->size(); i++) {
         regex_t& re = (*config.ban_cpu)[i];
-        strcpy(buf, sreq.host.p_vendor);
+        strcpy(buf, g_request->host.p_vendor);
         strcat(buf, "\t");
-        strcat(buf, sreq.host.p_model);
+        strcat(buf, g_request->host.p_model);
         if (!regexec(&re, buf, 0, NULL, 0)) {
             log_messages.printf(MSG_NORMAL,
                 "Unacceptable CPU %s %s\n",
-                sreq.host.p_vendor, sreq.host.p_model
+                g_request->host.p_vendor, g_request->host.p_model
             );
             sprintf(buf, "This project doesn't support CPU type %s %s",
-                sreq.host.p_vendor, sreq.host.p_model
+                g_request->host.p_vendor, g_request->host.p_model
             );
             USER_MESSAGE um(buf, "low");
-            reply.insert_message(um);
-            reply.set_delay(DELAY_UNACCEPTABLE_OS);
+            g_reply->insert_message(um);
+            g_reply->set_delay(DELAY_UNACCEPTABLE_OS);
             return true;
         }
     }
     return false;
 }
 
-bool wrong_core_client_version(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
-) {
+bool wrong_core_client_version() {
     char msg[256];
     bool wrong_version = false;
     if (config.min_core_client_version) {
         int major = config.min_core_client_version/100;
         int minor = config.min_core_client_version % 100;
-        if (sreq.core_client_major_version < major ||
-            ((sreq.core_client_major_version == major) && (sreq.core_client_minor_version < minor))) {
+        if (g_request->core_client_major_version < major ||
+            ((g_request->core_client_major_version == major) && (g_request->core_client_minor_version < minor))) {
             wrong_version = true;
             sprintf(msg,
                 "Need version %d.%d or higher of the BOINC core client. You have %d.%d.",
                 major, minor,
-                sreq.core_client_major_version, sreq.core_client_minor_version
+                g_request->core_client_major_version, g_request->core_client_minor_version
             );
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d] [auth %s] Wrong minor version from user: wanted %d, got %d\n",
-                sreq.hostid, sreq.authenticator,
-                minor, sreq.core_client_minor_version
+                g_request->hostid, g_request->authenticator,
+                minor, g_request->core_client_minor_version
             );
         }
     }
     if (wrong_version) {
         USER_MESSAGE um(msg, "low");
-        reply.insert_message(um);
-        reply.set_delay(DELAY_BAD_CLIENT_VERSION);
+        g_reply->insert_message(um);
+        g_reply->set_delay(DELAY_BAD_CLIENT_VERSION);
         return true;
     }
     return false;
@@ -1094,18 +1084,18 @@ inline static const char* get_remote_addr() {
     return r ? r : "?.?.?.?";
 }
 
-void handle_msgs_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+void handle_msgs_from_host() {
     unsigned int i;
     DB_MSG_FROM_HOST mfh;
     int retval;
 
-    for (i=0; i<sreq.msgs_from_host.size(); i++) {
-        reply.send_msg_ack = true;
-        MSG_FROM_HOST_DESC& md = sreq.msgs_from_host[i];
+    for (i=0; i<g_request->msgs_from_host.size(); i++) {
+        g_reply->send_msg_ack = true;
+        MSG_FROM_HOST_DESC& md = g_request->msgs_from_host[i];
         mfh.clear();
         mfh.create_time = time(0);
         safe_strcpy(mfh.variety, md.variety);
-        mfh.hostid = reply.host.id;
+        mfh.hostid = g_reply->host.id;
         mfh.handled = false;
         safe_strcpy(mfh.xml, md.msg_text.c_str());
         log_messages.printf(MSG_NORMAL,
@@ -1116,9 +1106,9 @@ void handle_msgs_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "[HOST#%d] message insert failed: %d\n",
-                reply.host.id, retval
+                g_reply->host.id, retval
             );
-            reply.send_msg_ack = false;
+            g_reply->send_msg_ack = false;
 
             // may as well return; if one insert failed, others will too
             //
@@ -1127,58 +1117,59 @@ void handle_msgs_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     }
 }
 
-void handle_msgs_to_host(SCHEDULER_REPLY& reply) {
+void handle_msgs_to_host() {
     DB_MSG_TO_HOST mth;
     char buf[256];
-    sprintf(buf, "where hostid = %d and handled = %d", reply.host.id, 0);
+    sprintf(buf, "where hostid = %d and handled = %d", g_reply->host.id, 0);
     while (!mth.enumerate(buf)) {
-        reply.msgs_to_host.push_back(mth);
+        g_reply->msgs_to_host.push_back(mth);
         mth.handled = true;
         mth.update();
     }
 }
 
-static void log_request(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+static void log_request() {
     log_messages.printf(MSG_NORMAL,
         "Request: [USER#%d] [HOST#%d] [IP %s] client %d.%d.%d, work req %d sec\n",
-        reply.user.id, reply.host.id, get_remote_addr(),
-        sreq.core_client_major_version, sreq.core_client_minor_version,
-        sreq.core_client_release,
-        (int)sreq.work_req_seconds
+        g_reply->user.id, g_reply->host.id, get_remote_addr(),
+        g_request->core_client_major_version,
+        g_request->core_client_minor_version,
+        g_request->core_client_release,
+        (int)g_request->work_req_seconds
     );
     if (config.debug_request_details) {
         log_messages.printf(MSG_DEBUG,
              "Request details: auth %s, RPC seqno %d, platform %s\n",
-             sreq.authenticator, sreq.rpc_seqno, sreq.platform.name
+             g_request->authenticator,
+             g_request->rpc_seqno,
+             g_request->platform.name
         );
     }
     log_messages.set_indent_level(2);
 }
 
-bool bad_install_type(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+bool bad_install_type() {
     if (config.no_vista_sandbox) {
-        if (!strcmp(sreq.host.os_name, "Microsoft Windows Vista")) {
-            if (sreq.sandbox == 1) {
+        if (!strcmp(g_request->host.os_name, "Microsoft Windows Vista")) {
+            if (g_request->sandbox == 1) {
                 log_messages.printf(MSG_INFO,
                     "Vista secure install - not sending work\n"
                 );
                 USER_MESSAGE um(
                     "Unable to send work to Vista with BOINC installed in protected mode", "high"
                 );
-                reply.insert_message(um);
+                g_reply->insert_message(um);
                 USER_MESSAGE um2(
                     "Please reinstall BOINC and uncheck 'Protected application execution'", "high"
                 );
-                reply.insert_message(um2);
+                g_reply->insert_message(um2);
             }
         }
     }
     return false;
 }
 
-void process_request(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, char* code_sign_key
-) {
+void process_request(char* code_sign_key) {
     PLATFORM* platform;
     int retval;
     double last_rpc_time;
@@ -1192,23 +1183,23 @@ void process_request(
     unsigned int i;
     time_t t;
 
-    memset(&reply.wreq, 0, sizeof(reply.wreq));
+    memset(&g_reply->wreq, 0, sizeof(g_reply->wreq));
 
     // if different major version of BOINC, just send a message
     //
-    if (wrong_core_client_version(sreq, reply)
-        || unacceptable_os(sreq, reply)
-        || unacceptable_cpu(sreq, reply)
+    if (wrong_core_client_version()
+        || unacceptable_os()
+        || unacceptable_cpu()
     ) {
         ok_to_send_work = false;
 
         // if no results, return without accessing DB
         //
-        if (sreq.results.size() == 0) {
+        if (g_request->results.size() == 0) {
             return;
         }
     } else {
-        warn_user_if_core_client_upgrade_scheduled(sreq, reply);
+        warn_user_if_core_client_upgrade_scheduled();
     }
 
     if (config.locality_scheduling || config.enable_assignment) {
@@ -1225,14 +1216,14 @@ void process_request(
     //
     if (
         config.nowork_skip
-        && (sreq.work_req_seconds > 0)
+        && (g_request->work_req_seconds > 0)
         && have_no_work
-        && (sreq.results.size() == 0)
-        && (sreq.hostid != 0)
+        && (g_request->results.size() == 0)
+        && (g_request->hostid != 0)
     ) {
         USER_MESSAGE um("No work available", "low");
-        reply.insert_message(um);
-        reply.set_delay(DELAY_NO_WORK_SKIP);
+        g_reply->insert_message(um);
+        g_reply->set_delay(DELAY_NO_WORK_SKIP);
         if (!config.msg_to_host) {
             log_messages.printf(MSG_NORMAL, "No work - skipping DB access\n");
             return;
@@ -1246,34 +1237,32 @@ void process_request(
     //
     retval = open_database();
     if (retval) {
-        send_error_message(reply, "Server can't open database", 3600);
-        reply.project_is_down = true;
+        send_error_message("Server can't open database", 3600);
+        g_reply->project_is_down = true;
         goto leave;
     }
 
-    retval = authenticate_user(sreq, reply);
+    retval = authenticate_user();
     if (retval) goto leave;
-    if (reply.user.id == 0) {
+    if (g_reply->user.id == 0) {
         log_messages.printf(MSG_CRITICAL, "No user ID!\n");
     }
-    initial_host = reply.host;
-    reply.host.rpc_seqno = sreq.rpc_seqno;
+    initial_host = g_reply->host;
+    g_reply->host.rpc_seqno = g_request->rpc_seqno;
 
-    reply.nucleus_only = false;
+    g_reply->nucleus_only = false;
 
-    log_request(sreq, reply);
+    log_request();
 
     // is host blacklisted?
     //
-    if (reply.host.max_results_day == -1) {
-        send_error_message(
-            reply, "Not accepting requests from this host", 86400
-        );
+    if (g_reply->host.max_results_day == -1) {
+        send_error_message("Not accepting requests from this host", 86400);
         goto leave;
     }
 
     if (strlen(config.sched_lockfile_dir)) {
-        int pid_with_lock = lock_sched(reply);
+        int pid_with_lock = lock_sched();
         if (pid_with_lock > 0) {
             log_messages.printf(MSG_CRITICAL,
                 "Another scheduler instance [PID=%d] is running for this host\n",
@@ -1281,100 +1270,100 @@ void process_request(
             );
         } else if (pid_with_lock) {
             log_messages.printf(MSG_CRITICAL,
-                "Error acquiring lock for [HOST#%d]\n", reply.host.id
+                "Error acquiring lock for [HOST#%d]\n", g_reply->host.id
             );
         }
         if (pid_with_lock) {
             send_error_message(
-                reply, "Another scheduler instance is running for this host", 60
+                "Another scheduler instance is running for this host", 60
             );
             goto leave;
         }
     }
 
-    last_rpc_time = reply.host.rpc_time;
-    t = reply.host.rpc_time;
+    last_rpc_time = g_reply->host.rpc_time;
+    t = g_reply->host.rpc_time;
     rpc_time_tm = localtime(&t);
     last_rpc_dayofyear = rpc_time_tm->tm_yday;
 
     t = time(0);
-    reply.host.rpc_time = t;
+    g_reply->host.rpc_time = t;
     rpc_time_tm = localtime(&t);
     current_rpc_dayofyear = rpc_time_tm->tm_yday;
 
     if (config.daily_result_quota) {
-        if (reply.host.max_results_day == 0 || reply.host.max_results_day > config.daily_result_quota) {
-            reply.host.max_results_day = config.daily_result_quota;
+        if (g_reply->host.max_results_day == 0 || g_reply->host.max_results_day > config.daily_result_quota) {
+            g_reply->host.max_results_day = config.daily_result_quota;
             log_messages.printf(MSG_DEBUG,
                 "[HOST#%d] Initializing max_results_day to %d\n",
-                reply.host.id, config.daily_result_quota
+                g_reply->host.id, config.daily_result_quota
             );
         }
     }
 
     if (last_rpc_dayofyear != current_rpc_dayofyear) {
         log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] Resetting nresults_today\n", reply.host.id
+            "[HOST#%d] Resetting nresults_today\n", g_reply->host.id
         );
-        reply.host.nresults_today = 0;
+        g_reply->host.nresults_today = 0;
     }
-    retval = modify_host_struct(sreq, reply.host);
+    retval = modify_host_struct(g_reply->host);
 
     // write time stats to disk if present
     //
-    if (sreq.have_time_stats_log) {
-        write_time_stats_log(reply);
+    if (g_request->have_time_stats_log) {
+        write_time_stats_log();
     }
 
     // look up the client's platform(s) in the DB
     //
-    platform = ssp->lookup_platform(sreq.platform.name);
-    if (platform) sreq.platforms.list.push_back(platform);
-    for (i=0; i<sreq.alt_platforms.size(); i++) {
-        platform = ssp->lookup_platform(sreq.alt_platforms[i].name);
-        if (platform) sreq.platforms.list.push_back(platform);
+    platform = ssp->lookup_platform(g_request->platform.name);
+    if (platform) g_request->platforms.list.push_back(platform);
+    for (i=0; i<g_request->alt_platforms.size(); i++) {
+        platform = ssp->lookup_platform(g_request->alt_platforms[i].name);
+        if (platform) g_request->platforms.list.push_back(platform);
     }
-    if (sreq.platforms.list.size() == 0) {
-        sprintf(buf, "platform '%s' not found", sreq.platform.name);
+    if (g_request->platforms.list.size() == 0) {
+        sprintf(buf, "platform '%s' not found", g_request->platform.name);
         USER_MESSAGE um(buf, "low");
-        reply.insert_message(um);
+        g_reply->insert_message(um);
         log_messages.printf(MSG_CRITICAL,
             "[HOST#%d] platform '%s' not found\n",
-            reply.host.id, sreq.platform.name
+            g_reply->host.id, g_request->platform.name
         );
-        reply.set_delay(DELAY_PLATFORM_UNSUPPORTED);
+        g_reply->set_delay(DELAY_PLATFORM_UNSUPPORTED);
         goto leave;
     }
 
-    handle_global_prefs(sreq, reply);
+    handle_global_prefs();
 
-    handle_results(sreq, reply);
+    handle_results();
 
     // Do this before resending lost jobs
     //
-    if (bad_install_type(sreq, reply)) {
+    if (bad_install_type()) {
         ok_to_send_work = false;
     }
 
-    reply.wreq.nresults_on_host = sreq.other_results.size();
-    if (sreq.have_other_results_list) {
+    g_reply->wreq.nresults_on_host = g_request->other_results.size();
+    if (g_request->have_other_results_list) {
         if (config.resend_lost_results && ok_to_send_work) {
-            if (resend_lost_work(sreq, reply)) {
+            if (resend_lost_work()) {
                 ok_to_send_work = false;
             }
         }
         if (config.send_result_abort) {
-            send_result_abort(sreq, reply);
+            send_result_abort();
         }
     }
     
-    if (!send_code_sign_key(sreq, reply, code_sign_key)) {
+    if (!send_code_sign_key(code_sign_key)) {
         ok_to_send_work = false;
     }
 
     // if last RPC was within config.min_sendwork_interval, don't send work
     //
-    if (!have_no_work && ok_to_send_work && sreq.work_req_seconds > 0) {
+    if (!have_no_work && ok_to_send_work && g_request->work_req_seconds > 0) {
         if (config.min_sendwork_interval) {
             double diff = dtime() - last_rpc_time;
             if (diff < config.min_sendwork_interval) {
@@ -1386,12 +1375,12 @@ void process_request(
                     "Not sending work - last request too recent: %d sec", (int)diff
                 );
                 USER_MESSAGE um(buf, "low");
-                reply.insert_message(um);
+                g_reply->insert_message(um);
 
                 // the 1.01 is in case client's clock
                 // is slightly faster than ours
                 //
-                reply.set_delay(1.01*config.min_sendwork_interval);
+                g_reply->set_delay(1.01*config.min_sendwork_interval);
             }
         }
         if (ok_to_send_work) {
@@ -1400,12 +1389,12 @@ void process_request(
     }
 
 
-    handle_msgs_from_host(sreq, reply);
+    handle_msgs_from_host();
     if (config.msg_to_host) {
-        handle_msgs_to_host(reply);
+        handle_msgs_to_host();
     }
 
-    update_host_record(initial_host, reply.host, reply.user);
+    update_host_record(initial_host, g_reply->host, g_reply->user);
 
 leave:
     if (!have_no_work) {
@@ -1413,7 +1402,7 @@ leave:
     }
 }
 
-static void log_incomplete_request(SCHEDULER_REQUEST& sreq) {
+static void log_incomplete_request() {
     // BOINC scheduler requests use method POST.
     // So method GET means that someone is trying a browser.
     //
@@ -1425,17 +1414,17 @@ static void log_incomplete_request(SCHEDULER_REQUEST& sreq) {
     log_messages.printf(MSG_NORMAL,
         "Incomplete request received %sfrom IP %s, auth %s, platform %s, version %d.%d.%d\n",
         used_get?"(used GET method - probably a browser) ":"",
-        get_remote_addr(), sreq.authenticator, sreq.platform.name,
-        sreq.core_client_major_version, sreq.core_client_minor_version,
-        sreq.core_client_release
+        get_remote_addr(), g_request->authenticator, g_request->platform.name,
+        g_request->core_client_major_version, g_request->core_client_minor_version,
+        g_request->core_client_release
     );
 }
 
-static void log_user_messages(SCHEDULER_REPLY& sreply) {
-    for (unsigned int i=0; i<sreply.messages.size(); i++) {
-        USER_MESSAGE um = sreply.messages[i];
+static void log_user_messages() {
+    for (unsigned int i=0; i<g_reply->messages.size(); i++) {
+        USER_MESSAGE um = g_reply->messages[i];
         log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] MSG(%4s) %s \n", sreply.host.id, um.priority.c_str(), um.message.c_str()
+            "[HOST#%d] MSG(%4s) %s \n", g_reply->host.id, um.priority.c_str(), um.message.c_str()
         );
     }
 }
@@ -1456,26 +1445,26 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
 
     const char* p = sreq.parse(fin);
     if (!p){
-        process_request(sreq, sreply, code_sign_key);
+        process_request(code_sign_key);
     } else {
         sprintf(buf, "Error in request message: %s", p);
-        log_incomplete_request(sreq);
+        log_incomplete_request();
         USER_MESSAGE um(buf, "low");
         sreply.insert_message(um);
     }
 
     if (config.locality_scheduling && !sreply.nucleus_only) {
-        send_file_deletes(sreq, sreply);
+        send_file_deletes();
     }
 
     if (config.debug_user_messages) {
-        log_user_messages(sreply);
+        log_user_messages();
     }
 
     sreply.write(fout, sreq);
 
     if (strlen(config.sched_lockfile_dir)) {
-        unlock_sched(sreply);
+        unlock_sched();
     }
 }
 

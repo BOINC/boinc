@@ -10271,3 +10271,19 @@ Charlie 17 Dec 2008
         boinc.xcodeproj/
             project.pbxproj
 
+David  19 Dec 2008
+    - API: remove BOINC_OPTIONS::worker_thread_stack_size
+    - web: check whether to show profile in separate function
+        from displaying profile; eliminate double headers
+    - scheduler: finish purge of redundant arguments
+
+    api/
+        boinc_api.h
+        grephics_impl.cpp
+    html/
+        inc/
+            profile.inc
+        user/
+            view_profile.php
+    sched/
+        (many files)

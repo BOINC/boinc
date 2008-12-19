@@ -20,8 +20,10 @@ With NVIDIA's assistance,
 some BOINC-based projects have applications that run on NVIDIA GPUs using CUDA.
 <b>These applications run from 2X to 10X faster than the CPU-only version.
 We urge BOINC participants to use them if possible.</b>
-<p>
 Just follow these instructions:
+<p>
+(Note: CUDA apps are supported only on Windows and Linux;
+Mac OS X support is coming soon.)
 <p>
 <b>1) Check whether your computer has a CUDA-capable GPU</b>
 <dd>

@@ -21,6 +21,8 @@
 // and thus can be put in a shared library,
 // separate from the application.
 
+// DEPRECATED - use separate graphics app
+
 #ifndef _WIN32
 #include "config.h"
 #endif

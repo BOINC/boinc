@@ -19,5 +19,5 @@
 #include "server_types.h"
 
 extern void handle_time_stats_log(FILE* fin);
-extern void write_time_stats_log(SCHEDULER_REPLY& reply);
-extern bool have_time_stats_log(SCHEDULER_REPLY& reply);
+extern void write_time_stats_log();
+extern bool have_time_stats_log();

@@ -39,10 +39,10 @@
 #endif
 
 // Make a pass through the wu/results array, sending work.
-// If reply.wreq.infeasible_only is true,
+// If g_wreq->infeasible_only is true,
 // send only results that were previously infeasible for some host
 //
-void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+void scan_work_array() {
     int i, j, retval, n, rnd_off, last_retval=0;;
     WORKUNIT wu;
     DB_RESULT result;
@@ -54,7 +54,7 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     rnd_off = rand() % ssp->max_wu_results;
     for (j=0; j<ssp->max_wu_results; j++) {
         i = (j+rnd_off) % ssp->max_wu_results;
-        if (!work_needed(sreq, reply, false)) break;
+        if (!work_needed(false)) break;
 
         WU_RESULT& wu_result = ssp->wu_results[i];
 
@@ -71,13 +71,13 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         //
         app = ssp->lookup_app(wu_result.workunit.appid);
         if (app == NULL) continue; // this should never happen
-        if (reply.wreq.beta_only) {
+        if (g_wreq->beta_only) {
             if (!app->beta) {
                 continue;
             }
             log_messages.printf(MSG_DEBUG,
                 "[HOST#%d] beta work found.  [RESULT#%d]\n",
-                reply.host.id, wu_result.resultid
+                g_reply->host.id, wu_result.resultid
             );
         } else {
              if (app->beta) {
@@ -90,9 +90,9 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // skip if the app is beta (beta apps don't use the reliable mechanism)
         //
         if (!app->beta) {
-            if (reply.wreq.reliable_only && (!wu_result.need_reliable)) {
+            if (g_wreq->reliable_only && (!wu_result.need_reliable)) {
                 continue;
-            } else if (!reply.wreq.reliable_only && wu_result.need_reliable) {
+            } else if (!g_wreq->reliable_only && wu_result.need_reliable) {
                 continue;
             }
         }
@@ -100,7 +100,7 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // don't send if we are looking for infeasible results
         // and the result is not infeasible
         //
-        if (reply.wreq.infeasible_only && (wu_result.infeasible_count==0)) {
+        if (g_wreq->infeasible_only && (wu_result.infeasible_count==0)) {
             continue;
         }
         
@@ -108,15 +108,15 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
         // check app filter if needed
         //
-        if (reply.wreq.user_apps_only &&
-            (!reply.wreq.beta_only || config.distinct_beta_apps)
+        if (g_wreq->user_apps_only &&
+            (!g_wreq->beta_only || config.distinct_beta_apps)
         ) {
             if (app_not_selected(wu)) {
-                reply.wreq.no_allowed_apps_available = true;
+                g_wreq->no_allowed_apps_available = true;
                 if (config.debug_send) {
                     log_messages.printf(MSG_DEBUG,
                         "[USER#%d] [WU#%d] user doesn't want work for this application\n",
-                        reply.user.id, wu.id
+                        g_reply->user.id, wu.id
                     );
                 }
                 continue;
@@ -138,7 +138,7 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             if (retval != last_retval && config.debug_send) {
                 log_messages.printf(MSG_DEBUG,
                     "[HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
-                    reply.host.id, wu.id, wu.name, infeasible_string(retval)
+                    g_reply->host.id, wu.id, wu.name, infeasible_string(retval)
                 );
             }
             last_retval = retval;
@@ -162,7 +162,7 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (config.one_result_per_user_per_wu) {
             sprintf(buf,
                 "where workunitid=%d and userid=%d",
-                wu_result.workunit.id, reply.user.id
+                wu_result.workunit.id, g_reply->user.id
             );
             retval = result.count(n, buf);
             if (retval) {
@@ -174,7 +174,7 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 if (n>0) {
                     log_messages.printf(MSG_DEBUG,
                         "send_work: user %d already has %d result(s) for WU %d\n",
-                        reply.user.id, n, wu_result.workunit.id
+                        g_reply->user.id, n, wu_result.workunit.id
                     );
                     goto dont_send;
                 }
@@ -187,7 +187,7 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             //
             sprintf(buf,
                 "where workunitid=%d and hostid=%d",
-                wu_result.workunit.id, reply.host.id
+                wu_result.workunit.id, g_reply->host.id
             );
             retval = result.count(n, buf);
             if (retval) {
@@ -199,7 +199,7 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 if (n>0) {
                     log_messages.printf(MSG_DEBUG,
                         "send_work: host %d already has %d result(s) for WU %d\n",
-                        reply.host.id, n, wu_result.workunit.id
+                        g_reply->host.id, n, wu_result.workunit.id
                     );
                     goto dont_send;
                 }
@@ -208,11 +208,11 @@ void scan_work_array(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
         if (app_hr_type(*app)) {
             if (already_sent_to_different_platform_careful(
-                sreq, reply.wreq, wu_result.workunit, *app
+                wu_result.workunit, *app
             )) {
                  log_messages.printf(MSG_DEBUG,
                     "[HOST#%d] [WU#%d %s] WU is infeasible (assigned to different platform)\n",
-                    reply.host.id, wu.id, wu.name
+                    g_reply->host.id, wu.id, wu.name
                 );
                 // Mark the workunit as infeasible.
                 // This ensures that jobs already assigned to a platform

@@ -633,7 +633,7 @@ int wu_is_infeasible_fast(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
             }
             return INFEASIBLE_HR;
         }
-        if (already_sent_to_different_platform_quick(*g_request, wu, app)) {
+        if (already_sent_to_different_platform_quick(wu, app)) {
             if (config.debug_send) {
                 log_messages.printf(MSG_DEBUG,
                     "[HOST#%d] [WU#%d %s] failed quick HR check: WU is class %d, host is class %d\n",
@@ -645,7 +645,7 @@ int wu_is_infeasible_fast(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
     }
     
     if (config.one_result_per_user_per_wu || config.one_result_per_host_per_wu) {
-        if (wu_already_in_reply(wu, *g_reply)) {
+        if (wu_already_in_reply(wu)) {
             return INFEASIBLE_DUP;
         }
     }
@@ -751,7 +751,7 @@ int add_wu_to_reply(
         APP_VERSION av2=*avp, *avp2=&av2;
         
         if (config.choose_download_url_by_timezone) {
-            process_av_timezone(reply, avp, av2);
+            process_av_timezone(avp, av2);
         }
         
         g_reply->insert_app_unique(*app);
@@ -775,9 +775,9 @@ int add_wu_to_reply(
         log_messages.printf(MSG_CRITICAL, "insert_wu_tags failed %d\n", retval);
         return retval;
     }
-    wu3=wu2;
+    wu3 = wu2;
     if (config.choose_download_url_by_timezone) {
-        process_wu_timezone(reply, wu2, wu3);
+        process_wu_timezone(wu2, wu3);
     }
     
     g_reply->insert_workunit_unique(wu3);
@@ -825,7 +825,7 @@ int update_wu_transition_time(WORKUNIT wu, time_t x) {
 
 // return true iff a result for same WU is already being sent
 //
-bool wu_already_in_reply(WORKUNIT& wu, SCHEDULER_REPLY& reply) {
+bool wu_already_in_reply(WORKUNIT& wu) {
     unsigned int i;
     for (i=0; i<g_reply->results.size(); i++) {
         if (wu.id == g_reply->results[i].workunitid) {
@@ -848,9 +848,7 @@ void unlock_sema() {
 // and we haven't exceeded result per RPC limit,
 // and we haven't exceeded results per day limit
 //
-bool work_needed(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, bool locality_sched
-) {
+bool work_needed(bool locality_sched) {
     if (locality_sched) {
         // if we've failed to send a result because of a transient condition,
         // return false to preserve invariant
@@ -922,7 +920,7 @@ int add_result_to_reply(DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp)
     // IF the host already has the file OR the file was not already sent.
     //
     if (!config.locality_scheduling ||
-        decrement_disk_space_locality(wu, *g_request, *g_reply)
+        decrement_disk_space_locality(wu)
     ) {
         g_wreq->disk_available -= wu.rsc_disk_bound;
     }
@@ -1294,7 +1292,7 @@ static void send_work_old() {
     if (g_wreq->reliable) {
         g_wreq->reliable_only = true;
         g_wreq->infeasible_only = false;
-        scan_work_array(*g_request, *g_reply);
+        scan_work_array();
     }
     g_wreq->reliable_only = false;
 
@@ -1310,17 +1308,17 @@ static void send_work_old() {
                 g_reply->host.id
             );
         }
-        scan_work_array(*g_request, *g_reply);
+        scan_work_array();
     }
     g_wreq->beta_only = false;
 
     // give next priority to results that were infeasible for some other host
     //
     g_wreq->infeasible_only = true;
-    scan_work_array(*g_request, *g_reply);
+    scan_work_array();
 
     g_wreq->infeasible_only = false;
-    scan_work_array(*g_request, *g_reply);
+    scan_work_array();
     
     // If user has selected apps but will accept any,
     // and we haven't found any jobs for selected apps, try others
@@ -1334,7 +1332,7 @@ static void send_work_old() {
                 g_reply->host.id
             );
         }
-        scan_work_array(*g_request, *g_reply);
+        scan_work_array();
     }
 }
 
@@ -1406,7 +1404,7 @@ void send_work() {
     }
 
     if (config.enable_assignment) {
-        if (send_assigned_jobs(*g_request, *g_reply)) {
+        if (send_assigned_jobs()) {
             if (config.debug_assignment) {
                 log_messages.printf(MSG_DEBUG,
                     "[HOST#%d] sent assigned jobs\n", g_reply->host.id
@@ -1424,7 +1422,7 @@ void send_work() {
 
     if (config.locality_scheduling) {
         g_wreq->infeasible_only = false;
-        send_work_locality(*g_request, *g_reply);
+        send_work_locality();
     } else if (config.matchmaker) {
         send_work_matchmaker();
     } else {
@@ -1662,9 +1660,7 @@ bool wu_is_infeasible_slow(
     APP* app = ssp->lookup_app(wu_result.workunit.appid);
     WORKUNIT wu = wu_result.workunit;
     if (app_hr_type(*app)) {
-        if (already_sent_to_different_platform_careful(
-            sreq, *g_wreq, wu, *app
-        )) {
+        if (already_sent_to_different_platform_careful(wu, *app)) {
             if (config.debug_send) {
                 log_messages.printf(MSG_DEBUG,
                     "[HOST#%d] [WU#%d %s] WU is infeasible (assigned to different platform)\n",

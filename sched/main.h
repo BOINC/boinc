@@ -69,6 +69,4 @@ extern bool mark_jobs_done;
     // (for debugging/testing)
 
 extern int open_database();
-extern void debug_sched(
-    SCHEDULER_REQUEST&, SCHEDULER_REPLY&, const char *trigger
-);
+extern void debug_sched(const char *trigger);

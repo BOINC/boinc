@@ -97,9 +97,7 @@ static void usage(char* p) {
     exit(1);
 }
 
-void debug_sched(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *trigger
-) {
+void debug_sched(const char *trigger) {
     char tmpfilename[256];
 #ifndef _USING_FCGI_
     FILE *fp;
@@ -111,7 +109,9 @@ void debug_sched(
         return;
     }
 
-    sprintf(tmpfilename, "sched_reply_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
+    sprintf(tmpfilename,
+        "sched_reply_%06d_%06d", g_request->hostid, g_request->rpc_seqno
+    );
     // use _XXXXXX if you want random filenames rather than
     // deterministic mkstemp(tmpfilename);
 
@@ -132,10 +132,12 @@ void debug_sched(
         "Found %s, so writing %s\n", trigger, tmpfilename
     );
 
-    sreply.write(fp, sreq);
+    g_reply->write(fp, *g_request);
     fclose(fp);
 
-    sprintf(tmpfilename, "sched_request_%06d_%06d", sreq.hostid, sreq.rpc_seqno);
+    sprintf(tmpfilename,
+        "sched_request_%06d_%06d", g_request->hostid, g_request->rpc_seqno
+    );
 #ifndef _USING_FCGI_
     fp=fopen(tmpfilename, "w");
 #else
@@ -153,7 +155,7 @@ void debug_sched(
         "Found %s, so writing %s\n", trigger, tmpfilename
     );
 
-    sreq.write(fp);
+    g_request->write(fp);
     fclose(fp);
 
     return;

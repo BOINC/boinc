@@ -30,6 +30,12 @@ extern "C" {
 #endif
 typedef struct BOINC_OPTIONS {
     // the following are booleans, implemented as ints for portability
+    int backwards_compatible_graphics;
+        // V6 apps should set this so that "Show Graphics" will work
+        // with pre-V6 clients
+    int normal_thread_priority;
+        // run app at normal thread priority on Win.
+        // (default is idle priority)
     int main_program;
         // this is the main program, so
         // - lock a lock file in the slot directory
@@ -48,14 +54,6 @@ typedef struct BOINC_OPTIONS {
         // if heartbeat fail, or get process control msg, take
         // direction action (exit, suspend, resume).
         // Otherwise just set flag in BOINC status
-    int worker_thread_stack_size;
-        // if nonzero, the worker thread stack size limit
-    int backwards_compatible_graphics;
-        // V6 apps should set this so that "Show Graphics" will work
-        // with pre-V6 clients
-    int normal_thread_priority;
-        // run app at normal thread priority on Win.
-        // (default is idle priority)
 } BOINC_OPTIONS;
 
 typedef struct BOINC_STATUS {
@@ -146,7 +144,6 @@ inline void boinc_options_defaults(BOINC_OPTIONS& b) {
     b.handle_process_control = 1;
     b.send_status_msgs = 1;
     b.direct_process_action = 1;
-    b.worker_thread_stack_size = 0;
     b.backwards_compatible_graphics = 1;
     b.normal_thread_priority = 0;
 }
