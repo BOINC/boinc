@@ -39,8 +39,17 @@
 #endif
 
 // Make a pass through the wu/results array, sending work.
-// If g_wreq->infeasible_only is true,
-// send only results that were previously infeasible for some host
+// The choice of jobs is limited by flags in g_wreq, as follows:
+// infeasible_only:
+//      send only results that were previously infeasible for some host
+// reliable_only: 
+//      send only retries
+// user_apps_only:
+//      Send only jobs for apps selected by user
+// beta_only:
+//      Send only jobs for beta-test apps
+//
+// Return true if we found any jobs for consideration, even if we didn't send
 //
 void scan_work_array() {
     int i, j, retval, n, rnd_off, last_retval=0;;
@@ -65,7 +74,7 @@ void scan_work_array() {
         if (wu_result.state != WR_STATE_PRESENT && wu_result.state != g_pid) {
             continue;
         }
-        
+
         // If we are looking for beta results and result is not a beta result
         // then move on
         //
@@ -84,6 +93,8 @@ void scan_work_array() {
                 continue;
             }
         }
+        
+        g_wreq->no_jobs_available = false;
         
         // If this is a reliable host and we are checking for results that
         // need a reliable host, then continue if the result is a normal result

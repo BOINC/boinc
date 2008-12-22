@@ -10304,3 +10304,12 @@ David  19 Dec 2008
     sched/
         sched_plan.cpp
         sched_send.cpp
+
+David  21 Dec 2008
+    - scheduler: if no jobs available to send, inform the user
+
+    html/ops/
+        job_times.php
+    sched/
+        sched_array.cpp
+        sched_send.cpp

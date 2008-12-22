@@ -16,6 +16,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('display_startup_errors', true);
+
 require_once("../inc/db.inc");
 
 db_init();
@@ -181,9 +185,9 @@ function analyze($appid, $platformid, $nresults) {
     ksort($hist);
     show_stats($hist);
     echo "<hr>\n";
-    show_as_table($hist);
+    show_as_table();
     echo "<hr>\n";
-    show_as_xml($hist);
+    show_as_xml();
 }
 
 function show_form() {

@@ -1284,6 +1284,7 @@ static void explain_to_user() {
 }
 
 static void send_work_old() {
+    g_wreq->no_jobs_available = true;
     g_wreq->beta_only = false;
     g_wreq->user_apps_only = true;
 
