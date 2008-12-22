@@ -103,6 +103,8 @@ struct COPROCS {
 struct cudaDeviceProp {
   char   name[256];
   size_t totalGlobalMem;
+    // not used on the server; dtotalGlobalMem is used instead
+    // (since some boards have >= 4GB)
   size_t sharedMemPerBlock;
   int    regsPerBlock;
   int    warpSize;
@@ -118,6 +120,7 @@ struct cudaDeviceProp {
   int    deviceOverlap;
   int    multiProcessorCount;
   int    __cudaReserved[40];
+  double dtotalGlobalMem;
 };
 
 struct COPROC_CUDA : public COPROC {

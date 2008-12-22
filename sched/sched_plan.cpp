@@ -85,9 +85,9 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                     return false;
                 } 
 
-                if (cp2->prop.totalGlobalMem < 254*1024*1024) {
+                if (cp2->prop.dtotalGlobalMem < 254*1024*1024) {
                     log_messages.printf(MSG_DEBUG,
-                        "CUDA mem %d < 254MB\n", cp2->prop.totalGlobalMem
+                        "CUDA mem %d < 254MB\n", cp2->prop.dtotalGlobalMem
                     );
                     return false;
                 }

@@ -313,10 +313,12 @@ int COPROC_CUDA::parse(FILE* fin) {
 
     clear();
     while (fgets(buf, sizeof(buf), fin)) {
-        if (strstr(buf, "</coproc_cuda>")) return 0;
+        if (strstr(buf, "</coproc_cuda>")) {
+            return 0;
+        }
         if (parse_int(buf, "<count>", count)) continue;
         if (parse_str(buf, "<name>", prop.name, sizeof(prop.name))) continue;
-        if (parse_int(buf, "<totalGlobalMem>", (int&)prop.totalGlobalMem)) continue;
+        if (parse_double(buf, "<totalGlobalMem>", prop.dtotalGlobalMem)) continue;
         if (parse_int(buf, "<sharedMemPerBlock>", (int&)prop.sharedMemPerBlock)) continue;
         if (parse_int(buf, "<regsPerBlock>", prop.regsPerBlock)) continue;
         if (parse_int(buf, "<warpSize>", prop.warpSize)) continue;

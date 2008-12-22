@@ -274,7 +274,7 @@ int TIME_STATS::parse(MIOFILE& in) {
                 last_update = x;
             }
             continue;
-        } else if (parse_double(buf, "<on_frac>", on_frac)) {
+        } else if (parse_double(buf, "<on_frac>", x)) {
             if (x < 0 || x > 1) {
                 msg_printf(0, MSG_INTERNAL_ERROR,
                     "bad value %f of time stats on_frac; ignoring", x
@@ -292,7 +292,7 @@ int TIME_STATS::parse(MIOFILE& in) {
                 connected_frac = x;
             }
             continue;
-        } else if (parse_double(buf, "<active_frac>", active_frac)) {
+        } else if (parse_double(buf, "<active_frac>", x)) {
             if (x < 0 || x > 1) {
                 msg_printf(0, MSG_INTERNAL_ERROR,
                     "bad value %f of time stats active_frac; ignoring", x

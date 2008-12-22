@@ -10321,9 +10321,20 @@ David  21 Dec 2008
         sched_send.cpp
         handle_request.cpp
 
-David  21 Dec 2008
+David  22 Dec 2008
     - scheduler: change default CUDA RAM requirement from 256MB to 254MB;
         apparently some NVIDIA cards report 255MB
 
+    sched/
+        sched_plan.cpp
+
+David  22 Dec 2008
+    - scheduler: store CUDA total memory as a double,
+        since it can be 4GB or larger
+
+    client/
+        time_stats.cpp
+    lib/
+        coproc.cpp,h
     sched/
         sched_plan.cpp
