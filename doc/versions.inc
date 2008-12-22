@@ -183,7 +183,7 @@ $m5817c = array(
 
 $l65 = array(
     "num"=>"6.5.0",
-    "status"=>"Recommended version",
+    "status"=>"Development version",
     "file"=>"boinc_compat_6.5.0_i686-pc-linux-gnu.sh",
     "date"=>"22 Dec 2008",
     "type"=>"sea",
