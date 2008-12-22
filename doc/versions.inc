@@ -181,6 +181,14 @@ $m5817c = array(
     "type"=>"bare_core",
 );
 
+$l65 = array(
+    "num"=>"6.5.0",
+    "status"=>"Recommended version",
+    "file"=>"boinc_compat_6.5.0_i686-pc-linux-gnu.sh",
+    "date"=>"22 Dec 2008",
+    "type"=>"sea",
+);
+
 $l64 = array(
     "num"=>"6.4.5",
     "status"=>"Recommended version",
@@ -202,6 +210,14 @@ $l51045 = array(
     "status"=>"Older version",
     "file"=>"boinc_5.10.45_i686-pc-linux-gnu.sh",
     "date"=>"5 Mar 2008",
+    "type"=>"sea",
+);
+
+$l65ubuntu = array(
+    "num"=>"6.5.0",
+    "status"=>"Development version",
+    "file"=>"boinc_6.5.0_i686-pc-linux-gnu.sh",
+    "date"=>"22 Dec 2008",
     "type"=>"sea",
 );
 
@@ -234,6 +250,14 @@ $l64ubuntux64 = array(
     "status"=>"Recommended version",
     "file"=>"boinc_6.4.5_x86_64-pc-linux-gnu.sh",
     "date"=>"9 Dec 2008",
+    "type"=>"sea",
+);
+
+$l65ubuntux64 = array(
+    "num"=>"6.5.0",
+    "status"=>"Development version",
+    "file"=>"boinc_6.5.0_x86_64-pc-linux-gnu.sh",
+    "date"=>"22 Dec 2008",
     "type"=>"sea",
 );
 
@@ -305,8 +329,9 @@ $linuxcompat = array(
     "description"=>"For older Linux versions, both x86 and x64; command-line interface only",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-		$l64,
-		$l6215,
+        $l65,
+        $l64,
+        $l6215,
 		$l51045,
         $l5816,
     )
@@ -317,7 +342,8 @@ $linux = array(
     "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-		$l64ubuntu,
+        $l65ubuntu,
+        $l64ubuntu,
 		$l6215ubuntu,
 		$l51045ubuntu,
     )
@@ -328,7 +354,8 @@ $linuxx64 = array(
     "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
-		$l64ubuntux64,
+        $l65ubuntux64,
+        $l64ubuntux64,
 		$l6215ubuntux64,
 		$l51045ubuntux64,
     )
