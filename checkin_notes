@@ -10338,3 +10338,9 @@ David  22 Dec 2008
         coproc.cpp,h
     sched/
         sched_plan.cpp
+
+David  22 Dec 2008
+    - XML_PARSER: in parse_int(), set errno to zero before calling strtol().
+
+    lib/
+        parse.cpp

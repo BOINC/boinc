@@ -642,6 +642,7 @@ bool XML_PARSER::parse_int(char* parsed_tag, const char* start_tag, int& i) {
             return false;
         }
     }
+    errno = 0;
     int val = strtol(buf, &end, 0);
     if (errno == ERANGE) return false;
     if (end != buf+strlen(buf)) return false;
