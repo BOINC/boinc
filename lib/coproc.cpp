@@ -330,9 +330,11 @@ int COPROC_CUDA::parse(FILE* fin) {
             prop.maxThreadsDim[0] = atoi(buf2);
             char* p = strchr(buf2, ' ');
             if (p) {
+                p++;
                 prop.maxThreadsDim[1] = atoi(p);
                 p = strchr(p, ' ');
                 if (p) {
+                    p++;
                     prop.maxThreadsDim[2] = atoi(p);
                 }
             }
@@ -342,9 +344,11 @@ int COPROC_CUDA::parse(FILE* fin) {
             prop.maxGridSize[0] = atoi(buf2);
             char* p = strchr(buf2, ' ');
             if (p) {
+                p++;
                 prop.maxGridSize[1] = atoi(p);
                 p = strchr(p, ' ');
                 if (p) {
+                    p++;
                     prop.maxGridSize[2] = atoi(p);
                 }
             }
