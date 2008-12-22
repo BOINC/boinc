@@ -87,7 +87,7 @@ inline int effective_ncpus() {
     if (ncpus > config.max_ncpus) ncpus = config.max_ncpus;
     if (ncpus < 1) ncpus = 1;
     if (config.have_cuda_apps) {
-        COPROC* cp = g_request->coprocs.lookup("cuda");
+        COPROC* cp = g_request->coprocs.lookup("CUDA");
         if (cp && cp->count > ncpus) {
             ncpus = cp->count;
         }

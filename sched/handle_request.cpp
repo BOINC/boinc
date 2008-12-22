@@ -1207,6 +1207,9 @@ void process_request(char* code_sign_key) {
     } else {
         lock_sema();
         have_no_work = ssp->no_work(g_pid);
+        if (have_no_work) {
+            g_wreq->no_jobs_available = true;
+        }
         unlock_sema();
     }
 
