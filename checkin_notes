@@ -10313,3 +10313,10 @@ David  21 Dec 2008
     sched/
         sched_array.cpp
         sched_send.cpp
+
+David  21 Dec 2008
+    - scheduler: if no jobs available to send, inform the user
+
+    sched/
+        sched_send.cpp
+        handle_request.cpp

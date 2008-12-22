@@ -1236,13 +1236,6 @@ static void explain_to_user() {
             );
             g_reply->insert_message(um);
         }
-        if (g_wreq->no_jobs_available) {
-            USER_MESSAGE um(
-                "(Project has no jobs available)",
-                "high"
-            );
-            g_reply->insert_message(um);
-        }
         if (g_wreq->daily_result_quota_exceeded) {
             struct tm *rpc_time_tm;
             int delay_time;

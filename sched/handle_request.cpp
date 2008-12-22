@@ -1169,6 +1169,10 @@ bool bad_install_type() {
     return false;
 }
 
+static inline bool requesting_work() {
+    return (g_request->work_req_seconds > 0);
+}
+
 void process_request(char* code_sign_key) {
     PLATFORM* platform;
     int retval;
@@ -1202,15 +1206,17 @@ void process_request(char* code_sign_key) {
         warn_user_if_core_client_upgrade_scheduled();
     }
 
-    if (config.locality_scheduling || config.enable_assignment) {
-        have_no_work = false;
-    } else {
-        lock_sema();
-        have_no_work = ssp->no_work(g_pid);
-        if (have_no_work) {
-            g_wreq->no_jobs_available = true;
+    if (requesting_work()) {
+        if (config.locality_scheduling || config.enable_assignment) {
+            have_no_work = false;
+        } else {
+            lock_sema();
+            have_no_work = ssp->no_work(g_pid);
+            if (have_no_work) {
+                g_wreq->no_jobs_available = true;
+            }
+            unlock_sema();
         }
-        unlock_sema();
     }
 
     // if there's no work, and client isn't returning results,
@@ -1219,7 +1225,7 @@ void process_request(char* code_sign_key) {
     //
     if (
         config.nowork_skip
-        && (g_request->work_req_seconds > 0)
+        && requesting_work()
         && have_no_work
         && (g_request->results.size() == 0)
         && (g_request->hostid != 0)
@@ -1360,34 +1366,43 @@ void process_request(char* code_sign_key) {
         }
     }
     
-    if (!send_code_sign_key(code_sign_key)) {
-        ok_to_send_work = false;
-    }
+    if (requesting_work()) {
+        if (!send_code_sign_key(code_sign_key)) {
+            ok_to_send_work = false;
+        }
 
-    // if last RPC was within config.min_sendwork_interval, don't send work
-    //
-    if (!have_no_work && ok_to_send_work && g_request->work_req_seconds > 0) {
-        if (config.min_sendwork_interval) {
-            double diff = dtime() - last_rpc_time;
-            if (diff < config.min_sendwork_interval) {
-                ok_to_send_work = false;
-                log_messages.printf(MSG_NORMAL,
-                    "Not sending work - last request too recent: %f\n", diff
-                );
-                sprintf(buf,
-                    "Not sending work - last request too recent: %d sec", (int)diff
-                );
-                USER_MESSAGE um(buf, "low");
-                g_reply->insert_message(um);
+        // if last RPC was within config.min_sendwork_interval, don't send work
+        //
+        if (!have_no_work && ok_to_send_work) {
+            if (config.min_sendwork_interval) {
+                double diff = dtime() - last_rpc_time;
+                if (diff < config.min_sendwork_interval) {
+                    ok_to_send_work = false;
+                    log_messages.printf(MSG_NORMAL,
+                        "Not sending work - last request too recent: %f\n", diff
+                    );
+                    sprintf(buf,
+                        "Not sending work - last request too recent: %d sec", (int)diff
+                    );
+                    USER_MESSAGE um(buf, "low");
+                    g_reply->insert_message(um);
 
-                // the 1.01 is in case client's clock
-                // is slightly faster than ours
-                //
-                g_reply->set_delay(1.01*config.min_sendwork_interval);
+                    // the 1.01 is in case client's clock
+                    // is slightly faster than ours
+                    //
+                    g_reply->set_delay(1.01*config.min_sendwork_interval);
+                }
+            }
+            if (ok_to_send_work) {
+                send_work();
             }
         }
-        if (ok_to_send_work) {
-            send_work();
+        if (g_wreq->no_jobs_available) {
+            USER_MESSAGE um(
+                "(Project has no jobs available)",
+                "high"
+            );
+            g_reply->insert_message(um);
         }
     }
 
