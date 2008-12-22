@@ -10320,3 +10320,10 @@ David  21 Dec 2008
     sched/
         sched_send.cpp
         handle_request.cpp
+
+David  21 Dec 2008
+    - scheduler: change default CUDA RAM requirement from 256MB to 254MB;
+        apparently some NVIDIA cards report 255MB
+
+    sched/
+        sched_plan.cpp

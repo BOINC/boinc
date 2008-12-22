@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("December 22, 2008",
+    "An <a href=http://bits.blogs.nytimes.com/2008/12/22/d-wave-arms-smoking-gun-proof-of-quantum-computer/>article about AQUA@home</a> appeared
+    in today's New York Times online."
+),
 array("December 17, 2008",
     "BOINC now supports <a href=cuda.php>computing using NVIDIA GPUs</a>.
     Two projects currently have GPU-enabled applications:
