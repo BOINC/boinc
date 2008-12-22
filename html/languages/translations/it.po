@@ -2,766 +2,847 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: Andrea Savioli <alieni@jhonnyellen.it>\n"
+"PO-Revision-Date: 2008-12-09 16:59+0100\n"
+"Last-Translator: Andrea Savioli <jhonnyellen@jhonnyellen.it>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Italian\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
-##########################################
-# Language: Italian (International)
+# #########################################
+# Language: Italian (Italy)
 # FileID  : $Id$
-##########################################
+# Author  : Janus Kristensen (Translator: Andrea Savioli)
+# Email   : jbk@visualgroup.dk (jhonnyellen@jhonnyellen.it)
+# #########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
-##########################################
-
+# #########################################
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
-# The name of this language in this language
+
 msgid "LANG_NAME_NATIVE"
 msgstr "Italiano"
-# The name of this language in an international language (English)
+
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Italian"
 
-########################################
-# poll-related stuff
-########################################
+msgid "Rank"
+msgstr "Posizione"
 
-msgid "POLL_TITLE"
-msgstr "Questionario BOINC"
+msgid "Name"
+msgstr "Nome"
 
-msgid "POLL_INTRO"
-msgstr "Diversi progetti basati sul calcolo volontario, "
-"incluso Climateprediction.net, Einstein@home, "
-"e SETI@home, usano un programma chiamato BOINC. "
-"Se vuoi partecipare ad un progetto come questi, "
-"ti chiediamo, per cortesia, di rispondere alle domande del seguente questionario. "
-"Questo aiuterà i progetti che utilizzano il BOINC-based ad aumentare "
-"la participazione ed a realizzare un grande risultato scientifico. "
-"<p> "
-"Rispondi pure alle domande che vuoi, "
-"quindi vai in fondo e clicca su OK. "
-"Se per caso hai già compilato il questionario ma nel frattempo le risposte alle domande sono cambiate, "
-"ricompilalo di nuovo - "
-"le vecchie risposte verranno rimpiazzate dalle nuove. "
-"<p> "
-"Il risultato corrente del questionario è "
-"<a href=poll_results.php>here</a>. "
+msgid "Search for words in forum messages"
+msgstr "Cerca nel forum"
 
-msgid "POLL_RUN"
-msgstr "Utilizzi il BOINC?"
+msgid "Search forums"
+msgstr "Ricerca nei forum"
 
-msgid "POLL_PARTICIPATION"
-msgstr "La tua partecipazione"
+msgid "Advanced search"
+msgstr "Ricerca avanzata"
 
-msgid "POLL_COMPUTERS"
-msgstr "Il tuo computer"
+# ########################################
+# Private messages
+# ########################################
+msgid "Private messages"
+msgstr "Messaggi privati"
 
-msgid "POLL_YOU"
-msgstr "Tu"
+# ########################################
+# Links from the main page
+# ########################################
+msgid "Questions and Answers"
+msgstr "Domande e risposte"
 
-msgid "POLL_NATIONALITY"
+msgid "Message boards"
+msgstr "Indice del forum"
+
+# ########################################
+# Forum sample index page
+# ########################################
+msgid "%1 message board"
+msgstr "Forum %1"
+
+msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgstr "Per creare un nuovo argomento su %1 devi avere un certo numero di crediti. Questa precauzione è per prevenire e proteggere qualsiasi abuso del sistema."
+
+msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+msgstr "Ora non puoi aprire altri argomenti. Riprova più tardi. Ciò è stato implementato per proteggere il sistema da eventuali abusi."
+
+msgid "Thread"
+msgstr "Argomento"
+
+# ########################################
+# Forum
+# ########################################
+msgid "Posts"
+msgstr "Messaggi"
+
+msgid "Author"
+msgstr "Autore"
+
+msgid "Views"
+msgstr "Visite"
+
+msgid "Last post"
+msgstr "Ultimo messaggio"
+
+msgid "Mark all threads as read"
+msgstr "Segna tutti gli argomenti come letti"
+
+msgid "Mark all threads in all message boards as 'read'."
+msgstr "Segna tutti gli argomenti di tutti i temi come 'letti'."
+
+msgid "Inbox"
+msgstr "inbox"
+
+msgid "Write"
+msgstr "Scrivi"
+
+# ########################################
+# Private messages
+# ########################################
+msgid "Send private message"
+msgstr "Spedisci un messaggio privato"
+
+msgid "Preview"
+msgstr "Anteprima"
+
+msgid "To"
+msgstr "Per"
+
+msgid "User IDs or unique usernames, separated with commas"
+msgstr "Numero ID o username, separato con virgole."
+
+msgid "Subject"
+msgstr "Oggetto"
+
+msgid "Message"
+msgstr "Messaggio"
+
+msgid "Send message"
+msgstr "Spedisci il messaggio"
+
+msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+msgstr "Non sei abilitato ad inviare messaggi privati così spesso. Aspetta qualche minuto prima di poterne inviare degli altri."
+
+msgid "unread"
+msgstr "non letto"
+
+msgid "Search criteria (use one or more)"
+msgstr "Ricerca con criterio (uno o più di uno)"
+
+msgid "Key words"
+msgstr "Parole chiave"
+
+msgid "Find teams with these words in their names or descriptions"
+msgstr "Trova i gruppi che hanno le parole chiave nel loro nome o nella loro descrizione"
+
+msgid "Country"
 msgstr "Nazionalità"
 
-msgid "POLL_COMMENTS"
-msgstr "Commenti"
+msgid "Type of team"
+msgstr "Tipo di gruppo"
 
-msgid "POLL_COMMENTS_QUESTION"
-msgstr "Suggerimenti per migliorare il BOINC e i progetti che lo utilizzano:"
+msgid "Show only active teams"
+msgstr "Mostra solo i gruppi attivi"
 
-msgid "POLL_OTHER"
-msgstr "Altro:"
+msgid "Search"
+msgstr "Cerca"
 
-msgid "POLL_CHECK_ALL"
-msgstr "[controllare che tutto sia stato inserito]"
+msgid "Requested by you, and founder response deadline has passed."
+msgstr "Il fondatore, superando il limite di tempo a sua disposizione, non ha risposto alla tua richiesta."
 
-msgid "POLL_DONE"
-msgstr "Cliccare quando pronti:"
+msgid "Complete foundership transfer"
+msgstr "Completare il trasferimento del fondatore"
 
-msgid "POLL_CURRENT"
-msgstr "Sì - io utilizzo il BOINC sul mio computer da..."
+msgid "Requested by you"
+msgstr "Richiesto da te"
 
-msgid "POLL_TWEEK"
-msgstr "meno di una settimana"
+msgid "founder response deadline is %1"
+msgstr "Il fondatore normalmente risponde dopo %1"
 
-msgid "POLL_TMONTH"
-msgstr "meno di un mese"
-
-msgid "POLL_TYEAR"
-msgstr "meno di un anno"
-
-msgid "POLL_TMOREYEAR"
-msgstr "più di un anno"
-
-msgid "POLL_LAPSED"
-msgstr "No - lo utilizzavo ma ho smesso perché..."
-
-msgid "POLL_LINTEREST"
-msgstr "ho perso interesse"
-
-msgid "POLL_LCOMPLICATED"
-msgstr "era troppo complicato"
-
-msgid "POLL_LSTOPPED"
-msgstr "l'avevo fermato e poi mi sono dimenticato di farlo ripartire"
-
-msgid "POLL_LPROBLEMS"
-msgstr "causava problemi al mio computer"
-
-msgid "POLL_LPOWER"
-msgstr "mi consumava troppa corrente"
-
-msgid "POLL_LNONBOINC"
-msgstr "ho optato per un progetto che non utilizza il BOINC"
-
-msgid "POLL_FAILED"
-msgstr "No - ho provato ad utilizzarlo, ma..."
-
-msgid "POLL_FINSTALL"
-msgstr "il programma non si installava correttamente"
-
-msgid "POLL_FFIGURE"
-msgstr "non riesco proprio ad utilizzarlo"
-
-msgid "POLL_FNETWORK"
-msgstr "ho avuto dei problemi di comunicazione alla rete"
-
-msgid "POLL_FATTACH"
-msgstr "non riuscivo ad attaccarmi a nessun progetto"
-
-msgid "POLL_FWORK"
-msgstr "mi sono attaccato ad un progetto ma non ho ricevuto alcun lavoro"
-
-msgid "POLL_NEVER"
-msgstr "No - non ho mai provato ad utilizzare il BOINC perché..."
-
-msgid "POLL_NSECURITY"
-msgstr "non ne sono sicuro riguardo alla sicurezza"
-
-msgid "POLL_NPROJECT"
-msgstr "non sono interessato ad alcun progetto"
-
-msgid "POLL_NPERMISSION"
-msgstr "non ho i permessi per poterlo utilizzare sul mio computer"
-
-msgid "POLL_NVERSION"
-msgstr "non c'è una versione idonea al mio computer"
-
-msgid "POLL_KIND"
-msgstr "Che tipo di computer devo avere per utilizzare il BOINC?"
-
-msgid "POLL_WHERE"
-msgstr "Dove sono loro?"
-
-msgid "POLL_HOME"
-msgstr "Casa"
-
-msgid "POLL_WORK"
-msgstr "Lavoro"
-
-msgid "POLL_SCHOOL"
-msgstr "Scuola"
-
-msgid "POLL_HOW_MANY"
-msgstr "Quanti computer?"
-
-msgid "POLL_TURNED_ON"
-msgstr "In media, per quante ore al giorno sono in funzione?"
-
-msgid "POLL_AGE"
-msgstr "Età"
-
-msgid "POLL_SEX"
-msgstr "Sesso"
-
-msgid "POLL_MALE"
-msgstr "Uomo"
-
-msgid "POLL_FEMALE"
-msgstr "Donna"
-
-msgid "POLL_EXPERTISE"
-msgstr "Nell'uso del computer, ti ritieni"
-
-msgid "POLL_LEVB"
-msgstr "Principiante"
-
-msgid "POLL_LEVI"
-msgstr "Normale"
-
-msgid "POLL_LEVA"
-msgstr "Esperto"
-
-msgid "POLL_LEARN_WHERE"
-msgstr "Come sei venuto a conoscenza del BOINC e dei relativi progetti?"
-
-msgid "POLL_WTV"
-msgstr "TV/radio/giornali"
-
-msgid "POLL_WPERS"
-msgstr "Da amici, parenti, colleghi"
-
-msgid "POLL_WTEAM"
-msgstr "Blog, forum o siti web specifici"
-
-msgid "POLL_WBOINC"
-msgstr "Dal sito web del BOINC"
-
-msgid "POLL_WWEB"
-msgstr "altri siti web"
-
-msgid "POLL_FACTOR"
-msgstr "Qual è il fattore decisivo che ti ha fatto decidere di partecipare ad un progetto che utilizza il BOINC?"
-
-msgid "POLL_GRAPHICS"
-msgstr "Una buona interfaccia grafica del programma"
-
-msgid "POLL_CREDIT_FAIR"
-msgstr "Una giusta e veloce assegnazione del credito per il lavoro svolto"
-
-msgid "POLL_CREDIT_MORE"
-msgstr "Si ottengono molti più crediti rispetto ad altri progetti"
-
-msgid "POLL_MB_FRIENDLY"
-msgstr "Lista dei messaggi completa e amichevole"
-
-msgid "POLL_MB_STAFF"
-msgstr "Partecipazione dei responsabili alla lista dei messaggi"
-
-msgid "POLL_WEB_SITE"
-msgstr "Presenza di un sito web del progetto"
-
-msgid "POLL_SCIENCE_IMPORTANT"
-msgstr "La scienza è una cosa importante ed opera per il bene collettivo"
-
-msgid "POLL_SCIENCE_PUBLIC"
-msgstr "Progetto senza scopo di lucro e i risultati sono pubblici"
-
-msgid "POLL_RECOGNIZE"
-msgstr "Soddisfazione personale nel caso in cuo il proprio computer dovesse trovare qualcosa"
-
-msgid "POLL_PUBLISH"
-msgstr "Pubblicazione del progetto in giornali scientifici"
-
-msgid "POLL_EMAIL"
-msgstr "Un'attiva newsletter del progetto"
-
-msgid "POLL_NPROJECTS"
-msgstr "A quanti progetti che utizzano il BOINC stai partecipando?"
-
-msgid "POLL_SSAVER"
-msgstr "Utilizzi il BOINC come screensaver?"
-
-msgid "POLL_YES"
-msgstr "Sì"
-
-msgid "POLL_NO"
-msgstr "No"
-
-msgid "POLL_MBOARDS"
-msgstr "Il tuo utilizzo della lista dei messaggi:"
-
-msgid "POLL_MBR"
-msgstr "per ottenere informazioni"
-
-msgid "POLL_MBRW"
-msgstr "per ottenere e postare informazioni"
-
-msgid "POLL_NONE"
+msgid "None"
 msgstr "Nessuno"
 
-msgid "POLL_HELP"
-msgstr "Dove recuperi le informazioni per risolvere i problemi che incontri con il BOINC o con i relativi progetti?"
+msgid "Initiate request"
+msgstr "Avvia la richiesta"
 
-msgid "POLL_HELP_PMB"
-msgstr "Tramite la lista dei messaggi del progetto"
+msgid "Deferred"
+msgstr "Rinviato"
 
-msgid "POLL_HELP_BMB"
-msgstr "Tramite la lista dei messaggi del BOINC"
+msgid "Team info"
+msgstr "Informazioni sul gruppo"
 
-msgid "POLL_HELP_BDOC"
-msgstr "Dal sito web del BOINC"
+msgid "Description"
+msgstr "Descrizione"
 
-msgid "POLL_HELP_BMLIST"
-msgstr "Dalla mailing list delBOINC"
+msgid "Web site"
+msgstr "Sito web"
 
-msgid "POLL_HELP_WIKI"
-msgstr "Dal wiki non ufficiale del BOINC"
+msgid "Total credit"
+msgstr "Crediti totali"
 
-msgid "POLL_HELP_TEAM"
-msgstr "Da siti web specifici"
+msgid "Recent average credit"
+msgstr "Media dei crediti recenti"
 
-msgid "POLL_HELP_GOOGLE"
-msgstr "Da Google o altri motori di ricerca"
+msgid "Type"
+msgstr "Tipo"
 
-msgid "POLL_ERROR_TITLE"
-msgstr "Errorw - risultati non registrati"
+msgid "Message board"
+msgstr "Forum"
 
-msgid "POLL_ERROR_TEXT"
-msgstr "Un errore interno ha impedito la registrazione delle risposte all questionario. Per favore riprovare più tardi."
+msgid "Threads"
+msgstr "Argomenti"
 
-msgid "POLL_RECORDED"
-msgstr "Risposte registrate correttamente."
+msgid "Join this team"
+msgstr "Unisciti a questo gruppo"
 
-msgid "POLL_THANKS"
-msgstr "Grazie per aver risposto alle domande del questionario del BOINC."
+msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
+msgstr "Nota: se nelle tue preferenze del progetto la voce 'OK to email' è spuntata, unendosi al gruppo, si dà il consenso al fondatore ad inviare messaggi al proprio indirizzo di posta elettronica."
 
-msgid "POLL_RESULTS_TITLE"
-msgstr "Risultati al questionario"
+msgid "Foundership change requested"
+msgstr "Richiesta di cambio del fondatore"
 
-msgid "POLL_RESULTS_TEXT"
-msgstr "Questi sono i risultati correnti del <a href=poll.php>questionario del BOINC</a>.  Questa pagina viene aggiornata ogni ora."
+msgid "Respond by %1"
+msgstr "Risposto per %1"
 
+msgid "Team foundership change"
+msgstr "Cambio del fondatore del gruppo"
 
-########################################
-# download.php 2006/08/03 by je2bwm
-########################################
+msgid "Members"
+msgstr "Membri"
 
-msgid "DL_DOWNLOAD"
-msgstr "Scaricati il BOINC"
+msgid "Founder"
+msgstr "Fondatore"
 
-msgid "DL_VERSION_LNAME_SIZE"
-msgstr "%s per %s (%s MB)"
+msgid "Admins"
+msgstr "Amministratore"
 
+msgid "New members in last day"
+msgstr "Nuovi membri nel giorno scorso"
 
-msgid "DL_WHATS_BOINC"
-msgstr " Il BOINC è un programma che ti permette di donare"
-"        i tempi morti del tuo computer a progetti scientifici come"
-"        SETI@home, Climateprediction.net, Rosetta@home,"
-"        World Community Grid, e molti altri."
-"        <p>"
-"        Dopo aver installato il BOINC sul tuo computer,"
-"        potrai connetterlo ai tuoi progetti preferiti."
-"        <p>"
+msgid "Total members"
+msgstr "Totale dei membri"
 
-msgid "DL_SYSTEMREQ"
-msgstr "Requisiti di sistema"
+msgid "view"
+msgstr "visite"
 
-msgid "DL_RELNOTES"
-msgstr "Note di rilascio"
+msgid "Active members"
+msgstr "Membri attivi"
 
-msgid "DL_TROUBLE"
-msgstr "Analisi dei guasti"
+msgid "Members with credit"
+msgstr "Membri con credito"
 
-msgid "DL_OTHERSYS"
-msgstr "Altri sistemi"
+msgid "Admin"
+msgstr "Amministratore"
 
-msgid "DL_ALLVERSIONS"
-msgstr "Tutte le versioni"
+msgid "Last %1"
+msgstr "Precedente %1"
 
-msgid "DL_IF_OTHERTYPES"
-msgstr "Se il tuo computer non è tra quelli elencati, puoi"
+msgid "Next %1"
+msgstr "Successivo %1"
 
-msgid "DL_MAKEYOUROWN"
-msgstr "%s fare il tuo programma personale %s o"
+msgid "No such team."
+msgstr "Nessun gruppo."
 
-msgid "DL_DL_FROM3RDP"
-msgstr "%s scaricare l'esecutibile da un terzo sito %s"
-    " (per Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, FreeBSD ed altri)."
+msgid "This operation requires foundership."
+msgstr "Per questa operazione devi essere un fondatore."
 
-msgid "DL_DOWNLOAD_TITLE"
-msgstr "BOINC: calcolo per la scienza"
+msgid "This operation requires team admin privileges"
+msgstr "Per questa operazione devi avere i privilegi da amministratore"
 
-msgid "DL_MIRRORS"
-msgstr "Nota: i file vengono scaricati dai server "
-    "di boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, "
-    "einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu e einstein.aset.psu.edu "
-    "(un grazie a queste istituzioni). "
-    "Il server viene scelto casualmente - "
-    "se un download dovesse fallire, ricaricate la pagina (basta cliccare sul tasto aggiorna del browser web) e riprovate a scaricare. "
+msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
+msgstr "%1Nota sulla privacy%2: se hai intenzione di creare un gruppo, le preferenze del tuo progetto (risorse condivise, preferenze grafiche) saranno visibili al pubblico."
 
-##############################################
-# system_requirements.php by je2bwm 2006/08/07
-##############################################
-msgid "SRQ_PAGE_TITLE"
-msgstr "Requisiti di sistema"
+msgid "Team name, text version"
+msgstr "Nome del gruppo, versione testuale"
 
-msgid "SRQ_INTRO"
-msgstr "Il tuo computer deve soddisfare i seguenti requisiti per far funzionare il BOINC."
-    "Alcuni progetti che utilizzano il BOINC possono richiedere ulteriori requisiti."
+msgid "Don't use HTML tags."
+msgstr "Non usare i tag HTML."
 
-msgid "SRQ_MSWIN"
-msgstr "Windows"
+msgid "Team name, HTML version"
+msgstr "Nome del gruppo, versione in HTML"
 
-msgid "SRQ_OS"
-msgstr "Sistema operativo"
+msgid "You may use %1limited HTML tags%2."
+msgstr "Puoi usare %1 un numero limitato di tag HTML%2."
 
-msgid "SRQ_MSWIN_REQ_OS"
-msgstr "Windows 98 o successivi"
-
-msgid "SRQ_MIN_HARDWARE"
-msgstr "Hardware minimo"
-
-msgid "SRQ_MSWIN_REQ_CPU"
-msgstr "Pentium 233 MHz (Raccomandato: Pentium 500 MHz o superiore)"
+msgid "If you don't know HTML, leave this box blank."
+msgstr "Se non conosci l'HTML, lascia questo campo vuoto."
 
-msgid "SRQ_MSWIN_REQ_RAM"
-msgstr "64 MB RAM (Reccomandato: 128 MB RAM o superiore)"
+msgid "URL of team web page, if any"
+msgstr "URL del sito web del gruppo, se c'è"
 
-msgid "SRQ_MSWIN_REQ_DISK"
-msgstr "20 MB di spazio sul disco fisso"
-
-msgid "SRQ_APPLMAC"
-msgstr "Macintosh"
-
-msgid "SRQ_APPLMAC_REQ_OS"
-msgstr "Mac OS X 10.3 o successivi"
-
-msgid "SRQ_APPLMAC_REQ_CPU"
-msgstr "Macintosh con  processori Intel x86 o PowerPC G3, G4, o G5"
-
-msgid "SRQ_APPLMAC_REQ_RAM"
-msgstr "128 MB RAM (Reccomandato: 256 MB RAM o superiore)"
-
-msgid "SRQ_APPLMAC_REQ_DISK"
-msgstr "200 MB di spazio sul disco fisso"
-
-msgid "SRQ_LINUX"
-msgstr "Linux"
-
-msgid "SRQ_LINUX_REQ_KERNEL"
-msgstr "Linux kernel 2.2.14 o superiore"
-
-msgid "SRQ_LINUX_REQ_GLIBC"
-msgstr "glibc 2.3.2 o successivi"
-
-msgid "SRQ_LINUX_REQ_XFREE86"
-msgstr "XFree86-3.3.6 o successivi"
-
-msgid "SRQ_LINUX_REQ_GTKPLUS"
-msgstr "gtk+2.0 o successivi"
-
-msgid "SRQ_LINUX_REQ_CPU"
-msgstr "Pentium 500 MHz o superiore"
-
-msgid "SRQ_LINUX_REQ_RAM"
-msgstr "64 MB RAM"
-
-msgid "SRQ_LINUX_REQ_DISK"
-msgstr "50 MB di spazio sul disco fisso"
-
-##############################################
-# release_notes.php
-##############################################
-msgid "RLN_PAGE_TITLE"
-msgstr "Note di rilascio"
-
-msgid "RLN_WHATS_NEW"
-msgstr "Novità in %s"
-
-msgid "RLN_INSTALLING"
-msgstr "Installazione"
-
-msgid "RLN_UNINSTALLING"
-msgstr "Disinstallazione"
-
-msgid "RLN_KNOWN_ISSUES"
-msgstr "Problemi noti"
-
-msgid "RLN_WIN_INSTALL_PROBLEMS"
-msgstr "(Windows) In casi rari, l'installazione può fallire poiché "
-    "è presente una vecchia versione del BOINC.  In questo caso: "
-    "%s Uscite dal BOINC se è attivo e disinstallate la vecchia versione "
-    "usando %s Start/Pannello di controllo/aggiungi e rimuovi programmi%s. "
-    "Quindi installare la nuova versione. "
-    "%s Se anche in questo caso dovesse fallire, reinstallate la versione "
-    "che avevate prima "
-    "(potete trovarla %squi%s). "
-    "Disinstallatela di nuovo e quindi installate la nuova versione. "
-    "%s Se dovesse fallire ancora, scaricatevi il %sWindows Install Clean Up%s "
-    "dalla Microsoft e avviatelo. "
-    "La vecchia versione del boinc vi mostrerà un BOINC.msi o una cosa come "
-    "un icona corrotta .msi (questa è la massima opzione). "
-    "Cliccateci sopra e selezionatela, quindi cliccate Rimuovi ed Esci. "
-    "Riavviate il computer. "
-    "Ora potete installare la nuova versione. "
-    "(Attenzione: lasciate stare tutti gli altri file .msi che ci sono, "
-     "altrimenti potreste causare seri problemi relativi alla disinstallazione degli altri programmi). "
-    "%s "
-
-msgid "RLN_TROUBLESHOOT"
-msgstr "Analisi dei guasti al BOINC"
-
-msgid "RLN_NEWF_5_4_AM"
-msgstr "Supporto per la gestione dell'account (Account managers) - siti web che mostrano "
-    "i progetti BOINC, attacco/distacco, cambiamento delle risorse e delle preferenze, "
-    "tutto con una semplice interfaccia grafica punta e clicca. "
-    "La gestione degli account è oltremodo molto semplice anche se si posseggono diversi computer - "
-    "basta un solo ed unico cambiamento."
-
-msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
-msgstr "Le preferenze generali vengono memorizzate in un file locale; "
-    "maggiori dettagli %s qui %s."
-
-msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
-msgstr "Ora il BOINC ti avverte quando è necessario connettersi."
-
-msgid "RLN_5_8_SIMPLE_GUI"
-msgstr "Il BOINC Manager offre due differenti interfacce: "
-    " 'Semplice' (piccola, grafica, mostrinabile) "
-    " e 'Avanzata' (massima informazione). "
-    " L'interfaccia semplice concede l'impostazione locale delle preferenze. "
-    " Puoi cambiare a piacimento tra Semplice ed Avanzato. "
-msgid "RLN_5_8_THROTTLE"
-msgstr " impiccamento della CPU: puoi ridurre il picco della CPU limitando "
-    " la frazione di tempo che il Boinc utilizza. "
-msgid "RLN_5_8_SCHED"
-msgstr " Con le migliorate politiche di programmazione si evitano di superare "
-    " le scadenze anche su computer lenti. "
-msgid "RLN_5_8_MEM"
-msgstr " Puoi limitare l'ammontare di memoria ustata dal BOINC; "
-    " questo permette al tuo computer di continuare il calcolo senza perderci in prestazione. "
-msgid "RLN_5_8_SANDBOX"
-msgstr " Con il Mac OS X sono possibili le applicazioni anche con account senza privilegi, "
-    " incremento di sicurezza. "
-msgid "RLN_5_8_SNOOZE"
-msgstr " L'icona Snooze (nel pannello delle applicazioni di sistema) ti permette "
-    " di fermare il calcolo per un ora. "
-
-msgid "RLN_RECOMMEND_LATEST_VERSION"
-msgstr "Raccomandiamo a tutti gli utenti l'aggiornamento a %s."
-
-msgid "RLN_LINK2_VERSION_HISTORY"
-msgstr "Una dettagliata cronologia delle versioni la trovate qui %squi%s."
-
-msgid "RLN_MSWIN"
-msgstr "Windows"
-
-msgid "RLN_APPLMAC"
-msgstr "Macintosh"
-
-msgid "RLN_LINUX"
-msgstr "Linux"
-
-msgid "RLN_MSWIN_INSTALL_MODES"
-msgstr "Il BOINC può essere installato in diverse modalità:"
-
-msgid "RLN_SINGLE_USER_INSTALL"
-msgstr "Installazione per singolo utente"
-
-msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
-msgstr "Questa è la modalità raccomandata. "
-    "Il BOINC verrà avviato ogni qualvolta l'utente 'installante' accederà al computer. "
-    "La presenza del BOINC nel menu Start è limitata all'utente 'installante', non agli altri utenti. "
-    "Lo stesso vale per il comando 'mostra il grafico' "
-    " e per il salva schermo "
-    "(anche gli altri utenti possono avviare il salva schermo, ma vedranno  "
-    "solamente informazioni testuali)."
-
-msgid "RLN_SHARED_INSTALL"
-msgstr "Installazione condivisa"
-
-msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
-msgstr "Il BOINC si avvia indiferrentemente dall'utente attivo. "
-    "La presenza del BOINC nel menu Start è visibile a tutti gli utenti. "
-    "Il BOINC si avvia con un particolare utente "
-    "(in pratica, con il primo utente che accede al computer il BOINC si avvia come quel utente). "
-    "Il comando 'mostra il grafico' funzionerà solo per quel utente. "
-    "Lo stesso vale per il salvaschermo "
-    "(gli altri utenti lo possono avviare, ma vedranno  "
-    "solamente informazioni testuali)."
-
-msgid "RLN_WIN_SERVICE_INSTALL"
-msgstr "Servizio d'installazione"
-
-msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
-msgstr "Il BOINC si avvia tutte le volte (escluso quando nessun utente è attivo). "
-    "Il BOINC appare nel menu Start dell'utente che cura l'installazione "
-    "ma non agli altri utenti.  "
-    "Il comando 'mostra il grafico' "
-    "non comparirà a nessun utente. "
-    "Il salva schermo mostrerà solo le informazioni testuali."
-
-msgid "RLN_LINUX_INSTALL_SEA_DESC"
-msgstr "Il BOINC per Linux è distribuito in archivio autoestraente. "
-    "Questo tipo di installazione richiede familiarità con i sistemi Unix. "
-    "Comunque è sempre meglio verificarne la disponibilità nella propria distro, "
-    " ad esempio Debian Etch nei suoi archivi ha il BOINC 5.4.11"
-msgid "RLN_LINUX_DL_FILENAME"
-msgstr "Il file che si andrà a scaricare avrà un nome tipo <code>%s</code>."
-
-msgid "RLN_LINUX_RUN_SEA"
-msgstr "Dopo aver scaricato il file, type<pre>%s</pre>"
-
-msgid "RLN_LINUX_RESULTOF_SEA"
-msgstr "Questo creerà la directory BOINC/ con i seguenti file:"
-
-msgid "RLN_BOINC_CORE_CL"
-msgstr "Il BOINC core client"
-
-msgid "RLN_BOINC_MANAGER"
-msgstr "Il BOINC manager"
-
-msgid "RLN_SCRIPT_RUN_CLIENT_DESC"
-msgstr "Uno script che porta nella directory del BOINC e avvia il client - la parte che gestisce il calcolo vero e proprio."
-
-msgid "RLN_SCRIPT_RUN_MANAGER_DESC"
-msgstr "Uno script che porta nella directory del BOINC ed avvia il manager - la parte che si occupa 'dell'amministrazione'."
-
-msgid "RLN_LINUX_AUTOSTART"
-msgstr "Molto probabilmente vorrai%s avviare automaticamente il client %sall'avvio del sistema."
-
-msgid "RLN_MSWIN_UNINSTALL_DESC"
-msgstr "Seleziona Start/Pannello di Controllo/Aggiungi e Rimuoni Programmi. "
-    "Seleziona BOINC, quindi clicca Cancella. "
-    "Questo cancella solo il programma del BOINC. "
-    "Per rimuovere completamente il BOINC, bisogna cancellare anche la directory che contiene di dati "
-    "(normalmente C:/Programmi/BOINC). "
-
-msgid "RLN_ISSUE_PROXY_NTLMAUTH"
-msgstr "If you use a proxy server, please hold off upgrading for now. "
-    "Per i lavori utilizziamo l'autenticazione NTLM."
-
-msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
-msgstr "(Windows) Se le applicazioni del BOINC continuano a crashare, "
-    "è possibile che tu bedda "
-    "%saggiornare la tua versione di DirectX (9.0c o sucessivi) %s."
-
-msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
-msgstr "(Windows) Se il BOINC è in funzione insieme aun un salva schermo tridimensionale si Windows XP, "
-    "il sistema potrebbe diventare pigro ed insensibile."
-
-msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
-msgstr "(Windows) Le applicazioni sviluppate prima dell'ottobre 2004 "
-    "non mostrano il salva schermo in modalità grafica sia come singolo utente, "
-    "servizio d'installazione, "
-    "macchina condivisa "
-    "se il salva schermo è protetto da password sui sistemi NT."
-
-msgid "RLN_TROUBLESHOOT_INTRO"
-msgstr "Se hai dei problemi con il BOINC, qui ci sono alcuni punti che puoi seguire:"
-
-msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
-msgstr "Se hai un problema con un particolare progetto, "
-    "vai alle faq sul sito web del relativo progetto. "
-    "Dovresti trovare la soluzione al tuo problema. "
-    "Se non lo trovi, posta qui, qualche altro utente potrebbe aiutarti. "
-    "Se il problema persiste, "
-    "usa il BOINC Manager e 'resetta' il relativo progetto. "
-    "Questo eliminerà i lavori in progresso tirandoti fuori dal problema. "
-
-msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
-msgstr "se invece hai dei problemi proprio con il BOINC, "
-    "cerca aiuto dalla nostra %s lista dei messaggi %s."
-
-##############################################
-# help.php
-##############################################
-msgid "HELP_TITLE"
-msgstr "Ricevere aiuto con il BOINC"
-
-msgid "HELP_HEADING1"
-msgstr "Aiuto online"
-
-msgid "HELP_P1_1"
-msgstr "L'aiuto online ti permette di parlare a quattr'occhi "
-    "con un utente esperto, che può: "
-    "%s risponderti a domande relative al BOINC ed al calcolo volontario; "
-    "%s parlarti dei processi di installazione ed utilizzo del BOINC; "
-    "%s analizzare guasti e problemi vari che potresti ritrovarti. "
-
-msgid "HELP_P1_2"
-msgstr "L'aiuto online si basa su "
-    "%sSkype%s, "
-    "un sistema telefonico che utilizza internet. "
-    "Skype è libero (sia il programma che le chiamate). "
-    "Se non hai ancora, per farvore "
-    "%sscaricatelo e installalo subito%s. "
-    "Quando hai finito, ritorna a questa pagina. "
-
-msgid "HELP_P1_3"
-msgstr "Il miglior modo per ricevere aiuto è con la voce, "
-    "per questo hai bisogno di un microfono e delle cuffie "
-    "o una roba simile. "
-    "Puoi inoltre usare Skype come una chat "
-    "o con regolari email (se non hai Skype) "
-    "per comunicare con i salvavolontari."
-
-msgid "HELP_P1_4"
-msgstr "I salvavolontari parlano diverse lingue. "
-    "Scegli quella che più ti aggrada: "
-
-msgid "HELP_HEADING2"
-msgstr "Altre risorse d'aiuto"
-
-msgid "HELP_P2_ITEM1"
-msgstr "Avviare il BOINC "
-
-msgid "HELP_P2_ITEM2"
-msgstr "Analisi dei guasti del BOINC "
-
-msgid "HELP_P2_ITEM3"
-msgstr "Relativo al sito web del BOINC "
-
-msgid "HELP_P2_ITEM4"
-msgstr "La lista dei messaggi del BOINC "
-
-msgid "HELP_P2_ITEM5"
-msgstr "La lista dei messaggi dei vari progetti che utilizzano il BOINC "
-
-msgid "HELP_HEADING3"
-msgstr "Diventa un salvavolontario"
-
-msgid "HELP_P3_1"
-msgstr "Se hai una certa esperienza del BOINC, ti incoraggiamo a "
-    "%sdiventare un salvavolontario%s. "
-    "E' una buona strada per aiutare la causa della ricerca scientifica "
-    "e del calcolo volonario - "
-    "ed è divertente!  "
-
-msgid "HELP_P3_2"
-msgstr "Se sei già un salvavolontario: inserisci le tue preferenze, "
-    "%sclicca qui%s. "
-
-##############################################
-# index.php
-##############################################
-
-msgid "HOME_HEADING1"
-msgstr "Volontari"
-
-msgid "HOME_P1"
-msgstr " Usa i tempi morti del tuo computer "
-    " (Windows, Mac o Linux) "
-    " per curare malattie, studiare gli allarmi globali, "
-    " scoprire nuove stelle e molti altri progetti di ricerca scientifica. "
-    " Il programma è stabile, sicuro e facile da usare: "
-    " %sScegli%s i progetti "
-    " %sScaricati%s ed avvia il BOINC "
-    " %sEntra%s l'indirizzo del progetto, il tuo indirizzo di posta elettronica, e la password. "
-
-msgid "HOME_P2"
-msgstr "O, se partecipi a più progetti, prova "
-    "un %saccount manager%s oppure %sGridRepublic%s o %sBAM!%s. "
-
-msgid "HOME_P3"
-msgstr "Se hai qualche domanda, o hai bisogno d'aiuto per iniziare, puoi "
-    "%schiedere ad un Salvavolontari%s. "
-
-msgid "HOME_MORE_INFO"
-msgstr "Avviare il BOINC"
-
-msgid "HOME_DOWNLOAD"
-msgstr "Scaricati il BOINC"
-
-msgid "HOME_WEB_SITES"
-msgstr "Siti web"
-
-msgid "HOME_ADD_ONS"
-msgstr "Programmi aggiuntivi"
-
-msgid "HOME_SURVEY"
-msgstr "Questionario"
-
-msgid "HOME_BOINC"
-msgstr "Berkeley Open Infrastructure for Network Computing "
-    " Infrastruttura libera per il calcolo condiviso in rete"
-    " della Università di Berkeley, California
-
-msgid "HOME_BOINC_DESC"
-msgstr "Programma libero per il %scalcolo volontario%s ed il %scalcolo condiviso in rete%s.
+msgid "without \"http://\""
+msgstr "senza \"http://\""
+
+msgid "This URL will be linked to from the team's page on this site."
+msgstr "Questo indirizzo sarà linkato alla pagina del gruppo su questo sito."
+
+msgid "Description of team"
+msgstr "Descrizione del gruppo"
+
+# ########################################
+# Public user page (show_user.php)
+# ########################################
+msgid "Projects in which you are participating"
+msgstr "Progetti a cui stai partecipando"
+
+msgid "Projects in which %1 is participating"
+msgstr "Progetti in cui %1 sta partecipando"
+
+msgid "Project"
+msgstr "Progetto"
+
+msgid "Click for user page"
+msgstr "Clicca qui per la pagina dell'utente"
+
+msgid "Average credit"
+msgstr "Credito medio"
+
+msgid "Since"
+msgstr "dal"
+
+msgid "Computing and credit"
+msgstr "Lavoro svolto e credito"
+
+msgid "Pending credit"
+msgstr "Credito in corso"
+
+msgid "View"
+msgstr "Visite"
+
+msgid "Computers on this account"
+msgstr "Computer per questo account"
+
+msgid "Tasks"
+msgstr "Elaborazioni"
+
+msgid "Cross-project ID"
+msgstr "ID di tutti i progetti"
+
+msgid "Cross-project statistics"
+msgstr "Statistiche di tutti i progetti"
+
+msgid "Certificate"
+msgstr "Certificato"
+
+msgid "Stats on your cell phone"
+msgstr "Statistiche sul tuo telefono cellulare"
+
+msgid "Account information"
+msgstr "Informazioni sull'account"
+
+msgid "Email address"
+msgstr "E-mail"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Postal code"
+msgstr "CAP"
+
+msgid "%1 member since"
+msgstr "membro dal %1"
+
+msgid "Change"
+msgstr "Cambia"
+
+msgid "email address"
+msgstr "E-mail"
+
+msgid "password"
+msgstr "password"
+
+msgid "other account info"
+msgstr "Altre informazioni sull'account"
+
+msgid "Log out"
+msgstr "Esci"
+
+msgid "User ID"
+msgstr "ID dell'utente"
+
+msgid "Used in community functions"
+msgstr "Usato per le funzioni di comunità"
+
+msgid "Account key"
+msgstr "Account key"
+
+msgid "Provides full access to your account"
+msgstr "Fornisci un accesso totale al tuo account"
+
+msgid "Weak account key"
+msgstr "Account key debole"
+
+msgid "Provides"
+msgstr "Fornisci"
+
+msgid "limited access"
+msgstr "acsesso limitato"
+
+# ########################################
+# "Your account" page (home.php)
+# ########################################
+msgid "to your account"
+msgstr "vai al tuo account"
+
+msgid "Preferences"
+msgstr "Preferenze"
+
+msgid "When and how BOINC uses your computer"
+msgstr "Quando e come usi il BOINC sul tuo computer"
+
+msgid "Computing preferences"
+msgstr "Preferenze per il calcolo"
+
+msgid "Message boards and private messages"
+msgstr "Forum e messaggi privati"
+
+msgid "Community preferences"
+msgstr "Preferenze per la comunità"
+
+msgid "Resource share and graphics"
+msgstr "Risorse condivise e grafiche"
+
+msgid "%1 preferences"
+msgstr "Preferenze %1"
+
+msgid "Community"
+msgstr "Comunità"
+
+msgid "Delete"
+msgstr "Cancella"
+
+msgid "Create"
+msgstr "Crea"
+
+msgid "Profile"
+msgstr "Profilo"
+
+# ########################################
+# Forum
+# ########################################
+msgid "%1 posts"
+msgstr "%1 messaggi"
+
+# ########################################
+# Apps page (apps.php)
+# ########################################
+msgid "Notifications"
+msgstr "Note"
+
+msgid "Quit team"
+msgstr "Abbandona il gruppo"
+
+msgid "Administer"
+msgstr "Amministra"
+
+msgid "(foundership change request pending)"
+msgstr "(richiesta per cambio del fondatore in corso)"
+
+msgid "Member of team"
+msgstr "Membro del gruppo"
+
+msgid "Team"
+msgstr "Gruppo"
+
+msgid "find a team"
+msgstr "Trova un gruppo"
+
+msgid "Founder but not member of"
+msgstr "Fondatore ma non membro del"
+
+msgid "Find friends"
+msgstr "Trova degli amici"
+
+msgid "Friends"
+msgstr "Amici"
+
+msgid "Computers"
+msgstr "Computer"
+
+msgid "hidden"
+msgstr "nascosto"
+
+msgid "Donor"
+msgstr "Donatore"
+
+msgid "Contact"
+msgstr "Contatta"
+
+msgid "This person is a friend"
+msgstr "Questa persona è un amico"
+
+msgid "Cancel friendship"
+msgstr "Cancella amicizia"
+
+msgid "Request pending"
+msgstr "Richiesto in corso"
+
+msgid "Add as friend"
+msgstr "Aggiungi come amico"
+
+msgid "Use BBCode tags to format your text"
+msgstr "usa i tag BBCode per formattare il tuo testo"
+
+msgid "Identifies you on our web site. Use your real name or a nickname."
+msgstr "Identificati sul nostro sito. Usa il tuo nome reale oppure un alias."
+
+msgid "Select the country you want to represent, if any."
+msgstr "Seleziona la nazione che vuoi rappresentare, se vuoi."
+
+msgid "Postal or ZIP Code"
+msgstr "CAP"
+
+# ########################################
+# General stuff (create_account_form.php and others)
+# ########################################
+msgid "Optional"
+msgstr "Accessori aggiuntivi"
+
+# ########################################
+# Apps page (apps.php)
+# ########################################
+msgid "Applications"
+msgstr "Applicazioni"
+
+msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+msgstr "Attualmente %1 sta usando le seguenti applicazioni. Partecipando a %1, verranno assegnati al tuo computer dei lavori per una o più di queste applicazioni. Gli aggiornamenti alle ultime versioni verranno eseguiti automaticamente."
+
+msgid "Platform"
+msgstr "Piattaforma"
+
+msgid "Current version"
+msgstr "Versione attuale"
+
+msgid "Installation time"
+msgstr "Tempo d'installazione"
+
+msgid "You must supply an invitation code to create an account."
+msgstr "Devi fornire un codice d'invito per creare un account."
+
+msgid "The invitation code you gave is not valid."
+msgstr "Il codice d'invito inserito non è valido."
+
+# ########################################
+# Create account form (create_account_form.php)
+# ########################################
+msgid "Create an account"
+msgstr "Crea un account"
+
+msgid "Account creation is disabled"
+msgstr "La creazione degli account è disabilitata"
+
+msgid "Account creation is currently disabled. Please try again later."
+msgstr "La creazione degli account è stata momentaneamente disabilitata. Provate più tardi."
+
+msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgstr "NOTA: se stai usando la versione 5.2 o superiore con il BOINC Manager, non usare questo modulo. Appena avviato il BOINC, selezionare 'Connessione ad un progetto' ed inserisci una email ed una password."
+
+msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgstr "Questo account apparterà al gruppo %1 ed avrà le preferenze del progetto decise dal suo fondatore."
+
+msgid "Invitation Code"
+msgstr "Codice d'invito"
+
+msgid "A valid invitation code is required to create an account."
+msgstr "E' necessario un codice d'invito valido per poter creare un account."
+
+msgid "Email Address"
+msgstr "Email"
+
+msgid "Must be a valid address of the form 'name@domain'."
+msgstr "Devi inserire un indirizzo email valido: nome@dominio"
+
+msgid "Password"
+msgstr "Password"
+
+msgid "Must be at least %1 characters"
+msgstr "Deve essere di almeno %1 caratteri"
+
+msgid "Confirm password"
+msgstr "Conferma password"
+
+msgid "Create account"
+msgstr "Crea un account"
+
+msgid "Title"
+msgstr "Titolo"
+
+msgid "Add my signature to this post"
+msgstr "Aggiungi la mia firma a questo messaggio"
+
+# ########################################
+# Forum sample index page
+# ########################################
+msgid "%1 Message boards"
+msgstr "Forum %1"
+
+msgid "Topic"
+msgstr "Tema"
+
+msgid "Your message has been sent."
+msgstr "Il tuo messaggio è stato inviato."
+
+msgid "You have no private messages."
+msgstr "Non hai messaggi privati."
+
+msgid "Sender"
+msgstr "Mittente"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Mark as read"
+msgstr "Segna come letto"
+
+msgid "Mark as unread"
+msgstr "Segna come non letto"
+
+msgid "With selected"
+msgstr "Con selezione"
+
+msgid "No such message"
+msgstr "Nessun messaggio"
+
+msgid "Block user"
+msgstr "Blocca utente"
+
+msgid "Reply"
+msgstr "Rispondi"
+
+msgid "Really delete?"
+msgstr "Sei sicuro di voler cancellare?"
+
+msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+msgstr "Sei sicuro si voler cancellare il messaggio con oggetto &quot;%1&quot; (inviato da %2 il %3)?"
+
+msgid "Yes, delete"
+msgstr "Sì"
+
+msgid "No, cancel"
+msgstr "No"
+
+msgid "No such message."
+msgstr "Nessun messaggio."
+
+msgid "You need to fill all fields to send a private message"
+msgstr "Devi riempire tutti i campi per poter inviare un messaggio privato"
+
+msgid "Could not find user with id %1"
+msgstr "Non ho a trovato nessun utente con id %1"
+
+msgid "Could not find user with username %1"
+msgstr "Non ho trovato nessun utente chiamato %1"
+
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "%1 appartiene a più utenti, usare il proprio numero ID"
+
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "L'utente %1 (ID: %2) non accetta messaggi privati da te."
+
+msgid "Really block %1?"
+msgstr "Vuoi realmente bloccare %1?"
+
+msgid "Are you really sure you want to block user %1 from sending you private messages?"
+msgstr "Sei veramente sicuro nel voler bloccare l'utente %1 dal mandarti messaggi privati?"
+
+msgid "Please note that you can only block a limited amount of users."
+msgstr "Ricordati che puoi bloccare solamente un numero limitato di utenti."
+
+msgid "Once the user has been blocked you can unblock it using forum preferences page."
+msgstr "Una volta bloccato un utente puoi sempre sbloccarlo tramite la pagina delle preferenze sul forum."
+
+msgid "Add user to filter"
+msgstr "Aggiungi l'utente al filtro"
+
+msgid "No such user"
+msgstr "Nessun utente"
+
+msgid "User %1 blocked"
+msgstr "Utente %1 bloccato"
+
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "Ora l'utente %1 non può più inviarti messaggi privati."
+
+msgid "To unblock, visit %1message board preferences%2"
+msgstr "Per sboccare un utente, visita la pagina %1preferenze del forum%2"
+
+msgid "Create a new thread"
+msgstr "Crea un nuovo argomento"
+
+msgid "Post to thread"
+msgstr "Rispondi a questo argomento"
+
+msgid "Forum search results"
+msgstr "Risultato della ricerca nel forum"
+
+msgid "Forum search"
+msgstr "Cerca nel forum"
+
+# ########################################
+# Forum thread
+# ########################################
+msgid "This thread has been hidden for administrative purposes"
+msgstr "Questo argomento è stato nascosto per scopi amministrativi"
+
+msgid "Unsubscribe"
+msgstr "Cancella l'iscrizione al forum"
+
+msgid "Subscribe"
+msgstr "Iscriviti al forum"
+
+msgid "Welcome to %1"
+msgstr "Benvenuto a %1"
+
+msgid "View and edit your account preferences using the links below."
+msgstr "Vedi e modifica le tue preferenze dell'account usando il link sottostante."
+
+# ########################################
+# Rules and Policies page (info.php)
+# ########################################
+msgid "Read our rules and policies"
+msgstr "Leggi le nostre regole e politiche"
+
+msgid "Run %1 only on authorized computers"
+msgstr "Avvia %1 solo su computer autorizzati"
+
+msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
+msgstr "Avvia %1 solo su propri computer o su quelli di cui si abbia ottenuto il permesso dal proprietario. Alcune aziende e scuole proibiscono l'uso di progetti come %1 sui propri computer."
+
+msgid "How %1 will use your computer"
+msgstr "Come %1 userà il tuo computer"
+
+msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
+msgstr "Quando sarò instalalto sul tuo computer, %1 utilizzzarà una parte della CPU, del disco fisso e della connessione ad internet. Puoi sempre tenere sotto controllo l'entità delle risorse utilizzate da %1."
+
+msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
+msgstr "Il lavoro svolto dal tuo computer sarà un prezioso contributo per raggiungere gli obbiettivi di %1, come descritto sul proprio sito web. Le applicazioni del programma possono variare di volta in volta."
+
+msgid "Privacy policy"
+msgstr "Politiche sulla privacy"
+
+msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
+msgstr "Il tuo account su %1 è identificato con il nome che hai scelto. Questo nome sarà mostrato sul sito web di %1 assieme ad una somma del lavoro svolta dal tuo computer per %1. Se vuoi rimanere anonimo, puoi sempre scegliere un nome che nasconda la tua vera identità."
+
+msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
+msgstr "Se partecipi a %1, le informazioni relative al tuo computer (tipo del processore, quantità di memoria, ecc...) saranno registrati da %1 e usati per decidere il tipo di lavoro da assegnare al tuo computer. Queste informazioni saranno inoltre mostrati sul sito web di %1. Niente che possa rivelare la locazione del tuo computer (per esempio il nome del suo dominio o gli indirizzi di rete) saranno mostrati."
+
+msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr "Per partecipare a %1, devi fornire una casella di posta elettronica dove puoi ricevere le email. Questa casella non sarà mostrata sul sito web di %1 o condivisa con altre organizzazioni. %1 potrà inviarti periodicamente una email informativa; comunque, puoi sempre decidere di uscire ogni volta che vuoi."
+
+msgid "Is it safe to run %1?"
+msgstr "Sicuro di voler avviare %1?"
+
+msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
+msgstr "Ogni volta che scarichi un programma attraverso internet, puoi incontrare dei rischi: il programma potrebbe avere degli errori pericolosi, o il server da cui stai scaricando può essere difettoso. %1 si sforza continuamente a diminuire questi rischi. Testiamo molto accuratamente tutte le nostre applicazioni. I nostri server sono tutti coperti da un firewall configurato per una massima sicurezza. Per accertarci dell'integrità dei download, tutti i file eseguibili vengono segnati digitalmente da un computer non connesso ad internet."
+
+msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr "Le applicazioni avviate da %1 possono provocare surriscaldamento. Se ciò dovesse accadere, basta solo fermare %1 o usare una %2utilità di programma%3 che limita l'uso della CPU."
+
+msgid "%1 was developed by %2. BOINC was developed at the University of California."
+msgstr "%1 è sviluppato da %2. Il BOINC è sviluppato dalla Università della California."
+
+msgid "Liability"
+msgstr "Responsabilità"
+
+msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
+msgstr "%1 e %2 non si assumono alcuna responsabilità per eventuali danni causati al tuo computer, perdita di dati o altri eventi o circostanze che possono accadere come conseguenza alla partecipazione a %1."
+
+msgid "Other BOINC projects"
+msgstr "Altri progetti BOINC"
+
+msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
+msgstr "Altri progetti che usano la stessa piattaforma, BOINC, come %1. Se mai volessi considerare la tua partecipazione a uno, o più, di questi progetti; così facendo, il tuo computer svolgerà un utilissimo lavoro anche quando %1 non ha lavoro disponibile."
+
+msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
+msgstr "Questi altri progetti non sono associati con %1 e, quindi, non ne possiamo garantire la sicurezza e la natura delle loro ricerche. Una vostra adesione a tali progetti sono a vostro rischio."
+
+msgid "Sender and date"
+msgstr "Mittente e data"
+
+msgid "Profiles"
+msgstr "Profili"
+
+msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
+msgstr "I %1profili%2 permettono agli individui di condividere le proprie esperienze con la comunità %3."
+
+msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
+msgstr "Guarda la diversità dei volontari e contribuisci con le tue opinioni ad invogliare altre persone a partecipare. "
+
+msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
+msgstr "Se non l'hai ancora fatto, puoi %1creare un tuo profilo%2 da far vedere agli altri!"
+
+msgid "User of the Day"
+msgstr "Utente del giorno"
+
+msgid "User Profile Explorer"
+msgstr "Guarda i profili degli utenti"
+
+msgid "View the %1User Picture Gallery%2."
+msgstr "Guarda la %1Galleria Immagini dell'utente%2."
+
+msgid "Browse profiles %1by country%2."
+msgstr "Visualizza i profili %1per nazionalità%2."
+
+msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
+msgstr "Visualizza i profili %1casualmente%2, %3casualmente con immagine%2 o %4casualmente senza immagine%2."
+
+msgid "Alphabetical profile listings:"
+msgstr "Profili in ordine alfabetico:"
+
+msgid "Search profile text"
+msgstr "Ricerca profilo con testo"
+
+msgid "No profiles"
+msgstr "Nessun profilo"
+
+msgid "No profiles matched your query."
+msgstr "Nessun profilo trovato alla tua richiesta."
+
+msgid "Top hosts"
+msgstr "Migliori computer"
+
+# ########################################
+# Various top table pages (top users, computers, teams)
+# ########################################
+msgid "Top participants"
+msgstr "Migliori Partecipanti"
+
+msgid "Top %1 teams"
+msgstr "Migliore gruppo %1"
+
+msgid "Participant since"
+msgstr "Partecipante dal"
+
+# ########################################
+# "Weak account key" page (weak_auth.php)
+# ########################################
+msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgstr "La tua 'account key debole' ti permette di inserire un computer al tuo account su questo progetto, senza accedervi direttamente o senza cambiarlo in nessum modo."
+
+msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+msgstr "Questo meccanismo funziona solamente con i progetti caricati sui propri server dal 7 dicembre 2007 in poi."
+
+msgid "Your weak account key for this project is:"
+msgstr "La tua account key debole è:"
+
+msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr "Per usare la tua account key debole su un determinato computer, trova o crea il 'file dell'account' per questo progetto. Il nome di questo file dovrebbe apparire nella seguente forma: <b>account_URL_DEL_PROGETTO.xml</b>. Il file dell'account per %1 è <b>%2</b>."
+
+msgid "Create this file if needed. Set its contents to:"
+msgstr "Crea questo file se è necessario. Impostalo come segue:"
+
+msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgstr "La tua account key debole è in funzione alla tua password. Se cambi la password cambia anche la account key debole invalidando quella precedente."
+
+# ########################################
+# "Your account" page (home.php)
+# ########################################
+msgid "Your account"
+msgstr "Il tuo account"
+
