@@ -128,6 +128,7 @@ struct CONFIG {
     std::string client_version_check_url;
     std::string client_download_url;
     std::string network_test_url;
+    bool no_gpus;
 
     CONFIG();
     void defaults();

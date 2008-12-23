@@ -213,6 +213,7 @@ void CONFIG::defaults() {
     client_version_check_url = "http://boinc.berkeley.edu/download.php?xml=1";
     client_download_url = "http://boinc.berkeley.edu/download.php";
     network_test_url = "http://www.google.com/";
+    no_gpus = false;
 }
 
 int CONFIG::parse_options(XML_PARSER& xp) {
@@ -281,6 +282,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             downcase_string(network_test_url);
             continue;
         }
+        if (xp.parse_bool(tag, "no_gpus", no_gpus)) continue;
         msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );

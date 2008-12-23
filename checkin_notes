@@ -9835,3 +9835,10 @@ Rom    9 Dec 2008
     /
         configure.ac
         version.h
+
+David  15 Dec 2008
+    - client: add <no_gpus> config option
+
+    client/
+        client_state.cpp
+        log_flags.cpp,h
