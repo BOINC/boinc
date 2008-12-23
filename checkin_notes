@@ -10344,3 +10344,8 @@ David  22 Dec 2008
 
     lib/
         parse.cpp
+
+David  22 Dec 2008
+    - scheduler: use the right value for CUDA RAM
+    lib/
+        coproc.cpp
