@@ -10349,3 +10349,11 @@ David  22 Dec 2008
     - scheduler: use the right value for CUDA RAM
     lib/
         coproc.cpp
+
+Rom    23 Dec 2008
+    - WINSETUP: Use the installer from 6.4 going forward.  Shows CUDA
+        warning on Vista.
+        
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
