@@ -10357,3 +10357,9 @@ Rom    23 Dec 2008
     win_build/installerv2/
         BOINC.ism
         BOINCx64.ism
+
+David  24 Dec 2008
+    - client, Win: don't leak thread handlers
+        fixes #808
+    client/
+        app_start.cpp

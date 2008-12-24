@@ -625,6 +625,7 @@ int ACTIVE_TASK::start(bool first_time) {
     }
     pid = process_info.dwProcessId;
     pid_handle = process_info.hProcess;
+    CloseHandle(process_info.hThread);  // thread handle is not used
 #elif defined(__EMX__)
 
     char* argv[100];
