@@ -10363,3 +10363,14 @@ David  24 Dec 2008
         fixes #808
     client/
         app_start.cpp
+
+David  26 Dec 2008
+    - scheduler: move EDF sim code into check_deadline(), so that the
+        exceptional cases (e.g., send at least one job to a host with no work)
+        apply whether using EDF or basic check
+    - client: don't accept 0 for active/on/connected frac; set to 1
+
+    client/
+        time_stats.cpp
+    sched/
+        sched_send.cpp

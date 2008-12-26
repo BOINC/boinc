@@ -591,21 +591,39 @@ static inline int check_deadline(
         return INFEASIBLE_CPU;
     }
 
-    double ewd = estimate_duration(wu, bav);
-    if (hard_app(app)) ewd *= 1.3;
-    double est_completion_delay = g_request->estimated_delay + ewd;
-    double est_report_delay = max(est_completion_delay, g_request->global_prefs.work_buf_min());
-    double diff = est_report_delay - wu.delay_bound;
-    if (diff > 0) {
-        if (config.debug_send) {
-            log_messages.printf(MSG_DEBUG,
-                "[WU#%d %s] est report delay %d on [HOST#%d]; delay_bound is %d\n",
-                wu.id, wu.name, (int)est_report_delay,
-                g_reply->host.id, wu.delay_bound
-            );
+    if (config.workload_sim && g_request->have_other_results_list) {
+        double est_dur = estimate_duration(wu, bav);
+        if (g_reply->wreq.edf_reject_test(est_dur, wu.delay_bound)) {
+            return INFEASIBLE_WORKLOAD;
         }
-        g_reply->wreq.speed.set_insufficient(diff);
-        return INFEASIBLE_CPU;
+        IP_RESULT candidate("", wu.delay_bound, est_dur);
+        strcpy(candidate.name, wu.name);
+        if (check_candidate(candidate, effective_ncpus(), g_request->ip_results)) {
+            // it passed the feasibility test,
+            // but don't add it the the workload yet;
+            // wait until we commit to sending it
+        } else {
+            g_reply->wreq.edf_reject(est_dur, wu.delay_bound);
+            g_reply->wreq.speed.set_insufficient(0);
+            return INFEASIBLE_WORKLOAD;
+        }
+    } else {
+        double ewd = estimate_duration(wu, bav);
+        if (hard_app(app)) ewd *= 1.3;
+        double est_completion_delay = g_request->estimated_delay + ewd;
+        double est_report_delay = max(est_completion_delay, g_request->global_prefs.work_buf_min());
+        double diff = est_report_delay - wu.delay_bound;
+        if (diff > 0) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_DEBUG,
+                    "[WU#%d %s] est report delay %d on [HOST#%d]; delay_bound is %d\n",
+                    wu.id, wu.name, (int)est_report_delay,
+                    g_reply->host.id, wu.delay_bound
+                );
+            }
+            g_reply->wreq.speed.set_insufficient(diff);
+            return INFEASIBLE_CPU;
+        }
     }
     return 0;
 }
@@ -658,27 +676,8 @@ int wu_is_infeasible_fast(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
     if (retval) return retval;
 
     // do this last because EDF sim uses some CPU
-    //
-    if (config.workload_sim && g_request->have_other_results_list) {
-        double est_dur = estimate_duration(wu, bav);
-        if (g_reply->wreq.edf_reject_test(est_dur, wu.delay_bound)) {
-            return INFEASIBLE_WORKLOAD;
-        }
-        IP_RESULT candidate("", wu.delay_bound, est_dur);
-        strcpy(candidate.name, wu.name);
-        if (check_candidate(candidate, effective_ncpus(), g_request->ip_results)) {
-            // it passed the feasibility test,
-            // but don't add it the the workload yet;
-            // wait until we commit to sending it
-        } else {
-            g_reply->wreq.edf_reject(est_dur, wu.delay_bound);
-            g_reply->wreq.speed.set_insufficient(0);
-            return INFEASIBLE_WORKLOAD;
-        }
-    } else {
-        retval = check_deadline(wu, app, bav);
-        if (retval) return INFEASIBLE_WORKLOAD;
-    }
+    retval = check_deadline(wu, app, bav);
+    if (retval) return INFEASIBLE_WORKLOAD;
 
     return 0;
 }
