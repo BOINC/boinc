@@ -10374,3 +10374,14 @@ David  26 Dec 2008
         time_stats.cpp
     sched/
         sched_send.cpp
+
+David  26 Dec 2008
+    - autolock.php: add --ndays option; change default to 90 days
+    - web: added support for KHTML and CSS 3 border radius
+        (from Simek; fixes #803)
+
+    html/
+        ops/
+            autolock.php
+        user/
+            white.css

@@ -44,6 +44,8 @@ table.bordered {
     border: 2px solid #e8e8e8;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
+    -khtml-border-radius: 6px;
+    border-radius: 6px;
 }
 
 th {
@@ -132,6 +134,8 @@ input[type="text"], select, textarea, .button {
     border: 1px solid #d8d8d8;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
     padding: 2px 4px;
     font-size: 12px;
 }
@@ -192,6 +196,8 @@ img.userimg { border: 0px; }
     margin: 4px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
 }
 
 #news h2, #uotd h2, #mainnav h2 {
@@ -217,6 +223,8 @@ img.userimg { border: 0px; }
     margin: 4px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
 }
 
 /*   Forum   */
@@ -239,8 +247,13 @@ td.postheader {
     height: 24px;
     margin-left: 4px;
     padding-left: 8px; 
-    -moz-border-radius: 0px 0px 10px 10px; 
-    -webkit-border-radius: 0px 0px 10px 10px; 
+    -moz-border-radius: 0 10px;
+    -webkit-border-radius-bottomleft: 10px;
+    -webkit-border-radius-bottomright: 10px;
+    -khtml-border-radius-bottomleft: 10px;
+    -khtml-border-radius-bottomright: 10px;
+    border-radius-bottomleft: 10px;
+    border-radius-bottomright: 10px;
 }
 
 td.postbody { 
@@ -254,8 +267,13 @@ td.postfooter {
     height: 26px; 
     margin-left: 4px; 
     padding-left: 8px; 
-    -moz-border-radius: 10px 10px 0px 0px; 
-    -webkit-border-radius: 10px 10px 0px 0px; 
+    -moz-border-radius: 10px 10px 0 0;
+    -khtml-border-radius-topleft: 10px;
+    -khtml-border-radius-topright: 10px;
+    -webkit-border-radius-topleft: 10px;
+    -webkit-border-radius-topright: 10px;
+    border-radius-topleft: 10px;
+    border-radius-topright: 10px;
 }
 
 tr.helpdeskseperator { height: 10pt; }
@@ -300,8 +318,10 @@ div.authorcol {
     padding: 8px 5px; 
     width: 120px; 
     margin-left: 2px; 
-    -moz-border-radius: 10px; 
-    -webkit-border-radius: 10px; 
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
 } 
 
 .authorinfo img { 

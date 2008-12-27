@@ -22,7 +22,12 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 
-$max_age_days = 60;     // lock threads older than this
+$max_age_days = 90;     // lock threads older than this
+if ($argc > 2) {
+    if ($argv[1] == "--ndays") {
+        $max_age_days = $argv[2];
+    }
+}
 
 $t = time_str(time());
 echo "starting at $t\n";
