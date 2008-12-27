@@ -10385,3 +10385,10 @@ David  26 Dec 2008
             autolock.php
         user/
             white.css
+
+David  26 Dec 2008
+    - client: work fetch: skip project if zero CPU shortfall
+        and currently have coproc jobs.
+
+    client/
+        work_fetch.cpp
