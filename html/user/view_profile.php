@@ -21,40 +21,41 @@ require_once("../inc/profile.inc");
 $userid = get_int('userid');
 $user = BoincUser::lookup_id($userid);
 if (!$user) {
-    error_page("No such user");
+    error_page(tra("No such user"));
 }
 if (!$user->has_profile) {
-    error_page("No profile");
+    error_page(tra("This user has no profile"));
 }
  
 $logged_in_user = get_logged_in_user(false);
-
 check_whether_to_show_profile($user, $logged_in_user);
 
-$caching = false;
-if (!$logged_in_user) {
-    $caching = true;
-    $cache_args = "userid=$userid";
-    start_cache(USER_PROFILE_TTL, $cache_args);
+$cache_args = "userid=$userid";
+$cacheddata=get_cached_data(USER_PROFILE_TTL, $cache_args);
+if ($cacheddata){
+    // Already got a cached version of the information
+    $community_links_object = unserialize($cacheddata);
+} else {
+    // Need to generate a new bunch of data
+    $community_links_object = get_community_links_object($user);
+    set_cache_data(serialize($community_links_object),$cache_args);    
 }
-
+    
 page_head("Profile: $user->name");
+
 start_table();
-echo "<tr><td valign=top>";
-start_table();
-show_profile($user, $logged_in_user);
+echo "<tr><td valign=\"top\">";
+    start_table();
+    show_profile($user, $logged_in_user);
+    end_table();
+echo "</td><td valign=\"top\">";
+    start_table();
+    row2(tra("Account data"), "<a href=\"show_user.php?userid=".$userid."\">".tra("View")."</a>");
+
+    community_links($community_links_object, $logged_in_user);
+    end_table();
+echo "</td></tr>";
 end_table();
-echo "</td><td valign=top>";
-start_table();
-row2("Account data", "<a href=show_user.php?userid=$userid>View</a>");
-community_links($user);
-end_table();
-echo "</td></tr></table>";
 
 page_tail();
-
-if ($caching) {
-    end_cache(USER_PROFILE_TTL, $cache_args);
-}
-
 ?>

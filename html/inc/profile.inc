@@ -213,7 +213,7 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
     $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
 
     if ($can_edit) {
-        row1("<a href=create_profile.php>Edit your profile</a>");
+        row1("<a href=\"create_profile.php\">".tra("Edit your profile")."</a>");
     }
 
     // If screening is enabled, only show picture in certain situations
@@ -251,14 +251,14 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
     row1(output_transform($profile->response2, $options), 2, "foobar");
 
     if (!$can_edit and !$screen_mode) {
-        row1("Your feedback on this profile");
+        row1(tra("Your feedback on this profile"));
         row2(
-            "Recommend this profile for User of the Day:",
-            "I <a href=profile_rate.php?userid=$user->id&vote=recommend>like</a> this profile"
+            tra("Recommend this profile for User of the Day:"),
+            tra("I %1like%2 this profile", "<a href=\"profile_rate.php?userid=".$user->id."&vote=recommend\">", "</a>")
         );
         row2(
-            "Alert administrators to an offensive profile:",
-            "I <a href=profile_rate.php?userid=$user->id&vote=reject>don't like</a> this profile"
+            tra("Alert administrators to an offensive profile:"),
+            tra("I %1do not like%2 this profile", "<a href=\"profile_rate.php?userid=".$user->id."&vote=reject\">", "</a>")
         );
     }
 }

@@ -65,24 +65,30 @@ if ($format=="xml"){
     // so here we cache the data instead
     //
     $cache_args="userid=".$id;
-    $cached_data = get_cached_data(TOP_PAGES_TTL, $cache_args);
+    $cached_data = get_cached_data(USER_PAGE_TTL, $cache_args);
     if ($cached_data){
         // We found some old but non-stale data, let's use it
-        $user = unserialize($cached_data);
+        $data = unserialize($cached_data);
+	$user = $data->user;
+	$community_links = $data->clo;
     } else {
         // No data was found, generate new data for the cache and store it
         $user = lookup_user_id($id);
         BoincForumPrefs::lookup($user);
         $user = @get_other_projects($user);
-        set_cache_data(serialize($user), $cache_args);
+	$community_links =  get_community_links_object($user);
+
+	$data->user = $user;
+	$data->clo = $community_links;
+        set_cache_data(serialize($data), $cache_args);
     }
     if (!$user->id) {
         error_page("No such user found - please check the ID and try again.");
     }
 
-    get_logged_in_user(false);
+    $logged_in_user = get_logged_in_user(false);
 
-    page_head("Account data for $user->name");
+    page_head(tra("Account data for %1", $user->name));
     start_table();
     echo "<tr><td valign=top>";
     start_table();
@@ -93,7 +99,7 @@ if ($format=="xml"){
     echo "</td><td valign=top>";
     start_table();
     show_profile_link($user);
-    community_links($user);
+    community_links($community_links, $logged_in_user);
     end_table();
     echo "</td></tr></table>";
     page_tail(true);

@@ -327,18 +327,42 @@ function show_user_summary_public($user) {
     }
 }
 
-function community_links($user) {
-    global $g_logged_in_user;
-    if ($user->teamid && ($team = lookup_team($user->teamid))) {
+/**
+ * Returns a cacheable community links data object
+ * @param user The users to produce a community links object for
+ */
+function get_community_links_object($user){
+    $cache_object->post_count = total_posts($user);
+    $cache_object->user = $user;
+    $cache_object->team = lookup_team($user->teamid);
+
+    $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
+    $n = count($friends);
+    if ($n) {
+        $x = null;
+        foreach($friends as $friend) {
+            $fuser = BoincUser::lookup_id($friend->user_dest);
+	    $cache_object->friends[] = $fuser;
+        }
+    }
+    return $cache_object;
+}
+
+function community_links($clo, $logged_in_user){
+    $user = $clo->user;
+    $team = $clo->team;
+    $friends = $clo->friends;
+    $tot = $clo->post_count;
+    
+    if ($user->teamid && $team) {
         row2(tra("Team"), "<a href=\"".URL_BASE."team_display.php?teamid=$team->id\">$team->name</a>");
     } else {
         row2(tra("Team"), tra("None"));
     }
-    $tot = total_posts($user);
     if ($tot) {
         row2(tra("Message boards"), "<a href=\"".URL_BASE."forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");
     }
-    if ($g_logged_in_user && $g_logged_in_user->id != $user->id) {
+    if ($logged_in_user && $logged_in_user->id != $user->id) {
         row2(tra("Contact"), "<a href=\"pm.php?action=new&userid=".$user->id."\">".tra("Send private message")."</a>");
         $friend = BoincFriend::lookup($g_logged_in_user->id, $user->id);
         if ($friend && $friend->reciprocated) {
@@ -351,15 +375,13 @@ function community_links($user) {
             row2(tra("Friends"),  "<a href=\"friend.php?action=add&userid=$user->id\">".tra("Add as friend")."</a>");
         }
     }
-    $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
-    $n = count($friends);
-    if ($n) {
+    
+    if ($friends) {
         $x = null;
         foreach($friends as $friend) {
-            $fuser = BoincUser::lookup_id($friend->user_dest);
-            $x .= friend_links($fuser);
+            $x .= friend_links($friend);
         }
-        row2(tra("Friends")." ($n)", $x);
+        row2(tra("Friends")." (".sizeof($friends).")", $x);
     }
 }
 
