@@ -35,6 +35,8 @@ $forum = BoincForum::lookup_id($forumid);
 check_create_thread_access($logged_in_user, $forum);
 
 $title = post_str("title", true);
+if (!$title) $title = get_str("title", true);
+$force_title = get_str("force_title", true);
 $content = post_str("content", true);
 $preview = post_str("preview", true);
 $warning = null;
@@ -97,9 +99,14 @@ if ($content && !$title) {
     $submit_help = "<br /><font color=\"red\">Remember to add a title</font>";
 }
 
-row2(tra("Title").$submit_help,
+if ($force_title && $title){
+    row2(tra("Title"), htmlspecialchars($title)."<input type=\"hidden\" name=\"title\" value=\"".htmlspecialchars($title)."\">");
+} else {
+    row2(tra("Title").$submit_help,
     "<input type=\"text\" name=\"title\" size=\"62\" value=\"".htmlspecialchars($title)."\">"
-);
+    );
+}
+
 //Message
 row2(tra("Message").html_info().post_warning().$body_help,
     "<textarea name=\"content\" rows=\"12\" cols=\"54\">".htmlspecialchars($content)."</textarea>"
