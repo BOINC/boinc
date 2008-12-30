@@ -10393,6 +10393,7 @@ David  26 Dec 2008
     client/
         work_fetch.cpp
 
+
 David  30 Dec 2008
     - client: code shuffling
     - scheduler: fix typo in msg
@@ -10404,3 +10405,10 @@ David  30 Dec 2008
         work_fetch.cpp
     sched/
         sched_send.cpp
+
+Rom    30 Dec 2008
+    - Version Update 6.7.0
+
+    /
+        configure.ac
+        version.h
