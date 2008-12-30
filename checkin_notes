@@ -10392,3 +10392,10 @@ David  26 Dec 2008
 
     client/
         work_fetch.cpp
+
+Rom    30 Dec 2008
+    - Version Update 6.6.0
+
+    /
+        configure.ac
+        version.h
