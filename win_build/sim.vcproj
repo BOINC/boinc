@@ -1226,6 +1226,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\cs_scheduler.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\sched\edf_sim.cpp"
 				>
 			</File>
