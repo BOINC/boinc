@@ -10392,3 +10392,15 @@ David  26 Dec 2008
 
     client/
         work_fetch.cpp
+
+David  30 Dec 2008
+    - client: code shuffling
+    - scheduler: fix typo in msg
+
+    client/
+        cs_scheduler.cpp
+        makefile_sim
+        sim.h
+        work_fetch.cpp
+    sched/
+        sched_send.cpp

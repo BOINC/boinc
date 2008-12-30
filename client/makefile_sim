@@ -6,13 +6,15 @@ OBJS = \
     app.o \
     client_msgs.o \
     cs_apps.o \
+	cs_scheduler.o \
     cpu_sched.o \
     log_flags.o \
+	rr_sim.o \
     sim.o \
     sim_util.o \
     time_stats.o \
     work_fetch.o \
-    edf_sim.o \
+    ../sched/edf_sim.o \
     ../lib/coproc.o \
     ../lib/mfile.o \
     ../lib/miofile.o \

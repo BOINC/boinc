@@ -62,6 +62,7 @@ using std::string;
 //
 #define REPORT_DEADLINE_CUSHION ((double)SECONDS_PER_DAY)
 
+#ifndef SIM
 
 // Write a scheduler request to a disk file,
 // to be sent to a scheduling server
@@ -892,6 +893,139 @@ int CLIENT_STATE::handle_scheduler_reply(
         project->set_min_rpc_time(x, "requested by project");
     }
 
+    return 0;
+}
+
+#endif // SIM
+
+void CLIENT_STATE::check_project_timeout() {
+	unsigned int i;
+	for (i=0; i<projects.size(); i++) {
+		PROJECT* p = projects[i];
+		if (p->possibly_backed_off && now > p->min_rpc_time) {
+			p->possibly_backed_off = false;
+			request_work_fetch("Project backoff ended");
+		}
+	}
+}
+
+void PROJECT::set_min_rpc_time(double future_time, const char* reason) {
+    if (future_time <= min_rpc_time) return;
+    if (next_rpc_time && (future_time > next_rpc_time)) return;
+    min_rpc_time = future_time;
+	possibly_backed_off = true;
+    if (log_flags.sched_op_debug) {
+        msg_printf(this, MSG_INFO,
+            "[sched_op_debug] Deferring communication for %s",
+            timediff_format(min_rpc_time - gstate.now).c_str()
+        );
+        msg_printf(this, MSG_INFO, "[sched_op_debug] Reason: %s\n", reason);
+    }
+}
+
+// Return true if we should not contact the project yet.
+//
+bool PROJECT::waiting_until_min_rpc_time() {
+    return (min_rpc_time > gstate.now);
+}
+
+// find a project that needs to have its master file fetched
+//
+PROJECT* CLIENT_STATE::next_project_master_pending() {
+    unsigned int i;
+    PROJECT* p;
+
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        if (p->waiting_until_min_rpc_time()) continue;
+        if (p->suspended_via_gui) continue;
+        if (p->master_url_fetch_pending) {
+            return p;
+        }
+    }
+    return 0;
+}
+
+// find a project for which a scheduler RPC is pending
+//
+PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
+    unsigned int i;
+    PROJECT* p;
+
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+
+        // project request overrides backoff
+        //
+        if (p->next_rpc_time && p->next_rpc_time<now) {
+            p->sched_rpc_pending = RPC_REASON_PROJECT_REQ;
+            p->next_rpc_time = 0;
+        } else {
+            if (p->waiting_until_min_rpc_time()) continue;
+        }
+        // if (p->suspended_via_gui) continue;
+        // do the RPC even if suspended.
+        // This is critical for acct mgrs, to propagate new host CPIDs
+        //
+        if (p->sched_rpc_pending) {
+            return p;
+        }
+    }
+    return 0;
+}
+
+PROJECT* CLIENT_STATE::next_project_trickle_up_pending() {
+    unsigned int i;
+    PROJECT* p;
+
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        if (p->waiting_until_min_rpc_time()) continue;
+        if (p->suspended_via_gui) continue;
+        if (p->trickle_up_pending) {
+            return p;
+        }
+    }
+    return 0;
+}
+
+// find a project with finished results that should be reported.
+// This means:
+//    - we're not backing off contacting the project
+//    - the result is ready_to_report (compute done; files uploaded)
+//    - we're within a day of the report deadline,
+//      or at least a day has elapsed since the result was completed,
+//      or we have a sporadic connection
+//
+PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
+    unsigned int i;
+    RESULT* r;
+
+    for (i=0; i<results.size(); i++) {
+        r = results[i];
+        if (!r->ready_to_report) continue;
+
+        PROJECT* p = r->project;
+        if (p->waiting_until_min_rpc_time()) continue;
+        if (p->suspended_via_gui) continue;
+
+        if (config.report_results_immediately) {
+            return p;
+        }
+
+        if (net_status.have_sporadic_connection) {
+            return p;
+        }
+
+        double cushion = std::max(REPORT_DEADLINE_CUSHION, work_buf_min());
+        if (gstate.now > r->report_deadline - cushion) {
+            return p;
+        }
+
+        if (gstate.now > r->completed_time + SECONDS_PER_DAY) {
+            return p;
+        }
+    }
     return 0;
 }
 

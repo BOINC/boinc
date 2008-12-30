@@ -880,7 +880,7 @@ bool work_needed(bool locality_sched) {
         if (g_wreq->nresults_on_host >= config.max_wus_in_progress*ncpus) {
             if (config.debug_send) {
                 log_messages.printf(MSG_DEBUG,
-                    "in-progress job limit exceeded; %d > %d*%d\n",
+                    "in-progress job limit exceeded; %d >= %d*%d\n",
                     g_wreq->nresults_on_host, config.max_wus_in_progress, ncpus
                 );
             }
