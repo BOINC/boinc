@@ -1523,6 +1523,10 @@
 				RelativePath="..\client\win\win_service.h"
 				>
 			</File>
+			<File
+				RelativePath="..\client\work_fetch.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

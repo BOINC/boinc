@@ -6,9 +6,9 @@
 #define RSC_TYPE_CPU    0
 #define RSC_TYPE_CUDA   1
 
-struct PROJECT;
+class PROJECT;
 struct RESULT;
-struct ACTIVE_TASK;
+class ACTIVE_TASK;
 struct RSC_WORK_FETCH;
 
 // per (resource, project) state
@@ -45,6 +45,8 @@ struct RSC_PROJECT_WORK_FETCH {
     }
     void accumulate_shortfall(RSC_WORK_FETCH&, PROJECT*, double dt, double nused);
     bool overworked();
+	void backoff();
+	void clear_backoff();
 };
 
 // per-resource state

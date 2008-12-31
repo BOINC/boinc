@@ -33,8 +33,8 @@ WORK_FETCH work_fetch;
 
 RSC_PROJECT_WORK_FETCH& RSC_WORK_FETCH::project_state(PROJECT* p) {
     switch(rsc_type) {
-    case RSC_TYPE_CPU: return p->cpu_pwf;
     case RSC_TYPE_CUDA: return p->cuda_pwf;
+    default: return p->cpu_pwf;
     }
 }
 
@@ -273,10 +273,29 @@ void WORK_FETCH::write_request(PROJECT* p, FILE* f) {
 //
 void WORK_FETCH::handle_reply(PROJECT* p, vector<RESULT*> new_results) {
     unsigned int i;
+	bool got_cpu = false, got_cuda = false;
 
+	// if didn't get any jobs, back off on requested resource types
+	//
+	if (!new_results.size()) {
+		if (p->cpu_pwf.shortfall) {
+			p->cpu_pwf.backoff();
+		}
+		if (p->cuda_pwf.shortfall) {
+			p->cuda_pwf.backoff();
+		}
+		return;
+	}
+
+	// if we did get jobs, clear backoff on resource types
+	//
     for (i=0; i<new_results.size(); i++) {
         RESULT* rp = new_results[i];
+		if (rp->avp->ncudas) got_cuda = true;
+		else got_cpu = true;
     }
+	if (got_cpu) p->cpu_pwf.clear_backoff();
+	if (got_cuda) p->cuda_pwf.clear_backoff();
 }
 
 void WORK_FETCH::set_initial_work_request(PROJECT* p) {
@@ -293,6 +312,21 @@ void WORK_FETCH::init() {
         cuda_work_fetch.ninstances = coproc_cuda->count;
         cuda_work_fetch.speed = coproc_cuda->flops_estimate()/gstate.host_info.p_fpops;
     }
+}
+
+void RSC_PROJECT_WORK_FETCH::backoff() {
+	if (backoff_interval) {
+		backoff_interval *= 2;
+		if (backoff_interval > 86400) backoff_interval = 86400;
+	} else {
+		backoff_interval = 60;
+	}
+	backoff_time = gstate.now + backoff_interval;
+}
+
+void RSC_PROJECT_WORK_FETCH::clear_backoff() {
+	backoff_interval = 0;
+	backoff_time = 0;
 }
 
 ////////////////////////

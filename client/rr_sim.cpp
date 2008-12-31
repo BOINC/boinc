@@ -290,7 +290,6 @@ void CLIENT_STATE::rr_simulation() {
     // Simulation loop.  Keep going until all work done
     //
     double sim_now = now;
-	bool all_projects_have_pending = false;
     while (sim_status.active.size()) {
 
         // compute finish times and see which result finishes first
