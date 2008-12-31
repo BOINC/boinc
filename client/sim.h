@@ -194,11 +194,10 @@ private:
     void schedule_cpus();
     bool enforce_schedule();
     bool no_work_for_a_cpu();
-    void rr_simulation();
-	void set_rrsim_flops(RESULT* rp, double rrs);
     void make_preemptable_task_list(vector<ACTIVE_TASK*>&, double&);
     void print_deadline_misses();
 public:
+    void rr_simulation();
     std::vector <RESULT*> ordered_scheduled_results;
     double retry_shmem_time;
     inline double work_buf_min() {

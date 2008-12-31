@@ -108,10 +108,9 @@ static void debug_print_argv(char** argv) {
 //
 static void cuda_cmdline(ACTIVE_TASK* atp, char* cmdline) {
     char buf[256];
-    COPROC* cp = gstate.coprocs.lookup("CUDA");
-    if (!cp) return;
+    if (!coproc_cuda) return;
     for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
-        if (cp->owner[i] == atp) {
+        if (coproc_cuda->owner[i] == atp) {
             sprintf(buf, " --device %d", i);
             strcat(cmdline, buf);
         }

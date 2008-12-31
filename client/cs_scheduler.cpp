@@ -114,7 +114,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         "    <core_client_major_version>%d</core_client_major_version>\n"
         "    <core_client_minor_version>%d</core_client_minor_version>\n"
         "    <core_client_release>%d</core_client_release>\n"
-        "    <work_req_seconds>%f</work_req_seconds>\n"
         "    <resource_share_fraction>%f</resource_share_fraction>\n"
         "    <rrs_fraction>%f</rrs_fraction>\n"
         "    <prrs_fraction>%f</prrs_fraction>\n"
@@ -127,14 +126,14 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
-        p->work_request,
         resource_share_fraction,
         rrs_fraction,
         prrs_fraction,
-        time_until_work_done(p, proj_min_results(p, prrs)-1, prrs),
+        work_fetch.estimated_delay,
         p->duration_correction_factor,
         g_use_sandbox?1:0
     );
+    work_fetch.write_request(p, f);
 
     // write client capabilities
     //
@@ -331,6 +330,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     PROJECT *p;
     bool action=false;
     static double last_time=0;
+    static double last_work_fetch_time = 0;
 
 	// check only every 5 sec
 	//
@@ -366,11 +366,23 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             action = true;
             break;
         }
-        if (!(exit_when_idle && contacted_sched_server)) {
-            scheduler_op->init_get_work();
-            if (scheduler_op->state != SCHEDULER_OP_STATE_IDLE) {
-                break;
-            }
+
+        // should we check work fetch?  Do this infrequently.
+
+        if (exit_when_idle && contacted_sched_server) break;
+        if (tasks_suspended) break;
+
+        if (must_check_work_fetch) {
+            last_work_fetch_time = 0;
+        }
+        if (now - last_work_fetch_time < 60) return false;
+        last_work_fetch_time = now;
+
+        p = work_fetch.choose_project();
+        if (p) {
+            scheduler_op->init_op_project(p, RPC_REASON_NEED_WORK);
+            action = true;
+            break;
         }
         break;
     default:
@@ -385,9 +397,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
 // Handle the reply from a scheduler
 //
-int CLIENT_STATE::handle_scheduler_reply(
-    PROJECT* project, char* scheduler_url, int& nresults
-) {
+int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) {
     SCHEDULER_REPLY sr;
     FILE* f;
     int retval;
@@ -396,8 +406,8 @@ int CLIENT_STATE::handle_scheduler_reply(
     char buf[256], filename[256];
     std::string old_gui_urls = project->gui_urls;
     PROJECT* p2;
+    vector<RESULT*>new_results;
 
-    nresults = 0;
     contacted_sched_server = true;
     project->last_rpc_time = now;
 
@@ -752,8 +762,8 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
         rp->wup->version_num = rp->version_num;
         results.push_back(rp);
+        new_results.push_back(rp);
         rp->set_state(RESULT_NEW, "handle_scheduler_reply");
-        nresults++;
         est_duration += rp->estimated_duration(false);
     }
     if (log_flags.sched_op_debug) {
@@ -878,15 +888,10 @@ int CLIENT_STATE::handle_scheduler_reply(
         project->next_rpc_time = 0;
     }
 
-    // if we asked for work and didn't get any,
-    // treat it as an RPC failure; back off this project
-    //
-    if (project->work_request && nresults==0) {
-        scheduler_op->backoff(project, "no work from project\n");
-    } else {
-        project->nrpc_failures = 0;
-        project->min_rpc_time = 0;
-    }
+    work_fetch.handle_reply(project, new_results);
+
+    project->nrpc_failures = 0;
+    project->min_rpc_time = 0;
 
     if (sr.request_delay) {
         double x = now + sr.request_delay;
@@ -1027,6 +1032,15 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         }
     }
     return 0;
+}
+
+// trigger work fetch
+// 
+void CLIENT_STATE::request_work_fetch(const char* where) {
+    if (log_flags.work_fetch_debug) {
+        msg_printf(0, MSG_INFO, "[work_fetch_debug] Request work fetch: %s", where);
+    }
+    must_check_work_fetch = true;
 }
 
 const char *BOINC_RCSID_d35a4a7711 = "$Id$";

@@ -766,7 +766,7 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
             task_iter++;
         }
     }
-    project->long_term_debt = 0;
+    project->clear_perm();
     return 0;
 }
 

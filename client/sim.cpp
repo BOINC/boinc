@@ -184,7 +184,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
     }
     last_time = now;
 
-    sprintf(buf, "RPC to %s; asking for %f<br>", p->project_name, p->work_request);
+    sprintf(buf, "RPC to %s; asking for %f<br>", p->project_name, p->cpu_pwf.shortfall);
     html_msg += buf;
 
     handle_completed_results();
@@ -194,7 +194,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
     }
 
     bool sent_something = false;
-    double work_left = p->work_request;
+    double work_left = p->cpu_pwf.shortfall;
     while (work_left > 0) {
         RESULT* rp = new RESULT;
         WORKUNIT* wup = new WORKUNIT;
@@ -224,12 +224,11 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
         work_left -= p->duration_correction_factor*wup->rsc_fpops_est/host_info.p_fpops;
     }
 
-    if (p->work_request > 0 && !sent_something) {
+    if (p->cpu_pwf.shortfall > 0 && !sent_something) {
         p->backoff();
     } else {
         p->nrpc_failures = 0;
     }
-    p->work_request = 0;
     request_schedule_cpus("simulate_rpc");
     request_work_fetch("simulate_rpc");
     return true;
@@ -256,7 +255,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     if (p) {
         return simulate_rpc(p);
     }
-    p = next_project_need_work();
+    p = work_fetch.choose_project();
     if (p) {
         return simulate_rpc(p);
     }
@@ -588,7 +587,6 @@ void CLIENT_STATE::simulate() {
                 action |= handle_finished_apps();
                 action |= possibly_schedule_cpus();
                 action |= enforce_schedule();
-                action |= compute_work_requests();
                 action |= scheduler_rpc_poll();
             }
             if (!action) break;

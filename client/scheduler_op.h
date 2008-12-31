@@ -73,7 +73,6 @@ public:
 public:
     SCHEDULER_OP(HTTP_OP_SET*);
     bool poll();
-    int init_get_work();
     int init_op_project(PROJECT*, int);
     int init_master_fetch(PROJECT*);
     bool check_master_fetch_start();

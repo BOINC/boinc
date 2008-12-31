@@ -34,6 +34,7 @@
 #include "cert_sig.h"
 #include "hostinfo.h"
 #include "coproc.h"
+#include "work_fetch.h"
 #include "miofile.h"
 #include "rr_sim.h"
 
@@ -299,7 +300,7 @@ public:
     // everything from here on applies only to CPU intensive projects
 
         /// not suspended and not deferred and not no more work
-    bool contactable();
+    bool can_request_work();
         /// has a runnable result
     bool runnable();
         /// has a result in downloading state
@@ -325,32 +326,24 @@ public:
         /// computed over runnable projects
         /// used for CPU scheduling
     double short_term_debt;
-        /// Computed over potentially runnable projects
-        /// (defined for all projects, but doesn't change if
-        /// not potentially runnable).
-        /// Normalized so mean over all projects is zero
-	double long_term_debt;
 
         /// expected debt by the end of the preemption period
     double anticipated_debt;
-        /// how much "wall CPU time" has been devoted to this
-        /// project in the current debt interval
-    double wall_cpu_time_this_debt_interval;
         /// the next result to run for this project
     struct RESULT *next_runnable_result;
         /// number of results in UPLOADING state
         /// Don't start new results if these exceeds 2*ncpus.
     int nuploading_results;
 
-        /// the unit is "project-normalized CPU seconds",
-        /// i.e. the work should take 1 CPU on this host
-        /// X seconds of wall-clock time to complete,
-        /// taking into account
-        /// 1) this project's fractional resource share
-        /// 2) on_frac and active_frac
-        /// see doc/sched.php
-    double work_request;
-    int work_request_urgency;
+    // stuff related to work fetch
+    //
+    RSC_PROJECT_WORK_FETCH cpu_pwf;
+    RSC_PROJECT_WORK_FETCH cuda_pwf;
+    PROJECT_WORK_FETCH pwf;
+    inline void clear_perm() {
+        cpu_pwf.clear_perm();
+        cuda_pwf.clear_perm();
+    }
 
         /// # of results being returned in current scheduler op
     int nresults_returned;
@@ -417,6 +410,7 @@ struct APP_VERSION {
     char api_version[16];
     double avg_ncpus;
     double max_ncpus;
+    double ncudas;
     double flops;
         /// additional cmdline args
     char cmdline[256];

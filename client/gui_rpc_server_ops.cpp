@@ -899,8 +899,8 @@ static void read_all_projects_list_file(MIOFILE& fout) {
 static int set_debt(XML_PARSER& xp) {
     bool is_tag;
     char tag[256], url[256];
-    double short_term_debt = 0.0, long_term_debt = 0.0;
-    bool got_std=false, got_ltd=false;
+    double short_term_debt = 0.0, long_term_debt = 0.0, cuda_debt;;
+    bool got_std=false, got_ltd=false, got_cuda_debt=false;
     strcpy(url, "");
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!strcmp(tag, "/project")) {
@@ -909,7 +909,7 @@ static int set_debt(XML_PARSER& xp) {
             PROJECT* p = gstate.lookup_project(url);
             if (!p) return ERR_NOT_FOUND;
             if (got_std) p->short_term_debt = short_term_debt;
-            if (got_ltd) p->long_term_debt = long_term_debt;
+            if (got_ltd) p->cpu_pwf.debt = long_term_debt;
             return 0;
         }
         if (xp.parse_str(tag, "master_url", url, sizeof(url))) continue;
@@ -919,6 +919,10 @@ static int set_debt(XML_PARSER& xp) {
         }
         if (xp.parse_double(tag, "long_term_debt", long_term_debt)) {
             got_ltd = true;
+            continue;
+        }
+        if (xp.parse_double(tag, "cuda_debt", cuda_debt)) {
+            got_cuda_debt = true;
             continue;
         }
         if (log_flags.unparsed_xml) {

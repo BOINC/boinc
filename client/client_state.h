@@ -245,10 +245,7 @@ private:
 // --------------- cpu_sched.cpp:
 private:
     double debt_interval_start;
-    double total_wall_cpu_time_this_debt_interval;
-        // "wall CPU time" accumulated since last adjust_debts()
     double total_cpu_time_this_debt_interval;
-    double cpu_shortfall;
 	bool work_fetch_no_new_work;
     bool must_enforce_cpu_schedule;
     bool must_schedule_cpus;
@@ -401,8 +398,12 @@ private:
 // --------------- cs_scheduler.cpp:
 public:
     int make_scheduler_request(PROJECT*);
-    int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
+    int handle_scheduler_reply(PROJECT*, char* scheduler_url);
     SCHEDULER_OP* scheduler_op;
+    PROJECT* next_project_master_pending();
+    PROJECT* next_project_sched_rpc_pending();
+    PROJECT* next_project_trickle_up_pending();
+    PROJECT* find_project_with_overdue_results();
 private:
     bool contacted_sched_server;
     int overall_work_fetch_urgency;
@@ -458,7 +459,6 @@ public:
     void free_mem();
 
 // --------------- rr_sim.cpp:
-	void set_rrsim_flops(RESULT* rp, double rrs);
 	void rr_simulation();
     void print_deadline_misses();
 
@@ -466,11 +466,6 @@ public:
 public:
     int proj_min_results(PROJECT*, double);
 	void check_project_timeout();
-    PROJECT* next_project_master_pending();
-    PROJECT* next_project_sched_rpc_pending();
-    PROJECT* next_project_trickle_up_pending();
-    PROJECT* next_project_need_work();
-    PROJECT* find_project_with_overdue_results();
 	double overall_cpu_frac();
     double time_until_work_done(PROJECT*, int, double);
     bool compute_work_requests();

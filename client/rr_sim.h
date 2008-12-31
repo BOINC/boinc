@@ -27,17 +27,16 @@ struct RR_SIM_PROJECT_STATUS {
     std::vector<RESULT*>pending;
     int deadlines_missed;
 	double active_ncpus;
-    double cpu_shortfall;
-	bool has_coproc_jobs;
+    double active_cudas;
+	bool has_cuda_jobs;
 	bool has_cpu_jobs;
 
     inline void clear() {
         active.clear();
         pending.clear();
         deadlines_missed = 0;
-        cpu_shortfall = 0;
 		active_ncpus = 0;
-		has_coproc_jobs = false;
+		has_cuda_jobs = false;
 		has_cpu_jobs = false;
     }
     void activate(RESULT* rp);

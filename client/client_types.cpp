@@ -96,7 +96,8 @@ void PROJECT::init() {
     non_cpu_intensive = false;
     verify_files_on_app_start = false;
     short_term_debt = 0;
-    long_term_debt = 0;
+    cpu_pwf.clear_perm();
+    cuda_pwf.clear_perm();
     send_file_list = false;
     send_time_stats_log = 0;
     send_job_log = 0;
@@ -109,10 +110,7 @@ void PROJECT::init() {
     user_files.clear();
     project_files.clear();
     anticipated_debt = 0;
-    wall_cpu_time_this_debt_interval = 0;
     next_runnable_result = NULL;
-    work_request = 0;
-    work_request_urgency = WORK_FETCH_DONT_NEED;
     duration_correction_factor = 1;
     project_files_downloaded_time = 0;
     use_symlinks = false;
@@ -188,7 +186,8 @@ int PROJECT::parse_state(MIOFILE& in) {
         if (parse_bool(buf, "detach_when_done", detach_when_done)) continue;
         if (parse_bool(buf, "ended", ended)) continue;
         if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
-        if (parse_double(buf, "<long_term_debt>", long_term_debt)) continue;
+        if (parse_double(buf, "<long_term_debt>", cpu_pwf.debt)) continue;
+        if (parse_double(buf, "<cuda_long_term_debt>", cuda_pwf.debt)) continue;
         if (parse_double(buf, "<resource_share>", x)) continue;    // not authoritative
         if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         if (parse_bool(buf, "attached_via_acct_mgr", attached_via_acct_mgr)) continue;
@@ -240,6 +239,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <next_rpc_time>%f</next_rpc_time>\n"
         "    <short_term_debt>%f</short_term_debt>\n"
         "    <long_term_debt>%f</long_term_debt>\n"
+        "    <cuda_long_term_debt>%f</cuda_long_term_debt>\n"
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
 		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
@@ -268,7 +268,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         min_rpc_time,
         next_rpc_time,
         short_term_debt,
-        long_term_debt,
+        cpu_pwf.debt,
+        cuda_pwf.debt,
         resource_share,
         duration_correction_factor,
 		sched_rpc_pending,
@@ -350,7 +351,8 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     trickle_up_pending = p.trickle_up_pending;
     safe_strcpy(code_sign_key, p.code_sign_key);
     short_term_debt = p.short_term_debt;
-    long_term_debt = p.long_term_debt;
+    cpu_pwf = p.cpu_pwf;
+    cuda_pwf = p.cuda_pwf;
     send_file_list = p.send_file_list;
     send_time_stats_log = p.send_time_stats_log;
     send_job_log = p.send_job_log;
@@ -1127,6 +1129,7 @@ int APP_VERSION::parse(MIOFILE& in) {
             int retval = cp->parse(in);
             if (!retval) {
                 coprocs.coprocs.push_back(cp);
+                ncudas = cp->used;
             } else {
                 msg_printf(0, MSG_INTERNAL_ERROR, "Error parsing <coproc>");
                 delete cp;

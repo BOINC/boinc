@@ -136,8 +136,13 @@ struct COPROC_CUDA : public COPROC {
     int parse(FILE*);
 
     // rough estimate of FLOPS
-    inline double flops() {
-        return 2500*prop.clockRate * prop.multiProcessorCount;
+    // The following is based on SETI@home CUDA,
+    // which gets 50 GFLOPS on a Quadro FX 3700,
+    // which has 14 MPs and a clock rate of 1.25 MHz
+    //
+    inline double flops_estimate() {
+        double x = (prop.clockRate * prop.multiProcessorCount)*5e10/(14*1.25e6);
+        return x?x:5e10;
     }
 };
 
@@ -149,5 +154,7 @@ struct COPROC_CELL_SPE : public COPROC {
 };
 
 void fake_cuda(COPROCS&, int);
+
+extern COPROC_CUDA* coproc_cuda;
 
 #endif

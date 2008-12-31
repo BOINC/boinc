@@ -117,7 +117,6 @@ CLIENT_STATE::CLIENT_STATE():
     cant_write_state_file = false;
 
     debt_interval_start = 0;
-    total_wall_cpu_time_this_debt_interval = 0;
     retry_shmem_time = 0;
     must_schedule_cpus = true;
     must_enforce_cpu_schedule = true;
@@ -277,6 +276,7 @@ int CLIENT_STATE::init() {
             msg_printf(NULL, MSG_INFO, "No coprocessors");
         }
     }
+    work_fetch.init();
 
     // Check to see if we can write the state file.
     //
@@ -624,9 +624,6 @@ bool CLIENT_STATE::poll_slow_events() {
         POLL_ACTION(possibly_schedule_cpus, possibly_schedule_cpus          );
         POLL_ACTION(enforce_schedule    , enforce_schedule  );
         tasks_restarted = true;
-    }
-    if (!tasks_suspended && !network_suspended) {
-        POLL_ACTION(compute_work_requests, compute_work_requests          );
     }
     if (!network_suspended) {
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );

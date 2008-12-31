@@ -37,6 +37,8 @@
 using std::string;
 using std::vector;
 
+COPROC_CUDA* coproc_cuda;
+
 #ifndef _USING_FCGI_
 void COPROC::write_xml(MIOFILE& f) {
     f.printf(
@@ -188,7 +190,7 @@ string COPROC_CUDA::get(COPROCS& coprocs) {
         if (cc.prop.major > 100) continue;  // e.g. 9999 is an error
 
         if (real_count) {
-            if (cc.flops() > cc2.flops()) {
+            if (cc.flops_estimate() > cc2.flops_estimate()) {
                 cc2 = cc;
             }
             s += ", ";
@@ -207,6 +209,7 @@ string COPROC_CUDA::get(COPROCS& coprocs) {
     ccp->count = real_count;
     strcpy(ccp->type, "CUDA");
     coprocs.coprocs.push_back(ccp);
+    coproc_cuda = ccp;
     if (real_count == 1) {
         return "CUDA device: "+s;
     } else {

@@ -202,9 +202,8 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         rp->project->update_duration_correction_factor(&at);
     }
 
-    double wall_cpu_time = now - debt_interval_start;
-    at.result->project->wall_cpu_time_this_debt_interval += wall_cpu_time;
-    total_wall_cpu_time_this_debt_interval += wall_cpu_time;
+    double elapsed_time = now - debt_interval_start;
+    work_fetch.accumulate_inst_sec(&at, elapsed_time);
 
     return 0;
 }

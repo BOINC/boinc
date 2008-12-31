@@ -15,531 +15,287 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// High-level logic for communicating with scheduling servers,
-// and for merging the result of a scheduler RPC into the client state
-
-// The scheduler RPC mechanism is in scheduler_op.C
-
-#include "cpp.h"
-
-#ifdef _WIN32
-#include "boinc_win.h"
-#endif
-
-#ifndef _WIN32
-#include "config.h"
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
-#include <strings.h>
-#include <map>
-#include <set>
-#endif
-
-#include "error_numbers.h"
-#include "file_names.h"
-#include "filesys.h"
-#include "parse.h"
-#include "str_util.h"
-#include "util.h"
-
+#include "client_types.h"
 #include "client_msgs.h"
-#include "scheduler_op.h"
-
 #ifdef SIM
 #include "sim.h"
 #else
 #include "client_state.h"
 #endif
 
-using std::max;
+#include "work_fetch.h"
+
 using std::vector;
-using std::string;
 
-static const char* urgency_name(int urgency) {
-    switch(urgency) {
-    case WORK_FETCH_DONT_NEED: return "Don't need";
-    case WORK_FETCH_OK: return "OK";
-    case WORK_FETCH_NEED: return "Need";
-    case WORK_FETCH_NEED_IMMEDIATELY: return "Need immediately";
+RSC_WORK_FETCH cuda_work_fetch;
+RSC_WORK_FETCH cpu_work_fetch;
+WORK_FETCH work_fetch;
+
+RSC_PROJECT_WORK_FETCH& RSC_WORK_FETCH::project_state(PROJECT* p) {
+    switch(rsc_type) {
+    case RSC_TYPE_CPU: return p->cpu_pwf;
+    case RSC_TYPE_CUDA: return p->cuda_pwf;
     }
-    return "Unknown";
 }
 
-// how many CPUs should this project occupy on average,
-// based on its resource share relative to a given set
-//
-int CLIENT_STATE::proj_min_results(PROJECT* p, double subset_resource_share) {
-    if (p->non_cpu_intensive) {
-        return 1;
+bool RSC_WORK_FETCH::may_have_work(PROJECT* p) {
+    RSC_PROJECT_WORK_FETCH& w = project_state(p);
+    return (w.backoff_time < gstate.now);
+}
+
+void RSC_WORK_FETCH::rr_init() {
+    shortfall = 0;
+    nidle_now = 0;
+    total_resource_share = 0;
+    runnable_resource_share = 0;
+}
+
+void WORK_FETCH::rr_init() {
+    cpu_work_fetch.rr_init();
+    if (coproc_cuda) {
+        cuda_work_fetch.rr_init();
     }
-    if (!subset_resource_share) return 1;   // TODO - fix
-    return (int)(ceil(ncpus*p->resource_share/subset_resource_share));
+    estimated_delay = 0;
 }
 
-// Return the best project to fetch work from, NULL if none
-//
-// Pick the one with largest (long term debt - amount of current work)
-//
-// PRECONDITIONS:
-//   - work_request_urgency and work_request set for all projects
-//   - CLIENT_STATE::overall_work_fetch_urgency is set
-// (by previous call to compute_work_requests())
-//
-PROJECT* CLIENT_STATE::next_project_need_work() {
-    PROJECT *p, *p_prospect = NULL;
-    unsigned int i;
-
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        if (p->work_request_urgency == WORK_FETCH_DONT_NEED) continue;
-        if (p->work_request == 0) continue;
-        if (!p->contactable()) continue;
-
-        // if we don't need work, only get work from non-cpu intensive projects.
-        //
-        if (overall_work_fetch_urgency == WORK_FETCH_DONT_NEED && !p->non_cpu_intensive) continue;
-
-        // if we don't really need work,
-        // and we don't really need work from this project, pass.
-        //
-        if (overall_work_fetch_urgency == WORK_FETCH_OK) {
-            if (p->work_request_urgency <= WORK_FETCH_OK) {
-                continue;
-            }
-        }
-
-        if (p_prospect) {
-            if (p->work_request_urgency == WORK_FETCH_OK && 
-                p_prospect->work_request_urgency > WORK_FETCH_OK
-            ) {
-                continue;
-            }
-
-            if (p->long_term_debt + p->rr_sim_status.cpu_shortfall < p_prospect->long_term_debt + p_prospect->rr_sim_status.cpu_shortfall
-                && !p->non_cpu_intensive
-            ) {
-                continue;
-            }
-        }
-
-        p_prospect = p;
+void RSC_WORK_FETCH::accumulate_shortfall(double d_time, double nused) {
+    double idle = ninstances - nused;
+    if (idle > 0) {
+        shortfall += idle*d_time;
     }
-    if (p_prospect && (p_prospect->work_request <= 0)) {
-        p_prospect->work_request = 1.0;
-        if (log_flags.work_fetch_debug) {
-            msg_printf(0, MSG_INFO,
-                "[work_fetch_debug] next_project_need_work: project picked %s",
-                p_prospect->project_name
-            );
-        }
-    }
-
-    return p_prospect;
 }
 
-// the fraction of time a given CPU is working for BOINC
-//
-double CLIENT_STATE::overall_cpu_frac() {
-    double running_frac = time_stats.on_frac * time_stats.active_frac;
-    if (running_frac < 0.01) running_frac = 0.01;
-    if (running_frac > 1) running_frac = 1;
-	return running_frac;
-}
-
-// the expected number of CPU seconds completed by the client
-// in a second of wall-clock time.
-// May be > 1 on a multiprocessor.
-//
-double CLIENT_STATE::avg_proc_rate() {
-    return ncpus*overall_cpu_frac();
-}
-
-// estimate wall-clock time until the number of uncompleted results
-// for project p will reach k,
-// given the total resource share of a set of competing projects
-//
-double CLIENT_STATE::time_until_work_done(
-    PROJECT *p, int k, double subset_resource_share
+void RSC_PROJECT_WORK_FETCH::accumulate_shortfall(
+    RSC_WORK_FETCH& rwf,
+    PROJECT* p,
+    double d_time,
+    double nused
 ) {
-    int num_results_to_skip = k;
-    double est = 0;
-    
-    // total up the estimated time for this project's unstarted
-    // and partially completed results,
-    // omitting the last k
-    //
-    for (vector<RESULT*>::reverse_iterator iter = results.rbegin();
-         iter != results.rend(); iter++
-    ) {
-        RESULT *rp = *iter;
-        if (rp->project != p
-            || rp->state() > RESULT_FILES_DOWNLOADED
-            || rp->ready_to_report
-        ) continue;
-        if (num_results_to_skip > 0) {
-            --num_results_to_skip;
-            continue;
-        }
-        if (rp->project->non_cpu_intensive) {
-            // if it is a non_cpu intensive project,
-            // it needs only one at a time.
-            //
-            est = max(rp->estimated_time_remaining(true), work_buf_min());  
-        } else {
-            est += rp->estimated_time_remaining(true);
-        }
-    }
-	if (log_flags.work_fetch_debug) {
-		msg_printf(NULL, MSG_INFO,
-			"[work_fetch_debug] time_until_work_done(): est %f ssr %f apr %f prs %f",
-			est, subset_resource_share, avg_proc_rate(), p->resource_share
-		);
-	}
-    if (subset_resource_share) {
-        double apr = avg_proc_rate()*p->resource_share/subset_resource_share;
-        return est/apr;
-    } else {
-        return est/avg_proc_rate();     // TODO - fix
+    double rsf = rwf.total_resource_share?p->resource_share/rwf.total_resource_share:1;
+    double share = rwf.ninstances * rsf;
+    double x = share - nused;
+    if (x > 0) {
+        shortfall += d_time * x;
     }
 }
 
-// Top-level function for work fetch policy.
-// Outputs:
-// - overall_work_fetch_urgency
-// - for each contactable project:
-//     - work_request and work_request_urgency
-//
-// Notes:
-// - at most 1 CPU-intensive project will have a nonzero work_request
-//      and a work_request_urgency higher than DONT_NEED.
-//      This prevents projects with low LTD from getting work
-//      even though there was a higher LTD project that should get work.
-// - all non-CPU-intensive projects that need work
-//      and are contactable will have a work request of 1.
-//
-// return false
-//
-bool CLIENT_STATE::compute_work_requests() {
-    unsigned int i;
-    static double last_time = 0;
+PROJECT* RSC_WORK_FETCH::choose_project() {
+    PROJECT* pbest = NULL;
 
-    if (gstate.now - last_time >= 60) {
-        gstate.request_work_fetch("timer");
-    }
-    if (!must_check_work_fetch) return false;
-
-    if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO, "[work_fetch_debug] compute_work_requests(): start");
-    }
-    last_time = gstate.now;
-    must_check_work_fetch = false;
-
-    compute_nuploading_results();
-    adjust_debts();
-
-#ifdef SIM
-    if (work_fetch_old) {
-        // "dumb" version for simulator only.
-        // for each project, compute extra work needed to bring it up to
-        // total_buf/relative resource share.
-        //
-        overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
-        double trs = total_resource_share();
-        double total_buf = ncpus*(work_buf_min() + work_buf_additional());
-        for (i=0; i<projects.size(); i++) {
-            PROJECT* p = projects[i];
-            double d = 0;
-            for (unsigned int j=0; j<results.size(); j++) {
-                RESULT* rp = results[j];
-                if (rp->project != p) continue;
-                d += rp->estimated_time_remaining(true);
-            }
-            double rrs = p->resource_share/trs;
-            double minq = total_buf*rrs;
-            if (d < minq) {
-                p->work_request = minq-d;
-                p->work_request_urgency = WORK_FETCH_NEED;
-                overall_work_fetch_urgency = WORK_FETCH_NEED;
-            } else {
-                p->work_request = 0;
-                p->work_request_urgency = WORK_FETCH_DONT_NEED;
-            }
-        }
-        return false;
-    }
-#endif
-
-    rr_simulation();
-
-    // compute per-project and overall urgency
-    //
-    bool possible_deadline_miss = false;
-    bool project_shortfall = false;
-    bool non_cpu_intensive_needs_work = false;
-    for (i=0; i< projects.size(); i++) {
-        PROJECT* p = projects[i];
-        if (p->non_cpu_intensive) {
-            if (p->nearly_runnable() || !p->contactable() || p->some_result_suspended()) {
-                p->work_request = 0;
-                p->work_request_urgency = WORK_FETCH_DONT_NEED;
-            } else {
-                p->work_request = 1.0;
-                p->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
-				non_cpu_intensive_needs_work = true;
-				if (log_flags.work_fetch_debug) {
-					msg_printf(p, MSG_INFO,
-						"[work_fetch_debug] non-CPU-intensive project needs work"
-					);
-				}
-				return false;
-            }
-        } else {
-            p->work_request_urgency = WORK_FETCH_DONT_NEED;
-            p->work_request = 0;
-			if (p->rr_sim_status.deadlines_missed) {
-				possible_deadline_miss = true;
-			}
-            if (p->rr_sim_status.cpu_shortfall && p->long_term_debt > -global_prefs.cpu_scheduling_period()) {
-                project_shortfall = true;
-            }
-        }
-    }
-
-    if (cpu_shortfall <= 0.0 && (possible_deadline_miss || !project_shortfall)) {
-        overall_work_fetch_urgency = WORK_FETCH_DONT_NEED;
-    } else if (no_work_for_a_cpu()) {
-        overall_work_fetch_urgency = WORK_FETCH_NEED_IMMEDIATELY;
-    } else if (cpu_shortfall > 0) {
-        overall_work_fetch_urgency = WORK_FETCH_NEED;
-    } else {
-        overall_work_fetch_urgency = WORK_FETCH_OK;
-    }
-    if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO,
-            "[work_fetch_debug] compute_work_requests(): cpu_shortfall %f, overall urgency %s",
-            cpu_shortfall, urgency_name(overall_work_fetch_urgency)
-        );
-    }
-    if (overall_work_fetch_urgency == WORK_FETCH_DONT_NEED) {
-        if (non_cpu_intensive_needs_work) {
-            overall_work_fetch_urgency = WORK_FETCH_NEED_IMMEDIATELY;
-        }
-        return false;
-    }
-
-    // loop over projects, and pick one to get work from
-    //
-    double prrs = fetchable_resource_share();
-    PROJECT *pbest = NULL;
-    for (i=0; i<projects.size(); i++) {
-        PROJECT *p = projects[i];
-
-        // see if this project can be ruled out completely
-        //
+    for (unsigned i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
-
-		if (!p->rr_sim_status.cpu_shortfall && p->rr_sim_status.has_coproc_jobs) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO,
-                    "[work_fetch_debug] 0 shortfall and have coproc jobs; skipping"
-                );
-            }
-            continue;
-        }
-        if (!p->contactable()) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "[work_fetch_debug] work fetch: project not contactable; skipping");
-            }
-            continue;
-        }
-        if ((p->deadlines_missed >= ncpus)
-            && overall_work_fetch_urgency < WORK_FETCH_NEED
-        ) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO,
-                    "[work_fetch_debug] project has %d deadline misses; skipping",
-                    p->deadlines_missed
-                );
-            }
-            continue;
-        }
-        if (p->some_download_stalled()) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO,
-                    "[work_fetch_debug] project has stalled download; skipping"
-                );
-            }
-            continue;
-        }
-
-        if (p->some_result_suspended()) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "[work_fetch_debug] project has suspended result; skipping");
-            }
-            continue;
-        }
-
-        if (p->overworked() && overall_work_fetch_urgency < WORK_FETCH_NEED) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "[work_fetch_debug] project is overworked; skipping");
-            }
-            continue;
-        }
-        if (p->rr_sim_status.cpu_shortfall == 0.0 && overall_work_fetch_urgency < WORK_FETCH_NEED) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "[work_fetch_debug] project has no shortfall; skipping");
-            }
-            continue;
-        }
-        if (p->nuploading_results >  2*ncpus) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO,
-                    "[work_fetch_debug] project has %d uploading results; skipping",
-                    p->nuploading_results
-                );
-            }
-            continue;
-        }
-
-        // If the project's DCF is outside of reasonable limits,
-        // the project's WU FLOP estimates are not useful for predicting
-        // completion time.
-        // Switch to a simpler policy: ask for 1 sec of work if
-        // we don't have any.
-        //
-        if (p->duration_correction_factor < 0.02 || p->duration_correction_factor > 80.0) {
-            if (p->runnable()) {
-                if (log_flags.work_fetch_debug) {
-                    msg_printf(p, MSG_INFO,
-                        "[work_fetch_debug] project DCF %f out of range and have work; skipping",
-                        p->duration_correction_factor
-                    );
-                }
-                continue;
-            } else {
-                if (log_flags.work_fetch_debug) {
-                    msg_printf(p, MSG_INFO,
-                        "[work_fetch_debug] project DCF %f out of range: changing shortfall %f to 1.0", 
-                         p->duration_correction_factor, p->rr_sim_status.cpu_shortfall
-                    );
-                }
-                p->rr_sim_status.cpu_shortfall = 1.0;
-            }
-        }
-
-        // see if this project is better than our current best
-        //
+        if (!p->can_request_work()) continue;
+        if (!may_have_work(p)) continue;
         if (pbest) {
-            // avoid getting work from a project in deadline trouble
-            //
-            if (p->deadlines_missed && !pbest->deadlines_missed) {
-                if (log_flags.work_fetch_debug) {
-                    msg_printf(p, MSG_INFO,
-                        "[work_fetch_debug] project has deadline misses, %s doesn't",
-                        pbest->get_project_name()
-                    );
-                }
-                continue;
-            }
-            // avoid getting work from an overworked project
-            //
-            if (p->overworked() && !pbest->overworked()) {
-                if (log_flags.work_fetch_debug) {
-                    msg_printf(p, MSG_INFO,
-                        "[work_fetch_debug] project is overworked, %s isn't",
-                        pbest->get_project_name()
-                    );
-                }
-                continue;
-            }
-            // get work from project with highest LTD
-            //
-            if (pbest->long_term_debt + pbest->rr_sim_status.cpu_shortfall > p->long_term_debt + p->rr_sim_status.cpu_shortfall) {
-                if (log_flags.work_fetch_debug) {
-                    msg_printf(p, MSG_INFO,
-                        "[work_fetch_debug] project has less LTD than %s",
-                        pbest->get_project_name()
-                    );
-                }
+            if (pbest->pwf.overall_debt > p->pwf.overall_debt) {
                 continue;
             }
         }
         pbest = p;
-        if (log_flags.work_fetch_debug) {
-            msg_printf(pbest, MSG_INFO, "[work_fetch_debug] best project so far");
+    }
+    return pbest;
+}
+
+void WORK_FETCH::set_overall_debts() {
+    for (unsigned i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->pwf.overall_debt = p->cpu_pwf.debt;
+        if (coproc_cuda) {
+            p->pwf.overall_debt += cuda_work_fetch.speed*p->cuda_pwf.debt;
         }
     }
+}
 
-    if (pbest) {
-        pbest->work_request = max(
-            pbest->rr_sim_status.cpu_shortfall,
-            cpu_shortfall * (prrs ? pbest->resource_share/prrs : 1)
+void RSC_WORK_FETCH::print_state(char* name) {
+    msg_printf(0, MSG_INFO,
+        "[wfd] %s: shortfall %.2f nidle %.2f total RS %.2f runnable RS %.2f",
+        name,
+        shortfall, nidle_now,
+        total_resource_share, runnable_resource_share
+    );
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
+        msg_printf(p, MSG_INFO,
+            "[wfd] %s: shortfall %.2f nidle %.2f",
+            name, pwf.shortfall, pwf.nidle_now
         );
+    }
+}
 
-        // sanity check
-        //
-        double x = 1.01*work_buf_total()*ncpus;
-            // the 1.01 is for round-off error
-        if (pbest->work_request > x) {
-        	msg_printf(NULL, MSG_INTERNAL_ERROR,
-        	    "Proposed work request %f bigger than max %f",
-        	    pbest->work_request, x
-        	);
-        	pbest->work_request = x;
+void WORK_FETCH::print_state() {
+    msg_printf(0, MSG_INFO, "[wfd] ------- start work fetch state -------");
+    cpu_work_fetch.print_state("CPU");
+    if (coproc_cuda) {
+        cuda_work_fetch.print_state("CUDA");
+    }
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        msg_printf(p, MSG_INFO, "[wfd] overall_debt %f", p->pwf.overall_debt);
+    }
+    msg_printf(0, MSG_INFO, "[wfd] ------- end work fetch state -------");
+}
+
+static void print_req(PROJECT* p) {
+    msg_printf(p, MSG_INFO,
+        "[wfd] request: CPU (%.2f sec, %.2f) CUDA (%.2f sec, %.2f)",
+        p->cpu_pwf.shortfall, p->cpu_pwf.nidle_now,
+        p->cuda_pwf.shortfall, p->cuda_pwf.nidle_now
+    );
+}
+
+// choose a project to fetch work from
+//
+PROJECT* WORK_FETCH::choose_project() {
+    PROJECT* p = 0;
+    gstate.rr_simulation();
+    set_overall_debts();
+
+    // if a resource is currently idle, get work for it;
+    // give GPU priority over CPU
+    //
+    if (coproc_cuda && cuda_work_fetch.nidle_now) {
+        p = cuda_work_fetch.choose_project();
+        if (p) {
+            p->cpu_pwf.shortfall = 0;
         }
-        if (!pbest->nearly_runnable()) {
-            pbest->work_request_urgency = WORK_FETCH_NEED_IMMEDIATELY;
-        } else if (pbest->rr_sim_status.cpu_shortfall) {
-            pbest->work_request_urgency = WORK_FETCH_NEED;
+    }
+    if (!p && cpu_work_fetch.nidle_now) {
+        p = cpu_work_fetch.choose_project();
+        if (p) {
+            p->cuda_pwf.shortfall = 0;
+        }
+    }
+    if (!p && coproc_cuda && cuda_work_fetch.shortfall) {
+        p = cuda_work_fetch.choose_project();
+    }
+    if (!p && cpu_work_fetch.shortfall) {
+        p = cpu_work_fetch.choose_project();
+    }
+    if (log_flags.work_fetch_debug) {
+        print_state();
+        if (p) {
+            print_req(p);
         } else {
-            pbest->work_request_urgency = WORK_FETCH_OK;
+            msg_printf(0, MSG_INFO, "No project chosen for work fetch");
         }
-
-        if (log_flags.work_fetch_debug) {
-            msg_printf(pbest, MSG_INFO,
-				"[work_fetch_debug] compute_work_requests(): work req %f, shortfall %f, urgency %s\n",
-				pbest->work_request, pbest->rr_sim_status.cpu_shortfall,
-                urgency_name(pbest->work_request_urgency)
-            );
-        }
-    } else if (non_cpu_intensive_needs_work) {
-        overall_work_fetch_urgency = WORK_FETCH_NEED_IMMEDIATELY;
     }
 
-
-    return false;
+    return p;
 }
 
-// called when benchmarks change
-//
-void CLIENT_STATE::scale_duration_correction_factors(double factor) {
-    if (factor <= 0) return;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
-        p->duration_correction_factor *= factor;
+void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {
+    APP_VERSION* avp = atp->result->avp;
+    PROJECT* p = atp->result->project;
+    double x = dt*avp->avg_ncpus;
+    p->cpu_pwf.secs_this_debt_interval += x;
+    cpu_work_fetch.secs_this_debt_interval += x;
+    if (coproc_cuda) {
+        x = dt*coproc_cuda->used;
+        p->cuda_pwf.secs_this_debt_interval += x;
+        cuda_work_fetch.secs_this_debt_interval += x;
     }
-	if (log_flags.cpu_sched_debug) {
-		msg_printf(NULL, MSG_INFO,
-            "[cpu_sched_debug] scaling duration correction factors by %f",
-            factor
+}
+
+void RSC_WORK_FETCH::update_debts() {
+    unsigned int i;
+    int nprojects = 0;
+    double ders = 0;
+    PROJECT* p;
+
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = gstate.projects[i];
+        RSC_PROJECT_WORK_FETCH& w = project_state(p);
+        if (!w.debt_eligible(p)) continue;
+        ders += p->resource_share;
+    }
+    double total_debt = 0;
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = gstate.projects[i];
+        RSC_PROJECT_WORK_FETCH& w = project_state(p);
+        if (w.debt_eligible(p)) {
+            double share_frac = p->resource_share/ders;
+            w.debt += share_frac*secs_this_debt_interval - w.secs_this_debt_interval;
+        }
+        total_debt += w.debt;
+        nprojects++;
+    }
+
+    //  normalize so mean is zero,
+    //
+    double avg_debt = total_debt / nprojects;
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = gstate.projects[i];
+        RSC_PROJECT_WORK_FETCH& w = project_state(p);
+        w.debt-= avg_debt;
+    }
+}
+
+bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p) {
+    if (backoff_interval > 0) return false;
+    if (p->suspended_via_gui) return false;
+    return true;
+}
+
+void WORK_FETCH::write_request(PROJECT* p, FILE* f) {
+    if (p->cpu_pwf.shortfall > 0 && p->cpu_pwf.shortfall < 1) {
+        p->cpu_pwf.shortfall = 1;
+    }
+    double work_req_seconds = p->cpu_pwf.shortfall;
+    fprintf(f,
+        "    <cpu_req_seconds>%f</cpu_req_seconds>\n"
+        "    <cpu_ninstances>%f</cpu_ninstances>\n",
+        p->cpu_pwf.shortfall,
+        p->cpu_pwf.nidle_now
+    );
+    if (coproc_cuda) {
+        if (p->cuda_pwf.shortfall > work_req_seconds) {
+            work_req_seconds = p->cuda_pwf.shortfall;
+        }
+        if (p->cuda_pwf.shortfall > 0 && p->cuda_pwf.shortfall < 1) {
+            p->cuda_pwf.shortfall = 1;
+        }
+        fprintf(f,
+            "    <cuda_req_seconds>%f</cuda_req_seconds>\n"
+            "    <cuda_ninstances>%f</cuda_ninstances>\n",
+            p->cuda_pwf.shortfall,
+            p->cuda_pwf.nidle_now
         );
-	}
+    }
+    fprintf(f,
+        "    <work_req_seconds>%f</work_req_seconds>\n",
+        work_req_seconds
+    );
 }
 
-// Choose a new host CPID.
-// If using account manager, do scheduler RPCs
-// to all acct-mgr-attached projects to propagate the CPID
+// we just got a scheduler reply with the given jobs.
 //
-void CLIENT_STATE::generate_new_host_cpid() {
-    host_info.generate_host_cpid();
-    for (unsigned int i=0; i<projects.size(); i++) {
-        if (projects[i]->attached_via_acct_mgr) {
-            projects[i]->sched_rpc_pending = RPC_REASON_ACCT_MGR_REQ;
-            projects[i]->set_min_rpc_time(now + 15, "Sending new host CPID");
-        }
+void WORK_FETCH::handle_reply(PROJECT* p, vector<RESULT*> new_results) {
+    unsigned int i;
+
+    for (i=0; i<new_results.size(); i++) {
+        RESULT* rp = new_results[i];
     }
 }
+
+void WORK_FETCH::set_initial_work_request(PROJECT* p) {
+    p->cpu_pwf.shortfall = 1;
+    p->cuda_pwf.shortfall = 1;
+}
+
+void WORK_FETCH::init() {
+    cpu_work_fetch.rsc_type = RSC_TYPE_CPU;
+    cpu_work_fetch.ninstances = gstate.ncpus;
+
+    if (coproc_cuda) {
+        cuda_work_fetch.rsc_type = RSC_TYPE_CUDA;
+        cuda_work_fetch.ninstances = coproc_cuda->count;
+        cuda_work_fetch.speed = coproc_cuda->flops_estimate()/gstate.host_info.p_fpops;
+    }
+}
+
+////////////////////////
 
 void CLIENT_STATE::compute_nuploading_results() {
     unsigned int i;
@@ -585,7 +341,7 @@ bool PROJECT::some_result_suspended() {
     return false;
 }
 
-bool PROJECT::contactable() {
+bool PROJECT::can_request_work() {
     if (suspended_via_gui) return false;
     if (master_url_fetch_pending) return false;
     if (min_rpc_time > gstate.now) return false;
@@ -595,7 +351,7 @@ bool PROJECT::contactable() {
 
 bool PROJECT::potentially_runnable() {
     if (runnable()) return true;
-    if (contactable()) return true;
+    if (can_request_work()) return true;
     if (downloading()) return true;
     return false;
 }
@@ -606,8 +362,8 @@ bool PROJECT::nearly_runnable() {
     return false;
 }
 
-bool PROJECT::overworked() {
-    return long_term_debt < -gstate.global_prefs.cpu_scheduling_period();
+bool RSC_PROJECT_WORK_FETCH::overworked() {
+    return debt < -gstate.global_prefs.cpu_scheduling_period();
 }
 
 bool RESULT::runnable() {
@@ -677,13 +433,42 @@ double ACTIVE_TASK::est_time_to_completion(bool for_work_fetch) {
     return x;
 }
 
-// trigger work fetch
-// 
-void CLIENT_STATE::request_work_fetch(const char* where) {
-    if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO, "[work_fetch_debug] Request work fetch: %s", where);
-    }
-    must_check_work_fetch = true;
+// the fraction of time a given CPU is working for BOINC
+//
+double CLIENT_STATE::overall_cpu_frac() {
+    double running_frac = time_stats.on_frac * time_stats.active_frac;
+    if (running_frac < 0.01) running_frac = 0.01;
+    if (running_frac > 1) running_frac = 1;
+	return running_frac;
 }
 
-const char *BOINC_RCSID_d3a4a7711 = "$Id$";
+// called when benchmarks change
+//
+void CLIENT_STATE::scale_duration_correction_factors(double factor) {
+    if (factor <= 0) return;
+    for (unsigned int i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        p->duration_correction_factor *= factor;
+    }
+	if (log_flags.cpu_sched_debug) {
+		msg_printf(NULL, MSG_INFO,
+            "[cpu_sched_debug] scaling duration correction factors by %f",
+            factor
+        );
+	}
+}
+
+// Choose a new host CPID.
+// If using account manager, do scheduler RPCs
+// to all acct-mgr-attached projects to propagate the CPID
+//
+void CLIENT_STATE::generate_new_host_cpid() {
+    host_info.generate_host_cpid();
+    for (unsigned int i=0; i<projects.size(); i++) {
+        if (projects[i]->attached_via_acct_mgr) {
+            projects[i]->sched_rpc_pending = RPC_REASON_ACCT_MGR_REQ;
+            projects[i]->set_min_rpc_time(now + 15, "Sending new host CPID");
+        }
+    }
+}
+

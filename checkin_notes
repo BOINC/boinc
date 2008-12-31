@@ -10412,3 +10412,13 @@ Rom    30 Dec 2008
     /
         configure.ac
         version.h
+
+David  31 Dec 2008
+    - client: first whack at new work-fetch logic.  Very preliminary.
+
+    client/
+        most files
+    lib/
+        coproc.cpp,h
+    sched/
+        sched_plan.cpp

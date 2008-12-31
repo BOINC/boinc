@@ -318,9 +318,11 @@ void CLIENT_STATE::reset_debt_accounting() {
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
-        p->wall_cpu_time_this_debt_interval = 0.0;
+        p->cpu_pwf.reset_debt_accounting();
+        p->cuda_pwf.reset_debt_accounting();
     }
-    total_wall_cpu_time_this_debt_interval = 0.0;
+    cpu_work_fetch.reset_debt_accounting();
+    cuda_work_fetch.reset_debt_accounting();
     debt_interval_start = now;
 }
 
@@ -328,15 +330,14 @@ void CLIENT_STATE::reset_debt_accounting() {
 //
 void CLIENT_STATE::adjust_debts() {
     unsigned int i;
-    double total_long_term_debt = 0;
     double total_short_term_debt = 0;
     double prrs, rrs;
     int nprojects=0, nrprojects=0;
     PROJECT *p;
     double share_frac;
-    double wall_cpu_time = now - debt_interval_start;
+    double elapsed_time = now - debt_interval_start;
 
-    if (wall_cpu_time < 1) {
+    if (elapsed_time < 1) {
         return;
     }
 
@@ -345,74 +346,41 @@ void CLIENT_STATE::adjust_debts() {
     // Currently we don't have a way to estimate how long this was for,
     // so ignore the last period and reset counters.
     //
-    if (wall_cpu_time > global_prefs.cpu_scheduling_period()*2) {
+    if (elapsed_time > global_prefs.cpu_scheduling_period()*2) {
         if (log_flags.debt_debug) {
             msg_printf(NULL, MSG_INFO,
                 "[debt_debug] adjust_debt: elapsed time (%d) longer than sched period (%d).  Ignoring this period.",
-                (int)wall_cpu_time, (int)global_prefs.cpu_scheduling_period()
+                (int)elapsed_time, (int)global_prefs.cpu_scheduling_period()
             );
         }
         reset_debt_accounting();
         return;
     }
 
-    // Total up total and per-project "wall CPU" since last CPU reschedule.
-    // "Wall CPU" is the wall time during which a task was
-    // runnable (at the OS level).
-    //
-    // We use wall CPU for debt calculation
-    // (instead of reported actual CPU) for two reasons:
-    // 1) the process might have paged a lot, so the actual CPU
-    //    may be a lot less than wall CPU
-    // 2) BOINC relies on apps to report their CPU time.
-    //    Sometimes there are bugs and apps report zero CPU.
-    //    It's safer not to trust them.
-    //
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        if (atp->wup->project->non_cpu_intensive) continue;
-
-        atp->result->project->wall_cpu_time_this_debt_interval += wall_cpu_time;
-        total_wall_cpu_time_this_debt_interval += wall_cpu_time;
+        p = atp->result->project;
+        if (p->non_cpu_intensive) continue;
+        work_fetch.accumulate_inst_sec(atp, elapsed_time);
     }
 
+    // adjust long term debts
+    cpu_work_fetch.update_debts();
+    cuda_work_fetch.update_debts();
+
+    // adjust short term debts
     rrs = runnable_resource_share();
-    prrs = potentially_runnable_resource_share();
-
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-
-        // potentially_runnable() can be false right after a result completes,
-        // but we still need to update its LTD.
-        // In this case its wall_cpu_time_this_debt_interval will be nonzero.
-        //
-        if (!(p->potentially_runnable()) && p->wall_cpu_time_this_debt_interval) {
-            prrs += p->resource_share;
-        }
-    }
-
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->non_cpu_intensive) continue;
         nprojects++;
 
-        // adjust long-term debts
-        //
-        if (p->potentially_runnable() || p->wall_cpu_time_this_debt_interval) {
-            share_frac = p->resource_share/prrs;
-            p->long_term_debt += share_frac*total_wall_cpu_time_this_debt_interval
-                - p->wall_cpu_time_this_debt_interval;
-        }
-        total_long_term_debt += p->long_term_debt;
-
-        // adjust short term debts
-        //
         if (p->runnable()) {
             nrprojects++;
             share_frac = p->resource_share/rrs;
-            p->short_term_debt += share_frac*total_wall_cpu_time_this_debt_interval
-                - p->wall_cpu_time_this_debt_interval;
+            p->short_term_debt += share_frac*cpu_work_fetch.secs_this_debt_interval
+                - p->cpu_pwf.secs_this_debt_interval;
             total_short_term_debt += p->short_term_debt;
         } else {
             p->short_term_debt = 0;
@@ -422,16 +390,10 @@ void CLIENT_STATE::adjust_debts() {
 
     if (nprojects==0) return;
 
-    // long-term debt:
-    //  normalize so mean is zero,
     // short-term debt:
     //  normalize so mean is zero, and limit abs value at MAX_STD
     //
-    double avg_long_term_debt = total_long_term_debt / nprojects;
-    double avg_short_term_debt = 0;
-    if (nrprojects) {
-        avg_short_term_debt = total_short_term_debt / nrprojects;
-    }
+    double avg_short_term_debt = total_short_term_debt / nrprojects;
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->non_cpu_intensive) continue;
@@ -443,14 +405,6 @@ void CLIENT_STATE::adjust_debts() {
             if (p->short_term_debt < -MAX_STD) {
                 p->short_term_debt = -MAX_STD;
             }
-        }
-
-        p->long_term_debt -= avg_long_term_debt;
-        if (log_flags.debt_debug) {
-            msg_printf(0, MSG_INFO,
-                "[debt_debug] adjust_debts(): project %s: STD %f, LTD %f",
-                p->project_name, p->short_term_debt, p->long_term_debt
-            );
         }
     }
 
@@ -1178,19 +1132,6 @@ double CLIENT_STATE::potentially_runnable_resource_share() {
     return x;
 }
 
-double CLIENT_STATE::fetchable_resource_share() {
-    double x = 0;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
-        if (p->non_cpu_intensive) continue;
-        if (p->long_term_debt < -global_prefs.cpu_scheduling_period()) continue;
-        if (p->contactable()) {
-            x += p->resource_share;
-        }
-    }
-    return x;
-}
-
 // same, but nearly runnable (could be downloading work right now)
 //
 double CLIENT_STATE::nearly_runnable_resource_share() {
@@ -1294,6 +1235,7 @@ void CLIENT_STATE::set_ncpus() {
         run_cpu_benchmarks = true;
         request_schedule_cpus("Number of usable CPUs has changed");
         request_work_fetch("Number of usable CPUs has changed");
+        work_fetch.init();
     }
 }
 

@@ -101,17 +101,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 if (x > 1) x = 1;
                 hu.avg_ncpus = x;
                 hu.max_ncpus = x;
-                
-                // estimate the FLOPS we're going to get from the GPU.
-                // The following is based on SETI@home CUDA,
-                // which gets 50 GFLOPS on a Quadro FX 3700,
-                // which has 14 MPs and a clock rate of 1.25 MHz
-                //
-                x = (double)cp2->prop.clockRate * (double)cp2->prop.multiProcessorCount;
-                double y = 14.*1250000.;
-                if (!x) x = y;
-
-                hu.flops = 5e10 * (x/y);
+                hu.flops = cp2->flops_estimate();
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_DEBUG,
                         "CUDA app estimated %.2f GFLOPS (clock %d count %d)\n",

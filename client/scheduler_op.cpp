@@ -73,25 +73,6 @@ bool SCHEDULER_OP::check_master_fetch_start() {
     return true;
 }
 
-// Try to get work from eligible project with biggest long term debt
-// PRECONDITION: compute_work_requests() has been called
-// to fill in PROJECT::work_request
-// and CLIENT_STATE::overall_work_fetch_urgency
-//
-int SCHEDULER_OP::init_get_work() {
-    int retval;
-
-    PROJECT* p = gstate.next_project_need_work();
-    if (p) {
-        retval = init_op_project(p, RPC_REASON_NEED_WORK);
-        if (retval) {
-            return retval;
-        }
-    }
-    return 0;
-}
-
-
 // try to initiate an RPC to the given project.
 // If there are multiple schedulers, start with a random one.
 // User messages and backoff() is done at this level.
@@ -122,7 +103,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
     }
 
     if (reason == RPC_REASON_INIT) {
-        p->work_request = 1;
+        work_fetch.set_initial_work_request(p);
         if (!gstate.cpu_benchmarks_done()) {
             gstate.cpu_benchmarks_set_defaults();
         }
@@ -207,17 +188,11 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
     int retval;
     char request_file[1024], reply_file[1024];
 
-    // if requesting work, round up to 1 sec
-    //
-    if (p->work_request>0 && p->work_request<1) {
-        p->work_request = 1;
-    }
-
     safe_strcpy(scheduler_url, p->get_scheduler_url(url_index, url_random));
     if (log_flags.sched_ops) {
         msg_printf(p, MSG_INFO,
             "Sending scheduler request: %s.  Requesting %.0f seconds of work, reporting %d completed tasks",
-            rpc_reason_string(reason), p->work_request, p->nresults_returned
+            rpc_reason_string(reason), p->cpu_pwf.shortfall, p->nresults_returned
         );
     }
 
@@ -364,7 +339,7 @@ bool SCHEDULER_OP::update_urls(PROJECT* p, vector<std::string> &urls) {
 // poll routine.  If an operation is in progress, check for completion
 //
 bool SCHEDULER_OP::poll() {
-    int retval, nresults;
+    int retval;
     vector<std::string> urls;
     bool changed, scheduler_op_done;
 
@@ -454,7 +429,7 @@ bool SCHEDULER_OP::poll() {
                     }
                 }
             } else {
-                retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url, nresults);
+                retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url);
                 switch (retval) {
                 case 0:
                     break;
@@ -465,7 +440,6 @@ bool SCHEDULER_OP::poll() {
                     backoff(cur_proj, "can't parse scheduler reply");
                     break;
                 }
-                cur_proj->work_request = 0;    // don't ask again right away
             }
             cur_proj = NULL;
             gstate.request_work_fetch("RPC complete");
