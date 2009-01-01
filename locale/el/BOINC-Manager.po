@@ -1,0 +1,1561 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC Manager 4.x\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2005-11-09 07:38+0100\n"
+"Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
+"Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Greek\n"
+"X-Poedit-Country: GREECE\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Basepath: C:\\BOINCSRC\\Main\\boinc\n"
+"X-Poedit-SearchPath-0: clientgui\n"
+
+#: clientgui/AccountInfoPage.cpp:115
+msgid "Account information"
+msgstr "Πληροφορίες Λογαριασμού"
+
+#: clientgui/AccountInfoPage.cpp:121
+msgid "Do you wish to use an existing account or create a new one?"
+msgstr "Θέλετε να χρησιμοποποιήσετε κάποιο λογαριασμό η να δημιουργήσετε ένα νέο;"
+
+#: clientgui/AccountInfoPage.cpp:127
+msgid ""
+"Transition Note: Account keys are used as passwords for accounts created\n"
+"before BOINC migrated to a username and password authentication scheme."
+msgstr ""
+"Σημείωση Αλλαγών: Τα κλειδιά λογαριασμών χρησιμοποιούνται σαν κωδικοί για λογαριασμούς οι οποίοι\n"
+" δημιουργήθηκαν πριν την απόφαση στο BOINC να χρησιμοποιείται ένα σύστημα πιστοποίησης που χρησιμοποιεί\n"
+" όνομα χρήστη και ξεχωριστό κωδικό πρόσβασης"
+
+#: clientgui/AccountInfoPage.cpp:137
+msgid "Create new &account"
+msgstr "Δημιουργία Νέου Λογαριασμού"
+
+#: clientgui/AccountInfoPage.cpp:142
+msgid "&Use existing account"
+msgstr "Χρησιμοποίηση ήδη δημιουργημένου λογαριασμού"
+
+#: clientgui/AccountInfoPage.cpp:153
+msgid "&Email address:"
+msgstr "Διεύθυνση email:"
+
+#: clientgui/AccountInfoPage.cpp:161
+msgid "&Password:"
+msgstr "Κωδικός:"
+
+#: clientgui/AccountInfoPage.cpp:170
+msgid "C&onfirm password:"
+msgstr "Επιβεβαίωση Κωδικού:"
+
+#: clientgui/AccountInfoPage.cpp:279
+#: clientgui/DlgDialupCredentials.cpp:111
+msgid "Username:"
+msgstr "Όνομα Χρήστη:"
+
+#: clientgui/AccountInfoPage.cpp:283
+msgid "Email address:"
+msgstr "Διεύθυνση email:"
+
+#: clientgui/AccountInfoPage.cpp:301
+#: clientgui/WelcomePage.cpp:140
+msgid "Attach to project"
+msgstr "Σύνδεση σε πρόγραμμα"
+
+#: clientgui/AccountInfoPage.cpp:304
+#: clientgui/WelcomePage.cpp:149
+msgid "Attach to account manager"
+msgstr "Σύνδεση στο πρόγραμμα διαχείρησης λογαριασμού"
+
+#: clientgui/AccountInfoPage.cpp:315
+#, c-format
+msgid "The minimum password length for this project is %d. Please choose a different password."
+msgstr "Το ελάχιστο μήκος κωδικού για αυτό το πρόγραμμα είναι %d χαρακτήρες. Παρακαλούμε επιλέξτε άλλο κωδικο."
+
+#: clientgui/AccountInfoPage.cpp:321
+#, c-format
+msgid "The minimum password length for this account manager is %d. Please choose a different password."
+msgstr "Το ελάχιστο μήκος κωδικού για αυτό το πρόγραμμα διαχείρησης λογαριασμού είναι %d χαρακτήρες. Παρακαλούμε επιλέξτε άλλο κωδικο."
+
+#: clientgui/AccountInfoPage.cpp:332
+msgid "The password and confirmation password do not match. Please type them again."
+msgstr "Ο κωδικός δεν συμφωνεί με τον κωδικό επιβεβαίωσης. Παρακαλούμε επαναπληκτρολογήστε τους."
+
+#: clientgui/AccountKeyPage.cpp:103
+msgid "Enter account key"
+msgstr "Εισάγετε το κλειδί λογαριασμού"
+
+#: clientgui/AccountKeyPage.cpp:110
+msgid "This project uses an \"account key\" to identify you."
+msgstr "Αυτό το πρόγραμμα χρησιμοποιεί ένα \"account key\" για να σας πιστοποιήσει."
+
+#: clientgui/AccountKeyPage.cpp:114
+msgid ""
+"Go to the project's web site to create an account. Your account\n"
+"key will be emailed to you."
+msgstr ""
+"Πηγαίνετε στην ιστοσελίδα του προγράμματος για να δημιουργήσετε ένα λογαριασμό.\n"
+" Το κλειδί λογαριασμού θα σας σταλεί μέσω email."
+
+#: clientgui/AccountKeyPage.cpp:118
+msgid "An account key looks like:"
+msgstr "Ένα κλειδί λογαρασμού μοιάζει με:"
+
+#: clientgui/AccountKeyPage.cpp:122
+msgid "82412313ac88e9a3638f66ea82186948"
+msgstr "82412313ac88e9a3638f66ea82186948"
+
+#: clientgui/AccountKeyPage.cpp:133
+msgid "Account key:"
+msgstr "Κλειδί λογαριασμού:"
+
+#: clientgui/AccountManagerInfoPage.cpp:103
+msgid "Account Manager URL"
+msgstr "Διεύθυνση διαχειριστή λογαριασμού"
+
+#: clientgui/AccountManagerInfoPage.cpp:108
+msgid "Enter the URL of the account manager's web site."
+msgstr "Εισάγετε την διεύθυνση της ιστοσελίδας του διαχειριστή λογαριασμού."
+
+#: clientgui/AccountManagerInfoPage.cpp:114
+#: clientgui/ProjectInfoPage.cpp:115
+msgid "You can copy and paste the URL from your browser's address bar."
+msgstr "Μπορείτε να αντιγράψετε και να επικολλήσετε τη διεύθυνση από τη μπάρα διεύθυνσης του φυλλομετρητή σας."
+
+#: clientgui/AccountManagerInfoPage.cpp:124
+msgid "Account Manager &URL:"
+msgstr "Διεύθυνση ιστοσελίδας διαχειρηστή λογαριασμού:"
+
+#: clientgui/AccountManagerInfoPage.cpp:134
+msgid "For a list of BOINC-based account managers go to:"
+msgstr "Για μια λίστα με προγράμματα που στηρίζονται στο BOINC πηγαίνετε στο:"
+
+#: clientgui/AccountManagerProcessingPage.cpp:132
+msgid ""
+"Communicating with account manager\n"
+"Please wait..."
+msgstr ""
+"Επικοινωνία με το διαχειριστή λογαριασμού\n"
+"Παρακαλούμε περιμένετε..."
+
+#: clientgui/AccountManagerPropertiesPage.cpp:135
+msgid ""
+"Communicating with account manager \n"
+"Please wait..."
+msgstr ""
+"Επικοινωνία με το διαχειριστή λογαριασμού \n"
+"Παρακαλούμε περιμένετε..."
+
+#: clientgui/AlreadyAttachedPage.cpp:98
+msgid "Already attached to project"
+msgstr "Έχετε ήδη συνδεθεί σε αυτό το πρόγραμμα"
+
+#: clientgui/AlreadyAttachedPage.cpp:105
+msgid "You are already attached to this project."
+msgstr "Έχετε ήδη συνδεθεί σε αυτό το πρόγραμμα"
+
+#: clientgui/AlreadyExistsPage.cpp:99
+msgid "Email address already in use"
+msgstr "Αυτή η διεύθυνση email χρησιμοποείται ήδη"
+
+#: clientgui/AlreadyExistsPage.cpp:106
+msgid ""
+"An account with that email address already exists and has a\n"
+"different password than the one you entered.\n"
+"\n"
+"Please visit the project's web site and follow the instructions there."
+msgstr ""
+"Ένας λογαριασμός με αυτή τη διεύθυνση email υπάρχει ήδη και έχει\n"
+"διαφορετικό κωδικό πρόσβασης από αυτό που εισάγατε.\n"
+"\n"
+"Παρακαλούμε επισκεφθείτε την ιστοσελίδα του προγράμματος και ακολουθήστε τις οδηγίες εκεί."
+
+#: clientgui/BOINCGUIApp.cpp:270
+msgid "Startup BOINC so only the system tray icon is visible"
+msgstr "Εκίννηση του BOINC ούτως ώστε μόνο το εικονίδιο στη μπάρα να είναι ορατό"
+
+#: clientgui/BOINCGUIApp.cpp:330
+msgid "(Automatic Detection)"
+msgstr "(Αυτόματη Αναγνώριση)"
+
+#: clientgui/BOINCGUIApp.cpp:331
+msgid "(Unknown)"
+msgstr "(Άγνωστο)"
+
+#: clientgui/BOINCGUIApp.cpp:332
+msgid "(User Defined)"
+msgstr "(Καθορισμός από το Χρήστη)"
+
+#: clientgui/BOINCTaskBar.cpp:68
+#: clientgui/DlgAbout.cpp:103
+#: clientgui/hyperlink.cpp:230
+msgid "BOINC Manager"
+msgstr "BOINC Manager"
+
+#: clientgui/BOINCTaskBar.cpp:272
+msgid "BOINC is currently suspended...\n"
+msgstr "Το BOINC έχει παύσει τις εργασίες...\n"
+
+#: clientgui/BOINCTaskBar.cpp:276
+msgid "BOINC networking is currently suspended...\n"
+msgstr "Η σύνδεση στο δίκτυο του BOINC έχει σταματήσει...\n"
+
+#: clientgui/BOINCTaskBar.cpp:377
+#: clientgui/MainFrame.cpp:336
+#: clientgui/mac/MacSysMenu.cpp:76
+msgid "E&xit"
+msgstr "Έξοδος"
+
+#: clientgui/BOINCTaskBar.cpp:396
+#: clientgui/BOINCTaskBar.cpp:403
+msgid "&Open BOINC Manager..."
+msgstr "Άνοιγμα BOINC Manager"
+
+#: clientgui/BOINCTaskBar.cpp:407
+#: clientgui/MainFrame.cpp:345
+msgid "&Run always"
+msgstr "Διαρκής εκτέλεση"
+
+#: clientgui/BOINCTaskBar.cpp:408
+#: clientgui/MainFrame.cpp:350
+msgid "Run based on &preferences"
+msgstr "Εκτέλεση βάση προτιμήσεων"
+
+#: clientgui/BOINCTaskBar.cpp:409
+#: clientgui/MainFrame.cpp:355
+msgid "&Suspend"
+msgstr "Προσωρινή παύση"
+
+#: clientgui/BOINCTaskBar.cpp:411
+#: clientgui/MainFrame.cpp:363
+msgid "&Network activity always available"
+msgstr "Συνεχής πρόβαση στο δίκτυο"
+
+#: clientgui/BOINCTaskBar.cpp:412
+#: clientgui/MainFrame.cpp:368
+msgid "Network activity based on &preferences"
+msgstr "Πρόσβαση στο δίκτυο βάση προτιμήσεων"
+
+#: clientgui/BOINCTaskBar.cpp:413
+#: clientgui/MainFrame.cpp:373
+msgid "&Network activity suspended"
+msgstr "Προσωρινή παύση πρόσβασης στο δίκτυο"
+
+#: clientgui/BOINCTaskBar.cpp:415
+#: clientgui/MainFrame.cpp:430
+msgid "&About BOINC Manager..."
+msgstr "Σχετικά με το BOINC Manager"
+
+#: clientgui/CompletionErrorPage.cpp:103
+msgid "Failed to attach to project"
+msgstr "Αποτυχία σύνδεσης σε πρόγραμμα"
+
+#: clientgui/CompletionErrorPage.cpp:109
+#: clientgui/CompletionErrorPage.cpp:120
+#: clientgui/CompletionPage.cpp:199
+msgid "Click Finish to close."
+msgstr "Πατήστε Τέλος για να κλείσετε"
+
+#: clientgui/CompletionErrorPage.cpp:114
+msgid "Failed to attach to account manager"
+msgstr "Αποτυχία σύνδεσης στο διαχειριστή λογαριασμού"
+
+#: clientgui/CompletionErrorPage.cpp:126
+msgid "Messages from server:"
+msgstr "Μηνύματα από το διακομιστή:"
+
+#: clientgui/CompletionPage.cpp:107
+msgid "Attached to project"
+msgstr "Σύνδεση σε πρόγραμμα"
+
+#: clientgui/CompletionPage.cpp:111
+msgid "You are now successfully attached to this project."
+msgstr "Επιτυχημένη σύνδεση στο πρόγραμμα."
+
+#: clientgui/CompletionPage.cpp:116
+#: clientgui/CompletionPage.cpp:130
+#: clientgui/CompletionPage.cpp:197
+msgid ""
+"When you click Finish, your web browser will go to a page where\n"
+"you can set your account name and preferences."
+msgstr ""
+"Όταν κάνετε κλίκ στο Τέλος, ο φυλλομετρητής σας θα μεταφερθεί στη σελίδα όπου\n"
+"μπορείτε να καθορίσετε το όνομα του λογαριασμού σας και τις προτιμήσεις σας."
+
+#: clientgui/CompletionPage.cpp:121
+msgid "Attached to account manager"
+msgstr "Σύνδεση στο διαχειριστή λογαριασμού"
+
+#: clientgui/CompletionPage.cpp:125
+msgid "You are now successfully attached to this account manager."
+msgstr "Επιτυχημένη σύνδεση στο διαχειριστή λογαριασμού."
+
+#: clientgui/DlgAbout.cpp:122
+msgid "Version:"
+msgstr "Έκδοση:"
+
+#: clientgui/DlgAbout.cpp:130
+msgid "Copyright:"
+msgstr "Copyright:"
+
+#: clientgui/DlgAbout.cpp:134
+msgid ""
+"(C) 2005 University of California at Berkeley.\n"
+"All Rights Reserved."
+msgstr ""
+"(C) 2005 University of California at Berkeley.\n"
+"All Rights Reserved."
+
+#: clientgui/DlgAbout.cpp:138
+msgid "Berkeley Open Infrastructure for Network Computing"
+msgstr "Berkeley Open Infrastructure for Network Computing"
+
+#: clientgui/DlgAbout.cpp:142
+msgid "A software platform for distributed computing using volunteered computer resources"
+msgstr "Μια πλατφόρμα λογισμικού για κατανεμημένους υπολογισμούς χρησιμοποιώντας εθελοντικούς πορους υπολογιστών"
+
+#: clientgui/DlgAbout.cpp:154
+#: clientgui/DlgDialupCredentials.cpp:136
+#: clientgui/DlgOptions.cpp:396
+#: clientgui/DlgSelectComputer.cpp:130
+msgid "&OK"
+msgstr "Εντάξει"
+
+#: clientgui/DlgAccountManagerStatus.cpp:110
+msgid "Your current account manager is:"
+msgstr "Ο τρέχον διαχειριστής λογαριασμού σας είναι:"
+
+#: clientgui/DlgAccountManagerStatus.cpp:117
+msgid "Name:"
+msgstr "Όνομα:"
+
+#: clientgui/DlgAccountManagerStatus.cpp:121
+msgid "foo"
+msgstr "foo"
+
+#: clientgui/DlgAccountManagerStatus.cpp:125
+msgid "URL:"
+msgstr "Διεύθυνση:"
+
+#: clientgui/DlgAccountManagerStatus.cpp:136
+msgid "&Update"
+msgstr "Ανανέωση"
+
+#: clientgui/DlgAccountManagerStatus.cpp:141
+msgid "Change"
+msgstr "Αλλαγή"
+
+#: clientgui/DlgAccountManagerStatus.cpp:145
+#: clientgui/DlgDialupCredentials.cpp:141
+#: clientgui/DlgOptions.cpp:401
+#: clientgui/DlgSelectComputer.cpp:135
+#: clientgui/wizardex.cpp:363
+msgid "&Cancel"
+msgstr "Ακύρωση"
+
+#: clientgui/DlgDialupCredentials.cpp:122
+#: clientgui/DlgOptions.cpp:325
+#: clientgui/DlgOptions.cpp:381
+#: clientgui/DlgSelectComputer.cpp:119
+#: clientgui/ProxyPage.cpp:160
+#: clientgui/ProxyPage.cpp:210
+msgid "Password:"
+msgstr "Κωδικός:"
+
+#: clientgui/DlgOptions.cpp:189
+msgid "Language Selection:"
+msgstr "Επιλογή Γλώσσας"
+
+#: clientgui/DlgOptions.cpp:196
+msgid "What language should the manager display by default."
+msgstr "Ποια γλώσσα χρησιμοποιεί ο διαχειριστής εξ'ορισμού."
+
+#: clientgui/DlgOptions.cpp:200
+msgid "Reminder Frequency:"
+msgstr "Συχνότητα υπενθύμισης:"
+
+#: clientgui/DlgOptions.cpp:206
+msgid "How often, in minutes, should the manager remind you of possible connection events."
+msgstr "Πόσο συχνά, σε λεπτά, θα σας υπενθυμίζει ο διαχειρστής σχετικά με πιθανά θέματα σύνδεσης."
+
+#: clientgui/DlgOptions.cpp:209
+msgid "General"
+msgstr "Γενικά"
+
+#: clientgui/DlgOptions.cpp:218
+msgid "&Automatically detect network connection settings"
+msgstr "Αυτόματη αναγνώριση ρυθμίσεων σύνδεσης δικτύου"
+
+#: clientgui/DlgOptions.cpp:223
+msgid "Use my &Local Area Network(LAN) connection"
+msgstr "Χρησιμοποίηση σύνδεσης Δικτύου Τοπικής Πρόσβασης (LAN)"
+
+#: clientgui/DlgOptions.cpp:228
+msgid "Use my &Dial-up and Virtual Private Network connection"
+msgstr "Χρησιμοποίηση σύνδεσης μέσω τηλεφώνου και Ιδιωτικού Εικονικού Δικτύου"
+
+#: clientgui/DlgOptions.cpp:232
+msgid "Dial-up and Virtual Private Network settings"
+msgstr "Ρυθμίσεις σύνδεσης μέσω τηλεφώνου και Ιδιωτικού Εικονικού Δικτύου"
+
+#: clientgui/DlgOptions.cpp:246
+msgid "&Set Default"
+msgstr "Καθορισμός Εξ' ορισμού"
+
+#: clientgui/DlgOptions.cpp:251
+msgid "&Clear Default"
+msgstr "Καθάρισμα Εξ' ορισμού"
+
+#: clientgui/DlgOptions.cpp:258
+msgid "Default Connection:"
+msgstr "Εξ' ορισμού Σύνδεση:"
+
+#: clientgui/DlgOptions.cpp:268
+msgid "&Prompt for username and password"
+msgstr "Ερώτηση για όνομα χρήστη και κωδικό πρόβασης"
+
+#: clientgui/DlgOptions.cpp:275
+msgid "Connections"
+msgstr "Συνδέσεις"
+
+#: clientgui/DlgOptions.cpp:284
+msgid "Connect via HTTP proxy server"
+msgstr "Σύνδεση μέσω διακομιστή HTTP proxy"
+
+#: clientgui/DlgOptions.cpp:288
+msgid "HTTP Proxy Server Configuration"
+msgstr "Ρυθμίσεις διακομιστή HTTP Proxy"
+
+#: clientgui/DlgOptions.cpp:296
+#: clientgui/DlgOptions.cpp:352
+msgid "Address:"
+msgstr "Διεύθυνση:"
+
+#: clientgui/DlgOptions.cpp:304
+#: clientgui/DlgOptions.cpp:360
+#: clientgui/ProxyPage.cpp:144
+#: clientgui/ProxyPage.cpp:194
+msgid "Port:"
+msgstr "Πόρτα:"
+
+#: clientgui/DlgOptions.cpp:311
+#: clientgui/DlgOptions.cpp:367
+msgid "Leave these blank if not needed"
+msgstr "Αφήστε τα κενά εάν δεν χρειάζονται"
+
+#: clientgui/DlgOptions.cpp:317
+#: clientgui/DlgOptions.cpp:373
+#: clientgui/ProxyPage.cpp:152
+#: clientgui/ProxyPage.cpp:202
+msgid "User Name:"
+msgstr "Όνομα Χρήστη"
+
+#: clientgui/DlgOptions.cpp:332
+msgid "HTTP Proxy"
+msgstr "HTTP Proxy"
+
+#: clientgui/DlgOptions.cpp:340
+msgid "Connect via SOCKS proxy server"
+msgstr "Σύνδεση μέσω διακομιστή SOCKS proxy"
+
+#: clientgui/DlgOptions.cpp:344
+msgid "SOCKS Proxy Server Configuration"
+msgstr "Ρυθμίσεις διακομιστή SOCKS Proxy"
+
+#: clientgui/DlgOptions.cpp:388
+msgid "SOCKS Proxy"
+msgstr "SOCKS Proxy"
+
+#: clientgui/DlgSelectComputer.cpp:110
+msgid "Host name:"
+msgstr "Όνομα host:"
+
+#: clientgui/hyperlink.cpp:78
+msgid "Failed to create wxStaticText, needed by wxHyperLink!"
+msgstr "Αποτυχία δημιουργίας wxStaticText, που χρειάζεται από το wxHyperLink!"
+
+#: clientgui/hyperlink.cpp:219
+#, c-format
+msgid ""
+"BOINC could not determine what your default browser is.\n"
+"Please verify that you have either the 'mailcap' package installed or\n"
+"'mime' package installed, and that the 'text/html' mime type is\n"
+"configured for your favorite browser. Another method is to set the\n"
+"BROWSER environment variable to point to whatever your favorite\n"
+"web browser is.  Please open a browser window to the following URL:\n"
+"\n"
+"%s"
+msgstr ""
+"Το BOINC δεν κατάφερε να εξακριβώσει ποιος είναι ο εξ' ορισμού φυλλομετρητής σας.\n"
+"Παρακαλούμε επιβεβαιώστε ότι έχετε το 'mailcap' πακέτο εγκατεστημένο ή\n"
+"το 'mime' πακέτο έχει εγκατασταθεί, και ότι το 'text/html' mime τύπος είναι\n"
+"καθορισμένος για χρήση από τον αγαπημένο σας φυλλομετρητή. Ένας άλλος τρόπος είναι να καθορίσετε το\n"
+"τύπο μεταβλητής περιβάλλοντος BROWSER να δείχνει σε οποιοσδήποτε είναι ο αγαπημένος σας φυλλομετρητής. Παρακαλούμε ανοίξτε ένα παράθυρο φυλλομετρητή στην ακόλουθη διεύθυνση:\n"
+"\n"
+"%s"
+
+#: clientgui/Localization.cpp:31
+msgid "Message boards"
+msgstr "Ομάδες Συζητήσεων"
+
+#: clientgui/Localization.cpp:33
+msgid "Correspond with other users on the SETI@home message boards"
+msgstr "Επικοινωνήστε με άλλους χρήστες στις ομάδες συζητήσεων του SETI@Home"
+
+#: clientgui/Localization.cpp:35
+msgid "Help"
+msgstr "Βοήθεια"
+
+#: clientgui/Localization.cpp:37
+msgid "Ask questions and report problems"
+msgstr "Υποβάλετε ερωτήσεις να αναφέρετε προβλήματα"
+
+#: clientgui/Localization.cpp:39
+msgid "Your account"
+msgstr "Ο Λογαριασμός σας"
+
+#: clientgui/Localization.cpp:41
+msgid "View your account information and credit totals"
+msgstr "Εμφάνιση πληροφοριών σχετικών με το λογαριασμό σας και το σύνολο των βαθμών σας"
+
+#: clientgui/Localization.cpp:43
+msgid "Your preferences"
+msgstr "Οι Προτιμήσεις σας"
+
+#: clientgui/Localization.cpp:45
+msgid "View and modify your SETI@home account profile and preferences"
+msgstr "Εμφάνιση και επεξεργασία του προφίλ λογαριασμού σας στο SETI@Home και των προτιμήσεών σας."
+
+#: clientgui/Localization.cpp:47
+msgid "Your results"
+msgstr "Τα Αποτελέσματά σας"
+
+#: clientgui/Localization.cpp:49
+msgid "View your last week (or more) of computational results and work"
+msgstr "Εμφάνιση των αποτελεσμάτων και εργασιών της τελευταιας εβδομάδας (ή παραπάνω)"
+
+#: clientgui/Localization.cpp:51
+msgid "Your computers"
+msgstr "Οι Υπολογιστές σας"
+
+#: clientgui/Localization.cpp:53
+msgid "View a listing of all the computers on which you are running SETI@Home"
+msgstr "Εμφάνιση λίστας με όλους τους υπολογιστές στους οποίους εκτελείτε στο SETI@Home"
+
+#: clientgui/Localization.cpp:55
+msgid "Your team"
+msgstr "Η Ομάδα σας"
+
+#: clientgui/Localization.cpp:57
+msgid "View information about your team"
+msgstr "Πληροφορίες σχετικά με την ομάδα σας"
+
+#: clientgui/MainDocument.cpp:180
+msgid "BOINC Manager - Connection Error"
+msgstr "BOINC Manager - Πρόβλημα Σύνδεσης"
+
+#: clientgui/MainDocument.cpp:181
+msgid "The password you have provided is incorrect, please try again."
+msgstr "Ο κωδικός που εισάγατε είναι λανθασμένος, παρακαλούμε ξαναδοκιμάστε"
+
+#: clientgui/MainDocument.cpp:199
+msgid "BOINC Manager - Connection failed"
+msgstr "BOINC Manager - Αποτυχία Σύνδεσης"
+
+#: clientgui/MainDocument.cpp:200
+#: clientgui/MainFrame.cpp:922
+#: clientgui/MainFrame.cpp:923
+msgid "Connection failed."
+msgstr "Αποτυχία Σύνδεσης"
+
+#: clientgui/MainDocument.cpp:306
+msgid "Retrieving system state; please wait..."
+msgstr "Ανάκτηση κατάστασης συστήματος: παρακαλούμε περιμένετε..."
+
+#: clientgui/MainDocument.cpp:315
+msgid "Retrieving host information; please wait..."
+msgstr "Ανάκτηση πληροφοριών υπολογιστή: παρακαλούμε περιμένετε..."
+
+#: clientgui/MainDocument.cpp:869
+msgid "BOINC error"
+msgstr "Πρόβλημα BOINC"
+
+#: clientgui/MainDocument.cpp:879
+msgid "BOINC info"
+msgstr "Πληροφορίες BOINC"
+
+#: clientgui/MainFrame.cpp:83
+msgid "Connected"
+msgstr "Σύνδεση"
+
+#: clientgui/MainFrame.cpp:91
+msgid "Disconnected"
+msgstr "Αποσύνδεση"
+
+#: clientgui/MainFrame.cpp:330
+msgid "Select computer..."
+msgstr "Επιλογή Υπολογιστή..."
+
+#: clientgui/MainFrame.cpp:331
+msgid "Connect to another computer running BOINC"
+msgstr "Σύνδεση σε κάποιο άλλο υπολογιστή ο οποίο τρέχει το BOINC"
+
+#: clientgui/MainFrame.cpp:337
+msgid "Exit the BOINC Manager"
+msgstr "Έξοδος από το BOINC Manager"
+
+#: clientgui/MainFrame.cpp:346
+msgid "Does work regardless of preferences"
+msgstr "Εκτελεί εργασίες ανεξαρτήτως των προτιμήσεών σας"
+
+#: clientgui/MainFrame.cpp:351
+msgid "Does work according to your preferences"
+msgstr "Εκτελεί εργασίες σύμφωνα με τις προτιμήσεις σας"
+
+#: clientgui/MainFrame.cpp:356
+msgid "Stops work regardless of preferences"
+msgstr "Σταματάει την εκτέλεση εργασιών ανεξαρτήτων των προτιμήσεών σας"
+
+#: clientgui/MainFrame.cpp:364
+msgid "Does network activity regardless of preferences"
+msgstr "Συνδέεται στο δίκτυο ανεξαρτήτως των προτιμήσεών σας"
+
+#: clientgui/MainFrame.cpp:369
+msgid "Does network activity according to your preferences"
+msgstr "Συνδέεται στο δίκτυο σύμφωνα με τις προτιμήσεις σας"
+
+#: clientgui/MainFrame.cpp:374
+msgid "Stops BOINC network activity"
+msgstr "Σταματάει τη σύνδεση στο δίκτυο του BOINC"
+
+#: clientgui/MainFrame.cpp:381
+msgid "Retry &communications"
+msgstr "Επανάληψη επικοινωνίας"
+
+#: clientgui/MainFrame.cpp:382
+msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
+msgstr "Αναφορά ολοκληρωμένων εργασιών, ανάκτηση βαθμολογίας, ανάκτηση προτιμήσεων και πιθανών νέων εργασιών."
+
+#: clientgui/MainFrame.cpp:387
+msgid "Run &benchmarks"
+msgstr "Εκτέλεση μετρήσεων"
+
+#: clientgui/MainFrame.cpp:388
+msgid "Runs BOINC CPU benchmarks"
+msgstr "Εκτέλεση μετρήσεων υπολογιστικής ισχύως επεξεργαστή για το BOINC"
+
+#: clientgui/MainFrame.cpp:395
+msgid "&Attach to &project"
+msgstr "Σύνδεση στο πρόγραμμα"
+
+#: clientgui/MainFrame.cpp:396
+msgid "Attach to a project to begin processing work"
+msgstr "Σύνδεση σε ένα πρόγραμμα για έναρξη εκτέλεσης εργασιών"
+
+#: clientgui/MainFrame.cpp:400
+msgid "&Account manager"
+msgstr "Διαχειριστής Λογαριασμού"
+
+#: clientgui/MainFrame.cpp:401
+msgid "Attach to an account manager"
+msgstr "Σύνδεση σε ένα διαχειριστή λογαριασμού"
+
+#: clientgui/MainFrame.cpp:408
+#: clientgui/MainFrame.cpp:450
+msgid "&Options"
+msgstr "Ρυθμίσεις"
+
+#: clientgui/MainFrame.cpp:409
+msgid "Configure GUI options and proxy settings"
+msgstr "Παραμετροποίηση επιλογών GUI και ρυθμίσεων proxy"
+
+#: clientgui/MainFrame.cpp:416
+msgid "&BOINC Manager\tF1"
+msgstr "&BOINC Manager\tF1"
+
+#: clientgui/MainFrame.cpp:417
+msgid "Show information about the BOINC Manager"
+msgstr "Εμφάνιση πληροφοριών για το BOINC Manager"
+
+#: clientgui/MainFrame.cpp:422
+msgid "BOINC &website"
+msgstr "Ιστοσελίδα BOINC"
+
+#: clientgui/MainFrame.cpp:423
+msgid "Show information about BOINC and BOINC Manager"
+msgstr "Εμφάνιση πληροφοριών για το BOINC και το BOINC Manager"
+
+#: clientgui/MainFrame.cpp:431
+msgid "Licensing and copyright information."
+msgstr "Πληροφορίες άδειας χρήσης και copyright."
+
+#: clientgui/MainFrame.cpp:438
+msgid "&File"
+msgstr "Αρχείο"
+
+#: clientgui/MainFrame.cpp:442
+msgid "&Commands"
+msgstr "Εντολές"
+
+#: clientgui/MainFrame.cpp:446
+msgid "&Projects"
+msgstr "Προγράμματα"
+
+#: clientgui/MainFrame.cpp:454
+#: clientgui/wizardex.cpp:359
+#: clientgui/wizardex.cpp:366
+msgid "&Help"
+msgstr "Βοήθεια"
+
+#: clientgui/MainFrame.cpp:1022
+msgid "Attaching to project..."
+msgstr "Σύνδεση σε πρόγραμμα..."
+
+#: clientgui/MainFrame.cpp:1058
+msgid "Retrying communications for project(s)..."
+msgstr "Επανάληψη επικοινωνίας για το(τα) πρόγραμμα(τα)"
+
+#: clientgui/MainFrame.cpp:1137
+msgid "Language Selection..."
+msgstr "Επιλογή  Γλώσσας..."
+
+#: clientgui/MainFrame.cpp:1138
+msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
+msgstr "Η εξ' ορισμού γλώσσα του BOINC Manager έχει αλλάξει. Ούτως ώστε αυτή η αλλαγή να τεθεί σε εφαρμογή πρέπει να επανεκκινήσετε το διαχειριστή."
+
+#: clientgui/MainFrame.cpp:1537
+#: clientgui/MainFrame.cpp:1554
+#: clientgui/MainFrame.cpp:1560
+#: clientgui/MainFrame.cpp:1603
+#: clientgui/MainFrame.cpp:1631
+#: clientgui/MainFrame.cpp:1640
+#: clientgui/MainFrame.cpp:1654
+#: clientgui/MainFrame.cpp:1662
+msgid "BOINC Manager - Network Status"
+msgstr "BOINC Manager - Κατάσταση Δικτύου"
+
+#: clientgui/MainFrame.cpp:1538
+msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
+msgstr "Το BOINC χρειάζεται σύνδεση στο Διαδίκτυο για να εκτελέσει ορισμένες εργασίες συντήρησης. Ανοίξτε το BOINC Manager για να συνδεθείτε και να εκτελέσει τις απαιτούμενες εργασίες."
+
+#: clientgui/MainFrame.cpp:1553
+msgid ""
+"BOINC needs to connect to the network.\n"
+"May it do so now?"
+msgstr ""
+"Το BOINC χρειάζεται να συνδεθεί στο δίκτυο.\n"
+"Να το επιχειρήσει τώρα;"
+
+#: clientgui/MainFrame.cpp:1561
+msgid "BOINC is connecting to the internet."
+msgstr "Το BOINC συνδέεται στο διαδίκτυο."
+
+#: clientgui/MainFrame.cpp:1604
+msgid "BOINC has detected it is now connected to the internet. Updating all projects and retrying all transfers."
+msgstr "Το BOINC εντόπισε ότι είναι συνδεδεμένο στο διαδίκτυο. Ανανέωση όλων των προγραμμάτων και επανάληψη όλων των μεταφορών."
+
+#: clientgui/MainFrame.cpp:1632
+msgid "BOINC has successfully disconnected from the internet."
+msgstr "Το BOINC αποσυνδέθηκε επιτυχώς από το διαδίκτυο."
+
+#: clientgui/MainFrame.cpp:1641
+msgid "BOINC failed to disconnected from the internet."
+msgstr "Το BOINC απέτυχε να αποσυνδεθεί από το διαδίκτυο."
+
+#: clientgui/MainFrame.cpp:1655
+msgid "BOINC has successfully connected to the internet."
+msgstr "Το BOINC συνθέθηκε επιτυχώς στο διαδίκτυο"
+
+#: clientgui/MainFrame.cpp:1663
+msgid "BOINC failed to connect to the internet."
+msgstr "Το BOINC απέτυχε να συνδεθεί στο διαδίκτυο."
+
+#: clientgui/MainFrame.cpp:1741
+#: clientgui/MainFrame.cpp:1744
+#, c-format
+msgid "%s - (%s)"
+msgstr "%s - (%s)"
+
+#: clientgui/MainFrame.cpp:1742
+#, c-format
+msgid "Connecting to %s"
+msgstr "Σύνδεση στο %s"
+
+#: clientgui/MainFrame.cpp:1745
+#, c-format
+msgid "Connected to %s"
+msgstr "Συνδέθηκε στο %s"
+
+#: clientgui/NoInternetConnectionPage.cpp:98
+msgid "No Internet connection"
+msgstr "Δεν υπάρχει σύνδεση στο διαδίκτυο"
+
+#: clientgui/NoInternetConnectionPage.cpp:105
+msgid "Please connect to the Internet and try again."
+msgstr "Παρακαλούμε συνδεθείτε στο διαδίκτυο και ξαναδοκιμάστε."
+
+#: clientgui/NotDetectedPage.cpp:102
+msgid "Project not found"
+msgstr "Δεν βρέθηκε το πρόγραμμα"
+
+#: clientgui/NotDetectedPage.cpp:108
+msgid "The URL you supplied is not that of a BOINC-based project."
+msgstr "Η διεύθυνση που εισάγατε δεν είναι αυτή ενός προγράμματος βασισμένο στο BOINC."
+
+#: clientgui/NotDetectedPage.cpp:111
+#: clientgui/NotDetectedPage.cpp:125
+msgid "Please check the URL and try again."
+msgstr "Παρακαλούμε ελέξτε τη διεύθυνση και ξαναδοκιμάστε."
+
+#: clientgui/NotDetectedPage.cpp:116
+msgid "Account manager not found"
+msgstr "Δεν βρέθηκε ο διαχειριστής λογαριασμού"
+
+#: clientgui/NotDetectedPage.cpp:122
+msgid ""
+"The URL you supplied is not that of a BOINC-based account\n"
+"manager."
+msgstr ""
+"Η διεύθυνση που εισάγατε δεν είναι αυτή ενός \n"
+"διαχειριστή λογαριασμού BOINC.\" "
+
+#: clientgui/NotFoundPage.cpp:99
+msgid "Account not found"
+msgstr "Δεν βρέθηκε ο λογαριασμός"
+
+#: clientgui/NotFoundPage.cpp:106
+msgid "Verify your account name and password are correct and try again."
+msgstr "Επιβεβαιώστε ότι το όνομα λογαριασμού και ο κωδικός είναι σωστοί και ξαναδοκιμάστε."
+
+#: clientgui/ProjectInfoPage.cpp:104
+msgid "Project URL"
+msgstr "Διεύθυνση προγράμματος"
+
+#: clientgui/ProjectInfoPage.cpp:109
+msgid "Enter the URL of the project's web site."
+msgstr "Εισάγετε την διεύθυνση της ιστοσελίδας του προγράμματος."
+
+#: clientgui/ProjectInfoPage.cpp:125
+msgid "Project &URL:"
+msgstr "Διεύθυνση προγράμματος:"
+
+#: clientgui/ProjectInfoPage.cpp:135
+msgid "For a list of BOINC-based projects go to:"
+msgstr "Για μια λίστα προγραμμάτων βασισμένα στο BOINC πηγαίντε στο:"
+
+#: clientgui/ProjectProcessingPage.cpp:136
+#: clientgui/ProjectPropertiesPage.cpp:136
+msgid ""
+"Communicating with project \n"
+"Please wait..."
+msgstr ""
+"Επικοινωνία με το πρόγραμμα \n"
+"Παρακαλούμε περιμένετε..."
+
+#: clientgui/ProxyPage.cpp:117
+msgid "Proxy configuration"
+msgstr "Ρυθμίσεις proxy"
+
+#: clientgui/ProxyPage.cpp:123
+msgid "HTTP proxy"
+msgstr "HTTP proxy"
+
+#: clientgui/ProxyPage.cpp:132
+#: clientgui/ProxyPage.cpp:182
+msgid "Server:"
+msgstr "Διακομιστής:"
+
+#: clientgui/ProxyPage.cpp:169
+msgid "Autodetect"
+msgstr "Αυτόματος εντοπισμός"
+
+#: clientgui/ProxyPage.cpp:173
+msgid "SOCKS proxy"
+msgstr "SOCKS proxy"
+
+#: clientgui/UnavailablePage.cpp:101
+msgid "Project temporarily unavailable"
+msgstr "Το πρόγραμμα είναι προσωρινά μη διαθέσιμο"
+
+#: clientgui/UnavailablePage.cpp:107
+msgid ""
+"The project is temporarily unavailable.\n"
+"\n"
+"Please try again later."
+msgstr ""
+"Το πρόγραμμα είναι προσωρινά μη διαθέσιμο.\n"
+"\n"
+"Παρακαλούμε δοκιμάστε αργότερα."
+
+#: clientgui/UnavailablePage.cpp:112
+msgid "Account manager temporarily unavailable"
+msgstr "Ο διαχειριστής λογαριασμού είναι προσωρινά μη διαθέσιμος"
+
+#: clientgui/UnavailablePage.cpp:118
+msgid ""
+"The account manager is temporarily unavailable.\n"
+"\n"
+"Please try again later."
+msgstr ""
+"Ο διαχειριστής λογαριασμού είναι προσωρινά μη διαθέσιμος.\n"
+"\n"
+"Παρακαλούμε δοκιμάστε αργότερα."
+
+#: clientgui/ValidateAccountKey.cpp:69
+msgid "Please specify an account key to continue."
+msgstr "Παρακαλούμε καθορίστε ένα κλειδί λογαριασμού για να συνεχίσετε."
+
+#: clientgui/ValidateAccountKey.cpp:72
+msgid "Invalid Account Key; please enter a valid Account Key"
+msgstr "Μη έγκυρο κλειδί λογαριασμού: Παρακαλούμε εισάγετε ένα έγκυρο κλειδί λογαριασμού"
+
+#: clientgui/ValidateAccountKey.cpp:83
+msgid "Validation conflict"
+msgstr "Αντίθεση κατά την επικύρωση"
+
+#: clientgui/ValidateURL.cpp:79
+msgid "Missing URL"
+msgstr "Δεν βρέθηκε διεύθυνση"
+
+#: clientgui/ValidateURL.cpp:80
+msgid ""
+"Please specify a URL.\n"
+"For example:\n"
+"http://www.example.com/"
+msgstr ""
+"Παρακαλούμε καθορίστε μια διεύθυνση.\n"
+"Για παράδειγμα:\n"
+"http:///www.example.com/"
+
+#: clientgui/ValidateURL.cpp:83
+#: clientgui/ValidateURL.cpp:87
+#: clientgui/ValidateURL.cpp:91
+#: clientgui/ValidateURL.cpp:103
+#: clientgui/ValidateURL.cpp:107
+#: clientgui/ValidateURL.cpp:110
+msgid "Invalid URL"
+msgstr "Μη έγκυση διεύθυνση"
+
+#: clientgui/ValidateURL.cpp:84
+#: clientgui/ValidateURL.cpp:88
+#: clientgui/ValidateURL.cpp:92
+msgid ""
+"Please specify a valid host name.\n"
+"For example:\n"
+"boincproject.example.com"
+msgstr ""
+"Παρακαολούμε καθορίστε ένα έγκυρο όνομα υπολογιστή.\n"
+"Για παράδειγμα:\n"
+"boincproject.example.com"
+
+#: clientgui/ValidateURL.cpp:104
+#: clientgui/ValidateURL.cpp:108
+#, c-format
+msgid "'%s' does not contain a valid host name."
+msgstr "Το '%s' δεν περιέχει ένα έκγυρο όνομα υπολογιστή"
+
+#: clientgui/ValidateURL.cpp:111
+#, c-format
+msgid "'%s' does not contain a valid path."
+msgstr "Το '%s' δεν περιέχει μια έγκυρη διαδρομή."
+
+#: clientgui/ViewMessages.cpp:74
+#: clientgui/ViewProjects.cpp:102
+#: clientgui/ViewStatistics.cpp:316
+#: clientgui/ViewTransfers.cpp:92
+#: clientgui/ViewWork.cpp:95
+msgid "Tasks"
+msgstr "Εργασίες"
+
+#: clientgui/ViewMessages.cpp:78
+msgid "Copy all messages"
+msgstr "Αντιγραφή όλων των μηνυμάτων"
+
+#: clientgui/ViewMessages.cpp:79
+msgid "Copy all the messages to the clipboard."
+msgstr "Αντιγραφή όλων των μηνυμάτων στο clipboard"
+
+#: clientgui/ViewMessages.cpp:85
+msgid "Copy selected messages"
+msgstr "Αντιγραφή επιλεγμένων μηνυμάτων"
+
+#: clientgui/ViewMessages.cpp:86
+msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
+msgstr "Αντιγραφή επιλεγμένων μηνυμάτων στο clipboard. Μπορείτε να επιλέξετε πολλαπλά μηνύματα κρατώντας πατημένο το κουμπί shift ή control όταν κάνετε κλίκ στα μηνύματα."
+
+#: clientgui/ViewMessages.cpp:98
+#: clientgui/ViewProjects.cpp:150
+#: clientgui/ViewResources.cpp:76
+#: clientgui/ViewTransfers.cpp:115
+#: clientgui/ViewWork.cpp:125
+msgid "Project"
+msgstr "Πρόγραμμα"
+
+#: clientgui/ViewMessages.cpp:99
+msgid "Time"
+msgstr "Χρόνος"
+
+#: clientgui/ViewMessages.cpp:100
+msgid "Message"
+msgstr "Μήνυμα"
+
+#: clientgui/ViewMessages.cpp:124
+msgid "Messages"
+msgstr "Μηνύματα"
+
+#: clientgui/ViewMessages.cpp:146
+msgid "Copying all messages to the clipboard..."
+msgstr "Αντιγραφή όλων των μηνυμάτων στο clipboard"
+
+#: clientgui/ViewMessages.cpp:178
+#: clientgui/ViewTransfers.cpp:184
+msgid "Aborting transfer..."
+msgstr "Ακύρωση μεταφοράς..."
+
+#: clientgui/ViewProjects.cpp:106
+msgid "Update"
+msgstr "Ανανέωση"
+
+#: clientgui/ViewProjects.cpp:107
+msgid "Report all completed work, get latest credit, get latest preferences, and possibly get more work."
+msgstr "Αναφορά ολοκληρωμένων εργασιών, ανάκτηση βαθμολογίας, ανάκτηση προτιμήσεων και πιθανών νέων εργασιών."
+
+#: clientgui/ViewProjects.cpp:114
+#: clientgui/ViewProjects.cpp:552
+#: clientgui/ViewWork.cpp:99
+#: clientgui/ViewWork.cpp:450
+msgid "Suspend"
+msgstr "Παύση"
+
+#: clientgui/ViewProjects.cpp:115
+#: clientgui/ViewProjects.cpp:552
+msgid "Suspend work for this project."
+msgstr "Παύση εργασιών για αυτό το πρόγραμμα."
+
+#: clientgui/ViewProjects.cpp:121
+#: clientgui/ViewProjects.cpp:564
+msgid "No new work"
+msgstr "Όχι νέα εργασία"
+
+#: clientgui/ViewProjects.cpp:122
+msgid "Don't get new work for this project."
+msgstr "Δεν λαμβάνει νέες εργασίες για αυτό το πρόγραμμα."
+
+#: clientgui/ViewProjects.cpp:128
+msgid "Reset project"
+msgstr "Επανεκκίνηση προγράμματος"
+
+#: clientgui/ViewProjects.cpp:129
+msgid "Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
+msgstr "Διαγράφει όλα τα αρχεία και τις εργασίες που σχετίζονται με αυτό το πρόγραμμα και ανακτά νέες εργασίες. Μπορείτε να κάνετε ανανέωση του προγράμματος πρώτα ώστε να αναφέρεται τυχών ολοκληρωμένες εργασίες."
+
+#: clientgui/ViewProjects.cpp:138
+msgid "Detach"
+msgstr "Αποσύνδεση"
+
+#: clientgui/ViewProjects.cpp:139
+msgid "Detach computer from this project.  Work in progress will be lost (use 'Update' first to report any completed work)."
+msgstr "Αποχώρηση υπολογιστή από αυτό το πρόγραμμα. Οι εργασίες που δεν έχουν ολοκληρωθεί θα χαθούν (χρησιμοποιήστε την 'Ανανέωση' πρώτα για να αναφέρετε τυχών ολοκληρωμένες εργασίες)"
+
+#: clientgui/ViewProjects.cpp:151
+msgid "Account"
+msgstr "Λογαριασμός"
+
+#: clientgui/ViewProjects.cpp:152
+msgid "Team"
+msgstr "Ομάδα"
+
+#: clientgui/ViewProjects.cpp:153
+msgid "Total credit"
+msgstr "Συνολικοί βαθμοί"
+
+#: clientgui/ViewProjects.cpp:154
+msgid "Avg. credit"
+msgstr "Μέσος όρος βαθμών"
+
+#: clientgui/ViewProjects.cpp:155
+msgid "Resource share"
+msgstr "Μερίδα πόρων"
+
+#: clientgui/ViewProjects.cpp:156
+#: clientgui/ViewTransfers.cpp:121
+#: clientgui/ViewWork.cpp:132
+msgid "Status"
+msgstr "Κατάσταση"
+
+#: clientgui/ViewProjects.cpp:169
+msgid "Projects"
+msgstr "Προγράμματα"
+
+#: clientgui/ViewProjects.cpp:192
+msgid "Updating project..."
+msgstr "Ανανέωση εκτέλεσης προγράμματος..."
+
+#: clientgui/ViewProjects.cpp:219
+msgid "Resuming project..."
+msgstr "Επανέναρξη εκτέλεσης προγράμματος..."
+
+#: clientgui/ViewProjects.cpp:223
+msgid "Suspending project..."
+msgstr "Παύση εκτέλεσης προγράμματος..."
+
+#: clientgui/ViewProjects.cpp:251
+msgid "Telling project to allow additional work downloads..."
+msgstr "Ορίζει στο πρόγραμμα να δέχεται επιπλέον εργασίες..."
+
+#: clientgui/ViewProjects.cpp:255
+msgid "Telling project to not fetch additional work..."
+msgstr "Απαγορεύει στο πρόγραμμμα να δέχεται επιπλέον εργασίες..."
+
+#: clientgui/ViewProjects.cpp:286
+msgid "Resetting project..."
+msgstr "Επανεκκίνηση προγράμματος..."
+
+#: clientgui/ViewProjects.cpp:292
+#, c-format
+msgid "Are you sure you want to reset project '%s'?"
+msgstr "Είστε σίγουρος ότι θέλετε να επανεκκινήσετε το πρόγραμμα '%s';"
+
+#: clientgui/ViewProjects.cpp:298
+msgid "Reset Project"
+msgstr "Επανεκκίνηση Προγράμματος"
+
+#: clientgui/ViewProjects.cpp:333
+msgid "Detaching from project..."
+msgstr "Αποχώρηση από το πρόγραμμα..."
+
+#: clientgui/ViewProjects.cpp:339
+#, c-format
+msgid "Are you sure you want to detach from project '%s'?"
+msgstr "Είστε σίγουρος ότι θέλετε να αποχωρήσετε από το '%s';"
+
+#: clientgui/ViewProjects.cpp:345
+msgid "Detach from Project"
+msgstr "Αποχώρηση από το Πρόγραμμα"
+
+#: clientgui/ViewProjects.cpp:374
+msgid "Launching browser..."
+msgstr "Άνοιγμα φυλλομετρητή..."
+
+#: clientgui/ViewProjects.cpp:548
+#: clientgui/ViewWork.cpp:446
+msgid "Resume"
+msgstr "Συνέχεια μετά από παύση"
+
+#: clientgui/ViewProjects.cpp:548
+msgid "Resume work for this project."
+msgstr "Συνέχεια εργασιών για αυτό το πρόγραμμα."
+
+#: clientgui/ViewProjects.cpp:560
+msgid "Allow new work"
+msgstr "Επιτρέπει νέες εργασίες."
+
+#: clientgui/ViewProjects.cpp:560
+msgid "Allow fetching new work for this project."
+msgstr "Επιτρέπει την ανάκτηση νέων εργασιών για αυτό το πρόγραμμα."
+
+#: clientgui/ViewProjects.cpp:564
+msgid "Don't fetch new work for this project."
+msgstr "Δεν ανακτά νέες εργασίες για αυτό το πρόγραμμα."
+
+#: clientgui/ViewProjects.cpp:599
+msgid "Web sites"
+msgstr "Ιστοσελίδες"
+
+#: clientgui/ViewProjects.cpp:713
+#: clientgui/ViewWork.cpp:658
+msgid "Suspended by user"
+msgstr "Παύση από το χρήστη"
+
+#: clientgui/ViewProjects.cpp:716
+msgid "Won't get new work"
+msgstr "Δεν δέχεται νέες εργασίες"
+
+#: clientgui/ViewProjects.cpp:719
+msgid "Scheduler request pending"
+msgstr "Αναμονή αίτησης χρονοδιαγράμματος"
+
+#: clientgui/ViewProjects.cpp:725
+msgid "Communication deferred "
+msgstr "Η επικοινωνία αναβλήθηκε"
+
+#: clientgui/ViewResources.cpp:77
+msgid "Disk Space"
+msgstr "Χώρος στο δίσκο"
+
+#: clientgui/ViewResources.cpp:90
+msgid "Disk"
+msgstr "Δίσκος"
+
+#: clientgui/ViewStatistics.cpp:40
+#: clientgui/ViewStatistics.cpp:46
+#: clientgui/ViewStatistics.cpp:374
+msgid "User Total"
+msgstr "Σύνολο χρήστη"
+
+#: clientgui/ViewStatistics.cpp:320
+msgid "Show user total"
+msgstr "Εμφάνιση συνόλου χρήστη"
+
+#: clientgui/ViewStatistics.cpp:327
+msgid "Show user average"
+msgstr "Εμφάνιση μέσου όρου χρήστη"
+
+#: clientgui/ViewStatistics.cpp:334
+msgid "Show host total"
+msgstr "Εμφάνιση συνόλου υπολογιστή"
+
+#: clientgui/ViewStatistics.cpp:341
+msgid "Show host average"
+msgstr "Εμφάνιση μέσου όρου υπολογιστή"
+
+#: clientgui/ViewStatistics.cpp:360
+msgid "Statistics"
+msgstr "Στατιστικά"
+
+#: clientgui/ViewStatistics.cpp:373
+#: clientgui/ViewStatistics.cpp:393
+#: clientgui/ViewStatistics.cpp:413
+#: clientgui/ViewStatistics.cpp:433
+msgid "Updating charts..."
+msgstr "Ανανέωση γραφημάτων..."
+
+#: clientgui/ViewStatistics.cpp:394
+msgid "User Average"
+msgstr "Μέσος Όρος Χρήστη"
+
+#: clientgui/ViewStatistics.cpp:414
+msgid "Host Total"
+msgstr "Σύνολο Υπολογιστή"
+
+#: clientgui/ViewStatistics.cpp:434
+msgid "Host Average"
+msgstr "Μέσος Όρος Υπολογιστή"
+
+#: clientgui/ViewTransfers.cpp:96
+msgid "Retry Now"
+msgstr "Επανάληψη Τώρα"
+
+#: clientgui/ViewTransfers.cpp:97
+msgid "Click 'Retry now' to transfer the file now"
+msgstr "Πατήστε 'Επανάληψη Τώρα' για να μεταφέρετε το αρχείο τώρα"
+
+#: clientgui/ViewTransfers.cpp:103
+msgid "Abort Transfer"
+msgstr "Ακύρωση Μεταφοράς"
+
+#: clientgui/ViewTransfers.cpp:104
+msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
+msgstr "Πατήστε την 'Ακύρωση Μεταφοράς' για να διαγράψετε το αρχείο από την ουρά μεταφορών. Αυτό θα αποτρέψει την απόδωση βαθμών για το συγκεκριμένο αποτέλεσμα."
+
+#: clientgui/ViewTransfers.cpp:116
+msgid "File"
+msgstr "Αρχείο"
+
+#: clientgui/ViewTransfers.cpp:117
+#: clientgui/ViewWork.cpp:129
+msgid "Progress"
+msgstr "Πρόοδος"
+
+#: clientgui/ViewTransfers.cpp:118
+msgid "Size"
+msgstr "Μέγεθος"
+
+#: clientgui/ViewTransfers.cpp:119
+msgid "Elapsed Time"
+msgstr "Χρόνος που περάσει"
+
+#: clientgui/ViewTransfers.cpp:120
+msgid "Speed"
+msgstr "Ταχύτητα"
+
+#: clientgui/ViewTransfers.cpp:134
+msgid "Transfers"
+msgstr "Μεταφορές"
+
+#: clientgui/ViewTransfers.cpp:157
+msgid "Retrying transfer now..."
+msgstr "Επανάληψη μεταφοράς τώρα..."
+
+#: clientgui/ViewTransfers.cpp:187
+#, c-format
+msgid "Are you sure you want to abort this file transfer '%s'?"
+msgstr "Είστε σίγουρος ότι θέλετε να ακυρώσετε τη μεταφορά του αρχείου '%s';"
+
+#: clientgui/ViewTransfers.cpp:192
+msgid "Abort File Transfer"
+msgstr "Ακύρωση Μεταφοράς Αρχείου"
+
+#: clientgui/ViewTransfers.cpp:509
+msgid "Retry in "
+msgstr "Επανάληψη σε"
+
+#: clientgui/ViewTransfers.cpp:511
+#: clientgui/ViewWork.cpp:649
+msgid "Download failed"
+msgstr "Αποτυχία κατεβάσματος"
+
+#: clientgui/ViewTransfers.cpp:513
+#: clientgui/ViewWork.cpp:685
+msgid "Upload failed"
+msgstr "Αποτυχία ανεβάσματος"
+
+#: clientgui/ViewTransfers.cpp:516
+#: clientgui/ViewTransfers.cpp:525
+msgid "Suspended"
+msgstr "Παύθηκε"
+
+#: clientgui/ViewTransfers.cpp:518
+#: clientgui/ViewWork.cpp:687
+msgid "Uploading"
+msgstr "Ανέβασμα"
+
+#: clientgui/ViewTransfers.cpp:518
+#: clientgui/ViewWork.cpp:651
+msgid "Downloading"
+msgstr "Κατέβασμα"
+
+#: clientgui/ViewWork.cpp:100
+#: clientgui/ViewWork.cpp:450
+msgid "Suspend work for this result."
+msgstr "Παύση εργασίας για αυτό το αποτέλεσμα."
+
+#: clientgui/ViewWork.cpp:106
+#: clientgui/ViewWork.cpp:210
+msgid "Show graphics"
+msgstr "Εμφάνιση γραφικών"
+
+#: clientgui/ViewWork.cpp:107
+msgid "Show application graphics in a window."
+msgstr "Εμφάνιση γραφικών εφαρμογής σε παράθυρο"
+
+#: clientgui/ViewWork.cpp:113
+msgid "Abort"
+msgstr "Ακύρωση"
+
+#: clientgui/ViewWork.cpp:114
+msgid "Abandon work on the result. You will get no credit for it."
+msgstr "Εγκατάλειψη εργασίας για αυτό το αποτέλεσμα. Δεν θα λάβετε βαθμούς για αυτό."
+
+#: clientgui/ViewWork.cpp:126
+msgid "Application"
+msgstr "Εφαρμογή"
+
+#: clientgui/ViewWork.cpp:127
+msgid "Name"
+msgstr "Όνομα"
+
+#: clientgui/ViewWork.cpp:128
+msgid "CPU time"
+msgstr "Χρόνος Επεξεργαστή"
+
+#: clientgui/ViewWork.cpp:130
+msgid "To completion"
+msgstr "Ολοκλήρωση σε"
+
+#: clientgui/ViewWork.cpp:131
+msgid "Report deadline"
+msgstr "Προθεσμία αναφοράς"
+
+#: clientgui/ViewWork.cpp:145
+msgid "Work"
+msgstr "Εργασία"
+
+#: clientgui/ViewWork.cpp:170
+msgid "Resuming result..."
+msgstr "Επανέναρξη επεξεργασίας αποτελέσματος..."
+
+#: clientgui/ViewWork.cpp:174
+msgid "Suspending result..."
+msgstr "Παύση επεξεργασίας αποτελέσματος..."
+
+#: clientgui/ViewWork.cpp:200
+msgid "Showing graphics for result..."
+msgstr "Εμφάνιση γραφικών για το αποτέλεσμα..."
+
+#: clientgui/ViewWork.cpp:209
+msgid "Are you sure you wish to display graphics on a remote machine?"
+msgstr "Είστε σίγουρος ότι επιθυμείτε να εμφανίσετε γραφικά σε ένα απομακρυσμένο υπολογιστή;"
+
+#: clientgui/ViewWork.cpp:258
+msgid "Aborting result..."
+msgstr "Ακύρωση επεξεργασίας αποτελέσματος..."
+
+#: clientgui/ViewWork.cpp:261
+#, c-format
+msgid "Are you sure you want to abort this result '%s'?"
+msgstr "Είστε σίγουρος ότι θέλετε να εγκαταλείψετε το αποτέλεσμα '%s';"
+
+#: clientgui/ViewWork.cpp:267
+msgid "Abort result"
+msgstr "Ακύρωση αποτελέσματος"
+
+#: clientgui/ViewWork.cpp:446
+msgid "Resume work for this result."
+msgstr "Συνέχεια εργασίας για αυτό το αποτέλεσμα."
+
+#: clientgui/ViewWork.cpp:645
+msgid "New"
+msgstr "Νέο"
+
+#: clientgui/ViewWork.cpp:656
+#: clientgui/ViewWork.cpp:678
+msgid "Aborted by user"
+msgstr "Εγκαταλείφθηκε από το χρήστη"
+
+#: clientgui/ViewWork.cpp:660
+msgid "Activities suspended"
+msgstr "Αναστολή εργασιών"
+
+#: clientgui/ViewWork.cpp:663
+msgid "Running"
+msgstr "Εκτελείται"
+
+#: clientgui/ViewWork.cpp:665
+msgid "Preempted"
+msgstr "Αντικαταστάθηκε"
+
+#: clientgui/ViewWork.cpp:667
+#: clientgui/ViewWork.cpp:670
+msgid "Ready to run"
+msgstr "Έτοιμο για εκτέλεση"
+
+#: clientgui/ViewWork.cpp:680
+msgid "Computation error"
+msgstr "Λάθος Υπολογισμών"
+
+#: clientgui/ViewWork.cpp:692
+msgid "Acknowledged"
+msgstr "Αναγνώριση"
+
+#: clientgui/ViewWork.cpp:694
+msgid "Ready to report"
+msgstr "Έτοιμο για αναφορά"
+
+#: clientgui/ViewWork.cpp:696
+#, c-format
+msgid "Error: invalid state '%d'"
+msgstr "Σφάλμα: μη έγκυρη κατάσταση '%d'"
+
+#: clientgui/ViewWork.cpp:704
+msgid "Activities suspended by user"
+msgstr "Αναστολή εργασιών από το χρήστη"
+
+#: clientgui/WelcomePage.cpp:144
+msgid "We'll now guide you through the process of attaching to a project."
+msgstr "Τώρα θα σας καθοδηγήσουμε ώστε να συνδεθείτε σε ένα πρόγραμμα."
+
+#: clientgui/WelcomePage.cpp:153
+msgid ""
+"We'll now guide you through the process of attaching to an\n"
+"account manager."
+msgstr ""
+"Τώρα θα σας καθοδηγήσουμε ώστε να συνδεθείτε σε ένα\n"
+"διαχειριστή λογαριασμού."
+
+#: clientgui/WelcomePage.cpp:160
+msgid "Debug Flags"
+msgstr "Σημαίες Αποσφαλμάτωσης"
+
+#: clientgui/WelcomePage.cpp:170
+msgid "Project Properties Failure"
+msgstr "Αποτυχία Ιδιότήτων Προγράμματος"
+
+#: clientgui/WelcomePage.cpp:175
+msgid "Project Comm Failure"
+msgstr "Αποτυχία Επικοινωνίας με το Πρόγραμμα"
+
+#: clientgui/WelcomePage.cpp:180
+msgid "Project Properties URL Failure"
+msgstr "Αποτυχία Διεύθυνσης Ιδιοτήτων Προγράμματος"
+
+#: clientgui/WelcomePage.cpp:185
+msgid "Account Creation Disabled"
+msgstr "Η Δημιουργία Λογαριασμών είναι Απενεργοποιημένη"
+
+#: clientgui/WelcomePage.cpp:190
+msgid "Client Account Creation Disabled"
+msgstr "Η Δημιουργία Λογαριασμών Χρηστών είναι Απενεργοποιημένη"
+
+#: clientgui/WelcomePage.cpp:195
+msgid "Account Already Exists"
+msgstr "Ο Λογαριασμός Υπάρχει Ήδη"
+
+#: clientgui/WelcomePage.cpp:200
+msgid "Project Already Attached"
+msgstr "Έχετε ήδη Συνδεθεί στο Πρόγραμμα"
+
+#: clientgui/WelcomePage.cpp:205
+msgid "Project Attach Failure"
+msgstr "Αποτυχία Σύνδεσης στο Ππρόγραμμα"
+
+#: clientgui/WelcomePage.cpp:210
+msgid "Google Comm Failure"
+msgstr "Σφάλμα Επικοινωνίας με Google"
+
+#: clientgui/WelcomePage.cpp:217
+msgid "Yahoo Comm Failure"
+msgstr "Σφάλμα Επικοινωνίας με Yahoo"
+
+#: clientgui/WelcomePage.cpp:224
+msgid "Net Detection Failure"
+msgstr "Αποτυχία Εντοπισμού Δικτίου"
+
+#: clientgui/WelcomePage.cpp:231
+msgid "To continue, click Next."
+msgstr "Για συνέχεια πατήστε στο Επόμενο."
+
+#: clientgui/WizardAccountManager.cpp:116
+msgid "Attach to Account Manager"
+msgstr "Σύνδεση σε Διαχειριστή Λογαριασμού"
+
+#: clientgui/WizardAccountManager.cpp:374
+#: clientgui/WizardAttachProject.cpp:426
+msgid "Do you really want to cancel?"
+msgstr "Είστε σίγουρος ότι θέλετε να ακυρώστε;"
+
+#: clientgui/WizardAccountManager.cpp:375
+#: clientgui/WizardAttachProject.cpp:427
+msgid "Question"
+msgstr "Ερώτηση"
+
+#: clientgui/WizardAttachProject.cpp:131
+msgid "Attach to Project"
+msgstr "Σύνδεση σε Πρόγραμμα"
+
+#: clientgui/wizardex.cpp:362
+#: clientgui/wizardex.cpp:553
+msgid "&Next >"
+msgstr "Επόμενο >"
+
+#: clientgui/wizardex.cpp:368
+msgid "< &Back"
+msgstr "< Προηγούμενο"
+
+#: clientgui/wizardex.cpp:551
+msgid "&Finish"
+msgstr "Τέλος"
+
+#: clientgui/DlgAbout.h:51
+msgid "About BOINC Manager"
+msgstr "Σχετικά με το BOINC Manager"
+
+#: clientgui/DlgAccountManagerStatus.h:50
+msgid "Account Manager"
+msgstr "Διαχειριστής Λογαριασμού"
+
+#: clientgui/DlgDialupCredentials.h:49
+msgid "Dialup Logon"
+msgstr "Σύνδεση σε λογαριασμό μέσω τηλεφώνου"
+
+#: clientgui/DlgOptions.h:49
+msgid "Options"
+msgstr "Επιλογές"
+
+#: clientgui/DlgSelectComputer.h:49
+msgid "Select Computer"
+msgstr "Επιλογή Υπολογιστή"
+
