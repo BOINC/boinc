@@ -1,0 +1,42 @@
+##########################################
+# Language: Danish (Dansk)
+# FileID  : $Id: da.po 5776 2005-04-05 06:43:58Z boincadm $
+# Author  : Janus Kristensen
+# Email   : jbk@visualgroup.dk
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/translate.html
+##########################################
+
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Danish"
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Danish"
+
+msgid "APPS_TITLE"
+msgstr "Applikationer"
+
+msgid "APPS_DESCRIPTION"
+msgstr "$PROJECT har i &oslash;jeblikket f&oslash;lgende applikationer. "
+"N&aring;r du deltager i $PROJECT vil arbejde fra en eller flere "
+"af disse applikationer blive tildelt din computer. "
+"Den nuv&aelig;rende version af applikationen vil blive downloadet "
+"til din computer. Dette sker automatisk - du beh&oslash;ver ikke at g&oslash;re noget."
+
+msgid "APPS_PLATFORM"
+msgstr "Platform"
+
+msgid "APPS_VERSION"
+msgstr "Nuv&aelig;rende version"
+
+msgid "RULES_ONLY_AUTH_TEXT"
+msgstr "Run $PROJECT only on computers that you own, "
+"or for which you have obtained the owner's permission. "
+"Some companies and schools have policies that prohibit using their computers "
+"for projects such as $PROJECT"
+
+msgid "APPS_INSTALLTIME"
+msgstr "Installeret"
+

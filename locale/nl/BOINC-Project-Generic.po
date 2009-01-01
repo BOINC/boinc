@@ -1,0 +1,382 @@
+##########################################
+# Language: Dutch
+# FileID  : $Id$
+# Author  : Robin Weezepoel
+# Email   : rweezepoel@yahoo.com
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+##########################################
+
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+msgid "CHARSET"
+msgstr "UTF-8"
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Nederlands"
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Dutch"
+
+
+#########################################
+# Apps page (apps.php)
+#########################################
+msgid "APPS_TITLE"
+msgstr "Applicaties"
+
+msgid "APPS_DESCRIPTION"
+msgstr "$PROJECT heeft momenteel de volgende applicaties. "
+"Als je deelneemt aan $PROJECT, wordt er werk voor een of meer "
+"van deze applicaties aan jouw computer toegewezen. "
+"De huidige vesie van de applicatie wordt dan gedownloadt. "
+"Dit gebeurt automatisch; je hoeft er niets voor te doen. "
+
+msgid "APPS_PLATFORM"
+msgstr "Platform"
+
+msgid "APPS_VERSION"
+msgstr "Huidige versie"
+
+msgid "APPS_INSTALLTIME"
+msgstr "Ge&iuml;stalleerd"
+
+#########################################
+# Rules and Policies page (info.php)
+#########################################
+msgid "RULES_TITLE"
+msgstr "Lees onze regels en beleid"
+
+msgid "RULES_ONLY_AUTH"
+msgstr "Draai $PROJECT alleen op geautoriseerde computers"
+
+msgid "RULES_ONLY_AUTH_TEXT"
+msgstr "Draai $PROJECT alleen op je eigen computers, "
+"of op computers waarvoor je toestemming hebt. "
+"sommige bedrijven en scholen hebben een beleid dat verbiedt om computers te gebruiken "
+"voor projecten zoals $PROJECT"
+
+msgid "RULES_COMPUTER_USE"
+msgstr "Hoe $PROJECT jouw computer gebruikt"
+
+msgid "RULES_COMPUTER_USE_TEXT_A"
+msgstr "als je $PROJECT op jouw computer draait, "
+"gebruikt het een deel van de computer's CPU kracht, hardeschijfruimte, en netwerkbandbreedte. "
+"Jij bepaalt hoeveel bronnen er worden gebruikt $PROJECT, "
+"en wanneer het ze gebruikt."
+
+msgid "RULES_COMPUTER_USE_TEXT_B"
+msgstr "Het werk dat door jouw computer wordt gedaan draagt bij aan de "
+"doelstelling van $PROJECT, zoals beschreven op de website. "
+"De applicaties kunnen van tijd tot tijd veranderen."
+
+msgid "RULES_PRIVACY"
+msgstr "Privacybeleid"
+
+msgid "RULES_PRIVACY_TEXT_A"
+msgstr "Jouw account op $PROJECT qordt ge&iuml;dentificeerd door een door jouw gekozen naam. "
+"Deze naam kan worden getoond op de $PROJECT website, samen met een overzicht van "
+"het werk dat jouw computer gedaan heeft voor $PROJECT. "
+"Als je anoniem wilt blijven, kies dan een naam die je identiteit niet onthult."
+
+msgid "RULES_PRIVACY_TEXT_B"
+msgstr "Als je deelneemt aan $PROJECT, wordt informatie over jouw computer "
+"(zoals processortype, hoeveelheid geheugen, etc.) "
+"opgeslagen door $PROJECT en gebruikt om te bepalen wat voor werk aan "
+"jouw computer toe te wijzen. Deze informatie wordt ook getoond op "
+"$PROJECT's website. "
+"Informatie die de locatie van de computer kan onthullen (bijv. de domeinnaam of "
+"het netwerkadres) zal niet getoond worden."
+
+msgid "RULES_PRIVACY_TEXT_C"
+msgstr "Om deel te nemen aan $PROJECT, moet je een adres op geven waar je email ontvangt. "
+"Dit adres zal niet getoond worden op de website van $PROJECT of gedeeld worden met organisaties. "
+"$PROJECT kan periodieke nieuwsbrieven sturen; hiervoor kan je je op ieder moment uitschrijven."
+
+msgid "RULES_SAFE"
+msgstr "Is het veilig om $PROJECT te draaien?"
+
+msgid "RULES_SAFE_TEXT_A"
+msgstr "Iedere keer als je een programma via internet download neem je een risico: "
+"het programma kan gevaarlijke fouten bevatten, "
+"of de downloadserver kan gehackt zijn. "
+"$PROJECT probeert deze risico's tot een minimum te beperken. "
+"We hebben onze applicaties zorgvuldig getest. "
+"Onze servers staan achter een firewall en zijn geconfigureerd voor hoge veiligheid. "
+"Om de integriteit van de downloads te verifi&euml;ren, zijn alle toepassingen digitaal "
+"ondertekend op een computer die niet op internet aangesloten is."
+
+msgid "RULES_SAFE_TEXT_B"
+msgstr "Door de applicaties die gedraaid worden door $PROJECT kunnen sommige computers oververhitten. "
+"Als dit gebeurt, stop dan met het draaien van $PROJECT of gebruik een %s dat CPU-gebruik limiteert."
+
+msgid "RULES_UTILITY_PROGRAM"
+msgstr "hulpprogramma"
+
+msgid "RULES_SAFE_TEXT_C"
+msgstr "$PROJECT is ontwikkeld door %s. BOINC is ontwikkeld door de Universiteit van  "
+"Californi&euml;."
+
+msgid "RULES_LIABILITY"
+msgstr "Aansprakelijkheid"
+
+msgid "RULES_LIABILITY_TEXT"
+msgstr "$PROJECT en %s nemen geen verantwoordelijkheid voor schade aan jouw computer, "
+"verlies van data, of enige andere gebeurtenis of voorwaarde die voortkomt uit "
+"deelname aan $PROJECT."
+
+msgid "RULES_OTHER"
+msgstr "Andere BOINC projecten"
+
+msgid "RULES_OTHER_TEXT_A"
+msgstr "Andere projecten gebruiken hetzelfde platform, BOINC, als $PROJECT. Je zou kunnen "
+"overwegen om aan een of meer van deze projecten deel te nemen. "
+"Hierdoor blijft je computer bruikbaar werk doen, zelfs als $PROJECT er geen werk "
+"beschikbaar voor heeft."
+
+msgid "RULES_OTHER_TEXT_B"
+msgstr "Deze projecten zijn niet ge&auml; met $PROJECT, en we kunnen hun "
+"veiligheidsmaatregelen en de intenties van hun onderzoek niet controleren. Deelname "
+"is op eigen risico."
+
+#########################################
+# Create account form (create_account_form.php)
+#########################################
+msgid "CREATE_AC_TITLE"
+msgstr "Maak een an account"
+
+msgid "CREATE_AC_READ_RULES"
+msgstr "Lees de %s voordat je een account maakt."
+
+msgid "CREATE_AC_ALREADY_GOT"
+msgstr "Als je al een account key hebt ontvangen, verstuur dit formulier dan niet. "
+"%s instead."
+
+msgid "CREATE_AC_NAME"
+msgstr "Naam"
+
+msgid "CREATE_AC_NAME_DESC"
+msgstr "Identificeert jou op onze website. Gebruik je echte naam of een bijnaam."
+
+msgid "CREATE_AC_EMAIL"
+msgstr "Emailadres"
+
+msgid "CREATE_AC_EMAIL_DESC"
+msgstr "Moet een geldig adres zijn van de vorm 'naam@domein'."
+
+msgid "CREATE_AC_COUNTRY"
+msgstr "Land"
+
+msgid "CREATE_AC_COUNTRY_DESC"
+msgstr "Selecteer het land dat je wilt representeren, of laat open."
+
+msgid "CREATE_AC_ZIP"
+msgstr "Postcode"
+
+msgid "CREATE_AC_CREATE"
+msgstr "Maak een account"
+
+msgid "CREATE_AC_DISABLED"
+msgstr "Het aanmaken van accounts is uitgezet"
+
+msgid "CREATE_AC_DISABLED_TEXT"
+msgstr "Het aanmaken van accounts voor $PROJECT is momenteel uitgezet. "
+"Probeer het later opnieuw."
+
+msgid "CREATE_AC_TEAM"
+msgstr "Dit account zal toebehoren aan het team %s en zal de project-voorkeuren van de stichter hebben."
+
+msgid "CREATE_AC_USE_CLIENT"
+msgstr "OPMERKING: Als je BOINC versie 5.2+ met de BOINC manager gebruikt, "
+"gebruik dit formulier dan niet. "
+"Draai simpelweg BOINC, selecteer Project toevoegen, "
+"en vul een emailadres en wachtwoord in. "
+
+msgid "CREATE_AC_PASSWORD"
+msgstr "Wachtwoord"
+
+msgid "CREATE_AC_PASSWORD_DESC"
+msgstr "Moet ten minste %s karakters lang zijn."
+
+msgid "CREATE_AC_CONFIRM_PASSWORD"
+msgstr "Bevestig wachtwoord"
+
+msgid "AC_INVITE_CODE"
+msgstr "Invitatiecode"
+
+msgid "AC_INVITE_CODE_DESC"
+msgstr "Een geldige invitatiecode is vereist om een account aan te maken"
+
+msgid "AC_INVITE_REQUIRED"
+msgstr "Je moet een invitatiecode opgeven om een account aan te maken."
+
+msgid "AC_INVITE_INVALID"
+msgstr "De invitatiecode die je opgaf is niet geldig."
+
+
+#########################################
+# Forum sample index page
+#########################################
+
+msgid "FORUM_TITLE"
+msgstr "$PROJECT Forums"
+
+msgid "FORUM_TITLE_SHORT"
+msgstr "Forums"
+
+
+#########################################
+# General stuff (create_account_form.php and others)
+#########################################
+msgid "OPTIONAL"
+msgstr "Optioneel"
+
+#########################################
+# Various top table pages (top users, computers, teams)
+#########################################
+
+msgid "TOP_PARTICIPANT_TITLE"
+msgstr "Beste deelnemers"
+
+msgid "USER_TABLE_RANK"
+msgstr "Positie"
+
+msgid "USER_TABLE_NAME"
+msgstr "Naam"
+
+msgid "TOTAL_CREDIT"
+msgstr "Punten totaal"
+
+msgid "EXPAVG_CREDIT"
+msgstr "Punten gemiddeld"
+
+msgid "USER_TABLE_COUNTRY"
+msgstr "Land"
+
+msgid "USER_TABLE_PTIME"
+msgstr "Deelnemer sinds"
+
+msgid "TOP_TEAMS_TITLE"
+msgstr "Beste %s teams"
+
+msgid "TEAM_TABLE_MEMBERS"
+msgstr "Leden"
+
+
+#########################################
+# Forum
+#########################################
+msgid "FORUM_POSTS"
+msgstr "Berichten"
+msgid "FORUM_TOPIC"
+msgstr "Onderwerp"
+msgid "FORUM_THREADS"
+msgstr "Threads"
+msgid "FORUM_LAST_POST"
+msgstr "Laatste bericht"
+msgid "FORUM_AUTHOR"
+msgstr "Auteur"
+msgid "FORUM_VIEWS"
+msgstr "Views"
+
+msgid "FORUM_ERR_NOT_FOUND"
+msgstr "Geen forum met die naam"
+
+msgid "FORUM_ERR_EXPAVG"
+msgstr "Om een nieuwe discussie te beginnen in %s moet je een bepaald aantal credits hebben."
+"Dit is om het systeem te beschermen en misbruik te voorkomen."
+
+msgid "FORUM_ERR_INTERVAL"
+msgstr "Je kan momenteel geen discussies meer beginnen. Wacht even voor je het weer probeert."
+"Deze vertraging is tegen misbruik van het systeem."
+
+msgid "FORUM_QA_POST_MESSAGE"
+msgstr "Het %s gebied bied hulp van andere gebruikers. Als je een vraag of probleem hebt:"
+msgid "FORUM_QA_POST_MESSAGE2"
+msgstr "Lees de bestaande lijst van vragen. Als je vraag erbij staat, "
+"klik op de %s knop. Als er al antwoorden zijn ingestuurd lees deze dan. "
+"Als een van deze je vraag beantwoord, klik op de %s knop."
+msgid "FORUM_QA_POST_MESSAGE3"
+msgstr "Als je vraag nog niet is gesteld, vul het formulier dan in en verstuur het."
+msgid "FORUM_QA_POST_MESSAGE4"
+msgstr "Dit zorgt ervoor dat vragen niet meerdere malen worden gesteld."
+
+msgid "FORUM_QA_SUBMIT_NEW"
+msgstr "Verstuur een nieuwe vraag/nieuw probleem"
+
+msgid "FORUM_SUBMIT_NEW"
+msgstr "Cre&euml;er een nieuwe discussie"
+
+msgid "FORUM_SUBMIT_NEW_TITLE"
+msgstr "Titel"
+
+msgid "FORUM_QA_SUBMIT_NEW_HELP"
+msgstr "Beschrijf je vraag met een paar woorden. "
+"Een korte, heldere samenvatting helpt anderen met dezelfde "
+"vraag (of een antwoord) het te vinden."
+
+msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
+msgstr "Als je problemen hebt met de software, "
+"vermeld dan het versie nummer ervan, "
+"je computertype en besturingssysteem."
+
+msgid "FORUM_ADD_MY_SIG"
+msgstr "Voeg mijn handtekening toe aan dit bericht"
+
+msgid "FORUM_MESSAGE"
+msgstr "Bericht"
+
+msgid "FORUM_QA_GOT_PROBLEM_TOO"
+msgstr "Ik heb hetzelfde probleem"
+
+msgid "FORUM_QA_QUESTION_ANSWERED"
+msgstr "Dit beantwoort mijn vraag"
+
+msgid "FORUM_HTML_INFO"
+msgstr "gebruik BBCode tags om je tekst op te maken"
+
+
+#########################################
+# Forum thread
+#########################################
+
+msgid "FORUM_THREAD_HIDDEN"
+msgstr "Deze discussie is verborgen voor administratieve doeleinden"
+
+msgid "FORUM_THREAD_REPLY"
+msgstr "Reageer op deze discussie"
+
+msgid "FORUM_THREAD_SUBSCRIBED"
+msgstr "Je bent geabbonneerd op deze discussie."
+
+msgid "FORUM_THREAD_UNSUBSCRIBE"
+msgstr "Klik hier om op te zeggen"
+
+msgid "FORUM_THREAD_SUBSCRIBE"
+msgstr "Abbonneer op deze discussie"
+
+
+#########################################
+# Forum search features
+#########################################
+msgid "FORUM_SEARCH"
+msgstr "Zoek forums"
+
+msgid "FORUM_SEARCH_TITLES"
+msgstr "Titels die '%s' bevatten"
+
+msgid "FORUM_SEARCH_BODIES"
+msgstr "Berichten die '%s' bevatten"
+
+msgid "FORUM_SEARCH_TITLES_NO"
+msgstr "Geen titels gevonden die '%s' bevatten."
+
+msgid "FORUM_SEARCH_BODIES_NO"
+msgstr "Geen berichten gevonden die '%s' bevatten."
+
+
+#########################################
+# Links from the main page
+#########################################
+msgid "LINKS_QA"
+msgstr "Vragen en antwoorden"
