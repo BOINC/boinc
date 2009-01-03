@@ -10393,6 +10393,10 @@ David  26 Dec 2008
     client/
         work_fetch.cpp
 
+Janus  29 Dec 2008
+    - Various translation and cache related fixed in profile pages
+    - Added ability to mildly force (via a non-editable field) a specific
+      title on a forum post
 
 David  30 Dec 2008
     - client: code shuffling
