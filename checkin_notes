@@ -4,3 +4,18 @@ David  Jan 2 2009
 
     html/ops/
        repair_profile_pictures.php 
+
+David  Jan 2 2009
+    - client: more work-fetch stuff.
+        No more per-project shortfall.
+        It's getting pretty close.
+
+    client/
+        client_state.cpp
+        client_types.cpp,h
+        cs_scheduler.cpp
+        rr_sim.cpp
+        scheduler_op.cpp
+        work_fetch.cpp,h
+    lib/
+        coproc.cpp,h

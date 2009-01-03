@@ -276,7 +276,6 @@ int CLIENT_STATE::init() {
             msg_printf(NULL, MSG_INFO, "No coprocessors");
         }
     }
-    work_fetch.init();
 
     // Check to see if we can write the state file.
     //
@@ -347,6 +346,7 @@ int CLIENT_STATE::init() {
     //
     request_schedule_cpus("Startup");
     request_work_fetch("Startup");
+    work_fetch.init();
     debt_interval_start = now;
 
     // set up the project and slot directories

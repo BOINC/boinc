@@ -34,6 +34,10 @@ struct COPROC {
     char type[256];     // must be unique
     int count;          // how many are present
     int used;           // how many are in use (used by client)
+
+    double req_secs;    // how many instance-seconds of work requested
+    int req_instances;  // requesting enough jobs to use this many instances
+
     void* owner[MAX_COPROC_INSTANCES];
         // which ACTIVE_TASK each one is allocated to
 

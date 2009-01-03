@@ -11,10 +11,10 @@ struct RESULT;
 class ACTIVE_TASK;
 struct RSC_WORK_FETCH;
 
-// per (resource, project) state
+// state per (resource, project) pair
 //
 struct RSC_PROJECT_WORK_FETCH {
-    // the following are permanent (saved in state file)
+    // the following are persistent (saved in state file)
     double backoff_time;
     double backoff_interval;
     double debt;
@@ -27,26 +27,35 @@ struct RSC_PROJECT_WORK_FETCH {
 
     // the following are used by rr_simulation()
     //
-    double share;
+    double runnable_share;
+        // this project's share relative to projects that have
+        // nearly runnable jobs for this resource;
+        // determines processing rate for CPU
+    double fetchable_share;
+        // this project's share relative to projects from which
+        // we could probably get work for this resource;
+        // determines how many instances this project deserves
     double instances_used;
-    double shortfall;
-    double nidle_now;
+    //double shortfall;
+    //double nidle_now;
 
     RSC_PROJECT_WORK_FETCH() {
         memset(this, 0, sizeof(*this));
     }
 
     // whether this project is accumulating debt for this resource
-    bool debt_eligible(PROJECT* p);
+    bool debt_eligible(PROJECT*);
+    bool fetchable(PROJECT*);
     inline void clear_perm() {
         backoff_time = 0;
         backoff_interval = 0;
         debt = 0;
     }
-    void accumulate_shortfall(RSC_WORK_FETCH&, PROJECT*, double dt, double nused);
+    //void accumulate_shortfall(RSC_WORK_FETCH&, PROJECT*, double dt, double nused);
     bool overworked();
-	void backoff();
+	void backoff(PROJECT*, char*);
 	void clear_backoff();
+    void rr_init();
 };
 
 // per-resource state
@@ -60,12 +69,15 @@ struct RSC_WORK_FETCH {
     //
     double shortfall;
     double nidle_now;
-    double total_resource_share;
-        // total RS of projects debt-eligible for this device
-        // determines share
-    double runnable_resource_share;
+    double total_fetchable_share;
+        // total RS of projects from which we could fetch jobs for this device
+    double total_runnable_share;
         // total RS of projects with runnable jobs for this device
-        // determines estimated processing rate for CPU
+
+    // the following specify the work request for this resource
+    //
+    double req_secs;
+    int req_instances;
 
     // debt accounting
     double secs_this_debt_interval;
@@ -82,6 +94,8 @@ struct RSC_WORK_FETCH {
     bool may_have_work(PROJECT*);
     void update_debts();
     void print_state(char*);
+    void clear_request();
+    void set_request(PROJECT*);
     RSC_WORK_FETCH() {
         memset(this, 0, sizeof(*this));
     }
@@ -103,6 +117,10 @@ struct WORK_FETCH {
     double estimated_delay;
     void set_overall_debts();
     PROJECT* choose_project();
+        // find a project to ask for work
+    void compute_work_request(PROJECT*);
+        // we're going to contact this project anyway;
+        // decide how much work to task for
     void accumulate_inst_sec(ACTIVE_TASK*, double dt);
     void write_request(PROJECT*, FILE*);
     void handle_reply(PROJECT*, std::vector<RESULT*>new_results);
@@ -110,6 +128,8 @@ struct WORK_FETCH {
     void print_state();
     void init();
     void rr_init();
+    void clear_request();
+    void compute_shares();
 };
 
 extern RSC_WORK_FETCH cuda_work_fetch;

@@ -43,11 +43,14 @@ bool RSC_WORK_FETCH::may_have_work(PROJECT* p) {
     return (w.backoff_time < gstate.now);
 }
 
+void RSC_PROJECT_WORK_FETCH::rr_init() {
+}
+
 void RSC_WORK_FETCH::rr_init() {
     shortfall = 0;
     nidle_now = 0;
-    total_resource_share = 0;
-    runnable_resource_share = 0;
+    total_fetchable_share = 0;
+    total_runnable_share = 0;
 }
 
 void WORK_FETCH::rr_init() {
@@ -56,15 +59,24 @@ void WORK_FETCH::rr_init() {
         cuda_work_fetch.rr_init();
     }
     estimated_delay = 0;
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->cpu_pwf.rr_init();
+        if (coproc_cuda) {
+            p->cuda_pwf.rr_init();
+        }
+    }
 }
 
 void RSC_WORK_FETCH::accumulate_shortfall(double d_time, double nused) {
     double idle = ninstances - nused;
+    printf("acc sho: idle %f dt %f\n", idle, d_time);
     if (idle > 0) {
         shortfall += idle*d_time;
     }
 }
 
+#if 0
 void RSC_PROJECT_WORK_FETCH::accumulate_shortfall(
     RSC_WORK_FETCH& rwf,
     PROJECT* p,
@@ -73,11 +85,15 @@ void RSC_PROJECT_WORK_FETCH::accumulate_shortfall(
 ) {
     double rsf = rwf.total_resource_share?p->resource_share/rwf.total_resource_share:1;
     double share = rwf.ninstances * rsf;
+    printf("proj acc sho %s: rsf %f share %f nused %f dt %f\n",
+        p->project_name, rsf, share, nused, d_time
+    );
     double x = share - nused;
     if (x > 0) {
         shortfall += d_time * x;
     }
 }
+#endif
 
 PROJECT* RSC_WORK_FETCH::choose_project() {
     PROJECT* pbest = NULL;
@@ -112,14 +128,15 @@ void RSC_WORK_FETCH::print_state(char* name) {
         "[wfd] %s: shortfall %.2f nidle %.2f total RS %.2f runnable RS %.2f",
         name,
         shortfall, nidle_now,
-        total_resource_share, runnable_resource_share
+        total_fetchable_share, total_runnable_share
     );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
         msg_printf(p, MSG_INFO,
-            "[wfd] %s: shortfall %.2f nidle %.2f",
-            name, pwf.shortfall, pwf.nidle_now
+            "[wfd] %s: %.2f share %.2f debt %.2f backoff t %.2f int %.2f",
+            name,
+            pwf.runnable_share, pwf.debt, pwf.backoff_time, pwf.backoff_interval
         );
     }
 }
@@ -140,17 +157,44 @@ void WORK_FETCH::print_state() {
 static void print_req(PROJECT* p) {
     msg_printf(p, MSG_INFO,
         "[wfd] request: CPU (%.2f sec, %.2f) CUDA (%.2f sec, %.2f)",
-        p->cpu_pwf.shortfall, p->cpu_pwf.nidle_now,
-        p->cuda_pwf.shortfall, p->cuda_pwf.nidle_now
+        cpu_work_fetch.req_secs, cpu_work_fetch.req_instances,
+        cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
     );
 }
 
-// choose a project to fetch work from
+void RSC_WORK_FETCH::clear_request() {
+    req_secs = 0;
+    req_instances = 0;
+}
+
+void WORK_FETCH::clear_request() {
+    cpu_work_fetch.clear_request();
+    cuda_work_fetch.clear_request();
+}
+
+// we're going to contact this project; decide how much work to request
+//
+void WORK_FETCH::compute_work_request(PROJECT* p) {
+    // check if this is the project we'd ask for work anyway
+    //
+    PROJECT* pbest = choose_project();
+    if (p == pbest) return;
+
+    // if not, don't request any work
+    //
+    clear_request();
+}
+
+// choose a project to fetch work from,
+// and set the request fields of resource objects
 //
 PROJECT* WORK_FETCH::choose_project() {
     PROJECT* p = 0;
     gstate.rr_simulation();
     set_overall_debts();
+    bool request_cpu = true;
+    bool request_cuda = (coproc_cuda != NULL);
+
 
     // if a resource is currently idle, get work for it;
     // give GPU priority over CPU
@@ -158,20 +202,39 @@ PROJECT* WORK_FETCH::choose_project() {
     if (coproc_cuda && cuda_work_fetch.nidle_now) {
         p = cuda_work_fetch.choose_project();
         if (p) {
-            p->cpu_pwf.shortfall = 0;
+            request_cpu = false;
         }
     }
     if (!p && cpu_work_fetch.nidle_now) {
         p = cpu_work_fetch.choose_project();
         if (p) {
-            p->cuda_pwf.shortfall = 0;
+            request_cuda = false;
         }
     }
+
+    // if a resource has a shortfall, get work for it.
+    //
     if (!p && coproc_cuda && cuda_work_fetch.shortfall) {
         p = cuda_work_fetch.choose_project();
     }
     if (!p && cpu_work_fetch.shortfall) {
         p = cpu_work_fetch.choose_project();
+    }
+
+    // decide how much work to request for each resource
+    //
+    clear_request();
+    if (p) {
+        if (request_cpu) {
+            cpu_work_fetch.set_request(p);
+        }
+        if (request_cuda) {
+            cuda_work_fetch.set_request(p);
+        }
+        if (coproc_cuda) {
+            coproc_cuda->req_secs = cuda_work_fetch.req_secs;
+            coproc_cuda->req_instances = cuda_work_fetch.req_instances;
+        }
     }
     if (log_flags.work_fetch_debug) {
         print_state();
@@ -183,6 +246,12 @@ PROJECT* WORK_FETCH::choose_project() {
     }
 
     return p;
+}
+
+void RSC_WORK_FETCH::set_request(PROJECT* p) {
+    RSC_PROJECT_WORK_FETCH& w = project_state(p);
+    req_secs = gstate.work_buf_total()*w.fetchable_share;
+    req_instances = (int)ceil(w.fetchable_share*nidle_now);
 }
 
 void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {
@@ -232,36 +301,74 @@ void RSC_WORK_FETCH::update_debts() {
     }
 }
 
+// find total and per-project resource shares for each resource
+//
+void WORK_FETCH::compute_shares() {
+    unsigned int i;
+    PROJECT* p;
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = gstate.projects[i];
+        if (p->non_cpu_intensive) continue;
+        if (p->rr_sim_status.has_cpu_jobs) {
+            cpu_work_fetch.total_runnable_share += p->resource_share;
+		}
+        if (p->rr_sim_status.has_cuda_jobs) {
+            cuda_work_fetch.total_runnable_share += p->resource_share;
+		}
+        if (!p->can_request_work()) continue;
+        if (p->cpu_pwf.fetchable(p)) {
+            cpu_work_fetch.total_fetchable_share += p->resource_share;
+        }
+        if (coproc_cuda && p->cuda_pwf.fetchable(p)) {
+			cuda_work_fetch.total_fetchable_share += p->resource_share;
+        }
+    }
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = gstate.projects[i];
+        if (p->non_cpu_intensive) continue;
+        if (p->rr_sim_status.has_cpu_jobs) {
+            p->cpu_pwf.runnable_share = p->resource_share/cpu_work_fetch.total_runnable_share;
+		}
+        if (p->rr_sim_status.has_cuda_jobs) {
+            p->cuda_pwf.runnable_share = p->resource_share/cuda_work_fetch.total_runnable_share;
+		}
+        if (!p->can_request_work()) continue;
+        if (p->cpu_pwf.fetchable(p)) {
+            p->cpu_pwf.fetchable_share = p->resource_share/cpu_work_fetch.total_fetchable_share;
+        }
+        if (coproc_cuda && p->cuda_pwf.fetchable(p)) {
+            p->cuda_pwf.fetchable_share = p->resource_share/cuda_work_fetch.total_fetchable_share;
+        }
+    }
+}
+
+// should this project be accumulating debt for this resource?
+//
 bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p) {
-    if (backoff_interval > 0) return false;
+    if (backoff_time > gstate.now) return false;
     if (p->suspended_via_gui) return false;
     return true;
 }
 
+// can this project supply work for this resource?
+//
+bool RSC_PROJECT_WORK_FETCH::fetchable(PROJECT* p) {
+    if (backoff_time > gstate.now) return false;
+    return true;
+}
+
 void WORK_FETCH::write_request(PROJECT* p, FILE* f) {
-    if (p->cpu_pwf.shortfall > 0 && p->cpu_pwf.shortfall < 1) {
-        p->cpu_pwf.shortfall = 1;
-    }
-    double work_req_seconds = p->cpu_pwf.shortfall;
+    double work_req_seconds = cpu_work_fetch.req_secs;
     fprintf(f,
-        "    <cpu_req_seconds>%f</cpu_req_seconds>\n"
-        "    <cpu_ninstances>%f</cpu_ninstances>\n",
-        p->cpu_pwf.shortfall,
-        p->cpu_pwf.nidle_now
+        "    <cpu_req_secs>%f</cpu_req_secs>\n"
+        "    <cpu_req_instances>%f</cpu_req_instances>\n",
+        cpu_work_fetch.req_secs,
+        cpu_work_fetch.req_instances
     );
     if (coproc_cuda) {
-        if (p->cuda_pwf.shortfall > work_req_seconds) {
-            work_req_seconds = p->cuda_pwf.shortfall;
+        if (cuda_work_fetch.req_secs > work_req_seconds) {
+            work_req_seconds = cuda_work_fetch.req_secs;
         }
-        if (p->cuda_pwf.shortfall > 0 && p->cuda_pwf.shortfall < 1) {
-            p->cuda_pwf.shortfall = 1;
-        }
-        fprintf(f,
-            "    <cuda_req_seconds>%f</cuda_req_seconds>\n"
-            "    <cuda_ninstances>%f</cuda_ninstances>\n",
-            p->cuda_pwf.shortfall,
-            p->cuda_pwf.nidle_now
-        );
     }
     fprintf(f,
         "    <work_req_seconds>%f</work_req_seconds>\n",
@@ -269,38 +376,40 @@ void WORK_FETCH::write_request(PROJECT* p, FILE* f) {
     );
 }
 
-// we just got a scheduler reply with the given jobs.
+// we just got a scheduler reply with the given jobs; update backoffs
 //
 void WORK_FETCH::handle_reply(PROJECT* p, vector<RESULT*> new_results) {
     unsigned int i;
-	bool got_cpu = false, got_cuda = false;
+    bool got_cpu = false, got_cuda = false;
 
-	// if didn't get any jobs, back off on requested resource types
-	//
-	if (!new_results.size()) {
-		if (p->cpu_pwf.shortfall) {
-			p->cpu_pwf.backoff();
-		}
-		if (p->cuda_pwf.shortfall) {
-			p->cuda_pwf.backoff();
-		}
-		return;
-	}
+    // if didn't get any jobs, back off on requested resource types
+    //
+    if (!new_results.size()) {
+        if (cpu_work_fetch.req_secs) {
+            p->cpu_pwf.backoff(p, "CPU");
+        }
+        if (coproc_cuda && coproc_cuda->req_secs) {
+            p->cuda_pwf.backoff(p, "CUDA");
+        }
+        return;
+    }
 
-	// if we did get jobs, clear backoff on resource types
-	//
+    // if we did get jobs, clear backoff on resource types
+    //
     for (i=0; i<new_results.size(); i++) {
         RESULT* rp = new_results[i];
-		if (rp->avp->ncudas) got_cuda = true;
-		else got_cpu = true;
+        if (rp->avp->ncudas) got_cuda = true;
+        else got_cpu = true;
     }
-	if (got_cpu) p->cpu_pwf.clear_backoff();
-	if (got_cuda) p->cuda_pwf.clear_backoff();
+    if (got_cpu) p->cpu_pwf.clear_backoff();
+    if (got_cuda) p->cuda_pwf.clear_backoff();
 }
 
 void WORK_FETCH::set_initial_work_request(PROJECT* p) {
-    p->cpu_pwf.shortfall = 1;
-    p->cuda_pwf.shortfall = 1;
+    cpu_work_fetch.req_secs = 1;
+    if (coproc_cuda) {
+        coproc_cuda->req_secs = 1;
+    }
 }
 
 void WORK_FETCH::init() {
@@ -314,19 +423,24 @@ void WORK_FETCH::init() {
     }
 }
 
-void RSC_PROJECT_WORK_FETCH::backoff() {
-	if (backoff_interval) {
-		backoff_interval *= 2;
-		if (backoff_interval > 86400) backoff_interval = 86400;
-	} else {
-		backoff_interval = 60;
-	}
-	backoff_time = gstate.now + backoff_interval;
+void RSC_PROJECT_WORK_FETCH::backoff(PROJECT* p, char* name) {
+    if (backoff_interval) {
+        backoff_interval *= 2;
+        if (backoff_interval > 86400) backoff_interval = 86400;
+    } else {
+        backoff_interval = 60;
+    }
+    backoff_time = gstate.now + backoff_interval;
+    if (log_flags.work_fetch_debug) {
+        msg_printf(p, MSG_INFO,
+            "[wfd] backing off %s %f", name, backoff_interval
+        );
+    }
 }
 
 void RSC_PROJECT_WORK_FETCH::clear_backoff() {
-	backoff_interval = 0;
-	backoff_time = 0;
+    backoff_interval = 0;
+    backoff_time = 0;
 }
 
 ////////////////////////
@@ -461,8 +575,8 @@ double ACTIVE_TASK::est_time_to_completion(bool for_work_fetch) {
     if (fraction_done <= 0) return wu_est;
     double frac_est = (elapsed_time / fraction_done) - elapsed_time;
     double fraction_left = 1-fraction_done;
-	double wu_weight = fraction_left * fraction_left;
-	double fd_weight = 1 - wu_weight;
+    double wu_weight = fraction_left * fraction_left;
+    double fd_weight = 1 - wu_weight;
     double x = fd_weight*frac_est + wu_weight*fraction_left*wu_est;
     return x;
 }
@@ -473,7 +587,7 @@ double CLIENT_STATE::overall_cpu_frac() {
     double running_frac = time_stats.on_frac * time_stats.active_frac;
     if (running_frac < 0.01) running_frac = 0.01;
     if (running_frac > 1) running_frac = 1;
-	return running_frac;
+    return running_frac;
 }
 
 // called when benchmarks change
@@ -484,12 +598,12 @@ void CLIENT_STATE::scale_duration_correction_factors(double factor) {
         PROJECT* p = projects[i];
         p->duration_correction_factor *= factor;
     }
-	if (log_flags.cpu_sched_debug) {
-		msg_printf(NULL, MSG_INFO,
+    if (log_flags.cpu_sched_debug) {
+        msg_printf(NULL, MSG_INFO,
             "[cpu_sched_debug] scaling duration correction factors by %f",
             factor
         );
-	}
+    }
 }
 
 // Choose a new host CPID.

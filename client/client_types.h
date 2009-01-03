@@ -564,7 +564,6 @@ struct RESULT {
         /// report deadline - prefs.work_buf_min - time slice
     double computation_deadline();
     bool rr_sim_misses_deadline;
-    bool last_rr_sim_missed_deadline;
 
         /// temporary used to tell GUI that this result is deadline-scheduled
     bool edf_scheduled;

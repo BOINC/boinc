@@ -344,8 +344,13 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             break;
         }
 
+        // check for various reasons to contact particular projects.
+        // If we need to contact a project,
+        // see if we should ask it for work as well.
+        //
         p = next_project_sched_rpc_pending();
         if (p) {
+            work_fetch.compute_work_request(p);
 			scheduler_op->init_op_project(p, p->sched_rpc_pending);
             action = true;
             break;
@@ -353,6 +358,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         if (network_suspended) break;
         p = next_project_trickle_up_pending();
         if (p) {
+            work_fetch.compute_work_request(p);
             scheduler_op->init_op_project(p, RPC_REASON_TRICKLE_UP);
             action = true;
             break;
@@ -362,13 +368,15 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         //
         p = find_project_with_overdue_results();
         if (p) {
+            work_fetch.compute_work_request(p);
             scheduler_op->init_op_project(p, RPC_REASON_RESULTS_DUE);
             action = true;
             break;
         }
 
-        // should we check work fetch?  Do this infrequently.
+        // should we check work fetch?  Do this at most once/minute
 
+        printf("LWFT: %f\n", last_work_fetch_time);
         if (exit_when_idle && contacted_sched_server) break;
         if (tasks_suspended) break;
 

@@ -191,9 +191,23 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
     safe_strcpy(scheduler_url, p->get_scheduler_url(url_index, url_random));
     if (log_flags.sched_ops) {
         msg_printf(p, MSG_INFO,
-            "Sending scheduler request: %s.  Requesting %.0f seconds of work, reporting %d completed tasks",
-            rpc_reason_string(reason), p->cpu_pwf.shortfall, p->nresults_returned
+            "Sending scheduler request: %s.", rpc_reason_string(reason)
         );
+        msg_printf(p, MSG_INFO,
+            "CPU work request: %.2f seconds, %d instances",
+            cpu_work_fetch.req_secs, cpu_work_fetch.req_instances
+        );
+        if (coproc_cuda) {
+            msg_printf(p, MSG_INFO,
+                "CUDA work request: %.2f seconds, %d instances",
+                cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
+            );
+        }
+        if (p->nresults_returned) {
+            msg_printf(p, MSG_INFO, "Reporting %d completed tasks",
+                p->nresults_returned
+            );
+        }
     }
 
     get_sched_request_filename(*p, request_file, sizeof(request_file));

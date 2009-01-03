@@ -56,6 +56,8 @@ int COPROC::parse(MIOFILE& fin) {
     strcpy(type, "");
     count = 0;
     used = 0;
+    req_secs = 0;
+    req_instances = 0;
     while (fin.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</coproc>")) {
             if (!strlen(type)) return ERR_XML_PARSE;
@@ -63,6 +65,8 @@ int COPROC::parse(MIOFILE& fin) {
         }
         if (parse_str(buf, "<type>", type, sizeof(type))) continue;
         if (parse_int(buf, "<count>", count)) continue;
+        if (parse_double(buf, "<req_secs>", req_secs)) continue;
+        if (parse_int(buf, "<req_instances>", req_instances)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -250,6 +254,8 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
         "<coproc_cuda>\n"
         "   <count>%d</count>\n"
         "   <name>%s</name>\n"
+        "   <req_secs>%f</req_secs>\n"
+        "   <req_instances>%d</req_instances>\n"
         "   <totalGlobalMem>%u</totalGlobalMem>\n"
         "   <sharedMemPerBlock>%u</sharedMemPerBlock>\n"
         "   <regsPerBlock>%d</regsPerBlock>\n"
@@ -267,6 +273,8 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
         "   <multiProcessorCount>%d</multiProcessorCount>\n"
         "</coproc_cuda>\n",
         count,
+        req_secs,
+        req_instances,
         prop.name,
         (unsigned int)prop.totalGlobalMem,
         (unsigned int)prop.sharedMemPerBlock,
@@ -320,6 +328,8 @@ int COPROC_CUDA::parse(FILE* fin) {
             return 0;
         }
         if (parse_int(buf, "<count>", count)) continue;
+        if (parse_double(buf, "<req_secs>", req_secs)) continue;
+        if (parse_int(buf, "<req_instances>", req_instances)) continue;
         if (parse_str(buf, "<name>", prop.name, sizeof(prop.name))) continue;
         if (parse_double(buf, "<totalGlobalMem>", prop.dtotalGlobalMem)) continue;
         if (parse_int(buf, "<sharedMemPerBlock>", (int&)prop.sharedMemPerBlock)) continue;

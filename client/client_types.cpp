@@ -187,8 +187,13 @@ int PROJECT::parse_state(MIOFILE& in) {
         if (parse_bool(buf, "ended", ended)) continue;
         if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
         if (parse_double(buf, "<long_term_debt>", cpu_pwf.debt)) continue;
-        if (parse_double(buf, "<cuda_long_term_debt>", cuda_pwf.debt)) continue;
-        if (parse_double(buf, "<resource_share>", x)) continue;    // not authoritative
+        if (parse_double(buf, "<cpu_backoff_interval>", cpu_pwf.backoff_interval)) continue;
+        if (parse_double(buf, "<cpu_backoff_time>", cpu_pwf.backoff_time)) continue;
+        if (parse_double(buf, "<cuda_debt>", cuda_pwf.debt)) continue;
+        if (parse_double(buf, "<cuda_backoff_interval>", cuda_pwf.backoff_interval)) continue;
+        if (parse_double(buf, "<cuda_backoff_time>", cuda_pwf.backoff_time)) continue;
+        if (parse_double(buf, "<resource_share>", x)) continue;
+            // not authoritative
         if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         if (parse_bool(buf, "attached_via_acct_mgr", attached_via_acct_mgr)) continue;
         if (parse_double(buf, "<ams_resource_share>", ams_resource_share)) continue;
@@ -239,7 +244,11 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <next_rpc_time>%f</next_rpc_time>\n"
         "    <short_term_debt>%f</short_term_debt>\n"
         "    <long_term_debt>%f</long_term_debt>\n"
-        "    <cuda_long_term_debt>%f</cuda_long_term_debt>\n"
+        "    <cpu_backoff_interval>%f</cpu_backoff_interval>\n"
+        "    <cpu_backoff_time>%f</cpu_backoff_time>\n"
+        "    <cuda_debt>%f</cuda_debt>\n"
+        "    <cuda_backoff_interval>%f</cuda_backoff_interval>\n"
+        "    <cuda_backoff_time>%f</cuda_backoff_time>\n"
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
 		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
@@ -268,8 +277,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         min_rpc_time,
         next_rpc_time,
         short_term_debt,
-        cpu_pwf.debt,
-        cuda_pwf.debt,
+        cpu_pwf.debt, cpu_pwf.backoff_interval, cpu_pwf.backoff_time,
+        cuda_pwf.debt, cuda_pwf.backoff_interval, cuda_pwf.backoff_time,
         resource_share,
         duration_correction_factor,
 		sched_rpc_pending,
@@ -1454,7 +1463,6 @@ void RESULT::clear() {
     stderr_out = "";
     suspended_via_gui = false;
     rr_sim_misses_deadline = false;
-    last_rr_sim_missed_deadline = false;
     fpops_per_cpu_sec = 0;
     fpops_cumulative = 0;
     intops_per_cpu_sec = 0;

@@ -138,9 +138,7 @@ void set_rrsim_flops(RESULT* rp) {
 
 	// if the project's total CPU usage is more than its share, scale
 	//
-    double rrs = cpu_work_fetch.runnable_resource_share;
-	double share_frac = rrs ? p->resource_share/rrs : 1;
-	double share_cpus = share_frac*gstate.ncpus;
+	double share_cpus = p->cpu_pwf.runnable_share*gstate.ncpus;
 	double r2 = r1;
 	if (p->rr_sim_status.active_ncpus > share_cpus) {
 		r2 *= (share_cpus / p->rr_sim_status.active_ncpus);
@@ -165,14 +163,10 @@ void CLIENT_STATE::print_deadline_misses() {
     PROJECT* p;
     for (i=0; i<results.size(); i++){
         rp = results[i];
-        if (rp->rr_sim_misses_deadline && !rp->last_rr_sim_missed_deadline) {
+        if (rp->rr_sim_misses_deadline) {
             msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched_debug] Result %s projected to miss deadline.", rp->name
-            );
-        }
-        else if (!rp->rr_sim_misses_deadline && rp->last_rr_sim_missed_deadline) {
-            msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched_debug] Result %s projected to meet deadline.", rp->name
+                "[cpu_sched_debug] Result %s projected to miss deadline.",
+                rp->name
             );
         }
     }
@@ -191,7 +185,7 @@ void CLIENT_STATE::print_deadline_misses() {
 // with weighted round-robin (WRR) scheduling.
 // Include jobs that are downloading.
 //
-// For efficiency, we simulate a crude approximation of WRR.
+// For efficiency, we simulate an approximation of WRR.
 // We don't model time-slicing.
 // Instead we use a continuous model where, at a given point,
 // each project has a set of running jobs that uses at most all CPUs
@@ -200,16 +194,11 @@ void CLIENT_STATE::print_deadline_misses() {
 // and each project gets CPU proportionate to its RRS.
 //
 // Outputs are changes to global state:
-// For each project p:
-//   p->rr_sim_deadlines_missed
-//   p->cpu_shortfall
-// For each result r:
-//   r->rr_sim_misses_deadline
-//   r->last_rr_sim_missed_deadline
-// gstate.cpu_shortfall
-//
-// Deadline misses are not counted for tasks
-// that are too large to run in RAM right now.
+// - deadline misses (per-project count, per-result flag)
+//      Deadline misses are not counted for tasks
+//      that are too large to run in RAM right now.
+// - resource shortfalls (per-project and total)
+// - counts of resources idle now
 //
 void CLIENT_STATE::rr_simulation() {
     PROJECT* p, *pbest;
@@ -252,7 +241,6 @@ void CLIENT_STATE::rr_simulation() {
         } else {
             p->rr_sim_status.add_pending(rp);
         }
-        rp->last_rr_sim_missed_deadline = rp->rr_sim_misses_deadline;
         rp->rr_sim_misses_deadline = false;
 		if (rp->uses_coprocs()) {
 			p->rr_sim_status.has_cuda_jobs = true;
@@ -268,27 +256,11 @@ void CLIENT_STATE::rr_simulation() {
         cuda_work_fetch.nidle_now = coproc_cuda->count - coproc_cuda->used;
     }
 
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        if (p->non_cpu_intensive) continue;
-        if (p->rr_sim_status.has_cpu_jobs) {
-			cpu_work_fetch.total_resource_share += p->resource_share;
-			if (p->nearly_runnable()) {
-				cpu_work_fetch.runnable_resource_share += p->resource_share;
-			}
-		}
-        if (p->rr_sim_status.has_cuda_jobs) {
-			cuda_work_fetch.total_resource_share += p->resource_share;
-			if (p->nearly_runnable()) {
-				cuda_work_fetch.runnable_resource_share += p->resource_share;
-			}
-		}
-    }
-
-    double buf_end = now + work_buf_total();
+    work_fetch.compute_shares();
 
     // Simulation loop.  Keep going until all work done
     //
+    double buf_end = now + work_buf_total();
     double sim_now = now;
     while (sim_status.active.size()) {
 
@@ -354,25 +326,6 @@ void CLIENT_STATE::rr_simulation() {
             if (coproc_cuda) {
                 cuda_work_fetch.accumulate_shortfall(d_time, sim_status.active_cudas);
             }
-
-			for (i=0; i<projects.size(); i++) {
-				p = projects[i];
-				if (p->non_cpu_intensive) continue;
-                RSC_PROJECT_WORK_FETCH& w = cpu_work_fetch.project_state(p);
-                if (w.debt_eligible(p)) {
-                    p->cpu_pwf.accumulate_shortfall(
-                        cpu_work_fetch, p, d_time, p->rr_sim_status.active_ncpus
-                    );
-                }
-                if (coproc_cuda) {
-                    RSC_PROJECT_WORK_FETCH& w = cuda_work_fetch.project_state(p);
-                    if (w.debt_eligible(p)) {
-                        p->cuda_pwf.accumulate_shortfall(
-                            cuda_work_fetch, p, d_time, p->rr_sim_status.active_cudas
-                        );
-                    }
-                }
-            }
         }
 
         sim_status.remove_active(rpbest);
@@ -397,7 +350,7 @@ void CLIENT_STATE::rr_simulation() {
         //
         if (pbest->rr_sim_status.none_active()) {
 			if (pbest->rr_sim_status.has_cpu_jobs) {
-				cpu_work_fetch.runnable_resource_share -= pbest->resource_share;
+				cpu_work_fetch.total_runnable_share -= pbest->resource_share;
 			}
         }
 
@@ -412,21 +365,5 @@ void CLIENT_STATE::rr_simulation() {
         if (coproc_cuda) {
             cuda_work_fetch.accumulate_shortfall(d_time, 0);
         }
-		for (i=0; i<projects.size(); i++) {
-			p = projects[i];
-			if (p->non_cpu_intensive) continue;
-            p->cpu_pwf.accumulate_shortfall(
-                cpu_work_fetch, p, d_time, 0
-            );
-            if (coproc_cuda) {
-                p->cuda_pwf.accumulate_shortfall(
-                    cuda_work_fetch, p, d_time, 0
-                );
-            }
-		}
-    }
-
-    if (log_flags.rr_simulation) {
-        // call something
     }
 }
