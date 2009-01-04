@@ -1,4 +1,4 @@
-##########################################
+﻿##########################################
 # Language: English (International)
 # FileID  : $Id: sample_en.po 9842 2006-04-11 19:54:27Z boincadm $
 # Author  : Janus Kristensen
