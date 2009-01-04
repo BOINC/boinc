@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-04 13:59-0700\n"
+"PO-Revision-Date: 2009-01-04 14:31-0700\n"
 "Last-Translator: Jens Seidler <jens@planet-seidler.de>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -192,7 +192,7 @@ msgstr "Verbindung getrennt"
 #: clientgui/AdvancedFrame.cpp:335
 #: clientgui/sg_BoincSimpleGUI.cpp:103
 msgid "&Close Window\tCTRL+W"
-msgstr "\\&Fenster schließen\tStrg+W"
+msgstr "()&Fenster schließen\tStrg+W"
 
 #: clientgui/AdvancedFrame.cpp:336
 #: clientgui/sg_BoincSimpleGUI.cpp:104
