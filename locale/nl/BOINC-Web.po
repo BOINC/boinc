@@ -1,17 +1,25 @@
-##########################################
-# Language: Dutch
-# FileID  : $Id: nl.po 13216 2007-07-25 15:11:14Z davea $
-##########################################
-# For more information please see:
-# http://boinc.berkeley.edu/web_translation.php
-##########################################
+ï»¿msgid ""
+msgstr ""
+"Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2009-01-04 22:17-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: NETHERLANDS\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
 
+##########################################
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
+
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "Nederlands"
+
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Dutch"
@@ -19,27 +27,11 @@ msgstr "Dutch"
 ########################################
 # poll-related stuff
 ########################################
-
 msgid "POLL_TITLE"
 msgstr "BOINC gebruikersenqu&ecirc;te"
 
 msgid "POLL_INTRO"
-msgstr "Verschillende vrijwillige rekenprojecten, "
-"zoals Climateprediction.net, Einstein@home, "
-"en SETI@home, maken gebruik van software die BOINC heet. "
-"Als je aan een van deze projecten deelneemt, "
-"vragen we je de volgende vragen te beantwoorden. "
-"Hierdoor kunnen de projecten meer "
-"deelnemers krijgen en meer wetenschappelijke resultaten bereiken. "
-"<p> "
-"Beantwoord zo veel vragen als je wilt, "
-"ga dan naar de onderkant van de pagina en klik op OK. "
-"Als je de enquete al een keer hebt ingevuld en je antwoorden zijn veranderd, "
-"vul hem dan opnieuw in - "
-"je nieuwe antwoorden zullen de oudere vervangen. "
-"<p> "
-"De huidige resultaten vind je "
-"<a href=poll_results.php>hier</a>. "
+msgstr "Verschillende vrijwillige rekenprojecten, zoals Climateprediction.net, Einstein@home, en SETI@home, maken gebruik van software die BOINC heet. Als je aan een van deze projecten deelneemt, vragen we je de volgende vragen te beantwoorden. Hierdoor kunnen de projecten meer deelnemers krijgen en meer wetenschappelijke resultaten bereiken. <p> Beantwoord zo veel vragen als je wilt, ga dan naar de onderkant van de pagina en klik op OK. Als je de enquete al een keer hebt ingevuld en je antwoorden zijn veranderd, vul hem dan opnieuw in - je nieuwe antwoorden zullen de oudere vervangen. <p> De huidige resultaten vind je <a href=poll_results.php>hier</a>. "
 
 msgid "POLL_RUN"
 msgstr "Draai je BOINC?"
@@ -305,27 +297,17 @@ msgstr "Enqu&ecirc;te uitslagen"
 msgid "POLL_RESULTS_TEXT"
 msgstr "Dit zijn de resultaten van de <a href=poll.php>BOINC gebruikers&ecirc;nquete</a>. Deze pagina wordt ieder uur vernieuwd."
 
-
 ########################################
 # download.php 2006/08/03 by je2bwm
 ########################################
-
 msgid "DL_DOWNLOAD"
 msgstr "Download BOINC"
 
 msgid "DL_VERSION_LNAME_SIZE"
 msgstr "%s voor %s (%s MB)"
 
-
 msgid "DL_WHATS_BOINC"
-msgstr " BOINC is een programma dat jou ongebruikte computertijd"
-"        aan wetenschappelijke projecten laat doneren zoals"
-"        SETI@home, Climateprediction.net, Rosetta@home,"
-"        World Community Grid, en vele andere."
-"        <p>"
-"        Nadat BOINC is ge&iuml;nstalleerd op je computer,"
-"        kan je je aanmelden voor zo veel projecten als je wilt."
-"        <p>"
+msgstr " BOINC is een programma dat jou ongebruikte computertijd        aan wetenschappelijke projecten laat doneren zoals        SETI@home, Climateprediction.net, Rosetta@home,        World Community Grid, en vele andere.        <p>        Nadat BOINC is ge&iuml;nstalleerd op je computer,        kan je je aanmelden voor zo veel projecten als je wilt.        <p>"
 
 msgid "DL_SYSTEMREQ"
 msgstr "Systeemvereisten"
@@ -349,19 +331,13 @@ msgid "DL_MAKEYOUROWN"
 msgstr "%s je eigen client software maken %s of"
 
 msgid "DL_DL_FROM3RDP"
-msgstr "%s bestanden downloaden van een andere site %s"
-    " (beschikbaar voor Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, en FreeBSD, en anderen)."
+msgstr "%s bestanden downloaden van een andere site %s (beschikbaar voor Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, en FreeBSD, en anderen)."
 
 msgid "DL_DOWNLOAD_TITLE"
 msgstr "BOINC: rekenen voor de wetenschap"
 
 msgid "DL_MIRRORS"
-msgstr "Opmerking: bestanden worden gedownload van mirrors "
-    "van boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, "
-    "einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, and einstein.aset.psu.edu "
-    "(met dank aan deze instellingen). "
-    "De server wordt willekeurig gekozen - "
-    "Als het niet lukt om te downloaden - ververs de pagina en probeer het nog eens. "
+msgstr "Opmerking: bestanden worden gedownload van mirrors van boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, and einstein.aset.psu.edu (met dank aan deze instellingen). De server wordt willekeurig gekozen - Als het niet lukt om te downloaden - ververs de pagina en probeer het nog eens. "
 
 ##############################################
 # system_requirements.php by je2bwm 2006/08/07
@@ -370,8 +346,7 @@ msgid "SRQ_PAGE_TITLE"
 msgstr "Systeemvereisten"
 
 msgid "SRQ_INTRO"
-msgstr "Je computer moet voldien aan de volgende eisen om BOINC te draaien. "
-    "BOINC-projecten kunnen nog aanvullende eisen stellen."
+msgstr "Je computer moet voldien aan de volgende eisen om BOINC te draaien. BOINC-projecten kunnen nog aanvullende eisen stellen."
 
 msgid "SRQ_MSWIN"
 msgstr "Windows"
@@ -452,64 +427,37 @@ msgid "RLN_KNOWN_ISSUES"
 msgstr "Bekende problemen"
 
 msgid "RLN_WIN_INSTALL_PROBLEMS"
-msgstr "(Windows) In zeldzame gevallen, kan de installatie mislukken vanwege "
-    "een bestaande installatie van BOINC. Als dit gebeurt: "
-    "%s Sluit BOINC af als het draait, en de&iuml;nstalleer BOINC "
-    "met behulp van %s Start/Configuratiescherm/Programma's toevoegen of verwijderen%s. " 
-    "Installeer de nieuwe versie weer."
-    "%s Als dat mislukt, herinstalleer de vesie van BOINC die je eerder draaide "
-    "(oudere versies vind je %shier%s)."
-    "Deïnstalleer zoals hierboven, en installeer de nieuwe versie."
-    "%sAls dat mislukt, download de %sWindows Install Clean Up%s "
-    "utility van Microsoft en draai het. "
-    "De oude BOINC versie wordt getoond als BOINC.msi of als "
-    "een corrupt icoon .msi (dit is dan de bovenste optie). "
-    "Klik erop om het te selecteren, klik dan op Verwijderen en afsluiten."
-    "Start je computer opnieuw op. "
-    "Installeer de nieuwe versie. "
-    "(Waarschuwing: laat alle andere .msi files intact, "
-    "anders krijg je problemen als je andere programma's deïnstalleert. "
-    "%s "
+msgstr "(Windows) In zeldzame gevallen, kan de installatie mislukken vanwege een bestaande installatie van BOINC. Als dit gebeurt: %s Sluit BOINC af als het draait, en de&iuml;nstalleer BOINC met behulp van %s Start/Configuratiescherm/Programma's toevoegen of verwijderen%s. Installeer de nieuwe versie weer.%s Als dat mislukt, herinstalleer de vesie van BOINC die je eerder draaide (oudere versies vind je %shier%s).DeÃ¯nstalleer zoals hierboven, en installeer de nieuwe versie.%sAls dat mislukt, download de %sWindows Install Clean Up%s utility van Microsoft en draai het. De oude BOINC versie wordt getoond als BOINC.msi of als een corrupt icoon .msi (dit is dan de bovenste optie). Klik erop om het te selecteren, klik dan op Verwijderen en afsluiten.Start je computer opnieuw op. Installeer de nieuwe versie. (Waarschuwing: laat alle andere .msi files intact, anders krijg je problemen als je andere programma's deÃ¯nstalleert. %s "
 
 msgid "RLN_TROUBLESHOOT"
 msgstr "BOINC Problemen oplossen"
 
 msgid "RLN_NEWF_5_4_AM"
-msgstr "Ondersteuning van 'Account managers' - websites waarmee je "
-    "BOINC projecten kunt toevoegen/verwijderen, resource shares en instellingen kunt veranderen, "
-    "allemaal heel gemakkelijk. "
-    "Account managers zijn ook handig als je meerdere computers hebt - "
-    "je hoeft alles maar een keer te veranderen."
+msgstr "Ondersteuning van 'Account managers' - websites waarmee je BOINC projecten kunt toevoegen/verwijderen, resource shares en instellingen kunt veranderen, allemaal heel gemakkelijk. Account managers zijn ook handig als je meerdere computers hebt - je hoeft alles maar een keer te veranderen."
 
 msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
-msgstr "Algemene voorkeuren kunnen worden overschreven door een lokaal bestand; "
-    "details vind je %s hier %s."
+msgstr "Algemene voorkeuren kunnen worden overschreven door een lokaal bestand; details vind je %s hier %s."
 
 msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
-msgstr "BOINC waarschuwt je nu wanneer je"
-    "een netwerkverbinding moet maken."
+msgstr "BOINC waarschuwt je nu wanneer jeeen netwerkverbinding moet maken."
 
 msgid "RLN_5_8_SIMPLE_GUI"
-msgstr "De BOINC Manager heeft twee verschillende interfaces: "
-    " 'Simpel' (klein, grafisch, met skins) "
-    " and 'Geavanceerd' (maximale informatie). "
-    " Met de simple interface kan je voorkeuren lokaal instellen. "
-    " Je kan heen en weer schakelen tussen simpel en geavanceerd. "
+msgstr "De BOINC Manager heeft twee verschillende interfaces:  'Simpel' (klein, grafisch, met skins)  and 'Geavanceerd' (maximale informatie).  Met de simple interface kan je voorkeuren lokaal instellen.  Je kan heen en weer schakelen tussen simpel en geavanceerd. "
+
 msgid "RLN_5_8_THROTTLE"
-msgstr " CPU throttling: Je kan nu de CPU hitte verminderen door "
-    " de fractie van de tijd dat BOINC rekent aan te passen. "
+msgstr " CPU throttling: Je kan nu de CPU hitte verminderen door  de fractie van de tijd dat BOINC rekent aan te passen. "
+
 msgid "RLN_5_8_SCHED"
-msgstr " Verbeterde scheduling policies voorkomen het missen van deadlines "
-    " zelfs op langzame computers met veel projecten. "
+msgstr " Verbeterde scheduling policies voorkomen het missen van deadlines  zelfs op langzame computers met veel projecten. "
+
 msgid "RLN_5_8_MEM"
-msgstr " Je kan het geheugengebruik van BOINC beperken; "
-    " hierdoor kan je constant rekenen zonder verlies van prestaties. "
+msgstr " Je kan het geheugengebruik van BOINC beperken;  hierdoor kan je constant rekenen zonder verlies van prestaties. "
+
 msgid "RLN_5_8_SANDBOX"
-msgstr " Mac OS X versie draait in een account zonder privileges, "
-    " dus veiliger. "
+msgstr " Mac OS X versie draait in een account zonder privileges,  dus veiliger. "
+
 msgid "RLN_5_8_SNOOZE"
-msgstr " Snooze button (in het systeemvak icoon) onderbreekt "
-    " BOINC voor 1 uur. "
+msgstr " Snooze button (in het systeemvak icoon) onderbreekt  BOINC voor 1 uur. "
 
 msgid "RLN_RECOMMEND_LATEST_VERSION"
 msgstr "We raden alle BOINC gebruikers aan te updaten naar %s."
@@ -527,46 +475,28 @@ msgid "RLN_LINUX"
 msgstr "Linux"
 
 msgid "RLN_MSWIN_INSTALL_MODES"
-msgstr "BOINC kan worden geïnstalleerd in verschillende modes:"
+msgstr "BOINC kan worden geÃ¯nstalleerd in verschillende modes:"
 
 msgid "RLN_SINGLE_USER_INSTALL"
 msgstr "Single-user installatie"
 
 msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
-msgstr "Dit is de aanbevolen modus. "
-    "BOINC draait wanneer jij ingelogd bent. "
-    "BOINC staat in jouw start menu, maar niet bij andere gebruikers. "
-    "De 'Grafische weergave' in de BOINC manager werkt alleen voor jou. "
-    "De BOINC screensaver toont applicatie-graphics alleen voor jou "
-    "(anderen krijgen de screensaver wel maar zien alleen tekst)."
+msgstr "Dit is de aanbevolen modus. BOINC draait wanneer jij ingelogd bent. BOINC staat in jouw start menu, maar niet bij andere gebruikers. De 'Grafische weergave' in de BOINC manager werkt alleen voor jou. De BOINC screensaver toont applicatie-graphics alleen voor jou (anderen krijgen de screensaver wel maar zien alleen tekst)."
 
 msgid "RLN_SHARED_INSTALL"
 msgstr "Shared installatie"
 
 msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
-msgstr "BOINC draait als er iemand is ingelogd. "
-    "BOINC staat in het start menu van alle gebruikers. "
-    "Als BOINC draait, draait het onder de huidige gebruiker "
-    "(De eerste gebruiker die inlogt, of de eerste gebruiker die BOINC draait). "
-    "De 'Grafische weergave' in de BOINC manager werkt alleen voor die gebruiker. "
-    "De BOINC screensaver toont applicatie-graphics alleen voor deze gebruiker "
-    "(anderen krijgen de screensaver wel maar zien alleen tekst)."
+msgstr "BOINC draait als er iemand is ingelogd. BOINC staat in het start menu van alle gebruikers. Als BOINC draait, draait het onder de huidige gebruiker (De eerste gebruiker die inlogt, of de eerste gebruiker die BOINC draait). De 'Grafische weergave' in de BOINC manager werkt alleen voor die gebruiker. De BOINC screensaver toont applicatie-graphics alleen voor deze gebruiker (anderen krijgen de screensaver wel maar zien alleen tekst)."
 
 msgid "RLN_WIN_SERVICE_INSTALL"
 msgstr "Service installatie"
 
 msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
-msgstr "BOINC draait altijd (zelfs als niemand ingelogd is). "
-    "BOINC staat in het start menu van de installerende gebruiker, "
-    "maar niet bij andere gebruikers. "
-    "De 'Grafische weergave' in de BOINC manager "
-    "werkt voor geen enkele gebruiker. "
-    "De BOINC screensaver laat alleen tekst zien."
+msgstr "BOINC draait altijd (zelfs als niemand ingelogd is). BOINC staat in het start menu van de installerende gebruiker, maar niet bij andere gebruikers. De 'Grafische weergave' in de BOINC manager werkt voor geen enkele gebruiker. De BOINC screensaver laat alleen tekst zien."
 
 msgid "RLN_LINUX_INSTALL_SEA_DESC"
-msgstr "BOINC voor Linux wordt verspreid als een zelf-uitpakkend archief. "
-    "Voor deze installatie dien je bekend te zijn met de "
-    "UNIX command-line interface."
+msgstr "BOINC voor Linux wordt verspreid als een zelf-uitpakkend archief. Voor deze installatie dien je bekend te zijn met de UNIX command-line interface."
 
 msgid "RLN_LINUX_DL_FILENAME"
 msgstr "De download-bestanden hebben namen zoals <code>%s</code>."
@@ -593,45 +523,28 @@ msgid "RLN_LINUX_AUTOSTART"
 msgstr "Je kan %s de core client automatisch laten draaien %s met het opstarten."
 
 msgid "RLN_MSWIN_UNINSTALL_DESC"
-msgstr "Selecteer Start/Configuratiescherm/Programma's toevoegen of verwijderen. "
-    "Selecteer BOINC, en klik op Verwijderen. "
-    "Dit verwijdert alleen de BOINC software. "
-    "Om boinc helemaal te verwijderen, verwijder je ook de installatiemap "
-    "(gewoonlijk C:/Program Files/BOINC). "
+msgstr "Selecteer Start/Configuratiescherm/Programma's toevoegen of verwijderen. Selecteer BOINC, en klik op Verwijderen. Dit verwijdert alleen de BOINC software. Om boinc helemaal te verwijderen, verwijder je ook de installatiemap (gewoonlijk C:/Program Files/BOINC). "
 
 msgid "RLN_ISSUE_PROXY_NTLMAUTH"
-msgstr "Als je een proxy server gebruikt,wacht dan nog met upgraden. "
-    "we zijn bezig met een oplossing voor proxies die NTLM authenticatie gebruiken."
+msgstr "Als je een proxy server gebruikt,wacht dan nog met upgraden. we zijn bezig met een oplossing voor proxies die NTLM authenticatie gebruiken."
 
 msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
-msgstr "(Windows) Als BOINC applicaties herhaaldelijk crashen op je computer, "
-    "is het mogelijk dat je moet "
-    "%supgraden naar de nieuwste versie (9.0c of later) van DirectX %s."
+msgstr "(Windows) Als BOINC applicaties herhaaldelijk crashen op je computer, is het mogelijk dat je moet %supgraden naar de nieuwste versie (9.0c of later) van DirectX %s."
 
 msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
-msgstr "(Windows) Als BOINC tegelijk draait met Windows XP 3-D screensavers, "
-    "kan het systeem traag reageren."
+msgstr "(Windows) Als BOINC tegelijk draait met Windows XP 3-D screensavers, kan het systeem traag reageren."
 
 msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
-msgstr "(Windows) Applicaties die gemaakt zijn voor Oktober 2004 "
-    "tonen geen screensaver met de single, shared of service installatie als"
-    "de screensaver is beveiligd met een wachtwoord op NT-gebaseerde computers."
+msgstr "(Windows) Applicaties die gemaakt zijn voor Oktober 2004 tonen geen screensaver met de single, shared of service installatie alsde screensaver is beveiligd met een wachtwoord op NT-gebaseerde computers."
 
 msgid "RLN_TROUBLESHOOT_INTRO"
 msgstr "Als je problemen hebt met BOINC, kan je de volgende stappen ondernemen:"
 
 msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
-msgstr "Als je een probleem hebt met een specifiek project, "
-    "ga naar het 'Vraag en Antwoord' gebied op de website van het project. "
-    "Daar zou je de oplossing kunnen vinden. "
-    "Als je niks kan vinden, kan je je probleem daar plaatsen. "
-    "Als het probleem nog niet weg is, "
-    "gebruik dan de BOINC manager om het project te 'resetten'. "
-    "Hiermee verwijder je al het werk op je computer en begin je weer opnieuw. "
+msgstr "Als je een probleem hebt met een specifiek project, ga naar het 'Vraag en Antwoord' gebied op de website van het project. Daar zou je de oplossing kunnen vinden. Als je niks kan vinden, kan je je probleem daar plaatsen. Als het probleem nog niet weg is, gebruik dan de BOINC manager om het project te 'resetten'. Hiermee verwijder je al het werk op je computer en begin je weer opnieuw. "
 
 msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
-msgstr "Als je problemen hebt met BOINC zelf, "
-    "vraag hulp op de %s BOINC forums %s."
+msgstr "Als je problemen hebt met BOINC zelf, vraag hulp op de %s BOINC forums %s."
 
 ##############################################
 # help.php
@@ -643,31 +556,16 @@ msgid "HELP_HEADING1"
 msgstr "Online Hulp"
 
 msgid "HELP_P1_1"
-msgstr "BOINC Online Hulp laat je een-op-een praten met "
-    "ervaren BOINC gebruikers die : "
-    "%s vragen beantwoorden over BOINC en volunteer computing; "
-    "%s helpen met het installeren en gebruiken van BOINC; "
-    "%s problemen oplossen die je ondervindt. "
+msgstr "BOINC Online Hulp laat je een-op-een praten met ervaren BOINC gebruikers die : %s vragen beantwoorden over BOINC en volunteer computing; %s helpen met het installeren en gebruiken van BOINC; %s problemen oplossen die je ondervindt. "
 
 msgid "HELP_P1_2"
-msgstr "BOINC Online Hulp is gebaseerd op "
-    "%sSkype%s, "
-    "an Internet-gebaseerd telefonie-systeem. "
-    "Skype is gratis (zowel de software als de telefoontjes). "
-    "Als je Skype nog niet hebt, "
-    "%sdownload en installeer het dan nu%s. "
-    "Als je klaar bent ga je hier weer verder. "
+msgstr "BOINC Online Hulp is gebaseerd op %sSkype%s, an Internet-gebaseerd telefonie-systeem. Skype is gratis (zowel de software als de telefoontjes). Als je Skype nog niet hebt, %sdownload en installeer het dan nu%s. Als je klaar bent ga je hier weer verder. "
 
 msgid "HELP_P1_3"
-msgstr "De beste manier om hulp te krijgen is spraaktelefonie, "
-    "waarvoor je een ingebouwde microfoon en luidsprekers nodig hebt "
-    "of een externe headset voor je computer. "
-    "Ook kan je gebruikmaken van het textgebaseerde chatsysteem "
-    "om met vrijwilligers te praten."
+msgstr "De beste manier om hulp te krijgen is spraaktelefonie, waarvoor je een ingebouwde microfoon en luidsprekers nodig hebt of een externe headset voor je computer. Ook kan je gebruikmaken van het textgebaseerde chatsysteem om met vrijwilligers te praten."
 
 msgid "HELP_P1_4"
-msgstr "Vrijwilligers spreken diverse talen. "
-    "Selecteer een taal: "
+msgstr "Vrijwilligers spreken diverse talen. Selecteer een taal: "
 
 msgid "HELP_HEADING2"
 msgstr "Andere hulpbronnen"
@@ -691,40 +589,25 @@ msgid "HELP_HEADING3"
 msgstr "Wordt een vrijwilliger"
 
 msgid "HELP_P3_1"
-msgstr "Als je een ervaren BOINC gebruiker bent, sporen we je aan om "
-    "%seen vrijwilliger te worden%s. "
-    "Het is een mooie manier om te helpen met wetenschappelijk onderzoek "
-    "en volunteer computing - "
-    "en het is leuk!  "
+msgstr "Als je een ervaren BOINC gebruiker bent, sporen we je aan om %seen vrijwilliger te worden%s. Het is een mooie manier om te helpen met wetenschappelijk onderzoek en volunteer computing - en het is leuk!  "
 
 msgid "HELP_P3_2"
-msgstr "Als je een BOINC vrijwilliger bent: om je instellingen aan te passen, "
-    "%sklik hier%s. "
+msgstr "Als je een BOINC vrijwilliger bent: om je instellingen aan te passen, %sklik hier%s. "
 
 ##############################################
 # index.php
 ##############################################
-
 msgid "HOME_HEADING1"
 msgstr "Meld je aan als vrijwilliger"
 
 msgid "HOME_P1"
-msgstr " Zet de ongebruikte processortijd van je computer "
-    " (Windows, Mac, or Linux) "
-    " in om ziekten te genezen, klimaatverandering te bestuderen, "
-    " pulsars te ontdekken, en vele andere wetenschappelijke onderzoeken. "
-    " Het is veilig, snel en simpel: "
-    " %sKies%s projecten "
-    " %sDownload%s en draai de BOINC software "
-    " %sVoer%s de project URL's in, je email-adres en een password. "
+msgstr " Zet de ongebruikte processortijd van je computer  (Windows, Mac, or Linux)  in om ziekten te genezen, klimaatverandering te bestuderen,  pulsars te ontdekken, en vele andere wetenschappelijke onderzoeken.  Het is veilig, snel en simpel:  %sKies%s projecten  %sDownload%s en draai de BOINC software  %sVoer%s de project URL's in, je email-adres en een password. "
 
 msgid "HOME_P2"
-msgstr "Of, als je meerdere projecten draait, probeer "
-    "een %saccount manager%s zoals %sGridRepublic%s of %sBAM!%s. "
+msgstr "Of, als je meerdere projecten draait, probeer een %saccount manager%s zoals %sGridRepublic%s of %sBAM!%s. "
 
 msgid "HOME_P3"
-msgstr "Als je vragen hebt of heb je hulp nodig om te starten, dan kan je "
-    "%smet een BOINC vrijwilliger praten%s. "
+msgstr "Als je vragen hebt of heb je hulp nodig om te starten, dan kan je %smet een BOINC vrijwilliger praten%s. "
 
 msgid "HOME_MORE_INFO"
 msgstr "BOINC draaien"
@@ -745,4 +628,5 @@ msgid "HOME_BOINC"
 msgstr "Berkeley Open Infrastructure for Network Computing"
 
 msgid "HOME_BOINC_DESC"
-msgstr "Open-source software voor %svolunteer computing%s en %sdesktop grid computing%s.
+msgstr "Open-source software voor %svolunteer computing%s en %sdesktop grid computing%s"
+
