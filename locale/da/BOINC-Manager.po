@@ -2510,31 +2510,28 @@ msgstr ""
 #: clientgui/BOINCBaseFrame.cpp:600
 #, c-format
 #, c-format
-#, fuzzy
 msgid ""
 "%s is not currently connected to a %s client.\n"
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s er ikke forbundet til en %s klient lige nu.\n"
-"Brug 'Advanceret\\VÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¦lg computer...' menu "
-"punktet, for at forbinde til en %s klient.\n"
+"Brug 'Avanceret\\V�lg computer...'-menupunktet for at forbinde til en %s klient.\n"
 "For at forbinde til din lokale computer, brug 'localhost' som "
-"vÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¦rts navn."
+"v�rtsnavn."
 
 #: clientgui/BOINCDialupManager.cpp:263
 #, c-format
 #, c-format
-#, fuzzy
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
-"%s kan ikke kommunikere med et projekt, og har brug for en "
+"%s kan ikke kommunikere med et projekt og har brug for en "
 "internetforbindelse.\n"
-"Forbind til internettet, og vÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¦lg "
-"'PrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¸v kommunikation igen'  under menupunktet "
-"Advanceret."
+"Forbind til internettet, og v�lg "
+"'Pr�v kommunikation igen'  under menupunktet "
+"Avanceret."
 
 #: clientgui/BOINCGUIApp.cpp:365
 msgid ""
