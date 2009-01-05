@@ -1,6 +1,6 @@
 ﻿msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: BOINC Web 6.x\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: 2007-02-15 19:18+0200\n"
 "Last-Translator: Drive DRKA <drka2003@mail.ru>\n"

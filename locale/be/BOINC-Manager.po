@@ -1,6 +1,6 @@
-msgid ""
+﻿msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 5.x.x\n"
+"Project-Id-Version: BOINC Manager 6.x\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: 2007-01-07 17:42+0200\n"
 "Last-Translator: Drive DRKA <drka2003@mail.ru>\n"
