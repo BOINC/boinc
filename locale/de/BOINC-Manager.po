@@ -1,8 +1,8 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-05 23:56+0100\n"
+"PO-Revision-Date: 2009-01-05 16:25-0700\n"
 "Last-Translator: Jens Seidler <jens@planet-seidler.de>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -3367,4 +3367,3 @@ msgstr "gebe Anfangs- und Endzeit für das Rechnen im Format HH:MM-HH:MM ein"
 #: clientgui/DlgAdvPreferences.h:32
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "gebe Anfangs- und Endzeit der Netzwerknutzung im Format HH:MM-HH:MM ein"
-
