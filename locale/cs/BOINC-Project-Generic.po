@@ -1,14 +1,15 @@
-##########################################
-# Language: Czech
-# FileID  : $Id: cs.po 16733 2008-12-22 05:56:53Z JensSeidler $
-# Author  : Martin Suchan
-# Email   : martin.suchan@email.cz
-##########################################
-# For more information please see:
-# http://boinc.berkeley.edu/trac/wiki/TranslateIntro
-##########################################
-msgid ""
+﻿msgid ""
 msgstr ""
+"Project-Id-Version: BOINC Project (Generic) 6.x\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2009-01-06 01:22-0500\n"
+"Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
+"Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
 
 msgid "CHARSET"
 msgstr "UTF-8"
