@@ -13,6 +13,7 @@ msgstr ""
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 #: clientgui/AccountInfoPage.cpp:329
 msgid "User information"
