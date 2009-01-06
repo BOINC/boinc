@@ -1,22 +1,21 @@
-#, fuzzy
-msgid ""
+﻿msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC Web 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2009-01-06 01:45-0500\n"
+"Last-Translator: Janus Kristensen <jbk@visualgroup.dk>\n"
+"Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: doc\n"
+"X-Poedit-Language: Danish\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-Country: DENMARK\n"
 "X-Poedit-KeywordsList: tra\n"
+"X-Poedit-SearchPath-0: doc\n"
 
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
@@ -24,14 +23,12 @@ msgstr "UTF-8"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Danish"
 
 # The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Danish"
 
-########################################
-# poll-related stuff
 ########################################
 # poll-related stuff
 ########################################
@@ -427,3 +424,4 @@ msgstr "Berkeley Open Infrastructure for Network Computing"
 
 msgid "HOME_BOINC_DESC"
 msgstr "Open-source software for %svolunteer computing%s and %sgrid computing%s"
+
