@@ -19,3 +19,21 @@ David  Jan 2 2009
         work_fetch.cpp,h
     lib/
         coproc.cpp,h
+
+Janus   Jan 6 2009
+    - Various translation fixes
+    - Added Danish web interface translation
+    - Added some Danish translation texts to the client translation file    
+    - Added Finnish web interface translation (contributed by ORE)
+
+    html/
+	inc/
+	    user.inc
+	user/
+	    info.php
+	languages/translations
+	    da.po (fully rewritten)
+	    fi.po (new)
+    locales/da
+	BOINC-Manager.po
+
