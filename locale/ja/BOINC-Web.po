@@ -1,4 +1,4 @@
-#########################################
+﻿#########################################
 # Language: Japanese
 # FileID  : ja.po and ja_JP.po, based on en.po 12493(svn).  2007/05/08 23:57 JST je2bwm 
 # Translator: Komori Hitoshi (je2bwm at jarl.com)
