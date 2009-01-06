@@ -22,7 +22,7 @@ msgstr "Brugerinformation"
 
 #: clientgui/AccountInfoPage.cpp:343
 msgid "Are you already running this project?"
-msgstr "K�rer du allerede dette projekt?"
+msgstr "Kører du allerede dette projekt?"
 
 #: clientgui/AccountInfoPage.cpp:347
 msgid "&No, new user"
@@ -40,11 +40,11 @@ msgstr "&Kodeord:"
 #: clientgui/AccountInfoPage.cpp:373
 #: clientgui/AccountInfoPage.cpp:534
 msgid "Choose a &password:"
-msgstr "V�lg et %kodeord:"
+msgstr "Vælg et %kodeord:"
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid "C&onfirm password:"
-msgstr "&Bekr�ft kodeord:"
+msgstr "&Bekræft kodeord:"
 
 #: clientgui/AccountInfoPage.cpp:371
 msgid ""
@@ -52,7 +52,7 @@ msgid ""
 "the web site."
 msgstr ""
 "Indtast det brugernavn og kodeord som\n"
-"du brugte p� hjemmesiden."
+"du brugte på hjemmesiden."
 
 #: clientgui/AccountInfoPage.cpp:400
 msgid "&Username:"
@@ -64,7 +64,7 @@ msgid ""
 "the web site."
 msgstr ""
 "Indtast emailadressen og det kodeord\n"
-"som du brugte p� hjemmesiden."
+"som du brugte på hjemmesiden."
 
 #: clientgui/AccountInfoPage.cpp:414
 msgid "&Email address:"
@@ -73,7 +73,7 @@ msgstr "&Emailadresse:"
 #: clientgui/AccountInfoPage.cpp:421
 #, c-format
 msgid "minimum length %d"
-msgstr "Minimal l�ngde %d"
+msgstr "Minimal længde %d"
 
 #: clientgui/AccountInfoPage.cpp:456
 #: clientgui/WelcomePage.cpp:332
@@ -92,12 +92,12 @@ msgstr "Tilmeld konto-manager"
 #: clientgui/AccountInfoPage.cpp:446
 #, c-format
 msgid "The minimum password length for this project is %d. Please choose a different password."
-msgstr "Den minimale l�ngde p� kodeordet til dette projekt er %d. V�lg venligst et andet kodeord."
+msgstr "Den minimale længde på kodeordet til dette projekt er %d. Vælg venligst et andet kodeord."
 
 #: clientgui/AccountInfoPage.cpp:452
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please choose a different password."
-msgstr "Den minimale l�ngde p� kodeordet til denne konto-manager er %d. V�lg venligst et andet kodeord."
+msgstr "Den minimale længde på kodeordet til denne konto-manager er %d. Vælg venligst et andet kodeord."
 
 #: clientgui/AccountInfoPage.cpp:488
 msgid "The password and confirmation password do not match. Please type them again."
@@ -105,7 +105,7 @@ msgstr "Kodeordet og gentagelsen af kodeordet stemmer ikke overens. Indtast dem 
 
 #: clientgui/AccountKeyPage.cpp:217
 msgid "Enter account key"
-msgstr "Indtast konton�gle"
+msgstr "Indtast kontonøgle"
 
 #: clientgui/AccountKeyPage.cpp:220
 msgid ""
@@ -114,14 +114,14 @@ msgid ""
 "Go to the project's web site to create an account. Your account\n"
 "key will be emailed to you."
 msgstr ""
-"Dette projekt bruger en \"konton�gle\" til at identificere dig.\n"
+"Dette projekt bruger en \"kontonøgle\" til at identificere dig.\n"
 "\n"
-"G� til projektets hjemmeside for at lave en konto. Din konton�gle\n"
+"Gå til projektets hjemmeside for at lave en konto. Din kontonøgle\n"
 "vil blive sendt til din email."
 
 #: clientgui/AccountKeyPage.cpp:226
 msgid "An account key looks like:"
-msgstr "En konton�gle ser s�dan ud:"
+msgstr "En kontonøgle ser sådan ud:"
 
 #: clientgui/AccountKeyPage.cpp:229
 msgid "82412313ac88e9a3638f66ea82186948"
@@ -129,7 +129,7 @@ msgstr "82412313ac88e9a3638f66ea82186948"
 
 #: clientgui/AccountKeyPage.cpp:232
 msgid "Account key:"
-msgstr "Konton�gle:"
+msgstr "Kontonøgle:"
 
 #: clientgui/AccountManagerInfoPage.cpp:173
 msgid "Account Manager URL"
@@ -137,12 +137,12 @@ msgstr "Konto-manager URL"
 
 #: clientgui/AccountManagerInfoPage.cpp:176
 msgid "Enter the URL of the account manager's web site."
-msgstr "Indtast URL'en p� konto-managerens website."
+msgstr "Indtast URL'en på konto-managerens website."
 
 #: clientgui/AccountManagerInfoPage.cpp:173
 #: clientgui/ProjectInfoPage.cpp:229
 msgid "You can copy and paste the URL from your browser's address bar."
-msgstr "Du kan kopiere og inds�tte URL'en fra din browser's adresselinie."
+msgstr "Du kan kopiere og indsætte URL'en fra din browser's adresselinie."
 
 #: clientgui/AccountManagerInfoPage.cpp:182
 msgid "Account Manager &URL:"
@@ -150,7 +150,7 @@ msgstr "Konto-manager &URL:"
 
 #: clientgui/AccountManagerInfoPage.cpp:179
 msgid "For a list of BOINC-based account managers go to:"
-msgstr "Se en liste af BOINC-baserede konto-managere ved at g� til:"
+msgstr "Se en liste af BOINC-baserede konto-managere ved at gå til:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:189
 #: clientgui/AccountManagerPropertiesPage.cpp:193
@@ -172,7 +172,7 @@ msgstr "Vent venligst..."
 #: clientgui/ProjectProcessingPage.cpp:487
 #: clientgui/ProjectProcessingPage.cpp:545
 msgid "An internal server error has occurred.\n"
-msgstr "Der er opst�et en intern server fejl.\n"
+msgstr "Der er opstået en intern server fejl.\n"
 
 #: clientgui/AlreadyAttachedPage.cpp:180
 msgid "Already attached to project"
@@ -196,7 +196,7 @@ msgstr ""
 "En konto med dette brugernavn eksisterer allerede og har\n"
 "et andet kodeord end det som du indtastede.\n"
 "\n"
-"Bes�g projektets hjemmeside og f�lg instruktionerne der."
+"Besøg projektets hjemmeside og følg instruktionerne der."
 
 #: clientgui/AlreadyExistsPage.cpp:190
 msgid "Email address already in use"
@@ -212,7 +212,7 @@ msgstr ""
 "En konto med denne email adresse eksisterer allerede og har\n"
 "et andet kodeord end det som du indtastede.\n"
 "\n"
-"Bes�g projektets hjemmeside og f�lg instruktionerne der."
+"Besøg projektets hjemmeside og følg instruktionerne der."
 
 #: clientgui/BOINCBaseView.cpp:746
 #: clientgui/ViewProjectsGrid.cpp:644
@@ -223,7 +223,7 @@ msgstr "Websites"
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
 msgid "%s - Network Status"
-msgstr "%s - Netv�rksstatus"
+msgstr "%s - Netværksstatus"
 
 #: clientgui/BOINCDialupManager.cpp:163
 #, c-format
@@ -232,12 +232,12 @@ msgid ""
 "Please connect to the Internet, then select the 'retry communications' item off the advanced menu."
 msgstr ""
 "%s kan ikke kommunikere med et projekt og har brug for en internetforbindelse.\n"
-"Forbind til internettet og v�lg 'Pr�v kommunikation igen' i menuen 'Avanceret'."
+"Forbind til internettet og vælg 'Prøv kommunikation igen' i menuen 'Avanceret'."
 
 #: clientgui/BOINCDialupManager.cpp:255
 #, c-format
 msgid "%s needs to connect to the Internet.  Please click to open %s."
-msgstr "%s har behov for at forbinde til internettet. Klik for at �bne %s."
+msgstr "%s har behov for at forbinde til internettet. Klik for at åbne %s."
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
@@ -246,7 +246,7 @@ msgid ""
 "May it do so now?"
 msgstr ""
 "%s har behov for at forbinde til internettet.\n"
-"M� det ske nu?"
+"Må det ske nu?"
 
 #: clientgui/BOINCDialupManager.cpp:323
 #, c-format
@@ -262,13 +262,13 @@ msgid ""
 msgstr ""
 "%s kan ikke kommunikere over internettet,\n"
 "og der er ikke specificeret en standardforbindelse.\n"
-"Forbind til internettet eller v�lg en standardforbindelse\n"
+"Forbind til internettet eller vælg en standardforbindelse\n"
 "via menupunktet 'Avanceret/Indstillinger/Forbindelser'."
 
 #: clientgui/BOINCDialupManager.cpp:386
 #, c-format
 msgid "%s has successfully connected to the Internet."
-msgstr "%s har f�et forbindelse til internettet."
+msgstr "%s har fået forbindelse til internettet."
 
 #: clientgui/BOINCDialupManager.cpp:414
 #, c-format
@@ -282,7 +282,7 @@ msgid ""
 "Updating all projects and retrying all transfers."
 msgstr ""
 "%s er nu forbundet til internettet.\n"
-"Opdaterer alle projekter og pr�ver at starte alle overf�rsler igen."
+"Opdaterer alle projekter og prøver at starte alle overførsler igen."
 
 #: clientgui/BOINCDialupManager.cpp:500
 #, c-format
@@ -302,7 +302,7 @@ msgid ""
 msgstr ""
 "Angiv venligst den emailadresse og det kodeord som du brugte til at registrere\n"
 "ved GridRepublic. (Hvis du endnu ikke har oprettet en konto hos GridRepublic\n"
-"s� g�r det venligst p� http://www.gridrepublic.org)"
+"så gør det venligst på http://www.gridrepublic.org)"
 
 #: clientgui/BOINCGUIApp.cpp:165
 msgid "Start Project"
@@ -318,7 +318,7 @@ msgid ""
 "We will not pass your email address on to others."
 msgstr ""
 "Angiv venligst en emailadresse og et kodeord. Du har brug for din emailadresse,\n"
-"hvis du vil �ndre dine kontoindstillinger eller bruge vores forum.\n"
+"hvis du vil ændre dine kontoindstillinger eller bruge vores forum.\n"
 "\n"
 "Vi vil sende dig enkelte emails. Du kan framelde disse til enhver tid.\n"
 "Vi giver ikke din emailadresse videre til andre."
@@ -339,7 +339,7 @@ msgid ""
 "you more about your model."
 msgstr ""
 "Klik luk for at afslutte. Du vil blive taget til en web side\n"
-"der fort�ller dig mere om din model."
+"der fortæller dig mere om din model."
 
 #: clientgui/BOINCGUIApp.cpp:187
 msgid ""
@@ -370,12 +370,12 @@ msgstr "(Brugerdefineret)"
 #: clientgui/BOINCTaskBar.cpp:318
 #, c-format
 msgid "%s is currently suspended...\n"
-msgstr "%s er suspenderet for nuv�rende....\n"
+msgstr "%s er suspenderet for nuværende....\n"
 
 #: clientgui/BOINCTaskBar.cpp:329
 #, c-format
 msgid "%s networking is currently suspended...\n"
-msgstr "%s netv�rksadgang er suspenderet for nuv�rende....\n"
+msgstr "%s netværksadgang er suspenderet for nuværende....\n"
 
 #: clientgui/BOINCTaskBar.cpp:369
 #, c-format
@@ -396,12 +396,12 @@ msgstr "&Luk"
 #: clientgui/BOINCTaskBar.cpp:588
 #, c-format
 msgid "Open %s Web..."
-msgstr "�bn %s Web..."
+msgstr "Åbn %s Web..."
 
 #: clientgui/BOINCTaskBar.cpp:595
 #, c-format
 msgid "Open %s..."
-msgstr "�bn %s..."
+msgstr "Åbn %s..."
 
 #: clientgui/BOINCTaskBar.cpp:602
 msgid "Snooze"
@@ -436,9 +436,9 @@ msgid ""
 "\n"
 "Click Finish to close."
 msgstr ""
-"Der er opst�et en fejl, check venligst 'Besked' fanen for flere detaljer.\n"
+"Der er opstået en fejl, check venligst 'Besked' fanen for flere detaljer.\n"
 "\n"
-"Klik p� 'Afslut' for at lukke."
+"Klik på 'Afslut' for at lukke."
 
 #: clientgui/CompletionErrorPage.cpp:226
 #: clientgui/CompletionPage.cpp:220
@@ -446,7 +446,7 @@ msgstr ""
 #: clientgui/CompletionPage.cpp:264
 #: clientgui/CompletionPage.cpp:313
 msgid "Click Finish to close."
-msgstr "Klik p� 'Afslut' for at lukke."
+msgstr "Klik på 'Afslut' for at lukke."
 
 #: clientgui/CompletionErrorPage.cpp:235
 msgid "Messages from server:"
@@ -465,17 +465,17 @@ msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
 msgstr ""
-"N�r du klikker Afslut, vil din browser g� til en side, hvor du kan\n"
-"�ndre dit brugernavn og dine indstillinger."
+"Når du klikker Afslut, vil din browser gå til en side, hvor du kan\n"
+"ændre dit brugernavn og dine indstillinger."
 
 #: clientgui/CompletionPage.cpp:233
 #, c-format
 msgid "Update from %s completed."
-msgstr "Opdatering fra %s fuldf�rt."
+msgstr "Opdatering fra %s fuldført."
 
 #: clientgui/CompletionPage.cpp:237
 msgid "Update completed."
-msgstr "Opdatering fuldf�rt."
+msgstr "Opdatering fuldført."
 
 #: clientgui/CompletionPage.cpp:254
 #, c-format
@@ -552,7 +552,7 @@ msgstr "Berkeley Open Infrastructure for Network Computing"
 
 #: clientgui/DlgAbout.cpp:175
 msgid "A software platform for distributed computing using volunteered computer resources"
-msgstr "En software-platform til distribuerede computerudregninger ved hj�lp af frivilligt donerede computerresourcer"
+msgstr "En software-platform til distribuerede computerudregninger ved hjælp af frivilligt donerede computerresourcer"
 
 #: clientgui/DlgAbout.cpp:195
 #: clientgui/DlgExitMessage.cpp:172
@@ -584,7 +584,7 @@ msgstr "&Annuller"
 
 #: clientgui/DlgGenericMessage.cpp:114
 msgid "Click here to disable displaying this message in the future."
-msgstr "Klik her for at undg� denne besked fremover."
+msgstr "Klik her for at undgå denne besked fremover."
 
 #: clientgui/DlgOptions.cpp:142
 msgid "Language Selection:"
@@ -596,11 +596,11 @@ msgstr "Hvilket sprog skal manageren benytte som standard?"
 
 #: clientgui/DlgOptions.cpp:153
 msgid "Reminder Frequency:"
-msgstr "P�mindelseshyppighed:"
+msgstr "Påmindelseshyppighed:"
 
 #: clientgui/DlgOptions.cpp:159
 msgid "How often, in minutes, should the manager remind you of possible connection events."
-msgstr "Hvor ofte, i minutter, skal manageren minde dig om mulige forbindelsesfors�g."
+msgstr "Hvor ofte, i minutter, skal manageren minde dig om mulige forbindelsesforsøg."
 
 #: clientgui/DlgItemProperties.cpp:104
 #: clientgui/DlgOptions.cpp:205
@@ -609,11 +609,11 @@ msgstr "Generelt"
 
 #: clientgui/DlgOptions.cpp:213
 msgid "Dial-up and Virtual Private Network settings"
-msgstr "Opkaldsindstillinger og indstillinger for virtuelle private netv�rk"
+msgstr "Opkaldsindstillinger og indstillinger for virtuelle private netværk"
 
 #: clientgui/DlgOptions.cpp:227
 msgid "&Set Default"
-msgstr "S&�t standard"
+msgstr "S&æt standard"
 
 #: clientgui/DlgOptions.cpp:232
 msgid "&Clear Default"
@@ -650,7 +650,7 @@ msgstr "Port:"
 #: clientgui/DlgOptions.cpp:290
 #: clientgui/DlgOptions.cpp:354
 msgid "Leave these blank if not needed"
-msgstr "Lad disse v�re tomme hvis der ikke er brug for dem"
+msgstr "Lad disse være tomme hvis der ikke er brug for dem"
 
 #: clientgui/DlgOptions.cpp:296
 #: clientgui/DlgOptions.cpp:360
@@ -677,7 +677,7 @@ msgstr "SOCKS Proxy"
 
 #: clientgui/DlgSelectComputer.cpp:127
 msgid "Host name:"
-msgstr "V�rtsnavn:"
+msgstr "Værtsnavn:"
 
 #: clientgui/hyperlink.cpp:181
 #, c-format
@@ -694,10 +694,10 @@ msgid ""
 "BROWSER to the path of your web browser,\n"
 "then restart the %s."
 msgstr ""
-"%s pr�vede at vise websiden\n"
+"%s prøvede at vise websiden\n"
 "\t%s\n"
 "men kunne ikke finde en webbrowser.\n"
-"For at ordne dette kan du s�tte environment-variablen\n"
+"For at ordne dette kan du sætte environment-variablen\n"
 "BROWSER til stien af din webbrowser \n"
 "og genstarte %s."
 
@@ -715,11 +715,11 @@ msgstr "Snak med andre brugere af SETI@home's message boards"
 #: clientgui/Localization.cpp:121
 #: clientgui/Localization.cpp:139
 msgid "Help"
-msgstr "Hj�lp"
+msgstr "Hjælp"
 
 #: clientgui/Localization.cpp:37
 msgid "Ask questions and report problems"
-msgstr "Stil sp�rgsm�l og rapporter problemer"
+msgstr "Stil spørgsmål og rapporter problemer"
 
 #: clientgui/Localization.cpp:39
 #: clientgui/Localization.cpp:81
@@ -740,7 +740,7 @@ msgstr "Dine indstillinger"
 
 #: clientgui/Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr "Se og �ndre din SETI@home profil og indstillinger"
+msgstr "Se og ændre din SETI@home profil og indstillinger"
 
 #: clientgui/Localization.cpp:47
 #: clientgui/Localization.cpp:89
@@ -759,7 +759,7 @@ msgstr "Dine computere"
 
 #: clientgui/Localization.cpp:53
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr "Se en liste af alle de computere, hvor du k�rer SETI@home"
+msgstr "Se en liste af alle de computere, hvor du kører SETI@home"
 
 #: clientgui/Localization.cpp:55
 #: clientgui/Localization.cpp:97
@@ -773,23 +773,23 @@ msgstr "Se information om dit hold"
 
 #: clientgui/Localization.cpp:61
 msgid "Common questions"
-msgstr "Almindelige sp�rgsm�l"
+msgstr "Almindelige spørgsmål"
 
 #: clientgui/Localization.cpp:63
 msgid "Read the Einstein@Home Frequently Asked Question list"
-msgstr "L�s Einstein@Home's Ofte stillede sp�rgsm�l (FAQ) liste"
+msgstr "Læs Einstein@Home's Ofte stillede spørgsmål (FAQ) liste"
 
 #: clientgui/Localization.cpp:65
 msgid "Screensaver info"
-msgstr "Pausesk�rmsinfo"
+msgstr "Pauseskærmsinfo"
 
 #: clientgui/Localization.cpp:67
 msgid "Read a detailed description of the Einstein@Home screensaver"
-msgstr "L�s en detaljeret beskrivelse af Einstein@Home pausesk�rmen"
+msgstr "Læs en detaljeret beskrivelse af Einstein@Home pauseskærmen"
 
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr "Korresponder med administratorer og andre brugere p� Einstein@Home's forums"
+msgstr "Korresponder med administratorer og andre brugere på Einstein@Home's forums"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
@@ -797,7 +797,7 @@ msgstr "Einstein status"
 
 #: clientgui/Localization.cpp:75
 msgid "Current status of the Einstein@Home server"
-msgstr "Nuv�rende status af Einstein@Home serveren"
+msgstr "Nuværende status af Einstein@Home serveren"
 
 #: clientgui/Localization.cpp:77
 msgid "Report problems"
@@ -809,7 +809,7 @@ msgstr "Et link til Einstein@Home problemer og fejl rapporterings besked tavle"
 
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr "Se og �ndre din Einstein@Home konto profil og indstillinger"
+msgstr "Se og ændre din Einstein@Home konto profil og indstillinger"
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
@@ -817,7 +817,7 @@ msgstr "Kontooversigt"
 
 #: clientgui/Localization.cpp:95
 msgid "View a listing of all the computers on which you are running Einstein@Home"
-msgstr "Se en list over alle de computere hvorp� du k�rer Einstein@Home"
+msgstr "Se en list over alle de computere hvorpå du kører Einstein@Home"
 
 #: clientgui/Localization.cpp:101
 msgid "LIGO project"
@@ -850,7 +850,7 @@ msgstr "Info om dit hold"
 
 #: clientgui/Localization.cpp:123
 msgid "Get help for climateprediction.net"
-msgstr "F� hj�lp til climateprediction.net"
+msgstr "Få hjælp til climateprediction.net"
 
 #: clientgui/Localization.cpp:125
 msgid "News"
@@ -870,7 +870,7 @@ msgstr "Info om dit hold"
 
 #: clientgui/Localization.cpp:141
 msgid "Search for help in our help system"
-msgstr "S�g efter hj�lp i vores hj�lpesystem"
+msgstr "Søg efter hjælp i vores hjælpesystem"
 
 #: clientgui/Localization.cpp:143
 msgid "Global Statistics"
@@ -902,7 +902,7 @@ msgstr "Research"
 
 #: clientgui/Localization.cpp:157
 msgid "Learn about the projects hosted at World Community Grid"
-msgstr "L�r om projekter hos World Community Grid"
+msgstr "Lær om projekter hos World Community Grid"
 
 #: clientgui/MainDocument.cpp:1031
 msgid "Retrieving system state; please wait..."
@@ -910,7 +910,7 @@ msgstr "Henter systemtilstand, vent venligst..."
 
 #: clientgui/MainDocument.cpp:1040
 msgid "Retrieving host information; please wait..."
-msgstr "Henter v�rtsinformation, vent venligst..."
+msgstr "Henter værtsinformation, vent venligst..."
 
 #: clientgui/AdvancedFrame.cpp:99
 msgid "Connected"
@@ -949,11 +949,11 @@ msgstr "&Synkroniser med %s"
 #: clientgui/AdvancedFrame.cpp:364
 #, c-format
 msgid "Get current settings from %s"
-msgstr "Hent nuv�rende indstillinger fra %s"
+msgstr "Hent nuværende indstillinger fra %s"
 
 #: clientgui/AdvancedFrame.cpp:379
 msgid "&Run always"
-msgstr "K�r &altid"
+msgstr "Kør &altid"
 
 #: clientgui/AdvancedFrame.cpp:380
 msgid "Allow work regardless of preferences"
@@ -961,7 +961,7 @@ msgstr "Tillad arbejde uanset indstillinger"
 
 #: clientgui/AdvancedFrame.cpp:384
 msgid "Run based on &preferences"
-msgstr "K�r efter &indstillinger"
+msgstr "Kør efter &indstillinger"
 
 #: clientgui/AdvancedFrame.cpp:385
 msgid "Allow work according to your preferences"
@@ -977,27 +977,27 @@ msgstr "Suspenderer arbejde uanset indstillinger"
 
 #: clientgui/AdvancedFrame.cpp:413
 msgid "&Network activity always available"
-msgstr "Netv�rksadgang er altid &tilg�ngelig"
+msgstr "Netværksadgang er altid &tilgængelig"
 
 #: clientgui/AdvancedFrame.cpp:414
 msgid "Allow network activity regardless of preferences"
-msgstr "Tillad netv�rksaktivitet uanset indstillinger"
+msgstr "Tillad netværksaktivitet uanset indstillinger"
 
 #: clientgui/AdvancedFrame.cpp:418
 msgid "Network activity based on &preferences"
-msgstr "Netv�rksadgang efter i&ndstillinger"
+msgstr "Netværksadgang efter i&ndstillinger"
 
 #: clientgui/AdvancedFrame.cpp:419
 msgid "Allow network activity according to your preferences"
-msgstr "Tillad netv�rksaktivitet efter indstillinger"
+msgstr "Tillad netværksaktivitet efter indstillinger"
 
 #: clientgui/AdvancedFrame.cpp:423
 msgid "&Network activity suspended"
-msgstr "Netv�rksadgang er &suspenderet"
+msgstr "Netværksadgang er &suspenderet"
 
 #: clientgui/AdvancedFrame.cpp:424
 msgid "Stop BOINC network activity"
-msgstr "Stop BOINC netv�rksaktivitet"
+msgstr "Stop BOINC netværksaktivitet"
 
 #: clientgui/MainFrame.cpp:423
 msgid "&Options"
@@ -1010,27 +1010,27 @@ msgstr "Konfigurer GUI og PROXY indstillinger"
 #: clientgui/AdvancedFrame.cpp:443
 #, c-format
 msgid "Connect to another computer running %s"
-msgstr "Forbind til en anden computer der k�rer %s"
+msgstr "Forbind til en anden computer der kører %s"
 
 #: clientgui/AdvancedFrame.cpp:448
 msgid "Select computer..."
-msgstr "V�lg &computer..."
+msgstr "Vælg &computer..."
 
 #: clientgui/AdvancedFrame.cpp:458
 msgid "Run CPU &benchmarks"
-msgstr "K�r CPU &Hastighedstest"
+msgstr "Kør CPU &Hastighedstest"
 
 #: clientgui/AdvancedFrame.cpp:459
 msgid "Runs BOINC CPU benchmarks"
-msgstr "K�rer BOINC CPU hastighedstest"
+msgstr "Kører BOINC CPU hastighedstest"
 
 #: clientgui/MainFrame.cpp:444
 msgid "Retry &communications"
-msgstr "Pr�v &kommunikation igen"
+msgstr "Prøv &kommunikation igen"
 
 #: clientgui/MainFrame.cpp:445
 msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
-msgstr "Rapporter f�rdigt arbejde, hent pointstatistik, hent indstillinger og hent muligvis mere arbejde."
+msgstr "Rapporter færdigt arbejde, hent pointstatistik, hent indstillinger og hent muligvis mere arbejde."
 
 #: clientgui/MainFrame.cpp:450
 #: clientgui/WelcomePage.cpp:311
@@ -1080,7 +1080,7 @@ msgstr "&Filer"
 
 #: clientgui/AdvancedFrame.cpp:579
 msgid "&Tools"
-msgstr "&V�rkt�jer"
+msgstr "&Værktøjer"
 
 #: clientgui/AdvancedFrame.cpp:583
 msgid "&Activity"
@@ -1095,7 +1095,7 @@ msgstr "&Avanceret"
 #: clientgui/wizardex.cpp:399
 #: clientgui/wizardex.cpp:406
 msgid "&Help"
-msgstr "&Hj�lp"
+msgstr "&Hjælp"
 
 #: clientgui/MainFrame.cpp:1086
 msgid ""
@@ -1109,7 +1109,7 @@ msgstr ""
 
 #: clientgui/MainFrame.cpp:1091
 msgid "Close Confirmation"
-msgstr "Bekr�ft Lukning"
+msgstr "Bekræft Lukning"
 
 #: clientgui/MainFrame.cpp:1222
 #, c-format
@@ -1126,7 +1126,7 @@ msgid ""
 "Do you want to defect from %s?"
 msgstr ""
 "Hvis du afbryder %s \n"
-"vil du beholde alle dine nuv�rende projekter,\n"
+"vil du beholde alle dine nuværende projekter,\n"
 "men du skal selv styre dem manuelt.\n"
 "\n"
 "Vil du afbryde %s?"
@@ -1137,7 +1137,7 @@ msgstr "Tilmelder projekt..."
 
 #: clientgui/AdvancedFrame.cpp:1460
 msgid "Retrying communications for project(s)..."
-msgstr "Pr�ver kommunikation med projekt(er) igen..."
+msgstr "Prøver kommunikation med projekt(er) igen..."
 
 #: clientgui/AdvancedFrame.cpp:1551
 #, c-format
@@ -1147,7 +1147,7 @@ msgstr "%s - Sprogvalg:"
 #: clientgui/AdvancedFrame.cpp:1558
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr "%s's sprog er �ndret. For at dette kan tr�de i kraft skal du genstarte %s."
+msgstr "%s's sprog er ændret. For at dette kan træde i kraft skal du genstarte %s."
 
 #: clientgui/AdvancedFrame.cpp:1940
 #, c-format
@@ -1171,7 +1171,7 @@ msgstr "%s - Forbindelsesfejl"
 
 #: clientgui/BOINCBaseFrame.cpp:443
 msgid "The password you have provided is incorrect, please try again."
-msgstr "Det angivne kodeord er ikke korrekt, pr�v venligst igen."
+msgstr "Det angivne kodeord er ikke korrekt, prøv venligst igen."
 
 #: clientgui/BOINCBaseFrame.cpp:482
 #, c-format
@@ -1185,7 +1185,7 @@ msgid ""
 "Would you like to try to connect again?"
 msgstr ""
 "%s kan ikke forbinde til en %s klient.\n"
-"Vil du pr�ve at forbinde igen?"
+"Vil du prøve at forbinde igen?"
 
 #: clientgui/BOINCBaseFrame.cpp:589
 #, c-format
@@ -1200,8 +1200,8 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s er ikke forbundet til en %s klient lige nu.\n"
-"Brug 'Avanceret\\V�lg computer...'-menupunktet for at forbinde til en %s klient.\n"
-"For at forbinde til din lokale computer kan 'localhost' bruges som v�rtsnavn."
+"Brug 'Avanceret\\Vælg computer...'-menupunktet for at forbinde til en %s klient.\n"
+"For at forbinde til din lokale computer kan 'localhost' bruges som værtsnavn."
 
 #: clientgui/NoInternetConnectionPage.cpp:180
 msgid "No Internet connection"
@@ -1209,7 +1209,7 @@ msgstr "Ingen internetforbindelse"
 
 #: clientgui/NoInternetConnectionPage.cpp:183
 msgid "Please connect to the Internet and try again."
-msgstr "Forbind venligst til internettet og pr�v igen."
+msgstr "Forbind venligst til internettet og prøv igen."
 
 #: clientgui/NotDetectedPage.cpp:182
 msgid "Project not found"
@@ -1221,9 +1221,9 @@ msgid ""
 "\n"
 "Please check the URL and try again."
 msgstr ""
-"URL'en du gav er ikke p� et BOINC-baseret projekt.\n"
+"URL'en du gav er ikke på et BOINC-baseret projekt.\n"
 "\n"
-"Check URL'en og pr�v igen"
+"Check URL'en og prøv igen"
 
 #: clientgui/NotDetectedPage.cpp:189
 msgid "Account manager not found"
@@ -1236,9 +1236,9 @@ msgid ""
 "\n"
 "Please check the URL and try again."
 msgstr ""
-"URL'en du gav er ikke p� en BOINC-baseret konto-manager.\n"
+"URL'en du gav er ikke på en BOINC-baseret konto-manager.\n"
 "\n"
-"Check URL'en og pr�v igen"
+"Check URL'en og prøv igen"
 
 #: clientgui/NotFoundPage.cpp:182
 msgid "Login Failed."
@@ -1246,11 +1246,11 @@ msgstr "Login fejlede."
 
 #: clientgui/NotFoundPage.cpp:186
 msgid "Check the username and password, and try again."
-msgstr "Check dit brugernavn og kodeord, og pr�v igen."
+msgstr "Check dit brugernavn og kodeord, og prøv igen."
 
 #: clientgui/NotFoundPage.cpp:190
 msgid "Check the email address and password, and try again."
-msgstr "Check emailadresse og kodeord, og pr�v igen."
+msgstr "Check emailadresse og kodeord, og prøv igen."
 
 #: clientgui/ProjectInfoPage.cpp:223
 msgid "Project URL"
@@ -1258,7 +1258,7 @@ msgstr "Projekt URL"
 
 #: clientgui/ProjectInfoPage.cpp:226
 msgid "Enter the URL of the project's web site."
-msgstr "Indtast URL'en p� projektets web side."
+msgstr "Indtast URL'en på projektets web side."
 
 #: clientgui/ProjectInfoPage.cpp:246
 msgid "Project &URL:"
@@ -1266,7 +1266,7 @@ msgstr "Projekt &URL:"
 
 #: clientgui/ProjectInfoPage.cpp:235
 msgid "For a list of BOINC-based projects go to:"
-msgstr "For en liste over BOINC-baserede projekter, g� til:"
+msgstr "For en liste over BOINC-baserede projekter, gå til:"
 
 #: clientgui/ProjectProcessingPage.cpp:323
 #: clientgui/ProjectPropertiesPage.cpp:335
@@ -1282,12 +1282,12 @@ msgid ""
 "Required wizard file(s) are missing from the target server.\n"
 "(lookup_account.php/create_account.php)\n"
 msgstr ""
-"P�kr�vede wizard fil(er) mangler p� serveren.\n"
+"Påkrævede wizard fil(er) mangler på serveren.\n"
 "(lookup_account.php/create_account.php)\n"
 
 #: clientgui/ProxyInfoPage.cpp:196
 msgid "Network communication failure"
-msgstr "Netv�rkskommunikationsfejl"
+msgstr "Netværkskommunikationsfejl"
 
 #: clientgui/ProxyInfoPage.cpp:193
 msgid ""
@@ -1308,17 +1308,17 @@ msgstr ""
 "BOINC kunne ikke kommunikere via internettet. De mest\n"
 "almindelige grunde er:\n"
 "\n"
-"1)Forbindelsesproblem. Check dit modem eller netv�rk og klik\n"
-"p� Tilbage-knappen for at fors�ge den forrige operation igen.\n"
+"1)Forbindelsesproblem. Check dit modem eller netværk og klik\n"
+"på Tilbage-knappen for at forsøge den forrige operation igen.\n"
 "2) Din personlige firewall blokerer BOINC. Du skal\n"
 "konfigurere din personlige firewall til at lade BOINC kommunikere\n"
-"p� port 80. N�r dette er gjort, klik p� Tilbage for at pr�ve igen.\n"
+"på port 80. Når dette er gjort, klik på Tilbage for at prøve igen.\n"
 "\n"
 "3) Du bruger en Proxy-server, og BOINC skal indstilles til at benytte den."
 
 #: clientgui/ProxyInfoPage.cpp:208
 msgid "Click Next to configure BOINC's proxy settings."
-msgstr "Klik N�ste for at konfigurere BOINC's proxy indstillinger."
+msgstr "Klik Næste for at konfigurere BOINC's proxy indstillinger."
 
 #: clientgui/ProxyPage.cpp:332
 msgid "Proxy configuration"
@@ -1343,7 +1343,7 @@ msgstr "SOCKS proxy"
 
 #: clientgui/UnavailablePage.cpp:184
 msgid "Project temporarily unavailable"
-msgstr "Projektet er midlertidigt utilg�ngeligt"
+msgstr "Projektet er midlertidigt utilgængeligt"
 
 #: clientgui/UnavailablePage.cpp:187
 msgid ""
@@ -1351,13 +1351,13 @@ msgid ""
 "\n"
 "Please try again later."
 msgstr ""
-"Projektet er midlertidigt utilg�ngeligt.\n"
+"Projektet er midlertidigt utilgængeligt.\n"
 "\n"
-"Pr�v venligst igen senere."
+"Prøv venligst igen senere."
 
 #: clientgui/UnavailablePage.cpp:191
 msgid "Account manager temporarily unavailable"
-msgstr "Konto-manager er midlertidig utilg�ngelig"
+msgstr "Konto-manager er midlertidig utilgængelig"
 
 #: clientgui/UnavailablePage.cpp:194
 msgid ""
@@ -1365,17 +1365,17 @@ msgid ""
 "\n"
 "Please try again later."
 msgstr ""
-"Konto-manageren er midlertidigt utilg�ngelig.\n"
+"Konto-manageren er midlertidigt utilgængelig.\n"
 "\n"
-"Pr�v venligst igen senere."
+"Prøv venligst igen senere."
 
 #: clientgui/ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
-msgstr "Angiv venligst en konton�gle for at forts�tte."
+msgstr "Angiv venligst en kontonøgle for at fortsætte."
 
 #: clientgui/ValidateAccountKey.cpp:71
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr "Ugyldig konton�gle; Indtast venligst en gyldig konton�gle"
+msgstr "Ugyldig kontonøgle; Indtast venligst en gyldig kontonøgle"
 
 #: clientgui/ValidateAccountKey.cpp:82
 #: clientgui/ValidateEmailAddress.cpp:86
@@ -1417,7 +1417,7 @@ msgid ""
 "For example:\n"
 "http://boincproject.example.com"
 msgstr ""
-"Angiv venligst et gyldigt v�rtsnavn.\n"
+"Angiv venligst et gyldigt værtsnavn.\n"
 "For eksempel:\n"
 "boincproject.eksempel.com"
 
@@ -1425,7 +1425,7 @@ msgstr ""
 #: clientgui/ValidateURL.cpp:108
 #, c-format
 msgid "'%s' does not contain a valid host name."
-msgstr "'%s' indeholder ikke et gyldigt v�rtsnavn."
+msgstr "'%s' indeholder ikke et gyldigt værtsnavn."
 
 #: clientgui/ValidateURL.cpp:111
 #, c-format
@@ -1467,7 +1467,7 @@ msgstr "Kopier valgte beskeder"
 #: clientgui/ViewMessages.cpp:99
 #: clientgui/ViewMessagesGrid.cpp:112
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr "Kopier de valgte beskeder til udklipsholderen. Du kan v�lge flere beskeder ved at holde shift eller control-knappen nede mens du v�lger."
+msgstr "Kopier de valgte beskeder til udklipsholderen. Du kan vælge flere beskeder ved at holde shift eller control-knappen nede mens du vælger."
 
 #: clientgui/sg_DlgMessages.cpp:107
 #: clientgui/ViewMessages.cpp:117
@@ -1509,7 +1509,7 @@ msgstr "Kopierer alle beskeder til udklipsholderen..."
 
 #: clientgui/ViewTransfers.cpp:309
 msgid "Aborting transfer..."
-msgstr "Afbryder overf�rsel..."
+msgstr "Afbryder overførsel..."
 
 #: clientgui/ViewProjects.cpp:173
 #: clientgui/ViewProjectsBase.cpp:107
@@ -1521,7 +1521,7 @@ msgstr "Opdater"
 #: clientgui/ViewProjectsBase.cpp:108
 #: clientgui/ViewProjectsGrid.cpp:121
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr "Rapporter alle f�rdige opgaver, hent pointstatistik, indstillinger, og hvis muligt, flere opgaver for dette projekt."
+msgstr "Rapporter alle færdige opgaver, hent pointstatistik, indstillinger, og hvis muligt, flere opgaver for dette projekt."
 
 #: clientgui/ViewProjects.cpp:180
 #: clientgui/ViewProjects.cpp:706
@@ -1534,7 +1534,7 @@ msgstr "Rapporter alle f�rdige opgaver, hent pointstatistik, indstillinger, og h
 #: clientgui/ViewWorkGrid.cpp:121
 #: clientgui/ViewWorkGrid.cpp:450
 msgid "Suspend"
-msgstr "Suspender k�rsel"
+msgstr "Suspender kørsel"
 
 #: clientgui/ViewProjects.cpp:181
 #: clientgui/ViewProjects.cpp:706
@@ -1570,7 +1570,7 @@ msgstr "Nulstil projekt"
 #: clientgui/ViewProjectsBase.cpp:130
 #: clientgui/ViewProjectsGrid.cpp:142
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr "Sletter alle filer og opgaver tilh�rende dette projekt og henter nye opgaver. Du kan opdatere projektet f�rst for at rapportere eventuelle f�rdige opgaver."
+msgstr "Sletter alle filer og opgaver tilhørende dette projekt og henter nye opgaver. Du kan opdatere projektet først for at rapportere eventuelle færdige opgaver."
 
 #: clientgui/ViewProjects.cpp:201
 #: clientgui/ViewProjectsBase.cpp:139
@@ -1582,7 +1582,7 @@ msgstr "Afmeld"
 #: clientgui/ViewProjectsBase.cpp:140
 #: clientgui/ViewProjectsGrid.cpp:149
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr "Framelder denne computer fra projektet. Igangv�rende opgaver vil blive tabt. (Brug 'Opdater' f�rst for at rapportere eventuelle f�rdige opgaver)."
+msgstr "Framelder denne computer fra projektet. Igangværende opgaver vil blive tabt. (Brug 'Opdater' først for at rapportere eventuelle færdige opgaver)."
 
 #: clientgui/ViewProjects.cpp:219
 #: clientgui/ViewProjectsBase.cpp:152
@@ -1595,7 +1595,7 @@ msgstr "Konto"
 #: clientgui/ViewProjectsBase.cpp:154
 #: clientgui/ViewProjectsGrid.cpp:163
 msgid "Work done"
-msgstr "Udf�rt arbejde"
+msgstr "Udført arbejde"
 
 #: clientgui/ViewProjects.cpp:222
 #: clientgui/ViewProjectsBase.cpp:155
@@ -1669,7 +1669,7 @@ msgstr "Nulstiller projekt..."
 #: clientgui/ViewProjectsGrid.cpp:363
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
-msgstr "Er du sikker p�, at du vil nulstille projektet '%s'?"
+msgstr "Er du sikker på, at du vil nulstille projektet '%s'?"
 
 #: clientgui/ViewProjects.cpp:438
 #: clientgui/ViewProjectsBase.cpp:302
@@ -1689,7 +1689,7 @@ msgstr "Afmelder projekt..."
 #: clientgui/ViewProjectsGrid.cpp:418
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
-msgstr "Er du sikker p�, at du vil afmelde projektet '%s'?"
+msgstr "Er du sikker på, at du vil afmelde projektet '%s'?"
 
 #: clientgui/sg_StatImageLoader.cpp:222
 #: clientgui/ViewProjects.cpp:496
@@ -1754,7 +1754,7 @@ msgstr "Henter ikke nye opgaver"
 #: clientgui/ViewProjectsBase.cpp:686
 #: clientgui/ViewProjectsGrid.cpp:740
 msgid "Scheduler request pending"
-msgstr "Scheduler foresp�rgsel venter"
+msgstr "Scheduler forespørgsel venter"
 
 #: clientgui/ViewProjects.cpp:1073
 #: clientgui/ViewProjectsBase.cpp:696
@@ -1785,11 +1785,11 @@ msgstr "Vis brugergennemsnit"
 
 #: clientgui/ViewStatistics.cpp:1759
 msgid "Show host total"
-msgstr "Vis ialt for v�rt"
+msgstr "Vis ialt for vært"
 
 #: clientgui/ViewStatistics.cpp:1766
 msgid "Show host average"
-msgstr "Vis v�rtsgennemsnit"
+msgstr "Vis værtsgennemsnit"
 
 #: clientgui/ViewStatistics.cpp:1776
 msgid "< &Previous project"
@@ -1797,7 +1797,7 @@ msgstr "< &Forrige projekt"
 
 #: clientgui/ViewStatistics.cpp:1782
 msgid "&Next project >"
-msgstr "&N�ste projekt >"
+msgstr "&Næste projekt >"
 
 #: clientgui/ViewStatistics.cpp:1788
 msgid "Mode view"
@@ -1809,7 +1809,7 @@ msgstr "Alle projekter"
 
 #: clientgui/ViewStatistics.cpp:1798
 msgid "One project"
-msgstr "�t projekt"
+msgstr "Ét projekt"
 
 #: clientgui/ViewStatistics.cpp:1805
 msgid "All projects(sum)"
@@ -1838,31 +1838,31 @@ msgstr "Brugergennemsnit"
 
 #: clientgui/ViewStatistics.cpp:1144
 msgid "Host Total"
-msgstr "Ialt for V�rt"
+msgstr "Ialt for Vært"
 
 #: clientgui/ViewStatistics.cpp:1145
 msgid "Host Average"
-msgstr "V�rtsgennemsnit"
+msgstr "Værtsgennemsnit"
 
 #: clientgui/ViewTransfers.cpp:163
 #: clientgui/ViewTransfersGrid.cpp:106
 msgid "Retry Now"
-msgstr "Pr�v igen nu"
+msgstr "Prøv igen nu"
 
 #: clientgui/ViewTransfers.cpp:164
 #: clientgui/ViewTransfersGrid.cpp:107
 msgid "Click 'Retry now' to transfer the file now"
-msgstr "Klik 'Pr�v igen nu' for at overf�re filen nu"
+msgstr "Klik 'Prøv igen nu' for at overføre filen nu"
 
 #: clientgui/ViewTransfers.cpp:170
 #: clientgui/ViewTransfersGrid.cpp:113
 msgid "Abort Transfer"
-msgstr "Afbryd overf�rsel"
+msgstr "Afbryd overførsel"
 
 #: clientgui/ViewTransfers.cpp:171
 #: clientgui/ViewTransfersGrid.cpp:114
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr "Klik 'Afbryd overf�rsel' for at slette filen fra overf�rselsk�en. Dette vil forhindre dig i at f� points for dette resultat."
+msgstr "Klik 'Afbryd overførsel' for at slette filen fra overførselskøen. Dette vil forhindre dig i at få points for dette resultat."
 
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -1874,12 +1874,12 @@ msgstr "Fil"
 #: clientgui/ViewWork.cpp:218
 #: clientgui/ViewWorkGrid.cpp:147
 msgid "Progress"
-msgstr "Udf�rt"
+msgstr "Udført"
 
 #: clientgui/ViewTransfers.cpp:184
 #: clientgui/ViewTransfersGrid.cpp:129
 msgid "Size"
-msgstr "St�rrelse"
+msgstr "Størrelse"
 
 #: clientgui/ViewTransfers.cpp:185
 #: clientgui/ViewTransfersGrid.cpp:130
@@ -1895,12 +1895,12 @@ msgstr "Hastighed"
 #: clientgui/ViewTransfers.cpp:212
 #: clientgui/ViewTransfersGrid.cpp:167
 msgid "Transfers"
-msgstr "Overf�rsler"
+msgstr "Overførsler"
 
 #: clientgui/ViewTransfers.cpp:271
 #: clientgui/ViewTransfersGrid.cpp:190
 msgid "Retrying transfer now..."
-msgstr "Pr�ver overf�rsel igen nu..."
+msgstr "Prøver overførsel igen nu..."
 
 #: clientgui/ViewTransfers.cpp:322
 #, c-format
@@ -1909,18 +1909,18 @@ msgid ""
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
 msgstr ""
-"Er du sikker p� du vil afbryde denne filoverf�rsel '%s'?\n"
-"NOTE: Hvis du afbryder en overf�rsel vil opgaven fejle\n"
-"og du vil ikke f� points for den."
+"Er du sikker på du vil afbryde denne filoverførsel '%s'?\n"
+"NOTE: Hvis du afbryder en overførsel vil opgaven fejle\n"
+"og du vil ikke få points for den."
 
 #: clientgui/ViewTransfers.cpp:328
 msgid "Abort File Transfer"
-msgstr "Afbryd filoverf�rsel"
+msgstr "Afbryd filoverførsel"
 
 #: clientgui/ViewTransfers.cpp:750
 #: clientgui/ViewTransfersGrid.cpp:419
 msgid "Retry in "
-msgstr "Pr�ver igen om "
+msgstr "Prøver igen om "
 
 #: clientgui/DlgItemProperties.cpp:255
 #: clientgui/ViewTransfers.cpp:752
@@ -1998,7 +1998,7 @@ msgstr "Afbryd"
 #: clientgui/ViewWork.cpp:198
 #: clientgui/ViewWorkGrid.cpp:129
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr "Stopper permanent arbejdet p� resultatet. Du vil ikke f� nogle points for det."
+msgstr "Stopper permanent arbejdet på resultatet. Du vil ikke få nogle points for det."
 
 #: clientgui/DlgItemProperties.cpp:149
 #: clientgui/ViewWork.cpp:215
@@ -2053,7 +2053,7 @@ msgstr "Viser grafik for opgave..."
 #: clientgui/ViewWork.cpp:354
 #: clientgui/ViewWorkGrid.cpp:258
 msgid "Are you sure you want to display graphics on a remote machine?"
-msgstr "Er du sikker p�, at du �nsker at vise grafik p� en anden maskine?"
+msgstr "Er du sikker på, at du ønsker at vise grafik på en anden maskine?"
 
 #: clientgui/ViewWork.cpp:408
 #: clientgui/ViewWorkGrid.cpp:313
@@ -2066,8 +2066,8 @@ msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
 msgstr ""
-"Er du sikker p�, at du vil afbryde denne opgave '%s'?\n"
-"(Udf�rt: %s, Status: %s)"
+"Er du sikker på, at du vil afbryde denne opgave '%s'?\n"
+"(Udført: %s, Status: %s)"
 
 #: clientgui/ViewWork.cpp:429
 #: clientgui/ViewWorkGrid.cpp:335
@@ -2111,7 +2111,7 @@ msgstr "Aktiviteter suspenderet"
 #: clientgui/ViewWork.cpp:1069
 #: clientgui/ViewWorkGrid.cpp:817
 msgid "Running"
-msgstr "K�rer"
+msgstr "Kører"
 
 #: clientgui/ViewWork.cpp:762
 msgid "Preempted"
@@ -2120,7 +2120,7 @@ msgstr "Pause"
 #: clientgui/ViewWork.cpp:764
 #: clientgui/ViewWork.cpp:767
 msgid "Ready to run"
-msgstr "Klar til k�rsel"
+msgstr "Klar til kørsel"
 
 #: clientgui/DlgItemProperties.cpp:306
 #: clientgui/ViewWork.cpp:1090
@@ -2227,22 +2227,22 @@ msgstr "Net detektionsfejl"
 
 #: clientgui/WelcomePage.cpp:437
 msgid "To continue, click Next."
-msgstr "Klik N�ste for at forts�tte."
+msgstr "Klik Næste for at fortsætte."
 
 #: clientgui/WizardAccountManager.cpp:444
 #: clientgui/WizardAttachProject.cpp:465
 msgid "Do you really want to cancel?"
-msgstr "Er du sikker p� du vil afbryde?"
+msgstr "Er du sikker på du vil afbryde?"
 
 #: clientgui/WizardAccountManager.cpp:445
 #: clientgui/WizardAttachProject.cpp:466
 msgid "Question"
-msgstr "Sp�rgsm�l"
+msgstr "Spørgsmål"
 
 #: clientgui/wizardex.cpp:402
 #: clientgui/wizardex.cpp:604
 msgid "&Next >"
-msgstr "&N�ste >"
+msgstr "&Næste >"
 
 #: clientgui/wizardex.cpp:408
 msgid "< &Back"
@@ -2266,26 +2266,26 @@ msgstr "BOINC Manager - Indstillinger"
 
 #: clientgui/DlgSelectComputer.h:49
 msgid "BOINC Manager - Select Computer"
-msgstr "BOINC Manager - V�lg computer"
+msgstr "BOINC Manager - Vælg computer"
 
 #: clientgui/AccountInfoPage.cpp:335
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr "Indtast venligst din kontoinformation\n"
-"(for at oprette en konto kan du bes�ge projektets hjemmeside)"
+"(for at oprette en konto kan du besøge projektets hjemmeside)"
 
 #: clientgui/AccountInfoPage.cpp:339
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
-msgstr "Dette projekt accepterer i �jeblikket ikke nye brugerkonti.\n"
+msgstr "Dette projekt accepterer i øjeblikket ikke nye brugerkonti.\n"
 "Du kan kun tilmelde denne maskine hvis du allerede har en konto."
 
 #: clientgui/AccountInfoPage.cpp:383
 #, c-format
 msgid "Are you already running %s?"
-msgstr "K�rer du allerede %s?"
+msgstr "Kører du allerede %s?"
 
 #: clientgui/AccountInfoPage.cpp:426
 msgid "Forgot your password?"
@@ -2296,26 +2296,33 @@ msgstr "Har du glemt dit password?"
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr ""
-"Den minimale password-l�ngde for dette projekt er %d. Indtast venligst et andet password."
+"Den minimale password-længde for dette projekt er %d. Indtast venligst et andet password."
 
 #: clientgui/AccountInfoPage.cpp:477
 #, c-format
 #, c-format
+#, fuzzy
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr ""
-"Den minimale password-l�ngde for denne konto-manager er %d. Indtast venligst et andet password.
+"Minimums lÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃ"
+"ÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¦ngden pÃÂÃÂ"
+"ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ"
+"ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¥ kodeordet i denne konto "
+"manager er %d. VÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ"
+"ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¦lg "
+"venligst et andet kodeord."
 
 #: clientgui/AccountManagerInfoPage.cpp:179
 msgid ""
 "You can copy and paste the URL from your browser's\n"
 "address bar."
 msgstr ""
-"Du kan kopiere og inds�tte URL'en fra din browser's adresselinie"
+"Du kan kopiere og indsætte URL'en fra din browser's adresselinie"
 
 #: clientgui/AccountManagerInfoPage.cpp:185
 msgid "For a list of account managers go to:"
 msgstr ""
-"For at se en liste af BOINC-baserede konto-managere, g� til:"
+"For at se en liste af BOINC-baserede konto-managere, gå til:"
 
 #: clientgui/AdvancedFrame.cpp:308
 #: clientgui/sg_BoincSimpleGUI.cpp:106
@@ -2344,6 +2351,7 @@ msgid "Display the simple BOINC graphical interface."
 msgstr "Brug simpel grafisk BOINC interface"
 
 #: clientgui/AdvancedFrame.cpp:350
+#, fuzzy
 msgid "Attach to &project..."
 msgstr "Tilmeld &projekt"
 
@@ -2369,31 +2377,31 @@ msgstr "Stop den forbundne klient"
 
 #: clientgui/AdvancedFrame.cpp:454
 msgid "Shut down the currently connected core client"
-msgstr "Stop kerneklienten som er forbundet i�jeblikket"
+msgstr "Stop kerneklienten som er forbundet iøjeblikket"
 
 #: clientgui/AdvancedFrame.cpp:463
 msgid "Do network &communication"
-msgstr "Udf�r netv�rkskommunikation"
+msgstr "Udfør netværkskommunikation"
 
 #: clientgui/AdvancedFrame.cpp:464
 msgid "Do all pending network communication."
-msgstr "Udf�r al ventende netv�rkskommunikation"
+msgstr "Udfør al ventende netværkskommunikation"
 
 #: clientgui/AdvancedFrame.cpp:468
 msgid "Read config file"
-msgstr "L�s konfigurationsfilen"
+msgstr "Læs konfigurationsfilen"
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "Read configuration info from cc_config.xml."
-msgstr "L�s konfigurationsinformation fra cc_config.xml"
+msgstr "Læs konfigurationsinformation fra cc_config.xml"
 
 #: clientgui/AdvancedFrame.cpp:473
 msgid "Read local prefs file"
-msgstr "L�s lokal computerindstillingsfil"
+msgstr "Læs lokal computerindstillingsfil"
 
 #: clientgui/AdvancedFrame.cpp:474
 msgid "Read preferences from global_prefs_override.xml."
-msgstr "L�s computerindstillingerne fra global_prefs_override.xml"
+msgstr "Læs computerindstillingerne fra global_prefs_override.xml"
 
 #: clientgui/AdvancedFrame.cpp:478
 #, c-format
@@ -2404,19 +2412,20 @@ msgstr "&Stop med at bruge %s..."
 #: clientgui/sg_BoincSimpleGUI.cpp:116
 #, c-format
 msgid "%s &help"
-msgstr "%s &Hj�lp"
+msgstr "%s &Hjælp"
 
 #: clientgui/AdvancedFrame.cpp:506
 #: clientgui/sg_BoincSimpleGUI.cpp:122
 #, c-format
 #, c-format
+#, fuzzy
 msgid "Show information about %s"
 msgstr "Vis information om %s"
 
 #: clientgui/AdvancedFrame.cpp:518
 #, c-format
 msgid "&%s help"
-msgstr "&%s hj�lp"
+msgstr "&%s hjælp"
 
 #: clientgui/AdvancedFrame.cpp:575
 msgid "&View"
@@ -2425,15 +2434,15 @@ msgstr "%Vis"
 #: clientgui/AdvancedFrame.cpp:1213
 #, c-format
 msgid "%s - Shutdown the current client..."
-msgstr "%s - Stop den nuv�rende klient..."
+msgstr "%s - Stop den nuværende klient..."
 
 #: clientgui/AdvancedFrame.cpp:1222
 #, c-format
 msgid ""
 "%s will shut down the currently connected client,\n"
 "and prompt you for another host to connect to.\n"
-msgstr "%s vil stoppe klienten der i �jeblikket er forbundet og\n"
-"vil derefter sp�rge efter en ny v�rt at forbinde til.\n"
+msgstr "%s vil stoppe klienten der i øjeblikket er forbundet og\n"
+"vil derefter spørge efter en ny vært at forbinde til.\n"
 
 #: clientgui/AdvancedFrame.cpp:1369
 #, c-format
@@ -2451,8 +2460,8 @@ msgid ""
 "Do you want to stop using %s?"
 msgstr ""
 "Hvis du afbryder fra %s,\n"
-"vil du beholde alle dine nuv�rende projekter,\n"
-"men du skal s� selv styre dem manuelt.\n"
+"vil du beholde alle dine nuværende projekter,\n"
+"men du skal så selv styre dem manuelt.\n"
 "\n"
 "Vil du afbryde fra %s?"
 
@@ -2475,8 +2484,8 @@ msgstr "Kommunikerer med BOINC klienten. Vent venligst..."
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
-msgstr "Du er i �jeblikket ikke autoriseret til at styre klienten.\n"
-"Kontakt venligst din administrator for at tilf�je dig til den lokale 'boinc_user' brugergruppe."
+msgstr "Du er i øjeblikket ikke autoriseret til at styre klienten.\n"
+"Kontakt venligst din administrator for at tilføje dig til den lokale 'boinc_user' brugergruppe."
 
 #: clientgui/BOINCBaseFrame.cpp:433
 msgid ""
@@ -2516,9 +2525,9 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s er ikke forbundet til en %s klient lige nu.\n"
-"Brug 'Avanceret\\V�lg computer...'-menupunktet for at forbinde til en %s klient.\n"
+"Brug 'Avanceret\\Vælg computer...'-menupunktet for at forbinde til en %s klient.\n"
 "For at forbinde til din lokale computer, brug 'localhost' som "
-"v�rtsnavn."
+"værtsnavn."
 
 #: clientgui/BOINCDialupManager.cpp:263
 #, c-format
@@ -2529,16 +2538,16 @@ msgid ""
 msgstr ""
 "%s kan ikke kommunikere med et projekt og har brug for en "
 "internetforbindelse.\n"
-"Forbind til internettet, og v�lg "
-"'Pr�v kommunikation igen'  under menupunktet "
+"Forbind til internettet, og vælg "
+"'Prøv kommunikation igen'  under menupunktet "
 "Avanceret."
 
 #: clientgui/BOINCGUIApp.cpp:365
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
-msgstr "En genstart er kr�vet for at BOINC kan k�re ordentligt.\n"
-"Genstart venligst din computer og pr�v igen."
+msgstr "En genstart er krævet for at BOINC kan køre ordentligt.\n"
+"Genstart venligst din computer og prøv igen."
 
 #: clientgui/BOINCGUIApp.cpp:515
 msgid "BOINC Manager was started by the operating system automatically"
@@ -2559,17 +2568,17 @@ msgstr "Arbejde er stoppet"
 #: clientgui/BOINCTaskBar.cpp:335
 #, fuzzy
 msgid "Network activity is suspended."
-msgstr "NetvÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¦rksadgang er &suspenderet"
+msgstr "NetvÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¦rksadgang er &suspenderet"
 
 #: clientgui/BOINCTaskBar.cpp:369
 #, c-format
 msgid "%s: %.2f%% completed."
-msgstr "%s: %.2f%% udf�rt."
+msgstr "%s: %.2f%% udført."
 
 #: clientgui/BOINCTaskBar.cpp:382
 #, c-format
 msgid "%d tasks running."
-msgstr "%d jobs k�rer"
+msgstr "%d jobs kører"
 
 #: clientgui/BOINCTaskBar.cpp:391
 msgid "Reconnecting to client."
@@ -2621,7 +2630,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferences.cpp:474
 msgid "invalid float"
-msgstr "ugyldig float-v�rdi"
+msgstr "ugyldig float-værdi"
 
 #: clientgui/DlgAdvPreferences.cpp:475
 msgid "invalid time, format is HH:MM"
@@ -2633,7 +2642,7 @@ msgstr "ugyldigt tidsinterval, formatet er HH:MM-HH:MM"
 
 #: clientgui/DlgAdvPreferences.cpp:585
 msgid "invalid input value detected"
-msgstr "ugyldig input-v�rdi"
+msgstr "ugyldig input-værdi"
 
 #: clientgui/DlgAdvPreferences.cpp:587
 msgid "Validation Error"
@@ -2641,11 +2650,11 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferences.cpp:730
 msgid "Do you really want to clear all local preferences ?"
-msgstr "Er du sikker p� at du vil slette alle lokale indstillinger"
+msgstr "Er du sikker på at du vil slette alle lokale indstillinger"
 
 #: clientgui/DlgAdvPreferences.cpp:731
 msgid "Confirmation"
-msgstr "Bekr�ftelse"
+msgstr "Bekræftelse"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:31
 #: clientgui/sg_DlgPreferences.cpp:1037
@@ -2674,11 +2683,11 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:77
 msgid " While computer is on batteries"
-msgstr " Mens computeren k�rer p� batterier"
+msgstr " Mens computeren kører på batterier"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:79
 msgid "check this if you want this computer to do work while it runs on batteries"
-msgstr "s�t kryds hvis du �nsker at computeren skal arbejde mens den k�rer p� batterier"
+msgstr "sæt kryds hvis du ønsker at computeren skal arbejde mens den kører på batterier"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:83
 msgid " While computer is in use"
@@ -2686,7 +2695,7 @@ msgstr " Mens computeren er i brug"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:85
 msgid "check this if you want this computer to do work even when you're using it"
-msgstr "s�t kryds hvis du �nsker at computeren skal arbejde selv om du bruger den"
+msgstr "sæt kryds hvis du ønsker at computeren skal arbejde selv om du bruger den"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:95
 msgid "Only after computer has been idle for"
@@ -2709,7 +2718,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:118
 msgid "start work at this time"
-msgstr "start arbejde p� dette tidspunkt"
+msgstr "start arbejde på dette tidspunkt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:122
 #: clientgui/DlgAdvPreferencesBase.cpp:346
@@ -2720,7 +2729,7 @@ msgstr "og"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:126
 msgid "stop work at this time"
-msgstr "stop arbejde p� dette tidspunkt"
+msgstr "stop arbejde på dette tidspunkt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:130
 #: clientgui/DlgAdvPreferencesBase.cpp:354
@@ -2765,12 +2774,12 @@ msgstr "Fredag"
 #: clientgui/DlgAdvPreferencesBase.cpp:185
 #: clientgui/DlgAdvPreferencesBase.cpp:409
 msgid "Saturday"
-msgstr "L�rdag"
+msgstr "Lørdag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:192
 #: clientgui/DlgAdvPreferencesBase.cpp:416
 msgid "Sunday"
-msgstr "S�ndag"
+msgstr "Søndag"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:209
 msgid "Other options"
@@ -2782,7 +2791,7 @@ msgstr "Skift imellem projekter hver"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:226
 msgid "On multiprocessor systems, use at most"
-msgstr "P� multiprocessor systemer, brug h�jst"
+msgstr "På multiprocessor systemer, brug højst"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:232
 #, c-format
@@ -2796,7 +2805,7 @@ msgstr "% af processorerne"
 #: clientgui/DlgAdvPreferencesBase.cpp:517
 #: clientgui/DlgAdvPreferencesBase.cpp:526
 msgid "Use at most"
-msgstr "Brug h�jst"
+msgstr "Brug højst"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:242
 #, no-c-format
@@ -2861,7 +2870,7 @@ msgstr "Forbindelsesindstillinger"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:318
 msgid "Confirm before connecting to internet"
-msgstr "Bekr�ft f�r der tilsluttes internettet"
+msgstr "Bekræft før der tilsluttes internettet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:320
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
@@ -2929,7 +2938,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:485
 msgid "Write to disk at most every"
-msgstr "Skriv til disk h�jst hver"
+msgstr "Skriv til disk højst hver"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:491
 msgid "seconds"
@@ -2946,11 +2955,11 @@ msgstr "Hukkommelsesbrug"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:523
 msgid "% when computer is in use"
-msgstr "% n�r computeren er i brug"
+msgstr "% når computeren er i brug"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:532
 msgid "% when computer is idle"
-msgstr "% n�r computeren ikke er i brug"
+msgstr "% når computeren ikke er i brug"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:537
 msgid " Leave applications in memory while suspended"
@@ -2973,6 +2982,7 @@ msgid "save all values and close the dialog"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:566
+#, fuzzy
 msgid "Cancel"
 msgstr "&Annuller"
 
@@ -2987,7 +2997,7 @@ msgstr ""
 #: clientgui/DlgExitMessage.cpp:82
 #, c-format
 msgid "%s - Exit Confirmation"
-msgstr "%s - Afslutningsbekr�ftelse"
+msgstr "%s - Afslutningsbekræftelse"
 
 #: clientgui/DlgExitMessage.cpp:130
 #, c-format
@@ -3101,7 +3111,7 @@ msgstr "Bruger"
 
 #: clientgui/DlgItemProperties.cpp:125
 msgid "Host"
-msgstr "V�rt"
+msgstr "Vært"
 
 #: clientgui/DlgItemProperties.cpp:133
 msgid "Scheduling"
@@ -3140,6 +3150,7 @@ msgid "CPU time at last checkpoint"
 msgstr "CPU-tid ved sidste checkpoint"
 
 #: clientgui/DlgItemProperties.cpp:161
+#, fuzzy
 msgid "Elapsed time"
 msgstr "Brugt tid"
 
@@ -3169,7 +3180,7 @@ msgstr ""
 #: clientgui/ViewWork.cpp:1037
 #: clientgui/ViewWorkGrid.cpp:791
 msgid " - on batteries"
-msgstr " - p� batterier"
+msgstr " - på batterier"
 
 #: clientgui/DlgItemProperties.cpp:271
 #: clientgui/ViewWork.cpp:1040
@@ -3193,7 +3204,7 @@ msgstr ""
 #: clientgui/ViewWork.cpp:1049
 #: clientgui/ViewWorkGrid.cpp:803
 msgid " - CPU benchmarks"
-msgstr " - k�rer CPU-hastighedstest"
+msgstr " - kører CPU-hastighedstest"
 
 #: clientgui/DlgItemProperties.cpp:283
 #: clientgui/ViewWork.cpp:1052
@@ -3205,7 +3216,7 @@ msgstr " - mangler diskplads"
 #: clientgui/ViewWork.cpp:1062
 #: clientgui/ViewWorkGrid.cpp:810
 msgid "Waiting for memory"
-msgstr "Venter p� hukkommelse"
+msgstr "Venter på hukkommelse"
 
 #: clientgui/DlgItemProperties.cpp:289
 #: clientgui/ViewWork.cpp:1064
@@ -3217,13 +3228,13 @@ msgstr ""
 #: clientgui/ViewWork.cpp:1067
 #: clientgui/ViewWorkGrid.cpp:815
 msgid "Running, high priority"
-msgstr "K�rer, h�j prioritet"
+msgstr "Kører, høj prioritet"
 
 #: clientgui/DlgItemProperties.cpp:297
 #: clientgui/ViewWork.cpp:1078
 #: clientgui/ViewWorkGrid.cpp:826
 msgid "Waiting to run"
-msgstr "Venter p� at k�re"
+msgstr "Venter på at køre"
 
 #: clientgui/DlgItemProperties.cpp:299
 #: clientgui/DlgItemProperties.cpp:302
@@ -3301,16 +3312,16 @@ msgstr ""
 
 #: clientgui/ProjectInfoPage.cpp:240
 msgid "Choose a project"
-msgstr "V�lg et projekt"
+msgstr "Vælg et projekt"
 
 #: clientgui/ProjectInfoPage.cpp:243
 msgid "To choose a project, click its name or type its URL below."
-msgstr "For at v�lge et projekt skal du klikke p� dets navn eller skrive dets URL herunder."
+msgstr "For at vælge et projekt skal du klikke på dets navn eller skrive dets URL herunder."
 
 #: clientgui/ProjectListCtrl.cpp:333
 #, c-format
 msgid "Click here to go to %s's website."
-msgstr "Klik her for at g� til %s's website."
+msgstr "Klik her for at gå til %s's website."
 
 #: clientgui/ProxyInfoPage.cpp:200
 msgid ""
@@ -3411,14 +3422,14 @@ msgstr "Kan ikke forbinde til kerneklienten""
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
 msgstr ""
 "Kopier de valgte beskeder til udklipsholderen. Du kan "
-"v�lge flere beskeder ved at holde shift eller "
-"control/command knappen nede mens du v�lger."
+"vælge flere beskeder ved at holde shift eller "
+"control/command knappen nede mens du vælger."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
 #: clientgui/sg_ProjectsComponent.cpp:141
 msgid "Get help with BOINC"
-msgstr "F� hj�lp til BOINC"
+msgstr "Få hjælp til BOINC"
 
 #: clientgui/sg_DlgMessages.cpp:755
 #, c-format
@@ -3610,7 +3621,7 @@ msgstr ""
 
 #: clientgui/sg_DlgPreferences.cpp:865
 msgid "0 (Run Always)"
-msgstr "0 (K�r altid)"
+msgstr "0 (Kør altid)"
 
 #: clientgui/sg_DlgPreferences.cpp:868
 #, c-format
@@ -3843,11 +3854,11 @@ msgstr "brugt af BOINC: "
 
 #: clientgui/ViewResources.cpp:266
 msgid "free, available to BOINC: "
-msgstr "fri, tilg�ngeligt for BOINC: "
+msgstr "fri, tilgængeligt for BOINC: "
 
 #: clientgui/ViewResources.cpp:276
 msgid "free, not available to BOINC: "
-msgstr "fri, ikke tilg�ngeligt for BOINC: "
+msgstr "fri, ikke tilgængeligt for BOINC: "
 
 #: clientgui/ViewResources.cpp:286
 msgid "free: "
@@ -3904,7 +3915,7 @@ msgstr ""
 
 #: clientgui/ViewTransfersGrid.cpp:228
 msgid "Aborting transfer(s)..."
-msgstr "Afbryder overf�rsler..."
+msgstr "Afbryder overførsler..."
 
 #: clientgui/ViewTransfersGrid.cpp:230
 msgid ""
@@ -3912,14 +3923,14 @@ msgid ""
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
 msgstr ""
-"Er du sikker p� at du vil afbryde denne filoverf�rsel?\n"
-"NOTE: Afbrydelse af en overf�rsel vil "
-"g�re opgaven ugyldig\n"
-"og du vil ikke f� points for den."
+"Er du sikker på at du vil afbryde denne filoverførsel?\n"
+"NOTE: Afbrydelse af en overførsel vil "
+"gøre opgaven ugyldig\n"
+"og du vil ikke få points for den."
 
 #: clientgui/ViewTransfersGrid.cpp:231
 msgid "Abort File Transfer(s)"
-msgstr "Afbryd fil overf�rsel"
+msgstr "Afbryd fil overførsel"
 
 #: clientgui/ViewWork.cpp:205
 msgid "Show task details."
@@ -3945,9 +3956,9 @@ msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s %%, Status: %s)"
 msgstr ""
-"Er du sikker p� at du vil afbryde denne opgave "
+"Er du sikker på at du vil afbryde denne opgave "
 "'%s'?\n"
-"(Udf�rt: %s %%, Status: %s)"
+"(Udført: %s %%, Status: %s)"
 
 #: clientgui/WelcomePage.cpp:222
 msgid "Change Research Applications at World Community Grid"
@@ -3964,6 +3975,7 @@ msgid ""
 msgstr ""
 
 #: clientgui/WelcomePage.cpp:350
+#, fuzzy
 msgid ""
 "We'll now guide you through the process of attaching\n"
 "to a project."
