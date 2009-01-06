@@ -1,0 +1,146 @@
+msgid ""
+"_: suggested by Necroman\n"
+"LANG_NAME_NATIVE"
+msgstr "Čeština"
+
+msgid ""
+"_: suggested by Necroman\n"
+"LANG_NAME_INTERNATIONAL"
+msgstr "Czech"
+
+# poll-related stuff
+########################################
+msgid ""
+"_: suggested by Necroman\n"
+"POLL_TITLE"
+msgstr "BOINC anketa"
+
+msgid ""
+"_: suggested by versionmerge\n"
+"LANG_NAME_NATIVE"
+msgstr "English"
+
+msgid ""
+"_: suggested by versionmerge\n"
+"LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
+# poll-related stuff
+########################################
+msgid ""
+"_: suggested by versionmerge\n"
+"POLL_TITLE"
+msgstr "BOINC user survey"
+
+msgid ""
+"_: suggested by versionmerge\n"
+"DL_MIRRORS"
+msgstr ""
+"Note: files are downloaded from mirror servers at boinc.berkeley.edu, "
+"morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, "
+"einstein.ligo.caltech.edu, and einstein.aset.psu.edu (thanks to these "
+"institutions). The server is chosen randomly - if a download fails, reload "
+"this page and try again. "
+
+# help.php
+##############################################
+msgid ""
+"_: suggested by versionmerge\n"
+"HELP_TITLE"
+msgstr "Getting help with BOINC"
+
+# index.php
+##############################################
+msgid ""
+"_: suggested by versionmerge\n"
+"HOME_HEADING1"
+msgstr "Volunteer"
+
+# index.php
+# ############################################
+msgid ""
+"_: suggested by Necroman\n"
+"HELP_HEADING1"
+msgstr "Online pomoc"
+
+msgid ""
+"_: suggested by versionmerge\n"
+"LANG_NAME_NATIVE"
+msgstr "English"
+
+msgid ""
+"_: suggested by versionmerge\n"
+"LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
+# poll-related stuff
+########################################
+msgid ""
+"_: suggested by versionmerge\n"
+"POLL_TITLE"
+msgstr "BOINC user survey"
+
+msgid ""
+"_: suggested by versionmerge\n"
+"DL_MIRRORS"
+msgstr ""
+"Note: files are downloaded from mirror servers at boinc.berkeley.edu, "
+"morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, "
+"einstein.ligo.caltech.edu, and einstein.aset.psu.edu (thanks to these "
+"institutions). The server is chosen randomly - if a download fails, reload "
+"this page and try again. "
+
+# help.php
+##############################################
+msgid ""
+"_: suggested by versionmerge\n"
+"HELP_TITLE"
+msgstr "Getting help with BOINC"
+
+# index.php
+##############################################
+msgid ""
+"_: suggested by versionmerge\n"
+"HOME_HEADING1"
+msgstr "Volunteer"
+
+msgid ""
+"_: suggested by versionmerge\n"
+"LANG_NAME_NATIVE"
+msgstr "English"
+
+msgid ""
+"_: suggested by versionmerge\n"
+"LANG_NAME_INTERNATIONAL"
+msgstr "English"
+
+# poll-related stuff
+########################################
+msgid ""
+"_: suggested by versionmerge\n"
+"POLL_TITLE"
+msgstr "BOINC user survey"
+
+msgid ""
+"_: suggested by versionmerge\n"
+"DL_MIRRORS"
+msgstr ""
+"Note: files are downloaded from mirror servers at boinc.berkeley.edu, "
+"morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, "
+"einstein.ligo.caltech.edu, and einstein.aset.psu.edu (thanks to these "
+"institutions). The server is chosen randomly - if a download fails, reload "
+"this page and try again. "
+
+# help.php
+##############################################
+msgid ""
+"_: suggested by versionmerge\n"
+"HELP_TITLE"
+msgstr "Getting help with BOINC"
+
+# index.php
+##############################################
+msgid ""
+"_: suggested by versionmerge\n"
+"HOME_HEADING1"
+msgstr "Volunteer"

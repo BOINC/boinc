@@ -1,0 +1,47 @@
+comment,original,translation
+comment,original,translation
+,CHARSET,UTF-8
+,LANG_NAME_NATIVE,English
+,LANG_NAME_INTERNATIONAL,English
+,POLL_TITLE,BOINC user survey
+comment,original,translation
+,Download BOINC,Stáhnout BOINC
+,%s for %s (%s MB),%s pro %s (%s MB)
+,"BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like.","<p>BOINC je program, který Vám umožňuje darovat volný výpočetní výkon Vašeho počítače pro účely vědeckých projektů jako jsou SETI@home, Climateprediction.net, Rosetta@home, World Community Grid a mnohé další.</p><p>Po nainstalování programu BOINC na Vašem počítači se můžete připojit do tolika projektů, kolik chcete.</p>"
+,System requirements,Systémové požadavky
+,Release notes,Poznámky k vydání
+,Other systems,Jiné systémy
+,All versions,Všechny verze
+,"If your computer is not of one of the above types, you can","Pokud Váš počítač není jedním z těchto typů, můžete si"
+,%s make your own client software %s or,%s vytvořit vlastní klientský program %s nebo si
+,"%s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).","%s stáhnout aplikaci od jiných autorů %s (dostupné pro Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, FreeBSD a další)."
+,BOINC: compute for science,BOINC: počítejte pro vědu
+,DL_MIRRORS,"Note: files are downloaded from mirror servers at boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, and einstein.aset.psu.edu (thanks to these institutions). The server is chosen randomly - if a download fails, reload this page and try again. "
+comment,original,translation
+,HELP_TITLE,Getting help with BOINC
+,HELP_HEADING1,Online Help
+,HELP_P1_1,"BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have. "
+,HELP_P1_2,"BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls). If you don't already have Skype, please %sdownload and install it now%s. When you're finished, return to this page. "
+,HELP_P1_3,"The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer. You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."
+,HELP_P1_4,Volunteers speaking several languages are available. Please select a language: 
+,HELP_HEADING2,BOINC help on the web
+,HELP_P2_ITEM1,BOINC user's manual
+,HELP_P2_ITEM2,Troubleshooting BOINC 
+,HELP_P2_ITEM3,BOINC-related web sites 
+,HELP_P2_ITEM4,The BOINC message boards 
+,HELP_P2_ITEM5,The message boards on any BOINC-based project 
+,HELP_HEADING3,Be a Help Volunteer
+,HELP_P3_1,"If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s. It's a great way to help the cause of scientific research and volunteer computing - and it's fun!  "
+,HELP_P3_2,"If you're already a Help Volunteer: to edit your settings, %sclick here%s. "
+comment,original,translation
+,HOME_HEADING1,Volunteer
+,HOME_P1," Use the idle time on your computer  (Windows, Mac, or Linux)  to cure diseases, study global warming,  discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "
+,HOME_P2,"Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
+,HOME_P3,"If you have any questions, or need help getting started, you can %stalk to a Volunteer Helper%s. "
+,Help,
+,HOME_DOWNLOAD,Download
+,HOME_WEB_SITES,Web
+,HOME_ADD_ONS,Add-ons
+,HOME_SURVEY,Survey
+,HOME_BOINC,Berkeley Open Infrastructure for Network Computing
+,HOME_BOINC_DESC,
