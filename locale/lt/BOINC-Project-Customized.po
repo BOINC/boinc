@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-01 09:49-0700\n"
+"POT-Creation-Date: \n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -11,16 +11,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
-
-##########################################
-# Language: English (International)
-# FileID  : $Id: sample_en.po 9842 2006-04-11 19:54:27Z boincadm $
-# Author  : Janus Kristensen
-# Email   : jbk@visualgroup.dk
-##########################################
-# For more information please see:
-# http://boinc.berkeley.edu/translate.html
-##########################################
+"X-Poedit-Language: English\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Country: UNITED STATES\n"
 
 msgid "INFO_ABOUT_THIS_FILE"
 msgstr "This file can be used for project specific translations"

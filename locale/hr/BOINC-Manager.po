@@ -14,6 +14,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
 #: clientgui/AccountInfoPage.cpp:329
@@ -262,16 +263,18 @@ msgid "&Network activity always available"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:414
+#, fuzzy
 msgid "Allow network activity regardless of preferences"
-msgstr ""
+msgstr "Obrađuje bez obzira na postavke"
 
 #: clientgui/AdvancedFrame.cpp:418
 msgid "Network activity based on &preferences"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:419
+#, fuzzy
 msgid "Allow network activity according to your preferences"
-msgstr ""
+msgstr "Obrađuje ovisno o postavkama"
 
 #: clientgui/AdvancedFrame.cpp:423
 msgid "&Network activity suspended"
@@ -299,6 +302,7 @@ msgid "Configure local preferences"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:443
+#, c-format
 #, c-format
 #, fuzzy
 msgid "Connect to another computer running %s"
@@ -399,6 +403,7 @@ msgstr ""
 #: clientgui/AdvancedFrame.cpp:542
 #: clientgui/sg_BoincSimpleGUI.cpp:158
 #, c-format
+#, c-format
 #, fuzzy
 msgid "Show information about BOINC and %s"
 msgstr "Pokazuje informacije o BOINC menadžeru"
@@ -483,6 +488,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1558
 #, c-format
+#, c-format
 #, fuzzy
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr ""
@@ -511,6 +517,7 @@ msgid "Connecting to %s"
 msgstr "Spajam se na %s"
 
 #: clientgui/AdvancedFrame.cpp:1946
+#, c-format
 #, c-format
 #, fuzzy
 msgid "Connected to %s (%s)"
@@ -646,6 +653,7 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
+#, c-format
 #, fuzzy
 msgid ""
 "%s needs to connect to the Internet.\n"
@@ -655,6 +663,7 @@ msgstr ""
 "Može li to učiniti sada"
 
 #: clientgui/BOINCDialupManager.cpp:323
+#, c-format
 #, c-format
 #, fuzzy
 msgid "%s is connecting to the Internet."
@@ -670,17 +679,20 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:386
 #, c-format
+#, c-format
 #, fuzzy
 msgid "%s has successfully connected to the Internet."
 msgstr "BOINC se uspješno odpojio s interneta."
 
 #: clientgui/BOINCDialupManager.cpp:414
 #, c-format
+#, c-format
 #, fuzzy
 msgid "%s failed to connect to the Internet."
 msgstr "BOINC se nije uspio spojiti na internet."
 
 #: clientgui/BOINCDialupManager.cpp:455
+#, c-format
 #, c-format
 #, fuzzy
 msgid ""
@@ -692,11 +704,13 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:500
 #, c-format
+#, c-format
 #, fuzzy
 msgid "%s has successfully disconnected from the Internet."
 msgstr "BOINC se uspješno odpojio s interneta."
 
 #: clientgui/BOINCDialupManager.cpp:516
+#, c-format
 #, c-format
 #, fuzzy
 msgid "%s failed to disconnected from the Internet."
@@ -1102,6 +1116,7 @@ msgid "Use at most"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:242
+#, no-c-format
 #, no-c-format
 #, fuzzy
 msgid "% CPU time"
@@ -1810,6 +1825,7 @@ msgid "SOCKS Proxy"
 msgstr "SOCKS Proxy"
 
 #: clientgui/DlgSelectComputer.cpp:90
+#, c-format
 #, c-format
 #, fuzzy
 msgid "%s - Select Computer"
@@ -2802,8 +2818,9 @@ msgid "MessagesGrid"
 msgstr ""
 
 #: clientgui/ViewMessagesGrid.cpp:209
+#, fuzzy
 msgid "Copying selected messages to Clipboard..."
-msgstr ""
+msgstr "Kopiranje svih poruka u memoriju..."
 
 #: clientgui/ViewMessagesGrid.cpp:396
 msgid "Info"

@@ -14,6 +14,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
 #: clientgui/AccountInfoPage.cpp:329
@@ -106,6 +107,7 @@ msgstr ""
 "andet password."
 
 #: clientgui/AccountInfoPage.cpp:477
+#, c-format
 #, c-format
 #, fuzzy
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
@@ -385,6 +387,7 @@ msgstr "%s &HjÃ¦lp"
 
 #: clientgui/AdvancedFrame.cpp:506
 #: clientgui/sg_BoincSimpleGUI.cpp:122
+#, c-format
 #, c-format
 #, fuzzy
 msgid "Show information about %s"
@@ -904,6 +907,7 @@ msgid "Welcome to %s!"
 msgstr "Velkommen til %s"
 
 #: clientgui/CompletionPage.cpp:303
+#, c-format
 #, c-format
 #, fuzzy
 msgid "You are now successfully attached to the %s system."
@@ -2393,8 +2397,9 @@ msgid "20 GB"
 msgstr "2 GB"
 
 #: clientgui/sg_DlgPreferences.cpp:103
+#, fuzzy
 msgid "50 GB"
-msgstr ""
+msgstr "1 GB"
 
 #: clientgui/sg_DlgPreferences.cpp:104
 #, fuzzy
@@ -3565,6 +3570,7 @@ msgid ""
 msgstr ""
 
 #: clientgui/WelcomePage.cpp:372
+#, c-format
 #, c-format
 #, fuzzy
 msgid "&Stop using%s"

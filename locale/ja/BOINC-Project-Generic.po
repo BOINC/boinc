@@ -1,6 +1,7 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: 2008-02-03 22:28+0900\n"
 "Last-Translator: M. Toma <toma01 at livedoor.com>\n"
@@ -8,231 +9,86 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Language: Japanese\n"
-"X-Poedit-Country: JAPAN\n"
+"X-Generator: Translate Toolkit 1.2.1\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-SearchPath-0: html\\user\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Country: UNITED STATES\n"
 
 ##########################################
 # Language: English (International)
 # FileID  : $Id: ja.po 14742 2008-02-14 06:38:32Z JensSeidler $
 # Author  : Janus Kristensen
 # Email   : jbk@visualgroup.dk
-##########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
-##########################################
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
 
 # The name of this language in this language
+#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "日本語"
+msgstr "English"
 
 # The name of this language in an international language (English)
+#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Japanese"
-
-#########################################
-# Apps page (apps.php)
-#########################################
-msgid "Applications"
-msgstr "アプリケーション"
-
-msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
-msgstr "%1 プロジェクトには、現在下記のアプリケーションがあります。 %1 プロジェクトに参加すると、これらのアプリケーションのうち、1つあるいはそれ以上のアプリケーションの仕事が、あなたのコンピュータに割り当てられます。これらのアプリケーションの最新版がダウンロードされます。 これは自動的に行われるので、ダウンロードについてあなたは何もする必要はありません。 "
-
-msgid "Platform"
-msgstr "プラットフォーム"
-
-msgid "Current version"
-msgstr "最新版"
-
-msgid "Installation time"
-msgstr "登録日"
-
-#########################################
-# Rules and Policies page (info.php)
-#########################################
-msgid "Read our rules and policies"
-msgstr "このプロジェクトの「規則と方針」を読んで下さい。"
-
-msgid "Run %1 only on authorized computers"
-msgstr "%1 を実行するコンピュータは、あなたが権限を持っているものに限定してください。 "
-
-msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
-msgstr "%1 を実行するコンピュータは、あなたの所有するものであるか、あるいは、あなたが所有者から許可を得たコンピュータに限定してください。 会社や学校の一部には、所有するコンピュータを %1 のようなプロジェクトのために使うことを禁じる方針のところがあります。 "
-
-msgid "How %1 will use your computer"
-msgstr "%1 はどのようにあなたのコンピュータを使うか"
-
-msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
-msgstr "あなたのコンピュータで %1 を動かすと、そのコンピュータの CPU パワー、ディスク領域、そしてネットワーク帯域幅の一部を使います。 これらの資源をどれだけ、そして何時、 %1 に振り向けるかを、あなたが制御することができます。 "
-
-msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
-msgstr "あなたのコンピュータがした仕事は、%1 プロジェクトの目標に貢献します。 その目標はこの ウェブサイトに書かれています。 このアプリケーションプログラムは、時間がたつにつれ変更されるかもしれません。 "
-
-msgid "Privacy policy"
-msgstr "プライバシーに関する方針"
-
-msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
-msgstr "%1 プロジェクトのあなたのアカウントは、あなたが選んだ名前で識別されます。 この名前は %1 プロジェクトのウェブサイト上で、表示されるかもしれません。 そこには、%1 プロジェクトであなたのコンピュータがやり終えた仕事の要約も表示されるかもしれません。 無名の人のままでいたかったら、あなたが誰なのか分かるような名前を選んではいけません。 "
-
-msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
-msgstr "%1 に参加すると、あなたのコンピュータに関する情報 (プロセサのタイプや、メモリ量など)は、 %1 プロジェクトにより記録され、どんなタイプの仕事をそのコンピュータに割り当てるか、判断するために使われます。 この情報も、 %1 のウェブサイト上で、表示されます。 あなたのコンピュータの位置を明かしてしまうようなもの(たとえば、ドメイン名やネットワークアドレス) は、どれも表示されることはありません。"
-
-msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr "%1 に参加するには、E-mailを受信できるアドレスを提示しなければなりません。 このアドレスは、 %1 プロジェクトのウェブサイトで表示されることはなく、複数の組織間で共有されることもありません。 %1 プロジェクトは定期的なニュースレターをこのメイルアドレス向けに送ることがありますが、送らないように変更することはいつでもできます。"
-
-msgid "Is it safe to run %1?"
-msgstr "%1 を実行することは安全か?"
-
-msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
-msgstr "インターネットからプログラムをダウンロードするときには、いつでも危険がついて回ります。つまり、そのプログラムが危険な異常を起こしたり、ダウンロードサーバが侵入を受けて、ダウンロードされるプログラムが改変されていたということがあり得ます。%1 プロジェクトでは、このようなリスクを極力減らす努力をしています。 私たちのアプリケーションは注意深くテストされています。サーバはファイアウォールの背後に置かれていて、安全性の高い設定がなされています。プログラム・ダウンロードの一貫性を保つため、インターネットから隔離した安全なコンピュータを使い、すべての実行可能ファイルにデジタル署名をつけています。"
-
-msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr "%1 プロジェクトで走るアプリケーションは、一部のコンピュータを過熱状態にしてしまうかもしれません。 もしそうなったら、%1 を走らせるのを止めるか、CPU 使用量を制限する %2utility program%3 を使ってください。 "
-
-msgid "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr "%1 は %2 で開発されました。 BOINC は、University of California で開発されました。 "
-
-msgid "Liability"
-msgstr "責務"
-
-msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
-msgstr "%1 に参加したことの結果として生じた、あなたのコンピュータの被害、データの消滅、あるいはどんな事件や状況についても、 %1 と %2 は、なんら責任を負いません。"
-
-msgid "Other BOINC projects"
-msgstr "その他の BOINC プロジェクト"
-
-msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
-msgstr "他のプロジェクトも、 $PROJECT と同様、BOINC という同じプラットフォームを使います。 これらのプロジェクトの1つ以上に参加したいと思うかもしれません。 もし他のプロジェクトにも参加すれば、たとえ 渡せる仕事が $PROJECT プロジェクトになくなったときでも、あなたのコンピュータは 意味ある仕事を他のプロジェクトからもらって、実行することができます。 "
-
-msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
-msgstr "これらの他のプロジェクトは、%1 と共同で運営されているわけではありません。 ですから、それらプロジェクトのセキュリティ管理の実施ぐあいや、研究内容の性質については、なんら私たちが保証できるものではありません。あなた自身のリスクで参加してください。"
-
-#########################################
-# Create account form (create_account_form.php)
-#########################################
-msgid "Create an account"
-msgstr "新しいアカウントを作る"
-
-msgid "Name"
-msgstr "名前"
-
-msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr "我々のウェブサイト上であなたを識別する名前です。実名でも、ニックネームでも結構です。"
-
-msgid "Email Address"
-msgstr "電子メールアドレス"
-
-msgid "Must be a valid address of the form 'name@domain'."
-msgstr "有効な電子メールアドレスを、「 name@domain 」の形で記入してください。"
-
-msgid "Country"
-msgstr "国名"
-
-msgid "Select the country you want to represent, if any."
-msgstr "表示したい国の名前があれば、選択してください。"
-
-msgid "Postal or ZIP Code"
-msgstr "郵便番号／ZIP コード"
-
-msgid "Create account"
-msgstr "アカウントを作る"
-
-msgid "Account creation is disabled"
-msgstr "アカウントの作成機能は停止しています。"
-
-msgid "Account creation is disabled for %1 at the moment. Please try again later."
-msgstr "現在のところ、%1 プロジェクトのためのアカウント作成機能は停止しています。しばらく待ってから、もう一度試してみてください。"
-
-msgid "This account will belong to the team %1 and will have the project preferences of its founder."
-msgstr "作成するアカウントは、チーム %1 に加わります。さらに、そのアカウントの持つプロジェクト・プレファレンス（好みの設定）は、そのチームの創設者のものと同じになります。"
-
-msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
-msgstr "ご注意： BOINC マネージャの 5.2版以降で開始する方は、この入力画面を使わないで下さい。代わりに、BOINC を起動して、[ツール]→[プロジェクトに参加] を選び、メイルアドレスとパスワードを入力するだけで結構です。"
-
-msgid "Password"
-msgstr "パスワード"
-
-msgid "Must be at least %1 characters"
-msgstr "少なくとも %s 文字なければなりません。"
-
-msgid "Confirm password"
-msgstr "確認のためパスワードをもう一度"
-
-msgid "Invitation Code"
-msgstr "招待コード"
-
-msgid "A valid invitation code is required to create an account."
-msgstr "アカウントを作るには、正しい招待コードが必要です。"
-
-msgid "You must supply an invitation code to create an account."
-msgstr "アカウントを作るには、招待コードを入力してください。"
-
-msgid "The invitation code you gave is not valid."
-msgstr "入力した招待コードの値は正しくありません。"
-
-#########################################
-# Forum sample index page
-#########################################
-msgid "%1 Message boards"
-msgstr "%1 掲示板"
-
-msgid "Message boards"
-msgstr "掲示板"
-
-#########################################
-# General stuff (create_account_form.php and others)
-#########################################
-msgid "Optional"
-msgstr "記入は任意"
-
-#########################################
-# Various top table pages (top users, computers, teams)
-#########################################
-msgid "Top participants"
-msgstr "上位の参加者"
+msgstr "English"
 
 msgid "Rank"
 msgstr "順位"
 
-msgid "Total credit"
-msgstr "総功績"
+msgid "Name"
+msgstr "名前"
 
-msgid "Recent average credit"
-msgstr "最近の平均功績(credits/day)"
+msgid "Search for words in forum messages"
+msgstr ""
 
-msgid "Participant since"
-msgstr "参加日時"
+msgid "Search forums"
+msgstr ""
 
-msgid "Top %1 teams"
-msgstr "上位 %1 チーム"
-
-msgid "Members"
-msgstr "メンバー"
-
-msgid "Top hosts"
-msgstr "上位の計算機"
+msgid "Advanced search"
+msgstr ""
 
 #########################################
-# Forum
-#########################################
-msgid "Posts"
-msgstr "投稿"
+# Private messages
+msgid "Private messages"
+msgstr "個別メッセージ"
 
-msgid "Topic"
-msgstr "トピック"
+#########################################
+# Links from the main page
+msgid "Questions and Answers"
+msgstr "ヘルプデスク(Q&A)"
+
+msgid "Message boards"
+msgstr "掲示板"
+
+# #######################################
+# Forum sample index page
+#, fuzzy
+msgid "%1 message board"
+msgstr "%1 掲示板"
+
+msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgstr ""
+"%1 の中に新しいスレッドを作るには、一定の量の功績(credit)をもっていなければなりません。このようにしているのは、この掲示板システムが悪用される"
+"ことを防ぎ、守るためです。"
+
+msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+msgstr ""
+"現在、スレッドを作成することはできません。しばらく待ってからもう一度試して下さい。この時間間隔をとる仕組みは、この掲示板システムを悪用から守るために必要"
+"になっています。"
 
 msgid "Thread"
 msgstr "スレッド"
 
-msgid "Threads"
-msgstr "スレッド"
-
-msgid "Last post"
-msgstr "最新の投稿"
+#########################################
+# Forum
+msgid "Posts"
+msgstr "投稿"
 
 msgid "Author"
 msgstr "投稿者"
@@ -240,77 +96,20 @@ msgstr "投稿者"
 msgid "Views"
 msgstr "閲覧数"
 
-msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
-msgstr "%1 の中に新しいスレッドを作るには、一定の量の功績(credit)をもっていなければなりません。このようにしているのは、この掲示板システムが悪用されることを防ぎ、守るためです。"
+msgid "Last post"
+msgstr "最新の投稿"
 
-msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
-msgstr "現在、スレッドを作成することはできません。しばらく待ってからもう一度試して下さい。この時間間隔をとる仕組みは、この掲示板システムを悪用から守るために必要になっています。"
+msgid "Mark all threads as read"
+msgstr ""
 
-msgid "Create a new thread"
-msgstr "新しくスレッドを作る"
-
-msgid "Title"
-msgstr "表題"
-
-msgid "Add my signature to this post"
-msgstr "自分の署名をこの投稿に付ける"
-
-msgid "Message"
-msgstr "メッセージ"
-
-msgid "Edit message"
-msgstr "メッセージを編集する"
-
-msgid "Use BBCode tags to format your text"
-msgstr "テキストに書式を付けたいときは BBCode タグを使ってください"
-
-#########################################
-# Forum thread
-#########################################
-msgid "This thread has been hidden for administrative purposes"
-msgstr "管理目的でこのスレッドは隠されています。"
-
-msgid "Post to thread"
-msgstr "スレッドに投稿する"
-
-msgid "Unsubscribe"
-msgstr "参加を取りやめる"
-
-msgid "Subscribe"
-msgstr "参加する"
-
-#########################################
-# Forum search features
-#########################################
-msgid "Forum search"
-msgstr "掲示板内の検索"
-
-msgid "Titles containing '%1'"
-msgstr "表題に「%1」を含む投稿"
-
-msgid "Posts containing '%1'"
-msgstr "投稿の中に「%1」を含むもの"
-
-msgid "No titles containing '%1' could be found."
-msgstr "投稿の中に「%1」を表題に含むものが見つかりませんでした。"
-
-msgid "No posts containing '%1' could be found."
-msgstr "投稿の中に「%1」を含むものが見つかりませんでした。"
-
-#########################################
-# Private messages
-#########################################
-msgid "Private messages"
-msgstr "個別メッセージ"
+msgid "Mark all threads in all message boards as 'read'."
+msgstr ""
 
 msgid "Inbox"
 msgstr "受信箱"
 
 msgid "Write"
 msgstr "作成"
-
-msgid "Forum index"
-msgstr "掲示板の表題"
 
 msgid "Send private message"
 msgstr "個別メッセージを送信する"
@@ -327,11 +126,464 @@ msgstr "ユーザIDかユーザ名を入力。複数の場合はカンマで区�
 msgid "Subject"
 msgstr "件名"
 
+msgid "Message"
+msgstr "メッセージ"
+
 msgid "Send message"
 msgstr "メッセージ送信"
 
 msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
 msgstr "しばらく個別メッセージを送信することができません。さらにメッセージを送信したい場合は時間をおいて下さい。"
+
+msgid "unread"
+msgstr "未読"
+
+msgid "Search criteria (use one or more)"
+msgstr ""
+
+msgid "Key words"
+msgstr ""
+
+msgid "Find teams with these words in their names or descriptions"
+msgstr ""
+
+msgid "Country"
+msgstr "国名"
+
+msgid "Type of team"
+msgstr ""
+
+msgid "Show only active teams"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Requested by you, and founder response deadline has passed."
+msgstr ""
+
+msgid "Complete foundership transfer"
+msgstr ""
+
+msgid "Requested by you"
+msgstr ""
+
+msgid "founder response deadline is %1"
+msgstr ""
+
+msgid "None"
+msgstr "集計しない"
+
+msgid "Initiate request"
+msgstr ""
+
+msgid "Deferred"
+msgstr ""
+
+msgid "Team info"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Web site"
+msgstr ""
+
+msgid "Total credit"
+msgstr "総功績"
+
+msgid "Recent average credit"
+msgstr "最近の平均功績(credits/day)"
+
+msgid "Type"
+msgstr ""
+
+#, fuzzy
+msgid "Message board"
+msgstr "掲示板"
+
+msgid "Threads"
+msgstr "スレッド"
+
+msgid "Join this team"
+msgstr ""
+
+msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
+msgstr ""
+
+msgid "Foundership change requested"
+msgstr ""
+
+msgid "Respond by %1"
+msgstr ""
+
+msgid "Team foundership change"
+msgstr ""
+
+msgid "Members"
+msgstr "メンバー"
+
+msgid "Founder"
+msgstr ""
+
+msgid "Admins"
+msgstr ""
+
+msgid "New members in last day"
+msgstr ""
+
+msgid "Total members"
+msgstr ""
+
+#, fuzzy
+msgid "view"
+msgstr "表示"
+
+msgid "Active members"
+msgstr ""
+
+msgid "Members with credit"
+msgstr ""
+
+msgid "Admin"
+msgstr ""
+
+msgid "Last %1"
+msgstr ""
+
+msgid "Next %1"
+msgstr ""
+
+msgid "No such team."
+msgstr ""
+
+msgid "This operation requires foundership."
+msgstr ""
+
+msgid "This operation requires team admin privileges"
+msgstr ""
+
+msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
+msgstr ""
+
+msgid "Team name, text version"
+msgstr ""
+
+msgid "Don't use HTML tags."
+msgstr ""
+
+msgid "Team name, HTML version"
+msgstr ""
+
+msgid "You may use %1limited HTML tags%2."
+msgstr ""
+
+msgid "If you don't know HTML, leave this box blank."
+msgstr ""
+
+msgid "URL of team web page, if any"
+msgstr ""
+
+msgid "without \"http://\""
+msgstr ""
+
+msgid "This URL will be linked to from the team's page on this site."
+msgstr ""
+
+msgid "Description of team"
+msgstr ""
+
+msgid "Projects in which you are participating"
+msgstr ""
+
+msgid "Projects in which %1 is participating"
+msgstr ""
+
+msgid "Project"
+msgstr ""
+
+msgid "Click for user page"
+msgstr ""
+
+msgid "Average credit"
+msgstr ""
+
+msgid "Since"
+msgstr ""
+
+msgid "Computing and credit"
+msgstr "計算と功績"
+
+msgid "Pending credit"
+msgstr "保留中の功績"
+
+msgid "View"
+msgstr "表示"
+
+msgid "Computers on this account"
+msgstr "このアカウントのコンピュータ"
+
+msgid "Tasks"
+msgstr "タスク"
+
+msgid "Cross-project ID"
+msgstr "プロジェクト横断 ID"
+
+msgid "Cross-project statistics"
+msgstr "プロジェクト横断 統計情報"
+
+msgid "Certificate"
+msgstr ""
+
+msgid "Stats on your cell phone"
+msgstr "携帯電話向け統計情報"
+
+msgid "Account information"
+msgstr "アカウント情報"
+
+msgid "Email address"
+msgstr "電子メールアドレス"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Postal code"
+msgstr "郵便番号"
+
+msgid "%1 member since"
+msgstr "%1 登録日"
+
+msgid "Change"
+msgstr "変更"
+
+msgid "email address"
+msgstr "電子メールアドレス"
+
+msgid "password"
+msgstr "パスワード"
+
+msgid "other account info"
+msgstr "その他のアカウント情報"
+
+msgid "Log out"
+msgstr "ログアウト"
+
+msgid "User ID"
+msgstr ""
+
+msgid "Used in community functions"
+msgstr ""
+
+msgid "Account key"
+msgstr ""
+
+msgid "Provides full access to your account"
+msgstr ""
+
+msgid "Weak account key"
+msgstr ""
+
+#, fuzzy
+msgid "Provides"
+msgstr "自己紹介"
+
+msgid "limited access"
+msgstr ""
+
+msgid "to your account"
+msgstr ""
+
+msgid "Preferences"
+msgstr "プログラムの設定"
+
+msgid "When and how BOINC uses your computer"
+msgstr "いつ、どのようにBOINCを稼働させるか。"
+
+msgid "Computing preferences"
+msgstr "計算設定"
+
+msgid "Message boards and private messages"
+msgstr "掲示板と個別メッセージ"
+
+msgid "Community preferences"
+msgstr "コミュニティ設定"
+
+msgid "Resource share and graphics"
+msgstr "資源配分とグラフィック"
+
+msgid "%1 preferences"
+msgstr "%1 の好みの設定(preferences)"
+
+msgid "Community"
+msgstr "コミュニティ"
+
+msgid "Delete"
+msgstr "削除"
+
+msgid "Create"
+msgstr "作成"
+
+msgid "Profile"
+msgstr "自己紹介"
+
+msgid "%1 posts"
+msgstr "%1 回投稿"
+
+msgid "Notifications"
+msgstr ""
+
+msgid "Quit team"
+msgstr "チームを離脱する"
+
+msgid "Administer"
+msgstr "管理者"
+
+msgid "(foundership change request pending)"
+msgstr ""
+
+msgid "Member of team"
+msgstr "所属チーム"
+
+msgid "Team"
+msgstr "チーム"
+
+msgid "find a team"
+msgstr "チームを探す"
+
+msgid "Founder but not member of"
+msgstr "所属していないが設立したチーム"
+
+msgid "Find friends"
+msgstr ""
+
+msgid "Friends"
+msgstr ""
+
+msgid "Computers"
+msgstr ""
+
+msgid "hidden"
+msgstr ""
+
+msgid "Donor"
+msgstr ""
+
+msgid "Contact"
+msgstr ""
+
+msgid "This person is a friend"
+msgstr ""
+
+msgid "Cancel friendship"
+msgstr ""
+
+msgid "Request pending"
+msgstr ""
+
+msgid "Add as friend"
+msgstr ""
+
+msgid "Use BBCode tags to format your text"
+msgstr "テキストに書式を付けたいときは BBCode タグを使ってください"
+
+msgid "Identifies you on our web site. Use your real name or a nickname."
+msgstr "我々のウェブサイト上であなたを識別する名前です。実名でも、ニックネームでも結構です。"
+
+msgid "Select the country you want to represent, if any."
+msgstr "表示したい国の名前があれば、選択してください。"
+
+msgid "Postal or ZIP Code"
+msgstr "郵便番号／ZIP コード"
+
+#########################################
+# General stuff (create_account_form.php and others)
+msgid "Optional"
+msgstr "記入は任意"
+
+#########################################
+# Apps page (apps.php)
+msgid "Applications"
+msgstr "アプリケーション"
+
+msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+msgstr ""
+"%1 プロジェクトには、現在下記のアプリケーションがあります。 %1 プロジェクトに参加すると、これらのアプリケーションのうち、1つあるいはそれ以上のア"
+"プリケーションの仕事が、あなたのコンピュータに割り当てられます。これらのアプリケーションの最新版がダウンロードされます。 "
+"これは自動的に行われるので、ダウンロードについてあなたは何もする必要はありません。 "
+
+msgid "Platform"
+msgstr "プラットフォーム"
+
+msgid "Current version"
+msgstr "最新版"
+
+msgid "Installation time"
+msgstr "登録日"
+
+msgid "You must supply an invitation code to create an account."
+msgstr "アカウントを作るには、招待コードを入力してください。"
+
+msgid "The invitation code you gave is not valid."
+msgstr "入力した招待コードの値は正しくありません。"
+
+#########################################
+# Create account form (create_account_form.php)
+msgid "Create an account"
+msgstr "新しいアカウントを作る"
+
+msgid "Account creation is disabled"
+msgstr "アカウントの作成機能は停止しています。"
+
+msgid "Account creation is currently disabled. Please try again later."
+msgstr ""
+
+msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgstr ""
+"ご注意： BOINC マネージャの 5.2版以降で開始する方は、この入力画面を使わないで下さい。代わりに、BOINC "
+"を起動して、[ツール]→[プロジェクトに参加] を選び、メイルアドレスとパスワードを入力するだけで結構です。"
+
+msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgstr ""
+"作成するアカウントは、チーム %1 "
+"に加わります。さらに、そのアカウントの持つプロジェクト・プレファレンス（好みの設定）は、そのチームの創設者のものと同じになります。"
+
+msgid "Invitation Code"
+msgstr "招待コード"
+
+msgid "A valid invitation code is required to create an account."
+msgstr "アカウントを作るには、正しい招待コードが必要です。"
+
+msgid "Email Address"
+msgstr "電子メールアドレス"
+
+msgid "Must be a valid address of the form 'name@domain'."
+msgstr "有効な電子メールアドレスを、「 name@domain 」の形で記入してください。"
+
+msgid "Password"
+msgstr "パスワード"
+
+msgid "Must be at least %1 characters"
+msgstr "少なくとも %s 文字なければなりません。"
+
+msgid "Confirm password"
+msgstr "確認のためパスワードをもう一度"
+
+msgid "Create account"
+msgstr "アカウントを作る"
+
+msgid "Title"
+msgstr "表題"
+
+msgid "Add my signature to this post"
+msgstr "自分の署名をこの投稿に付ける"
+
+#########################################
+# Forum sample index page
+msgid "%1 Message boards"
+msgstr "%1 掲示板"
+
+msgid "Topic"
+msgstr "トピック"
 
 msgid "Your message has been sent."
 msgstr "メッセージは送信されました。"
@@ -339,8 +591,29 @@ msgstr "メッセージは送信されました。"
 msgid "You have no private messages."
 msgstr "個別メッセージはありません。"
 
+msgid "Sender"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Mark as read"
+msgstr "既読にする"
+
+msgid "Mark as unread"
+msgstr "未読にする"
+
+msgid "With selected"
+msgstr ""
+
 msgid "No such message"
 msgstr "そのようなメッセージは見つかりませんでした。"
+
+msgid "Block user"
+msgstr "ブロックしたユーザ"
+
+msgid "Reply"
+msgstr "返信"
 
 msgid "Really delete?"
 msgstr "本当に削除しますか？"
@@ -353,6 +626,10 @@ msgstr "はい、削除します。"
 
 msgid "No, cancel"
 msgstr "いいえ、やめます。"
+
+#, fuzzy
+msgid "No such message."
+msgstr "そのようなメッセージは見つかりませんでした。"
 
 msgid "You need to fill all fields to send a private message"
 msgstr "個別メッセージでは、すべての欄を入力して下さい。"
@@ -396,38 +673,30 @@ msgstr "ユーザ %1 はすでに個別メッセージをブロックしてい�
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "ブロックを解除するには、%1掲示板の設定%2 で設定して下さい。"
 
-msgid "Sender and date"
-msgstr "送信者名と日付"
+msgid "Create a new thread"
+msgstr "新しくスレッドを作る"
 
-msgid "Delete"
-msgstr "削除"
+msgid "Post to thread"
+msgstr "スレッドに投稿する"
 
-msgid "Reply"
-msgstr "返信"
-
-msgid "Block user"
-msgstr "ブロックしたユーザ"
-
-msgid "With selected messages"
-msgstr "選択したメッセージを"
-
-msgid "Mark as read"
-msgstr "既読にする"
-
-msgid "Mark as unread"
-msgstr "未読にする"
+msgid "Forum search results"
+msgstr ""
 
 #########################################
-# Links from the main page
-#########################################
-msgid "Questions and Answers"
-msgstr "ヘルプデスク(Q&A)"
+# Forum search features
+msgid "Forum search"
+msgstr "掲示板内の検索"
 
 #########################################
-# "Your account" page (home.php)
-#########################################
-msgid "Your account"
-msgstr "あなたのアカウント"
+# Forum thread
+msgid "This thread has been hidden for administrative purposes"
+msgstr "管理目的でこのスレッドは隠されています。"
+
+msgid "Unsubscribe"
+msgstr "参加を取りやめる"
+
+msgid "Subscribe"
+msgstr "参加する"
 
 msgid "Welcome to %1"
 msgstr "%1 へようこそ！"
@@ -435,138 +704,155 @@ msgstr "%1 へようこそ！"
 msgid "View and edit your account preferences using the links below."
 msgstr "アカウント設定の確認・変更は以下のリンクを使って下さい。"
 
-msgid "If you have not already done so, %1download BOINC client software%2."
-msgstr "まだ、そうしていないのならば、%1BOINCクライアントをダウンロード%2して下さい。"
+#########################################
+# Rules and Policies page (info.php)
+msgid "Read our rules and policies"
+msgstr "このプロジェクトの「規則と方針」を読んで下さい。"
 
-msgid "Account information"
-msgstr "アカウント情報"
+msgid "Run %1 only on authorized computers"
+msgstr "%1 を実行するコンピュータは、あなたが権限を持っているものに限定してください。 "
 
-msgid "Email address"
-msgstr "電子メールアドレス"
+msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
+msgstr ""
+"%1 を実行するコンピュータは、あなたの所有するものであるか、あるいは、あなたが所有者から許可を得たコンピュータに限定してください。 "
+"会社や学校の一部には、所有するコンピュータを %1 のようなプロジェクトのために使うことを禁じる方針のところがあります。 "
 
-msgid "URL"
-msgstr "URL"
+msgid "How %1 will use your computer"
+msgstr "%1 はどのようにあなたのコンピュータを使うか"
 
-msgid "Postal code"
-msgstr "郵便番号"
+msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
+msgstr ""
+"あなたのコンピュータで %1 を動かすと、そのコンピュータの CPU パワー、ディスク領域、そしてネットワーク帯域幅の一部を使います。 "
+"これらの資源をどれだけ、そして何時、 %1 に振り向けるかを、あなたが制御することができます。 "
 
-msgid "Change"
-msgstr "変更"
+msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
+msgstr ""
+"あなたのコンピュータがした仕事は、%1 プロジェクトの目標に貢献します。 その目標はこの ウェブサイトに書かれています。 "
+"このアプリケーションプログラムは、時間がたつにつれ変更されるかもしれません。 "
 
-msgid "email address"
-msgstr "電子メールアドレス"
+msgid "Privacy policy"
+msgstr "プライバシーに関する方針"
 
-msgid "password"
-msgstr "パスワード"
+msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
+msgstr ""
+"%1 プロジェクトのあなたのアカウントは、あなたが選んだ名前で識別されます。 この名前は %1 "
+"プロジェクトのウェブサイト上で、表示されるかもしれません。 そこには、%1 "
+"プロジェクトであなたのコンピュータがやり終えた仕事の要約も表示されるかもしれません。 "
+"無名の人のままでいたかったら、あなたが誰なのか分かるような名前を選んではいけません。 "
 
-msgid "other account info"
-msgstr "その他のアカウント情報"
+msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
+msgstr ""
+"%1 に参加すると、あなたのコンピュータに関する情報 (プロセサのタイプや、メモリ量など)は、 %1 "
+"プロジェクトにより記録され、どんなタイプの仕事をそのコンピュータに割り当てるか、判断するために使われます。 この情報も、 %1 "
+"のウェブサイト上で、表示されます。 あなたのコンピュータの位置を明かしてしまうようなもの(たとえば、ドメイン名やネットワークアドレス) "
+"は、どれも表示されることはありません。"
 
-msgid "Log out"
-msgstr "ログアウト"
+msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr ""
+"%1 に参加するには、E-mailを受信できるアドレスを提示しなければなりません。 このアドレスは、 %1 "
+"プロジェクトのウェブサイトで表示されることはなく、複数の組織間で共有されることもありません。 %1 "
+"プロジェクトは定期的なニュースレターをこのメイルアドレス向けに送ることがありますが、送らないように変更することはいつでもできます。"
 
-msgid "Community"
-msgstr "コミュニティ"
+msgid "Is it safe to run %1?"
+msgstr "%1 を実行することは安全か?"
 
-msgid "Community preferences"
-msgstr "コミュニティ設定"
+msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
+msgstr ""
+"インターネットからプログラムをダウンロードするときには、いつでも危険がついて回ります。つまり、そのプログラムが危険な異常を起こしたり、ダウンロードサーバ"
+"が侵入を受けて、ダウンロードされるプログラムが改変されていたということがあり得ます。%1 "
+"プロジェクトでは、このようなリスクを極力減らす努力をしています。 私たちのアプリケーションは注意深くテストされています。サーバはファイアウォールの背後に"
+"置かれていて、安全性の高い設定がなされています。プログラム・ダウンロードの一貫性を保つため、インターネットから隔離した安全なコンピュータを使い、すべての"
+"実行可能ファイルにデジタル署名をつけています。"
 
-msgid "Create"
-msgstr "作成"
+msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr ""
+"%1 プロジェクトで走るアプリケーションは、一部のコンピュータを過熱状態にしてしまうかもしれません。 もしそうなったら、%1 "
+"を走らせるのを止めるか、CPU 使用量を制限する %2utility program%3 を使ってください。 "
 
-msgid "Profile"
+msgid "%1 was developed by %2. BOINC was developed at the University of California."
+msgstr "%1 は %2 で開発されました。 BOINC は、University of California で開発されました。 "
+
+msgid "Liability"
+msgstr "責務"
+
+msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
+msgstr ""
+"%1 に参加したことの結果として生じた、あなたのコンピュータの被害、データの消滅、あるいはどんな事件や状況についても、 %1 と %2 "
+"は、なんら責任を負いません。"
+
+msgid "Other BOINC projects"
+msgstr "その他の BOINC プロジェクト"
+
+msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
+msgstr ""
+"他のプロジェクトも、 $PROJECT と同様、BOINC という同じプラットフォームを使います。 "
+"これらのプロジェクトの1つ以上に参加したいと思うかもしれません。 もし他のプロジェクトにも参加すれば、たとえ 渡せる仕事が $PROJECT "
+"プロジェクトになくなったときでも、あなたのコンピュータは 意味ある仕事を他のプロジェクトからもらって、実行することができます。 "
+
+msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
+msgstr ""
+"これらの他のプロジェクトは、%1 と共同で運営されているわけではありません。 ですから、それらプロジェクトのセキュリティ管理の実施ぐあいや、研究内容の性"
+"質については、なんら私たちが保証できるものではありません。あなた自身のリスクで参加してください。"
+
+msgid "Sender and date"
+msgstr "送信者名と日付"
+
+#, fuzzy
+msgid "Profiles"
 msgstr "自己紹介"
 
-msgid "Teams"
-msgstr "チーム"
+msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
+msgstr ""
 
-msgid "Team"
-msgstr "チーム"
+msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
+msgstr ""
 
-msgid "Member of team"
-msgstr "所属チーム"
+msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
+msgstr ""
 
-msgid "%1 posts"
-msgstr "%1 回投稿"
+msgid "User of the Day"
+msgstr ""
 
-msgid "None"
-msgstr "集計しない"
+msgid "User Profile Explorer"
+msgstr ""
 
-msgid "Administer"
-msgstr "管理者"
+msgid "View the %1User Picture Gallery%2."
+msgstr ""
 
-msgid "Founder but not member of"
-msgstr "所属していないが設立したチーム"
+msgid "Browse profiles %1by country%2."
+msgstr ""
 
-msgid "administrative functions"
-msgstr "管理機能"
+msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
+msgstr ""
 
-msgid "Quit team"
-msgstr "チームを離脱する"
+msgid "Alphabetical profile listings:"
+msgstr ""
 
-msgid "find a team"
-msgstr "チームを探す"
+msgid "Search profile text"
+msgstr ""
 
-msgid "Preferences"
-msgstr "プログラムの設定"
+msgid "No profiles"
+msgstr ""
 
-msgid "Computing preferences"
-msgstr "計算設定"
+msgid "No profiles matched your query."
+msgstr ""
 
-msgid "When and how BOINC uses your computer"
-msgstr "いつ、どのようにBOINCを稼働させるか。"
+msgid "Top hosts"
+msgstr "上位の計算機"
 
-msgid "%1 preferences"
-msgstr "%1 の好みの設定(preferences)"
+#########################################
+# Various top table pages (top users, computers, teams)
+msgid "Top participants"
+msgstr "上位の参加者"
 
-msgid "Resource share and graphics"
-msgstr "資源配分とグラフィック"
+msgid "Top %1 teams"
+msgstr "上位 %1 チーム"
 
-msgid "Message board preferences"
-msgstr "掲示板の設定"
-
-msgid "Message boards and private messages"
-msgstr "掲示板と個別メッセージ"
-
-msgid "Computing and credit"
-msgstr "計算と功績"
-
-msgid "%1 member since"
-msgstr "%1 登録日"
-
-msgid "Pending credit"
-msgstr "保留中の功績"
-
-msgid "View"
-msgstr "表示"
-
-msgid "Computers on this account"
-msgstr "このアカウントのコンピュータ"
-
-msgid "Tasks"
-msgstr "タスク"
-
-msgid "Cross-project ID"
-msgstr "プロジェクト横断 ID"
-
-msgid "Cross-project statistics"
-msgstr "プロジェクト横断 統計情報"
-
-msgid "Stats on your cell phone"
-msgstr "携帯電話向け統計情報"
-
-msgid "Account number"
-msgstr "アカウント番号"
-
-msgid "Used in URLs"
-msgstr "URLで利用されます。"
-
-msgid "unread"
-msgstr "未読"
+msgid "Participant since"
+msgstr "参加日時"
 
 #########################################
 # "Weak account key" page (weak_auth.php)
-#########################################
 msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
 msgstr "\"弱い\"アカウント・キーはコンピュータをプロジェクトの参加させることができますが、アカウントページへのログオンや各種設定の変更はできません。"
 
@@ -577,11 +863,61 @@ msgid "Your weak account key for this project is:"
 msgstr "あなたの、このプロジェクトでの\"弱い\"アカウント・キーは："
 
 msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
-msgstr "この\"弱い\"アカウント・キーを使うには、このプロジェクトのアカウントファイルを探すか、作るかしてください。ファイルの名前の形式は<b>account_PROJECT_URL.xml</b>です。 %1 のアカウントファイルは <b>%2</b> です。"
+msgstr ""
+"この\"弱い\"アカウント・キーを使うには、このプロジェクトのアカウントファイルを探すか、作るかしてください。ファイルの名前の形式は<b>account_P"
+"ROJECT_URL.xml</b>です。 %1 のアカウントファイルは <b>%2</b> です。"
 
 msgid "Create this file if needed. Set its contents to:"
 msgstr "必要であれば、このファイルを作成して下さい。中身は次の様になります。："
 
 msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
-msgstr "\"弱い\"アカウント・キーはパスワードの機能の一つです。パスワードを変更すると、\"弱い\"アカウント・キーは変更され、以前の\"弱い\"アカウント・キーは無効になります。"
+msgstr ""
+"\"弱い\"アカウント・キーはパスワードの機能の一つです。パスワードを変更すると、\"弱い\"アカウント・キーは変更され、以前の\"弱い\"アカウント・キーは無効に"
+"なります。"
 
+#########################################
+# "Your account" page (home.php)
+msgid "Your account"
+msgstr "あなたのアカウント"
+
+#~ msgid "Account creation is disabled for %1 at the moment. Please try again later."
+#~ msgstr "現在のところ、%1 プロジェクトのためのアカウント作成機能は停止しています。しばらく待ってから、もう一度試してみてください。"
+
+#~ msgid "Edit message"
+#~ msgstr "メッセージを編集する"
+
+#~ msgid "Titles containing '%1'"
+#~ msgstr "表題に「%1」を含む投稿"
+
+#~ msgid "Posts containing '%1'"
+#~ msgstr "投稿の中に「%1」を含むもの"
+
+#~ msgid "No titles containing '%1' could be found."
+#~ msgstr "投稿の中に「%1」を表題に含むものが見つかりませんでした。"
+
+#~ msgid "No posts containing '%1' could be found."
+#~ msgstr "投稿の中に「%1」を含むものが見つかりませんでした。"
+
+#~ msgid "Forum index"
+#~ msgstr "掲示板の表題"
+
+#~ msgid "With selected messages"
+#~ msgstr "選択したメッセージを"
+
+#~ msgid "If you have not already done so, %1download BOINC client software%2."
+#~ msgstr "まだ、そうしていないのならば、%1BOINCクライアントをダウンロード%2して下さい。"
+
+#~ msgid "Teams"
+#~ msgstr "チーム"
+
+#~ msgid "administrative functions"
+#~ msgstr "管理機能"
+
+#~ msgid "Message board preferences"
+#~ msgstr "掲示板の設定"
+
+#~ msgid "Account number"
+#~ msgstr "アカウント番号"
+
+#~ msgid "Used in URLs"
+#~ msgstr "URLで利用されます。"

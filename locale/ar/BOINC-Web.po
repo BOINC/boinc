@@ -14,6 +14,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-KeywordsList: tra\n"
 
@@ -34,8 +35,9 @@ msgstr "English"
 ########################################
 # poll-related stuff
 ########################################
-# ######################################
+########################################
 # poll-related stuff
+# ######################################
 # sgstr "BOINC user survey"
 #, fuzzy
 msgid "POLL_TITLE"
@@ -530,8 +532,9 @@ msgstr "Note: files are downloaded from mirror servers at boinc.berkeley.edu, mo
 ##############################################
 # help.php
 ##############################################
-# #############################################
+##############################################
 # help.php
+# #############################################
 # msgstr "Getting help with BOINC"
 #, fuzzy
 msgid "HELP_TITLE"
@@ -610,8 +613,9 @@ msgstr "If you're already a Help Volunteer: to edit your settings, %sclick here%
 ##############################################
 # index.php
 ##############################################
-# #############################################
+##############################################
 # index.php
+# #############################################
 # msgstr "Volunteer"
 #, fuzzy
 msgid "HOME_HEADING1"
