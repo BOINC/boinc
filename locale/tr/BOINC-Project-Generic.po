@@ -1,19 +1,20 @@
-# NOTE: this had syntax errors that broke everything.
-# I'm replacing it with en.po for the time being.  -- DPA
-
-# Language: English (International)
-# FileID  : $Id: tr.po 15858 2008-08-15 17:33:32Z boincadm $
+#, fuzzy
 msgid ""
 msgstr ""
-PO-Revision-Date: 2008-8-4 10:0
-Last-Translator: Generated automatically from source files
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-Poedit-SourceCharset: utf-8
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-01-01 09:51-0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 1.2.1\n"
 
+#, fuzzy
 msgid "CHARSET"
-msgstr "ISO-8859-1"
+msgstr "UTF-8"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "English"

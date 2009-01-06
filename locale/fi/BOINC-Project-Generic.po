@@ -781,4 +781,3 @@ msgstr "Heikko tiliavain on riippuvainen salasanastasi. Jos vaihdat salasanaa he
 
 msgid "Your account"
 msgstr "Käyttäjätilisi"
-

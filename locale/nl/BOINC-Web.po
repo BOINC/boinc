@@ -1,13 +1,16 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-04 22:17-0500\n"
-"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"PO-Revision-Date: 2009-01-06 00:00-0700\n"
+"Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: \n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Country: NETHERLANDS\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 
@@ -24,11 +27,13 @@ msgstr "Nederlands"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Dutch"
 
-########################################
-# poll-related stuff
-########################################
+# ######################################<br />
+# <br />
+# poll-related stuff<br />
+# <br />
+# ######################################
 msgid "POLL_TITLE"
-msgstr "BOINC gebruikersenqu&ecirc;te"
+msgstr "BOINC gebruikersenquete"
 
 msgid "POLL_INTRO"
 msgstr "Verschillende vrijwillige rekenprojecten, zoals Climateprediction.net, Einstein@home, en SETI@home, maken gebruik van software die BOINC heet. Als je aan een van deze projecten deelneemt, vragen we je de volgende vragen te beantwoorden. Hierdoor kunnen de projecten meer deelnemers krijgen en meer wetenschappelijke resultaten bereiken. <p> Beantwoord zo veel vragen als je wilt, ga dan naar de onderkant van de pagina en klik op OK. Als je de enquete al een keer hebt ingevuld en je antwoorden zijn veranderd, vul hem dan opnieuw in - je nieuwe antwoorden zullen de oudere vervangen. <p> De huidige resultaten vind je <a href=poll_results.php>hier</a>. "
@@ -124,7 +129,7 @@ msgid "POLL_NSECURITY"
 msgstr "ik maakte me zorgen over veiligheid"
 
 msgid "POLL_NPROJECT"
-msgstr "ik was in geen enkel project ge&iuml;nteresseerd"
+msgstr "ik was in geen enkel project geinteresseerd"
 
 msgid "POLL_NPERMISSION"
 msgstr "ik heb geen toestemming om BOINC op mijn computer te draaien"
@@ -289,13 +294,15 @@ msgid "POLL_RECORDED"
 msgstr "De resultaten zijn opgeslagen"
 
 msgid "POLL_THANKS"
-msgstr "Bedankt voor je deelname in de BOINC enqu&ecirc;te."
+msgstr "Bedankt voor je deelname in de BOINC enquete."
 
 msgid "POLL_RESULTS_TITLE"
-msgstr "Enqu&ecirc;te uitslagen"
+msgstr "Enquete uitslagen"
 
 msgid "POLL_RESULTS_TEXT"
-msgstr "Dit zijn de resultaten van de <a href=poll.php>BOINC gebruikers&ecirc;nquete</a>. Deze pagina wordt ieder uur vernieuwd."
+msgstr ""
+"Dit zijn de resultaten van de <a href=poll.php>BOINC gebruikersenquete</a>. "
+"Deze pagina wordt ieder uur vernieuwd."
 
 ########################################
 # download.php 2006/08/03 by je2bwm
@@ -421,7 +428,7 @@ msgid "RLN_INSTALLING"
 msgstr "Installeren"
 
 msgid "RLN_UNINSTALLING"
-msgstr "De&iuml;nstalleren"
+msgstr "Deinstalleren"
 
 msgid "RLN_KNOWN_ISSUES"
 msgstr "Bekende problemen"
@@ -622,11 +629,10 @@ msgid "HOME_ADD_ONS"
 msgstr "Add-ons"
 
 msgid "HOME_SURVEY"
-msgstr "Enqu&ecirc;te"
+msgstr "Enquete"
 
 msgid "HOME_BOINC"
 msgstr "Berkeley Open Infrastructure for Network Computing"
 
 msgid "HOME_BOINC_DESC"
 msgstr "Open-source software voor %svolunteer computing%s en %sdesktop grid computing%s"
-

@@ -1,34 +1,48 @@
-﻿msgid ""
+msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Web 6.x\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-06 01:22-0500\n"
+"PO-Revision-Date: 2009-01-05 04:03-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
-"Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Czech\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 
 # The charset used for the text in this file (please try to use UTF-8 if possible)
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+##########################################
+# Language: Czech
+# FileID  : $Id: cs.po 15352 2008-06-03 05:26:30Z JensSeidler $
+# Author  : Martin Suchan
+# Email   : martin.suchan@email.cz
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
 msgid "CHARSET"
 msgstr "UTF-8"
-# The name of this language in this language
+
 msgid "LANG_NAME_NATIVE"
 msgstr "Čeština"
-# The name of this language in an international language (English)
+
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Czech"
 
-########################################
+"
+
 # poll-related stuff
 ########################################
-
 msgid "POLL_TITLE"
 msgstr "BOINC dotazník"
 
-msgid "POLL_INTRO"
+"
+
+msgid ""
 msgstr "Mnoho dobrovolných výpočetních projektů, např. Climateprediction.net, Einstein@home "
 "a SETI@home, používá program nazývaný BOINC. Pokud se podílíte na některém z takovýchto projektů, "
 "rádi bychom Vás požádali o vyplnění následujícího dotazníku. Zodpovězení následujících otázek nám "
@@ -38,276 +52,455 @@ msgstr "Mnoho dobrovolných výpočetních projektů, např. Climateprediction.n
 "vaše staré odpovědi budou nahrazeny novými.</p>"
 "<p>Současné výsledky BOINC dotazníku jsou k <a href=poll_results.php>vidění zde</a>.</p>"
 
-msgid "POLL_RUN"
+"
+
+msgid ""
 msgstr "Používáte BOINC?"
 
-msgid "POLL_PARTICIPATION"
+"
+
+msgid ""
 msgstr "Vaše účast"
 
-msgid "POLL_COMPUTERS"
+"
+
+msgid ""
 msgstr "Vaše počítače"
 
-msgid "POLL_YOU"
+"
+
+msgid ""
 msgstr "O Vás"
 
-msgid "POLL_NATIONALITY"
+"
+
+msgid ""
 msgstr "Národnost"
 
-msgid "POLL_COMMENTS"
+"
+
+msgid ""
 msgstr "Komentáře"
 
-msgid "POLL_COMMENTS_QUESTION"
+"
+
+msgid ""
 msgstr "Zkuste prosím navrhnout, jakými způsoby by se daly vylepšit "
 "jednotlivé projekty, nebo samotný BOINC:"
 
-msgid "POLL_OTHER"
+"
+
+msgid ""
 msgstr "Další:"
 
-msgid "POLL_CHECK_ALL"
+"
+
+msgid ""
 msgstr "[zaškrtněte všechny, které odpovídají]"
 
-msgid "POLL_DONE"
+"
+
+msgid ""
 msgstr "Na konci klikněte:"
 
-msgid "POLL_CURRENT"
+"
+
+msgid ""
 msgstr "Ano, používám BOINC na mém počítači..."
 
-msgid "POLL_TWEEK"
+"
+
+msgid ""
 msgstr "méně než týden"
 
-msgid "POLL_TMONTH"
+"
+
+msgid ""
 msgstr "méně než měsíc"
 
-msgid "POLL_TYEAR"
+"
+
+msgid ""
 msgstr "méně než rok"
 
-msgid "POLL_TMOREYEAR"
+"
+
+msgid ""
 msgstr "více než rok"
 
-msgid "POLL_LAPSED"
+"
+
+msgid ""
 msgstr "Ne, používal jsem BOINC, ale přestal jsem, protože ..."
 
-msgid "POLL_LINTEREST"
+"
+
+msgid ""
 msgstr "už mě to nebavilo"
 
-msgid "POLL_LCOMPLICATED"
+"
+
+msgid ""
 msgstr "bylo to moc složité"
 
-msgid "POLL_LSTOPPED"
+"
+
+msgid ""
 msgstr "přestal jsem a zapomněl jsem znova začít"
 
-msgid "POLL_LPROBLEMS"
+"
+
+msgid ""
 msgstr "způsobovalo to potíže na mém počítači"
 
-msgid "POLL_LPOWER"
+"
+
+msgid ""
 msgstr "stálo to moc elektřiny"
 
-msgid "POLL_LNONBOINC"
+"
+
+msgid ""
 msgstr "přešel jsem na projekt jiný, než BOINC."
 
-msgid "POLL_FAILED"
+"
+
+msgid ""
 msgstr "Ne, zkoušel jsem používat BOINC, ale..."
 
-msgid "POLL_FINSTALL"
+"
+
+msgid ""
 msgstr "Program se nenainstaloval správně"
 
-msgid "POLL_FFIGURE"
+"
+
+msgid ""
 msgstr "Nepřišel jsem na to, jak jej používat"
 
-msgid "POLL_FNETWORK"
+"
+
+msgid ""
 msgstr "Narazil jsem na potíže při komunikaci po síti"
 
-msgid "POLL_FATTACH"
+"
+
+msgid ""
 msgstr "Nemohl jsem se připojit k projektu"
 
-msgid "POLL_FWORK"
+"
+
+msgid ""
 msgstr "Připojil jsem se k projektu, ale nikdy jsem neobdržel práci"
 
-msgid "POLL_NEVER"
+"
+
+msgid ""
 msgstr "Ne, nikdy jsem nezkoušel používat BOINC, protože..."
 
-msgid "POLL_NSECURITY"
+"
+
+msgid ""
 msgstr "Měl jsem pochyby o jeho bezpečnosti"
 
-msgid "POLL_NPROJECT"
+"
+
+msgid ""
 msgstr "Žádný projekt mě nazaujal"
 
-msgid "POLL_NPERMISSION"
+"
+
+msgid ""
 msgstr "Nemohl jsem ho používat na mém počítači"
 
-msgid "POLL_NVERSION"
+"
+
+msgid ""
 msgstr "Pro můj počítač nebyla žádná příslušná verze"
 
-msgid "POLL_KIND"
+"
+
+msgid ""
 msgstr "Na jakých druzích počítačů používáte BOINC?"
 
-msgid "POLL_WHERE"
+"
+
+msgid ""
 msgstr "Kde se nacházejí?"
 
-msgid "POLL_HOME"
+"
+
+msgid ""
 msgstr "Doma"
 
-msgid "POLL_WORK"
+"
+
+msgid ""
 msgstr "V práci"
 
-msgid "POLL_SCHOOL"
+"
+
+msgid ""
 msgstr "Ve škole"
 
-msgid "POLL_HOW_MANY"
+"
+
+msgid ""
 msgstr "Kolik počítačů?"
 
-msgid "POLL_TURNED_ON"
+"
+
+msgid ""
 msgstr "Jak dlouho jsou průměrně denně zapnuté?"
 
-msgid "POLL_AGE"
+"
+
+msgid ""
 msgstr "Věk"
 
-msgid "POLL_SEX"
+"
+
+msgid ""
 msgstr "Pohlaví"
 
-msgid "POLL_MALE"
+"
+
+msgid ""
 msgstr "Muž"
 
-msgid "POLL_FEMALE"
+"
+
+msgid ""
 msgstr "Žena"
 
-msgid "POLL_EXPERTISE"
+"
+
+msgid ""
 msgstr "Vaše úroveň počítačových znalostí"
 
-msgid "POLL_LEVB"
+"
+
+msgid ""
 msgstr "Začátečník"
 
-msgid "POLL_LEVI"
+"
+
+msgid ""
 msgstr "Pokročilý"
 
-msgid "POLL_LEVA"
+"
+
+msgid ""
 msgstr "Expert"
 
-msgid "POLL_LEARN_WHERE"
+"
+
+msgid ""
 msgstr "Kde jste se dozvěděl o BOINC projektech?"
 
-msgid "POLL_WTV"
+"
+
+msgid ""
 msgstr "TV/radio/noviny"
 
-msgid "POLL_WPERS"
+"
+
+msgid ""
 msgstr "Od přátel, příbuzných, spolupracovníků"
 
-msgid "POLL_WTEAM"
+"
+
+msgid ""
 msgstr "Ze stránek týmu, či jejich diskuzního fóra"
 
-msgid "POLL_WBOINC"
+"
+
+msgid ""
 msgstr "Ze stránek BOINC"
 
-msgid "POLL_WWEB"
+"
+
+msgid ""
 msgstr "Z jiných webových stránek"
 
-msgid "POLL_FACTOR"
+"
+
+msgid ""
 msgstr "Jaké jsou pro Vás nejdůležitější faktory, když se rozhodujete, do jakého BOINC projektu se zapojíte?"
 
-msgid "POLL_GRAPHICS"
+"
+
+msgid ""
 msgstr "Hezky vypadající šetřič obrazovky"
 
-msgid "POLL_CREDIT_FAIR"
+"
+
+msgid ""
 msgstr "Poctivé a rychlé přidělování kreditu za odvedenou práci"
 
-msgid "POLL_CREDIT_MORE"
+"
+
+msgid ""
 msgstr "Získávání více kreditu v tomto projektu, než u ostatních projektů"
 
-msgid "POLL_MB_FRIENDLY"
+"
+
+msgid ""
 msgstr "Přátelské a užitečné diskuzní fórum"
 
-msgid "POLL_MB_STAFF"
+"
+
+msgid ""
 msgstr "To, že se také autoři projektu zapojují v diskuzním fóru"
 
-msgid "POLL_WEB_SITE"
+"
+
+msgid ""
 msgstr "Informativní stránky projektu"
 
-msgid "POLL_SCIENCE_IMPORTANT"
+"
+
+msgid ""
 msgstr "Výzkum je důležitý a může pomoci"
 
-msgid "POLL_SCIENCE_PUBLIC"
+"
+
+msgid ""
 msgstr "Nevýdělečnost, výsledky jsou veřejné"
 
-msgid "POLL_RECOGNIZE"
+"
+
+msgid ""
 msgstr "Osobní uznání, pokud můj počítač něco najde"
 
-msgid "POLL_PUBLISH"
+"
+
+msgid ""
 msgstr "Publikace projektu ve vědeckých sbornících"
 
-msgid "POLL_EMAIL"
+"
+
+msgid ""
 msgstr "Občasné mailové novinky zasílané projektem"
 
-msgid "POLL_NPROJECTS"
+"
+
+msgid ""
 msgstr "V kolika BOINC projektech se účastníte?"
 
-msgid "POLL_SSAVER"
+"
+
+msgid ""
 msgstr "Používáte BOINC jako šetřič obrazovky?"
 
-msgid "POLL_YES"
+"
+
+msgid ""
 msgstr "Ano"
 
-msgid "POLL_NO"
+"
+
+msgid ""
 msgstr "Ne"
 
-msgid "POLL_MBOARDS"
+"
+
+msgid ""
 msgstr "Vaše využití diskuzního fóra:"
 
-msgid "POLL_MBR"
+"
+
+msgid ""
 msgstr "jen čtu informace"
 
-msgid "POLL_MBRW"
+"
+
+msgid ""
 msgstr "čtu a přispívám informacemi"
 
-msgid "POLL_NONE"
+"
+
+msgid ""
 msgstr "žádné"
 
-msgid "POLL_HELP"
+"
+
+msgid ""
 msgstr "Kde získáváte informace o tom, jak řešit problémy s BOINC či BOINC projekty?"
 
-msgid "POLL_HELP_PMB"
+"
+
+msgid ""
 msgstr "Na diskuzním fóru projektu"
 
-msgid "POLL_HELP_BMB"
+"
+
+msgid ""
 msgstr "Na diskuzním fóru BOINC"
 
-msgid "POLL_HELP_BDOC"
+"
+
+msgid ""
 msgstr "Na stránkách BOINC"
 
-msgid "POLL_HELP_BMLIST"
+"
+
+msgid ""
 msgstr "Na BOINC mailové konferenci"
 
-msgid "POLL_HELP_WIKI"
+"
+
+msgid ""
 msgstr "Na neoficiální BOINC wiki"
 
-msgid "POLL_HELP_TEAM"
+"
+
+msgid ""
 msgstr "Na týmových stránkách"
 
-msgid "POLL_HELP_GOOGLE"
+"
+
+msgid ""
 msgstr "Na Google nebo jiných vyhledávačích"
 
-msgid "POLL_ERROR_TITLE"
+"
+
+msgid ""
 msgstr "Chyba - výsledek se neuložil"
 
-msgid "POLL_ERROR_TEXT"
+"
+
+msgid ""
 msgstr "Vnitřní chyba bohužel znemožnila uložení vašeho BOINC dotazníku, zkuste to prosím později."
 
-msgid "POLL_RECORDED"
+"
+
+msgid ""
 msgstr "Váš BOINC dotazník byl uložen"
 
-msgid "POLL_THANKS"
+"
+
+msgid ""
 msgstr "Děkujeme Vám za vyplnění Vašeho BOINC dotazníku."
 
-msgid "POLL_RESULTS_TITLE"
+"
+
+msgid ""
 msgstr "Výsledky BOINC dotazníku"
 
-msgid "POLL_RESULTS_TEXT"
+"
+
+msgid ""
 msgstr "Zde jsou současné výsledky <a href=poll.php>BOINC dotazníku</a>, tato stránka se aktualizuje každou hodinu."
 
+"
 
 ########################################
 # download.php 2006/08/03 by je2bwm
 ########################################
 
+########################################
+# download.php
 msgid "Download BOINC"
 msgstr "Stáhnout BOINC"
 
@@ -460,72 +653,97 @@ msgstr "Odstraňování potíží programu BOINC"
 
 msgid "RLN_NEWF_5_4_AM"
 msgstr "Support for 'Account managers' - web sites that let you browse "
-    "BOINC projects, attach/detach, change resource share and settings, "
-    "all with point-and-click simplicity. "
-    "Account managers are also great if you have several computers - "
-    "you just have to make changes once."
+"BOINC projects, attach/detach, change resource share and settings, "
+"all with point-and-click simplicity. "
+"Account managers are also great if you have several computers - "
+"you just have to make changes once."
 
 msgid "RLN_NEWF_5_4_PREF_OVERRIDE"
 msgstr "General preferences can be overridden by a local file; "
-    "details are %s here %s."
+"details are %s here %s."
 
 msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
 msgstr "BOINC now alerts you whenever it needs you "
-    "to create a network connection."
+"to create a network connection."
 
 msgid "RLN_5_8_SIMPLE_GUI"
 msgstr "The BOINC Manager offers two different interfaces: "
-    " 'Simple' (small, graphical, skinnable) "
-    " and 'Advanced' (maximum information). "
-    " The Simple GUI allows local editing of preferences. "
-    " You can switch back and forth between Simple and Advanced. "
-msgid "RLN_5_8_THROTTLE"
-msgstr " CPU throttling: you can reduce CPU heat by limiting "
-    " the fraction of time that BOINC computes. "
-msgid "RLN_5_8_SCHED"
-msgstr " Improved scheduling policies avoid missing job deadlines "
-    " even on a slow computer with lots of projects. "
-msgid "RLN_5_8_MEM"
-msgstr " You can limit the amount of memory used by BOINC; "
-    " this lets you compute all the time without losing performance. "
-msgid "RLN_5_8_SANDBOX"
-msgstr " Mac OS X version runs applications in an unpriviledged account, "
-    " increasing security. "
-msgid "RLN_5_8_SNOOZE"
-msgstr " Snooze button (in the system tray icon) lets you "
-    " stop computing for one hour. "
+" 'Simple' (small, graphical, skinnable) "
+" and 'Advanced' (maximum information). "
+" The Simple GUI allows local editing of preferences. "
+" You can switch back and forth between Simple and Advanced. "
 
-msgid "RLN_RECOMMEND_LATEST_VERSION"
+msgid ""
+msgstr " CPU throttling: you can reduce CPU heat by limiting "
+" the fraction of time that BOINC computes. "
+
+msgid ""
+msgstr " Improved scheduling policies avoid missing job deadlines "
+" even on a slow computer with lots of projects. "
+
+msgid ""
+msgstr " You can limit the amount of memory used by BOINC; "
+" this lets you compute all the time without losing performance. "
+
+msgid ""
+msgstr " Mac OS X version runs applications in an unpriviledged account, "
+" increasing security. "
+
+msgid ""
+msgstr " Snooze button (in the system tray icon) lets you "
+" stop computing for one hour. "
+
+"
+
+msgid ""
 msgstr "Doporučujeme všem uživatelům BOINC, aby aktualizovali na verzi %s."
 
-msgid "RLN_LINK2_VERSION_HISTORY"
+"
+
+msgid ""
 msgstr "Podrobná historie verzí je %szde%s."
 
-msgid "RLN_MSWIN"
+"
+
+msgid ""
 msgstr "Windows"
 
-msgid "RLN_APPLMAC"
+"
+
+msgid ""
 msgstr "Macintosh"
 
-msgid "RLN_LINUX"
+"
+
+msgid ""
 msgstr "Linux"
 
-msgid "RLN_MSWIN_INSTALL_MODES"
+"
+
+msgid ""
 msgstr "BOINC může být nainstalován mnoha způsoby:"
 
-msgid "RLN_SINGLE_USER_INSTALL"
+"
+
+msgid ""
 msgstr "Instalace pro jednoho uživatele"
 
-msgid "RLN_MSWIN_INSTALL_SINGLE_USER_DESC"
+"
+
+msgid ""
 msgstr "Toto je doporučený způsob. BOINC poběží jen tehdy, když budete přihlášen "
 "(instalující uživatel). BOINC se bude nacházet ve Vaší nabídce Start, ale ne u ostatních uživatelů. "
 "Šetřič obrazovky BOINC bude zobrazovat průběh výpočtu jen Vám (ostatní uživatelé si budou moci také "
 "spustit šetřič obrazovky, ale uvidí jen textové informace)."
 
-msgid "RLN_SHARED_INSTALL"
+"
+
+msgid ""
 msgstr "Sdílená instalace"
 
-msgid "RLN_MSWIN_INSTALL_SHARED_DESC"
+"
+
+msgid ""
 msgstr "BOINC poběží vždy, kdykoliv se přihlásí některý z uživatelů. BOINC se nachází v nabidce "
 "Start u všech uživatelů. Když BOINC běží, je spuštěn vždy určitým uživatelem (buď prvním uživatelem, "
 "který se přihlásil, nebo prvním, který spustil BOINC). Příkaz -Zobraz Grafiku- v BOINC manežerovi "
@@ -533,147 +751,215 @@ msgstr "BOINC poběží vždy, kdykoliv se přihlásí některý z uživatelů. 
 "pro tohoto uživatele (ostatní uživatelé si budou moci také spustit šetřič obrazovky, ale uvidí "
 "jen textové informace)."
 
-msgid "RLN_WIN_SERVICE_INSTALL"
+"
+
+msgid ""
 msgstr "Instalace jako servis"
 
-msgid "RLN_MSWIN_INSTALL_WINSERVICE_DESC"
+"
+
+msgid ""
 msgstr "BOINC poběží neustále, i když nebude nikdo přihlášen. BOINC se bude nacházet v nabídce Start "
 "instalujícího uživatele, ale ne u ostatních uživatelů. Příkaz -Zobraz Grafiku- v BOINC manežerovi "
 "nebude fungovat u žádného uživatele, stějně tak tak šetřič obrazovky BOINC bude zobrazovat pro "
 "všechny uživatele jen textové informace."
 
-msgid "RLN_LINUX_INSTALL_SEA_DESC"
+"
+
+msgid ""
 msgstr "BOINC pro Linux je distribuován jako samorozbalovací archiv. "
 "Tento typ instalace vyžaduje znalost prostředí UNIXové příkazové řádky."
 
-msgid "RLN_LINUX_DL_FILENAME"
+"
+
+msgid ""
 msgstr "Stažené soubory mají jména jako <code>%s</code>."
 
-msgid "RLN_LINUX_RUN_SEA"
+"
+
+msgid ""
 msgstr "Po stažení souboru napište <pre>%s</pre>"
 
-msgid "RLN_LINUX_RESULTOF_SEA"
+"
+
+msgid ""
 msgstr "Tím se vytovří adresář BOINC/ s následujícími soubory:"
 
-msgid "RLN_BOINC_CORE_CL"
+"
+
+msgid ""
 msgstr "Jádro BOINC klienta"
 
-msgid "RLN_BOINC_MANAGER"
+"
+
+msgid ""
 msgstr "BOINC manažer"
 
-msgid "RLN_SCRIPT_RUN_CLIENT_DESC"
+"
+
+msgid ""
 msgstr "Skript, který se přepne do BOINC adresáře a spustí jádro klienta."
 
-msgid "RLN_SCRIPT_RUN_MANAGER_DESC"
+"
+
+msgid ""
 msgstr "Skript, který se přepne do BOINC adresáře a spustí manažera."
 
-msgid "RLN_LINUX_AUTOSTART"
+"
+
+msgid ""
 msgstr "Můžete také nastavit %sautomatický start jádra klienta%s při nabootování."
 
-msgid "RLN_MSWIN_UNINSTALL_DESC"
+"
+
+msgid ""
 msgstr "Zvolte Start/Panel nástrojů/Přidat nebo odebrat programy. "
 "Zvolte BOINC a klikněte na Odebrat. Tím bude odstraněn samotný program BOINC. "
 "Pro úplné odinstalování smažte adresář BOINC (typicky C:/Program Files/BOINC)."
 
-msgid "RLN_ISSUE_PROXY_NTLMAUTH"
+"
+
+msgid ""
 msgstr "Pokud používáte proxy server, počkejte nyní prosím s aktualizací. "
 "Pracujeme na opravě pro proxy servery, která používá NTLM autentizaci."
 
-msgid "RLN_ISSUE_MSWIN_LATEST_DIRECTX"
+"
+
+msgid ""
 msgstr "(Windows) Pokud Vám aplikace BOINC opakovaně padají, je možné, že potřebujete "
 "%saktualizovat verzi DirectX (9.0c nebo novější)%s."
 
-msgid "RLN_ISSUE_MSWIN_SCREENSAVER_XP3D"
+"
+
+msgid ""
 msgstr "(Windows) Pokud šetřič obrazovky BOINC běží současně s Windows XP 3D "
 "šetřičem obrazovky, systém se začne zpomalovat a zatuhávat."
 
-msgid "RLN_ISSUE_MSWIN_NO_SCREENSAVER"
+"
+
+msgid ""
 msgstr "(Windows) Aplikace, které byly vytvořeny před říjnem 2004, nezobrazují v šetřiči "
 "obrazovky grafiku při instalaci typu sdílená instalac- nebo servis, nebo při "
 "instalaci pro jednoho uživatele při použití hesla na šetřič obrazovky."
 
-msgid "RLN_TROUBLESHOOT_INTRO"
+"
+
+msgid ""
 msgstr "Pokud máte problémy s programem BOINC, vyzkoušejte následující kroky:"
 
-msgid "RLN_TROUBLESHOOT_PRJ_SPECIFIC"
+"
+
+msgid ""
 msgstr "Pokud máte problémy s určitým projektem, podívejte se nejdříve na -Otázky a odpovědi-"
 "na stránkách samotného projektu, kde můžete nalézt řešení ke svému problému. Pokud ne, "
 "popište ho zde a ostatní uživatelé se Vám pokusí poradit. Pokud problém přetrvá, "
 "použijte BOINC manažer k -resetování- projektu. "
 "Reset vymaže veškerou rozpracovanou práci a začne od začátku."
 
-msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
+"
+
+msgid ""
 msgstr "Pokud máte problémy se samotným programem BOINC, získejte pomoc na %sBOINC diskuzním fóru%s."
 
-##############################################
+"
+
 # help.php
 ##############################################
-
 msgid "HELP_TITLE"
 msgstr "Získejte pomoc k BOINC"
 
-msgid "HELP_HEADING1"
+"
+
+msgid ""
 msgstr "Online pomoc"
 
-msgid "HELP_P1_1"
+"
+
+msgid ""
 msgstr "BOINC online pomoc Vám umoňuje hovořit se zkušenými uživateli systému BOINC, "
 "kteří vám mohou:"
 "%s odpovědět otázky o BOINC dobrovolnickém počítání"
 "%s provést Vás procesem instalace a nastavení programu BOINC"
 "%s vyřešit problémy, na které můžete narazit"
 
-msgid "HELP_P1_2"
+"
+
+msgid ""
 msgstr "BOINC online pomoc je založena na programu %sSkype%s pro telefonování přes internet. "
 "Skype je zdarma (program i telefonování). Pokud Skype dosud nemáte, "
 "%sstáhněte si jej zde%s a potom se vraťte na tuto stránku."
 
-msgid "HELP_P1_3"
+"
+
+msgid ""
 msgstr "Nejlepší způsob, jak získat pomoc, je pomocí hlasové komunikace, "
 "pro kterou budete potřebovat buď vestavěný mikrofon a sluchátka, nebo přenosný headset pro Váš počítač. "
 "Pro komunikaci s dobrovolnými pomocníky lze též použít textovového rozhovoru přes Skype, "
 "nebo klasický email (pokud nepoužíváte Skype)."
 
-msgid "HELP_P1_4"
+"
+
+msgid ""
 msgstr "Jsou dostupní dobrovolní pomocníci mluvící mnoha jazyky. "
 "Vyberte si prosím Váš jazyk: "
 
-msgid "HELP_HEADING2"
+"
+
+msgid ""
 msgstr "Nápověda BOINC na webu"
 
-msgid "HELP_P2_ITEM1"
+"
+
+msgid ""
 msgstr "Uživatelský manuál pro BOINC "
 
-msgid "HELP_P2_ITEM2"
+"
+
+msgid ""
 msgstr "Řešení problémů s programem BOINC "
 
-msgid "HELP_P2_ITEM3"
+"
+
+msgid ""
 msgstr "Stránky věnované programu BOINC "
 
-msgid "HELP_P2_ITEM4"
+"
+
+msgid ""
 msgstr "Diskuzní fóra BOINC "
 
-msgid "HELP_P2_ITEM5"
+"
+
+msgid ""
 msgstr "Dizkuzní fóra věnovaná různým BOINC projektům "
 
-msgid "HELP_HEADING3"
+"
+
+msgid ""
 msgstr "Staňte se dobrovolným pomocníkem"
 
-msgid "HELP_P3_1"
+"
+
+msgid ""
 msgstr "Pokud jste zkušeným uživatelem programu BOINC, byly bychom rádi, "
 "pokud byste se stal dobrovolným pomocníkem. Je to skvělý způsob, jak pomoci "
 "věci vědeckého výzkumu a dobrovolnickému počítání - a je to také zábava! "
 
-msgid "HELP_P3_2"
+"
+
+msgid ""
 msgstr "Pokud jste již dobrovolným pomocníkem: k úpravě svého nastavení %sklikněte zde%s."
 
-##############################################
+"
+
 # index.php
 ##############################################
-
 msgid "HOME_HEADING1"
 msgstr "Staňte se dobrovolníkem"
 
-msgid "HOME_P1"
+"
+
+msgid ""
 msgstr "Využívejte volný čas Vašeho počítače (Windows, Mac, Linux) "
 "k hledání léků proti nemocem, studování globální oteplování, k objevení pulsarů "
 "nebo k mnohému jinému vědeckému výzkumu. Je to bezpečné a jednoduché: "
@@ -681,30 +967,407 @@ msgstr "Využívejte volný čas Vašeho počítače (Windows, Mac, Linux) "
 "%sStáhněte si%s a nainstalujte program BOINC "
 "%sVložte vaší emailovou adresu a heslo k projektu."
 
-msgid "HOME_P2"
+"
+
+msgid ""
 msgstr "Případně, pokud používáte více projektů současně, "
 "vyzkoušejte některého ze %ssprávce účtů%s, jako jsou %sGridRepublic%s nebo %sBAM!%s."
 
-msgid "HOME_P3"
+"
+
+msgid ""
 msgstr "Pokud máte nějaké dotazy, nebo potřebujete poradit, můžete se %szeptat dobrovolných pomocníků%s."
+
+"
+
+msgid ""
+msgstr "Nápověda"
+
+"
+
+msgid ""
+msgstr "Ke stažení"
+
+"
+
+msgid ""
+msgstr "Webové stránky"
+
+"
+
+msgid ""
+msgstr "Pomocné programy"
+
+"
+
+########################################
+# download.php 2006/08/03 by je2bwm
+##############################################
+# system_requirements.php by je2bwm 2006/08/07
+# release_notes.php
+msgid ""
+msgstr "Dotazník"
+
+"
+
+msgid "POLL_INTRO"
+msgstr "Several volunteer computing projects, including Climateprediction.net, Einstein@home, and SETI@home, use software called BOINC. If you participate in projects like this, we request that you answer the following questions. This will help BOINC-based projects increase participation and achieve greater scientific results. <p> Please answer as many questions as you want, then go to the bottom and click OK. If you previously completed the survey but your answers have changed, please complete it again - your new answers will replace the old ones. <p> The current results of the survey are <a href=poll_results.php>here</a>. "
+
+msgid "POLL_RUN"
+msgstr "Do you run BOINC?"
+
+msgid "POLL_PARTICIPATION"
+msgstr "Your participation"
+
+msgid "POLL_COMPUTERS"
+msgstr "Your computers"
+
+msgid "POLL_YOU"
+msgstr "You"
+
+msgid "POLL_NATIONALITY"
+msgstr "Nationality"
+
+msgid "POLL_COMMENTS"
+msgstr "Comments"
+
+msgid "POLL_COMMENTS_QUESTION"
+msgstr "Please suggest ways that BOINC, and the projects that use it, could be improved:"
+
+msgid "POLL_OTHER"
+msgstr "Other:"
+
+msgid "POLL_CHECK_ALL"
+msgstr "[check all that apply]"
+
+msgid "POLL_DONE"
+msgstr "When done click:"
+
+msgid "POLL_CURRENT"
+msgstr "Yes - I have been running BOINC on my computer for..."
+
+msgid "POLL_TWEEK"
+msgstr "less than a week"
+
+msgid "POLL_TMONTH"
+msgstr "less than a month"
+
+msgid "POLL_TYEAR"
+msgstr "less than a year"
+
+msgid "POLL_TMOREYEAR"
+msgstr "more than a year"
+
+msgid "POLL_LAPSED"
+msgstr "No - I was running BOINC, but stopped because..."
+
+msgid "POLL_LINTEREST"
+msgstr "I lost interest"
+
+msgid "POLL_LCOMPLICATED"
+msgstr "it was too complicated"
+
+msgid "POLL_LSTOPPED"
+msgstr "I stopped it and forgot to start again"
+
+msgid "POLL_LPROBLEMS"
+msgstr "it caused problems on my computer"
+
+msgid "POLL_LPOWER"
+msgstr "it used too much electricity"
+
+msgid "POLL_LNONBOINC"
+msgstr "I switched to a non-BOINC computing project"
+
+msgid "POLL_FAILED"
+msgstr "No - I tried running BOINC, but..."
+
+msgid "POLL_FINSTALL"
+msgstr "the software didn't install correctly"
+
+msgid "POLL_FFIGURE"
+msgstr "I couldn't figure out how to use the software"
+
+msgid "POLL_FNETWORK"
+msgstr "I had network communication problems"
+
+msgid "POLL_FATTACH"
+msgstr "I couldn't attach to a project"
+
+msgid "POLL_FWORK"
+msgstr "I attached to a project, but never got any work"
+
+msgid "POLL_NEVER"
+msgstr "No - I never tried running BOINC, because..."
+
+msgid "POLL_NSECURITY"
+msgstr "I was concerned about security"
+
+msgid "POLL_NPROJECT"
+msgstr "I wasn't interested in any of the projects"
+
+msgid "POLL_NPERMISSION"
+msgstr "I don't have permission to run it on my computer"
+
+msgid "POLL_NVERSION"
+msgstr "No version was available for my computer"
+
+msgid "POLL_KIND"
+msgstr "What kind of computers do you have running BOINC?"
+
+msgid "POLL_WHERE"
+msgstr "Where are they?"
+
+msgid "POLL_HOME"
+msgstr "Home"
+
+msgid "POLL_WORK"
+msgstr "Work"
+
+msgid "POLL_SCHOOL"
+msgstr "School"
+
+msgid "POLL_HOW_MANY"
+msgstr "How many computers?"
+
+msgid "POLL_TURNED_ON"
+msgstr "On average, how many hours per day are they powered on?"
+
+msgid "POLL_AGE"
+msgstr "Age"
+
+msgid "POLL_SEX"
+msgstr "Sex"
+
+msgid "POLL_MALE"
+msgstr "Male"
+
+msgid "POLL_FEMALE"
+msgstr "Female"
+
+msgid "POLL_EXPERTISE"
+msgstr "Your level of computer expertise"
+
+msgid "POLL_LEVB"
+msgstr "Beginner"
+
+msgid "POLL_LEVI"
+msgstr "Intermediate"
+
+msgid "POLL_LEVA"
+msgstr "Advanced"
+
+msgid "POLL_LEARN_WHERE"
+msgstr "Where did you learn about BOINC projects?"
+
+msgid "POLL_WTV"
+msgstr "TV/radio/newspaper"
+
+msgid "POLL_WPERS"
+msgstr "From friends, relatives, or coworkers"
+
+msgid "POLL_WTEAM"
+msgstr "Team message boards or web sites"
+
+msgid "POLL_WBOINC"
+msgstr "The BOINC web site"
+
+msgid "POLL_WWEB"
+msgstr "Other web sites"
+
+msgid "POLL_FACTOR"
+msgstr "Which are the most important factors when you decide whether to participate in a BOINC project?"
+
+msgid "POLL_GRAPHICS"
+msgstr "Nice-looking screensaver graphics"
+
+msgid "POLL_CREDIT_FAIR"
+msgstr "Fair and quick granting of credit for work done"
+
+msgid "POLL_CREDIT_MORE"
+msgstr "Getting more credit from this project than from others"
+
+msgid "POLL_MB_FRIENDLY"
+msgstr "Helpful and friendly message boards"
+
+msgid "POLL_MB_STAFF"
+msgstr "Participation by project staff on the message boards"
+
+msgid "POLL_WEB_SITE"
+msgstr "Informative project web site"
+
+msgid "POLL_SCIENCE_IMPORTANT"
+msgstr "The science is important and beneficial"
+
+msgid "POLL_SCIENCE_PUBLIC"
+msgstr "Non-profit, and results are public"
+
+msgid "POLL_RECOGNIZE"
+msgstr "Personal recognition if my computer finds something"
+
+msgid "POLL_PUBLISH"
+msgstr "Publication by the project in scientific journals"
+
+msgid "POLL_EMAIL"
+msgstr "Periodic email newsletters from the project"
+
+msgid "POLL_NPROJECTS"
+msgstr "How many BOINC projects do you participate in?"
+
+msgid "POLL_SSAVER"
+msgstr "Do you run BOINC as a screensaver?"
+
+msgid "POLL_YES"
+msgstr "Yes"
+
+msgid "POLL_NO"
+msgstr "No"
+
+msgid "POLL_MBOARDS"
+msgstr "Your usage of project messages boards:"
+
+msgid "POLL_MBR"
+msgstr "to read information"
+
+msgid "POLL_MBRW"
+msgstr "to read and post information"
+
+msgid "POLL_NONE"
+msgstr "None"
+
+msgid "POLL_HELP"
+msgstr "Where do you get information to help resolve problems with BOINC and/or BOINC projects?"
+
+msgid "POLL_HELP_PMB"
+msgstr "The project message boards"
+
+msgid "POLL_HELP_BMB"
+msgstr "The BOINC message boards"
+
+msgid "POLL_HELP_BDOC"
+msgstr "The BOINC web site"
+
+msgid "POLL_HELP_BMLIST"
+msgstr "BOINC mailing lists"
+
+msgid "POLL_HELP_WIKI"
+msgstr "The Unofficial BOINC Wiki"
+
+msgid "POLL_HELP_TEAM"
+msgstr "Team web sites"
+
+msgid "POLL_HELP_GOOGLE"
+msgstr "Google or other search engines"
+
+msgid "POLL_ERROR_TITLE"
+msgstr "Error - results not recorded"
+
+msgid "POLL_ERROR_TEXT"
+msgstr "An internal error has prevented us from recording your survey response.  Please try again later."
+
+msgid "POLL_RECORDED"
+msgstr "Survey response recorded"
+
+msgid "POLL_THANKS"
+msgstr "Thank you for completing the BOINC user survey."
+
+msgid "POLL_RESULTS_TITLE"
+msgstr "Survey results"
+
+msgid "POLL_RESULTS_TEXT"
+msgstr "These are the current results of the <a href=poll.php>BOINC user survey</a>.  This page is updated every hour."
+
+# index.php
+# ############################################
+#, fuzzy
+msgid "HELP_HEADING1"
+msgstr "Online Help"
+
+#, fuzzy
+msgid "HELP_P1_1"
+msgstr "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have. "
+
+#, fuzzy
+msgid "HELP_P1_2"
+msgstr "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls). If you don't already have Skype, please %sdownload and install it now%s. When you're finished, return to this page. "
+
+#, fuzzy
+msgid "HELP_P1_3"
+msgstr "The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer. You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."
+
+#, fuzzy
+msgid "HELP_P1_4"
+msgstr "Volunteers speaking several languages are available. Please select a language: "
+
+#, fuzzy
+msgid "HELP_HEADING2"
+msgstr "BOINC help on the web"
+
+#, fuzzy
+msgid "HELP_P2_ITEM1"
+msgstr "BOINC user's manual"
+
+#, fuzzy
+msgid "HELP_P2_ITEM2"
+msgstr "Troubleshooting BOINC "
+
+#, fuzzy
+msgid "HELP_P2_ITEM3"
+msgstr "BOINC-related web sites "
+
+#, fuzzy
+msgid "HELP_P2_ITEM4"
+msgstr "The BOINC message boards "
+
+#, fuzzy
+msgid "HELP_P2_ITEM5"
+msgstr "The message boards on any BOINC-based project "
+
+#, fuzzy
+msgid "HELP_HEADING3"
+msgstr "Be a Help Volunteer"
+
+#, fuzzy
+msgid "HELP_P3_1"
+msgstr "If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s. It's a great way to help the cause of scientific research and volunteer computing - and it's fun!  "
+
+#, fuzzy
+msgid "HELP_P3_2"
+msgstr "If you're already a Help Volunteer: to edit your settings, %sclick here%s. "
+
+#, fuzzy
+msgid "HOME_P1"
+msgstr " Use the idle time on your computer  (Windows, Mac, or Linux)  to cure diseases, study global warming,  discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "
+
+#, fuzzy
+msgid "HOME_P2"
+msgstr "Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
+
+#, fuzzy
+msgid "HOME_P3"
+msgstr "If you have any questions, or need help getting started, you can %stalk to a Volunteer Helper%s. "
 
 msgid "Help"
 msgstr "Nápověda"
 
+#, fuzzy
 msgid "HOME_DOWNLOAD"
-msgstr "Ke stažení"
+msgstr "Download"
 
+#, fuzzy
 msgid "HOME_WEB_SITES"
-msgstr "Webové stránky"
+msgstr "Web"
 
+#, fuzzy
 msgid "HOME_ADD_ONS"
-msgstr "Pomocné programy"
+msgstr "Add-ons"
 
+#, fuzzy
 msgid "HOME_SURVEY"
-msgstr "Dotazník"
+msgstr "Survey"
 
 msgid "HOME_BOINC"
 msgstr "Berkeley Open Infrastructure for Network Computing"
 
 msgid "HOME_BOINC_DESC"
-msgstr "Open-source software pro %sdobrovolnické počítání%s a %sgrid computing%s.
+msgstr "Open-source software for %svolunteer computing%s and %sgrid computing%s"

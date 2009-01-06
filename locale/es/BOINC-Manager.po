@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-05 07:53-0700\n"
+"PO-Revision-Date: 2009-01-06 09:24-0700\n"
 "Last-Translator: David Mendez <davidcomp@telefonica.net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -1043,9 +1043,7 @@ msgstr "márquela si quiere que este ordenador trabaje mientras está funcionand
 
 #: clientgui/DlgAdvPreferencesBase.cpp:83
 msgid " While computer is in use"
-msgstr ""
-"Cuando el ordenador está en uso - (prueba de caracteres áéíóúñ - cayó - leí "
-"- caña)¿?"
+msgstr "Cuando el ordenador está en uso"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:85
 msgid "check this if you want this computer to do work even when you're using it"
