@@ -1,9 +1,9 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-05 12:45-0700\n"
+"PO-Revision-Date: 2009-01-07 00:38-0700\n"
 "Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "Language: pl\n"
@@ -957,13 +957,13 @@ msgid ""
 "(C) 2003-2008 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2008 Uniwersytet Kalifornijski w Berkeley.\n"
+"(C) 2003-2009 Uniwersytet Kalifornijski w Berkeley.\n"
 "Wszystkie prawa zastrzeżone.\n"
 "\n"
 "Polska wersja językowa:\n"
 "Marek Czerwonka (marekz@irc.pl)\n"
 "\n"
-"Wersja: 6.4.xx"
+"Wersja: 6.6.xx"
 
 #: clientgui/DlgAbout.cpp:179
 #: clientgui/DlgAbout.cpp:183
@@ -2911,7 +2911,6 @@ msgid "Copying all messages to the clipboard..."
 msgstr "Kopiowanie wszystkich wiadomości do schowka..."
 
 #: clientgui/ViewMessages.cpp:219
-#, fuzzy
 msgid "Copying selected messages to the clipboard..."
 msgstr "Kopiowanie wybranych wiadomości do schowka..."
 
@@ -3604,9 +3603,8 @@ msgstr ""
 "Po przerwaniu zadania nie otrzymasz za nie żadnych punktów!"
 
 #: clientgui/WelcomePage.cpp:222
-#, fuzzy
 msgid "Change Research Applications at World Community Grid"
-msgstr "Zmień aplikacje naukowe na World Commmunity Grid"
+msgstr "Zmień pobierane aplikacje World Commmunity Grid"
 
 #: clientgui/WelcomePage.cpp:336
 #, c-format
@@ -3644,6 +3642,19 @@ msgid ""
 "To change which research applications are sent to you from\n"
 "World Community Grid then please click on the following button:"
 msgstr ""
+"Wybrałeś przyłączenie się do nowego projektu. Przyłączenie się do nowego\n"
+"projektu oznacza, że twój komputer będziesię łączył z nową stroną www.\n"
+"Jeżeli właśnie to chciałeś osiągnąć, naciśnij przycisk 'Dalej'.\n"
+"\n"
+"Niektóre projekty, takie jak World Community Grid używają kilku różnych "
+"aplikacji.\n"
+"Jeżeli chcesz wybrać, które z aplikacji mają być pobierane i uruchamiane "
+"przez twój komputer\n"
+"zmodyfikuj Preferencje na stronie danego projektu.\n"
+"\n"
+"Aby wybrać aplikacje World Community Grid, których będziesz używał na swoim "
+"komputerze\n"
+"naciśnij poniższy przycisk:"
 
 #: clientgui/WelcomePage.cpp:372
 #, c-format
