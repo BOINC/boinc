@@ -37,3 +37,9 @@ Janus   Jan 6 2009
     locales/da
 	BOINC-Manager.po
 
+Charlie Jan 6 2009
+    client: preserve ownership when copying files to slot directory. Fixes
+        a problem with Enigma@home which uses the <copy_file/> tag.
+
+    lib/
+        filesys.cpp
