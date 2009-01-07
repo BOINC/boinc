@@ -43,3 +43,14 @@ Charlie Jan 6 2009
 
     lib/
         filesys.cpp
+
+Rom    7 Jan 2009
+    - Fix build environment so that it can build the client again
+      (From Nicolás Alvarez)
+      
+    /
+        configure.ac
+        Makefile.am
+    sea/
+        make-tar.sh
+        make-tar_debug.sh
