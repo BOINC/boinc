@@ -1,4 +1,4 @@
-# FileID  : $Id: en.po 15938 2008-08-25 15:24:35Z boincadm $
+﻿# FileID  : $Id: en.po 15938 2008-08-25 15:24:35Z boincadm $
 #, fuzzy
 msgid ""
 msgstr ""

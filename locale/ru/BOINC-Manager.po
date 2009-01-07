@@ -1,4 +1,4 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.10.43\n"
 "Report-Msgid-Bugs-To: \n"

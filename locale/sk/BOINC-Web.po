@@ -1,4 +1,4 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: boinc 1.10\n"
 "Report-Msgid-Bugs-To: \n"

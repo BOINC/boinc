@@ -1,4 +1,4 @@
-# translation of BOINC Manager.po to
+﻿# translation of BOINC Manager.po to
 # Arnaud <bidibulle25_at_yahoo.fr>, 2007.
 msgid ""
 msgstr ""
