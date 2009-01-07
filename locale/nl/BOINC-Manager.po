@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-07 10:09-0700\n"
+"PO-Revision-Date: 2009-01-07 10:33-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: ç®ä½ä¸­æ, æ¥æ¬èª\n"
+"X-BOINC-UTF8-Marker: Ã§Â®ÂÃ¤Â½ÂÃ¤Â¸Â­Ã¦ÂÂ, Ã¦ÂÂ¥Ã¦ÂÂ¬Ã¨ÂªÂ\n"
 "X-Poedit-Country: UNITED STATES\n"
 
 #: clientgui/AccountInfoPage.cpp:329
@@ -137,7 +137,7 @@ msgstr "Vul het URL in van de account manager website."
 msgid ""
 "You can copy and paste the URL from your browser's\n"
 "address bar."
-msgstr "Het is mogelijk dit URL te kopiëren uit de adresbalkvan je browser."
+msgstr "Het is mogelijk dit URL te kopiÃ«ren uit de adresbalkvan je browser."
 
 #: clientgui/AccountManagerInfoPage.cpp:182
 msgid "Account Manager &URL:"
@@ -1566,7 +1566,7 @@ msgstr "Factor voor tijdscorrectie"
 
 #: clientgui/DlgItemProperties.cpp:145
 msgid "Properties of task "
-msgstr "Eigenschappen van taak"
+msgstr "Eigenschappen van taak "
 
 #: clientgui/DlgItemProperties.cpp:149
 #: clientgui/ViewWork.cpp:215
@@ -2432,7 +2432,7 @@ msgstr "Bericht"
 #: clientgui/ViewMessages.cpp:89
 #: clientgui/ViewMessagesGrid.cpp:102
 msgid "Copy all the messages to the clipboard."
-msgstr "Alle berichten kopiëren"
+msgstr "Alle berichten kopiÃ«ren"
 
 #: clientgui/sg_DlgMessages.cpp:202
 #: clientgui/sg_DlgMessages.cpp:210
@@ -2440,7 +2440,7 @@ msgstr "Alle berichten kopiëren"
 #: clientgui/ViewMessagesGrid.cpp:110
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
 msgstr ""
-"De geselecteerde berichten naar het klembord kopiëren. Je kan meerdere "
+"De geselecteerde berichten naar het klembord kopiÃ«ren. Je kan meerdere "
 "berichten selecteren door met behulp van de Shift of Command toets op de "
 "bestanden te klikken."
 
@@ -2450,7 +2450,7 @@ msgstr ""
 #: clientgui/ViewMessagesGrid.cpp:112
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr ""
-"De geselecteerde berichten naar het klembord kopiëren. Je kan meerdere "
+"De geselecteerde berichten naar het klembord kopiÃ«ren. Je kan meerdere "
 "berichten selecteren door met behulp van de Shift of Ctrl toets op de "
 "bestanden te klikken."
 
@@ -2928,12 +2928,12 @@ msgstr "Opdrachten"
 #: clientgui/ViewMessages.cpp:88
 #: clientgui/ViewMessagesGrid.cpp:101
 msgid "Copy all messages"
-msgstr "Alle berichten kopiëren"
+msgstr "Alle berichten kopiÃ«ren"
 
 #: clientgui/ViewMessages.cpp:95
 #: clientgui/ViewMessagesGrid.cpp:108
 msgid "Copy selected messages"
-msgstr "Selectie kopiëren"
+msgstr "Selectie kopiÃ«ren"
 
 #: clientgui/ViewMessages.cpp:106
 #: clientgui/ViewMessages.cpp:480
@@ -2954,11 +2954,11 @@ msgstr "Berichten"
 #: clientgui/ViewMessages.cpp:187
 #: clientgui/ViewMessagesGrid.cpp:179
 msgid "Copying all messages to the clipboard..."
-msgstr "Bezig met kopiëren van de berichten naar het klembord..."
+msgstr "Bezig met kopiÃ«ren van de berichten naar het klembord..."
 
 #: clientgui/ViewMessages.cpp:219
 msgid "Copying selected messages to the clipboard..."
-msgstr "Geselecteerde berichten aan het kopiëren..."
+msgstr "Geselecteerde berichten aan het kopiÃ«ren..."
 
 #: clientgui/ViewMessages.cpp:264
 msgid "Filtering messages..."
@@ -2986,7 +2986,7 @@ msgstr "Berichten"
 
 #: clientgui/ViewMessagesGrid.cpp:209
 msgid "Copying selected messages to Clipboard..."
-msgstr "Geselecteerde berichten aan het kopiëren..."
+msgstr "Geselecteerde berichten aan het kopiÃ«ren..."
 
 #: clientgui/ViewMessagesGrid.cpp:396
 msgid "Info"
@@ -3389,7 +3389,7 @@ msgstr "Bekijk alle projecten, per project een aparte grafiek"
 
 #: clientgui/ViewStatistics.cpp:1798
 msgid "One project"
-msgstr "Eén project"
+msgstr "EÃ©n project"
 
 #: clientgui/ViewStatistics.cpp:1799
 msgid "Show one chart with selected project"
@@ -3401,7 +3401,7 @@ msgstr "Projecten gecombineerd"
 
 #: clientgui/ViewStatistics.cpp:1806
 msgid "Show one chart with all projects"
-msgstr "Bekijk alle projecten samen gebracht in één grafiek"
+msgstr "Bekijk alle projecten samen gebracht in Ã©Ã©n grafiek"
 
 #: clientgui/ViewStatistics.cpp:1821
 #: clientgui/ViewStatistics.cpp:1826
