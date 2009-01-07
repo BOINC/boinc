@@ -505,7 +505,7 @@ int boinc_copy(const char* orig, const char* newf) {
     return system(cmd);
 #else
     char cmd[1024];
-    sprintf(cmd, "cp \"%s\" \"%s\"", orig, newf);
+    sprintf(cmd, "cp -p \"%s\" \"%s\"", orig, newf);
     return system(cmd);
 #endif
 }
