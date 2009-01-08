@@ -1,9 +1,9 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-06 09:24-0700\n"
+"PO-Revision-Date: 2009-01-08 07:37-0700\n"
 "Last-Translator: David Mendez <davidcomp@telefonica.net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -200,7 +200,7 @@ msgstr "&Salir"
 
 #: clientgui/AdvancedFrame.cpp:329
 msgid "&Advanced View"
-msgstr ""
+msgstr "Vista &Avanzada"
 
 #: clientgui/AdvancedFrame.cpp:330
 #, fuzzy
@@ -3908,5 +3908,6 @@ msgstr ""
 #~ msgid "Google Comm Failure"
 #~ msgstr "Fallo de Comunicación con Google"
 
+#, c-format
 #~ msgid "Yahoo Comm Failure"
 #~ msgstr "Fallo de Comunicación con Yahoo"
