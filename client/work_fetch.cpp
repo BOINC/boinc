@@ -134,7 +134,7 @@ void RSC_WORK_FETCH::print_state(char* name) {
         PROJECT* p = gstate.projects[i];
         RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
         msg_printf(p, MSG_INFO,
-            "[wfd] %s: %.2f share %.2f debt %.2f backoff t %.2f int %.2f",
+            "[wfd] %s: runshare %.2f debt %.2f backoff t %.2f dt %.2f",
             name,
             pwf.runnable_share, pwf.debt, pwf.backoff_time, pwf.backoff_interval
         );

@@ -252,8 +252,10 @@ void CLIENT_STATE::rr_simulation() {
     // note the number of idle instances
     //
     cpu_work_fetch.nidle_now = ncpus - sim_status.active_ncpus;
+    if (cpu_work_fetch.nidle_now < 0) cpu_work_fetch.nidle_now = 0;
     if (coproc_cuda) {
         cuda_work_fetch.nidle_now = coproc_cuda->count - coproc_cuda->used;
+        if (cuda_work_fetch.nidle_now < 0) cuda_work_fetch.nidle_now = 0;
     }
 
     work_fetch.compute_shares();

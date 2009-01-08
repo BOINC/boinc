@@ -184,7 +184,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
     }
     last_time = now;
 
-    sprintf(buf, "RPC to %s; asking for %f<br>", p->project_name, p->cpu_pwf.shortfall);
+    sprintf(buf, "RPC to %s; asking for %f<br>", p->project_name, cpu_work_fetch.req_secs);
     html_msg += buf;
 
     handle_completed_results();
@@ -194,7 +194,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
     }
 
     bool sent_something = false;
-    double work_left = p->cpu_pwf.shortfall;
+    double work_left = cpu_work_fetch.req_secs;
     while (work_left > 0) {
         RESULT* rp = new RESULT;
         WORKUNIT* wup = new WORKUNIT;
@@ -224,7 +224,7 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* _p) {
         work_left -= p->duration_correction_factor*wup->rsc_fpops_est/host_info.p_fpops;
     }
 
-    if (p->cpu_pwf.shortfall > 0 && !sent_something) {
+    if (cpu_work_fetch.req_secs > 0 && !sent_something) {
         p->backoff();
     } else {
         p->nrpc_failures = 0;

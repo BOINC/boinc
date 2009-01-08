@@ -177,7 +177,6 @@ void RESULT::clear() {
     stderr_out = "";
     suspended_via_gui = false;
     rr_sim_misses_deadline = false;
-    last_rr_sim_missed_deadline = false;
     fpops_per_cpu_sec = 0;
     fpops_cumulative = 0;
     intops_per_cpu_sec = 0;

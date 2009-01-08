@@ -376,7 +376,6 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
         // should we check work fetch?  Do this at most once/minute
 
-        printf("LWFT: %f\n", last_work_fetch_time);
         if (exit_when_idle && contacted_sched_server) break;
         if (tasks_suspended) break;
 
@@ -384,6 +383,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             last_work_fetch_time = 0;
         }
         if (now - last_work_fetch_time < 60) return false;
+        must_check_work_fetch = false;
         last_work_fetch_time = now;
 
         p = work_fetch.choose_project();
