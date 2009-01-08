@@ -43,7 +43,12 @@ bool RSC_WORK_FETCH::may_have_work(PROJECT* p) {
     return (w.backoff_time < gstate.now);
 }
 
-void RSC_PROJECT_WORK_FETCH::rr_init() {
+bool RSC_PROJECT_WORK_FETCH::compute_may_have_work(PROJECT* p) {
+    return (backoff_time < gstate.now);
+}
+
+void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT* p) {
+    may_have_work = compute_may_have_work(p);
 }
 
 void RSC_WORK_FETCH::rr_init() {
@@ -61,11 +66,24 @@ void WORK_FETCH::rr_init() {
     estimated_delay = 0;
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        p->cpu_pwf.rr_init();
+        p->pwf.can_fetch_work = p->pwf.compute_can_fetch_work(p);
+        p->cpu_pwf.rr_init(p);
         if (coproc_cuda) {
-            p->cuda_pwf.rr_init();
+            p->cuda_pwf.rr_init(p);
         }
     }
+}
+
+bool PROJECT_WORK_FETCH::compute_can_fetch_work(PROJECT* p) {
+    if (p->non_cpu_intensive) return false;
+    if (p->suspended_via_gui) return false;
+    if (p->master_url_fetch_pending) return false;
+    if (p->min_rpc_time > gstate.now) return false;
+    if (p->dont_request_more_work) return false;
+    if (p->some_download_stalled()) return false;
+    if (p->some_result_suspended()) return false;
+    if (p->nuploading_results > 2*gstate.ncpus) return false;
+    return true;
 }
 
 void RSC_WORK_FETCH::accumulate_shortfall(double d_time, double nused) {
@@ -95,18 +113,26 @@ void RSC_PROJECT_WORK_FETCH::accumulate_shortfall(
 }
 #endif
 
+// choose the best project to ask for work for this resource
+//
 PROJECT* RSC_WORK_FETCH::choose_project() {
     PROJECT* pbest = NULL;
 
     for (unsigned i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        if (p->non_cpu_intensive) continue;
-        if (!p->can_request_work()) continue;
-        if (!may_have_work(p)) continue;
+        if (!p->pwf.can_fetch_work) continue;
+        if (!project_state(p).may_have_work) continue;
         if (pbest) {
+            if (p->deadlines_missed && !pbest->deadlines_missed) {
+                continue;
+            }
+            if (project_state(p).overworked() && !project_state(pbest).overworked()) {
+                continue;
+            }
             if (pbest->pwf.overall_debt > p->pwf.overall_debt) {
                 continue;
             }
+
         }
         pbest = p;
     }
@@ -190,11 +216,14 @@ void WORK_FETCH::compute_work_request(PROJECT* p) {
 //
 PROJECT* WORK_FETCH::choose_project() {
     PROJECT* p = 0;
+
+    gstate.adjust_debts();
+    gstate.compute_nuploading_results();
+
     gstate.rr_simulation();
     set_overall_debts();
     bool request_cpu = true;
     bool request_cuda = (coproc_cuda != NULL);
-
 
     // if a resource is currently idle, get work for it;
     // give GPU priority over CPU
@@ -250,7 +279,15 @@ PROJECT* WORK_FETCH::choose_project() {
 
 void RSC_WORK_FETCH::set_request(PROJECT* p) {
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
-    req_secs = gstate.work_buf_total()*w.fetchable_share;
+
+    // if project's DCF is too big or small, its completion time estimates
+    // are useless; just ask for 1 second
+    //
+    if (p->duration_correction_factor < 0.02 || p->duration_correction_factor > 80.0) {
+        req_secs = 1;
+    } else {
+        req_secs = gstate.work_buf_total()*w.fetchable_share;
+    }
     req_instances = (int)ceil(w.fetchable_share*nidle_now);
 }
 
@@ -315,7 +352,7 @@ void WORK_FETCH::compute_shares() {
         if (p->rr_sim_status.has_cuda_jobs) {
             cuda_work_fetch.total_runnable_share += p->resource_share;
 		}
-        if (!p->can_request_work()) continue;
+        if (!p->pwf.can_fetch_work) continue;
         if (p->cpu_pwf.fetchable(p)) {
             cpu_work_fetch.total_fetchable_share += p->resource_share;
         }
@@ -332,7 +369,7 @@ void WORK_FETCH::compute_shares() {
         if (p->rr_sim_status.has_cuda_jobs) {
             p->cuda_pwf.runnable_share = p->resource_share/cuda_work_fetch.total_runnable_share;
 		}
-        if (!p->can_request_work()) continue;
+        if (!p->pwf.can_fetch_work) continue;
         if (p->cpu_pwf.fetchable(p)) {
             p->cpu_pwf.fetchable_share = p->resource_share/cpu_work_fetch.total_fetchable_share;
         }
@@ -412,6 +449,8 @@ void WORK_FETCH::set_initial_work_request(PROJECT* p) {
     }
 }
 
+// called once, at client startup
+//
 void WORK_FETCH::init() {
     cpu_work_fetch.rsc_type = RSC_TYPE_CPU;
     cpu_work_fetch.ninstances = gstate.ncpus;

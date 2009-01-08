@@ -254,13 +254,13 @@ private:
     RESULT* largest_debt_project_best_result();
     RESULT* earliest_deadline_result();
     void reset_debt_accounting();
-    void adjust_debts();
     bool possibly_schedule_cpus();
     void schedule_cpus();
     bool enforce_schedule();
     bool no_work_for_a_cpu();
     void make_preemptable_task_list(vector<ACTIVE_TASK*>&, double&);
 public:
+    void adjust_debts();
     std::vector <RESULT*> ordered_scheduled_results;
         /// if we fail to start a task due to no shared-mem segments,
         /// wait until at least this time to try running

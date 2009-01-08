@@ -119,9 +119,12 @@ if (sched_stopped()) {
 
 show_platforms();
 
-$terms_of_use = trim(file_get_contents("../../terms_of_use.txt"));
-if ($terms_of_use) {
-    echo "<terms_of_use>\n$terms_of_use\n</terms_of_use>\n";
+$tou_file = "../../terms_of_use.txt";
+if (file_exists($tou_file)) {
+    $terms_of_use = trim(file_get_contents($tou_file));
+    if ($terms_of_use) {
+        echo "<terms_of_use>\n$terms_of_use\n</terms_of_use>\n";
+    }
 }
 
 echo "

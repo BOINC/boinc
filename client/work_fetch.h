@@ -51,11 +51,14 @@ struct RSC_PROJECT_WORK_FETCH {
         backoff_interval = 0;
         debt = 0;
     }
+
+    bool may_have_work;
+    bool compute_may_have_work(PROJECT*);
     //void accumulate_shortfall(RSC_WORK_FETCH&, PROJECT*, double dt, double nused);
     bool overworked();
 	void backoff(PROJECT*, char*);
 	void clear_backoff();
-    void rr_init();
+    void rr_init(PROJECT*);
 };
 
 // per-resource state
@@ -91,11 +94,11 @@ struct RSC_WORK_FETCH {
     PROJECT* choose_project();
     void accumulate_debt();
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);
-    bool may_have_work(PROJECT*);
     void update_debts();
     void print_state(char*);
     void clear_request();
     void set_request(PROJECT*);
+    bool may_have_work(PROJECT*);
     RSC_WORK_FETCH() {
         memset(this, 0, sizeof(*this));
     }
@@ -106,6 +109,8 @@ struct RSC_WORK_FETCH {
 //
 struct PROJECT_WORK_FETCH {
     double overall_debt;
+    bool can_fetch_work;
+    bool compute_can_fetch_work(PROJECT*);
     PROJECT_WORK_FETCH() {
         memset(this, 0, sizeof(*this));
     }

@@ -54,3 +54,13 @@ Rom    7 Jan 2009
     sea/
         make-tar.sh
         make-tar_debug.sh
+
+David  7 Jan 2009
+    - get_project_config: don't send error text if no terms_of_use.txt
+    - client: compute and store project work-fetch attributes
+
+    client/
+        client_state.h
+        work_fetch.h,cpp
+    html/user/
+        get_project_config.php

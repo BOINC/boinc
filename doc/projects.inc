@@ -27,14 +27,14 @@ $biomed = array(
             "Superlink@Technion helps geneticists all over the world find disease-provoking genes causing some types of diabetes, hypertension (high blood pressure), cancer, schizophrenia and many others.",
             "superlink_logo.gif"
         ),
-        array(
-            "Proteins@Home",
-            "http://biology.polytechnique.fr/proteinsathome",
-            "Ecole Polytechnique, Paris",
-            "Protein structure prediction",
-            "By joining Proteins@Home, you will be part of a large-scale protein structure prediction project and help to advance an important area of science. By increasing our knowledge of proteins, you will contribute to a better understanding of many diseases and pathologies, and to progress in both medicine and technology. Proteins@Home is not for profit.",
-            "proteinsathome.gif"
-        ),
+//        array(
+//            "Proteins@Home",
+//            "http://biology.polytechnique.fr/proteinsathome",
+//            "Ecole Polytechnique, Paris",
+//            "Protein structure prediction",
+//            "By joining Proteins@Home, you will be part of a large-scale protein structure prediction project and help to advance an important area of science. By increasing our knowledge of proteins, you will contribute to a better understanding of many diseases and pathologies, and to progress in both medicine and technology. Proteins@Home is not for profit.",
+//            "proteinsathome.gif"
+//        ),
         array(
             "The Lattice Project",
             "http://boinc.umiacs.umd.edu/",
@@ -51,22 +51,22 @@ $biomed = array(
             "Simulation models of the transmission dynamics and health effects of malaria are an important tool for malaria control. They can be used to determine optimal strategies for delivering mosquito nets, chemotherapy, or new vaccines which are currently under development and testing.  Such modeling is extremely computer intensive, requiring simulations of large human populations with a diverse set of parameters related to biological and social factors that influence the distribution of the disease. ",
             "africaathome.gif"
         ),
-        array(
-            "Tanpaku",
-            "http://issofty17.is.noda.tus.ac.jp/",
-            "Tokyo University of Science",
-            "Biology",
-            "To predict protein structure and function from genetic sequences, using the 'Brownian Dynamics' (BD) method.  This method enables us to simulate more efficiently than conventional methods.",
-            "tanpaku.jpg"
-        ),
-        array(
-            "Predictor@home",
-            "http://predictor.chem.lsa.umich.edu/",
-            "University of Michigan",
-            "Biology",
-            "Protein structure prediction starts from a sequence of amino acids and attempts to predict the folded, functioning, form of the protein.  Predicting the structure of an unknown protein is a critical problem in enabling structure-based drug design to treat new and existing diseases.",
-            "predictor.jpg"
-        ),
+//        array(
+//            "Tanpaku",
+//            "http://issofty17.is.noda.tus.ac.jp/",
+//            "Tokyo University of Science",
+//            "Biology",
+//            "To predict protein structure and function from genetic sequences, using the 'Brownian Dynamics' (BD) method.  This method enables us to simulate more efficiently than conventional methods.",
+//            "tanpaku.jpg"
+//        ),
+//        array(
+//            "Predictor@home",
+//            "http://predictor.chem.lsa.umich.edu/",
+//            "University of Michigan",
+//            "Biology",
+//            "Protein structure prediction starts from a sequence of amino acids and attempts to predict the folded, functioning, form of the protein.  Predicting the structure of an unknown protein is a critical problem in enabling structure-based drug design to treat new and existing diseases.",
+//            "predictor.jpg"
+//        ),
         array(
             "Rosetta@home",
             "http://boinc.bakerlab.org/rosetta/",
