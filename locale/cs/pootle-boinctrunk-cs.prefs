@@ -1,0 +1,7 @@
+# Pootle preferences for project boinctrunk, language cs
+
+rights:
+  Spok = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  default = u'view, suggest, archive, pocompile'
+  nobody = u'view'
+  Necroman = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
