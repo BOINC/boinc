@@ -24,13 +24,14 @@ function friendly_name($p) {
     switch ($p) {
     case 'i686-pc-linux-gnu': return 'Linux/x86';
     case 'windows_intelx86': return 'Windows';
-    case 'x86_64-pc-linux-gnu': return 'Linux/x86_64';
+    case 'x86_64-pc-linux-gnu': return 'Linux/x64';
     case 'i686-apple-darwin': return 'Mac OS X';
+    case 'x86_64-apple-darwin': return 'Mac OS X 64-bit';
     case 'powerpc-apple-darwin': return 'Mac OS X (PowerPC)';
     case 'sparc-sun-solaris2.7': return 'SPARC Solaris 2.7';
     case 'sparc-sun-solaris': return 'SPARC Solaris';
     case 'powerpc64-unknown-linux-gnu': return 'Linux/PowerPC64';
-    case 'windows_x86_64': return 'Windows/x86_64';
+    case 'windows_x86_64': return 'Windows/x64';
     case 'powerpc64-ps3-linux-gnu': return 'Playstation3/Linux';
     case 'x86_64-unknown-linux-gnu': return null;
     }
@@ -38,6 +39,7 @@ function friendly_name($p) {
     return $p;
 }
 
+// 
 function get_platforms($url) {
     $url .= '/get_project_config.php';
     $x = file_get_contents($url);
@@ -49,15 +51,21 @@ function get_platforms($url) {
     while (1) {
         $p = parse_next_element($x, $tag, $cursor);
         if (!$p) break;
-        $list[] = friendly_name($p);
+        $list[] = $p;
     }
     return array_unique($list);
 }
 
-function show_list($l) {
+// convert an array of platform names into a comma-separated
+// list of human-readable names
+//
+function make_friendly_string($l) {
+    if (!count($l)) return "Unknown";
     $x = "";
     $first = true;
     foreach($l as $p) {
+        $p = friendly_name($p);
+        if (!$p) continue;
         if ($first) {
             $x .= "$p";
             $first = false;
@@ -68,6 +76,8 @@ function show_list($l) {
     return $x;
 }
 
+// return platforms as an array of platform names
+//
 function get_platforms_cached($url) {
     $u = urlencode($url);
     $fname = "/home/boincadm/boinc/doc/platforms/$u";
@@ -87,13 +97,21 @@ function get_platforms_cached($url) {
             }
         }
     }
-    return show_list($l);
+    return $l;
 }
-//echo get_platforms_cached("http://www.malariacontrol.net/");
+
+// return platforms as a human-readable string
+//
+function get_platforms_string($url) {
+    $l = get_platforms_cached($url);
+    return make_friendly_string($l);
+}
+
+//echo get_platforms_string("http://www.malariacontrol.net/");
 
 function wfPlatforms() {
     global $wgParser;
-    $wgParser->setHook( "platforms", "get_platforms_cached" );
+    $wgParser->setHook( "platforms", "get_platforms_string" );
 }
 
 $wgExtensionFunctions[] = "wfPlatforms";

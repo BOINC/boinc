@@ -1,5 +1,6 @@
 <?php
 require_once("projects.inc");
+require_once("get_platforms.inc");
 
 header('Content-type: text/xml');
 echo '<?xml version="1.0" encoding="ISO-8859-1" ?>
@@ -38,6 +39,15 @@ foreach($proj_list as $p) {
         <description>$p->description</description>
         <home>$p->home</home>
 ";
+    $platforms = get_platforms_cached($p->url);
+    if ($platforms) {
+        echo "    <platforms>\n";
+        foreach ($platforms as $p) {
+            if ($p == 'Unknown') continue;
+            echo "        <name>$p</name>\n";
+        }
+        echo "    </platforms>\n";
+    }
     if ($p->image) {
         echo "      <image>http://boinc.berkeley.edu/images/$p->image</image>
 ";
