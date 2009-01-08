@@ -1,9 +1,9 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-06 12:03-0700\n"
+"PO-Revision-Date: 2009-01-07 10:32-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -25,11 +25,11 @@ msgstr "UTF-8"
 
 #, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Nederlands"
 
 #, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Dutch"
 
 msgid "Rank"
 msgstr "Stand"
@@ -54,11 +54,11 @@ msgstr "Vraag en Antwoord"
 
 #, fuzzy
 msgid "Message boards"
-msgstr "Message boards"
+msgstr "Forum"
 
 #, fuzzy
 msgid "%1 message board"
-msgstr "%1 message board"
+msgstr "%1 forum"
 
 msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
 msgstr ""
@@ -90,7 +90,7 @@ msgstr "Markeer alle onderwerpen als gelezen"
 
 #, fuzzy
 msgid "Mark all threads in all message boards as 'read'."
-msgstr "Markeer alle message boards als 'gelezen'."
+msgstr "Markeer alle forums als 'gelezen'."
 
 msgid "Inbox"
 msgstr "Postvak In"
@@ -198,6 +198,9 @@ msgstr "Sluit je aan bij dit team"
 
 msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
 msgstr ""
+"NB: als je \"email toestaan\" hebt ingevuld bij je project voorkeuren, zal je "
+"email adres bekend worden bij de team oprichter, indien je jezelf bij een "
+"team opgeeft."
 
 #, fuzzy
 msgid "Foundership change requested"
@@ -367,7 +370,7 @@ msgstr "Gebruikers ID"
 
 #, fuzzy
 msgid "Used in community functions"
-msgstr "Gebruikt in \"community\" functies"
+msgstr "Gebruikt in forum functies"
 
 msgid "Account key"
 msgstr "Account key"
@@ -401,7 +404,7 @@ msgstr "Message boards en privé berichten"
 
 #, fuzzy
 msgid "Community preferences"
-msgstr "Community voorkeuren"
+msgstr "Forum voorkeuren"
 
 msgid "Resource share and graphics"
 msgstr "Gedeelde bronnen en grafische weergave"
@@ -411,7 +414,7 @@ msgstr "%1 voorkeuren"
 
 #, fuzzy
 msgid "Community"
-msgstr "Community"
+msgstr "Forum"
 
 msgid "Delete"
 msgstr "Verwijder"
@@ -578,7 +581,7 @@ msgstr "Onderschrift invoegen bij deze post"
 
 #, fuzzy
 msgid "%1 Message boards"
-msgstr "%1 Message boards"
+msgstr "%1 Forum"
 
 msgid "Topic"
 msgstr "Onderwerp"
@@ -607,7 +610,7 @@ msgstr "Met het volgende"
 
 #, fuzzy
 msgid "No such message"
-msgstr "Geen identiek bericht"
+msgstr "Geen bericht gevonden"
 
 msgid "Block user"
 msgstr "Blokkeer gebruiker"
@@ -631,7 +634,7 @@ msgstr "Nee, annuleer"
 
 #, fuzzy
 msgid "No such message."
-msgstr "Geen identiek bericht."
+msgstr "Geen bericht gevonden."
 
 msgid "You need to fill all fields to send a private message"
 msgstr "Je moet overal iets invullen om het bericht te kunnen versturen"
@@ -648,7 +651,7 @@ msgstr ""
 "%1 is geen unieke gebruikersnaam; je zal de gebruikers ID moeten invullen"
 
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "Bebruiker %1 (ID: %2) accepteert geen privé berichten van jou. "
+msgstr "Gebruiker %1 (ID: %2) accepteert geen privé berichten van jou. "
 
 msgid "Really block %1?"
 msgstr "Echt %1 blokkeren?"
@@ -904,5 +907,13 @@ msgstr ""
 
 # Forum search features
 #########################################
+# Apps page (apps.php)
+#########################################
+# Rules and Policies page (info.php)
+# Create account form (create_account_form.php)
+# General stuff (create_account_form.php and others)
+# Forum
+# Forum thread
+# Forum search features
 #~ msgid "FORUM_SEARCH"
 #~ msgstr "Zoek forums"

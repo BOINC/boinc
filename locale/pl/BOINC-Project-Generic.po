@@ -1,9 +1,9 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-06 00:11-0700\n"
+"PO-Revision-Date: 2009-01-07 14:58-0700\n"
 "Last-Translator: Bartosz Kaszubowski <gosimek@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pl\n"
@@ -33,14 +33,12 @@ msgid "CHARSET"
 msgstr "UTF-8"
 
 # The name of this language in this language
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Polski"
 
 # The name of this language in an international language (English)
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Polish"
 
 msgid "Rank"
 msgstr "Pozycja"
@@ -410,7 +408,7 @@ msgid "Computing preferences"
 msgstr "Ustawienia przetwarzania"
 
 msgid "Message boards and private messages"
-msgstr ""
+msgstr "Fora dyskusyjne i prywatne wiadomości"
 
 msgid "Community preferences"
 msgstr "Ustawienia społecznościowe"
@@ -434,62 +432,61 @@ msgid "Profile"
 msgstr "Profil"
 
 msgid "%1 posts"
-msgstr ""
+msgstr "%1 postów"
 
 msgid "Notifications"
-msgstr ""
+msgstr "Powiadomienia"
 
 msgid "Quit team"
-msgstr "Opuść drużynę"
+msgstr "Opuść zespół"
 
 msgid "Administer"
-msgstr ""
+msgstr "Administruj"
 
-#, fuzzy
 msgid "(foundership change request pending)"
-msgstr "Zażądano zmiany założyciela"
+msgstr "(zażądano zmiany założyciela)"
 
 msgid "Member of team"
-msgstr ""
+msgstr "Członek zespołu"
 
 msgid "Team"
-msgstr "Drużyna"
+msgstr "Zespół"
 
 msgid "find a team"
-msgstr "znajdź drużynę"
+msgstr "znajdź zespół"
 
 msgid "Founder but not member of"
-msgstr ""
+msgstr "Założyciel, ale nie członek"
 
 msgid "Find friends"
-msgstr ""
+msgstr "Znajdź przyjaciół"
 
 msgid "Friends"
-msgstr ""
+msgstr "Przyjaciele"
 
 msgid "Computers"
-msgstr ""
+msgstr "Komputery"
 
 msgid "hidden"
-msgstr ""
+msgstr "ukryte"
 
 msgid "Donor"
-msgstr ""
+msgstr "Donator"
 
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 msgid "This person is a friend"
-msgstr ""
+msgstr "Ta osoba jest przyjacielem"
 
 msgid "Cancel friendship"
-msgstr ""
+msgstr "Anuluj przyjaźń"
 
 msgid "Request pending"
-msgstr ""
+msgstr "Oczekujące zaproszenia"
 
 msgid "Add as friend"
-msgstr ""
+msgstr "Dodaj jako przyjaciela"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Używaj BBCode do formatowania wpisywanego tekstu"
@@ -611,13 +608,13 @@ msgid "Date"
 msgstr "Data"
 
 msgid "Mark as read"
-msgstr ""
+msgstr "Oznacz jako przeczytane"
 
 msgid "Mark as unread"
-msgstr ""
+msgstr "Oznacz jako nieprzeczytane"
 
 msgid "With selected"
-msgstr ""
+msgstr "Z wybranych"
 
 msgid "No such message"
 msgstr "Nie ma takiej wiadomości"
@@ -642,9 +639,8 @@ msgstr "Tak, usuń"
 msgid "No, cancel"
 msgstr "Nie, anuluj"
 
-#, fuzzy
 msgid "No such message."
-msgstr "Nie ma takiej wiadomości"
+msgstr "Nie ma takiej wiadomości."
 
 msgid "You need to fill all fields to send a private message"
 msgstr "Musisz wypełnić wszystkie pola, aby wysłać prywatną wiadomość"
@@ -701,7 +697,7 @@ msgid "Post to thread"
 msgstr "Odpowiedz na temat"
 
 msgid "Forum search results"
-msgstr ""
+msgstr "Wyniki wyszukiwania na forum"
 
 #########################################
 # Forum search features
@@ -835,11 +831,10 @@ msgstr ""
 "na własną odpowiedzialność oraz ryzyko."
 
 msgid "Sender and date"
-msgstr ""
+msgstr "Nadawca i data"
 
-#, fuzzy
 msgid "Profiles"
-msgstr "Profil"
+msgstr "Profile"
 
 msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
 msgstr ""
@@ -851,19 +846,21 @@ msgid "If you haven't already, you can %1create your own user profile%2 for othe
 msgstr ""
 
 msgid "User of the Day"
-msgstr ""
+msgstr "Uczestnik dnia"
 
 msgid "User Profile Explorer"
 msgstr ""
 
 msgid "View the %1User Picture Gallery%2."
-msgstr ""
+msgstr "Zobacz %1galerię zdjęć uczestnika%2."
 
 msgid "Browse profiles %1by country%2."
-msgstr ""
+msgstr "Przeglądaj profile%1po krajach%2."
 
 msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
 msgstr ""
+"Przeglądaj %1losowo wybrane%2 profile, %3losowo wybrane ze zdjęciami%2 lub "
+"%4losowo wybrane bez zdjęć%2."
 
 msgid "Alphabetical profile listings:"
 msgstr ""

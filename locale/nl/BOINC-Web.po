@@ -1,4 +1,4 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
 "Report-Msgid-Bugs-To: \n"
@@ -792,5 +792,10 @@ msgstr "Open-source software for %svolunteer computing%s and %sgrid computing%s"
 #~ msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
 #~ msgstr "Als je problemen hebt met BOINC zelf, vraag hulp op de %s BOINC forums %s."
 
+########################################
+# download.php 2006/08/03 by je2bwm
+##############################################
+# system_requirements.php by je2bwm 2006/08/07
+# release_notes.php
 #~ msgid "HOME_MORE_INFO"
 #~ msgstr "BOINC draaien"
