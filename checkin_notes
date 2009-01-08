@@ -4,3 +4,11 @@ Charlie Jan 6 2009
 
     lib/
         filesys.cpp
+
+Rom    8 Jan 2009
+    - Tag for 6.6.0 release, all platforms
+      boinc_core_release_6_6_0
+
+    /
+        configure.ac
+        version.h
