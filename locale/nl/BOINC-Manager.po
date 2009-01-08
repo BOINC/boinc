@@ -1,9 +1,9 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-07 10:33-0700\n"
+"PO-Revision-Date: 2009-01-08 11:43-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -12,12 +12,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
-
-"X-Poedit-SearchPath-0: clientgui\n"
-"X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-
 
 #: clientgui/AccountInfoPage.cpp:329
 msgid "User information"
@@ -137,7 +131,9 @@ msgstr "Vul het URL in van de account manager website."
 msgid ""
 "You can copy and paste the URL from your browser's\n"
 "address bar."
-msgstr "Het is mogelijk dit URL te kopiëren uit de adresbalkvan je browser."
+msgstr ""
+"Het is mogelijk dit URL te kopiëren uit je browser's\n"
+"adresbalk."
 
 #: clientgui/AccountManagerInfoPage.cpp:182
 msgid "Account Manager &URL:"
@@ -3389,7 +3385,7 @@ msgstr "Bekijk alle projecten, per project een aparte grafiek"
 
 #: clientgui/ViewStatistics.cpp:1798
 msgid "One project"
-msgstr "EÃ©n project"
+msgstr "Enkel project"
 
 #: clientgui/ViewStatistics.cpp:1799
 msgid "Show one chart with selected project"
@@ -3401,7 +3397,7 @@ msgstr "Projecten gecombineerd"
 
 #: clientgui/ViewStatistics.cpp:1806
 msgid "Show one chart with all projects"
-msgstr "Bekijk alle projecten samen gebracht in Ã©Ã©n grafiek"
+msgstr "Bekijk alle projecten samen gebracht in de grafiek"
 
 #: clientgui/ViewStatistics.cpp:1821
 #: clientgui/ViewStatistics.cpp:1826
