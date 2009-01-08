@@ -38,7 +38,7 @@ Janus   Jan 6 2009
 	BOINC-Manager.po
 
 Charlie Jan 6 2009
-    client: preserve ownership when copying files to slot directory. Fixes
+    - client: preserve ownership when copying files to slot directory. Fixes
         a problem with Enigma@home which uses the <copy_file/> tag.
 
     lib/
@@ -65,3 +65,9 @@ David  7 Jan 2009
         work_fetch.h,cpp
     html/user/
         get_project_config.php
+
+Charlie Jan 6 2009
+    - client: fix compiler warnings (formats didn't match data).
+
+    client/
+        work_fetch.cpp

@@ -182,7 +182,7 @@ void WORK_FETCH::print_state() {
 
 static void print_req(PROJECT* p) {
     msg_printf(p, MSG_INFO,
-        "[wfd] request: CPU (%.2f sec, %.2f) CUDA (%.2f sec, %.2f)",
+        "[wfd] request: CPU (%.2f sec, %d) CUDA (%.2f sec, %d)",
         cpu_work_fetch.req_secs, cpu_work_fetch.req_instances,
         cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
     );
@@ -398,7 +398,7 @@ void WORK_FETCH::write_request(PROJECT* p, FILE* f) {
     double work_req_seconds = cpu_work_fetch.req_secs;
     fprintf(f,
         "    <cpu_req_secs>%f</cpu_req_secs>\n"
-        "    <cpu_req_instances>%f</cpu_req_instances>\n",
+        "    <cpu_req_instances>%d</cpu_req_instances>\n",
         cpu_work_fetch.req_secs,
         cpu_work_fetch.req_instances
     );
