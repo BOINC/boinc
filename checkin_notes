@@ -71,3 +71,9 @@ Charlie Jan 6 2009
 
     client/
         work_fetch.cpp
+
+David  9 Jan 2009
+    - client: connected_frac -1 is OK; fixes #821
+
+    client/
+        time_stats.cpp

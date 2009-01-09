@@ -284,13 +284,8 @@ int TIME_STATS::parse(MIOFILE& in) {
             }
             continue;
         } else if (parse_double(buf, "<connected_frac>", x)) {
-            if (x <= 0 || x > 1) {
-                msg_printf(0, MSG_INTERNAL_ERROR,
-                    "bad value %f of time stats connected_frac; ignoring", x
-                );
-            } else {
-                connected_frac = x;
-            }
+            // -1 means undefined; skip check
+            connected_frac = x;
             continue;
         } else if (parse_double(buf, "<active_frac>", x)) {
             if (x <= 0 || x > 1) {
