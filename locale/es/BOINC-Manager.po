@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-08 07:37-0700\n"
-"Last-Translator: David Mendez <davidcomp@telefonica.net>\n"
+"PO-Revision-Date: 2009-01-09 14:52-0700\n"
+"Last-Translator: David Méndez <davidcomp@telefonica.net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -142,10 +142,8 @@ msgid "Account Manager &URL:"
 msgstr "U&RL del Administrador de Cuentas:"
 
 #: clientgui/AccountManagerInfoPage.cpp:185
-#, fuzzy
 msgid "For a list of account managers go to:"
-msgstr ""
-"Para una lista de los administradores de cuenta basados en BOINC vaya a:"
+msgstr "Para una lista de administradores de cuentas vaya a:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:189
 #: clientgui/AccountManagerPropertiesPage.cpp:193
@@ -203,10 +201,9 @@ msgid "&Advanced View"
 msgstr "Vista &Avanzada"
 
 #: clientgui/AdvancedFrame.cpp:330
-#, fuzzy
 msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
 msgstr ""
-"Las Vistas gráficas le permiten ordenar varias columnas y visualiza barras "
+"La vista avanzada le permite ordenar diferentes columnas y visualiza barras "
 "de progreso."
 
 #: clientgui/AdvancedFrame.cpp:335
@@ -566,7 +563,7 @@ msgstr ""
 
 #: clientgui/AsyncRPC.cpp:940
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr ""
+msgstr "Comunicando con cliente BOINC._ Por favor, espere ..."
 
 #: clientgui/BOINCBaseFrame.cpp:414
 #, c-format
