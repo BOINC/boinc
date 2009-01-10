@@ -229,7 +229,7 @@ void fake_cuda(COPROCS& coprocs, int count) {
    strcpy(cc->type, "CUDA");
    cc->count = count;
    strcpy(cc->prop.name, "CUDA NVIDIA chip");
-   cc->prop.totalGlobalMem = 1000;
+   cc->prop.totalGlobalMem = 256*1024*1024;
    cc->prop.sharedMemPerBlock = 100;
    cc->prop.regsPerBlock = 8;
    cc->prop.warpSize = 10;
@@ -244,9 +244,11 @@ void fake_cuda(COPROCS& coprocs, int count) {
    cc->prop.totalConstMem = 10;
    cc->prop.major = 1;
    cc->prop.minor = 2;
-   cc->prop.clockRate = 10000;
+   cc->prop.clockRate = 1250000;
    cc->prop.textureAlignment = 1000;
+   cc->prop.multiProcessorCount = 14;
    coprocs.coprocs.push_back(cc);
+   coproc_cuda = cc;
 }
 
 #ifndef _USING_FCGI_
@@ -274,9 +276,9 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
         "   <multiProcessorCount>%d</multiProcessorCount>\n"
         "</coproc_cuda>\n",
         count,
+        prop.name,
         req_secs,
         req_instances,
-        prop.name,
         (unsigned int)prop.totalGlobalMem,
         (unsigned int)prop.sharedMemPerBlock,
         prop.regsPerBlock,

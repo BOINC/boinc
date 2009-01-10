@@ -189,7 +189,6 @@ private:
     RESULT* largest_debt_project_best_result();
     RESULT* earliest_deadline_result();
     void reset_debt_accounting();
-    void adjust_debts();
     bool possibly_schedule_cpus();
     void schedule_cpus();
     bool enforce_schedule();
@@ -197,6 +196,7 @@ private:
     void make_preemptable_task_list(vector<ACTIVE_TASK*>&, double&);
     void print_deadline_misses();
 public:
+    void adjust_debts();
     void rr_simulation();
     std::vector <RESULT*> ordered_scheduled_results;
     double retry_shmem_time;

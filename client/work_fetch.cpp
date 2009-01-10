@@ -43,12 +43,12 @@ bool RSC_WORK_FETCH::may_have_work(PROJECT* p) {
     return (w.backoff_time < gstate.now);
 }
 
-bool RSC_PROJECT_WORK_FETCH::compute_may_have_work(PROJECT* p) {
+bool RSC_PROJECT_WORK_FETCH::compute_may_have_work() {
     return (backoff_time < gstate.now);
 }
 
-void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT* p) {
-    may_have_work = compute_may_have_work(p);
+void RSC_PROJECT_WORK_FETCH::rr_init() {
+    may_have_work = compute_may_have_work();
 }
 
 void RSC_WORK_FETCH::rr_init() {
@@ -67,9 +67,9 @@ void WORK_FETCH::rr_init() {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         p->pwf.can_fetch_work = p->pwf.compute_can_fetch_work(p);
-        p->cpu_pwf.rr_init(p);
+        p->cpu_pwf.rr_init();
         if (coproc_cuda) {
-            p->cuda_pwf.rr_init(p);
+            p->cuda_pwf.rr_init();
         }
     }
 }
@@ -84,6 +84,11 @@ bool PROJECT_WORK_FETCH::compute_can_fetch_work(PROJECT* p) {
     if (p->some_result_suspended()) return false;
     if (p->nuploading_results > 2*gstate.ncpus) return false;
     return true;
+}
+
+void PROJECT_WORK_FETCH::clear_backoffs(PROJECT* p) {
+    p->cpu_pwf.clear_backoff();
+    p->cuda_pwf.clear_backoff();
 }
 
 void RSC_WORK_FETCH::accumulate_shortfall(double d_time, double nused) {
@@ -353,10 +358,10 @@ void WORK_FETCH::compute_shares() {
             cuda_work_fetch.total_runnable_share += p->resource_share;
 		}
         if (!p->pwf.can_fetch_work) continue;
-        if (p->cpu_pwf.fetchable(p)) {
+        if (p->cpu_pwf.may_have_work) {
             cpu_work_fetch.total_fetchable_share += p->resource_share;
         }
-        if (coproc_cuda && p->cuda_pwf.fetchable(p)) {
+        if (coproc_cuda && p->cuda_pwf.may_have_work) {
 			cuda_work_fetch.total_fetchable_share += p->resource_share;
         }
     }
@@ -370,10 +375,10 @@ void WORK_FETCH::compute_shares() {
             p->cuda_pwf.runnable_share = p->resource_share/cuda_work_fetch.total_runnable_share;
 		}
         if (!p->pwf.can_fetch_work) continue;
-        if (p->cpu_pwf.fetchable(p)) {
+        if (p->cpu_pwf.may_have_work) {
             p->cpu_pwf.fetchable_share = p->resource_share/cpu_work_fetch.total_fetchable_share;
         }
-        if (coproc_cuda && p->cuda_pwf.fetchable(p)) {
+        if (coproc_cuda && p->cuda_pwf.may_have_work) {
             p->cuda_pwf.fetchable_share = p->resource_share/cuda_work_fetch.total_fetchable_share;
         }
     }
@@ -387,14 +392,7 @@ bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p) {
     return true;
 }
 
-// can this project supply work for this resource?
-//
-bool RSC_PROJECT_WORK_FETCH::fetchable(PROJECT* p) {
-    if (backoff_time > gstate.now) return false;
-    return true;
-}
-
-void WORK_FETCH::write_request(PROJECT* p, FILE* f) {
+void WORK_FETCH::write_request(FILE* f) {
     double work_req_seconds = cpu_work_fetch.req_secs;
     fprintf(f,
         "    <cpu_req_secs>%f</cpu_req_secs>\n"
@@ -442,7 +440,7 @@ void WORK_FETCH::handle_reply(PROJECT* p, vector<RESULT*> new_results) {
     if (got_cuda) p->cuda_pwf.clear_backoff();
 }
 
-void WORK_FETCH::set_initial_work_request(PROJECT* p) {
+void WORK_FETCH::set_initial_work_request() {
     cpu_work_fetch.req_secs = 1;
     if (coproc_cuda) {
         coproc_cuda->req_secs = 1;
@@ -475,11 +473,6 @@ void RSC_PROJECT_WORK_FETCH::backoff(PROJECT* p, char* name) {
             "[wfd] backing off %s %f", name, backoff_interval
         );
     }
-}
-
-void RSC_PROJECT_WORK_FETCH::clear_backoff() {
-    backoff_interval = 0;
-    backoff_time = 0;
 }
 
 ////////////////////////

@@ -87,6 +87,7 @@ struct RR_SIM_STATUS {
 
 	RR_SIM_STATUS() {
 		active_ncpus = 0;
+        active_cudas = 0;
 	}
     ~RR_SIM_STATUS() {
         coprocs.delete_coprocs();

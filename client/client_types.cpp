@@ -1113,6 +1113,7 @@ int APP_VERSION::parse(MIOFILE& in) {
     strcpy(cmdline, "");
     avg_ncpus = 1;
     max_ncpus = 1;
+    ncudas = 0;
     app = NULL;
     project = NULL;
     coprocs.coprocs.clear();

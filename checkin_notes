@@ -94,3 +94,18 @@ David  9 Jan 2009
         sched_plan.cpp
         sched_send.cpp
         server_types.cpp,h
+
+David  9 Jan 2009
+	- client: debugging CUDA-related stuff
+	- client: if reset a project, clear its overall and per-resource backoffs
+
+	client/
+		client_state.cpp
+		client_types.cpp
+		cs_scheduler.cpp
+		rr_sim.cpp
+		scheduler_op.cpp
+		sim.h
+		work_fetch.cpp,h
+	lib/
+		coproc.cpp

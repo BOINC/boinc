@@ -45,7 +45,6 @@ struct RSC_PROJECT_WORK_FETCH {
 
     // whether this project is accumulating debt for this resource
     bool debt_eligible(PROJECT*);
-    bool fetchable(PROJECT*);
     inline void clear_perm() {
         backoff_time = 0;
         backoff_interval = 0;
@@ -53,12 +52,15 @@ struct RSC_PROJECT_WORK_FETCH {
     }
 
     bool may_have_work;
-    bool compute_may_have_work(PROJECT*);
+    bool compute_may_have_work();
     //void accumulate_shortfall(RSC_WORK_FETCH&, PROJECT*, double dt, double nused);
     bool overworked();
 	void backoff(PROJECT*, char*);
-	void clear_backoff();
-    void rr_init(PROJECT*);
+    void rr_init();
+    void clear_backoff() {
+        backoff_time = 0;
+        backoff_interval = 0;
+    }
 };
 
 // per-resource state
@@ -114,6 +116,7 @@ struct PROJECT_WORK_FETCH {
     PROJECT_WORK_FETCH() {
         memset(this, 0, sizeof(*this));
     }
+    void clear_backoffs(PROJECT*);
 };
 
 // global work fetch state
@@ -127,9 +130,9 @@ struct WORK_FETCH {
         // we're going to contact this project anyway;
         // decide how much work to task for
     void accumulate_inst_sec(ACTIVE_TASK*, double dt);
-    void write_request(PROJECT*, FILE*);
+    void write_request(FILE*);
     void handle_reply(PROJECT*, std::vector<RESULT*>new_results);
-    void set_initial_work_request(PROJECT* p);
+    void set_initial_work_request();
     void print_state();
     void init();
     void rr_init();

@@ -269,8 +269,9 @@ int CLIENT_STATE::init() {
         for (i=0; i<strs.size(); i++) {
             msg_printf(NULL, MSG_INFO, strs[i].c_str());
         }
-#if 0
+#if 1
         fake_cuda(coprocs, 1);
+        msg_printf(NULL, MSG_INFO, "Faking a CUDA device");
 #endif
         if (coprocs.coprocs.size() == 0) {
             msg_printf(NULL, MSG_INFO, "No coprocessors");
@@ -1474,6 +1475,8 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
 
     project->duration_correction_factor = 1;
     project->ams_resource_share = -1;
+    project->min_rpc_time = 0;
+    project->pwf.clear_backoffs(project);
     write_state_file();
     return 0;
 }
