@@ -21,7 +21,7 @@
 
 ##
 # Release Script for Macintosh BOINC Manager 10/31/07 by Charlie Fenton
-## updated 9/3/08 by Charlie Fenton
+## updated 1/8/09 by Charlie Fenton
 ##
 
 ## Usage:

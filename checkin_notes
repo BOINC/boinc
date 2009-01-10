@@ -13,7 +13,7 @@ Rom    8 Jan 2009
         configure.ac
         version.h
 
-Charlie Jan 9 2009
+Charlie Jan 8 2009
     - Mac: Fix build scripts for new locale source directory layout.
     
     mac_installer/
