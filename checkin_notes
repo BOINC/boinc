@@ -12,3 +12,11 @@ Rom    8 Jan 2009
     /
         configure.ac
         version.h
+
+Charlie Jan 8 2009
+    - Mac: Fix build scripts for new locale source directory layout.
+        (Checked in to boinc_core_release_6_6_0 tag.)
+    
+    mac_installer/
+        release_GridRepublic.sh
+        release_boinc.sh
