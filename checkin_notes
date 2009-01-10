@@ -77,3 +77,20 @@ David  9 Jan 2009
 
     client/
         time_stats.cpp
+
+David  9 Jan 2009
+    - scheduler: add support for resource-specific scheduler requests:
+        - parse new request message elements
+            (CPU and coproc requested seconds and instances)
+        - decide how many jobs to send based on these params
+        - select app version based on these params
+            (may send both CPU and CUDA app versions for the same app!)
+
+    lib/
+        coproc.cpp
+    sched/
+        handle_request.cpp
+        main.cpp,h
+        sched_plan.cpp
+        sched_send.cpp
+        server_types.cpp,h

@@ -109,6 +109,7 @@ int COPROCS::parse(FILE* fin) {
             int retval = cc->parse(fin);
             if (!retval) {
                 coprocs.push_back(cc);
+                coproc_cuda = cc;
             }
         }
     }

@@ -60,6 +60,12 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         hu.max_ncpus = nthreads;
         sprintf(hu.cmdline, "--nthreads %d", nthreads);
         hu.flops = 0.95*sreq.host.p_fpops*nthreads;
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_DEBUG,
+                "Multi-thread app estimate %.2f GFLOPS\n",
+                hu.flops/1e9
+            );
+        }
         return true;
     } else if (!strcmp(plan_class, "cuda")) {
         if (g_wreq->no_gpus) {
@@ -105,7 +111,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_DEBUG,
                         "CUDA app estimated %.2f GFLOPS (clock %d count %d)\n",
-                        hu.flops/GIGA, cp2->prop.clockRate,
+                        hu.flops/1e9, cp2->prop.clockRate,
                         cp2->prop.multiProcessorCount
                     );
                 }

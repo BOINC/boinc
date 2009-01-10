@@ -80,6 +80,7 @@ static bool db_opened=false;
 SCHED_SHMEM* ssp = 0;
 bool batch = false;
 bool mark_jobs_done = false;
+bool all_apps_use_hr;
 
 static void usage(char* p) {
     fprintf(stderr,
@@ -321,6 +322,14 @@ void attach_to_feeder_shmem() {
                 "Server error: feeder not running", 3600
             );
             exit(0);
+        }
+    }
+
+    all_apps_use_hr = true;
+    for (int i=0; i<ssp->napps; i++) {
+        if (!ssp->apps[i].homogeneous_redundancy) {
+            all_apps_use_hr = false;
+            break;
         }
     }
 }

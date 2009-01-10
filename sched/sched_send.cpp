@@ -74,8 +74,8 @@ const char* infeasible_string(int code) {
     return "Unknown";
 }
 
-const int MIN_SECONDS_TO_SEND = 0;
-const int MAX_SECONDS_TO_SEND = (28*SECONDS_IN_DAY);
+const double MIN_REQ_SECS = 0;
+const double MAX_REQ_SECS = (28*SECONDS_IN_DAY);
 
 // return a number that
 // - is the # of CPUs in EDF simulation
@@ -126,6 +126,16 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
         bavp = g_wreq->best_app_versions[i];
         if (bavp->appid == wu.appid) {
             if (!bavp->avp) return NULL;
+
+            // if we previously chose a CUDA app but don't need more CUDA work,
+            // reset pointer and see if there's another app
+            //
+            if (g_wreq->rsc_spec_request
+                && bavp->host_usage.cuda_instances() > 0
+                && !g_wreq->need_cuda()
+            ) {
+                bavp = NULL;
+            }
             return bavp;
         }
     }
@@ -203,6 +213,25 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
                 }
             } else {
                 host_usage.sequential_app(g_reply->host.p_fpops);
+            }
+            if (host_usage.cuda_instances()) {
+                if (!g_wreq->need_cuda()) {
+                    if (config.debug_version_select) {
+                        log_messages.printf(MSG_DEBUG,
+                            "Don't need CUDA jobs, skipping\n"
+                        );
+                    }
+                    continue;
+                }
+            } else {
+                if (!g_wreq->need_cpu()) {
+                    if (config.debug_version_select) {
+                        log_messages.printf(MSG_DEBUG,
+                            "Don't need CPU jobs, skipping\n"
+                        );
+                    }
+                    continue;
+                }
             }
             if (host_usage.flops > bavp->host_usage.flops) {
                 bavp->host_usage = host_usage;
@@ -761,7 +790,7 @@ int add_wu_to_reply(
                 "[HOST#%d] Sending app_version %s %d %d %s; %.2f GFLOPS\n",
                 g_reply->host.id, app->name,
                 avp2->platformid, avp2->version_num, avp2->plan_class,
-                bavp->host_usage.flops/GIGA
+                bavp->host_usage.flops/1e9
             );
         }
     }
@@ -856,8 +885,6 @@ bool work_needed(bool locality_sched) {
             return false;
         }
     }
-    if (g_wreq->seconds_to_fill <= 0) return false;
-    if (g_wreq->nresults >= config.max_wus_to_send) return false;
 
     int ncpus = effective_ncpus();
 
@@ -888,7 +915,15 @@ bool work_needed(bool locality_sched) {
             return false;
         }
     }
-    return true;
+    if (g_wreq->nresults >= config.max_wus_to_send) return false;
+
+    if (g_wreq->rsc_spec_request) {
+        if (g_wreq->need_cpu()) return true;
+        if (g_wreq->need_cuda()) return true;
+    } else {
+        if (g_wreq->seconds_to_fill > 0) return true;
+    }
+    return false;
 }
 
 void SCHEDULER_REPLY::got_good_result() {
@@ -907,7 +942,6 @@ void SCHEDULER_REPLY::got_bad_result() {
 
 int add_result_to_reply(DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp) {
     int retval;
-    double wu_seconds_filled;
     bool resent_result = false;
     APP* app = ssp->lookup_app(wu.appid);
 
@@ -995,11 +1029,11 @@ int add_result_to_reply(DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp)
     }
     if (retval) return retval;
 
-    wu_seconds_filled = estimate_duration(wu, *bavp);
+    double est_dur = estimate_duration(wu, *bavp);
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
-            "[HOST#%d] Sending [RESULT#%d %s] (fills %.2f seconds)\n",
-            g_reply->host.id, result.id, result.name, wu_seconds_filled
+            "[HOST#%d] Sending [RESULT#%d %s] (est. dur. %.2f seconds)\n",
+            g_reply->host.id, result.id, result.name, est_dur
         );
     }
 
@@ -1032,8 +1066,19 @@ int add_result_to_reply(DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp)
     }
     result.bavp = bavp;
     g_reply->insert_result(result);
-    g_wreq->seconds_to_fill -= wu_seconds_filled;
-    g_request->estimated_delay += wu_seconds_filled/effective_ncpus();
+    if (g_wreq->rsc_spec_request) {
+        double cuda_instances = bavp->host_usage.cuda_instances();
+        if (cuda_instances) {
+            g_wreq->cuda_req_secs -= est_dur;
+            g_wreq->cuda_req_instances -= cuda_instances;
+        } else {
+            g_wreq->cpu_req_secs -= est_dur;
+            g_wreq->cpu_req_instances -= bavp->host_usage.avg_ncpus;
+        }
+    } else {
+        g_wreq->seconds_to_fill -= est_dur;
+    }
+    g_request->estimated_delay += est_dur;
     g_wreq->nresults++;
     g_wreq->nresults_on_host++;
     if (!resent_result) g_reply->host.nresults_today++;
@@ -1041,7 +1086,6 @@ int add_result_to_reply(DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp)
     // add this result to workload for simulation
     //
     if (config.workload_sim && g_request->have_other_results_list) {
-        double est_dur = estimate_duration(wu, *bavp);
         IP_RESULT ipr ("", time(0)+wu.delay_bound, est_dur);
         g_request->ip_results.push_back(ipr);
     }
@@ -1353,12 +1397,35 @@ void set_trust() {
     }
 }
 
+static double clamp_req_sec(double x) {
+    if (x < MIN_REQ_SECS) return MIN_REQ_SECS;
+    if (x > MAX_REQ_SECS) return MAX_REQ_SECS;
+    return x;
+}
+
 void send_work() {
-    if (g_request->work_req_seconds <= 0) return;
+    // decipher request type, fill in WORK_REQ, and leave if no request
+    //
+    g_wreq->seconds_to_fill = clamp_req_sec(g_request->work_req_seconds);
+    g_wreq->cpu_req_secs = clamp_req_sec(g_request->cpu_req_secs);
+    g_wreq->cpu_req_instances = g_request->cpu_req_instances;
+    if (coproc_cuda) {
+        g_wreq->cuda_req_secs = clamp_req_sec(coproc_cuda->req_secs);
+        g_wreq->cuda_req_instances = coproc_cuda->req_instances;
+    }
+    if (g_wreq->cpu_req_secs || g_wreq->cuda_req_secs) {
+        g_wreq->rsc_spec_request = true;
+    } else {
+        if (g_wreq->seconds_to_fill == 0) return;
+        g_wreq->rsc_spec_request = true;
+    }
 
     g_wreq->disk_available = max_allowable_disk();
 
-    if (hr_unknown_platform(g_request->host)) {
+    if (all_apps_use_hr && hr_unknown_platform(g_request->host)) {
+        log_messages.printf(MSG_INFO,
+            "Not sending work because unknown HR class\n"
+        );
         g_wreq->hr_reject_perm = true;
         return;
     }
@@ -1369,6 +1436,18 @@ void send_work() {
     set_trust();
 
     if (config.debug_send) {
+        log_messages.printf(MSG_DEBUG,
+            "CPU: req %.2f sec, %.2f instances\n",
+            g_wreq->cpu_req_secs, g_wreq->cpu_req_instances
+        );
+        log_messages.printf(MSG_DEBUG,
+            "CUDA: req %.2f sec, %.2f instances\n",
+            g_wreq->cuda_req_secs, g_wreq->cuda_req_instances
+        );
+        log_messages.printf(MSG_DEBUG,
+            "work_req_seconds: %.2f secs\n",
+            g_wreq->seconds_to_fill
+        );
         log_messages.printf(MSG_DEBUG,
             "%s matchmaker scheduling; %s EDF sim\n",
             config.matchmaker?"Using":"Not using",
@@ -1386,14 +1465,6 @@ void send_work() {
             g_reply->host.duration_correction_factor,
             (int)g_request->estimated_delay
         );
-    }
-
-    g_wreq->seconds_to_fill = g_request->work_req_seconds;
-    if (g_wreq->seconds_to_fill > MAX_SECONDS_TO_SEND) {
-        g_wreq->seconds_to_fill = MAX_SECONDS_TO_SEND;
-    }
-    if (g_wreq->seconds_to_fill < MIN_SECONDS_TO_SEND) {
-        g_wreq->seconds_to_fill = MIN_SECONDS_TO_SEND;
     }
 
     if (config.enable_assignment) {

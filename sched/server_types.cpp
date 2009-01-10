@@ -151,6 +151,8 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     core_client_release = 0;
     rpc_seqno = 0;
     work_req_seconds = 0;
+    cpu_req_secs = 0;
+    cpu_req_instances = 0;
     resource_share_fraction = 1.0;
     rrs_fraction = 1.0;
     prrs_fraction = 1.0;
@@ -216,6 +218,8 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         if (parse_int(buf, "<core_client_minor_version>", core_client_minor_version)) continue;
         if (parse_int(buf, "<core_client_release>", core_client_release)) continue;
         if (parse_double(buf, "<work_req_seconds>", work_req_seconds)) continue;
+        if (parse_double(buf, "<cpu_req_secs>", cpu_req_secs)) continue;
+        if (parse_double(buf, "<cpu_req_instances>", cpu_req_instances)) continue;
         if (parse_double(buf, "<resource_share_fraction>", resource_share_fraction)) continue;
         if (parse_double(buf, "<rrs_fraction>", rrs_fraction)) continue;
         if (parse_double(buf, "<prrs_fraction>", prrs_fraction)) continue;

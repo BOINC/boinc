@@ -83,6 +83,11 @@ struct HOST_USAGE {
         if (flops <= 0) flops = 1e9;
         strcpy(cmdline, "");
     }
+    double cuda_instances() {
+        COPROC* cp = coprocs.lookup("CUDA");
+        if (cp) return cp->count;
+        return 0;
+    }
     ~HOST_USAGE(){}
 };
 
@@ -118,9 +123,27 @@ struct WORK_REQ {
     bool trust;
         // whether to send unreplicated jobs
 
+    // 6.7+ clients send separate requests for different resource types:
+    //
+    double cpu_req_secs;        // instance-seconds requested
+    double cpu_req_instances;   // number of idle instances, use if possible
+    double cuda_req_secs;
+    double cuda_req_instances;
+    inline bool need_cpu() {
+        return (cpu_req_secs>0) || (cpu_req_instances>0);
+    }
+    inline bool need_cuda() {
+        return (cuda_req_secs>0) || (cuda_req_instances>0);
+    }
+
+    // older clients send send a single number, the requested duration of jobs
+    //
     double seconds_to_fill;
-		// in "normalized CPU seconds"; see
-        // http://boinc.berkeley.edu/trac/wiki/ClientSched#NormalizedCPUTime
+
+    // true if new-type request
+    //
+    bool rsc_spec_request;
+
     double disk_available;
     int nresults;
 
@@ -271,6 +294,8 @@ struct SCHEDULER_REQUEST {
     int rpc_seqno;
     double work_req_seconds;
 		// in "normalized CPU seconds" (see work_req.php)
+    double cpu_req_secs;
+    double cpu_req_instances;
     double resource_share_fraction;
         // this project's fraction of total resource share
     double rrs_fraction;

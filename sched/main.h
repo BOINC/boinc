@@ -67,6 +67,7 @@ extern bool batch;
 extern bool mark_jobs_done;
     // mark jobs as successfully done immediately after send
     // (for debugging/testing)
+extern bool all_apps_use_hr;
 
 extern int open_database();
 extern void debug_sched(const char *trigger);

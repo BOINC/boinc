@@ -1130,12 +1130,11 @@ void handle_msgs_to_host() {
 
 static void log_request() {
     log_messages.printf(MSG_NORMAL,
-        "Request: [USER#%d] [HOST#%d] [IP %s] client %d.%d.%d, work req %d sec\n",
+        "Request: [USER#%d] [HOST#%d] [IP %s] client %d.%d.%d\n",
         g_reply->user.id, g_reply->host.id, get_remote_addr(),
         g_request->core_client_major_version,
         g_request->core_client_minor_version,
-        g_request->core_client_release,
-        (int)g_request->work_req_seconds
+        g_request->core_client_release
     );
     if (config.debug_request_details) {
         log_messages.printf(MSG_DEBUG,
