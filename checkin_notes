@@ -109,3 +109,10 @@ David  9 Jan 2009
 		work_fetch.cpp,h
 	lib/
 		coproc.cpp
+
+Charlie Jan 10 2009
+    - Mac: Fix build scripts for new locale source directory layout.
+    
+    mac_installer/
+        release_GridRepublic.sh
+        release_boinc.sh
