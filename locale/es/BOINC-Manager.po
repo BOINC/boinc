@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-11 10:06-0700\n"
+"PO-Revision-Date: 2009-01-11 10:41-0700\n"
 "Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -1358,7 +1358,7 @@ msgstr "muestra la página web de preferencias"
 #: clientgui/DlgExitMessage.cpp:82
 #, c-format
 msgid "%s - Exit Confirmation"
-msgstr "%s - Confirmación de Cierre"
+msgstr "%s - Confirmación de Salir"
 
 #: clientgui/DlgExitMessage.cpp:130
 #, c-format
@@ -1370,12 +1370,12 @@ msgid ""
 "If you also want to stop running the science applications when you\n"
 "exit the Manager, then choose from the following options:"
 msgstr ""
-"Usted ha solicitado cerrar %s,\n"
+"Usted ha solicitado salir de %s,\n"
 "que le permite ver y administrar\n"
 "los programas científicos ejecutándose en su ordenador.\n"
 "\n"
 "Si también desea parar de ejecutar los programas científicos cuando usted\n"
-"cierre el Administrador, entonces escoja entre las siguientes opciones:"
+"salga del Administrador, entonces escoja entre las siguientes opciones:"
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
@@ -1398,10 +1398,11 @@ msgstr ""
 #: clientgui/DlgExitMessage.cpp:153
 msgid "Stop running science applications when exiting the Manager"
 msgstr ""
+"Parar de ejecutar las aplicaciones científicas al salir del Administrador"
 
 #: clientgui/DlgExitMessage.cpp:164
 msgid "Remember this decision and do not show this dialog."
-msgstr ""
+msgstr "Recordar esta opción y no volver a mostrar este mensaje."
 
 #: clientgui/DlgExitMessage.cpp:177
 #: clientgui/DlgGenericMessage.cpp:125
@@ -1413,15 +1414,15 @@ msgstr "&Cancelar"
 
 #: clientgui/DlgGenericMessage.cpp:112
 msgid "Don't show this dialog again."
-msgstr ""
+msgstr "No mostrar este mensaje de nuevo."
 
 #: clientgui/DlgItemProperties.cpp:56
 msgid "&Close"
-msgstr ""
+msgstr "&Cerrar"
 
 #: clientgui/DlgItemProperties.cpp:100
 msgid "Properties of project "
-msgstr ""
+msgstr "Propiedades del proyecto "
 
 #: clientgui/DlgItemProperties.cpp:104
 #: clientgui/DlgOptions.cpp:205
