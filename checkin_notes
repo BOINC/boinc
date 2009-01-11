@@ -116,3 +116,11 @@ Charlie Jan 10 2009
     mac_installer/
         release_GridRepublic.sh
         release_boinc.sh
+
+David  Jan 10 2009
+	- client: work_req_seconds is CPU req, not max(CPU req, CUDA req).
+		In order to work with the 6.7 client,
+		projects with both CUDA and CPU jobs must use the newest scheduler code.
+
+	client/
+		work_fetch.cpp

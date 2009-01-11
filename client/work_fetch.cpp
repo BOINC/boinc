@@ -99,25 +99,6 @@ void RSC_WORK_FETCH::accumulate_shortfall(double d_time, double nused) {
     }
 }
 
-#if 0
-void RSC_PROJECT_WORK_FETCH::accumulate_shortfall(
-    RSC_WORK_FETCH& rwf,
-    PROJECT* p,
-    double d_time,
-    double nused
-) {
-    double rsf = rwf.total_resource_share?p->resource_share/rwf.total_resource_share:1;
-    double share = rwf.ninstances * rsf;
-    printf("proj acc sho %s: rsf %f share %f nused %f dt %f\n",
-        p->project_name, rsf, share, nused, d_time
-    );
-    double x = share - nused;
-    if (x > 0) {
-        shortfall += d_time * x;
-    }
-}
-#endif
-
 // choose the best project to ask for work for this resource
 //
 PROJECT* RSC_WORK_FETCH::choose_project() {
@@ -393,21 +374,13 @@ bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p) {
 }
 
 void WORK_FETCH::write_request(FILE* f) {
-    double work_req_seconds = cpu_work_fetch.req_secs;
     fprintf(f,
+        "    <work_req_seconds>%f</work_req_seconds>\n"
         "    <cpu_req_secs>%f</cpu_req_secs>\n"
         "    <cpu_req_instances>%d</cpu_req_instances>\n",
         cpu_work_fetch.req_secs,
+        cpu_work_fetch.req_secs,
         cpu_work_fetch.req_instances
-    );
-    if (coproc_cuda) {
-        if (cuda_work_fetch.req_secs > work_req_seconds) {
-            work_req_seconds = cuda_work_fetch.req_secs;
-        }
-    }
-    fprintf(f,
-        "    <work_req_seconds>%f</work_req_seconds>\n",
-        work_req_seconds
     );
 }
 
