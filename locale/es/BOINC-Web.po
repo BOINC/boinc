@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-11 04:45-0700\n"
+"PO-Revision-Date: 2009-01-11 05:26-0700\n"
 "Last-Translator: David Méndez <davidcomp@telefonica.net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -74,308 +74,239 @@ msgstr "¿Utiliza BOINC?"
 msgid "POLL_PARTICIPATION"
 msgstr "Su participación"
 
-#, fuzzy
 msgid "POLL_COMPUTERS"
-msgstr "Your computers"
+msgstr "Sus ordenadores"
 
-#, fuzzy
 msgid "POLL_YOU"
-msgstr "You"
+msgstr "Usted"
 
-#, fuzzy
 msgid "POLL_NATIONALITY"
-msgstr "Nationality"
+msgstr "Nacionalidad"
 
-#, fuzzy
 msgid "POLL_COMMENTS"
-msgstr "Comments"
+msgstr "Comentarios"
 
-#, fuzzy
 msgid "POLL_COMMENTS_QUESTION"
-msgstr "Please suggest ways that BOINC, and the projects that use it, could be improved:"
+msgstr ""
+"Por favor sugiera formas en las que BOINC y los proyectos que lo utilizan, "
+"puedan ser mejorados:"
 
-#, fuzzy
 msgid "POLL_OTHER"
-msgstr "Other:"
+msgstr "Otros:"
 
-#, fuzzy
 msgid "POLL_CHECK_ALL"
-msgstr "[check all that apply]"
+msgstr "[Marque todas las que correspondan]"
 
-#, fuzzy
 msgid "POLL_DONE"
-msgstr "When done click:"
+msgstr "Al terminar haga clic:"
 
-#, fuzzy
 msgid "POLL_CURRENT"
-msgstr "Yes - I have been running BOINC on my computer for..."
+msgstr "Sí - he estado usando BOINC en mi ordenador durante..."
 
-#, fuzzy
 msgid "POLL_TWEEK"
-msgstr "less than a week"
+msgstr "menos de una semana"
 
-#, fuzzy
 msgid "POLL_TMONTH"
-msgstr "less than a month"
+msgstr "menos de un mes"
 
-#, fuzzy
 msgid "POLL_TYEAR"
-msgstr "less than a year"
+msgstr "menos de un año"
 
-#, fuzzy
 msgid "POLL_TMOREYEAR"
-msgstr "more than a year"
+msgstr "más de un año"
 
-#, fuzzy
 msgid "POLL_LAPSED"
-msgstr "No - I was running BOINC, but stopped because..."
+msgstr "No -  usaba BOINC, pero ya no lo hago porque..."
 
-#, fuzzy
 msgid "POLL_LINTEREST"
-msgstr "I lost interest"
+msgstr "perdí el interés"
 
-#, fuzzy
 msgid "POLL_LCOMPLICATED"
-msgstr "it was too complicated"
+msgstr "era demasiado complicado"
 
-#, fuzzy
 msgid "POLL_LSTOPPED"
-msgstr "I stopped it and forgot to start again"
+msgstr "lo detuve y me olvidé iniciarlo de nuevo"
 
-#, fuzzy
 msgid "POLL_LPROBLEMS"
-msgstr "it caused problems on my computer"
+msgstr "causó problemas en mi computadora"
 
-#, fuzzy
 msgid "POLL_LPOWER"
-msgstr "it used too much electricity"
+msgstr "usaba demasiada electricidad"
 
-#, fuzzy
 msgid "POLL_LNONBOINC"
-msgstr "I switched to a non-BOINC computing project"
+msgstr "me cambié a un proyecto de cálculo no basado en BOINC"
 
-#, fuzzy
 msgid "POLL_FAILED"
-msgstr "No - I tried running BOINC, but..."
+msgstr "No - intenté ejecutar BOINC, pero..."
 
-#, fuzzy
 msgid "POLL_FINSTALL"
-msgstr "the software didn't install correctly"
+msgstr "el software no se instaló correctamente"
 
-#, fuzzy
 msgid "POLL_FFIGURE"
-msgstr "I couldn't figure out how to use the software"
+msgstr "no pude averiguar cómo utilizar el programa"
 
-#, fuzzy
 msgid "POLL_FNETWORK"
-msgstr "I had network communication problems"
+msgstr "tuve problemas con la conexión de red"
 
-#, fuzzy
 msgid "POLL_FATTACH"
-msgstr "I couldn't attach to a project"
+msgstr "no pude unirme a un proyecto"
 
-#, fuzzy
 msgid "POLL_FWORK"
-msgstr "I attached to a project, but never got any work"
+msgstr "me uní a un proyecto, pero nunca recibí trabajo alguno"
 
-#, fuzzy
 msgid "POLL_NEVER"
-msgstr "No - I never tried running BOINC, because..."
+msgstr "No - nunca intenté ejecutar BOINC, porque..."
 
-#, fuzzy
 msgid "POLL_NSECURITY"
-msgstr "I was concerned about security"
+msgstr "me preocupó la seguridad"
 
-#, fuzzy
 msgid "POLL_NPROJECT"
-msgstr "I wasn't interested in any of the projects"
+msgstr "no estaba interesado en ninguno de los proyectos"
 
-#, fuzzy
 msgid "POLL_NPERMISSION"
-msgstr "I don't have permission to run it on my computer"
+msgstr "no tengo permiso para ejecutarlo en mi ordenador"
 
-#, fuzzy
 msgid "POLL_NVERSION"
-msgstr "No version was available for my computer"
+msgstr "no había una versión disponible para mi ordenador"
 
-#, fuzzy
 msgid "POLL_KIND"
-msgstr "What kind of computers do you have running BOINC?"
+msgstr "¿En qué tipo de ordenador ejecuta BOINC?"
 
-#, fuzzy
 msgid "POLL_WHERE"
-msgstr "Where are they?"
+msgstr "¿Dónde están situados?"
 
-#, fuzzy
 msgid "POLL_HOME"
-msgstr "Home"
+msgstr "En casa"
 
-#, fuzzy
 msgid "POLL_WORK"
-msgstr "Work"
+msgstr "En el trabajo"
 
-#, fuzzy
 msgid "POLL_SCHOOL"
-msgstr "School"
+msgstr "En la escuela"
 
-#, fuzzy
 msgid "POLL_HOW_MANY"
-msgstr "How many computers?"
+msgstr "¿Cuántos ordenadores?"
 
-#, fuzzy
 msgid "POLL_TURNED_ON"
-msgstr "On average, how many hours per day are they powered on?"
+msgstr "De promedio, ¿cuántas horas al día están encendidos?"
 
-#, fuzzy
 msgid "POLL_AGE"
-msgstr "Age"
+msgstr "Edad"
 
-#, fuzzy
 msgid "POLL_SEX"
-msgstr "Sex"
+msgstr "Sexo"
 
-#, fuzzy
 msgid "POLL_MALE"
-msgstr "Male"
+msgstr "Masculino"
 
-#, fuzzy
 msgid "POLL_FEMALE"
-msgstr "Female"
+msgstr "Femenino"
 
-#, fuzzy
 msgid "POLL_EXPERTISE"
-msgstr "Your level of computer expertise"
+msgstr "Su nivel técnico con los ordenadores"
 
-#, fuzzy
 msgid "POLL_LEVB"
-msgstr "Beginner"
+msgstr "Principiante"
 
-#, fuzzy
 msgid "POLL_LEVI"
-msgstr "Intermediate"
+msgstr "Intermedio"
 
-#, fuzzy
 msgid "POLL_LEVA"
-msgstr "Advanced"
+msgstr "Avanzado"
 
-#, fuzzy
 msgid "POLL_LEARN_WHERE"
-msgstr "Where did you learn about BOINC projects?"
+msgstr "¿Donde se enteró de los proyectos BOINC?"
 
-#, fuzzy
 msgid "POLL_WTV"
-msgstr "TV/radio/newspaper"
+msgstr "TV/radio/prensa"
 
-#, fuzzy
 msgid "POLL_WPERS"
-msgstr "From friends, relatives, or coworkers"
+msgstr "Por amigos, parientes, compañeros de trabajo"
 
-#, fuzzy
 msgid "POLL_WTEAM"
-msgstr "Team message boards or web sites"
+msgstr "Foros de equipos o sitios web"
 
-#, fuzzy
 msgid "POLL_WBOINC"
-msgstr "The BOINC web site"
+msgstr "En la página web de BOINC"
 
-#, fuzzy
 msgid "POLL_WWEB"
-msgstr "Other web sites"
+msgstr "En otros sitios web"
 
-#, fuzzy
 msgid "POLL_FACTOR"
-msgstr "Which are the most important factors when you decide whether to participate in a BOINC project?"
+msgstr ""
+"¿Cuáles son los factores más importantes cuando decide si unirse a un "
+"proyecto BOINC?"
 
-#, fuzzy
 msgid "POLL_GRAPHICS"
-msgstr "Nice-looking screensaver graphics"
+msgstr "Protector de pantalla con gráficos atractivos"
 
-#, fuzzy
 msgid "POLL_CREDIT_FAIR"
-msgstr "Fair and quick granting of credit for work done"
+msgstr "El crédito por el trabajo hecho se otorga de manera rápida y justa"
 
-#, fuzzy
 msgid "POLL_CREDIT_MORE"
-msgstr "Getting more credit from this project than from others"
+msgstr "Conseguir más crédito de éste proyecto que de otros"
 
-#, fuzzy
 msgid "POLL_MB_FRIENDLY"
-msgstr "Helpful and friendly message boards"
+msgstr "Los foros de mensajes son útiles y amigables"
 
-#, fuzzy
 msgid "POLL_MB_STAFF"
-msgstr "Participation by project staff on the message boards"
+msgstr "Los administradores del proyecto participan en los foros de mensajes"
 
-#, fuzzy
 msgid "POLL_WEB_SITE"
-msgstr "Informative project web site"
+msgstr "El sitio web del proyecto es informativo"
 
-#, fuzzy
 msgid "POLL_SCIENCE_IMPORTANT"
-msgstr "The science is important and beneficial"
+msgstr "La ciencia es importante y beneficiosa"
 
-#, fuzzy
 msgid "POLL_SCIENCE_PUBLIC"
-msgstr "Non-profit, and results are public"
+msgstr "No tiene fines de lucro, y con resultados públicos"
 
-#, fuzzy
 msgid "POLL_RECOGNIZE"
-msgstr "Personal recognition if my computer finds something"
+msgstr "Reconocimiento personal si mi ordenador encuentra algo"
 
-#, fuzzy
 msgid "POLL_PUBLISH"
-msgstr "Publication by the project in scientific journals"
+msgstr "Participación del proyecto en publicaciones mensuales científicas"
 
-#, fuzzy
 msgid "POLL_EMAIL"
-msgstr "Periodic email newsletters from the project"
+msgstr "El proyecto envía boletines periódicos por correo electrónico"
 
-#, fuzzy
 msgid "POLL_NPROJECTS"
-msgstr "How many BOINC projects do you participate in?"
+msgstr "¿En cuántos proyectos BOINC participa?"
 
-#, fuzzy
 msgid "POLL_SSAVER"
-msgstr "Do you run BOINC as a screensaver?"
+msgstr "¿Usa BOINC como salvapantallas?"
 
-#, fuzzy
 msgid "POLL_YES"
-msgstr "Yes"
+msgstr "Sí"
 
 msgid "POLL_NO"
 msgstr "No"
 
-#, fuzzy
 msgid "POLL_MBOARDS"
-msgstr "Your usage of project messages boards:"
+msgstr "Su uso de los foros de mensajes del proyecto:"
 
-#, fuzzy
 msgid "POLL_MBR"
-msgstr "to read information"
+msgstr "para leer información"
 
-#, fuzzy
 msgid "POLL_MBRW"
-msgstr "to read and post information"
+msgstr "para leer y escribir información"
 
-#, fuzzy
 msgid "POLL_NONE"
-msgstr "None"
+msgstr "no los uso"
 
-#, fuzzy
 msgid "POLL_HELP"
-msgstr "Where do you get information to help resolve problems with BOINC and/or BOINC projects?"
+msgstr ""
+"¿Dónde obtiene información de ayuda para resolver los problemas con BOINC "
+"y/o sus proyectos?"
 
-#, fuzzy
 msgid "POLL_HELP_PMB"
-msgstr "The project message boards"
+msgstr "Los foros del proyecto"
 
-#, fuzzy
 msgid "POLL_HELP_BMB"
-msgstr "The BOINC message boards"
+msgstr "Los foros de BOINC"
 
-#, fuzzy
 msgid "POLL_HELP_BDOC"
-msgstr "The BOINC web site"
+msgstr "La página web de BOINC"
 
 #, fuzzy
 msgid "POLL_HELP_BMLIST"
