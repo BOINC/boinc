@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-08 07:53-0700\n"
-"Last-Translator: David Mendez <davidcomp@telefonica.net>\n"
+"PO-Revision-Date: 2009-01-11 04:45-0700\n"
+"Last-Translator: David Méndez <davidcomp@telefonica.net>\n"
 "Language-Team: \n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -43,27 +43,36 @@ msgstr "Español"
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Spanish"
 
-########################################
-# poll-related stuff
-########################################
-# poll-related stuff
-########################################
+# ######################################<br />
+# <br />
+# poll-related stuff<br />
+# <br />
+# ######################################<br />
+# <br />
+# poll-related stuff<br />
+# ######################################<br />
 # #######################################
-#, fuzzy
 msgid "POLL_TITLE"
-msgstr "BOINC user survey"
+msgstr "Encuesta para usuarios de BOINC"
 
-#, fuzzy
 msgid "POLL_INTRO"
-msgstr "Several volunteer computing projects, including Climateprediction.net, Einstein@home, and SETI@home, use software called BOINC. If you participate in projects like this, we request that you answer the following questions. This will help BOINC-based projects increase participation and achieve greater scientific results. <p> Please answer as many questions as you want, then go to the bottom and click OK. If you previously completed the survey but your answers have changed, please complete it again - your new answers will replace the old ones. <p> The current results of the survey are <a href=poll_results.php>here</a>. "
+msgstr ""
+"Varios proyectos voluntarios de cálculo computacional, incluyendo  "
+"Climateprediction.net, Einstein@home, y SETI@home, usan un programa llamado "
+"BOINC. Si participa en proyectos como estos, le pedimos que responda las "
+"siguientes preguntas. Esto ayudará a los proyectos basados en BOINC a "
+"incrementar la participación y alcanzar mayores resultados científicos.  <p> "
+"Por favor, reponda a todas las preguntas que desee, y después vaya al final "
+"de la página y pulse OK . Si usted ha completado la encuesta anteriormente "
+"pero sus respuestas han cambiado, por favor, complételo de nuevo - sus "
+"nuevas respuestas reemplazarán a las anteriores.  <p> Los resultados "
+"actuales de la encuesta están <a href=poll_results.php>aquí</a>. "
 
-#, fuzzy
 msgid "POLL_RUN"
-msgstr "Do you run BOINC?"
+msgstr "¿Utiliza BOINC?"
 
-#, fuzzy
 msgid "POLL_PARTICIPATION"
-msgstr "Your participation"
+msgstr "Su participación"
 
 #, fuzzy
 msgid "POLL_COMPUTERS"
