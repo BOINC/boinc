@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-09 14:52-0700\n"
-"Last-Translator: David Méndez <davidcomp@telefonica.net>\n"
+"PO-Revision-Date: 2009-01-11 10:06-0700\n"
+"Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -454,6 +454,8 @@ msgid ""
 "%s will shut down the currently connected client,\n"
 "and prompt you for another host to connect to.\n"
 msgstr ""
+"%s cerrá el cliente conectado actualmente,\n"
+" y le pedirá otro ordenador al que conectarse (host).\n"
 
 #: clientgui/AdvancedFrame.cpp:1369
 #, c-format
@@ -749,6 +751,8 @@ msgstr "Administrador BOINC"
 #: clientgui/BOINCGUIApp.cpp:515
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr ""
+"El Administrador BOINC ha sido iniciado por el sistema operativo "
+"automáticamente"
 
 #: clientgui/BOINCGUIApp.cpp:516
 msgid "Startup BOINC so only the system tray icon is visible"
@@ -916,12 +920,12 @@ msgstr "Usted se ha unido con éxito a este administrador de cuentas."
 #: clientgui/ctest.cpp:154
 #: clientgui/ctest.cpp:158
 msgid "Static text"
-msgstr ""
+msgstr "Texto estático"
 
 #: clientgui/ctest.cpp:166
 #: clientgui/ctest.cpp:171
 msgid "Radiobutton"
-msgstr ""
+msgstr "Botón de selección"
 
 #: clientgui/DlgAbout.cpp:98
 #, c-format
@@ -934,7 +938,7 @@ msgstr "Versión:"
 
 #: clientgui/DlgAbout.cpp:163
 msgid "wxWidgets Version:"
-msgstr ""
+msgstr "Versión de wxWidgets"
 
 #: clientgui/DlgAbout.cpp:171
 msgid "Copyright:"
@@ -1268,7 +1272,6 @@ msgid "Leave at least"
 msgstr "Dejar como mínimo"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:466
-#, fuzzy
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
 msgstr ""
 "BOINC deja como mínimo esta cantidad de espacio de disco libre (en "
@@ -1367,6 +1370,12 @@ msgid ""
 "If you also want to stop running the science applications when you\n"
 "exit the Manager, then choose from the following options:"
 msgstr ""
+"Usted ha solicitado cerrar %s,\n"
+"que le permite ver y administrar\n"
+"los programas científicos ejecutándose en su ordenador.\n"
+"\n"
+"Si también desea parar de ejecutar los programas científicos cuando usted\n"
+"cierre el Administrador, entonces escoja entre las siguientes opciones:"
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
