@@ -1,47 +1,59 @@
 <?php
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2008 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// get a forum as RSS feed
+// get a forum (possibly filtered by user) as RSS feed
 
 require_once("../project/project.inc");
 require_once("../inc/db.inc");
-db_init();
 
 $userid = get_int('userid', true);
 $forumid = get_int('forumid', true);
 $nitems = get_int('nitems', true);
 
-if(!$nitems || $nitems < "1" or $nitems > "9") {
+if(!$nitems || $nitems < "1" || $nitems > "9") {
     $nitems = "9";
 }
 
+$forum = BoincForum::lookup_id($forumid);
+if (!$forum) error_page("no such forum");
+
+$clause = "forum=$forumid ";
+
 if ($userid) {
-    $user = BoincUser.lookup_id($user);
+    $user = BoincUser::lookup_id($userid);
     if (!$user) error_page("no such user");
+    $clause .= " and owner=$userid";
 }
 
-$last_mod_time = BoincThread.get_int("max(timestamp)",
-    "where owner=$userid and forum=$forumid and status=0 and hidden=0 and sticky=0"
+class Int {
+};
+
+$db = BoincDb::get();
+$x = $db->lookup_fields(
+    "thread",
+    "Int",
+    "max(timestamp) as foo",
+    "$clause and status=0 and hidden=0 and sticky=0"
 );
-//$query="select max(timestamp) from thread where owner=".$userid." and forum=".$forumid." and status=0 and hidden=0 and sticky=0";
-//$result=mysql_query($query);
-if ($result) {
-  $last_mod_time=mysql_fetch_object($result);
-} else {
-  echo "error in ".$query."
-      ";
-  exit(1);
-}
+$last_mod_time = $x->foo;
 
-$threads = BoincThread::enum_fields("id,create_time,title", "where owner=$userid and forum=$forumid and status=0 and hidden=0 and sticky=0 order by create_time desc limit $news"
+$threads = BoincThread::enum("$clause and status=0 and hidden=0 and sticky=0 order by create_time desc limit $nitems"
 );
-//$query="select id,create_time,title from thread where owner=".$userid." and forum=".$forumid." and status=0 and hidden=0 and sticky=0 order by create_time desc limit ".$news;
-
-//$result=mysql_query($query);
-if (!$result) {
-  echo "error in ".$query."
-      ";
-  exit(1);
-}
 
 // Get unix time that last modification was made to the news source
 //
@@ -56,7 +68,10 @@ header ("Content-Type: application/xml");
 
 // Create channel header and open XML content
 //
-$description=$username->name."'s ".PROJECT." Blog";
+$description = PROJECT.": $forum->description";
+if ($user) {
+    $description .= " (posts by $user->name)";
+}
 $channel_image = URL_BASE . "rss_image.gif";
 $language = "en-us";
 echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
@@ -81,7 +96,8 @@ foreach ($threads as $thread) {
     $post_date=gmdate('D, d M Y H:i:s',$thread->create_time).' GMT';
     $unique_url=URL_BASE."forum_thread.php?id=".$thread->id;
 
-    $posts = BoincPost::enum("thread=$thread->id and user=$userid order by timestamp limit 1");
+    $clause2 = $userid?"and user=$userid":"";
+    $posts = BoincPost::enum("thread=$thread->id $clause2 order by timestamp limit 1");
     $post = $posts[0];
     echo "<item>
     <title>".strip_tags($thread->title)."</title>

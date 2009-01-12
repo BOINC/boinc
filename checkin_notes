@@ -160,7 +160,7 @@ Rom    12 Jan 2009
         boinccas95.dll
 
 David  12 Jan 2009
-    - web: add Eric's script (not finished yet) for forum RSS
+    - web: add Eric's script for forum RSS
 
     html/user/
         forum_rss.php
