@@ -1,15 +1,17 @@
-﻿msgid ""
+msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 6.3.x\n"
+"Project-Id-Version: BOINC Manager 6.5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-11-15 11:15+0800\n"
+"PO-Revision-Date: 2009-01-09 22:42-0700\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
@@ -65,6 +67,7 @@ msgstr "密码确认(&O)："
 
 #: clientgui/AccountInfoPage.cpp:383
 #, c-format
+#, c-format
 msgid "Are you already running %s?"
 msgstr "您已经在运行 %s 吗？"
 
@@ -77,6 +80,7 @@ msgid "&Email address:"
 msgstr "电子邮件地址(&E)："
 
 #: clientgui/AccountInfoPage.cpp:421
+#, c-format
 #, c-format
 msgid "minimum length %d"
 msgstr "最小长度 %d"
@@ -101,10 +105,12 @@ msgstr "加入帐户管理器"
 
 #: clientgui/AccountInfoPage.cpp:471
 #, c-format
+#, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr "该项目要求的最小密码长度为%d，请输入符合要求的密码。"
 
 #: clientgui/AccountInfoPage.cpp:477
+#, c-format
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr "该帐户管理器要求的最小密码长度为%d。请输入符合要求的密码。"
@@ -137,6 +143,7 @@ msgstr "查看帐户管理器的列表请到："
 
 #: clientgui/AccountManagerProcessingPage.cpp:189
 #: clientgui/AccountManagerPropertiesPage.cpp:193
+#, c-format
 #, c-format
 msgid "Communicating with %s."
 msgstr "正在和 %s 进行通讯。"
@@ -176,6 +183,7 @@ msgid "Close BOINC Manager Window."
 msgstr "关闭 BOINC Manager 的窗口。"
 
 #: clientgui/AdvancedFrame.cpp:315
+#, c-format
 #, c-format
 msgid "Exit the %s"
 msgstr "退出 %s"
@@ -220,10 +228,12 @@ msgstr "加入帐户管理器"
 
 #: clientgui/AdvancedFrame.cpp:360
 #, c-format
+#, c-format
 msgid "&Synchronize with %s"
 msgstr "与 %s 进行同步(&S)"
 
 #: clientgui/AdvancedFrame.cpp:364
+#, c-format
 #, c-format
 msgid "Get current settings from %s"
 msgstr "从 %s 获取当前的参数设定"
@@ -294,6 +304,7 @@ msgstr "修改本地参数设置 ( 配置信息将保存于 global_prefs_overrid
 
 #: clientgui/AdvancedFrame.cpp:443
 #, c-format
+#, c-format
 msgid "Connect to another computer running %s"
 msgstr "连接到另外一台运行 %s 的计算机"
 
@@ -343,6 +354,7 @@ msgstr "从 global_prefs_override.xml 中读取本地参数设置。"
 
 #: clientgui/AdvancedFrame.cpp:478
 #, c-format
+#, c-format
 msgid "&Stop using %s..."
 msgstr "停止使用 %s(&S)"
 
@@ -361,16 +373,19 @@ msgstr "加入一个项目以开始处理任务"
 #: clientgui/AdvancedFrame.cpp:500
 #: clientgui/sg_BoincSimpleGUI.cpp:116
 #, c-format
+#, c-format
 msgid "%s &help"
 msgstr "%s 帮助(&H)"
 
 #: clientgui/AdvancedFrame.cpp:506
 #: clientgui/sg_BoincSimpleGUI.cpp:122
 #, c-format
+#, c-format
 msgid "Show information about %s"
 msgstr "查看 %s 的信息"
 
 #: clientgui/AdvancedFrame.cpp:518
+#, c-format
 #, c-format
 msgid "&%s help"
 msgstr "%s 帮助"
@@ -378,11 +393,13 @@ msgstr "%s 帮助"
 #: clientgui/AdvancedFrame.cpp:524
 #: clientgui/sg_BoincSimpleGUI.cpp:140
 #, c-format
+#, c-format
 msgid "Show information about the %s"
 msgstr "查看 %s 的信息"
 
 #: clientgui/AdvancedFrame.cpp:536
 #: clientgui/sg_BoincSimpleGUI.cpp:152
+#, c-format
 #, c-format
 msgid "%s &website"
 msgstr "%s 网站(&W)"
@@ -390,11 +407,13 @@ msgstr "%s 网站(&W)"
 #: clientgui/AdvancedFrame.cpp:542
 #: clientgui/sg_BoincSimpleGUI.cpp:158
 #, c-format
+#, c-format
 msgid "Show information about BOINC and %s"
 msgstr "查看 BOINC 和 %s 的信息"
 
 #: clientgui/AdvancedFrame.cpp:558
 #: clientgui/BOINCTaskBar.cpp:607
+#, c-format
 #, c-format
 msgid "&About %s..."
 msgstr "关于 %s (&A)..."
@@ -433,10 +452,12 @@ msgstr "帮助(&H)"
 
 #: clientgui/AdvancedFrame.cpp:1213
 #, c-format
+#, c-format
 msgid "%s - Shutdown the current client..."
 msgstr "%s - 关闭当前连接的客户端..."
 
 #: clientgui/AdvancedFrame.cpp:1222
+#, c-format
 #, c-format
 msgid ""
 "%s will shut down the currently connected client,\n"
@@ -447,10 +468,12 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1369
 #, c-format
+#, c-format
 msgid "%s - Detach from %s"
 msgstr "%s - 退出 %s"
 
 #: clientgui/AdvancedFrame.cpp:1374
+#, c-format
 #, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -475,10 +498,12 @@ msgstr "正在重试项目的网络通讯..."
 
 #: clientgui/AdvancedFrame.cpp:1551
 #, c-format
+#, c-format
 msgid "%s - Language Selection"
 msgstr "%s - 语言选择"
 
 #: clientgui/AdvancedFrame.cpp:1558
+#, c-format
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr "%s 的缺省语言已被修改，且必须重启 %s 才能生效。"
@@ -486,25 +511,30 @@ msgstr "%s 的缺省语言已被修改，且必须重启 %s 才能生效。"
 #: clientgui/AdvancedFrame.cpp:1795
 #: clientgui/DlgAbout.cpp:104
 #, c-format
+#, c-format
 msgid "%s"
 msgstr "%s"
 
 #: clientgui/AdvancedFrame.cpp:1804
+#, c-format
 #, c-format
 msgid "%s has successfully attached to %s"
 msgstr "%s 已经成功地加入了 %s"
 
 #: clientgui/AdvancedFrame.cpp:1940
 #, c-format
+#, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
 #: clientgui/AdvancedFrame.cpp:1943
 #, c-format
+#, c-format
 msgid "Connecting to %s"
 msgstr "正在连接至 %s"
 
 #: clientgui/AdvancedFrame.cpp:1946
+#, c-format
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "已连接至 %s ( %s )"
@@ -553,6 +583,7 @@ msgstr "正在连接 BOINC 客户端。请稍候..."
 
 #: clientgui/BOINCBaseFrame.cpp:414
 #, c-format
+#, c-format
 msgid "%s - Connection Error"
 msgstr "%s - 连接错误"
 
@@ -582,10 +613,12 @@ msgstr "您提供的密码不正确，请重试。"
 
 #: clientgui/BOINCBaseFrame.cpp:482
 #, c-format
+#, c-format
 msgid "%s - Connection Failed"
 msgstr "%s - 连接失败"
 
 #: clientgui/BOINCBaseFrame.cpp:491
+#, c-format
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
@@ -596,10 +629,12 @@ msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:527
 #, c-format
+#, c-format
 msgid "%s - Daemon Start Failed"
 msgstr "%s - 客户端服务程序启动失败"
 
 #: clientgui/BOINCBaseFrame.cpp:537
+#, c-format
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
@@ -610,6 +645,7 @@ msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:543
 #, c-format
+#, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
@@ -619,10 +655,12 @@ msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:589
 #, c-format
+#, c-format
 msgid "%s - Connection Status"
 msgstr "%s - 连接状态"
 
 #: clientgui/BOINCBaseFrame.cpp:600
+#, c-format
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -641,15 +679,18 @@ msgstr "网站"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
+#, c-format
 msgid "%s - Network Status"
 msgstr "%s - 网络状态"
 
 #: clientgui/BOINCDialupManager.cpp:255
 #, c-format
+#, c-format
 msgid "%s needs to connect to the Internet.  Please click to open %s."
 msgstr "%s 需要连接至互联网。请点击打开 %s。"
 
 #: clientgui/BOINCDialupManager.cpp:263
+#, c-format
 #, c-format
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
@@ -660,6 +701,7 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
+#, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
@@ -669,10 +711,12 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:323
 #, c-format
+#, c-format
 msgid "%s is connecting to the Internet."
 msgstr "%s 正在连接至互联网。"
 
 #: clientgui/BOINCDialupManager.cpp:354
+#, c-format
 #, c-format
 msgid ""
 "%s couldn't do Internet communication, and no default connection is selected.\n"
@@ -684,15 +728,18 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:386
 #, c-format
+#, c-format
 msgid "%s has successfully connected to the Internet."
 msgstr "%s 已经成功地连接至互联网。"
 
 #: clientgui/BOINCDialupManager.cpp:414
 #, c-format
+#, c-format
 msgid "%s failed to connect to the Internet."
 msgstr "%s 连接至互联网失败。"
 
 #: clientgui/BOINCDialupManager.cpp:455
+#, c-format
 #, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
@@ -703,10 +750,12 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:500
 #, c-format
+#, c-format
 msgid "%s has successfully disconnected from the Internet."
 msgstr "%s 已经成功地断开至互联网的连接。"
 
 #: clientgui/BOINCDialupManager.cpp:516
+#, c-format
 #, c-format
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s 断开至互联网的连接失败。"
@@ -762,10 +811,12 @@ msgstr "网络被暂停。"
 
 #: clientgui/BOINCTaskBar.cpp:369
 #, c-format
+#, c-format
 msgid "%s: %.2f%% completed."
 msgstr "%s: 已完成 %.2f%%。"
 
 #: clientgui/BOINCTaskBar.cpp:382
+#, c-format
 #, c-format
 msgid "%d tasks running."
 msgstr "%d 个任务正在运行。"
@@ -780,10 +831,12 @@ msgstr "当前没有连接到任何客户端。"
 
 #: clientgui/BOINCTaskBar.cpp:588
 #, c-format
+#, c-format
 msgid "Open %s Web..."
 msgstr "打开 %s 的网站..."
 
 #: clientgui/BOINCTaskBar.cpp:595
+#, c-format
 #, c-format
 msgid "Open %s..."
 msgstr "打开 %s..."
@@ -848,6 +901,7 @@ msgstr "点击完成，您的浏览器将打开一个网页，您可在网页上
 
 #: clientgui/CompletionPage.cpp:233
 #, c-format
+#, c-format
 msgid "Update from %s completed."
 msgstr "从 %s 的更新已完成。"
 
@@ -856,6 +910,7 @@ msgid "Update completed."
 msgstr "更新已完成。"
 
 #: clientgui/CompletionPage.cpp:254
+#, c-format
 #, c-format
 msgid "Removal from %s completed."
 msgstr "退出 %s 已完成。"
@@ -866,6 +921,7 @@ msgstr "退出成功！"
 
 #: clientgui/CompletionPage.cpp:275
 #, c-format
+#, c-format
 msgid "Attached to %s"
 msgstr "已经加入了 %s"
 
@@ -875,10 +931,12 @@ msgstr "已经加入到帐户管理器"
 
 #: clientgui/CompletionPage.cpp:289
 #, c-format
+#, c-format
 msgid "Welcome to %s!"
 msgstr "欢迎来到 %s！"
 
 #: clientgui/CompletionPage.cpp:303
+#, c-format
 #, c-format
 msgid "You are now successfully attached to the %s system."
 msgstr "您已经成功地加入了 %s 系统。"
@@ -890,14 +948,15 @@ msgstr "您已经成功地加入了当前帐户管理器。"
 #: clientgui/ctest.cpp:154
 #: clientgui/ctest.cpp:158
 msgid "Static text"
-msgstr ""
+msgstr "静态文本"
 
 #: clientgui/ctest.cpp:166
 #: clientgui/ctest.cpp:171
 msgid "Radiobutton"
-msgstr ""
+msgstr "单选按钮"
 
 #: clientgui/DlgAbout.cpp:98
+#, c-format
 #, c-format
 msgid "About %s"
 msgstr "关于 %s"
@@ -922,7 +981,7 @@ msgstr ""
 "(C) 2003-2008 加州大学伯克利分校。\n"
 "保留所有权利。\n"
 "\n"
-"( 中文翻译: Yin Gang @ Team China )\n"
+"( 中文翻译: 2005-2009 Yin Gang @ Team China )\n"
 "( 中文网站: http://www.equn.com )\n"
 "( 中文论坛: http://www.equn.com/forum )"
 
@@ -969,6 +1028,7 @@ msgstr "确认"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:31
 #: clientgui/sg_DlgPreferences.cpp:1037
+#, c-format
 #, c-format
 msgid "%s - Preferences"
 msgstr "%s - 本地参数设置"
@@ -1123,6 +1183,7 @@ msgstr "最多使用"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:242
 #, no-c-format
+#, no-c-format
 msgid "% CPU time"
 msgstr "% CPU时间"
 
@@ -1246,6 +1307,7 @@ msgstr "BOINC 最多可使用的磁盘空间比例"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:482
 #, no-c-format
+#, no-c-format
 msgid "% of total disk space"
 msgstr "% 总磁盘空间"
 
@@ -1258,6 +1320,7 @@ msgid "seconds"
 msgstr "秒"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:501
+#, no-c-format
 #, no-c-format
 msgid "% of page file (swap space)"
 msgstr "% 页面文件 ( 交换空间 )"
@@ -1315,10 +1378,12 @@ msgstr "显示参数设置网页"
 
 #: clientgui/DlgExitMessage.cpp:82
 #, c-format
+#, c-format
 msgid "%s - Exit Confirmation"
 msgstr "%s - 退出确认"
 
 #: clientgui/DlgExitMessage.cpp:130
+#, c-format
 #, c-format
 msgid ""
 "You have requested to exit the %s,\n"
@@ -1335,6 +1400,7 @@ msgstr ""
 "所有的科学计算程序，请在下列选项中进行选择："
 
 #: clientgui/DlgExitMessage.cpp:135
+#, c-format
 #, c-format
 msgid ""
 "This will shut down %s and its tasks entirely until either the\n"
@@ -1506,7 +1572,7 @@ msgstr "资源"
 
 #: clientgui/DlgItemProperties.cpp:158
 msgid "CPU time at last checkpoint"
-msgstr ""
+msgstr "上次存盘的 CPU 时间"
 
 #: clientgui/DlgItemProperties.cpp:159
 #: clientgui/ViewWork.cpp:217
@@ -1515,14 +1581,12 @@ msgid "CPU time"
 msgstr "已用 CPU 时间"
 
 #: clientgui/DlgItemProperties.cpp:161
-#, fuzzy
 msgid "Elapsed time"
 msgstr "已用时间"
 
 #: clientgui/DlgItemProperties.cpp:163
-#, fuzzy
 msgid "Estimated time remaining"
-msgstr "预计还需要的 CPU 时间"
+msgstr "预计剩余时间"
 
 #: clientgui/DlgItemProperties.cpp:164
 msgid "Fraction done"
@@ -1710,47 +1774,49 @@ msgstr "等待上报"
 #: clientgui/ViewWork.cpp:1117
 #: clientgui/ViewWorkGrid.cpp:862
 #, c-format
+#, c-format
 msgid "Error: invalid state '%d'"
 msgstr "错误：非法状态 '%d'"
 
 #: clientgui/DlgOptions.cpp:119
+#, c-format
 #, c-format
 msgid "%s - Options"
 msgstr "%s - 选项"
 
 #: clientgui/DlgOptions.cpp:157
 msgid "Language:"
-msgstr ""
+msgstr "语言："
 
 #: clientgui/DlgOptions.cpp:164
 msgid "What language should the manager use?"
-msgstr ""
+msgstr "BOINC Manager 应该使用哪种语言？"
 
 #: clientgui/DlgOptions.cpp:168
 msgid ""
 "Network reminder interval:\n"
 "(minutes)"
 msgstr ""
+"网络提醒间隔：\n"
+"(分钟)"
 
 #: clientgui/DlgOptions.cpp:180
 msgid "How often should the Manager remind you when a network connection is needed?"
-msgstr ""
+msgstr "当需要连接网络的时候，BOINC Manager 应该多久一次提醒您？"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
-msgstr ""
+msgstr "在登录时运行 BOINC Manager？"
 
 #: clientgui/DlgOptions.cpp:191
-#, fuzzy
 msgid "Run the BOINC Manager when you log on."
 msgstr "在您登录的时候运行 BOINC Manager。"
 
 #: clientgui/DlgOptions.cpp:196
 msgid "Enable Manager exit dialog?"
-msgstr ""
+msgstr "启用 BOINC Manager 的退出消息提示："
 
 #: clientgui/DlgOptions.cpp:202
-#, fuzzy
 msgid "Display the exit dialog when shutting down the Manager."
 msgstr "在关闭 BOINC Manager 时显示退出消息对话框。"
 
@@ -1837,6 +1903,7 @@ msgstr "SOCKS 代理"
 
 #: clientgui/DlgSelectComputer.cpp:90
 #, c-format
+#, c-format
 msgid "%s - Select Computer"
 msgstr "%s - 选择计算机"
 
@@ -1846,10 +1913,12 @@ msgstr "主机名："
 
 #: clientgui/hyperlink.cpp:181
 #, c-format
+#, c-format
 msgid "%s - Can't find web browser"
 msgstr "%s - 无法找到网页浏览器"
 
 #: clientgui/hyperlink.cpp:192
+#, c-format
 #, c-format
 msgid ""
 "%s tried to display the web page\n"
@@ -2135,6 +2204,7 @@ msgstr "项目网址(&U)："
 
 #: clientgui/ProjectListCtrl.cpp:333
 #, c-format
+#, c-format
 msgid "Click here to go to %s's website."
 msgstr "点击可访问 %s 的项目网站。"
 
@@ -2233,6 +2303,7 @@ msgid "SOCKS proxy"
 msgstr "SOCKS 代理"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:134
+#, c-format
 #, c-format
 msgid "&%s"
 msgstr "&%s"
@@ -2345,6 +2416,7 @@ msgid "Get help with BOINC"
 msgstr "从 BOINC 得到帮助"
 
 #: clientgui/sg_DlgMessages.cpp:755
+#, c-format
 #, c-format
 msgid "%s - Messages"
 msgstr "%s - 消息"
@@ -2519,15 +2591,18 @@ msgstr "任何时候"
 
 #: clientgui/sg_DlgPreferences.cpp:786
 #, c-format
+#, c-format
 msgid "%d MB"
 msgstr "%d MB"
 
 #: clientgui/sg_DlgPreferences.cpp:788
 #, c-format
+#, c-format
 msgid "%4.2f GB"
 msgstr "%4.2f GB"
 
 #: clientgui/sg_DlgPreferences.cpp:829
+#, c-format
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
@@ -2537,6 +2612,7 @@ msgid "0 (Run Always)"
 msgstr "0 ( 一直运行 )"
 
 #: clientgui/sg_DlgPreferences.cpp:868
+#, c-format
 #, c-format
 msgid "%d"
 msgstr "%d"
@@ -2612,6 +2688,7 @@ msgstr "我的项目："
 
 #: clientgui/sg_StatImageLoader.cpp:101
 #, c-format
+#, c-format
 msgid "%s. Work done by %s: %0.2f"
 msgstr "%s。%s 已经完成的任务：%0.2f"
 
@@ -2623,6 +2700,7 @@ msgstr "移除项目"
 #: clientgui/ViewProjects.cpp:490
 #: clientgui/ViewProjectsBase.cpp:343
 #: clientgui/ViewProjectsGrid.cpp:418
+#, c-format
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
 msgstr "您确定要退出'%s'项目吗？"
@@ -2637,10 +2715,12 @@ msgstr "退出项目"
 #: clientgui/sg_ViewTabPage.cpp:138
 #: clientgui/sg_ViewTabPage.cpp:278
 #, c-format
+#, c-format
 msgid "%.1lf"
 msgstr "%.1lf"
 
 #: clientgui/sg_ViewTabPage.cpp:407
+#, c-format
 #, c-format
 msgid "%d hr %d min %d sec"
 msgstr "%d时%d分%d秒"
@@ -2674,19 +2754,19 @@ msgstr "已用时间："
 
 #: clientgui/TermsOfUsePage.cpp:213
 msgid "Terms of Use"
-msgstr ""
+msgstr "使用协议"
 
 #: clientgui/TermsOfUsePage.cpp:217
 msgid "Please read the following terms of use:"
-msgstr ""
+msgstr "请阅读以下的使用协议："
 
 #: clientgui/TermsOfUsePage.cpp:226
 msgid "I agree to the terms of use."
-msgstr ""
+msgstr "我同意该使用协议。"
 
 #: clientgui/TermsOfUsePage.cpp:232
 msgid "I do not agree with the terms of use."
-msgstr ""
+msgstr "我不同意该使用协议。"
 
 #: clientgui/UnavailablePage.cpp:184
 msgid "Project temporarily unavailable"
@@ -2775,10 +2855,12 @@ msgstr ""
 #: clientgui/ValidateURL.cpp:104
 #: clientgui/ValidateURL.cpp:108
 #, c-format
+#, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "'%s'中未包含正确的主机名称。"
 
 #: clientgui/ValidateURL.cpp:111
+#, c-format
 #, c-format
 msgid "'%s' does not contain a valid path."
 msgstr "'%s'中未包含正确的路径。"
@@ -3030,6 +3112,7 @@ msgstr "正在重置项目..."
 #: clientgui/ViewProjectsBase.cpp:296
 #: clientgui/ViewProjectsGrid.cpp:363
 #, c-format
+#, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr "您确定要重置'%s'项目吗？"
 
@@ -3185,6 +3268,7 @@ msgid "Host Average"
 msgstr "主机的近期平均积分"
 
 #: clientgui/ViewStatistics.cpp:1283
+#, c-format
 #, c-format
 msgid "Last update: %.0f days ago"
 msgstr "上次更新：%.0f天前"
@@ -3346,6 +3430,7 @@ msgstr "中断传输..."
 
 #: clientgui/ViewTransfers.cpp:322
 #, c-format
+#, c-format
 msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
@@ -3456,6 +3541,7 @@ msgstr "正在中止任务..."
 
 #: clientgui/ViewWork.cpp:421
 #, c-format
+#, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
@@ -3493,6 +3579,7 @@ msgstr "任务网格"
 
 #: clientgui/ViewWorkGrid.cpp:327
 #, c-format
+#, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s %%, Status: %s)"
@@ -3505,6 +3592,7 @@ msgid "Change Research Applications at World Community Grid"
 msgstr "设定 WCG 项目的科学计算程序"
 
 #: clientgui/WelcomePage.cpp:336
+#, c-format
 #, c-format
 msgid ""
 "If possible, add projects at the\n"
@@ -3551,10 +3639,12 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:372
 #, c-format
+#, c-format
 msgid "&Stop using%s"
 msgstr "停止使用 %s(&S)"
 
 #: clientgui/WelcomePage.cpp:379
+#, c-format
 #, c-format
 msgid ""
 "We'll now remove this computer from %s.  From now on,\n"
@@ -3653,20 +3743,24 @@ msgstr "完成(&F)"
 
 #: clientgui/common/wxFlatNotebook.cpp:182
 #, c-format
+#, c-format
 msgid "New page inserted. Index = %i"
 msgstr "New page inserted. Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:187
+#, c-format
 #, c-format
 msgid "New page appended. Index = %i"
 msgstr "New page appended. Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2048
 #, c-format
+#, c-format
 msgid "Old Page Index = %i"
 msgstr "Old Page Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2053
+#, c-format
 #, c-format
 msgid "OnDropTarget: index by HitTest = %i"
 msgstr "OnDropTarget: index by HitTest = %i"
@@ -3677,7 +3771,7 @@ msgstr "派图"
 
 #: clientgui/ctest.h:70
 msgid "Test"
-msgstr ""
+msgstr "测试"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
