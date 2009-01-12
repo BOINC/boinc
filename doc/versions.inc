@@ -117,11 +117,11 @@ $w5816= array(
     "type"=>"win_new",
 );
 
-$m65 = array(
-    "num"=>"6.5.0",
+$m66 = array(
+    "num"=>"6.6.0",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_6.5.0_macOSX_universal.zip",
-    "date"=>"17 Dec 2008",
+    "file"=>"boinc_6.6.0_macOSX_universal.zip",
+    "date"=>"11 Jan 2009",
     "type"=>"mac_advanced",
 );
 
@@ -141,19 +141,11 @@ $m51045 = array(
     "type"=>"mac_advanced",
 );
 
-$m5817 = array(
-    "num"=>"5.8.17",
-    "status"=>"Older version (standard GUI)",
-    "file"=>"boinc_5.8.17_macOSX_universal.zip",
-    "date"=>"3 Apr 2007",
-    "type"=>"mac_advanced",
-);
-
-$m65c = array(
-    "num"=>"6.5.0",
+$m66c = array(
+    "num"=>"6.6.0",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_6.5.0_universal-apple-darwin.zip",
-    "date"=>"17 Dec 2008",
+    "file"=>"boinc_6.6.0_universal-apple-darwin.zip",
+    "date"=>"11 Jan 2009",
     "type"=>"bare_core",
 );
 
@@ -170,14 +162,6 @@ $m51045c = array(
     "status"=>"Older version (Unix command-line version)",
     "file"=>"boinc_5.10.45_universal-apple-darwin.zip",
     "date"=>"5 Mar 2008",
-    "type"=>"bare_core",
-);
-
-$m5817c = array(
-    "num"=>"5.8.17",
-    "status"=>"Older version (Unix command-line version)",
-    "file"=>"boinc_5.8.17_universal-apple-darwin.zip",
-    "date"=>"3 Apr 2007",
     "type"=>"bare_core",
 );
 
@@ -313,14 +297,12 @@ $mac = array(
     "description"=>"Version 10.3.9+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m65,
-        $m65c,
+        $m66,
+        $m66c,
         $m6218,
         $m6218c,
         $m51045,
         $m51045c,
-        $m5817,
-        $m5817c,
     )
 );
 
