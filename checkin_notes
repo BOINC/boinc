@@ -20,3 +20,15 @@ Charlie Jan 8 2009
     mac_installer/
         release_GridRepublic.sh
         release_boinc.sh
+
+Rom    12 Jan 2009
+    - WINSETUP: Update custom actions in case the goofy setup
+        problems are related to old custom actions.  I don't
+        really think this is it, but i'm running out of ideas.
+        
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
