@@ -272,9 +272,11 @@
             <replaceable>URL</replaceable>
             <replaceable>result_name</replaceable>
             {suspend | resume | abort | graphics_window | graphics_fullscreen}
-            <optional>--desktop <replaceable>dt</replaceable> |
-              --window_station <replaceable>ws</replaceable> |
-              --display <replaceable>dp</replaceable></optional>
+            <optional>
+              <option>--desktop</option> <replaceable>dt</replaceable> |
+              <option>--window_station</option> <replaceable>ws</replaceable> |
+              <option>--display</option> <replaceable>dp</replaceable>
+            </optional>
           </term>
           <listitem>
             <para>Do operation on a result.</para>
@@ -482,8 +484,11 @@
           <term>
             <option>--set_screensaver_mode</option> {on | off}
             <replaceable>blank_time</replaceable>
-            <optional>--desktop dt | --window_station ws |
-              --display dp</optional>
+            <optional>
+              <option>--desktop</option> <replaceable>dt</replaceable> |
+              <option>--window_station</option> <replaceable>ws</replaceable> |
+              <option>--display</option> <replaceable>dp</replaceable>
+            </optional>
           </term>
           <listitem>
             <para>Tell the core client to start or stop doing fullscreen
