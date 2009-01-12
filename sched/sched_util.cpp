@@ -221,17 +221,6 @@ void compute_avg_turnaround(HOST& host, double turnaround) {
     host.avg_turnaround = new_avg;
 }
 
-double elapsed_wallclock_time() {
-    static double wallclock_execution_time=0.0;
-
-    if (wallclock_execution_time == 0.0) {
-        wallclock_execution_time=dtime();
-        return 0.0;
-    }
-
-    return dtime()-wallclock_execution_time;
-}
-
 // Request lock on the given file with given fd.  Returns:
 // 0 if we get lock
 // PID (>0) if another process has lock

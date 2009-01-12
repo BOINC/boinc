@@ -208,10 +208,7 @@ int open_database() {
 // the cgi process will leave behind some record in the log file.
 //
 void sigterm_handler(int signo) {
-   log_messages.printf(MSG_CRITICAL, 
-       "Caught signal %d [scheduler ran %f seconds].  Exit(1)ing\n",
-       signo, elapsed_wallclock_time()
-    );
+   log_messages.printf(MSG_CRITICAL, "Caught signal %d Exit(1)ing\n", signo);
     fflush((FILE*)NULL);
     exit(1);
     return;
@@ -364,9 +361,6 @@ int main(int argc, char** argv) {
             usage(argv[0]);
         }
     }
-
-    // initialized timer
-    elapsed_wallclock_time();
 
     // install a signal handler that catches SIGTERMS sent by Apache if the cgi
     // times out.

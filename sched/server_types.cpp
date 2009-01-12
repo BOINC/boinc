@@ -570,8 +570,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
     }
     log_messages.printf(MSG_NORMAL,
-        "Sending reply to [HOST#%d]: %d results, delay req %f [scheduler ran %f seconds]\n",
-        host.id, wreq.nresults, request_delay, elapsed_wallclock_time() 
+        "Sending reply to [HOST#%d]: %d results, delay req %f\n",
+        host.id, wreq.nresults, request_delay
     );
 
     if (sreq.core_client_version <= 419) {

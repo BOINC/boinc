@@ -62,9 +62,6 @@ extern int extract_filename(char* in, char* out);
 
 extern void compute_avg_turnaround(HOST& host, double turnaround);
 
-// used to track execution time of cgi scripts
-extern double elapsed_wallclock_time();
-
 // returns zero if we get lock on file with file descriptor fd.
 // returns < 0 if error
 // returns PID > 0 if another process has lock

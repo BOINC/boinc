@@ -49,6 +49,7 @@
 #define ERR_PERMANENT   false
 
 char this_filename[256];
+double start_time();
 
 struct FILE_INFO {
     char name[256];
@@ -503,6 +504,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     int major, minor, release, retval=0;
     bool got_version = true;
     bool did_something = false;
+    double start_time = dtime();
 
 #ifdef _USING_FCGI_
     log_messages.set_indent_level(1);
@@ -546,9 +548,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
         return return_error(ERR_TRANSIENT, "no command");
     }
 
-    log_messages.printf(MSG_DEBUG,
-        "elapsed time %f seconds\n", elapsed_wallclock_time()
-    );
+    log_messages.printf(MSG_DEBUG, "elapsed time %f seconds\n", dtime()-start_time);
 
     return retval;
 }
@@ -575,9 +575,9 @@ void boinc_catch_signal(int signal_num) {
         sprintf(buffer, "FILE=%s (%.0f bytes left) ", this_filename, bytes_left);
     }
     log_messages.printf(MSG_CRITICAL,
-        "%sIP=%s caught signal %d [%s] elapsed time %f seconds\n",
+        "%sIP=%s caught signal %d [%s]\n",
         buffer, get_remote_addr(),
-        signal_num, strsignal(signal_num), elapsed_wallclock_time()
+        signal_num, strsignal(signal_num)
     );
 
     // there is no point in trying to return an error.
@@ -611,7 +611,6 @@ int main() {
 #ifdef _USING_FCGI_
     unsigned int counter=0;
 #endif
-    elapsed_wallclock_time();
 
     installer();
 

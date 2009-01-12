@@ -1450,6 +1450,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     SCHEDULER_REQUEST sreq;
     SCHEDULER_REPLY sreply;
     char buf[1024];
+    double start_time = dtime();
 
     g_request = &sreq;
     g_reply = &sreply;
@@ -1479,6 +1480,8 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     }
 
     sreply.write(fout, sreq);
+    log_messages.printf(MSG_INFO, "Scheduler ran %f seconds\n", dtime()-start_time);
+
 
     if (strlen(config.sched_lockfile_dir)) {
         unlock_sched();
