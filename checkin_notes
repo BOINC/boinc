@@ -144,3 +144,17 @@ David  Jan 12 2009
         crypt.cpp
         error_numbers.h
         str_util.cpp
+
+Rom    12 Jan 2009
+    - WINSETUP: Update custom actions in case the goofy setup
+        problems are related to old custom actions.  I don't
+        really think this is it, but i'm running out of ideas.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
