@@ -48,6 +48,8 @@ struct COPROC {
         strcpy(type, t);
         count = 0;
         used = 0;
+        req_secs = 0;
+        req_instances = 0;
         memset(&owner, 0, sizeof(owner));
     }
     virtual ~COPROC(){}
