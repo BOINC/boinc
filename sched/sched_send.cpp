@@ -256,12 +256,14 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
                 app->id, g_request->platforms.list[0]->id, app->min_version
             );
         }
-        sprintf(message,
-            "%s is not available for your type of computer.",
-            app->user_friendly_name
-        );
-        USER_MESSAGE um(message, "high");
-        g_wreq->insert_no_work_message(um);
+        if (!g_wreq->no_gpus_prefs) {
+            sprintf(message,
+                "%s is not available for your type of computer.",
+                app->user_friendly_name
+            );
+            USER_MESSAGE um(message, "high");
+            g_wreq->insert_no_work_message(um);
+        }
         g_wreq->no_app_version = true;
         return NULL;
     }
@@ -1286,6 +1288,13 @@ static void explain_to_user() {
             );
             g_reply->insert_message(um);
         }
+        if (g_wreq->no_gpus_prefs) {
+            USER_MESSAGE um(
+                "CUDA (GPU) jobs are available, but your preferences are set to not accept them",
+                "low"
+            );
+            g_reply->insert_message(um);
+        }
         if (g_wreq->daily_result_quota_exceeded) {
             struct tm *rpc_time_tm;
             int delay_time;
@@ -1430,7 +1439,7 @@ void send_work() {
     g_wreq->disk_available = max_allowable_disk();
 
     if (all_apps_use_hr && hr_unknown_platform(g_request->host)) {
-        log_messages.printf(MSG_INFO,
+        log_messages.printf(MSG_NORMAL,
             "Not sending work because unknown HR class\n"
         );
         g_wreq->hr_reject_perm = true;

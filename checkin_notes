@@ -180,3 +180,17 @@ David  12 Jan 2009
 
     lib/
         coproc.cpp
+
+David  12 Jan 2009
+    - scheduler: if we're not sending work because of the user's "no GPUs" pref,
+        tell them so.
+    - scheduler: fix bug that caused no CUDA jobs to be sent
+
+    lib/
+        coproc.cpp,h
+        common_defs.h
+    sched/
+        handle_request.cpp
+        sched_send.cpp
+        sched_plan.cpp
+        server_types.h

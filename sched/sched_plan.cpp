@@ -75,6 +75,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 log_messages.printf(MSG_DEBUG,
                     "Skipping CUDA version - user prefs say no GPUS\n"
                 );
+                g_wreq->no_gpus_prefs = true;
             }
             return false;
         }

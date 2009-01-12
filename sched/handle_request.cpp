@@ -1151,7 +1151,7 @@ bool bad_install_type() {
     if (config.no_vista_sandbox) {
         if (!strcmp(g_request->host.os_name, "Microsoft Windows Vista")) {
             if (g_request->sandbox == 1) {
-                log_messages.printf(MSG_INFO,
+                log_messages.printf(MSG_NORMAL,
                     "Vista secure install - not sending work\n"
                 );
                 USER_MESSAGE um(
@@ -1169,7 +1169,10 @@ bool bad_install_type() {
 }
 
 static inline bool requesting_work() {
-    return (g_request->work_req_seconds > 0);
+    if (g_request->work_req_seconds > 0) return true;
+    if (g_request->cpu_req_secs > 0) return true;
+    if (coproc_cuda && coproc_cuda->req_secs) return true;
+    return false;
 }
 
 void process_request(char* code_sign_key) {
@@ -1480,7 +1483,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     }
 
     sreply.write(fout, sreq);
-    log_messages.printf(MSG_INFO, "Scheduler ran %f seconds\n", dtime()-start_time);
+    log_messages.printf(MSG_NORMAL, "Scheduler ran %f seconds\n", dtime()-start_time);
 
 
     if (strlen(config.sched_lockfile_dir)) {

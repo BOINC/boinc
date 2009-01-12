@@ -116,7 +116,7 @@ int COPROCS::parse(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
-COPROC* COPROCS::lookup(char* type) {
+COPROC* COPROCS::lookup(const char* type) {
     for (unsigned int i=0; i<coprocs.size(); i++) {
         COPROC* cp = coprocs[i];
         if (!strcmp(type, cp->type)) return cp;

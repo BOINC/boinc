@@ -81,7 +81,7 @@
 #define MODE_QUIT               6
 #define NGRAPHICS_MSGS  7
 
-// message priorities
+// priorities for client messages
 //
 #define MSG_INFO            1
     // write to stdout
