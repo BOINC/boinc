@@ -185,6 +185,7 @@ struct WORK_REQ {
     bool hr_reject_temp;
     bool hr_reject_perm;
     bool outdated_core;
+    bool gpu_too_slow;
     bool daily_result_quota_exceeded;
     int  daily_result_quota; // for this machine: number of cpus * daily_quota/cpu
     bool cache_size_exceeded;

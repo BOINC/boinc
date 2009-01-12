@@ -1279,6 +1279,13 @@ static void explain_to_user() {
             );
             g_reply->insert_message(um);
         }
+        if (g_wreq->gpu_too_slow) {
+            USER_MESSAGE um(
+                "Not sending CUDA jobs because slow GPUs can cause crashes on Windows",
+                "low"
+            );
+            g_reply->insert_message(um);
+        }
         if (g_wreq->daily_result_quota_exceeded) {
             struct tm *rpc_time_tm;
             int delay_time;

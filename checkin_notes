@@ -124,3 +124,13 @@ David  Jan 10 2009
 
 	client/
 		work_fetch.cpp
+
+David  Jan 11 2009
+    - scheduler: if a Windows host has a GPU slower than 60 GFLOPS,
+        don't send it CUDA jobs (they may cause BSOD);
+        send user a message to this effect
+
+    sched/
+        sched_plan.cpp
+        sched_send.cpp
+        server_types.h

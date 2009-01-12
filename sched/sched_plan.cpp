@@ -68,6 +68,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         }
         return true;
     } else if (!strcmp(plan_class, "cuda")) {
+        // the following is for an app that uses a CUDA GPU
+        //
         if (g_wreq->no_gpus) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_DEBUG,
@@ -76,54 +78,63 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             }
             return false;
         }
-        // the following is for an app that uses a CUDA GPU
-        // and some CPU also, and gets 50 GFLOPS total
-        //
-        for (unsigned int i=0; i<sreq.coprocs.coprocs.size(); i++) {
-            COPROC* cp = sreq.coprocs.coprocs[i];
-            if (!strcmp(cp->type, "CUDA")) {
-                COPROC_CUDA* cp2 = (COPROC_CUDA*) cp;
-                int v = (cp2->prop.major)*100 + cp2->prop.minor;
-                if (v < 101) {
-                    log_messages.printf(MSG_DEBUG,
-                        "CUDA version %d < 1.1\n", v
-                    );
-                    return false;
-                } 
-
-                if (cp2->prop.dtotalGlobalMem < 254*1024*1024) {
-                    log_messages.printf(MSG_DEBUG,
-                        "CUDA mem %d < 254MB\n", cp2->prop.dtotalGlobalMem
-                    );
-                    return false;
-                }
-                COPROC* cu = new COPROC (cp->type);
-                cu->count = 1;
-                hu.coprocs.coprocs.push_back(cu);
-
-                // assume we'll need 100 MFLOPS to keep the GPU fed
-                //
-                double x = 1e8/sreq.host.p_fpops;
-                if (x > 1) x = 1;
-                hu.avg_ncpus = x;
-                hu.max_ncpus = x;
-                hu.flops = cp2->flops_estimate();
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_DEBUG,
-                        "CUDA app estimated %.2f GFLOPS (clock %d count %d)\n",
-                        hu.flops/1e9, cp2->prop.clockRate,
-                        cp2->prop.multiProcessorCount
-                    );
-                }
-                return true;
+        COPROC_CUDA* cp = (COPROC_CUDA*)sreq.coprocs.lookup("CUDA");
+        if (!cp) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_DEBUG,
+                    "Host lacks CUDA coprocessor for plan class cuda\n"
+                );
             }
+            return false;
         }
+        int v = (cp->prop.major)*100 + cp->prop.minor;
+        if (v < 101) {
+            log_messages.printf(MSG_DEBUG,
+                "CUDA version %d < 1.1\n", v
+            );
+            return false;
+        } 
+
+        if (cp->prop.dtotalGlobalMem < 254*1024*1024) {
+            log_messages.printf(MSG_DEBUG,
+                "CUDA mem %d < 254MB\n", cp->prop.dtotalGlobalMem
+            );
+            return false;
+        }
+        hu.flops = cp->flops_estimate();
+
+        // On Windows, slower GPUs sometimes get a blue screen of death
+        //
+        if (strstr(sreq.host.os_name, "Windows") && hu.flops < 60e9) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_DEBUG,
+                    "Not sending CUDA job to Win host with slow GPU (%.1f GFLOPS)\n",
+                    hu.flops/1e9
+                );
+            }
+            g_wreq->gpu_too_slow = true;
+            return false;
+        }
+
+        // assume we'll need 0.5% as many CPU FLOPS as GPU FLOPS
+        // to keep the GPU fed.
+        //
+        double x = hu.flops*0.005;
+        hu.avg_ncpus = x;
+        hu.max_ncpus = x;
+
+        COPROC* cu = new COPROC (cp->type);
+        cu->count = 1;
+        hu.coprocs.coprocs.push_back(cu);
+        // 
         if (config.debug_version_select) {
             log_messages.printf(MSG_DEBUG,
-                "Host lacks CUDA coprocessor for plan class %s\n", plan_class
+                "CUDA app estimated %.2f GFLOPS (clock %d count %d)\n",
+                hu.flops/1e9, cp->prop.clockRate,
+                cp->prop.multiProcessorCount
             );
         }
-        return false;
+        return true;
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class
