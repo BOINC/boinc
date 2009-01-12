@@ -185,6 +185,7 @@
 #define ERR_RMDIR           -227
 #define ERR_SYMLINK         -229
 #define ERR_DB_CONN_LOST    -230
+#define ERR_CRYPTO          -231
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in str_util.C.

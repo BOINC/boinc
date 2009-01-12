@@ -243,7 +243,7 @@ int sscan_key_hex(const char* buf, KEY* key, int size) {
 // The output block must be decrypted in its entirety.
 //
 int encrypt_private(R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
-    int n, modulus_len;
+    int n, modulus_len, retval;
 
     modulus_len = (key.bits+7)/8;
     n = in.len;
@@ -252,17 +252,27 @@ int encrypt_private(R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
     }
     RSA* rp = RSA_new();
     private_to_openssl(key, rp);
-    RSA_private_encrypt(n, in.data, out.data, rp, RSA_PKCS1_PADDING);
+    retval = RSA_private_encrypt(n, in.data, out.data, rp, RSA_PKCS1_PADDING);
+    if (retval < 0) {
+        RSA_free(rp);
+        return ERR_CRYPTO;
+    }
     out.len = RSA_size(rp);
     RSA_free(rp);
     return 0;
 }
 
 int decrypt_public(R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
+    int retval;
     RSA* rp = RSA_new();
     public_to_openssl(key, rp);
-    RSA_public_decrypt(in.len, in.data, out.data, rp, RSA_PKCS1_PADDING);
+    retval = RSA_public_decrypt(in.len, in.data, out.data, rp, RSA_PKCS1_PADDING);
+    if (retval < 0) {
+        RSA_free(rp);
+        return ERR_CRYPTO;
+    }
     out.len = RSA_size(rp);
+    RSA_free(rp);
     return 0;
 }
 

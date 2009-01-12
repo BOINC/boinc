@@ -134,3 +134,13 @@ David  Jan 11 2009
         sched_plan.cpp
         sched_send.cpp
         server_types.h
+
+David  Jan 12 2009
+    - lib: check return values of RSA_*() functions.
+        Also fix a memory leak, missing RSA_free().
+        Fixes #823.
+
+    lib/
+        crypt.cpp
+        error_numbers.h
+        str_util.cpp
