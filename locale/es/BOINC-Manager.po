@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-11 10:41-0700\n"
+"PO-Revision-Date: 2009-01-12 14:16-0700\n"
 "Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -1431,16 +1431,15 @@ msgstr "General"
 
 #: clientgui/DlgItemProperties.cpp:105
 msgid "Master URL"
-msgstr ""
+msgstr "URL principal"
 
 #: clientgui/DlgItemProperties.cpp:106
-#, fuzzy
 msgid "User name"
 msgstr "Nombre de usuario:"
 
 #: clientgui/DlgItemProperties.cpp:107
 msgid "Team name"
-msgstr ""
+msgstr "Nombre del equipo"
 
 #: clientgui/DlgItemProperties.cpp:108
 #: clientgui/ViewProjects.cpp:223
@@ -1451,7 +1450,7 @@ msgstr "Asignación de recursos"
 
 #: clientgui/DlgItemProperties.cpp:110
 msgid "Non CPU intensive"
-msgstr ""
+msgstr "Uso no intensivo de CPU"
 
 #: clientgui/DlgItemProperties.cpp:110
 #: clientgui/DlgItemProperties.cpp:111
@@ -1461,7 +1460,7 @@ msgstr ""
 #: clientgui/DlgItemProperties.cpp:115
 #: clientgui/DlgItemProperties.cpp:116
 msgid "yes"
-msgstr ""
+msgstr "si"
 
 #: clientgui/DlgItemProperties.cpp:110
 #: clientgui/DlgItemProperties.cpp:111
@@ -1471,41 +1470,39 @@ msgstr ""
 #: clientgui/DlgItemProperties.cpp:115
 #: clientgui/DlgItemProperties.cpp:116
 msgid "no"
-msgstr ""
+msgstr "no"
 
 #: clientgui/DlgItemProperties.cpp:111
 msgid "Suspended via GUI"
-msgstr ""
+msgstr "Suspendido mediante interfaz gráfica (GUI)"
 
 #: clientgui/DlgItemProperties.cpp:112
 msgid "Don't request more work"
-msgstr ""
+msgstr "No solicitar más trabajo"
 
 #: clientgui/DlgItemProperties.cpp:113
-#, fuzzy
 msgid "Scheduler call in progress"
-msgstr "Petición al planificador en progreso"
+msgstr "Llamada al planificador en progreso"
 
 #: clientgui/DlgItemProperties.cpp:114
-#, fuzzy
 msgid "Attached via account manager"
-msgstr "Unido al administrador de cuentas"
+msgstr "Unido mediante administrador de cuentas"
 
 #: clientgui/DlgItemProperties.cpp:115
 msgid "Detach when done"
-msgstr ""
+msgstr "Separarse cuando termine"
 
 #: clientgui/DlgItemProperties.cpp:116
 msgid "Ended"
-msgstr ""
+msgstr "Finalizado"
 
 #: clientgui/DlgItemProperties.cpp:117
 msgid "Credit"
-msgstr ""
+msgstr "Crédito"
 
 #: clientgui/DlgItemProperties.cpp:118
 msgid "User"
-msgstr ""
+msgstr "Usuario"
 
 #: clientgui/DlgItemProperties.cpp:125
 msgid "Host"
@@ -1513,37 +1510,39 @@ msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:133
 msgid "Scheduling"
-msgstr ""
+msgstr "Planificando"
 
 #: clientgui/DlgItemProperties.cpp:134
+#, fuzzy
 msgid "Short term debt"
-msgstr ""
+msgstr "Deuda a corto plazo"
 
 #: clientgui/DlgItemProperties.cpp:135
+#, fuzzy
 msgid "Long term debt"
-msgstr ""
+msgstr "Deuda a largo plazo"
 
 #: clientgui/DlgItemProperties.cpp:136
 msgid "Duration correction factor"
-msgstr ""
+msgstr "Factor de corrección de duración"
 
 #: clientgui/DlgItemProperties.cpp:145
 msgid "Properties of task "
-msgstr ""
+msgstr "Propiedades de la tarea "
 
 #: clientgui/DlgItemProperties.cpp:149
 #: clientgui/ViewWork.cpp:215
 #: clientgui/ViewWorkGrid.cpp:146
 msgid "Application"
-msgstr "Aplicación"
+msgstr "Programa"
 
 #: clientgui/DlgItemProperties.cpp:150
 msgid "Workunit name"
-msgstr ""
+msgstr "Nombre unidad trabajo"
 
 #: clientgui/DlgItemProperties.cpp:151
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #: clientgui/DlgItemProperties.cpp:153
 #: clientgui/ViewWork.cpp:220
@@ -1553,11 +1552,11 @@ msgstr "Límite para informar"
 
 #: clientgui/DlgItemProperties.cpp:155
 msgid "Resources"
-msgstr ""
+msgstr "Recursos"
 
 #: clientgui/DlgItemProperties.cpp:158
 msgid "CPU time at last checkpoint"
-msgstr ""
+msgstr "Tiempo de CPU en el último chequeo"
 
 #: clientgui/DlgItemProperties.cpp:159
 #: clientgui/ViewWork.cpp:217
@@ -1566,21 +1565,20 @@ msgid "CPU time"
 msgstr "Tiempo de CPU"
 
 #: clientgui/DlgItemProperties.cpp:161
-#, fuzzy
 msgid "Elapsed time"
 msgstr "Tiempo transcurrido"
 
 #: clientgui/DlgItemProperties.cpp:163
 msgid "Estimated time remaining"
-msgstr ""
+msgstr "Tiempo restante aproximado"
 
 #: clientgui/DlgItemProperties.cpp:164
 msgid "Fraction done"
-msgstr ""
+msgstr "Parte hecha"
 
 #: clientgui/DlgItemProperties.cpp:165
 msgid "Virtual memory size"
-msgstr ""
+msgstr "Tamaño de la memoria virtual"
 
 #: clientgui/DlgItemProperties.cpp:166
 msgid "Working set size"
