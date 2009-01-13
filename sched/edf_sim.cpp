@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "config.h"
-
 #ifndef SIM
 #include "sched_config.h"
 #include "sched_msgs.h"
