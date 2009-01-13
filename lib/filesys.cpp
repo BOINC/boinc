@@ -675,8 +675,8 @@ void relative_to_absolute(const char* relname, char* path) {
 
 // get total and free space on current filesystem (in bytes)
 //
-int get_filesystem_info(double &total_space, double &free_space, char* path) {
 #ifdef _WIN32
+int get_filesystem_info(double &total_space, double &free_space, char*) {
     char buf[256];
     boinc_getcwd(buf);
     FreeFn pGetDiskFreeSpaceEx;
@@ -709,6 +709,7 @@ int get_filesystem_info(double &total_space, double &free_space, char* path) {
         total_space = (double)dwTotalClusters * dwSectPerClust * dwBytesPerSect;
     }
 #else
+int get_filesystem_info(double &total_space, double &free_space, char* path) {
 #ifdef STATFS
     struct STATFS fs_info;
 

@@ -165,7 +165,7 @@ int dup_element_contents(FILE* in, const char* end_tag, char** pp) {
             free(buf);
             return 0;
         }
-        int n = strlen(line);
+        int n = (int)strlen(line);
         if (nused + n >= bufsize) {
             bufsize *= 2;
             buf = (char*)realloc(buf, bufsize);

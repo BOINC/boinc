@@ -246,3 +246,14 @@ David  13 Jan 2009
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+
+David  13 Jan 2009
+	- client: GPU bug fix; compile warning fixes
+
+	client/
+		client_types.cpp
+	clientgui/
+		BOINCTaskBar.cpp
+	lib/
+		filesys.cpp
+		parse.cpp

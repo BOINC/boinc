@@ -1139,7 +1139,7 @@ int APP_VERSION::parse(MIOFILE& in) {
             int retval = cp->parse(in);
             if (!retval) {
                 coprocs.coprocs.push_back(cp);
-                ncudas = cp->used;
+                ncudas = cp->count;
             } else {
                 msg_printf(0, MSG_INTERNAL_ERROR, "Error parsing <coproc>");
                 delete cp;
