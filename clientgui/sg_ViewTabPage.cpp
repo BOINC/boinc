@@ -109,8 +109,7 @@ void CViewTabPage::CreatePage()
 	// Show or don't show the icon if the WU is running
 	RESULT* resState = NULL;
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
-    PROJECT* project = pDoc->state.lookup_project(resultWU->project_url);
-	resState = pDoc->state.lookup_result(project, resultWU->name);
+	resState = pDoc->state.lookup_result(resultWU->project_url, resultWU->name);
 	if(resState){
 		projName = wxString(resState->project->project_name.c_str(), wxConvUTF8 );
         if (resState->app->user_friendly_name.size()) {
@@ -189,8 +188,7 @@ int CViewTabPage::ComputeState() {
 void CViewTabPage::LoadSlideShow(std::vector<wxBitmap> *vSlideShow) {
 	char urlDirectory[256];
 	CMainDocument* pDoc     = wxGetApp().GetDocument();
-    PROJECT* project = pDoc->state.lookup_project(resultWU->project_url);
-	RESULT* result = pDoc->state.lookup_result(project, resultWU->name);
+	RESULT* result = pDoc->state.lookup_result(resultWU->project_url, resultWU->name);
 	// If result not found then return
 	if ( result <= 0 ) return;
 	url_to_project_dir((char *) result->project->master_url.c_str() ,urlDirectory);
@@ -722,8 +720,7 @@ void WorkunitNotebook::AddTab(RESULT* result) {
 	RESULT* resState = NULL;
 	std::string projUrl = result->project_url;
 	std::string nme = result->name;
-    PROJECT* project = pDoc->state.lookup_project(projUrl);
-    resState = pDoc->state.lookup_result(project, nme);
+    resState = pDoc->state.lookup_result(projUrl, nme);
 	if(!resState){
 		pDoc->ForceCacheUpdate();
  		return;

@@ -334,6 +334,7 @@ int WORKUNIT::parse(MIOFILE& in) {
         if (match_tag(buf, "</workunit>")) return 0;
         if (parse_str(buf, "<name>", name)) continue;
         if (parse_str(buf, "<app_name>", app_name)) continue;
+        if (parse_int(buf, "<version_num>", version_num)) continue;
         if (parse_double(buf, "<rsc_fpops_est>", rsc_fpops_est)) continue;
         if (parse_double(buf, "<rsc_fpops_bound>", rsc_fpops_bound)) continue;
         if (parse_double(buf, "<rsc_memory_bound>", rsc_memory_bound)) continue;
@@ -345,6 +346,7 @@ int WORKUNIT::parse(MIOFILE& in) {
 void WORKUNIT::clear() {
     name.clear();
     app_name.clear();
+    version_num = 0;
     rsc_fpops_est = 0;
     rsc_fpops_bound = 0;
     rsc_memory_bound = 0;
@@ -676,6 +678,16 @@ RESULT* CC_STATE::lookup_result(PROJECT* project, string& str) {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
         if (results[i]->project != project) continue;
+        if (results[i]->name == str) return results[i];
+    }
+    BOINCTRACE("CAN'T FIND RESULT %s\n", str.c_str());
+    return 0;
+}
+
+RESULT* CC_STATE::lookup_result(string& url, string& str) {
+    unsigned int i;
+    for (i=0; i<results.size(); i++) {
+        if (results[i]->project->master_url != url) continue;
         if (results[i]->name == str) return results[i];
     }
     BOINCTRACE("CAN'T FIND RESULT %s\n", str.c_str());
@@ -1096,10 +1108,19 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
                 result->project = project;
                 result->wup = state.lookup_wu(project, result->wu_name);
                 result->app = result->wup->app;
-                result->avp = state.lookup_app_version(
-                    project, result->app, result->version_num,
-                    result->plan_class
-                );
+                APP_VERSION* avp;
+                if (result->version_num) {
+                    avp = state.lookup_app_version(
+                        project, result->app, result->version_num,
+                        result->plan_class
+                    );
+                } else {
+                    string empty="";
+                    avp = state.lookup_app_version(
+                        project, result->app, result->wup->version_num, empty
+                    );
+                }
+                result->avp = avp;
                 state.results.push_back(result);
                 continue;
             }

@@ -197,18 +197,15 @@ wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     RESULT* state_result = NULL;
     wxString strLocalBuffer;
-    PROJECT* project;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     if (result) {
-        project = pDoc->state.lookup_project(result->project_url);
-        state_result = pDoc->state.lookup_result(project, result->name);
+        state_result = pDoc->state.lookup_result(result->project_url, result->name);
         if (!state_result) {
             pDoc->ForceCacheUpdate();
-            project = pDoc->state.lookup_project(result->project_url);
-            state_result = pDoc->state.lookup_result(project, result->name);
+            state_result = pDoc->state.lookup_result(result->project_url, result->name);
         }
         wxASSERT(state_result);
 

@@ -358,8 +358,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                 if (iActiveTaskCount > 2) continue;
 
                 if (result) {
-					PROJECT* project = pDoc->state.lookup_project(result->project_url);
-                    state_result = pDoc->state.lookup_result(project, result->name);
+                    state_result = pDoc->state.lookup_result(result->project_url, result->name);
                     if (state_result) {
                         state_result->project->get_name(project_name);
                         strProjectName = wxString(project_name.c_str());

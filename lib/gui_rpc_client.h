@@ -166,6 +166,7 @@ class WORKUNIT {
 public:
     std::string name;
     std::string app_name;
+    int version_num;    // backwards compat
     double rsc_fpops_est;
     double rsc_fpops_bound;
     double rsc_memory_bound;
@@ -325,6 +326,7 @@ public:
     APP_VERSION* lookup_app_version(PROJECT*, APP*, int, std::string&);
     WORKUNIT* lookup_wu(PROJECT*, std::string&);
     RESULT* lookup_result(PROJECT*, std::string&);
+    RESULT* lookup_result(std::string&, std::string&);
 
     void print();
     void clear();

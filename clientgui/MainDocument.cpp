@@ -1435,8 +1435,7 @@ int CMainDocument::GetWorkCount() {
 int CMainDocument::WorkSuspend(std::string& strProjectURL, std::string& strName) {
     int iRetVal = 0;
 
-    PROJECT* project = state.lookup_project(strProjectURL);
-    RESULT* pStateResult = state.lookup_result(project, strName);
+    RESULT* pStateResult = state.lookup_result(strProjectURL, strName);
     if (pStateResult) {
         iRetVal = rpc.result_op((*pStateResult), "suspend");
     } else {
@@ -1450,8 +1449,7 @@ int CMainDocument::WorkSuspend(std::string& strProjectURL, std::string& strName)
 int CMainDocument::WorkResume(std::string& strProjectURL, std::string& strName) {
     int iRetVal = 0;
 
-    PROJECT* project = state.lookup_project(strProjectURL);
-    RESULT* pStateResult = state.lookup_result(project, strName);
+    RESULT* pStateResult = state.lookup_result(strProjectURL, strName);
     if (pStateResult) {
         iRetVal = rpc.result_op((*pStateResult), "resume");
     } else {
@@ -1715,8 +1713,7 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
 int CMainDocument::WorkAbort(std::string& strProjectURL, std::string& strName) {
     int iRetVal = 0;
 
-    PROJECT* project = state.lookup_project(strProjectURL);
-    RESULT* pStateResult = state.lookup_result(project, strName);
+    RESULT* pStateResult = state.lookup_result(strProjectURL, strName);
     if (pStateResult) {
         iRetVal = rpc.result_op((*pStateResult), "abort");
     } else {

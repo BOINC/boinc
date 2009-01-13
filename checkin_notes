@@ -257,3 +257,26 @@ David  13 Jan 2009
 	lib/
 		filesys.cpp
 		parse.cpp
+
+David  13 Jan 2009
+    - GUI RPC: finish the changed started above;
+        update the way that app versions are identified.
+
+    Old: WORKUNIT contains version_num
+        RESULT contains app_version_num (but only if running)
+
+    New: Keep old fields so new client works with old manager.
+        RESULT contains version_num, plan_class
+        Manager: if RESULT doesn't have version/plan_class
+        (because talking to old client)
+        look up app version based on WU version num.
+
+    clientgui/
+        BOINCTaskBar.cpp
+        sg_ViewTabPage.cpp
+        MainDocument.cpp
+        DlgItemProperties.cpp
+        ViewWork.cpp
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h
