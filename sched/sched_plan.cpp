@@ -120,7 +120,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         // assume we'll need 0.5% as many CPU FLOPS as GPU FLOPS
         // to keep the GPU fed.
         //
-        double x = hu.flops*0.005;
+        double x = (hu.flops*0.005)/sreq.host.p_fpops;
         hu.avg_ncpus = x;
         hu.max_ncpus = x;
 
