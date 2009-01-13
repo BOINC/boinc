@@ -42,6 +42,8 @@ clean:
 distclean:
 	/bin/rm -f $(PROGS) *.o libstdc++.a
 
+install: uc2
+
 uc2: uc2.o libstdc++.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS) -o uc2 uc2.o libstdc++.a -pthread -lboinc_api -lboinc
 

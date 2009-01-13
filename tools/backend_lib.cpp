@@ -16,6 +16,11 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config.h"
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#else
+#include <cstdio>
+#endif
 #include <cstdlib>
 #include <cstring>
 #include <string>
@@ -25,6 +30,7 @@
 #include <cmath>
 #include <sys/types.h>
 #include <sys/stat.h>
+
 
 #include "boinc_db.h"
 #include "crypt.h"
@@ -39,11 +45,6 @@
 
 #include "backend_lib.h"
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#define FCGI_ToFILE(x) (x)
-#endif
 
 using std::string;
 

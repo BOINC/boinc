@@ -36,6 +36,9 @@
 #define __attribute__(x) //nothing
 #endif
 
+#undef printf
+#undef vprintf
+
 class MSG_LOG {
 public:
     int debug_level;

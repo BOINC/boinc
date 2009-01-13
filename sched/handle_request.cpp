@@ -18,8 +18,12 @@
 // Handle a scheduling server RPC
 
 #include "config.h"
-#include <cassert>
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#else
 #include <cstdio>
+#endif
+#include <cassert>
 #include <cstdlib>
 #include <vector>
 #include <string>
@@ -55,9 +59,6 @@ using namespace std;
 #include "sched_result.h"
 #include "time_stats_log.h"
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
 
 // find the user's most recently-created host with given various characteristics
 //

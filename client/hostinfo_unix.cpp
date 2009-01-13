@@ -140,6 +140,11 @@ NXEventHandle gEventHandle = NULL;
 #include <machine/cpuconf.h>
 #endif
 
+// Some OS define _SC_PAGE_SIZE instead of _SC_PAGESIZE
+#if defined(_SC_PAGE_SIZE) && !defined(_SC_PAGESIZE)
+#define _SC_PAGESIZE _SC_PAGE_SIZE
+#endif
+
 // The following is intended to be true both on Linux
 // and Debian GNU/kFreeBSD (see trac #521)
 //

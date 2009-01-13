@@ -3,8 +3,9 @@
 
 include $(top_srcdir)/Makefile.incl
 
-LIBS += @CLIENTLIBS@
-
+if ENABLE_CLIENT_RELEASE
+  AM_LDFLAGS += -static-libtool-libs
+endif
 
 if OS_DARWIN
    LIBS += -framework IOKit -framework Foundation -framework ScreenSaver -framework Cocoa -framework Security
@@ -15,17 +16,17 @@ if OS_DARWIN
                  mac/Mac_GUI.cpp\
                  mac/browser_safari.mm
 
-    mac_headers = mac/*.h
+   mac_headers = mac/*.h
 else
    mac_headers =
    mac_sources = 
 endif
 
-bin_PROGRAMS = boinc_gui
+bin_PROGRAMS = boincmgr
 
 # keep the following alphabetic
 
-boinc_gui_SOURCES = \
+boincmgr_SOURCES = \
     AccountInfoPage.cpp \
     AccountManagerInfoPage.cpp \
     AccountManagerProcessingPage.cpp \
@@ -105,28 +106,13 @@ EXTRA_DIST = *.h \
     ../lib/error_numbers.h \
     locale $(mac_headers)
 
-boinc_gui_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS)
-boinc_gui_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS)
-boinc_gui_LDADD = $(LIBBOINC) $(CLIENTGUILIBS)
-
-all-local: client_gui-bin
-client_gui-bin: @CLIENT_GUI_BIN_FILENAME@
+boincmgr_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS)
+boincmgr_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS)
+boincmgr_LDADD = $(LIBBOINC) $(CLIENTGUILIBS) $(BOINC_EXTRA_LIBS) $(CLIENTLIBS)
 
 win_config.h: $(top_srcdir)/config.h
 	grep '#define.*BOINC.*VERSION' $^ > $@
 
 version: win_config.h
-
-# make a hard link to the client name.
-@CLIENT_GUI_BIN_FILENAME@: boinc_gui
-	rm -f $@
-	rm -f $@.unmodified
-	cp $? $@.unmodified
-	@LN@ $? $@
-	@STRIP@ $@
-
-clean-local:
-	rm -f @CLIENT_GUI_BIN_FILENAME@
-	rm -f @CLIENT_GUI_BIN_FILENAME@.unmodified
 
 .PHONY: version

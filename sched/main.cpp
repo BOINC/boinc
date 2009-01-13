@@ -51,6 +51,7 @@ using namespace std;
 #include "shmem.h"
 #include "util.h"
 #include "str_util.h"
+#include "synch.h"
 
 #include "sched_config.h"
 #include "server_types.h"

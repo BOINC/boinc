@@ -31,13 +31,14 @@ using std::vector;
 #include "boinc_db.h"
 #include "error_numbers.h"
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#endif
+
 #include "sched_shmem.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
 
 void SCHED_SHMEM::init(int nwu_results) {
     int size = sizeof(SCHED_SHMEM) + nwu_results*sizeof(WU_RESULT);

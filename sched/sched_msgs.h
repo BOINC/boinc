@@ -37,7 +37,7 @@ public:
     void set_indent_level(const int new_indent_level);
 #ifdef _USING_FCGI_
     ~SCHED_MSG_LOG();
-    void redirect(FILE* f);
+    void redirect(FCGI_FILE* f);
     void close();
     void flush();
 #endif

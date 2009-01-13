@@ -15,21 +15,24 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <vector>
-#include <algorithm>
-#include <cstring>
-#include <cstdio>
+#include "config.h"
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
-
-#ifdef SIM
-#include <stdarg.h>
-#else
+#ifndef SIM
 #include "sched_config.h"
 #include "sched_msgs.h"
 #endif
+
+#ifndef _USING_FCGI_
+#include <cstdio>
+#else
+#include "boinc_fcgi.h"
+#endif
+
+#include <vector>
+#include <algorithm>
+#include <cstring>
+#include <cstdarg>
+
 
 #include "edf_sim.h"
 

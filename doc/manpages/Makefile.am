@@ -8,7 +8,7 @@ if ENABLE_CLIENT
   CLIENT_MANS = boinc.1 boinccmd.1
 endif
 
-if BUILD_CLIENTGUI
+if ENABLE_MANAGER
   CLIENTGUI_MANS = boincmgr.1
 endif
 
@@ -18,7 +18,9 @@ endif
 
 man_MANS = $(CLIENT_MANS) $(CLIENTGUI_MANS) $(SERVER_MANS)
 
-%.1: %.xml
+SUFFIXES = .xml .1
+
+.xml.1:
 	$(DOCBOOK2X_MAN) $<
 
 all-local: $(man_MANS)

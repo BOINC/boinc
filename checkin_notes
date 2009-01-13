@@ -280,3 +280,82 @@ David  13 Jan 2009
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+        
+Eric   13 Jan 2009
+    - STILL WORK TO BE DONE TO GET locale STUFF INSTALLED PROPERLY!!!
+    - Update to libtool 1.5.24
+    - build environment:  Major automake changes that I've been warning about
+      for some time.
+    - Now uses libtool to build libraries.
+    - Builds separate boinc_fcgi and sched_fcgi libraries for use with 
+      FCGI server components.
+    - New macro "BOINC_CHECK_LIB_WITH" that executes a "AC_CHECK_LIB" on
+      a library only if --with-libname[=DIR] is specified on the configure
+      command line.  This is to allow inclusion of libraries when the 
+      ssl, gtk, wxWidgets, or other configuration is incorrect for static
+      libraries.
+    - Added a lot of "--with-*" for some libraries that might be required for
+      static builds.
+    - The sea directory has been moved to packages/generic.  Changes to sea
+      and the associated scripts might be required to better make use of the
+      staging mechanism and shared libraries.
+    - Fixed includes of boinc_fcgi.h in many files.
+    - Fixed places where FCGI_FILE needs to be used implicitly.
+    - Fixed missing define of _SC_PAGESIZE on hosts that define only
+      _SC_PAGE_SIZE.
+    - Moved build of boinc_cmd (and source file) from lib to client
+    
+
+  ltmain.sh
+  config.guess
+  config.sub
+  Makefile.incl
+  m4/
+      sah_check_lib.m4
+      check_ssl.m4
+      boinc_gtk.m4 (new)
+      boinc_check_lib_with.m4 (new)
+      libcurl.m4
+      boinc_wxwidgets.m4
+  sea/ (moved to packages/generic/sea)
+  packages/ (new)
+      generic/ (new)
+          sea/ (new)
+	    Makefile.am
+  client/
+      Makefile.am
+      hostinfo_unix.cpp
+  sched/
+      edf_sim.cpp
+      sched_shmem.h
+      sched_msgs.h
+      sched_msgs.cpp
+      sched_send.cpp
+      handle_resuest.cpp
+      file_upload_handler.cpp
+      main.cpp
+      sched_assign.cpp
+      Makefile.am
+  lib/
+      boinc_cmd.cpp (moved to client)
+      diagnostics.cpp
+      prefs.cpp
+      msg_log.h
+      cert_sig.cpp
+      Makefile.am
+  zip/
+      Makefile.am
+  samples/
+      example_app/
+          Makefile
+  api/
+      Makefile.am
+  clientgui/
+      Makefile.am
+  tools/
+      backend_lib.cpp
+      Makefile.am
+  doc/
+      manpages/
+          Makefile.am
+

@@ -25,7 +25,6 @@ AC_DEFUN([SAH_CHECK_LIB],[
 
 
 
-
 AC_DEFUN([SAH_CHECK_LDFLAG],[
     sv_ldflags="${LDFLAGS}"
     AC_MSG_CHECKING(if compiler works with $1 flag)
@@ -55,51 +54,60 @@ AC_DEFUN([SAH_LINKAGE_FLAGS],[
     ld_dynamic_option=""
     LD_EXPORT_DYNAMIC=""
   else
-    if test -z "${ld_static_option}"
+    if test -z "${ld_static_option}" && test -z "${using_libtool}"
     then
-      case $target in
-        *linux* | *solaris* | *cygwin* )
-          AC_MSG_CHECKING([${CC} flags for static linkage ...])
-	  ld_static_option="-Wl,-Bstatic"
-	  AC_MSG_RESULT($ld_static_option)
-          AC_MSG_CHECKING([${CC} flags for dynamic linkage ...])
-	  ld_dynamic_option="-Wl,-Bdynamic"
-	  AC_MSG_RESULT($ld_dynamic_option)
-          ;;
-        *darwin* )
-          AC_MSG_CHECKING([${CC} flags for static linkage ...])
-	  ld_static_option="-static"
-	  AC_MSG_RESULT($ld_static_option)
-          AC_MSG_CHECKING([${CC} flags for dynamic linkage ...])
-	  ld_dynamic_option="-dynamic"
-	  AC_MSG_RESULT($ld_dynamic_option)
-          ;;
-	*)
-	  if test -z "${dummy_ld_variable_gfdsahjf}"
-	  then
-	    dummy_ld_variable_gfdsahjf="been there done that"
+      AC_MSG_CHECKING([if we are using libtool])
+      if test "x$lt_cv_path_LD" != "x" ; then
+        AC_MSG_RESULT(yes)
+	using_libtool=yes
+	ld_static_option="-static-libtool-libs"
+      else
+        AC_MSG_RESULT(no)
+	using_libtool=no
+        case $target in
+          *linux* | *solaris* | *cygwin* )
             AC_MSG_CHECKING([${CC} flags for static linkage ...])
-	    AC_MSG_RESULT(unknown) 
+	    ld_static_option="-Wl,-Bstatic"
+	    AC_MSG_RESULT($ld_static_option)
             AC_MSG_CHECKING([${CC} flags for dynamic linkage ...])
-	    AC_MSG_RESULT(unknown) 
-          fi
-	  ;;
-      esac
-      AC_MSG_CHECKING([${CC} flags for exporting dynamic symbols from an executable ...])
-      case $target in  
-        *cygwin*)
-	   LD_EXPORT_DYNAMIC="-Wl,--export-all-symbols"
-	   AC_MSG_RESULT(${LD_EXPORT_DYNAMIC})
-	   ;;
-        *linux*)
-	   AC_MSG_RESULT(-rdynamic)
-	   LD_EXPORT_DYNAMIC="-rdynamic"
-	   ;;
-	*)
-	   AC_MSG_RESULT(none required)
-	   LD_EXPORT_DYNAMIC=
-	   ;;
-      esac
+	    ld_dynamic_option="-Wl,-Bdynamic"
+	    AC_MSG_RESULT($ld_dynamic_option)
+            ;;
+          *darwin* )
+            AC_MSG_CHECKING([${CC} flags for static linkage ...])
+	    ld_static_option="-static"
+	    AC_MSG_RESULT($ld_static_option)
+            AC_MSG_CHECKING([${CC} flags for dynamic linkage ...])
+	    ld_dynamic_option="-dynamic"
+	    AC_MSG_RESULT($ld_dynamic_option)
+            ;;
+	  *)
+	    if test -z "${dummy_ld_variable_gfdsahjf}"
+	    then
+	      dummy_ld_variable_gfdsahjf="been there done that"
+              AC_MSG_CHECKING([${CC} flags for static linkage ...])
+	      AC_MSG_RESULT(unknown) 
+              AC_MSG_CHECKING([${CC} flags for dynamic linkage ...])
+	      AC_MSG_RESULT(unknown) 
+            fi
+	    ;;
+        esac
+        AC_MSG_CHECKING([${CC} flags for exporting dynamic symbols from an executable ...])
+        case $target in  
+          *cygwin*)
+	     LD_EXPORT_DYNAMIC="-Wl,--export-all-symbols"
+	     AC_MSG_RESULT(${LD_EXPORT_DYNAMIC})
+	     ;;
+          *linux*)
+	     AC_MSG_RESULT(-rdynamic)
+	     LD_EXPORT_DYNAMIC="-rdynamic"
+	     ;;
+	  *)
+	     AC_MSG_RESULT(none required)
+	     LD_EXPORT_DYNAMIC=
+	     ;;
+        esac
+      fi
     fi
   fi
   if test -z "${LIBEXT}";
@@ -145,30 +153,40 @@ AC_CACHE_CHECK([$tmp_msg],
   else
     sah_static_checklibs="lib$1.${LIBEXT} $1.${LIBEXT} -l$1"
   fi
+  if test "${using_libtool}" = "yes" ; then
+    echo ac_link=$ac_link
+    ac_sv_link="$ac_link"
+    ac_link="./libtool --mode=link ${ac_link}"
+    sah_static_checklibs="lib$1.la $1.la ${sah_static_checklibs}"
+  fi
   sah_save_libs="${LIBS}"
   for libname in ${sah_static_checklibs}
   do
     SAH_FIND_STATIC_LIB(${libname})
-    if test -n "${tmp_lib_name}"
-    then
-      LIBS="${tmp_lib_name} $5 ${sah_save_libs}"
-      AC_LINK_IFELSE([
-        AC_LANG_PROGRAM([[
-          #define CONFIG_TEST 1
-	  #ifdef __cplusplus
-	  extern "C" {
-	  #endif
-          char $2 ();
-	  #ifdef __cplusplus
-	  }
-	  #endif
-        ]],
-        [ $2 (); ])],
-        [ 
-          tmp_res="${tmp_lib_name}"
-        ]
-      )
-    fi
+dnl    if test -z "`echo $tmp_lib_name | grep \\.la$`"  ; then
+      if test -n "${tmp_lib_name}"
+      then
+        LIBS="${tmp_lib_name} $5 ${sah_save_libs}"
+        AC_LINK_IFELSE([
+          AC_LANG_PROGRAM([[
+            #define CONFIG_TEST 1
+	    #ifdef __cplusplus
+	    extern "C" {
+	    #endif
+            char $2 ();
+	    #ifdef __cplusplus
+	    }
+	    #endif
+          ]],
+          [ $2 (); ])],
+          [ 
+            tmp_res="${tmp_lib_name}"
+          ]
+        )
+      fi
+dnl    else
+dnl      tmp_res="-l$1"
+dnl    fi  
     if test "${tmp_res}" != "no"
     then
       break
@@ -178,6 +196,9 @@ AC_CACHE_CHECK([$tmp_msg],
   eval ${varname}='"'${tmp_res}'"'
   eval ${var2}='"'${tmp_res}'"'
   ])
+  if test "${using_libtool}" = "yes" ; then
+    ac_link="$ac_sv_link"
+  fi
 #
 # save the result for use by the caller
 sah_static_lib_last="`eval echo '${'$varname'}'`"
@@ -225,6 +246,12 @@ AC_CACHE_CHECK([$tmp_msg],
   else
     sah_dynamic_checklibs="-l$1"
   fi
+  if test "${using_libtool}" = "yes" ; then
+    echo ac_link=$ac_link
+    ac_sv_link="$ac_link"
+    ac_link="./libtool --mode=link ${ac_link}"
+    sah_dynamic_checklibs="lib$1.la $1.la ${sah_dynamic_checklibs}"
+  fi
   sah_save_libs="${LIBS}"
   for libname in ${sah_dynamic_checklibs}
   do
@@ -268,6 +295,9 @@ AC_CACHE_CHECK([$tmp_msg],
       ])
     fi
   done
+  if test "${using_libtool}" = "yes" ; then
+    ac_link="${ac_sv_link}"
+  fi
   LIBS="${sah_save_libs}"
   eval ${varname}='"'${tmp_res}'"'
   eval ${var2}='"'${tmp_res}'"'
@@ -342,6 +372,7 @@ fi
 
 gcc_version=`${CC} -v 2>&1 | grep "gcc version" | $AWK '{print $[]3}'`
 
+
 for gcc_host in `${CC} -v 2>&1 | grep host` --host=${ac_cv_target}
 do
   if test -n "`echo x$gcc_host | grep x--host=`"
@@ -361,6 +392,26 @@ do
     break
   fi
 done
+
+mydir=`pwd`
+tmpgcc_libpath=
+
+for dirs in `${CC} -print-search-dirs 2>&1 | grep libraries | sed -e 's/:/ /g' -e 's/=/ /g'`
+do
+  if test -d $dirs/. && cd $dirs 2>&1 >/dev/null ; then
+    nowdir=`pwd`
+    if test -n "${tmpgcc_libpath}" ; then
+      tmpgcc_libpath="${tmpgcc_libpath}:${nowdir}"
+    else
+      tmpgcc_libpath="${dirs}"
+    fi
+  fi
+  cd $mydir
+done
+cd $mydir
+if test -n "${tmpgcc_libpath}" ; then
+  tmp_libpath="${tmpgcc_libpath}:${tmp_libpath}"
+fi
 
 # now lets add any directories in LIBS or LDFLAGS
 tmp_more_dirs=`echo $LIBS $LDFLAGS | $AWK '{for (i=1;i<(NF+1);i++) { printf("x%s\n",$[]i); }}' | grep x-L | sed 's/x-L//' | $AWK '{printf("%s:",$[]1);}'`

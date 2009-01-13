@@ -27,6 +27,10 @@
 #include <time.h>
 #endif
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#endif
+
 #include "parse.h"
 #include "util.h"
 
@@ -592,7 +596,11 @@ int GLOBAL_PREFS::parse_file(
     GLOBAL_PREFS_MASK mask;
     int retval;
 
+#ifndef _USING_FCGI_
     f = fopen(filename, "r");
+#else
+    f = FCGI::fopen(filename, "r");
+#endif
     if (!f) return ERR_FOPEN;
     MIOFILE mf;
     mf.init_file(f);

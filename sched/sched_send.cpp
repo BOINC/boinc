@@ -34,6 +34,7 @@ using namespace std;
 #include "parse.h"
 #include "util.h"
 #include "str_util.h"
+#include "synch.h"
 
 #include "server_types.h"
 #include "sched_shmem.h"

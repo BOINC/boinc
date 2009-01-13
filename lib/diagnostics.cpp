@@ -35,6 +35,10 @@
 #include <unistd.h>
 #endif
 
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#endif
+
 #ifdef __APPLE__
 #include "mac_backtrace.h"
 #endif
@@ -299,7 +303,12 @@ int diagnostics_init(
         strcpy(proxy_address, "");
         proxy_port = 0;
 
+#ifndef _USING_FCGI_
         p = fopen(INIT_DATA_FILE, "r");
+#else
+        p = FCGI::fopen(INIT_DATA_FILE, "r");
+#endif
+ 
 		if (p) {
 			mf.init_file(p);
 			while(mf.fgets(buf, sizeof(buf))) {

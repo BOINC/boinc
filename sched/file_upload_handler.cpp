@@ -20,7 +20,11 @@
 //
 
 #include "config.h"
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#else
 #include <cstdio>
+#endif
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
@@ -40,9 +44,6 @@
 #include "sched_config.h"
 #include "sched_util.h"
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
 #include "sched_msgs.h"
 
 #define ERR_TRANSIENT   true

@@ -1,6 +1,13 @@
 dnl  These functions still require wxWidgets.m4
    
 AC_DEFUN([BOINC_OPTIONS_WXWIDGETS],[
+
+   AC_ARG_ENABLE(unicode, 
+     AS_HELP_STRING([--enable-unicode/--disable-unicode],
+                   [enable/disable building the manager with unicode support]),
+     [enable_unicode="$enableval"],
+     [])
+
    AM_OPTIONS_WXCONFIG
      AM_PATH_WXCONFIG($1, [_ac_cv_have_wxwidgets=yes], [_ac_cv_have_wxwidgets=no])
    AC_CACHE_CHECK([if wxWidgets works],[ac_cv_have_wxwidgets],
@@ -38,7 +45,16 @@ WARNING: No static libraries for wxWidgets are installed.
            ac_cv_wxwidgets_options="${ac_cv_wxwidgets_options} --static=no"
          fi
        fi
-
+       wx_default_config="`$WX_CONFIG ${ac_cv_wxwidgets_options} --selected-config`"
+       if test "x${enable_unicode}" = x ; then
+         isuc="`echo ${wx_default_config} | grep unicode`" 
+	 if test "x${isuc}" = x ; then
+	   enable_unicode=no
+	 else
+	   enable_unicode=yes
+	 fi
+       fi
+	   
        if test "x${enable_unicode}" != x ; then
          if $WX_CONFIG ${ac_cv_wxwidgets_options} --unicode=${enable_unicode} --selected-config 2>&1 >/dev/null ; then
            ac_cv_wxwidgets_options="${ac_cv_wxwidgets_options} --unicode=${enable_unicode}"
@@ -62,7 +78,7 @@ WARNING: No ${uprf} libraries for wxWidgets are installed.
            ac_cv_wxwidgets_options="${ac_cv_wxwidgets_options}"
          fi
        fi
-
+       wx_default_config="`$WX_CONFIG ${ac_cv_wxwidgets_options} --selected-config`"
        if test "x${enable_wx_debug}" != x ; then
          if $WX_CONFIG ${ac_cv_wxwidgets_options} --debug=${enable_debug} --selected-config 2>&1 >/dev/null ; then
            ac_cv_wxwidgets_options="${ac_cv_wxwidgets_options} --debug=${enable_debug}"
@@ -87,7 +103,10 @@ WARNING: No ${uprf} libraries for wxWidgets are installed.
          fi
        fi
      ])
-     if test "x${am_cv_wxwidgets_options}" != "x" ; then
+     wx_default_config="`$WX_CONFIG ${ac_cv_wxwidgets_options} --selected-config`"
+     AC_MSG_CHECKING([wxWidgets config to use])
+     AC_MSG_RESULT([$wx_default_config])
+     if test "x${ac_cv_wxwidgets_options}" != "x" ; then
        AM_PATH_WXCONFIG($1, wxWin=1, wxWin=0, ${ac_cv_wxwidgets_options})
      fi
    fi

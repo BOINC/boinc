@@ -3,60 +3,24 @@
 
 include $(top_srcdir)/Makefile.incl
 
-#if HAVE_NSL
-nslprogs=boinc_cmd$(EXEEXT)
-#endif
+bin_PROGRAMS =
 
-bin_PROGRAMS = crypt_prog$(EXEEXT) $(nslprogs)
+# Stuff needed for server builds goes here.
+if ENABLE_SERVER
 
-EXTRA_PROGRAMS = md5_test$(EXEEXT) shmem_test$(EXEEXT) msg_test$(EXEEXT)
+bin_PROGRAMS += crypt_prog
 
-all-local: client-bin
-
-client-bin: @CLIENT_CMD_BIN_FILENAME@
-
-boinc_cmd_SOURCES = \
-    boinc_cmd.cpp \
-    gui_rpc_client.h
-
-boinc_cmd_LDADD = $(lib_LIBRARIES) $(PTHREAD_LIBS)
-
-# make a hard link to the client name.
-@CLIENT_CMD_BIN_FILENAME@: boinc_cmd$(EXEEXT)
-	rm -f $@
-	rm -f $@.unmodified
-	cp $? $@.unmodified
-	@LN@ $? $@
-	@STRIP@ $@
-
-lib_LIBRARIES = libboinc.a 
-EXTRA_DIST = *.h *.cpp
-
-if OS_DARWIN
-mac_sources = \
-	mac/dyld_gdb.h \
-	mac/mac_backtrace.cpp \
-	mac/mac_backtrace.h \
-	mac/QBacktrace.c \
-	mac/QBacktrace.h \
-	mac/QCrashReport.c \
-	mac/QCrashReport.h \
-	mac/QMachOImage.c \
-	mac/QMachOImage.h \
-	mac/QMachOImageList.c \
-	mac/QMachOImageList.h \
-	mac/QSymbols.c \
-	mac/QSymbols.h \
-	mac/QTaskMemory.c \
-	mac/QTaskMemory.h
-else
-mac_sources = 
 endif
+# end of "if ENABLE_SERVER"
 
-libboinc_a_SOURCES = \
+
+if ENABLE_LIBRARIES
+
+generic_sources = \
     app_ipc.cpp \
     base64.cpp \
-	cert_sig.cpp \
+    boinc_fcgi.cpp \
+    cert_sig.cpp \
     coproc.cpp \
     crypt.cpp \
     diagnostics.cpp \
@@ -65,7 +29,7 @@ libboinc_a_SOURCES = \
     gui_rpc_client_ops.cpp \
     gui_rpc_client_print.cpp \
     hostinfo.cpp \
-	mac_address.cpp \
+    mac_address.cpp \
     md5.c \
     md5_file.cpp \
     mem_usage.cpp \
@@ -81,13 +45,38 @@ libboinc_a_SOURCES = \
     str_util.cpp \
     util.cpp	\
     unix_util.cpp \
-	$(mac_sources)
+    synch.cpp 
 
+if OS_DARWIN
+mac_sources = \
+    mac/mac_backtrace.cpp \
+    mac/QBacktrace.c \
+    mac/QCrashReport.c \
+    mac/QMachOImage.c \
+    mac/QMachOImageList.c \
+    mac/QSymbols.c \
+    mac/QTaskMemory.c
+mac_headers = \
+    mac/dyld_gdb.h \
+    mac/mac_backtrace.h \
+    mac/QBacktrace.h \
+    mac/QCrashReport.h \
+    mac/QMachOImage.h \
+    mac/QMachOImageList.h \
+    mac/QSymbols.h \
+    mac/QTaskMemory.h
+else
+mac_sources = 
+mac_headers =
+endif
+
+
+if INSTALL_HEADERS
 pkginclude_HEADERS = \
     app_ipc.h \
-    boinc_win.h \
     boinc_fcgi.h \
-    common_defs.h	\
+    boinc_win.h \
+    common_defs.h \
     coproc.h \
     crypt.h \
     diagnostics.h \
@@ -104,15 +93,62 @@ pkginclude_HEADERS = \
     proxy_info.h \
     std_fixes.h \
     str_util.h \
-    util.h
+    synch.h \
+    util.h \
+    $(mac_headers)
+endif
 
-md5_test_SOURCES = md5_test.cpp md5.c md5_file.cpp
-shmem_test_SOURCES = shmem_test.cpp shmem.cpp
-msg_test_SOURCES = msg_test.cpp msg_queue.cpp
-crypt_prog_SOURCES = crypt_prog.cpp crypt.cpp md5.c md5_file.cpp filesys.cpp
-crypt_prog_DEPENDENCIES =
-crypt_prog_LDADD = $(lib_LIBRARIES) $(RSA_LIBS) $(PTHREAD_LIBS)
+lib_LTLIBRARIES = libboinc.la 
+libboinc_la_SOURCES = $(generic_sources) $(mac_sources)
+libboinc_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
+libboinc_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
+libboinc_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
+libboinc_la_LIBADD =
 
-clean-local:
-	rm -f @CLIENT_CMD_BIN_FILENAME@
-	rm -f @CLIENT_CMD_BIN_FILENAME@.unmodified
+if ENABLE_FCGI
+lib_LTLIBRARIES += libboinc_fcgi.la
+libboinc_fcgi_la_SOURCES = $(generic_sources) $(mac_sources)
+libboinc_fcgi_la_CFLAGS = -D_USING_FCGI_ $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
+libboinc_fcgi_la_CXXFLAGS = -D_USING_FCGI_ $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
+libboinc_fcgi_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
+libboinc_fcgi_la_LIBADD =
+endif 
+# end of "if ENABLE_FCGI"
+
+if BUILD_STATIC_LIBS
+all_local = libboinc.a
+if ENABLE_FCGI
+all_local += libboinc_fcgi.a
+endif
+endif
+
+all-local: $(all_local)
+
+libboinc.a: libboinc.la
+	rm -f libboinc.a
+	ln .libs/libboinc.a
+
+libboinc_fcgi.a: libboinc_fcgi.la
+	rm -f libboinc_fcgi.a
+	ln .libs/libboinc_fcgi.a
+
+endif 
+# end of "if ENABLE_LIBRARIES"
+
+EXTRA_PROGRAMS = md5_test shmem_test msg_test
+
+EXTRA_DIST = *.h *.cpp
+
+md5_test_SOURCES = md5_test.cpp 
+md5_test_CXXFLAGS = $(PTHREAD_CFLAGS)
+md5_test_LDADD = $(LIBBOINC)
+shmem_test_SOURCES = shmem_test.cpp 
+shmem_test_CXXFLAGS = $(PTHREAD_CFLAGS)
+shmem_test_LDADD = $(LIBBOINC)
+msg_test_SOURCES = msg_test.cpp 
+msg_test_CXXFLAGS = $(PTHREAD_CFLAGS)
+msg_test_LDADD = $(LIBBOINC)
+crypt_prog_SOURCES = crypt_prog.cpp 
+crypt_prog_CXXFLAGS = $(PTHREAD_CFLAGS)
+crypt_prog_LDADD = $(LIBBOINC) $(SSL_LIBS) 
+

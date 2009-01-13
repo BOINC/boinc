@@ -95,16 +95,17 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
            if test x"$LIBCURL_CPPFLAGS" = "x" ; then
               LIBCURL_CPPFLAGS=`$_libcurl_config --cflags`
            fi
+
            if test x"$LIBCURL" = "x" ; then
 	      if test "x${disable_static_linkage}" = "xno" ; then
 	        if $_libcurl_config --static-libs 2>&1 > /dev/null ; then
-	          LIBCURL="`$_libcurl_config --static-libs` -lgcrypt"
+	          LIBCURL="`$_libcurl_config --static-libs`"
                 fi
 	      fi
 	   fi
 
            if test x"$LIBCURL" = "x" ; then
-              LIBCURL=`$_libcurl_config --libs`
+              LIBCURL="`$_libcurl_config --libs`"
 
               # This is so silly, but Apple actually has a bug in their
 	      # curl-config script.  Fixed in Tiger, but there are still
@@ -112,7 +113,7 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
               case "${host}" in
                  powerpc-apple-darwin7*)
                     LIBCURL=`echo $LIBCURL | sed -e 's|-arch i386||g'`
-                 ;;
+		    ;;
               esac
            fi
 
@@ -129,6 +130,40 @@ AC_DEFUN([LIBCURL_CHECK_CONFIG],
 
 	unset _libcurl_wanted
      fi
+
+     # do we need the ldap libraries?
+     if test "x${_libldap_with}" = "x" -a \
+             "x`echo $_libcurl_protocols | grep LDAP`" != x; then
+       _libldap_with=yes
+       BOINC_CHECK_LIB_WITH([ldap],[ldap_initialize],[LIBCURL])
+     else
+       _libldap_with=no
+     fi
+       
+     # some curl configs have the ber and ldap libraries in the wrong order, 
+     # so lets add -lber after -lldap.  
+     if test "x`echo $LIBCURL | grep ldap`" != "x" -a \
+	     "x`echo $LIBCURL | grep lber`" != "x" ; then
+       AC_CHECK_LIB([lber],[ber_scanf],
+         LIBCURL="`echo $LIBCURL | sed -e 's/ldap /ldap -llber /'`"
+       )
+     fi
+
+     BOINC_CHECK_LIB_WITH([gnutls],[gnutls_cipher_get],[LIBCURL])
+
+     BOINC_CHECK_LIB_WITH([sasl2],[sasl_dispose],[LIBCURL])
+
+     BOINC_CHECK_LIB_WITH([gssglue],[gss_wrap],[LIBCURL])
+     if test "${_lib_with}" = yes ; then
+       LIBCURL="`echo $LIBCURL | sed -e 's/-lgssapi_krb5 / /g'`"
+     fi
+
+     BOINC_CHECK_LIB_WITH([gssapi_krb5],[gss_wrap],[LIBCURL])
+     if test "${_lib_with}" = yes ; then
+       LIBCURL="`echo $LIBCURL | sed -e 's/-lgssglue / /g'`"
+     fi
+
+     BOINC_CHECK_LIB_WITH([gss],[gss_wrap],[LIBCURL])
 
      if test $_libcurl_try_link = yes ; then
 

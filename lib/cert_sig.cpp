@@ -15,6 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "config.h"
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#else
+#include <cstdio>
+#endif
 #include "miofile.h"
 #include "error_numbers.h"
 #include "cert_sig.h"
@@ -127,10 +133,13 @@ int CERT_SIGS::parse_miofile_embed(MIOFILE &mf) {
 }
 
 int CERT_SIGS::parse_file(const char* filename) {
-    FILE* f;
     int retval;
 
-    f = fopen(filename, "r");
+#ifndef _USING_FCGI_
+    FILE *f = fopen(filename, "r");
+#else
+    FCGI_FILE *f = FCGI::fopen(filename, "r");
+#endif
     if (!f) 
         return ERR_FOPEN;
     MIOFILE mf;

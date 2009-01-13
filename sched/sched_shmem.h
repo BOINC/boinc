@@ -96,7 +96,11 @@ struct SCHED_SHMEM {
     int scan_tables();
     bool no_work(int pid);
     void restore_work(int pid);
+#ifndef _USING_FCGI_
     void show(FILE*);
+#else
+    void show(FCGI_FILE*);
+#endif
 
     APP* lookup_app(int);
     APP_VERSION* lookup_app_version(int appid, int platform);

@@ -3,16 +3,18 @@
 
 ## note:  -D flags taken from a zip config build under Linux
 
+include ../Makefile.incl
+
 SUBDIRS = zip  unzip
 
-AM_CPPFLAGS =  -I$(top_srcdir)/zlib -I$(top_srcdir)/lib -I$(top_srcdir)/zip -I$(top_srcdir)/zip/zip -I$(top_srcdir)/zip/unzip -DUNIX -DDLL
+AM_CPPFLAGS +=  -I$(top_srcdir)/zlib -I$(top_srcdir)/lib -I$(top_srcdir)/zip -I$(top_srcdir)/zip/zip -I$(top_srcdir)/zip/unzip -DUNIX -DDLL
 
-##noinst_PROGRAMS = test
-lib_LIBRARIES = libboinc_zip.a
-
+if INSTALL_HEADERS
 pkginclude_HEADERS = boinc_zip.h
+endif
 
-libboinc_zip_a_SOURCES = boinc_zip.cpp \
+libboinc_zip_sources = \
+boinc_zip.cpp \
 ./unzip/apihelp.c \
 ./unzip/crc32.c \
 ./unzip/crctab.c \
@@ -42,6 +44,23 @@ libboinc_zip_a_SOURCES = boinc_zip.cpp \
 ./zip/unix/z_unix.c \
 ./unzip/unix/unix.c 
 
-##test_SOURCES = test.c
-##test_LDADD = boinc_zip
-##g++ -o test -DHAVE_DIRENT_H -I./ test.c ../lib/filesys.C ../lib/util.C -L./ -lboinc_zip
+##noinst_PROGRAMS = test
+if ENABLE_LIBRARIES
+
+lib_LTLIBRARIES = libboinc_zip.la
+libboinc_zip_la_SOURCES = $(libboinc_zip_sources)
+libboinc_zip_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
+libboinc_zip_la_LIBADD =
+
+if BUILD_STATIC_LIBS
+all_local = libboinc_zip.a
+
+endif
+
+all-local: $(all_local)
+
+libboinc_zip.a: libboinc_zip.la
+	rm -f libboinc_zip.a
+	ln .libs/libboinc_zip.a
+
+endif
