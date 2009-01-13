@@ -1,4 +1,4 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
@@ -323,6 +323,7 @@ msgstr "These are the current results of the <a href=poll.php>BOINC user survey<
 ########################################
 ########################################
 # download.php
+# download.php 2006/08/03 by je2bwm
 msgid "Download BOINC"
 msgstr "Stáhnout BOINC"
 
@@ -593,6 +594,16 @@ msgstr "Open-source software for %svolunteer computing%s and %sgrid computing%s"
 #~ msgstr "BOINC now alerts you whenever it needs you "
 #~ "to create a network connection."
 
+##########################################
+# Language: Czech
+# FileID  : $Id$
+# Author  : Martin Suchan
+# Email   : martin.suchan@email.cz
+# For more information please see:
+# http://boinc.berkeley.edu/trac/wiki/TranslateIntro
+##############################################
+# help.php
+# index.php
 #~ msgid "RLN_5_8_SIMPLE_GUI"
 #~ msgstr "The BOINC Manager offers two different interfaces: "
 #~ " 'Simple' (small, graphical, skinnable) "

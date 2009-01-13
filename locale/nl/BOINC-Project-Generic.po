@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-07 10:32-0700\n"
+"PO-Revision-Date: 2009-01-13 10:24-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -23,11 +23,9 @@ msgstr ""
 msgid "CHARSET"
 msgstr "UTF-8"
 
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
 msgstr "Nederlands"
 
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Dutch"
 
@@ -52,11 +50,9 @@ msgstr "Privé berichten"
 msgid "Questions and Answers"
 msgstr "Vraag en Antwoord"
 
-#, fuzzy
 msgid "Message boards"
 msgstr "Forum"
 
-#, fuzzy
 msgid "%1 message board"
 msgstr "%1 forum"
 
@@ -210,7 +206,6 @@ msgstr "Wissel van oprichter gevraagd"
 msgid "Respond by %1"
 msgstr "Reageren voor %1"
 
-#, fuzzy
 msgid "Team foundership change"
 msgstr "Team oprichter wisselen"
 
@@ -438,7 +433,6 @@ msgstr "Verlaat team"
 msgid "Administer"
 msgstr "Administrator"
 
-#, fuzzy
 msgid "(foundership change request pending)"
 msgstr "(oprichters wissel in aanvraag)"
 
@@ -473,7 +467,6 @@ msgstr "Donateur"
 msgid "Contact"
 msgstr "Contact"
 
-#, fuzzy
 msgid "This person is a friend"
 msgstr "Dit persoon is een vriend"
 
@@ -579,7 +572,6 @@ msgstr "Titel"
 msgid "Add my signature to this post"
 msgstr "Onderschrift invoegen bij deze post"
 
-#, fuzzy
 msgid "%1 Message boards"
 msgstr "%1 Forum"
 
@@ -604,11 +596,9 @@ msgstr "Markeer als 'gelezen'"
 msgid "Mark as unread"
 msgstr "Markeer als 'ongelezen'"
 
-#, fuzzy
 msgid "With selected"
 msgstr "Met het volgende"
 
-#, fuzzy
 msgid "No such message"
 msgstr "Geen bericht gevonden"
 
@@ -632,7 +622,6 @@ msgstr "Ja, verwijder"
 msgid "No, cancel"
 msgstr "Nee, annuleer"
 
-#, fuzzy
 msgid "No such message."
 msgstr "Geen bericht gevonden."
 
@@ -645,7 +634,6 @@ msgstr "Gebruiker met ID %1 niet gevonden"
 msgid "Could not find user with username %1"
 msgstr "Gebruiker met gebruikersnaam %1 niet gevonden"
 
-#, fuzzy
 msgid "%1 is not a unique username; you will have to use user ID"
 msgstr ""
 "%1 is geen unieke gebruikersnaam; je zal de gebruikers ID moeten invullen"
@@ -658,72 +646,84 @@ msgstr "Echt %1 blokkeren?"
 
 msgid "Are you really sure you want to block user %1 from sending you private messages?"
 msgstr ""
+"Weet je zeker dat je gebruiker %1 wilt blokkeren zodat hij je geen privé "
+"berichten kan zenden?"
 
 msgid "Please note that you can only block a limited amount of users."
-msgstr ""
+msgstr "Onthoud dat je maar een beperkt aantal gebruikers mag blokkeren."
 
 msgid "Once the user has been blocked you can unblock it using forum preferences page."
 msgstr ""
+"Als een gebruiker is geblokkeerd kan je deze later alsnog deblokkeren bij je "
+"forum voorkeuren."
 
 msgid "Add user to filter"
-msgstr ""
+msgstr "Voeg gebruiker toe aan filter"
 
 msgid "No such user"
-msgstr ""
+msgstr "Gebruiker niet gevonden"
 
 msgid "User %1 blocked"
-msgstr ""
+msgstr "Gebruiker %1 geblokkeerd"
 
 msgid "User %1 has been blocked from sending you private messages."
-msgstr ""
+msgstr "Gebruiker %1 is geblokkeerd en kan je geen privé berichten zenden."
 
 msgid "To unblock, visit %1message board preferences%2"
-msgstr ""
+msgstr "Om te deblokkeren, ga naar %1forum voorkeuren%2"
 
 msgid "Create a new thread"
-msgstr ""
+msgstr "Start nieuw onderwerp"
 
 msgid "Post to thread"
-msgstr ""
+msgstr "Plaats bericht"
 
 msgid "Forum search results"
-msgstr ""
+msgstr "Forum zoek resultaten"
 
 msgid "Forum search"
-msgstr ""
+msgstr "Doorzoek forum"
 
 msgid "This thread has been hidden for administrative purposes"
-msgstr ""
+msgstr "Dit onderwerp is verborgen vanwege administratieve redenen"
 
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Abonnement opheffen "
 
 msgid "Subscribe"
-msgstr ""
+msgstr "Abonneren"
 
 msgid "Welcome to %1"
-msgstr ""
+msgstr "Welkom bij %1"
 
 msgid "View and edit your account preferences using the links below."
-msgstr ""
+msgstr "Bekijk en verander je account voorkeuren met onderstaande links."
 
 msgid "Read our rules and policies"
-msgstr ""
+msgstr "Lees de gebruiksovereenkomst"
 
 msgid "Run %1 only on authorized computers"
-msgstr ""
+msgstr "Voer %1 alleen uit op toegestane computers"
 
 msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
 msgstr ""
+"Voer %1 alleen uit op computers die je eigendom zijn, of waar de eigenaar "
+"ervan je toestemming voor heeft gegeven. Sommige scholen en bedrijven hebben "
+"regels opgesteld waarin het gebruik van %1 niet toegestaan is."
 
 msgid "How %1 will use your computer"
-msgstr ""
+msgstr "Hoe %1 je computer gebruikt"
 
 msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
 msgstr ""
+"Wanneer je %1 gebruikt op je computer zal deze een gedeelte gebruiken van de "
+"processortijd, het geheugen, de harde schijf en de bandbreedte van het "
+"netwerk. Gebruik hiervan is in te stellen met %1."
 
 msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
 msgstr ""
+"De uitgevoerde taken worden gebruikt om de doelstellingen te halen van %1, "
+"zoals beschreven op de website. De gebruikte applicatie kan wisselen."
 
 msgid "Privacy policy"
 msgstr ""
@@ -738,34 +738,54 @@ msgid "To participate in %1, you must give an address where you receive email. T
 msgstr ""
 
 msgid "Is it safe to run %1?"
-msgstr ""
+msgstr "Is het veilig om %1 uit te voeren?"
 
 msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
 msgstr ""
+"Elke keer als je een programma via het internet download neem je een risico; "
+"het programma kan fatale fouten hebben, of de download server is niet "
+"veilig genoeg. %1 heeft zijn best gedaan om deze risico's tot een minimum te "
+"beperken. Ons programma is uitvoerig getest. Onze servers zijn zo veel als "
+"mogelijk is beveiligd tegen misbruik. Om de integriteit van de programma's "
+"te garanderen zijn ze digitaal ondertekend op een computer die niet met het "
+"internet is verbonden."
 
 msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
 msgstr ""
+"De door %1 gebruikte applicaties kunnen een verhoging opleveren van de "
+"temperatuur van de processor. Als dit aan de orde is gebruik dan een "
+"%2programma%3 om het gebruik van de processor te regelen."
 
 msgid "%1 was developed by %2. BOINC was developed at the University of California."
 msgstr ""
+"%1 is ontwikkeld door %2. BOINC is ontwikkeld door de University of "
+"California."
 
 msgid "Liability"
-msgstr ""
+msgstr "Aansprakelijkheid"
 
 msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
 msgstr ""
+"%1 en %2 aanvaarden geen aansprakelijkheid voor schade aangebracht aan je "
+"computer of welke schade dan ook voortgekomen door deelname aan %1."
 
 msgid "Other BOINC projects"
-msgstr ""
+msgstr "Andere BOINC projecten"
 
 msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
 msgstr ""
+"Andere projecten gebruiken, net als %1, BOINC als platform. Het is het "
+"overwegen waard om andere projecten toe te voegen. Mocht %1 dan geen werk "
+"hebben, blijft je computer bezig met nuttig werk."
 
 msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
 msgstr ""
+"Deze projecten zijn niet verbonden met %1, mede daarom kunnen we geen "
+"garanties geven over hun doelstellingen en de mate van veiligheid. Deelname "
+"is daarom op eigen risico."
 
 msgid "Sender and date"
-msgstr ""
+msgstr "Afzender en datum"
 
 #, fuzzy
 msgid "Profiles"
@@ -773,24 +793,30 @@ msgstr "Profiel"
 
 msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
 msgstr ""
+"%1Profielen%2 geven de mogelijkheid achtergronden en meningen te delen met "
+"de %3 gemeenschap."
 
 msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
 msgstr ""
+"Doorzoek de diversiteit van je mede vrijwilligers en laat ze meegenieten van "
+"je eigen mening."
 
 msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
 msgstr ""
+"Als je dit nog niet hebt gedaan, kan je %1je eigen profiel aanmaken%2, zodat "
+"anderen dit kunnen zien!"
 
 msgid "User of the Day"
-msgstr ""
+msgstr "Gebruiker van de dag"
 
 msgid "User Profile Explorer"
-msgstr ""
+msgstr "Gebruikers profielen"
 
 msgid "View the %1User Picture Gallery%2."
-msgstr ""
+msgstr "Bekijk de %1Gebruikers Foto Galerij%2."
 
 msgid "Browse profiles %1by country%2."
-msgstr ""
+msgstr "Doerzoek profielen %1op land%2."
 
 msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
 msgstr ""
@@ -808,16 +834,16 @@ msgid "No profiles matched your query."
 msgstr ""
 
 msgid "Top hosts"
-msgstr ""
+msgstr "Top computers"
 
 msgid "Top participants"
-msgstr ""
+msgstr "Top deelnemers"
 
 msgid "Top %1 teams"
-msgstr ""
+msgstr "Top %1 teams"
 
 msgid "Participant since"
-msgstr ""
+msgstr "Deelnemer sinds"
 
 msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
 msgstr ""
@@ -838,7 +864,7 @@ msgid "Your weak account key is a function of your password. If you change your 
 msgstr ""
 
 msgid "Your account"
-msgstr ""
+msgstr "Mijn account"
 
 # Apps page (apps.php)
 #########################################

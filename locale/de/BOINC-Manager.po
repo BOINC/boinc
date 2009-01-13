@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-01-09 03:15-0700\n"
+"PO-Revision-Date: 2009-01-13 00:03-0700\n"
 "Last-Translator: Jens Seidler <jens@planet-seidler.de>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -95,7 +95,7 @@ msgstr "Projekt anmelden"
 
 #: clientgui/AccountInfoPage.cpp:458
 msgid "Update account manager"
-msgstr "Kontoverwaltung aktualisieren"
+msgstr "Kontoverwaltung aktuallisieren"
 
 #: clientgui/AccountInfoPage.cpp:460
 msgid "Attach to account manager"
@@ -105,14 +105,14 @@ msgstr "Bei einer Kontoverwaltung anmelden"
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr ""
-"Die minimalst Passwortlänge für dieses Projekt ist %d. Bitte wählen Sie ein "
+"Die minimale Passwortlänge für dieses Projekt ist %d. Bitte wählen Sie ein "
 "anderes Passwort."
 
 #: clientgui/AccountInfoPage.cpp:477
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr ""
-"Die minimalst Passwortlänge für diese Kontoverwaltung ist %d. Bitte wählen "
+"Die minimale Passwortlänge für diese Kontoverwaltung ist %d. Bitte wählen "
 "Sie ein anderes Passwort."
 
 #: clientgui/AccountInfoPage.cpp:488
@@ -319,11 +319,11 @@ msgstr "&Computer auswählen"
 
 #: clientgui/AdvancedFrame.cpp:453
 msgid "Shut down connected client..."
-msgstr "Herunterfahren des aktuell verbundenen Client..."
+msgstr "Beenden des aktuell verbundenen Client..."
 
 #: clientgui/AdvancedFrame.cpp:454
 msgid "Shut down the currently connected core client"
-msgstr "Fährt den aktuell verbundenen Client herunter."
+msgstr "Beendet den aktuell verbundenen Client."
 
 #: clientgui/AdvancedFrame.cpp:458
 msgid "Run CPU &benchmarks"
@@ -360,7 +360,7 @@ msgstr "Einstellungen aus global_prefs_override.xml lesen."
 #: clientgui/AdvancedFrame.cpp:478
 #, c-format
 msgid "&Stop using %s..."
-msgstr "&Stop Nutzung von %s..."
+msgstr "&Stoppe die Nutzung von %s..."
 
 #: clientgui/AdvancedFrame.cpp:484
 msgid "Remove client from account manager control."
@@ -452,7 +452,7 @@ msgstr "&Hilfe"
 #: clientgui/AdvancedFrame.cpp:1213
 #, c-format
 msgid "%s - Shutdown the current client..."
-msgstr "%s - Fahre den aktuellen Client herunter..."
+msgstr "%s - Beende den aktuellen Client..."
 
 #: clientgui/AdvancedFrame.cpp:1222
 #, c-format
@@ -460,8 +460,8 @@ msgid ""
 "%s will shut down the currently connected client,\n"
 "and prompt you for another host to connect to.\n"
 msgstr ""
-"%s - fährt den aktuell verbundenen Client herunter,\n"
-"und fragt nach einem anderen Rechner zum Verbinden.\n"
+"%s - beendet den aktuell verbundenen Client,und fragt nach einem anderen "
+"Rechner zum Verbinden."
 
 #: clientgui/AdvancedFrame.cpp:1369
 #, c-format
@@ -548,10 +548,9 @@ msgid ""
 "\n"
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
-"Ein Konto mit dieser Emailadresse existiert bereits und verwendet\n"
-"ein anderes Passwort als Sie eingegeben haben.\n"
-"\n"
-"Bitte besuchen Sie die Projektwebseite und folgen Sie dort den Anweisungen."
+"Ein Konto mit diesem Teilnehmernamen existiert bereits und verwendetein "
+"anderes Passwort als Sie eingegeben haben.Bitte besuchen Sie die "
+"Projektwebseite und folgen Sie dort den Anweisungen."
 
 #: clientgui/AlreadyExistsPage.cpp:190
 msgid "Email address already in use"
@@ -571,7 +570,7 @@ msgstr ""
 
 #: clientgui/AsyncRPC.cpp:940
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr "Kommuniziere mit dem BOINC Client Bitte warten ..."
+msgstr "Kommuniziere mit dem BOINC Client. Bitte warten ..."
 
 #: clientgui/BOINCBaseFrame.cpp:414
 #, c-format
@@ -583,7 +582,7 @@ msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
-"Sie Sind nicht autorisiert den Client zu verwalten.\n"
+"Sie sind nicht autorisiert den Client zu verwalten.\n"
 "Bitte fragen Sie Ihren Administrator, ob er sie zu der lokalen Nutzergruppe "
 "'boinc_users' hinzufügen kann."
 
@@ -657,12 +656,11 @@ msgid ""
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
-"%s ist augenblicklich nicht mit mit dem %s client\n"
-"verbunden. Bitte benutzen Sie die 'Datei\\Computer auswählen ...'\n"
-"Menüoption um die Verbindung mit einem %s Client neu aufzubauen.\n"
-"Wenn Sie keinen anderen Computer fernsteuern wollen, dann lassen\n"
-"Sie die Felder 'Computername und Passwort leer, oder benutzen Sie\n"
-"'localhost' als Computername.."
+"%s ist augenblicklich nicht mit mit dem %s Clientverbunden. Bitte benutzen "
+"Sie die 'Datei\\Computer auswählen ...'Menüoption um die Verbindung mit einem "
+"%s Client neu aufzubauen.Wenn Sie keinen anderen Computer fernsteuern "
+"wollen, dann lassenSie die Felder 'Computername und Passwort leer, oder "
+"benutzen Sie'localhost' als Computername.."
 
 #: clientgui/BOINCBaseView.cpp:746
 #: clientgui/ViewProjectsGrid.cpp:644
@@ -678,7 +676,7 @@ msgstr "%s - Netzwerkstatus"
 #: clientgui/BOINCDialupManager.cpp:255
 #, c-format
 msgid "%s needs to connect to the Internet.  Please click to open %s."
-msgstr "%s benötigt eine Verbindung zum Netzwerk. Mausklick um %s zu öffnen."
+msgstr "%s benötigt eine Verbindung zum Internet. Mausklick um %s zu öffnen."
 
 #: clientgui/BOINCDialupManager.cpp:263
 #, c-format
@@ -687,9 +685,8 @@ msgid ""
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
 "%s kann nicht mit einem Projekt kommunizieren und benötigt eine "
-"Internetverbindung.\n"
-"Bitte verbinden Sie sich mit dem Internet und wählen sie anschließend "
-"\"Netwerk-Kommunikation ausführen\" im Menü \"Extras\"."
+"Internetverbindung.Bitte verbinden Sie sich mit dem Internet und wählen sie "
+"anschließend \"Netzwerk-Kommunikation ausführen\" im Menü \"Extras\"."
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
@@ -713,10 +710,9 @@ msgid ""
 "using Advanced/Options/Connections."
 msgstr ""
 "%s kann nicht mit einem Projekt kommunizieren und es gibt keine "
-"Standardverbinung.\n"
-"Bitte verbinden Sie sich bitte mit dem Internet oder legen Sie im "
-"Registerblatt \"Verbindungen\" \n"
-" im Dialog \"Optionen\" im Menü \"Extras\" eine Standardverbindung fest."
+"Standardverbindung.Bitte verbinden Sie sich mit dem Internet oder legen Sie "
+"im Registerblatt \"Verbindungen\"  im Dialog \"Optionen\" im Menü \"Extras\" eine "
+"Standardverbindung fest."
 
 #: clientgui/BOINCDialupManager.cpp:386
 #, c-format
@@ -735,7 +731,7 @@ msgid ""
 "Updating all projects and retrying all transfers."
 msgstr ""
 "%s ist jetzt mit dem Internet verbunden. Alle Projekte werden aktualisiert "
-"und alle Übertragungen wiederholt."
+"und alle Übertragungen fortgesetzt."
 
 #: clientgui/BOINCDialupManager.cpp:500
 #, c-format
@@ -837,7 +833,7 @@ msgstr "Anmeldung fehlgeschlagen!"
 
 #: clientgui/CompletionErrorPage.cpp:205
 msgid "Failed to update account manager"
-msgstr "Aktuallisieren der Kontoverwaltung fehlgeschlagen!"
+msgstr "Aktualisieren der Kontoverwaltung fehlgeschlagen!"
 
 #: clientgui/CompletionErrorPage.cpp:209
 msgid "Failed to remove account manager"
@@ -960,8 +956,7 @@ msgid ""
 "(C) 2003-2008 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2008 University of California, Berkeley.\n"
-"All Rights Reserved."
+"(C) 2003-2008 University of California, Berkeley.Alle Rechte vorbehalten."
 
 #: clientgui/DlgAbout.cpp:179
 #: clientgui/DlgAbout.cpp:183
@@ -1017,9 +1012,9 @@ msgid ""
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings."
 msgstr ""
-"Dieser Dialog regelt Einstellungen nur für diesen Rechner. \n"
-"Klick auf OK zum Übernehmen der Einstellungen.\n"
-"Klick auf Löschen zum Wiederherstellen der webbasierten Einstellungen."
+"Dieser Dialog regelt die Einstellungen nur für diesen Rechner. Klick auf OK "
+"zum Übernehmen der Einstellungen.Klick auf Löschen zum Wiederherstellen der "
+"webbasierten Einstellungen."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:52
 msgid "Clear"
@@ -1509,7 +1504,7 @@ msgstr "Beendet"
 
 #: clientgui/DlgItemProperties.cpp:117
 msgid "Credit"
-msgstr ""
+msgstr "Guthaben"
 
 #: clientgui/DlgItemProperties.cpp:118
 msgid "User"
@@ -1583,7 +1578,7 @@ msgstr "Geschätzte verbleibende Zeit"
 
 #: clientgui/DlgItemProperties.cpp:164
 msgid "Fraction done"
-msgstr ""
+msgstr "Fortschritt"
 
 #: clientgui/DlgItemProperties.cpp:165
 msgid "Virtual memory size"
@@ -1591,7 +1586,7 @@ msgstr "Größe des Virtuellen Speichers"
 
 #: clientgui/DlgItemProperties.cpp:166
 msgid "Working set size"
-msgstr ""
+msgstr "Größe des Arbeitspakets"
 
 #: clientgui/DlgItemProperties.cpp:251
 #: clientgui/ViewWork.cpp:1020

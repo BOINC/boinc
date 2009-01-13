@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-07 14:58-0700\n"
+"PO-Revision-Date: 2009-01-12 03:19-0700\n"
 "Last-Translator: Bartosz Kaszubowski <gosimek@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pl\n"
@@ -869,10 +869,10 @@ msgid "Search profile text"
 msgstr ""
 
 msgid "No profiles"
-msgstr ""
+msgstr "Brak profili"
 
 msgid "No profiles matched your query."
-msgstr ""
+msgstr "Brak profili odpowiadającym wybranym kryteriom."
 
 msgid "Top hosts"
 msgstr "Najlepsze komputery"
@@ -890,21 +890,35 @@ msgstr "Uczestniczy od"
 
 msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
 msgstr ""
+"Twój 'słaby klucz konta' pozwala dołączyć komputery do twojego konta w tym "
+"projekcie bez dawania przywilejów do zalogowania się na lub dokonania "
+"jakichkolwiek zmian na twoim koncie."
 
 msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
 msgstr ""
+"Ten mechanizm działa jedynie w projektach, które uaktualniły swoje "
+"oprogramowanie na serwerach 7 grudnia 2007 lub później."
 
 msgid "Your weak account key for this project is:"
-msgstr ""
+msgstr "Twój słaby klucz konta dla tego projektu to:"
 
 msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
+"Aby użyć słaby klucz konta na wybranym komputerze znajdź lub stwórz 'plik "
+"konta' dla tego projektu. Plik ten ma nazwę według formuły "
+"<b>konto_ADRES_URL_PROJEKTU.xml</b>. Plik konta dla projektu %1 to "
+"<b>%2</b>."
 
 msgid "Create this file if needed. Set its contents to:"
 msgstr ""
+"Stwórz ten plik, jeśli jest to potrzebne. Jego zawartość powinna wyglądać "
+"tak:"
 
 msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
 msgstr ""
+"Twój słaby klucz konta jest generowany na podstawie twojego hasła. Jeśli "
+"zmienisz swoje hasło twój słaby klucz konta także ulegnie zmianie, a "
+"poprzedni słaby klucz konta stanie się nieprawidłowy."
 
 ########################################
 # "Your account" page (home.php)

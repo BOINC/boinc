@@ -1,4 +1,4 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
@@ -12,7 +12,7 @@ msgstr ""
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: clientgui\n"
-"X-Poedit-SourceCharset:utf-8\n"
+"X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: ????, ???\n"
 "X-Poedit-Country: UNITED STATES\n"
@@ -1520,6 +1520,7 @@ msgid "CPU time"
 msgstr "CPU-tid"
 
 #: clientgui/DlgItemProperties.cpp:161
+#, fuzzy
 msgid "Elapsed time"
 msgstr "Brugt tid"
 
@@ -2823,6 +2824,7 @@ msgid "Copying all messages to the clipboard..."
 msgstr "Kopierer alle beskeder til udklipsholderen..."
 
 #: clientgui/ViewMessages.cpp:219
+#, fuzzy
 msgid "Copying selected messages to the clipboard..."
 msgstr "Kopierer alle beskeder til udklipsholderen..."
 
@@ -3521,6 +3523,7 @@ msgid ""
 "Projects added via this wizard will not be\n"
 "listed on or managed via %s."
 msgstr 
+"
 "Hvis det er muligt så bør du tilføje projekter fra\n"
 "%s websitet.\n"
 "Projekter tilføjet via denne guide vil ikke være"
@@ -3552,6 +3555,7 @@ msgstr ""
 #: clientgui/WelcomePage.cpp:372
 #, c-format
 #, c-format
+#, fuzzy
 msgid "&Stop using%s"
 msgstr "&Stop med at bruge %s..."
 
@@ -3561,6 +3565,7 @@ msgid ""
 "We'll now remove this computer from %s.  From now on,\n"
 "attach and detach projects directly from this computer.\n"
 msgstr 
+"
 "Computeren fjernes nu fra %s. I fremtiden skal\n"
 "projekter nu tilmeldes og frameldes direkte på denne computer\n"
 
@@ -3576,6 +3581,7 @@ msgid ""
 "If you want to attach to a single project, click Cancel,\n"
 "then select the 'Attach to project' menu item instead."
 msgstr 
+"
 "Vi vil nu guide dig igennem tilmeldingen til en\n"
 "konto-manager.\n"
 "\n"
@@ -4014,6 +4020,6 @@ msgstr "angiv timetal for start og stop af netværksbrug I formatet HH:MM-HH:MM"
 #~ msgid "BOINC Manager - Options"
 #~ msgstr "BOINC Manager - Indstillinger"
 
+#, c-format
 #~ msgid "BOINC Manager - Select Computer"
 #~ msgstr "BOINC Manager - Vælg computer"
-

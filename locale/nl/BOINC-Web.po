@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-06 00:00-0700\n"
+"PO-Revision-Date: 2009-01-13 10:26-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -323,7 +323,7 @@ msgstr "Do you run BOINC as a screensaver?"
 
 #, fuzzy
 msgid "POLL_YES"
-msgstr "Yes"
+msgstr "Ja"
 
 #, fuzzy
 msgid "POLL_NO"
@@ -403,17 +403,21 @@ msgstr "These are the current results of the <a href=poll.php>BOINC user survey<
 ########################################
 # download.php
 ########################################
+# ######################################<br />
+# <br />
+# download.php<br />
+# ######################################
 msgid "Download BOINC"
-msgstr ""
+msgstr "Download BOINC"
 
 msgid "%s for %s (%s MB)"
-msgstr ""
+msgstr "%s van %s (%s MB)"
 
 msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like."
 msgstr ""
 
 msgid "System requirements"
-msgstr ""
+msgstr "Systeem vereisten"
 
 msgid "Release notes"
 msgstr ""
@@ -422,7 +426,7 @@ msgid "Other systems"
 msgstr ""
 
 msgid "All versions"
-msgstr ""
+msgstr "Alle versies"
 
 msgid "If your computer is not of one of the above types, you can"
 msgstr ""
@@ -447,7 +451,6 @@ msgstr "Note: files are downloaded from mirror servers at boinc.berkeley.edu, mo
 msgid "HELP_TITLE"
 msgstr "Getting help with BOINC"
 
-#, fuzzy
 msgid "HELP_HEADING1"
 msgstr "Online Help"
 
