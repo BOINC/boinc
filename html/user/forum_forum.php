@@ -103,6 +103,13 @@ echo "<input type=\"submit\" value=\"Sort\">
 
 show_forum($forum, $start, $sort_style, $user);
 
+echo "
+    <p>
+    This message board is available as an
+    <a href=forum_rss.php?forumid=$forum->id&setup=1>RSS feed
+    <img src=img/feed_logo.png></a>
+";
+
 page_tail();
 
 // This function shows the threads for the given forum

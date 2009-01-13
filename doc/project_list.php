@@ -20,6 +20,10 @@ foreach ($areas as $area) {
             $np->image = $p[5];
         }
         $np->url = $p[1];
+        $np->web_url = $p[1];
+        if (array_key_exists(6, $p)) {
+            $np->web_url = $p[6];
+        }
         $np->home = $p[2];
         $np->general_area = $area_name;
         $np->specific_area = $p[3];
@@ -39,7 +43,7 @@ foreach($proj_list as $p) {
         <description>$p->description</description>
         <home>$p->home</home>
 ";
-    $platforms = get_platforms_cached($p->url);
+    $platforms = get_platforms_cached($p->web_url);
     if ($platforms) {
         echo "    <platforms>\n";
         foreach ($platforms as $p) {

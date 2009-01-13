@@ -65,6 +65,8 @@ public:
     std::string description;
     std::string home;
     std::string image;
+    std::vector<std::string> platforms;
+        // platforms supported by project, or empty
     double rand;
 
     PROJECT_LIST_ENTRY();
@@ -164,14 +166,12 @@ class WORKUNIT {
 public:
     std::string name;
     std::string app_name;
-    int version_num;
     double rsc_fpops_est;
     double rsc_fpops_bound;
     double rsc_memory_bound;
     double rsc_disk_bound;
     PROJECT* project;
     APP* app;
-    APP_VERSION* avp;
 
     WORKUNIT();
     ~WORKUNIT();
@@ -186,6 +186,8 @@ public:
     std::string name;
     std::string wu_name;
     std::string project_url;
+    int version_num;
+    std::string plan_class;
     int report_deadline;
     bool ready_to_report;
     bool got_server_ack;
@@ -221,6 +223,7 @@ public:
     APP* app;
     WORKUNIT* wup;
     PROJECT* project;
+    APP_VERSION* avp;
 
     RESULT();
     ~RESULT();
@@ -308,7 +311,8 @@ public:
     std::vector<APP_VERSION*> app_versions;
     std::vector<WORKUNIT*> wus;
     std::vector<RESULT*> results;
-
+    std::vector<std::string> platforms;
+        // platforms supported by client
     GLOBAL_PREFS global_prefs;  // working prefs, i.e. network + override
     VERSION_INFO version_info;  // populated only if talking to pre-5.6 CC
     bool executing_as_daemon;   // true if Client is running as a service / daemon
@@ -317,13 +321,9 @@ public:
     ~CC_STATE();
 
     PROJECT* lookup_project(std::string&);
-    APP* lookup_app(std::string&, std::string&);
     APP* lookup_app(PROJECT*, std::string&);
-    APP_VERSION* lookup_app_version(std::string&, std::string&, int);
-    APP_VERSION* lookup_app_version(PROJECT*, std::string&, int);
-    WORKUNIT* lookup_wu(std::string&, std::string&);
+    APP_VERSION* lookup_app_version(PROJECT*, APP*, int, std::string&);
     WORKUNIT* lookup_wu(PROJECT*, std::string&);
-    RESULT* lookup_result(std::string&, std::string&);
     RESULT* lookup_result(PROJECT*, std::string&);
 
     void print();
@@ -462,10 +462,15 @@ struct PROJECT_CONFIG {
     bool uses_username;
     bool account_creation_disabled;
     bool client_account_creation_disabled;
+    bool sched_stopped;
+    bool web_stopped;
+    int min_client_version;
 	std::string error_msg;
     std::string terms_of_use;
         // if present, show this text in an "accept terms of use?" dialog
         // before allowing attachment to continue.
+    std::vector<std::string> platforms;
+        // platforms supported by project, or empty
 
     PROJECT_CONFIG();
     ~PROJECT_CONFIG();

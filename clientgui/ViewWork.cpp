@@ -819,15 +819,18 @@ void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
     RESULT* state_result = NULL;
     wxString strAppBuffer = wxEmptyString;
     wxString strClassBuffer = wxEmptyString;
+    PROJECT* project;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     if (result) {
-        state_result = pDoc->state.lookup_result(result->project_url, result->name);
+        project = pDoc->state.lookup_project(result->project_url);
+        state_result = pDoc->state.lookup_result(project, result->name);
         if (!state_result) {
             pDoc->ForceCacheUpdate();
-            state_result = pDoc->state.lookup_result(result->project_url, result->name);
+            project = pDoc->state.lookup_project(result->project_url);
+            state_result = pDoc->state.lookup_result(project, result->name);
         }
         wxASSERT(state_result);
 
@@ -843,23 +846,21 @@ void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
         if (app->user_friendly_name.size()) {
             strAppBuffer = HtmlEntityDecode(wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8));
         } else {
-            strAppBuffer = HtmlEntityDecode(wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8));
+            strAppBuffer = HtmlEntityDecode(wxString(state_result->avp->app_name.c_str(), wxConvUTF8));
         }
         
-        APP_VERSION* avp = wup->avp;
-        if (avp) {
-            if (avp->plan_class.size()) {
-                strClassBuffer.Printf(
-                    wxT(" (%s)"),
-                    wxString(avp->plan_class.c_str(), wxConvUTF8).c_str()
-                );
-            }
+        APP_VERSION* avp = state_result->avp;
+        if (avp->plan_class.size()) {
+            strClassBuffer.Printf(
+                wxT(" (%s)"),
+                wxString(avp->plan_class.c_str(), wxConvUTF8).c_str()
+            );
         }
         
         strBuffer.Printf(
             wxT(" %s %.2f%s"), 
             strAppBuffer.c_str(),
-            state_result->wup->avp->version_num/100.0,
+            state_result->avp->version_num/100.0,
             strClassBuffer.c_str()
         );
 

@@ -21,16 +21,35 @@
 require_once("../project/project.inc");
 require_once("../inc/db.inc");
 
-$userid = get_int('userid', true);
-$forumid = get_int('forumid', true);
-$nitems = get_int('nitems', true);
-
-if(!$nitems || $nitems < "1" || $nitems > "9") {
-    $nitems = "9";
-}
-
+$forumid = get_int('forumid');
 $forum = BoincForum::lookup_id($forumid);
 if (!$forum) error_page("no such forum");
+
+if (get_int('setup', true)) {
+    page_head("$forum->name RSS feed");
+    echo "
+        This message board is available as an RSS feed.
+        Options:
+        <form action=forum_rss.php>
+        <input type=hidden name=forumid value=$forumid>
+        <p>
+        Include only posts by user ID <input name=userid> (default: all users).
+        <p>
+        Include only the <input name=nitems> most recent posts (default: 20).
+        <p>
+        <input type=submit value=OK>
+    ";
+    page_tail();
+    exit;
+}
+
+$userid = get_int('userid', true);
+$nitems = get_int('nitems', true);
+
+if(!$nitems || $nitems < "1" || $nitems > "20") {
+    $nitems = "20";
+}
+
 
 $clause = "forum=$forumid ";
 

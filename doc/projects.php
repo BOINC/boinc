@@ -56,6 +56,9 @@ foreach ($areas as $area) {
         $desc = addslashes($p[4]);
         $x = "<a href=$p[1] onmouseover=\"return escape('$img <b>Home:</b> $p[2]<hr><b>Area:</b> $p[3]<hr><b>Goal:</b> $desc')\">$p[0]</a>";
         $y = $p[1];
+        if (array_key_exists(6, $p)) {
+            $y = $p[6];
+        }
         $p = get_platforms_string($y);
         echo "<tr class=row$n>
             <td valign=top>$x</td>

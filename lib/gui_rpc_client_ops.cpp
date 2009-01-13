@@ -102,6 +102,7 @@ PROJECT_LIST_ENTRY::~PROJECT_LIST_ENTRY() {
 int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
     char tag[256];
     bool is_tag;
+    string platform;
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!strcmp(tag, "/project")) return 0;
@@ -112,6 +113,14 @@ int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
         if (xp.parse_string(tag, "description", description)) continue;
         if (xp.parse_string(tag, "home", home)) continue;
         if (xp.parse_string(tag, "image", image)) continue;
+        if (!strcmp(tag, "platforms")) {
+            while (!xp.get(tag, sizeof(tag), is_tag)) {
+                if (!strcmp(tag, "/platforms")) break;
+                if (xp.parse_string(tag, "name", platform)) {
+                    platforms.push_back(platform);
+                }
+            }
+        }
         xp.skip_unexpected(tag, false, "");
     }
     return ERR_XML_PARSE;
@@ -123,6 +132,7 @@ void PROJECT_LIST_ENTRY::clear() {
     general_area.clear();
     specific_area.clear();
     description.clear();
+    platforms.clear();
     home.clear();
     image.clear();
     rand = 0.0;
@@ -324,7 +334,6 @@ int WORKUNIT::parse(MIOFILE& in) {
         if (match_tag(buf, "</workunit>")) return 0;
         if (parse_str(buf, "<name>", name)) continue;
         if (parse_str(buf, "<app_name>", app_name)) continue;
-        if (parse_int(buf, "<version_num>", version_num)) continue;
         if (parse_double(buf, "<rsc_fpops_est>", rsc_fpops_est)) continue;
         if (parse_double(buf, "<rsc_fpops_bound>", rsc_fpops_bound)) continue;
         if (parse_double(buf, "<rsc_memory_bound>", rsc_memory_bound)) continue;
@@ -336,14 +345,12 @@ int WORKUNIT::parse(MIOFILE& in) {
 void WORKUNIT::clear() {
     name.clear();
     app_name.clear();
-    version_num = 0;
     rsc_fpops_est = 0;
     rsc_fpops_bound = 0;
     rsc_memory_bound = 0;
     rsc_disk_bound = 0;
     project = NULL;
     app = NULL;
-    avp = NULL;
 }
 
 RESULT::RESULT() {
@@ -360,6 +367,8 @@ int RESULT::parse(MIOFILE& in) {
         if (match_tag(buf, "</result>")) return 0;
         if (parse_str(buf, "<name>", name)) continue;
         if (parse_str(buf, "<wu_name>", wu_name)) continue;
+        if (parse_int(buf, "<version_num>", version_num)) continue;
+        if (parse_str(buf, "<plan_class>", plan_class)) continue;
         if (parse_str(buf, "<project_url>", project_url)) continue;
         if (parse_int(buf, "<report_deadline>", report_deadline)) continue;
         if (parse_bool(buf, "ready_to_report", ready_to_report)) continue;
@@ -403,6 +412,8 @@ int RESULT::parse(MIOFILE& in) {
 void RESULT::clear() {
     name.clear();
     wu_name.clear();
+    version_num = 0;
+    plan_class.clear();
     project_url.clear();
     graphics_exec_path.clear();
     slot_path.clear();
@@ -437,6 +448,7 @@ void RESULT::clear() {
     app = NULL;
     wup = NULL;
     project = NULL;
+    avp = NULL;
 }
 
 FILE_TRANSFER::FILE_TRANSFER() {
@@ -613,6 +625,7 @@ void CC_STATE::clear() {
         delete results[i];
     }
     results.clear();
+    platforms.clear();
     executing_as_daemon = false;
 }
 
@@ -622,16 +635,6 @@ PROJECT* CC_STATE::lookup_project(string& str) {
         if (projects[i]->master_url == str) return projects[i];
     }
     BOINCTRACE("CAN'T FIND PROJECT %s\n", str.c_str());
-    return 0;
-}
-
-APP* CC_STATE::lookup_app(string& project_url, string& str) {
-    unsigned int i;
-    for (i=0; i<apps.size(); i++) {
-        if (apps[i]->project->master_url != project_url) continue;
-        if (apps[i]->name == str) return apps[i];
-    }
-    BOINCTRACE("CAN'T FIND APP %s\n", str.c_str());
     return 0;
 }
 
@@ -646,38 +649,16 @@ APP* CC_STATE::lookup_app(PROJECT* project, string& str) {
 }
 
 APP_VERSION* CC_STATE::lookup_app_version(
-    string& project_url, string& str, int version_num
-) {
-    unsigned int i;
-    for (i=0; i<app_versions.size(); i++) {
-        if (app_versions[i]->project->master_url != project_url) continue;
-        if (app_versions[i]->app_name == str && app_versions[i]->version_num == version_num) {
-            return app_versions[i];
-        }
-    }
-    return 0;
-}
-
-APP_VERSION* CC_STATE::lookup_app_version(
-    PROJECT* project, string& str, int version_num
+    PROJECT* project, APP* app, int version_num, string& plan_class
 ) {
     unsigned int i;
     for (i=0; i<app_versions.size(); i++) {
         if (app_versions[i]->project != project) continue;
-        if (app_versions[i]->app_name == str && app_versions[i]->version_num == version_num) {
-            return app_versions[i];
-        }
+        if (app_versions[i]->app != app) continue;
+        if (app_versions[i]->version_num != version_num) continue;
+        if (app_versions[i]->plan_class != plan_class) continue;
+        return app_versions[i];
     }
-    return 0;
-}
-
-WORKUNIT* CC_STATE::lookup_wu(string& project_url, string& str) {
-    unsigned int i;
-    for (i=0; i<wus.size(); i++) {
-        if (wus[i]->project->master_url != project_url) continue;
-        if (wus[i]->name == str) return wus[i];
-    }
-    BOINCTRACE("CAN'T FIND WU %s\n", str.c_str());
     return 0;
 }
 
@@ -688,16 +669,6 @@ WORKUNIT* CC_STATE::lookup_wu(PROJECT* project, string& str) {
         if (wus[i]->name == str) return wus[i];
     }
     BOINCTRACE("CAN'T FIND WU %s\n", str.c_str());
-    return 0;
-}
-
-RESULT* CC_STATE::lookup_result(string& project_url, string& str) {
-    unsigned int i;
-    for (i=0; i<results.size(); i++) {
-        if (results[i]->project->master_url != project_url) continue;
-        if (results[i]->name == str) return results[i];
-    }
-    BOINCTRACE("CAN'T FIND RESULT %s\n", str.c_str());
     return 0;
 }
 
@@ -921,6 +892,13 @@ int PROJECT_CONFIG::parse(MIOFILE& in) {
             }
             continue;
         }
+        if (parse_int(buf, "<min_client_version>", min_client_version)) continue;
+        if (parse_bool(buf, "web_stopped", web_stopped)) continue;
+        if (parse_bool(buf, "sched_stopped", sched_stopped)) continue;
+        if (parse_str(buf, "platform_name", msg)) {
+            platforms.push_back(msg);
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -935,6 +913,10 @@ void PROJECT_CONFIG::clear() {
     uses_username = false;
     account_creation_disabled = false;
     client_account_creation_disabled = false;
+    platforms.clear();
+    sched_stopped = false;
+    web_stopped = false;
+    min_client_version = 0;
 }
 
 ACCOUNT_IN::ACCOUNT_IN() {
@@ -1060,6 +1042,7 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
     char buf[256];
     PROJECT* project = NULL;
     RPC rpc(this);
+    string platform;
 
     state.clear();
 
@@ -1104,7 +1087,6 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
                 wu->parse(rpc.fin);
                 wu->project = project;
                 wu->app = state.lookup_app(project, wu->app_name);
-                wu->avp = state.lookup_app_version(project, wu->app_name, wu->version_num);
                 state.wus.push_back(wu);
                 continue;
             }
@@ -1114,6 +1096,10 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
                 result->project = project;
                 result->wup = state.lookup_wu(project, result->wu_name);
                 result->app = result->wup->app;
+                result->avp = state.lookup_app_version(
+                    project, result->app, result->version_num,
+                    result->plan_class
+                );
                 state.results.push_back(result);
                 continue;
             }
@@ -1123,6 +1109,9 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
                 XML_PARSER xp(&rpc.fin);
                 state.global_prefs.parse(xp, "", flag, mask);
                 continue;
+            }
+            if (parse_str(buf, "<platform>", platform)) {
+                state.platforms.push_back(platform);
             }
         }
     }

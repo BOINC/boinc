@@ -207,3 +207,42 @@ David  12 Jan 2009
 
     sched/
         sched_plan.cpp
+
+David  13 Jan 2009
+    - GUI RPC: add the following items to PROJECT_CONFIG
+        (corresponding to the get_project_config.php web RPC):
+        - platforms: list of platforms supported by the project
+        - sched_stopped: scheduler disabled
+        - web_stopped: DB-driven web features disabled
+        - min_client_version
+    - GUI RPC: add the following items to CC_STATE:
+        - platforms: list of platforms supported by the client
+            (this replaces the unused <platform_name>)
+    - GUI RPC: add the following items to PROJECT_LIST_ENTRY
+        (entry in the "all projects" list):
+        - platforms: list of platforms supported by the project
+    - GUI RPC: move APP_VERSION pointer from WORKUNIT to RESULT;
+        include plan class in APP_VERSION lookup.
+        This completes the change of March 2008,
+        and allows the Manager to work correctly when a project
+        has two different app versions of the same (app, platform, version)
+        running on a client at once (e.g., a CPU and a GPU app)
+    - get_project_config.php: remove logic that checks client version.
+        This page is accessed by PHP, not just by client
+    - web: add link to forum page to get forum as RSS
+
+    client/
+        cs_statefile.cpp
+    clientgui/
+        DlgItemProperties.cpp
+        MainDocument.cpp
+        ViewWork.cpp
+        sg_ViewTabPage.cpp
+    html/user/
+        get_project_config.php
+        forum_rss.php
+        forum_forum.php
+        img/feed_logo.png (new)
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h

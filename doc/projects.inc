@@ -45,7 +45,7 @@ $biomed = array(
         ),
         array(
             "Malariacontrol.net",
-            "http://www.malariacontrol.net",
+            "http://www.malariacontrol.net/",
             "The Swiss Tropical Institute",
             "Epidemiology",
             "Simulation models of the transmission dynamics and health effects of malaria are an important tool for malaria control. They can be used to determine optimal strategies for delivering mosquito nets, chemotherapy, or new vaccines which are currently under development and testing.  Such modeling is extremely computer intensive, requiring simulations of large human populations with a diverse set of parameters related to biological and social factors that influence the distribution of the disease. ",
@@ -90,11 +90,12 @@ $earth = array(
     array(
         array(
             "Climateprediction.net",
-            "http://climateprediction.net",
+            "http://climateprediction.net/",
             "Oxford University",
             "Earth sciences",
             "To investigate the approximations that have to be made in state-of-the-art climate models. By running the model thousands of times we hope to find out how the model responds to slight tweaks to these approximations - slight enough to not make the approximations any less realistic. This will allow us to improve our understanding of how sensitive our models are to small changes and also to things like changes in carbon dioxide and the sulphur cycle. This will allow us to explore how climate may change in the next century under a wide range of different scenarios.",
-            "cpn_logo_world_1.jpg"
+            "cpn_logo_world_1.jpg",
+            "http://climateapps2.oucs.ox.ac.uk/cpdnboinc/"
         ),
     ),
 );
@@ -209,7 +210,7 @@ $math = array(
         ),
         array(
             "PrimeGrid",
-            "http://www.primegrid.com",
+            "http://www.primegrid.com/",
             "Private",
             "Cryptography",
             "Primegrid is generating a public sequential prime number database, and is searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</sup>-1",

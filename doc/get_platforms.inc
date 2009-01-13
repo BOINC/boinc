@@ -41,13 +41,28 @@ function friendly_name($p) {
 
 // 
 function get_platforms($url) {
-    $url .= '/get_project_config.php';
+    $url .= 'get_project_config.php';
     $x = file_get_contents($url);
     if (!$x) return null;
     $cursor = 0;
     $list = null;
     $tag = '<platform_name>';
     if (!strstr($x, "<platform_name>")) $tag = '<platform>';
+    while (1) {
+        $p = parse_next_element($x, $tag, $cursor);
+        if (!$p) break;
+        $list[] = $p;
+    }
+    return array_unique($list);
+}
+
+function get_platforms2($url) {
+    $url .= 'apps.php?xml=1';
+    $x = file_get_contents($url);
+    if (!$x) return null;
+    $cursor = 0;
+    $list = null;
+    $tag = '<platform_short>';
     while (1) {
         $p = parse_next_element($x, $tag, $cursor);
         if (!$p) break;
@@ -86,6 +101,9 @@ function get_platforms_cached($url) {
         $l = json_decode(file_get_contents($fname));
     } else {
         $l = get_platforms($url);
+        if (!$l) {
+            $l = get_platforms2($url);
+        }
         if ($l) {
             file_put_contents($fname, json_encode($l));
         } else {
@@ -107,7 +125,7 @@ function get_platforms_string($url) {
     return make_friendly_string($l);
 }
 
-//echo get_platforms_string("http://www.malariacontrol.net/");
+//echo get_platforms_string("http://www.worldcommunitygrid.org/");
 
 function wfPlatforms() {
     global $wgParser;

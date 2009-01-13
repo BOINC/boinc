@@ -197,15 +197,18 @@ wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     RESULT* state_result = NULL;
     wxString strLocalBuffer;
+    PROJECT* project;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     if (result) {
-        state_result = pDoc->state.lookup_result(result->project_url, result->name);
+        project = pDoc->state.lookup_project(result->project_url);
+        state_result = pDoc->state.lookup_result(project, result->name);
         if (!state_result) {
             pDoc->ForceCacheUpdate();
-            state_result = pDoc->state.lookup_result(result->project_url, result->name);
+            project = pDoc->state.lookup_project(result->project_url);
+            state_result = pDoc->state.lookup_result(project, result->name);
         }
         wxASSERT(state_result);
 
@@ -214,18 +217,18 @@ wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
         if (state_result->wup->app->user_friendly_name.size()) {
             strLocalBuffer = wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8);
         } else {
-            strLocalBuffer = wxString(state_result->wup->avp->app_name.c_str(), wxConvUTF8);
+            strLocalBuffer = wxString(state_result->avp->app_name.c_str(), wxConvUTF8);
         }
         char buf[256];
-        if (state_result->wup->avp->plan_class.size()) {
-            sprintf(buf, " (%s)", state_result->wup->avp->plan_class.c_str());
+        if (state_result->avp->plan_class.size()) {
+            sprintf(buf, " (%s)", state_result->avp->plan_class.c_str());
         } else {
             strcpy(buf, "");
         }
         strBuffer.Printf(
             wxT("%s %.2f%s"), 
             strLocalBuffer.c_str(),
-            state_result->wup->avp->version_num/100.0,
+            state_result->avp->version_num/100.0,
             buf
         );
         setlocale(LC_NUMERIC, (const char*)strLocale.mb_str());
