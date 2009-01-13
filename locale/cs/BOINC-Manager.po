@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-06 20:51-0700\n"
+"PO-Revision-Date: 2009-01-11 02:12-0700\n"
 "Last-Translator: Spok <spok.3d@atlas.cz>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: cs\n"
@@ -68,7 +68,7 @@ msgstr "P&otvrzení hesla: "
 #: clientgui/AccountInfoPage.cpp:383
 #, c-format
 msgid "Are you already running %s?"
-msgstr ""
+msgstr "Jste již připojeni k %s?"
 
 #: clientgui/AccountInfoPage.cpp:400
 msgid "&Username:"
@@ -85,7 +85,7 @@ msgstr "Minimální délka hesla je %d znaků."
 
 #: clientgui/AccountInfoPage.cpp:426
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Zapomněli jste heslo?"
 
 #: clientgui/AccountInfoPage.cpp:456
 #: clientgui/WelcomePage.cpp:332
@@ -196,16 +196,17 @@ msgstr "&Ukončit"
 
 #: clientgui/AdvancedFrame.cpp:329
 msgid "&Advanced View"
-msgstr ""
+msgstr "&Rozšířené zobrazení"
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
 msgstr ""
+"V Rozšířeném zobrazení můžete řadit položky podle různých parametrů, jsou "
+"zde graficky zobrazeny různé grafy průběhu, atd."
 
 #: clientgui/AdvancedFrame.cpp:335
-#, fuzzy
 msgid "&Simple View..."
-msgstr "&Volitelný vzhled"
+msgstr "&Volitelné zobrazení"
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "Display the simple BOINC graphical interface."
@@ -291,7 +292,7 @@ msgstr "&Možnosti..."
 
 #: clientgui/AdvancedFrame.cpp:432
 msgid "Configure GUI options and proxy settings"
-msgstr "Nastavení vzhledu a proxy serveru"
+msgstr "Nastavit možnosti vzhledu a proxy serveru"
 
 #: clientgui/AdvancedFrame.cpp:436
 msgid "&Preferences..."
@@ -324,15 +325,15 @@ msgstr "Spustit &testy procesoru"
 
 #: clientgui/AdvancedFrame.cpp:459
 msgid "Runs BOINC CPU benchmarks"
-msgstr "Spouští testy procesoru"
+msgstr "Spustit interní testy procesoru"
 
 #: clientgui/AdvancedFrame.cpp:463
 msgid "Do network &communication"
-msgstr ""
+msgstr "&Navázat kontakt"
 
 #: clientgui/AdvancedFrame.cpp:464
 msgid "Do all pending network communication."
-msgstr ""
+msgstr "Provést veškerou odloženou komunikaci s projekty"
 
 #: clientgui/AdvancedFrame.cpp:468
 msgid "Read config file"
@@ -443,9 +444,8 @@ msgstr "Náp&ověda"
 
 #: clientgui/AdvancedFrame.cpp:1213
 #, c-format
-#, fuzzy
 msgid "%s - Shutdown the current client..."
-msgstr "Vypínání aktuálního klienta..."
+msgstr "%s - Vypnutí aktuálního klienta..."
 
 #: clientgui/AdvancedFrame.cpp:1222
 #, c-format
@@ -453,11 +453,14 @@ msgid ""
 "%s will shut down the currently connected client,\n"
 "and prompt you for another host to connect to.\n"
 msgstr ""
+"%s vypne aktuálně připojeného klienta,\n"
+"a dotáže se na nového hostitele, \n"
+"ke kterému se má připojit.\n"
 
 #: clientgui/AdvancedFrame.cpp:1369
 #, c-format
 msgid "%s - Detach from %s"
-msgstr ""
+msgstr "%s - Opustit projekt %s"
 
 #: clientgui/AdvancedFrame.cpp:1374
 #, c-format
@@ -468,11 +471,11 @@ msgid ""
 "\n"
 "Do you want to stop using %s?"
 msgstr ""
-"Pokud opustíte %s,\n"
+"Pokud opustíte projekt %s,\n"
 "všechny stávající projekty budou zachovány,\n"
 "ale budete je muset spravovat manuálně.\n"
 "\n"
-"Chcete opustit %s?"
+"Chcete opustit projekt %s?"
 
 #: clientgui/AdvancedFrame.cpp:1421
 msgid "Attaching to project..."
@@ -513,7 +516,7 @@ msgstr "%s - (%s)"
 #: clientgui/AdvancedFrame.cpp:1943
 #, c-format
 msgid "Connecting to %s"
-msgstr "Připojuji se k:  %s"
+msgstr "Připojuji se k: %s"
 
 #: clientgui/AdvancedFrame.cpp:1946
 #, c-format
@@ -562,7 +565,7 @@ msgstr ""
 
 #: clientgui/AsyncRPC.cpp:940
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr ""
+msgstr "Komunikuji s klientem BOINC. Čekejte prosím..."
 
 #: clientgui/BOINCBaseFrame.cpp:414
 #, c-format
@@ -574,6 +577,9 @@ msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
+"Nemáte oprávnění ke správě klienta.\n"
+"Požádejte prosím vašeho admininistrátora, aby vás přidal do lokální skupiny "
+"'boinc_users'."
 
 #: clientgui/BOINCBaseFrame.cpp:433
 msgid ""
@@ -585,7 +591,7 @@ msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:435
 msgid "Authorization failed connecting to running client."
-msgstr ""
+msgstr "Chyba autorizace při připojení k běžícímu klientu."
 
 #: clientgui/BOINCBaseFrame.cpp:443
 msgid "The password you have provided is incorrect, please try again."
@@ -616,6 +622,9 @@ msgid ""
 "%s is not able to start a %s client.\n"
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
+"%s nemůže spustit klienta %s.\n"
+"Spusťte prosím 'Ovládací panely' -> 'Nástroje pro Správu' -> 'Služby' a  "
+"spusťte službu 'BOINC'."
 
 #: clientgui/BOINCBaseFrame.cpp:543
 #, c-format
@@ -659,13 +668,12 @@ msgstr "%s vyžaduje připojení na internet. Prosím klikněte pro otevření %
 
 #: clientgui/BOINCDialupManager.cpp:263
 #, c-format
-#, fuzzy
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
 "%s není schopen se spojit s projektem a potřebuje připojení k internetu.\n"
-"Připojte se prosím k internetu, poté zvolte 'Opakovat přenos' v menu "
+"Připojte se prosím k internetu, poté zvolte 'Navázat kontakt' v menu "
 "'Nastavení'."
 
 #: clientgui/BOINCDialupManager.cpp:310
@@ -702,7 +710,7 @@ msgstr "%s se úspěšně připojil k internetu."
 #: clientgui/BOINCDialupManager.cpp:414
 #, c-format
 msgid "%s failed to connect to the Internet."
-msgstr "Selhalo připojení %s na internet. "
+msgstr "Selhalo připojení %s k internetu. "
 
 #: clientgui/BOINCDialupManager.cpp:455
 #, c-format
@@ -728,6 +736,8 @@ msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr ""
+"Pro správnou funkci BOINC je třeba restartovat počítač.\n"
+"Retartujte prosím počítač a zkuste znovu."
 
 #: clientgui/BOINCGUIApp.cpp:366
 #: clientgui/DlgAbout.cpp:136
@@ -736,7 +746,7 @@ msgstr "Správce BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:515
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr ""
+msgstr "Správce BOINC byl automaticky spuštěn operačním systémem."
 
 #: clientgui/BOINCGUIApp.cpp:516
 msgid "Startup BOINC so only the system tray icon is visible"
@@ -748,7 +758,7 @@ msgstr "Spustit BOINC s těmito volitelnými parametry"
 
 #: clientgui/BOINCGUIApp.cpp:518
 msgid "disable BOINC security users and permissions"
-msgstr "zruší bezpečnostní uživatele a práva BOINC"
+msgstr "Zrušit všechny uživatele 'BOINC security' a jejich práva "
 
 #: clientgui/BOINCGUIApp.cpp:675
 msgid "(Automatic Detection)"
@@ -764,30 +774,30 @@ msgstr "(Definováno uživatelem)"
 
 #: clientgui/BOINCTaskBar.cpp:327
 msgid "Computation is suspended."
-msgstr ""
+msgstr "Výpočty jsou pozastaveny."
 
 #: clientgui/BOINCTaskBar.cpp:335
-#, fuzzy
 msgid "Network activity is suspended."
-msgstr "Z&akázat přístup k síti"
+msgstr "Přístup k síti je pozastaven."
 
+# Not a clue what does this mean :)
 #: clientgui/BOINCTaskBar.cpp:369
 #, c-format
 msgid "%s: %.2f%% completed."
-msgstr ""
+msgstr "%s: %.2f%% dokončeno."
 
 #: clientgui/BOINCTaskBar.cpp:382
 #, c-format
 msgid "%d tasks running."
-msgstr ""
+msgstr "Právě je zpracováváno %d úkolů."
 
 #: clientgui/BOINCTaskBar.cpp:391
 msgid "Reconnecting to client."
-msgstr ""
+msgstr "Znovu se připojuji ke klientovi."
 
 #: clientgui/BOINCTaskBar.cpp:397
 msgid "Not connected to a client."
-msgstr ""
+msgstr "Nepřipojen k žádnému klientovi."
 
 #: clientgui/BOINCTaskBar.cpp:588
 #, c-format
@@ -3169,7 +3179,7 @@ msgstr "Pozastaveno uživatelem"
 #: clientgui/ViewProjectsBase.cpp:677
 #: clientgui/ViewProjectsGrid.cpp:731
 msgid "Won't get new tasks"
-msgstr "Nelze získat další práci"
+msgstr "Nepřijímat další práci"
 
 #: clientgui/ViewProjects.cpp:1057
 #: clientgui/ViewProjectsBase.cpp:680

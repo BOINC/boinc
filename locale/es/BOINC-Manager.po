@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-08 07:37-0700\n"
-"Last-Translator: David Mendez <davidcomp@telefonica.net>\n"
+"PO-Revision-Date: 2009-01-12 15:53-0700\n"
+"Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -142,10 +142,8 @@ msgid "Account Manager &URL:"
 msgstr "U&RL del Administrador de Cuentas:"
 
 #: clientgui/AccountManagerInfoPage.cpp:185
-#, fuzzy
 msgid "For a list of account managers go to:"
-msgstr ""
-"Para una lista de los administradores de cuenta basados en BOINC vaya a:"
+msgstr "Para una lista de administradores de cuenta vaya a:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:189
 #: clientgui/AccountManagerPropertiesPage.cpp:193
