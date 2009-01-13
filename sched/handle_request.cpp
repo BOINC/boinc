@@ -1216,6 +1216,7 @@ void process_request(char* code_sign_key) {
             have_no_work = ssp->no_work(g_pid);
             if (have_no_work) {
                 g_wreq->no_jobs_available = true;
+                log_messages.printf(MSG_NORMAL, "No jobs in shmem\n");
             }
             unlock_sema();
         }

@@ -214,23 +214,28 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
             } else {
                 host_usage.sequential_app(g_reply->host.p_fpops);
             }
-            if (host_usage.cuda_instances()) {
-                if (!g_wreq->need_cuda()) {
-                    if (config.debug_version_select) {
-                        log_messages.printf(MSG_DEBUG,
-                            "Don't need CUDA jobs, skipping\n"
-                        );
+
+            // for new-style requests, check that the app version is relevant
+            //
+            if (g_wreq->rsc_spec_request) {
+                if (host_usage.cuda_instances()) {
+                    if (!g_wreq->need_cuda()) {
+                        if (config.debug_version_select) {
+                            log_messages.printf(MSG_DEBUG,
+                                "Don't need CUDA jobs, skipping\n"
+                            );
+                        }
+                        continue;
                     }
-                    continue;
-                }
-            } else {
-                if (!g_wreq->need_cpu()) {
-                    if (config.debug_version_select) {
-                        log_messages.printf(MSG_DEBUG,
-                            "Don't need CPU jobs, skipping\n"
-                        );
+                } else {
+                    if (!g_wreq->need_cpu()) {
+                        if (config.debug_version_select) {
+                            log_messages.printf(MSG_DEBUG,
+                                "Don't need CPU jobs, skipping\n"
+                            );
+                        }
+                        continue;
                     }
-                    continue;
                 }
             }
             if (host_usage.flops > bavp->host_usage.flops) {
@@ -251,10 +256,13 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
         // here if no app version exists
         //
         if (config.debug_version_select) {
-            log_messages.printf(MSG_DEBUG,
-                "no app version available: APP#%d PLATFORM#%d min_version %d\n",
-                app->id, g_request->platforms.list[0]->id, app->min_version
-            );
+            for (i=0; i<g_request->platforms.list.size(); i++) {
+                PLATFORM* p = g_request->platforms.list[i];
+                log_messages.printf(MSG_DEBUG,
+                    "no app version available: APP#%d (%s) PLATFORM#%d (%s) min_version %d\n",
+                    app->id, app->name, p->id, p->name, app->min_version
+                );
+            }
         }
         if (!g_wreq->no_gpus_prefs) {
             sprintf(message,
@@ -1433,7 +1441,7 @@ void send_work() {
         g_wreq->rsc_spec_request = true;
     } else {
         if (g_wreq->seconds_to_fill == 0) return;
-        g_wreq->rsc_spec_request = true;
+        g_wreq->rsc_spec_request = false;
     }
 
     g_wreq->disk_available = max_allowable_disk();
