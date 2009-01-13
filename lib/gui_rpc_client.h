@@ -324,6 +324,7 @@ public:
     PROJECT* lookup_project(std::string&);
     APP* lookup_app(PROJECT*, std::string&);
     APP_VERSION* lookup_app_version(PROJECT*, APP*, int, std::string&);
+    APP_VERSION* lookup_app_version_old(PROJECT*, APP*, int);
     WORKUNIT* lookup_wu(PROJECT*, std::string&);
     RESULT* lookup_result(PROJECT*, std::string&);
     RESULT* lookup_result(std::string&, std::string&);

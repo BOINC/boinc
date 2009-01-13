@@ -27,15 +27,15 @@ Janus   Jan 6 2009
     - Added Finnish web interface translation (contributed by ORE)
 
     html/
-	inc/
-	    user.inc
-	user/
-	    info.php
-	languages/translations
-	    da.po (fully rewritten)
-	    fi.po (new)
+    inc/
+        user.inc
+    user/
+        info.php
+    languages/translations
+        da.po (fully rewritten)
+        fi.po (new)
     locales/da
-	BOINC-Manager.po
+    BOINC-Manager.po
 
 Charlie Jan 6 2009
     - client: preserve ownership when copying files to slot directory. Fixes
@@ -96,19 +96,19 @@ David  9 Jan 2009
         server_types.cpp,h
 
 David  9 Jan 2009
-	- client: debugging CUDA-related stuff
-	- client: if reset a project, clear its overall and per-resource backoffs
+    - client: debugging CUDA-related stuff
+    - client: if reset a project, clear its overall and per-resource backoffs
 
-	client/
-		client_state.cpp
-		client_types.cpp
-		cs_scheduler.cpp
-		rr_sim.cpp
-		scheduler_op.cpp
-		sim.h
-		work_fetch.cpp,h
-	lib/
-		coproc.cpp
+    client/
+        client_state.cpp
+        client_types.cpp
+        cs_scheduler.cpp
+        rr_sim.cpp
+        scheduler_op.cpp
+        sim.h
+        work_fetch.cpp,h
+    lib/
+        coproc.cpp
 
 Charlie Jan 10 2009
     - Mac: Fix build scripts for new locale source directory layout.
@@ -118,12 +118,12 @@ Charlie Jan 10 2009
         release_boinc.sh
 
 David  Jan 10 2009
-	- client: work_req_seconds is CPU req, not max(CPU req, CUDA req).
-		In order to work with the 6.7 client,
-		projects with both CUDA and CPU jobs must use the newest scheduler code.
+    - client: work_req_seconds is CPU req, not max(CPU req, CUDA req).
+        In order to work with the 6.7 client,
+        projects with both CUDA and CPU jobs must use the newest scheduler code.
 
-	client/
-		work_fetch.cpp
+    client/
+        work_fetch.cpp
 
 David  Jan 11 2009
     - scheduler: if a Windows host has a GPU slower than 60 GFLOPS,
@@ -248,15 +248,15 @@ David  13 Jan 2009
         gui_rpc_client.h
 
 David  13 Jan 2009
-	- client: GPU bug fix; compile warning fixes
+    - client: GPU bug fix; compile warning fixes
 
-	client/
-		client_types.cpp
-	clientgui/
-		BOINCTaskBar.cpp
-	lib/
-		filesys.cpp
-		parse.cpp
+    client/
+        client_types.cpp
+    clientgui/
+        BOINCTaskBar.cpp
+    lib/
+        filesys.cpp
+        parse.cpp
 
 David  13 Jan 2009
     - GUI RPC: finish the changed started above;
@@ -321,7 +321,7 @@ Eric   13 Jan 2009
   packages/ (new)
       generic/ (new)
           sea/ (new)
-	    Makefile.am
+        Makefile.am
   client/
       Makefile.am
       hostinfo_unix.cpp
@@ -359,3 +359,11 @@ Eric   13 Jan 2009
       manpages/
           Makefile.am
 
+David  13 Jan 2009
+    - client/manager fixes
+
+    client/
+        client_types.cpp
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h

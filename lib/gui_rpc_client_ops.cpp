@@ -664,6 +664,19 @@ APP_VERSION* CC_STATE::lookup_app_version(
     return 0;
 }
 
+APP_VERSION* CC_STATE::lookup_app_version_old(
+    PROJECT* project, APP* app, int version_num
+) {
+    unsigned int i;
+    for (i=0; i<app_versions.size(); i++) {
+        if (app_versions[i]->project != project) continue;
+        if (app_versions[i]->app != app) continue;
+        if (app_versions[i]->version_num != version_num) continue;
+        return app_versions[i];
+    }
+    return 0;
+}
+
 WORKUNIT* CC_STATE::lookup_wu(PROJECT* project, string& str) {
     unsigned int i;
     for (i=0; i<wus.size(); i++) {
@@ -1115,9 +1128,8 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
                         result->plan_class
                     );
                 } else {
-                    string empty="";
-                    avp = state.lookup_app_version(
-                        project, result->app, result->wup->version_num, empty
+                    avp = state.lookup_app_version_old(
+                        project, result->app, result->wup->version_num
                     );
                 }
                 result->avp = avp;

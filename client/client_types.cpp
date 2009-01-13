@@ -1669,6 +1669,8 @@ int RESULT::write_gui(MIOFILE& out) {
         "<result>\n"
         "    <name>%s</name>\n"
         "    <wu_name>%s</wu_name>\n"
+        "    <version_num>%d</version_num>\n"
+        "    <plan_class>%s</plan_class>\n"
         "    <project_url>%s</project_url>\n"
         "    <final_cpu_time>%f</final_cpu_time>\n"
         "    <exit_status>%d</exit_status>\n"
@@ -1677,6 +1679,8 @@ int RESULT::write_gui(MIOFILE& out) {
         "    <estimated_cpu_time_remaining>%f</estimated_cpu_time_remaining>\n",
         name,
         wu_name,
+        version_num,
+        plan_class,
         project->master_url,
         final_cpu_time,
         exit_status,
