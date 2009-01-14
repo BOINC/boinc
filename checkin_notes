@@ -375,3 +375,12 @@ David  14 Jan 2009
 
 	client/
 		app_control.cpp
+
+David  14 Jan 2009
+	- client: clamp long term debts tp +- 1 week
+	- client: fix CUDA debt calculation
+	- client: don't accumulate debt if project->dont_request_more_work
+	- client: improves messages
+
+	client/
+		rr_sim.cpp

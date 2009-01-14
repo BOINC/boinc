@@ -138,6 +138,7 @@ struct COPROC_CUDA : public COPROC {
     COPROC_CUDA(): COPROC("CUDA"){}
     virtual ~COPROC_CUDA(){}
     static std::string get(COPROCS&);
+	void description(char*);
     void clear();
     int parse(FILE*);
 

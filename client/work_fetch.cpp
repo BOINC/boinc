@@ -23,6 +23,13 @@
 #include "client_state.h"
 #endif
 
+// max long-term debt - the "window size" of enforcing resource share.
+// If a job of P runs in EDF mode for a long time,
+// P's debt will go to -MAX_LTD and other projects will go to MAX_LTD.
+// When it's done, P won't run for a week.
+//
+static const double MAX_LTD = 7*86400;
+
 #include "work_fetch.h"
 
 using std::vector;
@@ -30,6 +37,14 @@ using std::vector;
 RSC_WORK_FETCH cuda_work_fetch;
 RSC_WORK_FETCH cpu_work_fetch;
 WORK_FETCH work_fetch;
+
+static inline char* rsc_name(int t) {
+	switch (t) {
+	case RSC_TYPE_CPU: return "CPU";
+	case RSC_TYPE_CUDA: return "CUDA";
+	}
+	return "Unknown";
+}
 
 RSC_PROJECT_WORK_FETCH& RSC_WORK_FETCH::project_state(PROJECT* p) {
     switch(rsc_type) {
@@ -146,9 +161,9 @@ void RSC_WORK_FETCH::print_state(char* name) {
         PROJECT* p = gstate.projects[i];
         RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
         msg_printf(p, MSG_INFO,
-            "[wfd] %s: runshare %.2f debt %.2f backoff t %.2f dt %.2f",
+            "[wfd] %s: runshare %.2f debt %.2f backoff t %.2f int %.2f",
             name,
-            pwf.runnable_share, pwf.debt, pwf.backoff_time, pwf.backoff_interval
+            pwf.runnable_share, pwf.debt, pwf.backoff_time-gstate.now, pwf.backoff_interval
         );
     }
 }
@@ -284,7 +299,7 @@ void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {
     p->cpu_pwf.secs_this_debt_interval += x;
     cpu_work_fetch.secs_this_debt_interval += x;
     if (coproc_cuda) {
-        x = dt*coproc_cuda->used;
+        x = dt*avp->ncudas;
         p->cuda_pwf.secs_this_debt_interval += x;
         cuda_work_fetch.secs_this_debt_interval += x;
     }
@@ -299,8 +314,9 @@ void RSC_WORK_FETCH::update_debts() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
-        if (!w.debt_eligible(p)) continue;
-        ders += p->resource_share;
+		if (w.debt_eligible(p)) {
+			ders += p->resource_share;
+		}
     }
     double total_debt = 0;
     for (i=0; i<gstate.projects.size(); i++) {
@@ -308,19 +324,30 @@ void RSC_WORK_FETCH::update_debts() {
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
         if (w.debt_eligible(p)) {
             double share_frac = p->resource_share/ders;
-            w.debt += share_frac*secs_this_debt_interval - w.secs_this_debt_interval;
+			double delta = share_frac*secs_this_debt_interval - w.secs_this_debt_interval;
+            w.debt += delta;
+			if (log_flags.debt_debug) {
+				msg_printf(p, MSG_INFO,
+					"[debt] %s debt %.2f delta %.2f share frac %.2f (%.2f/%.2f) secs %.2f rsc_secs %.2f",
+					rsc_name(rsc_type),
+					w.debt, delta, share_frac, p->resource_share, ders, secs_this_debt_interval,
+					w.secs_this_debt_interval
+				);
+			}
         }
         total_debt += w.debt;
         nprojects++;
     }
 
-    //  normalize so mean is zero,
+    //  normalize so mean is zero, and clamp
     //
     double avg_debt = total_debt / nprojects;
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
-        w.debt-= avg_debt;
+        w.debt -= avg_debt;
+		if (w.debt > MAX_LTD) w.debt = MAX_LTD;
+		if (w.debt < -MAX_LTD) w.debt = -MAX_LTD;
     }
 }
 
@@ -370,6 +397,7 @@ void WORK_FETCH::compute_shares() {
 bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p) {
     if (backoff_time > gstate.now) return false;
     if (p->suspended_via_gui) return false;
+	if (p->dont_request_more_work) return false;
     return true;
 }
 

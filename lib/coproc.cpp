@@ -190,18 +190,20 @@ string COPROC_CUDA::get(COPROCS& coprocs) {
     COPROC_CUDA cc, cc2;
     string s;
     for (int i=0; i<count; i++) {
+		char buf[256];
         (*__cudaGetDeviceProperties)(&cc.prop, i);
         if (cc.prop.major <= 0) continue;  // major == 0 means emulation
         if (cc.prop.major > 100) continue;  // e.g. 9999 is an error
+		cc.description(buf);
 
         if (real_count) {
             if (cc.flops_estimate() > cc2.flops_estimate()) {
                 cc2 = cc;
             }
             s += ", ";
-            s += cc.prop.name;
+            s += buf;
         } else {
-            s = cc.prop.name;
+            s = buf;
             cc2 = cc;
         }
         real_count++;
@@ -220,6 +222,12 @@ string COPROC_CUDA::get(COPROCS& coprocs) {
     } else {
         return "CUDA devices: "+s;
     }
+}
+
+void COPROC_CUDA::description(char* buf) {
+	sprintf(buf, "%s (%.0fMB, est. %.0fGFLOPS)",
+		prop.name, prop.totalGlobalMem/(1024.*1024.), flops_estimate()/1e9
+	);
 }
 
 // add a non-existent CUDA coproc (for debugging)

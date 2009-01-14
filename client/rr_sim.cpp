@@ -150,12 +150,14 @@ void set_rrsim_flops(RESULT* rp) {
 	double r3 = r2 * gstate.overall_cpu_frac();
 
     rp->rrsim_flops = r3 * gstate.host_info.p_fpops;
+#if 0
     if (log_flags.rr_simulation) {
         msg_printf(p, MSG_INFO,
             "[rr_sim] set_rrsim_flops: %f (r1 %f r2 %f r3 %f)",
             rp->rrsim_flops, r1, r2, r3
         );
     }
+#endif
 }
 
 void CLIENT_STATE::print_deadline_misses() {
@@ -283,9 +285,9 @@ void CLIENT_STATE::rr_simulation() {
 
         if (log_flags.rr_simulation) {
             msg_printf(pbest, MSG_INFO,
-                "[rr_sim] result %s finishes after %f (%f/%f)",
+                "[rr_sim] %s finishes after %.2f (%.2fG/%.2fG)",
                 rpbest->name, rpbest->rrsim_finish_delay,
-                rpbest->rrsim_flops_left, rpbest->rrsim_flops
+                rpbest->rrsim_flops_left/1e9, rpbest->rrsim_flops/1e9
             );
         }
 
