@@ -371,6 +371,7 @@ David  13 Jan 2009
 David  14 Jan 2009
 	- client: fix bug that caused estimated time to completion to increase
 		while processing suspended
+		Fixes #825
 
 	client/
 		app_control.cpp
