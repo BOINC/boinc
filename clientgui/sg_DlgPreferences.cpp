@@ -565,13 +565,12 @@ void CPanelPreferences::OnButtonHelp( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CPanelPreferences::OnHelp - Function Begin"));
 
     if (IsShown()) {
-		std::string url;
-		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
+        wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
 
-		wxString wxurl;
+        wxString wxurl;
 		wxurl.Printf(
             wxT("%s?target=simple_preferences&version=%s&controlid=%d"),
-            wxString(url.c_str(), wxConvUTF8).c_str(),
+            strURL.c_str(),
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );
@@ -1072,13 +1071,12 @@ void CDlgPreferences::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgPreferences::OnHelp - Function Begin"));
 
     if (IsShown()) {
-		std::string url;
-		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
+    	wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
 
 		wxString wxurl;
 		wxurl.Printf(
             wxT("%s?target=simple_preferences&version=%s&controlid=%d"),
-            wxString(url.c_str(), wxConvUTF8).c_str(),
+            strURL.c_str(),
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );

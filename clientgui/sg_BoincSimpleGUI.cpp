@@ -312,14 +312,13 @@ void CSimpleFrame::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function Begin"));
 
     if (IsShown()) {
-		std::string url;
-		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
+    	wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
 
 		wxString wxurl;
 		wxurl.Printf(
             wxT("%s?target=simple&version=%s&controlid=%d"),
-            url.c_str(),
-            BOINC_VERSION_STRING,
+            strURL.c_str(),
+            wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );
         ExecuteBrowserLink(wxurl);
@@ -333,14 +332,13 @@ void CSimpleFrame::OnHelpBOINC(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINC - Function Begin"));
 
     if (IsShown()) {
-		std::string url;
-		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
+    	wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
 
 		wxString wxurl;
 		wxurl.Printf(
             wxT("%s?target=simple&version=%s&controlid=%d"),
-            url.c_str(),
-            BOINC_VERSION_STRING,
+            strURL.c_str(),
+            wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );
 		ExecuteBrowserLink(wxurl);

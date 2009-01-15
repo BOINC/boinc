@@ -396,16 +396,16 @@ void CProjectsComponent::UpdateDisplayedProjects() {
 void CProjectsComponent::OnHelp(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnHelp - Function Begin"));
 
-	std::string url;
-    url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
+	wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
 
     wxString wxurl;
     wxurl.Printf(
         wxT("%s?target=simple&version=%s&controlid=%d"),
-        url.c_str(),
-        BOINC_VERSION_STRING,
+        strURL.c_str(),
+        wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
         event.GetId()
     );
+
     wxGetApp().GetFrame()->ExecuteBrowserLink(wxurl);
         
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnHelp - Function End"));
