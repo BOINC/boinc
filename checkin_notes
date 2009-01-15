@@ -414,3 +414,17 @@ David  15 Jan 2009
         msg_log.cpp
     sched/
         *.cpp
+
+David  15 Jan 2009
+    - GUI RPC: add CUDA info to PROJECT struct
+    - manager: display CUDA info in project properties page
+    - manager: use struct assignment instead of copy() function
+
+    client/
+        boinc_cmd.cpp
+    clientgui/
+        AsyncRPC.cpp
+        DlgItemProperties.cpp
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h

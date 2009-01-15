@@ -158,6 +158,7 @@ void PROJECT::get_name(std::string& s) {
     }
 }
 
+#if 0
 void PROJECT::copy(PROJECT& p) {
     resource_share = p.resource_share;
     project_name = p.project_name;
@@ -187,6 +188,7 @@ void PROJECT::copy(PROJECT& p) {
     project_files_downloaded_time = p.project_files_downloaded_time;
     last_rpc_time = p.last_rpc_time;
 }
+#endif
 
 int PROJECT::parse(MIOFILE& in) {
     char buf[256];
@@ -208,7 +210,10 @@ int PROJECT::parse(MIOFILE& in) {
         if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
         if (parse_double(buf, "<min_rpc_time>", min_rpc_time)) continue;
         if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
-        if (parse_double(buf, "<long_term_debt>", long_term_debt)) continue;
+        if (parse_double(buf, "<long_term_debt>", cpu_long_term_debt)) continue;
+        if (parse_double(buf, "<cpu_backoff_time>", cpu_backoff_time)) continue;
+        if (parse_double(buf, "<cuda_long_term_debt>", cuda_long_term_debt)) continue;
+        if (parse_double(buf, "<cuda_backoff_time>", cuda_backoff_time)) continue;
         if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         if (parse_bool(buf, "master_url_fetch_pending", master_url_fetch_pending)) continue;
         if (parse_int(buf, "<sched_rpc_pending>", sched_rpc_pending)) continue;
@@ -254,7 +259,8 @@ void PROJECT::clear() {
     master_fetch_failures = 0;
     min_rpc_time = 0;
     short_term_debt = 0;
-    long_term_debt = 0;
+    cpu_long_term_debt = 0;
+    cuda_long_term_debt = 0;
     duration_correction_factor = 0;
     master_url_fetch_pending = false;
     sched_rpc_pending = 0;
@@ -2162,7 +2168,7 @@ int RPC_CLIENT::set_debts(vector<PROJECT> projects) {
             "    </project>\n",
             p.master_url.c_str(),
             p.short_term_debt,
-            p.long_term_debt
+            p.cpu_long_term_debt
         );
         s += string(buf);
     }

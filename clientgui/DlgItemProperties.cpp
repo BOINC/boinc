@@ -20,6 +20,7 @@
 #endif
 
 #include "stdwx.h"
+#include "util.h"
 #include "DlgItemProperties.h"
 #include "BOINCGUIApp.h"
 #include "Events.h"
@@ -106,6 +107,9 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 	addProperty(_("User name"),wxString(project->user_name.c_str(),wxConvUTF8));
 	addProperty(_("Team name"),wxString(project->team_name.c_str(),wxConvUTF8));
 	addProperty(_("Resource share"),wxString::Format(wxT("%0.0f"),project->resource_share));
+    if (project->min_rpc_time > dtime()) {
+		addProperty(_("Scheduler RPC deferred for"), FormatTime(dtime() - project->min_rpc_time));
+    }
 	addProperty(_("Disk usage"),FormatDiskSpace(diskusage));
 	addProperty(_("Non CPU intensive"),project->non_cpu_intensive ? _("yes") : _("no"));
 	addProperty(_("Suspended via GUI"),project->suspended_via_gui ? _("yes") : _("no"));
@@ -131,9 +135,18 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     );
 	
 	addSection(_("Scheduling"));
-	addProperty(_("Short term debt"),wxString::Format(wxT("%0.2f"),project->short_term_debt));
-	addProperty(_("Long term debt"),wxString::Format(wxT("%0.2f"),project->long_term_debt));
-	addProperty(_("Duration correction factor"),wxString::Format(wxT("%0.4f"),project->duration_correction_factor));
+	addProperty(_("Short term debt"),wxString::Format(wxT("%0.2f"), project->short_term_debt));
+	addProperty(_("CPU long term debt"),wxString::Format(wxT("%0.2f"), project->cpu_long_term_debt));
+    if (project->cpu_backoff_time > dtime()) {
+		addProperty(_("CPU work fetch deferred for"), FormatTime(dtime() - project->cpu_backoff_time));
+    }
+    if (project->cuda_long_term_debt) {
+        addProperty(_("CUDA long term debt"),wxString::Format(wxT("%0.2f"), project->cpu_long_term_debt));
+    }
+    if (project->cuda_backoff_time > dtime()) {
+		addProperty(_("CUDA work fetch deferred for"), FormatTime(dtime() - project->cuda_backoff_time));
+    }
+	addProperty(_("Duration correction factor"),wxString::Format(wxT("%0.4f"), project->duration_correction_factor));
 	m_gbSizer->Layout();
 	m_scrolledWindow->FitInside();
 }

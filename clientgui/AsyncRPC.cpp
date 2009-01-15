@@ -911,7 +911,7 @@ int CMainDocument::CopyProjectsToStateFile(PROJECTS& p, CC_STATE& state) {
         if (state_project && (p.projects[i]->master_url == state_project->master_url)) {
             // Because the CC_STATE contains several pointers to each element of the 
             // CC_STATE::projects vector, we must update these elements in place.
-            state_project->copy(*(p.projects[i]));
+            *state_project = *(p.projects[i]);
             state_project->flag_for_delete = false;
         } else {
             retval = ERR_NOT_FOUND;

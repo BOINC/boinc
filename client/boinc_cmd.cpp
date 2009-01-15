@@ -498,7 +498,7 @@ int main(int argc, char** argv) {
             PROJECT proj;
             proj.master_url = string(next_arg(argc, argv, i));
             proj.short_term_debt = atoi(next_arg(argc, argv, i));
-            proj.long_term_debt = atoi(next_arg(argc, argv, i));
+            proj.cpu_long_term_debt = atoi(next_arg(argc, argv, i));
             projects.push_back(proj);
         }
         retval = rpc.set_debts(projects);

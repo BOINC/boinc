@@ -63,8 +63,8 @@ public:
     std::string general_area;
     std::string specific_area;
     std::string description;
-    std::string home;
-    std::string image;
+    std::string home;       // sponsoring organization
+    std::string image;      // URL of logo
     std::vector<std::string> platforms;
         // platforms supported by project, or empty
     double rand;
@@ -96,7 +96,10 @@ public:
     int master_fetch_failures;
     double min_rpc_time;           // earliest time to contact any server
     double short_term_debt;
-    double long_term_debt;
+    double cpu_long_term_debt;
+    double cuda_long_term_debt;
+    double cpu_backoff_time;
+    double cuda_backoff_time;
     double duration_correction_factor;
 
     bool master_url_fetch_pending; // need to fetch and parse the master URL
@@ -126,7 +129,7 @@ public:
     void print();
     void clear();
     void get_name(std::string&);
-    void copy(PROJECT&);        // copy to this object
+    //void copy(PROJECT&);        // copy to this object
 
     // temp - keep track of whether or not this record needs to be deleted
     bool flag_for_delete;
@@ -462,11 +465,11 @@ struct PROJECT_CONFIG {
     std::string name;
     int min_passwd_length;
     bool account_manager;
-    bool uses_username;
+    bool uses_username;     // true for WCG
     bool account_creation_disabled;
-    bool client_account_creation_disabled;
-    bool sched_stopped;
-    bool web_stopped;
+    bool client_account_creation_disabled;  // must create account on web
+    bool sched_stopped;         // scheduler disabled
+    bool web_stopped;           // DB-driven web functions disabled
     int min_client_version;
 	std::string error_msg;
     std::string terms_of_use;
