@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-07 00:38-0700\n"
+"PO-Revision-Date: 2009-01-15 02:26-0700\n"
 "Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "Language: pl\n"
@@ -1386,11 +1386,11 @@ msgid ""
 "exit the Manager, then choose from the following options:"
 msgstr ""
 "Wybrałeś zamknięcie %s'a,\n"
-"który umożliwia ci zarządzanie aplikacjami projektów\n"
-"uruchomionymi na twoim komputerze.\n"
+"który umożliwia zarządzanie aplikacjami projektów\n"
+"na tym komputerze.\n"
 "\n"
-"Jeżeli chcesz także po zamknięciu Menadżera BOINC\n"
-"zakończyć pracę aplikacji projektów, wybierz z poniższych opcji"
+"Jeżeli chcesz także zakończyć pracę wszystkich\n"
+"aplikacji projektów, wybierz z poniższych opcji"
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
@@ -1412,11 +1412,11 @@ msgstr ""
 
 #: clientgui/DlgExitMessage.cpp:153
 msgid "Stop running science applications when exiting the Manager"
-msgstr "Zamknij aplikacje projektów gdy zamykasz Menadżera BOINC"
+msgstr "Zamknij wszystkie aplikacje projektów gdy zamykasz Menadżera BOINC."
 
 #: clientgui/DlgExitMessage.cpp:164
 msgid "Remember this decision and do not show this dialog."
-msgstr "Pamiętaj tę decyzję i nie pokazuj tego okna w przyszłości."
+msgstr "Pamiętaj powyższą decyzję i nie pokazuj tego okna w przyszłości."
 
 #: clientgui/DlgExitMessage.cpp:177
 #: clientgui/DlgGenericMessage.cpp:125
@@ -1803,7 +1803,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
-msgstr "Uruchamiać Menadżera BOINC przy logowaniu?"
+msgstr "Uruchamianie przy logowaniu"
 
 #: clientgui/DlgOptions.cpp:191
 msgid "Run the BOINC Manager when you log on."
@@ -1811,7 +1811,7 @@ msgstr "Menadżer BOINC jest uruchamiany przy logowaniu."
 
 #: clientgui/DlgOptions.cpp:196
 msgid "Enable Manager exit dialog?"
-msgstr "Wyświetlać okno dialogowe przy zamykaniu Menadżera BOINC?"
+msgstr "Okno dialogowe przy zamykaniu"
 
 #: clientgui/DlgOptions.cpp:202
 msgid "Display the exit dialog when shutting down the Manager."
