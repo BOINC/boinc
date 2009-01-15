@@ -30,6 +30,7 @@
 #include "error_numbers.h"
 #include "Events.h"
 #include "hyperlink.h"
+#include "version.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -393,7 +394,7 @@ void CProjectsComponent::UpdateDisplayedProjects() {
 }
 
 
-void CProjectsComponent::OnHelp(wxCommandEvent& /*event*/) {
+void CProjectsComponent::OnHelp(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnHelp - Function Begin"));
 
 	wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
