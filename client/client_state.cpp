@@ -272,15 +272,10 @@ int CLIENT_STATE::init() {
         }
 #if 0
         fake_cuda(coprocs, 1);
+        msg_printf(NULL, MSG_INFO, "Faking a CUDA device");
 #endif
         if (coprocs.coprocs.size() == 0) {
             msg_printf(NULL, MSG_INFO, "No coprocessors");
-        }
-    } else {
-        for (i=0; i<coprocs.coprocs.size(); i++) {
-            COPROC* c = coprocs.coprocs[i];
-            c->description(buf);
-            msg_printf(NULL, MSG_INFO, "Coprocessor: %s", buf);
         }
     }
 
