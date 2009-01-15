@@ -140,8 +140,8 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     if (project->cpu_backoff_time > dtime()) {
 		addProperty(_("CPU work fetch deferred for"), FormatTime(dtime() - project->cpu_backoff_time));
     }
-    if (project->cuda_long_term_debt) {
-        addProperty(_("CUDA long term debt"),wxString::Format(wxT("%0.2f"), project->cpu_long_term_debt));
+    if (project->cuda_debt) {
+        addProperty(_("CUDA long term debt"),wxString::Format(wxT("%0.2f"), project->cuda_debt));
     }
     if (project->cuda_backoff_time > dtime()) {
 		addProperty(_("CUDA work fetch deferred for"), FormatTime(dtime() - project->cuda_backoff_time));

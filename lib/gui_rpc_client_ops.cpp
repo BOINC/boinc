@@ -212,7 +212,7 @@ int PROJECT::parse(MIOFILE& in) {
         if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
         if (parse_double(buf, "<long_term_debt>", cpu_long_term_debt)) continue;
         if (parse_double(buf, "<cpu_backoff_time>", cpu_backoff_time)) continue;
-        if (parse_double(buf, "<cuda_long_term_debt>", cuda_long_term_debt)) continue;
+        if (parse_double(buf, "<cuda_debt>", cuda_debt)) continue;
         if (parse_double(buf, "<cuda_backoff_time>", cuda_backoff_time)) continue;
         if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         if (parse_bool(buf, "master_url_fetch_pending", master_url_fetch_pending)) continue;
@@ -260,7 +260,7 @@ void PROJECT::clear() {
     min_rpc_time = 0;
     short_term_debt = 0;
     cpu_long_term_debt = 0;
-    cuda_long_term_debt = 0;
+    cuda_debt = 0;
     duration_correction_factor = 0;
     master_url_fetch_pending = false;
     sched_rpc_pending = 0;

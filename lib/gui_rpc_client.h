@@ -97,7 +97,7 @@ public:
     double min_rpc_time;           // earliest time to contact any server
     double short_term_debt;
     double cpu_long_term_debt;
-    double cuda_long_term_debt;
+    double cuda_debt;
     double cpu_backoff_time;
     double cuda_backoff_time;
     double duration_correction_factor;
