@@ -32,3 +32,11 @@ Rom    12 Jan 2009
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rom    15 Jan 2008
+    - WINSETUP: Fix the problem introduced where Enable Application
+        execution wasn't working.
+        
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
