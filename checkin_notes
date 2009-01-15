@@ -384,3 +384,11 @@ David  14 Jan 2009
 
 	client/
 		rr_sim.cpp
+
+Rom    15 Jan 2008
+    - WINSETUP: Fix the problem introduced where Enable Application
+        execution wasn't working.
+        
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
