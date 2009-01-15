@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-12 15:36-0700\n"
+"PO-Revision-Date: 2009-01-15 12:05-0700\n"
 "Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -3705,8 +3705,9 @@ msgid "Project Attach Failure"
 msgstr "Fallo en Unión al Proyecto"
 
 #: clientgui/WelcomePage.cpp:429
+#, fuzzy
 msgid "Failure Communicating with Reference Site"
-msgstr ""
+msgstr "Fallo al Comunicarse con el sitio de Referencia"
 
 #: clientgui/WelcomePage.cpp:432
 msgid "Net Detection Failure"
