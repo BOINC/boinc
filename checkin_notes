@@ -396,6 +396,7 @@ Rom    15 Jan 2008
 Rom    15 Jan 2008
     - MGR: Don't convert strings to ANSI juts to have to reconvert them
         back to Unicode.  Fix several help link issues.
+		Fixes #826
         
     clientgui/
         AdvancedFrame.cpp
