@@ -392,3 +392,15 @@ Rom    15 Jan 2008
     win_build/installerv2/
         BOINC.ism
         BOINCx64.ism
+
+Rom    15 Jan 2008
+    - MGR: Don't convert strings to ANSI juts to have to reconvert them
+        back to Unicode.  Fix several help link issues.
+        
+    clientgui/
+        AdvancedFrame.cpp
+        DlgAdvPreferences.cpp
+        sg_BoincSimpleGUI.cpp
+        sg_DlgMessages.cpp
+        sg_DlgPreferences.cpp
+        sg_ProjectsComponent.cpp

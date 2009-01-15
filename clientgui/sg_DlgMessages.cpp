@@ -443,13 +443,12 @@ void CPanelMessages::OnButtonHelp( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnHelp - Function Begin"));
 
     if (IsShown()) {
-		std::string url;
-		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
+    	wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
 
 		wxString wxurl;
 		wxurl.Printf(
             wxT("%s?target=simple_messages&version=%s&controlid=%d"),
-            wxString(url.c_str(), wxConvUTF8).c_str(),
+            strURL.c_str(),
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );
@@ -836,13 +835,12 @@ void CDlgMessages::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::OnHelp - Function Begin"));
 
     if (IsShown()) {
-		std::string url;
-		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
+        wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
 
-		wxString wxurl;
+        wxString wxurl;
 		wxurl.Printf(
             wxT("%s?target=simple_messages&version=%s&controlid=%d"),
-            wxString(url.c_str(), wxConvUTF8).c_str(),
+            strURL.c_str(),
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             event.GetId()
         );

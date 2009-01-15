@@ -696,13 +696,13 @@ void CDlgAdvPreferences::OnOK(wxCommandEvent& ev) {
 // handles Help button clicked
 void CDlgAdvPreferences::OnHelp(wxCommandEvent& ev) {
     if (IsShown()) {
-		std::string url;
-		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
+
+	    wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
 
 		wxString wxurl;
 		wxurl.Printf(
             wxT("%s?target=advanced_preferences&version=%s&controlid=%d"),
-            wxString(url.c_str(), wxConvUTF8).c_str(),
+            strURL.c_str(),
             wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
             ev.GetId()
         );
