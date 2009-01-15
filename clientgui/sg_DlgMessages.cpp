@@ -31,6 +31,7 @@
 #include "error_numbers.h"
 #include "Events.h"
 #include "BOINCGUIApp.h"
+#include "BOINCBaseFrame.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "hyperlink.h"

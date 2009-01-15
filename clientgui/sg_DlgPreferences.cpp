@@ -31,6 +31,7 @@
 #include "Events.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
+#include "BOINCBaseFrame.h"
 #include "MainDocument.h"
 #include "hyperlink.h"
 #include "version.h"
@@ -562,7 +563,7 @@ void CPanelPreferences::OnConnectBetweenBeginSelected( wxCommandEvent& /*event*/
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
  */
 
-void CPanelPreferences::OnButtonHelp( wxCommandEvent& WXUNUSED(event) ) {
+void CPanelPreferences::OnButtonHelp( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CPanelPreferences::OnHelp - Function Begin"));
 
     if (IsShown()) {
