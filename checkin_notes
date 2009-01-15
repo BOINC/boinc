@@ -428,3 +428,10 @@ David  15 Jan 2009
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+
+David  15 Jan 2009
+    - scheduler: remove clause in app_plan() that withholds jobs from slow GPUs.
+        The SETI@home/CUDA app has been fixed so that it works on all GPUs.
+
+    sched/
+        sched_plan.cpp

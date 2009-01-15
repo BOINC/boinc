@@ -108,6 +108,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         }
         hu.flops = cp->flops_estimate();
 
+#if 0    // THIS PROBLEM HAS BEEN FIXED IN THE SETI@HOME APP
         // On Windows, slower GPUs sometimes get a blue screen of death
         //
         if (strstr(sreq.host.os_name, "Windows") && hu.flops < 60e9) {
@@ -120,6 +121,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             g_wreq->gpu_too_slow = true;
             return false;
         }
+#endif
 
         // assume we'll need 0.5% as many CPU FLOPS as GPU FLOPS
         // to keep the GPU fed.
