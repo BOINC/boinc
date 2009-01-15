@@ -460,14 +460,13 @@ void CPanelMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
 void CPanelMessages::OnButtonHelp( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CPanelMessages::OnHelp - Function Begin"));
 
-	std::string url;
-	url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl().mb_str();
+	wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
 
 	wxString wxurl;
 	wxurl.Printf(
         wxT("%s?target=simple_messages&version=%s&controlid=%d"),
-        url.c_str(),
-        BOINC_VERSION_STRING,
+        strURL.c_str(),
+        wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
         event.GetId()
     );
     wxHyperLink::ExecuteLink(wxurl);
@@ -852,13 +851,16 @@ void CDlgMessages::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::OnHelp - Function Begin"));
 
     if (IsShown()) {
-		std::string url;
-		url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationWebsite().mb_str();
-		canonicalize_master_url(url);
+    	wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
 
 		wxString wxurl;
-		wxurl.Printf(wxT("%smanager_links.php?target=simple_messages&controlid=%d"), url.c_str(), event.GetId());
-        wxHyperLink::ExecuteLink(wxurl);
+		wxurl.Printf(
+            wxT("%s?target=simple_messages&version=%s&controlid=%d"),
+            strURL.c_str(),
+            wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
+            event.GetId()
+        );
+        wxGetApp().GetFrame()->ExecuteBrowserLink(wxurl);
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::OnHelp - Function End"));

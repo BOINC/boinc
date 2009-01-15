@@ -685,10 +685,18 @@ void CDlgAdvPreferences::OnOK(wxCommandEvent& ev) {
 
 // handles Help button clicked
 void CDlgAdvPreferences::OnHelp(wxCommandEvent& ev) {
-	wxString url = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationWebsite();
-	url += wxT("/prefs.php");//this seems not the right url, but which instead ?
-	wxHyperLink::ExecuteLink(url);
-	ev.Skip();
+    if (IsShown()) {
+	    wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
+
+		wxString wxurl;
+		wxurl.Printf(
+            wxT("%s?target=advanced_preferences&version=%s&controlid=%d"),
+            strURL.c_str(),
+            wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
+            ev.GetId()
+        );
+        wxGetApp().GetFrame()->ExecuteBrowserLink(wxurl);
+    }
 }
 
 // handles Clear button clicked 
