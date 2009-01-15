@@ -96,7 +96,7 @@ void MSG_LOG::vprintf(int kind, const char* format, va_list va) {
     } else {
         buf[0] = 0;
     }
-    fprintf(output, "%s%s [%s]%s ", now_timestamp, buf, v_format_kind(kind), spaces);
+    fprintf(output, "%s%s %s%s ", now_timestamp, buf, v_format_kind(kind), spaces);
     vfprintf(output, format, va);
 }
 
@@ -118,7 +118,7 @@ void MSG_LOG::vprintf_multiline(
     string line;
     while (*str) {
         if (*str == '\n') {
-            fprintf(output, "%s [%s]%s %s%s\n", now_timestamp, skind, spaces, sprefix, line.c_str());
+            fprintf(output, "%s %s%s %s%s\n", now_timestamp, skind, spaces, sprefix, line.c_str());
             line.erase();
         } else {
             line += *str;
@@ -151,7 +151,7 @@ void MSG_LOG::vprintf_file(
     char buf[256];
 
     while (fgets(buf, 256, f)) {
-        fprintf(output, "%s [%s]%s %s%s\n", now_timestamp, skind, spaces, sprefix, buf);
+        fprintf(output, "%s %s%s %s%s\n", now_timestamp, skind, spaces, sprefix, buf);
     }
     fclose(f);
 }

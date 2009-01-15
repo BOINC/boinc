@@ -86,8 +86,8 @@ int handle_results() {
         }
 
         if (config.debug_handle_results) {
-            log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] [RESULT#%d %s] got result (DB: server_state=%d outcome=%d client_state=%d validate_state=%d delete_state=%d)\n",
+            log_messages.printf(MSG_NORMAL,
+                "[handle] [HOST#%d] [RESULT#%d %s] got result (DB: server_state=%d outcome=%d client_state=%d validate_state=%d delete_state=%d)\n",
                 g_reply->host.id, srip->id, srip->name, srip->server_state,
                 srip->outcome, srip->client_state, srip->validate_state,
                 srip->file_delete_state
@@ -258,8 +258,8 @@ int handle_results() {
         }
 
         if (config.debug_handle_results) {
-            log_messages.printf(MSG_DEBUG,
-                "cpu time %f credit/sec %f, claimed credit %f\n", srip->cpu_time, g_reply->host.claimed_credit_per_cpu_sec, srip->claimed_credit
+            log_messages.printf(MSG_NORMAL,
+                "[handle] cpu time %f credit/sec %f, claimed credit %f\n", srip->cpu_time, g_reply->host.claimed_credit_per_cpu_sec, srip->claimed_credit
             );
         }
         srip->server_state = RESULT_SERVER_STATE_OVER;
@@ -276,16 +276,16 @@ int handle_results() {
         if ((srip->client_state == RESULT_FILES_UPLOADED) && (srip->exit_status == 0)) {
             srip->outcome = RESULT_OUTCOME_SUCCESS;
             if (config.debug_handle_results) {
-                log_messages.printf(MSG_DEBUG,
-                    "[RESULT#%d %s]: setting outcome SUCCESS\n",
+                log_messages.printf(MSG_NORMAL,
+                    "[handle] [RESULT#%d %s]: setting outcome SUCCESS\n",
                     srip->id, srip->name
                 );
             }
             g_reply->got_good_result();
         } else {
             if (config.debug_handle_results) {
-                log_messages.printf(MSG_DEBUG,
-                    "[RESULT#%d %s]: client_state %d exit_status %d; setting outcome ERROR\n",
+                log_messages.printf(MSG_NORMAL,
+                    "[handle] [RESULT#%d %s]: client_state %d exit_status %d; setting outcome ERROR\n",
                     srip->id, srip->name, srip->client_state, srip->exit_status
                 );
             }

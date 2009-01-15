@@ -141,6 +141,7 @@ public:
     bool debug_handle_results;
     bool debug_edf_sim_workload;    // show workload for EDF sim
     bool debug_edf_sim_detail;      // show details of EDF sim
+    bool debug_locality;            // locality scheduling
 
     int parse(FILE*);
     int parse_file(const char* dir=".");

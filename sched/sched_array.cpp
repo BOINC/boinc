@@ -84,12 +84,14 @@ void scan_work_array() {
             if (!app->beta) {
                 continue;
             }
-            log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] beta work found.  [RESULT#%d]\n",
-                g_reply->host.id, wu_result.resultid
-            );
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [HOST#%d] beta work found: [RESULT#%d]\n",
+                    g_reply->host.id, wu_result.resultid
+                );
+            }
         } else {
-             if (app->beta) {
+            if (app->beta) {
                 continue;
             }
         }
@@ -125,8 +127,8 @@ void scan_work_array() {
             if (app_not_selected(wu)) {
                 g_wreq->no_allowed_apps_available = true;
                 if (config.debug_send) {
-                    log_messages.printf(MSG_DEBUG,
-                        "[USER#%d] [WU#%d] user doesn't want work for this application\n",
+                    log_messages.printf(MSG_NORMAL,
+                        "[send] [USER#%d] [WU#%d] user doesn't want work for this application\n",
                         g_reply->user.id, wu.id
                     );
                 }
@@ -147,8 +149,8 @@ void scan_work_array() {
         retval = wu_is_infeasible_fast(wu, *app, *bavp);
         if (retval) {
             if (retval != last_retval && config.debug_send) {
-                log_messages.printf(MSG_DEBUG,
-                    "[HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
                     g_reply->host.id, wu.id, wu.name, infeasible_string(retval)
                 );
             }
@@ -183,10 +185,12 @@ void scan_work_array() {
                 goto dont_send;
             } else {
                 if (n>0) {
-                    log_messages.printf(MSG_DEBUG,
-                        "send_work: user %d already has %d result(s) for WU %d\n",
-                        g_reply->user.id, n, wu_result.workunit.id
-                    );
+                    if (config.debug_send) {
+                        log_messages.printf(MSG_NORMAL,
+                            "[send] [USER#%d] already has %d result(s) for [WU#%d]\n",
+                            g_reply->user.id, n, wu_result.workunit.id
+                        );
+                    }
                     goto dont_send;
                 }
             }
@@ -208,10 +212,12 @@ void scan_work_array() {
                 goto dont_send;
             } else {
                 if (n>0) {
-                    log_messages.printf(MSG_DEBUG,
-                        "send_work: host %d already has %d result(s) for WU %d\n",
-                        g_reply->host.id, n, wu_result.workunit.id
-                    );
+                    if (config.debug_send) {
+                        log_messages.printf(MSG_NORMAL,
+                            "[send] [HOST#%d] already has %d result(s) for [WU#%d]\n",
+                            g_reply->host.id, n, wu_result.workunit.id
+                        );
+                    }
                     goto dont_send;
                 }
             }
@@ -221,10 +227,12 @@ void scan_work_array() {
             if (already_sent_to_different_platform_careful(
                 wu_result.workunit, *app
             )) {
-                 log_messages.printf(MSG_DEBUG,
-                    "[HOST#%d] [WU#%d %s] WU is infeasible (assigned to different platform)\n",
-                    g_reply->host.id, wu.id, wu.name
-                );
+                if (config.debug_send) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[send] [HOST#%d] [WU#%d %s] is assigned to different platform\n",
+                        g_reply->host.id, wu.id, wu.name
+                    );
+                }
                 // Mark the workunit as infeasible.
                 // This ensures that jobs already assigned to a platform
                 // are processed first.
@@ -254,7 +262,7 @@ void scan_work_array() {
             goto done;
         }
         if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
-            log_messages.printf(MSG_DEBUG,
+            log_messages.printf(MSG_NORMAL,
                 "[RESULT#%d] expected to be unsent; instead, state is %d\n",
                 result.id, result.server_state
             );

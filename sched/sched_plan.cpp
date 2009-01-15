@@ -61,8 +61,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         sprintf(hu.cmdline, "--nthreads %d", nthreads);
         hu.flops = 0.95*sreq.host.p_fpops*nthreads;
         if (config.debug_version_select) {
-            log_messages.printf(MSG_DEBUG,
-                "Multi-thread app estimate %.2f GFLOPS\n",
+            log_messages.printf(MSG_NORMAL,
+                "[version] Multi-thread app estimate %.2f GFLOPS\n",
                 hu.flops/1e9
             );
         }
@@ -72,8 +72,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         //
         if (g_wreq->no_gpus) {
             if (config.debug_version_select) {
-                log_messages.printf(MSG_DEBUG,
-                    "Skipping CUDA version - user prefs say no GPUS\n"
+                log_messages.printf(MSG_NORMAL,
+                    "[version] Skipping CUDA version - user prefs say no GPUS\n"
                 );
                 g_wreq->no_gpus_prefs = true;
             }
@@ -82,24 +82,28 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         COPROC_CUDA* cp = (COPROC_CUDA*)sreq.coprocs.lookup("CUDA");
         if (!cp) {
             if (config.debug_version_select) {
-                log_messages.printf(MSG_DEBUG,
-                    "Host lacks CUDA coprocessor for plan class cuda\n"
+                log_messages.printf(MSG_NORMAL,
+                    "[version] Host lacks CUDA coprocessor for plan class cuda\n"
                 );
             }
             return false;
         }
         int v = (cp->prop.major)*100 + cp->prop.minor;
         if (v < 101) {
-            log_messages.printf(MSG_DEBUG,
-                "CUDA version %d < 1.1\n", v
-            );
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] CUDA version %d < 1.1\n", v
+                );
+            }
             return false;
         } 
 
         if (cp->prop.dtotalGlobalMem < 254*1024*1024) {
-            log_messages.printf(MSG_DEBUG,
-                "CUDA mem %d < 254MB\n", cp->prop.dtotalGlobalMem
-            );
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] CUDA mem %d < 254MB\n", cp->prop.dtotalGlobalMem
+                );
+            }
             return false;
         }
         hu.flops = cp->flops_estimate();
@@ -108,8 +112,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         //
         if (strstr(sreq.host.os_name, "Windows") && hu.flops < 60e9) {
             if (config.debug_version_select) {
-                log_messages.printf(MSG_DEBUG,
-                    "Not sending CUDA job to Win host with slow GPU (%.1f GFLOPS)\n",
+                log_messages.printf(MSG_NORMAL,
+                    "[version] Not sending CUDA job to Win host with slow GPU (%.1f GFLOPS)\n",
                     hu.flops/1e9
                 );
             }
@@ -129,8 +133,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         hu.coprocs.coprocs.push_back(cu);
         // 
         if (config.debug_version_select) {
-            log_messages.printf(MSG_DEBUG,
-                "CUDA app estimated %.2f GFLOPS (clock %d count %d)\n",
+            log_messages.printf(MSG_NORMAL,
+                "[version] CUDA app estimated %.2f GFLOPS (clock %d count %d)\n",
                 hu.flops/1e9, cp->prop.clockRate,
                 cp->prop.multiProcessorCount
             );

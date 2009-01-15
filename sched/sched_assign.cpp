@@ -103,8 +103,8 @@ static int send_assigned_job(ASSIGNMENT& asg) {
         asg.resultid = result_id;
     }
     if (config.debug_assignment) {
-        log_messages.printf(MSG_DEBUG,
-            "[WU#%d] [RESULT#%d] [HOST#%d] send assignment %d\n",
+        log_messages.printf(MSG_NORMAL,
+            "[assign] [WU#%d] [RESULT#%d] [HOST#%d] send assignment %d\n",
             wu.id, result_id, g_reply->host.id, asg.id
         );
     }
@@ -124,8 +124,8 @@ bool send_assigned_jobs() {
         ASSIGNMENT& asg = ssp->assignments[i];
 
         if (config.debug_assignment) {
-            log_messages.printf(MSG_DEBUG,
-                "processing assignment type %d\n", asg.target_type
+            log_messages.printf(MSG_NORMAL,
+                "[assign] processing assignment type %d\n", asg.target_type
             );
         }
         // see if this assignment applies to this host

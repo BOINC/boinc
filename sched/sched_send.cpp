@@ -155,8 +155,8 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
         found = g_request->has_version(*app);
         if (!found) {
             if (config.debug_send) {
-                log_messages.printf(MSG_DEBUG,
-                    "Didn't find anonymous platform app for %s\n", app->name
+                log_messages.printf(MSG_NORMAL,
+                    "[send] Didn't find anonymous platform app for %s\n", app->name
                 );
                 sprintf(message,
                     "Your app_info.xml file doesn't have a version of %s.",
@@ -169,8 +169,8 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
             bavp->avp = 0;
         } else {
             if (config.debug_send) {
-                log_messages.printf(MSG_DEBUG,
-                    "Found anonymous platform app for %s\n", app->name
+                log_messages.printf(MSG_NORMAL,
+                    "[send] Found anonymous platform app for %s\n", app->name
                 );
             }
             // TODO: anonymous platform apps should be able to tell us
@@ -222,8 +222,8 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
                 if (host_usage.cuda_instances()) {
                     if (!g_wreq->need_cuda()) {
                         if (config.debug_version_select) {
-                            log_messages.printf(MSG_DEBUG,
-                                "Don't need CUDA jobs, skipping\n"
+                            log_messages.printf(MSG_NORMAL,
+                                "[version] Don't need CUDA jobs, skipping\n"
                             );
                         }
                         continue;
@@ -231,8 +231,8 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
                 } else {
                     if (!g_wreq->need_cpu()) {
                         if (config.debug_version_select) {
-                            log_messages.printf(MSG_DEBUG,
-                                "Don't need CPU jobs, skipping\n"
+                            log_messages.printf(MSG_NORMAL,
+                                "[version] Don't need CPU jobs, skipping\n"
                             );
                         }
                         continue;
@@ -248,8 +248,8 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
     g_wreq->best_app_versions.push_back(bavp);
     if (bavp->avp) {
         if (config.debug_version_select) {
-            log_messages.printf(MSG_DEBUG,
-                "Best version of app %s is %d (%.2f GFLOPS)\n",
+            log_messages.printf(MSG_NORMAL,
+                "[version] Best version of app %s is %d (%.2f GFLOPS)\n",
                 app->name, bavp->avp->id, bavp->host_usage.flops/1e9
             );
         }
@@ -259,8 +259,8 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
         if (config.debug_version_select) {
             for (i=0; i<g_request->platforms.list.size(); i++) {
                 PLATFORM* p = g_request->platforms.list[i];
-                log_messages.printf(MSG_DEBUG,
-                    "no app version available: APP#%d (%s) PLATFORM#%d (%s) min_version %d\n",
+                log_messages.printf(MSG_NORMAL,
+                    "[version] no app version available: APP#%d (%s) PLATFORM#%d (%s) min_version %d\n",
                     app->id, app->name, p->id, p->name, app->min_version
                 );
             }
@@ -349,17 +349,17 @@ double max_allowable_disk() {
 
     if (x < 0) {
         if (config.debug_send) {
-            log_messages.printf(MSG_DEBUG,
-                "No disk space available: disk_max_used_gb %f disk_max_used_pct %f disk_min_free_gb %f\n",
+            log_messages.printf(MSG_NORMAL,
+                "[send] No disk space available: disk_max_used_gb %f disk_max_used_pct %f disk_min_free_gb %f\n",
                 prefs.disk_max_used_gb, prefs.disk_max_used_pct,
                 prefs.disk_min_free_gb
             );
-            log_messages.printf(MSG_DEBUG,
-                "No disk space available: host.d_total %f host.d_free %f host.d_boinc_used_total %f\n",
+            log_messages.printf(MSG_NORMAL,
+                "[send] No disk space available: host.d_total %f host.d_free %f host.d_boinc_used_total %f\n",
                 host.d_total, host.d_free, host.d_boinc_used_total
             );
-            log_messages.printf(MSG_DEBUG,
-                "No disk space available: x1 %f x2 %f x3 %f x %f\n",
+            log_messages.printf(MSG_NORMAL,
+                "[send] No disk space available: x1 %f x2 %f x3 %f x %f\n",
                 x1, x2, x3, x
             );
         }
@@ -404,17 +404,26 @@ double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     if (!config.ignore_dcf) {
         double dcf = g_reply->host.duration_correction_factor;
         if (dcf > 10) {
-            log_messages.printf(MSG_NORMAL, "DCF=%f; setting to 10\n", dcf);
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] DCF=%f; setting to 10\n", dcf
+                );
+            }
             dcf = 10;
         } else if (dcf < 0.1) {
-            log_messages.printf(MSG_NORMAL, "DCF=%f; setting to 0.1\n", dcf);
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] DCF=%f; setting to 0.1\n", dcf
+                );
+            }
             dcf = 0.1;
         }
         ed *= dcf;
     }
     if (config.debug_send) {
-        log_messages.printf(MSG_DEBUG,
-            "est. duration for WU %d: unscaled %f scaled %f\n", wu.id, edu, ed
+        log_messages.printf(MSG_NORMAL,
+            "[send] est. duration for WU %d: unscaled %f scaled %f\n",
+            wu.id, edu, ed
         );
     }
     return ed;
@@ -490,8 +499,8 @@ static void get_host_info() {
         g_wreq->reliable = true;
     }
     if (config.debug_send) {
-        log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] is%s reliable (OS = %s) error_rate = %.6f avg_turn_hrs = %.3f \n",
+        log_messages.printf(MSG_NORMAL,
+            "[send] [HOST#%d] is%s reliable (OS = %s) error_rate = %.6f avg_turn_hrs = %.3f \n",
             g_reply->host.id,
             g_wreq->reliable?"":" not",
             g_reply->host.os_name, g_reply->host.error_rate,
@@ -549,8 +558,8 @@ static inline int check_memory(WORKUNIT& wu) {
         g_wreq->insert_no_work_message(um);
         
         if (config.debug_send) {
-            log_messages.printf(MSG_DEBUG,
-                "[WU#%d %s] needs %0.2fMB RAM; [HOST#%d] has %0.2fMB, %0.2fMB usable\n",
+            log_messages.printf(MSG_NORMAL,
+                "[send] [WU#%d %s] needs %0.2fMB RAM; [HOST#%d] has %0.2fMB, %0.2fMB usable\n",
                 wu.id, wu.name, wu.rsc_memory_bound/MEGA,
                 g_reply->host.id, ram/MEGA, usable_ram/MEGA
             );
@@ -655,8 +664,8 @@ static inline int check_deadline(
         double diff = est_report_delay - wu.delay_bound;
         if (diff > 0) {
             if (config.debug_send) {
-                log_messages.printf(MSG_DEBUG,
-                    "[WU#%d %s] est report delay %d on [HOST#%d]; delay_bound is %d\n",
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [WU#%d %s] est report delay %d on [HOST#%d]; delay_bound is %d\n",
                     wu.id, wu.name, (int)est_report_delay,
                     g_reply->host.id, wu.delay_bound
                 );
@@ -684,8 +693,8 @@ int wu_is_infeasible_fast(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
     if (app_hr_type(app)) {
         if (hr_unknown_platform_type(g_reply->host, app_hr_type(app))) {
             if (config.debug_send) {
-                log_messages.printf(MSG_DEBUG,
-                    "[HOST#%d] [WU#%d %s] host is of unknown class in HR type %d\n",
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [HOST#%d] [WU#%d %s] host is of unknown class in HR type %d\n",
                     g_reply->host.id, wu.id, wu.name, app_hr_type(app)
                 );
             }
@@ -693,8 +702,8 @@ int wu_is_infeasible_fast(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
         }
         if (already_sent_to_different_platform_quick(wu, app)) {
             if (config.debug_send) {
-                log_messages.printf(MSG_DEBUG,
-                    "[HOST#%d] [WU#%d %s] failed quick HR check: WU is class %d, host is class %d\n",
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [HOST#%d] [WU#%d %s] failed quick HR check: WU is class %d, host is class %d\n",
                     g_reply->host.id, wu.id, wu.name, wu.hr_class, hr_class(g_request->host, app_hr_type(app))
                 );
             }
@@ -797,8 +806,8 @@ int add_wu_to_reply(
         av2.bavp = bavp;
         g_reply->insert_app_version_unique(*avp2);
         if (config.debug_send) {
-            log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] Sending app_version %s %d %d %s; %.2f GFLOPS\n",
+            log_messages.printf(MSG_NORMAL,
+                "[send] [HOST#%d] Sending app_version %s %d %d %s; %.2f GFLOPS\n",
                 g_reply->host.id, app->name,
                 avp2->platformid, avp2->version_num, avp2->plan_class,
                 bavp->host_usage.flops/1e9
@@ -917,8 +926,8 @@ bool work_needed(bool locality_sched) {
     if (config.max_wus_in_progress) {
         if (g_wreq->nresults_on_host >= config.max_wus_in_progress*ncpus) {
             if (config.debug_send) {
-                log_messages.printf(MSG_DEBUG,
-                    "in-progress job limit exceeded; %d >= %d*%d\n",
+                log_messages.printf(MSG_NORMAL,
+                    "[send] in-progress job limit exceeded; %d >= %d*%d\n",
                     g_wreq->nresults_on_host, config.max_wus_in_progress, ncpus
                 );
             }
@@ -1021,8 +1030,8 @@ int add_result_to_reply(DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp)
         }
 
         if (config.debug_send) {
-            log_messages.printf(MSG_DEBUG,
-                "[RESULT#%d] [HOST#%d] (resend lost work)\n",
+            log_messages.printf(MSG_NORMAL,
+                "[send] [RESULT#%d] [HOST#%d] (resend lost work)\n",
                 result.id, g_reply->host.id
             );
         }
@@ -1125,8 +1134,8 @@ int add_result_to_reply(DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp)
     if (wu.target_nresults == 1 && app->target_nresults > 1) {
         if (g_wreq->trust) {
             if (config.debug_send) {
-                log_messages.printf(MSG_DEBUG,
-                    "[WU#%d] sending to trusted host, not replicating\n", wu.id
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [WU#%d] sending to trusted host, not replicating\n", wu.id
                 );
             }
         } else {
@@ -1138,8 +1147,8 @@ int add_result_to_reply(DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp)
             );
             dbwu.id = wu.id;
             if (config.debug_send) {
-                log_messages.printf(MSG_DEBUG,
-                    "[WU#%d] sending to untrusted host, replicating\n", wu.id
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [WU#%d] sending to untrusted host, replicating\n", wu.id
                 );
             }
             retval = dbwu.update_field(buf);
@@ -1365,8 +1374,8 @@ static void send_work_old() {
     if (g_wreq->allow_beta_work) {
         g_wreq->beta_only = true;
         if (config.debug_send) {
-            log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] will accept beta work.  Scanning for beta work.\n",
+            log_messages.printf(MSG_NORMAL,
+                "[send] [HOST#%d] will accept beta work.  Scanning for beta work.\n",
                 g_reply->host.id
             );
         }
@@ -1389,8 +1398,8 @@ static void send_work_old() {
         g_wreq->user_apps_only = false;
         preferred_app_message_index = g_wreq->no_work_messages.size();
         if (config.debug_send) {
-            log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] is looking for work from a non-preferred application\n",
+            log_messages.printf(MSG_NORMAL,
+                "[send] [HOST#%d] is looking for work from a non-preferred application\n",
                 g_reply->host.id
             );
         }
@@ -1405,8 +1414,8 @@ void set_trust() {
     g_wreq->trust = false;
     if (g_reply->host.error_rate > ER_MAX) {
         if (config.debug_send) {
-            log_messages.printf(MSG_DEBUG,
-                "set_trust: error rate %f > %f, don't trust\n",
+            log_messages.printf(MSG_NORMAL,
+                "[send] set_trust: error rate %f > %f, don't trust\n",
                 g_reply->host.error_rate, ER_MAX
             );
         }
@@ -1415,8 +1424,8 @@ void set_trust() {
     double x = sqrt(g_reply->host.error_rate/ER_MAX);
     if (drand() > x) g_wreq->trust = true;
     if (config.debug_send) {
-        log_messages.printf(MSG_DEBUG,
-            "set_trust: random choice for error rate %f: %s\n",
+        log_messages.printf(MSG_NORMAL,
+            "[send] set_trust: random choice for error rate %f: %s\n",
             g_reply->host.error_rate, g_wreq->trust?"yes":"no"
         );
     }
@@ -1461,30 +1470,30 @@ void send_work() {
     set_trust();
 
     if (config.debug_send) {
-        log_messages.printf(MSG_DEBUG,
-            "CPU: req %.2f sec, %.2f instances\n",
+        log_messages.printf(MSG_NORMAL,
+            "[send] CPU: req %.2f sec, %.2f instances\n",
             g_wreq->cpu_req_secs, g_wreq->cpu_req_instances
         );
-        log_messages.printf(MSG_DEBUG,
-            "CUDA: req %.2f sec, %.2f instances\n",
+        log_messages.printf(MSG_NORMAL,
+            "[send] CUDA: req %.2f sec, %.2f instances\n",
             g_wreq->cuda_req_secs, g_wreq->cuda_req_instances
         );
-        log_messages.printf(MSG_DEBUG,
-            "work_req_seconds: %.2f secs\n",
+        log_messages.printf(MSG_NORMAL,
+            "[send] work_req_seconds: %.2f secs\n",
             g_wreq->seconds_to_fill
         );
-        log_messages.printf(MSG_DEBUG,
-            "%s matchmaker scheduling; %s EDF sim\n",
+        log_messages.printf(MSG_NORMAL,
+            "[send] %s matchmaker scheduling; %s EDF sim\n",
             config.matchmaker?"Using":"Not using",
             config.workload_sim?"Using":"Not using"
         );
-        log_messages.printf(MSG_DEBUG,
-            "available disk %f GB, work_buf_min %d\n",
+        log_messages.printf(MSG_NORMAL,
+            "[send] available disk %f GB, work_buf_min %d\n",
             g_wreq->disk_available/GIGA,
             (int)g_request->global_prefs.work_buf_min()
         );
-        log_messages.printf(MSG_DEBUG,
-            "active_frac %f on_frac %f DCF %f est delay %d\n",
+        log_messages.printf(MSG_NORMAL,
+            "[send] active_frac %f on_frac %f DCF %f est delay %d\n",
             g_reply->host.active_frac,
             g_reply->host.on_frac,
             g_reply->host.duration_correction_factor,
@@ -1495,8 +1504,8 @@ void send_work() {
     if (config.enable_assignment) {
         if (send_assigned_jobs()) {
             if (config.debug_assignment) {
-                log_messages.printf(MSG_DEBUG,
-                    "[HOST#%d] sent assigned jobs\n", g_reply->host.id
+                log_messages.printf(MSG_NORMAL,
+                    "[assign] [HOST#%d] sent assigned jobs\n", g_reply->host.id
                 );
             }
             return;
@@ -1620,8 +1629,8 @@ bool JOB::get_score() {
     retval = wu_is_infeasible_fast(wu, *app, *bavp);
     if (retval) {
         if (config.debug_send) {
-            log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
+            log_messages.printf(MSG_NORMAL,
+                "[send] [HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
                 g_reply->host.id, wu.id, wu.name, infeasible_string(retval)
             );
         }
@@ -1709,8 +1718,8 @@ bool wu_is_infeasible_slow(
         } else {
             if (n>0) {
                 if (config.debug_send) {
-                    log_messages.printf(MSG_DEBUG,
-                        "send_work: user %d already has %d result(s) for WU %d\n",
+                    log_messages.printf(MSG_NORMAL,
+                        "[send] send_work: user %d already has %d result(s) for WU %d\n",
                         g_reply->user.id, n, wu_result.workunit.id
                     );
                 }
@@ -1736,8 +1745,8 @@ bool wu_is_infeasible_slow(
         } else {
             if (n>0) {
                 if (config.debug_send) {
-                    log_messages.printf(MSG_DEBUG,
-                        "send_work: host %d already has %d result(s) for WU %d\n",
+                    log_messages.printf(MSG_NORMAL,
+                        "[send] send_work: host %d already has %d result(s) for WU %d\n",
                         g_reply->host.id, n, wu_result.workunit.id
                     );
                 }
@@ -1751,8 +1760,8 @@ bool wu_is_infeasible_slow(
     if (app_hr_type(*app)) {
         if (already_sent_to_different_platform_careful(wu, *app)) {
             if (config.debug_send) {
-                log_messages.printf(MSG_DEBUG,
-                    "[HOST#%d] [WU#%d %s] WU is infeasible (assigned to different platform)\n",
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [HOST#%d] [WU#%d %s] WU is infeasible (assigned to different platform)\n",
                     g_reply->host.id, wu.id, wu.name
                 );
             }
@@ -1821,8 +1830,8 @@ void JOB_SET::add_job(JOB& job) {
     est_time += job.est_time;
     disk_usage += job.disk_usage;
     if (config.debug_send) {
-        log_messages.printf(MSG_DEBUG,
-            "added job to set.  est_time %f disk_usage %f\n",
+        log_messages.printf(MSG_NORMAL,
+            "[send] added job to set.  est_time %f disk_usage %f\n",
             est_time, disk_usage
         );
     }
@@ -1902,8 +1911,8 @@ void send_work_matchmaker() {
             continue;
         }
         if (config.debug_send) {
-            log_messages.printf(MSG_DEBUG,
-                "score for %s: %f\n", wu_result.workunit.name, job.score
+            log_messages.printf(MSG_NORMAL,
+                "[send] score for %s: %f\n", wu_result.workunit.name, job.score
             );
         }
 

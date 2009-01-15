@@ -4,6 +4,7 @@
 include $(top_srcdir)/Makefile.incl
 
 AM_CPPFLAGS += $(MYSQL_CFLAGS) $(PTHREAD_CFLAGS)
+AM_LDFLAGS += -static
 
 if ENABLE_LIBRARIES
 
@@ -137,7 +138,6 @@ census_SOURCES = \
     hr.cpp \
     hr_info.cpp
 census_LDADD = $(SERVERLIBS)
-
 
 feeder_SOURCES = \
     feeder.cpp \

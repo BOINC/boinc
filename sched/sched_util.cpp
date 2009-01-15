@@ -292,7 +292,7 @@ void simulator_signal_handler(int signum){
         simtime = atof(currenttime); 
         fclose(fsim);
     }
-    log_messages.printf(SCHED_MSG_LOG::MSG_NORMAL,
+    log_messages.printf(MSG_NORMAL,
         "Invoked by the simulator at time %.0f... \n", simtime
     );
 }

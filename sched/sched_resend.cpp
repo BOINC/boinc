@@ -68,8 +68,8 @@ static int possibly_give_result_new_deadline(
     //
     if (estimate_duration(wu, bav) > result_report_deadline-now) {
         if (config.debug_resend) {
-            log_messages.printf(MSG_DEBUG,
-                "[RESULT#%d] [HOST#%d] not resending lost result: can't complete in time\n",
+            log_messages.printf(MSG_NORMAL,
+                "[resend] [RESULT#%d] [HOST#%d] not resending lost result: can't complete in time\n",
                 result.id, g_reply->host.id
             );
         }
@@ -79,8 +79,8 @@ static int possibly_give_result_new_deadline(
     // update result with new report time and sent time
     //
     if (config.debug_resend) {
-        log_messages.printf(MSG_DEBUG,
-            "[RESULT#%d] [HOST#%d] %s report_deadline (resend lost work)\n",
+        log_messages.printf(MSG_NORMAL,
+            "[resend] [RESULT#%d] [HOST#%d] %s report_deadline (resend lost work)\n",
             result.id, g_reply->host.id,
             result_report_deadline==result.report_deadline?"NO update to":"Updated"
         );
@@ -124,8 +124,8 @@ bool resend_lost_work() {
 
         num_eligible_to_resend++;
         if (config.debug_resend) {
-            log_messages.printf(MSG_DEBUG,
-                "[HOST#%d] found lost [RESULT#%d]: %s\n",
+            log_messages.printf(MSG_NORMAL,
+                "[resend] [HOST#%d] found lost [RESULT#%d]: %s\n",
                 g_reply->host.id, result.id, result.name
             );
         }
@@ -162,8 +162,8 @@ bool resend_lost_work() {
             possibly_give_result_new_deadline(result, wu, *bavp)
         ) {
             if (config.debug_resend) {
-                log_messages.printf(MSG_DEBUG,
-                    "[HOST#%d][RESULT#%d] not needed or too close to deadline, expiring\n",
+                log_messages.printf(MSG_NORMAL,
+                    "[resend] [HOST#%d][RESULT#%d] not needed or too close to deadline, expiring\n",
                     g_reply->host.id, result.id
                 );
             }
@@ -206,8 +206,8 @@ bool resend_lost_work() {
     }
 
     if (num_eligible_to_resend && config.debug_resend) {
-        log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] %d lost results, resent %d\n", g_reply->host.id, num_eligible_to_resend, num_resent 
+        log_messages.printf(MSG_NORMAL,
+            "[resend] [HOST#%d] %d lost results, resent %d\n", g_reply->host.id, num_eligible_to_resend, num_resent 
         );
     }
 

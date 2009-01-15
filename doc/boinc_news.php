@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("January 14, 2009",
+    "The <a href=http://docking.gcl.cis.udel.edu/>Docking@home</a>
+    project has a spiffy new web site, and welcomes new volunteers."
+),
 array("December 22, 2008",
     "An <a href=http://bits.blogs.nytimes.com/2008/12/22/d-wave-arms-smoking-gun-proof-of-quantum-computer/>article about AQUA@home</a> appeared
     in today's New York Times online."

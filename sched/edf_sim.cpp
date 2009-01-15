@@ -63,7 +63,7 @@ static void log_msg(int level, const char* format, ...) {
 #ifdef SIM
     vfprintf(stderr, format, va);
 #else
-    log_messages.vprintf(MSG_DEBUG, format, va);
+    log_messages.vprintf(MSG_NORMAL, format, va);
 #endif
     va_end(va);
 }
@@ -81,7 +81,7 @@ void mark_edf_misses (int ncpus, vector<IP_RESULT>& ip_results){
     double booked_to[128];
     int j;
 
-    log_msg(DETAIL, "mark_edf_misses\n");
+    log_msg(DETAIL, "[edf_detail] mark_edf_misses\n");
 
     // keeps track of when each cpu is next free
     //
@@ -110,18 +110,18 @@ void mark_edf_misses (int ncpus, vector<IP_RESULT>& ip_results){
         }
       
         booked_to[lowest_booked_cpu] += r.cpu_time_remaining;
-        log_msg(DETAIL, "  running %s on cpu %d; finishes at %.2f\n",
+        log_msg(DETAIL, "[edf_detail]   running %s on cpu %d; finishes at %.2f\n",
             r.name, lowest_booked_cpu, booked_to[lowest_booked_cpu]/3600
         );
         if (booked_to[lowest_booked_cpu] > r.computation_deadline) {
 	        r.misses_deadline = true;
 	        r.estimated_completion_time = booked_to[lowest_booked_cpu];
-	        log_msg(DETAIL, "  %s misses_deadline; est completion %.2f\n",
+	        log_msg(DETAIL, "[edf_detail]   %s misses_deadline; est completion %.2f\n",
                 r.name, booked_to[lowest_booked_cpu]/3600
             );
         } else {
 	        r.misses_deadline = false;
-	        log_msg(DETAIL, "  %s makes deadline; est completion %.2f\n",
+	        log_msg(DETAIL, "[edf_detail]   %s makes deadline; est completion %.2f\n",
                 r.name, booked_to[lowest_booked_cpu]/3600
             );
 	        // if result doesn't miss its deadline,
@@ -141,13 +141,13 @@ void init_ip_results(
     unsigned int i;
 
     log_msg(DETAIL,
-        "init_ip_results; work_buf_min %.2f ncpus %d:\n",
+        "[edf_detail] init_ip_results; work_buf_min %.2f ncpus %d:\n",
         work_buf_min/3600, ncpus
     );
     for (i=0; i<ip_results.size(); i++) {
         IP_RESULT& r = ip_results[i];
         r.computation_deadline = r.report_deadline - work_buf_min;
-        log_msg(DETAIL, "    %s: deadline %.2f cpu %.2f\n",
+        log_msg(DETAIL, "[edf_detail]     %s: deadline %.2f cpu %.2f\n",
             r.name, r.computation_deadline/3600, r.cpu_time_remaining/3600
         );
     }
@@ -220,7 +220,7 @@ bool check_candidate (
     double booked_to[128];     // keeps track of when each cpu is free
     int j;
 
-    log_msg(DETAIL, "check_candidate %s: dl %.2f cpu %.2f\n",
+    log_msg(DETAIL, "[edf_detail] check_candidate %s: dl %.2f cpu %.2f\n",
         candidate.name, candidate.computation_deadline/3600,
         candidate.cpu_time_remaining/3600
     );
@@ -250,7 +250,7 @@ bool check_candidate (
             }
         }
         booked_to[lowest_booked_cpu] += r.cpu_time_remaining;
-        log_msg(DETAIL, "  running %s on cpu %d; finishes at %.2f\n",
+        log_msg(DETAIL, "[edf_detail]   running %s on cpu %d; finishes at %.2f\n",
             r.name, lowest_booked_cpu, booked_to[lowest_booked_cpu]/3600
         );
 
@@ -261,7 +261,7 @@ bool check_candidate (
             && !r.misses_deadline
         ) {
 	        log_msg(SUMMARY,
-                "  cand. fails; %s now misses deadline: %.2f > %.2f\n",
+                "[send]  cand. fails; %s now misses deadline: %.2f > %.2f\n",
                 r.name, booked_to[lowest_booked_cpu]/3600,
                 r.computation_deadline/3600
             );
@@ -274,13 +274,13 @@ bool check_candidate (
             && booked_to[lowest_booked_cpu] > r.estimated_completion_time
         ){
             log_msg(SUMMARY,
-                "  cand. fails; late result %s would be returned even later\n",
+                "[send]  cand. fails; late result %s would be returned even later\n",
                 r.name
             );
             return false;
         }
     }
-    log_msg(SUMMARY, "  candidate succeeds\n");
+    log_msg(SUMMARY, "[send]  candidate succeeds\n");
     return true;
 }
 

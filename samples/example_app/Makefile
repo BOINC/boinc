@@ -9,8 +9,6 @@ CXXFLAGS = -g \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
-    -L$(BOINC_API_DIR) \
-    -L$(BOINC_LIB_DIR) \
     -L /usr/X11R6/lib \
     -L.
 
@@ -44,11 +42,18 @@ distclean:
 
 install: uc2
 
+# specify library paths explicitly (rather than -l)
+# because otherwise you might get a version in /usr/lib etc.
+
 uc2: uc2.o libstdc++.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
-	$(CXX) $(CXXFLAGS) -o uc2 uc2.o libstdc++.a -pthread -lboinc_api -lboinc
+	$(CXX) $(CXXFLAGS) -o uc2 uc2.o libstdc++.a -pthread \
+	$(BOINC_API_DIR)/boinc_api.a \
+	$(BOINC_LIB_DIR)/boinc.a
 
 uc2_graphics: uc2_graphics.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS) -o uc2_graphics uc2_graphics.o libstdc++.a -pthread \
-    -lboinc_graphics2 -lboinc_api -lboinc \
+    $(BOINC_API_DIR)/boinc_graphics2.a \
+	$(BOINC_API_DIR)/boinc_api.a \
+	$(BOINC_LIB_DIR)/boinc.a \
     $(LIBGLUT) $(LIBGLU) $(LIBJPEG) \
     -lGL -lX11 -lXmu -lm

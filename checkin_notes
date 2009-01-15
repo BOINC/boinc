@@ -369,23 +369,23 @@ David  13 Jan 2009
         gui_rpc_client.h
 
 David  14 Jan 2009
-	- client: fix bug that caused estimated time to completion to increase
-		while processing suspended
-		Fixes #825
+    - client: fix bug that caused estimated time to completion to increase
+        while processing suspended
+        Fixes #825
 
-	client/
-		app_control.cpp
+    client/
+        app_control.cpp
 
 David  14 Jan 2009
-	- client: clamp long term debts tp +- 1 week
-	- client: fix CUDA debt calculation
-	- client: don't accumulate debt if project->dont_request_more_work
-	- client: improves messages
+    - client: clamp long term debts tp +- 1 week
+    - client: fix CUDA debt calculation
+    - client: don't accumulate debt if project->dont_request_more_work
+    - client: improves messages
 
-	client/
-		rr_sim.cpp
+    client/
+        rr_sim.cpp
 
-Rom    15 Jan 2008
+Rom    15 Jan 2009
     - WINSETUP: Fix the problem introduced where Enable Application
         execution wasn't working.
         
@@ -393,10 +393,10 @@ Rom    15 Jan 2008
         BOINC.ism
         BOINCx64.ism
 
-Rom    15 Jan 2008
+Rom    15 Jan 2009
     - MGR: Don't convert strings to ANSI juts to have to reconvert them
         back to Unicode.  Fix several help link issues.
-		Fixes #826
+        Fixes #826
         
     clientgui/
         AdvancedFrame.cpp
@@ -405,3 +405,12 @@ Rom    15 Jan 2008
         sg_DlgMessages.cpp
         sg_DlgPreferences.cpp
         sg_ProjectsComponent.cpp
+
+David  15 Jan 2009
+    - scheduler: improve message formatting; add <debug_locality> flag
+        for locality scheduling messages
+
+    lib/
+        msg_log.cpp
+    sched/
+        *.cpp

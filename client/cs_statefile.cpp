@@ -828,7 +828,7 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
     );
     for (i=0; i<platforms.size(); i++) {
         f.printf(
-            "<platform>%s</platform>\n", platforms[i].name
+            "<platform>%s</platform>\n", platforms[i].name.c_str()
         );
     }
 
