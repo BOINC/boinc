@@ -472,3 +472,9 @@ Charlie Jan 15 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  16 Jan 2009
+    - client: remove limits on LTD.
+
+    client/
+        work_fetch.cpp

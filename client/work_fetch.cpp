@@ -23,13 +23,6 @@
 #include "client_state.h"
 #endif
 
-// max long-term debt - the "window size" of enforcing resource share.
-// If a job of P runs in EDF mode for a long time,
-// P's debt will go to -MAX_LTD and other projects will go to MAX_LTD.
-// When it's done, P won't run for a week.
-//
-static const double MAX_LTD = 7*86400;
-
 #include "work_fetch.h"
 
 using std::vector;
@@ -346,8 +339,6 @@ void RSC_WORK_FETCH::update_debts() {
         p = gstate.projects[i];
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
         w.debt -= avg_debt;
-		if (w.debt > MAX_LTD) w.debt = MAX_LTD;
-		if (w.debt < -MAX_LTD) w.debt = -MAX_LTD;
     }
 }
 
