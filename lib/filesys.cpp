@@ -504,9 +504,40 @@ int boinc_copy(const char* orig, const char* newf) {
     sprintf(cmd, "copy \"%s\" \"%s\"", orig, newf);
     return system(cmd);
 #else
-    char cmd[1024];
-    sprintf(cmd, "cp -p \"%s\" \"%s\"", orig, newf);
-    return system(cmd);
+    // POSIX requires that shells run from an application will use the 
+    // real UID and GID if different from the effective UID and GID.  
+    // Mac OS 10.4 did not enforce this, but OS 10.5 does.  Since 
+    // system() invokes a shell, it may not properly copy the file's 
+    // ownership or permissions when called from the BOINC Client 
+    // under sandbox security, so we copy the file directly.
+    FILE *src, *dst;
+    int m, n;
+    int retval = 0;
+    struct stat sbuf;
+    unsigned char buf[65536];
+    src = boinc_fopen(orig, "r");
+    if (!src) return ERR_FOPEN;
+    dst = boinc_fopen(newf, "w");
+    if (!dst) {
+        fclose(src);
+        return ERR_FOPEN;
+    }
+    while (1) {
+        n = fread(buf, 1, sizeof(buf), src);
+        if (n <= 0) break;
+        m = fwrite(buf, 1, n, dst);
+        if (m != n) {
+            retval = ERR_FWRITE;
+            break;
+        }
+    }
+    fclose(src);
+    fclose(dst);
+    // Copy file's ownership, permissions to the extent we are allowed
+    lstat(orig, &sbuf);             // Get source file's info
+    chown(newf, sbuf.st_uid, sbuf.st_gid);
+    chmod(newf, sbuf.st_mode);
+    return retval;
 #endif
 }
 

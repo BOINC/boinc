@@ -53,3 +53,20 @@ Rom    15 Jan 2008
         sg_DlgMessages.cpp
         sg_DlgPreferences.cpp
         sg_ProjectsComponent.cpp
+
+Charlie Jan 15 2009
+    - client: boinc_copy ownership fix of 1/6/09 didn't work because it used 
+        system(cp ...) call, which invokes a shell, and POSIX specifies that 
+        shells run from an application use the real UID and GID not the 
+        effective UID and GID.  Changed boinc_copy to copy file directly.
+    - MGR: On Mac, fix problems showing Manager window when it was minimized 
+        to Dock, especially if window was closed using Dock menu.
+    
+    client/
+        app_start.cpp
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.h
+        BOINCTaskBar.cpp
+    lib/
+        filesys.cpp

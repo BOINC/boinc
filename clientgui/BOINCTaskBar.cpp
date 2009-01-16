@@ -169,7 +169,11 @@ void CTaskBarIcon::OnOpen(wxCommandEvent& WXUNUSED(event)) {
     if (pFrame) {
         pFrame->Show();
 
-#ifndef __WXMAC__
+#ifdef __WXMAC__
+        if (pFrame->IsIconized()) {
+            pFrame->Iconize(false);
+        }
+#else
         if (pFrame->IsMaximized()) {
             pFrame->Maximize(true);
         } else {
@@ -183,6 +187,11 @@ void CTaskBarIcon::OnOpen(wxCommandEvent& WXUNUSED(event)) {
         ::SetForegroundWindow((HWND)pFrame->GetHandle());
 #endif
 	}
+#ifdef __WXMAC__
+    else {
+        wxGetApp().ShowCurrentGUI();
+    }
+#endif
 }
 
 
