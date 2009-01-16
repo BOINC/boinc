@@ -159,6 +159,8 @@ public:
 
     bool                SetActiveGUI(int iGUISelection, bool bShowWindow = true);
 
+    bool                ShowCurrentGUI() { return SetActiveGUI(m_iGUISelected, true); }
+    
     void                OnRPCFinished( CRPCFinishedEvent& event );
     
     int                 ConfirmExit();

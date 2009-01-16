@@ -305,7 +305,11 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnClose - Function Begin"));
 
 #if defined(__WXMSW__) || defined(__WXMAC__)
-    if (!event.CanVeto()) {
+    if (!event.CanVeto()
+#ifdef __WXMAC__
+        || IsIconized()
+#endif    
+    ) {
         wxGetApp().FrameClosed();
         Destroy();
     } else {

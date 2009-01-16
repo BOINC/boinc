@@ -283,6 +283,9 @@ static int setup_file(
                 );
                 return retval;
             }
+#ifdef SANDBOX
+            return set_to_project_group(link_path);
+#endif
         }
         return 0;
     }
