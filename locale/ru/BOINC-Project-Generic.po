@@ -1,15 +1,18 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-07-17 22:00+0300\n"
-"Last-Translator: Nikolay Saharov <saharovna@mail.ru>\n"
+"PO-Revision-Date: 2009-01-15 11:52-0700\n"
+"Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
@@ -22,17 +25,15 @@ msgstr ""
 msgid "CHARSET"
 msgstr "UTF-8"
 
-# The name of this language in this language
+# The name of this language in this language<br />
 # Имя языка в этом файле
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Русский"
 
-# The name of this language in an international language (English)
+# The name of this language in an international language (English)&lt;br /&gt;<br />
 # Имя языка в этом файле на интернациональном языке (английском)
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Russian"
 
 msgid "Rank"
 msgstr "Позиция"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-13 10:24-0700\n"
+"PO-Revision-Date: 2009-01-15 11:25-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -84,7 +84,6 @@ msgstr "Laatste reactie"
 msgid "Mark all threads as read"
 msgstr "Markeer alle onderwerpen als gelezen"
 
-#, fuzzy
 msgid "Mark all threads in all message boards as 'read'."
 msgstr "Markeer alle forums als 'gelezen'."
 
@@ -198,11 +197,9 @@ msgstr ""
 "email adres bekend worden bij de team oprichter, indien je jezelf bij een "
 "team opgeeft."
 
-#, fuzzy
 msgid "Foundership change requested"
-msgstr "Wissel van oprichter gevraagd"
+msgstr "Oprichters wissel aangevraagd"
 
-#, fuzzy
 msgid "Respond by %1"
 msgstr "Reageren voor %1"
 
@@ -305,7 +302,6 @@ msgstr "Sinds"
 msgid "Computing and credit"
 msgstr "Berekeningen en punten"
 
-#, fuzzy
 msgid "Pending credit"
 msgstr "Openstaande punten"
 
@@ -414,9 +410,8 @@ msgstr "Forum"
 msgid "Delete"
 msgstr "Verwijder"
 
-#, fuzzy
 msgid "Create"
-msgstr "Maak"
+msgstr "Aanmaken"
 
 msgid "Profile"
 msgstr "Profiel"
@@ -820,18 +815,20 @@ msgstr "Doerzoek profielen %1op land%2."
 
 msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
 msgstr ""
+"Doorzoek profielen; %1willekeurig%2, %3willekeurig met foto%2 of "
+"%4willekeurig zonder foto%2."
 
 msgid "Alphabetical profile listings:"
-msgstr ""
+msgstr "Profielen alfabetisch gerangschikt:"
 
 msgid "Search profile text"
-msgstr ""
+msgstr "Doorzoek profiel teksten"
 
 msgid "No profiles"
-msgstr ""
+msgstr "Profiel niet gevonden"
 
 msgid "No profiles matched your query."
-msgstr ""
+msgstr "Er zijn geen passende profielen aangetroffen."
 
 msgid "Top hosts"
 msgstr "Top computers"
