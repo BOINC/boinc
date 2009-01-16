@@ -435,3 +435,19 @@ David  15 Jan 2009
 
     sched/
         sched_plan.cpp
+
+Eric   15 Jan 2009
+    - build:  Made static linkage of BOINC libraries the default for client,
+      manager, and server components
+
+    configure.ac
+    tools/
+        Makefile.am
+    clientgui/
+        Makefile.am
+    client/
+        Makefile.am
+    samples/
+        example_app/
+	    Makefile
+

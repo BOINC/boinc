@@ -44,6 +44,12 @@ AM_PROG_CC_C_O
 m4_divert_once([HELP_ENABLE],
   AS_HELP_STRING([BOINC Default enable values], [--enable-server --enable-client --enable-libraries --enable-manager: builds server, client, and libraries]))
 
+AC_ARG_ENABLE(dynamic-client-linkage, 
+    AS_HELP_STRING([--enable-dynamic-client-linkage],
+                   [dynamically link the client to the boinc libraries]),
+    [dynamic_client=${enableval}],
+    [dynamic_client=no])
+
 AC_ARG_ENABLE(server, 
     AS_HELP_STRING([--disable-server],
                    [disable building the scheduling server]),
@@ -655,6 +661,7 @@ dnl Whether to build fcgi components
 AM_CONDITIONAL(ENABLE_FCGI,[test "${enable_fcgi}" = yes])
 
 dnl tell automake about whether to build client and/or server
+AM_CONDITIONAL(DYNAMIC_CLIENT, [test "${dynamic_client}" = yes])
 AM_CONDITIONAL(ENABLE_SERVER, [test "${enable_server}" = yes])
 AM_CONDITIONAL(ENABLE_CLIENT, [test "${enable_client}" = yes])
 AM_CONDITIONAL(ENABLE_MANAGER, [ test "x${ac_cv_have_wxwidgets}" = xyes -a "${enable_manager}" = yes ])

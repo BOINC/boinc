@@ -47,13 +47,13 @@ install: uc2
 
 uc2: uc2.o libstdc++.a $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS) -o uc2 uc2.o libstdc++.a -pthread \
-	$(BOINC_API_DIR)/boinc_api.a \
-	$(BOINC_LIB_DIR)/boinc.a
+	$(BOINC_API_DIR)/libboinc_api.a \
+	$(BOINC_LIB_DIR)/libboinc.a
 
 uc2_graphics: uc2_graphics.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS) -o uc2_graphics uc2_graphics.o libstdc++.a -pthread \
-    $(BOINC_API_DIR)/boinc_graphics2.a \
-	$(BOINC_API_DIR)/boinc_api.a \
-	$(BOINC_LIB_DIR)/boinc.a \
+	$(BOINC_API_DIR)/libboinc_graphics2.a \
+	$(BOINC_API_DIR)/libboinc_api.a \
+	$(BOINC_LIB_DIR)/libboinc.a \
     $(LIBGLUT) $(LIBGLU) $(LIBJPEG) \
     -lGL -lX11 -lXmu -lm

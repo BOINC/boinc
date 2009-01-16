@@ -6,6 +6,7 @@ bin_PROGRAMS = create_work sign_executable dir_hier_path dir_hier_move
 EXTRA_DIST = make_project xadd update_versions dbcheck_files_exist upgrade makelog.sh cleanlogs.sh vote_monitor calculate_credit_multiplier
 
 AM_CXXFLAGS += $(MYSQL_CFLAGS)
+AM_LDFLAGS += -static
 
 create_work_SOURCES = create_work.cpp
 create_work_LDADD = $(SERVERLIBS)
