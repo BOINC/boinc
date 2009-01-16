@@ -22,17 +22,19 @@
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
-#include "SkinManager.h"
 #include "BOINCBaseFrame.h"
-#include "DlgAdvPreferences.h"
-#include "res/usage.xpm"
-#include "res/xfer.xpm"
-#include "res/proj.xpm"
-#include "res/warning.xpm"
+#include "SkinManager.h"
 #include "hyperlink.h"
 #include "Events.h"
 #include "error_numbers.h"
 #include "version.h"
+#include "DlgAdvPreferences.h"
+
+#include "res/usage.xpm"
+#include "res/xfer.xpm"
+#include "res/proj.xpm"
+#include "res/warning.xpm"
+
 
 using std::string;
 
