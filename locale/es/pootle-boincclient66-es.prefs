@@ -5,3 +5,4 @@ rights:
   nobody = u'view'
   JensSeidler = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   DavidM = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'

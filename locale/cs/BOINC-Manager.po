@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-11 02:12-0700\n"
+"PO-Revision-Date: 2009-01-15 21:46-0700\n"
 "Last-Translator: Spok <spok.3d@atlas.cz>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: cs\n"
@@ -614,7 +614,7 @@ msgstr ""
 #: clientgui/BOINCBaseFrame.cpp:527
 #, c-format
 msgid "%s - Daemon Start Failed"
-msgstr ""
+msgstr "%s - Selhalo spuštění 'daemonu'"
 
 #: clientgui/BOINCBaseFrame.cpp:537
 #, c-format
@@ -632,6 +632,8 @@ msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
 msgstr ""
+"%s nemůže spustit klienta %s.\n"
+"Spusťte prosím 'daemona' a zkuste znovu ."
 
 #: clientgui/BOINCBaseFrame.cpp:589
 #, c-format
@@ -719,7 +721,7 @@ msgid ""
 "Updating all projects and retrying all transfers."
 msgstr ""
 "%s detekoval připojení k internetu. Bude znovu zahájen přenos\n"
-" a aktualizovány všechny projekty. "
+"a aktualizovány všechny projekty. "
 
 #: clientgui/BOINCDialupManager.cpp:500
 #, c-format
@@ -913,12 +915,12 @@ msgstr "Připojení ke Správci účtu bylo úspěšně dokončeno."
 #: clientgui/ctest.cpp:154
 #: clientgui/ctest.cpp:158
 msgid "Static text"
-msgstr ""
+msgstr "Statický text"
 
 #: clientgui/ctest.cpp:166
 #: clientgui/ctest.cpp:171
 msgid "Radiobutton"
-msgstr ""
+msgstr "Volba"
 
 #: clientgui/DlgAbout.cpp:98
 #, c-format
@@ -931,19 +933,18 @@ msgstr "Verze:"
 
 #: clientgui/DlgAbout.cpp:163
 msgid "wxWidgets Version:"
-msgstr ""
+msgstr "Verze wxWidgets:"
 
 #: clientgui/DlgAbout.cpp:171
 msgid "Copyright:"
 msgstr "Copyright:"
 
 #: clientgui/DlgAbout.cpp:175
-#, fuzzy
 msgid ""
 "(C) 2003-2008 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2007 Kalifornská Univerzita, Berkeley.\n"
+"(C) 2003-2008 Kalifornská Univerzita, Berkeley.\n"
 "Všechna práva vyhrazena.\n"
 "Překlad: Spok"
 
@@ -994,7 +995,7 @@ msgstr "Potvrdit"
 #: clientgui/sg_DlgPreferences.cpp:1037
 #, c-format
 msgid "%s - Preferences"
-msgstr ""
+msgstr "%s - Předvolby"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:49
 msgid ""
@@ -1002,6 +1003,9 @@ msgid ""
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings."
 msgstr ""
+"Pomocí tohoto dialogu se nastavují předvolby pouze pro tento počítač.\n"
+"Pro nastavení předvoleb stiskni <OK>.\n"
+"Pro návrat k hodnotám nastaveným na webu stiskni <Vymazat>."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:52
 msgid "Clear"
@@ -1009,37 +1013,39 @@ msgstr "Vymazat"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:53
 msgid "clear all local preferences and close the dialog"
-msgstr ""
+msgstr "Smazat veškeré lokální předvolby a zavřít dialog."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:75
 msgid "Computing allowed"
-msgstr ""
+msgstr "Výpočty povoleny"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:77
-#, fuzzy
 msgid " While computer is on batteries"
-msgstr "Při provozu na baterie"
+msgstr " Při provozu na baterie"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:79
 msgid "check this if you want this computer to do work while it runs on batteries"
 msgstr ""
+"Zaškrtněte, pokud chcete, aby výpočty probíhaly i při provozu na baterie."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:83
-#, fuzzy
 msgid " While computer is in use"
-msgstr "Je-li počítač používán"
+msgstr " Je-li počítač používán"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:85
 msgid "check this if you want this computer to do work even when you're using it"
 msgstr ""
+"Zaškrtněte, pokud chcete, aby výpočty probíhaly i ve chvíli, kdy počítač "
+"používáte."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:95
 msgid "Only after computer has been idle for"
-msgstr ""
+msgstr "Pouze pokud je počítač nepoužíván po dobu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:99
 msgid "do work only after you haven't used the computer for this number of minutes"
 msgstr ""
+"Výpočty budou spuštěny poté, co bude počítač daný počet minut nepoužíván."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:103
 #: clientgui/DlgAdvPreferencesBase.cpp:223
@@ -1049,13 +1055,12 @@ msgstr "minut(y)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:114
 #: clientgui/DlgAdvPreferencesBase.cpp:338
-#, fuzzy
 msgid "Every day between hours of"
-msgstr "Připojovat pouze mezi"
+msgstr "Každý den, mezi"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:118
 msgid "start work at this time"
-msgstr ""
+msgstr "Výpočty začnou v tento čas"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:122
 #: clientgui/DlgAdvPreferencesBase.cpp:346
@@ -1066,22 +1071,24 @@ msgstr "a"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:126
 msgid "stop work at this time"
-msgstr ""
+msgstr "Výpočty budou ukončeny v tento čas"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:130
 #: clientgui/DlgAdvPreferencesBase.cpp:354
 msgid "(no restriction if equal)"
-msgstr ""
+msgstr "(žádné omezení, pokud jsou zadané časy stejné)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:135
 #: clientgui/DlgAdvPreferencesBase.cpp:359
 msgid "Day-of-week override:"
-msgstr ""
+msgstr "Změny pro konkrétní dny v týdnu:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:140
 #: clientgui/DlgAdvPreferencesBase.cpp:364
 msgid "check box to specify hours for this day of week"
 msgstr ""
+"Zaškrtněte políčko na začátku řádky a budete moci nastavit\n"
+"specifický čas pro daný den v týdnu."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:150
 #: clientgui/DlgAdvPreferencesBase.cpp:374
@@ -3209,7 +3216,7 @@ msgstr "Zpracovávám požadavek plánovače"
 #: clientgui/ViewProjectsBase.cpp:696
 #: clientgui/ViewProjectsGrid.cpp:750
 msgid "Communication deferred "
-msgstr "Přenos odložen"
+msgstr "Přenos odložen "
 
 #: clientgui/ViewProjectsGrid.cpp:193
 msgid "ProjectsGrid"
