@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-15 11:52-0700\n"
+"PO-Revision-Date: 2009-01-17 04:19-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -27,11 +27,13 @@ msgstr "UTF-8"
 
 # The name of this language in this language<br />
 # Имя языка в этом файле
+# The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "Русский"
 
 # The name of this language in an international language (English)&lt;br /&gt;<br />
 # Имя языка в этом файле на интернациональном языке (английском)
+# The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Russian"
 
@@ -57,7 +59,7 @@ msgid "Questions and Answers"
 msgstr "Вопросы и ответы"
 
 msgid "Message boards"
-msgstr "Доска сообщений"
+msgstr "Доски сообщений"
 
 msgid "%1 message board"
 msgstr "Доска сообщений %1"
@@ -132,55 +134,55 @@ msgid "unread"
 msgstr "непрочтенных"
 
 msgid "Search criteria (use one or more)"
-msgstr ""
+msgstr "Критерии поиска (используйте один или несколько)"
 
 msgid "Key words"
-msgstr ""
+msgstr "Ключевые слова"
 
 msgid "Find teams with these words in their names or descriptions"
-msgstr ""
+msgstr "Найти команды с этими словами в их названиях или описаниях"
 
 msgid "Country"
 msgstr "Страна"
 
 msgid "Type of team"
-msgstr ""
+msgstr "Тип команды"
 
 msgid "Show only active teams"
-msgstr ""
+msgstr "Показать только активные команды"
 
 msgid "Search"
 msgstr "Найти"
 
 msgid "Requested by you, and founder response deadline has passed."
-msgstr ""
+msgstr "Запрошен Вами, и крайний срок ответа основателя прошел."
 
 msgid "Complete foundership transfer"
-msgstr ""
+msgstr "Завершить передачу полномочий основателя"
 
 msgid "Requested by you"
-msgstr ""
+msgstr "Запрошен Вами"
 
 msgid "founder response deadline is %1"
-msgstr ""
+msgstr "крайний срок ответа основателя %1"
 
 msgid "None"
 msgstr "Нет"
 
 msgid "Initiate request"
-msgstr ""
+msgstr "Инициировать запрос"
 
 msgid "Deferred"
-msgstr ""
+msgstr "Отклонен"
 
 msgid "Team info"
-msgstr ""
+msgstr "Информация о команде"
 
 msgid "Description"
-msgstr ""
+msgstr "Описание"
 
 msgid "Web site"
-msgstr ""
+msgstr "Вебсайт"
 
 msgid "Total credit"
 msgstr "Всего очков"
@@ -189,9 +191,8 @@ msgid "Recent average credit"
 msgstr "В среднем за день"
 
 msgid "Type"
-msgstr ""
+msgstr "Тип"
 
-#, fuzzy
 msgid "Message board"
 msgstr "Доска сообщений"
 
@@ -199,93 +200,99 @@ msgid "Threads"
 msgstr "Обсуждения"
 
 msgid "Join this team"
-msgstr ""
+msgstr "Присоединиться к этой команде"
 
 msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
 msgstr ""
+"Внимание: если в Ваших настройках проекта установлено 'отправлять "
+"уведомления по электронной почте', присоединение к команде дает доступ ее "
+"основателя к Вашему адресу электронной почты."
 
-#, fuzzy
 msgid "Foundership change requested"
-msgstr "(запрос на смену основателя в ожидании)"
+msgstr "Запрошена смена основателя"
 
 msgid "Respond by %1"
-msgstr ""
+msgstr "Ответить до %1"
 
 msgid "Team foundership change"
-msgstr ""
+msgstr "Смена основателя команды"
 
 msgid "Members"
 msgstr "Участники"
 
 msgid "Founder"
-msgstr ""
+msgstr "Основатель"
 
 msgid "Admins"
-msgstr ""
+msgstr "Администраторы"
 
 msgid "New members in last day"
-msgstr ""
+msgstr "Новые участники за последний день"
 
 msgid "Total members"
-msgstr ""
+msgstr "Всего участников"
 
-#, fuzzy
 msgid "view"
-msgstr "Просмотр"
+msgstr "просмотр"
 
 msgid "Active members"
-msgstr ""
+msgstr "Активных участников"
 
+#, fuzzy
 msgid "Members with credit"
-msgstr ""
+msgstr "Участников с очками"
 
 msgid "Admin"
-msgstr ""
+msgstr "Администратор"
 
 msgid "Last %1"
-msgstr ""
+msgstr "Предыдущие %1"
 
 msgid "Next %1"
-msgstr ""
+msgstr "Следующие %1"
 
 msgid "No such team."
-msgstr ""
+msgstr "Нет такой команды."
 
 msgid "This operation requires foundership."
-msgstr ""
+msgstr "Эта операция требует прав основателя."
 
 msgid "This operation requires team admin privileges"
-msgstr ""
+msgstr "Эта операция требует прав администратора команды"
 
+#, fuzzy
 msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
 msgstr ""
+"%1Примечание безопасности%2: если Вы создадите команду, то Ваши настройки "
+"проекта (доля ресурсов, графические настройки) будут видны всем."
 
 msgid "Team name, text version"
-msgstr ""
+msgstr "Название команды, текстовая версия"
 
 msgid "Don't use HTML tags."
-msgstr ""
+msgstr "Не использовать тэги HTML."
 
 msgid "Team name, HTML version"
-msgstr ""
+msgstr "Название команды, HTML версия"
 
 msgid "You may use %1limited HTML tags%2."
-msgstr ""
+msgstr "Вы можете использовать %1ограниченные тэги HTML%2."
 
 msgid "If you don't know HTML, leave this box blank."
-msgstr ""
+msgstr "Если Вы не знаете HTML, оставьте это поле пустым."
 
 msgid "URL of team web page, if any"
-msgstr ""
+msgstr "URL веб-страницы команды, если есть"
 
 msgid "without \"http://\""
-msgstr ""
+msgstr "без \"http://\""
 
+#, fuzzy
 msgid "This URL will be linked to from the team's page on this site."
-msgstr ""
+msgstr "Этот URL будет вызываться со страницы команды на этом сайте."
 
 msgid "Description of team"
-msgstr ""
+msgstr "Описание команды"
 
 msgid "Projects in which you are participating"
 msgstr "Проекты, в которых Вы принимаете участие"
@@ -299,8 +306,9 @@ msgstr "Проект"
 msgid "Click for user page"
 msgstr "Нажмите, чтобы перейти на страницу пользователя"
 
+#, fuzzy
 msgid "Average credit"
-msgstr ""
+msgstr "В среднем очков"
 
 msgid "Since"
 msgstr "С"
@@ -320,14 +328,15 @@ msgstr "Компьютеры в этой учетной записи"
 msgid "Tasks"
 msgstr "Задания"
 
+#, fuzzy
 msgid "Cross-project ID"
-msgstr ""
+msgstr "Межпроектный ID (CPID)"
 
 msgid "Cross-project statistics"
 msgstr "Объединенная статистика по проектам"
 
 msgid "Certificate"
-msgstr ""
+msgstr "Сертификат"
 
 msgid "Stats on your cell phone"
 msgstr "Статистика на Вашем мобильном телефоне"
@@ -339,7 +348,7 @@ msgid "Email address"
 msgstr "Адрес email"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "Postal code"
 msgstr "Почтовый индекс"
@@ -453,7 +462,7 @@ msgid "Friends"
 msgstr "Друзья"
 
 msgid "Computers"
-msgstr ""
+msgstr "Компьютеры"
 
 msgid "hidden"
 msgstr "скрыто"
@@ -527,6 +536,8 @@ msgstr "Создание учетной записи запрещено"
 
 msgid "Account creation is currently disabled. Please try again later."
 msgstr ""
+"Создание учетной записи в данный момент запрещено. Пожалуйста, попытайтесь "
+"снова немного позднее."
 
 msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
 msgstr ""
@@ -583,10 +594,10 @@ msgid "You have no private messages."
 msgstr "У Вас нет личных сообщений."
 
 msgid "Sender"
-msgstr ""
+msgstr "Отправитель"
 
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 msgid "Mark as read"
 msgstr "Пометить прочтенным"
@@ -595,7 +606,7 @@ msgid "Mark as unread"
 msgstr "Пометить непрочтенным"
 
 msgid "With selected"
-msgstr ""
+msgstr "С выбранным"
 
 msgid "No such message"
 msgstr "Нет такого сообщения"
@@ -620,9 +631,8 @@ msgstr "Да, удалить"
 msgid "No, cancel"
 msgstr "Нет, отменить"
 
-#, fuzzy
 msgid "No such message."
-msgstr "Нет такого сообщения"
+msgstr "Нет такого сообщения."
 
 msgid "You need to fill all fields to send a private message"
 msgstr "Вы должны заполнить все поля, чтобы отправить личное сообщение"
@@ -681,7 +691,7 @@ msgid "Post to thread"
 msgstr "Ответить на обсуждение"
 
 msgid "Forum search results"
-msgstr ""
+msgstr "Результаты поиска по форуму"
 
 msgid "Forum search"
 msgstr "Поиск в форуме"
@@ -840,8 +850,8 @@ msgstr "Просмотреть профили %1по странам%2."
 
 msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
 msgstr ""
-"Просмотреть профили %1случайно%2, %3случайно с картинками%2, или %4случайно "
-"без картинок%2."
+"Просмотреть профили %1в случайном порядке%2, %3в случайном порядке с "
+"картинками%2, или %4в случайном порядке без картинок%2."
 
 msgid "Alphabetical profile listings:"
 msgstr "Алфавитные списки профилей:"
