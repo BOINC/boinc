@@ -1,4 +1,4 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
@@ -13,12 +13,12 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: English\n"
+"X-Poedit-Language: Russian\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
 
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 # Кодовая страница для текста в этом файле (пожалуйста, используйте UTF-8 по возможности)
@@ -950,3 +950,4 @@ msgstr "Ваша учетная запись"
 
 #~ msgid "Used in URLs"
 #~ msgstr "Используется в ссылках URL"
+ 
