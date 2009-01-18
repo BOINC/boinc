@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-17 15:18-0700\n"
+"PO-Revision-Date: 2009-01-18 03:40-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -292,9 +292,8 @@ msgstr "Het BOINC forum"
 msgid "POLL_HELP_BDOC"
 msgstr "De BOINC website"
 
-#, fuzzy
 msgid "POLL_HELP_BMLIST"
-msgstr "BOINC nieuwsbrieven"
+msgstr "BOINC mailing list"
 
 msgid "POLL_HELP_WIKI"
 msgstr "De 'Unofficial BOINC Wiki'"
@@ -399,7 +398,7 @@ msgstr "Online Hulp"
 msgid "HELP_P1_1"
 msgstr ""
 "BOINC Online Hulp laat je een-op-een praten met ervaren BOINC gebruikers "
-"die: %s je vragen beantwoorden over BOINC en volunteer computing; %s helpen "
+"die:  %s je vragen beantwoorden over BOINC en volunteer computing; %s helpen "
 "met het installeren en gebruiken van BOINC; %s problemen oplossen die je "
 "ondervindt. "
 
@@ -427,7 +426,6 @@ msgstr "BOINC web hulp"
 msgid "HELP_P2_ITEM1"
 msgstr "BOINC gebruikers handleiding"
 
-#, fuzzy
 msgid "HELP_P2_ITEM2"
 msgstr "BOINC problemen oplossen "
 
@@ -468,13 +466,15 @@ msgstr ""
 "en simpel: %sKies%s je projecten %sDownload%s en gebruik de BOINC software "
 "%sVoer%s je email-adres en een wachtwoord in. "
 
-#, fuzzy
 msgid "HOME_P2"
-msgstr "Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
+msgstr ""
+"Of, als je meerdere projecten hebt, kan je een %saccount manager%s gebruiken "
+"zoals %sGridRepublic%s of %sBAM!%s. "
 
-#, fuzzy
 msgid "HOME_P3"
-msgstr "If you have any questions, or need help getting started, you can %stalk to a Volunteer Helper%s. "
+msgstr ""
+"Als je vragen hebt of hulp nodig om op te starten, kan je %smet een BOINC "
+"vrijwilliger praten%s. "
 
 msgid "Help"
 msgstr "Hulp"
@@ -482,9 +482,8 @@ msgstr "Hulp"
 msgid "HOME_DOWNLOAD"
 msgstr "Download"
 
-#, fuzzy
 msgid "HOME_WEB_SITES"
-msgstr "Web"
+msgstr "Websites"
 
 msgid "HOME_ADD_ONS"
 msgstr "Add-ons"
@@ -495,9 +494,8 @@ msgstr "Enquete"
 msgid "HOME_BOINC"
 msgstr "Berkeley Open Infrastructure for Network Computing"
 
-#, fuzzy
 msgid "HOME_BOINC_DESC"
-msgstr "Open-source software for %svolunteer computing%s and %sgrid computing%s"
+msgstr "Open-source software voor %svolunteer computing%s en %sgrid computing%s"
 
 ########################################
 # download.php 2006/08/03 by je2bwm
