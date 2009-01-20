@@ -499,3 +499,10 @@ David  19 Jan 2009
         sched_config.cpp,h
         sched_result.cpp
         server_types.h
+
+David  20 Jan 2009
+	- client: fix messages
+
+	client/
+		rr_sim.cpp
+		work_fetch.cpp
