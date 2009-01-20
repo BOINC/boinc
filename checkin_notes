@@ -478,3 +478,24 @@ David  16 Jan 2009
 
     client/
         work_fetch.cpp
+
+David  19 Jan 2009
+    - scheduler: remove the config flag <have_cuda_apps>,
+        and add <cuda_multiplier>.
+        The latter is used in calculating max jobs/day for a host;
+        namely, it's host.max_results_day * (NCPUS + NCUDA*cuda_multiplier).
+        Set it to 10 or so if you have CUDA apps.
+    - scheduler: don't overload effective_ncpus();
+        instead, add two new functions,
+        max_results_day_multiplier() and max_wus_in_progress_multiplier()
+    - scheduler: don't reduce max_results_day if we get an aborted job
+        (it might have been aborted by the project;
+        not appopriate to punish host in this case)
+
+    db/
+        boinc_db.h
+    sched/
+        main.cpp
+        sched_config.cpp,h
+        sched_result.cpp
+        server_types.h

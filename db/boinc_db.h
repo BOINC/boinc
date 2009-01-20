@@ -290,11 +290,14 @@ struct HOST {
     double avg_turnaround;  // recent average result turnaround time
     char host_cpid[256];    // host cross-project ID
     char external_ip_addr[256]; // IP address seen by scheduler
-    int max_results_day;    // maximum # of results to send per day per CPU
-        // this is dynamically adjusted to limit work sent to bad hosts
-        // 0 means uninitialized
+    int max_results_day;
+        // MRD is dynamically adjusted to limit work sent to bad hosts.
+        // The maximum # of results sent per day is
+        // max_results_day * (NCPUS + NCUDA * cuda_multiplier).
+        // 0 means uninitialized; set to config.daily_result_quota
         // -1 means this host is blacklisted - don't return results
         // or accept results or trickles; just send it an error message
+        // Otherwise it lies in the range 0 .. config.daily_result_quota
     double error_rate;      // dynamic estimate of fraction of results
                             // that fail validation
 

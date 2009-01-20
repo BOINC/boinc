@@ -26,6 +26,20 @@
 
 #include "sched_result.h"
 
+static inline void got_good_result() {
+    g_reply->host.max_results_day *= 2;
+    if (g_reply->host.max_results_day > config.daily_result_quota) {
+        g_reply->host.max_results_day = config.daily_result_quota;
+    }
+}
+
+static inline void got_bad_result() {
+    g_reply->host.max_results_day -= 1;
+    if (g_reply->host.max_results_day < 1) {
+        g_reply->host.max_results_day = 1;
+    }
+}
+
 // handle completed results
 //
 int handle_results() {
@@ -281,7 +295,7 @@ int handle_results() {
                     srip->id, srip->name
                 );
             }
-            g_reply->got_good_result();
+            got_good_result();
         } else {
             if (config.debug_handle_results) {
                 log_messages.printf(MSG_NORMAL,
@@ -291,7 +305,13 @@ int handle_results() {
             }
             srip->outcome = RESULT_OUTCOME_CLIENT_ERROR;
             srip->validate_state = VALIDATE_STATE_INVALID;
-            g_reply->got_bad_result();
+
+            // if the job was aborted (possibly by the scheduler)
+            // don't penalize result quota
+            //
+            if (srip->client_state != RESULT_ABORTED) {
+                got_bad_result();
+            }
         }
     } // loop over all incoming results
 

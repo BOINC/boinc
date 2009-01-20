@@ -78,22 +78,50 @@ const char* infeasible_string(int code) {
 const double MIN_REQ_SECS = 0;
 const double MAX_REQ_SECS = (28*SECONDS_IN_DAY);
 
-// return a number that
-// - is the # of CPUs in EDF simulation
-// - scales the daily result quota
-// - scales max_wus_in_progress
+const int MAX_CUDA_DEVS = 8;
+    // don't believe clients who claim they have more CUDA devices than this
+
+// the # of CPUs in EDF simulation
 
 inline int effective_ncpus() {
     int ncpus = g_reply->host.p_ncpus;
     if (ncpus > config.max_ncpus) ncpus = config.max_ncpus;
     if (ncpus < 1) ncpus = 1;
-    if (config.have_cuda_apps) {
+    return ncpus;
+}
+
+// total_max_results_per is this multiplier times max_results_day
+//
+inline int max_results_day_multiplier() {
+    int n = g_reply->host.p_ncpus;
+    if (n > config.max_ncpus) n = config.max_ncpus;
+    if (n < 1) n = 1;
+    if (config.cuda_multiplier) {
         COPROC* cp = g_request->coprocs.lookup("CUDA");
-        if (cp && cp->count > ncpus) {
-            ncpus = cp->count;
+        if (cp) {
+            int m = cp->count;
+            if (m > MAX_CUDA_DEVS) m = MAX_CUDA_DEVS;
+            n += m*config.cuda_multiplier;
         }
     }
-    return ncpus;
+    return n;
+}
+
+// scale factor for max_wus_in_progress
+//
+inline int max_wus_in_progress_multiplier() {
+    int n = g_reply->host.p_ncpus;
+    if (n > config.max_ncpus) n = config.max_ncpus;
+    if (n < 1) n = 1;
+    COPROC* cp = g_request->coprocs.lookup("CUDA");
+    if (cp) {
+        int m = cp->count;
+        if (m > MAX_CUDA_DEVS) m = MAX_CUDA_DEVS;
+        if (m > n) {
+            n = m;
+        }
+    }
+    return n;
 }
 
 const double DEFAULT_RAM_SIZE = 64000000;
@@ -906,8 +934,6 @@ bool work_needed(bool locality_sched) {
         }
     }
 
-    int ncpus = effective_ncpus();
-
     // host.max_results_day is between 1 and config.daily_result_quota inclusive
     // wreq.daily_result_quota is between ncpus
     // and ncpus*host.max_results_day inclusive
@@ -916,19 +942,21 @@ bool work_needed(bool locality_sched) {
         if (g_reply->host.max_results_day == 0 || g_reply->host.max_results_day>config.daily_result_quota) {
             g_reply->host.max_results_day = config.daily_result_quota;
         }
-        g_wreq->daily_result_quota = ncpus*g_reply->host.max_results_day;
-        if (g_reply->host.nresults_today >= g_wreq->daily_result_quota) {
+        int mult = max_results_day_multiplier();
+        g_wreq->total_max_results_day = mult*g_reply->host.max_results_day;
+        if (g_reply->host.nresults_today >= g_wreq->total_max_results_day) {
             g_wreq->daily_result_quota_exceeded = true;
             return false;
         }
     }
 
     if (config.max_wus_in_progress) {
-        if (g_wreq->nresults_on_host >= config.max_wus_in_progress*ncpus) {
+        int mult = max_wus_in_progress_multiplier();
+        if (g_wreq->nresults_on_host >= mult*config.max_wus_in_progress) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
                     "[send] in-progress job limit exceeded; %d >= %d*%d\n",
-                    g_wreq->nresults_on_host, config.max_wus_in_progress, ncpus
+                    g_wreq->nresults_on_host, config.max_wus_in_progress, mult
                 );
             }
             g_wreq->cache_size_exceeded = true;
@@ -944,20 +972,6 @@ bool work_needed(bool locality_sched) {
         if (g_wreq->seconds_to_fill > 0) return true;
     }
     return false;
-}
-
-void SCHEDULER_REPLY::got_good_result() {
-    host.max_results_day *= 2;
-    if (host.max_results_day > config.daily_result_quota) {
-        host.max_results_day = config.daily_result_quota;
-    }
-}
-
-void SCHEDULER_REPLY::got_bad_result() {
-    host.max_results_day -= 1;
-    if (host.max_results_day < 1) {
-        host.max_results_day = 1;
-    }
 }
 
 int add_result_to_reply(DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp) {
@@ -1317,7 +1331,9 @@ static void explain_to_user() {
             struct tm *rpc_time_tm;
             int delay_time;
 
-            sprintf(helpful, "(reached daily quota of %d results)", g_wreq->daily_result_quota);
+            sprintf(helpful, "(reached daily quota of %d results)",
+                g_wreq->total_max_results_day
+            );
             USER_MESSAGE um(helpful, "high");
             g_reply->insert_message(um);
             log_messages.printf(MSG_NORMAL,
@@ -1557,20 +1573,22 @@ struct JOB_SET {
         disk_usage = 0;
         disk_limit = g_wreq->disk_available;
         max_jobs = config.max_wus_to_send;
-        int ncpus = effective_ncpus(), n;
+        int n;
 
         if (config.daily_result_quota) {
+            int mult = max_results_day_multiplier();
             if (g_reply->host.max_results_day == 0 || g_reply->host.max_results_day>config.daily_result_quota) {
                 g_reply->host.max_results_day = config.daily_result_quota;
             }
-            g_wreq->daily_result_quota = ncpus*g_reply->host.max_results_day;
-            n = g_wreq->daily_result_quota - g_reply->host.nresults_today;
+            g_wreq->total_max_results_day = mult*g_reply->host.max_results_day;
+            n = g_wreq->total_max_results_day - g_reply->host.nresults_today;
             if (n < 0) n = 0;
             if (n < max_jobs) max_jobs = n;
         }
 
         if (config.max_wus_in_progress) {
-            n = config.max_wus_in_progress*ncpus - g_wreq->nresults_on_host;
+            int mult = max_wus_in_progress_multiplier();
+            n = config.max_wus_in_progress*mult - g_wreq->nresults_on_host;
             if (n < 0) n = 0;
             if (n < max_jobs) max_jobs = n;
         }

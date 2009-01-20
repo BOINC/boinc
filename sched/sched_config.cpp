@@ -104,6 +104,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_int(tag, "max_wus_to_send", max_wus_to_send)) continue;
         if (xp.parse_int(tag, "max_wus_in_progress", max_wus_in_progress)) continue;
         if (xp.parse_int(tag, "daily_result_quota", daily_result_quota)) continue;
+        if (xp.parse_int(tag, "cuda_multiplier", cuda_multiplier)) continue;
         if (xp.parse_int(tag, "uldl_dir_fanout", uldl_dir_fanout)) continue;
         if (xp.parse_int(tag, "locality_scheduling_wait_period", locality_scheduling_wait_period)) continue;
         if (xp.parse_int(tag, "locality_scheduling_send_timeout", locality_scheduling_send_timeout)) continue;
@@ -184,7 +185,6 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool(tag, "use_credit_multiplier", use_credit_multiplier)) continue;
         if (xp.parse_bool(tag, "multiple_clients_per_host", multiple_clients_per_host)) continue;
         if (xp.parse_bool(tag, "no_vista_sandbox", no_vista_sandbox)) continue;
-        if (xp.parse_bool(tag, "have_cuda_apps", have_cuda_apps)) continue;
         if (xp.parse_bool(tag, "ignore_dcf", ignore_dcf)) continue;
 
 

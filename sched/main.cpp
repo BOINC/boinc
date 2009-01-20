@@ -223,19 +223,22 @@ static void log_request_headers(int& length) {
     char *ha=getenv("HTTP_ACCEPT");
     char *hu=getenv("HTTP_USER_AGENT");
 
-    log_messages.printf(MSG_DEBUG,
-        "REQUEST_METHOD=%s "
-        "CONTENT_TYPE=%s "
-        "HTTP_ACCEPT=%s "
-        "HTTP_USER_AGENT=%s\n",
-        rm?rm:"" , ct?ct:"", ha?ha:"", hu?hu:""
-    );
+    if (config.debug_request_details) {
+        log_messages.printf(MSG_INFO,
+            "(req details) REQUEST_METHOD=%s CONTENT_TYPE=%s HTTP_ACCEPT=%s HTTP_USER_AGENT=%s\n",
+            rm?rm:"" , ct?ct:"", ha?ha:"", hu?hu:""
+        );
+    }
 
     if (!cl) {
         log_messages.printf(MSG_CRITICAL, "CONTENT_LENGTH environment variable not set\n");
     } else {
         length=atoi(cl);
-        log_messages.printf(MSG_DEBUG, "CONTENT_LENGTH=%d from %s\n", length, ri?ri:"[Unknown]");
+        if (config.debug_request_details) {
+            log_messages.printf(MSG_INFO,
+                "CONTENT_LENGTH=%d from %s\n", length, ri?ri:"[Unknown]"
+            );
+        }
     }
 }
 
@@ -255,10 +258,11 @@ void set_core_dump_size_limit() {
         else
             short_message += sprintf(short_message,"%d max=", (int)limit.rlim_cur);
 
-        if (limit.rlim_max == RLIM_INFINITY)
+        if (limit.rlim_max == RLIM_INFINITY) {
             short_message += sprintf(short_message,"Inf\n");
-        else
+        } else {
             short_message += sprintf(short_message,"%d\n", (int)limit.rlim_max);
+        }
       
         log_messages.printf(MSG_DEBUG, "%s", short_string);
         

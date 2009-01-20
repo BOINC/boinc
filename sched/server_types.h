@@ -188,7 +188,8 @@ struct WORK_REQ {
     bool gpu_too_slow;
     bool no_gpus_prefs;
     bool daily_result_quota_exceeded;
-    int  daily_result_quota; // for this machine: number of cpus * daily_quota/cpu
+    int total_max_results_day;
+        // host.max_results_day * (NCPUS + NCUDA*cuda_multiplier)
     bool cache_size_exceeded;
     bool no_jobs_available;     // project has no work right now
     int nresults_on_host;
@@ -395,8 +396,6 @@ struct SCHEDULER_REPLY {
     void insert_result(RESULT&);
     void insert_message(USER_MESSAGE&);
     void set_delay(double);
-    void got_good_result();     // adjust max_results_day
-    void got_bad_result();      // adjust max_results_day
 };
 
 extern SCHEDULER_REQUEST* g_request;

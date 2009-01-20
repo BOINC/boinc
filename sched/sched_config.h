@@ -58,7 +58,8 @@ public:
     bool ignore_upload_certificates;
     bool dont_generate_upload_certificates;
     bool ignore_delay_bound;
-    int daily_result_quota;     // max results per host per day
+    int daily_result_quota;         // max results per day is this * #CPUs
+    int cuda_multiplier;           // plus this * #CUDA devices
     int uldl_dir_fanout;        // fanout of ul/dl dirs; 0 if none
     int uldl_dir_levels;
     int locality_scheduling_wait_period;
@@ -125,7 +126,6 @@ public:
     bool use_credit_multiplier;
     bool multiple_clients_per_host;
     bool no_vista_sandbox;
-    bool have_cuda_apps;
     bool ignore_dcf;
 
     // log flags
