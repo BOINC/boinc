@@ -181,10 +181,9 @@ struct WORK_REQ {
 
     bool no_allowed_apps_available;
     bool excessive_work_buf;
-    bool no_app_version;
     bool hr_reject_temp;
     bool hr_reject_perm;
-    bool outdated_core;
+    bool outdated_client;
     bool gpu_too_slow;
     bool no_gpus_prefs;
     bool daily_result_quota_exceeded;

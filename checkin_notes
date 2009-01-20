@@ -449,7 +449,7 @@ Eric   15 Jan 2009
         Makefile.am
     samples/
         example_app/
-	    Makefile
+        Makefile
 
 Charlie Jan 15 2009
     - client: boinc_copy ownership fix of 1/6/09 didn't work because it used 
@@ -501,8 +501,21 @@ David  19 Jan 2009
         server_types.h
 
 David  20 Jan 2009
-	- client: fix messages
+    - client: fix messages
 
-	client/
-		rr_sim.cpp
-		work_fetch.cpp
+    client/
+        rr_sim.cpp
+        work_fetch.cpp
+
+David  20 Jan 2009
+    - scheduler: improve no-work messages
+    - web: don't use DB conn in mysql_real_escape_string()
+        (otherwise won't work if DB is down)
+
+    html/inc/
+        boinc_db.inc
+        db_conn.inc
+    sched/
+        sched_plan.cpp.h
+        sched_send.cpp
+        server_types.h

@@ -18,4 +18,12 @@
 #include "boinc_db.h"
 #include "server_types.h"
 
-extern bool app_plan(SCHEDULER_REQUEST&, char* plan_class, HOST_USAGE&);
+// reasons for the planning function to reject a host
+
+#define PLAN_REJECT_PREFS           1
+#define PLAN_REJECT_NO_COPROC       2
+#define PLAN_REJECT_COPROC_VERSION  3
+#define PLAN_REJECT_COPROC_MEM      4
+#define PLAN_REJECT_COPROC_SPEED    5
+
+extern int app_plan(SCHEDULER_REQUEST&, char* plan_class, HOST_USAGE&);

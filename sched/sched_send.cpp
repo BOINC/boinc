@@ -145,7 +145,7 @@ bool SCHEDULER_REQUEST::has_version(APP& app) {
 BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
     bool found;
     unsigned int i;
-    int j;
+    int retval, j;
     BEST_APP_VERSION* bavp;
     char message[256];
 
@@ -192,7 +192,6 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
                 );
                 USER_MESSAGE um(message, "high");
                 g_wreq->insert_no_work_message(um);
-                g_wreq->no_app_version = true;
             }
             bavp->avp = 0;
         } else {
@@ -220,6 +219,10 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
     //
     bavp->host_usage.flops = 0;
     bavp->avp = NULL;
+    bool no_version_for_platform = true;
+    int cuda_reject = 0;
+    bool no_cuda_requested = false;
+    bool no_cpu_requested = false;
     for (i=0; i<g_request->platforms.list.size(); i++) {
         PLATFORM* p = g_request->platforms.list[i];
         for (j=0; j<ssp->napp_versions; j++) {
@@ -227,17 +230,27 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
             APP_VERSION& av = ssp->app_versions[j];
             if (av.appid != wu.appid) continue;
             if (av.platformid != p->id) continue;
+            no_version_for_platform = false;
             if (g_request->core_client_version < av.min_core_version) {
                 log_messages.printf(MSG_NORMAL,
                     "outdated client version %d < min core version %d\n",
                     g_request->core_client_version, av.min_core_version
                 );
-                g_wreq->outdated_core = true;
+                g_wreq->outdated_client = true;
                 continue;
             }
             if (strlen(av.plan_class)) {
-                if (!g_request->client_cap_plan_class) continue;
-                if (!app_plan(*g_request, av.plan_class, host_usage)) {
+                if (!g_request->client_cap_plan_class) {
+                    log_messages.printf(MSG_NORMAL,
+                        "client version %d lacks plan class capability\n",
+                        g_request->core_client_version
+                    );
+                    g_wreq->outdated_client = true;
+                    continue;
+                }
+                retval = app_plan(*g_request, av.plan_class, host_usage);
+                if (retval) {
+                    cuda_reject = retval;
                     continue;
                 }
             } else {
@@ -254,6 +267,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
                                 "[version] Don't need CUDA jobs, skipping\n"
                             );
                         }
+                        no_cuda_requested = true;
                         continue;
                     }
                 } else {
@@ -263,6 +277,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
                                 "[version] Don't need CPU jobs, skipping\n"
                             );
                         }
+                        no_cpu_requested = true;
                         continue;
                     }
                 }
@@ -282,7 +297,13 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
             );
         }
     } else {
-        // here if no app version exists
+        // Here if there's no app version we can use.
+        // Could be because:
+        // - none exists for platform
+        // - one exists for platform, but host lacks processor type
+        // - one exists for platform, but no work requested for processor type
+        // - one exists but requires newer client
+        // - one exists but plan function rejects this host
         //
         if (config.debug_version_select) {
             for (i=0; i<g_request->platforms.list.size(); i++) {
@@ -293,7 +314,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
                 );
             }
         }
-        if (!g_wreq->no_gpus_prefs) {
+        if (no_version_for_platform) {
             sprintf(message,
                 "%s is not available for your type of computer.",
                 app->user_friendly_name
@@ -301,7 +322,43 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
             USER_MESSAGE um(message, "high");
             g_wreq->insert_no_work_message(um);
         }
-        g_wreq->no_app_version = true;
+        char* p = NULL;
+        switch (cuda_reject) {
+        case PLAN_REJECT_PREFS:
+            p = "Your preferences are to not use GPU"; break;
+        case PLAN_REJECT_NO_COPROC:
+            p = "Your computer has no CUDA device"; break;
+        case PLAN_REJECT_COPROC_VERSION:
+            p = "Your CUDA device has the wrong software version"; break;
+        case PLAN_REJECT_COPROC_MEM:
+            p = "Your CUDA device has insufficient memory"; break;
+        case PLAN_REJECT_COPROC_SPEED:
+            p = "Your CUDA device is too slow"; break;
+        }
+        if (p) {
+            sprintf(message,
+                "Can't use CUDA app for %s: %s",
+                app->user_friendly_name, p
+            );
+            USER_MESSAGE um(message, "high");
+            g_wreq->insert_no_work_message(um);
+        }
+        if (no_cpu_requested) {
+            sprintf(message,
+                "CPU app exists for %s but no CPU work requested",
+                app->user_friendly_name
+            );
+            USER_MESSAGE um(message, "high");
+            g_wreq->insert_no_work_message(um);
+        }
+        if (no_cuda_requested) {
+            sprintf(message,
+                "CUDA app exists for %s but no CUDA work requested",
+                app->user_friendly_name
+            );
+            USER_MESSAGE um(message, "high");
+            g_wreq->insert_no_work_message(um);
+        }
         return NULL;
     }
     return bavp;
@@ -1235,7 +1292,9 @@ static void explain_to_user() {
         g_reply->set_delay(DELAY_NO_WORK_TEMP);
         USER_MESSAGE um2("No work sent", "high");
         g_reply->insert_message(um2);
-        // Inform the user about applications with no work
+
+        // Tell the user about applications with no work
+        //
         for (i=0; i<g_wreq->preferred_apps.size(); i++) {
          	if (!g_wreq->preferred_apps[i].work_available) {
          		APP* app = ssp->lookup_app(g_wreq->preferred_apps[i].appid);
@@ -1250,12 +1309,11 @@ static void explain_to_user() {
          		}
            	}
         }
-        // Inform the user about applications they didn't qualify for
+
+        // Tell the user about applications they didn't qualify for
+        //
         for (i=0; i<g_wreq->no_work_messages.size(); i++){
         	g_reply->insert_message(g_wreq->no_work_messages.at(i));
-        }
-        if (g_wreq->no_app_version) {
-            g_reply->set_delay(DELAY_NO_WORK_PERM);
         }
         if (g_wreq->no_allowed_apps_available) {
             USER_MESSAGE um(
@@ -1295,7 +1353,7 @@ static void explain_to_user() {
             );
             g_reply->insert_message(um);
         }
-        if (g_wreq->outdated_core) {
+        if (g_wreq->outdated_client) {
             USER_MESSAGE um(
                 " (your BOINC client is old - please install current version)",
                 "high"

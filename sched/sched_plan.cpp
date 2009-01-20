@@ -42,13 +42,12 @@ static void get_ncpus(SCHEDULER_REQUEST& sreq, int& ncpus, bool& bounded) {
     }
 }
 
-bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
+int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
     if (!strcmp(plan_class, "mt")) {
         // the following is for an app that can use anywhere
         // from 1 to 64 threads, can control this exactly,
         // and whose speedup is .95N
-        // (so on a uniprocessor, we'll use a sequential app
-        // if one is available)
+        // (so on a uniprocessor, we'll use a sequential app if one is available)
         //
         int ncpus, nthreads;
         bool bounded;
@@ -66,7 +65,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 hu.flops/1e9
             );
         }
-        return true;
+        return 0;
     } else if (!strcmp(plan_class, "cuda")) {
         // the following is for an app that uses a CUDA GPU
         //
@@ -77,7 +76,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 );
                 g_wreq->no_gpus_prefs = true;
             }
-            return false;
+            return PLAN_REJECT_PREFS;
         }
         COPROC_CUDA* cp = (COPROC_CUDA*)sreq.coprocs.lookup("CUDA");
         if (!cp) {
@@ -86,7 +85,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                     "[version] Host lacks CUDA coprocessor for plan class cuda\n"
                 );
             }
-            return false;
+            return PLAN_REJECT_NO_COPROC;
         }
         int v = (cp->prop.major)*100 + cp->prop.minor;
         if (v < 101) {
@@ -95,7 +94,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                     "[version] CUDA version %d < 1.1\n", v
                 );
             }
-            return false;
+            return PLAN_REJECT_COPROC_VERSION;
         } 
 
         if (cp->prop.dtotalGlobalMem < 254*1024*1024) {
@@ -104,7 +103,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                     "[version] CUDA mem %d < 254MB\n", cp->prop.dtotalGlobalMem
                 );
             }
-            return false;
+            return PLAN_REJECT_COPROC_MEM;
         }
         hu.flops = cp->flops_estimate();
 
@@ -118,8 +117,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                     hu.flops/1e9
                 );
             }
-            g_wreq->gpu_too_slow = true;
-            return false;
+            return PLAN_REJECT_COPROC_SPEED;
         }
 #endif
 
@@ -141,7 +139,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 cp->prop.multiProcessorCount
             );
         }
-        return true;
+        return 0;
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class

@@ -148,7 +148,7 @@ class DbConn {
         return $this->do_query($query);
     }
     function base_escape_string($string) {
-        return mysql_real_escape_string($string, $this->db_conn);
+        return mysql_real_escape_string($string);
     }
     function base_error() {
         return mysql_error($this->db_conn);
