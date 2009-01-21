@@ -32,11 +32,11 @@ RSC_WORK_FETCH cpu_work_fetch;
 WORK_FETCH work_fetch;
 
 static inline char* rsc_name(int t) {
-	switch (t) {
-	case RSC_TYPE_CPU: return "CPU";
-	case RSC_TYPE_CUDA: return "CUDA";
-	}
-	return "Unknown";
+    switch (t) {
+    case RSC_TYPE_CPU: return "CPU";
+    case RSC_TYPE_CUDA: return "CUDA";
+    }
+    return "Unknown";
 }
 
 RSC_PROJECT_WORK_FETCH& RSC_WORK_FETCH::project_state(PROJECT* p) {
@@ -101,7 +101,6 @@ void PROJECT_WORK_FETCH::clear_backoffs(PROJECT* p) {
 
 void RSC_WORK_FETCH::accumulate_shortfall(double d_time, double nused) {
     double idle = ninstances - nused;
-    printf("acc sho: idle %f dt %f\n", idle, d_time);
     if (idle > 0) {
         shortfall += idle*d_time;
     }
@@ -152,7 +151,7 @@ void RSC_WORK_FETCH::print_state(char* name) {
     );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-		if (p->non_cpu_intensive) continue;
+        if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
         msg_printf(p, MSG_INFO,
             "[wfd] %s: runshare %.2f debt %.2f backoff t %.2f int %.2f",
@@ -170,7 +169,7 @@ void WORK_FETCH::print_state() {
     }
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-		if (p->non_cpu_intensive) continue;
+        if (p->non_cpu_intensive) continue;
         msg_printf(p, MSG_INFO, "[wfd] overall_debt %f", p->pwf.overall_debt);
     }
     msg_printf(0, MSG_INFO, "[wfd] ------- end work fetch state -------");
@@ -210,25 +209,25 @@ void WORK_FETCH::compute_work_request(PROJECT* p) {
 // see if there's a fetchable non-CPU-intensive project without work
 //
 PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
-	for (unsigned int i=0; i<gstate.projects.size(); i++) {
-		PROJECT* p = gstate.projects[i];
-		if (!p->non_cpu_intensive) continue;
-		if (!p->can_request_work()) continue;
-		bool has_work = false;
-		for (unsigned int j=0; j<gstate.results.size(); j++) {
-			RESULT* rp = gstate.results[j];
-			if (rp->project == p) {
-				has_work = true;
-				break;
-			}
-		}
-		if (!has_work) {
-			clear_request();
-			cpu_work_fetch.req_secs = 1;
-			return p;
-		}
-	}
-	return 0;
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        if (!p->non_cpu_intensive) continue;
+        if (!p->can_request_work()) continue;
+        bool has_work = false;
+        for (unsigned int j=0; j<gstate.results.size(); j++) {
+            RESULT* rp = gstate.results[j];
+            if (rp->project == p) {
+                has_work = true;
+                break;
+            }
+        }
+        if (!has_work) {
+            clear_request();
+            cpu_work_fetch.req_secs = 1;
+            return p;
+        }
+    }
+    return 0;
 }
 
 // choose a project to fetch work from,
@@ -237,8 +236,8 @@ PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
 PROJECT* WORK_FETCH::choose_project() {
     PROJECT* p = 0;
 
-	p = non_cpu_intensive_project_needing_work();
-	if (p) return p;
+    p = non_cpu_intensive_project_needing_work();
+    if (p) return p;
 
     gstate.adjust_debts();
     gstate.compute_nuploading_results();
@@ -336,9 +335,9 @@ void RSC_WORK_FETCH::update_debts() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
-		if (w.debt_eligible(p)) {
-			ders += p->resource_share;
-		}
+        if (w.debt_eligible(p)) {
+            ders += p->resource_share;
+        }
     }
     double total_debt = 0;
     for (i=0; i<gstate.projects.size(); i++) {
@@ -346,16 +345,16 @@ void RSC_WORK_FETCH::update_debts() {
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
         if (w.debt_eligible(p)) {
             double share_frac = p->resource_share/ders;
-			double delta = share_frac*secs_this_debt_interval - w.secs_this_debt_interval;
+            double delta = share_frac*secs_this_debt_interval - w.secs_this_debt_interval;
             w.debt += delta;
-			if (log_flags.debt_debug) {
-				msg_printf(p, MSG_INFO,
-					"[debt] %s debt %.2f delta %.2f share frac %.2f (%.2f/%.2f) secs %.2f rsc_secs %.2f",
-					rsc_name(rsc_type),
-					w.debt, delta, share_frac, p->resource_share, ders, secs_this_debt_interval,
-					w.secs_this_debt_interval
-				);
-			}
+            if (log_flags.debt_debug) {
+                msg_printf(p, MSG_INFO,
+                    "[debt] %s debt %.2f delta %.2f share frac %.2f (%.2f/%.2f) secs %.2f rsc_secs %.2f",
+                    rsc_name(rsc_type),
+                    w.debt, delta, share_frac, p->resource_share, ders, secs_this_debt_interval,
+                    w.secs_this_debt_interval
+                );
+            }
         }
         total_debt += w.debt;
         nprojects++;
@@ -381,16 +380,16 @@ void WORK_FETCH::compute_shares() {
         if (p->non_cpu_intensive) continue;
         if (p->rr_sim_status.has_cpu_jobs) {
             cpu_work_fetch.total_runnable_share += p->resource_share;
-		}
+        }
         if (p->rr_sim_status.has_cuda_jobs) {
             cuda_work_fetch.total_runnable_share += p->resource_share;
-		}
+        }
         if (!p->pwf.can_fetch_work) continue;
         if (p->cpu_pwf.may_have_work) {
             cpu_work_fetch.total_fetchable_share += p->resource_share;
         }
         if (coproc_cuda && p->cuda_pwf.may_have_work) {
-			cuda_work_fetch.total_fetchable_share += p->resource_share;
+            cuda_work_fetch.total_fetchable_share += p->resource_share;
         }
     }
     for (i=0; i<gstate.projects.size(); i++) {
@@ -398,10 +397,10 @@ void WORK_FETCH::compute_shares() {
         if (p->non_cpu_intensive) continue;
         if (p->rr_sim_status.has_cpu_jobs) {
             p->cpu_pwf.runnable_share = p->resource_share/cpu_work_fetch.total_runnable_share;
-		}
+        }
         if (p->rr_sim_status.has_cuda_jobs) {
             p->cuda_pwf.runnable_share = p->resource_share/cuda_work_fetch.total_runnable_share;
-		}
+        }
         if (!p->pwf.can_fetch_work) continue;
         if (p->cpu_pwf.may_have_work) {
             p->cpu_pwf.fetchable_share = p->resource_share/cpu_work_fetch.total_fetchable_share;
@@ -417,7 +416,7 @@ void WORK_FETCH::compute_shares() {
 bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p) {
     if (backoff_time > gstate.now) return false;
     if (p->suspended_via_gui) return false;
-	if (p->dont_request_more_work) return false;
+    if (p->dont_request_more_work) return false;
     return true;
 }
 

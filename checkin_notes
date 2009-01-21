@@ -538,3 +538,9 @@ David  21 Jan 2009
 
 	client/
 		work_fetch.cpp,h
+
+David  21 Jan 2009
+    - client: compile fix, remove spurious message
+
+	client/
+		work_fetch.cpp,h
