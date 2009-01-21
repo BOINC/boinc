@@ -519,3 +519,10 @@ David  20 Jan 2009
         sched_plan.cpp.h
         sched_send.cpp
         server_types.h
+
+Charlie Jan 20 2009
+    - Mac client: fix bug in build script so that curl-7.19.2 actually 
+        does build with c-ares 1.6.0.  Fixes #830.
+    
+     mac_build/
+        buildcurl.sh
