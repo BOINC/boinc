@@ -486,3 +486,11 @@ Rom    19 Jan 2009
     /
         configure.ac
         version.h
+
+Charlie Jan 20 2009
+    - Mac client: fix bug in build script so that curl-7.19.2 actually 
+        does build with c-ares 1.6.0.  Fixes #830.  (Checked into 
+        boinc_core_release_6_6_2 tag and boinc_core_release_6_6a branch.)
+    
+     mac_build/
+        buildcurl.sh

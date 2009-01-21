@@ -24,7 +24,7 @@
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
-# Updated 12/17/08
+# Updated 1/20/09
 #
 ## In Terminal, CD to the curl-7.19.2 directory.
 ##     cd [path]/curl-7.19.2/
@@ -83,10 +83,10 @@ fi
 export PATH=/usr/local/bin:$PATH
 
 CURL_DIR=`pwd`
-# curl configure and make expect a path to _installed_ c-ares-1.5.3
+# curl configure and make expect a path to _installed_ c-ares-1.6.0
 # so temporarily install c-ares at a path that does not contain spaces.
-cd ../c-ares-1.5.3
-sudo make install 
+cd ../c-ares-1.6.0
+make install 
 cd "${CURL_DIR}"
 
 export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
@@ -199,7 +199,7 @@ lipo -create lib/.libs/libcurl_i386.a lib/.libs/libcurl_x86_64.a lib/.libs/libcu
 if [  $? -ne 0 ]; then return 1; fi
 
 # Delete temporarily installed c-ares.
-sudo rm -Rf /tmp/installed-c-ares/
+rm -Rf /tmp/installed-c-ares/
 
 rm -f include/curl/curlbuild.h
 
