@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-15 02:26-0700\n"
+"PO-Revision-Date: 2009-01-21 07:55-0700\n"
 "Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "Language: pl\n"
@@ -1070,7 +1070,7 @@ msgstr ""
 #: clientgui/DlgAdvPreferencesBase.cpp:223
 #: clientgui/sg_DlgPreferences.cpp:453
 msgid "minutes"
-msgstr "minut(y)"
+msgstr "minut"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:114
 #: clientgui/DlgAdvPreferencesBase.cpp:338
@@ -1803,7 +1803,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
-msgstr "Uruchamianie przy logowaniu"
+msgstr "Uruchamianie przy logowaniu."
 
 #: clientgui/DlgOptions.cpp:191
 msgid "Run the BOINC Manager when you log on."
@@ -1811,7 +1811,7 @@ msgstr "Menadżer BOINC jest uruchamiany przy logowaniu."
 
 #: clientgui/DlgOptions.cpp:196
 msgid "Enable Manager exit dialog?"
-msgstr "Okno dialogowe przy zamykaniu"
+msgstr "Okno dialogowe przy zamykaniu."
 
 #: clientgui/DlgOptions.cpp:202
 msgid "Display the exit dialog when shutting down the Manager."
@@ -2581,11 +2581,11 @@ msgstr "mocy obliczeniowej procesora"
 
 #: clientgui/sg_DlgPreferences.cpp:427
 msgid "Do work while on battery?"
-msgstr "Przetwarzanie danych podczas zasilania z baterii?"
+msgstr "Przetwarzanie przy zasilaniu z baterii?"
 
 #: clientgui/sg_DlgPreferences.cpp:440
 msgid "Do work after idle for:"
-msgstr "Przetwarzanie danych tylko po bezczynności przez:"
+msgstr "Przetwarzanie tylko po bezczynności przez:"
 
 #: clientgui/sg_DlgPreferences.cpp:679
 #: clientgui/sg_DlgPreferences.cpp:682
