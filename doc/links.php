@@ -289,7 +289,8 @@ language("Polish", array(
     site("http://www.boinc.pl", "www.boinc.pl")
 ));
 language("Portuguese", array(
-    site( "http://portugalathome.pt.vu/", "Portugal@home")
+    site( "http://portugalathome.pt.vu/", "Portugal@home"),
+    site("http://www.setibr.org/", "SETIBR"),
 ));
 language("Romanian", array(
     site( "http://www.boinc.ro/", "SETI@home Romania")

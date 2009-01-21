@@ -88,10 +88,10 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             return PLAN_REJECT_NO_COPROC;
         }
         int v = (cp->prop.major)*100 + cp->prop.minor;
-        if (v < 101) {
+        if (v < 100) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] CUDA version %d < 1.1\n", v
+                    "[version] CUDA version %d < 1.0\n", v
                 );
             }
             return PLAN_REJECT_COPROC_VERSION;

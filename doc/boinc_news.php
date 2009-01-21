@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("January 20, 2009",
+    "A paper about BOINC,
+    \"<a href=http://boinc.berkeley.edu/boinc_papers/hicss_08/hicss_08.pdf>Celebrating Diversity in Volunteer Computing</a>\",
+    has won a Best Paper award at the
+    42nd Hawaii International Conference on System Sciences."
+),
 array("January 14, 2009",
     "The <a href=http://docking.gcl.cis.udel.edu/>Docking@home</a>
     project has a spiffy new web site, and welcomes new volunteers."
