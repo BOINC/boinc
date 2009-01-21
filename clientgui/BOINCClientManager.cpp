@@ -112,7 +112,6 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
 
     int retval=0;
     bool running = false;
-    HOST_INFO hostinfo;
     RPC_CLIENT rpc;
 
 #ifdef __WXMSW__
@@ -124,9 +123,14 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     for (int i=0; i<10; i++) {
         retval = rpc.init("localhost");  // synchronous is OK since local
         wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Connecting to core client returned '%d'"), retval);
-        retval = rpc.get_host_info(hostinfo);
+        retval = rpc.authorize(wxT("")); // Do not use an RPC that uses the SET_LOCALE class, this
+                                         //   function is typically called from the UI thread.  If the
+                                         //   UI thread and the async thread happen to use SET_LOCALE
+                                         //   at the same time there is a 50% chance that the UI will
+                                         //   be partially suck using the "C" locale which is needed to
+                                         //   parse the data coming back from the CC.
         wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Requesting host info... retval '%d'"), retval);
-        running = (retval == 0);
+        running = (retval != ERR_CONNECT);
         rpc.close();
         if (running) break;
         if (!IsBOINCConfiguredAsDaemon()) break;
