@@ -366,9 +366,9 @@ int ACTIVE_TASK::start(bool first_time) {
     int retval;
     bool coprocs_reserved = false;
 
-    // if this job uses a GPU and not much CPU, run it at normal priority
+    // if this job less than one CPU, run it at above idle priority
     //
-    bool high_priority = result->uses_coprocs() && (app_version->avg_ncpus < 1);
+    bool high_priority = (app_version->avg_ncpus < 1);
 
     if (first_time && log_flags.task) {
         msg_printf(result->project, MSG_INFO,

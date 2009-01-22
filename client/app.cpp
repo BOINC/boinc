@@ -532,6 +532,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
     int n, dummy;
     unsigned int i;
     PROJECT* project;
+    double x;
 
     strcpy(result_name, "");
     strcpy(project_master_url, "");
@@ -622,6 +623,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_double(buf, "<working_set_size>", procinfo.working_set_size)) continue;
         else if (parse_double(buf, "<working_set_size_smoothed>", procinfo.working_set_size_smoothed)) continue;
         else if (parse_double(buf, "<page_fault_rate>", procinfo.page_fault_rate)) continue;
+        else if (parse_double(buf, "<current_cpu_time>", x)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,
