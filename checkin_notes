@@ -578,3 +578,12 @@ David  22 Jan 2009
         gui_rpc_client.cpp
     sched/
         sched_plan.cpp
+
+David  22 Jan 2009
+    - web: when using adaptive replication, show a WU's instances
+        if it has a canonical result, not if it's been assimilated
+        (if the assimilator is not working, the latter causes
+        WUs to be hidden longer than needed)
+
+    html/user/
+        workunit.php

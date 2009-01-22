@@ -42,11 +42,11 @@ if ($wu->canonical_resultid) {
     row2("granted credit", format_credit($wu->canonical_credit));
 }
 
-// if app is using adaptive replication and WU not assimilated yet,
+// if app is using adaptive replication and no canonical result yet,
 // don't show anything more
 // (so that bad guys can't tell if they have an unreplicated job)
 
-if ($app->target_nresults>0 && $wu->assimilate_state < 2) {
+if ($app->target_nresults>0 && !$wu->canonical_resultid) {
     row2("Tasks in progress", "suppressed pending completion");
     end_table();
 } else {
