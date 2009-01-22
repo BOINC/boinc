@@ -594,3 +594,14 @@ David  22 Jan 2009
 
     client/
         scheduler_op.cpp
+
+Eric  22 Jan 2009
+    - build: reordered compiler flags checking.  Fixed problems with finding location of wx-config when running with cached configuration.  Made
+        sure to check ${prefix}/lib when looking for libGL, libGLU, and libglut.
+
+    m4/
+        boinc_wxwidgets.m4
+        ax_check_glut.m4
+        ax_check_glu.m4
+        ax_check_gl.m4
+        boinc_set_compile_flags.m4 

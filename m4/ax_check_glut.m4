@@ -35,7 +35,7 @@ else
     else
       ax_try_lib="${ax_lib}"
     fi
-    LIBS="${ax_try_lib} ${GLUT_LIBS} ${ax_save_LIBS}"
+    LIBS="-L${prefix}/lib ${ax_try_lib} ${GLUT_LIBS} ${ax_save_LIBS}"
     AC_LINK_IFELSE(
     [AC_LANG_PROGRAM([[
 # if HAVE_WINDOWS_H && (defined(_WIN32) || defined(CYGWIN_USE_WIN32))
@@ -43,7 +43,7 @@ else
 # endif
 # include <GL/glut.h>]],
                      [[glutMainLoop()]])],
-    [ax_cv_check_glut_libglut="${ax_try_lib}"; break])
+    [ax_cv_check_glut_libglut="-L${prefix}/lib ${ax_try_lib}"; break])
 
   done
   LIBS=${ax_save_LIBS}

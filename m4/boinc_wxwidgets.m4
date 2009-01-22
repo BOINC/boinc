@@ -13,7 +13,11 @@ AC_DEFUN([BOINC_OPTIONS_WXWIDGETS],[
    AC_CACHE_CHECK([if wxWidgets works],[ac_cv_have_wxwidgets],
     [ac_cv_have_wxwidgets="${_ac_cv_have_wxwidgets}"])
    AC_CACHE_SAVE
-   WX_CONFIG="$ac_cv_path_WX_CONFIG_PATH"
+   if test "x$ac_cv_path_WX_CONFIG_PATH" != "x" ; then
+     WX_CONFIG="$ac_cv_path_WX_CONFIG_PATH"
+   elif test "x$WX_CONFIG_PATH" != "x" ; then
+     WX_CONFIG="$WX_CONFIG_PATH"
+   fi
    if test "x${ac_cv_have_wxwidgets}" = "xyes" ; then
 dnl Find the default wxWidgets options.
      wx_default_config="`$WX_CONFIG --selected-config`"

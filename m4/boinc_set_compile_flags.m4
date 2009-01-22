@@ -44,7 +44,7 @@ if test x${enable_optimize} = xyes ; then
   BOINC_CHECK_FFLAG(-ffast-math)
 fi  
 
-if test x${enable_generic_processor} ; then
+if test x${enable_generic_processor} = xyes ; then
    case ${target} in
      i*86-*-darwin*) 
          BOINC_CHECK_CFLAG(-march=pentium4)
@@ -56,20 +56,23 @@ if test x${enable_generic_processor} ; then
 	 ;;
      i*86-*)  
          dnl gcc
-         BOINC_CHECK_CFLAG(-march=i486)
-         BOINC_CHECK_CXXFLAG(-march=i486)
-         BOINC_CHECK_FFLAG(-march=i486)
-         BOINC_CHECK_CFLAG(-mtune=generic)
-         BOINC_CHECK_CXXFLAG(-mtune=generic)
-         BOINC_CHECK_FFLAG(-mtune=generic)
+	 if test x${ac_cv_c_compiler_gnu} = xyes ; then
+           BOINC_CHECK_CFLAG(-march=i486)
+           BOINC_CHECK_CFLAG(-mtune=generic)
+         else
 	 dnl dmc
-	 if test x${ac_cv_c_compiler_gnu} != xyes ; then
 	   BOINC_CHECK_CFLAG(-3)
 	 fi
-	 if test x${ac_cv_cxx_compiler_gnu} != xyes ; then
+	 if test x${ac_cv_cxx_compiler_gnu} = xyes ; then
+           BOINC_CHECK_CXXFLAG(-march=i486)
+           BOINC_CHECK_CXXFLAG(-mtune=generic)
+         else
 	   BOINC_CHECK_CXXFLAG(-3)
 	 fi
-	 if test x${ac_cv_f77_compiler_gnu} != xyes ; then
+	 if test x${ac_cv_f77_compiler_gnu} = xyes ; then
+           BOINC_CHECK_FFLAG(-march=i486)
+           BOINC_CHECK_FFLAG(-mtune=generic)
+         else
 	   BOINC_CHECK_FFLAG(-3)
 	 fi
 	 ;;
@@ -87,16 +90,28 @@ if test x${enable_generic_processor} ; then
 	 ;;
      sparc-*)
          dnl gcc
-         BOINC_CHECK_CFLAG(-march=v8)   
-         BOINC_CHECK_CXXFLAG(-march=v8)   
-         BOINC_CHECK_FFLAG(-march=v8)   
-         BOINC_CHECK_CFLAG(-mtune=ultrasparc)   
-         BOINC_CHECK_CXXFLAG(-mtune=ultrasparc)   
-         BOINC_CHECK_FFLAG(-mtune=ultrasparc)   
+	 if test x${ac_cv_c_compiler_gnu} = xyes ; then
+           BOINC_CHECK_CFLAG(-march=v8)   
+           BOINC_CHECK_CFLAG(-mcpu=v8)   
+           BOINC_CHECK_CFLAG(-mtune=ultrasparc)   
+         else
 	 dnl Studio 10
-         BOINC_CHECK_CFLAG(-xarch=v8)   
-         BOINC_CHECK_CXXFLAG(-xarch=v8)   
-         BOINC_CHECK_FFLAG(-xarch=v8)   
+           BOINC_CHECK_CFLAG(-xarch=v8)   
+         fi
+	 if test x${ac_cv_cxx_compiler_gnu} = xyes ; then
+           BOINC_CHECK_CXXFLAG(-march=v8)   
+           BOINC_CHECK_CXXFLAG(-mcpu=v8)   
+           BOINC_CHECK_CXXFLAG(-mtune=ultrasparc)   
+         else
+           BOINC_CHECK_CXXFLAG(-xarch=v8)   
+         fi
+	 if test x${ac_cv_f77_compiler_gnu} = xyes ; then
+           BOINC_CHECK_FFLAG(-march=v8)   
+           BOINC_CHECK_FFLAG(-mcpu=v8)   
+           BOINC_CHECK_FFLAG(-mtune=ultrasparc)   
+         else
+           BOINC_CHECK_FFLAG(-xarch=v8)   
+         fi
          ;;
      *)
          ;;
