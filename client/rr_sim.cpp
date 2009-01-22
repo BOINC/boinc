@@ -39,12 +39,12 @@ struct RR_SIM_STATUS {
 
     inline bool can_run(RESULT* rp) {
         return coprocs.sufficient_coprocs(
-            rp->avp->coprocs, log_flags.rr_simulation, "rr_sim"
+            rp->avp->coprocs, false, "rr_sim"
         );
     }
     inline void activate(RESULT* rp, double when) {
         coprocs.reserve_coprocs(
-            rp->avp->coprocs, rp, log_flags.rr_simulation, "rr_sim"
+            rp->avp->coprocs, rp, false, "rr_sim"
         );
 		if (log_flags.rr_simulation) {
 			msg_printf(rp->project, MSG_INFO,
@@ -59,7 +59,7 @@ struct RR_SIM_STATUS {
     // and adjust CPU time left for other results
     //
     inline void remove_active(RESULT* rpbest) {
-        coprocs.free_coprocs(rpbest->avp->coprocs, rpbest, log_flags.rr_simulation, "rr_sim");
+        coprocs.free_coprocs(rpbest->avp->coprocs, rpbest, false, "rr_sim");
         vector<RESULT*>::iterator it = active.begin();
         while (it != active.end()) {
             RESULT* rp = *it;
@@ -216,7 +216,7 @@ void CLIENT_STATE::rr_simulation() {
 
     if (log_flags.rr_simulation) {
         msg_printf(0, MSG_INFO,
-            "[rr_sim] rr_sim start: now %f work_buf_total %f",
+            "[rr_sim] rr_sim start: now %.2f work_buf_total %.2f",
             now, work_buf_total()
         );
     }
@@ -299,7 +299,7 @@ void CLIENT_STATE::rr_simulation() {
             if (atp && atp->procinfo.working_set_size_smoothed > ar) {
                 if (log_flags.rr_simulation) {
                     msg_printf(pbest, MSG_INFO,
-                        "[rr_sim] result %s misses deadline but too large to run",
+                        "[rr_sim] %s misses deadline but too large to run",
                         rpbest->name
                     );
                 }
@@ -308,7 +308,7 @@ void CLIENT_STATE::rr_simulation() {
                 pbest->rr_sim_status.deadlines_missed++;
                 if (log_flags.rr_simulation) {
                     msg_printf(pbest, MSG_INFO,
-                        "[rr_sim] result %s misses deadline by %f",
+                        "[rr_sim] %s misses deadline by %.2f",
                         rpbest->name, diff
                     );
                 }
@@ -350,15 +350,6 @@ void CLIENT_STATE::rr_simulation() {
                 break;
             }
         }
-
-        // If all work done for a project, subtract that project's share
-        //
-        if (pbest->rr_sim_status.none_active()) {
-			if (pbest->rr_sim_status.has_cpu_jobs) {
-				cpu_work_fetch.total_runnable_share -= pbest->resource_share;
-			}
-        }
-
         sim_now += rpbest->rrsim_finish_delay;
     }
 

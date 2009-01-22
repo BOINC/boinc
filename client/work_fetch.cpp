@@ -145,18 +145,19 @@ void WORK_FETCH::set_overall_debts() {
 
 void RSC_WORK_FETCH::print_state(char* name) {
     msg_printf(0, MSG_INFO,
-        "[wfd] %s: shortfall %.2f nidle %.2f total RS %.2f runnable RS %.2f",
+        "[wfd] %s: shortfall %.2f nidle %.2f fetchable RS %.2f runnable RS %.2f",
         name,
         shortfall, nidle_now,
         total_fetchable_share, total_runnable_share
     );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
+		if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
         msg_printf(p, MSG_INFO,
             "[wfd] %s: runshare %.2f debt %.2f backoff t %.2f int %.2f",
             name,
-            pwf.runnable_share, pwf.debt, pwf.backoff_time-gstate.now, pwf.backoff_interval
+            pwf.runnable_share, pwf.debt, pwf.backoff_time, pwf.backoff_interval
         );
     }
 }
@@ -169,6 +170,7 @@ void WORK_FETCH::print_state() {
     }
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
+		if (p->non_cpu_intensive) continue;
         msg_printf(p, MSG_INFO, "[wfd] overall_debt %f", p->pwf.overall_debt);
     }
     msg_printf(0, MSG_INFO, "[wfd] ------- end work fetch state -------");
