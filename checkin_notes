@@ -587,3 +587,10 @@ David  22 Jan 2009
 
     html/user/
         workunit.php
+
+David  22 Jan 2009
+    - client: simplify message describing scheduler request;
+        to get work request details, use <sched_op_debug>
+
+    client/
+        scheduler_op.cpp
