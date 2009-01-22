@@ -198,7 +198,7 @@ $l51045 = array(
 );
 
 $l66ubuntu = array(
-    "num"=>"6.6.0",
+    "num"=>"6.6.2",
     "status"=>"Development version",
     "file"=>"boinc_6.6.2_i686-pc-linux-gnu.sh",
     "date"=>"22 Jan 2009",
