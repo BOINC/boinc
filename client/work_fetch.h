@@ -126,6 +126,7 @@ struct WORK_FETCH {
     void set_overall_debts();
     PROJECT* choose_project();
         // find a project to ask for work
+	PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work();
     void compute_work_request(PROJECT*);
         // we're going to contact this project anyway;
         // decide how much work to task for

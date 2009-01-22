@@ -207,11 +207,38 @@ void WORK_FETCH::compute_work_request(PROJECT* p) {
     clear_request();
 }
 
+// see if there's a fetchable non-CPU-intensive project without work
+//
+PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
+	for (unsigned int i=0; i<gstate.projects.size(); i++) {
+		PROJECT* p = gstate.projects[i];
+		if (!p->non_cpu_intensive) continue;
+		if (!p->can_request_work()) continue;
+		bool has_work = false;
+		for (unsigned int j=0; j<gstate.results.size(); j++) {
+			RESULT* rp = gstate.results[j];
+			if (rp->project == p) {
+				has_work = true;
+				break;
+			}
+		}
+		if (!has_work) {
+			clear_request();
+			cpu_work_fetch.req_secs = 1;
+			return p;
+		}
+	}
+	return 0;
+}
+
 // choose a project to fetch work from,
 // and set the request fields of resource objects
 //
 PROJECT* WORK_FETCH::choose_project() {
     PROJECT* p = 0;
+
+	p = non_cpu_intensive_project_needing_work();
+	if (p) return p;
 
     gstate.adjust_debts();
     gstate.compute_nuploading_results();
