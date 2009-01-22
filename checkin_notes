@@ -557,3 +557,24 @@ Charlie Jan 22 2009
         
     clientgui/
         BOINCClientManager.cpp
+
+David  22 Jan 2009
+    - client: if an app has avg_ncpus < 1, run it at above-idle priority
+        even if it doesn't use a coprocessor.
+    - scheduler: added an "nci" (non CPU intensive) plan class
+        to sched_plan.cpp.  It declares the use of 1% of a CPU.
+
+    The above two changes are intended to allow the QCN app to
+    run at above_idle priority, which it needs in order to do 500Hz polling.
+
+    - API: the std::string version of boinc_resolve_filename()
+        acts the same as the char[] version.
+
+    client/
+        app.cpp
+        app_start.cpp
+    lib/
+        app_ipc.cpp
+        gui_rpc_client.cpp
+    sched/
+        sched_plan.cpp

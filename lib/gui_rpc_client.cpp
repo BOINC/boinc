@@ -129,20 +129,19 @@ int RPC_CLIENT::init_asynch(
     }
 
     retval = boinc_socket(sock);
-    BOINCTRACE("RPC_CLIENT::init boinc_socket returned %d\n", sock);
+    BOINCTRACE("init_asynch() boinc_socket: %d\n", sock);
     if (retval) return retval;
 
     retval = boinc_socket_asynch(sock, true);
     if (retval) {
-        BOINCTRACE("RPC_CLIENT::init asynch error: %d\n", retval);
+        BOINCTRACE("init_asynch() boinc_socket_asynch: %d\n", retval);
     }
     start_time = dtime();
     retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
-        perror("connect");
-        BOINCTRACE("RPC_CLIENT::init connect returned %d\n", retval);
+        perror("init_asynch(): connect");
+        BOINCTRACE("init_asynch() connect: %d\n", retval);
     }
-    BOINCTRACE("RPC_CLIENT::init attempting connect \n");
     return 0;
 }
 
@@ -159,7 +158,7 @@ int RPC_CLIENT::init_poll() {
     FD_SET(sock, &write_fds);
     FD_SET(sock, &error_fds);
 
-    BOINCTRACE("RPC_CLIENT::init_poll sock = %d\n", sock);
+    BOINCTRACE("init_poll(): sock = %d\n", sock);
 
     tv.tv_sec = tv.tv_usec = 0;
     select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &tv);
@@ -169,19 +168,19 @@ int RPC_CLIENT::init_poll() {
     } else if (FD_ISSET(sock, &write_fds)) {
         retval = get_socket_error(sock);
         if (!retval) {
-            BOINCTRACE("RPC_CLIENT::init_poll connected to port %d\n", ntohs(addr.sin_port));
+            BOINCTRACE("init_poll(): connected to port %d\n", ntohs(addr.sin_port));
             retval = boinc_socket_asynch(sock, false);
             if (retval) {
-                BOINCTRACE("asynch error: %d\n", retval);
+                BOINCTRACE("init_poll(): boinc_socket_asynch: %d\n", retval);
                 return retval;
             }
             return 0;
         } else {
-            BOINCTRACE("init_poll: get_socket_error(): %d\n", retval);
+            BOINCTRACE("init_poll(): get_socket_error(): %d\n", retval);
         }
     }
     if (dtime() > start_time + timeout) {
-        BOINCTRACE("RPC_CLIENT init timed out\n");
+        BOINCTRACE("asynch init timed out\n");
         return ERR_CONNECT;
     }
     if (retval) {
@@ -190,7 +189,7 @@ int RPC_CLIENT::init_poll() {
             retval = boinc_socket(sock);
             retval = boinc_socket_asynch(sock, true);
             retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
-            BOINCTRACE("RPC_CLIENT::init_poll attempting connect\n");
+            BOINCTRACE("init_poll(): retrying connect: %d\n", retval);
             return ERR_RETRY;
         } else {
             return ERR_CONNECT;

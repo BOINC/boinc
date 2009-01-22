@@ -47,7 +47,7 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         // the following is for an app that can use anywhere
         // from 1 to 64 threads, can control this exactly,
         // and whose speedup is .95N
-        // (so on a uniprocessor, we'll use a sequential app if one is available)
+        // (on a uniprocessor, we'll use a sequential app if one is available)
         //
         int ncpus, nthreads;
         bool bounded;
@@ -140,6 +140,14 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             );
         }
         return 0;
+    } else if (!strcmp(plan_class, "nci")) {
+        // The following is for a non-CPU-intensive application.
+        // Say that we'll use 1% of a CPU.
+        // This will cause the client (6.7+) to run it at non-idle priority
+        //
+        hu.avg_ncpus = .01;
+        hu.max_ncpus = .01;
+        hu.flops = .01*sreq.host.p_fpops;
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class

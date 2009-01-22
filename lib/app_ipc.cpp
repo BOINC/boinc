@@ -356,7 +356,7 @@ int boinc_resolve_filename_s(const char *virtual_name, string& physical_name) {
     }
 #endif
     FILE *fp = boinc_fopen(virtual_name, "r");
-    if (!fp) return ERR_FOPEN;
+    if (!fp) return 0;
     buf[0] = 0;
     p = fgets(buf, 512, fp);
     fclose(fp);
