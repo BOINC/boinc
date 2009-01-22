@@ -34,13 +34,13 @@ fi
 
 if test x${enable_optimize} = xyes ; then
   BOINC_CHECK_CFLAG(-fast)
-  BOINC_CHECK_CXXFLAG(-fast)
-  BOINC_CHECK_FFLAG(-fast)
   BOINC_CHECK_CFLAG(-O3)
-  BOINC_CHECK_CXXFLAG(-O3)
-  BOINC_CHECK_FFLAG(-O3)
   BOINC_CHECK_CFLAG(-ffast-math)
+  BOINC_CHECK_CXXFLAG(-fast)
+  BOINC_CHECK_CXXFLAG(-O3)
   BOINC_CHECK_CXXFLAG(-ffast-math)
+  BOINC_CHECK_FFLAG(-fast)
+  BOINC_CHECK_FFLAG(-O3)
   BOINC_CHECK_FFLAG(-ffast-math)
 fi  
 
@@ -48,10 +48,10 @@ if test x${enable_generic_processor} = xyes ; then
    case ${target} in
      i*86-*-darwin*) 
          BOINC_CHECK_CFLAG(-march=pentium4)
-         BOINC_CHECK_CXXFLAG(-march=pentium4)
-         BOINC_CHECK_FFLAG(-march=pentium4)
 	 BOINC_CHECK_CFLAG(-mtune=prescott)
+         BOINC_CHECK_CXXFLAG(-march=pentium4)
 	 BOINC_CHECK_CXXFLAG(-mtune=prescott)
+         BOINC_CHECK_FFLAG(-march=pentium4)
 	 BOINC_CHECK_FFLAG(-mtune=prescott)
 	 ;;
      i*86-*)  
@@ -79,13 +79,13 @@ if test x${enable_generic_processor} = xyes ; then
      x86_64-*)  
          dnl gcc
          BOINC_CHECK_CFLAG(-msse2)   
-         BOINC_CHECK_CXXFLAG(-msse2)   
-         BOINC_CHECK_FFLAG(-msse2)   
          BOINC_CHECK_CFLAG(-march=opteron)   
-         BOINC_CHECK_CXXFLAG(-march=opteron)   
-         BOINC_CHECK_FFLAG(-march=opteron)   
          BOINC_CHECK_CFLAG(-mtune=generic)   
+         BOINC_CHECK_CXXFLAG(-msse2)   
+         BOINC_CHECK_CXXFLAG(-march=opteron)   
          BOINC_CHECK_CXXFLAG(-mtune=generic)   
+         BOINC_CHECK_FFLAG(-msse2)   
+         BOINC_CHECK_FFLAG(-march=opteron)   
          BOINC_CHECK_FFLAG(-mtune=generic)   
 	 ;;
      sparc-*)

@@ -20,7 +20,7 @@ AC_DEFUN([BOINC_CHECK_CFLAG],[
       $3
     ]
   )
-  AC_LANG_POP
+  AC_LANG_POP(C)
 ])
 
 AC_DEFUN([BOINC_CHECK_CXXFLAG],[
@@ -44,7 +44,7 @@ AC_DEFUN([BOINC_CHECK_CXXFLAG],[
       $3
     ]
   )
-  AC_LANG_POP
+  AC_LANG_POP(C++)
 ])
 
 AC_DEFUN([BOINC_CHECK_FFLAG],[
@@ -65,7 +65,7 @@ AC_DEFUN([BOINC_CHECK_FFLAG],[
       $3
     ]
   )
-  AC_LANG_POP
+  AC_LANG_POP(Fortran 77)
 ])
 
 
@@ -90,5 +90,5 @@ AC_DEFUN([BOINC_CHECK_LDFLAG],[
       $3
     ]
   )
-  AC_LANG_POP
+  AC_LANG_POP(C)
 ])

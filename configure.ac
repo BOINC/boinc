@@ -36,9 +36,11 @@ fi
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
+AC_PROG_F77
 AC_PROG_CPP
 AC_PROG_MAKE_SET
 SAH_LINKS
+AC_LANG_PUSH(C)
 AM_PROG_CC_C_O
 
 m4_divert_once([HELP_ENABLE],
@@ -145,7 +147,6 @@ AC_ARG_ENABLE(pkg-manager,
      enable_install_headers=no
     ],
     [])
-
 
 BOINC_SET_COMPILE_FLAGS
 
