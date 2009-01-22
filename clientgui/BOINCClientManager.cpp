@@ -27,6 +27,7 @@
 #include "BOINCBaseFrame.h"
 #include "AdvancedFrame.h"
 #include "BOINCClientManager.h"
+#include "error_numbers.h"
 
 #ifdef __WXMAC__
 #include "filesys.h"
