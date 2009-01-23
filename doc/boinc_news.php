@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("January 22, 2009",
+    "A <a href=http://boinc.berkeley.edu/images/Cochran_SRL_2009.pdf>paper
+    about Quake-Catcher Network</a> appeared in
+    Seismological Research Letters, Jan/Feb 2009."
+),
 array("January 20, 2009",
     "A paper about BOINC,
     \"<a href=http://boinc.berkeley.edu/boinc_papers/hicss_08/hicss_08.pdf>Celebrating Diversity in Volunteer Computing</a>\",

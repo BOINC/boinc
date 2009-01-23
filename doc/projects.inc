@@ -103,12 +103,12 @@ $astro_phys_chem = array(
     "Astronomy/Physics/Chemistry",
     array(
         array(
-            "AQUA@home",
-            "http://aqua.dwavesys.com/",
-            "D-Wave Systems, Inc.",
-            "Quantum computing",
-            "D-Wave's AQUA (Adiabatic QUantum Algorithms) is a research project whose goal is to predict the performance of superconducting adiabatic quantum computers on a variety of hard problems arising in fields ranging from materials science to machine learning. AQUA@home uses Internet-connected computers to help design and analyze quantum computing algorithms, using Quantum Monte Carlo techniques.",
-            "logo_dwave2.png"
+            "Milkyway@home",
+            "http://milkyway.cs.rpi.edu/milkyway/",
+            "Rensselaer Polytechnic Institute",
+            "Astronomy",
+            "The goal of Milkyway@Home is to create a highly accurate three dimensional model of the Milky Way galaxy using data gathered by the Sloan Digital Sky Survey.",
+            "mw.png",
         ),
         array(
             "Leiden Classical",
@@ -190,8 +190,16 @@ $mixed = array(
     ),
 );
 $math = array(
-    "Mathematics and strategy games",
+    "Mathematics, computing, and games",
     array(
+        array(
+            "AQUA@home",
+            "http://aqua.dwavesys.com/",
+            "D-Wave Systems, Inc.",
+            "Quantum computing",
+            "D-Wave's AQUA (Adiabatic QUantum Algorithms) is a research project whose goal is to predict the performance of superconducting adiabatic quantum computers on a variety of hard problems arising in fields ranging from materials science to machine learning. AQUA@home uses Internet-connected computers to help design and analyze quantum computing algorithms, using Quantum Monte Carlo techniques.",
+            "logo_dwave2.png"
+        ),
         array(
             "SHA-1 Collision Search Graz",
             "http://boinc.iaik.tugraz.at/sha1_coll_search/",
