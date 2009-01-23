@@ -674,3 +674,9 @@ David  23 Jan 2009
 
     html/user/
         apps.php
+
+David  23 Jan 2009
+    - API: possible compile fix for OS/2
+
+    api/
+        boinc_api.cpp
