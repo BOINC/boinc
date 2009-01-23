@@ -71,69 +71,6 @@ using std::vector;
 
 #include "app.h"
 
-// preempt this task;
-// called from the CLIENT_STATE::enforce_schedule()
-// and ACTIVE_TASK_SET::suspend_all()
-//
-int ACTIVE_TASK::preempt(int preempt_type) {
-    int retval;
-    bool remove;
-
-    switch (preempt_type) {
-    case REMOVE_NEVER:
-        remove = false;
-        break;
-    case REMOVE_MAYBE_USER:
-        if (checkpoint_elapsed_time == 0) {
-            remove = false;
-            break;
-        }
-        if (result->uses_coprocs() && checkpoint_wall_time) {
-            remove = true;
-            break;
-        }
-        remove = !gstate.global_prefs.leave_apps_in_memory;
-        break;
-    case REMOVE_MAYBE_SCHED:
-        if (checkpoint_elapsed_time == 0) {
-            remove = false;
-            break;
-        }
-        if (result->uses_coprocs()
-            && (result->suspended_via_gui || result->project->suspended_via_gui)
-            && checkpoint_wall_time
-        ) {
-            remove = true;
-            break;
-        }
-        remove = !gstate.global_prefs.leave_apps_in_memory;
-        break;
-    case REMOVE_ALWAYS:
-        remove = true;
-        break;
-    }
-
-    if (remove) {
-        if (log_flags.cpu_sched) {
-            msg_printf(result->project, MSG_INFO,
-                "[cpu_sched] Preempting %s (removed from memory)",
-                result->name
-            );
-        }
-        set_task_state(PROCESS_QUIT_PENDING, "preempt");
-        retval = request_exit();
-    } else {
-        if (log_flags.cpu_sched) {
-            msg_printf(result->project, MSG_INFO,
-                "[cpu_sched] Preempting %s (left in memory)",
-                result->name
-            );
-        }
-        retval = suspend();
-    }
-    return 0;
-}
-
 #ifdef _WIN32
 bool ACTIVE_TASK::kill_all_children() {
 	unsigned int i,j;
