@@ -687,3 +687,9 @@ David  23 Jan 2009
     sched/
         sched_array.cpp
         sched_send.app
+
+David  23 Jan 2009
+    - scheduler: make NCI app versions preferable to non-plan-class
+
+    sched/
+        sched_plan.cpp

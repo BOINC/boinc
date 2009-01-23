@@ -147,7 +147,9 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         //
         hu.avg_ncpus = .01;
         hu.max_ncpus = .01;
-        hu.flops = sreq.host.p_fpops;
+        hu.flops = sreq.host.p_fpops*1.01;
+            // The *1.01 is needed to ensure that we'll send this app
+            // version rather than a non-plan-class one
         return 0;
     }
     log_messages.printf(MSG_CRITICAL,
