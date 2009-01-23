@@ -765,7 +765,6 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
             task_iter++;
         }
     }
-    project->clear_perm();
     return 0;
 }
 

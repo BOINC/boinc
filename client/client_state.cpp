@@ -1392,6 +1392,7 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
 // - delete all workunits and results
 // - delete all apps and app_versions
 // - garbage collect to delete unneeded files
+// - clear debts and backoffs
 //
 // Note: does NOT delete persistent files or user-supplied files;
 // does not delete project dir
@@ -1476,7 +1477,8 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
     project->duration_correction_factor = 1;
     project->ams_resource_share = -1;
     project->min_rpc_time = 0;
-    project->pwf.clear_backoffs(project);
+	project->short_term_debt = 0;
+    project->pwf.reset(project);
     write_state_file();
     return 0;
 }

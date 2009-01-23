@@ -638,3 +638,19 @@ Charlie Jan 22 2009
     clientgui/
         BOINCBaseView.cpp
         BOINCListCtrl.cpp,.h
+
+David  23 Jan 2009
+	- client: clear debts when reset project
+	- client: respect work-fetch backoff for non-CPU-intensive projects
+	- client: for non-CPU-intensive project, fetch new job
+		if no currently running jobs
+	- client: skip non-CPU-intensive projects in debt calculations
+	- manager: show resource backoff times correctly
+
+	client/
+		app_control.cpp
+		client_state.cpp
+		client_types.cpp,h
+		work_fetch.cpp,h
+	clientgui/
+		DlgItemProperties.cpp
