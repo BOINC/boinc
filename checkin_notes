@@ -693,3 +693,9 @@ David  23 Jan 2009
 
     sched/
         sched_plan.cpp
+
+David  23 Jan 2009
+    - scheduler: if client can't do plan class, don't complain about old client
+
+    sched/
+        sched_send.cpp

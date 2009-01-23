@@ -245,7 +245,6 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
                         "client version %d lacks plan class capability\n",
                         g_request->core_client_version
                     );
-                    g_wreq->outdated_client = true;
                     continue;
                 }
                 retval = app_plan(*g_request, av.plan_class, host_usage);
