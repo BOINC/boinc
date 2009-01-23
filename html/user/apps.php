@@ -42,34 +42,45 @@ foreach ($apps as $app) {
         echo "    <name>$app->user_friendly_name</name>\n";
     } else {
         echo "
-            <tr><th colspan=3>$app->user_friendly_name</th></tr>
-            <tr><th>".tra("Platform")."</th><th>".tra("Current version")."</th><th>".tra("Installation time")."</th></tr>\n
+            <tr><th colspan=4>$app->user_friendly_name</th></tr>
+            <tr>
+                <th>".tra("Platform")."</th>
+                <th>".tra("Version")."</th>
+                <th>".tra("Plan class")."</th>
+                <th>".tra("Installation time")."</th>
+            </tr>
         ";
     }
-    for ($i=0; $i<sizeof($platforms); $i++) {
-        $platform = $platforms[$i];
-        $newest = null;
-        $avs = BoincAppVersion::enum("appid=$app->id and platformid = $platform->id and deprecated=0");
+    foreach ($platforms as $platform) {
+        $avs = BoincAppVersion::enum(
+            "appid=$app->id and platformid = $platform->id and deprecated=0"
+        );
         foreach($avs as $av) {
-            if (!$newest || $av->version_num>$newest->version_num) {
-                $newest = $av;
+            foreach ($avs as $av2) {
+                if ($av->id == $av2->id) continue;
+                if ($av->plan_class == $av2->plan_class && $av->version_num > $av2->version_num) {
+                    $av2->deprecated = 1;
+                }
             }
         }
-        if ($newest) {
-            $y = pretty_time_str($newest->create_time);
+        foreach($avs as $av) {
+            if ($av->deprecated) continue;
+            $y = pretty_time_str($av->create_time);
             if ($xml) {
                 echo "    <version>\n";
                 echo "        <platform_short>$platform->name</platform_short>\n";
                 echo "        <platform_long>$platform->user_friendly_name</platform_long>\n";
-                echo "        <version_num>$newest->version_num</version_num>\n";
+                echo "        <version_num>$av->version_num</version_num>\n";
+                echo "        <plan_class>$av->plan_class</plan_class>\n";
                 echo "        <date>$y</date>\n";
-                echo "        <date_unix>$newest->create_time</date_unix>\n";
+                echo "        <date_unix>$av->create_time</date_unix>\n";
                 echo "    </version>\n";
             } else {
-                $x = sprintf("%0.2f", $newest->version_num/100);
+                $x = sprintf("%0.2f", $av->version_num/100);
                 echo "<tr>
                     <td>$platform->user_friendly_name</td>
                     <td>$x</td>
+                    <td>$av->plan_class</td>
                     <td>$y</td>
                     </tr>
                 ";

@@ -668,3 +668,9 @@ David  23 Jan 2009
     sched/
         sched_plan.cpp,h
         sched_send.cpp
+
+David  23 Jan 2009
+    - web: fix apps.php so that it knows about plan class
+
+    html/user/
+        apps.php
