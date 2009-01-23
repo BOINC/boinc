@@ -148,9 +148,10 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         hu.avg_ncpus = .01;
         hu.max_ncpus = .01;
         hu.flops = sreq.host.p_fpops;
+        return 0;
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class
     );
-    return false;
+    return PLAN_REJECT_UNKNOWN;
 }

@@ -25,5 +25,6 @@
 #define PLAN_REJECT_COPROC_VERSION  3
 #define PLAN_REJECT_COPROC_MEM      4
 #define PLAN_REJECT_COPROC_SPEED    5
+#define PLAN_REJECT_UNKNOWN         6
 
 extern int app_plan(SCHEDULER_REQUEST&, char* plan_class, HOST_USAGE&);

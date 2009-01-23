@@ -220,7 +220,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
     bavp->host_usage.flops = 0;
     bavp->avp = NULL;
     bool no_version_for_platform = true;
-    int cuda_reject = 0;
+    int app_plan_reject = 0;
     bool no_cuda_requested = false;
     bool no_cpu_requested = false;
     for (i=0; i<g_request->platforms.list.size(); i++) {
@@ -250,7 +250,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
                 }
                 retval = app_plan(*g_request, av.plan_class, host_usage);
                 if (retval) {
-                    cuda_reject = retval;
+                    app_plan_reject = retval;
                     continue;
                 }
             } else {
@@ -323,7 +323,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
             g_wreq->insert_no_work_message(um);
         }
         char* p = NULL;
-        switch (cuda_reject) {
+        switch (app_plan_reject) {
         case PLAN_REJECT_PREFS:
             p = "Your preferences are to not use GPU"; break;
         case PLAN_REJECT_NO_COPROC:
