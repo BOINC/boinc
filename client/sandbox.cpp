@@ -101,7 +101,7 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
     if (pid == 0) {
         // This is the new (forked) process
         execv(util_path, argv);
-        perror("execv failed in switcher_exec");
+        fprintf(stderr, "execv failed in switcher_exec(%s, %s): %s", util_path, cmdline, strerror(errno));
         return ERR_EXEC;
     }
     // Wait for command to complete, like system() does.

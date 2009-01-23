@@ -626,3 +626,9 @@ David  22 Jan 2009
         cpu_sched.cpp
     sched/
         main.cpp
+
+Charlie Jan 22 2009
+    - client sandbox: add details in switcher_exec "execv failed" message.
+        
+    client/
+        sandbox.cpp
