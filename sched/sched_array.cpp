@@ -58,12 +58,13 @@ void scan_work_array() {
     char buf[256];
     APP* app;
 
+    if (!work_needed(false)) return;
+
     lock_sema();
     
     rnd_off = rand() % ssp->max_wu_results;
     for (j=0; j<ssp->max_wu_results; j++) {
         i = (j+rnd_off) % ssp->max_wu_results;
-        if (!work_needed(false)) break;
 
         WU_RESULT& wu_result = ssp->wu_results[i];
 
@@ -294,6 +295,7 @@ dont_send:
         wu_result.state = WR_STATE_PRESENT;
 done:
         lock_sema();
+        if (!work_needed(false)) break;
     }
     unlock_sema();
 }

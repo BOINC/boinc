@@ -1022,12 +1022,31 @@ bool work_needed(bool locality_sched) {
     }
     if (g_wreq->nresults >= config.max_wus_to_send) return false;
 
+#if 0
+    log_messages.printf(MSG_NORMAL,
+        "work_needed: spec req %d sec to fill %.2f; CPU (%.2f, %.2f) CUDA (%.2f, %.2f)\n",
+        g_wreq->rsc_spec_request,
+        g_wreq->seconds_to_fill,
+        g_wreq->cpu_req_secs, g_wreq->cpu_req_instances,
+        g_wreq->cuda_req_secs, g_wreq->cuda_req_instances
+    );
+#endif
     if (g_wreq->rsc_spec_request) {
-        if (g_wreq->need_cpu()) return true;
-        if (g_wreq->need_cuda()) return true;
+        if (g_wreq->need_cpu()) {
+            //log_messages.printf(MSG_NORMAL, "need CPU\n");
+            return true;
+        }
+        if (g_wreq->need_cuda()) {
+            //log_messages.printf(MSG_NORMAL, "need CUDA\n");
+            return true;
+        }
     } else {
-        if (g_wreq->seconds_to_fill > 0) return true;
+        if (g_wreq->seconds_to_fill > 0) {
+            //log_messages.printf(MSG_NORMAL, "need old CPU\n");
+            return true;
+        }
     }
+    //log_messages.printf(MSG_NORMAL, "don't need\n");
     return false;
 }
 
