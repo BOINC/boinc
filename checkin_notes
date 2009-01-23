@@ -547,3 +547,9 @@ David  22 Jan 2009
         gui_rpc_client.cpp
     sched/
         sched_plan.cpp
+
+Charlie Jan 22 2009
+    - client sandbox: add details in switcher_exec "execv failed" message.
+        
+    client/
+        sandbox.cpp
