@@ -298,6 +298,10 @@ void attach_to_feeder_shmem() {
             "uid %d euid %d gid %d eguid%d\n",
             getuid(), geteuid(), getgid(), getegid()
         );
+        send_message(
+            "Server error: feeder not running", 3600
+        );
+        exit(0);
     } else {
         ssp = (SCHED_SHMEM*)p;
         retval = ssp->verify();

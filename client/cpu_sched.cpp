@@ -731,7 +731,6 @@ bool CLIENT_STATE::enforce_schedule() {
     static double last_time = 0;
     int retval;
     double ncpus_used;
-    bool preempt_by_quit;
 
     // Do this when requested, and once a minute as a safety net
     //
@@ -955,19 +954,19 @@ bool CLIENT_STATE::enforce_schedule() {
                 atp->next_scheduler_state, atp->task_state()
             );
         }
+        int preempt_type = REMOVE_MAYBE_SCHED;
         switch (atp->next_scheduler_state) {
         case CPU_SCHED_PREEMPTED:
             switch (atp->task_state()) {
             case PROCESS_EXECUTING:
                 action = true;
-                preempt_by_quit = !global_prefs.leave_apps_in_memory;
                 if (check_swap && swap_left < 0) {
                     if (log_flags.mem_usage_debug) {
                         msg_printf(atp->result->project, MSG_INFO,
                             "[mem_usage_debug] out of swap space, will preempt by quit"
                         );
                     }
-                    preempt_by_quit = true;
+                    preempt_type = REMOVE_ALWAYS;
                 }
                 if (atp->too_large) {
                     if (log_flags.mem_usage_debug) {
@@ -975,16 +974,17 @@ bool CLIENT_STATE::enforce_schedule() {
                             "[mem_usage_debug] job using too much memory, will preempt by quit"
                         );
                     }
-                    preempt_by_quit = true;
+                    preempt_type = REMOVE_ALWAYS;
                 }
-                atp->preempt(preempt_by_quit);
+                atp->preempt(preempt_type);
                 break;
             case PROCESS_SUSPENDED:
                 // Handle the case where user changes prefs from
-                // "leave in memory" to "remove from memory".
-                // Need to quit suspended tasks.
+                // "leave in memory" to "remove from memory";
+                // need to quit suspended tasks.
+                //
 				if (atp->checkpoint_cpu_time && !global_prefs.leave_apps_in_memory) {
-                    atp->preempt(true);
+                    atp->preempt(REMOVE_ALWAYS);
                 }
                 break;
             }
@@ -1237,44 +1237,6 @@ void CLIENT_STATE::set_ncpus() {
         request_work_fetch("Number of usable CPUs has changed");
         work_fetch.init();
     }
-}
-
-// preempt this task
-// called from the CLIENT_STATE::schedule_cpus()
-// if quit_task is true, do this by quitting
-//
-int ACTIVE_TASK::preempt(bool quit_task) {
-    int retval;
-
-    // If the app hasn't checkpoint yet, suspend instead of quit
-    // (accommodate apps that never checkpoint)
-    //
-    if (quit_task && (checkpoint_cpu_time>0)) {
-        if (log_flags.cpu_sched) {
-            msg_printf(result->project, MSG_INFO,
-                "[cpu_sched] Preempting %s (removed from memory)",
-                result->name
-            );
-        }
-        set_task_state(PROCESS_QUIT_PENDING, "preempt");
-        retval = request_exit();
-    } else {
-        if (log_flags.cpu_sched) {
-            if (quit_task) {
-                msg_printf(result->project, MSG_INFO,
-                    "[cpu_sched] Preempting %s (left in memory because no checkpoint yet)",
-                    result->name
-                );
-            } else {
-                msg_printf(result->project, MSG_INFO,
-                    "[cpu_sched] Preempting %s (left in memory)",
-                    result->name
-                );
-            }
-        }
-        retval = suspend();
-    }
-    return 0;
 }
 
 // The given result has just completed successfully.

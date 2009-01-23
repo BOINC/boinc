@@ -71,6 +71,68 @@ using std::vector;
 
 #include "app.h"
 
+// preempt this task;
+// called from the CLIENT_STATE::enforce_schedule()
+// and ACTIVE_TASK_SET::suspend_all()
+//
+int ACTIVE_TASK::preempt(int preempt_type) {
+    int retval;
+    bool remove;
+
+    switch (preempt_type) {
+    case REMOVE_NEVER:
+        remove = false;
+        break;
+    case REMOVE_MAYBE_USER:
+        if (checkpoint_elapsed_time == 0) {
+            remove = false;
+            break;
+        }
+        if (result->uses_coprocs() && checkpoint_wall_time) {
+            remove = true;
+            break;
+        }
+        remove = !gstate.global_prefs.leave_apps_in_memory;
+        break;
+    case REMOVE_MAYBE_SCHED:
+        if (checkpoint_elapsed_time == 0) {
+            remove = false;
+            break;
+        }
+        if (result->uses_coprocs()
+            && (result->suspended_via_gui || result->project->suspended_via_gui)
+            && checkpoint_wall_time
+        ) {
+            remove = true;
+            break;
+        }
+        remove = !gstate.global_prefs.leave_apps_in_memory;
+        break;
+    case REMOVE_ALWAYS:
+        remove = true;
+        break;
+    }
+
+    if (remove) {
+        if (log_flags.cpu_sched) {
+            msg_printf(result->project, MSG_INFO,
+                "[cpu_sched] Preempting %s (removed from memory)",
+                result->name
+            );
+        }
+        set_task_state(PROCESS_QUIT_PENDING, "preempt");
+        retval = request_exit();
+    } else {
+        if (log_flags.cpu_sched) {
+            msg_printf(result->project, MSG_INFO,
+                "[cpu_sched] Preempting %s (left in memory)",
+                result->name
+            );
+        }
+        retval = suspend();
+    }
+    return 0;
+}
 
 #ifdef _WIN32
 bool ACTIVE_TASK::kill_all_children() {
@@ -775,15 +837,7 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
 // e.g. because on batteries, time of day, benchmarking, CPU throttle, etc.
 //
 void ACTIVE_TASK_SET::suspend_all(bool cpu_throttle) {
-    unsigned int i;
-	bool leave_in_mem;
-
-	if (cpu_throttle) {
-		leave_in_mem = true;
-	} else {
-		leave_in_mem = gstate.global_prefs.leave_apps_in_memory;
-	}
-    for (i=0; i<active_tasks.size(); i++) {
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
 		if (cpu_throttle) {
@@ -792,8 +846,10 @@ void ACTIVE_TASK_SET::suspend_all(bool cpu_throttle) {
 			//
 			if (atp->result->project->non_cpu_intensive) continue;
 			if (atp->app_version->avg_ncpus < 1) continue;
-		}
-        atp->preempt(!leave_in_mem);
+            atp->preempt(REMOVE_NEVER);
+		} else {
+            atp->preempt(REMOVE_MAYBE_USER);
+        }
     }
 }
 

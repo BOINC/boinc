@@ -596,8 +596,11 @@ David  22 Jan 2009
         scheduler_op.cpp
 
 Eric  22 Jan 2009
-    - build: reordered compiler flags checking.  Fixed problems with finding location of wx-config when running with cached configuration.  Made
-        sure to check ${prefix}/lib when looking for libGL, libGLU, and libglut.
+    - build: reordered compiler flags checking.
+        Fixed problems with finding location of wx-config
+        when running with cached configuration.
+        Made sure to check ${prefix}/lib when looking for
+        libGL, libGLU, and libglut.
 
     m4/
         boinc_wxwidgets.m4
@@ -605,3 +608,21 @@ Eric  22 Jan 2009
         ax_check_glu.m4
         ax_check_gl.m4
         boinc_set_compile_flags.m4 
+
+David  22 Jan 2009
+    - client: when preempting a process, remove it from memory if:
+        1) it uses a coprocessor
+        2) it has checkpointed since the client started
+        3) it's being preempted because of a user action
+            (suspend job, project, or all processing)
+            or user preference (time of day, computer in use)
+    - scheduler: if shared mem seg doesn't exist,
+        report it and don't crash
+
+    client/
+        app.h
+        app_start.cpp
+        app_control.cpp
+        cpu_sched.cpp
+    sched/
+        main.cpp
