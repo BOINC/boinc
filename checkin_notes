@@ -629,6 +629,12 @@ David  22 Jan 2009
 
 Charlie Jan 22 2009
     - client sandbox: add details in switcher_exec "execv failed" message.
+    - MGR: Work around bug in generic list control GetSelectedItemCount() 
+        which caused incorrect update of buttons in Projects tab after 
+        detching from a project; remove redundant UpdateSelection() call.
         
     client/
         sandbox.cpp
+    clientgui/
+        BOINCBaseView.cpp
+        BOINCListCtrl.cpp,.h
