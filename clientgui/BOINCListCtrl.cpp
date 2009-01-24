@@ -409,19 +409,6 @@ void MyEvtHandler::OnPaint(wxPaintEvent & event)
     }
 }
 
-// Work around a bug in generic list control which doesn't 
-// adjust count when a selected item is deleted
-int CBOINCListCtrl::GetSelectedItemCount() {
-    
-    int i = -1, n = 0;
-    while (1) {
-        i = GetNextSelected(i);
-        if (i < 0) break;
-        n++;
-    }
-    return n;
-}
-
 #endif
 
 
