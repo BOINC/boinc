@@ -158,6 +158,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
 
             // if we previously chose a CUDA app but don't need more CUDA work,
             // reset pointer and see if there's another app
+            // TODO: this is wrong; delete the record and fall through
             //
             if (g_wreq->rsc_spec_request
                 && bavp->host_usage.cuda_instances() > 0
@@ -179,7 +180,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
 
     bavp = new BEST_APP_VERSION;
     bavp->appid = wu.appid;
-    if (anonymous(g_request->platforms.list[0])) {
+    if (g_wreq->anonymous_platform) {
         found = g_request->has_version(*app);
         if (!found) {
             if (config.debug_send) {
@@ -506,7 +507,7 @@ double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     }
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
-            "[send] est. duration for WU %d: unscaled %f scaled %f\n",
+            "[send] est. duration for WU %d: unscaled %.2f scaled %.2f\n",
             wu.id, edu, ed
         );
     }
@@ -749,9 +750,8 @@ static inline int check_deadline(
         if (diff > 0) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [WU#%d %s] est report delay %d on [HOST#%d]; delay_bound is %d\n",
-                    wu.id, wu.name, (int)est_report_delay,
-                    g_reply->host.id, wu.delay_bound
+                    "[send] [WU#%d] deadline miss %d > %d\n",
+                    wu.id, (int)est_report_delay, wu.delay_bound
                 );
             }
             g_reply->wreq.speed.set_insufficient(diff);
@@ -1535,9 +1535,16 @@ void send_work() {
     g_wreq->seconds_to_fill = clamp_req_sec(g_request->work_req_seconds);
     g_wreq->cpu_req_secs = clamp_req_sec(g_request->cpu_req_secs);
     g_wreq->cpu_req_instances = g_request->cpu_req_instances;
-    if (coproc_cuda) {
-        g_wreq->cuda_req_secs = clamp_req_sec(coproc_cuda->req_secs);
-        g_wreq->cuda_req_instances = coproc_cuda->req_instances;
+    g_wreq->anonymous_platform = anonymous(g_request->platforms.list[0]);
+
+    // if anonymous platform, ignore coprocessor requests
+    // since app versions are assumed to be CPU
+    //
+    if (!g_wreq->anonymous_platform) {
+        if (coproc_cuda) {
+            g_wreq->cuda_req_secs = clamp_req_sec(coproc_cuda->req_secs);
+            g_wreq->cuda_req_instances = coproc_cuda->req_instances;
+        }
     }
     if (g_wreq->cpu_req_secs || g_wreq->cuda_req_secs) {
         g_wreq->rsc_spec_request = true;

@@ -103,6 +103,8 @@ struct BEST_APP_VERSION {
 // Note: this is zeroed out in SCHEDULER_REPLY constructor
 //
 struct WORK_REQ {
+    bool anonymous_platform;
+
     // Flags used by old-style scheduling,
     // while making multiple passes through the work array
     bool infeasible_only;

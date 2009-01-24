@@ -715,3 +715,11 @@ David  23 Jan 2009
 
     sched/
         handle_request.cpp
+
+David  23 Jan 2009
+    - scheduler: if anonymous platform, ignore coprocessor requests
+        (since anonymous platforms apps are treated as CPU)
+
+    sched/
+        sched_send.cpp
+        server_types.h
