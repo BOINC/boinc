@@ -699,3 +699,13 @@ David  23 Jan 2009
 
     sched/
         sched_send.cpp
+
+Charlie Jan 23 2009
+    - MGR: Remove override of GetSelectedItemCount() introduced yesterday;  
+        instead, call DeleteItem() rather than SetItemCount() when number of 
+        rows has been reduced, to allow virtual ListCtrl adjust its list of 
+        selected rows (and thus keep its count in sync with reality.)
+        
+    clientgui/
+        BOINCBaseView.cpp
+        BOINCListCtrl.cpp,.h

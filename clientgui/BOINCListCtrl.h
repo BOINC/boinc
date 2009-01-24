@@ -91,7 +91,6 @@ private:
     void                    DrawProgressBars(void);
     wxScrolledWindow*       GetMainWin(void) { return (wxScrolledWindow*) m_mainWin; }
     wxCoord                 GetHeaderHeight(void) { return m_headerHeight; }
-    int                     GetSelectedItemCount();
 #endif
 };
 
