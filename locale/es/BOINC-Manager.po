@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-15 12:05-0700\n"
+"PO-Revision-Date: 2009-01-24 12:58-0700\n"
 "Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -1515,7 +1515,7 @@ msgstr "Planificando"
 #: clientgui/DlgItemProperties.cpp:134
 #, fuzzy
 msgid "Short term debt"
-msgstr "Deuda a corto plazo"
+msgstr "Deuda a corto plazo (prueba)"
 
 #: clientgui/DlgItemProperties.cpp:135
 #, fuzzy
