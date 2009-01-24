@@ -1460,6 +1460,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     g_request = &sreq;
     g_reply = &sreply;
     g_wreq = &sreply.wreq;
+    coproc_cuda = 0;
 
     memset(&sreq, 0, sizeof(sreq));
     sreply.nucleus_only = true;

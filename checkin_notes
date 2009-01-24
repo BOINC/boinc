@@ -709,3 +709,9 @@ Charlie Jan 23 2009
     clientgui/
         BOINCBaseView.cpp
         BOINCListCtrl.cpp,.h
+
+David  23 Jan 2009
+    - scheduler: initialize global
+
+    sched/
+        handle_request.cpp
