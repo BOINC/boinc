@@ -723,3 +723,18 @@ David  23 Jan 2009
     sched/
         sched_send.cpp
         server_types.h
+
+Janus	25 Jan 2009
+    - Fixed a major bug in the translation system which was causing a lot
+      of people to receive the webpages in semi-random languages.
+    - Added the ability for projects to decide whether they want the
+      Q&A and Message Boards merged.
+
+    html/
+        inc/
+	    translation.inc
+	user/
+	    forum_index.php
+	project_sample/
+	    project.inc
+
