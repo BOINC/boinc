@@ -154,7 +154,10 @@ function tra($text /* ...arglist... */){
         if (isset($language_lookup_array[$language][$text])) {
             $text = $language_lookup_array[$language][$text];
             break;
-        }
+        } else if ($language=="en"){ 
+	    // This language is defined in the code and is always available
+	    break;
+	}
     }
 
     // Replace relevant substrings with given arguments    
