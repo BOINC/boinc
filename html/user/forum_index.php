@@ -68,17 +68,19 @@ function show_forum_summary($forum, $i) {
 
 page_head(tra("%1 Message boards", PROJECT));
 
-echo "
-    <p>
-    If you have a question or problem, please use the
-    <a href=forum_help_desk.php>Questions & answers</a>
-    area instead of the Message boards.
-    </p>
-";
 
 show_forum_header($user);
 
-$categories = BoincCategory::enum("is_helpdesk=0 order by orderID");
+if (FORUM_QA_MERGED_MODE === true){
+    $categories = BoincCategory::enum("true order by orderID");
+} else {
+    echo "
+	<p>
+        ".tra("If you have a question or problem, please use the %1Questions & Answers%2 section of the message boards.", "<a href=\"forum_help_desk.php\">", "</a>")."
+        </p>
+    ";
+    $categories = BoincCategory::enum("is_helpdesk=0 order by orderID");
+}
 $first = true;
 foreach ($categories as $category) {
     if ($first) {
