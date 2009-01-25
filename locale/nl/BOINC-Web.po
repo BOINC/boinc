@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-18 03:51-0700\n"
+"PO-Revision-Date: 2009-01-20 11:36-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -20,8 +20,9 @@ msgstr ""
 "X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-KeywordsList: tra\n"
 
-# The charset used for the text in this file (please try to use UTF-8 if possible)
-##########################################
+# The charset used for the text in this file (please try to use UTF-8 if possible)<br />
+# <br />
+# ########################################<br />
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
@@ -445,7 +446,7 @@ msgid "HELP_P3_1"
 msgstr ""
 "Als je een ervaren BOINC gebruiker bent, sporen we je aan om %seen "
 "vrijwilliger te worden%s. Het is een mooie manier om te helpen met "
-"wetenschappelijk onderzoek en 'volunteer computing' - en het is leuk!  "
+"wetenschappelijk onderzoek en 'volunteer computing' - en het is leuk! "
 
 msgid "HELP_P3_2"
 msgstr ""
@@ -461,7 +462,7 @@ msgstr "Vrijwilliger"
 msgid "HOME_P1"
 msgstr ""
 " Zet de ongebruikte processortijd van je computer (Windows, Mac, of Linux) "
-"in om ziekten te genezen, klimaatverandering te bestuderen,  pulsars te "
+"in om ziekten te genezen, klimaatverandering te bestuderen, pulsars te "
 "ontdekken, en vele andere wetenschappelijk onderzoeken. Het is veilig, snel "
 "en simpel: %sKies%s je projecten %sDownload%s en gebruik de BOINC software "
 "%sVoer%s je email-adres en een wachtwoord in. "
