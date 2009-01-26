@@ -2,21 +2,34 @@
 require_once("docutil.php");
 require_once("spoken_languages.php");
 require_once("help_db.php");
-require_once("translation.inc");
+require_once("../html/inc/translation.inc");
 
 page_head("Live help via Internet phone or email");
 
 echo "
 <p>
-".sprintf(tr(HELP_P1_1), "<ul><li>", "<li>", "<li>", "<li>")."
+".sprintf(
+    tra("BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have."),
+    "<ul><li>",
+    "<li>",
+    "<li>",
+    "<li>"
+)."
 </ul>
 <p>
-".sprintf(tr(HELP_P1_2), "<a href=\"http://www.skype.com\">", "</a>", "<a href=\"http://www.skype.com\">", "</a>")."
+".sprintf(
+    tra("BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls).  If you don't already have Skype, please %sdownload and install it now%s.  When you're finished, return to this page."),
+    "<a href=\"http://www.skype.com\">",
+    "</a>",
+    "<a href=\"http://www.skype.com\">",
+    "</a>"
+)."
 <p>
-".tr(HELP_P1_3),"
+".tra("The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer.  You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."),"
 
 <p>
-".tr(HELP_P1_4),"
+".tra("Volunteers speaking several languages are available. "
+    "Please select a language:"),"
 <p>
 ";
 
@@ -32,11 +45,19 @@ foreach ($langs as $lang) {
     echo "<a href=\"help_lang.php?lang=$lang_enc\"><b>$lang</b></a>";
 }
 echo "
-<h2>".tr(HELP_HEADING3)."</h2>
+<h2>".tra("Be a Help Volunteer")."</h2>
 <p>
-".sprintf(tr(HELP_P3_1), "<a href=\"trac/wiki/HelpVolunteer\">", "</a>")."
+".sprintf(
+    tra("If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s.  It's a great way to help the cause of scientific research and volunteer computing - and it's fun!"),
+    "<a href=\"trac/wiki/HelpVolunteer\">",
+    "</a>"
+)."
 <p>
-".sprintf(tr(HELP_P3_2), "<a href=\"help_vol_edit.php?edit_login=1\">", "</a>")."
+".sprintf(
+    tra("If you're already a Help Volunteer: to edit your settings, %sclick here%s."),
+    "<a href=\"help_vol_edit.php?edit_login=1\">",
+    "</a>"
+)."
 ";
 page_tail();
 ?>

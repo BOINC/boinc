@@ -1,7 +1,7 @@
 <?php
 require_once("docutil.php");
 require_once("poll.inc");
-require_once("translation.inc");
+require_once("../html/inc/translation.inc");
 require_once("poll_data.inc");
 
 mysql_pconnect("localhost", "boincadm", null);

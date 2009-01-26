@@ -11,7 +11,7 @@ if ($host == "bolt.berkeley.edu") {
 }
 
 require_once("docutil.php");
-require_once("translation.inc");
+require_once("../html/inc/translation.inc");
 
 function show_participant() {
     $i = rand(0, 99);
@@ -82,19 +82,35 @@ function show_participate() {
     echo "
         <tr><td class=heading_left>
         <center>
-        <span class=section_title>".tr(HOME_HEADING1)."</span>
+        <span class=section_title>".tra("Volunteer")."</span>
         <br>
-        <a class=heading href=download.php><b>".tr(HOME_DOWNLOAD)."</b></a>
+        <a class=heading href=download.php><b>".tra("Download")."</b></a>
         &middot; <a class=heading href=\"/wiki/BOINC_Help\"><b>Help</b></a>
         &middot; <a class=heading href=\"wiki/User_manual\"><b><span class=nobr>Documentation</span></b></a> 
         </center>
         </td></tr>
         <tr><td>
         <p>
-        ".sprintf(tr(HOME_P1), "<ol> <li> <a href=projects.php><b>", "</b></a>", "<li> <a href=download.php><b>", "</b></a>", "<li> <b>", "</b>")."
+        ".sprintf(
+            tra(" Use the idle time on your computer (Windows, Mac, or Linux) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "),
+            "<ol> <li> <a href=projects.php><b>",
+            "</b></a>",
+            "<li> <a href=download.php><b>",
+            "</b></a>",
+            "<li> <b>",
+            "</b>"
+        )."
         </ol>
         <p>
-        ".sprintf(tr(HOME_P2), "<a href=\"trac/wiki/AccountManagers\">", "</a>", "<a href=\"http://www.gridrepublic.org\">", "</a>", "<a href=\"http://bam.boincstats.com/\">", "</a>")."
+        ".sprintf(
+            tra("Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "),
+            "<a href=\"trac/wiki/AccountManagers\">",
+            "</a>",
+            "<a href=\"http://www.gridrepublic.org\">",
+            "</a>",
+            "<a href=\"http://bam.boincstats.com/\">",
+            "</a>"
+        )."
         </td></tr>
     ";
 }
@@ -214,9 +230,9 @@ function language_form() {
     ";
 }
 
-if (defined("CHARSET")) {
-    header("Content-type: text/html; charset=".tr(CHARSET));
-}
+//if (defined("CHARSET")) {
+    header("Content-type: text/html; charset=".tra(CHARSET));
+//}
 
 html_tag();
 echo "
@@ -231,7 +247,7 @@ echo "
 <img hspace=20 vspace=6 align=left src=\"logo/www_logo.gif\" alt=\"BOINC logo\">
 </td><td align=center>
 <span class=\"subtitle\">
-".sprintf(tr(HOME_BOINC_DESC), '<a href=volunteer.php><span class=nobr>', '</span></a>', '<a href=dg.php><span class=nobr>', '</span></a>')."
+".sprintf(tra("Open-source software for %svolunteer computing%s and %sgrid computing%s."), '<a href=volunteer.php><span class=nobr>', '</span></a>', '<a href=dg.php><span class=nobr>', '</span></a>')."
 </span>
 <table><tr><td>
 ";

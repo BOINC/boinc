@@ -1,7 +1,7 @@
 <?php
 
 require_once('docutil.php');
-require_once('translation.inc');
+require_once('../html/inc/translation.inc');
 
 $cachefile = "cache/poll_results_$language_in_use.html";
 
@@ -192,8 +192,8 @@ while ($resp = mysql_fetch_object($result)) {
 //exit;
 //print_r($sums);
 
-page_head(tr(POLL_RESULTS_TITLE));
-echo tr(POLL_RESULTS_TEXT)."
+page_head(tra("Survey results"));
+echo tra("These are the current results of the <a href=poll.php>BOINC user survey</a>.  This page is updated every hour.")."
 <p>
 ";
 list_start();

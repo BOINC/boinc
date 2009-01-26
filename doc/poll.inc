@@ -15,7 +15,7 @@ function list_item2($x, $y) {
 }
 
 function boxes($options) {
-    $x = "<font size=-2>".tr(POLL_CHECK_ALL)."</font><br>\n";
+    $x = "<font size=-2>".tra("[check all that apply]")."</font><br>\n";
     foreach ($options as $name => $text) {
         $x .= "<input type=checkbox name=$name> $text<br>\n";
     }
@@ -44,7 +44,7 @@ function show_choice($choice, $outer_radio) {
     } else {
         $y = boxes($choice["options"]);
         $other_name = $choice['other_name'];
-        $y .= tr(POLL_OTHER)." <input size=30 name=$other_name>";
+        $y .= tra("Other:")." <input size=30 name=$other_name>";
     }
     list_item2($x, $y);
 }

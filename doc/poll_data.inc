@@ -16,52 +16,52 @@ $vother_text = "vother_text";
 $improved = "improved_text";
 
 $choice0 = array(
-    "text" => tr(POLL_CURRENT),
+    "text" => tra("Yes - I have been running BOINC on my computer for..."),
     "rname" => "current",
     "options" => array(
-        "tweek" => tr(POLL_TWEEK),
-        "tmonth" => tr(POLL_TMONTH),
-        "tyear" => tr(POLL_TYEAR),
-        "tmoreyear" => tr(POLL_TMOREYEAR),
+        "tweek" => tra("less than a week"),
+        "tmonth" => tra("less than a month"),
+        "tyear" => tra("less than a year"),
+        "tmoreyear" => tra("more than a year"),
     ),
     "radio_name" => "duration",
     "other_name" => null,
 );
 $choice1 = array(
-    "text" => tr(POLL_LAPSED),
+    "text" => tra(POLL_LAPSED),
     "rname" => "lapsed",
     "options" => array(
-        "linterest" => tr(POLL_LINTEREST),
-        "lcomplicated" => tr(POLL_LCOMPLICATED),
-        "lstopped" => tr(POLL_LSTOPPED),
-        "lproblems" => tr(POLL_LPROBLEMS),
-        "lpower" => tr(POLL_LPOWER),
-        "lnonboinc" => tr(POLL_LNONBOINC),
+        "linterest" => tra("I lost interest"),
+        "lcomplicated" => tra("it was too complicated"),
+        "lstopped" => tra("I stopped it and forgot to start again"),
+        "lproblems" => tra("it caused problems on my computer"),
+        "lpower" => tra("it used too much electricity"),
+        "lnonboinc" => tra("I switched to a non-BOINC computing project"),
     ),
     "radio_name" => false,
     "other_name" => "lother_text",
 );
 $choice2 = array(
-    "text" => tr(POLL_FAILED),
+    "text" => tra("No - I tried running BOINC, but..."),
     "rname" => "failed",
     "options" => array(
-        "finstall" => tr(POLL_FINSTALL),
-        "ffigure" => tr(POLL_FFIGURE),
-        "fnetwork" => tr(POLL_FNETWORK),
-        "fattach" => tr(POLL_FATTACH),
-        "fwork" => tr(POLL_FWORK),
+        "finstall" => tra("the software didn't install correctly"),
+        "ffigure" => tra("I couldn't figure out how to use the software"),
+        "fnetwork" => tra("I had network communication problems"),
+        "fattach" => tra("I couldn't attach to a project"),
+        "fwork" => tra("I attached to a project, but never got any work"),
     ),
     "radio_name" => false,
     "other_name" => "fother_text",
 );
 $choice3 = array(
-    "text" => tr(POLL_NEVER),
+    "text" => tra("No - I never tried running BOINC, because..."),
     "rname" => "never",
     "options" => array(
-        "nsecurity" => tr(POLL_NSECURITY),
-        "nproject" => tr(POLL_NPROJECT),
-        "npermission" => tr(POLL_NPERMISSION),
-        "nversion" => tr(POLL_NVERSION),
+        "nsecurity" => tra("I was concerned about security"),
+        "nproject" => tra("I wasn't interested in any of the projects"),
+        "npermission" => tra("I don't have permission to run it on my computer"),
+        "nversion" => tra("No version was available for my computer"),
     ),
     "radio_name" => false,
     "other_name" => "nother_text",
@@ -72,7 +72,7 @@ $overall_choices = array($choice0, $choice1, $choice2, $choice3);
 
 $comp_items = array(
     array(
-        "text"=>tr(POLL_KIND),
+        "text"=> tra("What kind of computers do you have running BOINC?"),
         "options" => array(
             "windows"=>"Windows",
             "mac"=>"Macintosh",
@@ -82,18 +82,18 @@ $comp_items = array(
         "other_name"=>"cother_text",
     ),
     array(
-        "text"=>tr(POLL_WHERE),
+        "text"=> tra("Where are they?"),
         "options" => array(
-            "home"=>tr(POLL_HOME),
-            "work"=>tr(POLL_WORK),
-            "school"=>tr(POLL_SCHOOL),
+            "home"=> tra("Home"),
+            "work"=> tra("Work"),
+            "school"=> tra("School"),
         ),
         "radio_name"=>false,
         "other_name"=>"vother_text",
     ),
     array(
         "radio_name"=>"ncomputers",
-        "text"=>tr(POLL_HOW_MANY),
+        "text"=> tra("How many computers?"),
         "options" => array(
             "n1"=>"1",
             "n2"=>"2-4",
@@ -104,7 +104,7 @@ $comp_items = array(
     ),
     array(
         "radio_name"=>"turned_on",
-        "text"=>tr(POLL_TURNED_ON),
+        "text"=> tra("On average, how many hours per day are they powered on?"),
         "options" => array(
             "t08"=>"0-8",
             "t823"=>"8-23",
@@ -116,7 +116,7 @@ $comp_items = array(
 $you_items = array(
     array(
         "radio_name"=>"age",
-        "text"=>tr(POLL_AGE),
+        "text"=> tra("Age"),
         "options"=>array(
             "age019"=>"0-19",
             "age2039"=>"20-39",
@@ -126,19 +126,19 @@ $you_items = array(
     ),
     array(
         "radio_name"=>"sex",
-        "text"=>tr(POLL_SEX),
+        "text"=> tra("Sex"),
         "options"=>array(
-            "sexm"=>tr(POLL_MALE),
-            "sexf"=>tr(POLL_FEMALE),
+            "sexm"=> tra("Male"),
+            "sexf"=> tra("Female"),
         ),
     ),
     array(
         "radio_name"=>"level",
-        "text"=>tr(POLL_EXPERTISE),
+        "text"=> tra("Your level of computer expertise"),
         "options"=>array(
-            "levb"=>tr(POLL_LEVB),
-            "levi"=>tr(POLL_LEVI),
-            "leva"=>tr(POLL_LEVA),
+            "levb"=> tra("Beginner"),
+            "levi"=> tra("Intermediate"),
+            "leva"=> tra("Advanced"),
         ),
     ),
 );
@@ -146,38 +146,38 @@ $you_items = array(
 $project_items = array(
     array(
         "name"=>"where",
-        "text"=>tr(POLL_LEARN_WHERE),
+        "text"=> tra("Where did you learn about BOINC projects?"),
         "options"=>array(
-            "wtv"=>tr(POLL_WTV),
-            "wpers"=>tr(POLL_WPERS),
-            "wteam"=>tr(POLL_WTEAM),
-            "wboinc"=>tr(POLL_WBOINC),
-            "wweb"=>tr(POLL_WWEB),
+            "wtv"=> tra("TV/radio/newspaper"),
+            "wpers"=> tra("From friends, relatives, or coworkers"),
+            "wteam"=> tra("Team message boards or web sites"),
+            "wboinc"=> tra("The BOINC web site"),
+            "wweb"=> tra("Other web sites"),
         ),
         "radio_name" => false,
         "other_name" => "wother_text",
     ),
     array(
-        "text" => tr(POLL_FACTOR),
+        "text" => tra("Which are the most important factors when you decide whether to participate in a BOINC project?"),
         "options" => array(
-            "factor_graphics"=>tr(POLL_GRAPHICS),
-            "factor_credit_fair"=>tr(POLL_CREDIT_FAIR),
-            "factor_credit_more"=>tr(POLL_CREDIT_MORE),
-            "factor_mb_friendly"=>tr(POLL_MB_FRIENDLY),
-            "factor_mb_staff"=>tr(POLL_MB_STAFF),
-            "factor_web_site"=>tr(POLL_WEB_SITE),
-            "factor_science_important"=>tr(POLL_SCIENCE_IMPORTANT),
-            "factor_science_public"=>tr(POLL_SCIENCE_PUBLIC),
-            "factor_recognize"=>tr(POLL_RECOGNIZE),
-            "factor_publish"=>tr(POLL_PUBLISH),
-            "factor_email"=>tr(POLL_EMAIL),
+            "factor_graphics"=> tra("Nice-looking screensaver graphics"),
+            "factor_credit_fair"=> tra("Fair and quick granting of credit for work done"),
+            "factor_credit_more"=> tra("Getting more credit from this project than from others"),
+            "factor_mb_friendly"=> tra("Helpful and friendly message boards"),
+            "factor_mb_staff"=> tra("Participation by project staff on the message boards"),
+            "factor_web_site"=> tra("Informative project web site"),
+            "factor_science_important"=> tra("The science is important and beneficial"),
+            "factor_science_public"=> tra("Non-profit, and results are public"),
+            "factor_recognize"=> tra("Personal recognition if my computer finds something"),
+            "factor_publish"=> tra("Publication by the project in scientific journals"),
+            "factor_email"=> tra("Periodic email newsletters from the project"),
         ),
         "radio_name" => false,
         "other_name" => "factor_other_text",
     ),
     array(
         "radio_name"=>"nprojects",
-        "text"=>tr(POLL_NPROJECTS),
+        "text"=> tra("How many BOINC projects do you participate in?"),
         "options"=>array(
             "p1"=>"1",
             "p25"=>"2-5",
@@ -187,31 +187,31 @@ $project_items = array(
     ),
     array(
         "radio_name"=>"ssaver",
-        "text"=>tr(POLL_SSAVER),
+        "text"=> tra("Do you run BOINC as a screensaver?"),
         "options"=>array(
-            "ss_yes"=>tr(POLL_YES),
-            "ss_no"=>tr(POLL_NO),
+            "ss_yes"=> tra("Yes"),
+            "ss_no"=> tra("No"),
         ),
     ),
     array(
         "radio_name"=>"mboards",
-        "text"=>tr(POLL_MBOARDS),
+        "text"=> tra("Your usage of project messages boards:"),
         "options"=>array(
-            "mboard_r"=>tr(POLL_MBR),
-            "mboard_rw"=>tr(POLL_MBRW),
-            "mboard_none"=>tr(POLL_NONE),
+            "mboard_r"=> tra("to read information"),
+            "mboard_rw"=> tra("to read and post information"),
+            "mboard_none"=> tra("None"),
         ),
     ),
     array(
-        "text"=>tr(POLL_HELP),
+        "text"=> tra("Where do you get information to help resolve problems with BOINC and/or BOINC projects?"),
         "options"=>array(
-            "help_pmb"=>tr(POLL_HELP_PMB),
-            "help_bmb"=>tr(POLL_HELP_BMB),
-            "help_bdoc"=>tr(POLL_HELP_BDOC),
-            "help_bmlist"=>tr(POLL_HELP_BMLIST),
-            "help_wiki"=>tr(POLL_HELP_WIKI),
-            "help_team"=>tr(POLL_HELP_TEAM),
-            "help_google"=>tr(POLL_HELP_GOOGLE),
+            "help_pmb"=> tra("The project message boards"),
+            "help_bmb"=> tra("The BOINC message boards"),
+            "help_bdoc"=> tra("The BOINC web site"),
+            "help_bmlist"=> tra("BOINC mailing lists"),
+            "help_wiki"=> tra("The Unofficial BOINC Wiki"),
+            "help_team"=> tra("Team web sites"),
+            "help_google"=> tra("Google or other search engines"),
         ),
         "radio_name"=>false,
         "other_name"=>help_other_text,

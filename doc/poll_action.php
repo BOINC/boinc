@@ -1,13 +1,13 @@
 <?php
 require_once("docutil.php");
 require_once("poll.inc");
-require_once("translation.inc");
+require_once("../html/inc/translation.inc");
 require_once("poll_data.inc");
 
 error_page("The poll is closed");
 function error() {
-    page_head(tr(POLL_ERROR_TITLE));
-    echo tr(POLL_ERROR_TEXT);
+    page_head(tra("Error - results not recorded"));
+    echo tra("An internal error has prevented us from recording your survey response.  Please try again later.");
     page_tail();
     exit();
 }
@@ -29,8 +29,8 @@ if ($response) {
     $result = new_response($uid, $xml);
 }
 if ($result) {
-    page_head(tr(POLL_RECORDED));
-    echo tr(POLL_THANKS);
+    page_head(tra("Survey response recorded"));
+    echo tra("Thank you for completing the BOINC user survey.");
     page_tail();
 } else {
     error();
