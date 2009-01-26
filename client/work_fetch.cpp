@@ -302,6 +302,7 @@ PROJECT* WORK_FETCH::choose_project() {
 }
 
 void RSC_WORK_FETCH::set_request(PROJECT* p) {
+    if (!shortfall) return;
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
 
     // if project's DCF is too big or small, its completion time estimates

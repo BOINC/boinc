@@ -162,6 +162,4 @@ struct COPROC_CELL_SPE : public COPROC {
 
 void fake_cuda(COPROCS&, int);
 
-extern COPROC_CUDA* coproc_cuda;
-
 #endif

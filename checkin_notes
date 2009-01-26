@@ -738,3 +738,16 @@ Janus	25 Jan 2009
 	project_sample/
 	    project.inc
 
+David  25 Jan 2009
+    - client: don't request work for a resource if it has no shortfall.
+    - client and server: get rid of coproc_cuda global.
+
+    client/
+        client_state.cpp,h
+        work_fetch.cpp,h
+    lib/
+        coproc.cpp,h
+    sched/
+        handle_request.cpp
+        sched_send.cpp
+        server_types.cpp,h

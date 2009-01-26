@@ -1172,7 +1172,7 @@ bool bad_install_type() {
 static inline bool requesting_work() {
     if (g_request->work_req_seconds > 0) return true;
     if (g_request->cpu_req_secs > 0) return true;
-    if (coproc_cuda && coproc_cuda->req_secs) return true;
+    if (g_request->coproc_cuda && g_request->coproc_cuda->req_secs) return true;
     return false;
 }
 
@@ -1460,7 +1460,6 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     g_request = &sreq;
     g_reply = &sreply;
     g_wreq = &sreply.wreq;
-    coproc_cuda = 0;
 
     memset(&sreq, 0, sizeof(sreq));
     sreply.nucleus_only = true;

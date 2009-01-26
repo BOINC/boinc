@@ -1541,9 +1541,9 @@ void send_work() {
     // since app versions are assumed to be CPU
     //
     if (!g_wreq->anonymous_platform) {
-        if (coproc_cuda) {
-            g_wreq->cuda_req_secs = clamp_req_sec(coproc_cuda->req_secs);
-            g_wreq->cuda_req_instances = coproc_cuda->req_instances;
+        if (g_request->coproc_cuda) {
+            g_wreq->cuda_req_secs = clamp_req_sec(g_request->coproc_cuda->req_secs);
+            g_wreq->cuda_req_instances = g_request->coproc_cuda->req_instances;
         }
     }
     if (g_wreq->cpu_req_secs || g_wreq->cuda_req_secs) {

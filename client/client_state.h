@@ -477,6 +477,8 @@ public:
 
 extern CLIENT_STATE gstate;
 
+extern COPROC_CUDA* coproc_cuda;
+
 /// return a random double in the range [MIN,min(e^n,MAX))
 
 extern double calculate_exponential_backoff(

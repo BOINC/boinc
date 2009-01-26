@@ -168,6 +168,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     have_time_stats_log = false;
     client_cap_plan_class = false;
     sandbox = -1;
+    coproc_cuda = 0;
 
     fgets(buf, sizeof(buf), fin);
     if (!match_tag(buf, "<scheduler_request>")) return "no start tag";
@@ -327,6 +328,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         }
         if (match_tag(buf, "coprocs")) {
             coprocs.parse(fin);
+            coproc_cuda = (COPROC_CUDA*)coprocs.lookup("CUDA");
             continue;
         }
         if (parse_bool(buf, "client_cap_plan_class", client_cap_plan_class)) continue;
