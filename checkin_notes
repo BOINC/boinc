@@ -751,3 +751,9 @@ David  25 Jan 2009
         handle_request.cpp
         sched_send.cpp
         server_types.cpp,h
+
+Rom    26 Jan 2009
+    - MGR: Don't use wxT() to describe parameters passed to GUI RPCs.
+    
+    clientgui/
+        BOINCClientManager.cpp

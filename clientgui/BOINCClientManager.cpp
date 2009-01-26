@@ -124,7 +124,7 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     for (int i=0; i<10; i++) {
         retval = rpc.init("localhost");  // synchronous is OK since local
         wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Connecting to core client returned '%d'"), retval);
-        retval = rpc.authorize(wxT("")); // Do not use an RPC that uses the SET_LOCALE class, this
+        retval = rpc.authorize("");      // Do not use an RPC that uses the SET_LOCALE class, this
                                          //   function is typically called from the UI thread.  If the
                                          //   UI thread and the async thread happen to use SET_LOCALE
                                          //   at the same time there is a 50% chance that the UI will
