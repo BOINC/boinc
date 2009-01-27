@@ -25,6 +25,8 @@ $(top_builddir)/stage:
 sea.tar: $(tarfiles)
 	./make-tar.sh ${top_builddir}
 
+$(top_builddir)/$(exec_prefix)/boinc: $(top_builddir)/stage
+
 $(sea): sea.tar make-sea.sh Makefile
 	./make-sea.sh sea.tar $(sea) BOINC/binstall.sh
 
