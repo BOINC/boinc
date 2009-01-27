@@ -1,9 +1,16 @@
 #!/bin/sh
-
-rm -fr BOINC/.CVS
+destdir=`pwd`
+cd $1
+srcdir=`pwd`/locale
+cd $destdir
+rm -rf `find BOINC -name ".CVS" -o -name ".svn"`
 mkdir BOINC
 mkdir BOINC/locale
-find ../locale/client -name 'BOINC-Manager.mo' | cut -d '/' -f 4 | awk '{print "BOINC/locale/"$0}' | xargs mkdir -p 
-find ../locale/client -name 'BOINC-Manager.mo' | cut -d '/' -f 4,5 | awk '{print "cp \"../locale/"$0"\" \"BOINC/locale/"$0"\""}' | sh
+for file in `find ${srcdir} -name 'BOINC-Manager.mo'` ; do
+  dir=`dirname $file`
+  locale=`basename $dir`
+  mkdir BOINC/locale/${locale}
+  cp -f $file BOINC/locale/${locale}
+done  
 tar cvf sea.tar BOINC
-
+exit 0
