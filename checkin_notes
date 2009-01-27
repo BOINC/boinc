@@ -766,10 +766,10 @@ David  26 Jan 2009
         work_fetch.cpp
 
 Charlie Jan 26 2009
-    - MGR: In CBOINCClientManager::IsBOINCCoreRunning() allow time for 
-        Client to start up, to avoid repeated attempts which put spurious 
-        "Another instance Another instance of BOINC is running" messages 
-        in stderrdae.txt 
+    - MGR: In CBOINCClientManager::StartupBOINCCore() allow time for Client
+        to start up, to avoid repeated attempts which put spurious messages
+        "Another instance Another instance of BOINC is running" in 
+        stderrdae.txt.
         
     clientgui/
         BOINCClientManager.cpp
