@@ -153,10 +153,11 @@ void RSC_WORK_FETCH::print_state(char* name) {
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
+        double bt = pwf.backoff_time>gstate.now?pwf.backoff_time-gstate.now:0;
         msg_printf(p, MSG_INFO,
-            "[wfd] %s: runshare %.2f debt %.2f backoff t %.2f int %.2f",
+            "[wfd] %s: runshare %.2f debt %.2f backoff dt %.2f int %.2f",
             name,
-            pwf.runnable_share, pwf.debt, pwf.backoff_time, pwf.backoff_interval
+            pwf.runnable_share, pwf.debt, bt, pwf.backoff_interval
         );
     }
 }
