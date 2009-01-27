@@ -787,6 +787,7 @@ David  27 Jan 2009
 
 Eric K 27 Jan 2009
     - SEA:  Fixed problems building SEA
+    - Manager:  Fixed missing includes when building manager on unix.
     
     configure.ac
     packages/
@@ -794,4 +795,7 @@ Eric K 27 Jan 2009
             sea/
                 Makefile.am
                 make-tar.sh
+    clientgui/
+        BOINCClientManager.cpp
+
 
