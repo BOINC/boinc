@@ -773,3 +773,14 @@ Charlie Jan 26 2009
         
     clientgui/
         BOINCClientManager.cpp
+
+David  27 Jan 2009
+    - client: change the LTD policy so that
+        1) net adjustment for eligible projects is zero;
+        2) max LTD is zero
+    - scheduler: fix msgs so disk size is shown in GB
+
+    client/
+        work_fetch.cpp
+    sched/
+        sched_send.cpp

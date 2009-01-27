@@ -31,6 +31,14 @@ RSC_WORK_FETCH cuda_work_fetch;
 RSC_WORK_FETCH cpu_work_fetch;
 WORK_FETCH work_fetch;
 
+#define MAX_BACKOFF_INTERVAL    86400
+    // if we ask a project for work for a resource and don't get it,
+    // we do exponential backoff.
+    // This constant is an upper bound for this.
+    // E.g., if we need GPU work, we'll end up asking once a day,
+    // so if the project develops a GPU app,
+    // we'll find out about it within a day.
+
 static inline char* rsc_name(int t) {
     switch (t) {
     case RSC_TYPE_CPU: return "CPU";
@@ -343,7 +351,7 @@ void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {
 
 void RSC_WORK_FETCH::update_debts() {
     unsigned int i;
-    int nprojects = 0;
+    int neligible = 0;
     double ders = 0;
     PROJECT* p;
 
@@ -352,16 +360,23 @@ void RSC_WORK_FETCH::update_debts() {
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
         if (w.debt_eligible(p)) {
             ders += p->resource_share;
+            neligible++;
         }
     }
-    double total_debt = 0;
+
+    double delta_sum = 0;
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
         if (w.debt_eligible(p)) {
             double share_frac = p->resource_share/ders;
+
+            // the change to a project's debt is:
+            // (how much it's owed) - (how much it got)
+            //
             double delta = share_frac*secs_this_debt_interval - w.secs_this_debt_interval;
             w.debt += delta;
+            delta_sum += delta;
             if (log_flags.debt_debug) {
                 msg_printf(p, MSG_INFO,
                     "[debt] %s debt %.2f delta %.2f share frac %.2f (%.2f/%.2f) secs %.2f rsc_secs %.2f",
@@ -371,18 +386,32 @@ void RSC_WORK_FETCH::update_debts() {
                 );
             }
         }
-        total_debt += w.debt;
-        nprojects++;
     }
 
-    //  normalize so mean is zero, and clamp
+    // The sum of changes may be nonzero if
+    // - the resource wasn't fully utilized during the debt interval
+    // - it was overcommitted (e.g., CPU)
+    // Add an offset so that the sum of changes is zero;
+    // this keeps eligible projects from diverging from non-eligible.
     //
-    double avg_debt = total_debt / nprojects;
+    double offset = delta_sum/neligible;
+    double max_debt = 0;
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
-		if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
-        w.debt -= avg_debt;
+        if (w.debt_eligible(p)) {
+            w.debt -= offset;
+        }
+        if (w.debt > max_debt) max_debt = w.debt;
+    }
+
+    // Add an offset so max debt is zero across all projects.
+    // This ensures that new projects start out debt-free.
+    //
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = gstate.projects[i];
+        RSC_PROJECT_WORK_FETCH& w = project_state(p);
+        w.debt -= max_debt;
     }
 }
 
@@ -432,6 +461,7 @@ void WORK_FETCH::compute_shares() {
 bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p) {
 	if (p->non_cpu_intensive) return false;
     if (backoff_time > gstate.now) return false;
+    if (backoff_interval == MAX_BACKOFF_INTERVAL) return false;
     if (p->suspended_via_gui) return false;
     if (p->dont_request_more_work) return false;
     return true;
@@ -500,7 +530,7 @@ void WORK_FETCH::init() {
 void RSC_PROJECT_WORK_FETCH::backoff(PROJECT* p, char* name) {
     if (backoff_interval) {
         backoff_interval *= 2;
-        if (backoff_interval > 86400) backoff_interval = 86400;
+        if (backoff_interval > MAX_BACKOFF_INTERVAL) backoff_interval = MAX_BACKOFF_INTERVAL;
     } else {
         backoff_interval = 60;
     }

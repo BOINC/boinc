@@ -435,17 +435,20 @@ double max_allowable_disk() {
     if (x < 0) {
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] No disk space available: disk_max_used_gb %f disk_max_used_pct %f disk_min_free_gb %f\n",
-                prefs.disk_max_used_gb, prefs.disk_max_used_pct,
-                prefs.disk_min_free_gb
+                "[send] No disk space available: disk_max_used_gb %.2fGB disk_max_used_pct %.2f disk_min_free_gb %.2fGB\n",
+                prefs.disk_max_used_gb/GIGA,
+                prefs.disk_max_used_pct,
+                prefs.disk_min_free_gb/GIGA
             );
             log_messages.printf(MSG_NORMAL,
-                "[send] No disk space available: host.d_total %f host.d_free %f host.d_boinc_used_total %f\n",
-                host.d_total, host.d_free, host.d_boinc_used_total
+                "[send] No disk space available: host.d_total %.2fGB host.d_free %.2fGB host.d_boinc_used_total %.2fGB\n",
+                host.d_total/GIGA,
+                host.d_free/GIGA,
+                host.d_boinc_used_total/GIGA
             );
             log_messages.printf(MSG_NORMAL,
-                "[send] No disk space available: x1 %f x2 %f x3 %f x %f\n",
-                x1, x2, x3, x
+                "[send] No disk space available: x1 %.2fGB x2 %.2fGB x3 %.2fGB x %.2fGB\n",
+                x1/GIGA, x2/GIGA, x3/GIGA, x/GIGA
             );
         }
         g_wreq->disk.set_insufficient(-x);
@@ -1587,7 +1590,7 @@ void send_work() {
             config.workload_sim?"Using":"Not using"
         );
         log_messages.printf(MSG_NORMAL,
-            "[send] available disk %f GB, work_buf_min %d\n",
+            "[send] available disk %.2f GB, work_buf_min %d\n",
             g_wreq->disk_available/GIGA,
             (int)g_request->global_prefs.work_buf_min()
         );
