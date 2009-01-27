@@ -349,12 +349,16 @@ void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {
     }
 }
 
+// update long-term debts for a resource.
+//
 void RSC_WORK_FETCH::update_debts() {
     unsigned int i;
     int neligible = 0;
     double ders = 0;
     PROJECT* p;
 
+    // find the total resource share of eligible projects
+    //
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
@@ -362,6 +366,9 @@ void RSC_WORK_FETCH::update_debts() {
             ders += p->resource_share;
             neligible++;
         }
+    }
+    if (!neligible) {
+        return;
     }
 
     double delta_sum = 0;
@@ -392,7 +399,7 @@ void RSC_WORK_FETCH::update_debts() {
     // - the resource wasn't fully utilized during the debt interval
     // - it was overcommitted (e.g., CPU)
     // Add an offset so that the sum of changes is zero;
-    // this keeps eligible projects from diverging from non-eligible.
+    // this keeps eligible projects from diverging from non-eligible ones.
     //
     double offset = delta_sum/neligible;
     double max_debt = 0;
