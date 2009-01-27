@@ -632,3 +632,11 @@ David  26 Jan 2009
 
     client/
         work_fetch.cpp
+
+David  27 Jan 2009
+    - client: change the LTD policy so that
+        1) net adjustment for eligible projects is zero;
+        2) max LTD is zero
+
+    client/
+        work_fetch.cpp
