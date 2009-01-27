@@ -724,7 +724,7 @@ David  23 Jan 2009
         sched_send.cpp
         server_types.h
 
-Janus	25 Jan 2009
+Janus    25 Jan 2009
     - Fixed a major bug in the translation system which was causing a lot
       of people to receive the webpages in semi-random languages.
     - Added the ability for projects to decide whether they want the
@@ -732,11 +732,11 @@ Janus	25 Jan 2009
 
     html/
         inc/
-	    translation.inc
-	user/
-	    forum_index.php
-	project_sample/
-	    project.inc
+        translation.inc
+    user/
+        forum_index.php
+    project_sample/
+        project.inc
 
 David  25 Jan 2009
     - client: don't request work for a resource if it has no shortfall.
@@ -810,3 +810,12 @@ David  27 Jan 2009
         work_fetch.h
     sched/
         sched_send.cpp
+
+David  27 Jan 2009
+    - client: if we're making an RPC to a project because of user request,
+        clear the resource backoff times so that we potentially
+        can ask the project for work.
+
+    client/
+        cs_scheduler.cpp
+        work_fetch.cpp
