@@ -784,3 +784,14 @@ David  27 Jan 2009
         work_fetch.cpp
     sched/
         sched_send.cpp
+
+Eric K 27 Jan 2009
+    - SEA:  Fixed problems building SEA
+    
+    configure.ac
+    packages/
+        generic/
+            sea/
+                Makefile.am
+                make-tar.sh
+
