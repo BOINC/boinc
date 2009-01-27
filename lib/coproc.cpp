@@ -37,8 +37,6 @@
 using std::string;
 using std::vector;
 
-COPROC_CUDA* coproc_cuda;
-
 #ifndef _USING_FCGI_
 void COPROC::write_xml(MIOFILE& f) {
     f.printf(
@@ -109,7 +107,6 @@ int COPROCS::parse(FILE* fin) {
             int retval = cc->parse(fin);
             if (!retval) {
                 coprocs.push_back(cc);
-                coproc_cuda = cc;
             }
         }
     }
@@ -216,7 +213,6 @@ string COPROC_CUDA::get(COPROCS& coprocs) {
     ccp->count = real_count;
     strcpy(ccp->type, "CUDA");
     coprocs.coprocs.push_back(ccp);
-    coproc_cuda = ccp;
     if (real_count == 1) {
         return "CUDA device: "+s;
     } else {
@@ -256,7 +252,6 @@ void fake_cuda(COPROCS& coprocs, int count) {
    cc->prop.textureAlignment = 1000;
    cc->prop.multiProcessorCount = 14;
    coprocs.coprocs.push_back(cc);
-   coproc_cuda = cc;
 }
 
 #ifndef _USING_FCGI_

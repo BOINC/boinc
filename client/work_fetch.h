@@ -1,3 +1,23 @@
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2008 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+// Work fetch logic for CPU, GPU, and other processing resources.
+// See http://boinc.berkeley.edu/trac/wiki/GpuWorkFetch
+
 #ifndef _WORK_FETCH_
 #define _WORK_FETCH_
 
@@ -36,8 +56,6 @@ struct RSC_PROJECT_WORK_FETCH {
         // we could probably get work for this resource;
         // determines how many instances this project deserves
     double instances_used;
-    //double shortfall;
-    //double nidle_now;
 
     RSC_PROJECT_WORK_FETCH() {
         memset(this, 0, sizeof(*this));
@@ -53,7 +71,6 @@ struct RSC_PROJECT_WORK_FETCH {
 
     bool may_have_work;
     bool compute_may_have_work();
-    //void accumulate_shortfall(RSC_WORK_FETCH&, PROJECT*, double dt, double nused);
     bool overworked();
     void backoff(PROJECT*, char*);
     void rr_init();

@@ -55,6 +55,7 @@
 using std::max;
 
 CLIENT_STATE gstate;
+COPROC_CUDA* coproc_cuda;
 
 CLIENT_STATE::CLIENT_STATE():
     lookup_website_op(&gui_http),
@@ -276,6 +277,7 @@ int CLIENT_STATE::init() {
         if (coprocs.coprocs.size() == 0) {
             msg_printf(NULL, MSG_INFO, "No coprocessors");
         }
+        coproc_cuda = (COPROC_CUDA*)coprocs.lookup("CUDA");
     }
 
     // Check to see if we can write the state file.

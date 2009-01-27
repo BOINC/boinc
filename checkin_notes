@@ -618,6 +618,7 @@ David  23 Jan 2009
 	- client: skip non-CPU-intensive projects in debt calculations
 	- manager: show resource backoff times correctly
 
+<<<<<<< .working
 	client/
 		app_control.cpp
 		client_state.cpp
@@ -625,3 +626,109 @@ David  23 Jan 2009
 		work_fetch.cpp,h
 	clientgui/
 		DlgItemProperties.cpp
+=======
+    client/
+        app_control.cpp
+        client_state.cpp
+        client_types.cpp,h
+        work_fetch.cpp,h
+    clientgui/
+        DlgItemProperties.cpp
+
+David  23 Jan 2009
+    - scheduler: for plan class "nci", set flops to CPU speed;
+        this will give consistent completion time estimates for existing WUs.
+
+    sched/
+        sched_plan.cpp
+
+David  23 Jan 2009
+    - scheduler: fix spurious error message when using nci
+
+    sched/
+        sched_plan.cpp,h
+        sched_send.cpp
+
+David  23 Jan 2009
+    - web: fix apps.php so that it knows about plan class
+
+    html/user/
+        apps.php
+
+David  23 Jan 2009
+    - API: possible compile fix for OS/2
+
+    api/
+        boinc_api.cpp
+
+David  23 Jan 2009
+    - scheduler: reduce frequency of calls to work_needed()
+
+    sched/
+        sched_array.cpp
+        sched_send.app
+
+David  23 Jan 2009
+    - scheduler: make NCI app versions preferable to non-plan-class
+
+    sched/
+        sched_plan.cpp
+
+David  23 Jan 2009
+    - scheduler: if client can't do plan class, don't complain about old client
+
+    sched/
+        sched_send.cpp
+
+Charlie Jan 23 2009
+    - MGR: Remove override of GetSelectedItemCount() introduced yesterday;  
+        instead, call DeleteItem() rather than SetItemCount() when number of 
+        rows has been reduced, to allow virtual ListCtrl adjust its list of 
+        selected rows (and thus keep its count in sync with reality.)
+        
+    clientgui/
+        BOINCBaseView.cpp
+        BOINCListCtrl.cpp,.h
+
+David  23 Jan 2009
+    - scheduler: initialize global
+
+    sched/
+        handle_request.cpp
+
+David  23 Jan 2009
+    - scheduler: if anonymous platform, ignore coprocessor requests
+        (since anonymous platforms apps are treated as CPU)
+
+    sched/
+        sched_send.cpp
+        server_types.h
+
+Janus	25 Jan 2009
+    - Fixed a major bug in the translation system which was causing a lot
+      of people to receive the webpages in semi-random languages.
+    - Added the ability for projects to decide whether they want the
+      Q&A and Message Boards merged.
+
+    html/
+        inc/
+	    translation.inc
+	user/
+	    forum_index.php
+	project_sample/
+	    project.inc
+
+David  25 Jan 2009
+    - client: don't request work for a resource if it has no shortfall.
+    - client and server: get rid of coproc_cuda global.
+
+    client/
+        client_state.cpp,h
+        work_fetch.cpp,h
+    lib/
+        coproc.cpp,h
+    sched/
+        handle_request.cpp
+        sched_send.cpp
+        server_types.cpp,h
+>>>>>>> .merge-right.r17019
