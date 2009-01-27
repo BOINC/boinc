@@ -120,7 +120,7 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
         running = (FALSE != IsBOINCServiceStarting()) || (FALSE != IsBOINCServiceRunning());
     } else {
 #endif
-    // Allow time for Client to start up
+    // If set up to run as a daemon, allow time for daemon to start up
     for (int i=0; i<10; i++) {
         retval = rpc.init("localhost");  // synchronous is OK since local
         wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Connecting to core client returned '%d'"), retval);
@@ -134,12 +134,8 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
         running = (retval != ERR_CONNECT);
         rpc.close();
         if (running) break;
-        if (IsBOINCConfiguredAsDaemon()) {
-            // If set up to run as a daemon, allow extra time for daemon to start up
+        if (!IsBOINCConfiguredAsDaemon()) break;
             wxSleep(1);
-        } else {
-            boinc_sleep(0.1);
-        }
     }
 #ifdef __WXMSW__
     }
@@ -292,6 +288,11 @@ bool CBOINCClientManager::StartupBOINCCore() {
     if (0 != m_lBOINCCoreProcessId) {
         m_bBOINCStartedByManager = true;
         bReturnValue = true;
+        // Allow time for daemon to start up so we don't keep relaunching it
+        for (int i=0; i<100; i++) {     // Wait up to 1 seccond in 10 ms increments
+            boinc_sleep(0.01);
+            if (IsBOINCCoreRunning()) break;
+        }
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::StartupBOINCCore - Function End"));
