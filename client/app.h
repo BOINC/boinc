@@ -28,6 +28,13 @@
 #include "app_ipc.h"
 #include "procinfo.h"
 
+// values for preempt_type
+//
+#define REMOVE_NEVER        0
+#define REMOVE_MAYBE_USER   1
+#define REMOVE_MAYBE_SCHED  2
+#define REMOVE_ALWAYS       3
+
 class CLIENT_STATE;
 typedef int PROCESS_ID;
 
@@ -46,7 +53,6 @@ typedef int PROCESS_ID;
 /// that BOINC doesn't know about.
 
 class ACTIVE_TASK {
-    int _task_state;
 public:
 #ifdef _WIN32
     HANDLE pid_handle, shm_handle;
@@ -59,23 +65,12 @@ public:
     PROCESS_ID pid;
 	PROCINFO procinfo;
 
+    //// START OF ITEMS SAVED IN STATE FILE
+private:
+public:
+    int _task_state;
         /// subdirectory of slots/ where this runs
     int slot;
-    inline int task_state() {
-        return _task_state;
-    }
-    void set_task_state(int, const char*);
-    int scheduler_state;
-    int next_scheduler_state; // temp
-    int signal;
-        /// App's estimate of how much of the work unit is done.
-
-        /// Passed from the application via an API call;
-        /// will be zero if the app doesn't use this call
-    double fraction_done;
-    double episode_start_cpu_time;
-        /// Wall time at the start of the current run interval
-    double run_interval_start_wall_time;
         /// CPU at the last checkpoint
         /// Note: "CPU time" refers to the sum over all episodes.
         /// (not counting the "lost" time after the last checkpoint
@@ -83,14 +78,27 @@ public:
         /// TODO: debt should be based on FLOPs, not CPU time
         /// CPU time at the start of current episode
     double checkpoint_cpu_time;
-        /// wall time at the last checkpoint
-    double checkpoint_wall_time;
-        /// most recent CPU time reported by app
-    double current_cpu_time;
-        /// current total elapsed (running) time
-    double elapsed_time;
         /// elapsed time at last checkpoint
     double checkpoint_elapsed_time;
+        /// App's estimate of how much of the work unit is done.
+        /// Passed from the application via an API call;
+        /// will be zero if the app doesn't use this call
+    double fraction_done;
+        /// most recent CPU time reported by app
+    double current_cpu_time;
+
+    //// END OF ITEMS SAVED IN STATE FILE
+
+    int scheduler_state;
+    int next_scheduler_state; // temp
+    int signal;
+    double episode_start_cpu_time;
+        /// Wall time at the start of the current run interval
+    double run_interval_start_wall_time;
+        /// wall time at the last checkpoint
+    double checkpoint_wall_time;
+        /// current total elapsed (running) time
+    double elapsed_time;
         /// disk used by output files and temp files of this task
     int current_disk_usage(double&);
         /// directory where process runs (relative)
@@ -128,6 +136,11 @@ public:
     APP_CLIENT_SHM app_client_shm;
     MSG_QUEUE graphics_request_queue;
     MSG_QUEUE process_control_queue;
+
+    void set_task_state(int, const char*);
+    inline int task_state() {
+        return _task_state;
+    }
     bool coprocs_reserved;
     void reserve_coprocs();
     void free_coprocs();
@@ -190,7 +203,7 @@ public:
         /// return true if this task has exited
     bool has_task_exited();
         /// preempt (via suspend or quit) a running task
-    int preempt(bool quit_task);
+    int preempt(int preempt_type);
     int resume_or_start(bool);
     void send_network_available();
 #ifdef _WIN32

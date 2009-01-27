@@ -591,3 +591,21 @@ David  22 Jan 2009
 
     client/
         scheduler_op.cpp
+
+David  22 Jan 2009
+    - client: when preempting a process, remove it from memory if:
+        1) it uses a coprocessor
+        2) it has checkpointed since the client started
+        3) it's being preempted because of a user action
+            (suspend job, project, or all processing)
+            or user preference (time of day, computer in use)
+    - scheduler: if shared mem seg doesn't exist,
+        report it and don't crash
+
+    client/
+        app.h
+        app_start.cpp
+        app_control.cpp
+        cpu_sched.cpp
+    sched/
+        main.cpp

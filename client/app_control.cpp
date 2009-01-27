@@ -71,7 +71,6 @@ using std::vector;
 
 #include "app.h"
 
-
 #ifdef _WIN32
 bool ACTIVE_TASK::kill_all_children() {
 	unsigned int i,j;
@@ -775,15 +774,7 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
 // e.g. because on batteries, time of day, benchmarking, CPU throttle, etc.
 //
 void ACTIVE_TASK_SET::suspend_all(bool cpu_throttle) {
-    unsigned int i;
-	bool leave_in_mem;
-
-	if (cpu_throttle) {
-		leave_in_mem = true;
-	} else {
-		leave_in_mem = gstate.global_prefs.leave_apps_in_memory;
-	}
-    for (i=0; i<active_tasks.size(); i++) {
+    for (unsigned int i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
 		if (cpu_throttle) {
@@ -792,8 +783,10 @@ void ACTIVE_TASK_SET::suspend_all(bool cpu_throttle) {
 			//
 			if (atp->result->project->non_cpu_intensive) continue;
 			if (atp->app_version->avg_ncpus < 1) continue;
-		}
-        atp->preempt(!leave_in_mem);
+            atp->preempt(REMOVE_NEVER);
+		} else {
+            atp->preempt(REMOVE_MAYBE_USER);
+        }
     }
 }
 
