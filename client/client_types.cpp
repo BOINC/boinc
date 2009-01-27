@@ -96,8 +96,8 @@ void PROJECT::init() {
     non_cpu_intensive = false;
     verify_files_on_app_start = false;
     short_term_debt = 0;
-    cpu_pwf.clear_perm();
-    cuda_pwf.clear_perm();
+    cpu_pwf.reset();
+    cuda_pwf.reset();
     send_file_list = false;
     send_time_stats_log = 0;
     send_job_log = 0;

@@ -340,9 +340,9 @@ public:
     RSC_PROJECT_WORK_FETCH cpu_pwf;
     RSC_PROJECT_WORK_FETCH cuda_pwf;
     PROJECT_WORK_FETCH pwf;
-    inline void clear_perm() {
-        cpu_pwf.clear_perm();
-        cuda_pwf.clear_perm();
+    inline void reset() {
+        cpu_pwf.reset();
+        cuda_pwf.reset();
     }
 
         /// # of results being returned in current scheduler op

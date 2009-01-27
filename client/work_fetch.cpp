@@ -94,9 +94,9 @@ bool PROJECT_WORK_FETCH::compute_can_fetch_work(PROJECT* p) {
     return true;
 }
 
-void PROJECT_WORK_FETCH::clear_backoffs(PROJECT* p) {
-    p->cpu_pwf.clear_backoff();
-    p->cuda_pwf.clear_backoff();
+void PROJECT_WORK_FETCH::reset(PROJECT* p) {
+    p->cpu_pwf.reset();
+    p->cuda_pwf.reset();
 }
 
 void RSC_WORK_FETCH::accumulate_shortfall(double d_time, double nused) {
@@ -213,10 +213,12 @@ PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
         PROJECT* p = gstate.projects[i];
         if (!p->non_cpu_intensive) continue;
         if (!p->can_request_work()) continue;
+		if (p->cpu_pwf.backoff_time > gstate.now) continue;
         bool has_work = false;
         for (unsigned int j=0; j<gstate.results.size(); j++) {
             RESULT* rp = gstate.results[j];
-            if (rp->project == p) {
+            if (rp->project != p) continue;
+			if (rp->state() <= RESULT_FILES_DOWNLOADED) {
                 has_work = true;
                 break;
             }
@@ -365,6 +367,7 @@ void RSC_WORK_FETCH::update_debts() {
     double avg_debt = total_debt / nprojects;
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
+		if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
         w.debt -= avg_debt;
     }
@@ -414,6 +417,7 @@ void WORK_FETCH::compute_shares() {
 // should this project be accumulating debt for this resource?
 //
 bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p) {
+	if (p->non_cpu_intensive) return false;
     if (backoff_time > gstate.now) return false;
     if (p->suspended_via_gui) return false;
     if (p->dont_request_more_work) return false;

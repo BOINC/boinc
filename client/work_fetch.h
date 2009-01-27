@@ -45,7 +45,7 @@ struct RSC_PROJECT_WORK_FETCH {
 
     // whether this project is accumulating debt for this resource
     bool debt_eligible(PROJECT*);
-    inline void clear_perm() {
+    inline void reset() {
         backoff_time = 0;
         backoff_interval = 0;
         debt = 0;
@@ -116,7 +116,7 @@ struct PROJECT_WORK_FETCH {
     PROJECT_WORK_FETCH() {
         memset(this, 0, sizeof(*this));
     }
-    void clear_backoffs(PROJECT*);
+    void reset(PROJECT*);
 };
 
 // global work fetch state
