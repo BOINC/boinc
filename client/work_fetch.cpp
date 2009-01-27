@@ -194,9 +194,30 @@ void WORK_FETCH::clear_request() {
     cuda_work_fetch.clear_request();
 }
 
+// does the project have a downloading or runnable job?
+//
+static bool has_a_job(PROJECT* p) {
+    for (unsigned int j=0; j<gstate.results.size(); j++) {
+        RESULT* rp = gstate.results[j];
+        if (rp->project != p) continue;
+        if (rp->state() <= RESULT_FILES_DOWNLOADED) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // we're going to contact this project; decide how much work to request
 //
 void WORK_FETCH::compute_work_request(PROJECT* p) {
+    if (p->non_cpu_intensive) {
+        clear_request();
+        if (!p->dont_request_more_work && !has_a_job(p)) {
+            cpu_work_fetch.req_secs = 1;
+        }
+        return;
+    }
+
     // check if this is the project we'd ask for work anyway
     //
     PROJECT* pbest = choose_project();
@@ -215,20 +236,10 @@ PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
         if (!p->non_cpu_intensive) continue;
         if (!p->can_request_work()) continue;
 		if (p->cpu_pwf.backoff_time > gstate.now) continue;
-        bool has_work = false;
-        for (unsigned int j=0; j<gstate.results.size(); j++) {
-            RESULT* rp = gstate.results[j];
-            if (rp->project != p) continue;
-			if (rp->state() <= RESULT_FILES_DOWNLOADED) {
-                has_work = true;
-                break;
-            }
-        }
-        if (!has_work) {
-            clear_request();
-            cpu_work_fetch.req_secs = 1;
-            return p;
-        }
+        if (has_a_job(p)) continue;
+        clear_request();
+        cpu_work_fetch.req_secs = 1;
+        return p;
     }
     return 0;
 }
