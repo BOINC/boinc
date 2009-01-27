@@ -757,3 +757,10 @@ Rom    26 Jan 2009
     
     clientgui/
         BOINCClientManager.cpp
+
+David  26 Jan 2009
+    - client: if we're doing an RPC (for whatever reason)
+        to a non-CPU-intensive project without a job, ask for one.
+
+    client/
+        work_fetch.cpp
