@@ -570,3 +570,18 @@ Charlie Jan 23 2009
     clientgui/
         BOINCBaseView.cpp
         BOINCListCtrl.cpp,.h
+
+Rom    26 Jan 2009
+    - MGR: Don't use wxT() to describe parameters passed to GUI RPCs.
+    
+    clientgui/
+        BOINCClientManager.cpp
+
+Charlie Jan 26 2009
+    - MGR: In CBOINCClientManager::IsBOINCCoreRunning() allow time for 
+        Client to start up, to avoid repeated attempts which put spurious 
+        "Another instance Another instance of BOINC is running" messages 
+        in stderrdae.txt 
+        
+    clientgui/
+        BOINCClientManager.cpp

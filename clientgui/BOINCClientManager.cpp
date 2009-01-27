@@ -120,11 +120,11 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
         running = (FALSE != IsBOINCServiceStarting()) || (FALSE != IsBOINCServiceRunning());
     } else {
 #endif
-    // If set up to run as a daemon, allow time for daemon to start up
+    // Allow time for Client to start up
     for (int i=0; i<10; i++) {
         retval = rpc.init("localhost");  // synchronous is OK since local
         wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Connecting to core client returned '%d'"), retval);
-        retval = rpc.authorize(wxT("")); // Do not use an RPC that uses the SET_LOCALE class, this
+        retval = rpc.authorize("");      // Do not use an RPC that uses the SET_LOCALE class, this
                                          //   function is typically called from the UI thread.  If the
                                          //   UI thread and the async thread happen to use SET_LOCALE
                                          //   at the same time there is a 50% chance that the UI will
@@ -134,8 +134,12 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
         running = (retval != ERR_CONNECT);
         rpc.close();
         if (running) break;
-        if (!IsBOINCConfiguredAsDaemon()) break;
+        if (IsBOINCConfiguredAsDaemon()) {
+            // If set up to run as a daemon, allow extra time for daemon to start up
         wxSleep(1);
+        } else {
+            boinc_sleep(0.1);
+        }
     }
 #ifdef __WXMSW__
     }
