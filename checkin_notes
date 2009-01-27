@@ -819,3 +819,13 @@ David  27 Jan 2009
     client/
         cs_scheduler.cpp
         work_fetch.cpp
+
+Eric K 27 Jan 2009
+    - Manager: fixes to allow compilation on compilers that don't allow string
+      concatenation within the _() macro.
+
+    clientgui/
+        WelcomePage.cpp
+	ProxyInfoPage.cpp
+
+
