@@ -548,7 +548,6 @@ David  22 Jan 2009
     sched/
         sched_plan.cpp
 
-
 Charlie Jan 22 2009
     - client sandbox: add details in switcher_exec "execv failed" message.
     - MGR: Work around bug in generic list control GetSelectedItemCount() 
@@ -585,3 +584,10 @@ Charlie Jan 26 2009
         
     clientgui/
         BOINCClientManager.cpp
+
+David  22 Jan 2009
+    - client: simplify message describing scheduler request;
+        to get work request details, use <sched_op_debug>
+
+    client/
+        scheduler_op.cpp

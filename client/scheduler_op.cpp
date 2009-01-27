@@ -193,19 +193,35 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         msg_printf(p, MSG_INFO,
             "Sending scheduler request: %s.", rpc_reason_string(reason)
         );
+        if (cpu_work_fetch.req_secs || cuda_work_fetch.req_secs) {
+            if (p->nresults_returned) {
+                msg_printf(p, MSG_INFO,
+                    "Reporting %d completed tasks, requesting new tasks",
+                    p->nresults_returned
+                );
+            } else {
+                msg_printf(p, MSG_INFO, "Requesting new tasks");
+            }
+        } else {
+            if (p->nresults_returned) {
+                msg_printf(p, MSG_INFO,
+                    "Reporting %d completed tasks, not requesting new tasks",
+                    p->nresults_returned
+                );
+            } else {
+                msg_printf(p, MSG_INFO, "Not reporting or requesting tasks");
+            }
+        }
+    }
+    if (log_flags.sched_op_debug) {
         msg_printf(p, MSG_INFO,
-            "CPU work request: %.2f seconds, %d instances",
+            "CPU work request: %.2f seconds; %d idle CPUs",
             cpu_work_fetch.req_secs, cpu_work_fetch.req_instances
         );
         if (coproc_cuda) {
             msg_printf(p, MSG_INFO,
-                "CUDA work request: %.2f seconds, %d instances",
+                "CUDA work request: %.2f seconds; %d idle GPUs",
                 cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
-            );
-        }
-        if (p->nresults_returned) {
-            msg_printf(p, MSG_INFO, "Reporting %d completed tasks",
-                p->nresults_returned
             );
         }
     }
