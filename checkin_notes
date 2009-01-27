@@ -799,3 +799,14 @@ Eric K 27 Jan 2009
         BOINCClientManager.cpp
 
 
+David  27 Jan 2009
+    - scheduler: in get_app_version(), if we previously sent a CUDA app,
+        but we don't need to send any more CUDA jobs,
+        delete the BEST_APP_VERSION record and look for another app version.
+        This lets the scheduler send both CUDA and CPU app versions
+        for a given app in a single RPC.
+
+    client/
+        work_fetch.h
+    sched/
+        sched_send.cpp

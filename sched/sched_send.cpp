@@ -151,23 +151,26 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
 
     // see if app is already in memoized array
     //
-    for (i=0; i<g_wreq->best_app_versions.size(); i++) {
-        bavp = g_wreq->best_app_versions[i];
+    vector<BEST_APP_VERSION*>::iterator bavi;
+    bavi = g_wreq->best_app_versions.begin();
+    while (bavi != g_wreq->best_app_versions.end()) {
+        bavp = *bavi;
         if (bavp->appid == wu.appid) {
             if (!bavp->avp) return NULL;
 
             // if we previously chose a CUDA app but don't need more CUDA work,
-            // reset pointer and see if there's another app
-            // TODO: this is wrong; delete the record and fall through
+            // delete record, fall through, and find another version
             //
             if (g_wreq->rsc_spec_request
                 && bavp->host_usage.cuda_instances() > 0
                 && !g_wreq->need_cuda()
             ) {
-                bavp = NULL;
+                g_wreq->best_app_versions.erase(bavi);
+                break;
             }
             return bavp;
         }
+        bavi++;
     }
 
     APP* app = ssp->lookup_app(wu.appid);

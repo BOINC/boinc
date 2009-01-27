@@ -106,7 +106,6 @@ struct RSC_WORK_FETCH {
     inline void reset_debt_accounting() {
         secs_this_debt_interval = 0;
     }
-    void normalize_debt();
 
     void rr_init();
     void accumulate_shortfall(double d_time, double nused=0);
