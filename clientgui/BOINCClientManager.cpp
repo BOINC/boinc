@@ -28,11 +28,10 @@
 #include "AdvancedFrame.h"
 #include "BOINCClientManager.h"
 #include "error_numbers.h"
-
-#ifdef __WXMAC__
 #include "filesys.h"
 #include "util.h"
 
+#ifdef __WXMAC__
 enum {
     NewStyleDaemon = 1,
     OldStyleDaemon
