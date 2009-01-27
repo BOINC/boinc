@@ -828,4 +828,8 @@ Eric K 27 Jan 2009
         WelcomePage.cpp
 	ProxyInfoPage.cpp
 
+David  27 Jan 2009
+    - lib: comment out perror()s in connection code.
 
+    lib/
+        gui_rpc_client.cpp
