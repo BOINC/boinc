@@ -833,3 +833,10 @@ David  27 Jan 2009
 
     lib/
         gui_rpc_client.cpp
+
+David  27 Jan 2009
+    - client: remove the "deadlines_missed" and "overworked"
+        clauses from RSC_WORK_FETCH::choose_project()
+
+    client/
+        work_fetch.cpp,h

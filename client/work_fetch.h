@@ -71,7 +71,6 @@ struct RSC_PROJECT_WORK_FETCH {
 
     bool may_have_work;
     bool compute_may_have_work();
-    bool overworked();
     void backoff(PROJECT*, char*);
     void rr_init();
     void clear_backoff() {

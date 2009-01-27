@@ -124,12 +124,6 @@ PROJECT* RSC_WORK_FETCH::choose_project() {
         if (!p->pwf.can_fetch_work) continue;
         if (!project_state(p).may_have_work) continue;
         if (pbest) {
-            if (p->deadlines_missed && !pbest->deadlines_missed) {
-                continue;
-            }
-            if (project_state(p).overworked() && !project_state(pbest).overworked()) {
-                continue;
-            }
             if (pbest->pwf.overall_debt > p->pwf.overall_debt) {
                 continue;
             }
@@ -620,10 +614,6 @@ bool PROJECT::nearly_runnable() {
     if (runnable()) return true;
     if (downloading()) return true;
     return false;
-}
-
-bool RSC_PROJECT_WORK_FETCH::overworked() {
-    return debt < -gstate.global_prefs.cpu_scheduling_period();
 }
 
 bool RESULT::runnable() {
