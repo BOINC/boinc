@@ -640,3 +640,12 @@ David  27 Jan 2009
 
     client/
         work_fetch.cpp
+
+Rom    27 Jan 2009
+    - Tag for 6.6.3 release, all platforms
+      boinc_core_release_6_6_3
+
+    /
+        configure.ac
+        version.h
+
