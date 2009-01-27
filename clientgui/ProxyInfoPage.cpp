@@ -214,20 +214,7 @@ void CErrProxyInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     );
 #else
     m_pDescriptionStaticCtrl->SetLabel(
-        _("BOINC failed to communicate on the Internet.\n"
-            "The most likely reasons are:\n"
-            "\n"
-            "1) Connectivity problem.  Check your network\n"
-            "or modem connection and then click Back to try again.\n"
-            "\n"
-            "2) Personal firewall software is blocking BOINC.\n"
-            "Configure your personal firewall to let BOINC and\n"
-            "BOINC Manager communicate on port 80,\n"
-            "then click Back to try again.\n"
-            "\n"
-            "3) You are using a proxy server.\n"
-            "Click Next to configure BOINC's proxy settings."
-        )
+        _("BOINC failed to communicate on the Internet.\nThe most likely reasons are:\n\n1) Connectivity problem.  Check your network\nor modem connection and then click Back to try again.\n\n2) Personal firewall software is blocking BOINC.\nConfigure your personal firewall to let BOINC and\nBOINC Manager communicate on port 80,\nthen click Back to try again.\n\n3) You are using a proxy server.\nClick Next to configure BOINC's proxy settings.")
     );
 #endif
 

@@ -347,21 +347,11 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             );
             if (!wcg) {
                 m_pDescriptionStaticCtrl->SetLabel(
-                    _("We'll now guide you through the process of attaching\n"
-                    "to a project.")
+                    _("We'll now guide you through the process of attaching\nto a project.")
                 );
             } else {
                 m_pDescriptionStaticCtrl->SetLabel(
-                    _("You have selected to attach to a new BOINC project.  Attaching to a new\n"
-                    "project means that you will be connecting your computer to a new website\n"
-                    "and organization.  If this is what you wanted to do, then please click on\n"
-                    "the 'Next' button below.\n\n"
-                    "Some projects like World Community Grid run multiple research applications.\n"
-                    "If you want to change which research applications are sent to your computer\n"
-                    "to run, then you should visit the project's website and modify your\n"
-                    "preferences there.\n\n"
-                    "To change which research applications are sent to you from\n"
-                    "World Community Grid then please click on the following button:")
+                    _("You have selected to attach to a new BOINC project.  Attaching to a new\nproject means that you will be connecting your computer to a new website\nand organization.  If this is what you wanted to do, then please click on\nthe 'Next' button below.\n\nSome projects like World Community Grid run multiple research applications.\nIf you want to change which research applications are sent to your computer\nto run, then you should visit the project's website and modify your\npreferences there.\n\nTo change which research applications are sent to you from\nWorld Community Grid then please click on the following button:")
                 );
             }
         }
