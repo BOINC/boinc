@@ -55,38 +55,38 @@ AC_ARG_ENABLE(dynamic-client-linkage,
 AC_ARG_ENABLE(server, 
     AS_HELP_STRING([--disable-server],
                    [disable building the scheduling server]),
-    [enable_server=no],
+    [enable_server=${enableval}],
     [enable_server=yes])
 
 AC_ARG_ENABLE(fcgi, 
     AS_HELP_STRING([--disable-fcgi],
                    [disable building fcgi libraries or server components]),
-    [enable_fcgi=no],
-    [enable_fcgi=yes])
+    [enable_fcgi=${enableval}],
+    [enable_fcgi=${enable_server}])
 
 AC_ARG_ENABLE(client, 
     AS_HELP_STRING([--disable-client],
                    [disable building the client]),
-    [enable_client=no],
+    [enable_client=${enableval}],
     [enable_client=yes])
 
 AC_ARG_ENABLE(manager, 
     AS_HELP_STRING([--disable-manager],
                    [disable building the boinc manager gui]),
-    [enable_manager=no],
+    [enable_manager=${enableval}],
     [enable_manager=yes])
 
 AC_ARG_ENABLE(libraries, 
     AS_HELP_STRING([--disable-libraries],
                    [disable building the boinc client and server libraries]),
-    [enable_libraries=no],
+    [enable_libraries=${enableval}],
     [enable_libraries=yes])
 
 AC_ARG_ENABLE(install-headers, 
     AS_HELP_STRING([--disable-install-headers],
                    [if building libraries do not install the boinc library 
                     header files]),
-    [enable_install_headers=no],
+    [enable_install_headers=${enableval}],
     [enable_install_headers=yes])
 
 AC_ARG_ENABLE(pkg-libs, 
@@ -381,8 +381,10 @@ esac
 dnl m4/boinc_getsockopt.m4
 BOINC_GETSOCKOPT_TYPE
 
+if test "x${enable_fcgi}" = xyes ; then
 dnl m4/boinc_check_fcgi.m4
 BOINC_CHECK_FCGI
+fi
 
 dnl ---------- libcurl (m4/libcurl.m4) ------------------------------
 
