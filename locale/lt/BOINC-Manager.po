@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-28 10:35-0700\n"
+"PO-Revision-Date: 2009-01-28 11:17-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: lt\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:329
 msgid "User information"
-msgstr "Abonento informacija"
+msgstr "Vartotojo informacija"
 
 #: clientgui/AccountInfoPage.cpp:335
 msgid ""
@@ -213,7 +213,7 @@ msgstr "Supaprastintas režimas"
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "Display the simple BOINC graphical interface."
-msgstr "Parodyti susparastintą BOINC vartotojo sąsają."
+msgstr "Parodyti supaprastintą BOINC vartotojo sąsają."
 
 #: clientgui/AdvancedFrame.cpp:350
 msgid "Attach to &project..."
@@ -239,11 +239,11 @@ msgstr "&Sinchronizuoti su %s"
 #: clientgui/AdvancedFrame.cpp:364
 #, c-format
 msgid "Get current settings from %s"
-msgstr "Gauti dabartinius nustatymus iš %s"
+msgstr "Gauti naujausius nustatymus iš %s"
 
 #: clientgui/AdvancedFrame.cpp:379
 msgid "&Run always"
-msgstr "&Visada veikti"
+msgstr "Veikti visada"
 
 #: clientgui/AdvancedFrame.cpp:380
 msgid "Allow work regardless of preferences"
@@ -251,7 +251,7 @@ msgstr "Darbas vykdomas nepaisant nustatymų"
 
 #: clientgui/AdvancedFrame.cpp:384
 msgid "Run based on &preferences"
-msgstr "Programos vykdymas pagal nustatymus"
+msgstr "Veikti pagal nustatymus"
 
 #: clientgui/AdvancedFrame.cpp:385
 msgid "Allow work according to your preferences"
@@ -263,15 +263,15 @@ msgstr "&Sustabdyti"
 
 #: clientgui/AdvancedFrame.cpp:390
 msgid "Stop work regardless of preferences"
-msgstr "Atšaukiamas programos darbas ne pagal nustatymus"
+msgstr "Darbas sustabdomas nepaisant nustatymų"
 
 #: clientgui/AdvancedFrame.cpp:413
 msgid "&Network activity always available"
-msgstr "Veiksmai tinkle nuolat"
+msgstr "Veiksmai tinkle bet kada"
 
 #: clientgui/AdvancedFrame.cpp:414
 msgid "Allow network activity regardless of preferences"
-msgstr "Darbas vykdomas nepaisant nustatymų"
+msgstr "Veiksmai tinkle galimi nepaisant nustatymų"
 
 #: clientgui/AdvancedFrame.cpp:418
 msgid "Network activity based on &preferences"
@@ -279,7 +279,7 @@ msgstr "Veiksmai tinkle pagal nustatymus"
 
 #: clientgui/AdvancedFrame.cpp:419
 msgid "Allow network activity according to your preferences"
-msgstr "Darbas tinkle vykdomas pagal jūsų nustatymus"
+msgstr "Veiksmai tinkle vykdomi pagal nustatymus"
 
 #: clientgui/AdvancedFrame.cpp:423
 msgid "&Network activity suspended"
@@ -287,7 +287,7 @@ msgstr "Veiksmai tikle sustabdyti"
 
 #: clientgui/AdvancedFrame.cpp:424
 msgid "Stop BOINC network activity"
-msgstr "Sustabdyti BOINC veiksmus tinkle"
+msgstr "Veiksmai tinkle negalimi"
 
 #: clientgui/AdvancedFrame.cpp:431
 msgid "&Options..."
@@ -295,7 +295,7 @@ msgstr "&Nustatymai..."
 
 #: clientgui/AdvancedFrame.cpp:432
 msgid "Configure GUI options and proxy settings"
-msgstr "Vartotojo grafinės sąsajos ir proxy serverio nustatymai"
+msgstr "Vartotojo sąsajos ir tarpinio serverio nustatymai"
 
 #: clientgui/AdvancedFrame.cpp:436
 msgid "&Preferences..."
@@ -319,9 +319,8 @@ msgid "Shut down connected client..."
 msgstr "Išjungti prisijungusį klientą..."
 
 #: clientgui/AdvancedFrame.cpp:454
-#, fuzzy
 msgid "Shut down the currently connected core client"
-msgstr "%s šiuo metu nėra prisijungęs prie %s kliento...\n"
+msgstr "Išjungti šiuo metu prisijungusį pagrindinį klientą"
 
 #: clientgui/AdvancedFrame.cpp:458
 msgid "Run CPU &benchmarks"
@@ -333,11 +332,11 @@ msgstr "Matuoja sistemos procesoraus darbo našumą"
 
 #: clientgui/AdvancedFrame.cpp:463
 msgid "Do network &communication"
-msgstr ""
+msgstr "Atlikti susijungimus tinkle"
 
 #: clientgui/AdvancedFrame.cpp:464
 msgid "Do all pending network communication."
-msgstr ""
+msgstr "Atlikti visus laukiančius susijungimus tinkle."
 
 #: clientgui/AdvancedFrame.cpp:468
 msgid "Read config file"
@@ -345,7 +344,7 @@ msgstr "Nuskaityti nustatymų bylą"
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "Read configuration info from cc_config.xml."
-msgstr ""
+msgstr "Nuskaityti nustatymus iš cc_config.xml."
 
 #: clientgui/AdvancedFrame.cpp:473
 msgid "Read local prefs file"
@@ -353,18 +352,17 @@ msgstr "Nuskaityti vietinių nustatymų bylą"
 
 #: clientgui/AdvancedFrame.cpp:474
 msgid "Read preferences from global_prefs_override.xml."
-msgstr ""
+msgstr "Nuskaityti nustatymus iš global_prefs_override.xml."
 
 #: clientgui/AdvancedFrame.cpp:478
 #, c-format
 #, c-format
-#, fuzzy
 msgid "&Stop using %s..."
-msgstr "Nu&stoti naudoti %s"
+msgstr "Nustoti naudoti %s..."
 
 #: clientgui/AdvancedFrame.cpp:484
 msgid "Remove client from account manager control."
-msgstr "Pašalinti klientą iš abonemento valdiklio."
+msgstr "Nebenaudoti abonemento valdiklio šiame kliente."
 
 #: clientgui/AdvancedFrame.cpp:488
 msgid "Attach to &project"
@@ -450,7 +448,7 @@ msgstr "&Pagalba"
 #: clientgui/AdvancedFrame.cpp:1213
 #, c-format
 msgid "%s - Shutdown the current client..."
-msgstr ""
+msgstr "%s - išjungti prisijungusį klientą..."
 
 #: clientgui/AdvancedFrame.cpp:1222
 #, c-format
@@ -458,16 +456,17 @@ msgid ""
 "%s will shut down the currently connected client,\n"
 "and prompt you for another host to connect to.\n"
 msgstr ""
+"%s išjungs šiuo metu prisijungusį klientą\n"
+"ir pasiūlys prisijungti prie kito kompiuterio.\n"
 
 #: clientgui/AdvancedFrame.cpp:1369
 #, c-format
 msgid "%s - Detach from %s"
-msgstr ""
+msgstr "%s - atsijungti nuo %s"
 
 #: clientgui/AdvancedFrame.cpp:1374
 #, c-format
 #, c-format
-#, fuzzy
 msgid ""
 "If you stop using %s,\n"
 "you'll keep all your current projects,\n"
@@ -475,11 +474,11 @@ msgid ""
 "\n"
 "Do you want to stop using %s?"
 msgstr ""
-"Jeigu jūs atsijungsite nuo %s,\n"
-"jūs dalyvausite projektuose,\n"
-"tačiau juos turėsite valdyti pats\n"
+"Jei atsijungsite nuo %s,\n"
+"jūs ir toliau dalyvausite projektuose, prie kurių esate\n"
+"prisijungęs, tačiau juos turėsite valdyti pats.\n"
 "\n"
-"Ar norite atsijungti nuo %s?"
+"Ar tikrai norite atsijungti nuo %s?"
 
 #: clientgui/AdvancedFrame.cpp:1421
 msgid "Attaching to project..."
@@ -492,13 +491,13 @@ msgstr "Bandoma susisiekti su projektu(-ais)..."
 #: clientgui/AdvancedFrame.cpp:1551
 #, c-format
 msgid "%s - Language Selection"
-msgstr "%s - Kalbos pasirinkimas"
+msgstr "%s - kalbos pasirinkimas"
 
 #: clientgui/AdvancedFrame.cpp:1558
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr ""
-"%s aptiko nustatytos kalbos pakeitimą. %s turi būti paleistas iš naujo, kad "
+"%s aptiko pasirinktos kalbos pakeitimą. %s turi būti paleistas iš naujo, kad "
 "įsigaliotų kalbos pakeitimas."
 
 #: clientgui/AdvancedFrame.cpp:1795
@@ -510,9 +509,8 @@ msgstr "%s"
 #: clientgui/AdvancedFrame.cpp:1804
 #, c-format
 #, c-format
-#, fuzzy
 msgid "%s has successfully attached to %s"
-msgstr "Jūs sėkmingai prisijungėte prie šio projekto."
+msgstr "%s sėkmingai prisijungė prie %s"
 
 #: clientgui/AdvancedFrame.cpp:1940
 #, c-format
@@ -549,10 +547,10 @@ msgid ""
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
 "Abonementas su tokiu vartotojo vardu jau yra ir turi kitą\n"
-"slaptažodį negu Jūs įvedėte.\n"
+"slaptažodį nei įvedėte.\n"
 "\n"
-"Prašome apsilankyti projekto tinklapyje ir veikti pagal nurodytas "
-"instrukcijas."
+"Prašome apsilankyti projekto tinklapyje ir veikti pagal ten\n"
+"nurodytas instrukcijas."
 
 #: clientgui/AlreadyExistsPage.cpp:190
 msgid "Email address already in use"
@@ -566,25 +564,28 @@ msgid ""
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
 "Abonementas su tokiu el. pašto adresu jau yra ir turi kitą\n"
-"slaptažodį negu Jūs nurodėte.\n"
+"slaptažodį nei įvedėte.\n"
 "\n"
-"Prašome apsilankyti projekto tinklapyje ir veikti pagal nurodytas "
-"instrukcijas."
+"Prašome apsilankyti projekto tinklapyje ir veikti pagal ten\n"
+"nurodytas instrukcijas."
 
 #: clientgui/AsyncRPC.cpp:940
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr ""
+msgstr "Jungiamasi prie BOINC kliento. Prašome palaukti..."
 
 #: clientgui/BOINCBaseFrame.cpp:414
 #, c-format
 msgid "%s - Connection Error"
-msgstr "%s - Ryšio klaida"
+msgstr "%s - ryšio klaida"
 
 #: clientgui/BOINCBaseFrame.cpp:423
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
+"Jums nėra leidžiama valdyti kliento.\n"
+"Susisiekite su savo administratoriumi, kad jis pridėtų jus į \"boinc_users\" "
+"vartotojų grupę."
 
 #: clientgui/BOINCBaseFrame.cpp:433
 msgid ""
@@ -603,7 +604,7 @@ msgstr "Slaptažodis yra neteisingas, bandykite dar kartą."
 #: clientgui/BOINCBaseFrame.cpp:482
 #, c-format
 msgid "%s - Connection Failed"
-msgstr "%s - Susijungimas nepavyko"
+msgstr "%s - susijungimas nepavyko"
 
 #: clientgui/BOINCBaseFrame.cpp:491
 #, c-format
@@ -612,7 +613,7 @@ msgid ""
 "Would you like to try to connect again?"
 msgstr ""
 "%s negali prisijungti prie %s kliento.\n"
-"Ar norite pakartotinai jungtis?"
+"Ar norite dar kartą bandyti prisijungti?"
 
 #: clientgui/BOINCBaseFrame.cpp:527
 #, c-format
@@ -636,22 +637,21 @@ msgstr ""
 #: clientgui/BOINCBaseFrame.cpp:589
 #, c-format
 msgid "%s - Connection Status"
-msgstr "%s - Susijungimo būklė"
+msgstr "%s - susijungimo būklė"
 
 #: clientgui/BOINCBaseFrame.cpp:600
 #, c-format
 #, c-format
-#, fuzzy
 msgid ""
 "%s is not currently connected to a %s client.\n"
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s šiuo metu nėra prisijungęs prie %s kliento.\n"
-"Prašome pasinaudoti 'Byla->Pasirinkti kompiuterį' meniu punktu norėdami "
+"Prašome pasinaudoti \"Byla->Pasirinkti kompiuterį\" meniu punktu, jei norite "
 "prisijungti prie %s kliento.\n"
-"Norėdami prisijungti prie vietinio kompiuterio prašome kaip kompiuterio "
-"vardą įrašyti 'localhost'."
+"Norėdami prisijungti prie vietinio kompiuterio, kaip kompiuterio vardą "
+"įrašykite \"localhost\"."
 
 #: clientgui/BOINCBaseView.cpp:746
 #: clientgui/ViewProjectsGrid.cpp:644
@@ -662,7 +662,7 @@ msgstr "Tinklapiai"
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
 msgid "%s - Network Status"
-msgstr "%s - Tinklo būsena"
+msgstr "%s - tinklo būsena"
 
 #: clientgui/BOINCDialupManager.cpp:255
 #, c-format
@@ -672,14 +672,13 @@ msgstr "%s reikia prisijunti prie interneto.  Prašome atidaryti %s."
 #: clientgui/BOINCDialupManager.cpp:263
 #, c-format
 #, c-format
-#, fuzzy
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
-"%s negali susisiekti su projektu ir jam reikalinkas interneto ryšys.\n"
-"Prašome prisijungti prie interneto ir paspausti 'Kartoti susijungimą' meniu "
-"punkte 'Papildomi'."
+"%s negali susisiekti su projektu ir jam reikalingas interneto ryšys.\n"
+"Prašome prisijungti prie interneto ir paspausti \"Kartoti susijungimą\" meniu "
+"punkte \"Papildomi\"."
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
