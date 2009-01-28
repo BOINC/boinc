@@ -77,6 +77,7 @@ struct RSC_PROJECT_WORK_FETCH {
         backoff_time = 0;
         backoff_interval = 0;
     }
+    bool overworked();
 };
 
 // per-resource state
@@ -108,7 +109,7 @@ struct RSC_WORK_FETCH {
 
     void rr_init();
     void accumulate_shortfall(double d_time, double nused=0);
-    PROJECT* choose_project();
+    PROJECT* choose_project(bool urgent);
     void accumulate_debt();
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);
     void update_debts();

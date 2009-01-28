@@ -1,6 +1,17 @@
 <?
 
 $project_news = array(
+array("January 27, 2009",
+    "<a href=http://www.dotsch.de/boinc/Dotsch_UX.html>Dotsch/UX</a>
+    is an ISO-format Linux distribution, based on Ubuntu Linux,
+    with the 6.2.15 BOINC client pre-installed.
+    It lets you easily install and boot from a USB stick, hard disk and
+    from diskless clients,
+    and it also has some interfaces to set up the diskless server
+    and the clients automatically.
+    Download info is <a href=http://boinc.berkeley.edu/download_all.php>here</a>.
+    "
+),
 array("January 22, 2009",
     "A <a href=http://boinc.berkeley.edu/images/Cochran_SRL_2009.pdf>paper
     about Quake-Catcher Network</a> appeared in

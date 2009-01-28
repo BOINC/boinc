@@ -114,15 +114,23 @@ void RSC_WORK_FETCH::accumulate_shortfall(double d_time, double nused) {
     }
 }
 
-// choose the best project to ask for work for this resource
+bool RSC_PROJECT_WORK_FETCH::overworked() {
+    return (debt < -2*gstate.global_prefs.cpu_scheduling_period()); 
+}
+
+// choose the best project to ask for work for this resource.
+// If not urgent, don't choose an overworked project.
 //
-PROJECT* RSC_WORK_FETCH::choose_project() {
+PROJECT* RSC_WORK_FETCH::choose_project(bool urgent) {
     PROJECT* pbest = NULL;
 
     for (unsigned i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (!p->pwf.can_fetch_work) continue;
         if (!project_state(p).may_have_work) continue;
+        if (!urgent && project_state(p).overworked()) {
+            continue;
+        }
         if (pbest) {
             if (pbest->pwf.overall_debt > p->pwf.overall_debt) {
                 continue;
@@ -267,13 +275,13 @@ PROJECT* WORK_FETCH::choose_project() {
     // give GPU priority over CPU
     //
     if (coproc_cuda && cuda_work_fetch.nidle_now) {
-        p = cuda_work_fetch.choose_project();
+        p = cuda_work_fetch.choose_project(true);
         if (p) {
             request_cpu = false;
         }
     }
     if (!p && cpu_work_fetch.nidle_now) {
-        p = cpu_work_fetch.choose_project();
+        p = cpu_work_fetch.choose_project(true);
         if (p) {
             request_cuda = false;
         }
@@ -282,10 +290,10 @@ PROJECT* WORK_FETCH::choose_project() {
     // if a resource has a shortfall, get work for it.
     //
     if (!p && coproc_cuda && cuda_work_fetch.shortfall) {
-        p = cuda_work_fetch.choose_project();
+        p = cuda_work_fetch.choose_project(false);
     }
     if (!p && cpu_work_fetch.shortfall) {
-        p = cpu_work_fetch.choose_project();
+        p = cpu_work_fetch.choose_project(false);
     }
 
     // decide how much work to request for each resource

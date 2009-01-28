@@ -583,7 +583,9 @@ static void get_host_info() {
     	multiplier = 1.8;
     }
 
-    if ((config.reliable_max_avg_turnaround == 0 || g_reply->host.avg_turnaround < config.reliable_max_avg_turnaround*multiplier)
+    if (
+        (g_reply->host.avg_turnaround > 0)
+        && (config.reliable_max_avg_turnaround == 0 || g_reply->host.avg_turnaround < config.reliable_max_avg_turnaround*multiplier)
         && (config.reliable_max_error_rate == 0 || g_reply->host.error_rate < config.reliable_max_error_rate*multiplier)
         && (config.daily_result_quota == 0 || g_reply->host.max_results_day >= config.daily_result_quota)
      ) {
@@ -591,11 +593,12 @@ static void get_host_info() {
     }
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
-            "[send] [HOST#%d] is%s reliable (OS = %s) error_rate = %.6f avg_turn_hrs = %.3f \n",
+            "[send] [HOST#%d] is%s reliable; OS: %s, error_rate: %.6f, avg_turn_hrs: %.3f max res/day %d\n",
             g_reply->host.id,
             g_wreq->reliable?"":" not",
             g_reply->host.os_name, g_reply->host.error_rate,
-            g_reply->host.avg_turnaround/3600
+            g_reply->host.avg_turnaround/3600,
+            g_reply->host.max_results_day
         );
     }
 }
