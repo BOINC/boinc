@@ -1,15 +1,18 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-07-08 14:44+0200\n"
+"PO-Revision-Date: 2009-01-28 10:35-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
@@ -26,16 +29,20 @@ msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr ""
+"Įveskite vartotojo informaciją\n"
+"(norėdami prisiregistruoti, apsilankykite projekto tinklapyje)"
 
 #: clientgui/AccountInfoPage.cpp:339
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
 msgstr ""
+"Šis projektas neleidžia registruotis naujiems dalyviams.\n"
+"Galite prisijungti, tik jei jau esate užsiregistravęs."
 
 #: clientgui/AccountInfoPage.cpp:343
 msgid "Are you already running this project?"
-msgstr "Ar jūs jau dalyvaujate šiame projekte?"
+msgstr "Ar jau dalyvaujate šiame projekte?"
 
 #: clientgui/AccountInfoPage.cpp:347
 msgid "&No, new user"
@@ -53,16 +60,16 @@ msgstr "Slaptažodis:"
 #: clientgui/AccountInfoPage.cpp:373
 #: clientgui/AccountInfoPage.cpp:534
 msgid "Choose a &password:"
-msgstr "Pasirinkti &slaptažodį:"
+msgstr "Pasirinkite slaptažodį:"
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid "C&onfirm password:"
-msgstr "Patvirtinti slaptažodį:"
+msgstr "Pakartokite slaptažodį:"
 
 #: clientgui/AccountInfoPage.cpp:383
 #, c-format
 msgid "Are you already running %s?"
-msgstr ""
+msgstr "Ar jau dalyvaujate %s?"
 
 #: clientgui/AccountInfoPage.cpp:400
 msgid "&Username:"
@@ -79,7 +86,7 @@ msgstr "minimalus ilgis %d"
 
 #: clientgui/AccountInfoPage.cpp:426
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Pamiršote slaptažodį?"
 
 #: clientgui/AccountInfoPage.cpp:456
 #: clientgui/WelcomePage.cpp:332
@@ -89,7 +96,7 @@ msgstr "Prisijungti prie projekto"
 
 #: clientgui/AccountInfoPage.cpp:458
 msgid "Update account manager"
-msgstr "Atnaujinti abonemento valdiklio duomenis"
+msgstr "Susisiekti su abonemento valdikliu"
 
 #: clientgui/AccountInfoPage.cpp:460
 msgid "Attach to account manager"
@@ -98,56 +105,52 @@ msgstr "Prisijungti prie abonemento valdiklio"
 #: clientgui/AccountInfoPage.cpp:471
 #, c-format
 #, c-format
-#, fuzzy
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr ""
-"Minimalus slaptažodžio ilgis šiame projekte yra %d. Prašome pasirinkti kita "
+"Mažiausias slaptažodžio ilgis šiame projekte yra %d. Prašome pasirinkti kitą "
 "slaptažodį."
 
 #: clientgui/AccountInfoPage.cpp:477
 #, c-format
 #, c-format
-#, fuzzy
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr ""
-"Minimalus slaptažodžio ilgis šiame abonemento valdiklyje yra %d. Prašome "
-"pasirinkti kita slaptažodį."
+"Mažiausias slaptažodžio ilgis šiame abonemento valdiklyje yra %d. Prašome "
+"pasirinkti kitą slaptažodį."
 
 #: clientgui/AccountInfoPage.cpp:488
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr ""
-"Slaptažodis ir patvirtinimo slaptažodis nesutampa. Prašome juos dar kartą "
-"įvesti."
+msgstr "Nesutampa įvesti slaptažodžiai. Prašome juos įvesti dar kartą."
 
 #: clientgui/AccountManagerInfoPage.cpp:173
 msgid "Account Manager URL"
-msgstr "Abonemento valdiklio internetinis adresas (URL):"
+msgstr "Abonemento valdiklio tinklapis"
 
 #: clientgui/AccountManagerInfoPage.cpp:176
 msgid "Enter the URL of the account manager's web site."
-msgstr "Įverskite abonemento valdiklio tinklapio URL."
+msgstr "Įveskite abonemento valdiklio tinklapio adresą."
 
 #: clientgui/AccountManagerInfoPage.cpp:179
-#, fuzzy
 msgid ""
 "You can copy and paste the URL from your browser's\n"
 "address bar."
-msgstr "Jūs galite nukopijuoti URL į Jūsų interneto naršykles adreso laukelį."
+msgstr ""
+"Galite nukopijuoti adresą iš interneto naršyklės\n"
+"adreso laukelio."
 
 #: clientgui/AccountManagerInfoPage.cpp:182
 msgid "Account Manager &URL:"
-msgstr "Abonemento valdiklio internetinis adresas (URL):"
+msgstr "Abonemento valdiklio tinklapio adresas:"
 
 #: clientgui/AccountManagerInfoPage.cpp:185
-#, fuzzy
 msgid "For a list of account managers go to:"
-msgstr "BOINC abonemento valdiklių sąrašą rasite čia:"
+msgstr "Abonemento valdiklių sąrašą rasite čia:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:189
 #: clientgui/AccountManagerPropertiesPage.cpp:193
 #, c-format
 msgid "Communicating with %s."
-msgstr "Jungiamasi su %s."
+msgstr "Jungiamasi prie %s."
 
 #: clientgui/AccountManagerProcessingPage.cpp:196
 #: clientgui/AccountManagerPropertiesPage.cpp:200
@@ -196,20 +199,21 @@ msgstr "Išeiti"
 
 #: clientgui/AdvancedFrame.cpp:329
 msgid "&Advanced View"
-msgstr ""
+msgstr "Pažengusiųjų režimas"
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
 msgstr ""
+"Pažengusiųjų režime galima rūšiuoti informaciją pagal įvairius stulpelius ir "
+"matomas grafinis būsenos atvaizdavimas."
 
 #: clientgui/AdvancedFrame.cpp:335
-#, fuzzy
 msgid "&Simple View..."
-msgstr "&Supaprastintas režimas"
+msgstr "Supaprastintas režimas"
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "Display the simple BOINC graphical interface."
-msgstr ""
+msgstr "Parodyti susparastintą BOINC vartotojo sąsają."
 
 #: clientgui/AdvancedFrame.cpp:350
 msgid "Attach to &project..."
@@ -225,7 +229,7 @@ msgstr "Prisijungti prie &abonemento valdiklio..."
 
 #: clientgui/AdvancedFrame.cpp:356
 msgid "Attach to an account manager"
-msgstr "Jungtis prie abonemento valdiklio"
+msgstr "Prisijungti prie abonemento valdiklio"
 
 #: clientgui/AdvancedFrame.cpp:360
 #, c-format
@@ -3889,5 +3893,6 @@ msgstr ""
 #~ msgid "BOINC Manager - Options"
 #~ msgstr "BOINC valdiklis - nustatymai"
 
+#, c-format
 #~ msgid "BOINC Manager - Select Computer"
 #~ msgstr "BOINC valdiklis - pasirinkti kompiuterį"
