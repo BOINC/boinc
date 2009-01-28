@@ -126,6 +126,18 @@ int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+int AM_LIST_ENTRY::parse(XML_PARSER& xp) {
+    char tag[256];
+    bool is_tag;
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!strcmp(tag, "/account_manager")) return 0;
+        if (xp.parse_string(tag, "name", name)) continue;
+        if (xp.parse_string(tag, "url", url)) continue;
+        if (xp.parse_string(tag, "description", description)) continue;
+        if (xp.parse_string(tag, "image", image)) continue;
+    }
+}
+
 void PROJECT_LIST_ENTRY::clear() {
     name.clear();
     url.clear();
@@ -139,6 +151,10 @@ void PROJECT_LIST_ENTRY::clear() {
 }
 
 bool PROJECT_LIST_ENTRY::operator<(const PROJECT_LIST_ENTRY& compare) {
+    return rand < compare.rand;
+}
+
+bool AM_LIST_ENTRY::operator<(const AM_LIST_ENTRY& compare) {
     return rand < compare.rand;
 }
 
@@ -157,38 +173,6 @@ void PROJECT::get_name(std::string& s) {
         s = project_name;
     }
 }
-
-#if 0
-void PROJECT::copy(PROJECT& p) {
-    resource_share = p.resource_share;
-    project_name = p.project_name;
-    user_name = p.user_name;
-    team_name = p.team_name;
-    gui_urls = p.gui_urls;
-    user_total_credit = p.user_total_credit;
-    user_expavg_credit = p.user_expavg_credit;
-    host_total_credit = p.host_total_credit;
-    host_expavg_credit = p.host_expavg_credit;
-    disk_usage = p.disk_usage;
-    master_fetch_failures = p.master_fetch_failures;
-    nrpc_failures = p.nrpc_failures;
-    min_rpc_time = p.min_rpc_time;
-    short_term_debt = p.short_term_debt;
-    long_term_debt = p.long_term_debt;
-    duration_correction_factor = p.duration_correction_factor;
-    master_url_fetch_pending = p.master_url_fetch_pending;
-    sched_rpc_pending = p.sched_rpc_pending;
-    non_cpu_intensive = p.non_cpu_intensive;
-    suspended_via_gui = p.suspended_via_gui;
-    dont_request_more_work = p.dont_request_more_work;
-    scheduler_rpc_in_progress = p.scheduler_rpc_in_progress;
-    attached_via_acct_mgr = p.attached_via_acct_mgr;
-    detach_when_done = p.detach_when_done;
-    ended = p.ended;
-    project_files_downloaded_time = p.project_files_downloaded_time;
-    last_rpc_time = p.last_rpc_time;
-}
-#endif
 
 int PROJECT::parse(MIOFILE& in) {
     char buf[256];
@@ -722,6 +706,7 @@ ALL_PROJECTS_LIST::~ALL_PROJECTS_LIST() {
 
 void ALL_PROJECTS_LIST::shuffle() {
     sort(projects.begin(), projects.end());
+    sort(account_managers.begin(), account_managers.end());
 }
 
 void ALL_PROJECTS_LIST::clear() {
@@ -1283,6 +1268,16 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
                 pl.projects.push_back(project);
             } else {
                 delete project;
+            }
+            continue;
+        } else if (!strcmp(tag, "account_manager")) {
+            AM_LIST_ENTRY* am = new AM_LIST_ENTRY();
+            retval = am->parse(xp);
+            if (!retval) {
+                am->rand = drand();
+                pl.account_managers.push_back(am);
+            } else {
+                delete am;
             }
             continue;
         }

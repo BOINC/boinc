@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("January 28, 2009",
+    "<a href=http://www.extremadurathome.org/extremadurathome/>Extremadura@home</a> is a new kind of account manager in which the choice of projects
+    is a group decision.  It's targeted at Spanish computer owners
+    but is open to everyone."
+),
 array("January 27, 2009",
     "<a href=http://www.dotsch.de/boinc/Dotsch_UX.html>Dotsch/UX</a>
     is an ISO-format Linux distribution, based on Ubuntu Linux,

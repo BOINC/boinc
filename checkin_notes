@@ -851,3 +851,10 @@ David  27 Jan 2009
         work_fetch.cpp,h
     sched/
         sched_send.cpp
+
+David  28 Jan 2009
+    - GUI RPC: the "get all projects" RPC now also returns account managers
+
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h

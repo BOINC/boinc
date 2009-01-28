@@ -1,5 +1,11 @@
 <?php
+
+// The BOINC client uses this to get a current list of projects,
+// which it does every 14 days.
+// Don't break backwards compatibility!
+
 require_once("projects.inc");
+require_once("account_managers.inc");
 require_once("get_platforms.inc");
 
 header('Content-type: text/xml');
@@ -59,6 +65,21 @@ foreach($proj_list as $p) {
     echo "    </project>
 ";
 }
+
+foreach ($account_managers as $am) {
+    $name = $am[0];
+    $url = $am[1];
+    $desc = $am[2];
+    $image = $am[3];
+    echo "   <account_manager>
+        <name>$name</name>
+        <url>$url</url>
+        <description>$desc</description>
+        <image>http://boinc.berkeley.edu/images/$image</image>
+    </account_manager>
+";
+}
+
 echo "</projects>
 ";
 
