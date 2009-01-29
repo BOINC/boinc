@@ -92,7 +92,6 @@ public:
     wxString m_strProjectURL;
 ////@end CProjectInfoPage member variables
     bool                m_bProjectListPopulated;
-    ALL_PROJECTS_LIST   m_pl;
 };
 
 #endif // _WIZ_PROJECTINFOPAGE_H_

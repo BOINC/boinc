@@ -928,3 +928,10 @@ Rom    29 Jan 2009
         WizardAccountManager.cpp
     lib/
         gui_rpc_client_ops.cpp
+
+Rom    29 Jan 2009
+    - MGR: Filter project list so that it shows only projects supported
+        by the core client.
+        
+    clientgui/
+        ProjectInfoPage.cpp, .h
