@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-28 11:17-0700\n"
+"PO-Revision-Date: 2009-01-29 12:29-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: lt\n"
@@ -667,7 +667,7 @@ msgstr "%s - tinklo būsena"
 #: clientgui/BOINCDialupManager.cpp:255
 #, c-format
 msgid "%s needs to connect to the Internet.  Please click to open %s."
-msgstr "%s reikia prisijunti prie interneto.  Prašome atidaryti %s."
+msgstr "%s reikia prisijungti prie interneto. Spustelėkite, kad atidaryti %s."
 
 #: clientgui/BOINCDialupManager.cpp:263
 #, c-format
@@ -677,8 +677,8 @@ msgid ""
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
 "%s negali susisiekti su projektu ir jam reikalingas interneto ryšys.\n"
-"Prašome prisijungti prie interneto ir paspausti \"Kartoti susijungimą\" meniu "
-"punkte \"Papildomi\"."
+"Prisijunkite prie interneto ir paspauskite \"Atlikti susijungimus tinkle\" "
+"meniu punkte \"Papildomi\"."
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
@@ -779,9 +779,8 @@ msgid "Computation is suspended."
 msgstr ""
 
 #: clientgui/BOINCTaskBar.cpp:335
-#, fuzzy
 msgid "Network activity is suspended."
-msgstr "Veiksmai tikle sustabdyti"
+msgstr "Veiksmai tinkle sustabdyti"
 
 #: clientgui/BOINCTaskBar.cpp:369
 #, c-format
@@ -825,22 +824,22 @@ msgstr "Nepavyko atnaujinti abonemento valdiklio"
 
 #: clientgui/CompletionErrorPage.cpp:209
 msgid "Failed to remove account manager"
-msgstr "Nepavyko išmesti abonemento valdiklio"
+msgstr "Nepavyko atsijungti nuo abonemento valdiklio"
 
 #: clientgui/CompletionErrorPage.cpp:213
 msgid "Failed to attach to account manager"
 msgstr "Nepavyko prisijungti prie abonemento valdiklio"
 
 #: clientgui/CompletionErrorPage.cpp:222
-#, fuzzy
 msgid ""
 "An error has occurred;\n"
 "check Messages for details.\n"
 "\n"
 "Click Finish to close."
 msgstr ""
-"Įvyko klaida, detalės pateiktos Pranešimų skiltyje.\n"
-"Norint uždaryti, spauskite Baigta."
+"Įvyko klaida; detalės pateiktos pranešimų skiltyje.\n"
+"\n"
+"Norėdami uždaryti, spauskite \"Baigta\"."
 
 #: clientgui/CompletionErrorPage.cpp:226
 #: clientgui/CompletionPage.cpp:220
@@ -852,11 +851,11 @@ msgstr "Norėdami uždaryti spauskite \"Baigti\"."
 
 #: clientgui/CompletionErrorPage.cpp:235
 msgid "Messages from server:"
-msgstr "Pranešimas iš serverio:"
+msgstr "Pranešimai iš serverio:"
 
 #: clientgui/CompletionPage.cpp:205
 msgid "Attached to project"
-msgstr "Prisijunta prie projekto"
+msgstr "Prisijungta prie projekto"
 
 #: clientgui/CompletionPage.cpp:211
 msgid "You are now successfully attached to this project."
@@ -867,8 +866,8 @@ msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
 msgstr ""
-"Kai paspausite Baikti, Jūsų interneto naršyklė atvers puslapį, kuriame\n"
-"Jūs galėsite nustatyti abonemento pavadinimą ir nustatymus."
+"Kai paspausite \"Baigti\", interneto naršyklė atvers tinklapį, kuriame\n"
+"galėsite nustatyti abonemento pavadinimą ir nustatymus."
 
 #: clientgui/CompletionPage.cpp:233
 #, c-format
@@ -882,16 +881,16 @@ msgstr "Atnaujinimas baigtas."
 #: clientgui/CompletionPage.cpp:254
 #, c-format
 msgid "Removal from %s completed."
-msgstr "Trynimas iš %s baigtas."
+msgstr "Pašalinimas iš %s baigtas."
 
 #: clientgui/CompletionPage.cpp:258
 msgid "Removal succeeded!"
-msgstr "Trynimas pavyko!"
+msgstr "Pašalinimas pavyko!"
 
 #: clientgui/CompletionPage.cpp:275
 #, c-format
 msgid "Attached to %s"
-msgstr "Prisijunta prie %s"
+msgstr "Prisijungta prie %s"
 
 #: clientgui/CompletionPage.cpp:279
 msgid "Attached to account manager"
@@ -900,20 +899,17 @@ msgstr "Prisijungta prie abonemento valdiklio"
 #: clientgui/CompletionPage.cpp:289
 #, c-format
 msgid "Welcome to %s!"
-msgstr "Prisijungta prie %s"
+msgstr "Prisijungta prie %s!"
 
 #: clientgui/CompletionPage.cpp:303
 #, c-format
 #, c-format
-#, fuzzy
 msgid "You are now successfully attached to the %s system."
-msgstr ""
-"Jūs sėkmingai prisijungėtė prie %s sistemos.\n"
-"%s"
+msgstr "Sėkmingai prisijungėte prie %s sistemos."
 
 #: clientgui/CompletionPage.cpp:307
 msgid "You are now successfully attached to this account manager."
-msgstr "Jūs sėkmingai prisiungėte prie abonemento valdiklio."
+msgstr "Sėkmingai prisijungėte prie abonemento valdiklio."
 
 #: clientgui/ctest.cpp:154
 #: clientgui/ctest.cpp:158
@@ -943,12 +939,11 @@ msgid "Copyright:"
 msgstr "Copyright:"
 
 #: clientgui/DlgAbout.cpp:175
-#, fuzzy
 msgid ""
 "(C) 2003-2008 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2007 University of California, Berkeley.\n"
+"(C) 2003-2009 University of California, Berkeley.\n"
 "Visos teisės saugomos."
 
 #: clientgui/DlgAbout.cpp:179
@@ -981,9 +976,8 @@ msgid "invalid input value detected"
 msgstr ""
 
 #: clientgui/DlgAdvPreferences.cpp:587
-#, fuzzy
 msgid "Validation Error"
-msgstr "Tikrinimo konfliktas"
+msgstr "Patikrinimo klaida"
 
 #: clientgui/DlgAdvPreferences.cpp:730
 msgid "Do you really want to clear all local preferences ?"
@@ -1019,18 +1013,16 @@ msgid "Computing allowed"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:77
-#, fuzzy
 msgid " While computer is on batteries"
-msgstr "kai kompiuteris veikia iš baterijų"
+msgstr "Kai kompiuteris veikia iš baterijų"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:79
 msgid "check this if you want this computer to do work while it runs on batteries"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:83
-#, fuzzy
 msgid " While computer is in use"
-msgstr "kai kompiuteris naudojamas"
+msgstr "Kai kompiuteris naudojamas"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:85
 msgid "check this if you want this computer to do work even when you're using it"
@@ -1052,9 +1044,8 @@ msgstr "minutes"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:114
 #: clientgui/DlgAdvPreferencesBase.cpp:338
-#, fuzzy
 msgid "Every day between hours of"
-msgstr "kiekvieną dieną tarp"
+msgstr "Kiekvieną dieną tarp"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:118
 msgid "start work at this time"
