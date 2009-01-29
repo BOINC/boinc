@@ -104,7 +104,7 @@ function show_participate() {
         <p>
         ".sprintf(
             tra("Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "),
-            "<a href=\"trac/wiki/AccountManagers\">",
+            "<a href=\"wiki/Account_managers\">",
             "</a>",
             "<a href=\"http://www.gridrepublic.org\">",
             "</a>",

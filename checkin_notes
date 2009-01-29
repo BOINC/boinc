@@ -903,3 +903,10 @@ David  29 Jan 2009
 		work_fetch.cpp
 	clientgui/
 		DlgItemProperties.cpp
+
+David  29 Jan 2009
+    - scheduler: get effective RAM sizes and running fraction just once
+
+    sched/
+        sched_send.cpp
+        server_types.h

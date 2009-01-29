@@ -147,6 +147,9 @@ struct WORK_REQ {
     bool rsc_spec_request;
 
     double disk_available;
+    double ram, usable_ram;
+    double running_frac;
+    double dcf;
     int nresults;
 
     // The following keep track of the "easiest" job that was rejected

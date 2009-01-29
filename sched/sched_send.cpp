@@ -466,16 +466,8 @@ static double estimate_duration_unscaled(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     return rsc_fpops_est/bav.host_usage.flops;
 }
 
-// estimate the amount of real time to complete this WU,
-// taking into account active_frac etc.
-// Note: don't factor in resource_share_fraction.
-// The core client no longer necessarily does round-robin
-// across all projects.
-//
-double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
-    double edu = estimate_duration_unscaled(wu, bav);
+static inline void get_running_frac() {
     double rf;
-
     if (g_request->core_client_version<=419) {
         rf = g_reply->host.on_frac;
     } else {
@@ -485,31 +477,50 @@ double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     // clamp running_frac and DCF to a reasonable range
     //
     if (rf > 1) {
-        log_messages.printf(MSG_NORMAL, "running_frac=%f; setting to 1\n", rf);
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL, "running_frac=%f; setting to 1\n", rf);
+        }
         rf = 1;
     } else if (rf < .1) {
-        log_messages.printf(MSG_NORMAL, "running_frac=%f; setting to 0.1\n", rf);
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL, "running_frac=%f; setting to 0.1\n", rf);
+        }
         rf = .1;
     }
-    double ed = edu/rf;
-    if (!config.ignore_dcf) {
-        double dcf = g_reply->host.duration_correction_factor;
-        if (dcf > 10) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] DCF=%f; setting to 10\n", dcf
-                );
-            }
-            dcf = 10;
-        } else if (dcf < 0.1) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] DCF=%f; setting to 0.1\n", dcf
-                );
-            }
-            dcf = 0.1;
+    g_wreq->running_frac = rf;
+}
+
+static inline void get_dcf() {
+    double dcf = g_reply->host.duration_correction_factor;
+    if (dcf > 10) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] DCF=%f; setting to 10\n", dcf
+            );
         }
-        ed *= dcf;
+        dcf = 10;
+    } else if (dcf < 0.1) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] DCF=%f; setting to 0.1\n", dcf
+            );
+        }
+        dcf = 0.1;
+    }
+    g_wreq->dcf = dcf;
+}
+
+// estimate the amount of real time to complete this WU,
+// taking into account active_frac etc.
+// Note: don't factor in resource_share_fraction.
+// The core client no longer necessarily does round-robin
+// across all projects.
+//
+double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
+    double edu = estimate_duration_unscaled(wu, bav);
+    double ed = edu/g_wreq->running_frac;
+    if (!config.ignore_dcf) {
+        ed *= g_wreq->dcf;
     }
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
@@ -620,33 +631,29 @@ bool app_not_selected(WORKUNIT& wu) {
 }
 
 // see how much RAM we can use on this machine
-// TODO: compute this once, not once per job
 //
-static inline void get_mem_sizes(double& ram, double& usable_ram) {
-    ram = g_reply->host.m_nbytes;
-    if (ram <= 0) ram = DEFAULT_RAM_SIZE;
-    usable_ram = ram;
+static inline void get_mem_sizes() {
+    g_wreq->ram = g_reply->host.m_nbytes;
+    if (g_wreq->ram <= 0) g_wreq->ram = DEFAULT_RAM_SIZE;
+    g_wreq->usable_ram = g_wreq->ram;
     double busy_frac = g_request->global_prefs.ram_max_used_busy_frac;
     double idle_frac = g_request->global_prefs.ram_max_used_idle_frac;
     double frac = 1;
     if (busy_frac>0 && idle_frac>0) {
         frac = std::max(busy_frac, idle_frac);
         if (frac > 1) frac = 1;
-        usable_ram *= frac;
+        g_wreq->usable_ram *= frac;
     }
 }
 
 static inline int check_memory(WORKUNIT& wu) {
-    double ram, usable_ram;
-    get_mem_sizes(ram, usable_ram);
-
-    double diff = wu.rsc_memory_bound - usable_ram;
+    double diff = wu.rsc_memory_bound - g_wreq->usable_ram;
     if (diff > 0) {
         char message[256];
         sprintf(message,
             "%s needs %0.2f MB RAM but only %0.2f MB is available for use.",
             find_user_friendly_name(wu.appid),
-            wu.rsc_memory_bound/MEGA, usable_ram/MEGA
+            wu.rsc_memory_bound/MEGA, g_wreq->usable_ram/MEGA
         );
         USER_MESSAGE um(message,"high");
         g_wreq->insert_no_work_message(um);
@@ -655,7 +662,7 @@ static inline int check_memory(WORKUNIT& wu) {
             log_messages.printf(MSG_NORMAL,
                 "[send] [WU#%d %s] needs %0.2fMB RAM; [HOST#%d] has %0.2fMB, %0.2fMB usable\n",
                 wu.id, wu.name, wu.rsc_memory_bound/MEGA,
-                g_reply->host.id, ram/MEGA, usable_ram/MEGA
+                g_reply->host.id, g_wreq->ram/MEGA, g_wreq->usable_ram/MEGA
             );
         }
         g_wreq->mem.set_insufficient(wu.rsc_memory_bound);
@@ -1563,6 +1570,9 @@ void send_work() {
     }
 
     g_wreq->disk_available = max_allowable_disk();
+    get_mem_sizes();
+    get_running_frac();
+    get_dcf();
 
     if (all_apps_use_hr && hr_unknown_platform(g_request->host)) {
         log_messages.printf(MSG_NORMAL,
