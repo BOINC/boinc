@@ -864,3 +864,10 @@ Charlie Jan 28 2009
 
     lib/
         gui_rpc_client_ops.cpp
+
+Rom    Jan 29 2009
+    - MGR: Provide a way for skin creators to suppress error messages for
+        missing resources.
+        
+    clientgui/
+        SkinManager.cpp

@@ -1426,6 +1426,7 @@ int CSkinManager::Parse(MIOFILE& in, wxString strDesiredLocale) {
 
     // Look for the begining of the desired locale.
     while (in.fgets(buf, 256)) {
+        if (parse_bool(buf, "completed", disable_error_msgs)) continue;
         if (match_tag(buf, (const char*)strLocaleStartTag.mb_str(wxConvUTF8))) {
             bLocaleFound = true;
             break;
