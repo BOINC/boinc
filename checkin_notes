@@ -910,3 +910,9 @@ David  29 Jan 2009
     sched/
         sched_send.cpp
         server_types.h
+
+David  29 Jan 2009
+	- client: update LTD correctly
+
+	client/
+		work_fetch.cpp

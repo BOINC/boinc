@@ -410,11 +410,16 @@ void RSC_WORK_FETCH::update_debts() {
     double max_debt = 0;
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
+        if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
         if (w.debt_eligible(p)) {
             w.debt -= offset;
         }
-        if (w.debt > max_debt) max_debt = w.debt;
+        if (i) {
+            if (w.debt > max_debt) max_debt = w.debt;
+        } else {
+            max_debt = w.debt;
+        }
     }
 
     // Add an offset so max debt is zero across all projects.
@@ -425,6 +430,7 @@ void RSC_WORK_FETCH::update_debts() {
 	}
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
+        if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
         w.debt -= max_debt;
     }
