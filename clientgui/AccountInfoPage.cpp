@@ -267,12 +267,14 @@ wxIcon CAccountInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
-	PROJECT_CONFIG&        pc = ((CBOINCBaseWizard*)GetParent())->project_config;
+    PROJECT_CONFIG&        pc = ((CBOINCBaseWizard*)GetParent())->project_config;
     CSkinAdvanced*         pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CSkinWizardATAM*       pSkinWizardATAM = wxGetApp().GetSkinManager()->GetWizards()->GetWizardATAM();
     CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
     CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
-
+    wxString               strBaseConfigLocation = wxString(wxT("/Wizards"));
+    wxConfigBase*          pConfig = wxConfigBase::Get(FALSE);
+ 
     wxASSERT(pSkinAdvanced);
     wxASSERT(pSkinWizardATAM);
     wxASSERT(m_pTitleStaticCtrl);
@@ -292,6 +294,12 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(wxDynamicCast(pSkinWizardATAM, CSkinWizardATAM));
 
 
+    // We are entering this page, so reterieve the previously used email
+    // address.
+    pConfig->SetPath(strBaseConfigLocation);
+    m_strAccountEmailAddress = pConfig->Read(wxT("DefaultEmailAddress"));
+
+    // Setup the desired controls and default values.
     static bool bRunOnce = true;
     if (bRunOnce) {
         bRunOnce = false;
@@ -414,6 +422,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             _("&Email address:")
         );
         m_pAccountEmailAddressCtrl->SetValidator( CValidateEmailAddress(& m_strAccountEmailAddress) );
+        m_pAccountEmailAddressCtrl->SetValue(m_strAccountEmailAddress);
     }
 
     if (pc.min_passwd_length) {
@@ -449,9 +458,20 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event )
 {
     if (event.GetDirection() == false) return;
- 
+
+    wxString               strTitle;
+    wxString               strMessage = wxT("");
+    bool                   bDisplayError = false;
+    wxString               strBaseConfigLocation = wxString(wxT("/Wizards"));
+    wxConfigBase*          pConfig = wxConfigBase::Get(FALSE);
+
     if (!CHECK_CLOSINGINPROGRESS()) {
-        wxString strTitle;
+        // We are leaving this page, so store the email address for future
+        // use.
+        pConfig->SetPath(strBaseConfigLocation);
+        pConfig->Write(wxT("DefaultEmailAddress"), m_strAccountEmailAddress);
+
+        // Construct potiental dialog title
         if (IS_ATTACHTOPROJECTWIZARD()) {
             strTitle = _("Attach to project");
         } else if (IS_ACCOUNTMANAGERWIZARD() && IS_ACCOUNTMANAGERUPDATEWIZARD()) {
@@ -459,8 +479,6 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event )
         } else if (IS_ACCOUNTMANAGERWIZARD()) {
             strTitle = _("Attach to account manager");
         }
-        wxString strMessage = wxT("");
-        bool     bDisplayError = false;
  
         // Verify minimum password length
         unsigned int iMinLength = ((CBOINCBaseWizard*)GetParent())->project_config.min_passwd_length;
