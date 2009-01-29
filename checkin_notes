@@ -893,3 +893,13 @@ David  29 Jan 2009
         user/
             hosts_user.php
             show_coproc.php
+
+David  29 Jan 2009
+	- client: if user requests RPC, do it even if project is backed off
+	- manager: show backoff interval correctly
+
+	client/
+		cs_scheduler.cpp
+		work_fetch.cpp
+	clientgui/
+		DlgItemProperties.cpp

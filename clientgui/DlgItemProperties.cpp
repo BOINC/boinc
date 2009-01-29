@@ -108,7 +108,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 	addProperty(_("Team name"),wxString(project->team_name.c_str(),wxConvUTF8));
 	addProperty(_("Resource share"),wxString::Format(wxT("%0.0f"),project->resource_share));
     if (project->min_rpc_time > dtime()) {
-		addProperty(_("Scheduler RPC deferred for"), FormatTime(dtime() - project->min_rpc_time));
+		addProperty(_("Scheduler RPC deferred for"), FormatTime(project->min_rpc_time - dtime()));
     }
 	addProperty(_("Disk usage"),FormatDiskSpace(diskusage));
 	addProperty(_("Non CPU intensive"),project->non_cpu_intensive ? _("yes") : _("no"));
