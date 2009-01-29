@@ -878,3 +878,18 @@ Rom    Jan 29 2009
     
     clientgui/
         AccountInfoPage.cpp
+
+David  29 Jan 2009
+    - web: anywhere we show info about a host, show its GPUs too
+    - web: add script to parse GPU completed-job log
+        and generate summary data;
+        also add page to display this data.
+
+    html/
+        inc/
+            host.inc
+        ops/
+            analyze_coproc_log.php
+        user/
+            hosts_user.php
+            show_coproc.php

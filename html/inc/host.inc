@@ -94,9 +94,9 @@ function show_host($host, $user, $ipprivate) {
     row2("Total Credit", format_credit_large($host->total_credit));
     row2("Avg. credit", format_credit($host->expavg_credit));
     row2("CPU type", "$host->p_vendor <br> $host->p_model");
-    row2("Number of CPUs", $host->p_ncpus);
+    row2("Number of processors", $host->p_ncpus);
     if ($host->serialnum) {
-        row2("Coprocessors", $host->serialnum);
+        row2("Coprocessors", gpu_desc($host->serialnum));
     }
     row2("Operating System", "$host->os_name <br> $host->os_version");
     $x = $host->m_nbytes/(1024*1024);
@@ -199,7 +199,8 @@ function top_host_table_start($sort_by) {
         ";
     }
     echo "
-        <th>CPU type</th>
+        <th>CPU</th>
+        <th>GPU</th>
         <th>Operating system</th>
         </tr>
     ";
@@ -207,6 +208,24 @@ function top_host_table_start($sort_by) {
 
 function host_nresults($host) {
     return BoincResult::count("hostid=$host->id");
+}
+
+// format a GPU description string of the form [type|model|number|RAM]
+//
+function gpu_desc($x) {
+    if (!$x) return "";
+    $x = substr($x, 1, -1);
+    $y = explode("|", $x);
+    $z = "";
+    if ($y[2]!="" && $y[2]!="1") $z = "[".$y[2]."] ";
+    if ($y[0] == "CUDA") $z .= "NVIDIA ";
+    $z .= $y[1];
+    $z .= " (".$y[3].")";
+    return $z;
+}
+
+function cpu_desc($host) {
+    return "$host->p_vendor<br>$host->p_model<br>($host->p_ncpus processors)\n";
 }
 
 // If private is true, we're showing the host to its owner,
@@ -240,10 +259,12 @@ function show_host_row($host, $i, $private, $show_owner) {
         printf("
             <td>%s</td>
             <td>%s</td>
-            <td>%s <br> %s</td>
+            <td>%s</td>
+            <td>%s</td>
             <td>%s <br> %s</td>",
                format_credit($host->expavg_credit), format_credit_large($host->total_credit),
-               $host->p_vendor, $host->p_model,
+               cpu_desc($host),
+               gpu_desc($host->serialnum),
                $host->os_name, $host->os_version
         );
     } else {
@@ -251,7 +272,8 @@ function show_host_row($host, $i, $private, $show_owner) {
         //
         echo "<td align=right>", format_credit($host->expavg_credit), "</td>\n";
         echo "<td align=right>", format_credit_large($host->total_credit), "</td>\n";
-        echo "<td>$host->p_vendor<br><span class=note>$host->p_model</span></td>\n";
+        echo "<td>".cpu_desc($host)."</td>\n";
+        echo "<td>".gpu_desc($host->serialnum)."</td>\n";
         echo "<td>$host->os_name<br><span class=note>$host->os_version</span></td>\n";
         echo "<td>".sched_log_link($host->rpc_time)."</td>\n";
     }
