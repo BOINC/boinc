@@ -22,6 +22,9 @@
 #pragma interface "AccountManagerInfoPage.cpp"
 #endif
 
+class CProjectListCtrl;
+class ProjectListCtrlEvent;
+
 /*!
  * CAccountManagerInfoPage class declaration
  */
@@ -50,6 +53,9 @@ public:
 
     /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ACCOUNTMANAGERINFOPAGE
     void OnPageChanging( wxWizardExEvent& event );
+
+    /// wxEVT_PROJECTLISTCTRL_SELECTION_CHANGED event handler for ID_PROJECTSELECTIONCTRL
+    void OnAccountManagerSelectionChanged( ProjectListCtrlEvent& event );
 
     /// wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTMANAGERINFOPAGE
     void OnCancel( wxWizardExEvent& event );
@@ -80,13 +86,13 @@ public:
 ////@begin CAccountManagerInfoPage member variables
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDescriptionStaticCtrl;
-    wxStaticText* m_pDescription2StaticCtrl;
+    CProjectListCtrl* m_pProjectListCtrl;
     wxStaticText* m_pProjectUrlStaticCtrl;
     wxTextCtrl* m_pProjectUrlCtrl;
-    wxStaticText* m_pBOINCPromoStaticCtrl;
-    wxHyperLink* m_pBOINCPromoUrlCtrl;
     wxString m_strProjectURL;
 ////@end CAccountManagerInfoPage member variables
+    bool                m_bAccountManagerListPopulated;
+    ALL_PROJECTS_LIST   m_pl;
 };
 
 #endif // _WIZ_ACCOUNTMANAGERINFOPAGE_H_

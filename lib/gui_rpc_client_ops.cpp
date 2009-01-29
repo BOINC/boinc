@@ -715,7 +715,11 @@ void ALL_PROJECTS_LIST::clear() {
     for (i=0; i<projects.size(); i++) {
         delete projects[i];
     }
+    for (i=0; i<account_managers.size(); i++) {
+        delete account_managers[i];
+    }
     projects.clear();
+    account_managers.clear();
 }
 
 PROJECTS::~PROJECTS() {
@@ -1252,6 +1256,7 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
     bool is_tag;
     MIOFILE mf;
     PROJECT_LIST_ENTRY* project;
+    AM_LIST_ENTRY* am;
     RPC rpc(this);
 
     pl.clear();
@@ -1272,7 +1277,7 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
             }
             continue;
         } else if (!strcmp(tag, "account_manager")) {
-            AM_LIST_ENTRY* am = new AM_LIST_ENTRY();
+            am = new AM_LIST_ENTRY();
             retval = am->parse(xp);
             if (!retval) {
                 am->rand = drand();

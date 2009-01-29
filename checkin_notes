@@ -916,3 +916,15 @@ David  29 Jan 2009
 
 	client/
 		work_fetch.cpp
+
+Rom    29 Jan 2009
+    - MGR: Add a virtual list box to display available account managers.
+    
+    clientgui/
+        AccountManagerInfoPage.cpp, .h
+        AccountManagerProcessingPage.cpp
+        AccountManagerPropertiesPage.cpp
+        ProjectInfoPage.cpp, .h
+        WizardAccountManager.cpp
+    lib/
+        gui_rpc_client_ops.cpp

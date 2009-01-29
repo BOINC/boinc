@@ -35,6 +35,7 @@
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "BOINCBaseFrame.h"
+#include "ProjectListCtrl.h"
 #include "WizardAccountManager.h"
 #include "WelcomePage.h"
 #include "AccountManagerInfoPage.h"
