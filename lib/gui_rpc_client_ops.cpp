@@ -136,6 +136,7 @@ int AM_LIST_ENTRY::parse(XML_PARSER& xp) {
         if (xp.parse_string(tag, "description", description)) continue;
         if (xp.parse_string(tag, "image", image)) continue;
     }
+    return 0;
 }
 
 void PROJECT_LIST_ENTRY::clear() {

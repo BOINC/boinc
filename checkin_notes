@@ -858,3 +858,9 @@ David  28 Jan 2009
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+
+Charlie Jan 28 2009
+    - GUI RPC: Fix compiler warning (missing return value).
+
+    lib/
+        gui_rpc_client_ops.cpp
