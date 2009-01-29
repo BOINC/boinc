@@ -28,7 +28,7 @@ $choice0 = array(
     "other_name" => null,
 );
 $choice1 = array(
-    "text" => tra(POLL_LAPSED),
+    "text" => tra("No - I used to run BOINC, but..."),
     "rname" => "lapsed",
     "options" => array(
         "linterest" => tra("I lost interest"),

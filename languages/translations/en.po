@@ -46,6 +46,9 @@ msgstr ""
 msgid "I switched to a non-BOINC computing project"
 msgstr ""
 
+msgid "No - I used to run BOINC, but..."
+msgstr ""
+
 msgid "No - I tried running BOINC, but..."
 msgstr ""
 

@@ -28,8 +28,7 @@ echo "
 ".tra("The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer.  You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."),"
 
 <p>
-".tra("Volunteers speaking several languages are available. "
-    "Please select a language:"),"
+".tra("Volunteers speaking several languages are available. Please select a language:"),"
 <p>
 ";
 
