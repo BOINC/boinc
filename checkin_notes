@@ -951,3 +951,45 @@ Charlie Jan 30 2009
     clientgui/
         BOINCGUIApp.cpp, .h
         SkinManager.cpp, .h
+
+David  30 Jan 2009
+    - Work fetch / scheduler:
+        There are two mechanisms to prevent the scheduler from
+        sending jobs that won't finish by their deadline.
+        Simple mechanism:
+            The client sends the interval x for which CPUs are projected
+            to be saturated.
+            Given a job with estimated duration y,
+            the scheduler doesn't send it if x + y exceeds the delay bound.
+            If it does send it, x is incremented by y.
+        Complex mechanism:
+            Client sends workload description.
+            Scheduler does EDF simulation, sees if deadlines are missed.
+            The only project using this AFAIK is BOINC alpha test.
+        Neither of these mechanisms takes coprocessors into account,
+        and as a result jobs could be sent that are doomed to
+        miss their deadline.
+        This checkin adds coprocessor awareness to the Simple mechanism.
+
+        Changes:
+        Client:
+            compute estimated delay (i.e. time until non-saturation)
+            for coprocessors as well as CPU.
+            Send them in scheduler request as part of coproc descriptor.
+        Scheduler:
+            Keep track of estimated delays separately for different resources
+    - client: fixed bug that computed CPU estimated delay incorrectly
+    - client: the work request (req_secs) for a resource is the min
+        of the project's share and the shortfall.
+
+    client/
+        cs_scheduler.cpp
+        rr_sim.cpp
+        work_fetch.cpp,h
+    html/inc/
+        translation.inc
+    lib/
+        coproc.cpp,h
+    sched/
+        sched_send.cpp
+        server_types.cpp,h

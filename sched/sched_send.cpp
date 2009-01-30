@@ -724,6 +724,22 @@ static inline bool hard_app(APP& app) {
     return (app.weight == -1);
 }
 
+static inline double get_estimated_delay(BEST_APP_VERSION& bav) {
+    if (bav.host_usage.cuda_instances()) {
+        return g_request->coproc_cuda->estimated_delay;
+    } else {
+        return g_request->cpu_estimated_delay;
+    }
+}
+
+static inline void update_estimated_delay(BEST_APP_VERSION& bav, double dt) {
+    if (bav.host_usage.cuda_instances()) {
+        g_request->coproc_cuda->estimated_delay += dt;
+    } else {
+        g_request->cpu_estimated_delay += dt;
+    }
+}
+
 static inline int check_deadline(
     WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav
 ) {
@@ -733,7 +749,7 @@ static inline int check_deadline(
     // and it's not a hard app.
     // (i.e. everyone gets one result, no matter how slow they are)
     //
-    if (g_request->estimated_delay == 0 && !hard_app(app)) return 0;
+    if (get_estimated_delay(bav) == 0 && !hard_app(app)) return 0;
 
     // if it's a hard app, don't send it to a host with no credit
     //
@@ -760,7 +776,7 @@ static inline int check_deadline(
     } else {
         double ewd = estimate_duration(wu, bav);
         if (hard_app(app)) ewd *= 1.3;
-        double est_completion_delay = g_request->estimated_delay + ewd;
+        double est_completion_delay = get_estimated_delay(bav) + ewd;
         double est_report_delay = max(est_completion_delay, g_request->global_prefs.work_buf_min());
         double diff = est_report_delay - wu.delay_bound;
         if (diff > 0) {
@@ -1203,7 +1219,7 @@ int add_result_to_reply(DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp)
     } else {
         g_wreq->seconds_to_fill -= est_dur;
     }
-    g_request->estimated_delay += est_dur;
+    update_estimated_delay(*bavp, est_dur);
     g_wreq->nresults++;
     g_wreq->nresults_on_host++;
     if (!resent_result) g_reply->host.nresults_today++;
@@ -1560,6 +1576,9 @@ void send_work() {
         if (g_request->coproc_cuda) {
             g_wreq->cuda_req_secs = clamp_req_sec(g_request->coproc_cuda->req_secs);
             g_wreq->cuda_req_instances = g_request->coproc_cuda->req_instances;
+            if (g_request->coproc_cuda->estimated_delay < 0) {
+                g_request->coproc_cuda->estimated_delay = g_request->cpu_estimated_delay;
+            }
         }
     }
     if (g_wreq->cpu_req_secs || g_wreq->cuda_req_secs) {
@@ -1589,13 +1608,17 @@ void send_work() {
 
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
-            "[send] CPU: req %.2f sec, %.2f instances\n",
-            g_wreq->cpu_req_secs, g_wreq->cpu_req_instances
+            "[send] CPU: req %.2f sec, %.2f instances; est delay %.2f\n",
+            g_wreq->cpu_req_secs, g_wreq->cpu_req_instances,
+            g_request->cpu_estimated_delay
         );
-        log_messages.printf(MSG_NORMAL,
-            "[send] CUDA: req %.2f sec, %.2f instances\n",
-            g_wreq->cuda_req_secs, g_wreq->cuda_req_instances
-        );
+        if (g_request->coproc_cuda) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] CUDA: req %.2f sec, %.2f instances; est delay %.2f\n",
+                g_wreq->cuda_req_secs, g_wreq->cuda_req_instances,
+                g_request->coproc_cuda->estimated_delay
+            );
+        }
         log_messages.printf(MSG_NORMAL,
             "[send] work_req_seconds: %.2f secs\n",
             g_wreq->seconds_to_fill
@@ -1611,11 +1634,10 @@ void send_work() {
             (int)g_request->global_prefs.work_buf_min()
         );
         log_messages.printf(MSG_NORMAL,
-            "[send] active_frac %f on_frac %f DCF %f est delay %d\n",
+            "[send] active_frac %f on_frac %f DCF %f\n",
             g_reply->host.active_frac,
             g_reply->host.on_frac,
-            g_reply->host.duration_correction_factor,
-            (int)g_request->estimated_delay
+            g_reply->host.duration_correction_factor
         );
     }
 

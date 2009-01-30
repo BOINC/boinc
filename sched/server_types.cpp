@@ -156,7 +156,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     resource_share_fraction = 1.0;
     rrs_fraction = 1.0;
     prrs_fraction = 1.0;
-    estimated_delay = 0;
+    cpu_estimated_delay = 0;
     strcpy(global_prefs_xml, "");
     strcpy(working_global_prefs_xml, "");
     strcpy(code_sign_key, "");
@@ -224,7 +224,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         if (parse_double(buf, "<resource_share_fraction>", resource_share_fraction)) continue;
         if (parse_double(buf, "<rrs_fraction>", rrs_fraction)) continue;
         if (parse_double(buf, "<prrs_fraction>", prrs_fraction)) continue;
-        if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
+        if (parse_double(buf, "<estimated_delay>", cpu_estimated_delay)) continue;
         if (parse_double(buf, "<duration_correction_factor>", host.duration_correction_factor)) continue;
         if (match_tag(buf, "<global_preferences>")) {
             strcpy(global_prefs_xml, "<global_preferences>\n");
@@ -411,7 +411,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         resource_share_fraction,
         rrs_fraction,
         prrs_fraction,
-        estimated_delay,
+        cpu_estimated_delay,
         code_sign_key,
         anonymous_platform?"true":"false"
     );

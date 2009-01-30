@@ -129,7 +129,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         resource_share_fraction,
         rrs_fraction,
         prrs_fraction,
-        work_fetch.estimated_delay,
+        cpu_work_fetch.estimated_delay,
         p->duration_correction_factor,
         g_use_sandbox?1:0
     );

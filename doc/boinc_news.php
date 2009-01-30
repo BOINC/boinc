@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("January 29, 2009",
+    "Scientists: it's easier than ever to create a BOINC project -
+    you don't even need a server!
+    Instead, you can use the Amazon Elastic Computing Cloud,
+    with a <a href=http://boinc.berkeley.edu/trac/wiki/CloudServer>virtual machine image</a> created by Derrick Kondo of INRIA."
+),
 array("January 28, 2009",
     "<a href=http://www.extremadurathome.org/extremadurathome/>Extremadura@home</a> is a new kind of account manager in which the choice of projects
     is a group decision.  It's targeted at Spanish computer owners

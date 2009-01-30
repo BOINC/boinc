@@ -309,9 +309,9 @@ struct SCHEDULER_REQUEST {
         // ... of runnable resource share
     double prrs_fraction;
         // ... of potentially runnable resource share
-    double estimated_delay;
-        // how many wall-clock seconds will elapse before
-        // host will begin any new work for this project
+    double cpu_estimated_delay;
+        // currently queued jobs saturate the CPU for this long;
+        // used for crude deadline check
     double duration_correction_factor;
     char global_prefs_xml[BLOB_SIZE];
     char working_global_prefs_xml[BLOB_SIZE];

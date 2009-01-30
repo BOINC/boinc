@@ -95,6 +95,9 @@ struct RSC_WORK_FETCH {
         // total RS of projects from which we could fetch jobs for this device
     double total_runnable_share;
         // total RS of projects with runnable jobs for this device
+    double estimated_delay;
+        // estimated time until resource not saturated.
+        // Passed to scheduler for crude deadline check
 
     // the following specify the work request for this resource
     //
@@ -109,6 +112,7 @@ struct RSC_WORK_FETCH {
 
     void rr_init();
     void accumulate_shortfall(double d_time, double nused=0);
+    void update_estimated_delay(double dt, double nused);
     PROJECT* choose_project(bool urgent);
     void accumulate_debt();
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);
@@ -138,7 +142,6 @@ struct PROJECT_WORK_FETCH {
 // global work fetch state
 //
 struct WORK_FETCH {
-    double estimated_delay;
     void set_overall_debts();
     PROJECT* choose_project();
         // find a project to ask for work

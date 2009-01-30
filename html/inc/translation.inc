@@ -150,14 +150,15 @@ function tra($text /* ...arglist... */){
     global $language_lookup_array, $languages_in_use;
     
     // Find the string in the user's language
+    //
     foreach ($languages_in_use as $language){
         if (isset($language_lookup_array[$language][$text])) {
             $text = $language_lookup_array[$language][$text];
             break;
         } else if ($language=="en"){ 
-	    // This language is defined in the code and is always available
-	    break;
-	}
+            // This language is defined in the code and is always available
+            break;
+        }
     }
 
     // Replace relevant substrings with given arguments    
@@ -261,7 +262,7 @@ for ($i=0; $i<sizeof($client_languages); $i++) {
     if (file_exists($file_name)) {
         if (!in_array($language, $languages_in_use)){
             require_once($file_name);
-                $languages_in_use[] = $language;
+            $languages_in_use[] = $language;
         }
     }
     if ($language2) {
