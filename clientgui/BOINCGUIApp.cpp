@@ -541,7 +541,7 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     if (parser.Found(wxT("insecure"))) {
         g_use_sandbox = false;
     }
-    if (parser.Found(wxT("checkSkins"))) {
+    if (parser.Found(wxT("checkskins"))) {
         m_bDebugSkins = true;
     }
 
