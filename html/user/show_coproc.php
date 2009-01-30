@@ -73,7 +73,7 @@ function show_row($x, $y, $mode, $i) {
         echo $x;
         break;
     }
-    echo "</td><td align=right>".format_credit($y->credit),"</td><td align=right>$y->nresults</td></tr>\n";
+    echo "</td><td align=right>".format_credit_large($y->credit),"</td><td align=right>$y->nresults</td></tr>\n";
 }
 
 $mode = get_str('mode');

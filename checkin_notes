@@ -999,3 +999,12 @@ David  30 Jan 2009
 
     client/
         rr_sim.cpp
+
+David  30 Jan 2009
+    - scheduler: show message whether miss or meet deadline
+
+    html/user/
+        show_coproc.php
+        top_users.php
+    sched/
+        sched_send.cpp

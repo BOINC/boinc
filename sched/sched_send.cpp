@@ -788,6 +788,13 @@ static inline int check_deadline(
             }
             g_reply->wreq.speed.set_insufficient(diff);
             return INFEASIBLE_CPU;
+        } else {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [WU#%d] meets deadline: %f + %f < %d\n",
+                    wu.id, get_estimated_delay(bav), ewd, wu.delay_bound
+                );
+            }
         }
     }
     return 0;
@@ -1569,16 +1576,16 @@ void send_work() {
     g_wreq->cpu_req_instances = g_request->cpu_req_instances;
     g_wreq->anonymous_platform = anonymous(g_request->platforms.list[0]);
 
-    // if anonymous platform, ignore coprocessor requests
-    // since app versions are assumed to be CPU
-    //
-    if (!g_wreq->anonymous_platform) {
-        if (g_request->coproc_cuda) {
+    if (g_request->coproc_cuda) {
+        // if anonymous platform, ignore coprocessor requests
+        // since app versions are assumed to be CPU
+        //
+        if (!g_wreq->anonymous_platform) {
             g_wreq->cuda_req_secs = clamp_req_sec(g_request->coproc_cuda->req_secs);
             g_wreq->cuda_req_instances = g_request->coproc_cuda->req_instances;
-            if (g_request->coproc_cuda->estimated_delay < 0) {
-                g_request->coproc_cuda->estimated_delay = g_request->cpu_estimated_delay;
-            }
+        }
+        if (g_request->coproc_cuda->estimated_delay < 0) {
+            g_request->coproc_cuda->estimated_delay = g_request->cpu_estimated_delay;
         }
     }
     if (g_wreq->cpu_req_secs || g_wreq->cuda_req_secs) {

@@ -70,7 +70,7 @@ function show_user_row($user, $i) {
         <tr class=row1>
         <td>$i</td>
         <td>", user_links($user), "</td>
-        <td align=right>", format_credit($user->expavg_credit), "</td>
+        <td align=right>", format_credit_large($user->expavg_credit), "</td>
         <td align=right>", format_credit_large($user->total_credit), "</td>
         <td>", $user->country, "</td>
         <td>", time_str($user->create_time),"</td>
