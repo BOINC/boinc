@@ -95,6 +95,7 @@ protected:
 
     bool                m_bGUIVisible;
     int                 m_iGUISelected;
+    bool                m_bDebugSkins;
 
 #ifdef __WXMSW__
     HINSTANCE           m_hClientLibraryDll;
