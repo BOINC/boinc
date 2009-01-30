@@ -935,3 +935,10 @@ Rom    29 Jan 2009
         
     clientgui/
         ProjectInfoPage.cpp, .h
+
+Charlie Jan 29 2009
+    - MGR: call UpdateSelection() from OnListRender() instead of from 
+        RestoreSelections().  Fixes #837.
+
+    clientgui/
+        BOINCBaseView.cpp

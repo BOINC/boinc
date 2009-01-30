@@ -321,7 +321,7 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
         
         // Find the previously selected items by their key values and reselect them
         RestoreSelections();
-//        UpdateSelection();    // This was called by RestoreSelections() if needed
+        UpdateSelection();
         
         m_bProcessingListRenderEvent = false;
     }
@@ -679,8 +679,7 @@ void CBOINCBaseView::RestoreSelections() {
     m_bIgnoreUIEvents = false;
     
     if (oldCount != newCount) {
-        m_bForceUpdateSelection = true;
-        UpdateSelection();
+        m_bForceUpdateSelection = true; // OnListRender() will call UpdateSelection()
     }
 }
 
