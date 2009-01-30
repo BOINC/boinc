@@ -993,3 +993,9 @@ David  30 Jan 2009
     sched/
         sched_send.cpp
         server_types.cpp,h
+
+David  30 Jan 2009
+    - client: computation of # idle CUDA instances was wrong
+
+    client/
+        rr_sim.cpp
