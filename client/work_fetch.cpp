@@ -163,9 +163,9 @@ void WORK_FETCH::set_overall_debts() {
 
 void RSC_WORK_FETCH::print_state(char* name) {
     msg_printf(0, MSG_INFO,
-        "[wfd] %s: shortfall %.2f nidle %.2f fetchable RS %.2f runnable RS %.2f",
+        "[wfd] %s: shortfall %.2f nidle %.2f est. delay %.2f RS fetchable %.2f runnable %.2f",
         name,
-        shortfall, nidle_now,
+        shortfall, nidle_now, estimated_delay,
         total_fetchable_share, total_runnable_share
     );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {

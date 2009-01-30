@@ -49,7 +49,6 @@ void COPROC::write_xml(MIOFILE& f) {
 }
 #endif
 
-#if 0
 int COPROC::parse(MIOFILE& fin) {
     char buf[1024];
     strcpy(type, "");
@@ -71,7 +70,6 @@ int COPROC::parse(MIOFILE& fin) {
     }
     return ERR_XML_PARSE;
 }
-#endif
 
 void COPROCS::summary_string(char* buf, int len) {
     char bigbuf[8192], buf2[1024];

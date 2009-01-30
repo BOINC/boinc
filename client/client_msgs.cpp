@@ -31,7 +31,7 @@ using std::deque;
 #include "client_types.h"
 #include "client_msgs.h"
 
-#define MAX_SAVED_MESSAGES 1000
+#define MAX_SAVED_MESSAGES 2000
 
 // a cache of MAX_SAVED_MESSAGES most recent messages,
 // stored in newest-first order

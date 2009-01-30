@@ -1008,3 +1008,13 @@ David  30 Jan 2009
         top_users.php
     sched/
         sched_send.cpp
+
+David  30 Jan 2009
+	- client: tweak work fetch messages
+    - client: buffer 2000 messages instead of 1000
+
+    client/
+        client_msgs.cpp
+        work_fetch.cpp
+    lib/
+        coproc.cpp
