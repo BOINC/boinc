@@ -942,3 +942,12 @@ Charlie Jan 29 2009
 
     clientgui/
         BOINCBaseView.cpp
+
+Charlie Jan 30 2009
+    - MGR: Suppress Skin Manager error messages by default; enable them 
+        only if the Manager is launched from the command line with an 
+        argument -c or --checkSkins.
+        
+    clientgui/
+        BOINCGUIApp.cpp, .h
+        SkinManager.cpp, .h
