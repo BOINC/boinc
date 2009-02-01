@@ -1025,3 +1025,34 @@ David  30 Jan 2009
     client/
         work_fetch.cpp
         scheduler_op.cpp
+
+David  31 Jan 2009
+    - client: there was a problem with how the round simulator
+        worked in the presence of coprocessors.
+        The simulator maintained per-project queues of pending jobs.
+        When a job finished (in the simulation) it would get
+        one or more jobs from that project's pending queue.
+
+        The problem: this could cause "holes" in the scheduling of GPUs,
+        and produce an erroneous nonzero shortfall for GPUs,
+        leading to infinite work fetch.
+
+        The solution: maintain a separate (per-resource, not per--project)
+        queue of pending coprocessor jobs.
+        When a coprocessor job finishes,
+        start pending jobs from the queue for that resource.
+
+        Another change: the simulator did strict reservation of coprocessors.
+        If there are 2 instances of CUDA,
+        and a 1-instance job is running in the simulation,
+        it wouldn't start an additional 2-instance job.
+        This also can cause erroneous nonzero shortfalls.
+
+        So instead, schedule coprocessors like CPUs, i.e. saturate them.
+        This can cause distorted completion time estimates,
+        but it's better than infinite work fetch.
+
+    client/
+        client_types.cpp,h
+        rr_sim.cpp,h
+        work_fetch.cpp,h
