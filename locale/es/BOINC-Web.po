@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-30 14:22-0000\n"
+"PO-Revision-Date: 2009-02-01 18:00-0000\n"
 "Last-Translator: David <davidcomp at telefonica dot-net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -44,223 +44,223 @@ msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Spanish"
 
 msgid "[check all that apply]"
-msgstr ""
+msgstr "[Marque todas las que correspondan]"
 
 msgid "Other:"
-msgstr ""
+msgstr "Otros:"
 
 msgid "Yes - I have been running BOINC on my computer for..."
 msgstr "Sí - he estado usando BOINC en mi ordenador durante..."
 
 msgid "less than a week"
-msgstr ""
+msgstr "menos de una semana"
 
 msgid "less than a month"
-msgstr ""
+msgstr "menos de un mes"
 
 msgid "less than a year"
-msgstr ""
+msgstr "menos de un año"
 
 msgid "more than a year"
-msgstr ""
+msgstr "más de un año"
 
 msgid "I lost interest"
-msgstr ""
+msgstr "perdí el interés"
 
 msgid "it was too complicated"
-msgstr ""
+msgstr "era demasiado complicado"
 
 msgid "I stopped it and forgot to start again"
-msgstr ""
+msgstr "lo detuve y me olvidé iniciarlo de nuevo"
 
 msgid "it caused problems on my computer"
-msgstr ""
+msgstr "causó problemas en mi computadora"
 
 msgid "it used too much electricity"
-msgstr ""
+msgstr "usaba demasiada electricidad"
 
 msgid "I switched to a non-BOINC computing project"
-msgstr ""
+msgstr "me cambié a un proyecto de cálculo no basado en BOINC"
 
 msgid "No - I used to run BOINC, but..."
-msgstr ""
+msgstr "No -  usaba BOINC, pero ya no lo hago porque..."
 
 msgid "No - I tried running BOINC, but..."
-msgstr ""
+msgstr "No - intenté ejecutar BOINC, pero..."
 
 msgid "the software didn't install correctly"
-msgstr ""
+msgstr "el programa no se instaló correctamente"
 
 msgid "I couldn't figure out how to use the software"
-msgstr ""
+msgstr "no pude averiguar cómo utilizar el programa"
 
 msgid "I had network communication problems"
-msgstr ""
+msgstr "tuve problemas con la conexión de red"
 
 msgid "I couldn't attach to a project"
-msgstr ""
+msgstr "no pude unirme a un proyecto"
 
 msgid "I attached to a project, but never got any work"
-msgstr ""
+msgstr "me uní a un proyecto, pero nunca recibí trabajo alguno"
 
 msgid "No - I never tried running BOINC, because..."
-msgstr ""
+msgstr "No - nunca intenté ejecutar BOINC, porque..."
 
 msgid "I was concerned about security"
-msgstr ""
+msgstr "me preocupó la seguridad"
 
 msgid "I wasn't interested in any of the projects"
-msgstr ""
+msgstr "no estaba interesado en ninguno de los proyectos"
 
 msgid "I don't have permission to run it on my computer"
-msgstr ""
+msgstr "no tengo permiso para ejecutarlo en mi ordenador"
 
 msgid "No version was available for my computer"
-msgstr ""
+msgstr "no había una versión disponible para mi ordenador"
 
 msgid "What kind of computers do you have running BOINC?"
-msgstr ""
+msgstr "¿En qué tipo de ordenador ejecuta BOINC?"
 
 msgid "Where are they?"
-msgstr ""
+msgstr "¿Dónde están situados?"
 
 msgid "Home"
-msgstr ""
+msgstr "En casa"
 
 msgid "Work"
-msgstr ""
+msgstr "En el trabajo"
 
 msgid "School"
-msgstr ""
+msgstr "En la escuela"
 
 msgid "How many computers?"
-msgstr ""
+msgstr "¿Cuántos ordenadores?"
 
 msgid "On average, how many hours per day are they powered on?"
-msgstr ""
+msgstr "De promedio, ¿cuántas horas al día están encendidos?"
 
 msgid "Age"
-msgstr ""
+msgstr "Edad"
 
 msgid "Sex"
-msgstr ""
+msgstr "Sexo"
 
 msgid "Male"
-msgstr ""
+msgstr "Masculino"
 
 msgid "Female"
-msgstr ""
+msgstr "Femenino"
 
 msgid "Your level of computer expertise"
-msgstr ""
+msgstr "Su nivel técnico con los ordenadores"
 
 msgid "Beginner"
-msgstr ""
+msgstr "Principiante"
 
 msgid "Intermediate"
-msgstr ""
+msgstr "Intermedio"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Avanzado"
 
 msgid "Where did you learn about BOINC projects?"
-msgstr ""
+msgstr "¿Donde se enteró de los proyectos BOINC?"
 
 msgid "TV/radio/newspaper"
-msgstr ""
+msgstr "TV/radio/prensa"
 
 msgid "From friends, relatives, or coworkers"
-msgstr ""
+msgstr "Por amigos, parientes, compañeros de trabajo"
 
 msgid "Team message boards or web sites"
-msgstr ""
+msgstr "Foros de equipos o sitios web"
 
 msgid "The BOINC web site"
-msgstr ""
+msgstr "En la página web de BOINC"
 
 msgid "Other web sites"
 msgstr "Otros sitios web"
 
 msgid "Which are the most important factors when you decide whether to participate in a BOINC project?"
-msgstr ""
+msgstr "¿Cuáles son los factores más importantes cuando decide si unirse a un proyecto BOINC?"
 
 msgid "Nice-looking screensaver graphics"
-msgstr ""
+msgstr "Protector de pantalla con gráficos atractivos"
 
 msgid "Fair and quick granting of credit for work done"
-msgstr ""
+msgstr "El crédito por el trabajo hecho se otorga de manera rápida y justa"
 
 msgid "Getting more credit from this project than from others"
-msgstr ""
+msgstr "Conseguir más crédito de éste proyecto que de otros"
 
 msgid "Helpful and friendly message boards"
-msgstr ""
+msgstr "Los foros de mensajes son útiles y amigables"
 
 msgid "Participation by project staff on the message boards"
-msgstr ""
+msgstr "Los administradores del proyecto participan en los foros de mensajes"
 
 msgid "Informative project web site"
-msgstr ""
+msgstr "El sitio web del proyecto es informativo"
 
 msgid "The science is important and beneficial"
-msgstr ""
+msgstr "La ciencia es importante y beneficiosa"
 
 msgid "Non-profit, and results are public"
-msgstr ""
+msgstr "No tiene fines de lucro, y con resultados públicos"
 
 msgid "Personal recognition if my computer finds something"
-msgstr ""
+msgstr "Reconocimiento personal si mi ordenador encuentra algo"
 
 msgid "Publication by the project in scientific journals"
-msgstr ""
+msgstr "Participación del proyecto en publicaciones mensuales científicas"
 
 msgid "Periodic email newsletters from the project"
-msgstr ""
+msgstr "El proyecto envía boletines periódicos por correo electrónico"
 
 msgid "How many BOINC projects do you participate in?"
-msgstr ""
+msgstr "¿En cuántos proyectos BOINC participa?"
 
 msgid "Do you run BOINC as a screensaver?"
-msgstr ""
+msgstr "¿Usa BOINC como salvapantallas?"
 
 msgid "Yes"
-msgstr ""
+msgstr "Sí"
 
 msgid "No"
-msgstr ""
+msgstr "No"
 
 msgid "Your usage of project messages boards:"
-msgstr ""
+msgstr "Uso los foros del proyecto:"
 
 msgid "to read information"
-msgstr ""
+msgstr "para leer información"
 
 msgid "to read and post information"
-msgstr ""
+msgstr "para leer y escribir información"
 
 msgid "None"
-msgstr ""
+msgstr "no los uso"
 
 msgid "Where do you get information to help resolve problems with BOINC and/or BOINC projects?"
-msgstr ""
+msgstr "¿Dónde obtiene información de ayuda para resolver los problemas con BOINC y/o sus proyectos?"
 
 msgid "The project message boards"
-msgstr ""
+msgstr "Los foros del proyecto"
 
 msgid "The BOINC message boards"
-msgstr ""
+msgstr "Los foros de BOINC"
 
 msgid "BOINC mailing lists"
-msgstr ""
+msgstr "Listas de correo de BOINC"
 
 msgid "The Unofficial BOINC Wiki"
-msgstr ""
+msgstr "El Wiki no oficial de BOINC"
 
 msgid "Team web sites"
-msgstr ""
+msgstr "Páginas web de los equipos"
 
 msgid "Google or other search engines"
-msgstr ""
+msgstr "Google u otros buscadores"
 
 # #######################################
 # download.php
@@ -300,31 +300,31 @@ msgstr "BOINC: computar para la ciencia"
 
 #, php-format
 msgid "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have."
-msgstr ""
+msgstr "La ayuda Online de BOINC le permite hablar directamente con usuarios BOINC con experiencia, que pueden: %s contestar preguntas sobre BOINC y computación voluntaria; %s guiarle en el proceso de instalar y usar BOINC; %s resolver cualquier problema que pudiera tener."
 
 #, php-format
 msgid "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls).  If you don't already have Skype, please %sdownload and install it now%s.  When you're finished, return to this page."
-msgstr ""
+msgstr "La ayuda Online de BOINC está basada en %sSkype%s, un sistema de telefonía basado en Internet. Skype es gratuito (el programa y las llamadas). Si todavía no tiene Skype, por favor, %sdescarguelo e instálelo ahora%s. Cuando haya terminado, vuelva a esta página."
 
 msgid "The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer.  You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."
-msgstr ""
+msgstr "El mejor modo de obtener ayuda es por voz, para lo que necesita micrófono y altavoces integrados en su ordenador o externos a su ordenador. Usted puede usar también el chat basado en texto de Skype o coreo electrónico normal (si no tiene Skype) para comunicarse con Voluntarios para Ayuda."
 
 msgid "Volunteers speaking several languages are available. "
-msgstr ""
+msgstr "Hay disponibles voluntarios que hablan distintos idiomas."
 
 msgid "Be a Help Volunteer"
-msgstr ""
+msgstr "Sea Voluntario para Ayuda"
 
 #, php-format
 msgid "If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s.  It's a great way to help the cause of scientific research and volunteer computing - and it's fun!"
-msgstr ""
+msgstr "Si usted es un usuario BOINC con experiencia, le animamos a %sser Voluntario para Ayuda%s. Este es un gran modo de ayudar a la causa de la investigación científica y computación voluntaria - ¡y es divertido! "
 
 #, php-format
 msgid "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr ""
+msgstr "Si usted es ya un Voluntario para Ayuda: para editar sus preferencias, %spulse aquí%s. "
 
 msgid "Volunteer"
-msgstr ""
+msgstr "Voluntario"
 
 # #######################################
 # download.php
@@ -346,57 +346,57 @@ msgstr " Use el tiempo de inactividad de su ordenador (Windows, Mac, o Linux) pa
 
 #, php-format
 msgid "Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
-msgstr ""
+msgstr "O, si usted ejecuta varios proyectos, pruebe un %sadministrador de cuentas%s tales como %sGridRepublic%s o %sBAM!%s."
 
 #, php-format
 msgid "Open-source software for %svolunteer computing%s and %sgrid computing%s."
-msgstr ""
+msgstr "Programas de código abierto para %scomputación voluntaria%s y %scomputación en red (grid)%s"
 
 msgid "BOINC user survey"
-msgstr ""
+msgstr "Encuesta para usuarios de BOINC"
 
 msgid "Several volunteer computing projects, including Climateprediction.net, Einstein@home, and SETI@home, use software called BOINC.  If you participate in projects like this, we request that you answer the following questions.  This will help BOINC-based projects increase participation and achieve greater scientific results. <p> Please answer as many questions as you want, then go to the bottom and click OK. If you previously completed the survey but your answers have changed, please complete it again - your new answers will replace the old ones. <p> The current results of the survey are <a href=poll_results.php>here</a>. "
-msgstr ""
+msgstr "Varios proyectos voluntarios de cálculo computacional, incluyendo  Climateprediction.net, Einstein@home, y SETI@home, usan un programa llamado BOINC. Si participa en proyectos como estos, le pedimos que responda las siguientes preguntas. Esto ayudará a los proyectos basados en BOINC a incrementar la participación y alcanzar mayores resultados científicos.  <p> Por favor, reponda a todas las preguntas que desee, y después vaya al final de la página y pulse OK . Si usted ha completado la encuesta anteriormente pero sus respuestas han cambiado, por favor, complételo de nuevo - sus nuevas respuestas reemplazarán a las anteriores.  <p> Los resultados actuales de la encuesta están <a href=poll_results.php>aquí</a>. "
 
 msgid "Do you run BOINC?"
-msgstr ""
+msgstr "¿Utiliza BOINC?"
 
 msgid "Your participation"
-msgstr ""
+msgstr "Su participación"
 
 msgid "Your computers"
-msgstr ""
+msgstr "Sus ordenadores"
 
 msgid "You"
-msgstr ""
+msgstr "Usted"
 
 msgid "Nationality"
-msgstr ""
+msgstr "Nacionalidad"
 
 msgid "Comments"
-msgstr ""
+msgstr "Comentarios"
 
 msgid "Please suggest ways that BOINC, and the projects that use it, could be improved:"
-msgstr ""
+msgstr "Por favor sugiera formas en las que BOINC y los proyectos que lo utilizan, puedan ser mejorados:"
 
 msgid "When done click:"
-msgstr ""
+msgstr "Al terminar haga clic:"
 
 msgid "Error - results not recorded"
-msgstr ""
+msgstr "Error - no se grabaron los resultados"
 
 msgid "An internal error has prevented us from recording your survey response.  Please try again later."
-msgstr ""
+msgstr "Un error interno nos ha impedido grabar sus respuestas a la encuesta. Por favor inténtelo de nuevo más tarde."
 
 msgid "Survey response recorded"
-msgstr ""
+msgstr "Respuestas a la encuesta grabadas"
 
 msgid "Thank you for completing the BOINC user survey."
-msgstr ""
+msgstr "Muchas gracias por completar la encuesta para usuarios de BOINC."
 
 msgid "Survey results"
-msgstr ""
+msgstr "Resultados de la encuesta"
 
 msgid "These are the current results of the <a href=poll.php>BOINC user survey</a>.  This page is updated every hour."
-msgstr ""
+msgstr "Estos son los resultados actuales de la <a href=poll.php> encuesta a usuarios de BOINC</a>. Ésta página se actualiza cada hora."
 
