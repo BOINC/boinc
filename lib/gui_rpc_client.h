@@ -78,6 +78,18 @@ public:
     bool operator<(const PROJECT_LIST_ENTRY& compare);
 };
 
+struct AM_LIST_ENTRY {
+    std::string name;
+    std::string url;
+    std::string description;
+    std::string image;
+    double rand;
+    AM_LIST_ENTRY(){}
+    ~AM_LIST_ENTRY(){}
+    int parse(XML_PARSER&);
+    bool operator<(const AM_LIST_ENTRY& compare);
+};
+
 class PROJECT {
 public:
     std::string master_url;
@@ -120,7 +132,7 @@ public:
     std::vector<DAILY_STATS> statistics; // credit data over the last x days
 
     // NOTE: if you add any data items above,
-    // update parse(), copy() and clear() to include them!!
+    // update parse(), and clear() to include them!!
 
     PROJECT();
     ~PROJECT();
@@ -129,7 +141,6 @@ public:
     void print();
     void clear();
     void get_name(std::string&);
-    //void copy(PROJECT&);        // copy to this object
 
     // temp - keep track of whether or not this record needs to be deleted
     bool flag_for_delete;
@@ -339,6 +350,7 @@ public:
 class ALL_PROJECTS_LIST {
 public:
     std::vector<PROJECT_LIST_ENTRY*> projects;
+    std::vector<AM_LIST_ENTRY*> account_managers;
 
     ALL_PROJECTS_LIST();
     ~ALL_PROJECTS_LIST();
