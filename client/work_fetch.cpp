@@ -405,7 +405,7 @@ void RSC_WORK_FETCH::update_debts() {
     //
     double offset = delta_sum/neligible;
     if (log_flags.debt_debug) {
-        msg_printf(p, MSG_INFO, "[debt] subtract %f for zero total change", offset);
+        msg_printf(0, MSG_INFO, "[debt] subtract %f for zero total change", offset);
 	}
     double max_debt = 0;
     for (i=0; i<gstate.projects.size(); i++) {
@@ -421,7 +421,7 @@ void RSC_WORK_FETCH::update_debts() {
     // This ensures that new projects start out debt-free.
     //
     if (log_flags.debt_debug) {
-        msg_printf(p, MSG_INFO, "[debt] subtract %f for zero max debt", max_debt);
+        msg_printf(0, MSG_INFO, "[debt] subtract %f for zero max debt", max_debt);
 	}
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
