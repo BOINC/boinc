@@ -135,16 +135,16 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     );
 	
 	addSection(_("Scheduling"));
-	addProperty(_("Short term debt"),wxString::Format(wxT("%0.2f"), project->short_term_debt));
-	addProperty(_("CPU long term debt"),wxString::Format(wxT("%0.2f"), project->cpu_long_term_debt));
+	addProperty(_("CPU scheduling priority"),wxString::Format(wxT("%0.2f"), project->short_term_debt));
+	addProperty(_("CPU work fetch priority"),wxString::Format(wxT("%0.2f"), project->cpu_long_term_debt));
     if (project->cpu_backoff_time > dtime()) {
 		addProperty(_("CPU work fetch deferred for"), FormatTime(project->cpu_backoff_time - dtime()));
     }
     if (project->cuda_debt) {
-        addProperty(_("CUDA long term debt"),wxString::Format(wxT("%0.2f"), project->cuda_debt));
+        addProperty(_("NVIDIA GPU work fetch priority"),wxString::Format(wxT("%0.2f"), project->cuda_debt));
     }
     if (project->cuda_backoff_time > dtime()) {
-		addProperty(_("CUDA work fetch deferred for"), FormatTime(project->cuda_backoff_time - dtime()));
+		addProperty(_("NVIDIA GPU work fetch deferred for"), FormatTime(project->cuda_backoff_time - dtime()));
     }
 	addProperty(_("Duration correction factor"),wxString::Format(wxT("%0.4f"), project->duration_correction_factor));
 	m_gbSizer->Layout();
