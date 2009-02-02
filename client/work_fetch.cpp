@@ -68,13 +68,13 @@ void RSC_PROJECT_WORK_FETCH::rr_init() {
     runnable_share = 0;
     fetchable_share = 0;
     has_runnable_jobs = false;
-	sim_nused = 0;
+    sim_nused = 0;
 }
 
 void RSC_WORK_FETCH::rr_init() {
     shortfall = 0;
     nidle_now = 0;
-	sim_nused = 0;
+    sim_nused = 0;
     total_fetchable_share = 0;
     total_runnable_share = 0;
     estimated_delay = 0;
@@ -260,7 +260,7 @@ PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
         PROJECT* p = gstate.projects[i];
         if (!p->non_cpu_intensive) continue;
         if (!p->can_request_work()) continue;
-		if (p->cpu_pwf.backoff_time > gstate.now) continue;
+        if (p->cpu_pwf.backoff_time > gstate.now) continue;
         if (has_a_job(p)) continue;
         clear_request();
         cpu_work_fetch.req_secs = 1;
@@ -425,7 +425,7 @@ void RSC_WORK_FETCH::update_debts() {
     double offset = delta_sum/neligible;
     if (log_flags.debt_debug) {
         msg_printf(0, MSG_INFO, "[debt] subtract %f for zero total change", offset);
-	}
+    }
     double max_debt = 0;
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
@@ -446,7 +446,7 @@ void RSC_WORK_FETCH::update_debts() {
     //
     if (log_flags.debt_debug) {
         msg_printf(0, MSG_INFO, "[debt] subtract %f for zero max debt", max_debt);
-	}
+    }
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
@@ -499,7 +499,7 @@ void WORK_FETCH::compute_shares() {
 // should this project be accumulating debt for this resource?
 //
 bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p) {
-	if (p->non_cpu_intensive) return false;
+    if (p->non_cpu_intensive) return false;
     if (backoff_time > gstate.now) return false;
     if (backoff_interval == MAX_BACKOFF_INTERVAL) return false;
     if (p->suspended_via_gui) return false;

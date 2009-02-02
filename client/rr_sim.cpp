@@ -56,17 +56,17 @@
 //
 struct RR_SIM_STATUS {
     std::vector<RESULT*> active;
-	double active_ncpus;
+    double active_ncpus;
     double active_cudas;
 
     inline void activate(RESULT* rp, double when) {
-		if (log_flags.rr_simulation) {
-			msg_printf(rp->project, MSG_INFO,
-				"[rr_sim] %.2f: starting %s", when, rp->name
-			);
-		}
+        if (log_flags.rr_simulation) {
+            msg_printf(rp->project, MSG_INFO,
+                "[rr_sim] %.2f: starting %s", when, rp->name
+            );
+        }
         active.push_back(rp);
-		cpu_work_fetch.sim_nused += rp->avp->avg_ncpus;
+        cpu_work_fetch.sim_nused += rp->avp->avg_ncpus;
         cuda_work_fetch.sim_nused += rp->avp->ncudas;
     }
     // remove *rpbest from active set,
@@ -94,20 +94,20 @@ struct RR_SIM_STATUS {
                 it++;
             }
         }
-		cpu_work_fetch.sim_nused -= rpbest->avp->avg_ncpus;
+        cpu_work_fetch.sim_nused -= rpbest->avp->avg_ncpus;
         cuda_work_fetch.sim_nused -= rpbest->avp->ncudas;
     }
 
-	RR_SIM_STATUS() {
-		active_ncpus = 0;
+    RR_SIM_STATUS() {
+        active_ncpus = 0;
         active_cudas = 0;
-	}
+    }
     ~RR_SIM_STATUS() {}
 };
 
 void RR_SIM_PROJECT_STATUS::activate(RESULT* rp) {
     active.push_back(rp);
-	rp->project->cpu_pwf.sim_nused += rp->avp->avg_ncpus;
+    rp->project->cpu_pwf.sim_nused += rp->avp->avg_ncpus;
     rp->project->cuda_pwf.sim_nused += rp->avp->ncudas;
 }
 
@@ -120,7 +120,7 @@ void RR_SIM_PROJECT_STATUS::remove_active(RESULT* rp) {
             it++;
         }
     }
-	rp->project->cpu_pwf.sim_nused -= rp->avp->avg_ncpus;
+    rp->project->cpu_pwf.sim_nused -= rp->avp->avg_ncpus;
     rp->project->cuda_pwf.sim_nused -= rp->avp->ncudas;
 }
 
@@ -128,33 +128,33 @@ void RR_SIM_PROJECT_STATUS::remove_active(RESULT* rp) {
 // with weighted round-robin scheduling
 //
 void set_rrsim_flops(RESULT* rp) {
-	// if it's a coproc job, use app version estimate
+    // if it's a coproc job, use app version estimate
     if (rp->uses_coprocs()) {
         rp->rrsim_flops = rp->avp->flops;
-		return;
+        return;
     }
     PROJECT* p = rp->project;
 
-	// first, estimate how many CPU seconds per second this job would get
-	// running with other jobs of this project, ignoring other factors
-	//
-	double x = 1;
-	if (p->cpu_pwf.sim_nused > gstate.ncpus) {
-		x = gstate.ncpus/p->cpu_pwf.sim_nused;
-	}
-	double r1 = x*rp->avp->avg_ncpus;
+    // first, estimate how many CPU seconds per second this job would get
+    // running with other jobs of this project, ignoring other factors
+    //
+    double x = 1;
+    if (p->cpu_pwf.sim_nused > gstate.ncpus) {
+        x = gstate.ncpus/p->cpu_pwf.sim_nused;
+    }
+    double r1 = x*rp->avp->avg_ncpus;
 
-	// if the project's total CPU usage is more than its share, scale
-	//
-	double share_cpus = p->cpu_pwf.runnable_share*gstate.ncpus;
-	double r2 = r1;
-	if (p->cpu_pwf.sim_nused > share_cpus) {
-		r2 *= (share_cpus / p->cpu_pwf.sim_nused);
-	}
+    // if the project's total CPU usage is more than its share, scale
+    //
+    double share_cpus = p->cpu_pwf.runnable_share*gstate.ncpus;
+    double r2 = r1;
+    if (p->cpu_pwf.sim_nused > share_cpus) {
+        r2 *= (share_cpus / p->cpu_pwf.sim_nused);
+    }
 
-	// scale by overall CPU availability
-	//
-	double r3 = r2 * gstate.overall_cpu_frac();
+    // scale by overall CPU availability
+    //
+    double r3 = r2 * gstate.overall_cpu_frac();
 
     rp->rrsim_flops = r3 * gstate.host_info.p_fpops;
 #if 0
@@ -225,8 +225,8 @@ void CLIENT_STATE::rr_simulation() {
         rp->rrsim_flops_left = rp->estimated_flops_remaining();
         if (rp->rrsim_flops_left <= 0) continue;
         p = rp->project;
-		if (rp->uses_cuda()) {
-			p->cuda_pwf.has_runnable_jobs = true;
+        if (rp->uses_cuda()) {
+            p->cuda_pwf.has_runnable_jobs = true;
             if (cuda_work_fetch.sim_nused < coproc_cuda->count) {
                 sim_status.activate(rp, 0);
                 p->rr_sim_status.activate(rp);
@@ -234,7 +234,7 @@ void CLIENT_STATE::rr_simulation() {
                 cuda_work_fetch.pending.push_back(rp);
             }
         } else {
-			p->cpu_pwf.has_runnable_jobs = true;
+            p->cpu_pwf.has_runnable_jobs = true;
             if (p->cpu_pwf.sim_nused < ncpus) {
                 sim_status.activate(rp, 0);
                 p->rr_sim_status.activate(rp);
@@ -267,7 +267,7 @@ void CLIENT_STATE::rr_simulation() {
         rpbest = NULL;
         for (i=0; i<sim_status.active.size(); i++) {
             rp = sim_status.active[i];
-			set_rrsim_flops(rp);
+            set_rrsim_flops(rp);
             rp->rrsim_finish_delay = rp->rrsim_flops_left/rp->rrsim_flops;
             if (!rpbest || rp->rrsim_finish_delay < rpbest->rrsim_finish_delay) {
                 rpbest = rp;
@@ -278,9 +278,9 @@ void CLIENT_STATE::rr_simulation() {
 
         if (log_flags.rr_simulation) {
             msg_printf(pbest, MSG_INFO,
-				"[rr_sim] %.2f: %s finishes after %.2f (%.2fG/%.2fG)",
+                "[rr_sim] %.2f: %s finishes after %.2f (%.2fG/%.2fG)",
                 sim_now - now,
-				rpbest->name, rpbest->rrsim_finish_delay,
+                rpbest->name, rpbest->rrsim_finish_delay,
                 rpbest->rrsim_flops_left/1e9, rpbest->rrsim_flops/1e9
             );
         }
@@ -353,10 +353,10 @@ void CLIENT_STATE::rr_simulation() {
         sim_now += rpbest->rrsim_finish_delay;
     }
 
-	// if simulation ends before end of buffer, take the tail into account
-	//
+    // if simulation ends before end of buffer, take the tail into account
+    //
     if (sim_now < buf_end) {
-		double d_time = buf_end - sim_now;
+        double d_time = buf_end - sim_now;
         cpu_work_fetch.accumulate_shortfall(d_time);
         if (coproc_cuda) {
             cuda_work_fetch.accumulate_shortfall(d_time);
