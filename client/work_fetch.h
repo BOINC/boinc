@@ -55,7 +55,7 @@ struct RSC_PROJECT_WORK_FETCH {
         // this project's share relative to projects from which
         // we could probably get work for this resource;
         // determines how many instances this project deserves
-    double instances_used;
+    bool has_runnable_jobs;
 
     RSC_PROJECT_WORK_FETCH() {
         memset(this, 0, sizeof(*this));

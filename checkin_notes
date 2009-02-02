@@ -1056,3 +1056,10 @@ David  31 Jan 2009
         client_types.cpp,h
         rr_sim.cpp,h
         work_fetch.cpp,h
+
+David  1 Feb 2009
+    - client: code cleanup
+
+    client/
+        rr_sim.cpp,h
+        work_fetch.cpp,h
