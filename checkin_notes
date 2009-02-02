@@ -686,3 +686,11 @@ David  27 Jan 2009
 
     client/
         work_fetch.cpp,h
+
+David  27 Jan 2009
+    - client: restore notion of overworked;
+        if a project is overworked for a resource R,
+        don't fetch work for R unless there are idle instances
+
+    client/
+        work_fetch.cpp,h
