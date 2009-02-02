@@ -68,11 +68,13 @@ void RSC_PROJECT_WORK_FETCH::rr_init() {
     runnable_share = 0;
     fetchable_share = 0;
     has_runnable_jobs = false;
+	sim_nused = 0;
 }
 
 void RSC_WORK_FETCH::rr_init() {
     shortfall = 0;
     nidle_now = 0;
+	sim_nused = 0;
     total_fetchable_share = 0;
     total_runnable_share = 0;
     estimated_delay = 0;
@@ -111,8 +113,8 @@ void PROJECT_WORK_FETCH::reset(PROJECT* p) {
     p->cuda_pwf.reset();
 }
 
-void RSC_WORK_FETCH::accumulate_shortfall(double d_time, double nused) {
-    double idle = ninstances - nused;
+void RSC_WORK_FETCH::accumulate_shortfall(double d_time) {
+    double idle = ninstances - sim_nused;
     if (idle > 0) {
         shortfall += idle*d_time;
     }
@@ -121,8 +123,8 @@ void RSC_WORK_FETCH::accumulate_shortfall(double d_time, double nused) {
 // "estimated delay" is the interval for which we expect the
 // resource to be saturated.
 //
-void RSC_WORK_FETCH::update_estimated_delay(double dt, double nused) {
-    if (nused >= ninstances) {
+void RSC_WORK_FETCH::update_estimated_delay(double dt) {
+    if (sim_nused >= ninstances) {
         estimated_delay = dt;
     }
 }
