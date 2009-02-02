@@ -257,7 +257,7 @@ void CLIENT_STATE::rr_simulation() {
     cpu_work_fetch.nidle_now = ncpus - sim_status.active_ncpus;
     if (cpu_work_fetch.nidle_now < 0) cpu_work_fetch.nidle_now = 0;
     if (coproc_cuda) {
-        cuda_work_fetch.nidle_now = coproc_cuda->count - coproc_cuda->used;
+        cuda_work_fetch.nidle_now = coproc_cuda->count - sim_status.active_cudas;
         if (cuda_work_fetch.nidle_now < 0) cuda_work_fetch.nidle_now = 0;
     }
 
