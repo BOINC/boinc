@@ -826,3 +826,12 @@ David  2 Feb 2009
     client/
         rr_sim.cpp,h
         work_fetch.cpp,h
+
+Rom    2 Feb 2009
+    - Tag for 6.6.4 release, all platforms
+      boinc_core_release_6_6_4
+
+    /
+        configure.ac
+        version.h
+
