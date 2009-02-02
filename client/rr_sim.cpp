@@ -315,16 +315,18 @@ void CLIENT_STATE::rr_simulation() {
             }
         }
 
+        double end_time = sim_now + rpbest->rrsim_finish_delay;
+        double x = end_time - gstate.now;
+        cpu_work_fetch.update_estimated_delay(x, sim_status.active_ncpus);
+        if (coproc_cuda) {
+            cuda_work_fetch.update_estimated_delay(x, sim_status.active_cudas);
+        }
+
         // increment resource shortfalls
         //
         if (sim_now < buf_end) {
-            double end_time = sim_now + rpbest->rrsim_finish_delay;
             if (end_time > buf_end) end_time = buf_end;
             double d_time = end_time - sim_now;
-
-            if (sim_status.active_ncpus >= ncpus) {
-                work_fetch.estimated_delay = end_time - gstate.now;
-            }
 
             cpu_work_fetch.accumulate_shortfall(d_time, sim_status.active_ncpus);
 

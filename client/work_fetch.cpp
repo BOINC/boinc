@@ -72,6 +72,7 @@ void RSC_WORK_FETCH::rr_init() {
     nidle_now = 0;
     total_fetchable_share = 0;
     total_runnable_share = 0;
+    estimated_delay = 0;
 }
 
 void WORK_FETCH::rr_init() {
@@ -79,7 +80,6 @@ void WORK_FETCH::rr_init() {
     if (coproc_cuda) {
         cuda_work_fetch.rr_init();
     }
-    estimated_delay = 0;
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         p->pwf.can_fetch_work = p->pwf.compute_can_fetch_work(p);
@@ -111,6 +111,15 @@ void RSC_WORK_FETCH::accumulate_shortfall(double d_time, double nused) {
     double idle = ninstances - nused;
     if (idle > 0) {
         shortfall += idle*d_time;
+    }
+}
+
+// "estimated delay" is the interval for which we expect the
+// resource to be saturated.
+//
+void RSC_WORK_FETCH::update_estimated_delay(double dt, double nused) {
+    if (nused >= ninstances) {
+        estimated_delay = dt;
     }
 }
 
@@ -327,13 +336,16 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
     if (!shortfall) return;
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
 
-    // if project's DCF is too big or small, its completion time estimates
-    // are useless; just ask for 1 second
-    //
     if (p->duration_correction_factor < 0.02 || p->duration_correction_factor > 80.0) {
+        // if project's DCF is too big or small,
+        // its completion time estimates are useless; just ask for 1 second
+        //
         req_secs = 1;
     } else {
+        // otherwise ask for the max of the project's share and the shortfall
+        //
         req_secs = gstate.work_buf_total()*w.fetchable_share;
+        if (req_secs > shortfall) req_secs = shortfall;
     }
     req_instances = (int)ceil(w.fetchable_share*nidle_now);
 }

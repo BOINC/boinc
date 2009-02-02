@@ -49,12 +49,14 @@ void COPROC::write_xml(MIOFILE& f) {
 }
 #endif
 
+#if 0
 int COPROC::parse(MIOFILE& fin) {
     char buf[1024];
     strcpy(type, "");
     count = 0;
     used = 0;
     req_secs = 0;
+    estimated_delay = 0;
     req_instances = 0;
     while (fin.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</coproc>")) {
@@ -65,9 +67,11 @@ int COPROC::parse(MIOFILE& fin) {
         if (parse_int(buf, "<count>", count)) continue;
         if (parse_double(buf, "<req_secs>", req_secs)) continue;
         if (parse_int(buf, "<req_instances>", req_instances)) continue;
+        if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
     }
     return ERR_XML_PARSE;
 }
+#endif
 
 void COPROCS::summary_string(char* buf, int len) {
     char bigbuf[8192], buf2[1024];
@@ -262,6 +266,7 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
         "   <name>%s</name>\n"
         "   <req_secs>%f</req_secs>\n"
         "   <req_instances>%d</req_instances>\n"
+        "   <estimated_delay>%f</estimated_delay>\n"
         "   <totalGlobalMem>%u</totalGlobalMem>\n"
         "   <sharedMemPerBlock>%u</sharedMemPerBlock>\n"
         "   <regsPerBlock>%d</regsPerBlock>\n"
@@ -282,6 +287,7 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
         prop.name,
         req_secs,
         req_instances,
+        estimated_delay,
         (unsigned int)prop.totalGlobalMem,
         (unsigned int)prop.sharedMemPerBlock,
         prop.regsPerBlock,
@@ -303,6 +309,10 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
 
 void COPROC_CUDA::clear() {
     count = 0;
+    used = 0;
+    req_secs = 0;
+    req_instances = 0;
+    estimated_delay = -1;   // mark as absent
     strcpy(prop.name, "");
     prop.totalGlobalMem = 0;
     prop.sharedMemPerBlock = 0;
@@ -336,6 +346,7 @@ int COPROC_CUDA::parse(FILE* fin) {
         if (parse_int(buf, "<count>", count)) continue;
         if (parse_double(buf, "<req_secs>", req_secs)) continue;
         if (parse_int(buf, "<req_instances>", req_instances)) continue;
+        if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
         if (parse_str(buf, "<name>", prop.name, sizeof(prop.name))) continue;
         if (parse_double(buf, "<totalGlobalMem>", prop.dtotalGlobalMem)) continue;
         if (parse_int(buf, "<sharedMemPerBlock>", (int&)prop.sharedMemPerBlock)) continue;

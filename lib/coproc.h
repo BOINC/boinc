@@ -35,8 +35,11 @@ struct COPROC {
     int count;          // how many are present
     int used;           // how many are in use (used by client)
 
+    // the following are used in both client and server for work-fetch info
+    //
     double req_secs;    // how many instance-seconds of work requested
     int req_instances;  // requesting enough jobs to use this many instances
+    double estimated_delay; // resource will be saturated for this long
 
     void* owner[MAX_COPROC_INSTANCES];
         // which ACTIVE_TASK each one is allocated to
@@ -50,6 +53,7 @@ struct COPROC {
         used = 0;
         req_secs = 0;
         req_instances = 0;
+        estimated_delay = 0;
         memset(&owner, 0, sizeof(owner));
     }
     virtual ~COPROC(){}
