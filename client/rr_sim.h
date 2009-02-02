@@ -23,7 +23,7 @@ struct RESULT;
 struct RR_SIM_PROJECT_STATUS {
         /// jobs currently running (in simulation)
     std::vector<RESULT*>active;
-        /// jobs runnable but not running yet
+        /// CPU jobs runnable but not running yet
     std::vector<RESULT*>pending;
     int deadlines_missed;
 	double active_ncpus;

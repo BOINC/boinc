@@ -98,6 +98,7 @@ struct RSC_WORK_FETCH {
     double estimated_delay;
         // estimated time until resource not saturated.
         // Passed to scheduler for crude deadline check
+    std::vector<RESULT*> pending;
 
     // the following specify the work request for this resource
     //

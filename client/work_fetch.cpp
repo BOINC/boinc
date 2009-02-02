@@ -73,6 +73,7 @@ void RSC_WORK_FETCH::rr_init() {
     total_fetchable_share = 0;
     total_runnable_share = 0;
     estimated_delay = 0;
+    pending.clear();
 }
 
 void WORK_FETCH::rr_init() {

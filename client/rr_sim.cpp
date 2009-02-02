@@ -15,6 +15,29 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Do a simulation of the current workload
+// with weighted round-robin (WRR) scheduling.
+// Include jobs that are downloading.
+//
+// For efficiency, we simulate an approximation of WRR.
+// We don't model time-slicing.
+// Instead we use a continuous model where, at a given point,
+// each project has a set of running jobs that uses at most all CPUs
+// These jobs are assumed to run at a rate proportionate to their avg_ncpus,
+// and each project gets CPU proportionate to its RRS.
+//
+// For coprocessors, we saturate the resource;
+// i.e. with 2 GPUs, we'd let a 1-GPU app and a 2-GPU app run together.
+// Otherwise, there'd be the possibility of computing
+// a nonzero shortfall inappropriately.
+//
+// Outputs are changes to global state:
+// - deadline misses (per-project count, per-result flag)
+//      Deadline misses are not counted for tasks
+//      that are too large to run in RAM right now.
+// - resource shortfalls (per-project and total)
+// - counts of resources idle now
+//
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
@@ -33,19 +56,10 @@
 //
 struct RR_SIM_STATUS {
     std::vector<RESULT*> active;
-    COPROCS coprocs;
 	double active_ncpus;
     double active_cudas;
 
-    inline bool can_run(RESULT* rp) {
-        return coprocs.sufficient_coprocs(
-            rp->avp->coprocs, false, "rr_sim"
-        );
-    }
     inline void activate(RESULT* rp, double when) {
-        coprocs.reserve_coprocs(
-            rp->avp->coprocs, rp, false, "rr_sim"
-        );
 		if (log_flags.rr_simulation) {
 			msg_printf(rp->project, MSG_INFO,
 				"[rr_sim] starting at %f: %s", when, rp->name
@@ -56,10 +70,9 @@ struct RR_SIM_STATUS {
         active_cudas += rp->avp->ncudas;
     }
     // remove *rpbest from active set,
-    // and adjust CPU time left for other results
+    // and adjust FLOPS left for other results
     //
     inline void remove_active(RESULT* rpbest) {
-        coprocs.free_coprocs(rpbest->avp->coprocs, rpbest, false, "rr_sim");
         vector<RESULT*>::iterator it = active.begin();
         while (it != active.end()) {
             RESULT* rp = *it;
@@ -89,9 +102,7 @@ struct RR_SIM_STATUS {
 		active_ncpus = 0;
         active_cudas = 0;
 	}
-    ~RR_SIM_STATUS() {
-        coprocs.delete_coprocs();
-    }
+    ~RR_SIM_STATUS() {}
 };
 
 void RR_SIM_PROJECT_STATUS::activate(RESULT* rp) {
@@ -101,7 +112,6 @@ void RR_SIM_PROJECT_STATUS::activate(RESULT* rp) {
 }
 
 bool RR_SIM_PROJECT_STATUS::can_run(RESULT* rp, int ncpus) {
-	if (rp->uses_coprocs()) return true;
     return active_ncpus < ncpus;
 }
 void RR_SIM_PROJECT_STATUS::remove_active(RESULT* r) {
@@ -184,32 +194,12 @@ void CLIENT_STATE::print_deadline_misses() {
     }
 }
 
-// Do a simulation of the current workload
-// with weighted round-robin (WRR) scheduling.
-// Include jobs that are downloading.
-//
-// For efficiency, we simulate an approximation of WRR.
-// We don't model time-slicing.
-// Instead we use a continuous model where, at a given point,
-// each project has a set of running jobs that uses at most all CPUs
-// (and obeys coprocessor limits).
-// These jobs are assumed to run at a rate proportionate to their avg_ncpus,
-// and each project gets CPU proportionate to its RRS.
-//
-// Outputs are changes to global state:
-// - deadline misses (per-project count, per-result flag)
-//      Deadline misses are not counted for tasks
-//      that are too large to run in RAM right now.
-// - resource shortfalls (per-project and total)
-// - counts of resources idle now
-//
 void CLIENT_STATE::rr_simulation() {
     PROJECT* p, *pbest;
     RESULT* rp, *rpbest;
     RR_SIM_STATUS sim_status;
     unsigned int i;
 
-    sim_status.coprocs.clone(coprocs, false);
     double ar = available_ram();
 
     work_fetch.rr_init();
@@ -238,18 +228,24 @@ void CLIENT_STATE::rr_simulation() {
         rp->rrsim_flops_left = rp->estimated_flops_remaining();
         if (rp->rrsim_flops_left <= 0) continue;
         p = rp->project;
-        if (p->rr_sim_status.can_run(rp, gstate.ncpus) && sim_status.can_run(rp)) {
-            sim_status.activate(rp, now);
-            p->rr_sim_status.activate(rp);
+		if (rp->uses_cuda()) {
+			p->rr_sim_status.has_cuda_jobs = true;
+            if (sim_status.active_cudas < coproc_cuda->count) {
+                sim_status.activate(rp, now);
+                p->rr_sim_status.activate(rp);
+            } else {
+                cuda_work_fetch.pending.push_back(rp);
+            }
         } else {
-            p->rr_sim_status.add_pending(rp);
+			p->rr_sim_status.has_cpu_jobs = true;
+            if (p->rr_sim_status.can_run(rp, ncpus)) {
+                sim_status.activate(rp, now);
+                p->rr_sim_status.activate(rp);
+            } else {
+                p->rr_sim_status.add_pending(rp);
+            }
         }
         rp->rr_sim_misses_deadline = false;
-		if (rp->uses_coprocs()) {
-			p->rr_sim_status.has_cuda_jobs = true;
-		} else {
-			p->rr_sim_status.has_cpu_jobs = true;
-		}
     }
 
     // note the number of idle instances
@@ -338,18 +334,22 @@ void CLIENT_STATE::rr_simulation() {
         sim_status.remove_active(rpbest);
         pbest->rr_sim_status.remove_active(rpbest);
 
-        // If project has more results, add one or more to active set.
-		// TODO: do this for other projects too, since coproc may have been freed
-        //
-        while (1) {
-            rp = pbest->rr_sim_status.get_pending();
-            if (!rp) break;
-            if (pbest->rr_sim_status.can_run(rp, gstate.ncpus) && sim_status.can_run(rp)) {
+        if (rpbest->uses_cuda()) {
+            while (1) {
+                if (sim_status.active_cudas >= coproc_cuda->count) break;
+                if (!cuda_work_fetch.pending.size()) break;
+                RESULT* rp = cuda_work_fetch.pending[0];
+                cuda_work_fetch.pending.erase(cuda_work_fetch.pending.begin());
                 sim_status.activate(rp, sim_now);
                 pbest->rr_sim_status.activate(rp);
-            } else {
-                pbest->rr_sim_status.add_pending(rp);
-                break;
+            }
+        } else {
+            while (1) {
+                if (pbest->rr_sim_status.active_ncpus >= ncpus) break;
+                RESULT* rp = pbest->rr_sim_status.get_pending();
+                if (!rp) break;
+                sim_status.activate(rp, sim_now);
+                pbest->rr_sim_status.activate(rp);
             }
         }
         sim_now += rpbest->rrsim_finish_delay;
