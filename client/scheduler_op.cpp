@@ -221,7 +221,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         if (coproc_cuda) {
             msg_printf(p, MSG_INFO,
                 "CUDA work request: %.2f seconds; %d idle GPUs",
-                cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
+                coproc_cuda->req_secs, coproc_cuda->req_instances
             );
         }
     }

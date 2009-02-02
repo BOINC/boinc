@@ -315,10 +315,11 @@ PROJECT* WORK_FETCH::choose_project() {
         if (request_cuda) {
             cuda_work_fetch.set_request(p);
         }
-        if (coproc_cuda) {
-            coproc_cuda->req_secs = cuda_work_fetch.req_secs;
-            coproc_cuda->req_instances = cuda_work_fetch.req_instances;
-        }
+    }
+    if (coproc_cuda) {
+        coproc_cuda->req_secs = cuda_work_fetch.req_secs;
+        coproc_cuda->req_instances = cuda_work_fetch.req_instances;
+        coproc_cuda->estimated_delay = cuda_work_fetch.estimated_delay;
     }
     if (log_flags.work_fetch_debug) {
         print_state();
