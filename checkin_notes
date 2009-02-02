@@ -664,3 +664,12 @@ Charlie Jan 30 2009
     clientgui/
         BOINCGUIApp.cpp, .h
         SkinManager.cpp, .h
+
+David  27 Jan 2009
+    - client: if we're making an RPC to a project because of user request,
+        clear the resource backoff times so that we potentially
+        can ask the project for work.
+
+    client/
+        cs_scheduler.cpp
+        work_fetch.cpp
