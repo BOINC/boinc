@@ -65,6 +65,9 @@ bool RSC_PROJECT_WORK_FETCH::compute_may_have_work() {
 
 void RSC_PROJECT_WORK_FETCH::rr_init() {
     may_have_work = compute_may_have_work();
+    runnable_share = 0;
+    fetchable_share = 0;
+    has_runnable_jobs = false;
 }
 
 void RSC_WORK_FETCH::rr_init() {
@@ -458,10 +461,10 @@ void WORK_FETCH::compute_shares() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
-        if (p->rr_sim_status.has_cpu_jobs) {
+        if (p->cpu_pwf.has_runnable_jobs) {
             cpu_work_fetch.total_runnable_share += p->resource_share;
         }
-        if (p->rr_sim_status.has_cuda_jobs) {
+        if (p->cuda_pwf.has_runnable_jobs) {
             cuda_work_fetch.total_runnable_share += p->resource_share;
         }
         if (!p->pwf.can_fetch_work) continue;
@@ -475,10 +478,10 @@ void WORK_FETCH::compute_shares() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
-        if (p->rr_sim_status.has_cpu_jobs) {
+        if (p->cpu_pwf.has_runnable_jobs) {
             p->cpu_pwf.runnable_share = p->resource_share/cpu_work_fetch.total_runnable_share;
         }
-        if (p->rr_sim_status.has_cuda_jobs) {
+        if (p->cuda_pwf.has_runnable_jobs) {
             p->cuda_pwf.runnable_share = p->resource_share/cuda_work_fetch.total_runnable_share;
         }
         if (!p->pwf.can_fetch_work) continue;

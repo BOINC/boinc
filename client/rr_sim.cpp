@@ -111,9 +111,6 @@ void RR_SIM_PROJECT_STATUS::activate(RESULT* rp) {
     active_cudas += rp->avp->ncudas;
 }
 
-bool RR_SIM_PROJECT_STATUS::can_run(RESULT* rp, int ncpus) {
-    return active_ncpus < ncpus;
-}
 void RR_SIM_PROJECT_STATUS::remove_active(RESULT* r) {
     std::vector<RESULT*>::iterator it = active.begin();
     while (it != active.end()) {
@@ -229,7 +226,7 @@ void CLIENT_STATE::rr_simulation() {
         if (rp->rrsim_flops_left <= 0) continue;
         p = rp->project;
 		if (rp->uses_cuda()) {
-			p->rr_sim_status.has_cuda_jobs = true;
+			p->cuda_pwf.has_runnable_jobs = true;
             if (sim_status.active_cudas < coproc_cuda->count) {
                 sim_status.activate(rp, now);
                 p->rr_sim_status.activate(rp);
@@ -237,8 +234,8 @@ void CLIENT_STATE::rr_simulation() {
                 cuda_work_fetch.pending.push_back(rp);
             }
         } else {
-			p->rr_sim_status.has_cpu_jobs = true;
-            if (p->rr_sim_status.can_run(rp, ncpus)) {
+			p->cpu_pwf.has_runnable_jobs = true;
+            if (p->rr_sim_status.active_ncpus < ncpus) {
                 sim_status.activate(rp, now);
                 p->rr_sim_status.activate(rp);
             } else {

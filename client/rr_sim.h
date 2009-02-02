@@ -28,16 +28,12 @@ struct RR_SIM_PROJECT_STATUS {
     int deadlines_missed;
 	double active_ncpus;
     double active_cudas;
-	bool has_cuda_jobs;
-	bool has_cpu_jobs;
 
     inline void clear() {
         active.clear();
         pending.clear();
         deadlines_missed = 0;
 		active_ncpus = 0;
-		has_cuda_jobs = false;
-		has_cpu_jobs = false;
     }
     void activate(RESULT* rp);
     inline void add_pending(RESULT* rp) {
@@ -49,7 +45,6 @@ struct RR_SIM_PROJECT_STATUS {
     inline bool none_pending() {
         return !pending.size();
     }
-	bool can_run(RESULT* rp, int ncpus);
     void remove_active(RESULT* r);
     inline RESULT* get_pending() {
         if (!pending.size()) return NULL;
