@@ -56,6 +56,7 @@ struct RSC_PROJECT_WORK_FETCH {
         // we could probably get work for this resource;
         // determines how many instances this project deserves
     bool has_runnable_jobs;
+	double sim_nused;
 
     RSC_PROJECT_WORK_FETCH() {
         memset(this, 0, sizeof(*this));
@@ -91,6 +92,7 @@ struct RSC_WORK_FETCH {
     //
     double shortfall;
     double nidle_now;
+	double sim_nused;
     double total_fetchable_share;
         // total RS of projects from which we could fetch jobs for this device
     double total_runnable_share;
@@ -112,8 +114,8 @@ struct RSC_WORK_FETCH {
     }
 
     void rr_init();
-    void accumulate_shortfall(double d_time, double nused=0);
-    void update_estimated_delay(double dt, double nused);
+    void accumulate_shortfall(double d_time);
+    void update_estimated_delay(double dt);
     PROJECT* choose_project(bool urgent);
     void accumulate_debt();
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);
