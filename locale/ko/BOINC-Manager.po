@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.6 based rev.16826\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-02-02 18:23-0700\n"
+"PO-Revision-Date: 2009-02-02 20:17-0700\n"
 "Last-Translator: Kangsan Lee <netpres@chol.com>\n"
 "Language-Team: BOINC@KOREA\n"
 "Language: ko\n"
@@ -263,7 +263,7 @@ msgstr "설정을 무시하고 네트워크 활동을 허용합니다"
 
 #: clientgui/AdvancedFrame.cpp:418
 msgid "Network activity based on &preferences"
-msgstr "설정한 대로 네트워크 네트워크 활동"
+msgstr "설정한 대로 네트워크 활동"
 
 #: clientgui/AdvancedFrame.cpp:419
 msgid "Allow network activity according to your preferences"
@@ -3739,7 +3739,8 @@ msgstr "네트워크 사용 시작 및 중지 시간을 HH:MM-HH:MM 형식대로
 #~ msgid ""
 #~ msgstr "계정 키:"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid ""
 #~ "Communicating with account manager\n"
@@ -3751,12 +3752,14 @@ msgstr "네트워크 사용 시작 및 중지 시간을 HH:MM-HH:MM 형식대로
 #~ msgid ""
 #~ msgstr "계정 정보"
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid "%s needs a connection to the Internet to perform some maintenance, open the %s to connect up and perform the needed work."
 #~ msgstr "%s은(는) 몇 가지 유지보수를 수행하기 위해 인터넷에 접속해야 합니다. %s은(는) 접속하여 필요한 작업을 수행합니다."
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
 #~ msgid ""
 #~ "%s is unable to communicate with a project and no default connection is specified.\n"
