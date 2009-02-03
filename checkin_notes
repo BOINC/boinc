@@ -1086,3 +1086,16 @@ David  3 Feb 2009
     client/
         cs_scheduler.cpp
         scheduler_op.cpp
+
+Rom    3 Feb 2009
+    - SCROPENGL: Checkin the files needed for the new OpenGL based
+        BOINC screensaver.
+        
+    clientscr/
+        boinc_ss_opengl.h
+        boinc_ss_opengl.rc
+        screensaver_opengl.cpp
+        screensaver_opengl.h
+    win_build/
+        boinc.sln
+        boinc_ss_opengl.vcproj
