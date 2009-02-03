@@ -459,6 +459,7 @@ bool SCHEDULER_OP::poll() {
                     }
                 }
             } else {
+				cur_proj->sched_rpc_pending = 0;
                 retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url);
                 switch (retval) {
                 case 0:

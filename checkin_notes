@@ -1079,3 +1079,10 @@ David  2 Feb 2009
         DlgItemProperties.cpp
     html/ops/
         autolock.php
+
+David  3 Feb 2009
+    - client: fix bug that caused infinite sched RPCs if project down
+
+    client/
+        cs_scheduler.cpp
+        scheduler_op.cpp
