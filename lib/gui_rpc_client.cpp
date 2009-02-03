@@ -310,4 +310,22 @@ int RPC::parse_reply() {
     return ERR_NOT_FOUND;
 }
 
+// If there's a password file, read it
+//
+int read_gui_rpc_password(char* buf) {
+    FILE* f = fopen(GUI_RPC_PASSWD_FILE, "r");
+    if (!f) return ERR_FOPEN;
+    char* p = fgets(buf, 256, f);
+    if (p) {
+        // trim CR
+        //
+        int n = (int)strlen(buf);
+        if (n && buf[n-1]=='\n') {
+            buf[n-1] = 0;
+        }
+    }
+    fclose(f);
+    return 0;
+}
+
 const char *BOINC_RCSID_6802bead97 = "$Id$";

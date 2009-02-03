@@ -1102,3 +1102,15 @@ Rom    3 Feb 2009
 
 David  3 Feb 2009
     - renamed boinc_ss_opengl to ss_app
+
+David  3 Feb 2009
+    - GUI RPC: made password file read into function
+    - lib: minimized FCGI library
+
+    client/
+        boinc_cmd.cpp
+        file.names.h
+    lib/
+        gui_rpc_client.cpp,h
+        common_defs.h
+        Makefile.am

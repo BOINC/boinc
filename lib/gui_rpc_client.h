@@ -671,3 +671,5 @@ struct SET_LOCALE {
         setlocale(LC_ALL, locale.c_str());
     }
 };
+
+extern int read_gui_rpc_password(char*);

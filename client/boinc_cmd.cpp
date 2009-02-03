@@ -122,25 +122,6 @@ char* next_arg(int argc, char** argv, int& i) {
     return argv[i++];
 }
 
-
-// If there's a password file, read it
-//
-void read_password_from_file(char* buf) {
-	FILE* f = fopen("gui_rpc_auth.cfg", "r");
-	if (!f) return;
-	char* p = fgets(buf, 256, f);
-        if (p) {                // Fixes compiler warning
-            int n = (int)strlen(buf);
-
-            // trim CR
-            //
-            if (n && buf[n-1]=='\n') {
-                    buf[n-1] = 0;
-            }
-	}
-	fclose(f);
-}
-
 int main(int argc, char** argv) {
     RPC_CLIENT rpc;
     int i, retval, port=0;
@@ -152,7 +133,7 @@ int main(int argc, char** argv) {
     chdir_to_data_dir();
 #endif
 	strcpy(passwd_buf, "");
-	read_password_from_file(passwd_buf);
+	read_gui_rpc_password(passwd_buf);
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
     WSADATA wsdata;

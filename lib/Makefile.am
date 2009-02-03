@@ -16,10 +16,25 @@ endif
 
 if ENABLE_LIBRARIES
 
+libfcgi_sources = \
+    boinc_fcgi.cpp \
+    coproc.cpp \
+    crypt.cpp \
+    filesys.cpp \
+    hostinfo.cpp \
+    md5.c \
+    md5_file.cpp \
+    miofile.cpp \
+    msg_log.cpp \
+    parse.cpp \
+    shmem.cpp \
+    str_util.cpp \
+    synch.cpp \
+    util.cpp
+
 generic_sources = \
     app_ipc.cpp \
     base64.cpp \
-    boinc_fcgi.cpp \
     cert_sig.cpp \
     coproc.cpp \
     crypt.cpp \
@@ -43,9 +58,9 @@ generic_sources = \
     proxy_info.cpp \
     shmem.cpp \
     str_util.cpp \
-    util.cpp	\
+    synch.cpp \
     unix_util.cpp \
-    synch.cpp 
+    util.cpp
 
 if OS_DARWIN
 mac_sources = \
@@ -107,7 +122,7 @@ libboinc_la_LIBADD =
 
 if ENABLE_FCGI
 lib_LTLIBRARIES += libboinc_fcgi.la
-libboinc_fcgi_la_SOURCES = $(generic_sources) $(mac_sources)
+libboinc_fcgi_la_SOURCES = $(libfcgi_sources) $(mac_sources)
 libboinc_fcgi_la_CFLAGS = -D_USING_FCGI_ $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_fcgi_la_CXXFLAGS = -D_USING_FCGI_ $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_fcgi_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)

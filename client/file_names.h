@@ -73,7 +73,6 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define REMOTEHOST_FILE_NAME        "remote_hosts.cfg"
 #define ACCT_MGR_REQUEST_FILENAME   "acct_mgr_request.xml"
 #define ACCT_MGR_REPLY_FILENAME     "acct_mgr_reply.xml"
-#define GUI_RPC_PASSWD_FILE         "gui_rpc_auth.cfg"
 #define PROJECT_INIT_FILENAME       "project_init.xml"
 #define ACCT_MGR_URL_FILENAME       "acct_mgr_url.xml"
 #define ACCT_MGR_LOGIN_FILENAME     "acct_mgr_login.xml"
