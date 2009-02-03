@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.6 based rev.16826\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-02-02 20:17-0700\n"
+"PO-Revision-Date: 2009-02-03 07:51-0700\n"
 "Last-Translator: Kangsan Lee <netpres@chol.com>\n"
 "Language-Team: BOINC@KOREA\n"
 "Language: ko\n"
@@ -331,7 +331,7 @@ msgstr "설정 파일 읽기"
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "Read configuration info from cc_config.xml."
-msgstr "cc_config.xml로 부터 설정 정보를 읽어옵니다."
+msgstr "cc_config.xml로부터 설정 정보를 읽어옵니다."
 
 #: clientgui/AdvancedFrame.cpp:473
 msgid "Read local prefs file"
@@ -339,7 +339,7 @@ msgstr "로컬 환경설정 파일 읽기"
 
 #: clientgui/AdvancedFrame.cpp:474
 msgid "Read preferences from global_prefs_override.xml."
-msgstr "global_prefs_override.xml로 부터 환경 설정을 읽어옵니다."
+msgstr "global_prefs_override.xml로부터 환경 설정을 읽어옵니다."
 
 #: clientgui/AdvancedFrame.cpp:478
 #, c-format
