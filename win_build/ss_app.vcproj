@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="boinc_ss_opengl"
+	Name="ss_app"
 	ProjectGUID="{C3163ACA-C2E6-49D2-AA21-B8B953331EF7}"
 	>
 	<Platforms>
@@ -821,7 +821,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\clientscr\screensaver_opengl.cpp"
+				RelativePath="..\clientscr\ss_app.cpp"
 				>
 			</File>
 		</Filter>
@@ -843,7 +843,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\clientscr\screensaver_opengl.h"
+				RelativePath="..\clientscr\ss_app.h"
 				>
 			</File>
 		</Filter>

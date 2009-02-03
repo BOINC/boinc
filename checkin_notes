@@ -1099,3 +1099,6 @@ Rom    3 Feb 2009
     win_build/
         boinc.sln
         boinc_ss_opengl.vcproj
+
+David  3 Feb 2009
+    - renamed boinc_ss_opengl to ss_app

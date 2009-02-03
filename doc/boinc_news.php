@@ -1,6 +1,13 @@
 <?
 
 $project_news = array(
+array("February 3, 2009",
+    "Congratulations to <a href=http://www.setibr.org/>SETIBR</a>,
+    the Brazilian team which,
+    across several BOINC-based projects,
+    has achieved the levels of 100K average credit
+    and 50M total credit."
+),
 array("January 29, 2009",
     "Scientists: it's easier than ever to create a BOINC project -
     you don't even need a server!
