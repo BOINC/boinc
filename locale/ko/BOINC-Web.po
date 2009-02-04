@@ -3,13 +3,15 @@ msgstr ""
 "Project-Id-Version: based rev.16826\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-27 15:16+0900\n"
-"Last-Translator: Lee Kangsan <netpres@hanmail.net>\n"
+"PO-Revision-Date: 2009-02-03 22:48-0700\n"
+"Last-Translator: Kangsan Lee <netpres@chol.com>\n"
 "Language-Team: BOINC@KOREA\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Korean\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
@@ -264,7 +266,7 @@ msgid "POLL_NONE"
 msgstr "없음"
 
 msgid "POLL_HELP"
-msgstr "귀하는 BOINC나 BOINC 프로젝트에서 생긴 문제를 해결하기 위해 도움되는 정보를 어디서 구하십니까? "
+msgstr "귀하는 BOINC나 BOINC 프로젝트에서 생긴 문제를 해결하기 위해 도움되는 정보를 어디서 구하십니까?"
 
 msgid "POLL_HELP_PMB"
 msgstr "프로젝트 게시판"
@@ -291,7 +293,7 @@ msgid "POLL_ERROR_TITLE"
 msgstr "오류 - 결과가 기록되지 않았습니다"
 
 msgid "POLL_ERROR_TEXT"
-msgstr "내부 오류로 귀하의 설문조사 응답을 기록하는데 지장이 있습니다.  나중에 다시 시도해 주세요."
+msgstr "내부 오류로 귀하의 설문조사 응답을 기록하는데 지장이 있습니다. 나중에 다시 시도해 주세요."
 
 msgid "POLL_RECORDED"
 msgstr "설문 조사 응답이 기록되었습니다"
@@ -303,7 +305,7 @@ msgid "POLL_RESULTS_TITLE"
 msgstr "설문 조사 결과"
 
 msgid "POLL_RESULTS_TEXT"
-msgstr "현재 <a href=poll.php>BOINC 사용자 설문 조사</a> 결과입니다.  이 페이지는 매시간 업데이트됩니다."
+msgstr "현재 <a href=poll.php>BOINC 사용자 설문 조사</a> 결과입니다. 이 페이지는 매시간 업데이트됩니다."
 
 ########################################
 # download.php
@@ -342,7 +344,11 @@ msgid "BOINC: compute for science"
 msgstr "BOINC: 과학을 위한 컴퓨팅"
 
 msgid "DL_MIRRORS"
-msgstr "노트: 파일은 boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, and einstein.aset.psu.edu등의 미러 서버에서도 다운로드할 수 있습니다. (이 기관들에게 감사드립니다) 서버는 무작위로 선택됩니다 - 만약 다운로드에 실패하면, 이 페이지를 새로 고침하시고 다시 시도해 주세요. "
+msgstr ""
+"노트: 파일은 boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, "
+"einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, and "
+"einstein.aset.psu.edu등의 미러 서버에서도 다운로드할 수 있습니다. (이 기관들에게 감사드립니다) 서버는 무작위로 "
+"선택됩니다 - 만약 다운로드에 실패하면, 이 페이지를 새로 고침하시고 다시 시도해 주세요."
 
 ##############################################
 # help.php
@@ -360,7 +366,10 @@ msgid "HELP_P1_2"
 msgstr "BOINC 온라인 도움말은 인터넷 전화인 %sSkype%s에 기반을 두고 있습니다. Skype는 소프트웨어와 전화 모두 무료입니다. 아직 Skype를 사용하고 계시지 않았다면, %s지금 다운로드하고 설치하십시오%s. 완료되면 이 페이지로 돌아오십시오."
 
 msgid "HELP_P1_3"
-msgstr "도움을 구하는 가장 좋은 방법은 목소리입니다. 이를 위해서 여러분 컴퓨터에는 마이크와 스피커 또는 외부 헤드셋이 필요합니다. 여러분은 또한 도우미 기여자들과 Skype 텍스트 기반 대화 시스템이나 일반적인 email (만약 Skype를 쓰지 않을 경우)로 대화를 주고받을 수 있습니다. "
+msgstr ""
+"도움을 구하는 가장 좋은 방법은 목소리입니다. 이를 위해서 여러분 컴퓨터에는 마이크와 스피커 또는 외부 헤드셋이 필요합니다. 여러분은 "
+"또한 도우미 기여자들과 Skype 텍스트 기반 대화 시스템이나 일반적인 email (만약 Skype를 쓰지 않을 경우)로 대화를 주고받을 "
+"수 있습니다."
 
 msgid "HELP_P1_4"
 msgstr "기여자들은 몇가지 언어로 얘기하는 게 가능합니다. 언어를 선택해 주세요:"
@@ -378,7 +387,7 @@ msgid "HELP_P2_ITEM3"
 msgstr "BOINC-관련 웹 사이트"
 
 msgid "HELP_P2_ITEM4"
-msgstr "BOINC 게시판 "
+msgstr "BOINC 게시판"
 
 msgid "HELP_P2_ITEM5"
 msgstr "모든 BOINC-기반 프로젝트를 위한 게시판"
@@ -399,7 +408,10 @@ msgid "HOME_HEADING1"
 msgstr "기여자"
 
 msgid "HOME_P1"
-msgstr "질병 치료, 지구 온난화 연구, 펄서 발견 그리고 또 다른 종류의 과학연구를 위해 여러분 컴퓨터(윈도우, 맥, 리눅스)의 대기 시간을 사용하십시오. 이 것은 안전하고 보안이 철저하며 쉽습니다;  프로젝트를 %s선택%s하고 %s다운로드%s하신 후, BOINC 소프트웨어를 실행해서 email 주소와 비밀번호를 %s입력%s하십시오."
+msgstr ""
+"질병 치료, 지구 온난화 연구, 펄서 발견 그리고 또 다른 종류의 과학연구를 위해 여러분 컴퓨터(윈도우, 맥, 리눅스)의 대기 시간을 "
+"사용하십시오. 이 것은 안전하고 보안이 철저하며 쉽습니다; 프로젝트를 %s선택%s하고 %s다운로드%s하신 후, BOINC 소프트웨어를 "
+"실행해서 email 주소와 비밀번호를 %s입력%s하십시오."
 
 msgid "HOME_P2"
 msgstr "혹시 몇 개의 프로젝트를 수행하고 계시다면, %sGridRepublic%s이나 %sBAM!%s 같은 %s계정 관리자%s를 사용해 보십시오."
@@ -427,4 +439,3 @@ msgstr "네트워크 컴퓨팅을 위한 Berkeley 개방형 하부구조체"
 
 msgid "HOME_BOINC_DESC"
 msgstr "%s기여자 컴퓨팅%s과 %s그리드 컴퓨팅%s을 위한 오픈 소스 소프트웨어"
-
