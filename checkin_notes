@@ -835,3 +835,9 @@ Rom    2 Feb 2009
         configure.ac
         version.h
 
+David  3 Feb 2009
+    - client: fix bug that caused infinite sched RPCs if project down
+
+    client/
+        cs_scheduler.cpp
+        scheduler_op.cpp
