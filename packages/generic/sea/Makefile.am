@@ -4,7 +4,7 @@ EXTRA_DIST = make-sea.sh
 vers = \
   @BOINC_MAJOR_VERSION@.@BOINC_MINOR_VERSION@.@BOINC_RELEASE@_@boinc_platform@
 sea = boinc_$(vers).sh
-tarfiles = BOINC/boinc BOINC/boincmgr BOINC/boinccmd BOINC/binstall.sh\
+tarfiles = BOINC/boinc BOINC/boinccmd BOINC/binstall.sh\
         BOINC/libboinc*.so*  
 	BOINC/boincmgr.16x16.png BOINC/boincmgr.32x32.png BOINC/boincmgr.48x48.png \
 	BOINC/libcudart.so BOINC/ca-bundle.crt
@@ -28,9 +28,6 @@ BOINC/boinc: $(top_builddir)/stage/$(bindir)/boinc BOINC
 
 BOINC/libboinc*.so*:
 	cp -P $(top_builddir)/stage/$(libdir)/libboinc*.so* BOINC
-
-BOINC/boincmgr: $(top_builddir)/stage/$(bindir)/boincmgr BOINC
-	cp $(top_builddir)/stage/$(bindir)/boincmgr BOINC/boincmgr
 
 BOINC/boinccmd: $(top_builddir)/stage/$(bindir)/boinccmd BOINC
 	cp $(top_builddir)/stage/$(bindir)/boinccmd BOINC/boinccmd
