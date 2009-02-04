@@ -8,11 +8,9 @@ tarfiles = BOINC/boinc BOINC/boincmgr BOINC/boinccmd BOINC/binstall.sh \
 	BOINC/boincmgr.16x16.png BOINC/boincmgr.32x32.png BOINC/boincmgr.48x48.png \
 	BOINC/ca-bundle.crt
 
-if HAVE_CUDA_LIB
 tarfiles += BOINC/libcudart.so
 BOINC/libcudart.so: $(top_builddir)/coprocs/CUDA/posix/@boinc_platform@/libcudart.so BOINC
 	cp $(top_builddir)/coprocs/CUDA/posix/@boinc_platform@/libcudart.so BOINC/libcudart.so
-endif
 
 all: $(top_builddir)/stage $(sea)
 
