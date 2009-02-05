@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.6 based rev.16826\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-02-03 07:51-0700\n"
+"PO-Revision-Date: 2009-02-05 04:20-0700\n"
 "Last-Translator: Kangsan Lee <netpres@chol.com>\n"
 "Language-Team: BOINC@KOREA\n"
 "Language: ko\n"
@@ -578,7 +578,7 @@ msgstr "실행 중인 클라이언트 접속 인증에 실패했습니다."
 
 #: clientgui/BOINCBaseFrame.cpp:443
 msgid "The password you have provided is incorrect, please try again."
-msgstr "입력하신 암호가 틀립니다. 다시 시도해 주세요."
+msgstr "입력하신 비밀번호가 틀립니다. 다시 시도해 주세요."
 
 #: clientgui/BOINCBaseFrame.cpp:482
 #, c-format
