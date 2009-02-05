@@ -41,7 +41,7 @@
 #include "screensaver_opengl.h"
 
 #ifdef __APPLE__
-#include "mac/app_icon.h"
+#include "mac_app_icon.h"
 #endif
 
 float white[4] = {1., 1., 1., 1.};

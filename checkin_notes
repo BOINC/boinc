@@ -1143,13 +1143,18 @@ Rom    5 Feb 2008
 Charlie Feb 5 2009
     - SS: Implement basic new functionality in screensaver coordinator.
         - Note: this is tested on Mac only at this point.
+    - SS: Add ss_app to XCode Project, with a temporary icon.
 
     client/
         check_security.cpp
         file_names.h
     clientscr/
         screensaver.cpp, .h
+        mac_app_icon.h (added)
         Mac_Saver_Module.h
         screensaver_win.h
     lib/
         common_defs.h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
