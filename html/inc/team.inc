@@ -95,11 +95,17 @@ function display_team_page($team, $user) {
         row2(tra('Recent average credit'), format_credit_large($team->expavg_credit));
 
         $x = "";
+        shuffle($team_name_sites);
         foreach ($team_name_sites as $t) {
             $url = $t[0];
             $site_name = $t[1];
-            $team_name = urlencode($team->name);
-            $x .= "<a href=$url".$team_name.">$site_name</a><br>\n";
+            $encoding = $t[2];
+            if ($encoding == "hash") {
+                $key = md5(strtolower($team->name));
+            } else {
+                $key = urlencode($team->name);
+            }
+            $x .= "<a href=$url".$key.">$site_name</a><br>\n";
         }
         row2(tra('Cross-project credit'), $x);
     }

@@ -159,6 +159,11 @@ $sig_sites = array(
 $team_name_sites = array(
     array("http://stats.free-dc.org/stats.php?page=teambycpid&team=",
         "Free-DC",
+        ""
+    ),
+    array("http://boincstats.com/search/all_projects.php?teamid=",
+        "BOINCstats.com",
+        "hash"
     ),
 );
 

@@ -1216,3 +1216,11 @@ David  5 Feb 2009
         cpu_sched.cpp
         cs_scheduler.cpp
         work_fetch.cpp
+
+David  5 Feb 2009
+    - web: added BOINCstats to list of team stats sites
+
+    html/
+        inc/
+            stats_sites.inc
+            team.inc
