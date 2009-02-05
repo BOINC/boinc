@@ -1236,3 +1236,11 @@ David  5 Feb 2009
             util.inc
         user/
             hosts_user.php
+
+David  5 Feb 2009
+    - client: if time intervals for debt adjustment or job elapsed time
+        are negative, ignore (must be clock reset)
+
+    client/
+        app_control.cpp
+        cpu_sched.cpp

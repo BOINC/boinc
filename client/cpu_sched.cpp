@@ -343,7 +343,7 @@ void CLIENT_STATE::adjust_debts() {
     // it must be because the host was suspended for a long time.
     // In this case, ignore the last period>
     //
-    if (elapsed_time > 2*WORK_FETCH_PERIOD) {
+    if (elapsed_time > 2*WORK_FETCH_PERIOD || elapsed_time < 0) {
         if (log_flags.debt_debug) {
             msg_printf(NULL, MSG_INFO,
                 "[debt_debug] adjust_debt: elapsed time (%d) longer than work fetch period(%d).  Ignoring this period.",
