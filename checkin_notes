@@ -1201,3 +1201,18 @@ Rom    5 Feb 2009
         
     clientgui/
         ProjectListCtrl.cpp
+
+David  5 Feb 2009
+    - client: when accounting job elapsed time,
+        ignore intervals longer than 10 secs;
+        that could only happen if the client or host was suspended/hibernated.
+    - client: in adjust_debts(), ignore intervals longer than
+        2*work fetch period, not 2*CPU sched period.
+        adjust_debts() is called from work fetch.
+
+    client/
+        app_control.cpp
+        client_state.h
+        cpu_sched.cpp
+        cs_scheduler.cpp
+        work_fetch.cpp

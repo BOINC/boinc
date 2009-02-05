@@ -64,10 +64,6 @@ using std::vector;
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
-//#ifdef _WIN32
-//#define DONT_SATURATE_CPUS_IF_COPROC_RUNNING
-//#endif
-
 bool COPROCS::sufficient_coprocs(COPROCS& needed, bool log_flag, const char* prefix) {
     for (unsigned int i=0; i<needed.coprocs.size(); i++) {
         COPROC* cp = needed.coprocs[i];
@@ -341,19 +337,19 @@ void CLIENT_STATE::adjust_debts() {
         return;
     }
 
-    // if the elapsed time is more than the scheduling period,
+    // This is called from WORK_FETCH::choose_project(),
+    // which runs about once every WORK_FETCH_PERIOD.
+    // If the elapsed time is more than 2*WORK_FETCH_PERIOD,
     // it must be because the host was suspended for a long time.
-    // Currently we don't have a way to estimate how long this was for,
-    // so ignore the last period and reset counters.
+    // In this case, ignore the last period>
     //
-    if (elapsed_time > global_prefs.cpu_scheduling_period()*2) {
+    if (elapsed_time > 2*WORK_FETCH_PERIOD) {
         if (log_flags.debt_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[debt_debug] adjust_debt: elapsed time (%d) longer than sched period (%d).  Ignoring this period.",
-                (int)elapsed_time, (int)global_prefs.cpu_scheduling_period()
+                "[debt_debug] adjust_debt: elapsed time (%d) longer than work fetch period(%d).  Ignoring this period.",
+                (int)elapsed_time, (int)WORK_FETCH_PERIOD
             );
         }
-        reset_debt_accounting();
         return;
     }
 
@@ -790,20 +786,6 @@ bool CLIENT_STATE::enforce_schedule() {
 
     double swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
 
-#ifdef DONT_SATURATE_CPUS_IF_COPROC_RUNNING
-    // see whether we have any coproc jobs, and total their CPU usage
-    //
-	double new_ncpus_used = 0;
-    bool have_coproc_job = false;
-    for (i=0; i<ordered_scheduled_results.size(); i++) {
-        RESULT* rp = ordered_scheduled_results[i];
-        if (rp->uses_coprocs()) {
-            have_coproc_job = true;
-            new_ncpus_used += rp->avp->avg_ncpus;
-        }
-    }
-#endif
-
     // Loop through the jobs we want to schedule.
     // Invariant: "ncpus_used" is the sum of CPU usage
     // of tasks with next_scheduler_state == CPU_SCHED_SCHEDULED
@@ -817,13 +799,6 @@ bool CLIENT_STATE::enforce_schedule() {
                 "[cpu_sched_debug] processing %s", rp->name
             );
         }
-
-#ifdef DONT_SATURATE_CPUS_IF_COPROC_RUNNING
-		//
-		if (have_coproc_job && !rp->uses_coprocs()) {
-			if (new_ncpus_used + rp->avp->avg_ncpus >= ncpus) continue;
-		}
-#endif
 
         atp = lookup_active_task_by_result(rp);
         if (atp) {
@@ -845,15 +820,7 @@ bool CLIENT_STATE::enforce_schedule() {
         bool failed_to_preempt = false;
 		while (1) {
 			if (!preemptable_tasks.size()) break;
-#ifdef DONT_SATURATE_CPUS_IF_COPROC_RUNNING
-			if (have_coproc_job) {
-				if (ncpus_used + rp->avp->avg_ncpus < ncpus) break;
-			} else {
-				if (ncpus_used < ncpus) break;
-			}
-#else
             if (ncpus_used < ncpus) break;
-#endif
             // Preempt the most preemptable task if either
             // 1) it's completed its time slice and has checkpointed recently
             // 2) the scheduled result is in deadline trouble
@@ -896,11 +863,6 @@ bool CLIENT_STATE::enforce_schedule() {
 			atp = get_task(rp);
         }
         ncpus_used += rp->avp->avg_ncpus;
-#ifdef DONT_SATURATE_CPUS_IF_COPROC_RUNNING
-		if (!rp->uses_coprocs()) {
-			new_ncpus_used += rp->avp->avg_ncpus;
-		}
-#endif
         atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         ram_left -= atp->procinfo.working_set_size_smoothed;
     }

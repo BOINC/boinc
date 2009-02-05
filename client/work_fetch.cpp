@@ -31,6 +31,7 @@ RSC_WORK_FETCH cuda_work_fetch;
 RSC_WORK_FETCH cpu_work_fetch;
 WORK_FETCH work_fetch;
 
+#define MIN_BACKOFF_INTERVAL    60
 #define MAX_BACKOFF_INTERVAL    86400
     // if we ask a project for work for a resource and don't get it,
     // we do exponential backoff.
@@ -578,7 +579,7 @@ void RSC_PROJECT_WORK_FETCH::backoff(PROJECT* p, char* name) {
         backoff_interval *= 2;
         if (backoff_interval > MAX_BACKOFF_INTERVAL) backoff_interval = MAX_BACKOFF_INTERVAL;
     } else {
-        backoff_interval = 60;
+        backoff_interval = MIN_BACKOFF_INTERVAL;
     }
     backoff_time = gstate.now + backoff_interval;
     if (log_flags.work_fetch_debug) {
