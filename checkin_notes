@@ -1109,8 +1109,20 @@ David  3 Feb 2009
 
     client/
         boinc_cmd.cpp
-        file.names.h
+        file_names.h
     lib/
         gui_rpc_client.cpp,h
         common_defs.h
         Makefile.am
+
+Charlie Feb 4 2009
+    -SS: Begin work on upgrading screensaver coordinator for new functionality:
+        - add filenames for ss config file and default OpenLG ss executable
+        - add sandbox security support for these 2 files.
+
+    client/
+        check_security.cpp
+        file_names.h
+    clientgui/
+        mac/
+        SetupSecurity.cpp

@@ -201,7 +201,7 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
 #ifdef _DEBUG
         // chmod u=rwsx,g=rwsx,o=rx path/BOINCManager.app/Contents/Resources/boinc
         // 06775 = S_ISUID | S_ISGID | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
-        //  setuid-on-execution, setgid-on-execution plus read, write and execute permission for user, group & others
+        //  setuid-on-execution, setgid-on-execution plus read, write and execute permission for user & group, read & execute for others
         err = DoPrivilegedExec(chmodPath, "u=rwsx,g=rwsx,o=rx", fullpath, NULL, NULL, NULL);
 #else
         // chmod u=rsx,g=rsx,o=rx path/BOINCManager.app/Contents/Resources/boinc
@@ -540,6 +540,62 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     }       // setprojectgrp application
 #endif
 #endif  // __APPLE__
+
+    // Does screensaver config file ss_config.xml exist?
+    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
+    strlcat(fullpath, "/", MAXPATHLEN);
+    strlcat(fullpath, SS_CONFIG_FILE, MAXPATHLEN);
+
+    result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
+    if ((result == noErr) && (! isDirectory)) {
+        // Make ss_config.xml file world readable but writable only by user boinc_master and group boinc_master
+
+        // Set owner and group of ss_config.xml file
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
+        // chown boinc_master:boinc_master "/Library/Application Support/BOINC Data/ss_config.xml"
+        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+
+        // chmod u=rw,g=rw,o=r "/Library/Application Support/BOINC Data/ss_config.xml"
+        // 0664 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
+        //  read, write and execute permission for user, group & others
+        err = DoPrivilegedExec(chmodPath, "u=rw,g=rw,o=r", fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+    }           // ss_config.xml
+
+    // Does default screensaver executable file boincscr exist?
+    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
+    strlcat(fullpath, "/", MAXPATHLEN);
+    strlcat(fullpath, DEFAULT_SS_EXECUTABLE, MAXPATHLEN);
+
+    result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
+    if ((result == noErr) && (! isDirectory)) {
+        // Make boincscr file world readable and executable but writable only by user boinc_master and group boinc_master
+
+        // Set owner and group of executable file boincscr
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
+        // chown boinc_master:boinc_master "/Library/Application Support/BOINC Data/boincscr"
+        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+
+        // Set permissions of executable file boincscr
+#ifdef _DEBUG
+        // chmod u=rwsx,g=rwsx,o=rx path/BOINCManager.app/Contents/Resources/boinc
+        // 06775 = S_ISUID | S_ISGID | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
+        //  setuid-on-execution, setgid-on-execution plus read, write and execute permission for user & group, read & execute for others
+        err = DoPrivilegedExec(chmodPath, "u=rwsx,g=rwsx,o=rx", fullpath, NULL, NULL, NULL);
+#else
+        // chmod u=rsx,g=rsx,o=rx path/BOINCManager.app/Contents/Resources/boinc
+        // 06555 = S_ISUID | S_ISGID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
+        //  setuid-on-execution, setgid-on-execution plus read and execute permission for user, group & others
+        err = DoPrivilegedExec(chmodPath, "u=rsx,g=rsx,o=rx", fullpath, NULL, NULL, NULL);
+#endif
+        if (err)
+            return err;
+    }           // boincscr
 
     return noErr;
 }

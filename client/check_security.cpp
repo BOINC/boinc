@@ -437,10 +437,6 @@ int use_sandbox, int isManager
         if ((sbuf.st_mode & 07777) != 02500)
             return -1044;
 
-        strlcpy(full_path, dir_path, sizeof(dir_path));
-        strlcat(full_path, "/", sizeof(full_path));
-        strlcat(full_path, SWITCHER_DIR, sizeof(full_path));
-
 #ifdef __APPLE__
 #if 0       // AppStats is deprecated as of version 5.8.15
         strlcat(full_path, "/", sizeof(full_path));
@@ -459,6 +455,44 @@ int use_sandbox, int isManager
             return -1048;
 #endif
 #endif  // __APPLE__
+
+        strlcpy(full_path, dir_path, sizeof(dir_path));
+        strlcat(full_path, "/", sizeof(full_path));
+        strlcat(full_path, SS_CONFIG_FILE, sizeof(full_path));
+
+        retval = stat(full_path, &sbuf);
+        if (!retval) {
+            if (sbuf.st_uid != boinc_master_uid)
+                return -1051;
+
+            if (sbuf.st_gid != boinc_master_gid)
+                return -1052;
+
+            if ((sbuf.st_mode & 0777) != 0664)
+                return -1053;
+        }   // Screensaver config file ss_config.xml exists
+
+        strlcpy(full_path, dir_path, sizeof(dir_path));
+        strlcat(full_path, "/", sizeof(full_path));
+        strlcat(full_path, DEFAULT_SS_EXECUTABLE, sizeof(full_path));
+
+        retval = stat(full_path, &sbuf);
+        if (!retval) {
+            if (sbuf.st_uid != boinc_master_uid)
+                return -1055;
+
+            if (sbuf.st_gid != boinc_master_gid)
+                return -1056;
+
+#ifdef _DEBUG
+            if ((sbuf.st_mode & 07777) != 06775)
+                return -1057;
+#else
+            if ((sbuf.st_mode & 07777) != 06555)
+                return -1058;
+#endif
+        }   // Screensaver executable file boincscr exists
+        
     }       // if (use_sandbox)
     
     return 0;
