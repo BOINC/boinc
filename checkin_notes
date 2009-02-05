@@ -1194,3 +1194,10 @@ David  5 Feb 2009
             team.inc
         user/
             team_display.php
+
+Rom    5 Feb 2009
+    - MGR: On newer versions of the wxWidget framework the project list
+        wasn't being properly sized, so create it with a fixed size.
+        
+    clientgui/
+        ProjectListCtrl.cpp
