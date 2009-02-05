@@ -826,7 +826,7 @@ Eric K 27 Jan 2009
 
     clientgui/
         WelcomePage.cpp
-	ProxyInfoPage.cpp
+    ProxyInfoPage.cpp
 
 David  27 Jan 2009
     - lib: comment out perror()s in connection code.
@@ -895,14 +895,14 @@ David  29 Jan 2009
             show_coproc.php
 
 David  29 Jan 2009
-	- client: if user requests RPC, do it even if project is backed off
-	- manager: show backoff interval correctly
+    - client: if user requests RPC, do it even if project is backed off
+    - manager: show backoff interval correctly
 
-	client/
-		cs_scheduler.cpp
-		work_fetch.cpp
-	clientgui/
-		DlgItemProperties.cpp
+    client/
+        cs_scheduler.cpp
+        work_fetch.cpp
+    clientgui/
+        DlgItemProperties.cpp
 
 David  29 Jan 2009
     - scheduler: get effective RAM sizes and running fraction just once
@@ -912,10 +912,10 @@ David  29 Jan 2009
         server_types.h
 
 David  29 Jan 2009
-	- client: update LTD correctly
+    - client: update LTD correctly
 
-	client/
-		work_fetch.cpp
+    client/
+        work_fetch.cpp
 
 Rom    29 Jan 2009
     - MGR: Add a virtual list box to display available account managers.
@@ -1010,7 +1010,7 @@ David  30 Jan 2009
         sched_send.cpp
 
 David  30 Jan 2009
-	- client: tweak work fetch messages
+    - client: tweak work fetch messages
     - client: buffer 2000 messages instead of 1000
 
     client/
@@ -1158,3 +1158,14 @@ Charlie Feb 5 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  5 Feb 2009
+    - manager: use sprintf() instead of WxString::Printf()
+        when copying messages to clipboard, and use tab instead of |
+
+        NOTE TO ROM: use WxWidgets features only where necessary.
+        E.g., for a time that's not going to be displayed,
+        use double instead of WxDateTime
+
+    clientgui/
+        ViewMessages.cpp

@@ -560,13 +560,14 @@ wxInt32 CViewMessages::CopyToClipboard(wxInt32 item) {
         FormatProjectName(index, strProject);
         FormatMessage(index, strMessage);
 
+        char buf[2048];
 #ifdef __WXMSW__
-        strBuffer.Printf(wxT("%s|%s|%s\r\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
+        sprintf(buf, "%s\t%s\t%s\r\n", strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
 #else
-        strBuffer.Printf(wxT("%s|%s|%s\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
+        sprintf(buf, "%s\t%s\t%s\n", strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
 #endif
 
-        m_strClipboardData += strBuffer;
+        m_strClipboardData += buf;
 
         iRetVal = 0;
     }
