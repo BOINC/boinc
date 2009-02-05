@@ -190,7 +190,7 @@ void CONFIG::defaults() {
     dont_check_file_sizes = false;
     http_1_0 = false;
     save_stats_days = 30;
-    ncpus = 0;
+    ncpus = -1;
     max_file_xfers = MAX_FILE_XFERS;
     max_file_xfers_per_project = MAX_FILE_XFERS_PER_PROJECT;
     suppress_net_info = false;

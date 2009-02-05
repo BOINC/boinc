@@ -163,6 +163,10 @@ $team_name_sites = array(
     ),
     array("http://boincstats.com/stats/boinc_team_graph.php?pr=bo&teamcpid=",
         "BOINCstats.com",
+        "hashlc"
+    ),
+    array("http://stats.setibzh.fr/team.php?teamcpid=",
+        "SETIBZH",
         "hash"
     ),
 );

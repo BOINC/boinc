@@ -1250,3 +1250,14 @@ David  5 Feb 2009
 
     html/inc/
         boinc_db.inc
+
+David  5 Feb 2009
+    - web: add another team stats link
+    - client: if ncpus is zero in cc_config.xml, honor it.
+
+    client/
+        cpu_sched.cpp
+        log_flags.cpp
+    html/inc/
+        stats_sites.inc
+        team.inc

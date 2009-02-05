@@ -100,8 +100,10 @@ function display_team_page($team, $user) {
             $url = $t[0];
             $site_name = $t[1];
             $encoding = $t[2];
-            if ($encoding == "hash") {
+            if ($encoding == "hashlc") {
                 $key = md5(strtolower($team->name));
+            } else if ($encoding == 'hash') {
+                $key = md5($team->name);
             } else {
                 $key = urlencode($team->name);
             }

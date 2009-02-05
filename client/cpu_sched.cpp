@@ -1174,7 +1174,7 @@ void RESULT::set_state(int val, const char* where) {
 void CLIENT_STATE::set_ncpus() {
     int ncpus_old = ncpus;
 
-    if (config.ncpus>0) {
+    if (config.ncpus>=0) {
         ncpus = config.ncpus;
     } else if (host_info.p_ncpus>0) {
         ncpus = host_info.p_ncpus;
@@ -1182,11 +1182,15 @@ void CLIENT_STATE::set_ncpus() {
         ncpus = 1;
     }
 
-    if (global_prefs.max_ncpus_pct) {
-        ncpus = (int)((ncpus * global_prefs.max_ncpus_pct)/100);
-        if (ncpus == 0) ncpus = 1;
-    } else if (global_prefs.max_ncpus && global_prefs.max_ncpus < ncpus) {
-        ncpus = global_prefs.max_ncpus;
+    // if config says no CPUs, honor it
+    //
+    if (ncpus) {
+        if (global_prefs.max_ncpus_pct) {
+            ncpus = (int)((ncpus * global_prefs.max_ncpus_pct)/100);
+            if (ncpus == 0) ncpus = 1;
+        } else if (global_prefs.max_ncpus && global_prefs.max_ncpus < ncpus) {
+            ncpus = global_prefs.max_ncpus;
+        }
     }
 
     if (initialized && ncpus != ncpus_old) {
