@@ -1126,6 +1126,8 @@ Charlie Feb 4 2009
     clientgui/
         mac/
         SetupSecurity.cpp
+    mac_build/
+        Mac_SA_Secure.sh
 
 Rom    5 Feb 2008
     - MGR: Display all projects in the project list but disable the text control

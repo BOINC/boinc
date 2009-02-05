@@ -64,7 +64,7 @@
 # sudo dscl . -delete /groups/boinc_master users mary
 # 
 
-# Last updated 1/17/08 for BOINC version 5.10.38
+# Last updated 2/4/09 for BOINC version 6.6
 # WARNING: do not use this script with older versions of BOINC
 
 function make_boinc_user() {
@@ -218,6 +218,14 @@ fi
 
 if [ -f boinc_cmd ] ; then
     set_perm boinc_cmd boinc_master boinc_master 0550
+fi
+
+if [ -f ss_config.xml ] ; then
+    set_perm ss_config.xml boinc_master boinc_master 0664
+fi
+
+if [ -f boincscr ] ; then
+    set_perm boincscr boinc_master boinc_master 06555
 fi
 
 if [ -x /Applications/BOINCManager.app/Contents/MacOS/BOINCManager ] ; then 
