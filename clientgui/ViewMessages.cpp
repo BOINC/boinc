@@ -185,14 +185,17 @@ void CViewMessages::OnMessagesCopyAll( wxCommandEvent& WXUNUSED(event) ) {
     wxInt32 iIndex          = -1;
     wxInt32 iRowCount       = 0;
     pFrame->UpdateStatusText(_("Copying all messages to the clipboard..."));
-    OpenClipboard();
 
     iRowCount = m_pListPane->GetItemCount();
+
+    OpenClipboard( iRowCount * 1024 );
+
     for (iIndex = 0; iIndex < iRowCount; iIndex++) {
         CopyToClipboard(iIndex);            
     }
 
     CloseClipboard();
+
     pFrame->UpdateStatusText(wxT(""));
 
 #endif
@@ -214,11 +217,29 @@ void CViewMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
 
 #ifdef wxUSE_CLIPBOARD
 
-    wxInt32 iIndex = -1;
+    wxInt32 iIndex          = -1;
+    wxInt32 iRowCount       = 0;
 
     pFrame->UpdateStatusText(_("Copying selected messages to the clipboard..."));
-    OpenClipboard();
 
+
+    // Count the number of items selected
+    for (;;) {
+        iIndex = m_pListPane->GetNextItem(
+            iIndex, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED
+        );
+        if (iIndex == -1) break;
+
+        iRowCount++;            
+    }
+
+    OpenClipboard( iRowCount * 1024 );
+
+    // Reset the position indicator
+    iIndex = -1;
+
+
+    // Copy selected items to clipboard
     for (;;) {
         iIndex = m_pListPane->GetNextItem(
             iIndex, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED
@@ -229,6 +250,7 @@ void CViewMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
     }
 
     CloseClipboard();
+
     pFrame->UpdateStatusText(wxT(""));
 
 #endif
@@ -532,13 +554,16 @@ wxInt32 CViewMessages::FormatMessage(wxInt32 item, wxString& strBuffer) const {
 
 
 #ifdef wxUSE_CLIPBOARD
-bool CViewMessages::OpenClipboard() {
+bool CViewMessages::OpenClipboard( wxInt32 size ) {
     bool bRetVal = false;
 
     bRetVal = wxTheClipboard->Open();
     if (bRetVal) {
         m_bClipboardOpen = true;
+
         m_strClipboardData = wxEmptyString;
+        m_strClipboardData.AllocBuffer( size );
+
         wxTheClipboard->Clear();
     }
 
@@ -547,8 +572,8 @@ bool CViewMessages::OpenClipboard() {
 
 
 wxInt32 CViewMessages::CopyToClipboard(wxInt32 item) {
-    wxInt32        iRetVal  = -1;
-    wxInt32         index   = GetFilteredMessageIndex(item);
+    wxInt32        iRetVal = -1;
+    wxInt32        index   = GetFilteredMessageIndex(item);
 
     if (m_bClipboardOpen) {
         wxString       strBuffer = wxEmptyString;
@@ -560,14 +585,13 @@ wxInt32 CViewMessages::CopyToClipboard(wxInt32 item) {
         FormatProjectName(index, strProject);
         FormatMessage(index, strMessage);
 
-        char buf[2048];
 #ifdef __WXMSW__
-        sprintf(buf, "%s\t%s\t%s\r\n", strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
+        strBuffer.Printf(wxT("%s\t%s\t%s\r\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
 #else
-        sprintf(buf, "%s\t%s\t%s\n", strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
+        strBuffer.Printf(wxT("%s\t%s\t%s\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str());
 #endif
 
-        m_strClipboardData += buf;
+        m_strClipboardData += strBuffer;
 
         iRetVal = 0;
     }

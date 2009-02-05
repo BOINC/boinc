@@ -80,7 +80,7 @@ protected:
 #ifdef wxUSE_CLIPBOARD
     bool                    m_bClipboardOpen;
     wxString                m_strClipboardData;
-    bool                    OpenClipboard();
+    bool                    OpenClipboard( wxInt32 size );
     wxInt32                 CopyToClipboard( wxInt32 item );
     bool                    CloseClipboard();
 #endif
