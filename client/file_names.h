@@ -90,10 +90,4 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define CA_BUNDLE_FILENAME          "ca-bundle.crt"
 #define CLIENT_AUTH_FILENAME        "client_auth.xml"
 #define CERTIFICATE_DIRECTORY       "certificates"
-#define SS_CONFIG_FILE              "ss_config.xml"
-#ifdef _WIN32
-#define DEFAULT_SS_EXECUTABLE       "boincscr.exe"
-#else
-#define DEFAULT_SS_EXECUTABLE       "boincscr"
-#endif
 #endif

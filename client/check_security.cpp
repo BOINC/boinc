@@ -344,7 +344,7 @@ int use_sandbox, int isManager
             return retval;
     }
 
-    strlcpy(full_path, dir_path, sizeof(dir_path));
+    strlcpy(full_path, dir_path, sizeof(full_path));
     strlcat(full_path, "/", sizeof(full_path));
     strlcat(full_path, SLOTS_DIR, sizeof(full_path));
     retval = stat(full_path, &sbuf);
@@ -387,7 +387,7 @@ int use_sandbox, int isManager
     }
 
     if (use_sandbox) {
-        strlcpy(full_path, dir_path, sizeof(dir_path));
+        strlcpy(full_path, dir_path, sizeof(full_path));
         strlcat(full_path, "/", sizeof(full_path));
         strlcat(full_path, SWITCHER_DIR, sizeof(full_path));
         retval = stat(full_path, &sbuf);
@@ -418,7 +418,7 @@ int use_sandbox, int isManager
         if ((sbuf.st_mode & 07777) != 04050)
             return -1040;
 
-        strlcpy(full_path, dir_path, sizeof(dir_path));
+        strlcpy(full_path, dir_path, sizeof(full_path));
         strlcat(full_path, "/", sizeof(full_path));
         strlcat(full_path, SWITCHER_DIR, sizeof(full_path));
 
@@ -456,7 +456,7 @@ int use_sandbox, int isManager
 #endif
 #endif  // __APPLE__
 
-        strlcpy(full_path, dir_path, sizeof(dir_path));
+        strlcpy(full_path, dir_path, sizeof(full_path));
         strlcat(full_path, "/", sizeof(full_path));
         strlcat(full_path, SS_CONFIG_FILE, sizeof(full_path));
 
@@ -472,7 +472,7 @@ int use_sandbox, int isManager
                 return -1053;
         }   // Screensaver config file ss_config.xml exists
 
-        strlcpy(full_path, dir_path, sizeof(dir_path));
+        strlcpy(full_path, dir_path, sizeof(full_path));
         strlcat(full_path, "/", sizeof(full_path));
         strlcat(full_path, DEFAULT_SS_EXECUTABLE, sizeof(full_path));
 

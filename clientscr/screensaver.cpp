@@ -33,6 +33,9 @@
 #include "diagnostics.h"
 #include "common_defs.h"
 #include "util.h"
+#include "common_defs.h"
+#include "filesys.h"
+
 
 #ifdef _WIN32
 #include "gui_rpc_client.h"
@@ -297,6 +300,43 @@ int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worke
 }
 
 
+// Launch the graphics application
+//
+#ifdef _WIN32
+int CScreensaver::launch_default_screensaver(char *dir_path, HANDLE& graphics_application)
+#else
+int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_application)
+#endif
+{
+    int retval = 0;
+    char full_path[1024];
+    
+    strlcpy(full_path, dir_path, sizeof(full_path));
+    strlcat(full_path, "/", sizeof(full_path));
+    strlcat(full_path, DEFAULT_SS_EXECUTABLE, sizeof(full_path));
+
+    // For unknown reasons, the graphics application exits with 
+    // "RegisterProcess failed (error = -50)" unless we pass its 
+    // full path twice in the argument list to execv on Macs.
+
+    char* argv[3];
+    argv[0] = full_path;   // not used
+    argv[1] = "--fullscreen";
+    argv[2] = 0;
+    retval = run_program(
+        dir_path,
+        full_path,
+        2,
+        argv,
+        0,
+        graphics_application
+    );
+
+     BOINCTRACE(_T("launch_default_screensaver %s returned %d\n"), full_path, retval);
+     return retval;
+}
+
+
 #ifdef _WIN32
 DWORD WINAPI CScreensaver::DataManagementProc() {
 #else
@@ -311,9 +351,19 @@ void *CScreensaver::DataManagementProc() {
     RESULT*         previous_result_ptr     = NULL;
     int             iResultCount            = 0;
     int             iIndex                  = 0;
-    double          launch_time             = 0.0;
+    double          default_phase_start_time = 0.0;
+    double          science_phase_start_time = 0.0;
     double          last_change_time        = 0.0;
-    double          last_run_check_time     = 0.0;
+    double          gfx_default_period      = GFX_DEFAULT_PERIOD;
+    double          gfx_science_period      = GFX_SCIENCE_PERIOD;
+    double          gfx_change_period       = GFX_CHANGE_PERIOD;
+
+    SS_PHASE        ss_phase                = DEFAULT_SS_PHASE;
+    bool            default_ss_exists       = false;
+    bool            science_gfx_running     = false;
+    bool            default_gfx_running     = false;
+    bool            switch_to_default_gfx   = false;
+    char            full_path[1024];
 
 #ifdef _WIN32
     BOINCTRACE(_T("CScreensaver::DataManagementProc - Display screen saver loading message\n"));
@@ -323,7 +373,31 @@ void *CScreensaver::DataManagementProc() {
     // Set the starting point for iterating through the results
     m_iLastResultShown = 0;
     m_tLastResultChangeTime = 0;
-#endif         
+#endif
+
+#ifdef __APPLE__
+    char * default_ss_dir_path = "/Library/Application Support/BOINC Data";
+#else
+    // TODO: Obtain correct path to Windows default OpenGL screensaver executable
+    char * default_ss_dir_path = "C:\Program Files\BOINC";
+#endif
+    strlcpy(full_path, default_ss_dir_path, sizeof(full_path));
+    strlcat(full_path, "/", sizeof(full_path));
+    strlcat(full_path, DEFAULT_SS_EXECUTABLE, sizeof(full_path));
+    
+    if (boinc_file_exists(full_path)) {
+        default_ss_exists = true;
+        ss_phase = DEFAULT_SS_PHASE;
+        default_phase_start_time = dtime();
+        science_phase_start_time = 0;
+        switch_to_default_gfx = true;
+    } else {
+        ss_phase = SCIENCE_SS_PHASE;
+        default_phase_start_time = 0;
+        science_phase_start_time = dtime();
+    }
+    
+    GetDisplayPeriods(gfx_default_period, gfx_science_period, gfx_change_period);
 
     while (true) {
         for (int i = 0; i < 4; i++) {
@@ -399,138 +473,227 @@ void *CScreensaver::DataManagementProc() {
             continue;
         }
 
-        // Core client suspended?
-        if (suspend_reason && !(suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
-            SetError(TRUE, SCRAPPERR_BOINCSUSPENDED);
-            if (m_hGraphicsApplication || previous_result_ptr) {
-                // use previous_result_ptr because graphics_app_result_ptr may no longer be valid
-                terminate_screensaver(m_hGraphicsApplication, previous_result_ptr);
-                if (m_hGraphicsApplication == 0) {
-                    graphics_app_result_ptr = NULL;
-                } else {
-                    // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
-                }
-                previous_result_ptr = NULL;
+        // Time to switch to default graphics?
+        if (default_ss_exists && (ss_phase == SCIENCE_SS_PHASE)) {
+            if (science_phase_start_time && ((dtime() - science_phase_start_time) > gfx_science_period)) {
+                switch_to_default_gfx = true;
+                ss_phase = DEFAULT_SS_PHASE;
+                default_phase_start_time = dtime();
+                science_phase_start_time = 0;
             }
-            continue;
         }
-
-#if SIMULATE_NO_GRAPHICS /* FOR TESTING */
-
-        SetError(TRUE, SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING);
-
-#else                   /* NORMAL OPERATION */
-
-        // Is the current graphics app's associated task still running?
-        if ((m_hGraphicsApplication) || (graphics_app_result_ptr)) {
-
-            iResultCount = results.results.size();
-            graphics_app_result_ptr = NULL;
-
-            // Find the current task in the new results vector (if it still exists)
-            for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-                theResult = results.results.at(iIndex);
-
-                if (is_same_task(theResult, previous_result_ptr)) {
-                    graphics_app_result_ptr = theResult;
-                    previous_result = *theResult;
-                    previous_result_ptr = &previous_result;
-                    break;
-                }
-            }
-
-            // V6 graphics only: if worker application has stopped running, terminate_screensaver
-            if ((graphics_app_result_ptr == NULL) && (m_hGraphicsApplication != 0)) {
-                if (previous_result_ptr) {
-                    BOINCTRACE(_T("CScreensaver::DataManagementProc - %s finished\n"), 
-                            previous_result.graphics_exec_path.c_str());
-                }
-                terminate_screensaver(m_hGraphicsApplication, previous_result_ptr);
-                previous_result_ptr = NULL;
-                // waitpid test will clear m_hGraphicsApplication
-            }
-
-            if (last_change_time && ((dtime() - last_change_time) > GFX_CHANGE_PERIOD)) {
-                if (count_active_graphic_apps(results, previous_result_ptr) > 0) {
-                    if (previous_result_ptr) {
-                        BOINCTRACE(_T("CScreensaver::DataManagementProc - time to change: %s / %s\n"), 
-                                previous_result.name.c_str(), previous_result.graphics_exec_path.c_str());
-                    }
-                    terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
+        
+        if (switch_to_default_gfx) {
+            if (science_gfx_running) {
+                if (m_hGraphicsApplication || previous_result_ptr) {
+                    // use previous_result_ptr because graphics_app_result_ptr may no longer be valid
+                    terminate_screensaver(m_hGraphicsApplication, previous_result_ptr);
                     if (m_hGraphicsApplication == 0) {
                         graphics_app_result_ptr = NULL;
-                        // Save previous_result and previous_result_ptr for get_random_graphics_app() call
+                        science_gfx_running = false;
                     } else {
                         // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
                     }
+                    previous_result_ptr = NULL;
                 }
-                last_change_time = dtime();
+            } else {
+                if (default_ss_exists && !default_gfx_running) {
+                    switch_to_default_gfx = false;
+                    retval = launch_default_screensaver(default_ss_dir_path, m_hGraphicsApplication);
+                    if (retval) {
+                        m_hGraphicsApplication = 0;
+                        previous_result_ptr = NULL;
+                        graphics_app_result_ptr = NULL;
+                        default_gfx_running = false;
+                    } else {
+                        default_gfx_running = true;
+                    }
+                }
             }
         }
+
+        // Core client suspended?
+        if (suspend_reason && !(suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+            SetError(TRUE, SCRAPPERR_BOINCSUSPENDED);
+            if (default_ss_exists && !default_gfx_running) {
+                switch_to_default_gfx = true;
+            }
+        } else {
+            // Time to switch to science graphics?
+            if (ss_phase == DEFAULT_SS_PHASE) {
+                if (default_phase_start_time && ((dtime() - default_phase_start_time) > gfx_default_period)) {
+                    ss_phase = SCIENCE_SS_PHASE;
+                    default_phase_start_time = 0;
+                    science_phase_start_time = dtime();
+                }
+            }
+        }
+
+        if (ss_phase == SCIENCE_SS_PHASE) {
+        
+#if SIMULATE_NO_GRAPHICS /* FOR TESTING */
+
+        SetError(TRUE, SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING);
+        if (default_ss_exists && !default_gfx_running) {
+            switch_to_default_gfx = true;
+        }
+
+#else                   /* NORMAL OPERATION */
+
+            if (science_gfx_running) {
+                // Is the current graphics app's associated task still running?
                 
-        // If no current graphics app, pick an active task at random and launch its graphics app
-        if ((m_hGraphicsApplication == 0) && (graphics_app_result_ptr == NULL)) {
-            graphics_app_result_ptr = get_random_graphics_app(results, previous_result_ptr);
-            previous_result_ptr = NULL;
-            
-            if (graphics_app_result_ptr) {
-                retval = launch_screensaver(graphics_app_result_ptr, m_hGraphicsApplication);
+                if ((m_hGraphicsApplication) || (graphics_app_result_ptr)) {
+                    iResultCount = results.results.size();
+                    graphics_app_result_ptr = NULL;
+
+                    // Find the current task in the new results vector (if it still exists)
+                    for (iIndex = 0; iIndex < iResultCount; iIndex++) {
+                        theResult = results.results.at(iIndex);
+
+                        if (is_same_task(theResult, previous_result_ptr)) {
+                            graphics_app_result_ptr = theResult;
+                            previous_result = *theResult;
+                            previous_result_ptr = &previous_result;
+                            break;
+                        }
+                    }
+
+                    // V6 graphics only: if worker application has stopped running, terminate_screensaver
+                    if ((graphics_app_result_ptr == NULL) && (m_hGraphicsApplication != 0)) {
+                        if (previous_result_ptr) {
+                            BOINCTRACE(_T("CScreensaver::DataManagementProc - %s finished\n"), 
+                                    previous_result.graphics_exec_path.c_str());
+                        }
+                        terminate_screensaver(m_hGraphicsApplication, previous_result_ptr);
+                        previous_result_ptr = NULL;
+                        // waitpid test will clear m_hGraphicsApplication
+                    }
+
+                     if (last_change_time && ((dtime() - last_change_time) > gfx_change_period)) {
+                        if (count_active_graphic_apps(results, previous_result_ptr) > 0) {
+                            if (previous_result_ptr) {
+                                BOINCTRACE(_T("CScreensaver::DataManagementProc - time to change: %s / %s\n"), 
+                                        previous_result.name.c_str(), previous_result.graphics_exec_path.c_str());
+                            }
+                            terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
+                            if (m_hGraphicsApplication == 0) {
+                                graphics_app_result_ptr = NULL;
+                                science_gfx_running = false;
+                                // Save previous_result and previous_result_ptr for get_random_graphics_app() call
+                            } else {
+                                // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
+                            }
+                        }
+                        last_change_time = dtime();
+                    }
+                }
+            }       // End if (science_gfx_running)
+        
+            // If no current graphics app, pick an active task at random and launch its graphics app
+            if ((default_gfx_running || (m_hGraphicsApplication == 0)) && (graphics_app_result_ptr == NULL)) {
+                graphics_app_result_ptr = get_random_graphics_app(results, previous_result_ptr);
+                previous_result_ptr = NULL;
+                
+                if (graphics_app_result_ptr) {
+                    if (default_gfx_running) {
+                        kill_program(m_hGraphicsApplication);
+                        // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
+                     } else {
+                        retval = launch_screensaver(graphics_app_result_ptr, m_hGraphicsApplication);
+                        if (retval) {
+                            m_hGraphicsApplication = 0;
+                            previous_result_ptr = NULL;
+                            graphics_app_result_ptr = NULL;
+                            science_gfx_running = false;
+                        } else {
+        #ifdef __APPLE__
+                            // Show ScreenSaverAppStartingMsg for GFX_STARTING_MSG_DURATION seconds
+                            SetError(FALSE, SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING);
+        #endif
+                            SetError(FALSE, SCRAPPERR_SCREENSAVERRUNNING);
+                            last_change_time = dtime();
+                            science_gfx_running = true;
+                            // Make a local copy of current result, since original pointer 
+                            // may have been freed by the time we perform later tests
+                            previous_result = *graphics_app_result_ptr;
+                            previous_result_ptr = &previous_result;
+                            if (previous_result_ptr) {
+                                BOINCTRACE(_T("CScreensaver::DataManagementProc - launching %s\n"), 
+                                        previous_result.graphics_exec_path.c_str());
+                            }
+                        }
+                    }
+                } else {
+                    // No science graphics available
+                    if (state.projects.size() == 0) {
+                        // We are not attached to any projects
+                        SetError(TRUE, SCRAPPERR_BOINCNOPROJECTSDETECTED);
+                    } else if (results.results.size() == 0) {
+                        // We currently do not have any applications to run
+                        SetError(TRUE, SCRAPPERR_BOINCNOAPPSEXECUTING);
+                    } else {
+                        // We currently do not have any graphics capable application
+                        if (m_bV5_GFX_app_is_running) {
+                            SetError(TRUE, SCRAPPERR_DAEMONALLOWSNOGRAPHICS);
+                        } else {
+                            SetError(TRUE, SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING);
+                        }
+                    }
+                    
+                    // We can't run a science graphics app, so run the default graphics if available
+                    if (default_ss_exists && !default_gfx_running) {
+                        switch_to_default_gfx = true;
+                    }
+
+
+
+                }   // End if no science graphics available
+            }      // End if no current science graphics app is running
+
+#endif      // ! SIMULATE_NO_GRAPHICS
+
+            if (switch_to_default_gfx) {
+                switch_to_default_gfx = false;
+                retval = launch_default_screensaver(default_ss_dir_path, m_hGraphicsApplication);
                 if (retval) {
                     m_hGraphicsApplication = 0;
                     previous_result_ptr = NULL;
                     graphics_app_result_ptr = NULL;
+                    default_gfx_running = false;
                 } else {
-#ifdef __APPLE__
-                    // Show ScreenSaverAppStartingMsg for GFX_STARTING_MSG_DURATION seconds
-                    SetError(FALSE, SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING);
-#endif
-                    SetError(FALSE, SCRAPPERR_SCREENSAVERRUNNING);
-                    launch_time = dtime();
-                    last_change_time = launch_time;
-                    last_run_check_time = launch_time;
-                    // Make a local copy of current result, since original pointer 
-                    // may have been freed by the time we perform later tests
-                    previous_result = *graphics_app_result_ptr;
-                    previous_result_ptr = &previous_result;
-                    if (previous_result_ptr) {
-                        BOINCTRACE(_T("CScreensaver::DataManagementProc - launching %s\n"), 
-                                previous_result.graphics_exec_path.c_str());
-                    }
-                }
-            } else {
-                if (state.projects.size() == 0) {
-                    // We are not attached to any projects
-                    SetError(TRUE, SCRAPPERR_BOINCNOPROJECTSDETECTED);
-                } else if (results.results.size() == 0) {
-                    // We currently do not have any applications to run
-                    SetError(TRUE, SCRAPPERR_BOINCNOAPPSEXECUTING);
-                } else {
-                    // We currently do not have any graphics capable application
-                    if (m_bV5_GFX_app_is_running) {
-                        SetError(TRUE, SCRAPPERR_DAEMONALLOWSNOGRAPHICS);
-                    } else {
-                        SetError(TRUE, SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING);
-                    }
+                    default_gfx_running = true;
                 }
             }
-        } else {    // End if ((m_hGraphicsApplication == 0) && (graphics_app_result_ptr == NULL))
-
-            // Is the graphics app still running?
-            if (m_hGraphicsApplication) {
-                if (!process_exists(m_hGraphicsApplication)) {
-                    // Something has happened to the previously selected screensaver
-                    //   application. Start a different one.
-                    BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics application isn't running, start a new one.\n"));
-                    m_hGraphicsApplication = 0;
-                    graphics_app_result_ptr = NULL;
-                    continue;
-                } else {
+        }   // End if (ss_phase == SCIENCE_SS_PHASE)
+        
+        
+        
+        // Is the graphics app still running?
+        if (m_hGraphicsApplication) {
+            if (!process_exists(m_hGraphicsApplication)) {
+                // Something has happened to the previously selected screensaver
+                //   application. Start a different one.
+                BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics application isn't running, start a new one.\n"));
+                m_hGraphicsApplication = 0;
+                graphics_app_result_ptr = NULL;
+                default_gfx_running = false;
+                science_gfx_running = false;
+                continue;
+            } else {
 #ifdef _WIN32
-                    CheckForegroundWindow();
+                CheckForegroundWindow();
 #endif
-                }
             }
         }
-#endif      // ! SIMULATE_NO_GRAPHICS
+        
     }                           // end while(true)
+}
+
+
+void CScreensaver::GetDisplayPeriods(double& default_period, 
+                                        double& science_period, 
+                                        double& change_period) {
+
+// TODO: pares ss_config.xml file here.
 }

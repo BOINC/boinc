@@ -160,8 +160,10 @@ protected:
 
     int             terminate_screensaver(HANDLE& graphics_application, RESULT *worker_app);
 	int             launch_screensaver(RESULT* rp, HANDLE& graphics_application);
+	int             launch_default_screensaver(char *dir_path, HANDLE& graphics_application);
     void            HandleRPCError(void);
-
+    void            GetDisplayPeriods(double& default_period, double& science_period, double& change_period);
+    
 // Determine if two RESULT pointers refer to the same task
     bool            is_same_task(RESULT* taska, RESULT* taskb);
 

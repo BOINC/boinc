@@ -97,8 +97,10 @@ protected:
     static void*    DataManagementProcStub( void* param );
     int             terminate_screensaver(int& graphics_application, RESULT *worker_app);
     int             launch_screensaver(RESULT* rp, int& graphics_application);
+    int             launch_default_screensaver(char *dir_path, int& graphics_application);
     void            HandleRPCError(void);
     OSErr           KillScreenSaver(void);
+    void            GetDisplayPeriods(double& default_period, double& science_period, double& change_period);
     pthread_t       m_hDataManagementThread;
     pid_t           m_hGraphicsApplication;
 

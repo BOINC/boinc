@@ -1139,3 +1139,17 @@ Rom    5 Feb 2008
         AccountManagerInfoPage.cpp
         ProjectInfoPage.cpp, .h
         ProjectListCtrl.cpp, .h
+
+Charlie Feb 5 2009
+    -SS: Implement basic new functionality in screensaver coordinator.
+        - Note: this is tested on Mac only at this point.
+
+    client/
+        check_security.cpp
+        file_names.h
+    clientscr/
+        screensaver.cpp, .h
+        Mac_Saver_Module.h
+        screensaver_win.h
+    lib/
+        common_defs.h
