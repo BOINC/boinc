@@ -313,7 +313,8 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     
     // Does gui_rpc_auth.cfg file exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
-    strlcat(fullpath, "/gui_rpc_auth.cfg", MAXPATHLEN);
+    strlcat(fullpath, "/", MAXPATHLEN);
+    strlcat(fullpath, GUI_RPC_PASSWD_FILE, MAXPATHLEN);
 
     result = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);
     if ((result == noErr) && (! isDirectory)) {
