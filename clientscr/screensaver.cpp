@@ -40,6 +40,7 @@
 #ifdef _WIN32
 #include "gui_rpc_client.h"
 #include "screensaver_win.h"
+#include "str_util.h"
 #endif
 
 #ifdef __APPLE__
@@ -379,7 +380,7 @@ void *CScreensaver::DataManagementProc() {
     char * default_ss_dir_path = "/Library/Application Support/BOINC Data";
 #else
     // TODO: Obtain correct path to Windows default OpenGL screensaver executable
-    char * default_ss_dir_path = "C:\Program Files\BOINC";
+    char * default_ss_dir_path = "C:\\Program Files\\BOINC";
 #endif
     strlcpy(full_path, default_ss_dir_path, sizeof(full_path));
     strlcat(full_path, "/", sizeof(full_path));

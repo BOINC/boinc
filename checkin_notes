@@ -1116,7 +1116,7 @@ David  3 Feb 2009
         Makefile.am
 
 Charlie Feb 4 2009
-    -SS: Begin work on upgrading screensaver coordinator for new functionality:
+    - SS: Begin work on upgrading screensaver coordinator for new functionality:
         - add filenames for ss config file and default OpenLG ss executable
         - add sandbox security support for these 2 files.
 
@@ -1141,7 +1141,7 @@ Rom    5 Feb 2008
         ProjectListCtrl.cpp, .h
 
 Charlie Feb 5 2009
-    -SS: Implement basic new functionality in screensaver coordinator.
+    - SS: Implement basic new functionality in screensaver coordinator.
         - Note: this is tested on Mac only at this point.
 
     client/
