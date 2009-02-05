@@ -1178,3 +1178,19 @@ Rom    5 Feb 2009
         
     clientgui/
         ViewMessages.cpp, .h
+
+David  5 Feb 2009
+    - client: redefine "overworked" as
+        debt < -1.5 * work_buf * cpu_sched_period
+    - web: on team page, link to cross-project team stats sites
+
+    api/
+        graphics2_win.cpp
+    client/
+        work_fetch.cpp
+    html/
+        inc/
+            stats_sites.inc
+            team.inc
+        user/
+            team_display.php

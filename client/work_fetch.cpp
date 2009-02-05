@@ -129,8 +129,13 @@ void RSC_WORK_FETCH::update_estimated_delay(double dt) {
     }
 }
 
+// see if the project's debt is beyond what would normally happen;
+// if so we conclude that it had a long job that ran in EDF mode;
+// avoid asking it for work unless absolutely necessary.
+//
 bool RSC_PROJECT_WORK_FETCH::overworked() {
-    return (debt < -2*gstate.global_prefs.cpu_scheduling_period()); 
+    double x = gstate.work_buf_total() + gstate.global_prefs.cpu_scheduling_period(); 
+    return (debt < -1.5*x);
 }
 
 // choose the best project to ask for work for this resource.
@@ -504,6 +509,7 @@ bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p) {
     if (backoff_interval == MAX_BACKOFF_INTERVAL) return false;
     if (p->suspended_via_gui) return false;
     if (p->dont_request_more_work) return false;
+    if (p->min_rpc_time > gstate.now) return false;
     return true;
 }
 
