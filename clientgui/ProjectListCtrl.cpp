@@ -140,7 +140,8 @@ void CProjectListCtrl::OnItemClicked( ProjectListItemCtrlEvent& event ) {
         ProjectListCtrlEvent evt(
             wxEVT_PROJECTLISTCTRL_SELECTION_CHANGED,
             pSelectedItem->GetTitle(), 
-            pSelectedItem->GetURL()
+            pSelectedItem->GetURL(),
+            pSelectedItem->IsSupported()
         );
         evt.SetEventObject(this);
 
@@ -155,13 +156,15 @@ void CProjectListCtrl::OnItemClicked( ProjectListItemCtrlEvent& event ) {
  
 bool CProjectListCtrl::Append(
     wxString strTitle,
-    wxString strURL
+    wxString strURL,
+    bool bSupported
 )
 {
     CProjectListItemCtrl* pItem = new CProjectListItemCtrl();
     pItem->Create( this );
     pItem->SetTitle( strTitle );
     pItem->SetURL( strURL );
+    pItem->SetSupportedStatus( bSupported );
     m_pMainSizer->Add( pItem, 0, wxEXPAND );
 
     FitInside();
@@ -223,6 +226,7 @@ bool CProjectListItemCtrl::Create( wxWindow* parent )
     m_pWebsiteButtonCtrl = NULL;
     m_strTitle = wxEmptyString;
     m_strURL = wxEmptyString;
+    m_bSupported = false;
     m_bLeftButtonDownDetected = false;
 ////@end CProjectListItemCtrl member initialisation
  
@@ -337,6 +341,15 @@ bool CProjectListItemCtrl::SetURL( wxString strURL ) {
         m_pWebsiteButtonCtrl->SetToolTip(strBuffer);
     }
     m_strURL = strURL;
+    return true;
+}
+
+
+bool CProjectListItemCtrl::SetSupportedStatus( bool bSupported ) {
+    if (m_pTitleStaticCtrl) {
+        m_pTitleStaticCtrl->Enable( bSupported );
+    }
+    m_bSupported = bSupported;
     return true;
 }
 

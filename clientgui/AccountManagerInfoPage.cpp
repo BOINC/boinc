@@ -195,7 +195,8 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
             m_pProjectListCtrl->Append(
                 wxString(m_pl.account_managers[i]->name.c_str(), wxConvUTF8),
-                wxString(m_pl.account_managers[i]->url.c_str(), wxConvUTF8)
+                wxString(m_pl.account_managers[i]->url.c_str(), wxConvUTF8),
+                true
             );
         }
         m_bAccountManagerListPopulated = true;
