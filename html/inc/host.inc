@@ -17,6 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once("../inc/credit.inc");
+require_once("../inc/stats_sites.inc");
 require_once("../inc/boinc_db.inc");
 
 function link_to_results($host) {
@@ -61,6 +62,18 @@ function location_form($host) {
     return $x;
 }
 
+function cross_project_links($host) {
+    global $host_sites;
+    $x = "";
+    shuffle($host_sites);
+    foreach ($host_sites as $h) {
+        $url = $h[0];
+        $name = $h[1];
+        $x .= "<a href=$url".$host->host_cpid.">$name</a><br>\n";
+    }
+    return $x;
+}
+
 // Show full-page description of $host.
 // If $user is non-null, it's both the owner of the host
 // and the logged in user (so show some extra fields)
@@ -91,8 +104,9 @@ function show_host($host, $user, $ipprivate) {
         }
     }
     row2("Created", time_str($host->create_time));
-    row2("Total Credit", format_credit_large($host->total_credit));
-    row2("Avg. credit", format_credit($host->expavg_credit));
+    row2("Total credit", format_credit_large($host->total_credit));
+    row2("Average credit", format_credit($host->expavg_credit));
+    row2("Cross project credit", cross_project_links($x));
     row2("CPU type", "$host->p_vendor <br> $host->p_model");
     row2("Number of processors", $host->p_ncpus);
     if ($host->serialnum) {
@@ -184,7 +198,7 @@ function show_host($host, $user, $ipprivate) {
 function top_host_table_start($sort_by) {
     start_table();
     echo "<tr>";
-    echo "<th>Computer ID<br><font size=-2>Click for more info</font></th>\n";
+    echo "<th>Computer ID</th>\n";
     echo "<th>Rank</th>";
     echo "<th>Owner</th>\n";
     if ($sort_by == 'total_credit') {
@@ -235,8 +249,9 @@ function cpu_desc($host) {
 function show_host_row($host, $i, $private, $show_owner) {
     $j = $i % 2;
     echo "<tr class=row$j><td>
-        <nobr><a href=show_host_detail.php?hostid=$host->id>$host->id</a>
-        | <a href=results.php?hostid=$host->id>tasks</a></nobr>
+        &bull <a href=show_host_detail.php?hostid=$host->id>Details</a>
+        <br>&bull <a href=results.php?hostid=$host->id>Tasks</a>
+        <br><nobr>&bull Cross-project credit:</nobr><br>".cross_project_links($host)."
         </td>
     ";
     if ($private) {
@@ -466,8 +481,7 @@ function merge_hosts($old_host, $new_host) {
     // update the database:
     // - add credit from old to new host
     // - change results to refer to new host
-    // - put old host in "zombie" state
-    // - update rpc_seqno if needed
+    // - put old host in "zombie" state (userid=0, rpc_seqno=new host ID)
     //
     $total_credit = $old_host->total_credit + $new_host->total_credit;
     $recent_credit = $old_host->expavg_credit + $new_host->expavg_credit;

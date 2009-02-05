@@ -1224,3 +1224,15 @@ David  5 Feb 2009
         inc/
             stats_sites.inc
             team.inc
+
+David  5 Feb 2009
+    - web: add links to cross-project host stats sites
+        (currently just boincstats)
+
+    html/
+        inc/
+            hosts.inc
+            stats_sites.inc
+            util.inc
+        user/
+            hosts_user.php

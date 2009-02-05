@@ -53,7 +53,7 @@ function user_host_table_start($private, $sort, $rev, $show_all) {
     start_table();
     echo "<tr>";
     $url = link_url_rev($sort, "id", $rev, $show_all);
-    echo "<th><a href=$url>Computer ID</a><br><span class=note>Click for more info</span></th>\n";
+    echo "<th><a href=$url>Computer ID</a></th>\n";
     if ($private) {
         $url = link_url_rev($sort, "name", $rev, $show_all);
         echo "<th><a href=$url>Name</a></th>\n";

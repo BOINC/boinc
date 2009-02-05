@@ -167,6 +167,12 @@ $team_name_sites = array(
     ),
 );
 
+$host_sites = array(
+    array("http://boincstats.com/stats/boinc_host_graph.php?pr=bo&id=",
+        "BOINCstats.com"
+    ),
+);
+
 function site_list($sites) {
     echo "<ul>\n";
     for ($i=0; $i<count($sites); $i++) {
