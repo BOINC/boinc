@@ -1244,3 +1244,9 @@ David  5 Feb 2009
     client/
         app_control.cpp
         cpu_sched.cpp
+
+David  5 Feb 2009
+    - web: must have a DB connection before calling mysql_real_escape_string()
+
+    html/inc/
+        boinc_db.inc

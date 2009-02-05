@@ -50,6 +50,7 @@ class BoincDb extends DbConn {
         return $instance;
     }
     static function escape_string($string) {
+        $db = self::get();
         return parent::base_escape_string(trim($string));
     }
     static function error() {
