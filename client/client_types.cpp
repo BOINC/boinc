@@ -1224,6 +1224,19 @@ void APP_VERSION::get_file_errors(string& str) {
     }
 }
 
+bool APP_VERSION::missing_coproc() {
+    for (unsigned int i=0; i<coprocs.coprocs.size(); i++) {
+        COPROC* cp = coprocs.coprocs[i];
+        if (!gstate.coprocs.lookup(cp->type)) {
+            msg_printf(project, MSG_INTERNAL_ERROR,
+                "App version uses nonexistent coprocessor %s", cp->type
+            );
+            return true;
+        }
+    }
+    return false;
+}
+
 void APP_VERSION::clear_errors() {
     int x;
     unsigned int i;

@@ -240,29 +240,10 @@ int CLIENT_STATE::init() {
     //
     check_anonymous();
 
-    // Parse the client state file,
-    // ignoring any <project> tags (and associated stuff)
-    // for projects with no account file
-    //
-    host_info.clear_host_info();
-    cpu_benchmarks_set_defaults();  // for first time, make sure p_fpops nonzero
-    parse_state_file();
-    parse_account_files_venue();
-
     host_info.get_host_info();
     set_ncpus();
     show_host_info();
     show_proxy_info();
-
-    // fill in avp->flops for anonymous project
-    //
-    for (i=0; i<app_versions.size(); i++) {
-        APP_VERSION* avp = app_versions[i];
-        if (!avp->flops) avp->flops = host_info.p_fpops;
-    }
-
-    check_clock_reset();
-
     if (config.no_gpus) {
         msg_printf(NULL, MSG_INFO, "Configured to not use coprocessors");
     } else {
@@ -279,6 +260,25 @@ int CLIENT_STATE::init() {
         }
         coproc_cuda = (COPROC_CUDA*)coprocs.lookup("CUDA");
     }
+
+    host_info.clear_host_info();
+    cpu_benchmarks_set_defaults();  // for first time, make sure p_fpops nonzero
+
+    // Parse the client state file,
+    // ignoring any <project> tags (and associated stuff)
+    // for projects with no account file
+    //
+    parse_state_file();
+    parse_account_files_venue();
+
+    // fill in avp->flops for anonymous project
+    //
+    for (i=0; i<app_versions.size(); i++) {
+        APP_VERSION* avp = app_versions[i];
+        if (!avp->flops) avp->flops = host_info.p_fpops;
+    }
+
+    check_clock_reset();
 
     // Check to see if we can write the state file.
     //

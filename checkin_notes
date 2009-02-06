@@ -1261,3 +1261,19 @@ David  5 Feb 2009
     html/inc/
         stats_sites.inc
         team.inc
+
+David  5 Feb 2009
+    - client: it the state file or an RPC reply has an app version
+        using a coprocessor we don't know about, ignore it
+        (and all results using that app_version will be flushed).
+        This deals with the situation where we have some GPU jobs,
+        but the GPU card is removed (previously this resulted in a crash).
+        This requires some code shuffling so that we check for coprocessors
+        before reading state file.
+
+    client/
+        client_types.cpp,h
+        client_state.cpp
+        cs_scheduler.cpp
+        cs_statefile.cpp
+
