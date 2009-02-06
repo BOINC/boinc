@@ -85,6 +85,7 @@ protected:
     int             m_iLastResultShown;
     int             m_tLastResultChangeCounter;
     bool            m_StatusMessageUpdated;
+    bool            m_bDefault_ss_exists;
 
     //
     // Data management layer

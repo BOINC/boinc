@@ -325,6 +325,13 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
     m_iStatusUpdateCounter++;
     m_tLastResultChangeCounter++;
 
+    // Tell the calling routine to set the frame rate to NOTEXTLOGOFREQUENCY if 
+    // NSWindowList indicates that default app graphics window has covered our window.
+    // See comment below for more details.
+    if (m_bDefault_ss_exists) {
+        *coveredFreq = NOTEXTLOGOFREQUENCY;
+    }
+
     switch (saverState) {
     case SaverState_RelaunchCoreClient:
         err = initBOINCApp();
@@ -386,7 +393,8 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
             // returned by NSWindowList under OS 10.3.9 and OS 10.4.  However, Apple's 
             // documentation is unclear whether we can depend on this.  So I have 
             // added some safety by doing two things:
-            // [1] Only use the NSWindowList test when we have started project graphics.
+            // [1] Only use the NSWindowList test when we have started project or default 
+            //      graphics.
             // [2] Assume that our window is covered 45 seconds after starting project 
             //     graphics even if the NSWindowList test did not indicate that is so.
             //

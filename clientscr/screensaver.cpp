@@ -41,6 +41,9 @@
 #include "gui_rpc_client.h"
 #include "screensaver_win.h"
 #include "str_util.h"
+#define PATH_SEPARATOR "\\"
+#else
+#define PATH_SEPARATOR "/"
 #endif
 
 #ifdef __APPLE__
@@ -313,7 +316,7 @@ int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_appli
     char full_path[1024];
     
     strlcpy(full_path, dir_path, sizeof(full_path));
-    strlcat(full_path, "/", sizeof(full_path));
+    strlcat(full_path, PATH_SEPARATOR, sizeof(full_path));
     strlcat(full_path, DEFAULT_SS_EXECUTABLE, sizeof(full_path));
 
     // For unknown reasons, the graphics application exits with 
@@ -360,7 +363,6 @@ void *CScreensaver::DataManagementProc() {
     double          gfx_change_period       = GFX_CHANGE_PERIOD;
 
     SS_PHASE        ss_phase                = DEFAULT_SS_PHASE;
-    bool            default_ss_exists       = false;
     bool            science_gfx_running     = false;
     bool            default_gfx_running     = false;
     bool            switch_to_default_gfx   = false;
@@ -376,6 +378,8 @@ void *CScreensaver::DataManagementProc() {
     m_tLastResultChangeTime = 0;
 #endif
 
+    m_bDefault_ss_exists = false;
+
 #ifdef __APPLE__
     char * default_ss_dir_path = "/Library/Application Support/BOINC Data";
 #else
@@ -383,11 +387,11 @@ void *CScreensaver::DataManagementProc() {
     char * default_ss_dir_path = "C:\\Program Files\\BOINC";
 #endif
     strlcpy(full_path, default_ss_dir_path, sizeof(full_path));
-    strlcat(full_path, "/", sizeof(full_path));
+    strlcat(full_path, PATH_SEPARATOR, sizeof(full_path));
     strlcat(full_path, DEFAULT_SS_EXECUTABLE, sizeof(full_path));
     
     if (boinc_file_exists(full_path)) {
-        default_ss_exists = true;
+        m_bDefault_ss_exists = true;
         ss_phase = DEFAULT_SS_PHASE;
         default_phase_start_time = dtime();
         science_phase_start_time = 0;
@@ -475,7 +479,7 @@ void *CScreensaver::DataManagementProc() {
         }
 
         // Time to switch to default graphics?
-        if (default_ss_exists && (ss_phase == SCIENCE_SS_PHASE)) {
+        if (m_bDefault_ss_exists && (ss_phase == SCIENCE_SS_PHASE)) {
             if (science_phase_start_time && ((dtime() - science_phase_start_time) > gfx_science_period)) {
                 switch_to_default_gfx = true;
                 ss_phase = DEFAULT_SS_PHASE;
@@ -498,7 +502,7 @@ void *CScreensaver::DataManagementProc() {
                     previous_result_ptr = NULL;
                 }
             } else {
-                if (default_ss_exists && !default_gfx_running) {
+                if (m_bDefault_ss_exists && !default_gfx_running) {
                     switch_to_default_gfx = false;
                     retval = launch_default_screensaver(default_ss_dir_path, m_hGraphicsApplication);
                     if (retval) {
@@ -516,7 +520,7 @@ void *CScreensaver::DataManagementProc() {
         // Core client suspended?
         if (suspend_reason && !(suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
             SetError(TRUE, SCRAPPERR_BOINCSUSPENDED);
-            if (default_ss_exists && !default_gfx_running) {
+            if (m_bDefault_ss_exists && !default_gfx_running) {
                 switch_to_default_gfx = true;
             }
         } else {
@@ -535,7 +539,7 @@ void *CScreensaver::DataManagementProc() {
 #if SIMULATE_NO_GRAPHICS /* FOR TESTING */
 
         SetError(TRUE, SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING);
-        if (default_ss_exists && !default_gfx_running) {
+        if (m_bDefault_ss_exists && !default_gfx_running) {
             switch_to_default_gfx = true;
         }
 
@@ -643,11 +647,9 @@ void *CScreensaver::DataManagementProc() {
                     }
                     
                     // We can't run a science graphics app, so run the default graphics if available
-                    if (default_ss_exists && !default_gfx_running) {
+                    if (m_bDefault_ss_exists && !default_gfx_running) {
                         switch_to_default_gfx = true;
                     }
-
-
 
                 }   // End if no science graphics available
             }      // End if no current science graphics app is running
@@ -656,14 +658,16 @@ void *CScreensaver::DataManagementProc() {
 
             if (switch_to_default_gfx) {
                 switch_to_default_gfx = false;
-                retval = launch_default_screensaver(default_ss_dir_path, m_hGraphicsApplication);
-                if (retval) {
-                    m_hGraphicsApplication = 0;
-                    previous_result_ptr = NULL;
-                    graphics_app_result_ptr = NULL;
-                    default_gfx_running = false;
-                } else {
-                    default_gfx_running = true;
+                if (m_bDefault_ss_exists && !default_gfx_running) {
+                    retval = launch_default_screensaver(default_ss_dir_path, m_hGraphicsApplication);
+                    if (retval) {
+                        m_hGraphicsApplication = 0;
+                        previous_result_ptr = NULL;
+                        graphics_app_result_ptr = NULL;
+                        default_gfx_running = false;
+                    } else {
+                        default_gfx_running = true;
+                    }
                 }
             }
         }   // End if (ss_phase == SCIENCE_SS_PHASE)

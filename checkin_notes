@@ -1282,3 +1282,17 @@ David  5 Feb 2009
 
     clientscr/
         ss_app.cpp
+
+Charlie Feb 5 2009
+    - SS: Continue work on screensaver coordinator.
+    - SS: Fix ss_app compile errors on Mac.
+
+    clientscr/
+        screensaver.cpp
+        mac_saver_module.cpp
+        Mac_Saver_Module.cpp.h
+        screensaver_win.h
+        ss_app.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

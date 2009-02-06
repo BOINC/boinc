@@ -293,6 +293,7 @@
 		DDC132F30E2DAB1B0014D305 /* AsyncRPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC132F20E2DAB1B0014D305 /* AsyncRPC.cpp */; };
 		DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */; };
 		DDC836E60EDEA5DB001C2EF9 /* TermsOfUsePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */; };
+		DDC988FE0F3BD44100EE8D0E /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
 		DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */; };
 		DDD095490A3EDF2D00C95BA4 /* switcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.cpp */; };
 		DDD52DCA0C03CAE6009B5FC0 /* ViewProjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */; };
@@ -386,7 +387,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = DD89161C0F3B17E900DE5B1C /* ss_app */;
+			remoteGlobalIDString = DD89161C0F3B17E900DE5B1C;
 			remoteInfo = ss_app;
 		};
 		DD127876081F44E5007B5DE1 /* PBXContainerItemProxy */ = {
@@ -2533,6 +2534,7 @@
 				DD8917F40F3B21EA00DE5B1C /* texfont.cpp in Sources */,
 				DD8917F60F3B21EF00DE5B1C /* texture.cpp in Sources */,
 				DD8917F80F3B21F500DE5B1C /* txf_util.cpp in Sources */,
+				DDC988FE0F3BD44100EE8D0E /* gui_rpc_client_ops.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

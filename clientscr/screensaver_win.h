@@ -223,6 +223,7 @@ protected:
     BOOL					m_bIs9x;
     BOOL					m_bCheckingSaverPassword;
     BOOL					m_bWindowed;
+    BOOL                    m_bDefault_ss_exists;
 
     INTERNALMONITORINFO		m_Monitors[MAX_DISPLAYS];
     DWORD					m_dwNumMonitors;

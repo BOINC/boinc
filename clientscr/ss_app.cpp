@@ -30,6 +30,11 @@
 #endif
 #include <string>
 #include <vector>
+#ifdef __APPLE__
+#include "mac_app_icon.h"
+#include "boinc_api.h"
+#include <sys/socket.h>
+#endif
 
 #include "diagnostics.h"
 #include "gutil.h"
@@ -39,10 +44,6 @@
 #include "network.h"
 #include "gui_rpc_client.h"
 #include "app_ipc.h"
-
-#ifdef __APPLE__
-#include "mac_app_icon.h"
-#endif
 
 using std::string;
 using std::vector;
@@ -130,7 +131,7 @@ PROJECT_IMAGES* get_project_images(PROJECT* p) {
         if (app.project != p) continue;
         APP_SLIDES as(app.name);
         for (int j=0; j<99; j++) {
-            sprintf(path, "%s/slideshow_%s_%02d", dir, app.name, j);
+            sprintf(path, "%s/slideshow_%s_%02d", dir, app.name.c_str(), j);
             boinc_resolve_filename(path, filename, 256);
             TEXTURE_DESC td;
             int retval = td.load_image_file(filename);
@@ -192,7 +193,6 @@ void show_project(PROJECT* p, float x, float& y) {
 }
 
 void show_projects() {
-    char buf[256];
     float x=-45, y=30;
     unsigned int i;
     for (i=0; i<cc_state.projects.size(); i++) {
@@ -209,6 +209,7 @@ int update_data(double t) {
         if (retval) return retval;
         state_time = t;
     }
+    return 0;
 }
 
 void set_viewpoint(double dist) {
