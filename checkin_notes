@@ -887,3 +887,12 @@ Rom    5 Feb 2008
         AccountManagerInfoPage.cpp
         ProjectInfoPage.cpp, .h
         ProjectListCtrl.cpp, .h
+
+Rom    5 Feb 2009
+    - MGR: Back out David's change which broke clipboard functionality
+        on Linux.  Take care of the real performance problem with
+        copying 20000+ records to the clipboard in a Debug build
+        by pre-allocating the buffer.
+        
+    clientgui/
+        ViewMessages.cpp, .h
