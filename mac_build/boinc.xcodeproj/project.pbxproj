@@ -809,7 +809,7 @@
 		DD81C5CC07C5D7D90098A04D /* gui_rpc_client.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = gui_rpc_client.cpp; sourceTree = "<group>"; };
 		DD81C5F007C5D8290098A04D /* boinc_win.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_win.h; path = ../lib/boinc_win.h; sourceTree = SOURCE_ROOT; };
 		DD81C60307C5D8630098A04D /* gui_rpc_client.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = gui_rpc_client.h; path = ../lib/gui_rpc_client.h; sourceTree = SOURCE_ROOT; };
-		DD8916280F3B17E900DE5B1C /* boinscr */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinscr; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD8916280F3B17E900DE5B1C /* boincscr */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boincscr; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD89163B0F3B182700DE5B1C /* boinc_ss_opengl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = boinc_ss_opengl.h; path = ../clientscr/boinc_ss_opengl.h; sourceTree = SOURCE_ROOT; };
 		DD89163C0F3B182700DE5B1C /* ss_app.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ss_app.cpp; path = ../clientscr/ss_app.cpp; sourceTree = SOURCE_ROOT; };
 		DD89165D0F3B1BC200DE5B1C /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
@@ -1136,7 +1136,7 @@
 				DD4688410C165F3C0089F500 /* Uninstall BOINC.app */,
 				DDB874030C850BC800E0DE1F /* libboinc_graphics2.a */,
 				DDFA60D40CB337D40037B88C /* gfx_switcher */,
-				DD8916280F3B17E900DE5B1C /* boinscr */,
+				DD8916280F3B17E900DE5B1C /* boincscr */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -1826,7 +1826,7 @@
 			);
 			name = ss_app;
 			productName = switcher;
-			productReference = DD8916280F3B17E900DE5B1C /* boinscr */;
+			productReference = DD8916280F3B17E900DE5B1C /* boincscr */;
 			productType = "com.apple.product-type.tool";
 		};
 		DD96AFF80811075000A06F22 /* ScreenSaver */ = {
@@ -3816,7 +3816,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
-				PRODUCT_NAME = boinscr;
+				PRODUCT_NAME = boincscr;
 			};
 			name = Development;
 		};
@@ -3828,7 +3828,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
-				PRODUCT_NAME = boinscr;
+				PRODUCT_NAME = boincscr;
 			};
 			name = Dev_noSandbox;
 		};
@@ -3840,7 +3840,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
-				PRODUCT_NAME = boinscr;
+				PRODUCT_NAME = boincscr;
 			};
 			name = ppc_Deployment;
 		};
@@ -3852,7 +3852,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
-				PRODUCT_NAME = boinscr;
+				PRODUCT_NAME = boincscr;
 			};
 			name = i386_Deployment;
 		};
@@ -3864,7 +3864,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
-				PRODUCT_NAME = boinscr;
+				PRODUCT_NAME = boincscr;
 			};
 			name = Deployment;
 		};
@@ -3876,7 +3876,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
-				PRODUCT_NAME = boinscr;
+				PRODUCT_NAME = boincscr;
 			};
 			name = "Deployment-no64";
 		};
@@ -3888,7 +3888,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
-				PRODUCT_NAME = boinscr;
+				PRODUCT_NAME = boincscr;
 			};
 			name = Deploy_noSandbox;
 		};
