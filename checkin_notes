@@ -841,3 +841,10 @@ David  3 Feb 2009
     client/
         cs_scheduler.cpp
         scheduler_op.cpp
+
+Rom    Jan 29 2009
+    - MGR: Save and Restore the last email address/user id used to attach
+        to a project or account manager
+    
+    clientgui/
+        AccountInfoPage.cpp
