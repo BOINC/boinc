@@ -225,9 +225,14 @@ wxIcon CProjectInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
-    unsigned int   i, j, k;
-    bool           bSupportedPlatformFound = false;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnPageChanged - Function Begin"));
+
+    unsigned int                i, j, k;
+    bool                        bSupportedPlatformFound = false;
+    std::vector<std::string>    client_platforms;
+    std::vector<std::string>    project_platforms;
+    ALL_PROJECTS_LIST           pl;
+    CMainDocument*              pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -251,16 +256,32 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     // Populate the virtual list control with project information
     //
     if (!m_bProjectListPopulated) {
-        pDoc->rpc.get_all_projects_list(m_pl);
-        for (i=0; i<m_pl.projects.size(); i++) {
+        client_platforms = pDoc->state.platforms;
+        pDoc->rpc.get_all_projects_list(pl);
+
+        for (i=0; i<pl.projects.size(); i++) {
             bSupportedPlatformFound = false;
 
+            // Can the core client support a platform that this project
+            //   supports?
+            project_platforms = pl.projects[i]->platforms;
 
+            for (j = 0;j < client_platforms.size(); j++) {
+                for (k = 0;k < project_platforms.size(); k++) {
+                    if (client_platforms[j] == project_platforms[k]) {
+                        bSupportedPlatformFound = true;
+                    }
+                }
+            }
 
             if (bSupportedPlatformFound) {
                 m_pProjectListCtrl->Append(
-                    wxString(m_pl.projects[i]->name.c_str(), wxConvUTF8),
-                    wxString(m_pl.projects[i]->url.c_str(), wxConvUTF8)
+                    wxString(pl.projects[i]->name.c_str(), wxConvUTF8),
+                    wxString(pl.projects[i]->url.c_str(), wxConvUTF8)
+                );
+            } else {
+                wxLogTrace(wxT("Function Status"), wxT("CProjectInfoPage::OnPageChanged - Project Not Supported '%s'"),
+                    wxString(pl.projects[i]->name.c_str(), wxConvUTF8).c_str()
                 );
             }
         }
@@ -271,6 +292,8 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     Fit();
     m_pProjectListCtrl->Layout();
     m_pProjectListCtrl->SetFocus();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnPageChanged - Function End"));
 }
 
 
