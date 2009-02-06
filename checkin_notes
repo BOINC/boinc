@@ -1296,3 +1296,15 @@ Charlie Feb 5 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  5 Feb 2009
+    - web: fix bug in cached user page stuff from 12/29/08
+
+    client/
+        time_stats.cpp
+    html/
+        inc/
+            pm.inc
+            user.inc
+        user/
+            show_user.php

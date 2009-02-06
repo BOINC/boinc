@@ -69,17 +69,17 @@ if ($format=="xml"){
     if ($cached_data){
         // We found some old but non-stale data, let's use it
         $data = unserialize($cached_data);
-	$user = $data->user;
-	$community_links = $data->clo;
+        $user = $data->user;
+        $community_links = $data->clo;
     } else {
         // No data was found, generate new data for the cache and store it
         $user = lookup_user_id($id);
         BoincForumPrefs::lookup($user);
         $user = @get_other_projects($user);
-	$community_links =  get_community_links_object($user);
+        $community_links =  get_community_links_object($user);
 
-	$data->user = $user;
-	$data->clo = $community_links;
+        $data->user = $user;
+        $data->clo = $community_links;
         set_cache_data(serialize($data), $cache_args);
     }
     if (!$user->id) {

@@ -166,6 +166,8 @@ void TIME_STATS::update(int suspend_reason) {
     } else {
         dt = gstate.now - last_update;
         if (dt <= 10) return;
+        if (dt > 100) return;
+            // client must have been suspended; skip
         w1 = 1 - exp(-dt/ALPHA);    // weight for recent period
         w2 = 1 - w1;                // weight for everything before that
                                     // (close to zero if long gap)

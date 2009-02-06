@@ -27,6 +27,7 @@ function pm_header() {
 }
 
 function pm_create_new($error = null) {
+    global $g_logged_in_user;
     page_head(tra("Send private message"));
     
     if (post_str("preview", true) == tra("Preview")) {
@@ -37,7 +38,6 @@ function pm_create_new($error = null) {
         echo "</div>\n";
     }
     
-    global $g_logged_in_user;
     $replyto = get_int("replyto", true);
     $userid = get_int("userid", true);
     

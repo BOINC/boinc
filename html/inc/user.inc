@@ -342,7 +342,7 @@ function get_community_links_object($user){
         $x = null;
         foreach($friends as $friend) {
             $fuser = BoincUser::lookup_id($friend->user_dest);
-	    $cache_object->friends[] = $fuser;
+            $cache_object->friends[] = $fuser;
         }
     }
     return $cache_object;
@@ -364,7 +364,7 @@ function community_links($clo, $logged_in_user){
     }
     if ($logged_in_user && $logged_in_user->id != $user->id) {
         row2(tra("Contact"), "<a href=\"pm.php?action=new&userid=".$user->id."\">".tra("Send private message")."</a>");
-        $friend = BoincFriend::lookup($g_logged_in_user->id, $user->id);
+        $friend = BoincFriend::lookup($logged_in_user->id, $user->id);
         if ($friend && $friend->reciprocated) {
             row2(tra("This person is a friend"), 
                 "<a href=\"friend.php?action=cancel_confirm&userid=$user->id\">".tra("Cancel friendship")."</a>"
