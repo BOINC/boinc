@@ -562,7 +562,7 @@ bool CViewMessages::OpenClipboard( wxInt32 size ) {
         m_bClipboardOpen = true;
 
         m_strClipboardData = wxEmptyString;
-        m_strClipboardData.AllocBuffer( size );
+        m_strClipboardData.Alloc( size );
 
         wxTheClipboard->Clear();
     }
