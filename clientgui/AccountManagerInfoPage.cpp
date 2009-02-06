@@ -36,6 +36,7 @@
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "AccountManagerInfoPage.h"
+#include "ProjectListCtrl.h"
 
 
 /*!
@@ -54,7 +55,7 @@ BEGIN_EVENT_TABLE( CAccountManagerInfoPage, wxWizardPageEx )
     EVT_WIZARDEX_PAGE_CHANGED( -1, CAccountManagerInfoPage::OnPageChanged )
     EVT_WIZARDEX_PAGE_CHANGING( -1, CAccountManagerInfoPage::OnPageChanging )
     EVT_WIZARDEX_CANCEL( -1, CAccountManagerInfoPage::OnCancel )
-
+    EVT_PROJECTLISTCTRL_SELECTION_CHANGED( CAccountManagerInfoPage::OnAccountManagerSelectionChanged )
 ////@end CAccountManagerInfoPage event table entries
 
 END_EVENT_TABLE()
@@ -81,12 +82,11 @@ bool CAccountManagerInfoPage::Create( CBOINCBaseWizard* parent )
 ////@begin CAccountManagerInfoPage member initialisation
     m_pTitleStaticCtrl = NULL;
     m_pDescriptionStaticCtrl = NULL;
-    m_pDescription2StaticCtrl = NULL;
+    m_pProjectListCtrl = NULL;
     m_pProjectUrlStaticCtrl = NULL;
     m_pProjectUrlCtrl = NULL;
-    m_pBOINCPromoStaticCtrl = NULL;
-    m_pBOINCPromoUrlCtrl = NULL;
 ////@end CAccountManagerInfoPage member initialisation
+    m_bAccountManagerListPopulated = false;
 
 ////@begin CAccountManagerInfoPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
@@ -121,9 +121,26 @@ void CAccountManagerInfoPage::CreateControls()
 
     itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    m_pDescription2StaticCtrl = new wxStaticText;
-    m_pDescription2StaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer24->Add(m_pDescription2StaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
+    wxFlexGridSizer* itemFlexGridSizer3 = new wxFlexGridSizer(1, 1, 0, 0);
+    itemFlexGridSizer3->AddGrowableRow(0);
+    itemFlexGridSizer3->AddGrowableCol(0);
+    itemBoxSizer24->Add(itemFlexGridSizer3, 1, wxGROW|wxALL, 5);
+
+    m_pProjectListCtrl = new CProjectListCtrl;
+    m_pProjectListCtrl->Create( itemWizardPage23 );
+    itemFlexGridSizer3->Add(m_pProjectListCtrl, 0, wxGROW|wxRIGHT, 10);
+
+    wxFlexGridSizer* itemFlexGridSizer11 = new wxFlexGridSizer(2, 1, 0, 0);
+    itemFlexGridSizer11->AddGrowableRow(0);
+    itemFlexGridSizer11->AddGrowableCol(0);
+    itemBoxSizer24->Add(itemFlexGridSizer11, 0, wxGROW|wxALL, 0);
+
+    wxBoxSizer* itemBoxSizer22 = new wxBoxSizer(wxVERTICAL);
+    itemFlexGridSizer11->Add(itemBoxSizer22, 0, wxGROW|wxALL, 0);
+
+    wxFlexGridSizer* itemFlexGridSizer14 = new wxFlexGridSizer(1, 2, 0, 0);
+    itemFlexGridSizer14->AddGrowableCol(1);
+    itemBoxSizer24->Add(itemFlexGridSizer14, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT, 10);
 
     itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
@@ -139,16 +156,6 @@ void CAccountManagerInfoPage::CreateControls()
     m_pProjectUrlCtrl->Create( itemWizardPage23, ID_PROJECTURLCTRL, wxEmptyString, wxDefaultPosition, wxSize(200, -1), 0 );
     itemFlexGridSizer30->Add(m_pProjectUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
-    m_pBOINCPromoStaticCtrl = new wxStaticText;
-    m_pBOINCPromoStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer24->Add(m_pBOINCPromoStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
-
-    m_pBOINCPromoUrlCtrl = new wxHyperLink;
-    m_pBOINCPromoUrlCtrl->Create( itemWizardPage23, ID_BOINCHYPERLINK, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER );
-    itemBoxSizer24->Add(m_pBOINCPromoUrlCtrl, 0, wxALIGN_LEFT|wxALL, 5);
-
     // Set validators
     m_pProjectUrlCtrl->SetValidator( CValidateURL( & m_strProjectURL) );
 ////@end CAccountManagerInfoPage content construction
@@ -161,13 +168,13 @@ void CAccountManagerInfoPage::CreateControls()
 void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
+    unsigned int   i;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDescriptionStaticCtrl);
-    wxASSERT(m_pDescription2StaticCtrl);
     wxASSERT(m_pProjectUrlStaticCtrl);
     wxASSERT(m_pProjectUrlCtrl);
-    wxASSERT(m_pBOINCPromoStaticCtrl);
-    wxASSERT(m_pBOINCPromoUrlCtrl);
 
     m_pTitleStaticCtrl->SetLabel(
         _("Account Manager URL")
@@ -175,21 +182,29 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     m_pDescriptionStaticCtrl->SetLabel(
         _("Enter the URL of the account manager's web site.")
     );
-    m_pDescription2StaticCtrl->SetLabel(
-        _("You can copy and paste the URL from your browser's\naddress bar.")
-    );
     m_pProjectUrlStaticCtrl->SetLabel(
         _("Account Manager &URL:")
     );
-    m_pBOINCPromoStaticCtrl->SetLabel(
-        _("For a list of account managers go to:")
-    );
-    m_pBOINCPromoUrlCtrl->SetLabel(
-        wxT("http://boinc.berkeley.edu/")
-    );
 
+    // Populate the virtual list control with project information
+    //
+    if (!m_bAccountManagerListPopulated) {
+        pDoc->rpc.get_all_projects_list(m_pl);
+        for (i=0; i<m_pl.account_managers.size(); i++) {
+            m_bAccountManagerListPopulated = false;
+
+            m_pProjectListCtrl->Append(
+                wxString(m_pl.account_managers[i]->name.c_str(), wxConvUTF8),
+                wxString(m_pl.account_managers[i]->url.c_str(), wxConvUTF8)
+            );
+        }
+        m_bAccountManagerListPopulated = true;
+    }
+
+    Layout();
     Fit();
-    m_pProjectUrlCtrl->SetFocus();
+    m_pProjectListCtrl->Layout();
+    m_pProjectListCtrl->SetFocus();
 }
 
 /*!
@@ -198,6 +213,16 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
 void CAccountManagerInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     event.Skip();
+}
+
+/*!
+ * wxEVT_PROJECTLISTCTRL_SELECTION_CHANGED event handler for ID_PROJECTSELECTIONCTRL
+ */
+
+void CAccountManagerInfoPage::OnAccountManagerSelectionChanged( ProjectListCtrlEvent& event ) {
+    m_pProjectUrlCtrl->SetValue(
+        event.GetURL()
+    );
 }
 
 /*!

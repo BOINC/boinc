@@ -88,7 +88,7 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
     m_pProjectUrlStaticCtrl = NULL;
     m_pProjectUrlCtrl = NULL;
 ////@end CProjectInfoPage member initialisation
-    bProjectListPopulated = false;
+    m_bProjectListPopulated = false;
  
 ////@begin CProjectInfoPage creation
     wxBitmap wizardBitmap(wxNullBitmap);
@@ -225,7 +225,8 @@ wxIcon CProjectInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
-    unsigned int   i;
+    unsigned int   i, j, k;
+    bool           bSupportedPlatformFound = false;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
@@ -247,17 +248,23 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     );
 
 
-    // Populate the combo box with project information
+    // Populate the virtual list control with project information
     //
-    if (!bProjectListPopulated) {
-        pDoc->rpc.get_all_projects_list(pl);
-        for (i=0; i<pl.projects.size(); i++) {
-            m_pProjectListCtrl->Append(
-                wxString(pl.projects[i]->name.c_str(), wxConvUTF8),
-                wxString(pl.projects[i]->url.c_str(), wxConvUTF8)
-            );
+    if (!m_bProjectListPopulated) {
+        pDoc->rpc.get_all_projects_list(m_pl);
+        for (i=0; i<m_pl.projects.size(); i++) {
+            bSupportedPlatformFound = false;
+
+
+
+            if (bSupportedPlatformFound) {
+                m_pProjectListCtrl->Append(
+                    wxString(m_pl.projects[i]->name.c_str(), wxConvUTF8),
+                    wxString(m_pl.projects[i]->url.c_str(), wxConvUTF8)
+                );
+            }
         }
-        bProjectListPopulated = true;
+        m_bProjectListPopulated = true;
     }
 
     Layout();
