@@ -1277,3 +1277,8 @@ David  5 Feb 2009
         cs_scheduler.cpp
         cs_statefile.cpp
 
+David  5 Feb 2009
+    - screensaver: flesh out new SS a bit
+
+    clientscr/
+        ss_app.cpp

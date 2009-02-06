@@ -28,33 +28,53 @@
 #else
 #include <math.h>
 #endif
+#include <string>
+#include <vector>
 
 #include "diagnostics.h"
-#include "parse.h"
-#include "util.h"
 #include "gutil.h"
 #include "boinc_gl.h"
-#include "app_ipc.h"
-#include "boinc_api.h"
 #include "graphics2.h"
 #include "txf_util.h"
-#include "screensaver_opengl.h"
+#include "network.h"
+#include "gui_rpc_client.h"
+#include "app_ipc.h"
 
 #ifdef __APPLE__
 #include "mac_app_icon.h"
 #endif
 
+using std::string;
+using std::vector;
+
 float white[4] = {1., 1., 1., 1.};
 TEXTURE_DESC logo;
 int width, height;      // window dimensions
-APP_INIT_DATA uc_aid;
 bool mouse_down = false;
 int mouse_x, mouse_y;
 double pitch_angle, roll_angle, viewpoint_distance=10;
 float color[4] = {.7, .2, .5, 1};
     // the color of the 3D object.
     // Can be changed using preferences
-UC_SHMEM* shmem = NULL;
+
+RPC_CLIENT rpc;
+CC_STATE cc_state;
+
+struct APP_SLIDES {
+    string name;
+    int index;
+    double switch_time;
+    vector<TEXTURE_DESC> slides;
+    APP_SLIDES(string n): name(n), index(0), switch_time(0) {}
+};
+
+struct PROJECT_IMAGES {
+    string url;
+    TEXTURE_DESC icon;
+    vector<APP_SLIDES> app_slides;
+};
+
+vector<PROJECT_IMAGES> project_images;
 
 // set up lighting model
 //
@@ -75,56 +95,120 @@ static void draw_logo() {
     }
 }
 
-static void draw_text() {
-    static float x=0, y=0;
-    static float dx=0.0003, dy=0.0007;
-    char buf[256];
-    x += dx;
-    y += dy;
-    if (x < 0 || x > .5) dx *= -1;
-    if (y < 0 || y > .5) dy *= -1;
-    double fd = 0, cpu=0, dt;
-    if (shmem) {
-        fd = shmem->fraction_done;
-        cpu = shmem->cpu_time;
-    }
-    sprintf(buf, "User: %s", uc_aid.user_name);
-    txf_render_string(.1, x, y, 0, 500, white, 0, buf);
-    sprintf(buf, "Team: %s", uc_aid.team_name);
-    txf_render_string(.1, x, y+.1, 0, 500, white, 0, buf);
-    sprintf(buf, "%% Done: %f", 100*fd);
-    txf_render_string(.1, x, y+.2, 0, 500, white, 0, buf);
-    sprintf(buf, "CPU time: %f", cpu); 
-    txf_render_string(.1, x, y+.3, 0, 500, white, 0, buf);
-    if (shmem) {
-        dt = dtime() - shmem->update_time;
-        if (dt > 10) {
-            boinc_close_window_and_quit("shmem not updated");
-        } else if (dt > 5) {
-            txf_render_string(.1, 0, 0, 0, 500, white, 0, "App not running - exiting in 5 seconds");
-        } else if (shmem->status.suspended) {
-            txf_render_string(.1, 0, 0, 0, 500, white, 0, "App suspended");
-        }
-    } else {
-        txf_render_string(.1, 0, 0, 0, 500, white, 0, "No shared mem");
+void icon_path(PROJECT* p, char* buf) {
+    char dir[256];
+    url_to_project_dir((char*)p->master_url.c_str(), dir);
+    sprintf(buf, "%s/stat_icon", dir);
+}
+
+void slideshow(PROJECT* p) {
+    char dir[256], buf[256];
+    int i;
+
+    url_to_project_dir((char*)p->master_url.c_str(), dir);
+    for (i=0; i<99; i++) {
+        sprintf(buf, "%s/slideshow_%02d", dir, i);
     }
 }
 
-static void draw_3d_stuff() {
-    static float x=0, y=0, z=10;
-    static float dx=0.3, dy=0.2, dz=0.5;
-    x += dx;
-    y += dy;
-    z += dz;
-    if (x < -15 || x > 15) dx *= -1;
-    if (y < -15 || y > 15) dy *= -1;
-    if (z < 0 || z > 40) dz *= -1;
-    float pos[3];
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
-    drawSphere(pos, 4);
-    drawCylinder(false, pos, 6, 6);
+PROJECT_IMAGES* get_project_images(PROJECT* p) {
+    unsigned int i;
+    char dir[256], path[256], filename[256];
+
+    for (i=0; i<project_images.size(); i++) {
+        PROJECT_IMAGES& pi = project_images[i];
+        if (pi.url == p->master_url) return &pi;
+    }
+    PROJECT_IMAGES pim;
+    pim.url = p->master_url;
+    url_to_project_dir((char*)p->master_url.c_str(), dir);
+    sprintf(path, "%s/stat_icon", dir);
+    boinc_resolve_filename(path, filename, 256);
+    pim.icon.load_image_file(filename);
+    for (i=0; i<cc_state.apps.size(); i++) {
+        APP& app = *cc_state.apps[i];
+        if (app.project != p) continue;
+        APP_SLIDES as(app.name);
+        for (int j=0; j<99; j++) {
+            sprintf(path, "%s/slideshow_%s_%02d", dir, app.name, j);
+            boinc_resolve_filename(path, filename, 256);
+            TEXTURE_DESC td;
+            int retval = td.load_image_file(filename);
+            if (retval) break;
+            as.slides.push_back(td);
+        }
+        pim.app_slides.push_back(as);
+    }
+    project_images.push_back(pim);
+}
+
+void show_result(RESULT* r, float x, float& y) {
+    PROGRESS progress;
+    char buf[256];
+    float prog_pos[] = {x, y, 0};
+    float prog_c[] = {.5, .4, .1, 0.5};
+    float prog_ci[] = {.1, .8, .2, 1.};
+    txf_render_string(.1, x, y, 0, 8., white, 0, (char*)r->app->user_friendly_name.c_str());
+    y -= 3;
+    progress.init(prog_pos, 10., 1., 0.8, prog_c, prog_ci);
+    progress.draw(r->fraction_done);
+    mode_unshaded();
+    sprintf(buf, "%.2f%%", r->fraction_done*100);
+    txf_render_string(.1, x+15, y, 0, 8., white, 0, buf);
+    y -= 3;
+}
+
+void show_coords() {
+    int i;
+    char buf[256];
+    for (i=-100; i< 101; i+=5) {
+        sprintf(buf, "%d", i);
+        float x = (float)i;
+        txf_render_string(.1, x, 0, 0, 10., white, 0, buf);
+    }
+    for (i=-100; i< 101; i+=5) {
+        sprintf(buf, "%d", i);
+        float y = (float)i;
+        txf_render_string(.1, 0, y, 0, 10., white, 0, buf);
+    }
+}
+void show_project(PROJECT* p, float x, float& y) {
+    unsigned int i;
+    PROJECT_IMAGES* pim = get_project_images(p);
+    txf_render_string(.1, x, y, 0, 5., white, 0, (char*)p->project_name.c_str());
+    if (pim->icon.present) {
+        float pos[3] = {x, y, 1};
+        float size[2] = {3., 3.};
+        pim->icon.draw(pos, size, 0, 0);
+    }
+    y -= 3;
+    for (i=0; i<cc_state.results.size(); i++) {
+        RESULT* r = cc_state.results[i];
+        if (r->project != p) continue;
+        if (!r->active_task) continue;
+        if (r->active_task_state != PROCESS_EXECUTING) continue;
+        show_result(r, x, y);
+    }
+}
+
+void show_projects() {
+    char buf[256];
+    float x=-45, y=30;
+    unsigned int i;
+    for (i=0; i<cc_state.projects.size(); i++) {
+        PROJECT* p = cc_state.projects[i];
+        show_project(p, x, y);
+        y -= 2;
+    }
+}
+
+int update_data(double t) {
+    static double state_time = 0;
+    if (state_time < t) {
+        int retval = rpc.get_state(cc_state);
+        if (retval) return retval;
+        state_time = t;
+    }
 }
 
 void set_viewpoint(double dist) {
@@ -155,17 +239,10 @@ static void init_camera(double dist) {
     set_viewpoint(dist);
 }
 
-void app_graphics_render(int xs, int ys, double time_of_day) {
-    // boinc_graphics_get_shmem() must be called after 
-    // boinc_parse_init_data_file()
-    // Put this in the main loop to allow retries if the 
-    // worker application has not yet created shared memory
-    //
-    if (shmem == NULL) {
-        shmem = (UC_SHMEM*)boinc_graphics_get_shmem("uppercase");
-    }
-    if (shmem) {
-        shmem->countdown = 5;
+void app_graphics_render(int xs, int ys, double t) {
+    int retval = update_data(t);
+    if (retval) {
+        boinc_close_window_and_quit("RPC failed");
     }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -181,15 +258,15 @@ void app_graphics_render(int xs, int ys, double time_of_day) {
     //
     init_camera(viewpoint_distance);
     scale_screen(width, height);
-    mode_shaded(color);
-    draw_3d_stuff();
+    //mode_shaded(color);
 
     // draw text on top
     //
-    mode_unshaded();
-    mode_ortho();
-    draw_text();
-    ortho_done();
+    //mode_unshaded();
+    //mode_ortho();
+    show_projects();
+    show_coords();
+    //ortho_done();
 }
 
 void app_graphics_resize(int w, int h){
@@ -232,59 +309,27 @@ void boinc_app_key_press(int, int){}
 void boinc_app_key_release(int, int){}
 
 void app_graphics_init() {
-    char path[256];
-
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
     txf_load_fonts(".");
-
-    boinc_resolve_filename("logo.jpg", path, sizeof(path));
-    logo.load_image_file(path);
-
+    logo.load_image_file("boinc_logo_black.jpg");
     init_lights();
 }
 
-static void parse_project_prefs(char* buf) {
-    char cs[256];
-    COLOR c;
-    double hue;
-    double max_frames_sec, max_gfx_cpu_pct;
-    if (!buf) return;
-    if (parse_str(buf, "<color_scheme>", cs, 256)) {
-        if (!strcmp(cs, "Tahiti Sunset")) {
-            hue = .9;
-        } else if (!strcmp(cs, "Desert Sands")) {
-            hue = .1;
-        } else {
-            hue = .5;
-        }
-        HLStoRGB(hue, .5, .5, c);
-        color[0] = c.r;
-        color[1] = c.g;
-        color[2] = c.b;
-        color[3] = 1;
-    }
-    if (parse_double(buf, "<max_frames_sec>", max_frames_sec)) {
-        boinc_max_fps = max_frames_sec;
-    }
-    if (parse_double(buf, "<max_gfx_cpu_pct>", max_gfx_cpu_pct)) {
-        boinc_max_gfx_cpu_frac = max_gfx_cpu_pct/100;
-    }
-}
-
 int main(int argc, char** argv) {
-    boinc_init_graphics_diagnostics(BOINC_DIAG_DEFAULTS);
+    int retval;
+
+#ifdef _WIN32
+    WinsockInitialize();
+#endif
+    retval = rpc.init("localhost");
+    if (retval) exit(retval);
 
 #ifdef __APPLE__
     setMacIcon(argv[0], MacAppIconData, sizeof(MacAppIconData));
 #endif
-
-    boinc_parse_init_data_file();
-    boinc_get_init_data(uc_aid);
-    if (uc_aid.project_preferences) {
-        parse_project_prefs(uc_aid.project_preferences);
-    }
     boinc_graphics_loop(argc, argv);
-
     boinc_finish_diag();
+#ifdef _WIN32
+    WinsockCleanup();
+#endif
 }
