@@ -272,16 +272,19 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 }
             }
 
-            if (bSupportedPlatformFound) {
-                m_pProjectListCtrl->Append(
-                    wxString(pl.projects[i]->name.c_str(), wxConvUTF8),
-                    wxString(pl.projects[i]->url.c_str(), wxConvUTF8)
-                );
-            } else {
-                wxLogTrace(wxT("Function Status"), wxT("CProjectInfoPage::OnPageChanged - Project Not Supported '%s'"),
-                    wxString(pl.projects[i]->name.c_str(), wxConvUTF8).c_str()
-                );
-            }
+            wxLogTrace(
+                wxT("Function Status"),
+                wxT("CProjectInfoPage::OnPageChanged - Name: '%s', URL: '%s', Supported: '%d'"),
+                wxString(pl.projects[i]->name.c_str(), wxConvUTF8),
+                wxString(pl.projects[i]->url.c_str(), wxConvUTF8),
+                bSupportedPlatformFound
+            );
+
+            m_pProjectListCtrl->Append(
+                wxString(pl.projects[i]->name.c_str(), wxConvUTF8),
+                wxString(pl.projects[i]->url.c_str(), wxConvUTF8),
+                bSupportedPlatformFound
+            );
         }
         m_bProjectListPopulated = true;
     }
@@ -309,6 +312,24 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
  */
 
 void CProjectInfoPage::OnProjectSelectionChanged( ProjectListCtrlEvent& event ) {
+    if ( !event.IsSupported() ) {
+        CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+        wxString       strMessage;
+        wxString       strTitle;
+
+        strTitle.Printf(
+            wxT("%s"), 
+            pSkinAdvanced->GetApplicationName().c_str()
+        );
+
+        strMessage =
+            _("This project may not support your platform and may not give you any tasks to process.");
+
+        wxGetApp().SafeMessageBox(
+            strMessage,
+            strTitle
+        );
+    }
     m_pProjectUrlCtrl->SetValue(
         event.GetURL()
     );

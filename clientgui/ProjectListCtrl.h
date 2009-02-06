@@ -65,7 +65,8 @@ public:
     /// Methods
     bool Append(
         wxString strTitle,
-        wxString strURL
+        wxString strURL,
+        bool bSupported
     );
 
 private:
@@ -80,21 +81,24 @@ private:
 class ProjectListCtrlEvent : public wxNotifyEvent
 {
 public:
-    ProjectListCtrlEvent( wxEventType evtType = wxEVT_NULL, wxString strName = wxEmptyString, wxString strURL = wxEmptyString ) :
+    ProjectListCtrlEvent( wxEventType evtType = wxEVT_NULL, wxString strName = wxEmptyString, wxString strURL = wxEmptyString, bool bSupported = false ) :
       wxNotifyEvent( evtType, wxID_ANY )
     {
         m_strName = strName;
         m_strURL = strURL;
+        m_bSupported = bSupported;
     } 
 
     wxString GetName() { return m_strName; };
     wxString GetURL() { return m_strURL; };
+    bool IsSupported() { return m_bSupported; };
 
     virtual wxNotifyEvent* Clone() const { return new ProjectListCtrlEvent(*this); }
 
 private:
     wxString m_strName;
     wxString m_strURL;
+    bool m_bSupported;
 
     DECLARE_DYNAMIC_CLASS(ProjectListCtrlEvent)
 };
@@ -155,15 +159,18 @@ public:
     /// Methods
     wxString GetTitle() { return m_strTitle; };
     wxString GetURL() { return m_strURL; };
+    bool     IsSupported() { return m_bSupported; };
 
     bool SetTitle( wxString strTitle );
     bool SetURL( wxString strURL );
+    bool SetSupportedStatus( bool bSupported );
 
 private:
     CProjectListItemStaticCtrl* m_pTitleStaticCtrl;
     wxBitmapButton*             m_pWebsiteButtonCtrl;
     wxString                    m_strTitle;
     wxString                    m_strURL;
+    bool                        m_bSupported;
     bool                        m_bLeftButtonDownDetected;
 };
 

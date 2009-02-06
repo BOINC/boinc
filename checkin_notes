@@ -876,3 +876,14 @@ David  2 Feb 2009
         DlgItemProperties.cpp
     html/ops/
         autolock.php
+
+Rom    5 Feb 2008
+    - MGR: Display all projects in the project list but disable the text control
+        is the project doesn't list a supported platform.  If the user clicks
+        on it display a message box stating that once attached the user may not
+        get any work.
+        
+    clientgui/
+        AccountManagerInfoPage.cpp
+        ProjectInfoPage.cpp, .h
+        ProjectListCtrl.cpp, .h
