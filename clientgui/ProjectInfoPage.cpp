@@ -229,8 +229,6 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
     unsigned int                i, j, k;
     bool                        bSupportedPlatformFound = false;
-    std::vector<std::string>    client_platforms;
-    std::vector<std::string>    project_platforms;
     ALL_PROJECTS_LIST           pl;
     CMainDocument*              pDoc = wxGetApp().GetDocument();
 
@@ -256,7 +254,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     // Populate the virtual list control with project information
     //
     if (!m_bProjectListPopulated) {
-        client_platforms = pDoc->state.platforms;
+        std::vector<std::string> &client_platforms = pDoc->state.platforms;
         pDoc->rpc.get_all_projects_list(pl);
 
         for (i=0; i<pl.projects.size(); i++) {
@@ -264,12 +262,12 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
             // Can the core client support a platform that this project
             //   supports?
-            project_platforms = pl.projects[i]->platforms;
-
+            std::vector<std::string> &project_platforms = pl.projects[i]->platforms;
             for (j = 0;j < client_platforms.size(); j++) {
                 for (k = 0;k < project_platforms.size(); k++) {
                     if (client_platforms[j] == project_platforms[k]) {
                         bSupportedPlatformFound = true;
+                        break;
                     }
                 }
             }
