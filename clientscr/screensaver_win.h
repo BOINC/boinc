@@ -162,7 +162,7 @@ protected:
 	int             launch_screensaver(RESULT* rp, HANDLE& graphics_application);
 	int             launch_default_screensaver(char *dir_path, HANDLE& graphics_application);
     void            HandleRPCError(void);
-    void            GetDisplayPeriods(double& default_period, double& science_period, double& change_period);
+    void            GetDisplayPeriods(char *dir_path);
     
 // Determine if two RESULT pointers refer to the same task
     bool            is_same_task(RESULT* taska, RESULT* taskb);
@@ -189,6 +189,10 @@ protected:
 	int				m_iLastResultShown;
 	time_t			m_tLastResultChangeTime;
     time_t          m_tThreadCreateTime;
+
+    double          m_fGFXDefaultPeriod;
+    double          m_fGFxSciencePeriod;
+    double          m_fGFXChangePeriod;
 
     //
     // Presentation layer

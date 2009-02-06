@@ -86,6 +86,9 @@ protected:
     int             m_tLastResultChangeCounter;
     bool            m_StatusMessageUpdated;
     bool            m_bDefault_ss_exists;
+    double          m_fGFXDefaultPeriod;
+    double          m_fGFxSciencePeriod;
+    double          m_fGFXChangePeriod;
 
     //
     // Data management layer
@@ -101,7 +104,7 @@ protected:
     int             launch_default_screensaver(char *dir_path, int& graphics_application);
     void            HandleRPCError(void);
     OSErr           KillScreenSaver(void);
-    void            GetDisplayPeriods(double& default_period, double& science_period, double& change_period);
+    void            GetDisplayPeriods(char *dir_path);
     pthread_t       m_hDataManagementThread;
     pid_t           m_hGraphicsApplication;
 

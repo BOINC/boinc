@@ -1308,3 +1308,15 @@ David  5 Feb 2009
             user.inc
         user/
             show_user.php
+
+Charlie Feb 5 2009
+    - SS: Screensaver coordinator reads ss_config.xml file.
+    - SS: If coordinator runs default screensaver during science phase because 
+        no science graphics are available, then shorten the next default 
+        graphics phase by that much time. 
+
+    clientscr/
+        screensaver.cpp, .h
+        Mac_Saver_Module.h
+        screensaver_win.h
+        ss_config.xml (added)

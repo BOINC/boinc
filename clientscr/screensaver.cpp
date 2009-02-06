@@ -82,7 +82,7 @@ int CScreensaver::count_active_graphic_apps(RESULTS& results, RESULT* exclude) {
         if ((results.results[i]->graphics_exec_path.size() == 0) 
                 && (state.executing_as_daemon || !(results.results[i]->supports_graphics))) continue;
         BOINCTRACE(_T("get_random_graphics_app -- active task detected w/graphics\n"));
-        
+
         if (is_same_task(results.results[i], exclude)) continue;
         graphics_app_count++;
     }
@@ -346,26 +346,27 @@ DWORD WINAPI CScreensaver::DataManagementProc() {
 #else
 void *CScreensaver::DataManagementProc() {
 #endif
-    int             retval                  = 0;
-    int             suspend_reason          = 0;
-    RESULT*         theResult               = NULL;
-    RESULT*         graphics_app_result_ptr = NULL;
+    int             retval                      = 0;
+    int             suspend_reason              = 0;
+    RESULT*         theResult                   = NULL;
+    RESULT*         graphics_app_result_ptr     = NULL;
     RESULT          previous_result;
     // previous_result_ptr = &previous_result when previous_result is valid, else NULL
-    RESULT*         previous_result_ptr     = NULL;
-    int             iResultCount            = 0;
-    int             iIndex                  = 0;
-    double          default_phase_start_time = 0.0;
-    double          science_phase_start_time = 0.0;
-    double          last_change_time        = 0.0;
-    double          gfx_default_period      = GFX_DEFAULT_PERIOD;
-    double          gfx_science_period      = GFX_SCIENCE_PERIOD;
-    double          gfx_change_period       = GFX_CHANGE_PERIOD;
+    RESULT*         previous_result_ptr         = NULL;
+    int             iResultCount                = 0;
+    int             iIndex                      = 0;
+    double          default_phase_start_time    = 0.0;
+    double          science_phase_start_time    = 0.0;
+    double          last_change_time            = 0.0;
+    // If we run default screensaver during science phase because no science graphics 
+    // are available, then shorten next default graphics phase by that much time.
+    double          default_saver_start_time    = 0.0;
+    double          default_saver_duration      = 0.0;
 
-    SS_PHASE        ss_phase                = DEFAULT_SS_PHASE;
-    bool            science_gfx_running     = false;
-    bool            default_gfx_running     = false;
-    bool            switch_to_default_gfx   = false;
+    SS_PHASE        ss_phase                    = DEFAULT_SS_PHASE;
+    bool            science_gfx_running         = false;
+    bool            default_gfx_running         = false;
+    bool            switch_to_default_gfx       = false;
     char            full_path[1024];
 
 #ifdef _WIN32
@@ -379,6 +380,9 @@ void *CScreensaver::DataManagementProc() {
 #endif
 
     m_bDefault_ss_exists = false;
+    m_fGFXDefaultPeriod = GFX_DEFAULT_PERIOD;
+    m_fGFxSciencePeriod = GFX_SCIENCE_PERIOD;
+    m_fGFXChangePeriod = GFX_CHANGE_PERIOD;
 
 #ifdef __APPLE__
     char * default_ss_dir_path = "/Library/Application Support/BOINC Data";
@@ -402,7 +406,7 @@ void *CScreensaver::DataManagementProc() {
         science_phase_start_time = dtime();
     }
     
-    GetDisplayPeriods(gfx_default_period, gfx_science_period, gfx_change_period);
+    GetDisplayPeriods(default_ss_dir_path);
 
     while (true) {
         for (int i = 0; i < 4; i++) {
@@ -478,9 +482,9 @@ void *CScreensaver::DataManagementProc() {
             continue;
         }
 
-        // Time to switch to default graphics?
+        // Time to switch to default graphics phase?
         if (m_bDefault_ss_exists && (ss_phase == SCIENCE_SS_PHASE)) {
-            if (science_phase_start_time && ((dtime() - science_phase_start_time) > gfx_science_period)) {
+            if (science_phase_start_time && ((dtime() - science_phase_start_time) > m_fGFxSciencePeriod)) {
                 switch_to_default_gfx = true;
                 ss_phase = DEFAULT_SS_PHASE;
                 default_phase_start_time = dtime();
@@ -512,6 +516,9 @@ void *CScreensaver::DataManagementProc() {
                         default_gfx_running = false;
                     } else {
                         default_gfx_running = true;
+                        if (ss_phase == SCIENCE_SS_PHASE) {
+                            default_saver_start_time = dtime();
+                        }
                     }
                 }
             }
@@ -523,13 +530,21 @@ void *CScreensaver::DataManagementProc() {
             if (m_bDefault_ss_exists && !default_gfx_running) {
                 switch_to_default_gfx = true;
             }
-        } else {
-            // Time to switch to science graphics?
-            if (ss_phase == DEFAULT_SS_PHASE) {
-                if (default_phase_start_time && ((dtime() - default_phase_start_time) > gfx_default_period)) {
-                    ss_phase = SCIENCE_SS_PHASE;
-                    default_phase_start_time = 0;
-                    science_phase_start_time = dtime();
+        }
+        
+        // Time to switch to science graphics phase?
+        if (ss_phase == DEFAULT_SS_PHASE) {
+            if (default_phase_start_time && 
+                    ((dtime() - default_phase_start_time + default_saver_duration) 
+                    > m_fGFXDefaultPeriod)) {
+                // BOINCTRACE(_T("CScreensaver::Ending Default phase: now=%f, default_phase_start_time=%f, default_saver_duration=%f\n"),
+                // dtime(), default_phase_start_time, default_saver_duration);
+                ss_phase = SCIENCE_SS_PHASE;
+                default_phase_start_time = 0;
+                default_saver_duration = 0;
+                science_phase_start_time = dtime();
+                if (default_gfx_running) {
+                    default_saver_start_time = science_phase_start_time;
                 }
             }
         }
@@ -575,7 +590,7 @@ void *CScreensaver::DataManagementProc() {
                         // waitpid test will clear m_hGraphicsApplication
                     }
 
-                     if (last_change_time && ((dtime() - last_change_time) > gfx_change_period)) {
+                     if (last_change_time && ((dtime() - last_change_time) > m_fGFXChangePeriod)) {
                         if (count_active_graphic_apps(results, previous_result_ptr) > 0) {
                             if (previous_result_ptr) {
                                 BOINCTRACE(_T("CScreensaver::DataManagementProc - time to change: %s / %s\n"), 
@@ -603,6 +618,10 @@ void *CScreensaver::DataManagementProc() {
                 if (graphics_app_result_ptr) {
                     if (default_gfx_running) {
                         kill_program(m_hGraphicsApplication);
+                        default_saver_duration += dtime() - default_saver_start_time; 
+                        //BOINCTRACE(_T("CScreensaver::During Science phase: now=%f, default_saver_start_time=%f, default_saver_duration=%f\n"),
+                        //    dtime(), default_saver_start_time, default_saver_duration);
+
                         // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
                      } else {
                         retval = launch_screensaver(graphics_app_result_ptr, m_hGraphicsApplication);
@@ -667,6 +686,7 @@ void *CScreensaver::DataManagementProc() {
                         default_gfx_running = false;
                     } else {
                         default_gfx_running = true;
+                        default_saver_start_time = dtime();
                     }
                 }
             }
@@ -696,9 +716,28 @@ void *CScreensaver::DataManagementProc() {
 }
 
 
-void CScreensaver::GetDisplayPeriods(double& default_period, 
-                                        double& science_period, 
-                                        double& change_period) {
+void CScreensaver::GetDisplayPeriods(char *dir_path) {
+    char buf[1024];
+    FILE* f;
+    MIOFILE mf;
 
-// TODO: pares ss_config.xml file here.
+    strlcpy(buf, dir_path, sizeof(buf));
+    strlcat(buf, PATH_SEPARATOR, sizeof(buf));
+    strlcat(buf, SS_CONFIG_FILE, sizeof(buf));
+
+    f = boinc_fopen(buf, "r");
+    if (!f) return;
+    
+    mf.init_file(f);
+    XML_PARSER xp(&mf);
+
+    while (mf.fgets(buf, sizeof(buf))) {
+        if (parse_double(buf, "<default_gfx_duration>", m_fGFXDefaultPeriod)) continue;
+        if (parse_double(buf, "<science_gfx_duration>", m_fGFxSciencePeriod)) continue;
+        if (parse_double(buf, "<science_gfx_change_interval>", m_fGFXChangePeriod)) continue;
+    }
+    fclose(f);
+
+    BOINCTRACE(_T("CScreensaver::GetDisplayPeriods: m_fGFXDefaultPeriod=%f, m_fGFxSciencePeriod=%f, m_fGFXChangePeriod=%f\n"),
+                    m_fGFXDefaultPeriod, m_fGFxSciencePeriod, m_fGFXChangePeriod);
 }
