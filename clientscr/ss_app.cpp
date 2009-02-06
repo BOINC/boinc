@@ -141,6 +141,7 @@ PROJECT_IMAGES* get_project_images(PROJECT* p) {
         pim.app_slides.push_back(as);
     }
     project_images.push_back(pim);
+    return &(project_images.back());
 }
 
 void show_result(RESULT* r, float x, float& y) {
