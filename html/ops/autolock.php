@@ -34,7 +34,7 @@ echo "starting at $t\n";
 $t = time() - $max_age_days*86400;
 $db = BoincDb::get();
 if (!$db) die("can't open DB\n");
-$db->do_query("update DBNAME.thread set locked=1 where timestamp<$t and locked=0 and sticky=0");
+$db->do_query("update DBNAME.thread, DBNAME.forum set DBNAME.thread.locked=1 where DBNAME.thread.forum=DBNAME.forum.id and DBNAME.forum.parent_type=0 and DBNAME.thread.timestamp<$t and DBNAME.thread.locked=0 and DBNAME.thread.sticky=0");
 $n = $db->affected_rows();
 $t = time_str(time());
 echo "finished at $t; locked $n threads\n";

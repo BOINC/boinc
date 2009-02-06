@@ -867,3 +867,12 @@ Rom    29 Jan 2009
         
     clientgui/
         ProjectInfoPage.cpp, .h
+
+David  2 Feb 2009
+    - Manager: change terms for STD, LTD
+    - web: change script that locks old threads to exempt team forums
+
+    clientgui/
+        DlgItemProperties.cpp
+    html/ops/
+        autolock.php
