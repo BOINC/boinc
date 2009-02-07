@@ -1327,3 +1327,9 @@ David  6 Feb 2009
     html/inc/
         host.inc
         user.inc
+
+Rom    7 Feb 2009
+    - MGR: fix build break for GCC based compilers.
+    
+    clientgui/
+        ProjectInfoPage.cpp
