@@ -167,7 +167,7 @@ $team_name_sites = array(
     ),
     array("http://stats.setibzh.fr/team.php?teamcpid=",
         "SETIBZH",
-        "hash"
+        "hashlc"
     ),
 );
 
