@@ -81,6 +81,7 @@ function cross_project_links($host) {
 function show_host($host, $user, $ipprivate) {
     start_table();
     row1("Computer information");
+    $anonymous = false;
     if ($user) {
         if ($ipprivate) {
             row2("IP address", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
@@ -101,12 +102,15 @@ function show_host($host, $user, $ipprivate) {
             row2("Owner", user_links($owner));
         } else {
             row2("Owner", "Anonymous");
+            $anonymous = true;
         }
     }
     row2("Created", time_str($host->create_time));
     row2("Total credit", format_credit_large($host->total_credit));
     row2("Average credit", format_credit($host->expavg_credit));
-    row2("Cross project credit", cross_project_links($x));
+    if (!$anonymous) {
+        row2("Cross project credit", cross_project_links($x));
+    }
     row2("CPU type", "$host->p_vendor <br> $host->p_model");
     row2("Number of processors", $host->p_ncpus);
     if ($host->serialnum) {
@@ -248,10 +252,25 @@ function cpu_desc($host) {
 //
 function show_host_row($host, $i, $private, $show_owner) {
     $j = $i % 2;
+    $anonymous = false;
+    if (!$private) {
+        if ($show_owner) {
+            $user = BoincUser::lookup_id($host->userid);
+            if ($user && $user->show_hosts) {
+            } else {
+                $anonymous = true;
+            }
+        }
+    }
     echo "<tr class=row$j><td>
-        &bull <a href=show_host_detail.php?hostid=$host->id>Details</a>
-        <br>&bull <a href=results.php?hostid=$host->id>Tasks</a>
-        <br><nobr>&bull Cross-project credit:</nobr><br>".cross_project_links($host)."
+        &bull; <a href=show_host_detail.php?hostid=$host->id>Details</a>
+        <br>&bull; <a href=results.php?hostid=$host->id>Tasks</a>
+    ";
+    if (!$anonymous) {
+        echo "
+            <br><nobr>&bull; Cross-project credit:</nobr><br>".cross_project_links($host);
+    }
+    echo "
         </td>
     ";
     if ($private) {
@@ -260,11 +279,10 @@ function show_host_row($host, $i, $private, $show_owner) {
     } else {
         echo "<td>$i</td>\n";
         if ($show_owner) {
-            $user = BoincUser::lookup_id($host->userid);
-            if ($user && $user->show_hosts) {
-                echo "<td>", user_links($user), "</td>\n";
-            } else {
+            if ($anonymous) {
                 echo "<td>Anonymous</td>\n";
+            } else {
+                echo "<td>", user_links($user), "</td>\n";
             }
         }
     }

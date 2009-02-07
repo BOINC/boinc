@@ -1320,3 +1320,10 @@ Charlie Feb 5 2009
         Mac_Saver_Module.h
         screensaver_win.h
         ss_config.xml (added)
+
+David  6 Feb 2009
+    - web: don't show x-project links for anonymous hosts; fix &bull's
+
+    html/inc/
+        host.inc
+        user.inc
