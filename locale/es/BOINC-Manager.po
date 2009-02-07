@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-02-07 09:44-0700\n"
+"PO-Revision-Date: 2009-02-07 11:19-0700\n"
 "Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -2092,9 +2092,7 @@ msgstr "Estadísticas Globales"
 
 #: clientgui/Localization.cpp:145
 msgid "Summary statistics for World Community Grid"
-msgstr ""
-"Sumario de estadísticas en la Red Computacional Comunitaria Mundial (World "
-"Community Grid)"
+msgstr "Sumario de las estadísticas de World Community Grid"
 
 #: clientgui/Localization.cpp:147
 msgid "My Grid"
@@ -2118,9 +2116,7 @@ msgstr "Investigación"
 
 #: clientgui/Localization.cpp:157
 msgid "Learn about the projects hosted at World Community Grid"
-msgstr ""
-"Aprenda acerca de los proyectos albergados en la Red Computacional "
-"Comunitaria Mundial (World Community Grid)"
+msgstr "Aprenda acerca de los proyectos albergados en World Community Grid"
 
 #: clientgui/MainDocument.cpp:522
 msgid "Starting client services; please wait..."
@@ -3232,11 +3228,11 @@ msgstr "Disco"
 
 #: clientgui/ViewResources.cpp:220
 msgid "not attached to any BOINC project: 0 bytes"
-msgstr "No unido a ningún proyecto BOINC: 0 bytes"
+msgstr "no unido a ningún proyecto BOINC: 0 bytes"
 
 #: clientgui/ViewResources.cpp:256
 msgid "used by BOINC: "
-msgstr "Utilizado por BOINC:  "
+msgstr "utilizado por BOINC:  "
 
 #: clientgui/ViewResources.cpp:266
 msgid "free, available to BOINC: "
