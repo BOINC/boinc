@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-24 13:03-0700\n"
+"PO-Revision-Date: 2009-02-07 09:44-0700\n"
 "Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -1514,12 +1514,11 @@ msgstr "Planificando"
 
 #: clientgui/DlgItemProperties.cpp:134
 msgid "Short term debt"
-msgstr "Deuda a corto plazo"
+msgstr "Planificación de CPU prioritaria"
 
 #: clientgui/DlgItemProperties.cpp:135
-#, fuzzy
 msgid "Long term debt"
-msgstr "Deuda a largo plazo"
+msgstr "Búsqueda de trabajo prioritaria"
 
 #: clientgui/DlgItemProperties.cpp:136
 msgid "Duration correction factor"
@@ -3634,11 +3633,25 @@ msgid ""
 "To change which research applications are sent to you from\n"
 "World Community Grid then please click on the following button:"
 msgstr ""
+"Ha seleccionado unirse a un nuevo proyecto BOINC.  Unirse a un nuevo\n"
+"proyecto supone que conectará su ordenador a un nuevo sitio web\n"
+"y organización.  Si esto es lo que desea hacer, por favor pulse\n"
+"el botón 'Siguiente' debajo.\n"
+"\n"
+"Algunos proyectos como World Community Grid ejecutan varios programas de "
+"investigación.\n"
+"Si quiere cambiar qué programas de investigación son enviados a su ordenador\n"
+"para ser ejecutados, entonces debe visitar el sitio web de los proyectos y "
+"modificar allí\n"
+"sus preferencias.\n"
+"\n"
+"Para cambiar qué programas de investigación se le envían desde\n"
+"World Community Grid por favor pulse en el botón siguiente: "
 
 #: clientgui/WelcomePage.cpp:372
 #, c-format
 msgid "&Stop using%s"
-msgstr "&Parar de usar%s"
+msgstr "&Dejar de usar%s"
 
 #: clientgui/WelcomePage.cpp:379
 #, c-format
@@ -3704,9 +3717,8 @@ msgid "Project Attach Failure"
 msgstr "Fallo en Unión al Proyecto"
 
 #: clientgui/WelcomePage.cpp:429
-#, fuzzy
 msgid "Failure Communicating with Reference Site"
-msgstr "Fallo al Comunicarse con el sitio de Referencia"
+msgstr "Fallo en la Comunicación con el Servidor de Referencia"
 
 #: clientgui/WelcomePage.cpp:432
 msgid "Net Detection Failure"
