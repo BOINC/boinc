@@ -1333,3 +1333,9 @@ Rom    7 Feb 2009
     
     clientgui/
         ProjectInfoPage.cpp
+
+David  8 Feb 2009
+    - web: remove <nobr> around user links; doesn't play well
+        with long user names
+    html/inc
+        util.inc

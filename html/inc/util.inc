@@ -493,7 +493,7 @@ function user_links($user) {
     if (is_banished($user)) {
         return "(banished: ID $user->id)";
     }
-    $x = "<nobr>";
+    $x = "";
     if ($user->has_profile) {
         $img_url = URL_BASE."img/head_20.png";
         $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img class="userimg" title="View the profile of '.$user->name.'" align="top" src="'.$img_url.'" alt="Profile"></a>';
@@ -503,7 +503,6 @@ function user_links($user) {
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;
     }
-    $x .= "</nobr>";
     return $x;
 }
 
