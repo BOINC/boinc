@@ -997,9 +997,10 @@ bool ACTIVE_TASK_SET::get_msgs() {
 
         // Normally this is called every second.
         // If delta_t is > 10, we'll assume that a period of hibernation
-        // or suspension happened, and treat it as zero
+        // or suspension happened, and treat it as zero.
+        // If negative, must be clock reset.  Ignore.
         //
-        if (delta_t > 10) {
+        if (delta_t > 10 || delta_t < 0) {
             delta_t = 0;
         }
     } else {

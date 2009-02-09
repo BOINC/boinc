@@ -934,3 +934,11 @@ David  5 Feb 2009
         cpu_sched.cpp
         cs_scheduler.cpp
         work_fetch.cpp
+
+David  5 Feb 2009
+    - client: if time intervals for debt adjustment or job elapsed time
+        are negative, ignore (must be clock reset)
+
+    client/
+        app_control.cpp
+        cpu_sched.cpp
