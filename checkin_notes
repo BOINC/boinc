@@ -957,3 +957,9 @@ David  5 Feb 2009
         client_state.cpp
         cs_scheduler.cpp
         cs_statefile.cpp
+
+Rom    7 Feb 2009
+    - MGR: fix build break for GCC based compilers.
+    
+    clientgui/
+        ProjectInfoPage.cpp

@@ -275,8 +275,8 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             wxLogTrace(
                 wxT("Function Status"),
                 wxT("CProjectInfoPage::OnPageChanged - Name: '%s', URL: '%s', Supported: '%d'"),
-                wxString(pl.projects[i]->name.c_str(), wxConvUTF8),
-                wxString(pl.projects[i]->url.c_str(), wxConvUTF8),
+                wxString(pl.projects[i]->name.c_str(), wxConvUTF8).c_str(),
+                wxString(pl.projects[i]->url.c_str(), wxConvUTF8).c_str(),
                 bSupportedPlatformFound
             );
 
