@@ -371,7 +371,7 @@ bool SCHEDULER_OP::update_urls(PROJECT* p, vector<std::string> &urls) {
 bool SCHEDULER_OP::poll() {
     int retval;
     vector<std::string> urls;
-    bool changed, scheduler_op_done;
+    bool changed;
 
     switch(state) {
     case SCHEDULER_OP_STATE_GET_MASTER:
@@ -427,7 +427,6 @@ bool SCHEDULER_OP::poll() {
 
         // here we're doing a scheduler RPC
         //
-        scheduler_op_done = false;
         if (http_op.http_op_state == HTTP_STATE_DONE) {
             state = SCHEDULER_OP_STATE_IDLE;
             http_ops->remove(&http_op);
@@ -450,16 +449,23 @@ bool SCHEDULER_OP::poll() {
                 }
                 if (url_index == (int) cur_proj->scheduler_urls.size()) {
                     backoff(cur_proj, "scheduler request failed");
-                    scheduler_op_done = true;
 
-                    // if project suspended, don't retry failed RPC
+                    // if RPC was requested by project or acct mgr, or init,
+                    // keep trying (subject to backoff);
+                    // otherwise give up
+                    // (the results_dur, need_work, and trickle_up cases
+                    // will be retriggered)
                     //
-                    if (cur_proj->suspended_via_gui) {
+                    switch (cur_proj->sched_rpc_pending) {
+                    case RPC_REASON_INIT:
+                    case RPC_REASON_PROJECT_REQ:
+                    case RPC_REASON_ACCT_MGR_REQ:
+                        break;
+                    default:
                         cur_proj->sched_rpc_pending = 0;
                     }
                 }
             } else {
-				cur_proj->sched_rpc_pending = 0;
                 retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url);
                 switch (retval) {
                 case 0:
@@ -471,6 +477,8 @@ bool SCHEDULER_OP::poll() {
                     backoff(cur_proj, "can't parse scheduler reply");
                     break;
                 }
+				cur_proj->sched_rpc_pending = 0;
+                    // do this after handle_scheduler_reply()
             }
             cur_proj = NULL;
             gstate.request_work_fetch("RPC complete");

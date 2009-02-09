@@ -1339,3 +1339,14 @@ David  8 Feb 2009
         with long user names
     html/inc
         util.inc
+
+David  9 Feb 2009
+    - client: all scheduler RPCs except user request are subject to backoff.
+    - client: if a project-requested RPC doesn't return work,
+        don't do resource backoff.
+    - client: if a user-requested scheduler RPC errors out, clear the request
+
+    client/
+        cs_scheduler.cpp
+        scheduler_op.cpp
+        work_fetch.cpp

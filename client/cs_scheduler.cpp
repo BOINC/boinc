@@ -967,7 +967,11 @@ PROJECT* CLIENT_STATE::next_project_master_pending() {
     return 0;
 }
 
-// find a project for which a scheduler RPC is pending
+// find a project for which a scheduler RPC has been requested
+// - by user
+// - by an account manager
+// - by the project
+// - because the project was just attached (for verification)
 //
 PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
     unsigned int i;
@@ -975,15 +979,17 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
 
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
+        if (p->sched_rpc_pending == RPC_REASON_USER_REQ) {
+            // honor user request even if backed off
+            //
+            return p;
+        }
+        if (p->waiting_until_min_rpc_time()) continue;
 
-        // project request overrides backoff
-        //
         if (p->next_rpc_time && p->next_rpc_time<now) {
             p->sched_rpc_pending = RPC_REASON_PROJECT_REQ;
-            p->next_rpc_time = 0;
         }
         // if (p->suspended_via_gui) continue;
-
         // do the RPC even if suspended.
         // This is critical for acct mgrs, to propagate new host CPIDs
         //
