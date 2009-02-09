@@ -119,6 +119,8 @@ $team_stats_sites = array(
     ),
 );
 
+// The following sites generate signature images based on user CPID
+//
 $sig_sites = array(
 //    array(
 //        "http://brainsmashr.com/BOINC/",
@@ -149,6 +151,14 @@ $sig_sites = array(
         "http://www.allprojectstats.com/signature.php",
         "BOINC All Project Stats",
         "Signature files for both users and teams"
+    ),
+);
+
+// the following sites generate cross-project team stats based on name
+//
+$team_name_sites = array(
+    array("http://stats.free-dc.org/stats.php?page=teambycpid&team=",
+        "Free-DC",
     ),
 );
 

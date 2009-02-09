@@ -25,6 +25,7 @@ require_once("../inc/countries.inc");
 require_once("../inc/credit.inc");
 require_once("../inc/team_types.inc");
 require_once("../inc/time.inc");
+require_once("../inc/stats_sites.inc");
 
 function team_search_form($params) {
     echo '<form name="form" action="team_search.php">';
@@ -70,6 +71,7 @@ function foundership_transfer_link($user, $team) {
 }
 
 function display_team_page($team, $user) {
+    global $team_name_sites;
     page_head("$team->name");
 
     echo sanitize_html($team->name_html);
@@ -91,6 +93,15 @@ function display_team_page($team, $user) {
     if (!no_computing()) {
         row2(tra('Total credit'), format_credit_large($team->total_credit));
         row2(tra('Recent average credit'), format_credit_large($team->expavg_credit));
+
+        $x = "";
+        foreach ($team_name_sites as $t) {
+            $url = $t[0];
+            $site_name = $t[1];
+            $team_name = urlencode($team->name);
+            $x .= "<a href=$url".$team_name.">$site_name</a><br>\n";
+        }
+        row2(tra('Cross-project credit'), $x);
     }
     row2(tra('Country'), $team->country);
     row2(tra('Type'), team_type_name($team->type));

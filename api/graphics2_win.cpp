@@ -376,8 +376,6 @@ void boinc_graphics_loop(int argc, char** argv) {
 
     fprintf(stderr, "Starting graphics application...\n");
 
-    // Parse commandline parameters
-    //
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--fullscreen")) {
             fullscreen = true;
@@ -389,12 +387,10 @@ void boinc_graphics_loop(int argc, char** argv) {
     //
     reg_win_class();
 
-    // Create the BOINC App window
-    //
     wglMakeCurrent(NULL,NULL); 
     make_window();
 
-    // Create a timer thread to swap buffers
+    // Create a timer thread to do rendering
     //
     gfx_timer_id = SetTimer(NULL, 1, 30, (TIMERPROC)&timer_handler);
 
