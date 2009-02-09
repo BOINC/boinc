@@ -254,6 +254,10 @@ int CLIENT_STATE::parse_state_file() {
                     strcpy(avp->platform, get_primary_platform());
                 }
             }
+            if (avp->missing_coproc()) {
+                delete avp;
+                continue;
+            }
             retval = link_app_version(project, avp);
             if (retval) {
                 delete avp;

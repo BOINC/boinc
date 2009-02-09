@@ -694,6 +694,9 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
                 continue;
             }
         }
+        if (avpp.missing_coproc()) {
+            continue;
+        }
         APP* app = lookup_app(project, avpp.app_name);
         APP_VERSION* avp = lookup_app_version(
             app, avpp.platform, avpp.version_num, avpp.plan_class

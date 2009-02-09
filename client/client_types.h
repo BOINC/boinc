@@ -430,6 +430,7 @@ struct APP_VERSION {
     void get_file_errors(std::string&);
     void clear_errors();
     int api_major_version();
+    bool missing_coproc();
 };
 
 struct WORKUNIT {
