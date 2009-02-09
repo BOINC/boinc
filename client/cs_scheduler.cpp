@@ -388,7 +388,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         if (must_check_work_fetch) {
             last_work_fetch_time = 0;
         }
-        if (now - last_work_fetch_time < 60) return false;
+        if (now - last_work_fetch_time < WORK_FETCH_PERIOD) return false;
         must_check_work_fetch = false;
         last_work_fetch_time = now;
 

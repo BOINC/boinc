@@ -496,4 +496,7 @@ extern void print_suspend_tasks_message(int);
     // assume actual CPU utilization will be this multiple
     // of what we've actually measured recently
 
+#define WORK_FETCH_PERIOD   60
+    // see if we need to fetch work at least this often
+
 #endif

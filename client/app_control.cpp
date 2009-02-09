@@ -994,6 +994,14 @@ bool ACTIVE_TASK_SET::get_msgs() {
     double delta_t;
     if (last_time) {
         delta_t = gstate.now - last_time;
+
+        // Normally this is called every second.
+        // If delta_t is > 10, we'll assume that a period of hibernation
+        // or suspension happened, and treat it as zero
+        //
+        if (delta_t > 10) {
+            delta_t = 0;
+        }
     } else {
         delta_t = 0;
     }
