@@ -1380,3 +1380,13 @@ David  10 Feb 2009
         scheduler_op.cpp,h
     clientscr/
         ss_app.cpp
+
+David  10 Feb 2009
+    - client: show proxy info correctly on startup
+    - client: fix minor bug that produced spurious
+        adjust debt interval too long messages when zero projects
+
+    client/
+        client_state.cpp
+        cpu_sched.cpp
+        cs_scheduler.cpp

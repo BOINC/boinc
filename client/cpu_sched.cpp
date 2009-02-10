@@ -333,15 +333,11 @@ void CLIENT_STATE::adjust_debts() {
     double share_frac;
     double elapsed_time = now - debt_interval_start;
 
-    if (elapsed_time < 1) {
-        return;
-    }
-
     // This is called from WORK_FETCH::choose_project(),
     // which runs about once every WORK_FETCH_PERIOD.
     // If the elapsed time is more than 2*WORK_FETCH_PERIOD,
     // it must be because the host was suspended for a long time.
-    // In this case, ignore the last period>
+    // In this case, ignore the last period
     //
     if (elapsed_time > 2*WORK_FETCH_PERIOD || elapsed_time < 0) {
         if (log_flags.debt_debug) {
@@ -351,6 +347,12 @@ void CLIENT_STATE::adjust_debts() {
             );
         }
         reset_debt_accounting();
+        return;
+    }
+
+    // skip small intervals
+    //
+    if (elapsed_time < 1) {
         return;
     }
 
@@ -385,22 +387,22 @@ void CLIENT_STATE::adjust_debts() {
         }
     }
 
-    if (nprojects==0) return;
-
     // short-term debt:
     //  normalize so mean is zero, and limit abs value at MAX_STD
     //
-    double avg_short_term_debt = total_short_term_debt / nrprojects;
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        if (p->non_cpu_intensive) continue;
-        if (p->runnable()) {
-            p->short_term_debt -= avg_short_term_debt;
-            if (p->short_term_debt > MAX_STD) {
-                p->short_term_debt = MAX_STD;
-            }
-            if (p->short_term_debt < -MAX_STD) {
-                p->short_term_debt = -MAX_STD;
+    if (nrprojects) {
+        double avg_short_term_debt = total_short_term_debt / nrprojects;
+        for (i=0; i<projects.size(); i++) {
+            p = projects[i];
+            if (p->non_cpu_intensive) continue;
+            if (p->runnable()) {
+                p->short_term_debt -= avg_short_term_debt;
+                if (p->short_term_debt > MAX_STD) {
+                    p->short_term_debt = MAX_STD;
+                }
+                if (p->short_term_debt < -MAX_STD) {
+                    p->short_term_debt = -MAX_STD;
+                }
             }
         }
     }
