@@ -249,39 +249,41 @@ int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worke
 #ifdef __APPLE__
         // For sandbox security, use gfx_switcher to launch gfx app 
         // as user boinc_project and group boinc_project.
-    int retval = 0;
-    char current_dir[MAXPATHLEN];
-    char gfx_pid[16];
-    pid_t thePID;
-    int i;
+        int retval = 0;
+        char current_dir[MAXPATHLEN];
+        char gfx_pid[16];
+        pid_t thePID;
+        int i;
 
-    sprintf(gfx_pid, "%d", graphics_application);
-    getcwd( current_dir, sizeof(current_dir));
+        sprintf(gfx_pid, "%d", graphics_application);
+        getcwd( current_dir, sizeof(current_dir));
 
-    char* argv[4];
-    argv[0] = "gfx_switcher";
-    argv[1] = "-kill_gfx";
-    argv[2] = gfx_pid;
-    argv[3] = 0;
+        char* argv[4];
+        argv[0] = "gfx_switcher";
+        argv[1] = "-kill_gfx";
+        argv[2] = gfx_pid;
+        argv[3] = 0;
 
-   retval = run_program(
-        current_dir,
-        m_gfx_Switcher_Path,
-        3,
-        argv,
-        0,
-        thePID
-    );
-    if (retval) return retval;
-    
-    for (i=0; i<200; i++) {
-        boinc_sleep(0.01);      // Wait 2 seconds max
-        // Prevent gfx_switcher from becoming a zombie
-        if (waitpid(thePID, 0, WNOHANG) == thePID) break;
-    }
-    return retval;
+       retval = run_program(
+            current_dir,
+            m_gfx_Switcher_Path,
+            3,
+            argv,
+            0,
+            thePID
+        );
+        if (retval) return retval;
+        
+        for (i=0; i<200; i++) {
+            boinc_sleep(0.01);      // Wait 2 seconds max
+            // Prevent gfx_switcher from becoming a zombie
+            if (waitpid(thePID, 0, WNOHANG) == thePID) break;
+        }
+        return retval;
 #endif
-        graphics_application = 0;
+        if (m_bScience_gfx_running) {
+            graphics_application = 0;
+        }
     } else {
         // V5 and Older
         DISPLAY_INFO di;
@@ -342,10 +344,11 @@ int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_appli
 
 
 #ifdef _WIN32
-DWORD WINAPI CScreensaver::DataManagementProc() {
+DWORD WINAPI CScreensaver::DataManagementProc()
 #else
-void *CScreensaver::DataManagementProc() {
+void *CScreensaver::DataManagementProc()
 #endif
+{
     int             retval                      = 0;
     int             suspend_reason              = 0;
     RESULT*         theResult                   = NULL;
@@ -364,8 +367,6 @@ void *CScreensaver::DataManagementProc() {
     double          default_saver_duration      = 0.0;
 
     SS_PHASE        ss_phase                    = DEFAULT_SS_PHASE;
-    bool            science_gfx_running         = false;
-    bool            default_gfx_running         = false;
     bool            switch_to_default_gfx       = false;
     char            full_path[1024];
 
@@ -380,6 +381,8 @@ void *CScreensaver::DataManagementProc() {
 #endif
 
     m_bDefault_ss_exists = false;
+    m_bScience_gfx_running = false;
+    m_bDefault_gfx_running = false;
     m_fGFXDefaultPeriod = GFX_DEFAULT_PERIOD;
     m_fGFxSciencePeriod = GFX_SCIENCE_PERIOD;
     m_fGFXChangePeriod = GFX_CHANGE_PERIOD;
@@ -493,29 +496,29 @@ void *CScreensaver::DataManagementProc() {
         }
         
         if (switch_to_default_gfx) {
-            if (science_gfx_running) {
+            if (m_bScience_gfx_running) {
                 if (m_hGraphicsApplication || previous_result_ptr) {
                     // use previous_result_ptr because graphics_app_result_ptr may no longer be valid
                     terminate_screensaver(m_hGraphicsApplication, previous_result_ptr);
                     if (m_hGraphicsApplication == 0) {
                         graphics_app_result_ptr = NULL;
-                        science_gfx_running = false;
+                        m_bScience_gfx_running = false;
                     } else {
                         // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
                     }
                     previous_result_ptr = NULL;
                 }
             } else {
-                if (m_bDefault_ss_exists && !default_gfx_running) {
+                if (m_bDefault_ss_exists && !m_bDefault_gfx_running) {
                     switch_to_default_gfx = false;
                     retval = launch_default_screensaver(default_ss_dir_path, m_hGraphicsApplication);
                     if (retval) {
                         m_hGraphicsApplication = 0;
                         previous_result_ptr = NULL;
                         graphics_app_result_ptr = NULL;
-                        default_gfx_running = false;
+                        m_bDefault_gfx_running = false;
                     } else {
-                        default_gfx_running = true;
+                        m_bDefault_gfx_running = true;
                         if (ss_phase == SCIENCE_SS_PHASE) {
                             default_saver_start_time = dtime();
                         }
@@ -527,7 +530,7 @@ void *CScreensaver::DataManagementProc() {
         // Core client suspended?
         if (suspend_reason && !(suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
             SetError(TRUE, SCRAPPERR_BOINCSUSPENDED);
-            if (m_bDefault_ss_exists && !default_gfx_running) {
+            if (m_bDefault_ss_exists && !m_bDefault_gfx_running) {
                 switch_to_default_gfx = true;
             }
         }
@@ -543,7 +546,7 @@ void *CScreensaver::DataManagementProc() {
                 default_phase_start_time = 0;
                 default_saver_duration = 0;
                 science_phase_start_time = dtime();
-                if (default_gfx_running) {
+                if (m_bDefault_gfx_running) {
                     default_saver_start_time = science_phase_start_time;
                 }
             }
@@ -554,13 +557,13 @@ void *CScreensaver::DataManagementProc() {
 #if SIMULATE_NO_GRAPHICS /* FOR TESTING */
 
         SetError(TRUE, SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING);
-        if (m_bDefault_ss_exists && !default_gfx_running) {
+        if (m_bDefault_ss_exists && !m_bDefault_gfx_running) {
             switch_to_default_gfx = true;
         }
 
 #else                   /* NORMAL OPERATION */
 
-            if (science_gfx_running) {
+            if (m_bScience_gfx_running) {
                 // Is the current graphics app's associated task still running?
                 
                 if ((m_hGraphicsApplication) || (graphics_app_result_ptr)) {
@@ -587,7 +590,13 @@ void *CScreensaver::DataManagementProc() {
                         }
                         terminate_screensaver(m_hGraphicsApplication, previous_result_ptr);
                         previous_result_ptr = NULL;
-                        // waitpid test will clear m_hGraphicsApplication
+                        if (m_hGraphicsApplication == 0) {
+                            graphics_app_result_ptr = NULL;
+                            m_bScience_gfx_running = false;
+                            // Save previous_result and previous_result_ptr for get_random_graphics_app() call
+                        } else {
+                            // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
+                        }
                     }
 
                      if (last_change_time && ((dtime() - last_change_time) > m_fGFXChangePeriod)) {
@@ -599,7 +608,7 @@ void *CScreensaver::DataManagementProc() {
                             terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
                             if (m_hGraphicsApplication == 0) {
                                 graphics_app_result_ptr = NULL;
-                                science_gfx_running = false;
+                                m_bScience_gfx_running = false;
                                 // Save previous_result and previous_result_ptr for get_random_graphics_app() call
                             } else {
                                 // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
@@ -608,15 +617,15 @@ void *CScreensaver::DataManagementProc() {
                         last_change_time = dtime();
                     }
                 }
-            }       // End if (science_gfx_running)
+            }       // End if (m_bScience_gfx_running)
         
             // If no current graphics app, pick an active task at random and launch its graphics app
-            if ((default_gfx_running || (m_hGraphicsApplication == 0)) && (graphics_app_result_ptr == NULL)) {
+            if ((m_bDefault_gfx_running || (m_hGraphicsApplication == 0)) && (graphics_app_result_ptr == NULL)) {
                 graphics_app_result_ptr = get_random_graphics_app(results, previous_result_ptr);
                 previous_result_ptr = NULL;
                 
                 if (graphics_app_result_ptr) {
-                    if (default_gfx_running) {
+                    if (m_bDefault_gfx_running) {
                         kill_program(m_hGraphicsApplication);
                         default_saver_duration += dtime() - default_saver_start_time; 
                         //BOINCTRACE(_T("CScreensaver::During Science phase: now=%f, default_saver_start_time=%f, default_saver_duration=%f\n"),
@@ -629,7 +638,7 @@ void *CScreensaver::DataManagementProc() {
                             m_hGraphicsApplication = 0;
                             previous_result_ptr = NULL;
                             graphics_app_result_ptr = NULL;
-                            science_gfx_running = false;
+                            m_bScience_gfx_running = false;
                         } else {
         #ifdef __APPLE__
                             // Show ScreenSaverAppStartingMsg for GFX_STARTING_MSG_DURATION seconds
@@ -637,7 +646,7 @@ void *CScreensaver::DataManagementProc() {
         #endif
                             SetError(FALSE, SCRAPPERR_SCREENSAVERRUNNING);
                             last_change_time = dtime();
-                            science_gfx_running = true;
+                            m_bScience_gfx_running = true;
                             // Make a local copy of current result, since original pointer 
                             // may have been freed by the time we perform later tests
                             previous_result = *graphics_app_result_ptr;
@@ -649,24 +658,26 @@ void *CScreensaver::DataManagementProc() {
                         }
                     }
                 } else {
-                    // No science graphics available
-                    if (state.projects.size() == 0) {
-                        // We are not attached to any projects
-                        SetError(TRUE, SCRAPPERR_BOINCNOPROJECTSDETECTED);
-                    } else if (results.results.size() == 0) {
-                        // We currently do not have any applications to run
-                        SetError(TRUE, SCRAPPERR_BOINCNOAPPSEXECUTING);
-                    } else {
-                        // We currently do not have any graphics capable application
-                        if (m_bV5_GFX_app_is_running) {
-                            SetError(TRUE, SCRAPPERR_DAEMONALLOWSNOGRAPHICS);
+                    if ((!suspend_reason) || (suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+                        // No science graphics available
+                        if (state.projects.size() == 0) {
+                            // We are not attached to any projects
+                            SetError(TRUE, SCRAPPERR_BOINCNOPROJECTSDETECTED);
+                        } else if (results.results.size() == 0) {
+                            // We currently do not have any applications to run
+                            SetError(TRUE, SCRAPPERR_BOINCNOAPPSEXECUTING);
                         } else {
-                            SetError(TRUE, SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING);
+                            // We currently do not have any graphics capable application
+                            if (m_bV5_GFX_app_is_running) {
+                                SetError(TRUE, SCRAPPERR_DAEMONALLOWSNOGRAPHICS);
+                            } else {
+                                SetError(TRUE, SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING);
+                            }
                         }
                     }
                     
                     // We can't run a science graphics app, so run the default graphics if available
-                    if (m_bDefault_ss_exists && !default_gfx_running) {
+                    if (m_bDefault_ss_exists && !m_bDefault_gfx_running) {
                         switch_to_default_gfx = true;
                     }
 
@@ -677,15 +688,15 @@ void *CScreensaver::DataManagementProc() {
 
             if (switch_to_default_gfx) {
                 switch_to_default_gfx = false;
-                if (m_bDefault_ss_exists && !default_gfx_running) {
+                if (m_bDefault_ss_exists && !m_bDefault_gfx_running) {
                     retval = launch_default_screensaver(default_ss_dir_path, m_hGraphicsApplication);
                     if (retval) {
                         m_hGraphicsApplication = 0;
                         previous_result_ptr = NULL;
                         graphics_app_result_ptr = NULL;
-                        default_gfx_running = false;
+                        m_bDefault_gfx_running = false;
                     } else {
-                        default_gfx_running = true;
+                        m_bDefault_gfx_running = true;
                         default_saver_start_time = dtime();
                     }
                 }
@@ -702,8 +713,8 @@ void *CScreensaver::DataManagementProc() {
                 BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics application isn't running, start a new one.\n"));
                 m_hGraphicsApplication = 0;
                 graphics_app_result_ptr = NULL;
-                default_gfx_running = false;
-                science_gfx_running = false;
+                m_bDefault_gfx_running = false;
+                m_bScience_gfx_running = false;
                 continue;
             } else {
 #ifdef _WIN32

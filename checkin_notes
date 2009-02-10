@@ -1350,3 +1350,11 @@ David  9 Feb 2009
         cs_scheduler.cpp
         scheduler_op.cpp
         work_fetch.cpp
+
+Charlie 10 Feb 2009
+    - SS: Fix new screensaver coordinator to work properly on Windows.
+
+    clientscr/
+        Mac_Saver_Module.h
+        screensaver.cpp
+        screensaver_win.h

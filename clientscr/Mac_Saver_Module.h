@@ -89,6 +89,8 @@ protected:
     double          m_fGFXDefaultPeriod;
     double          m_fGFxSciencePeriod;
     double          m_fGFXChangePeriod;
+    bool            m_bScience_gfx_running;
+    bool            m_bDefault_gfx_running;
 
     //
     // Data management layer
