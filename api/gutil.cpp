@@ -597,11 +597,11 @@ int read_ppm_file(const char* name, int& w, int& h, unsigned char** arrayp) {
 // draw a texture at a given position and size.
 // Change size if needed so aspect ratio of texture isn't changed
 //
-void TEXTURE_DESC::draw(float* p, float* size, int xalign, int yalign) {
+void TEXTURE_DESC::draw(float* p, float* size, int xalign, int yalign, float alpha) {
     float pos[3];
     float tratio, sratio, new_size;
     memcpy(pos, p, sizeof(pos));
-    glColor4f(1.,1.,1.,1.);
+    glColor4f(1.,1.,1.,alpha);
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, id);
 

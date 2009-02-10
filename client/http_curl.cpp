@@ -316,7 +316,9 @@ int HTTP_OP::libcurl_exec(
 
     curlEasy = curl_easy_init(); // get a curl_easy handle to use
     if (!curlEasy) {
-        msg_printf(0, MSG_INTERNAL_ERROR, "Couldn't create curlEasy handle");
+        if (log_flags.http_debug) {
+            msg_printf(0, MSG_INFO, "Couldn't create curlEasy handle");
+        }
         return ERR_HTTP_ERROR; // returns 0 (CURLM_OK) on successful handle creation
     }
 
@@ -615,9 +617,8 @@ HTTP_OP_SET::HTTP_OP_SET() {
 
 // Adds an HTTP_OP to the set
 //
-int HTTP_OP_SET::insert(HTTP_OP* ho) {
+void HTTP_OP_SET::insert(HTTP_OP* ho) {
     http_ops.push_back(ho);
-    return 0;
 }
 
 // Remove an HTTP_OP from the set

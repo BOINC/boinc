@@ -1358,3 +1358,25 @@ Charlie 10 Feb 2009
         Mac_Saver_Module.h
         screensaver.cpp
         screensaver_win.h
+
+David  10 Feb 2009
+    - client: add SCHEDULER_OP::rpc_failed();
+        this gets called when the op fails, either at initialization or later on;
+        it clears the project's sched_rpc_pending flag if needed.
+        This fixes a bug that caused user-requested RPCs to retry every 10 seconds
+        when the network is down.
+    - client: if debt-adjust period is too long, reset accounting.
+        Otherwise we'll get this infinitely.
+    - API: all optional alpha argument to TEXTURE_DESC::draw()
+
+
+    api/
+        gutil.cpp,h
+    client/
+        cpu_sched.cpp
+        file_xfer.cpp
+        gui_http.cpp
+        http_curl.cpp,h
+        scheduler_op.cpp,h
+    clientscr/
+        ss_app.cpp

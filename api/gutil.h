@@ -211,7 +211,7 @@ struct TEXTURE_DESC {
     double xsize;          // size of underlying image
     double ysize;
 	TEXTURE_DESC() : present(false),id(0),xsize(0),ysize(0) {};
-    void draw(float* pos, float* size, int xalign, int yalign);
+    void draw(float* pos, float* size, int xalign, int yalign, float alpha=1.);
     int load_image_file(const char* filename);
     int CreateTextureJPG(const char* strFileName);
     int CreateTextureBMP(const char* strFileName);

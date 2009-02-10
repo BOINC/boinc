@@ -350,6 +350,7 @@ void CLIENT_STATE::adjust_debts() {
                 (int)elapsed_time, (int)WORK_FETCH_PERIOD
             );
         }
+        reset_debt_accounting();
         return;
     }
 

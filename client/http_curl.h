@@ -181,7 +181,7 @@ class HTTP_OP_SET {
     std::vector<HTTP_OP*> http_ops;
 public:
     HTTP_OP_SET();
-    int insert(HTTP_OP*);
+    void insert(HTTP_OP*);
     int remove(HTTP_OP*);
     int nops();
 

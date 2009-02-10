@@ -180,6 +180,25 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *reason_msg) {
     p->set_min_rpc_time(gstate.now + exp_backoff, reason_msg);
 }
 
+
+// RPC failed, either on startup or later.
+// If RPC was requested by project or acct mgr, or init,
+// keep trying (subject to backoff); otherwise give up
+// (the results_dur, need_work, and trickle_up cases will be retriggered)
+//
+void SCHEDULER_OP::rpc_failed() {
+    backoff(cur_proj, "scheduler request failed");
+    switch (cur_proj->sched_rpc_pending) {
+    case RPC_REASON_INIT:
+    case RPC_REASON_PROJECT_REQ:
+    case RPC_REASON_ACCT_MGR_REQ:
+        break;
+    default:
+        cur_proj->sched_rpc_pending = 0;
+    }
+    cur_proj = 0;
+}
+
 // low-level routine to initiate an RPC
 // If successful, creates an HTTP_OP that must be polled
 // PRECONDITION: the request file has been created
@@ -230,6 +249,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
     get_sched_reply_filename(*p, reply_file, sizeof(reply_file));
 
     http_op.set_proxy(&gstate.proxy_info);
+    cur_proj = p;
     retval = http_op.init_post(scheduler_url, request_file, reply_file);
     if (retval) {
         if (log_flags.sched_ops) {
@@ -237,21 +257,11 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
                 "Scheduler request failed: %s", boincerror(retval)
             );
         }
-        backoff(p, "scheduler request failed");
+        rpc_failed();
         return retval;
     }
-    retval = http_ops->insert(&http_op);
-    if (retval) {
-        if (log_flags.sched_ops) {
-            msg_printf(p, MSG_INFO,
-                "Scheduler request failed: %s", boincerror(retval)
-            );
-        }
-        backoff(p, "scheduler request failed");
-        return retval;
-    }
+    http_ops->insert(&http_op);
     p->rpc_seqno++;
-    cur_proj = p;    // remember what project we're talking to
     state = SCHEDULER_OP_STATE_RPC;
     return 0;
 }
@@ -270,8 +280,7 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     http_op.set_proxy(&gstate.proxy_info);
     retval = http_op.init_get(p->master_url, master_filename, true);
     if (retval) return retval;
-    retval = http_ops->insert(&http_op);
-    if (retval) return retval;
+    http_ops->insert(&http_op);
     cur_proj = p;
     state = SCHEDULER_OP_STATE_GET_MASTER;
     return 0;
@@ -448,22 +457,7 @@ bool SCHEDULER_OP::poll() {
                     if (!retval) return true;
                 }
                 if (url_index == (int) cur_proj->scheduler_urls.size()) {
-                    backoff(cur_proj, "scheduler request failed");
-
-                    // if RPC was requested by project or acct mgr, or init,
-                    // keep trying (subject to backoff);
-                    // otherwise give up
-                    // (the results_dur, need_work, and trickle_up cases
-                    // will be retriggered)
-                    //
-                    switch (cur_proj->sched_rpc_pending) {
-                    case RPC_REASON_INIT:
-                    case RPC_REASON_PROJECT_REQ:
-                    case RPC_REASON_ACCT_MGR_REQ:
-                        break;
-                    default:
-                        cur_proj->sched_rpc_pending = 0;
-                    }
+                    rpc_failed();
                 }
             } else {
                 retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url);

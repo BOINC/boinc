@@ -88,11 +88,11 @@ static void init_lights() {
    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, dir);
 }
 
-static void draw_logo() {
+static void draw_logo(float alpha) {
     if (logo.present) {
         float pos[3] = {.2, .3, 0};
         float size[3] = {.6, .4, 0};
-        logo.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER);
+        logo.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, alpha);
     }
 }
 
@@ -144,12 +144,12 @@ PROJECT_IMAGES* get_project_images(PROJECT* p) {
     return &(project_images.back());
 }
 
-void show_result(RESULT* r, float x, float& y) {
+void show_result(RESULT* r, float x, float& y, float alpha) {
     PROGRESS progress;
     char buf[256];
     float prog_pos[] = {x, y, 0};
-    float prog_c[] = {.5, .4, .1, 0.5};
-    float prog_ci[] = {.1, .8, .2, 1.};
+    float prog_c[] = {.5, .4, .1, alpha/2};
+    float prog_ci[] = {.1, .8, .2, alpha};
     txf_render_string(.1, x, y, 0, 8., white, 0, (char*)r->app->user_friendly_name.c_str());
     y -= 3;
     progress.init(prog_pos, 10., 1., 0.8, prog_c, prog_ci);
@@ -174,7 +174,8 @@ void show_coords() {
         txf_render_string(.1, 0, y, 0, 10., white, 0, buf);
     }
 }
-void show_project(PROJECT* p, float x, float& y) {
+
+void show_project(PROJECT* p, float x, float& y, float alpha) {
     unsigned int i;
     PROJECT_IMAGES* pim = get_project_images(p);
     txf_render_string(.1, x, y, 0, 5., white, 0, (char*)p->project_name.c_str());
@@ -189,16 +190,16 @@ void show_project(PROJECT* p, float x, float& y) {
         if (r->project != p) continue;
         if (!r->active_task) continue;
         if (r->active_task_state != PROCESS_EXECUTING) continue;
-        show_result(r, x, y);
+        show_result(r, x, y, alpha);
     }
 }
 
-void show_projects() {
+void show_projects(float alpha) {
     float x=-45, y=30;
     unsigned int i;
     for (i=0; i<cc_state.projects.size(); i++) {
         PROJECT* p = cc_state.projects[i];
-        show_project(p, x, y);
+        show_project(p, x, y, alpha);
         y -= 2;
     }
 }
@@ -247,13 +248,26 @@ void app_graphics_render(int xs, int ys, double t) {
         boinc_close_window_and_quit("RPC failed");
     }
 
+    static float alpha=1;
+    static float dalpha = -.01;
+
+    white[3] = alpha;
+    alpha += dalpha;
+    if (alpha < 0) {
+        alpha = 0;
+        dalpha = -dalpha;
+    }
+    if (alpha > 1) {
+        alpha = 1;
+        dalpha = -dalpha;
+    }
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // draw logo first - it's in background
     //
     mode_unshaded();
     mode_ortho();
-    draw_logo();
+    draw_logo(alpha);
     ortho_done();
 
     // draw 3D objects
@@ -266,9 +280,11 @@ void app_graphics_render(int xs, int ys, double t) {
     //
     //mode_unshaded();
     //mode_ortho();
-    show_projects();
+    show_projects(alpha);
     show_coords();
     //ortho_done();
+
+
 }
 
 void app_graphics_resize(int w, int h){

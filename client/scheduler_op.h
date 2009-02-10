@@ -83,6 +83,7 @@ private:
     bool update_urls(PROJECT*, std::vector<std::string> &urls);
     int start_op(PROJECT*);
     int start_rpc(PROJECT*);
+    void rpc_failed();
     int parse_master_file(PROJECT*, std::vector<std::string>&);
 };
 

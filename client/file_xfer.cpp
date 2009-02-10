@@ -181,10 +181,7 @@ FILE_XFER_SET::FILE_XFER_SET(HTTP_OP_SET* p) {
 // If successful, add to the set
 //
 int FILE_XFER_SET::insert(FILE_XFER* fxp) {
-    int retval;
-
-    retval = http_ops->insert(fxp);
-    if (retval) return retval;
+    http_ops->insert(fxp);
     file_xfers.push_back(fxp);
     set_bandwidth_limits(fxp->is_upload);
     return 0;
