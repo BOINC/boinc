@@ -243,6 +243,10 @@ int CScreensaver::terminate_screensaver(HANDLE& graphics_application, RESULT *wo
 int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worker_app)
 #endif
 {
+    if (!m_bScience_gfx_running) {
+        return 0;
+    }
+    
     if (graphics_application) {
         // V6 Graphics
         kill_program(graphics_application);
@@ -281,9 +285,7 @@ int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worke
         }
         return retval;
 #endif
-        if (m_bScience_gfx_running) {
-            graphics_application = 0;
-        }
+        graphics_application = 0;
     } else {
         // V5 and Older
         DISPLAY_INFO di;
