@@ -645,6 +645,16 @@ void boinc_trace(const char *pszFormat, ...) {
 #ifdef _WIN32
         strdate(szDate);
         strtime(szTime);
+#else
+        time_t t;
+        char *theCR;
+    
+        time(&t);
+        strcpy(szTime, asctime(localtime(&t)));
+        theCR = strrchr(szTime, '\n');
+        if (theCR) *theCR = '\0';
+        theCR = strrchr(szTime, '\r');
+        if (theCR) *theCR = '\0';
 #endif
 
         va_list ptr;
@@ -661,7 +671,7 @@ void boinc_trace(const char *pszFormat, ...) {
 #ifdef _WIN32
             fprintf(stderr, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
-            fprintf(stderr, "TRACE: %s\n", szBuffer);
+            fprintf(stderr, "[%s] TRACE: %s\n", szTime, szBuffer);
 #endif
         }
 
@@ -669,7 +679,7 @@ void boinc_trace(const char *pszFormat, ...) {
 #ifdef _WIN32
             fprintf(stdout, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
-            fprintf(stdout, "TRACE: %s\n", szBuffer);
+            fprintf(stderr, "[%s] TRACE: %s\n", szTime, szBuffer);
 #endif
         }
 #endif
