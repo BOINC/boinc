@@ -212,11 +212,11 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 	wxCheckBox* aChks[] = {m_chkProcSunday,m_chkProcMonday,m_chkProcTuesday,m_chkProcWednesday,m_chkProcThursday,m_chkProcFriday,m_chkProcSaturday};
 	wxTextCtrl* aTxts[] = {m_txtProcSunday,m_txtProcMonday,m_txtProcTuesday,m_txtProcWednesday,m_txtProcThursday,m_txtProcFriday,m_txtProcSaturday};
 	for(int i=0; i< 7;i++) {
-        TIME_SPAN* cpu = prefs.cpu_times.week.get(i);
-		if(cpu) {
+        TIME_SPAN& cpu = prefs.cpu_times.week.days[i];
+		if(cpu.present) {
 			aChks[i]->SetValue(true);
-			wxString timeStr = DoubleToTimeString(cpu->start_hour) +
-								wxT("-") + DoubleToTimeString(cpu->end_hour);
+			wxString timeStr = DoubleToTimeString(cpu.start_hour) +
+								wxT("-") + DoubleToTimeString(cpu.end_hour);
 			aTxts[i]->SetValue(timeStr);
 		}
 	}
@@ -246,11 +246,11 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 	wxCheckBox* aChks2[] = {m_chkNetSunday,m_chkNetMonday,m_chkNetTuesday,m_chkNetWednesday,m_chkNetThursday,m_chkNetFriday,m_chkNetSaturday};
 	wxTextCtrl* aTxts2[] = {m_txtNetSunday,m_txtNetMonday,m_txtNetTuesday,m_txtNetWednesday,m_txtNetThursday,m_txtNetFriday,m_txtNetSaturday};
 	for(int i=0; i< 7;i++) {
-        TIME_SPAN* net = prefs.net_times.week.get(i);
-		if(net) {
+        TIME_SPAN& net = prefs.net_times.week.days[i];
+		if(net.present) {
 			aChks2[i]->SetValue(true);
-			wxString timeStr = DoubleToTimeString(net->start_hour) +
-								wxT("-") + DoubleToTimeString(net->end_hour);
+			wxString timeStr = DoubleToTimeString(net.start_hour) +
+								wxT("-") + DoubleToTimeString(net.end_hour);
 			aTxts2[i]->SetValue(timeStr);
 		}
 	}
