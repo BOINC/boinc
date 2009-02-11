@@ -1458,3 +1458,10 @@ Rom    11 Feb 2009
         
     clientgui/
         ViewWork.cpp
+
+David  11 Feb 2009
+    - lib: implement APP_INIT_DATA::copy() with assignments instead of
+        memcpy().  This protects against any future double-free bugs.
+
+    lib/
+        app_ipc.h,cpp
