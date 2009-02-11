@@ -1361,9 +1361,11 @@ Charlie 10 Feb 2009
 
 David  10 Feb 2009
     - client: add SCHEDULER_OP::rpc_failed();
-        this gets called when the op fails, either at initialization or later on;
+        this gets called when the op fails,
+        either at initialization or later on;
         it clears the project's sched_rpc_pending flag if needed.
-        This fixes a bug that caused user-requested RPCs to retry every 10 seconds
+        This fixes a bug that caused user-requested RPCs
+        to retry every 10 seconds
         when the network is down.
     - client: if debt-adjust period is too long, reset accounting.
         Otherwise we'll get this infinitely.
@@ -1380,6 +1382,14 @@ David  10 Feb 2009
         scheduler_op.cpp,h
     clientscr/
         ss_app.cpp
+
+David  10 Feb 2009
+    - client: if master file doesn't have URLs, clear RPC request
+
+    client/
+        work_fetch.cpp
+        cs_scheduler.cpp
+        scheduler_op.cpp
 
 David  10 Feb 2009
     - client: show proxy info correctly on startup
@@ -1416,3 +1426,11 @@ David  11 Feb 2009
 
     client/
         work_fetch.cpp
+
+David  11 Feb 2009
+    - client: change garbage collection so that an app version
+        is deleted only if there's another version *of the same plan class*
+        with a higher version number
+
+    client/
+        client_state.cpp
