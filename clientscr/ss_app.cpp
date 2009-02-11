@@ -43,6 +43,7 @@
 #include "txf_util.h"
 #include "network.h"
 #include "gui_rpc_client.h"
+#include "util.h"
 #include "app_ipc.h"
 
 using std::string;
@@ -88,9 +89,8 @@ static void init_lights() {
    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, dir);
 }
 
-static void draw_logo(float alpha) {
+static void draw_logo(float* pos, float alpha) {
     if (logo.present) {
-        float pos[3] = {.2, .3, 0};
         float size[3] = {.6, .4, 0};
         logo.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, alpha);
     }
@@ -145,19 +145,27 @@ PROJECT_IMAGES* get_project_images(PROJECT* p) {
 }
 
 void show_result(RESULT* r, float x, float& y, float alpha) {
-    PROGRESS progress;
+    PROGRESS_2D progress;
     char buf[256];
+    txf_render_string(.1, x, y, 0, 1000., white, 0, (char*)r->project->project_name.c_str());
+    y -= .02;
     float prog_pos[] = {x, y, 0};
     float prog_c[] = {.5, .4, .1, alpha/2};
     float prog_ci[] = {.1, .8, .2, alpha};
-    txf_render_string(.1, x, y, 0, 8., white, 0, (char*)r->app->user_friendly_name.c_str());
-    y -= 3;
-    progress.init(prog_pos, 10., 1., 0.8, prog_c, prog_ci);
+    progress.init(prog_pos, .4, -.01, -0.008, prog_c, prog_ci);
     progress.draw(r->fraction_done);
-    mode_unshaded();
-    sprintf(buf, "%.2f%%", r->fraction_done*100);
-    txf_render_string(.1, x+15, y, 0, 8., white, 0, buf);
-    y -= 3;
+    sprintf(buf, "%.2f%% ", r->fraction_done*100);
+    txf_render_string(.1, x+.41, y, 0, 1200., white, 0, buf);
+    y -= .03;
+    x += .05;
+    sprintf(buf, "Elapsed: %.0f sec  Remaining: %.0f sec", r->elapsed_time, r->estimated_cpu_time_remaining);
+    txf_render_string(.1, x, y, 0, 1200., white, 0, buf);
+    y -= .03;
+    sprintf(buf, "App: %s  Task: %s", (char*)r->app->user_friendly_name.c_str(),
+        r->wup->name.c_str()
+    );
+    txf_render_string(.1, x, y, 0, 1200., white, 0, buf);
+    y -= .03;
 }
 
 void show_coords() {
@@ -165,42 +173,64 @@ void show_coords() {
     char buf[256];
     for (i=-100; i< 101; i+=5) {
         sprintf(buf, "%d", i);
-        float x = (float)i;
-        txf_render_string(.1, x, 0, 0, 10., white, 0, buf);
+        float x = (float)i/100;
+        txf_render_string(.1, x, 0, 0, 1000., white, 0, buf);
     }
     for (i=-100; i< 101; i+=5) {
         sprintf(buf, "%d", i);
-        float y = (float)i;
-        txf_render_string(.1, 0, y, 0, 10., white, 0, buf);
+        float y = (float)i/100;
+        txf_render_string(.1, 0, y, 0, 1000., white, 0, buf);
     }
 }
 
-void show_project(PROJECT* p, float x, float& y, float alpha) {
-    unsigned int i;
-    PROJECT_IMAGES* pim = get_project_images(p);
-    txf_render_string(.1, x, y, 0, 5., white, 0, (char*)p->project_name.c_str());
-    if (pim->icon.present) {
-        float pos[3] = {x, y, 1};
-        float size[2] = {3., 3.};
-        pim->icon.draw(pos, size, 0, 0);
+void show_project(int index, float alpha) {
+    float x=.2, y=.6;
+    char buf[1024];
+    if (!cc_state.projects.size()) {
+        txf_render_string(.1, x, y, 0, 500., white, 0, "No projects attached");
+        return;
     }
-    y -= 3;
-    for (i=0; i<cc_state.results.size(); i++) {
+    txf_render_string(.1, x, y, 0, 1200., white, 0, "This computer is participating in");
+    y -= .07;
+    PROJECT *p = cc_state.projects[index];
+    txf_render_string(.1, x, y, 0, 500., white, 0, (char*)p->project_name.c_str());
+    y -= .07;
+    txf_render_string(.1, x, y, 0, 800., white, 0, (char*)p->master_url.c_str());
+    y -= .05;
+    sprintf(buf, "User: %s", p->user_name.c_str());
+    txf_render_string(.1, x, y, 0, 800., white, 0, buf);
+    y -= .05;
+    if (p->team_name.size()) {
+        sprintf(buf, "Team: %s",  p->team_name.c_str());
+        txf_render_string(.1, x, y, 0, 800., white, 0, buf);
+        y -= .05;
+    }
+    sprintf(buf, "Total credit: %.0f   Average credit: %.0f", p->user_total_credit, p->user_expavg_credit);
+    txf_render_string(.1, x, y, 0, 800., white, 0, buf);
+    y -= .05;
+    if (p->suspended_via_gui) {
+        txf_render_string(.1, x, y, 0, 800., white, 0, "Suspended");
+    }
+}
+
+void show_jobs(double alpha) {
+    float x=.1, y=.7;
+    bool found = false;
+    for (unsigned int i=0; i<cc_state.results.size(); i++) {
         RESULT* r = cc_state.results[i];
-        if (r->project != p) continue;
         if (!r->active_task) continue;
         if (r->active_task_state != PROCESS_EXECUTING) continue;
+        if (!found) {
+            txf_render_string(.1, x, y, 0, 1200., white, 0, "Running tasks:");
+            y -= .05;
+            //x += .05;
+        }
+        found = true;
         show_result(r, x, y, alpha);
+        y -= .05;
     }
-}
-
-void show_projects(float alpha) {
-    float x=-45, y=30;
-    unsigned int i;
-    for (i=0; i<cc_state.projects.size(); i++) {
-        PROJECT* p = cc_state.projects[i];
-        show_project(p, x, y, alpha);
-        y -= 2;
+    if (!found) {
+        txf_render_string(.1, x, y, 0, 500., white, 0, "No running tasks");
     }
 }
 
@@ -242,49 +272,100 @@ static void init_camera(double dist) {
     set_viewpoint(dist);
 }
 
+struct FADER {
+    double grow, on, fade, off;
+    double start, total;
+    FADER(double g, double n, double f, double o) {
+        grow = g;
+        on = n;
+        fade = f;
+        off = o;
+        start = 0;
+        total = grow + on + fade + off;
+    }
+    bool value(double t, double& v) {
+        if (!start) {
+            start = t;
+            v = 0;
+            return false;
+        }
+        double dt = t - start;
+        if (dt > total) {
+            start = t;
+            v = 0;
+            return true;
+        }
+        if (dt < grow) {
+            v = dt/grow;
+        } else if (dt < grow+on) {
+            v = 1;
+        } else if (dt < grow + on + fade) {
+            double x = dt-(grow+on);
+            v = 1-(x/fade);
+        } else {
+            v = 0;
+        }
+        return false;
+    }
+};
+
+FADER logo_fader(5,5,5,2);
+FADER info_fader(4,4,4,1);
+
 void app_graphics_render(int xs, int ys, double t) {
+    double alpha;
+    static bool showing_project = false;
+    static int project_index = 0;
+    static float logo_pos[3] = {.2, .2, 0};
+
     int retval = update_data(t);
     if (retval) {
         boinc_close_window_and_quit("RPC failed");
     }
 
-    static float alpha=1;
-    static float dalpha = -.01;
-
-    white[3] = alpha;
-    alpha += dalpha;
-    if (alpha < 0) {
-        alpha = 0;
-        dalpha = -dalpha;
-    }
-    if (alpha > 1) {
-        alpha = 1;
-        dalpha = -dalpha;
-    }
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // draw logo first - it's in background
     //
     mode_unshaded();
     mode_ortho();
-    draw_logo(alpha);
-    ortho_done();
+    if (logo_fader.value(t, alpha)) {
+        logo_pos[0] = drand()*.4;
+        logo_pos[1] = drand()*.4;
+    }
+    draw_logo(logo_pos, (float)alpha);
+    //ortho_done();
 
     // draw 3D objects
     //
-    init_camera(viewpoint_distance);
-    scale_screen(width, height);
+    //init_camera(viewpoint_distance);
+    //scale_screen(width, height);
     //mode_shaded(color);
 
     // draw text on top
     //
     //mode_unshaded();
     //mode_ortho();
-    show_projects(alpha);
-    show_coords();
-    //ortho_done();
 
-
+    if (info_fader.value(t, alpha)) {
+        if (showing_project) {
+            showing_project = false;
+            project_index++;
+        } else {
+            showing_project = true;
+        }
+    }
+    white[3] = alpha;
+    if (showing_project) {
+        if (project_index >= cc_state.projects.size()) {
+            project_index = 0;
+        }
+        show_project(project_index, alpha);
+    } else {
+        show_jobs(alpha);
+    }
+    //show_coords();
+    ortho_done();
 }
 
 void app_graphics_resize(int w, int h){
