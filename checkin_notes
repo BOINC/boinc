@@ -1125,7 +1125,7 @@ Charlie Feb 4 2009
         file_names.h
     clientgui/
         mac/
-        SetupSecurity.cpp
+            SetupSecurity.cpp
     mac_build/
         Mac_SA_Secure.sh
 
@@ -1390,3 +1390,20 @@ David  10 Feb 2009
         client_state.cpp
         cpu_sched.cpp
         cs_scheduler.cpp
+
+Charlie 11 Feb 2009
+    - SS: Fix new screensaver coordinator sandbox permissions.
+    - ss_app: Replace temporary icon with standard BOINC icon.
+    - lib: add time stamps to BOINCTRACE on non-Windows systems.
+
+    client/
+        check_security.cpp
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    clientscr/
+        mac_app_icon.h
+    lib/
+        diagnostics.cpp
+    mac_build/
+        Mac_SA_Secure.sh
