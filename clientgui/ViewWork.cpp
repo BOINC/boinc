@@ -815,10 +815,10 @@ void CViewWork::GetDocProjectName(wxInt32 item, wxString& strBuffer) const {
 
 void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    RESULT* result = wxGetApp().GetDocument()->result(item);
-    RESULT* state_result = NULL;
-    wxString strAppBuffer = wxEmptyString;
-    wxString strClassBuffer = wxEmptyString;
+    RESULT*        result = wxGetApp().GetDocument()->result(item);
+    RESULT*        state_result = NULL;
+    wxString       strAppBuffer = wxEmptyString;
+    wxString       strClassBuffer = wxEmptyString;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -839,9 +839,6 @@ void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
         APP_VERSION* avp = state_result->avp;
         if (!avp) return;
 
-        wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
-        setlocale(LC_NUMERIC, "C");
-
         if (app->user_friendly_name.size()) {
             strAppBuffer = HtmlEntityDecode(wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8));
         } else {
@@ -854,15 +851,14 @@ void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
                 wxString(avp->plan_class.c_str(), wxConvUTF8).c_str()
             );
         }
-        
+
         strBuffer.Printf(
-            wxT(" %s %.2f%s"), 
+            wxT(" %s %d.%d %s"), 
             strAppBuffer.c_str(),
-            state_result->avp->version_num/100.0,
+            state_result->avp->version_num / 100,
+            state_result->avp->version_num % 100,
             strClassBuffer.c_str()
         );
-
-        setlocale(LC_NUMERIC, (const char*)strLocale.mb_str());
     }
 }
 

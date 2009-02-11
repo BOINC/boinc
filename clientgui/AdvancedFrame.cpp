@@ -1922,7 +1922,6 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                     wxString strComputerVersion = wxEmptyString;
                     wxString strStatusText = wxEmptyString;
                     wxString strTitle = m_strBaseTitle;
-                    wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
      
                     if (pDoc->IsReconnecting()) {
                         pDoc->GetConnectingComputerName(strComputerName);

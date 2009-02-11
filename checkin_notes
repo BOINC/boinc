@@ -1465,3 +1465,12 @@ David  11 Feb 2009
 
     lib/
         app_ipc.h,cpp
+
+Rom    11 Feb 2009
+    - MGR: Remove remaining UI thread calls to setlocale which could
+        confuse the parsing system or vise versa.
+        
+    clientgui/
+        AdvancedFrame.cpp
+        DlgItemProperties.cpp
+        ViewWork.cpp
