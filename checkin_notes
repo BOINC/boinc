@@ -1434,3 +1434,10 @@ David  11 Feb 2009
 
     client/
         client_state.cpp
+
+David  11 Feb 2009
+    - client and API: eliminate dynamically-allocated parts of GLOBAL_PREFS.
+        This fixes a double-free bug in the API.
+
+    lib/
+        prefs.cpp,h

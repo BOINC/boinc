@@ -136,11 +136,10 @@ bool TIME_SPAN::suspended(double hour) const {
     }
 }
 
-
 TIME_SPAN::TimeMode TIME_SPAN::mode() const {
-    if (end_hour == start_hour || (start_hour == 0.0 && end_hour == 24.0)) {
+    if (end_hour == start_hour || (start_hour == 0 && end_hour == 24)) {
         return Always;
-    } else if (start_hour == 24.0 && end_hour == 0.0) {
+    } else if (start_hour == 24 && end_hour == 0) {
         return Never;
     }
     return Between;
@@ -155,7 +154,6 @@ void TIME_PREFS::clear() {
     week.clear();
 }
 
-
 bool TIME_PREFS::suspended() const {
     time_t now = time(0);
     struct tm* tmp = localtime(&now);
@@ -163,107 +161,35 @@ bool TIME_PREFS::suspended() const {
     int day = tmp->tm_wday;
 
     // Use day-specific settings, if they exist:
-    const TIME_SPAN* span = week.get(day) ? week.get(day) : this;
-
-    return span->suspended(hour);
+    //
+    if (day>=0 && day<7 && week.days[day].present) {
+        return week.days[day].suspended(hour);
+    }
+    return span.suspended(hour);
 }
 
 
 // WEEK_PREFS implementation
 
-WEEK_PREFS::WEEK_PREFS() {
-    for (int i=0; i<7; i++) {
-        days[i] = 0;
-    }
-}
-
-
-WEEK_PREFS::WEEK_PREFS(const WEEK_PREFS& original) {
-    for (int i=0; i<7; i++) {
-        TIME_SPAN* time = original.days[i];
-        if (time) {
-            days[i] = new TIME_SPAN(time->start_hour, time->end_hour);
-        } else {
-            days[i] = 0;
-        }
-    }
-}
-
-
-WEEK_PREFS& WEEK_PREFS::operator=(const WEEK_PREFS& rhs) {
-    if (this != &rhs) {
-        for (int i=0; i<7; i++) {
-            TIME_SPAN* time = rhs.days[i];
-            if (time) {
-                if (days[i]) {
-                    *days[i] = *time;
-                } else {
-                    days[i] = new TIME_SPAN(*time);
-                }
-            } else {
-                unset(i);
-            }
-        }
-    }
-    return *this;
-}
-
-
-// Create a deep copy.
-void WEEK_PREFS::copy(const WEEK_PREFS& original) {
-    for (int i=0; i<7; i++) {
-        TIME_SPAN* time = original.days[i];
-        if (time) {
-            days[i] = new TIME_SPAN(time->start_hour, time->end_hour);
-        } else {
-            days[i] = 0;
-        }
-    }
-}
-
-
-WEEK_PREFS::~WEEK_PREFS() {
-    clear();
-}
-
-
-void WEEK_PREFS::clear() {
-    for (int i=0; i<7; i++) {
-        if (days[i]) {
-            delete days[i];
-            days[i] = 0;
-        }
-    }
-}
-
-
-TIME_SPAN* WEEK_PREFS::get(int day) const {
-
-    if (day < 0 || day > 6) return 0;
-    return days[day];
-}
-
 
 void WEEK_PREFS::set(int day, double start, double end) {
     if (day < 0 || day > 6) return;
-    if (days[day]) delete days[day];
-    days[day] = new TIME_SPAN(start, end);
+    days[day].present = true;
+    days[day].start_hour = start;
+    days[day].end_hour = end;
 }
 
 
 void WEEK_PREFS::set(int day, TIME_SPAN* time) {
     if (day < 0 || day > 6) return;
-    if (days[day] == time) return;
-    if (days[day]) delete days[day];
-    days[day] = time;
+    days[day].present = true;
+    days[day].start_hour = time->start_hour;
+    days[day].end_hour = time->end_hour;
 }
 
 void WEEK_PREFS::unset(int day) {
     if (day < 0 || day > 6) return;
-    if (days[day]) {
-        delete days[day];
-        days[day] = 0;
-    }
+    days[day].present = false;
 }
 
 // The following values determine how the client behaves
@@ -678,28 +604,41 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         f.printf("   <max_cpus>%d</max_cpus>\n", max_ncpus);
     }
 
+    write_day_prefs(f);
+
+    f.printf("</global_preferences>\n");
+
+    return 0;
+}
+
+void GLOBAL_PREFS::write_day_prefs(MIOFILE& f) {
     for (int i=0; i<7; i++) {
-        TIME_SPAN* cpu = cpu_times.week.get(i);
-        TIME_SPAN* net = net_times.week.get(i);
+        bool cpu_present = cpu_times.week.days[i].present;
+        bool net_present = net_times.week.days[i].present;
         //write only when needed
-        if (net || cpu) {
+        if (net_present || cpu_present) {
             
             f.printf("   <day_prefs>\n");                
             f.printf("      <day_of_week>%d</day_of_week>\n", i);
-            if (cpu) {
-                f.printf("      <start_hour>%.02f</start_hour>\n", cpu->start_hour);
-                f.printf("      <end_hour>%.02f</end_hour>\n", cpu->end_hour);
+            if (cpu_present) {
+                f.printf(
+                    "      <start_hour>%.02f</start_hour>\n"
+                    "      <end_hour>%.02f</end_hour>\n",
+                    cpu_times.week.days[i].start_hour,
+                    cpu_times.week.days[i].end_hour
+                );
             }
-            if (net) {
-                f.printf("      <net_start_hour>%.02f</net_start_hour>\n", net->start_hour);
-                f.printf("      <net_end_hour>%.02f</net_end_hour>\n", net->end_hour);
+            if (net_present) {
+                f.printf(
+                    "      <net_start_hour>%.02f</net_start_hour>\n"
+                    "      <net_end_hour>%.02f</net_end_hour>\n",
+                    net_times.week.days[i].start_hour,
+                    net_times.week.days[i].end_hour
+                );
             }
             f.printf("   </day_prefs>\n");
         }
     }
-    f.printf("</global_preferences>\n");
-
-    return 0;
 }
 
 // write a subset of the global preferences,
@@ -806,24 +745,7 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
         f.printf("   <cpu_usage_limit>%f</cpu_usage_limit>\n", cpu_usage_limit);
     }
 
-    for (int i=0; i<7; i++) {
-        TIME_SPAN* cpu = cpu_times.week.get(i);
-        TIME_SPAN* net = net_times.week.get(i);
-        //write only when needed
-        if (net || cpu) {
-            f.printf("   <day_prefs>\n");                
-            f.printf("      <day_of_week>%d</day_of_week>\n", i);
-            if (cpu) {
-                f.printf("      <start_hour>%.02f</start_hour>\n", cpu->start_hour);
-                f.printf("      <end_hour>%.02f</end_hour>\n", cpu->end_hour);
-            }
-            if (net) {
-                f.printf("      <net_start_hour>%.02f</net_start_hour>\n", net->start_hour);
-                f.printf("      <net_end_hour>%.02f</net_end_hour>\n", net->end_hour);
-            }
-            f.printf("   </day_prefs>\n");
-        }
-    }
+    write_day_prefs(f);
     f.printf("</global_preferences>\n");
     return 0;
 }
