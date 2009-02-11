@@ -22,6 +22,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		DD1194B00F42CB4900C2BC25 /* uc2_graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1194AF0F42CB4900C2BC25 /* uc2_graphics.cpp */; };
+		DD1194B20F42CB5400C2BC25 /* uc2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1194B10F42CB5400C2BC25 /* uc2.cpp */; };
 		DD760E68094E56DB002CACC4 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E65094E56DB002CACC4 /* AppKit.framework */; };
 		DD760E69094E56DB002CACC4 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E66094E56DB002CACC4 /* GLUT.framework */; };
 		DD760E6A094E56DB002CACC4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E67094E56DB002CACC4 /* OpenGL.framework */; };
@@ -81,9 +83,7 @@
 		DD84C6DF0C856B36000EBEC4 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E65094E56DB002CACC4 /* AppKit.framework */; };
 		DD84C6E00C856B36000EBEC4 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E66094E56DB002CACC4 /* GLUT.framework */; };
 		DD84C6E10C856B36000EBEC4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD760E67094E56DB002CACC4 /* OpenGL.framework */; };
-		DD84C6FA0C856C0E000EBEC4 /* uc2.C in Sources */ = {isa = PBXBuildFile; fileRef = DD84C6F80C856C0E000EBEC4 /* uc2.C */; };
 		DD84C6FB0C856C0E000EBEC4 /* uc2.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD84C6F90C856C0E000EBEC4 /* uc2.h */; };
-		DD84C6FD0C856C2C000EBEC4 /* uc2_graphics.C in Sources */ = {isa = PBXBuildFile; fileRef = DD84C6FC0C856C2C000EBEC4 /* uc2_graphics.C */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -244,14 +244,14 @@
 		DD00F6A709EBA9710024857D /* rdrle.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = rdrle.c; path = ../jpeglib/rdrle.c; sourceTree = SOURCE_ROOT; };
 		DD00F6A809EBA9710024857D /* rdswitch.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = rdswitch.c; path = ../jpeglib/rdswitch.c; sourceTree = SOURCE_ROOT; };
 		DD00F6A909EBA9710024857D /* rdtarga.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = rdtarga.c; path = ../jpeglib/rdtarga.c; sourceTree = SOURCE_ROOT; };
-		DD00F81609EBADB60024857D /* checkin_notes */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = checkin_notes; path = ../checkin_notes; sourceTree = SOURCE_ROOT; };
+		DD1194AE0F42CAF400C2BC25 /* checkin_notes_samples */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = checkin_notes_samples; path = ../../checkin_notes_samples; sourceTree = SOURCE_ROOT; };
+		DD1194AF0F42CB4900C2BC25 /* uc2_graphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uc2_graphics.cpp; path = ../example_app/uc2_graphics.cpp; sourceTree = SOURCE_ROOT; };
+		DD1194B10F42CB5400C2BC25 /* uc2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uc2.cpp; path = ../example_app/uc2.cpp; sourceTree = SOURCE_ROOT; };
 		DD760E65094E56DB002CACC4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		DD760E66094E56DB002CACC4 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		DD760E67094E56DB002CACC4 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		DD84C6EA0C856B36000EBEC4 /* uc2_graphics */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = uc2_graphics; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD84C6F80C856C0E000EBEC4 /* uc2.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = uc2.C; path = ../example_app/uc2.C; sourceTree = SOURCE_ROOT; };
 		DD84C6F90C856C0E000EBEC4 /* uc2.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = uc2.h; path = ../example_app/uc2.h; sourceTree = SOURCE_ROOT; };
-		DD84C6FC0C856C2C000EBEC4 /* uc2_graphics.C */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = uc2_graphics.C; path = ../example_app/uc2_graphics.C; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -292,8 +292,8 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				DD84C6FC0C856C2C000EBEC4 /* uc2_graphics.C */,
-				DD84C6F80C856C0E000EBEC4 /* uc2.C */,
+				DD1194AF0F42CB4900C2BC25 /* uc2_graphics.cpp */,
+				DD1194B10F42CB5400C2BC25 /* uc2.cpp */,
 				DD84C6F90C856C0E000EBEC4 /* uc2.h */,
 				DD00F66509EBA9320024857D /* jpeg */,
 			);
@@ -385,7 +385,7 @@
 		DD00F81309EBAD960024857D /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
-				DD00F81609EBADB60024857D /* checkin_notes */,
+				DD1194AE0F42CAF400C2BC25 /* checkin_notes_samples */,
 			);
 			name = Documentation;
 			sourceTree = "<group>";
@@ -469,7 +469,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD84C6FA0C856C0E000EBEC4 /* uc2.C in Sources */,
+				DD1194B20F42CB5400C2BC25 /* uc2.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,7 +530,7 @@
 				DD84C6DB0C856B36000EBEC4 /* rdrle.c in Sources */,
 				DD84C6DC0C856B36000EBEC4 /* rdswitch.c in Sources */,
 				DD84C6DD0C856B36000EBEC4 /* rdtarga.c in Sources */,
-				DD84C6FD0C856C2C000EBEC4 /* uc2_graphics.C in Sources */,
+				DD1194B00F42CB4900C2BC25 /* uc2_graphics.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

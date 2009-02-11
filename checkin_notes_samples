@@ -789,3 +789,11 @@ David  27 July 2009
 	example_app/
 		uc2.C
 		uc2_graphics.C
+
+Charlie 11 Feb 2009
+    - Mac Samples: adjust XCode project for current source file names 
+        (*.cpp instead of *.C).
+
+    samples/
+        mac_build/
+            UpperCase2.xcodeproj
