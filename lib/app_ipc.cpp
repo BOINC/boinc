@@ -71,18 +71,19 @@ APP_INIT_DATA &APP_INIT_DATA::operator=(const APP_INIT_DATA& a) {
 
 void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     // memcpy the strings
-    memcpy( &app_name[0],  &a.app_name[0], 256 ); 
-    memcpy( &symstore[0],  &a.symstore[0], 256 ); 
-    memcpy( &acct_mgr_url[0],  &a.acct_mgr_url[0], 256 ); 
-    memcpy( &user_name[0],  &a.user_name[0], 256 ); 
-    memcpy( &team_name[0],  &a.team_name[0], 256 ); 
-    memcpy( &project_dir[0],  &a.project_dir[0], 256 ); 
-    memcpy( &boinc_dir[0],  &a.boinc_dir[0], 256 ); 
-    memcpy( &wu_name[0],  &a.wu_name[0], 256 ); 
-    memcpy( &authenticator[0],  &a.authenticator[0], 256 ); 
+    memcpy(app_name, a.app_name, 256); 
+    memcpy(symstore, a.symstore, 256); 
+    memcpy(acct_mgr_url, a.acct_mgr_url, 256); 
+    memcpy(user_name, a.user_name, 256); 
+    memcpy(team_name, a.team_name, 256); 
+    memcpy(project_dir, a.project_dir, 256); 
+    memcpy(boinc_dir, a.boinc_dir, 256); 
+    memcpy(wu_name, a.wu_name, 256); 
+    memcpy(authenticator, a.authenticator, 256); 
+    memcpy(&shmem_seg_name, &a.shmem_seg_name, sizeof(SHMEM_SEG_NAME)); 
                 
     // use assignment for the rest, especially the classes
-    // (such that the overloaded operators are called!)
+    // (so that the overloaded operators are called!)
     major_version                 = a.major_version;               
     minor_version                 = a.minor_version;
     release                       = a.release;
@@ -107,7 +108,6 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     fraction_done_start           = a.fraction_done_start;
     fraction_done_end             = a.fraction_done_end;
     checkpoint_period             = a.checkpoint_period;
-    shmem_seg_name                = a.shmem_seg_name;
     wu_cpu_time                   = a.wu_cpu_time;
     if (a.project_preferences) {
         project_preferences = strdup(a.project_preferences);
