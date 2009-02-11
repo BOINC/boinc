@@ -315,7 +315,7 @@ FADER info_fader(4,4,4,1);
 void app_graphics_render(int xs, int ys, double t) {
     double alpha;
     static bool showing_project = false;
-    static int project_index = 0;
+    static unsigned int project_index = 0;
     static float logo_pos[3] = {.2, .2, 0};
 
     int retval = update_data(t);

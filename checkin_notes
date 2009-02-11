@@ -1394,6 +1394,7 @@ David  10 Feb 2009
 Charlie 11 Feb 2009
     - SS: Fix new screensaver coordinator sandbox permissions.
     - ss_app: Replace temporary icon with standard BOINC icon.
+    - ss_app: Fix compiler warning.
     - lib: add time stamps to BOINCTRACE on non-Windows systems.
 
     client/
