@@ -1441,3 +1441,13 @@ David  11 Feb 2009
 
     lib/
         prefs.cpp,h
+
+David  11 Feb 2009
+    - boinc_zip: put null arg at end of argv.
+        Fixes crashing bug.
+        From Michael Tyka.
+
+    zip/
+        boinc_zip.cpp
+        unzip/
+            unzip.c

@@ -99,8 +99,8 @@ int boinc_zip(int bZipType, const std::string szFileZip,
         carg = 3 + nVecSize;
 
         // make a dynamic array
-        av = (char**) calloc(carg, sizeof(char*));
-        for (i=0;i<carg;i++)
+        av = (char**) calloc(carg+1, sizeof(char*));
+        for (i=0;i<(carg+1);i++)
                 av[i] = (char*) calloc(_MAX_PATH,sizeof(char));
 
         // just form an argc/argv to spoof the "main"
@@ -133,7 +133,7 @@ int boinc_zip(int bZipType, const std::string szFileZip,
                 if (carg == 4)
                         sprintf(av[3], "-d%s", pvectszFileIn->at(0).c_str());
         }
-        // strcpy(av[carg-1], "");  // null arg
+        strcpy(av[carg], "");  // null arg
         // printf("args: %s %s %s %s\n", av[0], av[1], av[2], av[3]);
 
         if (bZipType == ZIP_IT)

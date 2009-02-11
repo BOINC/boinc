@@ -938,6 +938,7 @@ int unzip(__G__ argc, argv)
                         retcode = PK_PARAM;
                         goto cleanup_and_exit;
                     }
+                    ctr++;   // we incremented pp in the above if
                 }
                 if (firstarg) { /* ... zipfile -d exdir ... */
                     if (pp[1]) {
