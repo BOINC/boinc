@@ -1451,3 +1451,10 @@ David  11 Feb 2009
         boinc_zip.cpp
         unzip/
             unzip.c
+
+Rom    11 Feb 2009
+    - MGR: Check to see if the app version pointer is legit before attempting
+        to use it.
+        
+    clientgui/
+        ViewWork.cpp
