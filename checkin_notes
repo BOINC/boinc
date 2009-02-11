@@ -1474,3 +1474,12 @@ Rom    11 Feb 2009
         AdvancedFrame.cpp
         DlgItemProperties.cpp
         ViewWork.cpp
+
+David  11 Feb 2009
+    - client, API: populate APP_INIT_DATA::hostid.
+        Remove userid and teamid fields, since the client doesn't know these.
+
+    client/
+        app_start.cpp
+    lib/
+        app_ipc.cpp,h
