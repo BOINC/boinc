@@ -61,7 +61,9 @@ float color[4] = {.7, .2, .5, 1};
 
 RPC_CLIENT rpc;
 CC_STATE cc_state;
+CC_STATUS cc_status;
 
+#if 0
 struct APP_SLIDES {
     string name;
     int index;
@@ -77,25 +79,6 @@ struct PROJECT_IMAGES {
 };
 
 vector<PROJECT_IMAGES> project_images;
-
-// set up lighting model
-//
-static void init_lights() {
-   GLfloat ambient[] = {1., 1., 1., 1.0};
-   GLfloat position[] = {-13.0, 6.0, 20.0, 1.0};
-   GLfloat dir[] = {-1, -.5, -3, 1.0};
-   glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
-   glLightfv(GL_LIGHT0, GL_POSITION, position);
-   glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, dir);
-}
-
-static void draw_logo(float* pos, float alpha) {
-    if (logo.present) {
-        float size[3] = {.6, .4, 0};
-        logo.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, alpha);
-    }
-}
-
 void icon_path(PROJECT* p, char* buf) {
     char dir[256];
     url_to_project_dir((char*)p->master_url.c_str(), dir);
@@ -144,6 +127,26 @@ PROJECT_IMAGES* get_project_images(PROJECT* p) {
     return &(project_images.back());
 }
 
+#endif
+
+// set up lighting model
+//
+static void init_lights() {
+   GLfloat ambient[] = {1., 1., 1., 1.0};
+   GLfloat position[] = {-13.0, 6.0, 20.0, 1.0};
+   GLfloat dir[] = {-1, -.5, -3, 1.0};
+   glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+   glLightfv(GL_LIGHT0, GL_POSITION, position);
+   glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, dir);
+}
+
+static void draw_logo(float* pos, float alpha) {
+    if (logo.present) {
+        float size[3] = {.6, .4, 0};
+        logo.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, alpha);
+    }
+}
+
 void show_result(RESULT* r, float x, float& y, float alpha) {
     PROGRESS_2D progress;
     char buf[256];
@@ -183,7 +186,7 @@ void show_coords() {
     }
 }
 
-void show_project(int index, float alpha) {
+void show_project(unsigned int index, float alpha) {
     float x=.2, y=.6;
     char buf[1024];
     if (!cc_state.projects.size()) {
@@ -213,10 +216,12 @@ void show_project(int index, float alpha) {
     }
 }
 
-void show_jobs(double alpha) {
+void show_jobs(unsigned int& index, double alpha) {
     float x=.1, y=.7;
     bool found = false;
-    for (unsigned int i=0; i<cc_state.results.size(); i++) {
+    unsigned int i;
+    for (i=index; i<index+4; i++) {
+        if (i == cc_state.results.size()) break;
         RESULT* r = cc_state.results[i];
         if (!r->active_task) continue;
         if (r->active_task_state != PROCESS_EXECUTING) continue;
@@ -229,19 +234,51 @@ void show_jobs(double alpha) {
         show_result(r, x, y, alpha);
         y -= .05;
     }
+    if (i == cc_state.results.size()) {
+        index = 0;
+    } else {
+        index += 4;
+    }
     if (!found) {
+        y = .5;
         txf_render_string(.1, x, y, 0, 500., white, 0, "No running tasks");
+        char *p = 0;
+        switch (cc_status.task_suspend_reason) {
+        case SUSPEND_REASON_BATTERIES:
+            p = "Computer is running on batteries"; break;
+        case SUSPEND_REASON_USER_ACTIVE:
+            p = "Computer is in use"; break;
+        case SUSPEND_REASON_USER_REQ:
+            p = "Computing suspended by user"; break;
+        case SUSPEND_REASON_TIME_OF_DAY:
+            p = "Computing suspended during this time of day"; break;
+        case SUSPEND_REASON_BENCHMARKS:
+            p = "Computing suspended while running benchmarks"; break;
+        case SUSPEND_REASON_DISK_SIZE:
+            p = "Computing suspended because no disk space"; break;
+        case SUSPEND_REASON_NO_RECENT_INPUT:
+            p = "Computing suspended while computer not in use"; break;
+        case SUSPEND_REASON_INITIAL_DELAY:
+            p = "Computing suspended while BOINC is starting up"; break;
+        case SUSPEND_REASON_EXCLUSIVE_APP_RUNNING:
+            p = "Computing suspended while exclusive application running"; break;
+        }
+        if (p) {
+            y -= .1;
+            txf_render_string(.1, x, y, 0, 800., white, 0, p);
+        }
     }
 }
 
-int update_data(double t) {
-    static double state_time = 0;
-    if (state_time < t) {
-        int retval = rpc.get_state(cc_state);
-        if (retval) return retval;
-        state_time = t;
+void update_data() {
+    int retval = rpc.get_state(cc_state);
+    if (retval) {
+        boinc_close_window_and_quit("RPC failed");
     }
-    return 0;
+    retval = rpc.get_cc_status(cc_status);
+    if (retval) {
+        boinc_close_window_and_quit("RPC failed");
+    }
 }
 
 void set_viewpoint(double dist) {
@@ -315,12 +352,13 @@ FADER info_fader(4,4,4,1);
 void app_graphics_render(int xs, int ys, double t) {
     double alpha;
     static bool showing_project = false;
-    static unsigned int project_index = 0;
+    static unsigned int project_index = 0, job_index=0;
     static float logo_pos[3] = {.2, .2, 0};
+    static bool first = true;
 
-    int retval = update_data(t);
-    if (retval) {
-        boinc_close_window_and_quit("RPC failed");
+    if (first) {
+        update_data();
+        first = false;
     }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -348,6 +386,7 @@ void app_graphics_render(int xs, int ys, double t) {
     //mode_ortho();
 
     if (info_fader.value(t, alpha)) {
+        update_data();
         if (showing_project) {
             showing_project = false;
             project_index++;
@@ -362,7 +401,7 @@ void app_graphics_render(int xs, int ys, double t) {
         }
         show_project(project_index, alpha);
     } else {
-        show_jobs(alpha);
+        show_jobs(job_index, alpha);
     }
     //show_coords();
     ortho_done();
