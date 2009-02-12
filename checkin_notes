@@ -1513,3 +1513,11 @@ Charlie 12 Feb 2009
 
     clientscr/
         screensaver.cpp
+
+David  12 Feb 2009
+    - client: debt_eligible() was returning false if the backoff was max.
+        This can lead to a situation where a project never gets work.
+        Remove that clause.
+
+    client/
+        work_fetch.cpp
