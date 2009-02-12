@@ -238,7 +238,6 @@ void GLOBAL_PREFS::defaults() {
 void GLOBAL_PREFS::clear_bools() {
     run_on_batteries = false;
     run_if_user_active = false;
-    run_gpu_if_user_active = false;
     leave_apps_in_memory = false;
     confirm_before_connecting = false;
     hangup_if_dialed = false;
