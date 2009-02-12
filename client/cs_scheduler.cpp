@@ -331,6 +331,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     bool action=false;
     static double last_time=0;
     static double last_work_fetch_time = 0;
+    double elapsed_time;
 
 	// check only every 5 sec
 	//
@@ -388,7 +389,8 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         if (must_check_work_fetch) {
             last_work_fetch_time = 0;
         }
-        if (now - last_work_fetch_time < WORK_FETCH_PERIOD) return false;
+        elapsed_time = now - last_work_fetch_time;
+        if (elapsed_time < WORK_FETCH_PERIOD) return false;
         must_check_work_fetch = false;
         last_work_fetch_time = now;
 

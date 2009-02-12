@@ -243,7 +243,6 @@ int CLIENT_STATE::init() {
     host_info.get_host_info();
     set_ncpus();
     show_host_info();
-    show_proxy_info();
     if (config.no_gpus) {
         msg_printf(NULL, MSG_INFO, "Configured to not use coprocessors");
     } else {
@@ -270,6 +269,8 @@ int CLIENT_STATE::init() {
     //
     parse_state_file();
     parse_account_files_venue();
+
+    show_proxy_info();
 
     // fill in avp->flops for anonymous project
     //
