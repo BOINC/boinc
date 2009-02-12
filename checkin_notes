@@ -1009,3 +1009,11 @@ David  10 Feb 2009
         client_state.cpp
         cpu_sched.cpp
         cs_scheduler.cpp
+
+David  11 Feb 2009
+    - client: change the formula for debt update
+        so that largest debt among eligible projects tends towards zero
+    - client: change definition of "overworked"; debt must be < 1 day
+
+    client/
+        work_fetch.cpp

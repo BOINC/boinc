@@ -136,7 +136,8 @@ void RSC_WORK_FETCH::update_estimated_delay(double dt) {
 //
 bool RSC_PROJECT_WORK_FETCH::overworked() {
     double x = gstate.work_buf_total() + gstate.global_prefs.cpu_scheduling_period(); 
-    return (debt < -1.5*x);
+    if (x < 86400) x = 86400;
+    return (debt < -x);
 }
 
 // choose the best project to ask for work for this resource.
@@ -395,10 +396,16 @@ void RSC_WORK_FETCH::update_debts() {
         }
     }
     if (!neligible) {
+        if (log_flags.debt_debug) {
+            msg_printf(0, MSG_INFO,
+                "[debt] %s: no eligible projects", rsc_name(rsc_type)
+            );
+        }
         return;
     }
 
-    double delta_sum = 0;
+    double max_debt=0;
+    bool first = true;
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
@@ -410,7 +417,6 @@ void RSC_WORK_FETCH::update_debts() {
             //
             double delta = share_frac*secs_this_debt_interval - w.secs_this_debt_interval;
             w.debt += delta;
-            delta_sum += delta;
             if (log_flags.debt_debug) {
                 msg_printf(p, MSG_INFO,
                     "[debt] %s debt %.2f delta %.2f share frac %.2f (%.2f/%.2f) secs %.2f rsc_secs %.2f",
@@ -419,45 +425,43 @@ void RSC_WORK_FETCH::update_debts() {
                     w.secs_this_debt_interval
                 );
             }
+            if (first) {
+                max_debt = w.debt;
+                first = false;
+            } else {
+                if (w.debt > max_debt) {
+                    max_debt = w.debt;
+                }
+            }
         }
     }
 
-    // The sum of changes may be nonzero if
-    // - the resource wasn't fully utilized during the debt interval
-    // - it was overcommitted (e.g., CPU)
-    // Add an offset so that the sum of changes is zero;
-    // this keeps eligible projects from diverging from non-eligible ones.
+    // The net change may be
+    // - positive if the resource wasn't fully utilized during the debt interval
+    // - negative it was overcommitted (e.g., CPU)
+    // We need to keep eligible projects from diverging from non-eligible ones;
+    // also, if all the debts are large negative we need to gradually
+    // shift them towards zero.
+    // To do this, we add an offset as follows:
     //
-    double offset = delta_sum/neligible;
-    if (log_flags.debt_debug) {
-        msg_printf(0, MSG_INFO, "[debt] subtract %.2f for zero total change", offset);
+    double offset;
+    if (-max_debt < secs_this_debt_interval) {
+        offset = -max_debt;
+    } else {
+        offset = secs_this_debt_interval;
     }
-    double max_debt = 0;
+    if (log_flags.debt_debug) {
+        msg_printf(0, MSG_INFO, "[debt] %s debt: adding offset %.2f",
+            rsc_name(rsc_type), offset
+        );
+    }
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
         if (w.debt_eligible(p)) {
-            w.debt -= offset;
+            w.debt += offset;
         }
-        if (i) {
-            if (w.debt > max_debt) max_debt = w.debt;
-        } else {
-            max_debt = w.debt;
-        }
-    }
-
-    // Add an offset so max debt is zero across all projects.
-    // This ensures that new projects start out debt-free.
-    //
-    if (log_flags.debt_debug) {
-        msg_printf(0, MSG_INFO, "[debt] subtract %.2f for zero max debt", max_debt);
-    }
-    for (i=0; i<gstate.projects.size(); i++) {
-        p = gstate.projects[i];
-        if (p->non_cpu_intensive) continue;
-        RSC_PROJECT_WORK_FETCH& w = project_state(p);
-        w.debt -= max_debt;
     }
 }
 
@@ -506,10 +510,11 @@ void WORK_FETCH::compute_shares() {
 //
 bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p) {
     if (p->non_cpu_intensive) return false;
-    if (backoff_time > gstate.now) return false;
-    if (backoff_interval == MAX_BACKOFF_INTERVAL) return false;
     if (p->suspended_via_gui) return false;
     if (p->dont_request_more_work) return false;
+    if (has_runnable_jobs) return true;
+    if (backoff_time > gstate.now) return false;
+    if (backoff_interval == MAX_BACKOFF_INTERVAL) return false;
     if (p->min_rpc_time > gstate.now) return false;
     return true;
 }
