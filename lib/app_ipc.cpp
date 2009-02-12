@@ -88,8 +88,6 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     minor_version                 = a.minor_version;
     release                       = a.release;
     app_version                   = a.app_version;
-    userid                        = a.userid;
-    teamid                        = a.teamid;
     hostid                        = a.hostid;
     slot                          = a.slot;
     user_total_credit             = a.user_total_credit;
