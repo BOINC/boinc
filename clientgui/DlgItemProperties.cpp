@@ -206,10 +206,11 @@ wxString CDlgItemProperties::FormatDiskSpace(double bytes) {
 
 //
 wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
-	wxString strBuffer = wxEmptyString;
+	wxString       strBuffer = wxEmptyString;
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    RESULT* state_result = NULL;
-    wxString strLocalBuffer;
+    RESULT*        state_result = NULL;
+    wxString       strAppBuffer = wxEmptyString;
+    wxString       strClassBuffer = wxEmptyString;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -222,26 +223,34 @@ wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
         }
         wxASSERT(state_result);
 
-        wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
-        setlocale(LC_NUMERIC, "C");
-        if (state_result->wup->app->user_friendly_name.size()) {
-            strLocalBuffer = wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8);
+        if (!state_result) return strBuffer;
+        WORKUNIT* wup = state_result->wup;
+        if (!wup) return strBuffer;
+        APP* app = wup->app;
+        if (!app) return strBuffer;
+        APP_VERSION* avp = state_result->avp;
+        if (!avp) return strBuffer;
+
+        if (app->user_friendly_name.size()) {
+            strAppBuffer = wxString(state_result->app->user_friendly_name.c_str(), wxConvUTF8);
         } else {
-            strLocalBuffer = wxString(state_result->avp->app_name.c_str(), wxConvUTF8);
+            strAppBuffer = wxString(state_result->avp->app_name.c_str(), wxConvUTF8);
         }
-        char buf[256];
-        if (state_result->avp->plan_class.size()) {
-            sprintf(buf, " (%s)", state_result->avp->plan_class.c_str());
-        } else {
-            strcpy(buf, "");
+
+        if (avp->plan_class.size()) {
+            strClassBuffer.Printf(
+                wxT(" (%s)"),
+                wxString(avp->plan_class.c_str(), wxConvUTF8).c_str()
+            );
         }
+
         strBuffer.Printf(
-            wxT("%s %.2f%s"), 
-            strLocalBuffer.c_str(),
-            state_result->avp->version_num/100.0,
-            buf
+            wxT(" %s %d.%d %s"), 
+            strAppBuffer.c_str(),
+            state_result->avp->version_num / 100,
+            state_result->avp->version_num % 100,
+            strClassBuffer.c_str()
         );
-        setlocale(LC_NUMERIC, (const char*)strLocale.mb_str());
     }
     return strBuffer;
 }
