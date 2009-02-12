@@ -74,57 +74,57 @@ struct GLOBAL_PREFS_MASK {
 // 0..24
 // run always if start==end or start==0, end=24
 // don't run at all if start=24, end=0
-class TIME_SPAN {
-public:
+//
+struct TIME_SPAN {
+    bool present;
+    double start_hour;
+    double end_hour;
+
     enum TimeMode {
         Always = 7000,
         Never,
         Between
     };
-    TIME_SPAN()
-        : start_hour(0), end_hour(0) {}
-    TIME_SPAN(double start, double end)
-        : start_hour(start), end_hour(end) {}
+    TIME_SPAN() : start_hour(0), end_hour(0) {}
+    TIME_SPAN(double start, double end) : start_hour(start), end_hour(end) {}
 
-    bool        suspended(double hour) const;
-    TimeMode    mode() const;
-
-    double      start_hour;
-    double      end_hour;
-    
+    bool suspended(double hour) const;
+    TimeMode mode() const;
 };
 
 
-class WEEK_PREFS {
-public:
-    WEEK_PREFS();
-    WEEK_PREFS(const WEEK_PREFS& original);
-    ~WEEK_PREFS();
+struct WEEK_PREFS {
+    TIME_SPAN days[7];
 
-    TIME_SPAN* get(int day) const;
+    void clear() {
+        memset(this, 0, sizeof(WEEK_PREFS));
+    }
+    WEEK_PREFS() {
+        clear();
+    }
+
     void set(int day, double start, double end);
     void set(int day, TIME_SPAN* time);
     void unset(int day);
-    void clear();
-    WEEK_PREFS& operator=(const WEEK_PREFS& rhs);
 
 protected:
     void copy(const WEEK_PREFS& original);
-    TIME_SPAN* days[7];
-
 };
 
 
-class TIME_PREFS : public TIME_SPAN {
-public:
-    TIME_PREFS() : TIME_SPAN() {}
-    TIME_PREFS(double start, double end)
-        : TIME_SPAN(start, end) {}
+struct TIME_PREFS : public TIME_SPAN {
+    TIME_SPAN span;
+    WEEK_PREFS week;
+
+    TIME_PREFS() {}
+    TIME_PREFS(double start, double end) {
+        span.start_hour = start;
+        span.end_hour = end;
+    }
     
-    void        clear();
-    bool        suspended() const;
+    void clear();
+    bool suspended() const;
     
-    WEEK_PREFS  week;
 };
 
 
@@ -171,6 +171,7 @@ struct GLOBAL_PREFS {
     int parse_file(const char* filename, const char* venue, bool& found_venue);
     int write(MIOFILE&);
     int write_subset(MIOFILE&, GLOBAL_PREFS_MASK&);
+    void write_day_prefs(MIOFILE&);
     inline double cpu_scheduling_period() {
         return cpu_scheduling_period_minutes*60;
     }
