@@ -1,309 +1,51 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-07-12 19:04+0200\n"
+"PO-Revision-Date: 2009-01-05 01:05-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Lithuanian\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 1.2.1\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-SearchPath-0: html\\user\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Country: UNITED STATES\n"
 
 # #########################################
 # Language: Lithuanian
 # FileID  : $Id$
 # Author  : Rytis Slatkevičius
 # Email   : rytis.s@gmail.com
-# #########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
-# #########################################
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
 
 # The name of this language in this language
+#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "Lietuvių"
+msgstr "English"
 
 # The name of this language in an international language (English)
+#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Lithuanian"
-
-# ########################################
-# Apps page (apps.php)
-# ########################################
-msgid "Applications"
-msgstr "Programos"
-
-msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
-msgstr "%1 šiuo metu naudoja šias programas. Kai dalyvaujate %1, užduotys vienai ar daugiau šių programų priskiriamos jūsų kompiuteriui, ir naujausia programos versija bus parsiųsta į jūsų kompiuterį. Tai vyksta automatiškai; jums nereikės daryti nieko."
-
-msgid "Platform"
-msgstr "Platforma"
-
-msgid "Current version"
-msgstr "Dabartinė versija"
-
-msgid "Installation time"
-msgstr "Įdiegimo laikas"
-
-# ########################################
-# Rules and Policies page (info.php)
-# ########################################
-msgid "Read our rules and policies"
-msgstr "Perskaitykite mūsų taisykles"
-
-msgid "Run %1 only on authorized computers"
-msgstr "Vykdykite %1 tik kompiuteriuose, kuriuose turite leidimą tai daryti"
-
-msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
-msgstr "Projektą %1 vykdykite tik su tais kompiuteriais, kurių savininkas esate pats arba esate gavęs savininko leidimą. Kai kurios kompanijos ar mokyklos laikosi politikos, kuri draudžia naudoti kompiuterius projektams kaip %1."
-
-msgid "How %1 will use your computer"
-msgstr "Kaip %1 naudos jūsų kompiuterį"
-
-msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
-msgstr "Kai jūsų kompiuteryje bus vykdomas %1 projektas, jis naudos dalį kompiuterio procesoriaus galios, disko vietos ir interneto ryšio. Jūs galite kontroliuoti kiek savo resursų skirsite %1 projektui ir kada juos galima naudoti."
-
-msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
-msgstr "Darbas, kuri atliks Jūsų kompiuteris, padės įgyvendinti %1 projekto tikslus, kurie surašyti šioje interneto svetainėje. Projekto programos laikui bėgant gali keistis."
-
-msgid "Privacy policy"
-msgstr "Privatumo politika"
-
-msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
-msgstr "Jūsų abonementas %1 projekte yra nustatomas pagal jūsų pasirinktą vardą. Šis vardas gali būti rodomas %1 projekto interneto svetainėje kartu su apibendrintais duomenimis apie kompiuterio atliktą darbą %1 projektui. Jei norite likti anonimiškas - pasirinkite vardą, kuris neatskleistų jūsų tapatybės."
-
-msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
-msgstr "Jei dalyvaujate %1 projekte, informacija apie jūsų kompiuterį (tokia kaip procesoriaus tipas, atminties kiekis ir kt.) bus įrašyta %1 projekto duomenų bazėje ir pagal ją bus sprendžiama, kokį darbą skirti jūsų kompiuteriui. Ši informacija taip pat bus rodoma %1 projekto interneto svetainėje. Jokia informacija, kuri galėtų atskleisti jūsų kompiuterio buvimo vietą (domeno pavadinima ar tinklo adresą) nebus rodoma."
-
-msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr "Norint dalyvauti %1 projekte, jums reikėtų turėti elektroninio pašto dėžutę. Jūsų elektroninio pašto adresas nebus rodomas %1 projekto interneto svetainėje ar perduotas kitoms organizacijoms.%1 projektas gali jums atsiųsti periodinius naujienių biuletenius, tačiau jų galima atsisakyti bet kuriuo metu."
-
-msgid "Is it safe to run %1?"
-msgstr "Ar saugu vykdyti %1?"
-
-msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
-msgstr "Kiekvieną kartą, kai siunčiatės programą per internetą, gali būti kad: programa turi pavojingų klaidų ar serveris gali būti \"nulaužtas\". %1 projektas deda visas pastangas sumažinti šią riziką. Mes atidžiai išbandėme savo programas. Mūsų serveriai yra saugomi ugniasienių ir nustatyti aukščiausiam saugumo lygiui. Visos vykdomosios bylos yra pasirašytos skaitmeniniu parašu kompiuteryje, kuris nėra prijungtas prie interneto."
-
-msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr "%1 projekto vykdomos programos gali perkaitinti kai kuriuos kompiuterius. Jei taip atsitinka, nustokite vykdyti %1 projektą arba naudokite %2papildomas programas%3, kurios riboja kompiuterio procesoriaus naudojimą."
-
-msgid "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr "%1 buvo sukurtas %2. BOINC buvo sukurtas Kalifornijos Universitete."
-
-msgid "Liability"
-msgstr "Atsakomybė"
-
-msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
-msgstr "%1 projektas ir %2 neprisiima atsakomybės už žalą padarytą Jūsų kompiuteriui, duomenų praradinimą ar kokį kitą įvykį ar sąlygą, kuri galėjo kilti dėl dalyvavimo %1 projekte."
-
-msgid "Other BOINC projects"
-msgstr "Kiti BOINC projektai"
-
-msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
-msgstr "Kiti projektai, kaip ir %1, naudoja BOINC. Jūs galite nuspręsti prisijungti prie vieno ar kelių projektų. Tokiu atveju, Jūsų kompiuteris atliks naudingą darbą kai %1 projektas užduočių neturės."
-
-msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
-msgstr "Šie projektai nėra susiję su %1, ir dėl to mes negalime garantuoti už jų projekto saugumą ar tyrimo tikslus. Jūs patys sprendžiate ar prisijungti prie kitų projektų."
-
-# ########################################
-# "Your account" page (home.php)
-# ########################################
-msgid "Create an account"
-msgstr "Sukurti abonementą"
-
-msgid "Name"
-msgstr "Vardas"
-
-msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr "Identifikuoja jus mūsų internetinėje svetainėje. Galite naudoti savo tikrą vardą ar slapyvardį."
-
-msgid "Email Address"
-msgstr "El. pašto adresas"
-
-msgid "Must be a valid address of the form 'name@domain'."
-msgstr "Turi būti galiojantis elektroninio pašto adresas formoje \"vardas@domenas\"."
-
-msgid "Country"
-msgstr "Valstybė"
-
-msgid "Select the country you want to represent, if any."
-msgstr "Pasirinkite valstybę, kuriai norite atstovauti."
-
-msgid "Postal or ZIP Code"
-msgstr "Pašto kodas"
-
-# ########################################
-# "Your account" page (home.php)
-# ########################################
-msgid "Create account"
-msgstr "Sukurti abonementą"
-
-msgid "Account creation is disabled"
-msgstr "Abonementų kūrimas yra išjungtas"
-
-msgid "Account creation is disabled for %1 at the moment. Please try again later."
-msgstr "Abonementų kūrimas %1 šiuo metu yra išjungtas. Pabandykite dar kartą vėliau."
-
-msgid "This account will belong to the team %1 and will have the project preferences of its founder."
-msgstr "Šis abonementas priklausys %1 komandai ir turės komandos įkurėjo projekto nustatymus."
-
-msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
-msgstr "PASTABA: jei naudojate BOINC 5.2 ar naujesnę versiją su BOINC valdikliu, nenaudokite šios formos. Tiesiog paleiskite BOINC, pasirinkite \"Prisijungti prie projekto\" ir įveskite savo elektroninio pašto adresą bei slaptažodį."
-
-msgid "Password"
-msgstr "Slaptažodis"
-
-msgid "Must be at least %1 characters"
-msgstr "Turi bti bent %1 simboli ilgio"
-
-msgid "Confirm password"
-msgstr "Patvirtinkite slaptažodį"
-
-msgid "Invitation Code"
-msgstr "Pakvietimo kodas"
-
-msgid "A valid invitation code is required to create an account."
-msgstr "Reikia pateikti teisingą pakvietimo kodą, kad sukurtumėte abonementą."
-
-msgid "You must supply an invitation code to create an account."
-msgstr "Privalote pateikti pakvietimo kodą, kad sukurtumėte abonementą."
-
-msgid "The invitation code you gave is not valid."
-msgstr "Pateiktas pakvietimo kodas neteisingas."
-
-msgid "%1 Message boards"
-msgstr "%1 forumai"
-
-msgid "Message boards"
-msgstr "Forumai"
-
-# ########################################
-# General stuff (create_account_form.php and others)
-# ########################################
-msgid "Optional"
-msgstr "Nebūtinas"
-
-# ########################################
-# Various top table pages (top users, computers, teams)
-# ########################################
-msgid "Top participants"
-msgstr "Geriausi dalyviai"
+msgstr "English"
 
 msgid "Rank"
 msgstr "Eilė"
 
-msgid "Total credit"
-msgstr "Iš viso kreditų"
-
-msgid "Recent average credit"
-msgstr "Vidutinis kreditas"
-
-msgid "Participant since"
-msgstr "Dalyvis nuo"
-
-msgid "Top %1 teams"
-msgstr "Geriausios %1 komandos"
-
-msgid "Members"
-msgstr "Dalyviai"
-
-msgid "Top hosts"
-msgstr "Geriausi kompiuteriai"
-
-# ########################################
-# Forum
-# ########################################
-msgid "Posts"
-msgstr "Žinutės"
-
-msgid "Topic"
-msgstr "Tema"
-
-msgid "Thread"
-msgstr "Tema"
-
-msgid "Threads"
-msgstr "Temos"
-
-msgid "Last post"
-msgstr "Paskutinė žinutė"
-
-msgid "Author"
-msgstr "Autorius"
-
-msgid "Views"
-msgstr "Peržiūros"
-
-msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
-msgstr "Kad galėtume sukurti naują temą %1 turite turėti tam tikrą kreditų kiekį. Tai reikalinga norint apsisaugoti nuo neteisėto sistemos išnaudojimo."
-
-msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
-msgstr "Negalite dabar sukurti daugiau temų. Šiek tiek palaukite prieš bandydami dar kartą. Šis laukimas naudojamas dėl apsaugos nuo neteisėto sistemos išnaudojimo."
-
-msgid "Create a new thread"
-msgstr "Sukurti naują temą"
-
-msgid "Title"
-msgstr "Pavadinimas"
-
-msgid "Add my signature to this post"
-msgstr "Pridėti mano parašą"
-
-msgid "Message"
-msgstr "Žinutė"
-
-msgid "Edit message"
-msgstr "Taisyti žinutę"
-
-msgid "Use BBCode tags to format your text"
-msgstr "Naudokite BBCode žymes teksto formatavimui"
-
-msgid "%1 message board"
-msgstr "%1 forumas"
-
-msgid "Mark all threads as read"
-msgstr "Pažymėti visas temas kaip perskaitytas"
-
-msgid "Mark all threads in all message boards as 'read'."
-msgstr "Pažymėti visas temas forumuose kaip perskaitytas."
-
-# ########################################
-# Forum thread
-# ########################################
-msgid "This thread has been hidden for administrative purposes"
-msgstr "Ši tema buvo paslėpta administratorių"
-
-msgid "Post to thread"
-msgstr "Rašyti į temą"
-
-msgid "Unsubscribe"
-msgstr "Nebepranešti apie naujas žinutes"
-
-msgid "Subscribe"
-msgstr "Pranešti apie naujas žinutes"
-
-msgid "Forum search"
-msgstr "Paieška forumuose"
-
-msgid "Titles containing '%1'"
-msgstr "Pavadinimai, turintys '%1'"
-
-msgid "Posts containing '%1'"
-msgstr "Žinutės, turinčios '%1'"
-
-msgid "No titles containing '%1' could be found."
-msgstr "Nerasta pavadinimų, turinčių \"%1\"."
-
-msgid "No posts containing '%1' could be found."
-msgstr "Nerasta įrašų, turinčių \"%1\"."
-
-msgid "Advanced search"
-msgstr "Detali paieška"
+msgid "Name"
+msgstr "Vardas"
 
 msgid "Search for words in forum messages"
 msgstr "Ieškoti žodžių forumų žinutėse"
@@ -311,11 +53,58 @@ msgstr "Ieškoti žodžių forumų žinutėse"
 msgid "Search forums"
 msgstr "Ieškoti forumuose"
 
+msgid "Advanced search"
+msgstr "Detali paieška"
+
 # ########################################
 # Private messages
-# ########################################
 msgid "Private messages"
 msgstr "Asmeninės žinutės"
+
+# ########################################
+# Links from the main page
+msgid "Questions and Answers"
+msgstr "Klausimai ir atsakymai"
+
+msgid "Message boards"
+msgstr "Forumai"
+
+msgid "%1 message board"
+msgstr "%1 forumas"
+
+msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgstr ""
+"Kad galėtume sukurti naują temą %1 turite turėti tam tikrą kreditų kiekį. "
+"Tai reikalinga norint apsisaugoti nuo neteisėto sistemos išnaudojimo."
+
+msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+msgstr ""
+"Negalite dabar sukurti daugiau temų. Šiek tiek palaukite prieš bandydami dar "
+"kartą. Šis laukimas naudojamas dėl apsaugos nuo neteisėto sistemos "
+"išnaudojimo."
+
+msgid "Thread"
+msgstr "Tema"
+
+# ########################################
+# Forum
+msgid "Posts"
+msgstr "Žinutės"
+
+msgid "Author"
+msgstr "Autorius"
+
+msgid "Views"
+msgstr "Peržiūros"
+
+msgid "Last post"
+msgstr "Paskutinė žinutė"
+
+msgid "Mark all threads as read"
+msgstr "Pažymėti visas temas kaip perskaitytas"
+
+msgid "Mark all threads in all message boards as 'read'."
+msgstr "Pažymėti visas temas forumuose kaip perskaitytas."
 
 msgid "Inbox"
 msgstr "Gautosios žinutės"
@@ -323,12 +112,8 @@ msgstr "Gautosios žinutės"
 msgid "Write"
 msgstr "Rašyti"
 
-msgid "Forum index"
-msgstr "Forumų pradžios puslapis"
-
 # ########################################
 # Private messages
-# ########################################
 msgid "Send private message"
 msgstr "Siųsti asmeninę žinutę"
 
@@ -344,11 +129,483 @@ msgstr "Vartotojo ID arba unikalūs vardai, atskirti kableliais"
 msgid "Subject"
 msgstr "Tema"
 
+msgid "Message"
+msgstr "Žinutė"
+
 msgid "Send message"
 msgstr "Siųsti žinutę"
 
 msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
-msgstr "Neleidžiama taip dažnai siųsti asmeninių žinučių. Šiek tiek palaukite prieš siųsdami daugiau žinučių."
+msgstr ""
+"Neleidžiama taip dažnai siųsti asmeninių žinučių. Šiek tiek palaukite prieš "
+"siųsdami daugiau žinučių."
+
+msgid "unread"
+msgstr "neskaityta"
+
+msgid "Search criteria (use one or more)"
+msgstr "Paieškos kriterijai (naudokite vieną ar daugiau)"
+
+msgid "Key words"
+msgstr "Raktiniai žodžiai"
+
+msgid "Find teams with these words in their names or descriptions"
+msgstr ""
+
+msgid "Country"
+msgstr "Valstybė"
+
+msgid "Type of team"
+msgstr "Komandos tipas"
+
+msgid "Show only active teams"
+msgstr "Rodyti tik aktyvias komandas"
+
+msgid "Search"
+msgstr ""
+
+msgid "Requested by you, and founder response deadline has passed."
+msgstr "Prašytas jūsų, ir laikas, skirtas įkūrėjui atsakyti, jau praėjo."
+
+msgid "Complete foundership transfer"
+msgstr "Užbaigti įkūrėjo pakeitimą"
+
+msgid "Requested by you"
+msgstr "Prašytas jūsų"
+
+msgid "founder response deadline is %1"
+msgstr "laikas, skirtas įkūrėjui atsakyti, yra %1"
+
+msgid "None"
+msgstr "Nėra"
+
+msgid "Initiate request"
+msgstr ""
+
+msgid "Deferred"
+msgstr ""
+
+msgid "Team info"
+msgstr "Komandos informacija"
+
+msgid "Description"
+msgstr "Aprašymas"
+
+msgid "Web site"
+msgstr "Tinklapis"
+
+msgid "Total credit"
+msgstr "Iš viso kreditų"
+
+msgid "Recent average credit"
+msgstr "Vidutinis kreditas"
+
+msgid "Type"
+msgstr ""
+
+#, fuzzy
+msgid "Message board"
+msgstr "Forumai"
+
+msgid "Threads"
+msgstr "Temos"
+
+msgid "Join this team"
+msgstr ""
+
+msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
+msgstr ""
+
+#, fuzzy
+msgid "Foundership change requested"
+msgstr "(laukiamas įkūrėjo pakeitimas)"
+
+msgid "Respond by %1"
+msgstr ""
+
+msgid "Team foundership change"
+msgstr ""
+
+msgid "Members"
+msgstr "Dalyviai"
+
+msgid "Founder"
+msgstr ""
+
+msgid "Admins"
+msgstr ""
+
+msgid "New members in last day"
+msgstr ""
+
+msgid "Total members"
+msgstr ""
+
+#, fuzzy
+msgid "view"
+msgstr "Peržiūrėti"
+
+msgid "Active members"
+msgstr ""
+
+msgid "Members with credit"
+msgstr ""
+
+msgid "Admin"
+msgstr ""
+
+msgid "Last %1"
+msgstr ""
+
+msgid "Next %1"
+msgstr ""
+
+msgid "No such team."
+msgstr ""
+
+msgid "This operation requires foundership."
+msgstr ""
+
+msgid "This operation requires team admin privileges"
+msgstr ""
+
+msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
+msgstr ""
+
+msgid "Team name, text version"
+msgstr ""
+
+msgid "Don't use HTML tags."
+msgstr ""
+
+msgid "Team name, HTML version"
+msgstr ""
+
+msgid "You may use %1limited HTML tags%2."
+msgstr ""
+
+msgid "If you don't know HTML, leave this box blank."
+msgstr ""
+
+msgid "URL of team web page, if any"
+msgstr ""
+
+msgid "without \"http://\""
+msgstr ""
+
+msgid "This URL will be linked to from the team's page on this site."
+msgstr ""
+
+msgid "Description of team"
+msgstr ""
+
+# ########################################
+# Public user page (show_user.php)
+msgid "Projects in which you are participating"
+msgstr "Projektai, kuriuose dalyvaujate"
+
+msgid "Projects in which %1 is participating"
+msgstr "Projektai, kuriuose dalyvauja %1"
+
+msgid "Project"
+msgstr "Projektas"
+
+msgid "Click for user page"
+msgstr "Spustelėkite dalyvio puslapiui"
+
+msgid "Average credit"
+msgstr ""
+
+msgid "Since"
+msgstr "Nuo"
+
+msgid "Computing and credit"
+msgstr "Skaičiavimai ir kreditai"
+
+msgid "Pending credit"
+msgstr "Laukiamas kreditas"
+
+msgid "View"
+msgstr "Peržiūrėti"
+
+msgid "Computers on this account"
+msgstr "Abonementui priskirti kompiuteriai"
+
+msgid "Tasks"
+msgstr "Užduotys"
+
+msgid "Cross-project ID"
+msgstr "Tarpprojektinis ID"
+
+msgid "Cross-project statistics"
+msgstr "Tarpprojektinė statistika"
+
+msgid "Certificate"
+msgstr ""
+
+msgid "Stats on your cell phone"
+msgstr "Statistika mobiliajame telefone"
+
+msgid "Account information"
+msgstr "Abonemento informacija"
+
+msgid "Email address"
+msgstr "El. pašto adresas"
+
+msgid "URL"
+msgstr "Tinklapis"
+
+msgid "Postal code"
+msgstr "Pašto kodas"
+
+msgid "%1 member since"
+msgstr "%1 narys nuo"
+
+msgid "Change"
+msgstr "Pakeisti"
+
+msgid "email address"
+msgstr "el. pašto adresą"
+
+msgid "password"
+msgstr "slaptažodį"
+
+# ########################################
+# "Your account" page (home.php)
+msgid "other account info"
+msgstr "kitą abonemento informaciją"
+
+msgid "Log out"
+msgstr "Atsijungti"
+
+msgid "User ID"
+msgstr "Vartotojo ID"
+
+msgid "Used in community functions"
+msgstr "Naudojama bendruomenės funkcijose"
+
+msgid "Account key"
+msgstr "Abonemento raktas"
+
+msgid "Provides full access to your account"
+msgstr "Suteikia pilną priėjimą prie jūsų abonemento"
+
+# ########################################
+# "Your account" page (home.php)
+msgid "Weak account key"
+msgstr "Silpnas abonemento raktas"
+
+msgid "Provides"
+msgstr "Suteikia"
+
+msgid "limited access"
+msgstr "ribotą priėjimą"
+
+# ########################################
+# "Your account" page (home.php)
+msgid "to your account"
+msgstr "prie jūsų abonemento"
+
+msgid "Preferences"
+msgstr "Nustatymai"
+
+msgid "When and how BOINC uses your computer"
+msgstr "Kaip ir kada BOINC naudoja jūsų kompiuterį"
+
+msgid "Computing preferences"
+msgstr "Skaičiavimų nustatymai"
+
+msgid "Message boards and private messages"
+msgstr "Forumai ir asmeninės žinutės"
+
+msgid "Community preferences"
+msgstr "Bendruomenės nustatymai"
+
+msgid "Resource share and graphics"
+msgstr "Resursų padalijimas ir grafika"
+
+msgid "%1 preferences"
+msgstr "%1 nustatymai"
+
+msgid "Community"
+msgstr "Bendruomenė"
+
+msgid "Delete"
+msgstr "Ištrinti"
+
+msgid "Create"
+msgstr "Sukurti"
+
+msgid "Profile"
+msgstr "Aprašymas"
+
+# ########################################
+# Forum
+msgid "%1 posts"
+msgstr "%1 žinučių"
+
+# ########################################
+# Apps page (apps.php)
+msgid "Notifications"
+msgstr "Pranešimai"
+
+msgid "Quit team"
+msgstr "Palikti komandą"
+
+msgid "Administer"
+msgstr "Administruoti"
+
+msgid "(foundership change request pending)"
+msgstr "(laukiamas įkūrėjo pakeitimas)"
+
+msgid "Member of team"
+msgstr "Komandos narys"
+
+msgid "Team"
+msgstr "Komanda"
+
+msgid "find a team"
+msgstr "raskite komandą"
+
+msgid "Founder but not member of"
+msgstr "Įkūrėjas, tačiau ne narys"
+
+msgid "Find friends"
+msgstr "Rasti draugus"
+
+msgid "Friends"
+msgstr "Draugai"
+
+msgid "Computers"
+msgstr ""
+
+msgid "hidden"
+msgstr "paslėptas"
+
+msgid "Donor"
+msgstr "Suteikęs paramą"
+
+msgid "Contact"
+msgstr "Susisiekti"
+
+msgid "This person is a friend"
+msgstr "Šis asmuo yra draugas"
+
+msgid "Cancel friendship"
+msgstr "Nutraukti draugystę"
+
+msgid "Request pending"
+msgstr "Laukiama patvirtinimo"
+
+msgid "Add as friend"
+msgstr "Pridėti draugą"
+
+msgid "Use BBCode tags to format your text"
+msgstr "Naudokite BBCode žymes teksto formatavimui"
+
+msgid "Identifies you on our web site. Use your real name or a nickname."
+msgstr ""
+"Identifikuoja jus mūsų internetinėje svetainėje. Galite naudoti savo tikrą "
+"vardą ar slapyvardį."
+
+msgid "Select the country you want to represent, if any."
+msgstr "Pasirinkite valstybę, kuriai norite atstovauti."
+
+msgid "Postal or ZIP Code"
+msgstr "Pašto kodas"
+
+# ########################################
+# General stuff (create_account_form.php and others)
+msgid "Optional"
+msgstr "Nebūtinas"
+
+# ########################################
+# Apps page (apps.php)
+msgid "Applications"
+msgstr "Programos"
+
+msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+msgstr ""
+"%1 šiuo metu naudoja šias programas. Kai dalyvaujate %1, užduotys vienai ar "
+"daugiau šių programų priskiriamos jūsų kompiuteriui, ir naujausia programos "
+"versija bus parsiųsta į jūsų kompiuterį. Tai vyksta automatiškai; jums "
+"nereikės daryti nieko."
+
+msgid "Platform"
+msgstr "Platforma"
+
+msgid "Current version"
+msgstr "Dabartinė versija"
+
+msgid "Installation time"
+msgstr "Įdiegimo laikas"
+
+msgid "You must supply an invitation code to create an account."
+msgstr "Privalote pateikti pakvietimo kodą, kad sukurtumėte abonementą."
+
+msgid "The invitation code you gave is not valid."
+msgstr "Pateiktas pakvietimo kodas neteisingas."
+
+# ########################################
+# "Your account" page (home.php)
+msgid "Create an account"
+msgstr "Sukurti abonementą"
+
+msgid "Account creation is disabled"
+msgstr "Abonementų kūrimas yra išjungtas"
+
+msgid "Account creation is currently disabled. Please try again later."
+msgstr ""
+
+msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgstr ""
+"PASTABA: jei naudojate BOINC 5.2 ar naujesnę versiją su BOINC valdikliu, "
+"nenaudokite šios formos. Tiesiog paleiskite BOINC, pasirinkite \"Prisijungti "
+"prie projekto\" ir įveskite savo elektroninio pašto adresą bei slaptažodį."
+
+msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgstr ""
+"Šis abonementas priklausys %1 komandai ir turės komandos įkurėjo projekto "
+"nustatymus."
+
+msgid "Invitation Code"
+msgstr "Pakvietimo kodas"
+
+msgid "A valid invitation code is required to create an account."
+msgstr "Reikia pateikti teisingą pakvietimo kodą, kad sukurtumėte abonementą."
+
+msgid "Email Address"
+msgstr "El. pašto adresas"
+
+msgid "Must be a valid address of the form 'name@domain'."
+msgstr ""
+"Turi būti galiojantis elektroninio pašto adresas formoje \"vardas@domenas\"."
+
+msgid "Password"
+msgstr "Slaptažodis"
+
+msgid "Must be at least %1 characters"
+msgstr "Turi bti bent %1 simboli ilgio"
+
+msgid "Confirm password"
+msgstr "Patvirtinkite slaptažodį"
+
+# ########################################
+# "Your account" page (home.php)
+msgid "Create account"
+msgstr "Sukurti abonementą"
+
+msgid "Title"
+msgstr "Pavadinimas"
+
+msgid "Add my signature to this post"
+msgstr "Pridėti mano parašą"
+
+msgid "%1 Message boards"
+msgstr "%1 forumai"
+
+msgid "Topic"
+msgstr "Tema"
 
 msgid "Your message has been sent."
 msgstr "Jūsų žinutė išsiųsta."
@@ -356,20 +613,47 @@ msgstr "Jūsų žinutė išsiųsta."
 msgid "You have no private messages."
 msgstr "Neturite asmeninių žinučių."
 
+msgid "Sender"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Mark as read"
+msgstr "Pažymėti kaip perskaitytus"
+
+msgid "Mark as unread"
+msgstr "Pažymėti kaip neskaitytus"
+
+msgid "With selected"
+msgstr ""
+
 msgid "No such message"
 msgstr "Žinutė nerasta"
+
+msgid "Block user"
+msgstr "Blokuoti vartotoją"
+
+msgid "Reply"
+msgstr "Atsakyti"
 
 msgid "Really delete?"
 msgstr "Tikrai ištrinti?"
 
 msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
-msgstr "Ar tikrai norite ištrinti žinutę, kurios tema &quot;%1&quot; (išsiuntė %2 %3)?"
+msgstr ""
+"Ar tikrai norite ištrinti žinutę, kurios tema &quot;%1&quot; (išsiuntė %2 "
+"%3)?"
 
 msgid "Yes, delete"
 msgstr "Taip, ištrinti"
 
 msgid "No, cancel"
 msgstr "Ne, atšaukti"
+
+#, fuzzy
+msgid "No such message."
+msgstr "Žinutė nerasta"
 
 msgid "You need to fill all fields to send a private message"
 msgstr "Reikia užpildyti visus laukus, kad galėtumėte išsiųsti asmeninę žinutę"
@@ -396,7 +680,9 @@ msgid "Please note that you can only block a limited amount of users."
 msgstr "Atminkite, kad galite blokuoti ribotą vartotojų skaičių."
 
 msgid "Once the user has been blocked you can unblock it using forum preferences page."
-msgstr "Kai vartotojas bus užblokuotas, blokavimą galėsite atšaukti diskusijų lentos nustatymų puslapyje."
+msgstr ""
+"Kai vartotojas bus užblokuotas, blokavimą galėsite atšaukti diskusijų lentos "
+"nustatymų puslapyje."
 
 msgid "Add user to filter"
 msgstr "Filtruoti vartotoją"
@@ -413,282 +699,272 @@ msgstr "Vartotojui %1 uždrausta jums siųsti asmenines žinutes."
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "Kad atblokuotumėte, apsilankykite %1diskusijų lentos nustatymuose%2"
 
-msgid "Sender and date"
-msgstr "Siuntėjas ir data"
+msgid "Create a new thread"
+msgstr "Sukurti naują temą"
 
-msgid "Delete"
-msgstr "Ištrinti"
+msgid "Post to thread"
+msgstr "Rašyti į temą"
 
-msgid "Reply"
-msgstr "Atsakyti"
+msgid "Forum search results"
+msgstr ""
 
-msgid "Block user"
-msgstr "Blokuoti vartotoją"
-
-msgid "With selected messages"
-msgstr "Su pasirinktomis žinutėmis"
-
-msgid "Mark as read"
-msgstr "Pažymėti kaip perskaitytus"
-
-msgid "Mark as unread"
-msgstr "Pažymėti kaip neskaitytus"
+msgid "Forum search"
+msgstr "Paieška forumuose"
 
 # ########################################
-# Links from the main page
-# ########################################
-msgid "Questions and Answers"
-msgstr "Klausimai ir atsakymai"
+# Forum thread
+msgid "This thread has been hidden for administrative purposes"
+msgstr "Ši tema buvo paslėpta administratorių"
 
-# ########################################
-# "Your account" page (home.php)
-# ########################################
-msgid "Your account"
-msgstr "Jūsų abonementas"
+msgid "Unsubscribe"
+msgstr "Nebepranešti apie naujas žinutes"
+
+msgid "Subscribe"
+msgstr "Pranešti apie naujas žinutes"
 
 msgid "Welcome to %1"
 msgstr "Sveiki prisijungę prie %1"
 
 msgid "View and edit your account preferences using the links below."
-msgstr "Peržiūrėkite ir keiskite abonemento nustatymus naudodamiesi nuorodomis žemiau."
-
-msgid "If you have not already done so, %1download BOINC client software%2."
-msgstr "Jei to dar nepadarėte, %1parsisiųskite BOINC programinę įrangą%2."
-
-msgid "Account information"
-msgstr "Abonemento informacija"
-
-msgid "Email address"
-msgstr "El. pašto adresas"
-
-msgid "URL"
-msgstr "Tinklapis"
-
-msgid "Postal code"
-msgstr "Pašto kodas"
-
-msgid "Change"
-msgstr "Pakeisti"
-
-msgid "email address"
-msgstr "el. pašto adresą"
-
-msgid "password"
-msgstr "slaptažodį"
+msgstr ""
+"Peržiūrėkite ir keiskite abonemento nustatymus naudodamiesi nuorodomis "
+"žemiau."
 
 # ########################################
-# "Your account" page (home.php)
-# ########################################
-msgid "other account info"
-msgstr "kitą abonemento informaciją"
+# Rules and Policies page (info.php)
+msgid "Read our rules and policies"
+msgstr "Perskaitykite mūsų taisykles"
 
-msgid "Log out"
-msgstr "Atsijungti"
+msgid "Run %1 only on authorized computers"
+msgstr "Vykdykite %1 tik kompiuteriuose, kuriuose turite leidimą tai daryti"
 
-msgid "Community"
-msgstr "Bendruomenė"
+msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
+msgstr ""
+"Projektą %1 vykdykite tik su tais kompiuteriais, kurių savininkas esate pats "
+"arba esate gavęs savininko leidimą. Kai kurios kompanijos ar mokyklos "
+"laikosi politikos, kuri draudžia naudoti kompiuterius projektams kaip %1."
 
-msgid "Community preferences"
-msgstr "Bendruomenės nustatymai"
+msgid "How %1 will use your computer"
+msgstr "Kaip %1 naudos jūsų kompiuterį"
 
-msgid "Create"
-msgstr "Sukurti"
+msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
+msgstr ""
+"Kai jūsų kompiuteryje bus vykdomas %1 projektas, jis naudos dalį kompiuterio "
+"procesoriaus galios, disko vietos ir interneto ryšio. Jūs galite "
+"kontroliuoti kiek savo resursų skirsite %1 projektui ir kada juos galima "
+"naudoti."
 
-msgid "Profile"
+msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
+msgstr ""
+"Darbas, kuri atliks Jūsų kompiuteris, padės įgyvendinti %1 projekto tikslus, "
+"kurie surašyti šioje interneto svetainėje. Projekto programos laikui bėgant "
+"gali keistis."
+
+msgid "Privacy policy"
+msgstr "Privatumo politika"
+
+msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
+msgstr ""
+"Jūsų abonementas %1 projekte yra nustatomas pagal jūsų pasirinktą vardą. Šis "
+"vardas gali būti rodomas %1 projekto interneto svetainėje kartu su "
+"apibendrintais duomenimis apie kompiuterio atliktą darbą %1 projektui. Jei "
+"norite likti anonimiškas - pasirinkite vardą, kuris neatskleistų jūsų "
+"tapatybės."
+
+msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
+msgstr ""
+"Jei dalyvaujate %1 projekte, informacija apie jūsų kompiuterį (tokia kaip "
+"procesoriaus tipas, atminties kiekis ir kt.) bus įrašyta %1 projekto duomenų "
+"bazėje ir pagal ją bus sprendžiama, kokį darbą skirti jūsų kompiuteriui. Ši "
+"informacija taip pat bus rodoma %1 projekto interneto svetainėje. Jokia "
+"informacija, kuri galėtų atskleisti jūsų kompiuterio buvimo vietą (domeno "
+"pavadinima ar tinklo adresą) nebus rodoma."
+
+msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr ""
+"Norint dalyvauti %1 projekte, jums reikėtų turėti elektroninio pašto dėžutę. "
+"Jūsų elektroninio pašto adresas nebus rodomas %1 projekto interneto "
+"svetainėje ar perduotas kitoms organizacijoms.%1 projektas gali jums "
+"atsiųsti periodinius naujienių biuletenius, tačiau jų galima atsisakyti bet "
+"kuriuo metu."
+
+msgid "Is it safe to run %1?"
+msgstr "Ar saugu vykdyti %1?"
+
+msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
+msgstr ""
+"Kiekvieną kartą, kai siunčiatės programą per internetą, gali būti kad: "
+"programa turi pavojingų klaidų ar serveris gali būti \"nulaužtas\". %1 "
+"projektas deda visas pastangas sumažinti šią riziką. Mes atidžiai išbandėme "
+"savo programas. Mūsų serveriai yra saugomi ugniasienių ir nustatyti "
+"aukščiausiam saugumo lygiui. Visos vykdomosios bylos yra pasirašytos "
+"skaitmeniniu parašu kompiuteryje, kuris nėra prijungtas prie interneto."
+
+msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr ""
+"%1 projekto vykdomos programos gali perkaitinti kai kuriuos kompiuterius. "
+"Jei taip atsitinka, nustokite vykdyti %1 projektą arba naudokite "
+"%2papildomas programas%3, kurios riboja kompiuterio procesoriaus naudojimą."
+
+msgid "%1 was developed by %2. BOINC was developed at the University of California."
+msgstr "%1 buvo sukurtas %2. BOINC buvo sukurtas Kalifornijos Universitete."
+
+msgid "Liability"
+msgstr "Atsakomybė"
+
+msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
+msgstr ""
+"%1 projektas ir %2 neprisiima atsakomybės už žalą padarytą Jūsų "
+"kompiuteriui, duomenų praradinimą ar kokį kitą įvykį ar sąlygą, kuri galėjo "
+"kilti dėl dalyvavimo %1 projekte."
+
+msgid "Other BOINC projects"
+msgstr "Kiti BOINC projektai"
+
+msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
+msgstr ""
+"Kiti projektai, kaip ir %1, naudoja BOINC. Jūs galite nuspręsti prisijungti "
+"prie vieno ar kelių projektų. Tokiu atveju, Jūsų kompiuteris atliks naudingą "
+"darbą kai %1 projektas užduočių neturės."
+
+msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
+msgstr ""
+"Šie projektai nėra susiję su %1, ir dėl to mes negalime garantuoti už jų "
+"projekto saugumą ar tyrimo tikslus. Jūs patys sprendžiate ar prisijungti "
+"prie kitų projektų."
+
+msgid "Sender and date"
+msgstr "Siuntėjas ir data"
+
+#, fuzzy
+msgid "Profiles"
 msgstr "Aprašymas"
 
-msgid "Teams"
-msgstr "Komandos"
+msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
+msgstr ""
 
-msgid "Team"
-msgstr "Komanda"
+msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
+msgstr ""
 
-msgid "Member of team"
-msgstr "Komandos narys"
+msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
+msgstr ""
 
-# ########################################
-# Forum
-# ########################################
-msgid "%1 posts"
-msgstr "%1 žinučių"
+msgid "User of the Day"
+msgstr ""
 
-msgid "None"
-msgstr "Nėra"
+msgid "User Profile Explorer"
+msgstr ""
 
-msgid "Administer"
-msgstr "Administruoti"
+msgid "View the %1User Picture Gallery%2."
+msgstr ""
 
-msgid "Founder but not member of"
-msgstr "Įkūrėjas, tačiau ne narys"
+msgid "Browse profiles %1by country%2."
+msgstr ""
 
-msgid "administrative functions"
-msgstr "valdymo funkcijos"
+msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
+msgstr ""
 
-msgid "Quit team"
-msgstr "Palikti komandą"
+msgid "Alphabetical profile listings:"
+msgstr ""
 
-msgid "find a team"
-msgstr "raskite komandą"
+msgid "Search profile text"
+msgstr ""
 
-msgid "Preferences"
-msgstr "Nustatymai"
+msgid "No profiles"
+msgstr ""
 
-msgid "Computing preferences"
-msgstr "Skaičiavimų nustatymai"
+msgid "No profiles matched your query."
+msgstr ""
 
-msgid "When and how BOINC uses your computer"
-msgstr "Kaip ir kada BOINC naudoja jūsų kompiuterį"
-
-msgid "%1 preferences"
-msgstr "%1 nustatymai"
-
-msgid "Resource share and graphics"
-msgstr "Resursų padalijimas ir grafika"
-
-msgid "Message board preferences"
-msgstr "Diskusijų lentos nustatymai"
-
-msgid "Message boards and private messages"
-msgstr "Forumai ir asmeninės žinutės"
-
-msgid "Computing and credit"
-msgstr "Skaičiavimai ir kreditai"
-
-msgid "%1 member since"
-msgstr "%1 narys nuo"
-
-msgid "Pending credit"
-msgstr "Laukiamas kreditas"
-
-msgid "View"
-msgstr "Peržiūrėti"
-
-msgid "Computers on this account"
-msgstr "Abonementui priskirti kompiuteriai"
-
-msgid "Tasks"
-msgstr "Užduotys"
-
-msgid "Cross-project ID"
-msgstr "Tarpprojektinis ID"
-
-msgid "Cross-project statistics"
-msgstr "Tarpprojektinė statistika"
-
-msgid "Stats on your cell phone"
-msgstr "Statistika mobiliajame telefone"
-
-msgid "Account number"
-msgstr "Abonemento numeris"
-
-msgid "Used in URLs"
-msgstr "Naudojamas internetiniuose adresuose"
-
-msgid "unread"
-msgstr "neskaityta"
-
-msgid "User ID"
-msgstr "Vartotojo ID"
-
-msgid "Used in community functions"
-msgstr "Naudojama bendruomenės funkcijose"
-
-msgid "Account key"
-msgstr "Abonemento raktas"
-
-msgid "Provides full access to your account"
-msgstr "Suteikia pilną priėjimą prie jūsų abonemento"
+msgid "Top hosts"
+msgstr "Geriausi kompiuteriai"
 
 # ########################################
-# "Your account" page (home.php)
-# ########################################
-msgid "Weak account key"
-msgstr "Silpnas abonemento raktas"
+# Various top table pages (top users, computers, teams)
+msgid "Top participants"
+msgstr "Geriausi dalyviai"
 
-msgid "Provides"
-msgstr "Suteikia"
+msgid "Top %1 teams"
+msgstr "Geriausios %1 komandos"
 
-msgid "limited access"
-msgstr "ribotą priėjimą"
-
-# ########################################
-# "Your account" page (home.php)
-# ########################################
-msgid "to your account"
-msgstr "prie jūsų abonemento"
-
-msgid "Friends"
-msgstr "Draugai"
-
-msgid "Find friends"
-msgstr "Rasti draugus"
-
-msgid "hidden"
-msgstr "paslėptas"
-
-msgid "Donor"
-msgstr "Suteikęs paramą"
-
-# ########################################
-# Apps page (apps.php)
-# ########################################
-msgid "Notifications"
-msgstr "Pranešimai"
-
-msgid "(foundership change request pending)"
-msgstr "(laukiamas įkūrėjo pakeitimas)"
-
-# ########################################
-# Public user page (show_user.php)
-# ########################################
-msgid "Projects in which you are participating"
-msgstr "Projektai, kuriuose dalyvaujate"
-
-msgid "Projects in which %1 is participating"
-msgstr "Projektai, kuriuose dalyvauja %1"
-
-msgid "Project"
-msgstr "Projektas"
-
-msgid "Click for user page"
-msgstr "Spustelėkite dalyvio puslapiui"
-
-msgid "Since"
-msgstr "Nuo"
-
-msgid "Contact"
-msgstr "Susisiekti"
-
-msgid "This person is a friend"
-msgstr "Šis asmuo yra draugas"
-
-msgid "Cancel friendship"
-msgstr "Nutraukti draugystę"
-
-msgid "Request pending"
-msgstr "Laukiama patvirtinimo"
-
-msgid "Add as friend"
-msgstr "Pridėti draugą"
+msgid "Participant since"
+msgstr "Dalyvis nuo"
 
 # ########################################
 # "Weak account key" page (weak_auth.php)
-# ########################################
 msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
-msgstr "Jūsų paprastas abonemento raktas leidžia prijungti kompiuterius prie šio projekto nepaliekant galimybės prisijungti prie jūsų abonemento ar jį kaip nors pakeisti."
+msgstr ""
+"Jūsų paprastas abonemento raktas leidžia prijungti kompiuterius prie šio "
+"projekto nepaliekant galimybės prisijungti prie jūsų abonemento ar jį kaip "
+"nors pakeisti."
 
 msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
-msgstr "Šis mechanizmas veikia tik su projektais, kurie atnaujino serverio programinę įrangą 2007 gruodžio 7 ar vėliau."
+msgstr ""
+"Šis mechanizmas veikia tik su projektais, kurie atnaujino serverio "
+"programinę įrangą 2007 gruodžio 7 ar vėliau."
 
 msgid "Your weak account key for this project is:"
 msgstr "Jūsų paprastas abonemento raktas šiam projektui yra:"
 
 msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
-msgstr "Kad naudotumėte paprastą abonemento raktą tam tikrame kompiuteryje, suraskite ar sukurkite abonemento rinkmeną šiam projektui. Šios rinkmenos vardas turi formą <b>account_PROJEKTO_ADRESAS.xml</b>. Abonemento rinkmena %1 yra <b>%2</b>."
+msgstr ""
+"Kad naudotumėte paprastą abonemento raktą tam tikrame kompiuteryje, "
+"suraskite ar sukurkite abonemento rinkmeną šiam projektui. Šios rinkmenos "
+"vardas turi formą <b>account_PROJEKTO_ADRESAS.xml</b>. Abonemento rinkmena "
+"%1 yra <b>%2</b>."
 
 msgid "Create this file if needed. Set its contents to:"
 msgstr "Sukurkite šią rinkmeną, jei reikia. Jos turinį pakeiskite į:"
 
 msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
-msgstr "Jūsų paprastas abonemento raktas sukuriamas pagal jūsų slaptažodį. Jei pakeičiate savo slaptažodį, jūsų paprastas abonemento raktas pasikeičia, ir jūsų senas paprastas abonemento raktas tampa nebegaliojančiu."
+msgstr ""
+"Jūsų paprastas abonemento raktas sukuriamas pagal jūsų slaptažodį. Jei "
+"pakeičiate savo slaptažodį, jūsų paprastas abonemento raktas pasikeičia, ir "
+"jūsų senas paprastas abonemento raktas tampa nebegaliojančiu."
 
+# ########################################
+# "Your account" page (home.php)
+msgid "Your account"
+msgstr "Jūsų abonementas"
+
+#~ msgid "Account creation is disabled for %1 at the moment. Please try again later."
+#~ msgstr "Abonementų kūrimas %1 šiuo metu yra išjungtas. Pabandykite dar kartą vėliau."
+
+#~ msgid "Edit message"
+#~ msgstr "Taisyti žinutę"
+
+#~ msgid "Titles containing '%1'"
+#~ msgstr "Pavadinimai, turintys '%1'"
+
+#~ msgid "Posts containing '%1'"
+#~ msgstr "Žinutės, turinčios '%1'"
+
+#~ msgid "No titles containing '%1' could be found."
+#~ msgstr "Nerasta pavadinimų, turinčių \"%1\"."
+
+#~ msgid "No posts containing '%1' could be found."
+#~ msgstr "Nerasta įrašų, turinčių \"%1\"."
+
+#~ msgid "Forum index"
+#~ msgstr "Forumų pradžios puslapis"
+
+#~ msgid "With selected messages"
+#~ msgstr "Su pasirinktomis žinutėmis"
+
+#~ msgid "If you have not already done so, %1download BOINC client software%2."
+#~ msgstr "Jei to dar nepadarėte, %1parsisiųskite BOINC programinę įrangą%2."
+
+#~ msgid "Teams"
+#~ msgstr "Komandos"
+
+#~ msgid "administrative functions"
+#~ msgstr "valdymo funkcijos"
+
+#~ msgid "Message board preferences"
+#~ msgstr "Diskusijų lentos nustatymai"
+
+#~ msgid "Account number"
+#~ msgstr "Abonemento numeris"
+
+#~ msgid "Used in URLs"
+#~ msgstr "Naudojamas internetiniuose adresuose"

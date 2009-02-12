@@ -1,342 +1,47 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-07-17 22:00+0300\n"
-"Last-Translator: Nikolay Saharov <saharovna@mail.ru>\n"
+"PO-Revision-Date: 2009-01-30 11:47-0700\n"
+"Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-SourceCharset: utf-8\n"
-
-##########################################
-# Language: Russian (Russian Federation) (based on en.po SVN rev.15601)
-# FileID  : $Id$
-# Author  : Janus Kristensen (Translated by: Cyril Tikhonov, Nikolay Saharov)
-# Email   : jbk@visualgroup.dk (cyrilussr@yahoo.com, saharovna@mail.ru)
-##########################################
-# For more information please see:
-# http://boinc.berkeley.edu/web_translation.php
-##########################################
-
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 1.2.1\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-SearchPath-0: html\\user\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
 
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 # Кодовая страница для текста в этом файле (пожалуйста, используйте UTF-8 по возможности)
 msgid "CHARSET"
 msgstr "UTF-8"
 
-# The name of this language in this language
+# The name of this language in this language<br />
 # Имя языка в этом файле
+# The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "Русский"
 
-# The name of this language in an international language (English)
+# The name of this language in an international language (English)&lt;br /&gt;<br />
 # Имя языка в этом файле на интернациональном языке (английском)
+# The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Russian"
-
-
-#########################################
-# Apps page (apps.php)
-# Страница приложений
-#########################################
-
-msgid "Applications"
-msgstr "Приложения"
-
-msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
-msgstr "%1 на данный момент имеет следующие приложения. Когда Вы участвуете в %1, Вашему компьютеру будут назначены задания для одного или нескольких из этих приложений. На Ваш компьютер будет скачана текущая версия приложения. Все это происходит автоматически; Вам не нужно что-либо предпринимать дополнительно."
-
-msgid "Platform"
-msgstr "Платформа"
-
-msgid "Current version"
-msgstr "Текущая версия"
-
-msgid "Installation time"
-msgstr "Время сборки"
-
-
-#########################################
-# Rules and Policies page (info.php)
-# Страница Правил и Политик
-#########################################
-
-msgid "Read our rules and policies"
-msgstr "Прочтите наши правила и политику"
-
-msgid "Run %1 only on authorized computers"
-msgstr "Запускайте %1 только на авторизованных компьютерах"
-
-msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
-msgstr "Запускайте %1 только на компьютерах, которыми Вы владеете, или для которых Вы получили права владельца. В некоторых компаниях и школах (ВУЗах) установлен порядок, по которому запрещается использовать их компьютеры в таких проектах, как %1."
-
-msgid "How %1 will use your computer"
-msgstr "Как %1 будет использовать Ваш компьютер"
-
-msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
-msgstr "Когда Вы запускаете %1 на Вашем компьютере, он будет использовать часть ресурсов процессора, пространство на жестком диске (винчестере), и сетевой трафик. Вы можете контролировать, сколько ресурсов Вашего компьютера будет использовано для работы %1, и когда эти ресурсы будут использоваться."
-
-msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
-msgstr "Работа, совершенная Вашим компьютером, содействует решению задач %1, как описано на web-сайте проекта. Приложения могут меняться время от времени."
-
-msgid "Privacy policy"
-msgstr "Обеспечение конфиденциальности"
-
-msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
-msgstr "Ваша учетная запись на %1 идентифицируется по имени, которое Вы указали. Это имя может быть показано на web-сайте %1, наряду со сводкой работы Вашего компьютера, сделанной для %1. Если Вы хотите остаться неизвестным, выберите имя, которое не соответствует Вашему настоящему имени."
-
-msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
-msgstr "Если Вы принимаете участие в %1, информация о Вашем компьютере (такая как тип процессора, объем оперативной памяти, и т.д.) будет записана проектом %1 и использована для принятия решения о том, какой тип работы назначить Вашему компьютеру. Эта информация также будет показана на web-сайте %1. Ничего, что указывало бы на местонахождение Вашего компьютера (например, его доменное или сетевое имя), не будет показываться."
-
-msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr "Чтобы принять участие в %1, Вы должны указать Ваш адрес электронной почты. Этот адрес не будет показан на web-сайте %1 или доступен другим организациям. %1 может посылать Вам периодические новостные письма; тем не менее, Вы можете отказаться от них в любое время."
-
-msgid "Is it safe to run %1?"
-msgstr "Безопасно ли запускать %1?"
-
-msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
-msgstr "Каждый раз при загрузке программы через Интернет может случиться следующее: программа может иметь опасные ошибки, или сервер может быть взломан. %1 предпринял усилия для минимизации этих рисков. Мы тщательно оттестировали наши приложения. Наши сервера защищены сетевым экраном и настроены на высокую безопасность. Чтобы удостовериться в целостности загружаемых программ, все исполняемые файлы подписаны цифровой подписью на защищенном компьютере, не подключенном к сети Интернет."
-
-msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr "Приложения, запускаемые проектом %1, могут послужить причиной перегрева некоторых компьютеров. Если это случилось, остановите выполнение %1 или используйте %2утилиты%3, которые ограничят использование процессора."
-
-msgid "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr "%1 был разработан %2. BOINC был разработан в Университете Калифорнии (the University of California)."
-
-msgid "Liability"
-msgstr "Ответственность"
-
-msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
-msgstr "%1 и %2 не берут на себя ответственность за ущерб, нанесенный Вашему компьютеру, потерю данных, или любое другое событие или инцидент, который может произойти как результат участия в %1."
-
-msgid "Other BOINC projects"
-msgstr "Другие BOINC-проекты"
-
-msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
-msgstr "Другие проекты используют ту же платформу - BOINC - что и %1. Вы можете захотеть принять участие в одном или нескольких из этих проектов. Если Вы присоединитесь к нескольким проектам, Ваш компьютер будет выполнять полезную работу, даже когда у %1 не будет заданий, доступных для обработки."
-
-msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
-msgstr "Другие проекты не связаны с %1, и мы не можем поручиться за их безопасность или природу их исследований. Присоединяйтесь к ним на свой страх и риск."
-
-
-#########################################
-# Create account form (create_account_form.php)
-# Форма создания учетной записи
-#########################################
-
-msgid "Create an account"
-msgstr "Создание учетной записи"
-
-msgid "Name"
-msgstr "Имя"
-
-msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr "Идентифицирует Вас на нашем web-сайте. Введите Ваше настоящее имя или псевдоним."
-
-msgid "Email Address"
-msgstr "Адрес электронной почты"
-
-msgid "Must be a valid address of the form 'name@domain'."
-msgstr "Должен быть действительным адресом в форме 'имя@домен'."
-
-msgid "Country"
-msgstr "Страна"
-
-msgid "Select the country you want to represent, if any."
-msgstr "Выберите страну, которую представляете, если хотите."
-
-msgid "Postal or ZIP Code"
-msgstr "Почтовый индекс или ZIP-код"
-
-msgid "Create account"
-msgstr "Создать учетную запись"
-
-msgid "Account creation is disabled"
-msgstr "Создание учетной записи запрещено"
-
-msgid "Account creation is disabled for %1 at the moment. Please try again later."
-msgstr "В данный момент создание учетной записи запрещено в %1. Пожалуйста, повторите позже."
-
-msgid "This account will belong to the team %1 and will have the project preferences of its founder."
-msgstr "Эта учетная запись будет относиться к команде '%1' и будет иметь настройки проекта как у ее основателя."
-
-msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
-msgstr "Внимание: Если Вы используете BOINC версии 5.2+ вместе с Менеджером BOINC, не используйте эту форму. Просто запустите BOINC, выберите 'Добавить проект', и введите адрес электронной почты и пароль. "
-
-msgid "Password"
-msgstr "Пароль"
-
-msgid "Must be at least %1 characters"
-msgstr "Должно быть по крайней мере %1 символов"
-
-msgid "Confirm password"
-msgstr "Подтвердите пароль"
-
-msgid "Invitation Code"
-msgstr "Пригласительный код"
-
-msgid "A valid invitation code is required to create an account."
-msgstr "Для создания учетной записи необходим действительный пригласительный код."
-
-msgid "You must supply an invitation code to create an account."
-msgstr "Чтобы создать учетную запись, Вы должны указать пригласительный код."
-
-msgid "The invitation code you gave is not valid."
-msgstr "Указанный Вами пригласительный код не действителен."
-
-
-#########################################
-# Forum sample index page
-# Пример главной страницы форума
-#########################################
-
-msgid "%1 Message boards"
-msgstr "Доска сообщений %1"
-
-msgid "Message boards"
-msgstr "Доска сообщений"
-
-
-#########################################
-# General stuff (create_account_form.php and others)
-# Общий материал
-#########################################
-
-msgid "Optional"
-msgstr "Необязательно"
-
-
-#########################################
-# Various top table pages (top users, computers, teams)
-# Различные страницы топов
-#########################################
-
-msgid "Top participants"
-msgstr "Лучшие участники"
 
 msgid "Rank"
 msgstr "Позиция"
 
-msgid "Total credit"
-msgstr "Всего очков"
-
-msgid "Recent average credit"
-msgstr "В среднем за день"
-
-msgid "Participant since"
-msgstr "Учавствует с"
-
-msgid "Top %1 teams"
-msgstr "Лучшие %1 команды"
-
-msgid "Members"
-msgstr "Участники"
-
-msgid "Top hosts"
-msgstr "Лучшие компьютеры"
-
-#########################################
-# Forum
-# Форум
-#########################################
-
-msgid "Posts"
-msgstr "Сообщения"
-
-msgid "Topic"
-msgstr "Тема"
-
-msgid "Thread"
-msgstr "Обсуждение"
-
-msgid "Threads"
-msgstr "Обсуждения"
-
-msgid "Last post"
-msgstr "Последнее сообщение"
-
-msgid "Author"
-msgstr "Автор"
-
-msgid "Views"
-msgstr "Просмотры"
-
-msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
-msgstr "Чтобы создать новую тему для обсуждения в %1, у Вас должно быть определенное количество очков. Это ограничение должно предотвратить и защитить систему против злоупотреблений."
-
-msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
-msgstr "Прямо сейчас Вы не можете создать тему для обсуждения. Пожалуйста, немного подождите перед повторной попыткой. Эта задержка произошла для того, чтобы защитить систему против злоупотреблений."
-
-msgid "Create a new thread"
-msgstr "Создать новую тему"
-
-msgid "Title"
-msgstr "Тема"
-
-msgid "Add my signature to this post"
-msgstr "Добавить мою подпись к этому сообщению"
-
-msgid "Message"
-msgstr "Сообщение"
-
-msgid "Edit message"
-msgstr "Редактировать сообщение"
-
-msgid "Use BBCode tags to format your text"
-msgstr "Используйте тэги BBCode для форматирования Вашего текста"
-
-msgid "%1 message board"
-msgstr "Доска сообщений %1"
-
-msgid "Mark all threads as read"
-msgstr "Отметить все обсуждения прочитанными"
-
-msgid "Mark all threads in all message boards as 'read'."
-msgstr "Отметить все обсуждения во всех досках сообщений как 'прочитанные'."
-
-
-#########################################
-# Forum thread
-# Обсуждение на форуме
-#########################################
-
-msgid "This thread has been hidden for administrative purposes"
-msgstr "Это обсуждение было скрыто в административных целях"
-
-msgid "Post to thread"
-msgstr "Ответить на обсуждение"
-
-msgid "Unsubscribe"
-msgstr "Отписаться"
-
-msgid "Subscribe"
-msgstr "Подписаться"
-
-
-#########################################
-# Forum search features
-# Особенности поиска на форуме
-#########################################
-
-msgid "Forum search"
-msgstr "Поиск в форуме"
-
-msgid "Titles containing '%1'"
-msgstr "Темы, содержащие '%1'"
-
-msgid "Posts containing '%1'"
-msgstr "Сообщения, содержащие '%1'"
-
-msgid "No titles containing '%1' could be found."
-msgstr "Темы, содержащие '%1', не были найдены."
-
-msgid "No posts containing '%1' could be found."
-msgstr "Сообщения, содержащие '%1', не были найдены."
-
-msgid "Advanced search"
-msgstr "Расширенный поиск"
+msgid "Name"
+msgstr "Имя"
 
 msgid "Search for words in forum messages"
 msgstr "Поиск введенных слов в сообщениях на форумах"
@@ -344,23 +49,59 @@ msgstr "Поиск введенных слов в сообщениях на фо
 msgid "Search forums"
 msgstr "Найти в форумах"
 
-
-#########################################
-# Private messages
-# Личные сообщения
-#########################################
+msgid "Advanced search"
+msgstr "Расширенный поиск"
 
 msgid "Private messages"
 msgstr "Личные сообщения"
+
+msgid "Questions and Answers"
+msgstr "Вопросы и ответы"
+
+msgid "Message boards"
+msgstr "Доски сообщений"
+
+msgid "%1 message board"
+msgstr "Доска сообщений %1"
+
+msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgstr ""
+"Чтобы создать новую тему для обсуждения в %1, у Вас должно быть определенное "
+"количество очков. Это ограничение должно предотвратить и защитить систему "
+"против злоупотреблений."
+
+msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+msgstr ""
+"Прямо сейчас Вы не можете создать тему для обсуждения. Пожалуйста, немного "
+"подождите перед повторной попыткой. Эта задержка произошла для того, чтобы "
+"защитить систему против злоупотреблений."
+
+msgid "Thread"
+msgstr "Обсуждение"
+
+msgid "Posts"
+msgstr "Сообщения"
+
+msgid "Author"
+msgstr "Автор"
+
+msgid "Views"
+msgstr "Просмотры"
+
+msgid "Last post"
+msgstr "Последнее сообщение"
+
+msgid "Mark all threads as read"
+msgstr "Отметить все обсуждения прочитанными"
+
+msgid "Mark all threads in all message boards as 'read'."
+msgstr "Отметить все обсуждения во всех досках сообщений как 'прочитанные'."
 
 msgid "Inbox"
 msgstr "Входящие"
 
 msgid "Write"
 msgstr "Написать"
-
-msgid "Forum index"
-msgstr "Доска сообщений"
 
 msgid "Send private message"
 msgstr "Отправить личное сообщение"
@@ -372,127 +113,229 @@ msgid "To"
 msgstr "Кому"
 
 msgid "User IDs or unique usernames, separated with commas"
-msgstr "Идентификаторы (ID) или уникальные имена пользователей, разделенные запятыми"
+msgstr ""
+"Идентификаторы (ID) или уникальные имена пользователей, разделенные запятыми"
 
 msgid "Subject"
 msgstr "Тема"
+
+msgid "Message"
+msgstr "Сообщение"
 
 msgid "Send message"
 msgstr "Отправить сообщение"
 
 msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
-msgstr "Вам не разрешается отправлять личные сообщения так часто. Пожалуйста, подождите немного, прежде чем отправить больше сообщений."
+msgstr ""
+"Вам не разрешается отправлять личные сообщения так часто. Пожалуйста, "
+"подождите немного, прежде чем отправить больше сообщений."
 
-msgid "Your message has been sent."
-msgstr "Ваше сообщение было отправлено."
+msgid "unread"
+msgstr "непрочтенных"
 
-msgid "You have no private messages."
-msgstr "У Вас нет личных сообщений."
+msgid "Search criteria (use one or more)"
+msgstr "Критерии поиска (используйте один или несколько)"
 
-msgid "No such message"
-msgstr "Нет такого сообщения"
+msgid "Key words"
+msgstr "Ключевые слова"
 
-msgid "Really delete?"
-msgstr "Действительно удалить?"
+msgid "Find teams with these words in their names or descriptions"
+msgstr "Найти команды с этими словами в их названиях или описаниях"
 
-msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
-msgstr "Вы уверены, что хотите удалить сообщение с темой &quot;%1&quot; (отправил %2 на %3)?"
+msgid "Country"
+msgstr "Страна"
 
-msgid "Yes, delete"
-msgstr "Да, удалить"
+msgid "Type of team"
+msgstr "Тип команды"
 
-msgid "No, cancel"
-msgstr "Нет, отменить"
+msgid "Show only active teams"
+msgstr "Показать только активные команды"
 
-msgid "You need to fill all fields to send a private message"
-msgstr "Вы должны заполнить все поля, чтобы отправить личное сообщение"
+msgid "Search"
+msgstr "Найти"
 
-msgid "Could not find user with id %1"
-msgstr "Не удается найти пользователя с id %1"
+msgid "Requested by you, and founder response deadline has passed."
+msgstr "Запрошен Вами, и крайний срок ответа основателя прошел."
 
-msgid "Could not find user with username %1"
-msgstr "Не удается найти пользователя с именем %1"
+msgid "Complete foundership transfer"
+msgstr "Завершить передачу полномочий основателя"
 
-msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "%1 - не уникальное имя пользователя; Вы должны будете использовать ID пользователя"
+msgid "Requested by you"
+msgstr "Запрошен Вами"
 
-msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "Пользователь %1 (ID: %2) не принимает Ваши личные сообщения."
+msgid "founder response deadline is %1"
+msgstr "крайний срок ответа основателя %1"
 
-msgid "Really block %1?"
-msgstr "Действительно заблокировать %1?"
+msgid "None"
+msgstr "Нет"
 
-msgid "Are you really sure you want to block user %1 from sending you private messages?"
-msgstr "Вы действительно уверены, что хотите заблокировать пользователя %1 отправлять Вам личные сообщения?"
+msgid "Initiate request"
+msgstr "Инициировать запрос"
 
-msgid "Please note that you can only block a limited amount of users."
-msgstr "Пожалуйста отметьте, что Вы можете заблокировать только ограниченное количество пользователей."
+msgid "Deferred"
+msgstr "Отклонен"
 
-msgid "Once the user has been blocked you can unblock it using forum preferences page."
-msgstr "Как только пользователь был заблокирован, Вы можете разблокировать его используя страницу настроек форума."
+msgid "Team info"
+msgstr "Информация о команде"
 
-msgid "Add user to filter"
-msgstr "Добавить пользователя в фильтр"
+msgid "Description"
+msgstr "Описание"
 
-msgid "No such user"
-msgstr "Нет такого пользователя"
+msgid "Web site"
+msgstr "Вебсайт"
 
-msgid "User %1 blocked"
-msgstr "Пользователь %1 заблокирован"
+msgid "Total credit"
+msgstr "Всего очков"
 
-msgid "User %1 has been blocked from sending you private messages."
-msgstr "Отправка Вам личных сообщений от пользователя %1 была заблокирована."
+msgid "Recent average credit"
+msgstr "В среднем за день"
 
-msgid "To unblock, visit %1message board preferences%2"
-msgstr "Чтобы разблокировать, посетите %1настройки доски сообщений%2"
+msgid "Type"
+msgstr "Тип"
 
-msgid "Sender and date"
-msgstr "Отправитель и дата"
+msgid "Message board"
+msgstr "Доска сообщений"
 
-msgid "Delete"
-msgstr "Удалить"
+msgid "Threads"
+msgstr "Обсуждения"
 
-msgid "Reply"
-msgstr "Ответить"
+msgid "Join this team"
+msgstr "Присоединиться к этой команде"
 
-msgid "Block user"
-msgstr "Заблокировать пользователя"
+msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
+msgstr ""
+"Внимание: если в Ваших настройках проекта установлено 'отправлять "
+"уведомления по электронной почте', присоединение к команде дает доступ ее "
+"основателя к Вашему адресу электронной почты."
 
-msgid "With selected messages"
-msgstr "С выбранными сообщениями"
+msgid "Foundership change requested"
+msgstr "Запрошена смена основателя"
 
-msgid "Mark as read"
-msgstr "Пометить прочтенным"
+msgid "Respond by %1"
+msgstr "Ответить до %1"
 
-msgid "Mark as unread"
-msgstr "Пометить непрочтенным"
+msgid "Team foundership change"
+msgstr "Смена основателя команды"
 
+msgid "Members"
+msgstr "Участники"
 
-#########################################
-# Links from the main page
-# Ссылки с главной страницы
-#########################################
+msgid "Founder"
+msgstr "Основатель"
 
-msgid "Questions and Answers"
-msgstr "Вопросы и ответы"
+msgid "Admins"
+msgstr "Администраторы"
 
+msgid "New members in last day"
+msgstr "Новые участники за последний день"
 
-#########################################
-# "Your account" page (home.php)
-# Страница "Ваша учетная запись"
-#########################################
+msgid "Total members"
+msgstr "Всего участников"
 
-msgid "Your account"
-msgstr "Ваша учетная запись"
+msgid "view"
+msgstr "просмотр"
 
-msgid "Welcome to %1"
-msgstr "Добро пожаловать в %1"
+msgid "Active members"
+msgstr "Активных участников"
 
-msgid "View and edit your account preferences using the links below."
-msgstr "Для просмотра и редактирования настроек Вашей учетной записи используйте ссылки ниже."
+msgid "Members with credit"
+msgstr "Участников с заработанными очками"
 
-msgid "If you have not already done so, %1download BOINC client software%2."
-msgstr "Если Вы этого еще не сделали, %1загрузите клиентское программное обеспечение BOINC%2."
+msgid "Admin"
+msgstr "Администратор"
+
+msgid "Last %1"
+msgstr "Предыдущие %1"
+
+msgid "Next %1"
+msgstr "Следующие %1"
+
+msgid "No such team."
+msgstr "Нет такой команды."
+
+msgid "This operation requires foundership."
+msgstr "Эта операция требует прав основателя."
+
+msgid "This operation requires team admin privileges"
+msgstr "Эта операция требует прав администратора команды"
+
+msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
+msgstr ""
+"%1Примечание безопасности%2: если Вы создадите команду, то Ваши настройки "
+"проекта (доля ресурсов, графические настройки) будут видны всем."
+
+msgid "Team name, text version"
+msgstr "Название команды, текстовая версия"
+
+msgid "Don't use HTML tags."
+msgstr "Не использовать тэги HTML."
+
+msgid "Team name, HTML version"
+msgstr "Название команды, HTML версия"
+
+msgid "You may use %1limited HTML tags%2."
+msgstr "Вы можете использовать %1ограниченные тэги HTML%2."
+
+msgid "If you don't know HTML, leave this box blank."
+msgstr "Если Вы не знаете HTML, оставьте это поле пустым."
+
+msgid "URL of team web page, if any"
+msgstr "URL веб-страницы команды, если есть"
+
+msgid "without \"http://\""
+msgstr "без \"http://\""
+
+msgid "This URL will be linked to from the team's page on this site."
+msgstr "Этот URL будет вызываться со страницы команды на этом сайте."
+
+msgid "Description of team"
+msgstr "Описание команды"
+
+msgid "Projects in which you are participating"
+msgstr "Проекты, в которых Вы принимаете участие"
+
+msgid "Projects in which %1 is participating"
+msgstr "Проекты, в которых %1 принимает участие"
+
+msgid "Project"
+msgstr "Проект"
+
+msgid "Click for user page"
+msgstr "Нажмите, чтобы перейти на страницу пользователя"
+
+msgid "Average credit"
+msgstr "В среднем очков"
+
+msgid "Since"
+msgstr "С"
+
+msgid "Computing and credit"
+msgstr "Вычисления и вознаграждение"
+
+msgid "Pending credit"
+msgstr "Очки, ожидающие подтверждения"
+
+msgid "View"
+msgstr "Просмотр"
+
+msgid "Computers on this account"
+msgstr "Компьютеры в этой учетной записи"
+
+msgid "Tasks"
+msgstr "Задания"
+
+#, fuzzy
+msgid "Cross-project ID"
+msgstr "Межпроектный ID (CPID)"
+
+msgid "Cross-project statistics"
+msgstr "Объединенная статистика по проектам"
+
+msgid "Certificate"
+msgstr "Сертификат"
+
+msgid "Stats on your cell phone"
+msgstr "Статистика на Вашем мобильном телефоне"
 
 msgid "Account information"
 msgstr "Учетная информация"
@@ -501,10 +344,13 @@ msgid "Email address"
 msgstr "Адрес email"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "Postal code"
 msgstr "Почтовый индекс"
+
+msgid "%1 member since"
+msgstr "Участник %1 с"
 
 msgid "Change"
 msgstr "Изменить"
@@ -521,106 +367,7 @@ msgstr "другая учетная информация"
 msgid "Log out"
 msgstr "Выйти"
 
-msgid "Community"
-msgstr "Сообщество"
-
-msgid "Community preferences"
-msgstr "Настройки сообщества"
-
-msgid "Create"
-msgstr "Создать"
-
-msgid "Profile"
-msgstr "Профиль"
-
-msgid "Teams"
-msgstr "Команды"
-
-msgid "Team"
-msgstr "Команда"
-
-msgid "Member of team"
-msgstr "Член команды"
-
-msgid "%1 posts"
-msgstr "%1 сообщений"
-
-msgid "None"
-msgstr "Нет"
-
-msgid "Administer"
-msgstr "Управление"
-
-msgid "Founder but not member of"
-msgstr "Основатель, но не участник"
-
-msgid "administrative functions"
-msgstr "функции управления"
-
-msgid "Quit team"
-msgstr "Выйти из команды"
-
-msgid "find a team"
-msgstr "найти команду"
-
-msgid "Preferences"
-msgstr "Настройки"
-
-msgid "Computing preferences"
-msgstr "Настройки вычислений"
-
-msgid "When and how BOINC uses your computer"
-msgstr "Как и когда BOINC использует Ваш компьютер"
-
-msgid "%1 preferences"
-msgstr "Настройки %1"
-
-msgid "Resource share and graphics"
-msgstr "Выделенные ресурсы и графика"
-
-msgid "Message board preferences"
-msgstr "Настройки доски сообщений"
-
-msgid "Message boards and private messages"
-msgstr "Доска сообщений или личные сообщения"
-
-msgid "Computing and credit"
-msgstr "Вычисления и вознаграждение"
-
-msgid "%1 member since"
-msgstr "Участник %1 с"
-
-msgid "Pending credit"
-msgstr "Очки, ожидающие подтверждения"
-
-msgid "View"
-msgstr "Просмотр"
-
-msgid "Computers on this account"
-msgstr "Компьютеры в этой учетной записи"
-
-msgid "Tasks"
-msgstr "Задания"
-
-msgid "Cross-project ID"
-msgstr ""
-
-msgid "Cross-project statistics"
-msgstr "Объединенная статистика по проектам"
-
-msgid "Stats on your cell phone"
-msgstr "Статистика на Вашем мобильном телефоне"
-
-msgid "Account number"
-msgstr "Номер учетной записи"
-
-msgid "Used in URLs"
-msgstr "Используется в ссылках URL"
-
-msgid "unread" 
-msgstr "непрочтенных"
-
-msgid "User ID" 
+msgid "User ID"
 msgstr "ID пользователя"
 
 msgid "Used in community functions"
@@ -644,44 +391,80 @@ msgstr "ограниченный доступ"
 msgid "to your account"
 msgstr "к Вашей учетной записи"
 
-msgid "Friends"
-msgstr "Друзья"
+msgid "Preferences"
+msgstr "Настройки"
+
+msgid "When and how BOINC uses your computer"
+msgstr "Как и когда BOINC использует Ваш компьютер"
+
+msgid "Computing preferences"
+msgstr "Настройки вычислений"
+
+msgid "Message boards and private messages"
+msgstr "Доска сообщений или личные сообщения"
+
+msgid "Community preferences"
+msgstr "Настройки сообщества"
+
+msgid "Resource share and graphics"
+msgstr "Выделенные ресурсы и графика"
+
+msgid "%1 preferences"
+msgstr "Настройки %1"
+
+msgid "Community"
+msgstr "Сообщество"
+
+msgid "Delete"
+msgstr "Удалить"
+
+msgid "Create"
+msgstr "Создать"
+
+msgid "Profile"
+msgstr "Профиль"
+
+msgid "%1 posts"
+msgstr "%1 сообщений"
+
+msgid "Notifications"
+msgstr "Уведомления"
+
+msgid "Quit team"
+msgstr "Выйти из команды"
+
+msgid "Administer"
+msgstr "Управление"
+
+msgid "(foundership change request pending)"
+msgstr "(запрос на смену основателя в ожидании)"
+
+msgid "Member of team"
+msgstr "Член команды"
+
+msgid "Team"
+msgstr "Команда"
+
+msgid "find a team"
+msgstr "найти команду"
+
+msgid "Founder but not member of"
+msgstr "Основатель, но не участник"
 
 msgid "Find friends"
 msgstr "Найти друзей"
+
+msgid "Friends"
+msgstr "Друзья"
+
+msgid "Computers"
+msgstr "Компьютеры"
 
 msgid "hidden"
 msgstr "скрыто"
 
 msgid "Donor"
 msgstr "Донор"
-
-msgid "Notifications"
-msgstr "Уведомления"
-
-msgid "(foundership change request pending)"
-msgstr "(запрос на смену основателя в ожидании)"
-
-
-#########################################
-# Public user page (show_user.php)
-# Страница общедоступной информации о пользователе
-#########################################
-
-msgid "Projects in which you are participating"
-msgstr "Проекты, в которых Вы принимаете участие"
-
-msgid "Projects in which %1 is participating"
-msgstr "Проекты, в которых %1 принимает участие"
-
-msgid "Project"
-msgstr "Проект"
-
-msgid "Click for user page"
-msgstr "Нажмите, чтобы перейти на страницу пользователя"
-
-msgid "Since"
-msgstr "С"
 
 msgid "Contact"
 msgstr "Контакт"
@@ -698,45 +481,356 @@ msgstr "Запрос в ожидании"
 msgid "Add as friend"
 msgstr "Добавить друга"
 
-#########################################
-# "Weak account key" page (weak_auth.php)
-# Страница "слабый (облегченный, упрощенный) ключ учетной записи"
-#########################################
+msgid "Use BBCode tags to format your text"
+msgstr "Используйте тэги BBCode для форматирования Вашего текста"
 
-msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
-msgstr "Ваш 'слабый учетный ключ' позволяет Вам подключать компьютеры к Вашей учетной записи в этом проекте, без предоставления возможности доступа к Вашей учетной записи или ее изменения тем или иным образом."
+msgid "Identifies you on our web site. Use your real name or a nickname."
+msgstr ""
+"Идентифицирует Вас на нашем web-сайте. Введите Ваше настоящее имя или "
+"псевдоним."
 
-msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
-msgstr "Данный механизм работает только в тех проектах, которые обновили свое серверное программное обеспечение после 7 декабря 2007 г."
+msgid "Select the country you want to represent, if any."
+msgstr "Выберите страну, которую представляете, если хотите."
 
-msgid "Your weak account key for this project is:"
-msgstr "Ваш слабый учетный ключ в этом проекте:"
+msgid "Postal or ZIP Code"
+msgstr "Почтовый индекс или ZIP-код"
 
-msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
-msgstr "Для использования Вашего слабого учетного ключа на заданном компьютере найдите или создайте 'учетный файл' для этого проекта. Имя этого файла имеет вид: <b>account_PROJECT_URL.xml</b>. Учетный файл для %1: <b>%2</b>."
+msgid "Optional"
+msgstr "Необязательно"
 
-msgid "Create this file if needed. Set its contents to:"
-msgstr "Создайте этот файл, если необходимо. Его содержимое должно быть:"
+msgid "Applications"
+msgstr "Приложения"
 
-msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
-msgstr "Ваш слабый учетный ключ является функцией Вашего пароля. Если Вы измените свой пароль, Ваш слабый учетный ключ изменится, и Ваш предыдущий слабый учетный ключ станет недействительным."
+msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+msgstr ""
+"%1 на данный момент имеет следующие приложения. Когда Вы участвуете в %1, "
+"Вашему компьютеру будут назначены задания для одного или нескольких из этих "
+"приложений. На Ваш компьютер будет скачана текущая версия приложения. Все "
+"это происходит автоматически; Вам не нужно что-либо предпринимать "
+"дополнительно."
 
-#########################################
-# Participant profiles
-# Профили участников
-#########################################
+msgid "Platform"
+msgstr "Платформа"
+
+msgid "Current version"
+msgstr "Текущая версия"
+
+msgid "Installation time"
+msgstr "Время сборки"
+
+msgid "You must supply an invitation code to create an account."
+msgstr "Чтобы создать учетную запись, Вы должны указать пригласительный код."
+
+msgid "The invitation code you gave is not valid."
+msgstr "Указанный Вами пригласительный код не действителен."
+
+msgid "Create an account"
+msgstr "Создание учетной записи"
+
+msgid "Account creation is disabled"
+msgstr "Создание учетной записи запрещено"
+
+msgid "Account creation is currently disabled. Please try again later."
+msgstr ""
+"Создание учетной записи в данный момент запрещено. Пожалуйста, попытайтесь "
+"снова немного позднее."
+
+msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgstr ""
+"Внимание: Если Вы используете BOINC версии 5.2+ вместе с Менеджером BOINC, "
+"не используйте эту форму. Просто запустите BOINC, выберите 'Добавить "
+"проект', и введите адрес электронной почты и пароль. "
+
+msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgstr ""
+"Эта учетная запись будет относиться к команде '%1' и будет иметь настройки "
+"проекта как у ее основателя."
+
+msgid "Invitation Code"
+msgstr "Пригласительный код"
+
+msgid "A valid invitation code is required to create an account."
+msgstr ""
+"Для создания учетной записи необходим действительный пригласительный код."
+
+msgid "Email Address"
+msgstr "Адрес электронной почты"
+
+msgid "Must be a valid address of the form 'name@domain'."
+msgstr "Должен быть действительным адресом в форме 'имя@домен'."
+
+msgid "Password"
+msgstr "Пароль"
+
+msgid "Must be at least %1 characters"
+msgstr "Должно быть по крайней мере %1 символов"
+
+msgid "Confirm password"
+msgstr "Подтвердите пароль"
+
+msgid "Create account"
+msgstr "Создать учетную запись"
+
+msgid "Title"
+msgstr "Тема"
+
+msgid "Add my signature to this post"
+msgstr "Добавить мою подпись к этому сообщению"
+
+msgid "%1 Message boards"
+msgstr "Доска сообщений %1"
+
+msgid "Topic"
+msgstr "Тема"
+
+msgid "Your message has been sent."
+msgstr "Ваше сообщение было отправлено."
+
+msgid "You have no private messages."
+msgstr "У Вас нет личных сообщений."
+
+msgid "Sender"
+msgstr "Отправитель"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Mark as read"
+msgstr "Пометить прочтенным"
+
+msgid "Mark as unread"
+msgstr "Пометить непрочтенным"
+
+msgid "With selected"
+msgstr "С выбранным"
+
+msgid "No such message"
+msgstr "Нет такого сообщения"
+
+msgid "Block user"
+msgstr "Заблокировать пользователя"
+
+msgid "Reply"
+msgstr "Ответить"
+
+msgid "Really delete?"
+msgstr "Действительно удалить?"
+
+msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+msgstr ""
+"Вы уверены, что хотите удалить сообщение с темой &quot;%1&quot; (отправил %2 "
+"на %3)?"
+
+msgid "Yes, delete"
+msgstr "Да, удалить"
+
+msgid "No, cancel"
+msgstr "Нет, отменить"
+
+msgid "No such message."
+msgstr "Нет такого сообщения."
+
+msgid "You need to fill all fields to send a private message"
+msgstr "Вы должны заполнить все поля, чтобы отправить личное сообщение"
+
+msgid "Could not find user with id %1"
+msgstr "Не удается найти пользователя с id %1"
+
+msgid "Could not find user with username %1"
+msgstr "Не удается найти пользователя с именем %1"
+
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr ""
+"%1 - не уникальное имя пользователя; Вы должны будете использовать ID "
+"пользователя"
+
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "Пользователь %1 (ID: %2) не принимает Ваши личные сообщения."
+
+msgid "Really block %1?"
+msgstr "Действительно заблокировать %1?"
+
+msgid "Are you really sure you want to block user %1 from sending you private messages?"
+msgstr ""
+"Вы действительно уверены, что хотите заблокировать пользователя %1 "
+"отправлять Вам личные сообщения?"
+
+msgid "Please note that you can only block a limited amount of users."
+msgstr ""
+"Пожалуйста отметьте, что Вы можете заблокировать только ограниченное "
+"количество пользователей."
+
+msgid "Once the user has been blocked you can unblock it using forum preferences page."
+msgstr ""
+"Как только пользователь был заблокирован, Вы можете разблокировать его "
+"используя страницу настроек форума."
+
+msgid "Add user to filter"
+msgstr "Добавить пользователя в фильтр"
+
+msgid "No such user"
+msgstr "Нет такого пользователя"
+
+msgid "User %1 blocked"
+msgstr "Пользователь %1 заблокирован"
+
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "Отправка Вам личных сообщений от пользователя %1 была заблокирована."
+
+msgid "To unblock, visit %1message board preferences%2"
+msgstr "Чтобы разблокировать, посетите %1настройки доски сообщений%2"
+
+msgid "Create a new thread"
+msgstr "Создать новую тему"
+
+msgid "Post to thread"
+msgstr "Ответить на обсуждение"
+
+msgid "Forum search results"
+msgstr "Результаты поиска по форуму"
+
+msgid "Forum search"
+msgstr "Поиск в форуме"
+
+msgid "This thread has been hidden for administrative purposes"
+msgstr "Это обсуждение было скрыто в административных целях"
+
+msgid "Unsubscribe"
+msgstr "Отписаться"
+
+msgid "Subscribe"
+msgstr "Подписаться"
+
+msgid "Welcome to %1"
+msgstr "Добро пожаловать в %1"
+
+msgid "View and edit your account preferences using the links below."
+msgstr ""
+"Для просмотра и редактирования настроек Вашей учетной записи используйте "
+"ссылки ниже."
+
+msgid "Read our rules and policies"
+msgstr "Прочтите наши правила и политику"
+
+msgid "Run %1 only on authorized computers"
+msgstr "Запускайте %1 только на авторизованных компьютерах"
+
+msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
+msgstr ""
+"Запускайте %1 только на компьютерах, которыми Вы владеете, или для которых "
+"Вы получили права владельца. В некоторых компаниях и школах (ВУЗах) "
+"установлен порядок, по которому запрещается использовать их компьютеры в "
+"таких проектах, как %1."
+
+msgid "How %1 will use your computer"
+msgstr "Как %1 будет использовать Ваш компьютер"
+
+msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
+msgstr ""
+"Когда Вы запускаете %1 на Вашем компьютере, он будет использовать часть "
+"ресурсов процессора, пространство на жестком диске (винчестере), и сетевой "
+"трафик. Вы можете контролировать, сколько ресурсов Вашего компьютера будет "
+"использовано для работы %1, и когда эти ресурсы будут использоваться."
+
+msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
+msgstr ""
+"Работа, совершенная Вашим компьютером, содействует решению задач %1, как "
+"описано на web-сайте проекта. Приложения могут меняться время от времени."
+
+msgid "Privacy policy"
+msgstr "Обеспечение конфиденциальности"
+
+msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
+msgstr ""
+"Ваша учетная запись на %1 идентифицируется по имени, которое Вы указали. Это "
+"имя может быть показано на web-сайте %1, наряду со сводкой работы Вашего "
+"компьютера, сделанной для %1. Если Вы хотите остаться неизвестным, выберите "
+"имя, которое не соответствует Вашему настоящему имени."
+
+msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
+msgstr ""
+"Если Вы принимаете участие в %1, информация о Вашем компьютере (такая как "
+"тип процессора, объем оперативной памяти, и т.д.) будет записана проектом %1 "
+"и использована для принятия решения о том, какой тип работы назначить "
+"Вашему компьютеру. Эта информация также будет показана на web-сайте %1. "
+"Ничего, что указывало бы на местонахождение Вашего компьютера (например, его "
+"доменное или сетевое имя), не будет показываться."
+
+msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr ""
+"Чтобы принять участие в %1, Вы должны указать Ваш адрес электронной почты. "
+"Этот адрес не будет показан на web-сайте %1 или доступен другим "
+"организациям. %1 может посылать Вам периодические новостные письма; тем не "
+"менее, Вы можете отказаться от них в любое время."
+
+msgid "Is it safe to run %1?"
+msgstr "Безопасно ли запускать %1?"
+
+msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
+msgstr ""
+"Каждый раз при загрузке программы через Интернет может случиться следующее: "
+"программа может иметь опасные ошибки, или сервер может быть взломан. %1 "
+"предпринял усилия для минимизации этих рисков. Мы тщательно оттестировали "
+"наши приложения. Наши сервера защищены сетевым экраном и настроены на "
+"высокую безопасность. Чтобы удостовериться в целостности загружаемых "
+"программ, все исполняемые файлы подписаны цифровой подписью на защищенном "
+"компьютере, не подключенном к сети Интернет."
+
+msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr ""
+"Приложения, запускаемые проектом %1, могут послужить причиной перегрева "
+"некоторых компьютеров. Если это случилось, остановите выполнение %1 или "
+"используйте %2утилиты%3, которые ограничят использование процессора."
+
+msgid "%1 was developed by %2. BOINC was developed at the University of California."
+msgstr ""
+"%1 был разработан %2. BOINC был разработан в Университете Калифорнии (the "
+"University of California)."
+
+msgid "Liability"
+msgstr "Ответственность"
+
+msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
+msgstr ""
+"%1 и %2 не берут на себя ответственность за ущерб, нанесенный Вашему "
+"компьютеру, потерю данных, или любое другое событие или инцидент, который "
+"может произойти как результат участия в %1."
+
+msgid "Other BOINC projects"
+msgstr "Другие BOINC-проекты"
+
+msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
+msgstr ""
+"Другие проекты используют ту же платформу - BOINC - что и %1. Вы можете "
+"захотеть принять участие в одном или нескольких из этих проектов. Если Вы "
+"присоединитесь к нескольким проектам, Ваш компьютер будет выполнять полезную "
+"работу, даже когда у %1 не будет заданий, доступных для обработки."
+
+msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
+msgstr ""
+"Другие проекты не связаны с %1, и мы не можем поручиться за их безопасность "
+"или природу их исследований. Присоединяйтесь к ним на свой страх и риск."
+
+msgid "Sender and date"
+msgstr "Отправитель и дата"
 
 msgid "Profiles"
 msgstr "Профили"
 
 msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
-msgstr "%1Профили%2 позволяют людям разделять биографические данные и личные мнения с сообществом %3."
+msgstr ""
+"%1Профили%2 позволяют людям разделять биографические данные и личные мнения "
+"с сообществом %3."
 
 msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
-msgstr "Исследуйте разнообразие ваших единомышленников-добровольцев, и представьте вашу собственную точку зрения другим."
+msgstr ""
+"Исследуйте разнообразие ваших единомышленников-добровольцев, и представьте "
+"вашу собственную точку зрения другим."
 
 msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
-msgstr "Если Вы этого еще не сделали, Вы можете %1создать свой собственный профиль пользователя%2, чтобы другие смогли его увидеть!"
+msgstr ""
+"Если Вы этого еще не сделали, Вы можете %1создать свой собственный профиль "
+"пользователя%2, чтобы другие смогли его увидеть!"
 
 msgid "User of the Day"
 msgstr "Пользователь Дня"
@@ -751,7 +845,9 @@ msgid "Browse profiles %1by country%2."
 msgstr "Просмотреть профили %1по странам%2."
 
 msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
-msgstr "Просмотреть профили %1случайно%2, %3случайно с картинками%2, или %4случайно без картинок%2."
+msgstr ""
+"Просмотреть профили %1в случайном порядке%2, %3в случайном порядке с "
+"картинками%2, или %4в случайном порядке без картинок%2."
 
 msgid "Alphabetical profile listings:"
 msgstr "Алфавитные списки профилей:"
@@ -759,11 +855,94 @@ msgstr "Алфавитные списки профилей:"
 msgid "Search profile text"
 msgstr "Поиск по тексту профиля"
 
-msgid "Search"
-msgstr "Найти"
-
 msgid "No profiles"
 msgstr "Нет профилей"
 
 msgid "No profiles matched your query."
 msgstr "Нет профилей, соответствующих Вашему запросу."
+
+msgid "Top hosts"
+msgstr "Лучшие компьютеры"
+
+msgid "Top participants"
+msgstr "Лучшие участники"
+
+msgid "Top %1 teams"
+msgstr "Лучшие %1 команды"
+
+msgid "Participant since"
+msgstr "Учавствует с"
+
+msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgstr ""
+"Ваш 'слабый учетный ключ' позволяет Вам подключать компьютеры к Вашей "
+"учетной записи в этом проекте, без предоставления возможности доступа к "
+"Вашей учетной записи или ее изменения тем или иным образом."
+
+msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+msgstr ""
+"Данный механизм работает только в тех проектах, которые обновили свое "
+"серверное программное обеспечение после 7 декабря 2007 г."
+
+msgid "Your weak account key for this project is:"
+msgstr "Ваш слабый учетный ключ в этом проекте:"
+
+msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr ""
+"Для использования Вашего слабого учетного ключа на заданном компьютере "
+"найдите или создайте 'учетный файл' для этого проекта. Имя этого файла имеет "
+"вид: <b>account_PROJECT_URL.xml</b>. Учетный файл для %1: <b>%2</b>."
+
+msgid "Create this file if needed. Set its contents to:"
+msgstr "Создайте этот файл, если необходимо. Его содержимое должно быть:"
+
+msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgstr ""
+"Ваш слабый учетный ключ является функцией Вашего пароля. Если Вы измените "
+"свой пароль, Ваш слабый учетный ключ изменится, и Ваш предыдущий слабый "
+"учетный ключ станет недействительным."
+
+msgid "Your account"
+msgstr "Ваша учетная запись"
+
+#~ msgid "Account creation is disabled for %1 at the moment. Please try again later."
+#~ msgstr "В данный момент создание учетной записи запрещено в %1. Пожалуйста, повторите позже."
+
+#~ msgid "Edit message"
+#~ msgstr "Редактировать сообщение"
+
+#~ msgid "Titles containing '%1'"
+#~ msgstr "Темы, содержащие '%1'"
+
+#~ msgid "Posts containing '%1'"
+#~ msgstr "Сообщения, содержащие '%1'"
+
+#~ msgid "No titles containing '%1' could be found."
+#~ msgstr "Темы, содержащие '%1', не были найдены."
+
+#~ msgid "No posts containing '%1' could be found."
+#~ msgstr "Сообщения, содержащие '%1', не были найдены."
+
+#~ msgid "Forum index"
+#~ msgstr "Доска сообщений"
+
+#~ msgid "With selected messages"
+#~ msgstr "С выбранными сообщениями"
+
+#~ msgid "If you have not already done so, %1download BOINC client software%2."
+#~ msgstr "Если Вы этого еще не сделали, %1загрузите клиентское программное обеспечение BOINC%2."
+
+#~ msgid "Teams"
+#~ msgstr "Команды"
+
+#~ msgid "administrative functions"
+#~ msgstr "функции управления"
+
+#~ msgid "Message board preferences"
+#~ msgstr "Настройки доски сообщений"
+
+#~ msgid "Account number"
+#~ msgstr "Номер учетной записи"
+
+#~ msgid "Used in URLs"
+#~ msgstr "Используется в ссылках URL"

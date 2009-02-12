@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-11-08 00:40+0200\n"
-"Last-Translator: Christos <cnk_gr@yahoo.com>\n"
+"PO-Revision-Date: 2005-10-03 17:29+0100\n"
+"Last-Translator: Bjorn Damm <bjornd0005@rixtelecom.se>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -17,14 +17,16 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
-##########################################
-# Language: English (International)
-# FileID  : $Id$
+# ########################################
+# Language: Swedish/svenska [sv]
+# Based on en.po,v 1.10 2005/04/02 15:47:52
 # Author  : Janus Kristensen
-# Email   : jbk@visualgroup.dk
+# Translation: Björn Damm
+# Email   : bjorn.damm.0002@chello.se
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
 # The charset used for the text in this file (please try to use UTF-8 if possible)
+#, fuzzy
 msgid "CHARSET"
 msgstr "UTF-8"
 
@@ -800,362 +802,377 @@ msgstr ""
 msgid "Your account"
 msgstr ""
 
-#########################################
+# ########################################
 # Apps page (apps.php)
-#########################################
+# ########################################
 #~ msgid "APPS_TITLE"
-#~ msgstr "Εφαρμογές"
+#~ msgstr "Applikationer"
 
 #~ msgid "APPS_DESCRIPTION"
-#~ msgstr "Το $PROJECT αυτή τη στιγμή έχει τις παρακάτω εφαρμογές. Όταν λαμβάνετε μέρος στο $PROJECT,  εργασία για μια ή περισσότερες από αυτές τις εφαρμογές μπορείτε να αποδωθεί στον υπολογιστή σας. Η τρέχουσα έκδοση της εφαρμογής θα φορτωθεί στον υπολογιστή σας. Αυτό συμβαίνει αυτόματα, δεν χρειάζεται να κάνετε κάτι για αυτό."
+#~ msgstr "$PROJECT har nu följande applikationer. När du deltar i  $PROJECT, kommer arbete för en eller fler av dessa applikationer att delas ut till din dator. Den aktuella versionen av applikationen kommer att laddas hem till din dator. Detta sker automatiskt. Du behöver inte göra någonting. "
 
 #~ msgid "APPS_PLATFORM"
-#~ msgstr "Πλατφόρμα"
+#~ msgstr "Plattform"
 
 #~ msgid "APPS_VERSION"
-#~ msgstr "Τρέχουσα Έκδοση"
+#~ msgstr "Aktuell version"
 
 #~ msgid "APPS_INSTALLTIME"
-#~ msgstr "Εγκαταστάθηκε"
+#~ msgstr "Installerad"
 
-#########################################
+# ########################################
 # Rules and Policies page (info.php)
-#########################################
+# ########################################
 #~ msgid "RULES_TITLE"
-#~ msgstr "Κανονισμοί και Πολιτική"
+#~ msgstr "Regler och riktlinjer"
 
 #~ msgid "RULES_ONLY_AUTH"
-#~ msgstr "Εκτέλεστε το $PROJECT μόνο σε εντεταλμένους υπολογιστές."
+#~ msgstr "Kör $PROJECT bara på datorer där du får."
 
 #~ msgid "RULES_ONLY_AUTH_TEXT"
-#~ msgstr "Εκτελέστε το $PROJECT μόνο σε υπολογιστές οι οποίοι σας ανήκουν, ή για τους οποίους έχετε πάρει την έγκριση του ιδιοκτήτη. Ορισμένες εταιρείες και σχολεία έχουν κανονισμούς οι οποίοι απαγορεύουν τη χρήση των υπολογιστών τους για ερευνητικά έργα όπως το $PROJECT"
+#~ msgstr "Kör bara $PROJECT på dina egna datorer eller på datorer där du fått ägarens tillstånd. En del företag och skolor har riktlinjer som förbjuder att deras datorer används för projekt som $PROJECT"
 
 #~ msgid "RULES_COMPUTER_USE"
-#~ msgstr "Πως θα χρησιμοποιήσει τον υπολογιστή σας το $PROJECT"
+#~ msgstr "Hur $PROJECT använder din dator"
 
 #~ msgid "RULES_COMPUTER_USE_TEXT_A"
-#~ msgstr "Όταν τρέχετε το $PROJECT στον υπολογιστή σας, θα καταλάβει ένα μέρος της υπολογιστικής του ισχύως, χώρο στο δίσκο και διαμεταγωγή του δικτύου σας. Μπορείτε να καθορίσετε τι μέρος από τους πόρους σας θα χρησιμοποιούνται από το $PROJECT, καθώς και πότε θα τους χρησιμοποιεί."
+#~ msgstr "När du kör $PROJECT på din dator, kommer delar av datorns CPU-kraft, diskutrymme och bandbredd hos nätverket att användas av projektet. Du kan bestämma hur mycket av dina resurser som används av $PROJECT och när de används."
 
 #~ msgid "RULES_COMPUTER_USE_TEXT_B"
-#~ msgstr "Η εργασία η οποία γίνεται στον υπολογιστή σας συμβάλει στους στόχους του $PROJECT,  όπως περιγράφεται στην ιστοσελίδα του. Το εκτελέσιμο πρόγραμμά του μπορεί να αλλάξει με την πάροδο του χρόνου."
+#~ msgstr "Arbetet som utförs av din dator bidrar till målsättningen för  $PROJECT som den beskrivs på projektets webbsajt. Applikationsprogrammet kan komma att bytas ut från tid till annan."
 
 #~ msgid "RULES_PRIVACY"
-#~ msgstr "Ιδιωτικοί Κανόνες"
+#~ msgstr "Personuppgifter"
 
 #~ msgid "RULES_PRIVACY_TEXT_A"
-#~ msgstr "Ο λογαριασμός σας στο $PROJECT αντιστοιχίζεται με το όνομα που θα επιλέξετε. Αυτό το όνομα μπορεί να εμφανίζεται στην ιστοσελίδα του $PROJECT , μαζί με μια σύνοψη της εργασίας που έχει κάνει ο υπολογιστής σας για το $PROJECT. Εάν θέλετε να κρατήσετε την ανωνυμία σας, επιλέξτε κάποιο όνομα το οποιό δεν αποκαλύπτει την ταυτότητά σας."
+#~ msgstr "Ditt konto på $PROJECT identifieras av det namn du har valt.  Detta namn visas på webbsidorna som hör till  $PROJECT tillsammans  med en sammanställning av det arbete din dator har bidragit med till $PROJECT. Om du vill vara anonym ska du välja ett namn som inte avslöjar vem du är."
 
 #~ msgid "RULES_PRIVACY_TEXT_B"
-#~ msgstr "Εάν συμμετάσχετε στο $PROJECT, πληροφορίες για τον υπολογιστή σας (όπως ο επεξεργαστής του, το μέγεθος της μνήμης του, κτλ.) θα καταγραφούν από το $PROJECT και θα χρησιμοποιηθούν ώστε να αποφασιστεί τι είδος εργασίας θα αποδωθεί στον υπολογιστή σας. Αυτή η πληροφορία επίσης θα είναι ορατή στην ιστοσελίδα του $PROJECT. Τίποτα το οποίο θα πρόδιδε την τοποθεσία του υπολογιστή σας (π.χ. το όνομα του δικτύου ή η διεύθυνσή του) δεν θα φαίνεται."
+#~ msgstr "Om du deltar i $PROJECT kommer information om din dator (som t.ex. processortyp och storleken på minnet) att registreras av $PROJECT och används för att bestämma vilken typ av jobb som din dator kommer att tilldelas. Den här information kommer också att visas på den webbsajt som hör till $PROJECT. Ingenting som avslöjar var din dator finns (t.ex. domän eller nätverksadress) kommer att visas."
 
 #~ msgid "RULES_PRIVACY_TEXT_C"
-#~ msgstr "Για να συμμετάσχετε στο $PROJECT, πρέπει να δώσετε μια διεύθυνση στην οποία μπορείτε να παραλάβετε αλληλογραφία (email). Αυτή η διεύθυνση δεν θα εμφανίζεται στην ιστοσελίδα του $PROJECT ούτε θα δωθεί σε άλλους οργανισμούς. Το $PROJECT μπορείτε να σας στέλνει περιοδικά ενημερωτικά δελτία, ωστόσο μπορείτε να δηλώσετε ότι δεν θέλετε να τα λάβετε ανά πάσα στιγμή."
+#~ msgstr "För att delta i $PROJECT måste du uppge en adress där du kan ta emot e-post. Din adress kommer inte att visas på projektets webbsajt och den kommer inte att lämnas ut till andra organisationer. $PROJECT kan komma att skicka nyhetsbrev till dig men du kan när som helst stänga av den funktionen. "
 
 #~ msgid "RULES_SAFE"
-#~ msgstr "Είναι ασφαλές να τρέξω το $PROJECT ;"
+#~ msgstr "Är det säkert att köra $PROJECT ?"
 
 #~ msgid "RULES_SAFE_TEXT_A"
-#~ msgstr "Κάθε φορά που κατεβάζετε ένα πρόγραμμα από το διαδίκτυο παίρνετε ένα ρίσκο. Το πρόγραμμα αυτό μπορεί να περιέχει επικίνδυνες ελλείψεις, ή ο διακομιστής από τον οποίο το λαμβάνετε μπορεί να έχει καταληφθεί. Το $PROJECT κάνει κάθε προσπάθεια ώστε να ελαχιστοποιήσει τέτοιους κινδύνους. Έχουμε ελέγξει το λογισμικό μας προσεκτικά. Οι διακομιστές μας προσστατεύονται από τείχη προστασίας (firewall) και έχουν ρυθμιστεί για υψηλή ασφάλεια. Για να εξασφαλίσουμε την εγκυρότητα των αρχείων λογισμικού, όλα τα εκτελέσιμα αρχεία υπογράφονται ψηφιακά από ένα ασφαλή υπολογιστή που δεν είναι συνδεδεμένος στο διαδίκτυο."
+#~ msgstr "Varje gång du laddar hem ett program från internet tar du en risk: programmet kan ha allvarliga fel eller servern du laddar hem programmet från kan  vara hackad. $PROJECT har ansträngt sig för att minimera de här riskerna. Vi har testat våra applikationer noga. Våra servrar befinner sig bakom en brandvägg och är inställda för hög säkerhet. För att försäkra oss om att programmen inte ändrats av obehöriga är alla exekverbara filer digitalt signerade på en säker dator som inte är ansluten till internet."
 
 #~ msgid "RULES_SAFE_TEXT_B"
-#~ msgstr "Οι εφαρμογές που εκτελούνται από το $PROJECT μπορεί να προκαλέσουν ορισμένους υπολογιστές να υπερθερμανθούν. Εάν συμβαίνει αυτό, σταματήστε να τρέχετε το $PROJECT ή χρησιμοποιήστε ένα  %s το οποίο περιορίζει τη χρήση του επεξεργαστή."
+#~ msgstr "Beräkningarna som utförs av  $PROJECT kan göra att vissa datorer överhettas. Om det händer ska du sluta köra $PROJECT eller använd ett %s som begränsar CPU-användningen."
 
 #~ msgid "RULES_UTILITY_PROGRAM"
-#~ msgstr "πρόγραμμα - εργαλείο"
+#~ msgstr "utilityprogram"
 
 #~ msgid "RULES_SAFE_TEXT_C"
-#~ msgstr "Το $PROJECT αναπτύχθηκε από %s. Το BOINC αναπτύχθηκε στο Πανεπιστήμιο της Καλιφόρνιας."
+#~ msgstr "$PROJECT har utvecklats av %s. BOINC utvecklades vid 'University of California'."
 
 #~ msgid "RULES_LIABILITY"
-#~ msgstr "Υπαιτιότητα"
+#~ msgstr "Ansvar"
 
 #~ msgid "RULES_LIABILITY_TEXT"
-#~ msgstr "Το $PROJECT και %s δεν λαμβάνουν καμία ευθύνη για ζημιά στο υπολογιστή σας, απώλεια δεδομένων ή κάποιο άλλο γεγονός ή κατάσταση η οποία μπορεί να οφείλεται στη συμμετοχή σας στο $PROJECT."
+#~ msgstr "$PROJECT och %s tar inget ansvar för skador på din dator, dataförluster, eller andra händelser eller tillstånd som orsakas av att du deltar i $PROJECT."
 
 #~ msgid "RULES_OTHER"
-#~ msgstr "Άλλα ερευνητικά έργα μέσω του BOINC"
+#~ msgstr "Andra BOINC-projekt"
 
 #~ msgid "RULES_OTHER_TEXT_A"
-#~ msgstr "Άλλα ερευνητικά έργα χρησιμοποιούν την ίδια πλατφόρμα, του BOINC, όπως το $PROJECT. Ίσως επιθυμείτε να συμμετάσχετε σε ένα ή περισσότερα από αυτά τα προγράμματα. Κάνοντάς το αυτό, ο υπολογιστής σας θα εξακολουθεί να εκτελεί χρήσιμο έργο ακόμα και όταν το $PROJECT δεν έχει διαθέσιμη εργασία."
+#~ msgstr "Andra projekt använder samma plattform (BOINC) som  $PROJECT. Du kanske skulle fundera på att även delta i ett eller flera av dessa projekt. Genom att göra det så kommer din dator att utföra nyttigt arbete även när $PROJECT inte har något arbete tillgängligt."
 
 #~ msgid "RULES_OTHER_TEXT_B"
-#~ msgstr "Αυτά τα προγράμματα δεν σχετίζονται με το $PROJECT, και δεν μπορούμε να εγγυηθούμε για την δικλείδες ασφαλείας που λαμβάνουν ή για το είδος της έρευνας που επιτελούν. Συμμετάσχετε σε αυτά με δική σας ευθύνη."
+#~ msgstr "De andra projekten drivs av andra parter än $PROJECT och vi kan inte gå i god för deras säkerhetsrutiner eller forskningens inriktning. Du går med där på egen risk."
 
-#########################################
+# ########################################
 # Create account form (create_account_form.php)
-#########################################
+# ########################################
 #~ msgid "CREATE_AC_TITLE"
-#~ msgstr "Δημιουργία λογαριασμού"
+#~ msgstr "Skapa ett konto"
 
 #~ msgid "CREATE_AC_READ_RULES"
-#~ msgstr "Διαβάστε το %s πριν δημιουργήσετε ένα λογαριασμό."
+#~ msgstr "Läs %s innan du skapar ett konto."
 
 #~ msgid "CREATE_AC_ALREADY_GOT"
-#~ msgstr "Εάν έχετε ήδη παραλάβει ένα κλειδί λογαριασμού, μην υποβάλετε αυτή τη φόρμα. %s αντίθετα."
+#~ msgstr "Använd inte det här formuläret om du redan har mottagit en kontonyckel  %s i stället"
 
 #~ msgid "CREATE_AC_NAME"
-#~ msgstr "Όνομα"
+#~ msgstr "Namn"
 
 #~ msgid "CREATE_AC_NAME_DESC"
-#~ msgstr "Σας αντιστοιχεί με την ιστοσελίδα σας. Χρησιμοποιήστε το πραγματικό σας όνομα ή κάποιο προσωνύμιο."
+#~ msgstr "Identifierar dig på vår websajt. Använd ditt riktiga namn eller ett smeknamn."
 
 #~ msgid "CREATE_AC_EMAIL"
-#~ msgstr "Διεύθυνση Email"
+#~ msgstr "E-postadress"
 
 #~ msgid "CREATE_AC_EMAIL_DESC"
-#~ msgstr "Πρέπει να είναι μια έγκυρη διεύθυνση της μορφής 'name@domain'."
+#~ msgstr "Adressen måste vara en giltig e-postadress (namn@domän)."
 
 #~ msgid "CREATE_AC_COUNTRY"
-#~ msgstr "Χώρα"
+#~ msgstr "Land"
 
 #~ msgid "CREATE_AC_COUNTRY_DESC"
-#~ msgstr "Επιλέξτε τη χώρα που επιθυμείτε να αντιπροσωπεύσετε, εάν υπάρχει."
+#~ msgstr "Välj det land du representerar."
 
 #~ msgid "CREATE_AC_ZIP"
-#~ msgstr "Ταχυδρομικός Κώδικας ή Κωδικός Περιοχής"
+#~ msgstr "Postnummer"
 
 #~ msgid "CREATE_AC_CREATE"
-#~ msgstr "Δημιουργία Λογαριασμού"
+#~ msgstr "Skapa konto"
 
 #~ msgid "CREATE_AC_DISABLED"
-#~ msgstr "Η Δημιουργία Λογαριασμών έχει Απενεργοποιηθεί"
+#~ msgstr "Kontoskapande avstängt"
 
 #~ msgid "CREATE_AC_DISABLED_TEXT"
-#~ msgstr "Η δημιουργία λογαριασμών είναι απενεργοποιημένει για το $PROJECT αυτή τη στιγμή. Παρακαλούμε δοκιμάστε αργότερα."
+#~ msgstr "Det går inte att skapa ett konto för $PROJECT just nu. Var vänlig försök senare."
 
 #~ msgid "CREATE_AC_TEAM"
-#~ msgstr "Αυτός ο λογαριασμός θα ανήκει στην ομάδα %s και θα έχει τις ρυθμίσεις του προγράμματος του ιδρυτή της."
+#~ msgstr "Det här kontot kommer att höra till teamet %s och får projektinställningar från dess skapare."
 
-#~ msgid "CREATE_AC_USE_CLIENT"
-#~ msgstr "ΣΗΜΕΙΩΣΗ: ξεκινώντας από το BOINC έκδοση 5.2, δεν χρειάζεται να χρησιμοποιήσετε αυτή τη φόρμα. Μπορείτε να δημιουργήσετε ένα λογαριασμό απευθείας από το BOINC. Απλά τρέξτε το BOINC, επιλέξτε το \"Συμμετοχή σε Πρόγραμμα\", και δώστε μια διεύθυνση email και κωδικό. "
-
-#########################################
+# ########################################
 # Account created page (account_created.php)
-#########################################
+# ########################################
 #~ msgid "AC_READY_TITLE"
-#~ msgstr "Ο Λογαριασμός δημιουργήθηκε"
+#~ msgstr "Kontot har skapats"
 
 #~ msgid "AC_READY_WELCOME"
-#~ msgstr "Συγχαρητήτρια - ο $PROJECT λογαριασμός σας έχει δημιουργηθεί"
+#~ msgstr "Grattis - Ditt $PROJECT-konto har skapats"
 
 #~ msgid "AC_READY_PASTE"
-#~ msgstr "Για να συνεχίσετε, επικολλήστε το κλειδί του λογαριασμού εδώ:"
+#~ msgstr "Klistra in din kontonyckel här:"
 
 #~ msgid "AC_READY_CLICK"
-#~ msgstr "και κάντε κλίκ"
+#~ msgstr "och klicka"
 
-#########################################
+# ########################################
 # Account setup page (account_setuo.php)
-#########################################
-#also used in account_setup_nonfirst.php:
+# ########################################
+# also used in account_setup_nonfirst.php:
 #~ msgid "AC_SETUP_TITLE"
-#~ msgstr "Προετοιμασία Λογαριασμού"
+#~ msgstr "Inställning av konto"
 
 #~ msgid "AC_SETUP_USES_BOINC"
-#~ msgstr "Το $PROJECT χρησιμοποιεί το λογισμικό του BOINC."
+#~ msgstr "$PROJECT använder sig av programsystemet BOINC."
 
 #~ msgid "AC_SETUP_DIVISION"
-#~ msgstr "Το BOINC σας επιτρέπει να διαιρείτε τον υπολογιστικό χρόνο του υπολογιστή σας ανάμεσα σε πολλά κατανεμημένα προγράμματα λογισμικού."
+#~ msgstr "BOINC låter dig dela din datortid mellan flera projekt för distribuerad databehandling"
 
 #~ msgid "AC_SETUP_ISFIRST"
-#~ msgstr "Είναι αυτό το πρώτο σας πρόγραμμα BOINC;"
+#~ msgstr "Är det här ditt första BOINC-projekt?"
 
 #~ msgid "AC_SETUP_FIRST"
-#~ msgstr "Ναι - αυτό είναι πρώτο μου πρόγραμμα BOINC"
+#~ msgstr "Ja - Det är mitt första BOINC-projekt"
 
 #~ msgid "AC_SETUP_NONFIRST"
-#~ msgstr "Όχι - ήδη συμμετέχω τουλάχιστον σε ένα άλλο πρόγραμμα BOINC"
+#~ msgstr "Nej - Jag deltar redan i minst ett annat projekt"
 
-#########################################
+# ########################################
 # First Account setup page (account_setup_first.php)
-#########################################
+# ########################################
 #~ msgid "AC_FIRST_TITLE"
-#~ msgstr "Παράμετροι Λογαριασμού"
+#~ msgstr "Kontoinställningar"
 
 #~ msgid "AC_FIRST_CONTROL"
-#~ msgstr "Μπορείτε να ελέγξετε πότε και κατά πόσο ο υπολογιστής σας θα χρησιμοποιείται από το $PROJECT"
+#~ msgstr "Du kan bestämma när och hur din dator används av $PROJECT"
 
 #~ msgid "AC_FIRST_DEFAULT"
-#~ msgstr "Για να χρησιμοποιήσετε τις εξ' ορισμού ρυθμίσεις, μετακινηθείτε στο τέλος και πατήστε OK."
+#~ msgstr "För att använda standardinställningarna går du ner till botten på sidan och klickar på OK."
 
-#########################################
+# ########################################
 # First Account setup done page (account_setup_first_done.php)
 # and (account_setup_nonfirst_done.php
-#########################################
+# ########################################
 #~ msgid "AC_DONE_TITLE"
-#~ msgstr "Προετοιμασία λογαριασμοί: ολοκληρώθηκε"
+#~ msgstr "Kontoinställning: utförd"
 
 #~ msgid "AC_DONE_COMPLETE"
-#~ msgstr "Η προετοιμασία του λογαριασμού σας ολοκληρώθηκε."
+#~ msgstr "Inställningen av ditt konto är nu färdig."
 
 #~ msgid "AC_DONE_BOINC"
-#~ msgstr "Τώρα πρέπει να κατεβάσετε και να εγκαταστήσετε το λογισμικό του BOINC και να ορίσετε τον υπολογιστή (ες) σας ώστε να χρησιμοποιεί το λογαριαασμό σας."
+#~ msgstr "Nu kan du ladda hem och installera BOINC-programvaran och tala om för din dator att den ska använda det här kontot."
 
 #~ msgid "AC_DONE_URL"
-#~ msgstr "Όταν το λογισμικό του BOINC εκτελεστεί για πρώτη φορά, θα σας ρωτήσει για <b>Διεύθυνση Προγράμματος</b> και το <b>Κλειδί Λογαριασμού</b>."
+#~ msgstr "När BOINC-programmet körs kommer det att fråga efter <b>Projekt-URL</b> och en <b>Kontonyckel</b>."
 
 #~ msgid "AC_DONE_COPYPASTE"
-#~ msgstr "Αντιγράψτε και επικολλήστε τα από εδώ:"
+#~ msgstr "Klipp och klistra härifrån:"
 
 #~ msgid "AC_DONE_GETDOWNLOAD"
-#~ msgstr "Τώρα %s μπορείτε να ολοκληρώστε την εγκατάσταση του $PROJECT."
+#~ msgstr "Du kan nu  %s för att slutföra installationen av  $PROJECT."
 
 #~ msgid "AC_DONE_DL_BOINC"
-#~ msgstr "κατεβάστε το λογισμικό του BOINC"
+#~ msgstr "ladda hem  BOINC-programvaran"
 
 #~ msgid "AC_DONE_THANKS"
-#~ msgstr "Ευχαριστούμε για τη συμμετοχή σας στο $PROJECT"
+#~ msgstr "Tack för att du deltar i $PROJECT"
 
-#########################################
+# ########################################
 # Non-first Account setup page (account_setup_nonfirst.php)
-#########################################
+# ########################################
 #~ msgid "AC_NONFIRST_TITLE"
-#~ msgstr "Προετοιμασία Λογαριασμού: μερίδα πόρων"
+#~ msgstr "Kontoinställning: resursfördelning"
 
-#########################################
+# ########################################
 # Non-first Account setup done page (account_setup_nonfirst_done.php)
-#########################################
+# ########################################
 #~ msgid "AC_DONE_MUST_USE"
-#~ msgstr "Τώρα πρέπει να ορίσετε στον υπολογιστή (ες) σας να χρησιμοποιεί τον λογαριασμό σας."
+#~ msgstr "Nu måste du tala om för din dator att använda det här kontot."
 
 #~ msgid "AC_DONE_WIN"
-#~ msgstr "Χρήστες Windows:"
+#~ msgstr "Windowsanvändare:"
 
 #~ msgid "AC_DONE_WIN_TEXT"
-#~ msgstr "Ανοίξτε το παράθυρο της εφαρμογής του BOINC κάνοντας διπλό κλίκ στο εικονίδιο του BOINC στο system tray. Επιλέξτε το 'Προσθήκη σε Πρόγραμμα' στο μενού Ρυθμίσεων. Θα σας ρωτήσει για τη διεύθυνση του προγράμματος και ένα κλειδί λογαριασμού."
+#~ msgstr "Öppna BOINC-applikationens fönster genom att dubbelklicka på BOINCs ikon i aktivitetsfältet. Välj 'Anslut till projekt'  i menyn för inställningar. Projekt-URL och kontonyckel kommer att efterfrågas.."
 
 #~ msgid "AC_DONE_UNIX"
-#~ msgstr "Χρήστες Mac, Unix και Linux :"
+#~ msgstr "Mac-, Unix- och Linuxanvändare:"
 
 #~ msgid "AC_DONE_UNIX_TEXT"
-#~ msgstr "Κλείστε την εφαρμογή-πελάτη του BOINC. Έπειτα τρέξτε την εφαρμογή πελάτη του BOINC με την παράμετρο -attach_project. Θα σας ρωτήσει για διεύθυνση προγράμματος και κλειδί λογαριασμού."
+#~ msgstr "Avsluta BOINC-klienten. Kör sedan BOINC-klienten med '-attach_project' optionen. Klienten kommer att fråga efter en projekt-URL och en kontonyckel."
 
 #~ msgid "AC_DONE_ANYCASE"
-#~ msgstr "Σε κάθε περίπτωση αντιγράψτε και επικολλήστε τα ακόλουθα:"
+#~ msgstr "I vilket fall som helst ska du klistra in följande:"
 
 #~ msgid "AC_DONE_INSTALLED"
-#~ msgstr "Αυτό ολοκληρώνει την εγκατάσταση του $PROJECT."
+#~ msgstr "Det här avslutar installationen av  $PROJECT."
 
-#########################################
+# ########################################
 # Forum sample index page
-#########################################
+# ########################################
 #~ msgid "FORUM_TITLE"
-#~ msgstr "Ομάδες Συζήτησης $PROJECT"
+#~ msgstr "$PROJECT diskussionsforum"
 
-#########################################
+# ########################################
 # Different strange places:
-#########################################
+# ########################################
 # account_created.php
 #~ msgid "AC_CREATED_TITLE"
-#~ msgstr "Παραμετροποίηση του λογαριασμού σας"
+#~ msgstr "Inställning av ditt konto"
 
-#########################################
+# ########################################
 # General stuff (create_account_form.php and others)
-#########################################
+# ########################################
 #~ msgid "OPTIONAL"
-#~ msgstr "Προαιρετικό"
+#~ msgstr "Frivillig uppgift"
 
-#########################################
+# ########################################
 # Various top table pages (top users, computers, teams)
-#########################################
+# ########################################
 #~ msgid "TOP_PARTICIPANT_TITLE"
-#~ msgstr "Κορυφαίοι συμμετέχοντες"
+#~ msgstr "Topplistan"
 
 #~ msgid "USER_TABLE_RANK"
-#~ msgstr "Θέση"
+#~ msgstr "Rankning"
 
 #~ msgid "USER_TABLE_NAME"
-#~ msgstr "Όνομα"
+#~ msgstr "Namn"
 
 #~ msgid "USER_TABLE_TOTAL_CREDIT"
-#~ msgstr "Συνολικοί Βαθμοί"
+#~ msgstr "Totalpoäng"
 
 #~ msgid "USER_TABLE_EXPAVG"
-#~ msgstr "Τρέχοντες Μέσοι Βαθμοί"
+#~ msgstr "Aktuell medelpoäng"
 
 #~ msgid "USER_TABLE_COUNTRY"
-#~ msgstr "Χώρα"
+#~ msgstr "Land"
 
 #~ msgid "USER_TABLE_PTIME"
-#~ msgstr "Συμμετέχει από"
+#~ msgstr "Deltagare sedan"
 
+# ########################################
+# Apps page (apps.php)
+# ########################################
 #~ msgid "TOP_TEAMS_TITLE"
-#~ msgstr "Κορυφαίες %s ομάδες"
+#~ msgstr "De %s främsta teamen."
 
 #~ msgid "TEAM_TABLE_MEMBERS"
-#~ msgstr "Μέλη"
+#~ msgstr "Medlemmar"
 
-#########################################
+# ########################################
 # Forum
-#########################################
+# ########################################
 #~ msgid "FORUM_ERR_NOT_FOUND"
-#~ msgstr "Δεν υπάρχει τέτοιο forum"
+#~ msgstr "Inget sådant forum"
 
 #~ msgid "FORUM_ERR_EXPAVG"
-#~ msgstr "Ώστε να μπορέσετε να δημιουργήσετε μια νέα συζήτηση στο %s πρέπει να έχετε ένα συγκεκριμένο αριθμό βαθμών. Αυτό συμβαίνει ώστε να προλαμβάνεται και να προστατεύεται το σύστημα από καταχρήσεις."
+#~ msgstr "För att skapa en ny tråd i %s måste du ha bidragit med viss poäng till projektet. Det är gjort så för att förhindra missbruk av systemet."
 
+# ########################################
+# Forum sample index page
+# ########################################
 #~ msgid "FORUM_ERR_INTERVAL"
-#~ msgstr "Δεν μπορείτε να δημιουργήσετε άλλες συζητήσεις αυτή τη στιγμή. Παρακαλούμε περιμένετε λίγο πριν ξαναδοκιμάσετε. Αυτή η καθυστέρηση έχει οριστεί ώστε να προστατεύεται το σύστημα από καταχρήσεις."
+#~ msgstr "Du kan inte skapa fler trådar just nu. Vär vänlig och vänta ett tag och försök sedan igen. Det är gjort så här för att förhindra missbruk av systemet."
 
 #~ msgid "FORUM_QA_POST_MESSAGE"
-#~ msgstr "Η περιοχή %s σας δίνει τη δυνατότητα να πάρετε βοήθεια από άλλους χρήστες. Εάν έχετε κάποια ερώτηση ή πρόβλημα:"
+#~ msgstr "%s låter dig få hjälp från andra deltagare.Om du har frågor eller problem:"
 
 #~ msgid "FORUM_QA_POST_MESSAGE2"
-#~ msgstr "Διαβάστε την υπάρχουσα λίστα ερωτήσεων. Εάν η ερώτησή σας είναι ήδη εκεί, πατήστε στο κουμπί %s . Εάν η απάντηση στο ερώτημά σας έχει δωθεί, διαβάστε τη. Εάν ένα από αυτά απαντάει στην ερώτησή σας πατήστε το  κουμπί %s ."
+#~ msgstr "Läs listan med de svar som redan dinns där. Om din fråga redan finns där, klicka på %s knappen. Om det finns svar till frågan läs dem. Om ett av dem svarar din fråga klicka på %s knappen."
 
 #~ msgid "FORUM_QA_POST_MESSAGE3"
-#~ msgstr "Εάν η ερώτησή σας δεν έχει ήδη υποβληθεί, συμπληρώστε και υποβάλετε αυτή τη φόρμα"
+#~ msgstr "Om din fråga inte har blivit ställd fyller du i formuläret och skickar in det."
 
 #~ msgid "FORUM_QA_POST_MESSAGE4"
-#~ msgstr "Αυτό θα αποτρέψει ίδιες ερωτήσεις να υποβάλονται πολλές φορές."
+#~ msgstr "Detta förhindrar att samma fråga ställs gång på gång."
 
 #~ msgid "FORUM_QA_SUBMIT_NEW"
-#~ msgstr "Υποβολή νέας ερώτησης/προβλήματος"
+#~ msgstr "Skicka en ny fråga/problem"
 
+# ########################################
+# Forum sample index page
+# ########################################
 #~ msgid "FORUM_SUBMIT_NEW"
-#~ msgstr "Δημιουργία νέας συζήτησης"
+#~ msgstr "Skapa en ny tråd"
 
+# ########################################
+# Forum sample index page
+# ########################################
 #~ msgid "FORUM_SUBMIT_NEW_TITLE"
-#~ msgstr "Τίτλος"
+#~ msgstr "Rubrik"
 
 #~ msgid "FORUM_QA_SUBMIT_NEW_HELP"
-#~ msgstr "Περιγράψτε την ερώτησή σας με λίγες λέξεις. Μια σύντομη, καθαρή περίληψη θα βοηθήσει άλλους με το ίδιο πρόβλημα (ή με μια απάντηση) να βρουν το μήνυμά σας."
+#~ msgstr "Beskriv din fråga med några få ord. En kort och klar sammanfattning hjälper andra med samma fråga (eller de som vet svaret) att hitta den."
 
 #~ msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
-#~ msgstr "Εάν έχετε προβλήματα με το λογισμικό, αναφέρετε την έκδοση του λογισμικού που χρησιιμοποιείτε, τον τύπο του υπολογιστή σας και το λειτουργικό του σύστημα."
+#~ msgstr "Om du har problem med programvaran, ange versionsnumret för programvaran, din datortyp och operativsystem."
 
 #~ msgid "FORUM_ADD_MY_SIG"
-#~ msgstr "Προσθήκη της υπογραφής μου σε αυτό το μήνυμα"
+#~ msgstr "Lägg till min signatur till meddelandet"
 
 #~ msgid "FORUM_MESSAGE"
-#~ msgstr "Μήνυμα"
+#~ msgstr "Meddelande"
 
 #~ msgid "FORUM_QA_GOT_PROBLEM_TOO"
-#~ msgstr "Έχω επίσης αυτό το πρόβλημα"
+#~ msgstr "Jag har också det här problemet"
 
 #~ msgid "FORUM_QA_QUESTION_ANSWERED"
-#~ msgstr "Αυτό κάλυψε την ερώτησή μου"
+#~ msgstr "Det här svarade på min fråga"
 
+# ########################################
+# Forum sample index page
+# ########################################
 #~ msgid "FORUM_HTML_INFO"
-#~ msgstr "Χρησιμοποιήστε BBCode εντολές για να μορφοποιήσετε το κείμενό σας"
+#~ msgstr "Use BBCode tags to format your text"
 
-#########################################
-# Forum search features
-#########################################
+# ########################################
+# Forum sample index page
+# ########################################
 #~ msgid "FORUM_SEARCH_TITLES"
-#~ msgstr "Τίτλοι μηνυμάτων που περιέχουν το '%s'"
+#~ msgstr "Rubriker som innehåller '%s'"
 
 #~ msgid "FORUM_SEARCH_BODIES"
-#~ msgstr "Μηνύματα που περιέχουν το '%s'"
+#~ msgstr "Meddelanden som innehåller '%s'"
 
+# ########################################
+# Forum sample index page
+# ########################################
 #~ msgid "FORUM_SEARCH_TITLES_NO"
-#~ msgstr "Δεν βρέθηκαν τίτλοι μηνυμάτων που περιείχαν το '%s' ."
+#~ msgstr "Inga rubriker som innehåller '%s' hittades."
 
 #~ msgid "FORUM_SEARCH_BODIES_NO"
-#~ msgstr "Δεν βρέθηκαν μηνύματα που περιείχαν το '%s'."
+#~ msgstr "Inga meddelanden som innehåller  '%s' kunde hittas."
 
-#########################################
+# ########################################
 # Links from the main page
-#########################################
+# ########################################
 #~ msgid "LINKS_QA"
-#~ msgstr "Ερωτήσεις και Απαντήσεις"
+#~ msgstr "Frågor och svar"

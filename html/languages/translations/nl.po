@@ -1,382 +1,961 @@
-##########################################
-# Language: Dutch
-# FileID  : $Id$
-# Author  : Robin Weezepoel
-# Email   : rweezepoel@yahoo.com
-##########################################
-# For more information please see:
-# http://boinc.berkeley.edu/web_translation.php
-##########################################
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2009-01-18 03:49-0700\n"
+"Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-SearchPath-0: html\\user\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Country: UNITED STATES\n"
 
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
-# The name of this language in this language
+
 msgid "LANG_NAME_NATIVE"
 msgstr "Nederlands"
-# The name of this language in an international language (English)
+
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Dutch"
 
+msgid "Rank"
+msgstr "Stand"
 
-#########################################
-# Apps page (apps.php)
-#########################################
-msgid "APPS_TITLE"
-msgstr "Applicaties"
-
-msgid "APPS_DESCRIPTION"
-msgstr "$PROJECT heeft momenteel de volgende applicaties. "
-"Als je deelneemt aan $PROJECT, wordt er werk voor een of meer "
-"van deze applicaties aan jouw computer toegewezen. "
-"De huidige vesie van de applicatie wordt dan gedownloadt. "
-"Dit gebeurt automatisch; je hoeft er niets voor te doen. "
-
-msgid "APPS_PLATFORM"
-msgstr "Platform"
-
-msgid "APPS_VERSION"
-msgstr "Huidige versie"
-
-msgid "APPS_INSTALLTIME"
-msgstr "Ge&iuml;stalleerd"
-
-#########################################
-# Rules and Policies page (info.php)
-#########################################
-msgid "RULES_TITLE"
-msgstr "Lees onze regels en beleid"
-
-msgid "RULES_ONLY_AUTH"
-msgstr "Draai $PROJECT alleen op geautoriseerde computers"
-
-msgid "RULES_ONLY_AUTH_TEXT"
-msgstr "Draai $PROJECT alleen op je eigen computers, "
-"of op computers waarvoor je toestemming hebt. "
-"sommige bedrijven en scholen hebben een beleid dat verbiedt om computers te gebruiken "
-"voor projecten zoals $PROJECT"
-
-msgid "RULES_COMPUTER_USE"
-msgstr "Hoe $PROJECT jouw computer gebruikt"
-
-msgid "RULES_COMPUTER_USE_TEXT_A"
-msgstr "als je $PROJECT op jouw computer draait, "
-"gebruikt het een deel van de computer's CPU kracht, hardeschijfruimte, en netwerkbandbreedte. "
-"Jij bepaalt hoeveel bronnen er worden gebruikt $PROJECT, "
-"en wanneer het ze gebruikt."
-
-msgid "RULES_COMPUTER_USE_TEXT_B"
-msgstr "Het werk dat door jouw computer wordt gedaan draagt bij aan de "
-"doelstelling van $PROJECT, zoals beschreven op de website. "
-"De applicaties kunnen van tijd tot tijd veranderen."
-
-msgid "RULES_PRIVACY"
-msgstr "Privacybeleid"
-
-msgid "RULES_PRIVACY_TEXT_A"
-msgstr "Jouw account op $PROJECT qordt ge&iuml;dentificeerd door een door jouw gekozen naam. "
-"Deze naam kan worden getoond op de $PROJECT website, samen met een overzicht van "
-"het werk dat jouw computer gedaan heeft voor $PROJECT. "
-"Als je anoniem wilt blijven, kies dan een naam die je identiteit niet onthult."
-
-msgid "RULES_PRIVACY_TEXT_B"
-msgstr "Als je deelneemt aan $PROJECT, wordt informatie over jouw computer "
-"(zoals processortype, hoeveelheid geheugen, etc.) "
-"opgeslagen door $PROJECT en gebruikt om te bepalen wat voor werk aan "
-"jouw computer toe te wijzen. Deze informatie wordt ook getoond op "
-"$PROJECT's website. "
-"Informatie die de locatie van de computer kan onthullen (bijv. de domeinnaam of "
-"het netwerkadres) zal niet getoond worden."
-
-msgid "RULES_PRIVACY_TEXT_C"
-msgstr "Om deel te nemen aan $PROJECT, moet je een adres op geven waar je email ontvangt. "
-"Dit adres zal niet getoond worden op de website van $PROJECT of gedeeld worden met organisaties. "
-"$PROJECT kan periodieke nieuwsbrieven sturen; hiervoor kan je je op ieder moment uitschrijven."
-
-msgid "RULES_SAFE"
-msgstr "Is het veilig om $PROJECT te draaien?"
-
-msgid "RULES_SAFE_TEXT_A"
-msgstr "Iedere keer als je een programma via internet download neem je een risico: "
-"het programma kan gevaarlijke fouten bevatten, "
-"of de downloadserver kan gehackt zijn. "
-"$PROJECT probeert deze risico's tot een minimum te beperken. "
-"We hebben onze applicaties zorgvuldig getest. "
-"Onze servers staan achter een firewall en zijn geconfigureerd voor hoge veiligheid. "
-"Om de integriteit van de downloads te verifi&euml;ren, zijn alle toepassingen digitaal "
-"ondertekend op een computer die niet op internet aangesloten is."
-
-msgid "RULES_SAFE_TEXT_B"
-msgstr "Door de applicaties die gedraaid worden door $PROJECT kunnen sommige computers oververhitten. "
-"Als dit gebeurt, stop dan met het draaien van $PROJECT of gebruik een %s dat CPU-gebruik limiteert."
-
-msgid "RULES_UTILITY_PROGRAM"
-msgstr "hulpprogramma"
-
-msgid "RULES_SAFE_TEXT_C"
-msgstr "$PROJECT is ontwikkeld door %s. BOINC is ontwikkeld door de Universiteit van  "
-"Californi&euml;."
-
-msgid "RULES_LIABILITY"
-msgstr "Aansprakelijkheid"
-
-msgid "RULES_LIABILITY_TEXT"
-msgstr "$PROJECT en %s nemen geen verantwoordelijkheid voor schade aan jouw computer, "
-"verlies van data, of enige andere gebeurtenis of voorwaarde die voortkomt uit "
-"deelname aan $PROJECT."
-
-msgid "RULES_OTHER"
-msgstr "Andere BOINC projecten"
-
-msgid "RULES_OTHER_TEXT_A"
-msgstr "Andere projecten gebruiken hetzelfde platform, BOINC, als $PROJECT. Je zou kunnen "
-"overwegen om aan een of meer van deze projecten deel te nemen. "
-"Hierdoor blijft je computer bruikbaar werk doen, zelfs als $PROJECT er geen werk "
-"beschikbaar voor heeft."
-
-msgid "RULES_OTHER_TEXT_B"
-msgstr "Deze projecten zijn niet ge&auml; met $PROJECT, en we kunnen hun "
-"veiligheidsmaatregelen en de intenties van hun onderzoek niet controleren. Deelname "
-"is op eigen risico."
-
-#########################################
-# Create account form (create_account_form.php)
-#########################################
-msgid "CREATE_AC_TITLE"
-msgstr "Maak een an account"
-
-msgid "CREATE_AC_READ_RULES"
-msgstr "Lees de %s voordat je een account maakt."
-
-msgid "CREATE_AC_ALREADY_GOT"
-msgstr "Als je al een account key hebt ontvangen, verstuur dit formulier dan niet. "
-"%s instead."
-
-msgid "CREATE_AC_NAME"
+msgid "Name"
 msgstr "Naam"
 
-msgid "CREATE_AC_NAME_DESC"
-msgstr "Identificeert jou op onze website. Gebruik je echte naam of een bijnaam."
+msgid "Search for words in forum messages"
+msgstr "Zoek naar woorden in forum berichten"
 
-msgid "CREATE_AC_EMAIL"
-msgstr "Emailadres"
+msgid "Search forums"
+msgstr "Zoek in het forum"
 
-msgid "CREATE_AC_EMAIL_DESC"
-msgstr "Moet een geldig adres zijn van de vorm 'naam@domein'."
+msgid "Advanced search"
+msgstr "Uitgebreid zoeken"
 
-msgid "CREATE_AC_COUNTRY"
+msgid "Private messages"
+msgstr "Privé berichten"
+
+msgid "Questions and Answers"
+msgstr "Vraag en Antwoord"
+
+msgid "Message boards"
+msgstr "Forum"
+
+msgid "%1 message board"
+msgstr "%1 forum"
+
+msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgstr ""
+"Om een nieuw onderwerp te plaatsen in %1 is het nodig om een minimaal aantal "
+"puntem te hebben. Dit is nodig om misbruik te voorkomen"
+
+msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+msgstr ""
+"Op dit moment kan je geen nieuwe onderwerpen plaatsen. Probeer dit later "
+"a.u.b overnieuw. Deze vertraging is ingebouwd om misbruik te voorkomen"
+
+msgid "Thread"
+msgstr "Onderwerp"
+
+msgid "Posts"
+msgstr "Reacties"
+
+msgid "Author"
+msgstr "Auteur"
+
+msgid "Views"
+msgstr "Bekeken"
+
+msgid "Last post"
+msgstr "Laatste reactie"
+
+msgid "Mark all threads as read"
+msgstr "Markeer alle onderwerpen als gelezen"
+
+msgid "Mark all threads in all message boards as 'read'."
+msgstr "Markeer alle forums als 'gelezen'."
+
+msgid "Inbox"
+msgstr "Postvak In"
+
+msgid "Write"
+msgstr "Schrijven"
+
+msgid "Send private message"
+msgstr "Verstuur privé bericht"
+
+msgid "Preview"
+msgstr "Voorbeeld"
+
+msgid "To"
+msgstr "Aan"
+
+msgid "User IDs or unique usernames, separated with commas"
+msgstr "Gebruikers ID of unieke gebruikersnaam, gescheiden door komma's"
+
+msgid "Subject"
+msgstr "Onderwerp"
+
+msgid "Message"
+msgstr "Bericht"
+
+msgid "Send message"
+msgstr "Verstuur bericht"
+
+msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+msgstr ""
+"Het is niet toegestaan om snel achter elkaar veel berichten te versturen. "
+"Wacht a.u.b. even met versturen andere berichten."
+
+msgid "unread"
+msgstr "ongelezen"
+
+msgid "Search criteria (use one or more)"
+msgstr "Zoek opties (kies één of meerdere)"
+
+msgid "Key words"
+msgstr "Steekwoorden"
+
+msgid "Find teams with these words in their names or descriptions"
+msgstr "Zoek teams met deze woorden in hun naam of beschrijving"
+
+msgid "Country"
 msgstr "Land"
 
-msgid "CREATE_AC_COUNTRY_DESC"
-msgstr "Selecteer het land dat je wilt representeren, of laat open."
+msgid "Type of team"
+msgstr "Soort team"
 
-msgid "CREATE_AC_ZIP"
+msgid "Show only active teams"
+msgstr "Laat alleen aktieve teams zien"
+
+msgid "Search"
+msgstr "Zoek"
+
+msgid "Requested by you, and founder response deadline has passed."
+msgstr "Op eigen verzoek, deadline voor de oprichter om te reageren is verlopen"
+
+msgid "Complete foundership transfer"
+msgstr "Complete oprichters overdracht"
+
+msgid "Requested by you"
+msgstr "Op eigen verzoek"
+
+msgid "founder response deadline is %1"
+msgstr "Deadline voor oprichter verloopt op %1"
+
+msgid "None"
+msgstr "Geen"
+
+msgid "Initiate request"
+msgstr "Plaats verzoek"
+
+msgid "Deferred"
+msgstr "Uitgesteld"
+
+msgid "Team info"
+msgstr "Team info"
+
+msgid "Description"
+msgstr "Beschrijving"
+
+msgid "Web site"
+msgstr "Website"
+
+msgid "Total credit"
+msgstr "Punten totaal"
+
+msgid "Recent average credit"
+msgstr "Gemiddelde punten"
+
+msgid "Type"
+msgstr "Soort"
+
+msgid "Message board"
+msgstr "Message board"
+
+msgid "Threads"
+msgstr "Onderwerpen"
+
+msgid "Join this team"
+msgstr "Sluit je aan bij dit team"
+
+msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
+msgstr ""
+"NB: als je \"email toestaan\" hebt ingevuld bij je project voorkeuren, zal je "
+"email adres bekend worden bij de team oprichter, indien je jezelf bij een "
+"team opgeeft."
+
+msgid "Foundership change requested"
+msgstr "Oprichters wissel aangevraagd"
+
+msgid "Respond by %1"
+msgstr "Reageren voor %1"
+
+msgid "Team foundership change"
+msgstr "Team oprichter wisselen"
+
+msgid "Members"
+msgstr "Leden"
+
+msgid "Founder"
+msgstr "Oprichter"
+
+msgid "Admins"
+msgstr "Administrator"
+
+msgid "New members in last day"
+msgstr "Nieuwe leden"
+
+msgid "Total members"
+msgstr "Totaal aantal leden"
+
+msgid "view"
+msgstr "bekijk"
+
+msgid "Active members"
+msgstr "Actieve leden"
+
+msgid "Members with credit"
+msgstr "Leden met punten"
+
+msgid "Admin"
+msgstr "Administrator"
+
+msgid "Last %1"
+msgstr "Laatste %1"
+
+msgid "Next %1"
+msgstr "Volgende %1"
+
+msgid "No such team."
+msgstr "Team niet gevonden."
+
+msgid "This operation requires foundership."
+msgstr "Deze actie vereist oprichters rechten."
+
+msgid "This operation requires team admin privileges"
+msgstr "Deze actie vereist administrator rechten "
+
+msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
+msgstr ""
+"%1Let Op%2: Als je een team opricht worden je project voorkeuren (gedeelde "
+"bronnen, grafische voorkeuren) zichtbaar voor iedereen."
+
+msgid "Team name, text version"
+msgstr "Naam van team, tekst versie"
+
+msgid "Don't use HTML tags."
+msgstr "Gebruik geen HTML codes."
+
+msgid "Team name, HTML version"
+msgstr "Naam van team, HTML versie"
+
+msgid "You may use %1limited HTML tags%2."
+msgstr "%1HTML codes beperkt%2 toegestaan."
+
+msgid "If you don't know HTML, leave this box blank."
+msgstr "Indien je geen HTML kennis hebt, a.u.b. leeg laten."
+
+msgid "URL of team web page, if any"
+msgstr "URL van team webpagina, indien aanwezig"
+
+msgid "without \"http://\""
+msgstr "zonder \"http://\""
+
+msgid "This URL will be linked to from the team's page on this site."
+msgstr "Dit URL zal geplaatst worden op de team pagina hier op de site."
+
+msgid "Description of team"
+msgstr "Beschrijving van team"
+
+msgid "Projects in which you are participating"
+msgstr "Projecten waar je in meedoet"
+
+msgid "Projects in which %1 is participating"
+msgstr "Projecten waar %1 in meedoet"
+
+msgid "Project"
+msgstr "Project"
+
+msgid "Click for user page"
+msgstr "Klik voor gebruikers pagina"
+
+msgid "Average credit"
+msgstr "Gemiddelde punten"
+
+msgid "Since"
+msgstr "Sinds"
+
+msgid "Computing and credit"
+msgstr "Berekeningen en punten"
+
+msgid "Pending credit"
+msgstr "Openstaande punten"
+
+msgid "View"
+msgstr "Bekijk"
+
+msgid "Computers on this account"
+msgstr "Computers op dit account"
+
+msgid "Tasks"
+msgstr "Taken"
+
+msgid "Cross-project ID"
+msgstr "Cross-project ID"
+
+msgid "Cross-project statistics"
+msgstr "Cross-project statistieken"
+
+msgid "Certificate"
+msgstr "Certificaat"
+
+msgid "Stats on your cell phone"
+msgstr "Statistieken op je mobiele telefoon"
+
+msgid "Account information"
+msgstr "Account informatie"
+
+msgid "Email address"
+msgstr "Email adres"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Postal code"
 msgstr "Postcode"
 
-msgid "CREATE_AC_CREATE"
-msgstr "Maak een account"
+msgid "%1 member since"
+msgstr "%1 lid sinds"
 
-msgid "CREATE_AC_DISABLED"
-msgstr "Het aanmaken van accounts is uitgezet"
+msgid "Change"
+msgstr "Verander"
 
-msgid "CREATE_AC_DISABLED_TEXT"
-msgstr "Het aanmaken van accounts voor $PROJECT is momenteel uitgezet. "
-"Probeer het later opnieuw."
+msgid "email address"
+msgstr "email adres"
 
-msgid "CREATE_AC_TEAM"
-msgstr "Dit account zal toebehoren aan het team %s en zal de project-voorkeuren van de stichter hebben."
+msgid "password"
+msgstr "wachtwoord"
 
-msgid "CREATE_AC_USE_CLIENT"
-msgstr "OPMERKING: Als je BOINC versie 5.2+ met de BOINC manager gebruikt, "
-"gebruik dit formulier dan niet. "
-"Draai simpelweg BOINC, selecteer Project toevoegen, "
-"en vul een emailadres en wachtwoord in. "
+msgid "other account info"
+msgstr "ander account informatie"
 
-msgid "CREATE_AC_PASSWORD"
+msgid "Log out"
+msgstr "Uitloggen"
+
+msgid "User ID"
+msgstr "Gebruikers ID"
+
+msgid "Used in community functions"
+msgstr "Gebruikt in gemeenschaps functies"
+
+msgid "Account key"
+msgstr "Account key"
+
+msgid "Provides full access to your account"
+msgstr "Geeft volledige toegang tot je account"
+
+msgid "Weak account key"
+msgstr "Zwakke account key"
+
+msgid "Provides"
+msgstr "Geeft"
+
+msgid "limited access"
+msgstr "gedeeltelijke toegang"
+
+msgid "to your account"
+msgstr "tot je account"
+
+msgid "Preferences"
+msgstr "Voorkeuren"
+
+msgid "When and how BOINC uses your computer"
+msgstr "Hoe en wanneer BOINC je computer gebruikt"
+
+msgid "Computing preferences"
+msgstr "Computer voorkeuren"
+
+msgid "Message boards and private messages"
+msgstr "Forum en privé berichten"
+
+msgid "Community preferences"
+msgstr "Gemeenschaps voorkeuren"
+
+msgid "Resource share and graphics"
+msgstr "Gedeelde bronnen en grafische weergave"
+
+msgid "%1 preferences"
+msgstr "%1 voorkeuren"
+
+msgid "Community"
+msgstr "Gemeenschap"
+
+msgid "Delete"
+msgstr "Verwijder"
+
+msgid "Create"
+msgstr "Aanmaken"
+
+msgid "Profile"
+msgstr "Profiel"
+
+msgid "%1 posts"
+msgstr "%1 berichten"
+
+msgid "Notifications"
+msgstr "Aankondiging"
+
+msgid "Quit team"
+msgstr "Verlaat team"
+
+msgid "Administer"
+msgstr "Administrator"
+
+msgid "(foundership change request pending)"
+msgstr "(oprichters wissel in aanvraag)"
+
+msgid "Member of team"
+msgstr "Lid van team"
+
+msgid "Team"
+msgstr "Team"
+
+msgid "find a team"
+msgstr "vind een team"
+
+msgid "Founder but not member of"
+msgstr "Oprichter maar geen lid van"
+
+msgid "Find friends"
+msgstr "Vind vrienden"
+
+msgid "Friends"
+msgstr "Vrienden"
+
+msgid "Computers"
+msgstr "Computers"
+
+msgid "hidden"
+msgstr "verborgen"
+
+msgid "Donor"
+msgstr "Donateur"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "This person is a friend"
+msgstr "Dit persoon is een vriend"
+
+msgid "Cancel friendship"
+msgstr "Beëindig vriendschap"
+
+msgid "Request pending"
+msgstr "In aanvraag"
+
+msgid "Add as friend"
+msgstr "Voeg toe als vriend"
+
+msgid "Use BBCode tags to format your text"
+msgstr "Gebruik BBCode om de tekst op te maken"
+
+msgid "Identifies you on our web site. Use your real name or a nickname."
+msgstr "Identificatie op deze pagina. Gebruik je echte naam of een nickname."
+
+msgid "Select the country you want to represent, if any."
+msgstr "Welk land wil je vertegenwoordigen, indien van toepassing"
+
+msgid "Postal or ZIP Code"
+msgstr "Postcode"
+
+msgid "Optional"
+msgstr "Optioneel"
+
+msgid "Applications"
+msgstr "Applicaties"
+
+msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+msgstr ""
+"%1 heeft op dit moment de volgende applicaties. Als je deelneemt aan %2, is "
+"het mogelijk dat er werk voor één of meerdere van deze applicaties wordt "
+"toegedeeld. De meest recente versie zal worden gebruikt en gedownload. Dit "
+"gebeurd automatisch; hier hoef je zelf niets voor te doen."
+
+msgid "Platform"
+msgstr "Platform"
+
+msgid "Current version"
+msgstr "Huidige versie"
+
+msgid "Installation time"
+msgstr "Installatie tijdstip"
+
+msgid "You must supply an invitation code to create an account."
+msgstr "Je hebt een uitnodigings code nodig om hier een account aan te maken."
+
+msgid "The invitation code you gave is not valid."
+msgstr "De ingevulde uitnodigings code is ongeldig."
+
+msgid "Create an account"
+msgstr "Een account aanmaken"
+
+msgid "Account creation is disabled"
+msgstr "Aanmaken van account gesloten"
+
+msgid "Account creation is currently disabled. Please try again later."
+msgstr ""
+"Aanmaken van account is tijdelijk niet mogelijk. Probeer het a.u.b. later "
+"nog eens."
+
+msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgstr ""
+"NB: Als je BOINC versie 5.2 en hoger gebruikt hoef je hier geen gegevens in "
+"te vullen. Start BOINC, selecteer 'Project toevoegen' en vul daar een email "
+"adres en wachtwoord in."
+
+msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgstr ""
+"Dit account zal tot het %1 team behoren en zal de project voorkeuren van de "
+"oprichter hebben."
+
+msgid "Invitation Code"
+msgstr "Uitnodigings Code"
+
+msgid "A valid invitation code is required to create an account."
+msgstr ""
+"Er is een geldige uitnodigings code vereist om een account aan te maken."
+
+msgid "Email Address"
+msgstr "Email Adres"
+
+msgid "Must be a valid address of the form 'name@domain'."
+msgstr "Moet een geldig email adres zijn in de vorm 'naam@domein'."
+
+msgid "Password"
 msgstr "Wachtwoord"
 
-msgid "CREATE_AC_PASSWORD_DESC"
-msgstr "Moet ten minste %s karakters lang zijn."
+msgid "Must be at least %1 characters"
+msgstr "Moet minstens %1 karakters lang zijn"
 
-msgid "CREATE_AC_CONFIRM_PASSWORD"
+msgid "Confirm password"
 msgstr "Bevestig wachtwoord"
 
-msgid "AC_INVITE_CODE"
-msgstr "Invitatiecode"
+msgid "Create account"
+msgstr "Account maken"
 
-msgid "AC_INVITE_CODE_DESC"
-msgstr "Een geldige invitatiecode is vereist om een account aan te maken"
+msgid "Title"
+msgstr "Titel"
 
-msgid "AC_INVITE_REQUIRED"
-msgstr "Je moet een invitatiecode opgeven om een account aan te maken."
+msgid "Add my signature to this post"
+msgstr "Onderschrift invoegen bij deze post"
 
-msgid "AC_INVITE_INVALID"
-msgstr "De invitatiecode die je opgaf is niet geldig."
+msgid "%1 Message boards"
+msgstr "%1 Forum"
 
+msgid "Topic"
+msgstr "Onderwerp"
 
+msgid "Your message has been sent."
+msgstr "Je bericht is verzonden."
+
+msgid "You have no private messages."
+msgstr "Geen privé berichten aanwezig."
+
+msgid "Sender"
+msgstr "Afzender"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Mark as read"
+msgstr "Markeer als 'gelezen'"
+
+msgid "Mark as unread"
+msgstr "Markeer als 'ongelezen'"
+
+msgid "With selected"
+msgstr "Met het volgende"
+
+msgid "No such message"
+msgstr "Geen bericht gevonden"
+
+msgid "Block user"
+msgstr "Blokkeer gebruiker"
+
+msgid "Reply"
+msgstr "Beantwoord"
+
+msgid "Really delete?"
+msgstr "Echt verwijderen?"
+
+msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+msgstr ""
+"Weet je zeker dat je het bericht met het onderwerp &quot;%1&quot wilt "
+"verwijderen; (verzonden door %2 op %3)?"
+
+msgid "Yes, delete"
+msgstr "Ja, verwijder"
+
+msgid "No, cancel"
+msgstr "Nee, annuleer"
+
+msgid "No such message."
+msgstr "Geen bericht gevonden."
+
+msgid "You need to fill all fields to send a private message"
+msgstr "Je moet overal iets invullen om het bericht te kunnen versturen"
+
+msgid "Could not find user with id %1"
+msgstr "Gebruiker met ID %1 niet gevonden"
+
+msgid "Could not find user with username %1"
+msgstr "Gebruiker met gebruikersnaam %1 niet gevonden"
+
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr ""
+"%1 is geen unieke gebruikersnaam; je zal de gebruikers ID moeten invullen"
+
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "Gebruiker %1 (ID: %2) accepteert geen privé berichten van jou. "
+
+msgid "Really block %1?"
+msgstr "Echt %1 blokkeren?"
+
+msgid "Are you really sure you want to block user %1 from sending you private messages?"
+msgstr ""
+"Weet je zeker dat je gebruiker %1 wilt blokkeren zodat hij je geen privé "
+"berichten kan zenden?"
+
+msgid "Please note that you can only block a limited amount of users."
+msgstr "Onthoud dat je maar een beperkt aantal gebruikers mag blokkeren."
+
+msgid "Once the user has been blocked you can unblock it using forum preferences page."
+msgstr ""
+"Als een gebruiker is geblokkeerd kan je deze later alsnog deblokkeren bij je "
+"forum voorkeuren."
+
+msgid "Add user to filter"
+msgstr "Voeg gebruiker toe aan filter"
+
+msgid "No such user"
+msgstr "Gebruiker niet gevonden"
+
+msgid "User %1 blocked"
+msgstr "Gebruiker %1 geblokkeerd"
+
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "Gebruiker %1 is geblokkeerd en kan je geen privé berichten zenden."
+
+msgid "To unblock, visit %1message board preferences%2"
+msgstr "Om te deblokkeren, ga naar %1forum voorkeuren%2"
+
+msgid "Create a new thread"
+msgstr "Start nieuw onderwerp"
+
+msgid "Post to thread"
+msgstr "Plaats bericht"
+
+msgid "Forum search results"
+msgstr "Forum zoek resultaten"
+
+msgid "Forum search"
+msgstr "Doorzoek forum"
+
+msgid "This thread has been hidden for administrative purposes"
+msgstr "Dit onderwerp is verborgen vanwege administratieve redenen"
+
+msgid "Unsubscribe"
+msgstr "Abonnement opheffen "
+
+msgid "Subscribe"
+msgstr "Abonneren"
+
+msgid "Welcome to %1"
+msgstr "Welkom bij %1"
+
+msgid "View and edit your account preferences using the links below."
+msgstr "Bekijk en verander je account voorkeuren met onderstaande links."
+
+msgid "Read our rules and policies"
+msgstr "Lees de gebruiksovereenkomst"
+
+msgid "Run %1 only on authorized computers"
+msgstr "Voer %1 alleen uit op toegestane computers"
+
+msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
+msgstr ""
+"Voer %1 alleen uit op computers die je eigendom zijn, of waar de eigenaar "
+"ervan je toestemming voor heeft gegeven. Sommige scholen en bedrijven hebben "
+"regels opgesteld waarin het gebruik van %1 niet toegestaan is."
+
+msgid "How %1 will use your computer"
+msgstr "Hoe %1 je computer gebruikt"
+
+msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
+msgstr ""
+"Wanneer je %1 gebruikt op je computer zal deze een gedeelte gebruiken van de "
+"processortijd, het geheugen, de harde schijf en de bandbreedte van het "
+"netwerk. Gebruik hiervan is in te stellen met %1."
+
+msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
+msgstr ""
+"De uitgevoerde taken worden gebruikt om de doelstellingen te halen van %1, "
+"zoals beschreven op de website. De gebruikte applicatie kan wisselen."
+
+msgid "Privacy policy"
+msgstr "Privacy beleid"
+
+msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
+msgstr ""
+"Je account bij %1 wordt bepaald door je gekozen naam. Deze naam kan getoond "
+"worden op de website van %1 samen met een opsomming van je computer(s) en "
+"het gedane werk voor %1. Als je anoniem wilt blijven kies dan een afwijkende "
+"naam voor je account."
+
+msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
+msgstr ""
+"Wanneer je deelneemt aan %1, wordt er informatie over je computer (type "
+"processor, hoeveelheid geheugen, etc.) opgeslagen door %1 en gebruikt om te "
+"kunnen bepalen welk soort werk er aan je computer wordt verzonden. Deze "
+"informatie wordt ook getoond op de website van %1. Je werkelijke locatie "
+"(b.v. je IP-adres) blijft verborgen."
+
+msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr ""
+"Om aan %1 te kunnen deelnemen, moet je een e-mailadres opgeven waar je email "
+"op kan ontvangen. Dit adres zal niet op de website van %1 worden getoond of "
+"aan derden worden doorgegeven. %1 kan je informatie toezenden, maar dit kan "
+"je ook in je voorkeuren uitzetten. "
+
+msgid "Is it safe to run %1?"
+msgstr "Is het veilig om %1 uit te voeren?"
+
+msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
+msgstr ""
+"Elke keer als je een programma via het internet download neem je een risico; "
+"het programma kan fatale fouten hebben, of de download server is niet "
+"veilig genoeg. %1 heeft zijn best gedaan om deze risico's tot een minimum te "
+"beperken. Ons programma is uitvoerig getest. Onze servers zijn zo veel als "
+"mogelijk is beveiligd tegen misbruik. Om de integriteit van de programma's "
+"te garanderen zijn ze digitaal ondertekend op een computer die niet met het "
+"internet is verbonden."
+
+msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr ""
+"De door %1 gebruikte applicaties kunnen een verhoging opleveren van de "
+"temperatuur van de processor. Als dit aan de orde is gebruik dan een "
+"%2programma%3 om het gebruik van de processor te regelen."
+
+msgid "%1 was developed by %2. BOINC was developed at the University of California."
+msgstr ""
+"%1 is ontwikkeld door %2. BOINC is ontwikkeld door de University of "
+"California."
+
+msgid "Liability"
+msgstr "Aansprakelijkheid"
+
+msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
+msgstr ""
+"%1 en %2 aanvaarden geen aansprakelijkheid voor schade aangebracht aan je "
+"computer of welke schade dan ook voortgekomen door deelname aan %1."
+
+msgid "Other BOINC projects"
+msgstr "Andere BOINC projecten"
+
+msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
+msgstr ""
+"Andere projecten gebruiken, net als %1, BOINC als platform. Het is het "
+"overwegen waard om andere projecten toe te voegen. Mocht %1 dan geen werk "
+"hebben, blijft je computer bezig met nuttig werk."
+
+msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
+msgstr ""
+"Deze projecten zijn niet verbonden met %1, mede daarom kunnen we geen "
+"garanties geven over hun doelstellingen en de mate van veiligheid. Deelname "
+"is daarom op eigen risico."
+
+msgid "Sender and date"
+msgstr "Afzender en datum"
+
+msgid "Profiles"
+msgstr "Profielen"
+
+msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
+msgstr ""
+"%1Profielen%2 geven de mogelijkheid achtergronden en meningen te delen met "
+"de %3 gemeenschap."
+
+msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
+msgstr ""
+"Doorzoek de diversiteit van je mede vrijwilligers en laat ze meegenieten van "
+"je eigen mening."
+
+msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
+msgstr ""
+"Als je dit nog niet hebt gedaan, kan je %1je eigen profiel aanmaken%2, zodat "
+"anderen dit kunnen zien!"
+
+msgid "User of the Day"
+msgstr "Gebruiker van de dag"
+
+msgid "User Profile Explorer"
+msgstr "Gebruikers profielen"
+
+msgid "View the %1User Picture Gallery%2."
+msgstr "Bekijk de %1Gebruikers Foto Galerij%2."
+
+msgid "Browse profiles %1by country%2."
+msgstr "Doerzoek profielen %1op land%2."
+
+msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
+msgstr ""
+"Doorzoek profielen; %1willekeurig%2, %3willekeurig met foto%2 of "
+"%4willekeurig zonder foto%2."
+
+msgid "Alphabetical profile listings:"
+msgstr "Profielen alfabetisch gerangschikt:"
+
+msgid "Search profile text"
+msgstr "Doorzoek profiel teksten"
+
+msgid "No profiles"
+msgstr "Profiel niet gevonden"
+
+msgid "No profiles matched your query."
+msgstr "Er zijn geen passende profielen aangetroffen."
+
+msgid "Top hosts"
+msgstr "Top computers"
+
+msgid "Top participants"
+msgstr "Top deelnemers"
+
+msgid "Top %1 teams"
+msgstr "Top %1 teams"
+
+msgid "Participant since"
+msgstr "Deelnemer sinds"
+
+msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgstr ""
+"Een 'beperkte account key' geeft de mogelijkheid computers toe te voegen aan "
+"dit project, je account aanpassen of hierop inloggen is hiermee niet "
+"mogelijk."
+
+msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+msgstr ""
+"Deze optie werkt alleen met projecten die een server software versie hebben "
+"van 7 december 2007 of later."
+
+msgid "Your weak account key for this project is:"
+msgstr "Je 'beperkte account key' voor dit project is:"
+
+msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr ""
+"Om je 'beperkte account key' te kunnen gebruiken, zoek je naar (of maak je) "
+"een 'account bestand' op de bedoelde computer. Dit bestand heeft de "
+"bestandsopbouw; <b>account_PROJECT_URL.xml</b>. Het bestand voor %1 is "
+"<b>%2</b>."
+
+msgid "Create this file if needed. Set its contents to:"
+msgstr "Maak dit bestand aan indien nodig. Zet de indeling op:"
+
+msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgstr ""
+"Je 'beperkte account key' is afhankelijk van je wachtwoord. Indien je je "
+"wachtwoord veranderd, zal ook je 'beperkte account key' aangepast worden en "
+"is de vorige niet meer geldig."
+
+msgid "Your account"
+msgstr "Mijn account"
+
+# Apps page (apps.php)
 #########################################
-# Forum sample index page
+#~ msgid "APPS_TITLE"
+#~ msgstr "Applicaties"
+
+# Rules and Policies page (info.php)
 #########################################
+#~ msgid "RULES_TITLE"
+#~ msgstr "Lees onze regels en beleid"
 
-msgid "FORUM_TITLE"
-msgstr "$PROJECT Forums"
+# Create account form (create_account_form.php)
+#########################################
+#~ msgid "CREATE_AC_TITLE"
+#~ msgstr "Maak een an account"
 
-msgid "FORUM_TITLE_SHORT"
-msgstr "Forums"
+#~ msgid "FORUM_TITLE"
+#~ msgstr "$PROJECT Forums"
 
+#~ msgid "FORUM_TITLE_SHORT"
+#~ msgstr "Forums"
 
 #########################################
 # General stuff (create_account_form.php and others)
 #########################################
-msgid "OPTIONAL"
-msgstr "Optioneel"
+#~ msgid "OPTIONAL"
+#~ msgstr "Optioneel"
 
-#########################################
-# Various top table pages (top users, computers, teams)
-#########################################
+#~ msgid "TOP_PARTICIPANT_TITLE"
+#~ msgstr "Beste deelnemers"
 
-msgid "TOP_PARTICIPANT_TITLE"
-msgstr "Beste deelnemers"
+#~ msgid "USER_TABLE_RANK"
+#~ msgstr "Positie"
 
-msgid "USER_TABLE_RANK"
-msgstr "Positie"
+#~ msgid "USER_TABLE_NAME"
+#~ msgstr "Naam"
 
-msgid "USER_TABLE_NAME"
-msgstr "Naam"
+#~ msgid "TOTAL_CREDIT"
+#~ msgstr "Punten totaal"
 
-msgid "TOTAL_CREDIT"
-msgstr "Punten totaal"
+#~ msgid "EXPAVG_CREDIT"
+#~ msgstr "Punten gemiddeld"
 
-msgid "EXPAVG_CREDIT"
-msgstr "Punten gemiddeld"
+#~ msgid "USER_TABLE_COUNTRY"
+#~ msgstr "Land"
 
-msgid "USER_TABLE_COUNTRY"
-msgstr "Land"
+#~ msgid "USER_TABLE_PTIME"
+#~ msgstr "Deelnemer sinds"
 
-msgid "USER_TABLE_PTIME"
-msgstr "Deelnemer sinds"
+#~ msgid "TOP_TEAMS_TITLE"
+#~ msgstr "Beste %s teams"
 
-msgid "TOP_TEAMS_TITLE"
-msgstr "Beste %s teams"
-
-msgid "TEAM_TABLE_MEMBERS"
-msgstr "Leden"
-
+#~ msgid "TEAM_TABLE_MEMBERS"
+#~ msgstr "Leden"
 
 #########################################
 # Forum
 #########################################
-msgid "FORUM_POSTS"
-msgstr "Berichten"
-msgid "FORUM_TOPIC"
-msgstr "Onderwerp"
-msgid "FORUM_THREADS"
-msgstr "Threads"
-msgid "FORUM_LAST_POST"
-msgstr "Laatste bericht"
-msgid "FORUM_AUTHOR"
-msgstr "Auteur"
-msgid "FORUM_VIEWS"
-msgstr "Views"
+#~ msgid "FORUM_POSTS"
+#~ msgstr "Berichten"
 
-msgid "FORUM_ERR_NOT_FOUND"
-msgstr "Geen forum met die naam"
-
-msgid "FORUM_ERR_EXPAVG"
-msgstr "Om een nieuwe discussie te beginnen in %s moet je een bepaald aantal credits hebben."
-"Dit is om het systeem te beschermen en misbruik te voorkomen."
-
-msgid "FORUM_ERR_INTERVAL"
-msgstr "Je kan momenteel geen discussies meer beginnen. Wacht even voor je het weer probeert."
-"Deze vertraging is tegen misbruik van het systeem."
-
-msgid "FORUM_QA_POST_MESSAGE"
-msgstr "Het %s gebied bied hulp van andere gebruikers. Als je een vraag of probleem hebt:"
-msgid "FORUM_QA_POST_MESSAGE2"
-msgstr "Lees de bestaande lijst van vragen. Als je vraag erbij staat, "
-"klik op de %s knop. Als er al antwoorden zijn ingestuurd lees deze dan. "
-"Als een van deze je vraag beantwoord, klik op de %s knop."
-msgid "FORUM_QA_POST_MESSAGE3"
-msgstr "Als je vraag nog niet is gesteld, vul het formulier dan in en verstuur het."
-msgid "FORUM_QA_POST_MESSAGE4"
-msgstr "Dit zorgt ervoor dat vragen niet meerdere malen worden gesteld."
-
-msgid "FORUM_QA_SUBMIT_NEW"
-msgstr "Verstuur een nieuwe vraag/nieuw probleem"
-
-msgid "FORUM_SUBMIT_NEW"
-msgstr "Cre&euml;er een nieuwe discussie"
-
-msgid "FORUM_SUBMIT_NEW_TITLE"
-msgstr "Titel"
-
-msgid "FORUM_QA_SUBMIT_NEW_HELP"
-msgstr "Beschrijf je vraag met een paar woorden. "
-"Een korte, heldere samenvatting helpt anderen met dezelfde "
-"vraag (of een antwoord) het te vinden."
-
-msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
-msgstr "Als je problemen hebt met de software, "
-"vermeld dan het versie nummer ervan, "
-"je computertype en besturingssysteem."
-
-msgid "FORUM_ADD_MY_SIG"
-msgstr "Voeg mijn handtekening toe aan dit bericht"
-
-msgid "FORUM_MESSAGE"
-msgstr "Bericht"
-
-msgid "FORUM_QA_GOT_PROBLEM_TOO"
-msgstr "Ik heb hetzelfde probleem"
-
-msgid "FORUM_QA_QUESTION_ANSWERED"
-msgstr "Dit beantwoort mijn vraag"
-
-msgid "FORUM_HTML_INFO"
-msgstr "gebruik BBCode tags om je tekst op te maken"
-
-
-#########################################
 # Forum thread
 #########################################
+#~ msgid "FORUM_THREAD_HIDDEN"
+#~ msgstr "Deze discussie is verborgen voor administratieve doeleinden"
 
-msgid "FORUM_THREAD_HIDDEN"
-msgstr "Deze discussie is verborgen voor administratieve doeleinden"
-
-msgid "FORUM_THREAD_REPLY"
-msgstr "Reageer op deze discussie"
-
-msgid "FORUM_THREAD_SUBSCRIBED"
-msgstr "Je bent geabbonneerd op deze discussie."
-
-msgid "FORUM_THREAD_UNSUBSCRIBE"
-msgstr "Klik hier om op te zeggen"
-
-msgid "FORUM_THREAD_SUBSCRIBE"
-msgstr "Abbonneer op deze discussie"
-
-
-#########################################
 # Forum search features
 #########################################
-msgid "FORUM_SEARCH"
-msgstr "Zoek forums"
-
-msgid "FORUM_SEARCH_TITLES"
-msgstr "Titels die '%s' bevatten"
-
-msgid "FORUM_SEARCH_BODIES"
-msgstr "Berichten die '%s' bevatten"
-
-msgid "FORUM_SEARCH_TITLES_NO"
-msgstr "Geen titels gevonden die '%s' bevatten."
-
-msgid "FORUM_SEARCH_BODIES_NO"
-msgstr "Geen berichten gevonden die '%s' bevatten."
-
-
+# Apps page (apps.php)
 #########################################
-# Links from the main page
-#########################################
-msgid "LINKS_QA"
-msgstr "Vragen en antwoorden"
+# Rules and Policies page (info.php)
+# Create account form (create_account_form.php)
+# General stuff (create_account_form.php and others)
+# Forum
+# Forum thread
+# Forum search features
+#~ msgid "FORUM_SEARCH"
+#~ msgstr "Zoek forums"
