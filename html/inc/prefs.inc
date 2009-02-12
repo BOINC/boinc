@@ -69,7 +69,8 @@ define("RUN_IF_USER_ACTIVE_DESC",
     "Suspend work while computer is in use?"
 );
 define("RUN_GPU_IF_USER_ACTIVE_DESC",
-    "Suspend GPU work while computer is in use?"
+    "Suspend GPU work while computer is in use?
+    <br><span class=note>Enforced by version 6.7+</span>"
 );
 define("IDLE_TIME_TO_RUN_DESC", "'In use' means mouse/keyboard activity in last");
 define("SUSPEND_IF_NO_RECENT_INPUT_DESC",
