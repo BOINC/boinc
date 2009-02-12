@@ -534,11 +534,15 @@ void WORK_FETCH::handle_reply(PROJECT* p, vector<RESULT*> new_results) {
     // if didn't get any jobs, back off on requested resource types
     //
     if (!new_results.size()) {
-        if (cpu_work_fetch.req_secs) {
-            p->cpu_pwf.backoff(p, "CPU");
-        }
-        if (coproc_cuda && coproc_cuda->req_secs) {
-            p->cuda_pwf.backoff(p, "CUDA");
+        // but not if RPC was requested by project
+        //
+        if (p->sched_rpc_pending != RPC_REASON_PROJECT_REQ) {
+            if (cpu_work_fetch.req_secs) {
+                p->cpu_pwf.backoff(p, "CPU");
+            }
+            if (coproc_cuda && coproc_cuda->req_secs) {
+                p->cuda_pwf.backoff(p, "CUDA");
+            }
         }
         return;
     }
