@@ -514,7 +514,6 @@ bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p) {
     if (p->dont_request_more_work) return false;
     if (has_runnable_jobs) return true;
     if (backoff_time > gstate.now) return false;
-    if (backoff_interval == MAX_BACKOFF_INTERVAL) return false;
     if (p->min_rpc_time > gstate.now) return false;
     return true;
 }
