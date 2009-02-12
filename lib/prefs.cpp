@@ -49,6 +49,7 @@ void GLOBAL_PREFS_MASK::clear() {
 void GLOBAL_PREFS_MASK::set_all() {
     run_on_batteries = true;
     run_if_user_active = true;
+    run_gpu_if_user_active = true;
     idle_time_to_run = true;
     suspend_if_no_recent_input = true;
     start_hour = true;
@@ -80,6 +81,7 @@ void GLOBAL_PREFS_MASK::set_all() {
 bool GLOBAL_PREFS_MASK::are_prefs_set() {
     if (run_on_batteries) return true;
     if (run_if_user_active) return true;
+    if (run_gpu_if_user_active) return true;
     if (idle_time_to_run) return true;
     if (suspend_if_no_recent_input) return true;
     if (start_hour) return true;
@@ -200,6 +202,7 @@ void WEEK_PREFS::unset(int day) {
 void GLOBAL_PREFS::defaults() {
     run_on_batteries = true;
     run_if_user_active = true;
+    run_gpu_if_user_active = true;
     idle_time_to_run = 3;
     suspend_if_no_recent_input = 0;
     cpu_times.clear();
@@ -235,6 +238,7 @@ void GLOBAL_PREFS::defaults() {
 void GLOBAL_PREFS::clear_bools() {
     run_on_batteries = false;
     run_if_user_active = false;
+    run_gpu_if_user_active = false;
     leave_apps_in_memory = false;
     confirm_before_connecting = false;
     hangup_if_dialed = false;
@@ -381,6 +385,10 @@ int GLOBAL_PREFS::parse_override(
         }
         if (xp.parse_bool(tag, "run_if_user_active", run_if_user_active)) {
             mask.run_if_user_active = true;
+            continue;
+        }
+        if (xp.parse_bool(tag, "run_gpu_if_user_active", run_gpu_if_user_active)) {
+            mask.run_gpu_if_user_active = true;
             continue;
         }
         if (xp.parse_double(tag, "idle_time_to_run", idle_time_to_run)) {
@@ -555,7 +563,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <end_hour>%f</end_hour>\n"
         "   <net_start_hour>%f</net_start_hour>\n"
         "   <net_end_hour>%f</net_end_hour>\n"
-        "%s%s%s%s"
+        "%s%s%s%s%s"
         "   <work_buf_min_days>%f</work_buf_min_days>\n"
         "   <work_buf_additional_days>%f</work_buf_additional_days>\n"
         "   <max_ncpus_pct>%f</max_ncpus_pct>\n"
@@ -575,6 +583,7 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         mod_time,
         run_on_batteries?"   <run_on_batteries/>\n":"",
         run_if_user_active?"   <run_if_user_active/>\n":"",
+        run_gpu_if_user_active?"   <run_gpu_if_user_active/>\n":"",
         suspend_if_no_recent_input,
         cpu_times.start_hour,
         cpu_times.end_hour,
@@ -656,6 +665,11 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     if (mask.run_if_user_active) {
         f.printf("   <run_if_user_active>%d</run_if_user_active>\n",
             run_if_user_active?1:0
+        );
+    }
+    if (mask.run_gpu_if_user_active) {
+        f.printf("   <run_gpu_if_user_active>%d</run_gpu_if_user_active>\n",
+            run_gpu_if_user_active?1:0
         );
     }
     if (mask.idle_time_to_run) {

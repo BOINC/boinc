@@ -461,6 +461,10 @@ struct PROC_RESOURCES {
     bool can_schedule(RESULT* rp, ACTIVE_TASK* atp) {
         if (rp->uses_coprocs()) {
 
+            if (gstate.user_active && !gstate.global_prefs.run_gpu_if_user_active) {
+                return false;
+            }
+
             // if it uses coprocs, and they're available, yes
             //
 			if (atp && atp->coprocs_reserved) {

@@ -1521,3 +1521,13 @@ David  12 Feb 2009
 
     client/
         work_fetch.cpp
+
+David  12 Feb 2009
+    - client, web: add preference for not using GPU while computer busy
+
+    client/
+        cpu_sched.cpp
+    html/inc/
+        prefs.inc
+    lib/
+        prefs.cpp,h

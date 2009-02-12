@@ -68,6 +68,9 @@ define("SUSPEND_WHILE_ON_BATTERIES_DESC",
 define("RUN_IF_USER_ACTIVE_DESC",
     "Suspend work while computer is in use?"
 );
+define("RUN_GPU_IF_USER_ACTIVE_DESC",
+    "Suspend GPU work while computer is in use?"
+);
 define("IDLE_TIME_TO_RUN_DESC", "'In use' means mouse/keyboard activity in last");
 define("SUSPEND_IF_NO_RECENT_INPUT_DESC",
     "Suspend work if no mouse/keyboard activity in last
@@ -260,7 +263,7 @@ function element_start_global($parser, $name, $attrs) {
     case "venue":
         $venue_name = $attrs["name"];
         $top_parse_result = $parse_result;
-        $parse_result = initialize_prefs_before_parsing_global();
+        $parse_result = default_prefs_global();
         //echo "VENUE PREFS AFTER INIT: <pre>";
         //var_dump($parse_result);
         //echo "</pre>";
@@ -330,7 +333,10 @@ function element_end_global($parser, $name) {
         $parse_result->suspend_while_on_batteries = get_bool();
         break;
     case "run_if_user_active":
-        $parse_result->suspend_if_user_active = false;
+        $parse_result->suspend_if_user_active = !get_bool();
+        break;
+    case "run_gpu_if_user_active":
+        $parse_result->suspend_gpu_if_user_active = !get_bool();
         break;
     case "idle_time_to_run":
         $parse_result->idle_time_to_run = $text;
@@ -345,16 +351,16 @@ function element_end_global($parser, $name) {
         $parse_result->end_hour = $text;
         break;
     case "leave_apps_in_memory":
-        $parse_result->leave_apps_in_memory = true;
+        $parse_result->leave_apps_in_memory = get_bool();
         break;
     case "cpu_scheduling_period_minutes":
         $parse_result->cpu_scheduling_period_minutes = $text;
         break;
     case "confirm_before_connecting":
-        $parse_result->confirm_before_connecting = true;
+        $parse_result->confirm_before_connecting = get_bool();
         break;
     case "hangup_if_dialed":
-        $parse_result->hangup_if_dialed = true;
+        $parse_result->hangup_if_dialed = get_bool();
         break;
     case "work_buf_min_days":
         $parse_result->work_buf_min_days = $text;
@@ -406,7 +412,7 @@ function element_end_global($parser, $name) {
         $parse_result->net_end_hour = $text;
         break;
     case "dont_verify_images":
-        $parse_result->dont_verify_images = true;
+        $parse_result->dont_verify_images = get_bool();
         break;
     case "mod_time":
         $parse_result->mod_time = $text;
@@ -424,12 +430,13 @@ function char_handler($parser, $x) {
 }
 
 
-// state of prefs for new users
+// state of prefs before parsing; defines prefs for new users
 //
 function default_prefs_global() {
     $p = null;
     $p->suspend_while_on_batteries = true;
     $p->suspend_if_user_active = false;
+    $p->suspend_gpu_if_user_active = false;
     $p->idle_time_to_run = 3;
     $p->suspend_if_no_recent_input = 0;
     $p->start_hour = 0;
@@ -437,7 +444,7 @@ function default_prefs_global() {
     $p->leave_apps_in_memory = false;
     $p->cpu_scheduling_period_minutes = 60;
     $p->confirm_before_connecting = false;
-    $p->hangup_if_dialed = true;
+    $p->hangup_if_dialed = false;
     $p->work_buf_min_days = 0;
     $p->work_buf_additional_days = 0.25;
     $p->max_cpus = 16;
@@ -468,30 +475,11 @@ function default_prefs_project() {
     return $p;
 }
 
-// state of prefs before parsing; initialize booleans
-//
-function initialize_prefs_before_parsing_global() {
-    $p = default_prefs_global();
-    $p->suspend_while_on_batteries = true;
-    $p->suspend_if_user_active = true;
-    $p->leave_apps_in_memory = false;
-    $p->confirm_before_connecting = false;
-    $p->hangup_if_dialed = false;
-    $p->dont_verify_images = false;
-    
-    return $p;
-}
-
-function initialize_prefs_before_parsing_project() {
-    $p = default_prefs_project();
-    return $p;
-}
-
 // parse prefs from XML to a struct
 //
 function prefs_parse_project($prefs_xml) {
     global $parse_result;
-    $parse_result = initialize_prefs_before_parsing_project();
+    $parse_result = default_prefs_project();
     $xml_parser = xml_parser_create();
     xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, 0);
     xml_set_element_handler($xml_parser, "element_start_project", "element_end_project");
@@ -502,7 +490,7 @@ function prefs_parse_project($prefs_xml) {
 
 function prefs_parse_global($prefs_xml) {
     global $parse_result;
-    $parse_result = initialize_prefs_before_parsing_global();
+    $parse_result = default_prefs_global();
     //echo "AFTER INIT: <pre>";
     //var_dump($parse_result);
     //echo "</pre>";
@@ -676,6 +664,7 @@ function prefs_show_columns_global($prefs) {
     row_top(CPU_LIMIT_DESC);
     row_defs(SUSPEND_WHILE_ON_BATTERIES_DESC, "suspend_while_on_batteries", "", "yesno", $prefs);
     row_defs(RUN_IF_USER_ACTIVE_DESC, "suspend_if_user_active", "", "yesno", $prefs);
+    row_defs(RUN_GPU_IF_USER_ACTIVE_DESC, "suspend_gpu_if_user_active", "", "yesno", $prefs);
     row_defs(IDLE_TIME_TO_RUN_DESC, "idle_time_to_run", " minutes", "", $prefs);
 
     row_defs(SUSPEND_IF_NO_RECENT_INPUT_DESC, "suspend_if_no_recent_input", "minutes", "minutes", $prefs);
@@ -719,6 +708,7 @@ function prefs_show_global($prefs) {
     row1(CPU_LIMIT_DESC);
     row2(SUSPEND_WHILE_ON_BATTERIES_DESC, $prefs->suspend_while_on_batteries?"yes":"no");
     row2(RUN_IF_USER_ACTIVE_DESC, $prefs->suspend_if_user_active?"yes":"no");
+    row2(RUN_GPU_IF_USER_ACTIVE_DESC, $prefs->suspend_gpu_if_user_active?"yes":"no");
     row2(IDLE_TIME_TO_RUN_DESC, "$prefs->idle_time_to_run minutes");
 
     $x = show_double($prefs->suspend_if_no_recent_input);
@@ -1018,6 +1008,14 @@ function prefs_form_global($user, $prefs, $error=false) {
     ";
     row2(RUN_IF_USER_ACTIVE_DESC, $y);
 
+    $y = "yes <input type=radio name=suspend_gpu_if_user_active value=yes "
+        .($prefs->suspend_gpu_if_user_active?"checked":"")
+        ."> no <input type=radio name=suspend_gpu_if_user_active value=no "
+        .($prefs->suspend_gpu_if_user_active?"":"checked")
+        .">
+    ";
+    row2(RUN_GPU_IF_USER_ACTIVE_DESC, $y);
+
     $y = "<input size=5 name=idle_time_to_run value='$prefs->idle_time_to_run'> minutes ";
     $show_error = false;
     if (isset($error->idle_time_to_run)) $show_error= true;
@@ -1278,6 +1276,7 @@ function prefs_global_parse_form(&$prefs) {
     $error = false;
     $suspend_while_on_batteries = $_GET["suspend_while_on_batteries"];
     $suspend_if_user_active = $_GET["suspend_if_user_active"];
+    $suspend_gpu_if_user_active = $_GET["suspend_gpu_if_user_active"];
     $idle_time_to_run = $_GET["idle_time_to_run"];
     $suspend_if_no_recent_input = $_GET["suspend_if_no_recent_input"];
     $start_hour = $_GET["start_hour"];
@@ -1328,6 +1327,7 @@ function prefs_global_parse_form(&$prefs) {
     // Modify all values within the supplied Object
     $prefs->suspend_while_on_batteries = ($suspend_while_on_batteries == "yes");
     $prefs->suspend_if_user_active = ($suspend_if_user_active == "yes");
+    $prefs->suspend_gpu_if_user_active = ($suspend_gpu_if_user_active == "yes");
     $prefs->idle_time_to_run = $idle_time_to_run;
     $prefs->suspend_if_no_recent_input = $suspend_if_no_recent_input;
     $prefs->start_hour = $start_hour;
@@ -1408,12 +1408,16 @@ function global_prefs_make_xml($prefs, $primary=true) {
         $now = time();
         $xml = $xml."<mod_time>$now</mod_time>\n";
     }
-    if (!$prefs->suspend_while_on_batteries) {
-        $xml = $xml."<run_on_batteries/>\n";
-    }
-    if (!$prefs->suspend_if_user_active) {
-        $xml = $xml."<run_if_user_active/>\n";
-    }
+
+    $x = $prefs->suspend_while_on_batteries?0:1;
+    $xml = $xml."<run_on_batteries>$x</run_on_batteries>\n";
+
+    $x = $prefs->suspend_if_user_active?0:1;
+    $xml = $xml."<run_if_user_active>$x</run_if_user_active>\n";
+
+    $x = $prefs->suspend_gpu_if_user_active?0:1;
+    $xml = $xml."<run_gpu_if_user_active>$x</run_gpu_if_user_active>\n";
+
     $xml = $xml."<idle_time_to_run>$prefs->idle_time_to_run</idle_time_to_run>\n";
     $xml = $xml."<suspend_if_no_recent_input>$prefs->suspend_if_no_recent_input</suspend_if_no_recent_input>\n";
 
@@ -1428,9 +1432,10 @@ function global_prefs_make_xml($prefs, $primary=true) {
     if ($prefs->confirm_before_connecting) {
         $xml = $xml."<confirm_before_connecting/>\n";
     }
-    if ($prefs->hangup_if_dialed) {
-        $xml = $xml."<hangup_if_dialed/>\n";
-    }
+
+    $x = $prefs->hangup_if_dialed?1:0;
+    $xml = $xml."<hangup_if_dialed>$x</hangup_if_dialed>\n";
+
     $xml = $xml
         ."<work_buf_min_days>$prefs->work_buf_min_days</work_buf_min_days>\n"
         ."<work_buf_additional_days>$prefs->work_buf_additional_days</work_buf_additional_days>\n"
@@ -1451,9 +1456,10 @@ function global_prefs_make_xml($prefs, $primary=true) {
         $xml = $xml."<net_start_hour>$prefs->net_start_hour</net_start_hour>\n"
             ."<net_end_hour>$prefs->net_end_hour</net_end_hour>\n";
     }
-    if ($prefs->dont_verify_images) {
-        $xml = $xml."<dont_verify_images/>\n";
-    }
+
+    $x = $prefs->dont_verify_images?1:0;
+    $xml = $xml."<dont_verify_images>$x</dont_verify_images>\n";
+
     if (isset($prefs->home)) {
         $xml = $xml."<venue name=\"home\">\n".global_prefs_make_xml($prefs->home, false)."</venue>\n";
     }
