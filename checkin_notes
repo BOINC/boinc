@@ -1483,3 +1483,21 @@ David  11 Feb 2009
         app_start.cpp
     lib/
         app_ipc.cpp,h
+
+Charlie 11 Feb 2009
+    - SS: Graphics executables need a Mac icon only if they can be run in 
+        a window, to allow the user to bring it to the front or control it.  
+        Since the new boincscr app runs only as a screensaver, the Dock is 
+        not visible when it is running so there is no reason to have an icon.
+        So restore the previous permissions settings (non-writable).
+    - ss_app: Remove code which adds a Mac icon.
+
+    client/
+        check_security.cpp
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    clientscr/
+        mac_app_icon.h (deleted)
+    mac_build/
+        Mac_SA_Secure.sh

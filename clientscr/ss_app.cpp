@@ -31,7 +31,6 @@
 #include <string>
 #include <vector>
 #ifdef __APPLE__
-#include "mac_app_icon.h"
 #include "boinc_api.h"
 #include <sys/socket.h>
 #endif
@@ -462,9 +461,12 @@ int main(int argc, char** argv) {
     retval = rpc.init("localhost");
     if (retval) exit(retval);
 
-#ifdef __APPLE__
-    setMacIcon(argv[0], MacAppIconData, sizeof(MacAppIconData));
-#endif
+    // Graphics executables need a Mac icon only if they can be run in 
+    // a window, to allow the user to bring it to the front or control it.  
+    // Since the new boincscr app runs only as a screensaver, the Dock is 
+    // not visible when it is running so there is no reason to have an icon,
+    // so we do not call setMacIcon as we would in a science graphics app.
+
     boinc_graphics_loop(argc, argv);
     boinc_finish_diag();
 #ifdef _WIN32

@@ -583,10 +583,17 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
             return err;
 
         // Set permissions of executable file boincscr
+#ifdef _DEBUG
         // chmod u=rwsx,g=rwsx,o=rx path/BOINCManager.app/Contents/Resources/boinc
         // 06775 = S_ISUID | S_ISGID | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
         //  setuid-on-execution, setgid-on-execution plus read, write and execute permission for user & group, read & execute for others
         err = DoPrivilegedExec(chmodPath, "u=rwsx,g=rwsx,o=rx", fullpath, NULL, NULL, NULL);
+#else 
+        // chmod u=rsx,g=rsx,o=rx path/BOINCManager.app/Contents/Resources/boinc 
+        // 06555 = S_ISUID | S_ISGID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH 
+        //  setuid-on-execution, setgid-on-execution plus read and execute permission for user, group & others 
+        err = DoPrivilegedExec(chmodPath, "u=rsx,g=rsx,o=rx", fullpath, NULL, NULL, NULL); 
+#endif 
         if (err)
             return err;
     }           // boincscr
