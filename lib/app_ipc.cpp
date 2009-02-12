@@ -107,6 +107,7 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     fraction_done_start           = a.fraction_done_start;
     fraction_done_end             = a.fraction_done_end;
     checkpoint_period             = a.checkpoint_period;
+    shmem_seg_name                = a.shmem_seg_name;
     wu_cpu_time                   = a.wu_cpu_time;
     if (a.project_preferences) {
         project_preferences = strdup(a.project_preferences);
