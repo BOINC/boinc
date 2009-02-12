@@ -539,7 +539,7 @@ void *CScreensaver::DataManagementProc()
                         graphics_app_result_ptr = NULL;
                         m_bScience_gfx_running = false;
                     } else {
-                        // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
+                        // process_exists() test will clear m_hGraphicsApplication and graphics_app_result_ptr
                     }
                     previous_result_ptr = NULL;
                 }
@@ -605,7 +605,7 @@ void *CScreensaver::DataManagementProc()
                             m_bScience_gfx_running = false;
                             // Save previous_result and previous_result_ptr for get_random_graphics_app() call
                         } else {
-                            // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
+                            // process_exists() test will clear m_hGraphicsApplication and graphics_app_result_ptr
                         }
                     }
 
@@ -621,7 +621,7 @@ void *CScreensaver::DataManagementProc()
                                 m_bScience_gfx_running = false;
                                 // Save previous_result and previous_result_ptr for get_random_graphics_app() call
                             } else {
-                                // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
+                                // process_exists() test will clear m_hGraphicsApplication and graphics_app_result_ptr
                             }
                         }
                         last_change_time = dtime();
@@ -644,7 +644,7 @@ void *CScreensaver::DataManagementProc()
                             //    dtime(), default_saver_start_time_in_science_phase, default_saver_duration_in_science_phase);
                         }
                         default_saver_start_time_in_science_phase = 0;
-                        // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
+                        // process_exists() test will clear m_hGraphicsApplication and graphics_app_result_ptr
                      } else {
                         retval = launch_screensaver(graphics_app_result_ptr, m_hGraphicsApplication);
                         if (retval) {
