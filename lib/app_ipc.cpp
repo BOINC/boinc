@@ -70,9 +70,48 @@ APP_INIT_DATA &APP_INIT_DATA::operator=(const APP_INIT_DATA& a) {
 }
 
 void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
-    memcpy(this, &a, sizeof(APP_INIT_DATA));
+    // memcpy the strings
+    memcpy( &app_name[0],  &a.app_name[0], 256 ); 
+    memcpy( &symstore[0],  &a.symstore[0], 256 ); 
+    memcpy( &acct_mgr_url[0],  &a.acct_mgr_url[0], 256 ); 
+    memcpy( &user_name[0],  &a.user_name[0], 256 ); 
+    memcpy( &team_name[0],  &a.team_name[0], 256 ); 
+    memcpy( &project_dir[0],  &a.project_dir[0], 256 ); 
+    memcpy( &boinc_dir[0],  &a.boinc_dir[0], 256 ); 
+    memcpy( &wu_name[0],  &a.wu_name[0], 256 ); 
+    memcpy( &authenticator[0],  &a.authenticator[0], 256 ); 
+                
+    // use assignment for the rest, especially the classes
+    // (such that the overloaded operators are called!)
+    major_version                 = a.major_version;               
+    minor_version                 = a.minor_version;
+    release                       = a.release;
+    app_version                   = a.app_version;
+    userid                        = a.userid;
+    teamid                        = a.teamid;
+    hostid                        = a.hostid;
+    slot                          = a.slot;
+    user_total_credit             = a.user_total_credit;
+    user_expavg_credit            = a.user_expavg_credit;
+    host_total_credit             = a.host_total_credit;
+    host_expavg_credit            = a.host_expavg_credit;
+    resource_share_fraction       = a.resource_share_fraction;
+    host_info                     = a.host_info;
+    proxy_info                    = a.proxy_info;
+    global_prefs                  = a.global_prefs;
+    rsc_fpops_est                 = a.rsc_fpops_est;
+    rsc_fpops_bound               = a.rsc_fpops_bound;
+    rsc_memory_bound              = a.rsc_memory_bound;
+    rsc_disk_bound                = a.rsc_disk_bound;
+    computation_deadline          = a.computation_deadline;
+    fraction_done_start           = a.fraction_done_start;
+    fraction_done_end             = a.fraction_done_end;
+    checkpoint_period             = a.checkpoint_period;
+    wu_cpu_time                   = a.wu_cpu_time;
     if (a.project_preferences) {
         project_preferences = strdup(a.project_preferences);
+    } else {
+        project_preferences = NULL;
     }
 }
 

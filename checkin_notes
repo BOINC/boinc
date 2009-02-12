@@ -1032,8 +1032,6 @@ David  11 Feb 2009
 
     lib/
         prefs.cpp,h
-<<<<<<< .working
-=======
 
 David  11 Feb 2009
     - boinc_zip: put null arg at end of argv.
@@ -1051,4 +1049,10 @@ Rom    11 Feb 2009
         
     clientgui/
         ViewWork.cpp
->>>>>>> .merge-right.r17211
+
+David  11 Feb 2009
+    - lib: implement APP_INIT_DATA::copy() with assignments instead of
+        memcpy().  This protects against any future double-free bugs.
+
+    lib/
+        app_ipc.h,cpp

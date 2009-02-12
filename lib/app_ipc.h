@@ -142,6 +142,7 @@ public:
 #endif
 
 // parsed version of main init file
+// If you add anything here, update copy()
 //
 struct APP_INIT_DATA {
     int major_version;
