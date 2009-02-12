@@ -216,30 +216,26 @@ void show_project(unsigned int index, float alpha) {
     }
 }
 
-void show_jobs(unsigned int& index, double alpha) {
+void show_jobs(unsigned int index, double alpha) {
     float x=.1, y=.7;
-    bool found = false;
+    int nfound = 0;
     unsigned int i;
-    for (i=index; i<index+4; i++) {
-        if (i == cc_state.results.size()) break;
+    for (i=0; i<cc_state.results.size(); i++) {
         RESULT* r = cc_state.results[i];
         if (!r->active_task) continue;
         if (r->active_task_state != PROCESS_EXECUTING) continue;
-        if (!found) {
+        if (nfound == index) {
             txf_render_string(.1, x, y, 0, 1200., white, 0, "Running tasks:");
             y -= .05;
             //x += .05;
         }
-        found = true;
-        show_result(r, x, y, alpha);
-        y -= .05;
+        if (nfound >= index && nfound < index+4) {
+            show_result(r, x, y, alpha);
+            y -= .05;
+        }
+        nfound++;
     }
-    if (i == cc_state.results.size()) {
-        index = 0;
-    } else {
-        index += 4;
-    }
-    if (!found) {
+    if (!nfound) {
         y = .5;
         txf_render_string(.1, x, y, 0, 500., white, 0, "No running tasks");
         char *p = 0;
@@ -391,6 +387,10 @@ void app_graphics_render(int xs, int ys, double t) {
             showing_project = false;
             project_index++;
         } else {
+            job_index += 4;
+            if (job_index >= cc_state.results.size()) {
+                job_index = 0;
+            }
             showing_project = true;
         }
     }
