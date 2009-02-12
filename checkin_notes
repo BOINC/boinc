@@ -1017,3 +1017,11 @@ David  11 Feb 2009
 
     client/
         work_fetch.cpp
+
+David  11 Feb 2009
+    - client: change garbage collection so that an app version
+        is deleted only if there's another version *of the same plan class*
+        with a higher version number
+
+    client/
+        client_state.cpp
