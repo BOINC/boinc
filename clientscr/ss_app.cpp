@@ -217,7 +217,7 @@ void show_project(unsigned int index, float alpha) {
 
 void show_jobs(unsigned int index, double alpha) {
     float x=.1, y=.7;
-    int nfound = 0;
+    unsigned int nfound = 0;
     unsigned int i;
     for (i=0; i<cc_state.results.size(); i++) {
         RESULT* r = cc_state.results[i];

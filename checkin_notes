@@ -1491,6 +1491,7 @@ Charlie 11 Feb 2009
         not visible when it is running so there is no reason to have an icon.
         So restore the previous permissions settings (non-writable).
     - ss_app: Remove code which adds a Mac icon.
+    - ss_app: Fix compiler warning.
 
     client/
         check_security.cpp
