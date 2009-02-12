@@ -37,6 +37,7 @@
 struct GLOBAL_PREFS_MASK {
     bool run_on_batteries;
     bool run_if_user_active;
+    bool run_gpu_if_user_active;
     bool idle_time_to_run;
     bool suspend_if_no_recent_input;
     bool start_hour;
@@ -134,6 +135,7 @@ struct GLOBAL_PREFS {
         // poorly named; what it really means is:
         // if false, suspend while on batteries
     bool run_if_user_active;
+    bool run_gpu_if_user_active;
     double idle_time_to_run;
     double suspend_if_no_recent_input;
     bool leave_apps_in_memory;
