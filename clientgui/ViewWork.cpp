@@ -836,6 +836,8 @@ void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
         if (!wup) return;
         APP* app = wup->app;
         if (!app) return;
+        APP_VERSION* avp = state_result->avp;
+        if (!avp) return;
 
         wxString strLocale = wxString(setlocale(LC_NUMERIC, NULL), wxConvUTF8);
         setlocale(LC_NUMERIC, "C");
@@ -846,7 +848,6 @@ void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
             strAppBuffer = HtmlEntityDecode(wxString(state_result->avp->app_name.c_str(), wxConvUTF8));
         }
         
-        APP_VERSION* avp = state_result->avp;
         if (avp->plan_class.size()) {
             strClassBuffer.Printf(
                 wxT(" (%s)"),
