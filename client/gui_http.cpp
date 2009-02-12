@@ -38,12 +38,11 @@ int GUI_HTTP::do_rpc(GUI_HTTP_OP* op, string url, string output_file) {
     http_op.set_proxy(&gstate.proxy_info);
     boinc_delete_file(output_file.c_str());
     retval = http_op.init_get(url.c_str(), output_file.c_str(), true);
-    if (!retval) retval = gstate.http_ops->insert(&http_op);
-    if (!retval) {
-        gui_http_op = op;
-        state = GUI_HTTP_STATE_BUSY;
-    }
-    return retval;
+    if (retval) return retval;
+    gstate.http_ops->insert(&http_op);
+    gui_http_op = op;
+    state = GUI_HTTP_STATE_BUSY;
+    return 0;
 }
 
 int GUI_HTTP::do_rpc_post(GUI_HTTP_OP* op, string url, string input_file, string output_file) {
@@ -56,12 +55,11 @@ int GUI_HTTP::do_rpc_post(GUI_HTTP_OP* op, string url, string input_file, string
     http_op.set_proxy(&gstate.proxy_info);
     boinc_delete_file(output_file.c_str());
     retval = http_op.init_post(url.c_str(), input_file.c_str(), output_file.c_str());
-    if (!retval) retval = gstate.http_ops->insert(&http_op);
-    if (!retval) {
-        gui_http_op = op;
-        state = GUI_HTTP_STATE_BUSY;
-    }
-    return retval;
+    if (retval) return retval;
+    gstate.http_ops->insert(&http_op);
+    gui_http_op = op;
+    state = GUI_HTTP_STATE_BUSY;
+    return 0;
 }
 
 bool GUI_HTTP::poll() {
