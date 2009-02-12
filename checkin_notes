@@ -1492,6 +1492,7 @@ Charlie 11 Feb 2009
         So restore the previous permissions settings (non-writable).
     - ss_app: Remove code which adds a Mac icon.
     - ss_app: Fix compiler warning.
+    - ss_app: Change Windows build executable file name to boincscr.exe.
 
     client/
         check_security.cpp
@@ -1504,3 +1505,5 @@ Charlie 11 Feb 2009
         boinc.xcodeproj/
             project.pbxproj
         Mac_SA_Secure.sh
+    win_build/
+        ss_app.vcproj
