@@ -1500,4 +1500,6 @@ Charlie 11 Feb 2009
     clientscr/
         mac_app_icon.h (deleted)
     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
         Mac_SA_Secure.sh

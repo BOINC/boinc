@@ -580,7 +580,6 @@
 		AAA31C97042157A800A80164 /* shmem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = shmem.cpp; sourceTree = "<group>"; };
 		AAA31C98042157A800A80164 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../lib/shmem.h; sourceTree = SOURCE_ROOT; };
 		DD04BE1A0EDD836A006D5603 /* TermsOfUsePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TermsOfUsePage.h; path = ../clientgui/TermsOfUsePage.h; sourceTree = SOURCE_ROOT; };
-		DD095D1C0F3B22AC000902F5 /* mac_app_icon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mac_app_icon.h; path = ../clientscr/mac_app_icon.h; sourceTree = SOURCE_ROOT; };
 		DD0C5A8A0816711400CEC5D7 /* boinc.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = boinc.jpg; path = ../clientscr/res/boinc.jpg; sourceTree = SOURCE_ROOT; };
 		DD1277B3081F3D67007B5DE1 /* PostInstall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PostInstall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD1277B5081F3D67007B5DE1 /* PostInstall-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "PostInstall-Info.plist"; sourceTree = "<group>"; };
@@ -1406,7 +1405,6 @@
 			children = (
 				DD89163B0F3B182700DE5B1C /* boinc_ss_opengl.h */,
 				DD89163C0F3B182700DE5B1C /* ss_app.cpp */,
-				DD095D1C0F3B22AC000902F5 /* mac_app_icon.h */,
 				DDB873960C85072500E0DE1F /* mac_saver_module.cpp */,
 				DDA290360CB5D80E00512BD8 /* Mac_Saver_Module.h */,
 				DDB873980C85072500E0DE1F /* Mac_Saver_ModuleView.m */,
