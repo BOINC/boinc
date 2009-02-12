@@ -162,6 +162,7 @@ public:
     std::string html_msg;
     double share_violation();
     double monotony();
+    bool user_active;
 
 private:
     double app_started;

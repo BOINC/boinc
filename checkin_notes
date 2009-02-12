@@ -1531,3 +1531,12 @@ David  12 Feb 2009
         prefs.inc
     lib/
         prefs.cpp,h
+
+David  12 Feb 2009
+    - client: bug fix for GPU pref
+
+    client/
+        cpu_sched.cpp
+        sim.h
+    lib/
+        prefs.cpp
