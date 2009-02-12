@@ -1509,7 +1509,7 @@ Charlie 11 Feb 2009
         ss_app.vcproj
 
 Charlie 12 Feb 2009
-    - SS: Minor fix to screensaver coordinator.
+    - SS: Continue refining screensaver coordinator logic.
 
     clientscr/
         screensaver.cpp
