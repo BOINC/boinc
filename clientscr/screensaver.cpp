@@ -365,8 +365,8 @@ void *CScreensaver::DataManagementProc()
     double          last_change_time            = 0.0;
     // If we run default screensaver during science phase because no science graphics 
     // are available, then shorten next default graphics phase by that much time.
-    double          default_saver_start_time    = 0.0;
-    double          default_saver_duration      = 0.0;
+    double          default_saver_start_time_in_science_phase    = 0.0;
+    double          default_saver_duration_in_science_phase      = 0.0;
 
     SS_PHASE        ss_phase                    = DEFAULT_SS_PHASE;
     bool            switch_to_default_gfx       = false;
@@ -494,6 +494,11 @@ void *CScreensaver::DataManagementProc()
                 ss_phase = DEFAULT_SS_PHASE;
                 default_phase_start_time = dtime();
                 science_phase_start_time = 0;
+                if (m_bDefault_gfx_running && default_saver_start_time_in_science_phase) {
+                    // Remember how long default graphics ran during science phase
+                    default_saver_duration_in_science_phase += (dtime() - default_saver_start_time_in_science_phase); 
+                }
+                default_saver_start_time_in_science_phase = 0;
             }
         }
         
@@ -511,7 +516,7 @@ void *CScreensaver::DataManagementProc()
                     previous_result_ptr = NULL;
                 }
             } else {
-                if (m_bDefault_ss_exists && !m_bDefault_gfx_running) {
+                if (!m_bDefault_gfx_running) {
                     switch_to_default_gfx = false;
                     retval = launch_default_screensaver(default_ss_dir_path, m_hGraphicsApplication);
                     if (retval) {
@@ -522,7 +527,7 @@ void *CScreensaver::DataManagementProc()
                     } else {
                         m_bDefault_gfx_running = true;
                         if (ss_phase == SCIENCE_SS_PHASE) {
-                            default_saver_start_time = dtime();
+                            default_saver_start_time_in_science_phase = dtime();
                         }
                     }
                 }
@@ -540,16 +545,16 @@ void *CScreensaver::DataManagementProc()
         // Time to switch to science graphics phase?
         if (ss_phase == DEFAULT_SS_PHASE) {
             if (default_phase_start_time && 
-                    ((dtime() - default_phase_start_time + default_saver_duration) 
+                    ((dtime() - default_phase_start_time + default_saver_duration_in_science_phase) 
                     > m_fGFXDefaultPeriod)) {
-                // BOINCTRACE(_T("CScreensaver::Ending Default phase: now=%f, default_phase_start_time=%f, default_saver_duration=%f\n"),
-                // dtime(), default_phase_start_time, default_saver_duration);
+                // BOINCTRACE(_T("CScreensaver::Ending Default phase: now=%f, default_phase_start_time=%f, default_saver_duration_in_science_phase=%f\n"),
+                // dtime(), default_phase_start_time, default_saver_duration_in_science_phase);
                 ss_phase = SCIENCE_SS_PHASE;
                 default_phase_start_time = 0;
-                default_saver_duration = 0;
+                default_saver_duration_in_science_phase = 0;
                 science_phase_start_time = dtime();
                 if (m_bDefault_gfx_running) {
-                    default_saver_start_time = science_phase_start_time;
+                    default_saver_start_time_in_science_phase = science_phase_start_time;
                 }
             }
         }
@@ -629,10 +634,13 @@ void *CScreensaver::DataManagementProc()
                 if (graphics_app_result_ptr) {
                     if (m_bDefault_gfx_running) {
                         kill_program(m_hGraphicsApplication);
-                        default_saver_duration += dtime() - default_saver_start_time; 
-                        //BOINCTRACE(_T("CScreensaver::During Science phase: now=%f, default_saver_start_time=%f, default_saver_duration=%f\n"),
-                        //    dtime(), default_saver_start_time, default_saver_duration);
-
+                        // Remember how long default graphics ran during science phase
+                        if (default_saver_start_time_in_science_phase) {
+                            default_saver_duration_in_science_phase += (dtime() - default_saver_start_time_in_science_phase); 
+                            //BOINCTRACE(_T("CScreensaver::During Science phase: now=%f, default_saver_start_time=%f, default_saver_duration=%f\n"),
+                            //    dtime(), default_saver_start_time_in_science_phase, default_saver_duration_in_science_phase);
+                        }
+                        default_saver_start_time_in_science_phase = 0;
                         // waitpid test will clear m_hGraphicsApplication and graphics_app_result_ptr
                      } else {
                         retval = launch_screensaver(graphics_app_result_ptr, m_hGraphicsApplication);
@@ -699,7 +707,7 @@ void *CScreensaver::DataManagementProc()
                         m_bDefault_gfx_running = false;
                     } else {
                         m_bDefault_gfx_running = true;
-                        default_saver_start_time = dtime();
+                        default_saver_start_time_in_science_phase = dtime();
                     }
                 }
             }

@@ -1507,3 +1507,9 @@ Charlie 11 Feb 2009
         Mac_SA_Secure.sh
     win_build/
         ss_app.vcproj
+
+Charlie 12 Feb 2009
+    - SS: Minor fix to screensaver coordinator.
+
+    clientscr/
+        screensaver.cpp
