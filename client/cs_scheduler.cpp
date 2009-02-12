@@ -515,7 +515,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
 
     if (log_flags.sched_op_debug && sr.request_delay) {
         msg_printf(project, MSG_INFO,
-            "Project requested delay of %f seconds", sr.request_delay
+            "Project requested delay of %.0f seconds", sr.request_delay
         );
     }
 

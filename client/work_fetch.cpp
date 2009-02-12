@@ -202,7 +202,7 @@ void WORK_FETCH::print_state() {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
-        msg_printf(p, MSG_INFO, "[wfd] overall_debt %f", p->pwf.overall_debt);
+        msg_printf(p, MSG_INFO, "[wfd] overall_debt %.0f", p->pwf.overall_debt);
     }
     msg_printf(0, MSG_INFO, "[wfd] ------- end work fetch state -------");
 }
@@ -430,7 +430,7 @@ void RSC_WORK_FETCH::update_debts() {
     //
     double offset = delta_sum/neligible;
     if (log_flags.debt_debug) {
-        msg_printf(0, MSG_INFO, "[debt] subtract %f for zero total change", offset);
+        msg_printf(0, MSG_INFO, "[debt] subtract %.2f for zero total change", offset);
     }
     double max_debt = 0;
     for (i=0; i<gstate.projects.size(); i++) {
@@ -451,7 +451,7 @@ void RSC_WORK_FETCH::update_debts() {
     // This ensures that new projects start out debt-free.
     //
     if (log_flags.debt_debug) {
-        msg_printf(0, MSG_INFO, "[debt] subtract %f for zero max debt", max_debt);
+        msg_printf(0, MSG_INFO, "[debt] subtract %.2f for zero max debt", max_debt);
     }
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
@@ -588,7 +588,7 @@ void RSC_PROJECT_WORK_FETCH::backoff(PROJECT* p, char* name) {
     backoff_time = gstate.now + backoff_interval;
     if (log_flags.work_fetch_debug) {
         msg_printf(p, MSG_INFO,
-            "[wfd] backing off %s %f", name, backoff_interval
+            "[wfd] backing off %s %.0f sec", name, backoff_interval
         );
     }
 }
