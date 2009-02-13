@@ -556,13 +556,18 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "<global_preferences>\n"
         "   <source_project>%s</source_project>\n"
         "   <mod_time>%f</mod_time>\n"
-        "%s%s"
+        "   <run_on_batteries>%d</run_on_batteries>\n"
+        "   <run_if_user_active>%d</run_if_user_active>\n"
+        "   <run_gpu_if_user_active>%d</run_gpu_if_user_active>\n"
         "   <suspend_if_no_recent_input>%f</suspend_if_no_recent_input>\n"
         "   <start_hour>%f</start_hour>\n"
         "   <end_hour>%f</end_hour>\n"
         "   <net_start_hour>%f</net_start_hour>\n"
         "   <net_end_hour>%f</net_end_hour>\n"
-        "%s%s%s%s%s"
+        "   <leave_apps_in_memory>%d</leave_apps_in_memory>\n"
+        "   <confirm_before_connecting>%d</confirm_before_connecting>\n"
+        "   <hangup_if_dialed>%d</hangup_if_dialed>\n"
+        "   <dont_verify_images>%d</dont_verify_images>\n"
         "   <work_buf_min_days>%f</work_buf_min_days>\n"
         "   <work_buf_additional_days>%f</work_buf_additional_days>\n"
         "   <max_ncpus_pct>%f</max_ncpus_pct>\n"
@@ -580,18 +585,18 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <cpu_usage_limit>%f</cpu_usage_limit>\n",
         source_project,
         mod_time,
-        run_on_batteries?"   <run_on_batteries/>\n":"",
-        run_if_user_active?"   <run_if_user_active/>\n":"",
-        run_gpu_if_user_active?"   <run_gpu_if_user_active/>\n":"",
+        run_on_batteries?1:0,
+        run_if_user_active?1:0,
+        run_gpu_if_user_active?1:0,
         suspend_if_no_recent_input,
         cpu_times.start_hour,
         cpu_times.end_hour,
         net_times.start_hour,
         net_times.end_hour,
-        leave_apps_in_memory?"   <leave_apps_in_memory/>\n":"",
-        confirm_before_connecting?"   <confirm_before_connecting/>\n":"",
-        hangup_if_dialed?"   <hangup_if_dialed/>\n":"",
-        dont_verify_images?"   <dont_verify_images/>\n":"",
+        leave_apps_in_memory?1:0,
+        confirm_before_connecting?1:0,
+        hangup_if_dialed?1:0,
+        dont_verify_images?1:0,
         work_buf_min_days,
         work_buf_additional_days,
         max_ncpus_pct,

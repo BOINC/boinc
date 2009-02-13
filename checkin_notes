@@ -1560,3 +1560,10 @@ Charlie 13 Feb 2009
         screensaver_win.cpp,.h
     mac_build/
         Mac_SA_Secure.sh
+
+David  13 Feb 2009
+    - GUI RPC: "get prefs" RPC was messed up by yesterdays's checkin;
+        also, change all bools to <foo>0|1</foo> rather than <foo/>
+
+    lib/
+        prefs.cpp
