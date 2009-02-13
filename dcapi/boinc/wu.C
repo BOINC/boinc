@@ -20,6 +20,8 @@
 #include <glib.h>
 #include <math.h>
 
+#include <openssl/sha.h>
+
 #include <sched_util.h>
 #include <sched_config.h>
 #include <backend_lib.h>
@@ -937,40 +939,44 @@ static char *generate_wu_template(DC_Workunit *wu)
 	return p;
 }
 
-static void emit_result_file_info(FILE *tmpl, int idx, int auto_upload,
+static void append_result_file_info(GString *tmpl, int idx, int auto_upload,
 	int max_output)
 {
-	fprintf(tmpl, "<file_info>\n");
-	fprintf(tmpl, "\t<name><OUTFILE_%d/></name>\n", idx);
-	fprintf(tmpl, "\t<generated_locally/>\n");
+	g_string_append(tmpl, "<file_info>\n");
+	g_string_append_printf(tmpl, "\t<name><OUTFILE_%d/></name>\n", idx);
+	g_string_append(tmpl, "\t<generated_locally/>\n");
 	if (auto_upload)
-		fprintf(tmpl, "\t<upload_when_present/>\n");
-	fprintf(tmpl, "\t<max_nbytes>%d</max_nbytes>\n", max_output);
-	fprintf(tmpl, "\t<url><UPLOAD_URL/></url>\n");
-	fprintf(tmpl, "</file_info>\n");
+		g_string_append(tmpl, "\t<upload_when_present/>\n");
+	g_string_append_printf(tmpl, "\t<max_nbytes>%d</max_nbytes>\n", max_output);
+	g_string_append(tmpl, "\t<url><UPLOAD_URL/></url>\n");
+	g_string_append(tmpl, "</file_info>\n");
 }
 
-static void emit_result_file_ref(FILE *tmpl, int idx, char *fmt, ...)
+static void append_result_file_ref(GString *tmpl, int idx, const char *fmt, ...)
 	G_GNUC_PRINTF(3, 4);
-static void emit_result_file_ref(FILE *tmpl, int idx, char *fmt, ...)
+static void append_result_file_ref(GString *tmpl, int idx, const char *fmt, ...)
 {
 	va_list ap;
 
+	g_string_append(tmpl, "\t<file_ref>\n");
+	g_string_append_printf(tmpl, "\t\t<file_name><OUTFILE_%d/></file_name>\n", idx);
+	g_string_append(tmpl, "\t\t<open_name>");
+
 	va_start(ap, fmt);
-	fprintf(tmpl, "\t<file_ref>\n");
-	fprintf(tmpl, "\t\t<file_name><OUTFILE_%d/></file_name>\n", idx);
-	fprintf(tmpl, "\t\t<open_name>");
-	vfprintf(tmpl, fmt, ap);
-	fprintf(tmpl, "</open_name>\n");
-	fprintf(tmpl, "\t</file_ref>\n");
+	g_string_append_vprintf(tmpl, fmt, ap);
+	va_end(ap);
+
+	g_string_append(tmpl, "</open_name>\n");
+	g_string_append(tmpl, "\t</file_ref>\n");
 }
 
 static char *generate_result_template(DC_Workunit *wu)
 {
-	char *file, uuid_str[37], *cfgval;
+	unsigned char digest[SHA_DIGEST_LENGTH];
 	int i, file_cnt, max_output_size;
-	GString *path;
-	FILE *tmpl;
+	GString *path, *tmpl;
+	char *file, *cfgval;
+	SHA_CTX sha;
 	GList *l;
 
 	cfgval = DC_getCfgStr(CFG_PROJECTROOT);
@@ -981,52 +987,61 @@ static char *generate_result_template(DC_Workunit *wu)
 		return NULL;
 	}
 
-	uuid_unparse_lower(wu->uuid, uuid_str);
-
-	/* Hash out template files */
-	path = g_string_new(cfgval);
-	g_string_append_c(path, G_DIR_SEPARATOR);
-	g_string_append(path, "templates");
-	g_string_append_c(path, G_DIR_SEPARATOR);
-	g_string_append_printf(path, "%02x", wu->uuid[0]);
-
-	mkdir(path->str, 0755);
-
-	g_string_append_c(path, G_DIR_SEPARATOR);
-	g_string_append_printf(path, "dcapi_%s.xml", uuid_str);
-
-	tmpl = fopen(path->str, "w");
-	if (!tmpl)
-	{
-		DC_log(LOG_ERR, "Failed to create result template %s: %s",
-			path->str, strerror(errno));
-		g_string_free(path, TRUE);
-		free(cfgval);
-		return NULL;
-	}
-
 	max_output_size = DC_getClientCfgInt(wu->client_name, CFG_MAXOUTPUT,
 		256 * 1024, TRUE);
 	file_cnt = 0;
+
+	tmpl = g_string_new("");
+
 	/* Slots for output files */
 	for (i = 0; i < wu->num_outputs; i++)
-		emit_result_file_info(tmpl, file_cnt++, TRUE, max_output_size);
+		append_result_file_info(tmpl, file_cnt++, TRUE, max_output_size);
 	/* Slots for subresults - no automatic uploading */
 	for (i = 0; i < wu->subresults; i++)
-		emit_result_file_info(tmpl, file_cnt++, FALSE, max_output_size);
+		append_result_file_info(tmpl, file_cnt++, FALSE, max_output_size);
 
-	fprintf(tmpl, "<result>\n");
+	g_string_append(tmpl, "<result>\n");
 	file_cnt = 0;
 	/* The output templates */
 	for (l = wu->output_files; l; l = l->next)
-		emit_result_file_ref(tmpl, file_cnt++, "%s", (char *)l->data);
+		append_result_file_ref(tmpl, file_cnt++, "%s", (char *)l->data);
 
 	/* The subresult templates */
 	for (i = 0; i < wu->subresults; i++)
-		emit_result_file_ref(tmpl, file_cnt++, "%s%d", SUBRESULT_PFX, i);
+		append_result_file_ref(tmpl, file_cnt++, "%s%d", SUBRESULT_PFX, i);
 
-	fprintf(tmpl, "</result>\n");
-	fclose(tmpl);
+	g_string_append(tmpl, "</result>\n");
+
+	/* Use the hash of the template's contents as the file name,
+	 * so we can avoid generating lots of files with the same
+	 * content */
+	SHA1_Init(&sha);
+	SHA1_Update(&sha, tmpl->str, strlen(tmpl->str));
+	SHA1_Final(digest, &sha);
+
+	path = g_string_new(cfgval);
+	g_string_append_printf(path, "%ctemplates%cdcapi_",
+		G_DIR_SEPARATOR, G_DIR_SEPARATOR);
+	for (i = 0; i < SHA_DIGEST_LENGTH; i += 2)
+		g_string_append_printf(path, "%02x%02x", digest[i], digest[i + 1]);
+	g_string_append(path, ".xml");
+
+	if (access(path->str, R_OK))
+	{
+		FILE *f = fopen(path->str, "w");
+		if (!f)
+		{
+			DC_log(LOG_ERR, "Failed to create result template %s: %s",
+				path->str, strerror(errno));
+			g_string_free(tmpl, TRUE);
+			g_string_free(path, TRUE);
+			free(cfgval);
+			return NULL;
+		}
+
+		fprintf(f, "%s", tmpl->str);
+		fclose(f);
+	}
 
 	file = g_strdup(path->str + strlen(cfgval) + 1);
 	free(cfgval);
