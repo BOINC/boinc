@@ -1109,3 +1109,10 @@ Rom    12 Feb 2009
     /
         configure.ac
         version.h
+
+David  13 Feb 2009
+    - GUI RPC: "get prefs" RPC was messed up by yesterdays's checkin;
+        also, change all bools to <foo>0|1</foo> rather than <foo/>
+
+    lib/
+        prefs.cpp
