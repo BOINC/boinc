@@ -370,6 +370,9 @@ void *CScreensaver::DataManagementProc()
 
     SS_PHASE        ss_phase                    = DEFAULT_SS_PHASE;
     bool            switch_to_default_gfx       = false;
+    
+    char*           default_ss_dir_path         = NULL;
+    char*           default_data_dir_path       = NULL;
     char            full_path[1024];
 
 #ifdef _WIN32
@@ -390,10 +393,14 @@ void *CScreensaver::DataManagementProc()
     m_fGFXChangePeriod = GFX_CHANGE_PERIOD;
 
 #ifdef __APPLE__
-    char * default_ss_dir_path = "/Library/Application Support/BOINC Data";
+    default_data_dir_path = "/Library/Application Support/BOINC Data";
+    default_ss_dir_path = default_data_dir_path;
 #else
-    // TODO: Obtain correct path to Windows default OpenGL screensaver executable
-    char * default_ss_dir_path = "C:\\Program Files\\BOINC";
+    UtilGetRegDirectoryStr(_T("INSTALLDIR"), &default_ss_dir_path);
+    BOINCTRACE(_T("CScreensaver::DataManagementProc - default_ss_dir_path = '%s'\n"), default_ss_dir_path);
+    retval = UtilGetRegDirectoryStr(_T("DATADIR"), &default_data_dir_path);
+    BOINCTRACE(_T("CScreensaver::DataManagementProc - default_data_dir_path = '%s'\n"), default_data_dir_path);
+retval = 0;
 #endif
     strlcpy(full_path, default_ss_dir_path, sizeof(full_path));
     strlcat(full_path, PATH_SEPARATOR, sizeof(full_path));
@@ -411,7 +418,7 @@ void *CScreensaver::DataManagementProc()
         science_phase_start_time = dtime();
     }
     
-    GetDisplayPeriods(default_ss_dir_path);
+    GetDisplayPeriods(default_data_dir_path);
 
     while (true) {
         for (int i = 0; i < 4; i++) {
@@ -428,6 +435,12 @@ void *CScreensaver::DataManagementProc()
                     previous_result_ptr = NULL;
                     m_hGraphicsApplication = 0;
                 }
+#ifdef _WIN32
+                if (default_ss_dir_path) free(default_ss_dir_path);
+                default_ss_dir_path = NULL;
+                if (default_data_dir_path) free(default_data_dir_path);
+                default_data_dir_path = NULL;
+#endif
                 return 0;       // Exit the thread
             }
 

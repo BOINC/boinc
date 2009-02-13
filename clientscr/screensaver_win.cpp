@@ -666,6 +666,65 @@ int CScreensaver::UtilGetRegStartupStr(LPCTSTR name, LPTSTR str) {
 
 
 
+// arguments:	name: name of key, str: address of pointer to receive string
+// returns:		int indicating error
+// function:	gets string value in specified key in windows startup dir
+//
+int CScreensaver::UtilGetRegDirectoryStr(LPCTSTR name, char **dir_string) {
+    //
+    // Determine BOINCMgr Data Directory
+    //
+	LONG    lReturnValue;
+	HKEY    hkSetupHive;
+    LPTSTR  lpszRegistryValue = NULL;
+	DWORD   dwSize = 0;
+
+    // change the current directory to the boinc data directory if it exists
+	lReturnValue = RegOpenKeyEx(
+        HKEY_LOCAL_MACHINE, 
+        _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),
+		0, 
+        KEY_READ,
+        &hkSetupHive
+    );
+    if (lReturnValue == ERROR_SUCCESS) {
+        // How large does our buffer need to be?
+        lReturnValue = RegQueryValueEx(
+            hkSetupHive,
+            name,
+            NULL,
+            NULL,
+            NULL,
+            &dwSize
+        );
+        if (lReturnValue != ERROR_FILE_NOT_FOUND) {
+            // Allocate the buffer space.
+            lpszRegistryValue = (LPTSTR) malloc(dwSize);
+            (*lpszRegistryValue) = NULL;
+
+            // Now get the data
+            lReturnValue = RegQueryValueEx( 
+                hkSetupHive,
+                name,
+                NULL,
+                NULL,
+                (LPBYTE)lpszRegistryValue,
+                &dwSize
+            );
+
+            // Store the root directory for later use.
+            *dir_string = lpszRegistryValue;
+        }
+    }
+
+    // Cleanup
+	if (hkSetupHive) RegCloseKey(hkSetupHive);
+	return lReturnValue;
+}
+
+
+
+
 // Desc: Create the infrastructure for thread safe acccess to the infrastructure
 //       layer of the screen saver.
 //

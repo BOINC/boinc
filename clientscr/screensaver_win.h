@@ -126,6 +126,7 @@ protected:
     int             UtilGetRegKey(LPCTSTR name, DWORD &keyval);
     int             UtilSetRegKey(LPCTSTR name, DWORD value);
     int             UtilGetRegStartupStr(LPCTSTR name, LPTSTR str);
+    int             UtilGetRegDirectoryStr(LPCTSTR name, char **dir_string);
 
     BOOL            CreateInfrastructureMutexes();
 
