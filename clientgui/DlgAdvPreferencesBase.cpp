@@ -72,19 +72,35 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	bSizer7 = new wxBoxSizer( wxVERTICAL );
 
 	wxStaticBoxSizer* sbSizer4;
-	sbSizer4 = new wxStaticBoxSizer( new wxStaticBox( m_panelProcessor, -1, _("Computing allowed") ), wxVERTICAL );
-
-	m_chkProcOnBatteries = new wxCheckBox( m_panelProcessor, ID_CHKPROCONBATTERIES, _(" While computer is on batteries"), wxDefaultPosition, wxDefaultSize, 0 );
-
-	m_chkProcOnBatteries->SetToolTip( _("check this if you want this computer to do work while it runs on batteries") );
-
+	sbSizer4 = new wxStaticBoxSizer(
+        new wxStaticBox(m_panelProcessor, -1, _("Computing allowed") ), wxVERTICAL
+    );
+	m_chkProcOnBatteries = new wxCheckBox(
+        m_panelProcessor, ID_CHKPROCONBATTERIES,
+        _(" While computer is on batteries"), wxDefaultPosition, wxDefaultSize, 0
+    );
+	m_chkProcOnBatteries->SetToolTip(
+        _("check this if you want this computer to do work while it runs on batteries")
+    );
 	sbSizer4->Add( m_chkProcOnBatteries, 0, wxALL, 5 );
 
-	m_chkProcInUse = new wxCheckBox( m_panelProcessor, ID_CHKPROCINUSE, _(" While computer is in use"), wxDefaultPosition, wxDefaultSize, 0 );
-
-	m_chkProcInUse->SetToolTip( _("check this if you want this computer to do work even when you're using it") );
-
+	m_chkProcInUse = new wxCheckBox(
+        m_panelProcessor, ID_CHKPROCINUSE,
+        _(" While computer is in use"), wxDefaultPosition, wxDefaultSize, 0
+    );
+	m_chkProcInUse->SetToolTip(
+        _("check this if you want this computer to do work even when you're using it")
+    );
 	sbSizer4->Add( m_chkProcInUse, 0, wxALL, 5 );
+
+    m_chkGPUProcInUse = new wxCheckBox(
+        m_panelProcessor, ID_CHKGPUPROCINUSE,
+        _(" Use GPU while computer is in use"), wxDefaultPosition, wxDefaultSize, 0
+    );
+	m_chkGPUProcInUse->SetToolTip(
+        _("check this if you want your GPU to do work even when you're using the computer")
+    );
+	sbSizer4->Add( m_chkGPUProcInUse, 0, wxALL, 5 );
 
 	wxFlexGridSizer* fgSizer5;
 	fgSizer5 = new wxFlexGridSizer( 2, 4, 0, 0 );
