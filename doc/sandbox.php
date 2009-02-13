@@ -138,6 +138,7 @@ echo
     show_dir(0, 'BOINC executables', $ua0555, array(
         show_file('BOINC Manager', $mm2555),
         show_file('BOINC Client', $mm6555),
+        show_file('Default BOINC Screensaver Graphics', $mm2555),
         show_dir(1, 'screensaver (directory)', $ua0555, array(
             show_file('gfx_switcher (executable)', $rm4555)
         )),
@@ -218,6 +219,14 @@ application with the process ID; since it is running as user and group
 <b>boinc_project</b>, it can affect only processes belonging to that user.
 </ul>
 </ul>
+<li>Starting with BOINC version 6.7, a default screenaver graphics application 
+is provided with BOINC.  The screensaver (now more properly called the 
+<b>screensaver coordinator</b>) runs the default graphics alternating with science 
+graphics applications according to a schedule set by the data file ss-config.xml.  
+The default graphics are run also when no science graphics are available, such as 
+when BOINC is suspended.  The default graphics executable has the same permissions 
+as the BOINC Manager.  This gives it access to the RPC password file and so to all 
+GUI RPCs, but allows the screensaver coordinator to kill it when appropriate. 
 <li>BOINC Client sets its umask to 006 to hide account keys from unauthorized 
 users.  This means that third-party add-ons cannot read BOINC data files; they 
 must use GUI RPCs to access BOINC Data.  
@@ -233,9 +242,9 @@ direct access to all BOINC and project files
 to simplify maintenance and administration.
 <li>The RPC password file <i>gui_rpc_auth.cfg</i>
 is accessible only by user and group <b>boinc_master</b>.
-In other words, only BOINC Manager, BOINC Client and
-authorized administrative users can read or modify it,
-limiting access to most BOINC RPC functions.
+In other words, only BOINC Manager, BOINC Client and authorized administrative 
+users can read or modify it, limiting access to most BOINC RPC functions.  As 
+of BOINC version 6.7, the default screenaver graphics application also can read it.
 <li>BOINC Manager restricts certain functions to authorized users:
 Attach to Project, Detach from Project, Reset Project, Abort Task,
 Abort Transfer, Update Account Manager.  
