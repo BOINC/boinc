@@ -83,6 +83,7 @@
 #define ID_TXTPROCTUESDAY 20053
 #define ID_TXTPROCUSEPROCESSORS 20054
 #define ID_TXTPROCWEDNESDAY 20055
+#define ID_CHKGPUPROCINUSE 20056
 
 /**
  * Class CDlgAdvPreferencesBase
@@ -100,6 +101,7 @@ class CDlgAdvPreferencesBase : public wxDialog
 		wxPanel* m_panelProcessor;
 		wxCheckBox* m_chkProcOnBatteries;
 		wxCheckBox* m_chkProcInUse;
+		wxCheckBox* m_chkGPUProcInUse;
 		wxStaticText* m_staticText26;
 		wxTextCtrl* m_txtProcIdleFor;
 		wxStaticText* m_staticText27;

@@ -225,6 +225,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 	m_chkProcOnBatteries->SetValue(prefs.run_on_batteries);
 	// in use
 	m_chkProcInUse->SetValue(prefs.run_if_user_active);
+    m_chkGPUProcInUse->SetValue(prefs.run_gpu_if_user_active);
 	// idle for X minutes
 	buffer.Printf(wxT("%.2f"),prefs.idle_time_to_run);
 	*m_txtProcIdleFor << buffer;
@@ -321,6 +322,9 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 	//
 	prefs.run_if_user_active=m_chkProcInUse->GetValue();
 	mask.run_if_user_active=true;
+
+	prefs.run_gpu_if_user_active=m_chkGPUProcInUse->GetValue();
+	mask.run_gpu_if_user_active=true;
 	//
 	if(m_txtProcIdleFor->IsEnabled()) {
 		m_txtProcIdleFor->GetValue().ToDouble(&td);
@@ -452,7 +456,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 /* set state of control depending on other control's state */
 void CDlgAdvPreferences::UpdateControlStates() {
 	//proc usage page
-	m_txtProcIdleFor->Enable(!m_chkProcInUse->IsChecked());
+	m_txtProcIdleFor->Enable(!m_chkProcInUse->IsChecked() || !m_chkGPUProcInUse->IsChecked());
 	m_txtProcMonday->Enable(m_chkProcMonday->IsChecked());
 	m_txtProcTuesday->Enable(m_chkProcTuesday->IsChecked());
 	m_txtProcWednesday->Enable(m_chkProcWednesday->IsChecked());

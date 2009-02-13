@@ -1567,3 +1567,10 @@ David  13 Feb 2009
 
     lib/
         prefs.cpp
+
+David  13 Feb 2009
+    - Manager: add GPU preference to advanced prefs dialog
+
+    clientgui/
+        DlgAdvPreferences.cpp
+        DlgAdvPreferencesBase.cpp,h
