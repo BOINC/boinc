@@ -1123,3 +1123,11 @@ David  13 Feb 2009
     clientgui/
         DlgAdvPreferences.cpp
         DlgAdvPreferencesBase.cpp,h
+
+Rom    13 Feb 2009
+    - Tag for 6.6.7 release, all platforms
+      boinc_core_release_6_6_7
+
+    /
+        configure.ac
+        version.h
