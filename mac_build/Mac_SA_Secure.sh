@@ -225,7 +225,7 @@ if [ -f ss_config.xml ] ; then
 fi
 
 if [ -f boincscr ] ; then
-    set_perm boincscr boinc_master boinc_master 6555
+    set_perm boincscr boinc_master boinc_master 2555
 fi
 
 if [ -x /Applications/BOINCManager.app/Contents/MacOS/BOINCManager ] ; then 

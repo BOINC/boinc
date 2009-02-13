@@ -485,10 +485,10 @@ int use_sandbox, int isManager
                 return -1056;
 
 #ifdef _DEBUG
-            if ((sbuf.st_mode & 07777) != 06775)
+            if ((sbuf.st_mode & 07777) != 02775)
                 return -1057;
 #else 
-            if ((sbuf.st_mode & 07777) != 06555) 
+            if ((sbuf.st_mode & 07777) != 02555) 
                 return -1058; 
 #endif 
         }   // Screensaver executable file boincscr exists

@@ -1540,3 +1540,23 @@ David  12 Feb 2009
         sim.h
     lib/
         prefs.cpp
+
+Charlie 13 Feb 2009
+    - ss_app: Under sandbox security, set boincscr permissions the same as 
+        for BOINC Manager: setgid to boinc_master but do not setuid; this 
+        allows the screensaver coordinator to kill boincscr but still gives 
+        boincscr access to GUI RPC password file and so to all GUI RPCs.
+    - SS: On Windows, add code to get paths to BOINC data and executable 
+        directories from Windows registry; expects boincscr in BOINC  
+        executable directory and ss-config.xml in BOINC data directory.
+
+    client/
+        check_security.cpp
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    clientscr/
+        screensaver.cpp
+        screensaver_win.cpp,.h
+    mac_build/
+        Mac_SA_Secure.sh
