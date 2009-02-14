@@ -956,6 +956,7 @@ static void append_result_file_ref(GString *tmpl, int idx, const char *fmt, ...)
 	G_GNUC_PRINTF(3, 4);
 static void append_result_file_ref(GString *tmpl, int idx, const char *fmt, ...)
 {
+	char buf[1024];
 	va_list ap;
 
 	g_string_append(tmpl, "\t<file_ref>\n");
@@ -963,8 +964,9 @@ static void append_result_file_ref(GString *tmpl, int idx, const char *fmt, ...)
 	g_string_append(tmpl, "\t\t<open_name>");
 
 	va_start(ap, fmt);
-	g_string_append_vprintf(tmpl, fmt, ap);
+	vsnprintf(buf, sizeof(buf), fmt, ap);
 	va_end(ap);
+	g_string_append(tmpl, buf);
 
 	g_string_append(tmpl, "</open_name>\n");
 	g_string_append(tmpl, "\t</file_ref>\n");
