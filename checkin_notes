@@ -1595,3 +1595,9 @@ David  13 Feb 2009
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+
+Charlie 13 Feb 2009
+    - SS: On Windows, make path strings Unicode compatible in ss coordinator.
+
+    clientscr/
+        screensaver.cpp

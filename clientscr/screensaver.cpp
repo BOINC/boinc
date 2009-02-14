@@ -41,9 +41,15 @@
 #include "gui_rpc_client.h"
 #include "screensaver_win.h"
 #include "str_util.h"
-#define PATH_SEPARATOR "\\"
+// Allow for Unicode wide characters
+#define PATH_SEPARATOR (_T("\\"))
+#define THE_DEFAULT_SS_EXECUTABLE (_T(DEFAULT_SS_EXECUTABLE))
+#define THE_SS_CONFIG_FILE (_T(SS_CONFIG_FILE))
 #else
+// Using (_T()) here causes compiler errors on Mac
 #define PATH_SEPARATOR "/"
+#define THE_DEFAULT_SS_EXECUTABLE DEFAULT_SS_EXECUTABLE
+#define THE_SS_CONFIG_FILE SS_CONFIG_FILE
 #endif
 
 #ifdef __APPLE__
@@ -321,7 +327,7 @@ int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_appli
     
     strlcpy(full_path, dir_path, sizeof(full_path));
     strlcat(full_path, PATH_SEPARATOR, sizeof(full_path));
-    strlcat(full_path, DEFAULT_SS_EXECUTABLE, sizeof(full_path));
+    strlcat(full_path, THE_DEFAULT_SS_EXECUTABLE, sizeof(full_path));
 
     // For unknown reasons, the graphics application exits with 
     // "RegisterProcess failed (error = -50)" unless we pass its 
@@ -404,7 +410,7 @@ retval = 0;
 #endif
     strlcpy(full_path, default_ss_dir_path, sizeof(full_path));
     strlcat(full_path, PATH_SEPARATOR, sizeof(full_path));
-    strlcat(full_path, DEFAULT_SS_EXECUTABLE, sizeof(full_path));
+    strlcat(full_path, THE_DEFAULT_SS_EXECUTABLE, sizeof(full_path));
     
     if (boinc_file_exists(full_path)) {
         m_bDefault_ss_exists = true;
@@ -760,7 +766,7 @@ void CScreensaver::GetDisplayPeriods(char *dir_path) {
 
     strlcpy(buf, dir_path, sizeof(buf));
     strlcat(buf, PATH_SEPARATOR, sizeof(buf));
-    strlcat(buf, SS_CONFIG_FILE, sizeof(buf));
+    strlcat(buf, THE_SS_CONFIG_FILE, sizeof(buf));
 
     f = boinc_fopen(buf, "r");
     if (!f) return;
