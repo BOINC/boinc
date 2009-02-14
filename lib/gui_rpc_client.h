@@ -475,6 +475,8 @@ struct PROJECT_INIT_STATUS {
 struct PROJECT_CONFIG {
     int error_num;
     std::string name;
+    std::string master_url;
+    int local_revision;     // SVN changeset# of server software
     int min_passwd_length;
     bool account_manager;
     bool uses_username;     // true for WCG

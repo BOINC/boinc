@@ -1587,3 +1587,11 @@ David  13 Feb 2009
 
     lib/
         prefs.cpp,h
+
+David  13 Feb 2009
+    - GUI RPC: add master_url and local_revision to PROJECT_CONFIG struct.
+        The former will allow the Manager to verify project URLs
+
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h
