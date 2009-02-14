@@ -1581,3 +1581,9 @@ David  13 Feb 2009
 
     client/
         scheduler_op.cpp,h
+
+David  13 Feb 2009
+    - client: fix bug in time-of-day limit prefs (both CPU and network)
+
+    lib/
+        prefs.cpp,h
