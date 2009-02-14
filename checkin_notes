@@ -1574,3 +1574,10 @@ David  13 Feb 2009
     clientgui/
         DlgAdvPreferences.cpp
         DlgAdvPreferencesBase.cpp,h
+
+David  13 Feb 2009
+    - client: fix bug where master fetch failure doesn't clear request flag,
+        leading to infinite retry without backoff
+
+    client/
+        scheduler_op.cpp,h
