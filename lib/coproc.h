@@ -134,6 +134,7 @@ struct cudaDeviceProp {
 };
 
 struct COPROC_CUDA : public COPROC {
+    int drvVersion;  // display driver version, obtained from NVAPI
     cudaDeviceProp prop;
 
 #ifndef _USING_FCGI_

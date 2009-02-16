@@ -1609,3 +1609,12 @@ Rom    16 Feb 2009
         
     /
         <Various Files>
+
+David  16 Feb 2009
+    - client: detect NVIDIA driver version number, show it on startup,
+        and include it with CUDA coprocessor descriptor in request msgs
+
+    lib/
+        coproc.cpp,h
+    win_build/
+        libboinc.vcproj
