@@ -1601,3 +1601,11 @@ Charlie 13 Feb 2009
 
     clientscr/
         screensaver.cpp
+
+Rom    16 Feb 2009
+    - WINBUILD: Remove ReleaseSigned build depends.
+    - WINBUILD: Add NVAPI to the list of static libraries to include during
+        the build process.  Driver version detection.
+        
+    /
+        <Various Files>
