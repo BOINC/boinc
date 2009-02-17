@@ -1,6 +1,49 @@
 <?
 
 $project_news = array(
+array("February 13, 2009",
+    "A <a href=http://event.twgrid.org/isgc2009/asiaathome/>workshop on volunteer computing</a> will take place 16-17 April 2009 at the Academia Sinica in Taipei, Taiwan, in conjunction with the International Symposium on Grid Computing."
+),
+array("February 3, 2009",
+    "Congratulations to <a href=http://www.setibr.org/>SETIBR</a>,
+    the Brazilian team which,
+    across several BOINC-based projects,
+    has achieved the levels of 100K average credit
+    and 50M total credit."
+),
+array("January 29, 2009",
+    "Scientists: it's easier than ever to create a BOINC project -
+    you don't even need a server!
+    Instead, you can use the Amazon Elastic Computing Cloud,
+    with a <a href=http://boinc.berkeley.edu/trac/wiki/CloudServer>virtual machine image</a> created by Derrick Kondo of INRIA."
+),
+array("January 28, 2009",
+    "<a href=http://www.extremadurathome.org/extremadurathome/>Extremadura@home</a> is a new kind of account manager in which the choice of projects
+    is a group decision.  It's targeted at Spanish computer owners
+    but is open to everyone."
+),
+array("January 27, 2009",
+    "<a href=http://www.dotsch.de/boinc/Dotsch_UX.html>Dotsch/UX</a>
+    is an ISO-format Linux distribution, based on Ubuntu Linux,
+    with the 6.2.15 BOINC client pre-installed.
+    It lets you easily install and boot from a USB stick, hard disk and
+    from diskless clients,
+    and it also has some interfaces to set up the diskless server
+    and the clients automatically.
+    Download info is <a href=http://boinc.berkeley.edu/download_all.php>here</a>.
+    "
+),
+array("January 22, 2009",
+    "A <a href=http://boinc.berkeley.edu/images/Cochran_SRL_2009.pdf>paper
+    about Quake-Catcher Network</a> appeared in
+    Seismological Research Letters, Jan/Feb 2009."
+),
+array("January 20, 2009",
+    "A paper about BOINC,
+    \"<a href=http://boinc.berkeley.edu/boinc_papers/hicss_08/hicss_08.pdf>Celebrating Diversity in Volunteer Computing</a>\",
+    has won a Best Paper award at the
+    42nd Hawaii International Conference on System Sciences."
+),
 array("January 14, 2009",
     "The <a href=http://docking.gcl.cis.udel.edu/>Docking@home</a>
     project has a spiffy new web site, and welcomes new volunteers."

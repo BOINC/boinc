@@ -186,8 +186,8 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *reason_msg) {
 // keep trying (subject to backoff); otherwise give up
 // (the results_dur, need_work, and trickle_up cases will be retriggered)
 //
-void SCHEDULER_OP::rpc_failed() {
-    backoff(cur_proj, "scheduler request failed");
+void SCHEDULER_OP::rpc_failed(const char* msg) {
+    backoff(cur_proj, msg);
     switch (cur_proj->sched_rpc_pending) {
     case RPC_REASON_INIT:
     case RPC_REASON_PROJECT_REQ:
@@ -257,7 +257,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
                 "Scheduler request failed: %s", boincerror(retval)
             );
         }
-        rpc_failed();
+        rpc_failed("Scheduler request initialization failed");
         return retval;
     }
     http_ops->insert(&http_op);
@@ -278,10 +278,18 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
         msg_printf(p, MSG_INFO, "[sched_op_debug] Fetching master file");
     }
     http_op.set_proxy(&gstate.proxy_info);
-    retval = http_op.init_get(p->master_url, master_filename, true);
-    if (retval) return retval;
-    http_ops->insert(&http_op);
     cur_proj = p;
+    retval = http_op.init_get(p->master_url, master_filename, true);
+    if (retval) {
+        if (log_flags.sched_ops) {
+            msg_printf(p, MSG_INFO,
+                "Master file fetch failed: %s", boincerror(retval)
+            );
+        }
+        rpc_failed("Master file fetch initialization failed");
+        return retval;
+    }
+    http_ops->insert(&http_op);
     state = SCHEDULER_OP_STATE_GET_MASTER;
     return 0;
 }
@@ -403,7 +411,7 @@ bool SCHEDULER_OP::poll() {
                     // master file parse failed.
                     //
                     cur_proj->master_fetch_failures++;
-                    backoff(cur_proj, "Couldn't parse scheduler list");
+                    rpc_failed("Couldn't parse scheduler list");
                 } else {
                     // parse succeeded
                     //
@@ -426,7 +434,7 @@ bool SCHEDULER_OP::poll() {
                     boincerror(http_op.http_op_retval)
                 );
                 cur_proj->master_fetch_failures++;
-                backoff(cur_proj, buf);
+                rpc_failed("Master file request failed");
             }
             gstate.request_work_fetch("Master fetch complete");
             cur_proj = NULL;
@@ -458,7 +466,7 @@ bool SCHEDULER_OP::poll() {
                     if (!retval) return true;
                 }
                 if (url_index == (int) cur_proj->scheduler_urls.size()) {
-                    rpc_failed();
+                    rpc_failed("Scheduler request failed");
                 }
             } else {
                 retval = gstate.handle_scheduler_reply(cur_proj, scheduler_url);
