@@ -1152,8 +1152,6 @@ David  13 Feb 2009
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
-<<<<<<< .working
-=======
 
 Charlie 13 Feb 2009
     - SS: On Windows, make path strings Unicode compatible in ss coordinator.
@@ -1168,9 +1166,6 @@ Rom    16 Feb 2009
         
     /
         <Various Files>
-<<<<<<< .working
->>>>>>> .merge-right.r17274
-=======
 
 David  16 Feb 2009
     - client: detect NVIDIA driver version number, show it on startup,
@@ -1180,4 +1175,9 @@ David  16 Feb 2009
         coproc.cpp,h
     win_build/
         libboinc.vcproj
->>>>>>> .merge-right.r17275
+
+Charlie 13 Feb 2009
+    - client: fix compile break on Mac.
+
+    lib/
+        coproc.cpp

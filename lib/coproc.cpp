@@ -208,7 +208,11 @@ string COPROC_CUDA::get(COPROCS& coprocs) {
         (*__cudaGetDeviceProperties)(&cc.prop, i);
         if (cc.prop.major <= 0) continue;  // major == 0 means emulation
         if (cc.prop.major > 100) continue;  // e.g. 9999 is an error
+#ifdef _WIN32
         cc.drvVersion = Version.drvVersion;
+#else
+        cc.drvVersion = 0;
+#endif
 		cc.description(buf);
 
         if (real_count) {
