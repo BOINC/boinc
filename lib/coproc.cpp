@@ -19,6 +19,7 @@
 #include <string.h>
 #include <stdlib.h>
 #ifdef _WIN32
+#include <nvapi.h>
 #else
 #ifdef __APPLE__
 // Suppress obsolete warning when building for OS 10.3.9
@@ -154,6 +155,20 @@ string COPROC_CUDA::get(COPROCS& coprocs) {
         return "Library doesn't have cudaGetDeviceProperties()";
     }
 
+    NvAPI_Status nvapiStatus;
+    NvDisplayHandle hDisplay;
+    NV_DISPLAY_DRIVER_VERSION Version;
+    memset(&Version, 0, sizeof(Version));
+    Version.version = NV_DISPLAY_DRIVER_VERSION_VER;
+
+    NvAPI_Initialize();
+    for (int i=0; ; i++) {
+        nvapiStatus = NvAPI_EnumNvidiaDisplayHandle(i, &hDisplay);
+        if (nvapiStatus != NVAPI_OK) break;
+        nvapiStatus = NvAPI_GetDisplayDriverVersion(hDisplay, &Version);
+        if (nvapiStatus == NVAPI_OK) break;
+    }
+
 #else
     void* cudalib;
     void (*__cudaGetDeviceCount)(int*);
@@ -193,6 +208,7 @@ string COPROC_CUDA::get(COPROCS& coprocs) {
         (*__cudaGetDeviceProperties)(&cc.prop, i);
         if (cc.prop.major <= 0) continue;  // major == 0 means emulation
         if (cc.prop.major > 100) continue;  // e.g. 9999 is an error
+        cc.drvVersion = Version.drvVersion;
 		cc.description(buf);
 
         if (real_count) {
@@ -223,8 +239,8 @@ string COPROC_CUDA::get(COPROCS& coprocs) {
 }
 
 void COPROC_CUDA::description(char* buf) {
-	sprintf(buf, "%s (%.0fMB, est. %.0fGFLOPS)",
-		prop.name, prop.totalGlobalMem/(1024.*1024.), flops_estimate()/1e9
+	sprintf(buf, "%s (driver version %d, CUDA version %d.%d, %.0fMB, est. %.0fGFLOPS)",
+		prop.name, drvVersion, prop.major, prop.minor, prop.totalGlobalMem/(1024.*1024.), flops_estimate()/1e9
 	);
 }
 
@@ -265,6 +281,7 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
         "   <req_secs>%f</req_secs>\n"
         "   <req_instances>%d</req_instances>\n"
         "   <estimated_delay>%f</estimated_delay>\n"
+        "   <drvVersion>%d</drvVersion>\n"
         "   <totalGlobalMem>%u</totalGlobalMem>\n"
         "   <sharedMemPerBlock>%u</sharedMemPerBlock>\n"
         "   <regsPerBlock>%d</regsPerBlock>\n"
@@ -286,6 +303,7 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
         req_secs,
         req_instances,
         estimated_delay,
+        drvVersion,
         (unsigned int)prop.totalGlobalMem,
         (unsigned int)prop.sharedMemPerBlock,
         prop.regsPerBlock,
@@ -346,6 +364,7 @@ int COPROC_CUDA::parse(FILE* fin) {
         if (parse_int(buf, "<req_instances>", req_instances)) continue;
         if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
         if (parse_str(buf, "<name>", prop.name, sizeof(prop.name))) continue;
+        if (parse_int(buf, "<drvVersion>", drvVersion)) continue;
         if (parse_double(buf, "<totalGlobalMem>", prop.dtotalGlobalMem)) continue;
         if (parse_int(buf, "<sharedMemPerBlock>", (int&)prop.sharedMemPerBlock)) continue;
         if (parse_int(buf, "<regsPerBlock>", prop.regsPerBlock)) continue;
