@@ -1152,3 +1152,20 @@ David  13 Feb 2009
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+<<<<<<< .working
+=======
+
+Charlie 13 Feb 2009
+    - SS: On Windows, make path strings Unicode compatible in ss coordinator.
+
+    clientscr/
+        screensaver.cpp
+
+Rom    16 Feb 2009
+    - WINBUILD: Remove ReleaseSigned build depends.
+    - WINBUILD: Add NVAPI to the list of static libraries to include during
+        the build process.  Driver version detection.
+        
+    /
+        <Various Files>
+>>>>>>> .merge-right.r17274
