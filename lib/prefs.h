@@ -114,13 +114,12 @@ protected:
 
 
 struct TIME_PREFS : public TIME_SPAN {
-    TIME_SPAN span;
     WEEK_PREFS week;
 
     TIME_PREFS() {}
     TIME_PREFS(double start, double end) {
-        span.start_hour = start;
-        span.end_hour = end;
+        start_hour = start;
+        end_hour = end;
     }
     
     void clear();

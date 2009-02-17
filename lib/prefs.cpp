@@ -167,7 +167,7 @@ bool TIME_PREFS::suspended() const {
     if (day>=0 && day<7 && week.days[day].present) {
         return week.days[day].suspended(hour);
     }
-    return span.suspended(hour);
+    return TIME_SPAN::suspended(hour);
 }
 
 
