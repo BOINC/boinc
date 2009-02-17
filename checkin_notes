@@ -1189,3 +1189,10 @@ David  16 Feb 2009
         work_fetch.cpp
         log_flags.cpp,h
         cpu_sched.cpp
+
+David  17 Feb 2009
+    - client: don't ignore jobs with fraction_done=1 (but still running)
+        in RR simulation; we may need to mark them as deadline miss.
+
+    client/
+        rr_sim.cpp

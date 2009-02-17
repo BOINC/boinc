@@ -223,7 +223,9 @@ void CLIENT_STATE::rr_simulation() {
         if (rp->some_download_stalled()) continue;
         if (rp->project->non_cpu_intensive) continue;
         rp->rrsim_flops_left = rp->estimated_flops_remaining();
-        if (rp->rrsim_flops_left <= 0) continue;
+        //if (rp->rrsim_flops_left <= 0) continue;
+            // job may have fraction_done=1 but not be done;
+            // if it's past its deadline, we need to mark it as such
         p = rp->project;
         if (rp->uses_cuda()) {
             p->cuda_pwf.has_runnable_jobs = true;
