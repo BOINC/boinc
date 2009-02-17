@@ -1619,8 +1619,21 @@ David  16 Feb 2009
     win_build/
         libboinc.vcproj
 
-Charlie 13 Feb 2009
+Charlie 16 Feb 2009
     - client: fix compile break on Mac.
 
     lib/
         coproc.cpp
+
+David  16 Feb 2009
+    - client: add a debug flag <dcf_debug> for seeing changes in DCF
+    - scheduler: add a limit on NVIDIA driver version for CUDA apps
+        (default 17500)
+
+    client/
+        work_fetch.cpp
+        log_flags.cpp,h
+        cpu_sched.cpp
+    sched/
+        sched_send.cpp
+        sched_plan.cpp,h

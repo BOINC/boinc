@@ -49,38 +49,13 @@ LOG_FLAGS::LOG_FLAGS() {
 }
 
 void LOG_FLAGS::defaults() {
-    // on by default
-    // (others are off by default)
+    memset(this, 0, sizeof(LOG_FLAGS));
+
+    // on by default (others are off by default)
     //
     task = true;
     file_xfer = true;
     sched_ops = true;
-
-    // off by default; intended for developers and testers
-    //
-    cpu_sched = false;
-    cpu_sched_debug = false;
-    rr_simulation = false;
-    debt_debug = false;
-    task_debug = false;
-    work_fetch_debug = false;
-    unparsed_xml = false;
-    state_debug = false;
-    file_xfer_debug = false;
-    sched_op_debug = false;
-    http_debug = false;
-    proxy_debug = false;
-    time_debug = false;
-    http_xfer_debug = false;
-    benchmark_debug = false;
-    poll_debug = false;
-    guirpc_debug = false;
-    scrsave_debug = false;
-    app_msg_send = false;
-    app_msg_receive = false;
-    mem_usage_debug = false;
-    network_status_debug = false;
-    checkpoint_debug = false;
 } 
 
 // Parse log flag preferences
@@ -124,6 +99,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "network_status_debug", network_status_debug)) continue;
         if (xp.parse_bool(tag, "checkpoint_debug", checkpoint_debug)) continue;
         if (xp.parse_bool(tag, "coproc_debug", coproc_debug)) continue;
+        if (xp.parse_bool(tag, "dcf_debug", dcf_debug)) continue;
         msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );

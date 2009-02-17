@@ -327,15 +327,17 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
         }
         char* p = NULL;
         switch (app_plan_reject) {
-        case PLAN_REJECT_PREFS:
+        case PLAN_REJECT_GPU_PREFS:
             p = "Your preferences are to not use GPU"; break;
-        case PLAN_REJECT_NO_COPROC:
+        case PLAN_REJECT_CUDA_NO_DEVICE:
             p = "Your computer has no CUDA device"; break;
-        case PLAN_REJECT_COPROC_VERSION:
+        case PLAN_REJECT_CUDA_VERSION:
             p = "Your CUDA device has the wrong software version"; break;
-        case PLAN_REJECT_COPROC_MEM:
+        case PLAN_REJECT_NVIDIA_DRIVER_VERSION:
+            p = "Your CUDA device has the wrong driver version"; break;
+        case PLAN_REJECT_CUDA_MEM:
             p = "Your CUDA device has insufficient memory"; break;
-        case PLAN_REJECT_COPROC_SPEED:
+        case PLAN_REJECT_CUDA_SPEED:
             p = "Your CUDA device is too slow"; break;
         }
         if (p) {

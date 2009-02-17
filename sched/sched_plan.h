@@ -20,11 +20,12 @@
 
 // reasons for the planning function to reject a host
 
-#define PLAN_REJECT_PREFS           1
-#define PLAN_REJECT_NO_COPROC       2
-#define PLAN_REJECT_COPROC_VERSION  3
-#define PLAN_REJECT_COPROC_MEM      4
-#define PLAN_REJECT_COPROC_SPEED    5
-#define PLAN_REJECT_UNKNOWN         6
+#define PLAN_REJECT_GPU_PREFS               1
+#define PLAN_REJECT_CUDA_NO_DEVICE          2
+#define PLAN_REJECT_CUDA_VERSION            3
+#define PLAN_REJECT_NVIDIA_DRIVER_VERSION   4
+#define PLAN_REJECT_CUDA_MEM                5
+#define PLAN_REJECT_CUDA_SPEED              6
+#define PLAN_REJECT_UNKNOWN                 7
 
 extern int app_plan(SCHEDULER_REQUEST&, char* plan_class, HOST_USAGE&);

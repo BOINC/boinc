@@ -93,6 +93,8 @@ struct LOG_FLAGS {
     bool checkpoint_debug;
         /// show coproc reserve/free
 	bool coproc_debug;
+        /// show changes to duration correction factors
+    bool dcf_debug;
 
     LOG_FLAGS();
     void defaults();

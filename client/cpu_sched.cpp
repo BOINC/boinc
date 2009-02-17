@@ -1254,9 +1254,9 @@ void PROJECT::update_duration_correction_factor(ACTIVE_TASK* atp) {
     if (duration_correction_factor > 100) duration_correction_factor = 100;
     if (duration_correction_factor < 0.01) duration_correction_factor = 0.01;
 
-    if (log_flags.cpu_sched_debug || log_flags.work_fetch_debug) {
+    if (log_flags.dcf_debug) {
         msg_printf(this, MSG_INFO,
-            "[csd|wfd] DCF: %f->%f, raw_ratio %f, adj_ratio %f",
+            "[dcf] DCF: %f->%f, raw_ratio %f, adj_ratio %f",
             old_dcf, duration_correction_factor, raw_ratio, adj_ratio
         );
     }

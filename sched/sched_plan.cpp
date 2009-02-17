@@ -76,7 +76,7 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 );
                 g_wreq->no_gpus_prefs = true;
             }
-            return PLAN_REJECT_PREFS;
+            return PLAN_REJECT_GPU_PREFS;
         }
         COPROC_CUDA* cp = (COPROC_CUDA*)sreq.coprocs.lookup("CUDA");
         if (!cp) {
@@ -85,7 +85,7 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                     "[version] Host lacks CUDA coprocessor for plan class cuda\n"
                 );
             }
-            return PLAN_REJECT_NO_COPROC;
+            return PLAN_REJECT_CUDA_NO_DEVICE;
         }
         int v = (cp->prop.major)*100 + cp->prop.minor;
         if (v < 100) {
@@ -94,8 +94,18 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                     "[version] CUDA version %d < 1.0\n", v
                 );
             }
-            return PLAN_REJECT_COPROC_VERSION;
+            return PLAN_REJECT_CUDA_VERSION;
         } 
+
+        if (cp->drvVersion && cp->drvVersion < 17500) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] NVIDIA driver version %d < 17500\n",
+                    cp->drvVersion
+                );
+            }
+            return PLAN_REJECT_NVIDIA_DRIVER_VERSION;
+        }
 
         if (cp->prop.dtotalGlobalMem < 254*1024*1024) {
             if (config.debug_version_select) {
@@ -103,7 +113,7 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                     "[version] CUDA mem %d < 254MB\n", cp->prop.dtotalGlobalMem
                 );
             }
-            return PLAN_REJECT_COPROC_MEM;
+            return PLAN_REJECT_CUDA_MEM;
         }
         hu.flops = cp->flops_estimate();
 
@@ -117,7 +127,7 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                     hu.flops/1e9
                 );
             }
-            return PLAN_REJECT_COPROC_SPEED;
+            return PLAN_REJECT_CUDA_SPEED;
         }
 #endif
 
