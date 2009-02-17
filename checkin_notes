@@ -1618,3 +1618,9 @@ David  16 Feb 2009
         coproc.cpp,h
     win_build/
         libboinc.vcproj
+
+Charlie 13 Feb 2009
+    - client: fix compile break on Mac.
+
+    lib/
+        coproc.cpp
