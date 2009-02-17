@@ -748,9 +748,9 @@ void CLIENT_STATE::scale_duration_correction_factors(double factor) {
         PROJECT* p = projects[i];
         p->duration_correction_factor *= factor;
     }
-    if (log_flags.cpu_sched_debug) {
+    if (log_flags.dcf_debug) {
         msg_printf(NULL, MSG_INFO,
-            "[cpu_sched_debug] scaling duration correction factors by %f",
+            "[dcf] scaling all duration correction factors by %f",
             factor
         );
     }

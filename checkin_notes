@@ -1176,8 +1176,16 @@ David  16 Feb 2009
     win_build/
         libboinc.vcproj
 
-Charlie 13 Feb 2009
+Charlie 16 Feb 2009
     - client: fix compile break on Mac.
 
     lib/
         coproc.cpp
+
+David  16 Feb 2009
+    - client: add a debug flag <dcf_debug> for seeing changes in DCF
+
+    client/
+        work_fetch.cpp
+        log_flags.cpp,h
+        cpu_sched.cpp
