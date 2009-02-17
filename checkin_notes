@@ -1637,3 +1637,28 @@ David  16 Feb 2009
     sched/
         sched_send.cpp
         sched_plan.cpp,h
+
+David  17 Feb 2009
+    - client: don't ignore jobs with fraction_done=1 (but still running)
+        in RR simulation; we may need to mark them as deadline miss.
+    - web: replace & with &amp; various places
+
+    client/
+        rr_sim.cpp
+    html/
+        inc/
+            prefs.inc
+            results.inc
+            stats_sites.inc
+        ops/
+            update_profile_pages.php
+        user/
+            edit_forum_preferences.php
+            edit_passwd_form.php
+            hosts_user.php
+            pm.php
+            prefs_remove.php
+            profile_menu.php
+            top_hosts.php
+            top_teams.php
+            top_users.php

@@ -184,7 +184,7 @@ function build_picture_pages($width, $height) {
             Only user profiles with pictures are listed here.";
 
 
-        echo "<table class=bordered border=1 cellpadding=5\n";
+        echo "<table class=bordered border=1 cellpadding=5>\n";
 
         for ($row = 0; $row < $height; $row++) {
             echo "<tr>";

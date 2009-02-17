@@ -20,7 +20,7 @@
 //
 $cpid_stats_sites = array(
     array("Free-DC",
-        "http://stats.free-dc.org/stats.php?page=userbycpid&cpid=%s"
+        "http://stats.free-dc.org/stats.php?page=userbycpid&amp;cpid=%s"
     ),
     array("BOINC all Project Stats",
         "http://www.allprojectstats.com/showuser.php?id=%s"

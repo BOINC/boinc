@@ -125,7 +125,7 @@ if ($userid) {
     // At this point, we know that $userid, $show_all and $sort all have
     // valid values.
     //
-    $cache_args="userid=$userid&show_all=$show_all&sort=$sort&rev=$rev";
+    $cache_args="userid=$userid&amp;show_all=$show_all&amp;sort=$sort&amp;rev=$rev";
     start_cache(USER_PAGE_TTL, $cache_args);
     if ($user->show_hosts) {
         page_head("Computers belonging to $user->name");

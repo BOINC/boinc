@@ -29,13 +29,14 @@ echo "
     <form method=post action=edit_passwd_action.php>
 ";
 
-start_table();
 
 if ($user) {
     echo "
         <input type=hidden name=auth value=$user->authenticator>
     ";
+    start_table();
 } else {
+    start_table();
     row1("You can identify yourself using either
         <ul>
         <li> your email address and old password

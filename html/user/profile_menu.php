@@ -58,8 +58,8 @@ echo "<tr><td>
     <ul>
     <li>".tra("View the %1User Picture Gallery%2.", "<a href=\"" . URL_BASE . "user_profile/user_gallery_1.html\">", "</a>")."</li>
     <li>".tra("Browse profiles %1by country%2.", "<a href=\"" . URL_BASE . "user_profile/profile_country.html\">", "</a>")."</li>
-    <li>".tra("Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2.", "<a href=\"?cmd=rand&pic=-1\">", "</a>",
-            "<a href=\"?cmd=rand&pic=1\">", "<a href=\"?cmd=rand&pic=0\">")."</li>
+    <li>".tra("Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2.", "<a href=\"?cmd=rand&amp;pic=-1\">", "</a>",
+            "<a href=\"?cmd=rand&amp;pic=1\">", "<a href=\"?cmd=rand&amp;pic=0\">")."</li>
 ";
 if (file_exists(PROFILE_PATH . "profile_alpha.html")) {
     echo "<li>".tra("Alphabetical profile listings:")."<br>";

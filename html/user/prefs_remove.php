@@ -29,7 +29,7 @@ $subset = get_str("subset");
 $venue = get_str("venue");
 $confirmed = get_str("confirmed", true);
 $columns = get_int("cols", true);
-$c = $columns?"&cols=$columns":"";
+$c = $columns?"&amp;cols=$columns":"";
 
 if ($confirmed) {
     if ($subset == "global") {
@@ -50,7 +50,7 @@ if ($confirmed) {
         Are you sure you want to delete your separate ", subset_name($subset),
         " preferences for $venue?
         <br><br>
-        <a href=prefs_remove.php?subset=$subset&venue=$venue&confirmed=yes$c$tokens>Yes</a>
+        <a href=prefs_remove.php?subset=$subset&amp;venue=$venue&amp;confirmed=yes$c$tokens>Yes</a>
         | <a href=prefs.php?subset=$subset$c>Cancel</a>
     ";
     page_tail();

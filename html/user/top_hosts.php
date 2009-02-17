@@ -88,12 +88,12 @@ foreach($data as $host) {
 echo "</table>\n<p>";
 if ($offset > 0) {
     $new_offset = $offset - $hosts_per_page;
-    echo "<a href=top_hosts.php?sort_by=$sort_by&offset=$new_offset>Previous ".$hosts_per_page."</a> | ";
+    echo "<a href=top_hosts.php?sort_by=$sort_by&amp;offset=$new_offset>Previous ".$hosts_per_page."</a> | ";
 
 }
 if ($n==$hosts_per_page){ //If we aren't on the last page
     $new_offset = $offset + $hosts_per_page;
-    echo "<a href=top_hosts.php?sort_by=$sort_by&offset=$new_offset>Next ".$hosts_per_page."</a>";
+    echo "<a href=top_hosts.php?sort_by=$sort_by&amp;offset=$new_offset>Next ".$hosts_per_page."</a>";
 }
 
 page_tail();

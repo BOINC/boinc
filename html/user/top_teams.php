@@ -117,12 +117,12 @@ if (count($data) == 0) {
     echo "</table>\n<p>";
     if ($offset > 0) {
         $new_offset = $offset - $teams_per_page;
-        echo "<a href=top_teams.php?sort_by=$sort_by&offset=$new_offset".$type_url.">Previous ".$teams_per_page."</a> | ";
+        echo "<a href=top_teams.php?sort_by=$sort_by&amp;offset=$new_offset".$type_url.">Previous ".$teams_per_page."</a> | ";
 
     }
     if ($n==$teams_per_page){ //If we aren't on the last page
         $new_offset = $offset + $teams_per_page;
-        echo "<a href=top_teams.php?sort_by=$sort_by&offset=$new_offset".$type_url.">Next ".$teams_per_page."</a>";
+        echo "<a href=top_teams.php?sort_by=$sort_by&amp;offset=$new_offset".$type_url.">Next ".$teams_per_page."</a>";
     }
 }
 page_tail();
