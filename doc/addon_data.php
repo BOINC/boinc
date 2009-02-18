@@ -11,6 +11,16 @@
 
 $win = array(
 array(
+    'http://efmer.eu/boinc/',
+    'TThrottle',
+    '1.47',
+    'TThrottle throttles CPU usage to keep its temperature below a limit you select.',
+    'http://efmer.eu/boinc/',
+    'Win32: XP, Vista; Win64: XP, 2003, Vista',
+    '',
+    1234896753
+),
+array(
     'http://www.weebl00.nl/leiterow/zowtar/BOINC/',
     'BOINC mIRC',
     '0.1',
@@ -40,15 +50,15 @@ array(
 //    Put the .mrc on your mIRC main dir and type',
 //    1162833635
 //),
-array('boincdv_v0306.zip',
-    'BoincDV',
-    '',
-    'A small util to view current project debts for your v4.4x BOINC cc.',
-    'http://home.austin.rr.com/skipsjunk/',
-    'Tested on XP Pro/Home only',
-    'see included readme.txt',
-    1121326440
-),
+//array('boincdv_v0306.zip',
+//    'BoincDV',
+//    '',
+//    'A small util to view current project debts for your v4.4x BOINC cc.',
+//    'http://home.austin.rr.com/skipsjunk/',
+//    'Tested on XP Pro/Home only',
+//    'see included readme.txt',
+//    1121326440
+//),
 array('BoincLogX_Setup_v1.51.exe',
     'BoincLogX',
     '1.51',

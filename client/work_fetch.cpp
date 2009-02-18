@@ -242,9 +242,10 @@ static bool has_a_job(PROJECT* p) {
 // we're going to contact this project; decide how much work to request
 //
 void WORK_FETCH::compute_work_request(PROJECT* p) {
+    clear_request();
+    if (p->dont_request_more_work) return;
     if (p->non_cpu_intensive) {
-        clear_request();
-        if (!p->dont_request_more_work && !has_a_job(p)) {
+        if (!has_a_job(p)) {
             cpu_work_fetch.req_secs = 1;
         }
         return;

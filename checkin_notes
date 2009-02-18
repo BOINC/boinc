@@ -1662,3 +1662,11 @@ David  17 Feb 2009
             top_hosts.php
             top_teams.php
             top_users.php
+
+David  18 Feb 2009
+    - client: if "no more work" checked, don't request more work (duh!)
+
+    client/
+        work_fetch.cpp
+    tools/
+        make_project

@@ -343,8 +343,8 @@ readme_filename = os.path.join(
 test_app_msg = ''
 if options.test_app:
     test_app_msg = '''
-3. The project is configured with a test application.
-    To install this application (recommended) run:
+-  The project is configured with a test application.
+   To install this application (recommended) run:
         cd %(proot)s
         bin/xadd
         bin/update_versions
@@ -353,7 +353,7 @@ if options.test_app:
 print >>open(readme_filename,'w'), '''
 Steps to complete installation:
 
-1. Change Apache configuration (as root):
+-  Change Apache configuration (as root):
 
    cat %(httpd_conf_template_filename)s >> /etc/apache/httpd.conf
 
@@ -363,7 +363,7 @@ Steps to complete installation:
    /usr/sbin/apache2ctl restart
    (or /usr/sbin/apachectl restart)
 
-2. Add to crontab (as %(USER)s)
+-  Add to crontab (as %(USER)s)
 
     0,5,10,15,20,25,30,35,40,45,50,55 * * * * %(proot)s/bin/start --cron
 
@@ -371,7 +371,7 @@ Steps to complete installation:
    PYTHONPATH)
 %(test_app_msg)s
 
-3. In the project home directory (%(proot)s) run
+-  In the project home directory (%(proot)s) run
     bin/xadd
 
 To start, show status, and stop the project, run:

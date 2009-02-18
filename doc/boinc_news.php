@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("February 17, 2009",
+    "A new add-on program for Windows,
+    <a href=http://boinc.berkeley.edu/addon_item.php?platform=win&item=http%3A%2F%2Fefmer.eu%2Fboinc%2F>TThrottle</a>,
+    throttles CPU usage to keep its temperature below a limit you select."
+),
 array("February 13, 2009",
     "A <a href=http://event.twgrid.org/isgc2009/asiaathome/>workshop on volunteer computing</a> will take place 16-17 April 2009 at the Academia Sinica in Taipei, Taiwan, in conjunction with the International Symposium on Grid Computing."
 ),

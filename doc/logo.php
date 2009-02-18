@@ -34,6 +34,7 @@ The colors are based on U.C. Berkeley's blue-and-gold colors.
 <ul>
 <li> <a href=logo/www_logo.gif>164x73 version (GIFF)</a>
 <li> <a href=logo/boinc_600.jpg>600x305 version (JPEG)</a>
+<li> <a href=logo/boinc_logo_black.jpg>1280x535, black background (JPEG)</a>
 <li> <a href=logo/boinc_logo.ai>Adobe Illustrator (.ai)</a>
 <li> <a href=logo/boinc_logo.cdr>Vector graphics (.cdr)</a>
 <li> <a href=logo/boinc_logo.pdf>Adobe PDF (.cdr)</a>
