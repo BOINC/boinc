@@ -282,6 +282,7 @@ public:
     bool scheduler_rpc_poll();
     bool simulate_rpc(PROJECT*);
     void print_project_results(FILE*);
+    bool in_abort_sequence;
 };
 
 class NET_STATUS {

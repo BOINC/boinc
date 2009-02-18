@@ -19,7 +19,9 @@
 #include <string.h>
 #include <stdlib.h>
 #ifdef _WIN32
+#ifndef SIM
 #include <nvapi.h>
+#endif
 #else
 #ifdef __APPLE__
 // Suppress obsolete warning when building for OS 10.3.9
@@ -155,6 +157,7 @@ string COPROC_CUDA::get(COPROCS& coprocs) {
         return "Library doesn't have cudaGetDeviceProperties()";
     }
 
+#ifndef SIM
     NvAPI_Status nvapiStatus;
     NvDisplayHandle hDisplay;
     NV_DISPLAY_DRIVER_VERSION Version;
@@ -168,6 +171,7 @@ string COPROC_CUDA::get(COPROCS& coprocs) {
         nvapiStatus = NvAPI_GetDisplayDriverVersion(hDisplay, &Version);
         if (nvapiStatus == NVAPI_OK) break;
     }
+#endif
 
 #else
     void* cudalib;
@@ -208,7 +212,7 @@ string COPROC_CUDA::get(COPROCS& coprocs) {
         (*__cudaGetDeviceProperties)(&cc.prop, i);
         if (cc.prop.major <= 0) continue;  // major == 0 means emulation
         if (cc.prop.major > 100) continue;  // e.g. 9999 is an error
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(SIM)
         cc.drvVersion = Version.drvVersion;
 #else
         cc.drvVersion = 0;
