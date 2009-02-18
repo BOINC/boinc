@@ -31,6 +31,7 @@
 #include "error_numbers.h"
 #include "common_defs.h"
 #include "file_names.h"
+#include "client_state.h"
 #include "client_msgs.h"
 #include "parse.h"
 #include "str_util.h"
@@ -194,7 +195,7 @@ void CONFIG::defaults() {
 
 int CONFIG::parse_options(XML_PARSER& xp) {
     char tag[1024], path[256];
-    bool is_tag;
+    bool is_tag, btemp;
     string s;
 
     while (!xp.get(tag, sizeof(tag), is_tag)) {
@@ -259,6 +260,10 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool(tag, "no_gpus", no_gpus)) continue;
+        if (xp.parse_bool(tag, "abort_jobs_on_exit", btemp)) {
+            gstate.abort_jobs_on_exit = true;
+            continue;
+        }
         msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );

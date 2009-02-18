@@ -1670,3 +1670,29 @@ David  18 Feb 2009
         work_fetch.cpp
     tools/
         make_project
+
+David  18 Feb 2009
+    - client: adjust debts at least every minute.
+        This fixes a bug that can cause debts to NEVER get updated.
+    - client: added "abort_jobs_on_exit" feature
+        (available by --abort_jobs_on_exit cmdline
+        or <abort_jobs_on_exit> in cc_config.xml).
+        If set, when the client is exited by user request
+        (this includes signals on Unix)
+        it marks all pending jobs as aborted,
+        and does a scheduler RPC to all projects with jobs.
+        When these are completed the client exits.
+        This is useful when BOINC is being used on grids
+        where it is wiped clean after each run.
+
+    client/
+        client_state.cpp,h
+        cpu_sched.cpp
+        cs_cmdline.cpp
+        cs_prefs.cpp
+        cs_scheduler.cpp
+        log_flags.cpp
+        main.cpp
+        work_fetch.cpp
+    lib/
+        error_numbers.h

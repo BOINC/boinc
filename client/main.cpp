@@ -188,8 +188,7 @@ DWORD WINAPI Win9xMonitorSystemThread( LPVOID  ) {
     wc.lpszMenuName  = NULL;
 	wc.lpszClassName = "BOINCWin9xMonitorSystem";
 
-    if (!RegisterClass(&wc))
-    {
+    if (!RegisterClass(&wc)) {
         fprintf(stderr, "Failed to register the Win9xMonitorSystem window class.\n");
         return 1;
     }
@@ -208,14 +207,12 @@ DWORD WINAPI Win9xMonitorSystemThread( LPVOID  ) {
         NULL,
         NULL);
 
-    if (!hwndMain)
-    {
+    if (!hwndMain) {
         fprintf(stderr, "Failed to create the Win9xMonitorSystem window.\n");
         return 0;
     }
 
-    while (GetMessage(&msg, NULL, 0, 0))
-    {
+    while (GetMessage(&msg, NULL, 0, 0)) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
@@ -389,18 +386,20 @@ int initialize() {
 
     // Initialize WinSock
 #if defined(_WIN32) && defined(USE_WINSOCK)
-    if ( WinsockInitialize() != 0 ) {
+    if (WinsockInitialize() != 0) {
         if (!gstate.executing_as_daemon) {
             fprintf(stderr,
                 TEXT("BOINC Core Client Error Message\n"
-                     "Failed to initialize the Windows Sockets interface\n"
-                     "Terminating Application...\n")
+                    "Failed to initialize the Windows Sockets interface\n"
+                    "Terminating Application...\n"
+                )
             );
         } else {
             LogEventErrorMessage(
                 TEXT("BOINC Core Client Error Message\n"
-                     "Failed to initialize the Windows Sockets interface\n"
-                     "Terminating Application...\n")
+                    "Failed to initialize the Windows Sockets interface\n"
+                    "Terminating Application...\n"
+                )
             );
         }
         return ERR_IO;
@@ -421,7 +420,9 @@ int initialize() {
                     TEXT("BOINC Core Client Error Message\n"
                         "Failed to initialize the BOINC Client Library Interface.\n"
                         "BOINC will not be able to determine if the user is idle or not...\n"
-                        "Load failed: %s\n"), windows_error_string(event_message, sizeof(event_message))
+                        "Load failed: %s\n"
+                    ),
+                    windows_error_string(event_message, sizeof(event_message))
                 );
                 if (!gstate.executing_as_daemon) {
                     fprintf(stderr, event_message);
@@ -438,7 +439,9 @@ int initialize() {
                     TEXT("BOINC Core Client Error Message\n"
                         "Failed to initialize the BOINC Idle Detection Interface.\n"
                         "BOINC will not be able to determine if the user is idle or not...\n"
-                        "Load failed: %s\n"), windows_error_string(event_message, sizeof(event_message))
+                        "Load failed: %s\n"
+                    ),
+                    windows_error_string(event_message, sizeof(event_message))
                 );
                 if (!gstate.executing_as_daemon) {
                     fprintf(stderr, event_message);
@@ -474,7 +477,7 @@ int boinc_main_loop() {
 #ifdef _WIN32
     if (gstate.executing_as_daemon) {
         LogEventInfoMessage(
-            TEXT("BOINC service is initialization completed, now begining process execution...\n")
+            TEXT("BOINC service initialization completed, beginning process execution...\n")
         );
     }
 #endif
@@ -504,8 +507,24 @@ int boinc_main_loop() {
             break;
         }
         if (gstate.requested_exit) {
-            msg_printf(NULL, MSG_INFO, "Exit requested by user");
-            break;
+            if (gstate.abort_jobs_on_exit) {
+                if (!gstate.in_abort_sequence) {
+                    msg_printf(NULL, MSG_INFO,
+                        "Exit requested; starting abort sequence"
+                    );
+                    gstate.in_abort_sequence = true;
+                    gstate.start_abort_sequence();
+                }
+            } else {
+                msg_printf(NULL, MSG_INFO, "Exit requested by user");
+                break;
+            }
+        }
+        if (gstate.in_abort_sequence) {
+            if (gstate.abort_sequence_done()) {
+                msg_printf(NULL, MSG_INFO, "Abort sequence done; exiting");
+                break;
+            }
         }
 #ifdef _WIN32
         if (requested_suspend) {

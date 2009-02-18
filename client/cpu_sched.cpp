@@ -64,6 +64,9 @@ using std::vector;
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
+#define CPU_SCHED_ENFORCE_PERIOD    60
+    // enforce CPU schedule at least this often
+
 bool COPROCS::sufficient_coprocs(COPROCS& needed, bool log_flag, const char* prefix) {
     for (unsigned int i=0; i<needed.coprocs.size(); i++) {
         COPROC* cp = needed.coprocs[i];
@@ -333,17 +336,17 @@ void CLIENT_STATE::adjust_debts() {
     double share_frac;
     double elapsed_time = now - debt_interval_start;
 
-    // This is called from WORK_FETCH::choose_project(),
-    // which runs about once every WORK_FETCH_PERIOD.
-    // If the elapsed time is more than 2*WORK_FETCH_PERIOD,
+    // This is called from enforce_schedule(),
+    // which runs about once every CPU_SCHED_ENFORCE_PERIOD seconds.
+    // If the elapsed time is more than 2*CPU_SCHED_ENFORCE_PERIOD
     // it must be because the host was suspended for a long time.
     // In this case, ignore the last period
     //
-    if (elapsed_time > 2*WORK_FETCH_PERIOD || elapsed_time < 0) {
+    if (elapsed_time > 2*CPU_SCHED_ENFORCE_PERIOD || elapsed_time < 0) {
         if (log_flags.debt_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[debt_debug] adjust_debt: elapsed time (%d) longer than work fetch period(%d).  Ignoring this period.",
-                (int)elapsed_time, (int)WORK_FETCH_PERIOD
+                "[debt_debug] adjust_debt: elapsed time (%d) longer than sched enforce period(%d).  Ignoring this period.",
+                (int)elapsed_time, (int)CPU_SCHED_ENFORCE_PERIOD
             );
         }
         reset_debt_accounting();
@@ -580,8 +583,6 @@ void CLIENT_STATE::schedule_cpus() {
         print_deadline_misses();
     }
 
-    adjust_debts();
-
     // set temporary variables
     //
     for (i=0; i<results.size(); i++) {
@@ -737,11 +738,12 @@ bool CLIENT_STATE::enforce_schedule() {
 
     // Do this when requested, and once a minute as a safety net
     //
-    if (now - last_time > 60) {
+    if (now - last_time > CPU_SCHED_ENFORCE_PERIOD) {
         must_enforce_cpu_schedule = true;
     }
     if (!must_enforce_cpu_schedule) return false;
     must_enforce_cpu_schedule = false;
+    adjust_debts();
     last_time = now;
     bool action = false;
 

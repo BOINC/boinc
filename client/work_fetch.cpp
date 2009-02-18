@@ -286,7 +286,6 @@ PROJECT* WORK_FETCH::choose_project() {
     p = non_cpu_intensive_project_needing_work();
     if (p) return p;
 
-    gstate.adjust_debts();
     gstate.compute_nuploading_results();
 
     gstate.rr_simulation();
@@ -649,6 +648,7 @@ bool PROJECT::can_request_work() {
     if (master_url_fetch_pending) return false;
     if (min_rpc_time > gstate.now) return false;
     if (dont_request_more_work) return false;
+    if (gstate.in_abort_sequence) return false;
     return true;
 }
 
