@@ -98,6 +98,7 @@ public:
     int cmdline_gui_rpc_port;
     bool show_projects;
     bool requested_exit;
+    bool in_abort_sequence;
         /// stores URL for -detach_project option
     char detach_project_url[256];
         /// stores URL for -reset_project option
@@ -228,6 +229,9 @@ public:
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*, bool detaching);
     bool no_gui_rpc;
+    bool abort_jobs_on_exit;
+    void start_abort_sequence();
+    bool abort_sequence_done();
 private:
     int link_app(PROJECT*, APP*);
     int link_file_info(PROJECT*, FILE_INFO*);

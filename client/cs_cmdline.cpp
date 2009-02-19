@@ -39,6 +39,7 @@ static void print_options(char* prog) {
         "Run boinccmd in the same directory as %s.\n"
         "\n"
         "Usage: %s [options]\n"
+        "    --abort_jobs_on_exit           when client exits, abort and report jobs\n"
         "    --allow_remote_gui_rpc         allow remote GUI RPC connections\n"
         "    --allow_multiple_clients       allow >1 instances per host\n"
         "    --attach_project <URL> <key>   attach to a project\n"
@@ -48,9 +49,9 @@ static void print_options(char* prog) {
         "    --detach_project <URL>         detach from a project\n"
         "    --dir <path>                   use given dir as BOINC home\n"
         "    --exit_after_app_start N       exit N seconds after an app starts\n"
+        "    --exit_after_finish            exit right after finishing a job\n"
         "    --exit_before_start            exit right before starting a job\n"
         "    --exit_before_upload           exit right before starting an upload \n"
-        "    --exit_after_finish            exit right after finishing a job\n"
         "    --exit_when_idle               exit when there are no results\n"
         "    --file_xfer_giveup_period N    give up on file xfers after N sec\n"
         "    --gui_rpc_port <port>          port for GUI RPCs\n"
@@ -59,21 +60,21 @@ static void print_options(char* prog) {
         "    --insecure                     disable app sandboxing (Unix)\n"
 #endif
         "    --launched_by_manager          client was launched by Manager\n"
+        "    --master_fetch_interval N      limiting period of master retry\n"
         "    --master_fetch_period N        reload master URL after N RPC failures\n"
         "    --master_fetch_retry_cap N     exponential backoff limit\n"
-        "    --master_fetch_interval N      limiting period of master retry\n"
         "    --no_gui_rpc                   don't allow GUI RPC, don't make socket\n"
         "    --pers_giveup N                giveup time for persistent file xfer\n"
-        "    --pers_retry_delay_min N       min for file xfer exponential backoff\n"
         "    --pers_retry_delay_max N       max for file xfer exponential backoff\n"
-        "    --reset_project <URL>          reset (clear) a project\n"
+        "    --pers_retry_delay_min N       min for file xfer exponential backoff\n"
         "    --redirectio                   redirect stdout and stderr to log files\n"
+        "    --reset_project <URL>          reset (clear) a project\n"
         "    --retry_cap N                  exponential backoff limit\n"
         "    --run_cpu_benchmarks           run the CPU benchmarks\n"
         "    --run_by_updater               set by updater\n"
         "    --saver                        client was launched by screensaver\n"
-        "    --sched_retry_delay_min N      min for RPC exponential backoff\n"
         "    --sched_retry_delay_max N      max for RPC exponential backoff\n"
+        "    --sched_retry_delay_min N      min for RPC exponential backoff\n"
         "    --show_projects                show attached projects\n"
         "    --skip_cpu_benchmarks          don't run CPU benchmarks\n"
         "    --start_delay X                delay starting apps for X secs\n"
@@ -99,82 +100,17 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     int i;
     bool show_options = false;
 
+    // NOTE: if you change or add anything, make the same chane
+    // in show_options() (above) and in doc/client.php
+
     for (i=1; i<argc; i++) {
-        if (ARG(exit_when_idle)) {
-            exit_when_idle = true;
-            config.report_results_immediately = true;
-        } else if (ARG(exit_before_start)) {
-            exit_before_start = true;
-        } else if (ARG(exit_after_finish)) {
-            exit_after_finish = true;
-        } else if (ARG(check_all_logins)) {
-            check_all_logins = true;
-        } else if (ARG(daemon)) {
-            executing_as_daemon = true;
-        } else if (ARG(skip_cpu_benchmarks)) {
-            skip_cpu_benchmarks = true;
-        } else if (ARG(exit_after_app_start)) {
-            if (i == argc-1) show_options = true;
-            else exit_after_app_start_secs = atoi(argv[++i]);
-        } else if (ARG(file_xfer_giveup_period)) {
-            if (i == argc-1) show_options = true;
-            else file_xfer_giveup_period = atoi(argv[++i]);
-        } else if (ARG(saver)) {
-            started_by_screensaver = true;
-        } else if (!strncmp(argv[i], "-psn_", strlen("-psn_"))) {
-            // ignore -psn argument on Mac OS X
-        } else if (ARG(exit_before_upload)) {
-            exit_before_upload = true;
-        // The following are only used for testing to alter scheduler/file transfer
-        // backoff rates
-        } else if (ARG(master_fetch_period)) {
-            if (i == argc-1) show_options = true;
-            else master_fetch_period = atoi(argv[++i]);
-        } else if (ARG(retry_cap)) {
-            if (i == argc-1) show_options = true;
-            else retry_cap = atoi(argv[++i]);
-        } else if (ARG(master_fetch_retry_cap)) {
-            if (i == argc-1) show_options = true;
-            else master_fetch_retry_cap = atoi(argv[++i]);
-        } else if (ARG(master_fetch_interval)) {
-            if (i == argc-1) show_options = true;
-            else master_fetch_interval = atoi(argv[++i]);
-        } else if (ARG(sched_retry_delay_min)) {
-            if (i == argc-1) show_options = true;
-            else sched_retry_delay_min = atoi(argv[++i]);
-        } else if (ARG(sched_retry_delay_max)) {
-            if (i == argc-1) show_options = true;
-            else sched_retry_delay_max = atoi(argv[++i]);
-        } else if (ARG(pers_retry_delay_min)) {
-            if (i == argc-1) show_options = true;
-            else pers_retry_delay_min = atoi(argv[++i]);
-        } else if (ARG(pers_retry_delay_max)) {
-            if (i == argc-1) show_options = true;
-            else pers_retry_delay_max = atoi(argv[++i]);
-        } else if (ARG(pers_giveup)) {
-            if (i == argc-1) show_options = true;
-            else pers_giveup = atoi(argv[++i]);
-        } else if (ARG(detach_phase_two)) {
-            detach_console = true;
-
-        // the above options are private (i.e. not shown by -help)
-        // Public options follow.
-        // NOTE: if you change or add anything, make the same chane
-        // in show_options() (above) and in doc/client.php
-
-        } else if (ARG(show_projects)) {
-            show_projects = true;
-        } else if (ARG(detach_project)) {
-            if (i == argc-1) show_options = true;
-            else safe_strcpy(detach_project_url, argv[++i]);
-        } else if (ARG(reset_project)) {
-            if (i == argc-1) show_options = true;
-            else safe_strcpy(reset_project_url, argv[++i]);
-        } else if (ARG(update_prefs)) {
-            if (i == argc-1) show_options = true;
-            else safe_strcpy(update_prefs_url, argv[++i]);
-        } else if (ARG(run_cpu_benchmarks)) {
-            run_cpu_benchmarks = true;
+        if (0) {
+        } else if (ARG(abort_jobs_on_exit)) {
+            abort_jobs_on_exit = true;
+        } else if (ARG(allow_multiple_clients)) {
+            config.allow_multiple_clients = true;
+        } else if (ARG(allow_remote_gui_rpc)) {
+            allow_remote_gui_rpc = true;
         } else if (ARG(attach_project)) {
             if (i >= argc-2) {
                 show_options = true;
@@ -182,18 +118,15 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
                 safe_strcpy(attach_project_url, argv[++i]);
                 safe_strcpy(attach_project_auth, argv[++i]);
             }
-        } else if (ARG(version)) {
-            printf(BOINC_VERSION_STRING " " HOSTTYPE "\n");
-            exit(0);
-        } else if (ARG(allow_remote_gui_rpc)) {
-            allow_remote_gui_rpc = true;
-        } else if (ARG(gui_rpc_port)) {
-            cmdline_gui_rpc_port = atoi(argv[++i]);
-        } else if (ARG(redirectio)) {
-            redirect_io = true;
-        } else if (ARG(help)) {
-            print_options(argv[0]);
-            exit(0);
+        } else if (ARG(check_all_logins)) {
+            check_all_logins = true;
+        } else if (ARG(daemon)) {
+            executing_as_daemon = true;
+        } else if (ARG(detach_phase_two)) {
+            detach_console = true;
+        } else if (ARG(detach_project)) {
+            if (i == argc-1) show_options = true;
+            else safe_strcpy(detach_project_url, argv[++i]);
         } else if (ARG(dir)) {
             if (i == argc-1) {
                 show_options = true;
@@ -203,21 +136,87 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
                     exit(1);
                 }
             }
-        } else if (ARG(no_gui_rpc)) {
-            no_gui_rpc = true;
+        } else if (ARG(exit_after_app_start)) {
+            if (i == argc-1) show_options = true;
+            else exit_after_app_start_secs = atoi(argv[++i]);
+        } else if (ARG(exit_after_finish)) {
+            exit_after_finish = true;
+        } else if (ARG(exit_before_start)) {
+            exit_before_start = true;
+        } else if (ARG(exit_before_upload)) {
+            exit_before_upload = true;
+        } else if (ARG(exit_when_idle)) {
+            exit_when_idle = true;
+            config.report_results_immediately = true;
+        } else if (ARG(file_xfer_giveup_period)) {
+            if (i == argc-1) show_options = true;
+            else file_xfer_giveup_period = atoi(argv[++i]);
+        } else if (ARG(gui_rpc_port)) {
+            cmdline_gui_rpc_port = atoi(argv[++i]);
+        } else if (ARG(help)) {
+            print_options(argv[0]);
+            exit(0);
         } else if (ARG(insecure)) {
 #ifdef SANDBOX
             g_use_sandbox = false;
 #endif
         } else if (ARG(launched_by_manager)) {
             launched_by_manager = true;
+        } else if (ARG(master_fetch_interval)) {
+            if (i == argc-1) show_options = true;
+            else master_fetch_interval = atoi(argv[++i]);
+        } else if (ARG(master_fetch_period)) {
+            if (i == argc-1) show_options = true;
+            else master_fetch_period = atoi(argv[++i]);
+        } else if (ARG(master_fetch_retry_cap)) {
+            if (i == argc-1) show_options = true;
+            else master_fetch_retry_cap = atoi(argv[++i]);
+        } else if (ARG(no_gui_rpc)) {
+            no_gui_rpc = true;
+        } else if (ARG(pers_giveup)) {
+            if (i == argc-1) show_options = true;
+            else pers_giveup = atoi(argv[++i]);
+        } else if (ARG(pers_retry_delay_max)) {
+            if (i == argc-1) show_options = true;
+            else pers_retry_delay_max = atoi(argv[++i]);
+        } else if (ARG(pers_retry_delay_min)) {
+            if (i == argc-1) show_options = true;
+            else pers_retry_delay_min = atoi(argv[++i]);
+        } else if (!strncmp(argv[i], "-psn_", strlen("-psn_"))) {
+            // ignore -psn argument on Mac OS X
+        } else if (ARG(redirectio)) {
+            redirect_io = true;
+        } else if (ARG(reset_project)) {
+            if (i == argc-1) show_options = true;
+            else safe_strcpy(reset_project_url, argv[++i]);
+        } else if (ARG(retry_cap)) {
+            if (i == argc-1) show_options = true;
+            else retry_cap = atoi(argv[++i]);
         } else if (ARG(run_by_updater)) {
             run_by_updater = true;
+        } else if (ARG(run_cpu_benchmarks)) {
+            run_cpu_benchmarks = true;
+        } else if (ARG(saver)) {
+            started_by_screensaver = true;
+        } else if (ARG(sched_retry_delay_max)) {
+            if (i == argc-1) show_options = true;
+            else sched_retry_delay_max = atoi(argv[++i]);
+        } else if (ARG(sched_retry_delay_min)) {
+            if (i == argc-1) show_options = true;
+            else sched_retry_delay_min = atoi(argv[++i]);
+        } else if (ARG(show_projects)) {
+            show_projects = true;
+        } else if (ARG(skip_cpu_benchmarks)) {
+            skip_cpu_benchmarks = true;
         } else if (ARG(start_delay)) {
             if (i == argc-1) show_options = true;
             else config.start_delay = atof(argv[++i]);
-        } else if (ARG(allow_multiple_clients)) {
-            config.allow_multiple_clients = true;
+        } else if (ARG(update_prefs)) {
+            if (i == argc-1) show_options = true;
+            else safe_strcpy(update_prefs_url, argv[++i]);
+        } else if (ARG(version)) {
+            printf(BOINC_VERSION_STRING " " HOSTTYPE "\n");
+            exit(0);
         } else {
             printf("Unknown option: %s\n", argv[i]);
             show_options = true;

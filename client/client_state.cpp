@@ -102,6 +102,7 @@ CLIENT_STATE::CLIENT_STATE():
     network_mode.set(RUN_MODE_AUTO, 0);
     started_by_screensaver = false;
     requested_exit = false;
+    in_abort_sequence = false;
     master_fetch_period = MASTER_FETCH_PERIOD;
     retry_cap = RETRY_CAP;
     master_fetch_retry_cap = MASTER_FETCH_RETRY_CAP;
@@ -131,6 +132,7 @@ CLIENT_STATE::CLIENT_STATE():
     launched_by_manager = false;
     initialized = false;
     last_wakeup_time = dtime();
+    abort_jobs_on_exit = false;
 }
 
 void CLIENT_STATE::show_proxy_info() {
@@ -1588,13 +1590,11 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
 // e.g. flush buffers, but why bother)
 //
 int CLIENT_STATE::quit_activities() {
-    int retval;
-
     // calculate long-term debts (for state file)
     //
     adjust_debts();
 
-    retval = active_tasks.exit_tasks();
+    int retval = active_tasks.exit_tasks();
     if (retval) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
             "Couldn't exit tasks: %s", boincerror(retval)
@@ -1655,6 +1655,37 @@ void CLIENT_STATE::check_clock_reset() {
     }
 
     // RESULT: could change report_deadline, but not clear how
+}
+
+// the following is done on client exit if the
+// "abort_jobs_on_exit" flag is present.
+// Abort jobs, and arrange to tell projects about it.
+//
+void CLIENT_STATE::start_abort_sequence() {
+    unsigned int i;
+
+    for (i=0; i<results.size(); i++) {
+        RESULT* rp = results[i];
+        rp->project->sched_rpc_pending = RPC_REASON_USER_REQ;
+        if (rp->computing_done()) continue;
+        ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
+        if (atp) {
+            atp->abort_task(ERR_ABORTED_ON_EXIT, "aborting on client exit");
+        } else {
+            rp->abort_inactive(ERR_ABORTED_ON_EXIT);
+        }
+    }
+}
+
+// The second part of the above; check if RPCs are done
+//
+bool CLIENT_STATE::abort_sequence_done() {
+    unsigned int i;
+    for (i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        if (p->sched_rpc_pending == RPC_REASON_USER_REQ) return false;
+    }
+    return true;
 }
 
 const char *BOINC_RCSID_e836980ee1 = "$Id$";

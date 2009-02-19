@@ -262,7 +262,7 @@ void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
         );
     }
     if (strlen(main_host_venue)) {
-		msg_printf(NULL, MSG_INFO, "Computer location: %s", main_host_venue);
+        msg_printf(NULL, MSG_INFO, "Computer location: %s", main_host_venue);
         if (found_venue) {
             msg_printf(NULL, MSG_INFO,
                 "General prefs: using separate prefs for %s", main_host_venue
@@ -274,7 +274,7 @@ void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
             );
         }
     } else {
-		msg_printf(NULL, MSG_INFO, "Host location: none");
+        msg_printf(NULL, MSG_INFO, "Host location: none");
         msg_printf(NULL, MSG_INFO, "General prefs: using your defaults");
     }
 }
@@ -335,13 +335,13 @@ int PROJECT::parse_preferences_for_user_files() {
 void CLIENT_STATE::read_global_prefs() {
     bool found_venue;
     int retval;
-	FILE* f;
+    FILE* f;
     string foo;
 
     retval = read_file_string(GLOBAL_PREFS_OVERRIDE_FILE, foo);
     if (!retval) {
-		parse_str(foo.c_str(), "<host_venue>", main_host_venue, sizeof(main_host_venue));
-	}
+        parse_str(foo.c_str(), "<host_venue>", main_host_venue, sizeof(main_host_venue));
+    }
 
     retval = global_prefs.parse_file(
         GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue
@@ -356,18 +356,18 @@ void CLIENT_STATE::read_global_prefs() {
                 "Couldn't parse preferences file - using BOINC defaults"
             );
             boinc_delete_file(GLOBAL_PREFS_FILE_NAME);
-            global_prefs.init();
         }
+        global_prefs.init();
     } else {
-		// check that the source project's venue matches main_host_venue.
-		// If not, read file again.
-		// This is a fix for cases where main_host_venue is out of synch
-		//
-		PROJECT* p = global_prefs_source_project();
-		if (p && strcmp(main_host_venue, p->host_venue)) {
-			strcpy(main_host_venue, p->host_venue);
-			global_prefs.parse_file(GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue);
-		}
+        // check that the source project's venue matches main_host_venue.
+        // If not, read file again.
+        // This is a fix for cases where main_host_venue is out of synch
+        //
+        PROJECT* p = global_prefs_source_project();
+        if (p && strcmp(main_host_venue, p->host_venue)) {
+            strcpy(main_host_venue, p->host_venue);
+            global_prefs.parse_file(GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue);
+        }
         show_global_prefs_source(found_venue);
     }
 
@@ -385,17 +385,17 @@ void CLIENT_STATE::read_global_prefs() {
     }
 
     msg_printf(NULL, MSG_INFO,
-		"Preferences limit memory usage when active to %.2fMB",
+        "Preferences limit memory usage when active to %.2fMB",
         (host_info.m_nbytes*global_prefs.ram_max_used_busy_frac)/MEGA
     );
     msg_printf(NULL, MSG_INFO,
-		"Preferences limit memory usage when idle to %.2fMB",
-		(host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/MEGA
+        "Preferences limit memory usage when idle to %.2fMB",
+        (host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/MEGA
     );
     double x;
     total_disk_usage(x);
     msg_printf(NULL, MSG_INFO,
-		"Preferences limit disk usage to %.2fGB",
+        "Preferences limit disk usage to %.2fGB",
         allowed_disk_usage(x)/GIGA
     );
     // max_cpus, bandwidth limits may have changed
@@ -406,10 +406,10 @@ void CLIENT_STATE::read_global_prefs() {
             "Preferences limit # CPUs to %d", ncpus
         );
     }
-	file_xfers->set_bandwidth_limits(true);
-	file_xfers->set_bandwidth_limits(false);
-	request_schedule_cpus("Prefs update");
-	request_work_fetch("Prefs update");
+    file_xfers->set_bandwidth_limits(true);
+    file_xfers->set_bandwidth_limits(false);
+    request_schedule_cpus("Prefs update");
+    request_work_fetch("Prefs update");
 }
 
 int CLIENT_STATE::save_global_prefs(
@@ -447,16 +447,16 @@ double CLIENT_STATE::available_ram() {
     if (user_active) {
         return host_info.m_nbytes * global_prefs.ram_max_used_busy_frac;
     } else {
-		return host_info.m_nbytes * global_prefs.ram_max_used_idle_frac;
+        return host_info.m_nbytes * global_prefs.ram_max_used_idle_frac;
     }
 }
 
 // max amount that will ever be usable
 //
 double CLIENT_STATE::max_available_ram() {
-	return host_info.m_nbytes*std::max(
-		global_prefs.ram_max_used_busy_frac, global_prefs.ram_max_used_idle_frac
-	);
+    return host_info.m_nbytes*std::max(
+        global_prefs.ram_max_used_busy_frac, global_prefs.ram_max_used_idle_frac
+    );
 }
 
 const char *BOINC_RCSID_92ad99cddf = "$Id$";
