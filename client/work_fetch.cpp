@@ -193,7 +193,7 @@ void RSC_WORK_FETCH::print_state(char* name) {
             p->suspended_via_gui?" (susp via GUI)":"",
             p->master_url_fetch_pending?" (master fetch pending)":"",
             p->min_rpc_time > gstate.now?" (comm deferred)":"",
-            p->dont_request_more_work > gstate.now?" (no new tasks)":"",
+            p->dont_request_more_work?" (no new tasks)":"",
             pwf.overworked()?" (overworked)":""
         );
     }
