@@ -59,6 +59,10 @@ float color[4] = {.7, .2, .5, 1};
     // Can be changed using preferences
 
 RPC_CLIENT rpc;
+bool exit_on_disconnect = false;
+bool connected = false;
+double next_connect_time;
+
 CC_STATE cc_state;
 CC_STATUS cc_status;
 
@@ -215,6 +219,11 @@ void show_project(unsigned int index, float alpha) {
     }
 }
 
+void show_disconnected() {
+    float x=.1, y=-.1;
+    txf_render_string(.1, x, y, 0, 800., white, 0, "Can't connect to BOINC client");
+}
+
 void show_jobs(unsigned int index, double alpha) {
     float x=.1, y=.7;
     unsigned int nfound = 0;
@@ -265,10 +274,9 @@ void show_jobs(unsigned int index, double alpha) {
     }
 }
 
-void update_data() {
+int update_data() {
     int retval = rpc.get_state(cc_state);
     if (retval) {
-        boinc_close_window_and_quit("RPC failed");
     }
     retval = rpc.get_cc_status(cc_status);
     if (retval) {
@@ -349,11 +357,23 @@ void app_graphics_render(int xs, int ys, double t) {
     static bool showing_project = false;
     static unsigned int project_index = 0, job_index=0;
     static float logo_pos[3] = {.2, .2, 0};
-    static bool first = true;
+    int retval;
 
-    if (first) {
-        update_data();
-        first = false;
+    if (!connected) {
+        if (t > next_connect_time) {
+            retval = rpc.init("localhost");
+            if (!retval) {
+                retval = update_data();
+            }
+            if (retval) {
+                if (exit_on_disconnect) {
+                    boinc_close_window_and_quit("RPC failed");
+                }
+                next_connect_time = t + 10;
+            } else {
+                connected = true;
+            }
+        }
     }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -367,42 +387,41 @@ void app_graphics_render(int xs, int ys, double t) {
         logo_pos[1] = drand()*.4;
     }
     draw_logo(logo_pos, (float)alpha);
-    //ortho_done();
-
-    // draw 3D objects
-    //
-    //init_camera(viewpoint_distance);
-    //scale_screen(width, height);
-    //mode_shaded(color);
-
-    // draw text on top
-    //
-    //mode_unshaded();
-    //mode_ortho();
 
     if (info_fader.value(t, alpha)) {
-        update_data();
-        if (showing_project) {
-            showing_project = false;
-            project_index++;
-        } else {
-            job_index += 4;
-            if (job_index >= cc_state.results.size()) {
-                job_index = 0;
+        retval = update_data();
+        if (retval) {
+            if (exit_on_disconnect) {
+                boinc_close_window_and_quit("RPC failed");
             }
-            showing_project = true;
+            connected = false;
+            next_connect_time = t + 10;
+        } else {
+            if (showing_project) {
+                showing_project = false;
+                project_index++;
+            } else {
+                job_index += 4;
+                if (job_index >= cc_state.results.size()) {
+                    job_index = 0;
+                }
+                showing_project = true;
+            }
         }
     }
     white[3] = alpha;
-    if (showing_project) {
-        if (project_index >= cc_state.projects.size()) {
-            project_index = 0;
+    if (connected) {
+        if (showing_project) {
+            if (project_index >= cc_state.projects.size()) {
+                project_index = 0;
+            }
+            show_project(project_index, alpha);
+        } else {
+            show_jobs(job_index, alpha);
         }
-        show_project(project_index, alpha);
     } else {
-        show_jobs(job_index, alpha);
+        show_disconnected();
     }
-    //show_coords();
     ortho_done();
 }
 
@@ -412,37 +431,9 @@ void app_graphics_resize(int w, int h){
     glViewport(0, 0, w, h);
 }
 
-// mouse drag w/ left button rotates 3D objects;
-// mouse draw w/ right button zooms 3D objects
-//
-void boinc_app_mouse_move(int x, int y, int left, int middle, int right) {
-    if (left) {
-        pitch_angle += (y-mouse_y)*.1;
-        roll_angle += (x-mouse_x)*.1;
-        mouse_y = y;
-        mouse_x = x;
-    } else if (right) {
-        double d = (y-mouse_y);
-        viewpoint_distance *= exp(d/100.);
-        mouse_y = y;
-        mouse_x = x;
-    } else {
-        mouse_down = false;
-    }
-}
-
-void boinc_app_mouse_button(int x, int y, int which, int is_down) {
-    if (is_down) {
-        mouse_down = true;
-        mouse_x = x;
-        mouse_y = y;
-    } else {
-        mouse_down = false;
-    }
-}
-
+void boinc_app_mouse_move(int x, int y, int left, int middle, int right) {}
+void boinc_app_mouse_button(int x, int y, int which, int is_down) {}
 void boinc_app_key_press(int, int){}
-
 void boinc_app_key_release(int, int){}
 
 void app_graphics_init() {
@@ -454,18 +445,27 @@ void app_graphics_init() {
 
 int main(int argc, char** argv) {
     int retval;
+    bool test = false;
 
+    for (int i=1; i<argc; i++) {
+        if (!strcmp(argv[1], "--test")) {
+            test = true;
+        }
+        if (!strcmp(argv[1], "--exit_on_disconnect")) {
+            exit_on_disconnect = true;
+        }
+    }
 #ifdef _WIN32
     WinsockInitialize();
 #endif
-    retval = rpc.init("localhost");
-    if (retval) exit(retval);
 
-    // Graphics executables need a Mac icon only if they can be run in 
-    // a window, to allow the user to bring it to the front or control it.  
-    // Since the new boincscr app runs only as a screensaver, the Dock is 
-    // not visible when it is running so there is no reason to have an icon,
-    // so we do not call setMacIcon as we would in a science graphics app.
+    if (test) {
+        retval = rpc.init("localhost");
+        if (!retval) {
+            retval = update_data();
+        }
+        exit(retval);
+    }
 
     boinc_graphics_loop(argc, argv);
     boinc_finish_diag();
