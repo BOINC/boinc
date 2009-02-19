@@ -1250,3 +1250,12 @@ David  19 Feb 2009
 
     client/
         cs_scheduler.cpp
+
+Rom    19 Feb 2009
+    - Tag for 6.6.10 release, all platforms
+      boinc_core_release_6_6_10
+
+    /
+        configure.ac
+        version.h
+
