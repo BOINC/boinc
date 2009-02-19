@@ -1238,3 +1238,9 @@ David  18 Feb 2009
         work_fetch.cpp
     lib/
         error_numbers.h
+
+David  19 Feb 2009
+    - client: add more info to <work_fetch_debug> messages
+
+    client/
+        work_fetch.cpp
