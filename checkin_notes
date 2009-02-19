@@ -1707,3 +1707,11 @@ David  18 Feb 2009
         user/
             workunit.php
             result.php
+
+David  18 Feb 2009
+    - scheduler: make host.p_features available to app_plan()
+
+    db/
+        boinc_db.h
+    sched/
+        server_types.cpp

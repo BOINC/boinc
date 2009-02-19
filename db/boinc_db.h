@@ -304,6 +304,7 @@ struct HOST {
     // the following not stored in DB
     //
     double claimed_credit_per_cpu_sec;
+    char p_features[256];
 
     int parse(FILE*);
     int parse_time_stats(FILE*);

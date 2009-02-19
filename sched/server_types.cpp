@@ -1014,6 +1014,7 @@ int HOST::parse(FILE* fin) {
         if (parse_double(buf, "<d_free>", d_free)) continue;
         if (parse_double(buf, "<n_bwup>", n_bwup)) continue;
         if (parse_double(buf, "<n_bwdown>", n_bwdown)) continue;
+        if (parse_str(buf, "<p_features>", p_features, sizeof(p_features))) continue;
 
         // parse deprecated fields to avoid error messages
         //
@@ -1024,7 +1025,6 @@ int HOST::parse(FILE* fin) {
 
         // fields reported by 5.5+ clients, not currently used
         //
-        if (match_tag(buf, "<p_features>")) continue;
         if (match_tag(buf, "<p_capabilities>")) continue;
         if (match_tag(buf, "<accelerators>")) continue;
 
