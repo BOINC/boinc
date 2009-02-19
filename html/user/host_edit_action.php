@@ -49,7 +49,8 @@ for ($i=1; $i<$nhosts; $i++) {
 	if ($host->create_time > $latest_host->create_time) {
 		$error = merge_hosts($latest_host, $host);
         if ($error) {
-            fail($error);
+            echo "<br>$error\n";
+            continue;
         }
 		$latest_host = $host;
 	} else {
