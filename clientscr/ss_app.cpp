@@ -220,7 +220,7 @@ void show_project(unsigned int index, float alpha) {
 }
 
 void show_disconnected() {
-    float x=.1, y=-.1;
+    float x=.3, y=.3;
     txf_render_string(.1, x, y, 0, 800., white, 0, "Can't connect to BOINC client");
 }
 
@@ -276,12 +276,10 @@ void show_jobs(unsigned int index, double alpha) {
 
 int update_data() {
     int retval = rpc.get_state(cc_state);
-    if (retval) {
+    if (!retval) {
+        retval = rpc.get_cc_status(cc_status);
     }
-    retval = rpc.get_cc_status(cc_status);
-    if (retval) {
-        boinc_close_window_and_quit("RPC failed");
-    }
+    return retval;
 }
 
 void set_viewpoint(double dist) {
