@@ -64,11 +64,11 @@ if ($app->target_nresults>0 && !$wu->canonical_resultid) {
     end_table();
     project_workunit($wu);
 
-    result_table_start(false, true, true);
+    result_table_start(false, true, null);
     $results = BoincResult::enum("workunitid=$wuid");
     $i = 0;
     foreach ($results as $result) {
-        show_result_row($result, false, true, true, $i++);
+        show_result_row($result, false, true, false, $i++);
     }
     echo "</table>\n";
 }

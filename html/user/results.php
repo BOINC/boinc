@@ -33,40 +33,46 @@ $hostid = get_int("hostid", true);
 $userid = get_int("userid", true);
 $offset = get_int("offset", true);
 if (!$offset) $offset=0;
+$show_names = get_int("show_names", true);
+if (!$show_names) $show_names=0;
 
 if ($hostid) {
     $host = BoincHost::lookup_id($hostid);
-    if (!$host) error_page(tra("No host with hostid %1 found", $hostid));
+    if (!$host) error_page(tra("No computer with ID %1 found", $hostid));
     $clause = "hostid=$hostid";
-    page_head(tra("Tasks for host %1", $host->id));
+    page_head(tra("Tasks for computer %1", $host->id));
 } else if ($userid){
     $user = get_logged_in_user();
     if ($userid != $user->id) {
         error_page(tra("No access"));
     }
     $clause = "userid=$userid";
-    page_head(tra("Tasks for user"));
+    page_head(tra("Tasks for $user->name"));
 } else {
     error_page(tra("You must provide either a hostid or a userid as parameter"));
 }
-result_table_start(true, false, true);
 $query = "$clause order by id desc limit $offset,".($results_per_page+1);
 $results = BoincResult::enum($query);
-$number_of_results = count($results);
-echo show_result_navigation(
-    $clause, $number_of_results, $offset, $results_per_page
-);
+
+$info = null;
+$info->number_of_results = count($results);
+$info->clause = $clause;
+$info->results_per_page = $results_per_page;
+$info->offset = $offset;
+$info->show_names = $show_names;
+
+echo show_result_navigation($info);
+result_table_start(true, false, $info);
+
 $i = 0;
 foreach ($results as $result) {
     if ($i >= $results_per_page) break;
-    show_result_row($result, true, false, true, $i);
+    show_result_row($result, true, false, $show_names, $i);
     $i++;
 }
 echo "</table>\n";
 
-echo show_result_navigation(
-    $clause, $number_of_results, $offset, $results_per_page
-);
+echo show_result_navigation($info);
 
 page_tail();
 ?>

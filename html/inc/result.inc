@@ -140,12 +140,29 @@ function wu_error_mask_str($s) {
     return $x;
 }
 
-function result_table_start($show_wu_link, $show_host_link, $show_result_link) {
+function result_page_url($info) {
+    $c = $info->clause;
+    $o = $info->offset;
+    $sn = $info->show_names;
+    return "results.php?$c&amp;offset=$o&amp;show_names=$sn";
+}
+
+function result_table_start($show_wu_link, $show_host_link, $info) {
     start_table();
-    echo "
-        <tr>
-    ";
-    if ($show_result_link) {
+    echo "<tr>";
+    if ($info) {
+        if ($info->show_names) {
+            $i2 = clone $info;
+            $i2->show_names = 0;
+            $url = result_page_url($i2);
+            echo "<th>Task name<br><span class=\"smalltext\">click for details<br><a href=$url>Show IDs</a></span></th>\n";
+        } else {
+            $i2 = clone $info;
+            $i2->show_names = 1;
+            $url = result_page_url($i2);
+            echo "<th>Task ID<br><span class=\"smalltext\">click for details<br><a href=$url>Show names</a></span></th>\n";
+        }
+    } else {
         echo "<th>Task ID<br><span class=\"smalltext\">click for details</span></th>\n";
     }
     if ($show_wu_link) {
@@ -185,10 +202,10 @@ function bad_result($result) {
 }
 
 function show_result_row(
-    $result, $show_wu_link, $show_host_link, $show_result_link, $i
+    $result, $show_wu_link, $show_host_link, $show_name, $i
 ) {
     $s = time_str($result->sent_time);
-    // if result has been received, show the received time,
+    // if result has been reported, show the received time,
     // else show the reporting deadline in green if in the future
     // and in red if in the past.
     //
@@ -212,9 +229,12 @@ function show_result_row(
     $result_granted_credit = result_granted_credit_string($result, $result_granted_credit); 
     $j = $i % 2;
     echo "<tr class=row$j>";
-    if ($show_result_link) {
-        echo "<td><a href=\"result.php?resultid=$result->id\" title=\"Name: ".$result->name."\">$result->id</a></td>\n";
+    if ($show_name) {
+        $x = $result->name;
+    } else {
+        $x = $result->id;
     }
+    echo "<td><a href=\"result.php?resultid=$result->id\">$x</a></td>\n";
     if ($show_wu_link) {
         echo "<td><a href=\"workunit.php?wuid=$result->workunitid\">$result->workunitid</a></td>\n";
     }
@@ -232,9 +252,9 @@ function show_result_row(
         <td>$ss</td>
         <td>$out</td>
         <td>$cl</td>
-        <td>$cpu_time</td>
-        <td>$result_claimed_credit</td>
-        <td>$result_granted_credit</td>
+        <td align=right>$cpu_time</td>
+        <td align=right>$result_claimed_credit</td>
+        <td align=right>$result_granted_credit</td>
         </tr>
     ";
 }
@@ -279,23 +299,26 @@ function show_result($result) {
     end_table();
 }
 
-function show_result_navigation(
-    $clause, $number_of_results, $offset, $results_per_page
-) {
+function show_result_navigation($info) {
     echo "<br><center>";
-    if ($offset >= $results_per_page) {
-        $offset_p = $offset-$results_per_page;
-        echo "<a href=results.php?$clause&amp;offset=$offset_p>Previous $results_per_page</a>";
+    $show_prev = ($info->offset >= $info->results_per_page);
+    $show_next = ($info->number_of_results > $info->results_per_page);
+    if ($show_prev) {
+        $i2 = clone $info;
+        $i2->offset = $info->offset - $info->results_per_page;
+        $url = result_page_url($i2);
+        echo "<a href=$url>Previous ".$info->results_per_page."</a>";
     }
-    if (($offset >= $results_per_page) && ($number_of_results > $results_per_page)) {
+    if ($show_prev && $show_next) {
         echo "&nbsp;|&nbsp;";
     }
-    if ($number_of_results > $results_per_page) {
-        $offset_n = $offset+$results_per_page;
-        echo "<a href=results.php?$clause&amp;offset=$offset_n>Next $results_per_page</a></center><br>";
-    } else {
-        echo "</center><br><br>";
+    if ($show_next) {
+        $i2 = clone $info;
+        $i2->offset = $info->offset + $info->results_per_page;
+        $url = result_page_url($i2);
+        echo "<a href=$url>Next ".$info->results_per_page."</a>";
     }
+    echo "</center><br>";
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

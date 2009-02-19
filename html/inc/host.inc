@@ -293,12 +293,13 @@ function show_host_row($host, $i, $private, $show_owner) {
         // This is used in the "top computers" display
         //
         printf("
-            <td>%s</td>
-            <td>%s</td>
+            <td align=right>%s</td>
+            <td align=right>%s</td>
             <td>%s</td>
             <td>%s</td>
             <td>%s <br> %s</td>",
-               format_credit($host->expavg_credit), format_credit_large($host->total_credit),
+               format_credit($host->expavg_credit),
+               format_credit_large($host->total_credit),
                cpu_desc($host),
                gpu_desc($host->serialnum),
                $host->os_name, $host->os_version
