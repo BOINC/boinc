@@ -1732,3 +1732,9 @@ David  19 Feb 2009
 
     client/
         work_fetch.cpp
+
+David  19 Feb 2009
+    - client: don't complain that master URLs differ if it's only in case
+
+    client/
+        cs_scheduler.cpp

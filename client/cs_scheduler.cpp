@@ -454,7 +454,11 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     //
     if (strlen(sr.master_url)) {
         canonicalize_master_url(sr.master_url);
-        if (strcmp(sr.master_url, project->master_url)) {
+        string url1 = sr.master_url;
+        string url2 = project->master_url;
+        downcase_string(url1);
+        downcase_string(url2);
+        if (url1 != url2) {
             msg_printf(project, MSG_USER_ERROR,
                 "You used the wrong URL for this project"
             );
