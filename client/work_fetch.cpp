@@ -187,19 +187,23 @@ void RSC_WORK_FETCH::print_state(char* name) {
         RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
         double bt = pwf.backoff_time>gstate.now?pwf.backoff_time-gstate.now:0;
         msg_printf(p, MSG_INFO,
-            "[wfd] %s: runshare %.2f debt %.2f backoff dt %.2f int %.2f%s%s%s%s",
+            "[wfd] %s: runshare %.2f debt %.2f backoff dt %.2f int %.2f%s%s%s%s%s",
             name,
             pwf.runnable_share, pwf.debt, bt, pwf.backoff_interval,
             p->suspended_via_gui?" (susp via GUI)":"",
             p->master_url_fetch_pending?" (master fetch pending)":"",
             p->min_rpc_time > gstate.now?" (comm deferred)":"",
-            p->dont_request_more_work > gstate.now?" (no new tasks)":""
+            p->dont_request_more_work?" (no new tasks)":"",
+            pwf.overworked()?" (overworked)":""
         );
     }
 }
 
 void WORK_FETCH::print_state() {
     msg_printf(0, MSG_INFO, "[wfd] ------- start work fetch state -------");
+    msg_printf(0, MSG_INFO, "[wfd] target work buffer: %.2f sec",
+        gstate.work_buf_total()
+    );
     cpu_work_fetch.print_state("CPU");
     if (coproc_cuda) {
         cuda_work_fetch.print_state("CUDA");
