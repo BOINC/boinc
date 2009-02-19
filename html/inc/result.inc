@@ -259,7 +259,6 @@ function exit_status_string($result) {
 
 function show_result($result) {
     start_table();
-    row2("Task ID", $result->id);
     row2("Name", $result->name);
     row2("Workunit", "<a href=\"workunit.php?wuid=$result->workunitid\">$result->workunitid</a>");
     row2("Created", time_str($result->create_time));

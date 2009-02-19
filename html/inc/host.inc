@@ -62,13 +62,16 @@ function location_form($host) {
     return $x;
 }
 
-function cross_project_links($host) {
+function cross_project_links($host, $indent) {
     global $host_sites;
     $x = "";
     shuffle($host_sites);
     foreach ($host_sites as $h) {
         $url = $h[0];
         $name = $h[1];
+        if ($indent) {
+        $x .= "&nbsp;&nbsp;";
+        }
         $x .= "<a href=$url".$host->host_cpid.">$name</a><br>\n";
     }
     return $x;
@@ -109,7 +112,7 @@ function show_host($host, $user, $ipprivate) {
     row2("Total credit", format_credit_large($host->total_credit));
     row2("Average credit", format_credit($host->expavg_credit));
     if (!$anonymous) {
-        row2("Cross project credit", cross_project_links($x));
+        row2("Cross project credit", cross_project_links($x, false));
     }
     row2("CPU type", "$host->p_vendor <br> $host->p_model");
     row2("Number of processors", $host->p_ncpus);
@@ -202,7 +205,7 @@ function show_host($host, $user, $ipprivate) {
 function top_host_table_start($sort_by) {
     start_table();
     echo "<tr>";
-    echo "<th>Computer ID</th>\n";
+    echo "<th>Computer info</th>\n";
     echo "<th>Rank</th>";
     echo "<th>Owner</th>\n";
     if ($sort_by == 'total_credit') {
@@ -262,13 +265,13 @@ function show_host_row($host, $i, $private, $show_owner) {
             }
         }
     }
-    echo "<tr class=row$j><td>
-        &bull; <a href=show_host_detail.php?hostid=$host->id>Details</a>
-        <br>&bull; <a href=results.php?hostid=$host->id>Tasks</a>
+    echo "<tr class=row$j><td>ID: $host->id
+        <br><a href=show_host_detail.php?hostid=$host->id>Details</a> |
+        <a href=results.php?hostid=$host->id>Tasks</a>
     ";
     if (!$anonymous) {
         echo "
-            <br><nobr>&bull; Cross-project credit:</nobr><br>".cross_project_links($host);
+            <br><nobr>Cross-project credit:</nobr><br>".cross_project_links($host, true);
     }
     echo "
         </td>

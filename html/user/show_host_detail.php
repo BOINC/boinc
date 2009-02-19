@@ -34,7 +34,7 @@ if ($user->id != $host->userid) {
     $user = null;
 }
 
-page_head("Computer summary");
+page_head("Computer $hostid");
 show_host($host, $user, $ipprivate);
 page_tail();
 

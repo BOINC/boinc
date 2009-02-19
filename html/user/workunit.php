@@ -28,13 +28,13 @@ if (!$wu) {
     error_page("can't find workunit");
 }
 
-page_head("Workunit details");
+page_head("Workunit $wuid");
 $app = BoincApp::lookup_id($wu->appid);
 
 start_table();
+row2("name", $wu->name);
 row2("application", $app->user_friendly_name);
 row2("created", time_str($wu->create_time));
-row2("name", $wu->name);
 if ($wu->canonical_resultid) {
     row2("canonical result",
         "<a href=result.php?resultid=$wu->canonical_resultid>$wu->canonical_resultid</a>"

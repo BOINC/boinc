@@ -1696,3 +1696,14 @@ David  18 Feb 2009
         work_fetch.cpp
     lib/
         error_numbers.h
+
+David  18 Feb 2009
+    - web tweaks
+
+    html/
+        inc/
+            host.inc
+            result.inc
+        user/
+            workunit.php
+            result.php
