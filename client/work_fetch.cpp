@@ -201,6 +201,9 @@ void RSC_WORK_FETCH::print_state(char* name) {
 
 void WORK_FETCH::print_state() {
     msg_printf(0, MSG_INFO, "[wfd] ------- start work fetch state -------");
+    msg_printf(0, MSG_INFO, "[wfd] target work buffer: %.2f sec",
+        gstate.work_buf_total()
+    );
     cpu_work_fetch.print_state("CPU");
     if (coproc_cuda) {
         cuda_work_fetch.print_state("CUDA");
