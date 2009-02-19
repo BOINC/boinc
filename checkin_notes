@@ -1708,7 +1708,7 @@ David  18 Feb 2009
             workunit.php
             result.php
 
-David  18 Feb 2009
+David  19 Feb 2009
     - scheduler: make host.p_features available to app_plan()
 
     db/
@@ -1716,7 +1716,7 @@ David  18 Feb 2009
     sched/
         server_types.cpp
 
-David  18 Feb 2009
+David  19 Feb 2009
     - web: in lists of tasks, give the option of showing names instead of IDs
 
     html/
@@ -1726,3 +1726,9 @@ David  18 Feb 2009
         user/
             results.php
             workunit.php
+
+David  19 Feb 2009
+    - client: add more info to <work_fetch_debug> messages
+
+    client/
+        work_fetch.cpp
