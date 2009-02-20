@@ -63,7 +63,7 @@ struct RSC_PROJECT_WORK_FETCH {
     }
 
     // whether this project is accumulating debt for this resource
-    bool debt_eligible(PROJECT*);
+    bool debt_eligible(PROJECT*, RSC_WORK_FETCH&);
     inline void reset() {
         backoff_time = 0;
         backoff_interval = 0;
@@ -112,6 +112,8 @@ struct RSC_WORK_FETCH {
     inline void reset_debt_accounting() {
         secs_this_debt_interval = 0;
     }
+    void repair_debts();
+    bool repair_done;
 
     void rr_init();
     void accumulate_shortfall(double d_time);

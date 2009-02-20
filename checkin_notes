@@ -1773,3 +1773,17 @@ Charlie 20 Feb 2009
     win_build/
         libboinc.vcproj
         libboinc_staticcrt.vcproj
+
+David  20 Feb 2009
+    - client: if a project is at max backoff for a resource,
+        stop accumulating debt if it's at or around zero.
+        This prevents other projects from being driven unboundedly negative.
+    - client: if the number of overworked projects exceeds the number
+        of device instances, clear debts; this indicates that an earlier
+        client was buggy and produced bad debt values.
+
+    client/
+        client_state.h
+        cpu_sched.cpp
+        sim.h
+        work_fetch.cpp,h
