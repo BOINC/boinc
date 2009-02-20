@@ -1738,3 +1738,10 @@ David  19 Feb 2009
 
     client/
         cs_scheduler.cpp
+
+Charlie 19 Feb 2009
+    - screensaver: Implement --test and --retry_connect command-line arguments
+        as requested by Rom.
+
+    clientscr/
+        ss_app.cpp

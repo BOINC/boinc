@@ -59,9 +59,9 @@ float color[4] = {.7, .2, .5, 1};
     // Can be changed using preferences
 
 RPC_CLIENT rpc;
-bool exit_on_disconnect = false;
+bool retry_connect = false;
 bool connected = false;
-double next_connect_time;
+double next_connect_time = 0.0;
 
 CC_STATE cc_state;
 CC_STATUS cc_status;
@@ -364,8 +364,8 @@ void app_graphics_render(int xs, int ys, double t) {
                 retval = update_data();
             }
             if (retval) {
-                if (exit_on_disconnect) {
-                    boinc_close_window_and_quit("RPC failed");
+                if (!retry_connect) {
+                    exit(retval);
                 }
                 next_connect_time = t + 10;
             } else {
@@ -389,8 +389,8 @@ void app_graphics_render(int xs, int ys, double t) {
     if (info_fader.value(t, alpha)) {
         retval = update_data();
         if (retval) {
-            if (exit_on_disconnect) {
-                boinc_close_window_and_quit("RPC failed");
+            if (!retry_connect) {
+                exit(retval);
             }
             connected = false;
             next_connect_time = t + 10;
@@ -449,8 +449,8 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[1], "--test")) {
             test = true;
         }
-        if (!strcmp(argv[1], "--exit_on_disconnect")) {
-            exit_on_disconnect = true;
+        if (!strcmp(argv[1], "--retry_connect")) {
+            retry_connect = true;
         }
     }
 #ifdef _WIN32
