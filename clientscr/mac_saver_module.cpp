@@ -83,6 +83,7 @@ static long gSystemVersion = 0;
 const char * CantLaunchCCMsg = "Unable to launch BOINC application.";
 const char *  LaunchingCCMsg = "Launching BOINC application.";
 const char *  ConnectingCCMsg = "Connecting to BOINC application.";
+const char *  ConnectedCCMsg = "Communicating with BOINC application.";
 const char *  BOINCSuspendedMsg = "BOINC is currently suspended.";
 const char *  BOINCNoAppsExecutingMsg = "BOINC is currently idle.";
 const char *  BOINCNoProjectsDetectedMsg = "BOINC is not attached to any projects. Please attach to projects using the BOINC Manager.";
@@ -174,6 +175,7 @@ CScreensaver::CScreensaver() {
     m_hGraphicsApplication = NULL;
     m_bResetCoreState = TRUE;
     rpc = 0;
+    m_bConnected = false;
     
     err = Gestalt(gestaltSystemVersion, &gSystemVersion);
     if (err != noErr) {
@@ -262,7 +264,7 @@ OSStatus CScreensaver::initBOINCApp() {
 
     m_CoreClientPID = FindProcessPID("boinc", 0);
     if (m_CoreClientPID) {
-        m_wasAlreadyRunning = true;
+       m_wasAlreadyRunning = true;
         saverState = SaverState_LaunchingCoreClient;
         return noErr;
     }
@@ -344,11 +346,14 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
             setSSMessageText(LaunchingCCMsg);
        
         myPid = FindProcessPID(NULL, m_CoreClientPID);
-        if (myPid) {
+       if (myPid) {
             saverState = SaverState_CoreClientRunning;
-            rpc->init(NULL);   // Initialize communications with Core Client
+            if (!rpc->init(NULL)) {     // Initialize communications with Core Client
+                m_bConnected = true;
+            }
 
-            // Set up a separate thread for communicating with Core Client
+            // Set up a separate thread for communicating with Core Client 
+            // and running screensaver graphics
             CreateDataManagementThread();
             // ToDo: Add a timeout after which we display error message
         } else
@@ -371,6 +376,7 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
     case SaverState_ConnectedToCoreClient:
         switch (m_hrError) {
         case 0:
+            setSSMessageText(ConnectedCCMsg);
             break;  // No status response yet from DataManagementProc
         case SCRAPPERR_SCREENSAVERBLANKED:
         default:
@@ -447,6 +453,9 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
 
     case SaverState_CantLaunchCoreClient:
         setSSMessageText(CantLaunchCCMsg);
+        // Set up a separate thread for running screensaver graphics 
+        // even if we can't communicate with core client
+        CreateDataManagementThread();
         break;
 
     case SaverState_Idle:
@@ -507,19 +516,32 @@ void * CScreensaver::DataManagementProcStub(void* param) {
 
 
 void CScreensaver::HandleRPCError() {
+    static time_t last_RPC_retry = 0;
+
     // Attempt to restart BOINC Client if needed, reinitialize the RPC client and state
     rpc->close();
+    m_bConnected = false;
     
-    // There is a possible race condition where the Core Client was in the  
-    // process of shutting down just as ScreenSaver started, so initBOINCApp() 
-    // found it already running but now it has shut down.  This code takes 
-    // care of that and other situations where the Core Client quits unexpectedy.  
-    if (FindProcessPID("boinc", 0) == 0) {
-        saverState = SaverState_RelaunchCoreClient;
-        m_bResetCoreState = true;
-     }
-    
-    rpc->init(NULL);    // Otherwise just reinitialize the RPC client and state and keep trying
+    if (saverState == SaverState_CantLaunchCoreClient) {
+        if ((time(0) - last_RPC_retry) < RPC_RETRY_INTERVAL) {
+            return;
+        }
+    } else {
+        // There is a possible race condition where the Core Client was in the  
+        // process of shutting down just as ScreenSaver started, so initBOINCApp() 
+        // found it already running but now it has shut down.  This code takes 
+        // care of that and other situations where the Core Client quits unexpectedy.  
+        // Code in initBOINC_App() limits # launch retries to 3 to prevent thrashing.
+        if (FindProcessPID("boinc", 0) == 0) {
+            saverState = SaverState_RelaunchCoreClient;
+            m_bResetCoreState = true;
+         }
+    }
+        
+    // Otherwise just reinitialize the RPC client and state and keep trying
+    if (!rpc->init(NULL)) {
+        m_bConnected = true;
+    }
     // Error message after timeout?
 }
 

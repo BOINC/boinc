@@ -184,6 +184,7 @@ CScreensaver::CScreensaver() {
     m_dwBlankTime = 0;
 
     rpc = NULL;
+    m_bConnected = false;
     m_hDataManagementThread = NULL;
     m_hGraphicsApplication = NULL;
     m_bResetCoreState = TRUE;
@@ -954,6 +955,8 @@ BOOL CScreensaver::CreateDataManagementThread() {
     	BOINCTRACE(_T("CScreensaver::CreateDataManagementThread: Failed to create data management thread '%d'\n"), GetLastError());
         return FALSE;
    }
+   
+   m_tThreadCreateTime = time(0);
    return TRUE;
 }
 
@@ -995,12 +998,26 @@ DWORD WINAPI CScreensaver::DataManagementProcStub(LPVOID UNUSED(lpParam)) {
 
 void CScreensaver::HandleRPCError()
 {
-    // Attempt to reinitialize the RPC client and state
-    rpc->close();
-    rpc->init(NULL);
-    m_bResetCoreState = TRUE;
+    static time_t last_RPC_retry = 0;
+    time_t now = time(0);
 
-    if ((time(0) - m_tThreadCreateTime) > 3) {
+    rpc->close();
+    m_bConnected = false;
+    
+    if ((now - m_tThreadCreateTime) > 3) {
+        if ((now - last_RPC_retry) < RPC_RETRY_INTERVAL) {
+            return;
+        }
+    }
+
+    // Attempt to reinitialize the RPC client and state
+    if (!rpc->init(NULL)) {
+        m_bConnected = true;
+        m_bResetCoreState = TRUE;
+        return;
+    }
+
+    if ((now - m_tThreadCreateTime) > 3) {
         SetError(TRUE, SCRAPPERR_BOINCNOTDETECTED);
     }
 }

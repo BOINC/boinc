@@ -35,6 +35,7 @@
 #include "util.h"
 #include "common_defs.h"
 #include "filesys.h"
+#include "error_numbers.h"
 
 
 #ifdef _WIN32
@@ -45,11 +46,13 @@
 #define PATH_SEPARATOR (_T("\\"))
 #define THE_DEFAULT_SS_EXECUTABLE (_T(DEFAULT_SS_EXECUTABLE))
 #define THE_SS_CONFIG_FILE (_T(SS_CONFIG_FILE))
+#define DEFAULT_GFX_CANT_CONNECT ERR_CONNECT
 #else
 // Using (_T()) here causes compiler errors on Mac
 #define PATH_SEPARATOR "/"
 #define THE_DEFAULT_SS_EXECUTABLE DEFAULT_SS_EXECUTABLE
 #define THE_SS_CONFIG_FILE SS_CONFIG_FILE
+#define DEFAULT_GFX_CANT_CONNECT (ERR_CONNECT & 0xff)
 #endif
 
 #ifdef __APPLE__
@@ -324,6 +327,7 @@ int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_appli
 {
     int retval = 0;
     char full_path[1024];
+    int num_args = 2;
     
     strlcpy(full_path, dir_path, sizeof(full_path));
     strlcat(full_path, PATH_SEPARATOR, sizeof(full_path));
@@ -333,14 +337,20 @@ int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_appli
     // "RegisterProcess failed (error = -50)" unless we pass its 
     // full path twice in the argument list to execv on Macs.
 
-    char* argv[3];
+    char* argv[4];
     argv[0] = full_path;   // not used
     argv[1] = "--fullscreen";
     argv[2] = 0;
+    argv[3] = 0;
+    if (!m_bConnected) {
+        BOINCTRACE(_T("launch_default_screensaver using --retry_connect argument\n"));
+        argv[2] = "--retry_connect";
+        num_args = 3;
+    }
     retval = run_program(
         dir_path,
         full_path,
-        2,
+        num_args,
         argv,
         0,
         graphics_application
@@ -350,6 +360,16 @@ int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_appli
      return retval;
 }
 
+
+// If we cannot connect to the core client:
+//   - we retry connecting every 10 seconds 
+//   - we launch the default graphics application with the argument --retry_connect, so 
+//     it will continue running and will also retry connecting every 10 seconds.
+//
+// If we successfully connected to the core client, launch the default graphics application 
+// without the argument --retry_connect.  If it can't connect, it will return immediately 
+// with the exit code ERR_CONNECT.  In that case, we assume it was blocked by a firewall 
+// and so we run only project (science) graphics.
 
 #ifdef _WIN32
 DWORD WINAPI CScreensaver::DataManagementProc()
@@ -376,6 +396,7 @@ void *CScreensaver::DataManagementProc()
 
     SS_PHASE        ss_phase                    = DEFAULT_SS_PHASE;
     bool            switch_to_default_gfx       = false;
+    int             exit_status                 = 0;
     
     char*           default_ss_dir_path         = NULL;
     char*           default_data_dir_path       = NULL;
@@ -480,32 +501,39 @@ retval = 0;
             m_QuitDataManagementProc = true;
         }
 
-        // Do we need to get the core client state?
-        if (m_bResetCoreState) {
-            // Try and get the current state of the CC
-            retval = rpc->get_state(state);
-            if (retval) {
-                // CC may not yet be running
-                HandleRPCError();
-                continue;
-            }
-
-            m_bResetCoreState = false;
-        }
-    
         BOINCTRACE(_T("CScreensaver::DataManagementProc - ErrorMode = '%d', ErrorCode = '%x'\n"), m_bErrorMode, m_hrError);
 
-        // Update our task list
-        m_updating_results = true;
-        retval = rpc->get_screensaver_tasks(suspend_reason, results);
-        m_updating_results = false;
-        if (retval) {
-            // rpc call returned error
+        if (! m_bConnected) {
             HandleRPCError();
-            m_bResetCoreState = true;
-            continue;
         }
-
+        
+        if (m_bConnected) {
+            // Do we need to get the core client state?
+            if (m_bResetCoreState) {
+                // Try and get the current state of the CC
+                retval = rpc->get_state(state);
+                if (retval) {
+                    // CC may not yet be running
+                    HandleRPCError();
+                } else {
+                    m_bResetCoreState = false;
+                }
+            }
+    
+            // Update our task list
+            m_updating_results = true;
+            retval = rpc->get_screensaver_tasks(suspend_reason, results);
+            m_updating_results = false;
+            if (retval) {
+                // rpc call returned error
+                HandleRPCError();
+                m_bResetCoreState = true;
+                continue;
+            }
+        } else {
+            results.clear();
+        }
+        
         // Time to switch to default graphics phase?
         if (m_bDefault_ss_exists && (ss_phase == SCIENCE_SS_PHASE)) {
             if (science_phase_start_time && ((dtime() - science_phase_start_time) > m_fGFxSciencePeriod)) {
@@ -524,7 +552,7 @@ retval = 0;
         }
         
         // Time to switch to science graphics phase?
-        if (ss_phase == DEFAULT_SS_PHASE) {
+        if ((ss_phase == DEFAULT_SS_PHASE) && m_bConnected) {
             if (default_phase_start_time && 
                     ((dtime() - default_phase_start_time + default_saver_duration_in_science_phase) 
                     > m_fGFXDefaultPeriod)) {
@@ -739,10 +767,18 @@ retval = 0;
         
         // Is the graphics app still running?
         if (m_hGraphicsApplication) {
-            if (!process_exists(m_hGraphicsApplication)) {
+            if (HasProcessExited(m_hGraphicsApplication, exit_status)) {
                 // Something has happened to the previously selected screensaver
                 //   application. Start a different one.
                 BOINCTRACE(_T("CScreensaver::DataManagementProc - Graphics application isn't running, start a new one.\n"));
+                if (m_bDefault_gfx_running) {
+                    // If we were able to connect to core client but gfx app can't, don't use it. 
+                    BOINCTRACE(_T("CScreensaver::DataManagementProc - Default graphics application exited with code %d.\n"), exit_status);
+                    if (exit_status == DEFAULT_GFX_CANT_CONNECT) {
+                        m_bDefault_ss_exists = false;
+                        ss_phase = SCIENCE_SS_PHASE;
+                    }
+                }
                 m_hGraphicsApplication = 0;
                 graphics_app_result_ptr = NULL;
                 m_bDefault_gfx_running = false;
@@ -757,6 +793,33 @@ retval = 0;
         
     }                           // end while(true)
 }
+
+
+#ifdef _WIN32
+BOOL CScreensaver::HasProcessExited(HANDLE pid_handle, int &exitCode) {
+    unsigned long status = 1;
+    if (GetExitCodeProcess(pid_handle, &status)) {
+        if (status == STILL_ACTIVE) {
+            exitCode = 0;
+            return false;
+        }
+    }
+    exitCode = (int)status;
+    return true;
+}
+#else
+bool CScreensaver::HasProcessExited(pid_t pid, int &exitCode) {
+    int status;
+    pid_t p;
+    
+    p = waitpid(pid, &status, WNOHANG);
+    exitCode = WEXITSTATUS(status);
+    if (p == pid) return true;     // process has exited
+    if (p == -1) return true;      // PID doesn't exist
+    exitCode = 0;
+    return false;
+}
+#endif
 
 
 void CScreensaver::GetDisplayPeriods(char *dir_path) {

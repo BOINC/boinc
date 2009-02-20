@@ -91,6 +91,7 @@ protected:
     double          m_fGFXChangePeriod;
     bool            m_bScience_gfx_running;
     bool            m_bDefault_gfx_running;
+    bool            m_bConnected;
 
     //
     // Data management layer
@@ -107,6 +108,7 @@ protected:
     void            HandleRPCError(void);
     OSErr           KillScreenSaver(void);
     void            GetDisplayPeriods(char *dir_path);
+    bool            HasProcessExited(pid_t pid, int &exitCode);
     pthread_t       m_hDataManagementThread;
     pid_t           m_hGraphicsApplication;
 
@@ -116,7 +118,7 @@ protected:
 // Count the number of active graphics-capable apps
     int             count_active_graphic_apps(RESULTS& results, RESULT* exclude = NULL);
 
-// Choose a ramdom graphics application from the vector that
+// Choose a random graphics application from the vector that
 //   was passed in.
 
     RESULT*         get_random_graphics_app(RESULTS& results, RESULT* exclude = NULL);

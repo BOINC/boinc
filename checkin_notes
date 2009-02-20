@@ -1290,7 +1290,7 @@ Charlie Feb 5 2009
     clientscr/
         screensaver.cpp
         mac_saver_module.cpp
-        Mac_Saver_Module.cpp.h
+        Mac_Saver_Module.h
         screensaver_win.h
         ss_app.cpp
     mac_build/
@@ -1745,3 +1745,24 @@ Charlie 19 Feb 2009
 
     clientscr/
         ss_app.cpp
+
+Charlie 20 Feb 2009
+    - screensaver: Implement new screensaver coordinator logic as requested by Rom:
+        If the coordinator cannot connect to the core client:
+            - coordinator retries connecting every 10 seconds 
+            - coordinator launches the default graphics application with the 
+                argument --retry_connect, so the default graphics app will continue 
+                running and will also retry connecting every 10 seconds.
+        If the coordinator successfully connected to the core client, it launches the 
+            default graphics application without the argument --retry_connect.  If the 
+            default graphics application can't connect, it will return immediately 
+            with the exit code ERR_CONNECT.  In that case, the coordinator assumes 
+            the default graphics app was blocked by a firewall and so the coordinator 
+            will run only project (science) graphics.
+
+    clientscr/
+        mac_saver_module.cpp
+        Mac_Saver_Module.h
+        ss_app.cpp
+        screensaver.cpp,.h
+        screensaver_win.cpp,.h

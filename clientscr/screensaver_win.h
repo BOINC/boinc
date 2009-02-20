@@ -144,7 +144,6 @@ protected:
     DWORD           m_dwBlankScreen;
     DWORD           m_dwBlankTime;
 
-
     //
     // Data management layer
     //
@@ -164,6 +163,7 @@ protected:
 	int             launch_default_screensaver(char *dir_path, HANDLE& graphics_application);
     void            HandleRPCError(void);
     void            GetDisplayPeriods(char *dir_path);
+    BOOL            HasProcessExited(HANDLE pid_handle, int &exitCode);
     
 // Determine if two RESULT pointers refer to the same task
     bool            is_same_task(RESULT* taska, RESULT* taskb);
@@ -197,6 +197,7 @@ protected:
 
     bool            m_bScience_gfx_running;
     bool            m_bDefault_gfx_running;
+    BOOL            m_bConnected;
 
     //
     // Presentation layer

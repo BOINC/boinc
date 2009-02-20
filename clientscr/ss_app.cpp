@@ -44,6 +44,7 @@
 #include "gui_rpc_client.h"
 #include "util.h"
 #include "app_ipc.h"
+#include "error_numbers.h"
 
 using std::string;
 using std::vector;
@@ -365,7 +366,7 @@ void app_graphics_render(int xs, int ys, double t) {
             }
             if (retval) {
                 if (!retry_connect) {
-                    exit(retval);
+                    exit(ERR_CONNECT);
                 }
                 next_connect_time = t + 10;
             } else {
@@ -390,7 +391,7 @@ void app_graphics_render(int xs, int ys, double t) {
         retval = update_data();
         if (retval) {
             if (!retry_connect) {
-                exit(retval);
+                exit(ERR_CONNECT);
             }
             connected = false;
             next_connect_time = t + 10;
@@ -446,10 +447,10 @@ int main(int argc, char** argv) {
     bool test = false;
 
     for (int i=1; i<argc; i++) {
-        if (!strcmp(argv[1], "--test")) {
+        if (!strcmp(argv[i], "--test")) {
             test = true;
         }
-        if (!strcmp(argv[1], "--retry_connect")) {
+        if (!strcmp(argv[i], "--retry_connect")) {
             retry_connect = true;
         }
     }
@@ -462,7 +463,7 @@ int main(int argc, char** argv) {
         if (!retval) {
             retval = update_data();
         }
-        exit(retval);
+        exit(ERR_CONNECT);
     }
 
     boinc_graphics_loop(argc, argv);
