@@ -1763,6 +1763,6 @@ Charlie 20 Feb 2009
     clientscr/
         mac_saver_module.cpp
         Mac_Saver_Module.h
-        ss_app.cpp
         screensaver.cpp,.h
         screensaver_win.cpp,.h
+        ss_app.cpp
