@@ -191,6 +191,7 @@ void CONFIG::defaults() {
     client_download_url = "http://boinc.berkeley.edu/download.php";
     network_test_url = "http://www.google.com/";
     no_gpus = false;
+    zero_debts = false;
 }
 
 int CONFIG::parse_options(XML_PARSER& xp) {
@@ -260,6 +261,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool(tag, "no_gpus", no_gpus)) continue;
+        if (xp.parse_bool(tag, "zero_debts", zero_debts)) continue;
         if (xp.parse_bool(tag, "abort_jobs_on_exit", btemp)) {
             gstate.abort_jobs_on_exit = true;
             continue;

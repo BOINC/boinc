@@ -181,6 +181,16 @@ void WORK_FETCH::set_overall_debts() {
     }
 }
 
+void WORK_FETCH::zero_debts() {
+    for (unsigned i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->cpu_pwf.debt = 0;
+        if (coproc_cuda) {
+            p->cuda_pwf.debt = 0;
+        }
+    }
+}
+
 void RSC_WORK_FETCH::print_state(char* name) {
     msg_printf(0, MSG_INFO,
         "[wfd] %s: shortfall %.2f nidle %.2f est. delay %.2f RS fetchable %.2f runnable %.2f",
@@ -443,44 +453,6 @@ void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {
     }
 }
 
-// Running buggy versions may lead to a situation where
-// most projects are overworked.
-// If there are more overworked projects than device instances,
-// this must have happened.
-// Set all debts back to zero.
-//
-void RSC_WORK_FETCH::repair_debts() {
-    unsigned int i;
-    int noverworked = 0;
-    PROJECT* p;
-
-    for (i=0; i<gstate.projects.size(); i++) {
-        p = gstate.projects[i];
-        if (p->non_cpu_intensive) continue;
-        RSC_PROJECT_WORK_FETCH& w = project_state(p);
-        if (w.overworked()) {
-            noverworked++;
-        }
-    }
-
-    if (noverworked <= ninstances) {
-        return;
-    }
-    if (log_flags.debt_debug) {
-        msg_printf(0, MSG_INFO,
-            "[debt] %s: %d projects overworked; setting debts to zero",
-            rsc_name(rsc_type), noverworked
-        );
-    }
-
-    for (i=0; i<gstate.projects.size(); i++) {
-        p = gstate.projects[i];
-        if (p->non_cpu_intensive) continue;
-        RSC_PROJECT_WORK_FETCH& w = project_state(p);
-        w.debt = 0;
-    }
-}
-
 // update long-term debts for a resource.
 //
 void RSC_WORK_FETCH::update_debts() {
@@ -488,11 +460,6 @@ void RSC_WORK_FETCH::update_debts() {
     int neligible = 0;
     double ders = 0;
     PROJECT* p;
-
-    if (!repair_done) {
-        repair_debts();
-        repair_done = true;
-    }
 
     // find the total resource share of eligible projects
     //
@@ -706,6 +673,10 @@ void WORK_FETCH::init() {
         cuda_work_fetch.rsc_type = RSC_TYPE_CUDA;
         cuda_work_fetch.ninstances = coproc_cuda->count;
         cuda_work_fetch.speed = coproc_cuda->flops_estimate()/gstate.host_info.p_fpops;
+    }
+
+    if (config.zero_debts) {
+        zero_debts();
     }
 }
 

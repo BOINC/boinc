@@ -1809,3 +1809,14 @@ David  20 Feb 2009
 
     client/
         work_fetch.cpp,h
+
+David  20 Feb 2009
+    - client: remove the "debt repair" mechanism added earlier today.
+        There are situations where multiple projects can legitimately
+        have large negative LTD on a uniprocessor.
+        Instead...
+    - client: add <zero_debts> option to cc_config.xml
+
+    client/
+        log_flags.cpp,h
+        work_fetch.cpp,h
