@@ -1787,3 +1787,25 @@ David  20 Feb 2009
         cpu_sched.cpp
         sim.h
         work_fetch.cpp,h
+
+David  20 Feb 2009
+    - client: new work-fetch policy:
+        1) if an instance is idle, get work from highest-debt project,
+            even if it's overworked.
+        2) if resource has a shortfall, get work from highest-debt
+            non-overworked project
+        3) if there's a fetchable non-overworked project with no runnable jobs,
+            get from from the highest-debt one.
+        (each step is done first for GPU, then CPU)
+        Clause 3) is new.
+        It will cause the client to get jobs for as many projects as possible,
+        even if there is no shortfall.
+        This is necessary to make the notion of "overworked" meaningful
+        (otherwise, any project with long jobs can become overworked).
+        It also maintains as much variety as possible (like pre-6.6 clients).
+
+        Also (small bug fix) if a project is overworked for resource R,
+        request work for R only in case 1).
+
+    client/
+        work_fetch.cpp,h

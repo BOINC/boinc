@@ -118,7 +118,7 @@ struct RSC_WORK_FETCH {
     void rr_init();
     void accumulate_shortfall(double d_time);
     void update_estimated_delay(double dt);
-    PROJECT* choose_project(bool urgent);
+    PROJECT* choose_project(bool allow_overworked, bool only_starved);
     void accumulate_debt();
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);
     void update_debts();
