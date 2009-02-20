@@ -1766,3 +1766,10 @@ Charlie 20 Feb 2009
         screensaver.cpp,.h
         screensaver_win.cpp,.h
         ss_app.cpp
+
+Charlie 20 Feb 2009
+    - lib: Fix build break on Windows.
+
+    win_build/
+        libboinc.vcproj
+        libboinc_staticcrt.vcproj
