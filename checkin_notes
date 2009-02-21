@@ -1820,3 +1820,10 @@ David  20 Feb 2009
     client/
         log_flags.cpp,h
         work_fetch.cpp,h
+
+David  20 Feb 2009
+	- client: fix bug that can cause no GPU jobs to be scheduled
+		even when a GPU is free
+
+	client/
+		cpu_sched.cpp
