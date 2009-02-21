@@ -16,11 +16,6 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-#
-# To view the GNU Lesser General Public License visit
-# http://www.gnu.org/copyleft/lesser.html
-# or write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 # Mac_SA_Insecure.sh user group
 #
