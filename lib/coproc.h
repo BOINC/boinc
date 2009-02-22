@@ -93,7 +93,7 @@ struct COPROCS {
         return true;
     }
 
-    // Copy a coproc set, setting usage to zero.
+    // Copy a coproc set, possibly setting usage to zero.
     // used in round-robin simulator and CPU scheduler,
     // to avoid messing w/ master copy
     //

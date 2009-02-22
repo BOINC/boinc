@@ -1861,3 +1861,12 @@ Charlie 20 Feb 2009
     samples/
         example_app/
             MakeMacExample.sh
+
+David  20 Feb 2009
+    - add a few GPL 3 notices
+
+    clientsrc/
+        screensaver.cpp
+    lib/
+        coproc.h
+        boinc_fcgi.cpp,h
