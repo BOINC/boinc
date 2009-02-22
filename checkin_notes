@@ -1877,3 +1877,12 @@ David  21 Feb 2009
 
     client/
         work_fetch.cpp
+
+David  22 Feb 2009
+    - client: print message if downloaded file has wrong size
+    - client: associate file xfer messages with a project; fixes #848
+
+    client/
+        cs_files.cpp
+        file_xfer.cpp
+        pers_file_xfer.cpp
