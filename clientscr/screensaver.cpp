@@ -473,7 +473,7 @@ void *CScreensaver::DataManagementProc()
             BOINCTRACE(_T("CScreensaver::DataManagementProc - Time to blank\n"));
             SetError(FALSE, SCRAPPERR_SCREENSAVERBLANKED);
             m_QuitDataManagementProc = true;
-            continue;       // Exit the thread
+            continue;       // Code above will exit the thread
         }
 
         BOINCTRACE(_T("CScreensaver::DataManagementProc - ErrorMode = '%d', ErrorCode = '%x'\n"), m_bErrorMode, m_hrError);
