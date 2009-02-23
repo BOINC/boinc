@@ -1886,3 +1886,16 @@ David  22 Feb 2009
         cs_files.cpp
         file_xfer.cpp
         pers_file_xfer.cpp
+
+David  22 Feb 2009
+    - client: more instances of showing project with message.  Fixes #848
+
+    client/
+        app_start.cpp
+        app_graphics.cpp
+        file_xfer.cpp
+        cs_account.cpp
+        cs_scheduler.cpp
+        scheduler_op.cpp
+        app.cpp
+        app_control.cpp

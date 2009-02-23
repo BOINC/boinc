@@ -239,13 +239,13 @@ void ACTIVE_TASK::cleanup_task() {
         {
             retval = detach_shmem(app_client_shm.shm);
             if (retval) {
-                msg_printf(NULL, MSG_INTERNAL_ERROR,
+                msg_printf(wup->project, MSG_INTERNAL_ERROR,
                     "Couldn't detach shared memory: %s", boincerror(retval)
                 );
             }
             retval = destroy_shmem(shmem_seg_name);
             if (retval) {
-                msg_printf(NULL, MSG_INTERNAL_ERROR,
+                msg_printf(wup->project, MSG_INTERNAL_ERROR,
                     "Couldn't destroy shared memory: %s", boincerror(retval)
                 );
             }
@@ -313,7 +313,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     retval = procinfo_setup(piv);
 	if (retval) {
 		if (log_flags.mem_usage_debug) {
-			msg_printf(0, MSG_INTERNAL_ERROR,
+			msg_printf(NULL, MSG_INTERNAL_ERROR,
 				"[mem_usage_debug] procinfo_setup() returned %d", retval
 			);
 		}
@@ -689,7 +689,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_double(buf, "<current_cpu_time>", x)) continue;
         else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_INFO,
+                msg_printf(project, MSG_INFO,
                     "[unparsed_xml] ACTIVE_TASK::parse(): unrecognized %s\n", buf
                 );
             }
@@ -753,7 +753,7 @@ int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
             else delete atp;
         } else {
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_INFO,
+                msg_printf(NULL, MSG_INFO,
                     "[unparsed_xml] ACTIVE_TASK_SET::parse(): unrecognized %s\n", buf
                 );
             }
@@ -881,7 +881,9 @@ int ACTIVE_TASK::handle_upload_files() {
                     fip->status = FILE_PRESENT;
                 }
             } else {
-                msg_printf(0, MSG_INTERNAL_ERROR, "Can't find uploadable file %s", p);
+                msg_printf(wup->project, MSG_INTERNAL_ERROR,
+                    "Can't find uploadable file %s", p
+                );
             }
             sprintf(path, "%s/%s", slot_dir, buf);
             delete_project_owned_file(path, true);  // delete the link file

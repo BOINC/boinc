@@ -247,13 +247,13 @@ int CLIENT_STATE::parse_account_files() {
         retval = project->parse_account(f);
         fclose(f);
         if (retval) {
-            msg_printf(NULL, MSG_INTERNAL_ERROR,
+            msg_printf(project, MSG_INTERNAL_ERROR,
                 "Couldn't parse account file %s", name.c_str()
             );
             delete project;
         } else {
             if (lookup_project(project->master_url)) {
-                msg_printf(NULL, MSG_INFO,
+                msg_printf(project, MSG_INFO,
                     "Duplicate account file %s - ignoring", name.c_str()
                 );
                 delete project;
