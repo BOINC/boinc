@@ -116,13 +116,15 @@ struct RSC_WORK_FETCH {
     void rr_init();
     void accumulate_shortfall(double d_time);
     void update_estimated_delay(double dt);
-    PROJECT* choose_project(bool allow_overworked, bool only_starved);
+    PROJECT* choose_project(int);
     void accumulate_debt();
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);
     void update_debts();
     void print_state(char*);
     void clear_request();
-    void set_request(PROJECT*);
+    void set_request(PROJECT*, double);
+    double share_request(PROJECT*);
+    void set_shortfall_request(PROJECT*);
     bool may_have_work(PROJECT*);
     RSC_WORK_FETCH() {
         memset(this, 0, sizeof(*this));
@@ -156,6 +158,7 @@ struct WORK_FETCH {
     void write_request(FILE*);
     void handle_reply(PROJECT*, std::vector<RESULT*>new_results);
     void set_initial_work_request();
+    void set_shortfall_requests(PROJECT*);
     void print_state();
     void init();
     void rr_init();

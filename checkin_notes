@@ -1939,3 +1939,9 @@ Rom    22 Feb 2009
         screensaver.cpp
         screensaver_win.cpp, .h
         
+David  22 Feb 2009
+    - client: fix work-fetch bug that caused infinite fetch;
+        cleanup/reorganization of work fetch logic
+
+    client/
+        work_fetch.cpp,h

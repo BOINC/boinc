@@ -140,25 +140,45 @@ bool RSC_PROJECT_WORK_FETCH::overworked() {
     return (debt < -x);
 }
 
+#define FETCH_IF_DEVICE_IDLE        1
+    // If a resource is idle, get work for it
+    // from the project with greatest LTD, even if it's overworked.
+#define FETCH_IF_SHORTFALL          2
+    // If a resource has a shortfall,
+    // get work for it from the non-overworked project with greatest LTD.
+#define FETCH_IF_PROJECT_STARVED    3
+    // If any project is not overworked and has no runnable jobs for the rsc,
+    // get work from the one with greatest LTD.
+
 // Choose the best project to ask for work for this resource,
-// given some constraints.
+// given the specific criterion
 //
-PROJECT* RSC_WORK_FETCH::choose_project(
-    bool allow_overworked,      // consider overworked projects
-    bool only_starved           // consider only starved projects
-) {
+PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
+    double req;
     PROJECT* pbest = NULL;
+
+    switch (criterion) {
+    case FETCH_IF_DEVICE_IDLE:
+        if (!nidle_now) return NULL;
+        break;
+    case FETCH_IF_SHORTFALL:
+        if (!shortfall) return NULL;
+        break;
+    }
 
     for (unsigned i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (!p->pwf.can_fetch_work) continue;
         if (!project_state(p).may_have_work) continue;
         RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
-        if (!allow_overworked && rpwf.overworked()) {
-            continue;
-        }
-        if (only_starved && rpwf.has_runnable_jobs) {
-            continue;
+        switch (criterion) {
+        case FETCH_IF_SHORTFALL:
+            if (rpwf.overworked()) continue;
+            break;
+        case FETCH_IF_PROJECT_STARVED:
+            if (rpwf.overworked()) continue;
+            if (rpwf.has_runnable_jobs) continue;
+            break;
         }
         if (pbest) {
             if (pbest->pwf.overall_debt > p->pwf.overall_debt) {
@@ -168,7 +188,53 @@ PROJECT* RSC_WORK_FETCH::choose_project(
         }
         pbest = p;
     }
+    if (!pbest) return NULL;
+
+    // decide how much work to request from each resource
+    //
+    work_fetch.clear_request();
+    switch (criterion) {
+    case FETCH_IF_DEVICE_IDLE:
+        if (log_flags.work_fetch_debug) {
+            msg_printf(pbest, MSG_INFO,
+                "chosen: %s idle instance", rsc_name(rsc_type)
+            );
+        }
+        req = share_request(pbest);
+        if (req > shortfall) req = shortfall;
+        set_request(pbest, req);
+        break;
+    case FETCH_IF_SHORTFALL:
+        if (log_flags.work_fetch_debug) {
+            msg_printf(pbest, MSG_INFO,
+                "chosen: %s shortfall", rsc_name(rsc_type)
+            );
+        }
+        work_fetch.set_shortfall_requests(pbest);
+        break;
+    case FETCH_IF_PROJECT_STARVED:
+        if (log_flags.work_fetch_debug) {
+            msg_printf(pbest, MSG_INFO,
+                "chosen: %s idle instance", rsc_name(rsc_type)
+            );
+        }
+        req = share_request(pbest);
+        set_request(pbest, req);
+        break;
+    }
     return pbest;
+}
+
+void WORK_FETCH::set_shortfall_requests(PROJECT* p) {
+    cpu_work_fetch.set_shortfall_request(p);
+    if (coproc_cuda) {
+        cuda_work_fetch.set_shortfall_request(p);
+    }
+}
+
+void RSC_WORK_FETCH::set_shortfall_request(PROJECT* p) {
+    if (!shortfall) return;
+    set_request(p, shortfall);
 }
 
 void WORK_FETCH::set_overall_debts() {
@@ -316,98 +382,29 @@ PROJECT* WORK_FETCH::choose_project() {
 
     gstate.rr_simulation();
     set_overall_debts();
-    bool cpu_emergency = false;
-    bool cuda_emergency = false;
 
-    // If a resource is idle, it's an "emergency";
-    // get work for it from the project with greatest LTD,
-    // even if it's overworked.
-    // Give GPU priority over CPU
-    //
-    if (coproc_cuda && cuda_work_fetch.nidle_now) {
-        p = cuda_work_fetch.choose_project(true, false);
-        if (p) {
-            cuda_emergency = true;
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "chosen: CUDA idle instance");
-            }
-        }
-    }
-    if (!p && cpu_work_fetch.nidle_now) {
-        p = cpu_work_fetch.choose_project(true, false);
-        if (p) {
-            cpu_emergency = true;
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "chosen: CPU idle instance");
-            }
-        }
-    }
-
-    // If a resource has a shortfall,
-    // get work for it from the non-overworked project with greatest LTD.
-    //
-    if (!p && coproc_cuda && cuda_work_fetch.shortfall) {
-        p = cuda_work_fetch.choose_project(false, false);
-        if (p) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "chosen: CUDA shortfall");
-            }
-        }
-    }
-    if (!p && cpu_work_fetch.shortfall) {
-        p = cpu_work_fetch.choose_project(false, false);
-        if (p) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "chosen: CPU shortfall");
-            }
-        }
-    }
-
-    // If any project is not overworked and has no runnable jobs,
-    // get work from the one with greatest LTD.
-    //
-    if (!p && coproc_cuda) {
-        p = cuda_work_fetch.choose_project(false, true);
-        if (p) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "chosen: project has no CUDA jobs");
-            }
-        }
+    if (coproc_cuda) {
+        p = cuda_work_fetch.choose_project(FETCH_IF_DEVICE_IDLE);
     }
     if (!p) {
-        p = cpu_work_fetch.choose_project(false, true);
-        if (p) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "chosen: project has no CPU jobs");
-            }
-        }
+        p = cpu_work_fetch.choose_project(FETCH_IF_DEVICE_IDLE);
     }
 
-    // decide how much work to request for each resource
-    //
-    clear_request();
-    if (p) {
-        // in emergency cases, get work only for that resource
-        //
-        if (cpu_emergency) {
-            cpu_work_fetch.set_request(p);
-        } else if (cuda_emergency) {
-            cuda_work_fetch.set_request(p);
-        } else {
-            // in non-emergency cases, get work for any resource
-            // for which the project is not overworked
-            //
-            if (!cpu_work_fetch.project_state(p).overworked()) {
-                cpu_work_fetch.set_request(p);
-            }
-            if (coproc_cuda) {
-                if (!cuda_work_fetch.project_state(p).overworked()) {
-                    cuda_work_fetch.set_request(p);
-                }
-            }
-        }
+    if (!p && coproc_cuda) {
+        p = cuda_work_fetch.choose_project(FETCH_IF_SHORTFALL);
     }
-    if (coproc_cuda) {
+    if (!p) {
+        p = cpu_work_fetch.choose_project(FETCH_IF_SHORTFALL);
+    }
+
+    if (!p && coproc_cuda) {
+        p = cuda_work_fetch.choose_project(FETCH_IF_PROJECT_STARVED);
+    }
+    if (!p) {
+        p = cpu_work_fetch.choose_project(FETCH_IF_PROJECT_STARVED);
+    }
+
+    if (p && coproc_cuda) {
         coproc_cuda->req_secs = cuda_work_fetch.req_secs;
         coproc_cuda->req_instances = cuda_work_fetch.req_instances;
         coproc_cuda->estimated_delay = cuda_work_fetch.estimated_delay;
@@ -424,19 +421,24 @@ PROJECT* WORK_FETCH::choose_project() {
     return p;
 }
 
-void RSC_WORK_FETCH::set_request(PROJECT* p) {
-    RSC_PROJECT_WORK_FETCH& w = project_state(p);
-
-    if (p->duration_correction_factor < 0.02 || p->duration_correction_factor > 80.0) {
+double RSC_WORK_FETCH::share_request(PROJECT* p) {
+    double dcf = p->duration_correction_factor;
+    if (dcf < 0.02 || dcf > 80.0) {
         // if project's DCF is too big or small,
         // its completion time estimates are useless; just ask for 1 second
         //
-        req_secs = 1;
+        return 1;
     } else {
         // otherwise ask for the project's share
         //
-        req_secs = gstate.work_buf_total()*w.fetchable_share;
+        RSC_PROJECT_WORK_FETCH& w = project_state(p);
+        return gstate.work_buf_total()*w.fetchable_share;
     }
+}
+
+void RSC_WORK_FETCH::set_request(PROJECT* p, double r) {
+    RSC_PROJECT_WORK_FETCH& w = project_state(p);
+    req_secs = r;
     req_instances = (int)ceil(w.fetchable_share*nidle_now);
 }
 
