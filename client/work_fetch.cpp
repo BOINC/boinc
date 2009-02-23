@@ -90,6 +90,7 @@ void WORK_FETCH::rr_init() {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         p->pwf.can_fetch_work = p->pwf.compute_can_fetch_work(p);
+        p->pwf.has_runnable_jobs = false;
         p->cpu_pwf.rr_init();
         if (coproc_cuda) {
             p->cuda_pwf.rr_init();
@@ -147,7 +148,8 @@ bool RSC_PROJECT_WORK_FETCH::overworked() {
     // If a resource has a shortfall,
     // get work for it from the non-overworked project with greatest LTD.
 #define FETCH_IF_PROJECT_STARVED    3
-    // If any project is not overworked and has no runnable jobs for the rsc,
+    // If any project is not overworked and has no runnable jobs
+    // (for any resource, not just this one)
     // get work from the one with greatest LTD.
 
 // Choose the best project to ask for work for this resource,
@@ -177,7 +179,7 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
             break;
         case FETCH_IF_PROJECT_STARVED:
             if (rpwf.overworked()) continue;
-            if (rpwf.has_runnable_jobs) continue;
+            if (p->pwf.has_runnable_jobs) continue;
             break;
         }
         if (pbest) {
@@ -234,6 +236,9 @@ void WORK_FETCH::set_shortfall_requests(PROJECT* p) {
 
 void RSC_WORK_FETCH::set_shortfall_request(PROJECT* p) {
     if (!shortfall) return;
+    RSC_PROJECT_WORK_FETCH& w = project_state(p);
+    if (!w.may_have_work) return;
+    if (w.overworked()) return;
     set_request(p, shortfall);
 }
 

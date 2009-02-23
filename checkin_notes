@@ -1945,3 +1945,14 @@ David  22 Feb 2009
 
     client/
         work_fetch.cpp,h
+
+David  22 Feb 2009
+    - client: work-fetch bug fix: if we're fetching work for a starved
+        project, it most have no runnable jobs for ANY resource.
+    - client: work-fetch bug fix: when setting requests in the
+        shortfall case, don't request anything if project is backed off
+        or overworked for the resource.
+
+    client/
+        rr_sim.cpp
+        work_fetch.cpp,h

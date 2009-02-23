@@ -138,6 +138,7 @@ struct PROJECT_WORK_FETCH {
     double overall_debt;
     bool can_fetch_work;
     bool compute_can_fetch_work(PROJECT*);
+    bool has_runnable_jobs;
     PROJECT_WORK_FETCH() {
         memset(this, 0, sizeof(*this));
     }
