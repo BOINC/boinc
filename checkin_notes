@@ -1899,3 +1899,43 @@ David  22 Feb 2009
         scheduler_op.cpp
         app.cpp
         app_control.cpp
+
+Rom    22 Feb 2009
+    - WINSCR: Fix the BOINC text displayed is the screensaver control
+        panel applet
+    - WINSCR: Get rid of the 'Up to 5 second wait' for the data thread
+        to terminate.  Force terminate the thread and clean up the
+        graphics app in a clean-up routine.  Forcing the user to wait
+        when they return to the system isn't a good idea.
+    - WINSCR: Fix screensaver issue where the screensaver locks up
+        when the graphics application deadlocks for one reason or
+        another.
+        
+        Create two new threads:
+          1. Monitor system for keyboard and mouse events.
+          2. Shuffle window z-order positions if needed.
+          
+        The keyboard/mouse event monitor is isolated from either
+          the core client getting stuck in a loop and not returning
+          the results of an RPC or the window shuffling code which
+          can get stuck if the graphics application dead locks.
+          
+        The window shuffle code is isolated due to the
+          BroadcastSystemMessage() API using something akin to
+          SendMessage() which waits for a return value from the
+          target windows winproc.  If a graphics application
+          deadlocks for one reason or another it'll cause
+          the thread to stall.  This isn't terminal and so we
+          just wait for the next time the data thread chooses
+          a new application and terminates the old one which
+          will cause the thread to resume.
+          
+        This should resolve all outstanding issues with the
+          screensaver not exiting when the mouse or keyboard
+          is used.
+          
+    clientscr/
+        boinc_ss.rc
+        screensaver.cpp
+        screensaver_win.cpp, .h
+        

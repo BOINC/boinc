@@ -420,12 +420,10 @@ void *CScreensaver::DataManagementProc()
     default_data_dir_path = "/Library/Application Support/BOINC Data";
     default_ss_dir_path = default_data_dir_path;
 #else
-    UtilGetRegDirectoryStr(_T("INSTALLDIR"), &default_ss_dir_path);
-    BOINCTRACE(_T("CScreensaver::DataManagementProc - default_ss_dir_path = '%s'\n"), default_ss_dir_path);
-    retval = UtilGetRegDirectoryStr(_T("DATADIR"), &default_data_dir_path);
-    BOINCTRACE(_T("CScreensaver::DataManagementProc - default_data_dir_path = '%s'\n"), default_data_dir_path);
-retval = 0;
+    default_data_dir_path = (char*)m_strBOINCDataDirectory.c_str();
+    default_ss_dir_path = (char*)m_strBOINCInstallDirectory.c_str();
 #endif
+
     strlcpy(full_path, default_ss_dir_path, sizeof(full_path));
     strlcat(full_path, PATH_SEPARATOR, sizeof(full_path));
     strlcat(full_path, THE_DEFAULT_SS_EXECUTABLE, sizeof(full_path));
@@ -445,6 +443,8 @@ retval = 0;
     GetDisplayPeriods(default_data_dir_path);
 
     while (true) {
+
+#ifndef _WIN32
         for (int i = 0; i < 4; i++) {
             // ***
             // *** Things that should be run frequently.
@@ -459,32 +459,11 @@ retval = 0;
                     previous_result_ptr = NULL;
                     m_hGraphicsApplication = 0;
                 }
-#ifdef _WIN32
-                if (default_ss_dir_path) free(default_ss_dir_path);
-                default_ss_dir_path = NULL;
-                if (default_data_dir_path) free(default_data_dir_path);
-                default_data_dir_path = NULL;
-#endif
                 return 0;       // Exit the thread
             }
-
-#ifdef _WIN32
-
-            // Check for keyboard and mouse activity just in case the
-            // user wants to blow out of the screensaver.
-            //
-            CheckKeyboardMouseActivity();
-
-            // Check to see if there are any notification windows from
-            // personal firewalls, virus scanners, or anything else that
-            // demands the users attention. If there is blow out of the
-            // screensaver
-            CheckForNotificationWindow();
-
-#endif
-
             boinc_sleep(0.25);
         }
+#endif
 
         // ***
         // *** Things that should be run frequently.
@@ -495,12 +474,22 @@ retval = 0;
         if ((m_dwBlankScreen) && (time(0) > m_dwBlankTime)) {
             BOINCTRACE(_T("CScreensaver::DataManagementProc - Time to blank\n"));
             SetError(FALSE, SCRAPPERR_SCREENSAVERBLANKED);
+#ifndef _WIN32
             m_QuitDataManagementProc = true;
+#else
+            if (m_hGraphicsApplication || graphics_app_result_ptr) {
+                terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
+                graphics_app_result_ptr = NULL;
+                previous_result_ptr = NULL;
+                m_hGraphicsApplication = 0;
+            }
+            return 0;       // Exit the thread
+#endif
         }
 
         BOINCTRACE(_T("CScreensaver::DataManagementProc - ErrorMode = '%d', ErrorCode = '%x'\n"), m_bErrorMode, m_hrError);
 
-        if (! m_bConnected) {
+        if (!m_bConnected) {
             HandleRPCError();
         }
         
@@ -697,10 +686,10 @@ retval = 0;
                             graphics_app_result_ptr = NULL;
                             m_bScience_gfx_running = false;
                         } else {
-        #ifdef __APPLE__
+#ifdef __APPLE__
                             // Show ScreenSaverAppStartingMsg for GFX_STARTING_MSG_DURATION seconds
                             SetError(FALSE, SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING);
-        #endif
+#endif
                             SetError(FALSE, SCRAPPERR_SCREENSAVERRUNNING);
                             last_change_time = dtime();
                             m_bScience_gfx_running = true;
@@ -781,14 +770,12 @@ retval = 0;
                 m_bDefault_gfx_running = false;
                 m_bScience_gfx_running = false;
                 continue;
-            } else {
-#ifdef _WIN32
-                CheckForegroundWindow();
-#endif
             }
         }
-        
-    }                           // end while(true)
+#ifdef _WIN32
+        boinc_sleep(1.0);
+#endif
+    }   // end while(true)
 }
 
 
