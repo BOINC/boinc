@@ -249,14 +249,14 @@ int CScreensaver::terminate_screensaver(HANDLE& graphics_application, RESULT *wo
 int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worker_app)
 #endif
 {
-    if (!m_bScience_gfx_running) {
-        return 0;
-    }
     
     if (graphics_application) {
         // V6 Graphics
         kill_program(graphics_application);
 #ifdef __APPLE__
+        if (!m_bScience_gfx_running) {
+            return 0;   // Don't use gfx_switcher for default gfx app 
+        }
         // For sandbox security, use gfx_switcher to launch gfx app 
         // as user boinc_project and group boinc_project.
         int retval = 0;
@@ -444,7 +444,6 @@ void *CScreensaver::DataManagementProc()
 
     while (true) {
 
-#ifndef _WIN32
         for (int i = 0; i < 4; i++) {
             // ***
             // *** Things that should be run frequently.
@@ -463,7 +462,6 @@ void *CScreensaver::DataManagementProc()
             }
             boinc_sleep(0.25);
         }
-#endif
 
         // ***
         // *** Things that should be run frequently.
@@ -474,17 +472,8 @@ void *CScreensaver::DataManagementProc()
         if ((m_dwBlankScreen) && (time(0) > m_dwBlankTime)) {
             BOINCTRACE(_T("CScreensaver::DataManagementProc - Time to blank\n"));
             SetError(FALSE, SCRAPPERR_SCREENSAVERBLANKED);
-#ifndef _WIN32
             m_QuitDataManagementProc = true;
-#else
-            if (m_hGraphicsApplication || graphics_app_result_ptr) {
-                terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
-                graphics_app_result_ptr = NULL;
-                previous_result_ptr = NULL;
-                m_hGraphicsApplication = 0;
-            }
-            return 0;       // Exit the thread
-#endif
+            continue;       // Exit the thread
         }
 
         BOINCTRACE(_T("CScreensaver::DataManagementProc - ErrorMode = '%d', ErrorCode = '%x'\n"), m_bErrorMode, m_hrError);

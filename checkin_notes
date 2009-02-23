@@ -1956,3 +1956,10 @@ David  22 Feb 2009
     client/
         rr_sim.cpp
         work_fetch.cpp,h
+
+Charlie 22 Feb 2009
+    - screensaver: Code consolidation, fix bug terminating default graphics 
+        application on screensaver exit.
+        
+     clientscr/
+        screensaver.cpp
