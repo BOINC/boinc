@@ -110,7 +110,7 @@ struct RSC_WORK_FETCH {
     // debt accounting
     double secs_this_debt_interval;
     inline void reset_debt_accounting() {
-        secs_this_debt_interval = 0;
+        this->secs_this_debt_interval = 0;
     }
 
     void rr_init();

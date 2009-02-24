@@ -315,10 +315,14 @@ void CLIENT_STATE::reset_debt_accounting() {
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         p->cpu_pwf.reset_debt_accounting();
-        p->cuda_pwf.reset_debt_accounting();
+        if (coproc_cuda) {
+            p->cuda_pwf.reset_debt_accounting();
+        }
     }
     cpu_work_fetch.reset_debt_accounting();
-    cuda_work_fetch.reset_debt_accounting();
+    if (coproc_cuda) {
+        cuda_work_fetch.reset_debt_accounting();
+    }
     debt_interval_start = now;
 }
 
@@ -364,7 +368,9 @@ void CLIENT_STATE::adjust_debts() {
 
     // adjust long term debts
     cpu_work_fetch.update_debts();
-    cuda_work_fetch.update_debts();
+    if (coproc_cuda) {
+        cuda_work_fetch.update_debts();
+    }
 
     // adjust short term debts
     rrs = runnable_resource_share();

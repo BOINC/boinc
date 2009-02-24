@@ -242,6 +242,11 @@ function gpu_desc($x) {
     if ($y[0] == "CUDA") $z .= "NVIDIA ";
     $z .= $y[1];
     $z .= " (".$y[3].")";
+    if (array_key_exists(4, $y)) {
+        if ($y[4] != "" && $y[4] != 0) {
+            $z .= " driver: ".$y[4];
+        }
+    }
     return $z;
 }
 

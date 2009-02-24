@@ -1963,3 +1963,16 @@ Charlie 22 Feb 2009
         
      clientscr/
         screensaver.cpp
+
+David  22 Feb 2009
+    - scheduler: include driver version in the CUDA description string
+        storing in the database;
+    - web: display the above
+
+    client/
+        cpu_sched.cpp
+        work_fetch.h
+    html/inc/
+        host.inc
+    lib/
+        coproc.cpp
