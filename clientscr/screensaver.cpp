@@ -761,9 +761,6 @@ void *CScreensaver::DataManagementProc()
                 continue;
             }
         }
-#ifdef _WIN32
-        boinc_sleep(1.0);
-#endif
     }   // end while(true)
 }
 

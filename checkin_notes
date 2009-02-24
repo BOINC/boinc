@@ -1976,3 +1976,10 @@ David  22 Feb 2009
         host.inc
     lib/
         coproc.cpp
+
+Charlie 22 Feb 2009
+    - screensaver: Fix a bug I introduced during code consolidation.
+        
+     clientscr/
+        screensaver.cpp
+        screensaver_win.cpp

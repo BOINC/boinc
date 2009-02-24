@@ -195,6 +195,7 @@ CScreensaver::CScreensaver() {
     m_hDataManagementThread = NULL;
     m_hGraphicsApplication = NULL;
     m_bResetCoreState = TRUE;
+    m_QuitDataManagementProc = FALSE;
     memset(&m_running_result, 0, sizeof(m_running_result));
 
     ZeroMemory(m_Monitors, sizeof(m_Monitors));
