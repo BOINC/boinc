@@ -112,7 +112,8 @@ public:
     CScreensaver();
 
     virtual HRESULT Create( HINSTANCE hInstance );
-    virtual INT     Run();
+    virtual HRESULT Run();
+    virtual HRESULT Cleanup();
     HRESULT         DisplayErrorMsg( HRESULT hr );
 
 
@@ -142,6 +143,31 @@ protected:
     TCHAR			m_szError[400];      // Error message text
     DWORD           m_dwBlankScreen;
     DWORD           m_dwBlankTime;
+
+    //
+    // Input Activity Detection
+    //
+protected:
+    BOOL            CreateInputActivityThread();
+    BOOL            DestroyInputActivityThread();
+
+    DWORD WINAPI    InputActivityProc();
+    static DWORD WINAPI InputActivityProcStub( LPVOID lpParam );
+
+    HANDLE          m_hInputActivityThread;
+
+
+    //
+    // Graphics Window Promotion
+    //
+protected:
+    BOOL            CreateGraphicsWindowPromotionThread();
+    BOOL            DestroyGraphicsWindowPromotionThread();
+
+    DWORD WINAPI    GraphicsWindowPromotionProc();
+    static DWORD WINAPI GraphicsWindowPromotionProcStub( LPVOID lpParam );
+
+    HANDLE          m_hGraphicsWindowPromotionThread;
 
 
     //

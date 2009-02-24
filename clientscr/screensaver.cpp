@@ -33,18 +33,18 @@
 #include "diagnostics.h"
 #include "common_defs.h"
 #include "util.h"
+#include "gui_rpc_client.h"
 
 #ifdef _WIN32
-#include "gui_rpc_client.h"
 #include "screensaver_win.h"
 #endif
 
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
 #include <sys/wait.h>
-#include "gui_rpc_client.h"
 #include "Mac_Saver_Module.h"
 #endif
+
 #include "screensaver.h"
 
 // Flags for testing & debugging
@@ -342,22 +342,6 @@ void *CScreensaver::DataManagementProc() {
                 }
                 return 0;       // Exit the thread
             }
-
-#ifdef _WIN32
-
-            // Check for keyboard and mouse activity just in case the
-            // user wants to blow out of the screensaver.
-            //
-            CheckKeyboardMouseActivity();
-
-            // Check to see if there are any notification windows from
-            // personal firewalls, virus scanners, or anything else that
-            // demands the users attention. If there is blow out of the
-            // screensaver
-            CheckForNotificationWindow();
-
-#endif
-
             boinc_sleep(0.25);
         }
 
@@ -524,10 +508,6 @@ void *CScreensaver::DataManagementProc() {
                     m_hGraphicsApplication = 0;
                     graphics_app_result_ptr = NULL;
                     continue;
-                } else {
-#ifdef _WIN32
-                    CheckForegroundWindow();
-#endif
                 }
             }
         }
