@@ -140,6 +140,9 @@ INT WINAPI WinMain(
 
     retval = BOINCSS.Run();
 
+    // Cleanup any existing screensaver objects and handles
+    BOINCSS.Cleanup();
+
     // Cleanup the Windows sockets interface.
     WSACleanup();
 
@@ -300,7 +303,7 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
 
 // Starts main execution of the screen saver.
 //
-INT CScreensaver::Run() {
+HRESULT CScreensaver::Run() {
     HOST_INFO hostinfo;
     HRESULT hr;
 
@@ -328,32 +331,45 @@ INT CScreensaver::Run() {
         }
         break;
     case sm_full:
-        // Create the data management thread to talk with the daemon
-        if (!CreateDataManagementThread()) {
-            return E_FAIL;
-        }
+        // Create the various required threads
+        if (!CreateInputActivityThread()) return E_FAIL;
+        if (!CreateGraphicsWindowPromotionThread()) return E_FAIL;
+        if (!CreateDataManagementThread()) return E_FAIL;
 
         if (FAILED(hr = DoSaver())) {
             DisplayErrorMsg(hr);
         }
 
-        // Create the data management thread to talk with the daemon
+        // Destroy the various required threads
         //
-        if (!DestroyDataManagementThread()) {
-            return E_FAIL;
-        }
-        
-        if (rpc) {
-            delete rpc;
-            rpc = NULL;
-        }
+        if (!DestroyDataManagementThread()) return E_FAIL;
+        if (!DestroyGraphicsWindowPromotionThread()) return E_FAIL;
+        if (!DestroyInputActivityThread()) return E_FAIL;
         break;
     case sm_passwordchange:
         ChangePassword();
         break;
     }
 
-    return 0;
+    return S_OK;
+}
+
+
+
+
+// Cleanup anything that needs cleaning.
+//
+HRESULT CScreensaver::Cleanup() {
+    if (m_hGraphicsApplication) {
+        TerminateProcess(m_hGraphicsApplication, 0);
+        m_hGraphicsApplication = NULL;
+    }
+
+    if (rpc) {
+        delete rpc;
+        rpc = NULL;
+    }
+    return S_OK;
 }
 
 
@@ -874,6 +890,206 @@ BOOL CScreensaver::GetTextForError(
         return TRUE;
     }
 }
+
+
+
+
+// Create the thread that is used to monitor input activity.
+//
+BOOL CScreensaver::CreateInputActivityThread() {
+    DWORD dwThreadID = 0;
+    BOINCTRACE(_T("CScreensaver::CreateInputActivityThread Start\n"));
+    m_hInputActivityThread = CreateThread(
+        NULL,                        // default security attributes 
+        0,                           // use default stack size  
+        InputActivityProcStub,       // thread function 
+        NULL,                        // argument to thread function 
+        0,                           // use default creation flags 
+        &dwThreadID );               // returns the thread identifier 
+ 
+   if (m_hInputActivityThread == NULL) {
+    	BOINCTRACE(_T("CScreensaver::CreateInputActivityThread: Failed to create input activity thread '%d'\n"), GetLastError());
+        return FALSE;
+   }
+   
+   m_tThreadCreateTime = time(0);
+   return TRUE;
+}
+
+
+
+
+// Terminate the thread that is used to monitor input activity.
+//
+BOOL CScreensaver::DestroyInputActivityThread() {
+    if (!TerminateThread(m_hInputActivityThread, 0)) {
+    	BOINCTRACE(_T("CScreensaver::DestroyInputActivityThread: Failed to terminate input activity thread '%d'\n"), GetLastError());
+        return FALSE;
+    }
+    return TRUE;
+}
+
+
+
+
+// This function forwards to InputActivityProc, which has access to the
+//   "this" pointer.
+//
+DWORD WINAPI CScreensaver::InputActivityProcStub(LPVOID UNUSED(lpParam)) {
+    return gspScreensaver->InputActivityProc();
+}
+
+
+
+
+// Some graphics applications take a really long time to display something on their
+// window, during this time the window will appear to eat keyboard and mouse event
+// messages and not respond to other system events.  These windows are considered
+// ghost windows, normally they have an outline and can be moved around and resized.
+// In the graphic applications case where the borders are hidden from view, the
+// window just takes on the background of the previous window which happens to be
+// the black screensaver window owned by this process.
+//
+// Verify that their hasn't been any keyboard or mouse activity.  If there has,
+// we should hide the window from this process and exit out of the screensaver to
+// return control back to the user as quickly as possible.
+//
+DWORD WINAPI CScreensaver::InputActivityProc() {
+    LASTINPUTINFO lii;
+    lii.cbSize = sizeof(LASTINPUTINFO);
+
+    while(true) {
+        if (gspfnMyGetLastInputInfo) {
+            gspfnMyGetLastInputInfo(&lii);
+            if (m_dwLastInputTimeAtStartup != lii.dwTime) {
+                BOINCTRACE(_T("CScreensaver::InputActivityProc - Activity Detected.\n"));
+                SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
+                SendMessage(m_Monitors[0].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
+            }
+        }
+        boinc_sleep(0.25);
+    }
+}
+
+
+
+
+// Create the thread that is used to promote the graphics window.
+//
+BOOL CScreensaver::CreateGraphicsWindowPromotionThread() {
+    DWORD dwThreadID = 0;
+    BOINCTRACE(_T("CScreensaver::CreateGraphicsWindowPromotionThread Start\n"));
+    m_hGraphicsWindowPromotionThread = CreateThread(
+        NULL,                        // default security attributes 
+        0,                           // use default stack size  
+        GraphicsWindowPromotionProcStub,       // thread function 
+        NULL,                        // argument to thread function 
+        0,                           // use default creation flags 
+        &dwThreadID );               // returns the thread identifier 
+ 
+   if (m_hGraphicsWindowPromotionThread == NULL) {
+    	BOINCTRACE(_T("CScreensaver::CreateGraphicsWindowPromotionThread: Failed to create graphics window promotion thread '%d'\n"), GetLastError());
+        return FALSE;
+   }
+   return TRUE;
+}
+
+
+
+
+// Terminate the thread that is used to promote the graphics window.
+//
+BOOL CScreensaver::DestroyGraphicsWindowPromotionThread() {
+    if (!TerminateThread(m_hGraphicsWindowPromotionThread, 0)) {
+    	BOINCTRACE(_T("CScreensaver::DestroyGraphicsWindowPromotionThread: Failed to terminate graphics window promotion thread '%d'\n"), GetLastError());
+        return FALSE;
+    }
+    return TRUE;
+}
+
+
+
+
+// This function forwards to GraphicsWindowPromotionProc, which has access to the
+//   "this" pointer.
+//
+DWORD WINAPI CScreensaver::GraphicsWindowPromotionProcStub(LPVOID UNUSED(lpParam)) {
+    return gspScreensaver->GraphicsWindowPromotionProc();
+}
+
+
+
+
+// When running in screensaver mode the only two valid conditions for z-order
+//   is that either the screensaver or graphics application is the foreground
+//   application.  If this is not true, then blow out of the screensaver.
+//
+DWORD WINAPI CScreensaver::GraphicsWindowPromotionProc() {
+    HWND    hwndBOINCGraphicsWindow = NULL;
+    HWND    hwndForeWindow = NULL;
+    HWND    hwndForeParent = NULL;
+    DWORD   iMonitor = 0;
+    INTERNALMONITORINFO* pMonitorInfo = NULL;
+    BOOL    bForegroundWindowIsScreensaver;
+
+    while(true) {
+        hwndBOINCGraphicsWindow = FindWindow(BOINC_WINDOW_CLASS_NAME, NULL);
+        if (hwndBOINCGraphicsWindow) {
+            // Graphics Application found.
+
+            // If the graphics application is not the top most window try and force it
+            //   to the top.
+            hwndForeWindow = GetForegroundWindow();
+            if (hwndForeWindow != hwndBOINCGraphicsWindow) {
+                BOINCTRACE(_T("CScreensaver::GraphicsWindowPromotionProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground.\n"));
+                SetForegroundWindow(hwndBOINCGraphicsWindow);
+                hwndForeWindow = GetForegroundWindow();
+                if (hwndForeWindow != hwndBOINCGraphicsWindow) {
+                    BOINCTRACE(_T("CScreensaver::GraphicsWindowPromotionProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground. (Final Try)\n"));
+
+                    // This may be needed on Windows 2000 or better machines
+                    //
+                    // NOTE: This API appears to be a SendMessage() variant and as such
+                    //   can lock up this thread if a graphics application deadlocks.
+                    //
+                    if (gspfnMyBroadcastSystemMessage) {
+                        DWORD dwComponents = BSM_APPLICATIONS;
+                        gspfnMyBroadcastSystemMessage(
+                            BSF_ALLOWSFW, 
+                            &dwComponents,
+                            WM_BOINCSFW,
+                            NULL,
+                            NULL
+                        );
+                    }
+                }
+            }
+        } else {
+            // Graphics application does not exist. So check that one of the windows
+            //   assigned to each monitor is the foreground window.
+            bForegroundWindowIsScreensaver = FALSE;
+            hwndForeWindow = GetForegroundWindow();
+            hwndForeParent = GetParent(hwndForeWindow);
+            for(iMonitor = 0; iMonitor < m_dwNumMonitors; iMonitor++) {
+                pMonitorInfo = &m_Monitors[iMonitor];
+                if ((pMonitorInfo->hWnd == hwndForeWindow) || (pMonitorInfo->hWnd == hwndForeParent))
+                {
+                    bForegroundWindowIsScreensaver = TRUE;
+                }
+            }
+            if (!bForegroundWindowIsScreensaver) {
+                // This can happen because of a personal firewall notifications or some
+                //   funky IM client that thinks it has to notify the user even when in
+                //   screensaver mode.
+                BOINCTRACE(_T("CScreensaver::CheckForNotificationWindow - Unknown window detected\n"));
+                SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
+                SendMessage(m_Monitors[0].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
+            }
+        }
+        boinc_sleep(1.0);
+    }
+}
+
 
 
 
