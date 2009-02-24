@@ -527,12 +527,19 @@ void RSC_WORK_FETCH::update_debts() {
     // also, if all the debts are large negative we need to gradually
     // shift them towards zero.
     // To do this, we add an offset as follows:
+    // delta_limit is the largest rate at which any project's debt
+    // could increase or decrease.
+    // If the largest debt is close to zero (relative to delta_limit)
+    // than add an offset that will bring it exactly to zero.
+    // Otherwise add an offset of 2*delta_limit,
+    // which will gradually bring all the debts towards zero
     //
     double offset;
-    if (-max_debt < secs_this_debt_interval) {
+    double delta_limit = secs_this_debt_interval*ninstances;
+    if (-max_debt < 2*delta_limit) {
         offset = -max_debt;
     } else {
-        offset = secs_this_debt_interval;
+        offset = 2*delta_limit;
     }
     if (log_flags.debt_debug) {
         msg_printf(0, MSG_INFO, "[debt] %s debt: adding offset %.2f",

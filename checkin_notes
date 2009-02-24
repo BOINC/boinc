@@ -1312,3 +1312,10 @@ David  20 Feb 2009
 
 	client/
 		cpu_sched.cpp
+
+David  21 Feb 2009
+    - client: tweak the LTD calculation so that the largest debt
+        always tends towards zero
+
+    client/
+        work_fetch.cpp
