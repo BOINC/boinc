@@ -227,6 +227,7 @@ void CLIENT_STATE::rr_simulation() {
             // job may have fraction_done=1 but not be done;
             // if it's past its deadline, we need to mark it as such
         p = rp->project;
+        p->pwf.has_runnable_jobs = true;
         if (rp->uses_cuda()) {
             p->cuda_pwf.has_runnable_jobs = true;
             if (cuda_work_fetch.sim_nused < coproc_cuda->count) {
