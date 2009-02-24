@@ -17,8 +17,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Build\Release"
-			IntermediateDirectory=".\Build\Release\obj"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -64,9 +64,9 @@
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough=""
 				PrecompiledHeaderFile=""
-				AssemblerListingLocation=".\Build\Release\obj/"
-				ObjectFile=".\Build\Release\obj/"
-				ProgramDataBaseFileName=".\Build\Release\obj/"
+				AssemblerListingLocation=""
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -88,8 +88,8 @@
 			<Tool
 				Name="VCLibrarianTool"
 				LinkLibraryDependencies="true"
-				OutputFile="$(OutDir)/libdc-client-boinc.lib"
-				AdditionalLibraryDirectories="$(OutDir)/"
+				OutputFile="$(OutDir)\libdc-client-boinc.lib"
+				AdditionalLibraryDirectories="$(OutDir)\"
 				IgnoreAllDefaultLibraries="false"
 			/>
 			<Tool
@@ -110,8 +110,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\Build\Debug"
-			IntermediateDirectory=".\Build\Debug\obj"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -155,9 +155,9 @@
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough=""
 				PrecompiledHeaderFile=""
-				AssemblerListingLocation=".\Build\Debug\obj/"
-				ObjectFile=".\Build\Debug\obj/$(ProjectName).obj"
-				ProgramDataBaseFileName=".\Build\Debug\obj/"
+				AssemblerListingLocation=""
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
 				BrowseInformation="1"
 				BrowseInformationFile="$(IntDir)/"
 				WarningLevel="3"
@@ -182,8 +182,8 @@
 			<Tool
 				Name="VCLibrarianTool"
 				LinkLibraryDependencies="true"
-				OutputFile="$(OutDir)/libdc-client-boinc-debug.lib"
-				AdditionalLibraryDirectories="$(OutDir)/"
+				OutputFile="$(OutDir)\libdc-client-boinc-debug.lib"
+				AdditionalLibraryDirectories="$(OutDir)\"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
