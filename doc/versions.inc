@@ -94,9 +94,9 @@ $w66x64= array(
 );
 
 $w64x64= array(
-    "num"=>"6.4.4",
+    "num"=>"6.4.6",
     "status"=>"Recommended version",
-    "file"=>"boinc_6.4.4_windows_x86_64.exe",
+    "file"=>"boinc_6.4.6_windows_x86_64.exe",
     "date"=>"24 Feb 2009",
     "type"=>"win_new",
 );
