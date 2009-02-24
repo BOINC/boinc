@@ -131,6 +131,7 @@ struct CONFIG {
     std::string client_download_url;
     std::string network_test_url;
     bool no_gpus;
+    bool zero_debts;
 
     CONFIG();
     void defaults();

@@ -112,6 +112,7 @@ struct RSC_WORK_FETCH {
     inline void reset_debt_accounting() {
         secs_this_debt_interval = 0;
     }
+
     void normalize_debt();
     void repair_debts();
     bool repair_done;
@@ -164,6 +165,7 @@ struct WORK_FETCH {
     void rr_init();
     void clear_request();
     void compute_shares();
+    void zero_debts();
 };
 
 extern RSC_WORK_FETCH cuda_work_fetch;
