@@ -331,20 +331,27 @@ HRESULT CScreensaver::Run() {
         }
         break;
     case sm_full:
-        // Create the various required threads
-        if (!CreateInputActivityThread()) return E_FAIL;
-        if (!CreateGraphicsWindowPromotionThread()) return E_FAIL;
-        if (!CreateDataManagementThread()) return E_FAIL;
+            // Create the various required threads
+            if (!CreateInputActivityThread()) return E_FAIL;
+            if (!CreateGraphicsWindowPromotionThread()) {
+                DestroyDataManagementThread();
+                return E_FAIL;
+            }
+            if (!CreateDataManagementThread()) {
+                DestroyDataManagementThread();
+                DestroyGraphicsWindowPromotionThread();
+                return E_FAIL;
+            }
 
-        if (FAILED(hr = DoSaver())) {
-            DisplayErrorMsg(hr);
-        }
+            if (FAILED(hr = DoSaver())) {
+                DisplayErrorMsg(hr);
+            }
 
-        // Destroy the various required threads
-        //
-        if (!DestroyDataManagementThread()) return E_FAIL;
-        if (!DestroyGraphicsWindowPromotionThread()) return E_FAIL;
-        if (!DestroyInputActivityThread()) return E_FAIL;
+            // Destroy the various required threads
+            //
+            DestroyDataManagementThread();
+            DestroyGraphicsWindowPromotionThread();
+            DestroyInputActivityThread();
         break;
     case sm_passwordchange:
         ChangePassword();

@@ -1408,3 +1408,9 @@ Rom    22 Feb 2009
         boinc_ss.rc
         screensaver.cpp
         screensaver_win.cpp, .h
+
+Rom    24 Feb 2009
+    - WINSCR: Clean-up some of the thread cleanup logic.
+    
+    clientscr/
+        screensaver_win.cpp
