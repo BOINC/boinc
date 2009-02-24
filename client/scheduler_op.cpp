@@ -814,7 +814,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (strlen(buf)>1){
             if (log_flags.unparsed_xml) {
-                msg_printf(0, MSG_INFO,
+                msg_printf(project, MSG_INFO,
                     "[unparsed_xml] SCHEDULER_REPLY::parse(): unrecognized %s\n", buf
                 );
             }

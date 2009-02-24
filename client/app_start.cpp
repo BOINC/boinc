@@ -372,12 +372,12 @@ int ACTIVE_TASK::start(bool first_time) {
     bool high_priority = (app_version->avg_ncpus < 1);
 
     if (first_time && log_flags.task) {
-        msg_printf(result->project, MSG_INFO,
+        msg_printf(wup->project, MSG_INFO,
             "Starting %s", result->name
         );
     }
     if (log_flags.cpu_sched) {
-        msg_printf(result->project, MSG_INFO,
+        msg_printf(wup->project, MSG_INFO,
             "[cpu_sched] Starting %s%s", result->name, first_time?" (initial)":"(resume)"
         );
     }
@@ -548,7 +548,7 @@ int ACTIVE_TASK::start(bool first_time) {
             if (!pCEB(&environment_block, sandbox_account_service_token, FALSE)) {
                 if (log_flags.task) {
                     windows_error_string(error_msg, sizeof(error_msg));
-                    msg_printf(result->project, MSG_INFO,
+                    msg_printf(wup->project, MSG_INFO,
                         "Process environment block creation failed: %s", error_msg
                     );
                 }
@@ -579,7 +579,7 @@ int ACTIVE_TASK::start(bool first_time) {
             if (!pDEB(environment_block)) {
                 if (log_flags.task) {
                     windows_error_string(error_msg, sizeof(error_msg2));
-                    msg_printf(result->project, MSG_INFO,
+                    msg_printf(wup->project, MSG_INFO,
                         "Process environment block cleanup failed: %s",
                         error_msg2
                     );
@@ -681,7 +681,7 @@ int ACTIVE_TASK::start(bool first_time) {
     chdir(current_dir);
 
     if (log_flags.task_debug) {
-        msg_printf(0, MSG_INFO,
+        msg_printf(wup->project, MSG_INFO,
             "[task_debug] ACTIVE_TASK::start(): forked process: pid %d\n", pid
         );
     }
@@ -848,7 +848,7 @@ int ACTIVE_TASK::start(bool first_time) {
     }
 
     if (log_flags.task_debug) {
-        msg_printf(0, MSG_INFO,
+        msg_printf(wup->project, MSG_INFO,
             "[task_debug] ACTIVE_TASK::start(): forked process: pid %d\n", pid
         );
     }
