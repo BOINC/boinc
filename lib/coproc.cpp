@@ -83,7 +83,9 @@ void COPROCS::summary_string(char* buf, int len) {
         if (!strcmp(cp->type, "CUDA")) {
             COPROC_CUDA* cp2 = (COPROC_CUDA*) cp;
             int mem = (int)(cp2->prop.dtotalGlobalMem/MEGA);
-            sprintf(buf2, "[CUDA|%s|%d|%dMB]", cp2->prop.name, cp2->count, mem);
+            sprintf(buf2, "[CUDA|%s|%d|%dMB|%d]",
+                cp2->prop.name, cp2->count, mem, cp2->drvVersion
+            );
             strcat(bigbuf, buf2);
         }
     }
