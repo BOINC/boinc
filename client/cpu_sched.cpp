@@ -64,9 +64,6 @@ using std::vector;
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
-#define CPU_SCHED_ENFORCE_PERIOD    60
-    // enforce CPU schedule at least this often
-
 bool COPROCS::sufficient_coprocs(COPROCS& needed, bool log_flag, const char* prefix) {
     for (unsigned int i=0; i<needed.coprocs.size(); i++) {
         COPROC* cp = needed.coprocs[i];
@@ -336,17 +333,15 @@ void CLIENT_STATE::adjust_debts() {
     double share_frac;
     double elapsed_time = now - debt_interval_start;
 
-    // This is called from enforce_schedule(),
-    // which runs about once every CPU_SCHED_ENFORCE_PERIOD seconds.
-    // If the elapsed time is more than 2*CPU_SCHED_ENFORCE_PERIOD
+    // If the elapsed time is more than 2*DEBT_ADJUST_PERIOD
     // it must be because the host was suspended for a long time.
     // In this case, ignore the last period
     //
-    if (elapsed_time > 2*CPU_SCHED_ENFORCE_PERIOD || elapsed_time < 0) {
+    if (elapsed_time > 2*DEBT_ADJUST_PERIOD || elapsed_time < 0) {
         if (log_flags.debt_debug) {
             msg_printf(NULL, MSG_INFO,
                 "[debt_debug] adjust_debt: elapsed time (%d) longer than sched enforce period(%d).  Ignoring this period.",
-                (int)elapsed_time, (int)CPU_SCHED_ENFORCE_PERIOD
+                (int)elapsed_time, (int)DEBT_ADJUST_PERIOD
             );
         }
         reset_debt_accounting();
@@ -743,6 +738,11 @@ bool CLIENT_STATE::enforce_schedule() {
     }
     if (!must_enforce_cpu_schedule) return false;
     must_enforce_cpu_schedule = false;
+
+    // NOTE: there's an assumption that debt is adjusted at
+    // least as often as the CPU sched is enforced.
+    // If you remove the following, make changes accordingly
+    //
     adjust_debts();
     last_time = now;
     bool action = false;

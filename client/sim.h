@@ -311,3 +311,10 @@ extern bool work_fetch_old;
     // of what we've actually measured recently
 
 #define WORK_FETCH_PERIOD   60
+
+#define CPU_SCHED_ENFORCE_PERIOD    60
+    // enforce CPU schedule at least this often
+
+#define DEBT_ADJUST_PERIOD CPU_SCHED_ENFORCE_PERIOD
+    // debt is adjusted at least this often,
+    // since adjust_debts() is called from enforce_schedule()

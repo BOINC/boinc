@@ -385,6 +385,44 @@ void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {
     }
 }
 
+// Running buggy versions may lead to a situation where
+// most projects are overworked.
+// If there are more overworked projects than device instances,
+// this must have happened.
+// Set all debts back to zero.
+//
+void RSC_WORK_FETCH::repair_debts() {
+    unsigned int i;
+    int noverworked = 0;
+    PROJECT* p;
+
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = gstate.projects[i];
+        if (p->non_cpu_intensive) continue;
+        RSC_PROJECT_WORK_FETCH& w = project_state(p);
+        if (w.overworked()) {
+            noverworked++;
+        }
+    }
+
+    if (noverworked <= ninstances) {
+        return;
+    }
+    if (log_flags.debt_debug) {
+        msg_printf(0, MSG_INFO,
+            "[debt] %s: %d projects overworked; setting debts to zero",
+            rsc_name(rsc_type), noverworked
+        );
+    }
+
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = gstate.projects[i];
+        if (p->non_cpu_intensive) continue;
+        RSC_PROJECT_WORK_FETCH& w = project_state(p);
+        w.debt = 0;
+    }
+}
+
 // update long-term debts for a resource.
 //
 void RSC_WORK_FETCH::update_debts() {
@@ -393,12 +431,17 @@ void RSC_WORK_FETCH::update_debts() {
     double ders = 0;
     PROJECT* p;
 
+    if (!repair_done) {
+        repair_debts();
+        repair_done = true;
+    }
+
     // find the total resource share of eligible projects
     //
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
-        if (w.debt_eligible(p)) {
+        if (w.debt_eligible(p, *this)) {
             ders += p->resource_share;
             neligible++;
         }
@@ -417,7 +460,7 @@ void RSC_WORK_FETCH::update_debts() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
-        if (w.debt_eligible(p)) {
+        if (w.debt_eligible(p, *this)) {
             double share_frac = p->resource_share/ders;
 
             // the change to a project's debt is:
@@ -467,7 +510,7 @@ void RSC_WORK_FETCH::update_debts() {
         p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
-        if (w.debt_eligible(p)) {
+        if (w.debt_eligible(p, *this)) {
             w.debt += offset;
         }
     }
@@ -516,12 +559,22 @@ void WORK_FETCH::compute_shares() {
 
 // should this project be accumulating debt for this resource?
 //
-bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p) {
+bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
     if (p->non_cpu_intensive) return false;
     if (p->suspended_via_gui) return false;
     if (p->dont_request_more_work) return false;
     if (has_runnable_jobs) return true;
     if (backoff_time > gstate.now) return false;
+
+    // The last time we asked for work we didn't get any,
+    // but it's been a while since we asked.
+    // In this case, accumulate debt until we reach (around) zero,
+    // but then stop.
+    if (backoff_interval == MAX_BACKOFF_INTERVAL) {
+        if (debt > -rwf.ninstances*DEBT_ADJUST_PERIOD) {
+            return false;
+        }
+    }
     if (p->min_rpc_time > gstate.now) return false;
     return true;
 }
