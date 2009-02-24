@@ -18,9 +18,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cfg-client", "cfg-client.vc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "util", "util.vcproj", "{27121515-FD62-4D36-B513-8FD7D45E3283}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinc", "..\..\boinc_sample\win_build\libboinc.vcproj", "{E8F6BD7E-461A-4733-B7D8-37B09A099ED8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboinc", "libboinc.vcproj", "{E8F6BD7E-461A-4733-B7D8-37B09A099ED8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboincapi", "..\..\boinc_sample\win_build\libboincapi.vcproj", "{0BC1DB36-030A-4321-B387-1CEE2611E329}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboincapi", "libboincapi.vcproj", "{0BC1DB36-030A-4321-B387-1CEE2611E329}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
