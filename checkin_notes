@@ -9864,7 +9864,7 @@ Rom    15 Jan 2008
         sg_DlgPreferences.cpp
         sg_ProjectsComponent.cpp
 
-Rom    22 Feb 2009
+Rom    23 Feb 2009
     - WINSCR: Fix the BOINC text displayed is the screensaver control
         panel applet
     - WINSCR: Get rid of the 'Up to 5 second wait' for the data thread
@@ -9902,3 +9902,11 @@ Rom    22 Feb 2009
         boinc_ss.rc
         screensaver.cpp
         screensaver_win.cpp, .h
+
+Rom    23 Feb 2009
+    - Tag for 6.4.6 release, all platforms
+      boinc_core_release_6_4_6
+
+    /
+        configure.ac
+        version.h
