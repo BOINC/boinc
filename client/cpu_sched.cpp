@@ -456,23 +456,11 @@ struct PROC_RESOURCES {
 
     // should we consider scheduling this job?
     //
-    bool can_schedule(RESULT* rp, ACTIVE_TASK* atp) {
+    bool can_schedule(RESULT* rp) {
         if (rp->uses_coprocs()) {
-
             if (gstate.user_active && !gstate.global_prefs.run_gpu_if_user_active) {
                 return false;
             }
-
-            // if it uses coprocs, and they're available, yes
-            //
-			if (atp && atp->coprocs_reserved) {
-				if (log_flags.cpu_sched_debug) {
-					msg_printf(rp->project, MSG_INFO,
-						"[cpu_sched_debug] already reserved coprocessors for %s", rp->name
-					);
-				}
-				return true;
-			}
             if (coprocs.sufficient_coprocs(
                 rp->avp->coprocs, log_flags.cpu_sched_debug, "cpu_sched_debug")
             ) {
@@ -536,11 +524,9 @@ static bool schedule_if_possible(
             "[cpu_sched_debug] scheduling %s", rp->name
         );
     }
-	if (!atp || !atp->coprocs_reserved) {
-		proc_rsc.coprocs.reserve_coprocs(
-			rp->avp->coprocs, rp, log_flags.cpu_sched_debug, "cpu_sched_debug"
-		);
-	}
+	proc_rsc.coprocs.reserve_coprocs(
+		rp->avp->coprocs, rp, log_flags.cpu_sched_debug, "cpu_sched_debug"
+	);
     proc_rsc.ncpus_used += rp->avp->avg_ncpus;
     if (rp->uses_coprocs()) {
         proc_rsc.ncoproc_jobs--;
@@ -564,7 +550,7 @@ void CLIENT_STATE::schedule_cpus() {
     proc_rsc.ncpus = ncpus;
     proc_rsc.ncpus_used = 0;
     proc_rsc.ram_left = available_ram();
-    proc_rsc.coprocs.clone(coprocs, true);
+    proc_rsc.coprocs.clone(coprocs, false);
     proc_rsc.ncoproc_jobs = 0;
 
     if (log_flags.cpu_sched_debug) {
@@ -610,7 +596,7 @@ void CLIENT_STATE::schedule_cpus() {
         rp->already_selected = true;
 		atp = lookup_active_task_by_result(rp);
 
-        if (!proc_rsc.can_schedule(rp, atp)) continue;
+        if (!proc_rsc.can_schedule(rp)) continue;
         if (!schedule_if_possible(rp, atp, proc_rsc, rrs, expected_payoff)) continue;
 
         rp->project->deadlines_missed--;
@@ -628,7 +614,7 @@ void CLIENT_STATE::schedule_cpus() {
         rp = largest_debt_project_best_result();
         if (!rp) break;
 		atp = lookup_active_task_by_result(rp);
-        if (!proc_rsc.can_schedule(rp, atp)) continue;
+        if (!proc_rsc.can_schedule(rp)) continue;
         if (!schedule_if_possible(rp, atp, proc_rsc, rrs, expected_payoff)) continue;
         ordered_scheduled_results.push_back(rp);
     }
