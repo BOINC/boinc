@@ -1983,3 +1983,11 @@ Charlie 22 Feb 2009
      clientscr/
         screensaver.cpp
         screensaver_win.cpp
+
+Rom    24 Feb 2009
+    - WINSCR: Remove the progress indication code from the coordinator.
+        It is not handled by the default screensaver app.
+    - WINSCR: Clean-up some of the thread cleanup logic.
+    
+    clientscr/
+        screensaver_win.cpp

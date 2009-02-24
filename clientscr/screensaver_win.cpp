@@ -160,7 +160,11 @@ INT WINAPI WinMain(
         FreeLibrary(gshPasswordCPL);
         gshPasswordCPL = NULL;
     }
-    
+
+    // Instruct the OS to terminate the screensaver by any
+    //   means nessassary.
+    TerminateProcess(GetCurrentProcess(), retval);
+
     return retval;
 }
 
@@ -347,8 +351,15 @@ HRESULT CScreensaver::Run() {
         case sm_full:
             // Create the various required threads
             if (!CreateInputActivityThread()) return E_FAIL;
-            if (!CreateGraphicsWindowPromotionThread()) return E_FAIL;
-            if (!CreateDataManagementThread()) return E_FAIL;
+            if (!CreateGraphicsWindowPromotionThread()) {
+                DestroyDataManagementThread();
+                return E_FAIL;
+            }
+            if (!CreateDataManagementThread()) {
+                DestroyDataManagementThread();
+                DestroyGraphicsWindowPromotionThread();
+                return E_FAIL;
+            }
 
             if (FAILED(hr = DoSaver())) {
                 DisplayErrorMsg(hr);
@@ -356,9 +367,9 @@ HRESULT CScreensaver::Run() {
 
             // Destroy the various required threads
             //
-            if (!DestroyDataManagementThread()) return E_FAIL;
-            if (!DestroyGraphicsWindowPromotionThread()) return E_FAIL;
-            if (!DestroyInputActivityThread()) return E_FAIL;
+            DestroyDataManagementThread();
+            DestroyGraphicsWindowPromotionThread();
+            DestroyInputActivityThread();
             break;
         case sm_passwordchange:
             ChangePassword();
@@ -796,61 +807,8 @@ BOOL CScreensaver::SetError(BOOL bErrorMode, HRESULT hrError) {
 // Update the error message
 //
 VOID CScreensaver::UpdateErrorBoxText() {
-    PROJECT* pProject;
-    bool     bIsActive       = false;
-    bool     bIsExecuting    = false;
-    bool     bIsDownloaded   = false;
-    size_t   iResultCount    = 0;
-    size_t   iIndex          = 0;
-
-
-    if ((SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING == m_hrError) || (SCRAPPERR_DAEMONALLOWSNOGRAPHICS == m_hrError) ) {
-        if (m_updating_results) return;     // results vector is currently being updated by rpc
-        
-        iResultCount = results.results.size();
-		int iModIndex;
-        for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-
-            // cycle through the active results starting from the last one
-			iModIndex = (iIndex + m_iLastResultShown+1) % iResultCount;
-
-            bIsDownloaded = (RESULT_FILES_DOWNLOADED == results.results.at(iModIndex)->state);
-            bIsActive     = (results.results.at(iModIndex)->active_task);
-            bIsExecuting  = (CPU_SCHED_SCHEDULED == results.results.at(iModIndex)->scheduler_state);
-            if (!(bIsActive) || !(bIsDownloaded) || !(bIsExecuting)) continue;
-
-            pProject = state.lookup_project(results.results.at(iModIndex)->project_url);
-            if (NULL != pProject) {
-				RESULT* pResult = state.lookup_result(pProject, results.results.at(iModIndex)->name);
-				if ( pResult != NULL ) {
-					BOINCTRACE(_T("CScreensaver::UpdateErrorBoxText - Display result. iIndex=%d, iModIndex=%d, lastResult=%d\n"), iIndex, iModIndex, m_iLastResultShown);
-					StringCbPrintf(m_szError, sizeof(m_szError) / sizeof(TCHAR),
-						_T("\nComputing for %s\nApplication: %s\nTask: %s\n%.2f%% complete\n"),
-						pProject->project_name.c_str(),
-						pResult->app->user_friendly_name.c_str(),
-						pResult->wu_name.c_str(),
-						results.results.at(iModIndex)->fraction_done*100 
-					);
-					if ( m_tLastResultChangeTime+10 < time(0) ) {
-						m_iLastResultShown = iModIndex;
-						m_tLastResultChangeTime = time(0);
-					}
-					break;
-	            } else {
-	                m_bResetCoreState = TRUE;
-					GetTextForError(IDS_ERR_GENERIC, m_szError, sizeof(m_szError) / sizeof(TCHAR));
-	            }
-            } else {
-                m_bResetCoreState = TRUE;
-				GetTextForError(IDS_ERR_GENERIC, m_szError, sizeof(m_szError) / sizeof(TCHAR));
-            }
-        }
-
-        m_szError[ sizeof(m_szError) -1 ] = '\0';
-    } else {
-        // Load error string
-        GetTextForError(m_hrError, m_szError, sizeof(m_szError) / sizeof(TCHAR));
-    }
+    // Load error string
+    GetTextForError(m_hrError, m_szError, sizeof(m_szError) / sizeof(TCHAR));
     BOINCTRACE(_T("CScreensaver::UpdateErrorBoxText - Updated Text '%s'\n"), m_szError);
 }
 
@@ -872,15 +830,16 @@ BOOL CScreensaver::GetTextForError(
     //  HRESULT, stringID
         E_FAIL, IDS_ERR_GENERIC,
         E_OUTOFMEMORY, IDS_ERR_OUTOFMEMORY,
-		SCRAPPERR_BOINCNOTDETECTED, IDS_ERR_BOINCNOTDETECTED,
+		SCRAPPERR_NOPREVIEW, IDS_ERR_NOPREVIEW,
+		SCRAPPERR_BOINCSCREENSAVERLOADING, IDS_ERR_BOINCSCREENSAVERLOADING,
+		SCRAPPERR_BOINCSHUTDOWNEVENT, IDS_ERR_BOINCSHUTDOWNEVENT,
+		SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING, IDS_ERR_BOINCAPPFOUNDGRAPHICSLOADING,
+
+        SCRAPPERR_BOINCNOTDETECTED, IDS_ERR_BOINCNOTDETECTED,
 		SCRAPPERR_BOINCSUSPENDED, IDS_ERR_BOINCSUSPENDED,
 		SCRAPPERR_BOINCNOAPPSEXECUTING, IDS_ERR_BOINCNOAPPSEXECUTING,
         SCRAPPERR_BOINCNOPROJECTSDETECTED, IDS_ERR_BOINCNOAPPSEXECUTINGNOPROJECTSDETECTED,
 		SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING, IDS_ERR_BOINCNOGRAPHICSAPPSEXECUTING,
-		SCRAPPERR_BOINCSCREENSAVERLOADING, IDS_ERR_BOINCSCREENSAVERLOADING,
-		SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING, IDS_ERR_BOINCAPPFOUNDGRAPHICSLOADING,
-		SCRAPPERR_BOINCSHUTDOWNEVENT, IDS_ERR_BOINCSHUTDOWNEVENT,
-		SCRAPPERR_NOPREVIEW, IDS_ERR_NOPREVIEW,
         SCRAPPERR_DAEMONALLOWSNOGRAPHICS, IDS_ERR_DAEMONALLOWSNOGRAPHICS
     };
     const DWORD dwErrorMapSize = sizeof(dwErrorMap) / sizeof(DWORD[2]);
