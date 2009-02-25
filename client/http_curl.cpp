@@ -830,7 +830,8 @@ void HTTP_OP::setupProxyCurl(bool no_proxy) {
     // CMC Note: the string szCurlProxyUserPwd must remain in memory
     // outside of this method (libcurl relies on it later when it makes
     // the proxy connection), so it has been placed as a member data for HTTP_OP
-    memset(szCurlProxyUserPwd,0x00,128);
+    //
+    strcpy(szCurlProxyUserPwd, "");
 
 	if (no_proxy) {
 		curlErr = curl_easy_setopt(curlEasy,CURLOPT_PROXY,"");
@@ -847,7 +848,7 @@ void HTTP_OP::setupProxyCurl(bool no_proxy) {
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.http_server_name);
 
         if (pi.use_http_auth) {
-            if        (config.force_auth == "basic") {
+            if (config.force_auth == "basic") {
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_BASIC);
             } else if (config.force_auth == "digest") {
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_DIGEST);
@@ -863,7 +864,9 @@ void HTTP_OP::setupProxyCurl(bool no_proxy) {
         }
     } else {    
         if (pi.use_socks_proxy) {
-            //pi.socks_version -- picks between socks5 & socks4 -- but libcurl only socks5!
+            // pi.socks_version selects between socks5 & socks4.
+            // But libcurl only supports socks5, so ignore it.
+            //
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.socks_server_port);
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.socks_server_name);

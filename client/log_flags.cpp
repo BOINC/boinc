@@ -266,6 +266,10 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             gstate.abort_jobs_on_exit = true;
             continue;
         }
+        if (!strcmp(tag, "proxy_info")) {
+            int retval = gstate.proxy_info.parse(*xp.f);
+            if (retval) return retval;
+        }
         msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );
