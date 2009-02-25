@@ -33,15 +33,16 @@
 #include "diagnostics.h"
 #include "common_defs.h"
 #include "util.h"
-#include "gui_rpc_client.h"
 
 #ifdef _WIN32
+#include "gui_rpc_client.h"
 #include "screensaver_win.h"
 #endif
 
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
 #include <sys/wait.h>
+#include "gui_rpc_client.h" // The order of included headers is critical here.  Do not move this!
 #include "Mac_Saver_Module.h"
 #endif
 
