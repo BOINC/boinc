@@ -1999,3 +1999,13 @@ Rom    25 Feb 2009
         
     clientscr/
         screensaver.cpp
+
+David  25 Feb 2009
+    - client: fix bugs in "abort_jobs_on_exit" feature:
+        - clear project backoffs when start abort sequence
+        - don't back off projects if in abort sequence
+
+    client/
+        client_state.cpp
+        main.cpp
+        scheduler_op.cpp
