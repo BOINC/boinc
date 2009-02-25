@@ -101,7 +101,8 @@ inline int max_results_day_multiplier() {
         if (cp) {
             int m = cp->count;
             if (m > MAX_CUDA_DEVS) m = MAX_CUDA_DEVS;
-            n += m*config.cuda_multiplier;
+            //n += m*config.cuda_multiplier;
+            n = m*config.cuda_multiplier;
         }
     }
     return n;
