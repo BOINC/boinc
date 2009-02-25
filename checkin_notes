@@ -2029,3 +2029,10 @@ David  25 Feb 2009
     lib/
         parse.h
         proxy_info.cpp
+
+Rom    25 Feb 2009
+    - MGR: Remove the /s parameter from the argument list on Linux
+        until we know it is supported.  Fixes #615
+        
+    clientgui/
+        BOINCGUIApp.cpp
