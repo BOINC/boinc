@@ -118,7 +118,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;_DEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -191,7 +191,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				FloatingPointModel="2"
@@ -262,7 +262,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../;../win_build;../lib;../api;../openssl/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				FloatingPointModel="2"
@@ -332,7 +332,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../;../win_build;../lib;../api;../openssl/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				FloatingPointModel="2"
@@ -403,7 +403,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../;../win_build;../lib;../api;../openssl/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				FloatingPointModel="2"
@@ -474,7 +474,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;_DEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -549,7 +549,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;_DEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -622,7 +622,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../;../win_build;../lib;../api;../openssl/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				FloatingPointModel="2"
@@ -693,7 +693,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../;../win_build;../lib;../api;../openssl/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				FloatingPointModel="2"
