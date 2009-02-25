@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-02-25 12:10-0700\n"
+"PO-Revision-Date: 2009-02-25 12:29-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -3989,26 +3989,22 @@ msgid "check this if you want your GPU to do work even when you're using the com
 msgstr "vink dit aan als je de GPU wilt gebruiken als de computer actief is"
 
 #: clientgui/DlgItemProperties.cpp:111
-#, fuzzy
 msgid "Scheduler RPC deferred for"
-msgstr "Bijwerken uitgesteld tot over"
+msgstr "Taakverdeling uitgesteld voor"
 
 #: clientgui/DlgItemProperties.cpp:138
 msgid "CPU scheduling priority"
 msgstr "Prioriteit CPU taakverdeling"
 
 #: clientgui/DlgItemProperties.cpp:139
-#, fuzzy
 msgid "CPU work fetch priority"
 msgstr "Prioriteit CPU werkverdeling"
 
 #: clientgui/DlgItemProperties.cpp:141
-#, fuzzy
 msgid "CPU work fetch deferred for"
 msgstr "CPU werkverdeling uitgesteld voor"
 
 #: clientgui/DlgItemProperties.cpp:144
-#, fuzzy
 msgid "NVIDIA GPU work fetch priority"
 msgstr "Prioriteit NVIDIA GPU werkverdeling"
 
