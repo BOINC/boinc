@@ -1986,7 +1986,7 @@ Charlie 22 Feb 2009
 
 Rom    24 Feb 2009
     - WINSCR: Remove the progress indication code from the coordinator.
-        It is not handled by the default screensaver app.
+        It is now handled by the default screensaver app.
     - WINSCR: Clean-up some of the thread cleanup logic.
     
     clientscr/
