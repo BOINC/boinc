@@ -1422,3 +1422,11 @@ Rom    24 Feb 2009
     /
         configure.ac
         version.h
+
+Charlie 25 Feb 2009
+    - Mac screensaver: fix build break.  Note: the order of included 
+        headers is critical in this file; don't change it! Checked into 
+        boinc_core_release_6_6_11 tag.
+
+    clientscr/
+        screensaver.cpp
