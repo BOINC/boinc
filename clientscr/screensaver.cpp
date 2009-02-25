@@ -55,7 +55,7 @@
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
 #include <sys/wait.h>
-#include "gui_rpc_client.h"
+#include "gui_rpc_client.h" // The order of included headers is critical here.  Do not move this!
 #include "Mac_Saver_Module.h"
 #endif
 #include "screensaver.h"
