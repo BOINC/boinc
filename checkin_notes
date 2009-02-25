@@ -1991,3 +1991,11 @@ Rom    24 Feb 2009
     
     clientscr/
         screensaver_win.cpp
+
+Rom    25 Feb 2009
+    - WINSCR: Remove unneeded header files
+    - SCR: Shuffle headers around so that it'll build on both Windows and
+        Mac without having to put in duplicate entries.
+        
+    clientscr/
+        screensaver.cpp

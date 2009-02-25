@@ -15,30 +15,41 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+
+// System Includes
+//
 #ifdef _WIN32
 #include "boinc_win.h"
-
 #include <windowsx.h>
-#include <mmsystem.h>
-#include <regstr.h>
-#include <strsafe.h>
-
-#include "boinc_ss.h"
-
 #endif
 
+#ifdef __APPLE__
+#include <Carbon/Carbon.h>
+#include <sys/wait.h>
+#endif
+
+// Common application includes
+//
 #include "diagnostics.h"
 #include "common_defs.h"
 #include "util.h"
 #include "common_defs.h"
 #include "filesys.h"
 #include "error_numbers.h"
+#include "gui_rpc_client.h"
+#include "str_util.h"
+#include "screensaver.h"
+
+// Platform specific application includes
+//
+#if   defined(_WIN32)
+#include "screensaver_win.h"
+#elif defined(__APPLE__)
+#include "Mac_Saver_Module.h"
+#endif
 
 
 #ifdef _WIN32
-#include "gui_rpc_client.h"
-#include "screensaver_win.h"
-#include "str_util.h"
 // Allow for Unicode wide characters
 #define PATH_SEPARATOR (_T("\\"))
 #define THE_DEFAULT_SS_EXECUTABLE (_T(DEFAULT_SS_EXECUTABLE))
@@ -52,13 +63,6 @@
 #define DEFAULT_GFX_CANT_CONNECT (ERR_CONNECT & 0xff)
 #endif
 
-#ifdef __APPLE__
-#include <Carbon/Carbon.h>
-#include <sys/wait.h>
-#include "gui_rpc_client.h" // The order of included headers is critical here.  Do not move this!
-#include "Mac_Saver_Module.h"
-#endif
-#include "screensaver.h"
 
 // Flags for testing & debugging
 #define SIMULATE_NO_GRAPHICS 0
