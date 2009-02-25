@@ -245,7 +245,8 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	m_txtProcUseProcessors = new wxTextCtrl( m_panelProcessor, ID_TXTPROCUSEPROCESSORS, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
 	fgSizer3->Add( m_txtProcUseProcessors, 0, wxALL, 1 );
 
-	m_staticText21 = new wxStaticText( m_panelProcessor, ID_DEFAULT, _("% of the processors"), wxDefaultPosition, wxDefaultSize, 0 );
+    /*xgettext:no-c-format*/ 
+    m_staticText21 = new wxStaticText( m_panelProcessor, ID_DEFAULT, _("% of the processors"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer3->Add( m_staticText21, 0, wxALL, 5 );
 
 	m_staticText22 = new wxStaticText( m_panelProcessor, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
@@ -536,7 +537,8 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	m_txtMemoryMaxInUse = new wxTextCtrl( m_panelDiskAndMemory, ID_TXTMEMORYMAXINUSE, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
 	fgSizerMemoryUsage->Add( m_txtMemoryMaxInUse, 0, wxALL, 1 );
 
-	m_staticText51 = new wxStaticText( m_panelDiskAndMemory, ID_DEFAULT, _("% when computer is in use"), wxDefaultPosition, wxDefaultSize, 0 );
+    /*xgettext:no-c-format*/ 
+    m_staticText51 = new wxStaticText( m_panelDiskAndMemory, ID_DEFAULT, _("% when computer is in use"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizerMemoryUsage->Add( m_staticText51, 0, wxALL, 5 );
 
 	m_staticText52 = new wxStaticText( m_panelDiskAndMemory, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
@@ -545,6 +547,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	m_txtMemoryMaxOnIdle = new wxTextCtrl( m_panelDiskAndMemory, ID_TXTMEMORYMAXONIDLE, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
 	fgSizerMemoryUsage->Add( m_txtMemoryMaxOnIdle, 0, wxALL, 1 );
 
+    /*xgettext:no-c-format*/ 
 	m_staticText53 = new wxStaticText( m_panelDiskAndMemory, ID_DEFAULT, _("% when computer is idle"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizerMemoryUsage->Add( m_staticText53, 0, wxALL, 5 );
 
