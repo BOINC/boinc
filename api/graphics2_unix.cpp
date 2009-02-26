@@ -18,12 +18,12 @@
 // unix-specific graphics stuff
 //
 #include "config.h"
-#include <stdlib.h>
-#include <stdio.h>    
-#include <setjmp.h>    
+#include <cstdlib>
+#include <cstdio>    
+#include <csetjmp>    
 #include <unistd.h> 
 #include <pthread.h> 
-#include <signal.h>
+#include <csignal>
 #include <cstring>
 #include "x_opengl.h"
 

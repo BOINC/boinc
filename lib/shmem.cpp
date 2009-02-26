@@ -60,12 +60,19 @@ extern "C" int debug_printf(const char *fmt, ...);
 #endif
 #endif
 
+
 #include "error_numbers.h"
 #include "shmem.h"
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
+using FCGI::fprintf;
+#define perror FCGI::perror
+#else
+using std::fprintf;
+using std::perror;
 #endif
+
 
 #ifdef _WIN32
 
@@ -372,7 +379,7 @@ int attach_shmem_mmap(const char *path, void** pp) {
 
 
 int detach_shmem_mmap(void* p, size_t size) {
-    return munmap(p, size);
+    return munmap((char *)p, size);
 }
 
 

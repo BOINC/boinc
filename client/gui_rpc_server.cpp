@@ -22,22 +22,34 @@
 #include "boinc_win.h"
 #else
 #include "config.h"
-#include <stdio.h>
+#include <cstdio>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#include <cerrno>
 #endif
+#include <cerrno>
 #ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
+#ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
+#endif
+#ifdef HAVE_SYS_UN_H
 #include <sys/un.h>
+#endif
 #include <vector>
-#include <string.h>
+#include <cstring>
+#ifdef HAVE_NETINET_IN_H
 #include <netinet/in.h>
+#endif
+#ifdef HAVE_NETINET_TCP_H
 #include <netinet/tcp.h>
+#endif
+#ifdef HAVE_ARPA_INET_H
 #include <arpa/inet.h>
+#endif
+#ifdef HAVE_FCNTL_H
 #include <fcntl.h>
+#endif
 #endif
 
 #include "str_util.h"

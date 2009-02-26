@@ -21,7 +21,7 @@
 #include "boinc_win.h"
 #else
 #include "config.h"
-#include <stdio.h>
+#include <cstdio>
 #include <unistd.h>
 #endif
 

@@ -23,7 +23,7 @@ libsched_la_SOURCES = $(libsched_sources)
 libsched_la_CFLAGS = $(AM_CPPFLAGS)
 libsched_la_CXXFLAGS = $(AM_CPPFLAGS)
 libsched_la_LDFLAGS= -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
-libsched_la_LIBADD=
+libsched_la_LIBADD= $(SSL_LIBS)
 
 ## install only headers that are meant for exporting the API !!
 if INSTALL_HEADERS
@@ -48,22 +48,33 @@ libsched_fcgi_la_LIBADD=
 endif
 # end of "if ENABLE_FCGI"
 
+# Some OSs may not prefix libraries with lib. 
+# For example OS2
+if OS_OS2
+LIBSCHED_STATIC=sched.${LIBEXT}
+LIBSCHED_FCGI_STATIC=sched_fcgi.${LIBEXT}
+else
+LIBSCHED_STATIC=libsched.${LIBEXT}
+LIBSCHED_FCGI_STATIC=libsched_fcgi.${LIBEXT}
+endif
+
+
 if BUILD_STATIC_LIBS
-all_local = libsched.a
+all_local = $(LIBSCHED_STATIC)
 if ENABLE_FCGI
-all_local += libsched_fcgi.a
+all_local += $(LIBSCHED_FCGI_STATIC)
 endif
 endif
 
 all-local: $(all_local)
 
-libsched.a: libsched.la
-	rm -f libsched.a
-	ln .libs/libsched.a
+$(LIBSCHED_STATIC): libsched.la
+	rm -f $(LIBSCHED_STATIC)
+	$(LN) .libs/$(LIBSCHED_STATIC)
 
-libsched_fcgi.a: libsched_fcgi.la
-	rm -f libsched_fcgi.a
-	ln .libs/libsched_fcgi.a
+$(LIBSCHED_FCGI_STATIC): libsched_fcgi.la
+	rm -f $(LIBSCHED_FCGI_STATIC)
+	$(LN) .libs/$(LIBSCHED_FCGI_STATIC)
 
 
 endif

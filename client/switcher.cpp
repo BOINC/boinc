@@ -24,12 +24,16 @@
 //  once as part of the Full_Path and again as just the name
 
 #include <unistd.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <cerrno>
+#ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>  // for MAXPATHLEN
+#endif
 #include <pwd.h>	// getpwuid
 #include <grp.h>
+
+using std::strcpy;
 
 int main(int argc, char** argv) {
     passwd      *pw;

@@ -26,7 +26,6 @@
 //   [ -mod n i ]           process only WUs with (id mod n) == i
 //   [ -sleep_interval x ]  sleep x seconds if nothing to do
 
-using namespace std;
 #include "config.h"
 #include <vector>
 #include <unistd.h>
@@ -363,7 +362,7 @@ int handle_wu(
         // NOTE: n must be signed
         //
         int n = wu_item.target_nresults - nunsent - ninprogress - nsuccess;
-        string values;
+        std::string values;
         char value_buf[MAX_QUERY_LEN];
         if (n > 0) {
             log_messages.printf(

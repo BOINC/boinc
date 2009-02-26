@@ -28,7 +28,6 @@
 #include "sched_config.h"
 #define VERSION 0.3
 
-using namespace std;
 
 DB_WORKUNIT wu;
 DB_RESULT result;

@@ -15,9 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#ifndef _USING_FCGI_
+#include "boinc_fcgi.h"
+#else
+#include <cstdio>
+#endif 
+
+#include <cstring>
+#include <cstdlib>
 #ifdef _WIN32
 #ifndef SIM
 #include <nvapi.h>
@@ -39,6 +44,10 @@
 
 using std::string;
 using std::vector;
+
+#ifndef _USING_FCGI_
+using std::perror;
+#endif
 
 #ifndef _USING_FCGI_
 void COPROC::write_xml(MIOFILE& f) {
@@ -187,7 +196,11 @@ string COPROC_CUDA::get(COPROCS& coprocs) {
 #endif
     if (!cudalib) {
         return "Can't load library libcudart";
-        perror("dlopen");
+#ifdef _USING_FCGI_
+        FCGI::perror("dlopen");
+#else
+	std::perror("dlopen");
+#endif
     }
     __cudaGetDeviceCount = (void(*)(int*)) dlsym(cudalib, "cudaGetDeviceCount");
     if(!__cudaGetDeviceCount) {

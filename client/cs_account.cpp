@@ -23,6 +23,7 @@
 #include "config.h"
 #include <algorithm>
 #include <cstdio>
+#include <cstdlib>
 #include <cassert>
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
@@ -41,6 +42,7 @@
 #include "file_names.h"
 
 using std::string;
+using std::sort;
 
 // write account_*.xml file.
 // NOTE: this is called only when

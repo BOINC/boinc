@@ -18,7 +18,7 @@
 #define SHOW_TIMING 0
 
 #include "config.h"
-#include <stdio.h>
+#include <cstdio>
 
 #include <ctype.h>
 #include <sys/types.h>

@@ -53,6 +53,7 @@
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
+#define perror FCGI::perror
 #endif
 
 using std::min;

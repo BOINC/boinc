@@ -28,10 +28,9 @@ LPFN_ISWOW64PROCESS fnIsWow64Process;
 
 #ifndef _WIN32
 #include "config.h"
-#include <stdio.h>
-#ifdef HAVE_SIGNAL_H
+#include <cstdio>
+#include <cstdlib>
 #include <signal.h>
-#endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -49,7 +48,6 @@ LPFN_ISWOW64PROCESS fnIsWow64Process;
 #include "log_flags.h"
 #include "str_util.h"
 #include "util.h"
-
 
 // return the primary platform id.
 //
@@ -93,6 +91,7 @@ void CLIENT_STATE::detect_platforms() {
 #endif
 
 #elif defined(__APPLE__)
+
 #if defined(__x86_64__)
     add_platform("x86_64-apple-darwin");
 #endif
@@ -103,15 +102,29 @@ void CLIENT_STATE::detect_platforms() {
 #endif
     // Supported on all 3 Mac architectures
     add_platform("powerpc-apple-darwin");
+
 #elif defined(sun)
-    // Check if we can run 64 bit binaries...
+    // Check if we can run 64-bit binaries...
+    // this assumes there isn't a 64-bit only solaris.  (Every 64-bit solaris can run 32 bit binaries)
 
 #if defined(__sparc) || defined(sparc)
-    FILE *f=fopen("/usr/bin/sparcv9/ls","r");
+    char *exe64=const_cast<char *>("/usr/bin/sparcv9/ls");
+    char *platform64=const_cast<char *>("sparc64-sun-solaris");
+    char *platform32=const_cast<char *>("sparc-sun-solaris");
+#elif defined(__i386) || defined(i386) || defined(__amd64) || defined(__x86_64__)
+    char *exe64=const_cast<char *>("/usr/bin/amd64/ls");
+    char *platform64=const_cast<char *>("x86_64-pc-solaris");
+    char *platform32=const_cast<char *>("i686-pc-solaris");
+#else
+#define UNKNOWN_SOLARIS_PROCESSOR
+#endif
+
+#ifndef UNKNOWN_SOLARIS_PROCESSOR
+    FILE *f=fopen(exe64,"r"); 
     char *argv[3];
     pid_t pid;
     int rv=0;
-    argv[0]="/usr/bin/sparcv9/ls";
+    argv[0]=exe64;
     argv[1]=argv[0];
     argv[2]=NULL;
     if (f) {
@@ -138,21 +151,25 @@ void CLIENT_STATE::detect_platforms() {
             }
             // if we exited with success add the 64 bit platform
             if ((done == pid) && (rv == 0)) {
-               add_platform("sparc64-sun-solaris");
+               add_platform(platform64);
             }
         }
     }
-    add_platform("sparc-sun-solaris");
+    add_platform(platform32);
     // the following platform is obsolete, but we'll add it anyway.
+#if defined(__sparc) || defined(sparc) 
     add_platform("sparc-sun-solaris2.7");
-#else // defined sparc
+#endif
+#else  // !defined(UNKNOWN_SOLARIS_PROCESSOR)
+
     add_platform(HOSTTYPE);
 #ifdef HOSTTYPEALT
     add_platform(HOSTTYPEALT);
 #endif
-#endif // else defined sparc      
 
-#else
+#endif  // !defined(UNKNOWN_SOLARIS_PROCESSOR)
+
+#else  // defined(sun)
     // Any other platform, fall back to the previous method
     add_platform(HOSTTYPE);
 #ifdef HOSTTYPEALT

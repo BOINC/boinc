@@ -30,7 +30,6 @@
 #include <cstring>
 #include <ctime>
 #include <cmath>
-using namespace std;
 
 #include <unistd.h>
 #include <sys/wait.h>

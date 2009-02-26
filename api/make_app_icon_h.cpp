@@ -20,7 +20,7 @@
 // with api/setMacIcon() in science applications.
 
 #include "config.h"
-#include <stdio.h>
+#include <cstdio>
 
 int main(int argc, char** argv) {
     int retval = 0;

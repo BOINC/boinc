@@ -176,6 +176,16 @@ wxWizardPageEx* CProjectInfoPage::GetNext() const
         // Cancel Event Detected
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
     } else {
+        // Check if we are already attached to that project: 
+ 	CMainDocument* pDoc = wxGetApp().GetDocument(); 
+ 	for (unsigned int i = 0; i < pDoc->GetProjectCount(); ++i) { 
+ 	    PROJECT* project = pDoc->project(i); 
+ 	    if ((project) && (!strcmp(project->master_url.c_str(),m_strProjectURL.mb_str()))) { 
+                // We are already attached to that project. Show the error page: 
+                return PAGE_TRANSITION_NEXT(ID_ERRALREADYATTACHEDPAGE); 
+            } 
+        } 
+        // New project, proceed with normal attach procedure:  
         return PAGE_TRANSITION_NEXT(ID_PROJECTPROPERTIESPAGE);
     }
     return NULL;

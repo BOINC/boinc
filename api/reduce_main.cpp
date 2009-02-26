@@ -23,19 +23,12 @@
 
 
 #ifndef _WIN32
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
 #include <assert.h>
-
 #include <algorithm>
-
 #endif
 
 #include "reduce.h"

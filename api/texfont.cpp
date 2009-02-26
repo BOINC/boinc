@@ -7,11 +7,11 @@
 #pragma warning (disable:4244)          // disable bogus conversion warnings
 #endif
 
-#include <assert.h>
-#include <ctype.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <cassert>
+#include <cctype>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -25,6 +25,26 @@
 #include <OpenGL/gl.h>
 #endif
 
+using std::tolower;
+using std::toupper;
+using std::isupper;
+using std::islower;
+using std::isprint;
+using std::strcmp;
+using std::strncmp;
+using std::memcpy;
+
+using std::FILE;
+using std::fprintf; 
+using std::fopen;
+using std::fclose;
+using std::fread;
+
+using std::abort;
+
+using std::malloc;
+using std::calloc;
+using std::free;
 
 #include "texfont.h"
 

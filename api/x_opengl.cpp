@@ -16,13 +16,13 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config.h"
-#include <stdlib.h>
-#include <stdio.h>    
-#include <setjmp.h>    
+#include <cstdlib>
+#include <cstdio>    
+#include <csetjmp>    
 #include <unistd.h> 
 #include <pthread.h>
 #include <cstring>
-#include <signal.h>
+#include <csignal>
 #include "x_opengl.h"
 
 #include "app_ipc.h"

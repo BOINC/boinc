@@ -25,7 +25,7 @@
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 #else
-#include <stdio.h>
+#include <cstdio>
 #include <dirent.h>
 #include <grp.h>
 
@@ -70,7 +70,7 @@ extern "C" {
 extern int file_size(const char*, double&);
 extern int clean_out_dir(const char*);
 extern int dir_size(const char* dirpath, double&, bool recurse=true);
-extern int get_filesystem_info(double& total, double& free, char* path=".");
+extern int get_filesystem_info(double& total, double& free, char* path=const_cast<char *>("."));
 
 // TODO TODO TODO
 // remove this code - the DirScanner class does the same thing.

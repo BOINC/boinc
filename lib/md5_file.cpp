@@ -49,7 +49,12 @@ int md5_file(const char* path, char* output, double& nbytes) {
 #endif
     if (!f) {
         fprintf(stderr, "md5_file: can't open %s\n", path);
-        perror("md5_file");
+#ifndef _USING_FCGI_
+        std::perror("md5_file");
+#else
+        FCGI::perror("md5_file");
+#endif
+
         return ERR_FOPEN;
     }
     md5_init(&state);

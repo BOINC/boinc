@@ -1,0 +1,7 @@
+PKG=CSWboincdevel
+NAME=boincdevel - BOINC volunteer distributed computing development libraries
+VERSION=@PACKAGE_VERSION@,REV=@RDATE@_r@REV@
+CATEGORY=application
+VENDOR=http://boinc.berkeley.edu/ packaged for CSW by @FULLNAME@
+HOTLINE=http://www.opencsw.org/
+EMAIL=@LOGNAME@@opencsw.org

@@ -32,7 +32,6 @@
 #endif
 #include <unistd.h>
 
-using namespace std;
 #endif
 
 #include "filesys.h"

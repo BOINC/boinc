@@ -21,6 +21,12 @@
 #include "config.h"
 #endif
 
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cmath>
+#include <csetjmp>
+
 #ifdef _WIN32
 
 #ifndef SANS_JPEGLIB
@@ -38,11 +44,6 @@ extern "C" {
 #endif
 
 #ifndef _WIN32
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <cmath>
-#include <csetjmp>
 #if defined(HAVE_MALLOC_H) || defined(_WIN32)
 #include <malloc.h>
 #if defined(__MINGW32__) && !defined(alloca)
@@ -55,6 +56,10 @@ extern "C" {
 #ifdef __APPLE__
 #undef HAVE_STDLIB_H /* Avoid compiler warning (redefined in jconfig,h) */
 #endif
+
+using std::FILE;
+using std::longjmp;
+using std::jmp_buf;
 
 #ifndef SANS_JPEGLIB
 extern "C"{

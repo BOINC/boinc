@@ -23,18 +23,54 @@
 
 #include "config.h"
 
-#if 0
+// Notice that this has an ifndef around it.  If it is causing you problem,
+// then try defining HAVE_SETENV in your configuration file.
 #ifndef HAVE_SETENV
 extern "C" int setenv(const char *name, const char *value, int overwrite);
 #endif
+
+// Notice that this has an ifndef around it.  If it is causing you problem,
+// then try defining HAVE_DAEMON in your configuration file.
+#ifndef HAVE_DAEMON
+extern "C" int daemon(int nochdir, int noclose);
+#endif /* HAVE_DAEMON */
+
+// Notice that this has an ifndef around it.  If it is causing you problem,
+// then try defining HAVE_ETHER_NTOA in your configuration file.
+#ifndef HAVE_ETHER_NTOA
+
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+#ifdef HAVE_NETINET_IN_H
+#include <netinet/in.h>
+#endif
+#ifdef HAVE_ARPA_INET_H
+#include <arpa/inet.h>
+#endif
+#ifdef HAVE_NET_IF_H
+#include <net/if.h>
+#endif
+#ifdef HAVE_NETINET_IF_ETHER_H
+#include <netinet/if_ether.h>
+#endif
+#ifdef HAVE_NETINET_ETHER_H
+#include <netinet/ether.h>
 #endif
 
+// Notice that this has an ifndef around it.  If it is causing you problem,
+// then try defining HAVE_STRUCT_ETHER_ADDR in your configuration file.
+#ifndef HAVE_STRUCT_ETHER_ADDR
+struct ether_addr {
+    unsigned char ether_addr_octet[6];
+};
+#endif
 
-#ifndef HAVE_DAEMON
-
-extern "C" int daemon(int nochdir, int noclose);
-
-#endif /* HAVE_DAEMON */
+extern "C" char *ether_ntoa(const struct ether_addr *addr);
+#endif
 
 #endif /* _WIN32 */
 

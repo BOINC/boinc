@@ -18,10 +18,10 @@
 // Locality scheduling: see doc/sched_locality.php
 
 #include "config.h"
-#include <stdio.h>
+#include <cstdio>
 #include <unistd.h>
 #include <cstdlib>
-#include <strings.h>
+#include <cstring>
 #include <glob.h>
 #include <sys/stat.h>
 
@@ -41,9 +41,6 @@
 #include <algorithm>
 #include <climits>
 #include <vector>
-#include <string>
-#include <cstring>
-using namespace std;
 
 #define VERBOSE_DEBUG
 
@@ -359,7 +356,7 @@ int make_more_work_for_file(char* filename) {
 //
 //
 
-std::vector<string> filenamelist;
+std::vector<std::string> filenamelist;
 int list_type = 0; // 0: none, 1: slowhost, 2: fasthost
 
 static void build_working_set_namelist(bool slowhost) {
@@ -436,15 +433,15 @@ static int get_working_set_filename(char *filename, bool slowhost) {
         // take out a random file and remove it from the vector
         //
         int random_file_num = rand() % filenamelist.size();
-        string thisname = filenamelist[random_file_num];
+        std::string thisname = filenamelist[random_file_num];
         filenamelist[random_file_num] = filenamelist.back();
         filenamelist.pop_back();
 
         // locate trailing file name
         //
-        string slash = "/";
-        string::size_type last_slash_pos = thisname.rfind(slash);
-        if (last_slash_pos == string::npos) {
+        std::string slash = "/";
+        std::string::size_type last_slash_pos = thisname.rfind(slash);
+        if (last_slash_pos == std::string::npos) {
             errtype = "no trailing slash";
         } else {
             // extract file name

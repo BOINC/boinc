@@ -17,7 +17,8 @@
 
 #include "unix_util.h"
 
-#if 0
+// Note.  This already has an ifdef around it. If it is causing problem
+// then HAVE_SETENV should be defined in your configuration files.
 #ifndef HAVE_SETENV
 
 #include <vector>
@@ -80,7 +81,6 @@ int setenv(const char *name, const char *value, int overwrite) {
     return rv;
 }
 #endif /*  !HAVE_SETENV */       
-#endif
 
 #ifndef HAVE_DAEMON
 

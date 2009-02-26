@@ -20,7 +20,10 @@
 
 #include "config.h"
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
+
+using std::memset;
 
 #include "error_numbers.h"
 #include "synch.h"

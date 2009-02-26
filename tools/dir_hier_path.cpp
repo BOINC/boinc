@@ -22,7 +22,7 @@
 // and creates the directory if needed.
 
 #include "config.h"
-#include <stdio.h>
+#include <cstdio>
 
 #include "util.h"
 #include "sched_config.h"

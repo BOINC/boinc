@@ -72,6 +72,8 @@ using std::string;
 #include "file_names.h"
 #include "base64.h"
 #include "sandbox.h"
+#include "unix_util.h"
+
 
 #ifdef _WIN32
 #include "proc_control.h"

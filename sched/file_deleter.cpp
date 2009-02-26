@@ -61,7 +61,6 @@
 #include "sched_util.h"
 #include "sched_msgs.h"
 
-using namespace std;
 
 #define LOCKFILE "file_deleter.out"
 #define PIDFILE  "file_deleter.pid"
@@ -349,7 +348,7 @@ bool do_pass(bool retry_error) {
 }
 
 struct FILE_RECORD {
-     string name;
+     std::string name;
      int date_modified;
 };
 

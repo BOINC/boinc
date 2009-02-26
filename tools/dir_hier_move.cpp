@@ -21,10 +21,10 @@
 // with the given fanout
 
 #include "config.h"
-#include <stdio.h>
+#include <cstdio>
 #include <string>
-#include <stdlib.h>
-#include <errno.h>
+#include <cstdlib>
+#include <cerrno>
 
 #include "filesys.h"
 #include "util.h"

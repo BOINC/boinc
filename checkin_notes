@@ -2036,3 +2036,173 @@ Rom    25 Feb 2009
         
     clientgui/
         BOINCGUIApp.cpp
+
+Eric K 25 Feb 2009
+    - Added checks for net/*.h, arpa/*.h, netinet/*.h and code to figure out
+      which of those files to include
+    - Modified MAC address check to work on some non-Linux unixes.
+      (mac_address.cpp)
+    - Added suggested change to "already attached to project" checking.
+      (ProjectInfoPage.cpp)
+    - changed includes of standard c header files to their c++ equivalents
+      (i.e. replaced <stdio.h> with <cstdio>) for namespace protection.
+    - replaced "using namespace std;" with more explicit "using std::function" in
+      several files.
+    - Fixed bug in checking whether the os is OS/2 and added conditional OS_OS2
+      to the build environment. (boinc_platform.m4,configure.ac)
+    - Changed build environment to not use -nostandardlibs unless we are using
+      G++ and static linkage is specified. (configure.ac)
+    - Added makefiles and package building files for solaris CSW package manager.
+    - Fixed bug with attempting to find login name using logname. (configure.ac)
+    - Added ifdef HAVE_* protection around some include files commonly found in
+      sys.
+    - Added support for unified binary for x86_64/i686-pc-solaris.
+      (cs_platforms.cpp)
+    - generate_host_cpid() now uses MAC address on non-linux unix.
+      (hostinfo_network.cpp)
+    - Macro BOINC_SET_COMPILE_FLAGS now doesn't check gcc only flags on non-gcc
+      compilers. (boinc_set_compile_flags.m4)
+    - Library compiles no longer depend upon the library extension or require
+      the library to be prefixed with lib.
+    - More fixes for fcgi builds.
+    - Added declaration of "struct ether_addr" and ether_ntoa().  Have not yet
+      implemented ether_ntoa() for machines that don't have it, or where it is
+      buggy.  (unix_util.h)
+    - Added FCGI::perror() which calls FCGI_perror(). (boinc_fcgi.{h,cpp})
+    - Fixed library Makefiles so that all required headers get installed.
+
+
+
+
+    version.h
+    configure.ac
+    api/
+        boinc_api.cpp
+        graphics2_unix.cpp
+        gutil.cpp
+        gutil.h
+        gutil_text.cpp
+        make_app_icon_h.cpp
+        Makefile.am
+        reduce_main.cpp
+        texfont.cpp
+        texture.cpp
+        tgalib.h
+        x_opengl.cpp
+    client/
+        app.h
+        app_start.cpp
+        client_types.h
+        cs_account.cpp
+        cs_benchmark.cpp
+        cs_cmdline.cpp
+        cs_platforms.cpp
+        cs_scheduler.cpp
+        gui_rpc_server.cpp
+        gui_rpc_server_ops.cpp
+        hostinfo_network.cpp
+        hostinfo_unix_test.cpp
+        log_flags.h
+        scripts/boinc-client.in
+        setprojectgrp.cpp
+        switcher.cpp
+    clientgui/
+        ProjectInfoPage.cpp
+    clientscr/
+        gfx_switcher.cpp
+    lib/
+        boinc_fcgi.cpp
+        boinc_fcgi.h
+        boinc_win.h
+        common_defs.h
+        coproc.cpp
+        crypt.h
+        diagnostics.cpp
+        filesys.cpp
+        filesys.h
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
+        mac_address.cpp
+        Makefile.am
+        md5_file.cpp
+        mem_usage.cpp
+        mfile.cpp
+        msg_queue.cpp
+        msg_queue.h
+        network.cpp
+        parse.h
+        procinfo_mac.cpp
+        procinfo_unix.cpp
+        shmem.cpp
+        synch.cpp
+        unix_util.cpp
+        unix_util.h
+        util.cpp
+    m4/
+        boinc_platform.m4
+        boinc_set_compile_flags.m4
+    packages/
+        solaris/
+            CSW/
+                build_packages.sh
+                Makefile.am
+                boincclient/
+                    boinc.1
+                    boinc_client.1
+                    boinc-client.conf
+                    boinc_cmd.1
+                    boinccmd.1
+                    depend
+                    Makefile.am
+                    pkginfo.in
+                    postinstall
+                    preinstall
+                    prototype.in
+                boincdevel/
+                    depend
+                    Makefile.am
+                    pkginfo.in
+                    prototype.in
+                boinclibs/
+                    depend
+                    Makefile.am
+                    pkginfo.in
+                    prototype.in
+                boincmanager/
+                    boinc_manager.1
+                    boincmgr.1
+                    depend
+                    Makefile.am
+                    pkginfo.in
+                    prototype.in
+                boincserver/
+                    Makefile.am
+    sched/
+        census.cpp
+        db_purge.cpp
+        fcgiapp.h
+        file_deleter.cpp
+        file_upload_handler.cpp
+        handle_request.cpp
+        hr_info.cpp
+        main.cpp
+        Makefile.am
+        message_handler.cpp
+        sched_config.h
+        sched_locality.cpp
+        sched_send.cpp
+        sched_timezone.cpp
+        sched_util.cpp
+        server_types.cpp
+        time_stats_log.cpp
+        time_stats_log.h
+        transitioner.cpp
+        validator.cpp
+    tools/
+        dir_hier_move.cpp
+        dir_hier_path.cpp
+        kill_wu.cpp
+        poll_wu.cpp
+        updater.cpp
+    zip/
+        Makefile.am

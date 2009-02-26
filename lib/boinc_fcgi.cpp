@@ -94,6 +94,10 @@ int ferror(FCGI_FILE *f) {
     return FCGI_ferror(f);
 }
 
+void perror(const char *s) {
+    return FCGI_perror(s);
+}
+
 };  // end of namespace FCGI
  
 

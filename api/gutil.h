@@ -22,7 +22,9 @@
 #ifndef GUTIL_H
 #define GUTIL_H
 
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 struct COLOR {
     float r;

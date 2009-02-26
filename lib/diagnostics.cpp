@@ -546,7 +546,7 @@ int diagnostics_cycle_logs() {
 
 // Set a signal handler only if it is not currently ignored
 //
-void boinc_set_signal_handler(int sig, void(*handler)(int)) {
+extern "C" void boinc_set_signal_handler(int sig, void(*handler)(int)) {
 #ifdef HAVE_SIGACTION
     struct sigaction temp;
     sigaction(sig, NULL, &temp);

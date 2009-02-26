@@ -1,25 +1,62 @@
+#include "config.h"
 #include "mac_address.h"
 
 #include <string.h>
 
-#if defined(__linux__)
-#include <stdio.h>
-#include <sys/ioctl.h>
-#include <sys/socket.h>
-#include <net/if.h>
-#include <netinet/ether.h>
-#elif defined(_WIN32)
+#if defined(_WIN32)
 #include <windows.h>
 #include <Iphlpapi.h>
 #elif defined(__APPLE__)
-#include <stdio.h>
+#include <cstdio>
 #include <unistd.h>
 #include <fcntl.h>
-#include <errno.h>
+#include <cerrno>
 #include <paths.h>
 #include <sysexits.h>
 #include <sys/param.h>
+#else  // used to be if defined(__linux__)
+#include <cstdio>
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#ifdef HAVE_SYS_FCNTL_H
+#include <sys/fcntl.h>
+#endif
+#ifdef HAVE_SYS_IOCTL_H
+#include <sys/ioctl.h>
+#endif
+#ifdef HAVE_SYS_SOCKIO_H
+#include <sys/sockio.h>
+#endif
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+#ifdef HAVE_NET_IF_H
+#include <net/if.h>
+#endif
+#ifdef HAVE_NET_ARP_H
+#include <net/arp.h>
+#endif
+#ifdef HAVE_NETINET_IN_H
+#include <netinet/in.h>
+#endif
+#ifdef HAVE_NETINET_IF_ETHER_H
+#include <netinet/if_ether.h>
+#endif
+#ifdef HAVE_NETINET_ETHER_H
+#include <netinet/ether.h>
+#endif
 
+#include "unix_util.h"
+
+#endif
+
+using std::perror;
+
+#if defined(__APPLE__)
 #include <CoreFoundation/CoreFoundation.h>
 
 #include <IOKit/IOKitLib.h>
@@ -128,54 +165,7 @@ get_mac_addresses(char* addresses) {
 	}
 	return true;
 
-    #elif defined(__linux__)
-    char          buf[1024];
-    struct ifconf ifc;
-    struct ifreq *ifr;
-    int           sck;
-    int           nInterfaces;
-    int           i;
-    /* Get a socket handle. */
-    sck = socket(AF_INET, SOCK_DGRAM, 0);
-    if(sck < 0)
-    {
-        perror("socket");
-
-        return false;
-    }
-    /* Query available interfaces. */
-    ifc.ifc_len = sizeof(buf);
-	ifc.ifc_buf = buf;
-    if(ioctl(sck, SIOCGIFCONF, &ifc) < 0)
-    {
-        perror("ioctl(SIOCGIFCONF)");
-
-        return false;
-    }
-    /* Iterate through the list of interfaces. */
-    ifr         = ifc.ifc_req;
-    nInterfaces = ifc.ifc_len / sizeof(struct ifreq);
-    strcpy(addresses, "");
-    char delimiter[2] = "\0";
-
-    for(i = 0; i < nInterfaces; i++)
-    {
-        struct ifreq *item = &ifr[i];
-        /* Get the MAC address */
-        if(ioctl(sck, SIOCGIFHWADDR, item) < 0)
-        {
-            perror("ioctl(SIOCGIFHWADDR)");
-
-            return false;
-        }
-        strcat(addresses, delimiter);
-        delimiter[0] = ':';
-        delimiter[1] = '\0';
-        strcat(addresses, ether_ntoa((struct ether_addr *)item->ifr_hwaddr.sa_data));
-    }
-
-    return true;
-	#elif defined(__APPLE__)
+#elif defined(__APPLE__)
 	kern_return_t   kernResult = KERN_SUCCESS; // on PowerPC this is an int (4 bytes)
     /*
      *  error number layout as follows (see mach/error.h and IOKitLib/IOReturn.h):
@@ -195,6 +185,92 @@ get_mac_addresses(char* addresses) {
     IOObjectRelease(intfIterator);
 
 	return kernResult;
-    #endif
+
+#elif defined(SIOCGIFCONF) || defined(SIOCGLIFCONF)
+    char          buf[1024];
+#ifdef HAVE_STRUCT_LIFCONF
+    struct lifconf ifc;
+    struct lifreq *ifr;
+#else
+    struct ifconf ifc;
+    struct ifreq *ifr;
+#endif
+    int           sck;
+    int           nInterfaces;
+    int           i;
+    /* Get a socket handle. */
+    sck = socket(AF_INET, SOCK_DGRAM, 0);
+    if(sck < 0)
+    {
+        perror("socket");
+
+        return false;
+    }
+    /* Query available interfaces. */
+#ifdef HAVE_STRUCT_LIFCONF
+    ifc.lifc_len = sizeof(buf);
+    ifc.lifc_buf = buf;
+    if(ioctl(sck, SIOCGLIFCONF, &ifc) < 0)
+    {
+        perror("ioctl(SIOCGLIFCONF)");
+        return false;
+    }
+#else
+    ifc.ifc_len = sizeof(buf);
+    ifc.ifc_buf = buf;
+    if(ioctl(sck, SIOCGIFCONF, &ifc) < 0)
+    {
+        perror("ioctl(SIOCGIFCONF)");
+        return false;
+    }
+#endif
+
+#ifdef HAVE_STRUCT_LIFCONF
+    /* Iterate through the list of interfaces. */
+    ifr         = ifc.lifc_req;
+    nInterfaces = ifc.lifc_len / sizeof(struct lifreq);
+#else
+    ifr		= ifc.ifc_req;
+    nInterfaces = ifc.ifc_len / sizeof(struct ifreq);
+#endif
+    strcpy(addresses, "");
+    char delimiter[2] = "\0";
+
+    for(i = 0; i < nInterfaces; i++)
+    {
+
+#ifdef HAVE_STRUCT_LIFCONF
+        struct lifreq *item = &ifr[i];
+#else
+        struct ifreq *item = &ifr[i];
+#endif
+        struct ether_addr *hw_addr; 
+        /* Get the MAC address */
+#ifdef SIOCGIFHWADDR
+        if(ioctl(sck, SIOCGIFHWADDR, item) < 0)
+        {
+            perror("ioctl(SIOCGIFHWADDR)");
+            return false;
+        }
+        hw_addr=(struct ether_addr *)(item->ifr_hwaddr.sa_data);
+#elif  defined(SIOCGIFARP)
+        if(ioctl(sck, SIOCGIFARP, item) < 0)
+        {
+            perror("ioctl(SIOCGIFARP)");
+            return false;
+        }
+        hw_addr=(struct ether_addr *)&(item->lifr_lifru.lifru_enaddr);  
+#endif
+        strcat(addresses, delimiter);
+        delimiter[0] = ':';
+        delimiter[1] = '\0';
+        strcat(addresses, ether_ntoa(hw_addr));
+    }
+
+    return true;
+#else
+#warning Don't know how to obtain mac address.  get_mac_addresses() will return false.
+    return false;
+#endif
 }
 

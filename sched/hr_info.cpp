@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _USING_FCGI_
-#include <stdio.h>
+#include <cstdio>
 #else
 #include "boinc_fcgi.h"
 #endif
 #include <malloc.h>
-#include <math.h>
+#include <cmath>
 
 #include "error_numbers.h"
 #include "sched_msgs.h"

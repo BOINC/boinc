@@ -19,7 +19,7 @@
 #define _TASK_
 
 #ifndef _WIN32
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
 #endif
 

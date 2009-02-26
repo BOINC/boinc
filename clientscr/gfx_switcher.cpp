@@ -21,10 +21,12 @@
 //  - launch graphics application at given slot number as user & owner boinc_project
 //  - kill graphics application with given process ID
 #include <unistd.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <cerrno>
+#ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>  // for MAXPATHLEN
+#endif
 #include <pwd.h>	// getpwuid
 #include <grp.h>
 

@@ -16,11 +16,11 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config.h"
+#include <cstdlib>
 #include <cassert>
 #include <vector>
 #include <string>
 #include <cstring>
-using namespace std;
 
 #include "parse.h"
 #include "error_numbers.h"
@@ -591,8 +591,8 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
             // replace them with spaces.
             //
             while (1) {
-                string::size_type pos = msg.find("\n", 0);
-                if (pos == string::npos) break;
+                std::string::size_type pos = msg.find("\n", 0);
+                if (pos == std::string::npos) break;
                 msg.replace(pos, 1, " ");
             }
             fprintf(fout,

@@ -34,11 +34,10 @@
 #include <vector>
 #include <string>
 #include <cstring>
-using namespace std;
 
 #include <unistd.h>
-#include <signal.h>
-#include <errno.h>
+#include <csignal>
+#include <cerrno>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/time.h>

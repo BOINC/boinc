@@ -407,6 +407,9 @@ case "$1" in
            $BOINCEXE $BOINCOPTS >>$LOGFILE 2>>$ERRORLOG &
         else
            chown ${BOINCUSER} ${LOGFILE} ${ERRORLOG}
+           if [ -f gui_rpc_auth.cfg ] ; then
+              chmod g+r gui_rpc_auth.cfg 
+           fi
            ${RUNUSER} - $BOINCUSER -c "$NOCORE ; $BOINCEXE $BOINCOPTS >>$LOGFILE 2>>$ERRORLOG" 2>/dev/null > /dev/null &
         fi
         sleep 3  

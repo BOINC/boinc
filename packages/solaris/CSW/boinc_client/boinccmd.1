@@ -1,0 +1,247 @@
+.\"  Unix Manual Pages for boinccmd
+.\"======================================================================
+.\" This file is a part of BOINC.  Distribution and/or modifications
+.\" are allowed under the terms of the Lesser GNU Public License
+.\" See the file COPYING for details.
+.\"======================================================================
+.\"  To view this file without the man command type: 
+.\"         'nroff -man boinc.1 | more'
+.\"  or, on some versions of man, just man -l boinc.1
+.\"
+.\" @(#) $Id: boinccmd.1,v 1.1 2007/12/29 16:50:10 myers Exp $
+.TH boinccmd 1  "29 December 2007"  "BOINC 5.10"  "User Manuals"
+
+.SH SYNOPSIS
+.br
+.sp
+.in +2
+.B boinccmd  
+boinccmd [--host hostname] [--passwd passwd] --command
+.in -2
+.br
+.sp
+
+.SH DESCRIPTION
+.B boinccmd
+issues a command to the running BOINC client core, which should already be running as
+a background daemon.   See
+.BR boinc_client (1)
+for more information about the core client.
+
+
+.SH COMMAND OPTIONS
+
+These command-line commands for 
+.B boinccmd
+can be used to control the running core client.
+
+.SS  Core Client Connection 
+Controlling the connection to the core client:
+
+.TP
+.B  --host hostname[:port]
+The host to connect to (default: localhost) .
+
+.TP
+.B  --passwd
+The password for RPC authentication (default: 
+.B boinccmd 
+will look
+for a file named
+.I gui_rpc_auth.cfg 
+in the current directory and use the password it contains).
+
+
+.SS  Account Query and Attach 
+Query or control account information for the core client:
+
+.TP
+.B --lookup_account URL email password
+Look up account and print account key. 
+[New in 5.8.16]
+
+.TP
+.B --create_account URL email password name
+Create account with the given email address, password, and user name.
+
+.TP
+.B --project_attach URL auth
+Attach the core client to the project associated with the URL,
+using the authentication token (account key)
+
+.TP
+.B  --join_acct_mgr URL name password
+Attach to an account manager (or do RPC if already attached). 
+[ New in 5.10]
+
+.TP
+.B --quit_acct_mgr
+Detach from the current account manager. 
+[New in 5.10] 
+
+
+.SS State Queries
+Querying the core client for information about its current running state:
+
+.TP
+.B --get_state
+Show complete client state 
+
+.TP
+.B --get_results
+Show results 
+
+.TP
+.B --get_simple_gui_info
+Show projects and active results 
+
+.TP 
+.B --get_file_transfers
+Show file transfers 
+
+.TP
+.B --get_project_status
+Show status of all projects 
+
+.TP
+.B --get_disk_usage
+Show disk usage by project 
+
+.TP 
+.B --get_proxy_settings
+Get proxy settings 
+
+.TP
+.B --get_messages seqno
+Show messages with sequence numbers beyond the given seqno 
+
+.TP
+.B --get_host_info
+Show host info 
+
+.TP
+.B --get_screensaver_mode
+Return the current screensaver mode (is it active or not?)
+
+.TP
+.B --version, -V
+Show core client software version.
+
+
+
+.SS Control Operations
+Controlling the core client:
+
+.TP 8
+.TP 
+.B --result URL result_name operation 
+Perform an operation on a Result, identified by the project master URL and
+the Result name.  
+Operations:
+.IP
+.I suspend 
+- temporarily stop work on the Result
+.IP
+.I resume
+- allow work on result
+.IP
+.I abort: permanently stop work on result
+.IP
+.I graphics_window
+- open graphics in a window. The optional
+desktop/window_station (Windows) or display (X11) arguments specify
+the display.
+.IP 
+.I graphics_fullscreen
+- open graphics fullscreen 
+
+.TP
+.B --project URL operation
+ Do operation on a project, identified by its master
+URL. Operations:
+
+.IP 
+.I  reset
+- delete current work and get more;
+.IP
+.I  detach
+- delete current work and don't get more;
+.IP
+.I  update
+- contact scheduling server;
+.IP
+.I  suspend
+- stop work for project;
+.IP
+.I  result
+- resume work for project;
+.IP
+.I  nomorework
+- finish current work but don't get more;
+.IP
+.I  allowmorework
+- undo nomorework
+.IP
+.I  detach_when_done
+- detach project 
+
+
+.TP
+.B  --set_proxy_settings http_server_name http_server_port \
+http_user_name http_user_passwd socks_server_name socks_server_port \
+socks_version socks5_user_name socks5_user_passwd
+Set proxy settings (all fields are mandatory) 
+
+.TP
+.B --run_benchmarks
+Run CPU benchmarks 
+
+.TP
+.B --set_screensaver_mode on|off blank_time [ --display display ]
+Tell the core client to start or stop doing fullscreen graphics,
+and going to black after blank_time seconds. The optional arguments
+specify which desktop/windows_station (Windows) or display (X11) to
+use. 
+
+.TP
+.B --read_global_prefs_override
+Tell the core client to read the global_prefs_override.xml file,
+and incorporate any global preferences indicated there. 
+
+.TP
+.B --quit
+Tell the core client to quit 
+
+.TP
+.B --read_cc_config
+Reread the configuration file (cc_config.xml) 
+
+.TP
+.B   --set_debts URL1 STD1 LTD1 [ URL2 STD2 LTD2 ... ]
+Set the short- and long-term debts of one or more projects. Note:
+if you adjust the debts of a single project, the debts of other
+projects are changed. So if you want to set the debts of multiple
+projects, do it in a single command. 
+[New in 5.10.11]
+
+.SS Miscellaneous 
+.TP
+.B --help, -h
+Show options and commands
+
+
+.SH SEE ALSO
+.BR boinc (1),
+.BR boinc_client (1),
+.BR boincmgr (1).
+
+.SH VERSION
+.de VL
+
+B\\$2
+..
+Revision Number: 5.10.21-18 
+.br
+Release Date: 29 Dec 2007 
+
+.end

@@ -36,7 +36,6 @@
 #ifndef __EMX__
 #include <sched.h>
 #endif
-using namespace std;
 #endif
 
 #include "diagnostics.h"

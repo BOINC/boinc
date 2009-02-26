@@ -31,7 +31,6 @@
 // check_set() and check_pair().
 // See doc/validate.php for a description.
 
-using namespace std;
 
 #include "config.h"
 #include <unistd.h>

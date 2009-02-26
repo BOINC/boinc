@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <stdio.h>
+#include <cstdio>
 #include "server_types.h"
 
 extern void handle_time_stats_log(FILE* fin);

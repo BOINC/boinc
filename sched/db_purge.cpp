@@ -42,7 +42,6 @@
 #include <time.h>
 #include <errno.h>
 
-using namespace std;
 
 #include "boinc_db.h"
 #include "util.h"

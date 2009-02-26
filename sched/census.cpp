@@ -20,7 +20,7 @@
 // This info is used the feeder to decide how many shared-memory slots
 // to devote to each HR class.
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "boinc_db.h"
 #include "str_util.h"

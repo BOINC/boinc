@@ -33,6 +33,7 @@
 #undef freopen
 #undef ferror
 #undef feof
+#undef perror
 #endif
 #ifndef BOINC_FCGI_H
 #define BOINC_FCGI_H
@@ -77,6 +78,8 @@ int fgetc(FCGI_FILE *f);
 int feof(FCGI_FILE *f);
 
 int ferror(FCGI_FILE *f);
+
+void perror(const char *s);
 
 // More left to do here.  Just the minimum for BOINC done.
 

@@ -52,15 +52,24 @@ libboinc_zip_la_SOURCES = $(libboinc_zip_sources)
 libboinc_zip_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
 libboinc_zip_la_LIBADD =
 
+# Some OSs may not prefix libraries with lib. 
+# For example OS2
+if OS_OS2
+LIBBOINC_ZIP_STATIC=boinc_zip.${LIBEXT}
+else
+LIBBOINC_ZIP_STATIC=libboinc_zip.${LIBEXT}
+endif
+
+
 if BUILD_STATIC_LIBS
-all_local = libboinc_zip.a
+all_local = $(LIBBOINC_ZIP_STATIC)
 
 endif
 
 all-local: $(all_local)
 
-libboinc_zip.a: libboinc_zip.la
-	rm -f libboinc_zip.a
-	ln .libs/libboinc_zip.a
+$(LIBBOINC_ZIP_STATIC): libboinc_zip.la
+	rm -f $(LIBBOINC_ZIP_STATIC)
+	ln .libs/$(LIBBOINC_ZIP_STATIC)
 
 endif

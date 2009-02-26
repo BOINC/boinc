@@ -20,11 +20,6 @@
 //
 
 #include "config.h"
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
@@ -34,6 +29,12 @@
 #include <unistd.h>
 #include <csignal>
 #include <fcntl.h>
+
+#ifdef _USING_FCGI_
+#include "boinc_fcgi.h"
+#else
+#include <cstdio>
+#endif
 
 #include "crypt.h"
 #include "parse.h"

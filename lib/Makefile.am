@@ -51,6 +51,7 @@ generic_sources = \
     mfile.cpp \
     miofile.cpp \
     msg_log.cpp \
+    msg_queue.cpp \
     network.cpp \
     parse.cpp \
     prefs.cpp \
@@ -89,27 +90,40 @@ endif
 if INSTALL_HEADERS
 pkginclude_HEADERS = \
     app_ipc.h \
+    base64.h \
     boinc_fcgi.h \
     boinc_win.h \
+    cert_sig.h \
     common_defs.h \
     coproc.h \
     crypt.h \
     diagnostics.h \
+    diagnostics_win.h \
     error_numbers.h \
     filesys.h \
     gui_rpc_client.h \
     hostinfo.h \
     mac_address.h \
+    md5.h \
+    md5_file.h \
+    mem_usage.h \
     mfile.h \
     miofile.h \
     msg_log.h \
+    msg_queue.h \
+    network.h \
     parse.h \
     prefs.h \
     proxy_info.h \
+    shmem.h \
+    stackwalker_imports.h \
+    stackwalker_win.h \
     std_fixes.h \
     str_util.h \
     synch.h \
+    unix_util.h \
     util.h \
+    win_util.h \
     $(mac_headers)
 endif
 
@@ -118,7 +132,7 @@ libboinc_la_SOURCES = $(generic_sources) $(mac_sources)
 libboinc_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
-libboinc_la_LIBADD =
+libboinc_la_LIBADD = $(LIBCURL)
 
 if ENABLE_FCGI
 lib_LTLIBRARIES += libboinc_fcgi.la
@@ -130,22 +144,33 @@ libboinc_fcgi_la_LIBADD =
 endif 
 # end of "if ENABLE_FCGI"
 
+# Some OSs may not prefix libraries with lib. 
+# For example OS2
+if OS_OS2
+LIBBOINC_STATIC=boinc.${LIBEXT}
+LIBBOINC_FCGI_STATIC=boinc_fcgi.${LIBEXT}
+else
+LIBBOINC_STATIC=libboinc.${LIBEXT}
+LIBBOINC_FCGI_STATIC=libboinc_fcgi.${LIBEXT}
+endif
+
+
 if BUILD_STATIC_LIBS
-all_local = libboinc.a
+all_local = $(LIBBOINC_STATIC)
 if ENABLE_FCGI
-all_local += libboinc_fcgi.a
+all_local += $(LIBBOINC_FCGI_STATIC) 
 endif
 endif
 
 all-local: $(all_local)
 
-libboinc.a: libboinc.la
-	rm -f libboinc.a
-	ln .libs/libboinc.a
+$(LIBBOINC_STATIC): libboinc.la
+	rm -f $(LIBBOINC_STATIC)
+	$(LN) .libs/$(LIBBOINC_STATIC)
 
 libboinc_fcgi.a: libboinc_fcgi.la
-	rm -f libboinc_fcgi.a
-	ln .libs/libboinc_fcgi.a
+	rm -f $(LIBBOINC_FCGI_STATIC)
+	$(LN) .libs/$(LIBBOINC_FCGI_STATIC)
 
 endif 
 # end of "if ENABLE_LIBRARIES"

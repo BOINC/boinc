@@ -1,0 +1,16 @@
+i pkginfo
+i copyright
+i depend
+d none @prefix@/lib 0755 root bin
+f none @prefix@/lib/libboinc_api.so.@PACKAGE_VERSION@ 0755 root bin
+s none @prefix@/lib/libboinc_api.so.@BOINC_MAJOR_VERSION@=libboinc_api.so.@PACKAGE_VERSION@
+s none @prefix@/lib/libboinc_api.so=libboinc_api.so.@PACKAGE_VERSION@
+f none @prefix@/lib/libboinc_graphics2.so.@PACKAGE_VERSION@ 0755 root bin
+s none @prefix@/lib/libboinc_graphics2.so.@BOINC_MAJOR_VERSION@=libboinc_graphics2.so.@PACKAGE_VERSION@
+s none @prefix@/lib/libboinc_graphics2.so=libboinc_graphics2.so.@PACKAGE_VERSION@
+f none @prefix@/lib/libboinc.so.@PACKAGE_VERSION@ 0755 root bin
+s none @prefix@/lib/libboinc.so.@BOINC_MAJOR_VERSION@=libboinc.so.@PACKAGE_VERSION@
+s none @prefix@/lib/libboinc.so=libboinc.so.@PACKAGE_VERSION@
+f none @prefix@/lib/libboinc_zip.so.@PACKAGE_VERSION@ 0755 root bin
+s none @prefix@/lib/libboinc_zip.so.@BOINC_MAJOR_VERSION@=libboinc_zip.so.@PACKAGE_VERSION@
+s none @prefix@/lib/libboinc_zip.so=libboinc_zip.so.@PACKAGE_VERSION@

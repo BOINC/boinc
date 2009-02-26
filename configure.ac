@@ -6,7 +6,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.57)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 6.7.0)
+AC_INIT(BOINC, 6.7.4)
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
 
@@ -442,9 +442,9 @@ SAH_CHECK_LIB([dl], [dlopen],
 SAH_CHECK_LIB([nsl], [gethostbyname], 
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 #SAH_CHECK_LIB([wsock32], [fopen], 
-#    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+#   [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 #SAH_CHECK_LIB([wsock], [fopen], 
-#    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+#   [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([socket], [bind], 
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([z], [gzopen], 
@@ -572,7 +572,47 @@ AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
-AC_CHECK_HEADERS(windows.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h malloc.h alloca.h memory.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/auxv.h sys/file.h sys/ipc.h sys/mount.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h)
+AC_CHECK_HEADERS(windows.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h malloc.h alloca.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/mount.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h)
+AC_CHECK_HEADERS(netinet/if_ether.h,[],[],[[
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+#ifdef HAVE_NETINET_IN_H
+#include <netinet/in.h>
+#endif
+#ifdef HAVE_ARPA_INET_H
+#include <arpa/inet.h>
+#endif
+#ifdef HAVE_NET_IF_H
+#include <net/if.h>
+#endif
+]])
+AC_CHECK_TYPES([struct lifconf, struct lifreq, struct ifconf, struct ifreq, struct ether_addr],[],[],[[
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+#ifdef HAVE_NETINET_IN_H
+#include <netinet/in.h>
+#endif
+#ifdef HAVE_ARPA_INET_H
+#include <arpa/inet.h>
+#endif
+#ifdef HAVE_NET_IF_H
+#include <net/if.h>
+#endif
+#ifdef HAVE_NETINET_IF_ETHER_H
+#include <netinet/if_ether.h>
+#endif
+#ifdef HAVE_NETINET_ETHER_H
+#include <netinet/ether.h>
+#endif
+]])
 
 dnl Unfortunately on some 32 bit systems there is a problem with wx-widgets
 dnl configuring itself for largefile support.  On these systems largefile
@@ -603,7 +643,7 @@ AC_FUNC_ALLOCA
 if test "${ac_cv_func_alloca_works}" = "yes" ; then
   ac_cv_func_alloca="yes"
 fi
-AC_CHECK_FUNCS(alloca _alloca __builtin_alloca setpriority strlcpy strlcat strcasestr sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv)
+AC_CHECK_FUNCS(alloca _alloca __builtin_alloca ether_ntoa setpriority strlcpy strlcat strcasestr sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -659,6 +699,8 @@ fi
 AM_CONDITIONAL(OS_LINUX, [echo $host_os | grep '^linux' > /dev/null])
 dnl In case anyone wants to try building the windows code using mingw!
 AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
+dnl or OS2
+AM_CONDITIONAL(OS_OS2, [echo $host_os | grep '^os2' > /dev/null])
 
 dnl Whether to build fcgi components
 AM_CONDITIONAL(ENABLE_FCGI,[test "${enable_fcgi}" = yes])
@@ -682,14 +724,17 @@ SAH_CHECK_LIB([m],[sin], [
     AC_DEFINE([HAVE_LIBM],[1],[Define to 1 if you have the math library])
     CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-SAH_CHECK_LIB([c],[atexit], [
-    AC_DEFINE([HAVE_LIBC],[1],[Define to 1 if you have the c library])
-    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-SAH_CHECK_LIB([pthread],[pthread_join],[
-    AC_DEFINE([HAVE_LIBPTHREAD],[1],[Define to 1 if you have the pthread library])
-    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+if test "$enable_release_client" = yes -a "$disable_static_linkage" = no ; then
+    SAH_CHECK_LIB([c],[atexit], [
+        AC_DEFINE([HAVE_LIBC],[1],[Define to 1 if you have the c library])
+        CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+       echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+fi
+    SAH_CHECK_LIB([pthread],[pthread_join],[
+        AC_DEFINE([HAVE_LIBPTHREAD],[1],[Define to 1 if you have the pthread library])
+        CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+       echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+if test "$enable_release_client" = yes -a "$disable_static_linkage" = no ; then
 if test x${ac_cv_cxx_compiler_gnu} != xno ; then
   SAH_CHECK_LIB([gcc_eh],[_Unwind_Resume],[ 
     AC_DEFINE([HAVE_LIBGCC_EH],[1],[Define to 1 if you have the gcc_eh library])
@@ -707,6 +752,7 @@ if test x${ac_cv_cxx_compiler_gnu} != xno ; then
     AC_DEFINE([HAVE_LIBSTDC__],[1],[Define to 1 if you have the stdc++ library])
     CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+fi
 fi
 SAH_CHECK_LIB([wsock32],[fopen],[
     AC_DEFINE([HAVE_LIBWSOCK32],[1],[Define to 1 if you have the wsock32 library])
@@ -771,17 +817,14 @@ AC_SUBST(CLIENTGUIFLAGS)
 AC_SUBST(CLIENTGUILIBS)
 dnl ======================================================================
 dnl Oh! the joys of standards!
-WHOAMI=`which logname`
-if test -z "${WHOAMI}" -o -z "`${WHOAMI} 2>/dev/null`" ; then
-  WHOAMI=`which whoami`
-fi
-if test -z "${WHOAMI}" ; then
+AC_PATH_PROG(WHOAMI,[whoami logname],"not found")
+if test "x${WHOAMI}" = "xnot found" ; then
   who am i 2>/dev/null && WHOAMI="who am i | awk '{print $1}'"
 fi
-if test -z "${WHOAMI}" -a -x "/usr/ucb/ps" ; then
+if test "x${WHOAMI}" = "xnot found"  -a -x "/usr/ucb/ps" ; then
   WHOAMI="/usr/ucb/ps u $$ | tail -1 | awk '{print $1}'"
 fi
-if test -z "${WHOAMI}" ; then
+if test  "x${WHOAMI}" = "xnot found" ; then
   WHOAMI="ps u $$ | tail -1 | awk '{print $1}'"
 fi
 
@@ -825,6 +868,19 @@ AC_CONFIG_FILES([
                  sched/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  sched/Makefile
                  packages/generic/sea/Makefile
+                 packages/solaris/CSW/Makefile
+                 packages/solaris/CSW/boincclient/Makefile
+                 packages/solaris/CSW/boincclient/pkginfo
+                 packages/solaris/CSW/boincclient/prototype
+                 packages/solaris/CSW/boincdevel/Makefile
+                 packages/solaris/CSW/boincdevel/pkginfo
+                 packages/solaris/CSW/boincdevel/prototype
+                 packages/solaris/CSW/boinclibs/Makefile
+                 packages/solaris/CSW/boinclibs/pkginfo
+                 packages/solaris/CSW/boinclibs/prototype
+                 packages/solaris/CSW/boincmanager/Makefile
+                 packages/solaris/CSW/boincmanager/pkginfo
+                 packages/solaris/CSW/boincmanager/prototype
                  test/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  test/Makefile
                  test/version.inc
@@ -834,7 +890,8 @@ AC_CONFIG_FILES([
                  zip/zip/Makefile
                  zip/unzip/Makefile
                  m4/Makefile
-                 ])
+		])
+
 
 dnl AC_CONFIG_HEADER([config.h])
 AC_CONFIG_HEADERS([config.h])

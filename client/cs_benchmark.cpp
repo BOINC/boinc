@@ -44,7 +44,7 @@
 #if HAVE_SYS_WAIT_H
 #include <sys/wait.h>
 #endif
-#include <csignal>
+#include <signal.h>
 #if HAVE_SYS_SIGNAL_H
 #include <sys/signal.h>
 #endif

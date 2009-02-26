@@ -677,11 +677,19 @@ int FILE_LOCK::lock(const char* filename) {
 int FILE_LOCK::unlock(const char* filename) {
 #if defined(_WIN32) && !defined(__CYGWIN32__)
     if (!CloseHandle(handle)) {
-        perror("FILE_LOCK::unlock(): close failed.");
+#ifndef _USING_FCGI_
+        std::perror("FILE_LOCK::unlock(): close failed.");
+#else
+	FCGI::perror("FILE_LOCK::unlock(): close failed.");
+#endif
     }
 #else
     if (close(fd)) {
-        perror("FILE_LOCK::unlock(): close failed.");
+#ifndef _USING_FCGI_
+        std::perror("FILE_LOCK::unlock(): close failed.");
+#else
+        FCGI::perror("FILE_LOCK::unlock(): close failed.");
+#endif
     }
 #endif
     boinc_delete_file(filename);
@@ -692,7 +700,11 @@ void boinc_getcwd(char* path) {
 #ifdef _WIN32
     getcwd(path, 256);
 #else
-    char* p __attribute__ ((unused)) = getcwd(path, 256);
+    char* p 
+#ifdef __GNUC__
+      __attribute__ ((unused))
+#endif
+      = getcwd(path, 256);
 #endif
 }
 

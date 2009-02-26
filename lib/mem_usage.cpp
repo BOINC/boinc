@@ -30,15 +30,20 @@
 #undef _LARGEFILE64_SOURCE
 #endif
 #endif
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
 #include <unistd.h>
 #endif
 
 #ifdef HAVE_PROCFS_H
 #include <procfs.h> // definitions for solaris /proc structs
 #endif
+
+using std::FILE;
+using std::fread;
+using std::fopen;
+using std::fclose;
 
 #include "error_numbers.h"
 #include "mem_usage.h"

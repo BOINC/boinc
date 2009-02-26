@@ -51,7 +51,7 @@ void write_time_stats_log() {
             log_messages.printf(MSG_CRITICAL,
                 "Can't make time stats log dir %s: %d\n", dirname, retval
             );
-            perror("mkdir");
+            std::perror("mkdir");
             return;
         }
     }

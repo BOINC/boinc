@@ -20,7 +20,7 @@
 
 #include "config.h"
 #include <string>
-#include <stdio.h>
+#include <cstdio>
 #include <cstring>
 
 #include "parse.h"

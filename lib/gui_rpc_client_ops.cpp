@@ -73,6 +73,7 @@
 
 using std::string;
 using std::vector;
+using std::sort;
 
 DISPLAY_INFO::DISPLAY_INFO() {
     memset(this, 0, sizeof(DISPLAY_INFO));

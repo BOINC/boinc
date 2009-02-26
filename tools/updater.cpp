@@ -43,7 +43,7 @@
 #ifdef _WIN32
 #else
 #include <unistd.h>
-#include <errno.h>
+#include <cerrno>
 #endif
 
 #include <vector>

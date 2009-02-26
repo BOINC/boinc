@@ -18,7 +18,7 @@
 #ifndef _FCGIAPP_H
 #define _FCGIAPP_H
 
-#include <stdarg.h>
+#include <cstdarg>
 
 #ifndef DLLAPI
 #ifdef _WIN32

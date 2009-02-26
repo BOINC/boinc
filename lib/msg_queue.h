@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifdef _MSG_QUEUE_
+#ifndef _MSG_QUEUE_
 #define _MSG_QUEUE_
 
 #ifdef HAVE_SYS_TYPES_H

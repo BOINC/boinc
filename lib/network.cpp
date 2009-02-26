@@ -21,16 +21,30 @@
 
 #ifndef _WIN32
 #include "config.h"
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <cstdio>
+#include <cstdlib>
+#ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
+#endif
+#ifdef HAVE_NETINET_IN_H
 #include <netinet/in.h>
+#endif
+#ifdef HAVE_NETINET_TCP_H
 #include <netinet/tcp.h>
+#endif
+#ifdef HAVE_ARPA_INET_H
 #include <arpa/inet.h>
+#endif
 #include <netdb.h>
 #include <fcntl.h>
 #include <errno.h>
 #endif
+
+using std::perror;
+using std::sprintf;
 
 #include "error_numbers.h"
 #include "network.h"

@@ -22,7 +22,7 @@
 #include "boinc_win.h"
 #else
 #include "config.h"
-#include <stdio.h>
+#include <cstdio>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>

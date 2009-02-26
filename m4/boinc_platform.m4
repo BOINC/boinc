@@ -51,7 +51,11 @@ AC_DEFUN([BOINC_PLATFORM],[
       ia64-hp-hpux*)
 	boinc_platform="ia64-hp-hpux"
         ;;
-
+    esac
+    case "${target}" in
+      i386-pc-os2)
+        boinc_platform="i686-pc-os2"
+        ;;
     esac
   fi
   AC_DEFINE_UNQUOTED([HOSTTYPE],"$boinc_platform",[Platform identification used to identify applications for this BOINC core client])

@@ -1,0 +1,213 @@
+.\"  Unix Manual page for BOINC
+.\"======================================================================
+.\" This file is a part of BOINC.  Distribution and/or modifications
+.\" are allowed under the terms of the Lesser GNU Public License.
+.\" See the file COPYING for details.
+.\"======================================================================
+.\"  To view this file without the man command type: 
+.\"         'nroff -man boinc.1 | more -s'
+.\"  Some versions of `less` will automatically format the page for you.1 
+.\"
+.\" @(#) $Id: boinc.1,v 1.3 2007/12/18 15:39:26 myers Exp $
+
+.TH BOINC 1  "18 December 2007"  "BOINC 5.10"  "User Manuals"
+
+.SH NAME
+BOINC \- Berkeley Open Infrastructure for Network Computing 
+
+
+.SH DESCRIPTION
+The 
+.B Berkeley Open Infrastructure for Network Computing 
+(BOINC) 
+is an open-source software platform which supports distributed computing, 
+primarily in the form of "volunteer" computing and "desktop grid" computing.
+It is well suited for problems which are often described as "trivially
+parallel" or "embarrassingly parallel". 
+BOINC is the underlying software used by projects such as SETI@home,
+Einstein@Home, ClimatePrediciton.net, the World Community Grid, and
+many others.
+The BOINC client software runs on Windows, MacOS X, and Unix,
+including Linux.
+
+.PP
+By downloading and installing the BOINC client software your computer
+can participate in any number of BOINC-based projects.
+For each project you simply need to "attach" to the project, by
+providing the URL of the project, your e-mail address, and a password
+which you select.
+The BOINC
+.I  core 
+.IR client ,
+running on your computer, will then connect to the servers for
+all of your attached projects and will automatically download and run
+applications obtained from the project servers.
+
+.PP
+For more details on how BOINC works see
+.I http://boinc.berkeley.edu/trac/wiki/IntroUser
+and the links therein.
+
+
+.SH APPLICATIONS
+BOINC applications are the programs which actually do scientific computing. 
+Most BOINC applications are capable of displaying graphics when your
+computer would usually show a screensaver, though not all BOINC
+applications include such graphics capability.
+(There are no screensaver graphics available yet for Unix.)
+Several applications may run at the same time on a computer with more
+than one CPU, and in any case the core client will alternate between
+applications from different projects to try to maintain a ratio of
+effort which you can control.
+
+.PP
+BOINC applications are generally written by the scientists who have
+set up a particular BOINC project.
+To learn more about what a particular BOINC application is doing on
+your computer you should visit the web site for the BOINC project
+which uses that application.
+  
+
+.SH DOWNLOAD 
+The latest version of the 
+.B BOINC
+client software can be downloaded from
+.I http://boinc.berkeley.edu/download.php
+
+.PP
+An rpm package suitable for installation on Red Hat Linux, Fedora
+Linux, and any other Linux distribution which uses RPM packages,
+may be downloaded from
+.I http://pirates.spy-hill.net/download/RPMS
+
+
+.SH LICENSE
+BOINC is free software; you can redistribute it and/or modify it under
+the terms of the GNU Lesser General Public License as published by the
+Free Software Foundation; either version 2.1 of the License, or (at
+your option) any later version.
+
+
+.SH RUN BOINC ONLY ON AUTHORIZED COMPUTERS
+
+You should run BOINC only on computers which you own, or for which
+you have obtained the owner's permission.
+Some companies and schools have policies that prohibit using their
+computers for BOINC projects or similar uses.
+
+
+
+.SH FILES
+.TP 1.0i
+.I /usr/bin/boinc_client
+The BOINC "core client",  which is the
+heart of BOINC.  
+This program is run in the background as a daemon, and it then
+controls which applications are run on your computer, along with
+downloading "Workunits" and uploading the "Result" files from
+completed tasks.
+
+.TP
+.I /usr/bin/boincmgr
+The BOINC "Manager", which provides a graphical user interface (GUI)
+which allows the user to communicate with and control the BOINC core
+client.  
+See
+.BR boincmgr (1), 
+for details.
+
+.TP
+.I /usr/bin/boinc_cmd
+A command line tool which can be used to give specific commands to the
+running core client.  Although not as easy to use as the graphical
+interface provided by the BOINC Manager, 
+.I boinc_cmd
+provides more options.
+See
+.BR boinc_cmd (1), 
+for details.
+
+.TP 
+.I /etc/init.d/boinc
+A Unix init script to start 
+.I boinc_client
+when the system is booted and to stop 
+.I boinc_client
+when the system is shut down.  
+Configuration settings may be put in the file
+.IR /usr/sysconfig/boinc .
+
+.TP
+.I /var/lib/boinc
+The working directory, under which the client core does all of its work.
+This is the home directory of a special 'boinc' user.  
+The BOINC core
+client does not have to run as 'root', and indeed it should not be run
+as 'root' for better security.
+Different values for both the account name and working directory can
+be set in 
+.IR /usr/sysconfig/boinc .
+
+
+
+
+.TP
+.I /var/lib/boinc/gui_rpc_auth.cfg
+A file containing the password needed to connect to the running core
+client from the BOINC Manager.
+
+.TP
+.I /var/lib/boinc/client_state.xml
+A file containing the current state of the running core client and the
+files which it has downloaded or intends to upload.
+
+
+.SH BUGS
+Keep in mind that BOINC is continuously being developed and refined,
+so there may well be bugs in any version of the software.
+
+.PP
+Any problems with the BOINC software can be reported and discussed 
+in the BOINC forums at 
+.IR http://boinc.berkeley.edu/dev , 
+or in the forums available on almost any BOINC-based project.
+Individual bugs or feature requests may be submitted as a ticket in the 
+"Trac" system at 
+.IR http://boinc.berkeley.edu/trac .
+Specific technical comments may be set to the developers mailing list at 
+.IR boinc_dev@ssl.berkeley.edu ,
+but they do not provide technical support, and they are more interested in
+receiving patches which fix bugs than they are in receiving complaints.
+
+.PP
+Any problems with the packaging of the BOINC software should be
+submitted to the person who packaged the software for distribution,
+not to the BOINC developers.
+
+
+.SH SEE ALSO
+.BR boinc_client (1),
+.BR boincmgr (1),
+.BR boinc_cmd (1), 
+and 
+.I  http://boinc.berkeley.edu/trac/wiki/UnixClient
+
+.PP
+For a list of some of the many BOINC based projects see
+.I http://boinc.berkeley.edu/projects.php
+or
+.IR http://boincprojectstatus.ath.cx/ .
+These lists are provided for your information only, and are not
+endorsed by BOINC or U.C. Berkeley.   You can find other projects
+which use BOINC via Google.
+
+
+.SH VERSION
+.de VL
+\\$2
+..
+Revision Number: 5.10.21-18 
+.br
+Release Date: 29 Dec 2007 
+
+.end

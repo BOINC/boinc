@@ -1,7 +1,20 @@
 
-#include <stdio.h>
-#include <stdlib.h> 
-#include <string.h>
+#include <cstdio>
+#include <cstdlib> 
+#include <cstring>
+
+using std::malloc;
+using std::free;
+using std::size_t;
+
+using std::FILE;
+using std::fopen;
+using std::fclose;
+using std::fprintf;
+using std::fread;
+using std::fseek;
+
+using std::perror;
 
 void bwtorgba(unsigned char *b,unsigned char *l,int n) {
     while(n--) {

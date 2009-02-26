@@ -26,7 +26,6 @@
 #include <cstring>
 #include <stdlib.h>
 
-using namespace std;
 
 #include <unistd.h>
 
@@ -152,7 +151,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
 
     // see if app is already in memoized array
     //
-    vector<BEST_APP_VERSION*>::iterator bavi;
+    std::vector<BEST_APP_VERSION*>::iterator bavi;
     bavi = g_wreq->best_app_versions.begin();
     while (bavi != g_wreq->best_app_versions.end()) {
         bavp = *bavi;
@@ -415,7 +414,7 @@ double max_allowable_disk() {
         x2 = host.d_total*prefs.disk_max_used_pct/100.
             - host.d_boinc_used_total;
         x3 = host.d_free - prefs.disk_min_free_gb*GIGA;      // may be negative
-        x = min(x1, min(x2, x3));
+        x = std::min(x1, std::min(x2, x3));
 
         // see which bound is the most stringent
         //
@@ -536,7 +535,7 @@ double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
 
 static void get_prefs_info() {
     char buf[8096];
-    string str;
+    std::string str;
     unsigned int pos = 0;
     int temp_int;
     bool flag;
@@ -780,7 +779,7 @@ static inline int check_deadline(
         double ewd = estimate_duration(wu, bav);
         if (hard_app(app)) ewd *= 1.3;
         double est_completion_delay = get_estimated_delay(bav) + ewd;
-        double est_report_delay = max(est_completion_delay, g_request->global_prefs.work_buf_min());
+        double est_report_delay = std::max(est_completion_delay, g_request->global_prefs.work_buf_min());
         double diff = est_report_delay - wu.delay_bound;
         if (diff > 0) {
             if (config.debug_send) {
@@ -1968,7 +1967,7 @@ void JOB_SET::add_job(JOB& job) {
         ssp->wu_results[worst_job.index].state = WR_STATE_PRESENT;
     }
 
-    list<JOB>::iterator i = jobs.begin();
+    std::list<JOB>::iterator i = jobs.begin();
     while (i != jobs.end()) {
         if (i->score < job.score) {
             jobs.insert(i, job);
@@ -1993,7 +1992,7 @@ void JOB_SET::add_job(JOB& job) {
 //
 double JOB_SET::higher_score_disk_usage(double v) {
     double sum = 0;
-    list<JOB>::iterator i = jobs.begin();
+    std::list<JOB>::iterator i = jobs.begin();
     while (i != jobs.end()) {
         if (i->score < v) break;
         sum += i->disk_usage;
@@ -2007,7 +2006,7 @@ void JOB_SET::send() {
     DB_RESULT result;
     int retval;
 
-    list<JOB>::iterator i = jobs.begin();
+    std::list<JOB>::iterator i = jobs.begin();
     while (i != jobs.end()) {
         JOB& job = *(i++);
         WU_RESULT wu_result = ssp->wu_results[job.index];

@@ -3,7 +3,7 @@
 
 
 #include <windows.h>
-#include <stdio.h>
+#include <cstdio>
 
 #define TGA_RGB		 2		// This tells us it's a normal RGB (really BGR) file
 #define TGA_A		 3		// This tells us it's a ALPHA file

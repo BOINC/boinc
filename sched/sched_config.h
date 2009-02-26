@@ -20,7 +20,7 @@
 
 #include "regex.h"
 #include <vector>
-#include <stdio.h>
+#include <cstdio>
 
 using std::vector;
 

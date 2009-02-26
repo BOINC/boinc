@@ -28,10 +28,10 @@
 
 #ifndef _WIN32
 #include "config.h"
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
-#include <strings.h>
+#include <cstdio>
+#include <cmath>
+#include <ctime>
+#include <cstring>
 #include <map>
 #include <set>
 #endif

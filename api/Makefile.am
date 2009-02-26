@@ -30,7 +30,7 @@ endif
 EXTRA_DIST = *.h
 
 if BUILD_GRAPHICS_API
-AM_CFLAGS += @GLUT_CFLAGS@
+AM_CXXFLAGS += @GLUT_CFLAGS@
 endif
 
 lib_LTLIBRARIES = libboinc_api.la
@@ -51,22 +51,33 @@ pkginclude_HEADERS = 	\
 	gutil.h
 endif ## INSTALL_HEADERS
 
+# Some OSs may not prefix libraries with lib. 
+# For example OS2
+if OS_OS2
+LIBBOINC_API_STATIC=boinc_api.${LIBEXT}
+LIBBOINC_GRAPHICS2_STATIC=boinc_graphics2.${LIBEXT}
+else
+LIBBOINC_API_STATIC=libboinc_api.${LIBEXT}
+LIBBOINC_GRAPHICS2_STATIC=libboinc_graphics2.${LIBEXT}
+endif
+
+
 if BUILD_STATIC_LIBS
-all_local = libboinc_api.a
+all_local = $(LIBBOINC_API_STATIC)
 if BUILD_GRAPHICS_API
-all_local += libboinc_graphics2.a
+all_local += $(LIBBOINC_GRAPHICS2_STATIC)
 endif
 endif
 
 all-local: $(all_local)
 
-libboinc_api.a: libboinc_api.la
-	rm -f libboinc_api.a
-	ln .libs/libboinc_api.a
+$(LIBBOINC_API_STATIC): libboinc_api.la
+	rm -f $(LIBBOINC_API_STATIC)
+	ln .libs/$(LIBBOINC_API_STATIC)
 
-libboinc_graphics2.a: libboinc_graphics2.la
-	rm -f libboinc_graphics2.a
-	ln .libs/libboinc_graphics2.a
+$(LIBBOINC_GRAPHICS2_STATIC): libboinc_graphics2.la
+	rm -f $(LIBBOINC_GRAPHICS2_STATIC)
+	ln .libs/$(LIBBOINC_GRAPHICS2_STATIC)
 
 
 endif ## ENABLE_LIBRARIES

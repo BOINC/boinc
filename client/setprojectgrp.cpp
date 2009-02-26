@@ -25,9 +25,11 @@
 
 #include <unistd.h>
 #include <grp.h>
-#include <stdio.h>
+#include <cstdio>
 #include <cerrno>
+#ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
+#endif
 
 int main(int argc, char** argv) {
     gid_t       project_gid;

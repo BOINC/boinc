@@ -28,7 +28,7 @@
 #include <string>
 
 #ifndef _WIN32
-#include <stdio.h>
+#include <cstdio>
 #endif
 
 #define MAX_FILE_XFERS_PER_PROJECT      2

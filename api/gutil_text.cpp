@@ -23,6 +23,15 @@
 #include "config.h"
 #endif
 
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cmath>
+#include <csetjmp>
+
+using std::size_t;
+using std::FILE;
+
 #ifdef _WIN32
 #ifdef __cplusplus
 extern "C" {
@@ -36,11 +45,6 @@ extern "C" {
 #endif
 
 #ifndef _WIN32
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <cmath>
-#include <csetjmp>
 #ifdef __APPLE__
 #undef HAVE_STDLIB_H /* Avoid compiler warning (redefined in jconfig,h) */
 #endif
