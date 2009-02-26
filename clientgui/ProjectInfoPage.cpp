@@ -178,7 +178,7 @@ wxWizardPageEx* CProjectInfoPage::GetNext() const
     } else {
         // Check if we are already attached to that project: 
  	CMainDocument* pDoc = wxGetApp().GetDocument(); 
- 	for (unsigned int i = 0; i < pDoc->GetProjectCount(); ++i) { 
+ 	for (int i = 0; i < pDoc->GetProjectCount(); ++i) { 
  	    PROJECT* project = pDoc->project(i); 
  	    if ((project) && (!strcmp(project->master_url.c_str(),m_strProjectURL.mb_str()))) { 
                 // We are already attached to that project. Show the error page: 

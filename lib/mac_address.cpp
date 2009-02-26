@@ -269,7 +269,7 @@ get_mac_addresses(char* addresses) {
 
     return true;
 #else
-#warning Don't know how to obtain mac address.  get_mac_addresses() will return false.
+#warning Don`t know how to obtain mac address.  get_mac_addresses() will return false.
     return false;
 #endif
 }
