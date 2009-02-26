@@ -2222,7 +2222,6 @@ David  25 Feb 2009
         texture.cpp
 
 Charlie 25 Feb 2009
-    
     - MGR: Fix compiler warning.
     - lib: Fix compiler error: Please do not use unmatched single quotes 
         (I changed don't to don`t in #warning statement to fix this.)
@@ -2281,3 +2280,13 @@ David  25 Feb 2009
 
     client/
         app_control.cpp
+
+Rom    25 Feb 2009
+    - MGR: Remove the ability to display graphics on a remote computer,
+        or from a remote computer on *nix machines using v5 graphics.
+        fixes #674
+        
+    clientgui/
+        ViewWork.cpp
+
+        

@@ -320,6 +320,7 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
             }
         }
     }
+
     pFrame->UpdateStatusText(wxT(""));
     
     UpdateSelection();
@@ -331,10 +332,9 @@ void CViewWork::OnWorkSuspend( wxCommandEvent& WXUNUSED(event) ) {
 void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkShowGraphics - Function Begin"));
 
-    wxInt32  iAnswer        = 0; 
-    wxString strMachineName = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame  = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+    RESULT* result;
     int row;
 
     wxASSERT(pDoc);
@@ -345,37 +345,18 @@ void CViewWork::OnWorkShowGraphics( wxCommandEvent& WXUNUSED(event) ) {
 
     pFrame->UpdateStatusText(_("Showing graphics for task..."));
 
-    // We don't change "Show Graphics" button to "Hide Graphics" because Mac allows user to bring 
-    // a graphics window to the foreground when necessary by clicking Show Graphics button again
-#if (defined(_WIN32) || defined(__WXMAC__))
-    pDoc->GetConnectedComputerName(strMachineName);
-    if (!pDoc->IsComputerNameLocal(strMachineName)) {
-        iAnswer = wxGetApp().SafeMessageBox(
-            _("Are you sure you want to display graphics on a remote machine?"),
-            _("Show graphics"),
-            wxYES_NO | wxICON_QUESTION,
-            this
-        );
-    } else {
-        iAnswer = wxYES;
-    }
-#else
-    iAnswer = wxYES;
-#endif
-
-    if (wxYES == iAnswer) {
-        row = -1;
-        while (1) {
-            // Step through all selected items
-            row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-            if (row < 0) break;
-            
-            RESULT* result = pDoc->result(m_iSortedIndexes[row]);
-            if (result) {
-                pDoc->WorkShowGraphics(result);
-            }
+    row = -1;
+    while (1) {
+        // Step through all selected items
+        row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+        if (row < 0) break;
+        
+        result = pDoc->result(m_iSortedIndexes[row]);
+        if (result) {
+            pDoc->WorkShowGraphics(result);
         }
     }
+
     pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
@@ -405,6 +386,7 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
 
     if (!pDoc->IsUserAuthorized())
         return;
+
     pFrame->UpdateStatusText(_("Aborting result..."));
 
     row = -1;
@@ -586,14 +568,15 @@ bool CViewWork::IsSelectionManagementNeeded() {
 
 
 void CViewWork::UpdateSelection() {
+    int                 i, n, row;
     CTaskItemGroup*     pGroup = NULL;
     RESULT*             result = NULL;
     PROJECT*            project = NULL;
     CC_STATUS           status;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
-    int                 i, n, row;
-    bool                wasSuspended=false, all_same_project=false;
     std::string         first_project_url;
+    wxString            strMachineName;
+    bool                wasSuspended=false, all_same_project=false;
     bool                enableShowGraphics = false;
     bool                enableSuspendResume = false;
     bool                enableAbort = false;
@@ -615,6 +598,11 @@ void CViewWork::UpdateSelection() {
         
         pDoc->GetCoreClientStatus(status);
         if (status.task_suspend_reason & ~(SUSPEND_REASON_CPU_USAGE_LIMIT)) {
+            enableShowGraphics = false;
+        }
+
+        pDoc->GetConnectedComputerName(strMachineName);
+        if (!pDoc->IsComputerNameLocal(strMachineName)) {
             enableShowGraphics = false;
         }
     }
@@ -652,13 +640,15 @@ void CViewWork::UpdateSelection() {
             
             // Disable Show Graphics button if any selected task can't display graphics
             if (((!result->supports_graphics) || pDoc->GetState()->executing_as_daemon) 
-                        && result->graphics_exec_path.empty()
-                ) {
+                && result->graphics_exec_path.empty()
+            ) {
                     enableShowGraphics = false;
-                }
+            }
  
-            if (result->suspended_via_gui || result->project_suspended_via_gui || 
-                    (result->scheduler_state != CPU_SCHED_SCHEDULED)) {
+            if (result->suspended_via_gui ||
+                result->project_suspended_via_gui || 
+                (result->scheduler_state != CPU_SCHED_SCHEDULED)
+            ) {
                     enableShowGraphics = false;
             }
            
