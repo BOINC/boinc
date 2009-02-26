@@ -54,13 +54,9 @@ TEXTURE_DESC logo;
 int width, height;      // window dimensions
 bool mouse_down = false;
 int mouse_x, mouse_y;
-double pitch_angle, roll_angle, viewpoint_distance=10;
-float color[4] = {.7, .2, .5, 1};
-    // the color of the 3D object.
-    // Can be changed using preferences
 
 RPC_CLIENT rpc;
-bool retry_connect = false;
+bool retry_connect = true;
 bool connected = false;
 double next_connect_time = 0.0;
 
@@ -175,6 +171,7 @@ void show_result(RESULT* r, float x, float& y, float alpha) {
     y -= .03;
 }
 
+#if 0
 void show_coords() {
     int i;
     char buf[256];
@@ -189,14 +186,11 @@ void show_coords() {
         txf_render_string(.1, 0, y, 0, 1000., white, 0, buf);
     }
 }
+#endif
 
 void show_project(unsigned int index, float alpha) {
     float x=.2, y=.6;
     char buf[1024];
-    if (!cc_state.projects.size()) {
-        txf_render_string(.1, x, y, 0, 500., white, 0, "No projects attached");
-        return;
-    }
     txf_render_string(.1, x, y, 0, 1200., white, 0, "This computer is participating in");
     y -= .07;
     PROJECT *p = cc_state.projects[index];
@@ -222,17 +216,26 @@ void show_project(unsigned int index, float alpha) {
 
 void show_disconnected() {
     float x=.3, y=.3;
-    txf_render_string(.1, x, y, 0, 800., white, 0, "Can't connect to BOINC client");
+    txf_render_string(.1, x, y, 0, 800., white, 0, "BOINC is not running.");
+}
+
+void show_no_projects() {
+    float x=.2, y=.3;
+    txf_render_string(.1, x, y, 0, 800., white, 0, "BOINC is not attached to any projects.");
+    y = .25;
+    txf_render_string(.1, x, y, 0, 800., white, 0, "Attach to projects using the BOINC Manager.");
 }
 
 void show_jobs(unsigned int index, double alpha) {
     float x=.1, y=.7;
     unsigned int nfound = 0;
     unsigned int i;
+    int throttled = cc_status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT;
+    
     for (i=0; i<cc_state.results.size(); i++) {
         RESULT* r = cc_state.results[i];
         if (!r->active_task) continue;
-        if (r->active_task_state != PROCESS_EXECUTING) continue;
+        if (r->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (nfound == index) {
             txf_render_string(.1, x, y, 0, 1200., white, 0, "Running tasks:");
             y -= .05;
@@ -283,22 +286,6 @@ int update_data() {
     return retval;
 }
 
-void set_viewpoint(double dist) {
-    double x, y, z;
-    x = 0;
-    y = 3.0*dist;
-    z = 11.0*dist;
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    gluLookAt(
-        x, y, z,        // eye position
-        0,-.8,0,        // where we're looking
-        0.0, 1.0, 0.    // up is in positive Y direction
-    );
-    glRotated(pitch_angle, 1., 0., 0);
-    glRotated(roll_angle, 0., 1., 0);
-}
-
 static void init_camera(double dist) {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -308,7 +295,6 @@ static void init_camera(double dist) {
         1.0,        // Z near clip
         1000.0      // Z far
     );
-    set_viewpoint(dist);
 }
 
 struct FADER {
@@ -410,7 +396,9 @@ void app_graphics_render(int xs, int ys, double t) {
     }
     white[3] = alpha;
     if (connected) {
-        if (showing_project) {
+        if (cc_state.projects.size() == 0) {
+            show_no_projects();
+        } else if (showing_project) {
             if (project_index >= cc_state.projects.size()) {
                 project_index = 0;
             }
@@ -466,7 +454,7 @@ int main(int argc, char** argv) {
         exit(ERR_CONNECT);
     }
 
-    boinc_graphics_loop(argc, argv);
+    boinc_graphics_loop(argc, argv, "BOINC screensaver");
     boinc_finish_diag();
 #ifdef _WIN32
     WinsockCleanup();

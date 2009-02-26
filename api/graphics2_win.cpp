@@ -90,7 +90,7 @@ void SetupPixelFormat(HDC hDC) {
    }
 }
 
-static void make_window() {
+static void make_window(const char* title) {
     RECT WindowRect = {0,0,0,0};
     int width, height;
     DWORD dwExStyle;
@@ -121,13 +121,17 @@ static void make_window() {
         while(ShowCursor(true) < 0);
     }
 
-    APP_INIT_DATA aid;
-    boinc_get_init_data(aid);
-    if (!strlen(aid.app_name)) strcpy(aid.app_name, "BOINC Application");
     char window_title[256];
-    get_window_title(window_title, 256);
+    if (title) {
+        strcpy(window_title, title);
+    } else {
+        APP_INIT_DATA aid;
+        boinc_get_init_data(aid);
+        if (!strlen(aid.app_name)) strcpy(aid.app_name, "BOINC Application");
+        get_window_title(window_title, 256);
+    }
 
-    fprintf(stderr, "Setting window title to '%s'.\n", window_title);
+    //fprintf(stderr, "Setting window title to '%s'.\n", window_title);
 
     hWnd = CreateWindowEx(dwExStyle, BOINC_WINDOW_CLASS_NAME, window_title,
         dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
@@ -369,7 +373,7 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
     }
 }
 
-void boinc_graphics_loop(int argc, char** argv) {
+void boinc_graphics_loop(int argc, char** argv, const char* title) {
     if (!diagnostics_is_initialized()) {
         boinc_init_graphics_diagnostics(BOINC_DIAG_DEFAULTS);
     }
@@ -388,7 +392,7 @@ void boinc_graphics_loop(int argc, char** argv) {
     reg_win_class();
 
     wglMakeCurrent(NULL,NULL); 
-    make_window();
+    make_window(title);
 
     // Create a timer thread to do rendering
     //

@@ -30,7 +30,7 @@ extern void boinc_app_key_release(int, int);
 
 // Functions that the app can call
 //
-extern void boinc_graphics_loop(int, char**);
+extern void boinc_graphics_loop(int argc, char** argv, const char* title=0);
 extern void* boinc_graphics_make_shmem(char*, int);
 extern void* boinc_graphics_get_shmem(char*);
 extern void boinc_set_windows_icon(const char* icon16,const char* icon48);

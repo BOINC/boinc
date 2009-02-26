@@ -2317,3 +2317,14 @@ David  26 Feb 2009
     client/
         client_state.cpp
         cs_scheduler.cpp
+
+David  26 Feb 2009
+	- screensaver: show correct info if CPU throttling;
+		show correct window title;
+		show "no projects" message.
+
+	api/
+		graphics2.h
+		graphics2_win.cpp
+	clientscr/
+		ss_app.cpp
