@@ -113,10 +113,7 @@ int ACTIVE_TASK::preempt(int preempt_type) {
             remove = false;
             break;
         }
-        if (result->uses_coprocs()
-            && (result->suspended_via_gui || result->project->suspended_via_gui)
-            && checkpoint_wall_time
-        ) {
+        if (result->uses_coprocs()) {
             remove = true;
             break;
         }
@@ -176,7 +173,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
     needs_shmem = false;
     want_network = 0;
     premature_exit_count = 0;
-	coprocs_reserved = false;
     quit_time = 0;
     memset(&procinfo, 0, sizeof(procinfo));
 #ifdef _WIN32
@@ -255,8 +251,6 @@ void ACTIVE_TASK::cleanup_task() {
     }
 #endif
     
-    free_coprocs();
-
     if (gstate.exit_after_finish) {
         exit(0);
     }
@@ -696,21 +690,6 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         }
     }
     return ERR_XML_PARSE;
-}
-
-void ACTIVE_TASK::reserve_coprocs() {
-    gstate.coprocs.reserve_coprocs(
-		app_version->coprocs, this, log_flags.coproc_debug, "coproc_debug"
-	);
-    coprocs_reserved = true;
-}
-
-void ACTIVE_TASK::free_coprocs() {
-    if (!coprocs_reserved) return;
-    gstate.coprocs.free_coprocs(
-		app_version->coprocs, this, log_flags.coproc_debug, "coproc_debug"
-	);
-    coprocs_reserved = false;
 }
 
 // Write XML information about this active task set

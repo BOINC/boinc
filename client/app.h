@@ -141,9 +141,6 @@ public:
     inline int task_state() {
         return _task_state;
     }
-    bool coprocs_reserved;
-    void reserve_coprocs();
-    void free_coprocs();
 
     // info related to app's graphics mode (win, screensaver, etc.)
     //

@@ -87,7 +87,9 @@ bool COPROCS::sufficient_coprocs(COPROCS& needed, bool log_flag, const char* pre
     return true;
 }
 
-void COPROCS::reserve_coprocs(COPROCS& needed, void* owner, bool log_flag, const char* prefix) {
+void COPROCS::reserve_coprocs(
+    COPROCS& needed, void* owner, bool log_flag, const char* prefix
+) {
     for (unsigned int i=0; i<needed.coprocs.size(); i++) {
         COPROC* cp = needed.coprocs[i];
         COPROC* cp2 = lookup(cp->type);
@@ -114,7 +116,9 @@ void COPROCS::reserve_coprocs(COPROCS& needed, void* owner, bool log_flag, const
     }
 }
 
-void COPROCS::free_coprocs(COPROCS& needed, void* owner, bool log_flag, const char* prefix) {
+void COPROCS::free_coprocs(
+    COPROCS& needed, void* owner, bool log_flag, const char* prefix
+) {
     for (unsigned int i=0; i<needed.coprocs.size(); i++) {
         COPROC* cp = needed.coprocs[i];
         COPROC* cp2 = lookup(cp->type);
@@ -144,7 +148,7 @@ static inline bool finished_time_slice(ACTIVE_TASK* atp) {
     return (running_beyond_sched_period && checkpointed_recently);
 }
 
-// Choose a "best" runnable result for each project
+// Choose a "best" runnable CPU job for each project
 //
 // Values are returned in project->next_runnable_result
 // (skip projects for which this is already non-NULL)
@@ -173,6 +177,7 @@ void CLIENT_STATE::assign_results_to_projects() {
         if (!atp->runnable()) continue;
         rp = atp->result;
         if (rp->already_selected) continue;
+        if (rp->uses_coprocs()) continue;
         if (!rp->runnable()) continue;
         project = rp->project;
         if (!project->next_runnable_result) {
@@ -200,6 +205,7 @@ void CLIENT_STATE::assign_results_to_projects() {
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         if (rp->already_selected) continue;
+        if (rp->uses_coprocs()) continue;
         if (lookup_active_task_by_result(rp)) continue;
         if (!rp->runnable()) continue;
 
@@ -255,7 +261,7 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
 
 // Return earliest-deadline result from a project with deadlines_missed>0
 //
-RESULT* CLIENT_STATE::earliest_deadline_result() {
+RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
     RESULT *best_result = NULL;
     ACTIVE_TASK* best_atp = NULL;
     unsigned int i;
@@ -265,8 +271,13 @@ RESULT* CLIENT_STATE::earliest_deadline_result() {
         if (!rp->runnable()) continue;
         if (rp->project->non_cpu_intensive) continue;
         if (rp->already_selected) continue;
-        if (!rp->project->deadlines_missed && rp->project->duration_correction_factor < 90.0) continue;
+        if (coproc_only) {
+            if (!rp->uses_coprocs()) continue;
+        } else {
+            if (rp->uses_coprocs()) continue;
             // treat projects with DCF>90 as if they had deadline misses
+            if (!rp->project->deadlines_missed && rp->project->duration_correction_factor < 90.0) continue;
+        }
 
         bool new_best = false;
         if (best_result) {
@@ -285,7 +296,7 @@ RESULT* CLIENT_STATE::earliest_deadline_result() {
             continue;
         }
 
-        // If there's a tie, pick the job with the least remaining CPU time
+        // If there's a tie, pick the job with the least remaining time
         // (but don't pick an unstarted job over one that's started)
         //
         ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
@@ -447,17 +458,16 @@ struct PROC_RESOURCES {
     int ncpus;
     double ncpus_used;
     double ram_left;
-    int ncoproc_jobs;   // # of runnable jobs that use coprocs
     COPROCS coprocs;
 
     // should we stop scanning jobs?
     //
-    bool stop_scan() {
-		if (ncpus_used >= ncpus) {
-			if (!ncoproc_jobs) return true;
-			if (coprocs.fully_used()) return true;
-		}
-		return false;
+    inline bool stop_scan_cpu() {
+		return ncpus_used >= ncpus;
+    }
+
+    inline bool stop_scan_coproc() {
+        return coprocs.fully_used();
     }
 
     // should we consider scheduling this job?
@@ -484,6 +494,15 @@ struct PROC_RESOURCES {
             //
             return (ncpus_used < ncpus);
         }
+    }
+
+    // we've decided to run this - update bookkeeping
+    //
+    void schedule(RESULT* rp) {
+        coprocs.reserve_coprocs(
+            rp->avp->coprocs, rp, log_flags.cpu_sched_debug, "cpu_sched_debug"
+        );
+        ncpus_used += rp->avp->avg_ncpus;
     }
 };
 
@@ -530,13 +549,7 @@ static bool schedule_if_possible(
             "[cpu_sched_debug] scheduling %s", rp->name
         );
     }
-	proc_rsc.coprocs.reserve_coprocs(
-		rp->avp->coprocs, rp, log_flags.cpu_sched_debug, "cpu_sched_debug"
-	);
-    proc_rsc.ncpus_used += rp->avp->avg_ncpus;
-    if (rp->uses_coprocs()) {
-        proc_rsc.ncoproc_jobs--;
-    }
+	proc_rsc.schedule(rp);
     rp->project->anticipated_debt -= (rp->project->resource_share / rrs) * expected_payoff;
     return true;
 }
@@ -557,7 +570,6 @@ void CLIENT_STATE::schedule_cpus() {
     proc_rsc.ncpus_used = 0;
     proc_rsc.ram_left = available_ram();
     proc_rsc.coprocs.clone(coprocs, false);
-    proc_rsc.ncoproc_jobs = 0;
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] schedule_cpus(): start");
@@ -576,7 +588,6 @@ void CLIENT_STATE::schedule_cpus() {
         rp = results[i];
         rp->already_selected = false;
         rp->edf_scheduled = false;
-        if (rp->uses_coprocs()) proc_rsc.ncoproc_jobs++;
     }
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
@@ -591,20 +602,30 @@ void CLIENT_STATE::schedule_cpus() {
     expected_payoff = global_prefs.cpu_scheduling_period();
     ordered_scheduled_results.clear();
 
-    // First choose results from projects with P.deadlines_missed>0
+    // choose coproc jobs in deadline order until all coprocs are full
+    //
+    while (!proc_rsc.stop_scan_coproc()) {
+        rp = earliest_deadline_result(true);
+        if (!rp) break;
+        rp->already_selected = true;
+        if (!proc_rsc.can_schedule(rp)) continue;
+		atp = lookup_active_task_by_result(rp);
+        if (!schedule_if_possible(rp, atp, proc_rsc, rrs, expected_payoff)) continue;
+        ordered_scheduled_results.push_back(rp);
+    }
+
+    // choose CPU jobs from projects with P.deadlines_missed>0
     //
 #ifdef SIM
     if (!cpu_sched_rr_only) {
 #endif
-    while (!proc_rsc.stop_scan()) {
-        rp = earliest_deadline_result();
+    while (!proc_rsc.stop_scan_cpu()) {
+        rp = earliest_deadline_result(false);
         if (!rp) break;
         rp->already_selected = true;
-		atp = lookup_active_task_by_result(rp);
-
         if (!proc_rsc.can_schedule(rp)) continue;
+		atp = lookup_active_task_by_result(rp);
         if (!schedule_if_possible(rp, atp, proc_rsc, rrs, expected_payoff)) continue;
-
         rp->project->deadlines_missed--;
         rp->edf_scheduled = true;
         ordered_scheduled_results.push_back(rp);
@@ -613,9 +634,9 @@ void CLIENT_STATE::schedule_cpus() {
     }
 #endif
 
-    // Next, choose results from projects with large debt
+    // Next, choose CPU jobs from projects with large debt
     //
-    while (!proc_rsc.stop_scan()) {
+    while (!proc_rsc.stop_scan_cpu()) {
         assign_results_to_projects();
         rp = largest_debt_project_best_result();
         if (!rp) break;
@@ -656,8 +677,9 @@ static inline bool more_preemptable(ACTIVE_TASK* t0, ACTIVE_TASK* t1) {
     }
 }
 
-// Make a list of preemptable tasks, in increasing order of preemptability.
-// "Preemptable" means: running, non-GPU, not non-CPU-intensive,
+// Make a list of preemptable CPU jobs, in increasing order of preemptability,
+// and mark them as scheduled.
+// "Preemptable" means: running, not non-CPU-intensive,
 // not in the scheduled results list.
 //
 void CLIENT_STATE::make_preemptable_task_list(
@@ -954,39 +976,30 @@ bool CLIENT_STATE::enforce_schedule() {
             atp->scheduler_state = CPU_SCHED_PREEMPTED;
             break;
         case CPU_SCHED_SCHEDULED:
-            switch (atp->task_state()) {
-            case PROCESS_UNINITIALIZED:
-                if (!coprocs.sufficient_coprocs(
-                    atp->app_version->coprocs, log_flags.cpu_sched_debug, "cpu_sched_debug"
-                )){
-                    continue;
+            action = true;
+            retval = atp->resume_or_start(
+                atp->scheduler_state == CPU_SCHED_UNINITIALIZED
+            );
+            if ((retval == ERR_SHMGET) || (retval == ERR_SHMAT)) {
+                // Assume no additional shared memory segs
+                // will be available in the next 10 seconds
+                // (run only tasks which are already attached to shared memory).
+                //
+                if (gstate.retry_shmem_time < gstate.now) {
+                    request_schedule_cpus("no more shared memory");
                 }
-            case PROCESS_SUSPENDED:
-                action = true;
-                retval = atp->resume_or_start(
-                    atp->scheduler_state == CPU_SCHED_UNINITIALIZED
-                );
-                if ((retval == ERR_SHMGET) || (retval == ERR_SHMAT)) {
-                    // Assume no additional shared memory segs
-                    // will be available in the next 10 seconds
-                    // (run only tasks which are already attached to shared memory).
-                    //
-                    if (gstate.retry_shmem_time < gstate.now) {
-                        request_schedule_cpus("no more shared memory");
-                    }
-                    gstate.retry_shmem_time = gstate.now + 10.0;
-                    continue;
-                }
-                if (retval) {
-                    report_result_error(
-                        *(atp->result), "Couldn't start or resume: %d", retval
-                    );
-                    request_schedule_cpus("start failed");
-                    continue;
-                }
-                atp->run_interval_start_wall_time = now;
-                app_started = now;
+                gstate.retry_shmem_time = gstate.now + 10.0;
+                continue;
             }
+            if (retval) {
+                report_result_error(
+                    *(atp->result), "Couldn't start or resume: %d", retval
+                );
+                request_schedule_cpus("start failed");
+                continue;
+            }
+            atp->run_interval_start_wall_time = now;
+            app_started = now;
             atp->scheduler_state = CPU_SCHED_SCHEDULED;
             swap_left -= atp->procinfo.swap_size;
             break;
