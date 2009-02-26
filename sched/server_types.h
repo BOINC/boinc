@@ -205,7 +205,7 @@ struct WORK_REQ {
         // (those that were lost are resent).
         // As new results are sent, it's incremented.
     void update_for_result(double seconds_filled);
-    void insert_no_work_message(USER_MESSAGE&);
+    void insert_no_work_message(const USER_MESSAGE&);
 };
 
 // a description of a sticky file on host.
@@ -399,7 +399,7 @@ struct SCHEDULER_REPLY {
     void insert_app_version_unique(APP_VERSION&);
     void insert_workunit_unique(WORKUNIT&);
     void insert_result(RESULT&);
-    void insert_message(USER_MESSAGE&);
+    void insert_message(const USER_MESSAGE&);
     void set_delay(double);
 };
 

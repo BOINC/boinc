@@ -2230,3 +2230,12 @@ Charlie 25 Feb 2009
         ProjectInfoPage.cpp
     lib/
         mac_address.cpp
+
+David  25 Feb 2009
+    - scheduler: slight code cleanup
+
+    sched/
+        server_types.h
+        sched_*.cpp
+        handle_request.cpp
+        server_types.cpp

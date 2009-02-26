@@ -186,8 +186,7 @@ bool resend_lost_work() {
             sprintf(warning_msg,
                 "Didn't resend lost result %s (expired)", result.name
             );
-            USER_MESSAGE um(warning_msg, "high");
-            g_reply->insert_message(um);
+            g_reply->insert_message(USER_MESSAGE(warning_msg, "high"));
         } else {
             retval = add_result_to_reply(result, wu, bavp);
             if (retval) {
@@ -198,8 +197,7 @@ bool resend_lost_work() {
                 continue;
             }
             sprintf(warning_msg, "Resent lost result %s", result.name);
-            USER_MESSAGE um(warning_msg, "high");
-            g_reply->insert_message(um);
+            g_reply->insert_message(USER_MESSAGE(warning_msg, "high"));
             num_resent++;
             did_any = true;
         }

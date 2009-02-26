@@ -119,7 +119,7 @@ int CLIENT_PLATFORM::parse(FILE* fin) {
 }
 
 
-void WORK_REQ::insert_no_work_message(USER_MESSAGE& um) {
+void WORK_REQ::insert_no_work_message(const USER_MESSAGE& um) {
     for (unsigned int i=0; i<no_work_messages.size(); i++) {
         if (!strcmp(um.message.c_str(), no_work_messages.at(i).message.c_str())){
             return;
@@ -843,7 +843,7 @@ void SCHEDULER_REPLY::insert_result(RESULT& result) {
     results.push_back(result);
 }
 
-void SCHEDULER_REPLY::insert_message(USER_MESSAGE& um) {
+void SCHEDULER_REPLY::insert_message(const USER_MESSAGE& um) {
     messages.push_back(um);
 }
 
