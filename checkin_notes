@@ -1822,11 +1822,11 @@ David  20 Feb 2009
         work_fetch.cpp,h
 
 David  20 Feb 2009
-	- client: fix bug that can cause no GPU jobs to be scheduled
-		even when a GPU is free
+    - client: fix bug that can cause no GPU jobs to be scheduled
+        even when a GPU is free
 
-	client/
-		cpu_sched.cpp
+    client/
+        cpu_sched.cpp
 
 Charlie 20 Feb 2009
     - Update various source filed to GPL 3.  Note: I've only updated those 
@@ -2037,6 +2037,7 @@ Rom    25 Feb 2009
     clientgui/
         BOINCGUIApp.cpp
 
+
 Eric K 25 Feb 2009
     - Added checks for net/*.h, arpa/*.h, netinet/*.h and code to figure out
       which of those files to include
@@ -2070,9 +2071,6 @@ Eric K 25 Feb 2009
       buggy.  (unix_util.h)
     - Added FCGI::perror() which calls FCGI_perror(). (boinc_fcgi.{h,cpp})
     - Fixed library Makefiles so that all required headers get installed.
-
-
-
 
     version.h
     configure.ac
@@ -2206,3 +2204,12 @@ Eric K 25 Feb 2009
         updater.cpp
     zip/
         Makefile.am
+
+David  25 Feb 2009
+    - client: if you put <host_venue> in global_prefs_override.xml,
+        it should select the venue from the network prefs.
+        Now it does.
+
+    client/
+        gui_rpc_server.cpp
+        cs_prefs.cpp
