@@ -338,8 +338,8 @@ unsigned * read_tga_texture(char *name, int *width, int *height, int*) {
 	// make sure we are loading a supported type 
     if (imageBits != 32 && imageBits != 24 && imageBits != 8) return NULL;
 	base = (unsigned int *)getData (s, size, imageBits);
-	return (unsigned *) base;
 	fclose(s);
+	return (unsigned *) base;
 }
 
 unsigned * read_rgb_texture(const char *name, int *width, int *height, int *components) {

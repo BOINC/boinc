@@ -2213,3 +2213,10 @@ David  25 Feb 2009
     client/
         gui_rpc_server.cpp
         cs_prefs.cpp
+
+David  25 Feb 2009
+    - API: file descriptor leak in obscure case.
+        fixes #103
+
+    api/
+        texture.cpp
