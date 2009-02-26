@@ -151,9 +151,13 @@ static void maybe_render() {
     }
 }
 
-static void make_window() {
+static void make_window(const char* title) {
     char window_title[256];
-    get_window_title(window_title, 256);
+    if (title) {
+        strcpy(window_title, title);
+    } else {
+        get_window_title(window_title, 256);
+    }
 
     win = glutCreateWindow(window_title); 
     glutReshapeFunc(app_graphics_resize);
@@ -213,7 +217,7 @@ static void timer_handler(int) {
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
 }
 
-void boinc_graphics_loop(int argc, char** argv) {
+void boinc_graphics_loop(int argc, char** argv, const char* title) {
     if (!diagnostics_is_initialized()) {
         boinc_init_graphics_diagnostics(BOINC_DIAG_DEFAULTS);
     }
@@ -228,7 +232,7 @@ void boinc_graphics_loop(int argc, char** argv) {
         }
     }
     boinc_glut_init(&argc, argv);
-    make_window();
+    make_window(title);
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);      
 #ifdef __APPLE__
     // Apparently glut changed our working directory in OS 10.3.9
