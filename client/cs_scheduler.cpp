@@ -345,6 +345,11 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             break;
         }
 
+        // If we haven't run benchmarks yet, don't do a scheduler RPC.
+        // We need to know CPU speed to handle app versions
+        //
+        if (!host_info.p_calculated) return false;
+
         // check for various reasons to contact particular projects.
         // If we need to contact a project,
         // see if we should ask it for work as well.

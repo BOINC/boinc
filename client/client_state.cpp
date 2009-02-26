@@ -242,6 +242,7 @@ int CLIENT_STATE::init() {
     //
     check_anonymous();
 
+    host_info.clear_host_info();
     host_info.get_host_info();
     set_ncpus();
     show_host_info();
@@ -262,7 +263,6 @@ int CLIENT_STATE::init() {
         coproc_cuda = (COPROC_CUDA*)coprocs.lookup("CUDA");
     }
 
-    host_info.clear_host_info();
     cpu_benchmarks_set_defaults();  // for first time, make sure p_fpops nonzero
 
     // Parse the client state file,
