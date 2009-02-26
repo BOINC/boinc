@@ -126,7 +126,7 @@ int CLIENT_STATE::check_suspend_processing() {
         }
     }
 
-    if (global_prefs.cpu_usage_limit != 100) {
+    if (global_prefs.cpu_usage_limit < 99) {        // round-off?
         static double last_time=0, debt=0;
         double diff = now - last_time;
         last_time = now;
@@ -250,7 +250,7 @@ PROJECT* CLIENT_STATE::global_prefs_source_project() {
 void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
     PROJECT* pp = global_prefs_source_project();
     if (pp) {
-        msg_printf(NULL, MSG_INFO,
+        msg_printf(pp, MSG_INFO,
             "General prefs: from %s (last modified %s)",
             pp->get_project_name(), time_to_string(global_prefs.mod_time)
         );
@@ -262,20 +262,20 @@ void CLIENT_STATE::show_global_prefs_source(bool found_venue) {
         );
     }
     if (strlen(main_host_venue)) {
-        msg_printf(NULL, MSG_INFO, "Computer location: %s", main_host_venue);
+        msg_printf(pp, MSG_INFO, "Computer location: %s", main_host_venue);
         if (found_venue) {
             msg_printf(NULL, MSG_INFO,
                 "General prefs: using separate prefs for %s", main_host_venue
             );
         } else {
-            msg_printf(NULL, MSG_INFO,
+            msg_printf(pp, MSG_INFO,
                 "General prefs: no separate prefs for %s; using your defaults",
                 main_host_venue
             );
         }
     } else {
-        msg_printf(NULL, MSG_INFO, "Host location: none");
-        msg_printf(NULL, MSG_INFO, "General prefs: using your defaults");
+        msg_printf(pp, MSG_INFO, "Host location: none");
+        msg_printf(pp, MSG_INFO, "General prefs: using your defaults");
     }
 }
 

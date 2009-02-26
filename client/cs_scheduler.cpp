@@ -846,9 +846,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
             );
             continue;
         }
-        if (rp->computing_done()) continue;
-        ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
-        if (!atp) {
+        if (rp->not_started()) {
             rp->abort_inactive(ERR_ABORTED_BY_PROJECT);
         }
     }

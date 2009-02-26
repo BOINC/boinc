@@ -1051,8 +1051,10 @@ ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_result(RESULT* rep) {
     return NULL;
 }
 
-bool RESULT::computing_done() {
-    return (state() >= RESULT_COMPUTE_ERROR || ready_to_report);
+bool RESULT::not_started() {
+    if (computing_done()) return false;
+    if (gstate.lookup_active_task_by_result(this)) return false;
+    return true;
 }
 
 // find total resource shares of all projects
