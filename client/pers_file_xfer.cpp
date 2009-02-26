@@ -444,7 +444,7 @@ bool PERS_FILE_XFER_SET::poll() {
     bool action = false;
     static double last_time=0;
 
-    if (gstate.now - last_time < 1.0) return false;
+    if (gstate.now - last_time < PERS_FILE_XFER_POLL_PERIOD) return false;
     last_time = gstate.now;
 
     for (i=0; i<pers_file_xfers.size(); i++) {

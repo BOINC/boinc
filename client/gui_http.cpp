@@ -65,7 +65,7 @@ int GUI_HTTP::do_rpc_post(GUI_HTTP_OP* op, string url, string input_file, string
 bool GUI_HTTP::poll() {
     if (state == GUI_HTTP_STATE_IDLE) return false;
     static double last_time=0;
-    if (gstate.now-last_time < 1) return false;
+    if (gstate.now-last_time < GUI_HTTP_POLL_PERIOD) return false;
     last_time = gstate.now;
 
     if (http_op.http_op_state == HTTP_STATE_DONE) {

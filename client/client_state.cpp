@@ -921,7 +921,7 @@ int CLIENT_STATE::nresults_for_project(PROJECT* p) {
 
 bool CLIENT_STATE::garbage_collect() {
     static double last_time=0;
-    if (gstate.now - last_time < 1.0) return false;
+    if (gstate.now - last_time < GARBAGE_COLLECT_PERIOD) return false;
     last_time = gstate.now;
 
     bool action = garbage_collect_always();
@@ -1213,7 +1213,7 @@ bool CLIENT_STATE::update_results() {
     static double last_time=0;
     int retval;
 
-    if (gstate.now - last_time < 1.0) return false;
+    if (gstate.now - last_time < UPDATE_RESULTS_PERIOD) return false;
     last_time = gstate.now;
 
     result_iter = results.begin();

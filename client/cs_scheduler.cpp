@@ -335,7 +335,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
 	// check only every 5 sec
 	//
-    if (now - last_time < 5.0) return false;
+    if (now - last_time < SCHEDULER_RPC_POLL_PERIOD) return false;
     last_time = now;
 
     switch(scheduler_op->state) {
