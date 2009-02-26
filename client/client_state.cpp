@@ -920,13 +920,16 @@ int CLIENT_STATE::nresults_for_project(PROJECT* p) {
 }
 
 bool CLIENT_STATE::abort_unstarted_late_jobs() {
+    bool action = false;
     if (now < 1235668593) return false; // skip if user reset system clock
     for (unsigned int i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
         if (!rp->not_started()) continue;
         if (rp->report_deadline > now) continue;
         rp->abort_inactive(ERR_UNSTARTED_LATE);
+        action = true;
     }
+    return action;
 }
 
 bool CLIENT_STATE::garbage_collect() {
