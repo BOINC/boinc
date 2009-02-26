@@ -109,8 +109,8 @@ public:
         /// (that way don't have to worry about top-level dirs
         /// being non-readable, etc).
     char slot_path[512];
-        /// abort if total CPU exceeds this
-    double max_cpu_time;
+        /// abort if elapsed time exceeds this
+    double max_elapsed_time;
         /// abort if disk usage (in+out+temp) exceeds this
     double max_disk_usage;
         /// abort if memory usage exceeds this

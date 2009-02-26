@@ -736,6 +736,8 @@ const char* boincerror(int which_error) {
         case ERR_SYMLINK: return "symlink() failed";
         case ERR_DB_CONN_LOST: return "DB connection lost during enumeration";
         case ERR_CRYPTO: return "encryption error";
+        case ERR_ABORTED_ON_EXIT: return "job was aborted on client exit";
+        case ERR_UNSTARTED_LATE: return "job is unstarted and past deadline";
         case 404: return "HTTP file not found";
         case 407: return "HTTP proxy authentication failure";
         case 416: return "HTTP range request error";

@@ -571,12 +571,12 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
-		if (atp->current_cpu_time > atp->max_cpu_time) {
+		if (atp->elapsed_time > atp->max_elapsed_time) {
 			msg_printf(atp->result->project, MSG_INFO,
-				"Aborting task %s: exceeded CPU time limit %f\n",
-				atp->result->name, atp->max_cpu_time
+				"Aborting task %s: exceeded elapsed time limit %f\n",
+				atp->result->name, atp->max_elapsed_time
 			);
-			atp->abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum CPU time exceeded");
+			atp->abort_task(ERR_RSC_LIMIT_EXCEEDED, "Maximum elapsed time exceeded");
 			did_anything = true;
 			continue;
 		}

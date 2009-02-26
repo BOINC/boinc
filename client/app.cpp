@@ -266,7 +266,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
     result = rp;
     wup = rp->wup;
     app_version = rp->avp;
-    max_cpu_time = rp->wup->rsc_fpops_bound/gstate.host_info.p_fpops;
+    max_elapsed_time = rp->wup->rsc_fpops_bound/rp->avp->flops;
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
     get_slot_dir(slot, slot_dir, sizeof(slot_dir));
