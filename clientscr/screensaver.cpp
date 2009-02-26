@@ -36,7 +36,7 @@
 #include "common_defs.h"
 #include "filesys.h"
 #include "error_numbers.h"
-#include "gui_rpc_client.h"
+#include "gui_rpc_client.h" // The order of included headers is critical here.  Do not move this!
 #include "str_util.h"
 #include "screensaver.h"
 
