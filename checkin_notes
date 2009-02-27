@@ -2348,3 +2348,9 @@ Charlie 27 Feb 2009
         Mac_Saver_ModuleView.m, .h
         screensaver.cpp, .h
         screensaver_win.h
+
+David  27 Feb 2009
+	- manager: fix roundoff error in Advanced Prefs; fixes #613
+
+	clientgui/
+		DlgAdvPreferences.cpp

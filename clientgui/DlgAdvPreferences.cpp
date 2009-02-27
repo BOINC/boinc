@@ -182,7 +182,7 @@ double CDlgAdvPreferences::TimeStringToDouble(wxString timeStr) {
 // convert a double into a timestring HH:MM
 wxString CDlgAdvPreferences::DoubleToTimeString(double dt) {
 	int hour = (int)dt;
-	int minutes = (int)(60.0 * (dt - hour));
+	int minutes = (int)(60.0 * (dt - hour)+.5);
 	return wxString::Format(wxT("%02d:%02d"),hour,minutes);
 }
 
