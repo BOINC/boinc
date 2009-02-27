@@ -850,7 +850,7 @@ double ACTIVE_TASK::est_time_to_completion(bool for_work_fetch) {
     return x;
 }
 
-// the fraction of time a given CPU is working for BOINC
+// the fraction of time BOINC is processing
 //
 double CLIENT_STATE::overall_cpu_frac() {
     double running_frac = time_stats.on_frac * time_stats.active_frac;

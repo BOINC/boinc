@@ -130,7 +130,7 @@ void RR_SIM_PROJECT_STATUS::remove_active(RESULT* rp) {
 void set_rrsim_flops(RESULT* rp) {
     // if it's a coproc job, use app version estimate
     if (rp->uses_coprocs()) {
-        rp->rrsim_flops = rp->avp->flops;
+        rp->rrsim_flops = rp->avp->flops * gstate.overall_cpu_frac();
         return;
     }
     PROJECT* p = rp->project;
