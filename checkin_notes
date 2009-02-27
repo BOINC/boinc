@@ -2328,3 +2328,9 @@ David  26 Feb 2009
 		graphics2_win.cpp
 	clientscr/
 		ss_app.cpp
+
+David  26 Feb 2009
+    - boinccmd: make --get_messages output more readable
+
+    client/
+        boinc_cmd.cpp
