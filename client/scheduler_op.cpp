@@ -238,13 +238,13 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
     }
     if (log_flags.sched_op_debug) {
         msg_printf(p, MSG_INFO,
-            "CPU work request: %.2f seconds; %d idle CPUs",
+            "[sched_op_debug] CPU work request: %.2f seconds; %d idle CPUs",
             cpu_work_fetch.req_secs, cpu_work_fetch.req_instances
         );
         if (coproc_cuda) {
             msg_printf(p, MSG_INFO,
-                "CUDA work request: %.2f seconds; %d idle GPUs",
-                coproc_cuda->req_secs, coproc_cuda->req_instances
+                "[sched_op_debug] CUDA work request: %.2f seconds; %d idle GPUs",
+                cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
             );
         }
     }

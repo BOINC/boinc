@@ -117,7 +117,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         "    <resource_share_fraction>%f</resource_share_fraction>\n"
         "    <rrs_fraction>%f</rrs_fraction>\n"
         "    <prrs_fraction>%f</prrs_fraction>\n"
-        "    <estimated_delay>%f</estimated_delay>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
         "    <sandbox>%d</sandbox>\n",
         p->authenticator,
@@ -129,7 +128,6 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         resource_share_fraction,
         rrs_fraction,
         prrs_fraction,
-        cpu_work_fetch.estimated_delay,
         p->duration_correction_factor,
         g_use_sandbox?1:0
     );
@@ -226,6 +224,14 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         "    </disk_usage>\n",
         disk_total, disk_project
     );
+
+    // copy request values from RSC_WORK_FETCH to COPROC
+    //
+    if (coproc_cuda) {
+        coproc_cuda->req_secs = cuda_work_fetch.req_secs;
+        coproc_cuda->req_instances = cuda_work_fetch.req_instances;
+        coproc_cuda->estimated_delay = cuda_work_fetch.estimated_delay;
+    }
 
     if (coprocs.coprocs.size()) {
         fprintf(f, "    <coprocs>\n");

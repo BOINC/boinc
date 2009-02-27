@@ -315,6 +315,7 @@ static void print_req(PROJECT* p) {
 void RSC_WORK_FETCH::clear_request() {
     req_secs = 0;
     req_instances = 0;
+    estimated_delay = 0;
 }
 
 void WORK_FETCH::clear_request() {
@@ -409,17 +410,12 @@ PROJECT* WORK_FETCH::choose_project() {
         p = cpu_work_fetch.choose_project(FETCH_IF_PROJECT_STARVED);
     }
 
-    if (p && coproc_cuda) {
-        coproc_cuda->req_secs = cuda_work_fetch.req_secs;
-        coproc_cuda->req_instances = cuda_work_fetch.req_instances;
-        coproc_cuda->estimated_delay = cuda_work_fetch.estimated_delay;
-    }
     if (log_flags.work_fetch_debug) {
         print_state();
         if (p) {
             print_req(p);
         } else {
-            msg_printf(0, MSG_INFO, "No project chosen for work fetch");
+            msg_printf(0, MSG_INFO, "[wfd] No project chosen for work fetch");
         }
     }
 
@@ -630,10 +626,12 @@ void WORK_FETCH::write_request(FILE* f) {
     fprintf(f,
         "    <work_req_seconds>%f</work_req_seconds>\n"
         "    <cpu_req_secs>%f</cpu_req_secs>\n"
-        "    <cpu_req_instances>%d</cpu_req_instances>\n",
+        "    <cpu_req_instances>%d</cpu_req_instances>\n"
+        "    <estimated_delay>%f</estimated_delay>\n",
         cpu_work_fetch.req_secs,
         cpu_work_fetch.req_secs,
-        cpu_work_fetch.req_instances
+        cpu_work_fetch.req_instances,
+        cpu_work_fetch.estimated_delay
     );
 }
 
@@ -670,10 +668,18 @@ void WORK_FETCH::handle_reply(PROJECT* p, vector<RESULT*> new_results) {
     if (got_cuda) p->cuda_pwf.clear_backoff();
 }
 
+// set up for initial RPC.
+// arrange to always get one job, even if we don't need it or can't handle it.
+// (this is probably what user wants)
+//
 void WORK_FETCH::set_initial_work_request() {
     cpu_work_fetch.req_secs = 1;
+    cpu_work_fetch.req_instances = 0;
+    cpu_work_fetch.estimated_delay = 0;
     if (coproc_cuda) {
-        coproc_cuda->req_secs = 1;
+        cuda_work_fetch.req_secs = 1;
+        cuda_work_fetch.req_instances = 0;
+        cuda_work_fetch.estimated_delay = 0;
     }
 }
 
