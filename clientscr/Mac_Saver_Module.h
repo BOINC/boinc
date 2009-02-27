@@ -34,6 +34,7 @@ extern "C" {
 
 int initBOINCSaver(void);
 int getSSMessage(char **theMessage, int* coveredFreq);
+void windowIsCovered();
 void drawPreview(CGContextRef myContext);
 void closeBOINCSaver(void);
 void print_to_log_file(const char *format, ...);
@@ -68,23 +69,18 @@ protected:
     pid_t           FindProcessPID(char* name, pid_t thePID);
     OSErr           GetpathToBOINCManagerApp(char* path, int maxLen);
     bool            SetError( bool bErrorMode, unsigned int hrError );
-    void            UpdateProgressText(unsigned int hrError);
     void            setSSMessageText(const char *msg);
     void            updateSSMessageText(char *msg);
     void            strip_cr(char *buf);
     char            m_gfx_Switcher_Path[MAXPATHLEN];
-    bool            m_bErrorMode;        // Whether to display an error
+    bool            m_bErrorMode;        // Whether to draw moving logo and possibly display an error
     unsigned int    m_hrError;           // Error code to display
 
     bool            m_wasAlreadyRunning;
     pid_t           m_CoreClientPID;
     int             m_dwBlankScreen;
     time_t          m_dwBlankTime;
-    int             m_iStatusUpdateCounter;
     int             m_iGraphicsStartingMsgCounter;
-    int             m_iLastResultShown;
-    int             m_tLastResultChangeCounter;
-    bool            m_StatusMessageUpdated;
     bool            m_bDefault_ss_exists;
     double          m_fGFXDefaultPeriod;
     double          m_fGFxSciencePeriod;
@@ -126,9 +122,7 @@ protected:
     RPC_CLIENT      *rpc;
     CC_STATE        state;
     RESULTS         results;
-    RESULT          m_running_result;
-    bool            m_updating_results;
-
+ 
     bool            m_bResetCoreState;
     bool            m_QuitDataManagementProc;
     bool            m_bV5_GFX_app_is_running;
@@ -138,12 +132,12 @@ protected:
     // Presentation layer
     //
 protected:
-    char            m_MsgBuf[2048];
     char            m_MessageText[2048];
     char*           m_CurrentBannerMessage;
     char*           m_BrandText;
 public:
     int             getSSMessage(char **theMessage, int* coveredFreq);
+    void            windowIsCovered(void);
     void            drawPreview(CGContextRef myContext);
     void            ShutdownSaver();
 

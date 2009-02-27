@@ -284,18 +284,23 @@ int signof(float x) {
     }
 
     if (coveredFreq) {
-        myWindowNumber = [ myWindow windowNumber ];
+        if ( (msg != NULL) && (msg[0] != '\0') ) {
+            myWindowNumber = [ myWindow windowNumber ];
 
-        windowList[0] = 0;
-        NSWindowList(20, windowList);
-        NSCountWindows(&n);
-        if (gTopWindowListIndex < n) { 
-            if (windowList[gTopWindowListIndex] != myWindowNumber) {
-                // Project graphics application has a window open above ours
-                // Don't waste CPU cycles since our window is obscured by application graphics
-                newFrequency = coveredFreq;
-                msg = NULL;
+            windowList[0] = 0;
+            NSWindowList(20, windowList);
+            NSCountWindows(&n);
+            if (gTopWindowListIndex < n) { 
+                if (windowList[gTopWindowListIndex] != myWindowNumber) {
+                    // Project graphics application has a window open above ours
+                    // Don't waste CPU cycles since our window is obscured by application graphics
+                    newFrequency = coveredFreq;
+                    msg = NULL;
+                    windowIsCovered();
+                }
             }
+        } else {
+            newFrequency = coveredFreq;
         }
     }
     

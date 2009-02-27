@@ -41,20 +41,13 @@
 
 //#include <drivers/event_status_driver.h>
 
-// It would be nice to always display the scrolled progress info in case the 
-// graphics application fails to show its window, but displaying the scrolled 
-// progress info takes up too much CPU time for this to be practical.  
-#define ALWAYS_DISPLAY_PROGRESS_TEXT 0
-
 // Flags for testing & debugging
 #define CREATE_LOG 1
+#define USE_SPECIAL_LOG_FILE 0
 
 #define TEXTLOGOFREQUENCY 60 /* Number of times per second to update moving logo with text */
 #define NOTEXTLOGOFREQUENCY 4 /* Times per second to call animateOneFrame if no moving logo with text */
-#define STATUSUPDATEINTERVAL 5 /* seconds between status display updates */
 #define GFX_STARTING_MSG_DURATION 45 /* seconds to show ScreenSaverAppStartingMsg */
-#define STATUSRESULTCHANGETIME 10 /* seconds to show status display for each task */
-#define TASK_RUN_CHECK_PERIOD 5  /* Seconds between safety check that task is actually running */
 
 enum SaverState {
     SaverState_Idle,
@@ -84,14 +77,12 @@ const char * CantLaunchCCMsg = "Unable to launch BOINC application.";
 const char *  LaunchingCCMsg = "Launching BOINC application.";
 const char *  ConnectingCCMsg = "Connecting to BOINC application.";
 const char *  ConnectedCCMsg = "Communicating with BOINC application.";
-const char *  BOINCSuspendedMsg = "BOINC is currently suspended.";
-const char *  BOINCNoAppsExecutingMsg = "BOINC is currently idle.";
-const char *  BOINCNoProjectsDetectedMsg = "BOINC is not attached to any projects. Please attach to projects using the BOINC Manager.";
-const char *  BOINCNoGraphicAppsExecutingMsg = "Project does not support graphics:";
 const char *  BOINCUnrecoverableErrorMsg = "Sorry, an unrecoverable error occurred";
-const char *  BOINCTestmodeMsg = "BOINC screensaver test: success.";
-const char *  BOINCV5GFXDaemonMsg = "BOINC can't display graphics from older applications when running as a daemon.";
+const char *  BOINCTestModeMsg = "BOINC screensaver test: success.";
 const char *  ScreenSaverAppStartingMsg = "Starting screensaver graphics.\nPlease wait ...";
+const char *  CantLaunchDefaultGFXAppMsg = "Can't launch default screensaver module. Please reinstall BOINC";
+const char *  DefaultGFXAppCantRPCMsg = "Default screensaver module couldn't connect to BOINC application";
+const char *  DefaultGFXAppCrashedMsg = "Default screensaver module had an unrecoverable error";
 
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
 
@@ -130,6 +121,13 @@ int getSSMessage(char **theMessage, int* coveredFreq) {
 };
 
 
+void windowIsCovered() {
+    if (gspScreensaver) {
+        gspScreensaver->windowIsCovered();
+    }
+}
+
+
 void drawPreview(CGContextRef myContext) {
     if (gspScreensaver) {
         gspScreensaver->drawPreview(myContext);
@@ -155,21 +153,15 @@ CScreensaver::CScreensaver() {
     m_dwBlankTime = 0;
     m_bErrorMode = false;
     m_hrError = 0;
-    m_StatusMessageUpdated = false;
     // Display first status update after 5 seconds
-    m_iStatusUpdateCounter = ((STATUSUPDATEINTERVAL-5) * TEXTLOGOFREQUENCY);
     m_iGraphicsStartingMsgCounter = 0;
-    m_iLastResultShown = 0;
-    m_tLastResultChangeCounter = ((STATUSRESULTCHANGETIME-5) * TEXTLOGOFREQUENCY);
     saverState = SaverState_Idle;
     m_wasAlreadyRunning = false;
     m_CoreClientPID = nil;
-    m_MsgBuf[0] = 0;
     setSSMessageText(0);
     m_CurrentBannerMessage = 0;
     m_QuitDataManagementProc = false;
     m_BrandText = "BOINC";
-    m_updating_results = false;
     
     m_hDataManagementThread = NULL;
     m_hGraphicsApplication = NULL;
@@ -324,16 +316,6 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
     pid_t myPid;
     OSStatus err;
     
-    m_iStatusUpdateCounter++;
-    m_tLastResultChangeCounter++;
-
-    // Tell the calling routine to set the frame rate to NOTEXTLOGOFREQUENCY if 
-    // NSWindowList indicates that default app graphics window has covered our window.
-    // See comment below for more details.
-    if (m_bDefault_ss_exists) {
-        *coveredFreq = NOTEXTLOGOFREQUENCY;
-    }
-
     switch (saverState) {
     case SaverState_RelaunchCoreClient:
         err = initBOINCApp();
@@ -379,58 +361,9 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
             setSSMessageText(ConnectedCCMsg);
             break;  // No status response yet from DataManagementProc
         case SCRAPPERR_SCREENSAVERBLANKED:
-        default:
             setSSMessageText(0);   // No text message
             break;
-        case SCRAPPERR_BOINCSUSPENDED:
-            setSSMessageText(BOINCSuspendedMsg);
-            break;
-        case SCRAPPERR_BOINCNOAPPSEXECUTING:
-            setSSMessageText(BOINCNoAppsExecutingMsg);
-            break;
-        case SCRAPPERR_BOINCNOPROJECTSDETECTED:
-            setSSMessageText(BOINCNoProjectsDetectedMsg);
-            break;
-        case SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING:
-        case SCRAPPERR_SCREENSAVERRUNNING:
-#if ! ALWAYS_DISPLAY_PROGRESS_TEXT
-            // NOTE: My tests seem to confirm that the top window is always the first 
-            // window returned by NSWindowList under OS 10.5 and the second window 
-            // returned by NSWindowList under OS 10.3.9 and OS 10.4.  However, Apple's 
-            // documentation is unclear whether we can depend on this.  So I have 
-            // added some safety by doing two things:
-            // [1] Only use the NSWindowList test when we have started project or default 
-            //      graphics.
-            // [2] Assume that our window is covered 45 seconds after starting project 
-            //     graphics even if the NSWindowList test did not indicate that is so.
-            //
-            // The -animateOneFrame method in Mac_SaverModuleView.m does the NSWindowList test 
-            // only if we return a non-zero value for coveredFreq.
-            //
-            // Tell the calling routine to set the frame rate to NOTEXTLOGOFREQUENCY if 
-            // NSWindowList indicates that science app graphics window has covered our window.
-            *coveredFreq = NOTEXTLOGOFREQUENCY;
-            
-            if (m_iGraphicsStartingMsgCounter > 0) {
-                // Show ScreenSaverAppStartingMsg for GFX_STARTING_MSG_DURATION seconds or until 
-                // NSWindowList indicates that science app graphics window has covered our window
-                setSSMessageText(ScreenSaverAppStartingMsg);
-                m_iGraphicsStartingMsgCounter--;
-            } else {
-                // Don't waste CPU cycles when the science app is drawing over our window
-                setSSMessageText(0);   // No text message
-            }
-            break;
-#endif
-        case SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING:
-        case SCRAPPERR_DAEMONALLOWSNOGRAPHICS:
-            if (m_StatusMessageUpdated) {
-                setSSMessageText(m_MsgBuf);
-                updateSSMessageText(m_MsgBuf);
-                m_StatusMessageUpdated = false;
-            }
-            break;
-#if 0
+#if 0   // Not currently used
         case SCRAPPERR_QUITSCREENSAVERREQUESTED:
 //            setSSMessageText(BOINCExitedSaverMode);
             // Wait 1 second to allow ScreenSaver engine to close us down
@@ -440,11 +373,53 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
             }
             break;
 #endif
+        case SCRAPPERR_CANTLAUNCHDEFAULTGFXAPP:
+            setSSMessageText(CantLaunchDefaultGFXAppMsg);
+            break;
+        case SCRAPPERR_DEFAULTGFXAPPCANTCONNECT:
+            setSSMessageText(DefaultGFXAppCantRPCMsg);
+            break;
+         case SCRAPPERR_DEFAULTGFXAPPCRASHED:
+            setSSMessageText(DefaultGFXAppCrashedMsg);
+            break;
+        default:
+            // m_bErrorMode is TRUE if we should display moving logo (no graphics app is running)
+            // m_bErrorMode is FALSE if a graphics app was launched and has not exit
+            if (! m_bErrorMode) { 
+                // NOTE: My tests seem to confirm that the top window is always the first 
+                // window returned by NSWindowList under OS 10.5 and the second window 
+                // returned by NSWindowList under OS 10.3.9 and OS 10.4.  However, Apple's 
+                // documentation is unclear whether we can depend on this.  So I have 
+                // added some safety by doing two things:
+                // [1] Only use the NSWindowList test when we have started project or default 
+                //      graphics.
+                // [2] Assume that our window is covered 45 seconds after starting project 
+                //     graphics even if the NSWindowList test did not indicate that is so.
+                //
+                // The -animateOneFrame method in Mac_SaverModuleView.m does the NSWindowList test 
+                // only if we return a non-zero value for coveredFreq.
+                //
+                // Tell the calling routine to set the frame rate to NOTEXTLOGOFREQUENCY if 
+                // NSWindowList indicates that science app graphics window has covered our window.
+                *coveredFreq = NOTEXTLOGOFREQUENCY;
+                
+                if (m_iGraphicsStartingMsgCounter > 0) {
+                    // Show ScreenSaverAppStartingMsg for GFX_STARTING_MSG_DURATION seconds or until 
+                    // NSWindowList indicates that science app graphics window has covered our window
+                    setSSMessageText(ScreenSaverAppStartingMsg);
+                    m_iGraphicsStartingMsgCounter--;
+                } else {
+                    // Don't waste CPU cycles when the science app is drawing over our window
+                    setSSMessageText(0);   // No text message
+                }
+            }           // End if (! m_bErrorMode)
+            break;      // End default case of switch (m_hrError)
+            
         }       // end switch (m_hrError)
-        break;
+        break;  // End case SaverState_ConnectedToCoreClient of switch (saverState)
 
     case SaverState_ControlPanelTestMode:
-        setSSMessageText(BOINCTestmodeMsg);
+        setSSMessageText(BOINCTestModeMsg);
         break;
 
     case SaverState_UnrecoverableError:
@@ -462,6 +437,7 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
         break;      // Should never get here; fixes compiler warning
     }           // end switch (saverState)
 
+    
     if (m_MessageText[0]) {
         newFrequency = TEXTLOGOFREQUENCY;
     } else {
@@ -470,6 +446,11 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
     
     *theMessage = m_MessageText;
     return newFrequency;
+}
+
+
+void CScreensaver::windowIsCovered() {
+    m_iGraphicsStartingMsgCounter = 0;
 }
 
 
@@ -559,6 +540,7 @@ bool CScreensaver::CreateDataManagementThread() {
 }
 
 
+// TODO: Fix this so it still works if DataManagementProc is hung waiting for RPC
 bool CScreensaver::DestroyDataManagementThread() {
     m_QuitDataManagementProc = true;  // Tell DataManagementProc thread to exit
     if (m_hDataManagementThread) {  // Wait for DataManagementProc thread to exit
@@ -569,83 +551,20 @@ bool CScreensaver::DestroyDataManagementThread() {
 }
 
 
+//
 bool CScreensaver::SetError(bool bErrorMode, unsigned int hrError) {
+    // bErrorMode is TRUE if we should display moving logo (no graphics app is running)
+    // bErrorMode is FALSE if a graphics app was launched and has not exit
     m_bErrorMode = bErrorMode;
     m_hrError = hrError;
 
-    if (hrError == SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING) {
-        // Show ScreenSaverAppStartingMsg for GFX_STARTING_MSG_DURATION seconds
+    if (bErrorMode) {
+        // Reset our timer for showing ScreenSaverAppStartingMsg to 
+        // GFX_STARTING_MSG_DURATION seconds
         m_iGraphicsStartingMsgCounter = GFX_STARTING_MSG_DURATION * TEXTLOGOFREQUENCY;
-    }
-
-    if ((hrError == SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING)
-            || (hrError == SCRAPPERR_DAEMONALLOWSNOGRAPHICS)
-#if ALWAYS_DISPLAY_PROGRESS_TEXT
-            || (hrError == SCRAPPERR_SCREENSAVERRUNNING)
-#endif
-            )
-    {
-        UpdateProgressText(hrError);
     }
     return true;
 }
-
-void CScreensaver::UpdateProgressText(unsigned int hrError) {
-    int iResultCount;
-    int iIndex;
-    int iModIndex;
-    unsigned int len;
-    RESULT* theResult;
-    PROJECT* pProject;
-    char  statusBuf[2048];
-
-     if ( (m_iStatusUpdateCounter >= (STATUSUPDATEINTERVAL * TEXTLOGOFREQUENCY) ) && !m_updating_results ) {
-        if (! m_StatusMessageUpdated) {
-            m_iStatusUpdateCounter = 0;
-            strcpy(m_MsgBuf, hrError == SCRAPPERR_DAEMONALLOWSNOGRAPHICS ? 
-                    BOINCV5GFXDaemonMsg : BOINCNoGraphicAppsExecutingMsg
-            );
-
-        iResultCount = results.results.size();
-        theResult = NULL;
-        for (iIndex = 0; iIndex < iResultCount; iIndex++) {
-            // cycle through the active results starting from the last one
-            iModIndex = (iIndex + m_iLastResultShown+1) % iResultCount;
-            theResult = results.results.at(iModIndex);
-            // The get_state rpc is time-consuming, so we assume the list of 
-            // attached projects does not change while the screensaver is active.
-            pProject = state.lookup_project(theResult->project_url);
-            if (pProject != NULL) {
-                RESULT* pResult = state.lookup_result(pProject, results.results.at(iModIndex)->name);
-                if ( pResult != NULL ) {
-                    len = snprintf(statusBuf, sizeof(statusBuf), 
-                        "\nComputing for %s\nApplication: %s\nTask: %s\n%.2f%% complete\n",
-                        pProject->project_name.c_str(),
-                        pResult->app->user_friendly_name.c_str(),
-                        pResult->wu_name.c_str(),
-                        results.results.at(iModIndex)->fraction_done*100 
-                    );
-                    
-                    strlcat(m_MsgBuf, statusBuf, sizeof(m_MsgBuf));
-                    if (m_tLastResultChangeCounter >= (STATUSRESULTCHANGETIME * TEXTLOGOFREQUENCY)) {
-                        m_iLastResultShown = iModIndex;
-                        m_tLastResultChangeCounter = 0;
-                    }
-                    break;
-                } else {
-                    HandleRPCError();
-                    return;
-                }
-            } else {          // (pProject == NULL): re-synch with client
-                 HandleRPCError();
-                 return;
-            }
-        }           // end for() loop
-                m_StatusMessageUpdated = true;
-        }   // end if (! m_StatusMessageUpdated)
-    }                   // end if (m_iStatusUpdateCounter > time to update)
-}
-
 
 void CScreensaver::setSSMessageText(const char * msg) {
     if (msg == 0)
@@ -791,18 +710,21 @@ OSErr CScreensaver::KillScreenSaver() {
 
 void print_to_log_file(const char *format, ...) {
 #if CREATE_LOG
-    FILE *f;
     va_list args;
     char buf[256];
     time_t t;
+#if USE_SPECIAL_LOG_FILE
     strcpy(buf, getenv("HOME"));
     strcat(buf, "/Documents/test_log.txt");
+    FILE *f;
     f = fopen(buf, "a");
     if (!f) return;
 
-//  freopen(buf, "a", stdout);
-//  freopen(buf, "a", stderr);
-
+  freopen(buf, "a", stdout);
+  freopen(buf, "a", stderr);
+#else
+    #define f stderr
+#endif
     time(&t);
     strcpy(buf, asctime(localtime(&t)));
     strip_cr(buf);
@@ -815,8 +737,10 @@ void print_to_log_file(const char *format, ...) {
     va_end(args);
     
     fputs("\n", f);
+#if USE_SPECIAL_LOG_FILE
     fflush(f);
     fclose(f);
+#endif
 #endif
 }
 
@@ -835,6 +759,7 @@ void strip_cr(char *buf)
 #endif	// CREATE_LOG
 
 void PrintBacktrace(void) {
+// Dummy routine to satisfy linker
 }
 
 const char *BOINC_RCSID_7ce0778d35="$Id$";

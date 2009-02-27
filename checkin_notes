@@ -2334,3 +2334,17 @@ David  26 Feb 2009
 
     client/
         boinc_cmd.cpp
+
+Charlie 27 Feb 2009
+	- screensaver: remove from the coordinator error codes and messages 
+        which will now be handled by default graphics app, add new error 
+        codes for problems in default graphics app.
+    - Mac screensaver: improve logic to stop drawing BOINC logo when a 
+        graphics app covers coordinator window.
+    
+    clientscr/
+        mac_saver_module.cpp
+        Mac_Saver_Module.h
+        Mac_Saver_ModuleView.m, .h
+        screensaver.cpp, .h
+        screensaver_win.h

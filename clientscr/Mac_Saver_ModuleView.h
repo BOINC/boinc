@@ -39,6 +39,7 @@
 
 int initBOINCSaver(void);
 int getSSMessage(char **theMessage, int* coveredFreq);
+void windowIsCovered();
 void drawPreview(CGContextRef myContext);
 void closeBOINCSaver(void);
 extern void print_to_log_file(const char *format, ...);

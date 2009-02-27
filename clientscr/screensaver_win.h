@@ -203,7 +203,6 @@ protected:
     CC_STATE        state;
     RESULTS         results;
     RESULT          m_running_result;
-    bool            m_updating_results;
 
     HANDLE          m_hDataManagementThread;
     HANDLE          m_hGraphicsApplication;

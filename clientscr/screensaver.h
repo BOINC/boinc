@@ -35,6 +35,7 @@ enum SS_PHASE {
 // Error / status codes
 //-----------------------------------------------------------------------------
 
+// These codes are no longer used by the Mac:
 #define SCRAPPERR_BOINCNOTDETECTED                          0x82000001
 #define SCRAPPERR_BOINCNOTDETECTEDSTARTUP                   0x82000002
 #define SCRAPPERR_BOINCSUSPENDED                            0x82000003
@@ -42,13 +43,20 @@ enum SS_PHASE {
 #define SCRAPPERR_BOINCNOAPPSEXECUTING                      0x82000005
 #define SCRAPPERR_BOINCNOPROJECTSDETECTED                   0x82000006
 #define SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING              0x82000007  
-#define SCRAPPERR_BOINCSCREENSAVERLOADING                   0x82000008
 #define SCRAPPERR_BOINCAPPFOUNDGRAPHICSLOADING              0x82000009
 #define SCRAPPERR_BOINCSHUTDOWNEVENT                        0x8200000a
 #define SCRAPPERR_NOPREVIEW                                 0x8200000f
 #define SCRAPPERR_DAEMONALLOWSNOGRAPHICS                    0x82000010
 #define SCRAPPERR_SCREENSAVERRUNNING                        0x82000011
-#define SCRAPPERR_SCREENSAVERBLANKED                        0x82000012
 #define SCRAPPERR_QUITSCREENSAVERREQUESTED                  0x82000013
+
+// The following are still used by the Mac:
+#define SCRAPPERR_BOINCSCREENSAVERLOADING                   0x82000008
+#define SCRAPPERR_SCREENSAVERBLANKED                        0x82000012
+// The following are new codes used by the Mac:
+#define SCRAPPERR_CANTLAUNCHDEFAULTGFXAPP                   0x82000014
+#define SCRAPPERR_DEFAULTGFXAPPCANTCONNECT                  0x82000015
+#define SCRAPPERR_DEFAULTGFXAPPCRASHED                      0x82000016
+
 
 #endif
