@@ -154,7 +154,6 @@ AC_CACHE_CHECK([$tmp_msg],
     sah_static_checklibs="lib$1.${LIBEXT} $1.${LIBEXT} -l$1"
   fi
   if test "${using_libtool}" = "yes" ; then
-    echo ac_link=$ac_link
     ac_sv_link="$ac_link"
     ac_link="./libtool --mode=link ${ac_link}"
     sah_static_checklibs="lib$1.la $1.la ${sah_static_checklibs}"
@@ -247,7 +246,6 @@ AC_CACHE_CHECK([$tmp_msg],
     sah_dynamic_checklibs="-l$1"
   fi
   if test "${using_libtool}" = "yes" ; then
-    echo ac_link=$ac_link
     ac_sv_link="$ac_link"
     ac_link="./libtool --mode=link ${ac_link}"
     sah_dynamic_checklibs="lib$1.la $1.la ${sah_dynamic_checklibs}"
