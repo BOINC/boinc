@@ -2425,3 +2425,9 @@ David  1 Mar 2009
             stats_sites.inc
         user/
             edit_form_preferences_form.php
+
+David  1 Mar 2009
+    - web: fix buggy changeset 17278
+
+    html/user/
+        edit_form_preferences_form.php

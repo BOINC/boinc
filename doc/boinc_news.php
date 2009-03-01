@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("March 1, 2009",
+    "<a href=http://www.unitedboinc.com/>United BOINC</a>
+    now offers <a href=http://www.unitedboinc.com/news-sig/>signature images</a>
+    containing the latest news from your choice of projects.
+    "
+),
 array("February 27, 2009",
     "We have rolled back to 6.4.5 for our latest stable version until 6.4.7 can be built. Something happened to 6.4.6 on our mirrors."
 ),

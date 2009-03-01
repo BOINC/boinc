@@ -40,8 +40,8 @@ echo "<script type=\"text/javascript\">
     </script>
 ";
 
-echo "<form method=\"post\" action=\"edit_forum_preferences_action.php\" enctype=\"multipart/form-data\">";
 start_table();
+echo "<form method=\"post\" action=\"edit_forum_preferences_action.php\" enctype=\"multipart/form-data\">";
 
 // ------------ Notification -----------
 
@@ -200,12 +200,12 @@ row2("Filtered users".
 
 row1("Update");
 row2("Click here to update message board preferences", "<input type=submit value=\"Update\">");
+echo "</form>\n";
 row1("Reset");
 row2("Or click here to reset preferences to the defaults",
     "<form method=\"post\" action=\"edit_forum_preferences_action.php\"><input type=\"submit\" value=\"Reset\"><input type=\"hidden\" name=\"action\" value=\"reset_confirm\"></form>"
 );
 end_table();
-echo "</form>\n";
 page_tail();
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
