@@ -1,6 +1,9 @@
 <?
 
 $project_news = array(
+array("February 27, 2009",
+    "We have rolled back to 6.4.5 for our latest stable version until 6.4.7 can be built. Something happened to 6.4.6 on our mirrors."
+),
 array("February 17, 2009",
     "A new add-on program for Windows,
     <a href=http://boinc.berkeley.edu/addon_item.php?platform=win&item=http%3A%2F%2Fefmer.eu%2Fboinc%2F>TThrottle</a>,
