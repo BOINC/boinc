@@ -62,7 +62,7 @@ $stats_sites = array(
     array(
         "http://stats.free-dc.org",
         "Free-DC",
-        "Includes non-BOINC projects and completed projects."
+        "(Includes non-BOINC projects and completed projects.)"
     ),
     array(
         "http://www.boincuk.com/globalprojectstats.php",
@@ -87,7 +87,7 @@ $stats_sites = array(
     ),
     array("http://www.dc-vault.com",
         "DC-Vault",
-        "Include non-BOINC projects"
+        "(Include non-BOINC projects)"
     ),
     array("http://www.seti.nl/boinc_team.php",
         "SETI@Netherlands stats page",
@@ -133,11 +133,11 @@ $sig_sites = array(
     array(
         "http://www.boincuk.com/show3.php",
         "BOINC UK",
-        "Highly configurable!"
+        "(Highly configurable!)"
     ),
     array("http://boinc.mundayweb.com/",
         "http://boinc.mundayweb.com",
-        "User-configurable stats counters. Cool!"
+        "(User-configurable stats counters. Cool!)"
     ),
     array("http://www.bigbee.be/comp/boinc/",
         "boinc.be",
@@ -150,7 +150,12 @@ $sig_sites = array(
     array(
         "http://www.allprojectstats.com/signature.php",
         "BOINC All Project Stats",
-        "Signature files for both users and teams"
+        "(Signature files for both users and teams)"
+    ),
+    array(
+        "http://www.unitedboinc.com/news-sig/",
+        "United BOINC",
+        "(Images showing the latest news from your choice of projects)"
     ),
 );
 

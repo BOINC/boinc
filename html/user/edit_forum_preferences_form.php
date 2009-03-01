@@ -93,9 +93,11 @@ if (!$user->prefs->no_signature_by_default){
 $signature=$user->prefs->signature;
 $maxlen=250;
 row2(
-    "Signature for message board posts<br>
-    <span class=note>Max length is $maxlen chars.</span>".
-    html_info(),
+    "Signature for message board posts"
+    .html_info()
+    ."<br><br>Check out <a href=http://boinc.berkeley.edu/links.php#sigs>various free services</a>
+    <br> providing dynamic 'signature images'
+    <br> showing your latest credit info, project news, etc.",
     "<textarea name=\"signature\" rows=4 cols=50 id=\"signature\" onkeydown=\"textCounter(this.form.signature, this.form.remLen,$maxlen);\"
     onkeyup=\"textCounter(this.form.signature, this.form.remLen,250);\">".$signature."</textarea>
     <br><input name=\"remLen\" type=\"text\" id=\"remLen\" value=\"".($maxlen-strlen($signature))."\" size=\"3\" maxlength=\"3\" readonly> chars remaining

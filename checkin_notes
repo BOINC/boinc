@@ -2416,3 +2416,12 @@ David  1 Mar 2009
 
     client/
         work_fetch.cpp
+
+David  1 Mar 2009
+    - web: link to 3rd-party signature sources on community prefs page
+
+    html/
+        inc/
+            stats_sites.inc
+        user/
+            edit_form_preferences_form.php

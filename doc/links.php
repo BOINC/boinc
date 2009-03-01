@@ -80,7 +80,7 @@ echo "
 <ul>
 <li> <a href=#info>Help and Information</a>
 <li> <a href=#stats>Credit statistics</a>
-<li> <a href=#sigs>Credit-based signatures</a>
+<li> <a href=#sigs>Signature images</a>
 <li> <a href=#team_stats>Team statistics</a>
 <li> <a href=#status>Project status</a>
 <li> <a href=#misc>Miscellaneous</a>
@@ -111,10 +111,11 @@ shuffle($stats_sites);
 site_list($stats_sites);
 echo "
 <a name=sigs></a>
-<h3>Statistics signature images</h3>
+<h3>Signature images</h3>
 <p>
 The following sites offer dynamically-generated
-images showing your statistics in BOINC projects.
+images showing your statistics in BOINC projects,
+and/or news from projects.
 Use these in your email or message-board signature.
 ";
 shuffle($sig_sites);
