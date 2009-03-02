@@ -728,6 +728,7 @@ void CMainDocument::HandleCompletedRPC() {
                 exchangeBuf->global_prefs = arg1->global_prefs;
                 exchangeBuf->version_info = arg1->version_info;
                 exchangeBuf->executing_as_daemon = arg1->executing_as_daemon;
+                exchangeBuf->have_cuda = arg1->have_cuda;
             }
             break;
         case RPC_GET_RESULTS:

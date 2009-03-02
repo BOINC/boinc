@@ -2319,15 +2319,15 @@ David  26 Feb 2009
         cs_scheduler.cpp
 
 David  26 Feb 2009
-	- screensaver: show correct info if CPU throttling;
-		show correct window title;
-		show "no projects" message.
+    - screensaver: show correct info if CPU throttling;
+        show correct window title;
+        show "no projects" message.
 
-	api/
-		graphics2.h
-		graphics2_win.cpp
-	clientscr/
-		ss_app.cpp
+    api/
+        graphics2.h
+        graphics2_win.cpp
+    clientscr/
+        ss_app.cpp
 
 David  26 Feb 2009
     - boinccmd: make --get_messages output more readable
@@ -2336,7 +2336,7 @@ David  26 Feb 2009
         boinc_cmd.cpp
 
 Charlie 27 Feb 2009
-	- screensaver: remove from the coordinator error codes and messages 
+    - screensaver: remove from the coordinator error codes and messages 
         which will now be handled by default graphics app, add new error 
         codes for problems in default graphics app.
     - Mac screensaver: improve logic to stop drawing BOINC logo when a 
@@ -2350,10 +2350,10 @@ Charlie 27 Feb 2009
         screensaver_win.h
 
 David  27 Feb 2009
-	- manager: fix roundoff error in Advanced Prefs; fixes #613
+    - manager: fix roundoff error in Advanced Prefs; fixes #613
 
-	clientgui/
-		DlgAdvPreferences.cpp
+    clientgui/
+        DlgAdvPreferences.cpp
 
 Rom    27 Feb 2009
     - MGR: Make CTRL-SHIFT-A the accelerator in the simple GUI that
@@ -2440,4 +2440,19 @@ David  1 Mar 2009
         DlgItemProperties.cpp
     lib/
         gui_rpc_client.h
+        gui_rpc_client_ops.cpp
+
+David  2 Mar 2009
+    - fix bugs in the above.
+    - GUI RPC: remove unused items from get_state RPC: host_info, time_stats,
+        net_stats, host_venue
+
+    NOTE: any change to a GUI RPC struct requires changing AsyncRPC.cpp.
+    This is undesirable.
+
+    client/
+        cs_statefile.cpp
+    clientgui/
+        AsyncRPC.cpp
+    lib/
         gui_rpc_client_ops.cpp

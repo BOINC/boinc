@@ -789,12 +789,14 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
 
     f.printf("<client_state>\n");
 
+#if 0
     retval = host_info.write(f, false);
     if (retval) return retval;
     retval = time_stats.write(f, false);
     if (retval) return retval;
     retval = net_stats.write(f);
     if (retval) return retval;
+#endif
 
     for (j=0; j<projects.size(); j++) {
         PROJECT* p = projects[j];
@@ -821,14 +823,14 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         "<core_client_major_version>%d</core_client_major_version>\n"
         "<core_client_minor_version>%d</core_client_minor_version>\n"
         "<core_client_release>%d</core_client_release>\n"
-        "%s"
-        "%s",
+        "<executing_as_daemon>%d</executing_as_daemon>\n"
+        "<have_cuda>%d</have_cuda>\n",
         get_primary_platform(),
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
-        executing_as_daemon?"<executing_as_daemon/>\n":"",
-        work_fetch_no_new_work?"<work_fetch_no_new_work/>\n":""
+        executing_as_daemon?1:0,
+        coproc_cuda?1:0
     );
     for (i=0; i<platforms.size(); i++) {
         f.printf(
@@ -838,9 +840,11 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
 
     global_prefs.write(f);
 
+#if 0
     if (strlen(main_host_venue)) {
         f.printf("<host_venue>%s</host_venue>\n", main_host_venue);
     }
+#endif
 
     f.printf("</client_state>\n");
     return 0;
