@@ -2469,3 +2469,12 @@ Rom    2 Mar 2009
     
     openssl/
         <Various Files>
+
+David  2 Mar 2009
+    - scheduler: replace choose_download_url_by_timezone with
+        replace_download_url_by_timezone.
+
+    sched/
+        sched_timezone.cpp
+        sched_config.cpp,h
+        sched_send.cpp

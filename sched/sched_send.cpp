@@ -915,7 +915,7 @@ int add_wu_to_reply(
     if (avp) {
         APP_VERSION av2=*avp, *avp2=&av2;
         
-        if (config.choose_download_url_by_timezone) {
+        if (strlen(config.replace_download_url_by_timezone)) {
             process_av_timezone(avp, av2);
         }
         
@@ -941,7 +941,7 @@ int add_wu_to_reply(
         return retval;
     }
     wu3 = wu2;
-    if (config.choose_download_url_by_timezone) {
+    if (strlen(config.replace_download_url_by_timezone)) {
         process_wu_timezone(wu2, wu3);
     }
     

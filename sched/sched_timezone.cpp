@@ -27,6 +27,7 @@
 
 #include "server_types.h"
 #include "sched_msgs.h"
+#include "sched_config.h"
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
@@ -184,13 +185,13 @@ int make_download_list(char *buffer, char *path, int tz) {
     // Space is to format them nicely
     //
     for (i=0; strlen(serverlist[i].name); i++) {
-        start+=sprintf(start, "%s<url>%s/%s</url>", i?"\n    ":"", serverlist[i].name, path);
+        start+=sprintf(start, "%s<url>%s%s</url>", i?"\n    ":"", serverlist[i].name, path);
     }
 
     // make a second copy in the same order
     //
     for (i=0; strlen(serverlist[i].name); i++) {
-        start+=sprintf(start, "%s<url>%s/%s</url>", "\n    ", serverlist[i].name, path);
+        start+=sprintf(start, "%s<url>%s%s</url>", "\n    ", serverlist[i].name, path);
     }
     
     return (start-buffer);
@@ -205,12 +206,16 @@ int add_download_servers(char *old_xml, char *new_xml, int tz) {
 
     // search for next URL to do surgery on 
     while ((q=strstr(p, "<url>"))) {
+        // p is at current position
+        // q is at beginning of next "<url>" tag
+
         char *s;
         char path[1024];
         int len = q-p;
         
+        // copy everything from p to q to new_xml
+        //
         strncpy(new_xml, p, len);
-        
         new_xml += len;
         
         // locate next instance of </url>
@@ -220,29 +225,35 @@ int add_download_servers(char *old_xml, char *new_xml, int tz) {
         }
         r += strlen("</url>");
         
-        // parse out the URL
+        // r points to the end of the whole "<url>...</url>" tag
+        // parse out the URL into 'path'
         //
         if (!parse_str(q, "<url>", path, 1024)) {
             return 1;
         }
-        
-        // find start of 'download/'
+
+        // check if path contains the string specified in config.xml
         //
-        if (!(s=strstr(path,"download/"))) {
-            return 1;
+        if (!(s=strstr(path,config.replace_download_url_by_timezone))) {
+            // if it doesn't, just copy the whole tag as it is
+            strncpy(new_xml, q, r-q);
+            new_xml += r-q;
+            p=r;
+        } else {
+            // find end of the specified replace string,
+            // i.e. start of the 'path'
+            s += strlen(config.replace_download_url_by_timezone);
+            // insert new download list in place of the original single URL
+            //
+            len = make_download_list(new_xml, s, tz);
+            if (len<0) {
+                return 1;
+            }
+            new_xml += len;
+            // advance pointer to start looking for next <url> tag.
+            //
+            p=r;
         }
-        
-        // insert new download list in place of the original one
-        //
-        len = make_download_list(new_xml, s, tz);
-        if (len<0) {
-            return 1;
-        }
-        new_xml += len;
-        
-        // advance pointer to start looking for next <url> tag.
-        //
-        p = r;
     }
     
     strcpy(new_xml, r);

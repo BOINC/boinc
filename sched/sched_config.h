@@ -67,7 +67,7 @@ public:
     int min_core_client_version;
     int min_core_client_version_announced;
     int min_core_client_upgrade_deadline;
-    bool choose_download_url_by_timezone;
+    char replace_download_url_by_timezone[256];
     bool cache_md5_info;
     bool nowork_skip;
     bool resend_lost_results;
