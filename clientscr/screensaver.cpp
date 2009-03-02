@@ -20,7 +20,6 @@
 //
 #ifdef _WIN32
 #include "boinc_win.h"
-#include <windowsx.h>
 #endif
 
 #ifdef __APPLE__
