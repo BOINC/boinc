@@ -60,7 +60,7 @@ using std::string;
 
 // Useful arrays used as templates for arrays created at runtime.
 //
-int iTimeOfDayArraySize = 24;
+int iTimeOfDayArraySize = 25;
 wxString astrTimeOfDayStrings[] = {
     wxT("0:00"),
     wxT("1:00"),
@@ -211,7 +211,7 @@ BEGIN_EVENT_TABLE( CPanelPreferences, wxPanel )
     EVT_CHECKBOX( ID_CUSTOMIZEPREFERENCES, CPanelPreferences::OnCustomizePreferencesClick )
     EVT_COMBOBOX( ID_WORKBETWEENBEGIN, CPanelPreferences::OnWorkBetweenBeginSelected )
     EVT_COMBOBOX( ID_CONNECTBETWEENBEGIN, CPanelPreferences::OnConnectBetweenBeginSelected )
-    EVT_BUTTON(ID_SIMPLE_HELP, CPanelPreferences::OnButtonHelp)
+    EVT_BUTTON( ID_SIMPLE_HELP, CPanelPreferences::OnButtonHelp )
 ////@end CPanelPreferences event table entries
 END_EVENT_TABLE()
 
