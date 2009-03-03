@@ -48,6 +48,8 @@
 #define TEXTLOGOFREQUENCY 60 /* Number of times per second to update moving logo with text */
 #define NOTEXTLOGOFREQUENCY 4 /* Times per second to call animateOneFrame if no moving logo with text */
 #define GFX_STARTING_MSG_DURATION 45 /* seconds to show ScreenSaverAppStartingMsg */
+#define RPC_RETRY_INTERVAL 10 /* # of seconds between retries connecting to core client */
+
 
 enum SaverState {
     SaverState_Idle,
@@ -498,15 +500,17 @@ void * CScreensaver::DataManagementProcStub(void* param) {
 
 void CScreensaver::HandleRPCError() {
     static time_t last_RPC_retry = 0;
-
+    time_t now = time(0);
+   
     // Attempt to restart BOINC Client if needed, reinitialize the RPC client and state
     rpc->close();
     m_bConnected = false;
     
     if (saverState == SaverState_CantLaunchCoreClient) {
-        if ((time(0) - last_RPC_retry) < RPC_RETRY_INTERVAL) {
+        if ((now - last_RPC_retry) < RPC_RETRY_INTERVAL) {
             return;
         }
+        last_RPC_retry = now;
     } else {
         // There is a possible race condition where the Core Client was in the  
         // process of shutting down just as ScreenSaver started, so initBOINCApp() 
@@ -518,7 +522,14 @@ void CScreensaver::HandleRPCError() {
             m_bResetCoreState = true;
          }
     }
-        
+    
+    // If Core Client is hung, it might cause RPCs to hang, preventing us from 
+    // shutting down the Data Management Thread, so don't reinitialize the RPC 
+    // client if we have told the Data Management Thread to exit.
+    if (m_QuitDataManagementProc) {
+        return;
+    }
+    
     // Otherwise just reinitialize the RPC client and state and keep trying
     if (!rpc->init(NULL)) {
         m_bConnected = true;
@@ -535,6 +546,7 @@ bool CScreensaver::CreateDataManagementThread() {
             saverState = SaverState_UnrecoverableError;
             return false;
         }
+        pthread_detach(m_hDataManagementThread);
     }
     return true;
 }
@@ -542,10 +554,19 @@ bool CScreensaver::CreateDataManagementThread() {
 
 // TODO: Fix this so it still works if DataManagementProc is hung waiting for RPC
 bool CScreensaver::DestroyDataManagementThread() {
+    int i;
+    
     m_QuitDataManagementProc = true;  // Tell DataManagementProc thread to exit
-    if (m_hDataManagementThread) {  // Wait for DataManagementProc thread to exit
-        pthread_join(m_hDataManagementThread, NULL);
-        m_hDataManagementThread = NULL;
+    
+    for (i=0; i<10; i++) {  // Wait up to 1 second for DataManagementProc thread to exit
+        if (m_hDataManagementThread == NULL) return true;
+        boinc_sleep(0.1);
+    }
+    rpc->close();    // In case DataManagementProc is hung waiting for RPC
+    m_hDataManagementThread = NULL; // Don't delay more if this routine is called again.
+    if (m_hGraphicsApplication) {
+        terminate_screensaver(m_hGraphicsApplication, NULL);
+        m_hGraphicsApplication = 0;
     }
     return true;
 }

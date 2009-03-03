@@ -2524,3 +2524,13 @@ Charlie 3 Mar 2009
         setupForBOINC.sh
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 3 Mar 2009
+    - WINSCR: fix an error I introduced.
+    - Mac screensaver: logic to stop Data Management thread even if hung on 
+        an RPC.
+    
+    clientscr/
+        mac_saver_module.cpp
+        screensaver.cpp, .h
+        screensaver_win.cpp

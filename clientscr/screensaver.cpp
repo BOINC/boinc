@@ -463,6 +463,7 @@ void *CScreensaver::DataManagementProc()
                     previous_result_ptr = NULL;
                     m_hGraphicsApplication = 0;
                 }
+                m_hDataManagementThread = NULL; // Tell main thread that we exited
                 return 0;       // Exit the thread
             }
             boinc_sleep(0.25);
@@ -495,6 +496,7 @@ void *CScreensaver::DataManagementProc()
                 if (retval) {
                     // CC may not yet be running
                     HandleRPCError();
+                    continue;
                 } else {
                     m_bResetCoreState = false;
                 }

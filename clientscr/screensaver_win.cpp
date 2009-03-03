@@ -1115,17 +1115,8 @@ DWORD WINAPI CScreensaver::DataManagementProcStub(LPVOID UNUSED(lpParam)) {
 
 void CScreensaver::HandleRPCError()
 {
-    static time_t last_RPC_retry = 0;
-    time_t now = time(0);
-
     rpc->close();
     m_bConnected = false;
-    
-    if ((now - m_tThreadCreateTime) > 3) {
-        if ((now - last_RPC_retry) < RPC_RETRY_INTERVAL) {
-            return;
-        }
-    }
 
     // Attempt to reinitialize the RPC client and state
     if (!rpc->init(NULL)) {
@@ -1134,7 +1125,7 @@ void CScreensaver::HandleRPCError()
         return;
     }
 
-    if ((now - m_tThreadCreateTime) > 3) {
+    if ((time(0) - m_tThreadCreateTime) > 3) {
         SetError(TRUE, SCRAPPERR_BOINCNOTDETECTED);
     }
 }

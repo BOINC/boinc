@@ -29,8 +29,6 @@ enum SS_PHASE {
     SCIENCE_SS_PHASE
 };
 
-#define RPC_RETRY_INTERVAL 10 /* # of seconds between retries connecting to core client */
-
 //-----------------------------------------------------------------------------
 // Error / status codes
 //-----------------------------------------------------------------------------
