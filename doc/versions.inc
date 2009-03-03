@@ -70,10 +70,10 @@ $w66= array(
 );
 
 $w64= array(
-    "num"=>"6.4.5",
+    "num"=>"6.4.7",
     "status"=>"Recommended version",
-    "file"=>"boinc_6.4.5_windows_intelx86.exe",
-    "date"=>"24 Feb 2009",
+    "file"=>"boinc_6.4.7_windows_intelx86.exe",
+    "date"=>"3 Mar 2009",
     "type"=>"win_new",
 );
 
@@ -94,10 +94,10 @@ $w66x64= array(
 );
 
 $w64x64= array(
-    "num"=>"6.4.5",
+    "num"=>"6.4.7",
     "status"=>"Recommended version",
-    "file"=>"boinc_6.4.5_windows_x86_64.exe",
-    "date"=>"24 Feb 2009",
+    "file"=>"boinc_6.4.7_windows_x86_64.exe",
+    "date"=>"3 Mar 2009",
     "type"=>"win_new",
 );
 
