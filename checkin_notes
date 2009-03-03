@@ -1458,3 +1458,23 @@ David  25 Feb 2009
         client_state.cpp
         main.cpp
         scheduler_op.cpp
+
+David  25 Feb 2009
+    - boinccmd: fix bug in --set_proxy_settings command
+        (it wasn't setting the "use_XXX" flags).  Fixes #776
+    - client: you can now include a <proxy_info> element
+        in your cc_config.xml options.
+
+    TODO: the whole proxy info thing needs an overhaul:
+    - no separate "use_XXX" flags;
+        non-empty http_server_name implies using HTTP proxy, etc.
+    - merge PROXY_INFO and GR_PROXY_INFO classes
+    - use XML_PARSER for parsing
+    - no PROXY_INFO element in HTTP_OP; just use gstate.proxy_info
+
+    client/
+        boinc_cmd.cpp
+        http_curl.cpp
+    lib/
+        parse.h
+        proxy_info.cpp

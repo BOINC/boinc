@@ -366,6 +366,9 @@ int main(int argc, char** argv) {
         pi.socks5_user_name = next_arg(argc, argv, i);
         pi.socks5_user_passwd = next_arg(argc, argv, i);
         pi.noproxy_hosts = next_arg(argc, argv, i);
+        if (pi.http_server_name.size()) pi.use_http_proxy = true;
+        if (pi.http_user_name.size()) pi.use_http_authentication = true;
+        if (pi.socks_server_name.size()) pi.use_socks_proxy = true;
         retval = rpc.set_proxy_settings(pi);
     } else if (!strcmp(cmd, "--get_messages")) {
         int seqno = atoi(next_arg(argc, argv, i));

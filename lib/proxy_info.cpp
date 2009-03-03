@@ -38,9 +38,9 @@ int PROXY_INFO::parse(MIOFILE& in) {
     memset(this, 0, sizeof(PROXY_INFO));
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</proxy_info>")) return 0;
-        else if (match_tag(buf, "<use_http_proxy/>")) use_http_proxy = true;
-        else if (match_tag(buf, "<use_socks_proxy/>")) use_socks_proxy = true;
-        else if (match_tag(buf, "<use_http_auth/>")) use_http_auth = true;
+        else if (parse_bool(buf, "use_http_proxy", use_http_proxy)) continue;
+        else if (parse_bool(buf, "use_socks_proxy", use_socks_proxy)) continue;
+        else if (parse_bool(buf, "use_http_auth", use_http_auth)) continue;
         else if (parse_int(buf, "<socks_version>", socks_version)) continue;
         else if (parse_str(buf, "<socks_server_name>", socks_server_name, sizeof(socks_server_name))) continue;
         else if (parse_int(buf, "<socks_server_port>", socks_server_port)) continue;
