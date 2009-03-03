@@ -1438,3 +1438,13 @@ Charlie 2 Mar 2009
         hostinfo_unix.cpp
     lib/
         hostinfo.h
+
+Charlie 3 Mar 2009
+    - Mac: Update libCurl to 7.19.4.
+
+    mac_build/
+        buildcurl.sh
+        HowToBuildBOINC_XCode.rtf
+        setupForBOINC.sh
+        boinc.xcodeproj/
+            project.pbxproj
