@@ -1115,44 +1115,43 @@ bool HOST_INFO::users_idle(
             // Do this here because NXOpenEventStatus() may not be available 
             // immediately on system startup when running as a deaemon.
             
-            if (TickCount() > (120*60)) {        // If system has been up for more than 2 minutes 
-                 msg_printf(NULL, MSG_USER_ERROR,
-                    "User idle detection is disabled: initialization failed."
-                );
-                error_posted = true;
-                goto bail;
-            }
-            
             gEventHandle = NXOpenEventStatus();
+            if (!gEventHandle) {
+                if (TickCount() > (120*60)) {        // If system has been up for more than 2 minutes 
+                     msg_printf(NULL, MSG_USER_ERROR,
+                        "User idle detection is disabled: initialization failed."
+                    );
+                    error_posted = true;
+                    goto bail;
+                }
+            }
         }
     } else {        // NXIdleTime API does not exist in OS 10.6 and later
         if (gEventHandle) {
             kernResult = IOHIDGetParameter( gEventHandle, CFSTR(EVSIOIDLE), sizeof(UInt64), &params, &rcnt );
             if ( kernResult != kIOReturnSuccess ) {
-                if (!error_posted) {
-                    msg_printf(NULL, MSG_USER_ERROR,
-                        "User idle time measurement failed because IOHIDGetParameter failed."
-                    );
-                    error_posted = true;
-                }
+                msg_printf(NULL, MSG_USER_ERROR,
+                    "User idle time measurement failed because IOHIDGetParameter failed."
+                );
+                error_posted = true;
                 goto bail;
             }
             idleTime = ((double)params) / 1000.0 / 1000.0 / 1000.0;
         } else {
-            // When the system first starts up, allow time for HIDSystem to be available if needed
-            if (TickCount() > (120*60)) {        // If system has been up for more than 2 minutes 
-                 msg_printf(NULL, MSG_USER_ERROR,
-                    "Could not connect to HIDSystem: user idle detection is disabled."
-                );
-                goto bail;
-            }
-            
             service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching(kIOHIDSystemClass));
-            if (service == 0) goto bail;
-
-            kernResult = IOServiceOpen(service, mach_task_self(), kIOHIDParamConnectType, &gEventHandle);
-            if (kernResult != KERN_SUCCESS) goto bail;
-
+            if (service) {
+                 kernResult = IOServiceOpen(service, mach_task_self(), kIOHIDParamConnectType, &gEventHandle);
+            }
+            if ( (!service) || (kernResult != KERN_SUCCESS) ) {
+                // When the system first starts up, allow time for HIDSystem to be available if needed
+                if (TickCount() > (120*60)) {        // If system has been up for more than 2 minutes 
+                     msg_printf(NULL, MSG_USER_ERROR,
+                        "Could not connect to HIDSystem: user idle detection is disabled."
+                    );
+                    error_posted = true;
+                    goto bail;
+                }
+            }
         }   // End gEventHandle == NULL
     }       // End NXIdleTime API does not exist
     
