@@ -2506,3 +2506,11 @@ David  2 Mar 2009
     sched/
         sched_config.cpp,h
         sched_locality.cpp
+
+Charlie 2 Mar 2009
+    - client: Revise Apple idle time detection for compatibility with OS 10.6.
+
+    client/
+        hostinfo_unix.cpp
+    lib/
+        hostinfo.h
