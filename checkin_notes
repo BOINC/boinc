@@ -1621,3 +1621,11 @@ David  27 Feb 2009
         cs_scheduler.cpp
         scheduler_op.cpp
         work_fetch.cpp
+
+David  27 Feb 2009
+    - client: RR sim FLOPS estimate for GPU jobs should reflect
+        fraction of time BOINC is running.
+
+    client/
+        rr_sim.cpp
+        work_fetch.cpp
