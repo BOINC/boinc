@@ -1650,3 +1650,18 @@ David  1 Mar 2009
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+David  2 Mar 2009
+    - fix bugs in the above.
+    - GUI RPC: remove unused items from get_state RPC: host_info, time_stats,
+        net_stats, host_venue
+
+    NOTE: any change to a GUI RPC struct requires changing AsyncRPC.cpp.
+    This is undesirable.
+
+    client/
+        cs_statefile.cpp
+    clientgui/
+        AsyncRPC.cpp
+    lib/
+        gui_rpc_client_ops.cpp

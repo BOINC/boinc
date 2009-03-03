@@ -1085,11 +1085,6 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
             }
             if (match_tag(buf, "</client_state>")) break;
 
-            // the following are to handle responses from pre-5.6 core clients
-            // remove them 6/07
-            if (parse_int(buf, "<major_version>", state.version_info.major)) continue;
-            if (parse_int(buf, "<minor_version>", state.version_info.minor)) continue;
-            if (parse_int(buf, "<release>", state.version_info.release)) continue;
             if (parse_bool(buf, "executing_as_daemon", state.executing_as_daemon)) continue;
             if (parse_bool(buf, "have_cuda", state.have_cuda)) continue;
             if (match_tag(buf, "<project>")) {
