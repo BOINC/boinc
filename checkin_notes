@@ -1629,3 +1629,14 @@ David  27 Feb 2009
     client/
         rr_sim.cpp
         work_fetch.cpp
+
+David  1 Mar 2009
+    - client: if we're going to do a scheduler RPC for reasons
+        other than work fetch (e.g., user request, project request)
+        temporarily clear resource backoffs while deciding
+        whether to request work.
+        The backoffs are there only to delay RPCs,
+        and we're going an RPC anyway.
+
+    client/
+        work_fetch.cpp

@@ -349,9 +349,17 @@ void WORK_FETCH::compute_work_request(PROJECT* p) {
         return;
     }
 
-    // see if this is the project we'd ask for work anyway
+    // See if this is the project we'd ask for work anyway.
+    // Temporarily clear resource backoffs,
+    // since we're going to contact this project in any case.
     //
+    double cpu_save = p->cpu_pwf.backoff_time;
+    double cuda_save = p->cuda_pwf.backoff_time;
+    p->cpu_pwf.backoff_time = 0;
+    p->cuda_pwf.backoff_time = 0;
     PROJECT* pbest = choose_project();
+    p->cpu_pwf.backoff_time = cpu_save;
+    p->cuda_pwf.backoff_time = cuda_save;
     if (p == pbest) return;
 
     // if not, don't request any work
