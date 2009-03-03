@@ -1664,6 +1664,8 @@ void CLIENT_STATE::check_clock_reset() {
 void CLIENT_STATE::start_abort_sequence() {
     unsigned int i;
 
+    in_abort_sequence = true;
+
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
         rp->project->sched_rpc_pending = RPC_REASON_USER_REQ;
@@ -1674,6 +1676,10 @@ void CLIENT_STATE::start_abort_sequence() {
         } else {
             rp->abort_inactive(ERR_ABORTED_ON_EXIT);
         }
+    }
+    for (i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        p->min_rpc_time = 0;
     }
 }
 

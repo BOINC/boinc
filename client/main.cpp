@@ -512,7 +512,6 @@ int boinc_main_loop() {
                     msg_printf(NULL, MSG_INFO,
                         "Exit requested; starting abort sequence"
                     );
-                    gstate.in_abort_sequence = true;
                     gstate.start_abort_sequence();
                 }
             } else {

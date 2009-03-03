@@ -144,6 +144,10 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
 void SCHEDULER_OP::backoff(PROJECT* p, const char *reason_msg) {
     char buf[1024];
 
+    if (gstate.in_abort_sequence) {
+        return;
+    }
+
     if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
         sprintf(buf,
             "%d consecutive failures fetching scheduler list",
