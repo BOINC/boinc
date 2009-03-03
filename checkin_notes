@@ -1665,3 +1665,10 @@ David  2 Mar 2009
         AsyncRPC.cpp
     lib/
         gui_rpc_client_ops.cpp
+
+David  2 Mar 2009
+    - Manager: scheduling params are not defined for non-CPU-intensive projects;
+        don't show them.
+
+    clientgui/
+        DlgItemProperties.cpp
