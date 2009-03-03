@@ -84,7 +84,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     int result_id = boinc_db.insert_id();
     DB_RESULT result;
     retval = result.lookup_id(result_id);
-    add_result_to_reply(result, wu, bavp);
+    add_result_to_reply(result, wu, bavp, false);
 
     // if this is a one-job assignment, fill in assignment.resultid
     // so that it doesn't get sent again

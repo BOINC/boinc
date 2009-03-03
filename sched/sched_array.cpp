@@ -277,7 +277,7 @@ void scan_work_array() {
             goto done;
         }
 
-        retval = add_result_to_reply(result, wu, bavp);
+        retval = add_result_to_reply(result, wu, bavp, false);
 
         // add_result_to_reply() fails only in fairly pathological cases -
         // e.g. we couldn't update the DB record or modify XML fields.

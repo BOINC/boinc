@@ -2534,3 +2534,14 @@ Charlie 3 Mar 2009
         mac_saver_module.cpp
         screensaver.cpp, .h
         screensaver_win.cpp
+
+David  3 Mar 2009
+    - scheduler: add locality_scheduling arg to add_result_to_reply();
+        eliminate the need to diddle around with config.locality_scheduling.
+
+    sched/
+        sched_array.cpp
+        sched_assign.cpp
+        sched_locality.cpp
+        sched_resend.cpp
+        sched_send.cpp,h

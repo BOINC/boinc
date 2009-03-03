@@ -1081,7 +1081,10 @@ bool work_needed(bool locality_sched) {
     return false;
 }
 
-int add_result_to_reply(DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp) {
+int add_result_to_reply(
+    DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp,
+    bool locality_scheduling
+) {
     int retval;
     bool resent_result = false;
     APP* app = ssp->lookup_app(wu.appid);
@@ -1093,9 +1096,7 @@ int add_result_to_reply(DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp)
     // reduce the available space by LESS than the workunit rsc_disk_bound,
     // IF the host already has the file OR the file was not already sent.
     //
-    if (!config.locality_scheduling ||
-        decrement_disk_space_locality(wu)
-    ) {
+    if (!locality_scheduling || decrement_disk_space_locality(wu)) {
         g_wreq->disk_available -= wu.rsc_disk_bound;
     }
 
@@ -2020,7 +2021,7 @@ void JOB_SET::send() {
         result.id = wu_result.resultid;
         retval = read_sendable_result(result);
         if (!retval) {
-            add_result_to_reply(result, wu, job.bavp);
+            add_result_to_reply(result, wu, job.bavp, false);
         }
     }
 }

@@ -20,7 +20,8 @@
 extern void send_work();
 
 extern int add_result_to_reply(
-    DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp
+    DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp,
+    bool locality_scheduling
 );
 
 inline bool anonymous(PLATFORM* platform) {

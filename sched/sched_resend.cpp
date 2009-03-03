@@ -188,7 +188,7 @@ bool resend_lost_work() {
             );
             g_reply->insert_message(USER_MESSAGE(warning_msg, "high"));
         } else {
-            retval = add_result_to_reply(result, wu, bavp);
+            retval = add_result_to_reply(result, wu, bavp, false);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "[HOST#%d] failed to send [RESULT#%d]\n",

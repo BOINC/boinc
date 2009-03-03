@@ -297,7 +297,7 @@ static int possibly_send_result(DB_RESULT& result) {
         if (count > 0) return ERR_WU_USER_RULE;
     }
 
-    return add_result_to_reply(result, wu, bavp);
+    return add_result_to_reply(result, wu, bavp, true);
 }
 
 // returns true if the work generator can not make more work for this
