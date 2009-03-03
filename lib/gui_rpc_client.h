@@ -109,9 +109,11 @@ public:
     double min_rpc_time;           // earliest time to contact any server
     double short_term_debt;
     double cpu_long_term_debt;
-    double cuda_debt;
     double cpu_backoff_time;
+    double cpu_backoff_interval;
+    double cuda_debt;
     double cuda_backoff_time;
+    double cuda_backoff_interval;
     double duration_correction_factor;
 
     bool master_url_fetch_pending; // need to fetch and parse the master URL
@@ -331,6 +333,7 @@ public:
     GLOBAL_PREFS global_prefs;  // working prefs, i.e. network + override
     VERSION_INFO version_info;  // populated only if talking to pre-5.6 CC
     bool executing_as_daemon;   // true if Client is running as a service / daemon
+    bool have_cuda;
 
     CC_STATE();
     ~CC_STATE();

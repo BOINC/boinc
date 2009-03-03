@@ -197,8 +197,10 @@ int PROJECT::parse(MIOFILE& in) {
         if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
         if (parse_double(buf, "<long_term_debt>", cpu_long_term_debt)) continue;
         if (parse_double(buf, "<cpu_backoff_time>", cpu_backoff_time)) continue;
+        if (parse_double(buf, "<cpu_backoff_interval>", cpu_backoff_interval)) continue;
         if (parse_double(buf, "<cuda_debt>", cuda_debt)) continue;
         if (parse_double(buf, "<cuda_backoff_time>", cuda_backoff_time)) continue;
+        if (parse_double(buf, "<cuda_backoff_interval>", cuda_backoff_interval)) continue;
         if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         if (parse_bool(buf, "master_url_fetch_pending", master_url_fetch_pending)) continue;
         if (parse_int(buf, "<sched_rpc_pending>", sched_rpc_pending)) continue;
@@ -245,7 +247,11 @@ void PROJECT::clear() {
     min_rpc_time = 0;
     short_term_debt = 0;
     cpu_long_term_debt = 0;
+    cpu_backoff_time = 0;
+    cpu_backoff_interval = 0;
     cuda_debt = 0;
+    cuda_backoff_time = 0;
+    cuda_backoff_interval = 0;
     duration_correction_factor = 0;
     master_url_fetch_pending = false;
     sched_rpc_pending = 0;
@@ -620,6 +626,7 @@ void CC_STATE::clear() {
     results.clear();
     platforms.clear();
     executing_as_daemon = false;
+    have_cuda = false;
 }
 
 PROJECT* CC_STATE::lookup_project(string& str) {
@@ -1084,6 +1091,7 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
             if (parse_int(buf, "<minor_version>", state.version_info.minor)) continue;
             if (parse_int(buf, "<release>", state.version_info.release)) continue;
             if (parse_bool(buf, "executing_as_daemon", state.executing_as_daemon)) continue;
+            if (parse_bool(buf, "have_cuda", state.have_cuda)) continue;
             if (match_tag(buf, "<project>")) {
                 project = new PROJECT();
                 project->parse(rpc.fin);

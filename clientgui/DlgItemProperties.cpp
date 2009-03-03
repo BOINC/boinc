@@ -139,12 +139,18 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 	addProperty(_("CPU work fetch priority"),wxString::Format(wxT("%0.2f"), project->cpu_long_term_debt));
     if (project->cpu_backoff_time > dtime()) {
 		addProperty(_("CPU work fetch deferred for"), FormatTime(project->cpu_backoff_time - dtime()));
+    } else {
+        addProperty(_("CPU work fetch not deferred "), _(""));
     }
-    if (project->cuda_debt) {
+    addProperty(_("CPU work fetch deferral interval"), FormatTime(project->cpu_backoff_interval));
+    if (pDoc->state.have_cuda) {
         addProperty(_("NVIDIA GPU work fetch priority"),wxString::Format(wxT("%0.2f"), project->cuda_debt));
-    }
-    if (project->cuda_backoff_time > dtime()) {
-		addProperty(_("NVIDIA GPU work fetch deferred for"), FormatTime(project->cuda_backoff_time - dtime()));
+        if (project->cuda_backoff_time > dtime()) {
+            addProperty(_("NVIDIA GPU work fetch deferred for"), FormatTime(project->cuda_backoff_time - dtime()));
+        } else {
+            addProperty(_("NVIDIA GPU work fetch not deferred "), _(""));
+        }
+        addProperty(_("NVIDIA GPU work fetch deferral interval"), FormatTime(project->cuda_backoff_interval));
     }
 	addProperty(_("Duration correction factor"),wxString::Format(wxT("%0.4f"), project->duration_correction_factor));
 	m_gbSizer->Layout();
