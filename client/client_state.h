@@ -240,6 +240,7 @@ private:
     int link_workunit(PROJECT*, WORKUNIT*);
     int link_result(PROJECT*, RESULT*);
     void print_summary();
+    bool abort_unstarted_late_jobs();
     bool garbage_collect();
     bool garbage_collect_always();
     bool update_results();

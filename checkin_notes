@@ -1504,3 +1504,22 @@ David  25 Feb 2009
         cs_prefs.cpp
         cs_scheduler.cpp
         cpu_sched.cpp
+
+David  25 Feb 2009
+    - client: abort jobs that are unstarted and past deadline
+    - client: abort runaway jobs based on elapsed time instead of CPU time.
+        Specifically, abort jobs for which
+        elapsed time > WU.rsc_fpops_bound / app_version.flops
+        This policy works for
+        1) GPU jobs (which may use little CPU time)
+        2) jobs that run but because of bugs use little CPU time
+            (e.g., because they're sleeping)
+        whereas the old policy didn't.
+
+    client/
+        client_state.cpp,h
+        app.cpp,h
+        app_control.cpp
+    lib/
+        error_numbers.h
+        str_util.cpp

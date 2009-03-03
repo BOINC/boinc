@@ -919,12 +919,25 @@ int CLIENT_STATE::nresults_for_project(PROJECT* p) {
     return n;
 }
 
+bool CLIENT_STATE::abort_unstarted_late_jobs() {
+    if (now < 1235668593) return false; // skip if user reset system clock
+    for (unsigned int i=0; i<results.size(); i++) {
+        RESULT* rp = results[i];
+        if (!rp->not_started()) continue;
+        if (rp->report_deadline > now) continue;
+        rp->abort_inactive(ERR_UNSTARTED_LATE);
+    }
+}
+
 bool CLIENT_STATE::garbage_collect() {
+    bool action;
     static double last_time=0;
     if (gstate.now - last_time < GARBAGE_COLLECT_PERIOD) return false;
     last_time = gstate.now;
 
-    bool action = garbage_collect_always();
+    action = abort_unstarted_late_jobs();
+    if (action) return true;
+    action = garbage_collect_always();
     if (action) return true;
 
     // Detach projects that are marked for detach when done

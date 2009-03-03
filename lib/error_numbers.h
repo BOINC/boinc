@@ -187,8 +187,9 @@
 #define ERR_DB_CONN_LOST    -230
 #define ERR_CRYPTO          -231
 #define ERR_ABORTED_ON_EXIT -232
+#define ERR_UNSTARTED_LATE  -233
 
 // PLEASE: add a text description of your error to 
-// the text description function boincerror() in str_util.C.
+// the text description function boincerror() in str_util.cpp.
 
 #endif
