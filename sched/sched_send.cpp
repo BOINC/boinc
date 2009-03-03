@@ -1488,12 +1488,12 @@ static void send_work_old() {
     g_wreq->no_jobs_available = true;
     g_wreq->beta_only = false;
     g_wreq->user_apps_only = true;
+    g_wreq->infeasible_only = false;
 
     // give top priority to results that require a 'reliable host'
     //
     if (g_wreq->reliable) {
         g_wreq->reliable_only = true;
-        g_wreq->infeasible_only = false;
         scan_work_array();
     }
     g_wreq->reliable_only = false;
@@ -1674,7 +1674,6 @@ void send_work() {
             send_work_locality();
         }
     } else if (config.locality_scheduling) {
-        g_wreq->infeasible_only = false;
         send_work_locality();
     } else if (config.matchmaker) {
         send_work_matchmaker();
