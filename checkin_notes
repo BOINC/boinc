@@ -1672,3 +1672,9 @@ David  2 Mar 2009
 
     clientgui/
         DlgItemProperties.cpp
+
+Rom    2 Mar 2009
+    - Update to OpenSSL 0.9.8i for Win32 and Win64
+    
+    openssl/
+        <Various Files>
