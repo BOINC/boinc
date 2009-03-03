@@ -1586,3 +1586,38 @@ Rom    27 Feb 2009
 
     clientgui/
         sg_BoincSimpleGUI.cpp, .h
+
+David  27 Feb 2009
+    - client: fix bug that could cause scheduler RPC
+        to ask for work inappropriately,
+        and tell user that it wasn't asking for work.
+        Here's what was going on:
+        There are two different structures with work request fields
+        (req_secs, req_instances, estimated_delay):
+        COPROC_CUDA *coproc_cuda
+        and
+        RSC_WORK_FETCH cuda_work_fetch.
+        WORK_FETCH::choose_project() copied from cuda_work_fetch to coproc_cuda,
+        but only if a project was selected.
+        WORK_FETCH::clear_request() clears cuda_work_fetch but not coproc_cuda.
+
+        Scenario:
+        - a scheduler op is made to project A requesting X>0 secs of CUDA
+        - later, a scheduler op is made to project B for reason
+            other than work fetch (e.g., user request)
+        - choose_project() doesn't choose anything,
+            so the value of coproc_cuda->req_secs remains X
+        - clear_request() is called but that doesn't change *coproc_cuda
+
+        Solution: work-fetch code no longer knows about internals of
+            COPROC_CUDA and is not responsible for settings its request fields.
+            The copying of request fields from RSC_WORK_FETCH to COPROC
+            is done at a higher level,
+            in CLIENT_STATE::make_scheduler_request()
+
+        Additional bug fix: estimated_delay wasn't being cleared in some cases.
+
+    client/
+        cs_scheduler.cpp
+        scheduler_op.cpp
+        work_fetch.cpp
