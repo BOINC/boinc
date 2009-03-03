@@ -144,7 +144,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
         addProperty(_("CPU work fetch deferral interval"), FormatTime(project->cpu_backoff_interval));
         if (pDoc->state.have_cuda) {
             addProperty(_("NVIDIA GPU work fetch priority"),wxString::Format(wxT("%0.2f"), project->cuda_debt));
-            x = project->cuda_backoff_time > dtime();
+            x = project->cuda_backoff_time - dtime();
             if (x<0) x = 0;
             addProperty(_("NVIDIA GPU work fetch deferred for"), FormatTime(x));
             addProperty(_("NVIDIA GPU work fetch deferral interval"), FormatTime(project->cuda_backoff_interval));
