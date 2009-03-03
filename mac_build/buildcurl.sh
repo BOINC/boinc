@@ -18,14 +18,14 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh Universal Binary library of curl-7.19.2 for
+# Script to build Macintosh Universal Binary library of curl-7.19.4 for
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
-# Updated 1/20/09
+# Updated 3/3/09
 #
-## In Terminal, CD to the curl-7.19.2 directory.
-##     cd [path]/curl-7.19.2/
+## In Terminal, CD to the curl-7.19.4 directory.
+##     cd [path]/curl-7.19.4/
 ## then run this script:
 ##     source [path]/buildcurl.sh [ -clean ] [ -gcc33 ]
 ##
@@ -56,7 +56,7 @@ fi
 fi
 
 if [ $AlreadyBuilt -ne 0 ]; then
-    echo "curl-7.19.2 already built"
+    echo "curl-7.19.4 already built"
     return 0
 fi
 
