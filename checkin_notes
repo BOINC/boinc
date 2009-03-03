@@ -1430,3 +1430,11 @@ Charlie 25 Feb 2009
 
     clientscr/
         screensaver.cpp
+
+Charlie 2 Mar 2009
+    - client: Revise Apple idle time detection for compatibility with OS 10.6.
+
+    client/
+        hostinfo_unix.cpp
+    lib/
+        hostinfo.h
