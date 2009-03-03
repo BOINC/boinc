@@ -9922,3 +9922,11 @@ Rom    3 Mar 2009
     
     curl/
         <Various Files>
+
+Rom    3 Mar 2009
+    - Tag for 6.4.7 release, all platforms
+      boinc_core_release_6_4_7
+
+    /
+        configure.ac
+        version.h
