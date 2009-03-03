@@ -1529,3 +1529,12 @@ David  25 Feb 2009
 
     client/
         app_control.cpp
+
+Rom    25 Feb 2009
+    - MGR: Remove the ability to display graphics on a remote computer,
+        or from a remote computer on *nix machines using v5 graphics.
+        fixes #674
+        
+    clientgui/
+        ViewWork.cpp
+
