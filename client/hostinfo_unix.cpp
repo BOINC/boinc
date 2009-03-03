@@ -1101,7 +1101,7 @@ bool HOST_INFO::users_idle(
     static bool     error_posted = false;
     double          idleTime = 0;
     io_service_t    service;
-    kern_return_t   kernResult; 
+    kern_return_t   kernResult = kIOReturnError; 
     UInt64          params;
     IOByteCount     rcnt = sizeof(UInt64);
             
