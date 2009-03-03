@@ -594,7 +594,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
     char buf[256], result_name[256], project_master_url[256];
     int n, dummy;
     unsigned int i;
-    PROJECT* project;
+    PROJECT* project=0;
     double x;
 
     strcpy(result_name, "");
