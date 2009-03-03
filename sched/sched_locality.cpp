@@ -997,6 +997,25 @@ bool file_info_order(const FILE_INFO& fi1, const FILE_INFO& fi2) {
     return false;
 }
 
+bool is_sticky_file(char*fname) {
+    for (unsigned int i=0; i<config.locality_scheduling_sticky_file->size(); i++) {
+        if (!regexec(&((*config.locality_scheduling_sticky_file)[i]), fname, 0, NULL, 0)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+bool is_workunit_file(char*fname) {
+    for (unsigned int i=0; i<config.locality_scheduling_workunit_file->size(); i++) {
+        if (!regexec(&((*config.locality_scheduling_workunit_file)[i]), fname, 0, NULL, 0)) {
+            return true;
+        }
+    }
+    return false;
+}
+        
 void send_work_locality() {
     int i, nsent, nfiles, j;
 
@@ -1024,16 +1043,22 @@ void send_work_locality() {
                         strncmp("l1_", fname, 3) &&
                         strncmp("L1_", fname, 3)
                        );
-
+#if 0
         // here, put a list of patterns of ALL files that are still needed to be
         // sticky, but are not 'data' files for locality scheduling purposes, eg they
         // do not have associated WU with names FILENAME__*
         //
-        bool data_files = strncmp("grid_", fname, 5) && strncmp("skygrid_", fname, 8) && strncmp("Config_", fname, 7);
-        if (strlen(fname)==15 && !strncmp("l1_", fname, 3)) data_files = false;
+        bool data_files =
+            strncmp("grid_", fname, 5)
+            && strncmp("skygrid_", fname, 8)
+            && strncmp("Config_", fname, 7);
+        if (strlen(fname)==15 && !strncmp("l1_", fname, 3)) {
+            data_files = false;
+        }
+#endif
 
 
-        if (!useful) {
+        if (is_workunit_file(fname)) {
             // these files WILL be deleted from the host
             //
             g_request->files_not_needed.push_back(eah_copy[i]);
@@ -1043,7 +1068,7 @@ void send_work_locality() {
                     g_reply->host.id, fname
                 );
             }
-        } else if (!data_files) {
+        } else if (is_sticky_file(fname)) {
             // these files MIGHT be deleted from host if we need to make
             // disk space there
             //

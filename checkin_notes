@@ -2498,3 +2498,11 @@ David  2 Mar 2009
         handle_request.cpp
         sched_config.cpp,h
         sched_send.cpp
+
+David  2 Mar 2009
+    - scheduler: add <locality_scheduling_sticky_file>
+        and <locality_scheduling_workunit_file> options
+        From Bernd M.
+    sched/
+        sched_config.cpp,h
+        sched_locality.cpp

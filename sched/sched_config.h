@@ -64,6 +64,8 @@ public:
     int uldl_dir_levels;
     int locality_scheduling_wait_period;
     int locality_scheduling_send_timeout;
+    vector<regex_t> *locality_scheduling_workunit_file;
+    vector<regex_t> *locality_scheduling_sticky_file;
     double locality_scheduler_fraction;
     int min_core_client_version;
     int min_core_client_version_announced;

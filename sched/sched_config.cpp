@@ -54,6 +54,8 @@ int SCHED_CONFIG::parse(FILE* f) {
     memset(this, 0, sizeof(*this));
     ban_os = new vector<regex_t>;
     ban_cpu = new vector<regex_t>;
+    locality_scheduling_workunit_file = new vector<regex_t>;
+    locality_scheduling_sticky_file = new vector<regex_t>;
     max_wus_to_send = 10;
     default_disk_max_used_gb = 100.;
     default_disk_max_used_pct = 50.;
@@ -108,6 +110,24 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_int(tag, "uldl_dir_fanout", uldl_dir_fanout)) continue;
         if (xp.parse_int(tag, "locality_scheduling_wait_period", locality_scheduling_wait_period)) continue;
         if (xp.parse_int(tag, "locality_scheduling_send_timeout", locality_scheduling_send_timeout)) continue;
+        if (xp.parse_str(tag, "locality_scheduling_workunit_file", buf, sizeof(buf))) {
+            retval = regcomp(&re, buf, REG_EXTENDED|REG_NOSUB);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL, "BAD REGEXP: %s\n", buf);
+            } else {
+                locality_scheduling_workunit_file->push_back(re);
+            }
+            continue;
+        }
+        if (xp.parse_str(tag, "locality_scheduling_sticky_file", buf, sizeof(buf))) {
+            retval = regcomp(&re, buf, REG_EXTENDED|REG_NOSUB);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL, "BAD REGEXP: %s\n", buf);
+            } else {
+                locality_scheduling_sticky_file->push_back(re);
+            }
+            continue;
+        }
         if (xp.parse_double(tag, "locality_scheduler_fraction", locality_scheduler_fraction)) continue;
         if (xp.parse_int(tag, "min_core_client_version", min_core_client_version)) continue;
         if (xp.parse_int(tag, "min_core_client_version_announced", min_core_client_version_announced)) continue;
