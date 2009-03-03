@@ -1172,14 +1172,13 @@ bool CLIENT_STATE::garbage_collect_always() {
 
     // reference-count sticky files not marked for deletion
     //
-    fi_iter = file_infos.begin();
-    while (fi_iter != file_infos.end()) {
+    
+    for (fi_iter = file_infos.begin(); fi_iter!=file_infos.end(); fi_iter++) {
         fip = *fi_iter;
         if (!fip->sticky) continue;
         if (fip->status < 0) continue;
         if (fip->marked_for_delete) continue;
         fip->ref_cnt++;
-        fi_iter++;
     }
 
     // remove PERS_FILE_XFERs (and associated FILE_XFERs and HTTP_OPs)
