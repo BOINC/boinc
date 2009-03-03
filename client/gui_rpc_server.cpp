@@ -245,7 +245,7 @@ int GUI_RPC_CONN_SET::init(bool last_time) {
 #endif
         if (last_time) {
             msg_printf(NULL, MSG_INTERNAL_ERROR,
-                "GUI RPC bind to port %d failed: %d", addr.sin_port, retval
+                "GUI RPC bind to port %d failed: %d", htons(addr.sin_port), retval
             );
         }
         boinc_close_socket(lsock);

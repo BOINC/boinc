@@ -334,6 +334,7 @@ int PROJECT::parse_preferences_for_user_files() {
 //
 void CLIENT_STATE::read_global_prefs() {
     bool found_venue;
+    bool venue_specified_in_override = false;
     int retval;
     FILE* f;
     string foo;
@@ -341,6 +342,9 @@ void CLIENT_STATE::read_global_prefs() {
     retval = read_file_string(GLOBAL_PREFS_OVERRIDE_FILE, foo);
     if (!retval) {
         parse_str(foo.c_str(), "<host_venue>", main_host_venue, sizeof(main_host_venue));
+        if (strlen(main_host_venue)) {
+            venue_specified_in_override = true;
+        }
     }
 
     retval = global_prefs.parse_file(
@@ -359,14 +363,16 @@ void CLIENT_STATE::read_global_prefs() {
         }
         global_prefs.init();
     } else {
-        // check that the source project's venue matches main_host_venue.
-        // If not, read file again.
-        // This is a fix for cases where main_host_venue is out of synch
-        //
-        PROJECT* p = global_prefs_source_project();
-        if (p && strcmp(main_host_venue, p->host_venue)) {
-            strcpy(main_host_venue, p->host_venue);
-            global_prefs.parse_file(GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue);
+        if (!venue_specified_in_override) {
+            // check that the source project's venue matches main_host_venue.
+            // If not, read file again.
+            // This is a fix for cases where main_host_venue is out of synch
+            //
+            PROJECT* p = global_prefs_source_project();
+            if (p && strcmp(main_host_venue, p->host_venue)) {
+                strcpy(main_host_venue, p->host_venue);
+                global_prefs.parse_file(GLOBAL_PREFS_FILE_NAME, main_host_venue, found_venue);
+            }
         }
         show_global_prefs_source(found_venue);
     }

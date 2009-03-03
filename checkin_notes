@@ -1307,11 +1307,11 @@ David  20 Feb 2009
         work_fetch.cpp,h
 
 David  20 Feb 2009
-	- client: fix bug that can cause no GPU jobs to be scheduled
-		even when a GPU is free
+    - client: fix bug that can cause no GPU jobs to be scheduled
+        even when a GPU is free
 
-	client/
-		cpu_sched.cpp
+    client/
+        cpu_sched.cpp
 
 David  21 Feb 2009
     - client: tweak the LTD calculation so that the largest debt
@@ -1478,3 +1478,12 @@ David  25 Feb 2009
     lib/
         parse.h
         proxy_info.cpp
+
+David  25 Feb 2009
+    - client: if you put <host_venue> in global_prefs_override.xml,
+        it should select the venue from the network prefs.
+        Now it does.
+
+    client/
+        gui_rpc_server.cpp
+        cs_prefs.cpp
