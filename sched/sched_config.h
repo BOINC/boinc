@@ -64,6 +64,7 @@ public:
     int uldl_dir_levels;
     int locality_scheduling_wait_period;
     int locality_scheduling_send_timeout;
+    double locality_scheduler_fraction;
     int min_core_client_version;
     int min_core_client_version_announced;
     int min_core_client_upgrade_deadline;

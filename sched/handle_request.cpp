@@ -1212,7 +1212,7 @@ void process_request(char* code_sign_key) {
     }
 
     if (requesting_work()) {
-        if (config.locality_scheduling || config.enable_assignment) {
+        if (config.locality_scheduling || config.locality_scheduler_fraction || config.enable_assignment) {
             have_no_work = false;
         } else {
             lock_sema();
@@ -1475,7 +1475,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
         sreply.insert_message(USER_MESSAGE(buf, "low"));
     }
 
-    if (config.locality_scheduling && !sreply.nucleus_only) {
+    if ((config.locality_scheduling || config.locality_scheduler_fraction) && !sreply.nucleus_only) {
         send_file_deletes();
     }
 

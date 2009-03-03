@@ -68,7 +68,7 @@
 #define DEFAULT_SLEEP_INTERVAL 5
 #define RESULTS_PER_WU 4        // an estimate of redundancy 
 
-int id_modulus=0, id_remainder=0;
+int id_modulus=0, id_remainder=0, appid=0;
 bool dont_retry_errors = false;
 bool dont_delete_antiques = false;
 bool dont_delete_batches = false;
@@ -277,7 +277,10 @@ bool do_pass(bool retry_error) {
     if (dont_delete_batches) {
         strcat(clause, " and batch <= 0 ");
     }
-
+    if (appid) {
+        sprintf(buf, " and appid = %d ", appid);
+        strcat(clause, buf);
+    }
     sprintf(buf,
         "where file_delete_state=%d %s limit %d",
         retry_error?FILE_DELETE_ERROR:FILE_DELETE_READY,
@@ -592,6 +595,8 @@ int main(int argc, char** argv) {
             preserve_wu_files = true;
         } else if (!strcmp(argv[i], "-preserve_result_files")) {
             preserve_result_files = true;
+        } else if (!strcmp(argv[i], "-appid")) {
+            appid = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-mod")) {

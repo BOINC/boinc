@@ -25,8 +25,7 @@
 #include <cstdio>
 #include <cstring>
 #include <stdlib.h>
-
-
+#include <sys/time.h>
 #include <unistd.h>
 
 #include "error_numbers.h"
@@ -1665,7 +1664,15 @@ void send_work() {
         );
     }
 
-    if (config.locality_scheduling) {
+    if (config.locality_scheduler_fraction > 0) {
+        if (drand() < config.locality_scheduler_fraction) {
+            send_work_locality();
+            send_work_old();
+        } else {
+            send_work_old();
+            send_work_locality();
+        }
+    } else if (config.locality_scheduling) {
         g_wreq->infeasible_only = false;
         send_work_locality();
     } else if (config.matchmaker) {

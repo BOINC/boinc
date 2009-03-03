@@ -2473,6 +2473,7 @@ Rom    2 Mar 2009
 David  2 Mar 2009
     - scheduler: replace choose_download_url_by_timezone with
         replace_download_url_by_timezone.
+        From Bernd M.
 
     sched/
         sched_timezone.cpp
@@ -2484,3 +2485,15 @@ Rom    2 Mar 2009
     
     curl/
         <Various Files>
+
+David  2 Mar 2009
+    - scheduler/feeder: add <locality_scheduler_fraction> option;
+        lets you intermix locality and job-cache scheduling
+        From Bernd M.
+
+    sched/
+        feeder.cpp
+        handle_request.cpp
+        sched_config.cpp,h
+        sched_send.cpp
+
