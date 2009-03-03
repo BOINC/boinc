@@ -1556,3 +1556,13 @@ David  26 Feb 2009
         cpu_sched.cpp
     sched/
         handle_request.cpp
+
+David  26 Feb 2009
+    - client: shuffle the startup code to avoid showing wrong prefs info
+        on first-time startup.
+    - client: don't do an RPC until we've done CPU benchmarks.
+        We need the benchmark values to fill in app_version.flops
+
+    client/
+        client_state.cpp
+        cs_scheduler.cpp
