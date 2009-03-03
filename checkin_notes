@@ -1572,3 +1572,9 @@ David  26 Feb 2009
 
     client/
         boinc_cmd.cpp
+
+David  27 Feb 2009
+	- manager: fix roundoff error in Advanced Prefs; fixes #613
+
+	clientgui/
+		DlgAdvPreferences.cpp
