@@ -1640,23 +1640,6 @@ David  1 Mar 2009
 
     client/
         work_fetch.cpp
-<<<<<<< .working
-=======
-
-David  1 Mar 2009
-    - web: link to 3rd-party signature sources on community prefs page
-
-    html/
-        inc/
-            stats_sites.inc
-        user/
-            edit_form_preferences_form.php
-
-David  1 Mar 2009
-    - web: fix buggy changeset 17278
-
-    html/user/
-        edit_form_preferences_form.php
 
 David  1 Mar 2009
     - manager and GUI RPC: always show resource debt and backoff even if zero;
@@ -1667,4 +1650,3 @@ David  1 Mar 2009
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
->>>>>>> .merge-right.r17419
