@@ -1523,3 +1523,9 @@ David  25 Feb 2009
     lib/
         error_numbers.h
         str_util.cpp
+
+David  25 Feb 2009
+    - client: skip the above elapsed-time check for non-CPU-intensive jobs
+
+    client/
+        app_control.cpp
