@@ -100,6 +100,8 @@ void usage() {
 "     set debug output level (1/2/3)\n"
 "-mod M R\n"
 "     handle only WUs with ID mod M == R\n"
+"-appid ID\n"
+"     handle only WUs of a particular app\n"
 "-one_pass\n"
 "     instead of sleeping in 2), exit\n"
 "-dont_retry_error\n"
