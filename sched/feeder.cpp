@@ -27,8 +27,8 @@
 //  [ -mod n i ]          handle only results with (id mod n) == i
 //  [ -wmod n i ]         handle only workunits with (id mod n) == i
 //                        recommended if using HR with multiple schedulers
-//  [ -sleep_interval x ]   sleep x seconds if nothing to do
-//  [ -allapps ]  		  interleave results from all applications uniformly
+//  [ -sleep_interval x ] sleep x seconds if nothing to do
+//  [ -allapps ]          interleave results from all applications uniformly
 //  [ -purge_stale x ]    remove work items from the shared memory segment
 //                        that have been there for longer then x minutes
 //                        but haven't been assigned
@@ -238,10 +238,10 @@ static bool get_job_from_db(
     int& enum_phase,
     int& ncollisions
 ) {
-	bool collision;
-	int retval, j, enum_size;
+    bool collision;
+    int retval, j, enum_size;
     char select_clause[256];
-	
+    
     if (all_apps) {
         sprintf(select_clause, "%s and r1.appid=%d",
             mod_select_clause, ssp->apps[app_index].id
@@ -259,7 +259,7 @@ static bool get_job_from_db(
         } else {
             retval = wi.enumerate(enum_size, select_clause, order_clause);
         }
-    	if (retval) {
+        if (retval) {
             if (retval != ERR_DB_NOT_FOUND) {
                 // If DB server dies, exit;
                 // so /start (run from crontab) will restart us eventually.
@@ -282,12 +282,12 @@ static bool get_job_from_db(
                 enum_phase = ENUM_OVER;
                 return false;
             }
-			log_messages.printf(MSG_NORMAL,
-            	"restarted enumeration for appid %d\n",
+            log_messages.printf(MSG_NORMAL,
+                "restarted enumeration for appid %d\n",
                 ssp->apps[app_index].id
             );
         } else {
-        	// Check for invalid application ID
+            // Check for invalid application ID
             //
             if (!ssp->lookup_app(wi.wu.appid)) {
                 log_messages.printf(MSG_CRITICAL,
@@ -302,16 +302,16 @@ static bool get_job_from_db(
             collision = false;
             for (j=0; j<ssp->max_wu_results; j++) {
                 if (ssp->wu_results[j].state != WR_STATE_EMPTY && ssp->wu_results[j].resultid == wi.res_id) {
-                	// If the result is already in shared mem,
-                	// and another instance of the WU has been sent,
-                	// bump the infeasible count to encourage
-                	// it to get sent more quickly
-                	//
-                	if (ssp->wu_results[j].infeasible_count == 0) {
-                		if (wi.wu.hr_class > 0) {
-                			ssp->wu_results[j].infeasible_count++;
-                		}
-                	}
+                    // If the result is already in shared mem,
+                    // and another instance of the WU has been sent,
+                    // bump the infeasible count to encourage
+                    // it to get sent more quickly
+                    //
+                    if (ssp->wu_results[j].infeasible_count == 0) {
+                        if (wi.wu.hr_class > 0) {
+                            ssp->wu_results[j].infeasible_count++;
+                        }
+                    }
                     ncollisions++;
                     collision = true;
                     log_messages.printf(MSG_DEBUG,
@@ -336,9 +336,9 @@ static bool get_job_from_db(
                 }
             }
             return true;
-    	}
-	}
-	return false;   // never reached
+        }
+    }
+    return false;   // never reached
 }
 
 // This function decides the interleaving used for -allapps.
@@ -406,8 +406,8 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
     int app_index;
     int nadditions=0, ncollisions=0;
     
-  	for (i=0; i<napps; i++) {
-    	if (work_items[i].cursor.active) {
+      for (i=0; i<napps; i++) {
+        if (work_items[i].cursor.active) {
             enum_phase[i] = ENUM_FIRST_PASS;
         } else {
             enum_phase[i] = ENUM_SECOND_PASS;
@@ -422,20 +422,20 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
         app_index = app_indices[i];
         if (enum_phase[app_index] == ENUM_OVER) continue;
 
-    	DB_WORK_ITEM& wi = work_items[app_index];
+        DB_WORK_ITEM& wi = work_items[app_index];
         WU_RESULT& wu_result = ssp->wu_results[i];
         switch (wu_result.state) {
         case WR_STATE_PRESENT:
-       	  	if (purge_stale_time && wu_result.time_added_to_shared_memory < (time(0) - purge_stale_time)) {
-    			wu_result.state = WR_STATE_EMPTY;
-				log_messages.printf(MSG_NORMAL,
+                 if (purge_stale_time && wu_result.time_added_to_shared_memory < (time(0) - purge_stale_time)) {
+                wu_result.state = WR_STATE_EMPTY;
+                log_messages.printf(MSG_NORMAL,
                     "remove result [RESULT#%d] from slot %d because it is stale\n",
                     wu_result.resultid, i
                 );
                 // fall through, refill this array slot
             } else {
-            	break;
-        	}
+                break;
+            }
         case WR_STATE_EMPTY:
             found = get_job_from_db(
                 wi, app_index, enum_phase[app_index], ncollisions
@@ -454,9 +454,9 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
                 // so we set its infeasible_count to 1
                 //
                 if (wi.wu.hr_class > 0) {
-                	wu_result.infeasible_count = 1;
+                    wu_result.infeasible_count = 1;
                 } else {
-                	wu_result.infeasible_count = 0;
+                    wu_result.infeasible_count = 0;
                 }
                 // If using the reliable mechanism, then set the results for
                 // workunits older then the specificed time
@@ -677,6 +677,11 @@ int main(int argc, char** argv) {
             exit(1);
         }
     }
+
+#ifdef EINSTEIN_AT_HOME
+    // don't read locality scheduling workunits into the feeder
+    strcat(mod_select_clause, " and workunit.name not like \"%\\_\\_%\" ");
+#endif
 
     log_messages.printf(MSG_NORMAL, "Starting\n");
     show_version();

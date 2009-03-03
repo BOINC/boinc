@@ -2490,10 +2490,11 @@ David  2 Mar 2009
     - scheduler/feeder: add <locality_scheduler_fraction> option;
         lets you intermix locality and job-cache scheduling
         From Bernd M.
+    - file_deleter: add --appid option
 
     sched/
         feeder.cpp
+        file_deleter.cpp
         handle_request.cpp
         sched_config.cpp,h
         sched_send.cpp
-
