@@ -288,12 +288,12 @@ void CViewMessages::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
                 m_bIsFiltered = true;
                 for (iIndex = 0; iIndex < m_iTotalDocCount; iIndex++) {
                     message = wxGetApp().GetDocument()->message(iIndex);
-                    if (message->project == m_strFilteredProjectName) {
+                    if (message->project.empty() || (message->project == m_strFilteredProjectName)) {
                         m_iFilteredIndexes.Add(iIndex);
                     }
 
                 }
-            m_iFilteredDocCount = (int)(m_iFilteredIndexes.GetCount());
+                m_iFilteredDocCount = (int)(m_iFilteredIndexes.GetCount());
            }
         }
     }
