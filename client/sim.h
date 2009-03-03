@@ -188,7 +188,7 @@ private:
     bool must_check_work_fetch;
     void assign_results_to_projects();
     RESULT* largest_debt_project_best_result();
-    RESULT* earliest_deadline_result();
+    RESULT* earliest_deadline_result(bool);
     void reset_debt_accounting();
     bool possibly_schedule_cpus();
     void schedule_cpus();
@@ -318,3 +318,4 @@ extern bool work_fetch_old;
 #define DEBT_ADJUST_PERIOD CPU_SCHED_ENFORCE_PERIOD
     // debt is adjusted at least this often,
     // since adjust_debts() is called from enforce_schedule()
+#define HANDLE_FINISHED_APPS_PERIOD 1.0

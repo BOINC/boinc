@@ -976,30 +976,34 @@ bool CLIENT_STATE::enforce_schedule() {
             atp->scheduler_state = CPU_SCHED_PREEMPTED;
             break;
         case CPU_SCHED_SCHEDULED:
-            action = true;
-            retval = atp->resume_or_start(
-                atp->scheduler_state == CPU_SCHED_UNINITIALIZED
-            );
-            if ((retval == ERR_SHMGET) || (retval == ERR_SHMAT)) {
-                // Assume no additional shared memory segs
-                // will be available in the next 10 seconds
-                // (run only tasks which are already attached to shared memory).
-                //
-                if (gstate.retry_shmem_time < gstate.now) {
-                    request_schedule_cpus("no more shared memory");
-                }
-                gstate.retry_shmem_time = gstate.now + 10.0;
-                continue;
-            }
-            if (retval) {
-                report_result_error(
-                    *(atp->result), "Couldn't start or resume: %d", retval
+            switch (atp->task_state()) {
+            case PROCESS_UNINITIALIZED:
+            case PROCESS_SUSPENDED:
+                action = true;
+                retval = atp->resume_or_start(
+                    atp->scheduler_state == CPU_SCHED_UNINITIALIZED
                 );
-                request_schedule_cpus("start failed");
-                continue;
+                if ((retval == ERR_SHMGET) || (retval == ERR_SHMAT)) {
+                    // Assume no additional shared memory segs
+                    // will be available in the next 10 seconds
+                    // (run only tasks which are already attached to shared memory).
+                    //
+                    if (gstate.retry_shmem_time < gstate.now) {
+                        request_schedule_cpus("no more shared memory");
+                    }
+                    gstate.retry_shmem_time = gstate.now + 10.0;
+                    continue;
+                }
+                if (retval) {
+                    report_result_error(
+                        *(atp->result), "Couldn't start or resume: %d", retval
+                    );
+                    request_schedule_cpus("start failed");
+                    continue;
+                }
+                atp->run_interval_start_wall_time = now;
+                app_started = now;
             }
-            atp->run_interval_start_wall_time = now;
-            app_started = now;
             atp->scheduler_state = CPU_SCHED_SCHEDULED;
             swap_left -= atp->procinfo.swap_size;
             break;
