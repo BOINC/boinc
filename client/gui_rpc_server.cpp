@@ -278,7 +278,7 @@ static void show_connect_error(in_addr ia) {
         last_time = gstate.now;
         count = 1;
     } else {
-        if (gstate.now - last_time < 600) {
+        if (gstate.now - last_time < CONNECT_ERROR_PERIOD) {
             count++;
             return;
         }

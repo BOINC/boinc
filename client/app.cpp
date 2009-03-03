@@ -372,7 +372,7 @@ bool ACTIVE_TASK_SET::poll() {
     bool action;
     unsigned int i;
     static double last_time = 0;
-    if (gstate.now - last_time < 1.0) return false;
+    if (gstate.now - last_time < TASK_POLL_PERIOD) return false;
     last_time = gstate.now;
 
     action = check_app_exited();

@@ -510,4 +510,26 @@ extern void print_suspend_tasks_message(int);
     // debt is adjusted at least this often,
     // since adjust_debts() is called from enforce_schedule()
 
+#define GARBAGE_COLLECT_PERIOD  10
+    // how often to garbage collect
+
+#define TASK_POLL_PERIOD    1.0
+
+#define UPDATE_RESULTS_PERIOD   1.0
+
+#define HANDLE_FINISHED_APPS_PERIOD 1.0
+
+#define BENCHMARK_POLL_PERIOD   1.0
+
+#define PERS_FILE_XFER_START_PERIOD  1.0
+#define PERS_FILE_XFER_POLL_PERIOD  1.0
+
+#define SCHEDULER_RPC_POLL_PERIOD   5.0
+
+#define FILE_XFER_POLL_PERIOD   1.0
+
+#define GUI_HTTP_POLL_PERIOD    1.0
+
+#define CONNECT_ERROR_PERIOD    600.0
+
 #endif

@@ -342,7 +342,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     static double last_time = 0;
     if (!benchmarks_running) return false;
 
-    if (now < last_time + 1) return false;
+    if (now < last_time + BENCHMARK_POLL_PERIOD) return false;
     last_time = now;
 
     active_tasks.send_heartbeats();
