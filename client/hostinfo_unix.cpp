@@ -126,7 +126,6 @@ extern "C" {
 #endif
 
 mach_port_t gEventHandle = NULL;
-#include "util.h"
 #endif  // __APPLE__
 
 #ifdef _HPUX_SOURCE
@@ -1099,16 +1098,15 @@ inline bool user_idle(time_t t, struct utmp* u) {
 bool HOST_INFO::users_idle(
     bool check_all_logins, double idle_time_to_run, double *actual_idle_time
 ) {
-    static double   init_time = 0;
     static bool     error_posted = false;
     double          idleTime = 0;
     io_service_t    service;
     kern_return_t   kernResult; 
     UInt64          params;
     IOByteCount     rcnt = sizeof(UInt64);
-    
-    if (init_time == 0) init_time = dtime();
-        
+            
+    if (error_posted) goto bail;
+
     if (NXIdleTime) {   // Use NXIdleTime API in OS 10.5 and earlier
         if (gEventHandle) {
             idleTime = NXIdleTime(gEventHandle);    
@@ -1116,11 +1114,12 @@ bool HOST_INFO::users_idle(
             // Initialize Mac OS X idle time measurement / idle detection
             // Do this here because NXOpenEventStatus() may not be available 
             // immediately on system startup when running as a deaemon.
-            if ((dtime() - init_time) > 180) {              // Limit retries to 180 seconds
-                
+            
+            if (TickCount() > (120*60)) {        // If system has been up for more than 2 minutes 
                  msg_printf(NULL, MSG_USER_ERROR,
                     "User idle detection is disabled: initialization failed."
                 );
+                error_posted = true;
                 goto bail;
             }
             
@@ -1141,8 +1140,7 @@ bool HOST_INFO::users_idle(
             idleTime = ((double)params) / 1000.0 / 1000.0 / 1000.0;
         } else {
             // When the system first starts up, allow time for HIDSystem to be available if needed
-            if ((dtime() - init_time) > 180) {              // Limit retries to 180 seconds
-                
+            if (TickCount() > (120*60)) {        // If system has been up for more than 2 minutes 
                  msg_printf(NULL, MSG_USER_ERROR,
                     "Could not connect to HIDSystem: user idle detection is disabled."
                 );
