@@ -66,7 +66,7 @@ Commands:\n\
  --get_project_status               show status of all attached projects\n\
  --get_disk_usage                   show disk usage\n\
  --get_proxy_settings\n\
- --get_messages seqno               show messages > seqno\n\
+ --get_messages [ seqno ]           show messages > seqno\n\
  --get_host_info\n\
  --version, -V                      show core client version\n\
  --result url result_name op        job operation\n\
@@ -122,23 +122,13 @@ char* next_arg(int argc, char** argv, int& i) {
     return argv[i++];
 }
 
-
-// If there's a password file, read it
-//
-void read_password_from_file(char* buf) {
-	FILE* f = fopen("gui_rpc_auth.cfg", "r");
-	if (!f) return;
-	char* p = fgets(buf, 256, f);
-        if (p) {                // Fixes compiler warning
-            int n = (int)strlen(buf);
-
-            // trim CR
-            //
-            if (n && buf[n-1]=='\n') {
-                    buf[n-1] = 0;
-            }
-	}
-	fclose(f);
+char* prio_name(int prio) {
+    switch (prio) {
+    case 1: return "low";
+    case 2: return "medium";
+    case 3: return "high";
+    }
+    return "unknown";
 }
 
 int main(int argc, char** argv) {
@@ -152,7 +142,7 @@ int main(int argc, char** argv) {
     chdir_to_data_dir();
 #endif
 	strcpy(passwd_buf, "");
-	read_password_from_file(passwd_buf);
+	read_gui_rpc_password(passwd_buf);
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
     WSADATA wsdata;
@@ -371,15 +361,24 @@ int main(int argc, char** argv) {
         if (pi.socks_server_name.size()) pi.use_socks_proxy = true;
         retval = rpc.set_proxy_settings(pi);
     } else if (!strcmp(cmd, "--get_messages")) {
-        int seqno = atoi(next_arg(argc, argv, i));
+        int seqno;
+        if (i == argc) {
+            seqno = 0;
+        } else {
+            seqno = atoi(next_arg(argc, argv, i));
+        }
         retval = rpc.get_messages(seqno, messages);
         if (!retval) {
             unsigned int j;
             for (j=0; j<messages.messages.size(); j++) {
                 MESSAGE& md = *messages.messages[j];
-                printf("%s %d %d %s\n",
-                    md.project.c_str(), md.priority,
-                    md.timestamp, md.body.c_str()
+                strip_whitespace(md.body);
+                printf("%d: %s (%s) [%s] %s\n",
+                    md.seqno,
+                    time_to_string(md.timestamp),
+                    prio_name(md.priority),
+                    md.project.c_str(),
+                    md.body.c_str()
                 );
             }
         }

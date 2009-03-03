@@ -1566,3 +1566,9 @@ David  26 Feb 2009
     client/
         client_state.cpp
         cs_scheduler.cpp
+
+David  26 Feb 2009
+    - boinccmd: make --get_messages output more readable
+
+    client/
+        boinc_cmd.cpp
