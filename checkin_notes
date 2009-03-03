@@ -1578,3 +1578,11 @@ David  27 Feb 2009
 
 	clientgui/
 		DlgAdvPreferences.cpp
+
+Rom    27 Feb 2009
+    - MGR: Make CTRL-SHIFT-A the accelerator in the simple GUI that
+        switches back to the advanced view.
+        refs #147
+
+    clientgui/
+        sg_BoincSimpleGUI.cpp, .h

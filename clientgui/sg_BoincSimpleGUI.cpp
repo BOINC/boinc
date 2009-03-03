@@ -55,8 +55,9 @@ IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_SIZE(CSimpleFrame::OnSize)
     EVT_MENU(wxID_EXIT, CSimpleFrame::OnExit)
-    EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
+    EVT_MENU(ID_FILESWITCHGUI, CSimpleFrame::OnSwitchGUI)
     EVT_HELP(wxID_ANY, CSimpleFrame::OnHelp)
+    EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
     EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
     // We can't eliminate the Mac Help menu, so we might as well make it useful.
     EVT_MENU(ID_HELPBOINC, CSimpleFrame::OnHelpBOINC)
@@ -184,7 +185,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32) :
     // wxMac maps Command key to wxACCEL_ALT for wxAcceleratorTable but CTRL for wxMenu.
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
 #else
-    m_Shortcuts[0].Set(wxACCEL_CTRL, (int)'W', ID_FILECLOSEWINDOW);
+    m_Shortcuts[0].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'A', ID_FILESWITCHGUI);
 #endif
 
     m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
@@ -308,23 +309,12 @@ int CSimpleFrame::_GetCurrentViewPage() {
 }
 
 
-void CSimpleFrame::OnHelp(wxHelpEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function Begin"));
+void CSimpleFrame::OnSwitchGUI(wxCommandEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function Begin"));
 
-    if (IsShown()) {
-    	wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
+    wxGetApp().SetActiveGUI(BOINC_ADVANCEDGUI, true);
 
-		wxString wxurl;
-		wxurl.Printf(
-            wxT("%s?target=simple&version=%s&controlid=%d"),
-            strURL.c_str(),
-            wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
-            event.GetId()
-        );
-        ExecuteBrowserLink(wxurl);
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function End"));
 }
 
 
@@ -345,6 +335,26 @@ void CSimpleFrame::OnHelpBOINC(wxCommandEvent& event) {
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINC - Function End"));
+}
+
+
+void CSimpleFrame::OnHelp(wxHelpEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function Begin"));
+
+    if (IsShown()) {
+    	wxString strURL = wxGetApp().GetSkinManager()->GetAdvanced()->GetOrganizationHelpUrl();
+
+		wxString wxurl;
+		wxurl.Printf(
+            wxT("%s?target=simple&version=%s&controlid=%d"),
+            strURL.c_str(),
+            wxString(BOINC_VERSION_STRING, wxConvUTF8).c_str(),
+            event.GetId()
+        );
+        ExecuteBrowserLink(wxurl);
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnHelp - Function End"));
 }
 
 
