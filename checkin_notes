@@ -1494,7 +1494,7 @@ David  25 Feb 2009
     client/
         (several).cpp
 
-David  25 Feb 2009
+David  26 Feb 2009
     - client: tag messages with project where possible; fixes #852
     - client: show fetch share rather than run share in wfd message
 
@@ -1505,7 +1505,7 @@ David  25 Feb 2009
         cs_scheduler.cpp
         cpu_sched.cpp
 
-David  25 Feb 2009
+David  26 Feb 2009
     - client: abort jobs that are unstarted and past deadline
     - client: abort runaway jobs based on elapsed time instead of CPU time.
         Specifically, abort jobs for which
@@ -1524,13 +1524,13 @@ David  25 Feb 2009
         error_numbers.h
         str_util.cpp
 
-David  25 Feb 2009
+David  26 Feb 2009
     - client: skip the above elapsed-time check for non-CPU-intensive jobs
 
     client/
         app_control.cpp
 
-Rom    25 Feb 2009
+Rom    26 Feb 2009
     - MGR: Remove the ability to display graphics on a remote computer,
         or from a remote computer on *nix machines using v5 graphics.
         fixes #674
@@ -1538,3 +1538,21 @@ Rom    25 Feb 2009
     clientgui/
         ViewWork.cpp
 
+David  26 Feb 2009
+    - client: fix bug where if a GPU job is running,
+        and a 2nd GPU job with an earlier deadline arrives,
+        neither job is executed ever.
+        Reorganized things so that scheduling of GPU jobs is
+        done independently of CPU jobs.
+        The policy for GPU jobs:
+        - always EDF
+        - jobs are always removed from memory, regardless of checkpoint
+        (GPU memory is not paged, so it's bad to leave an idle app in memory)
+
+    client/
+        app.cpp,h
+        app_start.cpp
+        client_state.h
+        cpu_sched.cpp
+    sched/
+        handle_request.cpp

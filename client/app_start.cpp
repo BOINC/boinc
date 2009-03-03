@@ -365,7 +365,6 @@ int ACTIVE_TASK::start(bool first_time) {
     FILE_REF fref;
     FILE_INFO* fip;
     int retval;
-    bool coprocs_reserved = false;
 
     // if this job less than one CPU, run it at above idle priority
     //
@@ -492,9 +491,6 @@ int ACTIVE_TASK::start(bool first_time) {
     if (gstate.exit_before_start) {
         exit(0);
     }
-
-    reserve_coprocs();
-    coprocs_reserved = true;
 
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
@@ -860,9 +856,6 @@ int ACTIVE_TASK::start(bool first_time) {
     // go here on error; "buf" contains error message, "retval" is nonzero
     //
 error:
-    if (coprocs_reserved) {
-        free_coprocs();
-    }
 
     // if something failed, it's possible that the executable was munged.
     // Verify it to trigger another download.
