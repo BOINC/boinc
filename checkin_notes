@@ -2563,3 +2563,21 @@ David  3 Mar 2009
 
     client/
         work_fetch.cpp
+
+David  3 Mar 2009
+    - manager: when filtering messages by project,
+        show messages not tagged with a project (fixes #852)
+    - web: show X-project stats links as icons
+
+    clientgui/
+        ViewMessages.cpp
+    html/
+        inc/
+            host.inc
+            team.inc
+            stats_sites.inc
+        user/
+            img/
+                freedc_icon.png
+                boincstats_icon.png
+            white.css

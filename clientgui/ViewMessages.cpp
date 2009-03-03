@@ -332,7 +332,7 @@ wxInt32 CViewMessages::GetDocCount() {
     if (m_bIsFiltered) {
         for (i = m_iPreviousTotalDocCount; i < m_iTotalDocCount; i++) {
             MESSAGE*   message = wxGetApp().GetDocument()->message(i);
-            if (message->project == m_strFilteredProjectName) {
+            if (message->project.empty() || (message->project == m_strFilteredProjectName)) {
                 m_iFilteredIndexes.Add(i);
             }
         }

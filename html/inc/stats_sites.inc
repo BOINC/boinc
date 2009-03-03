@@ -177,11 +177,15 @@ $team_name_sites = array(
 );
 
 $host_sites = array(
-    array("http://boincstats.com/stats/boinc_host_graph.php?pr=bo&id=",
-        "BOINCstats.com"
+    array(
+        "http://boincstats.com/stats/boinc_host_graph.php?pr=bo&id=",
+        "BOINCstats.com",
+        "boincstats_icon.png"
     ),
-    array("http://stats.free-dc.org/stats.php?page=hostbycpid&cpid=",
-        "Free-DC"
+    array(
+        "http://stats.free-dc.org/stats.php?page=hostbycpid&cpid=",
+        "Free-DC",
+        "freedc_icon.png"
     ),
 );
 

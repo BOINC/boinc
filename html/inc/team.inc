@@ -109,7 +109,7 @@ function display_team_page($team, $user) {
             }
             $x .= "<a href=$url".$key.">$site_name</a><br>\n";
         }
-        row2(tra('Cross-project credit'), $x);
+        row2(tra('Cross-project stats'), $x);
     }
     row2(tra('Country'), $team->country);
     row2(tra('Type'), team_type_name($team->type));

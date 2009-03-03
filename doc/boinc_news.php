@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("March 3, 2009",
+    "We have released BOINC 6.4.7 for Windows. This release contains a
+     screensaver fix as well as updates to LibCurl(7.19.4) and 
+     OpenSSL(0.9.8j) for some recently published security advisories.
+    "
+),
 array("March 1, 2009",
     "<a href=http://www.unitedboinc.com/>United BOINC</a>
     now offers <a href=http://www.unitedboinc.com/news-sig/>signature images</a>

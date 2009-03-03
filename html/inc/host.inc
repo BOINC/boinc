@@ -62,17 +62,14 @@ function location_form($host) {
     return $x;
 }
 
-function cross_project_links($host, $indent) {
+function cross_project_links($host) {
     global $host_sites;
     $x = "";
-    shuffle($host_sites);
     foreach ($host_sites as $h) {
         $url = $h[0];
         $name = $h[1];
-        if ($indent) {
-        $x .= "&nbsp;&nbsp;";
-        }
-        $x .= "<a href=$url".$host->host_cpid.">$name</a><br>\n";
+        $img = $h[2];
+        $x .= "<a href=$url".$host->host_cpid."><img border=2 src=img/$img alt=\"$name\"></a>\n";
     }
     return $x;
 }
@@ -112,7 +109,7 @@ function show_host($host, $user, $ipprivate) {
     row2("Total credit", format_credit_large($host->total_credit));
     row2("Average credit", format_credit($host->expavg_credit));
     if (!$anonymous) {
-        row2("Cross project credit", cross_project_links($x, false));
+        row2("Cross project credit", cross_project_links($x));
     }
     row2("CPU type", "$host->p_vendor <br> $host->p_model");
     row2("Number of processors", $host->p_ncpus);
@@ -203,6 +200,8 @@ function show_host($host, $user, $ipprivate) {
 // the following is used for list of top hosts
 //
 function top_host_table_start($sort_by) {
+    global $host_sites;
+    shuffle($host_sites);
     start_table();
     echo "<tr>";
     echo "<th>Computer info</th>\n";
@@ -276,7 +275,7 @@ function show_host_row($host, $i, $private, $show_owner) {
     ";
     if (!$anonymous) {
         echo "
-            <br><nobr>Cross-project credit:</nobr><br>".cross_project_links($host, true);
+            <br><nobr><span class=note>Cross-project stats:</span></nobr><br>".cross_project_links($host);
     }
     echo "
         </td>

@@ -22,8 +22,8 @@
 //
 
 function test_mysql_query($msg) {
-        echo "mysql_query($msg)<br/>";
-        return 1;
+    echo "mysql_query($msg)<br/>";
+    return 1;
 }
 
 // for purposes of testing and seeing queries,
