@@ -275,9 +275,9 @@ void RSC_WORK_FETCH::print_state(char* name) {
         RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
         double bt = pwf.backoff_time>gstate.now?pwf.backoff_time-gstate.now:0;
         msg_printf(p, MSG_INFO,
-            "[wfd] %s: runshare %.2f debt %.2f backoff dt %.2f int %.2f%s%s%s%s%s",
+            "[wfd] %s: fetch share %.2f debt %.2f backoff dt %.2f int %.2f%s%s%s%s%s",
             name,
-            pwf.runnable_share, pwf.debt, bt, pwf.backoff_interval,
+            pwf.fetchable_share, pwf.debt, bt, pwf.backoff_interval,
             p->suspended_via_gui?" (susp via GUI)":"",
             p->master_url_fetch_pending?" (master fetch pending)":"",
             p->min_rpc_time > gstate.now?" (comm deferred)":"",

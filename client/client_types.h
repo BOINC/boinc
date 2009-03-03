@@ -34,9 +34,11 @@
 #include "cert_sig.h"
 #include "hostinfo.h"
 #include "coproc.h"
-#include "work_fetch.h"
 #include "miofile.h"
+#include "common_defs.h"
+
 #include "rr_sim.h"
+#include "work_fetch.h"
 
 #define P_LOW 1
 #define P_MEDIUM 3
@@ -539,7 +541,12 @@ struct RESULT {
         return estimated_time_remaining(false)*avp->flops;
     }
 
-    bool computing_done();
+    inline bool computing_done() {
+        if (state() >= RESULT_COMPUTE_ERROR) return true; 
+        if (ready_to_report) return true;
+        return false;
+    }
+    bool not_started();
         /// downloaded, not finished, not suspended, project not suspended
     bool runnable();
         /// downloading or downloaded,

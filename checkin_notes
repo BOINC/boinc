@@ -1493,3 +1493,14 @@ David  25 Feb 2009
 
     client/
         (several).cpp
+
+David  25 Feb 2009
+    - client: tag messages with project where possible; fixes #852
+    - client: show fetch share rather than run share in wfd message
+
+    client/
+        client_types.h
+        work_fetch.cpp
+        cs_prefs.cpp
+        cs_scheduler.cpp
+        cpu_sched.cpp
