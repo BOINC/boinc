@@ -2592,8 +2592,18 @@ David  3 Mar 2009
     client/
         client_state.cpp
 
-David  3 Mar 2009
+David  4 Mar 2009
     - client: run CPU benchmarks and contact ref site if platform changes
 
     client/
         client_state.cpp
+
+David  4 Mar 2009
+    - client: show duration estimates for CPU and CUDA separately
+    - web: reverse Reply and Delete buttons in private msg page
+        fixes #858
+
+    client/
+        cs_scheduler.cpp
+    html/user/
+        pm.php

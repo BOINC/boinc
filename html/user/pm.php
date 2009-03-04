@@ -99,8 +99,8 @@ function do_inbox($logged_in_user) {
             echo "<td valign=top>".output_transform($msg->content, $options)."<p>";
             $tokens = url_tokens($logged_in_user->authenticator);
 	    echo "<ul class=\"actionlist\">";
-            show_actionlist_button("pm.php?action=delete&amp;id=$msg->id&amp;$tokens", tra("Delete"), "Delete this message");
             show_actionlist_button("pm.php?action=new&amp;replyto=$msg->id", tra("Reply"), "Reply to this message");
+            show_actionlist_button("pm.php?action=delete&amp;id=$msg->id&amp;$tokens", tra("Delete"), "Delete this message");
             echo "</ul></td></tr>\n";
         }
         echo "
