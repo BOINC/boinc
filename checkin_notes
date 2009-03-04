@@ -1684,3 +1684,9 @@ Rom    3 Mar 2009
     
     curl/
         <Various Files>
+
+David  3 Mar 2009
+    - client: fix message: "idle instance" => "starved"
+
+    client/
+        work_fetch.cpp

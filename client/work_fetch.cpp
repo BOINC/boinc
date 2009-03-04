@@ -161,10 +161,10 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
 
     switch (criterion) {
     case FETCH_IF_DEVICE_IDLE:
-        if (!nidle_now) return NULL;
+        if (nidle_now == 0) return NULL;
         break;
     case FETCH_IF_SHORTFALL:
-        if (!shortfall) return NULL;
+        if (shortfall == 0) return NULL;
         break;
     }
 
@@ -217,7 +217,7 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
     case FETCH_IF_PROJECT_STARVED:
         if (log_flags.work_fetch_debug) {
             msg_printf(pbest, MSG_INFO,
-                "chosen: %s idle instance", rsc_name(rsc_type)
+                "chosen: %s starved", rsc_name(rsc_type)
             );
         }
         req = share_request(pbest);
