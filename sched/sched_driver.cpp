@@ -40,6 +40,7 @@
 #define HOSTID "7"
     // ID of a host belonging to that user
 
+#include <cstdio>
 #include <vector>
 #include "util.h"
 

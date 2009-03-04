@@ -764,6 +764,12 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 delete avp;
                 continue;
             }
+            if (avp->coprocs.coprocs.size()) {
+                msg_printf(p, MSG_USER_ERROR,
+                    "app_info.xml may specify only CPU applications"
+                );
+                continue;
+            }
             if (strlen(avp->platform) == 0) {
                 strcpy(avp->platform, get_primary_platform());
             }

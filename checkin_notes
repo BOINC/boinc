@@ -2609,12 +2609,31 @@ David  4 Mar 2009
         pm.php
 
 David  4 Mar 2009
-	- client: get rid of CPU_PESSIMISM_FACTOR; it wasn't actually being used.
-	- manager: compile fix for gcc4.4
-		(this works on my computer; Rom/Charlie, please verify)
+    - client: get rid of CPU_PESSIMISM_FACTOR; it wasn't actually being used.
+    - manager: compile fix for gcc4.4
+        (this works on my computer; Rom/Charlie, please verify)
 
-	client/
-		rr_sim.cpp
-		sim.h
-	clientgui/common/
-		wxFlatNotebook.cpp
+    client/
+        rr_sim.cpp
+        sim.h
+    clientgui/common/
+        wxFlatNotebook.cpp
+
+David  4 Mar 2009
+    - client: don't allow coproc apps in app_info.xml.
+        Otherwise we'll get stuck in a loop where the client asks for CPU work,
+        and the scheduler sends jobs for what it thinks is a CPU app
+        but is actually a coproc app.
+
+        Eventually we should add coproc info to the app descriptions
+        send in scheduler request,
+        so that you can use anonymous platform for coproc apps.
+        But let's wait on this.
+
+    - scheduler: compile fix for gcc 4.4.  Fixes #854
+
+    client/
+        cs_statefile.cpp
+    sched/
+        sched_driver.cpp
+        sched_util.cpp
