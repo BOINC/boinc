@@ -1690,3 +1690,10 @@ David  3 Mar 2009
 
     client/
         work_fetch.cpp
+
+David  3 Mar 2009
+    - manager: when filtering messages by project,
+        show messages not tagged with a project (fixes #852)
+
+    clientgui/
+        ViewMessages.cpp
