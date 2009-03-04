@@ -1170,31 +1170,39 @@ bool CLIENT_STATE::garbage_collect_always() {
         }
     }
 
-    // reference count files involved in PERS_FILE_XFER or FILE_XFER
-    // (this seems redundant, but apparently not)
+    // reference-count sticky files not marked for deletion
     //
-    for (i=0; i<file_xfers->file_xfers.size(); i++) {
-        file_xfers->file_xfers[i]->fip->ref_cnt++;
+    
+    for (fi_iter = file_infos.begin(); fi_iter!=file_infos.end(); fi_iter++) {
+        fip = *fi_iter;
+        if (!fip->sticky) continue;
+        if (fip->status < 0) continue;
+        if (fip->marked_for_delete) continue;
+        fip->ref_cnt++;
     }
-    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
-        pers_file_xfers->pers_file_xfers[i]->fip->ref_cnt++;
+
+    // remove PERS_FILE_XFERs (and associated FILE_XFERs and HTTP_OPs)
+    // for unreferenced files
+    //
+    vector<PERS_FILE_XFER*>::iterator pfx_iter;
+    pfx_iter = pers_file_xfers->pers_file_xfers.begin();
+    while (pfx_iter != pers_file_xfers->pers_file_xfers.end()) {
+        PERS_FILE_XFER* pfx = *pfx_iter;
+        if (pfx->fip->ref_cnt == 0) {
+            pfx->suspend();
+            delete pfx;
+            pfx_iter = pers_file_xfers->pers_file_xfers.erase(pfx_iter);
+        } else {
+            pfx_iter++;
+        }
     }
 
     // delete FILE_INFOs (and corresponding files) that are not referenced
-    // Don't do this if sticky and not marked for delete
     //
     fi_iter = file_infos.begin();
     while (fi_iter != file_infos.end()) {
         fip = *fi_iter;
-        bool exempt = fip->sticky;
-        if (fip->status < 0) exempt = false;
-        if (fip->marked_for_delete) exempt = false;
-        if (fip->ref_cnt==0 && !exempt) {
-            if (fip->pers_file_xfer) {
-                pers_file_xfers->remove(fip->pers_file_xfer);
-                delete fip->pers_file_xfer;
-                fip->pers_file_xfer = 0;
-            }
+        if (fip->ref_cnt==0) {
             fip->delete_file();
             if (log_flags.state_debug) {
                 msg_printf(0, MSG_INFO,

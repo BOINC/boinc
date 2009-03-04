@@ -1697,3 +1697,13 @@ David  3 Mar 2009
 
     clientgui/
         ViewMessages.cpp
+
+David  3 Mar 2009
+    - client: change garbage-collect logic.
+        old: reference-count files involved in a PERS_FILE_XFER
+        new: if a PERS_FILE_XFER refers to an unreferenced file,
+            delete it (and the associated FILE_XFER and HTTP_OP if present)
+        May fix #366
+
+    client/
+        client_state.cpp
