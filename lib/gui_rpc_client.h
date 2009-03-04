@@ -18,7 +18,7 @@
 // a C++ interface to BOINC GUI RPC
 
 #if !defined(_WIN32) || defined (__CYGWIN__)
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <vector>
 #include <sys/socket.h>
@@ -676,3 +676,5 @@ struct SET_LOCALE {
         setlocale(LC_ALL, locale.c_str());
     }
 };
+
+extern int read_gui_rpc_password(char*);
