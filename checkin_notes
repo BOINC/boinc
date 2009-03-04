@@ -1674,7 +1674,13 @@ David  2 Mar 2009
         DlgItemProperties.cpp
 
 Rom    2 Mar 2009
-    - Update to OpenSSL 0.9.8i for Win32 and Win64
+    - Update to OpenSSL 0.9.8j for Win32 and Win64
     
     openssl/
+        <Various Files>
+
+Rom    3 Mar 2009
+    - Update to LibCurl 7.19.4 for Win32 and Win64
+    
+    curl/
         <Various Files>

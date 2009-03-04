@@ -7,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2008, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 1998 - 2009, Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -459,7 +459,10 @@ typedef CURLcode (*curl_ssl_ctx_callback)(CURL *curl,    /* easy handle */
                                           void *userptr);
 
 typedef enum {
-  CURLPROXY_HTTP = 0,   /* added in 7.10 */
+  CURLPROXY_HTTP = 0,   /* added in 7.10, new in 7.19.4 default is to use
+                           CONNECT HTTP/1.1 */
+  CURLPROXY_HTTP_1_0 = 1,   /* added in 7.19.4, force to use CONNECT
+                               HTTP/1.0  */
   CURLPROXY_SOCKS4 = 4, /* support added in 7.15.2, enum existed already
                            in 7.10 */
   CURLPROXY_SOCKS5 = 5, /* added in 7.10 */
@@ -474,8 +477,9 @@ typedef enum {
 #define CURLAUTH_DIGEST       (1<<1)  /* Digest */
 #define CURLAUTH_GSSNEGOTIATE (1<<2)  /* GSS-Negotiate */
 #define CURLAUTH_NTLM         (1<<3)  /* NTLM */
-#define CURLAUTH_ANY ~0               /* all types set */
-#define CURLAUTH_ANYSAFE (~CURLAUTH_BASIC)
+#define CURLAUTH_DIGEST_IE    (1<<4)  /* Digest with IE flavour */
+#define CURLAUTH_ANY (~CURLAUTH_DIGEST_IE)  /* all fine types set */
+#define CURLAUTH_ANYSAFE (~(CURLAUTH_BASIC|CURLAUTH_DIGEST_IE))
 
 #define CURLSSH_AUTH_ANY       ~0     /* all types supported by the server */
 #define CURLSSH_AUTH_NONE      0      /* none allowed, silly but complete */
@@ -526,6 +530,17 @@ typedef enum {
   CURLFTPAUTH_LAST /* not an option, never use */
 } curl_ftpauth;
 
+/* parameter for the CURLOPT_FTP_CREATE_MISSING_DIRS option */
+typedef enum {
+  CURLFTP_CREATE_DIR_NONE,  /* do NOT create missing dirs! */
+  CURLFTP_CREATE_DIR,       /* (FTP/SFTP) if CWD fails, try MKD and then CWD
+                               again if MKD succeeded, for SFTP this does
+                               similar magic */
+  CURLFTP_CREATE_DIR_RETRY, /* (FTP only) if CWD fails, try MKD and then CWD
+                               again even if MKD failed! */
+  CURLFTP_CREATE_DIR_LAST   /* not an option, never use */
+} curl_ftpcreatedir;
+
 /* parameter for the CURLOPT_FTP_FILEMETHOD option */
 typedef enum {
   CURLFTPMETHOD_DEFAULT,   /* let libcurl pick */
@@ -534,6 +549,21 @@ typedef enum {
   CURLFTPMETHOD_SINGLECWD, /* one CWD to full dir, then work on file */
   CURLFTPMETHOD_LAST       /* not an option, never use */
 } curl_ftpmethod;
+
+/* CURLPROTO_ defines are for the CURLOPT_*PROTOCOLS options */
+#define CURLPROTO_HTTP   (1<<0)
+#define CURLPROTO_HTTPS  (1<<1)
+#define CURLPROTO_FTP    (1<<2)
+#define CURLPROTO_FTPS   (1<<3)
+#define CURLPROTO_SCP    (1<<4)
+#define CURLPROTO_SFTP   (1<<5)
+#define CURLPROTO_TELNET (1<<6)
+#define CURLPROTO_LDAP   (1<<7)
+#define CURLPROTO_LDAPS  (1<<8)
+#define CURLPROTO_DICT   (1<<9)
+#define CURLPROTO_FILE   (1<<10)
+#define CURLPROTO_TFTP   (1<<11)
+#define CURLPROTO_ALL    (~0) /* enable everything */
 
 /* long may be 32 or 64 bits, but we should never depend on anything else
    but 32 */
@@ -867,7 +897,7 @@ typedef enum {
   /* DNS cache timeout */
   CINIT(DNS_CACHE_TIMEOUT, LONG, 92),
 
-  /* send linked-list of pre-transfer QUOTE commands (Wesley Laxton)*/
+  /* send linked-list of pre-transfer QUOTE commands */
   CINIT(PREQUOTE, OBJECTPOINT, 93),
 
   /* set the debug function */
@@ -932,7 +962,10 @@ typedef enum {
      argument */
   CINIT(SSL_CTX_DATA, OBJECTPOINT, 109),
 
-  /* FTP Option that causes missing dirs to be created on the remote server */
+  /* FTP Option that causes missing dirs to be created on the remote server.
+     In 7.19.4 we introduced the convenience enums for this option using the
+     CURLFTP_CREATE_DIR prefix.
+  */
   CINIT(FTP_CREATE_MISSING_DIRS, LONG, 110),
 
   /* Set this to a bitmask value to enable the particular authentications
@@ -1148,6 +1181,36 @@ typedef enum {
     /* "name" and "pwd" to use with Proxy when fetching. */
   CINIT(PROXYUSERNAME, OBJECTPOINT, 175),
   CINIT(PROXYPASSWORD, OBJECTPOINT, 176),
+
+  /* Comma separated list of hostnames defining no-proxy zones. These should
+     match both hostnames directly, and hostnames within a domain. For
+     example, local.com will match local.com and www.local.com, but NOT
+     notlocal.com or www.notlocal.com. For compatibility with other
+     implementations of this, .local.com will be considered to be the same as
+     local.com. A single * is the only valid wildcard, and effectively
+     disables the use of proxy. */
+  CINIT(NOPROXY, OBJECTPOINT, 177),
+
+  /* block size for TFTP transfers */
+  CINIT(TFTP_BLKSIZE, LONG, 178),
+
+  /* Socks Service */
+  CINIT(SOCKS5_GSSAPI_SERVICE, LONG, 179),
+
+  /* Socks Service */
+  CINIT(SOCKS5_GSSAPI_NEC, LONG, 180),
+
+  /* set the bitmask for the protocols that are allowed to be used for the
+     transfer, which thus helps the app which takes URLs from users or other
+     external inputs and want to restrict what protocol(s) to deal
+     with. Defaults to CURLPROTO_ALL. */
+  CINIT(PROTOCOLS, LONG, 181),
+
+  /* set the bitmask for the protocols that libcurl is allowed to follow to,
+     as a subset of the CURLOPT_PROTOCOLS ones. That means the protocol needs
+     to be set in both bitmasks to be allowed to get redirected to. Defaults
+     to all protocols except FILE and SCP. */
+  CINIT(REDIR_PROTOCOLS, LONG, 182),
 
   CURLOPT_LASTENTRY /* the last unused */
 } CURLoption;
@@ -1570,9 +1633,10 @@ typedef enum {
   CURLINFO_PRIMARY_IP       = CURLINFO_STRING + 32,
   CURLINFO_APPCONNECT_TIME  = CURLINFO_DOUBLE + 33,
   CURLINFO_CERTINFO         = CURLINFO_SLIST  + 34,
+  CURLINFO_CONDITION_UNMET  = CURLINFO_LONG   + 35,
   /* Fill in new entries below here! */
 
-  CURLINFO_LASTONE          = 34
+  CURLINFO_LASTONE          = 35
 } CURLINFO;
 
 /* CURLINFO_RESPONSE_CODE is the new name for the option previously known as

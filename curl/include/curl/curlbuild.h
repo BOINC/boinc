@@ -7,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2008, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 1998 - 2009, Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -20,7 +20,7 @@
  * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
  * KIND, either express or implied.
  *
- * $Id: curlbuild.h.dist,v 1.14 2008-08-28 16:08:31 yangtse Exp $
+ * $Id: curlbuild.h.dist,v 1.16 2009-01-16 08:36:41 bagder Exp $
  ***************************************************************************/
 
 /* ================================================================ */
@@ -439,6 +439,32 @@
 #  endif
 
 /* ===================================== */
+/*    SunPro Compilers                   */
+/* ===================================== */
+
+#elif defined(__SUNPRO_C) || defined(__SUNPRO_CC)
+#include <sys/types.h>
+#include <stdint.h>
+
+#  define CURL_TYPEOF_CURL_OFF_T off_t
+#  define CURL_SIZEOF_CURL_OFF_T 8
+#  if defined(__amd64) || defined(__sparcv9)
+#     define CURL_SIZEOF_LONG 8
+#     define CURL_FORMAT_CURL_OFF_T  "ld"
+#     define CURL_FORMAT_CURL_OFF_TU "lu"
+#     define CURL_FORMAT_OFF_T       "%ld"
+#     define CURL_SUFFIX_CURL_OFF_T L
+#     define CURL_SUFFIX_CURL_OFF_TU UL
+#  else
+#     define CURL_SIZEOF_LONG 4
+#     define CURL_FORMAT_CURL_OFF_T  "lld"
+#     define CURL_FORMAT_CURL_OFF_TU "llu"
+#     define CURL_FORMAT_OFF_T       "%lld"
+#     define CURL_SUFFIX_CURL_OFF_T LL
+#     define CURL_SUFFIX_CURL_OFF_TU ULL
+#  endif
+
+/* ===================================== */
 /*    KEEP MSVC THE PENULTIMATE ENTRY    */
 /* ===================================== */
 
@@ -468,7 +494,7 @@
 /* ===================================== */
 
 #elif defined(__GNUC__)
-#  if defined(__i386__)
+#  if defined(__i386__) || defined(__ppc__)
 #    define CURL_SIZEOF_LONG        4
 #    define CURL_TYPEOF_CURL_OFF_T  long long
 #    define CURL_FORMAT_CURL_OFF_T  "lld"
@@ -477,7 +503,7 @@
 #    define CURL_SIZEOF_CURL_OFF_T  8
 #    define CURL_SUFFIX_CURL_OFF_T  LL
 #    define CURL_SUFFIX_CURL_OFF_TU ULL
-#  elif defined(__x86_64__)
+#  elif defined(__x86_64__) || defined(__ppc64__)
 #    define CURL_SIZEOF_LONG        8
 #    define CURL_TYPEOF_CURL_OFF_T  long
 #    define CURL_FORMAT_CURL_OFF_T  "ld"
