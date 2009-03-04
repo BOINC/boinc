@@ -2637,3 +2637,13 @@ David  4 Mar 2009
     sched/
         sched_driver.cpp
         sched_util.cpp
+
+David  4 Mar 2009
+    - client: reorganize and improve the logic for deciding
+        when to do a scheduler RPC:
+        if user request or acct mgr request, ignore backoff and suspend via GUI;
+        in all other cases honor both of these.
+
+    client/
+        cs_scheduler.cpp
+        scheduler_op.cpp
