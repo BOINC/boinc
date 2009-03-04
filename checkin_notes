@@ -1707,3 +1707,11 @@ David  3 Mar 2009
 
     client/
         client_state.cpp
+
+Rom    3 Mar 2009
+    - Tag for 6.6.12 release, all platforms
+      boinc_core_release_6_6_12
+
+    /
+        configure.ac
+        version.h
