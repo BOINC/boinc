@@ -607,7 +607,7 @@ const wxColour& wxFlatNotebookBase::GetActiveTabColour()
 //
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-BEGIN_EVENT_TABLE(wxPageContainerBase, wxControl)
+BEGIN_EVENT_TABLE(wxPageContainerBase, wxPanel)
 EVT_PAINT(wxPageContainerBase::OnPaint)
 EVT_SIZE(wxPageContainerBase::OnSize)
 EVT_LEFT_DOWN(wxPageContainerBase::OnLeftDown)
