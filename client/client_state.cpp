@@ -721,9 +721,6 @@ APP_VERSION* CLIENT_STATE::lookup_app_version(
         APP_VERSION* avp = app_versions[i];
         if (avp->app != app) continue;
         if (version_num != avp->version_num) continue;
-        if (app->project->anonymous_platform) {
-            return avp;
-        }
         if (strcmp(avp->platform, platform)) continue;
         if (strcmp(avp->plan_class, plan_class)) continue;
         return avp;
