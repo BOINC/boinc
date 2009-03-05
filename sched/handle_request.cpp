@@ -1446,7 +1446,8 @@ static void log_user_messages() {
     for (unsigned int i=0; i<g_reply->messages.size(); i++) {
         USER_MESSAGE um = g_reply->messages[i];
         log_messages.printf(MSG_DEBUG,
-            "[HOST#%d] MSG(%4s) %s \n", g_reply->host.id, um.priority.c_str(), um.message.c_str()
+            "[HOST#%d] MSG(%4s) %s\n",
+            g_reply->host.id, um.priority.c_str(), um.message.c_str()
         );
     }
 }
@@ -1484,8 +1485,9 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     }
 
     sreply.write(fout, sreq);
-    log_messages.printf(MSG_NORMAL, "Scheduler ran %f seconds\n", dtime()-start_time);
-
+    log_messages.printf(MSG_NORMAL,
+        "Scheduler ran %.3f seconds\n", dtime()-start_time
+    );
 
     if (strlen(config.sched_lockfile_dir)) {
         unlock_sched();

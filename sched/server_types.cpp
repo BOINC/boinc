@@ -57,10 +57,21 @@ void remove_quotes(char* p) {
 int CLIENT_APP_VERSION::parse(FILE* f) {
     char buf[256];
 
+    memset(this, 0, sizeof(CLIENT_APP_VERSION));
     while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</app_version>")) return 0;
         if (parse_str(buf, "<app_name>", app_name, 256)) continue;
+        if (parse_str(buf, "<plan_class>", plan_class, 256)) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
+        if (parse_double(buf, "<flops>", host_usage.flops)) continue;
+        if (match_tag(buf, "<coprocs>")) {
+            COPROCS coprocs;
+            coprocs.parse(f);
+            COPROC* cp = coprocs.lookup("CUDA");
+            if (cp) {
+                host_usage.ncudas = cp->count;
+            }
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -572,7 +583,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
     }
     log_messages.printf(MSG_NORMAL,
-        "Sending reply to [HOST#%d]: %d results, delay req %f\n",
+        "Sending reply to [HOST#%d]: %d results, delay req %.2f\n",
         host.id, wreq.nresults, request_delay
     );
 
@@ -920,7 +931,7 @@ int RESULT::write_to_client(FILE* fout) {
     fputs(buf, fout);
 
     APP_VERSION* avp = bavp->avp;
-    if (avp == (APP_VERSION*)1) avp = NULL;
+    CLIENT_APP_VERSION* cavp = bavp->cavp;
     if (avp) {
         PLATFORM* pp = ssp->lookup_platform_id(avp->platformid);
         fprintf(fout,
@@ -929,7 +940,14 @@ int RESULT::write_to_client(FILE* fout) {
             "    <plan_class>%s</plan_class>\n",
             pp->name, avp->version_num, avp->plan_class
         );
+    } else if (cavp) {
+        fprintf(fout,
+            "    <version_num>%d</version_num>\n"
+            "    <plan_class>%s</plan_class>\n",
+            cavp->version_num, cavp->plan_class
+        );
     }
+
     fputs("</result>\n", fout);
     return 0;
 }

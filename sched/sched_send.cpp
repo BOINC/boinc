@@ -54,6 +54,9 @@
 #include "boinc_fcgi.h"
 #endif
 
+// if host sends us an impossible RAM size, use this instead
+//
+const double DEFAULT_RAM_SIZE = 64000000;
 
 void send_work_matchmaker();
 
@@ -123,19 +126,76 @@ inline int max_wus_in_progress_multiplier() {
     return n;
 }
 
-const double DEFAULT_RAM_SIZE = 64000000;
-    // if host sends us an impossible RAM size, use this instead
-
-bool SCHEDULER_REQUEST::has_version(APP& app) {
-    unsigned int i;
-
-    for (i=0; i<client_app_versions.size(); i++) {
-        CLIENT_APP_VERSION& cav = client_app_versions[i];
-        if (!strcmp(cav.app_name, app.name) && cav.version_num >= app.min_version) {
-            return true;
+// for new-style requests, check that the app version uses a
+// resource for which we need work
+//
+bool need_this_resource(HOST_USAGE& host_usage) {
+    if (g_wreq->rsc_spec_request) {
+        if (host_usage.ncudas) {
+            if (!g_wreq->need_cuda()) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] Don't need CUDA jobs, skipping\n"
+                    );
+                }
+                return false;
+            }
+        } else {
+            if (!g_wreq->need_cpu()) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] Don't need CPU jobs, skipping\n"
+                    );
+                }
+                return false;;
+            }
         }
     }
-    return false;
+    return true;
+}
+
+// scan through client's anonymous apps and pick the best one
+//
+CLIENT_APP_VERSION* get_app_version_anonymous(APP& app) {
+    unsigned int i;
+    CLIENT_APP_VERSION* best = NULL;
+    bool found = false;
+    char message[256];
+
+    for (i=0; i<g_request->client_app_versions.size(); i++) {
+        CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
+        if (strcmp(cav.app_name, app.name)) {
+            continue;
+        }
+        if (cav.version_num < app.min_version) {
+            continue;
+        }
+        bool found = true;
+        if (!need_this_resource(cav.host_usage)) {
+            continue;
+        }
+        if (best) {
+            if (cav.host_usage.flops > best->host_usage.flops) {
+                best = &cav;
+            }
+        } else {
+            best = &cav;
+        }
+    }
+    if (config.debug_send) {
+        log_messages.printf(MSG_NORMAL,
+            "[send] Didn't find anonymous platform app for %s\n",
+            app.name
+        );
+    }
+    if (!found) {
+        sprintf(message,
+            "Your app_info.xml file doesn't have a version of %s.",
+            app.user_friendly_name
+        );
+        g_wreq->insert_no_work_message(USER_MESSAGE(message, "high"));
+    }
+    return best;
 }
 
 // return BEST_APP_VERSION for the given host, or NULL if none
@@ -155,7 +215,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
     while (bavi != g_wreq->best_app_versions.end()) {
         bavp = *bavi;
         if (bavp->appid == wu.appid) {
-            if (!bavp->avp) return NULL;
+            if (!bavp->present) return NULL;
 
             // if we previously chose a CUDA app but don't need more CUDA work,
             // delete record, fall through, and find another version
@@ -183,35 +243,31 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
     bavp = new BEST_APP_VERSION;
     bavp->appid = wu.appid;
     if (g_wreq->anonymous_platform) {
-        found = g_request->has_version(*app);
-        if (!found) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] Didn't find anonymous platform app for %s\n", app->name
-                );
-                sprintf(message,
-                    "Your app_info.xml file doesn't have a version of %s.",
-                    app->user_friendly_name
-                );
-                g_wreq->insert_no_work_message(USER_MESSAGE(message, "high"));
-            }
-            bavp->avp = 0;
+        CLIENT_APP_VERSION* cavp = get_app_version_anonymous(*app);
+        if (!cavp) {
+            bavp->present = false;
         } else {
+            bavp->present = true;
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
                     "[send] Found anonymous platform app for %s\n", app->name
                 );
             }
-            // TODO: anonymous platform apps should be able to tell us
-            // how fast they are and how many CPUs and coprocs they use.
-            // For now, assume they use 1 CPU
+            bavp->host_usage = cavp->host_usage;
+
+            // if client didn't tell us about the app version,
+            // assume it uses 1 CPU
             //
-            bavp->host_usage.sequential_app(g_reply->host.p_fpops);
-            bavp->avp = (APP_VERSION*)1;    // arbitrary nonzero value;
-                // means the client already has the app version
+            if (bavp->host_usage.flops == 0) {
+                bavp->host_usage.flops = g_reply->host.p_fpops;
+            }
+            if (bavp->host_usage.avg_ncpus == 0 && bavp->host_usage.ncudas == 0) {
+                bavp->host_usage.avg_ncpus = 1;
+            }
+            bavp->cavp = cavp;
         }
         g_wreq->best_app_versions.push_back(bavp);
-        if (!bavp->avp) return NULL;
+        if (!bavp->present) return NULL;
         return bavp;
     }
 
@@ -223,8 +279,6 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
     bavp->avp = NULL;
     bool no_version_for_platform = true;
     int app_plan_reject = 0;
-    bool no_cuda_requested = false;
-    bool no_cpu_requested = false;
     for (i=0; i<g_request->platforms.list.size(); i++) {
         PLATFORM* p = g_request->platforms.list[i];
         for (j=0; j<ssp->napp_versions; j++) {
@@ -258,30 +312,8 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
                 host_usage.sequential_app(g_reply->host.p_fpops);
             }
 
-            // for new-style requests, check that the app version is relevant
-            //
-            if (g_wreq->rsc_spec_request) {
-                if (host_usage.ncudas) {
-                    if (!g_wreq->need_cuda()) {
-                        if (config.debug_version_select) {
-                            log_messages.printf(MSG_NORMAL,
-                                "[version] Don't need CUDA jobs, skipping\n"
-                            );
-                        }
-                        no_cuda_requested = true;
-                        continue;
-                    }
-                } else {
-                    if (!g_wreq->need_cpu()) {
-                        if (config.debug_version_select) {
-                            log_messages.printf(MSG_NORMAL,
-                                "[version] Don't need CPU jobs, skipping\n"
-                            );
-                        }
-                        no_cpu_requested = true;
-                        continue;
-                    }
-                }
+            if (!need_this_resource(host_usage)) {
+                continue;
             }
             if (host_usage.flops > bavp->host_usage.flops) {
                 bavp->host_usage = host_usage;
@@ -341,20 +373,6 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
             sprintf(message,
                 "Can't use CUDA app for %s: %s",
                 app->user_friendly_name, p
-            );
-            g_wreq->insert_no_work_message(USER_MESSAGE(message, "high"));
-        }
-        if (no_cpu_requested) {
-            sprintf(message,
-                "CPU app exists for %s but no CPU work requested",
-                app->user_friendly_name
-            );
-            g_wreq->insert_no_work_message(USER_MESSAGE(message, "high"));
-        }
-        if (no_cuda_requested) {
-            sprintf(message,
-                "CUDA app exists for %s but no CUDA work requested",
-                app->user_friendly_name
             );
             g_wreq->insert_no_work_message(USER_MESSAGE(message, "high"));
         }
@@ -906,12 +924,11 @@ int add_wu_to_reply(
     WORKUNIT wu2, wu3;
     
     APP_VERSION* avp = bavp->avp;
-    if (avp == (APP_VERSION*)1) avp = NULL;
 
     // add the app, app_version, and workunit to the reply,
     // but only if they aren't already there
     //
-    if (!bavp->anonymous_platform) {
+    if (avp) {
         APP_VERSION av2=*avp, *avp2=&av2;
         
         if (strlen(config.replace_download_url_by_timezone)) {
@@ -1986,8 +2003,8 @@ void JOB_SET::add_job(JOB& job) {
     disk_usage += job.disk_usage;
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
-            "[send] added job to set.  est_time %f disk_usage %f\n",
-            est_time, disk_usage
+            "[send] added job to set.  est_time %.2f disk_usage %.2fGB\n",
+            est_time, disk_usage/GIGA
         );
     }
 }

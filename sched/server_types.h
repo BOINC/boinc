@@ -85,15 +85,6 @@ struct HOST_USAGE {
     ~HOST_USAGE(){}
 };
 
-// keep track of the best app_version for each app for this host
-//
-struct BEST_APP_VERSION {
-    int appid;
-    APP_VERSION* avp;       // NULL if none exists
-    HOST_USAGE host_usage;
-    bool anonymous_platform;    // client has app_version
-};
-
 // summary of a client's request for work, and our response to it
 // Note: this is zeroed out in SCHEDULER_REPLY constructor
 //
@@ -179,6 +170,8 @@ struct WORK_REQ {
     std::vector<USER_MESSAGE> no_work_messages;
     std::vector<BEST_APP_VERSION*> best_app_versions;
 
+    // various reasons for not sending jobs (used to explain why)
+    //
     bool no_allowed_apps_available;
     bool excessive_work_buf;
     bool hr_reject_temp;
@@ -187,10 +180,11 @@ struct WORK_REQ {
     bool gpu_too_slow;
     bool no_gpus_prefs;
     bool daily_result_quota_exceeded;
-    int total_max_results_day;
-        // host.max_results_day * (NCPUS + NCUDA*cuda_multiplier)
     bool cache_size_exceeded;
     bool no_jobs_available;     // project has no work right now
+
+    int total_max_results_day;
+        // host.max_results_day * (NCPUS + NCUDA*cuda_multiplier)
     int nresults_on_host;
         // How many results from this project are in progress on the host.
         // Initially this is the number of "other_results"
@@ -222,8 +216,31 @@ struct MSG_FROM_HOST_DESC {
 struct CLIENT_APP_VERSION {
     char app_name[256];
     int version_num;
+    char plan_class[256];
+    HOST_USAGE host_usage;
 
     int parse(FILE*);
+};
+
+// keep track of the best app_version for each app for this host
+//
+struct BEST_APP_VERSION {
+    int appid;
+
+    bool present;
+
+    // populated if anonymous platform:
+    CLIENT_APP_VERSION* cavp;
+
+    // populated otherwise:
+    APP_VERSION* avp;
+    HOST_USAGE host_usage;
+
+    BEST_APP_VERSION() {
+        present = false;
+        cavp = NULL;
+        avp = NULL;
+    }
 };
 
 // subset of global prefs used by scheduler
@@ -343,7 +360,6 @@ struct SCHEDULER_REQUEST {
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST();
     const char* parse(FILE*);
-    bool has_version(APP& app);
     int write(FILE*); // write request info to file: not complete
 };
 

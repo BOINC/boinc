@@ -2655,3 +2655,29 @@ David  4 Mar 2009
         server_types.cpp,h
         sched_send.cpp
         sched_plan.cpp
+
+David  5 Mar 2009
+    - scheduler: add support for anonymous-platform coproc apps.
+        Old: although the request message contained all info
+            about the app version (flops, coproc usage etc.)
+            the server ignored this info,
+            and assumed that all anonymous platform apps where CPU.
+            With 6.6 client, this could produce infinite work fetch:
+            - client uses anon platform, has coproc app
+            - client has idle CPU, requests CPU work
+            - scheduler sends it jobs, thinking they will be done by CPU app
+            - client asks for more work etc.
+        New: scheduler parses full info on anon platform app versions:
+            plan class, FLOPS, coprocs.
+            It uses this info to make scheduling decisions;
+            in particular, if the request is for CUDA work,
+            if will only send jobs that use a CUDA app version.
+            The <result> records it returns contain info
+            (plan_class) that tells the client which app_version to use.
+        This will work correctly even if the client has multiple app versions
+        for the same app (e.g., a CPU version and a GPU version)
+
+    sched/
+        handle_request.cpp
+        server_types.cpp,h
+        sched_send.cpp
