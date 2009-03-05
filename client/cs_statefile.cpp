@@ -722,6 +722,8 @@ void CLIENT_STATE::check_anonymous() {
     }
 }
 
+// parse a project's app_info.xml (anonymous platform) file
+//
 int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
     char buf[256];
     MIOFILE mf;

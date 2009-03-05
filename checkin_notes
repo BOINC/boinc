@@ -2681,3 +2681,14 @@ David  5 Mar 2009
         handle_request.cpp
         server_types.cpp,h
         sched_send.cpp
+
+David  5 Mar 2009
+    - client: if using anonymous platform, ignore (and complain about)
+        app versions in scheduler reply
+    - client: when reporting anonymous platform apps in sched request,
+        don't include <file_info>s (not relevant to server)
+
+    client/
+        client_types.cpp,h
+        cs_scheduler.cpp
+        cs_statefile.cpp

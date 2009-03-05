@@ -148,7 +148,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         for (i=0; i<app_versions.size(); i++) {
             APP_VERSION* avp = app_versions[i];
             if (avp->project != p) continue;
-            avp->write(mf);
+            avp->write(mf, false);
         }
         fprintf(f, "    </app_versions>\n");
     }
@@ -700,6 +700,12 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         }
     }
     for (i=0; i<sr.app_versions.size(); i++) {
+        if (project->anonymous_platform) {
+            msg_printf(project, MSG_INTERNAL_ERROR,
+                "App version returned from anonymous platform project; ignoring"
+            );
+            continue;
+        }
         APP_VERSION& avpp = sr.app_versions[i];
         if (strlen(avpp.platform) == 0) {
             strcpy(avpp.platform, get_primary_platform());
@@ -712,6 +718,9 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
             }
         }
         if (avpp.missing_coproc()) {
+            msg_printf(project, MSG_INTERNAL_ERROR,
+                "App version uses non-existent coprocessor; ignoring"
+            );
             continue;
         }
         APP* app = lookup_app(project, avpp.app_name);
