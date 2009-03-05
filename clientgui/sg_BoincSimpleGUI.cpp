@@ -399,9 +399,6 @@ void CSimpleFrame::OnProjectsAttachToProject() {
         return;
 
     if (pDoc->IsConnected()) {
-        
-        // TODO: Should we stop updating while running the wizard?
-//        m_pBackgroundPanel->m_pFrameRenderTimer->Stop();
 
         CWizardAttachProject* pWizard = new CWizardAttachProject(this);
 
@@ -412,7 +409,6 @@ void CSimpleFrame::OnProjectsAttachToProject() {
         if (pWizard)
             pWizard->Destroy();
 
-//        m_pBackgroundPanel->m_pFrameRenderTimer->Start();
     } else {
         ShowNotCurrentlyConnectedAlert();
     }

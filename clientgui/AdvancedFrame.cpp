@@ -89,7 +89,7 @@ CStatusBar::CStatusBar(wxWindow *parent) :
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::CStatusBar - Function Begin"));
 
-    const int widths[] = {-1, 200, 20};
+    const int widths[] = {-1, 300, 20};
     SetFieldsCount(WXSIZEOF(widths), widths);
 
     m_pbmpConnected = new wxStaticBitmap(this, -1, wxIcon(connect_xpm));
@@ -107,6 +107,9 @@ CStatusBar::CStatusBar(wxWindow *parent) :
     m_ptxtDisconnect = new wxStaticText(this, -1, _("Disconnected"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT);
     wxASSERT(m_ptxtDisconnect);
     m_ptxtDisconnect->Hide();
+
+    wxSizeEvent evt;
+    AddPendingEvent(evt);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::CStatusBar - Function End"));
 }
@@ -228,11 +231,10 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32) :
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
+    m_pRefreshStateTimer->Start(5000);               // Send event every 5 seconds
 
     m_pFrameRenderTimer = new wxTimer(this, ID_FRAMERENDERTIMER);
     wxASSERT(m_pFrameRenderTimer);
-
-    m_pRefreshStateTimer->Start(300000);             // Send event every 5 minutes
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
 
     // Limit the number of times the UI can update itself to two times a second
@@ -780,10 +782,8 @@ bool CAdvancedFrame::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-#ifdef __WXMAC__
     // Reterieve and store the latest window dimensions.
     SaveWindowDimensions();
-#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveState - Function End"));
     return true;
@@ -876,9 +876,8 @@ bool CAdvancedFrame::RestoreState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-#ifdef __WXMAC__
+    // Reterieve and store the latest window dimensions.
     RestoreWindowDimensions();
-#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreState - Function End"));
     return true;
@@ -1864,35 +1863,23 @@ void CAdvancedFrame::OnUpdateStatus(CFrameEvent& event) {
 
 
 void CAdvancedFrame::OnRefreshState(wxTimerEvent &event) {
-    static bool bAlreadyRunningLoop = false;
 
-    if (!bAlreadyRunningLoop) {
-        bAlreadyRunningLoop = true;
+    // Write a snapshot of the current state to the config
+    //   module, on Win9x systems we don't always shutdown
+    //   in a nice way, if we are terminated by the user
+    //   we still want the UI state to have been stored
+    //   for their next use
+    SaveState();
+    SaveViewState();
 
-        // Write a snapshot of the current state to the config
-        //   module, on Win9x systems we don't always shutdown
-        //   in a nice way, if we are terminated by the user
-        //   we still want the UI state to have been stored
-        //   for their next use
-        SaveState();
-
-        bAlreadyRunningLoop = false;
-    }
-
-    event.Skip();
 }
 
 
 void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
-    static bool       bAlreadyRunningLoop = false;
-    static wxString   strCachedStatusText = wxEmptyString;
-
     CMainDocument*    pDoc     = wxGetApp().GetDocument();
     wxMenuBar*        pMenuBar = GetMenuBar();
 
-    if (!bAlreadyRunningLoop && m_pFrameRenderTimer->IsRunning()) {
-        bAlreadyRunningLoop = true;
-
+    if (m_pFrameRenderTimer->IsRunning()) {
         if (IsShown()) {
             if (pDoc) {
                 wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -1952,8 +1939,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                         SetTitle(strTitle);
                     }
                         
-                    if (strStatusText != strCachedStatusText) {
-                        strCachedStatusText = strStatusText;
+                    if (strStatusText != m_pStatusbar->m_ptxtConnected->GetLabel()) {
                         m_pStatusbar->m_ptxtConnected->SetLabel(strStatusText);
                     }
                 } else {
@@ -1967,11 +1953,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                 }
             }
         }
-
-        bAlreadyRunningLoop = false;
     }
-
-    event.Skip();
 }
 
 
