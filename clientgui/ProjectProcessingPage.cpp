@@ -381,7 +381,14 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
             ai->clear();
             ao->clear();
 
-            ai->url = (const char*)pWAP->m_ProjectInfoPage->GetProjectURL().mb_str();
+            // Newer versions of the server-side software contain the correct
+            //   master url in the get_project_config response.  If it is available
+            //   use it instead of what the user typed in.
+            if (!pWAP->project_config.master_url.empty()) {
+                ai->url = pWAP->project_config.master_url;
+            } else {
+                ai->url = (const char*)pWAP->m_ProjectInfoPage->GetProjectURL().mb_str();
+            }
 
             if (!pWAP->GetProjectAuthenticator().IsEmpty() || 
                 pWAP->m_bCredentialsCached || 
