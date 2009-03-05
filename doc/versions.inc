@@ -118,10 +118,10 @@ $w5816= array(
 );
 
 $m66 = array(
-    "num"=>"6.6.11",
+    "num"=>"6.6.12",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_6.6.11_macOSX_universal.zip",
-    "date"=>"24 Feb 2009",
+    "file"=>"boinc_6.6.12_macOSX_universal.zip",
+    "date"=>"4 Mar 2009",
     "type"=>"mac_advanced",
 );
 
@@ -142,10 +142,10 @@ $m51045 = array(
 );
 
 $m66c = array(
-    "num"=>"6.6.11",
+    "num"=>"6.6.12",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_6.6.11_universal-apple-darwin.zip",
-    "date"=>"24 Feb 2009",
+    "file"=>"boinc_6.6.12_universal-apple-darwin.zip",
+    "date"=>"4 Mar 2009",
     "type"=>"bare_core",
 );
 
@@ -166,10 +166,10 @@ $m51045c = array(
 );
 
 $l66 = array(
-    "num"=>"6.6.11",
+    "num"=>"6.6.12",
     "status"=>"Development version",
-    "file"=>"boinc_compat_6.6.11_i686-pc-linux-gnu.sh",
-    "date"=>"25 Feb 2009",
+    "file"=>"boinc_compat_6.6.12_i686-pc-linux-gnu.sh",
+    "date"=>"4 Mar 2009",
     "type"=>"sea",
 );
 
@@ -198,10 +198,10 @@ $l51045 = array(
 );
 
 $l66ubuntu = array(
-    "num"=>"6.6.11",
+    "num"=>"6.6.12",
     "status"=>"Development version",
-    "file"=>"boinc_6.6.11_i686-pc-linux-gnu.sh",
-    "date"=>"25 Feb 2009",
+    "file"=>"boinc_6.6.12_i686-pc-linux-gnu.sh",
+    "date"=>"4 Mar 2009",
     "type"=>"sea",
 );
 
@@ -230,10 +230,10 @@ $l51045ubuntu = array(
 );
 
 $l66ubuntux64 = array(
-    "num"=>"6.6.11",
+    "num"=>"6.6.12",
     "status"=>"Development version",
-    "file"=>"boinc_6.6.11_x86_64-pc-linux-gnu.sh",
-    "date"=>"25 Feb 2009",
+    "file"=>"boinc_6.6.12_x86_64-pc-linux-gnu.sh",
+    "date"=>"4 Mar 2009",
     "type"=>"sea",
 );
 
