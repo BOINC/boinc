@@ -326,6 +326,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 bSuccessfulCondition = 
                     (!iReturnValue) && (ERR_FILE_NOT_FOUND == pc->error_num) ||
                     (!iReturnValue) && (ERR_GETHOSTBYNAME == pc->error_num) ||
+                    (!iReturnValue) && (ERR_CONNECT == pc->error_num) ||
                     (!iReturnValue) && (ERR_XML_PARSE == pc->error_num);
                 if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
                     SetProjectPropertiesURLFailure(true);
@@ -336,6 +337,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 bSuccessfulCondition = 
                     ((!iReturnValue) && (ERR_FILE_NOT_FOUND != pc->error_num)) &&
                     ((!iReturnValue) && (ERR_GETHOSTBYNAME != pc->error_num)) &&
+                    ((!iReturnValue) && (ERR_CONNECT != pc->error_num)) &&
                     ((!iReturnValue) && (ERR_XML_PARSE != pc->error_num)) &&
                     (!iReturnValue);
                 if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {

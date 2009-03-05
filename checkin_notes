@@ -2731,3 +2731,13 @@ Rom    5 Mar 2009
         WizardAttachProject.cpp, .h
     win_build/
         boincmgr_curl.vcproj
+
+Rom    5 Mar 2009
+    - MGR: Account for new error code returned by the CC in response
+        to a get_project_config.php request.  It was causing the
+        wizards to throw a temp unavailable error page instead
+        of the not a boinc project page. Fixes #640
+        
+    clientgui/
+        AccountManagerPropertiesPage.cpp
+        ProjectPropertiesPage.cpp
