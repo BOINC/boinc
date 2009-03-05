@@ -61,6 +61,7 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
     while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</app_version>")) return 0;
         if (parse_str(buf, "<app_name>", app_name, 256)) continue;
+        if (parse_str(buf, "<platform>", platform, 256)) continue;
         if (parse_str(buf, "<plan_class>", plan_class, 256)) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
         if (parse_double(buf, "<flops>", host_usage.flops)) continue;
@@ -942,9 +943,10 @@ int RESULT::write_to_client(FILE* fout) {
         );
     } else if (cavp) {
         fprintf(fout,
+            "    <platform>%s</platform>\n"
             "    <version_num>%d</version_num>\n"
             "    <plan_class>%s</plan_class>\n",
-            cavp->version_num, cavp->plan_class
+            cavp->platform, cavp->version_num, cavp->plan_class
         );
     }
 

@@ -215,6 +215,7 @@ struct MSG_FROM_HOST_DESC {
 //
 struct CLIENT_APP_VERSION {
     char app_name[256];
+    char platform[256];
     int version_num;
     char plan_class[256];
     HOST_USAGE host_usage;

@@ -2692,3 +2692,11 @@ David  5 Mar 2009
         client_types.cpp,h
         cs_scheduler.cpp
         cs_statefile.cpp
+
+David  5 Mar 2009
+    - scheduler: parse and return platform name in anon platform apps.
+        Otherwise, if an app version has a platform different from
+        the client's primary platform, the client won't find it.
+
+    sched/
+        server_types.cpp,h
