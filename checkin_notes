@@ -2700,3 +2700,9 @@ David  5 Mar 2009
 
     sched/
         server_types.cpp,h
+
+David  5 Mar 2009
+    - manager: show version minor numbers as 0n
+
+    clientgui/
+        ViewWork.cpp
