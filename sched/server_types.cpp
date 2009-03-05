@@ -894,15 +894,13 @@ int APP_VERSION::write(FILE* fout) {
             bavp->host_usage.cmdline
         );
     }
-    for (i=0; i<bavp->host_usage.coprocs.coprocs.size(); i++) {
-        COPROC* cp = bavp->host_usage.coprocs.coprocs[i];
+    if (bavp->host_usage.ncudas) {
         fprintf(fout,
             "    <coproc>\n"
-            "        <type>%s</type>\n"
+            "        <type>CUDA</type>\n"
             "        <count>%d</count>\n"
             "    </coproc>\n",
-            cp->type,
-            cp->count
+            bavp->host_usage.ncudas
         );
     }
     fputs("</app_version>\n", fout);

@@ -2647,3 +2647,11 @@ David  4 Mar 2009
     client/
         cs_scheduler.cpp
         scheduler_op.cpp
+
+David  4 Mar 2009
+    - scheduler: use simpler variables in HOST_USAGE
+
+    sched/
+        server_types.cpp,h
+        sched_send.cpp
+        sched_plan.cpp

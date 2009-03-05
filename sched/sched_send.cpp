@@ -161,7 +161,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
             // delete record, fall through, and find another version
             //
             if (g_wreq->rsc_spec_request
-                && bavp->host_usage.cuda_instances() > 0
+                && bavp->host_usage.ncudas > 0
                 && !g_wreq->need_cuda()
             ) {
                 g_wreq->best_app_versions.erase(bavi);
@@ -261,7 +261,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
             // for new-style requests, check that the app version is relevant
             //
             if (g_wreq->rsc_spec_request) {
-                if (host_usage.cuda_instances()) {
+                if (host_usage.ncudas) {
                     if (!g_wreq->need_cuda()) {
                         if (config.debug_version_select) {
                             log_messages.printf(MSG_NORMAL,
@@ -718,7 +718,7 @@ static inline bool hard_app(APP& app) {
 }
 
 static inline double get_estimated_delay(BEST_APP_VERSION& bav) {
-    if (bav.host_usage.cuda_instances()) {
+    if (bav.host_usage.ncudas) {
         return g_request->coproc_cuda->estimated_delay;
     } else {
         return g_request->cpu_estimated_delay;
@@ -726,7 +726,7 @@ static inline double get_estimated_delay(BEST_APP_VERSION& bav) {
 }
 
 static inline void update_estimated_delay(BEST_APP_VERSION& bav, double dt) {
-    if (bav.host_usage.cuda_instances()) {
+    if (bav.host_usage.ncudas) {
         g_request->coproc_cuda->estimated_delay += dt;
     } else {
         g_request->cpu_estimated_delay += dt;
@@ -911,7 +911,7 @@ int add_wu_to_reply(
     // add the app, app_version, and workunit to the reply,
     // but only if they aren't already there
     //
-    if (avp) {
+    if (!bavp->anonymous_platform) {
         APP_VERSION av2=*avp, *avp2=&av2;
         
         if (strlen(config.replace_download_url_by_timezone)) {
@@ -1209,10 +1209,9 @@ int add_result_to_reply(
     result.bavp = bavp;
     g_reply->insert_result(result);
     if (g_wreq->rsc_spec_request) {
-        double cuda_instances = bavp->host_usage.cuda_instances();
-        if (cuda_instances) {
+        if (bavp->host_usage.ncudas) {
             g_wreq->cuda_req_secs -= est_dur;
-            g_wreq->cuda_req_instances -= cuda_instances;
+            g_wreq->cuda_req_instances -= bavp->host_usage.ncudas;
         } else {
             g_wreq->cpu_req_secs -= est_dur;
             g_wreq->cpu_req_instances -= bavp->host_usage.avg_ncpus;

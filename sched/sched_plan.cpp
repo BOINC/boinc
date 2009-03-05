@@ -138,10 +138,8 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         hu.avg_ncpus = x;
         hu.max_ncpus = x;
 
-        COPROC* cu = new COPROC (cp->type);
-        cu->count = 1;
-        hu.coprocs.coprocs.push_back(cu);
-        // 
+        hu.ncudas = 1;
+
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] CUDA app estimated %.2f GFLOPS (clock %d count %d)\n",

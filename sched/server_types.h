@@ -61,32 +61,26 @@ struct USER_MESSAGE {
 };
 
 struct HOST_USAGE {
-    COPROCS coprocs;
+    int ncudas;
     double avg_ncpus;
     double max_ncpus;
     double flops;
     char cmdline[256];
 
-
     HOST_USAGE() {
-        coprocs.coprocs.clear();
+        ncudas = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
         flops = 0;
         strcpy(cmdline, "");
     }
     void sequential_app(double x) {
-        coprocs.coprocs.clear();
+        ncudas = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
         flops = x;
         if (flops <= 0) flops = 1e9;
         strcpy(cmdline, "");
-    }
-    double cuda_instances() {
-        COPROC* cp = coprocs.lookup("CUDA");
-        if (cp) return cp->count;
-        return 0;
     }
     ~HOST_USAGE(){}
 };
@@ -97,6 +91,7 @@ struct BEST_APP_VERSION {
     int appid;
     APP_VERSION* avp;       // NULL if none exists
     HOST_USAGE host_usage;
+    bool anonymous_platform;    // client has app_version
 };
 
 // summary of a client's request for work, and our response to it
