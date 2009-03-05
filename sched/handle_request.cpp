@@ -1367,10 +1367,7 @@ void process_request(char* code_sign_key) {
     if (bad_install_type()) {
         ok_to_send_work = false;
     }
-    g_wreq->disk_available = max_allowable_disk();
-    get_mem_sizes();
-    get_running_frac();
-    get_dcf();
+    send_work_setup();
 
     g_reply->wreq.nresults_on_host = g_request->other_results.size();
     if (g_request->have_other_results_list) {

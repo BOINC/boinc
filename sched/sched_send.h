@@ -59,6 +59,4 @@ extern void unlock_sema();
 extern const char* infeasible_string(int);
 extern bool app_not_selected(WORKUNIT&);
 extern bool work_needed(bool);
-extern void get_mem_sizes();
-extern void get_running_frac();
-extern void get_dcf();
+extern void send_work_setup();
