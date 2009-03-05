@@ -354,7 +354,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
             );
             g_wreq->insert_no_work_message(USER_MESSAGE(message, "high"));
         }
-        char* p = NULL;
+        const char* p = NULL;
         switch (app_plan_reject) {
         case PLAN_REJECT_GPU_PREFS:
             p = "Your preferences are to not use GPU"; break;
@@ -480,12 +480,18 @@ static double estimate_duration_unscaled(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     return rsc_fpops_est/bav.host_usage.flops;
 }
 
-static inline void get_running_frac() {
+void get_running_frac() {
     double rf;
     if (g_request->core_client_version<=419) {
         rf = g_reply->host.on_frac;
     } else {
         rf = g_reply->host.active_frac * g_reply->host.on_frac;
+    }
+    if (config.debug_send) {
+        log_messages.printf(MSG_NORMAL,
+            "active_frac=%f; on_frac=%f\n",
+            g_reply->host.active_frac, g_reply->host.on_frac
+        );
     }
 
     // clamp running_frac and DCF to a reasonable range
@@ -504,7 +510,7 @@ static inline void get_running_frac() {
     g_wreq->running_frac = rf;
 }
 
-static inline void get_dcf() {
+void get_dcf() {
     double dcf = g_reply->host.duration_correction_factor;
     if (dcf > 10) {
         if (config.debug_send) {
@@ -646,7 +652,7 @@ bool app_not_selected(WORKUNIT& wu) {
 
 // see how much RAM we can use on this machine
 //
-static inline void get_mem_sizes() {
+void get_mem_sizes() {
     g_wreq->ram = g_reply->host.m_nbytes;
     if (g_wreq->ram <= 0) g_wreq->ram = DEFAULT_RAM_SIZE;
     g_wreq->usable_ram = g_wreq->ram;
@@ -1610,11 +1616,6 @@ void send_work() {
         if (g_wreq->seconds_to_fill == 0) return;
         g_wreq->rsc_spec_request = false;
     }
-
-    g_wreq->disk_available = max_allowable_disk();
-    get_mem_sizes();
-    get_running_frac();
-    get_dcf();
 
     if (all_apps_use_hr && hr_unknown_platform(g_request->host)) {
         log_messages.printf(MSG_NORMAL,

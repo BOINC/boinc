@@ -38,6 +38,7 @@
 #include "sched_msgs.h"
 #include "sched_send.h"
 #include "sched_locality.h"
+#include "main.h"
 
 #include "sched_resend.h"
 
@@ -142,9 +143,10 @@ bool resend_lost_work() {
 
         bavp = get_app_version(wu);
         if (!bavp) {
+            APP* app = ssp->lookup_app(wu.appid);
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] no app version [RESULT#%d]\n",
-                g_reply->host.id, result.id
+                "[HOST#%d] can't resend [RESULT#%d]: no app version for %s\n",
+                g_reply->host.id, result.id, app->name
             );
             continue;
         }

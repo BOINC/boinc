@@ -62,21 +62,22 @@ $offset = get_int("offset", true);
 if (!$offset) $offset=0;
 if ($offset % $hosts_per_page) $offset = 0;
 
-if ($offset < ITEM_LIMIT) {
-    $cache_args = "sort_by=$sort_by&offset=$offset";
-    $cacheddata=get_cached_data(TOP_PAGES_TTL,$cache_args);
-    if ($cacheddata){ //If we have got the data in cache
-        $data = store_to_hosts($cacheddata); // use the cached data
-    } else { //if not do queries etc to generate new data
-        $data = get_top_hosts($offset,$sort_by);
-        set_cache_data(hosts_to_store($data),$cache_args); //save data in cache
-    };
-} else {
+if ($offset >= ITEM_LIMIT) {
     error_page("Limit exceeded - Sorry, first ".ITEM_LIMIT." items only");
 }
 
+$cache_args = "sort_by=$sort_by&offset=$offset";
+$cacheddata = get_cached_data(TOP_PAGES_TTL, $cache_args);
+if ($cacheddata){
+    $data = store_to_hosts($cacheddata);
+} else {
+    $data = get_top_hosts($offset,$sort_by);
+    set_cache_data(hosts_to_store($data), $cache_args);
+};
 
-//Now display what we've got (either gotten from cache or from DB)
+
+// Now display what we've got (either gotten from cache or from DB)
+//
 page_head(tra("Top hosts"));
 top_host_table_start($sort_by);
 $i = 1 + $offset;

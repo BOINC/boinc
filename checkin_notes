@@ -2751,3 +2751,15 @@ Rom    5 Mar 2009
     clientgui/
         AccountManagerProcessingPage.cpp
         ProjectProcessingPage.cpp
+
+David  5 mar 2009
+    - scheduler: get work request parameters before resend_lost_jobs();
+        otherwise get NaNs for CPU fraction, etc.
+    - scheduler: show reasons in English when send job aborts
+
+    html/user/
+        top_hosts.php
+    sched/
+        sched_send.cpp,h
+        sched_resend.cpp
+        handle_request.cpp

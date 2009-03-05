@@ -681,6 +681,16 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
     return 0;
 }
 
+inline const char* reason_str(int n) {
+    switch (n) {
+    case ABORT_REASON_NOT_FOUND: return "result not in request";
+    case ABORT_REASON_WU_CANCELLED: return "WU cancelled";
+    case ABORT_REASON_ASSIMILATED: return "WU assimilated";
+    case ABORT_REASON_TIMED_OUT: return "result timed out";
+    }
+    return "Unknown";
+}
+
 // Figure out which of the results the host currently has
 // should be aborted outright, or aborted if not started yet
 //
@@ -758,8 +768,8 @@ int send_result_abort() {
         if (orp.abort) {
             g_reply->result_aborts.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
-                "[HOST#%d]: Send result_abort for result %s; reason %d\n",
-                g_reply->host.id, orp.name.c_str(), orp.reason
+                "[HOST#%d]: Send result_abort for result %s; reason: %s\n",
+                g_reply->host.id, orp.name.c_str(), reason_str(orp.reason)
             ); 
             // send user message 
             char buf[256];
@@ -1357,6 +1367,10 @@ void process_request(char* code_sign_key) {
     if (bad_install_type()) {
         ok_to_send_work = false;
     }
+    g_wreq->disk_available = max_allowable_disk();
+    get_mem_sizes();
+    get_running_frac();
+    get_dcf();
 
     g_reply->wreq.nresults_on_host = g_request->other_results.size();
     if (g_request->have_other_results_list) {
