@@ -2712,3 +2712,22 @@ David  5 Mar 2009
 
     client/
         cs_statefile.cpp
+
+Rom    5 Mar 2009
+    - MGR: Remove previous implementations of the already attached
+        to projects detection code.
+    - MGR: Prevent the user from progressing beyond the project
+        selection page if they are already attached to the
+        project they are trying to attach to.  Display a dialog
+        box telling they are already attached to that project
+        and to choose a different project.  This skips a bunch
+        of steps if they meant to attach to a different project.
+        
+    clientgui/
+        AlreadyAttachedPage.cpp, .h
+        BOINCWizards.h
+        ProjectInfoPage.cpp
+        ProjectPropertiesPage.cpp, .h
+        WizardAttachProject.cpp, .h
+    win_build/
+        boincmgr_curl.vcproj

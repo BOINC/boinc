@@ -3085,14 +3085,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\clientgui\AlreadyAttachedPage.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\AlreadyAttachedPage.h"
-				>
-			</File>
-			<File
 				RelativePath="..\clientgui\AlreadyExistsPage.cpp"
 				>
 			</File>
