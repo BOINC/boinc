@@ -28,6 +28,8 @@
 
 #include "miofile.h"
 
+#define MAX_COPROC_INSTANCES 64
+
 struct COPROC {
     char type[256];     // must be unique
     int count;          // how many are present
@@ -38,6 +40,11 @@ struct COPROC {
     double req_secs;    // how many instance-seconds of work requested
     int req_instances;  // requesting enough jobs to use this many instances
     double estimated_delay; // resource will be saturated for this long
+
+    // Used in client to keep track of which tasks are using which instances
+    // The pointers point to ACTIVE_TASK
+    //
+    void* owner[MAX_COPROC_INSTANCES];
 
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
