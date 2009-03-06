@@ -1787,8 +1787,11 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
         pAMWizard = new CWizardAccountManager(this);
         if (pAMWizard->Run()) {
+
+#if defined(__WXMSW__) || defined(__WXMAC__)
             // If successful, hide the main window
             Hide();
+#endif
 
             // %s is the application name
             //    i.e. 'BOINC Manager', 'GridRepublic Manager'
