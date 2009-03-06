@@ -218,7 +218,7 @@ void CDlgOptions::CreateControls()
     m_DialupStaticBoxCtrl->Add(itemFlexGridSizer17, 0, wxGROW|wxALL, 5);
     wxString* m_DialupConnectionsCtrlStrings = NULL;
     m_DialupConnectionsCtrl = new wxListBox;
-    m_DialupConnectionsCtrl->Create( itemPanel11, ID_DIALUPCONNECTIONS, wxDefaultPosition, wxDefaultSize, 0, m_DialupConnectionsCtrlStrings, wxLB_SINGLE|wxLB_NEEDED_SB );
+    m_DialupConnectionsCtrl->Create( itemPanel11, ID_DIALUPCONNECTIONS, wxDefaultPosition, wxSize(166, 185), 0, m_DialupConnectionsCtrlStrings, wxLB_SINGLE|wxLB_NEEDED_SB );
     itemFlexGridSizer17->Add(m_DialupConnectionsCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer19 = new wxBoxSizer(wxVERTICAL);
