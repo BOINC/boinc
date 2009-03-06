@@ -257,7 +257,16 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
             break;
         case ATTACHACCTMGR_ATTACHACCTMGR_EXECUTE:
             // Attempt to attach to the accout manager.
-            url = (const char*)pWAM->m_AccountManagerInfoPage->GetProjectURL().mb_str();
+
+            // Newer versions of the server-side software contain the correct
+            //   master url in the get_project_config response.  If it is available
+            //   use it instead of what the user typed in.
+            if (!pWAM->project_config.master_url.empty()) {
+                url = pWAM->project_config.master_url;
+            } else {
+                url = (const char*)pWAM->m_AccountManagerInfoPage->GetProjectURL().mb_str();
+            }
+
             username = (const char*)pWAM->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
             password = (const char*)pWAM->m_AccountInfoPage->GetAccountPassword().mb_str();
             pDoc->rpc.acct_mgr_rpc(

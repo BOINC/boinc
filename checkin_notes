@@ -1819,3 +1819,13 @@ Rom    5 Mar 2009
     clientgui/
         AccountManagerPropertiesPage.cpp
         ProjectPropertiesPage.cpp
+
+Rom    5 Mar 2009
+    - MGR: Newer versions of the server-side software publish their
+        master url in the response to the get_project_config.php
+        request.  If it exists use it over what was specified
+        by the user.  Fixes #259
+        
+    clientgui/
+        AccountManagerProcessingPage.cpp
+        ProjectProcessingPage.cpp
