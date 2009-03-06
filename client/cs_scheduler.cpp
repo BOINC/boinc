@@ -1006,20 +1006,40 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
 
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
-        if (p->sched_rpc_pending == RPC_REASON_USER_REQ) {
-            // honor user request even if backed off
-            //
-            return p;
-        }
-        if (p->waiting_until_min_rpc_time()) continue;
+        bool honor_backoff = true;
+        bool honor_suspend = true;
 
-        if (p->next_rpc_time && p->next_rpc_time<now) {
+        if (!p->sched_rpc_pending && p->next_rpc_time && p->next_rpc_time<now) {
             p->sched_rpc_pending = RPC_REASON_PROJECT_REQ;
         }
-        // if (p->suspended_via_gui) continue;
-        // do the RPC even if suspended.
-        // This is critical for acct mgrs, to propagate new host CPIDs
-        //
+
+        switch (p->sched_rpc_pending) {
+        case RPC_REASON_USER_REQ:
+            honor_backoff = false;
+            honor_suspend = false;
+            break;
+        case RPC_REASON_RESULTS_DUE:
+            break;
+        case RPC_REASON_NEED_WORK:
+            break;
+        case RPC_REASON_TRICKLE_UP:
+            break;
+        case RPC_REASON_ACCT_MGR_REQ:
+            // This is critical for acct mgrs, to propagate new host CPIDs
+            honor_backoff = false;
+            honor_suspend = false;
+            break;
+        case RPC_REASON_INIT:
+            break;
+        case RPC_REASON_PROJECT_REQ:
+            break;
+        }
+        if (honor_backoff && p->waiting_until_min_rpc_time()) {
+            continue;
+        }
+        if (honor_suspend && p->suspended_via_gui) {
+            continue;
+        }
         if (p->sched_rpc_pending) {
             return p;
         }

@@ -187,14 +187,14 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *reason_msg) {
 
 // RPC failed, either on startup or later.
 // If RPC was requested by project or acct mgr, or init,
-// keep trying (subject to backoff); otherwise give up
-// (the results_dur, need_work, and trickle_up cases will be retriggered)
+// keep trying (subject to backoff); otherwise give up.
+// The other cases (results_dur, need_work, project req, and trickle_up)
+// will be retriggered automatically
 //
 void SCHEDULER_OP::rpc_failed(const char* msg) {
     backoff(cur_proj, msg);
     switch (cur_proj->sched_rpc_pending) {
     case RPC_REASON_INIT:
-    case RPC_REASON_PROJECT_REQ:
     case RPC_REASON_ACCT_MGR_REQ:
         break;
     default:
