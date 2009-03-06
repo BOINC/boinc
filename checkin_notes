@@ -1715,3 +1715,9 @@ Rom    3 Mar 2009
     /
         configure.ac
         version.h
+
+David  3 Mar 2009
+    - client: run CPU benchmarks and contact ref site if platform changes
+
+    client/
+        client_state.cpp

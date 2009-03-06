@@ -301,10 +301,11 @@ int CLIENT_STATE::init() {
     print_summary();
     do_cmdline_actions();
 
-    // if new version of core client,
-    // - run CPU benchmarks
-    // - contact reference site or some project (to trigger firewall alert)
+    // check if version or platform has changed.
+    // Either of these is evidence that we're running a different
+    // client than previously.
     //
+    bool new_client = false;
     if ((core_client_version.major != old_major_version)
         || (core_client_version.minor != old_minor_version)
         || (core_client_version.release != old_release)
@@ -316,6 +317,20 @@ int CLIENT_STATE::init() {
             core_client_version.minor,
             core_client_version.release
         );
+        new_client = true;
+    }
+    if (statefile_platform_name.size() && strcmp(get_primary_platform(), statefile_platform_name.c_str())) {
+        msg_printf(NULL, MSG_INFO,
+            "Platform changed from %s to %s",
+            statefile_platform_name.c_str(), get_primary_platform()
+        );
+        new_client = true;
+    }
+    // if new version of client,
+    // - run CPU benchmarks
+    // - contact reference site (or some project) to trigger firewall alert
+    //
+    if (new_client) {
         run_cpu_benchmarks = true;
         if (config.dont_contact_ref_site) {
             if (projects.size() > 0) {
@@ -325,6 +340,7 @@ int CLIENT_STATE::init() {
             net_status.need_to_contact_reference_site = true;
         }
     }
+
 
     // show host IDs and venues on various projects
     //
@@ -387,15 +403,6 @@ int CLIENT_STATE::init() {
             boinc_sleep(1.0);
         }
         if (retval) return retval;
-    }
-
-    // If platform name changed, print warning
-    //
-    if (statefile_platform_name.size() && strcmp(get_primary_platform(), statefile_platform_name.c_str())) {
-        msg_printf(NULL, MSG_INFO,
-            "Platform changed from %s to %s",
-            statefile_platform_name.c_str(), get_primary_platform()
-        );
     }
 
 #ifdef SANDBOX
