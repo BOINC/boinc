@@ -2798,3 +2798,11 @@ David  5 Mar 2009
 
     client/
         client_state.cpp
+
+Rom    5 Mar 2009
+    - MGR: Set the dial-up and VPN connection list box to a static
+        size so that a scroll bar will appear if the number of items
+        exceeds the space to display them. Fixes #96
+    
+    clientgui/
+        DlgOptions.cpp
