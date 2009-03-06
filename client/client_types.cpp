@@ -1157,7 +1157,7 @@ int APP_VERSION::parse(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
-int APP_VERSION::write(MIOFILE& out) {
+int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
     unsigned int i;
     int retval;
 
@@ -1185,9 +1185,11 @@ int APP_VERSION::write(MIOFILE& out) {
     if (strlen(cmdline)) {
         out.printf("    <cmdline>%s</cmdline>\n", cmdline);
     }
-    for (i=0; i<app_files.size(); i++) {
-        retval = app_files[i].write(out);
-        if (retval) return retval;
+    if (write_file_info) {
+        for (i=0; i<app_files.size(); i++) {
+            retval = app_files[i].write(out);
+            if (retval) return retval;
+        }
     }
     coprocs.write_xml(out);
 

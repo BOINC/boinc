@@ -427,7 +427,7 @@ struct APP_VERSION {
     APP_VERSION(){}
     ~APP_VERSION(){}
     int parse(MIOFILE&);
-    int write(MIOFILE&);
+    int write(MIOFILE&, bool write_file_info = true);
     bool had_download_failure(int& failnum);
     void get_file_errors(std::string&);
     void clear_errors();
