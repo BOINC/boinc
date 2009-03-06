@@ -1784,3 +1784,9 @@ David  5 Mar 2009
 
     clientgui/
         ViewWork.cpp
+
+David  5 Mar 2009
+    - client: anon plaform app versions can specify coprocs
+
+    client/
+        cs_statefile.cpp
