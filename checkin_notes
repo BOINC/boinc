@@ -2806,3 +2806,11 @@ Rom    5 Mar 2009
     
     clientgui/
         DlgOptions.cpp
+
+Charlie 5 Mar 2009
+    - Mac: Remove obsolete files AlreadyAttachedPage.cpp, .h from 
+        XCode project.
+    
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

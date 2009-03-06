@@ -67,7 +67,6 @@
 		DD3E14E10A774397007E0084 /* AccountManagerInfoPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C41C08F3343F00C1DF66 /* AccountManagerInfoPage.cpp */; };
 		DD3E14E20A774397007E0084 /* AccountManagerProcessingPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C41E08F3343F00C1DF66 /* AccountManagerProcessingPage.cpp */; };
 		DD3E14E30A774397007E0084 /* AccountManagerPropertiesPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C42008F3343F00C1DF66 /* AccountManagerPropertiesPage.cpp */; };
-		DD3E14E40A774397007E0084 /* AlreadyAttachedPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C42208F3343F00C1DF66 /* AlreadyAttachedPage.cpp */; };
 		DD3E14E50A774397007E0084 /* AlreadyExistsPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C42408F3343F00C1DF66 /* AlreadyExistsPage.cpp */; };
 		DD3E14E60A774397007E0084 /* BOINCBaseView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C3FE07C5D1020098A04D /* BOINCBaseView.cpp */; };
 		DD3E14E70A774397007E0084 /* BOINCBaseWizard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C43408F3347D00C1DF66 /* BOINCBaseWizard.cpp */; };
@@ -699,8 +698,6 @@
 		DD58C41F08F3343F00C1DF66 /* AccountManagerProcessingPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AccountManagerProcessingPage.h; path = ../clientgui/AccountManagerProcessingPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C42008F3343F00C1DF66 /* AccountManagerPropertiesPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountManagerPropertiesPage.cpp; path = ../clientgui/AccountManagerPropertiesPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C42108F3343F00C1DF66 /* AccountManagerPropertiesPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AccountManagerPropertiesPage.h; path = ../clientgui/AccountManagerPropertiesPage.h; sourceTree = SOURCE_ROOT; };
-		DD58C42208F3343F00C1DF66 /* AlreadyAttachedPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AlreadyAttachedPage.cpp; path = ../clientgui/AlreadyAttachedPage.cpp; sourceTree = SOURCE_ROOT; };
-		DD58C42308F3343F00C1DF66 /* AlreadyAttachedPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AlreadyAttachedPage.h; path = ../clientgui/AlreadyAttachedPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C42408F3343F00C1DF66 /* AlreadyExistsPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AlreadyExistsPage.cpp; path = ../clientgui/AlreadyExistsPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C42508F3343F00C1DF66 /* AlreadyExistsPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AlreadyExistsPage.h; path = ../clientgui/AlreadyExistsPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C43408F3347D00C1DF66 /* BOINCBaseWizard.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCBaseWizard.cpp; path = ../clientgui/BOINCBaseWizard.cpp; sourceTree = SOURCE_ROOT; };
@@ -1238,8 +1235,6 @@
 				DD58C42108F3343F00C1DF66 /* AccountManagerPropertiesPage.h */,
 				DD9C94A00A5A3A4100AB0D10 /* AdvancedFrame.cpp */,
 				DD9C94A10A5A3A4100AB0D10 /* AdvancedFrame.h */,
-				DD58C42208F3343F00C1DF66 /* AlreadyAttachedPage.cpp */,
-				DD58C42308F3343F00C1DF66 /* AlreadyAttachedPage.h */,
 				DD58C42408F3343F00C1DF66 /* AlreadyExistsPage.cpp */,
 				DD58C42508F3343F00C1DF66 /* AlreadyExistsPage.h */,
 				DDC132F10E2DAB1B0014D305 /* AsyncRPC.h */,
@@ -2309,7 +2304,6 @@
 				DD3E14E10A774397007E0084 /* AccountManagerInfoPage.cpp in Sources */,
 				DD3E14E20A774397007E0084 /* AccountManagerProcessingPage.cpp in Sources */,
 				DD3E14E30A774397007E0084 /* AccountManagerPropertiesPage.cpp in Sources */,
-				DD3E14E40A774397007E0084 /* AlreadyAttachedPage.cpp in Sources */,
 				DD3E14E50A774397007E0084 /* AlreadyExistsPage.cpp in Sources */,
 				DD3E14E60A774397007E0084 /* BOINCBaseView.cpp in Sources */,
 				DD3E14E70A774397007E0084 /* BOINCBaseWizard.cpp in Sources */,
