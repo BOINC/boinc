@@ -182,11 +182,13 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app) {
             best = &cav;
         }
     }
-    if (config.debug_send) {
-        log_messages.printf(MSG_NORMAL,
-            "[send] Didn't find anonymous platform app for %s\n",
-            app.name
-        );
+    if (!best) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] Didn't find anonymous platform app for %s\n",
+                app.name
+            );
+        }
     }
     if (!found) {
         sprintf(message,
@@ -250,7 +252,8 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
             bavp->present = true;
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] Found anonymous platform app for %s\n", app->name
+                    "[send] Found anonymous platform app for %s: plan class %s\n",
+                    app->name, cavp->plan_class
                 );
             }
             bavp->host_usage = cavp->host_usage;
