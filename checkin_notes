@@ -1829,3 +1829,16 @@ Rom    5 Mar 2009
     clientgui/
         AccountManagerProcessingPage.cpp
         ProjectProcessingPage.cpp
+
+Rom    5 Mar 2009
+    - MGR: Saving and Restoring window diminisions is not a Mac only
+        operation when starting up or shutting down the client. Increase
+        the frequency of the auto-save state timer from 5 minutes to
+        5 seconds.  Fixes #69, Fixes #735, Fixes #790, 
+    - MGR: Lengthen the connected to client status field. Fixes #632
+    - MGR: Properly update the connected to client status field
+        even after a change to the simple view. Fixes #688
+        
+    clientgui/
+        AdvancedFrame.cpp
+        sg_BoincSimpleGUI.cpp, .h

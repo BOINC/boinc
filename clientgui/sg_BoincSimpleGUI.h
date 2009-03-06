@@ -87,7 +87,6 @@ public:
 	wxBitmap *bm39cImg0;
 
 	wxBitmap *btmpIcnSleeping;
-	wxTimer* m_pFrameRenderTimer;
 
     DECLARE_EVENT_TABLE()
 
