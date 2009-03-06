@@ -1716,8 +1716,14 @@ Rom    3 Mar 2009
         configure.ac
         version.h
 
-David  3 Mar 2009
+David  4 Mar 2009
     - client: run CPU benchmarks and contact ref site if platform changes
 
     client/
         client_state.cpp
+
+David  4 Mar 2009
+    - client: show duration estimates for CPU and CUDA separately
+
+    client/
+        cs_scheduler.cpp

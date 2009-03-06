@@ -761,7 +761,8 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         wup->clear_errors();
         workunits.push_back(wup);
     }
-    double est_duration = 0;
+    double est_cpu_duration = 0;
+    double est_cuda_duration = 0;
     for (i=0; i<sr.results.size(); i++) {
         if (lookup_result(project, sr.results[i].name)) {
             msg_printf(project, MSG_INTERNAL_ERROR,
@@ -798,14 +799,24 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         results.push_back(rp);
         new_results.push_back(rp);
         rp->set_state(RESULT_NEW, "handle_scheduler_reply");
-        est_duration += rp->estimated_duration(false);
+        if (rp->avp->ncudas) {
+            est_cuda_duration += rp->estimated_duration(false);
+        } else {
+            est_cpu_duration += rp->estimated_duration(false);
+        }
     }
     if (log_flags.sched_op_debug) {
         if (sr.results.size()) {
             msg_printf(project, MSG_INFO,
-                "[sched_op_debug] estimated total job duration: %.0f seconds",
-                est_duration
+                "[sched_op_debug] estimated total CPU job duration: %.0f seconds",
+                est_cpu_duration
             );
+            if (coproc_cuda) {
+                msg_printf(project, MSG_INFO,
+                    "[sched_op_debug] estimated total CUDA job duration: %.0f seconds",
+                    est_cuda_duration
+                );
+            }
         }
     }
 
