@@ -126,27 +126,39 @@ inline int max_wus_in_progress_multiplier() {
     return n;
 }
 
+inline void dont_need_message(
+    const char* p, APP_VERSION* avp, CLIENT_APP_VERSION* cavp
+) {
+    if (!config.debug_version_select) return;
+    if (avp) {
+        APP* app = ssp->lookup_app(avp->appid);
+        log_messages.printf(MSG_NORMAL,
+            "[version] Don't need %s jobs, skipping version %d for %s (%s)\n",
+            p, avp->version_num, app->name, avp->plan_class
+        );
+    } else if (cavp) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] Don't need %s jobs, skipping anonymous version %d for %s (%s)\n",
+            p, cavp->version_num, cavp->app_name, cavp->plan_class
+        );
+    }
+}
+
 // for new-style requests, check that the app version uses a
 // resource for which we need work
 //
-bool need_this_resource(HOST_USAGE& host_usage) {
+bool need_this_resource(
+    HOST_USAGE& host_usage, APP_VERSION* avp, CLIENT_APP_VERSION* cavp
+) {
     if (g_wreq->rsc_spec_request) {
         if (host_usage.ncudas) {
             if (!g_wreq->need_cuda()) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] Don't need CUDA jobs, skipping\n"
-                    );
-                }
+                dont_need_message("CUDA", avp, cavp);
                 return false;
             }
         } else {
             if (!g_wreq->need_cpu()) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] Don't need CPU jobs, skipping\n"
-                    );
-                }
+                dont_need_message("CPU", avp, cavp);
                 return false;;
             }
         }
@@ -170,8 +182,8 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app) {
         if (cav.version_num < app.min_version) {
             continue;
         }
-        bool found = true;
-        if (!need_this_resource(cav.host_usage)) {
+        found = true;
+        if (!need_this_resource(cav.host_usage, NULL, &cav)) {
             continue;
         }
         if (best) {
@@ -315,7 +327,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
                 host_usage.sequential_app(g_reply->host.p_fpops);
             }
 
-            if (!need_this_resource(host_usage)) {
+            if (!need_this_resource(host_usage, &av, NULL)) {
                 continue;
             }
             if (host_usage.flops > bavp->host_usage.flops) {
@@ -328,7 +340,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
     if (bavp->avp) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] Best version of app %s is %d (%.2f GFLOPS)\n",
+                "[version] Best version of app %s is ID %d (%.2f GFLOPS)\n",
                 app->name, bavp->avp->id, bavp->host_usage.flops/1e9
             );
         }
@@ -805,7 +817,7 @@ static inline int check_deadline(
         } else {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [WU#%d] meets deadline: %f + %f < %d\n",
+                    "[send] [WU#%d] meets deadline: %.2f + %.2f < %d\n",
                     wu.id, get_estimated_delay(bav), ewd, wu.delay_bound
                 );
             }

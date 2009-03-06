@@ -88,7 +88,7 @@ bool COPROCS::sufficient_coprocs(COPROCS& needed, bool log_flag, const char* pre
 }
 
 void COPROCS::reserve_coprocs(
-    COPROCS& needed, void* owner, bool log_flag, const char* prefix
+    COPROCS& needed, bool log_flag, const char* prefix
 ) {
     for (unsigned int i=0; i<needed.coprocs.size(); i++) {
         COPROC* cp = needed.coprocs[i];
@@ -105,19 +105,12 @@ void COPROCS::reserve_coprocs(
 			);
 		}
         cp2->used += cp->count;
-        int n = cp->count;
-        for (int j=0; j<cp2->count; j++) {
-            if (!cp2->owner[j]) {
-                cp2->owner[j] = owner;
-                n--;
-                if (!n) break;
-            }
-        }
     }
 }
 
+#if 0
 void COPROCS::free_coprocs(
-    COPROCS& needed, void* owner, bool log_flag, const char* prefix
+    COPROCS& needed, bool log_flag, const char* prefix
 ) {
     for (unsigned int i=0; i<needed.coprocs.size(); i++) {
         COPROC* cp = needed.coprocs[i];
@@ -129,13 +122,9 @@ void COPROCS::free_coprocs(
 			);
 		}
         cp2->used -= cp->count;
-        for (int j=0; j<cp2->count; j++) {
-            if (cp2->owner[j] == owner) {
-                cp2->owner[j] = 0;
-            }
-        }
     }
 }
+#endif
 
 // return true if the task has finished its time slice
 // and has checkpointed in last 10 secs
@@ -500,7 +489,7 @@ struct PROC_RESOURCES {
     //
     void schedule(RESULT* rp) {
         coprocs.reserve_coprocs(
-            rp->avp->coprocs, rp, log_flags.cpu_sched_debug, "cpu_sched_debug"
+            rp->avp->coprocs, log_flags.cpu_sched_debug, "cpu_sched_debug"
         );
         ncpus_used += rp->avp->avg_ncpus;
     }

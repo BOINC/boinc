@@ -2829,3 +2829,24 @@ David  6 Mar 2009
     client/
         gui_rpc_server_ops.cpp
         cs_statefile.cpp
+
+David  6 Mar 2009
+    - scheduler: fix bugs in support for anonymous platform + coprocs
+        (app versions don't have a <coprocs> around coproc elements,
+        may an oversight but let's stick with it).
+        Anyway, I think it's working now.
+    - lib: remove "owner" array from COPROC.
+        This was used in client to keep track of assignment of
+        coprocessors to tasks, but we got rid of the reserve/free scheme.
+        NOTE: this breaks the mechanism for passing --device N to apps;
+        I'll have to do this another way.  Stay tuned.
+
+    client/
+        app_start.cpp
+        cpu_sched.cpp
+    lib/
+        coproc.cpp,h
+    sched/
+        sched_array.cpp
+        sched_send.cpp
+        server_types.cpp

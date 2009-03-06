@@ -28,8 +28,6 @@
 
 #include "miofile.h"
 
-#define MAX_COPROC_INSTANCES   8
-
 struct COPROC {
     char type[256];     // must be unique
     int count;          // how many are present
@@ -41,20 +39,15 @@ struct COPROC {
     int req_instances;  // requesting enough jobs to use this many instances
     double estimated_delay; // resource will be saturated for this long
 
-    void* owner[MAX_COPROC_INSTANCES];
-        // which ACTIVE_TASK each one is allocated to
-
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
 #endif
     COPROC(const char* t){
+        memset(this, 0, sizeof(COPROC));
         strcpy(type, t);
-        count = 0;
-        used = 0;
-        req_secs = 0;
-        req_instances = 0;
-        estimated_delay = 0;
-        memset(&owner, 0, sizeof(owner));
+    }
+    COPROC() {
+        memset(this, 0, sizeof(COPROC));
     }
     virtual ~COPROC(){}
     int parse(MIOFILE&);
@@ -83,8 +76,8 @@ struct COPROCS {
     void summary_string(char*, int);
     COPROC* lookup(const char*);
     bool sufficient_coprocs(COPROCS&, bool log_flag, const char* prefix);
-    void reserve_coprocs(COPROCS&, void*, bool log_flag, const char* prefix);
-    void free_coprocs(COPROCS&, void*, bool log_flag, const char* prefix);
+    void reserve_coprocs(COPROCS&, bool log_flag, const char* prefix);
+    void free_coprocs(COPROCS&, bool log_flag, const char* prefix);
     bool fully_used() {
         for (unsigned int i=0; i<coprocs.size(); i++) {
             COPROC* cp = coprocs[i];

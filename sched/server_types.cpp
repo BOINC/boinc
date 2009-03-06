@@ -65,12 +65,13 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
         if (parse_str(buf, "<plan_class>", plan_class, 256)) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
         if (parse_double(buf, "<flops>", host_usage.flops)) continue;
-        if (match_tag(buf, "<coprocs>")) {
-            COPROCS coprocs;
-            coprocs.parse(f);
-            COPROC* cp = coprocs.lookup("CUDA");
-            if (cp) {
-                host_usage.ncudas = cp->count;
+        if (match_tag(buf, "<coproc>")) {
+            COPROC coproc;
+            MIOFILE mf;
+            mf.init_file(f);
+            int retval = coproc.parse(mf);
+            if (!retval && !strcmp(coproc.type, "CUDA")) {
+                host_usage.ncudas = coproc.count;
             }
         }
     }

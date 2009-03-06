@@ -129,8 +129,8 @@ void scan_work_array() {
                 g_wreq->no_allowed_apps_available = true;
                 if (config.debug_send) {
                     log_messages.printf(MSG_NORMAL,
-                        "[send] [USER#%d] [WU#%d] user doesn't want work for this application\n",
-                        g_reply->user.id, wu.id
+                        "[send] [USER#%d] [WU#%d] user doesn't want work for app %s\n",
+                        g_reply->user.id, wu.id, app->name
                     );
                 }
                 continue;
