@@ -144,19 +144,20 @@ void StatImageLoader::AddMenuItems()
 	}
     
 	//  Add the 'remove project' option
-	statPopUpMenu->AppendSeparator();
-	wxMenuItemList menuList = statPopUpMenu->GetMenuItems();
+    if (!project->attached_via_acct_mgr) {
+    	statPopUpMenu->AppendSeparator();
+	    wxMenuItemList menuList = statPopUpMenu->GetMenuItems();
 #ifdef __WXMSW__
-	menuList[statPopUpMenu->GetMenuItemCount()-1]->SetBackgroundColour(wxColour("RED"));
+	    menuList[statPopUpMenu->GetMenuItemCount()-1]->SetBackgroundColour(wxColour("RED"));
 #endif
 
-	urlItem = new wxMenuItem(statPopUpMenu, WEBSITE_URL_MENU_ID_REMOVE_PROJECT, _("Remove Project"));
+	    urlItem = new wxMenuItem(statPopUpMenu, WEBSITE_URL_MENU_ID_REMOVE_PROJECT, _("Remove Project"));
 #ifdef __WXMSW__
-	urlItem->SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
+	    urlItem->SetBackgroundColour(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
 #endif
-	Connect( WEBSITE_URL_MENU_ID_REMOVE_PROJECT,  wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(StatImageLoader::OnMenuLinkClicked) );
-	statPopUpMenu->Append(urlItem);
-
+	    Connect( WEBSITE_URL_MENU_ID_REMOVE_PROJECT,  wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(StatImageLoader::OnMenuLinkClicked) );
+	    statPopUpMenu->Append(urlItem);
+    }
 }
 
 
