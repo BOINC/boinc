@@ -2870,3 +2870,8 @@ David  6 Mar 2009
         client_types.h
     lib/
         coproc.h
+
+David  6 Mar 2009
+    - client: fix crash
+    lib/
+        coproc.h
