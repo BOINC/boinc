@@ -162,7 +162,10 @@ static void handle_get_disk_usage(MIOFILE& fout) {
         "<d_free>%f</d_free>\n"
         "<d_boinc>%f</d_boinc>\n"
         "<d_allowed>%f</d_allowed>\n",
-        gstate.host_info.d_total, gstate.host_info.d_free, boinc_non_project, d_allowed
+        gstate.host_info.d_total,
+        gstate.host_info.d_free,
+        boinc_non_project,
+        d_allowed
     );
     fout.printf("</disk_usage_summary>\n");
 }
@@ -899,7 +902,7 @@ static void read_all_projects_list_file(MIOFILE& fout) {
 static int set_debt(XML_PARSER& xp) {
     bool is_tag;
     char tag[256], url[256];
-    double short_term_debt = 0.0, long_term_debt = 0.0, cuda_debt;;
+    double short_term_debt = 0.0, long_term_debt = 0.0, cuda_debt;
     bool got_std=false, got_ltd=false, got_cuda_debt=false;
     strcpy(url, "");
     while (!xp.get(tag, sizeof(tag), is_tag)) {
@@ -910,6 +913,7 @@ static int set_debt(XML_PARSER& xp) {
             if (!p) return ERR_NOT_FOUND;
             if (got_std) p->short_term_debt = short_term_debt;
             if (got_ltd) p->cpu_pwf.debt = long_term_debt;
+            if (got_cuda_debt) p->cuda_pwf.debt = cuda_debt;
             return 0;
         }
         if (xp.parse_str(tag, "master_url", url, sizeof(url))) continue;
