@@ -1849,3 +1849,10 @@ Rom    5 Mar 2009
     
     clientgui/
         sg_StatImageLoader.cpp
+
+David  5 Mar 2009
+    - client: with anonymous platforms, app versions are identified
+        by app/platform/version/plan-class, same as normal
+
+    client/
+        client_state.cpp
