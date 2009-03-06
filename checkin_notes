@@ -1892,3 +1892,10 @@ David  6 Mar 2009
     client/
         gui_rpc_server_ops.cpp
         cs_statefile.cpp
+
+Rom    6 Mar 2009
+    - MGR: Don't hide the main window after attaching to an account manager
+        if we don't support the system tray on that platform. refs #844
+        
+    clientgui/
+        AdvancedFrame.cpp
