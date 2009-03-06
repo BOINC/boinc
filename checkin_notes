@@ -1778,3 +1778,9 @@ David  5 Mar 2009
         client_types.cpp,h
         cs_scheduler.cpp
         cs_statefile.cpp
+
+David  5 Mar 2009
+    - manager: show version minor numbers as 0n
+
+    clientgui/
+        ViewWork.cpp
