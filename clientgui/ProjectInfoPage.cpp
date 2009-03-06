@@ -25,6 +25,7 @@
 #include "mfile.h"
 #include "miofile.h"
 #include "parse.h"
+#include "str_util.h"
 #include "error_numbers.h"
 #include "wizardex.h"
 #include "error_numbers.h"
@@ -303,7 +304,28 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
  */
 
 void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
-    event.Skip();
+    // Check if we are already attached to that project: 
+ 	CMainDocument* pDoc = wxGetApp().GetDocument(); 
+ 	for (int i = 0; i < pDoc->GetProjectCount(); ++i) { 
+ 	    PROJECT* project = pDoc->project(i);
+        if (project) {
+            std::string project_url = project->master_url;
+            std::string new_project_url = m_strProjectURL.mb_str();
+
+            canonicalize_master_url(project_url);
+            canonicalize_master_url(new_project_url);
+            
+            if (project_url == new_project_url) {
+                wxGetApp().SafeMessageBox(
+                    _("You are already attached to this project. Please choose a different project."),
+                    _("Already Attached to Project")
+                );
+
+                // We are already attached to that project, 
+                event.Veto();
+            }
+        } 
+    } 
 }
 
 

@@ -184,9 +184,6 @@ wxWizardPageEx* CProjectPropertiesPage::GetNext() const
     if (CHECK_CLOSINGINPROGRESS()) {
         // Cancel Event Detected
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    } else if (GetProjectPropertiesSucceeded() && GetProjectAlreadyAttached()) {
-        // Already attach to the project
-        return PAGE_TRANSITION_NEXT(ID_ERRALREADYATTACHEDPAGE);
     } else if (GetProjectPropertiesSucceeded() && GetTermsOfUseRequired()) {
         // Terms of Use are required before requesting account information
         return PAGE_TRANSITION_NEXT(ID_TERMSOFUSEPAGE);
@@ -430,17 +427,6 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                     SetProjectAccountCreationDisabled(true);
                 } else {
                     SetProjectAccountCreationDisabled(false);
-                }
-
-                bSuccessfulCondition = 
-                    (ERR_ALREADY_ATTACHED == pDoc->rpc.project_attach(
-                        (const char*)pWAP->m_ProjectInfoPage->GetProjectURL().mb_str(),
-                        "", "")
-                    );
-                if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTALREADYATTACHED)) {
-                    SetProjectAlreadyAttached(true);
-                } else {
-                    SetProjectAlreadyAttached(false);
                 }
 
                 bSuccessfulCondition = pc->client_account_creation_disabled;

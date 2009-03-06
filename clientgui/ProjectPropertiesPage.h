@@ -118,9 +118,6 @@ public:
     bool GetProjectClientAccountCreationDisabled() const { return m_bProjectClientAccountCreationDisabled ; }
     void SetProjectClientAccountCreationDisabled(bool value) { m_bProjectClientAccountCreationDisabled = value ; }
 
-    bool GetProjectAlreadyAttached() const { return m_bProjectAlreadyAttached ; }
-    void SetProjectAlreadyAttached(bool value) { m_bProjectAlreadyAttached = value ; }
-
     bool GetNetworkConnectionDetected() const { return m_bNetworkConnectionDetected ; }
     void SetNetworkConnectionDetected(bool value) { m_bNetworkConnectionDetected = value ; }
 
@@ -149,7 +146,6 @@ public:
     bool m_bProjectPropertiesURLFailure;
     bool m_bProjectAccountCreationDisabled;
     bool m_bProjectClientAccountCreationDisabled;
-    bool m_bProjectAlreadyAttached;
     bool m_bNetworkConnectionDetected;
     bool m_bServerReportedError;
     bool m_bTermsOfUseRequired;

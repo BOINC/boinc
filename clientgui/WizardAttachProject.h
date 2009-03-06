@@ -115,7 +115,6 @@ public:
     CCompletionErrorPage* m_CompletionErrorPage;
     CErrNotDetectedPage* m_ErrNotDetectedPage;
     CErrUnavailablePage* m_ErrUnavailablePage;
-    CErrAlreadyAttachedPage* m_ErrAlreadyAttachedPage;
     CErrNoInternetConnectionPage* m_ErrNoInternetConnectionPage;
     CErrNotFoundPage* m_ErrNotFoundPage;
     CErrAlreadyExistsPage* m_ErrAlreadyExistsPage;
