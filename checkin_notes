@@ -1874,3 +1874,11 @@ Charlie 5 Mar 2009
     
     clientgui/
         AdvancedFrame.cpp
+
+Rom    6 Mar 2009
+    - Tag for 6.6.13 release, all platforms
+      boinc_core_release_6_6_13
+
+    /
+        configure.ac
+        version.h
