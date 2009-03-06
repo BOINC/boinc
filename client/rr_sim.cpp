@@ -290,7 +290,7 @@ void CLIENT_STATE::rr_simulation() {
 
         // "rpbest" is first result to finish.  Does it miss its deadline?
         //
-        double diff = sim_now + rpbest->rrsim_finish_delay - ((rpbest->computation_deadline()-now)*CPU_PESSIMISM_FACTOR + now);
+        double diff = (sim_now + rpbest->rrsim_finish_delay) - rpbest->computation_deadline();
         if (diff > 0) {
             ACTIVE_TASK* atp = lookup_active_task_by_result(rpbest);
             if (atp && atp->procinfo.working_set_size_smoothed > ar) {

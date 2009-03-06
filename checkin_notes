@@ -1727,3 +1727,14 @@ David  4 Mar 2009
 
     client/
         cs_scheduler.cpp
+
+David  4 Mar 2009
+	- client: get rid of CPU_PESSIMISM_FACTOR; it wasn't actually being used.
+	- manager: compile fix for gcc4.4
+		(this works on my computer; Rom/Charlie, please verify)
+
+	client/
+		rr_sim.cpp
+		sim.h
+	clientgui/common/
+		wxFlatNotebook.cpp

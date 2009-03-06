@@ -306,10 +306,6 @@ extern bool cpu_sched_rr_only;
 extern bool dual_dcf;
 extern bool work_fetch_old;
 
-#define CPU_PESSIMISM_FACTOR 0.9
-    // assume actual CPU utilization will be this multiple
-    // of what we've actually measured recently
-
 #define WORK_FETCH_PERIOD   60
 
 #define CPU_SCHED_ENFORCE_PERIOD    60
