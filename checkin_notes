@@ -2810,6 +2810,11 @@ Rom    5 Mar 2009
 Charlie 5 Mar 2009
     - Mac: Remove obsolete files AlreadyAttachedPage.cpp, .h from 
         XCode project.
+    - MGR: On Mac, revert to auto-save frequency of 5 minutes because:
+        * The 3 bugs did not occur on the Mac, and 
+        * The saved info is written to a file on the Mac, but the file 
+            is not flushed to disk until the Manager is closed, so the 
+            extra auto-saves have no effect but only waste CPU cycles.
     
      mac_build/
         boinc.xcodeproj/

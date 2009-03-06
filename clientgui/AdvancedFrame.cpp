@@ -231,7 +231,11 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32) :
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
-    m_pRefreshStateTimer->Start(5000);               // Send event every 5 seconds
+#ifdef __WXMAC__
+    m_pRefreshStateTimer->Start(300000);            // Send event every 5 minutes
+#else
+    m_pRefreshStateTimer->Start(5000);              // Send event every 5 seconds
+#endif
 
     m_pFrameRenderTimer = new wxTimer(this, ID_FRAMERENDERTIMER);
     wxASSERT(m_pFrameRenderTimer);
