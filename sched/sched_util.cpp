@@ -104,7 +104,7 @@ int try_fopen(const char* path, FILE*& f, const char* mode) {
 #else
 int try_fopen(const char* path, FCGI_FILE*& f, const char *mode) {
 #endif
-    char* p;
+    const char* p;
     DIR* d;
     char dirpath[256];
 
