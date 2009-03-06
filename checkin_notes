@@ -2819,3 +2819,13 @@ Charlie 5 Mar 2009
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  6 Mar 2009
+    - GUI RPC: the Jan 13 checkin removed some items from the
+        get_state() reply which are not included in our client interface.
+        However, it turns out that BoincView uses these items; put them back.
+    - GUI RPC: set_debt() can set CUDA LTD as well as CPU
+
+    client/
+        gui_rpc_server_ops.cpp
+        cs_statefile.cpp

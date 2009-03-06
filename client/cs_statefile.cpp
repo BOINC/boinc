@@ -791,7 +791,11 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
 
     f.printf("<client_state>\n");
 
-#if 0
+#if 1
+    // NOTE: the following stuff is not in CC_STATE.
+    // However, BoincView (which does its own parsing) expects it
+    // to be in the get_state() reply, so leave it in for now
+    //
     retval = host_info.write(f, false);
     if (retval) return retval;
     retval = time_stats.write(f, false);

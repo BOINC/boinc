@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("March 5, 2009",
+    "BOINC was the subject of a 40-minute radio program (in Polish)
+    on <a href=http://www.tok.fm/TOKFM/0,89523.html>Tok FM</a>
+    (click on 'O sile polaczonych komputerow')."
+),
 array("March 3, 2009",
     "We have released BOINC 6.4.7 for Windows. This release contains a
      screensaver fix as well as updates to LibCurl(7.19.4) and 
