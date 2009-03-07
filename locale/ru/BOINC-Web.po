@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-18 11:33-0700\n"
+"PO-Revision-Date: 2009-03-07 03:20-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -117,6 +117,7 @@ msgid "POLL_LCOMPLICATED"
 msgstr "это оказалось так сложно"
 
 # I stopped it and forgot to start again
+# I stopped it and forgot to start again
 msgid "POLL_LSTOPPED"
 msgstr "я приостановил участие на время и забыл запустить снова"
 
@@ -168,6 +169,7 @@ msgstr "я опасаюсь за безопасность"
 msgid "POLL_NPROJECT"
 msgstr "меня не заинтересовал ни один из проектов"
 
+# I don't have permission to run it on my computer
 # I don't have permission to run it on my computer
 msgid "POLL_NPERMISSION"
 msgstr "у меня не хватает прав для запуска данной программы на МОЁМ компьютере"
@@ -905,6 +907,116 @@ msgstr "Программное обеспечение с открытым исх
 #~ msgid "RLN_TROUBLESHOOT_BOINC_ITSELF"
 #~ msgstr "Если проблема заключается в работе самого программного обеспечения BOINC, попробуйте получить помощь на %sфоруме BOINC%s"
 
+# Running BOINC
+# ######################################
+# download.php 2006/08/03 by je2bwm
+# Download BOINC
+# %s for %s (%s MB)
+#  BOINC is a program that lets you donate        your idle computer time to science projects like        SETI@home, Climateprediction.net, Rosetta@home,        World Community Grid, and many others.        <p>        After installing BOINC on your computer,        you can connect it to as many of these projects as you like.        <p>
+# System requirements
+# Release notes
+# ???
+# Troubleshooting
+# Other systems
+# All versions
+# If your computer is not of one of the above types, you can
+# %s make your own client software %s or
+# %s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others).
+# BOINC: compute for science
+# ############################################
+# system_requirements.php by je2bwm 2006/08/07
+# Your computer must satisfy the following requirements to run BOINC. BOINC-based projects may have additional requirements.
+# Windows
+# Operating systems
+# Windows 98 or later
+# Minimum hardware
+# Pentium 233 MHz (Recommended: Pentium 500 MHz or greater)
+# 64 MB RAM (Recommended: 128 MB RAM or greater)
+# 20 MB disk space
+# Macintosh
+# Mac OS X 10.3 and later
+# Macintosh computer with an Intel x86or PowerPC G3, G4, or G5 processor
+# 128 MB RAM (Recommended: 256 MB RAM or greater)
+# 200 MB disk space
+# Linux
+# Linux kernel 2.2.14 or higher
+# glibc 2.3.2 or higher
+# XFree86-3.3.6 or higher
+# gtk+2.0 or higher
+# Pentium 500 MHz or greater
+# 64 MB RAM
+# 50 MB disk space
+# release notes by je2bwm 2006/08/09
+# What's new in %s
+# Installing
+# Uninstalling
+# Known issues
+# (Windows) In rare cases, installation may fail because "
+#     "of an existing installation of BOINC.  If this happens: "
+#     "%s Quit BOINC if it's running, and uninstall BOINC "
+#     "using %s Start/Control Panel/Add and remove programs%s. "
+#     "Install the new version again. "
+#     "%s If that fails, reinstall the version of BOINC you "
+#     "were previously running "
+#     "(old versions can be found %shere%s). "
+#     "Uninstall it as above, then install the new version. "
+#     "%s If that fails, download the %sWindows Install Clean Up%s "
+#     "utility from Microsoft and run it. "
+#     "The old BOINC version shows up as either BOINC.msi or as "
+#     "a corrupt icon .msi (it'll be the top option). "
+#     "Click on it to select, then click Remove and Exit. "
+#     "Reboot your computer. "
+#     "Install the new version. "
+#     "(Warning: leave all other .msi files as they are, "
+#      "otherwise you will have problems uninstalling other programs). "
+#     "%s
+# Troubleshooting BOINC
+# Support for 'Account managers' - web sites that let you browse BOINC projects, attach/detach, change resource share and settings, all with point-and-click simplicity. Account managers are also great if you have several computers - you just have to make changes once.
+# General preferences can be overridden by a local file; details are %s here %s.
+# BOINC now alerts you whenever it needs you to create a network connection.
+# The BOINC Manager offers two different interfaces:  'Simple' (small, graphical, skinnable)  and 'Advanced' (maximum information).  The Simple GUI allows local editing of preferences.  You can switch back and forth between Simple and Advanced.
+#  CPU throttling: you can reduce CPU heat by limiting  the fraction of time that BOINC computes.
+#  Improved scheduling policies avoid missing job deadlines  even on a slow computer with lots of projects.
+# You can limit the amount of memory used by BOINC; this lets you compute all the time without losing performance.
+#  Mac OS X version runs applications in an unpriviledged account,  increasing security.
+#  Snooze button (in the system tray icon) lets you  stop computing for one hour.
+# We recommend that all BOINC users upgrade to %s.
+# A detailed revision history is %s here %s.
+# BOINC can be installed in any of several modes:
+# Single-user installation
+# This is the recommended mode. BOINC will run while you (the installing user) are logged in. BOINC is listed in the Start menu of you,but not other users. The 'Show graphics' command in the BOINC managerworks only for you. The BOINC screensaver shows applicationgraphics only for you (other users can run the screensaver but will see  textual information only).
+# Shared installation
+# BOINC runs whenever any user is logged in. BOINC is listed in the Start menu of all users. While BOINC is running, it runs as a particular user (either the first user to log in, or the first to run BOINC). The 'Show graphics' command in the BOINC manager works only for this user. The BOINC screensaver shows application graphics only for this user (other users can run the screensaver but will see  textual information only).
+# BOINC runs all the time (even when no one is logged in). BOINC is listed in the Start menu of the installing user, but not other users.  The 'Show graphics' command in the BOINC manager will not work for any user. The BOINC screensaver will only show textual information.
+# BOINC for Linux is distributed as a self-extracting archive. This type of installation requires that you be familiar with the UNIX command-line interface.
+# The download files have names like<code> %s </code>.
+# After downloading the file, type<pre>%s</pre>
+# This will create a directory BOINC/ with the following files:
+# The BOINC core client
+# The BOINC manager
+# A script that cd's into the BOINC directory and runs the core client.
+# A script that cd's into the BOINC directory and runs the manager.
+# You may want to%s automatically start the core client %sat boot time.
+# Select Start/Control Panel/Add or Remove Programs. "
+#     "Select BOINC, then click Remove. "
+#     "This removes the BOINC software only. "
+#     "To completely remove BOINC, delete the BOINC data directory "
+#     "(usually C:/Program Files/BOINC).
+# If you use a proxy server, please hold off upgrading for now. We have a fix in the works for proxies that use NTLM authentication.
+# (Windows) If BOINC applications are repeatedly crashing on your computer, "
+#     "it's possibly that you need to "
+#     "%supgrade to the latest version (9.0c or later) of DirectX %s.
+# (Windows) If BOINC runs at the same time as Windows XP 3-D screensavers, the system becomes sluggish and unresponsive.
+# (Windows) Applications that were built before October 2004 do not display screensaver graphics with the Service or Shared install type, or the Single-user install type with the password protect screensaver option on NT based machines.
+# If you have problems with BOINC, here are some steps you can take:
+# If you have a problem with a particular project, "
+#     "go to the 'Questions and Answers' area of the project's web site. "
+#     "You may find the solution to your problem. "
+#     "If not, post it there, and you'll get help from other users. "
+#     "If the problem persists, "
+#     "use the BOINC Manager to 'reset' that project. "
+#     "This will erase any jobs in progress and start from scratch.
+# If you have problems with BOINC itself, get help from the %s BOINC message boards %s.
 # Running BOINC
 #~ msgid "HOME_MORE_INFO"
 #~ msgstr "Подробнее о BOINC"
