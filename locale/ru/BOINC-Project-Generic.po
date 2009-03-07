@@ -1,9 +1,9 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-17 04:19-0700\n"
+"PO-Revision-Date: 2009-03-07 03:40-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -238,9 +238,8 @@ msgstr "просмотр"
 msgid "Active members"
 msgstr "Активных участников"
 
-#, fuzzy
 msgid "Members with credit"
-msgstr "Участников с очками"
+msgstr "Участников с заработанными очками"
 
 msgid "Admin"
 msgstr "Администратор"
@@ -260,7 +259,6 @@ msgstr "Эта операция требует прав основателя."
 msgid "This operation requires team admin privileges"
 msgstr "Эта операция требует прав администратора команды"
 
-#, fuzzy
 msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
 msgstr ""
 "%1Примечание безопасности%2: если Вы создадите команду, то Ваши настройки "
@@ -287,7 +285,6 @@ msgstr "URL веб-страницы команды, если есть"
 msgid "without \"http://\""
 msgstr "без \"http://\""
 
-#, fuzzy
 msgid "This URL will be linked to from the team's page on this site."
 msgstr "Этот URL будет вызываться со страницы команды на этом сайте."
 
@@ -306,7 +303,6 @@ msgstr "Проект"
 msgid "Click for user page"
 msgstr "Нажмите, чтобы перейти на страницу пользователя"
 
-#, fuzzy
 msgid "Average credit"
 msgstr "В среднем очков"
 
@@ -950,4 +946,3 @@ msgstr "Ваша учетная запись"
 
 #~ msgid "Used in URLs"
 #~ msgstr "Используется в ссылках URL"
- 
