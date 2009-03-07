@@ -1907,3 +1907,11 @@ Rom    6 Mar 2009
     /
         configure.ac
         version.h
+
+Charlie 6 Mar 2009
+    - Mac: Remove obsolete files AlreadyAttachedPage.cpp, .h from 
+        XCode project. Checked in to 6.6.14 tag.
+
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
