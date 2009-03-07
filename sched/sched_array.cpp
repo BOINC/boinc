@@ -140,8 +140,13 @@ void scan_work_array() {
         // Find the app and best app_version for this host.
         //
         BEST_APP_VERSION* bavp;
-        bavp = get_app_version(wu);
+        bavp = get_app_version(wu, true);
         if (!bavp) {
+            if (config.debug_array) {
+                log_messages.printf(MSG_NORMAL,
+                    "[array] No app version\n"
+                );
+            }
             continue;
         }
 
@@ -156,6 +161,11 @@ void scan_work_array() {
                 );
             }
             last_retval = retval;
+            if (config.debug_array) {
+                log_messages.printf(MSG_NORMAL,
+                    "[array] infeasible\n"
+                );
+            }
             continue;
         }
 

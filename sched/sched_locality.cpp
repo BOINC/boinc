@@ -271,7 +271,7 @@ static int possibly_send_result(DB_RESULT& result) {
     retval = wu.lookup_id(result.workunitid);
     if (retval) return ERR_DB_NOT_FOUND;
 
-    bavp = get_app_version(wu);
+    bavp = get_app_version(wu, true);
 
     if (!bavp && anonymous(g_request->platforms.list[0])) {
         char help_msg_buf[512];

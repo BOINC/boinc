@@ -215,7 +215,7 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app) {
 // return BEST_APP_VERSION for the given host, or NULL if none
 //
 //
-BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
+BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
     bool found;
     unsigned int i;
     int retval, j;
@@ -234,10 +234,16 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
             // if we previously chose a CUDA app but don't need more CUDA work,
             // delete record, fall through, and find another version
             //
-            if (g_wreq->rsc_spec_request
+            if (check_req
+                && g_wreq->rsc_spec_request
                 && bavp->host_usage.ncudas > 0
                 && !g_wreq->need_cuda()
             ) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] have CUDA version but no more CUDA work needed\n"
+                    );
+                }
                 g_wreq->best_app_versions.erase(bavi);
                 break;
             }
@@ -262,9 +268,9 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
             bavp->present = false;
         } else {
             bavp->present = true;
-            if (config.debug_send) {
+            if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] Found anonymous platform app for %s: plan class %s\n",
+                    "[version] Found anonymous platform app for %s: plan class %s\n",
                     app->name, cavp->plan_class
                 );
             }
@@ -344,6 +350,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu) {
                 app->name, bavp->avp->id, bavp->host_usage.flops/1e9
             );
         }
+        bavp->present = true;
     } else {
         // Here if there's no app version we can use.
         // Could be because:
@@ -1050,6 +1057,11 @@ bool work_needed(bool locality_sched) {
         // return false to preserve invariant
         //
         if (g_wreq->disk.insufficient || g_wreq->speed.insufficient || g_wreq->mem.insufficient || g_wreq->no_allowed_apps_available) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] stopping work search - locality condition\n"
+                );
+            }
             return false;
         }
     }
@@ -1066,6 +1078,11 @@ bool work_needed(bool locality_sched) {
         g_wreq->total_max_results_day = mult*g_reply->host.max_results_day;
         if (g_reply->host.nresults_today >= g_wreq->total_max_results_day) {
             g_wreq->daily_result_quota_exceeded = true;
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] stopping work search - daily quota exceeded\n"
+                );
+            }
             return false;
         }
     }
@@ -1083,7 +1100,15 @@ bool work_needed(bool locality_sched) {
             return false;
         }
     }
-    if (g_wreq->nresults >= config.max_wus_to_send) return false;
+    if (g_wreq->nresults >= config.max_wus_to_send) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] stopping work search - nresults %d >= max_wus_to_send %d\n",
+                g_wreq->nresults, config.max_wus_to_send
+            );
+        }
+        return false;
+    }
 
 #if 0
     log_messages.printf(MSG_NORMAL,
@@ -1096,20 +1121,19 @@ bool work_needed(bool locality_sched) {
 #endif
     if (g_wreq->rsc_spec_request) {
         if (g_wreq->need_cpu()) {
-            //log_messages.printf(MSG_NORMAL, "need CPU\n");
             return true;
         }
         if (g_wreq->need_cuda()) {
-            //log_messages.printf(MSG_NORMAL, "need CUDA\n");
             return true;
         }
     } else {
         if (g_wreq->seconds_to_fill > 0) {
-            //log_messages.printf(MSG_NORMAL, "need old CPU\n");
             return true;
         }
     }
-    //log_messages.printf(MSG_NORMAL, "don't need\n");
+    if (config.debug_send) {
+        log_messages.printf(MSG_NORMAL, "[send] don't need more work\n");
+    }
     return false;
 }
 
@@ -1809,7 +1833,7 @@ bool JOB::get_score() {
 
     // Find the app_version for the client's platform.
     //
-    bavp = get_app_version(wu);
+    bavp = get_app_version(wu, true);
     if (!bavp) return false;
 
     retval = wu_is_infeasible_fast(wu, *app, *bavp);

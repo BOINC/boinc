@@ -2884,3 +2884,11 @@ Charlie 5 Mar 2009
     client/
         app_start.cpp
     
+David  6 Mar 2009
+    - scheduler: fix bugs that caused only 1 job to be sent
+
+    sched/
+        sched_array.cpp
+        sched_config.cpp,h
+        sched_send.cpp,h
+        sched_locality.cpp
