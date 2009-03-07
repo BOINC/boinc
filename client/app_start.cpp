@@ -133,7 +133,7 @@ static void coproc_cmdline(
     for (j=0; j<coproc->count; j++) {
         if (coproc->owner[j]) {
             bool found = false;
-            for (k=0; k<tasks_using_coproc.size(); k++) {
+            for (k=0; k<(int)tasks_using_coproc.size(); k++) {
                 if (coproc->owner[j] == tasks_using_coproc[k]) {
                     found = true;
                     break;
