@@ -2816,6 +2816,8 @@ Charlie 5 Mar 2009
             is not flushed to disk until the Manager is closed, so the 
             extra auto-saves have no effect but only waste CPU cycles.
     
+    clientgui/
+        AdvancedFrame.cpp
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
