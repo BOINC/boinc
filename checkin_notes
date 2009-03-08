@@ -2892,3 +2892,10 @@ David  6 Mar 2009
         sched_config.cpp,h
         sched_send.cpp,h
         sched_locality.cpp
+
+David  8 Mar 2009
+    - client, GUI RPC: put <host_venue> back in get_state reply;
+        it's used by BoincView
+
+    client/
+        cs_statefile.cpp

@@ -846,11 +846,11 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
 
     global_prefs.write(f);
 
-#if 0
+    // the following used by BoincView - don't remove
+    //
     if (strlen(main_host_venue)) {
         f.printf("<host_venue>%s</host_venue>\n", main_host_venue);
     }
-#endif
 
     f.printf("</client_state>\n");
     return 0;
