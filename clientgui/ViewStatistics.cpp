@@ -2040,12 +2040,12 @@ bool CViewStatistics::OnSaveState(wxConfigBase* pConfig) {
     }
 //--
     wxString    strBaseConfigLocation = wxEmptyString;
-    strBaseConfigLocation = wxT("/StatisticPage");
+    strBaseConfigLocation = wxT("/Statistics");
 	pConfig->SetPath(strBaseConfigLocation);
 	pConfig->Write(wxT("ModeViewStatistic"), m_PaintStatistics->m_ModeViewStatistic);
 	pConfig->Write(wxT("SelectedStatistic"), m_PaintStatistics->m_SelectedStatistic);
 	pConfig->Write(wxT("NextProjectStatistic"), m_PaintStatistics->m_NextProjectStatistic);
-	strBaseConfigLocation = wxT("/StatisticPage/ViewAll");
+	strBaseConfigLocation = wxT("/Statistics/ViewAll");
 	pConfig->DeleteGroup(strBaseConfigLocation);
 	pConfig->SetPath(strBaseConfigLocation);
 	int count = -1;
@@ -2067,7 +2067,7 @@ bool CViewStatistics::OnRestoreState(wxConfigBase* pConfig) {
 //--
     int     iTempValue = 0;
     wxString    strBaseConfigLocation = wxEmptyString;
-    strBaseConfigLocation = wxT("/StatisticPage");
+    strBaseConfigLocation = wxT("/Statistics");
 	pConfig->SetPath(strBaseConfigLocation);
 
 	m_PaintStatistics->m_ModeViewStatistic = 0;

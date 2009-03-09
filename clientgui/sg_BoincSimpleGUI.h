@@ -105,7 +105,7 @@ class CSimpleFrame : public CBOINCBaseFrame
 
 public:
     CSimpleFrame();
-    CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32);
+    CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint position, wxSize size);
 
    ~CSimpleFrame();
 
@@ -113,16 +113,19 @@ public:
     void OnHelp( wxHelpEvent& event );
     void OnHelpBOINC( wxCommandEvent& event );
 
-	void OnConnect(CFrameEvent& event );
     void OnProjectsAttachToProject();
+
+	void OnConnect(CFrameEvent& event );
     void OnReloadSkin( CFrameEvent& event );
     void OnRefreshView( CFrameEvent& event );
+    void OnSaveState( CFrameEvent& event );
+    void OnRestoreState( CFrameEvent& event );
 
 	void SetMsgsDlgOpen(CDlgMessages* newDlgPtr) { dlgMsgsPtr = newDlgPtr; }
     bool isMessagesDlgOpen() { return (dlgMsgsPtr != NULL); }
 
 protected:
-    virtual int _GetCurrentViewPage();
+    virtual int     _GetCurrentViewPage();
 
     wxAcceleratorEntry  m_Shortcuts[1];
     wxAcceleratorTable* m_pAccelTable;

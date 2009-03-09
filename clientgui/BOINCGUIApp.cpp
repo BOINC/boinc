@@ -210,10 +210,9 @@ bool CBOINCGUIApp::OnInit() {
     wxConfigBase::Set(m_pConfig);
     wxASSERT(m_pConfig);
 
-    m_pConfig->SetPath(wxT("/"));
-
 
     // Restore Application State
+    m_pConfig->SetPath(wxT("/"));
     m_pConfig->Read(wxT("AutomaticallyShutdownClient"), &m_iShutdownCoreClient, 0L);
     m_pConfig->Read(wxT("DisplayShutdownClientDialog"), &m_iDisplayExitDialog, 1L);
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
@@ -497,6 +496,7 @@ int CBOINCGUIApp::OnExit() {
     }
 
     // Save Application State
+    m_pConfig->SetPath(wxT("/"));
     m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
     m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
     m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
@@ -778,27 +778,88 @@ void CBOINCGUIApp::FireReloadSkin() {
 bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     CBOINCBaseFrame* pNewFrame = NULL;
     CBOINCBaseFrame* pOldFrame = m_pFrame;
+    wxInt32          iTop = 0;
+    wxInt32          iLeft = 0;
+    wxInt32          iHeight = 0;
+    wxInt32          iWidth = 0;
+
 
     // Create the new window
     if ((iGUISelection != m_iGUISelected) || !m_pFrame) {
-        switch(iGUISelection) {
-            case BOINC_SIMPLEGUI:
-            default:
-                // Initialize the simple gui window
-                pNewFrame = new CSimpleFrame(
-                    m_pSkinManager->GetAdvanced()->GetApplicationName(), 
-                    m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
-                    m_pSkinManager->GetAdvanced()->GetApplicationIcon32()
-                );
-                break;
-            case BOINC_ADVANCEDGUI:
-                // Initialize the advanced gui window
-                pNewFrame = new CAdvancedFrame(
-                    m_pSkinManager->GetAdvanced()->GetApplicationName(), 
-                    m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
-                    m_pSkinManager->GetAdvanced()->GetApplicationIcon32()
-                );
-                break;
+
+        // Reterieve the desired window state before creating the
+        //   desired frames
+        if (BOINC_ADVANCEDGUI == iGUISelection) {
+            m_pConfig->SetPath(wxT("/"));
+            m_pConfig->Read(wxT("YPos"), &iTop, 30);
+            m_pConfig->Read(wxT("XPos"), &iLeft, 30);
+            m_pConfig->Read(wxT("Width"), &iWidth, 800);
+            m_pConfig->Read(wxT("Height"), &iHeight, 600);
+        } else {
+            m_pConfig->SetPath(wxT("/Simple"));
+            m_pConfig->Read(wxT("YPos"), &iTop, 30);
+            m_pConfig->Read(wxT("XPos"), &iLeft, 30);
+#ifdef __WXMAC__
+            m_pConfig->Read(wxT("Width"), &iWidth, 409);
+            m_pConfig->Read(wxT("Height"), &iHeight, 561);
+#else
+            m_pConfig->Read(wxT("Width"), &iWidth, 416);
+            m_pConfig->Read(wxT("Height"), &iHeight, 570);
+#endif
+        }
+
+
+        // Make sure that the new window is going to be visible
+        //   on a screen
+#ifdef __WXMAC__
+        Rect titleRect = {iTop, iLeft, iTop+22, iLeft+iWidth };
+        InsetRect(&titleRect, 5, 5);                // Make sure at least a 5X5 piece visible
+        RgnHandle displayRgn = NewRgn();
+        CopyRgn(GetGrayRgn(), displayRgn);          // Region encompassing all displays
+        Rect menuRect = ((**GetMainDevice())).gdRect;
+        menuRect.bottom = GetMBarHeight() + menuRect.top;
+        RgnHandle menuRgn = NewRgn();
+        RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
+        DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
+        if (!RectInRgn(&titleRect, displayRgn))
+            iTop = iLeft = 30;
+        DisposeRgn(menuRgn);
+        DisposeRgn(displayRgn);
+#else
+	    // If either co-ordinate is less then 0 then set it equal to 0 to ensure
+	    // it displays on the screen.
+	    if ( iLeft < 0 ) iLeft = 30;
+	    if ( iTop < 0 ) iTop = 30;
+
+	    // Read the size of the screen
+	    wxInt32 iMaxWidth = wxSystemSettings::GetMetric( wxSYS_SCREEN_X );
+	    wxInt32 iMaxHeight = wxSystemSettings::GetMetric( wxSYS_SCREEN_Y );
+
+	    // Max sure that it doesn't go off to the right or bottom
+	    if ( iLeft + iWidth > iMaxWidth ) iLeft = iMaxWidth - iWidth;
+	    if ( iTop + iHeight > iMaxHeight ) iTop = iMaxHeight - iHeight;
+#endif
+
+        // Create the main window
+        //
+        if (BOINC_ADVANCEDGUI == iGUISelection) {
+            // Initialize the advanced gui window
+            pNewFrame = new CAdvancedFrame(
+                m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+                m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
+                m_pSkinManager->GetAdvanced()->GetApplicationIcon32(),
+                wxPoint(iLeft, iTop),
+                wxSize(iWidth, iHeight)
+            );
+        } else {
+            // Initialize the simple gui window
+            pNewFrame = new CSimpleFrame(
+                m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+                m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
+                m_pSkinManager->GetAdvanced()->GetApplicationIcon32(),
+                wxPoint(iLeft, iTop),
+                wxSize(iWidth, iHeight)
+            );
         }
 
         wxASSERT(pNewFrame);
@@ -812,10 +873,16 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             // Hide the old one if it exists.  We must do this 
             // after updating m_pFrame to prevent Mac OSX from
             // hiding the application
-            if (pOldFrame) pOldFrame->Hide();
+            if (pOldFrame) {
+                pOldFrame->FireSaveState();
+                pOldFrame->Hide();
+            }
 
             // Show the new frame if needed
-            if (pNewFrame && bShowWindow) pNewFrame->Show();
+            if (pNewFrame && bShowWindow) {
+                pNewFrame->FireRestoreState();
+                pNewFrame->Show();
+            }
 
             // Delete the old one if it exists
             if (pOldFrame) pOldFrame->Destroy();
@@ -823,9 +890,13 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     }
 
     // Show the new frame if needed 
-    if (m_pFrame && !m_pFrame->IsShown() && bShowWindow) m_pFrame->Show();
+    if (m_pFrame && !m_pFrame->IsShown() && bShowWindow) {
+        m_pFrame->FireRestoreState();
+        m_pFrame->Show();
+    }
 
     m_iGUISelected = iGUISelection;
+    m_pConfig->SetPath(wxT("/"));
     m_pConfig->Write(wxT("GUISelection"), iGUISelection);
 
     return true;

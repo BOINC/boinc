@@ -43,6 +43,8 @@ DEFINE_EVENT_TYPE(wxEVT_FRAME_INITIALIZED)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_REFRESHVIEW)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_UPDATESTATUS)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_RELOADSKIN)
+DEFINE_EVENT_TYPE(wxEVT_FRAME_SAVESTATE)
+DEFINE_EVENT_TYPE(wxEVT_FRAME_RESTORESTATE)
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
@@ -397,6 +399,18 @@ void CBOINCBaseFrame::FireConnect() {
 
 void CBOINCBaseFrame::FireReloadSkin() {
     CFrameEvent event(wxEVT_FRAME_RELOADSKIN, this);
+    AddPendingEvent(event);
+}
+
+
+void CBOINCBaseFrame::FireSaveState() {
+    CFrameEvent event(wxEVT_FRAME_SAVESTATE, this);
+    AddPendingEvent(event);
+}
+
+
+void CBOINCBaseFrame::FireRestoreState() {
+    CFrameEvent event(wxEVT_FRAME_RESTORESTATE, this);
     AddPendingEvent(event);
 }
 

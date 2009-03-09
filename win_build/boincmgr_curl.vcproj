@@ -3492,14 +3492,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\clientgui\DlgItemProperties.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\DlgItemProperties.h"
-					>
-				</File>
-				<File
 					RelativePath="..\clientgui\ViewMessages.cpp"
 					>
 				</File>
@@ -3581,6 +3573,14 @@
 				</File>
 				<File
 					RelativePath="..\clientgui\DlgAdvPreferencesBase.h"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgItemProperties.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgItemProperties.h"
 					>
 				</File>
 				<File
