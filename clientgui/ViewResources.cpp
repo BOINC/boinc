@@ -53,25 +53,47 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 	// create pie chart ctrl for total disk usage
 	m_pieCtrlTotal = new wxPieCtrl(this, ID_LIST_RESOURCEUTILIZATIONVIEWTOTAL, wxDefaultPosition, wxSize(-1,-1));
 	wxASSERT(m_pieCtrlTotal);
-	// setup the legend
-	m_pieCtrlTotal->SetTransparent(true);
-	m_pieCtrlTotal->SetHorLegendBorder(10);
-	m_pieCtrlTotal->SetLabelFont(*wxSWISS_FONT);
-	m_pieCtrlTotal->SetLabelColour(wxColour(0,0,0));
-	m_pieCtrlTotal->SetLabel(_("Total disk usage"));
 
-	// create pie chart ctrl for BOINC disk usage
+    // setup the legend
+    m_pieCtrlTotal->SetTransparent(true);
+    m_pieCtrlTotal->SetHorLegendBorder(10);
+    m_pieCtrlTotal->SetLabelFont(*wxSWISS_FONT);
+    m_pieCtrlTotal->SetLabelColour(wxColour(0,0,0));
+    m_pieCtrlTotal->SetLabel(_("Total disk usage"));
+
+    // initialize pie control
+	m_pieCtrlTotal->m_Series.Clear();
+	wxPiePart CtrlTotalPart;
+    CtrlTotalPart.SetLabel(wxEmptyString);
+	CtrlTotalPart.SetValue(1);
+	CtrlTotalPart.SetColour(wxColour(255,255,255));
+	m_pieCtrlTotal->m_Series.Add(CtrlTotalPart);
+	m_pieCtrlTotal->Refresh();
+
+    
+    // create pie chart ctrl for BOINC disk usage
 	m_pieCtrlBOINC = new wxPieCtrl(this, ID_LIST_RESOURCEUTILIZATIONVIEW, wxDefaultPosition, wxSize(-1,-1));
 	wxASSERT(m_pieCtrlBOINC);
-	//setup the legend
-	m_pieCtrlBOINC->SetTransparent(true);
-	m_pieCtrlBOINC->SetHorLegendBorder(10);
-	m_pieCtrlBOINC->SetLabelFont(*wxSWISS_FONT);
-	m_pieCtrlBOINC->SetLabelColour(wxColour(0,0,0));
-	m_pieCtrlBOINC->SetLabel(_("Disk usage by BOINC projects"));
-	//init the flexGrid
-    itemGridSizer->Add(m_pieCtrlTotal,1,wxGROW|wxALL,1);
-    itemGridSizer->Add(m_pieCtrlBOINC,1, wxGROW|wxALL,1);
+
+    //setup the legend
+    m_pieCtrlBOINC->SetTransparent(true);
+    m_pieCtrlBOINC->SetHorLegendBorder(10);
+    m_pieCtrlBOINC->SetLabelFont(*wxSWISS_FONT);
+    m_pieCtrlBOINC->SetLabelColour(wxColour(0,0,0));
+    m_pieCtrlBOINC->SetLabel(_("Disk usage by BOINC projects"));
+
+    // initialize pie control
+	m_pieCtrlBOINC->m_Series.Clear();
+	wxPiePart CtrlBOINCPart;
+    CtrlBOINCPart.SetLabel(wxEmptyString);
+	CtrlBOINCPart.SetValue(1);
+	CtrlBOINCPart.SetColour(wxColour(255,255,255));
+	m_pieCtrlBOINC->m_Series.Add(CtrlBOINCPart);
+	m_pieCtrlBOINC->Refresh();
+
+    //init the flexGrid
+    itemGridSizer->Add(m_pieCtrlTotal, 1, wxGROW|wxALL,1);
+    itemGridSizer->Add(m_pieCtrlBOINC, 1, wxGROW|wxALL,1);
 
     SetSizer(itemGridSizer);
 
@@ -103,9 +125,7 @@ const char** CViewResources::GetViewIcon() {
 }
 
 void CViewResources::UpdateSelection() {
-	//TODO: is this needed ? no task buttons
     CBOINCBaseView::PreUpdateSelection();
-    //CBOINCBaseView::PostUpdateSelection();
 }
 
 
@@ -136,27 +156,11 @@ wxInt32 CViewResources::FormatProjectName(PROJECT* project, wxString& strBuffer)
 
 
 bool CViewResources::OnSaveState(wxConfigBase* /*pConfig*/) {
-    return true;/*bool bReturnValue = true;
-
-    wxASSERT(pConfig);
-    wxASSERT(m_pTaskPane);
-
-    if (!m_pTaskPane->OnSaveState(pConfig)) {
-        bReturnValue = false;
-    }
-
-    return bReturnValue;*/
+    return true;
 }
 
 bool CViewResources::OnRestoreState(wxConfigBase* /*pConfig*/) {
-    return true;/*wxASSERT(pConfig);
-    wxASSERT(m_pTaskPane);
-
-    if (!m_pTaskPane->OnRestoreState(pConfig)) {
-        return false;
-    }
-
-    return true;*/
+    return true;
 }
 
 void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
@@ -214,7 +218,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		}
 	} else {
 		if(!m_BOINCwasEmpty) {
-			//paint an empty black pie
+            //paint an empty black pie
 			m_pieCtrlBOINC->m_Series.Clear();
 			wxPiePart part;
             part.SetLabel(_("not attached to any BOINC project: 0 bytes"));
@@ -224,8 +228,9 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 			m_pieCtrlBOINC->Refresh();
 			m_BOINCwasEmpty=true;
 			refreshBOINC=true;
-		}
+        }
 	}
+
     //pDoc->disk_usage.d_allowed = 0;
 	//data for pie chart 2 (total disk usage)
 	//
