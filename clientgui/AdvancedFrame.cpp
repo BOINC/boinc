@@ -200,7 +200,7 @@ CAdvancedFrame::CAdvancedFrame() {
 
 CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32) : 
     CBOINCBaseFrame((wxFrame *)NULL, ID_ADVANCEDFRAME, title, wxDefaultPosition, wxDefaultSize,
-                    wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
+                    wxDEFAULT_FRAME_STYLE)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CAdvancedFrame - Function Begin"));
     
@@ -224,10 +224,10 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32) :
     wxCHECK_RET(CreateMenu(), _T("Failed to create menu bar."));
     wxCHECK_RET(CreateNotebook(), _T("Failed to create notebook."));
     wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
-    SetStatusBarPane(0);
 
     // Restore view settings
     RestoreViewState();
+
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
@@ -239,7 +239,7 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32) :
 
     m_pFrameRenderTimer = new wxTimer(this, ID_FRAMERENDERTIMER);
     wxASSERT(m_pFrameRenderTimer);
-    m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
+    m_pFrameRenderTimer->Start(1000);               // Send event every 1 second
 
     // Limit the number of times the UI can update itself to two times a second
     //   NOTE: Linux and Mac were updating several times a second and eating
@@ -710,6 +710,7 @@ bool CAdvancedFrame::CreateStatusbar() {
     wxASSERT(m_pStatusbar);
 
     SetStatusBar(m_pStatusbar);
+    SetStatusBarPane(0);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateStatusbar - Function End"));
     return true;
@@ -959,6 +960,8 @@ bool CAdvancedFrame::RestoreViewState() {
 
 
 void CAdvancedFrame::SaveWindowDimensions() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveWindowDimensions - Function Begin"));
+
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
 
@@ -975,10 +978,14 @@ void CAdvancedFrame::SaveWindowDimensions() {
     pConfig->Write(wxT("XPos"), GetPosition().x);
     pConfig->Write(wxT("YPos"), GetPosition().y);
 #endif  // ! __WXMAC__
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveWindowDimensions - Function End"));
 }
     
 
 void CAdvancedFrame::RestoreWindowDimensions() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreWindowDimensions - Function Begin"));
+
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     bool            bWindowIconized = false;
@@ -1028,6 +1035,8 @@ void CAdvancedFrame::RestoreWindowDimensions() {
     SetSize(iLeft, iTop, iWidth, iHeight);
 
 #endif  // ! __WXMAC__
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreWindowDimensions - Function End"));
 }
 
 
@@ -1869,7 +1878,8 @@ void CAdvancedFrame::OnUpdateStatus(CFrameEvent& event) {
 }
 
 
-void CAdvancedFrame::OnRefreshState(wxTimerEvent &event) {
+void CAdvancedFrame::OnRefreshState(wxTimerEvent& /*event*/) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshState - Function Begin"));
 
     // Write a snapshot of the current state to the config
     //   module, on Win9x systems we don't always shutdown
@@ -1879,10 +1889,11 @@ void CAdvancedFrame::OnRefreshState(wxTimerEvent &event) {
     SaveState();
     SaveViewState();
 
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshState - Function End"));
 }
 
 
-void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
+void CAdvancedFrame::OnFrameRender(wxTimerEvent& /*event*/) {
     CMainDocument*    pDoc     = wxGetApp().GetDocument();
     wxMenuBar*        pMenuBar = GetMenuBar();
 
@@ -1945,8 +1956,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent &event) {
                     if (GetTitle() != strTitle) {
                         SetTitle(strTitle);
                     }
-                        
-                    if (strStatusText != m_pStatusbar->m_ptxtConnected->GetLabel()) {
+                    if (m_pStatusbar->m_ptxtConnected->GetLabel() != strStatusText) {
                         m_pStatusbar->m_ptxtConnected->SetLabel(strStatusText);
                     }
                 } else {
