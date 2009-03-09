@@ -340,6 +340,10 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 
     if (wxGetApp().ConfirmExit()) {
 
+        // Save state before exiting
+        CFrameEvent eventSaveState(wxEVT_FRAME_SAVESTATE, this);
+        ProcessEvent(eventSaveState);
+
 #ifdef __WXMSW__
         CMainDocument* pDoc = wxGetApp().GetDocument();
 

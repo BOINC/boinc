@@ -2935,3 +2935,13 @@ Rom    9 Mar 2009
         ViewStatistics.cpp
     win_build/
         boincmgr_curl.vcproj
+
+Rom    9 Mar 2009
+    - MGR: Restore state even if we are not going to display the
+        window.  Otherwise when restoring from the system tray
+        we'll end up on the resources tab.
+    - MGR: Save state before exit.
+    
+    clientgui/
+    BOINCBaseFrame.cpp
+    BOINCGUIApp.cpp
