@@ -2943,11 +2943,18 @@ Rom    9 Mar 2009
     - MGR: Save state before exit.
     
     clientgui/
-    BOINCBaseFrame.cpp
-    BOINCGUIApp.cpp
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.cpp
 
 Charlie 9 Mar 2009
     - MGR: CBOINCBaseFrame::FireRestoreState() calls ProcessEvent() 
         on Mac instead of AddPendingEvent() to avoid displaying Disk 
         tab for an instant when showing the Window on manual launch.
+    - MGR: suspend periodic RPCs only when displaying SafeMessageBox() 
+        not for all dialogs, so tabs can update during Preferences 
+        dialog, etc.
 
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.h
+        MainDocument.cpp
