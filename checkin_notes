@@ -2958,3 +2958,9 @@ Charlie 9 Mar 2009
         BOINCBaseFrame.cpp
         BOINCGUIApp.h
         MainDocument.cpp
+
+David  9 Mar 2009
+    - scheduler: msg tweak
+
+    sched/
+        sched_array.cpp

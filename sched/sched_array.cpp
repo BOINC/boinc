@@ -127,12 +127,14 @@ void scan_work_array() {
         ) {
             if (app_not_selected(wu)) {
                 g_wreq->no_allowed_apps_available = true;
+#if 0
                 if (config.debug_send) {
                     log_messages.printf(MSG_NORMAL,
                         "[send] [USER#%d] [WU#%d] user doesn't want work for app %s\n",
                         g_reply->user.id, wu.id, app->name
                     );
                 }
+#endif
                 continue;
             }
         }
