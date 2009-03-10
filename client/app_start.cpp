@@ -107,6 +107,8 @@ static void debug_print_argv(char** argv) {
 // for apps that use CUDA coprocessors, append "--device x" to the command line
 //
 static void cuda_cmdline(ACTIVE_TASK* atp, char* cmdline) {
+#if 0
+    // TODO: do this another way
     char buf[256];
     if (!coproc_cuda) return;
     for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
@@ -115,6 +117,7 @@ static void cuda_cmdline(ACTIVE_TASK* atp, char* cmdline) {
             strcat(cmdline, buf);
         }
     }
+#endif
 }
 
 // Make a unique key for core/app shared memory segment.

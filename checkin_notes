@@ -1915,3 +1915,16 @@ Charlie 6 Mar 2009
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  6 Mar 2009
+    - lib: remove "owner" array from COPROC.
+        This was used in client to keep track of assignment of
+        coprocessors to tasks, but we got rid of the reserve/free scheme.
+        NOTE: this breaks the mechanism for passing --device N to apps;
+        I'll have to do this another way.  Stay tuned.
+
+    client/
+        app_start.cpp
+        cpu_sched.cpp
+    lib/
+        coproc.cpp,h

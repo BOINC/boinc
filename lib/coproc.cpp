@@ -102,6 +102,8 @@ vector<string> COPROCS::get() {
     return strings;
 }
 
+// used only to parse scheduler request messages
+//
 int COPROCS::parse(FILE* fin) {
     char buf[1024];
 
