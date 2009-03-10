@@ -1952,4 +1952,10 @@ Charlie 5 Mar 2009
 
     client/
         app_start.cpp
-    
+
+David  8 Mar 2009
+    - client, GUI RPC: put <host_venue> back in get_state reply;
+        it's used by BoincView
+
+    client/
+        cs_statefile.cpp
