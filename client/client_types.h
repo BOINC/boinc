@@ -412,7 +412,7 @@ struct APP_VERSION {
     char api_version[16];
     double avg_ncpus;
     double max_ncpus;
-    double ncudas;
+    int ncudas;
     double flops;
         /// additional cmdline args
     char cmdline[256];

@@ -104,20 +104,66 @@ static void debug_print_argv(char** argv) {
 }
 #endif
 
-// for apps that use CUDA coprocessors, append "--device x" to the command line
+// for apps that use coprocessors, reserve the instances,
+// and append "--device x" to the command line
 //
-static void cuda_cmdline(ACTIVE_TASK* atp, char* cmdline) {
-#if 0
-    // TODO: do this another way
-    char buf[256];
-    if (!coproc_cuda) return;
-    for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
-        if (coproc_cuda->owner[i] == atp) {
-            sprintf(buf, " --device %d", i);
-            strcat(cmdline, buf);
+static void coproc_cmdline(
+    COPROC* coproc, ACTIVE_TASK* atp, int ninstances, char* cmdline
+) {
+    unsigned int i;
+    int j, k;
+    vector<ACTIVE_TASK*> tasks_using_coproc;
+
+    // make a list of the executing tasks (other than this) using this coproc
+    //
+    for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
+        ACTIVE_TASK* p = gstate.active_tasks.active_tasks[i];
+        if (p == atp) continue;
+        if (p->task_state() != PROCESS_EXECUTING) continue;
+        if (p->app_version->coprocs.lookup(coproc->type)) {
+            tasks_using_coproc.push_back(p);
         }
     }
-#endif
+
+    // scan the coproc's owner array,
+    // clearing any entries not in the above list
+    //
+    for (j=0; j<coproc->count; j++) {
+        if (coproc->owner[j]) {
+            bool found = false;
+            for (k=0; k<tasks_using_coproc.size(); k++) {
+                if (coproc->owner[j] == tasks_using_coproc[k]) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                coproc->owner[j] = NULL;
+            }
+        }
+    }
+    
+    // reserve instances for this job
+    //
+    char buf[256];
+    k = 0;
+    for (j=0; j<ninstances; j++) {
+        while (1) {
+            if (k == coproc->count) {
+                msg_printf(atp->result->project, MSG_INTERNAL_ERROR,
+                    "Can't find free %s", coproc->type
+                );
+                return;
+            }
+            if (coproc->owner[k] == NULL) {
+                sprintf(buf, " --device %d", k);
+                strcat(cmdline, buf);
+                coproc->owner[k++] = atp;
+                break;
+            }
+            k++;
+        }
+    }
 }
 
 // Make a unique key for core/app shared memory segment.
@@ -525,7 +571,9 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(cmdline, "%s %s %s",
         exec_path, wup->command_line.c_str(), app_version->cmdline
     );
-    cuda_cmdline(this, cmdline);
+    if (coproc_cuda && app_version->ncudas) {
+        coproc_cmdline(coproc_cuda, this, app_version->ncudas, cmdline);
+    }
 
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
@@ -817,7 +865,9 @@ int ACTIVE_TASK::start(bool first_time) {
         }
 #endif
         sprintf(cmdline, "%s %s", wup->command_line.c_str(), app_version->cmdline);
-        cuda_cmdline(this, cmdline);
+        if (coproc_cuda && app_version->ncudas) {
+            coproc_cmdline(coproc_cuda, this, app_version->ncudas, cmdline);
+        }
         sprintf(buf, "../../%s", exec_path );
         if (g_use_sandbox) {
             char switcher_path[100];

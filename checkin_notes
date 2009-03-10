@@ -1928,3 +1928,16 @@ David  6 Mar 2009
         cpu_sched.cpp
     lib/
         coproc.cpp,h
+
+David  6 Mar 2009
+    - client: add a new mechanism for assigning coproc instances to tasks,
+        and passing them the corresponding --device N cmdline args.
+        This fixes a bug introduced in 17402 (Feb 26)
+        that broke the --device feature,
+        presumably causing problems on systems with multiple GPUs.
+
+    client/
+        app_start.cpp
+        client_types.h
+    lib/
+        coproc.h
