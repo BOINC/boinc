@@ -1959,3 +1959,15 @@ David  8 Mar 2009
 
     client/
         cs_statefile.cpp
+
+Rom    8 Mar 2009
+    - MGR: Fix a long standing bug where the pie control in the
+        disk usage tab was being created but a default pie part
+        wasn't being added to the control.  This caused the
+        control to display black circles during window
+        initialization on slower systems.  This issue has been
+        around since we started using the pie control based disk
+        usage tab.
+    
+    clientgui/
+        ViewResources.cpp
