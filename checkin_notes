@@ -2023,3 +2023,11 @@ Charlie 9 Mar 2009
         BOINCBaseFrame.cpp
         BOINCGUIApp.h
         MainDocument.cpp
+
+Rom    10 Mar 2009
+    - Tag for 6.6.15 release, all platforms
+      boinc_core_release_6_6_15
+
+    /
+        configure.ac
+        version.h
