@@ -2878,7 +2878,7 @@ David  6 Mar 2009
     lib/
         coproc.h
 
-Charlie 5 Mar 2009
+Charlie 6 Mar 2009
     - client: Fix compiler warning on Mac.
 
     client/
@@ -2945,3 +2945,9 @@ Rom    9 Mar 2009
     clientgui/
     BOINCBaseFrame.cpp
     BOINCGUIApp.cpp
+
+Charlie 9 Mar 2009
+    - MGR: CBOINCBaseFrame::FireRestoreState() calls ProcessEvent() 
+        on Mac instead of AddPendingEvent() to avoid displaying Disk 
+        tab for an instant when showing the Window on manual launch.
+
