@@ -415,7 +415,11 @@ void CBOINCBaseFrame::FireSaveState() {
 
 void CBOINCBaseFrame::FireRestoreState() {
     CFrameEvent event(wxEVT_FRAME_RESTORESTATE, this);
+#ifdef __WXMAC__
+    ProcessEvent(event);
+#else
     AddPendingEvent(event);
+#endif
 }
 
 
