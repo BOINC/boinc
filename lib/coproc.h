@@ -49,12 +49,22 @@ struct COPROC {
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
 #endif
+    inline void clear() {
+        // can't just memcpy() - trashes vtable
+        type[0] = 0;
+        count = 0;
+        used = 0;
+        req_secs = 0;
+        req_instances = 0;
+        estimated_delay = 0;
+        memset(owner, 0, sizeof(owner));
+    }
     COPROC(const char* t){
-        memset(this, 0, sizeof(COPROC));
+        clear();
         strcpy(type, t);
     }
     COPROC() {
-        memset(this, 0, sizeof(COPROC));
+        clear();
     }
     virtual ~COPROC(){}
     int parse(MIOFILE&);
