@@ -877,9 +877,11 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             }
 
             // Show the new frame if needed
-            if (pNewFrame && bShowWindow) {
+            if (pNewFrame) {
                 pNewFrame->FireRestoreState();
-                pNewFrame->Show();
+                if (bShowWindow) {
+                    pNewFrame->Show();
+                }
             }
 
             // Delete the old one if it exists
