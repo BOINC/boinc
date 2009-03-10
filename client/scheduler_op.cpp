@@ -258,7 +258,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
     if (retval) {
         if (log_flags.sched_ops) {
             msg_printf(p, MSG_INFO,
-                "Scheduler request failed: %s", boincerror(retval)
+                "Scheduler request initialization failed: %s", boincerror(retval)
             );
         }
         rpc_failed("Scheduler request initialization failed");
