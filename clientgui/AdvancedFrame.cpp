@@ -183,9 +183,10 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCMANAGER, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CAdvancedFrame::OnHelpAbout)
-    EVT_SHOW(CAdvancedFrame::OnShow)
     EVT_FRAME_CONNECT(CAdvancedFrame::OnConnect)
     EVT_FRAME_UPDATESTATUS(CAdvancedFrame::OnUpdateStatus)
+    EVT_FRAME_SAVESTATE(CAdvancedFrame::OnSaveState)
+    EVT_FRAME_RESTORESTATE(CAdvancedFrame::OnRestoreState)
     EVT_TIMER(ID_REFRESHSTATETIMER, CAdvancedFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CAdvancedFrame::OnFrameRender)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CAdvancedFrame::OnNotebookSelectionChanged)
@@ -198,9 +199,8 @@ CAdvancedFrame::CAdvancedFrame() {
 }
 
 
-CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32) : 
-    CBOINCBaseFrame((wxFrame *)NULL, ID_ADVANCEDFRAME, title, wxDefaultPosition, wxDefaultSize,
-                    wxDEFAULT_FRAME_STYLE)
+CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint position, wxSize size) : 
+    CBOINCBaseFrame((wxFrame *)NULL, ID_ADVANCEDFRAME, title, position, size, wxDEFAULT_FRAME_STYLE)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CAdvancedFrame - Function Begin"));
     
@@ -217,16 +217,10 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32) :
     icons.AddIcon(*icon32);
     SetIcons(icons);
 
-    // Restore main application frame settings
-    RestoreState();
-
     // Create UI elements
     wxCHECK_RET(CreateMenu(), _T("Failed to create menu bar."));
     wxCHECK_RET(CreateNotebook(), _T("Failed to create notebook."));
     wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
-
-    // Restore view settings
-    RestoreViewState();
 
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
@@ -241,10 +235,6 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32) :
     wxASSERT(m_pFrameRenderTimer);
     m_pFrameRenderTimer->Start(1000);               // Send event every 1 second
 
-    // Limit the number of times the UI can update itself to two times a second
-    //   NOTE: Linux and Mac were updating several times a second and eating
-    //         CPU time
-    wxUpdateUIEvent::SetUpdateInterval(500);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CAdvancedFrame - Function End"));
 }
@@ -258,9 +248,6 @@ CAdvancedFrame::~CAdvancedFrame() {
     wxASSERT(m_pMenubar);
     wxASSERT(m_pNotebook);
     wxASSERT(m_pStatusbar);
-
-    SaveState();
-    SaveViewState();
 
     if (m_pRefreshStateTimer) {
         m_pRefreshStateTimer->Stop();
@@ -787,7 +774,7 @@ bool CAdvancedFrame::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    // Reterieve and store the latest window dimensions.
+    // Store the latest window dimensions.
     SaveWindowDimensions();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveState - Function End"));
@@ -881,7 +868,7 @@ bool CAdvancedFrame::RestoreState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    // Reterieve and store the latest window dimensions.
+    // Reterieve the latest window dimensions.
     RestoreWindowDimensions();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreState - Function End"));
@@ -973,11 +960,8 @@ void CAdvancedFrame::SaveWindowDimensions() {
     pConfig->Write(wxT("WindowMaximized"), IsMaximized());
     pConfig->Write(wxT("Width"), GetSize().GetWidth());
     pConfig->Write(wxT("Height"), GetSize().GetHeight());
-
-#ifdef __WXMAC__
     pConfig->Write(wxT("XPos"), GetPosition().x);
     pConfig->Write(wxT("YPos"), GetPosition().y);
-#endif  // ! __WXMAC__
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveWindowDimensions - Function End"));
 }
@@ -988,53 +972,10 @@ void CAdvancedFrame::RestoreWindowDimensions() {
 
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-    bool            bWindowIconized = false;
-    bool            bWindowMaximized = false;
-    int             iHeight = 0;
-    int             iWidth = 0;
-    int             iTop = 0;
-    int             iLeft = 0;
 
     wxASSERT(pConfig);
 
     pConfig->SetPath(strBaseConfigLocation);
-
-    pConfig->Read(wxT("YPos"), &iTop, 30);
-    pConfig->Read(wxT("XPos"), &iLeft, 30);
-    pConfig->Read(wxT("Width"), &iWidth, 800);
-    pConfig->Read(wxT("Height"), &iHeight, 600);
-    pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
-    pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
-
-#ifndef __WXMAC__
-
-    Iconize(bWindowIconized);
-    Maximize(bWindowMaximized);
-    if (!IsIconized() && !IsMaximized()) {
-        SetSize(-1, -1, iWidth, iHeight);
-    }
-
-#else   // ! __WXMAC__
-
-    // If the user has changed the arrangement of multiple 
-    // displays, make sure the window title bar is still on-screen.
-    Rect titleRect = {iTop, iLeft, iTop+22, iLeft+iWidth };
-    InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
-    RgnHandle displayRgn = NewRgn();
-    CopyRgn(GetGrayRgn(), displayRgn);  // Region encompassing all displays
-    Rect menuRect = ((**GetMainDevice())).gdRect;
-    menuRect.bottom = GetMBarHeight() + menuRect.top;
-    RgnHandle menuRgn = NewRgn();
-    RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
-    DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
-    if (!RectInRgn(&titleRect, displayRgn))
-        iTop = iLeft = 30;
-    DisposeRgn(menuRgn);
-    DisposeRgn(displayRgn);
-
-    SetSize(iLeft, iTop, iWidth, iHeight);
-
-#endif  // ! __WXMAC__
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreWindowDimensions - Function End"));
 }
@@ -1671,53 +1612,26 @@ void CAdvancedFrame::OnHelpAbout(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CAdvancedFrame::OnShow(wxShowEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnShow - Function Begin"));
-    static bool bAlreadyRunning = false;
-
-    if ((event.GetEventObject() == this) && !bAlreadyRunning) {
-        bAlreadyRunning = true;
-
-        wxLogTrace(wxT("Function Status"), wxT("CAdvancedFrame::OnShow - Show/Hide Event for CAdvancedFrame detected"));
-        if (event.GetShow()) {
-            RestoreWindowDimensions();
-        } else {
-            SaveWindowDimensions();
-        }
-
-        bAlreadyRunning = false;
-    } else {
-        event.Skip();
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnShow - Function End"));
-}
-
-
 void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
-    static bool bAlreadyRunningLoop = false;
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function Begin"));
 
-    if (!bAlreadyRunningLoop) {
-        bAlreadyRunningLoop = true;
+    if (IsShown()) {
+        wxWindow*       pwndNotebookPage = NULL;
+        CBOINCBaseView* pView = NULL;
+        wxTimerEvent    timerEvent;
 
-        if (IsShown()) {
-            wxWindow*       pwndNotebookPage = NULL;
-            CBOINCBaseView* pView = NULL;
-            wxTimerEvent    timerEvent;
+        wxASSERT(m_pNotebook);
 
-            wxASSERT(m_pNotebook);
+        pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
+        wxASSERT(pwndNotebookPage);
 
-            pwndNotebookPage = m_pNotebook->GetPage(m_pNotebook->GetSelection());
-            wxASSERT(pwndNotebookPage);
+        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
+        wxASSERT(pView);
 
-            pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-            wxASSERT(pView);
-
-            pView->FireOnListRender(timerEvent);
-        }
-
-        bAlreadyRunningLoop = false;
+        pView->FireOnListRender(timerEvent);
     }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function End"));
 }
 
 
@@ -1878,7 +1792,27 @@ void CAdvancedFrame::OnUpdateStatus(CFrameEvent& event) {
 }
 
 
-void CAdvancedFrame::OnRefreshState(wxTimerEvent& /*event*/) {
+void CAdvancedFrame::OnSaveState(CFrameEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSateState - Function Begin"));
+
+    SaveState();
+    SaveViewState();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSateState - Function End"));
+}
+
+
+void CAdvancedFrame::OnRestoreState(CFrameEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRestoreState - Function Begin"));
+
+    RestoreState();
+    RestoreViewState();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRestoreState - Function End"));
+}
+
+
+void CAdvancedFrame::OnRefreshState(wxTimerEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshState - Function Begin"));
 
     // Write a snapshot of the current state to the config
@@ -1893,7 +1827,7 @@ void CAdvancedFrame::OnRefreshState(wxTimerEvent& /*event*/) {
 }
 
 
-void CAdvancedFrame::OnFrameRender(wxTimerEvent& /*event*/) {
+void CAdvancedFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
     CMainDocument*    pDoc     = wxGetApp().GetDocument();
     wxMenuBar*        pMenuBar = GetMenuBar();
 

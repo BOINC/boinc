@@ -1971,3 +1971,27 @@ Rom    8 Mar 2009
     
     clientgui/
         ViewResources.cpp
+
+Rom    9 Mar 2009
+    - MGR: Set the window size through the window creation routine
+        instead of calling SetSize() after the fact.  It removes
+        all the flicker out of the Advanced GUI.
+    - MGR: Consolidate all the window position restore functionality
+        for both the Simple GUI and Advanced GUI in BOINCGUIApp.cpp
+        instead of having duplicate copies in each view.
+    - MGR: Have the Advanced GUI remember position across restarts.
+    - MGR: Create new window events that will save and restore
+        window state for both GUIs.  This avoids multiple UI
+        updates.  Each time you would change window size from within
+        a OnShow or OnSize event it would spawn an update of its own.
+        Sometimes certain controls would ignore the event because
+        it believed it was already processing the event.
+        
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.cpp, .h
+        BOINCGUIApp.cpp
+        sg_BoincSimpleGUI.cpp, .h
+        ViewStatistics.cpp
+    win_build/
+        boincmgr_curl.vcproj

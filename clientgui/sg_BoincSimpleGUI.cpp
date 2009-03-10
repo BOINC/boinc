@@ -59,6 +59,8 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_HELP(wxID_ANY, CSimpleFrame::OnHelp)
     EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
     EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
+    EVT_FRAME_SAVESTATE(CSimpleFrame::OnSaveState)
+    EVT_FRAME_RESTORESTATE(CSimpleFrame::OnRestoreState)
     // We can't eliminate the Mac Help menu, so we might as well make it useful.
     EVT_MENU(ID_HELPBOINC, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
@@ -71,18 +73,11 @@ CSimpleFrame::CSimpleFrame() {
 }
 
 
-CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32) : 
-    CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, wxDefaultPosition, 
-#ifdef __WXMAC__
-                    wxSize(409, 561),
-#else
-                    wxSize(416, 570),
-#endif
-                    wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxNO_FULL_REPAINT_ON_RESIZE)
+CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint position, wxSize size) : 
+    CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, position, size,
+                    wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Overloaded Constructor Function Begin"));
-
-    RestoreState();
 
     // Initialize Application
     wxIconBundle icons;
@@ -199,8 +194,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32) :
 CSimpleFrame::~CSimpleFrame() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function Begin"));
 
-	SaveState();
-
     if (m_pAccelTable)
         delete m_pAccelTable;
 
@@ -211,7 +204,7 @@ CSimpleFrame::~CSimpleFrame() {
 bool CSimpleFrame::RestoreState() {
     CBOINCBaseFrame::RestoreState();
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-    wxString        strBaseConfigLocation = wxString(wxT("/"));
+    wxString        strBaseConfigLocation = wxString(wxT("/Simple"));
     wxASSERT(pConfig);
 
     // An odd case happens every once and awhile where wxWidgets looses
@@ -225,50 +218,6 @@ bool CSimpleFrame::RestoreState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-	// Read the last coordinates of the BSG
-	int x = pConfig->Read(wxT("X_Position"), ((wxPoint) wxDefaultPosition).x);
-	int y = pConfig->Read(wxT("Y_Position"), ((wxPoint) wxDefaultPosition).y);
-	
-	// Read the size of the BSG
-	int width, height;
-	GetSize(&width, &height);
-
-#ifdef __WXMAC__
-
-        // If the user has changed the arrangement of multiple 
-        // displays, make sure the window title bar is still on-screen.
-        Rect titleRect = {y, x, y+22, x+width };
-        InsetRect(&titleRect, 5, 5);    // Make sure at least a 5X5 piece visible
-        RgnHandle displayRgn = NewRgn();
-        CopyRgn(GetGrayRgn(), displayRgn);  // Region encompassing all displays
-        Rect menuRect = ((**GetMainDevice())).gdRect;
-        menuRect.bottom = GetMBarHeight() + menuRect.top;
-        RgnHandle menuRgn = NewRgn();
-        RectRgn(menuRgn, &menuRect);                // Region hidden by menu bar
-        DiffRgn(displayRgn, menuRgn, displayRgn);   // Subtract menu bar retion
-        if (!RectInRgn(&titleRect, displayRgn))
-            x = y = 30;
-        DisposeRgn(menuRgn);
-        DisposeRgn(displayRgn);
-    
-#else
-
-	// If either co-ordinate is less then 0 then set it equal to 0 to ensure
-	// it displays on the screen.
-	if ( x < 0 ) x = 0;
-	if ( y < 0 ) y = 0;
-
-	// Read the size of the screen
-	int maxX = wxSystemSettings::GetMetric( wxSYS_SCREEN_X );
-	int maxY = wxSystemSettings::GetMetric( wxSYS_SCREEN_Y );
-
-	// Max sure that it doesn't go off to the right or bottom
-	if ( x + width > maxX ) x=maxX-width;
-	if ( y + height > maxY ) y=maxY-height;
-#endif
-
-	Move(x,y);
-
 	return true;
 }
 
@@ -276,7 +225,7 @@ bool CSimpleFrame::RestoreState() {
 bool CSimpleFrame::SaveState() {
 	CBOINCBaseFrame::SaveState();
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-	wxString        strBaseConfigLocation = wxString(wxT("/"));
+	wxString        strBaseConfigLocation = wxString(wxT("/Simple"));
 
     wxASSERT(pConfig);
 
@@ -291,11 +240,10 @@ bool CSimpleFrame::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-	int x,y;
-	GetPosition(&x, &y);
-	pConfig->Write(wxT("X_Position"), x);
-	pConfig->Write(wxT("Y_Position"), y);
-	return true;
+    pConfig->Write(wxT("XPos"), GetPosition().x);
+    pConfig->Write(wxT("YPos"), GetPosition().y);
+
+    return true;
 }
 
 
@@ -309,7 +257,7 @@ int CSimpleFrame::_GetCurrentViewPage() {
 }
 
 
-void CSimpleFrame::OnSwitchGUI(wxCommandEvent& event) {
+void CSimpleFrame::OnSwitchGUI(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function Begin"));
 
     wxGetApp().SetActiveGUI(BOINC_ADVANCEDGUI, true);
@@ -482,6 +430,24 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 }
 
 
+void CSimpleFrame::OnSaveState(CFrameEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnSateState - Function Begin"));
+
+    SaveState();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnSateState - Function End"));
+}
+
+
+void CSimpleFrame::OnRestoreState(CFrameEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRestoreState - Function Begin"));
+
+    RestoreState();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRestoreState - Function End"));
+}
+
+
 IMPLEMENT_DYNAMIC_CLASS(CSimplePanel, wxPanel)
 
 BEGIN_EVENT_TABLE(CSimplePanel, wxPanel)
@@ -492,7 +458,7 @@ END_EVENT_TABLE()
 
 CSimplePanel::CSimplePanel() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Default Constructor Function Begin"));
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanels::CSimplePanel - Default Constructor Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Default Constructor Function End"));
 }
 
 

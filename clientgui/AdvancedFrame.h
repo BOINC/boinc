@@ -62,7 +62,7 @@ class CAdvancedFrame : public CBOINCBaseFrame
 
 public:
     CAdvancedFrame();
-    CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32);
+    CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint position, wxSize size);
 
     ~CAdvancedFrame(void);
 
@@ -89,8 +89,6 @@ public:
     void OnHelpBOINC( wxCommandEvent& event );
     void OnHelpAbout( wxCommandEvent& event );
 
-    void OnShow( wxShowEvent& event );
-
     void OnRefreshState( wxTimerEvent& event );
     void OnFrameRender( wxTimerEvent& event );
 
@@ -98,6 +96,9 @@ public:
 
     void OnRefreshView( CFrameEvent& event );
     void OnConnect( CFrameEvent& event );
+    void OnSaveState( CFrameEvent& event );
+    void OnRestoreState( CFrameEvent& event );
+
     void OnUpdateStatus( CFrameEvent& event );
 
     void ResetReminderTimers();
