@@ -1946,3 +1946,10 @@ David  6 Mar 2009
     - client: fix crash
     lib/
         coproc.h
+
+Charlie 5 Mar 2009
+    - client: Fix compiler warning on Mac.
+
+    client/
+        app_start.cpp
+    
