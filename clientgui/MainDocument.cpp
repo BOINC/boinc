@@ -808,11 +808,12 @@ void CMainDocument::RunPeriodicRPCs() {
     // or project in a demand RPC call.  If Periodic RPCs continue 
     // to run during these dialogs, that pointer may no longer be 
     // valid by the time the demand RPC is executed.  So we suspend 
-    // periodic RPCs during modal dialogs.
+    // periodic RPCs during certain modal dialogs.
     //
     // Note that this depends on using wxGetApp().SafeMessageBox()
-    // instead of wxMessageBox in all tab views.
-    if (wxGetApp().IsModalDialogDisplayed() && (currentTabView != (VW_SGUI | VW_SMSG)) ) {
+    // instead of wxMessageBox in all tab views and anywhere else 
+    // where a periodic RPC could cause a similar problem.
+    if (wxGetApp().IsSafeMesageBoxDisplayed()) {
         return;
     }
 

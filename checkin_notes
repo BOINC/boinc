@@ -2013,3 +2013,13 @@ Charlie 9 Mar 2009
 
     clientgui/
         BOINCBaseFrame.cpp
+
+Charlie 9 Mar 2009
+    - MGR: suspend periodic RPCs only when displaying SafeMessageBox() 
+        not for all dialogs, so tabs can update during Preferences 
+        dialog, etc.
+
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCGUIApp.h
+        MainDocument.cpp

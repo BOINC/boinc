@@ -179,6 +179,7 @@ public:
     void                ShowApplication(bool bShow);
 
     bool                IsModalDialogDisplayed();
+    bool                IsSafeMesageBoxDisplayed() { return (m_bSafeMessageBoxDisplayed != 0); };
 
     int                 FilterEvent(wxEvent &event);
 
