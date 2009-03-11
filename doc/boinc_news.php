@@ -1,6 +1,17 @@
 <?
 
 $project_news = array(
+array("March 9, 2009",
+    "A new add-on for Windows,
+    <a href=\"http://boinc.berkeley.edu/addon_item.php?platform=win&item=http%3A%2F%2Fwww.bc-team.org%2Fdownloads.php%3Fview%3Ddetail%26df_id%3D3\">BOINCcalculator</a>, shows details (trickles, credit, timesteps, checkpoints) of running CPDN jobs."
+),
+array("March 9, 2009",
+    "<a href=http://www.cosmologyathome.org/>Cosmology@Home</a>,
+    a project from the University of Illinois whose goal is to search
+    for the model that best describes our Universe,
+    is now listed on the <a href=http://boinc.berkeley.edu/choose_projects.php>Choose
+    Projects</a> page."
+),
 array("March 5, 2009",
     "BOINC was the subject of a 40-minute radio program (in Polish)
     on <a href=http://www.tok.fm/TOKFM/0,89523.html>Tok FM</a>

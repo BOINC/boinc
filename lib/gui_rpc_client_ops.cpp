@@ -149,7 +149,7 @@ void PROJECT_LIST_ENTRY::clear() {
     platforms.clear();
     home.clear();
     image.clear();
-    rand = 0.0;
+    rand = 0;
 }
 
 bool PROJECT_LIST_ENTRY::operator<(const PROJECT_LIST_ENTRY& compare) {
@@ -234,15 +234,15 @@ int PROJECT::parse(MIOFILE& in) {
 
 void PROJECT::clear() {
     master_url.clear();
-    resource_share = 0.0;
+    resource_share = 0;
     project_name.clear();
     user_name.clear();
     team_name.clear();
-    user_total_credit = 0.0;
-    user_expavg_credit = 0.0;
-    host_total_credit = 0.0;
-    host_expavg_credit = 0.0;
-    disk_usage = 0.0;
+    user_total_credit = 0;
+    user_expavg_credit = 0;
+    host_total_credit = 0;
+    host_expavg_credit = 0;
+    disk_usage = 0;
     nrpc_failures = 0;
     master_fetch_failures = 0;
     min_rpc_time = 0;
@@ -382,6 +382,7 @@ int RESULT::parse(MIOFILE& in) {
         if (parse_bool(buf, "supports_graphics", supports_graphics)) continue;
         if (parse_int(buf, "<graphics_mode_acked>", graphics_mode_acked)) continue;
         if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
+        if (parse_double(buf, "<final_elapsed_time>", final_elapsed_time)) continue;
         if (parse_int(buf, "<state>", state)) continue;
         if (parse_int(buf, "<scheduler_state>", scheduler_state)) continue;
         if (parse_int(buf, "<exit_status>", exit_status)) continue;
@@ -420,7 +421,8 @@ void RESULT::clear() {
     report_deadline = 0;
     ready_to_report = false;
     got_server_ack = false;
-    final_cpu_time = 0.0;
+    final_cpu_time = 0;
+    final_elapsed_time = 0;
     state = 0;
     scheduler_state = 0;
     exit_status = 0;
@@ -432,13 +434,13 @@ void RESULT::clear() {
     active_task = false;
     active_task_state = 0;
     app_version_num = 0;
-    checkpoint_cpu_time = 0.0;
-    current_cpu_time = 0.0;
-    fraction_done = 0.0;
+    checkpoint_cpu_time = 0;
+    current_cpu_time = 0;
+    fraction_done = 0;
     elapsed_time = -1;
     swap_size = 0;
     working_set_size_smoothed = 0;
-    estimated_cpu_time_remaining = 0.0;
+    estimated_cpu_time_remaining = 0;
     supports_graphics = false;
     graphics_mode_acked = 0;
     too_large = false;
@@ -496,7 +498,7 @@ void FILE_TRANSFER::clear() {
     name.clear();
     project_url.clear();
     project_name.clear();
-    nbytes = 0.0;
+    nbytes = 0;
     generated_locally = false;
     uploaded = false;
     upload_when_present = false;
@@ -507,10 +509,10 @@ void FILE_TRANSFER::clear() {
     first_request_time = 0;
     next_request_time = 0;
     status = 0;
-    time_so_far = 0.0;
-    bytes_xferred = 0.0;
-    file_offset = 0.0;
-    xfer_speed = 0.0;
+    time_so_far = 0;
+    bytes_xferred = 0;
+    file_offset = 0;
+    xfer_speed = 0;
     hostname.clear();
     project = NULL;
 }

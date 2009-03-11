@@ -478,6 +478,7 @@ struct RESULT {
         /// we're received the ack for this result from the server
     bool got_server_ack;
     double final_cpu_time;
+    double final_elapsed_time;
 
     // the following are nonzero if reported by app
     double fpops_per_cpu_sec;

@@ -1034,7 +1034,6 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
             break;
         case RPC_REASON_ACCT_MGR_REQ:
             // This is critical for acct mgrs, to propagate new host CPIDs
-            honor_backoff = false;
             honor_suspend = false;
             break;
         case RPC_REASON_INIT:

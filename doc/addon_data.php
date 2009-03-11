@@ -11,6 +11,16 @@
 
 $win = array(
 array(
+    'http://www.bc-team.org/downloads.php?view=detail&df_id=3',
+    'BOINCcalculator',
+    '0.2.0',
+    'Show details of CPDN jobs',
+    'http://wiki.bc-team.org/index.php?title=BOINCcalculator',
+    'Windows (all)',
+    'BOINCcalculator shows details of running CPDN jobs: trickles, credits, timesteps, and checkpoints.',
+    1236727395
+),
+array(
     'http://efmer.eu/boinc/',
     'TThrottle',
     '1.47',
@@ -82,7 +92,8 @@ array('boincview.zip',
     'BoincView',
     '1.2.5',
     'Advanced BOINC manager for networks',
-    'http://boincview.amanheis.de',
+    //'http://boincview.amanheis.de',
+    '',
     '',
     'BoincView can monitor and control all your BOINC clients throughout your network. Every client can be managed via the client\'s remote control feature.',
     1149517167

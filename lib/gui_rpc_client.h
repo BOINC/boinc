@@ -209,6 +209,7 @@ public:
     bool ready_to_report;
     bool got_server_ack;
     double final_cpu_time;
+    double final_elapsed_time;
     int state;
     int scheduler_state;
     int exit_status;
@@ -228,6 +229,7 @@ public:
     double swap_size;
     double working_set_size_smoothed;
     double estimated_cpu_time_remaining;
+        // actually, estimated elapsed time remaining
     bool supports_graphics;
     int graphics_mode_acked;
     bool too_large;

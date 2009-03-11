@@ -181,7 +181,10 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
 		addProperty(_("Fraction done"), wxString::Format(wxT("%.3f %%"), result->fraction_done*100));
 		addProperty(_("Virtual memory size"), FormatDiskSpace(result->swap_size));
 		addProperty(_("Working set size"), FormatDiskSpace(result->working_set_size_smoothed));
-	}
+	} else if (result->state >= RESULT_COMPUTE_ERROR) {
+		addProperty(_("CPU time"), FormatTime(result->final_cpu_time));
+		addProperty(_("Elapsed time"), FormatTime(result->final_elapsed_time));
+    }
 	m_gbSizer->Layout();
 	m_scrolledWindow->FitInside();
 }
