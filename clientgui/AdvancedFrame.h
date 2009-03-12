@@ -132,9 +132,7 @@ private:
     bool            DeleteStatusbar();
 
     bool            SaveState();
-    bool            SaveViewState();
     bool            RestoreState();
-    bool            RestoreViewState();
 
     void            SaveWindowDimensions();
 
