@@ -185,8 +185,6 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(wxID_ABOUT, CAdvancedFrame::OnHelpAbout)
     EVT_FRAME_CONNECT(CAdvancedFrame::OnConnect)
     EVT_FRAME_UPDATESTATUS(CAdvancedFrame::OnUpdateStatus)
-    EVT_FRAME_SAVESTATE(CAdvancedFrame::OnSaveState)
-    EVT_FRAME_RESTORESTATE(CAdvancedFrame::OnRestoreState)
     EVT_TIMER(ID_REFRESHSTATETIMER, CAdvancedFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CAdvancedFrame::OnFrameRender)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CAdvancedFrame::OnNotebookSelectionChanged)
@@ -222,6 +220,8 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxP
     wxCHECK_RET(CreateNotebook(), _T("Failed to create notebook."));
     wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
 
+    RestoreState();
+    RestoreViewState();
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
@@ -248,6 +248,9 @@ CAdvancedFrame::~CAdvancedFrame() {
     wxASSERT(m_pMenubar);
     wxASSERT(m_pNotebook);
     wxASSERT(m_pStatusbar);
+
+    SaveState();
+    SaveViewState();
 
     if (m_pRefreshStateTimer) {
         m_pRefreshStateTimer->Stop();
@@ -868,9 +871,6 @@ bool CAdvancedFrame::RestoreState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    // Reterieve the latest window dimensions.
-    RestoreWindowDimensions();
-
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreState - Function End"));
     return true;
 }
@@ -966,20 +966,6 @@ void CAdvancedFrame::SaveWindowDimensions() {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveWindowDimensions - Function End"));
 }
     
-
-void CAdvancedFrame::RestoreWindowDimensions() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreWindowDimensions - Function Begin"));
-
-    wxString        strBaseConfigLocation = wxString(wxT("/"));
-    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-
-    wxASSERT(pConfig);
-
-    pConfig->SetPath(strBaseConfigLocation);
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreWindowDimensions - Function End"));
-}
-
 
 int CAdvancedFrame::_GetCurrentViewPage() {
     switch (m_pNotebook->GetSelection()) {
@@ -1789,26 +1775,6 @@ void CAdvancedFrame::OnUpdateStatus(CFrameEvent& event) {
     ::wxSleep(0);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateStatus - Function End"));
-}
-
-
-void CAdvancedFrame::OnSaveState(CFrameEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSateState - Function Begin"));
-
-    SaveState();
-    SaveViewState();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSateState - Function End"));
-}
-
-
-void CAdvancedFrame::OnRestoreState(CFrameEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRestoreState - Function Begin"));
-
-    RestoreState();
-    RestoreViewState();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRestoreState - Function End"));
 }
 
 
