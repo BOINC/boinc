@@ -310,7 +310,7 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
  	    PROJECT* project = pDoc->project(i);
         if (project) {
             std::string project_url = project->master_url;
-            std::string new_project_url = m_strProjectURL.mb_str();
+            std::string new_project_url = (const char*)m_strProjectURL.mb_str();
 
             canonicalize_master_url(project_url);
             canonicalize_master_url(new_project_url);
