@@ -93,6 +93,8 @@ public:
 
     bool                Show( bool bShow = true );
 
+    virtual bool        SaveState();
+
 protected:
 
     CBOINCDialUpManager* m_pDialupManager;
@@ -112,7 +114,6 @@ protected:
 
     virtual int         _GetCurrentViewPage();
 
-    virtual bool        SaveState();
     virtual bool        RestoreState();
 
     DECLARE_EVENT_TABLE()

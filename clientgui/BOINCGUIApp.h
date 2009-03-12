@@ -164,6 +164,7 @@ public:
     bool                ShowCurrentGUI() { return SetActiveGUI(m_iGUISelected, true); }
     
     void                OnRPCFinished( CRPCFinishedEvent& event );
+    void                OnSystemShutDown( wxCloseEvent &event );
     
     int                 ConfirmExit();
 
