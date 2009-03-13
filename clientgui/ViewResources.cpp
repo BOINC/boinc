@@ -41,7 +41,6 @@ END_EVENT_TABLE ()
 CViewResources::CViewResources()
 {}
 
-#define COLOR(c) wxColour(c>>16, (c>>8)&0xff, c&0xff)
 CViewResources::CViewResources(wxNotebook* pNotebook) :
 	CBOINCBaseView(pNotebook)
 {
@@ -51,7 +50,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
     wxASSERT(itemGridSizer);
 
 	// create pie chart ctrl for total disk usage
-	m_pieCtrlTotal = new wxPieCtrl(this, ID_LIST_RESOURCEUTILIZATIONVIEWTOTAL, wxDefaultPosition, wxSize(-1,-1));
+	m_pieCtrlTotal = new wxPieCtrl(this, ID_PIECTRL_RESOURCEUTILIZATIONVIEWTOTAL, wxDefaultPosition, wxSize(-1,-1));
 	wxASSERT(m_pieCtrlTotal);
 
     // setup the legend
@@ -72,7 +71,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 
     
     // create pie chart ctrl for BOINC disk usage
-	m_pieCtrlBOINC = new wxPieCtrl(this, ID_LIST_RESOURCEUTILIZATIONVIEW, wxDefaultPosition, wxSize(-1,-1));
+	m_pieCtrlBOINC = new wxPieCtrl(this, ID_PIECTRL_RESOURCEUTILIZATIONVIEW, wxDefaultPosition, wxSize(-1,-1));
 	wxASSERT(m_pieCtrlBOINC);
 
     //setup the legend

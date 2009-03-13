@@ -71,9 +71,10 @@
 #define ID_LIST_WORKVIEW                        7001
 #define ID_LIST_TRANSFERSVIEW                   7002
 #define ID_LIST_MESSAGESVIEW                    7003
-#define ID_LIST_RESOURCEUTILIZATIONVIEW         7004
-#define ID_LIST_STATISTICSVIEW                  7005
-#define ID_LIST_RESOURCEUTILIZATIONVIEWTOTAL	7006
+#define ID_PIECTRL_RESOURCEUTILIZATIONVIEW      7004
+#define ID_PIECTRL_RESOURCEUTILIZATIONVIEWTOTAL	7005
+#define ID_LIST_STATISTICSVIEW                  7006
+#define ID_HTML_NEWSVIEW                        7007
 #define ID_TASK_BASE                            8000
 #define ID_TASK_PROJECTSVIEW                    8000
 #define ID_TASK_WORKVIEW                        8001
@@ -81,6 +82,7 @@
 #define ID_TASK_MESSAGESVIEW                    8003
 #define ID_TASK_STATISTICSVIEW                  8004
 #define ID_TASK_RESOURCEUTILIZATIONVIEW         8005
+#define ID_TASK_NEWSVIEW                        8006
 #define ID_TASK_PROJECT_UPDATE                  9000
 #define ID_TASK_PROJECT_SUSPEND                 9002
 #define ID_TASK_PROJECT_RESUME                  9003
@@ -110,6 +112,8 @@
 #define ID_TASK_STATISTICS_MODEVIEW0            9610
 #define ID_TASK_STATISTICS_MODEVIEW1            9611
 #define ID_TASK_STATISTICS_MODEVIEW2            9612
+#define ID_TASK_NEWS_BOINC                      9700
+#define ID_TASK_NEWS_BOINCWEBSITE               9701
 #define ID_ANYDIALOG                            10000
 #endif
 

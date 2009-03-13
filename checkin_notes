@@ -3008,3 +3008,17 @@ Charlie 12 Mar 2009
         BOINCBaseFrame.cpp, .h
         BOINCGUIApp.cpp, .h
         sg_BoincSimpleGUI.cpp, .h
+
+Rom    13 Mar 2009
+    - MGR: Add the basic infrastructure for the up and comming news tab in
+        the advanced frame.
+        
+    clientgui/
+        AdvancedFrame.cpp
+        BOINCGUIApp.cpp
+        Events.h
+        stdwx.h
+        ViewNews.cpp, .h (Added)
+        ViewResources.cpp
+    win_build/
+        boincmgr_curl.vcproj

@@ -309,10 +309,12 @@ bool CBOINCGUIApp::OnInit() {
 
 
     // Enable known image types
-    wxImage::AddHandler(new wxXPMHandler);
-	wxImage::AddHandler(new wxPNGHandler);
-	wxImage::AddHandler(new wxGIFHandler);
-	wxImage::AddHandler(new wxICOHandler);
+    wxInitAllImageHandlers();
+
+    // Enable additional file system type handlers
+#if wxUSE_FS_INET && wxUSE_STREAMS && wxUSE_SOCKETS
+    wxFileSystem::AddHandler(new wxInternetFSHandler);
+#endif
 
 
     // Initialize the internationalization module

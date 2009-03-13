@@ -109,6 +109,10 @@
 #include <wx/grid.h>
 #include <wx/thread.h>
 #include <wx/imaglist.h>
+#include <wx/html/htmlwin.h>
+#include <wx/html/htmlproc.h>
+#include <wx/fs_inet.h>
+
 
 #ifdef _WIN32
 
