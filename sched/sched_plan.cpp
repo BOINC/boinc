@@ -69,15 +69,6 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
     } else if (!strcmp(plan_class, "cuda")) {
         // the following is for an app that uses a CUDA GPU
         //
-        if (g_wreq->no_gpus) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] Skipping CUDA version - user prefs say no GPUS\n"
-                );
-                g_wreq->no_gpus_prefs = true;
-            }
-            return PLAN_REJECT_GPU_PREFS;
-        }
         COPROC_CUDA* cp = (COPROC_CUDA*)sreq.coprocs.lookup("CUDA");
         if (!cp) {
             if (config.debug_version_select) {

@@ -346,6 +346,15 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
                     app_plan_reject = retval;
                     continue;
                 }
+                if (host_usage.ncudas && g_wreq->no_gpus) {
+                    if (config.debug_version_select) {
+                        log_messages.printf(MSG_NORMAL,
+                            "[version] Skipping CUDA version - user prefs say no GPUS\n"
+                        );
+                        g_wreq->no_gpus_prefs = true;
+                    }
+                    continue;
+                }
             } else {
                 host_usage.sequential_app(g_reply->host.p_fpops);
             }
@@ -395,8 +404,6 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
         }
         const char* p = NULL;
         switch (app_plan_reject) {
-        case PLAN_REJECT_GPU_PREFS:
-            p = "Your preferences are to not use GPU"; break;
         case PLAN_REJECT_CUDA_NO_DEVICE:
             p = "Your computer has no CUDA device"; break;
         case PLAN_REJECT_CUDA_VERSION:

@@ -3051,3 +3051,11 @@ David  16 Mar 2009
 
     sched/
         validate_util.cpp
+
+David  16 Mar 2009
+    - scheduler: app_plan() is not the right place to check for
+        "don't use GPU" pref; do it at a higher level
+
+    sched/
+        sched_plan.cpp,h
+        sched_send.cpp

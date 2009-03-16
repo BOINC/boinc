@@ -20,7 +20,6 @@
 
 // reasons for the planning function to reject a host
 
-#define PLAN_REJECT_GPU_PREFS               1
 #define PLAN_REJECT_CUDA_NO_DEVICE          2
 #define PLAN_REJECT_CUDA_VERSION            3
 #define PLAN_REJECT_NVIDIA_DRIVER_VERSION   4
