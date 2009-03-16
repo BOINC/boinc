@@ -3022,3 +3022,11 @@ Rom    13 Mar 2009
         ViewResources.cpp
     win_build/
         boincmgr_curl.vcproj
+
+David  16 Mar 2009
+    - scheduler: in get_app_version() we check if our current best
+        app version is a CUDA app and we don't need more CUDA work.
+        Need to do this for CPU as well.
+
+    sched/
+        sched_send.cpp

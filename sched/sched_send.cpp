@@ -247,6 +247,23 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
                 g_wreq->best_app_versions.erase(bavi);
                 break;
             }
+
+            // same, CPU
+            //
+            if (check_req
+                && g_wreq->rsc_spec_request
+                && !bavp->host_usage.ncudas
+                && !g_wreq->need_cpu()
+            ) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] have CPU version but no more CPU work needed\n"
+                    );
+                }
+                g_wreq->best_app_versions.erase(bavi);
+                break;
+            }
+
             return bavp;
         }
         bavi++;
