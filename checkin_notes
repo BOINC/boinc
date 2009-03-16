@@ -3030,3 +3030,15 @@ David  16 Mar 2009
 
     sched/
         sched_send.cpp
+
+David  16 Mar 2009
+    - web: in pages that show results, combine "server state",
+        "client state", and "outcome" into a single status.
+        The fact that there are three separate status fields
+        is an implementation detail that users don't need to see.
+
+    html/
+        inc/
+            result.inc
+        user/
+            results.php

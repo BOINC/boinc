@@ -32,6 +32,7 @@ $results_per_page = 20;
 $hostid = get_int("hostid", true);
 $userid = get_int("userid", true);
 $offset = get_int("offset", true);
+$state = get_int("state", true);
 if (!$offset) $offset=0;
 $show_names = get_int("show_names", true);
 if (!$show_names) $show_names=0;
@@ -49,8 +50,13 @@ if ($hostid) {
     $clause = "userid=$userid";
     page_head(tra("Tasks for $user->name"));
 } else {
-    error_page(tra("You must provide either a hostid or a userid as parameter"));
+    error_page(tra("Missing user ID or host ID"));
 }
+
+if ($state) {
+    $clause .= " and server_state=$state ";
+}
+
 $query = "$clause order by id desc limit $offset,".($results_per_page+1);
 $results = BoincResult::enum($query);
 

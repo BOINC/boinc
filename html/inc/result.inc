@@ -49,6 +49,44 @@ function result_granted_credit_string($result, $string_to_show) {
     }
 } 
 
+function state_string($result) {
+    switch ($result->server_state) {
+    case 1: return "Inactive";
+    case 2: return "Unsent";
+    case 4: return "In progress";
+    case 5:
+        switch ($result->outcome) {
+        case 1:
+            switch ($result->validate_state) {
+            case 0: return "Completed, waiting for validation";
+            case 1: return "Completed and validated";
+            case 2: return "Completed, marked as invalid";
+            case 3: return "Completed, can't validate";
+            case 4: return "Completed, validation inconclusive";
+            case 4: return "Completed, too late to validate";
+            }
+            return "Completed";
+        case 2: return "Couldn't send";
+        case 3:
+            if ($result->exit_status == -221) {
+                return "Redundant result";
+            }
+            switch($result->client_state) {
+            case 1: return "Error while downloading";
+            case 2: return "Error while computing";
+            case 3: return "Error while computing";
+            case 4: return "Error while uploading";
+            }
+            return "Error";
+        case 4: return "Timed out - no response";
+        case 5: return "Didn't need";
+        case 6: return "Validate error";
+        case 7: return "Client detached";
+        }
+    }
+    return "Unknown";
+}
+
 function result_server_state_string($result) {
     switch($result->server_state) {
     case 1: return "Inactive";
@@ -66,7 +104,7 @@ function result_outcome_string($result) {
     case 2: return "Couldn't send";
     case 3:
         if ($result->exit_status <> -221) {
-               return "Client error";
+            return "Client error";
         }
         return "Redundant result";
     case 4: return "No reply";
@@ -86,10 +124,10 @@ function result_client_state_string($result) {
     case 4: return "Uploading";
     case 5: return "Done";
     case 6:
-        if ($result->exit_status <> -221) {
-            return "Aborted by user";
+        if ($result->exit_status == -221) {
+            return "Cancelled by server";
         }
-        return "Cancelled by server";
+        return "Aborted by user";
     }
 }
 
@@ -177,15 +215,7 @@ function result_table_start($show_wu_link, $show_host_link, $info) {
             <br>or deadline
             <br><span class=\"smalltext\"><a href=\"explain_state.php?field=result_time\">explain</a></span>
         </th>
-        <th>Server state
-            <br><span class=\"smalltext\"><a href=\"explain_state.php?field=result_server_state\">explain</a></span>
-        </th>
-        <th>Outcome
-            <br><span class=\"smalltext\"><a href=\"explain_state.php?field=result_outcome\">explain</a></span>
-        </th>
-        <th>Client state
-            <br><span class=\"smalltext\"><a href=\"explain_state.php?field=result_client_state\">explain</a></span>
-        </th>
+        <th>Status</th>
         <th>CPU time (sec)</th>
         <th>claimed credit</th>
         <th>granted credit</th>
@@ -220,9 +250,7 @@ function show_result_row(
     } else {
         $r = "---";
     }
-    $ss = result_server_state_string($result);
-    $out = result_outcome_string($result);
-    $cl = result_client_state_string($result);
+    $ss = state_string($result);
     $result_claimed_credit = format_credit($result->claimed_credit);
     $result_granted_credit = format_credit($result->granted_credit);
     $result_claimed_credit = result_claimed_credit_string($result, $result_claimed_credit);
@@ -250,8 +278,6 @@ function show_result_row(
         <td>$s</td>
         <td>$r</td>
         <td>$ss</td>
-        <td>$out</td>
-        <td>$cl</td>
         <td align=right>$cpu_time</td>
         <td align=right>$result_claimed_credit</td>
         <td align=right>$result_granted_credit</td>
