@@ -478,14 +478,14 @@ double stddev_credit(WORKUNIT& wu, std::vector<RESULT>& results) {
 }
 
 double two_credit(WORKUNIT& wu, std::vector<RESULT>& results) {
-    unsigned int i;
+    int i;
     double credit = 0;
     double credit_avg = 0;
     double last_credit = 0;
     int nvalid = 0;
-    double grant_credit;
 
-    //calculate average
+    // calculate average
+    //
     for (i=0; i<results.size(); i++) {
         RESULT& result = results[i];
         if (result.validate_state != VALIDATE_STATE_VALID) continue;
@@ -494,71 +494,88 @@ double two_credit(WORKUNIT& wu, std::vector<RESULT>& results) {
         nvalid++;
     }
 
-    if (nvalid == 0) {
-        return CREDIT_EPSILON;
-    }
-
-    credit_avg = credit/nvalid;
-
     // If more then 2 valid results, compute via stddev method
-    if (nvalid > 2) return stddev_credit(wu, results);
-    log_messages.printf(MSG_DEBUG,
-        "[WORKUNIT#%d %s] Only 2 results \n",wu.id, wu.name
-    );
+    //
+    if ( nvalid > 2 ) return stddev_credit(wu, results);
 
-    // If only 2, then check to see if range is reasonable
-    if (fabs(last_credit - credit_avg) < 0.15*credit_avg) return credit_avg;
-    log_messages.printf(MSG_DEBUG,
-        "[WORKUNIT#%d %s] Average is more than 15 percent from each value \n",
-        wu.id, wu.name
-    );
-
-    // log data on large variance in runtime
-    float cpu_time = 0.0;
-    for (i=0; i<results.size(); i++) {
-        RESULT& result = results[i];
-        if (result.validate_state != VALIDATE_STATE_VALID) continue;
-        if (result.cpu_time < 30) continue;
-        if (cpu_time == 0) {
-            cpu_time = result.cpu_time*1.0;
-        } else {
-            if (cpu_time/result.cpu_time > 2 || cpu_time/result.cpu_time < 0.5) {
-                log_messages.printf(MSG_DEBUG,
-                    "[WORKUNIT#%d %s] Large difference in runtime \n",
-                    wu.id, wu.name
-                );
-            }
-        }
+    // This case should never occur
+    //
+    if (nvalid == 0 ) {
+        log_messages.printf(MSG_CRITICAL,
+            "[WORKUNIT#%d %s] No valid results\n", wu.id, wu.name
+        );
+        exit(-1);
     }
+   
+    credit_avg = credit/nvalid;
+   
+    // Next check to see if there is reasonably close agreement between the
+    // two results.  A study performed at World Community Grid found that in
+    // 85% of cases the credit claimed were within 15% of the average claimed
+    // credit for the workunit.  Return the average of the claimed credit
+    // in these cases.
+    //
+    if ( fabs(last_credit - credit_avg) < 0.15*credit_avg ) return credit_avg;
 
-
-    //find result with smallest deviation from historical credit and award that value
+    // If we get here, then there was not agreement between the claimed credits
+    // So attempt to use the average of the historical granted credit instead
+    //
     DB_HOST host;
+    double credit_hist_avg=0;
+    double credit_min_dev=credit_avg;
+        // default award in case nobody matches the cases
+    nvalid=0;
     double deviation = -1;
-    grant_credit = credit_avg; // default award in case nobody matches the cases
     for (i=0; i<results.size(); i++) {
         RESULT& result = results[i];
         if (result.validate_state != VALIDATE_STATE_VALID) continue;
         host.lookup_id(result.hostid);
-        log_messages.printf(MSG_DEBUG,
-            "[RESULT#%d %s] Claimed Credit = %.2lf  Historical Credit = %.2lf \n",
-            result.id, result.name, result.claimed_credit,
-            result.cpu_time*host.credit_per_cpu_sec
-        );
-        if ((deviation < 0 || deviation > fabs(result.claimed_credit - result.cpu_time*host.credit_per_cpu_sec)) && result.cpu_time > 30) {
-            deviation = fabs(result.claimed_credit - result.cpu_time*host.credit_per_cpu_sec);
-            log_messages.printf(MSG_NORMAL,
-                "[RESULT#%d %s] Credit deviation = %.2lf \n",
-                result.id, result.name, deviation
-            );
-            grant_credit = result.claimed_credit;
+        // skip if host is new or the cpu time is very low
+        if ( host.total_credit < config.granted_credit_ramp_up
+            || result.cpu_time < 30 ) continue;
+
+        // This is for computing the average based on the computers history
+        credit_hist_avg = credit_hist_avg + result.cpu_time*host.credit_per_cpu_sec;
+        nvalid++;
+        last_credit = result.cpu_time*host.credit_per_cpu_sec;
+
+        // This if is for finding the result whose claimed credit is the least
+        // different from the computers historical average
+        //
+        if ( (deviation < 0 || deviation > fabs(result.claimed_credit - result.cpu_time*host.credit_per_cpu_sec))
+        ) {
+                deviation = fabs(result.claimed_credit - result.cpu_time*host.credit_per_cpu_sec);
+                credit_min_dev = result.claimed_credit;
         }
     }
-    log_messages.printf(MSG_DEBUG,
-        "[WORKUNIT#%d %s] Credit granted = %.2lf \n",
-        wu.id, wu.name, grant_credit
-    );
-    return grant_credit;
+   
+    // If this case occurs, then this is becuase neither host has
+    // been participating long.  As a result, returned the claimed
+    // credit average
+    if (nvalid == 0 ) {
+        log_messages.printf(MSG_DEBUG,"[WORKUNIT#%d %s] No qualifying results",
+            wu.id, wu.name);      
+        return credit_avg;
+    }
+
+    credit_hist_avg = credit_hist_avg/nvalid;
+
+   
+    // Check to see if the result.cpu_time*host.credit_per_cpu_sec are close.
+    // If so use the average of the historical credit
+    //
+    if (fabs(last_credit-credit_hist_avg)<0.1*credit_hist_avg) {
+        log_messages.printf(MSG_DEBUG,"[WORKUNIT#%d %s] Method1: "
+            "Credit Average = %.2lf Actual Credit Granted = %.2lf \n",
+            wu.id, wu.name, credit_avg, credit_hist_avg);                
+        return credit_hist_avg;
+    }
+
+    log_messages.printf(MSG_DEBUG,"[WORKUNIT#%d %s] Method2: "
+        "Credit Average = %.2lf Actual Credit Granted = %.2lf \n",
+        wu.id, wu.name, credit_avg, credit_min_dev);                
+
+    return credit_min_dev;
 }
 
 const char *BOINC_RCSID_07049e8a0e = "$Id$";

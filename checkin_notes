@@ -2981,7 +2981,7 @@ David  11 Mar 2009
     - Manager: in task Properties, show final CPU and elapsed times
         if job is finished
     - client: honor backoff for account-manager-requested scheduler RPCs
-    - client: keep track final elapsed time for results
+    - client: keep track of final elapsed time for results
     - GUI RPC: report final elapsed time
 
     client/
@@ -3042,3 +3042,12 @@ David  16 Mar 2009
             result.inc
         user/
             results.php
+
+David  16 Mar 2009
+    - validator utilities: improvements to two_credit()
+        (used for deciding how much credit to grant
+        when there are 2 valid results).
+        From Kevin Reed
+
+    sched/
+        validate_util.cpp
