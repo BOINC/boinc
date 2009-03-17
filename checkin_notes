@@ -3076,4 +3076,11 @@ Charlie 17 Mar 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
-    
+   
+Eric K  17 Mar 2009
+    - Linux: client: Added code to detect capability to run 64-bit binaries
+        from 32-bit BOINC client, and capability to run 32-bit binaries on 
+	a 64-bit linux system.
+
+    client/
+        cs_platforms.cpp
