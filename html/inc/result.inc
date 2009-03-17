@@ -63,7 +63,7 @@ function state_string($result) {
             case 2: return "Completed, marked as invalid";
             case 3: return "Completed, can't validate";
             case 4: return "Completed, validation inconclusive";
-            case 4: return "Completed, too late to validate";
+            case 5: return "Completed, too late to validate";
             }
             return "Completed";
         case 2: return "Couldn't send";
