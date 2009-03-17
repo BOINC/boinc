@@ -1477,6 +1477,7 @@ void RESULT::clear() {
     completed_time = 0;
     got_server_ack = false;
     final_cpu_time = 0;
+    final_elapsed_time = 0;
     exit_status = 0;
     stderr_out = "";
     suspended_via_gui = false;
@@ -1556,6 +1557,7 @@ int RESULT::parse_state(MIOFILE& in) {
             continue;
         }
         if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
+        if (parse_double(buf, "<final_elapsed_time>", final_elapsed_time)) continue;
         if (parse_int(buf, "<exit_status>", exit_status)) continue;
         if (parse_bool(buf, "got_server_ack", got_server_ack)) continue;
         if (parse_bool(buf, "ready_to_report", ready_to_report)) continue;
@@ -1596,12 +1598,14 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         "<result>\n"
         "    <name>%s</name>\n"
         "    <final_cpu_time>%f</final_cpu_time>\n"
+        "    <final_elapsed_time>%f</final_elapsed_time>\n"
         "    <exit_status>%d</exit_status>\n"
         "    <state>%d</state>\n"
         "    <platform>%s</platform>\n"
         "    <version_num>%d</version_num>\n",
         name,
         final_cpu_time,
+        final_elapsed_time,
         exit_status,
         state(),
         platform,
@@ -1690,6 +1694,7 @@ int RESULT::write_gui(MIOFILE& out) {
         "    <plan_class>%s</plan_class>\n"
         "    <project_url>%s</project_url>\n"
         "    <final_cpu_time>%f</final_cpu_time>\n"
+        "    <final_elapsed_time>%f</final_elapsed_time>\n"
         "    <exit_status>%d</exit_status>\n"
         "    <state>%d</state>\n"
         "    <report_deadline>%f</report_deadline>\n"
@@ -1700,6 +1705,7 @@ int RESULT::write_gui(MIOFILE& out) {
         plan_class,
         project->master_url,
         final_cpu_time,
+        final_elapsed_time,
         exit_status,
         state(),
         report_deadline,
@@ -1825,9 +1831,9 @@ void RESULT::append_log_record() {
     job_log_filename(*project, filename, sizeof(filename));
     FILE* f = fopen(filename, "ab");
     if (!f) return;
-    fprintf(f, "%f ue %f ct %f fe %f nm %s\n",
+    fprintf(f, "%f ue %f ct %f fe %f nm %s et %f\n",
         gstate.now, estimated_duration_uncorrected(), final_cpu_time,
-        wup->rsc_fpops_est, name
+        wup->rsc_fpops_est, name, final_elapsed_time
     );
     fclose(f);
 }

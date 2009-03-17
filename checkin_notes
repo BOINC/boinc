@@ -2041,3 +2041,23 @@ David  9 Mar 2009
 		client_state.cpp
 		cs_scheduler.cpp
 		scheduler_op.cpp
+
+David  11 Mar 2009
+    - Manager: show elapsed time instead of CPU time in Task tab.
+        CPU time is visible in task Properties.
+    - Manager: in task Properties, show final CPU and elapsed times
+        if job is finished
+    - client: honor backoff for account-manager-requested scheduler RPCs
+    - client: keep track final elapsed time for results
+    - GUI RPC: report final elapsed time
+
+    client/
+        app_control.cpp
+        client_types.cpp,h
+        cs_scheduler.cpp
+    clientgui/
+        DlgItemProperties.cpp
+        ViewWork.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp

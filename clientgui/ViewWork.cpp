@@ -214,7 +214,7 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
     m_pListPane->InsertColumn(COLUMN_APPLICATION, _("Application"), wxLIST_FORMAT_LEFT, 95);
     m_pListPane->InsertColumn(COLUMN_NAME, _("Name"), wxLIST_FORMAT_LEFT, 285);
-    m_pListPane->InsertColumn(COLUMN_CPUTIME, _("CPU time"), wxLIST_FORMAT_RIGHT, 80);
+    m_pListPane->InsertColumn(COLUMN_CPUTIME, _("Elapsed time"), wxLIST_FORMAT_RIGHT, 80);
     m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_RIGHT, 60);
     m_pListPane->InsertColumn(COLUMN_TOCOMPLETION, _("To completion"), wxLIST_FORMAT_RIGHT, 100);
     m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Report deadline"), wxLIST_FORMAT_LEFT, 150);
@@ -868,12 +868,14 @@ void CViewWork::GetDocCPUTime(wxInt32 item, float& fBuffer) const {
     fBuffer = 0;
     if (result) {
         if (result->active_task) {
-            fBuffer = result->current_cpu_time;
+            fBuffer = result->elapsed_time;
+            if (!fBuffer) fBuffer = result->current_cpu_time;
         } else {
             if(result->state < RESULT_COMPUTE_ERROR) {
                 fBuffer = 0;
             } else {
-                fBuffer = result->final_cpu_time;
+                fBuffer = result->final_elapsed_time;
+                if (!fBuffer) fBuffer = result->final_cpu_time;
             }
         }
     }

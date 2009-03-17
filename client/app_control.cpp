@@ -246,6 +246,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     get_app_status_msg();
     get_trickle_up_msg();
     result->final_cpu_time = current_cpu_time;
+    result->final_elapsed_time = elapsed_time;
     if (task_state() == PROCESS_ABORT_PENDING) {
         set_task_state(PROCESS_ABORTED, "handle_exited_app");
     } else {
