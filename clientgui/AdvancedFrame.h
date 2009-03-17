@@ -101,6 +101,8 @@ public:
 
     void ResetReminderTimers();
 
+    bool SaveState();
+
     wxTimer*        m_pRefreshStateTimer;
     wxTimer*        m_pFrameRenderTimer;
 
@@ -131,7 +133,6 @@ private:
     bool            CreateStatusbar();
     bool            DeleteStatusbar();
 
-    bool            SaveState();
     bool            RestoreState();
 
     void            SaveWindowDimensions();

@@ -122,6 +122,8 @@ public:
 	void SetMsgsDlgOpen(CDlgMessages* newDlgPtr) { dlgMsgsPtr = newDlgPtr; }
     bool isMessagesDlgOpen() { return (dlgMsgsPtr != NULL); }
 
+    bool SaveState();
+
 protected:
     virtual int     _GetCurrentViewPage();
 
@@ -135,7 +137,6 @@ protected:
 #endif
 
 private:
-    bool SaveState();
     CDlgMessages* dlgMsgsPtr;
 
     DECLARE_EVENT_TABLE()

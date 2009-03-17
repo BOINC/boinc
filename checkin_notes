@@ -2066,9 +2066,12 @@ Charlie 12 Mar 2009
     - MGR: Simplify the fixes for saving and restoring window sizes and other 
         settings; eliminate unnecessary new events EVT_FRAME_RESTORESTATE and 
         EVT_FRAME_SAVESTATE, etc; call SaveState() and RestoreState() directly.
+    - MGR: Handle EVT_END_SESSION event to call SaveState() on Windows logout 
+        or shutdown; this fixes a long-standing problem where current settings 
+        were not being saved.
 
     clientgui/
         AdvancedFrame.cpp, .h
         BOINCBaseFrame.cpp, .h
-        BOINCGUIApp.cpp
+        BOINCGUIApp.cpp, .h
         sg_BoincSimpleGUI.cpp, .h
