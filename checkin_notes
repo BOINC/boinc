@@ -2031,3 +2031,13 @@ Rom    10 Mar 2009
     /
         configure.ac
         version.h
+
+David  9 Mar 2009
+	- client: backoff overrides project-requested scheduler RPC.
+		Otherwise, if scheduler is down, we'll retry infinitely every 10 secs
+	- client: remove auto_update.poll() (not used)
+
+	client/
+		client_state.cpp
+		cs_scheduler.cpp
+		scheduler_op.cpp

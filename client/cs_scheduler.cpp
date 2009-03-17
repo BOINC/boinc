@@ -968,7 +968,6 @@ void CLIENT_STATE::check_project_timeout() {
 
 void PROJECT::set_min_rpc_time(double future_time, const char* reason) {
     if (future_time <= min_rpc_time) return;
-    if (next_rpc_time && (future_time > next_rpc_time)) return;
     min_rpc_time = future_time;
 	possibly_backed_off = true;
     if (log_flags.sched_op_debug) {
