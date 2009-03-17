@@ -552,7 +552,6 @@ bool CScreensaver::CreateDataManagementThread() {
 }
 
 
-// TODO: Fix this so it still works if DataManagementProc is hung waiting for RPC
 bool CScreensaver::DestroyDataManagementThread() {
     int i;
     
