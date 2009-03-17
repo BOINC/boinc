@@ -3059,3 +3059,9 @@ David  16 Mar 2009
     sched/
         sched_plan.cpp,h
         sched_send.cpp
+
+Charlie 16 Mar 2009
+    - MGR: Fix possible deadlock when exiting manager.
+    
+    clientgui/
+        AsyncRPC.cpp

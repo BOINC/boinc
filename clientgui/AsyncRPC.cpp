@@ -135,29 +135,14 @@ void *RPCThread::Entry() {
         // This does the following:
         // (1) Unlocks the Mutex and puts the RPC thread to sleep as an atomic operation.
         // (2) On Signal from main thread: locks Mutex again and wakes the RPC thread.
-        if (!m_pDoc->m_bShutDownRPCThread) {
-            condErr = m_pRPC_Thread_Condition->Wait();
-            wxASSERT(condErr == wxCOND_NO_ERROR);
+        condErr = m_pRPC_Thread_Condition->Wait();
+        wxASSERT(condErr == wxCOND_NO_ERROR);
+        
+        if (m_pDoc->m_bShutDownRPCThread) {
+            Exit();
         }
         
         current_request = m_pDoc->GetCurrentRPCRequest();
-        
-        // check if we were asked to exit
-        if (TestDestroy()) {
-            current_request->retval = retval;
-            current_request->isActive = false;
-            
-#if 0 //ndef __WXMSW__       // Deadlocks on Windows
-            // Use a critical section to prevent a crash during 
-            // manager shutdown due to a rare race condition 
-            m_pDoc->m_critsect.Enter();
-            m_pDoc->m_critsect.Leave();
-#endif //  !!__WXMSW__       // Deadlocks on Windows
-
-            return NULL;
-        }
-
-        if (m_pDoc->m_bShutDownRPCThread) continue;
 
         if (!current_request->isActive)  continue;       // Should never happen
         
@@ -609,11 +594,10 @@ void CMainDocument::KillRPCThread() {
         return;
     }
 
-    rpcClient.close();
     m_bNeedRefresh = false;
     m_bNeedTaskBarRefresh = false;
     
-    m_bShutDownRPCThread = true;
+    rpcClient.close();  // Abort any async RPC in progress (in case hung)
    
     // On some platforms, Delete() takes effect only when thread calls TestDestroy()
     // Wait for thread to unlock mutex with m_pRPC_Thread_Condition->Wait()
@@ -623,8 +607,8 @@ void CMainDocument::KillRPCThread() {
     mutexErr = m_pRPC_Thread_Mutex->Unlock(); // Release the mutex so thread can lock it
     wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
+    m_bShutDownRPCThread = true;
     m_pRPC_Thread_Condition->Signal();  // Unblock the thread
-    m_RPCThread->Delete();
 
     RPC_requests.clear();
     current_rpc_request.clear();
