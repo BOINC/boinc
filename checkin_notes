@@ -2088,3 +2088,12 @@ Charlie 17 Mar 2009
     
     clientgui/
         AsyncRPC.cpp
+
+Rom    17 Mar 2009
+    - Tag for 6.6.16 release, all platforms
+      boinc_core_release_6_6_16
+
+    /
+        configure.ac
+        version.h
+
