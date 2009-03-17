@@ -185,8 +185,6 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(wxID_ABOUT, CAdvancedFrame::OnHelpAbout)
     EVT_FRAME_CONNECT(CAdvancedFrame::OnConnect)
     EVT_FRAME_UPDATESTATUS(CAdvancedFrame::OnUpdateStatus)
-    EVT_FRAME_SAVESTATE(CAdvancedFrame::OnSaveState)
-    EVT_FRAME_RESTORESTATE(CAdvancedFrame::OnRestoreState)
     EVT_TIMER(ID_REFRESHSTATETIMER, CAdvancedFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CAdvancedFrame::OnFrameRender)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CAdvancedFrame::OnNotebookSelectionChanged)
@@ -222,6 +220,7 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxP
     wxCHECK_RET(CreateNotebook(), _T("Failed to create notebook."));
     wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
 
+    RestoreState();
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
@@ -248,6 +247,8 @@ CAdvancedFrame::~CAdvancedFrame() {
     wxASSERT(m_pMenubar);
     wxASSERT(m_pNotebook);
     wxASSERT(m_pStatusbar);
+
+    SaveState();
 
     if (m_pRefreshStateTimer) {
         m_pRefreshStateTimer->Stop();
@@ -751,42 +752,6 @@ bool CAdvancedFrame::SaveState() {
 
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-    wxString        strConfigLocation;
-    wxString        strPreviousLocation;
-    wxString        strBuffer;
-
-
-    wxASSERT(pConfig);
-    wxASSERT(m_pNotebook);
-
-
-    CBOINCBaseFrame::SaveState();
-
-
-    // An odd case happens every once and awhile where wxWidgets looses
-    //   the pointer to the config object, or it is cleaned up before
-    //   the window has finished it's cleanup duty.  If we detect a NULL
-    //   pointer, return false.
-    if (!pConfig) return false;
-
-    //
-    // Save Frame State
-    //
-    pConfig->SetPath(strBaseConfigLocation);
-
-    // Store the latest window dimensions.
-    SaveWindowDimensions();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveState - Function End"));
-    return true;
-}
-
-
-bool CAdvancedFrame::SaveViewState() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveViewState - Function Begin"));
-
-    wxString        strBaseConfigLocation = wxString(wxT("/"));
-    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxWindow*       pwndNotebookPage = NULL;
     CBOINCBaseView* pView = NULL;
     wxString        strConfigLocation;
@@ -799,6 +764,7 @@ bool CAdvancedFrame::SaveViewState() {
     wxASSERT(pConfig);
     wxASSERT(m_pNotebook);
 
+    CBOINCBaseFrame::SaveState();
 
     // An odd case happens every once and awhile where wxWidgets looses
     //   the pointer to the config object, or it is cleaned up before
@@ -811,7 +777,10 @@ bool CAdvancedFrame::SaveViewState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
+     // Store the latest window dimensions.
+    SaveWindowDimensions();
+
+   pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
 
     //
     // Save Page(s) State
@@ -835,49 +804,13 @@ bool CAdvancedFrame::SaveViewState() {
         pConfig->SetPath(strPreviousLocation);
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveViewState - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveState - Function End"));
     return true;
 }
 
 
 bool CAdvancedFrame::RestoreState() {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreState - Function Begin"));
-
-    wxString        strBaseConfigLocation = wxString(wxT("/"));
-    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-    wxString        strConfigLocation;
-    wxString        strPreviousLocation;
-    wxString        strBuffer;
-    wxString        strValue;
-
-
-    wxASSERT(pConfig);
-
-
-    CBOINCBaseFrame::RestoreState();
-
-
-    // An odd case happens every once and awhile where wxWidgets looses
-    //   the pointer to the config object, or it is cleaned up before
-    //   the window has finished it's cleanup duty.  If we detect a NULL
-    //   pointer, return false.
-    if (!pConfig) return false;
-
-    //
-    // Restore Frame State
-    //
-    pConfig->SetPath(strBaseConfigLocation);
-
-    // Reterieve the latest window dimensions.
-    RestoreWindowDimensions();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreState - Function End"));
-    return true;
-}
-
-
-bool CAdvancedFrame::RestoreViewState() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreViewState - Function Begin"));
 
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
@@ -941,7 +874,7 @@ bool CAdvancedFrame::RestoreViewState() {
 
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreViewState - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreState - Function End"));
     return true;
 }
 
@@ -966,20 +899,6 @@ void CAdvancedFrame::SaveWindowDimensions() {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveWindowDimensions - Function End"));
 }
     
-
-void CAdvancedFrame::RestoreWindowDimensions() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreWindowDimensions - Function Begin"));
-
-    wxString        strBaseConfigLocation = wxString(wxT("/"));
-    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-
-    wxASSERT(pConfig);
-
-    pConfig->SetPath(strBaseConfigLocation);
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RestoreWindowDimensions - Function End"));
-}
-
 
 int CAdvancedFrame::_GetCurrentViewPage() {
     switch (m_pNotebook->GetSelection()) {
@@ -1792,26 +1711,6 @@ void CAdvancedFrame::OnUpdateStatus(CFrameEvent& event) {
 }
 
 
-void CAdvancedFrame::OnSaveState(CFrameEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSateState - Function Begin"));
-
-    SaveState();
-    SaveViewState();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSateState - Function End"));
-}
-
-
-void CAdvancedFrame::OnRestoreState(CFrameEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRestoreState - Function Begin"));
-
-    RestoreState();
-    RestoreViewState();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRestoreState - Function End"));
-}
-
-
 void CAdvancedFrame::OnRefreshState(wxTimerEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshState - Function Begin"));
 
@@ -1821,7 +1720,6 @@ void CAdvancedFrame::OnRefreshState(wxTimerEvent& WXUNUSED(event)) {
     //   we still want the UI state to have been stored
     //   for their next use
     SaveState();
-    SaveViewState();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshState - Function End"));
 }

@@ -96,8 +96,6 @@ public:
 
     void OnRefreshView( CFrameEvent& event );
     void OnConnect( CFrameEvent& event );
-    void OnSaveState( CFrameEvent& event );
-    void OnRestoreState( CFrameEvent& event );
 
     void OnUpdateStatus( CFrameEvent& event );
 
@@ -134,12 +132,9 @@ private:
     bool            DeleteStatusbar();
 
     bool            SaveState();
-    bool            SaveViewState();
     bool            RestoreState();
-    bool            RestoreViewState();
 
     void            SaveWindowDimensions();
-    void            RestoreWindowDimensions();
 
     void            UpdateActivityModeControls( CC_STATUS& status );
     void            UpdateNetworkModeControls( CC_STATUS& status );

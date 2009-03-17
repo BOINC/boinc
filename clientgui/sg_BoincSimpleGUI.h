@@ -118,8 +118,6 @@ public:
 	void OnConnect(CFrameEvent& event );
     void OnReloadSkin( CFrameEvent& event );
     void OnRefreshView( CFrameEvent& event );
-    void OnSaveState( CFrameEvent& event );
-    void OnRestoreState( CFrameEvent& event );
 
 	void SetMsgsDlgOpen(CDlgMessages* newDlgPtr) { dlgMsgsPtr = newDlgPtr; }
     bool isMessagesDlgOpen() { return (dlgMsgsPtr != NULL); }
@@ -138,7 +136,6 @@ protected:
 
 private:
     bool SaveState();
-    bool RestoreState();
     CDlgMessages* dlgMsgsPtr;
 
     DECLARE_EVENT_TABLE()

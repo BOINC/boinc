@@ -871,18 +871,10 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             // Hide the old one if it exists.  We must do this 
             // after updating m_pFrame to prevent Mac OSX from
             // hiding the application
-            if (pOldFrame) {
-                pOldFrame->FireSaveState();
-                pOldFrame->Hide();
-            }
+            if (pOldFrame) pOldFrame->Hide();
 
             // Show the new frame if needed
-            if (pNewFrame) {
-                pNewFrame->FireRestoreState();
-                if (bShowWindow) {
-                    pNewFrame->Show();
-                }
-            }
+            if (pNewFrame && bShowWindow) pNewFrame->Show();
 
             // Delete the old one if it exists
             if (pOldFrame) pOldFrame->Destroy();
@@ -891,7 +883,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
 
     // Show the new frame if needed 
     if (m_pFrame && !m_pFrame->IsShown() && bShowWindow) {
-        m_pFrame->FireRestoreState();
         m_pFrame->Show();
     }
 

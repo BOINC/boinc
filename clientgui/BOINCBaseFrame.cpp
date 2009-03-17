@@ -43,8 +43,6 @@ DEFINE_EVENT_TYPE(wxEVT_FRAME_INITIALIZED)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_REFRESHVIEW)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_UPDATESTATUS)
 DEFINE_EVENT_TYPE(wxEVT_FRAME_RELOADSKIN)
-DEFINE_EVENT_TYPE(wxEVT_FRAME_SAVESTATE)
-DEFINE_EVENT_TYPE(wxEVT_FRAME_RESTORESTATE)
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
@@ -341,8 +339,7 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
     if (wxGetApp().ConfirmExit()) {
 
         // Save state before exiting
-        CFrameEvent eventSaveState(wxEVT_FRAME_SAVESTATE, this);
-        ProcessEvent(eventSaveState);
+        SaveState();
 
 #ifdef __WXMSW__
         CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -404,22 +401,6 @@ void CBOINCBaseFrame::FireConnect() {
 void CBOINCBaseFrame::FireReloadSkin() {
     CFrameEvent event(wxEVT_FRAME_RELOADSKIN, this);
     AddPendingEvent(event);
-}
-
-
-void CBOINCBaseFrame::FireSaveState() {
-    CFrameEvent event(wxEVT_FRAME_SAVESTATE, this);
-    AddPendingEvent(event);
-}
-
-
-void CBOINCBaseFrame::FireRestoreState() {
-    CFrameEvent event(wxEVT_FRAME_RESTORESTATE, this);
-#ifdef __WXMAC__
-    ProcessEvent(event);
-#else
-    AddPendingEvent(event);
-#endif
 }
 
 

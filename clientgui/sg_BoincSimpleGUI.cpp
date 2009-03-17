@@ -59,8 +59,6 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_HELP(wxID_ANY, CSimpleFrame::OnHelp)
     EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
     EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
-    EVT_FRAME_SAVESTATE(CSimpleFrame::OnSaveState)
-    EVT_FRAME_RESTORESTATE(CSimpleFrame::OnRestoreState)
     // We can't eliminate the Mac Help menu, so we might as well make it useful.
     EVT_MENU(ID_HELPBOINC, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
@@ -194,31 +192,12 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
 CSimpleFrame::~CSimpleFrame() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function Begin"));
 
+    SaveState();
+    
     if (m_pAccelTable)
         delete m_pAccelTable;
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Destructor Function End"));
-}
-
-
-bool CSimpleFrame::RestoreState() {
-    CBOINCBaseFrame::RestoreState();
-    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-    wxString        strBaseConfigLocation = wxString(wxT("/Simple"));
-    wxASSERT(pConfig);
-
-    // An odd case happens every once and awhile where wxWidgets looses
-    //   the pointer to the config object, or it is cleaned up before
-    //   the window has finished it's cleanup duty.  If we detect a NULL
-    //   pointer, return false.
-    if (!pConfig) return false;
-
-    //
-    // Restore Frame State
-    //
-    pConfig->SetPath(strBaseConfigLocation);
-
-	return true;
 }
 
 
@@ -427,24 +406,6 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 	}
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function End"));
-}
-
-
-void CSimpleFrame::OnSaveState(CFrameEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnSateState - Function Begin"));
-
-    SaveState();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnSateState - Function End"));
-}
-
-
-void CSimpleFrame::OnRestoreState(CFrameEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRestoreState - Function Begin"));
-
-    RestoreState();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRestoreState - Function End"));
 }
 
 

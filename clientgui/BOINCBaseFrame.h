@@ -71,8 +71,6 @@ public:
     void                FireRefreshView();
     void                FireConnect();
     void                FireReloadSkin();
-    void                FireSaveState();
-    void                FireRestoreState();
     void                ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword, int m_iReadGUIRPCAuthFailure );
     void                ShowConnectionFailedAlert();
     void                ShowDaemonStartFailedAlert();
@@ -186,8 +184,6 @@ DECLARE_EVENT_TYPE( wxEVT_FRAME_INITIALIZED, 10004 )
 DECLARE_EVENT_TYPE( wxEVT_FRAME_REFRESHVIEW, 10005 )
 DECLARE_EVENT_TYPE( wxEVT_FRAME_UPDATESTATUS, 10006 )
 DECLARE_EVENT_TYPE( wxEVT_FRAME_RELOADSKIN, 10007 )
-DECLARE_EVENT_TYPE( wxEVT_FRAME_SAVESTATE, 10008 )
-DECLARE_EVENT_TYPE( wxEVT_FRAME_RESTORESTATE, 10009 )
 
 END_DECLARE_EVENT_TYPES()
 
@@ -197,8 +193,6 @@ END_DECLARE_EVENT_TYPES()
 #define EVT_FRAME_REFRESH(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_REFRESHVIEW, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_FRAME_UPDATESTATUS(fn)       DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_UPDATESTATUS, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_FRAME_RELOADSKIN(fn)         DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_RELOADSKIN, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_FRAME_SAVESTATE(fn)          DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_SAVESTATE, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_FRAME_RESTORESTATE(fn)       DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_RESTORESTATE, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 
 
 #endif
