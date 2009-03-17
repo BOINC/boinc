@@ -115,12 +115,6 @@ RPCThread::RPCThread(CMainDocument *pDoc,
 }
 
 
-void RPCThread::OnExit() {
-    // Tell CMainDocument that thread has gracefully ended 
-    m_pDoc->m_RPCThread = NULL;
-}
-
-
 void *RPCThread::Entry() {
     int retval = 0;
     CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED );
@@ -139,6 +133,10 @@ void *RPCThread::Entry() {
         wxASSERT(condErr == wxCOND_NO_ERROR);
         
         if (m_pDoc->m_bShutDownRPCThread) {
+            m_pRPC_Thread_Mutex->Unlock();  // Just for safety - not really needed
+            // Tell CMainDocument that thread has gracefully ended 
+            // We do this here because OnExit() is not called on Windows
+            m_pDoc->m_RPCThread = NULL;
             Exit();
         }
         
@@ -614,8 +612,8 @@ void CMainDocument::KillRPCThread() {
     current_rpc_request.clear();
 
     wxStopWatch ThreadDeleteTimer = wxStopWatch();
-    // RPC thread sets m_RPCThread to NULL when it exits
 
+    // RPC thread sets m_RPCThread to NULL when it exits
     while (m_RPCThread) {
         // Wait up to RPC_KILL_DELAY for thread to exit on its own
        if (ThreadDeleteTimer.Time() > RPC_KILL_DELAY) {

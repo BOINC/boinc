@@ -294,7 +294,6 @@ public:
                 wxCondition* RPC_Request_Condition
             );
     virtual void                *Entry();
-    virtual void                OnExit();
     
 private:
     int                         ProcessRPCRequest();
