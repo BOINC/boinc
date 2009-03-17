@@ -2075,63 +2075,17 @@ Charlie 12 Mar 2009
         BOINCBaseFrame.cpp, .h
         BOINCGUIApp.cpp, .h
         sg_BoincSimpleGUI.cpp, .h
-<<<<<<< .working
-=======
-
-Rom    13 Mar 2009
-    - MGR: Add the basic infrastructure for the up and comming news tab in
-        the advanced frame.
-        
-    clientgui/
-        AdvancedFrame.cpp
-        BOINCGUIApp.cpp
-        Events.h
-        stdwx.h
-        ViewNews.cpp, .h (Added)
-        ViewResources.cpp
-    win_build/
-        boincmgr_curl.vcproj
-
-David  16 Mar 2009
-    - scheduler: in get_app_version() we check if our current best
-        app version is a CUDA app and we don't need more CUDA work.
-        Need to do this for CPU as well.
-
-    sched/
-        sched_send.cpp
-
-David  16 Mar 2009
-    - web: in pages that show results, combine "server state",
-        "client state", and "outcome" into a single status.
-        The fact that there are three separate status fields
-        is an implementation detail that users don't need to see.
-
-    html/
-        inc/
-            result.inc
-        user/
-            results.php
-
-David  16 Mar 2009
-    - validator utilities: improvements to two_credit()
-        (used for deciding how much credit to grant
-        when there are 2 valid results).
-        From Kevin Reed
-
-    sched/
-        validate_util.cpp
-
-David  16 Mar 2009
-    - scheduler: app_plan() is not the right place to check for
-        "don't use GPU" pref; do it at a higher level
-
-    sched/
-        sched_plan.cpp,h
-        sched_send.cpp
 
 Charlie 16 Mar 2009
     - MGR: Fix possible deadlock when exiting manager.
     
     clientgui/
         AsyncRPC.cpp
->>>>>>> .merge-right.r17603
+
+Charlie 17 Mar 2009
+    - MGR: Delete RPCThread::OnExit() because it is not called on Windows 
+        for some reason.
+    - Mac: add new source files ViewNews.cpp, ViewNews.h to XCode Project.
+    
+    clientgui/
+        AsyncRPC.cpp
