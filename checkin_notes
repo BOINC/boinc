@@ -3091,3 +3091,14 @@ Charlie 17 Mar 2009
     
     clientgui/
         AsyncRPC.cpp
+
+David  18 Mar 2009
+    - client: consider fetching work from overworked projects
+        if resource is saturated for < work_buf_min()
+        (rather than saturated for 0).
+        So now the only significance of "overworked" is that we
+        won't ask overworked projects for work if resource is saturated
+        more than work_buf_min() but less than work_buf_total()
+
+    client/
+        work_fetch.cpp,h

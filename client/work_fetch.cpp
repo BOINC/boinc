@@ -141,13 +141,14 @@ bool RSC_PROJECT_WORK_FETCH::overworked() {
     return (debt < -x);
 }
 
-#define FETCH_IF_DEVICE_IDLE        1
-    // If a resource is idle, get work for it
-    // from the project with greatest LTD, even if it's overworked.
-#define FETCH_IF_SHORTFALL          2
-    // If a resource has a shortfall,
+#define FETCH_IF_MAJOR_SHORTFALL        1
+    // If resource is saturated for less than work_buf_min(),
+    // get work for it from the project with greatest LTD,
+    // even if it's overworked.
+#define FETCH_IF_MINOR_SHORTFALL        2
+    // If resource is saturated for less than work_buf_total(),
     // get work for it from the non-overworked project with greatest LTD.
-#define FETCH_IF_PROJECT_STARVED    3
+#define FETCH_IF_PROJECT_STARVED        3
     // If any project is not overworked and has no runnable jobs
     // (for any resource, not just this one)
     // get work from the one with greatest LTD.
@@ -160,11 +161,11 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
     PROJECT* pbest = NULL;
 
     switch (criterion) {
-    case FETCH_IF_DEVICE_IDLE:
-        if (nidle_now == 0) return NULL;
+    case FETCH_IF_MAJOR_SHORTFALL:
+        if (estimated_delay > gstate.work_buf_min()) return NULL;
         break;
-    case FETCH_IF_SHORTFALL:
-        if (shortfall == 0) return NULL;
+    case FETCH_IF_MINOR_SHORTFALL:
+        if (estimated_delay > gstate.work_buf_total()) return NULL;
         break;
     }
 
@@ -174,7 +175,7 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
         if (!project_state(p).may_have_work) continue;
         RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
         switch (criterion) {
-        case FETCH_IF_SHORTFALL:
+        case FETCH_IF_MINOR_SHORTFALL:
             if (rpwf.overworked()) continue;
             break;
         case FETCH_IF_PROJECT_STARVED:
@@ -196,20 +197,20 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
     //
     work_fetch.clear_request();
     switch (criterion) {
-    case FETCH_IF_DEVICE_IDLE:
+    case FETCH_IF_MAJOR_SHORTFALL:
         if (log_flags.work_fetch_debug) {
             msg_printf(pbest, MSG_INFO,
-                "chosen: %s idle instance", rsc_name(rsc_type)
+                "chosen: %s major shortfall", rsc_name(rsc_type)
             );
         }
         req = share_request(pbest);
         if (req > shortfall) req = shortfall;
         set_request(pbest, req);
         break;
-    case FETCH_IF_SHORTFALL:
+    case FETCH_IF_MINOR_SHORTFALL:
         if (log_flags.work_fetch_debug) {
             msg_printf(pbest, MSG_INFO,
-                "chosen: %s shortfall", rsc_name(rsc_type)
+                "chosen: %s minor shortfall", rsc_name(rsc_type)
             );
         }
         work_fetch.set_shortfall_requests(pbest);
@@ -398,17 +399,17 @@ PROJECT* WORK_FETCH::choose_project() {
     set_overall_debts();
 
     if (coproc_cuda) {
-        p = cuda_work_fetch.choose_project(FETCH_IF_DEVICE_IDLE);
+        p = cuda_work_fetch.choose_project(FETCH_IF_MAJOR_SHORTFALL);
     }
     if (!p) {
-        p = cpu_work_fetch.choose_project(FETCH_IF_DEVICE_IDLE);
+        p = cpu_work_fetch.choose_project(FETCH_IF_MAJOR_SHORTFALL);
     }
 
     if (!p && coproc_cuda) {
-        p = cuda_work_fetch.choose_project(FETCH_IF_SHORTFALL);
+        p = cuda_work_fetch.choose_project(FETCH_IF_MINOR_SHORTFALL);
     }
     if (!p) {
-        p = cpu_work_fetch.choose_project(FETCH_IF_SHORTFALL);
+        p = cpu_work_fetch.choose_project(FETCH_IF_MINOR_SHORTFALL);
     }
 
     if (!p && coproc_cuda) {
