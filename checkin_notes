@@ -2115,6 +2115,16 @@ David  18 Mar 2009
     client/
         work_fetch.cpp,h
 
+David  18 Mar 2009
+    - client: in RR simulation, use app_version.flops
+        instead of host_info.fpops as the FLOPS estimate for non-GPU apps.
+        I don't see why this would make any difference
+        (these two are equal for non-GPU apps)
+        but people have reported that this change improves estimates.
+
+    client/
+        rr_sim.cpp
+
 Rom    18 Mar 2009
     - Tag for 6.6.17 release, all platforms
       boinc_core_release_6_6_17

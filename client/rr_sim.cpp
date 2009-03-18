@@ -156,7 +156,7 @@ void set_rrsim_flops(RESULT* rp) {
     //
     double r3 = r2 * gstate.overall_cpu_frac();
 
-    rp->rrsim_flops = r3 * gstate.host_info.p_fpops;
+    rp->rrsim_flops = r3 * rp->avp->flops;
 #if 0
     if (log_flags.rr_simulation) {
         msg_printf(p, MSG_INFO,
