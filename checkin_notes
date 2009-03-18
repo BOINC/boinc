@@ -3076,7 +3076,7 @@ Charlie 17 Mar 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
-   
+
 Eric K  17 Mar 2009
     - Linux: client: Added code to detect capability to run 64-bit binaries
         from 32-bit BOINC client, and capability to run 32-bit binaries on 
@@ -3084,3 +3084,10 @@ Eric K  17 Mar 2009
 
     client/
         cs_platforms.cpp
+
+Charlie 17 Mar 2009
+    - MGR: RPCThread::KillRPCThread() defers to RPC thread before testing 
+        if thread has exited on its own.
+    
+    clientgui/
+        AsyncRPC.cpp
