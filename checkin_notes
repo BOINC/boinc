@@ -2097,3 +2097,9 @@ Rom    17 Mar 2009
         configure.ac
         version.h
 
+Charlie 17 Mar 2009
+    - MGR: CMainDocument::KillRPCThread() defers to RPC thread before testing 
+        if thread has exited on its own.
+    
+    clientgui/
+        AsyncRPC.cpp

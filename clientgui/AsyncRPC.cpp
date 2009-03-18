@@ -26,6 +26,7 @@
 #include "BOINCBaseFrame.h"
 #include "BOINCTaskBar.h"
 #include "error_numbers.h"
+#include "util.h"
 
 
 // Delay in milliseconds before showing AsyncRPCDlg
@@ -587,6 +588,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 
 void CMainDocument::KillRPCThread() {
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
+    int i;
 
     if (!m_RPCThread) {
         return;
@@ -611,16 +613,15 @@ void CMainDocument::KillRPCThread() {
     RPC_requests.clear();
     current_rpc_request.clear();
 
-    wxStopWatch ThreadDeleteTimer = wxStopWatch();
-
-    // RPC thread sets m_RPCThread to NULL when it exits
-    while (m_RPCThread) {
-        // Wait up to RPC_KILL_DELAY for thread to exit on its own
-       if (ThreadDeleteTimer.Time() > RPC_KILL_DELAY) {
-            m_RPCThread->Kill();
-            break;
+    // Wait up to RPC_KILL_DELAY milliseconds for thread to exit on its own
+    for (i=0; i< RPC_KILL_DELAY; ++i) {
+        boinc_sleep(.001);  // Defer to RPC thread for 1 millisecond
+        if (!m_RPCThread) {
+            return; // RPC thread sets m_RPCThread to NULL when it exits
         }
     }
+    // Thread failed to exit, so forcefully kill it
+    m_RPCThread->Kill();
 }
 
 
