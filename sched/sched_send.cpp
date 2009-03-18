@@ -346,22 +346,39 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
                     app_plan_reject = retval;
                     continue;
                 }
-                if (host_usage.ncudas && g_wreq->no_gpus) {
-                    if (config.debug_version_select) {
-                        log_messages.printf(MSG_NORMAL,
-                            "[version] Skipping CUDA version - user prefs say no GPUS\n"
-                        );
-                        g_wreq->no_gpus_prefs = true;
-                    }
-                    continue;
-                }
             } else {
                 host_usage.sequential_app(g_reply->host.p_fpops);
             }
 
+            // skip versions for resources we don't need
+            //
             if (!need_this_resource(host_usage, &av, NULL)) {
                 continue;
             }
+
+            // skip versions that go against resource prefs
+            //
+            if (host_usage.ncudas && g_wreq->no_gpus) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] Skipping CUDA version - user prefs say no GPUS\n"
+                    );
+                    g_wreq->no_gpus_prefs = true;
+                }
+                continue;
+            }
+            if (!host_usage.ncudas && g_wreq->no_cpu) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] Skipping CPU version - user prefs say no CPUs\n"
+                    );
+                    g_wreq->no_cpu_prefs = true;
+                }
+                continue;
+            }
+
+            // pick the fastest version
+            //
             if (host_usage.flops > bavp->host_usage.flops) {
                 bavp->host_usage = host_usage;
                 bavp->avp = &av;
@@ -621,6 +638,9 @@ static void get_prefs_info() {
 	}
 	if (parse_bool(buf,"no_gpus", flag)) {
         g_wreq->no_gpus = flag;
+    }
+	if (parse_bool(buf,"no_cpu", flag)) {
+        g_wreq->no_cpu = flag;
     }
 }
 
@@ -1519,6 +1539,14 @@ static void explain_to_user() {
             g_reply->insert_message(
                 USER_MESSAGE(
                     "CUDA (GPU) jobs are available, but your preferences are set to not accept them",
+                    "low"
+                )
+            );
+        }
+        if (g_wreq->no_cpu_prefs) {
+            g_reply->insert_message(
+                USER_MESSAGE(
+                    "CPU jobs are available, but your preferences are set to not accept them",
                     "low"
                 )
             );

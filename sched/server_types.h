@@ -100,6 +100,7 @@ struct WORK_REQ {
 
     // user preferences
     bool no_gpus;
+    bool no_cpu;
 	bool allow_non_preferred_apps;
 	bool allow_beta_work;
 	std::vector<APP_INFO> preferred_apps;
@@ -179,6 +180,7 @@ struct WORK_REQ {
     bool outdated_client;
     bool gpu_too_slow;
     bool no_gpus_prefs;
+    bool no_cpu_prefs;
     bool daily_result_quota_exceeded;
     bool cache_size_exceeded;
     bool no_jobs_available;     // project has no work right now

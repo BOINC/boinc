@@ -3112,3 +3112,15 @@ David  18 Mar 2009
 
     client/
         rr_sim.cpp
+
+David  18 Mar 2009
+    - scheduler and web: add a project preference for whether to use the CPU.
+        This complements the "use GPU?" pref.
+        Neither should be necessary, but what the heck.
+
+    db/
+        boinc_db.h
+        server_types.cpp,h
+        sched_send.cpp
+    html/project.sample/
+        project_specific_prefs.inc

@@ -957,15 +957,29 @@ int RESULT::write_to_client(FILE* fout) {
 
 int RESULT::parse_from_client(FILE* fin) {
     char buf[256];
+    double final_cpu_time = 0, final_elapsed_time = 0;
 
     // should be non-zero if exit_status is not found
     exit_status = ERR_NO_EXIT_STATUS;
     memset(this, 0, sizeof(RESULT));
     while (fgets(buf, sizeof(buf), fin)) {
-        if (match_tag(buf, "</result>")) return 0;
+        if (match_tag(buf, "</result>")) {
+            // newer clients (>6.6.15) report final elapsed time;
+            // use it if possible
+            //
+            // actually, let's hold off on this
+
+            //if (final_elapsed_time) {
+            //    cpu_time = final_elapsed_time;
+            //} else {
+                cpu_time = final_cpu_time;
+            //}
+            return 0;
+        }
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_int(buf, "<state>", client_state)) continue;
-        if (parse_double(buf, "<final_cpu_time>", cpu_time)) continue;
+        if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
+        if (parse_double(buf, "<final_elapsed_time>", final_elapsed_time)) continue;
         if (parse_int(buf, "<exit_status>", exit_status)) continue;
         if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         if (parse_double(buf, "<fpops_per_cpu_sec>", fpops_per_cpu_sec)) continue;
