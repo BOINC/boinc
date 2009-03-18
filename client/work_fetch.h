@@ -91,6 +91,7 @@ struct RSC_WORK_FETCH {
     // the following used/set by rr_simulation():
     //
     double shortfall;
+        // seconds of idle instances between now and now+work_buf_total()
     double nidle_now;
     double sim_nused;
     double total_fetchable_share;
