@@ -3086,7 +3086,7 @@ Eric K  17 Mar 2009
         cs_platforms.cpp
 
 Charlie 17 Mar 2009
-    - MGR: RPCThread::KillRPCThread() defers to RPC thread before testing 
+    - MGR: CMainDocument::KillRPCThread() defers to RPC thread before testing 
         if thread has exited on its own.
     
     clientgui/
