@@ -32,8 +32,9 @@ $results_per_page = 20;
 $hostid = get_int("hostid", true);
 $userid = get_int("userid", true);
 $offset = get_int("offset", true);
-$state = get_int("state", true);
 if (!$offset) $offset=0;
+$state = get_int("state", true);
+if (!$state) $state=0;
 $show_names = get_int("show_names", true);
 if (!$show_names) $show_names=0;
 
@@ -53,11 +54,9 @@ if ($hostid) {
     error_page(tra("Missing user ID or host ID"));
 }
 
-if ($state) {
-    $clause .= " and server_state=$state ";
-}
+$clause2 = $clause. $state_clause[$state];
 
-$query = "$clause order by id desc limit $offset,".($results_per_page+1);
+$query = "$clause2 order by id desc limit $offset,".($results_per_page+1);
 $results = BoincResult::enum($query);
 
 $info = null;
@@ -66,6 +65,7 @@ $info->clause = $clause;
 $info->results_per_page = $results_per_page;
 $info->offset = $offset;
 $info->show_names = $show_names;
+$info->state = $state;
 
 echo show_result_navigation($info);
 result_table_start(true, false, $info);

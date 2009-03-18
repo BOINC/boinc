@@ -49,6 +49,34 @@ function result_granted_credit_string($result, $string_to_show) {
     }
 } 
 
+// various states that we allow users to filter on
+
+define("STATE_ALL", 0);
+define("STATE_IN_PROGRESS", 1);
+define("STATE_PENDING", 2);
+define("STATE_VALID", 3);
+define("STATE_INVALID", 4);
+define("STATE_ERROR", 5);
+define("NSTATES", 6);
+
+$state_name = array(
+    "All",
+    "In progress",
+    "Pending",
+    "Valid",
+    "Invalid",
+    "Error",
+);
+
+$state_clause = array(
+    "",
+    " and server_state=4 ",
+    " and server_state=5 and outcome=1 and validate_state=0 ",
+    " and server_state=5 and outcome=1 and validate_state=1 ",
+    " and server_state=5 and outcome=1 and validate_state=2 ",
+    " and server_state=5 and outcome=3 ",
+);
+
 function state_string($result) {
     switch ($result->server_state) {
     case 1: return "Inactive";
@@ -76,6 +104,11 @@ function state_string($result) {
             case 2: return "Error while computing";
             case 3: return "Error while computing";
             case 4: return "Error while uploading";
+            case 6:
+                if ($result->exit_status == -221) {
+                    return "Cancelled by server";
+                }
+                return "Aborted by user";
             }
             return "Error";
         case 4: return "Timed out - no response";
@@ -182,7 +215,8 @@ function result_page_url($info) {
     $c = $info->clause;
     $o = $info->offset;
     $sn = $info->show_names;
-    return "results.php?$c&amp;offset=$o&amp;show_names=$sn";
+    $st = $info->state;
+    return "results.php?$c&amp;offset=$o&amp;show_names=$sn&amp;state=$st";
 }
 
 function result_table_start($show_wu_link, $show_host_link, $info) {
@@ -326,6 +360,8 @@ function show_result($result) {
 }
 
 function show_result_navigation($info) {
+    global $state_name;
+
     echo "<br><center>";
     $show_prev = ($info->offset >= $info->results_per_page);
     $show_next = ($info->number_of_results > $info->results_per_page);
@@ -343,6 +379,19 @@ function show_result_navigation($info) {
         $i2->offset = $info->offset + $info->results_per_page;
         $url = result_page_url($i2);
         echo "<a href=$url>Next ".$info->results_per_page."</a>";
+    }
+    echo "<br>Show: ";
+    for ($i=0; $i<NSTATES; $i++) {
+        if ($i) echo " | ";
+        if ($info->state == $i) {
+            echo $state_name[$i];
+        } else {
+            $i2 = clone $info;
+            $i2->state = $i;
+            $i2->offset = 0;
+            $url = result_page_url($i2);
+            echo "<a href=$url>".$state_name[$i]."</a>";
+        }
     }
     echo "</center><br>";
 }

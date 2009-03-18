@@ -3124,3 +3124,12 @@ David  18 Mar 2009
         sched_send.cpp
     html/project.sample/
         project_specific_prefs.inc
+
+David  18 Mar 2009
+    - web: job lists can be filtered by status
+
+    html/
+        inc/
+            result.inc
+        user/
+            results.php
