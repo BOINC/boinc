@@ -30,6 +30,7 @@
 #include "sched_util.h"
 #include "sched_msgs.h"
 #include "sched_send.h"
+#include "sched_version.h"
 
 #include "sched_array.h"
 

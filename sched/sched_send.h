@@ -28,8 +28,6 @@ inline bool anonymous(PLATFORM* platform) {
     return (!strcmp(platform->name, "anonymous"));
 }
 
-extern BEST_APP_VERSION* get_app_version(WORKUNIT&, bool check_req=false);
-
 extern bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av);
 
 // values returned by wu_is_infeasible()

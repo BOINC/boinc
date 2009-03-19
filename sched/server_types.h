@@ -137,6 +137,8 @@ struct WORK_REQ {
     double ram, usable_ram;
     double running_frac;
     double dcf;
+    int max_results_day_multiplier;
+    int max_wus_in_progress_multiplier;
     int nresults;
 
     // The following keep track of the "easiest" job that was rejected

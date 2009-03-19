@@ -3133,3 +3133,13 @@ David  18 Mar 2009
             result.inc
         user/
             results.php
+
+David  19 Mar 2009
+    - scheduler: move app-version selection and score-based scheduling
+        to new files.
+
+    sched/
+        Makefile.am
+        sched_version.cpp,h (new)
+        sched_score.cpp,h (new)
+        various others

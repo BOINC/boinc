@@ -118,8 +118,10 @@ EXTRA_DIST = \
     handle_request.h \
     main.h \
     sched_locality.h \
+    sched_score.h \
     sched_send.h \
     sched_shmem.h \
+    sched_version.h \
     server_types.h \
     start
 
@@ -136,8 +138,10 @@ cgi_sources = \
     sched_locality.cpp \
     sched_result.cpp \
     sched_plan.cpp \
+    sched_score.cpp \
     sched_send.cpp \
     sched_timezone.cpp \
+    sched_version.cpp \
     server_types.cpp \
     time_stats_log.cpp
 

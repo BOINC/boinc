@@ -24,21 +24,23 @@
 //   this result may have been the cause of reset
 //   (need to pass last reset time from client)
 
+#include "config.h"
+
 #include <cstdlib>
 #include <cstring>
 #include <string>
 
-#include "config.h"
 #include "error_numbers.h"
 
-#include "server_types.h"
-#include "sched_shmem.h"
+#include "main.h"
 #include "sched_config.h"
-#include "sched_util.h"
+#include "sched_locality.h"
 #include "sched_msgs.h"
 #include "sched_send.h"
-#include "sched_locality.h"
-#include "main.h"
+#include "sched_shmem.h"
+#include "sched_util.h"
+#include "sched_version.h"
+#include "server_types.h"
 
 #include "sched_resend.h"
 

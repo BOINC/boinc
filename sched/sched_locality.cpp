@@ -18,6 +18,11 @@
 // Locality scheduling: see doc/sched_locality.php
 
 #include "config.h"
+
+#include <algorithm>
+#include <climits>
+#include <vector>
+
 #include <cstdio>
 #include <unistd.h>
 #include <cstdlib>
@@ -32,15 +37,12 @@
 
 #include "main.h"
 #include "server_types.h"
+#include "sched_locality.h"
+#include "sched_msgs.h"
 #include "sched_shmem.h"
 #include "sched_send.h"
-#include "sched_msgs.h"
-#include "sched_locality.h"
 #include "sched_util.h"
-
-#include <algorithm>
-#include <climits>
-#include <vector>
+#include "sched_version.h"
 
 #define VERBOSE_DEBUG
 

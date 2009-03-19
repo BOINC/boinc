@@ -15,25 +15,4 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __SCHED_HR__
-#define __SCHED_HR__
-
-extern bool already_sent_to_different_platform_quick(WORKUNIT&, APP&);
-
-extern bool already_sent_to_different_platform_careful(
-    WORKUNIT& workunit, APP&
-);
-
-extern bool hr_unknown_platform(HOST&);
-
-// return the HR type to use for this app;
-// app-specific HR type overrides global HR type
-//
-inline int app_hr_type(APP& app) {
-    if (app.homogeneous_redundancy) {
-        return app.homogeneous_redundancy;
-    }
-    return config.homogeneous_redundancy;
-}
-
-#endif
+extern BEST_APP_VERSION* get_app_version(WORKUNIT&, bool check_req=false);
