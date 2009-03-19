@@ -15,16 +15,16 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Do a simulation of the current workload
+// Simulate the processing of the current workload
+// (include jobs that are downloading)
 // with weighted round-robin (WRR) scheduling.
-// Include jobs that are downloading.
 //
 // For efficiency, we simulate an approximation of WRR.
 // We don't model time-slicing.
 // Instead we use a continuous model where, at a given point,
-// each project has a set of running jobs that uses at most all CPUs
+// each project has a set of running jobs that uses at most all CPUs.
 // These jobs are assumed to run at a rate proportionate to their avg_ncpus,
-// and each project gets CPU proportionate to its RRS.
+// and each project gets total CPU proportionate to its RRS.
 //
 // For coprocessors, we saturate the resource;
 // i.e. with 2 GPUs, we'd let a 1-GPU app and a 2-GPU app run together.
@@ -219,13 +219,16 @@ void CLIENT_STATE::rr_simulation() {
     //
     for (i=0; i<results.size(); i++) {
         rp = results[i];
+        rp->rr_sim_misses_deadline = false;
         if (!rp->nearly_runnable()) continue;
         if (rp->some_download_stalled()) continue;
         if (rp->project->non_cpu_intensive) continue;
         rp->rrsim_flops_left = rp->estimated_flops_remaining();
+
         //if (rp->rrsim_flops_left <= 0) continue;
             // job may have fraction_done=1 but not be done;
             // if it's past its deadline, we need to mark it as such
+
         p = rp->project;
         p->pwf.has_runnable_jobs = true;
         if (rp->uses_cuda()) {
@@ -245,7 +248,6 @@ void CLIENT_STATE::rr_simulation() {
                 p->rr_sim_status.add_pending(rp);
             }
         }
-        rp->rr_sim_misses_deadline = false;
     }
 
     // note the number of idle instances
@@ -303,6 +305,11 @@ void CLIENT_STATE::rr_simulation() {
             } else {
                 rpbest->rr_sim_misses_deadline = true;
                 pbest->rr_sim_status.deadlines_missed++;
+                if (rpbest->uses_cuda()) {
+                    cuda_work_fetch.deadline_missed_instances += rpbest->avp->ncudas;
+                } else {
+                    cpu_work_fetch.deadline_missed_instances += rpbest->avp->avg_ncpus;
+                }
                 if (log_flags.rr_simulation) {
                     msg_printf(pbest, MSG_INFO,
                         "[rr_sim] %s misses deadline by %.2f",
@@ -335,6 +342,9 @@ void CLIENT_STATE::rr_simulation() {
         sim_status.remove_active(rpbest);
         pbest->rr_sim_status.remove_active(rpbest);
 
+        // start new jobs; may need to start more than one
+        // if this job used multiple resource instances
+        //
         if (rpbest->uses_cuda()) {
             while (1) {
                 if (cuda_work_fetch.sim_nused >= coproc_cuda->count) break;
