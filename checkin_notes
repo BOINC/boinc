@@ -3177,3 +3177,13 @@ David  20 Mar 2009
         cpu_sched.cpp
         cs_statefile.cpp
         log_flags.cpp,h
+
+David  20 Mar 2009
+    - client: add --no_priority_change cmdline arg
+        (and <no_priority_change> flag in cc_config.xml).
+        If set, run apps at same priority as client.
+
+    client/
+        app_start.cpp
+        cs_cmdline.cpp
+        log_flags.cpp,h

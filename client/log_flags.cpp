@@ -193,6 +193,7 @@ void CONFIG::defaults() {
     network_test_url = "http://www.google.com/";
     no_gpus = false;
     zero_debts = false;
+    no_priority_change = false;
 }
 
 int CONFIG::parse_options(XML_PARSER& xp) {
@@ -263,6 +264,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         }
         if (xp.parse_bool(tag, "no_gpus", no_gpus)) continue;
         if (xp.parse_bool(tag, "zero_debts", zero_debts)) continue;
+        if (xp.parse_bool(tag, "no_priority_change", no_priority_change)) continue;
         if (xp.parse_bool(tag, "abort_jobs_on_exit", btemp)) {
             gstate.abort_jobs_on_exit = true;
             continue;

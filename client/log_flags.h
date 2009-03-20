@@ -133,6 +133,7 @@ struct CONFIG {
     std::string network_test_url;
     bool no_gpus;
     bool zero_debts;
+    bool no_priority_change;
 
     CONFIG();
     void defaults();
