@@ -3196,3 +3196,8 @@ David  20 Mar 2009
     api/
         boinc_api.cpp
 
+David  20 Mar 2009
+    - API: add some #ifdef'd debug messages
+
+    api/
+        boinc_api.cpp

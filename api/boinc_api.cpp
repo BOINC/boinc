@@ -51,6 +51,8 @@
 
 #include "boinc_api.h"
 
+//#define DEBUG
+
 #ifdef __APPLE__
 #include "mac_backtrace.h"
 #define GETRUSAGE_IN_TIMER_THREAD
@@ -493,6 +495,11 @@ int boinc_is_standalone() {
 }
 
 static void exit_from_timer_thread(int status) {
+#ifdef DEBUG
+    fprintf(stderr, "%f: exit_from_timer_thread(%d) called\n",
+        dtime(), status
+    );
+#endif
 #ifdef _WIN32
     // this seems to work OK on Windows
     //
@@ -687,7 +694,9 @@ static void handle_trickle_down_msg() {
 static void handle_process_control_msg() {
     char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
-        //fprintf(stderr, "%f: got %s\n", dtime(), buf);
+#ifdef DEBUG
+        fprintf(stderr, "%f: got process control msg %s\n", dtime(), buf);
+#endif
         if (match_tag(buf, "<suspend/>")) {
             boinc_status.suspended = true;
             suspend_activities();
@@ -850,6 +859,14 @@ static void timer_handler() {
     if (g_sleep) return;
     interrupt_count++;
 
+#ifdef DEBUG
+    if (in_critical_section) {
+        fprintf(stderr,
+            "%f: timer_handler(): in critical section\n", dtime()
+        );
+    }
+#endif
+
     // handle messages from the core client
     //
     if (app_client_shm) {
@@ -869,6 +886,10 @@ static void timer_handler() {
 
     if (interrupt_count % TIMERS_PER_SEC) return;
 
+#ifdef DEBUG
+    fprintf(stderr, "%f: 1 sec elapsed\n");
+#endif
+
     // here it we're at a one-second boundary; do slow stuff
     //
 
@@ -885,7 +906,8 @@ static void timer_handler() {
     if (in_critical_section==0 && options.check_heartbeat) {
         if (heartbeat_giveup_time < interrupt_count) {
             fprintf(stderr,
-                "No heartbeat from core client for 30 sec - exiting\n"
+                "%f: No heartbeat from core client for 30 sec - exiting\n",
+                dtime()
             );
             if (options.direct_process_action) {
                 exit_from_timer_thread(0);
