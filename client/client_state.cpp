@@ -153,9 +153,15 @@ void CLIENT_STATE::show_proxy_info() {
 
 void CLIENT_STATE::show_host_info() {
     char buf[256], buf2[256];
+
+    nbytes_to_string(host_info.m_cache, 0, buf, sizeof(buf));
     msg_printf(NULL, MSG_INFO,
         "Processor: %d %s %s",
         host_info.p_ncpus, host_info.p_vendor, host_info.p_model
+    );
+    msg_printf(NULL, MSG_INFO,
+        "Processor: %s cache",
+        buf
     );
     msg_printf(NULL, MSG_INFO,
         "Processor features: %s", host_info.p_features

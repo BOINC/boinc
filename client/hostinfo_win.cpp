@@ -16,8 +16,9 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "boinc_win.h"
-#define COMPILE_MULTIMON_STUBS
-#include <multimon.h>
+#ifndef __CYGWIN__
+#include <intrin.h>
+#endif
 
 #include "client_types.h"
 #include "filesys.h"
@@ -150,18 +151,6 @@ typedef struct _MYMEMORYSTATUSEX {
 } MYMEMORYSTATUSEX, *LPMYMEMORYSTATUSEX;
 
 typedef BOOL (WINAPI *MYGLOBALMEMORYSTATUSEX)(LPMYMEMORYSTATUSEX lpBuffer);
-
-
-// Traverse the video adapters and flag them as potiential accelerators.
-struct INTERNALMONITORINFO
-{
-    DWORD  cb;
-    TCHAR  DeviceName[32];
-    TCHAR  DeviceString[128];
-    DWORD  StateFlags;
-    TCHAR  DeviceID[128];
-    TCHAR  DeviceKey[128];
-};
 
 
 // Returns the number of seconds difference from UTC
@@ -651,9 +640,10 @@ BOOL is_processor_feature_supported(DWORD feature) {
 //
 int get_processor_info(
     char* p_vendor, int p_vendor_size, char* p_model, int p_model_size,
-    char* p_features, int p_features_size
+    char* p_features, int p_features_size, double& p_cache
 )
 {
+    int CPUInfo[4] = {-1};
 	char vendorName[256], processorName[256], identifierName[256], capabilities[256], temp_model[256];
 	HKEY hKey = NULL;
 	LONG retval = 0;
@@ -695,20 +685,28 @@ int get_processor_info(
     }
     strip_whitespace(capabilities);
 
-    
+
+#ifndef __CYGWIN__
+    // determine CPU cache size
+    // see: http://msdn.microsoft.com/en-us/library/hskdteyh(VS.80).aspx
+    __cpuid(CPUInfo, 0x80000006);
+    p_cache = (double)((CPUInfo[2] >> 16) & 0xffff) * 1024;
+#endif
+
+
 	retval = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Hardware\\Description\\System\\CentralProcessor\\0", 0, KEY_QUERY_VALUE, &hKey);
 	if(retval == ERROR_SUCCESS) {
         // Win9x and WinNT store different information in these field.
         // NT Examples:
-        // ProcessorNameString: Intel(R) Xeon(TM) CPU 3.06GHz
-        // Identifier: x86 Family 15 Model 2 Stepping 7
-        // VendorIdentifier: GenuineIntel
-        // ~MHz: 3056
+        //     ProcessorNameString: Intel(R) Xeon(TM) CPU 3.06GHz
+        //     Identifier: x86 Family 15 Model 2 Stepping 7
+        //     VendorIdentifier: GenuineIntel
+        //     ~MHz: 3056
         // 9X Examples:
-        // ProcessorNameString: <Not Defined>
-        // Identifier: Pentium(r) Processor
-        // ~MHz: <Not Defined>
-        // VendorIdentifier: GenuineIntel
+        //     ProcessorNameString: <Not Defined>
+        //     Identifier: Pentium(r) Processor
+        //     ~MHz: <Not Defined>
+        //     VendorIdentifier: GenuineIntel
 
         // Look in various places for processor information, add'l
 		// entries suggested by mark mcclure
@@ -786,7 +784,8 @@ int HOST_INFO::get_host_info() {
     get_processor_info(
         p_vendor, sizeof(p_vendor),
         p_model, sizeof(p_model),
-        p_features, sizeof(p_features)
+        p_features, sizeof(p_features),
+        m_cache
     );
     get_processor_count(p_ncpus);
     get_local_network_info();

@@ -3152,3 +3152,12 @@ David  19 Mar 2009
     client/
         rr_sim.cpp
         work_fetch.cpp,h
+
+Rom    19 Mar 2009
+    - client: initial support for detecting the CPU L2 cache
+        size on Windows.
+        
+    client/
+        client_state.cpp
+        cs_benchmark.cpp
+        hostinfo_win.cpp

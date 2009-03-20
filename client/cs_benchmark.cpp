@@ -177,7 +177,6 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     }
     host_info.p_iops = vax_mips*1e6;
     host_info.p_membw = 1e9;
-    host_info.m_cache = 1e6;    // TODO: measure the cache
 #ifdef _WIN32
 	}
     bdp->host_info = host_info;
@@ -464,7 +463,6 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             double p_fpops = 0;
             double p_iops = 0;
             double p_membw = 0;
-            double m_cache = 0;
             for (i=0; i<bm_ncpus; i++) {
                 if (log_flags.benchmark_debug) {
                     msg_printf(0, MSG_INFO,
@@ -482,12 +480,10 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
                 p_iops += benchmark_descs[i].host_info.p_iops;
 #endif
                 p_membw += benchmark_descs[i].host_info.p_membw;
-                m_cache += benchmark_descs[i].host_info.m_cache;
             }
             p_fpops /= bm_ncpus;
             p_iops /= bm_ncpus;
             p_membw /= bm_ncpus;
-            m_cache /= bm_ncpus;
             if (p_fpops > 0) {
                 host_info.p_fpops = p_fpops;
             } else {
@@ -499,7 +495,6 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
                 msg_printf(NULL, MSG_INTERNAL_ERROR, "Benchmark: int unexpectedly zero; ignoring");
             }
             host_info.p_membw = p_membw;
-            host_info.m_cache = m_cache;
             print_benchmark_results();
         }
 
@@ -529,7 +524,7 @@ void CLIENT_STATE::print_benchmark_results() {
 #if 0
     msg_printf(
         NULL, MSG_INFO, "Benchmark results: %.0f million bytes/sec memory bandwidth%s",
-    host_info.p_membw/1e6, (host_info.p_membw_err?" [ERROR]":"")
+        host_info.p_membw/1e6, (host_info.p_membw_err?" [ERROR]":"")
     );
 #endif
 }
