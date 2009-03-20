@@ -84,6 +84,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "work_fetch_debug", work_fetch_debug)) continue;
         if (xp.parse_bool(tag, "unparsed_xml", unparsed_xml)) continue;
         if (xp.parse_bool(tag, "state_debug", state_debug)) continue;
+        if (xp.parse_bool(tag, "statefile_debug", statefile_debug)) continue;
         if (xp.parse_bool(tag, "file_xfer_debug", file_xfer_debug)) continue;
         if (xp.parse_bool(tag, "sched_op_debug", sched_op_debug)) continue;
         if (xp.parse_bool(tag, "http_debug", http_debug)) continue;
@@ -137,7 +138,7 @@ void LOG_FLAGS::show() {
     show_flag(buf, task_debug, "task_debug");
     show_flag(buf, work_fetch_debug, "work_fetch_debug");
     show_flag(buf, unparsed_xml, "unparsed_xml");
-    show_flag(buf, state_debug, "state_debug");
+    show_flag(buf, statefile_debug, "statefile_debug");
     show_flag(buf, file_xfer_debug, "file_xfer_debug");
     show_flag(buf, sched_op_debug, "sched_op_debug");
     show_flag(buf, http_debug, "http_debug");

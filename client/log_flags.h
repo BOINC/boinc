@@ -67,8 +67,9 @@ struct LOG_FLAGS {
         /// print textual summary of CLIENT_STATE initially
         /// and after each scheduler RPC and garbage collect
         /// also show actions of garbage collector
-        /// also show when state file is read or written
     bool state_debug;
+        /// show when and why state file is written
+    bool statefile_debug;
         /// show completion of FILE_XFER
     bool file_xfer_debug;
     bool sched_op_debug;
