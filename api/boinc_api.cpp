@@ -472,6 +472,9 @@ void boinc_exit(int status) {
 #if   defined(_WIN32)
     // Halt all the threads and cleans up.
     TerminateProcess(GetCurrentProcess(), status);
+    // note: the above CAN return!
+    Sleep(1000);
+    DebugBreak();
 #elif defined(__APPLE_CC__)
     // stops endless exit()/atexit() loops.
     _exit(status);

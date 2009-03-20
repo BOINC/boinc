@@ -3187,3 +3187,12 @@ David  20 Mar 2009
         app_start.cpp
         cs_cmdline.cpp
         log_flags.cpp,h
+
+David  20 Mar 2009
+    - API (win): TerminateProcess() apparently can return in some cases,
+        causing process to go into infinite "no heartbeat" loop.
+        Try sleeping for 1 sec, then calling DebugBreak()
+
+    api/
+        boinc_api.cpp
+
