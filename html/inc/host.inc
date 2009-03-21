@@ -109,7 +109,7 @@ function show_host($host, $user, $ipprivate) {
     row2("Total credit", format_credit_large($host->total_credit));
     row2("Average credit", format_credit($host->expavg_credit));
     if (!$anonymous) {
-        row2("Cross project credit", cross_project_links($x));
+        row2("Cross project credit", cross_project_links($host));
     }
     row2("CPU type", "$host->p_vendor <br> $host->p_model");
     row2("Number of processors", $host->p_ncpus);

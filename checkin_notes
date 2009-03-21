@@ -3201,3 +3201,9 @@ David  20 Mar 2009
 
     api/
         boinc_api.cpp
+
+David  20 Mar 2009
+    - web: fix X-project links in Computer page
+
+    html/inc/
+        host.inc
