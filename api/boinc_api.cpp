@@ -51,7 +51,7 @@
 
 #include "boinc_api.h"
 
-//#define DEBUG
+//#define DEBUG_BOINC_API
 
 #ifdef __APPLE__
 #include "mac_backtrace.h"
@@ -349,6 +349,9 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
         if (retval) {
             // give any previous occupant a chance to timeout and exit
             //
+            fprintf(stderr, "Can't acquire lockfile (%d) - waiting %ds\n",
+                retval, LOCKFILE_TIMEOUT_PERIOD
+            );
             boinc_sleep(LOCKFILE_TIMEOUT_PERIOD);
             retval = file_lock.lock(LOCKFILE);
         }
@@ -459,12 +462,22 @@ int boinc_finish(int status) {
 // make static eventually
 //
 void boinc_exit(int status) {
+    int retval;
     if (options.backwards_compatible_graphics) {
         graphics_cleanup();
     }
     
     if (options.main_program && file_lock.locked) {
-        file_lock.unlock(LOCKFILE);
+        retval = file_lock.unlock(LOCKFILE);
+        if (retval) {
+#ifdef _WIN32
+            char buf[256];
+            windows_error_string(buf, 256);
+            fprintf(stderr, "Can't unlock lockfile (%d): %s\n", retval, buf);
+#else
+            perror("file unlock failed");
+#endif
+        }
     }
 
     fflush(NULL);
@@ -500,7 +513,7 @@ int boinc_is_standalone() {
 }
 
 static void exit_from_timer_thread(int status) {
-#ifdef DEBUG
+#ifdef DEBUG_BOINC_API
     fprintf(stderr, "%f: exit_from_timer_thread(%d) called\n",
         dtime(), status
     );
@@ -699,7 +712,7 @@ static void handle_trickle_down_msg() {
 static void handle_process_control_msg() {
     char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
-#ifdef DEBUG
+#ifdef DEBUG_BOINC_API
         fprintf(stderr, "%f: got process control msg %s\n", dtime(), buf);
 #endif
         if (match_tag(buf, "<suspend/>")) {
@@ -864,7 +877,7 @@ static void timer_handler() {
     if (g_sleep) return;
     interrupt_count++;
 
-#ifdef DEBUG
+#ifdef DEBUG_BOINC_API
     if (in_critical_section) {
         fprintf(stderr,
             "%f: timer_handler(): in critical section\n", dtime()
@@ -891,7 +904,7 @@ static void timer_handler() {
 
     if (interrupt_count % TIMERS_PER_SEC) return;
 
-#ifdef DEBUG
+#ifdef DEBUG_BOINC_API
     fprintf(stderr, "%f: 1 sec elapsed\n", dtime());
 #endif
 

@@ -3236,3 +3236,11 @@ David  23 Mar 2009
 
 	clientscr/
 		ss_app.cpp
+
+David  23 Mar 2009
+    - API: more lockfile messages
+
+    lib/
+        filesys.cpp
+    api/
+        boinc_api.cpp

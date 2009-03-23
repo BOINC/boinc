@@ -652,16 +652,14 @@ int FILE_LOCK::lock(const char* filename) {
         0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0
     );
     if (handle == INVALID_HANDLE_VALUE) {
-        return -1;
+        return GetLastError();
     }
 #else
     if (fd<0) {
-        fd = open(
-            filename, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH
-        );
+        fd = open(filename, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
     }
     if (fd<0) {
-        return -1;
+        return ERR_OPEN;
     }
 
     struct flock fl;
@@ -670,7 +668,7 @@ int FILE_LOCK::lock(const char* filename) {
     fl.l_start=0;
     fl.l_len=0;
     if (fcntl(fd, F_SETLK, &fl) == -1) {
-        return -1;
+        return ERR_FCNTL;
     }
 #endif
     locked = true;
@@ -678,21 +676,14 @@ int FILE_LOCK::lock(const char* filename) {
 }
 
 int FILE_LOCK::unlock(const char* filename) {
+    int retval = 0;
 #if defined(_WIN32) && !defined(__CYGWIN32__)
     if (!CloseHandle(handle)) {
-#ifndef _USING_FCGI_
-        std::perror("FILE_LOCK::unlock(): close failed.");
-#else
-        FCGI::perror("FILE_LOCK::unlock(): close failed.");
-#endif
+        retval = GetLastError();
     }
 #else
     if (close(fd)) {
-#ifndef _USING_FCGI_
-        std::perror("FILE_LOCK::unlock(): close failed.");
-#else
-        FCGI::perror("FILE_LOCK::unlock(): close failed.");
-#endif
+        retval = -1;
     }
 #endif
     boinc_delete_file(filename);
