@@ -3244,3 +3244,10 @@ David  23 Mar 2009
         filesys.cpp
     api/
         boinc_api.cpp
+
+David  23 Mar 2009
+    - client (linux): if don't find libcudart.so in the current dir,
+        look for it in the library search path.  Fixes #863
+
+    lib/
+        coproc.cpp
