@@ -3207,3 +3207,16 @@ David  20 Mar 2009
 
     html/inc/
         host.inc
+
+David  20 Mar 2009
+	- client: garbage collect after scheduler RPC;
+		if project sent some irrelevant FILE_INFOs,
+		this will avoid starting transfers for them.
+	api/
+		boinc_api.cpp
+	client/
+		cs_scheduler.cpp
+		gui_rpc_server_ops.cpp
+	samples/multi_thread/
+		multi_thread.cpp
+

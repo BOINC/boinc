@@ -171,7 +171,7 @@ void* worker(void* p) {
     for (int i=0; i<units_per_thread; i++) {
         double x = do_a_giga_flop(i);
         t->units_done++;
-        fprintf(stderr, "thread %d finished %d: %f\n", t->index, i, x);
+        fprintf(stderr, "%f: thread %d finished %d: %f\n", dtime(), t->index, i, x);
     }
     t->id = THREAD_ID_NULL;
 #ifdef _WIN32

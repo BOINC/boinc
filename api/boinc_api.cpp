@@ -887,7 +887,7 @@ static void timer_handler() {
     if (interrupt_count % TIMERS_PER_SEC) return;
 
 #ifdef DEBUG
-    fprintf(stderr, "%f: 1 sec elapsed\n");
+    fprintf(stderr, "%f: 1 sec elapsed\n", dtime());
 #endif
 
     // here it we're at a one-second boundary; do slow stuff
