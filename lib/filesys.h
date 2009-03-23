@@ -113,6 +113,7 @@ struct FILE_LOCK {
 #else
     int fd;
 #endif
+    bool locked;
     FILE_LOCK();
     ~FILE_LOCK();
     int lock(const char* filename);

@@ -10,11 +10,11 @@
 //          "news"
 //          "emergency"
 $project_news = array(
-    array("March 1, 2004",
+    array("March 1, 2004, 13:50 GMT",
         "Sample news item",
         "Sample news item title"
     ),
-    array("March 2, 2004",
+    array("March 2, 2004, 11:50 GMT",
         "Another item",
         "Another item title"
     )

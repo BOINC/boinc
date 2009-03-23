@@ -3208,7 +3208,7 @@ David  20 Mar 2009
     html/inc/
         host.inc
 
-David  20 Mar 2009
+David  22 Mar 2009
 	- client: garbage collect after scheduler RPC;
 		if project sent some irrelevant FILE_INFOs,
 		this will avoid starting transfers for them.
@@ -3220,3 +3220,13 @@ David  20 Mar 2009
 	samples/multi_thread/
 		multi_thread.cpp
 
+David  23 Mar 2009
+    - API: don't try to unlock lockfile if we failed to lock it
+    - API: more detailed message if failed to lock
+
+    api/
+        boinc_api.cpp
+    html/project.sample/
+        project_news.inc
+    lib/
+        filesys.cpp,h

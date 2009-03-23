@@ -636,7 +636,9 @@ FILE_LOCK::FILE_LOCK() {
 #ifndef _WIN32
     fd = -1;
 #endif
+    locked = false;
 }
+
 FILE_LOCK::~FILE_LOCK() {
 #ifndef _WIN32
     if (fd >= 0) close(fd);
@@ -652,8 +654,6 @@ int FILE_LOCK::lock(const char* filename) {
     if (handle == INVALID_HANDLE_VALUE) {
         return -1;
     }
-    return 0;
-
 #else
     if (fd<0) {
         fd = open(
@@ -669,9 +669,12 @@ int FILE_LOCK::lock(const char* filename) {
     fl.l_whence=SEEK_SET;
     fl.l_start=0;
     fl.l_len=0;
-    if (-1 != fcntl(fd, F_SETLK, &fl)) return 0;
-    return -1;
+    if (fcntl(fd, F_SETLK, &fl) == -1) {
+        return -1;
+    }
 #endif
+    locked = true;
+    return 0;
 }
 
 int FILE_LOCK::unlock(const char* filename) {
@@ -680,7 +683,7 @@ int FILE_LOCK::unlock(const char* filename) {
 #ifndef _USING_FCGI_
         std::perror("FILE_LOCK::unlock(): close failed.");
 #else
-	FCGI::perror("FILE_LOCK::unlock(): close failed.");
+        FCGI::perror("FILE_LOCK::unlock(): close failed.");
 #endif
     }
 #else
@@ -693,6 +696,7 @@ int FILE_LOCK::unlock(const char* filename) {
     }
 #endif
     boinc_delete_file(filename);
+    locked = false;
     return 0;
 }
 

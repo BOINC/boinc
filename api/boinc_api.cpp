@@ -353,8 +353,13 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
             retval = file_lock.lock(LOCKFILE);
         }
         if (retval) {
-            fprintf(stderr, "Can't acquire lockfile - exiting\n");
-            boinc_exit(0);           // not un-recoverable ==> status=0
+            fprintf(stderr, "Can't acquire lockfile (%d) - exiting\n", retval);
+#ifdef _WIN32
+            char buf[256];
+            windows_error_string(buf, 256);
+            fprintf(stderr, "Error: %s\n", buf);
+#endif
+            boinc_exit(0);           // status=0 means recoverable
         }
     }
 
@@ -458,7 +463,7 @@ void boinc_exit(int status) {
         graphics_cleanup();
     }
     
-    if (options.main_program) {
+    if (options.main_program && file_lock.locked) {
         file_lock.unlock(LOCKFILE);
     }
 
