@@ -230,22 +230,23 @@ void show_jobs(unsigned int index, double alpha) {
     float x=.1, y=.7;
     unsigned int nfound = 0;
     unsigned int i;
-    int throttled = cc_status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT;
+    cc_status.task_suspend_reason &= ~SUSPEND_REASON_CPU_USAGE_LIMIT;
     
-    for (i=0; i<cc_state.results.size(); i++) {
-        RESULT* r = cc_state.results[i];
-        if (!r->active_task) continue;
-        if (r->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        if (nfound == index) {
-            txf_render_string(.1, x, y, 0, 1200., white, 0, "Running tasks:");
-            y -= .05;
-            //x += .05;
+    if (!cc_status.task_suspend_reason) {
+        for (i=0; i<cc_state.results.size(); i++) {
+            RESULT* r = cc_state.results[i];
+            if (!r->active_task) continue;
+            if (r->scheduler_state != CPU_SCHED_SCHEDULED) continue;
+            if (nfound == index) {
+                txf_render_string(.1, x, y, 0, 1200., white, 0, "Running tasks:");
+                y -= .05;
+            }
+            if (nfound >= index && nfound < index+4) {
+                show_result(r, x, y, alpha);
+                y -= .05;
+            }
+            nfound++;
         }
-        if (nfound >= index && nfound < index+4) {
-            show_result(r, x, y, alpha);
-            y -= .05;
-        }
-        nfound++;
     }
     if (!nfound) {
         y = .5;

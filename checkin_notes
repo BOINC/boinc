@@ -3230,3 +3230,9 @@ David  23 Mar 2009
         project_news.inc
     lib/
         filesys.cpp,h
+
+David  23 Mar 2009
+	- new screensaver: don't show jobs if suspended
+
+	clientscr/
+		ss_app.cpp
