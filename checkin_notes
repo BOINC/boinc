@@ -3288,6 +3288,9 @@ David  24 Mar 2009
         used by the web code.
         Projects that don't use "upgrade" will need to do this manually
         whenever translation files change.
+    - make_project: create an initial db_revision file.
+        Otherwise make_project followed by upgrade will try
+        to do DB upgrades, which will error out
 
     html/
         inc/
