@@ -3275,3 +3275,9 @@ David  24 Mar 2009
         wrapper.cpp
     api/
         boinc_api.cpp
+
+David  24 Mar 2009
+    - remove wait arg of resume_client()
+
+    client/
+        main.cpp,h

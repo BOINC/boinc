@@ -155,14 +155,8 @@ void suspend_client(bool wait) {
     }
 }
 
-void resume_client(bool wait) {
+void resume_client() {
     requested_resume = true;
-    if (wait) {
-        while (1) {
-            boinc_sleep(1.0);
-            if (gstate.active_tasks.is_task_executing()) break;
-        }
-    }
 }
 
 // Trap power events on Windows so we can clean ourselves up.
