@@ -213,7 +213,7 @@ double boinc_worker_thread_cpu_time() {
     double cpu;
 #ifdef _WIN32
     int retval;
-    retval = boinc_process_cpu_time(cpu);
+    retval = boinc_process_cpu_time(GetCurrentProcess(), cpu);
     if (retval) {
         cpu = nrunning_ticks * TIMER_PERIOD;   // for Win9x
     }

@@ -3261,3 +3261,17 @@ Rom    24 Mar 2009
     client/
         app_control.cpp
         main.cpp, .h
+
+David  24 Mar 2009
+    - small code shuffle
+    - fix manager build on unix
+
+    clientgui/
+        Makefile.am
+        ViewWork.cpp
+    lib/
+        util.cpp
+    samples/wrapper/
+        wrapper.cpp
+    api/
+        boinc_api.cpp

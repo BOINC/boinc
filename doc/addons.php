@@ -21,7 +21,7 @@ However, the author may have provided some help on installing or
 uninstalling the application.
 If this is not enough you should contact the author.
 Instructions for installing and running BOINC are
-<a href=participate.php>here</a>.
+<a href=http://boinc.berkeley.edu/wiki/User_manual>here</a>.
 <li>
 To submit an item for inclusion in this list,
 please email <a href=contact.php>David Anderson</a>.

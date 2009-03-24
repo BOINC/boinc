@@ -437,24 +437,10 @@ void poll_boinc_messages(TASK& task) {
 
 double TASK::cpu_time() {
 #ifdef _WIN32
-    FILETIME creation_time, exit_time, kernel_time, user_time;
-    ULARGE_INTEGER tKernel, tUser;
-    LONGLONG totTime;
-
-    int retval = GetProcessTimes(
-        pid_handle, &creation_time, &exit_time, &kernel_time, &user_time
-    );
-    if (retval == 0) {
-        return wall_cpu_time;
-    }
-
-    tKernel.LowPart  = kernel_time.dwLowDateTime;
-    tKernel.HighPart = kernel_time.dwHighDateTime;
-    tUser.LowPart    = user_time.dwLowDateTime;
-    tUser.HighPart   = user_time.dwHighDateTime;
-    totTime = tKernel.QuadPart + tUser.QuadPart;
-
-    return totTime / 1.e7;
+    double x;
+    int retval = boinc_process_cpu_time(pid_handle, x);
+    if (retval) return wall_cpu_time;
+    return x;
 #elif defined(__APPLE__)
     // There's no easy way to get another process's CPU time in Mac OS X
     //

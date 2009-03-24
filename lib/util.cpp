@@ -153,11 +153,11 @@ int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu) {
     return 0;
 }
 
-int boinc_process_cpu_time(double& cpu) {
+int boinc_process_cpu_time(HANDLE process_handle, double& cpu) {
     FILETIME creationTime, exitTime, kernelTime, userTime;
 
     if (GetProcessTimes(
-        GetCurrentProcess(), &creationTime, &exitTime, &kernelTime, &userTime)
+        process_handle, &creationTime, &exitTime, &kernelTime, &userTime)
     ) {
         ULARGE_INTEGER tKernel, tUser;
         LONGLONG totTime;

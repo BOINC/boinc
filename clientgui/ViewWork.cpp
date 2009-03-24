@@ -614,65 +614,64 @@ void CViewWork::UpdateSelection() {
         if (row < 0) break;     // Should never happen
         
         result = pDoc->result(m_iSortedIndexes[row]);
-        if (result) {
-            if (i == 0) {
-                wasSuspended = result->suspended_via_gui;
-                if (result->suspended_via_gui) {
-                    m_pTaskPane->UpdateTask(
-                        pGroup->m_Tasks[BTN_SUSPEND],
-                        _("Resume"),
-                        _("Resume work for this task.")
-                    );
-                } else {
-                    m_pTaskPane->UpdateTask(
-                        pGroup->m_Tasks[BTN_SUSPEND],
-                        _("Suspend"),
-                        _("Suspend work for this task.")
-                    );
-                }
+        if (!result) continue;
+        if (i == 0) {
+            wasSuspended = result->suspended_via_gui;
+            if (result->suspended_via_gui) {
+                m_pTaskPane->UpdateTask(
+                    pGroup->m_Tasks[BTN_SUSPEND],
+                    _("Resume"),
+                    _("Resume work for this task.")
+                );
             } else {
-                if (wasSuspended != result->suspended_via_gui) {
-                    // Disable Suspend / Resume button if the multiple selection
-                    // has a mix of suspended and not suspended tasks
-                    enableSuspendResume = false;
-                }
+                m_pTaskPane->UpdateTask(
+                    pGroup->m_Tasks[BTN_SUSPEND],
+                    _("Suspend"),
+                    _("Suspend work for this task.")
+                );
             }
-            
-            // Disable Show Graphics button if any selected task can't display graphics
-            if (((!result->supports_graphics) || pDoc->GetState()->executing_as_daemon) 
-                && result->graphics_exec_path.empty()
-            ) {
-                    enableShowGraphics = false;
+        } else {
+            if (wasSuspended != result->suspended_via_gui) {
+                // Disable Suspend / Resume button if the multiple selection
+                // has a mix of suspended and not suspended tasks
+                enableSuspendResume = false;
             }
- 
-            if (result->suspended_via_gui ||
-                result->project_suspended_via_gui || 
-                (result->scheduler_state != CPU_SCHED_SCHEDULED)
-            ) {
-                    enableShowGraphics = false;
-            }
-           
-            // Disable Abort button if any selected task already aborted
-            if (
-                result->active_task_state == PROCESS_ABORT_PENDING ||
-                result->active_task_state == PROCESS_ABORTED ||
-                result->state == RESULT_ABORTED 
-            ) {
-                enableAbort = false;
-            }
+        }
+        
+        // Disable Show Graphics button if any selected task can't display graphics
+        if (((!result->supports_graphics) || pDoc->GetState()->executing_as_daemon) 
+            && result->graphics_exec_path.empty()
+        ) {
+                enableShowGraphics = false;
+        }
 
-           if (i == 0) {
-                first_project_url = result->project_url;
-                all_same_project = true;
-            } else {
-                if (first_project_url != result->project_url) {
-                    all_same_project = false;
-                }
+        if (result->suspended_via_gui ||
+            result->project_suspended_via_gui || 
+            (result->scheduler_state != CPU_SCHED_SCHEDULED)
+        ) {
+                enableShowGraphics = false;
+        }
+       
+        // Disable Abort button if any selected task already aborted
+        if (
+            result->active_task_state == PROCESS_ABORT_PENDING ||
+            result->active_task_state == PROCESS_ABORTED ||
+            result->state == RESULT_ABORTED 
+        ) {
+            enableAbort = false;
+        }
+
+       if (i == 0) {
+            first_project_url = result->project_url;
+            all_same_project = true;
+        } else {
+            if (first_project_url != result->project_url) {
+                all_same_project = false;
             }
-            
-            if (n == 1) {
-                enableProperties = true;
-            }
+        }
+        
+        if (n == 1) {
+            enableProperties = true;
         }
     }
 
