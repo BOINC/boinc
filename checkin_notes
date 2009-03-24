@@ -3313,3 +3313,6 @@ David  24 Mar 2009
             en.po
         user/
             home.php
+
+David  24 Mar 2009
+    - web: remove spurious translation files

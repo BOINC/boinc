@@ -31,12 +31,12 @@ msgstr "UTF-8"
 # The name of this language in this language
 #, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Japanese"
 
 # The name of this language in an international language (English)
 #, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Japanese"
 
 msgid "Rank"
 msgstr "順位"

@@ -14,4 +14,6 @@ while ($f = readdir($d)) {
     }
 }
 
+system("cp templates/BOINC-Project-Generic.pot ../html/languages/translations/en.po");
+
 ?>

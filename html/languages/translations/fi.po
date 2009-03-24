@@ -24,11 +24,11 @@ msgstr "UTF-8"
 
 #, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Finnish"
 
 #, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Finnish"
 
 msgid "Rank"
 msgstr "Arvo"
