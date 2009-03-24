@@ -3325,3 +3325,13 @@ David  24 Mar 2009
         update_translations.php
     py/Boinc/
         setup_project.py
+
+David  24 Mar 2009
+    - web: translation system didn't compile BOINC and
+        project-specific translations correctly.
+
+    html/
+        ops/
+            update_translations.php
+        inc/
+            translation.inc

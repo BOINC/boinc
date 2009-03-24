@@ -20,7 +20,7 @@ $lang_language_dir = "../languages/";
 $lang_translations_dir = "translations/";
 $lang_prj_translations_dir = "project_specific_translations/";
 $lang_compiled_dir = "compiled/";
-$lang_log_level = 1;
+$lang_log_level = 0;
 
 /**
  * Fetches a list of compiled languages from the directory
@@ -72,20 +72,24 @@ function buildLanguages($langdir,$transdir,$compdir,$append=false){
                         );
                         continue;
                     }
-                    if (!$fh = fopen($langdir.$compdir.$file.".inc",$append?"a":"w")) {
+                    $fh = fopen($langdir.$compdir.$file.".inc",$append?"a":"w");
+                    if (!$fh) {
                         language_log(
                             "ERROR: could not access $langdir $compdir - please check permissions",2
                         );
                         exit;
                     }
-                    fwrite($fh, "<?php\n");                    
+                    if (!$append) {
+                        fwrite($fh, "<?php\n");                    
+                    }
                     foreach ($language as $key => $value){
                         if ($value !== "") {
                             //Skip if the msgstr is empty
                             fwrite($fh, "\$language_lookup_array[\"".str_replace("\"", "\\\"", substr($file,0,-3))."\"][\"".$key."\"] = \"".$value."\";\n");
                         }
                     }
-                    fwrite($fh, '?>');
+                    // don't write \?\> - may append
+
                     fclose($fh);
                 } else {
                     //debug("File $file with unknown extension found in $info_dir");
