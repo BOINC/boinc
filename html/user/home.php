@@ -46,7 +46,7 @@ if ($init) {
         ";
     }
 } else {
-    page_head("Your account");
+    page_head(tra("Your account"));
 }
 
 start_table_noborder();

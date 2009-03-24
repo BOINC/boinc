@@ -3302,3 +3302,14 @@ David  24 Mar 2009
     tools/
         upgrade
         make_project
+
+David  24 Mar 2009
+    - web: updated the master translation file
+
+    html/
+        ops/
+            build_po.php
+        languages/translations/
+            en.po
+        user/
+            home.php

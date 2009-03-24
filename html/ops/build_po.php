@@ -1,6 +1,12 @@
 #!/usr/bin/php
 <?php
 
+// generate en.po
+//
+// NOTE: after running this, move LANG_NAME_NATIVE and LANG_NAME_INTERNATIONAL
+// to the top, and set their strings to "English"
+// (should automate this)
+
 if (!isset($argv[1])) {
     die('Usage: build_po.php [PROJECT_PATH]');
 }
@@ -25,13 +31,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\\n"
 "X-Poedit-SourceCharset: utf-8\\n"
 
-msgid "LANG_NAME_NATIVE"
-msgstr "English"
-
-msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
-
-
 HDR;
 
 $out = fopen("$path/html/languages/translations/web.pot", "w");
@@ -41,5 +40,10 @@ stream_copy_to_stream($pipe, $out);
 fclose($pipe);
 fclose($out);
 
-system("msgen -o $path/html/languages/translations/en.po $path/html/languages/translations/web.pot");
+// msgen duplicates everything.
+// Don't need this.  Just rename to en.po
+
+//system("msgen -o $path/html/languages/translations/en.po $path/html/languages/translations/web.pot");
+
+system("mv $path/html/languages/translations/web.pot $path/html/languages/translations/en.po");
 ?>
