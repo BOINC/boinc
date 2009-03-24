@@ -335,6 +335,7 @@ def install_boinc_files(dest_dir, web_only):
     install_glob(srcdir('html/user/*.png'), dir('html/user/img'))
     install_glob(srcdir('html/user/*.gif'), dir('html/user/img'))
     install_glob(srcdir('html/user/img/*.*'), dir('html/user/img'))
+    os.system("rm -f "+dir('html/languages/translations/*'))
     install_glob(srcdir('html/languages/translations/*.po'), dir('html/languages/translations/'))
 
     # copy Python stuff

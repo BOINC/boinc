@@ -21,6 +21,7 @@ ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
 require_once("../inc/translation.inc");
+system("rm -f $lang_compiled_dir/*");
 buildLanguages($lang_language_dir,$lang_translations_dir, $lang_compiled_dir);
 buildLanguages($lang_language_dir,$lang_prj_translations_dir, $lang_compiled_dir, true);
 

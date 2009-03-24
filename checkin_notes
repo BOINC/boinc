@@ -3316,3 +3316,12 @@ David  24 Mar 2009
 
 David  24 Mar 2009
     - web: remove spurious translation files
+
+David  24 Mar 2009
+    - web: clean out translation directories before updating
+        (to get rid of bad translation files)
+
+    html/ops/
+        update_translations.php
+    py/Boinc/
+        setup_project.py

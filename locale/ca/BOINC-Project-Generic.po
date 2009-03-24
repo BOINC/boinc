@@ -22,11 +22,11 @@ msgstr "UTF-8"
 
 #, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Catalan"
 
 #, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Catalan"
 
 msgid "Rank"
 msgstr "Categoria"
