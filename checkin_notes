@@ -3251,3 +3251,13 @@ David  23 Mar 2009
 
     lib/
         coproc.cpp
+
+Rom    24 Mar 2009
+    - client: handle power events on Windows via a seperate thread and
+        hidden window.  The basic code was already in place to handle
+        logoff events on Win9x but now it is enabled for all Windows
+        versions.
+        
+    client/
+        app_control.cpp
+        main.cpp, .h

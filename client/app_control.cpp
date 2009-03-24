@@ -814,6 +814,8 @@ void ACTIVE_TASK_SET::unsuspend_all() {
 
 // Check to see if any tasks are running
 // called if benchmarking and waiting for suspends to happen
+// or the system needs to suspend itself so we are suspending
+// the applications
 //
 bool ACTIVE_TASK_SET::is_task_executing() {
     unsigned int i;

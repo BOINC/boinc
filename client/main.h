@@ -18,7 +18,7 @@
 #ifdef _WIN32
 extern int boinc_main_loop();
 extern void quit_client();
-extern void suspend_client();
-extern void resume_client();
+extern void suspend_client(bool wait = false);
+extern void resume_client(bool wait = false);
 extern int check_unique_instance();
 #endif

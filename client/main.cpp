@@ -26,8 +26,8 @@
 #include "win_util.h"
 
 extern HINSTANCE g_hClientLibraryDll;
-static HANDLE g_hWin9xMonitorSystemThread = NULL;
-static DWORD g_Win9xMonitorSystemThreadID = NULL;
+static HANDLE g_hWindowsMonitorSystemThread = NULL;
+static DWORD g_WindowsMonitorSystemThreadID = NULL;
 static BOOL g_bIsWin9x = FALSE;
 static bool requested_suspend = false;
 static bool requested_resume = false;
@@ -145,40 +145,103 @@ void quit_client() {
     }
 }
 
-void suspend_client() {
+void suspend_client(bool wait) {
     requested_suspend = true;
+    if (wait) {
+        while (1) {
+            boinc_sleep(1.0);
+            if (!gstate.active_tasks.is_task_executing()) break;
+        }
+    }
 }
 
-void resume_client() {
+void resume_client(bool wait) {
     requested_resume = true;
+    if (wait) {
+        while (1) {
+            boinc_sleep(1.0);
+            if (gstate.active_tasks.is_task_executing()) break;
+        }
+    }
 }
 
-// Trap logoff and shutdown events on Win9x so we can clean ourselves up.
-LRESULT CALLBACK Win9xMonitorSystemWndProc(
+// Trap power events on Windows so we can clean ourselves up.
+// Trap logoff/shutdown events on Winows 95/98/ME so we can clean ourselves up.
+LRESULT CALLBACK WindowsMonitorSystemWndProc(
     HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 ) {
-    if (uMsg == WM_QUERYENDSESSION) {
-        BOINCTRACE("***** Win9x Monitor System Shutdown/Logoff Event Detected *****\n");
+    switch(uMsg) {
         // Win95 is stupid, we really only need to wait until we have
         //   successfully shutdown the active tasks and cleaned everything
         //   up.  Luckly WM_QUERYENDSESSION is sent before Win9x checks for any
         //   existing console and that gives us a chance to clean-up and
         //   then clear the console window.  Win9x will not close down
         //   a console window if anything is displayed on it.
-        quit_client();
-        system("cls");
-        return TRUE;
+        case WM_QUERYENDSESSION:
+            if (g_bIsWin9x) {
+                BOINCTRACE("***** Windows Monitor System Shutdown/Logoff Event Detected *****\n");
+                quit_client();
+                system("cls");
+                return TRUE;
+            }
+            break;
+
+        // On Windows power events are broadcast via the WM_POWERBROADCAST
+        //   window message.  It has the following parameters:
+        //     PBT_APMQUERYSUSPEND
+        //     PBT_APMQUERYSUSPENDFAILED
+        //     PBT_APMSUSPEND
+        //     PBT_APMRESUMECRITICAL
+        //     PBT_APMRESUMESUSPEND
+        //     PBT_APMBATTERYLOW
+        //     PBT_APMPOWERSTATUSCHANGE
+        //     PBT_APMOEMEVENT
+        //     PBT_APMRESUMEAUTOMATIC 
+        case WM_POWERBROADCAST:
+            switch(wParam) {
+                // System is preparing to suspend.  This is valid on
+                //   Windows versions older than Vista
+                case PBT_APMQUERYSUSPEND:
+                    return TRUE;
+                    break;
+
+                // System is resuming from a failed request to suspend
+                //   activity.  This is only valid on Windows versions
+                //   older than Vista
+                case PBT_APMQUERYSUSPENDFAILED:
+                    resume_client();
+                    break;
+
+                // System is critically low on battery power.  This is
+                //   only valid on Windows versions older than Vista
+                case PBT_APMBATTERYLOW:
+                    suspend_client(true);
+                    break;
+
+                // System is suspending
+                case PBT_APMSUSPEND:
+                    suspend_client(true);
+                    break;
+
+                // System is resuming from a normal power event
+                case PBT_APMRESUMESUSPEND:
+                    resume_client();
+                    break;
+            }
+            break;
+        default:
+            break;
     }
     return (DefWindowProc(hWnd, uMsg, wParam, lParam));
 }
 
-DWORD WINAPI Win9xMonitorSystemThread( LPVOID  ) {
+DWORD WINAPI WindowsMonitorSystemThread( LPVOID  ) {
     HWND hwndMain;
     WNDCLASS wc;
     MSG msg;
 
     wc.style         = CS_GLOBALCLASS;
-    wc.lpfnWndProc   = (WNDPROC)Win9xMonitorSystemWndProc;
+    wc.lpfnWndProc   = (WNDPROC)WindowsMonitorSystemWndProc;
     wc.cbClsExtra    = 0;
     wc.cbWndExtra    = 0;
     wc.hInstance     = NULL;
@@ -186,10 +249,10 @@ DWORD WINAPI Win9xMonitorSystemThread( LPVOID  ) {
     wc.hCursor       = NULL;
     wc.hbrBackground = NULL;
     wc.lpszMenuName  = NULL;
-	wc.lpszClassName = "BOINCWin9xMonitorSystem";
+	wc.lpszClassName = "BOINCWindowsMonitorSystem";
 
     if (!RegisterClass(&wc)) {
-        fprintf(stderr, "Failed to register the Win9xMonitorSystem window class.\n");
+        fprintf(stderr, "Failed to register the WindowsMonitorSystem window class.\n");
         return 1;
     }
 
@@ -208,7 +271,7 @@ DWORD WINAPI Win9xMonitorSystemThread( LPVOID  ) {
         NULL);
 
     if (!hwndMain) {
-        fprintf(stderr, "Failed to create the Win9xMonitorSystem window.\n");
+        fprintf(stderr, "Failed to create the WindowsMonitorSystem window.\n");
         return 0;
     }
 
@@ -604,8 +667,8 @@ int finalize() {
     }
 #endif
 
-    if (g_bIsWin9x && g_Win9xMonitorSystemThreadID) {
-	    PostThreadMessage(g_Win9xMonitorSystemThreadID, WM_QUIT, 0, 0);
+    if (g_WindowsMonitorSystemThreadID) {
+	    PostThreadMessage(g_WindowsMonitorSystemThreadID, WM_QUIT, 0, 0);
     }
 
 #endif
@@ -713,24 +776,28 @@ int main(int argc, char** argv) {
     GetVersionEx(&osvi);
     g_bIsWin9x = osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS;
 
-    if (g_bIsWin9x) {
-        // Win9x doesn't send us the shutdown or close console
-        //   event, so we are going to create a hidden window
-        //   to trap a WM_QUERYENDSESSION event.
-        g_hWin9xMonitorSystemThread = CreateThread(
-            NULL,
-            0,
-            Win9xMonitorSystemThread,
-            NULL,
-            0,
-            &g_Win9xMonitorSystemThreadID);
+    // 
+    // Create a window to receive system events that are
+    //   not taken care of by the console APIs.  The console
+    //   APIs haven't been updated to handle various power states.
+    //
+    // Win9x doesn't send us the shutdown or close console
+    //   event, so we are going to create a hidden window
+    //   to trap a WM_QUERYENDSESSION event.
+    //
+    g_hWindowsMonitorSystemThread = CreateThread(
+        NULL,
+        0,
+        WindowsMonitorSystemThread,
+        NULL,
+        0,
+        &g_WindowsMonitorSystemThreadID);
 
-        if (g_hWin9xMonitorSystemThread) {
-            CloseHandle(g_hWin9xMonitorSystemThread);
-        } else {
-            g_hWin9xMonitorSystemThread = NULL;
-            g_Win9xMonitorSystemThreadID = NULL;
-        }
+    if (g_hWindowsMonitorSystemThread) {
+        CloseHandle(g_hWindowsMonitorSystemThread);
+    } else {
+        g_hWindowsMonitorSystemThread = NULL;
+        g_WindowsMonitorSystemThreadID = NULL;
     }
 
     SERVICE_TABLE_ENTRY dispatchTable[] = {
