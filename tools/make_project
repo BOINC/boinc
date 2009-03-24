@@ -278,6 +278,16 @@ try:
 except:
     print '''Couldn't find svnversion'''
 
+try:
+    os.system('/bin/sh -c /usr/bin/svnversion > '+proot+'/db_revision')
+except:
+    print '''Couldn't find svnversion'''
+
+try:
+    os.system('cd '+proot+'/html/ops; php update_translations.php')
+except:
+    print '''Couldn't install translation files'''
+
 print '''Done installing default daemons.'''
 
 # copy the test app if needed

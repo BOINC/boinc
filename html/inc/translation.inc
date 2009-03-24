@@ -20,8 +20,7 @@ $lang_language_dir = "../languages/";
 $lang_translations_dir = "translations/";
 $lang_prj_translations_dir = "project_specific_translations/";
 $lang_compiled_dir = "compiled/";
-$lang_log_level = 0;
-$lang_log_file = $lang_language_dir."translator.log";
+$lang_log_level = 1;
 
 /**
  * Fetches a list of compiled languages from the directory
@@ -30,6 +29,7 @@ $lang_log_file = $lang_language_dir."translator.log";
  */
 function getSupportedLanguages(){
     global $lang_language_dir, $lang_compiled_dir;
+    $list = array();
     if (is_dir($lang_language_dir.$lang_compiled_dir)) {
         if ($dh = opendir($lang_language_dir.$lang_compiled_dir)) {
             while ($file = readdir($dh)) {
@@ -180,19 +180,13 @@ function tr_specific($text, $language){
 }
 
 function language_log($message, $loglevel=0){
-    global $lang_log_level, $lang_log_file;
+    global $lang_log_level;
     if ($loglevel==0) $msg = "[ Debug    ]";
     if ($loglevel==1) $msg = "[ Warning  ]";
     if ($loglevel==2) $msg = "[ CRITICAL ]";
 
     if ($loglevel>=$lang_log_level){
-        $fh = fopen($lang_log_file,"a");
-        if (!$fh) {
-            echo "failed to open log file $lang_log_file\n";
-            return;
-        }
-        fwrite($fh, date("Y-m-d H:i:s",time())." ".$msg." ".$message."\n");
-        fclose($fh);
+        echo date("Y-m-d H:i:s",time())." ".$msg." ".$message."\n";
     }
 }
 

@@ -3281,3 +3281,21 @@ David  24 Mar 2009
 
     client/
         main.cpp,h
+
+David  24 Mar 2009
+    - upgrade and make_project scripts: run update_translations.php,
+        which compiles the translation files into the form
+        used by the web code.
+        Projects that don't use "upgrade" will need to do this manually
+        whenever translation files change.
+
+    html/
+        inc/
+            translation.inc
+        ops/
+            update_translations.php
+        user/
+            language_select.php
+    tools/
+        upgrade
+        make_project
