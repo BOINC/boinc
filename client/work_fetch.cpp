@@ -142,6 +142,10 @@ bool RSC_PROJECT_WORK_FETCH::overworked() {
     return (debt < -x);
 }
 
+#define FETCH_IF_IDLE_INSTANCE          0
+    // If resource has an idle instance,
+    // get work for it from the project with greatest LTD,
+    // even if it's overworked.
 #define FETCH_IF_MAJOR_SHORTFALL        1
     // If resource is saturated for less than work_buf_min(),
     // get work for it from the project with greatest LTD,
@@ -162,6 +166,9 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
     PROJECT* pbest = NULL;
 
     switch (criterion) {
+    case FETCH_IF_IDLE_INSTANCE:
+        if (nidle_now == 0) return NULL;
+        break;
     case FETCH_IF_MAJOR_SHORTFALL:
         if (estimated_delay > gstate.work_buf_min()) return NULL;
         break;
@@ -201,6 +208,16 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
     //
     work_fetch.clear_request();
     switch (criterion) {
+    case FETCH_IF_IDLE_INSTANCE:
+        if (log_flags.work_fetch_debug) {
+            msg_printf(pbest, MSG_INFO,
+                "chosen: %s idle instance", rsc_name(rsc_type)
+            );
+        }
+        req = share_request(pbest);
+        if (req > shortfall) req = shortfall;
+        set_request(pbest, req);
+        break;
     case FETCH_IF_MAJOR_SHORTFALL:
         if (log_flags.work_fetch_debug) {
             msg_printf(pbest, MSG_INFO,
@@ -402,6 +419,12 @@ PROJECT* WORK_FETCH::choose_project() {
     gstate.rr_simulation();
     set_overall_debts();
 
+    if (coproc_cuda) {
+        p = cuda_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
+    }
+    if (!p) {
+        p = cpu_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
+    }
     if (coproc_cuda) {
         p = cuda_work_fetch.choose_project(FETCH_IF_MAJOR_SHORTFALL);
     }

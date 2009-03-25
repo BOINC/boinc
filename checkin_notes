@@ -3341,3 +3341,9 @@ David  25 Mar 2009
 
     sched/
         file_upload_handler.cpp
+
+David  25 Mar 2009
+    - client: give highest work-fetch priority to resources with idle instances
+
+    client/
+        work_fetch.cpp
