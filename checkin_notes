@@ -3335,3 +3335,9 @@ David  24 Mar 2009
             update_translations.php
         inc/
             translation.inc
+
+David  25 Mar 2009
+    - improve msgs in file upload handler
+
+    sched/
+        file_upload_handler.cpp

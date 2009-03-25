@@ -218,7 +218,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
         to_write=n;
         while (to_write > 0) {
             ssize_t ret = write(fd, buf+n-to_write, to_write);
-            if (ret < 0) { 
+            if (ret < 0) {
                 close(fd);
                 const char* errmsg;
                 if (errno == ENOSPC) {
@@ -366,7 +366,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 path, true
             );
             if (retval) {
-                log_messages.printf(MSG_CRITICAL, 
+                log_messages.printf(MSG_CRITICAL,
                     "Failed to find/create directory for file '%s' in '%s'\n",
                     file_info.name, config.upload_dir
                 );
@@ -430,7 +430,7 @@ int handle_get_file_size(char* file_name) {
         file_name, config.upload_dir, config.uldl_dir_fanout, path
     );
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, 
+        log_messages.printf(MSG_CRITICAL,
             "Failed to find/create directory for file '%s' in '%s'.\n",
             file_name, config.upload_dir
         );
@@ -475,7 +475,7 @@ int handle_get_file_size(char* file_name) {
         return return_error(ERR_TRANSIENT,
             "[%s] locked by file_upload_handler PID=%d", file_name, pid
         );
-    } 
+    }
     // file exists, writable, not locked by anyone else, so return length.
     //
     retval = stat(path, &sbuf);
@@ -619,8 +619,12 @@ int main() {
     get_log_path(log_path, "file_upload_handler.log");
 #ifndef _USING_FCGI_
     if (!freopen(log_path, "a", stderr)) {
-        fprintf(stderr, "Can't open log file\n");
-        return_error(ERR_TRANSIENT, "can't open log file");
+        fprintf(stderr, "Can't open log file '%s' (errno: %d)\n",
+            log_path, errno
+        );
+        return_error(ERR_TRANSIENT, "can't open log file '%s' (errno: %d)",
+            log_path, errno
+        );
         exit(1);
     }
 #else
@@ -636,6 +640,10 @@ int main() {
 
     retval = config.parse_file("..");
     if (retval) {
+        fprintf(stderr, "Can't parse config file\n");
+        return_error(ERR_TRANSIENT,
+            "can't parse config file", log_path, errno
+        );
         exit(1);
     }
 
