@@ -2132,3 +2132,12 @@ Rom    18 Mar 2009
     /
         configure.ac
         version.h
+
+David  19 Mar 2009
+    - client: work fetch: in RR sim, keep track of the number
+        of device instances used by jobs that miss deadline.
+        Don't do "variety" work fetch if this is >= # of instances
+
+    client/
+        rr_sim.cpp
+        work_fetch.cpp,h

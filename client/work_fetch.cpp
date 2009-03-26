@@ -78,6 +78,7 @@ void RSC_WORK_FETCH::rr_init() {
     sim_nused = 0;
     total_fetchable_share = 0;
     total_runnable_share = 0;
+    deadline_missed_instances = 0;
     estimated_delay = 0;
     pending.clear();
 }
@@ -166,6 +167,9 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
         break;
     case FETCH_IF_MINOR_SHORTFALL:
         if (estimated_delay > gstate.work_buf_total()) return NULL;
+        break;
+    case FETCH_IF_PROJECT_STARVED:
+        if (deadline_missed_instances >= ninstances) return NULL;
         break;
     }
 
