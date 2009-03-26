@@ -2176,3 +2176,10 @@ David  20 Mar 2009
 	client/
 		cs_scheduler.cpp
 		gui_rpc_server_ops.cpp
+
+David  23 Mar 2009
+    - client (linux): if don't find libcudart.so in the current dir,
+        look for it in the library search path.  Fixes #863
+
+    lib/
+        coproc.cpp
