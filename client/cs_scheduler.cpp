@@ -362,11 +362,12 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         //
         p = next_project_sched_rpc_pending();
         if (p) {
-			// if the user requested the RPC, clear backoffs to allow work requests
+			// if the user requested the RPC,
+            // clear backoffs to allow work requests
 			//
 			if (p->sched_rpc_pending == RPC_REASON_USER_REQ) {
-				p->cpu_pwf.backoff_time = 0;
-				p->cuda_pwf.backoff_time = 0;
+				p->cpu_pwf.clear_backoff();
+				p->cuda_pwf.clear_backoff();
 			}
             work_fetch.compute_work_request(p);
 			scheduler_op->init_op_project(p, p->sched_rpc_pending);

@@ -2189,3 +2189,11 @@ David  25 Mar 2009
 
     client/
         work_fetch.cpp
+
+David  26 Mar 2009
+    - client: clear resource backoffs on user-requested RPC
+    - client: randomize resource backoffs to avoid lockstep
+
+    client/
+        cs_scheduler.cpp
+        work_fetch.cpp
