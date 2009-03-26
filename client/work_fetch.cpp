@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "util.h"
+
 #include "client_types.h"
 #include "client_msgs.h"
 #ifdef SIM
@@ -743,10 +745,11 @@ void RSC_PROJECT_WORK_FETCH::backoff(PROJECT* p, char* name) {
     } else {
         backoff_interval = MIN_BACKOFF_INTERVAL;
     }
-    backoff_time = gstate.now + backoff_interval;
+    double x = drand()*backoff_interval;
+    backoff_time = gstate.now + x;
     if (log_flags.work_fetch_debug) {
         msg_printf(p, MSG_INFO,
-            "[wfd] backing off %s %.0f sec", name, backoff_interval
+            "[wfd] backing off %s %.0f sec", name, x
         );
     }
 }
