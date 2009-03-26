@@ -187,7 +187,7 @@ public:
 private:
     void                        HandleCompletedRPC();
     void                        KillRPCThread();
-    int                         CopyProjectsToStateFile(PROJECTS& p, CC_STATE& state);
+    int                         CopyProjectsToStateBuffer(PROJECTS& p, CC_STATE& state);
     ASYNC_RPC_REQUEST           current_rpc_request;
     AsyncRPCDlg*                m_RPCWaitDlg;
     std::vector<ASYNC_RPC_REQUEST> RPC_requests;

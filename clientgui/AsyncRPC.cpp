@@ -19,6 +19,10 @@
 #pragma implementation "AsyncRPC.h"
 #endif
 
+#if !(defined(_WIN32) || (defined(__WXMAC__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)))
+#include <xlocale.h>
+#endif
+
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
@@ -125,6 +129,17 @@ void *RPCThread::Entry() {
    
     m_pRPC_Thread_Mutex->Lock();
 
+#ifdef __WXMSW__
+    // On Windows, set all locales for this thread on a per-thread basis
+    _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
+    setlocale(LC_ALL, "C");
+#elif !(defined(__WXMAC__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4))
+    // uselocale() is not available in OS 10.3.9
+    // On Mac / Unix / Linux, set "C" locale for this thread only
+    locale_t RPC_Thread_Locale = newlocale(LC_ALL_MASK, NULL, NULL);
+    uselocale(RPC_Thread_Locale);
+#endif
+
     while(true) {
         // Wait for main thread to wake us
         // This does the following:
@@ -134,6 +149,11 @@ void *RPCThread::Entry() {
         wxASSERT(condErr == wxCOND_NO_ERROR);
         
         if (m_pDoc->m_bShutDownRPCThread) {
+#ifdef RPC_Thread_Locale
+#warning 3
+            uselocale(LC_GLOBAL_LOCALE);
+            freelocale(RPC_Thread_Locale);
+#endif
             m_pRPC_Thread_Mutex->Unlock();  // Just for safety - not really needed
             // Tell CMainDocument that thread has gracefully ended 
             // We do this here because OnExit() is not called on Windows
@@ -730,7 +750,7 @@ void CMainDocument::HandleCompletedRPC() {
             break;
         case RPC_GET_SIMPLE_GUI_INFO2:
             if (!retval) {
-                retval = CopyProjectsToStateFile(*(PROJECTS*)(current_rpc_request.arg1), *(CC_STATE*)(current_rpc_request.arg2));
+                retval = CopyProjectsToStateBuffer(*(PROJECTS*)(current_rpc_request.arg1), *(CC_STATE*)(current_rpc_request.arg2));
             }
             if (current_rpc_request.exchangeBuf && !retval) {
                 RESULTS* arg3 = (RESULTS*)current_rpc_request.arg3;
@@ -740,7 +760,7 @@ void CMainDocument::HandleCompletedRPC() {
             break;
         case RPC_GET_PROJECT_STATUS1:
             if (!retval) {
-                retval = CopyProjectsToStateFile(*(PROJECTS*)(current_rpc_request.arg1), *(CC_STATE*)(current_rpc_request.arg2));
+                retval = CopyProjectsToStateBuffer(*(PROJECTS*)(current_rpc_request.arg1), *(CC_STATE*)(current_rpc_request.arg2));
             }
             break;
         case RPC_GET_ALL_PROJECTS_LIST:
@@ -878,9 +898,8 @@ void CMainDocument::HandleCompletedRPC() {
 }
 
 
-int CMainDocument::CopyProjectsToStateFile(PROJECTS& p, CC_STATE& state) {
+int CMainDocument::CopyProjectsToStateBuffer(PROJECTS& p, CC_STATE& state) {
     int retval = 0;
-    SET_LOCALE sl;
     unsigned int i;
     PROJECT* state_project = NULL;
 

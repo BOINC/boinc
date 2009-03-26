@@ -318,6 +318,10 @@ bool CBOINCGUIApp::OnInit() {
 
 
     // Initialize the internationalization module
+#ifdef __WXMSW__
+    // On Windows, set all locales for this thread on a per-thread basis
+    _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
+#endif
     m_pLocale = new wxLocale();
     wxASSERT(m_pLocale);
 

@@ -668,7 +668,9 @@ struct RPC {
     int parse_reply();
 };
 
-struct SET_LOCALE {
+// uselocale() is not available in OS 10.3.9
+#if (defined(_WIN32) || (defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)))
+ struct SET_LOCALE {
     std::string locale;
     inline SET_LOCALE() {
         locale = setlocale(LC_ALL, NULL);
@@ -678,5 +680,21 @@ struct SET_LOCALE {
         setlocale(LC_ALL, locale.c_str());
     }
 };
+#else
+#include <xlocale.h>
+ struct SET_LOCALE {
+    locale_t old_locale, RPC_locale;
+    inline SET_LOCALE() {
+        old_locale = uselocale(NULL);
+        // Set the per-thread locale to the "C" locale
+        locale_t RPC_locale = newlocale(LC_ALL_MASK, NULL, NULL);
+        uselocale(RPC_locale);
+    }
+    inline ~SET_LOCALE() {
+        uselocale(old_locale);
+        freelocale(RPC_locale);
+    }
+};
+#endif
 
 extern int read_gui_rpc_password(char*);

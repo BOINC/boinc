@@ -3347,3 +3347,17 @@ David  25 Mar 2009
 
     client/
         work_fetch.cpp
+
+Charlie 25 Mar 2009
+    - MGR: Remove erroneous call of locale in main thread which may be causing 
+        undesired chanegs in date and numeric formatting due to conflicts 
+        between threads; also set locale only on a per-thread basis if available.
+    - MGR: Rename method CMainDocument::CopyProjectsToStateFile() to 
+        CMainDocument::CopyProjectsToStateBuffer() for clarity.
+    
+    clientgui/
+        AsyncRPC.cpp
+        BOINCGUIApp.cpp
+        MainDocument.h
+    lib/
+        gui_rpc_client.h
