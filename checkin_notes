@@ -2207,3 +2207,11 @@ David  26 Mar 2009
 
     client/
         app.cpp
+
+Rom    26 Mar 2009
+    - Tag for 6.6.18 release, all platforms
+      boinc_core_release_6_6_18
+
+    /
+        configure.ac
+        version.h
