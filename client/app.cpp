@@ -250,7 +250,17 @@ void ACTIVE_TASK::cleanup_task() {
         gstate.retry_shmem_time = 0;
     }
 #endif
-    
+
+    // clear backoff for app's resource;
+    // this addresses the situation where the project has a
+    // "max # jobs in progress" limit, and we're backed off because of that
+    //
+    if (app_version->ncudas) {
+        result->project->cuda_pwf.clear_backoff();
+    } else {
+        result->project->cpu_pwf.clear_backoff();
+    }
+
     if (gstate.exit_after_finish) {
         exit(0);
     }

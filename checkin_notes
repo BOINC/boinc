@@ -2197,3 +2197,13 @@ David  26 Mar 2009
     client/
         cs_scheduler.cpp
         work_fetch.cpp
+
+David  26 Mar 2009
+    - client: when a job finishes,
+        clear the project's backoff for its resource type.
+        This fixes a problem where a project has a "max jobs in progress"
+        limit, and we're backed off because of that.
+        We'll now fetch work immediately instead of waiting 24 hrs.
+
+    client/
+        app.cpp
