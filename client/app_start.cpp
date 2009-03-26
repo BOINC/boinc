@@ -578,7 +578,14 @@ int ACTIVE_TASK::start(bool first_time) {
 
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
-    int prio_mask = high_priority?BELOW_NORMAL_PRIORITY_CLASS:IDLE_PRIORITY_CLASS;
+    int prio_mask;
+    if (config.no_priority_change) {
+        prio_mask = 0;
+    } else if (high_priority) {
+        prio_mask = BELOW_NORMAL_PRIORITY_CLASS;
+    } else {
+        prio_mask = IDLE_PRIORITY_CLASS;
+    }
 
     for (i=0; i<5; i++) {
         if (sandbox_account_service_token != NULL) {
@@ -734,10 +741,12 @@ int ACTIVE_TASK::start(bool first_time) {
         );
     }
 
-    if (setpriority(PRIO_PROCESS, pid,
-        high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)
-    ) {
-        perror("setpriority");
+    if (!config.no_priority_change) {
+        if (setpriority(PRIO_PROCESS, pid,
+            high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)
+        ) {
+            perror("setpriority");
+        }
     }
 
 #else
@@ -859,10 +868,12 @@ int ACTIVE_TASK::start(bool first_time) {
         freopen(STDERR_FILE, "a", stderr);
 
 #ifdef HAVE_SETPRIORITY
-        if (setpriority(PRIO_PROCESS, 0,
-            high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)
-        ) {
-            perror("setpriority");
+        if (!config.no_priority_change) {
+            if (setpriority(PRIO_PROCESS, 0,
+                high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)
+            ) {
+                perror("setpriority");
+            }
         }
 #endif
         sprintf(cmdline, "%s %s", wup->command_line.c_str(), app_version->cmdline);

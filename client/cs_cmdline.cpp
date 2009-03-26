@@ -64,6 +64,7 @@ static void print_options(char* prog) {
         "    --master_fetch_period N        reload master URL after N RPC failures\n"
         "    --master_fetch_retry_cap N     exponential backoff limit\n"
         "    --no_gui_rpc                   don't allow GUI RPC, don't make socket\n"
+        "    --no_priority_change           run apps at same priority as client\n"
         "    --pers_giveup N                giveup time for persistent file xfer\n"
         "    --pers_retry_delay_max N       max for file xfer exponential backoff\n"
         "    --pers_retry_delay_min N       min for file xfer exponential backoff\n"
@@ -173,6 +174,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             else master_fetch_retry_cap = atoi(argv[++i]);
         } else if (ARG(no_gui_rpc)) {
             no_gui_rpc = true;
+        } else if (ARG(no_priority_change)) {
+            config.no_priority_change = true;
         } else if (ARG(pers_giveup)) {
             if (i == argc-1) show_options = true;
             else pers_giveup = atoi(argv[++i]);
