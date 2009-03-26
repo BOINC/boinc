@@ -20,7 +20,8 @@
 #endif
 
 #if !(defined(_WIN32) || (defined(__WXMAC__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)))
-#include <xlocale.h>
+//#include <xlocale.h>
+//#include "gui_rpc_client.h"
 #endif
 
 #include "stdwx.h"
@@ -119,7 +120,6 @@ RPCThread::RPCThread(CMainDocument *pDoc,
     m_pRPC_Request_Condition = pRPC_Request_Condition;
 }
 
-
 void *RPCThread::Entry() {
     int retval = 0;
     CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED );
@@ -133,8 +133,12 @@ void *RPCThread::Entry() {
     // On Windows, set all locales for this thread on a per-thread basis
     _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
     setlocale(LC_ALL, "C");
-#elif !(defined(__WXMAC__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4))
-    // uselocale() is not available in OS 10.3.9
+#elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)
+    if (uselocale) {    // uselocale() is not available in Mac OS 10.3.9
+        locale_t RPC_Thread_Locale = newlocale(LC_ALL_MASK, NULL, NULL);
+        uselocale(RPC_Thread_Locale);
+    }
+#else
     // On Mac / Unix / Linux, set "C" locale for this thread only
     locale_t RPC_Thread_Locale = newlocale(LC_ALL_MASK, NULL, NULL);
     uselocale(RPC_Thread_Locale);
@@ -150,7 +154,6 @@ void *RPCThread::Entry() {
         
         if (m_pDoc->m_bShutDownRPCThread) {
 #ifdef RPC_Thread_Locale
-#warning 3
             uselocale(LC_GLOBAL_LOCALE);
             freelocale(RPC_Thread_Locale);
 #endif

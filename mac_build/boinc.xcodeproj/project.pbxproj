@@ -2841,7 +2841,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2855,7 +2854,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2870,7 +2868,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2885,7 +2882,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2903,11 +2899,9 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.8.7/src/build/include/",
 					"../../wxMac-2.8.7/include",
@@ -2933,8 +2927,6 @@
 					"-D_DEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DSANDBOX -D_DEBUG -DHAVE_STRCASECMP_IN_STRING_H";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DSANDBOX -D_DEBUG -DHAVE_STRCASECMP_IN_STRING_H";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
@@ -2958,11 +2950,9 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.8.7/src/build/include/",
 					"../../wxMac-2.8.7/include",
@@ -2988,8 +2978,6 @@
 					"-DNDEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DSANDBOX -DNDEBUG -DHAVE_STRCASECMP_IN_STRING_H";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DSANDBOX -DNDEBUG -DHAVE_STRCASECMP_IN_STRING_H";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
@@ -3013,11 +3001,9 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.8.7/src/build/include/",
 					"../../wxMac-2.8.7/include",
@@ -3043,8 +3029,6 @@
 					"-DNDEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DSANDBOX -DNDEBUG -DHAVE_STRCASECMP_IN_STRING_H";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DSANDBOX -DNDEBUG -DHAVE_STRCASECMP_IN_STRING_H";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
@@ -3068,11 +3052,9 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.8.7/src/build/include/",
 					"../../wxMac-2.8.7/include",
@@ -3098,8 +3080,6 @@
 					"-DNDEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DSANDBOX -DNDEBUG -DHAVE_STRCASECMP_IN_STRING_H";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H -DSIMPLEGUI";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
@@ -3197,9 +3177,6 @@
 		DD62C37D0A801FB400B3D68A /* Dev_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc;
 			};
 			name = Dev_noSandbox;
@@ -3207,9 +3184,6 @@
 		DD62C37E0A801FB400B3D68A /* Deploy_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc;
 			};
 			name = Deploy_noSandbox;
@@ -3217,9 +3191,6 @@
 		DD62C3810A801FB400B3D68A /* Dev_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Dev_noSandbox;
@@ -3227,9 +3198,6 @@
 		DD62C3820A801FB400B3D68A /* Deploy_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Deploy_noSandbox;
@@ -3252,14 +3220,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_THREAD_SAFE",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -3292,8 +3252,6 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "../../curl-7.19.4/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.19.4/lib/.libs/libcurl.a",
@@ -3319,8 +3277,6 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "../../curl-7.19.4/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.19.4/lib/.libs/libcurl.a",
@@ -3341,7 +3297,6 @@
 			buildSettings = {
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
-				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -3357,7 +3312,6 @@
 			buildSettings = {
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
-				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -3372,7 +3326,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3382,8 +3335,6 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -D_DEBUG -D_MAC_INSTALLER -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -D_DEBUG -D_MAC_INSTALLER -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -3396,7 +3347,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3406,8 +3356,6 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -DNDEBUG -D_MAC_INSTALLER -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -D_MAC_INSTALLER -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -3420,9 +3368,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -3432,9 +3377,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -3494,7 +3436,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3508,7 +3449,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3584,11 +3524,9 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.8.7/src/build/include/",
 					"../../wxMac-2.8.7/include",
@@ -3613,8 +3551,6 @@
 					"-D_DEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -D_DEBUG -DHAVE_STRCASECMP_IN_STRING_H";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -D_DEBUG -DHAVE_STRCASECMP_IN_STRING_H";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
@@ -3638,11 +3574,9 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.8.7/src/build/include/",
 					"../../wxMac-2.8.7/include",
@@ -3667,8 +3601,6 @@
 					"-DNDEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DNDEBUG -DHAVE_STRCASECMP_IN_STRING_H";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DNDEBUG -DHAVE_STRCASECMP_IN_STRING_H";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
@@ -3696,9 +3628,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = "";
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
@@ -3706,12 +3636,9 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -D_DEBUG -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -D_DEBUG -include ../clientgui/mac/config.h";
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = NO;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -3738,8 +3665,6 @@
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
@@ -3747,12 +3672,9 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -DNDEBUG -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -include ../clientgui/mac/config.h";
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -3907,9 +3829,6 @@
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.4;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
@@ -3918,14 +3837,9 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_x86_64 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
-				SDKROOT_x86_64 = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -3962,8 +3876,6 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "../../curl-7.19.4/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.19.4/lib/.libs/libcurl.a",
@@ -3983,9 +3895,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -3994,9 +3903,6 @@
 		DD96706B0CED9A800009D32B /* Deployment-no64 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc;
 			};
 			name = "Deployment-no64";
@@ -4004,9 +3910,6 @@
 		DD96706D0CED9A800009D32B /* Deployment-no64 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
@@ -4015,9 +3918,6 @@
 		DD96706E0CED9A800009D32B /* Deployment-no64 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = "Deployment-no64";
@@ -4027,7 +3927,6 @@
 			buildSettings = {
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
-				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -4064,7 +3963,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -4075,9 +3973,6 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -DNDEBUG -D_MAC_INSTALLER -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -D_MAC_INSTALLER -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_x86_64 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -DNDEBUG -D_MAC_INSTALLER -DSANDBOX -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -4115,7 +4010,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -4140,11 +4034,9 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_PFE_FILE_C_DIALECTS = "c++";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../wxMac-2.8.7/src/build/include/",
 					"../../wxMac-2.8.7/include",
@@ -4170,8 +4062,6 @@
 					"-DNDEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DSANDBOX -DNDEBUG -DHAVE_STRCASECMP_IN_STRING_H";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -DHAVE_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -DNO_GCC_PRAGMA -DNOCLIPBOARD -D_THREAD_SAFE -D__WXMAC__ -DHAVE_STRCASECMP_IN_STRING_H -DSIMPLEGUI";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
@@ -4216,9 +4106,22 @@
 					ppc,
 					x86_64,
 				);
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
+				OTHER_CFLAGS = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
+				"OTHER_CFLAGS[arch=x86_64]" = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				PRODUCT_NAME = boinc;
 			};
 			name = Deployment;
@@ -4231,10 +4134,7 @@
 					ppc,
 					x86_64,
 				);
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
-				OTHER_CFLAGS = (
+				"OTHER_CFLAGS[arch=x86_64]" = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -4279,9 +4179,15 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "../../curl-7.19.4/include";
+				"OTHER_CFLAGS[arch=x86_64]" = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				OTHER_LDFLAGS = (
 					"../../curl-7.19.4/lib/.libs/libcurl.a",
 					"../../c-ares-1.6.0/.libs/libcares.a",
@@ -4301,7 +4207,6 @@
 			buildSettings = {
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
-				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -4316,7 +4221,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -4327,9 +4231,6 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -DNDEBUG -D_MAC_INSTALLER -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -D_MAC_INSTALLER -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_x86_64 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -DNDEBUG -D_MAC_INSTALLER -DSANDBOX -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -4342,9 +4243,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -4395,7 +4293,8 @@
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.3;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
 				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.5;
 				OTHER_CFLAGS = (
@@ -4406,38 +4305,10 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				"OTHER_CFLAGS[arch=i386]" = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				"OTHER_CFLAGS[arch=ppc]" = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				"OTHER_CFLAGS[arch=x86_64]" = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
-					"-D_THREAD_SAFE",
-					"-DNDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_x86_64 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
-				SDKROOT_x86_64 = /Developer/SDKs/MacOSX10.5.sdk;
+				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -4450,9 +4321,6 @@
 		DD9E2352091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc;
 			};
 			name = Development;
@@ -4460,9 +4328,6 @@
 		DD9E2353091CBDAE0048316E /* ppc_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc;
 			};
 			name = ppc_Deployment;
@@ -4470,9 +4335,6 @@
 		DD9E235A091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Development;
@@ -4480,9 +4342,6 @@
 		DD9E235B091CBDAE0048316E /* ppc_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = ppc_Deployment;
@@ -4505,25 +4364,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
-					"-D_THREAD_SAFE",
-					"-D_DEBUG",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				"OTHER_CFLAGS[arch=x86_64]" = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
-					"-D_THREAD_SAFE",
-					"-DDEBUG",
-					"-D_DEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -D_DEBUG  -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -D_DEBUG  -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_x86_64 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -D_THREAD_SAFE -D_DEBUG  -DSANDBOX -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -4557,8 +4397,6 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "../../curl-7.19.4/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.19.4/lib/.libs/libcurl.a",
@@ -4581,8 +4419,6 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "../../curl-7.19.4/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.19.4/lib/.libs/libcurl.a",
@@ -4603,7 +4439,6 @@
 			buildSettings = {
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
-				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -4619,7 +4454,6 @@
 			buildSettings = {
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
-				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/3.3;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -4634,7 +4468,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -4645,8 +4478,6 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -D_DEBUG -D_MAC_INSTALLER -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -D_DEBUG -D_MAC_INSTALLER -DSANDBOX -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -4659,7 +4490,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -4670,8 +4500,6 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -DNDEBUG -D_MAC_INSTALLER -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -D_MAC_INSTALLER -DSANDBOX -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -4684,9 +4512,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -4696,9 +4521,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -4773,10 +4595,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = "";
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
@@ -4785,22 +4604,9 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				"OTHER_CFLAGS[arch=x86_64]" = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
-					"-D_THREAD_SAFE",
-					"-DDEBUG",
-					"-DSANDBOX",
-					"-include",
-					../clientgui/mac/config.h,
-				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -D_DEBUG -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -D_DEBUG -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_x86_64 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -D_THREAD_SAFE -D_DEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
-				SDKROOT_x86_64 = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = NO;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -4822,9 +4628,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
@@ -4833,12 +4637,9 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -4851,9 +4652,6 @@
 		DDA2D1570952A93E00D0B538 /* i386_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc;
 			};
 			name = i386_Deployment;
@@ -4861,9 +4659,6 @@
 		DDA2D1590952A93E00D0B538 /* i386_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = i386_Deployment;
@@ -4897,8 +4692,6 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "../../curl-7.19.4/include";
 				OTHER_LDFLAGS = (
 					"../../curl-7.19.4/lib/.libs/libcurl.a",
@@ -4919,7 +4712,6 @@
 			buildSettings = {
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "SystemMenu-Info.plist";
-				LIBRARY_SEARCH_PATHS = /usr/lib/gcc/darwin/4.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -4934,7 +4726,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -4945,8 +4736,6 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -DNDEBUG -D_MAC_INSTALLER -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -D_MAC_INSTALLER -DSANDBOX -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
@@ -4959,9 +4748,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -5009,8 +4795,6 @@
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
@@ -5019,12 +4803,9 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				OTHER_CFLAGS_i386 = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
-				SDKROOT_ppc = /Developer/SDKs/MacOSX10.3.9.sdk;
+				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -5037,9 +4818,6 @@
 		DDB873FD0C850BC800E0DE1F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
@@ -5048,9 +4826,6 @@
 		DDB873FE0C850BC800E0DE1F /* Dev_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
@@ -5059,9 +4834,6 @@
 		DDB873FF0C850BC800E0DE1F /* ppc_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
@@ -5070,9 +4842,6 @@
 		DDB874000C850BC800E0DE1F /* i386_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
@@ -5086,11 +4855,8 @@
 					ppc,
 					x86_64,
 				);
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
-				OTHER_CFLAGS = (
+				"OTHER_CFLAGS[arch=x86_64]" = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -5105,9 +4871,6 @@
 		DDB874020C850BC800E0DE1F /* Deploy_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};

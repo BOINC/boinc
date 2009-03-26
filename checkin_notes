@@ -3361,3 +3361,22 @@ Charlie 25 Mar 2009
         MainDocument.h
     lib/
         gui_rpc_client.h
+
+Charlie 26 Mar 2009
+    - Mac: revise XCode project to use OS 10.4 SDK for building PowerPC libraries 
+        and executables so that we can use weak-linking for APIs not available 
+        before OS 10.4, such as uselocale().
+    - MGR: Modify SET_LOCALE constructor and destructor to change locale only on 
+        those systems without support for setting locale on a per-thread basis, 
+        such as OS 10.3.9.
+    NOTE: At this point it appears that Ubuntu and Fedora both support uselocale().
+        If any platform does not support it, change the "#if 0" gui_rpc_client.h 
+        to "#if defined(some_OS)".
+
+    clientgui/
+        AsyncRPC.cpp
+    lib/
+        gui_rpc_client.h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

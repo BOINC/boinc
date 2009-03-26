@@ -668,8 +668,9 @@ struct RPC {
     int parse_reply();
 };
 
-// uselocale() is not available in OS 10.3.9
-#if (defined(_WIN32) || (defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)))
+#if 0   // Use this code for any platforms which do not support 
+        // setting locale on a per-thread basis; change the 
+        // "#if 0" to "#if defined(some_OS)"
  struct SET_LOCALE {
     std::string locale;
     inline SET_LOCALE() {
@@ -680,19 +681,38 @@ struct RPC {
         setlocale(LC_ALL, locale.c_str());
     }
 };
-#else
+
+#elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)
+// uselocale() is not available in OS 10.3.9 so use weak linking
 #include <xlocale.h>
+extern int		freelocale(locale_t) __attribute__((weak_import));
+extern locale_t	newlocale(int, __const char *, locale_t) __attribute__((weak_import));
+extern locale_t	uselocale(locale_t) __attribute__((weak_import));
+
  struct SET_LOCALE {
     locale_t old_locale, RPC_locale;
+    std::string locale;
     inline SET_LOCALE() {
-        old_locale = uselocale(NULL);
-        // Set the per-thread locale to the "C" locale
-        locale_t RPC_locale = newlocale(LC_ALL_MASK, NULL, NULL);
-        uselocale(RPC_locale);
+        if (uselocale == NULL) {
+            locale = setlocale(LC_ALL, NULL);
+            setlocale(LC_ALL, "C");
+        }
     }
     inline ~SET_LOCALE() {
-        uselocale(old_locale);
-        freelocale(RPC_locale);
+        if (uselocale == NULL) {
+            setlocale(LC_ALL, locale.c_str());
+        }
+    }
+};
+
+#else
+#include <xlocale.h>
+
+ struct SET_LOCALE {
+    // Don't need this if we have per-thread locale
+    inline SET_LOCALE() {
+    }
+    inline ~SET_LOCALE() {
     }
 };
 #endif
