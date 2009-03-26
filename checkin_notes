@@ -2167,3 +2167,12 @@ David  20 Mar 2009
         app_start.cpp
         cs_cmdline.cpp
         log_flags.cpp,h
+
+David  20 Mar 2009
+	- client: garbage collect after scheduler RPC;
+		if project sent some irrelevant FILE_INFOs,
+		this will avoid starting transfers for them.
+
+	client/
+		cs_scheduler.cpp
+		gui_rpc_server_ops.cpp
