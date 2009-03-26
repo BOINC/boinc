@@ -636,7 +636,6 @@ void CLIENT_STATE::schedule_cpus() {
     }
 
     request_enforce_schedule("schedule_cpus");
-    set_client_state_dirty("schedule_cpus");
 }
 
 static inline bool in_ordered_scheduled_results(ACTIVE_TASK* atp) {

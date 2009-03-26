@@ -2141,3 +2141,19 @@ David  19 Mar 2009
     client/
         rr_sim.cpp
         work_fetch.cpp,h
+
+David  20 Mar 2009
+    - client: reduce frequency of writing state file:
+        1) multiply checkpoint period by # of cores (or GPUs)
+        2) don't write statefile after schedule_cpus()
+            (we write it after enforce_schedule() if anything
+            started or stopped, and that's all that matters)
+    - client: add new log flag <statefile_debug>;
+        tells you when and why statefile is written
+
+    client/
+        app_start.cpp
+        client_state.cpp
+        cpu_sched.cpp
+        cs_statefile.cpp
+        log_flags.cpp,h
