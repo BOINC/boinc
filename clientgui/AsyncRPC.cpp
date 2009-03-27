@@ -880,7 +880,6 @@ void CMainDocument::HandleCompletedRPC() {
 
 int CMainDocument::CopyProjectsToStateFile(PROJECTS& p, CC_STATE& state) {
     int retval = 0;
-    SET_LOCALE sl;
     unsigned int i;
     PROJECT* state_project = NULL;
 

@@ -2215,3 +2215,9 @@ Rom    26 Mar 2009
     /
         configure.ac
         version.h
+
+Charlie 25 Mar 2009
+    - MGR: Remove erroneous call of locale in main thread
+    
+    clientgui/
+        asyncrpc.cpp
