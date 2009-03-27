@@ -2938,6 +2938,7 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
@@ -2989,6 +2990,7 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
@@ -3040,6 +3042,7 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
@@ -3092,6 +3095,7 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
@@ -3178,6 +3182,7 @@
 		DD62C37D0A801FB400B3D68A /* Dev_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc;
 			};
 			name = Dev_noSandbox;
@@ -3185,6 +3190,7 @@
 		DD62C37E0A801FB400B3D68A /* Deploy_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc;
 			};
 			name = Deploy_noSandbox;
@@ -3192,6 +3198,7 @@
 		DD62C3810A801FB400B3D68A /* Dev_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Dev_noSandbox;
@@ -3199,6 +3206,7 @@
 		DD62C3820A801FB400B3D68A /* Deploy_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Deploy_noSandbox;
@@ -3369,6 +3377,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -3378,6 +3387,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -3563,6 +3573,7 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
@@ -3613,6 +3624,7 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
@@ -3630,6 +3642,8 @@
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
+				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.5;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
@@ -3639,6 +3653,9 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
 				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = NO;
 				WARNING_CFLAGS = (
@@ -3666,6 +3683,8 @@
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
+				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.5;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
@@ -3675,6 +3694,9 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
 				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
@@ -3830,6 +3852,8 @@
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
+				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.5;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
@@ -3840,6 +3864,9 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
 				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
@@ -3896,6 +3923,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -3904,6 +3932,7 @@
 		DD96706B0CED9A800009D32B /* Deployment-no64 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc;
 			};
 			name = "Deployment-no64";
@@ -3911,6 +3940,7 @@
 		DD96706D0CED9A800009D32B /* Deployment-no64 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
@@ -3919,6 +3949,7 @@
 		DD96706E0CED9A800009D32B /* Deployment-no64 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = "Deployment-no64";
@@ -4074,6 +4105,7 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
@@ -4134,8 +4166,6 @@
 				);
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				PRODUCT_NAME = boinc;
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
 			};
 			name = Deployment;
 		};
@@ -4166,8 +4196,6 @@
 				);
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				PRODUCT_NAME = boinc_api;
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
 			};
 			name = Deployment;
 		};
@@ -4280,8 +4308,6 @@
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
 			};
 			name = Deployment;
 		};
@@ -4344,7 +4370,9 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
 				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
 				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
@@ -4358,6 +4386,7 @@
 		DD9E2352091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc;
 			};
 			name = Development;
@@ -4365,6 +4394,7 @@
 		DD9E2353091CBDAE0048316E /* ppc_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc;
 			};
 			name = ppc_Deployment;
@@ -4372,6 +4402,7 @@
 		DD9E235A091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Development;
@@ -4379,6 +4410,7 @@
 		DD9E235B091CBDAE0048316E /* ppc_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = ppc_Deployment;
@@ -4549,6 +4581,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -4558,6 +4591,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -4633,6 +4667,8 @@
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
+				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.5;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
@@ -4643,6 +4679,9 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
 				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = NO;
 				WARNING_CFLAGS = (
@@ -4666,6 +4705,8 @@
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
+				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.5;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
@@ -4676,6 +4717,9 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
 				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
@@ -4689,6 +4733,7 @@
 		DDA2D1570952A93E00D0B538 /* i386_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc;
 			};
 			name = i386_Deployment;
@@ -4696,6 +4741,7 @@
 		DDA2D1590952A93E00D0B538 /* i386_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = i386_Deployment;
@@ -4785,6 +4831,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				GCC_VERSION_ppc = 3.3;
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
@@ -4832,6 +4879,8 @@
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				LIBRARY_STYLE = STATIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
+				MACOSX_DEPLOYMENT_TARGET_x86_64 = 10.5;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
 					"-D_THREAD_SAFE",
@@ -4842,6 +4891,9 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
 				SDKROOT_x86_64 = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
@@ -4855,6 +4907,7 @@
 		DDB873FD0C850BC800E0DE1F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
@@ -4863,6 +4916,7 @@
 		DDB873FE0C850BC800E0DE1F /* Dev_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
@@ -4871,6 +4925,7 @@
 		DDB873FF0C850BC800E0DE1F /* ppc_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
@@ -4879,6 +4934,7 @@
 		DDB874000C850BC800E0DE1F /* i386_Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
@@ -4912,14 +4968,13 @@
 				);
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				PRODUCT_NAME = boinc_graphics2;
-				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
-				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
 			};
 			name = Deployment;
 		};
 		DDB874020C850BC800E0DE1F /* Deploy_noSandbox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
 				PRODUCT_NAME = boinc_graphics2;
 			};
