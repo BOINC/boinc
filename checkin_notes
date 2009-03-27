@@ -2221,3 +2221,9 @@ Charlie 25 Mar 2009
     
     clientgui/
         asyncrpc.cpp
+
+David  27 Mar 2009
+    - manager: display versions as x.xx
+
+    clientgui/
+        DlgItemProperties.cpp
