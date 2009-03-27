@@ -3425,8 +3425,27 @@ Charlie 26 Mar 2009
             Makefile_mac
             Makefile_mac2
             MakeMacExample.sh
+
 David  27 Mar 2009
     - manager: display versions as x.xx
 
     clientgui/
         DlgItemProperties.cpp
+
+David  27 Mar 2009
+    - API: add function boinc_msg_prefix() that returns
+        time of day and process ID.
+        This should prefix all messages written to stderr
+        by applications or by the runtime system.
+
+    api/
+        boinc_api.cpp,h
+        graphics2_win.cpp
+        graphics2_unix.cpp
+    samples/
+        wrapper/
+            wrapper.cpp
+        multi_thread/
+            multi_thread.cpp
+        example_app/
+            uc2.cpp

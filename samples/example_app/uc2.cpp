@@ -150,7 +150,9 @@ int main(int argc, char **argv) {
 
     retval = boinc_init();
     if (retval) {
-        fprintf(stderr, "boinc_init returned %d\n", retval);
+        fprintf(stderr, "%s boinc_init returned %d\n",
+            boinc_msg_prefix(), retval
+        );
         exit(retval);
     }
 
@@ -160,7 +162,8 @@ int main(int argc, char **argv) {
     infile = boinc_fopen(input_path, "r");
     if (!infile) {
         fprintf(stderr,
-            "Couldn't find input file, resolved name %s.\n", input_path
+            "%s Couldn't find input file, resolved name %s.\n",
+            boinc_msg_prefix(), input_path
         );
         exit(-1);
     }
@@ -188,8 +191,12 @@ int main(int argc, char **argv) {
         retval = out.open(output_path, "wb");
     }
     if (retval) {
-        fprintf(stderr, "APP: upper_case output open failed:\n");
-        fprintf(stderr, "resolved name %s, retval %d\n", output_path, retval);
+        fprintf(stderr, "%s APP: upper_case output open failed:\n",
+            boinc_msg_prefix()
+        );
+        fprintf(stderr, "%s resolved name %s, retval %d\n",
+            boinc_msg_prefix(), output_path, retval
+        );
         perror("open");
         exit(1);
     }
@@ -199,7 +206,9 @@ int main(int argc, char **argv) {
     //
     shmem = (UC_SHMEM*)boinc_graphics_make_shmem("uppercase", sizeof(UC_SHMEM));
     if (!shmem) {
-        fprintf(stderr, "failed to create shared mem segment\n");
+        fprintf(stderr, "%s failed to create shared mem segment\n",
+            boinc_msg_prefix()
+        );
     }
     update_shmem();
     boinc_register_timer_callback(update_shmem);
@@ -233,7 +242,9 @@ int main(int argc, char **argv) {
         if (boinc_time_to_checkpoint()) {
             retval = do_checkpoint(out, nchars);
             if (retval) {
-                fprintf(stderr, "APP: upper_case checkpoint failed %d\n", retval);
+                fprintf(stderr, "%s APP: upper_case checkpoint failed %d\n",
+                    boinc_msg_prefix(), retval
+                );
                 exit(retval);
             }
             boinc_checkpoint_completed();
@@ -246,7 +257,9 @@ int main(int argc, char **argv) {
 
     retval = out.flush();
     if (retval) {
-        fprintf(stderr, "APP: upper_case flush failed %d\n", retval);
+        fprintf(stderr, "%s APP: upper_case flush failed %d\n",
+            boinc_msg_prefix(), retval
+        );
         exit(1);
     }
 
@@ -263,7 +276,9 @@ int main(int argc, char **argv) {
 			if (boinc_time_to_checkpoint()) {
 				retval = do_checkpoint(out, nchars);
 				if (retval) {
-					fprintf(stderr, "APP: upper_case checkpoint failed %d\n", retval);
+					fprintf(stderr, "%s APP: upper_case checkpoint failed %d\n",
+                        boinc_msg_prefix(), retval
+                    );
 					exit(1);
 				}
 				boinc_checkpoint_completed();

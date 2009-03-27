@@ -119,7 +119,9 @@ int TASK::parse(XML_PARSER& xp) {
     stat_first = true;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
-            fprintf(stderr, "TASK::parse(): unexpected text %s\n", tag);
+            fprintf(stderr, "%s TASK::parse(): unexpected text %s\n",
+                boinc_msg_prefix(), tag
+            );
             continue;
         }
         if (!strcmp(tag, "/task")) {
@@ -154,7 +156,7 @@ int parse_job_file() {
     boinc_resolve_filename(JOB_FILENAME, buf, 1024);
     FILE* f = boinc_fopen(buf, "r");
     if (!f) {
-        fprintf(stderr, "can't open job file %s\n", buf);
+        fprintf(stderr, "%s can't open job file %s\n", boinc_msg_prefix(), buf);
         return ERR_FOPEN;
     }
     mf.init_file(f);
@@ -163,7 +165,9 @@ int parse_job_file() {
     if (!xp.parse_start("job_desc")) return ERR_XML_PARSE;
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
-            fprintf(stderr, "SCHED_CONFIG::parse(): unexpected text %s\n", tag);
+            fprintf(stderr, "%s SCHED_CONFIG::parse(): unexpected text %s\n",
+                boinc_msg_prefix(), tag
+            );
             continue;
         }
         if (!strcmp(tag, "/job_desc")) {
@@ -257,8 +261,8 @@ int TASK::run(int argct, char** argvt) {
         }
     }
 
-    fprintf(stderr, "wrapper: running %s (%s)\n",
-        app_path, command_line.c_str()
+    fprintf(stderr, "%s wrapper: running %s (%s)\n",
+        boinc_msg_prefix(), app_path, command_line.c_str()
     );
 
 #ifdef _WIN32

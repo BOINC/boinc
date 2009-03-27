@@ -40,7 +40,9 @@ static UINT_PTR gfx_timer_id = 0;
 static bool fullscreen;
 
 void boinc_close_window_and_quit(const char* p) {
-    fprintf(stderr, "Close event (%s) detected, shutting down.\n", p);
+    fprintf(stderr, "%s Close event (%s) detected, shutting down.\n",
+        boinc_msg_prefix(), p
+    );
 
     window_ready=false;
     wglMakeCurrent(NULL,NULL);  // release GL rendering context
@@ -86,7 +88,10 @@ void SetupPixelFormat(HDC hDC) {
 
    // This set pixel format to device context.
    if (!SetPixelFormat(hDC, nPixelFormat, &pfd)) {
-       fprintf(stderr, "ERROR: Couldn't set the pixel format for the device context (0x%x).\n", GetLastError());
+       fprintf(stderr,
+            "%s ERROR: Couldn't set pixel format for device context (0x%x).\n",
+            boinc_msg_prefix(), GetLastError()
+        );
    }
 }
 
@@ -140,28 +145,43 @@ static void make_window(const char* title) {
     );
 
     if (!SetForegroundWindow(hWnd)) {
-        fprintf(stderr, "ERROR: Unable to set the foreground window (0x%x).\n", GetLastError());
+        fprintf(stderr,
+            "%s ERROR: Unable to set foreground window (0x%x).\n",
+            boinc_msg_prefix(), GetLastError()
+        );
     }
 
     if (!GetCursorPos(&mousePos)) {
-        fprintf(stderr, "ERROR: Unable to get the mouse cursor position (0x%x).\n", GetLastError());
+        fprintf(stderr,
+            "%s ERROR: Unable to get mouse cursor position (0x%x).\n",
+            boinc_msg_prefix(), GetLastError()
+        );
     }
 
     hDC = GetDC(hWnd);
     if (!hDC) {
-        fprintf(stderr, "ERROR: Couldn't get a device context for the window (0x%x).\n", GetLastError());
+        fprintf(stderr,
+            "%s ERROR: Couldn't get a device context for the window (0x%x).\n",
+            boinc_msg_prefix(), GetLastError()
+        );
     }
     SetupPixelFormat(hDC);
 
     hRC = wglCreateContext(hDC);
     if (!hRC) {
-        fprintf(stderr, "ERROR: Unable to create an OpenGL context for the device context (0x%x).\n", GetLastError());
+        fprintf(stderr,
+            "%s ERROR: Unable to create OpenGL context (0x%x).\n",
+            boinc_msg_prefix(), GetLastError()
+        );
         ReleaseDC(hWnd, hDC);
         return;
     }
 
     if(!wglMakeCurrent(hDC, hRC)) {
-        fprintf(stderr, "ERROR: Unable to make the new OpenGL context the current context (0x%x).\n", GetLastError());
+        fprintf(stderr,
+            "%s ERROR: Unable to make OpenGL context current (0x%x).\n",
+            boinc_msg_prefix(), GetLastError()
+        );
         ReleaseDC(hWnd, hDC);
         wglDeleteContext(hRC);
         return;
@@ -378,12 +398,14 @@ void boinc_graphics_loop(int argc, char** argv, const char* title) {
         boinc_init_graphics_diagnostics(BOINC_DIAG_DEFAULTS);
     }
 
-    fprintf(stderr, "Starting graphics application...\n");
+    fprintf(stderr, "%s Starting graphics application.\n", boinc_msg_prefix());
 
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--fullscreen")) {
             fullscreen = true;
-            fprintf(stderr, "Fullscreen Mode Detected.\n");
+            fprintf(stderr, "%s fullscreen mode requested.\n",
+                boinc_msg_prefix()
+            );
         }
     }
 
@@ -409,7 +431,9 @@ void boinc_graphics_loop(int argc, char** argv, const char* title) {
     // Unregister the BOINC App window class
     unreg_win_class();
 
-    fprintf(stderr, "Shutting down graphics application...\n");
+    fprintf(stderr, "%s Shutting down graphics application.\n",
+        boinc_msg_prefix()
+    );
 }
 
 extern int main(int, char**);
