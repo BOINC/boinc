@@ -668,9 +668,27 @@ struct RPC {
     int parse_reply();
 };
 
-#if 0   // Use this code for any platforms which do not support 
-        // setting locale on a per-thread basis; change the 
-        // "#if 0" to "#if defined(some_OS)"
+// We recommend using the XCode project under OS 10.5 to compile 
+// the BOINC library, but some projects still use config & make, 
+// so the following compatibility code avoids compiler errors when 
+// building libboinc.a using config & make on system OS 10.3.9 or 
+// with the OS 10.3.9 SDK (but using config & make is not recommended.)
+#if defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4) && (!defined(BUILDING_MANAGER))
+#define NO_PER_THREAD_LOCALE 1
+#endif
+
+// uselocal() API should be available on UNIX, Fedora & Ubuntu.
+// For any platforms which do not support setting locale on a 
+// per-thread basis, add code here similar to the following sample:
+//#if defined(__UNIVAC__)
+//#define NO_PER_THREAD_LOCALE 1
+//#endif
+
+
+#ifdef NO_PER_THREAD_LOCALE  
+    // Use this code for any platforms which do not support 
+    // setting locale on a per-thread basis; change the 
+    // "#if 0" to "#if defined(some_OS)"
  struct SET_LOCALE {
     std::string locale;
     inline SET_LOCALE() {

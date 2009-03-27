@@ -81,7 +81,7 @@ export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
 export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch i386"
 ## If your make file passes LDFLAGS directly to ld instead of to gcc, use the following instead:
 ## export LDFLAGS="-syslibroot /Developer/SDKs/MacOSX10.3.9.sdk -arch i386"
-export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386"
+export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 make -f Makefile_mac clean
 make -f Makefile_mac all
@@ -108,7 +108,7 @@ if [ -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
     export LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
     ## If your make file passes LDFLAGS directly to ld instead of to gcc, use the following instead:
     ## export LDFLAGS="-syslibroot /Developer/SDKs/MacOSX10.3.9.sdk -arch x86_64"
-    export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64"
+    export VARIANTFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch x86_64 -fvisibility=hidden -fvisibility-inlines-hidden"
 
     make -f Makefile_mac clean
     make -f Makefile_mac all

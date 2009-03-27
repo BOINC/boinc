@@ -3079,6 +3079,7 @@
 					"-DSANDBOX",
 					"-DNDEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
+					"-DBUILDING_MANAGER",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
@@ -4106,8 +4107,17 @@
 					ppc,
 					x86_64,
 				);
+				GCC_VERSION_ppc = 3.3;
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
+				"OTHER_CFLAGS[arch=ppc]" = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
 					"-DSANDBOX",
@@ -4122,7 +4132,10 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
+				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				PRODUCT_NAME = boinc;
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
 			};
 			name = Deployment;
 		};
@@ -4134,6 +4147,15 @@
 					ppc,
 					x86_64,
 				);
+				GCC_VERSION_ppc = 3.3;
+				"OTHER_CFLAGS[arch=ppc]" = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				"OTHER_CFLAGS[arch=x86_64]" = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
 					"-D_THREAD_SAFE",
@@ -4142,7 +4164,10 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
+				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				PRODUCT_NAME = boinc_api;
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
 			};
 			name = Deployment;
 		};
@@ -4243,8 +4268,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				GCC_VERSION_ppc = 3.3;
+				"OTHER_CFLAGS[arch=ppc]" = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
+				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
 			};
 			name = Deployment;
 		};
@@ -4855,7 +4892,16 @@
 					ppc,
 					x86_64,
 				);
+				GCC_VERSION_ppc = 3.3;
 				HEADER_SEARCH_PATHS = "../../jpeg-6b";
+				"OTHER_CFLAGS[arch=ppc]" = (
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
+					"-D_THREAD_SAFE",
+					"-DNDEBUG",
+					"-DSANDBOX",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				"OTHER_CFLAGS[arch=x86_64]" = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
 					"-D_THREAD_SAFE",
@@ -4864,7 +4910,10 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
+				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
 				PRODUCT_NAME = boinc_graphics2;
+				"SDKROOT[arch=ppc]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.3.9.sdk";
 			};
 			name = Deployment;
 		};

@@ -1829,7 +1829,7 @@ David  20 Feb 2009
         cpu_sched.cpp
 
 Charlie 20 Feb 2009
-    - Update various source filed to GPL 3.  Note: I've only updated those 
+    - Update various source files to GPL 3.  Note: I've only updated those 
         files which I created or have been maintaining.  There are many 
         others which still have the GPL 2.1 license.
         
@@ -3370,8 +3370,9 @@ Charlie 26 Mar 2009
         only on those systems without support for setting locale
         on a per-thread basis, such as OS 10.3.9.
     NOTE: At this point it appears that Ubuntu and Fedora both support
-        uselocale().  If any platform does not support it,
-        change the "#if 0" gui_rpc_client.h to "#if defined(some_OS)".
+        uselocale().  If any platform does not support it, see the 
+        comments at NO_PER_THREAD_LOCALE in lib/gui_rpc_client.h for info 
+        on allowing for that.
 
     clientgui/
         AsyncRPC.cpp
@@ -3398,3 +3399,30 @@ David  26 Mar 2009
 
     client/
         app.cpp
+
+Charlie 26 Mar 2009
+    - Mac: Additional changes to make sure BOINC libraries will continue to 
+        build on the Mac using either XCode on OS 10.5 or config / make on 
+        OS 10.3 and later, though the config / make method is still not 
+        recommended on the Mac.
+    - MGR & lib: Provide a cleaner way to specify that a platform does not 
+        support uselocale() API or other per-thread locale.  See the comments 
+        at NO_PER_THREAD_LOCALE in lib/gui_rpc_client.h for details.
+    - Samples: Fix build breaks and warnings when using MakeMacExample.sh 
+        script or Makefile_mac2 make file to build example_app on Mac.  These 
+        errors were probably introduced when boinc_samples was moved into 
+        boinc/samples. 
+        
+     clientgui/
+        AsyncRPC.cpp
+    lib/
+        gui_rpc_client.h
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    samples/
+        example_app/
+            Makefile_mac
+            Makefile_mac2
+            MakeMacExample.sh
+        

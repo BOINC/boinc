@@ -129,6 +129,7 @@ void *RPCThread::Entry() {
    
     m_pRPC_Thread_Mutex->Lock();
 
+#ifndef NO_PER_THREAD_LOCALE
 #ifdef __WXMSW__
     // On Windows, set all locales for this thread on a per-thread basis
     _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
@@ -142,6 +143,7 @@ void *RPCThread::Entry() {
     // On Mac / Unix / Linux, set "C" locale for this thread only
     locale_t RPC_Thread_Locale = newlocale(LC_ALL_MASK, NULL, NULL);
     uselocale(RPC_Thread_Locale);
+#endif
 #endif
 
     while(true) {
