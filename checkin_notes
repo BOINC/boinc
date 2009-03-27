@@ -2227,3 +2227,11 @@ David  27 Mar 2009
 
     clientgui/
         DlgItemProperties.cpp
+
+Rom    27 Mar 2009
+    - Tag for 6.6.19 release, all platforms
+      boinc_core_release_6_6_19
+
+    /
+        configure.ac
+        version.h
