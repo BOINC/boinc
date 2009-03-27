@@ -52,7 +52,7 @@ extern char* windows_format_error_string(
     unsigned long dwError, char* pszBuf, int iSize
 );
 extern int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu);
-extern int boinc_process_cpu_time(double& cpu);
+extern int boinc_process_cpu_time(HANDLE process_handle, double& cpu);
 #else
 // setpriority(2) arg to run in background
 // (don't use 20 because
