@@ -174,7 +174,7 @@ char* boinc_msg_prefix() {
     struct tm* tm = localtime(&x);
     strftime(buf, sizeof(buf)-1, "%H:%M:%S", tm);
 #ifdef _WIN32
-    sprintf(sbuf, "%s (%d):", buf, GetProcessID());
+    sprintf(sbuf, "%s (%d):", buf, GetCurrentProcessId());
 #else
     sprintf(sbuf, "%s (%d):", buf, getpid());
 #endif
