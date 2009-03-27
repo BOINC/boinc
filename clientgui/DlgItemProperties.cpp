@@ -252,7 +252,7 @@ wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
         }
 
         strBuffer.Printf(
-            wxT(" %s %d.%d %s"), 
+            wxT(" %s %d.%02d %s"), 
             strAppBuffer.c_str(),
             state_result->avp->version_num / 100,
             state_result->avp->version_num % 100,
