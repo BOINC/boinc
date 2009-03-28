@@ -3449,3 +3449,9 @@ David  27 Mar 2009
             multi_thread.cpp
         example_app/
             uc2.cpp
+
+David  27 Mar 2009
+    - manager: fix message
+
+    clientgui/
+        ProjectInfoPage.cpp
