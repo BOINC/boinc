@@ -687,8 +687,7 @@ struct RPC {
 
 #ifdef NO_PER_THREAD_LOCALE  
     // Use this code for any platforms which do not support 
-    // setting locale on a per-thread basis; change the 
-    // "#if 0" to "#if defined(some_OS)"
+    // setting locale on a per-thread basis (see comment above)
  struct SET_LOCALE {
     std::string locale;
     inline SET_LOCALE() {
