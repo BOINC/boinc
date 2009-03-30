@@ -118,10 +118,10 @@ $w5816= array(
 );
 
 $m66 = array(
-    "num"=>"6.6.17",
+    "num"=>"6.6.20",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_6.6.17_macOSX_universal.zip",
-    "date"=>"19 Mar 2009",
+    "file"=>"boinc_6.6.20_macOSX_universal.zip",
+    "date"=>"30 Mar 2009",
     "type"=>"mac_advanced",
 );
 
@@ -142,10 +142,10 @@ $m51045 = array(
 );
 
 $m66c = array(
-    "num"=>"6.6.17",
+    "num"=>"6.6.20",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_6.6.17_universal-apple-darwin.zip",
-    "date"=>"19 Mar 2009",
+    "file"=>"boinc_6.6.20_universal-apple-darwin.zip",
+    "date"=>"30 Mar 2009",
     "type"=>"bare_core",
 );
 
