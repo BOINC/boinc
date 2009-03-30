@@ -3478,3 +3478,11 @@ David  30 Mar 2009
     tools/
         boinc_submit
         create_work.cpp
+
+David  30 Mar 2009
+    - GUI RPC: client side: if parse a RESULT and CPU is nonzero
+        but elapsed time is zero, we must be talking to an old client;
+        set elapsed = CPU
+
+    lib/
+        gui_rpc_client_ops.cpp
