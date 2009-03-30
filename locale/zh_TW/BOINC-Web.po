@@ -1,8 +1,8 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2009-01-05 12:28-0500\n"
 "PO-Revision-Date: 2008-01-01 00:32+0800\n"
 "Last-Translator: Jose Sun <josesun@gmail.com>\n"
 "Language-Team: \n"
@@ -19,12 +19,12 @@ msgstr ""
 "X-Poedit-KeywordsList: tra\n"
 
 # The charset used for the text in this file (please try to use UTF-8 if possible)
+# The charset used for the text in this file (please try to use UTF-8 if possible)
 # #########################################
 # Language: English (International)
 # FileID  : $Id$
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
-# The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
 
@@ -41,8 +41,9 @@ msgstr "English"
 ########################################
 # poll-related stuff
 ########################################
-# #######################################
+########################################
 # poll-related stuff
+# #######################################
 #, fuzzy
 msgid "POLL_TITLE"
 msgstr "BOINC user survey"
@@ -446,8 +447,9 @@ msgstr "Note: files are downloaded from mirror servers at boinc.berkeley.edu, mo
 ##############################################
 # help.php
 ##############################################
-# #############################################
+##############################################
 # help.php
+# #############################################
 #, fuzzy
 msgid "HELP_TITLE"
 msgstr "Getting help with BOINC"
@@ -511,8 +513,9 @@ msgstr "If you're already a Help Volunteer: to edit your settings, %sclick here%
 ##############################################
 # index.php
 ##############################################
-# #############################################
+##############################################
 # index.php
+# #############################################
 #, fuzzy
 msgid "HOME_HEADING1"
 msgstr "Volunteer"

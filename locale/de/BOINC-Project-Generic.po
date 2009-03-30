@@ -24,12 +24,14 @@ msgid "CHARSET"
 msgstr "UTF-8"
 
 # The name of this language in this language
+#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "Deutsch"
+msgstr "English"
 
 # The name of this language in an international language (English)
+#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "German"
+msgstr "English"
 
 msgid "Rank"
 msgstr "Rang"
