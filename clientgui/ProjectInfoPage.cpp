@@ -345,7 +345,7 @@ void CProjectInfoPage::OnProjectSelectionChanged( ProjectListCtrlEvent& event ) 
         );
 
         strMessage =
-            _("This project may not support your platform and may not give you any tasks to process.");
+            _("This project may not have work for your type of computer.");
 
         wxGetApp().SafeMessageBox(
             strMessage,

@@ -2235,3 +2235,9 @@ Rom    27 Mar 2009
     /
         configure.ac
         version.h
+
+David  27 Mar 2009
+    - manager: fix message
+
+    clientgui/
+        ProjectInfoPage.cpp
