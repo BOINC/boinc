@@ -3,6 +3,27 @@
 <?php
 
 // Submit a single job.
+// Usage (see http://boinc.berkeley.edu/trac/wiki/SingleJob for more info):
+//
+// 1) Set the env var BOINC_PROJECT_DIR to the root directory of the project
+// 2) put boinc/tools/ in your search path
+// 3) cd into a directory containing the input files and executable
+//
+// boinc_submit [boinc-options] program [program-options]
+//
+// The boinc-options are:
+//   --infile name: specifies an input file. 
+//   --stdin name: direct the given file to the program's stdin. 
+//   --outfile name: specifies an output file. 
+//   --stdout name: direct the program's stdout to the given file. 
+//   --platform: the [platform] on which the program is to be run
+//       (default: i686-pc-linux-gnu). 
+//
+// You can include as many --infile and --outfile options as you want,
+// and at most one of others.
+// The program-options will be passed as command-line arguments to the program
+// when it runs on the remote machine. 
+//
 // Implementation notes:
 // - The jobs use the app "single_job_PLATFORM".
 //   This app has a single app_version containing the wrapper for that platform
@@ -21,6 +42,16 @@
 //   and cleans up the sj_WUID and template files
 
 ini_set('error_reporting', E_ALL);
+
+// Job parameters.  Edit as needed
+// (should eventually make them cmdline args)
+
+$job_params = null;
+$job_params->rsc_fpops_est = 3600e9;        // estimate: 1 GFLOPS-hour
+$job_params->rsc_fpops_bound = 86400e9;     // limit: 1 GFLOPS-day
+$job_params->rsc_memory_bound = 5e8;        // mem bound: 500MB
+$job_params->rsc_disk_bound = 1e9;          // disk bound: 1GB
+$job_params->delay_bound = 7*86400;         // delay bound: 1 week
 
 // global vars
 //
@@ -169,7 +200,7 @@ function make_wrapper_job_file() {
 
 function make_wu_template() {
     global $wuid, $infiles, $stdin_file, $program_phys, $wu_template_filename;
-    global $project_dir;
+    global $project_dir, $job_params;
 
     chdir($project_dir);
     $wu_template_filename = "templates/sj_wu_template_$wuid";
@@ -236,8 +267,11 @@ function make_wu_template() {
     </file_ref>
 ");
     fwrite($f,
-"    <rsc_fpops_bound>1e18</rsc_fpops_bound>
-    <rsc_fpops_est>1e15</rsc_fpops_est>
+"    <rsc_fpops_est>$job_params->rsc_fpops_est</rsc_fpops_est>
+    <rsc_fpops_bound>$job_params->rsc_fpops_bound</rsc_fpops_bound>
+    <rsc_memory_bound>$job_params->rsc_memory_bound</rsc_memory_bound>
+    <rsc_disk_bound>$job_params->rsc_disk_bound</rsc_disk_bound>
+    <delay_bound>$job_params->delay_bound</delay_bound>
 </workunit>
 ");
     fclose($f);

@@ -3461,3 +3461,20 @@ David  27 Mar 2009
 
     client/
         work_fetch.cpp
+
+David  30 Mar 2009
+    - boinc_submit (single-job submission):
+        set the job params to reasonable values (see below),
+        and make it easy to change these values in the script
+    - create_work (function and script): change default job params:
+        FLOPs est: 1e9 => 3600e9
+        FLOPs bound: 1e10 => 86400e9
+        mem bound 100MB => 500MB,
+        disk bound 100MB => 1GB
+        delay bound: 100000s => 1 week
+
+    client/
+        work_fetch.cpp
+    tools/
+        boinc_submit
+        create_work.cpp

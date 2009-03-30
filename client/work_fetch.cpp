@@ -573,6 +573,10 @@ void RSC_WORK_FETCH::update_debts() {
     // Otherwise add an offset of 2*delta_limit,
     // which will gradually bring all the debts towards zero
     //
+    // The policy of keeping the max debt at zero is important;
+    // it means that new projects will begin in parity with high-debt project,
+    // and won't wait for months to get work.
+    //
     double offset;
     double delta_limit = secs_this_debt_interval*ninstances;
     if (-max_debt < 2*delta_limit) {

@@ -1,6 +1,16 @@
 <?
 
 $project_news = array(
+array("March 30, 2009",
+    "<a href=http://boinc.vgtu.lt/vtuathome/>VTU@home</a>,
+    a project from the Vilnius Gediminas Technical University,
+    is now listed on the <a href=http://boinc.berkeley.edu/choose_projects.php>Choose
+    Projects</a> page.
+    VTU@home serves Lithuanian scientists.
+    It is currently studying the automated testing
+    of complex software systems.
+    "
+),
 array("March 18, 2009",
     "<a href=http://www.isgtw.org/?pid=1001689>Volunteer computing goes East</a> -
     a story on upcoming events in Taiwan and Beijing - appears

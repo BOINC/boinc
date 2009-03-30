@@ -105,12 +105,12 @@ int main(int argc, const char** argv) {
     wu.max_error_results = 3;
     wu.max_total_results = 10;
     wu.max_success_results = 6;
-    wu.rsc_fpops_est = 1e9;
-    wu.rsc_fpops_bound =  1e10;
-    wu.rsc_memory_bound = 1e8;
-    wu.rsc_disk_bound = 1e8;
+    wu.rsc_fpops_est = 3600e9;
+    wu.rsc_fpops_bound =  86400e9;
+    wu.rsc_memory_bound = 5e8;
+    wu.rsc_disk_bound = 1e9;
     wu.rsc_bandwidth_bound = 0.0;
-    wu.delay_bound = 100000;
+    wu.delay_bound = 7*86400;
 
     while (i < argc) {
         if (arg(argv, i, "appname")) {

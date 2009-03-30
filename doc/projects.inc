@@ -201,6 +201,14 @@ $math = array(
     "Mathematics, computing, and games",
     array(
         array(
+            "VTU@home",
+            "http://boinc.vgtu.lt/vtuathome/",
+            "Vilnius Gediminas Technical University and Kaunas University of Technology (Lithuania)",
+            "Software testing",
+            "The aim of this project is to provide a powerful distributed computing platform for scientists of Vilnius Gediminas Technical University (VGTU) as well as others Lithuanian academic institutions.  Current applications involve the study of Monte-Carlo based software testing.",
+            "vtuathome-white.gif",
+        ),
+        array(
             "AQUA@home",
             "http://aqua.dwavesys.com/",
             "D-Wave Systems, Inc.",
