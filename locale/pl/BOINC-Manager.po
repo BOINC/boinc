@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-02-25 13:07-0700\n"
+"PO-Revision-Date: 2009-03-30 12:43-0700\n"
 "Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "Language: pl\n"
@@ -1378,12 +1378,12 @@ msgid ""
 "If you also want to stop running the science applications when you\n"
 "exit the Manager, then choose from the following options:"
 msgstr ""
-"Wybrałeś zamknięcie %s'a,\n"
-"który umożliwia ci zarządzanie aplikacjami projektów\n"
-"uruchomionymi na twoim komputerze.\n"
+"Wybrałeś zamknięcie %s'a, który\n"
+"ułatwia zarządzanie aplikacjami projektów\n"
+"uruchomionymi na tym komputerze.\n"
 "\n"
-"Jeżeli chcesz także po zamknięciu Menadżera BOINC\n"
-"zakończyć pracę aplikacji projektów, wybierz z poniższych opcji"
+"Jeżeli chcesz po zamknięciu Menadżera BOINC zakończyć\n"
+"także pracę aplikacji projektów, wybierz spośród poniższych opcji:"
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
@@ -1405,7 +1405,7 @@ msgstr ""
 
 #: clientgui/DlgExitMessage.cpp:153
 msgid "Stop running science applications when exiting the Manager"
-msgstr "Zamknij aplikacje projektów gdy zamykasz Menadżera BOINC"
+msgstr "Zamknij aplikacje projektów gdy zamykasz Menadżera BOINC."
 
 #: clientgui/DlgExitMessage.cpp:164
 msgid "Remember this decision and do not show this dialog."
