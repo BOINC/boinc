@@ -2247,3 +2247,12 @@ David  27 Mar 2009
 
     client/
         work_fetch.cpp
+
+Rom    30 Mar 2009
+    - Tag for 6.6.20 release, all platforms
+      boinc_core_release_6_6_20
+
+    /
+        configure.ac
+        version.h
+
