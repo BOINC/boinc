@@ -2217,8 +2217,10 @@ Rom    26 Mar 2009
         version.h
 
 Charlie 25 Mar 2009
-    - MGR: Remove erroneous call of locale in main thread
-    
+    - MGR: Remove erroneous call of locale in main thread which may be causing 
+        undesired chanegs in date and numeric formatting due to conflicts 
+        between threads    
+
     clientgui/
         asyncrpc.cpp
 
