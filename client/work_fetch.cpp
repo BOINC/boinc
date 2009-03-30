@@ -427,20 +427,18 @@ PROJECT* WORK_FETCH::choose_project() {
     if (!p) {
         p = cpu_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
     }
-    if (coproc_cuda) {
+    if (!p && coproc_cuda) {
         p = cuda_work_fetch.choose_project(FETCH_IF_MAJOR_SHORTFALL);
     }
     if (!p) {
         p = cpu_work_fetch.choose_project(FETCH_IF_MAJOR_SHORTFALL);
     }
-
     if (!p && coproc_cuda) {
         p = cuda_work_fetch.choose_project(FETCH_IF_MINOR_SHORTFALL);
     }
     if (!p) {
         p = cpu_work_fetch.choose_project(FETCH_IF_MINOR_SHORTFALL);
     }
-
     if (!p && coproc_cuda) {
         p = cuda_work_fetch.choose_project(FETCH_IF_PROJECT_STARVED);
     }

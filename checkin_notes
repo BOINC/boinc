@@ -2241,3 +2241,9 @@ David  27 Mar 2009
 
     clientgui/
         ProjectInfoPage.cpp
+
+David  27 Mar 2009
+    - client: typo in work fetch code; may cause minor errors
+
+    client/
+        work_fetch.cpp
