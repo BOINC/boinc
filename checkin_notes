@@ -3496,3 +3496,11 @@ David  31 Mar 2009
         http_curl.cpp
     lib/
         network.cpp,h
+
+Charlie 31 Mar 2009
+    - Mac: Add -lresolv to XCode linker flags for client and manager to link 
+        with libresolv.dylib for new res_init() call.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

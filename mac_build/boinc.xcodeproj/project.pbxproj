@@ -3093,6 +3093,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -4248,6 +4249,7 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
+					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
