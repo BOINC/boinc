@@ -1,8 +1,8 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2009-01-05 12:28-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
 "PO-Revision-Date: 2007-07-08 13:15+0200\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
@@ -43,8 +43,8 @@ msgstr "English"
 ########################################
 # poll-related stuff
 ########################################
-########################################
 # poll-related stuff
+########################################
 # for user survey
 #, fuzzy
 msgid "POLL_TITLE"
@@ -448,8 +448,6 @@ msgstr "Note: files are downloaded from mirror servers at boinc.berkeley.edu, mo
 ##############################################
 # help.php
 ##############################################
-##############################################
-# help.php
 # for user survey
 #, fuzzy
 msgid "HELP_TITLE"
@@ -505,9 +503,8 @@ msgstr "If you're already a Help Volunteer: to edit your settings, %sclick here%
 ##############################################
 # index.php
 ##############################################
-##############################################
-# index.php
 # #############################################
+# index.php
 #, fuzzy
 msgid "HOME_HEADING1"
 msgstr "Volunteer"

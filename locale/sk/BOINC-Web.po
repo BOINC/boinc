@@ -1,8 +1,8 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: boinc 1.10\n"
-"Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2009-01-05 12:28-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
 "PO-Revision-Date: 2007-01-06 02:34+0100\n"
 "Last-Translator: marpes <marpes@zoznam.sk>\n"
 "Language-Team: boinc.sk\n"
@@ -30,13 +30,11 @@ msgid "CHARSET"
 msgstr "UTF-8"
 
 # The name of this language in this language
-# The name of this language in this language
 # Názov jazyka v tomto jazyku
 #, fuzzy
 msgid "LANG_NAME_NATIVE"
 msgstr "English"
 
-# The name of this language in an international language (English)
 # The name of this language in an international language (English)
 # Názov tohoto jazyka v medzinárodnom jazyku (English)
 #, fuzzy
@@ -46,8 +44,8 @@ msgstr "English"
 ########################################
 # poll-related stuff
 ########################################
-########################################
 # poll-related stuff
+########################################
 # ######################################
 # téma týkajúca sa jednotlivcov
 #, fuzzy
@@ -452,9 +450,8 @@ msgstr "Note: files are downloaded from mirror servers at boinc.berkeley.edu, mo
 ##############################################
 # help.php
 ##############################################
-##############################################
-# help.php
 # ############################################
+# help.php
 #, fuzzy
 msgid "HELP_TITLE"
 msgstr "Getting help with BOINC"
@@ -513,9 +510,8 @@ msgstr "If you're already a Help Volunteer: to edit your settings, %sclick here%
 ##############################################
 # index.php
 ##############################################
-##############################################
-# index.php
 # ############################################
+# index.php
 #, fuzzy
 msgid "HOME_HEADING1"
 msgstr "Volunteer"

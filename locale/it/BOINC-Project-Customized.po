@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2009-01-05 12:28-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
 "PO-Revision-Date: 2009-01-14 11:14-0700\n"
 "Last-Translator: Paolo Landi <landipaolo@tin.it>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,5 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
-#, fuzzy
 msgid "INFO_ABOUT_THIS_FILE"
-msgstr "This file can be used for project specific translations"
+msgstr "Questo file può essere usato per le traduzioni specifiche del progetto"

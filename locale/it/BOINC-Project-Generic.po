@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2009-01-05 12:28-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
 "PO-Revision-Date: 2009-01-07 08:17-0700\n"
 "Last-Translator: Paolo Landi <landipaolo@tin.it>\n"
 "Language-Team: \n"
@@ -30,13 +30,11 @@ msgstr ""
 msgid "CHARSET"
 msgstr "UTF-8"
 
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "Italiano"
 
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Italian"
 
 msgid "Rank"
 msgstr "Posizione"

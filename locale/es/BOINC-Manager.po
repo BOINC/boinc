@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-03-21 06:22-0700\n"
+"PO-Revision-Date: 2009-03-19 14:06-0700\n"
 "Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -36,16 +36,16 @@ msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
 msgstr ""
-"Este proyecto no acepta actualmente cuentas nuevas.\n"
-" Usted puede unirse sólo si ya tiene una cuenta."
+"Este proyecto no acepta actualmente nuevas cuentas.\n"
+"Usted puede unirse sólo si ya tiene una cuenta."
 
 #: clientgui/AccountInfoPage.cpp:351
 msgid "Are you already running this project?"
-msgstr "¿Ha ejecutado este proyecto antes?"
+msgstr "¿Ha ejecutando este proyecto antes?"
 
 #: clientgui/AccountInfoPage.cpp:355
 msgid "&No, new user"
-msgstr "&No, usuario nuevo"
+msgstr "&No, nuevo usuario"
 
 #: clientgui/AccountInfoPage.cpp:358
 msgid "&Yes, existing user"
@@ -1003,10 +1003,9 @@ msgid " Use GPU while computer is in use"
 msgstr " Usar la GPU cuando el ordenador está en uso"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
+#, fuzzy
 msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr ""
-"márquela si quiere que su GPU ejecute tareas incluso cuando usted esté "
-"usando su ordenador"
+msgstr "márquela si quiere que este ordenador trabaje incluso cuando usted lo está usando"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:111
 msgid "Only after computer has been idle for"
@@ -1475,23 +1474,24 @@ msgstr "Planificando"
 
 #: clientgui/DlgItemProperties.cpp:138
 msgid "CPU scheduling priority"
-msgstr "Planificación de CPU prioritaria"
+msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:139
 msgid "CPU work fetch priority"
-msgstr "Búsqueda de trabajo para la CPU prioritaria"
+msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:141
+#, fuzzy
 msgid "CPU work fetch deferred for"
-msgstr "Búsqueda de trabajo para la CPU aplazada"
+msgstr "Trabajar después de estar inactivo durante:"
 
 #: clientgui/DlgItemProperties.cpp:144
 msgid "NVIDIA GPU work fetch priority"
-msgstr "Búsqueda de trabajo para la GPU NVIDIA prioritaria"
+msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:147
 msgid "NVIDIA GPU work fetch deferred for"
-msgstr "Búsqueda de trabajo para la GPU NVIDIA aplazada"
+msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:149
 msgid "Duration correction factor"
