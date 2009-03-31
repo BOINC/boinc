@@ -3486,3 +3486,13 @@ David  30 Mar 2009
 
     lib/
         gui_rpc_client_ops.cpp
+
+David  31 Mar 2009
+    - client: (unix): if host name lookup fails, call res_init().
+        This is an attempt to fix a problem on Linux where,
+        if the client starts before a VPN is set up, it can never communicate
+
+    client/
+        http_curl.cpp
+    lib/
+        network.cpp,h

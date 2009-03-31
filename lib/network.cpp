@@ -38,6 +38,7 @@
 #ifdef HAVE_ARPA_INET_H
 #include <arpa/inet.h>
 #endif
+#include <resolv.h>
 #include <netdb.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -199,6 +200,11 @@ int WinsockCleanup() {
     return WSACleanup();
 }
 
-
 #endif
+
+void reset_dns() {
+#ifndef _WIN32
+    res_init();
+#endif
+}
 const char *BOINC_RCSID_557bf0741f="$Id$";
