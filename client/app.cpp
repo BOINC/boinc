@@ -610,7 +610,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
             if (!project) {
                 msg_printf(
                     NULL, MSG_INTERNAL_ERROR,
-                    "State file error: project %s not found\n",
+                    "State file error: project %s not found for task\n",
                     project_master_url
                 );
                 return ERR_NULL;
@@ -619,7 +619,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
             if (!result) {
                 msg_printf(
                     project, MSG_INTERNAL_ERROR,
-                    "State file error: result %s not found\n",
+                    "State file error: result %s not found for task\n",
                     result_name
                 );
                 return ERR_NULL;
