@@ -595,12 +595,8 @@ bool CAdvancedFrame::CreateMenu() {
     }
     
 #ifdef __WXMAC__
-    MenuRef prefsMenuRef;
-    MenuItemIndex prefsMenuItemIndex;
-
-    // Hide Mac OS X's standard Preferences menu item, since we don't use it
-    if (GetIndMenuItemWithCommandID(NULL, kHICommandPreferences, 1, &prefsMenuRef, &prefsMenuItemIndex) == noErr)
-        ChangeMenuItemAttributes(prefsMenuRef, prefsMenuItemIndex, kMenuItemAttrHidden, 0);
+    // Enable Mac OS X's standard Preferences menu item (handled in MacSysMenu.cpp)
+    EnableMenuCommand(NULL, kHICommandPreferences);
     
     // Set HELP key as keyboard shortcut
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
