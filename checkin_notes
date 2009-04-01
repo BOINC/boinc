@@ -3505,7 +3505,7 @@ Charlie 31 Mar 2009
         boinc.xcodeproj/
             project.pbxproj
 
-Charlie 31 Mar 2009
+Charlie 1 Apr 2009
     - Mac: Add -lresolv to XCode linker flags for screensaver.
     - MGR: on Mac, implement standard Preferences item under BOINC menu 
         with standard keyboard shortcut; same as Advanced/Preferences.
