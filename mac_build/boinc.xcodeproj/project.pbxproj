@@ -2936,6 +2936,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -2988,6 +2989,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3040,6 +3042,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3231,6 +3234,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
+					"-lresolv",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -3246,6 +3250,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
+					"-lresolv",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -3270,6 +3275,7 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
+					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -3295,6 +3301,7 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
+					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -3572,6 +3579,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3623,6 +3631,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3913,6 +3922,7 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
+					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -3982,6 +3992,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
+					"-lresolv",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -4104,6 +4115,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -4212,6 +4224,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
+					"-lresolv",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -4436,6 +4449,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
+					"-lresolv",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -4451,6 +4465,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
+					"-lresolv",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -4476,6 +4491,7 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
+					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -4498,6 +4514,7 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
+					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -4760,6 +4777,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
+					"-lresolv",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -4785,6 +4803,7 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
+					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
