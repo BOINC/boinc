@@ -295,8 +295,6 @@ int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worke
                 break;
             }
         }
-#else        
-        graphics_application = 0;
 #endif
         // For safety, call kill_program even under Apple sandbox security
         kill_program(graphics_application);
