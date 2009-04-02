@@ -3386,7 +3386,10 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = "-lboinc";
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lresolv",
+				);
 				PRODUCT_NAME = boinccmd;
 			};
 			name = Dev_noSandbox;
@@ -3396,7 +3399,10 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = "-lboinc";
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lresolv",
+				);
 				PRODUCT_NAME = boinccmd;
 			};
 			name = Deploy_noSandbox;
@@ -3769,6 +3775,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = Development;
@@ -3781,6 +3788,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = Dev_noSandbox;
@@ -3793,6 +3801,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = ppc_Deployment;
@@ -3805,6 +3814,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = i386_Deployment;
@@ -3817,6 +3827,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = Deployment;
@@ -3829,6 +3840,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = "Deployment-no64";
@@ -3841,6 +3853,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = Deploy_noSandbox;
@@ -3935,7 +3948,10 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = "-lboinc";
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lresolv",
+				);
 				PRODUCT_NAME = boinccmd;
 			};
 			name = "Deployment-no64";
@@ -4321,7 +4337,10 @@
 					../clientgui/mac/config.h,
 				);
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_LDFLAGS = "-lboinc";
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lresolv",
+				);
 				PRODUCT_NAME = boinccmd;
 			};
 			name = Deployment;
@@ -4601,7 +4620,10 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = "-lboinc";
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lresolv",
+				);
 				PRODUCT_NAME = boinccmd;
 			};
 			name = Development;
@@ -4611,7 +4633,10 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = "-lboinc";
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lresolv",
+				);
 				PRODUCT_NAME = boinccmd;
 			};
 			name = ppc_Deployment;
@@ -4853,7 +4878,10 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = "-lboinc";
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lresolv",
+				);
 				PRODUCT_NAME = boinccmd;
 			};
 			name = i386_Deployment;
