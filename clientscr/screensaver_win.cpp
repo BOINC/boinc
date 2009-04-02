@@ -1418,9 +1418,7 @@ LRESULT CScreensaver::SaverProc(
     } else if (WM_INTERRUPTSAVER == uMsg) {
 
         BOINCTRACE(_T("CScreensaver::SaverProc Received WM_INTERRUPTSAVER\n"));
-        if (hWnd == m_Monitors[0].hWnd) {
-            InterruptSaver();
-        }
+        InterruptSaver();
 
     }
 
