@@ -99,6 +99,7 @@ protected:
     void*           DataManagementProc();
     static void*    DataManagementProcStub( void* param );
     int             terminate_screensaver(int& graphics_application, RESULT *worker_app);
+    int             terminate_default_screensaver(int& graphics_application);
     int             launch_screensaver(RESULT* rp, int& graphics_application);
     int             launch_default_screensaver(char *dir_path, int& graphics_application);
     void            HandleRPCError(void);

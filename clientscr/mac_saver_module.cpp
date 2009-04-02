@@ -42,7 +42,7 @@
 //#include <drivers/event_status_driver.h>
 
 // Flags for testing & debugging
-#define CREATE_LOG 1
+#define CREATE_LOG 0
 #define USE_SPECIAL_LOG_FILE 0
 
 #define TEXTLOGOFREQUENCY 60 /* Number of times per second to update moving logo with text */

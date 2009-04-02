@@ -151,7 +151,7 @@ CLEANUP:
 }
 
 
-// Launch the graphics application
+// Launch a project (science) graphics application
 //
 #ifdef _WIN32
 int CScreensaver::launch_screensaver(RESULT* rp, HANDLE& graphics_application)
@@ -244,7 +244,7 @@ int CScreensaver::launch_screensaver(RESULT* rp, int& graphics_application)
 }
 
 
-// Terminate the graphics application
+// Terminate the project (science) graphics application
 //
 #ifdef _WIN32
 int CScreensaver::terminate_screensaver(HANDLE& graphics_application, RESULT *worker_app)
@@ -252,21 +252,23 @@ int CScreensaver::terminate_screensaver(HANDLE& graphics_application, RESULT *wo
 int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worker_app)
 #endif
 {
-    
     if (graphics_application) {
         // V6 Graphics
-        kill_program(graphics_application);
 #ifdef __APPLE__
         if (!m_bScience_gfx_running) {
             return 0;   // Don't use gfx_switcher for default gfx app 
         }
-        // For sandbox security, use gfx_switcher to launch gfx app 
-        // as user boinc_project and group boinc_project.
-        int retval = 0;
+        // Under sandbox security, use gfx_switcher to kill gfx app as 
+        // user boinc_project and group boinc_project.  The man page 
+        // for kill() says the user ID of the process sending the signal 
+        // must match that of the target process, though in practice 
+        // that seems not to be true on the Mac.
+
         char current_dir[MAXPATHLEN];
         char gfx_pid[16];
         pid_t thePID;
         int i;
+        int retval = 0;
 
         sprintf(gfx_pid, "%d", graphics_application);
         getcwd( current_dir, sizeof(current_dir));
@@ -285,16 +287,19 @@ int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worke
             0,
             thePID
         );
-        if (retval) return retval;
-        
+
         for (i=0; i<200; i++) {
             boinc_sleep(0.01);      // Wait 2 seconds max
             // Prevent gfx_switcher from becoming a zombie
-            if (waitpid(thePID, 0, WNOHANG) == thePID) break;
+            if (waitpid(thePID, 0, WNOHANG) == thePID) {
+                break;
+            }
         }
-        return retval;
-#endif
+#else        
         graphics_application = 0;
+#endif
+        // For safety, call kill_program even under Apple sandbox security
+        kill_program(graphics_application);
     } else {
         // V5 and Older
         DISPLAY_INFO di;
@@ -395,6 +400,63 @@ int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_appli
 }
 
 
+// Terminate the default graphics application
+//
+#ifdef _WIN32
+int CScreensaver::terminate_default_screensaver(HANDLE& graphics_application)
+#else
+int CScreensaver::terminate_default_screensaver(int& graphics_application)
+#endif
+{
+    int retval = 0;
+
+    if (! graphics_application) return 0;
+
+#ifdef __APPLE__
+    // Under sandbox security, use gfx_switcher to kill default gfx app 
+    // as user boinc_master and group boinc_master.  The man page for 
+    // kill() says the user ID of the process sending the signal must 
+    // match that of the target process, though in practice that seems 
+    // not to be true on the Mac.
+    
+    char current_dir[MAXPATHLEN];
+    char gfx_pid[16];
+    pid_t thePID;
+    int i;
+
+    sprintf(gfx_pid, "%d", graphics_application);
+    getcwd( current_dir, sizeof(current_dir));
+
+    char* argv[4];
+    argv[0] = "gfx_switcher";
+    argv[1] = "-kill_default_gfx";
+    argv[2] = gfx_pid;
+    argv[3] = 0;
+
+   retval = run_program(
+        current_dir,
+        m_gfx_Switcher_Path,
+        3,
+        argv,
+        0,
+        thePID
+    );
+    
+    for (i=0; i<200; i++) {
+        boinc_sleep(0.01);      // Wait 2 seconds max
+        // Prevent gfx_switcher from becoming a zombie
+        if (waitpid(thePID, 0, WNOHANG) == thePID) {
+            break;
+        }
+    }
+#endif
+
+    // For safety, call kill_program even under Apple sandbox security
+    kill_program(graphics_application);
+    return retval;
+}
+
+
 // If we cannot connect to the core client:
 //   - we retry connecting every 10 seconds 
 //   - we launch the default graphics application with the argument --retry_connect, so 
@@ -492,7 +554,11 @@ void *CScreensaver::DataManagementProc()
             // Are we supposed to exit the screensaver?
             if (m_QuitDataManagementProc) {     // If main thread has requested we exit
                 if (m_hGraphicsApplication || graphics_app_result_ptr) {
-                    terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
+                    if (m_bDefault_gfx_running) {
+                        terminate_default_screensaver(m_hGraphicsApplication);
+                    } else {
+                        terminate_screensaver(m_hGraphicsApplication, graphics_app_result_ptr);
+                    }
                     graphics_app_result_ptr = NULL;
                     previous_result_ptr = NULL;
                     m_hGraphicsApplication = 0;
@@ -699,7 +765,7 @@ void *CScreensaver::DataManagementProc()
                 
                 if (graphics_app_result_ptr) {
                     if (m_bDefault_gfx_running) {
-                        kill_program(m_hGraphicsApplication);
+                        terminate_default_screensaver(m_hGraphicsApplication);
                         killing_default_gfx = true;
                         // Remember how long default graphics ran during science phase
                         if (default_saver_start_time_in_science_phase) {

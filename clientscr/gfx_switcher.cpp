@@ -19,7 +19,10 @@
 //
 // Used by screensaver to:
 //  - launch graphics application at given slot number as user & owner boinc_project
-//  - kill graphics application with given process ID
+//  - kill graphics application with given process ID as user & owner boinc_project
+//  - launch default graphics application as user & owner boinc_master
+//  - kill default graphics application with given process ID as user & owner boinc_master
+//
 #include <unistd.h>
 #include <cstdio>
 #include <cstring>
@@ -58,7 +61,8 @@ int main(int argc, char** argv) {
 
     if (argc < 2) return EINVAL;
 
-    if (strcmp(argv[1], "-default_gfx") == 0) {
+    if ((strcmp(argv[1], "-default_gfx") == 0) || 
+            (strcmp(argv[1], "-kill_default_gfx") == 0)) {
         strlcpy(user_name, "boinc_master", sizeof(user_name));
     } else {
         strlcpy(user_name, "boinc_project", sizeof(user_name));
@@ -94,7 +98,7 @@ int main(int argc, char** argv) {
     print_to_log_file( "current directory = %s", current_dir);
     
     for (int i=0; i<argc; i++) {
-         print_to_log_file("switcher arg %d: %s\n", i, argv[i]);
+         print_to_log_file("switcher arg %d: %s", i, argv[i]);
     }
 #endif
 
@@ -104,7 +108,7 @@ int main(int argc, char** argv) {
         
 #if 0           // For debugging only
     for (int i=2; i<argc; i++) {
-         print_to_log_file("calling execv with arg %d: %s\n", i-2, argv[i]);
+         print_to_log_file("calling execv with arg %d: %s", i-2, argv[i]);
     }
 #endif
 
@@ -129,7 +133,7 @@ int main(int argc, char** argv) {
         
 #if 0           // For debugging only
     for (int i=2; i<argc; i++) {
-         print_to_log_file("calling execv with arg %d: %s\n", i-2, argv[i]);
+         print_to_log_file("calling execv with arg %d: %s", i-2, argv[i]);
     }
 #endif
 
@@ -142,10 +146,16 @@ int main(int argc, char** argv) {
         return errno;
     }
 
-    if (strcmp(argv[1], "-kill_gfx") == 0) {
+    if ((strcmp(argv[1], "-kill_gfx") == 0) ||
+            (strcmp(argv[1], "-kill_default_gfx") == 0)) {
         pid = atoi(argv[2]);
         if (! pid) return EINVAL;
-        if ( kill(pid, SIGKILL)) return errno;
+        if ( kill(pid, SIGKILL)) {
+#if 0           // For debugging only
+     print_to_log_file("kill(%d, SIGKILL) returned error %d", pid, errno);
+#endif
+            return errno;
+        }
         return 0;
     }
     

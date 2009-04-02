@@ -3541,3 +3541,19 @@ Charlie 1 Apr 2009
         screensaver.cpp
     mac_build/
         Mac_SA_Secure.sh
+
+Charlie 2 Apr 2009
+    SS: Under Mac Sandbox security, terminate default screensaver graphics 
+        app via gfx_switcher.  This is safer because the man page for kill() 
+        says the user ID of the process sending the signal must match that 
+        of the target process, though in practice that seems not to be true 
+        on the Mac.
+
+    clientscr/
+        gfx_switcher.cpp
+        mac_saver_module.cpp
+        Mac_Saver_Module.h
+        screensaver.cpp
+        screensaver_win.h
+    mac_build/
+        Mac_SA_Secure.sh
