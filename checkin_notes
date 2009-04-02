@@ -3565,3 +3565,18 @@ David  2 Apr 2009
 
     html/inc/
         result.inc
+
+Rom    2 Apr 2009
+    - WINSCR: It appears newer notebook models with multiple video
+        chipsets exhibit an interesting situation.  It appears as though
+        in certain conditions a single monitor machine actually reports
+        itself as having three monitors.  Normally the monitor that
+        contains the primary window (coord 0,0) is on monitor 0, but on
+        these machines coord 0,0 is actually on monitor 2.  This led to the
+        screensaver not properly exiting when keyboard and/or mouse activity
+        was detected.  Now when we detect that keyboard and/or mouse activity
+        has happened we send the WM_INTERRUPTSAVER event to all windows
+        on all monitors.
+        
+    clientscr/
+        screensaver_win.cpp, .h

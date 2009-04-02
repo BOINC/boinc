@@ -938,7 +938,7 @@ DWORD WINAPI CScreensaver::InputActivityProc() {
             if (m_dwLastInputTimeAtStartup != lii.dwTime) {
                 BOINCTRACE(_T("CScreensaver::InputActivityProc - Activity Detected.\n"));
                 SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
-                SendMessage(m_Monitors[0].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
+                FireInterruptSaverEvent();
             }
         }
         boinc_sleep(0.25);
@@ -1057,7 +1057,7 @@ DWORD WINAPI CScreensaver::GraphicsWindowPromotionProc() {
                 //   screensaver mode.
                 BOINCTRACE(_T("CScreensaver::CheckForNotificationWindow - Unknown window detected\n"));
                 SetError(TRUE, SCRAPPERR_BOINCSHUTDOWNEVENT);
-                SendMessage(m_Monitors[0].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
+                FireInterruptSaverEvent();
             }
         }
         boinc_sleep(1.0);
@@ -1496,6 +1496,8 @@ INT_PTR CALLBACK CScreensaver::ConfigureDialogProcStub(
 
 
 VOID CScreensaver::ShutdownSaver() {
+    BOINCTRACE(_T("CScreensaver::ShutdownSaver Function Begin\n"));
+
     // Unflag screensaver running if in full on mode
     if (m_SaverMode == sm_full) {
         BOOL bUnused;
@@ -1510,9 +1512,28 @@ VOID CScreensaver::ShutdownSaver() {
     // lookup and post to the primary window instead of calling PostQuitMessage
     // since PostQuitMessage posts to the current threads message pump if it
     // exists.
-    if (m_Monitors[0].hWnd) {
-        PostMessage(m_Monitors[0].hWnd, WM_QUIT, 0, 0);
+    for(DWORD iIndex = 0; iIndex < m_dwNumMonitors; iIndex++) {
+		if ( m_Monitors[iIndex].hWnd ) {
+            PostMessage(m_Monitors[iIndex].hWnd, WM_QUIT, NULL, NULL);
+        }
     }
+
+    BOINCTRACE(_T("CScreensaver::ShutdownSaver Function End\n"));
+}
+
+
+
+
+VOID CScreensaver::FireInterruptSaverEvent() {
+    BOINCTRACE(_T("CScreensaver::FireInterruptSaverEvent Function Begin\n"));
+
+    for(DWORD iIndex = 0; iIndex < m_dwNumMonitors; iIndex++) {
+		if ( m_Monitors[iIndex].hWnd ) {
+            PostMessage(m_Monitors[iIndex].hWnd, WM_INTERRUPTSAVER, NULL, NULL);
+        }
+    }
+
+    BOINCTRACE(_T("CScreensaver::FireInterruptSaverEvent Function End\n"));
 }
 
 
