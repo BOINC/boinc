@@ -3557,3 +3557,11 @@ Charlie 2 Apr 2009
         screensaver_win.h
     mac_build/
         Mac_SA_Secure.sh
+
+David  2 Apr 2009
+    - web: in filtered job lists,
+        "pending" should include "inconclusive",
+        and "invalid" should include "too late to validate"
+
+    html/inc/
+        result.inc
