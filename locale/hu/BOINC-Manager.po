@@ -1,15 +1,17 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-27 21:43+0100\n"
-"Last-Translator: David Horvath <horvath.david@t-online.hu>\n"
+"PO-Revision-Date: 2009-04-02 03:59-0700\n"
+"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n !=1);\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
@@ -19,68 +21,71 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:329
 msgid "User information"
-msgstr ""
+msgstr "Felhasználói információ"
 
 #: clientgui/AccountInfoPage.cpp:335
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr ""
+"Kérjük, adja meg fiókinformációit\n"
+"(fiók létrehozásához keresse fel a project weblapját)"
 
 #: clientgui/AccountInfoPage.cpp:339
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
 msgstr ""
+"Ebben a projektben jelenleg nem készíthetők új fiókok.\n"
+"Csak akkor csatlakozhat, ha már van fiókja."
 
 #: clientgui/AccountInfoPage.cpp:343
 msgid "Are you already running this project?"
-msgstr ""
+msgstr "Már futtatja ezt a projektet?"
 
 #: clientgui/AccountInfoPage.cpp:347
 msgid "&No, new user"
-msgstr ""
+msgstr "&Nem, új felhasználó"
 
 #: clientgui/AccountInfoPage.cpp:350
 msgid "&Yes, existing user"
-msgstr ""
+msgstr "&Igen, létező felhasználó"
 
 #: clientgui/AccountInfoPage.cpp:366
 #: clientgui/AccountInfoPage.cpp:519
 msgid "&Password:"
-msgstr "Jelszó:"
+msgstr "&Jelszó:"
 
 #: clientgui/AccountInfoPage.cpp:373
 #: clientgui/AccountInfoPage.cpp:534
 msgid "Choose a &password:"
-msgstr ""
+msgstr "Válasszon &jelszót:"
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid "C&onfirm password:"
-msgstr "Jelszó megerősítése:"
+msgstr "Jelszó &megerősítése:"
 
 #: clientgui/AccountInfoPage.cpp:383
 #, c-format
 msgid "Are you already running %s?"
-msgstr ""
+msgstr "Már futtatja a %s projektet?"
 
 #: clientgui/AccountInfoPage.cpp:400
-#, fuzzy
 msgid "&Username:"
-msgstr "Felhasználónév:"
+msgstr "&Felhasználói név:"
 
 #: clientgui/AccountInfoPage.cpp:414
 msgid "&Email address:"
-msgstr "Email cím:"
+msgstr "&Email cím:"
 
 #: clientgui/AccountInfoPage.cpp:421
 #, c-format
 msgid "minimum length %d"
-msgstr ""
+msgstr "minimum hossz: %d"
 
 #: clientgui/AccountInfoPage.cpp:426
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Elfelejtette a jelszavát?"
 
 #: clientgui/AccountInfoPage.cpp:456
 #: clientgui/WelcomePage.cpp:332
@@ -90,7 +95,7 @@ msgstr "Csatlakozás projekthez"
 
 #: clientgui/AccountInfoPage.cpp:458
 msgid "Update account manager"
-msgstr ""
+msgstr "Fiókkezelő frissítése"
 
 #: clientgui/AccountInfoPage.cpp:460
 msgid "Attach to account manager"
@@ -116,7 +121,7 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:488
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr "A jelszó és megerősítése nem egyezik. Kérem, próbálja úrja."
+msgstr "A jelszó és megerősítése nem egyezik. Kérem, próbálja újra."
 
 #: clientgui/AccountManagerInfoPage.cpp:173
 msgid "Account Manager URL"
@@ -124,7 +129,7 @@ msgstr "Fiókkezelő URL-je"
 
 #: clientgui/AccountManagerInfoPage.cpp:176
 msgid "Enter the URL of the account manager's web site."
-msgstr "Adja meg az URL-jét a fiókkezelő weboldalának."
+msgstr "Adja meg a fiókkezelő weboldalának URL-jét."
 
 #: clientgui/AccountManagerInfoPage.cpp:179
 #, fuzzy
@@ -135,34 +140,36 @@ msgstr "A böngésző címsorából kimásolhatja, és ide beillesztheti az URL-
 
 #: clientgui/AccountManagerInfoPage.cpp:182
 msgid "Account Manager &URL:"
-msgstr "Fiókkezelő URL-je:"
+msgstr "Fiókkezelő &URL-je:"
 
 #: clientgui/AccountManagerInfoPage.cpp:185
 #, fuzzy
 msgid "For a list of account managers go to:"
-msgstr "A BOINC alapú fiókkezelő listáját itt találja:"
+msgstr "A fiókkezelők listáját itt találja:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:189
 #: clientgui/AccountManagerPropertiesPage.cpp:193
 #, c-format
+#, fuzzy
 msgid "Communicating with %s."
-msgstr ""
+msgstr "Kommunikáció ezzel: %s."
 
 #: clientgui/AccountManagerProcessingPage.cpp:196
 #: clientgui/AccountManagerPropertiesPage.cpp:200
 msgid "Communicating with server."
-msgstr ""
+msgstr "Kommunikáció a szerverrel."
 
 #: clientgui/AccountManagerProcessingPage.cpp:201
 #: clientgui/AccountManagerPropertiesPage.cpp:205
 msgid "Please wait..."
-msgstr ""
+msgstr "Kérem, várjon..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:312
 #: clientgui/ProjectProcessingPage.cpp:487
 #: clientgui/ProjectProcessingPage.cpp:545
+#, fuzzy
 msgid "An internal server error has occurred.\n"
-msgstr ""
+msgstr "Belső szerverhiba történt."
 
 #: clientgui/AdvancedFrame.cpp:99
 msgid "Connected"
@@ -175,54 +182,54 @@ msgstr "Kapcsolat megszakítva"
 #: clientgui/AdvancedFrame.cpp:308
 #: clientgui/sg_BoincSimpleGUI.cpp:106
 msgid "&Close Window\tCTRL+W"
-msgstr ""
+msgstr "Ablak &bezárásaCTRL+W"
 
 #: clientgui/AdvancedFrame.cpp:309
 #: clientgui/sg_BoincSimpleGUI.cpp:107
 msgid "Close BOINC Manager Window."
-msgstr ""
+msgstr "A BOINC kezelő ablakának bezárása."
 
 #: clientgui/AdvancedFrame.cpp:315
 #, c-format
 msgid "Exit the %s"
-msgstr ""
+msgstr "Kilépés ebből: %s"
 
 #: clientgui/AdvancedFrame.cpp:320
 #: clientgui/BOINCTaskBar.cpp:617
 #: clientgui/mac/MacSysMenu.cpp:218
 msgid "E&xit"
-msgstr "Kilépés"
+msgstr "&Kilépés"
 
 #: clientgui/AdvancedFrame.cpp:329
 msgid "&Advanced View"
-msgstr ""
+msgstr "&Haladó nézet"
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
 msgstr ""
+"Haladó nézetben különböző oszlopok szerint rendezheti listáit, a "
+"folyamatokról állapotjelzők segítségével szerezhet információkat."
 
 #: clientgui/AdvancedFrame.cpp:335
 msgid "&Simple View..."
-msgstr ""
+msgstr "&Egyszerű nézet"
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "Display the simple BOINC graphical interface."
-msgstr ""
+msgstr "A BOINC egyszerű grafikus felülete."
 
 #: clientgui/AdvancedFrame.cpp:350
-#, fuzzy
 msgid "Attach to &project..."
-msgstr "Csatlakozás egy projekthez"
+msgstr "Csatlakozás &projekthez..."
 
 #: clientgui/AdvancedFrame.cpp:351
 #, fuzzy
 msgid "Attach to a project"
-msgstr "Csatlakozás projekthez"
+msgstr "Csatlakozás egy projekthez"
 
 #: clientgui/AdvancedFrame.cpp:355
-#, fuzzy
 msgid "Attach to &account manager..."
-msgstr "Csatlakozás fiókkezelőhöz"
+msgstr "Csatlakozás &fiókkezelőhöz"
 
 #: clientgui/AdvancedFrame.cpp:356
 msgid "Attach to an account manager"
@@ -231,16 +238,17 @@ msgstr "Csatlakozás egy fiókkezelőhöz"
 #: clientgui/AdvancedFrame.cpp:360
 #, c-format
 msgid "&Synchronize with %s"
-msgstr ""
+msgstr "&Szinkronizáció ezzel: %s"
 
 #: clientgui/AdvancedFrame.cpp:364
 #, c-format
+#, fuzzy
 msgid "Get current settings from %s"
-msgstr ""
+msgstr "Jelenlegi beállítások betöltése innen: %s"
 
 #: clientgui/AdvancedFrame.cpp:379
 msgid "&Run always"
-msgstr "Mindig fut"
+msgstr "&Mindig fut"
 
 #: clientgui/AdvancedFrame.cpp:380
 #, fuzzy
@@ -249,7 +257,7 @@ msgstr "Beállítások mellőzésével fut"
 
 #: clientgui/AdvancedFrame.cpp:384
 msgid "Run based on &preferences"
-msgstr "Beállítások szerint fut"
+msgstr "&Beállítások szerint fut"
 
 #: clientgui/AdvancedFrame.cpp:385
 #, fuzzy
@@ -258,7 +266,7 @@ msgstr "Beállítások szerint fut"
 
 #: clientgui/AdvancedFrame.cpp:389
 msgid "&Suspend"
-msgstr "Felfüggeszt"
+msgstr "&Felfüggeszt"
 
 #: clientgui/AdvancedFrame.cpp:390
 #, fuzzy
@@ -267,7 +275,7 @@ msgstr "Beállítások figyelembe vétele nélkül leáll"
 
 #: clientgui/AdvancedFrame.cpp:413
 msgid "&Network activity always available"
-msgstr "Hálózati forgalom mindig engedélyezett"
+msgstr "&Hálózati forgalom mindig engedélyezve"
 
 #: clientgui/AdvancedFrame.cpp:414
 #, fuzzy
@@ -306,7 +314,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:437
 msgid "Configure local preferences"
-msgstr ""
+msgstr "Helyi beállítások módosítása"
 
 #: clientgui/AdvancedFrame.cpp:443
 #, c-format
@@ -321,11 +329,12 @@ msgstr "Számítógép kiválasztása"
 
 #: clientgui/AdvancedFrame.cpp:453
 msgid "Shut down connected client..."
-msgstr ""
+msgstr "Kapcsolódott kliens leállítása..."
 
 #: clientgui/AdvancedFrame.cpp:454
+#, fuzzy
 msgid "Shut down the currently connected core client"
-msgstr ""
+msgstr "Jelenleg kapcsolódott magkliens leállítása"
 
 #: clientgui/AdvancedFrame.cpp:458
 #, fuzzy
@@ -346,24 +355,24 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:468
 msgid "Read config file"
-msgstr ""
+msgstr "Konfigurációs fájl beolvasása"
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "Read configuration info from cc_config.xml."
-msgstr ""
+msgstr "Konfigurációs beállítások beolvasása a cc_config.xml fájlból."
 
 #: clientgui/AdvancedFrame.cpp:473
 msgid "Read local prefs file"
-msgstr ""
+msgstr "Helyi beállításfájl beolvasása"
 
 #: clientgui/AdvancedFrame.cpp:474
 msgid "Read preferences from global_prefs_override.xml."
-msgstr ""
+msgstr "Beállítások beolvasása a global_prefs_override.xml fájlból."
 
 #: clientgui/AdvancedFrame.cpp:478
 #, c-format
 msgid "&Stop using %s..."
-msgstr ""
+msgstr "%s használatának &befejezése..."
 
 #: clientgui/AdvancedFrame.cpp:484
 msgid "Remove client from account manager control."
@@ -376,44 +385,43 @@ msgstr "Csatlakozás"
 
 #: clientgui/AdvancedFrame.cpp:489
 msgid "Attach to a project to begin processing work"
-msgstr "Csatlakozás egy projekthez a feldolgozási munka megkezdéséhez"
+msgstr "Csatlakozás egy projekthez és a feldolgozás megkezdése"
 
 #: clientgui/AdvancedFrame.cpp:500
 #: clientgui/sg_BoincSimpleGUI.cpp:116
 #, c-format
 msgid "%s &help"
-msgstr ""
+msgstr "%s &segítség"
 
 #: clientgui/AdvancedFrame.cpp:506
 #: clientgui/sg_BoincSimpleGUI.cpp:122
 #, c-format
 msgid "Show information about %s"
-msgstr ""
+msgstr "Információk erről: %s"
 
 #: clientgui/AdvancedFrame.cpp:518
 #, c-format
 msgid "&%s help"
-msgstr ""
+msgstr "&%s segítség"
 
 #: clientgui/AdvancedFrame.cpp:524
 #: clientgui/sg_BoincSimpleGUI.cpp:140
 #, c-format
 msgid "Show information about the %s"
-msgstr ""
+msgstr "Információk erről: %s"
 
 #: clientgui/AdvancedFrame.cpp:536
 #: clientgui/sg_BoincSimpleGUI.cpp:152
 #, c-format
 msgid "%s &website"
-msgstr ""
+msgstr "%s &weblap"
 
 #: clientgui/AdvancedFrame.cpp:542
 #: clientgui/sg_BoincSimpleGUI.cpp:158
 #, c-format
 #, c-format
-#, fuzzy
 msgid "Show information about BOINC and %s"
-msgstr "Információ mutatása a BOINC kezelőről"
+msgstr "Információk a BOINC kezelőről és erről: %s"
 
 #: clientgui/AdvancedFrame.cpp:558
 #: clientgui/BOINCTaskBar.cpp:607
@@ -432,31 +440,31 @@ msgstr "Fájl"
 
 #: clientgui/AdvancedFrame.cpp:575
 msgid "&View"
-msgstr ""
+msgstr "&Nézet"
 
 #: clientgui/AdvancedFrame.cpp:579
 msgid "&Tools"
-msgstr ""
+msgstr "&Eszközök"
 
 #: clientgui/AdvancedFrame.cpp:583
 msgid "&Activity"
-msgstr ""
+msgstr "&Aktivitás"
 
 #: clientgui/AdvancedFrame.cpp:587
 msgid "A&dvanced"
-msgstr ""
+msgstr "&Haladó"
 
 #: clientgui/AdvancedFrame.cpp:591
 #: clientgui/sg_BoincSimpleGUI.cpp:171
 #: clientgui/wizardex.cpp:399
 #: clientgui/wizardex.cpp:406
 msgid "&Help"
-msgstr "Súgó"
+msgstr "&Segítség"
 
 #: clientgui/AdvancedFrame.cpp:1213
 #, c-format
 msgid "%s - Shutdown the current client..."
-msgstr ""
+msgstr "%s - A jelenlegi kliens leállítása"
 
 #: clientgui/AdvancedFrame.cpp:1222
 #, c-format
@@ -464,11 +472,13 @@ msgid ""
 "%s will shut down the currently connected client,\n"
 "and prompt you for another host to connect to.\n"
 msgstr ""
+"%s leállítja a jelenleg kapcsolódott klienst,\n"
+"és javasol Önnek egy másik klienst, amihez csatlakozhat.\n"
 
 #: clientgui/AdvancedFrame.cpp:1369
 #, c-format
 msgid "%s - Detach from %s"
-msgstr ""
+msgstr "%s - Leválasztás innen: %s"
 
 #: clientgui/AdvancedFrame.cpp:1374
 #, c-format
@@ -1457,7 +1467,7 @@ msgstr "Csatlakozott a fiókkezelőhöz"
 
 #: clientgui/DlgItemProperties.cpp:115
 msgid "Detach when done"
-msgstr ""
+msgstr "Leválasztás, ha kész"
 
 #: clientgui/DlgItemProperties.cpp:116
 msgid "Ended"
@@ -2625,7 +2635,7 @@ msgstr ""
 #: clientgui/ViewProjectsGrid.cpp:418
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
-msgstr "Biztos benne, hogy a(z) \"%s\" projektről leválasztja a számítógépet?"
+msgstr "Biztos benne, hogy a(z) '%s' projektről leválasztja a számítógépet?"
 
 #: clientgui/sg_StatImageLoader.cpp:222
 #: clientgui/ViewProjects.cpp:496
@@ -2957,11 +2967,11 @@ msgstr "Leválasztás"
 #: clientgui/ViewProjects.cpp:202
 #: clientgui/ViewProjectsBase.cpp:140
 #: clientgui/ViewProjectsGrid.cpp:149
-#, fuzzy
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
 msgstr ""
 "A számítógép leválasztása a projektről. Folyamatban lévő munka elveszik "
-"(először frissítse a projektet, hogy az összes elkészült munkát jelentse)."
+"(először használja a 'Frissítés'-t, hogy az összes elkészült munkát "
+"jelentse)."
 
 #: clientgui/ViewProjects.cpp:208
 #: clientgui/ViewWork.cpp:204
@@ -3127,13 +3137,13 @@ msgstr "Nem tölt le új munkát"
 #: clientgui/ViewProjectsBase.cpp:680
 #: clientgui/ViewProjectsGrid.cpp:734
 msgid "Project ended - OK to detach"
-msgstr ""
+msgstr "A projekt befejeződött - nyomjon OK-t a leválasztáshoz"
 
 #: clientgui/ViewProjects.cpp:1060
 #: clientgui/ViewProjectsBase.cpp:683
 #: clientgui/ViewProjectsGrid.cpp:737
 msgid "Will detach when tasks done"
-msgstr ""
+msgstr "Leválasztás a munkák befejezésekor"
 
 #: clientgui/ViewProjects.cpp:1063
 #: clientgui/ViewProjectsBase.cpp:686
