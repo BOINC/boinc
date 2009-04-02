@@ -56,8 +56,16 @@ int main(int argc, char** argv) {
     int         retval;
     int         pid;
 
-    strlcpy(user_name, "boinc_project", sizeof(user_name));
-    strlcpy(group_name, "boinc_project", sizeof(group_name));
+    if (argc < 2) return EINVAL;
+
+    if (strcmp(argv[1], "-default_gfx") == 0) {
+        strlcpy(user_name, "boinc_master", sizeof(user_name));
+    } else {
+        strlcpy(user_name, "boinc_project", sizeof(user_name));
+
+    }
+    
+    strlcpy(group_name, user_name, sizeof(group_name));
 
 #if 0       // For debugging only
     // Allow debugging without running as user or group boinc_project
@@ -90,7 +98,24 @@ int main(int argc, char** argv) {
     }
 #endif
 
-    if (argc < 2) return EINVAL;
+    if (strcmp(argv[1], "-default_gfx") == 0) {
+        strlcpy(resolved_path, "/Library/Application Support/BOINC Data/boincscr", sizeof(resolved_path));
+        argv[2] = resolved_path;
+        
+#if 0           // For debugging only
+    for (int i=2; i<argc; i++) {
+         print_to_log_file("calling execv with arg %d: %s\n", i-2, argv[i]);
+    }
+#endif
+
+        // For unknown reasons, the graphics application exits with 
+        // "RegisterProcess failed (error = -50)" unless we pass its 
+        // full path twice in the argument list to execv.
+        execv(resolved_path, argv+2);
+        // If we got here execv failed
+        fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
+        return errno;
+    }
     
     if (strcmp(argv[1], "-launch_gfx") == 0) {
         strlcpy(gfx_app_path, BOINCDatSlotsPath, sizeof(gfx_app_path));

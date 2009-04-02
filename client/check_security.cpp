@@ -471,27 +471,6 @@ int use_sandbox, int isManager
             if ((sbuf.st_mode & 0777) != 0664)
                 return -1053;
         }   // Screensaver config file ss_config.xml exists
-
-        strlcpy(full_path, dir_path, sizeof(full_path));
-        strlcat(full_path, "/", sizeof(full_path));
-        strlcat(full_path, DEFAULT_SS_EXECUTABLE, sizeof(full_path));
-
-        retval = stat(full_path, &sbuf);
-        if (!retval) {
-            if (sbuf.st_uid != boinc_master_uid)
-                return -1055;
-
-            if (sbuf.st_gid != boinc_master_gid)
-                return -1056;
-
-#ifdef _DEBUG
-            if ((sbuf.st_mode & 07777) != 02775)
-                return -1057;
-#else 
-            if ((sbuf.st_mode & 07777) != 02555) 
-                return -1058; 
-#endif 
-        }   // Screensaver executable file boincscr exists
         
     }       // if (use_sandbox)
     

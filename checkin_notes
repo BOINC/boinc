@@ -3506,7 +3506,8 @@ Charlie 31 Mar 2009
             project.pbxproj
 
 Charlie 1 Apr 2009
-    - Mac: Add -lresolv to XCode linker flags for screensaver.
+    - Mac: Add -lresolv to XCode linker flags for screensaver, ss_app and 
+        boinccmd.
     - MGR: on Mac, implement standard Preferences item under BOINC menu 
         with standard keyboard shortcut; same as Advanced/Preferences.
 
@@ -3525,3 +3526,18 @@ David  1 Apr 2009
         app.cpp
         cpu_sched.cpp
         cs_scheduler.cpp
+
+Charlie 1 Apr 2009
+    SS: Under Mac Sandbox security, launch default screensaver graphics app 
+        as user and group boinc_master via gfx_switcher, not via setgid.
+
+    client/
+        check_security.cpp
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    clientscr/
+        gfx_switcher.cpp
+        screensaver.cpp
+    mac_build/
+        Mac_SA_Secure.sh

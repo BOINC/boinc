@@ -317,7 +317,7 @@ int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worke
 }
 
 
-// Launch the graphics application
+// Launch the default graphics application
 //
 #ifdef _WIN32
 int CScreensaver::launch_default_screensaver(char *dir_path, HANDLE& graphics_application)
@@ -326,18 +326,48 @@ int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_appli
 #endif
 {
     int retval = 0;
-    char full_path[1024];
-    int num_args = 2;
+    int num_args;
     
-    strlcpy(full_path, dir_path, sizeof(full_path));
-    strlcat(full_path, PATH_SEPARATOR, sizeof(full_path));
-    strlcat(full_path, THE_DEFAULT_SS_EXECUTABLE, sizeof(full_path));
+#ifdef __APPLE__
+    // For sandbox security, use gfx_switcher to launch default 
+    // gfx app as user boinc_master and group boinc_master.
+    char* argv[6];
 
+    argv[0] = "gfx_switcher";
+    argv[1] = "-default_gfx";
+    argv[2] = THE_DEFAULT_SS_EXECUTABLE;    // Will be changed by gfx_switcher
+    argv[3] = "--fullscreen";
+    argv[4] = 0;
+    argv[5] = 0;
+    if (!m_bConnected) {
+        BOINCTRACE(_T("launch_default_screensaver using --retry_connect argument\n"));
+        argv[4] = "--retry_connect";
+        num_args = 5;
+    } else {
+        num_args = 4;
+    }
+
+   retval = run_program(
+        dir_path,
+        m_gfx_Switcher_Path,
+        num_args,
+        argv,
+        0,
+        graphics_application
+    );
+    
+#else
     // For unknown reasons, the graphics application exits with 
     // "RegisterProcess failed (error = -50)" unless we pass its 
     // full path twice in the argument list to execv on Macs.
 
     char* argv[4];
+    char full_path[1024];
+
+    strlcpy(full_path, dir_path, sizeof(full_path));
+    strlcat(full_path, PATH_SEPARATOR, sizeof(full_path));
+    strlcat(full_path, THE_DEFAULT_SS_EXECUTABLE, sizeof(full_path));
+
     argv[0] = full_path;   // not used
     argv[1] = "--fullscreen";
     argv[2] = 0;
@@ -346,7 +376,10 @@ int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_appli
         BOINCTRACE(_T("launch_default_screensaver using --retry_connect argument\n"));
         argv[2] = "--retry_connect";
         num_args = 3;
+    } else {
+        num_args = 2;
     }
+    
     retval = run_program(
         dir_path,
         full_path,
@@ -357,6 +390,7 @@ int CScreensaver::launch_default_screensaver(char *dir_path, int& graphics_appli
     );
 
      BOINCTRACE(_T("launch_default_screensaver %s returned %d\n"), full_path, retval);
+#endif
      return retval;
 }
 
