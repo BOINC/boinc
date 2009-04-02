@@ -33,6 +33,7 @@ $rm4555 = prot('root', 'boinc_master', '0555+setuid');
 $mm0550 = prot('boinc_master', 'boinc_master', '0550');
 $mm0440 = prot('boinc_master', 'boinc_master', '0440');
 $mm0660 = prot('boinc_master', 'boinc_master', '0660');
+$mm0664 = prot('boinc_master', 'boinc_master', '0664');
 $mm0771 = prot('boinc_master', 'boinc_master', '0771');
 $mm0775 = prot('boinc_master', 'boinc_master', '0775');
 $mp0775 = prot('boinc_master', 'boinc_project', '0775');
@@ -129,7 +130,8 @@ echo
         show_file('client_state.xml', $mm0660),
         show_file('gui_rpc_auth.cfg', $mm0660),
         show_file('sched_reply*', $mm0660),
-        show_file('sched_request*', $mm0660)
+        show_file('sched_request*', $mm0660),
+        show_file('ss_config.xml', $mm0664)
     ));
 
 echo "<br><br>";
@@ -138,7 +140,6 @@ echo
     show_dir(0, 'BOINC executables', $ua0555, array(
         show_file('BOINC Manager', $mm2555),
         show_file('BOINC Client', $mm6555),
-        show_file('Default BOINC Screensaver Graphics', $mm2555),
         show_dir(1, 'screensaver (directory)', $ua0555, array(
             show_file('gfx_switcher (executable)', $rm4555)
         )),
@@ -198,35 +199,42 @@ screensaver is launched by the operating system, so it runs as the
 currently logged in user and group.  Since running the science projects' graphics applications 
 with this user and group would be a security risk, the screensaver has 
 its own embedded helper application <i>gfx_switcher</i> which it uses to 
-launch the graphics applications.  
+launch and kill the graphics applications.  
 Like the <i>switcher</i> application, <i>gfx_switcher</i> runs setuid 
 <b>root</b> and immediately changes its real and effective user ID and 
-group ID to <b>boinc_project</b>
-<li>The BOINC screensaver's use of setuid <b>root</b> for the 
-<i>gfx_switcher</i> application is safe because:
-<ul>
-<li>When it is run, the <i>gfx_switcher</i> application immediately changes 
-its real and effective user ID and group ID to <b>boinc_project</b>, disabling 
-its superuser privileges.
-<li>The <i>gfx_switcher</i> application has very limited functionality.  It 
-accepts only two commands as its first argument:.  
-<ul>
-<li><i>launch_gfx</i>: the second argument is the slot number.  It looks for 
-a soft-link named <b>graphics_app</b> in the specified slot directory and launches 
-the referenced graphics application.
-<li><i>kill_gfx</i>: the second argument is the process ID.  It kills the 
-application with the process ID; since it is running as user and group 
-<b>boinc_project</b>, it can affect only processes belonging to that user.
-</ul>
-</ul>
+group ID to either <b>boinc_project</b> or <b>boinc_master</b>
 <li>Starting with BOINC version 6.7, a default screenaver graphics application 
 is provided with BOINC.  The screensaver (now more properly called the 
 <b>screensaver coordinator</b>) runs the default graphics alternating with science 
 graphics applications according to a schedule set by the data file ss-config.xml.  
 The default graphics are run also when no science graphics are available, such as 
-when BOINC is suspended.  The default graphics executable has the same permissions 
-as the BOINC Manager.  This gives it access to the RPC password file and so to all 
-GUI RPCs, but allows the screensaver coordinator to kill it when appropriate. 
+when BOINC is suspended.  The default graphics executable is run as user and group 
+<b>boinc_master</b>.  This gives it access to the RPC password file and so to all 
+GUI RPCs, but allows the screensaver coordinator to kill it (via <i>gfx_switcher</i>)
+ when appropriate. 
+<li>The BOINC screensaver's use of setuid <b>root</b> for the 
+<i>gfx_switcher</i> application is safe because:
+<ul>
+<li>When it is run, the <i>gfx_switcher</i> application immediately changes 
+its real and effective user ID and group ID to either <b>boinc_project</b> 
+or <b>boinc_master</b>, disabling its superuser privileges.
+<li>The <i>gfx_switcher</i> application has very limited functionality.  It 
+accepts only four commands as its first argument: 
+<ul>
+<li><i>launch_gfx</i>: the second argument is the slot number.  It looks for 
+a soft-link named <b>graphics_app</b> in the specified slot directory and launches 
+the referenced graphics application as user and group <b>boinc_project</b>.
+<li><i>kill_gfx</i>: the second argument is the process ID.  It kills the 
+application with the process ID; since it is running as user and group 
+<b>boinc_project</b>, it can affect only processes belonging to that user.  
+This is used to exit the science graphics application
+<li><i>default_gfx</i>: launches the default graphics application <i>boincscr</i> 
+in the BOINC data directory as user and group <b>boinc_master</b>.
+<li><i>kill_default_gfx</i>: the second argument is the process ID.  It kills the 
+application with the process ID; since it is running as user and group 
+<b>boinc_master</b>, it can affect only processes belonging to that user.  
+This is used to exit the default graphics application.</ul>
+</ul>
 <li>BOINC Client sets its umask to 006 to hide account keys from unauthorized 
 users.  This means that third-party add-ons cannot read BOINC data files; they 
 must use GUI RPCs to access BOINC Data.  
