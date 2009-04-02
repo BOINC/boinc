@@ -220,9 +220,11 @@ protected:
 protected:
 	HRESULT         CreateSaverWindow();
 	VOID            UpdateErrorBox();
+    VOID            FireInterruptSaverEvent();
     VOID            InterruptSaver();
     VOID            ShutdownSaver();
 	VOID            ChangePassword();
+
 
     VOID            DoConfig();
 	HRESULT         DoSaver();
