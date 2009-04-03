@@ -34,13 +34,18 @@ function show_platforms() {
         require_once("../inc/db.inc");
         $retval = db_init_aux(true);
         if (!$retval) {
-            $query = 'select name, user_friendly_name from platform, app_version where app_version.platformid = platform.id and app_version.deprecated=0 group by name';
+            $query = 'select name, user_friendly_name, plan_class from platform, app_version where app_version.platformid = platform.id and app_version.deprecated=0 group by name, plan_class';
             $result = mysql_query($query);
             $f = fopen($path, "w");
             fwrite($f, "<platforms>\n");
             while ($p = mysql_fetch_object($result)) {
+                if ($p->plan_class) {
+                    $pc = "   <plan_class>$p->plan_class</plan_class>\n";
+                } else {
+                    $pc = "";
+                }
                 fwrite($f,
-                    "  <platform>\n    <platform_name>$p->name</platform_name>\n    <user_friendly_name>$p->user_friendly_name</user_friendly_name>\n  </platform>\n"
+                    "  <platform>\n    <platform_name>$p->name</platform_name>\n    <user_friendly_name>$p->user_friendly_name</user_friendly_name>\n$pc  </platform>\n"
                 );
             }
             mysql_free_result($result);

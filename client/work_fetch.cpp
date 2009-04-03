@@ -42,7 +42,7 @@ WORK_FETCH work_fetch;
     // so if the project develops a GPU app,
     // we'll find out about it within a day.
 
-static inline char* rsc_name(int t) {
+static inline const char* rsc_name(int t) {
     switch (t) {
     case RSC_TYPE_CPU: return "CPU";
     case RSC_TYPE_CUDA: return "CUDA";
@@ -286,7 +286,7 @@ void WORK_FETCH::zero_debts() {
     }
 }
 
-void RSC_WORK_FETCH::print_state(char* name) {
+void RSC_WORK_FETCH::print_state(const char* name) {
     msg_printf(0, MSG_INFO,
         "[wfd] %s: shortfall %.2f nidle %.2f est. delay %.2f RS fetchable %.2f runnable %.2f",
         name,
@@ -651,8 +651,8 @@ bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
 
     // The last time we asked for work we didn't get any,
     // but it's been a while since we asked.
-    // In this case, accumulate debt until we reach (around) zero,
-    // but then stop.
+    // In this case, accumulate debt until we reach (around) zero, then stop.
+    //
     if (backoff_interval == MAX_BACKOFF_INTERVAL) {
         if (debt > -rwf.ninstances*DEBT_ADJUST_PERIOD) {
             return false;
@@ -740,7 +740,7 @@ void WORK_FETCH::init() {
     }
 }
 
-void RSC_PROJECT_WORK_FETCH::backoff(PROJECT* p, char* name) {
+void RSC_PROJECT_WORK_FETCH::backoff(PROJECT* p, const char* name) {
     if (backoff_interval) {
         backoff_interval *= 2;
         if (backoff_interval > MAX_BACKOFF_INTERVAL) backoff_interval = MAX_BACKOFF_INTERVAL;

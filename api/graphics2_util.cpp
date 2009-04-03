@@ -34,7 +34,7 @@
 #include "graphics2.h"
 
 #ifdef __EMX__
-static key_t get_shmem_name(char* prog_name) {
+static key_t get_shmem_name(const char* prog_name) {
     char cwd[256], path[256];
     boinc_getcwd(cwd);
     sprintf(path, "%s/init_data.xml", cwd);
@@ -43,7 +43,7 @@ static key_t get_shmem_name(char* prog_name) {
 #else
 // Unix/Linux/Mac applications always use mmap() for gfx communication
 //
-static void get_shmem_name(char* prog_name, char* shmem_name) {
+static void get_shmem_name(const char* prog_name, char* shmem_name) {
     APP_INIT_DATA aid;
     int retval = boinc_get_init_data(aid);
     if (retval) aid.slot = 0;
@@ -51,7 +51,7 @@ static void get_shmem_name(char* prog_name, char* shmem_name) {
 }
 #endif
 
-void* boinc_graphics_make_shmem(char* prog_name, int size) {
+void* boinc_graphics_make_shmem(const char* prog_name, int size) {
 #ifdef _WIN32
     HANDLE shmem_handle;
     char shmem_name[256];
@@ -80,7 +80,7 @@ void* boinc_graphics_make_shmem(char* prog_name, int size) {
 }
 
 #ifdef _WIN32
-void* boinc_graphics_get_shmem(char* prog_name) {
+void* boinc_graphics_get_shmem(const char* prog_name) {
     HANDLE shmem_handle;
     char shmem_name[256];
     void* p;
@@ -92,7 +92,7 @@ void* boinc_graphics_get_shmem(char* prog_name) {
     return p;
 }
 #else
-void* boinc_graphics_get_shmem(char* prog_name) {
+void* boinc_graphics_get_shmem(const char* prog_name) {
     void* p;
     int retval;
 #ifdef __EMX__

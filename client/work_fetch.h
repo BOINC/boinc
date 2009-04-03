@@ -72,7 +72,7 @@ struct RSC_PROJECT_WORK_FETCH {
 
     bool may_have_work;
     bool compute_may_have_work();
-    void backoff(PROJECT*, char*);
+    void backoff(PROJECT*, const char*);
     void rr_init();
     void clear_backoff() {
         backoff_time = 0;
@@ -123,7 +123,7 @@ struct RSC_WORK_FETCH {
     void accumulate_debt();
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);
     void update_debts();
-    void print_state(char*);
+    void print_state(const char*);
     void clear_request();
     void set_request(PROJECT*, double);
     double share_request(PROJECT*);

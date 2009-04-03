@@ -3580,3 +3580,20 @@ Rom    2 Apr 2009
         
     clientscr/
         screensaver_win.cpp, .h
+
+David  3 Apr 2009
+    - get_project_config.php: include plan classes in platform list;
+        i.e., list both win/x86 and win/x86 + NVIDIA.
+        This will allow the manager to show which projects can
+        use the hosts's coprocessors,
+        and also graying out projects that require an absent coproc.
+    - fix compile warnings
+
+    api/
+        graphics2.h
+        graphics2_util.cpp
+    client/
+        boinc_cmd.cpp
+        work_fetch.cpp,h
+    html/user/
+        get_project_config.php

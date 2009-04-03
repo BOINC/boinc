@@ -122,7 +122,7 @@ char* next_arg(int argc, char** argv, int& i) {
     return argv[i++];
 }
 
-char* prio_name(int prio) {
+const char* prio_name(int prio) {
     switch (prio) {
     case 1: return "low";
     case 2: return "medium";
