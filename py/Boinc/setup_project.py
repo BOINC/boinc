@@ -19,20 +19,12 @@ errors.count = 0
 
 options.have_init = False
 options.install_method = None
-options.echo_verbose = 1
 options.is_test = False
 options.drop_db_first = False
 
 def init():
     if options.have_init: return
     options.have_init = True
-    options.tty = os.isatty(1)
-    options.echo_overwrite = options.tty and options.echo_verbose==1
-
-    # VERBOSE: 0 = print nothing
-    #          1 = print some (default
-    #              if output is a tty, overwrite lines.
-    #          2 = print all
 
     if options.install_method == 'copy':
         options.install_function = shutil.copy
@@ -43,22 +35,9 @@ def init():
     else:
         fatal_error("Invalid install method: %s"%options.install_method)
 
-prev_overwrite = False
 def verbose_echo(level, line):
-    global prev_overwrite
-    if level == 0:
-        if prev_overwrite:
-            print
-        print line
-        prev_overwrite = False
-    elif options.echo_verbose >= level:
-        if options.echo_overwrite:
-            print "\r                                                                               ",
-            print "\r", line,
-            sys.stdout.flush()
-            prev_overwrite = True
-        else:
-            print line
+    print line
+    sys.stdout.flush()
 
 def fatal_error(msg):
     errors.count += 1

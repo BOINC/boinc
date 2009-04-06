@@ -239,6 +239,7 @@ language("Finnish", array(
     //),
 ));
 language("French", array(
+    site("http://boinc.starwars-holonet.com/", "Star Wars [FR]"),
     //site("http://wwww.boinc-2tf.org", "2TF Asso"),
     site("http://boincfrance.org", "BOINCFRANCE.ORG"),
     site("http://www.boinc-af.org", "L'Alliance Francophone"),

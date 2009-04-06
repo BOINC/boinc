@@ -20,7 +20,7 @@ $lang_language_dir = "../languages/";
 $lang_translations_dir = "translations/";
 $lang_prj_translations_dir = "project_specific_translations/";
 $lang_compiled_dir = "compiled/";
-$lang_log_level = 0;
+$lang_log_level = 1;
 
 /**
  * Fetches a list of compiled languages from the directory
@@ -64,7 +64,9 @@ function buildLanguages($langdir,$transdir,$compdir,$append=false){
                     // Skip parent and current dir
                 } else if (substr($file,-3)==".po"){
                     // and only do files ending in .po
-                    language_log("-------------Compiling $transdir$file------------",0);
+                    language_log(
+                        "-------------Compiling $transdir$file------------", 0
+                    );
                     $language = parseLanguage($langdir.$transdir.$file);
                     if (!$language){
                         language_log(
@@ -75,7 +77,7 @@ function buildLanguages($langdir,$transdir,$compdir,$append=false){
                     $fh = fopen($langdir.$compdir.$file.".inc",$append?"a":"w");
                     if (!$fh) {
                         language_log(
-                            "ERROR: could not access $langdir $compdir - please check permissions",2
+                            "ERROR: could not access $langdir $compdir - please check permissions", 2
                         );
                         exit;
                     }
@@ -189,7 +191,7 @@ function language_log($message, $loglevel=0){
     if ($loglevel==1) $msg = "[ Warning  ]";
     if ($loglevel==2) $msg = "[ CRITICAL ]";
 
-    if ($loglevel>=$lang_log_level){
+    if ($loglevel >= $lang_log_level){
         echo date("Y-m-d H:i:s",time())." ".$msg." ".$message."\n";
     }
 }

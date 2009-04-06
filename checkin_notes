@@ -3597,3 +3597,14 @@ David  3 Apr 2009
         work_fetch.cpp,h
     html/user/
         get_project_config.php
+
+David  6 Apr 2009
+    - make_project: get rid of verbosity-level stuff
+        and fancy overwriting of stdout lines
+
+    tools/
+        make_project
+    html/inc/
+        translation.inc
+    py/Boinc/
+        setup_project.py

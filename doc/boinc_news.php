@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("April 6, 2009",
+    "Check out <a href=http://boinc.starwars-holonet.com/>a new
+    French-language web site</a> about volunteer computing."
+),
 array("March 30, 2009",
     "<a href=http://boinc.vgtu.lt/vtuathome/>VTU@home</a>,
     a project from the Vilnius Gediminas Technical University,

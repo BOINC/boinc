@@ -29,8 +29,6 @@ Creates a new project with given name with everything running on a single
 server.
 
 Misc options:
-   --verbose={0,1,2}    default: 1
-   -v                   alias for --verbose=2
    --no_query           accept all directories without querying
    --user_name          default: $USER (%(USER)s)
    --delete_prev_inst   delete project-root first (from prev installation)
@@ -403,7 +401,7 @@ See the online documentation at http://boinc.berkeley.edu/
 '''%locals()
 
 print '''
-Done installing files.  Please view
+Done creating project.  Please view
 %(readme_filename)s
 for important additional instructions.
 '''%locals()
