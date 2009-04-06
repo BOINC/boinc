@@ -3608,3 +3608,10 @@ David  6 Apr 2009
         translation.inc
     py/Boinc/
         setup_project.py
+
+Rom    6 Apr 2009
+    - WINSETUP: When uninstalling, don't migrate the client data back
+        to the 5.x location.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAMigrateBOINCData.cpp
