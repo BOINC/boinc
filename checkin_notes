@@ -2285,3 +2285,20 @@ Rom    2 Apr 2009
         
     clientscr/
         screensaver_win.cpp, .h
+
+Rom    7 Apr 2009
+    - WINSETUP: When uninstalling, don't migrate the client data back
+        to the 5.x location.
+    - WINSETUP: On some setups, how we were including the 'Everyone' well
+        known security ID in the boinc_users group didn't work properly.
+        
+        From now on include the 'Everyone' security ID in the various
+        ACLs instead.  This will probley clean up a wide range of
+        various issues with multi-user installs.
+        
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
