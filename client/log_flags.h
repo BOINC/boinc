@@ -98,7 +98,6 @@ struct LOG_FLAGS {
     bool dcf_debug;
 
     LOG_FLAGS();
-    void defaults();
     int parse(XML_PARSER&);
     void show();
 };
@@ -136,9 +135,9 @@ struct CONFIG {
     bool no_priority_change;
 
     CONFIG();
-    void defaults();
     int parse(FILE*);
     int parse_options(XML_PARSER&);
+    void show();
 };
 
 extern LOG_FLAGS log_flags;

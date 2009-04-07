@@ -219,6 +219,7 @@ int CLIENT_STATE::init() {
         );
     }
 
+    config.show();
     log_flags.show();
 
     msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
@@ -252,9 +253,7 @@ int CLIENT_STATE::init() {
     host_info.get_host_info();
     set_ncpus();
     show_host_info();
-    if (config.no_gpus) {
-        msg_printf(NULL, MSG_INFO, "Configured to not use coprocessors");
-    } else {
+    if (!config.no_gpus) {
         vector<string> strs = coprocs.get();
         for (i=0; i<strs.size(); i++) {
             msg_printf(NULL, MSG_INFO, strs[i].c_str());

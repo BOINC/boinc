@@ -3650,3 +3650,16 @@ David  7 Apr 2009
         prefs.cpp
     tools/
         make_project
+
+David  7 Apr 2009
+    - client: we were setting config defaults after parsing cmdline.
+        This meant that the cmdline args that set config params weren't working:
+            --allow_multiple_clients
+            --report_results_immediately
+            --no_priority_change
+            --start_delay
+
+    client/
+        client_state.cpp
+        cs_cmdline.cpp
+        log_flags.cpp,h

@@ -175,6 +175,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(no_gui_rpc)) {
             no_gui_rpc = true;
         } else if (ARG(no_priority_change)) {
+            fprintf(stderr, "NO PRIO CHANGE\n");
             config.no_priority_change = true;
         } else if (ARG(pers_giveup)) {
             if (i == argc-1) show_options = true;
