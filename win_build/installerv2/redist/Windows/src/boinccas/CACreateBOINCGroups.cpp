@@ -72,7 +72,6 @@ UINT CACreateBOINCGroups::OnExecution()
     tstring          strBOINCMasterAccountUsername;
     tstring          strBOINCProjectAccountUsername;
     tstring          strEnableProtectedApplicationExecution;
-    tstring          strEnableUseByAllUsers;
 
 
     uiReturnValue = GetProperty( _T("UserSID"), strUserSID );
@@ -85,9 +84,6 @@ UINT CACreateBOINCGroups::OnExecution()
     if ( uiReturnValue ) return uiReturnValue;
 
     uiReturnValue = GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strEnableProtectedApplicationExecution );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    uiReturnValue = GetProperty( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
     if ( uiReturnValue ) return uiReturnValue;
 
 
@@ -280,58 +276,6 @@ UINT CACreateBOINCGroups::OnExecution()
 
     if (NERR_Success == nasReturnValue) {
         bBOINCUsersCreated = TRUE;
-    }
-
-    // If we just created the 'boinc_users' local group or the user has enabled all
-    //   users to manage BOINC then we need to make sure that the 'Everyone' group
-    //   is added to the 'boinc_users' group.
-    if (_T("1") == strEnableUseByAllUsers) {
-
-        PSID                         pEveryoneSID = NULL;
-        LOCALGROUP_MEMBERS_INFO_0    lgrmiUsers;
-        SID_IDENTIFIER_AUTHORITY     SIDAuthWorld = SECURITY_WORLD_SID_AUTHORITY;
-
-        // Create a well-known SID for the Everyone group.
-        if(!AllocateAndInitializeSid(
-                         &SIDAuthWorld, 1,
-                         SECURITY_WORLD_RID,
-                         0, 0, 0, 0, 0, 0, 0,
-                         &pEveryoneSID))
-        {
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                GetLastError(),
-                _T("AllocateAndInitializeSid Error for Everyone group")
-            );
-        }
-
-
-        lgrmiUsers.lgrmi0_sid = pEveryoneSID;
-
-        nasReturnValue = NetLocalGroupAddMembers(
-            NULL,
-            _T("boinc_users"),
-            0,
-            (LPBYTE)&lgrmiUsers,
-            1
-        );
-
-        if ((NERR_Success != nasReturnValue) && (ERROR_MEMBER_IN_ALIAS != nasReturnValue)) {
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                nasReturnValue,
-                _T("Failed to add user to the 'boinc_users' group (Everyone).")
-            );
-            return ERROR_INSTALL_FAILURE;
-        }
-
-        if(pEveryoneSID != NULL) FreeSid(pEveryoneSID);
     }
 
 

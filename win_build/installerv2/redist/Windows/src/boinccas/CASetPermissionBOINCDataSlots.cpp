@@ -64,15 +64,19 @@ UINT CASetPermissionBOINCDataSlots::OnExecution()
     DWORD               dwRes = 0;
     PACL                pACL = NULL;
     PSID                psidAdministrators = NULL;
-    EXPLICIT_ACCESS     ea[4];
+    PSID                psidEveryone = NULL;
+    EXPLICIT_ACCESS     ea[5];
+    ULONG               ulEntries = 4;
     tstring             strBOINCAdminsGroupAlias;
     tstring             strBOINCUsersGroupAlias;
     tstring             strBOINCProjectsGroupAlias;
     tstring             strBOINCDataDirectory;
     tstring             strBOINCDataSlotsDirectory;
+    tstring             strEnableUseByAllUsers;
     UINT                uiReturnValue = -1;
 
     SID_IDENTIFIER_AUTHORITY SIDAuthNT = SECURITY_NT_AUTHORITY;
+    SID_IDENTIFIER_AUTHORITY SIDAuthWorld = SECURITY_WORLD_SID_AUTHORITY;
 
     uiReturnValue = GetProperty( _T("BOINC_ADMINS_GROUPNAME"), strBOINCAdminsGroupAlias );
     if ( uiReturnValue ) return uiReturnValue;
@@ -86,22 +90,34 @@ UINT CASetPermissionBOINCDataSlots::OnExecution()
     uiReturnValue = GetProperty( _T("DATADIR"), strBOINCDataDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
+    uiReturnValue = GetProperty( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
+    if ( uiReturnValue ) return uiReturnValue;
+
 
     strBOINCDataSlotsDirectory = strBOINCDataDirectory + _T("\\slots");
 
 
     // Initialize an EXPLICIT_ACCESS structure for all ACEs.
-    ZeroMemory(&ea, 4 * sizeof(EXPLICIT_ACCESS));
+    ZeroMemory(&ea, 5 * sizeof(EXPLICIT_ACCESS));
 
     // Administrators
-    AllocateAndInitializeSid(
+    if(!AllocateAndInitializeSid(
         &SIDAuthNT,
         2,
         SECURITY_BUILTIN_DOMAIN_RID,
         DOMAIN_ALIAS_RID_ADMINS,
         0, 0, 0, 0, 0, 0,
-        &psidAdministrators
-    );
+        &psidAdministrators))
+    {
+        LogMessage(
+            INSTALLMESSAGE_ERROR,
+            NULL, 
+            NULL,
+            NULL,
+            GetLastError(),
+            _T("AllocateAndInitializeSid Error for Administrators group")
+        );
+    }
 
     ea[0].grfAccessPermissions = GENERIC_ALL;
     ea[0].grfAccessMode = SET_ACCESS;
@@ -119,7 +135,7 @@ UINT CASetPermissionBOINCDataSlots::OnExecution()
     ea[1].Trustee.ptstrName  = (LPTSTR)strBOINCAdminsGroupAlias.c_str();
 
     // boinc_users
-    ea[2].grfAccessPermissions = GENERIC_READ;
+    ea[2].grfAccessPermissions = GENERIC_READ|GENERIC_EXECUTE;
     ea[2].grfAccessMode = SET_ACCESS;
     ea[2].grfInheritance= SUB_CONTAINERS_AND_OBJECTS_INHERIT;
     ea[2].Trustee.TrusteeForm = TRUSTEE_IS_NAME;
@@ -133,6 +149,36 @@ UINT CASetPermissionBOINCDataSlots::OnExecution()
     ea[3].Trustee.TrusteeForm = TRUSTEE_IS_NAME;
     ea[3].Trustee.TrusteeType = TRUSTEE_IS_GROUP;
     ea[3].Trustee.ptstrName  = (LPTSTR)strBOINCProjectsGroupAlias.c_str();
+
+    // Everyone
+    if (_T("1") == strEnableUseByAllUsers) {
+
+        // Create a well-known SID for the Everyone group.
+        if(!AllocateAndInitializeSid(
+                         &SIDAuthWorld, 1,
+                         SECURITY_WORLD_RID,
+                         0, 0, 0, 0, 0, 0, 0,
+                         &psidEveryone))
+        {
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                GetLastError(),
+                _T("AllocateAndInitializeSid Error for Everyone group")
+            );
+        }
+
+        ulEntries = 5;
+
+        ea[4].grfAccessPermissions = GENERIC_READ|GENERIC_EXECUTE;
+        ea[4].grfAccessMode = SET_ACCESS;
+        ea[4].grfInheritance= SUB_CONTAINERS_AND_OBJECTS_INHERIT;
+        ea[4].Trustee.TrusteeForm = TRUSTEE_IS_SID;
+        ea[4].Trustee.TrusteeType = TRUSTEE_IS_GROUP;
+        ea[4].Trustee.ptstrName  = (LPTSTR)&psidEveryone;
+    }
 
 
     // Create a new ACL that contains the new ACEs.
@@ -181,6 +227,8 @@ UINT CASetPermissionBOINCDataSlots::OnExecution()
         LocalFree(pACL);
     if (psidAdministrators)
         LocalFree(psidAdministrators);
+    if (psidEveryone)
+        LocalFree(psidEveryone);
 
     return ERROR_SUCCESS;
 }

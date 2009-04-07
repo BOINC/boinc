@@ -64,14 +64,18 @@ UINT CASetPermissionBOINC::OnExecution()
     DWORD                   dwRes = 0;
     PACL                    pACL = NULL;
     PACL                    pOldACL = NULL;
+    PSID                    psidEveryone = NULL;
     PSECURITY_DESCRIPTOR    pSD = NULL;
-    EXPLICIT_ACCESS         ea[2];
+    EXPLICIT_ACCESS         ea[3];
+    ULONG                   ulEntries = 2;
     tstring                 strBOINCAdminsGroupAlias;
     tstring                 strBOINCUsersGroupAlias;
     tstring                 strBOINCInstallDirectory;
+    tstring                 strEnableUseByAllUsers;
     UINT                    uiReturnValue = -1;
 
     SID_IDENTIFIER_AUTHORITY SIDAuthNT = SECURITY_NT_AUTHORITY;
+    SID_IDENTIFIER_AUTHORITY SIDAuthWorld = SECURITY_WORLD_SID_AUTHORITY;
 
     uiReturnValue = GetProperty( _T("BOINC_ADMINS_GROUPNAME"), strBOINCAdminsGroupAlias );
     if ( uiReturnValue ) return uiReturnValue;
@@ -82,9 +86,12 @@ UINT CASetPermissionBOINC::OnExecution()
     uiReturnValue = GetProperty( _T("INSTALLDIR"), strBOINCInstallDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
+    uiReturnValue = GetProperty( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
+    if ( uiReturnValue ) return uiReturnValue;
+
 
     // Initialize an EXPLICIT_ACCESS structure for all ACEs.
-    ZeroMemory(&ea, 2 * sizeof(EXPLICIT_ACCESS));
+    ZeroMemory(&ea, 3 * sizeof(EXPLICIT_ACCESS));
 
     // boinc_admins
     ea[0].grfAccessPermissions = GENERIC_ALL;
@@ -101,6 +108,36 @@ UINT CASetPermissionBOINC::OnExecution()
     ea[1].Trustee.TrusteeForm = TRUSTEE_IS_NAME;
     ea[1].Trustee.TrusteeType = TRUSTEE_IS_GROUP;
     ea[1].Trustee.ptstrName  = (LPTSTR)strBOINCUsersGroupAlias.c_str();
+
+    // Everyone
+    if (_T("1") == strEnableUseByAllUsers) {
+
+        // Create a well-known SID for the Everyone group.
+        if(!AllocateAndInitializeSid(
+                         &SIDAuthWorld, 1,
+                         SECURITY_WORLD_RID,
+                         0, 0, 0, 0, 0, 0, 0,
+                         &psidEveryone))
+        {
+            LogMessage(
+                INSTALLMESSAGE_ERROR,
+                NULL, 
+                NULL,
+                NULL,
+                GetLastError(),
+                _T("AllocateAndInitializeSid Error for Everyone group")
+            );
+        }
+
+        ulEntries = 3;
+
+        ea[2].grfAccessPermissions = GENERIC_READ|GENERIC_EXECUTE;
+        ea[2].grfAccessMode = SET_ACCESS;
+        ea[2].grfInheritance= SUB_CONTAINERS_AND_OBJECTS_INHERIT;
+        ea[2].Trustee.TrusteeForm = TRUSTEE_IS_SID;
+        ea[2].Trustee.TrusteeType = TRUSTEE_IS_GROUP;
+        ea[2].Trustee.ptstrName  = (LPTSTR)&psidEveryone;
+    }
 
     // Get the old ACL for the directory
     dwRes = GetNamedSecurityInfo(
@@ -127,7 +164,7 @@ UINT CASetPermissionBOINC::OnExecution()
     }
 
     // Create a new ACL that contains the new ACEs and merges the old.
-    dwRes = SetEntriesInAcl(2, &ea[0], pOldACL, &pACL);
+    dwRes = SetEntriesInAcl(ulEntries, &ea[0], pOldACL, &pACL);
     if (ERROR_SUCCESS != dwRes) 
     {
         LogMessage(
@@ -172,6 +209,8 @@ UINT CASetPermissionBOINC::OnExecution()
         LocalFree(pACL);
     if (pSD)
         LocalFree(pSD);
+    if (psidEveryone)
+        LocalFree(psidEveryone);
 
     return ERROR_SUCCESS;
 }
