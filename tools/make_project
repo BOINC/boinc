@@ -365,7 +365,7 @@ Steps to complete installation:
 
    cat %(httpd_conf_template_filename)s >> /etc/apache/httpd.conf
 
-   (path to httpd.conf varies)
+   (path to httpd.conf varies; try /etc/httpd/)
    Then restart the web server:
 
    /usr/sbin/apache2ctl restart

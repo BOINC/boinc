@@ -3637,3 +3637,16 @@ Rom    7 Apr 2009
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+David  7 Apr 2009
+    - web and client: change the default for "run_gpu_if_user_active"
+        from true to false.
+        Currently running CUDA apps on NVIDIA GPUs causes
+        a significant slowdown in GUI response.
+        
+    html/inc/
+        prefs.inc
+    lib/
+        prefs.cpp
+    tools/
+        make_project
