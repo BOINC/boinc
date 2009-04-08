@@ -85,6 +85,7 @@ bool CProjectListCtrl::Create( wxWindow* parent )
     SetBackgroundColour( wxT("WHITE") );
     SetScrollRate( 0, 25 );
 
+    SetMinSize(wxSize(250,185));
     GetSizer()->Fit(this);
 ////@end CProjectListCtrl creation
     return TRUE;

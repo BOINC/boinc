@@ -3673,3 +3673,9 @@ Eric   7 Apr 2009
     api/
         boinc_api.cpp,h
 
+Charlie 7 Apr 2009
+    MGR: Fix compatibility problem with sizing of all-projects list in Attach 
+        Project Wizard when using wxWidgets 2.8.8 or later.
+
+    clientgui/
+        ProjectListCtrl.cpp
