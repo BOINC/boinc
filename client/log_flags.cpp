@@ -43,21 +43,13 @@ LOG_FLAGS log_flags;
 CONFIG config;
 
 LOG_FLAGS::LOG_FLAGS() {
-
     memset(this, 0, sizeof(LOG_FLAGS));
-
-    defaults();
-}
-
-void LOG_FLAGS::defaults() {
-    memset(this, 0, sizeof(LOG_FLAGS));
-
     // on by default (others are off by default)
     //
     task = true;
     file_xfer = true;
     sched_ops = true;
-} 
+}
 
 // Parse log flag preferences
 //
@@ -160,11 +152,18 @@ void LOG_FLAGS::show() {
     }
 }
 
-CONFIG::CONFIG() {
-    defaults();
+// TODO: show other config options
+//
+void CONFIG::show() {
+    if (config.no_gpus) {
+        msg_printf(NULL, MSG_INFO, "Configured to not use coprocessors");
+    }
+    if (config.no_priority_change) {
+        msg_printf(NULL, MSG_INFO, "Configured to run apps at regular priority");
+    }
 }
 
-void CONFIG::defaults() {
+CONFIG::CONFIG() {
     dont_check_file_sizes = false;
     http_1_0 = false;
     save_stats_days = 30;
@@ -321,9 +320,6 @@ int CONFIG::parse(FILE* f) {
 
 int read_config_file(bool init) {
     FILE* f;
-
-    log_flags.defaults();
-    config.defaults();
 
     if (!init) {
         msg_printf(NULL, MSG_INFO, "Re-reading cc_config.xml");
