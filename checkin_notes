@@ -2344,3 +2344,10 @@ David  7 Apr 2009
         client_state.cpp
         cs_cmdline.cpp
         log_flags.cpp,h
+
+Charlie 7 Apr 2009
+    MGR: Fix compatibility problem with sizing of all-projects list in Attach 
+        Project Wizard when using wxWidgets 2.8.8 or later.
+
+    clientgui/
+        ProjectListCtrl.cpp
