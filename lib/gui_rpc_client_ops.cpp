@@ -363,7 +363,20 @@ RESULT::~RESULT() {
 int RESULT::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</result>")) return 0;
+        if (match_tag(buf, "</result>")) {
+            // if CPU time is nonzero but elapsed time is zero,
+            // we must be talking to an old client.
+            // Set elapsed = CPU
+            // (easier to deal with this here than in the manager)
+            //
+            if (current_cpu_time && !elapsed_time) {
+                elapsed_time = current_cpu_time;
+            }
+            if (final_cpu_time && !final_elapsed_time) {
+                final_elapsed_time = final_cpu_time;
+            }
+            return 0;
+        }
         if (parse_str(buf, "<name>", name)) continue;
         if (parse_str(buf, "<wu_name>", wu_name)) continue;
         if (parse_int(buf, "<version_num>", version_num)) continue;
