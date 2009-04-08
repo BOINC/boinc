@@ -3679,3 +3679,15 @@ Charlie 7 Apr 2009
 
     clientgui/
         ProjectListCtrl.cpp
+
+David  8 Apr 2009
+    - Add "html/ops/purge_profile.php" script to help admins locate
+        and remove spam profiles
+
+    html/
+        inc/
+            email.inc
+        ops/
+            purge_profile.php
+        user/
+            mail_passwd.php

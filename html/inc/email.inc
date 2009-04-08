@@ -34,7 +34,7 @@ if (isset($USE_PHPMAILER)) {
     $USE_PHPMAILER = false;
 }
 
-// Function sends an email, either using PHPMailer or not.
+// send an email, using PHPMailer or not.
 //
 function send_email($user, $subject, $body, $body_html=null) {
     global $USE_PHPMAILER;
@@ -90,7 +90,7 @@ function send_auth_email($user) {
     $x = md5($user->id.$user->authenticator.$now);
     $x = substr($x, 0, 16);
     $subject = PROJECT." account information";
-    $body = "This email was sent in reponse to a request on the ".PROJECT." web site.
+    $body = "This email was sent in response to a request on the ".PROJECT." web site.
 
 To log in to your ".PROJECT." account, visit:
 ".$master_url."login_action.php?id=$user->id&t=$now&h=$x

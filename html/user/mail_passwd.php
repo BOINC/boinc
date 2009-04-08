@@ -61,7 +61,7 @@ if (!$user) {
 			email_sent_message($email_addr);
 		} else {
             page_head("Email failed");
-			echo "Can't send email to $user->email_addr: $retval";
+			echo "Can't send email to $user->email_addr";
 		}
 	}
 }
