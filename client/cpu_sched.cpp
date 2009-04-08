@@ -64,7 +64,9 @@ using std::vector;
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
-bool COPROCS::sufficient_coprocs(COPROCS& needed, bool log_flag, const char* prefix) {
+bool COPROCS::sufficient_coprocs(
+    COPROCS& needed, bool log_flag, const char* prefix
+) {
     for (unsigned int i=0; i<needed.coprocs.size(); i++) {
         COPROC* cp = needed.coprocs[i];
         COPROC* cp2 = lookup(cp->type);

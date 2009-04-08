@@ -2310,3 +2310,11 @@ David  30 Mar 2009
 
     lib/
         gui_rpc_client_ops.cpp
+
+David  1 Apr 2009
+    - client: show project name in "backoff ended" msg
+
+    client/
+        app.cpp
+        cpu_sched.cpp
+        cs_scheduler.cpp
