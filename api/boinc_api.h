@@ -91,6 +91,7 @@ extern void boinc_network_done();
 extern int boinc_is_standalone(void);
 extern void boinc_ops_per_cpu_sec(double fp, double integer);
 extern void boinc_ops_cumulative(double fp, double integer);
+extern void boinc_set_credit_claim(double credit);
 extern int boinc_receive_trickle_down(char* buf, int len);
 extern int boinc_init_options(BOINC_OPTIONS*);
 extern int boinc_get_status(BOINC_STATUS*);

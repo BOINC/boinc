@@ -1230,6 +1230,10 @@ void boinc_ops_cumulative(double fp, double i) {
     intops_cumulative = i;
 }
 
+void boinc_set_credit_claim(double credit) {
+    boinc_ops_cumulative(credit*8.64000e+11,0);
+}
+
 void boinc_need_network() {
     want_network = 1;
     have_network = 0;

@@ -3663,3 +3663,13 @@ David  7 Apr 2009
         client_state.cpp
         cs_cmdline.cpp
         log_flags.cpp,h
+
+Eric   7 Apr 2009
+    - API:  Added new function boinc_set_credit_claim() for use by projects that
+      want to grant approximately fixed credits, but don't want to express them in 
+      terms of FPOPS and IOPS.  This API just calls 
+      boinc_ops_cumulative(N*8.64000e+11,0).
+
+    api/
+        boinc_api.cpp,h
+
