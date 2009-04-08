@@ -436,7 +436,7 @@ function default_prefs_global() {
     $p = null;
     $p->suspend_while_on_batteries = true;
     $p->suspend_if_user_active = false;
-    $p->suspend_gpu_if_user_active = false;
+    $p->suspend_gpu_if_user_active = true;
     $p->idle_time_to_run = 3;
     $p->suspend_if_no_recent_input = 0;
     $p->start_hour = 0;
@@ -978,7 +978,7 @@ function print_prefs_form(
         prefs_form_project($prefs->project_specific, $project_error);
     }
 
-    row2("<br>", "<input type=submit value=\"$submit_value\" name=\"action\">");
+    row2("", "<input type=submit value=\"$submit_value\" name=\"action\">");
     end_table();
     echo "</form>\n";
 }

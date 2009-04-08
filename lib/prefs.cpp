@@ -202,7 +202,7 @@ void WEEK_PREFS::unset(int day) {
 void GLOBAL_PREFS::defaults() {
     run_on_batteries = true;
     run_if_user_active = true;
-    run_gpu_if_user_active = true;
+    run_gpu_if_user_active = false;
     idle_time_to_run = 3;
     suspend_if_no_recent_input = 0;
     cpu_times.clear();
