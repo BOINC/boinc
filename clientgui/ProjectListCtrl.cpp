@@ -79,13 +79,13 @@ bool CProjectListCtrl::Create( wxWindow* parent )
 ////@begin CProjectListCtrl creation
     wxScrolledWindow::Create( parent, wxID_ANY, wxDefaultPosition, wxSize(250,185), wxSUNKEN_BORDER );
     SetExtraStyle( wxWS_EX_BLOCK_EVENTS );
+    SetMinSize(GetSize());
 
     CreateControls();
 
     SetBackgroundColour( wxT("WHITE") );
     SetScrollRate( 0, 25 );
 
-    SetMinSize(wxSize(250,185));
     GetSizer()->Fit(this);
 ////@end CProjectListCtrl creation
     return TRUE;
