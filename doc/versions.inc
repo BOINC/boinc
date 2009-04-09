@@ -244,7 +244,6 @@ $windows = array(
     "versions"=>array(
         $w66,
         $w64,
-        $w6219,
         $w5816,
     )
 );
@@ -256,7 +255,6 @@ $windowsx64 = array(
     "versions"=>array(
         $w66x64,
         $w64x64,
-		$w6219x64,
     )
 );
 
@@ -269,8 +267,6 @@ $mac = array(
         $m66c,
         $m6218,
         $m6218c,
-        $m51045,
-        $m51045c,
     )
 );
 
