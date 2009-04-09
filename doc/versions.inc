@@ -61,6 +61,14 @@ function type_text($type) {
     }
 }
 
+$w66dev= array(
+    "num"=>"6.6.21",
+    "status"=>"Development version",
+    "file"=>"boinc_6.6.21_windows_intelx86.exe",
+    "date"=>"9 Apr 2009",
+    "type"=>"win_new",
+);
+
 $w66= array(
     "num"=>"6.6.20",
     "status"=>"Recommended version",
@@ -74,6 +82,14 @@ $w64= array(
     "status"=>"Older version",
     "file"=>"boinc_6.4.7_windows_intelx86.exe",
     "date"=>"3 Mar 2009",
+    "type"=>"win_new",
+);
+
+$w66x64dev= array(
+    "num"=>"6.6.21",
+    "status"=>"Development version",
+    "file"=>"boinc_6.6.21_windows_x86_64.exe",
+    "date"=>"9 Apr 2009",
     "type"=>"win_new",
 );
 
@@ -101,6 +117,14 @@ $w5816= array(
     "type"=>"win_new",
 );
 
+$m66dev = array(
+    "num"=>"6.6.21",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_6.6.21_macOSX_universal.zip",
+    "date"=>"9 Apr 2009",
+    "type"=>"mac_advanced",
+);
+
 $m66 = array(
     "num"=>"6.6.20",
     "status"=>"Recommended version (standard GUI)",
@@ -115,6 +139,14 @@ $m6218 = array(
     "file"=>"boinc_6.2.18_macOSX_universal.zip",
     "date"=>"18 Aug 2008",
     "type"=>"mac_advanced",
+);
+
+$m66cdev = array(
+    "num"=>"6.6.21",
+    "status"=>"Development version (Unix command-line version)",
+    "file"=>"boinc_6.6.21_universal-apple-darwin.zip",
+    "date"=>"9 Apr 2009",
+    "type"=>"bare_core",
 );
 
 $m66c = array(
@@ -242,6 +274,7 @@ $windows = array(
     "description"=>"98/ME/2000/XP/Vista ",
     "dbname" => "windows_intelx86",
     "versions"=>array(
+        $w66dev,
         $w66,
         $w64,
         $w5816,
@@ -253,6 +286,7 @@ $windowsx64 = array(
     "description"=>"XP/Vista",
     "dbname" => "windows_x86_64",
     "versions"=>array(
+        $w66x64dev,
         $w66x64,
         $w64x64,
     )
@@ -263,6 +297,8 @@ $mac = array(
     "description"=>"Version 10.3.9+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
+        $m66dev,
+        $m66cdev,
         $m66,
         $m66c,
         $m6218,
