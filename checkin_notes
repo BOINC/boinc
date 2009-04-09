@@ -3708,3 +3708,10 @@ Charlie 8 Apr 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 8 Apr 2009
+    - Mac client: fill in command field of PROCINFO struct so <exclusive_app> 
+        log flag works properly on Mac.
+
+    lib/
+        procinfo_mac.cpp
