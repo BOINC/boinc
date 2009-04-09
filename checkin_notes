@@ -3749,3 +3749,10 @@ Rom    9 Apr 2009
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+David  9 Apr 2009
+    - graphics API: add rotation arg to txf_render_string()
+        (from Carl C.)
+
+    api/
+        txf_util.cpp,h

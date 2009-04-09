@@ -34,7 +34,8 @@ extern void txf_render_string(
 	float fscale,                 // scale factor
 	GLfloat * col,                // colour 
 	int i,                        // font index see texfont.h 
-	char * s				  	  // string ptr
+	char * s,				  	  // string ptr
+    float fRotation = 0.0f        // optional rotation angle
 );
 
 #ifdef __cplusplus
