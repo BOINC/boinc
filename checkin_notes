@@ -2352,10 +2352,17 @@ Charlie 7 Apr 2009
     clientgui/
         ProjectListCtrl.cpp
 
-Rom    30 Mar 2009
+Rom    7 Apr 2009
     - Tag for 6.6.21 release, all platforms
       boinc_core_release_6_6_21
 
     /
         configure.ac
         version.h
+
+Charlie 8 Apr 2009
+    - Mac client: fill in command field of PROCINFO struct so <exclusive_app> 
+        log flag works properly on Mac.
+
+    lib/
+        procinfo_mac.cpp
