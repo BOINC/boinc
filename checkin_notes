@@ -3691,3 +3691,11 @@ David  8 Apr 2009
             purge_profile.php
         user/
             mail_passwd.php
+
+David  8 Apr 2009
+    - client: back out res_init() change; it didn't work
+
+    client/
+        http_curl.cpp
+    lib/
+        network.cpp.h

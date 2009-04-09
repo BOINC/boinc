@@ -1038,7 +1038,6 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
         strcpy(error_msg, curl_easy_strerror(CurlResult));
         switch(CurlResult) {
         case CURLE_COULDNT_RESOLVE_HOST:
-            reset_dns();
             http_op_retval = ERR_GETHOSTBYNAME;
             break;
         case CURLE_COULDNT_CONNECT:

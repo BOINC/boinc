@@ -202,9 +202,4 @@ int WinsockCleanup() {
 
 #endif
 
-void reset_dns() {
-#ifndef _WIN32
-    res_init();
-#endif
-}
 const char *BOINC_RCSID_557bf0741f="$Id$";
