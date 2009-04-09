@@ -63,7 +63,7 @@ function type_text($type) {
 
 $w66= array(
     "num"=>"6.6.20",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_6.6.20_windows_intelx86.exe",
     "date"=>"30 Mar 2009",
     "type"=>"win_new",
@@ -71,23 +71,15 @@ $w66= array(
 
 $w64= array(
     "num"=>"6.4.7",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_6.4.7_windows_intelx86.exe",
     "date"=>"3 Mar 2009",
     "type"=>"win_new",
 );
 
-$w6219= array(
-    "num"=>"6.2.19",
-    "status"=>"Older version",
-    "file"=>"boinc_6.2.19_windows_intelx86.exe",
-    "date"=>"22 Sep 2008",
-    "type"=>"win_new",
-);
-
 $w66x64= array(
     "num"=>"6.6.20",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_6.6.20_windows_x86_64.exe",
     "date"=>"30 Mar 2009",
     "type"=>"win_new",
@@ -95,17 +87,9 @@ $w66x64= array(
 
 $w64x64= array(
     "num"=>"6.4.7",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_6.4.7_windows_x86_64.exe",
     "date"=>"3 Mar 2009",
-    "type"=>"win_new",
-);
-
-$w6219x64= array(
-    "num"=>"6.2.19",
-    "status"=>"Older version",
-    "file"=>"boinc_6.2.19_windows_x86_64.exe",
-    "date"=>"22 Sep 2008",
     "type"=>"win_new",
 );
 
@@ -119,7 +103,7 @@ $w5816= array(
 
 $m66 = array(
     "num"=>"6.6.20",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_6.6.20_macOSX_universal.zip",
     "date"=>"30 Mar 2009",
     "type"=>"mac_advanced",
@@ -127,23 +111,15 @@ $m66 = array(
 
 $m6218 = array(
     "num"=>"6.2.18",
-    "status"=>"Recommended version (standard GUI)",
+    "status"=>"Older version (standard GUI)",
     "file"=>"boinc_6.2.18_macOSX_universal.zip",
     "date"=>"18 Aug 2008",
     "type"=>"mac_advanced",
 );
 
-$m51045 = array(
-    "num"=>"5.10.45",
-    "status"=>"Older version (standard GUI)",
-    "file"=>"boinc_5.10.45_macOSX_universal.zip",
-    "date"=>"5 Mar 2008",
-    "type"=>"mac_advanced",
-);
-
 $m66c = array(
     "num"=>"6.6.20",
-    "status"=>"Development version (Unix command-line version)",
+    "status"=>"Recommended version (Unix command-line version)",
     "file"=>"boinc_6.6.20_universal-apple-darwin.zip",
     "date"=>"30 Mar 2009",
     "type"=>"bare_core",
@@ -151,17 +127,9 @@ $m66c = array(
 
 $m6218c = array(
     "num"=>"6.2.18",
-    "status"=>"Recommended version (Unix command-line version)",
+    "status"=>"Older version (Unix command-line version)",
     "file"=>"boinc_6.2.18_universal-apple-darwin.zip",
     "date"=>"18 Aug 2008",
-    "type"=>"bare_core",
-);
-
-$m51045c = array(
-    "num"=>"5.10.45",
-    "status"=>"Older version (Unix command-line version)",
-    "file"=>"boinc_5.10.45_universal-apple-darwin.zip",
-    "date"=>"5 Mar 2008",
     "type"=>"bare_core",
 );
 
