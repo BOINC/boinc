@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("April 9, 2009",
+    "BOINC 6.6 has been released to public for Windows and
+    MacOS X.  Please visit the <a href=http://boinc.berkeley.edu/download.php>download</a> page and upgrade today."
+),
 array("April 6, 2009",
     "Check out <a href=http://boinc.starwars-holonet.com/>a new
     French-language web site</a> about volunteer computing."
