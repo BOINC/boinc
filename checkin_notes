@@ -3699,3 +3699,12 @@ David  8 Apr 2009
         http_curl.cpp
     lib/
         network.cpp.h
+
+Charlie 8 Apr 2009
+    - Mac MGR: build with wxWidgets 2.8.10.
+    - Mac: Remove -lresolv from XCode linker flags for client, manager, 
+        ss_app, screensaver and boinccmd since res_init() call is removed.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

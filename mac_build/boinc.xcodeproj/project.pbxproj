@@ -44,6 +44,7 @@
 		DD130E740820C422001A0291 /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */; };
 		DD130F320820C47C001A0291 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DD130F340820C4C4001A0291 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		DD1682B10F8DC6D90096D714 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
 		DD16BF7C099D6C90003E4B69 /* cpu_sched.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD16BF7B099D6C90003E4B69 /* cpu_sched.cpp */; };
 		DD1AFEAC0A512D8700EE5B82 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD1AFEAD0A512D8700EE5B82 /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
@@ -999,6 +1000,7 @@
 				DD63F7510B64EECE0053037F /* libwx_mac_static.a in Frameworks */,
 				DDA546610D16964E008CC69A /* QuickTime.framework in Frameworks */,
 				DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */,
+				DD1682B10F8DC6D90096D714 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2903,8 +2905,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.7/src/build/include/",
-					"../../wxMac-2.8.7/include",
+					"../../wxMac-2.8.10/src/build/include/",
+					"../../wxMac-2.8.10/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -2912,7 +2914,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.10/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -2936,7 +2938,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -2956,8 +2957,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.7/src/build/include/",
-					"../../wxMac-2.8.7/include",
+					"../../wxMac-2.8.10/src/build/include/",
+					"../../wxMac-2.8.10/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -2965,7 +2966,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.10/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
@@ -2989,7 +2990,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3009,8 +3009,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.7/src/build/include/",
-					"../../wxMac-2.8.7/include",
+					"../../wxMac-2.8.10/src/build/include/",
+					"../../wxMac-2.8.10/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -3018,7 +3018,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.10/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3042,7 +3042,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3062,8 +3061,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.7/src/build/include/",
-					"../../wxMac-2.8.7/include",
+					"../../wxMac-2.8.10/src/build/include/",
+					"../../wxMac-2.8.10/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -3071,7 +3070,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.10/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3096,7 +3095,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3234,7 +3232,6 @@
 			buildSettings = {
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
-					"-lresolv",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -3250,7 +3247,6 @@
 			buildSettings = {
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
-					"-lresolv",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -3275,7 +3271,6 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
-					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -3301,7 +3296,6 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
-					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -3386,10 +3380,7 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = (
-					"-lboinc",
-					"-lresolv",
-				);
+				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
 			name = Dev_noSandbox;
@@ -3399,10 +3390,7 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = (
-					"-lboinc",
-					"-lresolv",
-				);
+				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
 			name = Deploy_noSandbox;
@@ -3552,8 +3540,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.7/src/build/include/",
-					"../../wxMac-2.8.7/include",
+					"../../wxMac-2.8.10/src/build/include/",
+					"../../wxMac-2.8.10/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -3561,7 +3549,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.10/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3584,7 +3572,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3604,8 +3591,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.7/src/build/include/",
-					"../../wxMac-2.8.7/include",
+					"../../wxMac-2.8.10/src/build/include/",
+					"../../wxMac-2.8.10/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -3613,7 +3600,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.10/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3636,7 +3623,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3774,7 +3760,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
-				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = Development;
@@ -3787,7 +3772,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
-				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = Dev_noSandbox;
@@ -3800,7 +3784,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
-				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = ppc_Deployment;
@@ -3813,7 +3796,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
-				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = i386_Deployment;
@@ -3826,7 +3808,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
-				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = Deployment;
@@ -3839,7 +3820,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
-				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = "Deployment-no64";
@@ -3852,7 +3832,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
-				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = Deploy_noSandbox;
@@ -3934,7 +3913,6 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
-					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -3947,10 +3925,7 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = (
-					"-lboinc",
-					"-lresolv",
-				);
+				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
 			name = "Deployment-no64";
@@ -4007,7 +3982,6 @@
 			buildSettings = {
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
-					"-lresolv",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -4097,8 +4071,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxMac-2.8.7/src/build/include/",
-					"../../wxMac-2.8.7/include",
+					"../../wxMac-2.8.10/src/build/include/",
+					"../../wxMac-2.8.10/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
@@ -4106,7 +4080,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
 				);
-				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.7/src/build/Deployment/\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"../../wxMac-2.8.10/src/build/Deployment/\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"../lib\"";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -4130,7 +4104,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -4239,7 +4212,6 @@
 			buildSettings = {
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
-					"-lresolv",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -4277,7 +4249,6 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
-					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -4336,10 +4307,7 @@
 					../clientgui/mac/config.h,
 				);
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_LDFLAGS = (
-					"-lboinc",
-					"-lresolv",
-				);
+				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
 			name = Deployment;
@@ -4467,7 +4435,6 @@
 			buildSettings = {
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
-					"-lresolv",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -4483,7 +4450,6 @@
 			buildSettings = {
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
-					"-lresolv",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -4509,7 +4475,6 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
-					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -4532,7 +4497,6 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
-					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -4619,10 +4583,7 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = (
-					"-lboinc",
-					"-lresolv",
-				);
+				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
 			name = Development;
@@ -4632,10 +4593,7 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = (
-					"-lboinc",
-					"-lresolv",
-				);
+				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
 			name = ppc_Deployment;
@@ -4800,7 +4758,6 @@
 			buildSettings = {
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
-					"-lresolv",
 					"-framework",
 					Foundation,
 					"-framework",
@@ -4826,7 +4783,6 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
-					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -4876,10 +4832,7 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = (
-					"-lboinc",
-					"-lresolv",
-				);
+				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
 			name = i386_Deployment;
