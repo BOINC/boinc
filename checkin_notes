@@ -3733,3 +3733,19 @@ David  9 Apr 2009
 
 	clientgui/
 		DlgItemProperties.cpp
+
+Rom    9 Apr 2009
+    - WINSETUP 'Everyone' is not just a group, it is a well known
+        group.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CASetPermissionBOINC.cpp
+        CASetPermissionBOINCData.cpp
+        CASetPermissionBOINCDataProjects.cpp
+        CASetPermissionBOINCDataSlots.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll

@@ -106,6 +106,14 @@ UINT CASetPermissionBOINCData::OnExecution()
         &psidAdministrators))
     {
         LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            GetLastError(),
+            _T("AllocateAndInitializeSid Error for Administrators group")
+        );
+        LogMessage(
             INSTALLMESSAGE_ERROR,
             NULL, 
             NULL,
@@ -154,8 +162,17 @@ UINT CASetPermissionBOINCData::OnExecution()
                          &SIDAuthWorld, 1,
                          SECURITY_WORLD_RID,
                          0, 0, 0, 0, 0, 0, 0,
-                         &psidEveryone))
+                         &psidEveryone
+          ))
         {
+            LogMessage(
+                INSTALLMESSAGE_INFO,
+                NULL, 
+                NULL,
+                NULL,
+                GetLastError(),
+                _T("AllocateAndInitializeSid Error for Everyone group")
+            );
             LogMessage(
                 INSTALLMESSAGE_ERROR,
                 NULL, 
@@ -172,14 +189,22 @@ UINT CASetPermissionBOINCData::OnExecution()
         ea[4].grfAccessMode = SET_ACCESS;
         ea[4].grfInheritance= SUB_CONTAINERS_AND_OBJECTS_INHERIT;
         ea[4].Trustee.TrusteeForm = TRUSTEE_IS_SID;
-        ea[4].Trustee.TrusteeType = TRUSTEE_IS_GROUP;
-        ea[4].Trustee.ptstrName  = (LPTSTR)&psidEveryone;
+        ea[4].Trustee.TrusteeType = TRUSTEE_IS_WELL_KNOWN_GROUP;
+        ea[4].Trustee.ptstrName  = (LPTSTR)psidEveryone;
     }
 
     // Create a new ACL that contains the new ACEs.
     dwRes = SetEntriesInAcl(ulEntries, &ea[0], NULL, &pACL);
     if (ERROR_SUCCESS != dwRes) 
     {
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            GetLastError(),
+            _T("SetEntriesInAcl Error")
+        );
         LogMessage(
             INSTALLMESSAGE_ERROR,
             NULL, 
@@ -204,6 +229,14 @@ UINT CASetPermissionBOINCData::OnExecution()
     if (ERROR_SUCCESS != dwRes) 
     {
         LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            GetLastError(),
+            _T("SetNamedSecurityInfo Error")
+        );
+        LogMessage(
             INSTALLMESSAGE_ERROR,
             NULL, 
             NULL,
@@ -221,9 +254,9 @@ UINT CASetPermissionBOINCData::OnExecution()
     if (pACL) 
         LocalFree(pACL);
     if (psidAdministrators)
-        LocalFree(psidAdministrators);
+        FreeSid(psidAdministrators);
     if (psidEveryone)
-        LocalFree(psidEveryone);
+        FreeSid(psidEveryone);
 
     return ERROR_SUCCESS;
 }
