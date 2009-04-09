@@ -146,6 +146,7 @@ public:
     vector<PROJECT*> projects;
     vector<WORKUNIT*> workunits;
     vector<RESULT*> results;
+    vector<APP_VERSION*> app_versions;
     vector<APP*> apps;
     ACTIVE_TASK_SET active_tasks;
     GLOBAL_PREFS global_prefs;
