@@ -3727,3 +3727,9 @@ David  9 Apr 2009
     client/
         client_types.h
         cpu_sched.cpp
+
+David  9 Apr 2009
+	- manager: show execution directory in task properties
+
+	clientgui/
+		DlgItemProperties.cpp
