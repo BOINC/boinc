@@ -54,6 +54,7 @@ void txf_load_fonts(char* dir) {
     }	
 }
 
+
 void txf_render_string(
 	float alpha_value,
         // reference value to which incoming alpha values are compared.
@@ -63,7 +64,10 @@ void txf_render_string(
 	GLfloat * col,                // colour 
 	int i,                        // font index see texfont.h 
 	char * s,				  	  // string ptr
-	float fRotation                  // optional rotation angle in degrees
+	float fRotAngle,        // optional rotation angle
+	float fRotX,            // optional rotation vector for X
+	float fRotY,            // optional rotation vector for Y
+	float fRotZ            // optional rotation vector for Z
 ){
 	glPushMatrix();
 	glEnable(GL_TEXTURE_2D);
@@ -72,8 +76,8 @@ void txf_render_string(
 	    glTranslated(x, y, z);
 	    glScalef(1/fscale, 1/fscale, 1/fscale);
 
-		if (fRotation != 0.0f) { // we want to rotate around Z, which keeps our text in 2D plane
-		   glRotatef(fRotation, 0.0f, 0.0f, 1.0f);
+		if (fRotAngle != 0.0f) { // we want to rotate around Z y default, which keeps our text in 2D plane
+		   glRotatef(fRotAngle, fRotX, fRotY, fRotZ);
 		}
 	    glEnable(GL_ALPHA_TEST);
 	    // use .1 and .5 for a dark and bright background respectively
@@ -86,6 +90,7 @@ void txf_render_string(
 	glDisable(GL_TEXTURE_2D);	
 	glPopMatrix();
 }
+
 
 #if 0
 int main (){
