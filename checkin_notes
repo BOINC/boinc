@@ -2366,3 +2366,20 @@ Charlie 9 Apr 2009
 
     lib/
         procinfo_mac.cpp
+
+Rom    10 Apr 2009
+    - WINSETUP: Be sure to define INSTALLDIR if it isn't already
+        defined by the system or the transform.  DATADIR was
+        already being handled.
+    - WINSETUP: Save setup state at the end of the execution phase
+        as well as the end of the UI phase.
+        
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
