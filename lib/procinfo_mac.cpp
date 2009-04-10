@@ -97,9 +97,10 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 
     while (1) {
         memset(&p, 0, sizeof(p));
-        c = fscanf(fd, "%d%d%d%d%ld%d:%lf %[^\n]", &p.id, &p.parentid, &real_mem, 
-                    &virtual_mem, &p.page_fault_count, &hours, &p.user_time, p.command);
+        c = fscanf(fd, "%d%d%d%d%ld%d:%lf ", &p.id, &p.parentid, &real_mem, 
+                    &virtual_mem, &p.page_fault_count, &hours, &p.user_time);
         if (c < 7) break;
+        if (fgets(p.command, sizeof(p.command) , fd) == NULL) break;
         p.working_set_size = (double)real_mem * 1024.;
         p.swap_size = (double)virtual_mem * 1024.;
         p.user_time += 60. * (float)hours;
