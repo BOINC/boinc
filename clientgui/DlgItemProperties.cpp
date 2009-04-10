@@ -182,7 +182,7 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
 		addProperty(_("Virtual memory size"), FormatDiskSpace(result->swap_size));
 		addProperty(_("Working set size"), FormatDiskSpace(result->working_set_size_smoothed));
         if (result->slot >= 0) {
-            addProperty(_("Slot"), result->slot);
+            addProperty(_("Slot"), wxString::Format(wxT("%d"), result->slot));
         }
 	} else if (result->state >= RESULT_COMPUTE_ERROR) {
 		addProperty(_("CPU time"), FormatTime(result->final_cpu_time));
