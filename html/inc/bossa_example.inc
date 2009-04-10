@@ -73,7 +73,4 @@ function instance_summary($inst) {
     }
 }
 
-function show_user_summary($user) {
-}
-
 ?>

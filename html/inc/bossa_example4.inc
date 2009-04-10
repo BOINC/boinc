@@ -104,9 +104,6 @@ function instance_summary($opaque_data) {
     return $x;
 }
 
-function show_user_summary($user) {
-}
-
 function show_style() {
     echo "
         <style type=\"text/css\">

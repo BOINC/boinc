@@ -284,7 +284,6 @@ $user = get_logged_in_user();
 $db = BossaDb::get();
 if (!$db) error_page("Can't connect to database server");
 
-if (0) {
 if (!$db->table_exists('bossa_app')) {
     admin_page_head("Create Bossa database");
     $db_name = $db->db_name;
@@ -293,12 +292,12 @@ if (!$db->table_exists('bossa_app')) {
         To create them, go to ~/boinc/db and type
         <pre>
 mysql $db_name < bossa_schema.sql
+mysql $db_name < bossa_constraints.sql
 </pre>
     Then <a href=bossa_admin.php>reload this page</a>.
     ";
     admin_page_tail();
     exit;
-}
 }
 
 BossaUser::lookup($user);
@@ -320,7 +319,9 @@ case 'add_app':
         $courseid = 0;
     }
     $time_estimate = get_str('time_estimate');
+    if (!$time_estimate) $time_estimate = 60;
     $time_limit = get_str('time_limit');
+    if (!$time_limit) $time_limit = 3600;
     $calibration_frac = get_str('calibration_frac' , true);
     if (!$calibration_frac) $calibration_frac = 0;
     $now = time();
