@@ -2383,3 +2383,11 @@ Rom    10 Apr 2009
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rom    10 Apr 2009
+    - Tag for 6.6.22 release, all platforms
+      boinc_core_release_6_6_22
+
+    /
+        configure.ac
+        version.h
