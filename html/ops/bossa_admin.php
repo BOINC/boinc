@@ -223,7 +223,7 @@ function job_show_insts($job_id) {
 
 function calibration_job_string($inst, $job) {
     if ($inst->calibration) {
-        $i = $job->get_info();
+        $i = $job->get_opaque_data();
         return "yes: ".instance_summary($i->answer);
     } else {
         return "no";
@@ -250,7 +250,7 @@ function show_bossa_user() {
             calibration_job_string($inst, $job),
             time_str($inst->create_time),
             job_duration($inst),
-            instance_summary($inst->get_info())
+            instance_summary($inst->get_opaque_data())
         );
     }
     end_table();
@@ -273,6 +273,10 @@ function clear_batch($batch_id) {
     admin_page_head("Deleting instances");
     if (BossaJobInst::delete_aux("batch_id=$batch_id")) {
         echo "Job instances deleted.";
+        $jobs = BossaJob::enum("batch_id=$batch_id");
+        foreach ($jobs as $job) {
+            $job->update("priority_0=1");
+        }
     } else {
         echo "Database error.";
     }

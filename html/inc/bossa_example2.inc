@@ -122,8 +122,7 @@ function show_job_summary($job) {
     return "<a href=".URL_BASE."$info->path>View image</a>";
 }
 
-function show_instance_summary($inst) {
-    $info = $inst->get_opaque_data();
+function instance_summary($info) {
     if ($info->have_ellipse) {
         return "ellipse ($info->cx, $info->cy)";
     } else {
