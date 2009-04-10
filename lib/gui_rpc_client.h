@@ -221,6 +221,7 @@ public:
     bool active_task;
     int active_task_state;
     int app_version_num;
+    int slot;
     double checkpoint_cpu_time;
     double current_cpu_time;
     double fraction_done;
@@ -236,6 +237,7 @@ public:
     bool edf_scheduled;
     std::string graphics_exec_path;
     std::string slot_path;
+        // only present if graphics_exec_path is
     std::string resources;
 
     APP* app;
