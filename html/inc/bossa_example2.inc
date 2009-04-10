@@ -130,3 +130,7 @@ function show_instance_summary($inst) {
         return "no ellipse";
     }
 }
+
+function user_summary($user) {
+    return "";
+}

@@ -73,4 +73,8 @@ function instance_summary($inst) {
     }
 }
 
+function user_summary($user) {
+    return "";
+}
+
 ?>
