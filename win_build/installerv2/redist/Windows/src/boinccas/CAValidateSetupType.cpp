@@ -63,6 +63,7 @@ UINT CAValidateSetupType::OnExecution()
     tstring strSetupType;
     tstring strAllUsers;
     tstring strIsAdminPackage;
+    tstring strInstallDirectory;
     tstring strDataDirectory;
     UINT    uiReturnValue = 0;
 
@@ -109,6 +110,30 @@ UINT CAValidateSetupType::OnExecution()
                 return ERROR_INSTALL_FAILURE;
             }
         }
+    }
+
+
+    // If the Install Directory entry is empty then that means we need
+    //   to populate it with the default value.
+    GetProperty( _T("INSTALLDIR"), strInstallDirectory );
+    if (strInstallDirectory.empty()) {
+        tstring strVersionNT64;
+        tstring strProgramFilesFolder;
+        tstring strProgramFiles64Folder;
+
+        // MSI already has this figured out, so lets get it.
+        GetProperty( _T("VersionNT64"), strVersionNT64 );
+        GetProperty( _T("ProgramFilesFolder"), strProgramFilesFolder );
+        GetProperty( _T("ProgramFiles64Folder"), strProgramFiles64Folder );
+
+        // Construct the default value
+        if (strVersionNT64.empty()) {
+            strInstallDirectory = strProgramFilesFolder + _T("BOINC\\");
+        } else {
+            strInstallDirectory = strProgramFiles64Folder + _T("BOINC\\");
+        }
+
+        SetProperty( _T("INSTALLDIR"), strInstallDirectory );
     }
 
 
