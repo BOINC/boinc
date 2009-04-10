@@ -250,7 +250,26 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
     return rp;
 }
 
-// Return earliest-deadline result from a project with deadlines_missed>0
+// return coproc jobs in FIFO order
+//
+RESULT* first_coproc_result() {
+    unsigned int i;
+    for (i=0; i<gstate.results.size(); i++) {
+        RESULT* rp = gstate.results[i];
+        if (!rp->runnable()) continue;
+        if (rp->project->non_cpu_intensive) continue;
+        if (rp->already_selected) continue;
+        if (!rp->uses_coprocs()) continue;
+        return rp;
+    }
+    return NULL;
+}
+
+// Return earliest-deadline result.
+// if coproc_only:
+//   return only coproc jobs, and only if job is projected to miss deadline.
+// otherwise:
+//   return only CPU jobs, and only from a project with deadlines_missed>0
 //
 RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
     RESULT *best_result = NULL;
@@ -264,10 +283,12 @@ RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
         if (rp->already_selected) continue;
         if (coproc_only) {
             if (!rp->uses_coprocs()) continue;
+            if (!rp->rr_sim_misses_deadline) continue;
         } else {
             if (rp->uses_coprocs()) continue;
             // treat projects with DCF>90 as if they had deadline misses
-            if (!rp->project->deadlines_missed && rp->project->duration_correction_factor < 90.0) continue;
+            //
+            if (!rp->project->cpu_pwf.deadlines_missed_copy && rp->project->duration_correction_factor < 90.0) continue;
         }
 
         bool new_best = false;
@@ -594,7 +615,7 @@ void CLIENT_STATE::schedule_cpus() {
         p = projects[i];
         p->next_runnable_result = NULL;
         p->anticipated_debt = p->short_term_debt;
-        p->deadlines_missed = p->rr_sim_status.deadlines_missed;
+        p->cpu_pwf.deadlines_missed_copy = p->cpu_pwf.deadlines_missed;
     }
     for (i=0; i<app_versions.size(); i++) {
         app_versions[i]->max_working_set_size = 0;
@@ -612,7 +633,7 @@ void CLIENT_STATE::schedule_cpus() {
     expected_payoff = global_prefs.cpu_scheduling_period();
     ordered_scheduled_results.clear();
 
-    // choose coproc jobs in deadline order until all coprocs are full
+    // choose missed-deadline coproc jobs in deadline order
     //
     while (!proc_rsc.stop_scan_coproc()) {
         rp = earliest_deadline_result(true);
@@ -620,11 +641,27 @@ void CLIENT_STATE::schedule_cpus() {
         rp->already_selected = true;
         if (!proc_rsc.can_schedule(rp)) continue;
 		atp = lookup_active_task_by_result(rp);
-        if (!schedule_if_possible(rp, atp, proc_rsc, rrs, expected_payoff)) continue;
+        if (!schedule_if_possible(rp, atp, proc_rsc, rrs, expected_payoff)) {
+            continue;
+        }
         ordered_scheduled_results.push_back(rp);
     }
 
-    // choose CPU jobs from projects with P.deadlines_missed>0
+    // then coproc jobs in FIFO order
+    //
+    while (!proc_rsc.stop_scan_coproc()) {
+        rp = first_coproc_result();
+        if (!rp) break;
+        rp->already_selected = true;
+        if (!proc_rsc.can_schedule(rp)) continue;
+		atp = lookup_active_task_by_result(rp);
+        if (!schedule_if_possible(rp, atp, proc_rsc, rrs, expected_payoff)) {
+            continue;
+        }
+        ordered_scheduled_results.push_back(rp);
+    }
+
+    // choose CPU jobs from projects with CPU deadline misses
     //
 #ifdef SIM
     if (!cpu_sched_rr_only) {
@@ -636,7 +673,7 @@ void CLIENT_STATE::schedule_cpus() {
         if (!proc_rsc.can_schedule(rp)) continue;
 		atp = lookup_active_task_by_result(rp);
         if (!schedule_if_possible(rp, atp, proc_rsc, rrs, expected_payoff)) continue;
-        rp->project->deadlines_missed--;
+        rp->project->cpu_pwf.deadlines_missed_copy--;
         rp->edf_scheduled = true;
         ordered_scheduled_results.push_back(rp);
     }
@@ -669,9 +706,9 @@ static inline bool in_ordered_scheduled_results(ACTIVE_TASK* atp) {
 // return true if t1 is more preemptable than t0
 //
 static inline bool more_preemptable(ACTIVE_TASK* t0, ACTIVE_TASK* t1) {
-    if (t0->result->project->deadlines_missed && !t1->result->project->deadlines_missed) return true;
-    if (!t0->result->project->deadlines_missed && t1->result->project->deadlines_missed) return false;
-    if (t0->result->project->deadlines_missed && t1->result->project->deadlines_missed) {
+    if (t0->result->project->cpu_pwf.deadlines_missed && !t1->result->project->cpu_pwf.deadlines_missed) return true;
+    if (!t0->result->project->cpu_pwf.deadlines_missed && t1->result->project->cpu_pwf.deadlines_missed) return false;
+    if (t0->result->project->cpu_pwf.deadlines_missed && t1->result->project->cpu_pwf.deadlines_missed) {
         if (t0->result->report_deadline < t1->result->report_deadline) return true;
         if (t0->result->report_deadline > t1->result->report_deadline) return false;
         return (t0 < t1);
@@ -709,9 +746,9 @@ void CLIENT_STATE::make_preemptable_task_list(
 		atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         preemptable_tasks.push_back(atp);
 #if 0
-		msg_printf(0, MSG_INFO, "%s: misses %d deadline %f finished %d ptr %x",
+		msg_printf(0, MSG_INFO, "%s: CPU misses %d deadline %f finished %d ptr %x",
 			atp->result->name,
-			atp->result->project->deadlines_missed,
+			atp->result->project->cpu_pwf.deadlines_missed,
 			atp->result->report_deadline,
 			finished_time_slice(atp), atp
 		);
@@ -784,7 +821,7 @@ bool CLIENT_STATE::enforce_schedule() {
     // set temporary variables
     //
     for (i=0; i<projects.size(); i++){
-        projects[i]->deadlines_missed = projects[i]->rr_sim_status.deadlines_missed;
+        projects[i]->cpu_pwf.deadlines_missed_copy = projects[i]->cpu_pwf.deadlines_missed;
     }
 
     // Set next_scheduler_state to preempt
@@ -858,9 +895,9 @@ bool CLIENT_STATE::enforce_schedule() {
             // 2) the scheduled result is in deadline trouble
             //
             preempt_atp = preemptable_tasks.back();
-            if (rp->project->deadlines_missed || finished_time_slice(preempt_atp)) {
-                if (rp->project->deadlines_missed) {
-                    rp->project->deadlines_missed--;
+            if (rp->project->cpu_pwf.deadlines_missed_copy || finished_time_slice(preempt_atp)) {
+                if (rp->project->cpu_pwf.deadlines_missed_copy) {
+                    rp->project->cpu_pwf.deadlines_missed_copy--;
                 }
                 preempt_atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
                 ncpus_used -= preempt_atp->app_version->avg_ncpus;

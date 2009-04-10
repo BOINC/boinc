@@ -205,7 +205,6 @@ int PROJECT::parse(MIOFILE& in) {
         if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
         if (parse_bool(buf, "master_url_fetch_pending", master_url_fetch_pending)) continue;
         if (parse_int(buf, "<sched_rpc_pending>", sched_rpc_pending)) continue;
-        if (parse_int(buf, "<rr_sim_deadlines_missed>", rr_sim_deadlines_missed)) continue;
         if (parse_bool(buf, "non_cpu_intensive", non_cpu_intensive)) continue;
         if (parse_bool(buf, "suspended_via_gui", suspended_via_gui)) continue;
         if (parse_bool(buf, "dont_request_more_work", dont_request_more_work)) continue;

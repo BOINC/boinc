@@ -320,9 +320,6 @@ public:
     RR_SIM_PROJECT_STATUS rr_sim_status;
         // temps used in CLIENT_STATE::rr_simulation();
 
-        /// used as scratch by scheduler, enforcer
-    int deadlines_missed;
-
     // "debt" is how much CPU time we owe this project relative to others
 
         /// computed over runnable projects

@@ -117,7 +117,6 @@ void PROJECT::init() {
 
     // Initialize scratch variables.
     rr_sim_status.clear();
-    deadlines_missed = 0;
 }
 
 // parse project fields from client_state.xml
@@ -305,10 +304,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
     if (gui_rpc) {
         out.printf("%s", gui_urls.c_str());
         out.printf(
-		    "    <rr_sim_deadlines_missed>%d</rr_sim_deadlines_missed>\n"
             "    <last_rpc_time>%f</last_rpc_time>\n"
             "    <project_files_downloaded_time>%f</project_files_downloaded_time>\n",
-		    rr_sim_status.deadlines_missed,
             last_rpc_time,
             project_files_downloaded_time
         );
