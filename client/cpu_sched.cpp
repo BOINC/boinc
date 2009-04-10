@@ -937,8 +937,10 @@ bool CLIENT_STATE::enforce_schedule() {
     bool check_swap = (host_info.m_swap != 0);
         // in case couldn't measure swap on this host
 
-    // preempt and start tasks as needed
+    // preempt tasks as needed, and note whether there are any coproc jobs
+    // in QUIT_PENDING state
     //
+    bool coproc_quit_pending = false;
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         if (log_flags.cpu_sched_debug) {
@@ -984,10 +986,28 @@ bool CLIENT_STATE::enforce_schedule() {
             }
             atp->scheduler_state = CPU_SCHED_PREEMPTED;
             break;
+        }
+        if (atp->result->uses_coprocs() && atp->task_state() == PROCESS_QUIT_PENDING) {
+            coproc_quit_pending = true;
+        }
+    }
+
+    bool coproc_start_deferred = false;
+    for (i=0; i<active_tasks.active_tasks.size(); i++) {
+        switch (atp->next_scheduler_state) {
+        atp = active_tasks.active_tasks[i];
         case CPU_SCHED_SCHEDULED:
             switch (atp->task_state()) {
             case PROCESS_UNINITIALIZED:
             case PROCESS_SUSPENDED:
+                // If there's a quit pending for a coproc job,
+                // don't start new ones since they may bomb out
+                // on memory allocation.  Instead, trigger a retry
+                //
+                if (atp->result->uses_coprocs() && coproc_quit_pending) {
+                    coproc_start_deferred = true;
+                    break;
+                }
                 action = true;
                 retval = atp->resume_or_start(
                     atp->scheduler_state == CPU_SCHED_UNINITIALIZED
@@ -1023,6 +1043,14 @@ bool CLIENT_STATE::enforce_schedule() {
     }
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule: end");
+    }
+    if (coproc_start_deferred) {
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(0, MSG_INFO,
+                "[cpu_sched_debug] coproc quit pending, deferring start"
+            );
+        }
+        request_enforce_schedule("coproc quit retry");
     }
     return action;
 }

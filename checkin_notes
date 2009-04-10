@@ -3775,3 +3775,10 @@ Rom    10 Apr 2009
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+David  10 Apr 2009
+    - client: for coproc jobs, don't start a job while a quit is pending.
+        Otherwise the new job may fail on memory allocation.
+
+    client/
+        cpu_sched.cpp
