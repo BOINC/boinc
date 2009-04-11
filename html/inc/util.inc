@@ -371,7 +371,7 @@ function check_tokens($auth) {
 if (!function_exists("print_login_form_aux")){
 function print_login_form_aux($next_url, $user, $email_addr="") {
     echo "
-        <form name=\"f\" method=\"post\" action=\"login_action.php\">
+        <form name=\"f\" method=\"post\" action=\"".URL_BASE."login_action.php\">
         <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
     ";
     start_table();

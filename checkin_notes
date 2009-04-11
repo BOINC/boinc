@@ -3819,3 +3819,10 @@ David  10 Apr 2009
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+Rytis  11 Apr 2009
+    - web: allow login from subdirectories of the site (expects login_form.php
+        to be located in the URL_BASE).
+    
+    html/inc/
+        util.inc
