@@ -3826,3 +3826,12 @@ Rytis  11 Apr 2009
     
     html/inc/
         util.inc
+
+David  12 Apr 2009
+    - client: put back the call to res_init() on lookup failure.
+        Apparently it worked after all.
+
+    client/
+        http_curl.cpp
+    lib/
+        network.cpp,h
