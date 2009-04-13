@@ -2456,3 +2456,11 @@ David  12 Apr 2009
         http_curl.cpp
     lib/
         network.cpp,h
+
+Rom    13 Apr 2009
+    - Tag for 6.6.23 release, all platforms
+      boinc_core_release_6_6_23
+
+    /
+        configure.ac
+        version.h
