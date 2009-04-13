@@ -2436,3 +2436,14 @@ David  10 Apr 2009
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+David  10 Apr 2009
+    - GUI RPC and manager: send slot and show it in task properties
+        rather than slot path
+        (slot_path is defined only for apps with graphics app).
+
+    clientgui/
+        DlgItemProperties.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp

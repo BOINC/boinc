@@ -181,6 +181,9 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
 		addProperty(_("Fraction done"), wxString::Format(wxT("%.3f %%"), result->fraction_done*100));
 		addProperty(_("Virtual memory size"), FormatDiskSpace(result->swap_size));
 		addProperty(_("Working set size"), FormatDiskSpace(result->working_set_size_smoothed));
+        if (result->slot >= 0) {
+            addProperty(_("Slot"), result->slot);
+        }
 	} else if (result->state >= RESULT_COMPUTE_ERROR) {
 		addProperty(_("CPU time"), FormatTime(result->final_cpu_time));
 		addProperty(_("Elapsed time"), FormatTime(result->final_elapsed_time));
@@ -252,7 +255,7 @@ wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
         }
 
         strBuffer.Printf(
-            wxT(" %s %d.%02d %s"), 
+            wxT("%s %d.%02d %s"), 
             strAppBuffer.c_str(),
             state_result->avp->version_num / 100,
             state_result->avp->version_num % 100,
