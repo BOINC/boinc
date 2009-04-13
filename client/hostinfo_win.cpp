@@ -485,7 +485,7 @@ int get_os_information(
                         break;
                 }
 
-                strcat(szSKU, "Editon");
+                strcat(szSKU, "Edition");
 
             } else { // Test for specific product on Windows NT 4.0 SP5 and earlier
 
