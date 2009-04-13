@@ -2403,3 +2403,10 @@ David  9 Apr 2009
     client/
         client_types.h
         cpu_sched.cpp
+
+David  10 Apr 2009
+    - client: for coproc jobs, don't start a job while a quit is pending.
+        Otherwise the new job may fail on memory allocation.
+
+    client/
+        cpu_sched.cpp
