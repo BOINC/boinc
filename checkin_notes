@@ -2391,3 +2391,15 @@ Rom    10 Apr 2009
     /
         configure.ac
         version.h
+
+David  9 Apr 2009
+    - client: for each app version,
+        keep track of the largest WSS of tasks using it.
+        In checking whether tasks fit in RAM,
+        use this as an estimate for tasks that haven't started yet.
+        This avoids a situation where the client starts a lot of
+        tasks in sequence, only to find that each one doesn't fit in RAM.
+
+    client/
+        client_types.h
+        cpu_sched.cpp

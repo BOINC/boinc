@@ -511,7 +511,7 @@ static bool schedule_if_possible(
         if (atp->procinfo.working_set_size_smoothed > proc_rsc.ram_left) {
             if (log_flags.cpu_sched_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[cpu_sched_debug]  %s misses deadline but too large: %.2fMB",
+                    "[cpu_sched_debug]  %s working set too large: %.2fMB",
                     rp->name, atp->procinfo.working_set_size_smoothed/MEGA
                 );
             }
@@ -534,6 +534,16 @@ static bool schedule_if_possible(
             atp->needs_shmem = false;
         }
         proc_rsc.ram_left -= atp->procinfo.working_set_size_smoothed;
+    } else {
+        if (rp->avp->max_working_set_size > proc_rsc.ram_left) {
+            if (log_flags.cpu_sched_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[cpu_sched_debug]  %s projected working set too large: %.2fMB",
+                    rp->name, rp->avp->max_working_set_size/MEGA
+                );
+            }
+            return false;
+        }
     }
     if (log_flags.cpu_sched_debug) {
         msg_printf(rp->project, MSG_INFO,
@@ -586,8 +596,17 @@ void CLIENT_STATE::schedule_cpus() {
         p->anticipated_debt = p->short_term_debt;
         p->deadlines_missed = p->rr_sim_status.deadlines_missed;
     }
+    for (i=0; i<app_versions.size(); i++) {
+        app_versions[i]->max_working_set_size = 0;
+    }
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        active_tasks.active_tasks[i]->too_large = false;
+        atp = active_tasks.active_tasks[i];
+        atp->too_large = false;
+        double w = atp->procinfo.working_set_size_smoothed;
+        APP_VERSION* avp = atp->app_version;
+        if (w > avp->max_working_set_size) {
+            avp->max_working_set_size = w;
+        }
     }
 
     expected_payoff = global_prefs.cpu_scheduling_period();
