@@ -2447,3 +2447,12 @@ David  10 Apr 2009
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+David  12 Apr 2009
+    - client: put back the call to res_init() on lookup failure.
+        Apparently it worked after all.
+
+    client/
+        http_curl.cpp
+    lib/
+        network.cpp,h
