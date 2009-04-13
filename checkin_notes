@@ -2410,3 +2410,29 @@ David  10 Apr 2009
 
     client/
         cpu_sched.cpp
+
+David  10 Apr 2009
+    - client: instead of scheduling coproc jobs EDF:
+        - first schedule jobs projected to miss deadline in EDF order
+        - then schedule remaining jobs in FIFO order
+        This is intended to reduce the number of preemptions of coproc jobs,
+        and hence (since they are always preempted by quit)
+        to reduce the wasted time due to checkpoint gaps.
+    - client: the CPU scheduling policy made use of the number
+        of deadline misses in various places.
+        This should include only the deadline misses of CPU jobs.
+        So move "deadlines_missed" from RR_SIM_STATUS and PROJECT
+        to RSC_PROJECT_WORK_FETCH so that we have separate counts
+        for CPU and coproc jobs, and use the count for CPU jobs.
+    - GUI RPC: removed the rr_sim_deadlines_missed field
+        from project descriptor.
+        This is no longer meaningful, and it didn't seem to be used anywhere.
+
+    client/
+        client_types.cpp,h
+        cpu_sched.cpp
+        rr_sim.cpp,h
+        work_fetch.cpp,h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp

@@ -57,6 +57,9 @@ struct RSC_PROJECT_WORK_FETCH {
         // determines how many instances this project deserves
     bool has_runnable_jobs;
     double sim_nused;
+    int deadlines_missed;
+    int deadlines_missed_copy;
+        // copy of the above used during enforce_schedule()
 
     RSC_PROJECT_WORK_FETCH() {
         memset(this, 0, sizeof(*this));

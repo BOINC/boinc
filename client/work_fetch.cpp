@@ -72,6 +72,7 @@ void RSC_PROJECT_WORK_FETCH::rr_init() {
     fetchable_share = 0;
     has_runnable_jobs = false;
     sim_nused = 0;
+    deadlines_missed = 0;
 }
 
 void RSC_WORK_FETCH::rr_init() {

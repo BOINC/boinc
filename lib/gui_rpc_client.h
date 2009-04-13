@@ -118,7 +118,6 @@ public:
 
     bool master_url_fetch_pending; // need to fetch and parse the master URL
     int sched_rpc_pending;      // need to contact scheduling server
-    int rr_sim_deadlines_missed;
     bool non_cpu_intensive;
     bool suspended_via_gui;
     bool dont_request_more_work;

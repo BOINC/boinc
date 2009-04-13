@@ -25,12 +25,10 @@ struct RR_SIM_PROJECT_STATUS {
     std::vector<RESULT*>active;
         /// CPU jobs runnable but not running yet
     std::vector<RESULT*>pending;
-    int deadlines_missed;
 
     inline void clear() {
         active.clear();
         pending.clear();
-        deadlines_missed = 0;
     }
     void activate(RESULT* rp);
     inline void add_pending(RESULT* rp) {

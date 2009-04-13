@@ -182,10 +182,16 @@ void CLIENT_STATE::print_deadline_misses() {
     }
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
-        if (p->rr_sim_status.deadlines_missed) {
+        if (p->cpu_pwf.deadlines_missed) {
             msg_printf(p, MSG_INFO,
-                "[cpu_sched_debug] Project has %d projected deadline misses",
-                p->rr_sim_status.deadlines_missed
+                "[cpu_sched_debug] Project has %d projected CPU deadline misses",
+                p->cpu_pwf.deadlines_missed
+            );
+        }
+        if (p->cuda_pwf.deadlines_missed) {
+            msg_printf(p, MSG_INFO,
+                "[cpu_sched_debug] Project has %d projected NVIDIA GPU deadline misses",
+                p->cuda_pwf.deadlines_missed
             );
         }
     }
@@ -304,10 +310,11 @@ void CLIENT_STATE::rr_simulation() {
                 }
             } else {
                 rpbest->rr_sim_misses_deadline = true;
-                pbest->rr_sim_status.deadlines_missed++;
                 if (rpbest->uses_cuda()) {
+                    pbest->cuda_pwf.deadlines_missed++;
                     cuda_work_fetch.deadline_missed_instances += rpbest->avp->ncudas;
                 } else {
+                    pbest->cpu_pwf.deadlines_missed++;
                     cpu_work_fetch.deadline_missed_instances += rpbest->avp->avg_ncpus;
                 }
                 if (log_flags.rr_simulation) {
