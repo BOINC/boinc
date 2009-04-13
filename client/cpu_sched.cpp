@@ -994,6 +994,7 @@ bool CLIENT_STATE::enforce_schedule() {
 
     bool coproc_start_deferred = false;
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
+        atp = active_tasks.active_tasks[i];
         switch (atp->next_scheduler_state) {
         atp = active_tasks.active_tasks[i];
         case CPU_SCHED_SCHEDULED:
