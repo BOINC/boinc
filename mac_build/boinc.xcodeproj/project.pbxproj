@@ -2938,6 +2938,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -2990,6 +2991,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3042,6 +3044,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3095,6 +3098,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3185,6 +3189,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_VERSION_ppc = 3.3;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
 			name = Dev_noSandbox;
@@ -3193,6 +3198,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_VERSION_ppc = 3.3;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
 			name = Deploy_noSandbox;
@@ -3236,6 +3242,7 @@
 					Foundation,
 					"-framework",
 					AppKit,
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCSaver;
 				WRAPPER_EXTENSION = saver;
@@ -3251,6 +3258,7 @@
 					Foundation,
 					"-framework",
 					AppKit,
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCSaver;
 				WRAPPER_EXTENSION = saver;
@@ -3271,6 +3279,7 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
+					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -3296,6 +3305,7 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
+					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -3380,7 +3390,10 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = "-lboinc";
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lresolv",
+				);
 				PRODUCT_NAME = boinccmd;
 			};
 			name = Dev_noSandbox;
@@ -3390,7 +3403,10 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = "-lboinc";
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lresolv",
+				);
 				PRODUCT_NAME = boinccmd;
 			};
 			name = Deploy_noSandbox;
@@ -3572,6 +3588,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3623,6 +3640,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3760,6 +3778,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = Development;
@@ -3772,6 +3791,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = Dev_noSandbox;
@@ -3784,6 +3804,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = ppc_Deployment;
@@ -3796,6 +3817,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = i386_Deployment;
@@ -3808,6 +3830,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = Deployment;
@@ -3820,6 +3843,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = "Deployment-no64";
@@ -3832,6 +3856,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../jpeg-6b\"",
 				);
+				OTHER_LDFLAGS = "-lresolv";
 				PRODUCT_NAME = boincscr;
 			};
 			name = Deploy_noSandbox;
@@ -3913,6 +3938,7 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
+					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -3925,7 +3951,10 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = "-lboinc";
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lresolv",
+				);
 				PRODUCT_NAME = boinccmd;
 			};
 			name = "Deployment-no64";
@@ -3934,6 +3963,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_VERSION_ppc = 3.3;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
 			name = "Deployment-no64";
@@ -3986,6 +4016,7 @@
 					Foundation,
 					"-framework",
 					AppKit,
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCSaver;
 				WRAPPER_EXTENSION = saver;
@@ -4104,6 +4135,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -4166,6 +4198,7 @@
 					../clientgui/mac/config.h,
 				);
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
 			name = Deployment;
@@ -4216,6 +4249,7 @@
 					Foundation,
 					"-framework",
 					AppKit,
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCSaver;
 				WRAPPER_EXTENSION = saver;
@@ -4249,6 +4283,7 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
+					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -4307,7 +4342,10 @@
 					../clientgui/mac/config.h,
 				);
 				OTHER_CFLAGS_ppc = "-DMAC_OS_X_VERSION_MAX_ALLOWED=1030 -D_THREAD_SAFE -DNDEBUG -DSANDBOX -include ../clientgui/mac/config.h";
-				OTHER_LDFLAGS = "-lboinc";
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lresolv",
+				);
 				PRODUCT_NAME = boinccmd;
 			};
 			name = Deployment;
@@ -4388,6 +4426,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_VERSION_ppc = 3.3;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
 			name = Development;
@@ -4396,6 +4435,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_VERSION_ppc = 3.3;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
 			name = ppc_Deployment;
@@ -4439,6 +4479,7 @@
 					Foundation,
 					"-framework",
 					AppKit,
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCSaver;
 				WRAPPER_EXTENSION = saver;
@@ -4454,6 +4495,7 @@
 					Foundation,
 					"-framework",
 					AppKit,
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCSaver;
 				WRAPPER_EXTENSION = saver;
@@ -4475,6 +4517,7 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
+					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -4497,6 +4540,7 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
+					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -4583,7 +4627,10 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = "-lboinc";
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lresolv",
+				);
 				PRODUCT_NAME = boinccmd;
 			};
 			name = Development;
@@ -4593,7 +4640,10 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = "-lboinc";
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lresolv",
+				);
 				PRODUCT_NAME = boinccmd;
 			};
 			name = ppc_Deployment;
@@ -4734,6 +4784,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_VERSION_ppc = 3.3;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 			};
 			name = i386_Deployment;
@@ -4762,6 +4813,7 @@
 					Foundation,
 					"-framework",
 					AppKit,
+					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCSaver;
 				WRAPPER_EXTENSION = saver;
@@ -4783,6 +4835,7 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
+					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -4832,7 +4885,10 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = "-lboinc";
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lresolv",
+				);
 				PRODUCT_NAME = boinccmd;
 			};
 			name = i386_Deployment;
