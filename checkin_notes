@@ -2368,6 +2368,8 @@ Charlie 9 Apr 2009
         procinfo_mac.cpp
 
 Rom    10 Apr 2009
+    - WINSETUP 'Everyone' is not just a group, it is a well known
+        group.
     - WINSETUP: Be sure to define INSTALLDIR if it isn't already
         defined by the system or the transform.  DATADIR was
         already being handled.
