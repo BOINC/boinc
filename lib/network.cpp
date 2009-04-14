@@ -30,6 +30,7 @@
 #include <netdb.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <resolv.h>
 #endif
 
 #include "error_numbers.h"
