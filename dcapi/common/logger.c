@@ -17,13 +17,19 @@
 #include <dc_common.h>
 #include <dc_internal.h>
 
-#if CLIENT
+#ifdef CLIENT
 #include <dc_client.h>
+#else
+#include <glib.h>
 #endif
 
 /* Set the log level to -1 so the first call to DC_log() will call init_log() */
 static int loglevel = -1;
 static FILE *logfile;
+
+#ifndef CLIENT
+G_LOCK_DEFINE_STATIC(logfile);
+#endif
 
 /* Stupid Visual C compiler */
 #ifdef _MSC_VER
@@ -156,8 +162,14 @@ void DC_vlog(int level, const char *fmt, va_list ap)
 	tm = localtime(&now);
 	strftime(timebuf, sizeof(timebuf), "%Y-%m-%d %H:%M:%S", tm);
 
+#ifndef CLIENT
+	G_LOCK(logfile);
+#endif
 	fprintf(logfile, "%s [%s] ", timebuf, levstr);
 	vfprintf(logfile, fmt, ap);
 	fprintf(logfile, "\n");
 	fflush(logfile);
+#ifndef CLIENT
+	G_UNLOCK(logfile);
+#endif
 }
