@@ -166,11 +166,11 @@ all-local: $(all_local)
 
 $(LIBBOINC_STATIC): libboinc.la
 	rm -f $(LIBBOINC_STATIC)
-	$(LN) .libs/$(LIBBOINC_STATIC)
+	$(LN) .libs/$(LIBBOINC_STATIC) .
 
 libboinc_fcgi.a: libboinc_fcgi.la
 	rm -f $(LIBBOINC_FCGI_STATIC)
-	$(LN) .libs/$(LIBBOINC_FCGI_STATIC)
+	$(LN) .libs/$(LIBBOINC_FCGI_STATIC) .
 
 endif 
 # end of "if ENABLE_LIBRARIES"

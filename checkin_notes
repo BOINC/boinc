@@ -3902,3 +3902,10 @@ David  15 Apr 2009
                 white_grad.png (new)
     sched/
         sched_plan.cpp
+
+David  15 Apr 2009
+    - Unix build: make it work if "diff" is missing (??)
+        from Michael Tughan
+
+    lib/
+        Makefile.am
