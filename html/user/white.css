@@ -80,7 +80,7 @@ input[type="button"],
 input[type="submit"],
 .btn,
 a.button {
-	background: #f2f2f2 url(img/white-grad.png) repeat-x scroll left top;
+	background: #f2f2f2 url(img/white_grad.png) repeat-x scroll left top;
 	color: black;
 	border-color: #ccc;
 }

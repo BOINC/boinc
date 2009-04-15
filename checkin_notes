@@ -3894,9 +3894,11 @@ David  15 Apr 2009
         inc/
             util.inc
         user/
-            main.css
+            main.css (new)
             sample_index.php
             user_search.php
             white.css
+            img/
+                white_grad.png (new)
     sched/
         sched_plan.cpp
