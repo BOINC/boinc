@@ -223,6 +223,8 @@ public:
     int handle_upload_files();
     void upload_notify_app(const FILE_INFO*, const FILE_REF*);
     int copy_output_files();
+    void write_task_state_file();
+    void read_task_state_file();
 
     int write(MIOFILE&);
     int write_gui(MIOFILE&);
@@ -247,7 +249,7 @@ public:
     int exit_tasks(PROJECT* p=0);
     void kill_tasks(PROJECT* p=0);
     int abort_project(PROJECT*);
-    bool get_msgs();
+    void get_msgs();
     bool check_app_exited();
     bool check_rsc_limits_exceeded();
     bool check_quit_timeout_exceeded();

@@ -403,7 +403,6 @@ bool SCHEDULER_OP::poll() {
             state = SCHEDULER_OP_STATE_IDLE;
             cur_proj->master_url_fetch_pending = false;
             http_ops->remove(&http_op);
-            gstate.set_client_state_dirty("master URL fetch done");
             if (http_op.http_op_retval == 0) {
                 if (log_flags.sched_op_debug) {
                     msg_printf(cur_proj, MSG_INFO,
@@ -440,6 +439,7 @@ bool SCHEDULER_OP::poll() {
                 cur_proj->master_fetch_failures++;
                 rpc_failed("Master file request failed");
             }
+            gstate.set_client_state_dirty("Master fetch complete");
             gstate.request_work_fetch("Master fetch complete");
             cur_proj = NULL;
             return true;
@@ -488,6 +488,7 @@ bool SCHEDULER_OP::poll() {
                     // do this after handle_scheduler_reply()
             }
             cur_proj = NULL;
+            gstate.set_client_state_dirty("RPC complete");
             gstate.request_work_fetch("RPC complete");
             return true;
         }

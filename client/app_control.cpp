@@ -987,14 +987,11 @@ bool ACTIVE_TASK::get_trickle_up_msg() {
 }
 
 // check for msgs from active tasks.
-// Return true if any of them has changed its checkpoint_cpu_time
-// (since in that case we need to write state file)
 //
-bool ACTIVE_TASK_SET::get_msgs() {
+void ACTIVE_TASK_SET::get_msgs() {
     unsigned int i;
     ACTIVE_TASK *atp;
     double old_time;
-    bool action = false;
     static double last_time=0;
     double delta_t;
     if (last_time) {
@@ -1027,7 +1024,6 @@ bool ACTIVE_TASK_SET::get_msgs() {
                 atp->checkpoint_wall_time = gstate.now;
                 atp->premature_exit_count = 0;
                 atp->checkpoint_elapsed_time = atp->elapsed_time;
-                action = true;
                 if (log_flags.task_debug) {
                     msg_printf(atp->wup->project, MSG_INFO,
                         "[task_debug] result %s checkpointed",
@@ -1039,11 +1035,73 @@ bool ACTIVE_TASK_SET::get_msgs() {
                         atp->result->name
                     );
                 }
+                atp->write_task_state_file();
             }
         }
         atp->get_trickle_up_msg();
     }
-    return action;
+}
+
+// write checkpoint state to a file in the slot dir
+// (this avoids rewriting the state file on each checkpoint)
+//
+void ACTIVE_TASK::write_task_state_file() {
+    char path[1024];
+    sprintf(path, "%s/%s", slot_dir, TASK_STATE_FILENAME);
+    FILE* f = fopen(path, "w");
+    if (!f) return;
+    fprintf(f,
+        "<active_task>\n"
+        "    <project_master_url>%s</project_master_url>\n"
+        "    <result_name>%s</result_name>\n"
+        "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
+        "    <checkpoint_elapsed_time>%f</checkpoint_elapsed_time>\n"
+        "</active_task>\n",
+        result->project->master_url,
+        result->name,
+        checkpoint_cpu_time,
+        checkpoint_elapsed_time
+    );
+    fclose(f);
+}
+
+// called on startup; read the task state file in case it's more recent
+// then the main state file
+//
+void ACTIVE_TASK::read_task_state_file() {
+    char buf[4096], path[1024], s[1024];
+    sprintf(path, "%s/%s", slot_dir, TASK_STATE_FILENAME);
+    FILE* f = fopen(path, "r");
+    if (!f) return;
+    buf[0] = 0;
+    fread(buf, 1, 4096, f);
+    fclose(f);
+    buf[4095] = 0;
+    double x;
+    // sanity checks - project and result name must match
+    //
+    if (!parse_str(buf, "<project_master_url>", s, sizeof(s))) {
+        return;
+    }
+    if (strcmp(s, result->project->master_url)) {
+        return;
+    }
+    if (!parse_str(buf, "<result_name>", s, sizeof(s))) {
+        return;
+    }
+    if (strcmp(s, result->name)) {
+        return;
+    }
+    if (parse_double(buf, "<checkpoint_cpu_time>", x)) {
+        if (x > checkpoint_cpu_time) {
+            checkpoint_cpu_time = x;
+        }
+    }
+    if (parse_double(buf, "<checkpoint_elapsed_time>", x)) {
+        if (x > checkpoint_elapsed_time) {
+            checkpoint_elapsed_time = x;
+        }
+    }
 }
 
 const char *BOINC_RCSID_10ca137461 = "$Id$";

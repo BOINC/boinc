@@ -924,7 +924,6 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
 
     project->link_project_files(true);
 
-    set_client_state_dirty("handle_scheduler_reply");
     if (log_flags.state_debug) {
         msg_printf(project, MSG_INFO,
             "[state_debug] handle_scheduler_reply(): State after handle_scheduler_reply():"

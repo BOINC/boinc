@@ -386,7 +386,7 @@ bool ACTIVE_TASK_SET::poll() {
     process_control_poll();
     get_memory_usage();
     action |= check_rsc_limits_exceeded();
-    action |= get_msgs();
+    get_msgs();
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() == PROCESS_ABORT_PENDING) {
@@ -934,6 +934,7 @@ void ACTIVE_TASK_SET::init() {
         ACTIVE_TASK* atp = active_tasks[i];
         atp->init(atp->result);
         atp->scheduler_state = CPU_SCHED_PREEMPTED;
+        atp->read_task_state_file();
     }
 }
 

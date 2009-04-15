@@ -3844,3 +3844,20 @@ Charlie 13 Apr 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  14 Apr 2009
+	- client: eliminate the need to write the state file on each checkpoint.
+		Instead, write the info into a file in the slot directory,
+		and check for these files on startup.
+		This should reduce the overhead of state-file writing
+		on machines with lots of cores.
+		There will still be a flurry of writes each time a job finishes,
+		but reducing that overhead would be a larger job.
+	- client: make sure we write the state file after a failed RPC
+
+	client/
+		app.cpp,h
+		app_control.cpp
+		cs_scheduler.cpp
+		file_names.h
+		scheduler_op.cpp
