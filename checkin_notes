@@ -3921,3 +3921,11 @@ David  15 Apr 2009
 
     html/user/
         black.css
+
+Rom    15 Apr 2009
+    - Add ICU to the BOINC depends list.  It is needed for
+        SQLLite3 which will be needed for reading Firefox
+        3.x cookies.
+        
+    icu/
+        <Various Files>
