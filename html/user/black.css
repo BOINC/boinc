@@ -10,18 +10,9 @@ a:active {
 	color: yellow;
 }
 
-body , table , input , select {
-	font-family: Verdana, Arial, Sans Serif;
-	font-size: small;
-}
-
 body {
 	background-color: black;
     color: white;
-}
-
-table {
-      border: 0px;
 }
 
 table.bordered {
@@ -33,10 +24,8 @@ table.question {
 }
 
 th {
-    border-bottom: 2px solid black;
 	background-color: rgb(150, 150, 150);
 	color: black;
-	font-weight: bold;
 }
 
 td {
@@ -54,16 +43,11 @@ td.indent {
 td.heading {
            background-color: rgb(90,90,90);
 	       color: white;
-	       font-weight: bold;
 }
 
 td.fieldname {
              background-color: rgb(50,50,50);
              color: white;
-}
-
-td.category {
-
 }
 
 tr.row0 {
@@ -78,53 +62,16 @@ tr.row1 {
 tr.subtitle {
 	background-color: rgb(90,90,90);
 	color: white;
-	font-weight: bold;
 }
 
 tr.message {
            background-color: rgb(100,100,100);
 }
 
-input , select {
-	vertical-align: middle;
-}
-
 h1 , h2 {
 	color: white;
-	font-size: large;
-	font-variant: small-caps;
-	font-weight: normal;
-	margin-top: 10px;
 }
 
 h3 , h4 {
 	color: white;
-        text-decoration: underline;
-	font-size: small;
-	font-variant: small-caps;
-	font-weight: bold;
-}
-
-pre {
-	white-space: normal;
-	margin: 0;
-}
-
-img {
-    border: 0px;
-}
-
-.title {
-	font-size: small;
-	font-weight: bold;
-}
-
-.description {
-	font-size: 80%;
-	font-weight: normal;
-}
-
-.authorcol {
-	width: 100px;
-	overflow: hidden;
 }
