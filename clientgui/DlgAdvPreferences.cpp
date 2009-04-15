@@ -502,7 +502,7 @@ bool CDlgAdvPreferences::ValidateInput() {
 	}
 	//all text ctrls in proc special time panel
 	wxWindowList children = m_panelProcSpecialTimes->GetChildren();
-	wxWindowListNode* node = children.GetFirst();
+    wxWindowList::compatibility_iterator node = children.GetFirst();
 	while(node) {
 		if(node->GetData()->IsKindOf(CLASSINFO(wxTextCtrl))) {
 			wxTextCtrl*  txt = wxDynamicCast(node->GetData(),wxTextCtrl);

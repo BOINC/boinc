@@ -3871,3 +3871,12 @@ Charlie 15 Apr 2009
     clientscr/
         gfx_switcher.cpp
         screensaver.cpp
+
+Rom    15 Apr 2009
+    - Fix compiler errors
+      ( From: Sascha Manns )
+      
+    client/
+        hostinfo_unix.cpp
+    clientgui/
+        DlgAdvPreferences.cpp
