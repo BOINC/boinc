@@ -19,9 +19,8 @@
 //
 // Used by screensaver to:
 //  - launch graphics application at given slot number as user & owner boinc_project
+//  - launch default graphics application as user & owner boinc_project
 //  - kill graphics application with given process ID as user & owner boinc_project
-//  - launch default graphics application as user & owner boinc_master
-//  - kill default graphics application with given process ID as user & owner boinc_master
 //
 #include <unistd.h>
 #include <cstdio>
@@ -61,14 +60,7 @@ int main(int argc, char** argv) {
 
     if (argc < 2) return EINVAL;
 
-    if ((strcmp(argv[1], "-default_gfx") == 0) || 
-            (strcmp(argv[1], "-kill_default_gfx") == 0)) {
-        strlcpy(user_name, "boinc_master", sizeof(user_name));
-    } else {
-        strlcpy(user_name, "boinc_project", sizeof(user_name));
-
-    }
-    
+    strlcpy(user_name, "boinc_project", sizeof(user_name));
     strlcpy(group_name, user_name, sizeof(group_name));
 
 #if 0       // For debugging only
@@ -146,8 +138,7 @@ int main(int argc, char** argv) {
         return errno;
     }
 
-    if ((strcmp(argv[1], "-kill_gfx") == 0) ||
-            (strcmp(argv[1], "-kill_default_gfx") == 0)) {
+    if (strcmp(argv[1], "-kill_gfx") == 0) {
         pid = atoi(argv[2]);
         if (! pid) return EINVAL;
         if ( kill(pid, SIGKILL)) {

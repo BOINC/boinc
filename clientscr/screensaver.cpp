@@ -244,6 +244,61 @@ int CScreensaver::launch_screensaver(RESULT* rp, int& graphics_application)
 }
 
 
+// Terminate any V6 acreensaver graphics application
+//
+#ifdef _WIN32
+int CScreensaver::terminate_v6_screensaver(HANDLE& graphics_application)
+#else
+int CScreensaver::terminate_v6_screensaver(int& graphics_application)
+#endif
+{
+    int retval = 0;
+
+#ifdef __APPLE__
+    // Under sandbox security, use gfx_switcher to kill default gfx app 
+    // as user boinc_master and group boinc_master.  The man page for 
+    // kill() says the user ID of the process sending the signal must 
+    // match that of the target process, though in practice that seems 
+    // not to be true on the Mac.
+    
+    char current_dir[MAXPATHLEN];
+    char gfx_pid[16];
+    pid_t thePID;
+    int i;
+
+    sprintf(gfx_pid, "%d", graphics_application);
+    getcwd( current_dir, sizeof(current_dir));
+
+    char* argv[4];
+    argv[0] = "gfx_switcher";
+    argv[1] = "-kill_gfx";
+    argv[2] = gfx_pid;
+    argv[3] = 0;
+
+   retval = run_program(
+        current_dir,
+        m_gfx_Switcher_Path,
+        3,
+        argv,
+        0,
+        thePID
+    );
+    
+    for (i=0; i<200; i++) {
+        boinc_sleep(0.01);      // Wait 2 seconds max
+        // Prevent gfx_switcher from becoming a zombie
+        if (waitpid(thePID, 0, WNOHANG) == thePID) {
+            break;
+        }
+    }
+#endif
+
+    // For safety, call kill_program even under Apple sandbox security
+    kill_program(graphics_application);
+    return retval;
+}
+
+
 // Terminate the project (science) graphics application
 //
 #ifdef _WIN32
@@ -252,52 +307,13 @@ int CScreensaver::terminate_screensaver(HANDLE& graphics_application, RESULT *wo
 int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worker_app)
 #endif
 {
+    int retval = 0;
+
     if (graphics_application) {
         // V6 Graphics
-#ifdef __APPLE__
-        if (!m_bScience_gfx_running) {
-            return 0;   // Don't use gfx_switcher for default gfx app 
+        if (m_bScience_gfx_running) {
+            terminate_v6_screensaver(graphics_application);
         }
-        // Under sandbox security, use gfx_switcher to kill gfx app as 
-        // user boinc_project and group boinc_project.  The man page 
-        // for kill() says the user ID of the process sending the signal 
-        // must match that of the target process, though in practice 
-        // that seems not to be true on the Mac.
-
-        char current_dir[MAXPATHLEN];
-        char gfx_pid[16];
-        pid_t thePID;
-        int i;
-        int retval = 0;
-
-        sprintf(gfx_pid, "%d", graphics_application);
-        getcwd( current_dir, sizeof(current_dir));
-
-        char* argv[4];
-        argv[0] = "gfx_switcher";
-        argv[1] = "-kill_gfx";
-        argv[2] = gfx_pid;
-        argv[3] = 0;
-
-       retval = run_program(
-            current_dir,
-            m_gfx_Switcher_Path,
-            3,
-            argv,
-            0,
-            thePID
-        );
-
-        for (i=0; i<200; i++) {
-            boinc_sleep(0.01);      // Wait 2 seconds max
-            // Prevent gfx_switcher from becoming a zombie
-            if (waitpid(thePID, 0, WNOHANG) == thePID) {
-                break;
-            }
-        }
-#endif
-        // For safety, call kill_program even under Apple sandbox security
-        kill_program(graphics_application);
     } else {
         // V5 and Older
         DISPLAY_INFO di;
@@ -316,7 +332,7 @@ int CScreensaver::terminate_screensaver(int& graphics_application, RESULT *worke
             di
         );
     }
-    return 0;
+    return retval;
 }
 
 
@@ -409,48 +425,7 @@ int CScreensaver::terminate_default_screensaver(int& graphics_application)
     int retval = 0;
 
     if (! graphics_application) return 0;
-
-#ifdef __APPLE__
-    // Under sandbox security, use gfx_switcher to kill default gfx app 
-    // as user boinc_master and group boinc_master.  The man page for 
-    // kill() says the user ID of the process sending the signal must 
-    // match that of the target process, though in practice that seems 
-    // not to be true on the Mac.
-    
-    char current_dir[MAXPATHLEN];
-    char gfx_pid[16];
-    pid_t thePID;
-    int i;
-
-    sprintf(gfx_pid, "%d", graphics_application);
-    getcwd( current_dir, sizeof(current_dir));
-
-    char* argv[4];
-    argv[0] = "gfx_switcher";
-    argv[1] = "-kill_default_gfx";
-    argv[2] = gfx_pid;
-    argv[3] = 0;
-
-   retval = run_program(
-        current_dir,
-        m_gfx_Switcher_Path,
-        3,
-        argv,
-        0,
-        thePID
-    );
-    
-    for (i=0; i<200; i++) {
-        boinc_sleep(0.01);      // Wait 2 seconds max
-        // Prevent gfx_switcher from becoming a zombie
-        if (waitpid(thePID, 0, WNOHANG) == thePID) {
-            break;
-        }
-    }
-#endif
-
-    // For safety, call kill_program even under Apple sandbox security
-    kill_program(graphics_application);
+    retval = terminate_v6_screensaver(graphics_application);
     return retval;
 }
 

@@ -3861,3 +3861,13 @@ David  14 Apr 2009
 		cs_scheduler.cpp
 		file_names.h
 		scheduler_op.cpp
+
+Charlie 15 Apr 2009
+    SS: Under Mac Sandbox security, launch default screensaver graphics app 
+        via gfx_switcher as user and group boinc_project rather than 
+        boinc_master, since none of the default screensaver's RPC calls 
+        requires access to the password in gui_rpc_auth.cfg.
+
+    clientscr/
+        gfx_switcher.cpp
+        screensaver.cpp
