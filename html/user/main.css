@@ -120,7 +120,7 @@ input[type="submit"],
 	margin: 2px;
 	border-width: 1px;
 	border-style: solid;
-	font-size: 11px;
+	font-size: 12px;
 	font-weight: normal;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -137,7 +137,7 @@ a.button {
 	margin: 0 4px;
 	border-width: 1px;
 	border-style: solid;
-	font-size: 11px;
+	font-size: 12px;
 	font-weight: normal;
 	white-space: nowrap;
 	-moz-border-radius: 5px;

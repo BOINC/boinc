@@ -3909,3 +3909,9 @@ David  15 Apr 2009
 
     lib/
         Makefile.am
+
+David  15 Apr 2009
+    - web: increase button text size a little
+
+    html/user/
+        main.css
