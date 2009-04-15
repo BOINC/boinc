@@ -88,10 +88,10 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             return PLAN_REJECT_CUDA_VERSION;
         } 
 
-        if (cp->drvVersion && cp->drvVersion < 17500) {
+        if (cp->drvVersion && cp->drvVersion < 17700) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] NVIDIA driver version %d < 17500\n",
+                    "[version] NVIDIA driver version %d < 17700\n",
                     cp->drvVersion
                 );
             }

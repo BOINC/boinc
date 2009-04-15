@@ -119,16 +119,16 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="") {
         header ("Pragma: no-cache");                          // HTTP/1.0
     }
     
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
-    ";
-           
+    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
+ 
     
     if (!$title_plain) {
         echo "<html><head><title>".strip_tags($title)."</title>\n";
     } else {
         echo "<html><head><title>".strip_tags($title_plain)."</title>\n";
     }
-    echo "<link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
+    echo "<link rel=stylesheet type=\"text/css\" href=\"main.css\" media=\"all\" />
+		<link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
         <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
         </head>
     ";

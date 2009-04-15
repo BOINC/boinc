@@ -110,7 +110,7 @@ function search_form() {
     echo "<form name=f method=get action=user_search.php>";
     start_table();
     row1("Search type", 2, "heading");
-    row2("User name starts with <input name=search_string>", "<input type=radio name=search_type value=\"name_prefix\" checked >");
+    row2("User name starts with <input type=text name=search_string>", "<input type=radio name=search_type value=\"name_prefix\" checked >");
     row2("Decreasing sign-up time", "<input type=radio name=search_type value=\"date\">");
     row2("Decreasing average credit", "<input type=radio name=search_type value=\"rac\">");
     row2("Decreasing total credit", "<input type=radio name=search_type value=\"total\">");

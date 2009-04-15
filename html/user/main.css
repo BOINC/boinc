@@ -1,0 +1,417 @@
+/*   General   */
+
+a, a:link, a:visited, a:active {
+	text-decoration: none;
+}
+
+a:hover { text-decoration: underline; }
+
+body {
+	font-family: Verdana, Arial, Sans Serif;
+	font-size: 13px;
+	margin: 5px 10px;
+}
+
+h1, h2 {
+	font-size: x-large;
+	font-weight: normal;
+}
+
+h1 {
+	margin: 10px;
+}
+
+h3, h4 { font-weight: bold; }
+
+hr {
+	size: 0;
+	margin: 8px 2px;
+}
+
+img,
+img.userimg {
+	border: none;
+}
+
+table {
+	padding: 4px;
+	margin: 2px;
+}
+
+table.bordered {
+	border-width: 2px;
+	border-style: solid;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-khtml-border-radius: 6px;
+	border-radius: 6px;
+}
+
+th {
+	font-weight: bold;
+	vertical-align: top;
+}
+
+td {
+	vertical-align: top;
+	padding: 4px;
+}
+
+td.bordered {
+	border-width: 1px;
+	border-style: solid;
+}
+
+td.indent {
+	border-left-width: 4px;
+	border-left-style: solid;
+}
+
+td.heading {
+	font-weight: bold;
+	margin: 4px 0;
+	padding: 8px;
+}
+
+td.fieldname {
+	text-align: right;
+	padding-right: 10px;
+	margin: 2px 0;
+	vertical-align: middle;
+}
+
+td.fieldvalue {
+	margin: 2px 0;
+	vertical-align: middle;
+}
+
+td.fieldname_error {
+	text-align: right;
+}
+
+td.fieldvalue_error {
+	font-weight: bold;
+}
+
+td.navbar {
+	border: none;
+	text-align: center;
+	vertical-align: middle;
+}
+
+td.friend {
+	text-align: center;
+	vertical-align: middle;
+}
+
+.row0,
+.row1 ,
+.highlighted_row0,
+.highlighted_row1 {
+	text-align: left;
+}
+
+/*   Buttons etc.   */
+
+input[type="button"],
+input[type="submit"],
+.btn {
+	padding: 4px 8px;
+	margin: 2px;
+	border-width: 1px;
+	border-style: solid;
+	font-size: 11px;
+	font-weight: normal;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+}
+
+	/* IE6 doesn't understand [type=XXXX] so we use class "button" */
+
+a.button {
+
+	line-height: 2.4em;
+	padding: 4px 8px;
+	margin: 0 4px;
+	border-width: 1px;
+	border-style: solid;
+	font-size: 11px;
+	font-weight: normal;
+	white-space: nowrap;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+}
+
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input.btn:hover, 
+.button:hover ,
+.forum_toplinks a:hover {
+	text-decoration: none;
+}
+
+input[type="text"], select, textarea {
+	border-width: 1px;
+	border-style: solid;
+	margin: 2px 4px;
+	padding: 3px;
+	font-size: 12px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.actionlist {
+	display: inline;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.actionlist li {
+	display: inline;
+}
+
+/*   Main Page   */
+
+#news {
+	border-width: 2px;
+	border-style: solid;
+	padding: 10px;
+	margin: 4px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	border-radius: 10px;
+}
+
+#news h2,
+#uotd h2,
+#mainnav h2 {
+	margin-top: 0;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+#news h3 {
+	font-size: 1em;
+	margin-bottom: 2px;
+}
+
+#news p {
+	margin-top: 0;
+}
+
+#uotd {
+	border-width: 2px;
+	border-style: solid;
+	padding: 10px;
+	margin: 4px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	border-radius: 10px;
+}
+
+/*   Forum   */
+
+td.category , tr.subtitle{
+	border: none;
+	font-weight: bold;
+	margin: 6px 0;
+}
+
+th {
+	font-weight: bold;
+	margin: 4px 2px;
+	padding: 4px;
+}
+
+td.postheader { 
+	font-size: 11px;
+	height: 24px;
+	margin-left: 4px;
+	padding-left: 8px; 
+	-moz-border-radius: 0 10px;
+	-webkit-border-radius-bottomleft: 10px;
+	-webkit-border-radius-bottomright: 10px;
+	-khtml-border-radius-bottomleft: 10px;
+	-khtml-border-radius-bottomright: 10px;
+	border-radius-bottomleft: 10px;
+	border-radius-bottomright: 10px;
+}
+
+td.postbody { 
+	font-size: 9pt;
+	margin-left: 4px;
+}
+
+td.postfooter {
+	font-size: 11px;
+	height: 26px; 
+	margin-left: 4px; 
+	padding-left: 8px; 
+	-moz-border-radius: 10px 10px 0 0;
+	-khtml-border-radius-topleft: 10px;
+	-khtml-border-radius-topright: 10px;
+	-webkit-border-radius-topleft: 10px;
+	-webkit-border-radius-topright: 10px;
+	border-radius-topleft: 10px;
+	border-radius-topright: 10px;
+}
+
+td.postfooter .button {
+	line-height: 2.2em;
+	margin: 0 4px;
+}
+
+tr.helpdeskseperator {
+	height: 10pt;
+}
+
+tr.postseperator {
+	border-width: 1px;
+	border-style: solid;
+	margin: 4px 0;
+}
+
+td.threadline ,
+td.numbers {
+	text-align: left;
+}
+
+td.numbers {
+	text-align: center;
+}
+
+td.lastpost {
+}
+
+.title {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.description {
+	font-size: 80%;
+	font-weight: normal;
+}
+
+.authorcol {
+	width: 136px;
+	overflow: hidden;
+}
+
+div.authorcol { 
+	border-width: 1px;
+	border-style: solid; 
+	padding: 8px 5px; 
+	width: 120px; 
+	margin-left: 2px; 
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	border-radius: 10px;
+} 
+
+.authorinfo {
+	font-size: 11px;
+}
+
+.authorinfo img { 
+	border-width: 1px;
+	border-style: solid;
+	margin: 3px 9px; 
+} 
+
+.authorcol .button {
+	margin: 0 6px;
+	line-height: 2.6em;
+} 
+
+blockquote.postbody {
+	border-left-width: 2px;
+	border-left-style: solid;
+	padding: 2px 6px;
+	margin: 0 6px 0 10px;
+	font-style: italic;
+} 
+
+#thread {
+	width: 100%;
+	table-layout: fixed;
+	overflow: visible;
+}
+
+.forum_toplinks td {
+	vertical-align: middle;
+}
+
+span.page_title {
+	font-size: 24px;
+	margin: 20px;
+}
+
+span.note {
+	font-weight: normal;
+	font-size: 0.9em;
+}
+
+span.news_date {
+	font-size: 0.9em;
+}
+
+span.news_title,
+span.inboxunread {
+	font-weight: bold;
+}
+
+.nobr{
+	white-space: nowrap;
+}
+
+.code {
+	font-family: "Courier New", courier, monospace;
+	display: block;
+	margin-left: 5em;
+	border-left-width: 3px;
+	border-left-style: solid; 
+	padding-left: 1em;
+	white-space: nowrap;
+	overflow: auto;
+}
+
+.smalltext {
+	font-size: 0.8em;
+}
+
+.error,
+.notice  {
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+#preview {
+	border-width: 2px;
+	border-style: solid;
+	margin: 1em;
+	padding: 0.2em;
+}
+
+#preview .header {
+	font-weight: bold;
+	font-size: 1.3em;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+/*   IE hack   */
+
+* html body .code {
+	white-space: normal;
+}

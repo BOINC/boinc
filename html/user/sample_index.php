@@ -99,6 +99,7 @@ echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://
 echo "<html>
     <head>
     <title>".PROJECT."</title>
+	<link rel=\"stylesheet\" type=\"text/css\" href=\"main.css\" media=\"all\" />
     <link rel=\"stylesheet\" type=\"text/css\" href=\"".STYLESHEET."\">
     <link rel=\"alternate\" type=\"application/rss+xml\" title=\"".$rssname."\" href=\"".$rsslink."\">
 ";

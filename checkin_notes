@@ -3880,3 +3880,23 @@ Rom    15 Apr 2009
         hostinfo_unix.cpp
     clientgui/
         DlgAdvPreferences.cpp
+
+David  15 Apr 2009
+    - web: improve the appearance of buttons
+    - web: divide the stylesheet into "main.css"
+        (which has formatting stuff, rounded corners etc.)
+        and "white.css" (which has colors).
+        The above two from Simek.
+    - scheduler: change default min NVIDIA driver version
+        from 17500 to 17700
+
+    html/
+        inc/
+            util.inc
+        user/
+            main.css
+            sample_index.php
+            user_search.php
+            white.css
+    sched/
+        sched_plan.cpp
