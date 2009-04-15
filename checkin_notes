@@ -2478,3 +2478,12 @@ Charlie 13 Apr 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    15 Apr 2009
+    - Fix compiler errors
+      ( From: Sascha Manns )
+      
+    client/
+        hostinfo_unix.cpp
+    clientgui/
+        DlgAdvPreferences.cpp

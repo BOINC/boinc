@@ -297,10 +297,6 @@ bool HOST_INFO::host_is_running_on_batteries() {
         // if we haven't found a method so far, give up
         method = NoBattery;
         // fall through
-    case NoBattery:
-         // we have no way to determine if we're on batteries,
-         // so we say we aren't
-        return false;
     case ProcAPM:
         {
             // use /proc/apm
@@ -356,6 +352,11 @@ bool HOST_INFO::host_is_running_on_batteries() {
             // online is 1 if on AC power, 0 if on battery
             return (0 == online);
         }
+    case NoBattery:
+    default:
+         // we have no way to determine if we're on batteries,
+         // so we say we aren't
+        return false;
     }
 #else
     return false;
