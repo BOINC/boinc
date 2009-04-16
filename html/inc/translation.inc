@@ -257,6 +257,12 @@ for ($i=0; $i<sizeof($client_languages); $i++) {
         $language2 = null;
     }
 
+    // if main language is english, look no further
+    //
+    if ($i == 0 && $language == 'en') {
+        break;
+    }
+
     // If we have a translation for the language, include it
     $file_name = $lang_language_dir.$lang_compiled_dir.$language.".po.inc";
     if (file_exists($file_name)) {

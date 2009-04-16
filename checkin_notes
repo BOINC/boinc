@@ -3937,3 +3937,17 @@ Charlie 15 Apr 2009
     clientgui/
         AdvancedFrame.cpp, .h
         sg_BoincSimpleGUI.cpp, .h
+
+David  15 Apr 2009
+    - client: fixed a crash caused by using %f to write
+        working-set size into a fixed-size buffer.
+        Use %e instead.
+        TODO: figure out why WSS was huge.
+    - web: if "en" is primary language, don't read translation files
+
+    client/
+        app_control.cpp
+    html/inc/
+        translation.inc
+    samples/example_app/
+        uc2.cpp

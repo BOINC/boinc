@@ -20,9 +20,9 @@
 // - A program for testing various features of BOINC
 //
 // NOTE: this file exists as both
-// boinc/apps/upper_case.C
+// boinc/apps/upper_case.cpp
 // and
-// boinc_samples/example_app/uc2.C
+// boinc_samples/example_app/uc2.cpp
 // If you update one, please update the other!
 
 // The program converts a mixed-case file to upper case:
@@ -235,9 +235,9 @@ int main(int argc, char **argv) {
             boinc_crash();
         }
         if (early_sleep && i>30) {
-			g_sleep = true;
-			while (1) boinc_sleep(1);
-		}
+            g_sleep = true;
+            while (1) boinc_sleep(1);
+        }
 
         if (boinc_time_to_checkpoint()) {
             retval = do_checkpoint(out, nchars);
@@ -273,16 +273,16 @@ int main(int argc, char **argv) {
             fd = .5 + .5*(e/cpu_time);
             boinc_fraction_done(fd);
 
-			if (boinc_time_to_checkpoint()) {
-				retval = do_checkpoint(out, nchars);
-				if (retval) {
-					fprintf(stderr, "%s APP: upper_case checkpoint failed %d\n",
+            if (boinc_time_to_checkpoint()) {
+                retval = do_checkpoint(out, nchars);
+                if (retval) {
+                    fprintf(stderr, "%s APP: upper_case checkpoint failed %d\n",
                         boinc_msg_prefix(), retval
                     );
-					exit(1);
-				}
-				boinc_checkpoint_completed();
-			}
+                    exit(1);
+                }
+                boinc_checkpoint_completed();
+            }
             comp_result = do_a_giga_flop(i);
         }
     }
