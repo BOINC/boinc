@@ -3929,3 +3929,11 @@ Rom    15 Apr 2009
         
     icu/
         <Various Files>
+
+Charlie 15 Apr 2009
+    Mac MGR: Add keyboard shortcuts command-shift-S to switch to Simple View
+        and command-shift-A to switch back to Advanced View.
+        
+    clientgui/
+        AdvancedFrame.cpp, .h
+        sg_BoincSimpleGUI.cpp, .h
