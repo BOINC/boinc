@@ -176,12 +176,14 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
     );
     
     // wxMac maps Command key to wxACCEL_ALT for wxAcceleratorTable but CTRL for wxMenu.
-    m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
+    m_Shortcuts[0].Set(wxACCEL_CMD|wxACCEL_SHIFT, (int)'A', ID_FILESWITCHGUI);
+    m_Shortcuts[1].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
+    m_pAccelTable = new wxAcceleratorTable(2, m_Shortcuts);
 #else
     m_Shortcuts[0].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'A', ID_FILESWITCHGUI);
+    m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
 #endif
 
-    m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
     SetAcceleratorTable(*m_pAccelTable);
     
     dlgMsgsPtr = NULL;
