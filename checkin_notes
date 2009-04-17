@@ -3975,3 +3975,10 @@ David  16 Apr 2009
         user/
             apps.php
 
+David  16 Apr 2009
+    - client: if detach a project, adjust debts and trigger
+        CPU sched and work fetch
+
+    client/
+        client_state.cpp
+        cpu_sched.cpp
