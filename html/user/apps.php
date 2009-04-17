@@ -46,7 +46,6 @@ foreach ($apps as $app) {
             <tr>
                 <th>".tra("Platform")."</th>
                 <th>".tra("Version")."</th>
-                <th>".tra("Plan class")."</th>
                 <th>".tra("Installation time")."</th>
             </tr>
         ";
@@ -65,23 +64,25 @@ foreach ($apps as $app) {
         }
         foreach($avs as $av) {
             if ($av->deprecated) continue;
-            $y = pretty_time_str($av->create_time);
+            $create_time_f = pretty_time_str($av->create_time);
             if ($xml) {
                 echo "    <version>\n";
                 echo "        <platform_short>$platform->name</platform_short>\n";
                 echo "        <platform_long>$platform->user_friendly_name</platform_long>\n";
                 echo "        <version_num>$av->version_num</version_num>\n";
                 echo "        <plan_class>$av->plan_class</plan_class>\n";
-                echo "        <date>$y</date>\n";
+                echo "        <date>$create_time_f</date>\n";
                 echo "        <date_unix>$av->create_time</date_unix>\n";
                 echo "    </version>\n";
             } else {
-                $x = sprintf("%0.2f", $av->version_num/100);
+                $version_num_f = sprintf("%0.2f", $av->version_num/100);
+                if ($av->plan_class) {
+                    $version_num_f .= " ($av->plan_class)";
+                }
                 echo "<tr>
                     <td>$platform->user_friendly_name</td>
-                    <td>$x</td>
-                    <td>$av->plan_class</td>
-                    <td>$y</td>
+                    <td>$version_num_f</td>
+                    <td>$create_time_f</td>
                     </tr>
                 ";
             }

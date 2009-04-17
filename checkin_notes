@@ -3951,3 +3951,12 @@ David  15 Apr 2009
         translation.inc
     samples/example_app/
         uc2.cpp
+
+Davaid  16 Apr 2009
+    - client: another try at fixing the above crash
+    - web: don't show plan class in separate column in apps list; fixes #874
+
+    client/
+        app_control.cpp
+    html/user/
+        apps.php
