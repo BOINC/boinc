@@ -3952,7 +3952,7 @@ David  15 Apr 2009
     samples/example_app/
         uc2.cpp
 
-Davaid  16 Apr 2009
+David  16 Apr 2009
     - client: another try at fixing the above crash
     - web: don't show plan class in separate column in apps list; fixes #874
 
@@ -3960,3 +3960,18 @@ Davaid  16 Apr 2009
         app_control.cpp
     html/user/
         apps.php
+
+David  16 Apr 2009
+    - upgrade script: do DB update even if stop_web is present,
+        rather than spewing an HTML error message.
+        Fixes #875
+
+    html/
+        inc/
+            boinc_db.inc
+            util.inc
+        ops/
+            db_update.php
+        user/
+            apps.php
+

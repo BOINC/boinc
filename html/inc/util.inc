@@ -739,7 +739,7 @@ function check_web_stopped() {
 // Connects to database server and selects database as noted in config.xml
 // If only read-only access is necessary,
 // tries instead to connect to <replica_db_host> if tag exists.
-// DEPRECATED - use boinc_db.h
+// DEPRECATED - use boinc_db.inc
 //
 function db_init($try_replica=false) {
     check_web_stopped();

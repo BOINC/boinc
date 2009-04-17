@@ -22,33 +22,47 @@ require_once("../inc/util_basic.inc");
 class BoincDb extends DbConn {
     static $instance;
 
+    // connect to the database (possibly to a read-only replica)
+    //
+    static function get_aux($readonly) {
+        $config = get_config();
+        $user = parse_config($config, '<db_user>');
+        $passwd = parse_config($config, '<db_passwd>');
+        $host = parse_config($config, '<db_host>');
+        $replica_host = parse_config($config, '<replica_db_host>');
+        $name = parse_config($config, '<db_name>');
+        if ($host == null) {
+            $host = "localhost";
+        }
+        $instance = new DbConn();
+        if ($readonly && $replica_host) {
+            $retval = $instance->init_conn($user, $passwd, $replica_host, $name);
+            if ($retval) return $instance;
+        }
+        $retval = $instance->init_conn($user, $passwd, $host, $name);
+        if (!$retval) {
+            $instance = null;
+        }
+        self::$instance = $instance;
+    }
+
+    // same, but
+    // 1) check for a cached connection
+    // 2) check whether the "stop_web" trigger file is present
+    //
     static function get($readonly = false) {
-        if (!isset($instance)) {
+        if (!isset(self::$instance)) {
             if (web_stopped()) {
                 show_page("Project down for maintenence",
                     "Please check back in a few hours."
                 );
                 exit;
             }
-            $config = get_config();
-            $user = parse_config($config, '<db_user>');
-            $passwd = parse_config($config, '<db_passwd>');
-            $host = parse_config($config, '<db_host>');
-            $replica_host = parse_config($config, '<replica_db_host>');
-            $name = parse_config($config, '<db_name>');
-            if ($host == null) {
-                $host = "localhost";
-            }
-            $instance = new DbConn();
-            if ($readonly && $replica_host) {
-                $retval = $instance->init_conn($user, $passwd, $replica_host, $name);
-                if ($retval) return $instance;
-            }
-            $retval = $instance->init_conn($user, $passwd, $host, $name);
-            if (!$retval) return null;
+            self::get_aux($readonly);
         }
-        return $instance;
+        return self::$instance;
     }
+
     static function escape_string($string) {
         $db = self::get();
         return parent::base_escape_string(trim($string));

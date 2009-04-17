@@ -25,7 +25,7 @@ require_once("../inc/util.inc");
 require_once("../inc/ops.inc");
 
 cli_only();
-db_init();
+BoincDb::get_aux(false);
 
 set_time_limit(0);
 

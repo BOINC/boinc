@@ -22,7 +22,7 @@ require_once("../inc/translation.inc");
 
 $platforms = BoincPlatform::enum("deprecated=0");
 
-$xml = $_GET['xml'];
+$xml = get_str('xml', true);
 if ($xml) {
     require_once('../inc/xml.inc');
     xml_header();
