@@ -117,7 +117,7 @@ function job_timed_out($job, $inst, $user) {
     $job->set_priority(2);
 }
 
-function show_job_summary($job) {
+function job_summary($job) {
     $info = $job->get_opaque_data();
     return "<a href=".URL_BASE."$info->path>View image</a>";
 }
