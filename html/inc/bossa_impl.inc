@@ -31,8 +31,8 @@ function show_next_job($app, $user) {
             <p>
             Please try again later.
         ";
-        page_tail();
     }
+    page_tail();
 }
 
 ?>
