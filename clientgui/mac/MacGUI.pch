@@ -52,6 +52,12 @@
 
 #include <wx/version.h> // For wxCHECK_VERSION
 
+#define TARGET_CARBON 1
+#define wxUSE_UNICODE 1
+#define HAVE_WCSLEN 1
+
+#include <wchar.h>
+
 #if ((defined(__i386__) || defined(__x86_64__)) && wxCHECK_VERSION(2,8,2))
 // platform.h erroneously #defines __POWERPC__, so we include platform.h first 
 // and then #undef __POWERPC__ before including the other wxMac header files.

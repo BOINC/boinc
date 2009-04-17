@@ -3982,3 +3982,15 @@ David  16 Apr 2009
     client/
         client_state.cpp
         cpu_sched.cpp
+
+Charlie 17 Apr 2009
+    Mac MGR: Changes to build with full Unicode support with wxWidgets-2.8.10.
+
+    mac_build/
+        buildWxMac.sh
+        setupForBOINC.sh
+    clientgui/
+        BOINCClientManager.cpp
+        SkinManager.cpp
+        mac/
+            MacGUI.pch

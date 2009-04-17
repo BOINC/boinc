@@ -215,8 +215,13 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
 #elif defined(__WXMAC__)
 
+#if 0   // The Mac version of wxExecute(wxString& ...) crashes if there is a space in the path
     wxChar buf[1024];
     wxChar *argv[5];
+#else
+    char buf[1024];
+    char *argv[5];
+#endif
     ProcessSerialNumber ourPSN;
     FSRef ourFSRef;
     OSErr err;

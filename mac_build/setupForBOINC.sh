@@ -19,11 +19,10 @@
 #
 #
 # Master script to build Universal Binary libraries needed by BOINC:
-# curl-7.19.4 with c-ares-1.6.0, jpeg-6b and wxMac-2.8.7
+# curl-7.19.4 with c-ares-1.6.0, jpeg-6b and wxMac-2.8.10
 #
 # by Charlie Fenton 7/21/06
-# Bug fix for wxMac-2.6.3 7/26/07
-# Updated 3/3/08 for curl-7.19.4, c-ares-1.6.0 and wxMac-2.8.7
+# Updated 4/17/08 for curl-7.19.4, c-ares-1.6.0 and wxMac-2.8.10 and Unicode
 #
 # Download these three packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -86,13 +85,13 @@ if [  $? -ne 0 ]; then return 1; fi
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD wxMac-2.8.7 --------"
+echo "------- BUILD wxMac-2.8.10 --------"
 echo "----------------------------------"
 echo ""
 
 cd "${SCRIPT_DIR}"
 
-cd ../../wxMac-2.8.7/
+cd ../../wxMac-2.8.10/
 if [  $? -ne 0 ]; then return 1; fi
 source "${SCRIPT_DIR}/buildWxMac.sh" ${doclean}
 if [  $? -ne 0 ]; then return 1; fi
