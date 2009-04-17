@@ -238,11 +238,14 @@ function show_bossa_user() {
     $app = BossaApp::lookup_id($app_id);
 
     include_app_file($app_id);
-    admin_page_head("Bossa user ($app->name)");
-    echo user_summary($user);
+    admin_page_head("$user->name ($app->name)");
+    $x = user_summary($user);
+    if ($x) {
+        echo "User info: $x<br>";
+    }
     $insts = BossaJobInst::enum("user_id=$user_id");
     start_table();
-    table_header("Job", "Calibration?", "Start", "Duration", "Result");
+    table_header("Job", "Calibration?", "Start", "Duration", "Response");
     foreach ($insts as $inst) {
         $job = BossaJob::lookup_id($inst->job_id);
         table_row(
