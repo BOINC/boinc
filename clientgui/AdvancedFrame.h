@@ -110,7 +110,7 @@ public:
 protected:
     virtual int     _GetCurrentViewPage();
 
-    wxAcceleratorEntry  m_Shortcuts[2];     // For HELP and SimpleGUI keyboard shortcuts
+    wxAcceleratorEntry  m_Shortcuts[1];     // For HELP keyboard shortcut
     wxAcceleratorTable* m_pAccelTable;
 
 private:

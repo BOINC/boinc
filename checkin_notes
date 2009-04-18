@@ -3994,3 +3994,11 @@ Charlie 17 Apr 2009
         SkinManager.cpp
         mac/
             MacGUI.pch
+
+Charlie 15 Apr 2009
+    MGR: Put keyboard shortcuts CTRL+SHIFT+S and CTRL+SHIFT+A in View Menu so 
+        their functionality is not hidden.  (On the Mac, this translates to 
+        COMMAND-SHIFT-A and COMMAND-SHIFT-S.)
+        
+    clientgui/
+        AdvancedFrame.cpp, .h

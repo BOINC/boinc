@@ -321,13 +321,13 @@ bool CAdvancedFrame::CreateMenu() {
 
     menuView->AppendRadioItem(
         ID_VIEWLIST,
-        _("&Advanced View"),
+        _("&Advanced View\tCTRL+SHIFT+A"),
         _("Advanced views allow you to sort various columns and displays graphical progress bars.")
     );
 
     menuView->Append(
         ID_FILESWITCHGUI,
-        _("&Simple View..."),
+        _("&Simple View...\tCTRL+SHIFT+S"),
         _("Display the simple BOINC graphical interface.")
     );
 
@@ -599,11 +599,9 @@ bool CAdvancedFrame::CreateMenu() {
     // Enable Mac OS X's standard Preferences menu item (handled in MacSysMenu.cpp)
     EnableMenuCommand(NULL, kHICommandPreferences);
     
-    // Set command-shift-S as a shortcut to Simple GUI
-    m_Shortcuts[0].Set(wxACCEL_CMD|wxACCEL_SHIFT, (int)'S', ID_FILESWITCHGUI);
     // Set HELP key as keyboard shortcut
-    m_Shortcuts[1].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
-    m_pAccelTable = new wxAcceleratorTable(2, m_Shortcuts);
+    m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
+    m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
     SetAcceleratorTable(*m_pAccelTable);
  #endif
 
