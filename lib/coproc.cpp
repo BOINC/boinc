@@ -266,7 +266,7 @@ void COPROC_CUDA::get(COPROCS& coprocs, vector<string>& strings) {
 }
 
 void COPROC_CUDA::description(char* buf) {
-	sprintf(buf, "%s (driver version %d, CUDA version %d.%d, %.0fMB, est. %.0fGFLOPS)",
+	sprintf(buf, "%s (driver version %d, compute capability %d.%d, %.0fMB, est. %.0fGFLOPS)",
 		prop.name, drvVersion, prop.major, prop.minor, prop.totalGlobalMem/(1024.*1024.), flops_estimate()/1e9
 	);
 }
