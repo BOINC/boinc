@@ -53,6 +53,7 @@ function job_finished($job, $inst) {
         $response->cy = get_int('pic_y');
     }
     $inst->set_opaque_data($response);
+    $job->set_state(BOSSA_JOB_DONE);
 }
 
 function job_timed_out($job, $inst, $user) {

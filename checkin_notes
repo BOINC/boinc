@@ -3995,10 +3995,20 @@ Charlie 17 Apr 2009
         mac/
             MacGUI.pch
 
-Charlie 15 Apr 2009
+Charlie 18 Apr 2009
     MGR: Put keyboard shortcuts CTRL+SHIFT+S and CTRL+SHIFT+A in View Menu so 
         their functionality is not hidden.  (On the Mac, this translates to 
         COMMAND-SHIFT-A and COMMAND-SHIFT-S.)
         
     clientgui/
         AdvancedFrame.cpp, .h
+
+David  19 Apr 2009
+    - client: improve CPU sched debug messages
+        (say what kind of job and why we're scheduling it)
+    - client: log messages describing GPUs: one line per GPU; fixes #879
+
+    client/
+        cpu_sched.cpp
+    lib/
+        coproc.cpp,h

@@ -104,10 +104,8 @@ void COPROCS::summary_string(char* buf, int len) {
 
 vector<string> COPROCS::get() {
     vector<string> strings;
-    string s = COPROC_CUDA::get(*this);
-    if (s.size()) strings.push_back(s);
-    s = COPROC_CELL_SPE::get(*this);
-    if (s.size()) strings.push_back(s);
+    COPROC_CUDA::get(*this, strings);
+    COPROC_CELL_SPE::get(*this, strings);
     return strings;
 }
 
@@ -144,7 +142,7 @@ COPROC* COPROCS::lookup(const char* type) {
 
 #endif
 
-string COPROC_CUDA::get(COPROCS& coprocs) {
+void COPROC_CUDA::get(COPROCS& coprocs, vector<string>& strings) {
     int count;
 
 #ifdef _WIN32
@@ -205,7 +203,7 @@ string COPROC_CUDA::get(COPROCS& coprocs) {
     }
 #endif
     if (!cudalib) {
-        return "Can't load library libcudart";
+        strings.push_back("Can't load library libcudart");
 #ifdef _USING_FCGI_
         FCGI::perror("dlopen");
 #else
@@ -214,11 +212,11 @@ string COPROC_CUDA::get(COPROCS& coprocs) {
     }
     __cudaGetDeviceCount = (void(*)(int*)) dlsym(cudalib, "cudaGetDeviceCount");
     if(!__cudaGetDeviceCount) {
-        return "Library doesn't have cudaGetDeviceCount()";
+        strings.push_back("Library doesn't have cudaGetDeviceCount()");
     }
     __cudaGetDeviceProperties = (void(*)(cudaDeviceProp*, int)) dlsym( cudalib, "cudaGetDeviceProperties" );
     if (!__cudaGetDeviceProperties) {
-        return "Library doesn't have cudaGetDeviceProperties()";
+        strings.push_back("Library doesn't have cudaGetDeviceProperties()");
     }
 #endif
 
@@ -257,18 +255,14 @@ string COPROC_CUDA::get(COPROCS& coprocs) {
         real_count++;
     }
     if (!real_count) {
-        return "No CUDA devices found";
+        strings.push_back("No CUDA devices found");
     }
     COPROC_CUDA* ccp = new COPROC_CUDA;
     *ccp = cc2;
     ccp->count = real_count;
     strcpy(ccp->type, "CUDA");
     coprocs.coprocs.push_back(ccp);
-    if (real_count == 1) {
-        return "CUDA device: "+s;
-    } else {
-        return "CUDA devices: "+s;
-    }
+    strings.push_back("CUDA device: "+s);
 }
 
 void COPROC_CUDA::description(char* buf) {
@@ -445,6 +439,6 @@ int COPROC_CUDA::parse(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
-string COPROC_CELL_SPE::get(COPROCS&) {
-    return "";
+void COPROC_CELL_SPE::get(COPROCS&, vector<string>&) {
+    return;
 }
