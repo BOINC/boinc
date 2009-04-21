@@ -151,7 +151,6 @@ void SIM_PROJECT::init() {
 
     // Initialize scratch variables.
     rr_sim_status.clear();
-    deadlines_missed = 0;
 
     // sim-specific:
     idle_time = 0;

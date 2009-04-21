@@ -4031,3 +4031,28 @@ David  20 Apr 2009
 
     lib/
         coproc.cpp,h
+
+Rom    21 Apr 2009
+    - WINBUILD: Update Project files for new layout.
+    
+    win_build/
+        boinc_cli_curl.vcproj
+        boinc_dll.vcproj
+        boinc_setup.vdproj (Deleted)
+        boinc_setup_auto.vdproj (Deleted)
+        boinc_ss.vcproj
+        boinccmd.vcproj
+        boincmgr_curl.vcproj
+        boincsvcctrl.vcproj
+        boinctray.vcproj
+        gr_boinc_cli_curl.vcproj (Deleted)
+        gr_boinc_dll.vcproj (Deleted)
+        gr_boinc_ss.vcproj (Deleted)
+        gr_boinccmd.vcproj (Deleted)
+        gr_boincmgr_curl.vcproj (Deleted)
+        GridRepublic.sln (Deleted)
+        libboinc.vcproj
+        libboinc_staticcrt.vcproj
+        sim.vcproj
+        ss_app.vcproj
+        updater.vcproj

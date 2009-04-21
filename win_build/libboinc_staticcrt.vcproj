@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../../boinc_depends_win_vs2005/openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;_DEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -118,7 +118,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../../boinc_depends_win_vs2005/openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;_DEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -191,7 +191,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../../boinc_depends_win_vs2005/openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				FloatingPointModel="2"
@@ -262,148 +262,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
-				PreprocessorDefinitions="_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
-				RuntimeLibrary="0"
-				FloatingPointModel="2"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="boinc_win.h"
-				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
-				BrowseInformation="0"
-				WarningLevel="4"
-				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="3"
-				CompileAs="2"
-				DisableSpecificWarnings="4127;4702;4244"
-				ForcedIncludeFiles="boinc_win.h"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\libboinc_staticcrt.lib"
-				AdditionalLibraryDirectories="../openssl/win32/x86/lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="ReleaseSigned|Win32"
-			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
-			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
-				PreprocessorDefinitions="_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
-				RuntimeLibrary="0"
-				FloatingPointModel="2"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="boinc_win.h"
-				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
-				BrowseInformation="0"
-				WarningLevel="4"
-				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="3"
-				CompileAs="2"
-				DisableSpecificWarnings="4127;4702;4244"
-				ForcedIncludeFiles="boinc_win.h"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\libboinc_staticcrt.lib"
-				AdditionalLibraryDirectories="../openssl/win32/x86/lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="ReleaseSigned|x64"
-			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
-			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="3"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../../boinc_depends_win_vs2005/openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				FloatingPointModel="2"
@@ -474,7 +333,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../../boinc_depends_win_vs2005/openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;_DEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -549,7 +408,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../../boinc_depends_win_vs2005/openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;_DEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -622,7 +481,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../../boinc_depends_win_vs2005/openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				FloatingPointModel="2"
@@ -693,7 +552,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../openssl/include;../coprocs/cuda/include"
+				AdditionalIncludeDirectories="..;../win_build;../lib;../api;../../boinc_depends_win_vs2005/openssl/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;HAVE_STD_MAX;HAVE_STD_MIN;HAVE_STD_TRANSFORM;CLIENT;BOINC_APP_GRAPHICS"
 				RuntimeLibrary="0"
 				FloatingPointModel="2"
@@ -823,22 +682,6 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Samples - Debug|Win32"
 					>
 					<Tool
@@ -864,6 +707,22 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Samples - Release|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
