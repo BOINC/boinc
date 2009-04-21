@@ -4018,3 +4018,10 @@ David  20 Apr 2009
 
     html/user/
         pm.php
+
+David  20 Apr 2009
+    - db_purge: improve error-checking; if we're failing to write archives,
+        quit immediately so that we don't delete unarchived DB records
+
+    sched/
+        db_purge.cpp
