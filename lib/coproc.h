@@ -15,6 +15,50 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Structures representing coprocessors (e.g. GPUs);
+// used in both client and server.
+//
+// Notes:
+//
+// 1) The use of "CUDA" is misleading; it really means "NVIDIA GPU".
+// 2) The design treats each resource type as a pool of identical devices;
+//  for example, there is a single "CUDA long-term debt" per project,
+//  and a scheduler request contains a request (#instances, instance-seconds)
+//  for CUDA jobs.
+//  In reality, the instances of a resource type can have different properties:
+//  In the case of CUDA, "compute capability", driver version, RAM, speed, etc.
+//  How to resolve this discrepancy?
+//
+//  Prior to 21 Apr 09 we identified the fastest instance
+//  and pretended that the others were identical to it.
+//  This approach has a serious flaw:
+//  suppose that the fastest instance has characteristics
+//  (version, RAM etc.) that satisfy the project's requirements,
+//  but other instances to not.
+//  Then BOINC executes jobs on GPUs that can't handle them,
+//  the jobs fail, the host is punished, etc.
+//
+//  We could treat each GPU has a separate resource,
+//  with its own set of debts, backoffs, etc.
+//  However, this would imply tying jobs to instances,
+//  which is undesirable from a scheduling viewpoint.
+//  It would also be a big code change in both client and server.
+//
+//  Instead, (as of 21 Apr 09) our approach is to identify a
+//  "most capable" instance, which in the case of CUDA is based on
+//  a) compute capability
+//  b) driver version
+//  c) RAM size
+//  d) est. FLOPS
+//  (in decreasing priority).
+//  We ignore and don't use any instances that are less capable
+//  on any of these axes.
+//
+//  This design avoids running coprocessor apps on instances
+//  that are incapable of handling them, and it involves no server changes.
+//  Its drawback is that, on systems with multiple and differing GPUs,
+//  it may not use some GPUs that actually could be used.
+
 #ifndef _COPROC_
 #define _COPROC_
 
@@ -45,6 +89,11 @@ struct COPROC {
     // The pointers point to ACTIVE_TASK
     //
     void* owner[MAX_COPROC_INSTANCES];
+
+    // the device number of each instance
+    // These are not sequential if we omit instances (see above)
+    //
+    int device_num[MAX_COPROC_INSTANCES];
 
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
