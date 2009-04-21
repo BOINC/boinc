@@ -4012,3 +4012,9 @@ David  19 Apr 2009
         cpu_sched.cpp
     lib/
         coproc.cpp,h
+
+David  20 Apr 2009
+    - web: swap positions of reply/delete buttons in private message display
+
+    html/user/
+        pm.php
