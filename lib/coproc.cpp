@@ -151,8 +151,8 @@ int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2) {
     if (c1.prop.minor < c2.prop.minor) return -1;
     if (c1.drvVersion > c2.drvVersion) return 1; 
     if (c1.drvVersion < c2.drvVersion) return -1; 
-    if (c1.prop.dtotalGlobalMem > c2.prop.dtotalGlobalMem) return 1;
-    if (c1.prop.dtotalGlobalMem < c2.prop.dtotalGlobalMem) return -1;
+    if (c1.prop.totalGlobalMem > c2.prop.totalGlobalMem) return 1;
+    if (c1.prop.totalGlobalMem < c2.prop.totalGlobalMem) return -1;
 	double s1 = c1.flops_estimate();
 	double s2 = c1.flops_estimate();
 	if (s1 > s2) return 1;
@@ -173,17 +173,17 @@ void COPROC_CUDA::get(COPROCS& coprocs, vector<string>& strings) {
 
     HMODULE cudalib = LoadLibrary("cudart.dll");
     if (!cudalib) {
-        return "Can't load library cudart.dll";
+        strings.push_back("Can't load library cudart.dll");
     }
 
     __cudaGetDeviceCount = (PCGDC)GetProcAddress( cudalib, "cudaGetDeviceCount" );
     if (!__cudaGetDeviceCount) {
-        return "Library doesn't have cudaGetDeviceCount()";
+        strings.push_back("Library doesn't have cudaGetDeviceCount()");
     }
 
     __cudaGetDeviceProperties = (PCGDP)GetProcAddress( cudalib, "cudaGetDeviceProperties" );
     if (!__cudaGetDeviceProperties) {
-        return "Library doesn't have cudaGetDeviceProperties()";
+        strings.push_back("Library doesn't have cudaGetDeviceProperties()");
     }
 
 #ifndef SIM
@@ -238,13 +238,14 @@ void COPROC_CUDA::get(COPROCS& coprocs, vector<string>& strings) {
     }
 #endif
 
+    vector<COPROC_CUDA> gpus;
     (*__cudaGetDeviceCount)(&count);
-    int real_count = 0;
-    COPROC_CUDA cc, cc2;
+    int j;
+    unsigned int i;
+    COPROC_CUDA cc;
     string s;
-    for (int i=0; i<count; i++) {
-		char buf[256];
-        (*__cudaGetDeviceProperties)(&cc.prop, i);
+    for (j=0; j<count; j++) {
+        (*__cudaGetDeviceProperties)(&cc.prop, j);
         if (cc.prop.major <= 0) continue;  // major == 0 means emulation
         if (cc.prop.major > 100) continue;  // e.g. 9999 is an error
 #if defined(_WIN32) && !defined(SIM)
@@ -252,29 +253,45 @@ void COPROC_CUDA::get(COPROCS& coprocs, vector<string>& strings) {
 #else
         cc.drvVersion = 0;
 #endif
-		cc.description(buf);
+        cc.device_num = j;
+        gpus.push_back(cc);
+    }
 
-        if (real_count) {
-            if (cc.flops_estimate() > cc2.flops_estimate()) {
-                cc2 = cc;
-            }
-            s += ", ";
-            s += buf;
-        } else {
-            s = buf;
-            cc2 = cc;
-        }
-        real_count++;
-    }
-    if (!real_count) {
+    if (!gpus.size()) {
         strings.push_back("No CUDA devices found");
+        return;
     }
+
+    // identify the most capable instance
+    //
+    COPROC_CUDA best;
+    for (i=0; i<gpus.size(); i++) {
+        if (i==0) {
+            best = gpus[i];
+        } else if (cuda_compare(gpus[i], best) > 0) {
+            best = gpus[i];
+        }
+    }
+
+    // see which other instances are equivalent,
+    // and set the "count" and "device_nums" fields
+    //
+    best.count = 0;
+    for (i=0; i<gpus.size(); i++) {
+        char buf[256];
+		cc.description(buf);
+        if (!cuda_compare(gpus[i], best)) {
+            best.device_nums[best.count] = gpus[i].device_num;
+            best.count++;
+            strings.push_back("CUDA device: "+string(buf));
+        } else {
+            strings.push_back("CUDA device (not used): "+string(buf));
+        }
+    }
+
     COPROC_CUDA* ccp = new COPROC_CUDA;
-    *ccp = cc2;
-    ccp->count = real_count;
-    strcpy(ccp->type, "CUDA");
+    *ccp = best;
     coprocs.coprocs.push_back(ccp);
-    strings.push_back("CUDA device: "+s);
 }
 
 void COPROC_CUDA::description(char* buf) {

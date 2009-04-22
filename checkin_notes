@@ -2966,14 +2966,14 @@ David  9 Mar 2009
         sched_array.cpp
 
 David  9 Mar 2009
-	- client: backoff overrides project-requested scheduler RPC.
-		Otherwise, if scheduler is down, we'll retry infinitely every 10 secs
-	- client: remove auto_update.poll() (not used)
+    - client: backoff overrides project-requested scheduler RPC.
+        Otherwise, if scheduler is down, we'll retry infinitely every 10 secs
+    - client: remove auto_update.poll() (not used)
 
-	client/
-		client_state.cpp
-		cs_scheduler.cpp
-		scheduler_op.cpp
+    client/
+        client_state.cpp
+        cs_scheduler.cpp
+        scheduler_op.cpp
 
 David  11 Mar 2009
     - Manager: show elapsed time instead of CPU time in Task tab.
@@ -3080,7 +3080,7 @@ Charlie 17 Mar 2009
 Eric K  17 Mar 2009
     - Linux: client: Added code to detect capability to run 64-bit binaries
         from 32-bit BOINC client, and capability to run 32-bit binaries on 
-	a 64-bit linux system.
+    a 64-bit linux system.
 
     client/
         cs_platforms.cpp
@@ -3209,16 +3209,16 @@ David  20 Mar 2009
         host.inc
 
 David  22 Mar 2009
-	- client: garbage collect after scheduler RPC;
-		if project sent some irrelevant FILE_INFOs,
-		this will avoid starting transfers for them.
-	api/
-		boinc_api.cpp
-	client/
-		cs_scheduler.cpp
-		gui_rpc_server_ops.cpp
-	samples/multi_thread/
-		multi_thread.cpp
+    - client: garbage collect after scheduler RPC;
+        if project sent some irrelevant FILE_INFOs,
+        this will avoid starting transfers for them.
+    api/
+        boinc_api.cpp
+    client/
+        cs_scheduler.cpp
+        gui_rpc_server_ops.cpp
+    samples/multi_thread/
+        multi_thread.cpp
 
 David  23 Mar 2009
     - API: don't try to unlock lockfile if we failed to lock it
@@ -3232,10 +3232,10 @@ David  23 Mar 2009
         filesys.cpp,h
 
 David  23 Mar 2009
-	- new screensaver: don't show jobs if suspended
+    - new screensaver: don't show jobs if suspended
 
-	clientscr/
-		ss_app.cpp
+    clientscr/
+        ss_app.cpp
 
 David  23 Mar 2009
     - API: more lockfile messages
@@ -3729,10 +3729,10 @@ David  9 Apr 2009
         cpu_sched.cpp
 
 David  9 Apr 2009
-	- manager: show execution directory in task properties
+    - manager: show execution directory in task properties
 
-	clientgui/
-		DlgItemProperties.cpp
+    clientgui/
+        DlgItemProperties.cpp
 
 Rom    9 Apr 2009
     - WINSETUP 'Everyone' is not just a group, it is a well known
@@ -3846,21 +3846,21 @@ Charlie 13 Apr 2009
             project.pbxproj
 
 David  14 Apr 2009
-	- client: eliminate the need to write the state file on each checkpoint.
-		Instead, write the info into a file in the slot directory,
-		and check for these files on startup.
-		This should reduce the overhead of state-file writing
-		on machines with lots of cores.
-		There will still be a flurry of writes each time a job finishes,
-		but reducing that overhead would be a larger job.
-	- client: make sure we write the state file after a failed RPC
+    - client: eliminate the need to write the state file on each checkpoint.
+        Instead, write the info into a file in the slot directory,
+        and check for these files on startup.
+        This should reduce the overhead of state-file writing
+        on machines with lots of cores.
+        There will still be a flurry of writes each time a job finishes,
+        but reducing that overhead would be a larger job.
+    - client: make sure we write the state file after a failed RPC
 
-	client/
-		app.cpp,h
-		app_control.cpp
-		cs_scheduler.cpp
-		file_names.h
-		scheduler_op.cpp
+    client/
+        app.cpp,h
+        app_control.cpp
+        cs_scheduler.cpp
+        file_names.h
+        scheduler_op.cpp
 
 Charlie 15 Apr 2009
     SS: Under Mac Sandbox security, launch default screensaver graphics app 
@@ -4056,3 +4056,23 @@ Rom    21 Apr 2009
         sim.vcproj
         ss_app.vcproj
         updater.vcproj
+
+David  21 Apr 2009
+    - client: new approach to handling multiple GPUs.
+        old: find fastest GPU, and pretend that others are the same.
+            Problem: other GPUs might be less capable,
+            and not able to handle jobs sent by server.
+        new: find the most "capable" GPU, use others that are equivalent,
+            don't use those that are not.
+            "Capable" is defined by
+            - compute capability (i.e., hardware version)
+            - driver version
+            - memory size
+            - FLOPs
+            in that priority order.
+        See comments in lib/coproc.h
+
+    client/
+        app_start.cpp
+    lib/
+        coproc.cpp,h

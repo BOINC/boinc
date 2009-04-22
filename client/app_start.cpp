@@ -158,7 +158,7 @@ static void coproc_cmdline(
                 return;
             }
             if (coproc->owner[k] == NULL) {
-                sprintf(buf, " --device %d", k);
+                sprintf(buf, " --device %d", coproc->device_nums[k]);
                 strcat(cmdline, buf);
                 coproc->owner[k++] = atp;
                 break;
