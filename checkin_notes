@@ -4082,3 +4082,22 @@ David  21 Apr 2009
 
     lib/
         coproc.cpp
+
+Rom    22 Apr 2009
+    - WINBUILD: More project file fixes
+    - WINBUILD: Create a new configuration for building the Unicode
+        version of the BOINC Manager.
+        
+    win_build
+        boinc_cli_curl.vcproj
+        boinc_dll.vcproj
+        boinc_ss.vcproj
+        boinccmd.vcproj
+        boincmgr_curl.vcproj
+        boincsvcctrl.vcproj
+        boinctray.vcproj
+        libboinc.vcproj
+        libboinc_staticcrt.vcproj
+        sim.vcproj
+        ss_app.vcproj
+        updater.vcproj

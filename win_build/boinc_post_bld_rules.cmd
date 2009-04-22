@@ -20,6 +20,7 @@ rem 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 rem
 
 FOR /F "usebackq delims==" %%I IN ('%1') DO set PROJECTROOTDIR=%%~I\..
+FOR /F "usebackq delims==" %%I IN ('%1') DO set DEPENDSROOTDIR=%%~I\..\boinc_depends_win_vs2005
 FOR /F "usebackq delims==" %%J IN ('%2') DO set OUTPUTDIR=%%~J
 FOR /F "usebackq delims==" %%K IN ('%3') DO set PLATFORMNAME=%%~K
 FOR /F "usebackq delims==" %%L IN ('%4') DO set CONFIGNAME=%%~L
@@ -51,12 +52,12 @@ if not exist %OUTPUTDIR%\srcsrv.dll (
 
 if not exist %OUTPUTDIR%\libcurld.dll (
     echo Copying libcurld to the output directory...
-    copy "%PROJECTROOTDIR%\curl\mswin\%PLATFORMNAME%\%CONFIGNAME%\bin\libcurld.dll" "%OUTPUTDIR%"
+    copy "%DEPENDSROOTDIR%\curl\mswin\%PLATFORMNAME%\%CONFIGNAME%\bin\libcurld.dll" "%OUTPUTDIR%"
 )
 
 if not exist %OUTPUTDIR%\libcurl.dll (
     echo Copying libcurl to the output directory...
-    copy "%PROJECTROOTDIR%\curl\mswin\%PLATFORMNAME%\%CONFIGNAME%\bin\libcurl.dll" "%OUTPUTDIR%"
+    copy "%DEPENDSROOTDIR%\curl\mswin\%PLATFORMNAME%\%CONFIGNAME%\bin\libcurl.dll" "%OUTPUTDIR%"
 )
 
 if not exist %OUTPUTDIR%\ca-bundle.crt (
@@ -66,22 +67,22 @@ if not exist %OUTPUTDIR%\ca-bundle.crt (
 
 if not exist %OUTPUTDIR%\libeay32.dll (
     echo Copying libeay32 to the output directory...
-    copy "%PROJECTROOTDIR%\openssl\mswin\%PLATFORMNAME%\%CONFIGNAME%\bin\libeay32.dll" "%OUTPUTDIR%"
+    copy "%DEPENDSROOTDIR%\openssl\mswin\%PLATFORMNAME%\%CONFIGNAME%\bin\libeay32.dll" "%OUTPUTDIR%"
 )
 
 if not exist %OUTPUTDIR%\ssleay32.dll (
     echo Copying ssleay32 to the output directory...
-    copy "%PROJECTROOTDIR%\openssl\mswin\%PLATFORMNAME%\%CONFIGNAME%\bin\ssleay32.dll" "%OUTPUTDIR%"
+    copy "%DEPENDSROOTDIR%\openssl\mswin\%PLATFORMNAME%\%CONFIGNAME%\bin\ssleay32.dll" "%OUTPUTDIR%"
 )
 
 if not exist %OUTPUTDIR%\zlib1d.dll (
     echo Copying zlib1d to the output directory...
-    copy "%PROJECTROOTDIR%\zlib\mswin\%PLATFORMNAME%\%CONFIGNAME%\bin\zlib1d.dll" "%OUTPUTDIR%"
+    copy "%DEPENDSROOTDIR%\zlib\mswin\%PLATFORMNAME%\%CONFIGNAME%\bin\zlib1d.dll" "%OUTPUTDIR%"
 )
 
 if not exist %OUTPUTDIR%\zlib1.dll (
     echo Copying zlib1 to the output directory...
-    copy "%PROJECTROOTDIR%\zlib\mswin\%PLATFORMNAME%\%CONFIGNAME%\bin\zlib1.dll" "%OUTPUTDIR%"
+    copy "%DEPENDSROOTDIR%\zlib\mswin\%PLATFORMNAME%\%CONFIGNAME%\bin\zlib1.dll" "%OUTPUTDIR%"
 )
 
 if not exist %OUTPUTDIR%\cudart.dll (

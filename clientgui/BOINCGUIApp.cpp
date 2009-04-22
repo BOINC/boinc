@@ -606,7 +606,7 @@ void CBOINCGUIApp::DetectRootDirectory() {
     // change the current directory to the boinc install directory
     GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
 		
-    TCHAR *pszProg = strrchr(szPath, '\\');
+    TCHAR *pszProg = _tcsrchr(szPath, '\\');
     if (pszProg) {
         szPath[pszProg - szPath + 1] = 0;
     }

@@ -452,8 +452,8 @@
 		</Configuration>
 		<Configuration
 			Name="Samples - Debug|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="1"
@@ -560,8 +560,8 @@
 		</Configuration>
 		<Configuration
 			Name="Samples - Debug|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="1"
@@ -669,8 +669,8 @@
 		</Configuration>
 		<Configuration
 			Name="Samples - Release|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="1"
@@ -776,8 +776,8 @@
 		</Configuration>
 		<Configuration
 			Name="Samples - Release|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="1"
@@ -882,6 +882,224 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+		<Configuration
+			Name="Unicode - Debug|Win32"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
+			ConfigurationType="1"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="1"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Build\Debug/boinc_ss.tlb"
+				HeaderFileName=""
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="../,../api/,../lib,../client/"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="1"
+				BufferSecurityCheck="true"
+				FloatingPointModel="2"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="boinc_win.h"
+				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
+				AssemblerListingLocation=""
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
+				BrowseInformation="0"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
+				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
+				ForcedIncludeFiles="boinc_win.h"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"
+				AdditionalIncludeDirectories="../"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib userenv.lib"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
+				LinkIncremental="0"
+				SuppressStartupBanner="true"
+				IgnoreAllDefaultLibraries="true"
+				IgnoreDefaultLibraryNames=""
+				DelayLoadDLLs=""
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc_scr.pdb"
+				SubSystem="2"
+				StackReserveSize="0"
+				StackCommitSize="0"
+				OptimizeReferences="0"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				EmbedManifest="true"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Unicode - Debug|x64"
+			OutputDirectory=".\Build\$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName)\obj"
+			ConfigurationType="1"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			UseOfMFC="1"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="3"
+				TypeLibraryName=".\Build\Debug/boinc_ss.tlb"
+				HeaderFileName=""
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="../,../api/,../lib,../client/"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="1"
+				BufferSecurityCheck="true"
+				FloatingPointModel="2"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="boinc_win.h"
+				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
+				AssemblerListingLocation=""
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="$(IntDir)\vc80.pdb"
+				BrowseInformation="0"
+				WarningLevel="4"
+				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+				CompileAs="2"
+				DisableSpecificWarnings="4127;4702;4244"
+				ForcedIncludeFiles="boinc_win.h"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"
+				AdditionalIncludeDirectories="../"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
+				LinkIncremental="0"
+				SuppressStartupBanner="true"
+				IgnoreAllDefaultLibraries="true"
+				IgnoreDefaultLibraryNames=""
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc_scr.pdb"
+				SubSystem="2"
+				StackReserveSize="0"
+				StackCommitSize="0"
+				OptimizeReferences="0"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				EmbedManifest="true"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
 	</Configurations>
 	<References>
 	</References>
@@ -930,22 +1148,6 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="ReleaseSigned|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseSigned|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Samples - Debug|Win32"
 					>
 					<Tool
@@ -971,6 +1173,38 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Samples - Release|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Unicode - Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Unicode - Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseSigned|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
