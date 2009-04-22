@@ -4076,3 +4076,9 @@ David  21 Apr 2009
         app_start.cpp
     lib/
         coproc.cpp,h
+
+David  21 Apr 2009
+    - client: fix crash bug in CUDA init
+
+    lib/
+        coproc.cpp

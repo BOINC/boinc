@@ -174,16 +174,19 @@ void COPROC_CUDA::get(COPROCS& coprocs, vector<string>& strings) {
     HMODULE cudalib = LoadLibrary("cudart.dll");
     if (!cudalib) {
         strings.push_back("Can't load library cudart.dll");
+        return;
     }
 
     __cudaGetDeviceCount = (PCGDC)GetProcAddress( cudalib, "cudaGetDeviceCount" );
     if (!__cudaGetDeviceCount) {
         strings.push_back("Library doesn't have cudaGetDeviceCount()");
+        return;
     }
 
     __cudaGetDeviceProperties = (PCGDP)GetProcAddress( cudalib, "cudaGetDeviceProperties" );
     if (!__cudaGetDeviceProperties) {
         strings.push_back("Library doesn't have cudaGetDeviceProperties()");
+        return;
     }
 
 #ifndef SIM
@@ -222,19 +225,17 @@ void COPROC_CUDA::get(COPROCS& coprocs, vector<string>& strings) {
 #endif
     if (!cudalib) {
         strings.push_back("Can't load library libcudart");
-#ifdef _USING_FCGI_
-        FCGI::perror("dlopen");
-#else
-	std::perror("dlopen");
-#endif
+        return;
     }
     __cudaGetDeviceCount = (void(*)(int*)) dlsym(cudalib, "cudaGetDeviceCount");
     if(!__cudaGetDeviceCount) {
         strings.push_back("Library doesn't have cudaGetDeviceCount()");
+        return;
     }
     __cudaGetDeviceProperties = (void(*)(cudaDeviceProp*, int)) dlsym( cudalib, "cudaGetDeviceProperties" );
     if (!__cudaGetDeviceProperties) {
         strings.push_back("Library doesn't have cudaGetDeviceProperties()");
+        return;
     }
 #endif
 
