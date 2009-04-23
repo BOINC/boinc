@@ -133,6 +133,24 @@ COPROC* COPROCS::lookup(const char* type) {
 
 #endif
 
+// return 1/-1/0 if device 1 is more/less/same capable than device 2
+//
+int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2) {
+    if (c1.prop.major > c2.prop.major) return 1;
+    if (c1.prop.major < c2.prop.major) return -1;
+    if (c1.prop.minor > c2.prop.minor) return 1;
+    if (c1.prop.minor < c2.prop.minor) return -1;
+    if (c1.drvVersion > c2.drvVersion) return 1; 
+    if (c1.drvVersion < c2.drvVersion) return -1; 
+    if (c1.prop.dtotalGlobalMem > c2.prop.dtotalGlobalMem) return 1;
+    if (c1.prop.dtotalGlobalMem < c2.prop.dtotalGlobalMem) return -1;
+	double s1 = c1.flops_estimate();
+	double s2 = c1.flops_estimate();
+	if (s1 > s2) return 1;
+	if (s1 < s2) return -1;
+	return 0;
+}
+
 void COPROC_CUDA::get(COPROCS& coprocs, vector<string>& strings) {
     int count;
 
@@ -207,12 +225,6 @@ void COPROC_CUDA::get(COPROCS& coprocs, vector<string>& strings) {
     }
 #endif
 
-    // NOTE: our design is slightly flawed:
-    // there's no provision for having two coprocs of type CUDA.
-    // So on systems with two GPUs of different hardware types
-    // we have to count them as two of the same type.
-    // Pick the fastest.
-    //
     (*__cudaGetDeviceCount)(&count);
     int real_count = 0;
     COPROC_CUDA cc, cc2;

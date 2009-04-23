@@ -2528,3 +2528,9 @@ David  19 Apr 2009
         cpu_sched.cpp
     lib/
         coproc.cpp,h
+
+David  20 Apr 2009
+    - partial checkin so I can edit locally (bad network connection)
+
+    lib/
+        coproc.cpp,h
