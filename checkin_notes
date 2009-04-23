@@ -2568,3 +2568,12 @@ David  22 Apr 2009
 
 	client/
 		cpu_sched.cpp
+
+Rom    23 Apr 2009
+    - Tag for 6.6.24 release, all platforms
+      boinc_core_release_6_6_24
+
+    /
+        configure.ac
+        version.h
+
