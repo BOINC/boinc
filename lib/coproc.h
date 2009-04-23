@@ -74,6 +74,8 @@
 
 #define MAX_COPROC_INSTANCES 64
 
+// represents a set of equivalent coprocessors
+//
 struct COPROC {
     char type[256];     // must be unique
     int count;          // how many are present
@@ -93,7 +95,8 @@ struct COPROC {
     // the device number of each instance
     // These are not sequential if we omit instances (see above)
     //
-    int device_num[MAX_COPROC_INSTANCES];
+    int device_nums[MAX_COPROC_INSTANCES];
+    int device_num;     // temp used in scan process
 
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
@@ -189,7 +192,7 @@ struct cudaDeviceProp {
   int    deviceOverlap;
   int    multiProcessorCount;
   int    __cudaReserved[40];
-  double dtotalGlobalMem;
+  double dtotalGlobalMem;   // not defined in client
 };
 
 struct COPROC_CUDA : public COPROC {

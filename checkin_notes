@@ -2534,3 +2534,23 @@ David  20 Apr 2009
 
     lib/
         coproc.cpp,h
+
+David  21 Apr 2009
+    - client: new approach to handling multiple GPUs.
+        old: find fastest GPU, and pretend that others are the same.
+            Problem: other GPUs might be less capable,
+            and not able to handle jobs sent by server.
+        new: find the most "capable" GPU, use others that are equivalent,
+            don't use those that are not.
+            "Capable" is defined by
+            - compute capability (i.e., hardware version)
+            - driver version
+            - memory size
+            - FLOPs
+            in that priority order.
+        See comments in lib/coproc.h
+
+    client/
+        app_start.cpp
+    lib/
+        coproc.cpp,h
