@@ -2504,3 +2504,9 @@ David  15 Apr 2009
 
     client/
         app_control.cpp
+
+Davaid  16 Apr 2009
+    - client: another try at fixing the above crash
+
+    client/
+        app_control.cpp

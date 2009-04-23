@@ -413,7 +413,7 @@ void ACTIVE_TASK_SET::send_heartbeats() {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
         if (!atp->app_client_shm.shm) continue;
-		sprintf(buf, "<heartbeat/>"
+		snprintf(buf, sizeof(buf), "<heartbeat/>"
 			"<wss>%e</wss>"
 			"<max_wss>%e</max_wss>",
 			atp->procinfo.working_set_size, ar
