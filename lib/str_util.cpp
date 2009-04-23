@@ -781,26 +781,26 @@ const char* rpc_reason_string(int reason) {
 //
 char* windows_error_string(char* pszBuf, int iSize) {
     DWORD dwRet;
-    LPTSTR lpszTemp = NULL;
+    LPSTR lpszTemp = NULL;
 
-    dwRet = FormatMessage(
+    dwRet = FormatMessageA(
         FORMAT_MESSAGE_ALLOCATE_BUFFER |
         FORMAT_MESSAGE_FROM_SYSTEM |
         FORMAT_MESSAGE_ARGUMENT_ARRAY,
         NULL,
         GetLastError(),
         LANG_NEUTRAL,
-        (LPTSTR)&lpszTemp,
+        (LPSTR)&lpszTemp,
         0,
         NULL
     );
 
     // supplied buffer is not long enough
     if ( !dwRet || ( (long)iSize < (long)dwRet+14 ) ) {
-        pszBuf[0] = TEXT('\0');
+        pszBuf[0] = '\0';
     } else {
-        lpszTemp[lstrlen(lpszTemp)-2] = TEXT('\0');  //remove cr and newline character
-        sprintf( pszBuf, TEXT("%s (0x%x)"), lpszTemp, GetLastError() );
+        lpszTemp[lstrlenA(lpszTemp)-2] = '\0';  //remove cr and newline character
+        sprintf ( pszBuf, "%s (0x%x)", lpszTemp, GetLastError() );
     }
 
     if ( lpszTemp ) {
@@ -816,26 +816,26 @@ char* windows_format_error_string(
     unsigned long dwError, char* pszBuf, int iSize
 ) {
     DWORD dwRet;
-    LPTSTR lpszTemp = NULL;
+    LPSTR lpszTemp = NULL;
 
-    dwRet = FormatMessage(
+    dwRet = FormatMessageA(
         FORMAT_MESSAGE_ALLOCATE_BUFFER |
         FORMAT_MESSAGE_FROM_SYSTEM |
         FORMAT_MESSAGE_ARGUMENT_ARRAY,
         NULL,
         dwError,
         LANG_NEUTRAL,
-        (LPTSTR)&lpszTemp,
+        (LPSTR)&lpszTemp,
         0,
         NULL
     );
 
     // supplied buffer is not long enough
     if ( !dwRet || ( (long)iSize < (long)dwRet+14 ) ) {
-        pszBuf[0] = TEXT('\0');
+        pszBuf[0] = '\0';
     } else {
-        lpszTemp[lstrlen(lpszTemp)-2] = TEXT('\0');  //remove cr and newline character
-        sprintf( pszBuf, TEXT("%s (0x%x)"), lpszTemp, dwError );
+        lpszTemp[lstrlenA(lpszTemp)-2] = '\0';  //remove cr and newline character
+        sprintf( pszBuf, "%s (0x%x)", lpszTemp, dwError );
     }
 
     if ( lpszTemp ) {

@@ -362,7 +362,7 @@ int run_program(
 ) {
     int retval;
     PROCESS_INFORMATION process_info;
-    STARTUPINFO startup_info;
+    STARTUPINFOA startup_info;
     char cmdline[1024];
     char error_msg[1024];
     unsigned long status;
@@ -379,7 +379,7 @@ int run_program(
         }
     }
 
-    retval = CreateProcess(
+    retval = CreateProcessA(
         file,
         cmdline,
         NULL,
@@ -492,7 +492,7 @@ static int get_client_mutex(const char*) {
     }
     strcat( buf, RUN_MUTEX);
 
-    HANDLE h = CreateMutex(NULL, true, buf);
+    HANDLE h = CreateMutexA(NULL, true, buf);
     if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
         return ERR_ALREADY_RUNNING;
     }

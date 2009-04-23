@@ -50,14 +50,14 @@ typedef HRESULT (WINAPI *MYSHGETFOLDERPATH)(HWND hwnd, int csidl, HANDLE hToken,
 //
 void get_home_dir_path( std::string& path ) {
 #ifdef _WIN32
-    TCHAR               szBuffer[MAX_PATH];
+    CHAR                szBuffer[MAX_PATH];
     HMODULE             hShell32;
 	MYSHGETFOLDERPATH   pfnMySHGetFolderPath = NULL;
 
     // Attempt to link to dynamic function if it exists
     hShell32 = LoadLibrary(_T("SHELL32.DLL"));
     if (NULL != hShell32) {
-        pfnMySHGetFolderPath = (MYSHGETFOLDERPATH) GetProcAddress(hShell32, _T("SHGetFolderPathA"));
+        pfnMySHGetFolderPath = (MYSHGETFOLDERPATH) GetProcAddress(hShell32, "SHGetFolderPathA");
     }
 
     if (NULL != pfnMySHGetFolderPath) {
@@ -440,8 +440,8 @@ bool detect_setup_authenticator_ie(std::string& project_url, std::string& authen
 	// worldcommunitygrid.org
     parse_hostname(project_url, hostname);
 
-    bReturnValue = InternetGetCookie(project_url.c_str(), NULL, szCookieBuffer, &dwSize) == TRUE;
-	if (!bReturnValue) bReturnValue = InternetGetCookie(hostname.c_str(), NULL, szCookieBuffer, &dwSize) == TRUE;
+    bReturnValue = InternetGetCookieA(project_url.c_str(), NULL, szCookieBuffer, &dwSize) == TRUE;
+	if (!bReturnValue) bReturnValue = InternetGetCookieA(hostname.c_str(), NULL, szCookieBuffer, &dwSize) == TRUE;
     if (bReturnValue)
     {
         // reset this becuase at this point we just know that we found some cookies for the website.  We don't

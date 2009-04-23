@@ -85,14 +85,14 @@ BOOL IsTerminalServicesEnabled() {
         {
             // In Windows 2000 we need to use the Product Suite APIs
             // Don't static link because it won't load on non-Win2000 systems
-            hmodNtDll = GetModuleHandle( "NTDLL.DLL" );
+            hmodNtDll = GetModuleHandleA( "NTDLL.DLL" );
             if (hmodNtDll != NULL)
             {
                 pfnVerSetConditionMask = (PFnVerSetConditionMask )GetProcAddress( hmodNtDll, "VerSetConditionMask");
                 if (pfnVerSetConditionMask != NULL)
                 {
                     dwlConditionMask = (*pfnVerSetConditionMask)( dwlConditionMask, VER_SUITENAME, VER_AND );
-                    hmodK32 = GetModuleHandle( "KERNEL32.DLL" );
+                    hmodK32 = GetModuleHandleA( "KERNEL32.DLL" );
                     if (hmodK32 != NULL)
                     {
                         pfnVerifyVersionInfoA = (PFnVerifyVersionInfoA)GetProcAddress( hmodK32, "VerifyVersionInfoA") ;
@@ -650,12 +650,12 @@ Scott Field (sfield)    12-Jul-95
 
 BOOL
 GetAccountSid(
-    LPCTSTR SystemName,
-    LPCTSTR AccountName,
+    LPCSTR SystemName,
+    LPCSTR AccountName,
     PSID *Sid
     )
 {
-    LPTSTR ReferencedDomain=NULL;
+    LPSTR ReferencedDomain=NULL;
     DWORD cbSid=128;    // initial allocation attempt
     DWORD cchReferencedDomain=16; // initial allocation size
     SID_NAME_USE peUse;
@@ -670,10 +670,10 @@ GetAccountSid(
 
         if(*Sid == NULL) throw;
 
-        ReferencedDomain = (LPTSTR)HeapAlloc(
+        ReferencedDomain = (LPSTR)HeapAlloc(
                         GetProcessHeap(),
                         0,
-                        cchReferencedDomain * sizeof(TCHAR)
+                        cchReferencedDomain * sizeof(CHAR)
                         );
 
         if(ReferencedDomain == NULL) throw;
@@ -681,7 +681,7 @@ GetAccountSid(
         //
         // Obtain the SID of the specified account on the specified system.
         //
-        while(!LookupAccountName(
+        while(!LookupAccountNameA(
                         SystemName,         // machine to lookup account on
                         AccountName,        // account to lookup
                         *Sid,               // SID of interest
@@ -702,11 +702,11 @@ GetAccountSid(
                             );
                 if(*Sid == NULL) throw;
 
-                ReferencedDomain = (LPTSTR)HeapReAlloc(
+                ReferencedDomain = (LPSTR)HeapReAlloc(
                             GetProcessHeap(),
                             0,
                             ReferencedDomain,
-                            cchReferencedDomain * sizeof(TCHAR)
+                            cchReferencedDomain * sizeof(CHAR)
                             );
                 if(ReferencedDomain == NULL) throw;
             }
@@ -754,7 +754,7 @@ int suspend_or_resume_threads(DWORD pid, bool resume) {
     tOT pOT = NULL;
  
     // Dynamically link to the proper function pointers.
-    hKernel32Lib = GetModuleHandle("kernel32.dll");
+    hKernel32Lib = GetModuleHandleA("kernel32.dll");
     pOT = (tOT) GetProcAddress( hKernel32Lib, "OpenThread" );
 
     if (!pOT) {

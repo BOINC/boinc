@@ -279,7 +279,7 @@ typedef BOOL (__stdcall *tSFA)(
 // SymInitialize()
 typedef BOOL (__stdcall *tSI)(
     IN HANDLE hProcess,
-    IN PCTSTR UserSearchPath,
+    IN PCSTR UserSearchPath,
     IN BOOL fInvadeProcess
 );
 
@@ -321,7 +321,7 @@ typedef BOOL (__stdcall *tSW)(
 // UnDecorateSymbolName()
 typedef DWORD (__stdcall *tUDSN)(
     PCSTR DecoratedName,
-    PSTR UnDecoratedName,
+    PSTR  UnDecoratedName,
     DWORD UndecoratedLength,
     DWORD Flags
 );
@@ -334,7 +334,7 @@ typedef BOOL (__stdcall *tSSSO)(
 
 // SetDllDirectory
 typedef BOOL (__stdcall *tSDD)(
-    LPCTSTR lpPathName
+    LPCSTR lpPathName
 );
 
 
@@ -355,7 +355,7 @@ typedef BOOL (__stdcall *tGFVI)(
 // VerQueryValue 
 typedef BOOL (__stdcall *tVQV)(
     const LPVOID pBlock,
-    LPTSTR lpSubBlock,
+    LPCSTR lpSubBlock,
     LPVOID *lplpBuffer,
     PUINT puLen
 );

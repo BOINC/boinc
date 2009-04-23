@@ -21,9 +21,8 @@
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #endif
-#include <string>
-#include "win_util.h"
 
+#include "win_util.h"
 #include "filesys.h"
 #include "error_numbers.h"
 #include "common_defs.h"
@@ -31,22 +30,20 @@
 #include "parse.h"
 #include "base64.h"
 
-using std::string;
-
 HANDLE sandbox_account_interactive_token = NULL;
 HANDLE sandbox_account_service_token = NULL;
 
 void get_sandbox_account_interactive_token() {
-    FILE* f;
-    char buf[256];
-    string encoded_username_str;
-    string encoded_password_str;
-    string username_str;
-    string domainname_str; 
-    string password_str; 
-    int retval = 0;
-    static bool first=true;
-    PSID sandbox_account_sid = NULL;
+    FILE*       f;
+    char        buf[256];
+    std::string encoded_username_str;
+    std::string encoded_password_str;
+    std::string username_str;
+    std::string domainname_str; 
+    std::string password_str; 
+    int         retval = 0;
+    static bool first = true;
+    PSID        sandbox_account_sid = NULL;
 
     if (!first) return;
     first = false;
@@ -61,7 +58,7 @@ void get_sandbox_account_interactive_token() {
 
     password_str = r_base64_decode(encoded_password_str); 
 
-    if (string::npos != encoded_username_str.find('\\')) {
+    if (std::string::npos != encoded_username_str.find('\\')) {
         domainname_str = encoded_username_str.substr(
             0, encoded_username_str.find('\\')
         );
@@ -69,10 +66,10 @@ void get_sandbox_account_interactive_token() {
             encoded_username_str.rfind(_T('\\')) + 1,
             encoded_username_str.length() - encoded_username_str.rfind(_T('\\')) - 1
         );
-        retval = LogonUser( 
-            (char*) username_str.c_str(),
-            (char*) domainname_str.c_str(), 
-            (char*) password_str.c_str(), 
+        retval = LogonUserA( 
+            username_str.c_str(),
+            domainname_str.c_str(), 
+            password_str.c_str(), 
             LOGON32_LOGON_INTERACTIVE, 
             LOGON32_PROVIDER_DEFAULT, 
             &sandbox_account_interactive_token
@@ -82,10 +79,10 @@ void get_sandbox_account_interactive_token() {
         }
     } else {
         username_str = encoded_username_str;
-        retval = LogonUser( 
-            (char*) username_str.c_str(),
+        retval = LogonUserA( 
+            username_str.c_str(),
             NULL, 
-            (char*) password_str.c_str(), 
+            password_str.c_str(), 
             LOGON32_LOGON_INTERACTIVE, 
             LOGON32_PROVIDER_DEFAULT, 
             &sandbox_account_interactive_token
@@ -114,11 +111,11 @@ void get_sandbox_account_interactive_token() {
 void get_sandbox_account_service_token() {
     FILE* f;
     char buf[256];
-    string encoded_username_str;
-    string encoded_password_str;
-    string username_str;
-    string domainname_str; 
-    string password_str; 
+    std::string encoded_username_str;
+    std::string encoded_password_str;
+    std::string username_str;
+    std::string domainname_str; 
+    std::string password_str; 
     int retval = 0;
     static bool first=true;
 
@@ -135,7 +132,7 @@ void get_sandbox_account_service_token() {
 
     password_str = r_base64_decode(encoded_password_str); 
 
-    if (string::npos != encoded_username_str.find('\\')) {
+    if (std::string::npos != encoded_username_str.find('\\')) {
         domainname_str = encoded_username_str.substr(
             0, encoded_username_str.find('\\')
         );
@@ -143,20 +140,20 @@ void get_sandbox_account_service_token() {
             encoded_username_str.rfind(_T('\\')) + 1,
             encoded_username_str.length() - encoded_username_str.rfind(_T('\\')) - 1
         );
-        retval = LogonUser( 
-            (char*) username_str.c_str(),
-            (char*) domainname_str.c_str(), 
-            (char*) password_str.c_str(), 
+        retval = LogonUserA( 
+            username_str.c_str(),
+            domainname_str.c_str(), 
+            password_str.c_str(), 
             LOGON32_LOGON_SERVICE, 
             LOGON32_PROVIDER_DEFAULT, 
             &sandbox_account_service_token
         );
     } else {
         username_str = encoded_username_str;
-        retval = LogonUser( 
-            (char*) username_str.c_str(),
+        retval = LogonUserA( 
+            username_str.c_str(),
             NULL, 
-            (char*) password_str.c_str(), 
+            password_str.c_str(), 
             LOGON32_LOGON_SERVICE, 
             LOGON32_PROVIDER_DEFAULT, 
             &sandbox_account_service_token
@@ -184,7 +181,7 @@ int run_app_windows(
 ) {
     int retval;
     PROCESS_INFORMATION process_info;
-    STARTUPINFO startup_info;
+    STARTUPINFOA startup_info;
     LPVOID environment_block = NULL;
     char cmdline[1024];
     char error_msg[1024];
@@ -209,7 +206,7 @@ int run_app_windows(
         tDEB    pDEB = NULL;
         HMODULE hUserEnvLib = NULL;
 
-        hUserEnvLib = LoadLibrary("userenv.dll");
+        hUserEnvLib = LoadLibraryA("userenv.dll");
         if (hUserEnvLib) {
             pCEB = (tCEB) GetProcAddress(hUserEnvLib, "CreateEnvironmentBlock");
             pDEB = (tDEB) GetProcAddress(hUserEnvLib, "DestroyEnvironmentBlock");
@@ -224,7 +221,7 @@ int run_app_windows(
         char szDesktopName[512];
         memset(szDesktopName, 0, sizeof(szDesktopName));
 
-        if (!GetUserObjectInformation(
+        if (!GetUserObjectInformationA(
                 GetProcessWindowStation(),
                 UOI_NAME,
                 &szWindowStation,
@@ -234,7 +231,7 @@ int run_app_windows(
             windows_error_string(error_msg, sizeof(error_msg));
             fprintf(stderr, "GetUserObjectInformation failed: %s\n", error_msg);
         }
-        if (!GetUserObjectInformation(
+        if (!GetUserObjectInformationA(
                 GetThreadDesktop(GetCurrentThreadId()),
                 UOI_NAME,
                 &szDesktop,
@@ -260,7 +257,7 @@ int run_app_windows(
             fprintf(stderr, "CreateEnvironmentBlock failed: %s\n", error_msg);
         }
 
-        retval = CreateProcessAsUser( 
+        retval = CreateProcessAsUserA( 
             sandbox_account_interactive_token, 
             file, 
             cmdline, 
@@ -285,7 +282,7 @@ int run_app_windows(
             FreeLibrary(hUserEnvLib);
         }
     } else {
-        retval = CreateProcess(
+        retval = CreateProcessA(
             file,
             cmdline,
             NULL,

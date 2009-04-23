@@ -56,7 +56,7 @@ typedef HANDLE (WINAPI *tOT)(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD d
 
 // Look in the registry for the specified value user the BOINC diagnostics
 //   hive.
-BOOL diagnostics_get_registry_value(LPCTSTR lpName, LPDWORD lpdwType, LPDWORD lpdwSize, LPBYTE lpData) {
+BOOL diagnostics_get_registry_value(LPCSTR lpName, LPDWORD lpdwType, LPDWORD lpdwSize, LPBYTE lpData) {
 	LONG  lRetVal;
 	HKEY  hKey;
 
@@ -66,18 +66,18 @@ BOOL diagnostics_get_registry_value(LPCTSTR lpName, LPDWORD lpdwType, LPDWORD lp
     GetVersionEx(&osvi);
 
     if (VER_PLATFORM_WIN32_WINDOWS == osvi.dwPlatformId) {
-		lRetVal = RegOpenKeyEx(
+		lRetVal = RegOpenKeyExA(
             HKEY_LOCAL_MACHINE, 
-            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Diagnostics"),  
+            "SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Diagnostics",
 			(DWORD)NULL, 
             KEY_READ,
             &hKey
         );
 		if (lRetVal != ERROR_SUCCESS) return FALSE;
 	} else {
-		lRetVal = RegOpenKeyEx(
+		lRetVal = RegOpenKeyExA(
             HKEY_CURRENT_USER,
-            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Diagnostics"),  
+            "SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Diagnostics",
 			(DWORD)NULL,
             KEY_READ,
             &hKey
@@ -85,7 +85,7 @@ BOOL diagnostics_get_registry_value(LPCTSTR lpName, LPDWORD lpdwType, LPDWORD lp
 		if (lRetVal != ERROR_SUCCESS) return FALSE;
 	}
 
-	lRetVal = RegQueryValueEx(hKey, lpName, NULL, lpdwType, lpData, lpdwSize);
+	lRetVal = RegQueryValueExA(hKey, lpName, NULL, lpdwType, lpData, lpdwSize);
 
 	RegCloseKey(hKey);
 
@@ -243,7 +243,7 @@ int diagnostics_update_thread_list_9X() {
     te32.dwSize = sizeof(te32); 
 
     // Dynamically link to the proper function pointers.
-    hKernel32Lib = GetModuleHandle("kernel32.dll");
+    hKernel32Lib = GetModuleHandleA("kernel32.dll");
 
     pCT32S = (tCT32S) GetProcAddress( hKernel32Lib, "CreateToolhelp32Snapshot" );
     pT32F = (tT32F) GetProcAddress( hKernel32Lib, "Thread32First" );
@@ -316,7 +316,7 @@ int diagnostics_get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
     HMODULE  hNTDllLib = NULL;
     tNTQSI   pNTQSI = NULL;
 
-    hNTDllLib = GetModuleHandle("ntdll.dll");
+    hNTDllLib = GetModuleHandleA("ntdll.dll");
     pNTQSI = (tNTQSI)GetProcAddress(hNTDllLib, "NtQuerySystemInformation");
 
     do {
@@ -363,7 +363,7 @@ int diagnostics_update_thread_list_NT() {
 
 
     // Dynamically link to the proper function pointers.
-    hKernel32Lib = GetModuleHandle("kernel32.dll");
+    hKernel32Lib = GetModuleHandleA("kernel32.dll");
     pOT = (tOT) GetProcAddress( hKernel32Lib, "OpenThread" );
 
     // Get a snapshot of the process and thread information.
@@ -454,7 +454,7 @@ int diagnostics_update_thread_list_XP() {
 
 
     // Dynamically link to the proper function pointers.
-    hKernel32Lib = GetModuleHandle("kernel32.dll");
+    hKernel32Lib = GetModuleHandleA("kernel32.dll");
     pOT = (tOT) GetProcAddress( hKernel32Lib, "OpenThread" );
 
     // Get a snapshot of the process and thread information.
@@ -884,41 +884,41 @@ int diagnostics_init_message_monitor() {
 
 
     // If a debugger is present then let it capture the debugger messages
-    hKernel32Lib = GetModuleHandle("kernel32.dll");
+    hKernel32Lib = GetModuleHandleA("kernel32.dll");
     pIDP = (tIDP) GetProcAddress(hKernel32Lib, "IsDebuggerPresent");
 
     if (pIDP) {
         if (!pIDP() && hMessageMonitorSync && dwCaptureMessages) {
 
-            hMessageAckEvent = CreateEvent(&sa, FALSE, FALSE, "DBWIN_BUFFER_READY");
+            hMessageAckEvent = CreateEventA(&sa, FALSE, FALSE, "DBWIN_BUFFER_READY");
             if (!hMessageAckEvent) {
                 fprintf(
                     stderr, "diagnostics_init_message_monitor(): Creating hMessageAckEvent failed, GLE %d\n", GetLastError()
                 );
             }
 
-            hMessageReadyEvent = CreateEvent(&sa, FALSE, FALSE, "DBWIN_DATA_READY");
+            hMessageReadyEvent = CreateEventA(&sa, FALSE, FALSE, "DBWIN_DATA_READY");
             if (!hMessageReadyEvent) {
                 fprintf(
                     stderr, "diagnostics_init_message_monitor(): Creating hMessageReadyEvent failed, GLE %d\n", GetLastError()
                 );
             }
 
-            hMessageQuitEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+            hMessageQuitEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
             if (!hMessageQuitEvent) {
                 fprintf(
                     stderr, "diagnostics_init_message_monitor(): Creating hMessageQuitEvent failed, GLE %d\n", GetLastError()
                 );
             }
 
-            hMessageQuitFinishedEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+            hMessageQuitFinishedEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
             if (!hMessageQuitFinishedEvent) {
                 fprintf(
                     stderr, "diagnostics_init_message_monitor(): Creating hMessageQuitFinishedEvent failed, GLE %d\n", GetLastError()
                 );
             }
 
-            hMessageSharedMap = CreateFileMapping(
+            hMessageSharedMap = CreateFileMappingA(
                 INVALID_HANDLE_VALUE,    // use paging file
                 &sa,                     // default security 
                 PAGE_READWRITE,          // read/write access
@@ -1408,13 +1408,13 @@ int diagnostics_capture_foreground_window(PBOINC_WINDOWCAPTURE window_info) {
 	    //   space and attempting to get the window text will deadlock the exception
 	    //   handler.
 	    if (window_info->window_process_id != GetCurrentProcessId()) {
-		    GetWindowText(
+		    GetWindowTextA(
 			    window_info->hwnd, 
 			    window_info->window_name,
 			    sizeof(window_info->window_name)
 		    );
 
-		    GetClassName(
+		    GetClassNameA(
 			    window_info->hwnd,
 			    window_info->window_class,
 			    sizeof(window_info->window_class)

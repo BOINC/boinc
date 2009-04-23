@@ -4101,3 +4101,34 @@ Rom    22 Apr 2009
         sim.vcproj
         ss_app.vcproj
         updater.vcproj
+
+Rom    22 Apr 2009
+    - WIN: First pass through the code to fix compliation errors when
+        building in a Unicode enabled environment.
+        
+        NOTE: For files that are shared between the core client and
+          the manager, it was simpliar to just call the ANSI versions
+          of the specific Windows API functions then to monkey with
+          all of the string handling code and convert between ANSI
+          and UCS-2 strings.  CreateFile becomes CreateFileA instead
+          of the default of CreateFileW.
+          
+        Down to 11 compile time errors from over 100.
+
+    clientgui/
+        BOINCBaseFrame.cpp
+        BOINCTaskBar.cpp
+        browser.cpp
+        browser.h
+        sg_StatImageLoader.cpp
+    lib/
+        boinc_win.h
+        diagnostics_win.cpp
+        filesys.cpp
+        gui_rpc_client_ops.cpp
+        proc_control.cpp
+        stackwalker_imports.h
+        stackwalker_win.cpp
+        str_util.cpp
+        util.cpp
+        win_util.cpp, .h

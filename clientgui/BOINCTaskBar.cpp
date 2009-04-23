@@ -370,7 +370,7 @@ void CTaskBarIcon::OnMouseMove(wxTaskBarIconEvent& WXUNUSED(event)) {
                     state_result = pDoc->state.lookup_result(result->project_url, result->name);
                     if (state_result) {
                         state_result->project->get_name(project_name);
-                        strProjectName = wxString(project_name.c_str());
+                        strProjectName = wxString(project_name.c_str(), wxConvUTF8);
                     }
                     fProgress = floor(result->fraction_done*10000)/100;
                 }

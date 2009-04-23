@@ -59,7 +59,7 @@
 #endif
 
 #ifdef _WIN32
-typedef BOOL (CALLBACK* FreeFn)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER);
+typedef BOOL (CALLBACK* FreeFn)(LPCSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER);
 #endif
 
 #include "util.h"
@@ -120,11 +120,11 @@ DIRREF dir_open(const char* p) {
 //
 int dir_scan(char* p, DIRREF dirp, int p_len) {
 #ifdef _WIN32
-    WIN32_FIND_DATA data;
+    WIN32_FIND_DATAA data;
     while (1) {
         if (dirp->first) {
             dirp->first = false;
-            dirp->handle = FindFirstFile(dirp->path, &data);
+            dirp->handle = FindFirstFileA(dirp->path, &data);
             if (dirp->handle == INVALID_HANDLE_VALUE) {
                 return ERR_READDIR;
             } else {
@@ -136,7 +136,7 @@ int dir_scan(char* p, DIRREF dirp, int p_len) {
                 return 0;
             }
         } else {
-            if (FindNextFile(dirp->handle, &data)) {
+            if (FindNextFileA(dirp->handle, &data)) {
                 if (!strcmp(data.cFileName, ".")) continue;
                 if (!strcmp(data.cFileName, "..")) continue;
                 if (p) strlcpy(p, data.cFileName, p_len);
@@ -196,11 +196,11 @@ DirScanner::DirScanner(string const& path) {
 //
 bool DirScanner::scan(string& s) {
 #ifdef _WIN32
-    WIN32_FIND_DATA data;
+    WIN32_FIND_DATAA data;
     while (1) {
         if (first) {
             first = false;
-            handle = FindFirstFile(dir.c_str(), &data);
+            handle = FindFirstFileA(dir.c_str(), &data);
             if (handle == INVALID_HANDLE_VALUE) {
                 return false;
             } else {
@@ -209,7 +209,7 @@ bool DirScanner::scan(string& s) {
                 return true;
             }
         } else {
-            if (FindNextFile(handle, &data)) {
+            if (FindNextFileA(handle, &data)) {
                 if (data.cFileName[0] == '.') continue;
                 s = data.cFileName;
                 return true;
@@ -250,7 +250,7 @@ DirScanner::~DirScanner() {
 
 static int boinc_delete_file_aux(const char* path) {
 #ifdef _WIN32
-    if (!DeleteFile(path)) {
+    if (!DeleteFileA(path)) {
         return ERR_UNLINK;
     }
 #else
@@ -350,8 +350,8 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
     char path2[_MAX_PATH];
     sprintf(path2, "%s/*", dirpath);
     size = 0.0;
-    WIN32_FIND_DATA findData;
-    HANDLE hFind = ::FindFirstFile(path2, &findData);
+    WIN32_FIND_DATAA findData;
+    HANDLE hFind = ::FindFirstFileA(path2, &findData);
     if (INVALID_HANDLE_VALUE == hFind) return ERR_OPENDIR;
     do {
         if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
@@ -367,7 +367,7 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
         } else {
             size += findData.nFileSizeLow + ((__int64)(findData.nFileSizeHigh) << 32);
         }
-    } while (FindNextFile(hFind, &findData));
+    } while (FindNextFileA(hFind, &findData));
 	::FindClose(hFind);
 #else
     char filename[256], subdir[256];
@@ -495,7 +495,7 @@ int boinc_touch_file(const char *path) {
 
 int boinc_copy(const char* orig, const char* newf) {
 #ifdef _WIN32
-    if (!CopyFile(orig, newf, FALSE)) {     // FALSE means overwrite OK
+    if (!CopyFileA(orig, newf, FALSE)) {     // FALSE means overwrite OK
         return GetLastError();
     }
     return 0;
@@ -544,7 +544,7 @@ int boinc_copy(const char* orig, const char* newf) {
 static int boinc_rename_aux(const char* old, const char* newf) {
 #ifdef _WIN32
     boinc_delete_file(newf);
-    if (MoveFile(old, newf)) return 0;
+    if (MoveFileA(old, newf)) return 0;
     return GetLastError();
 #else
     return rename(old, newf);
@@ -571,7 +571,7 @@ int boinc_rename(const char* old, const char* newf) {
 int boinc_mkdir(const char* path) {
     if (is_dir(path)) return 0;
 #ifdef _WIN32
-    if (!CreateDirectory(path, NULL)) {
+    if (!CreateDirectoryA(path, NULL)) {
         return GetLastError();
     }
     return 0;
@@ -585,7 +585,7 @@ int boinc_mkdir(const char* path) {
 
 int boinc_rmdir(const char* name) {
 #ifdef _WIN32
-    if (!RemoveDirectory(name)) {
+    if (!RemoveDirectoryA(name)) {
         return ERR_RMDIR;
     }
 #else
@@ -647,7 +647,7 @@ FILE_LOCK::~FILE_LOCK() {
 
 int FILE_LOCK::lock(const char* filename) {
 #if defined(_WIN32) && !defined(__CYGWIN32__)
-    handle = CreateFile(
+    handle = CreateFileA(
         filename, GENERIC_WRITE,
         0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0
     );
@@ -719,7 +719,7 @@ int get_filesystem_info(double &total_space, double &free_space, char*) {
     boinc_getcwd(buf);
     FreeFn pGetDiskFreeSpaceEx;
     pGetDiskFreeSpaceEx = (FreeFn)GetProcAddress(
-        GetModuleHandle("kernel32.dll"), "GetDiskFreeSpaceExA"
+        GetModuleHandleA("kernel32.dll"), "GetDiskFreeSpaceExA"
     );
     if (pGetDiskFreeSpaceEx) {
         ULARGE_INTEGER TotalNumberOfFreeBytes;
@@ -739,7 +739,7 @@ int get_filesystem_info(double &total_space, double &free_space, char*) {
         DWORD dwBytesPerSect;
         DWORD dwFreeClusters;
         DWORD dwTotalClusters;
-        GetDiskFreeSpace(
+        GetDiskFreeSpaceA(
             buf, &dwSectPerClust, &dwBytesPerSect, &dwFreeClusters,
             &dwTotalClusters
         );

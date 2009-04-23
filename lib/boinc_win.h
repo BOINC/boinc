@@ -194,6 +194,14 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #include <set>
 #endif
 
+// Define a generic string type that can be a Unicode string on
+// Unicode builds and an ANSI string on ANSI builds
+//
+#ifdef _UNICODE
+#define tstring std::wstring
+#else
+#define tstring std::string
+#endif
 
 #ifndef SIGRTMAX
 #if defined(_SIGRTMAX)

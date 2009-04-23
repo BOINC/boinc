@@ -427,8 +427,7 @@ void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword,
         if ( EACCES == m_iReadGUIRPCAuthFailure || ENOENT == m_iReadGUIRPCAuthFailure ) {
             ShowAlert(
                 strDialogTitle,
-                _("You currently are not authorized to manage the client.\n"
-                  "Please contact your administrator to add you to the 'boinc_users' local user group."),
+                _("You currently are not authorized to manage the client.\nPlease contact your administrator to add you to the 'boinc_users' local user group."),
                 wxOK | wxICON_ERROR
             );
         } else 

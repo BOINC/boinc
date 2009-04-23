@@ -148,7 +148,7 @@ void StatImageLoader::AddMenuItems()
     	statPopUpMenu->AppendSeparator();
 	    wxMenuItemList menuList = statPopUpMenu->GetMenuItems();
 #ifdef __WXMSW__
-	    menuList[statPopUpMenu->GetMenuItemCount()-1]->SetBackgroundColour(wxColour("RED"));
+	    menuList[statPopUpMenu->GetMenuItemCount()-1]->SetBackgroundColour(wxColour(_T("RED")));
 #endif
 
 	    urlItem = new wxMenuItem(statPopUpMenu, WEBSITE_URL_MENU_ID_REMOVE_PROJECT, _("Remove Project"));

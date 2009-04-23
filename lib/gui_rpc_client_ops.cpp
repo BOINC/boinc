@@ -651,7 +651,6 @@ PROJECT* CC_STATE::lookup_project(string& str) {
     for (i=0; i<projects.size(); i++) {
         if (projects[i]->master_url == str) return projects[i];
     }
-    BOINCTRACE("CAN'T FIND PROJECT %s\n", str.c_str());
     return 0;
 }
 
@@ -661,7 +660,6 @@ APP* CC_STATE::lookup_app(PROJECT* project, string& str) {
         if (apps[i]->project != project) continue;
         if (apps[i]->name == str) return apps[i];
     }
-    BOINCTRACE("CAN'T FIND APP %s\n", str.c_str());
     return 0;
 }
 
@@ -698,7 +696,6 @@ WORKUNIT* CC_STATE::lookup_wu(PROJECT* project, string& str) {
         if (wus[i]->project != project) continue;
         if (wus[i]->name == str) return wus[i];
     }
-    BOINCTRACE("CAN'T FIND WU %s\n", str.c_str());
     return 0;
 }
 
@@ -708,7 +705,6 @@ RESULT* CC_STATE::lookup_result(PROJECT* project, string& str) {
         if (results[i]->project != project) continue;
         if (results[i]->name == str) return results[i];
     }
-    BOINCTRACE("CAN'T FIND RESULT %s\n", str.c_str());
     return 0;
 }
 
@@ -718,7 +714,6 @@ RESULT* CC_STATE::lookup_result(string& url, string& str) {
         if (results[i]->project->master_url != url) continue;
         if (results[i]->name == str) return results[i];
     }
-    BOINCTRACE("CAN'T FIND RESULT %s\n", str.c_str());
     return 0;
 }
 
