@@ -975,6 +975,7 @@ bool CLIENT_STATE::enforce_schedule() {
         } else {
             atp->too_large = false;
             ram_left -= atp->procinfo.working_set_size_smoothed;
+            atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         }
     }
 
