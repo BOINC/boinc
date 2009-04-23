@@ -1,8 +1,16 @@
+///////////////////////////////////////////////////////////////////////////////
+// Name:		wxFlatNotebook.cpp
+// Purpose:     generic implementation of flat style notebook class.
+// Author:      Eran Ifrah <eranif@bezeqint.net>
+// Modified by: Priyank Bolia <soft@priyank.in>
+// Created:     30/12/2005
+// Modified:    01/01/2006
+// Copyright:   Eran Ifrah (c)
+// Licence:     wxWindows license <http://www.wxwidgets.org/licence3.txt>
+///////////////////////////////////////////////////////////////////////////////
+
 #ifndef _WX_FNB_DROP_TARGET_H
 #define _WX_FNB_DROP_TARGET_H
-
-#include <wx/wx.h>
-#include <wx/dnd.h>
 
 /**
 \brief Contains the information about dragged page (page index and container).

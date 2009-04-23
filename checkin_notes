@@ -4140,3 +4140,18 @@ David  22 Apr 2009
 
 	client/
 		cpu_sched.cpp
+
+Rom    23 Apr 2009
+    - WINBUILD: More project file cleanup.
+    - WINBUILD: Move wxWidgets include directives from the
+        FlatNotebook to the pre-compiled header. Try and avoid
+        a compilation problems when two different sets of
+        wxWidgets build environments are on the system and have
+        been setup differently.
+        
+    clientgui/common/
+        wxFNBDropTarget.h
+    clientgui/
+        stdwx.h
+    win_build/
+        boincmgr_curl.vcproj
