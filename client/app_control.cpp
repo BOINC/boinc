@@ -406,7 +406,7 @@ void ACTIVE_TASK_SET::send_trickle_downs() {
 void ACTIVE_TASK_SET::send_heartbeats() {
     unsigned int i;
     ACTIVE_TASK* atp;
-	char buf[256];
+	char buf[1024];
 	double ar = gstate.available_ram();
 
     for (i=0; i<active_tasks.size(); i++) {
@@ -414,8 +414,8 @@ void ACTIVE_TASK_SET::send_heartbeats() {
         if (!atp->process_exists()) continue;
         if (!atp->app_client_shm.shm) continue;
 		sprintf(buf, "<heartbeat/>"
-			"<wss>%f</wss>"
-			"<max_wss>%f</max_wss>",
+			"<wss>%e</wss>"
+			"<max_wss>%e</max_wss>",
 			atp->procinfo.working_set_size, ar
 		);
         bool sent = atp->app_client_shm.shm->heartbeat.send_msg(buf);
