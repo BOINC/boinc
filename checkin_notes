@@ -2518,3 +2518,13 @@ David  16 Apr 2009
     client/
         client_state.cpp
         cpu_sched.cpp
+
+David  19 Apr 2009
+    - client: improve CPU sched debug messages
+        (say what kind of job and why we're scheduling it)
+    - client: log messages describing GPUs: one line per GPU; fixes #879
+
+    client/
+        cpu_sched.cpp
+    lib/
+        coproc.cpp,h

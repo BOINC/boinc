@@ -526,7 +526,8 @@ struct PROC_RESOURCES {
 // If so, update proc_rsc accordingly and return true
 //
 static bool schedule_if_possible(
-    RESULT* rp, ACTIVE_TASK* atp, PROC_RESOURCES& proc_rsc, double rrs, double expected_payoff
+    RESULT* rp, ACTIVE_TASK* atp, PROC_RESOURCES& proc_rsc,
+    double rrs, double expected_payoff, const char* description
 ) {
     if (atp) {
         // see if it fits in available RAM
@@ -570,7 +571,7 @@ static bool schedule_if_possible(
     }
     if (log_flags.cpu_sched_debug) {
         msg_printf(rp->project, MSG_INFO,
-            "[cpu_sched_debug] scheduling %s", rp->name
+            "[cpu_sched_debug] scheduling %s (%s)", rp->name, description
         );
     }
 	proc_rsc.schedule(rp);
@@ -589,6 +590,7 @@ void CLIENT_STATE::schedule_cpus() {
     double rrs = runnable_resource_share();
     PROC_RESOURCES proc_rsc;
     ACTIVE_TASK* atp;
+    bool can_run;
 
     proc_rsc.ncpus = ncpus;
     proc_rsc.ncpus_used = 0;
@@ -643,9 +645,11 @@ void CLIENT_STATE::schedule_cpus() {
         rp->already_selected = true;
         if (!proc_rsc.can_schedule(rp)) continue;
 		atp = lookup_active_task_by_result(rp);
-        if (!schedule_if_possible(rp, atp, proc_rsc, rrs, expected_payoff)) {
-            continue;
-        }
+        can_run = schedule_if_possible(
+            rp, atp, proc_rsc, rrs, expected_payoff,
+            "coprocessor job, EDF"
+        );
+        if (!can_run) continue;
         ordered_scheduled_results.push_back(rp);
     }
 
@@ -657,9 +661,11 @@ void CLIENT_STATE::schedule_cpus() {
         rp->already_selected = true;
         if (!proc_rsc.can_schedule(rp)) continue;
 		atp = lookup_active_task_by_result(rp);
-        if (!schedule_if_possible(rp, atp, proc_rsc, rrs, expected_payoff)) {
-            continue;
-        }
+        can_run = schedule_if_possible(
+            rp, atp, proc_rsc, rrs, expected_payoff,
+            "coprocessor job, FIFO"
+        );
+        if (!can_run) continue;
         ordered_scheduled_results.push_back(rp);
     }
 
@@ -674,7 +680,11 @@ void CLIENT_STATE::schedule_cpus() {
         rp->already_selected = true;
         if (!proc_rsc.can_schedule(rp)) continue;
 		atp = lookup_active_task_by_result(rp);
-        if (!schedule_if_possible(rp, atp, proc_rsc, rrs, expected_payoff)) continue;
+        can_run = schedule_if_possible(
+            rp, atp, proc_rsc, rrs, expected_payoff,
+            "CPU job, EDF"
+        );
+        if (!can_run) continue;
         rp->project->cpu_pwf.deadlines_missed_copy--;
         rp->edf_scheduled = true;
         ordered_scheduled_results.push_back(rp);
@@ -691,7 +701,11 @@ void CLIENT_STATE::schedule_cpus() {
         if (!rp) break;
 		atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp)) continue;
-        if (!schedule_if_possible(rp, atp, proc_rsc, rrs, expected_payoff)) continue;
+        can_run = schedule_if_possible(
+            rp, atp, proc_rsc, rrs, expected_payoff,
+            "CPU job, debt order"
+        );
+        if (!can_run) continue;
         ordered_scheduled_results.push_back(rp);
     }
 

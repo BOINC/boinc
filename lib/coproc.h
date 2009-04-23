@@ -152,7 +152,7 @@ struct COPROC_CUDA : public COPROC {
 #endif
     COPROC_CUDA(): COPROC("CUDA"){}
     virtual ~COPROC_CUDA(){}
-    static std::string get(COPROCS&);
+    static void get(COPROCS&, std::vector<std::string>&);
 	void description(char*);
     void clear();
     int parse(FILE*);
@@ -170,7 +170,7 @@ struct COPROC_CUDA : public COPROC {
 
 
 struct COPROC_CELL_SPE : public COPROC {
-    static std::string get(COPROCS&);
+    static void get(COPROCS&, std::vector<std::string>&);
     COPROC_CELL_SPE() : COPROC("Cell SPE"){}
     virtual ~COPROC_CELL_SPE(){}
 };
