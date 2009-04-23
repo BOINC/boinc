@@ -390,12 +390,14 @@ void CLIENT_STATE::adjust_debts() {
     }
 
     // adjust long term debts
+    //
     cpu_work_fetch.update_debts();
     if (coproc_cuda) {
         cuda_work_fetch.update_debts();
     }
 
     // adjust short term debts
+    //
     rrs = runnable_resource_share();
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
