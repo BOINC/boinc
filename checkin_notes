@@ -4175,3 +4175,9 @@ David  24 Apr 2009
 
     lib/
         coproc.cpp
+
+David  24 Apr 2009
+    - fix typo in compare_cuda()
+
+    lib/
+        coproc.cpp
