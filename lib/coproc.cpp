@@ -144,7 +144,7 @@ COPROC* COPROCS::lookup(const char* type) {
 
 // return 1/-1/0 if device 1 is more/less/same capable than device 2
 //
-int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2) {
+int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2, bool ignore_flops) {
     if (c1.prop.major > c2.prop.major) return 1;
     if (c1.prop.major < c2.prop.major) return -1;
     if (c1.prop.minor > c2.prop.minor) return 1;
@@ -153,6 +153,7 @@ int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2) {
     if (c1.drvVersion < c2.drvVersion) return -1; 
     if (c1.prop.totalGlobalMem > c2.prop.totalGlobalMem) return 1;
     if (c1.prop.totalGlobalMem < c2.prop.totalGlobalMem) return -1;
+    if (ignore_flops) return 0;
 	double s1 = c1.flops_estimate();
 	double s2 = c1.flops_estimate();
 	if (s1 > s2) return 1;
@@ -269,7 +270,7 @@ void COPROC_CUDA::get(COPROCS& coprocs, vector<string>& strings) {
     for (i=0; i<gpus.size(); i++) {
         if (i==0) {
             best = gpus[i];
-        } else if (cuda_compare(gpus[i], best) > 0) {
+        } else if (cuda_compare(gpus[i], best, false) > 0) {
             best = gpus[i];
         }
     }
@@ -281,7 +282,7 @@ void COPROC_CUDA::get(COPROCS& coprocs, vector<string>& strings) {
     for (i=0; i<gpus.size(); i++) {
         char buf[256];
 		cc.description(buf);
-        if (!cuda_compare(gpus[i], best)) {
+        if (!cuda_compare(gpus[i], best, true)) {
             best.device_nums[best.count] = gpus[i].device_num;
             best.count++;
             strings.push_back("CUDA device: "+string(buf));

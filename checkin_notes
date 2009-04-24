@@ -4164,3 +4164,14 @@ David  24 Apr 2009
         work_fetch.cpp
     html/ops/
         team_import.php
+
+David  24 Apr 2009
+    - client: tweak to 4/21 checkin.
+        After finding the "most capable" GPU,
+        ignore FLOPS in deciding what GPUs are equivalent to it.
+        This opens up the possibility that the client will get jobs
+        that it won't be able to finish in time.
+        But it still avoids getting jobs that will crash.
+
+    lib/
+        coproc.cpp
