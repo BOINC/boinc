@@ -4134,12 +4134,12 @@ Rom    22 Apr 2009
         win_util.cpp, .h
 
 David  22 Apr 2009
-	- client: When a preemptable task wasn't preempted
-		(e.g. because it hadn't finished its time slice)
-		we were failing to mark it as scheduled.
+    - client: When a preemptable task wasn't preempted
+        (e.g. because it hadn't finished its time slice)
+        we were failing to mark it as scheduled.
 
-	client/
-		cpu_sched.cpp
+    client/
+        cpu_sched.cpp
 
 Rom    23 Apr 2009
     - WINBUILD: More project file cleanup.
@@ -4155,3 +4155,12 @@ Rom    23 Apr 2009
         stdwx.h
     win_build/
         boincmgr_curl.vcproj
+
+David  24 Apr 2009
+    - client: message tweak
+    - ops: don't import teams if using invitation codes
+
+    client/
+        work_fetch.cpp
+    html/ops/
+        team_import.php

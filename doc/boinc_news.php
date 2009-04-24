@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("April 21, 2009",
+    "A <a href=http://event.twgrid.org/isgc2009/asiaathome/wiki/index.php/Main_Page>workshop on volunteer computing with BOINC</a>
+    was held in Taipei on 16-17 April.
+    Lecture outlines and slides are available online.
+    "
+),
 array("April 9, 2009",
     "BOINC 6.6 has been released to public for Windows and
     MacOS X.  Please visit the <a href=http://boinc.berkeley.edu/download.php>download</a> page and upgrade today."

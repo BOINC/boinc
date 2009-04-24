@@ -24,6 +24,12 @@ require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/team.inc");
 require_once("../inc/email.inc");
+require_once("../inc/project.inc");
+
+if(defined('INVITE_CODES')) {
+    echo "Account creation is protected by invitation codes, so not importing teams';
+    exit;
+}
 
 // set the following to 1 to print queries but not do anything
 
