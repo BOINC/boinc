@@ -146,7 +146,7 @@ int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2, bool ignore_flops) {
     if (c1.prop.totalGlobalMem < c2.prop.totalGlobalMem) return -1;
     if (ignore_flops) return 0;
 	double s1 = c1.flops_estimate();
-	double s2 = c1.flops_estimate();
+	double s2 = c2.flops_estimate();
 	if (s1 > s2) return 1;
 	if (s1 < s2) return -1;
 	return 0;
