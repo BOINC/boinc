@@ -97,10 +97,10 @@ $stats_sites = array(
         "The Knights Who Say 'Ni' stats",
         ""
     ),
-//    array("http://www.teamocuk.com/",
-//        "Team OcUK stats",
-//        ""
-//    ),
+    array("http://www.teamocuk.co.uk/",
+        "Team OcUK stats",
+        ""
+    ),
 );
 
 $team_stats_sites = array(
