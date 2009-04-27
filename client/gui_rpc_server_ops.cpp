@@ -241,10 +241,12 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         gstate.request_work_fetch("project reset by user");
         gstate.reset_project(p, false);
     } else if (!strcmp(op, "suspend")) {
+        msg_printf(p, MSG_INFO, "suspended by user");
         p->suspended_via_gui = true;
         gstate.request_schedule_cpus("project suspended by user");
         gstate.request_work_fetch("project suspended by user");
     } else if (!strcmp(op, "resume")) {
+        msg_printf(p, MSG_INFO, "resumed by user");
         p->suspended_via_gui = false;
         gstate.request_schedule_cpus("project resumed by user");
         gstate.request_work_fetch("project resumed by user");
@@ -260,18 +262,23 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
         gstate.request_schedule_cpus("project detached by user");
         gstate.request_work_fetch("project detached by user");
     } else if (!strcmp(op, "update")) {
+        msg_printf(p, MSG_INFO, "update requested by user");
         p->sched_rpc_pending = RPC_REASON_USER_REQ;
         p->min_rpc_time = 0;
         gstate.request_work_fetch("project updated by user");
     } else if (!strcmp(op, "nomorework")) {
+        msg_printf(p, MSG_INFO, "work fetch suspended by user");
         p->dont_request_more_work = true;
     } else if (!strcmp(op, "allowmorework")) {
+        msg_printf(p, MSG_INFO, "work fetch resumed by user");
         p->dont_request_more_work = false;
         gstate.request_work_fetch("project allowed to fetch work by user");
     } else if (!strcmp(op, "detach_when_done")) {
+        msg_printf(p, MSG_INFO, "detach when done set by user");
         p->detach_when_done = true;
         p->dont_request_more_work = true;
     } else if (!strcmp(op, "dont_detach_when_done")) {
+        msg_printf(p, MSG_INFO, "detach when done cleared by user");
         p->detach_when_done = false;
         p->dont_request_more_work = false;
     }
@@ -459,6 +466,7 @@ static void handle_result_op(char* buf, MIOFILE& fout, const char* op) {
     }
 
     if (!strcmp(op, "abort")) {
+        msg_printf(p, MSG_INFO, "task %s aborted by user", result_name);
         atp = gstate.lookup_active_task_by_result(rp);
         if (atp) {
             atp->abort_task(ERR_ABORTED_VIA_GUI, "aborted by user");
@@ -467,9 +475,11 @@ static void handle_result_op(char* buf, MIOFILE& fout, const char* op) {
         }
         gstate.request_work_fetch("result aborted by user");
     } else if (!strcmp(op, "suspend")) {
+        msg_printf(p, MSG_INFO, "task %s suspended by user", result_name);
         rp->suspended_via_gui = true;
         gstate.request_work_fetch("result suspended by user");
     } else if (!strcmp(op, "resume")) {
+        msg_printf(p, MSG_INFO, "task %s resumed by user", result_name);
         rp->suspended_via_gui = false;
     }
     gstate.request_schedule_cpus("result suspended, resumed or aborted by user");

@@ -2599,3 +2599,10 @@ David  24 Apr 2009
 
     lib/
         coproc.cpp
+
+David  27 Apr 2009
+    - client: show message when user does a project or task op
+        (suspend, resume, update, etc.)
+
+    client/
+        gui_rpc_server_ops.cpp
