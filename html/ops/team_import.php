@@ -24,10 +24,10 @@ require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/team.inc");
 require_once("../inc/email.inc");
-require_once("../inc/project.inc");
+require_once("../project/project.inc");
 
 if (defined('INVITE_CODES')) {
-    echo "Account creation is protected by invitation codes, so not importing teams';
+    echo "Account creation is protected by invitation codes, so not importing teams";
     exit;
 }
 
