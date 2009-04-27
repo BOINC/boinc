@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-04-25 04:41-0700\n"
+"PO-Revision-Date: 2009-04-27 15:34-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: mifistor_x <mifistor.x@gmail.com>\n"
 "Language: ru\n"
@@ -1307,7 +1307,6 @@ msgid "Leave at least"
 msgstr "Оставлять не менее"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:466
-#, fuzzy
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
 msgstr "минимальный объём дискового пространства, который должен оставаться свободным (в гигабайтах)"
 
@@ -1806,9 +1805,8 @@ msgstr "Ожидается подтверждение о приеме данны
 #: clientgui/ViewWork.cpp:1117
 #: clientgui/ViewWorkGrid.cpp:862
 #, c-format
-#, fuzzy
 msgid "Error: invalid state '%d'"
-msgstr "Ошибка: invalid state \"%d\""
+msgstr "Ошибка: недопустимое состояние \"%d\""
 
 #: clientgui/DlgOptions.cpp:119
 #, c-format
@@ -2878,14 +2876,12 @@ msgstr ""
 "Попробуйте подключиться позже."
 
 #: clientgui/ValidateAccountKey.cpp:68
-#, fuzzy
 msgid "Please specify an account key to continue."
-msgstr "Введите код доступа для продолжения."
+msgstr "Введите учетный ключ для продолжения."
 
 #: clientgui/ValidateAccountKey.cpp:71
-#, fuzzy
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr "Введен не правильный код доступа, повторите ввод кода доступа"
+msgstr "Введен не правильный учетный ключ, повторите ввод ключа"
 
 #: clientgui/ValidateAccountKey.cpp:82
 #: clientgui/ValidateEmailAddress.cpp:86
@@ -3489,9 +3485,10 @@ msgstr "Удалить"
 
 #: clientgui/ViewTransfers.cpp:171
 #: clientgui/ViewTransfersGrid.cpp:114
-#, fuzzy
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr "Удалить выделенный передаваемый файл данных. ВНИМАНИЕ очки за удаленный файл могут быть потеряны."
+msgstr ""
+"Удалить выделенный передаваемый файл данных. ВНИМАНИЕ: очки за задание, "
+"использующее этот файл, будут потеряны."
 
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -3537,15 +3534,14 @@ msgstr "Прерывание передачи данных с последующ
 
 #: clientgui/ViewTransfers.cpp:322
 #, c-format
-#, fuzzy
 msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
 msgstr ""
-"Вы уверены, что хотите прервать передачу и удалить\n"
-"передаваемый файл \"%s\"?\n"
-"ВНИМАНИЕ: очки за удаленный файл не начисляются."
+"Вы уверены, что хотите прервать передачу и удалить файл \"%s\"?\n"
+"ВНИМАНИЕ: задание, использующее этот файл, будет завершено\n"
+"с ошибкой и очки за него будут потеряны."
 
 #: clientgui/ViewTransfers.cpp:328
 msgid "Abort File Transfer"
@@ -3578,7 +3574,6 @@ msgid "Aborting transfer(s)..."
 msgstr "Прерывание передачи данных с последующим удалением передаваемого файла(ов)..."
 
 #: clientgui/ViewTransfersGrid.cpp:230
-#, fuzzy
 msgid ""
 "Are you sure you want to abort this file(s) transfer ?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
@@ -3586,7 +3581,8 @@ msgid ""
 msgstr ""
 "Вы уверены, что хотите прервать передачу и удалить\n"
 "передаваемый(ые) файл(ы) ?\n"
-"ВНИМАНИЕ: очки за удаленный(ые) файл(ы) не начисляются."
+"ВНИМАНИЕ: задания, использующие этот(эти) файл(ы), будут завершены\n"
+"с ошибкой и очки за них будут потеряны."
 
 #: clientgui/ViewTransfersGrid.cpp:231
 msgid "Abort File Transfer(s)"
@@ -3804,7 +3800,7 @@ msgstr "Отладочные флаги"
 #: clientgui/WelcomePage.cpp:405
 #, fuzzy
 msgid "Project Properties Failure"
-msgstr "Неудача при проверке свойств проекта"
+msgstr "Неудача при проверке информации о проекте"
 
 # Неудача при попытке установить соединение
 #: clientgui/WelcomePage.cpp:408
@@ -3847,9 +3843,8 @@ msgstr "Неудача при подключении проекта"
 
 # ???
 #: clientgui/WelcomePage.cpp:429
-#, fuzzy
 msgid "Failure Communicating with Reference Site"
-msgstr "Установка связи с сервером."
+msgstr "Неудача при установке связи с сервером."
 
 # if defined(__WXDEBUG__)
 #: clientgui/WelcomePage.cpp:432
