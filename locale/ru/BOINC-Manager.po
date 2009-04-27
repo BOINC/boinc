@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-04-27 15:22-0700\n"
+"PO-Revision-Date: 2009-04-27 15:37-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: mifistor_x <mifistor.x@gmail.com>\n"
 "Language: ru\n"
@@ -1187,7 +1187,6 @@ msgstr "Другие параметры"
 
 # поправить
 #: clientgui/DlgAdvPreferencesBase.cpp:217
-#, fuzzy
 msgid "Switch between applications between every"
 msgstr "Переключение между проектами каждые"
 
@@ -2940,6 +2939,7 @@ msgstr "Введен не правильный учетный ключ, повт
 
 #: clientgui/ValidateAccountKey.cpp:82
 #: clientgui/ValidateEmailAddress.cpp:86
+#, fuzzy
 msgid "Validation conflict"
 msgstr "Проверка правильности ввода данных"
 
