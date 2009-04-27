@@ -26,8 +26,14 @@ require_once("../inc/team.inc");
 require_once("../inc/email.inc");
 require_once("../inc/project.inc");
 
-if(defined('INVITE_CODES')) {
+if (defined('INVITE_CODES')) {
     echo "Account creation is protected by invitation codes, so not importing teams';
+    exit;
+}
+
+$config = get_config();
+if (parse_bool($config, "disable_account_creation")) {
+    echo "Account creation is disabled";
     exit;
 }
 

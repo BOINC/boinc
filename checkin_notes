@@ -4181,3 +4181,9 @@ David  24 Apr 2009
 
     lib/
         coproc.cpp
+
+David  26 Apr 2009
+    - team import: error out if account creation disabled
+
+    html/ops/
+        team_import.php
