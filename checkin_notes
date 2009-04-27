@@ -2562,12 +2562,12 @@ David  21 Apr 2009
         coproc.cpp
 
 David  22 Apr 2009
-	- client: When a preemptable task wasn't preempted
-		(e.g. because it hadn't finished its time slice)
-		we were failing to mark it as scheduled.
+    - client: When a preemptable task wasn't preempted
+        (e.g. because it hadn't finished its time slice)
+        we were failing to mark it as scheduled.
 
-	client/
-		cpu_sched.cpp
+    client/
+        cpu_sched.cpp
 
 Rom    23 Apr 2009
     - Tag for 6.6.24 release, all platforms
@@ -2577,3 +2577,8 @@ Rom    23 Apr 2009
         configure.ac
         version.h
 
+David  24 Apr 2009
+    - client: message tweak
+
+    client/
+        work_fetch.cpp
