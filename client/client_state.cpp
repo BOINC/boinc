@@ -254,7 +254,7 @@ int CLIENT_STATE::init() {
     set_ncpus();
     show_host_info();
     if (!config.no_gpus) {
-        vector<string> strs = coprocs.get();
+        vector<string> strs = coprocs.get(config.use_all_gpus);
         for (i=0; i<strs.size(); i++) {
             msg_printf(NULL, MSG_INFO, strs[i].c_str());
         }

@@ -140,7 +140,7 @@ struct COPROCS {
         }
     }
 #endif
-    std::vector<std::string> get();
+    std::vector<std::string> get(bool use_all);
     int parse(FILE*);
     void summary_string(char*, int);
     COPROC* lookup(const char*);
@@ -204,7 +204,7 @@ struct COPROC_CUDA : public COPROC {
 #endif
     COPROC_CUDA(): COPROC("CUDA"){}
     virtual ~COPROC_CUDA(){}
-    static void get(COPROCS&, std::vector<std::string>&);
+    static void get(COPROCS&, std::vector<std::string>&, bool use_all);
 	void description(char*);
     void clear();
     int parse(FILE*);
@@ -218,13 +218,6 @@ struct COPROC_CUDA : public COPROC {
         double x = (prop.clockRate * prop.multiProcessorCount)*5e10/(14*1.25e6);
         return x?x:5e10;
     }
-};
-
-
-struct COPROC_CELL_SPE : public COPROC {
-    static void get(COPROCS&, std::vector<std::string>&);
-    COPROC_CELL_SPE() : COPROC("Cell SPE"){}
-    virtual ~COPROC_CELL_SPE(){}
 };
 
 void fake_cuda(COPROCS&, int);

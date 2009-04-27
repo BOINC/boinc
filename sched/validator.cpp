@@ -608,15 +608,13 @@ bool do_validate_scan() {
     DB_VALIDATOR_ITEM_SET validator;
     std::vector<VALIDATOR_ITEM> items;
     bool found=false;
-    int retval;
+    int retval, i=0;
 
     // loop over entries that need to be checked
     //
     while (1) {
         retval = validator.enumerate(
-            app.id, one_pass_N_WU?one_pass_N_WU:SELECT_LIMIT,
-            wu_id_modulus, wu_id_remainder,
-            items
+            app.id, SELECT_LIMIT, wu_id_modulus, wu_id_remainder, items
         );
         if (retval) {
             if (retval != ERR_DB_NOT_FOUND) {
@@ -629,6 +627,7 @@ bool do_validate_scan() {
         }
         retval = handle_wu(validator, items);
         if (!retval) found = true;
+        if (++i == one_pass_N_WU) break;
     }
     return found;
 }

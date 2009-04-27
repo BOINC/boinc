@@ -161,6 +161,9 @@ void CONFIG::show() {
     if (config.no_priority_change) {
         msg_printf(NULL, MSG_INFO, "Configured to run apps at regular priority");
     }
+    if (config.use_all_gpus) {
+        msg_printf(NULL, MSG_INFO, "Configured to use all coprocessors");
+    }
 }
 
 CONFIG::CONFIG() {
@@ -193,6 +196,7 @@ CONFIG::CONFIG() {
     no_gpus = false;
     zero_debts = false;
     no_priority_change = false;
+    use_all_gpus = false;
 }
 
 int CONFIG::parse_options(XML_PARSER& xp) {
@@ -264,6 +268,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "no_gpus", no_gpus)) continue;
         if (xp.parse_bool(tag, "zero_debts", zero_debts)) continue;
         if (xp.parse_bool(tag, "no_priority_change", no_priority_change)) continue;
+        if (xp.parse_bool(tag, "use_all_gpus", use_all_gpus)) continue;
         if (xp.parse_bool(tag, "abort_jobs_on_exit", btemp)) {
             gstate.abort_jobs_on_exit = true;
             continue;
