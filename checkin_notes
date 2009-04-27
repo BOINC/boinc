@@ -4192,3 +4192,10 @@ David  27 Apr 2009
     - link fix
     html/inc/
         stats_sites.inc
+
+David  27 Apr 2009
+    - client: show message when user does a project or task op
+        (suspend, resume, update, etc.)
+
+    client/
+        gui_rpc_server_ops.cpp
