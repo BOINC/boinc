@@ -93,10 +93,9 @@ void COPROCS::summary_string(char* buf, int len) {
     strcpy(buf, bigbuf);
 }
 
-vector<string> COPROCS::get() {
+vector<string> COPROCS::get(bool use_all) {
     vector<string> strings;
-    COPROC_CUDA::get(*this, strings);
-    COPROC_CELL_SPE::get(*this, strings);
+    COPROC_CUDA::get(*this, strings, use_all);
     return strings;
 }
 
@@ -152,7 +151,10 @@ int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2, bool ignore_flops) {
 	return 0;
 }
 
-void COPROC_CUDA::get(COPROCS& coprocs, vector<string>& strings) {
+void COPROC_CUDA::get(
+    COPROCS& coprocs, vector<string>& strings,
+    bool use_all    // if false, use only those equivalent to most capable
+) {
     int count;
 
 #ifdef _WIN32
@@ -273,7 +275,7 @@ void COPROC_CUDA::get(COPROCS& coprocs, vector<string>& strings) {
     for (i=0; i<gpus.size(); i++) {
         char buf[256];
 		cc.description(buf);
-        if (!cuda_compare(gpus[i], best, true)) {
+        if (use_all || !cuda_compare(gpus[i], best, true)) {
             best.device_nums[best.count] = gpus[i].device_num;
             best.count++;
             strings.push_back("CUDA device: "+string(buf));
@@ -459,8 +461,4 @@ int COPROC_CUDA::parse(FILE* fin) {
         if (parse_int(buf, "<multiProcessorCount>", prop.multiProcessorCount)) continue;
     }
     return ERR_XML_PARSE;
-}
-
-void COPROC_CELL_SPE::get(COPROCS&, vector<string>&) {
-    return;
 }

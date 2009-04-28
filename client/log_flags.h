@@ -133,6 +133,7 @@ struct CONFIG {
     bool no_gpus;
     bool zero_debts;
     bool no_priority_change;
+    bool use_all_gpus;
 
     CONFIG();
     int parse(FILE*);

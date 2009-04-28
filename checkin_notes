@@ -2606,3 +2606,13 @@ David  27 Apr 2009
 
     client/
         gui_rpc_server_ops.cpp
+
+David  27 Apr 2009
+    - client: add <use_all_gpus> config option.  If set, use GPUs
+        even if they're not equivalent to the most capable one.
+
+    client/
+        client_state.cpp
+        log_flags.cpp,h
+    lib/
+        coproc.cpp,h
