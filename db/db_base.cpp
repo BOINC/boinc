@@ -113,8 +113,9 @@ int DB_CONN::insert_id() {
     if (retval) return retval;
     rp = mysql_store_result(mysql);
     row = mysql_fetch_row(rp);
+    int x = atoi(row[0]);
     mysql_free_result(rp);
-    return atoi(row[0]);
+    return x;
 }
 
 void DB_CONN::print_error(const char* p) {
@@ -336,11 +337,13 @@ int DB_BASE::get_integer(const char* query, int& n) {
     resp = mysql_store_result(db->mysql);
     if (!resp) return ERR_DB_NOT_FOUND;
     row = mysql_fetch_row(resp);
+    if (!row || !row[0]) {
+        retval = ERR_DB_NOT_FOUND;
+    } else {
+        n = atoi(row[0]);
+    }
     mysql_free_result(resp);
-    if (!row) return ERR_DB_NOT_FOUND;
-    if (!row[0]) return ERR_DB_NOT_FOUND;
-    n = atoi(row[0]);
-    return 0;
+    return retval;
 }
 
 int DB_BASE::get_double(const char* query, double& x) {
@@ -353,11 +356,13 @@ int DB_BASE::get_double(const char* query, double& x) {
     resp = mysql_store_result(db->mysql);
     if (!resp) return ERR_DB_NOT_FOUND;
     row = mysql_fetch_row(resp);
+    if (!row || !row[0]) {
+        retval = ERR_DB_NOT_FOUND;
+    } else {
+        x = atof(row[0]);
+    }
     mysql_free_result(resp);
-    if (!row) return ERR_DB_NOT_FOUND;
-    if (!row[0]) return ERR_DB_NOT_FOUND;
-    x = atof(row[0]);
-    return 0;
+    return retval;
 }
 
 int DB_BASE::count(int& n, const char* clause) {

@@ -4212,3 +4212,12 @@ David  27 Apr 2009
         coproc.cpp,h
     sched/
         validator.cpp
+
+David  28 Apr 2009
+    - DB code: fixed three places where we accessed a MYSQL_ROW
+        after freeing the MYSQL_RES it came from.
+        (this didn't appear to cause any problems, but not good form).
+        Fixes #883
+
+    db/
+        db_base.cpp
