@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-04-27 15:34-0700\n"
+"PO-Revision-Date: 2009-04-28 10:40-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: mifistor_x <mifistor.x@gmail.com>\n"
 "Language: ru\n"
@@ -950,13 +950,13 @@ msgstr "Подключение к указанному менеджеру про
 #: clientgui/ctest.cpp:154
 #: clientgui/ctest.cpp:158
 msgid "Static text"
-msgstr ""
+msgstr "Static text"
 
 # ипользуется внутри программы
 #: clientgui/ctest.cpp:166
 #: clientgui/ctest.cpp:171
 msgid "Radiobutton"
-msgstr ""
+msgstr "Radiobutton"
 
 #: clientgui/DlgAbout.cpp:98
 #, c-format
@@ -1076,9 +1076,8 @@ msgstr "выберите данный пункт если хотите обра�
 
 # не удачно
 #: clientgui/DlgAdvPreferencesBase.cpp:95
-#, fuzzy
 msgid "Only after computer has been idle for"
-msgstr "После простоя"
+msgstr "Только если компьютер не используется более"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:99
 msgid "do work only after you haven't used the computer for this number of minutes"
@@ -1549,11 +1548,13 @@ msgstr "Компьютер (хост)"
 msgid "Scheduling"
 msgstr "Планировщик"
 
+# ?
 #: clientgui/DlgItemProperties.cpp:134
 #, fuzzy
 msgid "Short term debt"
 msgstr "Краткосрочный долг"
 
+# ?
 #: clientgui/DlgItemProperties.cpp:135
 #, fuzzy
 msgid "Long term debt"
@@ -2193,11 +2194,11 @@ msgstr "Попытка запустить службу; пожалуйста п�
 
 #: clientgui/MainDocument.cpp:1031
 msgid "Retrieving system state; please wait..."
-msgstr "Обновляется информация о состоянии системы; пожалуйста подождите..."
+msgstr "Обновляется информация о состояние системы, пожалуйста подождите..."
 
 #: clientgui/MainDocument.cpp:1040
 msgid "Retrieving host information; please wait..."
-msgstr "Обновляется информация о хосте; пожалуйста подождите..."
+msgstr "Обновляется информация о хосте, пожалуйста подождите..."
 
 # ?
 #: clientgui/NoInternetConnectionPage.cpp:180
@@ -3021,7 +3022,7 @@ msgstr "Приоритет"
 # ипользуется внутри программы
 #: clientgui/ViewMessagesGrid.cpp:151
 msgid "MessagesGrid"
-msgstr ""
+msgstr "MessagesGrid"
 
 #: clientgui/ViewMessagesGrid.cpp:209
 msgid "Copying selected messages to Clipboard..."
@@ -3311,7 +3312,7 @@ msgstr "Повтор через "
 # ипользуется внутри программы
 #: clientgui/ViewProjectsGrid.cpp:193
 msgid "ProjectsGrid"
-msgstr ""
+msgstr "ProjectsGrid"
 
 #: clientgui/ViewResources.cpp:61
 msgid "Total disk usage"
@@ -3567,7 +3568,7 @@ msgstr "Ожидание загрузки данных"
 # ипользуется внутри программы
 #: clientgui/ViewTransfersGrid.cpp:161
 msgid "TransfersGrid"
-msgstr ""
+msgstr "TransfersGrid"
 
 #: clientgui/ViewTransfersGrid.cpp:228
 msgid "Aborting transfer(s)..."
@@ -3686,7 +3687,7 @@ msgstr "(без использования ЦП)"
 # ипользуется внутри программы
 #: clientgui/ViewWorkGrid.cpp:184
 msgid "TasksGrid"
-msgstr ""
+msgstr "TasksGrid"
 
 #: clientgui/ViewWorkGrid.cpp:327
 #, c-format
@@ -3712,10 +3713,10 @@ msgid ""
 "Projects added via this wizard will not be\n"
 "listed on or managed via %s."
 msgstr ""
-"Добавляйте поекты на сайте\r\n"
-"%s, если это возможно.\r\n"
-"\r\n"
-"Проекты, добавленные с помощью данного\r\n"
+"Добавляйте поекты на сайте\n"
+"%s, если это возможно.\n"
+"\n"
+"Проекты, добавленные с помощью данного\n"
 "мастера, не будут управляться через %s."
 
 #: clientgui/WelcomePage.cpp:350
