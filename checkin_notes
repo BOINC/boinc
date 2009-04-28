@@ -2616,3 +2616,11 @@ David  27 Apr 2009
         log_flags.cpp,h
     lib/
         coproc.cpp,h
+
+Rom    28 Apr 2009
+    - Tag for 6.6.25 release, all platforms
+      boinc_core_release_6_6_25
+
+    /
+        configure.ac
+        version.h
