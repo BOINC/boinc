@@ -4,4 +4,4 @@ rights:
   JensSeidler = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   default = u'view, suggest, archive, pocompile'
   nobody = u'view'
-  ChristianB = u'view, suggest, translate, archive, pocompile'
+  ChristianB = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'

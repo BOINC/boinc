@@ -1,8 +1,8 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2009-01-05 12:28-0500\n"
 "PO-Revision-Date: 2008-01-01 00:33+0800\n"
 "Last-Translator: Jose Sun <josesun@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
@@ -13,15 +13,15 @@ msgstr ""
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_6a\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
-#: clientgui/AccountInfoPage.cpp:329
+#: clientgui/AccountInfoPage.cpp:337
 msgid "User information"
 msgstr "使用者資訊"
 
-#: clientgui/AccountInfoPage.cpp:335
+#: clientgui/AccountInfoPage.cpp:343
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
@@ -29,7 +29,7 @@ msgstr ""
 "請輸入你的帳號資訊\n"
 "(要建立帳號，請前往計畫網站)"
 
-#: clientgui/AccountInfoPage.cpp:339
+#: clientgui/AccountInfoPage.cpp:347
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
@@ -37,124 +37,113 @@ msgstr ""
 "該計畫暫不接受新帳號註冊，\n"
 "只能加入已存在的帳號。"
 
-#: clientgui/AccountInfoPage.cpp:343
+#: clientgui/AccountInfoPage.cpp:351
 msgid "Are you already running this project?"
 msgstr "您準備好執行此計畫了嗎？"
 
-#: clientgui/AccountInfoPage.cpp:347
+#: clientgui/AccountInfoPage.cpp:355
 msgid "&No, new user"
 msgstr "否，我是新使用者(&N)"
 
-#: clientgui/AccountInfoPage.cpp:350
+#: clientgui/AccountInfoPage.cpp:358
 msgid "&Yes, existing user"
 msgstr "是，我是已存在的使用者(&Y)"
 
-#: clientgui/AccountInfoPage.cpp:366
-#: clientgui/AccountInfoPage.cpp:519
+#: clientgui/AccountInfoPage.cpp:374
+#: clientgui/AccountInfoPage.cpp:537
 msgid "&Password:"
 msgstr "密碼(&P):"
 
-#: clientgui/AccountInfoPage.cpp:373
-#: clientgui/AccountInfoPage.cpp:534
+#: clientgui/AccountInfoPage.cpp:381
+#: clientgui/AccountInfoPage.cpp:552
 msgid "Choose a &password:"
 msgstr "選擇密碼(&O):"
 
-#: clientgui/AccountInfoPage.cpp:376
+#: clientgui/AccountInfoPage.cpp:384
 msgid "C&onfirm password:"
 msgstr "密碼確認(&O):"
 
-#: clientgui/AccountInfoPage.cpp:383
+#: clientgui/AccountInfoPage.cpp:391
 #, c-format
 msgid "Are you already running %s?"
 msgstr "您準備好執行 %s 了嗎？"
 
-#: clientgui/AccountInfoPage.cpp:400
+#: clientgui/AccountInfoPage.cpp:408
 msgid "&Username:"
 msgstr "使用者名稱(&U):"
 
-#: clientgui/AccountInfoPage.cpp:414
+#: clientgui/AccountInfoPage.cpp:422
 msgid "&Email address:"
 msgstr "電子郵件地址(&E):"
 
-#: clientgui/AccountInfoPage.cpp:421
+#: clientgui/AccountInfoPage.cpp:430
 #, c-format
 msgid "minimum length %d"
 msgstr "最小字元長度 %d"
 
-#: clientgui/AccountInfoPage.cpp:426
+#: clientgui/AccountInfoPage.cpp:435
 msgid "Forgot your password?"
 msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:456
+#: clientgui/AccountInfoPage.cpp:476
 #: clientgui/WelcomePage.cpp:332
 #: clientgui/WelcomePage.cpp:346
 msgid "Attach to project"
 msgstr "加入計畫"
 
-#: clientgui/AccountInfoPage.cpp:458
+#: clientgui/AccountInfoPage.cpp:478
 msgid "Update account manager"
 msgstr "更新帳號管理員"
 
-#: clientgui/AccountInfoPage.cpp:460
+#: clientgui/AccountInfoPage.cpp:480
 msgid "Attach to account manager"
 msgstr "加入帳號管理"
 
-#: clientgui/AccountInfoPage.cpp:471
+#: clientgui/AccountInfoPage.cpp:489
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr "此計畫所需的最小密碼長度為 %d，請輸入其他的密碼。"
 
-#: clientgui/AccountInfoPage.cpp:477
+#: clientgui/AccountInfoPage.cpp:495
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr "此帳號管理員所需的最小密碼長度為 %d，請輸入其他的密碼。"
 
-#: clientgui/AccountInfoPage.cpp:488
+#: clientgui/AccountInfoPage.cpp:506
 msgid "The password and confirmation password do not match. Please type them again."
 msgstr "「密碼」與「確認密碼」不相符。請再輸入一次。"
 
-#: clientgui/AccountManagerInfoPage.cpp:173
+#: clientgui/AccountManagerInfoPage.cpp:180
 msgid "Account Manager URL"
 msgstr "帳號管理員網址"
 
-#: clientgui/AccountManagerInfoPage.cpp:176
+#: clientgui/AccountManagerInfoPage.cpp:183
 msgid "Enter the URL of the account manager's web site."
 msgstr "請輸入帳號管理網站的網址。"
 
-#: clientgui/AccountManagerInfoPage.cpp:179
-msgid ""
-"You can copy and paste the URL from your browser's\n"
-"address bar."
-msgstr "您可以從瀏覽器的網址列複製網址後貼上。"
-
-#: clientgui/AccountManagerInfoPage.cpp:182
+#: clientgui/AccountManagerInfoPage.cpp:186
 msgid "Account Manager &URL:"
 msgstr "帳號管理員網址(&U):"
 
-#: clientgui/AccountManagerInfoPage.cpp:185
-#, fuzzy
-msgid "For a list of account managers go to:"
-msgstr "要取得所有基於 BOINC 的帳號管理員列表請至:"
-
-#: clientgui/AccountManagerProcessingPage.cpp:189
-#: clientgui/AccountManagerPropertiesPage.cpp:193
+#: clientgui/AccountManagerProcessingPage.cpp:190
+#: clientgui/AccountManagerPropertiesPage.cpp:194
 #, c-format
 msgid "Communicating with %s."
 msgstr "正在與 %s 通訊。"
 
-#: clientgui/AccountManagerProcessingPage.cpp:196
-#: clientgui/AccountManagerPropertiesPage.cpp:200
+#: clientgui/AccountManagerProcessingPage.cpp:197
+#: clientgui/AccountManagerPropertiesPage.cpp:201
 msgid "Communicating with server."
 msgstr "與伺服器通訊中。"
 
-#: clientgui/AccountManagerProcessingPage.cpp:201
-#: clientgui/AccountManagerPropertiesPage.cpp:205
+#: clientgui/AccountManagerProcessingPage.cpp:202
+#: clientgui/AccountManagerPropertiesPage.cpp:206
 msgid "Please wait..."
 msgstr "請稍候..."
 
-#: clientgui/AccountManagerProcessingPage.cpp:312
-#: clientgui/ProjectProcessingPage.cpp:487
-#: clientgui/ProjectProcessingPage.cpp:545
+#: clientgui/AccountManagerProcessingPage.cpp:322
+#: clientgui/ProjectProcessingPage.cpp:494
+#: clientgui/ProjectProcessingPage.cpp:552
 msgid "An internal server error has occurred.\n"
 msgstr "內部伺服器發生錯誤。\n"
 
@@ -166,291 +155,291 @@ msgstr "已連線"
 msgid "Disconnected"
 msgstr "已斷線"
 
-#: clientgui/AdvancedFrame.cpp:308
-#: clientgui/sg_BoincSimpleGUI.cpp:106
+#: clientgui/AdvancedFrame.cpp:302
+#: clientgui/sg_BoincSimpleGUI.cpp:100
 msgid "&Close Window\tCTRL+W"
 msgstr "關閉視窗(&C)\tCTRL+W"
 
-#: clientgui/AdvancedFrame.cpp:309
-#: clientgui/sg_BoincSimpleGUI.cpp:107
+#: clientgui/AdvancedFrame.cpp:303
+#: clientgui/sg_BoincSimpleGUI.cpp:101
 msgid "Close BOINC Manager Window."
 msgstr "關閉 BOINC 管理員"
 
-#: clientgui/AdvancedFrame.cpp:315
+#: clientgui/AdvancedFrame.cpp:309
 #, c-format
 msgid "Exit the %s"
 msgstr "離開 %s"
 
-#: clientgui/AdvancedFrame.cpp:320
-#: clientgui/BOINCTaskBar.cpp:617
+#: clientgui/AdvancedFrame.cpp:314
+#: clientgui/BOINCTaskBar.cpp:626
 #: clientgui/mac/MacSysMenu.cpp:218
 msgid "E&xit"
 msgstr "離開(&X)"
 
-#: clientgui/AdvancedFrame.cpp:329
+#: clientgui/AdvancedFrame.cpp:323
 msgid "&Advanced View"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:330
+#: clientgui/AdvancedFrame.cpp:324
 #, fuzzy
 msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
 msgstr "格線介面可讓你排序不同欄位並顯示圖形進度列。"
 
-#: clientgui/AdvancedFrame.cpp:335
+#: clientgui/AdvancedFrame.cpp:329
 msgid "&Simple View..."
 msgstr "簡易介面(&S)..."
 
-#: clientgui/AdvancedFrame.cpp:336
+#: clientgui/AdvancedFrame.cpp:330
 msgid "Display the simple BOINC graphical interface."
 msgstr "顯示精簡 BOINC 圖形介面。"
 
-#: clientgui/AdvancedFrame.cpp:350
+#: clientgui/AdvancedFrame.cpp:344
 msgid "Attach to &project..."
 msgstr "加入計畫(&P)"
 
-#: clientgui/AdvancedFrame.cpp:351
+#: clientgui/AdvancedFrame.cpp:345
 msgid "Attach to a project"
 msgstr "加入計畫"
 
-#: clientgui/AdvancedFrame.cpp:355
+#: clientgui/AdvancedFrame.cpp:349
 msgid "Attach to &account manager..."
 msgstr "加入帳號管理(&A)..."
 
-#: clientgui/AdvancedFrame.cpp:356
+#: clientgui/AdvancedFrame.cpp:350
 msgid "Attach to an account manager"
 msgstr "加入帳號管理"
 
-#: clientgui/AdvancedFrame.cpp:360
+#: clientgui/AdvancedFrame.cpp:354
 #, c-format
 msgid "&Synchronize with %s"
 msgstr "與 %s 同步(&S)"
 
-#: clientgui/AdvancedFrame.cpp:364
+#: clientgui/AdvancedFrame.cpp:358
 #, c-format
 msgid "Get current settings from %s"
 msgstr "從 %s 取得現在的設定"
 
-#: clientgui/AdvancedFrame.cpp:379
+#: clientgui/AdvancedFrame.cpp:373
 msgid "&Run always"
 msgstr "持續執行(&R)"
 
-#: clientgui/AdvancedFrame.cpp:380
+#: clientgui/AdvancedFrame.cpp:374
 msgid "Allow work regardless of preferences"
 msgstr "不管偏好設定運行工作"
 
-#: clientgui/AdvancedFrame.cpp:384
+#: clientgui/AdvancedFrame.cpp:378
 msgid "Run based on &preferences"
 msgstr "以偏好設定執行(&P)"
 
-#: clientgui/AdvancedFrame.cpp:385
+#: clientgui/AdvancedFrame.cpp:379
 msgid "Allow work according to your preferences"
 msgstr "依照您的偏好設定運行工作"
 
-#: clientgui/AdvancedFrame.cpp:389
+#: clientgui/AdvancedFrame.cpp:383
 msgid "&Suspend"
 msgstr "暫止(&S)"
 
-#: clientgui/AdvancedFrame.cpp:390
+#: clientgui/AdvancedFrame.cpp:384
 msgid "Stop work regardless of preferences"
 msgstr "不管偏好設定停止工作"
 
-#: clientgui/AdvancedFrame.cpp:413
+#: clientgui/AdvancedFrame.cpp:407
 msgid "&Network activity always available"
 msgstr "持續進行網路活動(&N)"
 
-#: clientgui/AdvancedFrame.cpp:414
+#: clientgui/AdvancedFrame.cpp:408
 msgid "Allow network activity regardless of preferences"
 msgstr "不管偏好設定進行網路活動"
 
-#: clientgui/AdvancedFrame.cpp:418
+#: clientgui/AdvancedFrame.cpp:412
 msgid "Network activity based on &preferences"
 msgstr "以偏好設定連線網路(&P)"
 
-#: clientgui/AdvancedFrame.cpp:419
+#: clientgui/AdvancedFrame.cpp:413
 msgid "Allow network activity according to your preferences"
 msgstr "依照您的偏好設定進行網路活動"
 
-#: clientgui/AdvancedFrame.cpp:423
+#: clientgui/AdvancedFrame.cpp:417
 msgid "&Network activity suspended"
 msgstr "暫止網路活動(&N)"
 
-#: clientgui/AdvancedFrame.cpp:424
+#: clientgui/AdvancedFrame.cpp:418
 msgid "Stop BOINC network activity"
 msgstr "停止 BONIC 的網路活動"
 
-#: clientgui/AdvancedFrame.cpp:431
+#: clientgui/AdvancedFrame.cpp:425
 msgid "&Options..."
 msgstr "選項(&O)"
 
-#: clientgui/AdvancedFrame.cpp:432
+#: clientgui/AdvancedFrame.cpp:426
 msgid "Configure GUI options and proxy settings"
 msgstr "GUI 組態選項和 Proxy 設定"
 
-#: clientgui/AdvancedFrame.cpp:436
+#: clientgui/AdvancedFrame.cpp:430
 msgid "&Preferences..."
 msgstr "偏好設定(&P)..."
 
-#: clientgui/AdvancedFrame.cpp:437
+#: clientgui/AdvancedFrame.cpp:431
 msgid "Configure local preferences"
 msgstr "設定本機偏好設定"
 
-#: clientgui/AdvancedFrame.cpp:443
+#: clientgui/AdvancedFrame.cpp:437
 #, c-format
 msgid "Connect to another computer running %s"
 msgstr "連線到另一台運行 %s 的電腦"
 
-#: clientgui/AdvancedFrame.cpp:448
+#: clientgui/AdvancedFrame.cpp:442
 msgid "Select computer..."
 msgstr "選擇電腦(&S)..."
 
-#: clientgui/AdvancedFrame.cpp:453
+#: clientgui/AdvancedFrame.cpp:447
 msgid "Shut down connected client..."
 msgstr "關閉已連線用戶端..."
 
-#: clientgui/AdvancedFrame.cpp:454
+#: clientgui/AdvancedFrame.cpp:448
 msgid "Shut down the currently connected core client"
 msgstr "關閉目前連線的核心用戶端"
 
-#: clientgui/AdvancedFrame.cpp:458
+#: clientgui/AdvancedFrame.cpp:452
 msgid "Run CPU &benchmarks"
 msgstr "執行 CPU 效能測試(&B)"
 
-#: clientgui/AdvancedFrame.cpp:459
+#: clientgui/AdvancedFrame.cpp:453
 msgid "Runs BOINC CPU benchmarks"
 msgstr "執行 BONIC 的 CPU 效能測試"
 
-#: clientgui/AdvancedFrame.cpp:463
+#: clientgui/AdvancedFrame.cpp:457
 msgid "Do network &communication"
 msgstr "開始網路通訊(&C)"
 
-#: clientgui/AdvancedFrame.cpp:464
+#: clientgui/AdvancedFrame.cpp:458
 msgid "Do all pending network communication."
 msgstr "開始所有待處理的網路通訊。"
 
-#: clientgui/AdvancedFrame.cpp:468
+#: clientgui/AdvancedFrame.cpp:462
 msgid "Read config file"
 msgstr "讀取設定檔"
 
-#: clientgui/AdvancedFrame.cpp:469
+#: clientgui/AdvancedFrame.cpp:463
 msgid "Read configuration info from cc_config.xml."
 msgstr "從 cc-config.xml 讀取設定資訊。"
 
-#: clientgui/AdvancedFrame.cpp:473
+#: clientgui/AdvancedFrame.cpp:467
 msgid "Read local prefs file"
 msgstr "讀取本機偏好設定"
 
-#: clientgui/AdvancedFrame.cpp:474
+#: clientgui/AdvancedFrame.cpp:468
 msgid "Read preferences from global_prefs_override.xml."
 msgstr "從 global_prefs_override.xml 讀取偏好設定。"
 
-#: clientgui/AdvancedFrame.cpp:478
+#: clientgui/AdvancedFrame.cpp:472
 #, c-format
 msgid "&Stop using %s..."
 msgstr "停止使用 %s(&S)..."
 
-#: clientgui/AdvancedFrame.cpp:484
+#: clientgui/AdvancedFrame.cpp:478
 msgid "Remove client from account manager control."
 msgstr "從帳號管理員控制中移除用戶端。"
 
-#: clientgui/AdvancedFrame.cpp:488
+#: clientgui/AdvancedFrame.cpp:482
 msgid "Attach to &project"
 msgstr "加入計畫(&A)"
 
-#: clientgui/AdvancedFrame.cpp:489
+#: clientgui/AdvancedFrame.cpp:483
 msgid "Attach to a project to begin processing work"
 msgstr "加入計畫以開始進行工作"
 
-#: clientgui/AdvancedFrame.cpp:500
-#: clientgui/sg_BoincSimpleGUI.cpp:116
+#: clientgui/AdvancedFrame.cpp:494
+#: clientgui/sg_BoincSimpleGUI.cpp:110
 #, c-format
 msgid "%s &help"
 msgstr "%s 說明(&H)"
 
-#: clientgui/AdvancedFrame.cpp:506
-#: clientgui/sg_BoincSimpleGUI.cpp:122
+#: clientgui/AdvancedFrame.cpp:500
+#: clientgui/sg_BoincSimpleGUI.cpp:116
 #, c-format
 msgid "Show information about %s"
 msgstr "顯示關於 %s 的資訊"
 
-#: clientgui/AdvancedFrame.cpp:518
+#: clientgui/AdvancedFrame.cpp:512
 #, c-format
 msgid "&%s help"
 msgstr "說明(&%s)"
 
-#: clientgui/AdvancedFrame.cpp:524
-#: clientgui/sg_BoincSimpleGUI.cpp:140
+#: clientgui/AdvancedFrame.cpp:518
+#: clientgui/sg_BoincSimpleGUI.cpp:134
 #, c-format
 msgid "Show information about the %s"
 msgstr "顯示關於 %s 的資訊"
 
-#: clientgui/AdvancedFrame.cpp:536
-#: clientgui/sg_BoincSimpleGUI.cpp:152
+#: clientgui/AdvancedFrame.cpp:530
+#: clientgui/sg_BoincSimpleGUI.cpp:146
 #, c-format
 msgid "%s &website"
 msgstr "%s 網站(&W)"
 
-#: clientgui/AdvancedFrame.cpp:542
-#: clientgui/sg_BoincSimpleGUI.cpp:158
+#: clientgui/AdvancedFrame.cpp:536
+#: clientgui/sg_BoincSimpleGUI.cpp:152
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "顯示關於 BONIC 及 %s 的資訊"
 
-#: clientgui/AdvancedFrame.cpp:558
-#: clientgui/BOINCTaskBar.cpp:607
+#: clientgui/AdvancedFrame.cpp:552
+#: clientgui/BOINCTaskBar.cpp:616
 #, c-format
 msgid "&About %s..."
 msgstr "關於 %s(&A)..."
 
-#: clientgui/AdvancedFrame.cpp:564
+#: clientgui/AdvancedFrame.cpp:558
 msgid "Licensing and copyright information."
 msgstr "授權與版權資訊。"
 
-#: clientgui/AdvancedFrame.cpp:571
-#: clientgui/sg_BoincSimpleGUI.cpp:181
+#: clientgui/AdvancedFrame.cpp:565
+#: clientgui/sg_BoincSimpleGUI.cpp:175
 msgid "&File"
 msgstr "檔案(&F)"
 
-#: clientgui/AdvancedFrame.cpp:575
+#: clientgui/AdvancedFrame.cpp:569
 msgid "&View"
 msgstr "檢視(&V)"
 
-#: clientgui/AdvancedFrame.cpp:579
+#: clientgui/AdvancedFrame.cpp:573
 msgid "&Tools"
 msgstr "工具(&T)"
 
-#: clientgui/AdvancedFrame.cpp:583
+#: clientgui/AdvancedFrame.cpp:577
 msgid "&Activity"
 msgstr "活動(&A)"
 
-#: clientgui/AdvancedFrame.cpp:587
+#: clientgui/AdvancedFrame.cpp:581
 msgid "A&dvanced"
 msgstr "進階(&D)"
 
-#: clientgui/AdvancedFrame.cpp:591
-#: clientgui/sg_BoincSimpleGUI.cpp:171
+#: clientgui/AdvancedFrame.cpp:585
+#: clientgui/sg_BoincSimpleGUI.cpp:165
 #: clientgui/wizardex.cpp:399
 #: clientgui/wizardex.cpp:406
 msgid "&Help"
 msgstr "說明(&H)"
 
-#: clientgui/AdvancedFrame.cpp:1213
+#: clientgui/AdvancedFrame.cpp:1083
 #, c-format
 msgid "%s - Shutdown the current client..."
 msgstr "%s - 關閉目前用戶端..."
 
-#: clientgui/AdvancedFrame.cpp:1222
+#: clientgui/AdvancedFrame.cpp:1092
 #, c-format
 msgid ""
 "%s will shut down the currently connected client,\n"
 "and prompt you for another host to connect to.\n"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:1369
+#: clientgui/AdvancedFrame.cpp:1239
 #, c-format
 msgid "%s - Detach from %s"
 msgstr "%s - 從 %s 退出"
 
-#: clientgui/AdvancedFrame.cpp:1374
+#: clientgui/AdvancedFrame.cpp:1244
 #, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -464,57 +453,49 @@ msgstr ""
 "\n"
 "您確定要停止使用 %s 嗎？"
 
-#: clientgui/AdvancedFrame.cpp:1421
+#: clientgui/AdvancedFrame.cpp:1291
 msgid "Attaching to project..."
 msgstr "正在加入計畫..."
 
-#: clientgui/AdvancedFrame.cpp:1460
+#: clientgui/AdvancedFrame.cpp:1330
 msgid "Retrying communications for project(s)..."
 msgstr "重試與計畫的通訊中..."
 
-#: clientgui/AdvancedFrame.cpp:1551
+#: clientgui/AdvancedFrame.cpp:1421
 #, c-format
 msgid "%s - Language Selection"
 msgstr "%s - 語言選擇"
 
-#: clientgui/AdvancedFrame.cpp:1558
+#: clientgui/AdvancedFrame.cpp:1428
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr "%s 預設的語言已改變。為了使變更生效， 您必須重新啟動 %s。"
 
-#: clientgui/AdvancedFrame.cpp:1795
+#: clientgui/AdvancedFrame.cpp:1639
 #: clientgui/DlgAbout.cpp:104
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: clientgui/AdvancedFrame.cpp:1804
+#: clientgui/AdvancedFrame.cpp:1648
 #, c-format
 msgid "%s has successfully attached to %s"
 msgstr "%s 已成功加入 %s 計畫。"
 
-#: clientgui/AdvancedFrame.cpp:1940
+#: clientgui/AdvancedFrame.cpp:1772
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/AdvancedFrame.cpp:1943
+#: clientgui/AdvancedFrame.cpp:1775
 #, c-format
 msgid "Connecting to %s"
 msgstr "正在連線到 %s"
 
-#: clientgui/AdvancedFrame.cpp:1946
+#: clientgui/AdvancedFrame.cpp:1778
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "已連線到 %s (%s)"
-
-#: clientgui/AlreadyAttachedPage.cpp:180
-msgid "Already attached to project"
-msgstr "已加入計畫"
-
-#: clientgui/AlreadyAttachedPage.cpp:183
-msgid "You are already attached to this project."
-msgstr "您已加入此計畫。"
 
 #: clientgui/AlreadyExistsPage.cpp:183
 msgid "Username already in use"
@@ -548,22 +529,22 @@ msgstr ""
 "\n"
 "請拜訪計畫網站後，依照計畫網站的指示操作。"
 
-#: clientgui/AsyncRPC.cpp:940
+#: clientgui/AsyncRPC.cpp:923
 msgid "Communicating with BOINC client.  Please wait ..."
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:414
+#: clientgui/BOINCBaseFrame.cpp:421
 #, c-format
 msgid "%s - Connection Error"
 msgstr "%s - 連線錯誤"
 
-#: clientgui/BOINCBaseFrame.cpp:423
+#: clientgui/BOINCBaseFrame.cpp:430
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:433
+#: clientgui/BOINCBaseFrame.cpp:440
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
@@ -571,20 +552,20 @@ msgstr ""
 "連線到執行中的用戶端認證失敗。\n"
 "請確定你於相同的用戶端目錄啟動了本程式。"
 
-#: clientgui/BOINCBaseFrame.cpp:435
+#: clientgui/BOINCBaseFrame.cpp:442
 msgid "Authorization failed connecting to running client."
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:443
+#: clientgui/BOINCBaseFrame.cpp:450
 msgid "The password you have provided is incorrect, please try again."
 msgstr "您提供的密碼不正確，請再試一遍。"
 
-#: clientgui/BOINCBaseFrame.cpp:482
+#: clientgui/BOINCBaseFrame.cpp:489
 #, c-format
 msgid "%s - Connection Failed"
 msgstr "%s - 連線失敗"
 
-#: clientgui/BOINCBaseFrame.cpp:491
+#: clientgui/BOINCBaseFrame.cpp:498
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
@@ -593,31 +574,31 @@ msgstr ""
 "%s 無法連線到 %s 用戶端。\n"
 "您要再試一次嗎？"
 
-#: clientgui/BOINCBaseFrame.cpp:527
+#: clientgui/BOINCBaseFrame.cpp:534
 #, c-format
 msgid "%s - Daemon Start Failed"
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:537
+#: clientgui/BOINCBaseFrame.cpp:544
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:543
+#: clientgui/BOINCBaseFrame.cpp:550
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:589
+#: clientgui/BOINCBaseFrame.cpp:596
 #, c-format
 msgid "%s - Connection Status"
 msgstr "%s - 連線狀態"
 
-#: clientgui/BOINCBaseFrame.cpp:600
+#: clientgui/BOINCBaseFrame.cpp:607
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -628,7 +609,7 @@ msgstr ""
 "請選擇「檔案」>「選擇電腦...」來連到 %s 用戶端。\n"
 "要連線到本機電腦，請於主機名稱輸入「localhost」。"
 
-#: clientgui/BOINCBaseView.cpp:746
+#: clientgui/BOINCBaseView.cpp:748
 #: clientgui/ViewProjectsGrid.cpp:644
 #: clientgui/ViewWorkGrid.cpp:542
 msgid "Web sites"
@@ -704,87 +685,91 @@ msgstr "%s 已成功從網路斷線。"
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s 從網路斷線失敗。"
 
-#: clientgui/BOINCGUIApp.cpp:365
+#: clientgui/BOINCGUIApp.cpp:366
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:366
+#: clientgui/BOINCGUIApp.cpp:367
 #: clientgui/DlgAbout.cpp:136
 msgid "BOINC Manager"
 msgstr "BOINC 管理員"
 
-#: clientgui/BOINCGUIApp.cpp:515
+#: clientgui/BOINCGUIApp.cpp:517
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:516
+#: clientgui/BOINCGUIApp.cpp:518
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "只以系統匣圖示啟動 BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:517
+#: clientgui/BOINCGUIApp.cpp:519
 msgid "Startup BOINC with these optional arguments"
 msgstr "以這些選用參數啟動 BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:518
+#: clientgui/BOINCGUIApp.cpp:520
 msgid "disable BOINC security users and permissions"
 msgstr "停用 BOINC 安全性使用者和權限"
 
-#: clientgui/BOINCGUIApp.cpp:675
+#: clientgui/BOINCGUIApp.cpp:521
+msgid "set skin debugging mode to enable skin manager error messages"
+msgstr ""
+
+#: clientgui/BOINCGUIApp.cpp:681
 msgid "(Automatic Detection)"
 msgstr "(自動偵測)"
 
-#: clientgui/BOINCGUIApp.cpp:676
+#: clientgui/BOINCGUIApp.cpp:682
 msgid "(Unknown)"
 msgstr "(未知的語言)"
 
-#: clientgui/BOINCGUIApp.cpp:677
+#: clientgui/BOINCGUIApp.cpp:683
 msgid "(User Defined)"
 msgstr "(使用者定義)"
 
-#: clientgui/BOINCTaskBar.cpp:327
+#: clientgui/BOINCTaskBar.cpp:336
 #, fuzzy
 msgid "Computation is suspended."
 msgstr "運算已暫止。\n"
 
-#: clientgui/BOINCTaskBar.cpp:335
+#: clientgui/BOINCTaskBar.cpp:344
 #, fuzzy
 msgid "Network activity is suspended."
 msgstr "網路活動已暫止。\n"
 
-#: clientgui/BOINCTaskBar.cpp:369
+#: clientgui/BOINCTaskBar.cpp:378
 #, c-format
 #, fuzzy
 msgid "%s: %.2f%% completed."
 msgstr "%s: %.2f%% 已完成\n"
 
-#: clientgui/BOINCTaskBar.cpp:382
+#: clientgui/BOINCTaskBar.cpp:391
 #, c-format
 msgid "%d tasks running."
 msgstr ""
 
-#: clientgui/BOINCTaskBar.cpp:391
+#: clientgui/BOINCTaskBar.cpp:400
 #, fuzzy
 msgid "Reconnecting to client."
 msgstr "重新連線用戶端中。\n"
 
-#: clientgui/BOINCTaskBar.cpp:397
+#: clientgui/BOINCTaskBar.cpp:406
 #, fuzzy
 msgid "Not connected to a client."
 msgstr "未連線到用戶端。\n"
 
-#: clientgui/BOINCTaskBar.cpp:588
+#: clientgui/BOINCTaskBar.cpp:597
 #, c-format
 msgid "Open %s Web..."
 msgstr "開啟 %s 網站..."
 
-#: clientgui/BOINCTaskBar.cpp:595
+#: clientgui/BOINCTaskBar.cpp:604
 #, c-format
 msgid "Open %s..."
 msgstr "開啟 %s..."
 
-#: clientgui/BOINCTaskBar.cpp:602
+#: clientgui/BOINCTaskBar.cpp:611
 msgid "Snooze"
 msgstr "稍後通知"
 
@@ -883,16 +868,6 @@ msgstr "您已成功加入 %s 系統。"
 msgid "You are now successfully attached to this account manager."
 msgstr "您已成功加入此帳號管理員。"
 
-#: clientgui/ctest.cpp:154
-#: clientgui/ctest.cpp:158
-msgid "Static text"
-msgstr ""
-
-#: clientgui/ctest.cpp:166
-#: clientgui/ctest.cpp:171
-msgid "Radiobutton"
-msgstr ""
-
 #: clientgui/DlgAbout.cpp:98
 #, c-format
 msgid "About %s"
@@ -932,36 +907,36 @@ msgstr "柏克萊開放式網路運算平台"
 msgid "&OK"
 msgstr "確定(&O)"
 
-#: clientgui/DlgAdvPreferences.cpp:474
+#: clientgui/DlgAdvPreferences.cpp:480
 msgid "invalid float"
 msgstr "浮點數無效"
 
-#: clientgui/DlgAdvPreferences.cpp:475
+#: clientgui/DlgAdvPreferences.cpp:481
 msgid "invalid time, format is HH:MM"
 msgstr "時間無效，格式為 HH:MM"
 
-#: clientgui/DlgAdvPreferences.cpp:476
+#: clientgui/DlgAdvPreferences.cpp:482
 msgid "invalid time interval, format is HH:MM-HH:MM"
 msgstr "時間區間無效，格式為 HH:MM-HH:MM"
 
-#: clientgui/DlgAdvPreferences.cpp:585
+#: clientgui/DlgAdvPreferences.cpp:591
 msgid "invalid input value detected"
 msgstr "偵測到輸入值無效"
 
-#: clientgui/DlgAdvPreferences.cpp:587
+#: clientgui/DlgAdvPreferences.cpp:593
 msgid "Validation Error"
 msgstr "驗證錯誤"
 
-#: clientgui/DlgAdvPreferences.cpp:730
+#: clientgui/DlgAdvPreferences.cpp:736
 msgid "Do you really want to clear all local preferences ?"
 msgstr "您真的要清除所有本機偏好設定嗎？"
 
-#: clientgui/DlgAdvPreferences.cpp:731
+#: clientgui/DlgAdvPreferences.cpp:737
 msgid "Confirmation"
 msgstr "確認"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:31
-#: clientgui/sg_DlgPreferences.cpp:1037
+#: clientgui/sg_DlgPreferences.cpp:1036
 #, c-format
 msgid "%s - Preferences"
 msgstr "%s - 偏好設定"
@@ -984,168 +959,178 @@ msgstr "清除"
 msgid "clear all local preferences and close the dialog"
 msgstr "清除所有本機偏好設定並關閉此視窗"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:75
+#: clientgui/DlgAdvPreferencesBase.cpp:76
 msgid "Computing allowed"
 msgstr "選擇允許運算的情況"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:77
+#: clientgui/DlgAdvPreferencesBase.cpp:80
 msgid " While computer is on batteries"
 msgstr " 電腦以電池供電時"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:79
+#: clientgui/DlgAdvPreferencesBase.cpp:83
 msgid "check this if you want this computer to do work while it runs on batteries"
 msgstr "若你想讓電腦以電池供電時也要運行工作就打勾"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:83
+#: clientgui/DlgAdvPreferencesBase.cpp:89
 msgid " While computer is in use"
 msgstr " 電腦正使用中時"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:85
+#: clientgui/DlgAdvPreferencesBase.cpp:92
 msgid "check this if you want this computer to do work even when you're using it"
 msgstr "若你想在使用電腦的同時一起運行工作就打勾"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:95
+#: clientgui/DlgAdvPreferencesBase.cpp:98
+msgid " Use GPU while computer is in use"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:101
+msgid "check this if you want your GPU to do work even when you're using the computer"
+msgstr ""
+
+#: clientgui/DlgAdvPreferencesBase.cpp:111
 msgid "Only after computer has been idle for"
 msgstr "電腦閒置幾分鐘後才運行工作: "
 
-#: clientgui/DlgAdvPreferencesBase.cpp:99
+#: clientgui/DlgAdvPreferencesBase.cpp:115
 msgid "do work only after you haven't used the computer for this number of minutes"
 msgstr "設定你不使用電腦幾分鐘後才運行工作"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:103
-#: clientgui/DlgAdvPreferencesBase.cpp:223
+#: clientgui/DlgAdvPreferencesBase.cpp:119
+#: clientgui/DlgAdvPreferencesBase.cpp:239
 #: clientgui/sg_DlgPreferences.cpp:453
 msgid "minutes"
 msgstr "分"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:114
-#: clientgui/DlgAdvPreferencesBase.cpp:338
+#: clientgui/DlgAdvPreferencesBase.cpp:130
+#: clientgui/DlgAdvPreferencesBase.cpp:355
 msgid "Every day between hours of"
 msgstr "每天運行工作的時間: "
 
-#: clientgui/DlgAdvPreferencesBase.cpp:118
+#: clientgui/DlgAdvPreferencesBase.cpp:134
 msgid "start work at this time"
 msgstr "開始運行工作的時間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:122
-#: clientgui/DlgAdvPreferencesBase.cpp:346
+#: clientgui/DlgAdvPreferencesBase.cpp:138
+#: clientgui/DlgAdvPreferencesBase.cpp:363
 #: clientgui/sg_DlgPreferences.cpp:362
 #: clientgui/sg_DlgPreferences.cpp:384
 msgid "and"
 msgstr "到"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:126
+#: clientgui/DlgAdvPreferencesBase.cpp:142
 msgid "stop work at this time"
 msgstr "停止運行工作的時間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:130
-#: clientgui/DlgAdvPreferencesBase.cpp:354
+#: clientgui/DlgAdvPreferencesBase.cpp:146
+#: clientgui/DlgAdvPreferencesBase.cpp:371
 msgid "(no restriction if equal)"
 msgstr "(兩欄都相等表示不設限)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:135
-#: clientgui/DlgAdvPreferencesBase.cpp:359
+#: clientgui/DlgAdvPreferencesBase.cpp:151
+#: clientgui/DlgAdvPreferencesBase.cpp:376
 msgid "Day-of-week override:"
 msgstr "每日分別設定:"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:140
-#: clientgui/DlgAdvPreferencesBase.cpp:364
+#: clientgui/DlgAdvPreferencesBase.cpp:156
+#: clientgui/DlgAdvPreferencesBase.cpp:381
 msgid "check box to specify hours for this day of week"
 msgstr "打勾可設定該日要運行工作的時間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:150
-#: clientgui/DlgAdvPreferencesBase.cpp:374
+#: clientgui/DlgAdvPreferencesBase.cpp:166
+#: clientgui/DlgAdvPreferencesBase.cpp:391
 msgid "Monday"
 msgstr "星期一"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:157
-#: clientgui/DlgAdvPreferencesBase.cpp:381
+#: clientgui/DlgAdvPreferencesBase.cpp:173
+#: clientgui/DlgAdvPreferencesBase.cpp:398
 msgid "Tuesday"
 msgstr "星期二"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:164
-#: clientgui/DlgAdvPreferencesBase.cpp:388
+#: clientgui/DlgAdvPreferencesBase.cpp:180
+#: clientgui/DlgAdvPreferencesBase.cpp:405
 msgid "Wednesday"
 msgstr "星期三"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:171
-#: clientgui/DlgAdvPreferencesBase.cpp:395
+#: clientgui/DlgAdvPreferencesBase.cpp:187
+#: clientgui/DlgAdvPreferencesBase.cpp:412
 msgid "Thursday"
 msgstr "星期四"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:178
-#: clientgui/DlgAdvPreferencesBase.cpp:402
+#: clientgui/DlgAdvPreferencesBase.cpp:194
+#: clientgui/DlgAdvPreferencesBase.cpp:419
 msgid "Friday"
 msgstr "星期五"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:185
-#: clientgui/DlgAdvPreferencesBase.cpp:409
+#: clientgui/DlgAdvPreferencesBase.cpp:201
+#: clientgui/DlgAdvPreferencesBase.cpp:426
 msgid "Saturday"
 msgstr "星期六"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:192
-#: clientgui/DlgAdvPreferencesBase.cpp:416
+#: clientgui/DlgAdvPreferencesBase.cpp:208
+#: clientgui/DlgAdvPreferencesBase.cpp:433
 msgid "Sunday"
 msgstr "星期日"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:209
+#: clientgui/DlgAdvPreferencesBase.cpp:225
 msgid "Other options"
 msgstr "其他選項"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:217
+#: clientgui/DlgAdvPreferencesBase.cpp:233
 msgid "Switch between applications between every"
 msgstr "每隔幾分鐘切換應用程式: "
 
-#: clientgui/DlgAdvPreferencesBase.cpp:226
+#: clientgui/DlgAdvPreferencesBase.cpp:242
 msgid "On multiprocessor systems, use at most"
 msgstr "多處理器系統中最多只使用"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:232
+#: clientgui/DlgAdvPreferencesBase.cpp:249
+#, no-c-format
+#, no-c-format
 #, c-format
 #, fuzzy
 msgid "% of the processors"
 msgstr "／CPU 使用率"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:235
-#: clientgui/DlgAdvPreferencesBase.cpp:451
-#: clientgui/DlgAdvPreferencesBase.cpp:473
-#: clientgui/DlgAdvPreferencesBase.cpp:494
-#: clientgui/DlgAdvPreferencesBase.cpp:517
-#: clientgui/DlgAdvPreferencesBase.cpp:526
+#: clientgui/DlgAdvPreferencesBase.cpp:252
+#: clientgui/DlgAdvPreferencesBase.cpp:468
+#: clientgui/DlgAdvPreferencesBase.cpp:490
+#: clientgui/DlgAdvPreferencesBase.cpp:511
+#: clientgui/DlgAdvPreferencesBase.cpp:534
+#: clientgui/DlgAdvPreferencesBase.cpp:544
 msgid "Use at most"
 msgstr "最多只使用"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:242
+#: clientgui/DlgAdvPreferencesBase.cpp:259
 #, no-c-format
 msgid "% CPU time"
 msgstr "% CPU 時間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:252
+#: clientgui/DlgAdvPreferencesBase.cpp:269
 msgid "processor usage"
 msgstr "處理器用量"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:260
+#: clientgui/DlgAdvPreferencesBase.cpp:277
 msgid "General options"
 msgstr "一般選項"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:267
+#: clientgui/DlgAdvPreferencesBase.cpp:284
 msgid "Maximum download rate"
 msgstr "最大下載速率"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:273
-#: clientgui/DlgAdvPreferencesBase.cpp:282
+#: clientgui/DlgAdvPreferencesBase.cpp:290
+#: clientgui/DlgAdvPreferencesBase.cpp:299
 msgid "KBytes/sec."
 msgstr "KB/秒"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:276
+#: clientgui/DlgAdvPreferencesBase.cpp:293
 msgid "Maximum upload rate"
 msgstr "最大上傳速率"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:285
+#: clientgui/DlgAdvPreferencesBase.cpp:302
 msgid "Connect about every"
 msgstr "每幾天連線一次: "
 
-#: clientgui/DlgAdvPreferencesBase.cpp:289
+#: clientgui/DlgAdvPreferencesBase.cpp:306
 msgid ""
 "this computer is connected to the Internet about every X days\n"
 "(0 if it's always connected)"
@@ -1153,43 +1138,43 @@ msgstr ""
 "設定此電腦每 X 天連線網路\n"
 "(0 代表一直連線)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:293
+#: clientgui/DlgAdvPreferencesBase.cpp:310
 msgid "days"
 msgstr "天"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:296
+#: clientgui/DlgAdvPreferencesBase.cpp:313
 msgid "Additional work buffer"
 msgstr "取得額外工作的緩衝時間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:302
+#: clientgui/DlgAdvPreferencesBase.cpp:319
 msgid "days (max. 10)"
 msgstr "天 (最多 10 天)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:305
+#: clientgui/DlgAdvPreferencesBase.cpp:322
 msgid " Skip image file verification"
 msgstr "略過映像檔驗證"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:307
+#: clientgui/DlgAdvPreferencesBase.cpp:324
 msgid "check this if your Internet provider modifies image files"
 msgstr "若你的 ISP 會修改映像檔就打勾"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:316
+#: clientgui/DlgAdvPreferencesBase.cpp:333
 msgid "Connect options"
 msgstr "連線選項"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:318
+#: clientgui/DlgAdvPreferencesBase.cpp:335
 msgid "Confirm before connecting to internet"
 msgstr "連線到網路前確認"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:320
+#: clientgui/DlgAdvPreferencesBase.cpp:337
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
 msgstr "若勾選此方塊，當連線到網路前會先顯示確認視窗"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:324
+#: clientgui/DlgAdvPreferencesBase.cpp:341
 msgid "Disconnect when done"
 msgstr "完成後斷線"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:326
+#: clientgui/DlgAdvPreferencesBase.cpp:343
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
@@ -1197,118 +1182,120 @@ msgstr ""
 "若勾選此方塊，當網路使用結束後 BOINC 會中斷連線\n"
 "(只對撥接連線有效)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:333
+#: clientgui/DlgAdvPreferencesBase.cpp:350
 msgid "Network usage allowed"
 msgstr "選擇允許使用網路的情況"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:342
+#: clientgui/DlgAdvPreferencesBase.cpp:359
 msgid "network usage start hour"
 msgstr "網路使用開始時間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:350
+#: clientgui/DlgAdvPreferencesBase.cpp:367
 msgid "network usage stop hour"
 msgstr "網路使用結束時間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:435
+#: clientgui/DlgAdvPreferencesBase.cpp:452
 msgid "network usage"
 msgstr "網路用量"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:443
-#: clientgui/DlgItemProperties.cpp:109
+#: clientgui/DlgAdvPreferencesBase.cpp:460
+#: clientgui/DlgItemProperties.cpp:113
 msgid "Disk usage"
 msgstr "磁碟用量"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:455
+#: clientgui/DlgAdvPreferencesBase.cpp:472
 msgid "the maximum disk space used by BOINC (in Gigabytes)"
 msgstr "BOINC 能使用的最大磁碟空間 (以 GB 計)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:459
+#: clientgui/DlgAdvPreferencesBase.cpp:476
 msgid "Gigabytes disk space"
 msgstr "GB 磁碟空間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:462
+#: clientgui/DlgAdvPreferencesBase.cpp:479
 msgid "Leave at least"
 msgstr "留下至少"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:466
+#: clientgui/DlgAdvPreferencesBase.cpp:483
 #, fuzzy
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
 msgstr "BOINC 要留下多少的可用磁碟空間 (以 GB 計)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:470
+#: clientgui/DlgAdvPreferencesBase.cpp:487
 msgid "Gigabytes disk space free"
 msgstr "GB 可用磁碟空間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:477
+#: clientgui/DlgAdvPreferencesBase.cpp:494
 msgid "BOINC uses at most this percentage of total disk space"
 msgstr "BOINC 最多可使用的總磁碟空間百分比"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:482
+#: clientgui/DlgAdvPreferencesBase.cpp:499
 #, no-c-format
 msgid "% of total disk space"
 msgstr "% 總磁碟空間"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:485
+#: clientgui/DlgAdvPreferencesBase.cpp:502
 msgid "Write to disk at most every"
 msgstr "寫入磁碟最多每"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:491
+#: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "seconds"
 msgstr "秒"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:501
+#: clientgui/DlgAdvPreferencesBase.cpp:518
 #, no-c-format
 msgid "% of page file (swap space)"
 msgstr "% 分頁檔大小 (交換空間)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:509
+#: clientgui/DlgAdvPreferencesBase.cpp:526
 msgid "Memory usage"
 msgstr "記憶體用量"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:523
+#: clientgui/DlgAdvPreferencesBase.cpp:541
+#, no-c-format
 msgid "% when computer is in use"
 msgstr "% 於電腦使用中"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:532
+#: clientgui/DlgAdvPreferencesBase.cpp:551
+#, no-c-format
 msgid "% when computer is idle"
 msgstr "% 於電腦閒置中"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:537
+#: clientgui/DlgAdvPreferencesBase.cpp:556
 msgid " Leave applications in memory while suspended"
 msgstr " 當暫止時保留應用程式於記憶體中"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:539
+#: clientgui/DlgAdvPreferencesBase.cpp:558
 msgid "if checked, suspended work units are left in memory"
 msgstr "若勾選此方塊，暫止的工作會留在記憶體中"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:548
+#: clientgui/DlgAdvPreferencesBase.cpp:567
 msgid "disk and memory usage"
 msgstr "磁碟及記憶體用量"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:561
+#: clientgui/DlgAdvPreferencesBase.cpp:580
 msgid "OK"
 msgstr "確定"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:562
+#: clientgui/DlgAdvPreferencesBase.cpp:581
 msgid "save all values and close the dialog"
 msgstr "儲存所有值並關閉視窗"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:566
+#: clientgui/DlgAdvPreferencesBase.cpp:585
 msgid "Cancel"
 msgstr "取消"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:567
+#: clientgui/DlgAdvPreferencesBase.cpp:586
 msgid "close the dialog without saving"
 msgstr "關閉視窗且不儲存"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:571
+#: clientgui/DlgAdvPreferencesBase.cpp:590
 #: clientgui/Localization.cpp:35
 #: clientgui/Localization.cpp:121
 #: clientgui/Localization.cpp:139
 msgid "Help"
 msgstr "幫助"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:572
+#: clientgui/DlgAdvPreferencesBase.cpp:591
 msgid "shows the preferences web page"
 msgstr "顯示網頁上的偏好設定"
 
@@ -1364,348 +1351,377 @@ msgstr "取消(&C)"
 msgid "Don't show this dialog again."
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:56
+#: clientgui/DlgItemProperties.cpp:57
 msgid "&Close"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:100
+#: clientgui/DlgItemProperties.cpp:101
 msgid "Properties of project "
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:104
+#: clientgui/DlgItemProperties.cpp:105
 #: clientgui/DlgOptions.cpp:205
 msgid "General"
 msgstr "一般"
 
-#: clientgui/DlgItemProperties.cpp:105
+#: clientgui/DlgItemProperties.cpp:106
 msgid "Master URL"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:106
+#: clientgui/DlgItemProperties.cpp:107
 #, fuzzy
 msgid "User name"
 msgstr "使用者名稱:"
 
-#: clientgui/DlgItemProperties.cpp:107
+#: clientgui/DlgItemProperties.cpp:108
 msgid "Team name"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:108
+#: clientgui/DlgItemProperties.cpp:109
 #: clientgui/ViewProjects.cpp:223
 #: clientgui/ViewProjectsBase.cpp:156
 #: clientgui/ViewProjectsGrid.cpp:164
 msgid "Resource share"
 msgstr "資源分享"
 
-#: clientgui/DlgItemProperties.cpp:110
+#: clientgui/DlgItemProperties.cpp:111
+msgid "Scheduler RPC deferred for"
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:114
 msgid "Non CPU intensive"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:110
-#: clientgui/DlgItemProperties.cpp:111
-#: clientgui/DlgItemProperties.cpp:112
-#: clientgui/DlgItemProperties.cpp:113
 #: clientgui/DlgItemProperties.cpp:114
 #: clientgui/DlgItemProperties.cpp:115
 #: clientgui/DlgItemProperties.cpp:116
+#: clientgui/DlgItemProperties.cpp:117
+#: clientgui/DlgItemProperties.cpp:118
+#: clientgui/DlgItemProperties.cpp:119
+#: clientgui/DlgItemProperties.cpp:120
 msgid "yes"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:110
-#: clientgui/DlgItemProperties.cpp:111
-#: clientgui/DlgItemProperties.cpp:112
-#: clientgui/DlgItemProperties.cpp:113
 #: clientgui/DlgItemProperties.cpp:114
 #: clientgui/DlgItemProperties.cpp:115
 #: clientgui/DlgItemProperties.cpp:116
+#: clientgui/DlgItemProperties.cpp:117
+#: clientgui/DlgItemProperties.cpp:118
+#: clientgui/DlgItemProperties.cpp:119
+#: clientgui/DlgItemProperties.cpp:120
 msgid "no"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:111
+#: clientgui/DlgItemProperties.cpp:115
 msgid "Suspended via GUI"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:112
+#: clientgui/DlgItemProperties.cpp:116
 msgid "Don't request more work"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:113
+#: clientgui/DlgItemProperties.cpp:117
 #, fuzzy
 msgid "Scheduler call in progress"
 msgstr "排程器請求進行中"
 
-#: clientgui/DlgItemProperties.cpp:114
+#: clientgui/DlgItemProperties.cpp:118
 #, fuzzy
 msgid "Attached via account manager"
 msgstr "加入帳號管理"
 
-#: clientgui/DlgItemProperties.cpp:115
+#: clientgui/DlgItemProperties.cpp:119
 msgid "Detach when done"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:116
+#: clientgui/DlgItemProperties.cpp:120
 msgid "Ended"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:117
+#: clientgui/DlgItemProperties.cpp:121
 msgid "Credit"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:118
+#: clientgui/DlgItemProperties.cpp:122
 msgid "User"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:125
+#: clientgui/DlgItemProperties.cpp:129
 msgid "Host"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:133
+#: clientgui/DlgItemProperties.cpp:138
 msgid "Scheduling"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:134
-msgid "Short term debt"
+#: clientgui/DlgItemProperties.cpp:139
+msgid "CPU scheduling priority"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:135
-msgid "Long term debt"
+#: clientgui/DlgItemProperties.cpp:140
+msgid "CPU work fetch priority"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:136
-msgid "Duration correction factor"
+#: clientgui/DlgItemProperties.cpp:143
+msgid "CPU work fetch deferred for"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:145
-msgid "Properties of task "
+#: clientgui/DlgItemProperties.cpp:144
+msgid "CPU work fetch deferral interval"
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:146
+msgid "NVIDIA GPU work fetch priority"
 msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:149
+msgid "NVIDIA GPU work fetch deferred for"
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:150
+msgid "NVIDIA GPU work fetch deferral interval"
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:152
+msgid "Duration correction factor"
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:162
+msgid "Properties of task "
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:166
 #: clientgui/ViewWork.cpp:215
 #: clientgui/ViewWorkGrid.cpp:146
 msgid "Application"
 msgstr "應用程式"
 
-#: clientgui/DlgItemProperties.cpp:150
+#: clientgui/DlgItemProperties.cpp:167
 msgid "Workunit name"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:151
+#: clientgui/DlgItemProperties.cpp:168
 msgid "State"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:153
+#: clientgui/DlgItemProperties.cpp:170
 #: clientgui/ViewWork.cpp:220
 #: clientgui/ViewWorkGrid.cpp:147
 msgid "Report deadline"
 msgstr "回報期限"
 
-#: clientgui/DlgItemProperties.cpp:155
+#: clientgui/DlgItemProperties.cpp:172
 msgid "Resources"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:158
+#: clientgui/DlgItemProperties.cpp:175
 msgid "CPU time at last checkpoint"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:159
-#: clientgui/ViewWork.cpp:217
+#: clientgui/DlgItemProperties.cpp:176
+#: clientgui/DlgItemProperties.cpp:188
 #: clientgui/ViewWorkGrid.cpp:146
 msgid "CPU time"
 msgstr "CPU 時間"
 
-#: clientgui/DlgItemProperties.cpp:161
+#: clientgui/DlgItemProperties.cpp:178
+#: clientgui/DlgItemProperties.cpp:189
 #, fuzzy
 msgid "Elapsed time"
 msgstr "剩餘時間"
 
-#: clientgui/DlgItemProperties.cpp:163
+#: clientgui/DlgItemProperties.cpp:180
 msgid "Estimated time remaining"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:164
+#: clientgui/DlgItemProperties.cpp:181
 msgid "Fraction done"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:165
+#: clientgui/DlgItemProperties.cpp:182
 msgid "Virtual memory size"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:166
+#: clientgui/DlgItemProperties.cpp:183
 msgid "Working set size"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:251
-#: clientgui/ViewWork.cpp:1020
+#: clientgui/DlgItemProperties.cpp:185
+msgid "Slot"
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:283
+#: clientgui/ViewWork.cpp:1007
 #: clientgui/ViewWorkGrid.cpp:774
 msgid "New"
 msgstr "新工作"
 
-#: clientgui/DlgItemProperties.cpp:255
+#: clientgui/DlgItemProperties.cpp:287
 #: clientgui/ViewTransfers.cpp:752
 #: clientgui/ViewTransfersGrid.cpp:421
-#: clientgui/ViewWork.cpp:1024
+#: clientgui/ViewWork.cpp:1011
 #: clientgui/ViewWorkGrid.cpp:778
 msgid "Download failed"
 msgstr "下載失敗"
 
-#: clientgui/DlgItemProperties.cpp:257
+#: clientgui/DlgItemProperties.cpp:289
 #: clientgui/ViewTransfers.cpp:760
 #: clientgui/ViewTransfersGrid.cpp:429
-#: clientgui/ViewWork.cpp:1026
+#: clientgui/ViewWork.cpp:1013
 #: clientgui/ViewWorkGrid.cpp:780
 msgid "Downloading"
 msgstr "下載中"
 
-#: clientgui/DlgItemProperties.cpp:262
-#: clientgui/ViewWork.cpp:1031
+#: clientgui/DlgItemProperties.cpp:294
+#: clientgui/ViewWork.cpp:1018
 #: clientgui/ViewWorkGrid.cpp:785
 msgid "Project suspended by user"
 msgstr "計畫被使用者暫止"
 
-#: clientgui/DlgItemProperties.cpp:264
-#: clientgui/ViewWork.cpp:1033
+#: clientgui/DlgItemProperties.cpp:296
+#: clientgui/ViewWork.cpp:1020
 #: clientgui/ViewWorkGrid.cpp:787
 msgid "Task suspended by user"
 msgstr "被使用者暫止"
 
-#: clientgui/DlgItemProperties.cpp:266
+#: clientgui/DlgItemProperties.cpp:298
 #: clientgui/ViewTransfers.cpp:757
 #: clientgui/ViewTransfersGrid.cpp:426
-#: clientgui/ViewWork.cpp:1035
+#: clientgui/ViewWork.cpp:1022
 #: clientgui/ViewWorkGrid.cpp:789
 msgid "Suspended"
 msgstr "已暫止"
 
-#: clientgui/DlgItemProperties.cpp:268
-#: clientgui/ViewWork.cpp:1037
+#: clientgui/DlgItemProperties.cpp:300
+#: clientgui/ViewWork.cpp:1024
 #: clientgui/ViewWorkGrid.cpp:791
 msgid " - on batteries"
 msgstr " - 正以電池供電"
 
-#: clientgui/DlgItemProperties.cpp:271
-#: clientgui/ViewWork.cpp:1040
+#: clientgui/DlgItemProperties.cpp:303
+#: clientgui/ViewWork.cpp:1027
 #: clientgui/ViewWorkGrid.cpp:794
 msgid " - user active"
 msgstr " - 使用者正在操作"
 
-#: clientgui/DlgItemProperties.cpp:274
-#: clientgui/ViewWork.cpp:1043
+#: clientgui/DlgItemProperties.cpp:306
+#: clientgui/ViewWork.cpp:1030
 #: clientgui/ViewWorkGrid.cpp:797
 msgid " - computation suspended"
 msgstr "- 運算已暫止"
 
-#: clientgui/DlgItemProperties.cpp:277
-#: clientgui/ViewWork.cpp:1046
+#: clientgui/DlgItemProperties.cpp:309
+#: clientgui/ViewWork.cpp:1033
 #: clientgui/ViewWorkGrid.cpp:800
 msgid " - time of day"
 msgstr " - 不在設定時間內"
 
-#: clientgui/DlgItemProperties.cpp:280
-#: clientgui/ViewWork.cpp:1049
+#: clientgui/DlgItemProperties.cpp:312
+#: clientgui/ViewWork.cpp:1036
 #: clientgui/ViewWorkGrid.cpp:803
 msgid " - CPU benchmarks"
 msgstr " - CPU 效能測試"
 
-#: clientgui/DlgItemProperties.cpp:283
-#: clientgui/ViewWork.cpp:1052
+#: clientgui/DlgItemProperties.cpp:315
+#: clientgui/ViewWork.cpp:1039
 #: clientgui/ViewWorkGrid.cpp:806
 msgid " - need disk space"
 msgstr " - 需要磁碟空間"
 
-#: clientgui/DlgItemProperties.cpp:287
-#: clientgui/ViewWork.cpp:1062
+#: clientgui/DlgItemProperties.cpp:319
+#: clientgui/ViewWork.cpp:1049
 #: clientgui/ViewWorkGrid.cpp:810
 msgid "Waiting for memory"
 msgstr "等待記憶體釋放"
 
-#: clientgui/DlgItemProperties.cpp:289
-#: clientgui/ViewWork.cpp:1064
+#: clientgui/DlgItemProperties.cpp:321
+#: clientgui/ViewWork.cpp:1051
 #: clientgui/ViewWorkGrid.cpp:812
 msgid "Waiting for shared memory"
 msgstr "等待共享記憶體釋放"
 
-#: clientgui/DlgItemProperties.cpp:292
-#: clientgui/ViewWork.cpp:1067
+#: clientgui/DlgItemProperties.cpp:324
+#: clientgui/ViewWork.cpp:1054
 #: clientgui/ViewWorkGrid.cpp:815
 msgid "Running, high priority"
 msgstr "執行中，高優先權"
 
-#: clientgui/DlgItemProperties.cpp:294
+#: clientgui/DlgItemProperties.cpp:326
 #: clientgui/sg_ImageButton.cpp:88
-#: clientgui/ViewWork.cpp:1069
+#: clientgui/ViewWork.cpp:1056
 #: clientgui/ViewWorkGrid.cpp:817
 msgid "Running"
 msgstr "運行中"
 
-#: clientgui/DlgItemProperties.cpp:297
-#: clientgui/ViewWork.cpp:1078
+#: clientgui/DlgItemProperties.cpp:329
+#: clientgui/ViewWork.cpp:1065
 #: clientgui/ViewWorkGrid.cpp:826
 msgid "Waiting to run"
 msgstr "等待執行"
 
-#: clientgui/DlgItemProperties.cpp:299
-#: clientgui/DlgItemProperties.cpp:302
-#: clientgui/ViewWork.cpp:1080
-#: clientgui/ViewWork.cpp:1086
+#: clientgui/DlgItemProperties.cpp:331
+#: clientgui/DlgItemProperties.cpp:334
+#: clientgui/ViewWork.cpp:1067
+#: clientgui/ViewWork.cpp:1073
 #: clientgui/ViewWorkGrid.cpp:828
 #: clientgui/ViewWorkGrid.cpp:831
 msgid "Ready to start"
 msgstr "準備開始"
 
-#: clientgui/DlgItemProperties.cpp:306
-#: clientgui/ViewWork.cpp:1090
+#: clientgui/DlgItemProperties.cpp:338
+#: clientgui/ViewWork.cpp:1077
 #: clientgui/ViewWorkGrid.cpp:835
 msgid "Computation error"
 msgstr "運算錯誤"
 
-#: clientgui/DlgItemProperties.cpp:310
+#: clientgui/DlgItemProperties.cpp:342
 #: clientgui/ViewTransfers.cpp:754
 #: clientgui/ViewTransfersGrid.cpp:423
-#: clientgui/ViewWork.cpp:1094
+#: clientgui/ViewWork.cpp:1081
 #: clientgui/ViewWorkGrid.cpp:839
 msgid "Upload failed"
 msgstr "上傳失敗"
 
-#: clientgui/DlgItemProperties.cpp:312
+#: clientgui/DlgItemProperties.cpp:344
 #: clientgui/ViewTransfers.cpp:760
 #: clientgui/ViewTransfersGrid.cpp:429
-#: clientgui/ViewWork.cpp:1096
+#: clientgui/ViewWork.cpp:1083
 #: clientgui/ViewWorkGrid.cpp:841
 msgid "Uploading"
 msgstr "上傳中"
 
-#: clientgui/DlgItemProperties.cpp:318
-#: clientgui/ViewWork.cpp:1102
+#: clientgui/DlgItemProperties.cpp:350
+#: clientgui/ViewWork.cpp:1089
 #: clientgui/ViewWorkGrid.cpp:847
 msgid "Aborted by user"
 msgstr "被使用者中止"
 
-#: clientgui/DlgItemProperties.cpp:321
-#: clientgui/ViewWork.cpp:1105
+#: clientgui/DlgItemProperties.cpp:353
+#: clientgui/ViewWork.cpp:1092
 #: clientgui/ViewWorkGrid.cpp:850
 msgid "Aborted by project"
 msgstr "被計畫中止"
 
-#: clientgui/DlgItemProperties.cpp:324
-#: clientgui/ViewWork.cpp:1108
+#: clientgui/DlgItemProperties.cpp:356
+#: clientgui/ViewWork.cpp:1095
 #: clientgui/ViewWorkGrid.cpp:853
 msgid "Aborted"
 msgstr "已中止"
 
-#: clientgui/DlgItemProperties.cpp:329
-#: clientgui/ViewWork.cpp:1113
+#: clientgui/DlgItemProperties.cpp:361
+#: clientgui/ViewWork.cpp:1100
 #: clientgui/ViewWorkGrid.cpp:858
 msgid "Acknowledged"
 msgstr "已認可"
 
-#: clientgui/DlgItemProperties.cpp:331
-#: clientgui/ViewWork.cpp:1115
+#: clientgui/DlgItemProperties.cpp:363
+#: clientgui/ViewWork.cpp:1102
 #: clientgui/ViewWorkGrid.cpp:860
 msgid "Ready to report"
 msgstr "準備回報"
 
-#: clientgui/DlgItemProperties.cpp:333
-#: clientgui/ViewWork.cpp:1117
+#: clientgui/DlgItemProperties.cpp:365
+#: clientgui/ViewWork.cpp:1104
 #: clientgui/ViewWorkGrid.cpp:862
 #, c-format
 msgid "Error: invalid state '%d'"
@@ -2061,11 +2077,11 @@ msgstr "於 World Community Grid 學習更多有關此計畫資訊"
 msgid "Starting client services; please wait..."
 msgstr ""
 
-#: clientgui/MainDocument.cpp:1031
+#: clientgui/MainDocument.cpp:1032
 msgid "Retrieving system state; please wait..."
 msgstr "取回系統狀態中；請稍候..."
 
-#: clientgui/MainDocument.cpp:1040
+#: clientgui/MainDocument.cpp:1041
 msgid "Retrieving host information; please wait..."
 msgstr "取回主機資訊中；請稍候..."
 
@@ -2116,25 +2132,38 @@ msgstr "請檢查您的帳號名稱和密碼後再試一次。"
 msgid "Check the email address and password, and try again."
 msgstr "請檢查您的電子郵件地址和密碼後再試一次。"
 
-#: clientgui/ProjectInfoPage.cpp:240
+#: clientgui/ProjectInfoPage.cpp:245
 msgid "Choose a project"
 msgstr "請選擇計畫"
 
-#: clientgui/ProjectInfoPage.cpp:243
+#: clientgui/ProjectInfoPage.cpp:248
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
 
-#: clientgui/ProjectInfoPage.cpp:246
+#: clientgui/ProjectInfoPage.cpp:251
 msgid "Project &URL:"
 msgstr "計畫網址:(&U)"
 
-#: clientgui/ProjectListCtrl.cpp:333
+#: clientgui/ProjectInfoPage.cpp:320
+msgid "You are already attached to this project. Please choose a different project."
+msgstr ""
+
+#: clientgui/ProjectInfoPage.cpp:321
+#, fuzzy
+msgid "Already Attached to Project"
+msgstr "已加入計畫"
+
+#: clientgui/ProjectInfoPage.cpp:348
+msgid "This project may not have work for your type of computer."
+msgstr ""
+
+#: clientgui/ProjectListCtrl.cpp:338
 #, c-format
 msgid "Click here to go to %s's website."
 msgstr ""
 
 #: clientgui/ProjectProcessingPage.cpp:323
-#: clientgui/ProjectPropertiesPage.cpp:335
+#: clientgui/ProjectPropertiesPage.cpp:332
 msgid ""
 "Communicating with project\n"
 "Please wait..."
@@ -2142,7 +2171,7 @@ msgstr ""
 "與計畫通訊中\n"
 "請稍候..."
 
-#: clientgui/ProjectProcessingPage.cpp:484
+#: clientgui/ProjectProcessingPage.cpp:491
 msgid ""
 "Required wizard file(s) are missing from the target server.\n"
 "(lookup_account.php/create_account.php)\n"
@@ -2231,7 +2260,7 @@ msgstr "自動偵測"
 msgid "SOCKS proxy"
 msgstr "SOCKS Proxy"
 
-#: clientgui/sg_BoincSimpleGUI.cpp:134
+#: clientgui/sg_BoincSimpleGUI.cpp:128
 #, c-format
 msgid "&%s"
 msgstr "&%s"
@@ -2343,7 +2372,7 @@ msgstr "只複製已選取的訊息到剪貼簿， 您可以在選取訊息時�
 msgid "Get help with BOINC"
 msgstr "取得 BOINC 說明"
 
-#: clientgui/sg_DlgMessages.cpp:755
+#: clientgui/sg_DlgMessages.cpp:754
 #, c-format
 msgid "%s - Messages"
 msgstr "%s - 訊息"
@@ -2505,37 +2534,37 @@ msgstr "以電池供電時要執行工作嗎？"
 msgid "Do work after idle for:"
 msgstr "閒置多久後執行工作:"
 
-#: clientgui/sg_DlgPreferences.cpp:679
-#: clientgui/sg_DlgPreferences.cpp:682
-#: clientgui/sg_DlgPreferences.cpp:750
-#: clientgui/sg_DlgPreferences.cpp:754
-#: clientgui/sg_DlgPreferences.cpp:766
-#: clientgui/sg_DlgPreferences.cpp:770
-#: clientgui/sg_DlgPreferences.cpp:928
-#: clientgui/sg_DlgPreferences.cpp:939
+#: clientgui/sg_DlgPreferences.cpp:678
+#: clientgui/sg_DlgPreferences.cpp:681
+#: clientgui/sg_DlgPreferences.cpp:749
+#: clientgui/sg_DlgPreferences.cpp:753
+#: clientgui/sg_DlgPreferences.cpp:765
+#: clientgui/sg_DlgPreferences.cpp:769
+#: clientgui/sg_DlgPreferences.cpp:927
+#: clientgui/sg_DlgPreferences.cpp:938
 msgid "Anytime"
 msgstr "隨時"
 
-#: clientgui/sg_DlgPreferences.cpp:786
+#: clientgui/sg_DlgPreferences.cpp:785
 #, c-format
 msgid "%d MB"
 msgstr "%d MB"
 
-#: clientgui/sg_DlgPreferences.cpp:788
+#: clientgui/sg_DlgPreferences.cpp:787
 #, c-format
 msgid "%4.2f GB"
 msgstr "%4.2f GB"
 
-#: clientgui/sg_DlgPreferences.cpp:829
+#: clientgui/sg_DlgPreferences.cpp:828
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: clientgui/sg_DlgPreferences.cpp:865
+#: clientgui/sg_DlgPreferences.cpp:864
 msgid "0 (Run Always)"
 msgstr "0 (持續執行)"
 
-#: clientgui/sg_DlgPreferences.cpp:868
+#: clientgui/sg_DlgPreferences.cpp:867
 #, c-format
 msgid "%d"
 msgstr "%d"
@@ -2614,11 +2643,11 @@ msgstr "我的計畫:"
 msgid "%s. Work done by %s: %0.2f"
 msgstr "%s，%s 已完成: %0.2f"
 
-#: clientgui/sg_StatImageLoader.cpp:153
+#: clientgui/sg_StatImageLoader.cpp:154
 msgid "Remove Project"
 msgstr "移除計畫"
 
-#: clientgui/sg_StatImageLoader.cpp:216
+#: clientgui/sg_StatImageLoader.cpp:217
 #: clientgui/ViewProjects.cpp:490
 #: clientgui/ViewProjectsBase.cpp:343
 #: clientgui/ViewProjectsGrid.cpp:418
@@ -2626,7 +2655,7 @@ msgstr "移除計畫"
 msgid "Are you sure you want to detach from project '%s'?"
 msgstr "您確定從計畫「%s」中退出嗎？"
 
-#: clientgui/sg_StatImageLoader.cpp:222
+#: clientgui/sg_StatImageLoader.cpp:223
 #: clientgui/ViewProjects.cpp:496
 #: clientgui/ViewProjectsBase.cpp:349
 #: clientgui/ViewProjectsGrid.cpp:424
@@ -2645,14 +2674,12 @@ msgid "%d hr %d min %d sec"
 msgstr "%d 時 %d 分 %d 秒"
 
 #: clientgui/sg_ViewTabPage.cpp:421
-#: clientgui/ViewWork.cpp:354
 #: clientgui/ViewWorkGrid.cpp:258
 msgid "Are you sure you want to display graphics on a remote machine?"
 msgstr "您確定要顯示遠端電腦的圖形嗎？"
 
 #: clientgui/sg_ViewTabPage.cpp:422
 #: clientgui/ViewWork.cpp:183
-#: clientgui/ViewWork.cpp:355
 #: clientgui/ViewWorkGrid.cpp:114
 #: clientgui/ViewWorkGrid.cpp:259
 msgid "Show graphics"
@@ -2806,12 +2833,12 @@ msgid "Copy selected messages"
 msgstr "複製選取的訊息"
 
 #: clientgui/ViewMessages.cpp:106
-#: clientgui/ViewMessages.cpp:480
+#: clientgui/ViewMessages.cpp:502
 msgid "Show only this project"
 msgstr ""
 
 #: clientgui/ViewMessages.cpp:107
-#: clientgui/ViewMessages.cpp:481
+#: clientgui/ViewMessages.cpp:503
 msgid "Show only the messages for the selected project."
 msgstr ""
 
@@ -2826,21 +2853,21 @@ msgstr "訊息"
 msgid "Copying all messages to the clipboard..."
 msgstr "複製全部訊息到剪貼簿..."
 
-#: clientgui/ViewMessages.cpp:219
+#: clientgui/ViewMessages.cpp:223
 #, fuzzy
 msgid "Copying selected messages to the clipboard..."
 msgstr "複製所選訊息到剪貼簿..."
 
-#: clientgui/ViewMessages.cpp:264
+#: clientgui/ViewMessages.cpp:286
 msgid "Filtering messages..."
 msgstr ""
 
-#: clientgui/ViewMessages.cpp:472
+#: clientgui/ViewMessages.cpp:494
 #, fuzzy
 msgid "Show all messages"
 msgstr "複製所有訊息"
 
-#: clientgui/ViewMessages.cpp:473
+#: clientgui/ViewMessages.cpp:495
 msgid "Show messages for all projects."
 msgstr ""
 
@@ -2891,7 +2918,7 @@ msgstr "回報所有已完成的工作；取得最新的積分與偏好設定資
 #: clientgui/ViewProjectsGrid.cpp:127
 #: clientgui/ViewProjectsGrid.cpp:560
 #: clientgui/ViewWork.cpp:190
-#: clientgui/ViewWork.cpp:641
+#: clientgui/ViewWork.cpp:629
 #: clientgui/ViewWorkGrid.cpp:121
 #: clientgui/ViewWorkGrid.cpp:450
 msgid "Suspend"
@@ -3049,7 +3076,7 @@ msgstr "正在退出計畫..."
 #: clientgui/ViewProjects.cpp:537
 #: clientgui/ViewProjectsBase.cpp:376
 #: clientgui/ViewProjectsGrid.cpp:453
-#: clientgui/ViewWork.cpp:475
+#: clientgui/ViewWork.cpp:457
 #: clientgui/ViewWorkGrid.cpp:367
 msgid "Launching browser..."
 msgstr "啟動瀏覽器..."
@@ -3057,7 +3084,7 @@ msgstr "啟動瀏覽器..."
 #: clientgui/ViewProjects.cpp:702
 #: clientgui/ViewProjectsBase.cpp:556
 #: clientgui/ViewProjectsGrid.cpp:556
-#: clientgui/ViewWork.cpp:635
+#: clientgui/ViewWork.cpp:623
 #: clientgui/ViewWorkGrid.cpp:444
 msgid "Resume"
 msgstr "繼續"
@@ -3132,44 +3159,44 @@ msgstr "已擱置通訊 "
 msgid "ProjectsGrid"
 msgstr "ProjectsGrid"
 
-#: clientgui/ViewResources.cpp:61
+#: clientgui/ViewResources.cpp:62
 #, fuzzy
 msgid "Total disk usage"
 msgstr "總磁碟空間"
 
-#: clientgui/ViewResources.cpp:71
+#: clientgui/ViewResources.cpp:83
 #, fuzzy
 msgid "Disk usage by BOINC projects"
 msgstr "BOINC 計畫所用的磁碟空間"
 
-#: clientgui/ViewResources.cpp:90
-#: clientgui/ViewResources.cpp:96
+#: clientgui/ViewResources.cpp:112
+#: clientgui/ViewResources.cpp:118
 msgid "Disk"
 msgstr "磁碟"
 
-#: clientgui/ViewResources.cpp:220
+#: clientgui/ViewResources.cpp:224
 #, fuzzy
 msgid "not attached to any BOINC project: 0 bytes"
 msgstr "未加入任何 BOINC 計畫 - 0 位元組"
 
-#: clientgui/ViewResources.cpp:256
+#: clientgui/ViewResources.cpp:261
 #, fuzzy
 msgid "used by BOINC: "
 msgstr "BOINC 所使用 - "
 
-#: clientgui/ViewResources.cpp:266
+#: clientgui/ViewResources.cpp:271
 msgid "free, available to BOINC: "
 msgstr ""
 
-#: clientgui/ViewResources.cpp:276
+#: clientgui/ViewResources.cpp:281
 msgid "free, not available to BOINC: "
 msgstr ""
 
-#: clientgui/ViewResources.cpp:286
+#: clientgui/ViewResources.cpp:291
 msgid "free: "
 msgstr ""
 
-#: clientgui/ViewResources.cpp:296
+#: clientgui/ViewResources.cpp:301
 #, fuzzy
 msgid "used by other programs: "
 msgstr "其他程式所使用 - "
@@ -3429,6 +3456,10 @@ msgstr ""
 msgid "Name"
 msgstr "名稱"
 
+#: clientgui/ViewWork.cpp:217
+msgid "Elapsed"
+msgstr ""
+
 #: clientgui/ViewWork.cpp:219
 #: clientgui/ViewWorkGrid.cpp:147
 msgid "To completion"
@@ -3455,12 +3486,12 @@ msgstr "暫止工作中..."
 msgid "Showing graphics for task..."
 msgstr "顯示此工作圖形..."
 
-#: clientgui/ViewWork.cpp:408
+#: clientgui/ViewWork.cpp:390
 #: clientgui/ViewWorkGrid.cpp:313
 msgid "Aborting result..."
 msgstr "中止結果中..."
 
-#: clientgui/ViewWork.cpp:421
+#: clientgui/ViewWork.cpp:403
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
@@ -3469,26 +3500,26 @@ msgstr ""
 "您確定要中止這個工作「%s」嗎？\n"
 "(進度: %s，狀態: %s)"
 
-#: clientgui/ViewWork.cpp:429
+#: clientgui/ViewWork.cpp:411
 #: clientgui/ViewWorkGrid.cpp:335
 msgid "Abort task"
 msgstr "中止工作"
 
-#: clientgui/ViewWork.cpp:636
+#: clientgui/ViewWork.cpp:624
 #: clientgui/ViewWorkGrid.cpp:445
 msgid "Resume work for this task."
 msgstr "繼續這個工作的動作。"
 
-#: clientgui/ViewWork.cpp:642
+#: clientgui/ViewWork.cpp:630
 #: clientgui/ViewWorkGrid.cpp:451
 msgid "Suspend work for this task."
 msgstr "暫止這個工作的動作。"
 
-#: clientgui/ViewWork.cpp:1055
+#: clientgui/ViewWork.cpp:1042
 msgid " - an exclusive app is running"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:1074
+#: clientgui/ViewWork.cpp:1061
 #: clientgui/ViewWorkGrid.cpp:822
 msgid " (non-CPU-intensive)"
 msgstr " (非 CPU 密集型)"
@@ -3624,13 +3655,13 @@ msgstr "網路偵測失敗"
 msgid "To continue, click Next."
 msgstr "請按「下一步」繼續。"
 
-#: clientgui/WizardAccountManager.cpp:444
-#: clientgui/WizardAttachProject.cpp:465
+#: clientgui/WizardAccountManager.cpp:445
+#: clientgui/WizardAttachProject.cpp:454
 msgid "Do you really want to cancel?"
 msgstr "您真的要取消嗎？"
 
-#: clientgui/WizardAccountManager.cpp:445
-#: clientgui/WizardAttachProject.cpp:466
+#: clientgui/WizardAccountManager.cpp:446
+#: clientgui/WizardAttachProject.cpp:455
 msgid "Question"
 msgstr "問題"
 
@@ -3671,10 +3702,6 @@ msgstr "OnDropTarget: index by HitTest = %i"
 msgid "Pie Ctrl"
 msgstr "Pie Ctrl"
 
-#: clientgui/ctest.h:70
-msgid "Test"
-msgstr ""
-
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
 msgstr "用 HH:MM-HH:MM 的格式指定工作運行的開始及結束時間"
@@ -3682,6 +3709,27 @@ msgstr "用 HH:MM-HH:MM 的格式指定工作運行的開始及結束時間"
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
+
+#~ msgid ""
+#~ "You can copy and paste the URL from your browser's\n"
+#~ "address bar."
+#~ msgstr "您可以從瀏覽器的網址列複製網址後貼上。"
+
+#, fuzzy
+#~ msgid "For a list of account managers go to:"
+#~ msgstr "要取得所有基於 BOINC 的帳號管理員列表請至:"
+
+#~ msgid "You are already attached to this project."
+#~ msgstr "您已加入此計畫。"
+
+#~ msgid ""
+#~ "You can copy and paste the URL from your browser's\n"
+#~ "address bar."
+#~ msgstr "您可以從瀏覽器的網址列複製網址後貼上。"
+
+#, fuzzy
+#~ msgid "For a list of account managers go to:"
+#~ msgstr "要取得所有基於 BOINC 的帳號管理員列表請至:"
 
 #~ msgid "Enter account key"
 #~ msgstr "輸入帳號金鑰"

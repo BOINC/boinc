@@ -1,8 +1,8 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2009-01-05 12:28-0500\n"
 "PO-Revision-Date: 2008-06-02 22:15+0100\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
@@ -19,14 +19,17 @@ msgstr ""
 "X-Poedit-KeywordsList: tra\n"
 
 # The charset used for the text in this file (please try to use UTF-8 if possible)
+# The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
 
+# The name of this language in this language
 # The name of this language in this language
 #, fuzzy
 msgid "LANG_NAME_NATIVE"
 msgstr "English"
 
+# The name of this language in an international language (English)
 # The name of this language in an international language (English)
 #, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
@@ -35,6 +38,12 @@ msgstr "English"
 ########################################
 # poll-related stuff
 ########################################
+########################################
+# poll-related stuff
+# ######################################<br />
+# <br />
+# poll-related stuff<br />
+# ######################################
 #, fuzzy
 msgid "POLL_TITLE"
 msgstr "BOINC user survey"
@@ -397,6 +406,8 @@ msgstr "These are the current results of the <a href=poll.php>BOINC user survey<
 ########################################
 # download.php
 ########################################
+########################################
+# download.php
 msgid "Download BOINC"
 msgstr "Descarregar BOINC"
 
@@ -443,6 +454,12 @@ msgstr "Note: files are downloaded from mirror servers at boinc.berkeley.edu, mo
 ##############################################
 # help.php
 ##############################################
+##############################################
+# help.php
+# ############################################<br />
+# <br />
+# help.php<br />
+# ############################################
 #, fuzzy
 msgid "HELP_TITLE"
 msgstr "Getting help with BOINC"
@@ -506,6 +523,12 @@ msgstr "If you're already a Help Volunteer: to edit your settings, %sclick here%
 ##############################################
 # index.php
 ##############################################
+##############################################
+# index.php
+# ############################################<br />
+# <br />
+# index.php<br />
+# ############################################
 #, fuzzy
 msgid "HOME_HEADING1"
 msgstr "Volunteer"

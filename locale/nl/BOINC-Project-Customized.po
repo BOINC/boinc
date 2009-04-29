@@ -17,5 +17,6 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
+#, fuzzy
 msgid "INFO_ABOUT_THIS_FILE"
-msgstr "Dit bestand kan gebruikt worden voor project specifieke vertalingen."
+msgstr "This file can be used for project specific translations"

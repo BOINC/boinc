@@ -1,8 +1,8 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2009-01-05 12:28-0500\n"
 "PO-Revision-Date: 2006-09-18 17:43-0300\n"
 "Last-Translator: alcirsp <alcirsp@user.com.br>\n"
 "Language-Team: \n"
@@ -43,8 +43,8 @@ msgstr "English"
 ########################################
 # poll-related stuff
 ########################################
-# poll-related stuff
 ########################################
+# poll-related stuff
 # for user survey
 #, fuzzy
 msgid "POLL_TITLE"

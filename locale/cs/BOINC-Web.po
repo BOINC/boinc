@@ -1,713 +1,1115 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2009-01-05 12:28-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 1.2.1\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+
+# The charset used for the text in this file (please try to use UTF-8 if possible)
 ##########################################
 # Language: Czech
 # FileID  : $Id$
 # Author  : Martin Suchan
 # Email   : martin.suchan@email.cz
-##########################################
 # For more information please see:
 # http://boinc.berkeley.edu/web_translation.php
-##########################################
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 msgid "CHARSET"
 msgstr "UTF-8"
 
 # The name of this language in this language
+# The name of this language in this language
+#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "Čeština"
+msgstr "English"
 
 # The name of this language in an international language (English)
+# The name of this language in an international language (English)
+#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Czech"
+msgstr "English"
+
+########################################
+# poll-related stuff
+########################################
+msgid "POLL_TITLE"
+msgstr "BOINC user survey"
+
+msgid "POLL_INTRO"
+msgstr "Several volunteer computing projects, including Climateprediction.net, Einstein@home, and SETI@home, use software called BOINC. If you participate in projects like this, we request that you answer the following questions. This will help BOINC-based projects increase participation and achieve greater scientific results. <p> Please answer as many questions as you want, then go to the bottom and click OK. If you previously completed the survey but your answers have changed, please complete it again - your new answers will replace the old ones. <p> The current results of the survey are <a href=poll_results.php>here</a>. "
+
+msgid "POLL_RUN"
+msgstr "Do you run BOINC?"
+
+msgid "POLL_PARTICIPATION"
+msgstr "Your participation"
+
+msgid "POLL_COMPUTERS"
+msgstr "Your computers"
+
+msgid "POLL_YOU"
+msgstr "You"
+
+msgid "POLL_NATIONALITY"
+msgstr "Nationality"
+
+msgid "POLL_COMMENTS"
+msgstr "Comments"
+
+msgid "POLL_COMMENTS_QUESTION"
+msgstr "Please suggest ways that BOINC, and the projects that use it, could be improved:"
+
+msgid "POLL_OTHER"
+msgstr "Other:"
+
+msgid "POLL_CHECK_ALL"
+msgstr "[check all that apply]"
+
+msgid "POLL_DONE"
+msgstr "When done click:"
+
+msgid "POLL_CURRENT"
+msgstr "Yes - I have been running BOINC on my computer for..."
+
+msgid "POLL_TWEEK"
+msgstr "less than a week"
+
+msgid "POLL_TMONTH"
+msgstr "less than a month"
+
+msgid "POLL_TYEAR"
+msgstr "less than a year"
+
+msgid "POLL_TMOREYEAR"
+msgstr "more than a year"
+
+msgid "POLL_LAPSED"
+msgstr "No - I was running BOINC, but stopped because..."
+
+msgid "POLL_LINTEREST"
+msgstr "I lost interest"
+
+msgid "POLL_LCOMPLICATED"
+msgstr "it was too complicated"
+
+msgid "POLL_LSTOPPED"
+msgstr "I stopped it and forgot to start again"
+
+msgid "POLL_LPROBLEMS"
+msgstr "it caused problems on my computer"
+
+msgid "POLL_LPOWER"
+msgstr "it used too much electricity"
+
+msgid "POLL_LNONBOINC"
+msgstr "I switched to a non-BOINC computing project"
+
+msgid "POLL_FAILED"
+msgstr "No - I tried running BOINC, but..."
+
+msgid "POLL_FINSTALL"
+msgstr "the software didn't install correctly"
+
+msgid "POLL_FFIGURE"
+msgstr "I couldn't figure out how to use the software"
+
+msgid "POLL_FNETWORK"
+msgstr "I had network communication problems"
+
+msgid "POLL_FATTACH"
+msgstr "I couldn't attach to a project"
+
+msgid "POLL_FWORK"
+msgstr "I attached to a project, but never got any work"
+
+msgid "POLL_NEVER"
+msgstr "No - I never tried running BOINC, because..."
+
+msgid "POLL_NSECURITY"
+msgstr "I was concerned about security"
+
+msgid "POLL_NPROJECT"
+msgstr "I wasn't interested in any of the projects"
+
+msgid "POLL_NPERMISSION"
+msgstr "I don't have permission to run it on my computer"
+
+msgid "POLL_NVERSION"
+msgstr "No version was available for my computer"
+
+msgid "POLL_KIND"
+msgstr "What kind of computers do you have running BOINC?"
+
+msgid "POLL_WHERE"
+msgstr "Where are they?"
+
+msgid "POLL_HOME"
+msgstr "Home"
+
+msgid "POLL_WORK"
+msgstr "Work"
+
+msgid "POLL_SCHOOL"
+msgstr "School"
+
+msgid "POLL_HOW_MANY"
+msgstr "How many computers?"
+
+msgid "POLL_TURNED_ON"
+msgstr "On average, how many hours per day are they powered on?"
+
+msgid "POLL_AGE"
+msgstr "Age"
+
+msgid "POLL_SEX"
+msgstr "Sex"
+
+msgid "POLL_MALE"
+msgstr "Male"
+
+msgid "POLL_FEMALE"
+msgstr "Female"
+
+msgid "POLL_EXPERTISE"
+msgstr "Your level of computer expertise"
+
+msgid "POLL_LEVB"
+msgstr "Beginner"
+
+msgid "POLL_LEVI"
+msgstr "Intermediate"
+
+msgid "POLL_LEVA"
+msgstr "Advanced"
+
+msgid "POLL_LEARN_WHERE"
+msgstr "Where did you learn about BOINC projects?"
+
+msgid "POLL_WTV"
+msgstr "TV/radio/newspaper"
+
+msgid "POLL_WPERS"
+msgstr "From friends, relatives, or coworkers"
+
+msgid "POLL_WTEAM"
+msgstr "Team message boards or web sites"
+
+msgid "POLL_WBOINC"
+msgstr "The BOINC web site"
+
+msgid "POLL_WWEB"
+msgstr "Other web sites"
+
+msgid "POLL_FACTOR"
+msgstr "Which are the most important factors when you decide whether to participate in a BOINC project?"
+
+msgid "POLL_GRAPHICS"
+msgstr "Nice-looking screensaver graphics"
+
+msgid "POLL_CREDIT_FAIR"
+msgstr "Fair and quick granting of credit for work done"
+
+msgid "POLL_CREDIT_MORE"
+msgstr "Getting more credit from this project than from others"
+
+msgid "POLL_MB_FRIENDLY"
+msgstr "Helpful and friendly message boards"
+
+msgid "POLL_MB_STAFF"
+msgstr "Participation by project staff on the message boards"
+
+msgid "POLL_WEB_SITE"
+msgstr "Informative project web site"
+
+msgid "POLL_SCIENCE_IMPORTANT"
+msgstr "The science is important and beneficial"
+
+msgid "POLL_SCIENCE_PUBLIC"
+msgstr "Non-profit, and results are public"
+
+msgid "POLL_RECOGNIZE"
+msgstr "Personal recognition if my computer finds something"
+
+msgid "POLL_PUBLISH"
+msgstr "Publication by the project in scientific journals"
+
+msgid "POLL_EMAIL"
+msgstr "Periodic email newsletters from the project"
+
+msgid "POLL_NPROJECTS"
+msgstr "How many BOINC projects do you participate in?"
+
+msgid "POLL_SSAVER"
+msgstr "Do you run BOINC as a screensaver?"
+
+msgid "POLL_YES"
+msgstr "Yes"
+
+msgid "POLL_NO"
+msgstr "No"
+
+msgid "POLL_MBOARDS"
+msgstr "Your usage of project messages boards:"
+
+msgid "POLL_MBR"
+msgstr "to read information"
+
+msgid "POLL_MBRW"
+msgstr "to read and post information"
+
+msgid "POLL_NONE"
+msgstr "None"
+
+msgid "POLL_HELP"
+msgstr "Where do you get information to help resolve problems with BOINC and/or BOINC projects?"
+
+msgid "POLL_HELP_PMB"
+msgstr "The project message boards"
+
+msgid "POLL_HELP_BMB"
+msgstr "The BOINC message boards"
+
+msgid "POLL_HELP_BDOC"
+msgstr "The BOINC web site"
+
+msgid "POLL_HELP_BMLIST"
+msgstr "BOINC mailing lists"
+
+msgid "POLL_HELP_WIKI"
+msgstr "The Unofficial BOINC Wiki"
+
+msgid "POLL_HELP_TEAM"
+msgstr "Team web sites"
+
+msgid "POLL_HELP_GOOGLE"
+msgstr "Google or other search engines"
+
+msgid "POLL_ERROR_TITLE"
+msgstr "Error - results not recorded"
+
+msgid "POLL_ERROR_TEXT"
+msgstr "An internal error has prevented us from recording your survey response.  Please try again later."
+
+msgid "POLL_RECORDED"
+msgstr "Survey response recorded"
+
+msgid "POLL_THANKS"
+msgstr "Thank you for completing the BOINC user survey."
+
+msgid "POLL_RESULTS_TITLE"
+msgstr "Survey results"
+
+msgid "POLL_RESULTS_TEXT"
+msgstr "These are the current results of the <a href=poll.php>BOINC user survey</a>.  This page is updated every hour."
+
+########################################
+# download.php
+########################################
+msgid "Download BOINC"
+msgstr ""
+
+msgid "%s for %s (%s MB)"
+msgstr ""
+
+msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like."
+msgstr ""
+
+msgid "System requirements"
+msgstr ""
+
+msgid "Release notes"
+msgstr ""
+
+msgid "Other systems"
+msgstr ""
+
+msgid "All versions"
+msgstr ""
+
+msgid "If your computer is not of one of the above types, you can"
+msgstr ""
+
+msgid "%s make your own client software %s or"
+msgstr ""
+
+msgid "%s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
+msgstr ""
+
+msgid "BOINC: compute for science"
+msgstr ""
+
+msgid "DL_MIRRORS"
+msgstr "Note: files are downloaded from mirror servers at boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, and einstein.aset.psu.edu (thanks to these institutions). The server is chosen randomly - if a download fails, reload this page and try again. "
+
+##############################################
+# help.php
+##############################################
+msgid "HELP_TITLE"
+msgstr "Getting help with BOINC"
+
+msgid "HELP_HEADING1"
+msgstr "Online Help"
+
+msgid "HELP_P1_1"
+msgstr "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have. "
+
+msgid "HELP_P1_2"
+msgstr "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls). If you don't already have Skype, please %sdownload and install it now%s. When you're finished, return to this page. "
+
+msgid "HELP_P1_3"
+msgstr "The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer. You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."
+
+msgid "HELP_P1_4"
+msgstr "Volunteers speaking several languages are available. Please select a language: "
+
+msgid "HELP_HEADING2"
+msgstr "BOINC help on the web"
+
+msgid "HELP_P2_ITEM1"
+msgstr "BOINC user's manual"
+
+msgid "HELP_P2_ITEM2"
+msgstr "Troubleshooting BOINC "
+
+msgid "HELP_P2_ITEM3"
+msgstr "BOINC-related web sites "
+
+msgid "HELP_P2_ITEM4"
+msgstr "The BOINC message boards "
+
+msgid "HELP_P2_ITEM5"
+msgstr "The message boards on any BOINC-based project "
+
+msgid "HELP_HEADING3"
+msgstr "Be a Help Volunteer"
+
+msgid "HELP_P3_1"
+msgstr "If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s. It's a great way to help the cause of scientific research and volunteer computing - and it's fun!  "
+
+msgid "HELP_P3_2"
+msgstr "If you're already a Help Volunteer: to edit your settings, %sclick here%s. "
+
+##############################################
+# index.php
+##############################################
+msgid "HOME_HEADING1"
+msgstr "Volunteer"
+
+msgid "HOME_P1"
+msgstr " Use the idle time on your computer  (Windows, Mac, or Linux)  to cure diseases, study global warming,  discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "
+
+msgid "HOME_P2"
+msgstr "Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
+
+msgid "HOME_P3"
+msgstr "If you have any questions, or need help getting started, you can %stalk to a Volunteer Helper%s. "
+
+msgid "Help"
+msgstr ""
+
+msgid "HOME_DOWNLOAD"
+msgstr "Download"
+
+msgid "HOME_WEB_SITES"
+msgstr "Web"
+
+msgid "HOME_ADD_ONS"
+msgstr "Add-ons"
+
+msgid "HOME_SURVEY"
+msgstr "Survey"
+
+msgid "HOME_BOINC"
+msgstr "Berkeley Open Infrastructure for Network Computing"
+
+msgid "HOME_BOINC_DESC"
+msgstr "Open-source software for %svolunteer computing%s and %sgrid computing%s"
 
 #########################################
 # Apps page (apps.php)
 #########################################
-msgid "Applications"
-msgstr "Aplikační programy"
+#~ msgid "Applications"
+#~ msgstr "Aplikační programy"
 
-msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
-msgstr "%1 nyní používá tyto aplikační programy. Pokud jste zapojen v %1, bude Vašemu počítači přidělena práce pro jeden, nebo více, z těchto aplikačních programů. Aktuální verze aplikačního programu se vždy automaticky stáhne do Vašeho počítače. To se stane automaticky, bez vašeho zásahu."
+#~ msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+#~ msgstr "%1 nyní používá tyto aplikační programy. Pokud jste zapojen v %1, bude Vašemu počítači přidělena práce pro jeden, nebo více, z těchto aplikačních programů. Aktuální verze aplikačního programu se vždy automaticky stáhne do Vašeho počítače. To se stane automaticky, bez vašeho zásahu."
 
-msgid "Platform"
-msgstr "Platforma"
+#~ msgid "Platform"
+#~ msgstr "Platforma"
 
-msgid "Current version"
-msgstr "Současná verze"
+#~ msgid "Current version"
+#~ msgstr "Současná verze"
 
-msgid "Installation time"
-msgstr "Čas instalace"
+#~ msgid "Installation time"
+#~ msgstr "Čas instalace"
 
 #########################################
 # Rules and Policies page (info.php)
 #########################################
-msgid "Read our rules and policies"
-msgstr "Přečtěte si naše pravidla a zásady"
+#~ msgid "Read our rules and policies"
+#~ msgstr "Přečtěte si naše pravidla a zásady"
 
-msgid "Run %1 only on authorized computers"
-msgstr "Používejte %1 jen na autorizovaných počítačích"
+#~ msgid "Run %1 only on authorized computers"
+#~ msgstr "Používejte %1 jen na autorizovaných počítačích"
 
-msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
-msgstr "Používejte %1 pouze na počítačích které vlastníte, nebo na kterých Vám to jejich vlastník povolil. Některé školy nebo firmy se řídí předpisy, které zakazují používat jejich počítače pro projekty jako je %1 ."
+#~ msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
+#~ msgstr "Používejte %1 pouze na počítačích které vlastníte, nebo na kterých Vám to jejich vlastník povolil. Některé školy nebo firmy se řídí předpisy, které zakazují používat jejich počítače pro projekty jako je %1 ."
 
-msgid "How %1 will use your computer"
-msgstr "Jak bude %1 využívat Váš počítač"
+#~ msgid "How %1 will use your computer"
+#~ msgstr "Jak bude %1 využívat Váš počítač"
 
-msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
-msgstr "Při běhu bude %1 využívat část výpočetního výkonu, místa na disku a připojení Vašeho počítače. Můžete též ovlivnit, kolik prostředků bude %1 využívat a také kdy je bude využívat."
+#~ msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
+#~ msgstr "Při běhu bude %1 využívat část výpočetního výkonu, místa na disku a připojení Vašeho počítače. Můžete též ovlivnit, kolik prostředků bude %1 využívat a také kdy je bude využívat."
 
-msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
-msgstr "Práce vykonaná Vaším počítačem přispěje k dosažení cíle %1 tak, jak je psáno na stránkách projektu. Cíle projektu se mohou čas od času měnit."
+#~ msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
+#~ msgstr "Práce vykonaná Vaším počítačem přispěje k dosažení cíle %1 tak, jak je psáno na stránkách projektu. Cíle projektu se mohou čas od času měnit."
 
-msgid "Privacy policy"
-msgstr "Ochrana soukromí"
+#~ msgid "Privacy policy"
+#~ msgstr "Ochrana soukromí"
 
-msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
-msgstr "Váš účet na %1 je identifikován podle jména, které si sami zvolíte. Toto jméno může být zobrazeno na stránkách %1, spolu s údaji o tom, kolik práce již Váš počítač v %1 vykonal. Pokud si přejete zůstat v anonymitě, zvolte si takové jméno, které skryje Vaší pravou identitu."
+#~ msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
+#~ msgstr "Váš účet na %1 je identifikován podle jména, které si sami zvolíte. Toto jméno může být zobrazeno na stránkách %1, spolu s údaji o tom, kolik práce již Váš počítač v %1 vykonal. Pokud si přejete zůstat v anonymitě, zvolte si takové jméno, které skryje Vaší pravou identitu."
 
-msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
-msgstr "Pokud jste zapojen v %1, informace o Vašem počítači (typ procesoru, velikost paměti atd.) bude zaznamenána v databázi %1 a použita pro určení, jaký typ práce bude Vašemu počítači přidělen. Tyto informace budou také viditelné na stránkách %1. Nebude zobrazeno nic, co by odhalovalo umístění Vašeho počítače, jako např. jméno domény či IP adresa."
+#~ msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
+#~ msgstr "Pokud jste zapojen v %1, informace o Vašem počítači (typ procesoru, velikost paměti atd.) bude zaznamenána v databázi %1 a použita pro určení, jaký typ práce bude Vašemu počítači přidělen. Tyto informace budou také viditelné na stránkách %1. Nebude zobrazeno nic, co by odhalovalo umístění Vašeho počítače, jako např. jméno domény či IP adresa."
 
-msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr "Abyste se mohli zapojit do %1, musíte zadat Vaší emailovou adresu, kterou používáte. Tato adresa nebude zobrazena na stránkách %1 ani sdělována jiným organizacím. %1 vám bude zasílat emailové novinky, které ovšem můžete kdykoliv zrušit."
+#~ msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
+#~ msgstr "Abyste se mohli zapojit do %1, musíte zadat Vaší emailovou adresu, kterou používáte. Tato adresa nebude zobrazena na stránkách %1 ani sdělována jiným organizacím. %1 vám bude zasílat emailové novinky, které ovšem můžete kdykoliv zrušit."
 
-msgid "Is it safe to run %1?"
-msgstr "Je bezpečné být zapojen v %1?"
+#~ msgid "Is it safe to run %1?"
+#~ msgstr "Je bezpečné být zapojen v %1?"
 
-msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
-msgstr "Kdykoliv si stahujete programy z internetu, vystavujete se riziku, že program obsahuje nebezpečné chyby, nebo že server, ze kterého stahujete, byl napaden útočníkem. %1 vynakládá veškeré úsilí k minimalizaci těchto rizik. Naše servery jsou umístěny za firewallem a nastaveny na vysokou úroveň zabezpečení. Pro zajištění integrity byly všechny naše programy důkladně testovány a také digitálně podepsány na zabezpečeném počítači, který není připojen k internetu."
+#~ msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
+#~ msgstr "Kdykoliv si stahujete programy z internetu, vystavujete se riziku, že program obsahuje nebezpečné chyby, nebo že server, ze kterého stahujete, byl napaden útočníkem. %1 vynakládá veškeré úsilí k minimalizaci těchto rizik. Naše servery jsou umístěny za firewallem a nastaveny na vysokou úroveň zabezpečení. Pro zajištění integrity byly všechny naše programy důkladně testovány a také digitálně podepsány na zabezpečeném počítači, který není připojen k internetu."
 
-msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr "Při používání aplikačních programů %1 může docházet u některých počítačů k přehřívání. Pokud se tak stane, zastavte %1 nebo používejte %2pomocné programy%3 které omezí využití počítače."
+#~ msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+#~ msgstr "Při používání aplikačních programů %1 může docházet u některých počítačů k přehřívání. Pokud se tak stane, zastavte %1 nebo používejte %2pomocné programy%3 které omezí využití počítače."
 
-msgid "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr "%1 byl vyvinut v %2. BOINC byl vyvinut na Kalifornské universitě v Berkeley."
+#~ msgid "%1 was developed by %2. BOINC was developed at the University of California."
+#~ msgstr "%1 byl vyvinut v %2. BOINC byl vyvinut na Kalifornské universitě v Berkeley."
 
-msgid "Liability"
-msgstr "Zodpovědnost"
+#~ msgid "Liability"
+#~ msgstr "Zodpovědnost"
 
-msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
-msgstr "%1 a %2 nenese žádnou zodpovědnost za ztrátu dat nebo jakoukoliv jinou příhodu nebo stav, který může vzniknout jako následek používání %1."
+#~ msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
+#~ msgstr "%1 a %2 nenese žádnou zodpovědnost za ztrátu dat nebo jakoukoliv jinou příhodu nebo stav, který může vzniknout jako následek používání %1."
 
-msgid "Other BOINC projects"
-msgstr "Jiné BOINC projekty"
+#~ msgid "Other BOINC projects"
+#~ msgstr "Jiné BOINC projekty"
 
-msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
-msgstr "Prostředí BOINC využívají i další projekty, podobně jako %1. Můžete zvážit Vaše přispění i do těchto projektů a pokud tak učiníte, Váš počítač bude pracovat užitečně i v době, kdy %1 nebude mít nic na práci."
+#~ msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
+#~ msgstr "Prostředí BOINC využívají i další projekty, podobně jako %1. Můžete zvážit Vaše přispění i do těchto projektů a pokud tak učiníte, Váš počítač bude pracovat užitečně i v době, kdy %1 nebude mít nic na práci."
 
-msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
-msgstr "Tyto další projekty nejsou nijak spojené s %1 a tudíž se Vám nemůžeme nijak zaručit za jejich bezpečnost či předmět výzkumu. Připojte se k nim dle Vašeho uvážení."
+#~ msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
+#~ msgstr "Tyto další projekty nejsou nijak spojené s %1 a tudíž se Vám nemůžeme nijak zaručit za jejich bezpečnost či předmět výzkumu. Připojte se k nim dle Vašeho uvážení."
 
 #########################################
 # Create account form (create_account_form.php)
 #########################################
-msgid "Create an account"
-msgstr "Vytvořte si účet"
+#~ msgid "Create an account"
+#~ msgstr "Vytvořte si účet"
 
-msgid "Name"
-msgstr "Jméno"
+#~ msgid "Name"
+#~ msgstr "Jméno"
 
-msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr "Vaše identifikace na stránkách. Použijte skutečné jméno, nebo přezdívku."
+#~ msgid "Identifies you on our web site. Use your real name or a nickname."
+#~ msgstr "Vaše identifikace na stránkách. Použijte skutečné jméno, nebo přezdívku."
 
-msgid "Email Address"
-msgstr "Emailová adresa"
+#~ msgid "Email Address"
+#~ msgstr "Emailová adresa"
 
-msgid "Must be a valid address of the form 'name@domain'."
-msgstr "Adresa musí být platného tvaru 'jmeno@domena'."
+#~ msgid "Must be a valid address of the form 'name@domain'."
+#~ msgstr "Adresa musí být platného tvaru 'jmeno@domena'."
 
-msgid "Country"
-msgstr "Země"
+#~ msgid "Country"
+#~ msgstr "Země"
 
-msgid "Select the country you want to represent, if any."
-msgstr "Vyberte si zemi, kterou chcete reprezentovat."
+#~ msgid "Select the country you want to represent, if any."
+#~ msgstr "Vyberte si zemi, kterou chcete reprezentovat."
 
-msgid "Postal or ZIP Code"
-msgstr "Směrovací číslo nebo ZIP kód"
+#~ msgid "Postal or ZIP Code"
+#~ msgstr "Směrovací číslo nebo ZIP kód"
 
-msgid "Create account"
-msgstr "Vytvořit účet"
+#~ msgid "Create account"
+#~ msgstr "Vytvořit účet"
 
-msgid "Account creation is disabled"
-msgstr "Vytváření účtů je zakázáno"
+#~ msgid "Account creation is disabled"
+#~ msgstr "Vytváření účtů je zakázáno"
 
-msgid "Account creation is disabled for %1 at the moment. Please try again later."
-msgstr "Vytváření účtů je v %1 dočasně zakázáno. Zkuste to prosím později."
+#~ msgid "Account creation is disabled for %1 at the moment. Please try again later."
+#~ msgstr "Vytváření účtů je v %1 dočasně zakázáno. Zkuste to prosím později."
 
-msgid "This account will belong to the team %1 and will have the project preferences of its founder."
-msgstr "Tento účet bude náležet týmu %1 a bude mít nastavení projektu po jeho zakladateli."
+#~ msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+#~ msgstr "Tento účet bude náležet týmu %1 a bude mít nastavení projektu po jeho zakladateli."
 
-msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
-msgstr "POZNÁMKA: Pokud používáte verzi BOINC Managera 5.2 a novější, nepoužívejte tento formulář. Jednoduše spusťte BOINC, zvolte Připojit projekt (Attach Project), a vložte emailovou adresu a heslo."
+#~ msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+#~ msgstr "POZNÁMKA: Pokud používáte verzi BOINC Managera 5.2 a novější, nepoužívejte tento formulář. Jednoduše spusťte BOINC, zvolte Připojit projekt (Attach Project), a vložte emailovou adresu a heslo."
 
-msgid "Password"
-msgstr "Heslo"
+#~ msgid "Password"
+#~ msgstr "Heslo"
 
-msgid "Must be at least %1 characters"
-msgstr "Musí mít délku aspoň %1 znaků"
+#~ msgid "Must be at least %1 characters"
+#~ msgstr "Musí mít délku aspoň %1 znaků"
 
-msgid "Confirm password"
-msgstr "Potvrďte heslo"
+#~ msgid "Confirm password"
+#~ msgstr "Potvrďte heslo"
 
-msgid "Invitation Code"
-msgstr "Pozvánkový kód"
+#~ msgid "Invitation Code"
+#~ msgstr "Pozvánkový kód"
 
-msgid "A valid invitation code is required to create an account."
-msgstr "Pro vytvoření účtu je zapotřebí platný povánkový kód."
+#~ msgid "A valid invitation code is required to create an account."
+#~ msgstr "Pro vytvoření účtu je zapotřebí platný povánkový kód."
 
-msgid "You must supply an invitation code to create an account."
-msgstr "Pro vytvoření účtu je třeba vložit pozvánkový kód."
+#~ msgid "You must supply an invitation code to create an account."
+#~ msgstr "Pro vytvoření účtu je třeba vložit pozvánkový kód."
 
-msgid "The invitation code you gave is not valid."
-msgstr "Vámi vložený pozvánkový kód je neplatný."
+#~ msgid "The invitation code you gave is not valid."
+#~ msgstr "Vámi vložený pozvánkový kód je neplatný."
 
 #########################################
 # Forum sample index page
 #########################################
-msgid "%1 Message boards"
-msgstr "%1 Diskuzní fórum"
+#~ msgid "%1 Message boards"
+#~ msgstr "%1 Diskuzní fórum"
 
-msgid "Message boards"
-msgstr "Diskuzní fórum"
+#~ msgid "Message boards"
+#~ msgstr "Diskuzní fórum"
 
 #########################################
 # General stuff (create_account_form.php and others)
 #########################################
-msgid "Optional"
-msgstr "Volitelné"
+#~ msgid "Optional"
+#~ msgstr "Volitelné"
 
 #########################################
 # Various top table pages (top users, computers, teams)
 #########################################
-msgid "Top participants"
-msgstr "Nejlepší účastníci"
+#~ msgid "Top participants"
+#~ msgstr "Nejlepší účastníci"
 
-msgid "Rank"
-msgstr "Pořadí"
+#~ msgid "Rank"
+#~ msgstr "Pořadí"
 
-msgid "Total credit"
-msgstr "Celkový kredit"
+#~ msgid "Total credit"
+#~ msgstr "Celkový kredit"
 
-msgid "Recent average credit"
-msgstr "Současný průměrný kredit (RAC)"
+#~ msgid "Recent average credit"
+#~ msgstr "Současný průměrný kredit (RAC)"
 
-msgid "Participant since"
-msgstr "Účastníkem od"
+#~ msgid "Participant since"
+#~ msgstr "Účastníkem od"
 
-msgid "Top %1 teams"
-msgstr "Nejlepší %1 týmy"
+#~ msgid "Top %1 teams"
+#~ msgstr "Nejlepší %1 týmy"
 
-msgid "Members"
-msgstr "Členů"
+#~ msgid "Members"
+#~ msgstr "Členů"
 
-msgid "Top hosts"
-msgstr "Nejlepší počítače"
+#~ msgid "Top hosts"
+#~ msgstr "Nejlepší počítače"
 
 #########################################
 # Forum
 #########################################
-msgid "Posts"
-msgstr "Příspěvků"
+#~ msgid "Posts"
+#~ msgstr "Příspěvků"
 
-msgid "Topic"
-msgstr "Téma"
+#~ msgid "Topic"
+#~ msgstr "Téma"
 
-msgid "Thread"
-msgstr "Vlákno"
+#~ msgid "Thread"
+#~ msgstr "Vlákno"
 
-msgid "Threads"
-msgstr "Vlákna"
+#~ msgid "Threads"
+#~ msgstr "Vlákna"
 
-msgid "Last post"
-msgstr "Poslední příspěvek"
+#~ msgid "Last post"
+#~ msgstr "Poslední příspěvek"
 
-msgid "Author"
-msgstr "Autor"
+#~ msgid "Author"
+#~ msgstr "Autor"
 
-msgid "Views"
-msgstr "Shlédnutí"
+#~ msgid "Views"
+#~ msgstr "Shlédnutí"
 
-msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
-msgstr "Pro vytvoření nového vlákna v %1 musíte mít určité množství kreditu. Toto omezení slouží jako ochrana proti zneužití systému."
+#~ msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+#~ msgstr "Pro vytvoření nového vlákna v %1 musíte mít určité množství kreditu. Toto omezení slouží jako ochrana proti zneužití systému."
 
-msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
-msgstr "Nové vlákno nemůžete vytvořit hned teď. Počkejte prosím chvíli a zkuste to znovu. Tato prodleva byla zavedena proti zneužití systému."
+#~ msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+#~ msgstr "Nové vlákno nemůžete vytvořit hned teď. Počkejte prosím chvíli a zkuste to znovu. Tato prodleva byla zavedena proti zneužití systému."
 
-msgid "Create a new thread"
-msgstr "Vytvořit nové vlákno"
+#~ msgid "Create a new thread"
+#~ msgstr "Vytvořit nové vlákno"
 
-msgid "Title"
-msgstr "Název"
+#~ msgid "Title"
+#~ msgstr "Název"
 
-msgid "Add my signature to this post"
-msgstr "Přidat můj podpis k tomuto příspěvku"
+#~ msgid "Add my signature to this post"
+#~ msgstr "Přidat můj podpis k tomuto příspěvku"
 
-msgid "Message"
-msgstr "Zpráva"
+#~ msgid "Message"
+#~ msgstr "Zpráva"
 
-msgid "Edit message"
-msgstr "Upravit zprávu"
+#~ msgid "Edit message"
+#~ msgstr "Upravit zprávu"
 
-msgid "Use BBCode tags to format your text"
-msgstr "Používejte BBCode tagy pro formátování Vašeho textu"
+#~ msgid "Use BBCode tags to format your text"
+#~ msgstr "Používejte BBCode tagy pro formátování Vašeho textu"
 
-msgid "%1 message board"
-msgstr "%+ diskuzní fórum"
+#~ msgid "%1 message board"
+#~ msgstr "%+ diskuzní fórum"
 
-msgid "Mark all threads as read"
-msgstr "Označit všechna vlákna jako přečtená"
+#~ msgid "Mark all threads as read"
+#~ msgstr "Označit všechna vlákna jako přečtená"
 
-msgid "Mark all threads in all message boards as 'read'."
-msgstr "Označit všechna vlákna ve všech diskuzních fórech jako přečtená"
+#~ msgid "Mark all threads in all message boards as 'read'."
+#~ msgstr "Označit všechna vlákna ve všech diskuzních fórech jako přečtená"
 
 #########################################
 # Forum thread
 #########################################
-msgid "This thread has been hidden for administrative purposes"
-msgstr "Toto vlákno bylo schováno z administrativních důvodů"
+#~ msgid "This thread has been hidden for administrative purposes"
+#~ msgstr "Toto vlákno bylo schováno z administrativních důvodů"
 
-msgid "Post to thread"
-msgstr "Reagovat na toto vlákno"
+#~ msgid "Post to thread"
+#~ msgstr "Reagovat na toto vlákno"
 
-msgid "Unsubscribe"
-msgstr "Zrušit odebírání příspěvků"
+#~ msgid "Unsubscribe"
+#~ msgstr "Zrušit odebírání příspěvků"
 
-msgid "Subscribe"
-msgstr "Odebírat příspěvky"
+#~ msgid "Subscribe"
+#~ msgstr "Odebírat příspěvky"
 
 #########################################
 # Forum search features
 #########################################
-msgid "Forum search"
-msgstr "Hledat na fóru"
+#~ msgid "Forum search"
+#~ msgstr "Hledat na fóru"
 
-msgid "Titles containing '%1'"
-msgstr "Nadpisy obsahující '%1'"
+#~ msgid "Titles containing '%1'"
+#~ msgstr "Nadpisy obsahující '%1'"
 
-msgid "Posts containing '%1'"
-msgstr "Příspěvky obsahující '%1'"
+#~ msgid "Posts containing '%1'"
+#~ msgstr "Příspěvky obsahující '%1'"
 
-msgid "No titles containing '%1' could be found."
-msgstr "Nebyl nalezen žádný nadpis obsahující '%1'."
+#~ msgid "No titles containing '%1' could be found."
+#~ msgstr "Nebyl nalezen žádný nadpis obsahující '%1'."
 
-msgid "No posts containing '%1' could be found."
-msgstr "Nebyl nalezen žádný příspěvek obsahující '%1'."
+#~ msgid "No posts containing '%1' could be found."
+#~ msgstr "Nebyl nalezen žádný příspěvek obsahující '%1'."
 
-msgid "Advanced search"
-msgstr "Pokročilé hledání"
+#~ msgid "Advanced search"
+#~ msgstr "Pokročilé hledání"
 
-msgid "Search for words in forum messages"
-msgstr "Hledat slova v příspěvcích ve fórech"
+#~ msgid "Search for words in forum messages"
+#~ msgstr "Hledat slova v příspěvcích ve fórech"
 
-msgid "Search forums"
-msgstr "Hledat ve fórech"
+#~ msgid "Search forums"
+#~ msgstr "Hledat ve fórech"
 
 #########################################
 # Private messages
 #########################################
-msgid "Private messages"
-msgstr "Soukromé zprávy"
+#~ msgid "Private messages"
+#~ msgstr "Soukromé zprávy"
 
-msgid "Inbox"
-msgstr "Schránka"
+#~ msgid "Inbox"
+#~ msgstr "Schránka"
 
-msgid "Write"
-msgstr "Psát zprávu"
+#~ msgid "Write"
+#~ msgstr "Psát zprávu"
 
-msgid "Forum index"
-msgstr "Obsah fóra"
+#~ msgid "Forum index"
+#~ msgstr "Obsah fóra"
 
-msgid "Send private message"
-msgstr "Poslat soukromou zprávu"
+#~ msgid "Send private message"
+#~ msgstr "Poslat soukromou zprávu"
 
-msgid "Preview"
-msgstr "Náhled"
+#~ msgid "Preview"
+#~ msgstr "Náhled"
 
-msgid "To"
-msgstr "Komu"
+#~ msgid "To"
+#~ msgstr "Komu"
 
-msgid "User IDs or unique usernames, separated with commas"
-msgstr "Uživatelská ID nebo unikátní uživatelská jména, uddělená čárkami"
+#~ msgid "User IDs or unique usernames, separated with commas"
+#~ msgstr "Uživatelská ID nebo unikátní uživatelská jména, uddělená čárkami"
 
-msgid "Subject"
-msgstr "Předmět"
+#~ msgid "Subject"
+#~ msgstr "Předmět"
 
-msgid "Send message"
-msgstr "Odeslat zprávu"
+#~ msgid "Send message"
+#~ msgstr "Odeslat zprávu"
 
-msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
-msgstr "Není možné posílat tolik soukromých zpráv během tak krátké chvíle. Počkejte prosím před posláním další zprávy."
+#~ msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+#~ msgstr "Není možné posílat tolik soukromých zpráv během tak krátké chvíle. Počkejte prosím před posláním další zprávy."
 
-msgid "Your message has been sent."
-msgstr "Vaše zpráva byla odeslána."
+#~ msgid "Your message has been sent."
+#~ msgstr "Vaše zpráva byla odeslána."
 
-msgid "You have no private messages."
-msgstr "Nemáte žádné soukromé zprávy."
+#~ msgid "You have no private messages."
+#~ msgstr "Nemáte žádné soukromé zprávy."
 
-msgid "No such message"
-msgstr "Nenalezena žádná zpráva"
+#~ msgid "No such message"
+#~ msgstr "Nenalezena žádná zpráva"
 
-msgid "Really delete?"
-msgstr "Opravdu smazat?"
+#~ msgid "Really delete?"
+#~ msgstr "Opravdu smazat?"
 
-msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
-msgstr "Opravdu chcete smazat zprávu s předmětem &quot;%1&quot; (poslaná uživatelem %2 v %3)?"
+#~ msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+#~ msgstr "Opravdu chcete smazat zprávu s předmětem &quot;%1&quot; (poslaná uživatelem %2 v %3)?"
 
-msgid "Yes, delete"
-msgstr "Ano, smazat"
+#~ msgid "Yes, delete"
+#~ msgstr "Ano, smazat"
 
-msgid "No, cancel"
-msgstr "Ne, nemazat"
+#~ msgid "No, cancel"
+#~ msgstr "Ne, nemazat"
 
-msgid "You need to fill all fields to send a private message"
-msgstr "Je třeba vyplnit všechna pole pro poslání soukromé zprávy"
+#~ msgid "You need to fill all fields to send a private message"
+#~ msgstr "Je třeba vyplnit všechna pole pro poslání soukromé zprávy"
 
-msgid "Could not find user with id %1"
-msgstr "Uživatel s ID %1 nenalezen"
+#~ msgid "Could not find user with id %1"
+#~ msgstr "Uživatel s ID %1 nenalezen"
 
-msgid "Could not find user with username %1"
-msgstr "Uživatel se jménem %1 nenalezen"
+#~ msgid "Could not find user with username %1"
+#~ msgstr "Uživatel se jménem %1 nenalezen"
 
-msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "%1 není jedinečné uživatelské jméno; budete muset použít uživatelské ID"
+#~ msgid "%1 is not a unique username; you will have to use user ID"
+#~ msgstr "%1 není jedinečné uživatelské jméno; budete muset použít uživatelské ID"
 
-msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "Uživatel %1 (ID: %2) od vás nepřijímá soukromé zprávy."
+#~ msgid "User %1 (ID: %2) is not accepting private messages from you."
+#~ msgstr "Uživatel %1 (ID: %2) od vás nepřijímá soukromé zprávy."
 
-msgid "Really block %1?"
-msgstr "Opravdu zablokovat %1?"
+#~ msgid "Really block %1?"
+#~ msgstr "Opravdu zablokovat %1?"
 
-msgid "Are you really sure you want to block user %1 from sending you private messages?"
-msgstr "Jste si opravdu jistí, že chcete zablokovat uživatele %1, aby vám nemohl posílat soukromé zprávy?"
+#~ msgid "Are you really sure you want to block user %1 from sending you private messages?"
+#~ msgstr "Jste si opravdu jistí, že chcete zablokovat uživatele %1, aby vám nemohl posílat soukromé zprávy?"
 
-msgid "Please note that you can only block a limited amount of users."
-msgstr "Vemte prosím na vědomí, že můžete zablokovat jen určitý počet uživatelů."
+#~ msgid "Please note that you can only block a limited amount of users."
+#~ msgstr "Vemte prosím na vědomí, že můžete zablokovat jen určitý počet uživatelů."
 
-msgid "Once the user has been blocked you can unblock it using forum preferences page."
-msgstr "Uživatele, kterého jste zablokovali, můžete znova odblokovat ve vašem nastavení diskuzního fóra."
+#~ msgid "Once the user has been blocked you can unblock it using forum preferences page."
+#~ msgstr "Uživatele, kterého jste zablokovali, můžete znova odblokovat ve vašem nastavení diskuzního fóra."
 
-msgid "Add user to filter"
-msgstr "Přidat uživatele do filtru"
+#~ msgid "Add user to filter"
+#~ msgstr "Přidat uživatele do filtru"
 
-msgid "No such user"
-msgstr "Uživatel nenalezen"
+#~ msgid "No such user"
+#~ msgstr "Uživatel nenalezen"
 
-msgid "User %1 blocked"
-msgstr "Uživatel %1 zablokován"
+#~ msgid "User %1 blocked"
+#~ msgstr "Uživatel %1 zablokován"
 
-msgid "User %1 has been blocked from sending you private messages."
-msgstr "Uživatel %1 byl zablokován, nemůže vám posílat soukromé zprávy."
+#~ msgid "User %1 has been blocked from sending you private messages."
+#~ msgstr "Uživatel %1 byl zablokován, nemůže vám posílat soukromé zprávy."
 
-msgid "To unblock, visit %1message board preferences%2"
-msgstr "Pro odblokování, navštivte %1nastavení diskuzního fóra%2"
+#~ msgid "To unblock, visit %1message board preferences%2"
+#~ msgstr "Pro odblokování, navštivte %1nastavení diskuzního fóra%2"
 
-msgid "Sender and date"
-msgstr "Odesílatel a datum"
+#~ msgid "Sender and date"
+#~ msgstr "Odesílatel a datum"
 
-msgid "Delete"
-msgstr "Smazat"
+#~ msgid "Delete"
+#~ msgstr "Smazat"
 
-msgid "Reply"
-msgstr "Odpovědět"
+#~ msgid "Reply"
+#~ msgstr "Odpovědět"
 
-msgid "Block user"
-msgstr "Zablokovat uživatele"
+#~ msgid "Block user"
+#~ msgstr "Zablokovat uživatele"
 
-msgid "With selected messages"
-msgstr "Vybrané zprávy"
+#~ msgid "With selected messages"
+#~ msgstr "Vybrané zprávy"
 
-msgid "Mark as read"
-msgstr "Označ jako přečtené"
+#~ msgid "Mark as read"
+#~ msgstr "Označ jako přečtené"
 
-msgid "Mark as unread"
-msgstr "Označ jako nepřečtené"
+#~ msgid "Mark as unread"
+#~ msgstr "Označ jako nepřečtené"
 
 #########################################
 # Links from the main page
 #########################################
-msgid "Questions and Answers"
-msgstr "Otázky a Odpovědi"
+#~ msgid "Questions and Answers"
+#~ msgstr "Otázky a Odpovědi"
 
 #########################################
 # "Your account" page (home.php)
 #########################################
-msgid "Your account"
-msgstr "Váš účet"
+#~ msgid "Your account"
+#~ msgstr "Váš účet"
 
-msgid "Welcome to %1"
-msgstr "Vítejte v %1"
+#~ msgid "Welcome to %1"
+#~ msgstr "Vítejte v %1"
 
-msgid "View and edit your account preferences using the links below."
-msgstr "Pro zobrazení a nastavení vlastností Vašeho účtu použijte následující odkazy."
+#~ msgid "View and edit your account preferences using the links below."
+#~ msgstr "Pro zobrazení a nastavení vlastností Vašeho účtu použijte následující odkazy."
 
-msgid "If you have not already done so, %1download BOINC client software%2."
-msgstr "Pokud jste tak ještě neučinili, %1stáhněte si program BOINC%2."
+#~ msgid "If you have not already done so, %1download BOINC client software%2."
+#~ msgstr "Pokud jste tak ještě neučinili, %1stáhněte si program BOINC%2."
 
-msgid "Account information"
-msgstr "Informace o účtu"
+#~ msgid "Account information"
+#~ msgstr "Informace o účtu"
 
-msgid "Email address"
-msgstr "Emailová adresa"
+#~ msgid "Email address"
+#~ msgstr "Emailová adresa"
 
-msgid "URL"
-msgstr "Osobní stránky"
+#~ msgid "URL"
+#~ msgstr "Osobní stránky"
 
-msgid "Postal code"
-msgstr "Směrovací číslo"
+#~ msgid "Postal code"
+#~ msgstr "Směrovací číslo"
 
-msgid "Change"
-msgstr "Změnit"
+#~ msgid "Change"
+#~ msgstr "Změnit"
 
-msgid "email address"
-msgstr "emailová adresa"
+#~ msgid "email address"
+#~ msgstr "emailová adresa"
 
-msgid "password"
-msgstr "heslo"
+#~ msgid "password"
+#~ msgstr "heslo"
 
-msgid "other account info"
-msgstr "ostatní informace o účtu"
+#~ msgid "other account info"
+#~ msgstr "ostatní informace o účtu"
 
-msgid "Log out"
-msgstr "Odhlásit"
+#~ msgid "Log out"
+#~ msgstr "Odhlásit"
 
-msgid "Community"
-msgstr "Komunita"
+#~ msgid "Community"
+#~ msgstr "Komunita"
 
-msgid "Community preferences"
-msgstr "Komunitní nastavení"
+#~ msgid "Community preferences"
+#~ msgstr "Komunitní nastavení"
 
-msgid "Create"
-msgstr "Vytvořit"
+#~ msgid "Create"
+#~ msgstr "Vytvořit"
 
-msgid "Profile"
-msgstr "Profil"
+#~ msgid "Profile"
+#~ msgstr "Profil"
 
-msgid "Teams"
-msgstr "Týmy"
+#~ msgid "Teams"
+#~ msgstr "Týmy"
 
-msgid "Team"
-msgstr "Tým"
+#~ msgid "Team"
+#~ msgstr "Tým"
 
-msgid "Member of team"
-msgstr "Členem týmu"
+#~ msgid "Member of team"
+#~ msgstr "Členem týmu"
 
-msgid "%1 posts"
-msgstr "%1 přispěvků"
+#~ msgid "%1 posts"
+#~ msgstr "%1 přispěvků"
 
-msgid "None"
-msgstr "Žádný"
+#~ msgid "None"
+#~ msgstr "Žádný"
 
-msgid "Administer"
-msgstr "Spravovat"
+#~ msgid "Administer"
+#~ msgstr "Spravovat"
 
-msgid "Founder but not member of"
-msgstr "Zakladatel, ale již ne člen"
+#~ msgid "Founder but not member of"
+#~ msgstr "Zakladatel, ale již ne člen"
 
-msgid "administrative functions"
-msgstr "administrativní funkce"
+#~ msgid "administrative functions"
+#~ msgstr "administrativní funkce"
 
-msgid "Quit team"
-msgstr "Opustit tým"
+#~ msgid "Quit team"
+#~ msgstr "Opustit tým"
 
-msgid "find a team"
-msgstr "najít tým"
+#~ msgid "find a team"
+#~ msgstr "najít tým"
 
-msgid "Preferences"
-msgstr "Nastavení"
+#~ msgid "Preferences"
+#~ msgstr "Nastavení"
 
-msgid "Computing preferences"
-msgstr "Výpočetní preference"
+#~ msgid "Computing preferences"
+#~ msgstr "Výpočetní preference"
 
-msgid "When and how BOINC uses your computer"
-msgstr "Kdy a jak má BOINC používat Váš počítač"
+#~ msgid "When and how BOINC uses your computer"
+#~ msgstr "Kdy a jak má BOINC používat Váš počítač"
 
-msgid "%1 preferences"
-msgstr "%1 nastavení"
+#~ msgid "%1 preferences"
+#~ msgstr "%1 nastavení"
 
-msgid "Resource share and graphics"
-msgstr "Využití prostředků a grafika"
+#~ msgid "Resource share and graphics"
+#~ msgstr "Využití prostředků a grafika"
 
-msgid "Message board preferences"
-msgstr "Nastavení diskuzního fóra"
+#~ msgid "Message board preferences"
+#~ msgstr "Nastavení diskuzního fóra"
 
-msgid "Message boards and private messages"
-msgstr "Diskuzní fóra a soukromé zprávy"
+#~ msgid "Message boards and private messages"
+#~ msgstr "Diskuzní fóra a soukromé zprávy"
 
-msgid "Computing and credit"
-msgstr "Výpočty a kredit"
+#~ msgid "Computing and credit"
+#~ msgstr "Výpočty a kredit"
 
-msgid "%1 member since"
-msgstr "Členem %1 od"
+#~ msgid "%1 member since"
+#~ msgstr "Členem %1 od"
 
-msgid "Pending credit"
-msgstr "Očekávaný kredit"
+#~ msgid "Pending credit"
+#~ msgstr "Očekávaný kredit"
 
-msgid "View"
-msgstr "Zobrazit"
+#~ msgid "View"
+#~ msgstr "Zobrazit"
 
-msgid "Computers on this account"
-msgstr "Počítače na tomto účtu"
+#~ msgid "Computers on this account"
+#~ msgstr "Počítače na tomto účtu"
 
-msgid "Tasks"
-msgstr "Úkoly"
+#~ msgid "Tasks"
+#~ msgstr "Úkoly"
 
-msgid "Cross-project ID"
-msgstr "ID napříč projekty"
+#~ msgid "Cross-project ID"
+#~ msgstr "ID napříč projekty"
 
-msgid "Cross-project statistics"
-msgstr "Statistiky napříč projekty"
+#~ msgid "Cross-project statistics"
+#~ msgstr "Statistiky napříč projekty"
 
-msgid "Stats on your cell phone"
-msgstr "Statistiky pro mobilní telefon"
+#~ msgid "Stats on your cell phone"
+#~ msgstr "Statistiky pro mobilní telefon"
 
-msgid "Account number"
-msgstr "Číslo účtu"
+#~ msgid "Account number"
+#~ msgstr "Číslo účtu"
 
-msgid "Used in URLs"
-msgstr "Použité v adresách"
+#~ msgid "Used in URLs"
+#~ msgstr "Použité v adresách"
 
-msgid "unread"
-msgstr "nepřečtené"
+#~ msgid "unread"
+#~ msgstr "nepřečtené"
 
-msgid "User ID"
-msgstr "Uživatelské ID"
+#~ msgid "User ID"
+#~ msgstr "Uživatelské ID"
 
-msgid "Used in community functions"
-msgstr "Použití u komunitních funkcí"
+#~ msgid "Used in community functions"
+#~ msgstr "Použití u komunitních funkcí"
 
-msgid "Account key"
-msgstr "Klíč k účtu"
+#~ msgid "Account key"
+#~ msgstr "Klíč k účtu"
 
-msgid "Provides full access to your account"
-msgstr "Poskytuje plný přístup k Vašemu účtu"
+#~ msgid "Provides full access to your account"
+#~ msgstr "Poskytuje plný přístup k Vašemu účtu"
 
-msgid "Weak account key"
-msgstr "Slabý klíč k účtu"
+#~ msgid "Weak account key"
+#~ msgstr "Slabý klíč k účtu"
 
-msgid "Provides"
-msgstr "Poskytuje"
+#~ msgid "Provides"
+#~ msgstr "Poskytuje"
 
-msgid "limited access"
-msgstr "omezený přístup"
+#~ msgid "limited access"
+#~ msgstr "omezený přístup"
 
-msgid "to your account"
-msgstr "k Vašemu účtu"
+#~ msgid "to your account"
+#~ msgstr "k Vašemu účtu"
 
-msgid "Friends"
-msgstr "Přátelé"
+#~ msgid "Friends"
+#~ msgstr "Přátelé"
 
-msgid "Find friends"
-msgstr "Najít přátele"
+#~ msgid "Find friends"
+#~ msgstr "Najít přátele"
 
-msgid "hidden"
-msgstr "skrytý"
+#~ msgid "hidden"
+#~ msgstr "skrytý"
 
-msgid "Donor"
-msgstr "Dárce"
+#~ msgid "Donor"
+#~ msgstr "Dárce"
 
-msgid "Notifications"
-msgstr "Oznámení"
+#~ msgid "Notifications"
+#~ msgstr "Oznámení"
 
-msgid "(foundership change request pending)"
-msgstr "(dosud nevyřízený požadavek na změnu zakladatelství)"
+#~ msgid "(foundership change request pending)"
+#~ msgstr "(dosud nevyřízený požadavek na změnu zakladatelství)"
 
-#########################################
-# Public user page (show_user.php)
-#########################################
+#~ msgid "Projects in which you are participating"
+#~ msgstr "Projekty na kterých se podílíte"
 
-msgid "Projects in which you are participating"
-msgstr "Projekty na kterých se podílíte"
+#~ msgid "Projects in which %1 is participating"
+#~ msgstr "Projekty, na kterých se podílí %1"
 
-msgid "Projects in which %1 is participating"
-msgstr "Projekty, na kterých se podílí %1"
+#~ msgid "Project"
+#~ msgstr "Projekt"
 
-msgid "Project"
-msgstr "Projekt"
+#~ msgid "Click for user page"
+#~ msgstr "Klikněte pro vstup na uživatelovu stránku"
 
-msgid "Click for user page"
-msgstr "Klikněte pro vstup na uživatelovu stránku"
+#~ msgid "Since"
+#~ msgstr "Od"
 
-msgid "Since"
-msgstr "Od"
+#~ msgid "Contact"
+#~ msgstr "Kontakt"
 
-msgid "Contact"
-msgstr "Kontakt"
+#~ msgid "This person is a friend"
+#~ msgstr "Tento uživatel je přítel"
 
-msgid "This person is a friend"
-msgstr "Tento uživatel je přítel"
+#~ msgid "Cancel friendship"
+#~ msgstr "Zrušit přátelství"
 
-msgid "Cancel friendship"
-msgstr "Zrušit přátelství"
+#~ msgid "Request pending"
+#~ msgstr "Dosud nevyřízený požadavek"
 
-msgid "Request pending"
-msgstr "Dosud nevyřízený požadavek"
+#~ msgid "Add as friend"
+#~ msgstr "Přidat jako přítele"
 
-msgid "Add as friend"
-msgstr "Přidat jako přítele"
+#~ msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+#~ msgstr "'Slabý klíč k ůčtu' Vám umožňuje přidávat počítače s omezenými právy k Vašemu účtu - bez možnosti přístupu na účet či ke změně nastavení."
 
-#########################################
-# "Weak account key" page (weak_auth.php)
-#########################################
+#~ msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+#~ msgstr "Tento mechanismus funguje pouze tehdy, pokud byl server projektu upgradován po 7. prosinci 2007."
 
-msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
-msgstr "'Slabý klíč k ůčtu' Vám umožňuje přidávat počítače s omezenými právy k Vašemu účtu - bez možnosti přístupu na účet či ke změně nastavení."
+#~ msgid "Your weak account key for this project is:"
+#~ msgstr "Váš slabý klíč k účtu pro tento projekt je:"
 
-msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
-msgstr "Tento mechanismus funguje pouze tehdy, pokud byl server projektu upgradován po 7. prosinci 2007."
+#~ msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+#~ msgstr "K použití slabého klíče na daném stroji najděte nebo vytvořte 'soubor s účtem' k danému projektu. Tento soubor má jméno ve tvaru <b>account_ADRESA_PROJEKTU.xml</b>. Soubor s účtem pro %1 je <b>%2</b>."
 
-msgid "Your weak account key for this project is:"
-msgstr "Váš slabý klíč k účtu pro tento projekt je:"
+#~ msgid "Create this file if needed. Set its contents to:"
+#~ msgstr "Vytvořte tento soubor, pokud je to třeba. Nastavte jeho obsah na:"
 
-msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
-msgstr "K použití slabého klíče na daném stroji najděte nebo vytvořte 'soubor s účtem' k danému projektu. Tento soubor má jméno ve tvaru <b>account_ADRESA_PROJEKTU.xml</b>. Soubor s účtem pro %1 je <b>%2</b>."
+#~ msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+#~ msgstr "Váš slabý klíč k účtu popisuje funkci k Vašemu heslu. Pokud změníte Vaše heslo, Váš slabý klíč se také změní a Váš předchozí slabý klíč se tímto zneplatní."
 
-msgid "Create this file if needed. Set its contents to:"
-msgstr "Vytvořte tento soubor, pokud je to třeba. Nastavte jeho obsah na:"
+#~ msgid "Profiles"
+#~ msgstr "Profily"
 
-msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
-msgstr "Váš slabý klíč k účtu popisuje funkci k Vašemu heslu. Pokud změníte Vaše heslo, Váš slabý klíč se také změní a Váš předchozí slabý klíč se tímto zneplatní."
+#~ msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
+#~ msgstr "%1Profily%2 umožňují uživatelům sdílet své osobní zázemí a názory s komunitou %3. "
 
-#########################################
-# Participant profiles
-#########################################
+#~ msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
+#~ msgstr "Prozkoumejte, jak různorodý svět je mezi Vámi dobrovolníky a přispějte i Vaším vlastním pohledem pro pobavení ostatních. "
 
-msgid "Profiles"
-msgstr "Profily"
+#~ msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
+#~ msgstr "Pokud se tak ještě nestalo, můžete si %1vytvořit svůj vlastní uživatelský profil%2, který ukážete ostatním!"
 
-msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
-msgstr "%1Profily%2 umožňují uživatelům sdílet své osobní zázemí a názory s komunitou %3. "
+#~ msgid "User of the Day"
+#~ msgstr "Uživatel dne"
 
-msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
-msgstr "Prozkoumejte, jak různorodý svět je mezi Vámi dobrovolníky a přispějte i Vaším vlastním pohledem pro pobavení ostatních. "
+#~ msgid "User Profile Explorer"
+#~ msgstr "Prohlížení uživatelských profilů"
 
-msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
-msgstr "Pokud se tak ještě nestalo, můžete si %1vytvořit svůj vlastní uživatelský profil%2, který ukážete ostatním!"
+#~ msgid "View the %1User Picture Gallery%2."
+#~ msgstr "Prohlédněte si %1Galerii uživatelských obrázků%2."
 
-msgid "User of the Day"
-msgstr "Uživatel dne"
+#~ msgid "Browse profiles %1by country%2."
+#~ msgstr "Procházet profily %1podle země%2."
 
-msgid "User Profile Explorer"
-msgstr "Prohlížení uživatelských profilů"
+#~ msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
+#~ msgstr "Procházet profily %1náhodně%2, %3náhodně ty s obrázky%2, nebo %4náhodně ty bez obrázků%2."
 
-msgid "View the %1User Picture Gallery%2."
-msgstr "Prohlédněte si %1Galerii uživatelských obrázků%2."
+#~ msgid "Alphabetical profile listings:"
+#~ msgstr "Abecední výčet profilů:"
 
-msgid "Browse profiles %1by country%2."
-msgstr "Procházet profily %1podle země%2."
+#~ msgid "Search profile text"
+#~ msgstr "Hledat v textech profilů"
 
-msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
-msgstr "Procházet profily %1náhodně%2, %3náhodně ty s obrázky%2, nebo %4náhodně ty bez obrázků%2."
+#~ msgid "Search"
+#~ msgstr "Hledat"
 
-msgid "Alphabetical profile listings:"
-msgstr "Abecední výčet profilů:"
+#~ msgid "No profiles"
+#~ msgstr "Žádné profily"
 
-msgid "Search profile text"
-msgstr "Hledat v textech profilů"
-
-msgid "Search"
-msgstr "Hledat"
-
-msgid "No profiles"
-msgstr "Žádné profily"
-
-msgid "No profiles matched your query."
-msgstr "Nenalezen žádný profil odpovídající vašemu dotazu."
+#~ msgid "No profiles matched your query."
+#~ msgstr "Nenalezen žádný profil odpovídající vašemu dotazu."
