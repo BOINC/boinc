@@ -3,19 +3,19 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2007-07-08 14:44+0200\n"
-"Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
+"PO-Revision-Date: 2009-04-29 17:00-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_6a\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:337
 msgid "User information"
@@ -97,25 +97,17 @@ msgstr "Prisijungti prie abonemento valdiklio"
 
 #: clientgui/AccountInfoPage.cpp:489
 #, c-format
-#, fuzzy
 msgid "The minimum password length for this project is %d. Please enter a different password."
-msgstr ""
-"Minimalus slaptažodžio ilgis šiame projekte yra %d. Prašome pasirinkti kita "
-"slaptažodį."
+msgstr "Minimalus slaptažodžio ilgis šiame projekte yra %d. Prašome pasirinkti kita slaptažodį."
 
 #: clientgui/AccountInfoPage.cpp:495
 #, c-format
-#, fuzzy
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr ""
-"Minimalus slaptažodžio ilgis šiame abonemento valdiklyje yra %d. Prašome "
-"pasirinkti kita slaptažodį."
+msgstr "Minimalus slaptažodžio ilgis šiame abonemento valdiklyje yra %d. Prašome pasirinkti kita slaptažodį."
 
 #: clientgui/AccountInfoPage.cpp:506
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr ""
-"Slaptažodis ir patvirtinimo slaptažodis nesutampa. Prašome juos dar kartą "
-"įvesti."
+msgstr "Slaptažodis ir patvirtinimo slaptažodis nesutampa. Prašome juos dar kartą įvesti."
 
 #: clientgui/AccountManagerInfoPage.cpp:180
 msgid "Account Manager URL"
@@ -338,8 +330,6 @@ msgid "Read preferences from global_prefs_override.xml."
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:472
-#, c-format
-#, c-format
 #, fuzzy
 msgid "&Stop using %s..."
 msgstr "Nu&stoti naudoti %s"
@@ -447,8 +437,6 @@ msgid "%s - Detach from %s"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1244
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "If you stop using %s,\n"
@@ -479,9 +467,7 @@ msgstr "%s - Kalbos pasirinkimas"
 #: clientgui/AdvancedFrame.cpp:1428
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr ""
-"%s aptiko nustatytos kalbos pakeitimą. %s turi būti paleistas iš naujo, kad "
-"įsigaliotų kalbos pakeitimas."
+msgstr "%s aptiko nustatytos kalbos pakeitimą. %s turi būti paleistas iš naujo, kad įsigaliotų kalbos pakeitimas."
 
 #: clientgui/AdvancedFrame.cpp:1639
 #: clientgui/DlgAbout.cpp:104
@@ -490,8 +476,6 @@ msgid "%s"
 msgstr "%s"
 
 #: clientgui/AdvancedFrame.cpp:1648
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s has successfully attached to %s"
 msgstr "Jūs sėkmingai prisijungėte prie šio projekto."
@@ -525,8 +509,7 @@ msgstr ""
 "Abonementas su tokiu vartotojo vardu jau yra ir turi kitą\n"
 "slaptažodį negu Jūs įvedėte.\n"
 "\n"
-"Prašome apsilankyti projekto tinklapyje ir veikti pagal nurodytas "
-"instrukcijas."
+"Prašome apsilankyti projekto tinklapyje ir veikti pagal nurodytas instrukcijas."
 
 #: clientgui/AlreadyExistsPage.cpp:190
 msgid "Email address already in use"
@@ -542,8 +525,7 @@ msgstr ""
 "Abonementas su tokiu el. pašto adresu jau yra ir turi kitą\n"
 "slaptažodį negu Jūs nurodėte.\n"
 "\n"
-"Prašome apsilankyti projekto tinklapyje ir veikti pagal nurodytas "
-"instrukcijas."
+"Prašome apsilankyti projekto tinklapyje ir veikti pagal nurodytas instrukcijas."
 
 #: clientgui/AsyncRPC.cpp:923
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -613,8 +595,6 @@ msgid "%s - Connection Status"
 msgstr "%s - Susijungimo būklė"
 
 #: clientgui/BOINCBaseFrame.cpp:607
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -622,10 +602,8 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s šiuo metu nėra prisijungęs prie %s kliento.\n"
-"Prašome pasinaudoti 'Byla->Pasirinkti kompiuterį' meniu punktu norėdami "
-"prisijungti prie %s kliento.\n"
-"Norėdami prisijungti prie vietinio kompiuterio prašome kaip kompiuterio "
-"vardą įrašyti 'localhost'."
+"Prašome pasinaudoti 'Byla->Pasirinkti kompiuterį' meniu punktu norėdami prisijungti prie %s kliento.\n"
+"Norėdami prisijungti prie vietinio kompiuterio prašome kaip kompiuterio vardą įrašyti 'localhost'."
 
 #: clientgui/BOINCBaseView.cpp:748
 #: clientgui/ViewProjectsGrid.cpp:644
@@ -644,16 +622,13 @@ msgid "%s needs to connect to the Internet.  Please click to open %s."
 msgstr "%s reikia prisijunti prie interneto.  Prašome atidaryti %s."
 
 #: clientgui/BOINCDialupManager.cpp:263
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
 "%s negali susisiekti su projektu ir jam reikalinkas interneto ryšys.\n"
-"Prašome prisijungti prie interneto ir paspausti 'Kartoti susijungimą' meniu "
-"punkte 'Papildomi'."
+"Prašome prisijungti prie interneto ir paspausti 'Kartoti susijungimą' meniu punkte 'Papildomi'."
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
@@ -676,8 +651,7 @@ msgid ""
 "Please connect to the Internet, or select a default connection\n"
 "using Advanced/Options/Connections."
 msgstr ""
-"%s negali prisijungti prie internero ir nėra numatyta jokia interneto "
-"jungtis.\n"
+"%s negali prisijungti prie internero ir nėra numatyta jokia interneto jungtis.\n"
 "Prašome prisijungti prie interneto arba pasirinkti numatytą interneto jungtį\n"
 "meniu Papildomi->Parinktys->Susijungimai."
 
@@ -882,8 +856,6 @@ msgid "Welcome to %s!"
 msgstr "Prisijungta prie %s"
 
 #: clientgui/CompletionPage.cpp:303
-#, c-format
-#, c-format
 #, fuzzy
 msgid "You are now successfully attached to the %s system."
 msgstr ""
@@ -1129,8 +1101,6 @@ msgid "Use at most"
 msgstr "naudoti daugiausiai"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:259
-#, no-c-format
-#, no-c-format
 #, fuzzy
 msgid "% CPU time"
 msgstr "Procesoriaus laikas"
@@ -1284,15 +1254,11 @@ msgid "Memory usage"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:541
-#, no-c-format
-#, no-c-format
 #, fuzzy
 msgid "% when computer is in use"
 msgstr "kai kompiuteris naudojamas"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:551
-#, no-c-format
-#, no-c-format
 #, fuzzy
 msgid "% when computer is idle"
 msgstr "kai kompiuteris naudojamas"
@@ -1947,9 +1913,7 @@ msgstr "Jūsų nustatymai"
 
 #: clientgui/Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr ""
-"Peržiūrėti ir keisti Jūsų SETI@HOME vartotojo abonemento aprašymą ir "
-"nustatymus"
+msgstr "Peržiūrėti ir keisti Jūsų SETI@HOME vartotojo abonemento aprašymą ir nustatymus"
 
 #: clientgui/Localization.cpp:47
 #: clientgui/Localization.cpp:89
@@ -1959,8 +1923,7 @@ msgstr "Jūsų rezultatai"
 #: clientgui/Localization.cpp:49
 #: clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr ""
-"Peržiūrėti paskutinės savaitės (ar daugiau) skaičiavimo rezultatus ir darbus"
+msgstr "Peržiūrėti paskutinės savaitės (ar daugiau) skaičiavimo rezultatus ir darbus"
 
 #: clientgui/Localization.cpp:51
 #: clientgui/Localization.cpp:93
@@ -1999,9 +1962,7 @@ msgstr "Perskaityti detalų Einstein@Home ekrano užsklandos aprašymą"
 
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Susirašinėkite su administratoriais ar kitais Einstein@Home vartotojais "
-"pranešimų lentose"
+msgstr "Susirašinėkite su administratoriais ar kitais Einstein@Home vartotojais pranešimų lentose"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
@@ -2021,9 +1982,7 @@ msgstr "Nuoroda į Einstein@Home problemų pranešimų lentas"
 
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr ""
-"Peržiūrėti ir keisti Jūsų Einstein@Home vartotojo abonemento aprašymą ir "
-"nustatymus"
+msgstr "Peržiūrėti ir keisti Jūsų Einstein@Home vartotojo abonemento aprašymą ir nustatymus"
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
@@ -2039,9 +1998,7 @@ msgstr "LIGO projektas"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"Laser Interferometer Gravitational-wave Observatory (LIGO)  projekto "
-"pagrindinis puslapis"
+msgstr "Laser Interferometer Gravitational-wave Observatory (LIGO)  projekto pagrindinis puslapis"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2310,8 +2267,6 @@ msgid "SOCKS proxy"
 msgstr "SOCKS Proxy serveris"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:128
-#, c-format
-#, c-format
 #, fuzzy
 msgid "&%s"
 msgstr "%s"
@@ -2413,18 +2368,14 @@ msgstr "Kopijuoti visus pranešimus į atmintį."
 #: clientgui/ViewMessagesGrid.cpp:110
 #, fuzzy
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Kopijuoti pasirinktus pranešimus į atmintį. Kelis pranešimus galite pažymėti "
-"spausdami shift arba kontrol klavišus ir kartu žymėdami žinutes."
+msgstr "Kopijuoti pasirinktus pranešimus į atmintį. Kelis pranešimus galite pažymėti spausdami shift arba kontrol klavišus ir kartu žymėdami žinutes."
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 #: clientgui/ViewMessages.cpp:99
 #: clientgui/ViewMessagesGrid.cpp:112
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Kopijuoti pasirinktus pranešimus į atmintį. Kelis pranešimus galite pažymėti "
-"spausdami shift arba kontrol klavišus ir kartu žymėdami žinutes."
+msgstr "Kopijuoti pasirinktus pranešimus į atmintį. Kelis pranešimus galite pažymėti spausdami shift arba kontrol klavišus ir kartu žymėdami žinutes."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2829,9 +2780,7 @@ msgstr ""
 
 #: clientgui/ValidateEmailAddress.cpp:75
 msgid "Invalid email address; please enter a valid email address"
-msgstr ""
-"Neteisingas elektroninio pašto adresas; prašome įvesti teisingą elektroninio "
-"pašto adresą"
+msgstr "Neteisingas elektroninio pašto adresas; prašome įvesti teisingą elektroninio pašto adresą"
 
 #: clientgui/ValidateURL.cpp:69
 msgid "Missing URL"
@@ -2981,9 +2930,7 @@ msgstr "Atnaujinti"
 #: clientgui/ViewProjectsBase.cpp:108
 #: clientgui/ViewProjectsGrid.cpp:121
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Pranešti apie atliktą darbą, gauti duomenis apie kreditą, naujausius "
-"nustatymus ir galbūt daugiau darbo."
+msgstr "Pranešti apie atliktą darbą, gauti duomenis apie kreditą, naujausius nustatymus ir galbūt daugiau darbo."
 
 #: clientgui/ViewProjects.cpp:180
 #: clientgui/ViewProjects.cpp:706
@@ -3032,9 +2979,7 @@ msgstr "Perkrauti projektą"
 #: clientgui/ViewProjectsBase.cpp:130
 #: clientgui/ViewProjectsGrid.cpp:142
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"Ištrinti visas projekto darbo bylas ir gauti naujo darbo. Jūs galite "
-"atnaujinti projekto duomenis ir nusiųsti  atliktą darbą."
+msgstr "Ištrinti visas projekto darbo bylas ir gauti naujo darbo. Jūs galite atnaujinti projekto duomenis ir nusiųsti  atliktą darbą."
 
 #: clientgui/ViewProjects.cpp:201
 #: clientgui/ViewProjectsBase.cpp:139
@@ -3046,9 +2991,7 @@ msgstr "Atjungti"
 #: clientgui/ViewProjectsBase.cpp:140
 #: clientgui/ViewProjectsGrid.cpp:149
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"Atjungti kompiuterį nuo šio projekto. Visas atliekamas darbas bus prarastas "
-"(spauskite 'Atnaujinti' tam, kad būtų nusiųsti atlikti darbai)."
+msgstr "Atjungti kompiuterį nuo šio projekto. Visas atliekamas darbas bus prarastas (spauskite 'Atnaujinti' tam, kad būtų nusiųsti atlikti darbai)."
 
 #: clientgui/ViewProjects.cpp:208
 #: clientgui/ViewWork.cpp:204
@@ -3415,9 +3358,7 @@ msgstr "Nutraukti perdavimą"
 #: clientgui/ViewTransfers.cpp:171
 #: clientgui/ViewTransfersGrid.cpp:114
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr ""
-"Spauskite \"Nutraukti perdavimą\" tam, kad būtų pašalinta byla iš perdavimų "
-"sąrašo. Dėl šio veiksmo jūs negausite kreditų už šį darbą."
+msgstr "Spauskite \"Nutraukti perdavimą\" tam, kad būtų pašalinta byla iš perdavimų sąrašo. Dėl šio veiksmo jūs negausite kreditų už šį darbą."
 
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -3618,8 +3559,6 @@ msgid "TasksGrid"
 msgstr ""
 
 #: clientgui/ViewWorkGrid.cpp:327
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
@@ -3666,8 +3605,6 @@ msgid ""
 msgstr ""
 
 #: clientgui/WelcomePage.cpp:372
-#, c-format
-#, c-format
 #, fuzzy
 msgid "&Stop using%s"
 msgstr "Nu&stoti naudoti %s"
@@ -3804,23 +3741,10 @@ msgstr ""
 #, fuzzy
 #~ msgid "For a list of account managers go to:"
 #~ msgstr "BOINC abonemento valdiklių sąrašą rasite čia:"
-
 #~ msgid "You are already attached to this project."
 #~ msgstr "Jūs jau esate prisijungęs prie šio projekto."
-
-#, fuzzy
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr "Jūs galite nukopijuoti URL į Jūsų interneto naršykles adreso laukelį."
-
-#, fuzzy
-#~ msgid "For a list of account managers go to:"
-#~ msgstr "BOINC abonemento valdiklių sąrašą rasite čia:"
-
 #~ msgid "Enter account key"
 #~ msgstr "Įveskite abonento slaptažodį"
-
 #~ msgid ""
 #~ "This project uses an \"account key\" to identify you.\n"
 #~ "\n"
@@ -3831,22 +3755,16 @@ msgstr ""
 #~ "\n"
 #~ "Eikite į projekto interneto svetainę ir susikurkite abonementą.\n"
 #~ "Jūsų abonemento raktas bus atsiųstas elektroniniu paštu."
-
 #~ msgid "An account key looks like:"
 #~ msgstr "Abonemento slaptažodis panašus į šį:"
-
 #~ msgid "82412313ac88e9a3638f66ea82186948"
 #~ msgstr "82412313ac88e9a3638f66ea82186948"
-
 #~ msgid "Account key:"
 #~ msgstr "Abonemento slaptažodis:"
-
 #~ msgid "&Accessible View"
 #~ msgstr "Neįg&aliesiems pritaikytas režimas"
-
 #~ msgid "Retry &communications"
 #~ msgstr "Kartoti susijungimą"
-
 #~ msgid "Retry all deferred network communication."
 #~ msgstr "Kartoti visus atidėtus susijungimus."
 
@@ -3869,7 +3787,6 @@ msgstr ""
 #, c-format
 #~ msgid "%s is not currently connected to a %s client...\n"
 #~ msgstr "%s šiuo metu nėra prisijungęs prie %s kliento...\n"
-
 #~ msgid ""
 #~ "This dialog controls preferences on this computer only.\n"
 #~ "On Save - preferences will be stored locally.\n"
@@ -3878,63 +3795,44 @@ msgstr ""
 #~ "Šis dialogo langas valdo tik šio kompiuterio nustatymus.\n"
 #~ "Paspaudus \"Išsaugoti\" nustatymai bus išsaugoti lokaliai.\n"
 #~ "Jei nori grįžti prie internete pasirinktų nustatymų, spauskite \"Pašalinti\"."
-
 #~ msgid "do work"
 #~ msgstr "atlikti darbą"
-
 #~ msgid "only if computer is idle for"
 #~ msgstr "tik jei kompiuteris nenaudojamas ilgiau kaip"
-
 #~ msgid "work time restrictions"
 #~ msgstr "darbo laiko apribojimai"
-
 #~ msgid "additional restrictions:"
 #~ msgstr "papildomi apribojimai"
-
 #~ msgid "processors"
 #~ msgstr "procesoriai"
-
 #~ msgid "Click here to disable displaying this message in the future."
 #~ msgstr "Spauskite čia, jei nenorite, kad ši žinutė būtų rodoma ateityje."
-
 #~ msgid "Language Selection:"
 #~ msgstr "Kalbos pasirinkimas:"
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "Kokią kalbą naudoti kaip numatytą."
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "Priminimo dažnumas:"
-
 #~ msgid "How often, in minutes, should the manager remind you of possible connection events."
 #~ msgstr "Kaip dažnai (minutėmis) valdiklis turėtų jums priminti apie galimus prisijungimus prie tinklo."
-
 #~ msgid "Project Selection"
 #~ msgstr "Projektų pasirinkimas"
-
 #~ msgid "BOINC Manager - Messages"
 #~ msgstr "BOINC valdiklis - žinutės"
-
 #~ msgid "BOINC Manager - Preferences"
 #~ msgstr "BOINC valdiklis - vietiniai nustatymai"
-
 #~ msgid "free disk space - "
 #~ msgstr "laisva disko vieta - "
-
 #~ msgid "Project Comm Failure"
 #~ msgstr "Ryšio su projektu klaida"
-
 #~ msgid "Google Comm Failure"
 #~ msgstr "Prisijungimo prie Google klaida"
-
 #~ msgid "Yahoo Comm Failure"
 #~ msgstr "Prisijungimo prie Yahoo klaida"
-
 #~ msgid "About BOINC Manager"
 #~ msgstr "Apie BOINC valdiklį"
-
 #~ msgid "BOINC Manager - Options"
 #~ msgstr "BOINC valdiklis - nustatymai"
-
 #~ msgid "BOINC Manager - Select Computer"
 #~ msgstr "BOINC valdiklis - pasirinkti kompiuterį"
+
