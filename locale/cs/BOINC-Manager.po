@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-01-06 20:51-0700\n"
-"Last-Translator: Spok <spok.3d@atlas.cz>\n"
+"PO-Revision-Date: 2009-04-29 15:22-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -13,11 +13,11 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_6a\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:337
 msgid "User information"
@@ -104,16 +104,12 @@ msgstr "Připojit ke Správci účtu "
 #: clientgui/AccountInfoPage.cpp:489
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
-msgstr ""
-"Minimální délka hesla pro tento projekt je %d znaků. Zadejte prosím jiné "
-"heslo."
+msgstr "Minimální délka hesla pro tento projekt je %d znaků. Zadejte prosím jiné heslo."
 
 #: clientgui/AccountInfoPage.cpp:495
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr ""
-"Minimální délka hesla pro tohoto Správce účtu je %d znaků. Zadejte prosím "
-"jiné heslo."
+msgstr "Minimální délka hesla pro tohoto Správce účtu je %d znaků. Zadejte prosím jiné heslo."
 
 #: clientgui/AccountInfoPage.cpp:506
 msgid "The password and confirmation password do not match. Please type them again."
@@ -188,9 +184,7 @@ msgstr "&Rozšířený vzhled"
 
 #: clientgui/AdvancedFrame.cpp:324
 msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
-msgstr ""
-"Rozšířený vzhled Vám umožní řazení podle různých sloupců a zobrazení "
-"sloupcových grafů průběhu"
+msgstr "Rozšířený vzhled Vám umožní řazení podle různých sloupců a zobrazení sloupcových grafů průběhu"
 
 #: clientgui/AdvancedFrame.cpp:329
 msgid "&Simple View..."
@@ -356,8 +350,6 @@ msgid "Read preferences from global_prefs_override.xml."
 msgstr "Načíst nastavení z \"global_prefs_override.xml\""
 
 #: clientgui/AdvancedFrame.cpp:472
-#, c-format
-#, c-format
 #, fuzzy
 msgid "&Stop using %s..."
 msgstr "&Ukončuji %s... "
@@ -448,8 +440,6 @@ msgid "&Help"
 msgstr "Náp&ověda"
 
 #: clientgui/AdvancedFrame.cpp:1083
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s - Shutdown the current client..."
 msgstr "Vypínání aktuálního klienta..."
@@ -497,9 +487,7 @@ msgstr "%s - Volba jazyka:"
 #: clientgui/AdvancedFrame.cpp:1428
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr ""
-"Jazyk %s byl změněn. Aby se změna projevila, je nutné %s ukončit a znovu "
-"spustit."
+msgstr "Jazyk %s byl změněn. Aby se změna projevila, je nutné %s ukončit a znovu spustit."
 
 #: clientgui/AdvancedFrame.cpp:1639
 #: clientgui/DlgAbout.cpp:104
@@ -657,16 +645,13 @@ msgid "%s needs to connect to the Internet.  Please click to open %s."
 msgstr "%s vyžaduje připojení na internet. Prosím klikněte pro otevření %s."
 
 #: clientgui/BOINCDialupManager.cpp:263
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
 "%s není schopen se spojit s projektem a potřebuje připojení k internetu.\n"
-"Připojte se prosím k internetu, poté zvolte 'Opakovat přenos' v menu "
-"'Nastavení'."
+"Připojte se prosím k internetu, poté zvolte 'Opakovat přenos' v menu 'Nastavení'."
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
@@ -689,8 +674,7 @@ msgid ""
 "Please connect to the Internet, or select a default connection\n"
 "using Advanced/Options/Connections."
 msgstr ""
-"%s se nemůže připojit k internetu, a není nastaveno žádné standardní "
-"připojení.\n"
+"%s se nemůže připojit k internetu, a není nastaveno žádné standardní připojení.\n"
 "Připojte se prosím k internetu nebo nastavte standardní připojení \n"
 "v menu Rozšířené/Možnosti/Připojení."
 
@@ -1127,9 +1111,6 @@ msgstr "Na víceprocesorových systémech použít nejvýše"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:249
 #, no-c-format
-#, no-c-format
-#, c-format
-#, fuzzy
 msgid "% of the processors"
 msgstr "procesoru"
 
@@ -1380,9 +1361,7 @@ msgstr ""
 "Ukončením %s a jeho úkolů, přerušíte všechny výpočty až do doby, \n"
 "kdy opět spustíte aplikaci %s nebo kdy bude spuštěn spořič obrazovky %s.\n"
 "\n"
-"Pokud chcete aby %s pokračoval ve výpočtech dle Vašeho nastavení a pouze Vám "
-"Vám překáží okno %s, je lepší pouze toto okno zavřít, než aplikaci "
-"ukončovat."
+"Pokud chcete aby %s pokračoval ve výpočtech dle Vašeho nastavení a pouze Vám Vám překáží okno %s, je lepší pouze toto okno zavřít, než aplikaci ukončovat."
 
 #: clientgui/DlgExitMessage.cpp:153
 msgid "Stop running science applications when exiting the Manager"
@@ -2053,9 +2032,7 @@ msgstr "Projekt LIGO"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"Domovská stránka projektu LIGO (Laser Interferometer Gravitational-wave "
-"Observatory)"
+msgstr "Domovská stránka projektu LIGO (Laser Interferometer Gravitational-wave Observatory)"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2189,8 +2166,7 @@ msgstr "Přihlášení selhalo."
 
 #: clientgui/NotFoundPage.cpp:186
 msgid "Check the username and password, and try again."
-msgstr ""
-"Zkontrolujte uživatelské jméno (username) a heslo (password) a zkuste znovu."
+msgstr "Zkontrolujte uživatelské jméno (username) a heslo (password) a zkuste znovu."
 
 #: clientgui/NotFoundPage.cpp:190
 msgid "Check the email address and password, and try again."
@@ -2431,8 +2407,7 @@ msgstr "Zkopíruje všechny zprávy do schránky"
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
 msgstr ""
 "Zkopíruje označené zprávy do schránky. \n"
-"Zvolit více zpráv je možno klikáním na zprávy se současně stisknutou "
-"klávesou Shift nebo Command."
+"Zvolit více zpráv je možno klikáním na zprávy se současně stisknutou klávesou Shift nebo Command."
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
@@ -2441,8 +2416,7 @@ msgstr ""
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr ""
 "Zkopíruje označené zprávy do schránky. \n"
-"Zvolit více zpráv je možno klikáním na zprávy se současně stisknutou "
-"klávesou Shift nebo Ctrl."
+"Zvolit více zpráv je možno klikáním na zprávy se současně stisknutou klávesou Shift nebo Ctrl."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2993,9 +2967,7 @@ msgstr "Aktualizovat"
 #: clientgui/ViewProjectsBase.cpp:108
 #: clientgui/ViewProjectsGrid.cpp:121
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Oznámit veškerou dokončenou práci, získat nejnovější informace o kreditu a "
-"nastavení a je-li možno, přijmout další práci."
+msgstr "Oznámit veškerou dokončenou práci, získat nejnovější informace o kreditu a nastavení a je-li možno, přijmout další práci."
 
 #: clientgui/ViewProjects.cpp:180
 #: clientgui/ViewProjects.cpp:706
@@ -3044,10 +3016,7 @@ msgstr "Restartovat projekt"
 #: clientgui/ViewProjectsBase.cpp:130
 #: clientgui/ViewProjectsGrid.cpp:142
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"Smazat všechny soubory související s tímto projektem a stáhnout nové. Před "
-"restartováním doporučujeme projekt aktualizovat, čímž odešlete a ohlásíte "
-"všechny dokončené výsledky."
+msgstr "Smazat všechny soubory související s tímto projektem a stáhnout nové. Před restartováním doporučujeme projekt aktualizovat, čímž odešlete a ohlásíte všechny dokončené výsledky."
 
 #: clientgui/ViewProjects.cpp:201
 #: clientgui/ViewProjectsBase.cpp:139
@@ -3061,8 +3030,7 @@ msgstr "Opustit"
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
 msgstr ""
 "Odpojit se z daného projektu. Započatá práce bude ztracena. \n"
-"Před opuštěním doporučujeme projekt aktualizovat, čímž odešlete a ohlásíte "
-"všechny dokončené výsledky. "
+"Před opuštěním doporučujeme projekt aktualizovat, čímž odešlete a ohlásíte všechny dokončené výsledky. "
 
 #: clientgui/ViewProjects.cpp:208
 #: clientgui/ViewWork.cpp:204
@@ -3806,35 +3774,20 @@ msgstr "Časové rozmezí, kdy je možno provádět výpočty (formát HH:MM-HH:
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "Časové rozmezí, kdy je možno využívat internet (formát HH:MM-HH:MM)"
 
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr ""
-#~ "Adresu můžete například zkopírovat z adresového řádku\n"
-#~ "Vašeho internetového prohlížeče. "
-
 #~ msgid "For a list of account managers go to:"
 #~ msgstr "Seznam 'Správců účtů' naleznete na: "
-
 #~ msgid "You are already attached to this project."
 #~ msgstr "K tomuto projektu jste již připojeni. "
-
 #~ msgid ""
 #~ "You can copy and paste the URL from your browser's\n"
 #~ "address bar."
 #~ msgstr ""
 #~ "Adresu můžete například zkopírovat z adresového řádku\n"
 #~ "Vašeho internetového prohlížeče. "
-
-#~ msgid "For a list of account managers go to:"
-#~ msgstr "Seznam 'Správců účtů' naleznete na: "
-
 #~ msgid "CHARSET"
 #~ msgstr "utf-8"
-
 #~ msgid "Enter account key"
 #~ msgstr "Zadejte klíč (Account Key) "
-
 #~ msgid ""
 #~ "This project uses an \"account key\" to identify you.\n"
 #~ "\n"
@@ -3845,25 +3798,18 @@ msgstr "Časové rozmezí, kdy je možno využívat internet (formát HH:MM-HH:M
 #~ "\n"
 #~ "Otevřete si webové stránky projektu a vytvořte si účet (account).\n"
 #~ "Klíč (Account Key) vám bude zaslán emailem."
-
 #~ msgid "An account key looks like:"
 #~ msgstr "Typický klíč (Account Key) vypadá takto: "
-
 #~ msgid "82412313ac88e9a3638f66ea82186948"
 #~ msgstr "82412313ac88e9a3638f66ea82186948"
-
 #~ msgid "Account key:"
 #~ msgstr "Klíč (Account Key): "
-
 #~ msgid "&Accessible View"
 #~ msgstr "&Volitelný vzhled"
-
 #~ msgid "Accessible views are compatible with accessibility aids such as screen readers."
 #~ msgstr "Volitelné vzhledy jsou kompatibilní s nástroji pro vzdálený přístup, jako jsou snímače obrazovky, apod."
-
 #~ msgid "Retry &communications"
 #~ msgstr "&Opakovat přenos"
-
 #~ msgid "Retry all deferred network communication."
 #~ msgstr "Znovu spustit všechny odložené přenosy"
 
@@ -3904,7 +3850,6 @@ msgstr "Časové rozmezí, kdy je možno využívat internet (formát HH:MM-HH:M
 #, c-format
 #~ msgid "%s is not currently connected to a %s client...\n"
 #~ msgstr "%s není připojen k žádnému klientu %s ...\n"
-
 #~ msgid ""
 #~ "This dialog controls preferences on this computer only.\n"
 #~ "On Save - preferences will be stored locally.\n"
@@ -3913,46 +3858,32 @@ msgstr "Časové rozmezí, kdy je možno využívat internet (formát HH:MM-HH:M
 #~ "Zde můžete změnit nastavení pouze pro tento počítač.\n"
 #~ "Při uložení bude nastavení uloženo pouze lokálně.\n"
 #~ "Pokud byste chtěli použít globální nastavení, klikněte na tlačítko <Vymazat>."
-
 #~ msgid "do work"
 #~ msgstr "Provádět výpočty"
-
 #~ msgid "only if computer is idle for"
 #~ msgstr "            Po nečinnosti"
-
 #~ msgid "work time restrictions"
 #~ msgstr "Časová omezení výpočtů"
-
 #~ msgid "every day between hour of"
 #~ msgstr "Každý den mezi"
-
 #~ msgid "additional restrictions:"
 #~ msgstr "Další omezení:"
-
 #~ msgid "processors"
 #~ msgstr "procesorů"
-
 #~ msgid "network usage restrictions"
 #~ msgstr "Omezení využití sítě"
-
 #~ msgid "Click here to disable displaying this message in the future."
 #~ msgstr "Tuto zprávu již nezobrazovat."
-
 #~ msgid "Language Selection:"
 #~ msgstr "Volba jazyka:"
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "Který jazyk bude použit pro zobrazení."
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "Frekvence upozornění:"
-
 #~ msgid "How often, in minutes, should the manager remind you of possible connection events."
 #~ msgstr "Jak často (minuty) budete informováni o případných síťových událostech."
-
 #~ msgid "Project Selection"
 #~ msgstr "Výběr projektu"
-
 #~ msgid ""
 #~ "Choose which project you would like to participate in by\n"
 #~ "clicking on its name, or type the project URL below."
@@ -3960,36 +3891,26 @@ msgstr "Časové rozmezí, kdy je možno využívat internet (formát HH:MM-HH:M
 #~ "Zvolte projekt, kterého se chcete zúčastnit.\n"
 #~ " Buď projekt označte kliknutím jeho jméno nebo přímo vložte\n"
 #~ " jeho adresu (URL) do kolonky dole."
-
 #~ msgid "  "
 #~ msgstr "  "
-
 #~ msgid "(web)"
 #~ msgstr "(web)"
-
 #~ msgid "BOINC Manager - Messages"
 #~ msgstr "Správce BOINC - Zprávy"
-
 #~ msgid "BOINC Manager - Preferences"
 #~ msgstr "Správce BOINC - Předvolby"
-
 #~ msgid "free disk space - "
 #~ msgstr "Volný prostor na disku - "
-
 #~ msgid "Project Comm Failure"
 #~ msgstr "Selhala komunikace s projektem"
-
 #~ msgid "Google Comm Failure"
 #~ msgstr "Selhala komunikace s Google"
-
 #~ msgid "Yahoo Comm Failure"
 #~ msgstr "Selhala komunikace s Yahoo"
-
 #~ msgid "About BOINC Manager"
 #~ msgstr "O Správci BOINC..."
-
 #~ msgid "BOINC Manager - Options"
 #~ msgstr "Správce BOINC - Možnosti"
-
 #~ msgid "BOINC Manager - Select Computer"
 #~ msgstr "Správce BOINC - Zvolit počítač"
+
