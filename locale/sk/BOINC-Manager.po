@@ -3,19 +3,19 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2007-02-07 22:59+0100\n"
-"Last-Translator: marpes <marpes@zoznam.sk>\n"
+"PO-Revision-Date: 2009-04-29 17:40-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC SK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_6a\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:337
 msgid "User information"
@@ -107,9 +107,7 @@ msgstr "Mnimálna dĺžka hesla pre tento projekt je %d. Prosím zvoľte iné he
 #: clientgui/AccountInfoPage.cpp:495
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr ""
-"Mnimálna dĺžka hesla pre tohoto správcu konta je %d. Prosím zvoľte iné "
-"heslo."
+msgstr "Mnimálna dĺžka hesla pre tohoto správcu konta je %d. Prosím zvoľte iné heslo."
 
 #: clientgui/AccountInfoPage.cpp:506
 msgid "The password and confirmation password do not match. Please type them again."
@@ -275,9 +273,7 @@ msgstr "&Nastavenia..."
 
 #: clientgui/AdvancedFrame.cpp:426
 msgid "Configure GUI options and proxy settings"
-msgstr ""
-"Konfigurovať voľby grafického užívateľského rozhrania (GUI) a proxy "
-"nastavenia"
+msgstr "Konfigurovať voľby grafického užívateľského rozhrania (GUI) a proxy nastavenia"
 
 #: clientgui/AdvancedFrame.cpp:430
 msgid "&Preferences..."
@@ -339,8 +335,6 @@ msgid "Read preferences from global_prefs_override.xml."
 msgstr "Čítať preferencie z global_prefs_override.xml."
 
 #: clientgui/AdvancedFrame.cpp:472
-#, c-format
-#, c-format
 #, fuzzy
 msgid "&Stop using %s..."
 msgstr "&Zastaviť používanie %s"
@@ -365,8 +359,6 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:500
 #: clientgui/sg_BoincSimpleGUI.cpp:116
-#, c-format
-#, c-format
 #, fuzzy
 msgid "Show information about %s"
 msgstr "Ukázať informácie o %s"
@@ -433,8 +425,6 @@ msgid "&Help"
 msgstr "&Pomoc"
 
 #: clientgui/AdvancedFrame.cpp:1083
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s - Shutdown the current client..."
 msgstr "Vypnúť atuálneho klienta..."
@@ -482,9 +472,7 @@ msgstr "%s - Výber jazyka"
 #: clientgui/AdvancedFrame.cpp:1428
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr ""
-"Predvolený jazyk pre %s bol zmenený. Aby sa táto zmena prejavila, musíte "
-"reštartovať %s."
+msgstr "Predvolený jazyk pre %s bol zmenený. Aby sa táto zmena prejavila, musíte reštartovať %s."
 
 #: clientgui/AdvancedFrame.cpp:1639
 #: clientgui/DlgAbout.cpp:104
@@ -508,8 +496,6 @@ msgid "Connecting to %s"
 msgstr "Pripájanie k %s"
 
 #: clientgui/AdvancedFrame.cpp:1778
-#, c-format
-#, c-format
 #, fuzzy
 msgid "Connected to %s (%s)"
 msgstr "Pripojené k %s"
@@ -623,10 +609,8 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s nie je momentálne pripojený k %s clientovi.\n"
-"Prosím použite 'Súbor\\Vybrať počítač...' voľbu ponuky pre pripojenie sa k %s "
-"klientovi.\n"
-"Pre pripojenie sa k Vášmu miestnemu počítaču prosím použite 'localhost' ako "
-"názov počítača."
+"Prosím použite 'Súbor\\Vybrať počítač...' voľbu ponuky pre pripojenie sa k %s klientovi.\n"
+"Pre pripojenie sa k Vášmu miestnemu počítaču prosím použite 'localhost' ako názov počítača."
 
 #: clientgui/BOINCBaseView.cpp:748
 #: clientgui/ViewProjectsGrid.cpp:644
@@ -645,17 +629,13 @@ msgid "%s needs to connect to the Internet.  Please click to open %s."
 msgstr "%s potrebuje pripojenie k Internetu. Prosím kliknite pre otvorenie %s."
 
 #: clientgui/BOINCDialupManager.cpp:263
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
-"%s nie je schopný komunikovať s projektom; je potrebné Internetové "
-"pripojenie.\n"
-"Prosím pripojte sa k Internetu, potom vyberte 'Opakovať komunikáciu' položku "
-"z ponuky Pokročilý."
+"%s nie je schopný komunikovať s projektom; je potrebné Internetové pripojenie.\n"
+"Prosím pripojte sa k Internetu, potom vyberte 'Opakovať komunikáciu' položku z ponuky Pokročilý."
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
@@ -678,8 +658,7 @@ msgid ""
 "Please connect to the Internet, or select a default connection\n"
 "using Advanced/Options/Connections."
 msgstr ""
-"%s nemôže robiť Internetovú komunikáci, a žiadne prednastavené pripojenie "
-"nie je vybraté.\n"
+"%s nemôže robiť Internetovú komunikáci, a žiadne prednastavené pripojenie nie je vybraté.\n"
 "Prosím pripojte sa k Internetu, alebo vyberte prednastavené pripojenie\n"
 "použitím Pokročilý/Nastavenia/Pripojenia."
 
@@ -1114,9 +1093,6 @@ msgstr "na viacprocesrových systémoch, použiť najviac"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:249
 #, no-c-format
-#, no-c-format
-#, c-format
-#, fuzzy
 msgid "% of the processors"
 msgstr "procesora"
 
@@ -1999,9 +1975,7 @@ msgstr "Prečítajte si podrobný opis šetriča obrazovky Einstein@Home"
 
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Korešpondujte s administrátormi a ostatnými užívateľmi na Einstein@Home "
-"paneloch hlásení"
+msgstr "Korešpondujte s administrátormi a ostatnými užívateľmi na Einstein@Home paneloch hlásení"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
@@ -2029,8 +2003,7 @@ msgstr "Súhrn konta"
 
 #: clientgui/Localization.cpp:95
 msgid "View a listing of all the computers on which you are running Einstein@Home"
-msgstr ""
-"Prezrite si zoznam všetkých počítačov, na ktorých počítate Einstein@Home"
+msgstr "Prezrite si zoznam všetkých počítačov, na ktorých počítate Einstein@Home"
 
 #: clientgui/Localization.cpp:101
 msgid "LIGO project"
@@ -2038,9 +2011,7 @@ msgstr "LIGO projekt"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"Domovská stránka projektu Laser Interferometer Gravitational-wave "
-"Observatory (LIGO)"
+msgstr "Domovská stránka projektu Laser Interferometer Gravitational-wave Observatory (LIGO)"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2409,18 +2380,14 @@ msgstr "Kopírovať všetky správy do kopírovacej schránky."
 #: clientgui/ViewMessages.cpp:97
 #: clientgui/ViewMessagesGrid.cpp:110
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Kopírovať vybraté správy do schránky. Môžete vybrať viaceré správy pri "
-"podržaní stlačeného Shift alebo príkazového klávesa pokiaľ vyberáte správy."
+msgstr "Kopírovať vybraté správy do schránky. Môžete vybrať viaceré správy pri podržaní stlačeného Shift alebo príkazového klávesa pokiaľ vyberáte správy."
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 #: clientgui/ViewMessages.cpp:99
 #: clientgui/ViewMessagesGrid.cpp:112
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Kopírovať vybrané správy do schránky. Môžete vybrať viaceré správy pri "
-"podržaní stlačeného Shift alebo Ctrl pokiaľ vyberáte správy."
+msgstr "Kopírovať vybrané správy do schránky. Môžete vybrať viaceré správy pri podržaní stlačeného Shift alebo Ctrl pokiaľ vyberáte správy."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2967,9 +2934,7 @@ msgstr "Aktualizovať"
 #: clientgui/ViewProjectsBase.cpp:108
 #: clientgui/ViewProjectsGrid.cpp:121
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Odoslať všetky dokončené úlohy, získať posledný kredit, získať posledné "
-"preferencie a ak je možné získať ďalšie úlohy."
+msgstr "Odoslať všetky dokončené úlohy, získať posledný kredit, získať posledné preferencie a ak je možné získať ďalšie úlohy."
 
 #: clientgui/ViewProjects.cpp:180
 #: clientgui/ViewProjects.cpp:706
@@ -3018,10 +2983,7 @@ msgstr "Resetovať projekt"
 #: clientgui/ViewProjectsBase.cpp:130
 #: clientgui/ViewProjectsGrid.cpp:142
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"Vymazať všetky súbory a úlohy spojené s týmto projektom a získať nové úlohy. "
-"Mali by ste najskôr aktualizovať projekt pre odoslanie všetkých dokončených "
-"úloh."
+msgstr "Vymazať všetky súbory a úlohy spojené s týmto projektom a získať nové úlohy. Mali by ste najskôr aktualizovať projekt pre odoslanie všetkých dokončených úloh."
 
 #: clientgui/ViewProjects.cpp:201
 #: clientgui/ViewProjectsBase.cpp:139
@@ -3033,9 +2995,7 @@ msgstr "Odpojiť"
 #: clientgui/ViewProjectsBase.cpp:140
 #: clientgui/ViewProjectsGrid.cpp:149
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"Odpojiť počítač od tohto projektu. Rozpracované úlohy budú stratené (použite "
-"najskôr Aktualizovať pre odoslanie všetkých dokončených úloh)."
+msgstr "Odpojiť počítač od tohto projektu. Rozpracované úlohy budú stratené (použite najskôr Aktualizovať pre odoslanie všetkých dokončených úloh)."
 
 #: clientgui/ViewProjects.cpp:208
 #: clientgui/ViewWork.cpp:204
@@ -3398,9 +3358,7 @@ msgstr "Zrušiť prenos"
 #: clientgui/ViewTransfers.cpp:171
 #: clientgui/ViewTransfersGrid.cpp:114
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr ""
-"Kliknúť na 'Zrušiť prenos' pre vymazanie súboru z prenosovej fronty. Toto "
-"zabráni, aby Vám bol pridelený kredit za tentto výsledok."
+msgstr "Kliknúť na 'Zrušiť prenos' pre vymazanie súboru z prenosovej fronty. Toto zabráni, aby Vám bol pridelený kredit za tentto výsledok."
 
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -3780,18 +3738,8 @@ msgstr ""
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr ""
 
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr "Môžete skopírovať a vlepiť URL z adresovej lišty Vášho prehliadača."
-
-#, fuzzy
-#~ msgid "For a list of account managers go to:"
-#~ msgstr "Pre zoznam správcov kont pod BOINC choďte na:"
-
 #~ msgid "You are already attached to this project."
 #~ msgstr "Už ste pripojený do tohoto projektu."
-
 #~ msgid ""
 #~ "You can copy and paste the URL from your browser's\n"
 #~ "address bar."
@@ -3800,10 +3748,8 @@ msgstr ""
 #, fuzzy
 #~ msgid "For a list of account managers go to:"
 #~ msgstr "Pre zoznam správcov kont pod BOINC choďte na:"
-
 #~ msgid "Enter account key"
 #~ msgstr "Vložte kľúč konta"
-
 #~ msgid ""
 #~ "This project uses an \"account key\" to identify you.\n"
 #~ "\n"
@@ -3814,19 +3760,14 @@ msgstr ""
 #~ "\n"
 #~ "Choďte na web stránku projektu pre vytvorenie konta. Váš kľúč\n"
 #~ "konta Vám bude doručený emailom."
-
 #~ msgid "An account key looks like:"
 #~ msgstr "Kľúč konta vyzerá ako:"
-
 #~ msgid "82412313ac88e9a3638f66ea82186948"
 #~ msgstr "82412313ac88e9a3638f66ea82186948"
-
 #~ msgid "Account key:"
 #~ msgstr "Kľúč konta:"
-
 #~ msgid "Retry &communications"
 #~ msgstr "Opakovať &komunikácie"
-
 #~ msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
 #~ msgstr "Odoslať dokončenú prácu, získať posledný kredit, získať posledné preferencie a ak je možné, získať ďalšiu prácu."
 
@@ -3867,10 +3808,8 @@ msgstr ""
 #, c-format
 #~ msgid "%s is not currently connected to a %s client...\n"
 #~ msgstr "%s nie je práve pripojený na %s klienta...\n"
-
 #~ msgid "A system for volunteer computing"
 #~ msgstr "Systém pre dobroľnícke výpočty"
-
 #~ msgid ""
 #~ "This dialog controls preferences on this computer only.\n"
 #~ "On Save - preferences will be stored locally.\n"
@@ -3879,92 +3818,66 @@ msgstr ""
 #~ "Tento dialóg riadi preferencie len na tomto počítači.\n"
 #~ "Pri Uložení - preferencie budú uložené lokálne.\n"
 #~ "Ak by ste sa radi vrátili k nastaveniam na stránke, kliknite na tlačidlo Odstrániť."
-
 #~ msgid "when do work"
 #~ msgstr "kedy pracuje"
-
 #~ msgid "only if computer is idle for"
 #~ msgstr "iba ak je počítač nevyužitý, za"
-
 #~ msgid "work time restrictions"
 #~ msgstr "obmedzenia doby práce"
-
 #~ msgid "as specified here:"
 #~ msgstr "ako je stanovené tu:"
-
 #~ msgid "processors"
 #~ msgstr "procesory(ov)"
-
 #~ msgid "usage restrictions"
 #~ msgstr "obmedzenia vyuitia"
-
 #~ msgid "use network only between the hours of"
 #~ msgstr "sieť použiť iba medzi hodinami"
-
 #~ msgid "use network only as specified here:"
 #~ msgstr "sieť použiť iba ako je stanovené tu:"
-
 #~ msgid "Click here to disable displaying this message in the future."
 #~ msgstr "Kliknite sem, pre zablokovanie zobrazenia tohoto hlásenia v budúcnosti."
-
 #~ msgid "Language Selection:"
 #~ msgstr "Výber jazyka:"
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "Ktorý jazyk by mal správca zobrazovať podľa natavenia?"
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "Opakovanie pripomienky:"
-
 #~ msgid "How often, in minutes, should the manager remind you of possible connection events."
 #~ msgstr "Ako často, v minútach, by Vám mal správca pripomínať možné udalosti spojenia."
-
 #~ msgid "Project URL"
 #~ msgstr "URL projektu"
-
 #~ msgid "Enter the URL of the project's web site."
 #~ msgstr "Vložte URL web stránky projektu."
-
 #~ msgid "For a list of BOINC-based projects go to:"
 #~ msgstr "Pre zoznam projektov pod BOINC choďte na:"
-
 #~ msgid "BOINC Manager - Messages"
 #~ msgstr "BOINC Manažér - Hlásenia"
-
 #~ msgid "BOINC Manager - Preferences"
 #~ msgstr "BOINC Manažér - Preferencie"
-
 #~ msgid "free disk space - "
 #~ msgstr "voľné miesto na disku - "
-
 #~ msgid "Project Comm Failure"
 #~ msgstr "Komunikácie projektu zlyhali"
-
 #~ msgid "Google Comm Failure"
 #~ msgstr "Komunikácie Google zlyhali"
-
 #~ msgid "Yahoo Comm Failure"
 #~ msgstr "Komunikácie Yahoo zlyhali"
-
 #~ msgid "About BOINC Manager"
 #~ msgstr "O BOINC Manažérovi"
-
 #~ msgid ""
 #~ "specify work start and stop hours in format HH:MM-HH:MM\n"
 #~ "start must be lower than stop"
 #~ msgstr ""
 #~ "definujte začiatok a koniec práce v hodinách, vo formáte HH:MM-HH:MM\n"
 #~ "údaj pre začiatok musí byť menší než pre koniec"
-
 #~ msgid ""
 #~ "specify network usage start and stop hours in format HH:MM-HH:MM\n"
 #~ "start must be lower than stop"
 #~ msgstr ""
 #~ "definujte začiatok a koniec využívania siete v hodinách, vo formáte HH:MM-HH:MM\n"
 #~ "začiatok musí byť menší ako koniec"
-
 #~ msgid "BOINC Manager - Options"
 #~ msgstr "BOINC Manažér - Nastavenia"
-
 #~ msgid "BOINC Manager - Select Computer"
 #~ msgstr "BOINC Manažér - Vybrať počítač"
+
