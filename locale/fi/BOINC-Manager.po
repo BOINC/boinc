@@ -1,21 +1,21 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-06-20 19:02+0200\n"
-"Last-Translator: Maka <markusko ÃÂÃ¢ÂÂ¬t edu dot kauhajoki dot fi>\n"
+"PO-Revision-Date: 2009-04-29 15:47-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:329
 msgid "User information"
@@ -34,8 +34,7 @@ msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
 msgstr ""
-"TÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬ projekti ei tÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬ hetkellÃÂÃ¢ÂÂ¬ "
-"ota vastaan uusia tilejÃÂÃ¢ÂÂ¬.\n"
+"TÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬ projekti ei tÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬ hetkellÃÂÃ¢ÂÂ¬ ota vastaan uusia tilejÃÂÃ¢ÂÂ¬.\n"
 "Voit liittyÃÂÃ¢ÂÂ¬ vain, jos sinulla jo on tili."
 
 #: clientgui/AccountInfoPage.cpp:343
@@ -103,22 +102,16 @@ msgstr "LiitÃÂÃ¢ÂÂ¬ tilihallitsimeen"
 #: clientgui/AccountInfoPage.cpp:471
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
-msgstr ""
-"Salasanan minimipituus tÃÂÃ¢ÂÂ¬lle projektille on %d merkkiÃÂÃ¢ÂÂ¬. "
-"SyÃÂÃÂ¶tÃÂÃ¢ÂÂ¬ toinen salasana."
+msgstr "Salasanan minimipituus tÃÂÃ¢ÂÂ¬lle projektille on %d merkkiÃÂÃ¢ÂÂ¬. SyÃÂÃÂ¶tÃÂÃ¢ÂÂ¬ toinen salasana."
 
 #: clientgui/AccountInfoPage.cpp:477
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr ""
-"Salasanan minimipituus tÃÂÃ¢ÂÂ¬lle tilihallitsimelle on %d "
-"merkkiÃÂÃ¢ÂÂ¬. SyÃÂÃÂ¶tÃÂÃ¢ÂÂ¬ toinen salasana."
+msgstr "Salasanan minimipituus tÃÂÃ¢ÂÂ¬lle tilihallitsimelle on %d merkkiÃÂÃ¢ÂÂ¬. SyÃÂÃÂ¶tÃÂÃ¢ÂÂ¬ toinen salasana."
 
 #: clientgui/AccountInfoPage.cpp:488
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr ""
-"Salasanat eivÃÂÃ¢ÂÂ¬t tÃÂÃ¢ÂÂ¬smÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬. Kirjoita ne "
-"uudelleen."
+msgstr "Salasanat eivÃÂÃ¢ÂÂ¬t tÃÂÃ¢ÂÂ¬smÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬. Kirjoita ne uudelleen."
 
 #: clientgui/AccountManagerInfoPage.cpp:173
 msgid "Account Manager URL"
@@ -211,9 +204,7 @@ msgstr "&SelkeÃÂÃ¢ÂÂ¬ nÃÂÃ¢ÂÂ¬kymÃÂÃ¢ÂÂ¬"
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "Display the simple BOINC graphical interface."
-msgstr ""
-"NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ BOINCin selkeÃÂÃ¢ÂÂ¬ graafinen "
-"kÃÂÃ¢ÂÂ¬yttÃÂÃÂ¶liittymÃÂÃ¢ÂÂ¬"
+msgstr "NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ BOINCin selkeÃÂÃ¢ÂÂ¬ graafinen kÃÂÃ¢ÂÂ¬yttÃÂÃÂ¶liittymÃÂÃ¢ÂÂ¬"
 
 #: clientgui/AdvancedFrame.cpp:350
 msgid "Attach to &project..."
@@ -295,9 +286,7 @@ msgstr "&Valinnat..."
 
 #: clientgui/AdvancedFrame.cpp:432
 msgid "Configure GUI options and proxy settings"
-msgstr ""
-"Muuta graafisen kÃÂÃ¢ÂÂ¬yttÃÂÃÂ¶liittymÃÂÃ¢ÂÂ¬n ja "
-"vÃÂÃ¢ÂÂ¬lityspalvelimen asetuksia"
+msgstr "Muuta graafisen kÃÂÃ¢ÂÂ¬yttÃÂÃÂ¶liittymÃÂÃ¢ÂÂ¬n ja vÃÂÃ¢ÂÂ¬lityspalvelimen asetuksia"
 
 #: clientgui/AdvancedFrame.cpp:436
 msgid "&Preferences..."
@@ -357,8 +346,6 @@ msgid "Read preferences from global_prefs_override.xml."
 msgstr "Lue asetukset tiedostosta global_prefs_override.xml"
 
 #: clientgui/AdvancedFrame.cpp:478
-#, c-format
-#, c-format
 #, fuzzy
 msgid "&Stop using %s..."
 msgstr "&Lopeta %s:n kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬minen"
@@ -449,8 +436,6 @@ msgid "&Help"
 msgstr "&Apua"
 
 #: clientgui/AdvancedFrame.cpp:1213
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s - Shutdown the current client..."
 msgstr "Sulje kÃÂÃ¢ÂÂ¬ytÃÂÃÂ¶ssÃÂÃ¢ÂÂ¬ oleva ydinohjelma..."
@@ -478,8 +463,7 @@ msgid ""
 msgstr ""
 "Jos luovut %s:sta,\n"
 "kaikki nykyiset projektisi sÃÂÃ¢ÂÂ¬ilyvÃÂÃ¢ÂÂ¬t,\n"
-"mutta sinun on kÃÂÃ¢ÂÂ¬siteltÃÂÃ¢ÂÂ¬vÃÂÃ¢ÂÂ¬ projekteja "
-"manuaalisesti.\n"
+"mutta sinun on kÃÂÃ¢ÂÂ¬siteltÃÂÃ¢ÂÂ¬vÃÂÃ¢ÂÂ¬ projekteja manuaalisesti.\n"
 "\n"
 "Haluatko luopua %s:sta?"
 
@@ -499,9 +483,7 @@ msgstr "%s - Kielen valinta"
 #: clientgui/AdvancedFrame.cpp:1558
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr ""
-"%sin oletuskieltÃÂÃ¢ÂÂ¬ on muutettu. KÃÂÃ¢ÂÂ¬ynnistÃÂÃ¢ÂÂ¬ %s "
-"uudelleen, jotta muutos astuisi voimaan."
+msgstr "%sin oletuskieltÃÂÃ¢ÂÂ¬ on muutettu. KÃÂÃ¢ÂÂ¬ynnistÃÂÃ¢ÂÂ¬ %s uudelleen, jotta muutos astuisi voimaan."
 
 #: clientgui/AdvancedFrame.cpp:1795
 #: clientgui/DlgAbout.cpp:104
@@ -539,9 +521,7 @@ msgstr "Olet jo liittynyt tÃÂÃ¢ÂÂ¬hÃÂÃ¢ÂÂ¬n projektiin
 
 #: clientgui/AlreadyExistsPage.cpp:183
 msgid "Username already in use"
-msgstr ""
-"KÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬nimi on jo "
-"kÃÂÃ¢ÂÂ¬ytÃÂÃÂ¶ssÃÂÃ¢ÂÂ¬"
+msgstr "KÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬nimi on jo kÃÂÃ¢ÂÂ¬ytÃÂÃÂ¶ssÃÂÃ¢ÂÂ¬"
 
 #: clientgui/AlreadyExistsPage.cpp:186
 msgid ""
@@ -550,16 +530,14 @@ msgid ""
 "\n"
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
-"TÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬ kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬nimellÃÂÃ¢ÂÂ¬ "
-"on jo tili, jonka\n"
+"TÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬ kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬nimellÃÂÃ¢ÂÂ¬ on jo tili, jonka\n"
 "salasana on eri kuin syÃÂÃÂ¶ttÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬si.\n"
 "\n"
 "KÃÂÃ¢ÂÂ¬y projektin verkkosivuilla ja seuraa siellÃÂÃ¢ÂÂ¬ ohjeita."
 
 #: clientgui/AlreadyExistsPage.cpp:190
 msgid "Email address already in use"
-msgstr ""
-"SÃÂÃ¢ÂÂ¬hkÃÂÃÂ¶postiosoite on jo kÃÂÃ¢ÂÂ¬ytÃÂÃÂ¶ssÃÂÃ¢ÂÂ¬"
+msgstr "SÃÂÃ¢ÂÂ¬hkÃÂÃÂ¶postiosoite on jo kÃÂÃ¢ÂÂ¬ytÃÂÃÂ¶ssÃÂÃ¢ÂÂ¬"
 
 #: clientgui/AlreadyExistsPage.cpp:193
 msgid ""
@@ -568,8 +546,7 @@ msgid ""
 "\n"
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
-"TÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬ sÃÂÃ¢ÂÂ¬hkÃÂÃÂ¶postiosoitteella on jo tili, "
-"jonka \n"
+"TÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬ sÃÂÃ¢ÂÂ¬hkÃÂÃÂ¶postiosoitteella on jo tili, jonka \n"
 "salasana on eri kuin syÃÂÃÂ¶ttÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬si.\n"
 "\n"
 "KÃÂÃ¢ÂÂ¬y projektin verkkosivuilla ja seuraa siellÃÂÃ¢ÂÂ¬ ohjeita."
@@ -594,10 +571,8 @@ msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
 msgstr ""
-"KÃÂÃ¢ÂÂ¬yttÃÂÃÂ¶oikeusvirhe yhdistettÃÂÃ¢ÂÂ¬essÃÂÃ¢ÂÂ¬ "
-"asiakasohjelmaan.\n"
-"Varmista, ettÃÂÃ¢ÂÂ¬ ajat tÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬n ohjelman samasta "
-"kansiosta kuin asiakasohjelman."
+"KÃÂÃ¢ÂÂ¬yttÃÂÃÂ¶oikeusvirhe yhdistettÃÂÃ¢ÂÂ¬essÃÂÃ¢ÂÂ¬ asiakasohjelmaan.\n"
+"Varmista, ettÃÂÃ¢ÂÂ¬ ajat tÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬n ohjelman samasta kansiosta kuin asiakasohjelman."
 
 #: clientgui/BOINCBaseFrame.cpp:435
 msgid "Authorization failed connecting to running client."
@@ -605,9 +580,7 @@ msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:443
 msgid "The password you have provided is incorrect, please try again."
-msgstr ""
-"SyÃÂÃÂ¶ttÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬si salasana on "
-"vÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬rÃÂÃ¢ÂÂ¬. YritÃÂÃ¢ÂÂ¬ uudelleen."
+msgstr "SyÃÂÃÂ¶ttÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬si salasana on vÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬rÃÂÃ¢ÂÂ¬. YritÃÂÃ¢ÂÂ¬ uudelleen."
 
 #: clientgui/BOINCBaseFrame.cpp:482
 #, c-format
@@ -654,12 +627,9 @@ msgid ""
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
-"%s ei ole tÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬ hetkellÃÂÃ¢ÂÂ¬ yhteydessÃÂÃ¢ÂÂ¬ "
-"%s-asiakasohjelmaan.\n"
-"KÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ valintaa \"LisÃÂÃ¢ÂÂ¬asetukset/Valitse "
-"tietokone...\" ottaaksesi yhteyden %s-ohjelmaan.\n"
-"Ottaaksesi yhteyden paikalliseen tietokoneeseen laita konenimeksi "
-"\"localhost\"."
+"%s ei ole tÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬ hetkellÃÂÃ¢ÂÂ¬ yhteydessÃÂÃ¢ÂÂ¬ %s-asiakasohjelmaan.\n"
+"KÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ valintaa \"LisÃÂÃ¢ÂÂ¬asetukset/Valitse tietokone...\" ottaaksesi yhteyden %s-ohjelmaan.\n"
+"Ottaaksesi yhteyden paikalliseen tietokoneeseen laita konenimeksi \"localhost\"."
 
 #: clientgui/BOINCBaseView.cpp:746
 #: clientgui/ViewProjectsGrid.cpp:644
@@ -678,17 +648,13 @@ msgid "%s needs to connect to the Internet.  Please click to open %s."
 msgstr "%sin tÃÂÃ¢ÂÂ¬ytyy saada yhteys Internettiin. Paina avataksesi %s:n."
 
 #: clientgui/BOINCDialupManager.cpp:263
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
-"%s ei pysty ottamaan yhteyttÃÂÃ¢ÂÂ¬ projektiin ja tarvitsee Internet-"
-"yhteyden.\n"
-"Ota yhteys Internettiin ja valitse '\"YritÃÂÃ¢ÂÂ¬ "
-"yhdistÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ uudelleen\" \"LisÃÂÃ¢ÂÂ¬asetukset\"-valikosta."
+"%s ei pysty ottamaan yhteyttÃÂÃ¢ÂÂ¬ projektiin ja tarvitsee Internet-yhteyden.\n"
+"Ota yhteys Internettiin ja valitse '\"YritÃÂÃ¢ÂÂ¬ yhdistÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ uudelleen\" \"LisÃÂÃ¢ÂÂ¬asetukset\"-valikosta."
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
@@ -711,8 +677,7 @@ msgid ""
 "Please connect to the Internet, or select a default connection\n"
 "using Advanced/Options/Connections."
 msgstr ""
-"%s ei saanut yhteyttÃÂÃ¢ÂÂ¬ Internettiin, eikÃÂÃ¢ÂÂ¬ "
-"oletusyhteyttÃÂÃ¢ÂÂ¬ ole valittu.\n"
+"%s ei saanut yhteyttÃÂÃ¢ÂÂ¬ Internettiin, eikÃÂÃ¢ÂÂ¬ oletusyhteyttÃÂÃ¢ÂÂ¬ ole valittu.\n"
 "Ota yhteys Internettiin tai valitse oletusyhteys\n"
 "kohdasta \"LisÃÂÃ¢ÂÂ¬asetukset/Valinnat/Yhteydet\"."
 
@@ -733,8 +698,7 @@ msgid ""
 "Updating all projects and retrying all transfers."
 msgstr ""
 "%s havaitsi olevansa yhteydessÃÂÃ¢ÂÂ¬ Internettiin.\n"
-"PÃÂÃ¢ÂÂ¬ivitetÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n kaikki projektit ja "
-"yritetÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n uudelleen tiedostojen siirtoa."
+"PÃÂÃ¢ÂÂ¬ivitetÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n kaikki projektit ja yritetÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n uudelleen tiedostojen siirtoa."
 
 #: clientgui/BOINCDialupManager.cpp:500
 #, c-format
@@ -763,21 +727,15 @@ msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:516
 msgid "Startup BOINC so only the system tray icon is visible"
-msgstr ""
-"Vain ilmoitusalueen kuvake nÃÂÃ¢ÂÂ¬kyviin, kun BOINC "
-"kÃÂÃ¢ÂÂ¬ynnistetÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n"
+msgstr "Vain ilmoitusalueen kuvake nÃÂÃ¢ÂÂ¬kyviin, kun BOINC kÃÂÃ¢ÂÂ¬ynnistetÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n"
 
 #: clientgui/BOINCGUIApp.cpp:517
 msgid "Startup BOINC with these optional arguments"
-msgstr ""
-"KÃÂÃ¢ÂÂ¬ynnistÃÂÃ¢ÂÂ¬ BOINC nÃÂÃ¢ÂÂ¬illÃÂÃ¢ÂÂ¬ "
-"lisÃÂÃ¢ÂÂ¬argumenteillÃÂÃ¢ÂÂ¬"
+msgstr "KÃÂÃ¢ÂÂ¬ynnistÃÂÃ¢ÂÂ¬ BOINC nÃÂÃ¢ÂÂ¬illÃÂÃ¢ÂÂ¬ lisÃÂÃ¢ÂÂ¬argumenteillÃÂÃ¢ÂÂ¬"
 
 #: clientgui/BOINCGUIApp.cpp:518
 msgid "disable BOINC security users and permissions"
-msgstr ""
-"ÃÂÃ¢ÂÂ¬lÃÂÃ¢ÂÂ¬ vÃÂÃ¢ÂÂ¬litÃÂÃ¢ÂÂ¬ BOINCin omistus- ja "
-"kÃÂÃ¢ÂÂ¬yttÃÂÃÂ¶oikeuksista"
+msgstr "ÃÂÃ¢ÂÂ¬lÃÂÃ¢ÂÂ¬ vÃÂÃ¢ÂÂ¬litÃÂÃ¢ÂÂ¬ BOINCin omistus- ja kÃÂÃ¢ÂÂ¬yttÃÂÃÂ¶oikeuksista"
 
 #: clientgui/BOINCGUIApp.cpp:675
 msgid "(Automatic Detection)"
@@ -789,9 +747,7 @@ msgstr "(Tuntematon)"
 
 #: clientgui/BOINCGUIApp.cpp:677
 msgid "(User Defined)"
-msgstr ""
-"(KÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬n "
-"mÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬rittÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬)"
+msgstr "(KÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬n mÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬rittÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬)"
 
 #: clientgui/BOINCTaskBar.cpp:327
 msgid "Computation is suspended."
@@ -925,8 +881,7 @@ msgstr "Tervetuloa %s:n!"
 #: clientgui/CompletionPage.cpp:303
 #, c-format
 msgid "You are now successfully attached to the %s system."
-msgstr ""
-"Olet liittynyt onnistuneesti %s-jÃÂÃ¢ÂÂ¬rjestelmÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n."
+msgstr "Olet liittynyt onnistuneesti %s-jÃÂÃ¢ÂÂ¬rjestelmÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n."
 
 #: clientgui/CompletionPage.cpp:307
 msgid "You are now successfully attached to this account manager."
@@ -1003,8 +958,7 @@ msgstr "Vahvistusvirhe"
 
 #: clientgui/DlgAdvPreferences.cpp:730
 msgid "Do you really want to clear all local preferences ?"
-msgstr ""
-"Haluatko varmasti tyhjentÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ kaikki paikalliset asetukset?"
+msgstr "Haluatko varmasti tyhjentÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ kaikki paikalliset asetukset?"
 
 #: clientgui/DlgAdvPreferences.cpp:731
 msgid "Confirmation"
@@ -1151,13 +1105,9 @@ msgstr "vaihda sovellusta, kun on tyÃÂÃÂ¶skennelty"
 #: clientgui/DlgAdvPreferencesBase.cpp:226
 #, fuzzy
 msgid "On multiprocessor systems, use at most"
-msgstr ""
-"kÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ monisuoritinjÃÂÃ¢ÂÂ¬rjestelmissÃÂÃ¢ÂÂ¬ "
-"enintÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n"
+msgstr "kÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ monisuoritinjÃÂÃ¢ÂÂ¬rjestelmissÃÂÃ¢ÂÂ¬ enintÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:232
-#, c-format
-#, c-format
 #, fuzzy
 msgid "% of the processors"
 msgstr "suoritintehosta"
@@ -1341,8 +1291,7 @@ msgstr "%, kun kone on joutilaana"
 #: clientgui/DlgAdvPreferencesBase.cpp:537
 #, fuzzy
 msgid " Leave applications in memory while suspended"
-msgstr ""
-"jÃÂÃ¢ÂÂ¬tÃÂÃ¢ÂÂ¬ sovellukset muistiin hyllyttÃÂÃ¢ÂÂ¬misen ajaksi"
+msgstr "jÃÂÃ¢ÂÂ¬tÃÂÃ¢ÂÂ¬ sovellukset muistiin hyllyttÃÂÃ¢ÂÂ¬misen ajaksi"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:539
 msgid "if checked, suspended work units are left in memory"
@@ -1406,13 +1355,11 @@ msgid ""
 "tasks at the times you selected in your preferences."
 msgstr ""
 "%s ja sen tehtÃÂÃ¢ÂÂ¬vÃÂÃ¢ÂÂ¬t suljetaan, kunnes joko \n"
-"%s tai %s-nÃÂÃ¢ÂÂ¬ytÃÂÃÂ¶nsÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬stÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬ "
-"kÃÂÃ¢ÂÂ¬ynnistetÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n uudelleen.\n"
+"%s tai %s-nÃÂÃ¢ÂÂ¬ytÃÂÃÂ¶nsÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬stÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬ kÃÂÃ¢ÂÂ¬ynnistetÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n uudelleen.\n"
 "\n"
 "Useimmiten on parempi vain sulkea %sin ikkuna,\n"
 "kuin lopettaa koko ohjelma. TÃÂÃ¢ÂÂ¬llÃÂÃÂ¶in %s suorittaa\n"
-"tehtÃÂÃ¢ÂÂ¬viÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n asetuksissa "
-"mÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬rittÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬si tavalla."
+"tehtÃÂÃ¢ÂÂ¬viÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n asetuksissa mÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬rittÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬si tavalla."
 
 #: clientgui/DlgExitMessage.cpp:153
 msgid "Stop running science applications when exiting the Manager"
@@ -1631,17 +1578,13 @@ msgstr "Ladataan"
 #: clientgui/ViewWork.cpp:1031
 #: clientgui/ViewWorkGrid.cpp:785
 msgid "Project suspended by user"
-msgstr ""
-"Projekti on kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬n "
-"hyllyttÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬"
+msgstr "Projekti on kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬n hyllyttÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬"
 
 #: clientgui/DlgItemProperties.cpp:264
 #: clientgui/ViewWork.cpp:1033
 #: clientgui/ViewWorkGrid.cpp:787
 msgid "Task suspended by user"
-msgstr ""
-"TehtÃÂÃ¢ÂÂ¬vÃÂÃ¢ÂÂ¬ on kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬n "
-"hyllyttÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬"
+msgstr "TehtÃÂÃ¢ÂÂ¬vÃÂÃ¢ÂÂ¬ on kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬n hyllyttÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬"
 
 #: clientgui/DlgItemProperties.cpp:266
 #: clientgui/ViewTransfers.cpp:757
@@ -1753,8 +1696,7 @@ msgstr "LÃÂÃ¢ÂÂ¬hetetÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n"
 #: clientgui/ViewWork.cpp:1102
 #: clientgui/ViewWorkGrid.cpp:847
 msgid "Aborted by user"
-msgstr ""
-"KÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬n hylkÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬"
+msgstr "KÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬n hylkÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬"
 
 #: clientgui/DlgItemProperties.cpp:321
 #: clientgui/ViewWork.cpp:1105
@@ -1874,9 +1816,7 @@ msgstr ""
 #: clientgui/DlgOptions.cpp:290
 #: clientgui/DlgOptions.cpp:354
 msgid "Leave these blank if not needed"
-msgstr ""
-"JÃÂÃ¢ÂÂ¬tÃÂÃ¢ÂÂ¬ nÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬ tyhjiksi, ellet tarvitse "
-"niitÃÂÃ¢ÂÂ¬"
+msgstr "JÃÂÃ¢ÂÂ¬tÃÂÃ¢ÂÂ¬ nÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬ tyhjiksi, ellet tarvitse niitÃÂÃ¢ÂÂ¬"
 
 #: clientgui/DlgOptions.cpp:296
 #: clientgui/DlgOptions.cpp:360
@@ -1947,9 +1887,7 @@ msgstr "Keskustelualueet"
 
 #: clientgui/Localization.cpp:33
 msgid "Correspond with other users on the SETI@home message boards"
-msgstr ""
-"Keskustele muiden kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jien kanssa SETI@home:n "
-"keskustelualueilla"
+msgstr "Keskustele muiden kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jien kanssa SETI@home:n keskustelualueilla"
 
 #: clientgui/Localization.cpp:37
 msgid "Ask questions and report problems"
@@ -1974,8 +1912,7 @@ msgstr "Asetuksesi"
 
 #: clientgui/Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr ""
-"NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ ja muokkaa SETI@home-tilisi profiilia ja asetuksia"
+msgstr "NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ ja muokkaa SETI@home-tilisi profiilia ja asetuksia"
 
 #: clientgui/Localization.cpp:47
 #: clientgui/Localization.cpp:89
@@ -1985,9 +1922,7 @@ msgstr "Tuloksesi"
 #: clientgui/Localization.cpp:49
 #: clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr ""
-"NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ laskentatuloksesi ja tyÃÂÃÂ¶si viime viikolta "
-"(tai pidemmÃÂÃ¢ÂÂ¬ltÃÂÃ¢ÂÂ¬ ajalta)"
+msgstr "NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ laskentatuloksesi ja tyÃÂÃÂ¶si viime viikolta (tai pidemmÃÂÃ¢ÂÂ¬ltÃÂÃ¢ÂÂ¬ ajalta)"
 
 #: clientgui/Localization.cpp:51
 #: clientgui/Localization.cpp:93
@@ -1996,8 +1931,7 @@ msgstr "Tietokoneesi"
 
 #: clientgui/Localization.cpp:53
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr ""
-"NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ lista kaikista koneista, joilla ajat SETI@home:a"
+msgstr "NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ lista kaikista koneista, joilla ajat SETI@home:a"
 
 #: clientgui/Localization.cpp:55
 #: clientgui/Localization.cpp:97
@@ -2019,21 +1953,15 @@ msgstr "Lue Einstein@Home:n Usein kysytyt kysymykset -listaa"
 
 #: clientgui/Localization.cpp:65
 msgid "Screensaver info"
-msgstr ""
-"Tietoja nÃÂÃ¢ÂÂ¬ytÃÂÃÂ¶nsÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬stÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬st"
-"ÃÂÃ¢ÂÂ¬"
+msgstr "Tietoja nÃÂÃ¢ÂÂ¬ytÃÂÃÂ¶nsÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬stÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬stÃÂÃ¢ÂÂ¬"
 
 #: clientgui/Localization.cpp:67
 msgid "Read a detailed description of the Einstein@Home screensaver"
-msgstr ""
-"Lue yksityiskohtainen kuvaus Einstein@Home:n nÃÂÃ¢ÂÂ¬ytÃÂÃÂ¶nsÃÂÃ¢Â"
-"Â¬ÃÂÃ¢ÂÂ¬stÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬stÃÂÃ¢ÂÂ¬"
+msgstr "Lue yksityiskohtainen kuvaus Einstein@Home:n nÃÂÃ¢ÂÂ¬ytÃÂÃÂ¶nsÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬stÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬stÃÂÃ¢ÂÂ¬"
 
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Keskustele yllÃÂÃ¢ÂÂ¬pitÃÂÃ¢ÂÂ¬jien ja muiden "
-"kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jien kanssa Einstein@home:n keskustelupalstoilla"
+msgstr "Keskustele yllÃÂÃ¢ÂÂ¬pitÃÂÃ¢ÂÂ¬jien ja muiden kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jien kanssa Einstein@home:n keskustelupalstoilla"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
@@ -2049,15 +1977,11 @@ msgstr "Ilmoita ongelmista"
 
 #: clientgui/Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
-msgstr ""
-"Linkki Einstein@Home:n ongelmien ja ohjelmointivirheiden "
-"raportointipalstalle"
+msgstr "Linkki Einstein@Home:n ongelmien ja ohjelmointivirheiden raportointipalstalle"
 
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr ""
-"NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ ja muokkaa Einstein@Home-tilisi profiilia ja "
-"asetuksia"
+msgstr "NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ ja muokkaa Einstein@Home-tilisi profiilia ja asetuksia"
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
@@ -2065,9 +1989,7 @@ msgstr "Tilin yhteenveto"
 
 #: clientgui/Localization.cpp:95
 msgid "View a listing of all the computers on which you are running Einstein@Home"
-msgstr ""
-"NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ listaus kaikista tietokoneistasi, jotka ajavat "
-"Einstein@Home:a"
+msgstr "NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ listaus kaikista tietokoneistasi, jotka ajavat Einstein@Home:a"
 
 #: clientgui/Localization.cpp:101
 msgid "LIGO project"
@@ -2075,9 +1997,7 @@ msgstr "LIGO-projekti"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"Laser Interferometer Gravitational-wave Observatory (LIGO) -projektin "
-"kotisivut"
+msgstr "Laser Interferometer Gravitational-wave Observatory (LIGO) -projektin kotisivut"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2154,9 +2074,7 @@ msgstr "Tutkimus"
 
 #: clientgui/Localization.cpp:157
 msgid "Learn about the projects hosted at World Community Grid"
-msgstr ""
-"Lue lisÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ World Community Grid:in "
-"yllÃÂÃ¢ÂÂ¬pitÃÂÃ¢ÂÂ¬mistÃÂÃ¢ÂÂ¬ projekteistÃÂÃ¢ÂÂ¬"
+msgstr "Lue lisÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ World Community Grid:in yllÃÂÃ¢ÂÂ¬pitÃÂÃ¢ÂÂ¬mistÃÂÃ¢ÂÂ¬ projekteistÃÂÃ¢ÂÂ¬"
 
 #: clientgui/MainDocument.cpp:522
 msgid "Starting client services; please wait..."
@@ -2188,8 +2106,7 @@ msgid ""
 "\n"
 "Please check the URL and try again."
 msgstr ""
-"SyÃÂÃÂ¶ttÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬si verkko-osoite ei kuulu BOINCiin "
-"perustuvalle projektille.\n"
+"SyÃÂÃÂ¶ttÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬si verkko-osoite ei kuulu BOINCiin perustuvalle projektille.\n"
 "\n"
 "Tarkista osoite ja yritÃÂÃ¢ÂÂ¬ uudelleen."
 
@@ -2204,8 +2121,7 @@ msgid ""
 "\n"
 "Please check the URL and try again."
 msgstr ""
-"SyÃÂÃÂ¶ttÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬si verkko-osoite ei kuulu BOINCiin "
-"perustuvalle tilihallitsimelle.\n"
+"SyÃÂÃÂ¶ttÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬si verkko-osoite ei kuulu BOINCiin perustuvalle tilihallitsimelle.\n"
 "\n"
 "Tarkista osoite ja yritÃÂÃ¢ÂÂ¬ uudelleen."
 
@@ -2215,15 +2131,11 @@ msgstr "Kirjautuminen epÃÂÃ¢ÂÂ¬onnistui."
 
 #: clientgui/NotFoundPage.cpp:186
 msgid "Check the username and password, and try again."
-msgstr ""
-"Tarkista kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬nimi ja salasana sekÃÂÃ¢ÂÂ¬ "
-"yritÃÂÃ¢ÂÂ¬ uudelleen."
+msgstr "Tarkista kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬nimi ja salasana sekÃÂÃ¢ÂÂ¬ yritÃÂÃ¢ÂÂ¬ uudelleen."
 
 #: clientgui/NotFoundPage.cpp:190
 msgid "Check the email address and password, and try again."
-msgstr ""
-"Tarkista sÃÂÃ¢ÂÂ¬hkÃÂÃÂ¶postiosoite ja salansana sekÃÂÃ¢ÂÂ¬ "
-"yritÃÂÃ¢ÂÂ¬ uudelleen."
+msgstr "Tarkista sÃÂÃ¢ÂÂ¬hkÃÂÃÂ¶postiosoite ja salansana sekÃÂÃ¢ÂÂ¬ yritÃÂÃ¢ÂÂ¬ uudelleen."
 
 #: clientgui/ProjectInfoPage.cpp:240
 msgid "Choose a project"
@@ -2280,8 +2192,7 @@ msgid ""
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
 msgstr ""
-"BOINC ei saanut yhteyttÃÂÃ¢ÂÂ¬ Internettiin. "
-"TodennÃÂÃ¢ÂÂ¬kÃÂÃÂ¶iset syyt ovat:\n"
+"BOINC ei saanut yhteyttÃÂÃ¢ÂÂ¬ Internettiin. TodennÃÂÃ¢ÂÂ¬kÃÂÃÂ¶iset syyt ovat:\n"
 "\n"
 "1) Yhteysongelma. Tarkista verkko- tai modeemi-\n"
 "yhteytesi ja paina \"Takaisin\" yrittÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ksesi uudelleen.\n"
@@ -2312,8 +2223,7 @@ msgid ""
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
 msgstr ""
-"BOINC ei saanut yhteyttÃÂÃ¢ÂÂ¬ Internettiin. "
-"TodennÃÂÃ¢ÂÂ¬kÃÂÃÂ¶iset syyt ovat:\n"
+"BOINC ei saanut yhteyttÃÂÃ¢ÂÂ¬ Internettiin. TodennÃÂÃ¢ÂÂ¬kÃÂÃÂ¶iset syyt ovat:\n"
 "\n"
 "1) Yhteysongelma. Tarkista verkko- tai modeemi-\n"
 "yhteytesi ja paina \"Takaisin\" yrittÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ksesi uudelleen.\n"
@@ -2359,8 +2269,7 @@ msgstr "Tutkitaan tÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬nhetkistÃÂÃ¢
 
 #: clientgui/sg_ClientStateIndicator.cpp:291
 msgid "You don't have any projects.  Please Add a Project."
-msgstr ""
-"Et ole liittynyt yhteenkÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n projektiin. Liity projektiin."
+msgstr "Et ole liittynyt yhteenkÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n projektiin. Liity projektiin."
 
 #: clientgui/sg_ClientStateIndicator.cpp:294
 msgid "Downloading work from the server."
@@ -2372,15 +2281,11 @@ msgstr "Laskenta hyllytetty:  Kone kÃÂÃ¢ÂÂ¬y akulla."
 
 #: clientgui/sg_ClientStateIndicator.cpp:301
 msgid "Processing Suspended:  User Active."
-msgstr ""
-"Laskenta hyllytetty:  KÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬ "
-"tyÃÂÃÂ¶skentelee."
+msgstr "Laskenta hyllytetty:  KÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬ tyÃÂÃÂ¶skentelee."
 
 #: clientgui/sg_ClientStateIndicator.cpp:303
 msgid "Processing Suspended:  User paused processing."
-msgstr ""
-"Laskenta hyllytetty:  KÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬n "
-"hyllyttÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬."
+msgstr "Laskenta hyllytetty:  KÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬n hyllyttÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬."
 
 #: clientgui/sg_ClientStateIndicator.cpp:305
 msgid "Processing Suspended:  Time of Day."
@@ -2450,22 +2355,14 @@ msgstr "Kopioi kaikki viestit leikepÃÂÃÂ¶ydÃÂÃ¢ÂÂ¬lle."
 #: clientgui/ViewMessages.cpp:97
 #: clientgui/ViewMessagesGrid.cpp:110
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Kopioi valitut viestit leikepÃÂÃÂ¶ydÃÂÃ¢ÂÂ¬lle. Voit valita monta "
-"viestiÃÂÃ¢ÂÂ¬ kerralla pitÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬ pohjassa "
-"Shift- tai Command-nÃÂÃ¢ÂÂ¬ppÃÂÃ¢ÂÂ¬intÃÂÃ¢ÂÂ¬ napsauttaessasi "
-"viestejÃÂÃ¢ÂÂ¬."
+msgstr "Kopioi valitut viestit leikepÃÂÃÂ¶ydÃÂÃ¢ÂÂ¬lle. Voit valita monta viestiÃÂÃ¢ÂÂ¬ kerralla pitÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬ pohjassa Shift- tai Command-nÃÂÃ¢ÂÂ¬ppÃÂÃ¢ÂÂ¬intÃÂÃ¢ÂÂ¬ napsauttaessasi viestejÃÂÃ¢ÂÂ¬."
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 #: clientgui/ViewMessages.cpp:99
 #: clientgui/ViewMessagesGrid.cpp:112
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Kopioi valitut viestit leikepÃÂÃÂ¶ydÃÂÃ¢ÂÂ¬lle. Voit valita monta "
-"viestiÃÂÃ¢ÂÂ¬ pitÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬ pohjassa Shift- tai "
-"Control-nÃÂÃ¢ÂÂ¬ppÃÂÃ¢ÂÂ¬intÃÂÃ¢ÂÂ¬ napsauttaessasi "
-"viestejÃÂÃ¢ÂÂ¬."
+msgstr "Kopioi valitut viestit leikepÃÂÃÂ¶ydÃÂÃ¢ÂÂ¬lle. Voit valita monta viestiÃÂÃ¢ÂÂ¬ pitÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬ pohjassa Shift- tai Control-nÃÂÃ¢ÂÂ¬ppÃÂÃ¢ÂÂ¬intÃÂÃ¢ÂÂ¬ napsauttaessasi viestejÃÂÃ¢ÂÂ¬."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2778,9 +2675,7 @@ msgstr "%d h %d min %d s"
 #: clientgui/ViewWork.cpp:354
 #: clientgui/ViewWorkGrid.cpp:258
 msgid "Are you sure you want to display graphics on a remote machine?"
-msgstr ""
-"Haluatko varmasti nÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ grafiikat "
-"etÃÂÃ¢ÂÂ¬koneella?"
+msgstr "Haluatko varmasti nÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ grafiikat etÃÂÃ¢ÂÂ¬koneella?"
 
 #: clientgui/sg_ViewTabPage.cpp:422
 #: clientgui/ViewWork.cpp:183
@@ -2855,9 +2750,7 @@ msgstr "SyÃÂÃÂ¶tÃÂÃ¢ÂÂ¬ tiliavain jatkaaksesi."
 
 #: clientgui/ValidateAccountKey.cpp:71
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr ""
-"Virheellinen tiliavain. SyÃÂÃÂ¶tÃÂÃ¢ÂÂ¬ kÃÂÃ¢ÂÂ¬ypÃÂÃ¢ÂÂ¬ "
-"tiliavain"
+msgstr "Virheellinen tiliavain. SyÃÂÃÂ¶tÃÂÃ¢ÂÂ¬ kÃÂÃ¢ÂÂ¬ypÃÂÃ¢ÂÂ¬ tiliavain"
 
 #: clientgui/ValidateAccountKey.cpp:82
 #: clientgui/ValidateEmailAddress.cpp:86
@@ -2870,9 +2763,7 @@ msgstr "SyÃÂÃÂ¶tÃÂÃ¢ÂÂ¬ sÃÂÃ¢ÂÂ¬hkÃÂ�
 
 #: clientgui/ValidateEmailAddress.cpp:75
 msgid "Invalid email address; please enter a valid email address"
-msgstr ""
-"Virheellinen sÃÂÃ¢ÂÂ¬hkÃÂÃÂ¶postiosoite. SyÃÂÃÂ¶tÃÂÃ¢ÂÂ¬ "
-"kÃÂÃ¢ÂÂ¬ypÃÂÃ¢ÂÂ¬ sÃÂÃ¢ÂÂ¬hkÃÂÃÂ¶postiosoite."
+msgstr "Virheellinen sÃÂÃ¢ÂÂ¬hkÃÂÃÂ¶postiosoite. SyÃÂÃÂ¶tÃÂÃ¢ÂÂ¬ kÃÂÃ¢ÂÂ¬ypÃÂÃ¢ÂÂ¬ sÃÂÃ¢ÂÂ¬hkÃÂÃÂ¶postiosoite."
 
 #: clientgui/ValidateURL.cpp:69
 msgid "Missing URL"
@@ -2918,8 +2809,7 @@ msgstr "\"%s\" ei ole kÃÂÃ¢ÂÂ¬ypÃÂÃ¢ÂÂ¬ konenimi"
 #: clientgui/ValidateURL.cpp:111
 #, c-format
 msgid "'%s' does not contain a valid path."
-msgstr ""
-"\"%s\" ei sisÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬ kÃÂÃ¢ÂÂ¬ypÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ polkua"
+msgstr "\"%s\" ei sisÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬ kÃÂÃ¢ÂÂ¬ypÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ polkua"
 
 #: clientgui/ViewMessages.cpp:84
 #: clientgui/ViewMessagesGrid.cpp:97
@@ -3021,9 +2911,7 @@ msgstr "PÃÂÃ¢ÂÂ¬ivitÃÂÃ¢ÂÂ¬"
 #: clientgui/ViewProjectsBase.cpp:108
 #: clientgui/ViewProjectsGrid.cpp:121
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Raportoi kaikki valmiit tyÃÂÃÂ¶paketit, hae viimeisimmÃÂÃ¢ÂÂ¬t pisteet "
-"ja asetukset sekÃÂÃ¢ÂÂ¬ mahdollisesti lisÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ paketteja."
+msgstr "Raportoi kaikki valmiit tyÃÂÃÂ¶paketit, hae viimeisimmÃÂÃ¢ÂÂ¬t pisteet ja asetukset sekÃÂÃ¢ÂÂ¬ mahdollisesti lisÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ paketteja."
 
 #: clientgui/ViewProjects.cpp:180
 #: clientgui/ViewProjects.cpp:706
@@ -3060,9 +2948,7 @@ msgstr "Ei uusia paketteja"
 #: clientgui/ViewProjectsBase.cpp:123
 #: clientgui/ViewProjectsGrid.cpp:135
 msgid "Don't get new tasks for this project."
-msgstr ""
-"ÃÂÃÂlÃÂÃ¢ÂÂ¬ lataa uusia tyÃÂÃÂ¶paketteja tÃÂÃ¢ÂÂ¬lle "
-"projektille."
+msgstr "ÃÂÃÂlÃÂÃ¢ÂÂ¬ lataa uusia tyÃÂÃÂ¶paketteja tÃÂÃ¢ÂÂ¬lle projektille."
 
 #: clientgui/ViewProjects.cpp:194
 #: clientgui/ViewProjectsBase.cpp:129
@@ -3074,11 +2960,7 @@ msgstr "Nollaa projekti"
 #: clientgui/ViewProjectsBase.cpp:130
 #: clientgui/ViewProjectsGrid.cpp:142
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"Poista tÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬n projektin kaikki tyÃÂÃÂ¶paketit ja "
-"tiedostot, ja lataa uusia paketteja. Voit ensin "
-"pÃÂÃ¢ÂÂ¬ivittÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ projektin raportoidaksesi valmiit "
-"tulokset."
+msgstr "Poista tÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬n projektin kaikki tyÃÂÃÂ¶paketit ja tiedostot, ja lataa uusia paketteja. Voit ensin pÃÂÃ¢ÂÂ¬ivittÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ projektin raportoidaksesi valmiit tulokset."
 
 #: clientgui/ViewProjects.cpp:201
 #: clientgui/ViewProjectsBase.cpp:139
@@ -3090,10 +2972,7 @@ msgstr "Irrottaudu"
 #: clientgui/ViewProjectsBase.cpp:140
 #: clientgui/ViewProjectsGrid.cpp:149
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"Irrota kone tÃÂÃ¢ÂÂ¬stÃÂÃ¢ÂÂ¬ projektista. Nykyiset tyÃÂÃÂ¶paketit "
-"menetetÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n (paina \"PÃÂÃ¢ÂÂ¬ivitÃÂÃ¢ÂÂ¬\" "
-"raportoidaksesi valmiit tulokset)."
+msgstr "Irrota kone tÃÂÃ¢ÂÂ¬stÃÂÃ¢ÂÂ¬ projektista. Nykyiset tyÃÂÃÂ¶paketit menetetÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n (paina \"PÃÂÃ¢ÂÂ¬ivitÃÂÃ¢ÂÂ¬\" raportoidaksesi valmiit tulokset)."
 
 #: clientgui/ViewProjects.cpp:208
 #: clientgui/ViewWork.cpp:204
@@ -3163,18 +3042,13 @@ msgstr "HyllytetÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n projektia..."
 #: clientgui/ViewProjectsBase.cpp:255
 #: clientgui/ViewProjectsGrid.cpp:315
 msgid "Telling project to allow additional task downloads..."
-msgstr ""
-"KÃÂÃ¢ÂÂ¬sketÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n projektin "
-"lÃÂÃ¢ÂÂ¬hettÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ uusia tyÃÂÃÂ¶paketteja..."
+msgstr "KÃÂÃ¢ÂÂ¬sketÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n projektin lÃÂÃ¢ÂÂ¬hettÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ uusia tyÃÂÃÂ¶paketteja..."
 
 #: clientgui/ViewProjects.cpp:383
 #: clientgui/ViewProjectsBase.cpp:259
 #: clientgui/ViewProjectsGrid.cpp:318
 msgid "Telling project to not fetch any additional tasks..."
-msgstr ""
-"KÃÂÃ¢ÂÂ¬sketÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n projektin olemaan "
-"lÃÂÃ¢ÂÂ¬hettÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬ttÃÂÃ¢ÂÂ¬ uusia "
-"tyÃÂÃÂ¶paketteja..."
+msgstr "KÃÂÃ¢ÂÂ¬sketÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n projektin olemaan lÃÂÃ¢ÂÂ¬hettÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬ttÃÂÃ¢ÂÂ¬ uusia tyÃÂÃÂ¶paketteja..."
 
 #: clientgui/ViewProjects.cpp:419
 #: clientgui/ViewProjectsBase.cpp:291
@@ -3233,16 +3107,13 @@ msgstr "Salli uusi tyÃÂÃÂ¶"
 #: clientgui/ViewProjectsBase.cpp:568
 #: clientgui/ViewProjectsGrid.cpp:575
 msgid "Allow fetching new tasks for this project."
-msgstr ""
-"Salli tÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬n projektin ladata uusia tyÃÂÃÂ¶paketteja."
+msgstr "Salli tÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬n projektin ladata uusia tyÃÂÃÂ¶paketteja."
 
 #: clientgui/ViewProjects.cpp:725
 #: clientgui/ViewProjectsBase.cpp:572
 #: clientgui/ViewProjectsGrid.cpp:579
 msgid "Don't fetch new tasks for this project."
-msgstr ""
-"ÃÂÃÂlÃÂÃ¢ÂÂ¬ lataa uusia tyÃÂÃÂ¶paketteja tÃÂÃ¢ÂÂ¬lle "
-"projektille"
+msgstr "ÃÂÃÂlÃÂÃ¢ÂÂ¬ lataa uusia tyÃÂÃÂ¶paketteja tÃÂÃ¢ÂÂ¬lle projektille"
 
 #: clientgui/ViewProjects.cpp:1051
 #: clientgui/ViewProjectsBase.cpp:674
@@ -3351,8 +3222,7 @@ msgstr "Koneen keskiarvo"
 #: clientgui/ViewStatistics.cpp:1283
 #, c-format
 msgid "Last update: %.0f days ago"
-msgstr ""
-"Edellinen pÃÂÃ¢ÂÂ¬ivitys: %.0f pÃÂÃ¢ÂÂ¬ivÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ sitten"
+msgstr "Edellinen pÃÂÃ¢ÂÂ¬ivitys: %.0f pÃÂÃ¢ÂÂ¬ivÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ sitten"
 
 #: clientgui/ViewStatistics.cpp:1745
 msgid "Show user total"
@@ -3360,8 +3230,7 @@ msgstr "KÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬n kokon
 
 #: clientgui/ViewStatistics.cpp:1746
 msgid "Show total credit for user"
-msgstr ""
-"NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬n kokonaispisteet"
+msgstr "NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬n kokonaispisteet"
 
 #: clientgui/ViewStatistics.cpp:1752
 msgid "Show user average"
@@ -3369,9 +3238,7 @@ msgstr "KÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬n keski
 
 #: clientgui/ViewStatistics.cpp:1753
 msgid "Show average credit for user"
-msgstr ""
-"NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬n "
-"keskimÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬rÃÂÃ¢ÂÂ¬iset pisteet"
+msgstr "NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬jÃÂÃ¢ÂÂ¬n keskimÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬rÃÂÃ¢ÂÂ¬iset pisteet"
 
 #: clientgui/ViewStatistics.cpp:1759
 msgid "Show host total"
@@ -3387,9 +3254,7 @@ msgstr "Koneen keskiarvo"
 
 #: clientgui/ViewStatistics.cpp:1767
 msgid "Show average credit for host"
-msgstr ""
-"NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ koneen keskimÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬rÃÂÃ¢ÂÂ¬iset "
-"pisteet"
+msgstr "NÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ koneen keskimÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬rÃÂÃ¢ÂÂ¬iset pisteet"
 
 #: clientgui/ViewStatistics.cpp:1776
 msgid "< &Previous project"
@@ -3460,9 +3325,7 @@ msgstr "YritÃÂÃ¢ÂÂ¬ uudelleen nyt"
 #: clientgui/ViewTransfers.cpp:164
 #: clientgui/ViewTransfersGrid.cpp:107
 msgid "Click 'Retry now' to transfer the file now"
-msgstr ""
-"Paina \"YritÃÂÃ¢ÂÂ¬ uudelleen nyt\" siirtÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ksesi "
-"tiedoston heti."
+msgstr "Paina \"YritÃÂÃ¢ÂÂ¬ uudelleen nyt\" siirtÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ksesi tiedoston heti."
 
 #: clientgui/ViewTransfers.cpp:170
 #: clientgui/ViewTransfersGrid.cpp:113
@@ -3472,10 +3335,7 @@ msgstr "KeskeytÃÂÃ¢ÂÂ¬ siirto"
 #: clientgui/ViewTransfers.cpp:171
 #: clientgui/ViewTransfersGrid.cpp:114
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr ""
-"Paina \"KeskeytÃÂÃ¢ÂÂ¬ siirto\" poistaaksesi tiedoston siirtojonosta. "
-"TÃÂÃ¢ÂÂ¬llÃÂÃÂ¶in et saa pisteitÃÂÃ¢ÂÂ¬ tÃÂÃ¢ÂÂ¬stÃÂÃ¢ÂÂ¬ "
-"paketista."
+msgstr "Paina \"KeskeytÃÂÃ¢ÂÂ¬ siirto\" poistaaksesi tiedoston siirtojonosta. TÃÂÃ¢ÂÂ¬llÃÂÃÂ¶in et saa pisteitÃÂÃ¢ÂÂ¬ tÃÂÃ¢ÂÂ¬stÃÂÃ¢ÂÂ¬ paketista."
 
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -3527,8 +3387,7 @@ msgid ""
 "will not receive credit for it."
 msgstr ""
 "Haluatko varmasti keskeyttÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ tiedoston \"%s\" siirron?\n"
-"HUOMIO: Siirron keskeyttÃÂÃ¢ÂÂ¬minen mitÃÂÃ¢ÂÂ¬tÃÂÃÂ¶i paketin, "
-"etkÃÂÃ¢ÂÂ¬ saa\n"
+"HUOMIO: Siirron keskeyttÃÂÃ¢ÂÂ¬minen mitÃÂÃ¢ÂÂ¬tÃÂÃÂ¶i paketin, etkÃÂÃ¢ÂÂ¬ saa\n"
 "siitÃÂÃ¢ÂÂ¬ pisteitÃÂÃ¢ÂÂ¬."
 
 #: clientgui/ViewTransfers.cpp:328
@@ -3565,8 +3424,7 @@ msgid ""
 "will not receive credit for it."
 msgstr ""
 "Haluatko varmasti keskeyttÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ tiedosto(je)n %s\"siirron?\n"
-"HUOMIO: Siirron keskeyttÃÂÃ¢ÂÂ¬minen mitÃÂÃ¢ÂÂ¬tÃÂÃÂ¶i paketin, "
-"etkÃÂÃ¢ÂÂ¬ saa\n"
+"HUOMIO: Siirron keskeyttÃÂÃ¢ÂÂ¬minen mitÃÂÃ¢ÂÂ¬tÃÂÃÂ¶i paketin, etkÃÂÃ¢ÂÂ¬ saa\n"
 "siitÃÂÃ¢ÂÂ¬ pisteitÃÂÃ¢ÂÂ¬."
 
 #: clientgui/ViewTransfersGrid.cpp:231
@@ -3591,9 +3449,7 @@ msgstr "HylkÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬"
 #: clientgui/ViewWork.cpp:198
 #: clientgui/ViewWorkGrid.cpp:129
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr ""
-"HylkÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ tÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬ tyÃÂÃÂ¶paketti. Et saa "
-"siitÃÂÃ¢ÂÂ¬ pisteitÃÂÃ¢ÂÂ¬."
+msgstr "HylkÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ tÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬ tyÃÂÃÂ¶paketti. Et saa siitÃÂÃ¢ÂÂ¬ pisteitÃÂÃ¢ÂÂ¬."
 
 #: clientgui/ViewWork.cpp:205
 msgid "Show task details."
@@ -3699,9 +3555,7 @@ msgstr ""
 msgid ""
 "We'll now guide you through the process of attaching\n"
 "to a project."
-msgstr ""
-"TÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬ toiminto opastaa sinua projektiin "
-"liittymisessÃÂÃ¢ÂÂ¬."
+msgstr "TÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬ toiminto opastaa sinua projektiin liittymisessÃÂÃ¢ÂÂ¬."
 
 #: clientgui/WelcomePage.cpp:355
 msgid ""
@@ -3730,10 +3584,8 @@ msgid ""
 "We'll now remove this computer from %s.  From now on,\n"
 "attach and detach projects directly from this computer.\n"
 msgstr ""
-"Kone poistetaan nyt %s:sta. TÃÂÃ¢ÂÂ¬stÃÂÃ¢ÂÂ¬ lÃÂÃ¢ÂÂ¬htien sinun "
-"tÃÂÃ¢ÂÂ¬ytyy\n"
-"liittÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ ja irrottaa projektit suoraan "
-"tÃÂÃ¢ÂÂ¬ltÃÂÃ¢ÂÂ¬ koneelta.\n"
+"Kone poistetaan nyt %s:sta. TÃÂÃ¢ÂÂ¬stÃÂÃ¢ÂÂ¬ lÃÂÃ¢ÂÂ¬htien sinun tÃÂÃ¢ÂÂ¬ytyy\n"
+"liittÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ ja irrottaa projektit suoraan tÃÂÃ¢ÂÂ¬ltÃÂÃ¢ÂÂ¬ koneelta.\n"
 
 #: clientgui/WelcomePage.cpp:390
 msgid "Account manager"
@@ -3854,19 +3706,14 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
-msgstr ""
-"mÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ritÃÂÃ¢ÂÂ¬ tyÃÂÃÂ¶skentelyn aloitus- ja "
-"lopetusajat (muotoa HH:MM-HH:MM)"
+msgstr "mÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ritÃÂÃ¢ÂÂ¬ tyÃÂÃÂ¶skentelyn aloitus- ja lopetusajat (muotoa HH:MM-HH:MM)"
 
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-msgstr ""
-"mÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ritÃÂÃ¢ÂÂ¬ verkon kÃÂÃ¢ÂÂ¬ytÃÂÃÂ¶n aloitus- ja "
-"lopetusajat (muotoa HH:MM-HH:MM)"
+msgstr "mÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ritÃÂÃ¢ÂÂ¬ verkon kÃÂÃ¢ÂÂ¬ytÃÂÃÂ¶n aloitus- ja lopetusajat (muotoa HH:MM-HH:MM)"
 
 #~ msgid "Enter account key"
 #~ msgstr "SyÃÂÃÂ¶tÃÂÃ¢ÂÂ¬ tiliavain"
-
 #~ msgid ""
 #~ "This project uses an \"account key\" to identify you.\n"
 #~ "\n"
@@ -3877,25 +3724,18 @@ msgstr ""
 #~ "\n"
 #~ "Mene projektin verkkosivuille luodaksesi tilin. Tiliavaimesi\n"
 #~ "lÃÂÃ¢ÂÂ¬hetetÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬n sinulle sÃÂÃ¢ÂÂ¬hkÃÂÃÂ¶postitse."
-
 #~ msgid "An account key looks like:"
 #~ msgstr "Tiliavain nÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ tÃÂÃ¢ÂÂ¬ltÃÂÃ¢ÂÂ¬:"
-
 #~ msgid "82412313ac88e9a3638f66ea82186948"
 #~ msgstr "82412313ac88e9a3638f66ea82186948"
-
 #~ msgid "Account key:"
 #~ msgstr "Tiliavain:"
-
 #~ msgid "&Accessible View"
 #~ msgstr "&EsteetÃÂÃÂ¶n nÃÂÃ¢ÂÂ¬kymÃÂÃ¢ÂÂ¬"
-
 #~ msgid "Accessible views are compatible with accessibility aids such as screen readers."
 #~ msgstr "EsteetÃÂÃÂ¶n nÃÂÃ¢ÂÂ¬kymÃÂÃ¢ÂÂ¬ on sopii yhteen esteettÃÂÃÂ¶myysohjelmien, kuten ruudunlukijoiden, kanssa."
-
 #~ msgid "Retry &communications"
 #~ msgstr "YritÃÂÃ¢ÂÂ¬ &yhdistÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ uudelleen"
-
 #~ msgid "Retry all deferred network communication."
 #~ msgstr "YritÃÂÃ¢ÂÂ¬ yhdistÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ kaikki lykÃÂÃ¢ÂÂ¬tyt yhteydet uudelleen"
 
@@ -3936,7 +3776,6 @@ msgstr ""
 #, c-format
 #~ msgid "%s is not currently connected to a %s client...\n"
 #~ msgstr "%s ei ole tÃÂÃ¢ÂÂ¬llÃÂÃ¢ÂÂ¬ hetkellÃÂÃ¢ÂÂ¬ yhteydessÃÂÃ¢ÂÂ¬ %s-asiakasohjelmaan...\n"
-
 #~ msgid ""
 #~ "This dialog controls preferences on this computer only.\n"
 #~ "On Save - preferences will be stored locally.\n"
@@ -3945,79 +3784,56 @@ msgstr ""
 #~ "TÃÂÃ¢ÂÂ¬ssÃÂÃ¢ÂÂ¬ valintaikkunassa voit muokata vain tÃÂÃ¢ÂÂ¬mÃÂÃ¢ÂÂ¬n tietokoneen asetuksia.\n"
 #~ "Asetukset tallentuvat paikallisesti.\n"
 #~ "Jos haluat palauttaa asetukset InternetistÃÂÃ¢ÂÂ¬, paina \"TyhjennÃÂÃ¢ÂÂ¬\"-nappia."
-
 #~ msgid "do work"
 #~ msgstr "tyÃÂÃÂ¶skentele"
-
 #~ msgid "only if computer is idle for"
 #~ msgstr "vain, kun kone on ollut joutilas"
-
 #~ msgid "work time restrictions"
 #~ msgstr "laskenta-ajan rajoitukset"
-
 #~ msgid "every day between hour of"
 #~ msgstr "joka pÃÂÃ¢ÂÂ¬ivÃÂÃ¢ÂÂ¬ aikavÃÂÃ¢ÂÂ¬lillÃÂÃ¢ÂÂ¬"
-
 #~ msgid "additional restrictions:"
 #~ msgstr "lisÃÂÃ¢ÂÂ¬rajoitukset:"
-
 #~ msgid "processors"
 #~ msgstr "suoritinta"
-
 #~ msgid "network usage restrictions"
 #~ msgstr "verkon kÃÂÃ¢ÂÂ¬ytÃÂÃÂ¶n rajoitukset"
-
 #~ msgid "Click here to disable displaying this message in the future."
 #~ msgstr "ÃÂÃÂlÃÂÃ¢ÂÂ¬ nÃÂÃ¢ÂÂ¬ytÃÂÃ¢ÂÂ¬ tÃÂÃ¢ÂÂ¬tÃÂÃ¢ÂÂ¬ viestiÃÂÃ¢ÂÂ¬ tulevaisuudessa."
-
 #~ msgid "Language Selection:"
 #~ msgstr "Kielen valinta:"
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "MitÃÂÃ¢ÂÂ¬ kieltÃÂÃ¢ÂÂ¬ hallitsimen tulisi kÃÂÃ¢ÂÂ¬yttÃÂÃ¢ÂÂ¬ÃÂÃ¢ÂÂ¬ oletuksena?"
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "Muistutuksen toisto:"
-
 #~ msgid "How often, in minutes, should the manager remind you of possible connection events."
 #~ msgstr "Miten usein - minuutteina - hallitsimen tulisi muistuttaa sinua mahdollisista yhteystapahtumista?"
-
 #~ msgid "Project Selection"
 #~ msgstr "Projektin valinta"
-
 #~ msgid ""
 #~ "Choose which project you would like to participate in by\n"
 #~ "clicking on its name, or type the project URL below."
 #~ msgstr ""
 #~ "Valitse projekti, johon haluat osallistua, painamalla\n"
 #~ "sen nimeÃÂÃ¢ÂÂ¬ tai kirjoittamalla projektin URL:n alle."
-
 #~ msgid "(web)"
 #~ msgstr "(web)"
-
 #~ msgid "BOINC Manager - Messages"
 #~ msgstr "BOINC Manager - Viestit"
-
 #~ msgid "BOINC Manager - Preferences"
 #~ msgstr "BOINC Manager - Asetukset"
-
 #~ msgid "free disk space - "
 #~ msgstr "vapaata levytilaa - "
-
 #~ msgid "Project Comm Failure"
 #~ msgstr "Projektin yhteysvirhe"
-
 #~ msgid "Google Comm Failure"
 #~ msgstr "Google-yhteysvirhe"
-
 #~ msgid "Yahoo Comm Failure"
 #~ msgstr "Yahoo-yhteysvirhe"
-
 #~ msgid "About BOINC Manager"
 #~ msgstr "Tietoja BOINC Managerista"
-
 #~ msgid "BOINC Manager - Options"
 #~ msgstr "BOINC Manager - Asetukset"
-
 #~ msgid "BOINC Manager - Select Computer"
 #~ msgstr "BOINC Manager - Valitse tietokone"
+
