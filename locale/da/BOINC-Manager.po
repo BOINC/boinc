@@ -3,19 +3,19 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-01-06 01:34-0500\n"
-"Last-Translator: Janus Kristensen <jbk@visualgroup.dk>\n"
+"PO-Revision-Date: 2009-04-29 15:24-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_6a\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:337
 msgid "User information"
@@ -102,22 +102,16 @@ msgstr "Tilmeld konto-manager"
 #: clientgui/AccountInfoPage.cpp:489
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
-msgstr ""
-"Den minimale password-længde for dette projekt er %d. Indtast venligst et "
-"andet password."
+msgstr "Den minimale password-længde for dette projekt er %d. Indtast venligst et andet password."
 
 #: clientgui/AccountInfoPage.cpp:495
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr ""
-"Den minimale længde på kodeordet til denne konto-manager er %d. Vælg "
-"venligst et andet kodeord."
+msgstr "Den minimale længde på kodeordet til denne konto-manager er %d. Vælg venligst et andet kodeord."
 
 #: clientgui/AccountInfoPage.cpp:506
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr ""
-"Kodeordet og gentagelsen af kodeordet stemmer ikke overens. Indtast dem "
-"venligst igen."
+msgstr "Kodeordet og gentagelsen af kodeordet stemmer ikke overens. Indtast dem venligst igen."
 
 #: clientgui/AccountManagerInfoPage.cpp:180
 msgid "Account Manager URL"
@@ -188,9 +182,7 @@ msgstr "Avanceret visning"
 
 #: clientgui/AdvancedFrame.cpp:324
 msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
-msgstr ""
-"Avanceret visning giver dig mulighed for at sortere tabeller og se grafisk "
-"status."
+msgstr "Avanceret visning giver dig mulighed for at sortere tabeller og se grafisk status."
 
 #: clientgui/AdvancedFrame.cpp:329
 msgid "&Simple View..."
@@ -365,8 +357,6 @@ msgstr "%s &Hjælp"
 
 #: clientgui/AdvancedFrame.cpp:500
 #: clientgui/sg_BoincSimpleGUI.cpp:116
-#, c-format
-#, c-format
 #, fuzzy
 msgid "Show information about %s"
 msgstr "Vis information om %s"
@@ -396,7 +386,6 @@ msgstr "Vis information om BOINC og  %s"
 
 #: clientgui/AdvancedFrame.cpp:552
 #: clientgui/BOINCTaskBar.cpp:616
-#, c-format
 #, c-format
 msgid "&About %s..."
 msgstr "&Om %s..."
@@ -483,36 +472,30 @@ msgstr "%s - Sprogvalg:"
 #: clientgui/AdvancedFrame.cpp:1428
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr ""
-"%s's sprog er ændret. For at dette kan træde i kraft skal du genstarte %s."
+msgstr "%s's sprog er ændret. For at dette kan træde i kraft skal du genstarte %s."
 
 #: clientgui/AdvancedFrame.cpp:1639
 #: clientgui/DlgAbout.cpp:104
-#, c-format
 #, c-format
 msgid "%s"
 msgstr "%s"
 
 #: clientgui/AdvancedFrame.cpp:1648
 #, c-format
-#, c-format
 msgid "%s has successfully attached to %s"
 msgstr "%s har nu tilmeldt dig til %s"
 
 #: clientgui/AdvancedFrame.cpp:1772
-#, c-format
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
 #: clientgui/AdvancedFrame.cpp:1775
 #, c-format
-#, c-format
 msgid "Connecting to %s"
 msgstr "Forbinder til %s"
 
 #: clientgui/AdvancedFrame.cpp:1778
-#, c-format
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Forbundet til %s (%s)"
@@ -555,7 +538,6 @@ msgstr "Kommunikerer med BOINC klienten. Vent venligst..."
 
 #: clientgui/BOINCBaseFrame.cpp:421
 #, c-format
-#, c-format
 msgid "%s - Connection Error"
 msgstr "%s - Forbindelsesfejl"
 
@@ -565,8 +547,7 @@ msgid ""
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 "Du er i øjeblikket ikke autoriseret til at styre klienten.\n"
-"Kontakt venligst din administrator for at tilføje dig til den lokale "
-"'boinc_user' brugergruppe."
+"Kontakt venligst din administrator for at tilføje dig til den lokale 'boinc_user' brugergruppe."
 
 #: clientgui/BOINCBaseFrame.cpp:440
 msgid ""
@@ -584,12 +565,10 @@ msgstr "Det angivne kodeord er ikke korrekt, prøv venligst igen."
 
 #: clientgui/BOINCBaseFrame.cpp:489
 #, c-format
-#, c-format
 msgid "%s - Connection Failed"
 msgstr "%s - Forbindelsen mislykkedes"
 
 #: clientgui/BOINCBaseFrame.cpp:498
-#, c-format
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
@@ -619,12 +598,10 @@ msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:596
 #, c-format
-#, c-format
 msgid "%s - Connection Status"
 msgstr "%s - Forbindelsesstatus"
 
 #: clientgui/BOINCBaseFrame.cpp:607
-#, c-format
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -632,8 +609,7 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s er ikke forbundet til en %s klient lige nu.\n"
-"Brug 'Avanceret\\Vælg computer...'-menupunktet for at forbinde til en %s "
-"klient.\n"
+"Brug 'Avanceret\\Vælg computer...'-menupunktet for at forbinde til en %s klient.\n"
 "For at forbinde til din lokale computer, brug 'localhost' som værtsnavn."
 
 #: clientgui/BOINCBaseView.cpp:748
@@ -644,30 +620,24 @@ msgstr "Websites"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
-#, c-format
 msgid "%s - Network Status"
 msgstr "%s - Netværksstatus"
 
 #: clientgui/BOINCDialupManager.cpp:255
-#, c-format
 #, c-format
 msgid "%s needs to connect to the Internet.  Please click to open %s."
 msgstr "%s har behov for at forbinde til internettet. Klik for at åbne %s."
 
 #: clientgui/BOINCDialupManager.cpp:263
 #, c-format
-#, c-format
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
-"%s kan ikke kommunikere med et projekt og har brug for en "
-"internetforbindelse.\n"
-"Forbind til internettet, og vælg 'Prøv kommunikation igen'  under "
-"menupunktet Avanceret."
+"%s kan ikke kommunikere med et projekt og har brug for en internetforbindelse.\n"
+"Forbind til internettet, og vælg 'Prøv kommunikation igen'  under menupunktet Avanceret."
 
 #: clientgui/BOINCDialupManager.cpp:310
-#, c-format
 #, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
@@ -678,12 +648,10 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:323
 #, c-format
-#, c-format
 msgid "%s is connecting to the Internet."
 msgstr "%s forbinder til internettet."
 
 #: clientgui/BOINCDialupManager.cpp:354
-#, c-format
 #, c-format
 msgid ""
 "%s couldn't do Internet communication, and no default connection is selected.\n"
@@ -697,18 +665,15 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:386
 #, c-format
-#, c-format
 msgid "%s has successfully connected to the Internet."
 msgstr "%s har fået forbindelse til internettet."
 
 #: clientgui/BOINCDialupManager.cpp:414
 #, c-format
-#, c-format
 msgid "%s failed to connect to the Internet."
 msgstr "%s kunne ikke forbinde til internettet."
 
 #: clientgui/BOINCDialupManager.cpp:455
-#, c-format
 #, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
@@ -719,12 +684,10 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:500
 #, c-format
-#, c-format
 msgid "%s has successfully disconnected from the Internet."
 msgstr "%s har afbrudt forbindelsen til internettet."
 
 #: clientgui/BOINCDialupManager.cpp:516
-#, c-format
 #, c-format
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s kunne ikke afbryde fra internettet."
@@ -803,12 +766,12 @@ msgstr "Ikke forbundet til en klient."
 #: clientgui/BOINCTaskBar.cpp:597
 #, c-format
 msgid "Open %s Web..."
-msgstr "Ãbn %s Web..."
+msgstr ""
 
 #: clientgui/BOINCTaskBar.cpp:604
 #, c-format
 msgid "Open %s..."
-msgstr "Ãbn %s..."
+msgstr ""
 
 #: clientgui/BOINCTaskBar.cpp:611
 msgid "Snooze"
@@ -868,7 +831,6 @@ msgstr ""
 
 #: clientgui/CompletionPage.cpp:233
 #, c-format
-#, c-format
 msgid "Update from %s completed."
 msgstr "Opdatering fra %s fuldført."
 
@@ -877,7 +839,6 @@ msgid "Update completed."
 msgstr "Opdatering fuldført."
 
 #: clientgui/CompletionPage.cpp:254
-#, c-format
 #, c-format
 msgid "Removal from %s completed."
 msgstr "Fjernet fra %s."
@@ -888,7 +849,6 @@ msgstr "Det lykkedes at blive fjernet!"
 
 #: clientgui/CompletionPage.cpp:275
 #, c-format
-#, c-format
 msgid "Attached to %s"
 msgstr "Tilmeldt til %s"
 
@@ -898,12 +858,10 @@ msgstr "Forbundet til konto-manager"
 
 #: clientgui/CompletionPage.cpp:289
 #, c-format
-#, c-format
 msgid "Welcome to %s!"
 msgstr "Velkommen til %s"
 
 #: clientgui/CompletionPage.cpp:303
-#, c-format
 #, c-format
 msgid "You are now successfully attached to the %s system."
 msgstr "Du er nu tilmeldt %s system."
@@ -913,7 +871,6 @@ msgid "You are now successfully attached to this account manager."
 msgstr "Du er nu tilmeldt til denne konto-manager."
 
 #: clientgui/DlgAbout.cpp:98
-#, c-format
 #, c-format
 msgid "About %s"
 msgstr "Om %s"
@@ -982,7 +939,6 @@ msgstr "Bekræftelse"
 #: clientgui/DlgAdvPreferencesBase.cpp:31
 #: clientgui/sg_DlgPreferences.cpp:1036
 #, c-format
-#, c-format
 msgid "%s - Preferences"
 msgstr "%s - Indstillinger"
 
@@ -1014,9 +970,7 @@ msgstr " Mens computeren kører på batterier"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:83
 msgid "check this if you want this computer to do work while it runs on batteries"
-msgstr ""
-"sæt kryds hvis du ønsker at computeren skal arbejde mens den kører på "
-"batterier"
+msgstr "sæt kryds hvis du ønsker at computeren skal arbejde mens den kører på batterier"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:89
 msgid " While computer is in use"
@@ -1024,8 +978,7 @@ msgstr " Mens computeren er i brug"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:92
 msgid "check this if you want this computer to do work even when you're using it"
-msgstr ""
-"sæt kryds hvis du ønsker at computeren skal arbejde selv om du bruger den"
+msgstr "sæt kryds hvis du ønsker at computeren skal arbejde selv om du bruger den"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:98
 msgid " Use GPU while computer is in use"
@@ -1041,9 +994,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:115
 msgid "do work only after you haven't used the computer for this number of minutes"
-msgstr ""
-"udfør kun arbejde efter at computeren ikke har været i brug I dette antal "
-"minutter"
+msgstr "udfør kun arbejde efter at computeren ikke har været i brug I dette antal minutter"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:119
 #: clientgui/DlgAdvPreferencesBase.cpp:239
@@ -1135,8 +1086,6 @@ msgstr "På multiprocessor systemer, brug højst"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:249
 #, no-c-format
-#, no-c-format
-#, c-format
 msgid "% of the processors"
 msgstr "% af processorerne"
 
@@ -1150,7 +1099,6 @@ msgid "Use at most"
 msgstr "Brug højst"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:259
-#, no-c-format
 #, no-c-format
 msgid "% CPU time"
 msgstr "% CPU-tid"
@@ -1216,9 +1164,7 @@ msgstr "Bekræft før der tilsluttes internettet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:337
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
-msgstr ""
-"en dialogboks vil blive vist før forsøg på at forbinde til nettet hvis "
-"markeret"
+msgstr "en dialogboks vil blive vist før forsøg på at forbinde til nettet hvis markeret"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:341
 msgid "Disconnect when done"
@@ -1277,7 +1223,6 @@ msgstr "BOINC bruger højst denne procentdel af den samlede diskplads"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:499
 #, no-c-format
-#, no-c-format
 msgid "% of total disk space"
 msgstr "% af samlet diskplads"
 
@@ -1290,7 +1235,6 @@ msgid "seconds"
 msgstr "sekunder"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:518
-#, no-c-format
 #, no-c-format
 msgid "% of page file (swap space)"
 msgstr "% af sidefil (swap)"
@@ -1350,7 +1294,6 @@ msgid "shows the preferences web page"
 msgstr "viser ndstillingswebsiden"
 
 #: clientgui/DlgExitMessage.cpp:82
-#, c-format
 #, c-format
 msgid "%s - Exit Confirmation"
 msgstr "%s - Afslutningsbekræftelse"
@@ -1767,12 +1710,10 @@ msgstr "Klar til rapportering"
 #: clientgui/ViewWork.cpp:1104
 #: clientgui/ViewWorkGrid.cpp:862
 #, c-format
-#, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Fejl: Ugydig tilstand '%d'"
 
 #: clientgui/DlgOptions.cpp:119
-#, c-format
 #, c-format
 msgid "%s - Options"
 msgstr "%s - Indstillinger"
@@ -1793,9 +1734,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:180
 msgid "How often should the Manager remind you when a network connection is needed?"
-msgstr ""
-"Hvor ofte skal manageren påminde dig når den har brug for "
-"netværksforbindelse?"
+msgstr "Hvor ofte skal manageren påminde dig når den har brug for netværksforbindelse?"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
@@ -1896,7 +1835,6 @@ msgstr "SOCKS Proxy"
 
 #: clientgui/DlgSelectComputer.cpp:90
 #, c-format
-#, c-format
 msgid "%s - Select Computer"
 msgstr "%s - Vælg computer"
 
@@ -1906,12 +1844,10 @@ msgstr "Værtsnavn:"
 
 #: clientgui/hyperlink.cpp:181
 #, c-format
-#, c-format
 msgid "%s - Can't find web browser"
 msgstr "%s - Kan ikke finde webbrowser"
 
 #: clientgui/hyperlink.cpp:192
-#, c-format
 #, c-format
 msgid ""
 "%s tried to display the web page\n"
@@ -2045,9 +1981,7 @@ msgstr "LIGO projekt"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"Hjemmesiden med Laser Interferometer Gravitational-wave Observatory (LIGO) "
-"projektet"
+msgstr "Hjemmesiden med Laser Interferometer Gravitational-wave Observatory (LIGO) projektet"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2193,9 +2127,7 @@ msgstr "Vælg et projekt"
 
 #: clientgui/ProjectInfoPage.cpp:248
 msgid "To choose a project, click its name or type its URL below."
-msgstr ""
-"For at vælge et projekt skal du klikke på dets navn eller skrive dets URL "
-"herunder."
+msgstr "For at vælge et projekt skal du klikke på dets navn eller skrive dets URL herunder."
 
 #: clientgui/ProjectInfoPage.cpp:251
 msgid "Project &URL:"
@@ -2215,7 +2147,6 @@ msgid "This project may not have work for your type of computer."
 msgstr ""
 
 #: clientgui/ProjectListCtrl.cpp:338
-#, c-format
 #, c-format
 msgid "Click here to go to %s's website."
 msgstr "Klik her for at gå til %s's website."
@@ -2393,18 +2324,14 @@ msgstr "Kopier alle beskeder til udklipsholder."
 #: clientgui/ViewMessages.cpp:97
 #: clientgui/ViewMessagesGrid.cpp:110
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Kopier de valgte beskeder til udklipsholderen. Du kan vælge flere beskeder "
-"ved at holde shift eller control/command knappen nede mens du vælger."
+msgstr "Kopier de valgte beskeder til udklipsholderen. Du kan vælge flere beskeder ved at holde shift eller control/command knappen nede mens du vælger."
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 #: clientgui/ViewMessages.cpp:99
 #: clientgui/ViewMessagesGrid.cpp:112
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Kopier de valgte beskeder til udklipsholderen. Du kan vælge flere beskeder "
-"ved at holde shift eller control-knappen nede mens du vælger."
+msgstr "Kopier de valgte beskeder til udklipsholderen. Du kan vælge flere beskeder ved at holde shift eller control-knappen nede mens du vælger."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2681,7 +2608,6 @@ msgstr "Mine projekter"
 
 #: clientgui/sg_StatImageLoader.cpp:101
 #, c-format
-#, c-format
 msgid "%s. Work done by %s: %0.2f"
 msgstr "%s. Arbejde af %s: %0.2f"
 
@@ -2693,7 +2619,6 @@ msgstr "Fjern projekt"
 #: clientgui/ViewProjects.cpp:490
 #: clientgui/ViewProjectsBase.cpp:343
 #: clientgui/ViewProjectsGrid.cpp:418
-#, c-format
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
 msgstr "Er du sikker på, at du vil afmelde projektet '%s'?"
@@ -2712,7 +2637,6 @@ msgid "%.1lf"
 msgstr ""
 
 #: clientgui/sg_ViewTabPage.cpp:407
-#, c-format
 #, c-format
 msgid "%d hr %d min %d sec"
 msgstr "%d t %d min %d sek"
@@ -2845,12 +2769,10 @@ msgstr ""
 #: clientgui/ValidateURL.cpp:104
 #: clientgui/ValidateURL.cpp:108
 #, c-format
-#, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "'%s' indeholder ikke et gyldigt værtsnavn."
 
 #: clientgui/ValidateURL.cpp:111
-#, c-format
 #, c-format
 msgid "'%s' does not contain a valid path."
 msgstr "'%s' indeholder ikke en gyldig sti."
@@ -2954,9 +2876,7 @@ msgstr "Opdater"
 #: clientgui/ViewProjectsBase.cpp:108
 #: clientgui/ViewProjectsGrid.cpp:121
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Rapporter alle færdige opgaver, hent pointstatistik, indstillinger, og hvis "
-"muligt, flere opgaver for dette projekt."
+msgstr "Rapporter alle færdige opgaver, hent pointstatistik, indstillinger, og hvis muligt, flere opgaver for dette projekt."
 
 #: clientgui/ViewProjects.cpp:180
 #: clientgui/ViewProjects.cpp:706
@@ -3005,10 +2925,7 @@ msgstr "Nulstil projekt"
 #: clientgui/ViewProjectsBase.cpp:130
 #: clientgui/ViewProjectsGrid.cpp:142
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"Sletter alle filer og opgaver tilhørende dette projekt og henter nye "
-"opgaver. Du kan opdatere projektet først for at rapportere eventuelle "
-"færdige opgaver."
+msgstr "Sletter alle filer og opgaver tilhørende dette projekt og henter nye opgaver. Du kan opdatere projektet først for at rapportere eventuelle færdige opgaver."
 
 #: clientgui/ViewProjects.cpp:201
 #: clientgui/ViewProjectsBase.cpp:139
@@ -3020,9 +2937,7 @@ msgstr "Afmeld"
 #: clientgui/ViewProjectsBase.cpp:140
 #: clientgui/ViewProjectsGrid.cpp:149
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"Framelder denne computer fra projektet. Igangværende opgaver vil blive tabt. "
-"(Brug 'Opdater' først for at rapportere eventuelle færdige opgaver)."
+msgstr "Framelder denne computer fra projektet. Igangværende opgaver vil blive tabt. (Brug 'Opdater' først for at rapportere eventuelle færdige opgaver)."
 
 #: clientgui/ViewProjects.cpp:208
 #: clientgui/ViewWork.cpp:204
@@ -3109,7 +3024,6 @@ msgstr "Nulstiller projekt..."
 #: clientgui/ViewProjects.cpp:432
 #: clientgui/ViewProjectsBase.cpp:296
 #: clientgui/ViewProjectsGrid.cpp:363
-#, c-format
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr "Er du sikker på, at du vil nulstille projektet '%s'?"
@@ -3267,7 +3181,6 @@ msgstr "Værtsgennemsnit"
 
 #: clientgui/ViewStatistics.cpp:1283
 #, c-format
-#, c-format
 msgid "Last update: %.0f days ago"
 msgstr "Sidst opdateret for %.0f dage siden"
 
@@ -3382,9 +3295,7 @@ msgstr "Afbryd overførsel"
 #: clientgui/ViewTransfers.cpp:171
 #: clientgui/ViewTransfersGrid.cpp:114
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr ""
-"Klik 'Afbryd overførsel' for at slette filen fra overførselskøen. Dette vil "
-"forhindre dig i at få points for dette resultat."
+msgstr "Klik 'Afbryd overførsel' for at slette filen fra overførselskøen. Dette vil forhindre dig i at få points for dette resultat."
 
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -3429,7 +3340,6 @@ msgid "Aborting transfer..."
 msgstr "Afbryder overførsel..."
 
 #: clientgui/ViewTransfers.cpp:322
-#, c-format
 #, c-format
 msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
@@ -3499,8 +3409,7 @@ msgstr "Afbryd"
 #: clientgui/ViewWork.cpp:198
 #: clientgui/ViewWorkGrid.cpp:129
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr ""
-"Stopper permanent arbejdet på resultatet. Du vil ikke få points for det."
+msgstr "Stopper permanent arbejdet på resultatet. Du vil ikke få points for det."
 
 #: clientgui/ViewWork.cpp:205
 msgid "Show task details."
@@ -3585,7 +3494,6 @@ msgstr ""
 
 #: clientgui/ViewWorkGrid.cpp:327
 #, c-format
-#, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s %%, Status: %s)"
@@ -3599,7 +3507,6 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:336
 #, c-format
-#, c-format
 msgid ""
 "If possible, add projects at the\n"
 "%s web site.\n"
@@ -3609,8 +3516,7 @@ msgid ""
 msgstr ""
 "Hvis det er muligt så bør du tilføje projekter fra\n"
 "%s websitet.\n"
-"Projekter tilføjet via denne guide vil ikke værei listen over projekter "
-"styret via %s."
+"Projekter tilføjet via denne guide vil ikke værei listen over projekter styret via %s."
 
 #: clientgui/WelcomePage.cpp:350
 #, fuzzy
@@ -3636,14 +3542,11 @@ msgid ""
 msgstr ""
 
 #: clientgui/WelcomePage.cpp:372
-#, c-format
-#, c-format
 #, fuzzy
 msgid "&Stop using%s"
 msgstr "&Stop med at bruge %s..."
 
 #: clientgui/WelcomePage.cpp:379
-#, c-format
 #, c-format
 msgid ""
 "We'll now remove this computer from %s.  From now on,\n"
@@ -3777,26 +3680,20 @@ msgstr "angiv timetal for start og stop af netværksbrug I formatet HH:MM-HH:MM"
 #~ "You can copy and paste the URL from your browser's\n"
 #~ "address bar."
 #~ msgstr "Du kan kopiere og indsætte URL'en fra din browser's adresselinie"
-
 #~ msgid "For a list of account managers go to:"
 #~ msgstr "For at se en liste af BOINC-baserede konto-managere, gå til:"
-
 #~ msgid "Static text"
 #~ msgstr "Statisk tekst"
-
 #~ msgid "Test"
 #~ msgstr "Test"
-
 #~ msgid "You are already attached to this project."
 #~ msgstr "Du er allerede tilmeldt dette projekt."
-
 #~ msgid ""
 #~ "Enter the username and password you used on\n"
 #~ "the web site."
 #~ msgstr ""
 #~ "Indtast det brugernavn og kodeord som\n"
 #~ "du brugte på hjemmesiden."
-
 #~ msgid ""
 #~ "Enter the email address and password you used on\n"
 #~ "the web site."
@@ -3811,10 +3708,8 @@ msgstr "angiv timetal for start og stop af netværksbrug I formatet HH:MM-HH:MM"
 #, c-format
 #~ msgid "The minimum password length for this account manager is %d. Please choose a different password."
 #~ msgstr "Den minimale længde på kodeordet til denne konto-manager er %d. Vælg venligst et andet kodeord."
-
 #~ msgid "Enter account key"
 #~ msgstr "Indtast kontonøgle"
-
 #~ msgid ""
 #~ "This project uses an \"account key\" to identify you.\n"
 #~ "\n"
@@ -3825,19 +3720,14 @@ msgstr "angiv timetal for start og stop af netværksbrug I formatet HH:MM-HH:MM"
 #~ "\n"
 #~ "Gå til projektets hjemmeside for at lave en konto. Din kontonøgle\n"
 #~ "vil blive sendt til din email."
-
 #~ msgid "An account key looks like:"
 #~ msgstr "En kontonøgle ser sådan ud:"
-
 #~ msgid "82412313ac88e9a3638f66ea82186948"
 #~ msgstr "82412313ac88e9a3638f66ea82186948"
-
 #~ msgid "Account key:"
 #~ msgstr "Kontonøgle:"
-
 #~ msgid "You can copy and paste the URL from your browser's address bar."
 #~ msgstr "Du kan kopiere og indsætte URL'en fra din browser's adresselinie."
-
 #~ msgid "For a list of BOINC-based account managers go to:"
 #~ msgstr "Se en liste af BOINC-baserede konto-managere ved at gå til:"
 
@@ -3848,7 +3738,6 @@ msgstr "angiv timetal for start og stop af netværksbrug I formatet HH:MM-HH:MM"
 #~ msgstr ""
 #~ "%s kan ikke kommunikere med et projekt og har brug for en internetforbindelse.\n"
 #~ "Forbind til internettet og vælg 'Prøv kommunikation igen' i menuen 'Avanceret'."
-
 #~ msgid ""
 #~ "Please provide the email address and password you used to register\n"
 #~ "at GridRepublic. (if you have not yet created an account at\n"
@@ -3857,10 +3746,8 @@ msgstr "angiv timetal for start og stop af netværksbrug I formatet HH:MM-HH:MM"
 #~ "Angiv venligst den emailadresse og det kodeord som du brugte til at registrere\n"
 #~ "ved GridRepublic. (Hvis du endnu ikke har oprettet en konto hos GridRepublic\n"
 #~ "så gør det venligst på http://www.gridrepublic.org)"
-
 #~ msgid "Start Project"
 #~ msgstr "Start projekt"
-
 #~ msgid ""
 #~ "Please enter an email address and password. You will need your email\n"
 #~ "address if you want to change your account options or use our message\n"
@@ -3874,22 +3761,18 @@ msgstr "angiv timetal for start og stop af netværksbrug I formatet HH:MM-HH:MM"
 #~ "\n"
 #~ "Vi vil sende dig enkelte emails. Du kan framelde disse til enhver tid.\n"
 #~ "Vi giver ikke din emailadresse videre til andre."
-
 #~ msgid "Project Started"
 #~ msgstr "Projekt startet"
-
 #~ msgid ""
 #~ "Congratulations, you have now successfully started your Climate\n"
 #~ "Change Experiment."
 #~ msgstr "Tillykke, du har nu startet dit Climate Change Experiment."
-
 #~ msgid ""
 #~ "Click finish to exit. You will be taken to a web page which tells\n"
 #~ "you more about your model."
 #~ msgstr ""
 #~ "Klik luk for at afslutte. Du vil blive taget til en web side\n"
 #~ "der fortæller dig mere om din model."
-
 #~ msgid ""
 #~ "This will shut down your experiment until it restarts automatically\n"
 #~ "following your user preferences. Close window to close the manager\n"
@@ -3914,7 +3797,6 @@ msgstr "angiv timetal for start og stop af netværksbrug I formatet HH:MM-HH:MM"
 #, c-format
 #~ msgid "%s is not currently connected to a %s client...\n"
 #~ msgstr "%s er ikke forbundet til en %s klient lige nu...\n"
-
 #~ msgid ""
 #~ "An error has occurred, please check the messages tab for further\n"
 #~ "details.\n"
@@ -3932,44 +3814,32 @@ msgstr "angiv timetal for start og stop af netværksbrug I formatet HH:MM-HH:MM"
 #~ msgstr ""
 #~ "Du er nu tilmeldt %s system.\n"
 #~ "%s"
-
 #~ msgid ""
 #~ "(C) 2003-2006 University of California at Berkeley.\n"
 #~ "All Rights Reserved."
 #~ msgstr ""
 #~ "(C) 2003-2006 University of California at Berkeley.\n"
 #~ "All Rights Reserved."
-
 #~ msgid "A software platform for distributed computing using volunteered computer resources"
 #~ msgstr "En software-platform til distribuerede computerudregninger ved hjælp af frivilligt donerede computerresourcer"
-
 #~ msgid "Username:"
 #~ msgstr "Brugernavn:"
-
 #~ msgid "Click here to disable displaying this message in the future."
 #~ msgstr "Klik her for at undgå denne besked fremover."
-
 #~ msgid "Language Selection:"
 #~ msgstr "Sprogvalg:"
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "Hvilket sprog skal manageren benytte som standard?"
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "Påmindelseshyppighed:"
-
 #~ msgid "How often, in minutes, should the manager remind you of possible connection events."
 #~ msgstr "Hvor ofte, i minutter, skal manageren minde dig om mulige forbindelsesforsøg."
-
 #~ msgid "&Account manager"
 #~ msgstr "&Konto-manager"
-
 #~ msgid "&Options"
 #~ msgstr "&Indstillinger"
-
 #~ msgid "Retry &communications"
 #~ msgstr "Prøv &kommunikation igen"
-
 #~ msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
 #~ msgstr "Rapporter færdigt arbejde, hent pointstatistik, hent indstillinger og hent muligvis mere arbejde."
 
@@ -3980,7 +3850,6 @@ msgstr "angiv timetal for start og stop af netværksbrug I formatet HH:MM-HH:MM"
 #, c-format
 #~ msgid "&%s\tF1"
 #~ msgstr "&%s\tF1"
-
 #~ msgid ""
 #~ "This will shut down your tasks until it restarts automatically\n"
 #~ "following your user preferences. Close window to close the manager\n"
@@ -3989,7 +3858,6 @@ msgstr "angiv timetal for start og stop af netværksbrug I formatet HH:MM-HH:MM"
 #~ "Dette vil stoppe dine opgaver, indtil de automatisk genstarter\n"
 #~ "i henhold til dine indstillinger. Luk vinduet for at lukke manageren\n"
 #~ "uden at stoppe opgaverne."
-
 #~ msgid "Close Confirmation"
 #~ msgstr "Bekræft Lukning"
 
@@ -4024,16 +3892,12 @@ msgstr "angiv timetal for start og stop af netværksbrug I formatet HH:MM-HH:MM"
 #~ "%s er ikke forbundet til en %s klient lige nu.\n"
 #~ "Brug 'Avanceret\\Vælg computer...'-menupunktet for at forbinde til en %s klient.\n"
 #~ "For at forbinde til din lokale computer kan 'localhost' bruges som værtsnavn."
-
 #~ msgid "Project URL"
 #~ msgstr "Projekt URL"
-
 #~ msgid "Enter the URL of the project's web site."
 #~ msgstr "Indtast URL'en på projektets web side."
-
 #~ msgid "For a list of BOINC-based projects go to:"
 #~ msgstr "For en liste over BOINC-baserede projekter, gå til:"
-
 #~ msgid ""
 #~ "BOINC failed to communicate on the Internet. The most likely\n"
 #~ "reasons are:\n"
@@ -4059,25 +3923,18 @@ msgstr "angiv timetal for start og stop af netværksbrug I formatet HH:MM-HH:MM"
 #~ "på port 80. Når dette er gjort, klik på Tilbage for at prøve igen.\n"
 #~ "\n"
 #~ "3) Du bruger en Proxy-server, og BOINC skal indstilles til at benytte den."
-
 #~ msgid "Click Next to configure BOINC's proxy settings."
 #~ msgstr "Klik Næste for at konfigurere BOINC's proxy indstillinger."
-
 #~ msgid "Disk Space"
 #~ msgstr "Diskplads"
-
 #~ msgid "Activities suspended"
 #~ msgstr "Aktiviteter suspenderet"
-
 #~ msgid "Preempted"
 #~ msgstr "Pause"
-
 #~ msgid "Ready to run"
 #~ msgstr "Klar til kørsel"
-
 #~ msgid "Activities suspended by user"
 #~ msgstr "Aktiviteter suspenderet af bruger"
-
 #~ msgid "We'll now guide you through the process of attaching to a project."
 #~ msgstr "Vi vil nu guide dig igennem tilmeldelsen til et projekt."
 
@@ -4089,32 +3946,26 @@ msgstr "angiv timetal for start og stop af netværksbrug I formatet HH:MM-HH:MM"
 #~ msgstr ""
 #~ "Vi fjerner nu denne computer fra %s. Du er ansvarlig\n"
 #~ "for at styre BOINC-programmet fra nu af."
-
 #~ msgid ""
 #~ "We'll now guide you through the process of adding an account\n"
 #~ "manager."
 #~ msgstr ""
 #~ "Vi vil nu guide dig gennem processen med at\n"
 #~ "tilmelde en konto-manager."
-
 #~ msgid "Project Comm Failure"
 #~ msgstr "Projekt Comm fejl"
-
 #~ msgid "Google Comm Failure"
 #~ msgstr "Google Comm fejl"
-
 #~ msgid "Yahoo Comm Failure"
 #~ msgstr "Yahoo Comm fejl"
-
 #~ msgid "About BOINC Manager"
 #~ msgstr "Om BOINC Manager"
-
 #~ msgid "BOINC Manager - Dialup Logon"
 #~ msgstr "BOINC Manager - Dialup Logon"
-
 #~ msgid "BOINC Manager - Options"
 #~ msgstr "BOINC Manager - Indstillinger"
 
 #, c-format
 #~ msgid "BOINC Manager - Select Computer"
 #~ msgstr "BOINC Manager - Vælg computer"
+
