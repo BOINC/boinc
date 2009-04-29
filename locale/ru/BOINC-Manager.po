@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-04-29 11:48-0700\n"
+"PO-Revision-Date: 2009-04-29 12:28-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: mifistor_x <mifistor.x@gmail.com>\n"
 "Language: ru\n"
@@ -1069,12 +1069,16 @@ msgstr ""
 "используется пользователями для работы"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:98
+#, fuzzy
 msgid " Use GPU while computer is in use"
-msgstr ""
+msgstr "использовать GPU когда компьютер используется для работы"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
+#, fuzzy
 msgid "check this if you want your GPU to do work even when you're using the computer"
 msgstr ""
+"выберите данный пункт если хотите обрабатывать задания с помощью видеокарты "
+"(GPU) когда компьютер используется пользователями для работы"
 
 # не удачно
 #: clientgui/DlgAdvPreferencesBase.cpp:111
@@ -1499,8 +1503,9 @@ msgid "Resource share"
 msgstr "Выделено ресурсов"
 
 #: clientgui/DlgItemProperties.cpp:111
+#, fuzzy
 msgid "Scheduler RPC deferred for"
-msgstr ""
+msgstr "Запрос к планировщику отложен на"
 
 #: clientgui/DlgItemProperties.cpp:114
 msgid "Non CPU intensive"
@@ -1570,32 +1575,39 @@ msgid "Scheduling"
 msgstr "Планировщик"
 
 #: clientgui/DlgItemProperties.cpp:139
+#, fuzzy
 msgid "CPU scheduling priority"
-msgstr ""
+msgstr "Приоритет планировщика процессора"
 
 #: clientgui/DlgItemProperties.cpp:140
+#, fuzzy
 msgid "CPU work fetch priority"
-msgstr ""
+msgstr "Приоритет запроса заданий для процессора"
 
 #: clientgui/DlgItemProperties.cpp:143
+#, fuzzy
 msgid "CPU work fetch deferred for"
-msgstr ""
+msgstr "Запрос заданий для процессора отложен на"
 
 #: clientgui/DlgItemProperties.cpp:144
+#, fuzzy
 msgid "CPU work fetch deferral interval"
-msgstr ""
+msgstr "Интервал задержки запроса заданий для процессора"
 
 #: clientgui/DlgItemProperties.cpp:146
+#, fuzzy
 msgid "NVIDIA GPU work fetch priority"
-msgstr ""
+msgstr "Приоритет запроса заданий для видеокарты NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:149
+#, fuzzy
 msgid "NVIDIA GPU work fetch deferred for"
-msgstr ""
+msgstr "Запрос заданий для видеокарты NVIDIA отложен на"
 
 #: clientgui/DlgItemProperties.cpp:150
+#, fuzzy
 msgid "NVIDIA GPU work fetch deferral interval"
-msgstr ""
+msgstr "Интервал задержки запроса заданий для видеокарты NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:152
 msgid "Duration correction factor"
@@ -1656,6 +1668,7 @@ msgstr "Процент выполнения"
 
 # не точно
 #: clientgui/DlgItemProperties.cpp:182
+#, fuzzy
 msgid "Virtual memory size"
 msgstr "Занимает в памяти"
 
@@ -1666,7 +1679,7 @@ msgstr "Размер занятой памяти"
 
 #: clientgui/DlgItemProperties.cpp:185
 msgid "Slot"
-msgstr ""
+msgstr "Слот"
 
 #: clientgui/DlgItemProperties.cpp:283
 #: clientgui/ViewWork.cpp:1007
@@ -2330,8 +2343,9 @@ msgid "Project &URL:"
 msgstr "Адрес (URL):"
 
 #: clientgui/ProjectInfoPage.cpp:320
+#, fuzzy
 msgid "You are already attached to this project. Please choose a different project."
-msgstr ""
+msgstr "Этот проект уже подключен. Выберите другой проект."
 
 #: clientgui/ProjectInfoPage.cpp:321
 #, fuzzy
@@ -2339,8 +2353,9 @@ msgid "Already Attached to Project"
 msgstr "Проект уже присутствует"
 
 #: clientgui/ProjectInfoPage.cpp:348
+#, fuzzy
 msgid "This project may not have work for your type of computer."
-msgstr ""
+msgstr "Возможно, этот проект не имеет заданий для вашего типа компьютера."
 
 #: clientgui/ProjectListCtrl.cpp:338
 #, c-format
@@ -3097,7 +3112,7 @@ msgstr "Приоритет"
 
 #: clientgui/ViewMessagesGrid.cpp:151
 msgid "MessagesGrid"
-msgstr ""
+msgstr "MessagesGrid"
 
 #: clientgui/ViewMessagesGrid.cpp:209
 msgid "Copying selected messages to Clipboard..."
@@ -3393,7 +3408,7 @@ msgstr "Повтор через "
 
 #: clientgui/ViewProjectsGrid.cpp:193
 msgid "ProjectsGrid"
-msgstr ""
+msgstr "ProjectsGrid"
 
 #: clientgui/ViewResources.cpp:62
 msgid "Total disk usage"
@@ -3649,7 +3664,7 @@ msgstr "Ожидание загрузки данных"
 
 #: clientgui/ViewTransfersGrid.cpp:161
 msgid "TransfersGrid"
-msgstr ""
+msgstr "TransfersGrid"
 
 #: clientgui/ViewTransfersGrid.cpp:228
 msgid "Aborting transfer(s)..."
@@ -3706,7 +3721,7 @@ msgstr "Задание"
 
 #: clientgui/ViewWork.cpp:217
 msgid "Elapsed"
-msgstr ""
+msgstr "Затрачено"
 
 #: clientgui/ViewWork.cpp:219
 #: clientgui/ViewWorkGrid.cpp:147
@@ -3775,7 +3790,7 @@ msgstr "(без использования ЦП)"
 
 #: clientgui/ViewWorkGrid.cpp:184
 msgid "TasksGrid"
-msgstr ""
+msgstr "TasksGrid"
 
 #: clientgui/ViewWorkGrid.cpp:327
 #, c-format
@@ -3971,26 +3986,26 @@ msgstr "Готово"
 #: clientgui/common/wxFlatNotebook.cpp:182
 #, c-format
 msgid "New page inserted. Index = %i"
-msgstr ""
+msgstr "Новая страница вставлена. Индекс = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:187
 #, c-format
 msgid "New page appended. Index = %i"
-msgstr ""
+msgstr "Новая страница добавлена. Индекс = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2048
 #, c-format
 msgid "Old Page Index = %i"
-msgstr ""
+msgstr "Индекс старой страницы = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2053
 #, c-format
 msgid "OnDropTarget: index by HitTest = %i"
-msgstr ""
+msgstr "OnDropTarget: индекс по HitTest = %i"
 
 #: clientgui/common/wxPieCtrl.cpp:66
 msgid "Pie Ctrl"
-msgstr ""
+msgstr "Pie Ctrl"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
