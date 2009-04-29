@@ -3,19 +3,19 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2008-01-01 00:33+0800\n"
-"Last-Translator: Jose Sun <josesun@gmail.com>\n"
+"PO-Revision-Date: 2009-04-29 18:01-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_6a\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:337
 msgid "User information"
@@ -731,18 +731,17 @@ msgstr "(使用者定義)"
 #: clientgui/BOINCTaskBar.cpp:336
 #, fuzzy
 msgid "Computation is suspended."
-msgstr "運算已暫止。\n"
+msgstr "運算已暫止。"
 
 #: clientgui/BOINCTaskBar.cpp:344
 #, fuzzy
 msgid "Network activity is suspended."
-msgstr "網路活動已暫止。\n"
+msgstr "網路活動已暫止。"
 
 #: clientgui/BOINCTaskBar.cpp:378
 #, c-format
-#, fuzzy
 msgid "%s: %.2f%% completed."
-msgstr "%s: %.2f%% 已完成\n"
+msgstr "%s: %.2f%% 已完成"
 
 #: clientgui/BOINCTaskBar.cpp:391
 #, c-format
@@ -752,12 +751,12 @@ msgstr ""
 #: clientgui/BOINCTaskBar.cpp:400
 #, fuzzy
 msgid "Reconnecting to client."
-msgstr "重新連線用戶端中。\n"
+msgstr "重新連線用戶端中。"
 
 #: clientgui/BOINCTaskBar.cpp:406
 #, fuzzy
 msgid "Not connected to a client."
-msgstr "未連線到用戶端。\n"
+msgstr "未連線到用戶端。"
 
 #: clientgui/BOINCTaskBar.cpp:597
 #, c-format
@@ -1085,9 +1084,6 @@ msgstr "多處理器系統中最多只使用"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:249
 #, no-c-format
-#, no-c-format
-#, c-format
-#, fuzzy
 msgid "% of the processors"
 msgstr "／CPU 使用率"
 
@@ -3710,18 +3706,8 @@ msgstr "用 HH:MM-HH:MM 的格式指定工作運行的開始及結束時間"
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr "您可以從瀏覽器的網址列複製網址後貼上。"
-
-#, fuzzy
-#~ msgid "For a list of account managers go to:"
-#~ msgstr "要取得所有基於 BOINC 的帳號管理員列表請至:"
-
 #~ msgid "You are already attached to this project."
 #~ msgstr "您已加入此計畫。"
-
 #~ msgid ""
 #~ "You can copy and paste the URL from your browser's\n"
 #~ "address bar."
@@ -3730,10 +3716,8 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #, fuzzy
 #~ msgid "For a list of account managers go to:"
 #~ msgstr "要取得所有基於 BOINC 的帳號管理員列表請至:"
-
 #~ msgid "Enter account key"
 #~ msgstr "輸入帳號金鑰"
-
 #~ msgid ""
 #~ "This project uses an \"account key\" to identify you.\n"
 #~ "\n"
@@ -3744,22 +3728,16 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #~ "\n"
 #~ "請前往計畫網站建立新帳號。\n"
 #~ "您的帳號金鑰會寄到您的信箱。"
-
 #~ msgid "An account key looks like:"
 #~ msgstr "帳號金鑰看起來像:"
-
 #~ msgid "82412313ac88e9a3638f66ea82186948"
 #~ msgstr "82412313ac88e9a3638f66ea82186948"
-
 #~ msgid "Account key:"
 #~ msgstr "帳號金鑰:"
-
 #~ msgid "&Accessible View"
 #~ msgstr "親和力介面(&S)"
-
 #~ msgid "Accessible views are compatible with accessibility aids such as screen readers."
 #~ msgstr "親和力介面能相容於類似螢幕閱讀器等親和力輔助工具。"
-
 #~ msgid "&Grid View"
 #~ msgstr "格線介面(&V)"
 
@@ -3780,25 +3758,18 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #~ msgstr ""
 #~ "BOINC 的所有權或權限未正確設定，請重新安裝 BOINC。\n"
 #~ "(錯誤碼 %d)"
-
 #~ msgid "processors"
 #~ msgstr "個處理器"
-
 #~ msgid "Click here to disable displaying this message in the future."
 #~ msgstr "按一下這裡以後不要顯示此訊息。"
-
 #~ msgid "Language Selection:"
 #~ msgstr "語言選擇:"
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "預設要使用何種語言顯示。"
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "提示頻率:"
-
 #~ msgid "How often, in minutes, should the manager remind you of possible connection events."
 #~ msgstr "設定 BOINC 管理員要隔多久才提示您重要訊息。(以分鐘計)"
-
 #~ msgid ""
 #~ "To choose a project, click its name\n"
 #~ "or type its URL below.\n"
@@ -3806,21 +3777,16 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #~ msgstr ""
 #~ "要選擇計畫，請按計畫名稱或在下面輸入其網址。\n"
 #~ "按「www」連到計畫網站。"
-
 #~ msgid "  "
 #~ msgstr "  "
-
 #~ msgid "www"
 #~ msgstr "www"
-
 #~ msgid "free disk space - "
 #~ msgstr "可用磁碟空間 - "
-
 #~ msgid "Project Comm Failure"
 #~ msgstr "計畫通訊失敗"
-
 #~ msgid "Google Comm Failure"
 #~ msgstr "Google 通訊失敗"
-
 #~ msgid "Yahoo Comm Failure"
 #~ msgstr "Yahoo 通訊失敗"
+
