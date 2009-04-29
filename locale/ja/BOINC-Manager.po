@@ -3,19 +3,19 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2008-02-21 22:53+0900\n"
-"Last-Translator: M. Toma <toma01 at livedoor.com>\n"
+"PO-Revision-Date: 2009-04-29 16:54-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_6a\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:337
 msgid "User information"
@@ -627,8 +627,6 @@ msgid "%s needs to connect to the Internet.  Please click to open %s."
 msgstr "%s はインターネットに接続する必要があります。クリックして %s を起動して下さい。"
 
 #: clientgui/BOINCDialupManager.cpp:263
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
@@ -1091,9 +1089,6 @@ msgstr "マルチプロセッサのとき、最大使用数"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:249
 #, no-c-format
-#, no-c-format
-#, c-format
-#, fuzzy
 msgid "% of the processors"
 msgstr "of the processor"
 
@@ -2001,8 +1996,7 @@ msgstr "LIGO プロジェクト"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"Laser Interferometer Gravitational-wave Observatory (LIGO) プロジェクトのホームページ"
+msgstr "Laser Interferometer Gravitational-wave Observatory (LIGO) プロジェクトのホームページ"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2381,9 +2375,7 @@ msgstr "選択したメッセージをクリップボードにコピーします
 #: clientgui/ViewMessages.cpp:99
 #: clientgui/ViewMessagesGrid.cpp:112
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"選択したメッセージをクリップボードにコピーします。シフトキーまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にで"
-"きます。 "
+msgstr "選択したメッセージをクリップボードにコピーします。シフトキーまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にできます。 "
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2978,9 +2970,7 @@ msgstr "プロジェクトをリセット"
 #: clientgui/ViewProjectsBase.cpp:130
 #: clientgui/ViewProjectsGrid.cpp:142
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得します。 "
-"完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」してください。"
+msgstr "このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得します。 完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」してください。"
 
 #: clientgui/ViewProjects.cpp:201
 #: clientgui/ViewProjectsBase.cpp:139
@@ -2992,9 +2982,7 @@ msgstr "離脱"
 #: clientgui/ViewProjectsBase.cpp:140
 #: clientgui/ViewProjectsGrid.cpp:149
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"このコンピュータをこのプロジェクトから離脱させます。作業中のタスクは消えてしまいます。 "
-"(完了したタスクを報告するため、離脱する前にプロジェクトの「更新」を行ってください)"
+msgstr "このコンピュータをこのプロジェクトから離脱させます。作業中のタスクは消えてしまいます。 (完了したタスクを報告するため、離脱する前にプロジェクトの「更新」を行ってください)"
 
 #: clientgui/ViewProjects.cpp:208
 #: clientgui/ViewWork.cpp:204
@@ -3357,9 +3345,7 @@ msgstr "ファイル転送を中止"
 #: clientgui/ViewTransfers.cpp:171
 #: clientgui/ViewTransfersGrid.cpp:114
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr ""
-"ファイル転送の待ち行列からこのファイルを削除するには、「ファイル転送を中止」をクリックします。 この場合、対応するリザルトについての功績 "
-"(credit) は付与されなくなります。"
+msgstr "ファイル転送の待ち行列からこのファイルを削除するには、「ファイル転送を中止」をクリックします。 この場合、対応するリザルトについての功績 (credit) は付与されなくなります。"
 
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -3753,24 +3739,8 @@ msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指�
 #, fuzzy
 #~ msgid "For a list of account managers go to:"
 #~ msgstr "BOINC ベースのアカウント・マネージャの一覧表を見るには下記のリンクへ："
-
-#~ msgid "You are already attached to this project."
-#~ msgstr "あなたはすでにこのプロジェクトに参加済みです。"
-
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr ""
-#~ "URL の値はブラウザのアドレス・バーから、コピー＆ペースト\n"
-#~ "することができます。"
-
-#, fuzzy
-#~ msgid "For a list of account managers go to:"
-#~ msgstr "BOINC ベースのアカウント・マネージャの一覧表を見るには下記のリンクへ："
-
 #~ msgid "Enter account key"
 #~ msgstr "アカウント・キー入力"
-
 #~ msgid ""
 #~ "This project uses an \"account key\" to identify you.\n"
 #~ "\n"
@@ -3781,28 +3751,20 @@ msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指�
 #~ "\n"
 #~ "対象のプロジェクトのウェブサイトに行って、アカウントを作って下さい。\n"
 #~ "あなたのアカウント・キーが電子メールで送られてきます。"
-
 #~ msgid "An account key looks like:"
 #~ msgstr "アカウント・キーは例えばこんな形式です："
-
 #~ msgid "82412313ac88e9a3638f66ea82186948"
 #~ msgstr "82412313ac88e9a3638f66ea82186948"
-
 #~ msgid "Account key:"
 #~ msgstr "アカウント・キー："
-
 #~ msgid "&Accessible View"
 #~ msgstr "アクセシブル表示(&A)"
-
 #~ msgid "Accessible views are compatible with accessibility aids such as screen readers."
 #~ msgstr "アクセシブル表示は音声読み上げのようなユーザ補助プログラムに適合します。"
-
 #~ msgid "&Grid View"
 #~ msgstr "グリッド表示(&G)"
-
 #~ msgid "Retry &communications"
 #~ msgstr "通信を再試行(&C)"
-
 #~ msgid "Retry all deferred network communication."
 #~ msgstr "すべての延期中の通信を再実行。"
 
@@ -3823,25 +3785,18 @@ msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指�
 #~ msgstr ""
 #~ "BOINC のアクセス許可が適切に設定されていません； BOINC を再インストールしてください。\n"
 #~ "(エラーコード %d)"
-
 #~ msgid "processors"
 #~ msgstr "プロセッサ"
-
 #~ msgid "Click here to disable displaying this message in the future."
 #~ msgstr "以後、このメッセージを表示させないようにするには、ここをクリックして下さい。"
-
 #~ msgid "Language Selection:"
 #~ msgstr "言語の選択："
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "特に指定しない場合にマネージャが表示に用いる言語。"
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "注意喚起の頻度："
-
 #~ msgid "How often, in minutes, should the manager remind you of possible connection events."
 #~ msgstr "マネージャから接続するタイミングをあなたに思い出させる間隔を分単位で指定します。"
-
 #~ msgid ""
 #~ "To choose a project, click its name\n"
 #~ "or type its URL below.\n"
@@ -3850,24 +3805,18 @@ msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指�
 #~ "プロジェクトを選ぶには、名前をクリックするか\n"
 #~ "URLを入力してください。\n"
 #~ "「www」をクリックするとプロジェクトウェブサイトが開きます。"
-
 #~ msgid "  "
 #~ msgstr "  "
-
 #~ msgid "www"
 #~ msgstr "www"
-
 #~ msgid "free disk space - "
 #~ msgstr "free disk space - "
-
 #~ msgid "Attach to project (local override)"
 #~ msgstr "プロジェクトに参加 (このマシンのみ)"
-
 #~ msgid "Project Comm Failure"
 #~ msgstr "プロジェクトとの通信に失敗"
-
 #~ msgid "Google Comm Failure"
 #~ msgstr "Google との通信に失敗"
-
 #~ msgid "Yahoo Comm Failure"
 #~ msgstr "Yahoo との通信に失敗"
+
