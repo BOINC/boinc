@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-02-25 12:29-0700\n"
-"Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
+"PO-Revision-Date: 2009-04-29 17:03-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -12,9 +12,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.2.1\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_6a\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:337
 msgid "User information"
@@ -64,7 +64,6 @@ msgstr "Bevestig het wachtw&oord:"
 
 #: clientgui/AccountInfoPage.cpp:391
 #, c-format
-#, c-format
 msgid "Are you already running %s?"
 msgstr "Heb je al een account bij %s?"
 
@@ -77,7 +76,6 @@ msgid "&Email address:"
 msgstr "&Email adres:"
 
 #: clientgui/AccountInfoPage.cpp:430
-#, c-format
 #, c-format
 msgid "minimum length %d"
 msgstr "minimale lengte %d"
@@ -102,25 +100,17 @@ msgstr "Account manager toevoegen"
 
 #: clientgui/AccountInfoPage.cpp:489
 #, c-format
-#, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
-msgstr ""
-"De minimum lengte van een wachtwoord voor dit project is %d. Kies a.u.b. een "
-"ander wachtwoord."
+msgstr "De minimum lengte van een wachtwoord voor dit project is %d. Kies a.u.b. een ander wachtwoord."
 
 #: clientgui/AccountInfoPage.cpp:495
 #, c-format
-#, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr ""
-"De minimum lengte van een wachtwoord voor deze account manager is %d. Kies "
-"a.u.b. een ander wachtwoord."
+msgstr "De minimum lengte van een wachtwoord voor deze account manager is %d. Kies a.u.b. een ander wachtwoord."
 
 #: clientgui/AccountInfoPage.cpp:506
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr ""
-"Het wachtwoord en het bevestigings wachtwoord komen niet overeen. Vul ze "
-"a.u.b. opnieuw in."
+msgstr "Het wachtwoord en het bevestigings wachtwoord komen niet overeen. Vul ze a.u.b. opnieuw in."
 
 #: clientgui/AccountManagerInfoPage.cpp:180
 msgid "Account Manager URL"
@@ -136,7 +126,6 @@ msgstr "Account Manager &URL:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:190
 #: clientgui/AccountManagerPropertiesPage.cpp:194
-#, c-format
 #, c-format
 msgid "Communicating with %s."
 msgstr "Aan het communiceren met %s."
@@ -192,8 +181,7 @@ msgstr "Sorteerbaar"
 
 #: clientgui/AdvancedFrame.cpp:324
 msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
-msgstr ""
-"De sorteerbare weergave geeft de mogelijkheid om de kolommen te sorteren "
+msgstr "De sorteerbare weergave geeft de mogelijkheid om de kolommen te sorteren "
 
 #: clientgui/AdvancedFrame.cpp:329
 msgid "&Simple View..."
@@ -397,7 +385,6 @@ msgstr "Bekijk informatie over BOINC en de %s"
 #: clientgui/AdvancedFrame.cpp:552
 #: clientgui/BOINCTaskBar.cpp:616
 #, c-format
-#, c-format
 msgid "&About %s..."
 msgstr "Over de %s..."
 
@@ -483,13 +470,10 @@ msgstr "%s - Taalselectie"
 #: clientgui/AdvancedFrame.cpp:1428
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr ""
-"De standaard taal van de %s is gewijzigd, om dit te activeren dien je de %s "
-"te herstarten."
+msgstr "De standaard taal van de %s is gewijzigd, om dit te activeren dien je de %s te herstarten."
 
 #: clientgui/AdvancedFrame.cpp:1639
 #: clientgui/DlgAbout.cpp:104
-#, c-format
 #, c-format
 msgid "%s"
 msgstr "%s"
@@ -603,18 +587,14 @@ msgstr "%s - Opstarten Deamon Mislukt"
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
-msgstr ""
-"%s kan de %s client niet opstarten.Ga a.u.b. naar het Configuratiescherm "
-"->Systeembeheer->Services en start hier de BOINC service."
+msgstr "%s kan de %s client niet opstarten.Ga a.u.b. naar het Configuratiescherm ->Systeembeheer->Services en start hier de BOINC service."
 
 #: clientgui/BOINCBaseFrame.cpp:550
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
-msgstr ""
-"%s kan de %s client niet opstarten.Herstart a.u.b. de deamon om opnieuw te "
-"proberen."
+msgstr "%s kan de %s client niet opstarten.Herstart a.u.b. de deamon om opnieuw te proberen."
 
 #: clientgui/BOINCBaseFrame.cpp:596
 #, c-format
@@ -629,8 +609,7 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s heeft momenteel geen %s client verbinding.\n"
-"Gebruik a.u.b de 'Geavanceerd/Selecteer computer' menu optie om een "
-"verbinding\n"
+"Gebruik a.u.b de 'Geavanceerd/Selecteer computer' menu optie om een verbinding\n"
 "met een %s client te maken. Vul hier 'localhost' in als host naam."
 
 #: clientgui/BOINCBaseView.cpp:748
@@ -641,30 +620,24 @@ msgstr "Websites"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
-#, c-format
 msgid "%s - Network Status"
 msgstr "%s - Netwerk Status"
 
 #: clientgui/BOINCDialupManager.cpp:255
-#, c-format
 #, c-format
 msgid "%s needs to connect to the Internet.  Please click to open %s."
 msgstr "%s heeft een internet verbinding nodig. Klik om de %s te openen."
 
 #: clientgui/BOINCDialupManager.cpp:263
 #, c-format
-#, c-format
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
-"%s kan geen verbinding maken met het project en heeft een internet "
-"verbinding\n"
-"nodig. Maak a.u.b. een internet verbinding en kies 'Opnieuw verbinden' in "
-"het 'Geavanceerd' menu."
+"%s kan geen verbinding maken met het project en heeft een internet verbinding\n"
+"nodig. Maak a.u.b. een internet verbinding en kies 'Opnieuw verbinden' in het 'Geavanceerd' menu."
 
 #: clientgui/BOINCDialupManager.cpp:310
-#, c-format
 #, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
@@ -675,37 +648,31 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:323
 #, c-format
-#, c-format
 msgid "%s is connecting to the Internet."
 msgstr "%s is bezig met verbinden."
 
 #: clientgui/BOINCDialupManager.cpp:354
-#, c-format
 #, c-format
 msgid ""
 "%s couldn't do Internet communication, and no default connection is selected.\n"
 "Please connect to the Internet, or select a default connection\n"
 "using Advanced/Options/Connections."
 msgstr ""
-"%s heeft momenteel geen internet verbinding en er is geen standaard "
-"verbinding\n"
+"%s heeft momenteel geen internet verbinding en er is geen standaard verbinding\n"
 "ingesteld. Gebruik a.u.b de 'Geavanceerd/Opties/Verbindingen' menu optie om\n"
 "een verbinding in te stellen of maak handmatig een verbinding. "
 
 #: clientgui/BOINCDialupManager.cpp:386
-#, c-format
 #, c-format
 msgid "%s has successfully connected to the Internet."
 msgstr "%s heeft een internet verbinding gemaakt."
 
 #: clientgui/BOINCDialupManager.cpp:414
 #, c-format
-#, c-format
 msgid "%s failed to connect to the Internet."
 msgstr "%s kon geen internet verbinding maken."
 
 #: clientgui/BOINCDialupManager.cpp:455
-#, c-format
 #, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
@@ -716,12 +683,10 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:500
 #, c-format
-#, c-format
 msgid "%s has successfully disconnected from the Internet."
 msgstr "%s heeft de internet verbinding verbroken."
 
 #: clientgui/BOINCDialupManager.cpp:516
-#, c-format
 #, c-format
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s kon de internet verbinding niet verbreken."
@@ -730,9 +695,7 @@ msgstr "%s kon de internet verbinding niet verbreken."
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
-msgstr ""
-"Er is een herstart nodig om BOINC goed te kunnen uitvoeren.Herstart a.u.b. "
-"je computer om het opnieuw te proberen."
+msgstr "Er is een herstart nodig om BOINC goed te kunnen uitvoeren.Herstart a.u.b. je computer om het opnieuw te proberen."
 
 #: clientgui/BOINCGUIApp.cpp:367
 #: clientgui/DlgAbout.cpp:136
@@ -799,12 +762,10 @@ msgstr "Niet verbonden met een client."
 
 #: clientgui/BOINCTaskBar.cpp:597
 #, c-format
-#, c-format
 msgid "Open %s Web..."
 msgstr "Open de %s Pagina..."
 
 #: clientgui/BOINCTaskBar.cpp:604
-#, c-format
 #, c-format
 msgid "Open %s..."
 msgstr "Open de %s..."
@@ -871,7 +832,6 @@ msgstr ""
 
 #: clientgui/CompletionPage.cpp:233
 #, c-format
-#, c-format
 msgid "Update from %s completed."
 msgstr "Bijwerken van %s voltooid."
 
@@ -880,7 +840,6 @@ msgid "Update completed."
 msgstr "Bijwerken voltooid."
 
 #: clientgui/CompletionPage.cpp:254
-#, c-format
 #, c-format
 msgid "Removal from %s completed."
 msgstr "Verwijderen van %s voltooid."
@@ -891,7 +850,6 @@ msgstr "Verwijderen voltooid."
 
 #: clientgui/CompletionPage.cpp:275
 #, c-format
-#, c-format
 msgid "Attached to %s"
 msgstr "%s is toegevoegd"
 
@@ -901,12 +859,10 @@ msgstr "Account manager is toegevoegd"
 
 #: clientgui/CompletionPage.cpp:289
 #, c-format
-#, c-format
 msgid "Welcome to %s!"
 msgstr "Welkom bij %s"
 
 #: clientgui/CompletionPage.cpp:303
-#, c-format
 #, c-format
 msgid "You are now successfully attached to the %s system."
 msgstr "Je hebt nu met succes %s toegevoegd."
@@ -916,7 +872,6 @@ msgid "You are now successfully attached to this account manager."
 msgstr "Je hebt nu met succes deze account manager toegevoegd."
 
 #: clientgui/DlgAbout.cpp:98
-#, c-format
 #, c-format
 msgid "About %s"
 msgstr "Over %s"
@@ -983,7 +938,6 @@ msgstr "Bevestiging"
 #: clientgui/DlgAdvPreferencesBase.cpp:31
 #: clientgui/sg_DlgPreferences.cpp:1036
 #, c-format
-#, c-format
 msgid "%s - Preferences"
 msgstr "%s - Voorkeuren"
 
@@ -1015,9 +969,7 @@ msgstr "terwijl de computer op accu werkt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:83
 msgid "check this if you want this computer to do work while it runs on batteries"
-msgstr ""
-"vink dit aan als werk uitgevoerd mag worden als de computer op een accu "
-"werkt"
+msgstr "vink dit aan als werk uitgevoerd mag worden als de computer op een accu werkt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:89
 msgid " While computer is in use"
@@ -1041,9 +993,7 @@ msgstr "Alleen als de computer inactief is na"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:115
 msgid "do work only after you haven't used the computer for this number of minutes"
-msgstr ""
-"alleen werk toestaan als de computer niet actief is geweest in de aangegeven "
-"aantal minuten"
+msgstr "alleen werk toestaan als de computer niet actief is geweest in de aangegeven aantal minuten"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:119
 #: clientgui/DlgAdvPreferencesBase.cpp:239
@@ -1215,9 +1165,7 @@ msgstr "Bevestiging bij het openen van de internet verbinding"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:337
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
-msgstr ""
-"indien aangevinkt verschijnt er een bevestigings venster voor de verbinding "
-"gemaakt wordt"
+msgstr "indien aangevinkt verschijnt er een bevestigings venster voor de verbinding gemaakt wordt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:341
 msgid "Disconnect when done"
@@ -1349,12 +1297,10 @@ msgstr "laat de voorkeuren website zien"
 
 #: clientgui/DlgExitMessage.cpp:82
 #, c-format
-#, c-format
 msgid "%s - Exit Confirmation"
 msgstr "%s - Afsluit Bevestiging"
 
 #: clientgui/DlgExitMessage.cpp:130
-#, c-format
 #, c-format
 msgid ""
 "You have requested to exit the %s,\n"
@@ -1372,7 +1318,6 @@ msgstr ""
 "wordt gestopt, vink deze keuze dan aan bij de ondestaande opties."
 
 #: clientgui/DlgExitMessage.cpp:135
-#, c-format
 #, c-format
 msgid ""
 "This will shut down %s and its tasks entirely until either the\n"
@@ -1780,12 +1725,10 @@ msgstr "Staat klaar om te rapporteren"
 #: clientgui/ViewWork.cpp:1104
 #: clientgui/ViewWorkGrid.cpp:862
 #, c-format
-#, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Fout: ongeldige status '%d'"
 
 #: clientgui/DlgOptions.cpp:119
-#, c-format
 #, c-format
 msgid "%s - Options"
 msgstr "%s - Opties"
@@ -1808,9 +1751,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:180
 msgid "How often should the Manager remind you when a network connection is needed?"
-msgstr ""
-"Hoe vaak moet de manager een bericht laten zien als een netwerkverbinding "
-"nodig is?"
+msgstr "Hoe vaak moet de manager een bericht laten zien als een netwerkverbinding nodig is?"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
@@ -1911,7 +1852,6 @@ msgstr "SOCKS Proxy"
 
 #: clientgui/DlgSelectComputer.cpp:90
 #, c-format
-#, c-format
 msgid "%s - Select Computer"
 msgstr "%s - Selecteer computer"
 
@@ -1921,12 +1861,10 @@ msgstr "Host naam:"
 
 #: clientgui/hyperlink.cpp:181
 #, c-format
-#, c-format
 msgid "%s - Can't find web browser"
 msgstr "%s - Web browser niet gevonden"
 
 #: clientgui/hyperlink.cpp:192
-#, c-format
 #, c-format
 msgid ""
 "%s tried to display the web page\n"
@@ -2060,9 +1998,7 @@ msgstr "LIGO project"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"Bekijk de webpagina van het 'Laser Interferometer Gravitational-wave "
-"Observatory' (LIGO) project"
+msgstr "Bekijk de webpagina van het 'Laser Interferometer Gravitational-wave Observatory' (LIGO) project"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2099,9 +2035,7 @@ msgstr "Bekijk het climateprediction.net nieuws"
 
 #: clientgui/Localization.cpp:131
 msgid "View your account information, credits, and trickles"
-msgstr ""
-"Bekijk je account informatie en de behaalde resultaten van de afgelopen "
-"periode"
+msgstr "Bekijk je account informatie en de behaalde resultaten van de afgelopen periode"
 
 #: clientgui/Localization.cpp:135
 msgid "Info about your team"
@@ -2434,20 +2368,14 @@ msgstr "Alle berichten kopiëren"
 #: clientgui/ViewMessages.cpp:97
 #: clientgui/ViewMessagesGrid.cpp:110
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"De geselecteerde berichten naar het klembord kopiëren. Je kan meerdere "
-"berichten selecteren door met behulp van de Shift of Command toets op de "
-"bestanden te klikken."
+msgstr "De geselecteerde berichten naar het klembord kopiëren. Je kan meerdere berichten selecteren door met behulp van de Shift of Command toets op de bestanden te klikken."
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 #: clientgui/ViewMessages.cpp:99
 #: clientgui/ViewMessagesGrid.cpp:112
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"De geselecteerde berichten naar het klembord kopiëren. Je kan meerdere "
-"berichten selecteren door met behulp van de Shift of Ctrl toets op de "
-"bestanden te klikken."
+msgstr "De geselecteerde berichten naar het klembord kopiëren. Je kan meerdere berichten selecteren door met behulp van de Shift of Ctrl toets op de bestanden te klikken."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2456,7 +2384,6 @@ msgid "Get help with BOINC"
 msgstr "BOINC hulp opvragen"
 
 #: clientgui/sg_DlgMessages.cpp:754
-#, c-format
 #, c-format
 msgid "%s - Messages"
 msgstr "%s - Berichten"
@@ -2631,18 +2558,15 @@ msgstr "Altijd"
 
 #: clientgui/sg_DlgPreferences.cpp:785
 #, c-format
-#, c-format
 msgid "%d MB"
 msgstr "%d MB"
 
 #: clientgui/sg_DlgPreferences.cpp:787
 #, c-format
-#, c-format
 msgid "%4.2f GB"
 msgstr "%4.2f GB"
 
 #: clientgui/sg_DlgPreferences.cpp:828
-#, c-format
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
@@ -2652,7 +2576,6 @@ msgid "0 (Run Always)"
 msgstr "0 (Altijd actief)"
 
 #: clientgui/sg_DlgPreferences.cpp:867
-#, c-format
 #, c-format
 msgid "%d"
 msgstr "%d"
@@ -2728,7 +2651,6 @@ msgstr "Mijn projecten:"
 
 #: clientgui/sg_StatImageLoader.cpp:101
 #, c-format
-#, c-format
 msgid "%s. Work done by %s: %0.2f"
 msgstr "%s. Punten behaald door %s: %0.2f"
 
@@ -2740,7 +2662,6 @@ msgstr "Verwijder Project"
 #: clientgui/ViewProjects.cpp:490
 #: clientgui/ViewProjectsBase.cpp:343
 #: clientgui/ViewProjectsGrid.cpp:418
-#, c-format
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
 msgstr "Weet je zeker dat je het project '%s' wilt verwijderen?"
@@ -2755,12 +2676,10 @@ msgstr "Project Verwijderen"
 #: clientgui/sg_ViewTabPage.cpp:138
 #: clientgui/sg_ViewTabPage.cpp:278
 #, c-format
-#, c-format
 msgid "%.1lf"
 msgstr "%.1lf"
 
 #: clientgui/sg_ViewTabPage.cpp:407
-#, c-format
 #, c-format
 msgid "%d hr %d min %d sec"
 msgstr "%d Uur %d Min %d Sec"
@@ -2768,9 +2687,7 @@ msgstr "%d Uur %d Min %d Sec"
 #: clientgui/sg_ViewTabPage.cpp:421
 #: clientgui/ViewWorkGrid.cpp:258
 msgid "Are you sure you want to display graphics on a remote machine?"
-msgstr ""
-"Weet je zeker dat je de grafische weergave wilt laten zien op een andere "
-"computer?"
+msgstr "Weet je zeker dat je de grafische weergave wilt laten zien op een andere computer?"
 
 #: clientgui/sg_ViewTabPage.cpp:422
 #: clientgui/ViewWork.cpp:183
@@ -2895,12 +2812,10 @@ msgstr ""
 #: clientgui/ValidateURL.cpp:104
 #: clientgui/ValidateURL.cpp:108
 #, c-format
-#, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "'%s' bezit geen geldige host naam."
 
 #: clientgui/ValidateURL.cpp:111
-#, c-format
 #, c-format
 msgid "'%s' does not contain a valid path."
 msgstr "'%s' bezit geen geldige bestands lokatie."
@@ -3003,9 +2918,7 @@ msgstr "Project bijwerken"
 #: clientgui/ViewProjectsBase.cpp:108
 #: clientgui/ViewProjectsGrid.cpp:121
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Rapporteer het voltooide werk, werk de punten en voorkeuren bij en verkrijg "
-"mogelijk nieuw werk."
+msgstr "Rapporteer het voltooide werk, werk de punten en voorkeuren bij en verkrijg mogelijk nieuw werk."
 
 #: clientgui/ViewProjects.cpp:180
 #: clientgui/ViewProjects.cpp:706
@@ -3054,10 +2967,7 @@ msgstr "Project resetten"
 #: clientgui/ViewProjectsBase.cpp:130
 #: clientgui/ViewProjectsGrid.cpp:142
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"Verwijder alle bestanden die met dit project te maken hebben en vraag nieuw "
-"werk. Het is aan te raden het project eerst bij te werken om het voltooide "
-"werk te rapporteren."
+msgstr "Verwijder alle bestanden die met dit project te maken hebben en vraag nieuw werk. Het is aan te raden het project eerst bij te werken om het voltooide werk te rapporteren."
 
 #: clientgui/ViewProjects.cpp:201
 #: clientgui/ViewProjectsBase.cpp:139
@@ -3069,9 +2979,7 @@ msgstr "Project verwijderen"
 #: clientgui/ViewProjectsBase.cpp:140
 #: clientgui/ViewProjectsGrid.cpp:149
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"Verwijder deze computer uit het project. Lopend werk zal verloren gaan. Het "
-"is aan te raden het voltooide werk eerst te rapporteren."
+msgstr "Verwijder deze computer uit het project. Lopend werk zal verloren gaan. Het is aan te raden het voltooide werk eerst te rapporteren."
 
 #: clientgui/ViewProjects.cpp:208
 #: clientgui/ViewWork.cpp:204
@@ -3158,7 +3066,6 @@ msgstr "Bezig project te resetten..."
 #: clientgui/ViewProjects.cpp:432
 #: clientgui/ViewProjectsBase.cpp:296
 #: clientgui/ViewProjectsGrid.cpp:363
-#, c-format
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr "Weet je zeker dat je het project '%s' wilt resetten?"
@@ -3316,7 +3223,6 @@ msgstr "Computer Gemiddelde"
 
 #: clientgui/ViewStatistics.cpp:1283
 #, c-format
-#, c-format
 msgid "Last update: %.0f days ago"
 msgstr "Laatste update: %.0f dagen geleden."
 
@@ -3431,9 +3337,7 @@ msgstr "Overdracht afbreken"
 #: clientgui/ViewTransfers.cpp:171
 #: clientgui/ViewTransfersGrid.cpp:114
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr ""
-"Klik op 'Overdracht afbreken' om dit bestand uit de wachtrij te verwijderen. "
-"Er zullen in dit geval geen punten voor dit resultaat worden toegekend."
+msgstr "Klik op 'Overdracht afbreken' om dit bestand uit de wachtrij te verwijderen. Er zullen in dit geval geen punten voor dit resultaat worden toegekend."
 
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -3478,7 +3382,6 @@ msgid "Aborting transfer..."
 msgstr "Bezig met afbreken overdracht..."
 
 #: clientgui/ViewTransfers.cpp:322
-#, c-format
 #, c-format
 msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
@@ -3548,8 +3451,7 @@ msgstr "Werk afbreken"
 #: clientgui/ViewWork.cpp:198
 #: clientgui/ViewWorkGrid.cpp:129
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr ""
-"Annuleer het werk aan dit resultaat. Er zullen geen punten worden toegekend."
+msgstr "Annuleer het werk aan dit resultaat. Er zullen geen punten worden toegekend."
 
 #: clientgui/ViewWork.cpp:205
 msgid "Show task details."
@@ -3634,7 +3536,6 @@ msgstr "Werk"
 
 #: clientgui/ViewWorkGrid.cpp:327
 #, c-format
-#, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s %%, Status: %s)"
@@ -3647,7 +3548,6 @@ msgid "Change Research Applications at World Community Grid"
 msgstr "Verander Onderzoeks Applicaties bij World Community Grid"
 
 #: clientgui/WelcomePage.cpp:336
-#, c-format
 #, c-format
 msgid ""
 "If possible, add projects at the\n"
@@ -3700,12 +3600,10 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:372
 #, c-format
-#, c-format
 msgid "&Stop using%s"
 msgstr "&Stop gebruik van%s"
 
 #: clientgui/WelcomePage.cpp:379
-#, c-format
 #, c-format
 msgid ""
 "We'll now remove this computer from %s.  From now on,\n"
@@ -3805,24 +3703,20 @@ msgstr "Voltooien"
 
 #: clientgui/common/wxFlatNotebook.cpp:182
 #, c-format
-#, c-format
 msgid "New page inserted. Index = %i"
 msgstr "Nieuwe pagina ingevoegd. Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:187
-#, c-format
 #, c-format
 msgid "New page appended. Index = %i"
 msgstr "Nieuwe pagina bijgevoegd. Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2048
 #, c-format
-#, c-format
 msgid "Old Page Index = %i"
 msgstr "Oud Pagina Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2053
-#, c-format
 #, c-format
 msgid "OnDropTarget: index by HitTest = %i"
 msgstr "OnDropTarget: index by HitTest = %i"
@@ -3845,31 +3739,22 @@ msgstr "geef de netwerk start- en stoptijd aan in UU:MM - UU:MM"
 #~ msgstr ""
 #~ "Het is mogelijk dit URL te kopiëren uit je browser's\n"
 #~ "adresbalk."
-
 #~ msgid "For a list of account managers go to:"
 #~ msgstr "Voor een lijst met 'account managers' ga naar:"
-
 #~ msgid "You are already attached to this project."
 #~ msgstr "Je hebt dit project reeds toegevoegd."
-
 #~ msgid "Static text"
 #~ msgstr "Statische tekst"
-
 #~ msgid "Radiobutton"
 #~ msgstr "Keuzeknop"
-
 #~ msgid "Short term debt"
 #~ msgstr "Korte termijn eis"
-
 #~ msgid "Long term debt"
 #~ msgstr "Lange termijn eis"
-
 #~ msgid "Test"
 #~ msgstr "Test"
-
 #~ msgid "Enter account key"
 #~ msgstr "Vul account key in"
-
 #~ msgid ""
 #~ "This project uses an \"account key\" to identify you.\n"
 #~ "\n"
@@ -3880,31 +3765,22 @@ msgstr "geef de netwerk start- en stoptijd aan in UU:MM - UU:MM"
 #~ "\n"
 #~ "Ga naar de website van het project om een account te maken.\n"
 #~ "De Account Key wordt per email toe gestuurd."
-
 #~ msgid "An account key looks like:"
 #~ msgstr "Een Account Key lijkt op:"
-
 #~ msgid "82412313ac88e9a3638f66ea82186948"
 #~ msgstr "82412313ac88e9a3638f66ea82186948"
-
 #~ msgid "Account key:"
 #~ msgstr "Account key:"
-
 #~ msgid "For a list of BOINC-based account managers go to:"
 #~ msgstr "Voor een lijst van BOINC gebaseerde account managers ga naar:"
-
 #~ msgid "&Accessible View"
 #~ msgstr "Toegankelijk"
-
 #~ msgid "Accessible views are compatible with accessibility aids such as screen readers."
 #~ msgstr "De toegankelijkheids weergave is bruikbaar in combinatie met o.a. een \"verteller\"."
-
 #~ msgid "&Grid View"
 #~ msgstr "Sorteerbaar"
-
 #~ msgid "Grid views allow you to sort various columns and displays graphical progress bars."
 #~ msgstr "De sorteerbare weergave geeft de mogelijkheid om de kolommen te sorteren "
-
 #~ msgid ":"
 #~ msgstr ":"
 
@@ -3925,25 +3801,18 @@ msgstr "geef de netwerk start- en stoptijd aan in UU:MM - UU:MM"
 #~ msgstr ""
 #~ "BOINC gebruiker en/of rechten zijn niet goed ingesteld. Herinstalleer a.u.b. BOINC.\n"
 #~ "(Foutcode: %d)"
-
 #~ msgid "BOINC leaves at least this amount of disk space free (in Gigagytes)"
 #~ msgstr "BOINC moet minimaal deze hoeveelheid ruimte vrij laten (in Gigabyte)"
-
 #~ msgid "Click here to disable displaying this message in the future."
 #~ msgstr "Klik hier om deze boodschap in het vervolg niet meer te tonen."
-
 #~ msgid "Language Selection:"
 #~ msgstr "Taalselectie:"
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "Welke standaard taal moet de manager gebruiken."
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "Herinnerings interval:"
-
 #~ msgid "How often, in minutes, should the manager remind you of possible connection events."
 #~ msgstr "Hoe vaak, in minuten, moet de manager een herinnering weergeven over mogelijke verbindings handelingen."
-
 #~ msgid ""
 #~ "BOINC failed to communicate on the Internet. The most likely\n"
 #~ "reasons are:\n"
@@ -3971,36 +3840,28 @@ msgstr "geef de netwerk start- en stoptijd aan in UU:MM - UU:MM"
 #~ "\n"
 #~ "3) Je gebruikt een Proxy server.\n"
 #~ "Klik op Volgende om de proxy correct in te stellen."
-
 #~ msgid "total disk usage"
 #~ msgstr "totaal schijfgebruik"
-
 #~ msgid "disk usage by BOINC projects"
 #~ msgstr "schijfgebruik door BOINC projecten"
-
 #~ msgid "not attached to any BOINC project - 0 bytes"
 #~ msgstr "Geen BOINC projecten toegevoegd - 0 Bytes"
-
 #~ msgid "free disk space - "
 #~ msgstr "vrije ruimte - "
-
 #~ msgid "used by BOINC - "
 #~ msgstr "gebruikt door BOINC projecten - "
-
 #~ msgid "used by other programs - "
 #~ msgstr "gebruikt door anderen - "
-
 #~ msgid "Project Comm Failure"
 #~ msgstr "Project Comm. Fout"
-
 #~ msgid "Google Comm Failure"
 #~ msgstr "Google Comm. Fout"
 
 #, c-format
 #~ msgid "Yahoo Comm Failure"
 #~ msgstr "Yahoo Comm. Fout"
-
 #~ msgid "This project may not support your platform and may not give you any tasks to process."
 #~ msgstr ""
 #~ "Het is mogelijk dat dit project jouw platform niet ondersteund en daarom "
 #~ "geen werk uitgeeft."
+
