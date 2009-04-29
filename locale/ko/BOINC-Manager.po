@@ -3,19 +3,19 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.4 and based on English po v1.32\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2006-03-29 06:23+0900\n"
-"Last-Translator: Han Dong-yoon <dyhan81@gmail.com>\n"
+"PO-Revision-Date: 2009-04-29 16:58-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_6a\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:337
 msgid "User information"
@@ -98,13 +98,11 @@ msgstr "계정 관리자 첨부됨"
 
 #: clientgui/AccountInfoPage.cpp:489
 #, c-format
-#, fuzzy
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr "이 프로젝트에서 최소 암호 길이는 %d 입니다. 다른 암호를 선택하세요."
 
 #: clientgui/AccountInfoPage.cpp:495
 #, c-format
-#, fuzzy
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr "계정 관리자에서 최소 암호 길이는 %d 입니다. 다른 암호를 선택하세요."
 
@@ -127,9 +125,8 @@ msgstr "계정 관리자 &URL:"
 #: clientgui/AccountManagerProcessingPage.cpp:190
 #: clientgui/AccountManagerPropertiesPage.cpp:194
 #, c-format
-#, fuzzy
 msgid "Communicating with %s."
-msgstr "서버와 통신 중 입니다."
+msgstr "서버와 통신 중 입니다 %s."
 
 #: clientgui/AccountManagerProcessingPage.cpp:197
 #: clientgui/AccountManagerPropertiesPage.cpp:201
@@ -291,8 +288,6 @@ msgid "Configure local preferences"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:437
-#, c-format
-#, c-format
 #, fuzzy
 msgid "Connect to another computer running %s"
 msgstr "BOINC가 실행되는 다른 컴퓨터에 접속"
@@ -389,8 +384,6 @@ msgstr "%s 웹 사이트(&W)"
 
 #: clientgui/AdvancedFrame.cpp:536
 #: clientgui/sg_BoincSimpleGUI.cpp:152
-#, c-format
-#, c-format
 #, fuzzy
 msgid "Show information about BOINC and %s"
 msgstr "BOINC Manager에 대한 정보를 보여주기"
@@ -500,8 +493,6 @@ msgid "Connecting to %s"
 msgstr "%s에 접속 중"
 
 #: clientgui/AdvancedFrame.cpp:1778
-#, c-format
-#, c-format
 #, fuzzy
 msgid "Connected to %s (%s)"
 msgstr "%s에 접속됨"
@@ -667,8 +658,6 @@ msgid "%s failed to connect to the Internet."
 msgstr "%s이(가) 인터넷에 접속하는데 실패했습니다."
 
 #: clientgui/BOINCDialupManager.cpp:455
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
@@ -854,8 +843,6 @@ msgid "Welcome to %s!"
 msgstr "%s에 오신 것을 환영합니다!"
 
 #: clientgui/CompletionPage.cpp:303
-#, c-format
-#, c-format
 #, fuzzy
 msgid "You are now successfully attached to the %s system."
 msgstr ""
@@ -1093,8 +1080,6 @@ msgid "Use at most"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:259
-#, no-c-format
-#, no-c-format
 #, fuzzy
 msgid "% CPU time"
 msgstr "CPU 시간"
@@ -1833,8 +1818,6 @@ msgid "SOCKS Proxy"
 msgstr "SOCKS 프록시"
 
 #: clientgui/DlgSelectComputer.cpp:90
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s - Select Computer"
 msgstr "컴퓨터 선택"
@@ -2328,18 +2311,14 @@ msgstr "모든 메시지를 클립보드에 복사"
 #: clientgui/ViewMessagesGrid.cpp:110
 #, fuzzy
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 "
-"있습니다."
+msgstr "클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 있습니다."
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 #: clientgui/ViewMessages.cpp:99
 #: clientgui/ViewMessagesGrid.cpp:112
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 "
-"있습니다."
+msgstr "클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 있습니다."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2940,9 +2919,7 @@ msgstr "프로젝트 다시 설정"
 #: clientgui/ViewProjectsGrid.cpp:142
 #, fuzzy
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"프로젝트와 관련된 모든 파일과 작업을 삭제하고, 새로운 작업을 얻습니다. 완료된 작업을 리포트하기 위해 먼저 프로젝트를 업데이트 할 수 "
-"있습니다."
+msgstr "프로젝트와 관련된 모든 파일과 작업을 삭제하고, 새로운 작업을 얻습니다. 완료된 작업을 리포트하기 위해 먼저 프로젝트를 업데이트 할 수 있습니다."
 
 #: clientgui/ViewProjects.cpp:201
 #: clientgui/ViewProjectsBase.cpp:139
@@ -2955,8 +2932,7 @@ msgstr "분리하기"
 #: clientgui/ViewProjectsGrid.cpp:149
 #, fuzzy
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"프로젝트에서 컴퓨터를 분리합니다. 진행 중인 작업은 잃어버리게 됩니다 (완료된 작업을 리포트하기 위해 먼저 '업데이트'를 사용하세요)."
+msgstr "프로젝트에서 컴퓨터를 분리합니다. 진행 중인 작업은 잃어버리게 됩니다 (완료된 작업을 리포트하기 위해 먼저 '업데이트'를 사용하세요)."
 
 #: clientgui/ViewProjects.cpp:208
 #: clientgui/ViewWork.cpp:204
@@ -3520,8 +3496,6 @@ msgid "TasksGrid"
 msgstr ""
 
 #: clientgui/ViewWorkGrid.cpp:327
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
@@ -3704,7 +3678,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "For a list of account managers go to:"
 #~ msgstr "BOINC 기반 계정 관리자 목록은 여기에 있습니다:"
-
 #~ msgid "You are already attached to this project."
 #~ msgstr "이미 이 프로젝트 첨부되어 있습니다."
 
@@ -3715,36 +3688,28 @@ msgstr ""
 #~ msgstr ""
 #~ "웹 사이트에서 사용할 사용자 이름과\n"
 #~ "암호를 입력하세요."
-
 #~ msgid ""
 #~ "Enter the email address and password you used on\n"
 #~ "the web site."
 #~ msgstr ""
 #~ "웹 사이트에서 사용할 이메일 주소와\n"
 #~ "암호를 입력하세요."
-
 #~ msgid "Email address:"
 #~ msgstr "이메일 주소(&E):"
-
 #~ msgid "Enter account key"
 #~ msgstr "계정 키 입력"
-
 #~ msgid "This project uses an \"account key\" to identify you."
 #~ msgstr "이 프로젝트는 당신을 확인 하는데 \"계정 키\"를 사용합니다."
-
 #~ msgid ""
 #~ "Go to the project's web site to create an account. Your account\n"
 #~ "key will be emailed to you."
 #~ msgstr ""
 #~ "계정을 생성하려면 프로젝트 웹 사이트로 가세요.\n"
 #~ "당신의 계정 키가 당신에게 이메일로 보내질 것입니다."
-
 #~ msgid "An account key looks like:"
 #~ msgstr "계정 키는 이렇게 생겼습니다:"
-
 #~ msgid "82412313ac88e9a3638f66ea82186948"
 #~ msgstr "82412313ac88e9a3638f66ea82186948"
-
 #~ msgid "Account key:"
 #~ msgstr "계정 키:"
 
@@ -3755,7 +3720,6 @@ msgstr ""
 #~ msgstr ""
 #~ "계정 관리자와 통신 중 입니다.\n"
 #~ "잠시 기다려 주세요..."
-
 #~ msgid "Account information"
 #~ msgstr "계정 정보"
 
@@ -3771,7 +3735,6 @@ msgstr ""
 #~ msgstr ""
 #~ "%s이(가) 프로젝트와 통신하는데 가능하지 않으며 아무런 기본 접속도 지정되지 않았습니다.\n"
 #~ "인터넷에 접속 하거나 또는 옵션 대화상자 내 접속 탭을 경유해 기본 접속을 지정 해주세요."
-
 #~ msgid ""
 #~ "Please provide the email address and password you used to register\n"
 #~ "at GridRepublic. (if you have not yet created an account at\n"
@@ -3780,10 +3743,8 @@ msgstr ""
 #~ "GridRepublic에서 등록에 사용할 이메일 주소와 암호를 넣어주세요\n"
 #~ "(만약 GridRepublic 계정을 아직 만들지 않았다면,\n"
 #~ "http://www.gridrepublic.org에서 만들어 주세요.)"
-
 #~ msgid "Start Project"
 #~ msgstr "프로젝트 시작"
-
 #~ msgid ""
 #~ "Please enter an email address and password. You will need your email\n"
 #~ "address if you want to change your account options or use our message\n"
@@ -3797,22 +3758,18 @@ msgstr ""
 #~ "\n"
 #~ "저희가 종종 이메일을 보내드릴 것입니다. 이메일 받기는 언제든지\n"
 #~ "중단할 수 있습니다. 이메일 주소를 다른 이들에게 전달하지 않을 것입니다."
-
 #~ msgid "Project Started"
 #~ msgstr "시작된 프로젝트"
-
 #~ msgid ""
 #~ "Congratulations, you have now successfully started your Climate\n"
 #~ "Change Experiment."
 #~ msgstr "축하합니다. Climate Change Experiment를 성공적으로 시작 했습니다."
-
 #~ msgid ""
 #~ "Click finish to exit. You will be taken to a web page which tells\n"
 #~ "you more about your model."
 #~ msgstr ""
 #~ "나가려면 완료를 클릭하세요. 모델에 관한 더 많은 이야기를\n"
 #~ "하고 하고 있는 웹 페이지를 방문하게 될 것입니다."
-
 #~ msgid ""
 #~ "This will shut down your experiment until it restarts automatically\n"
 #~ "following your user preferences. Close window to close the manager\n"
@@ -3837,7 +3794,6 @@ msgstr ""
 #, c-format
 #~ msgid "%s is not currently connected to a %s client...\n"
 #~ msgstr "%s는 현재 %s 클라이언트에 접속 중이 아닙니다...\n"
-
 #~ msgid ""
 #~ "An error has occurred, please check the messages tab for further\n"
 #~ "details.\n"
@@ -3848,41 +3804,30 @@ msgstr ""
 #~ "확인해 주세요.\n"
 #~ "\n"
 #~ "닫으려면 완료를 클릭하세요."
-
 #~ msgid "A software platform for distributed computing using volunteered computer resources"
 #~ msgstr "자진 지원된 컴퓨터 자원을 활용한 분산 컴퓨팅용 소프트웨어 플랫폼"
-
 #~ msgid "Username:"
 #~ msgstr "사용자 이름:"
-
 #~ msgid "Click here to disable displaying this message in the future."
 #~ msgstr "여기를 클릭하면 앞으로 이 메시지 표시를 하지 않습니다."
-
 #~ msgid "Language Selection:"
 #~ msgstr "언어 선택:"
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "관리자가 기본으로 표시할 언어."
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "알리미 빈도:"
-
 #~ msgid "How often, in minutes, should the manager remind you of possible connection events."
 #~ msgstr "분 단위로 얼마나 자주 관리자가 당신에게 가능한 접속 이벤트에 대하여 알려줘야하나요."
 
 #, c-format
 #~ msgid "Exit the BOINC Manager"
 #~ msgstr "BOINC Manager 에서 나가기"
-
 #~ msgid "&Account manager"
 #~ msgstr "계정 관리자(&A)..."
-
 #~ msgid "&Options"
 #~ msgstr "옵션(&O)"
-
 #~ msgid "Retry &communications"
 #~ msgstr "통신 다시 시도(&C)"
-
 #~ msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
 #~ msgstr "완료된 작업을 리포트하고, 최신 크레디트와 설정을 가져오며, 그리고 작업을 좀 더 가지고 오게될 수 있습니다."
 
@@ -3893,26 +3838,20 @@ msgstr ""
 #, c-format
 #~ msgid "Show information about BOINC and BOINC Manager"
 #~ msgstr "BOINC와 BOINC Manager에 대한 정보 보여주기"
-
 #~ msgid "Close Confirmation"
 #~ msgstr "확인을 닫기"
 
 #, c-format
 #~ msgid "BOINC Manager - Detach from %s"
 #~ msgstr "BOINC Manager - %s에서 떨어짐"
-
 #~ msgid "Account not found"
 #~ msgstr "계정이 발견되지 않음"
-
 #~ msgid "Project URL"
 #~ msgstr "프로젝트 URL"
-
 #~ msgid "Enter the URL of the project's web site."
 #~ msgstr "프로젝트 웹 사이트 URL을 입력하세요."
-
 #~ msgid "For a list of BOINC-based projects go to:"
 #~ msgstr "BOINC 기반 프로젝트의 목록은 이쪽에서 볼 수 있습니다:"
-
 #~ msgid ""
 #~ "BOINC failed to communicate on the Internet. The most likely\n"
 #~ "reasons are:\n"
@@ -3931,37 +3870,26 @@ msgstr ""
 #~ "해야합니다. 일단 고쳤으면, 뒤로 버튼을 눌러 다시 시도하세요.\n"
 #~ "\n"
 #~ "2) 프록시 서버를 사용 중 이라면 BOINC에게 알려줄 필요가있습니다."
-
 #~ msgid "Click Next to configure BOINC's proxy settings."
 #~ msgstr "BOINC 프록시 세팅을 설정하려면 다음을 클릭하세요."
-
 #~ msgid "No new work"
 #~ msgstr "새로운 작업 없음"
-
 #~ msgid "Allow new work"
 #~ msgstr "새로운 작업을 허용"
-
 #~ msgid "Disk Space"
 #~ msgstr "디스크 공간"
-
 #~ msgid "work"
 #~ msgstr "작업"
-
 #~ msgid "Hide graphics"
 #~ msgstr "그래픽 숨기기"
-
 #~ msgid "Hide application graphics window."
 #~ msgstr "애플리케이션 그래픽 윈도우 숨기기"
-
 #~ msgid "Activities suspended"
 #~ msgstr "일시 정지된 활동"
-
 #~ msgid "Preempted"
 #~ msgstr "다른 프로세스에 의해 일시 정지"
-
 #~ msgid "Ready to run"
 #~ msgstr "실행 준비 됨"
-
 #~ msgid "Activities suspended by user"
 #~ msgstr "사용자에 의해 일시 정지된 활동"
 
@@ -3973,93 +3901,36 @@ msgstr ""
 #~ msgstr ""
 #~ "%s에서 이 컴퓨터를 제거 할 것입니다. 지금부터는\n"
 #~ "BOINC 클라이언트 소프트웨어 관리 책임이 있습니다."
-
 #~ msgid ""
 #~ "We'll now guide you through the process of \n"
 #~ "adding/updating/removing an account manager."
 #~ msgstr ""
 #~ "지금부터 계정 관리자를 추가/업데이트/제거\n"
 #~ "하는 동안 길잡이 해드리겠습니다."
-
 #~ msgid "Project Comm Failure"
 #~ msgstr "프로젝트 통신 실패"
-
 #~ msgid "Do you want to use an existing account or create a new one?"
 #~ msgstr "기존 계정을 사용하시거나, 새로 만드시겠습니까?"
-
 #~ msgid "Create new &account"
 #~ msgstr "새로운 계정 생성(&N)"
-
 #~ msgid "&Use existing account"
 #~ msgstr "기존 계정 사용(&U)"
-
 #~ msgid ""
 #~ "If you haven't set a password, copy and paste your account\n"
 #~ "key into the Password box."
 #~ msgstr ""
 #~ "암호를 아직 설정하지 않으셨다면, 계정 키를 복사 및 붙여넣기로\n"
 #~ "암호 기입란에 넣어주세요."
-
 #~ msgid "Google Comm Failure"
 #~ msgstr "구글 통신 실패"
-
 #~ msgid "Yahoo Comm Failure"
 #~ msgstr "야후 통신 실패"
-
 #~ msgid "About BOINC Manager"
 #~ msgstr "BOINC Manager 정보"
-
 #~ msgid "BOINC Manager - Dialup Logon"
 #~ msgstr "BOINC Manager - 전화접속 로그온"
-
 #~ msgid "BOINC Manager - Options"
 #~ msgstr "BOINC Manager - 옵션"
-
 #~ msgid "BOINC Manager - Select Computer"
 #~ msgstr "BOINC Manager - 컴퓨터 선택"
 
-# Unofficial Strings
-#~ msgid "&Commands"
-#~ msgstr "명령(&C)"
-
-#~ msgid "Run &benchmarks"
-#~ msgstr "벤치마크 실행(&R)"
-
-#~ msgid "&Projects"
-#~ msgstr "프로젝트(&P)"
-
-#~ msgid "Options"
-#~ msgstr "옵션"
-
-#~ msgid "Total credit"
-#~ msgstr "전체 크레디트"
-
-#~ msgid "Avg. credit"
-#~ msgstr "평균 크레디트"
-
-#~ msgid "Donate"
-#~ msgstr "기증하기"
-
-#~ msgid "Donate to SETI@home"
-#~ msgstr "SETI@home에 기증하기"
-
-#~ msgid "Work"
-#~ msgstr "작업"
-
-#~ msgid "&Open BOINC Manager..."
-#~ msgstr "BOINC Manager 열기(&O)..."
-
-#~ msgid "&BOINC Manager\tF1"
-#~ msgstr "&BOINC Manager\tF1"
-
-#~ msgid "BOINC &website"
-#~ msgstr "BOINC 웹 사이트(&W)"
-
-#~ msgid "&About BOINC Manager..."
-#~ msgstr "BOINC Manager 정보(&A)..."
-
-#~ msgid "Attach to Project"
-#~ msgstr "프로젝트 첨부"
-
-#~ msgid "View a listing of all the computers on which you are running Rosetta@home"
-#~ msgstr "Rosetta@home을 실행하고 있는 모든 컴퓨터의 목록을 보기"
