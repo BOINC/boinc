@@ -1,21 +1,21 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 4.x\n"
+"Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2005-11-09 07:38+0100\n"
-"Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
+"PO-Revision-Date: 2009-04-29 15:39-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_6a\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:337
 msgid "User information"
@@ -98,25 +98,17 @@ msgstr "Σύνδεση στο πρόγραμμα διαχείρησης λογα
 
 #: clientgui/AccountInfoPage.cpp:489
 #, c-format
-#, fuzzy
 msgid "The minimum password length for this project is %d. Please enter a different password."
-msgstr ""
-"Το ελάχιστο μήκος κωδικού για αυτό το πρόγραμμα είναι %d χαρακτήρες. "
-"Παρακαλούμε επιλέξτε άλλο κωδικο."
+msgstr "Το ελάχιστο μήκος κωδικού για αυτό το πρόγραμμα είναι %d χαρακτήρες. Παρακαλούμε επιλέξτε άλλο κωδικο."
 
 #: clientgui/AccountInfoPage.cpp:495
 #, c-format
-#, fuzzy
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr ""
-"Το ελάχιστο μήκος κωδικού για αυτό το πρόγραμμα διαχείρησης λογαριασμού "
-"είναι %d χαρακτήρες. Παρακαλούμε επιλέξτε άλλο κωδικο."
+msgstr "Το ελάχιστο μήκος κωδικού για αυτό το πρόγραμμα διαχείρησης λογαριασμού είναι %d χαρακτήρες. Παρακαλούμε επιλέξτε άλλο κωδικο."
 
 #: clientgui/AccountInfoPage.cpp:506
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr ""
-"Ο κωδικός δεν συμφωνεί με τον κωδικό επιβεβαίωσης. Παρακαλούμε "
-"επαναπληκτρολογήστε τους."
+msgstr "Ο κωδικός δεν συμφωνεί με τον κωδικό επιβεβαίωσης. Παρακαλούμε επαναπληκτρολογήστε τους."
 
 #: clientgui/AccountManagerInfoPage.cpp:180
 msgid "Account Manager URL"
@@ -297,8 +289,6 @@ msgid "Configure local preferences"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:437
-#, c-format
-#, c-format
 #, fuzzy
 msgid "Connect to another computer running %s"
 msgstr "Σύνδεση σε κάποιο άλλο υπολογιστή ο οποίο τρέχει το BOINC"
@@ -397,8 +387,6 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:536
 #: clientgui/sg_BoincSimpleGUI.cpp:152
-#, c-format
-#, c-format
 #, fuzzy
 msgid "Show information about BOINC and %s"
 msgstr "Εμφάνιση πληροφοριών για το BOINC Manager"
@@ -482,13 +470,9 @@ msgid "%s - Language Selection"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1428
-#, c-format
-#, c-format
 #, fuzzy
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr ""
-"Η εξ' ορισμού γλώσσα του BOINC Manager έχει αλλάξει. Ούτως ώστε αυτή η "
-"αλλαγή να τεθεί σε εφαρμογή πρέπει να επανεκκινήσετε το διαχειριστή."
+msgstr "Η εξ' ορισμού γλώσσα του BOINC Manager έχει αλλάξει. Ούτως ώστε αυτή η αλλαγή να τεθεί σε εφαρμογή πρέπει να επανεκκινήσετε το διαχειριστή."
 
 #: clientgui/AdvancedFrame.cpp:1639
 #: clientgui/DlgAbout.cpp:104
@@ -512,8 +496,6 @@ msgid "Connecting to %s"
 msgstr "Σύνδεση στο %s"
 
 #: clientgui/AdvancedFrame.cpp:1778
-#, c-format
-#, c-format
 #, fuzzy
 msgid "Connected to %s (%s)"
 msgstr "Συνδέθηκε στο %s"
@@ -533,8 +515,7 @@ msgstr ""
 "Ένας λογαριασμός με αυτή τη διεύθυνση email υπάρχει ήδη και έχει\n"
 "διαφορετικό κωδικό πρόσβασης από αυτό που εισάγατε.\n"
 "\n"
-"Παρακαλούμε επισκεφθείτε την ιστοσελίδα του προγράμματος και ακολουθήστε τις "
-"οδηγίες εκεί."
+"Παρακαλούμε επισκεφθείτε την ιστοσελίδα του προγράμματος και ακολουθήστε τις οδηγίες εκεί."
 
 #: clientgui/AlreadyExistsPage.cpp:190
 msgid "Email address already in use"
@@ -550,8 +531,7 @@ msgstr ""
 "Ένας λογαριασμός με αυτή τη διεύθυνση email υπάρχει ήδη και έχει\n"
 "διαφορετικό κωδικό πρόσβασης από αυτό που εισάγατε.\n"
 "\n"
-"Παρακαλούμε επισκεφθείτε την ιστοσελίδα του προγράμματος και ακολουθήστε τις "
-"οδηγίες εκεί."
+"Παρακαλούμε επισκεφθείτε την ιστοσελίδα του προγράμματος και ακολουθήστε τις οδηγίες εκεί."
 
 #: clientgui/AsyncRPC.cpp:923
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -650,8 +630,6 @@ msgid ""
 msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:310
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s needs to connect to the Internet.\n"
@@ -661,8 +639,6 @@ msgstr ""
 "Να το επιχειρήσει τώρα;"
 
 #: clientgui/BOINCDialupManager.cpp:323
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s is connecting to the Internet."
 msgstr "Το BOINC συνδέεται στο διαδίκτυο."
@@ -676,40 +652,28 @@ msgid ""
 msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:386
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s has successfully connected to the Internet."
 msgstr "Το BOINC συνθέθηκε επιτυχώς στο διαδίκτυο"
 
 #: clientgui/BOINCDialupManager.cpp:414
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s failed to connect to the Internet."
 msgstr "Το BOINC απέτυχε να συνδεθεί στο διαδίκτυο."
 
 #: clientgui/BOINCDialupManager.cpp:455
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
-msgstr ""
-"Το BOINC εντόπισε ότι είναι συνδεδεμένο στο διαδίκτυο. Ανανέωση όλων των "
-"προγραμμάτων και επανάληψη όλων των μεταφορών."
+msgstr "Το BOINC εντόπισε ότι είναι συνδεδεμένο στο διαδίκτυο. Ανανέωση όλων των προγραμμάτων και επανάληψη όλων των μεταφορών."
 
 #: clientgui/BOINCDialupManager.cpp:500
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s has successfully disconnected from the Internet."
 msgstr "Το BOINC αποσυνδέθηκε επιτυχώς από το διαδίκτυο."
 
 #: clientgui/BOINCDialupManager.cpp:516
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s failed to disconnected from the Internet."
 msgstr "Το BOINC απέτυχε να αποσυνδεθεί από το διαδίκτυο."
@@ -731,8 +695,7 @@ msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:518
 msgid "Startup BOINC so only the system tray icon is visible"
-msgstr ""
-"Εκίννηση του BOINC ούτως ώστε μόνο το εικονίδιο στη μπάρα να είναι ορατό"
+msgstr "Εκίννηση του BOINC ούτως ώστε μόνο το εικονίδιο στη μπάρα να είναι ορατό"
 
 #: clientgui/BOINCGUIApp.cpp:519
 msgid "Startup BOINC with these optional arguments"
@@ -850,8 +813,7 @@ msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
 msgstr ""
-"Όταν κάνετε κλίκ στο Τέλος, ο φυλλομετρητής σας θα μεταφερθεί στη σελίδα "
-"όπου\n"
+"Όταν κάνετε κλίκ στο Τέλος, ο φυλλομετρητής σας θα μεταφερθεί στη σελίδα όπου\n"
 "μπορείτε να καθορίσετε το όνομα του λογαριασμού σας και τις προτιμήσεις σας."
 
 #: clientgui/CompletionPage.cpp:233
@@ -887,8 +849,6 @@ msgid "Welcome to %s!"
 msgstr ""
 
 #: clientgui/CompletionPage.cpp:303
-#, c-format
-#, c-format
 #, fuzzy
 msgid "You are now successfully attached to the %s system."
 msgstr "Επιτυχημένη σύνδεση στο πρόγραμμα."
@@ -1124,8 +1084,6 @@ msgid "Use at most"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:259
-#, no-c-format
-#, no-c-format
 #, fuzzy
 msgid "% CPU time"
 msgstr "Χρόνος Επεξεργαστή"
@@ -1864,8 +1822,6 @@ msgid "SOCKS Proxy"
 msgstr "SOCKS Proxy"
 
 #: clientgui/DlgSelectComputer.cpp:90
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s - Select Computer"
 msgstr "Επιλογή Υπολογιστή"
@@ -1914,9 +1870,7 @@ msgstr "Ο Λογαριασμός σας"
 #: clientgui/Localization.cpp:87
 #: clientgui/Localization.cpp:113
 msgid "View your account information and credit totals"
-msgstr ""
-"Εμφάνιση πληροφοριών σχετικών με το λογαριασμό σας και το σύνολο των βαθμών "
-"σας"
+msgstr "Εμφάνιση πληροφοριών σχετικών με το λογαριασμό σας και το σύνολο των βαθμών σας"
 
 #: clientgui/Localization.cpp:43
 msgid "Your preferences"
@@ -1924,9 +1878,7 @@ msgstr "Οι Προτιμήσεις σας"
 
 #: clientgui/Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr ""
-"Εμφάνιση και επεξεργασία του προφίλ λογαριασμού σας στο SETI@Home και των "
-"προτιμήσεών σας."
+msgstr "Εμφάνιση και επεξεργασία του προφίλ λογαριασμού σας στο SETI@Home και των προτιμήσεών σας."
 
 #: clientgui/Localization.cpp:47
 #: clientgui/Localization.cpp:89
@@ -1936,9 +1888,7 @@ msgstr "Τα Αποτελέσματά σας"
 #: clientgui/Localization.cpp:49
 #: clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr ""
-"Εμφάνιση των αποτελεσμάτων και εργασιών της τελευταιας εβδομάδας (ή "
-"παραπάνω)"
+msgstr "Εμφάνιση των αποτελεσμάτων και εργασιών της τελευταιας εβδομάδας (ή παραπάνω)"
 
 #: clientgui/Localization.cpp:51
 #: clientgui/Localization.cpp:93
@@ -1947,9 +1897,7 @@ msgstr "Οι Υπολογιστές σας"
 
 #: clientgui/Localization.cpp:53
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr ""
-"Εμφάνιση λίστας με όλους τους υπολογιστές στους οποίους εκτελείτε στο "
-"SETI@Home"
+msgstr "Εμφάνιση λίστας με όλους τους υπολογιστές στους οποίους εκτελείτε στο SETI@Home"
 
 #: clientgui/Localization.cpp:55
 #: clientgui/Localization.cpp:97
@@ -2000,9 +1948,7 @@ msgstr ""
 #: clientgui/Localization.cpp:83
 #, fuzzy
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr ""
-"Εμφάνιση και επεξεργασία του προφίλ λογαριασμού σας στο SETI@Home και των "
-"προτιμήσεών σας."
+msgstr "Εμφάνιση και επεξεργασία του προφίλ λογαριασμού σας στο SETI@Home και των προτιμήσεών σας."
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
@@ -2011,9 +1957,7 @@ msgstr ""
 #: clientgui/Localization.cpp:95
 #, fuzzy
 msgid "View a listing of all the computers on which you are running Einstein@Home"
-msgstr ""
-"Εμφάνιση λίστας με όλους τους υπολογιστές στους οποίους εκτελείτε στο "
-"SETI@Home"
+msgstr "Εμφάνιση λίστας με όλους τους υπολογιστές στους οποίους εκτελείτε στο SETI@Home"
 
 #: clientgui/Localization.cpp:101
 msgid "LIGO project"
@@ -2359,20 +2303,14 @@ msgstr "Αντιγραφή όλων των μηνυμάτων στο clipboard"
 #: clientgui/ViewMessagesGrid.cpp:110
 #, fuzzy
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Αντιγραφή επιλεγμένων μηνυμάτων στο clipboard. Μπορείτε να επιλέξετε "
-"πολλαπλά μηνύματα κρατώντας πατημένο το κουμπί shift ή control όταν κάνετε "
-"κλίκ στα μηνύματα."
+msgstr "Αντιγραφή επιλεγμένων μηνυμάτων στο clipboard. Μπορείτε να επιλέξετε πολλαπλά μηνύματα κρατώντας πατημένο το κουμπί shift ή control όταν κάνετε κλίκ στα μηνύματα."
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 #: clientgui/ViewMessages.cpp:99
 #: clientgui/ViewMessagesGrid.cpp:112
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Αντιγραφή επιλεγμένων μηνυμάτων στο clipboard. Μπορείτε να επιλέξετε "
-"πολλαπλά μηνύματα κρατώντας πατημένο το κουμπί shift ή control όταν κάνετε "
-"κλίκ στα μηνύματα."
+msgstr "Αντιγραφή επιλεγμένων μηνυμάτων στο clipboard. Μπορείτε να επιλέξετε πολλαπλά μηνύματα κρατώντας πατημένο το κουμπί shift ή control όταν κάνετε κλίκ στα μηνύματα."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2685,9 +2623,7 @@ msgstr ""
 #: clientgui/ViewWorkGrid.cpp:258
 #, fuzzy
 msgid "Are you sure you want to display graphics on a remote machine?"
-msgstr ""
-"Είστε σίγουρος ότι επιθυμείτε να εμφανίσετε γραφικά σε ένα απομακρυσμένο "
-"υπολογιστή;"
+msgstr "Είστε σίγουρος ότι επιθυμείτε να εμφανίσετε γραφικά σε ένα απομακρυσμένο υπολογιστή;"
 
 #: clientgui/sg_ViewTabPage.cpp:422
 #: clientgui/ViewWork.cpp:183
@@ -2761,9 +2697,7 @@ msgstr "Παρακαλούμε καθορίστε ένα κλειδί λογαρ
 
 #: clientgui/ValidateAccountKey.cpp:71
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr ""
-"Μη έγκυρο κλειδί λογαριασμού: Παρακαλούμε εισάγετε ένα έγκυρο κλειδί "
-"λογαριασμού"
+msgstr "Μη έγκυρο κλειδί λογαριασμού: Παρακαλούμε εισάγετε ένα έγκυρο κλειδί λογαριασμού"
 
 #: clientgui/ValidateAccountKey.cpp:82
 #: clientgui/ValidateEmailAddress.cpp:86
@@ -2928,9 +2862,7 @@ msgstr "Ανανέωση"
 #: clientgui/ViewProjectsGrid.cpp:121
 #, fuzzy
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Αναφορά ολοκληρωμένων εργασιών, ανάκτηση βαθμολογίας, ανάκτηση προτιμήσεων "
-"και πιθανών νέων εργασιών."
+msgstr "Αναφορά ολοκληρωμένων εργασιών, ανάκτηση βαθμολογίας, ανάκτηση προτιμήσεων και πιθανών νέων εργασιών."
 
 #: clientgui/ViewProjects.cpp:180
 #: clientgui/ViewProjects.cpp:706
@@ -2982,10 +2914,7 @@ msgstr "Επανεκκίνηση προγράμματος"
 #: clientgui/ViewProjectsGrid.cpp:142
 #, fuzzy
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"Διαγράφει όλα τα αρχεία και τις εργασίες που σχετίζονται με αυτό το "
-"πρόγραμμα και ανακτά νέες εργασίες. Μπορείτε να κάνετε ανανέωση του "
-"προγράμματος πρώτα ώστε να αναφέρεται τυχών ολοκληρωμένες εργασίες."
+msgstr "Διαγράφει όλα τα αρχεία και τις εργασίες που σχετίζονται με αυτό το πρόγραμμα και ανακτά νέες εργασίες. Μπορείτε να κάνετε ανανέωση του προγράμματος πρώτα ώστε να αναφέρεται τυχών ολοκληρωμένες εργασίες."
 
 #: clientgui/ViewProjects.cpp:201
 #: clientgui/ViewProjectsBase.cpp:139
@@ -2998,10 +2927,7 @@ msgstr "Αποσύνδεση"
 #: clientgui/ViewProjectsGrid.cpp:149
 #, fuzzy
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"Αποχώρηση υπολογιστή από αυτό το πρόγραμμα. Οι εργασίες που δεν έχουν "
-"ολοκληρωθεί θα χαθούν (χρησιμοποιήστε την 'Ανανέωση' πρώτα για να αναφέρετε "
-"τυχών ολοκληρωμένες εργασίες)"
+msgstr "Αποχώρηση υπολογιστή από αυτό το πρόγραμμα. Οι εργασίες που δεν έχουν ολοκληρωθεί θα χαθούν (χρησιμοποιήστε την 'Ανανέωση' πρώτα για να αναφέρετε τυχών ολοκληρωμένες εργασίες)"
 
 #: clientgui/ViewProjects.cpp:208
 #: clientgui/ViewWork.cpp:204
@@ -3365,10 +3291,7 @@ msgstr "Ακύρωση Μεταφοράς"
 #: clientgui/ViewTransfers.cpp:171
 #: clientgui/ViewTransfersGrid.cpp:114
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr ""
-"Πατήστε την 'Ακύρωση Μεταφοράς' για να διαγράψετε το αρχείο από την ουρά "
-"μεταφορών. Αυτό θα αποτρέψει την απόδωση βαθμών για το συγκεκριμένο "
-"αποτέλεσμα."
+msgstr "Πατήστε την 'Ακύρωση Μεταφοράς' για να διαγράψετε το αρχείο από την ουρά μεταφορών. Αυτό θα αποτρέψει την απόδωση βαθμών για το συγκεκριμένο αποτέλεσμα."
 
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -3478,8 +3401,7 @@ msgstr "Ακύρωση"
 #: clientgui/ViewWork.cpp:198
 #: clientgui/ViewWorkGrid.cpp:129
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr ""
-"Εγκατάλειψη εργασίας για αυτό το αποτέλεσμα. Δεν θα λάβετε βαθμούς για αυτό."
+msgstr "Εγκατάλειψη εργασίας για αυτό το αποτέλεσμα. Δεν θα λάβετε βαθμούς για αυτό."
 
 #: clientgui/ViewWork.cpp:205
 msgid "Show task details."
@@ -3748,28 +3670,10 @@ msgstr ""
 #, fuzzy
 #~ msgid "For a list of account managers go to:"
 #~ msgstr "Για μια λίστα με προγράμματα που στηρίζονται στο BOINC πηγαίνετε στο:"
-
-#~ msgid "You are already attached to this project."
-#~ msgstr "Έχετε ήδη συνδεθεί σε αυτό το πρόγραμμα"
-
-#, fuzzy
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr ""
-#~ "Μπορείτε να αντιγράψετε και να επικολλήσετε τη διεύθυνση από τη μπάρα "
-#~ "διεύθυνσης του φυλλομετρητή σας."
-
-#, fuzzy
-#~ msgid "For a list of account managers go to:"
-#~ msgstr "Για μια λίστα με προγράμματα που στηρίζονται στο BOINC πηγαίνετε στο:"
-
 #~ msgid "Account information"
 #~ msgstr "Πληροφορίες Λογαριασμού"
-
 #~ msgid "Do you wish to use an existing account or create a new one?"
 #~ msgstr "Θέλετε να χρησιμοποποιήσετε κάποιο λογαριασμό η να δημιουργήσετε ένα νέο;"
-
 #~ msgid ""
 #~ "Transition Note: Account keys are used as passwords for accounts created\n"
 #~ "before BOINC migrated to a username and password authentication scheme."
@@ -3777,109 +3681,78 @@ msgstr ""
 #~ "Σημείωση Αλλαγών: Τα κλειδιά λογαριασμών χρησιμοποιούνται σαν κωδικοί για λογαριασμούς οι οποίοι\n"
 #~ " δημιουργήθηκαν πριν την απόφαση στο BOINC να χρησιμοποιείται ένα σύστημα πιστοποίησης που χρησιμοποιεί\n"
 #~ " όνομα χρήστη και ξεχωριστό κωδικό πρόσβασης"
-
 #~ msgid "Create new &account"
 #~ msgstr "Δημιουργία Νέου Λογαριασμού"
-
 #~ msgid "&Use existing account"
 #~ msgstr "Χρησιμοποίηση ήδη δημιουργημένου λογαριασμού"
-
 #~ msgid "Email address:"
 #~ msgstr "Διεύθυνση email:"
-
 #~ msgid "Enter account key"
 #~ msgstr "Εισάγετε το κλειδί λογαριασμού"
-
 #~ msgid "This project uses an \"account key\" to identify you."
 #~ msgstr "Αυτό το πρόγραμμα χρησιμοποιεί ένα \"account key\" για να σας πιστοποιήσει."
-
 #~ msgid ""
 #~ "Go to the project's web site to create an account. Your account\n"
 #~ "key will be emailed to you."
 #~ msgstr ""
 #~ "Πηγαίνετε στην ιστοσελίδα του προγράμματος για να δημιουργήσετε ένα λογαριασμό.\n"
 #~ " Το κλειδί λογαριασμού θα σας σταλεί μέσω email."
-
 #~ msgid "An account key looks like:"
 #~ msgstr "Ένα κλειδί λογαρασμού μοιάζει με:"
-
 #~ msgid "82412313ac88e9a3638f66ea82186948"
 #~ msgstr "82412313ac88e9a3638f66ea82186948"
-
 #~ msgid "Account key:"
 #~ msgstr "Κλειδί λογαριασμού:"
-
 #~ msgid ""
 #~ "Communicating with account manager\n"
 #~ "Please wait..."
 #~ msgstr ""
 #~ "Επικοινωνία με το διαχειριστή λογαριασμού\n"
 #~ "Παρακαλούμε περιμένετε..."
-
 #~ msgid ""
 #~ "Communicating with account manager \n"
 #~ "Please wait..."
 #~ msgstr ""
 #~ "Επικοινωνία με το διαχειριστή λογαριασμού \n"
 #~ "Παρακαλούμε περιμένετε..."
-
 #~ msgid "BOINC is currently suspended...\n"
 #~ msgstr "Το BOINC έχει παύσει τις εργασίες...\n"
-
 #~ msgid "BOINC networking is currently suspended...\n"
 #~ msgstr "Η σύνδεση στο δίκτυο του BOINC έχει σταματήσει...\n"
-
 #~ msgid "&Open BOINC Manager..."
 #~ msgstr "Άνοιγμα BOINC Manager"
-
 #~ msgid "&About BOINC Manager..."
 #~ msgstr "Σχετικά με το BOINC Manager"
-
 #~ msgid "A software platform for distributed computing using volunteered computer resources"
 #~ msgstr "Μια πλατφόρμα λογισμικού για κατανεμημένους υπολογισμούς χρησιμοποιώντας εθελοντικούς πορους υπολογιστών"
-
 #~ msgid "Your current account manager is:"
 #~ msgstr "Ο τρέχον διαχειριστής λογαριασμού σας είναι:"
-
 #~ msgid "Name:"
 #~ msgstr "Όνομα:"
-
 #~ msgid "foo"
 #~ msgstr "foo"
-
 #~ msgid "URL:"
 #~ msgstr "Διεύθυνση:"
-
 #~ msgid "&Update"
 #~ msgstr "Ανανέωση"
-
 #~ msgid "Change"
 #~ msgstr "Αλλαγή"
-
 #~ msgid "Language Selection:"
 #~ msgstr "Επιλογή Γλώσσας"
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "Ποια γλώσσα χρησιμοποιεί ο διαχειριστής εξ'ορισμού."
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "Συχνότητα υπενθύμισης:"
-
 #~ msgid "How often, in minutes, should the manager remind you of possible connection events."
 #~ msgstr "Πόσο συχνά, σε λεπτά, θα σας υπενθυμίζει ο διαχειρστής σχετικά με πιθανά θέματα σύνδεσης."
-
 #~ msgid "&Automatically detect network connection settings"
 #~ msgstr "Αυτόματη αναγνώριση ρυθμίσεων σύνδεσης δικτύου"
-
 #~ msgid "Use my &Local Area Network(LAN) connection"
 #~ msgstr "Χρησιμοποίηση σύνδεσης Δικτύου Τοπικής Πρόσβασης (LAN)"
-
 #~ msgid "Use my &Dial-up and Virtual Private Network connection"
 #~ msgstr "Χρησιμοποίηση σύνδεσης μέσω τηλεφώνου και Ιδιωτικού Εικονικού Δικτύου"
-
 #~ msgid "&Prompt for username and password"
 #~ msgstr "Ερώτηση για όνομα χρήστη και κωδικό πρόβασης"
-
 #~ msgid "Failed to create wxStaticText, needed by wxHyperLink!"
 #~ msgstr "Αποτυχία δημιουργίας wxStaticText, που χρειάζεται από το wxHyperLink!"
 
@@ -3901,157 +3774,112 @@ msgstr ""
 #~ "τύπο μεταβλητής περιβάλλοντος BROWSER να δείχνει σε οποιοσδήποτε είναι ο αγαπημένος σας φυλλομετρητής. Παρακαλούμε ανοίξτε ένα παράθυρο φυλλομετρητή στην ακόλουθη διεύθυνση:\n"
 #~ "\n"
 #~ "%s"
-
 #~ msgid "BOINC Manager - Connection Error"
 #~ msgstr "BOINC Manager - Πρόβλημα Σύνδεσης"
-
 #~ msgid "BOINC Manager - Connection failed"
 #~ msgstr "BOINC Manager - Αποτυχία Σύνδεσης"
-
 #~ msgid "Connection failed."
 #~ msgstr "Αποτυχία Σύνδεσης"
-
 #~ msgid "BOINC error"
 #~ msgstr "Πρόβλημα BOINC"
-
 #~ msgid "BOINC info"
 #~ msgstr "Πληροφορίες BOINC"
-
 #~ msgid "Exit the BOINC Manager"
 #~ msgstr "Έξοδος από το BOINC Manager"
-
 #~ msgid "Retry &communications"
 #~ msgstr "Επανάληψη επικοινωνίας"
-
 #~ msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
 #~ msgstr "Αναφορά ολοκληρωμένων εργασιών, ανάκτηση βαθμολογίας, ανάκτηση προτιμήσεων και πιθανών νέων εργασιών."
-
 #~ msgid "&Options"
 #~ msgstr "Ρυθμίσεις"
-
 #~ msgid "&BOINC Manager\tF1"
 #~ msgstr "&BOINC Manager\tF1"
-
 #~ msgid "BOINC &website"
 #~ msgstr "Ιστοσελίδα BOINC"
-
 #~ msgid "Show information about BOINC and BOINC Manager"
 #~ msgstr "Εμφάνιση πληροφοριών για το BOINC και το BOINC Manager"
-
 #~ msgid "&Projects"
 #~ msgstr "Προγράμματα"
-
 #~ msgid "Language Selection..."
 #~ msgstr "Επιλογή  Γλώσσας..."
-
 #~ msgid "BOINC Manager - Network Status"
 #~ msgstr "BOINC Manager - Κατάσταση Δικτύου"
-
 #~ msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
 #~ msgstr "Το BOINC χρειάζεται σύνδεση στο Διαδίκτυο για να εκτελέσει ορισμένες εργασίες συντήρησης. Ανοίξτε το BOINC Manager για να συνδεθείτε και να εκτελέσει τις απαιτούμενες εργασίες."
-
 #~ msgid "The URL you supplied is not that of a BOINC-based project."
 #~ msgstr "Η διεύθυνση που εισάγατε δεν είναι αυτή ενός προγράμματος βασισμένο στο BOINC."
-
 #~ msgid "Please check the URL and try again."
 #~ msgstr "Παρακαλούμε ελέξτε τη διεύθυνση και ξαναδοκιμάστε."
-
 #~ msgid ""
 #~ "The URL you supplied is not that of a BOINC-based account\n"
 #~ "manager."
 #~ msgstr ""
 #~ "Η διεύθυνση που εισάγατε δεν είναι αυτή ενός \n"
 #~ "διαχειριστή λογαριασμού BOINC.\" "
-
 #~ msgid "Account not found"
 #~ msgstr "Δεν βρέθηκε ο λογαριασμός"
-
 #~ msgid "Verify your account name and password are correct and try again."
 #~ msgstr "Επιβεβαιώστε ότι το όνομα λογαριασμού και ο κωδικός είναι σωστοί και ξαναδοκιμάστε."
-
 #~ msgid "Project URL"
 #~ msgstr "Διεύθυνση προγράμματος"
-
 #~ msgid "Enter the URL of the project's web site."
 #~ msgstr "Εισάγετε την διεύθυνση της ιστοσελίδας του προγράμματος."
-
 #~ msgid "For a list of BOINC-based projects go to:"
 #~ msgstr "Για μια λίστα προγραμμάτων βασισμένα στο BOINC πηγαίντε στο:"
-
 #~ msgid "No new work"
 #~ msgstr "Όχι νέα εργασία"
-
 #~ msgid "Total credit"
 #~ msgstr "Συνολικοί βαθμοί"
-
 #~ msgid "Avg. credit"
 #~ msgstr "Μέσος όρος βαθμών"
-
 #~ msgid "Allow new work"
 #~ msgstr "Επιτρέπει νέες εργασίες."
-
 #~ msgid "Disk Space"
 #~ msgstr "Χώρος στο δίσκο"
 
 #, c-format
 #~ msgid "Are you sure you want to abort this file transfer '%s'?"
 #~ msgstr "Είστε σίγουρος ότι θέλετε να ακυρώσετε τη μεταφορά του αρχείου '%s';"
-
 #~ msgid "Work"
 #~ msgstr "Εργασία"
-
 #~ msgid "Resuming result..."
 #~ msgstr "Επανέναρξη επεξεργασίας αποτελέσματος..."
 
 #, c-format
 #~ msgid "Are you sure you want to abort this result '%s'?"
 #~ msgstr "Είστε σίγουρος ότι θέλετε να εγκαταλείψετε το αποτέλεσμα '%s';"
-
 #~ msgid "Abort result"
 #~ msgstr "Ακύρωση αποτελέσματος"
-
 #~ msgid "Activities suspended"
 #~ msgstr "Αναστολή εργασιών"
-
 #~ msgid "Preempted"
 #~ msgstr "Αντικαταστάθηκε"
-
 #~ msgid "Ready to run"
 #~ msgstr "Έτοιμο για εκτέλεση"
-
 #~ msgid "Activities suspended by user"
 #~ msgstr "Αναστολή εργασιών από το χρήστη"
-
 #~ msgid ""
 #~ "We'll now guide you through the process of attaching to an\n"
 #~ "account manager."
 #~ msgstr ""
 #~ "Τώρα θα σας καθοδηγήσουμε ώστε να συνδεθείτε σε ένα\n"
 #~ "διαχειριστή λογαριασμού."
-
 #~ msgid "Project Comm Failure"
 #~ msgstr "Αποτυχία Επικοινωνίας με το Πρόγραμμα"
-
 #~ msgid "Google Comm Failure"
 #~ msgstr "Σφάλμα Επικοινωνίας με Google"
-
 #~ msgid "Yahoo Comm Failure"
 #~ msgstr "Σφάλμα Επικοινωνίας με Yahoo"
-
 #~ msgid "Attach to Account Manager"
 #~ msgstr "Σύνδεση σε Διαχειριστή Λογαριασμού"
-
 #~ msgid "Attach to Project"
 #~ msgstr "Σύνδεση σε Πρόγραμμα"
-
 #~ msgid "About BOINC Manager"
 #~ msgstr "Σχετικά με το BOINC Manager"
-
 #~ msgid "Account Manager"
 #~ msgstr "Διαχειριστής Λογαριασμού"
-
 #~ msgid "Dialup Logon"
 #~ msgstr "Σύνδεση σε λογαριασμό μέσω τηλεφώνου"
-
 #~ msgid "Options"
 #~ msgstr "Επιλογές"
+
