@@ -3,19 +3,19 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2007-01-07 17:42+0200\n"
-"Last-Translator: Drive DRKA <drka2003@mail.ru>\n"
+"PO-Revision-Date: 2009-04-29 15:10-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: <Drive DRKA<drka2003@mail.ru>> <drka2003@mail.ru>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_6a\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:337
 msgid "User information"
@@ -106,17 +106,13 @@ msgstr "Злучэнне з мэнэджэрам праектаў"
 #: clientgui/AccountInfoPage.cpp:489
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
-msgstr ""
-"Мінімальная даўжыня пароля для дадзенага праекту %d знакаў. Зменіце пароль у "
-"адпаведнасць з дадзеным крытэрам."
+msgstr "Мінімальная даўжыня пароля для дадзенага праекту %d знакаў. Зменіце пароль у адпаведнасць з дадзеным крытэрам."
 
 # не адпаведнасць колькасці радкоў у перакладзе
 #: clientgui/AccountInfoPage.cpp:495
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr ""
-"Мінімальная даўжыня пароля для дадзенага мэнэджэра праектаў %d знакаў. "
-"Зменіце пароль у адпаведнасць з дадзеным крытэрам."
+msgstr "Мінімальная даўжыня пароля для дадзенага мэнэджэра праектаў %d знакаў. Зменіце пароль у адпаведнасць з дадзеным крытэрам."
 
 #: clientgui/AccountInfoPage.cpp:506
 msgid "The password and confirmation password do not match. Please type them again."
@@ -266,9 +262,7 @@ msgstr "Падлучаны да інтэрнэту"
 
 #: clientgui/AdvancedFrame.cpp:408
 msgid "Allow network activity regardless of preferences"
-msgstr ""
-"Дазваляецца абмен дадзенымі праз інтэрнэт у любы момант часу, незалежна ад "
-"наладаў."
+msgstr "Дазваляецца абмен дадзенымі праз інтэрнэт у любы момант часу, незалежна ад наладаў."
 
 #: clientgui/AdvancedFrame.cpp:412
 msgid "Network activity based on &preferences"
@@ -284,8 +278,7 @@ msgstr "Працаваць аўтаномна"
 
 #: clientgui/AdvancedFrame.cpp:418
 msgid "Stop BOINC network activity"
-msgstr ""
-"Забараняецца абмен дадзенымі праз інтэрнэт паміж BOINC і серверамі праектаў"
+msgstr "Забараняецца абмен дадзенымі праз інтэрнэт паміж BOINC і серверамі праектаў"
 
 #: clientgui/AdvancedFrame.cpp:425
 msgid "&Options..."
@@ -378,8 +371,6 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:500
 #: clientgui/sg_BoincSimpleGUI.cpp:116
-#, c-format
-#, c-format
 #, fuzzy
 msgid "Show information about %s"
 msgstr "Паказаць даведку па праграме %s"
@@ -464,8 +455,6 @@ msgid "%s - Detach from %s"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1244
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "If you stop using %s,\n"
@@ -522,8 +511,6 @@ msgid "Connecting to %s"
 msgstr "Ідзе падлучэнне да %s"
 
 #: clientgui/AdvancedFrame.cpp:1778
-#, c-format
-#, c-format
 #, fuzzy
 msgid "Connected to %s (%s)"
 msgstr "Падлучаны да %s"
@@ -636,8 +623,7 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s не падлучаны да кліента %s.\n"
-"Для падлучэння да кліента %s скарыстайцеся меню 'Дадаткова\\Змяніць "
-"кампутар'.\n"
+"Для падлучэння да кліента %s скарыстайцеся меню 'Дадаткова\\Змяніць кампутар'.\n"
 "Для лакальнага кампутара выкарыстайце 'localhost' у якасці імя кампутара."
 
 #: clientgui/BOINCBaseView.cpp:748
@@ -657,16 +643,13 @@ msgid "%s needs to connect to the Internet.  Please click to open %s."
 msgstr "%s неабходна падлучыцца да інтэрнэту. Пстрыкніце каб адкрыць %s"
 
 #: clientgui/BOINCDialupManager.cpp:263
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
 "%s не змог звязацца з праектам - неабходна падлучыцца да інтэрнэту. \n"
-"Падлучыцеся да інтэрнэту і націсніце \"Паўтарыць абмен дадзенымі з серверамі "
-"праектаў\"."
+"Падлучыцеся да інтэрнэту і націсніце \"Паўтарыць абмен дадзенымі з серверамі праектаў\"."
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
@@ -1144,9 +1127,6 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:249
 #, no-c-format
-#, no-c-format
-#, c-format
-#, fuzzy
 msgid "% of the processors"
 msgstr "працэсара"
 
@@ -1160,8 +1140,6 @@ msgid "Use at most"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:259
-#, no-c-format
-#, no-c-format
 #, fuzzy
 msgid "% CPU time"
 msgstr "Час ЦП"
@@ -1979,8 +1957,7 @@ msgstr "Вашы налады"
 # seti
 #: clientgui/Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr ""
-"Прагляд і змена наладаў вашага  запісу і вашага профіля ў праекце SETI@home"
+msgstr "Прагляд і змена наладаў вашага  запісу і вашага профіля ў праекце SETI@home"
 
 #: clientgui/Localization.cpp:47
 #: clientgui/Localization.cpp:89
@@ -2000,9 +1977,7 @@ msgstr "Вашы кампутары"
 # seti
 #: clientgui/Localization.cpp:53
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr ""
-"Прагляд інфармацыі аб вашых кампутарах, якія ўдзельнічаюць у апрацоўцы "
-"заданняў праекту SETI@Home"
+msgstr "Прагляд інфармацыі аб вашых кампутарах, якія ўдзельнічаюць у апрацоўцы заданняў праекту SETI@Home"
 
 #: clientgui/Localization.cpp:55
 #: clientgui/Localization.cpp:97
@@ -2035,9 +2010,7 @@ msgstr "Падрабязнае апісанне экраннае застаўк�
 # einstein
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Форум для зносінаў з распрацоўнікамі і іншымі ўдзельнікамі праекту "
-"Einstein@Home"
+msgstr "Форум для зносінаў з распрацоўнікамі і іншымі ўдзельнікамі праекту Einstein@Home"
 
 # einstein
 #: clientgui/Localization.cpp:73
@@ -2057,16 +2030,12 @@ msgstr "Праблемы і памылкі"
 # einstein
 #: clientgui/Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
-msgstr ""
-"Форум для абмеркавання праблемаў і памылкаў у працы праграмаў праекту "
-"Einstein@Home"
+msgstr "Форум для абмеркавання праблемаў і памылкаў у працы праграмаў праекту Einstein@Home"
 
 # einstein
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr ""
-"Прагляд і змена наладаў вашага  запісу і вашага профіля ў праекце "
-"Einstein@Home"
+msgstr "Прагляд і змена наладаў вашага  запісу і вашага профіля ў праекце Einstein@Home"
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
@@ -2075,9 +2044,7 @@ msgstr "Уліковы запіс (інфа.)"
 # einstein
 #: clientgui/Localization.cpp:95
 msgid "View a listing of all the computers on which you are running Einstein@Home"
-msgstr ""
-"Прагляд інфармацыі аб вашых кампутарах, якія ўдзельнічаюць у апрацоўцы "
-"заданняў праекту Einstein@Home"
+msgstr "Прагляд інфармацыі аб вашых кампутарах, якія ўдзельнічаюць у апрацоўцы заданняў праекту Einstein@Home"
 
 # einstein
 #: clientgui/Localization.cpp:101
@@ -2087,9 +2054,7 @@ msgstr "LIGO"
 # einstein ?
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"Хатняя старонка праекту LIGO (лазерны інтэрферометр абсерваторыі "
-"гравітацыйных хваляў)"
+msgstr "Хатняя старонка праекту LIGO (лазерны інтэрферометр абсерваторыі гравітацыйных хваляў)"
 
 # einstein
 #: clientgui/Localization.cpp:105
@@ -2139,9 +2104,7 @@ msgstr "Прагляд інфармацыі аб камандзе, да якой
 # WCG
 #: clientgui/Localization.cpp:141
 msgid "Search for help in our help system"
-msgstr ""
-"Сістэма дапамогі па працы праграмаў і ўдзеле ў размеркаваных вылічэннях на "
-"базе WCG."
+msgstr "Сістэма дапамогі па працы праграмаў і ўдзеле ў размеркаваных вылічэннях на базе WCG."
 
 # WCG
 #: clientgui/Localization.cpp:143
@@ -2495,18 +2458,14 @@ msgstr "Капіяваць усе паведамленні ў буфер абм�
 #: clientgui/ViewMessages.cpp:97
 #: clientgui/ViewMessagesGrid.cpp:110
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Капіяваць вылучаныя паведамленні ў буфер абмену. Можна выкарыстаць SHIFT і "
-"CTRL для вылучэння некалькіх паведамленняў."
+msgstr "Капіяваць вылучаныя паведамленні ў буфер абмену. Можна выкарыстаць SHIFT і CTRL для вылучэння некалькіх паведамленняў."
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 #: clientgui/ViewMessages.cpp:99
 #: clientgui/ViewMessagesGrid.cpp:112
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Капіяваць вылучаныя паведамленні ў буфер абмену. Можна выкарыстаць SHIFT і "
-"CTRL для вылучэння некалькіх паведамленняў."
+msgstr "Капіяваць вылучаныя паведамленні ў буфер абмену. Можна выкарыстаць SHIFT і CTRL для вылучэння некалькіх паведамленняў."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2820,9 +2779,7 @@ msgstr "%d гадзінаў %d хвілінаў %d секундаў"
 #: clientgui/sg_ViewTabPage.cpp:421
 #: clientgui/ViewWorkGrid.cpp:258
 msgid "Are you sure you want to display graphics on a remote machine?"
-msgstr ""
-"Вы ўпэўненыя, што жадаеце паказаць графічнае акно для прыкладання на "
-"выдаленым кампутары?"
+msgstr "Вы ўпэўненыя, што жадаеце паказаць графічнае акно для прыкладання на выдаленым кампутары?"
 
 #: clientgui/sg_ViewTabPage.cpp:422
 #: clientgui/ViewWork.cpp:183
@@ -3066,10 +3023,7 @@ msgstr "Абнавіць"
 #: clientgui/ViewProjectsBase.cpp:108
 #: clientgui/ViewProjectsGrid.cpp:121
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Атрымаць інфармацыю з сервера праекту: аб пацверджанні перадачы завершаных "
-"заданняў, аб колькасці набраных ачкоў, аб наладах  запісу і (магчыма) "
-"запампоўцы новых заданняў."
+msgstr "Атрымаць інфармацыю з сервера праекту: аб пацверджанні перадачы завершаных заданняў, аб колькасці набраных ачкоў, аб наладах  запісу і (магчыма) запампоўцы новых заданняў."
 
 #: clientgui/ViewProjects.cpp:180
 #: clientgui/ViewProjects.cpp:706
@@ -3122,8 +3076,7 @@ msgstr "Перазапусціць праект"
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
 msgstr ""
 "Выдаліць УСЕ файлы і заданні вылучанага праекту і запампаваць новыя.\n"
-"УВАГА: не забудзьце перад дадзенаю аперацыяю адправіць усе завершаныя "
-"заданні для дадзенага праекту :-)"
+"УВАГА: не забудзьце перад дадзенаю аперацыяю адправіць усе завершаныя заданні для дадзенага праекту :-)"
 
 #: clientgui/ViewProjects.cpp:201
 #: clientgui/ViewProjectsBase.cpp:139
@@ -3136,10 +3089,8 @@ msgstr "Выдаліць праект"
 #: clientgui/ViewProjectsGrid.cpp:149
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
 msgstr ""
-"Адлучыць дадзены кампутар ад вылучанага праекту. Апрацоўваемыя ў дадзены "
-"момант задання будуць страчаныя.\n"
-"УВАГА: не забудзьце перад дадзенаю аперацыяю адправіць усе завершаныя "
-"заданні для дадзенага праекту :-)"
+"Адлучыць дадзены кампутар ад вылучанага праекту. Апрацоўваемыя ў дадзены момант задання будуць страчаныя.\n"
+"УВАГА: не забудзьце перад дадзенаю аперацыяю адправіць усе завершаныя заданні для дадзенага праекту :-)"
 
 #: clientgui/ViewProjects.cpp:208
 #: clientgui/ViewWork.cpp:204
@@ -3427,8 +3378,7 @@ msgstr "У сярэднім для хаста"
 
 #: clientgui/ViewStatistics.cpp:1767
 msgid "Show average credit for host"
-msgstr ""
-"Паказаць сярэднюю колькасць ачкоў якія набіраюцца дадзеным хастом за дзень"
+msgstr "Паказаць сярэднюю колькасць ачкоў якія набіраюцца дадзеным хастом за дзень"
 
 #: clientgui/ViewStatistics.cpp:1776
 msgid "< &Previous project"
@@ -3509,9 +3459,7 @@ msgstr "Выдаліць"
 #: clientgui/ViewTransfers.cpp:171
 #: clientgui/ViewTransfersGrid.cpp:114
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr ""
-"Выдаліць вылучаны перадаваны файл данных. УВАГА ачкі за выдалены файл могуць "
-"быць страчаныя."
+msgstr "Выдаліць вылучаны перадаваны файл данных. УВАГА ачкі за выдалены файл могуць быць страчаныя."
 
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -3553,8 +3501,7 @@ msgstr "Паўторная спроба перадачы данных..."
 
 #: clientgui/ViewTransfers.cpp:309
 msgid "Aborting transfer..."
-msgstr ""
-"Перапыненне перадачы данных з наступным выдаленнем перадаванага файла..."
+msgstr "Перапыненне перадачы данных з наступным выдаленнем перадаванага файла..."
 
 #: clientgui/ViewTransfers.cpp:322
 #, c-format
@@ -3595,8 +3542,7 @@ msgstr "Перадача"
 #: clientgui/ViewTransfersGrid.cpp:228
 #, fuzzy
 msgid "Aborting transfer(s)..."
-msgstr ""
-"Перапыненне перадачы данных з наступным выдаленнем перадаванага файла..."
+msgstr "Перапыненне перадачы данных з наступным выдаленнем перадаванага файла..."
 
 #: clientgui/ViewTransfersGrid.cpp:230
 #, fuzzy
@@ -3632,9 +3578,7 @@ msgstr "Перапыніць апрацоўку"
 #: clientgui/ViewWork.cpp:198
 #: clientgui/ViewWorkGrid.cpp:129
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr ""
-"Перапыніць апрацоўку вылучанага задання (выдаліць заданне). Ачкі за "
-"перарваныя заданні не налічаюцца."
+msgstr "Перапыніць апрацоўку вылучанага задання (выдаліць заданне). Ачкі за перарваныя заданні не налічаюцца."
 
 #: clientgui/ViewWork.cpp:205
 msgid "Show task details."
@@ -3904,32 +3848,16 @@ msgstr ""
 #~ msgstr ""
 #~ "Можна скапіяваць дадзены адрас\n"
 #~ "з  радка браўзэра."
-
-#, fuzzy
-#~ msgid "For a list of account managers go to:"
-#~ msgstr ""
-#~ "Для прагляду спісу даступных мэнэджэраў\n"
-#~ "праектаў на базе BOINC наведаеце старонку:"
-
 #~ msgid "You are already attached to this project."
 #~ msgstr "Запушчаны BOINC кліент ужо падлучаны да дадзенага праекту"
 
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr ""
-#~ "Можна скапіяваць дадзены адрас\n"
-#~ "з  радка браўзэра."
-
 #, fuzzy
 #~ msgid "For a list of account managers go to:"
 #~ msgstr ""
 #~ "Для прагляду спісу даступных мэнэджэраў\n"
 #~ "праектаў на базе BOINC наведаеце старонку:"
-
 #~ msgid "Enter account key"
 #~ msgstr "Увядзіце код доступу"
-
 #~ msgid ""
 #~ "This project uses an \"account key\" to identify you.\n"
 #~ "\n"
@@ -3940,19 +3868,14 @@ msgstr ""
 #~ "удзельнікаў. Наведаеце хатнюю старонку праекту для\n"
 #~ "стварэнні  запісу ўдзельніка.\n"
 #~ "Пасля гэтага вам дашлюць код доступу па электроннай пошце."
-
 #~ msgid "An account key looks like:"
 #~ msgstr "Прыклад кода доступу:"
-
 #~ msgid "82412313ac88e9a3638f66ea82186948"
 #~ msgstr "82412313ac88e9a3638f66ea82186948"
-
 #~ msgid "Account key:"
 #~ msgstr "Код доступу:"
-
 #~ msgid "Retry &communications"
 #~ msgstr "Паўтарыць абмен дадзенымі з серверамі праектаў"
-
 #~ msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
 #~ msgstr "Пацверджанне завершаных заданняў і запыт новых, атрыманне інфармацыі аб наладах і колькасці ачкоў."
 
@@ -3988,61 +3911,45 @@ msgstr ""
 #, c-format
 #~ msgid "%s is not currently connected to a %s client...\n"
 #~ msgstr "%s не падлучаны да  %s кліенту...\n"
-
 #~ msgid "A software platform for distributed computing using volunteered computer resources"
 #~ msgstr ""
 #~ "Праграмная платформа для арганізацыі размеркаваных вылічэнняў\n"
 #~ " з выкарыстаннем кампутараў добраахвотнікаў"
-
 #~ msgid "Click here to disable displaying this message in the future."
 #~ msgstr "Больш не паказваць дадзенае паведамленне."
-
 #~ msgid "Language Selection:"
 #~ msgstr "Мова (language):"
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "Выбар мовы інтэрфейсу праграмы BOINC мэнэджэр."
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "Інтэрвал паміж паўторамі:"
-
 #~ msgid "How often, in minutes, should the manager remind you of possible connection events."
 #~ msgstr "Інтэрвал, у хвілінах, паміж напамінкамі аб неабходнасці злучэння з інтэрнэтам."
-
 #~ msgid "Project URL"
 #~ msgstr "Адрас праекту"
-
 #~ msgid "Enter the URL of the project's web site."
 #~ msgstr "Увядзіце адрас сайта вылучанага праекту."
-
 #~ msgid "For a list of BOINC-based projects go to:"
 #~ msgstr ""
 #~ "Для прагляду спісу даступных\n"
 #~ "BOINC праектаў наведаеце старонку:"
-
 #~ msgid "BOINC Manager - Messages"
 #~ msgstr "BOINC мэнэджэр - паведамленні"
 
 # ?
 #~ msgid "BOINC Manager - Preferences"
 #~ msgstr "BOINC мэнэджэр - персанальныя налады"
-
 #~ msgid "free disk space - "
 #~ msgstr "вольна - "
-
 # эээээээээ, пэўна ўсёткі працэсар перагружаны або абмежаванне загрузкі працэсара
 #~ msgid " - CPU throttled"
 #~ msgstr " - абмежаванне загрузкі працэсара"
-
 #~ msgid "Waiting"
 #~ msgstr "Чаканне"
-
 #~ msgid "Ready to run"
 #~ msgstr "Гатова да запуску"
-
 #~ msgid "Activities suspended by user"
 #~ msgstr "Прыпынена карыстачом"
-
 # ууууууууу якія канцэпты пайшлі, у амерыканцы даюць - пераход на ручное кіраванне ўжо прыдумалі.
 # думка - рухавік Прагрэсу
 #, c-format
@@ -4054,193 +3961,10 @@ msgstr ""
 #~ "Кампутар адключаны ад %s. Зараз толькі вы\n"
 #~ "самі адказваеце за кіраванне BOINC кліентам\n"
 #~ " "
-
 #~ msgid "About BOINC Manager"
 #~ msgstr "Аб праграме BOINC мэнэджэр..."
-
 #~ msgid "BOINC Manager - Options"
 #~ msgstr "BOINC мэнэджэр - налады праграмы"
-
 #~ msgid "BOINC Manager - Select Computer"
 #~ msgstr "BOINC мэнэджэр - падлучэнне да кампутара"
 
-# //-------------------------my-------------------------------
-# my
-#~ msgid "Requested by user"
-#~ msgstr "Запыт ініцыяваны карыстачом"
-
-# my Spinhenge@home
-#~ msgid "Correspond with other users on the Spinhenge@home message boards"
-#~ msgstr "Форум для зносінаў з іншымі ўдзельнікамі праекту Spinhenge@home"
-
-# my Spinhenge@home
-#~ msgid "View and modify your Spinhenge@home account profile and preferences"
-#~ msgstr "Прагляд і змена наладаў вашага  запісу і вашага профіля ў праекце Spinhenge@home"
-
-# my Spinhenge@home
-#~ msgid "View a listing of all the computers on which you are running Spinhenge@Home"
-#~ msgstr "Прагляд інфармацыі аб вашых кампутарах, якія ўдзельнічаюць у апрацоўцы заданняў праекту Spinhenge@Home"
-
-# my Spinhenge@home
-#~ msgid "View information about your team:"
-#~ msgstr "Прагляд інфармацыі аб камандзе, да якой вы далучыліся: "
-
-# my Spinhenge@home
-#~ msgid "Spinhenge status"
-#~ msgstr "Стан сервераў"
-
-# my Spinhenge@home
-#~ msgid "Current status of the Spinhenge@home server"
-#~ msgstr "Інфармацыя аб бягучым стане сервераў праекту Spinhenge@home"
-
-# my SIMAP
-#~ msgid "Homepage of SIMAP"
-#~ msgstr "Хатняя старонка праекту SIMAP"
-
-# my Predictor@home
-#~ msgid "Info about Russia"
-#~ msgstr "Інфармацыя аб камандзе Russia"
-
-# my Predictor@home
-#~ msgid "Info about www.elite-games.ru"
-#~ msgstr "Інфармацыя аб камандзе www.elite-games.ru"
-
-# my Seti@home
-#~ msgid "View information about your team: Russia"
-#~ msgstr "Прагляд інфармацыі аб камандзе, да якой вы далучыліся: Russia"
-
-# my Seti@home
-#~ msgid "View information about your team: www.elite-games.ru"
-#~ msgstr "Прагляд інфармацыі аб камандзе, да якой вы далучыліся: www.elite-games.ru"
-
-# my Primegrid
-#~ msgid "View detailed statistics"
-#~ msgstr "Прагляд падрабязнае статыстыкі па праектах."
-
-# my Primegrid
-#~ msgid "-- Support the project --"
-#~ msgstr "-- Падтрымка праекту --"
-
-# my Primegrid
-#~ msgid "Read about donations and support the project"
-#~ msgstr "Інфармацыя аб матэрыяльнай падтрымцы і далейшым развіцці праекту"
-
-# my Einstein
-#~ msgid "Your messages"
-#~ msgstr "Вашы паведамленні"
-
-# my Einstein
-#~ msgid "Links to messages that you have posted on the Einstein@Home message boards."
-#~ msgstr "Вашы паведамленні на форуме Einstein@Home."
-
-# my  SIMAP
-#~ msgid "Homepage of SIMAP@home"
-#~ msgstr "Хатняя старонка праекту SIMAP@home"
-
-# my Rosetta
-#~ msgid "View a listing of all the computers on which you are running Rosetta@home"
-#~ msgstr "Прагляд інфармацыі аб вашых кампутарах, якія ўдзельнічаюць у апрацоўцы заданняў праекту Rosetta@home"
-
-# my Rosetta
-#~ msgid "View and modify your Rosetta@home account profile and preferences"
-#~ msgstr "Прагляд і змена наладаў вашага  запісу і вашага профіля ў праекце Rosetta@home"
-
-# my Rosetta
-#~ msgid "Correspond with other users on the Rosetta@home message boards"
-#~ msgstr "Форум для зносінаў з іншымі ўдзельнікамі праекту Rosetta@home"
-
-# my Leiden Classical
-#~ msgid "Get help about Leiden Classical"
-#~ msgstr "Дапамога па праекце Leiden Classical"
-
-# my QMC@HOME
-#~ msgid "Get help about QMC@HOME"
-#~ msgstr "Дапамога па праекце QMC@HOME"
-
-# my QMC@HOME
-#~ msgid "More"
-#~ msgstr "Пазнаць больш"
-
-# my QMC@HOME
-#~ msgid "More on QMC@HOME"
-#~ msgstr "Атрымаць больш інфармацыі аб праекце QMC@HOME"
-
-# my QMC@HOME
-#~ msgid "Project infos"
-#~ msgstr "Інфармацыя аб праекце"
-
-# my QMC@HOME
-#~ msgid "Project informations"
-#~ msgstr "Інфармацыя аб праекце"
-
-# my QMC@HOME
-#~ msgid "More on QMC@HOME workunits"
-#~ msgstr "Атрымаць больш інфармацыі аб праекце QMC@HOME"
-
-# my RALPH@home
-#~ msgid "Correspond with other users on the RALPH@home message boards"
-#~ msgstr "Форум для зносінаў з іншымі ўдзельнікамі праекту RALPH@home"
-
-# my RALPH@home
-#~ msgid "View and modify your RALPH@home account profile and preferences"
-#~ msgstr "Прагляд і змена наладаў вашага  запісу і вашага профіля ў праекце RALPH@home"
-
-# my RALPH@home
-#~ msgid "View a listing of all the computers on which you are running RALPH@home"
-#~ msgstr "Прагляд інфармацыі аб вашых кампутарах, якія ўдзельнічаюць у апрацоўцы заданняў праекту RALPH@home"
-
-# my SETI@Home
-#~ msgid "Donate"
-#~ msgstr "Падтрымаць праект"
-
-# my SETI@Home
-#~ msgid "Donate to SETI@home"
-#~ msgstr "Падтрымаць праект SETI@home матэрыяльна :)"
-
-# my XtremLab
-#~ msgid "View your account informations"
-#~ msgstr "Прагляд інфармацыі аб вашым уліковым запісе"
-
-# my XtremLab
-#~ msgid "Introduction"
-#~ msgstr "Апісанне праекту"
-
-# my XtremLab
-#~ msgid "An Introduction to XtremLab"
-#~ msgstr "Знаёмства з праектам XtremLab"
-
-# my CPDN
-#~ msgid "Help Desk"
-#~ msgstr "Дапамога"
-
-# my CPDN
-#~ msgid "Get help from project staff and users with the experiment"
-#~ msgstr "Тут можна атрымаць дапамогу па праекце і эксперыментам ад арганізатараў і ўдзельнікаў."
-
-# my CPDN
-#~ msgid "User Forum"
-#~ msgstr "Форум удзельнікаў"
-
-# my CPDN
-#~ msgid "Speak to other users about this experiment"
-#~ msgstr "Форум для зносінаў з іншымі ўдзельнікамі праекту"
-
-# my Chess960@home
-#~ msgid "Get help and chat with other users"
-#~ msgstr "Форум для зносінаў з іншымі ўдзельнікамі праекту"
-
-# my Riesel Sieve Project
-#~ msgid "Your Account"
-#~ msgstr "Ваш уліковы запіс"
-
-# my Riesel Sieve Project
-#~ msgid "View and edit project settings"
-#~ msgstr "Прагляд і змена наладаў вашага  праекту"
-
-# my Riesel Sieve Project
-#~ msgid "Top Participant Stats"
-#~ msgstr "Лепшыя ўдзельнікі"
-
-# my Riesel Sieve Project
-#~ msgid "Stats showing scores by user"
-#~ msgstr "Статыстыка ўдзельнікаў праекту"
