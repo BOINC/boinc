@@ -3,19 +3,19 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-01-05 15:51-0500\n"
-"Last-Translator: Son Goku 3SSJ <timeros@gmail.com>\n"
+"PO-Revision-Date: 2009-04-29 15:13-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: AMD Powered @ Home Team <timeros@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_6a\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:337
 msgid "User information"
@@ -97,19 +97,13 @@ msgstr "Прикрепи Акаунт Менажера"
 
 #: clientgui/AccountInfoPage.cpp:489
 #, c-format
-#, fuzzy
 msgid "The minimum password length for this project is %d. Please enter a different password."
-msgstr ""
-"Минималната дължина на паролата за този проект е %d. Моля изберете друга "
-"парола."
+msgstr "Минималната дължина на паролата за този проект е %d. Моля изберете друга парола."
 
 #: clientgui/AccountInfoPage.cpp:495
 #, c-format
-#, fuzzy
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr ""
-"Минималната дължина на паролата за този акаунт менажер е %d. Моля посочете "
-"друга парола. "
+msgstr "Минималната дължина на паролата за този акаунт менажер е %d. Моля посочете друга парола. "
 
 #: clientgui/AccountInfoPage.cpp:506
 msgid "The password and confirmation password do not match. Please type them again."
@@ -360,8 +354,6 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:500
 #: clientgui/sg_BoincSimpleGUI.cpp:116
-#, c-format
-#, c-format
 #, fuzzy
 msgid "Show information about %s"
 msgstr "Показва информация за %s."
@@ -445,8 +437,6 @@ msgid "%s - Detach from %s"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1244
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "If you stop using %s,\n"
@@ -477,9 +467,7 @@ msgstr "%s -Избор на език"
 #: clientgui/AdvancedFrame.cpp:1428
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr ""
-"Езикът по подразбиране на %sбеше променен, за да влезе в сила промяната "
-"трябва да рестартираш %s."
+msgstr "Езикът по подразбиране на %sбеше променен, за да влезе в сила промяната трябва да рестартираш %s."
 
 #: clientgui/AdvancedFrame.cpp:1639
 #: clientgui/DlgAbout.cpp:104
@@ -503,8 +491,6 @@ msgid "Connecting to %s"
 msgstr "Свързване към %s"
 
 #: clientgui/AdvancedFrame.cpp:1778
-#, c-format
-#, c-format
 #, fuzzy
 msgid "Connected to %s (%s)"
 msgstr "Свързан към %s"
@@ -609,8 +595,6 @@ msgid "%s - Connection Status"
 msgstr "%s - Статус на връзката"
 
 #: clientgui/BOINCBaseFrame.cpp:607
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -678,15 +662,11 @@ msgid "%s failed to connect to the Internet."
 msgstr "%s не успя да се свърже към Интернет."
 
 #: clientgui/BOINCDialupManager.cpp:455
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
-msgstr ""
-"%s установи, че е свързан към Интернет. Обновяване на всички проекти и "
-"бъзстановяване на всички трансфери. "
+msgstr "%s установи, че е свързан към Интернет. Обновяване на всички проекти и бъзстановяване на всички трансфери. "
 
 #: clientgui/BOINCDialupManager.cpp:500
 #, c-format
@@ -867,8 +847,6 @@ msgid "Welcome to %s!"
 msgstr "Добре дошъл в %s!"
 
 #: clientgui/CompletionPage.cpp:303
-#, c-format
-#, c-format
 #, fuzzy
 msgid "You are now successfully attached to the %s system."
 msgstr ""
@@ -1106,8 +1084,6 @@ msgid "Use at most"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:259
-#, no-c-format
-#, no-c-format
 #, fuzzy
 msgid "% CPU time"
 msgstr "CPU време"
@@ -1993,9 +1969,7 @@ msgstr "LIGO проекта"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"Началната страница на  Laser Interferometer Gravitational-wave Observatory "
-"(LIGO) проекта"
+msgstr "Началната страница на  Laser Interferometer Gravitational-wave Observatory (LIGO) проекта"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2340,18 +2314,14 @@ msgstr "Копира всички съобщения в clipboard."
 #: clientgui/ViewMessagesGrid.cpp:110
 #, fuzzy
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Копира избраните съобщения в clipboard. Може да изберете някоко съобщения "
-"като задържите клавиша Shift  или Ctrl, докато кликате на съобщенията."
+msgstr "Копира избраните съобщения в clipboard. Може да изберете някоко съобщения като задържите клавиша Shift  или Ctrl, докато кликате на съобщенията."
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 #: clientgui/ViewMessages.cpp:99
 #: clientgui/ViewMessagesGrid.cpp:112
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Копира избраните съобщения в clipboard. Може да изберете някоко съобщения "
-"като задържите клавиша Shift  или Ctrl, докато кликате на съобщенията."
+msgstr "Копира избраните съобщения в clipboard. Може да изберете някоко съобщения като задържите клавиша Shift  или Ctrl, докато кликате на съобщенията."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2899,9 +2869,7 @@ msgstr "Обнови проекта"
 #: clientgui/ViewProjectsBase.cpp:108
 #: clientgui/ViewProjectsGrid.cpp:121
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Докладва всички приключили задачи, обновява кредитите, преференциите и е "
-"възможно да вземе нови задачи. "
+msgstr "Докладва всички приключили задачи, обновява кредитите, преференциите и е възможно да вземе нови задачи. "
 
 #: clientgui/ViewProjects.cpp:180
 #: clientgui/ViewProjects.cpp:706
@@ -2950,9 +2918,7 @@ msgstr "Рестартирай проекта"
 #: clientgui/ViewProjectsBase.cpp:130
 #: clientgui/ViewProjectsGrid.cpp:142
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"Изтрива всички файлове асоциирани с този проект, и взима нови задачи. Можеш "
-"първо да обновиш проекта, за да  докладваш завършените задачи. "
+msgstr "Изтрива всички файлове асоциирани с този проект, и взима нови задачи. Можеш първо да обновиш проекта, за да  докладваш завършените задачи. "
 
 #: clientgui/ViewProjects.cpp:201
 #: clientgui/ViewProjectsBase.cpp:139
@@ -2964,9 +2930,7 @@ msgstr "Излез от проекта"
 #: clientgui/ViewProjectsBase.cpp:140
 #: clientgui/ViewProjectsGrid.cpp:149
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"Излиза от този проект. Задачите, по които се работи, ще бъдат загубени "
-"използвай \"Обнови\", за да докладваш всички завършени задачи)."
+msgstr "Излиза от този проект. Задачите, по които се работи, ще бъдат загубени използвай \"Обнови\", за да докладваш всички завършени задачи)."
 
 #: clientgui/ViewProjects.cpp:208
 #: clientgui/ViewWork.cpp:204
@@ -3324,9 +3288,7 @@ msgstr "Преустанови трансфера"
 #: clientgui/ViewTransfers.cpp:171
 #: clientgui/ViewTransfersGrid.cpp:114
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr ""
-"Натиснете \"Преустанови трансфера\", за да изтриете файла от списъка за "
-"сваляне. По този начин няма да получите кредити за този резултат."
+msgstr "Натиснете \"Преустанови трансфера\", за да изтриете файла от списъка за сваляне. По този начин няма да получите кредити за този резултат."
 
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -3527,8 +3489,6 @@ msgid "TasksGrid"
 msgstr ""
 
 #: clientgui/ViewWorkGrid.cpp:327
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
@@ -3711,7 +3671,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "For a list of account managers go to:"
 #~ msgstr "За списък с BOINC-базирани акаунт менажери отидете на: "
-
 #~ msgid "You are already attached to this project."
 #~ msgstr "Ти вече си прикрепен към този проект. "
 
@@ -3722,17 +3681,14 @@ msgstr ""
 #~ msgstr ""
 #~ "Въведи потребителското име и паролата, които\n"
 #~ "си използвал на уеб сайта. "
-
 #~ msgid ""
 #~ "Enter the email address and password you used on\n"
 #~ "the web site."
 #~ msgstr ""
 #~ "Въведи email адреса и паролата, които си използвал\n"
 #~ "на уеб сайта. "
-
 #~ msgid "Enter account key"
 #~ msgstr "Въведете ключ на акаунта"
-
 #~ msgid ""
 #~ "This project uses an \"account key\" to identify you.\n"
 #~ "\n"
@@ -3743,13 +3699,10 @@ msgstr ""
 #~ "\n"
 #~ "Отиди на уеб сайта на проекта, за да си създадеш акаунт. Твоят\n"
 #~ "ключ на акунта ще ти бъде пратен по email. "
-
 #~ msgid "An account key looks like:"
 #~ msgstr "Един ключ на акаунта изглежда така:"
-
 #~ msgid "82412313ac88e9a3638f66ea82186948"
 #~ msgstr "82412313ac88e9a3638f66ea82186948"
-
 #~ msgid "Account key:"
 #~ msgstr "Ключ на акаунта:"
 
@@ -3766,7 +3719,6 @@ msgstr ""
 #~ "%s не можа да комуникира с проект и няма зададена връзка по подразбиране. \n"
 #~ "Моля свържи се към Интернет или задай връзка по подразбиране от таба връзки\n"
 #~ "в прозореца с опциите от advanced менюто. "
-
 #~ msgid ""
 #~ "Please provide the email address and password you used to register\n"
 #~ "at GridRepublic. (if you have not yet created an account at\n"
@@ -3775,10 +3727,8 @@ msgstr ""
 #~ "Моля въведи email адреса и паролата, които използва при регистрацията\n"
 #~ "в GridRepublic. (ако все още не си си създал акаунт в\n"
 #~ "GridRepublic, моля направи го на http://www.gridrepublic.org)"
-
 #~ msgid "Start Project"
 #~ msgstr "Стартирай проекта"
-
 #~ msgid ""
 #~ "Please enter an email address and password. You will need your email\n"
 #~ "address if you want to change your account options or use our message\n"
@@ -3793,24 +3743,20 @@ msgstr ""
 #~ "\n"
 #~ "От време на време ще ти пращаме email-и. Можеш да спреш това по всяко време\n"
 #~ "Ние няма да даваме твоя email на трети лица. "
-
 #~ msgid "Project Started"
 #~ msgstr "Проектът стартиран"
-
 #~ msgid ""
 #~ "Congratulations, you have now successfully started your Climate\n"
 #~ "Change Experiment."
 #~ msgstr ""
 #~ "Поздравления, ти успешно успя да стартираш твоя Climate\n"
 #~ "Change Experiment."
-
 #~ msgid ""
 #~ "Click finish to exit. You will be taken to a web page which tells\n"
 #~ "you more about your model."
 #~ msgstr ""
 #~ "Натисни Край за да излезеш. Ще бъдеш отведен на уеб страница,\n"
 #~ "която ти дава повече информация за твоя модел. "
-
 #~ msgid ""
 #~ "This will shut down your experiment until it restarts automatically\n"
 #~ "following your user preferences. Close window to close the manager\n"
@@ -3835,7 +3781,6 @@ msgstr ""
 #, c-format
 #~ msgid "%s is not currently connected to a %s client...\n"
 #~ msgstr "%s в момента не е свързан към %s клиент...\n"
-
 #~ msgid ""
 #~ "An error has occurred, please check the messages tab for further\n"
 #~ "details.\n"
@@ -3846,37 +3791,26 @@ msgstr ""
 #~ "повече подробности\n"
 #~ "\n"
 #~ "Натиснете край за да затворите прозореца. "
-
 #~ msgid "A software platform for distributed computing using volunteered computer resources"
 #~ msgstr "Софтурна платформа за разпределено изчисление,  използвайки компютърните ресурси на доброволци. "
-
 #~ msgid "Username:"
 #~ msgstr "Потребит. име:"
-
 #~ msgid "Click here to disable displaying this message in the future."
 #~ msgstr "Натисни тук, за да изключиш показването на това съобщени за в бъдеще. "
-
 #~ msgid "Language Selection:"
 #~ msgstr "Избор на език:"
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "Какъв език трябва да използва менажера по подразбиране?"
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "Честота на напомнянията:"
-
 #~ msgid "How often, in minutes, should the manager remind you of possible connection events."
 #~ msgstr "Колко често, в минути, менажера трябва да ви напомня за възможни дейности изискващи връзка към Интернет?"
-
 #~ msgid "&Account manager"
 #~ msgstr "Акаунт менажер"
-
 #~ msgid "&Options"
 #~ msgstr "&Опции"
-
 #~ msgid "Retry &communications"
 #~ msgstr "Опитай отново &комуникациите"
-
 #~ msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
 #~ msgstr "Докладва всичката свършена работа, взима последните кредити, взима последните предпочитрания, и по възмойност сваля нова работа. "
 
@@ -3887,7 +3821,6 @@ msgstr ""
 #, c-format
 #~ msgid "&%s\tF1"
 #~ msgstr "&%s\tF1"
-
 #~ msgid ""
 #~ "This will shut down your tasks until it restarts automatically\n"
 #~ "following your user preferences. Close window to close the manager\n"
@@ -3896,26 +3829,20 @@ msgstr ""
 #~ "Това ще прекрати всички задачи, докато не се рестартират\n"
 #~ "на база на твоите предпочитания. Затвори прозореца за да затвориш\n"
 #~ "менажера без да спираш задачите."
-
 #~ msgid "Close Confirmation"
 #~ msgstr "Затвори потвърждението"
 
 #, c-format
 #~ msgid "BOINC Manager - Detach from %s"
 #~ msgstr "BOINC Manager - Излез от %s"
-
 #~ msgid "Account not found"
 #~ msgstr "Акаунта не е намерен"
-
 #~ msgid "Project URL"
 #~ msgstr "URL на Проекта:"
-
 #~ msgid "Enter the URL of the project's web site."
 #~ msgstr "Напишете URL-то на уеб сайта на проекта. "
-
 #~ msgid "For a list of BOINC-based projects go to:"
 #~ msgstr "За списък на BOINC-базирани проекти отидете на:"
-
 #~ msgid ""
 #~ "BOINC failed to communicate on the Internet. The most likely\n"
 #~ "reasons are:\n"
@@ -3936,28 +3863,20 @@ msgstr ""
 #~ "Назад и опитай отново. \n"
 #~ "\n"
 #~ "2)Изполваш прокси сървър и BOINC трябва да знае за него"
-
 #~ msgid "Click Next to configure BOINC's proxy settings."
 #~ msgstr "Натизнете Напред, за да конфигурирате прокси настройките на BOINC. "
-
 #~ msgid "Disk Space"
 #~ msgstr "Дисково пространство"
-
 #~ msgid "Hide graphics"
 #~ msgstr "Скрий графики"
-
 #~ msgid "Hide application graphics window."
 #~ msgstr "Скрива прозореца с графиките на приложението. "
-
 #~ msgid "Activities suspended"
 #~ msgstr "Дейностите временно прекратени"
-
 #~ msgid "Preempted"
 #~ msgstr "Изчисленията отложени"
-
 #~ msgid "Ready to run"
 #~ msgstr "Готово за работа"
-
 #~ msgid "Activities suspended by user"
 #~ msgstr "Дейностите временно прекратени от потребителя"
 
@@ -3970,31 +3889,24 @@ msgstr ""
 #~ "Сега ще премахнем този компютър от %s. Ти ще си\n"
 #~ "отговорен от сега нататък за менажирането на \n"
 #~ "BOINC клиентския софтуер. "
-
 #~ msgid ""
 #~ "We'll now guide you through the process of adding an account\n"
 #~ "manager."
 #~ msgstr ""
 #~ "Сега ще те преведем през процесът на добавяне на акаунт\n"
 #~ "менажер. "
-
 #~ msgid "Project Comm Failure"
 #~ msgstr "Грешка при свързването с Проекта"
-
 #~ msgid "Google Comm Failure"
 #~ msgstr "Грешка при свързването с Google "
-
 #~ msgid "Yahoo Comm Failure"
 #~ msgstr "Грешка при свързването с Yahoo "
-
 #~ msgid "About BOINC Manager"
 #~ msgstr "&Относно BOINC Manager-а..."
-
 #~ msgid "BOINC Manager - Dialup Logon"
 #~ msgstr "BOINC Manager - Dialup връзка"
-
 #~ msgid "BOINC Manager - Options"
 #~ msgstr "BOINC Manager - Опции"
-
 #~ msgid "BOINC Manager - Select Computer"
 #~ msgstr "BOINC Manager - Избери Компютър"
+
