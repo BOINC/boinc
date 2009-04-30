@@ -1,23 +1,23 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: based rev.16826\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2005-09-29 22:26+0100\n"
-"Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2009-02-28 08:03+0900\n"
+"Last-Translator: Lee kangsan <netpres@hanmail.net>\n"
+"Language-Team: BOINC@KOREA\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: html\\user\n"
-"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-Language: Korean\n"
+"X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
+"X-BOINC-UTF8-Marker: ç®ä½ä¸­æ, æ¥æ¬èª\n"
+"X-Poedit-Country: KOREA, REPUBLIC OF\n"
+"X-Poedit-SearchPath-0: html\\user\n"
 
-##########################################
+# #########################################
 # Language: English (International)
 # FileID  : $Id: ko.po 8322 2005-09-29 20:30:31Z jens $
 # Author  : Janus Kristensen
@@ -29,1130 +29,772 @@ msgid "CHARSET"
 msgstr "UTF-8"
 
 # The name of this language in this language
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "English"
+msgstr "한국어"
 
 # The name of this language in an international language (English)
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
+msgstr "Korean"
 
 msgid "Rank"
-msgstr ""
+msgstr "순위"
 
 msgid "Name"
-msgstr ""
+msgstr "이름"
 
 msgid "Search for words in forum messages"
-msgstr ""
+msgstr "포럼 게시물 중에서 검색할 단어"
 
 msgid "Search forums"
-msgstr ""
+msgstr "포럼 검색"
 
 msgid "Advanced search"
-msgstr ""
+msgstr "고급 검색"
 
 msgid "Private messages"
-msgstr ""
+msgstr "쪽지"
 
 msgid "Questions and Answers"
-msgstr ""
+msgstr "질문과 답변"
 
 msgid "Message boards"
-msgstr ""
+msgstr "게시판"
 
 msgid "%1 message board"
-msgstr ""
+msgstr "%1 게시판"
 
 msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
-msgstr ""
+msgstr "%1에 새로운 스레드를 만드려면 여러분은 어느 정도 크레딧을 가지고 있어야 합니다. 이 것은 시스템 남용을 막고 보호해줍니다. "
 
 msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
-msgstr ""
+msgstr "지금은 더 이상 새로운 스레드를 만들 수 없습니다. 다시 시도하시기 전에 잠시 기다려주십시오. 이러한 지연은 시스템 남용을 보호하기 위해서 시행하고 있습니다."
 
 msgid "Thread"
-msgstr ""
+msgstr "스레드"
 
 msgid "Posts"
-msgstr ""
+msgstr "포스트"
 
 msgid "Author"
-msgstr ""
+msgstr "작성자"
 
 msgid "Views"
-msgstr ""
+msgstr "보기"
 
 msgid "Last post"
-msgstr ""
+msgstr "마지막 포스트"
 
 msgid "Mark all threads as read"
-msgstr ""
+msgstr "모든 스레드를 읽은 것으로 표시"
 
 msgid "Mark all threads in all message boards as 'read'."
-msgstr ""
+msgstr "모든 게시판 스레드를 읽은 것으로 표시"
 
 msgid "Inbox"
-msgstr ""
+msgstr "목록"
 
 msgid "Write"
-msgstr ""
+msgstr "쓰기"
 
 msgid "Send private message"
-msgstr ""
+msgstr "쪽지 보내기"
 
 msgid "Preview"
-msgstr ""
+msgstr "미리 보기"
 
 msgid "To"
-msgstr ""
+msgstr "대상"
 
 msgid "User IDs or unique usernames, separated with commas"
-msgstr ""
+msgstr "ID 혹은 고유한 사용자 이름을 콤마로 구분해서 써주세요"
 
 msgid "Subject"
-msgstr ""
+msgstr "제목"
 
 msgid "Message"
-msgstr ""
+msgstr "내용"
 
 msgid "Send message"
-msgstr ""
+msgstr "메세지 전송"
 
 msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
-msgstr ""
+msgstr "쪽지를 너무 자주 보낼 수 없습니다. 더 많은 쪽지를 보내기 전에 일정시간 기다리셔야 합니다."
 
 msgid "unread"
-msgstr ""
+msgstr "읽지 않음"
 
 msgid "Search criteria (use one or more)"
-msgstr ""
+msgstr "검색 조건 (하나 이상 사용하세요)"
 
 msgid "Key words"
-msgstr ""
+msgstr "키워드"
 
 msgid "Find teams with these words in their names or descriptions"
-msgstr ""
+msgstr "이름이나 개요에 있는 단어로 팀을 찾으십시오"
 
 msgid "Country"
-msgstr ""
+msgstr "국가"
 
 msgid "Type of team"
-msgstr ""
+msgstr "팀 종류"
 
 msgid "Show only active teams"
-msgstr ""
+msgstr "활동 중인 팀만 보기"
 
 msgid "Search"
-msgstr ""
+msgstr "검색"
 
 msgid "Requested by you, and founder response deadline has passed."
-msgstr ""
+msgstr "요청에 대한 창설자의 응답 기한이 지났습니다."
 
 msgid "Complete foundership transfer"
-msgstr ""
+msgstr "창설자에게 전송 완료"
 
 msgid "Requested by you"
-msgstr ""
+msgstr "요청됨"
 
 msgid "founder response deadline is %1"
-msgstr ""
+msgstr "창설자 응답 기한은 %1입니다"
 
 msgid "None"
-msgstr ""
+msgstr "없음"
 
 msgid "Initiate request"
-msgstr ""
+msgstr "가입 요구"
 
 msgid "Deferred"
-msgstr ""
+msgstr "연기됨"
 
 msgid "Team info"
-msgstr ""
+msgstr "팀 정보"
 
 msgid "Description"
-msgstr ""
+msgstr "개요"
 
 msgid "Web site"
-msgstr ""
+msgstr "웹 사이트"
 
 msgid "Total credit"
-msgstr ""
+msgstr "총 크레딧"
 
 msgid "Recent average credit"
-msgstr ""
+msgstr "최근 평균 크레딧"
 
 msgid "Type"
-msgstr ""
+msgstr "종류"
 
 msgid "Message board"
-msgstr ""
+msgstr "게시판"
 
 msgid "Threads"
-msgstr ""
+msgstr "스레드"
 
 msgid "Join this team"
-msgstr ""
+msgstr "이 팀에 가입"
 
 msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
-msgstr ""
+msgstr "노트:만약 'OK to email\"이 프로젝트 환경설정에 설정되어 있으면, 가입한 팀의 창설자가 여러분의 email주소를 알 수 있습니다."
 
 msgid "Foundership change requested"
-msgstr ""
+msgstr "창설자 교체 요청이 있습니다"
 
 msgid "Respond by %1"
-msgstr ""
+msgstr "%1에 응답함"
 
 msgid "Team foundership change"
-msgstr ""
+msgstr "팀 창설자 변경"
 
 msgid "Members"
-msgstr ""
+msgstr "맴버들"
 
 msgid "Founder"
-msgstr ""
+msgstr "창설자"
 
 msgid "Admins"
-msgstr ""
+msgstr "관리자"
 
 msgid "New members in last day"
-msgstr ""
+msgstr "전 날의 새로운 맴버"
 
 msgid "Total members"
-msgstr ""
+msgstr "전체 맴버"
 
 msgid "view"
-msgstr ""
+msgstr "보기"
 
 msgid "Active members"
-msgstr ""
+msgstr "활동하는 맴버"
 
 msgid "Members with credit"
-msgstr ""
+msgstr "크레딧을 가진 맴버"
 
 msgid "Admin"
-msgstr ""
+msgstr "관리"
 
 msgid "Last %1"
-msgstr ""
+msgstr "이전 %1"
 
 msgid "Next %1"
-msgstr ""
+msgstr "다음 %1"
 
 msgid "No such team."
-msgstr ""
+msgstr "해당 팀이 없습니다."
 
 msgid "This operation requires foundership."
-msgstr ""
+msgstr "이 기능은 창설자 권한이 필요합니다."
 
 msgid "This operation requires team admin privileges"
-msgstr ""
+msgstr "이 기능은 팀 관리자 권한이 필요합니다"
 
 msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
-msgstr ""
+msgstr "%1개인적 노트%2: 팀을 만들면, 프로젝트 환경 설정(자원 공유, 그래픽 설정)이 모든 사람에게 공개됩니다."
 
 msgid "Team name, text version"
-msgstr ""
+msgstr "팀 이름, 텍스트 버전"
 
 msgid "Don't use HTML tags."
-msgstr ""
+msgstr "HTML 태그를 사용하지 않습니다."
 
 msgid "Team name, HTML version"
-msgstr ""
+msgstr "팀 이름, HTML 버전"
 
 msgid "You may use %1limited HTML tags%2."
-msgstr ""
+msgstr "%1제한된 HTML 태그%2를 사용할 수 있습니다."
 
 msgid "If you don't know HTML, leave this box blank."
-msgstr ""
+msgstr "만약 HTML을 모른다면, 이 박스는 빈칸으로 남겨두세요."
 
 msgid "URL of team web page, if any"
-msgstr ""
+msgstr "팀 웹 페이지 URL(있을 경우)"
 
 msgid "without \"http://\""
-msgstr ""
+msgstr "\"http://\" 제외"
 
 msgid "This URL will be linked to from the team's page on this site."
-msgstr ""
+msgstr "이 URL은 이 사이트의 팀 페이지로 링크됩니다."
 
 msgid "Description of team"
-msgstr ""
+msgstr "팀 개요"
 
 msgid "Projects in which you are participating"
-msgstr ""
+msgstr "여러분이 참여하는 프로젝트들"
 
 msgid "Projects in which %1 is participating"
-msgstr ""
+msgstr "%1이 참여하는 프로젝트들"
 
 msgid "Project"
-msgstr ""
+msgstr "프로젝트"
 
 msgid "Click for user page"
-msgstr ""
+msgstr "사용자 페이지"
 
 msgid "Average credit"
-msgstr ""
+msgstr "평균 크레딧"
 
 msgid "Since"
-msgstr ""
+msgstr "참여 시작 시기"
 
 msgid "Computing and credit"
-msgstr ""
+msgstr "컴퓨팅과 크레딧"
 
 msgid "Pending credit"
-msgstr ""
+msgstr "대기 중인 크레딧"
 
 msgid "View"
-msgstr ""
+msgstr "보기"
 
 msgid "Computers on this account"
-msgstr ""
+msgstr "이 계정의 컴퓨터"
 
 msgid "Tasks"
-msgstr ""
+msgstr "작업"
 
 msgid "Cross-project ID"
-msgstr ""
+msgstr "공유-프로젝트 ID"
 
 msgid "Cross-project statistics"
-msgstr ""
+msgstr "공유-프로젝트 통계"
 
 msgid "Certificate"
-msgstr ""
+msgstr "증명서"
 
 msgid "Stats on your cell phone"
-msgstr ""
+msgstr "휴대 전화 상태"
 
 msgid "Account information"
-msgstr ""
+msgstr "계정 정보"
 
 msgid "Email address"
-msgstr ""
+msgstr "Email 주소"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "Postal code"
-msgstr ""
+msgstr "우편 번호"
 
 msgid "%1 member since"
-msgstr ""
+msgstr "%1 맴버 참여 시작 시기"
 
 msgid "Change"
-msgstr ""
+msgstr "변경"
 
 msgid "email address"
-msgstr ""
+msgstr "email 주소"
 
 msgid "password"
-msgstr ""
+msgstr "비밀번호"
 
 msgid "other account info"
-msgstr ""
+msgstr "다른 계정 정보"
 
 msgid "Log out"
-msgstr ""
+msgstr "로그 아웃"
 
 msgid "User ID"
-msgstr ""
+msgstr "사용자 ID"
 
 msgid "Used in community functions"
-msgstr ""
+msgstr "커뮤니티 기능 사용"
 
 msgid "Account key"
-msgstr ""
+msgstr "계정 키"
 
 msgid "Provides full access to your account"
-msgstr ""
+msgstr "여러분 계정에 대한 모든 접근 권한을 제공합니다"
 
 msgid "Weak account key"
-msgstr ""
+msgstr "약한 계정 키"
 
 msgid "Provides"
-msgstr ""
+msgstr "제공"
 
 msgid "limited access"
-msgstr ""
+msgstr "제한된 접근"
 
 msgid "to your account"
-msgstr ""
+msgstr "계정으로"
 
 msgid "Preferences"
-msgstr ""
+msgstr "환경 설정"
 
 msgid "When and how BOINC uses your computer"
-msgstr ""
+msgstr "BOINC가 언제, 어떻게 여러분 컴퓨터를 사용할지 결정"
 
 msgid "Computing preferences"
-msgstr ""
+msgstr "컴퓨팅 환경 설정"
 
 msgid "Message boards and private messages"
-msgstr ""
+msgstr "게시판과 쪽지"
 
 msgid "Community preferences"
-msgstr ""
+msgstr "커뮤니티 환경 설정"
 
 msgid "Resource share and graphics"
-msgstr ""
+msgstr "자원 공유와 그래픽"
 
 msgid "%1 preferences"
-msgstr ""
+msgstr "%1 환경 설정"
 
 msgid "Community"
-msgstr ""
+msgstr "커뮤니티"
 
 msgid "Delete"
-msgstr ""
+msgstr "삭제"
 
 msgid "Create"
-msgstr ""
+msgstr "생성"
 
 msgid "Profile"
-msgstr ""
+msgstr "프로필"
 
 msgid "%1 posts"
-msgstr ""
+msgstr "%1 포스트"
 
 msgid "Notifications"
-msgstr ""
+msgstr "공지"
 
 msgid "Quit team"
-msgstr ""
+msgstr "팀 탈퇴"
 
 msgid "Administer"
-msgstr ""
+msgstr "관리자"
 
 msgid "(foundership change request pending)"
-msgstr ""
+msgstr "(창설자 변경 요청 대기중)"
 
 msgid "Member of team"
-msgstr ""
+msgstr "팀 구성원"
 
 msgid "Team"
-msgstr ""
+msgstr "팀"
 
 msgid "find a team"
-msgstr ""
+msgstr "팀 찾기"
 
 msgid "Founder but not member of"
-msgstr ""
+msgstr "창설자 (맴버 제외)"
 
 msgid "Find friends"
-msgstr ""
+msgstr "친구 찾기"
 
 msgid "Friends"
-msgstr ""
+msgstr "친구들"
 
 msgid "Computers"
-msgstr ""
+msgstr "컴퓨터들"
 
 msgid "hidden"
-msgstr ""
+msgstr "숨김"
 
 msgid "Donor"
-msgstr ""
+msgstr "기부자"
 
 msgid "Contact"
-msgstr ""
+msgstr "접촉"
 
 msgid "This person is a friend"
-msgstr ""
+msgstr "이 사람은 친구입니다"
 
 msgid "Cancel friendship"
-msgstr ""
+msgstr "친구 취소"
 
 msgid "Request pending"
-msgstr ""
+msgstr "요청이 지연되고 있습니다"
 
 msgid "Add as friend"
-msgstr ""
+msgstr "친구로 추가"
 
 msgid "Use BBCode tags to format your text"
-msgstr ""
+msgstr "형식에 맞춰서 BBCode 태그를 쓰세요"
 
 msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr ""
+msgstr "이 웹 사이트에서 여러분을 식별합니다. 여러분의 본명이나 별명을 써주세요."
 
 msgid "Select the country you want to represent, if any."
-msgstr ""
+msgstr "표시되기를 원하는 국가를 선택해주세요."
 
 msgid "Postal or ZIP Code"
-msgstr ""
+msgstr "우편 번호 혹은 ZIP 코드"
 
 msgid "Optional"
-msgstr ""
+msgstr "부가 사항"
 
 msgid "Applications"
-msgstr ""
+msgstr "응용 프로그램"
 
 msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
-msgstr ""
+msgstr "현재 $PROJECT(은)는 다음 응용 프로그램을 사용합니다. 여러분이 $PROJECT에 참여할 때 하나 이상의 응용 프로그램이 여러분 컴퓨터로 할당됩니다. 최신 버전의 응용 프로그램이 여러분 컴퓨터로 다운로드될 것입니다. 이 것은 자동으로 처리됩니다. 여러분은 아무 것도 하실 필요가 없습니다."
 
 msgid "Platform"
-msgstr ""
+msgstr "플랫폼"
 
 msgid "Current version"
-msgstr ""
+msgstr "현재 버전"
 
 msgid "Installation time"
-msgstr ""
+msgstr "설치 시각"
 
 msgid "You must supply an invitation code to create an account."
-msgstr ""
+msgstr "계정을 생성하실려면 초대 코드를 제공해야 합니다."
 
 msgid "The invitation code you gave is not valid."
-msgstr ""
+msgstr "초대 코드가 올바르지 않습니다."
 
 msgid "Create an account"
-msgstr ""
+msgstr "계정 생성"
 
 msgid "Account creation is disabled"
-msgstr ""
+msgstr "계정 생성이 불가능합니다"
 
 msgid "Account creation is currently disabled. Please try again later."
-msgstr ""
+msgstr "지금 현재 계정을 만들 수 없습니다. 나중에 다시 시도해주세요."
 
 msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
-msgstr ""
+msgstr "노트: 만약 BOINC 관리자가 있는 BOINC 버전 5.2 이상을 사용하면, 이 폼을 사용하지 마십시오. 대신 BOINC를 실행하고, 프로젝트 연결을 선택한 후 Email 주소와 비밀번호를 입력해주세요."
 
 msgid "This account will belong to the team %1 and will have the project preferences of its founder."
-msgstr ""
+msgstr "이 계정은 %1팀에 속하게 되며 프로젝트 환경 설정은 그 팀 창설자를 따르게 됩니다."
 
 msgid "Invitation Code"
-msgstr ""
+msgstr "초대 코드"
 
 msgid "A valid invitation code is required to create an account."
-msgstr ""
+msgstr "계정 생성을 위해서 올바른 초대 코드가 필요합니다."
 
 msgid "Email Address"
-msgstr ""
+msgstr "Email 주소"
 
 msgid "Must be a valid address of the form 'name@domain'."
-msgstr ""
+msgstr "반드시 올바른 형식(name@domain)으로 입력해 주세요."
 
 msgid "Password"
-msgstr ""
+msgstr "비밀번호"
 
 msgid "Must be at least %1 characters"
-msgstr ""
+msgstr "최소 %1 글자이상으로 입력해 주세요"
 
 msgid "Confirm password"
-msgstr ""
+msgstr "비밀번호 확인"
 
 msgid "Create account"
-msgstr ""
+msgstr "계정 생성"
 
 msgid "Title"
-msgstr ""
+msgstr "제목"
 
 msgid "Add my signature to this post"
-msgstr ""
+msgstr "이 포스트에 서명을 추가하기"
 
 msgid "%1 Message boards"
-msgstr ""
+msgstr "%1 게시판"
 
 msgid "Topic"
-msgstr ""
+msgstr "주제"
 
 msgid "Your message has been sent."
-msgstr ""
+msgstr "메세지가 전송되었습니다."
 
 msgid "You have no private messages."
-msgstr ""
+msgstr "쪽지가 없습니다."
 
 msgid "Sender"
-msgstr ""
+msgstr "송신자"
 
 msgid "Date"
-msgstr ""
+msgstr "날짜"
 
 msgid "Mark as read"
-msgstr ""
+msgstr "읽은 것으로 표시"
 
 msgid "Mark as unread"
-msgstr ""
+msgstr "안 읽은 것으로 표시"
 
 msgid "With selected"
-msgstr ""
+msgstr "선택"
 
 msgid "No such message"
-msgstr ""
+msgstr "해단 메세지가 없습니다"
 
 msgid "Block user"
-msgstr ""
+msgstr "차단된 사용자"
 
 msgid "Reply"
-msgstr ""
+msgstr "답변"
 
 msgid "Really delete?"
-msgstr ""
+msgstr "정말 삭제할까요?"
 
 msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
-msgstr ""
+msgstr "정말로 제목 &quot;%1&quot; (송신 %2 수신 %3)을 포함한 메세지를 삭제하시겠습니까?"
 
 msgid "Yes, delete"
-msgstr ""
+msgstr "네, 삭제합니다"
 
 msgid "No, cancel"
-msgstr ""
+msgstr "아니오, 취소합니다"
 
 msgid "No such message."
-msgstr ""
+msgstr "해단 메세지가 없습니다"
 
 msgid "You need to fill all fields to send a private message"
-msgstr ""
+msgstr "쪽지를 보낼려면 모든 칸을 채워야 합니다"
 
 msgid "Could not find user with id %1"
-msgstr ""
+msgstr "ID %1을(를) 가진 사용자를 찾을 수 없습니다"
 
 msgid "Could not find user with username %1"
-msgstr ""
+msgstr "사용자 이름 %1을(를) 가진 사용자를 찾을 수 없습니다"
 
 msgid "%1 is not a unique username; you will have to use user ID"
-msgstr ""
+msgstr "%1은(는) 고유한 사용자 이름이 아닙니다; 사용자 ID를 이용하세요"
 
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr ""
+msgstr "사용자 %1 (ID: %2)는 여러분의 쪽지 수신을 허용하고 있지 않습니다."
 
 msgid "Really block %1?"
-msgstr ""
+msgstr "정말로 %1을 차단하시겠습니까?"
 
 msgid "Are you really sure you want to block user %1 from sending you private messages?"
-msgstr ""
+msgstr "정말로 사용자 %1에게서 오는 쪽지를 차단하시겠습니까?"
 
 msgid "Please note that you can only block a limited amount of users."
-msgstr ""
+msgstr "제한된 숫자의 사용자를 차단할 수 있다는 걸 알아두세요."
 
 msgid "Once the user has been blocked you can unblock it using forum preferences page."
-msgstr ""
+msgstr "사용자가 차단되었습니다. 포럼 환경 설정 페이지에서 차단을 해제할 수 있습니다."
 
 msgid "Add user to filter"
-msgstr ""
+msgstr "필터에 사용자 추가"
 
 msgid "No such user"
-msgstr ""
+msgstr "해당 사용자가 없습니다"
 
 msgid "User %1 blocked"
-msgstr ""
+msgstr "사용자 %1이 차단되었습니다"
 
 msgid "User %1 has been blocked from sending you private messages."
-msgstr ""
+msgstr "사용자 %1에게서 오는 쪽지가 차단되었습니다."
 
 msgid "To unblock, visit %1message board preferences%2"
-msgstr ""
+msgstr "차단을 해제할려면, %1게시판 환경설정%2을 방문하세요"
 
 msgid "Create a new thread"
-msgstr ""
+msgstr "새 스레드 만들기"
 
 msgid "Post to thread"
-msgstr ""
+msgstr "스레드 글쓰기"
 
 msgid "Forum search results"
-msgstr ""
+msgstr "포럼 검색 결과"
 
 msgid "Forum search"
-msgstr ""
+msgstr "포럼 검색"
 
 msgid "This thread has been hidden for administrative purposes"
-msgstr ""
+msgstr "이 스레드는 관리 목적으로 열람할 수 없습니다"
 
 msgid "Unsubscribe"
-msgstr ""
+msgstr "구독 취소"
 
 msgid "Subscribe"
-msgstr ""
+msgstr "구독하기"
 
 msgid "Welcome to %1"
-msgstr ""
+msgstr "%1에 오신 걸 환영합니다"
 
 msgid "View and edit your account preferences using the links below."
-msgstr ""
+msgstr "하단에 표시된 링크를 사용해서 계정 환경 설정을 보고 편집할 수 있습니다."
 
 msgid "Read our rules and policies"
-msgstr ""
+msgstr "규칙과 정책을 읽어주십시오"
 
 msgid "Run %1 only on authorized computers"
-msgstr ""
+msgstr "%1(은)는 검증된 컴퓨터로만 실행하십시오"
 
 msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
-msgstr ""
+msgstr "%1(은)는 여러분이 가진 컴퓨터 또는 소유자의 허락을 얻은 컴퓨터로 수행하십시오. 어떤 회사와 학교는 %1(과)와 같은 프로젝트를 수행하지 못하게 하려고 그들의 컴퓨터를 사용하지 못하게 하는 정책을 가지고 있습니다."
 
 msgid "How %1 will use your computer"
-msgstr ""
+msgstr "%1(은)는 이렇게 여러분의 컴퓨터를 사용합니다"
 
 msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
-msgstr ""
+msgstr "%1(을)를 실행하실 경우 여러분 컴퓨터의 CPU, 디스크 공간, 네트워크 대역폭 중 일부를 사용하게 됩니다. 여러분은 언제, 얼마만큼 %1이 여러분의 컴퓨터 자원을 사용할지 제어할 수 있습니다."
 
 msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
-msgstr ""
+msgstr "여러분이 가진 컴퓨터로 한 작업은 %1 웹 사이트에 설명된 목표에 도달하는데 공헌하고 있습니다. 응용 프로그램은 시간이 지나면 바뀔 수 있습니다."
 
 msgid "Privacy policy"
-msgstr ""
+msgstr "사생활 보호 정책"
 
 msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
-msgstr ""
+msgstr "%1(은)는 여러분이 선택한 이름을 바탕으로 여러분을 식별합니다. 이 이름은 %1 웹 사이트에서 여러분의 컴퓨터로  %1(을)를 수행한 결과와 함께 보여질 것입니다. 만약 익명으로 남길 원한다면 여러분의 이름을 밝히지 않도록 선택하십시오."
 
 msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
-msgstr ""
+msgstr "만약 여러분이 %1에 참여한다면 여러분의 컴퓨터 정보(프로세서 종류, 메모리 용량, 기타)가 %1 서버에 기록됩니다. 이 것은 여러분 컴퓨터로 어떤 작업을 할당할지 결정하기 위해 사용됩니다. 이 정보는 또한 %1 웹 사이트에 공개됩니다. 여러분 컴퓨터의 위치를 알 수 있는 정보(예를 들어 도메인 네임이나 네트워크 주소)는 아무 것도 공개되지 않습니다."
 
 msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr ""
+msgstr "%1에 참여하려면 여러분이 실제로 받아볼 수 있는 email 주소를 제공해야 합니다. 이 주소는 %1 웹 사이트에 공개되지 않으며, 다른 기관과 공유하지도 않습니다. %1(은)는 여러분에게 주기적으로 소식지를 보낼 수도 있습니다. 그러나 이 것은 언제든지 거부할 수 있습니다."
 
 msgid "Is it safe to run %1?"
-msgstr ""
+msgstr "%1(을)를 실행해도 안전합니까?"
 
 msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
-msgstr ""
+msgstr "언제든지 여러분은 인터넷을 통해서 프로그램을 다운로드할 수 있습니다. 어떤 때는 프로그램이 위험한 오류를 가지고 있을 수 도 있고 다운로드 서버가 해킹당했을 수도 있습니다. %1(은)는 이러한 위험을 최소화하기 위해 노력합니다. 우리는 우리의 응용 프로그램을 조심히 테스트합니다. 우리 서버는 높은 보안성을 위해서 방화벽 뒤에 두고 있습니다. 프로그램 다운로드를 안전하게 하기 위해서 모든 실행가능한 파일은 인터넷에 연결되지 않은 안전한 컴퓨터로 디지털 서명을 하고 있습니다."
 
 msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr ""
+msgstr "%1 응용을 수행 중에 어떤 컴퓨터는 과부하가 걸릴 수 있습니다. 만약 그렇게 되었다면 %1 수행을 중지하시거나 CPU사용량을 제한하기 위해 %2유틸리티 프로그램%3(을)를 사용하십시오."
 
 msgid "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr ""
+msgstr "%1(은)는 %2에서 개발했습니다. BOINC는 California 대학에서 개발했습니다."
 
 msgid "Liability"
-msgstr ""
+msgstr "책임"
 
 msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
-msgstr ""
+msgstr "%1(과)와 %2(은)는 %1에 참여한 결과로 인해 발생할지도 모르는 컴퓨터가 입은 충격, 데이터 손실, 혹은 어떤 사건이나 손해도 책임지지 않습니다."
 
 msgid "Other BOINC projects"
-msgstr ""
+msgstr "다른 BOINC 프로젝트들"
 
 msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
-msgstr ""
+msgstr "다른 프로젝트도 %1처럼 BOINC 플랫폼을 사용합니다. 여러분이 이들 프로젝트에 하나 이상 참여할 생각이 들지도 모릅니다. 그렇게 함으로서 %1에서 수행할 작업이 없어도 여러분 컴퓨터는 유용한 작업을 수행할 수 있습니다. "
 
 msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
-msgstr ""
+msgstr "다른 프로젝트는 %1(과)와 아무 관련이 없으며, 그들의 보안 상태나 그들이 하는 연구의 성격을 보증할 수 없습니다. 여러분은 위험을 감수하고서 그 것에 참여하셔야 합니다."
 
 msgid "Sender and date"
-msgstr ""
+msgstr "전송자와 날짜"
 
 msgid "Profiles"
-msgstr ""
+msgstr "프로필"
 
 msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
-msgstr ""
+msgstr "%1프로필%2은 배경 지식과 의견을 %3 커뮤니티에서 개별적으로 공유하도록 합니다."
 
 msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
-msgstr ""
+msgstr "여러분과 같은 기여자들의 다양성을 경험하고, 다른 사람과 즐기기 위해서 공헌할 수 있습니다."
 
 msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
-msgstr ""
+msgstr "만약 아직 가지지 못했다면, 다른 사람에게 보여주기위한 %1사용자 프로필%2을 생성할 수 있습니다!"
 
 msgid "User of the Day"
-msgstr ""
+msgstr "오늘의 사용자"
 
 msgid "User Profile Explorer"
-msgstr ""
+msgstr "사용자 프로필 탐색기"
 
 msgid "View the %1User Picture Gallery%2."
-msgstr ""
+msgstr "%1사용자 사진 갤러리%2 보기"
 
 msgid "Browse profiles %1by country%2."
-msgstr ""
+msgstr "%1 국가%2로 프로필 탐색"
 
 msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
-msgstr ""
+msgstr "%1 무작위%2, %3 무작위 사진 있음%2, 혹은 %4 무작위 사진 없음%2으로 프로필 탐색."
 
 msgid "Alphabetical profile listings:"
-msgstr ""
+msgstr "알파벳 순서 프로필 목록:"
 
 msgid "Search profile text"
-msgstr ""
+msgstr "프로필 텍스트로 검색"
 
 msgid "No profiles"
-msgstr ""
+msgstr "프로필이 없습니다"
 
 msgid "No profiles matched your query."
-msgstr ""
+msgstr "조건에 맞는 프로필이 없습니다."
 
 msgid "Top hosts"
-msgstr ""
+msgstr "최고 호스트"
 
 msgid "Top participants"
-msgstr ""
+msgstr "최고 기여자들"
 
 msgid "Top %1 teams"
-msgstr ""
+msgstr "최고 %1 팀"
 
 msgid "Participant since"
-msgstr ""
+msgstr "참여 시작"
 
 msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
-msgstr ""
+msgstr "'약한 계정 키'는 여러분의 계정으로 로그인을 해야 한다거나 어떤 식으로든 변경을 가하지 않고, 이 프로젝트를 여러분 컴퓨터에 연결시켜 줍니다."
 
 msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
-msgstr ""
+msgstr "이 매커니즘은 오직 2007년 12월 7일 이후의 서버 소프트웨어로 업그레이드된 프로젝트에서만 작동합니다."
 
 msgid "Your weak account key for this project is:"
-msgstr ""
+msgstr "이 프로젝트를 위한 약한 계정 키:"
 
 msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
-msgstr ""
+msgstr "약한 계정 키를 사용하려면 호스트에게 제공하려면, 이 프로젝트를 위한 '계정 파일'을 만들거나 찾으십시오. 이 파일의 이름 형식은 <b>account_PROJECT_URL.xml</b>입니다. %1을 위한 계정 파일은 <b>%2</b>입니다."
 
 msgid "Create this file if needed. Set its contents to:"
-msgstr ""
+msgstr "만약 필요하면 파일을 만드십시오. 설정할 내용:"
 
 msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
-msgstr ""
+msgstr "약한 계정 키는 비밀번호와 같은 기능을 합니다. 만약 비밀번호를 바꾸면, 약한 계정 키도 바뀝니다. 그리고 기존에 있던 약한 계정 키로는 인증이 되지 않습니다."
 
 msgid "Your account"
-msgstr ""
+msgstr "계정"
 
-#########################################
-# Apps page (apps.php)
-#########################################
-#~ msgid "APPS_TITLE"
-#~ msgstr "Applications"
-
-#~ msgid "APPS_DESCRIPTION"
-#~ msgstr "$PROJECT currently has the following applications. When you participate in $PROJECT, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything. "
-
-#~ msgid "APPS_PLATFORM"
-#~ msgstr "Platform"
-
-#~ msgid "APPS_VERSION"
-#~ msgstr "Current version"
-
-#~ msgid "APPS_INSTALLTIME"
-#~ msgstr "Installed"
-
-#########################################
-# Rules and Policies page (info.php)
-#########################################
-#~ msgid "RULES_TITLE"
-#~ msgstr "Rules and Policies"
-
-#~ msgid "RULES_ONLY_AUTH"
-#~ msgstr "Run $PROJECT only on authorized computers"
-
-#~ msgid "RULES_ONLY_AUTH_TEXT"
-#~ msgstr "Run $PROJECT only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as $PROJECT"
-
-#~ msgid "RULES_COMPUTER_USE"
-#~ msgstr "How $PROJECT will use your computer"
-
-#~ msgid "RULES_COMPUTER_USE_TEXT_A"
-#~ msgstr "When you run $PROJECT on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by $PROJECT, and when it uses them."
-
-#~ msgid "RULES_COMPUTER_USE_TEXT_B"
-#~ msgstr "The work done by your computer contributes to the goals of $PROJECT, as described on its web site. The application programs may change from time to time."
-
-#~ msgid "RULES_PRIVACY"
-#~ msgstr "Privacy policy"
-
-#~ msgid "RULES_PRIVACY_TEXT_A"
-#~ msgstr "Your account on $PROJECT is identified by a name that you choose. This name may be shown on the $PROJECT web site, along with a summary of the work your computer has done for $PROJECT. If you want to be anonymous, choose a name that doesn't reveal your identity."
-
-#~ msgid "RULES_PRIVACY_TEXT_B"
-#~ msgstr "If you participate in $PROJECT, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by $PROJECT and used to decide what type of work to assign to your computer. This information will also be shown on $PROJECT's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
-
-#~ msgid "RULES_PRIVACY_TEXT_C"
-#~ msgstr "To participate in $PROJECT, you must give an address where you receive email. This address will not be shown on the $PROJECT web site or shared with organizations. $PROJECT may send you periodic newsletters; however, you can opt out at any time."
-
-#~ msgid "RULES_SAFE"
-#~ msgstr "Is it safe to run $PROJECT ?"
-
-#~ msgid "RULES_SAFE_TEXT_A"
-#~ msgstr "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. $PROJECT has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
-
-#~ msgid "RULES_SAFE_TEXT_B"
-#~ msgstr "The applications run by $PROJECT may cause some computers to overheat. If this happens, stop running $PROJECT or use a %s that limits CPU usage."
-
-#~ msgid "RULES_UTILITY_PROGRAM"
-#~ msgstr "utility program"
-
-#~ msgid "RULES_SAFE_TEXT_C"
-#~ msgstr "$PROJECT was developed by %s. BOINC was developed at the University of California."
-
-#~ msgid "RULES_LIABILITY"
-#~ msgstr "Liability"
-
-#~ msgid "RULES_LIABILITY_TEXT"
-#~ msgstr "$PROJECT and %s assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in $PROJECT."
-
-#~ msgid "RULES_OTHER"
-#~ msgstr "Other BOINC projects"
-
-#~ msgid "RULES_OTHER_TEXT_A"
-#~ msgstr "Other projects use the same platform, BOINC, as $PROJECT. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when $PROJECT has no work available for it."
-
-#~ msgid "RULES_OTHER_TEXT_B"
-#~ msgstr "These other projects are not associated with $PROJECT, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
-
-#########################################
-# Create account form (create_account_form.php)
-#########################################
-#~ msgid "CREATE_AC_TITLE"
-#~ msgstr "Create an account"
-
-#~ msgid "CREATE_AC_READ_RULES"
-#~ msgstr "Read the %s before creating an account."
-
-#~ msgid "CREATE_AC_ALREADY_GOT"
-#~ msgstr "If you already received an account key, do not submit this form. %s instead."
-
-#~ msgid "CREATE_AC_NAME"
-#~ msgstr "Name"
-
-#~ msgid "CREATE_AC_NAME_DESC"
-#~ msgstr "Identifies you on our web site. Use your real name or a nickname."
-
-#~ msgid "CREATE_AC_EMAIL"
-#~ msgstr "Email Address"
-
-#~ msgid "CREATE_AC_EMAIL_DESC"
-#~ msgstr "Must be a valid address of the form 'name@domain'."
-
-#~ msgid "CREATE_AC_COUNTRY"
-#~ msgstr "Country"
-
-#~ msgid "CREATE_AC_COUNTRY_DESC"
-#~ msgstr "Select the country you want to represent, if any."
-
-#~ msgid "CREATE_AC_ZIP"
-#~ msgstr "Postal or ZIP Code"
-
-#~ msgid "CREATE_AC_CREATE"
-#~ msgstr "Create Account"
-
-#~ msgid "CREATE_AC_DISABLED"
-#~ msgstr "Account Creation is Disabled"
-
-#~ msgid "CREATE_AC_DISABLED_TEXT"
-#~ msgstr "Account creation is disabled for $PROJECT at the moment. Please try again later."
-
-#~ msgid "CREATE_AC_TEAM"
-#~ msgstr "This account will belong to the team %s and will have the project preferences of its founder."
-
-#########################################
-# Account created page (account_created.php)
-#########################################
-#~ msgid "AC_READY_TITLE"
-#~ msgstr "Account created"
-
-#~ msgid "AC_READY_WELCOME"
-#~ msgstr "Congratulations - your $PROJECT account has been created"
-
-#~ msgid "AC_READY_PASTE"
-#~ msgstr "To continue, paste the account key here:"
-
-#~ msgid "AC_READY_CLICK"
-#~ msgstr "and click"
-
-#########################################
-# Account setup page (account_setuo.php)
-#########################################
-#also used in account_setup_nonfirst.php:
-#~ msgid "AC_SETUP_TITLE"
-#~ msgstr "Account setup"
-
-#~ msgid "AC_SETUP_USES_BOINC"
-#~ msgstr "$PROJECT uses the BOINC software system."
-
-#~ msgid "AC_SETUP_DIVISION"
-#~ msgstr "BOINC lets you divide your computer time between several distributed computing projects."
-
-#~ msgid "AC_SETUP_ISFIRST"
-#~ msgstr "Is this your first BOINC project?"
-
-#~ msgid "AC_SETUP_FIRST"
-#~ msgstr "Yes - this is my first BOINC project"
-
-#~ msgid "AC_SETUP_NONFIRST"
-#~ msgstr "No - I'm currently participating in at least one other BOINC project"
-
-#########################################
-# First Account setup page (account_setup_first.php)
-#########################################
-#~ msgid "AC_FIRST_TITLE"
-#~ msgstr "Account preferences"
-
-#~ msgid "AC_FIRST_CONTROL"
-#~ msgstr "You can control when and how your computer is used by $PROJECT"
-
-#~ msgid "AC_FIRST_DEFAULT"
-#~ msgstr "To use the defaults settings, scroll to the bottom and click OK."
-
-#########################################
-# First Account setup done page (account_setup_first_done.php)
-# and (account_setup_nonfirst_done.php
-#########################################
-#~ msgid "AC_DONE_TITLE"
-#~ msgstr "Account setup: done"
-
-#~ msgid "AC_DONE_COMPLETE"
-#~ msgstr "Your account setup is complete."
-
-#~ msgid "AC_DONE_BOINC"
-#~ msgstr "Next you must download and install the BOINC software and tell your computer(s) to use this account."
-
-#~ msgid "AC_DONE_URL"
-#~ msgstr "When the BOINC software first runs, it will ask you for a <b>Project URL</b> and a <b>Account key</b>."
-
-#~ msgid "AC_DONE_COPYPASTE"
-#~ msgstr "Copy and paste them from here:"
-
-#~ msgid "AC_DONE_GETDOWNLOAD"
-#~ msgstr "You can now %s to complete the $PROJECT installation."
-
-#~ msgid "AC_DONE_DL_BOINC"
-#~ msgstr "download the BOINC software"
-
-#~ msgid "AC_DONE_THANKS"
-#~ msgstr "Thanks for participating in $PROJECT"
-
-#########################################
-# Non-first Account setup page (account_setup_nonfirst.php)
-#########################################
-#~ msgid "AC_NONFIRST_TITLE"
-#~ msgstr "Account setup: resource share"
-
-#########################################
-# Non-first Account setup done page (account_setup_nonfirst_done.php)
-#########################################
-#~ msgid "AC_DONE_MUST_USE"
-#~ msgstr "Next you must tell your computer(s) to use this account."
-
-#~ msgid "AC_DONE_WIN"
-#~ msgstr "Windows users:"
-
-#~ msgid "AC_DONE_WIN_TEXT"
-#~ msgstr "Open the BOINC application window by double-clicking the BOINC system tray icon. Choose the 'Attach to Project' item in the Settings menu. It will ask you for a project URL and an account key."
-
-#~ msgid "AC_DONE_UNIX"
-#~ msgstr "Mac, Unix and Linux users:"
-
-#~ msgid "AC_DONE_UNIX_TEXT"
-#~ msgstr "Quit the BOINC client. Then run the BOINC client with the -attach_project option. It will ask you for a project URL and an account key."
-
-#~ msgid "AC_DONE_ANYCASE"
-#~ msgstr "In each case copy and paste the following:"
-
-#~ msgid "AC_DONE_INSTALLED"
-#~ msgstr "This completes the $PROJECT installation."
-
-#########################################
-# Forum sample index page
-#########################################
-#~ msgid "FORUM_TITLE"
-#~ msgstr "$PROJECT Message boards"
-
-#########################################
-# Different strange places:
-#########################################
-# account_created.php
-#~ msgid "AC_CREATED_TITLE"
-#~ msgstr "Configure your account"
-
-#########################################
-# General stuff (create_account_form.php and others)
-#########################################
-#~ msgid "OPTIONAL"
-#~ msgstr "Optional"
-
-#########################################
-# Various top table pages (top users, computers, teams)
-#########################################
-#~ msgid "TOP_PARTICIPANT_TITLE"
-#~ msgstr "Top participants"
-
-#~ msgid "USER_TABLE_RANK"
-#~ msgstr "Rank"
-
-#~ msgid "USER_TABLE_NAME"
-#~ msgstr "Name"
-
-#~ msgid "USER_TABLE_TOTAL_CREDIT"
-#~ msgstr "Total Credit"
-
-#~ msgid "USER_TABLE_EXPAVG"
-#~ msgstr "Recent average credit"
-
-#~ msgid "USER_TABLE_COUNTRY"
-#~ msgstr "Country"
-
-#~ msgid "USER_TABLE_PTIME"
-#~ msgstr "Participant since"
-
-#~ msgid "TOP_TEAMS_TITLE"
-#~ msgstr "Top %s teams"
-
-#~ msgid "TEAM_TABLE_MEMBERS"
-#~ msgstr "Members"
-
-#########################################
-# Forum
-#########################################
-#~ msgid "FORUM_ERR_NOT_FOUND"
-#~ msgstr "No such forum"
-
-#~ msgid "FORUM_ERR_EXPAVG"
-#~ msgstr "In order to create a new thread in %s you must have a certain amount of credit.This is to prevent and protect against abuse of the system."
-
-#~ msgid "FORUM_ERR_INTERVAL"
-#~ msgstr "You cannot create any more threads right now. Please wait a while before trying again.This delay has been enforced to protect against abuse of the system."
-
-#~ msgid "FORUM_QA_POST_MESSAGE"
-#~ msgstr "The %s area lets you get help from other users. If you have a question or problem:"
-
-#~ msgid "FORUM_QA_POST_MESSAGE2"
-#~ msgstr "Read the existing list of questions. If your question is already there, click on the %s button. If answers to the question have been submitted, read them. If one of them answers your question, click the %s button."
-
-#~ msgid "FORUM_QA_POST_MESSAGE3"
-#~ msgstr "If your question has not already been asked, fill out and submit this form."
-
-#~ msgid "FORUM_QA_POST_MESSAGE4"
-#~ msgstr "This will prevent questions from being asked repeatedly."
-
-#~ msgid "FORUM_QA_SUBMIT_NEW"
-#~ msgstr "Submit a new question/problem"
-
-#~ msgid "FORUM_SUBMIT_NEW"
-#~ msgstr "Create a new thread"
-
-#~ msgid "FORUM_SUBMIT_NEW_TITLE"
-#~ msgstr "Title"
-
-#~ msgid "FORUM_QA_SUBMIT_NEW_HELP"
-#~ msgstr "Describe your question in a few words. A brief, clear summary will help others with the same question (or an answer) to find it."
-
-#~ msgid "FORUM_QA_SUBMIT_NEW_BODY_HELP"
-#~ msgstr "If you are having software problems, mention the version number of the software, your computer type and operating system."
-
-#~ msgid "FORUM_ADD_MY_SIG"
-#~ msgstr "Add my signature to this post"
-
-#~ msgid "FORUM_MESSAGE"
-#~ msgstr "Message"
-
-#~ msgid "FORUM_QA_GOT_PROBLEM_TOO"
-#~ msgstr "I also got this problem"
-
-#~ msgid "FORUM_QA_QUESTION_ANSWERED"
-#~ msgstr "This answered my question"
-
-#~ msgid "FORUM_HTML_INFO"
-#~ msgstr "Use BBCode tags to format your text"
-
-#########################################
-# Forum search features
-#########################################
-#~ msgid "FORUM_SEARCH_TITLES"
-#~ msgstr "Titles containing '%s'"
-
-#~ msgid "FORUM_SEARCH_BODIES"
-#~ msgstr "Posts containing '%s'"
-
-#~ msgid "FORUM_SEARCH_TITLES_NO"
-#~ msgstr "No titles containing '%s' could be found."
-
-#~ msgid "FORUM_SEARCH_BODIES_NO"
-#~ msgstr "No posts containing '%s' could be found."
-
-#########################################
-# Links from the main page
-#########################################
-#~ msgid "LINKS_QA"
-#~ msgstr "Questions and Answers"
