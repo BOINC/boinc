@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-04-29 15:40-0500\n"
-"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"PO-Revision-Date: 2009-04-30 07:06-0700\n"
+"Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -995,9 +995,10 @@ msgid " Use GPU while computer is in use"
 msgstr " Usar la GPU cuando el ordenador está en uso"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
-#, fuzzy
 msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr "márquela si quiere que este ordenador trabaje incluso cuando usted lo está usando"
+msgstr ""
+"márquela si quiere que su GPU ejecute tareas incluso cuando usted esté "
+"usando su ordenador"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:111
 msgid "Only after computer has been idle for"
@@ -1475,14 +1476,12 @@ msgid "CPU work fetch priority"
 msgstr "Búsqueda de trabajo para la CPU prioritaria"
 
 #: clientgui/DlgItemProperties.cpp:143
-#, fuzzy
 msgid "CPU work fetch deferred for"
-msgstr "Trabajar después de estar inactivo durante:"
+msgstr "Búsqueda de trabajo para la CPU aplazada"
 
 #: clientgui/DlgItemProperties.cpp:144
-#, fuzzy
 msgid "CPU work fetch deferral interval"
-msgstr "Búsqueda de trabajo para la GPU NVIDIA aplazada"
+msgstr "Intervalo de aplazamiento de búsqueda de tabajo para la CPU"
 
 #: clientgui/DlgItemProperties.cpp:146
 msgid "NVIDIA GPU work fetch priority"
@@ -1493,9 +1492,8 @@ msgid "NVIDIA GPU work fetch deferred for"
 msgstr "Búsqueda de trabajo para la GPU NVIDIA aplazada"
 
 #: clientgui/DlgItemProperties.cpp:150
-#, fuzzy
 msgid "NVIDIA GPU work fetch deferral interval"
-msgstr "Búsqueda de trabajo para la GPU NVIDIA aplazada"
+msgstr "Intervalo de búsqueda de trabajo para la GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:152
 msgid "Duration correction factor"
@@ -1562,7 +1560,7 @@ msgstr "Tamaño conjunto trabajo"
 
 #: clientgui/DlgItemProperties.cpp:185
 msgid "Slot"
-msgstr ""
+msgstr "Espacio"
 
 #: clientgui/DlgItemProperties.cpp:283
 #: clientgui/ViewWork.cpp:1007
@@ -2166,16 +2164,15 @@ msgstr "URL del &Proyecto:"
 
 #: clientgui/ProjectInfoPage.cpp:320
 msgid "You are already attached to this project. Please choose a different project."
-msgstr ""
+msgstr "Usted ya está unido a este proyecto. Por favor, elija otro proyecto."
 
 #: clientgui/ProjectInfoPage.cpp:321
-#, fuzzy
 msgid "Already Attached to Project"
-msgstr "Unido ya a proyecto"
+msgstr "Unido ya al Proyecto"
 
 #: clientgui/ProjectInfoPage.cpp:348
 msgid "This project may not have work for your type of computer."
-msgstr ""
+msgstr "Este proyecto podría no tener trabajo para su tipo de ordenador."
 
 #: clientgui/ProjectListCtrl.cpp:338
 #, c-format
@@ -3476,7 +3473,7 @@ msgstr "Nombre"
 
 #: clientgui/ViewWork.cpp:217
 msgid "Elapsed"
-msgstr ""
+msgstr "Transcurrido"
 
 #: clientgui/ViewWork.cpp:219
 #: clientgui/ViewWorkGrid.cpp:147
@@ -3747,14 +3744,17 @@ msgstr "especificar horas de comienzo y final de uso de la red en el formato HH:
 
 #~ msgid "You are already attached to this project."
 #~ msgstr "Usted ya está unido a este proyecto."
-#~ msgid "This project may not support your platform and may not give you any tasks to process."
+
+#~ msgid ""
 #~ msgstr ""
 #~ "Este proyecto podría no soportar su sistema y no darle ningún trabajo para "
 #~ "procesar."
+
 #~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
 #~ msgstr ""
 #~ "Usted puede copiar y pegar la URL desde la barra\n"
 #~ "de direcciones de su navegador."
 
+#~ "
+
+#~ "
