@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-04-30 07:06-0700\n"
+"PO-Revision-Date: 2009-04-30 11:28-0700\n"
 "Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -1481,7 +1481,7 @@ msgstr "Búsqueda de trabajo para la CPU aplazada"
 
 #: clientgui/DlgItemProperties.cpp:144
 msgid "CPU work fetch deferral interval"
-msgstr "Intervalo de aplazamiento de búsqueda de tabajo para la CPU"
+msgstr "Intervalo de búsqueda de trabajo para la CPU"
 
 #: clientgui/DlgItemProperties.cpp:146
 msgid "NVIDIA GPU work fetch priority"
@@ -3755,6 +3755,8 @@ msgstr "especificar horas de comienzo y final de uso de la red en el formato HH:
 #~ "Usted puede copiar y pegar la URL desde la barra\n"
 #~ "de direcciones de su navegador."
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
 
-#~ "
+#~ msgid ""
+#~ msgstr ""
