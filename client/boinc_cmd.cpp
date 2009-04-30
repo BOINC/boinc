@@ -226,9 +226,9 @@ int main(int argc, char** argv) {
         retval = rpc.get_project_status(ps);
         if (!retval) ps.print();
     } else if (!strcmp(cmd, "--get_simple_gui_info")) {
-        SIMPLE_GUI_INFO sgi;
-        retval = rpc.get_simple_gui_info(sgi);
-        if (!retval) sgi.print();
+        SIMPLE_GUI_INFO info;
+        retval = rpc.get_simple_gui_info(info);
+        if (!retval) info.print();
     } else if (!strcmp(cmd, "--get_disk_usage")) {
         DISK_USAGE du;
         retval = rpc.get_disk_usage(du);

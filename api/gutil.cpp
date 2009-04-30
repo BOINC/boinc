@@ -21,11 +21,11 @@
 #include "config.h"
 #endif
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <cmath>
-#include <csetjmp>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <setjmp.h>
 
 #ifdef _WIN32
 
@@ -56,10 +56,6 @@ extern "C" {
 #ifdef __APPLE__
 #undef HAVE_STDLIB_H /* Avoid compiler warning (redefined in jconfig,h) */
 #endif
-
-using std::FILE;
-using std::longjmp;
-using std::jmp_buf;
 
 #ifndef SANS_JPEGLIB
 extern "C"{

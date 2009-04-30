@@ -705,14 +705,24 @@ int HOST_INFO::get_host_info() {
     size_t len;
 
     // Get machine
+#ifdef IRIX
+    mib[0] = 0;
+    mib[1] = 1;
+#else
     mib[0] = CTL_HW;
     mib[1] = HW_MACHINE;
+#endif
     len = sizeof(p_vendor);
     sysctl(mib, 2, &p_vendor, &len, NULL, 0);
 
     // Get model
+#ifdef IRIX
+    mib[0] = 0;
+    mib[1] = 1;
+#else
     mib[0] = CTL_HW;
     mib[1] = HW_MODEL;
+#endif
     len = sizeof(p_model);
     sysctl(mib, 2, &p_model, &len, NULL, 0);
 #elif defined(__osf__)

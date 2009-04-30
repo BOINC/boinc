@@ -25,10 +25,10 @@
 #ifndef _WIN32
 #include "config.h"
 #include <string>
-#include <cmath>
-#include <cstring>
-#include <cstdlib>
-#include <cctype>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
 #ifdef HAVE_ALLOCA_H
 #include "alloca.h"
 #endif

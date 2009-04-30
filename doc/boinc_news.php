@@ -1,6 +1,14 @@
 <?
 
 $project_news = array(
+array("April 29, 2009",
+    "An <a href=http://www.news.cornell.edu/stories/March09/cordes.palfa.einstein.html>article in Cornell's Chronicle Online</a> discusses
+    a new application in <a href=http://einstein.phys.uwm.edu/>Einstein@home</a>
+    that searches for pulsars in binary star systems."
+),
+array("April 29, 2009",
+    "Francois Grey discusses Citizen Cyberscience (and BOINC) in <a href=http://cerncourier.com/cws/article/cern/38718>The CERN Courier</a>."
+),
 array("April 21, 2009",
     "A <a href=http://event.twgrid.org/isgc2009/asiaathome/wiki/index.php/Main_Page>workshop on volunteer computing with BOINC</a>
     was held in Taipei on 16-17 April.

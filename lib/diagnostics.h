@@ -187,7 +187,9 @@ extern void set_signal_exit_code(int);
 #else  // _DEBUG
 
 #define BOINCASSERT(expr)         
+#ifndef IRIX
 #define BOINCTRACE(...)          
+#endif
 
 #endif // _DEBUG
 

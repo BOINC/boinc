@@ -1210,14 +1210,14 @@ int RPC_CLIENT::get_file_transfers(FILE_TRANSFERS& t) {
     return retval;
 }
 
-int RPC_CLIENT::get_simple_gui_info(SIMPLE_GUI_INFO& sgi) {
+int RPC_CLIENT::get_simple_gui_info(SIMPLE_GUI_INFO& info) {
     int retval;
     SET_LOCALE sl;
     char buf[256];
     RPC rpc(this);
 
-    sgi.projects.clear();
-    sgi.results.clear();
+    info.projects.clear();
+    info.results.clear();
 
     retval = rpc.do_rpc("<get_simple_gui_info/>\n");
     if (!retval) {
@@ -1226,13 +1226,13 @@ int RPC_CLIENT::get_simple_gui_info(SIMPLE_GUI_INFO& sgi) {
             else if (match_tag(buf, "<project>")) {
                 PROJECT* project = new PROJECT();
                 project->parse(rpc.fin);
-                sgi.projects.push_back(project);
+                info.projects.push_back(project);
                 continue;
             }
             else if (match_tag(buf, "<result>")) {
                 RESULT* result = new RESULT();
                 result->parse(rpc.fin);
-                sgi.results.push_back(result);
+                info.results.push_back(result);
                 continue;
             }
         }

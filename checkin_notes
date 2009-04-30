@@ -4221,3 +4221,23 @@ David  28 Apr 2009
 
     db/
         db_base.cpp
+
+David  30 Apr 2009
+    - Changes to get the client to build on IRIX:
+        don't use the variable name "sgi";
+        include <xxx.h> instead of <cxxx>; the latter just adds
+        overloaded functions that we avoid.
+
+    api/
+        gutil.cpp
+        gutil_text.cpp
+    client/
+        boinc_cmd.cpp
+        hostinfo_unix.cpp
+        whetstone.cpp
+    html/inc/
+        stats_sites.inc
+    lib/
+        diagnostics.h
+        gui_rpc_client_ops.cpp
+        str_util.cpp

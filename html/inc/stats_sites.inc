@@ -114,9 +114,8 @@ $team_stats_sites = array(
         "Boinc.be team stats",
         ""
     ),
-    array("http://www.seti-teamartbell.com/",
-        "Team Art Bell", ""
-    ),
+    array("http://www.seti-teamartbell.com/", "Team Art Bell", ""),
+    array("http://www.crunchers-freiburg.de/", "crunchers@freiburg", "(German)"),
 );
 
 // The following sites generate signature images based on user CPID

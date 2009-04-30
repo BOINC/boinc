@@ -26,11 +26,11 @@
 
 #ifndef _WIN32
 #include "config.h"
-#include <cstdlib>
-#include <cstdio>
-#include <cstring>
-#include <cmath>
-#include <ctime>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <time.h>
 #endif
 
 #include "util.h"
