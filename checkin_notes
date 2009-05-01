@@ -2624,3 +2624,18 @@ Rom    28 Apr 2009
     /
         configure.ac
         version.h
+
+Rom    30 Apr 2009
+    - MGR: Turn GetViewName into the unlocalized version of the view
+        name, so the configuration group name is consistant across
+        all languages and does not cause conversion issues on
+        different platforms where the configuration information
+        is treated differently when compiled Unicode vs. ANSI.
+        
+    clientgui/
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp

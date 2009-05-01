@@ -155,7 +155,7 @@ CViewMessages::~CViewMessages() {
 
 
 wxString& CViewMessages::GetViewName() {
-    static wxString strViewName(_("Messages"));
+    static wxString strViewName(wxT("Messages"));
     return strViewName;
 }
 
