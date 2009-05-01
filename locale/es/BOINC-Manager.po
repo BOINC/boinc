@@ -5,7 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
 "PO-Revision-Date: 2009-04-30 11:28-0700\n"
 "Last-Translator: David M <davidcomp@telefonica.net>\n"
-"Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3744,19 +3744,3 @@ msgstr "especificar horas de comienzo y final de uso de la red en el formato HH:
 
 #~ msgid "You are already attached to this project."
 #~ msgstr "Usted ya está unido a este proyecto."
-
-#~ msgid ""
-#~ msgstr ""
-#~ "Este proyecto podría no soportar su sistema y no darle ningún trabajo para "
-#~ "procesar."
-
-#~ msgid ""
-#~ msgstr ""
-#~ "Usted puede copiar y pegar la URL desde la barra\n"
-#~ "de direcciones de su navegador."
-
-#~ msgid ""
-#~ msgstr ""
-
-#~ msgid ""
-#~ msgstr ""
