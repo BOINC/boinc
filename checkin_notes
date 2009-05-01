@@ -4241,3 +4241,19 @@ David  30 Apr 2009
         diagnostics.h
         gui_rpc_client_ops.cpp
         str_util.cpp
+
+Rom    30 Apr 2009
+    - MGR: Turn GetViewName into the unlocalized version of the view
+        name, so the configuration group name is consistant across
+        all languages and does not cause conversion issues on
+        different platforms where the configuration information
+        is treated differently when compiled Unicode vs. ANSI.
+        
+    clientgui/
+        ViewMessages.cpp
+        ViewNews.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewStatistics.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp

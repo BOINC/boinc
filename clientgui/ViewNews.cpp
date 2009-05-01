@@ -106,7 +106,7 @@ CViewNews::~CViewNews() {
 
 
 wxString& CViewNews::GetViewName() {
-    static wxString strViewName(_("News"));
+    static wxString strViewName(wxT"News"));
     return strViewName;
 }
 

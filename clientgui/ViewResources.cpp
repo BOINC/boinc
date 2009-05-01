@@ -108,7 +108,7 @@ CViewResources::~CViewResources() {
 
 
 wxString& CViewResources::GetViewName() {
-    static wxString strViewName(_("Disk"));
+    static wxString strViewName(wxT("Disk"));
     return strViewName;
 }
 
