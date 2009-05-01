@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 6.x\n"
+"Project-Id-Version: BOINC Manager 6.6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
