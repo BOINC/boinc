@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC $Id$\n"
-"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-01 10:01 PDT\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
