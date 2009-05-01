@@ -1,12 +1,19 @@
-msgid "CHARSET"
-msgstr "UTF-8"
-
-msgid "LANG_NAME_NATIVE"
-msgstr "English"
-
-msgid "LANG_NAME_INTERNATIONAL"
-msgstr "English"
-
+# BOINC web translation
+# Copyright (C) 2008 University of California
+#
+# This file is distributed under the same license as BOINC.
+#
+# FileID  : $Id$
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC $Id$\n"
+"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2009-05-01 10:01 PDT\n"
+"Last-Translator: Generated automatically from source files\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
 msgid "[check all that apply]"
 msgstr ""
 
@@ -28,6 +35,9 @@ msgstr ""
 msgid "more than a year"
 msgstr ""
 
+msgid "No - I used to run BOINC, but..."
+msgstr ""
+
 msgid "I lost interest"
 msgstr ""
 
@@ -44,9 +54,6 @@ msgid "it used too much electricity"
 msgstr ""
 
 msgid "I switched to a non-BOINC computing project"
-msgstr ""
-
-msgid "No - I used to run BOINC, but..."
 msgstr ""
 
 msgid "No - I tried running BOINC, but..."
@@ -282,7 +289,9 @@ msgid ""
 "Skype) to communicate with Help Volunteers."
 msgstr ""
 
-msgid "Volunteers speaking several languages are available. "
+msgid ""
+"Volunteers speaking several languages are available. Please select a "
+"language:"
 msgstr ""
 
 msgid "Be a Help Volunteer"

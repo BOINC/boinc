@@ -213,6 +213,7 @@ function language_form() {
         <option value=es>Espa&ntilde;ol
         <option value=fr>Fran&ccedil;ais
         <option value=ja>日本語
+        <option value=ko>�국�
         <option value=lt>Lietuvių
         <option value=nl>Nederlands
         <option value=pl>Polski

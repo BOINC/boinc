@@ -4257,3 +4257,6 @@ Rom    30 Apr 2009
         ViewStatistics.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+
+David  1 May 2009
+    - removed outdated translation files; updated template
