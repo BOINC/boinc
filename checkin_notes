@@ -2639,3 +2639,11 @@ Rom    30 Apr 2009
         ViewStatistics.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+
+Rom    1 May 2009
+    - Tag for 6.6.26 release, all platforms
+      boinc_core_release_6_6_26
+
+    /
+        configure.ac
+        version.h
