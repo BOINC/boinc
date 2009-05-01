@@ -70,9 +70,19 @@ extern int boinc_calling_thread_cpu_time(double&);
 //
 extern void mysql_timestamp(double, char*);
 
+// fake a crash
+//
 extern void boinc_crash();
-extern int read_file_malloc(const char* path, char*&, int max_len=0, bool tail=false);
-extern int read_file_string(const char* path, std::string&, int max_len=0, bool tail=false);
+
+// read files into memory.
+// Use only for non-binary files; returns null-terminated string.
+//
+extern int read_file_malloc(
+    const char* path, char*& result, size_t max_len=0, bool tail=false
+);
+extern int read_file_string(
+    const char* path, std::string& result, size_t max_len=0, bool tail=false
+);
 
 #ifdef _WIN32
 

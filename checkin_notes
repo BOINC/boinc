@@ -4260,3 +4260,13 @@ Rom    30 Apr 2009
 
 David  1 May 2009
     - removed outdated translation files; updated template
+
+David  1 May 2009
+    - sample bitwise validator: make it work for binary files
+        fixes #886, #887
+
+    lib/
+        md5_file.h
+        util.cpp,h
+    sched/
+        sample_bitwise_validator.cpp

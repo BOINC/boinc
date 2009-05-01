@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// A sample validator that grants credit if the majority of results are
+// A sample validator that requires a majority of results to be
 // bitwise identical.
 // This is useful only if either
 // 1) your application does no floating-point math, or
@@ -31,24 +31,15 @@
 using std::string;
 using std::vector;
 
-struct FILE_CKSUM {
-    string md5sum;
-
-    FILE_CKSUM(string& filedata) {
-        md5sum = md5_string(filedata);
-    }
-    ~FILE_CKSUM(){}
-};
-
 struct FILE_CKSUM_LIST {
-    vector<FILE_CKSUM> files;
+    vector<string> files;   // list of MD5s of files
     ~FILE_CKSUM_LIST(){}
 };
 
 bool files_match(FILE_CKSUM_LIST& f1, FILE_CKSUM_LIST& f2) {
     if (f1.files.size() != f2.files.size()) return false;
     for (unsigned int i=0; i<f1.files.size(); i++) {
-        if (f1.files[i].md5sum != f2.files[i].md5sum) return false;
+        if (f1.files[i] != f2.files[i]) return false;
     }
     return true;
 }
@@ -57,6 +48,8 @@ int init_result(RESULT& result, void*& data) {
     int retval;
     FILE_CKSUM_LIST* fcl = new FILE_CKSUM_LIST;
     vector<FILE_INFO> files;
+    char md5_buf[MD5_LEN];
+    double nbytes;
 
     retval = get_output_file_infos(result, files);
     if (retval) {
@@ -67,14 +60,14 @@ int init_result(RESULT& result, void*& data) {
         return retval;
     }
 
-    string filedata;
     for (unsigned int i=0; i<files.size(); i++) {
         FILE_INFO& fi = files[i];
         if (fi.no_validate) continue;
-        retval = read_file_string(fi.path.c_str(), filedata);
+        retval = md5_file(fi.path.c_str(), md5_buf, nbytes);
         if (retval) {
             if (fi.optional) {
-                filedata = "";
+                strcpy(md5_buf, "");
+                    // indicate file is missing; not the same as md5("")
             } else {
                 log_messages.printf(MSG_CRITICAL,
                     "[RESULT#%d %s] Couldn't open %s\n",
@@ -83,8 +76,7 @@ int init_result(RESULT& result, void*& data) {
                 return retval;
             }
         }
-        FILE_CKSUM fc(filedata);
-        fcl->files.push_back(fc);
+        fcl->files.push_back(string(md5_buf));
     }
     data = (void*) fcl;
     return 0;
