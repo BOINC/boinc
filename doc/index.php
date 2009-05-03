@@ -1,4 +1,5 @@
 <?php
+
 $host = $_SERVER["SERVER_NAME"];
 if ($host == "bossa.berkeley.edu") {
     Header("Location: http://boinc.berkeley.edu/trac/wiki/BossaIntro");
@@ -85,8 +86,8 @@ function show_participate() {
         <span class=section_title>".tra("Volunteer")."</span>
         <br>
         <a class=heading href=download.php><b>".tra("Download")."</b></a>
-        &middot; <a class=heading href=\"/wiki/BOINC_Help\"><b>Help</b></a>
-        &middot; <a class=heading href=\"wiki/User_manual\"><b><span class=nobr>Documentation</span></b></a> 
+        &middot; <a class=heading href=\"/wiki/BOINC_Help\"><b>".tra("Help")."</b></a>
+        &middot; <a class=heading href=\"wiki/User_manual\"><b><span class=nobr>".tra("Documentation")."</span></b></a> 
         </center>
         </td></tr>
         <tr><td>

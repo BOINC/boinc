@@ -109,10 +109,12 @@ function show_download($pname) {
     }
     echo "
         <p>
-        <b>Note: if your computer is equipped with an NVIDIA
-        Graphics Processing Unit (GPU),
-        you may be able to
-            <a href=cuda.php>use it to compute faster</a>.</b>
+        <b>"
+        .sprintf(
+            tra("Note: if your computer is equipped with an NVIDIA Graphics Processing Unit (GPU), you may be able to %suse it to compute faster%s"),
+                "<a href=cuda.php>", ".</a>"
+        )
+        ."</b>
         <br><br>
         <center>
         <a href=\"wiki/System_requirements\"><span class=nobr>".tra("System requirements")."</span></a>
