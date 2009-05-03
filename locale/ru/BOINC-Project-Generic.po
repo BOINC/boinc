@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-30 11:47-0700\n"
+"Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2009-01-05 12:28-0500\n"
+"PO-Revision-Date: 2009-05-03 08:35-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -25,15 +25,13 @@ msgstr ""
 msgid "CHARSET"
 msgstr "UTF-8"
 
-# The name of this language in this language<br />
-# Имя языка в этом файле
 # The name of this language in this language
+# Имя языка в этом файле
 msgid "LANG_NAME_NATIVE"
 msgstr "Русский"
 
-# The name of this language in an international language (English)&lt;br /&gt;<br />
-# Имя языка в этом файле на интернациональном языке (английском)
 # The name of this language in an international language (English)
+# Имя языка в этом файле на интернациональном языке (английском)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Russian"
 
@@ -324,7 +322,6 @@ msgstr "Компьютеры в этой учетной записи"
 msgid "Tasks"
 msgstr "Задания"
 
-#, fuzzy
 msgid "Cross-project ID"
 msgstr "Межпроектный ID (CPID)"
 
