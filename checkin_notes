@@ -4270,3 +4270,10 @@ David  1 May 2009
         util.cpp,h
     sched/
         sample_bitwise_validator.cpp
+
+Rytis  3 May 2009
+    - user web: add a hook project_user_links() to user_links() to easily
+        extend user links (very useful for adding project badges).
+    
+    html/inc/
+        util.inc

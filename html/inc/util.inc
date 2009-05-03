@@ -503,6 +503,9 @@ function user_links($user) {
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;
     }
+    if (function_exists("project_user_links")){
+        $x .= project_user_links($user);
+    }
     return $x;
 }
 
