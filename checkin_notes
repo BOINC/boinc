@@ -2647,3 +2647,10 @@ Rom    1 May 2009
     /
         configure.ac
         version.h
+
+David  4 May 2009
+    - client: view 2 GPUs as equivalent if their memory differs by <30%.
+        (maybe their memory differed slightly from the most capable one)
+
+    lib/
+        coproc.cpp

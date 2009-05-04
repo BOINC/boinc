@@ -132,18 +132,23 @@ COPROC* COPROCS::lookup(const char* type) {
 
 #endif
 
-// return 1/-1/0 if device 1 is more/less/same capable than device 2
+// return 1/-1/0 if device 1 is more/less/same capable than device 2.
+// If "loose", ignore FLOPS and tolerate small memory diff
 //
-int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2, bool ignore_flops) {
+int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2, bool loose) {
     if (c1.prop.major > c2.prop.major) return 1;
     if (c1.prop.major < c2.prop.major) return -1;
     if (c1.prop.minor > c2.prop.minor) return 1;
     if (c1.prop.minor < c2.prop.minor) return -1;
     if (c1.drvVersion > c2.drvVersion) return 1; 
     if (c1.drvVersion < c2.drvVersion) return -1; 
+    if (loose) {
+        if (c1.prop.totalGlobalMem > 1.4*c2.prop.totalGlobalMem) return 1;
+        if (c1.prop.totalGlobalMem < .7* c2.prop.totalGlobalMem) return -1;
+        return 0;
+    }
     if (c1.prop.totalGlobalMem > c2.prop.totalGlobalMem) return 1;
     if (c1.prop.totalGlobalMem < c2.prop.totalGlobalMem) return -1;
-    if (ignore_flops) return 0;
 	double s1 = c1.flops_estimate();
 	double s2 = c2.flops_estimate();
 	if (s1 > s2) return 1;
