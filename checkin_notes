@@ -4284,3 +4284,16 @@ David  4 May 2009
 
     lib/
         coproc.cpp
+
+David  4 May 2009
+    - client: simplify enforce_schedule(), and maybe fix bugs.
+        New approach: take the "ordered_schedule_results" list,
+        add running jobs that haven't finished their time slice,
+        and order the result appropriately.
+        Then run jobs in order until CPUs are filled.
+        Simpler and clearer than the old way.
+
+    client/
+        client_types.h
+        client_state.h
+        cpu_sched.cpp

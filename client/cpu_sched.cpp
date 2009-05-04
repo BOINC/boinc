@@ -719,69 +719,42 @@ static inline bool in_ordered_scheduled_results(ACTIVE_TASK* atp) {
 	return false;
 }
 
-// return true if t1 is more preemptable than t0
+// return true if r0 is more important to run than r1
 //
-static inline bool more_preemptable(ACTIVE_TASK* t0, ACTIVE_TASK* t1) {
-    if (t0->result->project->cpu_pwf.deadlines_missed && !t1->result->project->cpu_pwf.deadlines_missed) return true;
-    if (!t0->result->project->cpu_pwf.deadlines_missed && t1->result->project->cpu_pwf.deadlines_missed) return false;
-    if (t0->result->project->cpu_pwf.deadlines_missed && t1->result->project->cpu_pwf.deadlines_missed) {
-        if (t0->result->report_deadline < t1->result->report_deadline) return true;
-        if (t0->result->report_deadline > t1->result->report_deadline) return false;
-        return (t0 < t1);
-    } else {
-		bool fin0 = finished_time_slice(t0);
-		bool fin1 = finished_time_slice(t1);
-		if (fin1 && !fin0) return true;
-		if (fin0 && !fin1) return false;
-        if (t0->result->report_deadline < t1->result->report_deadline) return true;
-        if (t0->result->report_deadline > t1->result->report_deadline) return false;
-        return (t0 < t1);
-    }
+static inline bool more_important(RESULT* r0, RESULT* r1) {
+    bool miss0 = r0->rr_sim_misses_deadline;
+    bool miss1 = r1->rr_sim_misses_deadline;
+    if (miss0 && !miss1) return true;
+    if (!miss0 && miss1) return false;
+    bool unfin0 = r0->unfinished_time_slice;
+    bool unfin1 = r1->unfinished_time_slice;
+    if (unfin0 && !unfin1) return true;
+    if (!unfin0 && unfin1) return false;
+    if (r0->seqno < r1->seqno) return true;
+    if (r0->seqno > r1->seqno) return false;
+    return (r0 < r1);
 }
 
-// Make a list of preemptable CPU jobs, in increasing order of preemptability,
-// and mark them as scheduled.
-// "Preemptable" means: running, not non-CPU-intensive,
-// not in the scheduled results list.
+// find running jobs that haven't finished their time slice.
+// Mark them as such, and add to list if not already there
 //
-void CLIENT_STATE::make_preemptable_task_list(
-	vector<ACTIVE_TASK*> &preemptable_tasks, double& ncpus_used
+void CLIENT_STATE::append_unfinished_time_slice(
+    vector<RESULT*> &runnable_jobs
 ) {
     unsigned int i;
-    ACTIVE_TASK* atp;
 
-	ncpus_used = 0;
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        atp = active_tasks.active_tasks[i];
-		if (in_ordered_scheduled_results(atp)) continue;
+        ACTIVE_TASK* atp = active_tasks.active_tasks[i];
 		if (!atp->result->runnable()) continue;
         if (atp->result->project->non_cpu_intensive) continue;
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (atp->result->uses_coprocs()) continue;
-		ncpus_used += atp->app_version->avg_ncpus;
-		atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
-        preemptable_tasks.push_back(atp);
-#if 0
-		msg_printf(0, MSG_INFO, "%s: CPU misses %d deadline %f finished %d ptr %x",
-			atp->result->name,
-			atp->result->project->cpu_pwf.deadlines_missed,
-			atp->result->report_deadline,
-			finished_time_slice(atp), atp
-		);
-#endif
+        if (finished_time_slice(atp)) continue;
+        atp->result->unfinished_time_slice = true;
+		if (in_ordered_scheduled_results(atp)) continue;
+        runnable_jobs.push_back(atp->result);
+        atp->result->seqno = 0;
     }
-
-    std::sort(
-        preemptable_tasks.begin(),
-        preemptable_tasks.end(),
-        more_preemptable
-    );
-#if 0
-	for (i=0; i<preemptable_tasks.size(); i++) {
-		atp = preemptable_tasks[i];
-		msg_printf(0, MSG_INFO, "list %d: %s", i, atp->result->name);
-	}
-#endif
 }
 
 // Enforce the CPU schedule.
@@ -825,36 +798,50 @@ bool CLIENT_STATE::enforce_schedule() {
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule(): start");
-        for (i=0; i<ordered_scheduled_results.size(); i++) {
-            RESULT* rp = ordered_scheduled_results[i];
-            msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched_debug] want to run: %s",
-                rp->name
-            );
-        }
     }
 
-    // set temporary variables
-    //
-    for (i=0; i<projects.size(); i++){
-        projects[i]->cpu_pwf.deadlines_missed_copy = projects[i]->cpu_pwf.deadlines_missed;
-    }
-
-    // Set next_scheduler_state to preempt
+    // Set next_scheduler_state to preempt for all tasks
     //
     for (i=0; i< active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
     }
 
-    make_preemptable_task_list(preemptable_tasks, ncpus_used);
+    // make a copy of the to-run list
+    //
+    vector<RESULT*>runnable_jobs;
+    for (i=0; i<ordered_scheduled_results.size(); i++) {
+        RESULT* rp = ordered_scheduled_results[i];
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(rp->project, MSG_INFO,
+                "[cpu_sched_debug] want to run: %s",
+                rp->name
+            );
+        }
+        rp->seqno = i;
+        rp->unfinished_time_slice = false;
+        runnable_jobs.push_back(rp);
+    }
+
+    // append running jobs not done with time slice
+    //
+    append_unfinished_time_slice(runnable_jobs);
+
+    // sort the result by decreasing importance
+    //
+    std::sort(
+        runnable_jobs.begin(),
+        runnable_jobs.end(),
+        more_important
+    );
 
     double ram_left = available_ram();
+    double swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
 
     if (log_flags.mem_usage_debug) {
         msg_printf(0, MSG_INFO,
-            "[mem_usage_debug] enforce: available RAM %.2fMB",
-            ram_left/MEGA
+            "[mem_usage_debug] enforce: available RAM %.2fMB swap %.2fMB",
+            ram_left/MEGA, swap_left/MEGA
         );
     }
 
@@ -866,19 +853,16 @@ bool CLIENT_STATE::enforce_schedule() {
             atp = get_task(rp);
             atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
             ram_left -= atp->procinfo.working_set_size_smoothed;
+            swap_left -= atp->procinfo.swap_size;
         }
     }
 
-    double swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
-
     // Loop through the jobs we want to schedule.
-    // Invariant: "ncpus_used" is the sum of CPU usage
-    // of tasks with next_scheduler_state == CPU_SCHED_SCHEDULED
-	// (including preemptable jobs).
-	// Win: "new_ncpus_used" is the sum excluding preemptable jobs.
     //
-    for (i=0; i<ordered_scheduled_results.size(); i++) {
-        RESULT* rp = ordered_scheduled_results[i];
+    ncpus_used = 0;
+    for (i=0; i<runnable_jobs.size(); i++) {
+        if (ncpus_used >= ncpus) break;
+        RESULT* rp = runnable_jobs[i];
         if (log_flags.cpu_sched_debug) {
             msg_printf(rp->project, MSG_INFO,
                 "[cpu_sched_debug] processing %s", rp->name
@@ -900,48 +884,6 @@ bool CLIENT_STATE::enforce_schedule() {
             }
         }
 
-        // Preempt tasks if needed (and possible).
-        //
-        bool failed_to_preempt = false;
-		while (1) {
-			if (!preemptable_tasks.size()) break;
-            if (ncpus_used < ncpus) break;
-            // Preempt the most preemptable task if either
-            // 1) it's completed its time slice and has checkpointed recently
-            // 2) the scheduled result is in deadline trouble
-            //
-            preempt_atp = preemptable_tasks.back();
-            if (rp->project->cpu_pwf.deadlines_missed_copy || finished_time_slice(preempt_atp)) {
-                if (rp->project->cpu_pwf.deadlines_missed_copy) {
-                    rp->project->cpu_pwf.deadlines_missed_copy--;
-                }
-                preempt_atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
-                ncpus_used -= preempt_atp->app_version->avg_ncpus;
-                preemptable_tasks.pop_back();
-                if (log_flags.cpu_sched_debug) {
-                    msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched_debug] preempting %s",
-                        preempt_atp->result->name
-                    );
-                }
-            } else {
-                if (log_flags.cpu_sched_debug) {
-                    msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched_debug] didn't preempt %s: tr %f tsc %f",
-                        preempt_atp->result->name,
-						now - preempt_atp->run_interval_start_wall_time,
-						now - preempt_atp->checkpoint_wall_time
-                    );
-                }
-                failed_to_preempt = true;
-                break;
-            }
-        }
-
-        if (failed_to_preempt && !rp->uses_coprocs()) {
-            continue;
-        }
-
         // We've decided to run this job; create an ACTIVE_TASK if needed.
         //
         if (!atp) {
@@ -950,33 +892,6 @@ bool CLIENT_STATE::enforce_schedule() {
         ncpus_used += rp->avp->avg_ncpus;
         atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         ram_left -= atp->procinfo.working_set_size_smoothed;
-    }
-    if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO,
-            "[cpu_sched_debug] finished preempt loop, ncpus_used %f",
-            ncpus_used
-        );
-    }
-
-    // There may be jobs still in the preemptable list at this point.
-    // Let them run if they don't exceed RAM limits
-    //
-    for (i=0; i<preemptable_tasks.size(); i++) {
-        atp = preemptable_tasks[i];
-        if (atp->procinfo.working_set_size_smoothed > ram_left) {
-            atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
-            atp->too_large = true;
-            if (log_flags.mem_usage_debug) {
-                msg_printf(atp->result->project, MSG_INFO,
-                    "[mem_usage_debug] enforce: result %s can't keep, too big %.2fMB > %.2fMB",
-                    atp->result->name, atp->procinfo.working_set_size_smoothed/MEGA, ram_left/MEGA
-                );
-            }
-        } else {
-            atp->too_large = false;
-            ram_left -= atp->procinfo.working_set_size_smoothed;
-            atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
-        }
     }
 
     if (log_flags.cpu_sched_debug && ncpus_used < ncpus) {
@@ -1108,21 +1023,6 @@ bool CLIENT_STATE::enforce_schedule() {
         request_enforce_schedule("coproc quit retry");
     }
     return action;
-}
-
-// return true if we don't have enough runnable tasks to keep all CPUs busy
-//
-bool CLIENT_STATE::no_work_for_a_cpu() {
-    unsigned int i;
-    int count = 0;
-
-    for (i=0; i< results.size(); i++){
-        RESULT* rp = results[i];
-        if (!rp->nearly_runnable()) continue;
-        if (rp->project->non_cpu_intensive) continue;
-        count++;
-    }
-    return ncpus > count;
 }
 
 // trigger CPU schedule enforcement.

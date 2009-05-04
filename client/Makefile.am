@@ -89,12 +89,12 @@ all-local: boinc
 
 boinc: boinc_client
 	rm -f boinc .libs/boinc
-	ln boinc_client boinc
-	if test -f .libs/boinc_client ; then ln .libs/boinc_client .libs/boinc ; fi
+	$(LN) boinc_client boinc
+	if test -f .libs/boinc_client ; then $(LN) .libs/boinc_client .libs/boinc ; fi
 
 install-exec-hook:
 	rm -f $(DESTDIR)$(exec_prefix)/bin/boinc
-	ln $(DESTDIR)$(exec_prefix)/bin/boinc_client $(DESTDIR)$(exec_prefix)/bin/boinc
+	$(LN) $(DESTDIR)$(exec_prefix)/bin/boinc_client $(DESTDIR)$(exec_prefix)/bin/boinc
 
 ## these source files need to be specified because no rule uses them.
 
