@@ -262,8 +262,7 @@ private:
     bool possibly_schedule_cpus();
     void schedule_cpus();
     bool enforce_schedule();
-    bool no_work_for_a_cpu();
-    void make_preemptable_task_list(vector<ACTIVE_TASK*>&, double&);
+    void append_unfinished_time_slice(vector<RESULT*>&);
 public:
     void adjust_debts();
     std::vector <RESULT*> ordered_scheduled_results;

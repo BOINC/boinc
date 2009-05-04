@@ -577,6 +577,10 @@ struct RESULT {
     double computation_deadline();
     bool rr_sim_misses_deadline;
 
+    // temporaries used in enforce_schedule():
+    bool unfinished_time_slice;
+    int seqno;
+
         /// temporary used to tell GUI that this result is deadline-scheduled
     bool edf_scheduled;
 };
