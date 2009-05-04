@@ -2667,3 +2667,11 @@ David  4 May 2009
         client_types.h
         client_state.h
         cpu_sched.cpp
+
+Rom    4 May 2009
+    - Tag for 6.6.27 release, all platforms
+      boinc_core_release_6_6_27
+
+    /
+        configure.ac
+        version.h
