@@ -203,27 +203,27 @@ function language_form() {
         <form name=language method=get action=set_language.php>
         <select class=selectbox name=lang onchange=\"javascript: submit()\">
         <option value=auto selected=\"selected\">-- language --
-        <option value=auto>Browser default
-        <option value=ar>العربية
-        <option value=be>Беларускі
-        <option value=bg>Български
-        <option value=ca>Català
-        <option value=cs>Čeština
-        <option value=de>Deutsch
-        <option value=en>English
-        <option value=es>Espa&ntilde;ol
-        <option value=fr>Fran&ccedil;ais
-        <option value=ja>日本語
-        <option value=ko>�국�
-        <option value=lt>Lietuvių
-        <option value=nl>Nederlands
-        <option value=pl>Polski
-        <option value=pt_BR>Portugu&ecirc;s - Brasil
-        <option value=ru>Русский
-        <option value=sk>Slovenčina
-        <option value=tr>Türkçe
-        <option value=zh_CN>简体中文
-        </select>
+        <option value=auto>Browser default"
+        //."<option value=ar>العربية"
+        //."<option value=be>Беларускі"
+        //."<option value=bg>Българск�"
+        //."<option value=ca>Català"
+        //."<option value=cs>Čeština"
+        //."<option value=de>Deutsch"
+        //."<option value=en>English"
+        ."<option value=es>Espa&ntilde;ol"
+        //."<option value=fr>Fran&ccedil;ais"
+        //."<option value=ja>日本語"
+        ."<option value=ko>�국�"
+        //."<option value=lt>Lietuvių"
+        ."<option value=nl>Nederlands"
+        //."<option value=pl>Polski"
+        //."<option value=pt_BR>Portugu&ecirc;s - Brasil"
+        //."<option value=ru>Русский"
+        //."<option value=sk>Slovenčina"
+        //."<option value=tr>Türkçe"
+        //."<option value=zh_CN>简体中文"
+        ."</select>
         </form>
         <script type=\"text/javascript\">
         document.language.lang.selectedIndex=0;
