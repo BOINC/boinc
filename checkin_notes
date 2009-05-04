@@ -2675,3 +2675,11 @@ Rom    4 May 2009
     /
         configure.ac
         version.h
+
+Charlie 4 May 2009
+    - client: fix compiler warning (unused variable due to incomplete 
+        port from trunk).
+        
+    client/
+        cpu_sched.cpp
+    
