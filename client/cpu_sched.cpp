@@ -774,11 +774,11 @@ void CLIENT_STATE::append_unfinished_time_slice(
 // 
 bool CLIENT_STATE::enforce_schedule() {
     unsigned int i;
-    ACTIVE_TASK* atp, *preempt_atp;
     vector<ACTIVE_TASK*> preemptable_tasks;
     static double last_time = 0;
     int retval;
     double ncpus_used;
+    ACTIVE_TASK* atp;
 
     // Do this when requested, and once a minute as a safety net
     //
