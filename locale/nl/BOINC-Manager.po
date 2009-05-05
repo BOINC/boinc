@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-04-29 17:03-0500\n"
-"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"PO-Revision-Date: 2009-05-05 11:13-0700\n"
+"Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -18,15 +18,15 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:337
 msgid "User information"
-msgstr "Gebruikers informatie"
+msgstr "Gebruikersinformatie"
 
 #: clientgui/AccountInfoPage.cpp:343
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr ""
-"Vul a.u.b. je account gegevens in\n"
-"(een account aanmaken kan op de project website)"
+"Vul a.u.b. uw accountgegevens in(op de project-website kunt u een account "
+"aanmaken)"
 
 #: clientgui/AccountInfoPage.cpp:347
 msgid ""
@@ -46,7 +46,7 @@ msgstr "&Nee, nieuwe gebruiker"
 
 #: clientgui/AccountInfoPage.cpp:358
 msgid "&Yes, existing user"
-msgstr "&Ja, bestaande gebruiker"
+msgstr "&Ja, geregistreerde gebruiker"
 
 #: clientgui/AccountInfoPage.cpp:374
 #: clientgui/AccountInfoPage.cpp:537
@@ -73,7 +73,7 @@ msgstr "Gebr&uikersnaam:"
 
 #: clientgui/AccountInfoPage.cpp:422
 msgid "&Email address:"
-msgstr "&Email adres:"
+msgstr "&E-mailadres:"
 
 #: clientgui/AccountInfoPage.cpp:430
 #, c-format
@@ -88,15 +88,15 @@ msgstr "Wachtwoord vergeten?"
 #: clientgui/WelcomePage.cpp:332
 #: clientgui/WelcomePage.cpp:346
 msgid "Attach to project"
-msgstr "Project toevoegen"
+msgstr "Een project toevoegen"
 
 #: clientgui/AccountInfoPage.cpp:478
 msgid "Update account manager"
-msgstr "Account manager bijwerken"
+msgstr "Accountmanager bijwerken"
 
 #: clientgui/AccountInfoPage.cpp:480
 msgid "Attach to account manager"
-msgstr "Account manager toevoegen"
+msgstr "Een accountmanager toevoegen"
 
 #: clientgui/AccountInfoPage.cpp:489
 #, c-format
@@ -110,19 +110,21 @@ msgstr "De minimum lengte van een wachtwoord voor deze account manager is %d. Ki
 
 #: clientgui/AccountInfoPage.cpp:506
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr "Het wachtwoord en het bevestigings wachtwoord komen niet overeen. Vul ze a.u.b. opnieuw in."
+msgstr ""
+"Het bevestigde wachtwoord komt niet overeen met het origineel. Voer deze "
+"a.u.b. opnieuw in."
 
 #: clientgui/AccountManagerInfoPage.cpp:180
 msgid "Account Manager URL"
-msgstr "Account Manager URL"
+msgstr "URL van de accountmanager"
 
 #: clientgui/AccountManagerInfoPage.cpp:183
 msgid "Enter the URL of the account manager's web site."
-msgstr "Vul het URL in van de account manager website."
+msgstr "Vul de website-URL van de accountmanager in."
 
 #: clientgui/AccountManagerInfoPage.cpp:186
 msgid "Account Manager &URL:"
-msgstr "Account Manager &URL:"
+msgstr "Accountmanager &URL:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:190
 #: clientgui/AccountManagerPropertiesPage.cpp:194
@@ -138,7 +140,7 @@ msgstr "Aan het communiceren met de server."
 #: clientgui/AccountManagerProcessingPage.cpp:202
 #: clientgui/AccountManagerPropertiesPage.cpp:206
 msgid "Please wait..."
-msgstr "Even geduld..."
+msgstr "Even geduld alstublieft..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:322
 #: clientgui/ProjectProcessingPage.cpp:494
@@ -173,7 +175,7 @@ msgstr "%s Afsluiten"
 #: clientgui/BOINCTaskBar.cpp:626
 #: clientgui/mac/MacSysMenu.cpp:218
 msgid "E&xit"
-msgstr "Afsluiten"
+msgstr "A&fsluiten"
 
 #: clientgui/AdvancedFrame.cpp:323
 msgid "&Advanced View"
@@ -181,11 +183,13 @@ msgstr "Sorteerbaar"
 
 #: clientgui/AdvancedFrame.cpp:324
 msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
-msgstr "De sorteerbare weergave geeft de mogelijkheid om de kolommen te sorteren "
+msgstr ""
+"De uitgebreide weergave biedt de mogelijkheid om kolommen te ordenen en "
+"toont voortgangsbalken."
 
 #: clientgui/AdvancedFrame.cpp:329
 msgid "&Simple View..."
-msgstr "Eenvoudig"
+msgstr "&Eenvoudig"
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "Display the simple BOINC graphical interface."
@@ -193,7 +197,7 @@ msgstr "Schakel over naar de eenvoudige BOINC weergave."
 
 #: clientgui/AdvancedFrame.cpp:344
 msgid "Attach to &project..."
-msgstr "Project toevoegen"
+msgstr "&Project toevoegen..."
 
 #: clientgui/AdvancedFrame.cpp:345
 msgid "Attach to a project"
@@ -201,11 +205,11 @@ msgstr "Een project toevoegen"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Attach to &account manager..."
-msgstr "Account manager toevoegen"
+msgstr "Accountmanager toevoegen..."
 
 #: clientgui/AdvancedFrame.cpp:350
 msgid "Attach to an account manager"
-msgstr "Een account manager toevoegen"
+msgstr "Een accountmanager toevoegen"
 
 #: clientgui/AdvancedFrame.cpp:354
 #, c-format
@@ -215,7 +219,7 @@ msgstr "%s Bijwerken"
 #: clientgui/AdvancedFrame.cpp:358
 #, c-format
 msgid "Get current settings from %s"
-msgstr "Haal de huidige instellingen op van %s"
+msgstr "Huidige instellingen ophalen bij %s"
 
 #: clientgui/AdvancedFrame.cpp:373
 msgid "&Run always"
@@ -223,11 +227,11 @@ msgstr "We&rk altijd actief"
 
 #: clientgui/AdvancedFrame.cpp:374
 msgid "Allow work regardless of preferences"
-msgstr "Werk actief ongeacht de persoonlijke voorkeuren"
+msgstr "Werk altijd toestaan; ongeacht persoonlijke instellingen"
 
 #: clientgui/AdvancedFrame.cpp:378
 msgid "Run based on &preferences"
-msgstr "Werk actief o&p basis van voorkeuren"
+msgstr "Werk uitvoeren op basis van persoonlijke &instellingen"
 
 #: clientgui/AdvancedFrame.cpp:379
 msgid "Allow work according to your preferences"
@@ -1467,9 +1471,8 @@ msgid "CPU work fetch deferred for"
 msgstr "CPU werkverdeling uitgesteld voor"
 
 #: clientgui/DlgItemProperties.cpp:144
-#, fuzzy
 msgid "CPU work fetch deferral interval"
-msgstr "NVIDIA GPU werkverdeling uitgesteld voor"
+msgstr "Interval voor CPU werkverdeling"
 
 #: clientgui/DlgItemProperties.cpp:146
 msgid "NVIDIA GPU work fetch priority"
@@ -1480,9 +1483,8 @@ msgid "NVIDIA GPU work fetch deferred for"
 msgstr "NVIDIA GPU werkverdeling uitgesteld voor"
 
 #: clientgui/DlgItemProperties.cpp:150
-#, fuzzy
 msgid "NVIDIA GPU work fetch deferral interval"
-msgstr "NVIDIA GPU werkverdeling uitgesteld voor"
+msgstr "Interval voor NVIDIA GPU werkverdeling"
 
 #: clientgui/DlgItemProperties.cpp:152
 msgid "Duration correction factor"
@@ -1549,7 +1551,7 @@ msgstr "Grootte van taak"
 
 #: clientgui/DlgItemProperties.cpp:185
 msgid "Slot"
-msgstr ""
+msgstr "Slot"
 
 #: clientgui/DlgItemProperties.cpp:283
 #: clientgui/ViewWork.cpp:1007
@@ -2153,16 +2155,16 @@ msgstr "Project &URL:"
 
 #: clientgui/ProjectInfoPage.cpp:320
 msgid "You are already attached to this project. Please choose a different project."
-msgstr ""
+msgstr "Je hebt dit project al toegevoegd. Kies a.u.b. een ander project."
 
 #: clientgui/ProjectInfoPage.cpp:321
-#, fuzzy
 msgid "Already Attached to Project"
-msgstr "Project reeds toegevoegd"
+msgstr "Project Reeds Toegevoegd"
 
 #: clientgui/ProjectInfoPage.cpp:348
 msgid "This project may not have work for your type of computer."
 msgstr ""
+"Het is mogelijk dat dit project geen werk heeft voor jouw type computer."
 
 #: clientgui/ProjectListCtrl.cpp:338
 #, c-format
@@ -3464,7 +3466,7 @@ msgstr "Bestandsnaam"
 
 #: clientgui/ViewWork.cpp:217
 msgid "Elapsed"
-msgstr ""
+msgstr "Verstreken tijd"
 
 #: clientgui/ViewWork.cpp:219
 #: clientgui/ViewWorkGrid.cpp:147
@@ -3739,129 +3741,18 @@ msgstr "geef de netwerk start- en stoptijd aan in UU:MM - UU:MM"
 #~ msgstr ""
 #~ "Het is mogelijk dit URL te kopiëren uit je browser's\n"
 #~ "adresbalk."
-#~ msgid "For a list of account managers go to:"
+
+#~ msgid ""
 #~ msgstr "Voor een lijst met 'account managers' ga naar:"
-#~ msgid "You are already attached to this project."
+
+#~ msgid ""
 #~ msgstr "Je hebt dit project reeds toegevoegd."
-#~ msgid "Static text"
+
+#~ msgid ""
 #~ msgstr "Statische tekst"
-#~ msgid "Radiobutton"
+
+#~ msgid ""
 #~ msgstr "Keuzeknop"
-#~ msgid "Short term debt"
+
+#~ msgid ""
 #~ msgstr "Korte termijn eis"
-#~ msgid "Long term debt"
-#~ msgstr "Lange termijn eis"
-#~ msgid "Test"
-#~ msgstr "Test"
-#~ msgid "Enter account key"
-#~ msgstr "Vul account key in"
-#~ msgid ""
-#~ "This project uses an \"account key\" to identify you.\n"
-#~ "\n"
-#~ "Go to the project's web site to create an account. Your account\n"
-#~ "key will be emailed to you."
-#~ msgstr ""
-#~ "Dit project gebruikt een \"account key\" voor indentificatie.\n"
-#~ "\n"
-#~ "Ga naar de website van het project om een account te maken.\n"
-#~ "De Account Key wordt per email toe gestuurd."
-#~ msgid "An account key looks like:"
-#~ msgstr "Een Account Key lijkt op:"
-#~ msgid "82412313ac88e9a3638f66ea82186948"
-#~ msgstr "82412313ac88e9a3638f66ea82186948"
-#~ msgid "Account key:"
-#~ msgstr "Account key:"
-#~ msgid "For a list of BOINC-based account managers go to:"
-#~ msgstr "Voor een lijst van BOINC gebaseerde account managers ga naar:"
-#~ msgid "&Accessible View"
-#~ msgstr "Toegankelijk"
-#~ msgid "Accessible views are compatible with accessibility aids such as screen readers."
-#~ msgstr "De toegankelijkheids weergave is bruikbaar in combinatie met o.a. een \"verteller\"."
-#~ msgid "&Grid View"
-#~ msgstr "Sorteerbaar"
-#~ msgid "Grid views allow you to sort various columns and displays graphical progress bars."
-#~ msgstr "De sorteerbare weergave geeft de mogelijkheid om de kolommen te sorteren "
-#~ msgid ":"
-#~ msgstr ":"
-
-#, c-format
-#~ msgid ""
-#~ "%s is going to shutdown the core client it is currently connected to.\n"
-#~ "NOTE: Choosing 'OK' will cause the select new computer dialog to appear \n"
-#~ "so you can attach to a different core client."
-#~ msgstr ""
-#~ "%s zal de client, die op dit moment verbonden is, afsluiten.\n"
-#~ "LET OP: Op 'OK' klikken opent een venster om een andere client te\n"
-#~ "kiezen, kies 'Annuleer' indien dit niet de bedoeling is."
-
-#, c-format
-#~ msgid ""
-#~ "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
-#~ "(Error code %d)"
-#~ msgstr ""
-#~ "BOINC gebruiker en/of rechten zijn niet goed ingesteld. Herinstalleer a.u.b. BOINC.\n"
-#~ "(Foutcode: %d)"
-#~ msgid "BOINC leaves at least this amount of disk space free (in Gigagytes)"
-#~ msgstr "BOINC moet minimaal deze hoeveelheid ruimte vrij laten (in Gigabyte)"
-#~ msgid "Click here to disable displaying this message in the future."
-#~ msgstr "Klik hier om deze boodschap in het vervolg niet meer te tonen."
-#~ msgid "Language Selection:"
-#~ msgstr "Taalselectie:"
-#~ msgid "What language should the manager display by default."
-#~ msgstr "Welke standaard taal moet de manager gebruiken."
-#~ msgid "Reminder Frequency:"
-#~ msgstr "Herinnerings interval:"
-#~ msgid "How often, in minutes, should the manager remind you of possible connection events."
-#~ msgstr "Hoe vaak, in minuten, moet de manager een herinnering weergeven over mogelijke verbindings handelingen."
-#~ msgid ""
-#~ "BOINC failed to communicate on the Internet. The most likely\n"
-#~ "reasons are:\n"
-#~ "\n"
-#~ "1) Connectivity problem.  Check your network\n"
-#~ "or modem connection and click Back to try again.\n"
-#~ "\n"
-#~ "2) Personal firewall software is blocking BOINC.\n"
-#~ "Configure your personal firewall to let BOINC\n"
-#~ "communicate on port 80, then click Back to try again.\n"
-#~ "\n"
-#~ "3) You are using a proxy server.\n"
-#~ "Click Next to configure BOINC's proxy settings."
-#~ msgstr ""
-#~ "BOINC kon geen internet verbinding maken. De meest\n"
-#~ "voorkomende redenen zijn:\n"
-#~ "\n"
-#~ "1) Verbindings probleem. Controleer a.u.b. of je verbinding\n"
-#~ "met het internet actief is. Klik daarna op de Vorige knop om\n"
-#~ "het nogmaals te proberen.\n"
-#~ "\n"
-#~ "2) Een persoonlijke firewall blokkeert BOINC. Stel de\n"
-#~ "aanwezige firewall zo in dat BOINC via poort 80 kan\n"
-#~ "communiceren. Klik vervolgens op Vorige.\n"
-#~ "\n"
-#~ "3) Je gebruikt een Proxy server.\n"
-#~ "Klik op Volgende om de proxy correct in te stellen."
-#~ msgid "total disk usage"
-#~ msgstr "totaal schijfgebruik"
-#~ msgid "disk usage by BOINC projects"
-#~ msgstr "schijfgebruik door BOINC projecten"
-#~ msgid "not attached to any BOINC project - 0 bytes"
-#~ msgstr "Geen BOINC projecten toegevoegd - 0 Bytes"
-#~ msgid "free disk space - "
-#~ msgstr "vrije ruimte - "
-#~ msgid "used by BOINC - "
-#~ msgstr "gebruikt door BOINC projecten - "
-#~ msgid "used by other programs - "
-#~ msgstr "gebruikt door anderen - "
-#~ msgid "Project Comm Failure"
-#~ msgstr "Project Comm. Fout"
-#~ msgid "Google Comm Failure"
-#~ msgstr "Google Comm. Fout"
-
-#, c-format
-#~ msgid "Yahoo Comm Failure"
-#~ msgstr "Yahoo Comm. Fout"
-#~ msgid "This project may not support your platform and may not give you any tasks to process."
-#~ msgstr ""
-#~ "Het is mogelijk dat dit project jouw platform niet ondersteund en daarom "
-#~ "geen werk uitgeeft."
-
