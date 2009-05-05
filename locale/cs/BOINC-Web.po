@@ -1,3 +1,85 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2009-05-01 10:01 PDT\n"
+"PO-Revision-Date: 2009-05-05 08:19-0700\n"
+"Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
+"Language-Team: \n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Pootle 1.2.1\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+
+msgid "%s for %s (%s MB)"
+msgstr "%s pro %s (%s MB)"
+
+msgid ""
+"BOINC Online Help lets you talk one-on-one with experienced BOINC users, who "
+"can: %s answer questions about BOINC and volunteer computing; %s walk you "
+"through the process of installing and using BOINC; %s troubleshoot any "
+"problems you might have."
+msgstr ""
+"BOINC online pomoc Vám umoňuje hovořit se zkušenými uživateli systému BOINC, "
+"kteří vám mohou: %s odpovědět otázky o BOINC dobrovolnickém počítání %s "
+"provést Vás procesem instalace a nastavení programu BOINC %s vyřešit "
+"problémy, na které můžete narazit."
+
+msgid ""
+"BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. "
+"Skype is free (both the software and the calls).  If you don't already have "
+"Skype, please %sdownload and install it now%s.  When you're finished, return "
+"to this page."
+msgstr ""
+"BOINC online pomoc je založena na programu %sSkype%s pro telefonování přes "
+"internet. Skype je zdarma (program i telefonování). Pokud Skype dosud "
+"nemáte, %sstáhněte si jej zde%s a potom se vraťte na tuto stránku."
+
+msgid ""
+"If you're an experienced BOINC user, we encourage you to %sbecome a Help "
+"Volunteer%s.  It's a great way to help the cause of scientific research and "
+"volunteer computing - and it's fun!"
+msgstr ""
+"Pokud jste zkušeným uživatelem programu BOINC, byly bychom rádi, pokud byste "
+"se stal dobrovolným pomocníkem. Je to skvělý způsob, jak pomoci věci "
+"vědeckého výzkumu a dobrovolnickému počítání - a je to také zábava!"
+
+msgid ""
+"If you're already a Help Volunteer: to edit your settings, %sclick here%s."
+msgstr ""
+"Pokud jste již dobrovolným pomocníkem: k úpravě svého nastavení %sklikněte "
+"zde%s."
+
+msgid ""
+" Use the idle time on your computer (Windows, Mac, or Linux) to cure "
+"diseases, study global warming, discover pulsars, and do many other types of "
+"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
+"sDownload%s and run BOINC software  %sEnter%s an email address and password. "
+msgstr ""
+"Využívejte volný čas Vašeho počítače (Windows, Mac, Linux) k hledání léků "
+"proti nemocem, studování globální oteplování, k objevení pulsarů nebo k "
+"mnohému jinému vědeckému výzkumu. Je to bezpečné a jednoduché: %sVyberte "
+"si%s projekty %sStáhněte si%s a nainstalujte program BOINC %sVložte vaší "
+"emailovou adresu a heslo k projektu."
+
+msgid ""
+"Or, if you run several projects, try an %saccount manager%s such as %"
+"sGridRepublic%s or %sBAM!%s. "
+msgstr ""
+"Případně, pokud používáte více projektů současně, vyzkoušejte některého ze "
+"%ssprávce účtů%s, jako jsou %sGridRepublic%s nebo %sBAM!%s."
+
+msgid ""
+"Open-source software for %svolunteer computing%s and %sgrid computing%s."
+msgstr ""
+"Open-source software pro %sdobrovolnické počítání%s a %sgrid computing%s."
+
 ##########################################
 # Language: Czech
 # FileID  : $Id$
@@ -5,709 +87,409 @@
 # Email   : martin.suchan@email.cz
 ##########################################
 # For more information please see:
-# http://boinc.berkeley.edu/web_translation.php
+# http://boinc.berkeley.edu/trac/wiki/TranslateIntro
 ##########################################
 # The charset used for the text in this file (please try to use UTF-8 if possible)
-msgid "CHARSET"
-msgstr "UTF-8"
+#~ msgid "CHARSET"
+#~ msgstr "UTF-8"
 
 # The name of this language in this language
-msgid "LANG_NAME_NATIVE"
-msgstr "Čeština"
+#~ msgid "LANG_NAME_NATIVE"
+#~ msgstr "Čeština"
 
 # The name of this language in an international language (English)
-msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Czech"
+#~ msgid "LANG_NAME_INTERNATIONAL"
+#~ msgstr "Czech"
 
-#########################################
-# Apps page (apps.php)
-#########################################
-msgid "Applications"
-msgstr "Aplikační programy"
+########################################
+# poll-related stuff
+########################################
+#~ msgid "POLL_TITLE"
+#~ msgstr "BOINC dotazník"
 
-msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
-msgstr "%1 nyní používá tyto aplikační programy. Pokud jste zapojen v %1, bude Vašemu počítači přidělena práce pro jeden, nebo více, z těchto aplikačních programů. Aktuální verze aplikačního programu se vždy automaticky stáhne do Vašeho počítače. To se stane automaticky, bez vašeho zásahu."
+#~ msgid "POLL_INTRO"
+#~ msgstr "Mnoho dobrovolných výpočetních projektů, např. Climateprediction.net, Einstein@home a SETI@home, používá program nazývaný BOINC. Pokud se podílíte na některém z takovýchto projektů, rádi bychom Vás požádali o vyplnění následujícího dotazníku. Zodpovězení následujících otázek nám pomůže zlepšit jednotlivé projekty, získat více účastníku a také dosáhnout větších vědeckých výsledků.</p><p>Odpovězte prosím na tolik otázek, kolik chcete, poté jděte na konec stránky a klikněte na OK. Pokud jste již dotazník dříve vyplnili, ale vaše odpovědi se změnily, prosím, vyplňte jej znova - vaše staré odpovědi budou nahrazeny novými.</p><p>Současné výsledky BOINC dotazníku jsou k <a href=poll_results.php>vidění zde</a>.</p>"
 
-msgid "Platform"
-msgstr "Platforma"
+#~ msgid "POLL_RUN"
+#~ msgstr "Používáte BOINC?"
 
-msgid "Current version"
-msgstr "Současná verze"
+#~ msgid "POLL_PARTICIPATION"
+#~ msgstr "Vaše účast"
 
-msgid "Installation time"
-msgstr "Čas instalace"
+#~ msgid "POLL_COMPUTERS"
+#~ msgstr "Vaše počítače"
 
-#########################################
-# Rules and Policies page (info.php)
-#########################################
-msgid "Read our rules and policies"
-msgstr "Přečtěte si naše pravidla a zásady"
+#~ msgid "POLL_YOU"
+#~ msgstr "O Vás"
 
-msgid "Run %1 only on authorized computers"
-msgstr "Používejte %1 jen na autorizovaných počítačích"
+#~ msgid "POLL_NATIONALITY"
+#~ msgstr "Národnost"
 
-msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
-msgstr "Používejte %1 pouze na počítačích které vlastníte, nebo na kterých Vám to jejich vlastník povolil. Některé školy nebo firmy se řídí předpisy, které zakazují používat jejich počítače pro projekty jako je %1 ."
+#~ msgid "POLL_COMMENTS"
+#~ msgstr "Komentáře"
 
-msgid "How %1 will use your computer"
-msgstr "Jak bude %1 využívat Váš počítač"
+#~ msgid "POLL_COMMENTS_QUESTION"
+#~ msgstr "Zkuste prosím navrhnout, jakými způsoby by se daly vylepšit jednotlivé projekty, nebo samotný BOINC:"
 
-msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
-msgstr "Při běhu bude %1 využívat část výpočetního výkonu, místa na disku a připojení Vašeho počítače. Můžete též ovlivnit, kolik prostředků bude %1 využívat a také kdy je bude využívat."
+#~ msgid "POLL_OTHER"
+#~ msgstr "Další:"
 
-msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
-msgstr "Práce vykonaná Vaším počítačem přispěje k dosažení cíle %1 tak, jak je psáno na stránkách projektu. Cíle projektu se mohou čas od času měnit."
+#~ msgid "POLL_CHECK_ALL"
+#~ msgstr "[zaškrtněte všechny, které odpovídají]"
 
-msgid "Privacy policy"
-msgstr "Ochrana soukromí"
+#~ msgid "POLL_DONE"
+#~ msgstr "Na konci klikněte:"
 
-msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
-msgstr "Váš účet na %1 je identifikován podle jména, které si sami zvolíte. Toto jméno může být zobrazeno na stránkách %1, spolu s údaji o tom, kolik práce již Váš počítač v %1 vykonal. Pokud si přejete zůstat v anonymitě, zvolte si takové jméno, které skryje Vaší pravou identitu."
+#~ msgid "POLL_CURRENT"
+#~ msgstr "Ano, používám BOINC na mém počítači..."
 
-msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
-msgstr "Pokud jste zapojen v %1, informace o Vašem počítači (typ procesoru, velikost paměti atd.) bude zaznamenána v databázi %1 a použita pro určení, jaký typ práce bude Vašemu počítači přidělen. Tyto informace budou také viditelné na stránkách %1. Nebude zobrazeno nic, co by odhalovalo umístění Vašeho počítače, jako např. jméno domény či IP adresa."
+#~ msgid "POLL_TWEEK"
+#~ msgstr "méně než týden"
 
-msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr "Abyste se mohli zapojit do %1, musíte zadat Vaší emailovou adresu, kterou používáte. Tato adresa nebude zobrazena na stránkách %1 ani sdělována jiným organizacím. %1 vám bude zasílat emailové novinky, které ovšem můžete kdykoliv zrušit."
+#~ msgid "POLL_TMONTH"
+#~ msgstr "méně než měsíc"
 
-msgid "Is it safe to run %1?"
-msgstr "Je bezpečné být zapojen v %1?"
+#~ msgid "POLL_TYEAR"
+#~ msgstr "méně než rok"
 
-msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
-msgstr "Kdykoliv si stahujete programy z internetu, vystavujete se riziku, že program obsahuje nebezpečné chyby, nebo že server, ze kterého stahujete, byl napaden útočníkem. %1 vynakládá veškeré úsilí k minimalizaci těchto rizik. Naše servery jsou umístěny za firewallem a nastaveny na vysokou úroveň zabezpečení. Pro zajištění integrity byly všechny naše programy důkladně testovány a také digitálně podepsány na zabezpečeném počítači, který není připojen k internetu."
+#~ msgid "POLL_TMOREYEAR"
+#~ msgstr "více než rok"
 
-msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr "Při používání aplikačních programů %1 může docházet u některých počítačů k přehřívání. Pokud se tak stane, zastavte %1 nebo používejte %2pomocné programy%3 které omezí využití počítače."
+#~ msgid "POLL_LAPSED"
+#~ msgstr "Ne, používal jsem BOINC, ale přestal jsem, protože ..."
 
-msgid "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr "%1 byl vyvinut v %2. BOINC byl vyvinut na Kalifornské universitě v Berkeley."
+#~ msgid "POLL_LINTEREST"
+#~ msgstr "už mě to nebavilo"
 
-msgid "Liability"
-msgstr "Zodpovědnost"
+#~ msgid "POLL_LCOMPLICATED"
+#~ msgstr "bylo to moc složité"
 
-msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
-msgstr "%1 a %2 nenese žádnou zodpovědnost za ztrátu dat nebo jakoukoliv jinou příhodu nebo stav, který může vzniknout jako následek používání %1."
+#~ msgid "POLL_LSTOPPED"
+#~ msgstr "přestal jsem a zapomněl jsem znova začít"
 
-msgid "Other BOINC projects"
-msgstr "Jiné BOINC projekty"
+#~ msgid "POLL_LPROBLEMS"
+#~ msgstr "způsobovalo to potíže na mém počítači"
 
-msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
-msgstr "Prostředí BOINC využívají i další projekty, podobně jako %1. Můžete zvážit Vaše přispění i do těchto projektů a pokud tak učiníte, Váš počítač bude pracovat užitečně i v době, kdy %1 nebude mít nic na práci."
+#~ msgid "POLL_LPOWER"
+#~ msgstr "stálo to moc elektřiny"
 
-msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
-msgstr "Tyto další projekty nejsou nijak spojené s %1 a tudíž se Vám nemůžeme nijak zaručit za jejich bezpečnost či předmět výzkumu. Připojte se k nim dle Vašeho uvážení."
+#~ msgid "POLL_LNONBOINC"
+#~ msgstr "přešel jsem na projekt jiný, než BOINC."
 
-#########################################
-# Create account form (create_account_form.php)
-#########################################
-msgid "Create an account"
-msgstr "Vytvořte si účet"
+#~ msgid "POLL_FAILED"
+#~ msgstr "Ne, zkoušel jsem používat BOINC, ale..."
 
-msgid "Name"
-msgstr "Jméno"
+#~ msgid "POLL_FINSTALL"
+#~ msgstr "Program se nenainstaloval správně"
 
-msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr "Vaše identifikace na stránkách. Použijte skutečné jméno, nebo přezdívku."
+#~ msgid "POLL_FFIGURE"
+#~ msgstr "Nepřišel jsem na to, jak jej používat"
 
-msgid "Email Address"
-msgstr "Emailová adresa"
+#~ msgid "POLL_FNETWORK"
+#~ msgstr "Narazil jsem na potíže při komunikaci po síti"
 
-msgid "Must be a valid address of the form 'name@domain'."
-msgstr "Adresa musí být platného tvaru 'jmeno@domena'."
+#~ msgid "POLL_FATTACH"
+#~ msgstr "Nemohl jsem se připojit k projektu"
 
-msgid "Country"
-msgstr "Země"
+#~ msgid "POLL_FWORK"
+#~ msgstr "Připojil jsem se k projektu, ale nikdy jsem neobdržel práci"
 
-msgid "Select the country you want to represent, if any."
-msgstr "Vyberte si zemi, kterou chcete reprezentovat."
+#~ msgid "POLL_NEVER"
+#~ msgstr "Ne, nikdy jsem nezkoušel používat BOINC, protože..."
 
-msgid "Postal or ZIP Code"
-msgstr "Směrovací číslo nebo ZIP kód"
+#~ msgid "POLL_NSECURITY"
+#~ msgstr "Měl jsem pochyby o jeho bezpečnosti"
 
-msgid "Create account"
-msgstr "Vytvořit účet"
+#~ msgid "POLL_NPROJECT"
+#~ msgstr "Žádný projekt mě nazaujal"
 
-msgid "Account creation is disabled"
-msgstr "Vytváření účtů je zakázáno"
+#~ msgid "POLL_NPERMISSION"
+#~ msgstr "Nemohl jsem ho používat na mém počítači"
 
-msgid "Account creation is disabled for %1 at the moment. Please try again later."
-msgstr "Vytváření účtů je v %1 dočasně zakázáno. Zkuste to prosím později."
+#~ msgid "POLL_NVERSION"
+#~ msgstr "Pro můj počítač nebyla žádná příslušná verze"
 
-msgid "This account will belong to the team %1 and will have the project preferences of its founder."
-msgstr "Tento účet bude náležet týmu %1 a bude mít nastavení projektu po jeho zakladateli."
+#~ msgid "POLL_KIND"
+#~ msgstr "Na jakých druzích počítačů používáte BOINC?"
 
-msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
-msgstr "POZNÁMKA: Pokud používáte verzi BOINC Managera 5.2 a novější, nepoužívejte tento formulář. Jednoduše spusťte BOINC, zvolte Připojit projekt (Attach Project), a vložte emailovou adresu a heslo."
+#~ msgid "POLL_WHERE"
+#~ msgstr "Kde se nacházejí?"
 
-msgid "Password"
-msgstr "Heslo"
+#~ msgid "POLL_HOME"
+#~ msgstr "Doma"
 
-msgid "Must be at least %1 characters"
-msgstr "Musí mít délku aspoň %1 znaků"
+#~ msgid "POLL_WORK"
+#~ msgstr "V práci"
 
-msgid "Confirm password"
-msgstr "Potvrďte heslo"
+#~ msgid "POLL_SCHOOL"
+#~ msgstr "Ve škole"
 
-msgid "Invitation Code"
-msgstr "Pozvánkový kód"
+#~ msgid "POLL_HOW_MANY"
+#~ msgstr "Kolik počítačů?"
 
-msgid "A valid invitation code is required to create an account."
-msgstr "Pro vytvoření účtu je zapotřebí platný povánkový kód."
+#~ msgid "POLL_TURNED_ON"
+#~ msgstr "Jak dlouho jsou průměrně denně zapnuté?"
 
-msgid "You must supply an invitation code to create an account."
-msgstr "Pro vytvoření účtu je třeba vložit pozvánkový kód."
+#~ msgid "POLL_AGE"
+#~ msgstr "Věk"
 
-msgid "The invitation code you gave is not valid."
-msgstr "Vámi vložený pozvánkový kód je neplatný."
+#~ msgid "POLL_SEX"
+#~ msgstr "Pohlaví"
 
-#########################################
-# Forum sample index page
-#########################################
-msgid "%1 Message boards"
-msgstr "%1 Diskuzní fórum"
+#~ msgid "POLL_MALE"
+#~ msgstr "Muž"
 
-msgid "Message boards"
-msgstr "Diskuzní fórum"
+#~ msgid "POLL_FEMALE"
+#~ msgstr "Žena"
 
-#########################################
-# General stuff (create_account_form.php and others)
-#########################################
-msgid "Optional"
-msgstr "Volitelné"
+#~ msgid "POLL_EXPERTISE"
+#~ msgstr "Vaše úroveň počítačových znalostí"
 
-#########################################
-# Various top table pages (top users, computers, teams)
-#########################################
-msgid "Top participants"
-msgstr "Nejlepší účastníci"
+#~ msgid "POLL_LEVB"
+#~ msgstr "Začátečník"
 
-msgid "Rank"
-msgstr "Pořadí"
+#~ msgid "POLL_LEVI"
+#~ msgstr "Pokročilý"
 
-msgid "Total credit"
-msgstr "Celkový kredit"
+#~ msgid "POLL_LEVA"
+#~ msgstr "Expert"
 
-msgid "Recent average credit"
-msgstr "Současný průměrný kredit (RAC)"
+#~ msgid "POLL_LEARN_WHERE"
+#~ msgstr "Kde jste se dozvěděl o BOINC projektech?"
 
-msgid "Participant since"
-msgstr "Účastníkem od"
+#~ msgid "POLL_WTV"
+#~ msgstr "TV/radio/noviny"
 
-msgid "Top %1 teams"
-msgstr "Nejlepší %1 týmy"
+#~ msgid "POLL_WPERS"
+#~ msgstr "Od přátel, příbuzných, spolupracovníků"
 
-msgid "Members"
-msgstr "Členů"
+#~ msgid "POLL_WTEAM"
+#~ msgstr "Ze stránek týmu, či jejich diskuzního fóra"
 
-msgid "Top hosts"
-msgstr "Nejlepší počítače"
+#~ msgid "POLL_WBOINC"
+#~ msgstr "Ze stránek BOINC"
 
-#########################################
-# Forum
-#########################################
-msgid "Posts"
-msgstr "Příspěvků"
+#~ msgid "POLL_WWEB"
+#~ msgstr "Z jiných webových stránek"
 
-msgid "Topic"
-msgstr "Téma"
+#~ msgid "POLL_FACTOR"
+#~ msgstr "Jaké jsou pro Vás nejdůležitější faktory, když se rozhodujete, do jakého BOINC projektu se zapojíte?"
 
-msgid "Thread"
-msgstr "Vlákno"
+#~ msgid "POLL_GRAPHICS"
+#~ msgstr "Hezky vypadající šetřič obrazovky"
 
-msgid "Threads"
-msgstr "Vlákna"
+#~ msgid "POLL_CREDIT_FAIR"
+#~ msgstr "Poctivé a rychlé přidělování kreditu za odvedenou práci"
 
-msgid "Last post"
-msgstr "Poslední příspěvek"
+#~ msgid "POLL_CREDIT_MORE"
+#~ msgstr "Získávání více kreditu v tomto projektu, než u ostatních projektů"
 
-msgid "Author"
-msgstr "Autor"
+#~ msgid "POLL_MB_FRIENDLY"
+#~ msgstr "Přátelské a užitečné diskuzní fórum"
 
-msgid "Views"
-msgstr "Shlédnutí"
+#~ msgid "POLL_MB_STAFF"
+#~ msgstr "To, že se také autoři projektu zapojují v diskuzním fóru"
 
-msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
-msgstr "Pro vytvoření nového vlákna v %1 musíte mít určité množství kreditu. Toto omezení slouží jako ochrana proti zneužití systému."
+#~ msgid "POLL_WEB_SITE"
+#~ msgstr "Informativní stránky projektu"
 
-msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
-msgstr "Nové vlákno nemůžete vytvořit hned teď. Počkejte prosím chvíli a zkuste to znovu. Tato prodleva byla zavedena proti zneužití systému."
+#~ msgid "POLL_SCIENCE_IMPORTANT"
+#~ msgstr "Výzkum je důležitý a může pomoci"
 
-msgid "Create a new thread"
-msgstr "Vytvořit nové vlákno"
+#~ msgid "POLL_SCIENCE_PUBLIC"
+#~ msgstr "Nevýdělečnost, výsledky jsou veřejné"
 
-msgid "Title"
-msgstr "Název"
+#~ msgid "POLL_RECOGNIZE"
+#~ msgstr "Osobní uznání, pokud můj počítač něco najde"
 
-msgid "Add my signature to this post"
-msgstr "Přidat můj podpis k tomuto příspěvku"
+#~ msgid "POLL_PUBLISH"
+#~ msgstr "Publikace projektu ve vědeckých sbornících"
 
-msgid "Message"
-msgstr "Zpráva"
+#~ msgid "POLL_EMAIL"
+#~ msgstr "Občasné mailové novinky zasílané projektem"
 
-msgid "Edit message"
-msgstr "Upravit zprávu"
+#~ msgid "POLL_NPROJECTS"
+#~ msgstr "V kolika BOINC projektech se účastníte?"
 
-msgid "Use BBCode tags to format your text"
-msgstr "Používejte BBCode tagy pro formátování Vašeho textu"
+#~ msgid "POLL_SSAVER"
+#~ msgstr "Používáte BOINC jako šetřič obrazovky?"
 
-msgid "%1 message board"
-msgstr "%+ diskuzní fórum"
+#~ msgid "POLL_YES"
+#~ msgstr "Ano"
 
-msgid "Mark all threads as read"
-msgstr "Označit všechna vlákna jako přečtená"
+#~ msgid "POLL_NO"
+#~ msgstr "Ne"
 
-msgid "Mark all threads in all message boards as 'read'."
-msgstr "Označit všechna vlákna ve všech diskuzních fórech jako přečtená"
+#~ msgid "POLL_MBOARDS"
+#~ msgstr "Vaše využití diskuzního fóra:"
 
-#########################################
-# Forum thread
-#########################################
-msgid "This thread has been hidden for administrative purposes"
-msgstr "Toto vlákno bylo schováno z administrativních důvodů"
+#~ msgid "POLL_MBR"
+#~ msgstr "jen čtu informace"
 
-msgid "Post to thread"
-msgstr "Reagovat na toto vlákno"
+#~ msgid "POLL_MBRW"
+#~ msgstr "čtu a přispívám informacemi"
 
-msgid "Unsubscribe"
-msgstr "Zrušit odebírání příspěvků"
+#~ msgid "POLL_NONE"
+#~ msgstr "žádné"
 
-msgid "Subscribe"
-msgstr "Odebírat příspěvky"
+#~ msgid "POLL_HELP"
+#~ msgstr "Kde získáváte informace o tom, jak řešit problémy s BOINC či BOINC projekty?"
 
-#########################################
-# Forum search features
-#########################################
-msgid "Forum search"
-msgstr "Hledat na fóru"
+#~ msgid "POLL_HELP_PMB"
+#~ msgstr "Na diskuzním fóru projektu"
 
-msgid "Titles containing '%1'"
-msgstr "Nadpisy obsahující '%1'"
+#~ msgid "POLL_HELP_BMB"
+#~ msgstr "Na diskuzním fóru BOINC"
 
-msgid "Posts containing '%1'"
-msgstr "Příspěvky obsahující '%1'"
+#~ msgid "POLL_HELP_BDOC"
+#~ msgstr "Na stránkách BOINC"
 
-msgid "No titles containing '%1' could be found."
-msgstr "Nebyl nalezen žádný nadpis obsahující '%1'."
+#~ msgid "POLL_HELP_BMLIST"
+#~ msgstr "Na BOINC mailové konferenci"
 
-msgid "No posts containing '%1' could be found."
-msgstr "Nebyl nalezen žádný příspěvek obsahující '%1'."
+#~ msgid "POLL_HELP_WIKI"
+#~ msgstr "Na neoficiální BOINC wiki"
 
-msgid "Advanced search"
-msgstr "Pokročilé hledání"
+#~ msgid "POLL_HELP_TEAM"
+#~ msgstr "Na týmových stránkách"
 
-msgid "Search for words in forum messages"
-msgstr "Hledat slova v příspěvcích ve fórech"
+#~ msgid "POLL_HELP_GOOGLE"
+#~ msgstr "Na Google nebo jiných vyhledávačích"
 
-msgid "Search forums"
-msgstr "Hledat ve fórech"
+#~ msgid "POLL_ERROR_TITLE"
+#~ msgstr "Chyba - výsledek se neuložil"
 
-#########################################
-# Private messages
-#########################################
-msgid "Private messages"
-msgstr "Soukromé zprávy"
+#~ msgid "POLL_ERROR_TEXT"
+#~ msgstr "Vnitřní chyba bohužel znemožnila uložení vašeho BOINC dotazníku, zkuste to prosím později."
 
-msgid "Inbox"
-msgstr "Schránka"
+#~ msgid "POLL_RECORDED"
+#~ msgstr "Váš BOINC dotazník byl uložen"
 
-msgid "Write"
-msgstr "Psát zprávu"
+#~ msgid "POLL_THANKS"
+#~ msgstr "Děkujeme Vám za vyplnění Vašeho BOINC dotazníku."
 
-msgid "Forum index"
-msgstr "Obsah fóra"
+#~ msgid "POLL_RESULTS_TITLE"
+#~ msgstr "Výsledky BOINC dotazníku"
 
-msgid "Send private message"
-msgstr "Poslat soukromou zprávu"
+#~ msgid "POLL_RESULTS_TEXT"
+#~ msgstr "Zde jsou současné výsledky <a href=poll.php>BOINC dotazníku</a>, tato stránka se aktualizuje každou hodinu."
 
-msgid "Preview"
-msgstr "Náhled"
+########################################
+# download.php 2006/08/03 by je2bwm
+########################################
+#~ msgid "Download BOINC"
+#~ msgstr "Stáhnout BOINC"
 
-msgid "To"
-msgstr "Komu"
+#~ msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like."
+#~ msgstr "<p>BOINC je program, který Vám umožňuje darovat volný výpočetní výkon Vašeho počítače pro účely vědeckých projektů jako jsou SETI@home, Climateprediction.net, Rosetta@home, World Community Grid a mnohé další.</p><p>Po nainstalování programu BOINC na Vašem počítači se můžete připojit do tolika projektů, kolik chcete.</p>"
 
-msgid "User IDs or unique usernames, separated with commas"
-msgstr "Uživatelská ID nebo unikátní uživatelská jména, uddělená čárkami"
+#~ msgid "System requirements"
+#~ msgstr "Systémové požadavky"
 
-msgid "Subject"
-msgstr "Předmět"
+#~ msgid "Release notes"
+#~ msgstr "Poznámky k vydání"
 
-msgid "Send message"
-msgstr "Odeslat zprávu"
+#~ msgid "Other systems"
+#~ msgstr "Jiné systémy"
 
-msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
-msgstr "Není možné posílat tolik soukromých zpráv během tak krátké chvíle. Počkejte prosím před posláním další zprávy."
+#~ msgid "All versions"
+#~ msgstr "Všechny verze"
 
-msgid "Your message has been sent."
-msgstr "Vaše zpráva byla odeslána."
+#~ msgid "If your computer is not of one of the above types, you can"
+#~ msgstr "Pokud Váš počítač není jedním z těchto typů, můžete si"
 
-msgid "You have no private messages."
-msgstr "Nemáte žádné soukromé zprávy."
+#~ msgid "%s make your own client software %s or"
+#~ msgstr "%s vytvořit vlastní klientský program %s nebo si"
 
-msgid "No such message"
-msgstr "Nenalezena žádná zpráva"
+#~ msgid "%s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
+#~ msgstr "%s stáhnout aplikaci od jiných autorů %s (dostupné pro Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, FreeBSD a další)."
 
-msgid "Really delete?"
-msgstr "Opravdu smazat?"
+#~ msgid "BOINC: compute for science"
+#~ msgstr "BOINC: počítejte pro vědu"
 
-msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
-msgstr "Opravdu chcete smazat zprávu s předmětem &quot;%1&quot; (poslaná uživatelem %2 v %3)?"
+#~ msgid "DL_MIRRORS"
+#~ msgstr "Poznámka, soubory jsou stahované z naších zrcadlových serverů na boinc.berkeley.edu, morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein.ligo.caltech.edu, a einstein.aset.psu.edu (děkujeme těmto institucím). Server je vždy vybírán náhodně - pokud se stahování nezdaří, obnovte stránku a zkuste to prosím znova. "
 
-msgid "Yes, delete"
-msgstr "Ano, smazat"
+##############################################
+# help.php
+##############################################
+#~ msgid "HELP_TITLE"
+#~ msgstr "Získejte pomoc k BOINC"
 
-msgid "No, cancel"
-msgstr "Ne, nemazat"
+#~ msgid "HELP_HEADING1"
+#~ msgstr "Online pomoc"
 
-msgid "You need to fill all fields to send a private message"
-msgstr "Je třeba vyplnit všechna pole pro poslání soukromé zprávy"
+#~ msgid "HELP_P1_1"
+#~ msgstr "BOINC online pomoc Vám umoňuje hovořit se zkušenými uživateli systému BOINC, kteří vám mohou: %s odpovědět otázky o BOINC dobrovolnickém počítání %s provést Vás procesem instalace a nastavení programu BOINC %s vyřešit problémy, na které můžete narazit"
 
-msgid "Could not find user with id %1"
-msgstr "Uživatel s ID %1 nenalezen"
+#~ msgid "HELP_P1_2"
+#~ msgstr "BOINC online pomoc je založena na programu %sSkype%s pro telefonování přes internet. Skype je zdarma (program i telefonování). Pokud Skype dosud nemáte, %sstáhněte si jej zde%s a potom se vraťte na tuto stránku."
 
-msgid "Could not find user with username %1"
-msgstr "Uživatel se jménem %1 nenalezen"
+#~ msgid "HELP_P1_3"
+#~ msgstr "Nejlepší způsob, jak získat pomoc, je pomocí hlasové komunikace, pro kterou budete potřebovat buď vestavěný mikrofon a sluchátka, nebo přenosný headset pro Váš počítač. Pro komunikaci s dobrovolnými pomocníky lze též použít textovového rozhovoru přes Skype, nebo klasický email (pokud nepoužíváte Skype)."
 
-msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "%1 není jedinečné uživatelské jméno; budete muset použít uživatelské ID"
+#~ msgid "HELP_P1_4"
+#~ msgstr "Jsou dostupní dobrovolní pomocníci mluvící mnoha jazyky. Vyberte si prosím Váš jazyk: "
 
-msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "Uživatel %1 (ID: %2) od vás nepřijímá soukromé zprávy."
+#~ msgid "HELP_HEADING2"
+#~ msgstr "Nápověda BOINC na webu"
 
-msgid "Really block %1?"
-msgstr "Opravdu zablokovat %1?"
+#~ msgid "HELP_P2_ITEM1"
+#~ msgstr "Uživatelský manuál pro BOINC "
 
-msgid "Are you really sure you want to block user %1 from sending you private messages?"
-msgstr "Jste si opravdu jistí, že chcete zablokovat uživatele %1, aby vám nemohl posílat soukromé zprávy?"
+#~ msgid "HELP_P2_ITEM2"
+#~ msgstr "Řešení problémů s programem BOINC "
 
-msgid "Please note that you can only block a limited amount of users."
-msgstr "Vemte prosím na vědomí, že můžete zablokovat jen určitý počet uživatelů."
+#~ msgid "HELP_P2_ITEM3"
+#~ msgstr "Stránky věnované programu BOINC "
 
-msgid "Once the user has been blocked you can unblock it using forum preferences page."
-msgstr "Uživatele, kterého jste zablokovali, můžete znova odblokovat ve vašem nastavení diskuzního fóra."
+#~ msgid "HELP_P2_ITEM4"
+#~ msgstr "Diskuzní fóra BOINC "
 
-msgid "Add user to filter"
-msgstr "Přidat uživatele do filtru"
+#~ msgid "HELP_P2_ITEM5"
+#~ msgstr "Dizkuzní fóra věnovaná různým BOINC projektům "
 
-msgid "No such user"
-msgstr "Uživatel nenalezen"
+#~ msgid "HELP_HEADING3"
+#~ msgstr "Staňte se dobrovolným pomocníkem"
 
-msgid "User %1 blocked"
-msgstr "Uživatel %1 zablokován"
+#~ msgid "HELP_P3_1"
+#~ msgstr "Pokud jste zkušeným uživatelem programu BOINC, byly bychom rádi, pokud byste se stal dobrovolným pomocníkem. Je to skvělý způsob, jak pomoci věci vědeckého výzkumu a dobrovolnickému počítání - a je to také zábava! "
 
-msgid "User %1 has been blocked from sending you private messages."
-msgstr "Uživatel %1 byl zablokován, nemůže vám posílat soukromé zprávy."
+#~ msgid "HELP_P3_2"
+#~ msgstr "Pokud jste již dobrovolným pomocníkem: k úpravě svého nastavení %sklikněte zde%s."
 
-msgid "To unblock, visit %1message board preferences%2"
-msgstr "Pro odblokování, navštivte %1nastavení diskuzního fóra%2"
+##############################################
+# index.php
+##############################################
+#~ msgid "HOME_HEADING1"
+#~ msgstr "Staňte se dobrovolníkem"
 
-msgid "Sender and date"
-msgstr "Odesílatel a datum"
+#~ msgid "HOME_P1"
+#~ msgstr "Využívejte volný čas Vašeho počítače (Windows, Mac, Linux) k hledání léků proti nemocem, studování globální oteplování, k objevení pulsarů nebo k mnohému jinému vědeckému výzkumu. Je to bezpečné a jednoduché: %sVyberte si%s projekty %sStáhněte si%s a nainstalujte program BOINC %sVložte vaší emailovou adresu a heslo k projektu."
 
-msgid "Delete"
-msgstr "Smazat"
+#~ msgid "HOME_P2"
+#~ msgstr "Případně, pokud používáte více projektů současně, vyzkoušejte některého ze %ssprávce účtů%s, jako jsou %sGridRepublic%s nebo %sBAM!%s."
 
-msgid "Reply"
-msgstr "Odpovědět"
+#~ msgid "HOME_P3"
+#~ msgstr "Pokud máte nějaké dotazy, nebo potřebujete poradit, můžete se %szeptat dobrovolných pomocníků%s."
 
-msgid "Block user"
-msgstr "Zablokovat uživatele"
+#~ msgid "Help"
+#~ msgstr "Nápověda"
 
-msgid "With selected messages"
-msgstr "Vybrané zprávy"
+#~ msgid "HOME_DOWNLOAD"
+#~ msgstr "Ke stažení"
 
-msgid "Mark as read"
-msgstr "Označ jako přečtené"
+#~ msgid "HOME_WEB_SITES"
+#~ msgstr "Webové stránky"
 
-msgid "Mark as unread"
-msgstr "Označ jako nepřečtené"
+#~ msgid "HOME_ADD_ONS"
+#~ msgstr "Pomocné programy"
 
-#########################################
-# Links from the main page
-#########################################
-msgid "Questions and Answers"
-msgstr "Otázky a Odpovědi"
+#~ msgid "HOME_SURVEY"
+#~ msgstr "Dotazník"
 
-#########################################
-# "Your account" page (home.php)
-#########################################
-msgid "Your account"
-msgstr "Váš účet"
+#~ msgid "HOME_BOINC"
+#~ msgstr "Berkeley Open Infrastructure for Network Computing"
 
-msgid "Welcome to %1"
-msgstr "Vítejte v %1"
-
-msgid "View and edit your account preferences using the links below."
-msgstr "Pro zobrazení a nastavení vlastností Vašeho účtu použijte následující odkazy."
-
-msgid "If you have not already done so, %1download BOINC client software%2."
-msgstr "Pokud jste tak ještě neučinili, %1stáhněte si program BOINC%2."
-
-msgid "Account information"
-msgstr "Informace o účtu"
-
-msgid "Email address"
-msgstr "Emailová adresa"
-
-msgid "URL"
-msgstr "Osobní stránky"
-
-msgid "Postal code"
-msgstr "Směrovací číslo"
-
-msgid "Change"
-msgstr "Změnit"
-
-msgid "email address"
-msgstr "emailová adresa"
-
-msgid "password"
-msgstr "heslo"
-
-msgid "other account info"
-msgstr "ostatní informace o účtu"
-
-msgid "Log out"
-msgstr "Odhlásit"
-
-msgid "Community"
-msgstr "Komunita"
-
-msgid "Community preferences"
-msgstr "Komunitní nastavení"
-
-msgid "Create"
-msgstr "Vytvořit"
-
-msgid "Profile"
-msgstr "Profil"
-
-msgid "Teams"
-msgstr "Týmy"
-
-msgid "Team"
-msgstr "Tým"
-
-msgid "Member of team"
-msgstr "Členem týmu"
-
-msgid "%1 posts"
-msgstr "%1 přispěvků"
-
-msgid "None"
-msgstr "Žádný"
-
-msgid "Administer"
-msgstr "Spravovat"
-
-msgid "Founder but not member of"
-msgstr "Zakladatel, ale již ne člen"
-
-msgid "administrative functions"
-msgstr "administrativní funkce"
-
-msgid "Quit team"
-msgstr "Opustit tým"
-
-msgid "find a team"
-msgstr "najít tým"
-
-msgid "Preferences"
-msgstr "Nastavení"
-
-msgid "Computing preferences"
-msgstr "Výpočetní preference"
-
-msgid "When and how BOINC uses your computer"
-msgstr "Kdy a jak má BOINC používat Váš počítač"
-
-msgid "%1 preferences"
-msgstr "%1 nastavení"
-
-msgid "Resource share and graphics"
-msgstr "Využití prostředků a grafika"
-
-msgid "Message board preferences"
-msgstr "Nastavení diskuzního fóra"
-
-msgid "Message boards and private messages"
-msgstr "Diskuzní fóra a soukromé zprávy"
-
-msgid "Computing and credit"
-msgstr "Výpočty a kredit"
-
-msgid "%1 member since"
-msgstr "Členem %1 od"
-
-msgid "Pending credit"
-msgstr "Očekávaný kredit"
-
-msgid "View"
-msgstr "Zobrazit"
-
-msgid "Computers on this account"
-msgstr "Počítače na tomto účtu"
-
-msgid "Tasks"
-msgstr "Úkoly"
-
-msgid "Cross-project ID"
-msgstr "ID napříč projekty"
-
-msgid "Cross-project statistics"
-msgstr "Statistiky napříč projekty"
-
-msgid "Stats on your cell phone"
-msgstr "Statistiky pro mobilní telefon"
-
-msgid "Account number"
-msgstr "Číslo účtu"
-
-msgid "Used in URLs"
-msgstr "Použité v adresách"
-
-msgid "unread"
-msgstr "nepřečtené"
-
-msgid "User ID"
-msgstr "Uživatelské ID"
-
-msgid "Used in community functions"
-msgstr "Použití u komunitních funkcí"
-
-msgid "Account key"
-msgstr "Klíč k účtu"
-
-msgid "Provides full access to your account"
-msgstr "Poskytuje plný přístup k Vašemu účtu"
-
-msgid "Weak account key"
-msgstr "Slabý klíč k účtu"
-
-msgid "Provides"
-msgstr "Poskytuje"
-
-msgid "limited access"
-msgstr "omezený přístup"
-
-msgid "to your account"
-msgstr "k Vašemu účtu"
-
-msgid "Friends"
-msgstr "Přátelé"
-
-msgid "Find friends"
-msgstr "Najít přátele"
-
-msgid "hidden"
-msgstr "skrytý"
-
-msgid "Donor"
-msgstr "Dárce"
-
-msgid "Notifications"
-msgstr "Oznámení"
-
-msgid "(foundership change request pending)"
-msgstr "(dosud nevyřízený požadavek na změnu zakladatelství)"
-
-#########################################
-# Public user page (show_user.php)
-#########################################
-
-msgid "Projects in which you are participating"
-msgstr "Projekty na kterých se podílíte"
-
-msgid "Projects in which %1 is participating"
-msgstr "Projekty, na kterých se podílí %1"
-
-msgid "Project"
-msgstr "Projekt"
-
-msgid "Click for user page"
-msgstr "Klikněte pro vstup na uživatelovu stránku"
-
-msgid "Since"
-msgstr "Od"
-
-msgid "Contact"
-msgstr "Kontakt"
-
-msgid "This person is a friend"
-msgstr "Tento uživatel je přítel"
-
-msgid "Cancel friendship"
-msgstr "Zrušit přátelství"
-
-msgid "Request pending"
-msgstr "Dosud nevyřízený požadavek"
-
-msgid "Add as friend"
-msgstr "Přidat jako přítele"
-
-#########################################
-# "Weak account key" page (weak_auth.php)
-#########################################
-
-msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
-msgstr "'Slabý klíč k ůčtu' Vám umožňuje přidávat počítače s omezenými právy k Vašemu účtu - bez možnosti přístupu na účet či ke změně nastavení."
-
-msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
-msgstr "Tento mechanismus funguje pouze tehdy, pokud byl server projektu upgradován po 7. prosinci 2007."
-
-msgid "Your weak account key for this project is:"
-msgstr "Váš slabý klíč k účtu pro tento projekt je:"
-
-msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
-msgstr "K použití slabého klíče na daném stroji najděte nebo vytvořte 'soubor s účtem' k danému projektu. Tento soubor má jméno ve tvaru <b>account_ADRESA_PROJEKTU.xml</b>. Soubor s účtem pro %1 je <b>%2</b>."
-
-msgid "Create this file if needed. Set its contents to:"
-msgstr "Vytvořte tento soubor, pokud je to třeba. Nastavte jeho obsah na:"
-
-msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
-msgstr "Váš slabý klíč k účtu popisuje funkci k Vašemu heslu. Pokud změníte Vaše heslo, Váš slabý klíč se také změní a Váš předchozí slabý klíč se tímto zneplatní."
-
-#########################################
-# Participant profiles
-#########################################
-
-msgid "Profiles"
-msgstr "Profily"
-
-msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
-msgstr "%1Profily%2 umožňují uživatelům sdílet své osobní zázemí a názory s komunitou %3. "
-
-msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
-msgstr "Prozkoumejte, jak různorodý svět je mezi Vámi dobrovolníky a přispějte i Vaším vlastním pohledem pro pobavení ostatních. "
-
-msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
-msgstr "Pokud se tak ještě nestalo, můžete si %1vytvořit svůj vlastní uživatelský profil%2, který ukážete ostatním!"
-
-msgid "User of the Day"
-msgstr "Uživatel dne"
-
-msgid "User Profile Explorer"
-msgstr "Prohlížení uživatelských profilů"
-
-msgid "View the %1User Picture Gallery%2."
-msgstr "Prohlédněte si %1Galerii uživatelských obrázků%2."
-
-msgid "Browse profiles %1by country%2."
-msgstr "Procházet profily %1podle země%2."
-
-msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
-msgstr "Procházet profily %1náhodně%2, %3náhodně ty s obrázky%2, nebo %4náhodně ty bez obrázků%2."
-
-msgid "Alphabetical profile listings:"
-msgstr "Abecední výčet profilů:"
-
-msgid "Search profile text"
-msgstr "Hledat v textech profilů"
-
-msgid "Search"
-msgstr "Hledat"
-
-msgid "No profiles"
-msgstr "Žádné profily"
-
-msgid "No profiles matched your query."
-msgstr "Nenalezen žádný profil odpovídající vašemu dotazu."
+#~ msgid "HOME_BOINC_DESC"
+#~ msgstr "Open-source software pro %sdobrovolnické počítání%s a %sgrid computing%s."
