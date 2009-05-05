@@ -4303,3 +4303,11 @@ David  5 May 2009
 
     client/
         cpu_sched.cpp
+
+David  5 May 2009
+    - Change Makefiles to use "$(LN) foo ." instead of "ln foo"
+
+    zip/
+        Makefile.am
+    api/
+        Makefile.am

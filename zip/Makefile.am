@@ -70,6 +70,6 @@ all-local: $(all_local)
 
 $(LIBBOINC_ZIP_STATIC): libboinc_zip.la
 	rm -f $(LIBBOINC_ZIP_STATIC)
-	ln .libs/$(LIBBOINC_ZIP_STATIC)
+	$(LN) .libs/$(LIBBOINC_ZIP_STATIC) .
 
 endif

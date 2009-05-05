@@ -73,11 +73,11 @@ all-local: $(all_local)
 
 $(LIBBOINC_API_STATIC): libboinc_api.la
 	rm -f $(LIBBOINC_API_STATIC)
-	ln .libs/$(LIBBOINC_API_STATIC)
+	$(LN) .libs/$(LIBBOINC_API_STATIC) .
 
 $(LIBBOINC_GRAPHICS2_STATIC): libboinc_graphics2.la
 	rm -f $(LIBBOINC_GRAPHICS2_STATIC)
-	ln .libs/$(LIBBOINC_GRAPHICS2_STATIC)
+	$(LN) .libs/$(LIBBOINC_GRAPHICS2_STATIC) .
 
 
 endif ## ENABLE_LIBRARIES
