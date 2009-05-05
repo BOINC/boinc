@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-04-29 17:57-0500\n"
-"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"PO-Revision-Date: 2009-05-04 19:14-0700\n"
+"Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -991,11 +991,11 @@ msgstr "如果您希望在您使用计算机的时候仍进行计算请选上"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:98
 msgid " Use GPU while computer is in use"
-msgstr ""
+msgstr "是否在计算机使用时仍运行 GPU 计算程序"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
 msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr ""
+msgstr "如果您希望在使用计算机的时候仍运行 GPU 版计算程序请选中此项"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:111
 msgid "Only after computer has been idle for"
@@ -1390,7 +1390,7 @@ msgstr "资源分享"
 
 #: clientgui/DlgItemProperties.cpp:111
 msgid "Scheduler RPC deferred for"
-msgstr ""
+msgstr "远程调度请求被延迟"
 
 #: clientgui/DlgItemProperties.cpp:114
 msgid "Non CPU intensive"
@@ -1469,9 +1469,8 @@ msgid "CPU work fetch deferred for"
 msgstr "CPU 任务获取被延迟"
 
 #: clientgui/DlgItemProperties.cpp:144
-#, fuzzy
 msgid "CPU work fetch deferral interval"
-msgstr "NVIDIA GPU 任务获取被延迟"
+msgstr "CPU 任务获取延迟间隔"
 
 #: clientgui/DlgItemProperties.cpp:146
 msgid "NVIDIA GPU work fetch priority"
@@ -1482,9 +1481,8 @@ msgid "NVIDIA GPU work fetch deferred for"
 msgstr "NVIDIA GPU 任务获取被延迟"
 
 #: clientgui/DlgItemProperties.cpp:150
-#, fuzzy
 msgid "NVIDIA GPU work fetch deferral interval"
-msgstr "NVIDIA GPU 任务获取被延迟"
+msgstr "NVIDIA GPU 任务获取延迟间隔"
 
 #: clientgui/DlgItemProperties.cpp:152
 msgid "Duration correction factor"
@@ -1551,7 +1549,7 @@ msgstr "工作集大小"
 
 #: clientgui/DlgItemProperties.cpp:185
 msgid "Slot"
-msgstr ""
+msgstr "槽位"
 
 #: clientgui/DlgItemProperties.cpp:283
 #: clientgui/ViewWork.cpp:1007
@@ -2152,16 +2150,15 @@ msgstr "项目网址(&U)："
 
 #: clientgui/ProjectInfoPage.cpp:320
 msgid "You are already attached to this project. Please choose a different project."
-msgstr ""
+msgstr "您当前已经加入了这个项目，请选择其它项目。"
 
 #: clientgui/ProjectInfoPage.cpp:321
-#, fuzzy
 msgid "Already Attached to Project"
-msgstr "已经加入到项目"
+msgstr "已加入到该项目"
 
 #: clientgui/ProjectInfoPage.cpp:348
 msgid "This project may not have work for your type of computer."
-msgstr ""
+msgstr "该项目可能没有适合您计算机的任务。"
 
 #: clientgui/ProjectListCtrl.cpp:338
 #, c-format
@@ -3453,7 +3450,7 @@ msgstr "任务名称"
 
 #: clientgui/ViewWork.cpp:217
 msgid "Elapsed"
-msgstr ""
+msgstr "已用时间"
 
 #: clientgui/ViewWork.cpp:219
 #: clientgui/ViewWorkGrid.cpp:147
@@ -3719,20 +3716,9 @@ msgstr "指定开始和停止使用网络的时间，格式是 HH:MM-HH:MM"
 #~ "You can copy and paste the URL from your browser's\n"
 #~ "address bar."
 #~ msgstr "您可以从浏览器的地址栏中复制网址(URL)。"
-#~ msgid "For a list of account managers go to:"
-#~ msgstr "查看帐户管理器的列表请到："
-#~ msgid "Already attached to project"
-#~ msgstr "已经加入到项目"
-#~ msgid "You are already attached to this project."
-#~ msgstr "您已经加入到项目。"
-#~ msgid "Static text"
-#~ msgstr "静态文本"
-#~ msgid "Radiobutton"
-#~ msgstr "单选按钮"
-#~ msgid "Short term debt"
-#~ msgstr "短期债项"
-#~ msgid "Long term debt"
-#~ msgstr "长期债项"
-#~ msgid "Test"
-#~ msgstr "测试"
 
+#~ msgid ""
+#~ msgstr "查看帐户管理器的列表请到："
+
+#~ msgid ""
+#~ msgstr "已经加入到项目"
