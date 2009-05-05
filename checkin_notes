@@ -4297,3 +4297,9 @@ David  4 May 2009
         client_types.h
         client_state.h
         cpu_sched.cpp
+
+David  5 May 2009
+    - client: enforce_schedule() wasn't starting GPU jobs
+
+    client/
+        cpu_sched.cpp
