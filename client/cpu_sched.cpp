@@ -861,13 +861,13 @@ bool CLIENT_STATE::enforce_schedule() {
     //
     ncpus_used = 0;
     for (i=0; i<runnable_jobs.size(); i++) {
-        if (ncpus_used >= ncpus) break;
         RESULT* rp = runnable_jobs[i];
         if (log_flags.cpu_sched_debug) {
             msg_printf(rp->project, MSG_INFO,
                 "[cpu_sched_debug] processing %s", rp->name
             );
         }
+        if (!rp->uses_coprocs() && (ncpus_used >= ncpus)) continue;
 
         atp = lookup_active_task_by_result(rp);
         if (atp) {

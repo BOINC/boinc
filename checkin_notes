@@ -2677,9 +2677,13 @@ Rom    4 May 2009
         version.h
 
 Charlie 4 May 2009
-    - client: fix compiler warning (unused variable due to incomplete 
-        port from trunk).
+    - client: fix compiler warning.
         
     client/
         cpu_sched.cpp
-    
+
+David  5 May 2009
+    - client: enforce_schedule() wasn't starting GPU jobs
+
+    client/
+        cpu_sched.cpp
