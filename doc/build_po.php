@@ -32,7 +32,7 @@ HDR;
 
 $out = fopen("BOINC-Web.pot", "w");
 fwrite($out, $header);
-$pipe = popen("xgettext --omit-header -o - --keyword=tra -L PHP --no-location $path/*.inc $path/*.php", "r");
+$pipe = popen("xgettext --omit-header -o - --keyword=tra -L PHP $path/*.inc $path/*.php", "r");
 stream_copy_to_stream($pipe, $out);
 fclose($pipe);
 fclose($out);

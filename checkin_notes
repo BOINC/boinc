@@ -4311,3 +4311,11 @@ David  5 May 2009
         Makefile.am
     api/
         Makefile.am
+
+Rom    5 May 2009
+    - It appears Pootle is looking for a comment line ahead of
+        each message to translate, if it doesn't have some form
+        of comment it skips over it.
+        
+    doc/
+        build_po.php
