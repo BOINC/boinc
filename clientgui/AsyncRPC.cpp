@@ -477,10 +477,12 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
-        m_pRPC_Thread_Condition->Signal();  // Unblock the thread
-
-        mutexErr = m_pRPC_Thread_Mutex->Unlock(); // Release the mutex so thread can lock it
+        // m_pRPC_Thread_Condition->Wait() will Lock() the mutex upon receiving Signal(), 
+        // causing it to block again if we still have our lock on the mutex.
+        mutexErr = m_pRPC_Thread_Mutex->Unlock();
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
+
+        m_pRPC_Thread_Condition->Signal();  // Unblock the thread
     }
 
     // If this is a user-initiated event wait for completion but show 
@@ -895,7 +897,10 @@ void CMainDocument::HandleCompletedRPC() {
         // Wait for thread to unlock mutex with m_pRPC_Thread_Condition->Wait()
         mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
-        mutexErr = m_pRPC_Thread_Mutex->Unlock(); // Release the mutex so thread can lock it
+
+        // m_pRPC_Thread_Condition->Wait() will Lock() the mutex upon receiving Signal(), 
+        // causing it to block again if we still have our lock on the mutex.
+        mutexErr = m_pRPC_Thread_Mutex->Unlock();
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
         m_pRPC_Thread_Condition->Signal();  // Unblock the thread

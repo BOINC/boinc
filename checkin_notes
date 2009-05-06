@@ -4329,3 +4329,9 @@ Charlie 5 May 2009
 
     mac_build/
         buildWxMac.sh
+
+Charlie 5 May 2009
+    MGR: Add comments and slightly reorder code for clarity.
+
+    clientgui/
+        AsyncRPC.cpp
