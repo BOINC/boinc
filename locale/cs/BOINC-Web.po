@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-05-05 08:16-0700\n"
+"PO-Revision-Date: 2009-05-06 09:46-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
@@ -75,7 +75,7 @@ msgstr "Komentáře"
 msgid "POLL_COMMENTS_QUESTION"
 msgstr ""
 "Doporučte prosím, jak by mohl být vylepšen BOINC a projekty, které jej "
-"využívají:"
+"využívají (v angličtině):"
 
 msgid "POLL_OTHER"
 msgstr "Ostatní:"
@@ -123,202 +123,209 @@ msgid "POLL_LNONBOINC"
 msgstr "přihlásil jsem se k jinému (ne-BOINC) výpočtovému projektu"
 
 msgid "POLL_FAILED"
-msgstr "No - I tried running BOINC, but..."
+msgstr "Ne, zkoušel jsem používat BOINC, ale..."
 
 msgid "POLL_FINSTALL"
-msgstr "the software didn't install correctly"
+msgstr "program se nenainstaloval správně"
 
 msgid "POLL_FFIGURE"
-msgstr "I couldn't figure out how to use the software"
+msgstr "nepřišel jsem na to, jak jej používat"
 
 msgid "POLL_FNETWORK"
-msgstr "I had network communication problems"
+msgstr "narazil jsem na potíže při komunikaci po síti"
 
 msgid "POLL_FATTACH"
-msgstr "I couldn't attach to a project"
+msgstr "nemohl jsem se připojit k projektu"
 
 msgid "POLL_FWORK"
-msgstr "I attached to a project, but never got any work"
+msgstr "připojil jsem se k projektu, ale nikdy jsem neobdržel práci"
 
 msgid "POLL_NEVER"
-msgstr "No - I never tried running BOINC, because..."
+msgstr "Ne, nikdy jsem nezkoušel používat BOINC, protože..."
 
 msgid "POLL_NSECURITY"
-msgstr "I was concerned about security"
+msgstr "měl jsem pochyby o jeho bezpečnosti"
 
 msgid "POLL_NPROJECT"
-msgstr "I wasn't interested in any of the projects"
+msgstr "žádný projekt mě nezaujal"
 
 msgid "POLL_NPERMISSION"
-msgstr "I don't have permission to run it on my computer"
+msgstr "nemohl jsem ho používat na mém počítači"
 
 msgid "POLL_NVERSION"
-msgstr "No version was available for my computer"
+msgstr "pro můj počítač nebyla žádná příslušná verze"
 
 msgid "POLL_KIND"
-msgstr "What kind of computers do you have running BOINC?"
+msgstr "Na jakých typech počítačů používáte BOINC?"
 
 msgid "POLL_WHERE"
-msgstr "Where are they?"
+msgstr "Kde se nacházejí?"
 
 msgid "POLL_HOME"
-msgstr "Home"
+msgstr "Doma"
 
 msgid "POLL_WORK"
-msgstr "Work"
+msgstr "V práci"
 
 msgid "POLL_SCHOOL"
-msgstr "School"
+msgstr "Ve škole"
 
 msgid "POLL_HOW_MANY"
-msgstr "How many computers?"
+msgstr "Kolik počítačů?"
 
 msgid "POLL_TURNED_ON"
-msgstr "On average, how many hours per day are they powered on?"
+msgstr "Jak dlouho jsou průměrně denně zapnuté?"
 
 msgid "POLL_AGE"
-msgstr "Age"
+msgstr "Věk"
 
 msgid "POLL_SEX"
-msgstr "Sex"
+msgstr "Pohlaví"
 
 msgid "POLL_MALE"
-msgstr "Male"
+msgstr "Muž"
 
 msgid "POLL_FEMALE"
-msgstr "Female"
+msgstr "Žena"
 
 msgid "POLL_EXPERTISE"
-msgstr "Your level of computer expertise"
+msgstr "Vaše úroveň počítačových znalostí"
 
 msgid "POLL_LEVB"
-msgstr "Beginner"
+msgstr "Začátečník"
 
 msgid "POLL_LEVI"
-msgstr "Intermediate"
+msgstr "Pokročilý"
 
 msgid "POLL_LEVA"
-msgstr "Advanced"
+msgstr "Expert"
 
 msgid "POLL_LEARN_WHERE"
-msgstr "Where did you learn about BOINC projects?"
+msgstr "Kde jste se dozvěděl o BOINC projektech?"
 
 msgid "POLL_WTV"
-msgstr "TV/radio/newspaper"
+msgstr "TV/radio/noviny"
 
 msgid "POLL_WPERS"
-msgstr "From friends, relatives, or coworkers"
+msgstr "Od přátel, příbuzných, spolupracovníků"
 
 msgid "POLL_WTEAM"
-msgstr "Team message boards or web sites"
+msgstr "Ze stránek týmu, či jejich diskuzního fóra"
 
 msgid "POLL_WBOINC"
-msgstr "The BOINC web site"
+msgstr "Ze stránek BOINC"
 
 msgid "POLL_WWEB"
-msgstr "Other web sites"
+msgstr "Z jiných webových stránek"
 
 msgid "POLL_FACTOR"
-msgstr "Which are the most important factors when you decide whether to participate in a BOINC project?"
+msgstr ""
+"Jaké jsou pro Vás nejdůležitější faktory, když se rozhodujete, do jakého "
+"BOINC projektu se zapojíte?"
 
 msgid "POLL_GRAPHICS"
-msgstr "Nice-looking screensaver graphics"
+msgstr "Hezky vypadající šetřič obrazovky"
 
 msgid "POLL_CREDIT_FAIR"
-msgstr "Fair and quick granting of credit for work done"
+msgstr "Poctivé a rychlé přidělování kreditu za odvedenou práci"
 
 msgid "POLL_CREDIT_MORE"
-msgstr "Getting more credit from this project than from others"
+msgstr "Získávání více kreditu v tomto projektu, než u ostatních projektů"
 
 msgid "POLL_MB_FRIENDLY"
-msgstr "Helpful and friendly message boards"
+msgstr "Přátelské a užitečné diskuzní fórum"
 
 msgid "POLL_MB_STAFF"
-msgstr "Participation by project staff on the message boards"
+msgstr "To, že se také autoři projektu zapojují v diskuzním fóru"
 
 msgid "POLL_WEB_SITE"
-msgstr "Informative project web site"
+msgstr "Informativní stránky projektu"
 
 msgid "POLL_SCIENCE_IMPORTANT"
-msgstr "The science is important and beneficial"
+msgstr "Výzkum je důležitý a může pomoci"
 
 msgid "POLL_SCIENCE_PUBLIC"
-msgstr "Non-profit, and results are public"
+msgstr "Nevýdělečnost, výsledky jsou veřejné"
 
 msgid "POLL_RECOGNIZE"
-msgstr "Personal recognition if my computer finds something"
+msgstr "Osobní uznání, pokud můj počítač něco najde"
 
 msgid "POLL_PUBLISH"
-msgstr "Publication by the project in scientific journals"
+msgstr "Publikace projektu ve vědeckých sbornících"
 
 msgid "POLL_EMAIL"
-msgstr "Periodic email newsletters from the project"
+msgstr "Občasné mailové novinky zasílané projektem"
 
 msgid "POLL_NPROJECTS"
-msgstr "How many BOINC projects do you participate in?"
+msgstr "V kolika BOINC projektech se účastníte?"
 
 msgid "POLL_SSAVER"
-msgstr "Do you run BOINC as a screensaver?"
+msgstr "Používáte BOINC jako šetřič obrazovky?"
 
 msgid "POLL_YES"
-msgstr "Yes"
+msgstr "Ano"
 
 msgid "POLL_NO"
-msgstr "No"
+msgstr "Ne"
 
 msgid "POLL_MBOARDS"
-msgstr "Your usage of project messages boards:"
+msgstr "Vaše využití diskuzního fóra:"
 
 msgid "POLL_MBR"
-msgstr "to read information"
+msgstr "jen čtu informace"
 
 msgid "POLL_MBRW"
-msgstr "to read and post information"
+msgstr "čtu a přispívám informacemi"
 
 msgid "POLL_NONE"
-msgstr "None"
+msgstr "žádné"
 
 msgid "POLL_HELP"
-msgstr "Where do you get information to help resolve problems with BOINC and/or BOINC projects?"
+msgstr ""
+"Kde získáváte informace o tom, jak řešit problémy s BOINC či BOINC projekty?"
 
 msgid "POLL_HELP_PMB"
-msgstr "The project message boards"
+msgstr "Na diskuzním fóru projektu"
 
 msgid "POLL_HELP_BMB"
-msgstr "The BOINC message boards"
+msgstr "Na diskuzním fóru BOINC"
 
 msgid "POLL_HELP_BDOC"
-msgstr "The BOINC web site"
+msgstr "Na stránkách BOINC"
 
 msgid "POLL_HELP_BMLIST"
-msgstr "BOINC mailing lists"
+msgstr "Na BOINC mailové konferenci"
 
 msgid "POLL_HELP_WIKI"
-msgstr "The Unofficial BOINC Wiki"
+msgstr "Na neoficiální BOINC wiki"
 
 msgid "POLL_HELP_TEAM"
-msgstr "Team web sites"
+msgstr "Na týmových stránkách"
 
 msgid "POLL_HELP_GOOGLE"
-msgstr "Google or other search engines"
+msgstr "Na Google nebo jiných vyhledávačích"
 
 msgid "POLL_ERROR_TITLE"
-msgstr "Error - results not recorded"
+msgstr "Chyba - výsledek se neuložil"
 
 msgid "POLL_ERROR_TEXT"
-msgstr "An internal error has prevented us from recording your survey response.  Please try again later."
+msgstr ""
+"Vnitřní chyba bohužel znemožnila uložení vašeho BOINC dotazníku, zkuste to "
+"prosím později."
 
 msgid "POLL_RECORDED"
-msgstr "Survey response recorded"
+msgstr "Váš BOINC dotazník byl uložen"
 
 msgid "POLL_THANKS"
-msgstr "Thank you for completing the BOINC user survey."
+msgstr "Děkujeme Vám za vyplnění Vašeho BOINC dotazníku."
 
 msgid "POLL_RESULTS_TITLE"
-msgstr "Survey results"
+msgstr "Výsledky BOINC dotazníku"
 
 msgid "POLL_RESULTS_TEXT"
-msgstr "These are the current results of the <a href=poll.php>BOINC user survey</a>.  This page is updated every hour."
+msgstr ""
+"Zde jsou současné výsledky <a href=poll.php>BOINC dotazníku</a>, tato "
+"stránka se aktualizuje každou hodinu."
 
 # ######################################<br />
 # <br />
@@ -455,7 +462,7 @@ msgstr ""
 "Využívejte volný čas Vašeho počítače (Windows, Mac, Linux) k hledání léků "
 "proti nemocem, studování globální oteplování, k objevení pulsarů nebo k "
 "mnohému jinému vědeckému výzkumu. Je to bezpečné a jednoduché: %sVyberte "
-"si%s projekty %sStáhněte si%s a nainstalujte program BOINC %sVložte vaší "
+"si%s projekty %sStáhněte si%s a nainstalujte program BOINC %sVložte%s vaší "
 "emailovou adresu a heslo k projektu."
 
 msgid "HOME_P2"
