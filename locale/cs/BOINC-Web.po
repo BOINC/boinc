@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2009-05-01 10:01 PDT\n"
-"PO-Revision-Date: 2009-05-05 08:19-0700\n"
+"POT-Creation-Date: 2009-05-05 13:41 PDT\n"
+"PO-Revision-Date: 2009-05-06 09:53-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: \n"
 "Language: cs\n"
@@ -17,9 +17,11 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: CZECH REPUBLIC\n"
 
+#, php-format
 msgid "%s for %s (%s MB)"
 msgstr "%s pro %s (%s MB)"
 
+#, php-format
 msgid ""
 "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who "
 "can: %s answer questions about BOINC and volunteer computing; %s walk you "
@@ -31,6 +33,7 @@ msgstr ""
 "provést Vás procesem instalace a nastavení programu BOINC %s vyřešit "
 "problémy, na které můžete narazit."
 
+#, php-format
 msgid ""
 "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. "
 "Skype is free (both the software and the calls).  If you don't already have "
@@ -41,6 +44,7 @@ msgstr ""
 "internet. Skype je zdarma (program i telefonování). Pokud Skype dosud "
 "nemáte, %sstáhněte si jej zde%s a potom se vraťte na tuto stránku."
 
+#, php-format
 msgid ""
 "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
@@ -50,6 +54,7 @@ msgstr ""
 "se stal dobrovolným pomocníkem. Je to skvělý způsob, jak pomoci věci "
 "vědeckého výzkumu a dobrovolnickému počítání - a je to také zábava!"
 
+#, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr ""
@@ -68,6 +73,7 @@ msgstr ""
 "si%s projekty %sStáhněte si%s a nainstalujte program BOINC %sVložte vaší "
 "emailovou adresu a heslo k projektu."
 
+#, php-format
 msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
@@ -75,6 +81,7 @@ msgstr ""
 "Případně, pokud používáte více projektů současně, vyzkoušejte některého ze "
 "%ssprávce účtů%s, jako jsou %sGridRepublic%s nebo %sBAM!%s."
 
+#, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
@@ -377,6 +384,8 @@ msgstr "Zde jsou současné výsledky <a href=poll.php>BOINC dotazníku</a>, tat
 ########################################
 # download.php 2006/08/03 by je2bwm
 ########################################
+########################################
+# download.php 2006/08/03 by je2bwm
 msgid "Download BOINC"
 msgstr "Stáhnout BOINC"
 
@@ -465,7 +474,12 @@ msgid "HOME_HEADING1"
 msgstr "Staňte se dobrovolníkem"
 
 msgid "HOME_P1"
-msgstr "Využívejte volný čas Vašeho počítače (Windows, Mac, Linux) k hledání léků proti nemocem, studování globální oteplování, k objevení pulsarů nebo k mnohému jinému vědeckému výzkumu. Je to bezpečné a jednoduché: %sVyberte si%s projekty %sStáhněte si%s a nainstalujte program BOINC %sVložte vaší emailovou adresu a heslo k projektu."
+msgstr ""
+"Využívejte volný čas Vašeho počítače (Windows, Mac, Linux) k hledání léků "
+"proti nemocem, studování globální oteplování, k objevení pulsarů nebo k "
+"mnohému jinému vědeckému výzkumu. Je to bezpečné a jednoduché: %sVyberte "
+"si%s projekty %sStáhněte si%s a nainstalujte program BOINC %sVložte%s vaší "
+"emailovou adresu a heslo k projektu."
 
 msgid "HOME_P2"
 msgstr "Případně, pokud používáte více projektů současně, vyzkoušejte některého ze %ssprávce účtů%s, jako jsou %sGridRepublic%s nebo %sBAM!%s."
@@ -493,3 +507,347 @@ msgstr "Berkeley Open Infrastructure for Network Computing"
 
 msgid "HOME_BOINC_DESC"
 msgstr "Open-source software pro %sdobrovolnické počítání%s a %sgrid computing%s."
+
+msgid "[check all that apply]"
+msgstr "[zaškrtněte všechny pravdivé]"
+
+msgid "Other:"
+msgstr "Ostatní:"
+
+msgid "Yes - I have been running BOINC on my computer for..."
+msgstr "Ano - na mém počítači běží BOINC již..."
+
+msgid "less than a week"
+msgstr "méně než týden"
+
+msgid "less than a month"
+msgstr "méně než měsíc"
+
+msgid "less than a year"
+msgstr "méně než rok"
+
+msgid "more than a year"
+msgstr "déle než rok"
+
+msgid "No - I used to run BOINC, but..."
+msgstr "Ne - na mém počítači běžel BOINC, ale..."
+
+msgid "I lost interest"
+msgstr "ztratil jsem zájem"
+
+msgid "it was too complicated"
+msgstr "bylo to příliš složité"
+
+msgid "I stopped it and forgot to start again"
+msgstr "zastavil jsem ho a zapomněl jsem jej znovu spustit"
+
+msgid "it caused problems on my computer"
+msgstr "způsoboval problémy mému počítači"
+
+msgid "it used too much electricity"
+msgstr "spotřebovával příliš mnoho elektřiny"
+
+msgid "I switched to a non-BOINC computing project"
+msgstr "přihlásil jsem se k jinému (ne-BOINC) výpočtovému projektu"
+
+msgid "No - I tried running BOINC, but..."
+msgstr "Ne, zkoušel jsem používat BOINC, ale..."
+
+msgid "the software didn't install correctly"
+msgstr "program se nenainstaloval správně"
+
+msgid "I couldn't figure out how to use the software"
+msgstr "nepřišel jsem na to, jak jej používat"
+
+msgid "I had network communication problems"
+msgstr "narazil jsem na potíže při komunikaci po síti"
+
+msgid "I couldn't attach to a project"
+msgstr "nemohl jsem se připojit k projektu"
+
+msgid "I attached to a project, but never got any work"
+msgstr "připojil jsem se k projektu, ale nikdy jsem neobdržel práci"
+
+msgid "No - I never tried running BOINC, because..."
+msgstr "Ne, nikdy jsem nezkoušel používat BOINC, protože..."
+
+msgid "I was concerned about security"
+msgstr "měl jsem pochyby o jeho bezpečnosti"
+
+msgid "I wasn't interested in any of the projects"
+msgstr "žádný projekt mě nezaujal"
+
+msgid "I don't have permission to run it on my computer"
+msgstr "nemohl jsem ho používat na mém počítači"
+
+msgid "No version was available for my computer"
+msgstr "pro můj počítač nebyla žádná příslušná verze"
+
+msgid "What kind of computers do you have running BOINC?"
+msgstr "Na jakých typech počítačů používáte BOINC?"
+
+msgid "Where are they?"
+msgstr "Kde se nacházejí?"
+
+msgid "Home"
+msgstr "Doma"
+
+msgid "Work"
+msgstr "V práci"
+
+msgid "School"
+msgstr "Ve škole"
+
+msgid "How many computers?"
+msgstr "Kolik počítačů?"
+
+msgid "On average, how many hours per day are they powered on?"
+msgstr "Jak dlouho jsou průměrně denně zapnuté?"
+
+msgid "Age"
+msgstr "Věk"
+
+msgid "Sex"
+msgstr "Pohlaví"
+
+msgid "Male"
+msgstr "Muž"
+
+msgid "Female"
+msgstr "Žena"
+
+msgid "Your level of computer expertise"
+msgstr "Vaše úroveň počítačových znalostí"
+
+msgid "Beginner"
+msgstr "Začátečník"
+
+msgid "Intermediate"
+msgstr "Pokročilý"
+
+msgid "Advanced"
+msgstr "Expert"
+
+msgid "Where did you learn about BOINC projects?"
+msgstr "Kde jste se dozvěděl o BOINC projektech?"
+
+msgid "TV/radio/newspaper"
+msgstr "TV/radio/noviny"
+
+msgid "From friends, relatives, or coworkers"
+msgstr "Od přátel, příbuzných, spolupracovníků"
+
+msgid "Team message boards or web sites"
+msgstr "Ze stránek týmu, či jejich diskuzního fóra"
+
+msgid "The BOINC web site"
+msgstr "Ze stránek BOINC"
+
+msgid "Other web sites"
+msgstr "Z jiných webových stránek"
+
+msgid ""
+"Which are the most important factors when you decide whether to participate "
+"in a BOINC project?"
+msgstr ""
+"Jaké jsou pro Vás nejdůležitější faktory, když se rozhodujete, do jakého "
+"BOINC projektu se zapojíte?"
+
+msgid "Nice-looking screensaver graphics"
+msgstr "Hezky vypadající šetřič obrazovky"
+
+msgid "Fair and quick granting of credit for work done"
+msgstr "Poctivé a rychlé přidělování kreditu za odvedenou práci"
+
+msgid "Getting more credit from this project than from others"
+msgstr "Získávání více kreditu v tomto projektu, než u ostatních projektů"
+
+msgid "Helpful and friendly message boards"
+msgstr "Přátelské a užitečné diskuzní fórum"
+
+msgid "Participation by project staff on the message boards"
+msgstr "To, že se také autoři projektu zapojují v diskuzním fóru"
+
+msgid "Informative project web site"
+msgstr "Informativní stránky projektu"
+
+msgid "The science is important and beneficial"
+msgstr "Výzkum je důležitý a může pomoci"
+
+msgid "Non-profit, and results are public"
+msgstr "Nevýdělečnost, výsledky jsou veřejné"
+
+msgid "Personal recognition if my computer finds something"
+msgstr "Osobní uznání, pokud můj počítač něco najde"
+
+msgid "Publication by the project in scientific journals"
+msgstr "Publikace projektu ve vědeckých sbornících"
+
+msgid "Periodic email newsletters from the project"
+msgstr "Občasné mailové novinky zasílané projektem"
+
+msgid "How many BOINC projects do you participate in?"
+msgstr "V kolika BOINC projektech se účastníte?"
+
+msgid "Do you run BOINC as a screensaver?"
+msgstr "Používáte BOINC jako šetřič obrazovky?"
+
+msgid "Yes"
+msgstr "Ano"
+
+msgid "No"
+msgstr "Ne"
+
+msgid "Your usage of project messages boards:"
+msgstr "Vaše využití diskuzního fóra:"
+
+msgid "to read information"
+msgstr "jen čtu informace"
+
+msgid "to read and post information"
+msgstr "čtu a přispívám informacemi"
+
+msgid "None"
+msgstr "žádné"
+
+msgid ""
+"Where do you get information to help resolve problems with BOINC and/or "
+"BOINC projects?"
+msgstr ""
+"Kde získáváte informace o tom, jak řešit problémy s BOINC či BOINC projekty?"
+
+msgid "The project message boards"
+msgstr "Na diskuzním fóru projektu"
+
+msgid "The BOINC message boards"
+msgstr "Na diskuzním fóru BOINC"
+
+msgid "BOINC mailing lists"
+msgstr "Na BOINC mailové konferenci"
+
+msgid "The Unofficial BOINC Wiki"
+msgstr "Na neoficiální BOINC wiki"
+
+msgid "Team web sites"
+msgstr "Na týmových stránkách"
+
+msgid "Google or other search engines"
+msgstr "Na Google nebo jiných vyhledávačích"
+
+#, php-format
+msgid ""
+"Note: if your computer is equipped with an NVIDIA Graphics Processing Unit "
+"(GPU), you may be able to %suse it to compute faster%s"
+msgstr ""
+"Poznámka: Pokud je váš počítač vybaven novější grafickou kartou (GPU) "
+"nVidia, je možné, že jí budete moci %svyužít pro rychlejší počítání%s."
+
+msgid ""
+"The best way to get help is by voice, for which you need either built-in "
+"microphone and speakers or an external headset for your computer.  You can "
+"also use Skype's text-based chat system or regular email (if you don't have "
+"Skype) to communicate with Help Volunteers."
+msgstr ""
+"Nejlepší způsob, jak získat pomoc, je pomocí hlasové komunikace, pro kterou "
+"budete potřebovat buď vestavěný mikrofon a sluchátka, nebo přenosný headset "
+"pro Váš počítač. Pro komunikaci s dobrovolnými pomocníky lze též použít "
+"textovového rozhovoru přes Skype, nebo klasický email (pokud nepoužíváte "
+"Skype)."
+
+msgid ""
+"Volunteers speaking several languages are available. Please select a "
+"language:"
+msgstr ""
+"Jsou dostupní dobrovolní pomocníci mluvící mnoha jazyky. Vyberte si prosím "
+"Váš jazyk:"
+
+msgid "Be a Help Volunteer"
+msgstr "Staňte se dobrovolným pomocníkem"
+
+msgid "Volunteer"
+msgstr "Staňte se dobrovolníkem"
+
+msgid "Download"
+msgstr "Ke stažení"
+
+msgid "Documentation"
+msgstr "Dokumentace"
+
+msgid "BOINC user survey"
+msgstr "BOINC dotazník"
+
+msgid ""
+"Several volunteer computing projects, including Climateprediction.net, "
+"Einstein@home, and SETI@home, use software called BOINC.  If you participate "
+"in projects like this, we request that you answer the following questions.  "
+"This will help BOINC-based projects increase participation and achieve "
+"greater scientific results. <p> Please answer as many questions as you want, "
+"then go to the bottom and click OK. If you previously completed the survey "
+"but your answers have changed, please complete it again - your new answers "
+"will replace the old ones. <p> The current results of the survey are <a "
+"href=poll_results.php>here</a>. "
+msgstr ""
+"Mnoho dobrovolných výpočetních projektů, např. Climateprediction.net, "
+"Einstein@home a SETI@home, používá program nazývaný BOINC. Pokud se podílíte "
+"na některém z takovýchto projektů, rádi bychom Vás požádali o vyplnění "
+"následujícího dotazníku. Zodpovězení následujících otázek nám pomůže zlepšit "
+"jednotlivé projekty, získat více účastníku a také dosáhnout lepších "
+"vědeckých výsledků.</p><p>Odpovězte prosím na tolik otázek, kolik chcete, "
+"poté jděte na konec stránky a klikněte na OK. Pokud jste již dotazník dříve "
+"vyplnili, ale vaše odpovědi se změnily, prosím, vyplňte jej znova - vaše "
+"staré odpovědi budou nahrazeny novými.</p><p>Současné výsledky BOINC "
+"dotazníku jsou k <a href=poll_results.php>vidění zde</a>.</p>"
+
+msgid "Do you run BOINC?"
+msgstr "Používáte BOINC?"
+
+msgid "Your participation"
+msgstr "Vaše účast"
+
+msgid "Your computers"
+msgstr "Vaše počítače"
+
+msgid "You"
+msgstr "O Vás"
+
+msgid "Nationality"
+msgstr "Národnost"
+
+msgid "Comments"
+msgstr "Komentáře"
+
+msgid ""
+"Please suggest ways that BOINC, and the projects that use it, could be "
+"improved:"
+msgstr ""
+"Zkuste prosím navrhnout, jakými způsoby by se daly vylepšit jednotlivé "
+"projekty, nebo samotný BOINC (v angličtině):"
+
+msgid "When done click:"
+msgstr "Na konci klikněte:"
+
+msgid "Error - results not recorded"
+msgstr "Chyba - výsledek se neuložil"
+
+msgid ""
+"An internal error has prevented us from recording your survey response.  "
+"Please try again later."
+msgstr ""
+"Vnitřní chyba bohužel znemožnila uložení vašeho BOINC dotazníku, zkuste to "
+"prosím později."
+
+msgid "Survey response recorded"
+msgstr "Váš BOINC dotazník byl uložen"
+
+msgid "Thank you for completing the BOINC user survey."
+msgstr "Děkujeme Vám za vyplnění Vašeho BOINC dotazníku."
+
+msgid "Survey results"
+msgstr "Výsledky BOINC dotazníku"
+
+msgid ""
+"These are the current results of the <a href=poll.php>BOINC user survey</"
+"a>.  This page is updated every hour."
+msgstr ""
+"Zde jsou současné výsledky <a href=poll.php>BOINC dotazníku</a>, tato "
+"stránka se aktualizuje každou hodinu."
