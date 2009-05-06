@@ -1175,6 +1175,9 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (match_tag(request_msg, "<read_cc_config/>")) {
         mf.printf("<success/>\n");
         read_config_file(false);
+        msg_printf(0, MSG_INFO, "Re-read config file");
+        config.show();
+        log_flags.show();
         gstate.set_ncpus();
         gstate.request_schedule_cpus("Core client configuration");
         gstate.request_work_fetch("Core client configuration");

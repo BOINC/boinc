@@ -735,6 +735,15 @@ static inline bool more_important(RESULT* r0, RESULT* r1) {
     return (r0 < r1);
 }
 
+static void print_job_list(vector<RESULT*>& jobs) {
+    for (unsigned int i=0; i<jobs.size(); i++) {
+        RESULT* rp = jobs[i];
+        msg_printf(rp->project, MSG_INFO,
+            "[cpu_sched_debug] %d: %s", i, rp->name
+        );
+    }
+}
+
 // find running jobs that haven't finished their time slice.
 // Mark them as such, and add to list if not already there
 //
@@ -789,7 +798,7 @@ bool CLIENT_STATE::enforce_schedule() {
     must_enforce_cpu_schedule = false;
 
     // NOTE: there's an assumption that debt is adjusted at
-    // least as often as the CPU sched is enforced.
+    // least as often as the CPU sched is enforced (see client_state.h).
     // If you remove the following, make changes accordingly
     //
     adjust_debts();
@@ -798,6 +807,8 @@ bool CLIENT_STATE::enforce_schedule() {
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule(): start");
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] preliminary job list:");
+        print_job_list(ordered_scheduled_results);
     }
 
     // Set next_scheduler_state to preempt for all tasks
@@ -812,12 +823,6 @@ bool CLIENT_STATE::enforce_schedule() {
     vector<RESULT*>runnable_jobs;
     for (i=0; i<ordered_scheduled_results.size(); i++) {
         RESULT* rp = ordered_scheduled_results[i];
-        if (log_flags.cpu_sched_debug) {
-            msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched_debug] want to run: %s",
-                rp->name
-            );
-        }
         rp->seqno = i;
         rp->unfinished_time_slice = false;
         runnable_jobs.push_back(rp);
@@ -834,6 +839,11 @@ bool CLIENT_STATE::enforce_schedule() {
         runnable_jobs.end(),
         more_important
     );
+
+    if (log_flags.cpu_sched_debug) {
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] final job list:");
+        print_job_list(runnable_jobs);
+    }
 
     double ram_left = available_ram();
     double swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
@@ -862,12 +872,14 @@ bool CLIENT_STATE::enforce_schedule() {
     ncpus_used = 0;
     for (i=0; i<runnable_jobs.size(); i++) {
         RESULT* rp = runnable_jobs[i];
-        if (log_flags.cpu_sched_debug) {
-            msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched_debug] processing %s", rp->name
-            );
+        if (!rp->uses_coprocs() && (ncpus_used >= ncpus)) {
+            if (log_flags.cpu_sched_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[cpu_sched_debug] all CPUs used, skipping %s", rp->name
+                );
+            }
+            continue;
         }
-        if (!rp->uses_coprocs() && (ncpus_used >= ncpus)) continue;
 
         atp = lookup_active_task_by_result(rp);
         if (atp) {
@@ -882,6 +894,12 @@ bool CLIENT_STATE::enforce_schedule() {
                 }
                 continue;
             }
+        }
+
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(rp->project, MSG_INFO,
+                "[cpu_sched_debug] scheduling %s", rp->name
+            );
         }
 
         // We've decided to run this job; create an ACTIVE_TASK if needed.
