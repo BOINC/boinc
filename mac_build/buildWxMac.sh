@@ -51,6 +51,32 @@ if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
     return 1
 fi
 
+## Fix a bug in wxMutex.  This patch should not be needed for wxMac-2.8.11 and later
+if [ ! -f src/mac/carbon/thread.cpp.orig ]; then
+
+cat >> /tmp/wxmutex_diff << ENDOFFILE
+--- src/mac/carbon/thread-old.cpp	2009-03-06 04:23:14.000000000 -0800
++++ src/mac/carbon/thread.cpp	2009-05-05 04:34:41.000000000 -0700
+@@ -138,8 +138,8 @@
+ 
+ #if TARGET_API_MAC_OSX
+ #define wxUSE_MAC_SEMAPHORE_MUTEX 0
+-#define wxUSE_MAC_CRITICAL_REGION_MUTEX 1
+-#define wxUSE_MAC_PTHREADS_MUTEX 0
++#define wxUSE_MAC_CRITICAL_REGION_MUTEX 0
++#define wxUSE_MAC_PTHREADS_MUTEX 1
+ #else
+ #define wxUSE_MAC_SEMAPHORE_MUTEX 0
+ #define wxUSE_MAC_CRITICAL_REGION_MUTEX 1
+ENDOFFILE
+
+patch -bfi /tmp/wxmutex_diff src/mac/carbon/thread.cpp
+
+rm -f /tmp/wxmutex_diff
+else
+    echo "thread.cpp already patched"
+fi
+
 if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_static.a ]; then
     echo "Deployment libwx_mac_static.a already built"
 else

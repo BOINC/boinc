@@ -4319,3 +4319,13 @@ Rom    5 May 2009
         
     doc/
         build_po.php
+
+Charlie 5 May 2009
+    Mac: Modify wxWidgets build script to fix a problem in wxMac-2.8.10 
+        which made the Manager extremely slow to update or respond to 
+        user input, by patching wxMac-2.8.10/src/mac/carbon/thread.cpp.
+        wxMac developer Stefan Csomor has checked my change into the 
+        wxWidgets 2.8 branch, so this should be fixed in wxMac-2.8.11.
+
+    mac_build/
+        buildWxMac.sh
