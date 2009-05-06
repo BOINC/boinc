@@ -4335,3 +4335,12 @@ Charlie 5 May 2009
 
     clientgui/
         AsyncRPC.cpp
+
+David  6 May 2009
+    - client: write message (and show new config info) when config file reread
+    - client: improve cpu_sched_debug messages
+    - web translation: code wasn't handling multi-line tokens
+
+    client/
+        gui_rpc_server_ops.cpp
+        cpu_sched.cpp

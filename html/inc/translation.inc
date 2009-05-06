@@ -115,19 +115,32 @@ function parseLanguage($file){
     $translation_file = file($file);
     $first_entry = true;
     $current_token_text="";
+    $current_token ="";
+    $parsing_token = false;
+    $parsing_text = false;
+    $output = array();
     for ($i = 0;$i<sizeof($translation_file);$i++){
-        $entry = ltrim(trim($translation_file[$i]));
-        //echo $entry;
-        if (($pos=strpos($entry, "msgid"))!==false){
-            //If found msgid entry
+        $entry = trim($translation_file[$i]);
+        //echo "line $i: $entry\n";
+        if (substr($entry,0,1)=="#") {
+            continue;
+        } elseif (strpos($entry, "msgid") !== false) {
             if (!$first_entry){
                 //If this is not the first, save the previous entry
                 $output[$current_token]=$current_token_text;
             }
             $current_token = getPOLineContent($entry);
             $current_token_text="";
+            $parsing_token = true;
+            $parsing_text = false;
             $first_entry=false;
-        } elseif (substr($translation_file[$i],0,1)!="#") {
+        } elseif (strpos($entry, "msgstr") !== false) {
+            $current_token_text = getPOLineContent($entry);
+            $parsing_token = false;
+            $parsing_text = true;
+        } elseif ($parsing_token) {
+            $current_token .= getPOLineContent($entry);
+        } elseif ($parsing_text) {
             $current_token_text.=getPOLineContent($entry);
         }
     }

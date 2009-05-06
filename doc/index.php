@@ -208,7 +208,7 @@ function language_form() {
         //."<option value=be>Беларускі"
         //."<option value=bg>Българск�"
         //."<option value=ca>Català"
-        //."<option value=cs>Čeština"
+        ."<option value=cs>Čeština"
         //."<option value=de>Deutsch"
         //."<option value=en>English"
         ."<option value=es>Espa&ntilde;ol"
@@ -219,10 +219,10 @@ function language_form() {
         ."<option value=nl>Nederlands"
         //."<option value=pl>Polski"
         //."<option value=pt_BR>Portugu&ecirc;s - Brasil"
-        //."<option value=ru>Русский"
+        ."<option value=ru>Русский"
         //."<option value=sk>Slovenčina"
         //."<option value=tr>Türkçe"
-        //."<option value=zh_CN>简体中文"
+        ."<option value=zh_CN>简体中文"
         ."</select>
         </form>
         <script type=\"text/javascript\">
