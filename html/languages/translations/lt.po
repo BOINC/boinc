@@ -1,9 +1,9 @@
-﻿msgid ""
+msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2009-01-05 01:05-0700\n"
+"Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2009-01-05 12:28-0500\n"
+"PO-Revision-Date: 2009-05-04 12:15-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "Language: lt\n"
@@ -32,12 +32,10 @@ msgid "CHARSET"
 msgstr "UTF-8"
 
 # The name of this language in this language
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "Lithuanian"
+msgstr "Lietuvių"
 
 # The name of this language in an international language (English)
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Lithuanian"
 
@@ -150,7 +148,7 @@ msgid "Key words"
 msgstr "Raktiniai žodžiai"
 
 msgid "Find teams with these words in their names or descriptions"
-msgstr ""
+msgstr "Rasti komandas su šiais žodžiais pavadinimuose ar aprašymuose"
 
 msgid "Country"
 msgstr "Valstybė"
@@ -162,7 +160,7 @@ msgid "Show only active teams"
 msgstr "Rodyti tik aktyvias komandas"
 
 msgid "Search"
-msgstr ""
+msgstr "Ieškoti"
 
 msgid "Requested by you, and founder response deadline has passed."
 msgstr "Prašytas jūsų, ir laikas, skirtas įkūrėjui atsakyti, jau praėjo."
@@ -180,10 +178,10 @@ msgid "None"
 msgstr "Nėra"
 
 msgid "Initiate request"
-msgstr ""
+msgstr "Pateikti prašymą"
 
 msgid "Deferred"
-msgstr ""
+msgstr "Atidėtas"
 
 msgid "Team info"
 msgstr "Komandos informacija"
@@ -201,103 +199,105 @@ msgid "Recent average credit"
 msgstr "Vidutinis kreditas"
 
 msgid "Type"
-msgstr ""
+msgstr "Tipas"
 
-#, fuzzy
 msgid "Message board"
-msgstr "Forumai"
+msgstr "Forumas"
 
 msgid "Threads"
 msgstr "Temos"
 
 msgid "Join this team"
-msgstr ""
+msgstr "Prisijungti prie komandos"
 
 msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
 msgstr ""
+"Pastaba: jei \"galima siųsti el. laiškus\" įjungta jūsų pasirinkimuose, "
+"prisijungus prie komandos jos įkūrėjas gaus priėjimą prie jūsų el. pašto "
+"adreso."
 
-#, fuzzy
 msgid "Foundership change requested"
-msgstr "(laukiamas įkūrėjo pakeitimas)"
+msgstr "Laukiamas įkūrėjo pakeitimas"
 
 msgid "Respond by %1"
-msgstr ""
+msgstr "Atsakyti per %1"
 
 msgid "Team foundership change"
-msgstr ""
+msgstr "Komandos įkūrėjo pakeitimas"
 
 msgid "Members"
 msgstr "Dalyviai"
 
 msgid "Founder"
-msgstr ""
+msgstr "Įkūrėjas"
 
 msgid "Admins"
-msgstr ""
+msgstr "Administratoriai"
 
 msgid "New members in last day"
-msgstr ""
+msgstr "Nauji nariai per paskutinę dieną"
 
 msgid "Total members"
-msgstr ""
+msgstr "Iš viso narių"
 
-#, fuzzy
 msgid "view"
-msgstr "Peržiūrėti"
+msgstr "peržiūrėti"
 
 msgid "Active members"
-msgstr ""
+msgstr "Aktyvūs nariai"
 
 msgid "Members with credit"
-msgstr ""
+msgstr "Nariai, turintys kreditų"
 
 msgid "Admin"
-msgstr ""
+msgstr "Administratorius"
 
 msgid "Last %1"
-msgstr ""
+msgstr "Buvę %1"
 
 msgid "Next %1"
-msgstr ""
+msgstr "Kiti %1"
 
 msgid "No such team."
-msgstr ""
+msgstr "Tokios komandos nėra."
 
 msgid "This operation requires foundership."
-msgstr ""
+msgstr "Šiam veiksmui atlikti turite būti įkūrėju."
 
 msgid "This operation requires team admin privileges"
-msgstr ""
+msgstr "Šiai operacijai atlikti turite būti komandos administratoriumi."
 
 msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
 msgstr ""
+"%1Pastaba%2: jei įkursite komandą, jūsų nustatymai (resursų padalijimas, "
+"vaizdo nustatymai) bus prieinami viešai."
 
 msgid "Team name, text version"
-msgstr ""
+msgstr "Komandos pavadinimas, tekstinė versija"
 
 msgid "Don't use HTML tags."
-msgstr ""
+msgstr "Nenaudokite HTML žymių."
 
 msgid "Team name, HTML version"
-msgstr ""
+msgstr "Komandos pavadinimas, HTML versija"
 
 msgid "You may use %1limited HTML tags%2."
-msgstr ""
+msgstr "Galite naudoti %1kai kurias HTML žymes%2."
 
 msgid "If you don't know HTML, leave this box blank."
-msgstr ""
+msgstr "Jei nežinote HTML, palikite šį lauką tuščią."
 
 msgid "URL of team web page, if any"
-msgstr ""
+msgstr "Komandos tinklapio adresas"
 
 msgid "without \"http://\""
-msgstr ""
+msgstr "be \"http://\""
 
 msgid "This URL will be linked to from the team's page on this site."
-msgstr ""
+msgstr "Ši nuoroda bus rodoma komandos puslapyje šiame tinklapyje."
 
 msgid "Description of team"
-msgstr ""
+msgstr "Komandos aprašymas"
 
 # ########################################
 # Public user page (show_user.php)
@@ -314,7 +314,7 @@ msgid "Click for user page"
 msgstr "Spustelėkite dalyvio puslapiui"
 
 msgid "Average credit"
-msgstr ""
+msgstr "Vidutiniai kreditai"
 
 msgid "Since"
 msgstr "Nuo"
@@ -341,7 +341,7 @@ msgid "Cross-project statistics"
 msgstr "Tarpprojektinė statistika"
 
 msgid "Certificate"
-msgstr ""
+msgstr "Sertifikatas"
 
 msgid "Stats on your cell phone"
 msgstr "Statistika mobiliajame telefone"
@@ -477,7 +477,7 @@ msgid "Friends"
 msgstr "Draugai"
 
 msgid "Computers"
-msgstr ""
+msgstr "Kompiuteriai"
 
 msgid "hidden"
 msgstr "paslėptas"
@@ -555,7 +555,7 @@ msgid "Account creation is disabled"
 msgstr "Abonementų kūrimas yra išjungtas"
 
 msgid "Account creation is currently disabled. Please try again later."
-msgstr ""
+msgstr "Abonementų kūrimas šiuo metu išjungtas. Pamėginkite vėliau."
 
 msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
 msgstr ""
@@ -614,10 +614,10 @@ msgid "You have no private messages."
 msgstr "Neturite asmeninių žinučių."
 
 msgid "Sender"
-msgstr ""
+msgstr "Siuntėjas"
 
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 msgid "Mark as read"
 msgstr "Pažymėti kaip perskaitytus"
@@ -626,7 +626,7 @@ msgid "Mark as unread"
 msgstr "Pažymėti kaip neskaitytus"
 
 msgid "With selected"
-msgstr ""
+msgstr "Su pasirinktais"
 
 msgid "No such message"
 msgstr "Žinutė nerasta"
@@ -651,9 +651,8 @@ msgstr "Taip, ištrinti"
 msgid "No, cancel"
 msgstr "Ne, atšaukti"
 
-#, fuzzy
 msgid "No such message."
-msgstr "Žinutė nerasta"
+msgstr "Žinutė nerasta."
 
 msgid "You need to fill all fields to send a private message"
 msgstr "Reikia užpildyti visus laukus, kad galėtumėte išsiųsti asmeninę žinutę"
@@ -706,7 +705,7 @@ msgid "Post to thread"
 msgstr "Rašyti į temą"
 
 msgid "Forum search results"
-msgstr ""
+msgstr "Paieškos forume rezultatai"
 
 msgid "Forum search"
 msgstr "Paieška forumuose"
@@ -836,45 +835,46 @@ msgstr ""
 msgid "Sender and date"
 msgstr "Siuntėjas ir data"
 
-#, fuzzy
 msgid "Profiles"
-msgstr "Aprašymas"
+msgstr "Aprašymai"
 
 msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
-msgstr ""
+msgstr "%1Aprašymai%2 leidžia pasidalinti nuomonėmis su %3 bendruomene."
 
 msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
-msgstr ""
+msgstr "Apžvelkite savo kolegas dalyvius ir pateikite savo nuomonę kitiems."
 
 msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
-msgstr ""
+msgstr "Jei to dar nepadarėte, %1sukurkite savo aprašymą%2!"
 
 msgid "User of the Day"
-msgstr ""
+msgstr "Dienos dalyvis"
 
 msgid "User Profile Explorer"
-msgstr ""
+msgstr "Dalyvių aprašymų naršymas"
 
 msgid "View the %1User Picture Gallery%2."
-msgstr ""
+msgstr "Peržiūrėti %1dalyvių paveikslėlių galeriją%2."
 
 msgid "Browse profiles %1by country%2."
-msgstr ""
+msgstr "Peržiūrėti aprašymus %1pagal valstybę%2."
 
 msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
 msgstr ""
+"Peržiūrėti aprašymus %1atsitiktinai%2, %3atsitiktinai su paveikslėliais%2 "
+"arba %4atsitiktinai be paveikslėlių%2."
 
 msgid "Alphabetical profile listings:"
-msgstr ""
+msgstr "Abėcėlinis aprašymų sąrašas:"
 
 msgid "Search profile text"
-msgstr ""
+msgstr "Ieškoti aprašymuose"
 
 msgid "No profiles"
-msgstr ""
+msgstr "Nėra aprašymų"
 
 msgid "No profiles matched your query."
-msgstr ""
+msgstr "Nėra aprašymų, atitinkančių jūsų užklausą."
 
 msgid "Top hosts"
 msgstr "Geriausi kompiuteriai"
