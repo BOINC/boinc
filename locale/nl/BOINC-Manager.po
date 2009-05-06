@@ -3734,25 +3734,3 @@ msgstr "geef de werk start- en stoptijd aan in UU:MM - UU:MM"
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "geef de netwerk start- en stoptijd aan in UU:MM - UU:MM"
-
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr ""
-#~ "Het is mogelijk dit URL te kopiëren uit je browser's\n"
-#~ "adresbalk."
-
-#~ msgid ""
-#~ msgstr "Voor een lijst met 'account managers' ga naar:"
-
-#~ msgid ""
-#~ msgstr "Je hebt dit project reeds toegevoegd."
-
-#~ msgid ""
-#~ msgstr "Statische tekst"
-
-#~ msgid ""
-#~ msgstr "Keuzeknop"
-
-#~ msgid ""
-#~ msgstr "Korte termijn eis"
