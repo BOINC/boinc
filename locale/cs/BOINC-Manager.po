@@ -3811,39 +3811,3 @@ msgstr "Časové rozmezí, kdy je možno provádět výpočty (formát HH:MM-HH:
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "Časové rozmezí, kdy je možno využívat internet (formát HH:MM-HH:MM)"
-
-#~ msgid "For a list of account managers go to:"
-#~ msgstr "Seznam 'Správců účtů' naleznete na: "
-
-#~ msgid ""
-#~ msgstr "K tomuto projektu jste již připojeni. "
-
-#~ msgid ""
-#~ msgstr ""
-#~ "Adresu můžete například zkopírovat z adresového řádku\n"
-#~ "Vašeho internetového prohlížeče. "
-
-#~ msgid ""
-#~ msgstr "utf-8"
-
-#~ msgid ""
-#~ msgstr "Zadejte klíč (Account Key) "
-
-#~ msgid ""
-#~ msgstr ""
-#~ "Tento projekt využívá k vaší identifikaci Klíč (Account Key).\n"
-#~ "\n"
-#~ "Otevřete si webové stránky projektu a vytvořte si účet (account).\n"
-#~ "Klíč (Account Key) vám bude zaslán emailem."
-
-#~ msgid ""
-#~ msgstr "Typický klíč (Account Key) vypadá takto: "
-
-#~ msgid ""
-#~ msgstr "82412313ac88e9a3638f66ea82186948"
-
-#~ msgid ""
-#~ msgstr "Klíč (Account Key): "
-
-#~ msgid ""
-#~ msgstr "&Volitelný vzhled"
