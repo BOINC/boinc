@@ -127,8 +127,8 @@ inline void get_max_wus_in_progress_multiplier() {
 }
 
 static const char* find_user_friendly_name(int appid) {
-	APP* app = ssp->lookup_app(appid);
-	if (app) return app->user_friendly_name;
+    APP* app = ssp->lookup_app(appid);
+    if (app) return app->user_friendly_name;
     return "deprecated application";
 }
 
@@ -312,16 +312,16 @@ static void get_prefs_info() {
 
         pos = str.find("<app_id>", pos) + 1;
     }
-	if (parse_bool(buf,"allow_non_preferred_apps", flag)) {
-	    g_wreq->allow_non_preferred_apps = flag;
+    if (parse_bool(buf,"allow_non_preferred_apps", flag)) {
+        g_wreq->allow_non_preferred_apps = flag;
     }
-	if (parse_bool(buf,"allow_beta_work", flag)) {
+    if (parse_bool(buf,"allow_beta_work", flag)) {
         g_wreq->allow_beta_work = flag;
-	}
-	if (parse_bool(buf,"no_gpus", flag)) {
+    }
+    if (parse_bool(buf,"no_gpus", flag)) {
         g_wreq->no_gpus = flag;
     }
-	if (parse_bool(buf,"no_cpu", flag)) {
+    if (parse_bool(buf,"no_cpu", flag)) {
         g_wreq->no_cpu = flag;
     }
 }
@@ -342,7 +342,7 @@ static void get_host_info() {
     double expavg_time = g_reply->host.expavg_time;
     update_average(0, 0, CREDIT_HALF_LIFE, expavg_credit, expavg_time);
 
-	// Platforms other then Windows, Linux and Intel Macs need a
+    // Platforms other then Windows, Linux and Intel Macs need a
     // larger set of computers to be marked reliable
     //
     double multiplier = 1.0;
@@ -351,9 +351,9 @@ static void get_host_info() {
         || (strstr(g_reply->host.os_name,"Darwin")
             && !(strstr(g_reply->host.p_vendor,"Power Macintosh"))
     )) {
-    	multiplier = 1.0;
+        multiplier = 1.0;
     } else {
-    	multiplier = 1.8;
+        multiplier = 1.8;
     }
 
     if (
@@ -385,7 +385,7 @@ bool app_not_selected(WORKUNIT& wu) {
     if (g_wreq->preferred_apps.size() == 0) return false;
     for (i=0; i<g_wreq->preferred_apps.size(); i++) {
         if (wu.appid == g_wreq->preferred_apps[i].appid) {
-    	    g_wreq->preferred_apps[i].work_available = true;
+            g_wreq->preferred_apps[i].work_available = true;
             return false;
         }
     }
@@ -898,22 +898,22 @@ int add_result_to_reply(
         //
         if (config.reliable_on_priority && result.priority >= config.reliable_on_priority && config.reliable_reduced_delay_bound > 0.01
         ) {
-			double reduced_delay_bound = delay_bound*config.reliable_reduced_delay_bound;
-			double est_wallclock_duration = estimate_duration(wu, *bavp);
+            double reduced_delay_bound = delay_bound*config.reliable_reduced_delay_bound;
+            double est_wallclock_duration = estimate_duration(wu, *bavp);
             // Check to see how reasonable this reduced time is.
             // Increase it to twice the estimated delay bound
             // if all the following apply:
             //
-			// 1) Twice the estimate is longer then the reduced delay bound
-			// 2) Twice the estimate is less then the original delay bound
-			// 3) Twice the estimate is less then the twice the reduced delay bound
-			if (est_wallclock_duration*2 > reduced_delay_bound
+            // 1) Twice the estimate is longer then the reduced delay bound
+            // 2) Twice the estimate is less then the original delay bound
+            // 3) Twice the estimate is less then the twice the reduced delay bound
+            if (est_wallclock_duration*2 > reduced_delay_bound
                 && est_wallclock_duration*2 < delay_bound
                 && est_wallclock_duration*2 < delay_bound*config.reliable_reduced_delay_bound*2
             ) {
-        		reduced_delay_bound = est_wallclock_duration*2;
+                reduced_delay_bound = est_wallclock_duration*2;
             }
-			delay_bound = (int) reduced_delay_bound;
+            delay_bound = (int) reduced_delay_bound;
         }
 
         result.report_deadline = result.sent_time + delay_bound;
@@ -1131,23 +1131,23 @@ static void explain_to_user() {
         // Tell the user about applications with no work
         //
         for (i=0; i<g_wreq->preferred_apps.size(); i++) {
-         	if (!g_wreq->preferred_apps[i].work_available) {
-         		APP* app = ssp->lookup_app(g_wreq->preferred_apps[i].appid);
-         		// don't write message if the app is deprecated
-         		if (app != NULL) {
-           			char explanation[256];
-           			sprintf(explanation, "No work is available for %s",
+             if (!g_wreq->preferred_apps[i].work_available) {
+                 APP* app = ssp->lookup_app(g_wreq->preferred_apps[i].appid);
+                 // don't write message if the app is deprecated
+                 if (app != NULL) {
+                       char explanation[256];
+                       sprintf(explanation, "No work is available for %s",
                         find_user_friendly_name(g_wreq->preferred_apps[i].appid)
                     );
-           			g_reply->insert_message(USER_MESSAGE(explanation, "high"));
-         		}
-           	}
+                       g_reply->insert_message(USER_MESSAGE(explanation, "high"));
+                 }
+               }
         }
 
         // Tell the user about applications they didn't qualify for
         //
         for (i=0; i<g_wreq->no_work_messages.size(); i++){
-        	g_reply->insert_message(g_wreq->no_work_messages.at(i));
+            g_reply->insert_message(g_wreq->no_work_messages.at(i));
         }
         if (g_wreq->no_allowed_apps_available) {
             g_reply->insert_message(
@@ -1461,11 +1461,19 @@ void send_work() {
 
     if (config.locality_scheduler_fraction > 0) {
         if (drand() < config.locality_scheduler_fraction) {
-            send_work_locality();
-            send_work_old();
+           if (config.debug_locality)
+             log_messages.printf(MSG_NORMAL, "[mixed] sending locality work first\n");
+           send_work_locality();
+           if (config.debug_locality)
+             log_messages.printf(MSG_NORMAL, "[mixed] sending non-locality work second\n");
+           send_work_old();
         } else {
-            send_work_old();
-            send_work_locality();
+           if (config.debug_locality)
+             log_messages.printf(MSG_NORMAL, "[mixed] sending non-locality work first\n");
+           send_work_old();
+           if (config.debug_locality)
+             log_messages.printf(MSG_NORMAL, "[mixed] sending locality work second\n");
+           send_work_locality();
         }
     } else if (config.locality_scheduling) {
         send_work_locality();

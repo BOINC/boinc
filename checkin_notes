@@ -4344,3 +4344,15 @@ David  6 May 2009
     client/
         gui_rpc_server_ops.cpp
         cpu_sched.cpp
+
+David  6 May 2009
+    - feeder: add -appids option: lets you specify which apps to
+        get jobs for (default it all).
+        Useful if you're mixing locality and regular scheduling.
+    - a little E@h-specific stuff
+    From Bernd Machenschalk.
+
+    sched/
+        feeder.cpp
+        handle_request.cpp
+        sched_send.cpp

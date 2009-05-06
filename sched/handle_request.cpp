@@ -65,6 +65,12 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
     char buf[2048];
     char dn[512], ip[512], os[512], pm[512];
 
+#ifdef EINSTEIN_AT_HOME
+    // This is to prevent GRID hosts that manipulate their hostids from flooding E@H's DB with slow queries
+    if ((user.id == 282952) || (user.id == 243543))
+      return false;
+#endif
+
     // Only check if the fields are populated
     if (strlen(req_host.domain_name) && strlen(req_host.last_ip_addr) && strlen(req_host.os_name) && strlen(req_host.p_model)) {
         strcpy(dn, req_host.domain_name);
@@ -77,7 +83,8 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
         escape_string(pm, 512);
 
         sprintf(buf,
-            "where userid=%d and id>%d and domain_name='%s' and last_ip_addr = '%s' and os_name = '%s' and p_model = '%s' and m_nbytes = %lf order by id desc", user.id, req_host.id, dn, ip, os, pm, req_host.m_nbytes
+            "where userid=%d and id>%d and domain_name='%s' and last_ip_addr = '%s' and os_name = '%s' and p_model = '%s'"
+               " and m_nbytes = %lf order by id desc", user.id, req_host.id, dn, ip, os, pm, req_host.m_nbytes
         );
         if (!host.enumerate(buf)) {
             host.end_enumerate();

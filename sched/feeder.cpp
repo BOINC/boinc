@@ -29,6 +29,7 @@
 //                        recommended if using HR with multiple schedulers
 //  [ -sleep_interval x ] sleep x seconds if nothing to do
 //  [ -allapps ]          interleave results from all applications uniformly
+//  [ -appids a1{,a2} ]   get work only for appids a1,... (comma-separated list)
 //  [ -purge_stale x ]    remove work items from the shared memory segment
 //                        that have been there for longer then x minutes
 //                        but haven't been assigned
@@ -632,6 +633,7 @@ int main(int argc, char** argv) {
     int i, retval;
     void* p;
     char path[256];
+    char* appids=NULL;
 
     unlink(REREAD_DB_FILENAME);
 
@@ -660,6 +662,10 @@ int main(int argc, char** argv) {
             order_clause = "order by r1.priority desc, r1.workunitid";
         } else if (!strcmp(argv[i], "-purge_stale")) {
             purge_stale_time = atoi(argv[++i])*60;
+        } else if (!strcmp(argv[i], "-appids")) {
+           strcat(mod_select_clause, " and workunit.appid in (");
+           strcat(mod_select_clause, argv[++i]);
+           strcat(mod_select_clause, ")");
         } else if (!strcmp(argv[i], "-mod")) {
             int n = atoi(argv[++i]);
             int j = atoi(argv[++i]);
@@ -677,11 +683,6 @@ int main(int argc, char** argv) {
             exit(1);
         }
     }
-
-#ifdef EINSTEIN_AT_HOME
-    // don't read locality scheduling workunits into the feeder
-    strcat(mod_select_clause, " and workunit.name not like \"%\\_\\_%\" ");
-#endif
 
     log_messages.printf(MSG_NORMAL, "Starting\n");
     show_version();
