@@ -4388,3 +4388,10 @@ Bernd 7 May 2009
     - <cstdio> is a C++ haeder - moved it to __cplusplus section
     lib/
         filesys.h
+
+Rytis  7 May 2009
+    - user web: remove an undocumented feature where anyone could do a
+        recompile of language files by just knowing an URL parameter.
+    
+    hmtl/inc/
+        translation.inc

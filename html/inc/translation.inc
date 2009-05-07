@@ -209,14 +209,6 @@ function language_log($message, $loglevel=0){
     }
 }
 
-// Determine whether to recompile language files
-$compile_languages = false;
-if (isset($_GET['compile_languages'])) $compile_languages = true;
-if ($compile_languages){
-    buildLanguages($lang_language_dir,$lang_translations_dir, $lang_compiled_dir);
-    buildLanguages($lang_language_dir,$lang_prj_translations_dir, $lang_compiled_dir, true);
-}
-
 // Make a list of languages which the user prefers
 // (by looking at cookies and browser settings)
 // cookies have highest priority.
