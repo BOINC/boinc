@@ -735,12 +735,21 @@ static inline bool more_important(RESULT* r0, RESULT* r1) {
     return (r0 < r1);
 }
 
-static void print_job_list(vector<RESULT*>& jobs) {
+static void print_job_list(vector<RESULT*>& jobs, bool details) {
     for (unsigned int i=0; i<jobs.size(); i++) {
         RESULT* rp = jobs[i];
-        msg_printf(rp->project, MSG_INFO,
-            "[cpu_sched_debug] %d: %s", i, rp->name
-        );
+        if (details) {
+            msg_printf(rp->project, MSG_INFO,
+                "[cpu_sched_debug] %d: %s", i, rp->name
+            );
+        } else {
+            msg_printf(rp->project, MSG_INFO,
+                "[cpu_sched_debug] %d: %s (MD: %s; UTS: %s)",
+                i, rp->name,
+                rp->rr_sim_misses_deadline?"yes":"no",
+                rp->unfinished_time_slice?"yes":"no"
+            );
+        }
     }
 }
 
@@ -808,7 +817,7 @@ bool CLIENT_STATE::enforce_schedule() {
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule(): start");
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] preliminary job list:");
-        print_job_list(ordered_scheduled_results);
+        print_job_list(ordered_scheduled_results, false);
     }
 
     // Set next_scheduler_state to preempt for all tasks
@@ -842,7 +851,7 @@ bool CLIENT_STATE::enforce_schedule() {
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] final job list:");
-        print_job_list(runnable_jobs);
+        print_job_list(runnable_jobs, true);
     }
 
     double ram_left = available_ram();

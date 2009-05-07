@@ -22,6 +22,7 @@
 #include "parse.h"
 
 #include "sched_msgs.h"
+#include "sched_config.h"
 
 #include "time_stats_log.h"
 
@@ -40,11 +41,12 @@ void handle_time_stats_log(FILE* fin) {
 // Use a directory hierarchy since there may be many hosts
 //
 void write_time_stats_log() {
-    char dirname[256], filename[256];
+    char filename[256];
+    const char *dirname;
 
     int hostid = g_reply->host.id;
     int dirnum = hostid % 1000;
-    sprintf(dirname, "../time_stats_log/%d", dirnum);
+    dirname = config.project_path("time_stats_log/%d", dirnum);
     if (!is_dir(dirname)) {
         int retval = boinc_mkdir(dirname);
         if (retval) {
@@ -55,7 +57,7 @@ void write_time_stats_log() {
             return;
         }
     }
-    sprintf(filename, "../time_stats_log/%d/%d", dirnum, hostid);
+    sprintf(filename, "%s/%d", dirname, hostid);
 #ifndef _USING_FCGI_
     FILE* f = fopen(filename, "w");
 #else
@@ -74,10 +76,7 @@ void write_time_stats_log() {
 }
 
 bool have_time_stats_log() {
-    char filename[256];
-
     int hostid = g_reply->host.id;
     int dirnum = hostid % 1000;
-    sprintf(filename, "../time_stats_log/%d/%d", dirnum, hostid);
-    return is_file(filename);
+    return is_file(config.project_path("time_stats_log/%d/%d", dirnum, hostid));
 }

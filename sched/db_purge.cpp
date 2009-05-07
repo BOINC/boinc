@@ -52,6 +52,7 @@
 #include "sched_msgs.h"
 
 #include "error_numbers.h"
+#include "str_util.h"
 
 #define WU_FILENAME_PREFIX              "wu_archive"
 #define RESULT_FILENAME_PREFIX          "result_archive"
@@ -107,7 +108,7 @@ void open_archive(const char* filename_prefix, FILE*& f){
     char command[512];
 
     // append appropriate suffix for file type
-    sprintf(path, "../archives/%s_%d.xml", filename_prefix, time_int);
+    strcpy(path, config.project_path("archives/%s_%d.xml", filename_prefix, time_int));
     strcat(path, suffix[compression_type]);
 
     // and construct appropriate command if needed
@@ -172,7 +173,7 @@ void close_archive(const char *filename, FILE*& fp){
     fp = NULL;
 
     // append appropriate file type
-    sprintf(path, "../archives/%s_%d.xml", filename, time_int);
+    strcpy(path, config.project_path("archives/%s_%d.xml", filename, time_int));
     strcat(path, suffix[compression_type]);
     
     log_messages.printf(MSG_NORMAL,
@@ -614,10 +615,10 @@ int main(int argc, char** argv) {
         }
     }
 
-    retval = config.parse_file("..");
+    retval = config.parse_file();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "Can't parse config file\n"
+            "Can't parse config.xml: %s\n", boincerror(retval)
         );
         exit(1);
     }
@@ -632,7 +633,7 @@ int main(int argc, char** argv) {
         exit(2);
     }
     install_stop_signal_handler();
-    boinc_mkdir("../archives");
+    boinc_mkdir(config.project_path("archives"));
 
     // on exit, either via the check_stop_daemons signal handler, or
     // through a regular call to exit, these functions will be called

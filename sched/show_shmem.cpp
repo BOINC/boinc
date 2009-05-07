@@ -26,15 +26,16 @@
 #include "shmem.h"
 #include "sched_config.h"
 #include "sched_shmem.h"
+#include "str_util.h"
 
 int main() {
     SCHED_SHMEM* ssp;
     int retval;
     void* p;
 
-    retval = config.parse_file(".");
+    retval = config.parse_file();
     if (retval) {
-        printf("can't parse config: %d\n", retval);
+        printf("Can't parse config.xml: %s\n", boincerror(retval));
         exit(1);
     }
     retval = attach_shmem(config.shmem_key, &p);

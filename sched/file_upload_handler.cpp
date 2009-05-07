@@ -40,6 +40,7 @@
 #include "parse.h"
 #include "util.h"
 #include "error_numbers.h"
+#include "str_util.h"
 #include "filesys.h"
 
 #include "sched_config.h"
@@ -638,9 +639,9 @@ int main() {
     }
 #endif
 
-    retval = config.parse_file("..");
+    retval = config.parse_file();
     if (retval) {
-        fprintf(stderr, "Can't parse config file\n");
+        fprintf(stderr, "Can't parse config.xml: %s\n", boincerror(retval));
         return_error(ERR_TRANSIENT,
             "can't parse config file", log_path, errno
         );
@@ -650,7 +651,7 @@ int main() {
     log_messages.pid = getpid();
     log_messages.set_debug_level(config.fuh_debug_level);
 
-    if (boinc_file_exists("../stop_upload")) {
+    if (boinc_file_exists(config.project_path("stop_upload"))) {
         return_error(ERR_TRANSIENT, "Maintenance underway: file uploads are temporarily disabled.");
         exit(1);
     }

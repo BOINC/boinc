@@ -122,7 +122,7 @@ using std::vector;
 
 #define DEFAULT_SLEEP_INTERVAL  5
 
-#define REREAD_DB_FILENAME      "../reread_db"
+#define REREAD_DB_FILENAME      "reread_db"
 
 #define ENUM_FIRST_PASS     0
 #define ENUM_SECOND_PASS    1
@@ -173,7 +173,7 @@ void cleanup_shmem() {
 
 int check_reread_trigger() {
     FILE* f;
-    f = fopen(REREAD_DB_FILENAME, "r");
+    f = fopen(config.project_path(REREAD_DB_FILENAME), "r");
     if (f) {
         fclose(f);
         log_messages.printf(MSG_NORMAL,
@@ -182,7 +182,7 @@ int check_reread_trigger() {
         );
         ssp->init(num_work_items);
         ssp->scan_tables();
-        int retval = unlink(REREAD_DB_FILENAME);
+        int retval = unlink(config.project_path(REREAD_DB_FILENAME));
         if (retval) {
             // if we can't remove trigger file, exit to avoid infinite loop
             //
@@ -635,15 +635,15 @@ int main(int argc, char** argv) {
     char path[256];
     char* appids=NULL;
 
-    unlink(REREAD_DB_FILENAME);
-
-    retval = config.parse_file("..");
+    retval = config.parse_file();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "Can't parse ../config.xml: %s\n", boincerror(retval)
+            "Can't parse config.xml: %s\n", boincerror(retval)
         );
         exit(1);
     }
+
+    unlink(config.project_path(REREAD_DB_FILENAME));
 
     if (argc == 2 && !strcmp(argv[1], "--version")) {
         show_version();
@@ -693,7 +693,7 @@ int main(int argc, char** argv) {
     if (config.shmem_work_items) {
         num_work_items = config.shmem_work_items;
     }
-    get_project_dir(path, sizeof(path));
+    strncpy(path, config.project_dir, sizeof(path));
     get_key(path, 'a', sema_key);
     destroy_semaphore(sema_key);
     create_semaphore(sema_key);

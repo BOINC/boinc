@@ -48,6 +48,7 @@ using std::string;
 #include "parse.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
+#include "str_util.h"
 
 #define LOCKFILE            "make_work.out"
 #define PIDFILE             "make_work.pid"
@@ -178,9 +179,9 @@ void make_work(vector<string> &wu_names) {
     int i;
     static int index=0;
 
-    retval = config.parse_file("..");
+    retval = config.parse_file();
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "can't read config file\n");
+        log_messages.printf(MSG_CRITICAL, "Can't parse config.xml: %s\n", boincerror(retval));
         exit(1);
     }
 

@@ -4356,3 +4356,30 @@ David  6 May 2009
         feeder.cpp
         handle_request.cpp
         sched_send.cpp
+
+David  7 May 2009
+    - client, Mac: don't do res_init().  It causes a crash.
+    - client (Unix): if client crashes while benchmark processes are going,
+        make sure they detect this and exit.
+    - back-end programs: remove hardwired assumptions about
+        what directory they run in, and hence where config.xml is.
+        E.g., daemons look for it in "..", others expect it in current dir.
+        New approach: all the programs look for the project dir as follows:
+        1) the environment var BOINC_PROJECT_DIR, if defined
+        2) the current dir, if config.xml is there.
+        3) else ".."
+        This means you can run programs in either proj/bin/ or proj/,
+        or (using BOINC_PROJECT_DIR) you can keep executables
+        outside of the project dir.
+
+    client/
+        cpu_sched.cpp
+        cs_benchmark.cpp
+    lib/
+        network.cpp
+    sched/
+        *.cpp
+    tools/
+        backend_lib.cpp
+        create_work.cpp
+        dir_hier_path.cpp

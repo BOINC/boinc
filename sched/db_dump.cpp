@@ -803,10 +803,10 @@ int main(int argc, char** argv) {
     }
     log_messages.printf(MSG_NORMAL, "Starting\n");
 
-    retval = config.parse_file("..");
+    retval = config.parse_file();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "Can't parse ../config.xml: %s\n", boincerror(retval)
+            "Can't parse config.xml: %s\n", boincerror(retval)
         );
         exit(1);
     }

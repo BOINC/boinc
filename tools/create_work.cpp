@@ -92,7 +92,7 @@ int main(int argc, const char** argv) {
     strcpy(app.name, "");
     strcpy(db_passwd, "");
     strcpy(additional_xml, "");
-    const char* config_dir = ".";
+    const char* config_dir = 0;
     i = 1;
     ninfiles = 0;
     wu.clear();
@@ -213,7 +213,7 @@ int main(int argc, const char** argv) {
             exit(1);
         }
     }
-    retval = config.parse_file(config_dir);
+    retval = config.parse_file();
     if (retval) {
         fprintf(stderr, "Can't parse config file: %d\n", retval);
         exit(1);

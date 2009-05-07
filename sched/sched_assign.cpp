@@ -41,7 +41,8 @@
 static int send_assigned_job(ASSIGNMENT& asg) {
     int retval;
     DB_WORKUNIT wu;
-    char rtfpath[256], suffix[256], path[256], buf[256];
+    char suffix[256], path[256], buf[256];
+    const char *rtfpath;
     static bool first=true;
     static int seqno=0;
     static R_RSA_PRIVATE_KEY key;
@@ -73,9 +74,9 @@ static int send_assigned_job(ASSIGNMENT& asg) {
         return ERR_NOT_FOUND;
     }
 
-    sprintf(rtfpath, "../%s", wu.result_template_file);
+    rtfpath = config.project_path("%s", wu.result_template_file);
     sprintf(suffix, "%d_%d_%d", getpid(), (int)time(0), seqno++);
-    retval = create_result(wu, rtfpath, suffix, key, config, 0, 0);
+    retval = create_result(wu, (char *)rtfpath, suffix, key, config, 0, 0);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
             "[WU#%d %s] create_result() %d\n", wu.id, wu.name, retval

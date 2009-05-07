@@ -31,15 +31,16 @@
 
 #include "sched_msgs.h"
 #include "sched_util.h"
+#include "sched_config.h"
 #include "util.h"
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
 #endif
 
-const char* STOP_DAEMONS_FILENAME = "../stop_daemons";
+const char* STOP_DAEMONS_FILENAME = "stop_daemons";
     // NOTE: this must be same as in the "start" script
-const char* STOP_SCHED_FILENAME = "../stop_sched";
+const char* STOP_SCHED_FILENAME = "stop_sched";
     // NOTE: this must be same as in the "start" script
 const int STOP_SIGNAL = SIGHUP;
     // NOTE: this must be same as in the "start" script
@@ -77,17 +78,18 @@ void check_stop_daemons() {
         log_messages.printf(MSG_NORMAL, "Quitting due to SIGHUP\n");
         exit(0);
     }
-    if (boinc_file_exists(STOP_DAEMONS_FILENAME)) {
+    const char *stop_file = config.project_path(STOP_DAEMONS_FILENAME);
+    if (boinc_file_exists(stop_file)) {
         log_messages.printf(MSG_NORMAL,
             "Quitting because trigger file '%s' is present\n",
-            STOP_DAEMONS_FILENAME
+            stop_file
         );
         exit(0);
     }
 }
 
 bool check_stop_sched() {
-    return boinc_file_exists(STOP_SCHED_FILENAME);
+    return boinc_file_exists(config.project_path(STOP_SCHED_FILENAME));
 }
 
 // try to open a file.
@@ -133,11 +135,12 @@ int try_fopen(const char* path, FCGI_FILE*& f, const char *mode) {
 
 void get_log_path(char* p, const char* filename) {
     char host[256];
-    char dir[256];
+    const char *dir;
+
     gethostname(host, 256);
     char* q = strchr(host, '.');
     if (q) *q=0;
-    sprintf(dir, "../log_%s", host);
+    dir = config.project_path("log_%s", host);
     sprintf(p, "%s/%s", dir, filename);
     mode_t old_mask = umask(0);
     mkdir(dir, 01770);
@@ -285,7 +288,7 @@ int count_unsent_results(int& n, int appid) {
 void simulator_signal_handler(int signum){    
     FILE *fsim;
     char currenttime[64];
-    fsim = fopen("../simulator/sim_time.txt","r");
+    fsim = fopen(config.project_path("simulator/sim_time.txt"),"r");
     if(fsim){
         fscanf(fsim,"%s", currenttime);
         simtime = atof(currenttime); 
@@ -303,8 +306,8 @@ int itime() {
 void continue_simulation(const char *daemonname){
     char daemonfilelok[64];
     char daemonfile[64];
-    sprintf(daemonfile, "../simulator/sim_%s.txt",daemonname);
-    sprintf(daemonfilelok, "../simulator/sim_%s.lok",daemonname);
+    sprintf(daemonfile, config.project_path("simulator/sim_%s.txt"),daemonname);
+    sprintf(daemonfilelok, config.project_path("simulator/sim_%s.lok"),daemonname);
     FILE *fsimlok = fopen(daemonfilelok, "w");
     if (fsimlok){
         fclose(fsimlok);

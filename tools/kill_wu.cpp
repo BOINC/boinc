@@ -48,7 +48,7 @@ int main(int argc, char** argv){
     int retval,final;
     string wuname;
     char buf[256];
-    string config_dir = ".";
+    string config_dir = "";
     //parse the input 
     if (argc<2){
         usage(0);
@@ -66,7 +66,7 @@ int main(int argc, char** argv){
     }
     wuname = argv[argc-1]; 
     final =0;
-    retval = config.parse_file((char *) config_dir.c_str());
+    retval = config.parse_file(config_dir.c_str());
     if (retval) {
         fprintf(stderr,"can't read config file\n");
         return -1;

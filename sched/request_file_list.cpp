@@ -103,9 +103,9 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    retval = config.parse_file(".");
+    retval = config.parse_file();
     if (retval) {
-        fprintf(stderr, "Can't parse ../config.xml: %s\n", boincerror(retval));
+        fprintf(stderr, "Can't parse config.xml: %s\n", boincerror(retval));
         exit(1);
     }
 

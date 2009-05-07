@@ -27,6 +27,7 @@
 #include "util.h"
 #include "sched_config.h"
 #include "sched_util.h"
+#include "str_util.h"
 
 
 const char *usage = 
@@ -44,9 +45,9 @@ int main(int argc, char** argv) {
       exit(1);
     }
 
-    retval = config.parse_file(".");
+    retval = config.parse_file();
     if (retval) {
-        fprintf(stderr, "Can't find config.xml; run this in project root dir\n");
+        fprintf(stderr, "Can't parse config.xml: %s\n", boincerror(retval));
         exit(1);
     }
 

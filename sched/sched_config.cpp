@@ -27,6 +27,8 @@
 
 #include "parse.h"
 #include "error_numbers.h"
+#include "filesys.h"
+#include "str_util.h"
 
 #include "sched_msgs.h"
 #include "sched_util.h"
@@ -84,6 +86,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_str(tag, "db_user", db_user, sizeof(db_user))) continue;
         if (xp.parse_str(tag, "db_passwd", db_passwd, sizeof(db_passwd))) continue;
         if (xp.parse_str(tag, "db_host", db_host, sizeof(db_host))) continue;
+        if (xp.parse_str(tag, "project_dir", project_dir, sizeof(project_dir))) continue;
         if (xp.parse_int(tag, "shmem_key", shmem_key)) continue;
         if (xp.parse_str(tag, "key_dir", key_dir, sizeof(key_dir))) continue;
         if (xp.parse_str(tag, "download_url", download_url, sizeof(download_url))) continue;
@@ -237,12 +240,11 @@ int SCHED_CONFIG::parse_file(const char* dir) {
     char path[256];
     int retval;
 
-	char* p = getenv("BOINC_CONFIG_XML");
-	if (p) {
-		strcpy(path, p);
-	} else {
-		sprintf(path, "%s/%s", dir, CONFIG_FILE);
-	}
+    if (dir && dir[0]) {
+        snprintf(path, sizeof(path), "%s/%s", dir, CONFIG_FILE);
+    } else {
+        strcpy(path, project_path(CONFIG_FILE));
+    }
 #ifndef _USING_FCGI_
     FILE* f = fopen(path, "r");
 #else
@@ -262,10 +264,34 @@ int SCHED_CONFIG::download_path(const char* filename, char* path) {
     return ::dir_hier_path(filename, download_dir, uldl_dir_fanout, path, true);
 }
 
-void get_project_dir(char* p, int len) {
-    getcwd(p, len);
-    char* q = strrchr(p, '/');
-    if (q) *q = 0;
+// Does 2 things:
+// - locate project directory.  This is either
+//      a) env var BOINC_PROJECT_DIR, if defined
+//      b) current dir, if config.xml exists there
+//      c) parent dir, if config.xml exists there
+// - returns a path relative to the project dir,
+//      specified by a format string + args
+//
+const char *SCHED_CONFIG::project_path(const char *fmt, ...) {
+    static char path[1024];
+    va_list ap;
+
+    if (!strlen(project_dir)) {
+        char *p = getenv("BOINC_PROJECT_DIR");
+        if (p) {
+            strlcpy(project_dir, p, sizeof(project_dir));
+        } else if (boinc_file_exists(CONFIG_FILE)) {
+            strcpy(project_dir, ".");
+        } else {
+            strcpy(project_dir, "..");
+        }
+    }
+
+    va_start(ap, fmt);
+    snprintf(path, sizeof(path), "%s/", project_dir);
+    vsnprintf(path + strlen(path), sizeof(path) - strlen(path), fmt, ap);
+    va_end(ap);
+    return (const char *)path;
 }
 
 const char *BOINC_RCSID_3704204cfd = "$Id$";

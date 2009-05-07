@@ -36,7 +36,7 @@ using std::string;
 int write_error(char* p) {
     static FILE* f = 0;
     if (!f) {
-        f = fopen("../sample_results/errors", "a");
+        f = fopen(config.project_path("sample_results/errors"), "a");
         if (!f) return ERR_FOPEN;
     }
     fprintf(f, "%s", p);
@@ -51,20 +51,20 @@ int assimilate_handler(
     char buf[1024];
     unsigned int i;
 
-    retval = boinc_mkdir("../sample_results");
+    retval = boinc_mkdir(config.project_path("sample_results"));
     if (retval) return retval;
 
     if (wu.canonical_resultid) {
         vector<FILE_INFO> output_files;
-        char copy_path[256];
+        const char *copy_path;
         get_output_file_infos(canonical_result, output_files);
         unsigned int n = output_files.size();
         for (i=0; i<n; i++) {
             FILE_INFO& fi = output_files[i];
             if (n==1) {
-                sprintf(copy_path, "../sample_results/%s", wu.name);
+                copy_path = config.project_path("sample_results/%s", wu.name);
             } else {
-                sprintf(copy_path, "../sample_results/%s_%d", wu.name, i);
+                copy_path = config.project_path("sample_results/%s_%d", wu.name, i);
             }
             retval = boinc_copy(fi.path.c_str() , copy_path);
             if (retval && !fi.optional) {

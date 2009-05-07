@@ -108,16 +108,16 @@ URLTYPE* read_download_list() {
     
     if (cached) return cached;
 
+    const char *download_servers = config.project_path("download_servers");
 #ifndef _USING_FCGI_
-    FILE *fp=fopen("../download_servers", "r");
+    FILE *fp=fopen(download_servers, "r");
 #else 
-    FCGI_FILE *fp=FCGI::fopen("../download_servers", "r");
+    FCGI_FILE *fp=FCGI::fopen(download_servers, "r");
 #endif
 
-    
     if (!fp) {
         log_messages.printf(MSG_CRITICAL,
-            "File ../download_servers not found or unreadable!\n"
+            "File %s not found or unreadable!\n", download_servers
         );
         return NULL;
     }
@@ -145,9 +145,10 @@ URLTYPE* read_download_list() {
     
     if (!count) {
         log_messages.printf(MSG_CRITICAL,
-            "File ../download_servers contained no valid entries!\n"
+            "File %s contained no valid entries!\n"
             "Format of this file is one or more lines containing:\n"
-            "TIMEZONE_OFFSET_IN_SEC   http://some.url.path\n"
+            "TIMEZONE_OFFSET_IN_SEC   http://some.url.path\n",
+	    download_servers
         );
         free(cached);
         return NULL;

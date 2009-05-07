@@ -35,6 +35,7 @@ public:
     char db_passwd[256];
     char db_host[256];
     int shmem_key;
+    char project_dir[256];
     char key_dir[256];
     char download_url[256];
     char download_dir[256];
@@ -148,17 +149,14 @@ public:
     bool debug_array;               // debug old-style array scheduling
 
     int parse(FILE*);
-    int parse_file(const char* dir=".");
+    int parse_file(const char *dir = 0);
 
     int upload_path(const char*, char*);
     int download_path(const char*, char*);
+
+    const char *project_path(const char *, ...);
 };
 
 extern SCHED_CONFIG config;
-
-// get the project's home directory
-// (assumed to be the parent of the CWD)
-//
-void get_project_dir(char*, int);
 
 #endif

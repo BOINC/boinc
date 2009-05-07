@@ -45,10 +45,8 @@ int assimilate_handler(
 
     // delete the template files
     //
-    sprintf(buf, "../templates/sj_wu_template_%d", wu.id);
-    unlink(buf);
-    sprintf(buf, "../templates/sj_result_template_%d", wu.id);
-    unlink(buf);
+    unlink(config.project_path("templates/sj_wu_template_%d", wu.id));
+    unlink(config.project_path("templates/sj_result_template_%d", wu.id));
 
     // read and delete the job directory file
     //

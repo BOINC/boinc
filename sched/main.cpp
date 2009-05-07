@@ -68,8 +68,8 @@
 #define DEBUG_LEVEL  999
 #define MAX_FCGI_COUNT  20
 
-#define REQ_FILE_PREFIX "../boinc_req/"
-#define REPLY_FILE_PREFIX "../boinc_reply/"
+#define REQ_FILE_PREFIX "boinc_req/"
+#define REPLY_FILE_PREFIX "boinc_reply/"
 bool use_files = false;     // use disk files for req/reply msgs (for debugging)
 
 GUI_URLS gui_urls;
@@ -106,7 +106,7 @@ void debug_sched(const char *trigger) {
     FCGI_FILE *fp;
 #endif
 
-    if (!boinc_file_exists(trigger)) {
+    if (!boinc_file_exists(config.project_path("%s", trigger))) {
         return;
     }
 
@@ -282,7 +282,7 @@ void set_core_dump_size_limit() {
 
 void attach_to_feeder_shmem() {
     char path[256];
-    get_project_dir(path, sizeof(path));
+    strncpy(path, config.project_dir, sizeof(path));
     get_key(path, 'a', sema_key);
     int i, retval;
     void* p;
@@ -423,10 +423,10 @@ int main(int argc, char** argv) {
     set_core_dump_size_limit();
 #endif
 
-    retval = config.parse_file("..");
+    retval = config.parse_file();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "Can't parse ../config.xml: %s\n", boincerror(retval)
+            "Can't parse config.xml: %s\n", boincerror(retval)
         );
         send_message("Server can't parse configuration file", 3600);
         exit(0);
@@ -482,8 +482,8 @@ int main(int argc, char** argv) {
         // NOTE: to use this, you must create group-writeable dirs
         // boinc_req and boinc_reply in the project dir
         //
-        sprintf(req_path, "%s%d_%u", REQ_FILE_PREFIX, g_pid, counter);
-        sprintf(reply_path, "%s%d_%u", REPLY_FILE_PREFIX, g_pid, counter);
+        sprintf(req_path, "%s%d_%u", config.project_path(REQ_FILE_PREFIX), g_pid, counter);
+        sprintf(reply_path, "%s%d_%u", config.project_path(REPLY_FILE_PREFIX), g_pid, counter);
 #ifndef _USING_FCGI_
         fout = fopen(req_path, "w");
 #else

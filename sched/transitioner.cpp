@@ -41,6 +41,7 @@
 #include "backend_lib.h"
 #include "common_defs.h"
 #include "error_numbers.h"
+#include "str_util.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -372,8 +373,7 @@ int handle_wu(
             );
             for (j=0; j<n; j++) {
                 sprintf(suffix, "%d", max_result_suffix+j+1);
-                char rtfpath[256];
-                sprintf(rtfpath, "../%s", wu_item.result_template_file);
+                const char *rtfpath = config.project_path("%s", wu_item.result_template_file);
                 int priority_increase = 0;
                 if (nover && config.reliable_priority_on_over) {
                     priority_increase += config.reliable_priority_on_over;
@@ -381,7 +381,7 @@ int handle_wu(
                     priority_increase += config.reliable_priority_on_over_except_error;
                 }
                 retval = create_result_ti(
-                    wu_item, rtfpath, suffix, key, config, value_buf, priority_increase
+                    wu_item, (char *)rtfpath, suffix, key, config, value_buf, priority_increase
                 );
                 if (retval) {
                     log_messages.printf(MSG_CRITICAL,
@@ -692,9 +692,9 @@ int main(int argc, char** argv) {
     }
     if (!one_pass) check_stop_daemons();
 
-    retval = config.parse_file("..");
+    retval = config.parse_file();
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "can't read config file\n");
+        log_messages.printf(MSG_CRITICAL, "Can't parse config.xml: %s\n", boincerror(retval));
         exit(1);
     }
 

@@ -43,6 +43,7 @@
 #include "sched_send.h"
 #include "sched_util.h"
 #include "sched_version.h"
+#include "sched_config.h"
 
 #define VERBOSE_DEBUG
 
@@ -306,9 +307,7 @@ static int possibly_send_result(DB_RESULT& result) {
 // file, false if it can.
 //
 static bool work_generation_over(char *filename) {
-    char fullpath[512];
-    sprintf(fullpath, "../locality_scheduling/no_work_available/%s", filename);
-    return boinc_file_exists(fullpath);
+    return boinc_file_exists(config.project_path("locality_scheduling/no_work_available/%s", filename));
 }
 
 // Ask the WU generator to make more WUs for this file.
@@ -317,7 +316,7 @@ static bool work_generation_over(char *filename) {
 // (no way to be sure if it suceeded).
 //
 int make_more_work_for_file(char* filename) {
-    char fullpath[512];
+    const char *fullpath;
 
     if (work_generation_over(filename)) {
         // since we found this file, it means that no work remains for this WU.
@@ -334,7 +333,7 @@ int make_more_work_for_file(char* filename) {
     // directory as a way of indicating that we need work for this file.
     // If this operation fails, don't worry or tarry!
     //
-    sprintf(fullpath, "../locality_scheduling/need_work/%s", filename);
+    fullpath = config.project_path("locality_scheduling/need_work/%s", filename);
     if (boinc_touch_file(fullpath)) {
         log_messages.printf(MSG_CRITICAL, "unable to touch %s\n", fullpath);
         return -1;
@@ -362,14 +361,14 @@ static void build_working_set_namelist(bool slowhost) {
     glob_t globbuf;
     int retglob;
     unsigned int i;
-    const char *pattern = "../locality_scheduling/work_available/*";
+    const char *pattern = config.project_path("locality_scheduling/work_available/*");
     const char *errtype = "unrecognized error";
     const char *hosttype = "fasthost";
 
 #ifdef EINSTEIN_AT_HOME
     if (slowhost) {
         hosttype = "slowhost";
-        pattern = "../locality_scheduling/work_available/*_0[0-3]*";
+        pattern = config.project_path("locality_scheduling/work_available/*_0[0-3]*");
     }
 #endif
 
@@ -469,9 +468,7 @@ static int get_working_set_filename(char *filename, bool slowhost) {
 
 
 static void flag_for_possible_removal(char* filename) {
-    char path[256];
-    sprintf(path, "../locality_scheduling/working_set_removal/%s", filename);
-    boinc_touch_file(path);
+    boinc_touch_file(config.project_path("locality_scheduling/working_set_removal/%s", filename));
     return;
 }
 
@@ -1203,9 +1200,9 @@ void send_file_deletes() {
     }
 
     if (g_reply->results.size()==0 && g_reply->hostid && g_request->work_req_seconds>1.0) {
-        debug_sched("../debug_sched");
+        debug_sched("debug_sched");
     } else if (max_allowable_disk()<0 || (g_reply->wreq.disk.insufficient || g_reply->wreq.disk_available<0)) {
-        debug_sched("../debug_sched");
+        debug_sched("debug_sched");
     }
 }
 

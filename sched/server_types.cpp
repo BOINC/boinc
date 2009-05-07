@@ -1168,7 +1168,7 @@ void GLOBAL_PREFS::defaults() {
 
 void GUI_URLS::init() {
     text = 0;
-    read_file_malloc("../gui_urls.xml", text);
+    read_file_malloc(config.project_path("gui_urls.xml"), text);
 }
 
 void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
@@ -1203,7 +1203,7 @@ void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
 
 void PROJECT_FILES::init() {
     text = 0;
-    read_file_malloc("../project_files.xml", text);
+    read_file_malloc(config.project_path("project_files.xml"), text);
 }
 
 const char *BOINC_RCSID_ea659117b3 = "$Id$";

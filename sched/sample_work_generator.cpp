@@ -41,6 +41,7 @@
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
+#include "str_util.h"
 
 #define CUSHION 100
     // maintain at least this many unsent results
@@ -98,7 +99,7 @@ int make_job() {
         wu,
         wu_template,
         "templates/uc_result",
-        "../templates/uc_result",
+        config.project_path("templates/uc_result"),
         infiles,
         1,
         config
@@ -149,9 +150,10 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (config.parse_file("..")) {
+    retval = config.parse_file();
+    if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "can't read config file\n"
+            "Can't parse config.xml: %s\n", boincerror(retval)
         );
         exit(1);
     }
@@ -167,7 +169,7 @@ int main(int argc, char** argv) {
         log_messages.printf(MSG_CRITICAL, "can't find app\n");
         exit(1);
     }
-    if (read_file_malloc("../templates/uc_wu", wu_template)) {
+    if (read_file_malloc(config.project_path("templates/uc_wu"), wu_template)) {
         log_messages.printf(MSG_CRITICAL, "can't read WU template\n");
         exit(1);
     }
