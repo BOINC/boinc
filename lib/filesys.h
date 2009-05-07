@@ -25,11 +25,11 @@
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 #else
-#include <cstdio>
 #include <dirent.h>
 #include <grp.h>
 
 #ifdef __cplusplus
+#include <cstdio>
 #include <string>
 #endif
 

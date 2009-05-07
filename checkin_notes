@@ -4383,3 +4383,8 @@ David  7 May 2009
         backend_lib.cpp
         create_work.cpp
         dir_hier_path.cpp
+
+Bernd 7 May 2009
+    - <cstdio> is a C++ haeder - moved it to __cplusplus section
+    lib/
+        filesys.h
