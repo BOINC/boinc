@@ -2703,3 +2703,21 @@ David  6 May 2009
     client/
         gui_rpc_server_ops.cpp
         cpu_sched.cpp
+
+David  7 May 2009
+    - client, Mac: don't do res_init().  It causes a crash.
+    - client (Unix): if client crashes while benchmark processes are going,
+        make sure they detect this and exit.
+
+    client/
+        cs_benchmark.cpp
+    lib/
+        network.cpp
+
+Charlie 7 May 2009
+    - Mac: Remove -lresolv from XCode linker flags for client, manager, boinccmd 
+        and screensaver which linked with libresolv.dylib for res_init() call.
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

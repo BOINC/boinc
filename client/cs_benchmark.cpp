@@ -135,6 +135,14 @@ void benchmark_wait_to_start(int which) {
         if (boinc_file_exists(file_names[which])) {
             break;
         }
+#ifndef _WIN32
+        // UNIX: check if client has died.
+        // Not needed on windows, where we run as thread in client process
+        //
+        if (getppid() == 1) {
+            exit(0);
+        }
+#endif
         boinc_sleep(0.1);
     }
 }
@@ -143,6 +151,11 @@ bool benchmark_time_to_stop(int which) {
     if (boinc_file_exists(file_names[which])) {
         return false;
     }
+#ifndef _WIN32
+    if (getppid() == 1) {
+        exit(0);
+    }
+#endif
     return true;
 }
 

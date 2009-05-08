@@ -189,7 +189,8 @@ int WinsockCleanup() {
 #endif
 
 void reset_dns() {
-#ifndef _WIN32
+#if !defined(_WIN32) && !defined(__APPLE__)
+    // Windows doesn't have this, and it crashes Macs
     res_init();
 #endif
 }

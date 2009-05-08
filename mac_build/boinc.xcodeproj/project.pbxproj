@@ -2802,7 +2802,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -2858,7 +2857,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -2914,7 +2912,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -2970,7 +2967,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -3127,7 +3123,6 @@
 					Foundation,
 					"-framework",
 					AppKit,
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCSaver;
 				WRAPPER_EXTENSION = saver;
@@ -3143,7 +3138,6 @@
 					Foundation,
 					"-framework",
 					AppKit,
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCSaver;
 				WRAPPER_EXTENSION = saver;
@@ -3166,7 +3160,6 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
-					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -3194,7 +3187,6 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
-					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -3289,10 +3281,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = (
-					"-lboinc",
-					"-lresolv",
-				);
+				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
 			name = Dev_noSandbox;
@@ -3304,10 +3293,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = (
-					"-lboinc",
-					"-lresolv",
-				);
+				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
 			name = Deploy_noSandbox;
@@ -3495,7 +3481,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -3550,7 +3535,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -3761,7 +3745,6 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
-					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -3776,10 +3759,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = (
-					"-lboinc",
-					"-lresolv",
-				);
+				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
 			name = "Deployment-no64";
@@ -3847,7 +3827,6 @@
 					Foundation,
 					"-framework",
 					AppKit,
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCSaver;
 				WRAPPER_EXTENSION = saver;
@@ -3975,7 +3954,6 @@
 					"-liconv",
 					"-lz",
 					"-lm",
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SKIP_INSTALL = NO;
@@ -4057,7 +4035,6 @@
 					Foundation,
 					"-framework",
 					AppKit,
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCSaver;
 				WRAPPER_EXTENSION = saver;
@@ -4085,7 +4062,6 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
-					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -4142,10 +4118,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = (
-					"-lboinc",
-					"-lresolv",
-				);
+				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
 			name = Deployment;
@@ -4329,7 +4302,6 @@
 					Foundation,
 					"-framework",
 					AppKit,
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCSaver;
 				WRAPPER_EXTENSION = saver;
@@ -4345,7 +4317,6 @@
 					Foundation,
 					"-framework",
 					AppKit,
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCSaver;
 				WRAPPER_EXTENSION = saver;
@@ -4369,7 +4340,6 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
-					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -4394,7 +4364,6 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
-					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -4491,10 +4460,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = (
-					"-lboinc",
-					"-lresolv",
-				);
+				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
 			name = Development;
@@ -4506,10 +4472,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = (
-					"-lboinc",
-					"-lresolv",
-				);
+				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
 			name = ppc_Deployment;
@@ -4693,7 +4656,6 @@
 					Foundation,
 					"-framework",
 					AppKit,
-					"-lresolv",
 				);
 				PRODUCT_NAME = BOINCSaver;
 				WRAPPER_EXTENSION = saver;
@@ -4717,7 +4679,6 @@
 					"-lssl",
 					"-lldap",
 					"-lz",
-					"-lresolv",
 				);
 				PRODUCT_NAME = boinc;
 				SKIP_INSTALL = NO;
@@ -4773,10 +4734,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION_ppc = 3.3;
-				OTHER_LDFLAGS = (
-					"-lboinc",
-					"-lresolv",
-				);
+				OTHER_LDFLAGS = "-lboinc";
 				PRODUCT_NAME = boinccmd;
 			};
 			name = i386_Deployment;
