@@ -148,14 +148,14 @@ void benchmark_wait_to_start(int which) {
 }
 
 bool benchmark_time_to_stop(int which) {
-    if (boinc_file_exists(file_names[which])) {
-        return false;
-    }
 #ifndef _WIN32
     if (getppid() == 1) {
         exit(0);
     }
 #endif
+    if (boinc_file_exists(file_names[which])) {
+        return false;
+    }
     return true;
 }
 
