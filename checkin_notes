@@ -2721,3 +2721,11 @@ Charlie 7 May 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 7 May 2009
+    - Tag for 6.6.29 release, all platforms (only Mac is needed)
+      boinc_core_release_6_6_29
+
+    /
+        configure.ac
+        version.h
