@@ -2717,6 +2717,7 @@ David  7 May 2009
 Charlie 7 May 2009
     - Mac: Remove -lresolv from XCode linker flags for client, manager, boinccmd 
         and screensaver which linked with libresolv.dylib for res_init() call.
+    - Mac client: fix parent died test in benchmark_time_to_stop().
 
     mac_build/
         boinc.xcodeproj/
