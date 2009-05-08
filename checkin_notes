@@ -2719,6 +2719,8 @@ Charlie 7 May 2009
         and screensaver which linked with libresolv.dylib for res_init() call.
     - Mac client: fix parent died test in benchmark_time_to_stop().
 
+    client/
+        cs_benchmark.cpp
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
