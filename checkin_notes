@@ -4407,3 +4407,22 @@ Charlie 7 May 2009
         boinc.xcodeproj/
             project.pbxproj
 
+Rom    8 May 2009
+    - WINBUILD: Cleanup the Unicode configurations
+    - WINBUILD: Make building Unicode version of BOINC Manager the
+        default.
+        
+    win_build
+        boinc_cli.vcproj
+        boinc_dll.vcproj
+        boinc_ss.vcproj
+        boinccmd.vcproj
+        boincmgr.vcproj
+        boincsvcctrl.vcproj
+        boinctray.vcproj
+        libboinc.vcproj
+        libboinc_staticcrt.vcproj
+        sim.vcproj
+        ss_app.vcproj
+        updater.vcproj
+        
