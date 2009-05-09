@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-01-13 00:13-0700\n"
-"Last-Translator: Jens Seidler <jens@planet-seidler.de>\n"
+"PO-Revision-Date: 2009-05-09 05:21-0700\n"
+"Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -140,49 +140,51 @@ msgid "Key words"
 msgstr "Schlagwörter"
 
 msgid "Find teams with these words in their names or descriptions"
-msgstr ""
+msgstr "Findet Teams mit diesen Begriffen im Namen oder der Beschreibung."
 
 msgid "Country"
 msgstr "Land"
 
 msgid "Type of team"
-msgstr ""
+msgstr "Typ des Teams"
 
 msgid "Show only active teams"
-msgstr ""
+msgstr "Nur aktive Mitglieder anzeigen"
 
 msgid "Search"
-msgstr ""
+msgstr "Suche"
 
+#, fuzzy
 msgid "Requested by you, and founder response deadline has passed."
 msgstr ""
+"Von Ihnen angefordert und die Rückmeldung des Gründers ist ausgeblieben."
 
 msgid "Complete foundership transfer"
-msgstr ""
+msgstr "Transfer des Gründerstatus abschließen"
 
 msgid "Requested by you"
-msgstr ""
+msgstr "Von Ihnen angefordert"
 
 msgid "founder response deadline is %1"
-msgstr ""
+msgstr "Die Rückmeldezeit des Gründers beträgt %1"
 
 msgid "None"
 msgstr "Keines"
 
 msgid "Initiate request"
-msgstr ""
+msgstr "Übernahme einleiten"
 
 msgid "Deferred"
-msgstr ""
+msgstr "Zurückgestellt"
 
 msgid "Team info"
-msgstr ""
+msgstr "Team Informationen"
 
 msgid "Description"
-msgstr ""
+msgstr "Beschreibung"
 
 msgid "Web site"
-msgstr ""
+msgstr "Internetseite"
 
 msgid "Total credit"
 msgstr "Gesamtguthaben"
@@ -191,9 +193,8 @@ msgid "Recent average credit"
 msgstr "Durchschnittliches Guthaben"
 
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
-#, fuzzy
 msgid "Message board"
 msgstr "Diskussionsforen"
 
@@ -201,113 +202,120 @@ msgid "Threads"
 msgstr "Themen"
 
 msgid "Join this team"
-msgstr ""
+msgstr "Diesem Team beitreten"
 
+#, fuzzy
 msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
 msgstr ""
+"Hinweis: Wenn 'OK für emails' in den Projekteinstellungen gesetzt ist kann "
+"der Gründer des Teams Ihre Emailadresse einsehen."
 
 msgid "Foundership change requested"
-msgstr ""
+msgstr "Wechsel des Gründerstatus beantragt"
 
 msgid "Respond by %1"
-msgstr ""
+msgstr "Rückmeldung bis %1"
 
+#, fuzzy
 msgid "Team foundership change"
-msgstr ""
+msgstr "Gründerstatus wechseln"
 
 msgid "Members"
 msgstr "Mitglieder"
 
 msgid "Founder"
-msgstr ""
+msgstr "Gründer"
 
 msgid "Admins"
-msgstr ""
+msgstr "Team-Admins"
 
 msgid "New members in last day"
-msgstr ""
+msgstr "Neue Mitglieder (letzte 24h)"
 
 msgid "Total members"
-msgstr ""
+msgstr "Mitglieder insgesamt"
 
-#, fuzzy
 msgid "view"
 msgstr "Anzeigen"
 
 msgid "Active members"
-msgstr ""
+msgstr "aktive Mitglieder"
 
 msgid "Members with credit"
-msgstr ""
+msgstr "Mitglieder mit Guthaben"
 
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 msgid "Last %1"
-msgstr ""
+msgstr "Vorherige %1"
 
 msgid "Next %1"
-msgstr ""
+msgstr "Nächste %1"
 
 msgid "No such team."
-msgstr ""
+msgstr "Kein Team gefunden."
 
 msgid "This operation requires foundership."
-msgstr ""
+msgstr "Diese Aktion benötigt den Gründerstatus."
 
 msgid "This operation requires team admin privileges"
-msgstr ""
+msgstr "Diese Aktion benötigt die Team-Admin Berechtigung."
 
 msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
 msgstr ""
+"%1Datenschutzhinweis%2: Wenn Sie ein Team erstellen werden Ihre "
+"Projekteinstellungen (Ressourcenverteilung, Grafikeinstellungen) für jeden "
+"sichtbar."
 
 msgid "Team name, text version"
-msgstr ""
+msgstr "Teamname (Textversion)"
 
 msgid "Don't use HTML tags."
-msgstr ""
+msgstr "Keine HTML-Tags möglich."
 
 msgid "Team name, HTML version"
-msgstr ""
+msgstr "Teamname (HTML-Version)"
 
 msgid "You may use %1limited HTML tags%2."
-msgstr ""
+msgstr "Sie können nur %1bestimmte HTML-Tags%2 verwenden."
 
 msgid "If you don't know HTML, leave this box blank."
-msgstr ""
+msgstr "Wenn Sie HTML nicht kennen, lassen Sie dieses Feld frei."
 
 msgid "URL of team web page, if any"
-msgstr ""
+msgstr "URL der Team-Internetseite, wenn vorhanden"
 
 msgid "without \"http://\""
-msgstr ""
+msgstr "ohne \"http://\""
 
+#, fuzzy
 msgid "This URL will be linked to from the team's page on this site."
-msgstr ""
+msgstr "Diese URL wird als Link zur Team-Internetseite benutzt."
 
 msgid "Description of team"
-msgstr ""
+msgstr "Beschreibung des Teams"
 
 msgid "Projects in which you are participating"
-msgstr ""
+msgstr "Projekte bei denen Sie teilnehmen"
 
 msgid "Projects in which %1 is participating"
-msgstr ""
+msgstr "Projekte bei denen %1 teilnimmt"
 
 msgid "Project"
-msgstr ""
+msgstr "Projekt"
 
 msgid "Click for user page"
-msgstr ""
+msgstr "Anklicken für mehr Infos"
 
 msgid "Average credit"
-msgstr ""
+msgstr "Durchschnittliches Guthaben"
 
 msgid "Since"
-msgstr ""
+msgstr "Seit"
 
 msgid "Computing and credit"
-msgstr ""
+msgstr "Berechnungen und Guthaben"
 
 msgid "Pending credit"
 msgstr "Ausstehendes Guthaben"
@@ -328,7 +336,7 @@ msgid "Cross-project statistics"
 msgstr "Projektübergreifende Statistiken"
 
 msgid "Certificate"
-msgstr ""
+msgstr "Urkunde"
 
 msgid "Stats on your cell phone"
 msgstr "Statistiken auf Ihrem Mobiltelefon"
@@ -364,48 +372,47 @@ msgid "Log out"
 msgstr "Abmelden"
 
 msgid "User ID"
-msgstr ""
-
-msgid "Used in community functions"
-msgstr ""
-
-msgid "Account key"
-msgstr ""
-
-msgid "Provides full access to your account"
-msgstr ""
-
-msgid "Weak account key"
-msgstr ""
+msgstr "Benutzer ID"
 
 #, fuzzy
+msgid "Used in community functions"
+msgstr "für Community Funktionen"
+
+msgid "Account key"
+msgstr "Kontoschlüssel"
+
+msgid "Provides full access to your account"
+msgstr "Ermöglicht vollen Zugriff auf Ihr Konto"
+
+msgid "Weak account key"
+msgstr "schwacher Kontoschlüssel"
+
 msgid "Provides"
-msgstr "Profil"
+msgstr "Ermöglicht"
 
 msgid "limited access"
-msgstr ""
+msgstr "eingeschränkten Zugriff"
 
 msgid "to your account"
-msgstr ""
+msgstr "auf Ihr Konto"
 
 msgid "Preferences"
 msgstr "Einstellungen"
 
-#, fuzzy
 msgid "When and how BOINC uses your computer"
-msgstr "Wann und wie BOINC Ihrem Computer verwenden darf"
+msgstr "Wann und wie BOINC Ihren Computer verwenden darf"
 
 msgid "Computing preferences"
-msgstr ""
+msgstr "Berechnungseinstellungen"
 
 msgid "Message boards and private messages"
-msgstr ""
+msgstr "Diskussionsforen und Private Nachrichten"
 
 msgid "Community preferences"
-msgstr ""
+msgstr "Communityeinstellungen"
 
 msgid "Resource share and graphics"
-msgstr ""
+msgstr "Ressourcenaufteilung und Grafik"
 
 msgid "%1 preferences"
 msgstr "%1-Einstellungen"
@@ -423,22 +430,23 @@ msgid "Profile"
 msgstr "Profil"
 
 msgid "%1 posts"
-msgstr ""
+msgstr "%1 Beiträge"
 
 msgid "Notifications"
-msgstr ""
+msgstr "Benachrichtigungen"
 
 msgid "Quit team"
 msgstr "Team verlassen"
 
 msgid "Administer"
-msgstr ""
+msgstr "Verwalten"
 
+#, fuzzy
 msgid "(foundership change request pending)"
-msgstr ""
+msgstr "(ausstehende Anfrage des Gründerwechsels)"
 
 msgid "Member of team"
-msgstr ""
+msgstr "Mitglied im Team"
 
 msgid "Team"
 msgstr "Team"
@@ -447,37 +455,37 @@ msgid "find a team"
 msgstr "Team finden"
 
 msgid "Founder but not member of"
-msgstr ""
+msgstr "Gründer aber nicht Mitglied von"
 
 msgid "Find friends"
-msgstr ""
+msgstr "Freunde finden"
 
 msgid "Friends"
-msgstr ""
+msgstr "Freunde"
 
 msgid "Computers"
-msgstr ""
+msgstr "Computer"
 
 msgid "hidden"
-msgstr ""
+msgstr "versteckt"
 
 msgid "Donor"
-msgstr ""
+msgstr "Spender"
 
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 msgid "This person is a friend"
-msgstr ""
+msgstr "Diese Person ist ein Freund"
 
 msgid "Cancel friendship"
-msgstr ""
+msgstr "Freundschaft aufheben"
 
 msgid "Request pending"
-msgstr ""
+msgstr "Anfrage läuft"
 
 msgid "Add as friend"
-msgstr ""
+msgstr "als Freund hinzufügen"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Der Text lässt sich mit Hilfe von BBCode-Tags formatieren"
@@ -536,6 +544,8 @@ msgstr "Konto-Erstellung ist gesperrt"
 
 msgid "Account creation is currently disabled. Please try again later."
 msgstr ""
+"Die Kontoerstellung ist zurzeit deaktiviert. Bitte versuchen Sie es später "
+"noch einmal."
 
 msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
 msgstr ""
@@ -617,7 +627,7 @@ msgid "Block user"
 msgstr "Benutzer blockieren"
 
 msgid "Reply"
-msgstr "Antworen"
+msgstr "Antworten"
 
 msgid "Really delete?"
 msgstr "Wirklich löschen?"
@@ -633,9 +643,8 @@ msgstr "Ja, löschen"
 msgid "No, cancel"
 msgstr "Nein, abbrechen"
 
-#, fuzzy
 msgid "No such message."
-msgstr "Keine entsprechende Nachricht gefunden"
+msgstr "Keine entsprechende Nachricht gefunden."
 
 msgid "You need to fill all fields to send a private message"
 msgstr ""
@@ -675,7 +684,7 @@ msgstr ""
 "Foren-Einstellungen wieder aufheben."
 
 msgid "Add user to filter"
-msgstr ""
+msgstr "Benutzer hinzufügen"
 
 msgid "No such user"
 msgstr "Benutzer nicht gefunden"
@@ -698,7 +707,7 @@ msgid "Post to thread"
 msgstr "Antworten"
 
 msgid "Forum search results"
-msgstr ""
+msgstr "Ergebnisse der Forensuche"
 
 # ########################################
 # Forum search features
@@ -838,47 +847,54 @@ msgstr ""
 "Verantwortung teil."
 
 msgid "Sender and date"
-msgstr ""
+msgstr "Absender und Zeit"
 
-#, fuzzy
 msgid "Profiles"
-msgstr "Profil"
+msgstr "Profile"
 
 msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
 msgstr ""
+"%1Profile%2 geben den Benutzern die Möglichkeit Ihre Ansichten und Meinungen "
+"zur %3 Community auszudrücken."
 
 msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
 msgstr ""
+"Entdecken Sie die Vielfalt der anderen Benutzer und stellen Sie Ihre eigenen "
+"Ansichten dar."
 
 msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
 msgstr ""
+"Falls nicht schon vorhanden, sollten Sie Ihr %1eigenes Benutzerprofil "
+"anlegen%2 und den anderen Benutzern zeigen!"
 
 msgid "User of the Day"
-msgstr ""
+msgstr "Benutzer des Tages"
 
 msgid "User Profile Explorer"
-msgstr ""
+msgstr "Benutzerprofile entdecken"
 
 msgid "View the %1User Picture Gallery%2."
-msgstr ""
+msgstr "%1Bildergalerie der Benutzer%2 anschauen."
 
 msgid "Browse profiles %1by country%2."
-msgstr ""
+msgstr "Durchsuchen der Profile %1nach Ländern%2."
 
 msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
 msgstr ""
+"Durchsuchen der Profile %1per Zufall%2, %3per Zufall mit Bildern%2 oder "
+"%4per Zufall ohne Bilder%2."
 
 msgid "Alphabetical profile listings:"
-msgstr ""
+msgstr "Profile nach Alphabet sortiert:"
 
 msgid "Search profile text"
-msgstr ""
+msgstr "Profiltexte durchsuchen"
 
 msgid "No profiles"
-msgstr ""
+msgstr "Keine Profile vorhanden"
 
 msgid "No profiles matched your query."
-msgstr ""
+msgstr "Keine Profile entsprachen Ihren Kriterien."
 
 msgid "Top hosts"
 msgstr "Die besten Rechner"
@@ -894,23 +910,36 @@ msgstr "Die besten %1 Teams"
 msgid "Participant since"
 msgstr "Teilnehmer seit"
 
+#, fuzzy
 msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
 msgstr ""
+"Mit Ihrem 'schwachen Kontoschlüssel' können Sie Computer zu Ihrem Konto bei "
+"diesem Projekt hinzufügen, allerdings sind damit keine Änderungen des Kontos "
+"möglich."
 
 msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
 msgstr ""
+"Diese Funktion existiert nur bei Projekten die Ihre Software nach dem 7. "
+"Dezember 2007 aktualisiert haben."
 
 msgid "Your weak account key for this project is:"
-msgstr ""
+msgstr "Ihr schwacher Kontoschlüssel für dieses Projekt:"
 
 msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
+"Um den schwachen Kontoschlüssel auf einem Computer zu verwenden, finden oder "
+"erstellen Sie die 'Kontodatei' für dieses Projekt. Der Dateiname ist in "
+"etwa <strong>account_PROJEKT_URL.xml</strong>. Die Kontodatei für %1 ist "
+"<strong>%2</strong>"
 
 msgid "Create this file if needed. Set its contents to:"
-msgstr ""
+msgstr "Erstellen Sie, falls nötig, die Datei mit diesem Inhalt:"
 
 msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
 msgstr ""
+"Der schwache Kontoschlüssel ist abhängig von Ihrem Passwort. Wenn Sie das "
+"Passwort ändern, ändert sich auch der schwache Kontoschlüssel und der "
+"vorherige wird ungültig."
 
 # ########################################
 # "Your account" page (home.php)
