@@ -4426,3 +4426,9 @@ Rom    8 May 2009
         ss_app.vcproj
         updater.vcproj
         
+
+David  9 May 2009
+    - update translation file
+
+    locale/templates/
+        BOINC-Project-Generic.pot
