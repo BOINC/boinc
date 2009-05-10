@@ -3,14 +3,15 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-04-29 17:05-0500\n"
-"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"PO-Revision-Date: 2009-05-10 03:08-0700\n"
+"Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
@@ -1017,13 +1018,15 @@ msgstr "tylko kiedy komputer pozostaje nieużywany przez nie mniej niż"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:115
 msgid "do work only after you haven't used the computer for this number of minutes"
-msgstr "Przetwarzaj dane tylko gdy komputer nie jest używany od co najmniej X minut"
+msgstr ""
+"Przetwarzaj dane tylko gdy komputer nie jest używany od co najmniej zadanej "
+"ilości minut"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:119
 #: clientgui/DlgAdvPreferencesBase.cpp:239
 #: clientgui/sg_DlgPreferences.cpp:453
 msgid "minutes"
-msgstr "minut"
+msgstr "minut."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:130
 #: clientgui/DlgAdvPreferencesBase.cpp:355
@@ -1334,12 +1337,12 @@ msgid ""
 "If you also want to stop running the science applications when you\n"
 "exit the Manager, then choose from the following options:"
 msgstr ""
-"Wybrałeś zamknięcie %s'a, który\n"
-"ułatwia zarządzanie aplikacjami projektów\n"
-"uruchomionymi na tym komputerze.\n"
+"Wybrałeś zamknięcie %s'a, który ułatwia zarządzanie\n"
+"aplikacjami projektów uruchomionymi na tym komputerze.\n"
 "\n"
-"Jeżeli chcesz po zamknięciu Menadżera BOINC zakończyć\n"
-"także pracę aplikacji projektów, wybierz spośród poniższych opcji:"
+"\n"
+"Jeżeli chcesz po zamknięciu Menadżera BOINC zakończyć także\n"
+"pracę aplikacji projektów, wybierz spośród poniższych opcji:"
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
@@ -1480,39 +1483,34 @@ msgid "Scheduling"
 msgstr "Planowanie"
 
 #: clientgui/DlgItemProperties.cpp:139
-#, fuzzy
 msgid "CPU scheduling priority"
-msgstr "Priorytety przetwarzania"
+msgstr "Planowanie priorytetu przetwarzania dla procesora"
 
 #: clientgui/DlgItemProperties.cpp:140
-#, fuzzy
 msgid "CPU work fetch priority"
-msgstr "Priorytety przyporządkowania zadań"
+msgstr "Priorytet przyporządkowania zadań dla procesora"
 
 #: clientgui/DlgItemProperties.cpp:143
-#, fuzzy
 msgid "CPU work fetch deferred for"
-msgstr "Przyporządkowanie zadań opóźnione o "
+msgstr "Przyporządkowanie zadań dla procesora opóźnione o "
 
 #: clientgui/DlgItemProperties.cpp:144
-#, fuzzy
 msgid "CPU work fetch deferral interval"
-msgstr "Przyporządkowanie zadań dla procesora karty graficznej nVidia opóźnione o "
+msgstr "Odstęp pomiędzy opóźnieniami przyporządkowania zadań dla procesora"
 
 #: clientgui/DlgItemProperties.cpp:146
-#, fuzzy
 msgid "NVIDIA GPU work fetch priority"
 msgstr "Priorytety przyporządkowania zadań dla procesora karty graficznej nVidia"
 
 #: clientgui/DlgItemProperties.cpp:149
-#, fuzzy
 msgid "NVIDIA GPU work fetch deferred for"
 msgstr "Przyporządkowanie zadań dla procesora karty graficznej nVidia opóźnione o "
 
 #: clientgui/DlgItemProperties.cpp:150
-#, fuzzy
 msgid "NVIDIA GPU work fetch deferral interval"
-msgstr "Przyporządkowanie zadań dla procesora karty graficznej nVidia opóźnione o "
+msgstr ""
+"Odstęp pomiędzy opóźnieniami przyporządkowania zadań dla procesora karty "
+"graficznej nVidia"
 
 #: clientgui/DlgItemProperties.cpp:152
 msgid "Duration correction factor"
@@ -1573,14 +1571,20 @@ msgstr "Część wykonana"
 msgid "Virtual memory size"
 msgstr "Rozmiar pamięci wirtualnej"
 
+# Co to "Working" Set po angielsku: http://msdn.microsoft.com/en-us/library/cc441804%28VS.85%29.aspx Nie mam pomysłu jak to przetłumaczyć.
+# Dzięki - może tak będzie lepiej niż było. Choć to na tyle mało istotny item, że w sumie co to za różnica. :)
 #: clientgui/DlgItemProperties.cpp:183
 #, fuzzy
 msgid "Working set size"
-msgstr "Rozmiar zajętej pamięci"
-
-#: clientgui/DlgItemProperties.cpp:185
-msgid "Slot"
 msgstr ""
+"Ilość stron wirtualnej pamięci stronicowanej rezydującej aktualnie w pamięci "
+"fizycznej"
+
+# A to co za dziwo? Gdzie się pokazuje? Przecież jako "szczelina" tego nie przetłumaczymy do diabła, ani jako "trop".
+#: clientgui/DlgItemProperties.cpp:185
+#, fuzzy
+msgid "Slot"
+msgstr "Uchwyt"
 
 #: clientgui/DlgItemProperties.cpp:283
 #: clientgui/ViewWork.cpp:1007
@@ -2183,16 +2187,17 @@ msgstr "Adres projektu:"
 
 #: clientgui/ProjectInfoPage.cpp:320
 msgid "You are already attached to this project. Please choose a different project."
-msgstr ""
+msgstr "Jesteś już przyłączony do tego projektu. Wybierz inny projekt."
 
 #: clientgui/ProjectInfoPage.cpp:321
-#, fuzzy
 msgid "Already Attached to Project"
-msgstr "Przyłączony do projektu"
+msgstr "Przyłączony do tego projektu"
 
 #: clientgui/ProjectInfoPage.cpp:348
 msgid "This project may not have work for your type of computer."
 msgstr ""
+"Ten projekt może nie mieć próbek do przetwarzania dla tego typu "
+"komputera/systemu operacyjnego."
 
 #: clientgui/ProjectListCtrl.cpp:338
 #, c-format
@@ -2561,11 +2566,11 @@ msgstr "Używaj nie więcej niż:"
 
 #: clientgui/sg_DlgPreferences.cpp:406
 msgid "of disk space"
-msgstr "przestrzeni dysku"
+msgstr "przestrzeni dysku."
 
 #: clientgui/sg_DlgPreferences.cpp:423
 msgid "of the processor"
-msgstr "mocy obliczeniowej procesora"
+msgstr "mocy obliczeniowej procesora."
 
 #: clientgui/sg_DlgPreferences.cpp:427
 msgid "Do work while on battery?"
@@ -2733,11 +2738,11 @@ msgstr "Aplikacja: "
 #: clientgui/sg_ViewTabPage.cpp:447
 #: clientgui/sg_ViewTabPage.cpp:451
 msgid "Time Remaining: "
-msgstr "Do końca:"
+msgstr "Pozostały czas: "
 
 #: clientgui/sg_ViewTabPage.cpp:450
 msgid "Elapsed Time: "
-msgstr "Czas trwania"
+msgstr "Czas trwania: "
 
 #: clientgui/TermsOfUsePage.cpp:213
 msgid "Terms of Use"
@@ -3494,12 +3499,12 @@ msgstr "Nazwa"
 
 #: clientgui/ViewWork.cpp:217
 msgid "Elapsed"
-msgstr ""
+msgstr "Upłynęło"
 
 #: clientgui/ViewWork.cpp:219
 #: clientgui/ViewWorkGrid.cpp:147
 msgid "To completion"
-msgstr "Pozostało"
+msgstr "Do ukończenia"
 
 #: clientgui/ViewWork.cpp:240
 #: clientgui/ViewWork.cpp:246
@@ -3767,94 +3772,26 @@ msgstr ""
 
 #~ msgid "You are already attached to this project."
 #~ msgstr "Przyłączyłeś się już do tego projektu."
-#~ msgid "This project may not support your platform and may not give you any tasks to process."
+
+#~ msgid ""
 #~ msgstr ""
 #~ "Ten projekt może nie obsługiwać twojej platformy sprzętowej i może nie "
 #~ "przydzielić twojemu komputerowi żadnych zadań do przetwarzania."
+
 #~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
 #~ msgstr "Możesz skopiować adres widoczny w przeglądarce, której używasz."
-#~ msgid "For a list of account managers go to:"
+
+#~ msgid ""
 #~ msgstr "Aby uzyskać listę menadżerów kont dla platformy BOINC, odwiedź adres:"
-#~ msgid "Static text"
+
+#~ msgid ""
 #~ msgstr "Tekst statyczny"
 
-#, fuzzy
+#~ msgid ""
+#~ msgstr ""
+
 #~ msgid "Radiobutton"
 #~ msgstr "Radiobutton"
-#~ msgid "Short term debt"
+
+#~ msgid ""
 #~ msgstr "Priorytet krótkoterminowy"
-#~ msgid "Long term debt"
-#~ msgstr "Priorytet długoterminowy"
-#~ msgid "Test"
-#~ msgstr "Test"
-#~ msgid "Enter account key"
-#~ msgstr "Wprowadź klucz"
-#~ msgid ""
-#~ "This project uses an \"account key\" to identify you.\n"
-#~ "\n"
-#~ "Go to the project's web site to create an account. Your account\n"
-#~ "key will be emailed to you."
-#~ msgstr ""
-#~ "Ten projekt używa klucza aby cię zidentyfikować\n"
-#~ "\n"
-#~ "Udaj się na stronę projektu aby utworzyć swoje konto.\n"
-#~ "Ten projekt używa klucza aby cię zidentyfikować\n"
-#~ "\n"
-#~ "Udaj się na stronę projektu aby utworzyć swoje konto.\n"
-#~ "Swój klucz otrzymasz na podany adres e-mail."
-#~ msgid "An account key looks like:"
-#~ msgstr "Klucz wygląda podobnie do:"
-#~ msgid "82412313ac88e9a3638f66ea82186948"
-#~ msgstr "82412313ac88e9a3638f66ea82186948"
-#~ msgid "Account key:"
-#~ msgstr "Klucz:"
-#~ msgid "&Accessible View"
-#~ msgstr "Widok tekstowy"
-#~ msgid "Accessible views are compatible with accessibility aids such as screen readers."
-#~ msgstr "Widok tekstowy jest kompatybilny z narzędziami wspomagającymi, takimi jak odtwarzacze głosowe tekstu pisanego i podobnymi."
-#~ msgid "&Grid View"
-#~ msgstr "Widok graficzny"
-#~ msgid ":"
-#~ msgstr ":"
-
-#, c-format
-#~ msgid ""
-#~ "%s is going to shutdown the core client it is currently connected to.\n"
-#~ "NOTE: Choosing 'OK' will cause the select new computer dialog to appear \n"
-#~ "so you can attach to a different core client."
-#~ msgstr ""
-#~ "%s zamknie klienta BOINC, do którego jest obecnie podłączony.\n"
-#~ "\n"
-#~ "UWAGA: Wybranie 'OK' spowoduje pojawienie się okna wyboru nowego\n"
-#~ "komputera, a zatem będziesz mógł się podłączyć do innego klienta BOINC."
-
-#, c-format
-#~ msgid ""
-#~ "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
-#~ "(Error code %d)"
-#~ msgstr ""
-#~ "Ustawienia zabezpieczeń i/lub własności dla BOINC są niepoprawne; zreinstaluj BOINC.\n"
-#~ "(Kod błędu %d)"
-#~ msgid "Click here to disable displaying this message in the future."
-#~ msgstr "Zaznacz aby wyłączyć pokazywanie się tej informacji w przyszłości."
-#~ msgid "Language Selection:"
-#~ msgstr "Wybór języka:"
-#~ msgid "What language should the manager display by default."
-#~ msgstr "Wybór domyślnego języka używanego przez Menadżera BOINC."
-#~ msgid "Reminder Frequency:"
-#~ msgstr "Częstotliwość wyświetlania informacji:"
-#~ msgid "How often, in minutes, should the manager remind you of possible connection events."
-#~ msgstr "Jak często, w minutach, Menadżer BOINC powinien przypominać o zdarzeniach związanych z przesyłaniem danych."
-#~ msgid "free disk space - "
-#~ msgstr "wolna przestrzeń - "
-#~ msgid "Project Comm Failure"
-#~ msgstr "Próba kontaktu z witryną projektu pozostaje bez odpowiedzi"
-#~ msgid "Google Comm Failure"
-#~ msgstr "Próba kontaktu z witryną Google pozostaje bez odpowiedzi"
-
-#, c-format
-#~ msgid "Yahoo Comm Failure"
-#~ msgstr "Próba kontaktu z witryną Yahoo pozostaje bez odpowiedzi"
-
