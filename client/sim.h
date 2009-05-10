@@ -195,7 +195,7 @@ private:
     void schedule_cpus();
     bool enforce_schedule();
     bool no_work_for_a_cpu();
-    void make_preemptable_task_list(vector<ACTIVE_TASK*>&, double&);
+    void append_unfinished_time_slice(vector<RESULT*> &runnable_jobs);
     void print_deadline_misses();
 public:
     void adjust_debts();
