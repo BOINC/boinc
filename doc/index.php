@@ -232,9 +232,7 @@ function language_form() {
     ";
 }
 
-//if (defined("CHARSET")) {
-    header("Content-type: text/html; charset=".tra(CHARSET));
-//}
+    header("Content-type: text/html; charset=utf-8");
 
 html_tag();
 echo "

@@ -100,7 +100,8 @@ function page_tail($translatable=false, $is_main=false) {
         ";
     }
     echo "
-        <font color=888888 size='2'>
+        <span class=note>
+        <font color=#888888>
     ";
     if ($translatable) {
         echo "
@@ -113,6 +114,7 @@ function page_tail($translatable=false, $is_main=false) {
     copyright();
     echo "
         </font>
+        </span>
         </body>
         </html>
     ";

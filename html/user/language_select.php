@@ -79,7 +79,7 @@ echo "
     <p>
     Translations are done by volunteers.
     If your native language is not here,
-    <a href=translate.php>you can help</a>.
+    <a href=http://boinc.berkeley.edu/trac/wiki/TranslateIntro>you can provide a translation</a>.
 ";
 page_tail();
 ?>
