@@ -22,7 +22,17 @@ ini_set('display_startup_errors', true);
 
 require_once("../inc/translation.inc");
 system("rm -f $lang_language_dir/$lang_compiled_dir/*");
-buildLanguages($lang_language_dir,$lang_translations_dir, $lang_compiled_dir);
-buildLanguages($lang_language_dir,$lang_prj_translations_dir, $lang_compiled_dir, true);
+
+$lang_log_level = 0;
+
+// process the generic BOINC web site strings
+//
+buildLanguages($lang_language_dir, $lang_translations_dir, $lang_compiled_dir);
+
+// process the project-specific strings
+//
+buildLanguages($lang_language_dir, $lang_prj_translations_dir, $lang_compiled_dir, true);
+
+echo "update_translations finished\n";
 
 ?>
