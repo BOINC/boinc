@@ -213,7 +213,7 @@ function language_form() {
         //."<option value=en>English"
         ."<option value=es>Espa&ntilde;ol (Spanish)"
         ."<option value=fr>Fran&ccedil;ais (French)"
-        //."<option value=ja>日本語 (Japanese)"
+        ."<option value=ja>日本語 (Japanese)"
         ."<option value=ko>�국� (Korean)"
         //."<option value=lt>Lietuvių (Lithuanian)"
         ."<option value=nl>Nederlands (Dutch)"
