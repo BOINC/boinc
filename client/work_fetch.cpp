@@ -580,8 +580,8 @@ void RSC_WORK_FETCH::update_debts() {
     //
     double offset;
     double delta_limit = secs_this_debt_interval*ninstances;
-    if (-max_debt < 2*delta_limit) {
-        offset = -max_debt;
+    if (max_debt > -2*delta_limit) {
+        offset = max_debt?-max_debt:0;  // avoid -0
     } else {
         offset = 2*delta_limit;
     }
