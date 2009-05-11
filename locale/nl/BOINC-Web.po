@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2009-05-01 10:01 PDT\n"
-"PO-Revision-Date: 2009-05-05 11:48-0700\n"
+"POT-Creation-Date: 2009-05-05 13:41 PDT\n"
+"PO-Revision-Date: 2009-05-11 11:31-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -20,9 +20,11 @@ msgstr ""
 "X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-KeywordsList: tra\n"
 
+#, php-format
 msgid "%s for %s (%s MB)"
 msgstr "%s voor %s (%s MB)"
 
+#, php-format
 msgid ""
 "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who "
 "can: %s answer questions about BOINC and volunteer computing; %s walk you "
@@ -34,6 +36,7 @@ msgstr ""
 "\"volunteer computing\"; %s je stap voor stap kunnen helpen met de installatie "
 "en het gebruik van BOINC; %s je eventuele problemen kunnen oplossen."
 
+#, php-format
 msgid ""
 "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. "
 "Skype is free (both the software and the calls).  If you don't already have "
@@ -45,6 +48,7 @@ msgstr ""
 "Indien je Skype nog niet hebt, %sdownload en installeer het dan nu%s.  Zodra "
 "je klaar bent, keer je terug naar deze pagina."
 
+#, php-format
 msgid ""
 "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
@@ -54,12 +58,14 @@ msgstr ""
 "%sBOINC OnlineHulp vrijwilliger%s te worden.  Het is een fantastische manier "
 "om andere bebruikers te helpen - en het is leuk!"
 
+#, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr ""
 "Indien je al een Online Hulp vrijwilliger bent: om je instellingen aan te "
 "passen, %sklik hier%s."
 
+#, php-format
 msgid ""
 " Use the idle time on your computer (Windows, Mac, or Linux) to cure "
 "diseases, study global warming, discover pulsars, and do many other types of "
@@ -72,6 +78,7 @@ msgstr ""
 "makkelijk:  %sKies%s een project  %sDownload%s en gebruik BOINC software  "
 "%sVul%s een e-mailadres en wachtwoord in. "
 
+#, php-format
 msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
@@ -79,6 +86,7 @@ msgstr ""
 "Of, als je meerdere projecten gebruikt, probeer dan eens een "
 "%saccountmanager%s zoals %sGridRepublic%s of %sBAM!%s. "
 
+#, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
@@ -107,7 +115,7 @@ msgstr "Dutch"
 # poll-related stuff<br />
 # ######################################
 msgid "POLL_TITLE"
-msgstr "BOINC gebruikers enquete"
+msgstr "BOINC gebruikers-enquête"
 
 msgid "POLL_INTRO"
 msgstr ""
@@ -551,7 +559,7 @@ msgid "HOME_ADD_ONS"
 msgstr "Add-ons"
 
 msgid "HOME_SURVEY"
-msgstr "Enquete"
+msgstr "Enquête"
 
 msgid "HOME_BOINC"
 msgstr "Berkeley Open Infrastructure for Network Computing"
@@ -569,10 +577,15 @@ msgid "DL_VERSION_LNAME_SIZE"
 msgstr "%s voor %s (%s MB)"
 
 msgid "DL_WHATS_BOINC"
-msgstr " BOINC is een programma dat jou ongebruikte computertijd        aan wetenschappelijke projecten laat doneren zoals        SETI@home, Climateprediction.net, Rosetta@home,        World Community Grid, en vele andere.        <p>        Nadat BOINC is ge&iuml;nstalleerd op je computer,        kan je je aanmelden voor zo veel projecten als je wilt.        <p>"
+msgstr ""
+" BOINC is een programma dat jou ongebruikte computertijd aan "
+"wetenschappelijke projecten laat doneren zoals SETI@home, "
+"Climateprediction.net, Rosetta@home, World Community Grid, en vele andere. "
+"<p> Nadat BOINC is ge&iuml;nstalleerd op je computer, kan je je aanmelden "
+"voor zo veel projecten als je wilt.<p>"
 
 msgid "DL_SYSTEMREQ"
-msgstr "Systeemvereisten"
+msgstr "Systeem vereisten"
 
 msgid "DL_RELNOTES"
 msgstr "Versie opmerkingen"
@@ -701,7 +714,11 @@ msgid "RLN_NEWF_5_4_ALERTS_CONNECT"
 msgstr "BOINC waarschuwt je nu wanneer jeeen netwerkverbinding moet maken."
 
 msgid "RLN_5_8_SIMPLE_GUI"
-msgstr "De BOINC Manager heeft twee verschillende interfaces:  'Simpel' (klein, grafisch, met skins)  and 'Geavanceerd' (maximale informatie).  Met de simple interface kan je voorkeuren lokaal instellen.  Je kan heen en weer schakelen tussen simpel en geavanceerd. "
+msgstr ""
+"De BOINC Manager heeft twee verschillende interfaces:  'Eenvoudig' (klein, "
+"grafisch, met skins)  en 'Geavanceerd' (maximale informatie).  Met beide "
+"interfaces kan je je voorkeuren ook lokaal instellen.  Je kan heen en weer "
+"schakelen tussen simpel en geavanceerd. "
 
 msgid "RLN_5_8_THROTTLE"
 msgstr " CPU throttling: Je kan nu de CPU hitte verminderen door  de fractie van de tijd dat BOINC rekent aan te passen. "
@@ -812,3 +829,337 @@ msgstr "Als je problemen hebt met BOINC zelf, vraag hulp op de %s BOINC forums %
 # release_notes.php
 msgid "HOME_MORE_INFO"
 msgstr "BOINC draaien"
+
+msgid "[check all that apply]"
+msgstr "[aanvinken indien van toepassing]"
+
+msgid "Other:"
+msgstr "Anders:"
+
+msgid "Yes - I have been running BOINC on my computer for..."
+msgstr "Ja, ik gebruik BOINC op mijn computer..."
+
+msgid "less than a week"
+msgstr "minder dan een week"
+
+msgid "less than a month"
+msgstr "minder dan een maand"
+
+msgid "less than a year"
+msgstr "minder dan een jaar"
+
+msgid "more than a year"
+msgstr "meer dan een jaar"
+
+msgid "No - I used to run BOINC, but..."
+msgstr "Nee - Ik heb BOINC gebruikt, maar ben gestopt omdat..."
+
+msgid "I lost interest"
+msgstr "ik de interesse verloor"
+
+msgid "it was too complicated"
+msgstr "het te ingewikkeld was"
+
+msgid "I stopped it and forgot to start again"
+msgstr "nadat ik het had gebruikt, ik vergeten ben het weer aan te zetten"
+
+msgid "it caused problems on my computer"
+msgstr "het problemen op mijn computer veroorzaakte"
+
+msgid "it used too much electricity"
+msgstr "het te veel elektriciteit gebruikt"
+
+msgid "I switched to a non-BOINC computing project"
+msgstr "ik ben overgestapt op een 'niet-BOINC' project"
+
+msgid "No - I tried running BOINC, but..."
+msgstr "Nee - ik heb geprobeerd BOINC te gebruiken maar..."
+
+msgid "the software didn't install correctly"
+msgstr "de software installeerde niet goed"
+
+msgid "I couldn't figure out how to use the software"
+msgstr "ik wist niet goed hoe de software werkte"
+
+msgid "I had network communication problems"
+msgstr "ik had problemen met de netwerk-communicatie"
+
+msgid "I couldn't attach to a project"
+msgstr "ik kon geen project toevoegen"
+
+msgid "I attached to a project, but never got any work"
+msgstr "nadat ik een project had toegevoegd, kreeg ik geen werk"
+
+msgid "No - I never tried running BOINC, because..."
+msgstr "Nee - Ik heb nooit geprobeerd BOINC te gebruiken, omdat..."
+
+msgid "I was concerned about security"
+msgstr "ik me zorgen maakte over de veiligheid"
+
+msgid "I wasn't interested in any of the projects"
+msgstr "ik in geen enkel project geïnteresseerd was"
+
+msgid "I don't have permission to run it on my computer"
+msgstr "ik geen toestemming heb om het te installeren"
+
+msgid "No version was available for my computer"
+msgstr "er geen versie beschikbaar was voor mijn computer"
+
+msgid "What kind of computers do you have running BOINC?"
+msgstr "Wat voor soort computers gebruik je voor BOINC?"
+
+msgid "Where are they?"
+msgstr "Waar staan ze?"
+
+msgid "Home"
+msgstr "Thuis"
+
+msgid "Work"
+msgstr "Op het werk"
+
+msgid "School"
+msgstr "Op school"
+
+msgid "How many computers?"
+msgstr "Hoeveel computers?"
+
+msgid "On average, how many hours per day are they powered on?"
+msgstr "Hoe lang staan ze gemiddeld aan per dag?"
+
+msgid "Age"
+msgstr "Leeftijd"
+
+msgid "Sex"
+msgstr "Geslacht"
+
+msgid "Male"
+msgstr "Man"
+
+msgid "Female"
+msgstr "Vrouw"
+
+msgid "Your level of computer expertise"
+msgstr "Jouw computer ervaring"
+
+msgid "Beginner"
+msgstr "Beginner"
+
+msgid "Intermediate"
+msgstr "Gemiddeld"
+
+msgid "Advanced"
+msgstr "Expert"
+
+msgid "Where did you learn about BOINC projects?"
+msgstr "Hoe kwam je achter het bestaan van de BOINC projecten?"
+
+msgid "TV/radio/newspaper"
+msgstr "TV/radio/krant"
+
+msgid "From friends, relatives, or coworkers"
+msgstr "Door vrienden, kennissen of collega's"
+
+msgid "Team message boards or web sites"
+msgstr "Team forum of websites"
+
+msgid "The BOINC web site"
+msgstr "De BOINC website"
+
+msgid "Other web sites"
+msgstr "Andere websites"
+
+msgid ""
+"Which are the most important factors when you decide whether to participate "
+"in a BOINC project?"
+msgstr "Waar let je het meest op als je je aanmeldt bij een BOINC project?"
+
+msgid "Nice-looking screensaver graphics"
+msgstr "Een mooie screensaver"
+
+msgid "Fair and quick granting of credit for work done"
+msgstr "Eerlijk en snel krijgen van punten"
+
+msgid "Getting more credit from this project than from others"
+msgstr "Meer punten voor het project krijgen dan voor andere projecten"
+
+msgid "Helpful and friendly message boards"
+msgstr "Behulpzame en vriendelijke forum gebruikers"
+
+msgid "Participation by project staff on the message boards"
+msgstr "Deelname van project-medewerkers op het forum"
+
+msgid "Informative project web site"
+msgstr "Informatieve project website"
+
+msgid "The science is important and beneficial"
+msgstr "Belangrijke en nuttige wetenschap"
+
+msgid "Non-profit, and results are public"
+msgstr "Non-profit, en resultaten zijn publiekelijk beschikbaar"
+
+msgid "Personal recognition if my computer finds something"
+msgstr "Persoonlijke erkenning als mijn computer iets vindt"
+
+msgid "Publication by the project in scientific journals"
+msgstr "Publicaties van het project in wetenschappelijke tijdschriften"
+
+msgid "Periodic email newsletters from the project"
+msgstr "Periodieke nieuwsbrieven per email over het project"
+
+msgid "How many BOINC projects do you participate in?"
+msgstr "Aan hoeveel projecten doe je mee?"
+
+msgid "Do you run BOINC as a screensaver?"
+msgstr "Gebruik je BOINC als screensaver?"
+
+msgid "Yes"
+msgstr "Ja"
+
+msgid "No"
+msgstr "Nee"
+
+msgid "Your usage of project messages boards:"
+msgstr "Jouw forum gebruik bij de projecten:"
+
+msgid "to read information"
+msgstr "om informatie te lezen"
+
+msgid "to read and post information"
+msgstr "om informatie te lezen en te posten"
+
+msgid "None"
+msgstr "ik maak geen gebruik van het forum"
+
+msgid ""
+"Where do you get information to help resolve problems with BOINC and/or "
+"BOINC projects?"
+msgstr "Hoe kom je aan informatie om problemen met BOINC op te lossen?"
+
+msgid "The project message boards"
+msgstr "Forum van het project"
+
+msgid "The BOINC message boards"
+msgstr "Het BOINC forum"
+
+msgid "BOINC mailing lists"
+msgstr "BOINC mailing list"
+
+msgid "The Unofficial BOINC Wiki"
+msgstr "De 'Unofficial BOINC Wiki'"
+
+msgid "Team web sites"
+msgstr "Team websites"
+
+msgid "Google or other search engines"
+msgstr "Google of andere zoekmachines"
+
+#, php-format
+msgid ""
+"Note: if your computer is equipped with an NVIDIA Graphics Processing Unit "
+"(GPU), you may be able to %suse it to compute faster%s"
+msgstr ""
+"Let op: Indien je computer is voorzien van een NVIDIA videokaart (GPU) is "
+"het mogelijk deze in te zetten om %sje computer sneller te laten werken%s"
+
+msgid ""
+"The best way to get help is by voice, for which you need either built-in "
+"microphone and speakers or an external headset for your computer.  You can "
+"also use Skype's text-based chat system or regular email (if you don't have "
+"Skype) to communicate with Help Volunteers."
+msgstr ""
+"De beste manier om hulp te krijgen is met spraak, waarvoor je een ingebouwde "
+"microfoon en luidsprekers nodig hebt of een externe headset voor je "
+"computer.  Ook kan je gebruikmaken van een tekstgeoriënteerd chatsysteem of "
+"gewone email (als je Skype niet hebt) om met de vrijwilligers te "
+"communiceren."
+
+msgid ""
+"Volunteers speaking several languages are available. Please select a "
+"language:"
+msgstr "De vrijwilligers spreken diverse talen. Selecteer een taal:"
+
+msgid "Be a Help Volunteer"
+msgstr "Wordt een vrijwilliger"
+
+msgid "Volunteer"
+msgstr "Vrijwilliger"
+
+msgid "Download"
+msgstr "Download"
+
+msgid "Documentation"
+msgstr "Documentatie"
+
+msgid "BOINC user survey"
+msgstr "BOINC gebruikers enquête"
+
+msgid ""
+"Several volunteer computing projects, including Climateprediction.net, "
+"Einstein@home, and SETI@home, use software called BOINC.  If you participate "
+"in projects like this, we request that you answer the following questions.  "
+"This will help BOINC-based projects increase participation and achieve "
+"greater scientific results. <p> Please answer as many questions as you want, "
+"then go to the bottom and click OK. If you previously completed the survey "
+"but your answers have changed, please complete it again - your new answers "
+"will replace the old ones. <p> The current results of the survey are <a "
+"href=poll_results.php>here</a>. "
+msgstr ""
+"Diverse projecten, waaronder Climateprediction.net, Einstein@home, en "
+"SETI@home maken gebruik van software genaamd BOINC.  Als je aan een van deze "
+"projecten deelneemt, vragen we je de volgende vragen te beantwoorden.  "
+"Hierdoor kunnen de projecten mogelijk meer deelnemers krijgen en betere "
+"wetenschappelijke resultaten bereiken. <p> Beantwoord a.u.b de vragen zo "
+"veel mogelijk, ga daarna naar de onderkant van de pagina en klik op OK. Als "
+"je de enquete al een keer hebt ingevuld en je antwoorden zijn veranderd, vul "
+"hem dan opnieuw in - je nieuwe antwoorden zullen de oudere vervangen. <p> "
+"De huidige resultaten vind je <a href=poll_results.php>hier</a>. "
+
+msgid "Do you run BOINC?"
+msgstr "Maak je gebruik van BOINC?"
+
+msgid "Your participation"
+msgstr "Jouw deelname"
+
+msgid "Your computers"
+msgstr "Jouw computers"
+
+msgid "You"
+msgstr "Over jezelf"
+
+msgid "Nationality"
+msgstr "Nationaliteit"
+
+msgid "Comments"
+msgstr "Suggesties"
+
+msgid ""
+"Please suggest ways that BOINC, and the projects that use it, could be "
+"improved:"
+msgstr ""
+"Stel manieren voor om BOINC, en de projecten die er gebruik van maken, te "
+"verbeteren:"
+
+msgid "When done click:"
+msgstr "Als je klaar bent klik:"
+
+msgid "Error - results not recorded"
+msgstr ""
+
+msgid ""
+"An internal error has prevented us from recording your survey response.  "
+"Please try again later."
+msgstr ""
+
+msgid "Survey response recorded"
+msgstr ""
+
+msgid "Thank you for completing the BOINC user survey."
+msgstr ""
+
+msgid "Survey results"
+msgstr ""
+
+msgid ""
+"These are the current results of the <a href=poll.php>BOINC user survey</"
+"a>.  This page is updated every hour."
+msgstr ""
