@@ -67,9 +67,11 @@ row2("",
 );
 sort($languages);
 foreach ($languages as $language) {
+    $inter = tr_specific("LANG_NAME_INTERNATIONAL", $language);
+    $native = tr_specific("LANG_NAME_NATIVE", $language);
     row2(
         "<a href=\"language_select.php?set_lang=$language\">$language</a>",
-        "<a href=\"language_select.php?set_lang=$language\">".tr_specific("LANG_NAME_INTERNATIONAL", $language)." (".tr_specific("LANG_NAME_NATIVE", $language).")</a>"
+        "<a href=\"language_select.php?set_lang=$language\">$inter ($native)</a>"
     );
 }
 end_table();
