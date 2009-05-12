@@ -307,13 +307,22 @@ bool do_pass(bool retry_error) {
         if (retval) {
             wu.file_delete_state = FILE_DELETE_ERROR;
             log_messages.printf(MSG_CRITICAL,
-                "[WU#%d] update failed: %d\n", wu.id, retval
+                "[WU#%d] file deletion failed: %d\n", wu.id, retval
             );
         } else {
             wu.file_delete_state = FILE_DELETE_DONE;
         }
         sprintf(buf, "file_delete_state=%d", wu.file_delete_state);
-        retval= wu.update_field(buf);
+        retval = wu.update_field(buf);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "[WU#%d] update failed: %d\n", wu.id, retval
+            );
+        } else {
+            log_messages.printf(MSG_DEBUG,
+                "[WU#%d] file_delete_state updated\n", wu.id
+            );
+        } 
     }
 
     sprintf(buf,
@@ -340,13 +349,23 @@ bool do_pass(bool retry_error) {
         if (retval) {
             result.file_delete_state = FILE_DELETE_ERROR;
             log_messages.printf(MSG_CRITICAL,
-                "[RESULT#%d] update failed: %d\n", result.id, retval
+                "[RESULT#%d] file deletion failed: %d\n", result.id, retval
             );
         } else {
             result.file_delete_state = FILE_DELETE_DONE;
         }
         sprintf(buf, "file_delete_state=%d", result.file_delete_state); 
-        retval= result.update_field(buf);
+        retval = result.update_field(buf);
+        retval = result.update_field(buf);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "[RESULT#%d] update failed: %d\n", result.id, retval
+            );
+        } else {
+            log_messages.printf(MSG_DEBUG,
+                "[RESULT#%d] file_delete_state updated\n", result.id
+            );
+        } 
     } 
 
     return did_something;

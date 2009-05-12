@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("May 12, 2009",
+    "An
+    <a href=http://www.nature.com/embor/journal/v10/n5/full/embor200979.html>article in EMBO reports</a> discusses citizen cyber-science."
+),
 array("May 1, 2009",
     "Simon Lin of Academia Sinica discusses volunteer computing (and thinking) in Asia
     on a <a href=http://www.bbc.co.uk/worldservice/science/2009/03/000000_digital_planet.shtml>Podcast on BBC World Service</a>."

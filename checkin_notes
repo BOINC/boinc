@@ -4457,3 +4457,9 @@ Rom    12 May 2009
         BOINCx64.ism
     win_build/
         ss_app.vcproj
+
+David  12 May 2009
+    - file deleter: improved log messages (from Bernd M)
+
+    sched/
+        file_deleter.cpp
