@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 $host = $_SERVER["SERVER_NAME"];
 if ($host == "bossa.berkeley.edu") {
@@ -204,25 +204,25 @@ function language_form() {
         <select class=selectbox name=lang onchange=\"javascript: submit()\">
         <option value=auto selected=\"selected\">-- language --
         <option value=auto>Browser default"
-        //."<option value=ar>العربية (Arabic)"
-        //."<option value=be>Беларускі (Belarusian)"
-        //."<option value=bg>Българск� (Bulgarian)"
-        //."<option value=ca>Català(Catalan)"
-        ."<option value=cs>Čeština (Czech)"
+        //."<option value=ar>Ø§Ù„Ø¹Ø±Ø¨ÙŠØ© (Arabic)"
+        //."<option value=be>Ð‘ÐµÐ»Ð°Ñ€ÑƒÑÐºÑ– (Belarusian)"
+        //."<option value=bg>Ð‘ÑŠÐ»Ð³Ð°Ñ€ÑÐºÐ (Bulgarian)"
+        //."<option value=ca>CatalÃ (Catalan)"
+        ."<option value=cs>ÄŒeÅ¡tina (Czech)"
         ."<option value=de>Deutsch (German)"
         //."<option value=en>English"
         ."<option value=es>Espa&ntilde;ol (Spanish)"
         ."<option value=fr>Fran&ccedil;ais (French)"
-        ."<option value=ja>日本語 (Japanese)"
-        ."<option value=ko>�국� (Korean)"
-        //."<option value=lt>Lietuvių (Lithuanian)"
+        ."<option value=ja>æ—¥æœ¬èªž (Japanese)"
+        ."<option value=한국어 (Korean)"
+        //."<option value=lt>LietuviÅ³ (Lithuanian)"
         ."<option value=nl>Nederlands (Dutch)"
         //."<option value=pl>Polski (Polish)"
         //."<option value=pt_BR>Portugu&ecirc;s - Brasil (Portuguese - Brazil)"
-        ."<option value=ru>Русский (Russian)"
-        //."<option value=sk>Slovenčina (Slovenian)"
-        //."<option value=tr>Türkçe (Turkish)"
-        ."<option value=zh_CN>简体中文 (Chinese)"
+        ."<option value=ru>Ð ÑƒÑÑÐºÐ¸Ð¹ (Russian)"
+        //."<option value=sk>SlovenÄina (Slovenian)"
+        //."<option value=tr>TÃ¼rkÃ§e (Turkish)"
+        ."<option value=zh_CN>ç®€ä½“ä¸­æ–‡ (Chinese)"
         ."</select>
         </form>
         <script type=\"text/javascript\">
