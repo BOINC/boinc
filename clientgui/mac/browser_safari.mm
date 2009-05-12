@@ -20,7 +20,7 @@
 
 #include <Cocoa/Cocoa.h>
 
-bool detect_setup_authenticator_safari(std::string& project_url, std::string& authenticator)
+bool detect_cookie_safari(std::string& project_url, std::string& name, std::string& value)
 {    
     NSHTTPCookieStorage *cookieStorage;
     NSArray *theCookies;
@@ -62,15 +62,15 @@ bool detect_setup_authenticator_safari(std::string& project_url, std::string& au
         theNameString = [ aCookie name ];
         // is this the right cookie?
 #ifdef cStringUsingEncoding     // Available only is OS 10.4 and later
-        if (!starts_with([ theNameString cStringUsingEncoding:NSMacOSRomanStringEncoding ], "Setup"))
+        if (!starts_with([ theNameString cStringUsingEncoding:NSMacOSRomanStringEncoding ], name.c_str()))
             continue;
         theValueString = [ aCookie value ];
-        authenticator = [ theValueString cStringUsingEncoding:NSMacOSRomanStringEncoding ];
+        value = [ theValueString cStringUsingEncoding:NSMacOSRomanStringEncoding ];
 #else
-        if (!starts_with([ theNameString cString ], "Setup"))
+        if (!starts_with([ theNameString cString ], name.c_str()))
             continue;
         theValueString = [ aCookie value ];
-        authenticator = [ theValueString cString ];
+        value = [ theValueString cString ];
 #endif
         // If validation failed, null out the authenticator just in case
         //   somebody tries to use it, otherwise copy in the real deal.
@@ -78,7 +78,7 @@ bool detect_setup_authenticator_safari(std::string& project_url, std::string& au
             retval = true;
             break;
         } else {
-            authenticator = "";
+            value = "";
         }
     }
 

@@ -20,7 +20,7 @@ rem 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 rem
 
 FOR /F "usebackq delims==" %%I IN ('%1') DO set PROJECTROOTDIR=%%~I\..
-FOR /F "usebackq delims==" %%I IN ('%1') DO set DEPENDSROOTDIR=%%~I\..\boinc_depends_win_vs2005
+FOR /F "usebackq delims==" %%I IN ('%1') DO set DEPENDSROOTDIR=%%~I\..\..\boinc_depends_win_vs2005
 FOR /F "usebackq delims==" %%J IN ('%2') DO set OUTPUTDIR=%%~J
 FOR /F "usebackq delims==" %%K IN ('%3') DO set PLATFORMNAME=%%~K
 FOR /F "usebackq delims==" %%L IN ('%4') DO set CONFIGNAME=%%~L
@@ -88,6 +88,11 @@ if not exist %OUTPUTDIR%\zlib1.dll (
 if not exist %OUTPUTDIR%\cudart.dll (
     echo Copying cudart to the output directory...
     copy "%PROJECTROOTDIR%\coprocs\cuda\mswin\%PLATFORMNAME%\%CONFIGNAME%\bin\cudart.dll" "%OUTPUTDIR%"
+)
+
+if not exist %OUTPUTDIR%\sqlite3.dll (
+    echo Copying sqlite3 to the output directory...
+    copy "%DEPENDSROOTDIR%\sqlite3\mswin\%PLATFORMNAME%\%CONFIGNAME%\bin\sqlite3.dll" "%OUTPUTDIR%"
 )
 
 EXIT /B 0

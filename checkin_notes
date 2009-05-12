@@ -4432,3 +4432,17 @@ David  9 May 2009
 
     locale/templates/
         BOINC-Project-Generic.pot
+
+Rom    12 May 2009
+    - MGR: Include support for Firefox 3.x cookie support for
+        the attach to project wizard.
+    - MGR: Include support for a cookie based attach to
+        account manager wizard.
+        
+    clientgui/
+        browser.cpp, .h
+    clientgui/mac/
+        browser_safari.mm
+    win_build/
+        boinc_post_bld_rules.cmd
+        boincmgr.vcproj

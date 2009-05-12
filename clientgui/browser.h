@@ -25,19 +25,21 @@
 //
 
 bool detect_setup_authenticator(std::string& project_url, std::string& authenticator);
-
-// is_authenticator_valid() is used by detect_setup_authenticator_safari()
-// in mac_bowser.mm
+bool detect_account_manager_credentials(std::string& project_url, std::string& login, std::string& password_hash);
 bool is_authenticator_valid(const std::string authenticator);
 
-// These functions are browser specific functions
+// platform specific browsers
 //
-#ifdef __APPLE__
-bool detect_setup_authenticator_safari(std::string& project_url, std::string& authenticator);
-#endif
 #ifdef _WIN32
-bool detect_setup_authenticator_ie(std::string& project_url, std::string& authenticator);
+bool detect_cookie_ie(std::string& project_url, std::string& name, std::string& value);
 #endif
-bool detect_setup_authenticator_firefox(std::string& project_url, std::string& authenticator);
+#ifdef __APPLE__
+bool detect_cookie_safari(std::string& project_url, std::string& name, std::string& value);
+#endif
+
+// Cross-platform browsers
+//
+bool detect_cookie_firefox_2(std::string& project_url, std::string& name, std::string& value);
+bool detect_cookie_firefox_3(std::string& project_url, std::string& name, std::string& value);
 
 #endif

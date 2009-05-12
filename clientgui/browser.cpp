@@ -26,6 +26,8 @@
 #include <time.h>
 #endif
 
+#include <sqlite3.h>
+
 #include "error_numbers.h"
 #include "mfile.h"
 #include "miofile.h"
@@ -78,42 +80,9 @@ void get_home_dir_path( std::string& path ) {
 #endif
 }
 
-// parse name value pairs based on INI file rules.
-bool parse_name_value_pair(char* buf, std::string& name, std::string& value) {
-    std::basic_string<char>::size_type i;
-    std::string s;
-
-    s = std::string(buf);
-    i = s.find("=", 0);
-    if ( i < s.npos ) {
-        name = s.substr(0, i);
-        value = s.substr(i + 1);
-        strip_whitespace(name);
-        strip_whitespace(value);
-        return true;
-    }
-    return false;
-}
-
-
-// parse host name from url.
-bool parse_hostname(std::string& project_url, std::string& hostname) {
-    std::basic_string<char>::size_type start;
-    std::basic_string<char>::size_type end;
-
-    start = project_url.find("//", 0) + 2;
-    end   = project_url.find("/", start);
-
-    hostname = project_url.substr(start, end - start);
-    if (starts_with(hostname.c_str(), "www"))
-        hostname.erase(0, 3);
-    if (!hostname.empty())
-        return true;
-    return false;
-}
-
 
 // is the authenticator valid?
+//
 bool is_authenticator_valid(const std::string authenticator) {
     std::string tmp = authenticator;
 
@@ -136,6 +105,44 @@ bool is_authenticator_valid(const std::string authenticator) {
 
     return true;
 }
+
+
+// parse name value pairs based on INI file rules.
+//
+bool parse_name_value_pair(char* buf, std::string& name, std::string& value) {
+    std::basic_string<char>::size_type i;
+    std::string s;
+
+    s = std::string(buf);
+    i = s.find("=", 0);
+    if ( i < s.npos ) {
+        name = s.substr(0, i);
+        value = s.substr(i + 1);
+        strip_whitespace(name);
+        strip_whitespace(value);
+        return true;
+    }
+    return false;
+}
+
+
+// parse host name from url.
+//
+bool parse_hostname(std::string& project_url, std::string& hostname) {
+    std::basic_string<char>::size_type start;
+    std::basic_string<char>::size_type end;
+
+    start = project_url.find("//", 0) + 2;
+    end   = project_url.find("/", start);
+
+    hostname = project_url.substr(start, end - start);
+    if (starts_with(hostname.c_str(), "www"))
+        hostname.erase(0, 3);
+    if (!hostname.empty())
+        return true;
+    return false;
+}
+
 
 //
 // Mozilla-Based Browser Support
@@ -162,6 +169,18 @@ public:
 
     void clear();
     int parse(MIOFILE& in);
+};
+
+
+class MOZILLA_COOKIE_SQL {
+public:
+    std::string host;
+    std::string name;
+    std::string value;
+
+    MOZILLA_COOKIE_SQL();
+
+    void clear();
 };
 
 
@@ -227,8 +246,20 @@ int MOZILLA_PROFILES::parse(MIOFILE& in) {
     return 0;
 }
 
-// search for the project specific 'Setup' cookie for mozilla based
-// browsers.
+
+MOZILLA_COOKIE_SQL::MOZILLA_COOKIE_SQL() {
+    clear();
+}
+
+
+void MOZILLA_COOKIE_SQL::clear() {
+    host.clear();
+    name.clear();
+    value.clear();
+}
+
+
+// search for the project specific cookie for mozilla based browsers.
 //
 // file format is:
 // 
@@ -242,12 +273,12 @@ int MOZILLA_PROFILES::parse(MIOFILE& in) {
 // note 2: cookies are written in order of lastAccessed time:
 //         most-recently used come first; least-recently-used come last.
 // 
-bool find_project_cookie_mozilla_generic(
-    MIOFILE& in, std::string& project_url, std::string& authenticator
+bool find_project_cookie_mozilla_v2(
+    MIOFILE& in, std::string& project_url, std::string& name, std::string& value
 ) {
     bool retval = false;
     char buf[2048];
-    char host[256], domain[16], path[256], secure[16], name[256], cookie[256];
+    char host[256], domain[16], path[256], secure[16], cookie_name[256], cookie_value[256];
     long long expires;
     std::string hostname;
 
@@ -256,8 +287,8 @@ bool find_project_cookie_mozilla_generic(
     strcpy(domain, "");
     strcpy(path, "");
     strcpy(secure, "");
-    strcpy(name, "");
-    strcpy(cookie, "");
+    strcpy(cookie_name, "");
+    strcpy(cookie_value, "");
     expires = 0;
 
 
@@ -273,7 +304,7 @@ bool find_project_cookie_mozilla_generic(
 #else
             "%255s\t%15s\t%255s\t%15s\t%Ld\t%255s\t%255s",
 #endif
-            host, domain, path, secure, &expires, name, cookie
+            host, domain, path, secure, &expires, cookie_name, cookie_value
         );
 
         // is this a real cookie?
@@ -288,32 +319,71 @@ bool find_project_cookie_mozilla_generic(
         if (time(0) > expires) continue;
 
         // is this the right cookie?
-        if (starts_with(name, "Setup")) {
-            // If validation failed, null out the authenticator just in case
-            //   somebody tries to use it, otherwise copy in the real deal.
-            if (!is_authenticator_valid(cookie)) {
-                authenticator = "";
-            } else {
-                authenticator = cookie;
-                retval = true;
-            }
+        if (starts_with(cookie_name, name)) {
+            value = cookie_value;
+            retval = true;
         }
     }
 
     return retval;
 }
 
-// traverse the profiles and determine which cookie fle to use.
-// this should be compatible with firefox, seamonkey, and netscape.
+
+// search for the project specific cookie for mozilla based browsers.
+// SELECT host, name, value, expiry from moz_cookies WHERE name = '%s' AND host LIKE '%s'
 //
-bool detect_setup_authenticator_mozilla_generic(
-    std::string profiles_root, std::string& project_url, std::string& authenticator
+static int find_project_cookie_mozilla_v3(
+    void* cookie, int /* argc */, char **argv, char ** /* szColumnName */
 ) {
+    MOZILLA_COOKIE_SQL* _cookie = (MOZILLA_COOKIE_SQL*)cookie;
+    char host[256], cookie_name[256], cookie_value[256];
+    long long expires;
+
+
+    strcpy(host, "");
+    strcpy(cookie_name, "");
+    strcpy(cookie_value, "");
+    expires = 0;
+
+    sscanf( argv[0], "%255s", host );
+    sscanf( argv[1], "%255s", cookie_name );
+    sscanf( argv[2], "%255s", cookie_value );
+    sscanf( argv[3],
+#ifdef _WIN32
+        "%I64d",
+#else
+        "%Ld",
+#endif
+        &expires
+    );
+
+    // is this a real cookie?
+    // temporary cookie? these cookies do not trickle back up
+    // to the jscript interface, so ignore them.
+    if (starts_with(host, "#HttpOnly")) return 0;
+
+    // is this the right host?
+    if (!strstr(host, _cookie->host.c_str())) return 0;
+
+    // has the cookie expired?
+    if (time(0) > expires) return 0;
+
+    // is this the right cookie?
+    if (starts_with(cookie_name, _cookie->name)) {
+        _cookie->value = cookie_value;
+    }
+
+    return 0;
+}
+
+
+// traverse the profiles and determine which profile to use.
+// this should be compatible with firefox2, firefox3, seamonkey, and netscape.
+//
+bool get_firefox_profile_root( std::string& profile_root ) {
     bool retval = false;
     FILE* pf = NULL;
-    FILE* cf = NULL;
    	MIOFILE pmf;
-   	MIOFILE cmf;
     MOZILLA_PROFILES mps;
     MOZILLA_PROFILE* mp = NULL;
     std::string cookies_root;
@@ -321,8 +391,17 @@ bool detect_setup_authenticator_mozilla_generic(
     unsigned int i = 0;
     unsigned int default_index = 0;
 
+    get_home_dir_path( profile_root );
+#ifdef _WIN32
+    profile_root += std::string("Mozilla\\Firefox\\");
+#elif defined(__APPLE__)
+    profile_root += std::string("Library/Application Support/Firefox/");
+#else
+    profile_root += std::string(".mozilla/firefox/");
+#endif
+
     // lets see if we can open the profiles configuration file
-    tmp = profiles_root + "profiles.ini";
+    tmp = profile_root + "profiles.ini";
     pf = fopen(tmp.c_str(), "r");
 
     // if profiles configuration file exists, parse it.
@@ -339,6 +418,7 @@ bool detect_setup_authenticator_mozilla_generic(
     // user selects a different profile at startup the default
     // profile flag is changed at startup to the new profile.
     if (mps.profiles.size() == 0) {
+        if (pf) fclose(pf);
         return retval;          // something is very wrong, don't
                                 // risk a crash
     }
@@ -346,7 +426,7 @@ bool detect_setup_authenticator_mozilla_generic(
     if (mps.profiles.size() == 1) {
         default_index = 0;
     } else {
-        for (i=0; i<mps.profiles.size(); i++) {
+        for (i=0; i < mps.profiles.size(); i++) {
             if (mps.profiles[i]->is_default) {
                 default_index = i;
                 break;
@@ -358,30 +438,97 @@ bool detect_setup_authenticator_mozilla_generic(
     // path?
     mp = mps.profiles[default_index];
     if (mp->is_relative) {
-        cookies_root = profiles_root + mp->path + "/";
+        cookies_root = profile_root + mp->path + "/";
     } else {
         cookies_root = mp->path + "/";
     }
 
+    profile_root = cookies_root;
+    retval = true;
+
+    // cleanup
+    if (pf) fclose(pf);
+
+    return retval;
+}
+
+// traverse the various cookies looking for the one we want
+//
+bool detect_cookie_mozilla_v2(
+    std::string profile_root, std::string& project_url, std::string& name, std::string& value
+) {
+    bool retval = false;
+    FILE* cf = NULL;
+   	MIOFILE cmf;
+    std::string tmp;
+
     // now we should open up the cookie file.
-    tmp = cookies_root + "cookies.txt";
+    tmp = profile_root + "cookies.txt";
     cf = fopen(tmp.c_str(), "r");
 
     // if the cookie file exists, lookup the projects 'Setup' cookie.
     if (cf) {
         cmf.init_file(cf);
-        retval = find_project_cookie_mozilla_generic(
+        retval = find_project_cookie_mozilla_v2(
             cmf,
             project_url,
-            authenticator
+            name,
+            value
         );
     }
 
     // cleanup
-    if (cf) fclose(pf);
-    if (pf) fclose(pf);
+    if (cf) fclose(cf);
 
     return retval;
+}
+
+    
+bool detect_cookie_mozilla_v3(
+    std::string profile_root, std::string& project_url, std::string& name, std::string& value
+) {
+    std::string tmp;
+    std::string hostname;
+    char        query[1024];
+    sqlite3*    db;
+    char*       szSQLErrorMessage = NULL;
+    int         rc;
+    MOZILLA_COOKIE_SQL cookie;
+
+    // determine the project hostname using the project url
+    parse_hostname(project_url, hostname);
+
+
+    // now we should open up the cookie database.
+    tmp = profile_root + "cookies.sqlite";
+    rc = sqlite3_open(tmp.c_str(), &db);
+    if ( rc ) {
+        sqlite3_close(db);
+        return false;
+    }
+    
+    // construct SQL query to extract the desired cookie
+    // SELECT host, name, value, expiry from moz_cookies WHERE name = '%s' AND host LIKE '%s'
+    snprintf(query, sizeof(query),
+        "SELECT host, name, value, expiry from moz_cookies WHERE name = '%s' AND host LIKE '%s'",
+        name.c_str(),
+        hostname.c_str()
+    );
+
+    // execute query
+    rc = sqlite3_exec(db, query, find_project_cookie_mozilla_v3, &cookie, &szSQLErrorMessage);
+    if ( rc != SQLITE_OK ){
+        sqlite3_free(szSQLErrorMessage);
+    }
+
+    // cleanup
+    sqlite3_close(db);
+
+    if ( !cookie.value.empty() ) {
+        value = cookie.value;
+    }
+
+    return true;
 }
 
     
@@ -389,28 +536,32 @@ bool detect_setup_authenticator_mozilla_generic(
 // Firefox Browser Support
 //
 
-bool get_firefox_profiles_root( std::string& profiles_root ) {
-    get_home_dir_path( profiles_root );
-#ifdef _WIN32
-    profiles_root += std::string("Mozilla\\Firefox\\");
-#elif defined(__APPLE__)
-    profiles_root += std::string("Library/Application Support/Firefox/");
-#else
-    profiles_root += std::string(".mozilla/firefox/");
-#endif
-    return true;
+bool detect_cookie_firefox_2(
+    std::string& project_url, std::string& name, std::string& value
+) {
+    std::string profile_root;
+    get_firefox_profile_root(profile_root);
+
+    return detect_cookie_mozilla_v2(
+        profile_root,
+        project_url,
+        name,
+        value
+    );
 }
 
 
-bool detect_setup_authenticator_firefox(
-    std::string& project_url, std::string& authenticator
+bool detect_cookie_firefox_3(
+    std::string& project_url, std::string& name, std::string& value
 ) {
-    std::string profiles_root;
-    get_firefox_profiles_root(profiles_root);
-    return detect_setup_authenticator_mozilla_generic(
-        profiles_root,
+    std::string profile_root;
+    get_firefox_profile_root(profile_root);
+
+    return detect_cookie_mozilla_v3(
+        profile_root,
         project_url,
-        authenticator
+        name,
+        value
     );
 }
 
@@ -421,9 +572,9 @@ bool detect_setup_authenticator_firefox(
 //
 
 //
-// Detect the 'Setup' cookie in Internet Explorer by using the InternetGetCookie API.
+// Detect a cookie in Internet Explorer by using the InternetGetCookie API.
 //
-bool detect_setup_authenticator_ie(std::string& project_url, std::string& authenticator)
+bool detect_cookie_ie(std::string& project_url, std::string& name, std::string& value)
 {
     bool        bReturnValue = false;
     char        szCookieBuffer[2048];
@@ -432,8 +583,8 @@ bool detect_setup_authenticator_ie(std::string& project_url, std::string& authen
     std::string strCookieFragment;
     std::string strCookieName;
     std::string strCookieValue;
-    size_t      uiDelimeterLocation;
     std::string hostname;
+    size_t      uiDelimeterLocation;
 
 
     // if we don't find the cookie at the exact project dns name, check one higher (i.e. www.worldcommunitygrid.org becomes
@@ -462,17 +613,11 @@ bool detect_setup_authenticator_ie(std::string& project_url, std::string& authen
             strCookieName = strCookieFragment.substr(0, uiDelimeterLocation);
             strCookieValue = strCookieFragment.substr(uiDelimeterLocation + 1);
 
-            if (std::string("Setup") == strCookieName)
+            if (name == strCookieName)
             {
-                // If validation failed, null out the authenticator just in case
-                //   somebody tries to use it, otherwise copy in the real deal.
-                if (!is_authenticator_valid(strCookieValue)) {
-                    authenticator = "";
-                } else {
-                    // Now we found it!  Yea - auto attach!
-                    authenticator = strCookieValue;
-                    bReturnValue = true;
-                }
+                // Now we found it!  Yea - auto attach!
+                value = strCookieValue;
+                bReturnValue = true;
             }
 
             pszCookieFragment = strtok(NULL, "; ");
@@ -495,20 +640,61 @@ bool detect_setup_authenticator_ie(std::string& project_url, std::string& authen
 bool detect_setup_authenticator(
     std::string& project_url, std::string& authenticator
 ) {
+    bool retval = false;
+    std::string strCookieSetup("Setup");
+
 #ifdef _WIN32
-    if (detect_setup_authenticator_ie(project_url, authenticator)) {
-        return true;
-    }
+    if (detect_cookie_ie(project_url, strCookieSetup, authenticator)) goto END;
 #endif
 #ifdef __APPLE__
-    if (detect_setup_authenticator_safari(project_url, authenticator)) {
-        return true;
-    }
+    if (detect_cookie_safari(project_url, strCookieSetup, authenticator)) goto END;
 #endif
-    if (detect_setup_authenticator_firefox(project_url, authenticator)) {
-        return true;
+    if (detect_cookie_firefox_3(project_url, strCookieSetup, authenticator)) goto END;
+    if (detect_cookie_firefox_2(project_url, strCookieSetup, authenticator)) goto END;
+
+END:
+    if (is_authenticator_valid(authenticator)) {
+        retval = true;
     }
 
-    return false;
+    return retval;
+}
+
+
+//
+// walk through the various browsers looking up the
+// account manager cookies until the account manager's 'Login' and 'Password_Hash'
+// cookies are found.
+//
+// give preference to the default platform specific browers first before going
+// to the platform independant browsers since most people don't switch from
+// the default.
+// 
+bool detect_account_manager_credentials(
+    std::string& project_url, std::string& login, std::string& password_hash
+) {
+    bool retval = false;
+    std::string strCookieLogon("Logon");
+    std::string strCookiePasswordHash("PasswordHash");
+
+#ifdef _WIN32
+    if ( detect_cookie_ie(project_url, strCookieLogon, login) && 
+         detect_cookie_ie(project_url, strCookiePasswordHash, password_hash) ) goto END;
+#endif
+#ifdef __APPLE__
+    if ( detect_cookie_safari(project_url, strCookieLogon, login) && 
+         detect_cookie_safari(project_url, strCookiePasswordHash, password_hash) ) goto END;
+#endif
+    if ( detect_cookie_firefox_3(project_url, strCookieLogon, login) && 
+         detect_cookie_firefox_3(project_url, strCookiePasswordHash, password_hash) ) goto END;
+
+    if ( detect_cookie_firefox_2(project_url, strCookieLogon, login) && 
+         detect_cookie_firefox_2(project_url, strCookiePasswordHash, password_hash) ) goto END;
+
+END:
+    // TODO: validation
+    retval = true;
+
+    return retval;
 }
 
