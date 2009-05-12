@@ -91,7 +91,9 @@ inline int effective_ncpus() {
     return ncpus;
 }
 
-// total_max_results_per is this multiplier times max_results_day
+// max results/day is this multiplier times config.max_results_day.
+// multiplier is:
+// # CPUs + config.cuda_multiplier*#GPUs
 //
 inline void get_max_results_day_multiplier() {
     int n = g_reply->host.p_ncpus;
@@ -102,25 +104,25 @@ inline void get_max_results_day_multiplier() {
         if (cp) {
             int m = cp->count;
             if (m > MAX_CUDA_DEVS) m = MAX_CUDA_DEVS;
-            //n += m*config.cuda_multiplier;
-            n = m*config.cuda_multiplier;
+            n += m*config.cuda_multiplier;
         }
     }
     g_wreq->max_results_day_multiplier = n;
 }
 
-// scale factor for max_wus_in_progress
+// max results in progress is this multiplier times config.max_wus_in_progress
+// multiplier is defined same as above.
 //
 inline void get_max_wus_in_progress_multiplier() {
     int n = g_reply->host.p_ncpus;
     if (n > config.max_ncpus) n = config.max_ncpus;
     if (n < 1) n = 1;
-    COPROC* cp = g_request->coprocs.lookup("CUDA");
-    if (cp) {
-        int m = cp->count;
-        if (m > MAX_CUDA_DEVS) m = MAX_CUDA_DEVS;
-        if (m > n) {
-            n = m;
+    if (config.cuda_multiplier) {
+        COPROC* cp = g_request->coprocs.lookup("CUDA");
+        if (cp) {
+            int m = cp->count;
+            if (m > MAX_CUDA_DEVS) m = MAX_CUDA_DEVS;
+            n += m*config.cuda_multiplier;
         }
     }
     g_wreq->max_wus_in_progress_multiplier = n;

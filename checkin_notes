@@ -4463,3 +4463,10 @@ David  12 May 2009
 
     sched/
         file_deleter.cpp
+
+David  12 May 2009
+    - scheduler: the multiplier for both #jobs/day and #jobs in progress
+        is #CPUs + config.cuda_multiplier * #GPUs
+
+    sched/
+        sched_send.cpp
