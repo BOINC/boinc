@@ -4446,3 +4446,14 @@ Rom    12 May 2009
     win_build/
         boinc_post_bld_rules.cmd
         boincmgr.vcproj
+
+Rom    12 May 2009
+    - WINBUILD: Have the new installers include the new BOINC OpenGL
+        based screensaver, as well as the logo and font files.
+    - WINBUILD: Include sqlite3.dll in the BOINC Manager component.
+    
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
+    win_build/
+        ss_app.vcproj
