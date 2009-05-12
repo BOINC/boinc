@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-05-05 11:13-0700\n"
+"PO-Revision-Date: 2009-05-12 12:57-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -189,7 +189,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:329
 msgid "&Simple View..."
-msgstr "&Eenvoudig"
+msgstr "&Eenvoudig..."
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "Display the simple BOINC graphical interface."
