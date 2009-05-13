@@ -1,15 +1,16 @@
-﻿#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2009-05-07 14:19-0700\n"
+"Last-Translator: pH!Lm0 <philmo_one@yahoo.fr>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: doc\n"
@@ -401,38 +402,51 @@ msgstr "These are the current results of the <a href=poll.php>BOINC user survey<
 ########################################
 # download.php
 ########################################
+# ######################################<br />
+# <br />
+# download.php<br />
+# ######################################
 msgid "Download BOINC"
-msgstr ""
+msgstr "Télécharger BOINC"
 
 msgid "%s for %s (%s MB)"
-msgstr ""
+msgstr "%s pour %s (%s Mo)"
 
 msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like."
 msgstr ""
+"BOINC est un logiciel qui vous permet de mettre les ressources inutilisées "
+"de votre ordinateur au service de projets scientifiques tels que SETI@home, "
+"Climateprediction.net, Rosetta@home, World Community Grid, et de nombreux "
+"autres. <p> Après avoir installé BOINC sur votre ordinateur, vous pouvez le "
+"connecter à autant de projets de ce type que vous souhaitez."
 
 msgid "System requirements"
-msgstr ""
+msgstr "Préconisations matérielles"
 
 msgid "Release notes"
-msgstr ""
+msgstr "Notes de publication"
 
 msgid "Other systems"
-msgstr ""
+msgstr "Autres systèmes"
 
 msgid "All versions"
-msgstr ""
+msgstr "Toutes les versions"
 
 msgid "If your computer is not of one of the above types, you can"
 msgstr ""
+"Si votre ordinateur ne correspond pas aux propositions ci-dessus, vous "
+"pouvez"
 
 msgid "%s make your own client software %s or"
-msgstr ""
+msgstr "%s créer votre propre logiciel client %s ou"
 
 msgid "%s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
 msgstr ""
+"%s télécharger des exécutables à partir d'un site tiers %s (disponible pour "
+"Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, FreeBSD, et autres)."
 
 msgid "BOINC: compute for science"
-msgstr ""
+msgstr "BOINC : calculez pour la science"
 
 #, fuzzy
 msgid "DL_MIRRORS"
@@ -511,7 +525,7 @@ msgid "HOME_P3"
 msgstr "If you have any questions, or need help getting started, you can %stalk to a Volunteer Helper%s. "
 
 msgid "Help"
-msgstr ""
+msgstr "Aide"
 
 msgid "HOME_DOWNLOAD"
 msgstr "Download"
@@ -702,6 +716,9 @@ msgstr "Open-source software for %svolunteer computing%s and %sgrid computing%s"
 #~ msgstr "Maintenant BOINC vous alerte lorsqu'il a besoin de vous "
 #~ "pour se connecter au réseau."
 
+##############################################
+# system_requirements.php by je2bwm 2006/08/07
+# release_notes.php
 #~ msgid "RLN_5_8_SIMPLE_GUI"
 #~ msgstr "Le 'BOINC Manager' propose 2 interfaces différentes : "
 #~ " une 'simple' (légère, graphique, skinnable) "
