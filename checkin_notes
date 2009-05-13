@@ -4470,3 +4470,14 @@ David  12 May 2009
 
     sched/
         sched_send.cpp
+
+Charlie 13 May 2009
+    - Mac MGR: Fix compile error.
+    - Mac MGR: Add -lsqlite3 to XCode linker flags for manager.
+
+    clientgui/
+        mac/
+            browser_safari.mm
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

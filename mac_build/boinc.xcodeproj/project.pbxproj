@@ -2938,6 +2938,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -2990,6 +2991,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3042,6 +3044,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3095,6 +3098,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3574,6 +3578,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -3625,6 +3630,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
@@ -4114,6 +4120,7 @@
 					"-liconv",
 					"-lz",
 					"-lm",
+					"-lsqlite3",
 				);
 				PRODUCT_NAME = BOINCManager;
 				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
