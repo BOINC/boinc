@@ -50,6 +50,12 @@ public:
 
     /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_WELCOMEPAGE
     void OnPageChanging( wxWizardExEvent& event );
+    
+    /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_SELECTPROJECTWIZARD
+    void OnProjectWizardCtrlSelected( wxCommandEvent& event );
+
+    /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_SELECTAMWIZARD
+    void OnAMWizardCtrlSelected( wxCommandEvent& event );
 
     /// wxEVT_WIZARD_CANCEL event handler for ID_WELCOMEPAGE
     void OnCancel( wxWizardExEvent& event );
@@ -91,6 +97,8 @@ public:
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDescriptionStaticCtrl;
     wxStaticText* m_pDirectionsStaticCtrl;
+    wxRadioButton* m_pSelectProjectWizardCtrl;
+    wxRadioButton* m_pSelectAMWizardCtrl;
 #if defined(__WXDEBUG__)
     wxStaticBox* m_pErrDescriptionCtrl; 
     wxCheckBox* m_pErrProjectPropertiesCtrl;

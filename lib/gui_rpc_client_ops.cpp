@@ -948,6 +948,7 @@ int PROJECT_CONFIG::parse(MIOFILE& in) {
 void PROJECT_CONFIG::clear() {
     error_num = 0;
     name.clear();
+    master_url.clear();
     error_msg.clear();
     terms_of_use.clear();
     min_passwd_length = 6;

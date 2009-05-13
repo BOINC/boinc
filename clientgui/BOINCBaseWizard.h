@@ -77,6 +77,7 @@ public:
     bool IsAccountManagerWizard;
     bool IsAccountManagerUpdateWizard;
     bool IsAccountManagerRemoveWizard;
+    bool IsCombinedWizard;
 
     /// Global Wizard Status
     PROJECT_CONFIG      project_config;

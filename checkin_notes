@@ -4481,3 +4481,20 @@ Charlie 13 May 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 13 May 2009
+    - MGR: Merge "Attach to account manager" functionality into "Attach to 
+        project" wizard.  I have not yet merged the Synchronize with account 
+        Manager" or "Remove from account manager" into the "Attach to project" 
+        wizard; after doing that I will remove the obsolete classes and files.
+        
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerProcessingPage.cpp
+        AccountManagerPropertiesPage.cpp
+        BOINCBaseWizard.cpp, .h
+        BOINCWizards.h
+        WelcomePage.cpp, .h
+        WizardAttachProject.cpp, .h
+    lib/
+        gui_rpc_client_ops.cpp

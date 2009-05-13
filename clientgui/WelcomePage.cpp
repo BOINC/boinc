@@ -63,7 +63,8 @@ BEGIN_EVENT_TABLE( CWelcomePage, wxWizardPageEx )
     EVT_SET_FOCUS( CWelcomePage::OnSetFocus )
     EVT_SHOW( CWelcomePage::OnShow )
     EVT_BUTTON( ID_CHANGEAPPS, CWelcomePage::OpenWCG )
-
+    EVT_RADIOBUTTON( ID_SELECTPROJECTWIZARD, CWelcomePage::OnProjectWizardCtrlSelected )
+    EVT_RADIOBUTTON( ID_SELECTAMWIZARD, CWelcomePage::OnAMWizardCtrlSelected )
 ////@end CWelcomePage event table entries
  
 END_EVENT_TABLE()
@@ -102,6 +103,8 @@ bool CWelcomePage::Create( CBOINCBaseWizard* parent )
     m_pTitleStaticCtrl = NULL;
     m_pDescriptionStaticCtrl = NULL;
     m_pDirectionsStaticCtrl = NULL;
+    m_pSelectProjectWizardCtrl = NULL;
+    m_pSelectAMWizardCtrl = NULL;
 #if defined(__WIZ_DEBUG__)
     m_pErrDescriptionCtrl = NULL;
     m_pErrProjectPropertiesCtrl = NULL;
@@ -150,6 +153,22 @@ void CWelcomePage::CreateControls()
     itemBoxSizer3->Add(m_pDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer3->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
+
+    wxFlexGridSizer* itemFlexGridSizer62 = new wxFlexGridSizer(2, 1, 0, 0);
+    itemFlexGridSizer62->AddGrowableCol(1);
+    itemBoxSizer3->Add(itemFlexGridSizer62, 0, wxGROW|wxALL, 5);
+
+    if (IS_ATTACHTOPROJECTWIZARD() || IS_ACCOUNTMANAGERWIZARD()) {
+        m_pSelectProjectWizardCtrl = new wxRadioButton;
+        m_pSelectProjectWizardCtrl->Create( itemWizardPage2, ID_SELECTPROJECTWIZARD, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
+        m_pSelectProjectWizardCtrl->SetValue(TRUE);
+        itemFlexGridSizer62->Add(m_pSelectProjectWizardCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+        m_pSelectAMWizardCtrl = new wxRadioButton;
+        m_pSelectAMWizardCtrl->Create( itemWizardPage2, ID_SELECTAMWIZARD, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+        m_pSelectAMWizardCtrl->SetValue(FALSE);
+        itemFlexGridSizer62->Add(m_pSelectAMWizardCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    }
 
 #if defined(__WIZ_DEBUG__)
     m_pErrDescriptionCtrl = new wxStaticBox(itemWizardPage2, wxID_ANY, wxEmptyString);
@@ -323,7 +342,26 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pErrNetDetectionCtrl);
 #endif
 
+    if (IS_ATTACHTOPROJECTWIZARD() || IS_ACCOUNTMANAGERWIZARD()) {
+        wxASSERT(m_pSelectProjectWizardCtrl);
+        wxASSERT(m_pSelectAMWizardCtrl);
+        
+        m_pSelectProjectWizardCtrl->SetLabel(
+            _("Attach to project")
+        );
+        m_pSelectProjectWizardCtrl->Show();
+        m_pSelectProjectWizardCtrl->Enable();
+
+        m_pSelectAMWizardCtrl->SetLabel(
+            _("Attach to account manager")
+        );
+        m_pSelectAMWizardCtrl->Show();
+    }
+
     if (IS_ATTACHTOPROJECTWIZARD()) {
+        m_pSelectProjectWizardCtrl->SetValue(true);
+        m_pSelectAMWizardCtrl->SetValue(false);
+    
         pDoc->rpc.acct_mgr_info(ami);
         is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
 
@@ -341,6 +379,8 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             m_pDescriptionStaticCtrl->SetLabel(
                 strBuffer
             );
+
+            m_pSelectAMWizardCtrl->Disable();
         } else {
             m_pTitleStaticCtrl->SetLabel(
                 _("Attach to project")
@@ -354,6 +394,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
                     _("You have selected to attach to a new BOINC project.  Attaching to a new\nproject means that you will be connecting your computer to a new website\nand organization.  If this is what you wanted to do, then please click on\nthe 'Next' button below.\n\nSome projects like World Community Grid run multiple research applications.\nIf you want to change which research applications are sent to your computer\nto run, then you should visit the project's website and modify your\npreferences there.\n\nTo change which research applications are sent to you from\nWorld Community Grid then please click on the following button:")
                 );
             }
+            m_pSelectAMWizardCtrl->Enable();
         }
     } else if (IS_ACCOUNTMANAGERREMOVEWIZARD()) {
         wxASSERT(pWAM);
@@ -373,9 +414,19 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
         m_pDescriptionStaticCtrl->SetLabel(
             strBuffer
         );
+        if (m_pSelectProjectWizardCtrl) {
+            m_pSelectProjectWizardCtrl->SetValue(false);
+            m_pSelectProjectWizardCtrl->Hide();
+            m_pSelectProjectWizardCtrl->Disable();
+        }
+        if (m_pSelectAMWizardCtrl) {
+            m_pSelectAMWizardCtrl->SetValue(false);
+            m_pSelectAMWizardCtrl->Hide();
+            m_pSelectAMWizardCtrl->Disable();
+        }
     } else if (IS_ACCOUNTMANAGERWIZARD()) {
-        wxASSERT(pWAM);
-        wxASSERT(wxDynamicCast(pWAM, CWizardAccountManager));
+//        wxASSERT(pWAM);
+//        wxASSERT(wxDynamicCast(pWAM, CWizardAccountManager));
         m_pTitleStaticCtrl->SetLabel(
             _("Account manager")
         );
@@ -383,6 +434,16 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             _("We'll now guide you through the process of attaching\nto an account manager.\n\nIf you want to attach to a single project, click Cancel,\nthen select the 'Attach to project' menu item instead."
             )
         );
+        if (m_pSelectProjectWizardCtrl) {
+            m_pSelectProjectWizardCtrl->SetValue(false);
+            m_pSelectProjectWizardCtrl->Hide();
+            m_pSelectProjectWizardCtrl->Disable();
+        }
+        if (m_pSelectAMWizardCtrl) {
+            m_pSelectAMWizardCtrl->SetValue(false);
+            m_pSelectAMWizardCtrl->Hide();
+            m_pSelectAMWizardCtrl->Disable();
+        }
     } else {
         wxASSERT(FALSE);
     }
@@ -517,5 +578,18 @@ void CWelcomePage::OpenWCG( wxCommandEvent& /* event */ ) {
     CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
     pWAP->SimulateCancelButton();
     wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OpenWCG- Function End"));
+}
+
+void CWelcomePage::OnProjectWizardCtrlSelected( wxCommandEvent& /* event */ ) {
+    CBOINCBaseWizard*      pBW = (CWizardAttachProject*)GetParent();
+
+    pBW->IsAttachToProjectWizard = true;
+    pBW->IsAccountManagerWizard = false;
+}
+
+void CWelcomePage::OnAMWizardCtrlSelected( wxCommandEvent& /* event */ ) {
+    CBOINCBaseWizard*      pBW = (CWizardAttachProject*)GetParent();
+    pBW->IsAttachToProjectWizard = false;
+    pBW->IsAccountManagerWizard = true;
 }
 

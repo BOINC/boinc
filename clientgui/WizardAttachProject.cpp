@@ -36,11 +36,15 @@
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "BOINCBaseFrame.h"
+#include "ProjectListCtrl.h"
 #include "WizardAttachProject.h"
 #include "WelcomePage.h"
 #include "ProjectInfoPage.h"
 #include "ProjectPropertiesPage.h"
 #include "ProjectProcessingPage.h"
+#include "AccountManagerInfoPage.h"
+#include "AccountManagerPropertiesPage.h"
+#include "AccountManagerProcessingPage.h"
 #include "TermsOfUsePage.h"
 #include "AccountInfoPage.h"
 #include "CompletionPage.h"
@@ -102,6 +106,9 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
     m_ProjectInfoPage = NULL;
     m_ProjectPropertiesPage = NULL;
     m_ProjectProcessingPage = NULL;
+    m_AccountManagerInfoPage = NULL;
+    m_AccountManagerPropertiesPage = NULL;
+    m_AccountManagerProcessingPage = NULL;
     m_TermsOfUsePage = NULL;
     m_AccountInfoPage = NULL;
     m_CompletionPage = NULL;
@@ -126,6 +133,7 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
     IsAccountManagerWizard = false;
     IsAccountManagerUpdateWizard = false;
     IsAccountManagerRemoveWizard = false;
+    IsCombinedWizard = true;
 
     // Global wizard status
     project_config.clear();
@@ -135,17 +143,22 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
     attached_to_project_successfully = false;
     project_url = wxEmptyString;
     project_authenticator = wxEmptyString;
+    project_name = wxEmptyString;
+    m_strProjectName.Empty();
     m_bCredentialsCached = false;
     m_bCredentialsDetected = false;
 
 
     CSkinAdvanced*  pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CSkinWizardATP* pSkinWizardATP = wxGetApp().GetSkinManager()->GetWizards()->GetWizardATP();
+//    CSkinWizardATAM* pSkinWizardATAM = wxGetApp().GetSkinManager()->GetWizards()->GetWizardATAM();
 
     wxASSERT(pSkinAdvanced);
     wxASSERT(pSkinWizardATP);
+//    wxASSERT(pSkinWizardATAM);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     wxASSERT(wxDynamicCast(pSkinWizardATP, CSkinWizardATP));
+//    wxASSERT(wxDynamicCast(pSkinWizardATAM, CSkinWizardATAM));
 
 
     wxString strTitle;
@@ -165,7 +178,7 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
 
     return TRUE;
 }
- 
+
 /*!
  * Control creation for CWizardAttachProject
  */
@@ -192,6 +205,18 @@ void CWizardAttachProject::CreateControls()
     m_ProjectProcessingPage = new CProjectProcessingPage;
     m_ProjectProcessingPage->Create( itemWizard1 );
     GetPageAreaSizer()->Add(m_ProjectProcessingPage);
+
+    m_AccountManagerInfoPage = new CAccountManagerInfoPage;
+    m_AccountManagerInfoPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_AccountManagerInfoPage);
+
+    m_AccountManagerPropertiesPage = new CAccountManagerPropertiesPage;
+    m_AccountManagerPropertiesPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_AccountManagerPropertiesPage);
+
+    m_AccountManagerProcessingPage = new CAccountManagerProcessingPage;
+    m_AccountManagerProcessingPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_AccountManagerProcessingPage);
 
     m_AccountInfoPage = new CAccountInfoPage;
     m_AccountInfoPage->Create( itemWizard1 );
@@ -243,6 +268,9 @@ void CWizardAttachProject::CreateControls()
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectInfoPage = id: '%d', location: '%p'"), m_ProjectInfoPage->GetId(), m_ProjectInfoPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectPropertiesPage = id: '%d', location: '%p'"), m_ProjectPropertiesPage->GetId(), m_ProjectPropertiesPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectProcessingPage = id: '%d', location: '%p'"), m_ProjectProcessingPage->GetId(), m_ProjectProcessingPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -    m_AccountManagerInfoPage = id: '%d', location: '%p'"), m_AccountManagerInfoPage->GetId(), m_AccountManagerInfoPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -    m_AccountManagerPropertiesPage = id: '%d', location: '%p'"), m_AccountManagerPropertiesPage->GetId(), m_AccountManagerPropertiesPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -    m_AccountManagerProcessingPage = id: '%d', location: '%p'"), m_AccountManagerProcessingPage->GetId(), m_AccountManagerProcessingPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_TermsOfUsePage = id: '%d', location: '%p'"), m_TermsOfUsePage->GetId(), m_TermsOfUsePage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), m_AccountInfoPage->GetId(), m_AccountInfoPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_CompletionPage = id: '%d', location: '%p'"), m_CompletionPage->GetId(), m_CompletionPage);
@@ -261,7 +289,9 @@ void CWizardAttachProject::CreateControls()
 /*!
  * Runs the wizard.
  */
- 
+
+//TODO: Merge in stuff from CWizardAccountManager::Run(int action)
+
 bool CWizardAttachProject::Run( wxString& WXUNUSED(strName), wxString& strURL, bool bCredentialsCached ) {
     if (strURL.Length()) {
         m_ProjectInfoPage->SetProjectURL( strURL );
@@ -367,7 +397,9 @@ wxWizardPageEx* CWizardAttachProject::_PopPageTransition() {
         if (m_PageTransition.size() > 0) {
             pPage = m_PageTransition.top();
             m_PageTransition.pop();
-            if ((pPage == m_ProjectPropertiesPage) || (pPage == m_ProjectProcessingPage)) {
+            if ((pPage == m_ProjectPropertiesPage) || (pPage == m_ProjectProcessingPage) ||
+                (pPage == m_AccountManagerPropertiesPage) || (pPage == m_AccountManagerProcessingPage)) 
+            {
                 // We want to go back to the page before we attempted to communicate
                 //   with any server.
                 pPage = m_PageTransition.top();
@@ -398,6 +430,15 @@ wxWizardPageEx* CWizardAttachProject::_PushPageTransition( wxWizardPageEx* pCurr
  
         if (ID_PROJECTPROCESSINGPAGE == ulPageID)
             pPage = m_ProjectProcessingPage;
+ 
+        if (ID_ACCOUNTMANAGERINFOPAGE == ulPageID)
+            pPage = m_AccountManagerInfoPage;
+ 
+        if (ID_ACCOUNTMANAGERPROPERTIESPAGE == ulPageID)
+            pPage = m_AccountManagerPropertiesPage;
+ 
+        if (ID_ACCOUNTMANAGERPROCESSINGPAGE == ulPageID)
+            pPage = m_AccountManagerProcessingPage;
  
         if (ID_TERMSOFUSEPAGE == ulPageID)
             pPage = m_TermsOfUsePage;
@@ -450,7 +491,7 @@ void CWizardAttachProject::_ProcessCancelEvent( wxWizardExEvent& event ) {
     bool bCancelWithoutNextPage = false;
     wxWizardPageEx* page = GetCurrentPage();
 
-    int iRetVal =  wxGetApp().SafeMessageBox(
+    int iRetVal = wxGetApp().SafeMessageBox(
         _("Do you really want to cancel?"), 
         _("Question"),
         wxICON_QUESTION | wxYES_NO,
@@ -463,12 +504,14 @@ void CWizardAttachProject::_ProcessCancelEvent( wxWizardExEvent& event ) {
 
     // Page specific rules - Disable the validator(s)
     if (wxYES == iRetVal) {
-        if (page == m_ProjectInfoPage) {
+        if ((page == m_ProjectInfoPage) || (page == m_AccountManagerInfoPage)) {
             m_ProjectInfoPage->m_pProjectUrlCtrl->SetValidator(wxDefaultValidator);
         } else if (page == m_AccountInfoPage) {
             m_AccountInfoPage->m_pAccountEmailAddressCtrl->SetValidator(wxDefaultValidator);
             m_AccountInfoPage->m_pAccountPasswordCtrl->SetValidator(wxDefaultValidator);
-            m_AccountInfoPage->m_pAccountConfirmPasswordCtrl->SetValidator(wxDefaultValidator);
+            if (IsAttachToProjectWizard) {
+                m_AccountInfoPage->m_pAccountConfirmPasswordCtrl->SetValidator(wxDefaultValidator);
+            }
         } else if (page == m_ErrProxyPage) {
             m_ErrProxyPage->m_pProxyHTTPServerCtrl->SetValidator(wxDefaultValidator);
             m_ErrProxyPage->m_pProxyHTTPPortCtrl->SetValidator(wxDefaultValidator);
@@ -485,7 +528,11 @@ void CWizardAttachProject::_ProcessCancelEvent( wxWizardExEvent& event ) {
     bCancelWithoutNextPage |= (page == m_ErrNotDetectedPage);
     bCancelWithoutNextPage |= (page == m_ErrUnavailablePage);
     bCancelWithoutNextPage |= (page == m_ErrNoInternetConnectionPage);
-    bCancelWithoutNextPage |= (page == m_ErrAlreadyExistsPage);
+    if (IsAttachToProjectWizard) {
+        bCancelWithoutNextPage |= (page == m_ErrAlreadyExistsPage);
+    } else {
+        bCancelWithoutNextPage |= (page == m_WelcomePage);
+    }
     if (wxYES != iRetVal) {
         event.Veto();
     }

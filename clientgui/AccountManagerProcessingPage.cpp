@@ -34,6 +34,7 @@
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "ProjectListCtrl.h"
+#include "WizardAttachProject.h"
 #include "WizardAccountManager.h"
 #include "AccountManagerProcessingPage.h"
 #include "AccountManagerInfoPage.h"
@@ -175,19 +176,27 @@ void CAccountManagerProcessingPage::OnPageChanged( wxWizardExEvent& event )
 {
     if (event.GetDirection() == false) return;
  
+    CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
     CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
-
+    wxString projectName;
+    
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pPleaseWaitStaticCtrl);
     wxASSERT(m_pProgressIndicator);
-    wxASSERT(pWAM);
-
-    if (!pWAM->m_strProjectName.IsEmpty()) {
+    if (IS_COMBINEDWIZARD()) {
+        wxASSERT(pWAP);
+        projectName = pWAP->m_strProjectName;
+    } else {
+        wxASSERT(pWAM);
+        projectName = pWAM->m_strProjectName;
+    }
+    
+    if (!projectName.IsEmpty()) {
         wxString str;
 
         // %s is the project name
         //    i.e. 'BOINC', 'GridRepublic'
-        str.Printf(_("Communicating with %s."), pWAM->m_strProjectName.c_str());
+        str.Printf(_("Communicating with %s."), projectName.c_str());
 
         m_pTitleStaticCtrl->SetLabel(
             str
@@ -228,6 +237,7 @@ void CAccountManagerProcessingPage::OnCancel( wxWizardExEvent& event ) {
 void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPageEvent& WXUNUSED(event) )
 {
     CMainDocument* pDoc         = wxGetApp().GetDocument();
+    CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
     CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
     wxDateTime dtStartExecutionTime;
     wxDateTime dtCurrentExecutionTime;
@@ -243,12 +253,21 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
  
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    if (IS_COMBINEDWIZARD()) {
+        wxASSERT(pWAP);
+    } else {
+        wxASSERT(pWAM);
+    }
  
     switch(GetCurrentState()) {
         case ATTACHACCTMGR_INIT:
-            pWAM->DisableNextButton();
-            pWAM->DisableBackButton();
-
+            if (IS_COMBINEDWIZARD()) {
+                pWAP->DisableNextButton();
+                pWAP->DisableBackButton();
+            } else {
+                pWAM->DisableNextButton();
+                pWAM->DisableBackButton();
+            }
             StartProgress(m_pProgressIndicator);
             SetNextState(ATTACHACCTMGR_ATTACHACCTMGR_BEGIN);
             break;
@@ -261,21 +280,38 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
             // Newer versions of the server-side software contain the correct
             //   master url in the get_project_config response.  If it is available
             //   use it instead of what the user typed in.
-            if (!pWAM->project_config.master_url.empty()) {
-                url = pWAM->project_config.master_url;
-            } else {
-                url = (const char*)pWAM->m_AccountManagerInfoPage->GetProjectURL().mb_str();
-            }
+            if (IS_COMBINEDWIZARD()) {
+                if (!pWAP->project_config.master_url.empty()) {
+                    url = pWAP->project_config.master_url;
+                } else {
+                    url = (const char*)pWAP->m_AccountManagerInfoPage->GetProjectURL().mb_str();
+                }
 
-            username = (const char*)pWAM->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
-            password = (const char*)pWAM->m_AccountInfoPage->GetAccountPassword().mb_str();
-            pDoc->rpc.acct_mgr_rpc(
-                url.c_str(),
-                username.c_str(),
-                password.c_str(),
-                pWAM->m_bCredentialsCached
-            );
-    
+                username = (const char*)pWAP->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
+                password = (const char*)pWAP->m_AccountInfoPage->GetAccountPassword().mb_str();
+                pDoc->rpc.acct_mgr_rpc(
+                    url.c_str(),
+                    username.c_str(),
+                    password.c_str(),
+                    pWAP->m_bCredentialsCached
+                );
+            } else {
+                if (!pWAM->project_config.master_url.empty()) {
+                    url = pWAM->project_config.master_url;
+                } else {
+                    url = (const char*)pWAM->m_AccountManagerInfoPage->GetProjectURL().mb_str();
+                }
+
+                username = (const char*)pWAM->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
+                password = (const char*)pWAM->m_AccountInfoPage->GetAccountPassword().mb_str();
+                pDoc->rpc.acct_mgr_rpc(
+                    url.c_str(),
+                    username.c_str(),
+                    password.c_str(),
+                    pWAM->m_bCredentialsCached
+                );
+            }
+            
             // Wait until we are done processing the request.
             dtStartExecutionTime = wxDateTime::Now();
             dtCurrentExecutionTime = wxDateTime::Now();
@@ -310,13 +346,21 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
 
                     // For any logon error, make sure we do not attempt to use cached credentials
                     //   on any follow-ups.
-                    pWAM->m_bCredentialsCached = false;
+                    if (IS_COMBINEDWIZARD()) {
+                        pWAP->m_bCredentialsCached = false;
+                    } else {
+                        pWAM->m_bCredentialsCached = false;
+                    }
                     SetProjectAccountNotFound(true);
                 } else {
                     SetProjectAccountNotFound(false);
                 }
 
-                strBuffer = pWAM->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                if (IS_COMBINEDWIZARD()) {
+                    strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                } else {
+                    strBuffer = pWAM->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                }
                 if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == reply.error_num) || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
                     strBuffer += 
                         _("An internal server error has occurred.\n");
@@ -325,7 +369,11 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                         strBuffer += wxString(reply.messages[i].c_str(), wxConvUTF8) + wxString(wxT("\n"));
                     }
                 }
-                pWAM->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                if (IS_COMBINEDWIZARD()) {
+                    pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                } else {
+                    pWAM->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                }
             }
             SetNextState(ATTACHACCTMGR_CLEANUP);
             break;
@@ -336,9 +384,15 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
         default:
             // Allow a glimps of what the result was before advancing to the next page.
             wxSleep(1);
-            pWAM->EnableNextButton();
-            pWAM->EnableBackButton();
-            pWAM->SimulateNextButton();
+            if (IS_COMBINEDWIZARD()) {
+                pWAP->EnableNextButton();
+                pWAP->EnableBackButton();
+                pWAP->SimulateNextButton();
+            } else {
+                pWAM->EnableNextButton();
+                pWAM->EnableBackButton();
+                pWAM->SimulateNextButton();
+            }
             bPostNewEvent = false;
             break;
     }

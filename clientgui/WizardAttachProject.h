@@ -30,6 +30,9 @@
 class CProjectInfoPage;
 class CProjectPropertiesPage;
 class CProjectProcessingPage;
+class CAccountManagerInfoPage;
+class CAccountManagerPropertiesPage;
+class CAccountManagerProcessingPage;
 ////@end forward declarations
 
 
@@ -109,6 +112,9 @@ public:
     CProjectInfoPage* m_ProjectInfoPage;
     CProjectPropertiesPage* m_ProjectPropertiesPage;
     CProjectProcessingPage* m_ProjectProcessingPage;
+    CAccountManagerInfoPage* m_AccountManagerInfoPage;
+    CAccountManagerPropertiesPage* m_AccountManagerPropertiesPage;
+    CAccountManagerProcessingPage* m_AccountManagerProcessingPage;
     CTermsOfUsePage* m_TermsOfUsePage;
     CAccountInfoPage* m_AccountInfoPage;
     CCompletionPage* m_CompletionPage;

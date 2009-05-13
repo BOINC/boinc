@@ -435,7 +435,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         _("Forgot your password?")
     );
 
-    if (!IS_ACCOUNTMANAGERWIZARD()) {
+    if (IS_COMBINEDWIZARD() || !IS_ACCOUNTMANAGERWIZARD()) {
         wxASSERT(pWAP);
         m_pAccountForgotPasswordCtrl->SetURL(
             wxString(pWAP->m_ProjectInfoPage->GetProjectURL() + _T("get_passwd.php"))

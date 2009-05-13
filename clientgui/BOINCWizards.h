@@ -68,6 +68,10 @@
 // Change applications button control
 #define ID_CHANGEAPPS 11003
 
+// Welcome Page Controls
+#define ID_SELECTPROJECTWIZARD 11020
+#define ID_SELECTAMWIZARD 11021
+
 // Debug Flag Controls
 #define ID_ERRPROJECTPROPERTIES 11100
 #define ID_ERRPROJECTCOMM 11101
@@ -185,6 +189,9 @@ class wxHyperLink;
 
 #define IS_ACCOUNTMANAGERREMOVEWIZARD() \
     ((CBOINCBaseWizard*)GetParent())->IsAccountManagerRemoveWizard
+
+#define IS_COMBINEDWIZARD() \
+    ((CBOINCBaseWizard*)GetParent())->IsCombinedWizard
 
 
 // Commonly defined macros
