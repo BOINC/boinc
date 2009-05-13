@@ -1,6 +1,9 @@
 <?
 
 $project_news = array(
+array("May 13, 2009",
+    "See a <a href=http://www.micropedia.tv/index.php?option=com_content&view=article&id=125:micropildora-computacion-voluntaria&catid=54:canal-cocina&Itemid=139>video</a> (in Spanish) about Extremadura@home and volunteer computing."
+),
 array("May 12, 2009",
     "An
     <a href=http://www.nature.com/embor/journal/v10/n5/full/embor200979.html>article in EMBO reports</a> discusses citizen cyber-science."

@@ -1,7 +1,16 @@
 #!/usr/bin/php
 <?php
 
-// generate en.po
+// generate translation template "en.po"
+//
+// NOTE: in its current form, this generates the translation file
+// for all files in html/user and html/inc.
+// We use this for the standard BOINC pages,
+// but it's not what you want for your project-specific pages.
+//
+// To produce a translation file for your pages,
+// edit the definition of FILE_LIST line so that it includes only your pages
+
 //
 // NOTE: after running this, move LANG_NAME_NATIVE and LANG_NAME_INTERNATIONAL
 // to the top, and set their strings to "English"
@@ -11,6 +20,8 @@ if (!isset($argv[1])) {
     die('Usage: build_po.php [PROJECT_PATH]');
 }
 $path = $argv[1];
+
+$FILE_LIST = "$path/html/inc/*.inc $path/html/user/*.php $path/html/project.sample/*.*";
 
 $date = strftime('%Y-%m-%d %H:%M %Z');
 $header = <<<HDR
@@ -33,17 +44,14 @@ msgstr ""
 
 HDR;
 
-$out = fopen("$path/html/languages/translations/web.pot", "w");
+$out = fopen("en.po", "w");
 fwrite($out, $header);
-$pipe = popen("xgettext --omit-header -o - --keyword=tra -L PHP --no-location $path/html/inc/*.inc $path/html/user/*.php $path/html/project.sample/*.*", "r");
+$pipe = popen(
+    "xgettext --omit-header -o - --keyword=tra -L PHP --no-location $FILE_LIST",
+    "r"
+);
 stream_copy_to_stream($pipe, $out);
 fclose($pipe);
 fclose($out);
 
-// msgen duplicates everything.
-// Don't need this.  Just rename to en.po
-
-//system("msgen -o $path/html/languages/translations/en.po $path/html/languages/translations/web.pot");
-
-system("mv $path/html/languages/translations/web.pot $path/html/languages/translations/en.po");
 ?>

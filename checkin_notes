@@ -4498,3 +4498,9 @@ Charlie 13 May 2009
         WizardAttachProject.cpp, .h
     lib/
         gui_rpc_client_ops.cpp
+
+David  13 May 2009
+    - web: make build_po.php usable for projects
+
+    html/ops/
+        build_po.php
