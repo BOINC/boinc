@@ -31,10 +31,11 @@ $header = <<<HDR
 # This file is distributed under the same license as BOINC.
 #
 # FileID  : \$Id\$
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC \$Id\$\\n"
-"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\\n"
 "POT-Creation-Date: $date\\n"
 "Last-Translator: Generated automatically from source files\\n"
 "MIME-Version: 1.0\\n"
@@ -42,15 +43,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\\n"
 "X-Poedit-SourceCharset: utf-8\\n"
 
+
 HDR;
 
-$out = fopen("en.po", "w");
+$out = fopen("en.pot", "w");
+
 fwrite($out, $header);
+
 $pipe = popen(
-    "xgettext --omit-header -o - --keyword=tra -L PHP --no-location $FILE_LIST",
+    "xgettext --omit-header -o - --keyword=tra -L PHP $FILE_LIST",
     "r"
 );
 stream_copy_to_stream($pipe, $out);
+
 fclose($pipe);
 fclose($out);
 
