@@ -100,8 +100,11 @@ int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2,
     request.arg2 = arg2;
     request.arg3 = arg3;
     request.arg4 = arg4;
-    request.rpcType = RPC_TYPE_WAIT_FOR_COMPLETION;
-
+    if (which_rpc == RPC_QUIT) {
+        request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
+    } else {
+        request.rpcType = RPC_TYPE_WAIT_FOR_COMPLETION;
+    }
     retval = m_pDoc->RequestRPC(request, hasPriority);
     return retval;
 }
@@ -443,7 +446,12 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     
     // If we are quitting, cancel any pending RPCs
     if (request.which_rpc == RPC_QUIT) {
-        RPC_requests.clear();
+        if (current_rpc_request.isActive) {
+            RPC_requests.erase(RPC_requests.begin()+1, RPC_requests.end());
+
+        } else {
+            RPC_requests.clear();
+        }
     }
     
     // Check if a duplicate request is already on the queue

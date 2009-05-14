@@ -4504,3 +4504,11 @@ David  13 May 2009
 
     html/ops/
         build_po.php
+
+Charlie 13 May 2009
+    - MGR: Always treat quit RPCs as non-demand so Manager can exit when 
+        client is not responding; don't remove currently active RPC request 
+        from queue when receiving a quit RPC request.
+    
+    clientgui/
+        AsyncRPC.cpp
