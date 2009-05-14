@@ -4512,3 +4512,9 @@ Charlie 13 May 2009
     
     clientgui/
         AsyncRPC.cpp
+
+Charlie 14 May 2009
+    - MGR: Update m_dtCachedCCStatusTimestamp only when RPC completes.
+    
+    clientgui/
+        MainDocument.cpp

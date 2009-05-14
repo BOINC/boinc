@@ -110,7 +110,6 @@ int CBOINCClientManager::IsBOINCConfiguredAsDaemon() {
 
 bool CBOINCClientManager::IsBOINCCoreRunning() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Function Begin"));
-
     int retval=0;
     bool running = false;
     RPC_CLIENT rpc;
@@ -119,7 +118,17 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     if (IsBOINCServiceInstalled()) {
         running = (FALSE != IsBOINCServiceStarting()) || (FALSE != IsBOINCServiceRunning());
     } else {
+        if (m_hBOINCCoreProcess != NULL) {
+            if (GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
+                running = (STILL_ACTIVE == dwExitCode);
+            }
+        }
+#else
+    if (m_lBOINCCoreProcessId != 0) {
+        running = ProcessExists(m_lBOINCCoreProcessId);
+    }
 #endif
+#if 0
     // If set up to run as a daemon, allow time for daemon to start up
     for (int i=0; i<10; i++) {
         retval = rpc.init("localhost");  // synchronous is OK since local
@@ -137,6 +146,7 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
         if (!IsBOINCConfiguredAsDaemon()) break;
             wxSleep(1);
     }
+#endif
 #ifdef __WXMSW__
     }
 #endif
@@ -405,7 +415,9 @@ bool CBOINCClientManager::ProcessExists(pid_t thePID)
     char buf[256];
     pid_t aPID;
 
-    f = popen("ps -a -x -c -o pid,state", "r");
+//    f = popen("ps -a -x -c -o pid,state", "r");
+    sprintf(buf, "ps -a -x -c -o pid,state -p %d", thePID);
+    f = popen(buf,  "r");
     if (f == NULL)
         return false;
     
@@ -422,7 +434,7 @@ bool CBOINCClientManager::ProcessExists(pid_t thePID)
     return false;
 }
 
-// wxProcess::Exists and wxKill are unimplemented in WxMac-2.6.0
+// wxProcess::Exists returns true for zombies and kill(pid, 0) returns OK for zombies
 void CBOINCClientManager::ShutdownBOINCCore() {
     CMainDocument*     pDoc = wxGetApp().GetDocument();
     wxInt32            iCount = 0;
