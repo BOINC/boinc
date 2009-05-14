@@ -4533,3 +4533,13 @@ David  14 May 2009
     sched/
         sched_config.cpp,h
         sched_result.cpp
+
+David  14 May 2009
+    - web: check for mismatched "'s in translation files
+    - build_po.php: add LANG_NAME strings
+
+    html/
+        inc/
+            translation.inc
+        ops/
+            build_po.php

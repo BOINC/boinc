@@ -43,6 +43,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\\n"
 "X-Poedit-SourceCharset: utf-8\\n"
 
+msgid "LANG_NAME_NATIVE"
+msgstr "English"
+
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "English"
 
 HDR;
 

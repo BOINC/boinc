@@ -81,9 +81,9 @@ function buildLanguages($langdir,$transdir,$compdir,$append=false){
                         );
                         exit;
                     }
-                    if (!$append) {
+                    //if (!$append) {
                         fwrite($fh, "<?php\n");                    
-                    }
+                    //}
                     foreach ($language as $key => $value){
                         if ($value !== "") {
                             //Skip if the msgstr is empty
@@ -159,7 +159,13 @@ function parseLanguage($file){
 function getPOLineContent($line){
     $start = strpos($line, '"')+1;
     $stop = strrpos($line, '"');
-    return substr($line, $start, $stop-$start);
+    $x =  substr($line, $start, $stop-$start);
+    $n = ereg("[^\\]\"", $x);
+    if ($n) {
+        echo "ERROR - MISMATCHED QUOTES\n";
+        return "";
+    }
+    return $x;
 }
 
 /**
