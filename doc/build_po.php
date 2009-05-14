@@ -17,6 +17,7 @@ $header = <<<HDR
 # This file is distributed under the same license as BOINC.
 #
 # FileID  : \$Id\$
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC \$Id\$\\n"
@@ -27,6 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\\n"
 "Content-Transfer-Encoding: 8bit\\n"
 "X-Poedit-SourceCharset: utf-8\\n"
+
 
 HDR;
 
