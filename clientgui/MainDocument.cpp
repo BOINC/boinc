@@ -823,7 +823,6 @@ void CMainDocument::RunPeriodicRPCs() {
     
     wxTimeSpan ts(dtNow - m_dtCachedCCStatusTimestamp);
     if (ts.GetSeconds() >= CCSTATUS_RPC_INTERVAL) {
-        m_dtCachedCCStatusTimestamp = wxDateTime::Now();
         request.clear();
         request.which_rpc = RPC_GET_CC_STATUS;
         request.arg1 = &async_status_buf;
