@@ -3,19 +3,21 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.6 based rev.16826\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-05-02 12:46+0900\n"
-"Last-Translator: Lee kangsan <netpres@hanmail.net>\n"
+"PO-Revision-Date: 2009-05-13 10:54-0700\n"
+"Last-Translator: Kangsan Lee <netpres@chol.com>\n"
 "Language-Team: BOINC@KOREA\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Korean\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: KOREA, REPUBLIC OF\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:337
 msgid "User information"
@@ -65,6 +67,7 @@ msgstr "비밀번호 확인:"
 
 #: clientgui/AccountInfoPage.cpp:391
 #, c-format
+#, c-format
 msgid "Are you already running %s?"
 msgstr "여러분은 이미 %s를(을) 실행하고 있습니까?"
 
@@ -77,6 +80,7 @@ msgid "&Email address:"
 msgstr "&Email 주소:"
 
 #: clientgui/AccountInfoPage.cpp:430
+#, c-format
 #, c-format
 msgid "minimum length %d"
 msgstr "최소 %d 이상"
@@ -101,10 +105,12 @@ msgstr "계정 관리자 연결"
 
 #: clientgui/AccountInfoPage.cpp:489
 #, c-format
+#, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr "이 프로젝트는 최소한 %d글자 이상의 비밀번호가 필요합니다. 다른 비밀번호를 입력해 주세요."
 
 #: clientgui/AccountInfoPage.cpp:495
+#, c-format
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr "이 계정 관리자는 최소한 %d글자 이상의 비밀번호가 필요합니다. 다른 비밀번호를 입력해 주세요."
@@ -127,6 +133,7 @@ msgstr "계정 관리자 &URL:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:190
 #: clientgui/AccountManagerPropertiesPage.cpp:194
+#, c-format
 #, c-format
 msgid "Communicating with %s."
 msgstr "%s와(과) 통신 중"
@@ -166,6 +173,7 @@ msgid "Close BOINC Manager Window."
 msgstr "BOINC 관리자 창 닫기."
 
 #: clientgui/AdvancedFrame.cpp:310
+#, c-format
 #, c-format
 msgid "Exit the %s"
 msgstr "%s 종료"
@@ -210,10 +218,12 @@ msgstr "계정 관리자에 연결하기"
 
 #: clientgui/AdvancedFrame.cpp:355
 #, c-format
+#, c-format
 msgid "&Synchronize with %s"
 msgstr "%s와 동기화(&S)"
 
 #: clientgui/AdvancedFrame.cpp:359
+#, c-format
 #, c-format
 msgid "Get current settings from %s"
 msgstr "%s 로부터 현재 설정을 가져옵니다"
@@ -284,12 +294,13 @@ msgstr "로컬 환경을 설정합니다"
 
 #: clientgui/AdvancedFrame.cpp:438
 #, c-format
+#, c-format
 msgid "Connect to another computer running %s"
 msgstr "%s(이)가 실행중인 다른 컴퓨터로 접속"
 
 #: clientgui/AdvancedFrame.cpp:443
 msgid "Select computer..."
-msgstr "컴퓨터 선택..."
+msgstr "컴퓨터 선택(&S)..."
 
 #: clientgui/AdvancedFrame.cpp:448
 msgid "Shut down connected client..."
@@ -333,6 +344,7 @@ msgstr "global_prefs_override.xml로 부터 환경 설정을 읽어옵니다."
 
 #: clientgui/AdvancedFrame.cpp:473
 #, c-format
+#, c-format
 msgid "&Stop using %s..."
 msgstr "%s 사용 중지(&S)..."
 
@@ -342,7 +354,7 @@ msgstr "계정 관리자 제어를 클라이언트에서 제거합니다."
 
 #: clientgui/AdvancedFrame.cpp:483
 msgid "Attach to &project"
-msgstr "프로젝트 연결(&P)"
+msgstr "프로젝트 연결(&P)..."
 
 #: clientgui/AdvancedFrame.cpp:484
 msgid "Attach to a project to begin processing work"
@@ -351,16 +363,19 @@ msgstr "작업을 시작할 프로젝트를 연결합니다"
 #: clientgui/AdvancedFrame.cpp:495
 #: clientgui/sg_BoincSimpleGUI.cpp:110
 #, c-format
+#, c-format
 msgid "%s &help"
 msgstr "%s 도움말(&H)"
 
 #: clientgui/AdvancedFrame.cpp:501
 #: clientgui/sg_BoincSimpleGUI.cpp:116
 #, c-format
+#, c-format
 msgid "Show information about %s"
 msgstr "%s에 대한 정보 보여주기"
 
 #: clientgui/AdvancedFrame.cpp:513
+#, c-format
 #, c-format
 msgid "&%s help"
 msgstr "&%s 도움말"
@@ -368,11 +383,13 @@ msgstr "&%s 도움말"
 #: clientgui/AdvancedFrame.cpp:519
 #: clientgui/sg_BoincSimpleGUI.cpp:134
 #, c-format
+#, c-format
 msgid "Show information about the %s"
 msgstr "%s에 대한 정보 보여주기"
 
 #: clientgui/AdvancedFrame.cpp:531
 #: clientgui/sg_BoincSimpleGUI.cpp:146
+#, c-format
 #, c-format
 msgid "%s &website"
 msgstr "%s 웹 사이트(&W)"
@@ -380,14 +397,16 @@ msgstr "%s 웹 사이트(&W)"
 #: clientgui/AdvancedFrame.cpp:537
 #: clientgui/sg_BoincSimpleGUI.cpp:152
 #, c-format
+#, c-format
 msgid "Show information about BOINC and %s"
 msgstr "BOINC와 %s에 대한 정보 보여주기"
 
 #: clientgui/AdvancedFrame.cpp:553
 #: clientgui/BOINCTaskBar.cpp:616
 #, c-format
+#, c-format
 msgid "&About %s..."
-msgstr "%s는(&A)..."
+msgstr "%s 정보(&A)..."
 
 #: clientgui/AdvancedFrame.cpp:559
 msgid "Licensing and copyright information."
@@ -423,10 +442,12 @@ msgstr "도움말(&H)"
 
 #: clientgui/AdvancedFrame.cpp:1083
 #, c-format
+#, c-format
 msgid "%s - Shutdown the current client..."
 msgstr "%s - 현재 클라이언트 종료..."
 
 #: clientgui/AdvancedFrame.cpp:1092
+#, c-format
 #, c-format
 msgid ""
 "%s will shut down the currently connected client,\n"
@@ -437,10 +458,12 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1239
 #, c-format
+#, c-format
 msgid "%s - Detach from %s"
 msgstr "%s - %s를 분리"
 
 #: clientgui/AdvancedFrame.cpp:1244
+#, c-format
 #, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -465,10 +488,12 @@ msgstr "프로젝트와의 통신 재시도 중..."
 
 #: clientgui/AdvancedFrame.cpp:1421
 #, c-format
+#, c-format
 msgid "%s - Language Selection"
 msgstr "%s - 언어 선택"
 
 #: clientgui/AdvancedFrame.cpp:1428
+#, c-format
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr "%s가 기본 언어로 설정되었습니다. 이 설정은 %s을(를) 재시작해야 적용됩니다."
@@ -476,25 +501,30 @@ msgstr "%s가 기본 언어로 설정되었습니다. 이 설정은 %s을(를) �
 #: clientgui/AdvancedFrame.cpp:1639
 #: clientgui/DlgAbout.cpp:104
 #, c-format
+#, c-format
 msgid "%s"
 msgstr "%s"
 
 #: clientgui/AdvancedFrame.cpp:1648
+#, c-format
 #, c-format
 msgid "%s has successfully attached to %s"
 msgstr "%s는 성공적으로 %s에 연결되었습니다"
 
 #: clientgui/AdvancedFrame.cpp:1772
 #, c-format
+#, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
 #: clientgui/AdvancedFrame.cpp:1775
 #, c-format
+#, c-format
 msgid "Connecting to %s"
 msgstr "%s에 접속 중"
 
 #: clientgui/AdvancedFrame.cpp:1778
+#, c-format
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "%s (%s)에 접속됨"
@@ -537,6 +567,7 @@ msgstr "BOINC 클라이언트와 통신하고 있습니다. 잠시 기다려 주
 
 #: clientgui/BOINCBaseFrame.cpp:421
 #, c-format
+#, c-format
 msgid "%s - Connection Error"
 msgstr "%s - 접속 오류"
 
@@ -566,10 +597,12 @@ msgstr "입력하신 암호가 틀립니다. 다시 시도해 주세요."
 
 #: clientgui/BOINCBaseFrame.cpp:488
 #, c-format
+#, c-format
 msgid "%s - Connection Failed"
 msgstr "%s - 접속 실패"
 
 #: clientgui/BOINCBaseFrame.cpp:497
+#, c-format
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
@@ -580,10 +613,12 @@ msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:533
 #, c-format
+#, c-format
 msgid "%s - Daemon Start Failed"
 msgstr "%s - 데몬 시작 실패"
 
 #: clientgui/BOINCBaseFrame.cpp:543
+#, c-format
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
@@ -594,6 +629,7 @@ msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:549
 #, c-format
+#, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
@@ -603,10 +639,12 @@ msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:595
 #, c-format
+#, c-format
 msgid "%s - Connection Status"
 msgstr "%s - 접속 상태"
 
 #: clientgui/BOINCBaseFrame.cpp:606
+#, c-format
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -625,15 +663,18 @@ msgstr "웹 사이트"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
+#, c-format
 msgid "%s - Network Status"
 msgstr "%s - 네트워크 상태"
 
 #: clientgui/BOINCDialupManager.cpp:255
 #, c-format
+#, c-format
 msgid "%s needs to connect to the Internet.  Please click to open %s."
 msgstr "%s는 인터넷 연결이 필요합니다. %s 열기를 클릭하십시오."
 
 #: clientgui/BOINCDialupManager.cpp:263
+#, c-format
 #, c-format
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
@@ -644,6 +685,7 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
+#, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
@@ -653,10 +695,12 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:323
 #, c-format
+#, c-format
 msgid "%s is connecting to the Internet."
 msgstr "%s가(이) 인터넷에 접속하고 있습니다."
 
 #: clientgui/BOINCDialupManager.cpp:354
+#, c-format
 #, c-format
 msgid ""
 "%s couldn't do Internet communication, and no default connection is selected.\n"
@@ -669,15 +713,18 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:386
 #, c-format
+#, c-format
 msgid "%s has successfully connected to the Internet."
 msgstr "%s이(가) 성공적으로 인터넷에 접속 되었습니다."
 
 #: clientgui/BOINCDialupManager.cpp:414
 #, c-format
+#, c-format
 msgid "%s failed to connect to the Internet."
 msgstr "%s가 인터넷 접속에 실패했습니다."
 
 #: clientgui/BOINCDialupManager.cpp:455
+#, c-format
 #, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
@@ -688,10 +735,12 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:500
 #, c-format
+#, c-format
 msgid "%s has successfully disconnected from the Internet."
 msgstr "%s가 성공적으로 인터넷 연결을 종료했습니다."
 
 #: clientgui/BOINCDialupManager.cpp:516
+#, c-format
 #, c-format
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s가 인터넷 연결 종료에 실패했습니다."
@@ -751,10 +800,12 @@ msgstr "네트워크 활동이 일시 정지되었습니다."
 
 #: clientgui/BOINCTaskBar.cpp:378
 #, c-format
+#, c-format
 msgid "%s: %.2f%% completed."
 msgstr "%s: %.2f%% 완료."
 
 #: clientgui/BOINCTaskBar.cpp:391
+#, c-format
 #, c-format
 msgid "%d tasks running."
 msgstr "%d 작업 실행 중."
@@ -769,10 +820,12 @@ msgstr "클라이언트에 연결되지 않았습니다."
 
 #: clientgui/BOINCTaskBar.cpp:597
 #, c-format
+#, c-format
 msgid "Open %s Web..."
 msgstr "%s 웹 열기..."
 
 #: clientgui/BOINCTaskBar.cpp:604
+#, c-format
 #, c-format
 msgid "Open %s..."
 msgstr "%s 열기..."
@@ -839,6 +892,7 @@ msgstr ""
 
 #: clientgui/CompletionPage.cpp:233
 #, c-format
+#, c-format
 msgid "Update from %s completed."
 msgstr "%s로부터 업데이트 완료"
 
@@ -847,6 +901,7 @@ msgid "Update completed."
 msgstr "업데이트가 완료 되었습니다."
 
 #: clientgui/CompletionPage.cpp:254
+#, c-format
 #, c-format
 msgid "Removal from %s completed."
 msgstr "%s로부터 제거 완료."
@@ -857,6 +912,7 @@ msgstr "제거 성공!"
 
 #: clientgui/CompletionPage.cpp:275
 #, c-format
+#, c-format
 msgid "Attached to %s"
 msgstr "%s에 연결됨"
 
@@ -866,10 +922,12 @@ msgstr "계정 관리자 연결됨"
 
 #: clientgui/CompletionPage.cpp:289
 #, c-format
+#, c-format
 msgid "Welcome to %s!"
 msgstr "%s에 오신 것을 환영합니다!"
 
 #: clientgui/CompletionPage.cpp:303
+#, c-format
 #, c-format
 msgid "You are now successfully attached to the %s system."
 msgstr "성공적으로 %s 시스템이 연결되었습니다."
@@ -879,6 +937,7 @@ msgid "You are now successfully attached to this account manager."
 msgstr "이 계정 관리자 연결이 성공적으로 이뤄졌습니다."
 
 #: clientgui/DlgAbout.cpp:98
+#, c-format
 #, c-format
 msgid "About %s"
 msgstr "%s정보"
@@ -946,6 +1005,7 @@ msgstr "확인됨"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:31
 #: clientgui/sg_DlgPreferences.cpp:1036
+#, c-format
 #, c-format
 msgid "%s - Preferences"
 msgstr "%s - 환경 설정"
@@ -1094,6 +1154,7 @@ msgstr "다중 프로세서 시스템일 때 최대 사용량"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:249
 #, no-c-format
+#, no-c-format
 msgid "% of the processors"
 msgstr "% (프로세서 중)"
 
@@ -1107,6 +1168,7 @@ msgid "Use at most"
 msgstr "최대 사용량"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:259
+#, no-c-format
 #, no-c-format
 msgid "% CPU time"
 msgstr "% CPU 시간"
@@ -1235,6 +1297,7 @@ msgstr "BOINC는 전체 디스크 중 최대 해당 퍼센트만큼 사용합니
 
 #: clientgui/DlgAdvPreferencesBase.cpp:499
 #, no-c-format
+#, no-c-format
 msgid "% of total disk space"
 msgstr "% (전체 디스크 공간 중)"
 
@@ -1248,6 +1311,7 @@ msgstr "초"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:518
 #, no-c-format
+#, no-c-format
 msgid "% of page file (swap space)"
 msgstr "% of page file (스왑 영역)"
 
@@ -1257,10 +1321,12 @@ msgstr "메모리 사용량"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:541
 #, no-c-format
+#, no-c-format
 msgid "% when computer is in use"
 msgstr "%를 컴퓨터 사용 시 씁니다"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:551
+#, no-c-format
 #, no-c-format
 msgid "% when computer is idle"
 msgstr "%를 컴퓨터가 대기 중일때 씁니다"
@@ -1306,10 +1372,12 @@ msgstr "환경 설정 웹 페이지를 보여줍니다"
 
 #: clientgui/DlgExitMessage.cpp:82
 #, c-format
+#, c-format
 msgid "%s - Exit Confirmation"
 msgstr "%s - 종료 확인"
 
 #: clientgui/DlgExitMessage.cpp:130
+#, c-format
 #, c-format
 msgid ""
 "You have requested to exit the %s,\n"
@@ -1327,6 +1395,7 @@ msgstr ""
 "원한다면, 다음 선택사항을 선택하세요:"
 
 #: clientgui/DlgExitMessage.cpp:135
+#, c-format
 #, c-format
 msgid ""
 "This will shut down %s and its tasks entirely until either the\n"
@@ -1732,10 +1801,12 @@ msgstr "리포트 준비 됨"
 #: clientgui/ViewWork.cpp:1103
 #: clientgui/ViewWorkGrid.cpp:862
 #, c-format
+#, c-format
 msgid "Error: invalid state '%d'"
 msgstr "오류: 잘못된 상태 '%d'"
 
 #: clientgui/DlgOptions.cpp:119
+#, c-format
 #, c-format
 msgid "%s - Options"
 msgstr "%s - 선택 사항"
@@ -1859,6 +1930,7 @@ msgstr "SOCKS 프록시"
 
 #: clientgui/DlgSelectComputer.cpp:90
 #, c-format
+#, c-format
 msgid "%s - Select Computer"
 msgstr "%s - 컴퓨터 선택"
 
@@ -1868,10 +1940,12 @@ msgstr "호스트 이름:"
 
 #: clientgui/hyperlink.cpp:181
 #, c-format
+#, c-format
 msgid "%s - Can't find web browser"
 msgstr "%s - 웹 브라우저를 찾을 수 없음"
 
 #: clientgui/hyperlink.cpp:192
+#, c-format
 #, c-format
 msgid ""
 "%s tried to display the web page\n"
@@ -2172,6 +2246,7 @@ msgstr "이 프로젝트는 해당 컴퓨터에서 동작하지 않을 수도 �
 
 #: clientgui/ProjectListCtrl.cpp:338
 #, c-format
+#, c-format
 msgid "Click here to go to %s's website."
 msgstr "여기를 누르면 %s 웹 사이트로 이동합니다"
 
@@ -2277,6 +2352,7 @@ msgstr "SOCKS 프록시"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:128
 #, c-format
+#, c-format
 msgid "&%s"
 msgstr "&%s"
 
@@ -2372,14 +2448,17 @@ msgstr "모든 메시지를 클립보드에 복사"
 #: clientgui/ViewMessages.cpp:97
 #: clientgui/ViewMessagesGrid.cpp:110
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr "선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
+msgstr ""
+"선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 #: clientgui/ViewMessages.cpp:99
 #: clientgui/ViewMessagesGrid.cpp:112
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr "클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 있습니다."
+msgstr ""
+"클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 "
+"있습니다."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2388,6 +2467,7 @@ msgid "Get help with BOINC"
 msgstr "BOINC 도움말을 얻으세요"
 
 #: clientgui/sg_DlgMessages.cpp:754
+#, c-format
 #, c-format
 msgid "%s - Messages"
 msgstr "%s - 메시지"
@@ -2562,15 +2642,18 @@ msgstr "언제든"
 
 #: clientgui/sg_DlgPreferences.cpp:785
 #, c-format
+#, c-format
 msgid "%d MB"
 msgstr "%d MB"
 
 #: clientgui/sg_DlgPreferences.cpp:787
 #, c-format
+#, c-format
 msgid "%4.2f GB"
 msgstr "%4.2f GB"
 
 #: clientgui/sg_DlgPreferences.cpp:828
+#, c-format
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
@@ -2580,6 +2663,7 @@ msgid "0 (Run Always)"
 msgstr "0 (항상 실행)"
 
 #: clientgui/sg_DlgPreferences.cpp:867
+#, c-format
 #, c-format
 msgid "%d"
 msgstr "%d"
@@ -2655,6 +2739,7 @@ msgstr "내 프로젝트:"
 
 #: clientgui/sg_StatImageLoader.cpp:101
 #, c-format
+#, c-format
 msgid "%s. Work done by %s: %0.2f"
 msgstr "%s. 작업 완료 %s: %0.2f"
 
@@ -2666,6 +2751,7 @@ msgstr "프로젝트 제거"
 #: clientgui/ViewProjects.cpp:490
 #: clientgui/ViewProjectsBase.cpp:343
 #: clientgui/ViewProjectsGrid.cpp:418
+#, c-format
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
 msgstr "정말로 프로젝트 '%s' 분리를 원하십니까?"
@@ -2680,10 +2766,12 @@ msgstr "프로젝트에서 분리하기"
 #: clientgui/sg_ViewTabPage.cpp:138
 #: clientgui/sg_ViewTabPage.cpp:278
 #, c-format
+#, c-format
 msgid "%.1lf"
 msgstr "%.1lf"
 
 #: clientgui/sg_ViewTabPage.cpp:407
+#, c-format
 #, c-format
 msgid "%d hr %d min %d sec"
 msgstr "%d 시 %d 분 %d 초"
@@ -2816,10 +2904,12 @@ msgstr ""
 #: clientgui/ValidateURL.cpp:104
 #: clientgui/ValidateURL.cpp:108
 #, c-format
+#, c-format
 msgid "'%s' does not contain a valid host name."
 msgstr "'%s'은(는) 유효한 호스트 이름을 포함하고 있지 않습니다."
 
 #: clientgui/ValidateURL.cpp:111
+#, c-format
 #, c-format
 msgid "'%s' does not contain a valid path."
 msgstr "'%s'은(는) 유효한 경로를 포함하고 있지 않습니다."
@@ -2990,7 +3080,9 @@ msgstr "프로젝트 다시 설정"
 #: clientgui/ViewProjectsBase.cpp:130
 #: clientgui/ViewProjectsGrid.cpp:142
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr "이 프로젝트와 관련된 모든 작업과 파일들을 삭제하고 새 작업을 받아옵니다. 그 전에 먼저 완료된 작업을 보고하도록 업데이트할 수 있습니다."
+msgstr ""
+"이 프로젝트와 관련된 모든 작업과 파일들을 삭제하고 새 작업을 받아옵니다. 그 전에 먼저 완료된 작업을 보고하도록 업데이트할 수 "
+"있습니다."
 
 #: clientgui/ViewProjects.cpp:201
 #: clientgui/ViewProjectsBase.cpp:139
@@ -3088,6 +3180,7 @@ msgstr "프로젝트 다시 설정 중..."
 #: clientgui/ViewProjects.cpp:432
 #: clientgui/ViewProjectsBase.cpp:296
 #: clientgui/ViewProjectsGrid.cpp:363
+#, c-format
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr "정말로 프로젝트 '%s' 다시 설정을 원하십니까?"
@@ -3243,6 +3336,7 @@ msgid "Host Average"
 msgstr "호스트 평균"
 
 #: clientgui/ViewStatistics.cpp:1283
+#, c-format
 #, c-format
 msgid "Last update: %.0f days ago"
 msgstr "마지막 업데이트: %.0f 일 전"
@@ -3402,6 +3496,7 @@ msgstr "전송 취소 중..."
 
 #: clientgui/ViewTransfers.cpp:322
 #, c-format
+#, c-format
 msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
@@ -3517,6 +3612,7 @@ msgstr "작업 중지 중..."
 
 #: clientgui/ViewWork.cpp:403
 #, c-format
+#, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
@@ -3554,6 +3650,7 @@ msgstr "작업"
 
 #: clientgui/ViewWorkGrid.cpp:327
 #, c-format
+#, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s %%, Status: %s)"
@@ -3566,6 +3663,7 @@ msgid "Change Research Applications at World Community Grid"
 msgstr "World Community Grid 연구 응용 프로그램을 바꿉니다"
 
 #: clientgui/WelcomePage.cpp:336
+#, c-format
 #, c-format
 msgid ""
 "If possible, add projects at the\n"
@@ -3618,10 +3716,12 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:362
 #, c-format
+#, c-format
 msgid "&Stop using%s"
 msgstr "%s 사용 중지 "
 
 #: clientgui/WelcomePage.cpp:369
+#, c-format
 #, c-format
 msgid ""
 "We'll now remove this computer from %s.  From now on,\n"
@@ -3721,20 +3821,24 @@ msgstr "완료"
 
 #: clientgui/common/wxFlatNotebook.cpp:182
 #, c-format
+#, c-format
 msgid "New page inserted. Index = %i"
 msgstr "새 페이지 삽입됨. Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:187
+#, c-format
 #, c-format
 msgid "New page appended. Index = %i"
 msgstr "새 페이지 첨부됨. Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2048
 #, c-format
+#, c-format
 msgid "Old Page Index = %i"
 msgstr "Old Page Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2053
+#, c-format
 #, c-format
 msgid "OnDropTarget: index by HitTest = %i"
 msgstr "OnDropTarget: index by HitTest = %i"
@@ -3750,4 +3854,3 @@ msgstr "작업 시작 및 중지 시간을 HH:MM-HH:MM 형식대로 입력해 �
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "네트워크 사용 시작 및 중지 시간을 HH:MM-HH:MM 형식대로 입력해 주세요"
-

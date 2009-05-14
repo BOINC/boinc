@@ -127,19 +127,9 @@ msgstr "帐户管理器的网址"
 msgid "Enter the URL of the account manager's web site."
 msgstr "请输入帐户管理器的网址。"
 
-#: clientgui/AccountManagerInfoPage.cpp:179
-msgid ""
-"You can copy and paste the URL from your browser's\n"
-"address bar."
-msgstr "您可以从浏览器的地址栏中复制网址(URL)。"
-
 #: clientgui/AccountManagerInfoPage.cpp:186
 msgid "Account Manager &URL:"
 msgstr "帐户管理器的网址(&U)："
-
-#: clientgui/AccountManagerInfoPage.cpp:185
-msgid "For a list of account managers go to:"
-msgstr "查看帐户管理器的列表请到："
 
 #: clientgui/AccountManagerProcessingPage.cpp:190
 #: clientgui/AccountManagerPropertiesPage.cpp:194
@@ -194,17 +184,17 @@ msgstr "退出 %s"
 msgid "E&xit"
 msgstr "退出(&X)"
 
-#: clientgui/AdvancedFrame.cpp:329
-msgid "&Advanced View"
-msgstr "高级视图(&A)"
+#: clientgui/AdvancedFrame.cpp:324
+msgid "&Advanced View\tCTRL+SHIFT+A"
+msgstr "高级视图(&A)\tCTRL+SHIFT+A"
 
 #: clientgui/AdvancedFrame.cpp:325
 msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
 msgstr "高级视图允许用户按表格列进行排序并可显示图形化的进度条。"
 
-#: clientgui/AdvancedFrame.cpp:335
-msgid "&Simple View..."
-msgstr "简易视图(&S)"
+#: clientgui/AdvancedFrame.cpp:330
+msgid "&Simple View...\tCTRL+SHIFT+S"
+msgstr "简易视图(&S)\tCTRL+SHIFT+S"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display the simple BOINC graphical interface."
@@ -539,14 +529,6 @@ msgstr "正在连接至 %s"
 msgid "Connected to %s (%s)"
 msgstr "已连接至 %s ( %s )"
 
-#: clientgui/AlreadyAttachedPage.cpp:180
-msgid "Already attached to project"
-msgstr "已经加入到项目"
-
-#: clientgui/AlreadyAttachedPage.cpp:183
-msgid "You are already attached to this project."
-msgstr "您已经加入到项目。"
-
 #: clientgui/AlreadyExistsPage.cpp:183
 msgid "Username already in use"
 msgstr "该用户名已被使用"
@@ -789,6 +771,10 @@ msgstr "使用可选参数来启动 BOINC"
 msgid "disable BOINC security users and permissions"
 msgstr "禁用 BOINC 中用户和权限相关的安全选项"
 
+#: clientgui/BOINCGUIApp.cpp:529
+msgid "set skin debugging mode to enable skin manager error messages"
+msgstr "设置皮肤调试模式已启用皮肤管理器的错误消息记录"
+
 #: clientgui/BOINCGUIApp.cpp:689
 msgid "(Automatic Detection)"
 msgstr "( 自动检测 )"
@@ -945,16 +931,6 @@ msgstr "您已经成功地加入了 %s 系统。"
 msgid "You are now successfully attached to this account manager."
 msgstr "您已经成功地加入了当前帐户管理器。"
 
-#: clientgui/ctest.cpp:154
-#: clientgui/ctest.cpp:158
-msgid "Static text"
-msgstr "静态文本"
-
-#: clientgui/ctest.cpp:166
-#: clientgui/ctest.cpp:171
-msgid "Radiobutton"
-msgstr "单选按钮"
-
 #: clientgui/DlgAbout.cpp:98
 #, c-format
 #, c-format
@@ -1071,6 +1047,14 @@ msgstr "使用计算机时"
 msgid "check this if you want this computer to do work even when you're using it"
 msgstr "如果您希望在您使用计算机的时候仍进行计算请选上"
 
+#: clientgui/DlgAdvPreferencesBase.cpp:98
+msgid " Use GPU while computer is in use"
+msgstr " 是否在使用计算机时仍运行 GPU 计算程序"
+
+#: clientgui/DlgAdvPreferencesBase.cpp:101
+msgid "check this if you want your GPU to do work even when you're using the computer"
+msgstr "如果您希望在使用计算机的时候仍运行 GPU 版计算程序请选中此项"
+
 #: clientgui/DlgAdvPreferencesBase.cpp:111
 msgid "Only after computer has been idle for"
 msgstr "仅在计算机空闲多少时间后"
@@ -1168,9 +1152,9 @@ msgid "On multiprocessor systems, use at most"
 msgstr "在多处理器系统上，最多使用"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:249
-#, c-format
-#, c-format
 #, no-c-format
+#, no-c-format
+#, c-format
 msgid "% of the processors"
 msgstr "% 处理器"
 
@@ -1333,10 +1317,12 @@ msgstr "内存使用"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:541
 #, no-c-format
+#, no-c-format
 msgid "% when computer is in use"
 msgstr "% ( 使用计算机时 )"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:551
+#, no-c-format
 #, no-c-format
 msgid "% when computer is idle"
 msgstr "% ( 计算机闲置时 )"
@@ -1470,6 +1456,10 @@ msgstr "团队名称"
 msgid "Resource share"
 msgstr "资源分享"
 
+#: clientgui/DlgItemProperties.cpp:111
+msgid "Scheduler RPC deferred for"
+msgstr "远程调度请求被延迟"
+
 #: clientgui/DlgItemProperties.cpp:114
 msgid "Non CPU intensive"
 msgstr "非 CPU 密集"
@@ -1534,13 +1524,33 @@ msgstr "主机"
 msgid "Scheduling"
 msgstr "调度"
 
-#: clientgui/DlgItemProperties.cpp:134
-msgid "Short term debt"
-msgstr "短期债项"
+#: clientgui/DlgItemProperties.cpp:139
+msgid "CPU scheduling priority"
+msgstr "CPU 调度优先级"
 
-#: clientgui/DlgItemProperties.cpp:135
-msgid "Long term debt"
-msgstr "长期债项"
+#: clientgui/DlgItemProperties.cpp:140
+msgid "CPU work fetch priority"
+msgstr "CPU 任务获取优先级"
+
+#: clientgui/DlgItemProperties.cpp:143
+msgid "CPU work fetch deferred for"
+msgstr "CPU 任务获取被延迟"
+
+#: clientgui/DlgItemProperties.cpp:144
+msgid "CPU work fetch deferral interval"
+msgstr "CPU 任务获取延迟间隔"
+
+#: clientgui/DlgItemProperties.cpp:146
+msgid "NVIDIA GPU work fetch priority"
+msgstr "NVIDIA GPU 任务获取优先级"
+
+#: clientgui/DlgItemProperties.cpp:149
+msgid "NVIDIA GPU work fetch deferred for"
+msgstr "NVIDIA GPU 任务获取被延迟"
+
+#: clientgui/DlgItemProperties.cpp:150
+msgid "NVIDIA GPU work fetch deferral interval"
+msgstr "NVIDIA GPU 任务获取延迟间隔"
 
 #: clientgui/DlgItemProperties.cpp:152
 msgid "Duration correction factor"
@@ -1604,6 +1614,10 @@ msgstr "虚存占用大小"
 #: clientgui/DlgItemProperties.cpp:183
 msgid "Working set size"
 msgstr "工作集大小"
+
+#: clientgui/DlgItemProperties.cpp:185
+msgid "Slot"
+msgstr "槽位"
 
 #: clientgui/DlgItemProperties.cpp:283
 #: clientgui/ViewWork.cpp:1006
@@ -2207,6 +2221,18 @@ msgstr "要选择一个项目，请点击它的项目名称或在下方输入它
 #: clientgui/ProjectInfoPage.cpp:251
 msgid "Project &URL:"
 msgstr "项目网址(&U)："
+
+#: clientgui/ProjectInfoPage.cpp:320
+msgid "You are already attached to this project. Please choose a different project."
+msgstr "您当前已经加入了这个项目，请选择一个其它的项目。"
+
+#: clientgui/ProjectInfoPage.cpp:321
+msgid "Already Attached to Project"
+msgstr "已加入到该项目"
+
+#: clientgui/ProjectInfoPage.cpp:348
+msgid "This project may not have work for your type of computer."
+msgstr "该项目可能没有适合您计算机的任务类型。"
 
 #: clientgui/ProjectListCtrl.cpp:338
 #, c-format
@@ -2956,6 +2982,26 @@ msgstr "警告"
 msgid "Error"
 msgstr "错误"
 
+#: clientgui/ViewNews.cpp:76
+msgid "News Feeds"
+msgstr "新闻订阅"
+
+#: clientgui/ViewNews.cpp:80
+msgid "BOINC"
+msgstr "BOINC"
+
+#: clientgui/ViewNews.cpp:81
+msgid "Display the latest news about BOINC"
+msgstr "显示最新的 BOINC 新闻"
+
+#: clientgui/ViewNews.cpp:87
+msgid "BOINC Website"
+msgstr "BOINC 网站"
+
+#: clientgui/ViewNews.cpp:88
+msgid "Display the latest news about BOINC from the BOINC website"
+msgstr "显示 BOINC 网站上最近关于 BOINC 的新闻"
+
 #: clientgui/ViewProjects.cpp:173
 #: clientgui/ViewProjectsBase.cpp:107
 #: clientgui/ViewProjectsGrid.cpp:120
@@ -3507,6 +3553,10 @@ msgstr "显示任务细节。"
 msgid "Name"
 msgstr "任务名称"
 
+#: clientgui/ViewWork.cpp:217
+msgid "Elapsed"
+msgstr "已用时间"
+
 #: clientgui/ViewWork.cpp:219
 #: clientgui/ViewWorkGrid.cpp:147
 msgid "To completion"
@@ -3767,10 +3817,6 @@ msgstr "OnDropTarget: index by HitTest = %i"
 msgid "Pie Ctrl"
 msgstr "派图"
 
-#: clientgui/ctest.h:70
-msgid "Test"
-msgstr "测试"
-
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
 msgstr "指定开始和停止计算的时间，格式是 HH:MM-HH:MM"
@@ -3778,6 +3824,41 @@ msgstr "指定开始和停止计算的时间，格式是 HH:MM-HH:MM"
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "指定开始和停止使用网络的时间，格式是 HH:MM-HH:MM"
+
+#~ msgid ""
+#~ "You can copy and paste the URL from your browser's\n"
+#~ "address bar."
+#~ msgstr "您可以从浏览器的地址栏中复制网址(URL)。"
+
+#~ msgid "For a list of account managers go to:"
+#~ msgstr "查看帐户管理器的列表请到："
+
+#~ msgid "&Advanced View"
+#~ msgstr "高级视图(&A)"
+
+#~ msgid "&Simple View..."
+#~ msgstr "简易视图(&S)"
+
+#~ msgid "Already attached to project"
+#~ msgstr "已经加入到项目"
+
+#~ msgid "You are already attached to this project."
+#~ msgstr "您已经加入到项目。"
+
+#~ msgid "Static text"
+#~ msgstr "静态文本"
+
+#~ msgid "Radiobutton"
+#~ msgstr "单选按钮"
+
+#~ msgid "Short term debt"
+#~ msgstr "短期债项"
+
+#~ msgid "Long term debt"
+#~ msgstr "长期债项"
+
+#~ msgid "Test"
+#~ msgstr "测试"
 
 #~ msgid "Enter account key"
 #~ msgstr "输入帐户密钥"
@@ -3824,95 +3905,3 @@ msgstr "指定开始和停止使用网络的时间，格式是 HH:MM-HH:MM"
 
 #~ msgid "Enable BOINC Manager exit message:"
 #~ msgstr "启用 BOINC Manager 的退出消息："
-
-#: clientgui/AdvancedFrame.cpp:324
-msgid "&Advanced View\tCTRL+SHIFT+A"
-msgstr "高级视图(&A)\tCTRL+SHIFT+A"
-
-#: clientgui/AdvancedFrame.cpp:330
-msgid "&Simple View...\tCTRL+SHIFT+S"
-msgstr "简易视图(&S)\tCTRL+SHIFT+S"
-
-#: clientgui/BOINCGUIApp.cpp:529
-msgid "set skin debugging mode to enable skin manager error messages"
-msgstr "设置皮肤调试模式已启用皮肤管理器的错误消息记录"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:98
-msgid " Use GPU while computer is in use"
-msgstr " 是否在使用计算机时仍运行 GPU 计算程序"
-
-#: clientgui/DlgAdvPreferencesBase.cpp:101
-msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr "如果您希望在使用计算机的时候仍运行 GPU 版计算程序请选中此项"
-
-#: clientgui/DlgItemProperties.cpp:111
-msgid "Scheduler RPC deferred for"
-msgstr "远程调度请求被延迟"
-
-#: clientgui/DlgItemProperties.cpp:139
-msgid "CPU scheduling priority"
-msgstr "CPU 调度优先级"
-
-#: clientgui/DlgItemProperties.cpp:140
-msgid "CPU work fetch priority"
-msgstr "CPU 任务获取优先级"
-
-#: clientgui/DlgItemProperties.cpp:143
-msgid "CPU work fetch deferred for"
-msgstr "CPU 任务获取被延迟"
-
-#: clientgui/DlgItemProperties.cpp:144
-msgid "CPU work fetch deferral interval"
-msgstr "CPU 任务获取延迟间隔"
-
-#: clientgui/DlgItemProperties.cpp:146
-msgid "NVIDIA GPU work fetch priority"
-msgstr "NVIDIA GPU 任务获取优先级"
-
-#: clientgui/DlgItemProperties.cpp:149
-msgid "NVIDIA GPU work fetch deferred for"
-msgstr "NVIDIA GPU 任务获取被延迟"
-
-#: clientgui/DlgItemProperties.cpp:150
-msgid "NVIDIA GPU work fetch deferral interval"
-msgstr "NVIDIA GPU 任务获取延迟间隔"
-
-#: clientgui/DlgItemProperties.cpp:185
-msgid "Slot"
-msgstr "槽位"
-
-#: clientgui/ProjectInfoPage.cpp:320
-msgid "You are already attached to this project. Please choose a different project."
-msgstr "您当前已经加入了这个项目，请选择一个其它的项目。"
-
-#: clientgui/ProjectInfoPage.cpp:321
-msgid "Already Attached to Project"
-msgstr "已加入到该项目"
-
-#: clientgui/ProjectInfoPage.cpp:348
-msgid "This project may not have work for your type of computer."
-msgstr "该项目可能没有适合您计算机的任务类型。"
-
-#: clientgui/ViewNews.cpp:76
-msgid "News Feeds"
-msgstr "新闻订阅"
-
-#: clientgui/ViewNews.cpp:80
-msgid "BOINC"
-msgstr "BOINC"
-
-#: clientgui/ViewNews.cpp:81
-msgid "Display the latest news about BOINC"
-msgstr "显示最新的 BOINC 新闻"
-
-#: clientgui/ViewNews.cpp:87
-msgid "BOINC Website"
-msgstr "BOINC 网站"
-
-#: clientgui/ViewNews.cpp:88
-msgid "Display the latest news about BOINC from the BOINC website"
-msgstr "显示 BOINC 网站上最近关于 BOINC 的新闻"
-
-#: clientgui/ViewWork.cpp:217
-msgid "Elapsed"
-msgstr "已用时间"

@@ -2,7 +2,8 @@
 
 rights:
   SaharovNA = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
-  default = u'view, suggest, archive, pocompile'
+  default = u'view, suggest, archive'
   nobody = u'view'
   romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   mifistorX = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  DeadJDona = u'view, suggest, archive'

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rev.15858\n"
-"Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2009-01-05 12:28-0500\n"
+"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2009-05-09 21:36 PDT\n"
 "PO-Revision-Date: 2009-05-02 21:27-0700\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
@@ -14,25 +14,10 @@ msgstr ""
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: html\\user\n"
-"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
-
-msgid "CHARSET"
-msgstr "UTF-8"
-
-msgid "LANG_NAME_NATIVE"
-msgstr "简体中文"
-
-msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Simplified Chinese"
-
-msgid "Rank"
-msgstr "名次"
-
-msgid "Name"
-msgstr "用户名"
 
 msgid "Search for words in forum messages"
 msgstr "在论坛的所有帖子中搜索关键字"
@@ -55,10 +40,15 @@ msgstr "留言板"
 msgid "%1 message board"
 msgstr "%1 留言板"
 
-msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgid ""
+"In order to create a new thread in %1 you must have a certain amount of "
+"credit. This is to prevent and protect against abuse of the system."
 msgstr "您必须在已经获得了一定的积分后才能在 %1 发表一个新主题。这是为了防止对论坛系统的滥用。"
 
-msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+msgid ""
+"You cannot create any more threads right now. Please wait a while before "
+"trying again. This delay has been enforced to protect against abuse of the "
+"system."
 msgstr "您暂时不能发表更多的新主题，请稍后再试，这是为了防止对论坛系统的滥用而采取的延时。"
 
 msgid "Thread"
@@ -109,11 +99,31 @@ msgstr "消息"
 msgid "Send message"
 msgstr "发送消息"
 
-msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+msgid ""
+"You are not allowed to send privates messages so often. Please wait some "
+"time before sending more messages."
 msgstr "您发送消息的间隔时间太短，请等待一段时间再发送更多的消息。"
 
 msgid "unread"
 msgstr "未读"
+
+msgid "Edit your profile"
+msgstr ""
+
+msgid "Your feedback on this profile"
+msgstr ""
+
+msgid "Recommend this profile for User of the Day:"
+msgstr ""
+
+msgid "I %1like%2 this profile"
+msgstr ""
+
+msgid "Alert administrators to an offensive profile:"
+msgstr ""
+
+msgid "I %1do not like%2 this profile"
+msgstr ""
 
 msgid "Search criteria (use one or more)"
 msgstr "搜索条件 ( 可使用一个或多个 )"
@@ -172,6 +182,10 @@ msgstr "总积分"
 msgid "Recent average credit"
 msgstr "近期平均积分"
 
+#, fuzzy
+msgid "Cross-project stats"
+msgstr "跨项目的统计网站"
+
 msgid "Type"
 msgstr "类型"
 
@@ -184,8 +198,13 @@ msgstr "主题"
 msgid "Join this team"
 msgstr "加入该团队"
 
-msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
+msgid ""
+"Note: if 'OK to email' is set in your project preferences, joining a team "
+"gives its founder access to your email address."
 msgstr "如果你在项目参数中设置了允许接收电子邮件，加入团队后该团队的创建人将可以年到您的电子邮件地址。"
+
+msgid "Not accepting new members"
+msgstr ""
 
 msgid "Foundership change requested"
 msgstr "创建人改变请求待处理"
@@ -220,6 +239,9 @@ msgstr "活跃的成员"
 msgid "Members with credit"
 msgstr "有积分的成员"
 
+msgid "Name"
+msgstr "用户名"
+
 msgid "Admin"
 msgstr "管理员"
 
@@ -238,7 +260,12 @@ msgstr "本操作需要创建人权限。"
 msgid "This operation requires team admin privileges"
 msgstr "本操作需要团队创建人的权限"
 
-msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
+msgid "Rank"
+msgstr "名次"
+
+msgid ""
+"%1Privacy note%2: if you create a team, your project preferences (resource "
+"share, graphics preferences) will be visible to the public."
 msgstr "%1隐私事项%2：如果您要创建一个团队，则您的项目参数 ( 资源分享率，图形参数设置等 ) 将会对团队成员公开。"
 
 msgid "Team name, text version"
@@ -358,14 +385,9 @@ msgstr "可用于完全访问您的帐户"
 msgid "Weak account key"
 msgstr "弱帐户密钥"
 
-msgid "Provides"
-msgstr "可用于"
-
-msgid "limited access"
-msgstr "受限制地访问"
-
-msgid "to your account"
-msgstr "您的帐户"
+#, fuzzy
+msgid "Provides %1limited access%2 to your account"
+msgstr "可用于完全访问您的帐户"
 
 msgid "Preferences"
 msgstr "参数设置"
@@ -457,6 +479,9 @@ msgstr "请求待处理"
 msgid "Add as friend"
 msgstr "添加为好友"
 
+msgid "CHARSET"
+msgstr "UTF-8"
+
 msgid "Use BBCode tags to format your text"
 msgstr "使用 BBCode 标记来格式化您的正文"
 
@@ -475,7 +500,11 @@ msgstr "可选的"
 msgid "Applications"
 msgstr "计算程序"
 
-msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+msgid ""
+"%1 currently has the following applications. When you participate in %1, "
+"work for one or more of these applications will be assigned to your "
+"computer. The current version of the application will be downloaded to your "
+"computer. This happens automatically; you don't have to do anything."
 msgstr ""
 "%1 目前有如下几个计算程序。当您参与 %1 "
 "项目时，适用于这些计算程序的任务包将会分发给您的计算机。当前版本的计算程序也会下载到您的计算机上。这一切都是自动的，您不需要做任何操作。"
@@ -483,8 +512,8 @@ msgstr ""
 msgid "Platform"
 msgstr "平台"
 
-msgid "Current version"
-msgstr "当前版本"
+msgid "Version"
+msgstr ""
 
 msgid "Installation time"
 msgstr "发布时间"
@@ -504,11 +533,16 @@ msgstr "账号创建功能已被禁用"
 msgid "Account creation is currently disabled. Please try again later."
 msgstr "新帐户创建功能当前已暂停，请以后再试。"
 
-msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgid ""
+"NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
+"form. Just run BOINC, select Attach Project, and enter an email address and "
+"password."
 msgstr ""
 "注意：如果您正在使用5.2版本之后的客户端，请不要使用这个表单。运行 BOINC，运行菜单中的“加入项目”，然后输入电子邮件地址并设置一个用户口令。"
 
-msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgid ""
+"This account will belong to the team %1 and will have the project "
+"preferences of its founder."
 msgstr "此帐户将属于 %1 团队并且其项目参数的默认值和团队创建人的项目参数相同。"
 
 msgid "Invitation Code"
@@ -535,6 +569,119 @@ msgstr "确认用户口令"
 msgid "Create account"
 msgstr "创建帐户"
 
+msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
+msgstr ""
+
+msgid "Picture"
+msgstr ""
+
+msgid "%1 Your profile picture is shown to the left."
+msgstr ""
+
+msgid ""
+"To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
+"or less)."
+msgstr ""
+
+msgid "To remove it from your profile, check this box:"
+msgstr ""
+
+msgid ""
+"If you would like include a picture with your profile, click the \"Browse\" "
+"button and select a JPEG or PNG file. Please select images of %1 or less."
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Select the language in which your profile is written:"
+msgstr ""
+
+msgid "Submit profile"
+msgstr ""
+
+msgid ""
+"To protect the project's webpages from spam, we kindly ask you to type in "
+"the two words shown in the image:<br>\n"
+msgstr ""
+
+msgid "Create/edit profile"
+msgstr ""
+
+msgid "The format of your uploaded image is not supported."
+msgstr ""
+
+msgid ""
+"Your %1profile%2 lets you share your opinions and background with the %3 "
+"community."
+msgstr ""
+
+msgid "Your ReCaptcha response was not correct.  Please try again."
+msgstr ""
+
+msgid ""
+"Your first response was flagged as spam by the Akismet anti-spam system.  "
+"Please modify your text and try again."
+msgstr ""
+
+msgid ""
+"Your second response was flagged as spam by the Akismet anti-spam system.  "
+"Please modify your text and try again."
+msgstr ""
+
+msgid "Your profile submission was empty."
+msgstr ""
+
+msgid "Could not update the profile: database error"
+msgstr ""
+
+msgid "Could not create the profile: database error"
+msgstr ""
+
+msgid "Profile saved"
+msgstr ""
+
+msgid ""
+"Congratulations! Your profile was successfully entered into our database."
+msgstr ""
+
+msgid "%1View your profile%2"
+msgstr ""
+
+msgid "Create a profile"
+msgstr ""
+
+msgid ""
+"To prevent spam, an average credit of %1 or greater is required to create or "
+"edit a profile.  We apologize for this inconvenience."
+msgstr ""
+
+msgid "Download BOINC add-on software"
+msgstr ""
+
+msgid "You can download applications in several categories."
+msgstr ""
+
+msgid ""
+"These applications are not endorsed by %1 and you use them at your own risk."
+msgstr ""
+
+msgid ""
+"We do not provide instructions for installing these applications.\n"
+"However, the author may have provided some help on installing or "
+"uninstalling the application. \n"
+"If this is not enough you should contact the author."
+msgstr ""
+
+msgid "Instructions for installing and running BOINC are %1here%2."
+msgstr ""
+
+msgid "This list is managed centrally at %1the BOINC website%2."
+msgstr ""
+
+msgid "fll"
+msgstr ""
+
 msgid "Title"
 msgstr "标题"
 
@@ -544,8 +691,359 @@ msgstr "在帖子后附上我的个性签名"
 msgid "%1 Message boards"
 msgstr "%1 留言板"
 
+msgid ""
+"If you have a question or problem, please use the %1Questions & Answers%2 "
+"section of the message boards."
+msgstr ""
+
 msgid "Topic"
 msgstr "主题"
+
+msgid "Create a new thread"
+msgstr "创建新主题"
+
+msgid "Post to thread"
+msgstr "回复该主题"
+
+msgid "Forum search"
+msgstr "搜索论坛"
+
+msgid "Forum search results"
+msgstr "论坛搜索结果"
+
+msgid "No thread with id %1. Please check the link and try again."
+msgstr ""
+
+msgid "This forum is not visible to you."
+msgstr ""
+
+msgid "This thread has been hidden for administrative purposes"
+msgstr "该主题出于管理目的已被隐藏"
+
+msgid "My question was answered"
+msgstr ""
+
+msgid ""
+"If your question has been adequately answered please click here to close it!"
+msgstr ""
+
+msgid "I've also got this question"
+msgstr ""
+
+msgid "Add a new message to this thread"
+msgstr ""
+
+msgid "Unsubscribe"
+msgstr "退订该主题"
+
+msgid "You are subscribed to this thread.  Click here to unsubscribe."
+msgstr ""
+
+msgid "Subscribe"
+msgstr "订阅该主题"
+
+msgid "Click to get email when there are new posts in this thread"
+msgstr ""
+
+msgid "Unhide"
+msgstr ""
+
+msgid "Unhide this thread"
+msgstr ""
+
+msgid "Hide"
+msgstr ""
+
+msgid "Hide this thread"
+msgstr ""
+
+msgid "Make unsticky"
+msgstr ""
+
+msgid "Make this thread not sticky"
+msgstr ""
+
+msgid "Make sticky"
+msgstr ""
+
+msgid "Make this thread sticky"
+msgstr ""
+
+msgid "Unlock"
+msgstr ""
+
+msgid "Unlock this thread"
+msgstr ""
+
+msgid "Lock"
+msgstr ""
+
+msgid "Lock this thread"
+msgstr ""
+
+msgid "Move"
+msgstr ""
+
+msgid "Move this thread to a different forum"
+msgstr ""
+
+msgid "Edit title"
+msgstr ""
+
+msgid "Edit thread title"
+msgstr ""
+
+msgid "Sort"
+msgstr ""
+
+msgid "Already friends"
+msgstr ""
+
+msgid "You requested friendship with %1 on %2."
+msgstr ""
+
+msgid "This request is still pending confirmation."
+msgstr ""
+
+msgid "%1 is not accepting friendship requests from you"
+msgstr ""
+
+msgid "You can't be friends with yourself"
+msgstr ""
+
+msgid "No such user"
+msgstr "没有这个用户"
+
+#, fuzzy
+msgid "Add friend"
+msgstr "添加为好友"
+
+msgid ""
+"You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
+"to confirm that you are friends."
+msgstr ""
+
+msgid "Add an optional message here:"
+msgstr ""
+
+msgid "Database error"
+msgstr ""
+
+msgid "Friend request sent"
+msgstr ""
+
+msgid "We have notified %1 of your request."
+msgstr ""
+
+msgid "Request not found"
+msgstr ""
+
+msgid "Friend request"
+msgstr ""
+
+msgid "%1 has added you as a friend."
+msgstr ""
+
+msgid "%1 says: %2"
+msgstr ""
+
+msgid "Accept friendship"
+msgstr ""
+
+msgid "Click accept if %1 is in fact a friend"
+msgstr ""
+
+msgid "Decline"
+msgstr ""
+
+msgid "Click decline if %1 is not a friend"
+msgstr ""
+
+msgid "No request"
+msgstr ""
+
+msgid "Friendship confirmed"
+msgstr ""
+
+msgid "Your friendship with %1 has been confirmed."
+msgstr ""
+
+msgid "Friendship declined"
+msgstr ""
+
+msgid "You have declined friendship with %1"
+msgstr ""
+
+msgid "Notification not found"
+msgstr ""
+
+msgid "Friend confirmed"
+msgstr ""
+
+msgid "You are now friends with %1."
+msgstr ""
+
+#, fuzzy
+msgid "Cancel friendship?"
+msgstr "删除该好友"
+
+msgid "Are you sure you want to cancel your friendship with %1?"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "Stay friends"
+msgstr ""
+
+msgid "Friendship cancelled"
+msgstr ""
+
+msgid "Your friendship with %1 has been cancelled."
+msgstr ""
+
+msgid "Unknown action"
+msgstr ""
+
+msgid "Welcome to %1"
+msgstr "欢迎访问 %1"
+
+msgid "View and edit your account preferences using the links below."
+msgstr "使用下面的链接查看及编辑您的帐户参数"
+
+msgid "Your account"
+msgstr "您的帐户"
+
+msgid "Read our rules and policies"
+msgstr "阅读规定和政策"
+
+msgid "Run %1 only on authorized computers"
+msgstr "仅在已授权的计算机上运行 %1"
+
+msgid ""
+"Run %1 only on computers that you own, or for which you have obtained the "
+"owner's permission. Some companies and schools have policies that prohibit "
+"using their computers for projects such as %1."
+msgstr "仅在您自己的或者已获准使用的计算机上运行 %1。某些企业和学校是禁止在他们的计算机上运行和 %1 的类似的项目。"
+
+msgid "How %1 will use your computer"
+msgstr "%1 如何使用您的计算机"
+
+msgid ""
+"When you run %1 on your computer, it will use part of the computer's CPU "
+"power, disk space, and network bandwidth. You can control how much of your "
+"resources are used by %1, and when it uses them."
+msgstr "当您在计算机上运行 %1 时，他会使用您计算机上部分的处理器资源、磁盘空间以及网络带宽。您可以控制 %1 的资源使用量以及何时可以使用。"
+
+msgid ""
+"The work done by your computer contributes to the goals of %1, as described "
+"on its web site. The application programs may change from time to time."
+msgstr "您的计算机所完成的计算任务仅用来帮助 %1 实现其项目网站上所申明的目标。项目计算程序的版本可能会经常改变。"
+
+msgid "Privacy policy"
+msgstr "隐私政策"
+
+msgid ""
+"Your account on %1 is identified by a name that you choose. This name may be "
+"shown on the %1 web site, along with a summary of the work your computer has "
+"done for %1. If you want to be anonymous, choose a name that doesn't reveal "
+"your identity."
+msgstr ""
+"%1 通过您选择的用户名来标识您的帐户。该用户名以及您为 %1 完成的计算任务的摘要将显示在 %1 "
+"的网站上。如果您想要匿名，那请选择一个不会泄漏您身份的用户名。"
+
+msgid ""
+"If you participate in %1, information about your computer (such as its "
+"processor type, amount of memory, etc.) will be recorded by %1 and used to "
+"decide what type of work to assign to your computer. This information will "
+"also be shown on %1's web site. Nothing that reveals your computer's "
+"location (e.g. its domain name or network address) will be shown."
+msgstr ""
+"如果您参加了 %1，那您的计算机中的相关信息比如处理器的型号、内存的大小等会被 %1 记录下来，以用来决定什么样的计算任务最适合您的计算机。 "
+"这些信息也会显示在 %1 的网站上，但是请不要担心，我们绝对不会泄漏出您的计算机的位置比如域名、网络地址等。"
+
+msgid ""
+"To participate in %1, you must give an address where you receive email. This "
+"address will not be shown on the %1 web site or shared with organizations. %"
+"1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr ""
+"为了参加 %1，您必须提供一个能够接收邮件的电子邮件地址。这个地址不会被显示在 %1 的网站上。%1 可能会定期向您发送项目的新闻快讯； "
+"当然，您随时可以选择退订。"
+
+msgid ""
+"Private messages sent on the %1 web site are visible only to the sender and "
+"recipient.  %1 does not examine or police the content of private messages.  "
+"If you receive unwanted private messages from another %1 user, you may add "
+"them to your %2message filter%3.  This will prevent you from seeing any "
+"public or private messages from that user."
+msgstr ""
+
+msgid ""
+"If you use our web site forums you must follow the %2posting guidelines%3.  "
+"Messages posted to the %1 forums are visible to everyone, including non-"
+"members.  By posting to the forums, you are granting irrevocable license for "
+"anyone to view and copy your posts."
+msgstr ""
+
+msgid "Is it safe to run %1?"
+msgstr "运行 %1 安全吗？"
+
+msgid ""
+"Any time you download a program through the Internet you are taking a "
+"chance: the program might have dangerous errors, or the download server "
+"might have been hacked. %1 has made efforts to minimize these risks. We have "
+"tested our applications carefully. Our servers are behind a firewall and are "
+"configured for high security. To ensure the integrity of program downloads, "
+"all executable files are digitally signed on a secure computer not connected "
+"to the Internet."
+msgstr ""
+"只要您从互联网下载程序就有可能碰到有危险错误的程序或者下载服务器已被黑客攻击的情况。%1 已经尽力最小化这方面的风险。我们已经仔细测试了我们的程序。我们"
+"的服务器处于防火墙之后，并且设置了最高的安全级别。为了保证程序下载的正确性，全部的可执行文件会被放置在一台未联网的安全的计算机中进行数字签名。"
+
+msgid ""
+"The applications run by %1 may cause some computers to overheat. If this "
+"happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr ""
+"%1 的计算程序可能会导致某些计算机温度过高。如果您碰到了这种情形，请停止运行 %1 或者使用 %2某些工具软件%3 来限制计算程序对处理器的使用。"
+
+msgid ""
+"%1 was developed by %2. BOINC was developed at the University of California."
+msgstr "%1 由 %2 开发。BOINC 由加州大学开发。"
+
+msgid "Liability"
+msgstr "免责申明"
+
+msgid ""
+"%1 and %2 assume no liability for damage to your computer, loss of data, or "
+"any other event or condition that may occur as a result of participating in %"
+"1."
+msgstr "%1 和 %2 对于您的计算机损坏、数据丢失或其他任意由于参与 %1 所可能造成的事件没有赔偿责任。"
+
+msgid "Other BOINC projects"
+msgstr "其它 BOINC 项目"
+
+msgid ""
+"Other projects use the same platform, BOINC, as %1. You may want to consider "
+"participating in one or more of these projects. By doing so, your computer "
+"will do useful work even when %1 has no work available for it."
+msgstr ""
+"除了 %1，还有其它一些项目也使用BOINC平台。您也许会考虑同时参加多个项目，这样当您无法从 %1 "
+"获取计算任务时，您的计算机仍可以处理其它项目的计算任务。"
+
+msgid ""
+"These other projects are not associated with %1, and we cannot vouch for "
+"their security practices or the nature of their research. Join them at your "
+"own risk."
+msgstr "其它项目同 %1 没有关系，所以我们也无法保证这些项目的安全性以及确切的研究内容，请您自行决定是否参加其他项目。"
+
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Simplified Chinese"
+
+msgid "LANG_NAME_NATIVE"
+msgstr "简体中文"
 
 msgid "Your message has been sent."
 msgstr "您的消息已被发送。"
@@ -553,44 +1051,20 @@ msgstr "您的消息已被发送。"
 msgid "You have no private messages."
 msgstr "您目前没有私人消息。"
 
+msgid "Sender and date"
+msgstr "发送人及日期"
+
+msgid "Reply"
+msgstr "回复"
+
+msgid "Delete selected messages"
+msgstr ""
+
 msgid "Sender"
 msgstr "发送人"
 
 msgid "Date"
 msgstr "日期"
-
-msgid "Mark as read"
-msgstr "标记为已读"
-
-msgid "Mark as unread"
-msgstr "标记为未读"
-
-msgid "With selected"
-msgstr "对选择的消息"
-
-msgid "No such message"
-msgstr "没有这个消息"
-
-msgid "Block user"
-msgstr "阻止用户"
-
-msgid "Reply"
-msgstr "回复"
-
-msgid "Really delete?"
-msgstr "确定要删除吗？"
-
-msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
-msgstr "您确定要删除标题为 &quot;%1&quot; 的消息吗？该消息由 %2 于 %3 发送给您。"
-
-msgid "Yes, delete"
-msgstr "是的，删除"
-
-msgid "No, cancel"
-msgstr "不，取消"
-
-msgid "No such message."
-msgstr "没有这个消息。"
 
 msgid "You need to fill all fields to send a private message"
 msgstr "要发送私人消息，您必须填写所有字段"
@@ -610,20 +1084,24 @@ msgstr "用户 %1 ( 用户ID为 %2) 已禁止接受您的私人消息。"
 msgid "Really block %1?"
 msgstr "确定要阻止 %1 吗？"
 
-msgid "Are you really sure you want to block user %1 from sending you private messages?"
+msgid ""
+"Are you really sure you want to block user %1 from sending you private "
+"messages?"
 msgstr "您确定要阻止用户 %1 向您发送私人消息吗？"
 
 msgid "Please note that you can only block a limited amount of users."
 msgstr "请注意您只有阻止有限数量的用户。"
 
-msgid "Once the user has been blocked you can unblock it using forum preferences page."
+msgid ""
+"Once the user has been blocked you can unblock it using forum preferences "
+"page."
 msgstr "一旦该用户被您阻止，您可以在论坛的参数设置页面中解除该阻止。"
 
 msgid "Add user to filter"
 msgstr "添加用户到过滤器"
 
-msgid "No such user"
-msgstr "没有这个用户"
+msgid "No, cancel"
+msgstr "不，取消"
 
 msgid "User %1 blocked"
 msgstr "用户 %1 已被阻止"
@@ -634,114 +1112,22 @@ msgstr "用户 %1 已被阻止向您发送私人消息。"
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "要解除阻止，请访问 %1留言板的参数设置%2"
 
-msgid "Create a new thread"
-msgstr "创建新主题"
-
-msgid "Post to thread"
-msgstr "回复该主题"
-
-msgid "Forum search results"
-msgstr "论坛搜索结果"
-
-msgid "Forum search"
-msgstr "搜索论坛"
-
-msgid "This thread has been hidden for administrative purposes"
-msgstr "该主题出于管理目的已被隐藏"
-
-msgid "Unsubscribe"
-msgstr "退订该主题"
-
-msgid "Subscribe"
-msgstr "订阅该主题"
-
-msgid "Welcome to %1"
-msgstr "欢迎访问 %1"
-
-msgid "View and edit your account preferences using the links below."
-msgstr "使用下面的链接查看及编辑您的帐户参数"
-
-msgid "Read our rules and policies"
-msgstr "阅读规定和政策"
-
-msgid "Run %1 only on authorized computers"
-msgstr "仅在已授权的计算机上运行 %1"
-
-msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
-msgstr "仅在您自己的或者已获准使用的计算机上运行 %1。某些企业和学校是禁止在他们的计算机上运行和 %1 的类似的项目。"
-
-msgid "How %1 will use your computer"
-msgstr "%1 如何使用您的计算机"
-
-msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
-msgstr "当您在计算机上运行 %1 时，他会使用您计算机上部分的处理器资源、磁盘空间以及网络带宽。您可以控制 %1 的资源使用量以及何时可以使用。"
-
-msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
-msgstr "您的计算机所完成的计算任务仅用来帮助 %1 实现其项目网站上所申明的目标。项目计算程序的版本可能会经常改变。"
-
-msgid "Privacy policy"
-msgstr "隐私政策"
-
-msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
-msgstr ""
-"%1 通过您选择的用户名来标识您的帐户。该用户名以及您为 %1 完成的计算任务的摘要将显示在 %1 "
-"的网站上。如果您想要匿名，那请选择一个不会泄漏您身份的用户名。"
-
-msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
-msgstr ""
-"如果您参加了 %1，那您的计算机中的相关信息比如处理器的型号、内存的大小等会被 %1 记录下来，以用来决定什么样的计算任务最适合您的计算机。 "
-"这些信息也会显示在 %1 的网站上，但是请不要担心，我们绝对不会泄漏出您的计算机的位置比如域名、网络地址等。"
-
-msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr ""
-"为了参加 %1，您必须提供一个能够接收邮件的电子邮件地址。这个地址不会被显示在 %1 的网站上。%1 可能会定期向您发送项目的新闻快讯； "
-"当然，您随时可以选择退订。"
-
-msgid "Is it safe to run %1?"
-msgstr "运行 %1 安全吗？"
-
-msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
-msgstr ""
-"只要您从互联网下载程序就有可能碰到有危险错误的程序或者下载服务器已被黑客攻击的情况。%1 已经尽力最小化这方面的风险。我们已经仔细测试了我们的程序。我们"
-"的服务器处于防火墙之后，并且设置了最高的安全级别。为了保证程序下载的正确性，全部的可执行文件会被放置在一台未联网的安全的计算机中进行数字签名。"
-
-msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr ""
-"%1 的计算程序可能会导致某些计算机温度过高。如果您碰到了这种情形，请停止运行 %1 或者使用 %2某些工具软件%3 来限制计算程序对处理器的使用。"
-
-msgid "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr "%1 由 %2 开发。BOINC 由加州大学开发。"
-
-msgid "Liability"
-msgstr "免责申明"
-
-msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
-msgstr "%1 和 %2 对于您的计算机损坏、数据丢失或其他任意由于参与 %1 所可能造成的事件没有赔偿责任。"
-
-msgid "Other BOINC projects"
-msgstr "其它 BOINC 项目"
-
-msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
-msgstr ""
-"除了 %1，还有其它一些项目也使用BOINC平台。您也许会考虑同时参加多个项目，这样当您无法从 %1 "
-"获取计算任务时，您的计算机仍可以处理其它项目的计算任务。"
-
-msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
-msgstr "其它项目同 %1 没有关系，所以我们也无法保证这些项目的安全性以及确切的研究内容，请您自行决定是否参加其他项目。"
-
-msgid "Sender and date"
-msgstr "发送人及日期"
-
 msgid "Profiles"
 msgstr "档案"
 
-msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
+msgid ""
+"%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
+"community."
 msgstr "通过 %1档案%2 志愿者可以向 %3 社区分享他的背景和观点。"
 
-msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
+msgid ""
+"Explore the diversity of your fellow volunteers, and contribute your own "
+"views for others to enjoy."
 msgstr "可以了解其他志愿者的想法，也可以让他人看到您分享的观点。"
 
-msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
+msgid ""
+"If you haven't already, you can %1create your own user profile%2 for others "
+"to see!"
 msgstr "如果您还没有档案，现在就可以%1创建您自己的用户档案%2。"
 
 msgid "User of the Day"
@@ -756,7 +1142,9 @@ msgstr "查看%1用户图片库%2。"
 msgid "Browse profiles %1by country%2."
 msgstr "%1按国家或地区%2浏览档案。"
 
-msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
+msgid ""
+"Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
+"without pictures%2."
 msgstr "%1随机地浏览所有%2，%3随机地浏览带图片的%4或%5随机地浏览不带图片%6的档案。"
 
 msgid "Alphabetical profile listings:"
@@ -771,11 +1159,138 @@ msgstr "没有档案"
 msgid "No profiles matched your query."
 msgstr "没有档案符合您的查询条件。"
 
-msgid "Top hosts"
-msgstr "主机排名"
+msgid "Invalid vote type:"
+msgstr ""
+
+msgid "Vote Recorded"
+msgstr ""
+
+msgid "Thank you"
+msgstr ""
+
+msgid "Your recommendation has been recorded."
+msgstr ""
+
+msgid "Your vote to reject this profile has been recorded."
+msgstr ""
+
+msgid "Return to profile."
+msgstr ""
+
+msgid "This feature is turned off temporarily"
+msgstr ""
+
+msgid "No computer with ID %1 found"
+msgstr ""
+
+msgid "Tasks for computer %1"
+msgstr ""
+
+msgid "No access"
+msgstr ""
+
+msgid "Missing user ID or host ID"
+msgstr ""
+
+#, fuzzy
+msgid "User of the day"
+msgstr "每日用户"
+
+msgid "Account data for %1"
+msgstr ""
+
+msgid "Statistics and leaderboards"
+msgstr ""
+
+msgid "Statistics for %1"
+msgstr ""
 
 msgid "Top participants"
 msgstr "用户排名"
+
+msgid "Top computers"
+msgstr ""
+
+#, fuzzy
+msgid "Top teams"
+msgstr "%s 团队排名"
+
+msgid ""
+"More detailed statistics for %1 and other BOINC-based projects are available "
+"at several web sites:"
+msgstr ""
+
+msgid ""
+"You can also get your current statistics in the form of a \"signature image"
+"\":"
+msgstr ""
+
+msgid ""
+"Additionally you can get your individual statistics summed across all BOINC "
+"projects from several sites; see your %1home page%2."
+msgstr ""
+
+msgid "%1 participants may form %2teams%3"
+msgstr ""
+
+msgid ""
+"You may belong to only one team. You can join or quit a team at any time."
+msgstr ""
+
+msgid "Each team has a %1founder%2 who may:"
+msgstr ""
+
+msgid "access team members' email addresses"
+msgstr ""
+
+msgid "edit the team's name and description"
+msgstr ""
+
+msgid "remove members from the team"
+msgstr ""
+
+msgid "disband a team if it has no members"
+msgstr ""
+
+msgid "To join a team, visit its team page and click %1Join this team%2."
+msgstr ""
+
+#, fuzzy
+msgid "Find a team"
+msgstr "寻找团队"
+
+msgid "All teams"
+msgstr ""
+
+msgid "%1 teams"
+msgstr ""
+
+#, fuzzy
+msgid "Create a new team"
+msgstr "创建新主题"
+
+msgid ""
+"If you cannot find a team that is right for you, you can %1create a team%2."
+msgstr ""
+
+msgid "You must choose a non-blank team name"
+msgstr ""
+
+msgid "A team named %1 already exists - try another name"
+msgstr ""
+
+msgid "Could not create team - please try later."
+msgstr ""
+
+msgid "Create a team"
+msgstr ""
+
+msgid ""
+"You belong to %1. You must %2quit this team%3 before creating a new one."
+msgstr ""
+
+msgid "Top hosts"
+msgstr "主机排名"
 
 msgid "Top %1 teams"
 msgstr "%s 团队排名"
@@ -783,16 +1298,30 @@ msgstr "%s 团队排名"
 msgid "Participant since"
 msgstr "参加时间"
 
-msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgid "This user has no profile"
+msgstr ""
+
+msgid "Account data"
+msgstr ""
+
+msgid ""
+"Your 'weak account key' lets you attach computers to your account on this "
+"project, without giving the ability to log in to your account or to change "
+"it in any way."
 msgstr "'弱帐户密钥'仅用于在客户端加入项目，而不能用来登录您在项目网站上的帐户。"
 
-msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+msgid ""
+"This mechanism works only with projects that have upgraded their server "
+"software 7 Dec 2007 or later."
 msgstr "该机制只对于那些已更新至2007年12月7日版本服务端软件的项目才有效。"
 
 msgid "Your weak account key for this project is:"
 msgstr "您在本项目的弱帐户密钥为："
 
-msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgid ""
+"To use your weak account key on a given host, find or create the 'account "
+"file' for this project. This file has a name of the form "
+"<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
 "要在指定的主机上使用您的弱帐户密钥，得先找到或创建相应项目的'帐户文件'，该文件的名称类似于 <b>account_项目网址.xml</b>。%1 "
 "的帐户文件为 <b>%2</b>。"
@@ -800,8 +1329,47 @@ msgstr ""
 msgid "Create this file if needed. Set its contents to:"
 msgstr "根据需要创建该文件，并将其内容设置为："
 
-msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgid ""
+"Your weak account key is a function of your password. If you change your "
+"password, your weak account key changes, and your previous weak account key "
+"becomes invalid."
 msgstr "弱帐户密钥是根据您的帐户密码计算而来。如果您修改了您的帐户密码，您的弱帐户密钥也随之改变，您之前的弱帐户密钥将失效。"
 
-msgid "Your account"
-msgstr "您的帐户"
+#~ msgid "Provides"
+#~ msgstr "可用于"
+
+#~ msgid "limited access"
+#~ msgstr "受限制地访问"
+
+#~ msgid "to your account"
+#~ msgstr "您的帐户"
+
+#~ msgid "Current version"
+#~ msgstr "当前版本"
+
+#~ msgid "Mark as read"
+#~ msgstr "标记为已读"
+
+#~ msgid "Mark as unread"
+#~ msgstr "标记为未读"
+
+#~ msgid "With selected"
+#~ msgstr "对选择的消息"
+
+#~ msgid "No such message"
+#~ msgstr "没有这个消息"
+
+#~ msgid "Block user"
+#~ msgstr "阻止用户"
+
+#~ msgid "Really delete?"
+#~ msgstr "确定要删除吗？"
+
+#~ msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+#~ msgstr "您确定要删除标题为 &quot;%1&quot; 的消息吗？该消息由 %2 于 %3 发送给您。"
+
+#~ msgid "Yes, delete"
+#~ msgstr "是的，删除"
+
+#~ msgid "No such message."
+#~ msgstr "没有这个消息。"

@@ -1,0 +1,342 @@
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+##########################################
+# Language: Italian (International)
+# FileID  : $Id$
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+msgid ""
+"_: suggested by gesiko\n"
+"CHARSET"
+msgstr "UTF-8"
+
+# The name of this language in this language
+# The name of this language in this language<br />
+# <br />
+# The name of this language in this language
+msgid ""
+"_: suggested by gesiko\n"
+"LANG_NAME_NATIVE"
+msgstr "Italiano"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_INTRO"
+msgstr "Several volunteer computing projects, including Climateprediction.net, Einstein@home, and SETI@home, use software called BOINC. If you participate in projects like this, we request that you answer the following questions. This will help BOINC-based projects increase participation and achieve greater scientific results. <p> Please answer as many questions as you want, then go to the bottom and click OK. If you previously completed the survey but your answers have changed, please complete it again - your new answers will replace the old ones. <p> The current results of the survey are <a href=poll_results.php>here</a>. "
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_INTRO"
+msgstr ""
+"Numerosi progetti di volunteer computing come Climateprediction.net, "
+"Einstein@home, and SETI@home, utilizzano un software chiamato BOINC. Se "
+"partecipi a questo tipo di progetti ti chiederemo di rispondere ad alcune "
+"domande. Questo aiuterà i progetti basati su BOINC a migliorare il grado di "
+"partecipazione e a raggiungere risultati scientifici maggiori. <p> Per "
+"favore, completa più domande possibile quindi vaia  fondo pagina e clicca "
+"OK. Se hai già compilato il questionario in precedenza ma le tue risposte "
+"sono cambiate, per favore completalo di nuovo. Le nuove risposte "
+"sostituiranno le vecchie. <p> Gli attuali risultati sono disponibili <a "
+"href=poll_results.php>qui</a>. "
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_RUN"
+msgstr "Utilizzi BOINC?"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_PARTICIPATION"
+msgstr "La tua partecipazione"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_COMPUTERS"
+msgstr "I tuoi computers"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_YOU"
+msgstr "Tu"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_NATIONALITY"
+msgstr "Nazionalità"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_COMMENTS"
+msgstr "Commenti"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_COMMENTS_QUESTION"
+msgstr ""
+"Per favore suggerisci dei modi in cui BOINC e i progetti che lo utilizzano, "
+"potrebbero migliorare:"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_OTHER"
+msgstr "Altro:"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_CHECK_ALL"
+msgstr "[seleziona tutto]"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_DONE"
+msgstr "Quando hai fatto clicca:"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_CURRENT"
+msgstr "Sì - Ho utilizzato BOINC sul mio computer per..."
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_TWEEK"
+msgstr "meno di una settimana"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_TMONTH"
+msgstr "meno di un mese"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_TYEAR"
+msgstr "meno di un anno"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_TMOREYEAR"
+msgstr "più di un anno"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_LAPSED"
+msgstr "No - Utilizzavo BOINC, ma ho smesso perchè..."
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_LINTEREST"
+msgstr "Ho perso interesse"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_LCOMPLICATED"
+msgstr "Era troppo complicato"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_LSTOPPED"
+msgstr "L'ho fermato e mi sono dimenticato di riattivarlo"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_LPROBLEMS"
+msgstr "Ha causato problemi al mio computer"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_LPOWER"
+msgstr "Utilizzava troppa energia elettrica"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_LNONBOINC"
+msgstr "Sono passato a un progetto di computing non basato su BOINC"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_FAILED"
+msgstr "No - Ho provato a utilizzare BOINC ma..."
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_FINSTALL"
+msgstr "il software non si è installato correttamente"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_FFIGURE"
+msgstr "non ho capito come far funzionare il software"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_FNETWORK"
+msgstr "avevo problemi di comunicazione con la Rete"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_FATTACH"
+msgstr "non potevo aggiungermi a un progetto"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_FWORK"
+msgstr "mi sono agiunto a un progeto ma mai avuto lavori"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_FWORK"
+msgstr "mi sono aggiunto a un progetto ma mai avuto lavori"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_NEVER"
+msgstr "No - Non ho mai provato BOINC, perchè..."
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_NSECURITY"
+msgstr "Ero preoccupato per la sicurezza"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_NPROJECT"
+msgstr "Non ero interessato ad alcun progetto"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_NPERMISSION"
+msgstr "Non avevo il permesso di usarlo sul mio computer"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_NVERSION"
+msgstr "Nessuna versione era disponibile per il mio computer"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_KIND"
+msgstr "Su quale tipo di computer utilizzavi BOINC?"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_WHERE"
+msgstr "Dove sono?"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_KIND"
+msgstr "Su quali computers hai utilizzato BOINC?"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_WHERE"
+msgstr "Where are they?"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_WORK"
+msgstr "A lavoro"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_SCHOOL"
+msgstr "A scuola"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_HOW_MANY"
+msgstr "Su quanti computers?"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_TURNED_ON"
+msgstr "Per quante ore rimangono accesi al giorno all'incirca?"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_AGE"
+msgstr "Età"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_SEX"
+msgstr "Sesso"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_MALE"
+msgstr "Uomo"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_FEMALE"
+msgstr "Donna"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_EXPERTISE"
+msgstr "Il tuo livello di conoscenza informatica"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_LEVB"
+msgstr "Novizio"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_LEVI"
+msgstr "Intermedio"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_LEVA"
+msgstr "Avanzato"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_LEARN_WHERE"
+msgstr "In che modo hai conosciuto i progetti BOINC?"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_WTV"
+msgstr "TV/radio/giornali"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_WPERS"
+msgstr "Amici, parenti, o colleghi"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_WTEAM"
+msgstr "Siti web o message boards"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_WBOINC"
+msgstr "Il sito web di BOINC"
+
+msgid ""
+"_: suggested by gesiko\n"
+"POLL_WWEB"
+msgstr "Altri siti web"
+
+msgid ""
+"_: suggested by gesiko\n"
+"HOME_ADD_ONS"
+msgstr "Add-ons"
+
+msgid ""
+"_: suggested by gesiko\n"
+"HOME_SURVEY"
+msgstr "Questionario"
+
+msgid ""
+"_: suggested by gesiko\n"
+"HOME_BOINC"
+msgstr "Berkeley Open Infrastructure for Network Computing"
+
+msgid ""
+"_: suggested by gesiko\n"
+"HOME_BOINC_DESC"
+msgstr "Software libero per %svolunteer computing%s e %sgrid computing%s"

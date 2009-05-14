@@ -1,0 +1,127 @@
+#: clientgui/AccountInfoPage.cpp:471
+#, c-format
+#, c-format
+msgid ""
+"_: suggested by Csega\n"
+"The minimum password length for this project is %d. Please enter a different password."
+msgstr ""
+"A minimális jelszóhossz ennél a projektnél: %d. Kérem, válasszon másik "
+"jelszót."
+
+#: clientgui/AccountInfoPage.cpp:477
+#, c-format
+#, c-format
+msgid ""
+"_: suggested by Csega\n"
+"The minimum password length for this account manager is %d. Please enter a different password."
+msgstr ""
+"A minimális jelszóhossz ennél a fiókkezelőnél: %d. Kérem, válasszon másik "
+"jelszót."
+
+#: clientgui/AccountManagerInfoPage.cpp:179
+msgid ""
+"_: suggested by Csega\n"
+"You can copy and paste the URL from your browser's\n"
+"address bar."
+msgstr "A böngésző címsorából kimásolhatja, és ide beillesztheti az URL-t."
+
+#: clientgui/AccountInfoPage.cpp:456
+#: clientgui/WelcomePage.cpp:332
+#: clientgui/WelcomePage.cpp:346
+msgid ""
+"_: suggested by Csega\n"
+"Attach to project"
+msgstr "Csatlakozás projekthez"
+
+#: clientgui/AccountInfoPage.cpp:460
+msgid ""
+"_: suggested by Csega\n"
+"Attach to account manager"
+msgstr "Csatlakozás fiókkezelőhöz"
+
+#: clientgui/AccountInfoPage.cpp:488
+msgid ""
+"_: suggested by Csega\n"
+"The password and confirmation password do not match. Please type them again."
+msgstr "A jelszó és megerősítése nem egyezik. Kérem, próbálja úrja."
+
+#: clientgui/AccountManagerInfoPage.cpp:173
+msgid ""
+"_: suggested by Csega\n"
+"Account Manager URL"
+msgstr "Fiókkezelő URL-je"
+
+#: clientgui/AdvancedFrame.cpp:99
+msgid ""
+"_: suggested by Csega\n"
+"Connected"
+msgstr "Kapcsolódva"
+
+#: clientgui/AdvancedFrame.cpp:330
+msgid ""
+"_: suggested by Csega\n"
+"Advanced views allow you to sort various columns and displays graphical progress bars."
+msgstr ""
+"A haladó nézetben különböző oszlopok szerint lehet rendezni és látható a "
+"grafikus állapotjelző is."
+
+#: clientgui/AdvancedFrame.cpp:350
+msgid ""
+"_: suggested by Csega\n"
+"Attach to &project..."
+msgstr "Csatlakozás egy &projekthez"
+
+#: clientgui/AdvancedFrame.cpp:355
+msgid ""
+"_: suggested by Csega\n"
+"Attach to &account manager..."
+msgstr "Csatlakozás egy &fiókkezelőhöz"
+
+#: clientgui/AdvancedFrame.cpp:489
+msgid ""
+"_: suggested by Csega\n"
+"Attach to a project to begin processing work"
+msgstr "Csatlakozás egy projekthez a feldolgozási munka megkezdéséhez"
+
+#: clientgui/AdvancedFrame.cpp:591
+#: clientgui/sg_BoincSimpleGUI.cpp:171
+#: clientgui/wizardex.cpp:399
+#: clientgui/wizardex.cpp:406
+msgid ""
+"_: suggested by Csega\n"
+"&Help"
+msgstr "Súgó"
+
+#: clientgui/AdvancedFrame.cpp:1213
+#, c-format
+msgid ""
+"_: suggested by Csega\n"
+"%s - Shutdown the current client..."
+msgstr "%s - A jelenleg futó kliens leállítása"
+
+#: clientgui/CompletionErrorPage.cpp:205
+msgid ""
+"_: suggested by Csega\n"
+"Failed to update account manager"
+msgstr "A fiókkezelő frissítése sikertelen"
+
+#: clientgui/AlreadyExistsPage.cpp:183
+msgid ""
+"_: suggested by Csega\n"
+"Username already in use"
+msgstr "Már létezik ilyen felhasználói név"
+
+#: clientgui/AlreadyExistsPage.cpp:183
+msgid ""
+"_: suggested by Csega\n"
+"Username already in use"
+msgstr "A felhasználói név már használatban van"
+
+#: clientgui/AccountManagerInfoPage.cpp:179
+msgid ""
+"_: suggested by Csega\n"
+"You can copy and paste the URL from your browser's\n"
+"address bar."
+msgstr ""
+"A megfelelő URL-t másolja ki böngészője címsorából\n"
+"és illessze be ide."

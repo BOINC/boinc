@@ -3632,6 +3632,7 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:362
 #, c-format
+#, c-format
 #, fuzzy
 msgid "&Stop using%s"
 msgstr "Nu&stoti naudoti %s"
