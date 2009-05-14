@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: $Id: nl.po 13216 2007-07-25 15:11:14Z davea $\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-05 13:41 PDT\n"
-"PO-Revision-Date: 2009-05-11 22:10-0700\n"
+"PO-Revision-Date: 2009-05-14 00:19-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -19,133 +19,6 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-KeywordsList: tra\n"
-
-#, php-format
-msgid "%s for %s (%s MB)"
-msgstr "%s voor %s (%s MB)"
-
-#, php-format
-msgid ""
-"BOINC Online Help lets you talk one-on-one with experienced BOINC users, who "
-"can: %s answer questions about BOINC and volunteer computing; %s walk you "
-"through the process of installing and using BOINC; %s troubleshoot any "
-"problems you might have."
-msgstr ""
-"BOINC Online Hulp geeft je de mogelijkheid om direct te praten met ervaren "
-"BOINC gebruikers, die: %s je vragen kunnen beantwoorden over BOINC en "
-"\"volunteer computing\"; %s je stap voor stap kunnen helpen met de installatie "
-"en het gebruik van BOINC; %s je eventuele problemen kunnen oplossen."
-
-#, php-format
-msgid ""
-"BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. "
-"Skype is free (both the software and the calls).  If you don't already have "
-"Skype, please %sdownload and install it now%s.  When you're finished, return "
-"to this page."
-msgstr ""
-"BOINC Online Hulp maakt gebruik van %sSkype%s, een op internet gebaseerd "
-"telefoon systeem. Skype is gratis (zowel de software als de gesprekken).  "
-"Indien je Skype nog niet hebt, %sdownload en installeer het dan nu%s.  Zodra "
-"je klaar bent, keer je terug naar deze pagina."
-
-#, php-format
-msgid ""
-"If you're an experienced BOINC user, we encourage you to %sbecome a Help "
-"Volunteer%s.  It's a great way to help the cause of scientific research and "
-"volunteer computing - and it's fun!"
-msgstr ""
-"Indien je zelf een ervaren BOINC gebruiker bent, nodigen we je uit om een "
-"%sBOINC OnlineHulp vrijwilliger%s te worden.  Het is een fantastische manier "
-"om andere bebruikers te helpen - en het is leuk!"
-
-#, php-format
-msgid ""
-"If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr ""
-"Indien je al een Online Hulp vrijwilliger bent: om je instellingen aan te "
-"passen, %sklik hier%s."
-
-#, php-format
-msgid ""
-" Use the idle time on your computer (Windows, Mac, or Linux) to cure "
-"diseases, study global warming, discover pulsars, and do many other types of "
-"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
-"sDownload%s and run BOINC software  %sEnter%s an email address and password. "
-msgstr ""
-" Gebruik de ongebruikte tijd van je computer (Windows, Mac, of Linux) om "
-"ziektes te genezen, de opwarming van de aarde te bestuderen, pulsars te "
-"ontdekken en vele andere vormen van onderzoek te doen.  Het is veilig, en "
-"makkelijk:  %sKies%s een project  %sDownload%s en gebruik BOINC software  "
-"%sVul%s een e-mailadres en wachtwoord in. "
-
-#, php-format
-msgid ""
-"Or, if you run several projects, try an %saccount manager%s such as %"
-"sGridRepublic%s or %sBAM!%s. "
-msgstr ""
-"Of, als je meerdere projecten gebruikt, probeer dan eens een "
-"%saccountmanager%s zoals %sGridRepublic%s of %sBAM!%s. "
-
-#, php-format
-msgid ""
-"Open-source software for %svolunteer computing%s and %sgrid computing%s."
-msgstr ""
-"Open-source software voor %s\"volunteer computing\"%s en %s\"grid computing\"%s."
-
-# The charset used for the text in this file (please try to use UTF-8 if possible)<br />
-# <br />
-# ########################################<br />
-# The charset used for the text in this file (please try to use UTF-8 if possible)
-msgid "CHARSET"
-msgstr "UTF-8"
-
-# The name of this language in this language
-msgid "LANG_NAME_NATIVE"
-msgstr "Nederlands"
-
-# The name of this language in an international language (English)
-msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Dutch"
-
-msgid "Download BOINC"
-msgstr "Download BOINC"
-
-msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like."
-msgstr ""
-"BOINC is een programma dat jou ongebruikte computertijd aan "
-"wetenschappelijke projecten laat doneren zoals SETI@home, "
-"Climateprediction.net, Rosetta@home, World Community Grid, en vele andere. "
-"<p> Nadat BOINC is geïnstalleerd op je computer, is het mogelijk je aan te "
-"melden voor zo veel projecten als je wilt."
-
-msgid "System requirements"
-msgstr "Systeem vereisten"
-
-msgid "Release notes"
-msgstr "Versie opmerkingen"
-
-msgid "Other systems"
-msgstr "Andere systemen"
-
-msgid "All versions"
-msgstr "Alle versies"
-
-msgid "If your computer is not of one of the above types, you can"
-msgstr "Als je computer niet van bovenstaande types is, kan je"
-
-msgid "%s make your own client software %s or"
-msgstr "%s je eigen client software maken %s of"
-
-msgid "%s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
-msgstr ""
-"%s bestanden downloaden van een andere site %s (beschikbaar voor "
-"Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, FreeBSD, en anderen)."
-
-msgid "BOINC: compute for science"
-msgstr "BOINC: rekenen voor de wetenschap"
-
-msgid "HOME_MORE_INFO"
-msgstr "BOINC draaien"
 
 msgid "[check all that apply]"
 msgstr "[aanvinken indien van toepassing]"
@@ -370,13 +243,72 @@ msgstr "Team websites"
 msgid "Google or other search engines"
 msgstr "Google of andere zoekmachines"
 
+msgid "Download BOINC"
+msgstr "Download BOINC"
+
+#, php-format
+msgid "%s for %s (%s MB)"
+msgstr "%s voor %s (%s MB)"
+
+msgid ""
+"BOINC is a program that lets you donate your idle computer time to science "
+"projects like SETI@home, Climateprediction.net, Rosetta@home, World "
+"Community Grid, and many others. <p> After installing BOINC on your "
+"computer, you can connect it to as many of these projects as you like."
+msgstr ""
+"BOINC is een programma dat jou ongebruikte computertijd aan "
+"wetenschappelijke projecten laat doneren zoals SETI@home, "
+"Climateprediction.net, Rosetta@home, World Community Grid, en vele andere. "
+"<p> Nadat BOINC is geïnstalleerd op je computer, is het mogelijk je aan te "
+"melden voor zo veel projecten als je wilt."
+
 #, php-format
 msgid ""
 "Note: if your computer is equipped with an NVIDIA Graphics Processing Unit "
 "(GPU), you may be able to %suse it to compute faster%s"
 msgstr ""
 "Let op: Indien je computer is voorzien van een NVIDIA videokaart (GPU) is "
-"het mogelijk deze in te zetten om %sje computer sneller te laten werken%s"
+"het misschien mogelijk deze in te zetten om %sje computer sneller te laten "
+"werken%s"
+
+msgid "System requirements"
+msgstr "Systeem vereisten"
+
+msgid "Release notes"
+msgstr "Versie opmerkingen"
+
+msgid "Help"
+msgstr "Help"
+
+msgid "All versions"
+msgstr "Alle versies"
+
+msgid "BOINC: compute for science"
+msgstr "BOINC: rekenen voor de wetenschap"
+
+#, php-format
+msgid ""
+"BOINC Online Help lets you talk one-on-one with experienced BOINC users, who "
+"can: %s answer questions about BOINC and volunteer computing; %s walk you "
+"through the process of installing and using BOINC; %s troubleshoot any "
+"problems you might have."
+msgstr ""
+"BOINC Online Hulp geeft je de mogelijkheid om direct te praten met ervaren "
+"BOINC gebruikers, die: %s je vragen kunnen beantwoorden over BOINC en "
+"\"volunteer computing\"; %s je stap voor stap kunnen helpen met de installatie "
+"en het gebruik van BOINC; %s je eventuele problemen kunnen oplossen."
+
+#, php-format
+msgid ""
+"BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. "
+"Skype is free (both the software and the calls).  If you don't already have "
+"Skype, please %sdownload and install it now%s.  When you're finished, return "
+"to this page."
+msgstr ""
+"BOINC Online Hulp maakt gebruik van %sSkype%s, een op internet gebaseerd "
+"telefoon systeem. Skype is gratis (zowel de software als de gesprekken).  "
+"Indien je Skype nog niet hebt, %sdownload en installeer het dan nu%s.  Zodra "
+"je klaar bent, keer je terug naar deze pagina."
 
 msgid ""
 "The best way to get help is by voice, for which you need either built-in "
@@ -398,6 +330,23 @@ msgstr "De vrijwilligers spreken diverse talen. Selecteer een taal:"
 msgid "Be a Help Volunteer"
 msgstr "Wordt een vrijwilliger"
 
+#, php-format
+msgid ""
+"If you're an experienced BOINC user, we encourage you to %sbecome a Help "
+"Volunteer%s.  It's a great way to help the cause of scientific research and "
+"volunteer computing - and it's fun!"
+msgstr ""
+"Indien je zelf een ervaren BOINC gebruiker bent, nodigen we je uit om een "
+"%sBOINC OnlineHulp vrijwilliger%s te worden.  Het is een fantastische manier "
+"om andere bebruikers te helpen - en het is leuk!"
+
+#, php-format
+msgid ""
+"If you're already a Help Volunteer: to edit your settings, %sclick here%s."
+msgstr ""
+"Indien je al een Online Hulp vrijwilliger bent: om je instellingen aan te "
+"passen, %sklik hier%s."
+
 msgid "Volunteer"
 msgstr "Vrijwilliger"
 
@@ -406,6 +355,33 @@ msgstr "Download"
 
 msgid "Documentation"
 msgstr "Documentatie"
+
+#, php-format
+msgid ""
+" Use the idle time on your computer (Windows, Mac, or Linux) to cure "
+"diseases, study global warming, discover pulsars, and do many other types of "
+"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
+"sDownload%s and run BOINC software  %sEnter%s an email address and password. "
+msgstr ""
+" Gebruik de ongebruikte tijd van je computer (Windows, Mac, of Linux) om "
+"ziektes te genezen, de opwarming van de aarde te bestuderen, pulsars te "
+"ontdekken en vele andere vormen van onderzoek te doen.  Het is veilig, en "
+"makkelijk:  %sKies%s een project  %sDownload%s en gebruik BOINC software  "
+"%sVul%s een e-mailadres en wachtwoord in. "
+
+#, php-format
+msgid ""
+"Or, if you run several projects, try an %saccount manager%s such as %"
+"sGridRepublic%s or %sBAM!%s. "
+msgstr ""
+"Of, als je meerdere projecten gebruikt, probeer dan eens een "
+"%saccountmanager%s zoals %sGridRepublic%s of %sBAM!%s. "
+
+#, php-format
+msgid ""
+"Open-source software for %svolunteer computing%s and %sgrid computing%s."
+msgstr ""
+"Open-source software voor %s\"volunteer computing\"%s en %s\"grid computing\"%s."
 
 msgid "BOINC user survey"
 msgstr "BOINC gebruikers enquête"
@@ -484,3 +460,35 @@ msgid ""
 msgstr ""
 "Dit zijn de resultaten van de <a href=poll.php>BOINC gebruikers enquête</a>. "
 " De pagina wordt elk uur bijgewerkt."
+
+# The charset used for the text in this file (please try to use UTF-8 if possible)<br />
+# <br />
+# ########################################<br />
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+#~ msgid "CHARSET"
+#~ msgstr "UTF-8"
+
+# The name of this language in this language
+#~ msgid "LANG_NAME_NATIVE"
+#~ msgstr "Nederlands"
+
+# The name of this language in an international language (English)
+#~ msgid "LANG_NAME_INTERNATIONAL"
+#~ msgstr "Dutch"
+
+#~ msgid "Other systems"
+#~ msgstr "Andere systemen"
+
+#~ msgid "If your computer is not of one of the above types, you can"
+#~ msgstr "Als je computer niet van bovenstaande types is, kan je"
+
+#~ msgid "%s make your own client software %s or"
+#~ msgstr "%s je eigen client software maken %s of"
+
+#~ msgid "%s download executables from a third-party site %s (available for Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, and FreeBSD, and others)."
+#~ msgstr ""
+#~ "%s bestanden downloaden van een andere site %s (beschikbaar voor "
+#~ "Solaris/Opteron, Linux/Opteron, Linux/PPC, HP-UX, FreeBSD, en anderen)."
+
+#~ msgid "HOME_MORE_INFO"
+#~ msgstr "BOINC draaien"
