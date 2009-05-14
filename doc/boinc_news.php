@@ -1,6 +1,14 @@
 <?
 
 $project_news = array(
+array("May 14, 2009",
+    "<a href=http://boinc.unex.es/planet>Planet BOINC</a>
+    is a new RSS feed that combines many different sources of news
+    about BOINC and volunteer computing."
+),
+array("May 14, 2009",
+    "<a href=http://www2.warwick.ac.uk/newsandevents/audio/more/tedx/?podcastItem=francois_grey.mp4>Francois Grey talks about citizen cyber-science</a> at TEDx Warwick."
+),
 array("May 13, 2009",
     "See a <a href=http://www.micropedia.tv/index.php?option=com_content&view=article&id=125:micropildora-computacion-voluntaria&catid=54:canal-cocina&Itemid=139>video</a> (in Spanish) about Extremadura@home and volunteer computing."
 ),

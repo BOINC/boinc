@@ -131,6 +131,7 @@ public:
     bool multiple_clients_per_host;
     bool no_vista_sandbox;
     bool ignore_dcf;
+    int report_max;
 
     // log flags
     //

@@ -52,6 +52,13 @@ int handle_results() {
 
     if (g_request->results.size() == 0) return 0;
 
+    // allow projects to limit the # of results handled
+    // (in case of server memory limits)
+    //
+    if (config.report_max && g_request->results.size() > config.report_max) {
+        g_request->results.resize(config.report_max);
+    }
+
     // copy reported results to a separate vector, "result_handler",
     // initially with only the "name" field present
     //

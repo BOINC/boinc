@@ -210,7 +210,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool(tag, "multiple_clients_per_host", multiple_clients_per_host)) continue;
         if (xp.parse_bool(tag, "no_vista_sandbox", no_vista_sandbox)) continue;
         if (xp.parse_bool(tag, "ignore_dcf", ignore_dcf)) continue;
-
+        if (xp.parse_int(tag, "report_max", report_max)) continue;
 
         if (xp.parse_bool(tag, "debug_version_select", debug_version_select)) continue;
         if (xp.parse_bool(tag, "debug_assignment", debug_assignment)) continue;

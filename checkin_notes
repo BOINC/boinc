@@ -4518,3 +4518,18 @@ Charlie 14 May 2009
     
     clientgui/
         MainDocument.cpp
+
+David  14 May 2009
+    - scheduler: add <report_max> config parameter;
+        limits the # of completed results handled per scheduler RPC.
+        This may be needed to avoid crashes due to memory allocation
+        failure (each reported result uses about 128KB memory).
+    - web: In showing result lists,
+        include "Validate error" results in the "Invalid" category.
+        (Previously they didn't appear in any category)
+
+    html/inc/
+        result.inc
+    sched/
+        sched_config.cpp,h
+        sched_result.cpp
