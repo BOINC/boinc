@@ -4513,12 +4513,6 @@ Charlie 13 May 2009
     clientgui/
         AsyncRPC.cpp
 
-Charlie 14 May 2009
-    - MGR: Update m_dtCachedCCStatusTimestamp only when RPC completes.
-    
-    clientgui/
-        MainDocument.cpp
-
 David  14 May 2009
     - scheduler: add <report_max> config parameter;
         limits the # of completed results handled per scheduler RPC.
@@ -4567,7 +4561,6 @@ Charlie 15 May 2009
         BOINCWizards.h
         CompletionPage.cpp
         Events.h
-        MainDocument.cpp
         Makefile.am
         sg_BoincSimpleGUI.cpp
         sg_ProjectsComponent.cpp
@@ -4580,3 +4573,16 @@ Charlie 15 May 2009
             project.pbxproj
     win_build/
         boincmgr.vcproj
+
+Charlie 15 May 2009
+    - MGR: Update m_dtCachedCCStatusTimestamp only when RPC completes.
+    - MGR: CBOINCClientManager::IsBOINCCoreRunning() tests whether the Client 
+        process exists, rather than doing an RPC.  We can't use an async RPC 
+        here because we may not yet be connected to the Client, and the direct
+        RPC which was being done would hang the Manager if the Client was 
+        running but not responding.  This should fix some of the situations 
+        where the manager would become unresponsive.
+    
+    clientgui/
+        BOINCClientManager.cpp
+        MainDocument.cpp

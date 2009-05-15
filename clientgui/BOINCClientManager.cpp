@@ -110,11 +110,11 @@ int CBOINCClientManager::IsBOINCConfiguredAsDaemon() {
 
 bool CBOINCClientManager::IsBOINCCoreRunning() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Function Begin"));
-    int retval=0;
     bool running = false;
-    RPC_CLIENT rpc;
 
 #ifdef __WXMSW__
+    DWORD              dwExitCode = 0;
+    
     if (IsBOINCServiceInstalled()) {
         running = (FALSE != IsBOINCServiceStarting()) || (FALSE != IsBOINCServiceRunning());
     } else {
@@ -123,35 +123,14 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
                 running = (STILL_ACTIVE == dwExitCode);
             }
         }
+    }
 #else
     if (m_lBOINCCoreProcessId != 0) {
         running = ProcessExists(m_lBOINCCoreProcessId);
     }
 #endif
-#if 0
-    // If set up to run as a daemon, allow time for daemon to start up
-    for (int i=0; i<10; i++) {
-        retval = rpc.init("localhost");  // synchronous is OK since local
-        wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Connecting to core client returned '%d'"), retval);
-        retval = rpc.authorize("");      // Do not use an RPC that uses the SET_LOCALE class, this
-                                         //   function is typically called from the UI thread.  If the
-                                         //   UI thread and the async thread happen to use SET_LOCALE
-                                         //   at the same time there is a 50% chance that the UI will
-                                         //   be partially suck using the "C" locale which is needed to
-                                         //   parse the data coming back from the CC.
-        wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Requesting host info... retval '%d'"), retval);
-        running = (retval != ERR_CONNECT);
-        rpc.close();
-        if (running) break;
-        if (!IsBOINCConfiguredAsDaemon()) break;
-            wxSleep(1);
-    }
-#endif
-#ifdef __WXMSW__
-    }
-#endif
 
-    wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Returning '%d'"), retval);
+    wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Returning '%d'"), (int)running);
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Function End"));
     return running;
 }
