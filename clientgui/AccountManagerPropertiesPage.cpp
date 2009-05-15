@@ -36,7 +36,7 @@
 #include "BOINCBaseWizard.h"
 #include "ProjectListCtrl.h"
 #include "WizardAttachProject.h"
-#include "WizardAccountManager.h"
+//#include "WizardAccountManager.h"
 #include "AccountManagerPropertiesPage.h"
 #include "AccountManagerInfoPage.h"
 #include "CompletionErrorPage.h"
@@ -181,26 +181,17 @@ void CAccountManagerPropertiesPage::OnPageChanged( wxWizardExEvent& event )
     if (event.GetDirection() == false) return;
  
     CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
-    CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
-    wxString projectName;
-
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pPleaseWaitStaticCtrl);
     wxASSERT(m_pProgressIndicator);
-    if (IS_COMBINEDWIZARD()) {
-        wxASSERT(pWAP);
-        projectName = pWAP->m_strProjectName;
-    } else {
-        wxASSERT(pWAM);
-        projectName = pWAM->m_strProjectName;
-    }
+    wxASSERT(pWAP);
 
-    if (!projectName.IsEmpty()) {
+    if (!pWAP->m_strProjectName.IsEmpty()) {
         wxString str;
 
         // %s is the project name
         //    i.e. 'BOINC', 'GridRepublic'
-        str.Printf(_("Communicating with %s."), projectName.c_str());
+        str.Printf(_("Communicating with %s."), pWAP->m_strProjectName.c_str());
 
         m_pTitleStaticCtrl->SetLabel(
             str
@@ -244,7 +235,6 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
 {
     CMainDocument* pDoc         = wxGetApp().GetDocument();
     CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
-    CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
     PROJECT_CONFIG* pc;
     CC_STATUS status;
     wxDateTime dtStartExecutionTime;
@@ -255,24 +245,15 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
     bool bSuccessfulCondition = false;
     int  iReturnValue = 0;
  
-    if (IS_COMBINEDWIZARD()) {
-        pc = &pWAP->project_config;
-    } else {
-        pc = &pWAM->project_config;
-    }
+    pc = &pWAP->project_config;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
  
     switch(GetCurrentState()) {
         case ACCTMGRPROP_INIT:
-            if (IS_COMBINEDWIZARD()) {
-                pWAP->DisableNextButton();
-                pWAP->DisableBackButton();
-            } else {
-                pWAM->DisableNextButton();
-                pWAM->DisableBackButton();
-            }
+            pWAP->DisableNextButton();
+            pWAP->DisableBackButton();
             StartProgress(m_pProgressIndicator);
             SetNextState(ACCTMGRPROP_RETRPROJECTPROPERTIES_BEGIN);
             break;
@@ -281,15 +262,9 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
             break;
         case ACCTMGRPROP_RETRPROJECTPROPERTIES_EXECUTE:
             // Attempt to retrieve the project's account creation policies
-            if (IS_COMBINEDWIZARD()) {
-                pDoc->rpc.get_project_config(
-                    (const char*)pWAP->m_AccountManagerInfoPage->GetProjectURL().mb_str()
-                );
-            } else {
-                pDoc->rpc.get_project_config(
-                    (const char*)pWAM->m_AccountManagerInfoPage->GetProjectURL().mb_str()
-                );
-            }
+            pDoc->rpc.get_project_config(
+                (const char*)pWAP->m_AccountManagerInfoPage->GetProjectURL().mb_str()
+            );
             
             // Wait until we are done processing the request.
             dtStartExecutionTime = wxDateTime::Now();
@@ -344,11 +319,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                     SetTermsOfUseRequired(false);
                 }
 
-                if (IS_COMBINEDWIZARD()) {
-                    pWAP->m_strProjectName = wxString(pc->name.c_str(), wxConvUTF8);
-                } else {
-                    pWAM->m_strProjectName = wxString(pc->name.c_str(), wxConvUTF8);
-                }
+                pWAP->m_strProjectName = wxString(pc->name.c_str(), wxConvUTF8);
  
                 SetNextState(ACCTMGRPROP_CLEANUP);
             } else {
@@ -374,19 +345,11 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
                     SetServerReportedError(true);
 
-                    if (IS_COMBINEDWIZARD()) {
-                        strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
-                        if (pc->error_msg.size()) {
-                            strBuffer += wxString(pc->error_msg.c_str(), wxConvUTF8) + wxString(wxT("\n"));
-                        }
-                        pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
-                    } else {
-                        strBuffer = pWAM->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
-                        if (pc->error_msg.size()) {
-                            strBuffer += wxString(pc->error_msg.c_str(), wxConvUTF8) + wxString(wxT("\n"));
-                        }
-                        pWAM->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                    strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                    if (pc->error_msg.size()) {
+                        strBuffer += wxString(pc->error_msg.c_str(), wxConvUTF8) + wxString(wxT("\n"));
                     }
+                    pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                 } else {
                     SetServerReportedError(false);
                 }
@@ -436,15 +399,9 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
         default:
             // Allow a glimps of what the result was before advancing to the next page.
             wxSleep(1);
-            if (IS_COMBINEDWIZARD()) {
-                pWAP->EnableNextButton();
-                pWAP->EnableBackButton();
-                pWAP->SimulateNextButton();
-            } else {
-                pWAM->EnableNextButton();
-                pWAM->EnableBackButton();
-                pWAM->SimulateNextButton();
-            }
+            pWAP->EnableNextButton();
+            pWAP->EnableBackButton();
+            pWAP->SimulateNextButton();
             bPostNewEvent = false;
             break;
     }

@@ -133,7 +133,6 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
     IsAccountManagerWizard = false;
     IsAccountManagerUpdateWizard = false;
     IsAccountManagerRemoveWizard = false;
-    IsCombinedWizard = true;
 
     // Global wizard status
     project_config.clear();
@@ -268,9 +267,9 @@ void CWizardAttachProject::CreateControls()
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectInfoPage = id: '%d', location: '%p'"), m_ProjectInfoPage->GetId(), m_ProjectInfoPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectPropertiesPage = id: '%d', location: '%p'"), m_ProjectPropertiesPage->GetId(), m_ProjectPropertiesPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectProcessingPage = id: '%d', location: '%p'"), m_ProjectProcessingPage->GetId(), m_ProjectProcessingPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -    m_AccountManagerInfoPage = id: '%d', location: '%p'"), m_AccountManagerInfoPage->GetId(), m_AccountManagerInfoPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -    m_AccountManagerPropertiesPage = id: '%d', location: '%p'"), m_AccountManagerPropertiesPage->GetId(), m_AccountManagerPropertiesPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAccountManager::CreateControls -    m_AccountManagerProcessingPage = id: '%d', location: '%p'"), m_AccountManagerProcessingPage->GetId(), m_AccountManagerProcessingPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_AccountManagerInfoPage = id: '%d', location: '%p'"), m_AccountManagerInfoPage->GetId(), m_AccountManagerInfoPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_AccountManagerPropertiesPage = id: '%d', location: '%p'"), m_AccountManagerPropertiesPage->GetId(), m_AccountManagerPropertiesPage);
+    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_AccountManagerProcessingPage = id: '%d', location: '%p'"), m_AccountManagerProcessingPage->GetId(), m_AccountManagerProcessingPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_TermsOfUsePage = id: '%d', location: '%p'"), m_TermsOfUsePage->GetId(), m_TermsOfUsePage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), m_AccountInfoPage->GetId(), m_AccountInfoPage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_CompletionPage = id: '%d', location: '%p'"), m_CompletionPage->GetId(), m_CompletionPage);
@@ -289,9 +288,6 @@ void CWizardAttachProject::CreateControls()
 /*!
  * Runs the wizard.
  */
-
-//TODO: Merge in stuff from CWizardAccountManager::Run(int action)
-
 bool CWizardAttachProject::Run( wxString& WXUNUSED(strName), wxString& strURL, bool bCredentialsCached ) {
     if (strURL.Length()) {
         m_ProjectInfoPage->SetProjectURL( strURL );
@@ -323,7 +319,37 @@ bool CWizardAttachProject::Run( wxString& WXUNUSED(strName), wxString& strURL, b
 
     return FALSE;
 }
- 
+
+
+bool CWizardAttachProject::SyncToAccountManager() {
+    ACCT_MGR_INFO ami;
+    CMainDocument*            pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    IsAttachToProjectWizard = false;
+    IsAccountManagerWizard = true;
+
+    pDoc->rpc.acct_mgr_info(ami);
+
+    if (ami.acct_mgr_url.size()) {
+        m_AccountManagerInfoPage->SetProjectURL( wxString(ami.acct_mgr_url.c_str(), wxConvUTF8) );
+        m_strProjectName = wxString(ami.acct_mgr_name.c_str(), wxConvUTF8);
+        m_bCredentialsCached = ami.have_credentials;
+    }
+
+    if ( ami.acct_mgr_url.size() && !ami.have_credentials) {
+        return RunWizard(m_AccountManagerPropertiesPage);
+    } else if ( ami.acct_mgr_url.size() && ami.have_credentials) {
+        IsAccountManagerUpdateWizard = true;
+        IsAccountManagerRemoveWizard = false;
+        return RunWizard(m_AccountManagerProcessingPage);
+    }
+
+    return FALSE;
+}
+
 /*!
  * Should we show tooltips?
  */

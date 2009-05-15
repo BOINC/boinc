@@ -32,10 +32,6 @@ class CAccountManagerPropertiesPage;
 class CAccountManagerProcessingPage;
 ////@end forward declarations
 
-#define ACCOUNTMANAGER_ATTACH       0
-#define ACCOUNTMANAGER_UPDATE       1
-#define ACCOUNTMANAGER_DETACH       2
-
 /*!
  * CWizardAccountManager class declaration
  */

@@ -35,6 +35,10 @@ class CAccountManagerPropertiesPage;
 class CAccountManagerProcessingPage;
 ////@end forward declarations
 
+#define ACCOUNTMANAGER_ATTACH       0
+#define ACCOUNTMANAGER_UPDATE       1
+#define ACCOUNTMANAGER_DETACH       2
+
 
 /*!
  * CWizardAttachProject class declaration
@@ -72,6 +76,9 @@ public:
 
     /// Runs the wizard.
     bool Run( wxString& strName, wxString& strURL, bool bCredentialsCached = true );
+    
+    // Synchronize to Account Manager
+    bool SyncToAccountManager();
 
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );

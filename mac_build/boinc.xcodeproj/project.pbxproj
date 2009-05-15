@@ -117,7 +117,6 @@
 		DD3E151A0A774397007E0084 /* ViewStatistics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDEF388E0802B73500E87552 /* ViewStatistics.cpp */; };
 		DD3E151B0A774397007E0084 /* UnavailablePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C46108F334EA00C1DF66 /* UnavailablePage.cpp */; };
 		DD3E151C0A774397007E0084 /* WelcomePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C46308F334EA00C1DF66 /* WelcomePage.cpp */; };
-		DD3E151D0A774397007E0084 /* WizardAccountManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C46508F334EA00C1DF66 /* WizardAccountManager.cpp */; };
 		DD3E151E0A774397007E0084 /* WizardAttachProject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C46708F334EA00C1DF66 /* WizardAttachProject.cpp */; };
 		DD3E151F0A774397007E0084 /* wizardex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C46908F334EA00C1DF66 /* wizardex.cpp */; };
 		DD3E15200A774397007E0084 /* BOINCDialupManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */; };
@@ -730,8 +729,6 @@
 		DD58C46208F334EA00C1DF66 /* UnavailablePage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UnavailablePage.h; path = ../clientgui/UnavailablePage.h; sourceTree = SOURCE_ROOT; };
 		DD58C46308F334EA00C1DF66 /* WelcomePage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = WelcomePage.cpp; path = ../clientgui/WelcomePage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C46408F334EA00C1DF66 /* WelcomePage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WelcomePage.h; path = ../clientgui/WelcomePage.h; sourceTree = SOURCE_ROOT; };
-		DD58C46508F334EA00C1DF66 /* WizardAccountManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = WizardAccountManager.cpp; path = ../clientgui/WizardAccountManager.cpp; sourceTree = SOURCE_ROOT; };
-		DD58C46608F334EA00C1DF66 /* WizardAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WizardAccountManager.h; path = ../clientgui/WizardAccountManager.h; sourceTree = SOURCE_ROOT; };
 		DD58C46708F334EA00C1DF66 /* WizardAttachProject.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = WizardAttachProject.cpp; path = ../clientgui/WizardAttachProject.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C46808F334EA00C1DF66 /* WizardAttachProject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WizardAttachProject.h; path = ../clientgui/WizardAttachProject.h; sourceTree = SOURCE_ROOT; };
 		DD58C46908F334EA00C1DF66 /* wizardex.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wizardex.cpp; path = ../clientgui/wizardex.cpp; sourceTree = SOURCE_ROOT; };
@@ -911,6 +908,7 @@
 		DDF1F47A09822C3400482C89 /* preinstall */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = preinstall; path = ../mac_installer/preinstall; sourceTree = SOURCE_ROOT; };
 		DDF1F4A409822F8A00482C89 /* GR-Branding */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = "GR-Branding"; path = "../mac_installer/GR-Branding"; sourceTree = SOURCE_ROOT; };
 		DDF3028907CCCE2C00701169 /* BOINCMgr.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = BOINCMgr.icns; path = ../clientgui/res/BOINCMgr.icns; sourceTree = SOURCE_ROOT; };
+		DDF7466F0FBD41FB00CB6D42 /* BOINCWizards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BOINCWizards.h; path = "../clientgui copy 2/BOINCWizards.h"; sourceTree = SOURCE_ROOT; };
 		DDF9385407E28906004DC076 /* checkin_notes */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = checkin_notes; path = ../checkin_notes; sourceTree = SOURCE_ROOT; };
 		DDF9A32D0B2E3D4D00091FCB /* auto_update.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = auto_update.cpp; sourceTree = "<group>"; };
 		DDF9A32E0B2E3D4D00091FCB /* auto_update.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = auto_update.h; path = ../client/auto_update.h; sourceTree = SOURCE_ROOT; };
@@ -1250,6 +1248,7 @@
 				DD81C43407C5D2240098A04D /* BOINCBaseView.h */,
 				DD58C43408F3347D00C1DF66 /* BOINCBaseWizard.cpp */,
 				DD58C43508F3347D00C1DF66 /* BOINCBaseWizard.h */,
+				DDF7466F0FBD41FB00CB6D42 /* BOINCWizards.h */,
 				DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */,
 				DDC3D55D0D507D1700BE6D23 /* BOINCClientManager.h */,
 				DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */,
@@ -1369,8 +1368,6 @@
 				DDD52DC90C03CAE6009B5FC0 /* ViewWork.h */,
 				DD58C46308F334EA00C1DF66 /* WelcomePage.cpp */,
 				DD58C46408F334EA00C1DF66 /* WelcomePage.h */,
-				DD58C46508F334EA00C1DF66 /* WizardAccountManager.cpp */,
-				DD58C46608F334EA00C1DF66 /* WizardAccountManager.h */,
 				DD58C46708F334EA00C1DF66 /* WizardAttachProject.cpp */,
 				DD58C46808F334EA00C1DF66 /* WizardAttachProject.h */,
 				DD58C46908F334EA00C1DF66 /* wizardex.cpp */,
@@ -2359,7 +2356,6 @@
 				DD3E151A0A774397007E0084 /* ViewStatistics.cpp in Sources */,
 				DD3E151B0A774397007E0084 /* UnavailablePage.cpp in Sources */,
 				DD3E151C0A774397007E0084 /* WelcomePage.cpp in Sources */,
-				DD3E151D0A774397007E0084 /* WizardAccountManager.cpp in Sources */,
 				DD3E151E0A774397007E0084 /* WizardAttachProject.cpp in Sources */,
 				DD3E151F0A774397007E0084 /* wizardex.cpp in Sources */,
 				DD3E15200A774397007E0084 /* BOINCDialupManager.cpp in Sources */,

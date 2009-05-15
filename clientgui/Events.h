@@ -36,7 +36,7 @@
 #define ID_COMMANDSRETRYCOMMUNICATIONS          6016
 #define ID_FILERUNBENCHMARKS                    6017
 #define ID_FILESELECTCOMPUTER                   6018
-#define ID_PROJECTSATTACHACCOUNTMANAGER         6019
+// NO LONGER USED                               6019
 #define ID_PROJECTSATTACHPROJECT                6020
 #define ID_READ_PREFS                           6021
 #define ID_READ_CONFIG                          6022

@@ -52,7 +52,6 @@ CBOINCBaseWizard::CBOINCBaseWizard() :
     IsAccountManagerWizard = false;
     IsAccountManagerUpdateWizard = false;
     IsAccountManagerRemoveWizard = false;
-    IsCombinedWizard = false;
     close_when_completed = false;
 }
 
@@ -63,7 +62,6 @@ CBOINCBaseWizard::CBOINCBaseWizard(wxWindow *parent, int id, const wxString& tit
     IsAccountManagerWizard = false;
     IsAccountManagerUpdateWizard = false;
     IsAccountManagerRemoveWizard = false;
-    IsCombinedWizard = false;
     close_when_completed = false;
 }
 

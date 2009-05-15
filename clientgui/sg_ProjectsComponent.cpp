@@ -43,7 +43,7 @@
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
-#include "WizardAccountManager.h"
+//#include "WizardAccountManager.h"
 #include "app_ipc.h"
 #include "version.h"
 
@@ -527,9 +527,9 @@ void CProjectsComponent::OnSynchronize(wxCommandEvent& /*event*/) {
 
 	    pPanel->SetDlgOpen(true);
 
-        CWizardAccountManager* pWizard = new CWizardAccountManager(this);
+        CWizardAttachProject* pWizard = new CWizardAttachProject(this);
 
-        pWizard->Run(ACCOUNTMANAGER_UPDATE);
+        pWizard->SyncToAccountManager();
 
         if (pWizard)
             pWizard->Destroy();

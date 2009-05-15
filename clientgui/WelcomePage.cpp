@@ -36,7 +36,7 @@
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
-#include "WizardAccountManager.h"
+//#include "WizardAccountManager.h"
 #include "WelcomePage.h"
 #include "hyperlink.h"
 
@@ -317,7 +317,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
     CMainDocument*         pDoc = wxGetApp().GetDocument();
-    CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
+    CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
     ACCT_MGR_INFO          ami;
     bool                   is_acct_mgr_detected = false;
     wxString               strBuffer = wxEmptyString;
@@ -397,11 +397,11 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             m_pSelectAMWizardCtrl->Enable();
         }
     } else if (IS_ACCOUNTMANAGERREMOVEWIZARD()) {
-        wxASSERT(pWAM);
-        wxASSERT(wxDynamicCast(pWAM, CWizardAccountManager));
+        wxASSERT(pWAP);
+        wxASSERT(wxDynamicCast(pWAP, CWizardAttachProject));
         strBuffer.Printf(
             _("&Stop using%s"), 
-            pWAM->m_strProjectName.c_str()
+            pWAP->m_strProjectName.c_str()
         );
         m_pTitleStaticCtrl->SetLabel(
             strBuffer
@@ -409,7 +409,7 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
         strBuffer.Printf(
             _("We'll now remove this computer from %s.  From now on,\nattach and detach projects directly from this computer.\n"
               ), 
-            pWAM->m_strProjectName.c_str()
+            pWAP->m_strProjectName.c_str()
         );
         m_pDescriptionStaticCtrl->SetLabel(
             strBuffer
@@ -425,8 +425,8 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
             m_pSelectAMWizardCtrl->Disable();
         }
     } else if (IS_ACCOUNTMANAGERWIZARD()) {
-//        wxASSERT(pWAM);
-//        wxASSERT(wxDynamicCast(pWAM, CWizardAccountManager));
+        wxASSERT(pWAP);
+        wxASSERT(wxDynamicCast(pWAP, CWizardAttachProject));
         m_pTitleStaticCtrl->SetLabel(
             _("Account manager")
         );

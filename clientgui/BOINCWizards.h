@@ -190,9 +190,6 @@ class wxHyperLink;
 #define IS_ACCOUNTMANAGERREMOVEWIZARD() \
     ((CBOINCBaseWizard*)GetParent())->IsAccountManagerRemoveWizard
 
-#define IS_COMBINEDWIZARD() \
-    ((CBOINCBaseWizard*)GetParent())->IsCombinedWizard
-
 
 // Commonly defined macros
 //

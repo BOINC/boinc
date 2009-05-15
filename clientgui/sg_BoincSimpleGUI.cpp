@@ -37,7 +37,7 @@
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
-#include "WizardAccountManager.h"
+//#include "WizardAccountManager.h"
 #include "error_numbers.h"
 #include "version.h"
 
@@ -350,7 +350,6 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnConnect - Function Begin"));
     
     CMainDocument*     pDoc = wxGetApp().GetDocument();
-    CWizardAccountManager* pAMWizard = NULL;
     CWizardAttachProject* pAPWizard = NULL;
     wxString strComputer = wxEmptyString;
     wxString strName = wxEmptyString;
@@ -373,6 +372,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         wxGetApp().StartBOINCScreensaverTest();
     }
 
+    pAPWizard = new CWizardAttachProject(this);
 
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
@@ -381,8 +381,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             Show();
         }
 
-       pAMWizard = new CWizardAccountManager(this);
-       if (pAMWizard->Run()) {
+       if (pAPWizard->SyncToAccountManager()) {
             // If successful, hide the main window
             Hide();
         }
@@ -391,7 +390,6 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             Show();
         }
 
-        pAPWizard = new CWizardAttachProject(this);
         strName = wxString(pis.name.c_str(), wxConvUTF8);
         strURL = wxString(pis.url.c_str(), wxConvUTF8);
         bCachedCredentials = pis.url.length() && pis.has_account_key;
@@ -399,9 +397,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         pAPWizard->Run(strName, strURL, bCachedCredentials);
     }
 
-    if (pAMWizard)
-        pAMWizard->Destroy();
-	if (pAPWizard){
+ 	if (pAPWizard){
             pAPWizard->Destroy();
             //update Project Component
             m_pBackgroundPanel->UpdateProjectView();

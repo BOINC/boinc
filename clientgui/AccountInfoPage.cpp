@@ -38,7 +38,7 @@
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
-#include "WizardAccountManager.h"
+//#include "WizardAccountManager.h"
 #include "ProjectInfoPage.h"
 #include "AccountManagerInfoPage.h"
 #include "AccountInfoPage.h"
@@ -271,7 +271,6 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     CSkinAdvanced*         pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CSkinWizardATAM*       pSkinWizardATAM = wxGetApp().GetSkinManager()->GetWizards()->GetWizardATAM();
     CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
-    CWizardAccountManager* pWAM = ((CWizardAccountManager*)GetParent());
     wxString               strBaseConfigLocation = wxString(wxT("/Wizards"));
     wxConfigBase*          pConfig = wxConfigBase::Get(FALSE);
  
@@ -435,17 +434,10 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         _("Forgot your password?")
     );
 
-    if (IS_COMBINEDWIZARD() || !IS_ACCOUNTMANAGERWIZARD()) {
-        wxASSERT(pWAP);
-        m_pAccountForgotPasswordCtrl->SetURL(
-            wxString(pWAP->m_ProjectInfoPage->GetProjectURL() + _T("get_passwd.php"))
-        );
-    } else {
-        wxASSERT(pWAM);
-        m_pAccountForgotPasswordCtrl->SetURL(
-            wxString(pWAM->m_AccountManagerInfoPage->GetProjectURL() + _T("get_passwd.php"))
-        );
-    }
+    wxASSERT(pWAP);
+    m_pAccountForgotPasswordCtrl->SetURL(
+        wxString(pWAP->m_ProjectInfoPage->GetProjectURL() + _T("get_passwd.php"))
+    );
 
     Fit();
     m_pAccountEmailAddressCtrl->SetFocus();

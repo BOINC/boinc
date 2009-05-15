@@ -72,7 +72,6 @@ public:
     void OnNetworkSelection( wxCommandEvent& event );
 
     void OnProjectsAttachToProject( wxCommandEvent& event );
-    void OnProjectsAttachToAccountManager( wxCommandEvent& event );
     void OnAccountManagerUpdate( wxCommandEvent& event );
     void OnAccountManagerDetach( wxCommandEvent& event );
 

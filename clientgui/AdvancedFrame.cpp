@@ -54,7 +54,7 @@
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
-#include "WizardAccountManager.h"
+//#include "WizardAccountManager.h"
 #include "DlgAdvPreferences.h"
 
 #include "res/connect.xpm"
@@ -172,7 +172,6 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU(wxID_EXIT, CAdvancedFrame::OnExit)
     EVT_MENU_RANGE(ID_FILEACTIVITYRUNALWAYS, ID_FILEACTIVITYSUSPEND, CAdvancedFrame::OnActivitySelection)
     EVT_MENU_RANGE(ID_FILENETWORKRUNALWAYS, ID_FILENETWORKSUSPEND, CAdvancedFrame::OnNetworkSelection)
-    EVT_MENU(ID_PROJECTSATTACHACCOUNTMANAGER, CAdvancedFrame::OnProjectsAttachToAccountManager)
     EVT_MENU(ID_TOOLSAMUPDATENOW, CAdvancedFrame::OnAccountManagerUpdate)
     EVT_MENU(ID_ADVANCEDAMDEFECT, CAdvancedFrame::OnAccountManagerDetach)
     EVT_MENU(ID_PROJECTSATTACHPROJECT, CAdvancedFrame::OnProjectsAttachToProject)
@@ -342,13 +341,8 @@ bool CAdvancedFrame::CreateMenu() {
     if (!is_acct_mgr_detected) {
         menuTools->Append(
             ID_PROJECTSATTACHPROJECT, 
-            _("Attach to &project..."),
-            _("Attach to a project")
-        );
-        menuTools->Append(
-            ID_PROJECTSATTACHACCOUNTMANAGER, 
-            _("Attach to &account manager..."),
-            _("Attach to an account manager")
+            _("Attach to &project or account manager..."),
+            _("Attach to a project or account manager")
         );
     } else {
         strMenuName.Printf(
@@ -1138,43 +1132,6 @@ void CAdvancedFrame::OnSwitchGUI(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CAdvancedFrame::OnProjectsAttachToAccountManager(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnProjectsAttachToAccountManager - Function Begin"));
-
-    CMainDocument*            pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    if (!pDoc->IsUserAuthorized())
-        return;
-
-    if (pDoc->IsConnected()) {
-        // Stop all timers so that the wizard is the only thing doing anything
-        StopTimers();
-
-        CWizardAccountManager* pWizard = new CWizardAccountManager(this);
-
-        pWizard->Run(ACCOUNTMANAGER_ATTACH);
-
-        if (pWizard)
-            pWizard->Destroy();
-
-        DeleteMenu();
-        CreateMenu();
-        pDoc->ForceCacheUpdate();
-        FireRefreshView();
-
-        // Restart timers to continue normal operations.
-        StartTimers();
-    } else {
-        ShowNotCurrentlyConnectedAlert();
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnProjectsAttachToAccountManager - Function End"));
-}
-
-
 void CAdvancedFrame::OnAccountManagerUpdate(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnAccountManagerUpdate - Function Begin"));
 
@@ -1190,9 +1147,9 @@ void CAdvancedFrame::OnAccountManagerUpdate(wxCommandEvent& WXUNUSED(event)) {
         // Stop all timers so that the wizard is the only thing doing anything
         StopTimers();
 
-        CWizardAccountManager* pWizard = new CWizardAccountManager(this);
+        CWizardAttachProject* pWizard = new CWizardAttachProject(this);
 
-        pWizard->Run(ACCOUNTMANAGER_UPDATE);
+        pWizard->SyncToAccountManager();
 
         if (pWizard)
             pWizard->Destroy();
@@ -1557,7 +1514,6 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     
     CMainDocument* pDoc = wxGetApp().GetDocument();
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-    CWizardAccountManager* pAMWizard = NULL;
     CWizardAttachProject* pAPWizard = NULL;
     wxString strComputer = wxEmptyString;
     wxString strName = wxEmptyString;
@@ -1625,8 +1581,8 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             Show();
         }
 
-        pAMWizard = new CWizardAccountManager(this);
-        if (pAMWizard->Run()) {
+        pAPWizard = new CWizardAttachProject(this);
+        if (pAPWizard->SyncToAccountManager()) {
 
 #if defined(__WXMSW__) || defined(__WXMAC__)
             // If successful, hide the main window
@@ -1690,8 +1646,6 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     FireRefreshView();
 
 
-    if (pAMWizard)
-        pAMWizard->Destroy();
     if (pAPWizard)
         pAPWizard->Destroy();
 

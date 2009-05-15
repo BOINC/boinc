@@ -4549,3 +4549,31 @@ Charlie 15 May 2009
 
     lib/
         util.cpp
+
+Charlie 15 May 2009
+    - MGR: Finish merging "Attach to account manager" functionality into "Attach 
+        to project" wizard: "Synchronize with account Manager" and "Remove from 
+        account manager." Remove the obsolete classes and files.
+        NOTE: The "Remove from account manager" functionality in the wizard 
+        (action == ACCOUNTMANAGER_DETACH) was no longer used, so I removed this 
+        block of code.
+        
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerProcessingPage.cpp
+        AccountManagerPropertiesPage.cpp
+        AdvancedFrame.cpp, .h
+        BOINCBaseWizard.cpp, .h
+        BOINCWizards.h
+        CompletionPage.cpp
+        Events.h
+        MainDocument.cpp
+        sg_BoincSimpleGUI.cpp
+        sg_ProjectsComponent.cpp
+        WelcomePage.cpp
+        WizardAccountManager.h
+        WizardAttachProject.cpp, .h
+        WizardAccountManager.cpp, .h (Deleted)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
