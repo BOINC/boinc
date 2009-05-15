@@ -4543,3 +4543,9 @@ David  14 May 2009
             translation.inc
         ops/
             build_po.php
+
+Charlie 15 May 2009
+    Fix compiler warning.
+
+    lib/
+        util.cpp
