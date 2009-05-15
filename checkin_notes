@@ -4582,7 +4582,11 @@ Charlie 15 May 2009
         RPC which was being done would hang the Manager if the Client was 
         running but not responding.  This should fix some of the situations 
         where the manager would become unresponsive.
+    - MGR: Add an "Exit BOINC" button ("Quit BOINC" on Mac) to async RPC 
+        "Communicating with BOINC Client. Please wait..." dialog.  This allows 
+        users to exit BOINC more easily when Client is unresponsive.
     
     clientgui/
+        AsyncRPC.cpp, .h
         BOINCClientManager.cpp
         MainDocument.cpp

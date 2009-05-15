@@ -432,6 +432,7 @@ int RPCThread::ProcessRPCRequest() {
 int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     std::vector<ASYNC_RPC_REQUEST>::iterator iter;
     int retval = 0;
+    int response = wxID_OK;
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
     long delayTimeRemaining, timeToSleep;
     bool shown = false;
@@ -584,7 +585,8 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         // undesirable recursion.
         //
         if (m_RPCWaitDlg) {
-            if (m_RPCWaitDlg->ShowModal() != wxID_OK) {
+            response = m_RPCWaitDlg->ShowModal();
+            if (response != wxID_OK) {
                 // TODO: If user presses Cancel in Please Wait dialog but request 
                 // has not yet been started, should we just remove it from queue? 
                 // If we make that change, should we also add a separate menu item  
@@ -608,6 +610,11 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                     // We will be reconnected to the same client (if possible) by 
                     // CBOINCDialUpManager::OnPoll() and CNetworkConnection::Poll().
                     m_pNetworkConnection->SetStateDisconnected();
+                }
+                if (response == wxID_EXIT) {
+                    pFrame = wxGetApp().GetFrame();
+                    wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, wxID_EXIT);
+                    pFrame->AddPendingEvent(evt);
                 }
             }
             if (m_RPCWaitDlg) {
@@ -663,7 +670,8 @@ void CMainDocument::KillRPCThread() {
 void CMainDocument::OnRPCComplete(CRPCFinishedEvent&) {
     HandleCompletedRPC();
 }   
-    
+
+
 void CMainDocument::HandleCompletedRPC() {
     int retval = 0;
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
@@ -954,11 +962,22 @@ int CMainDocument::CopyProjectsToStateBuffer(PROJECTS& p, CC_STATE& state) {
 }
 
 
+BEGIN_EVENT_TABLE(AsyncRPCDlg, wxDialog)
+    EVT_BUTTON(wxID_EXIT, AsyncRPCDlg::OnExit)
+END_EVENT_TABLE()
+
 IMPLEMENT_CLASS(AsyncRPCDlg, wxDialog)
 
 AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPosition ) {
 
+    AsyncRPCDlg* itemDialog1 = this;
+
     wxString message = wxString(_("Communicating with BOINC client.  Please wait ..."));
+#ifdef __WXMAC__
+    wxString exit_label = wxString(_("&Quit BOINC"));
+#else
+    wxString exit_label = wxString(_("E&xit BOINC"));
+#endif
 
     wxBoxSizer *topsizer = new wxBoxSizer( wxVERTICAL );
     wxBoxSizer *icon_text = new wxBoxSizer( wxHORIZONTAL );
@@ -967,7 +986,16 @@ AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPositio
     topsizer->Add( icon_text, 1, wxCENTER | wxLEFT|wxRIGHT|wxTOP, 10 );
     
     int center_flag = wxEXPAND;
-    wxSizer *sizerBtn = CreateStdDialogButtonSizer(wxCANCEL|wxNO_DEFAULT);
+    wxStdDialogButtonSizer *sizerBtn = CreateStdDialogButtonSizer(0);
+    
+    wxButton* exitbutton = new wxButton;
+    exitbutton->Create( this, wxID_EXIT, exit_label, wxDefaultPosition, wxDefaultSize, 0 );
+    sizerBtn->Add(exitbutton, 0, wxLEFT|wxRIGHT|wxALL, 5);
+
+    wxButton* cancelbutton = new wxButton;
+    cancelbutton->Create( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+    sizerBtn->Add(cancelbutton, 0, wxLEFT|wxRIGHT|wxALL, 5);
+    
     if ( sizerBtn )
         topsizer->Add(sizerBtn, 0, center_flag | wxALL, 10 );
 
@@ -984,6 +1012,11 @@ AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPositio
     }
 
     Centre( wxBOTH | wxCENTER_FRAME);
+}
+
+
+void AsyncRPCDlg::OnExit(wxCommandEvent& WXUNUSED(eventUnused)) {
+    EndModal(wxID_EXIT);
 }
 
 
