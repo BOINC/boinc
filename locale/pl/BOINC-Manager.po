@@ -3769,29 +3769,3 @@ msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr ""
 "Podaj godziny rozpoczęcia i zakończenia dostępności sieci w formacie HH:MM-HH:MM\n"
 "Godzina rozpoczęcia musi być wcześniejsza niż godzina zakończenia"
-
-#~ msgid "You are already attached to this project."
-#~ msgstr "Przyłączyłeś się już do tego projektu."
-
-#~ msgid ""
-#~ msgstr ""
-#~ "Ten projekt może nie obsługiwać twojej platformy sprzętowej i może nie "
-#~ "przydzielić twojemu komputerowi żadnych zadań do przetwarzania."
-
-#~ msgid ""
-#~ msgstr "Możesz skopiować adres widoczny w przeglądarce, której używasz."
-
-#~ msgid ""
-#~ msgstr "Aby uzyskać listę menadżerów kont dla platformy BOINC, odwiedź adres:"
-
-#~ msgid ""
-#~ msgstr "Tekst statyczny"
-
-#~ msgid ""
-#~ msgstr ""
-
-#~ msgid "Radiobutton"
-#~ msgstr "Radiobutton"
-
-#~ msgid ""
-#~ msgstr "Priorytet krótkoterminowy"
