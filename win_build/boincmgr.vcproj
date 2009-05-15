@@ -1564,14 +1564,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\clientgui\WizardAccountManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\WizardAccountManager.h"
-				>
-			</File>
-			<File
 				RelativePath="..\clientgui\WizardAttachProject.cpp"
 				>
 			</File>
