@@ -3755,16 +3755,3 @@ msgstr "gebe Anfangs- und Endzeit für das Rechnen im Format HH:MM-HH:MM ein"
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "gebe Anfangs- und Endzeit der Netzwerknutzung im Format HH:MM-HH:MM ein"
-
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr ""
-#~ "Sie können die URL aus der Adresszeile ihres Internetbrowsers mit \"Kopieren "
-#~ "und Einfügen\" übertragen."
-
-#~ msgid ""
-#~ msgstr "Für eine Liste von Kontoverwaltungen besuchen sie:"
-
-#~ msgid ""
-#~ msgstr "Sie sind bereits mit dem Projekt verbunden"
