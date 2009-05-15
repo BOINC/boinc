@@ -4568,6 +4568,7 @@ Charlie 15 May 2009
         CompletionPage.cpp
         Events.h
         MainDocument.cpp
+        Makefile.am
         sg_BoincSimpleGUI.cpp
         sg_ProjectsComponent.cpp
         WelcomePage.cpp
