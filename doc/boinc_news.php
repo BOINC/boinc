@@ -10,7 +10,7 @@ array("May 14, 2009",
     "<a href=http://www2.warwick.ac.uk/newsandevents/audio/more/tedx/?podcastItem=francois_grey.mp4>Francois Grey talks about citizen cyber-science</a> at TEDx Warwick."
 ),
 array("May 13, 2009",
-    "See a <a href=http://www.micropedia.tv/index.php?option=com_content&view=article&id=125:micropildora-computacion-voluntaria&catid=54:canal-cocina&Itemid=139>video</a> (in Spanish) about Extremadura@home and volunteer computing."
+    "See a <a href=http://www.youtube.com/watch?v=igB-vqS3gAc>video</a> (in Spanish with English subtitles) about Extremadura@home and volunteer computing."
 ),
 array("May 12, 2009",
     "An

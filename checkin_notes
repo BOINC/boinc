@@ -4590,3 +4590,10 @@ Charlie 15 May 2009
         AsyncRPC.cpp, .h
         BOINCClientManager.cpp
         MainDocument.cpp
+
+David  15 May 2009
+    - scheduler: enforce max_wus_to_send config parameter
+        for jobs being resent (as well as new jobs)
+
+    sched/
+        sched_resend.cpp

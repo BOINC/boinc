@@ -204,12 +204,18 @@ bool resend_lost_work() {
             g_reply->insert_message(USER_MESSAGE(warning_msg, "high"));
             num_resent++;
             did_any = true;
+
+            if (g_wreq->nresults >= config.max_wus_to_send) {
+                result.end_enumerate();
+                break;
+            }
         }
     }
 
     if (num_eligible_to_resend && config.debug_resend) {
         log_messages.printf(MSG_NORMAL,
-            "[resend] [HOST#%d] %d lost results, resent %d\n", g_reply->host.id, num_eligible_to_resend, num_resent 
+            "[resend] [HOST#%d] %d lost results, resent %d\n",
+            g_reply->host.id, num_eligible_to_resend, num_resent 
         );
     }
 
