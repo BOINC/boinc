@@ -61,19 +61,11 @@ function type_text($type) {
     }
 }
 
-$w66dev= array(
+$w66= array(
     "num"=>"6.6.28",
     "status"=>"Development version",
     "file"=>"boinc_6.6.28_windows_intelx86.exe",
     "date"=>"6 May 2009",
-    "type"=>"win_new",
-);
-
-$w66= array(
-    "num"=>"6.6.20",
-    "status"=>"Recommended version",
-    "file"=>"boinc_6.6.20_windows_intelx86.exe",
-    "date"=>"30 Mar 2009",
     "type"=>"win_new",
 );
 
@@ -85,19 +77,11 @@ $w64= array(
     "type"=>"win_new",
 );
 
-$w66x64dev= array(
+$w66x64= array(
     "num"=>"6.6.28",
     "status"=>"Development version",
     "file"=>"boinc_6.6.28_windows_x86_64.exe",
     "date"=>"6 May 2009",
-    "type"=>"win_new",
-);
-
-$w66x64= array(
-    "num"=>"6.6.20",
-    "status"=>"Recommended version",
-    "file"=>"boinc_6.6.20_windows_x86_64.exe",
-    "date"=>"30 Mar 2009",
     "type"=>"win_new",
 );
 
@@ -117,19 +101,11 @@ $w5816= array(
     "type"=>"win_new",
 );
 
-$m66dev = array(
+$m66 = array(
     "num"=>"6.6.29",
     "status"=>"Development version (standard GUI)",
     "file"=>"boinc_6.6.29_macOSX_universal.zip",
     "date"=>"7 May 2009",
-    "type"=>"mac_advanced",
-);
-
-$m66 = array(
-    "num"=>"6.6.20",
-    "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_6.6.20_macOSX_universal.zip",
-    "date"=>"30 Mar 2009",
     "type"=>"mac_advanced",
 );
 
@@ -141,19 +117,11 @@ $m6218 = array(
     "type"=>"mac_advanced",
 );
 
-$m66cdev = array(
+$m66c = array(
     "num"=>"6.6.29",
     "status"=>"Development version (Unix command-line version)",
     "file"=>"boinc_6.6.29_universal-apple-darwin.zip",
     "date"=>"7 May 2009",
-    "type"=>"bare_core",
-);
-
-$m66c = array(
-    "num"=>"6.6.20",
-    "status"=>"Recommended version (Unix command-line version)",
-    "file"=>"boinc_6.6.20_universal-apple-darwin.zip",
-    "date"=>"30 Mar 2009",
     "type"=>"bare_core",
 );
 
@@ -274,7 +242,6 @@ $windows = array(
     "description"=>"98/ME/2000/XP/Vista ",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-        $w66dev,
         $w66,
         $w64,
         $w5816,
@@ -286,7 +253,6 @@ $windowsx64 = array(
     "description"=>"XP/Vista",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-        $w66x64dev,
         $w66x64,
         $w64x64,
     )
@@ -297,8 +263,6 @@ $mac = array(
     "description"=>"Version 10.3.9+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m66dev,
-        $m66cdev,
         $m66,
         $m66c,
         $m6218,
