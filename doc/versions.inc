@@ -63,7 +63,7 @@ function type_text($type) {
 
 $w66= array(
     "num"=>"6.6.28",
-    "status"=>"Stable version",
+    "status"=>"Recommended version",
     "file"=>"boinc_6.6.28_windows_intelx86.exe",
     "date"=>"6 May 2009",
     "type"=>"win_new",
@@ -79,7 +79,7 @@ $w64= array(
 
 $w66x64= array(
     "num"=>"6.6.28",
-    "status"=>"Stable version",
+    "status"=>"Recommended version",
     "file"=>"boinc_6.6.28_windows_x86_64.exe",
     "date"=>"6 May 2009",
     "type"=>"win_new",
@@ -103,7 +103,7 @@ $w5816= array(
 
 $m66 = array(
     "num"=>"6.6.29",
-    "status"=>"Stable version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_6.6.29_macOSX_universal.zip",
     "date"=>"7 May 2009",
     "type"=>"mac_advanced",
@@ -119,7 +119,7 @@ $m6218 = array(
 
 $m66c = array(
     "num"=>"6.6.29",
-    "status"=>"Stable version (Unix command-line version)",
+    "status"=>"Recommended version (Unix command-line version)",
     "file"=>"boinc_6.6.29_universal-apple-darwin.zip",
     "date"=>"7 May 2009",
     "type"=>"bare_core",
