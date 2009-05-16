@@ -2746,3 +2746,10 @@ Charlie 14 May 2009
     
     clientgui/
         MainDocument.cpp
+
+Charlie 16 May 2009
+    - MGR: Fix bug which prevented skin change from being saved if exiting Manager 
+        while in Simple View.
+
+    clientgui/
+        BOINCGUIApp.cpp
