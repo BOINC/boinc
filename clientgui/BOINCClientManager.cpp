@@ -113,16 +113,11 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     bool running = false;
 
 #ifdef __WXMSW__
-    DWORD              dwExitCode = 0;
     
     if (IsBOINCServiceInstalled()) {
         running = (FALSE != IsBOINCServiceStarting()) || (FALSE != IsBOINCServiceRunning());
     } else {
-        if (m_hBOINCCoreProcess != NULL) {
-            if (GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
-                running = (STILL_ACTIVE == dwExitCode);
-            }
-        }
+        running = ProcessExists(m_hBOINCCoreProcess);
     }
 #else
     if (m_lBOINCCoreProcessId != 0) {
@@ -298,9 +293,11 @@ bool CBOINCClientManager::StartupBOINCCore() {
 bool CBOINCClientManager::ProcessExists(HANDLE thePID) {
     DWORD              dwExitCode = 0;
 
-    if (GetExitCodeProcess(m_hBOINCCoreProcess, &dwExitCode)) {
-        if (STILL_ACTIVE == dwExitCode) {
-            return true;
+    if (thePID != NULL) {
+        if (GetExitCodeProcess(thePID, &dwExitCode)) {
+            if (STILL_ACTIVE == dwExitCode) {
+                return true;
+            }
         }
     }
     

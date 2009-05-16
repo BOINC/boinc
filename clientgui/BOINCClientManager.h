@@ -42,7 +42,6 @@ public:
     bool                IsBOINCCoreRunning();
     bool                StartupBOINCCore();
     void                ShutdownBOINCCore();
-    bool                ProcessExists(pid_t thePID);
 
 protected:
 
@@ -50,7 +49,11 @@ protected:
     int                 m_lBOINCCoreProcessId;
 
 #ifdef __WXMSW__
+    bool                ProcessExists(HANDLE thePID);
     HANDLE              m_hBOINCCoreProcess;
+#else
+    bool                ProcessExists(pid_t thePID);
+
 #endif
 
 };
