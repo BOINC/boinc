@@ -294,6 +294,54 @@ bool CBOINCClientManager::StartupBOINCCore() {
 }
 
 
+#ifndef __WXMSW__
+
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
+    char *p = buf;
+    size_t len = buflen;
+    size_t datalen = 0;
+
+    *buf = '\0';
+    while (datalen < (buflen - 1)) {
+        fgets(p, len, f);
+        if (feof(f)) break;
+        if (ferror(f) && (errno != EINTR)) break;
+        if (strchr(buf, '\n')) break;
+        datalen = strlen(buf);
+        p = buf + datalen;
+        len -= datalen;
+    }
+    return (buf[0] ? buf : NULL);
+}
+
+bool CBOINCClientManager::ProcessExists(pid_t thePID)
+{
+    FILE *f;
+    char buf[256];
+    pid_t aPID;
+
+//    f = popen("ps -a -x -c -o pid,state", "r");
+    sprintf(buf, "ps -a -x -c -o pid,state -p %d", thePID);
+    f = popen(buf,  "r");
+    if (f == NULL)
+        return false;
+    
+    while (PersistentFGets(buf, sizeof(buf), f)) {
+        aPID = atol(buf);
+        if (aPID == thePID) {
+            if (strchr(buf, 'Z'))   // A 'zombie', stopped but waiting
+                break;              // for us (its parent) to quit
+            pclose(f);
+            return true;
+        }
+    }
+    pclose(f);
+    return false;
+}
+
+#endif
+
+
 #if defined(__WXMSW__)
 
 void CBOINCClientManager::ShutdownBOINCCore() {
@@ -370,50 +418,7 @@ void CBOINCClientManager::ShutdownBOINCCore() {
 
 #elif defined(__WXMAC__)
 
-static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
-    char *p = buf;
-    size_t len = buflen;
-    size_t datalen = 0;
-
-    *buf = '\0';
-    while (datalen < (buflen - 1)) {
-        fgets(p, len, f);
-        if (feof(f)) break;
-        if (ferror(f) && (errno != EINTR)) break;
-        if (strchr(buf, '\n')) break;
-        datalen = strlen(buf);
-        p = buf + datalen;
-        len -= datalen;
-    }
-    return (buf[0] ? buf : NULL);
-}
-
-bool CBOINCClientManager::ProcessExists(pid_t thePID)
-{
-    FILE *f;
-    char buf[256];
-    pid_t aPID;
-
-//    f = popen("ps -a -x -c -o pid,state", "r");
-    sprintf(buf, "ps -a -x -c -o pid,state -p %d", thePID);
-    f = popen(buf,  "r");
-    if (f == NULL)
-        return false;
-    
-    while (PersistentFGets(buf, sizeof(buf), f)) {
-        aPID = atol(buf);
-        if (aPID == thePID) {
-            if (strchr(buf, 'Z'))   // A 'zombie', stopped but waiting
-                break;              // for us (its parent) to quit
-            pclose(f);
-            return true;
-        }
-    }
-    pclose(f);
-    return false;
-}
-
-// wxProcess::Exists returns true for zombies and kill(pid, 0) returns OK for zombies
+// wxProcess::Exists returns true for zombies because kill(pid, 0) returns OK for zombies
 void CBOINCClientManager::ShutdownBOINCCore() {
     CMainDocument*     pDoc = wxGetApp().GetDocument();
     wxInt32            iCount = 0;
