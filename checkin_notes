@@ -4597,3 +4597,10 @@ David  15 May 2009
 
     sched/
         sched_resend.cpp
+
+Charlie 16 May 2009
+    - MGR: Fix bug which prevented skin change from being saved if exiting Manager 
+        while in Simple View.
+
+    clientgui/
+        BOINCGUIApp.cpp
