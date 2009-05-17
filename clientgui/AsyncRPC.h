@@ -308,10 +308,12 @@ private:
 class AsyncRPCDlg : public wxDialog
 {
     DECLARE_DYNAMIC_CLASS( AsyncRPCDlg )
+    DECLARE_EVENT_TABLE()
 
 public:
     AsyncRPCDlg();
     void                        OnRPCDlgTimer(wxTimerEvent &event);
+    void                        OnExit(wxCommandEvent& event);
 };
 
 

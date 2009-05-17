@@ -2741,10 +2741,14 @@ Charlie 13 May 2009
     clientgui/
         AsyncRPC.cpp
 
-Charlie 14 May 2009
+Charlie 15 May 2009
     - MGR: Update m_dtCachedCCStatusTimestamp only when RPC completes.
+    - MGR: Add an "Exit BOINC" button ("Quit BOINC" on Mac) to async RPC 
+        "Communicating with BOINC Client. Please wait..." dialog.  This allows 
+        users to exit BOINC more easily when Client is unresponsive.
     
     clientgui/
+        AsyncRPC.cpp, .h
         MainDocument.cpp
 
 Charlie 16 May 2009
