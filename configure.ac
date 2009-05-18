@@ -685,6 +685,10 @@ if test "${enable_manager}" = yes ; then
   fi
 fi
 
+dnl ---------- Sqlite3 ----------------------------------------------------
+if test "${enable_manager}" = yes ; then
+  AM_PATH_SQLITE3
+fi
 
 dnl --------------------------------------------------------------------------------
 
