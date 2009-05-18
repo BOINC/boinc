@@ -22,6 +22,8 @@ require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 
+BoincDb::get(true);
+
 $config = get_config();
 if (!parse_bool($config, "show_results")) {
     error_page("This feature is turned off temporarily");

@@ -21,6 +21,8 @@ require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/host.inc");
 
+BoincDb::get(true);
+
 $hostid = get_int("hostid");
 $ipprivate = get_str("ipprivate", true);
 $host = BoincHost::lookup_id($hostid);

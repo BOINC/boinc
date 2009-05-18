@@ -27,6 +27,8 @@ if (!parse_bool($config, "show_results")) {
     error_page(tra("This feature is turned off temporarily"));
 }
 
+BoincDb::get(true);
+
 $results_per_page = 20;
 
 $hostid = get_int("hostid", true);

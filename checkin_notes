@@ -4625,3 +4625,12 @@ David  17 May 2009
             db_update.php
     py/Boinc
         setup_project.py
+
+David  17 May 2009
+    - web: use read-only replica when possible
+
+    html/user/
+        pending.php
+        results.php
+        show_host_detail.php
+        workunit.php
