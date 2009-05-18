@@ -122,7 +122,7 @@ function bb2html($text) {
         "@\[quote\](.*?)\[/quote\]@is",
         "@\[list\](.*?)\[/list\]@is",
         "@\[list=1\](.*?)\[/list\]@is",  
-        "@\[pre\](.*?)\[/pre\]@is",
+        "@\[pre\](.*?)\[/pre\]@eis",
         "@\[img\]$urlregex\[/img\]@is",
         "@\[color=(?:\"?)(.{3,8})(?:\"?)\](.*?)\[/color\]@is",
         "@((?:<ol>|<ul>).*?)\n\*([^\n]+)\n(.*?(</ol>|</ul>))@is",
@@ -153,7 +153,7 @@ function bb2html($text) {
         "<blockquote class='postbody'>\\1</blockquote>",
         "<ul>\\1</ul><p>",
         "<ol>\\1</ol><p>",
-        "<pre>\\1</pre>",
+        "'<pre>'.remove_br('\\1').'</pre>'",
         "<img src=\"http://\\2\">",
         "<font color=\"\\1\">\\2</font>",
         "\\1<li>\\2\n\\3",
@@ -176,6 +176,15 @@ function bb2html($text) {
     }
     return $text;
 }
+
+// Removes any <br> tags added by nl2br which are not wanted,
+// for example inside <pre> containers
+// The original \n was retained after the br when it was added
+//
+function remove_br($text){
+    return str_replace("<br />", "", $text);
+}
+
 
 /**
  * Stops recursion of BBCode by escaping any [ in the given text

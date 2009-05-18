@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2009-05-09 21:36 PDT\n"
 "PO-Revision-Date: 2009-01-12 03:19-0700\n"
 "Last-Translator: Bartosz Kaszubowski <gosimek@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,36 +15,10 @@ msgstr ""
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: html\\user\n"
-"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
-
-####################################
-# Language: Polish [rev. 1.40 (12.09.2007/18:15)]
-# FileID  : $Id$
-# Author  : Bartosz Kaszubowski
-# Email   : gosimek@gmail.com
-##########################################
-# For more information please see:
-# http://boinc.berkeley.edu/web_translation.php
-# The charset used for the text in this file (please try to use UTF-8 if possible)
-msgid "CHARSET"
-msgstr "UTF-8"
-
-# The name of this language in this language
-msgid "LANG_NAME_NATIVE"
-msgstr "Polski"
-
-# The name of this language in an international language (English)
-msgid "LANG_NAME_INTERNATIONAL"
-msgstr "Polish"
-
-msgid "Rank"
-msgstr "Pozycja"
-
-msgid "Name"
-msgstr "Nazwa użytkownika"
 
 msgid "Search for words in forum messages"
 msgstr "Szukaj słów w postach na forum"
@@ -71,12 +45,17 @@ msgstr "Forum dyskusyjne"
 msgid "%1 message board"
 msgstr "Forum dyskusyjne %1"
 
-msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgid ""
+"In order to create a new thread in %1 you must have a certain amount of "
+"credit. This is to prevent and protect against abuse of the system."
 msgstr ""
 "Aby stworzyć nowy temat w %1 musisz mieć określoną liczbę punktów. Zapobiega "
 "to spamowaniu na forum."
 
-msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+msgid ""
+"You cannot create any more threads right now. Please wait a while before "
+"trying again. This delay has been enforced to protect against abuse of the "
+"system."
 msgstr ""
 "Nie możesz stworzyć teraz nowego tematu. Odczekaj chwile, zanim spróbujesz "
 "stworzyć temat ponownie. Zapobiega to spamowaniu na forum."
@@ -132,13 +111,33 @@ msgstr "Wiadmość"
 msgid "Send message"
 msgstr "Wyślij wiadomość"
 
-msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+msgid ""
+"You are not allowed to send privates messages so often. Please wait some "
+"time before sending more messages."
 msgstr ""
 "Nie możesz wysyłać prywatnych wiadomości tak często. Odczekaj chwilę i "
 "spróbuj ponownie."
 
 msgid "unread"
 msgstr "nieprzeczytanych"
+
+msgid "Edit your profile"
+msgstr ""
+
+msgid "Your feedback on this profile"
+msgstr ""
+
+msgid "Recommend this profile for User of the Day:"
+msgstr ""
+
+msgid "I %1like%2 this profile"
+msgstr ""
+
+msgid "Alert administrators to an offensive profile:"
+msgstr ""
+
+msgid "I %1do not like%2 this profile"
+msgstr ""
 
 msgid "Search criteria (use one or more)"
 msgstr "Kryteria wyszukiwania (wybierz jedno lub więcej)"
@@ -197,6 +196,10 @@ msgstr "Całkowita liczba punktów"
 msgid "Recent average credit"
 msgstr "Średnia liczba punktów"
 
+#, fuzzy
+msgid "Cross-project stats"
+msgstr "Statystyki międzyprojektowe"
+
 msgid "Type"
 msgstr "Typ"
 
@@ -209,11 +212,16 @@ msgstr "Tematy"
 msgid "Join this team"
 msgstr "Dołącz do tego zespołu"
 
-msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
+msgid ""
+"Note: if 'OK to email' is set in your project preferences, joining a team "
+"gives its founder access to your email address."
 msgstr ""
 "Uwaga: Jeżeli wyraziłeś zgodę na otrzymywanie e-maili w ustawieniach "
 "projektu, gdy dołączysz do zespołu jego założyciel otrzyma także dostęp do "
 "twojego adresu e-mail."
+
+msgid "Not accepting new members"
+msgstr ""
 
 msgid "Foundership change requested"
 msgstr "Zażądano zmiany założyciela"
@@ -248,6 +256,9 @@ msgstr "Aktywni członkowie"
 msgid "Members with credit"
 msgstr "Członkowie z punktami"
 
+msgid "Name"
+msgstr "Nazwa użytkownika"
+
 msgid "Admin"
 msgstr "Administrator"
 
@@ -266,7 +277,12 @@ msgstr "Operacja wymaga przywilejów założyciela zespołu."
 msgid "This operation requires team admin privileges"
 msgstr "Operacja wymaga przywilejów administratora zespołu."
 
-msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
+msgid "Rank"
+msgstr "Pozycja"
+
+msgid ""
+"%1Privacy note%2: if you create a team, your project preferences (resource "
+"share, graphics preferences) will be visible to the public."
 msgstr ""
 "%1Uwaga odnośnie prywatności%2: Jeżeli stworzysz własny zespół, twoje "
 "ustawienia projektu (ustawienia zasobów, przydziału i grafiki) będą widoczne "
@@ -389,14 +405,9 @@ msgstr "Pozwala na pełen dostęp do twojego konta"
 msgid "Weak account key"
 msgstr "Słaby klucz konta"
 
-msgid "Provides"
-msgstr "Pozwala na"
-
-msgid "limited access"
-msgstr "ograniczony dostęp"
-
-msgid "to your account"
-msgstr "do twojego konta"
+#, fuzzy
+msgid "Provides %1limited access%2 to your account"
+msgstr "Pozwala na pełen dostęp do twojego konta"
 
 msgid "Preferences"
 msgstr "Ustawienia"
@@ -488,6 +499,18 @@ msgstr "Oczekujące zaproszenia"
 msgid "Add as friend"
 msgstr "Dodaj jako przyjaciela"
 
+####################################
+# Language: Polish [rev. 1.40 (12.09.2007/18:15)]
+# FileID  : $Id$
+# Author  : Bartosz Kaszubowski
+# Email   : gosimek@gmail.com
+##########################################
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+msgid "CHARSET"
+msgstr "UTF-8"
+
 msgid "Use BBCode tags to format your text"
 msgstr "Używaj BBCode do formatowania wpisywanego tekstu"
 
@@ -510,7 +533,11 @@ msgstr "Nie jest wymagany; możesz go podać jeśli chcesz"
 msgid "Applications"
 msgstr "Aplikacje"
 
-msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+msgid ""
+"%1 currently has the following applications. When you participate in %1, "
+"work for one or more of these applications will be assigned to your "
+"computer. The current version of the application will be downloaded to your "
+"computer. This happens automatically; you don't have to do anything."
 msgstr ""
 "Projekt %1 obecnie korzysta z aplikacji wypisanych w tabeli poniżej. "
 "Uczestnicząc w %1 twój komputer otrzyma pracę od jednej lub więcej z tych "
@@ -521,8 +548,8 @@ msgstr ""
 msgid "Platform"
 msgstr "Platforma"
 
-msgid "Current version"
-msgstr "Aktualna wersja"
+msgid "Version"
+msgstr ""
 
 msgid "Installation time"
 msgstr "Zainstalowano"
@@ -544,14 +571,19 @@ msgstr "Tworzenie nowego konta jest aktualnie wyłączone!"
 msgid "Account creation is currently disabled. Please try again later."
 msgstr ""
 
-msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgid ""
+"NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
+"form. Just run BOINC, select Attach Project, and enter an email address and "
+"password."
 msgstr ""
 "UWAGA: Jeżeli używasz BOINC Manager'a w wersji 5.2+, staraj się nie "
 "korzystać z tej strony w celu stworzenia konta. Poprostu uruchom Manager'a, "
 "wybierz z menu 'Opcje' polecenie 'Przyłącz się do projektu...' i wpisz adres "
 "email oraz hasło."
 
-msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgid ""
+"This account will belong to the team %1 and will have the project "
+"preferences of its founder."
 msgstr ""
 "To konto automatycznie będzie przyłączone do zespołu %1 i zyska ustawienia "
 "określone przez jego założyciela."
@@ -581,6 +613,119 @@ msgstr "Powtórz hasło"
 msgid "Create account"
 msgstr "Stwórz konto"
 
+msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
+msgstr ""
+
+msgid "Picture"
+msgstr ""
+
+msgid "%1 Your profile picture is shown to the left."
+msgstr ""
+
+msgid ""
+"To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
+"or less)."
+msgstr ""
+
+msgid "To remove it from your profile, check this box:"
+msgstr ""
+
+msgid ""
+"If you would like include a picture with your profile, click the \"Browse\" "
+"button and select a JPEG or PNG file. Please select images of %1 or less."
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Select the language in which your profile is written:"
+msgstr ""
+
+msgid "Submit profile"
+msgstr ""
+
+msgid ""
+"To protect the project's webpages from spam, we kindly ask you to type in "
+"the two words shown in the image:<br>\n"
+msgstr ""
+
+msgid "Create/edit profile"
+msgstr ""
+
+msgid "The format of your uploaded image is not supported."
+msgstr ""
+
+msgid ""
+"Your %1profile%2 lets you share your opinions and background with the %3 "
+"community."
+msgstr ""
+
+msgid "Your ReCaptcha response was not correct.  Please try again."
+msgstr ""
+
+msgid ""
+"Your first response was flagged as spam by the Akismet anti-spam system.  "
+"Please modify your text and try again."
+msgstr ""
+
+msgid ""
+"Your second response was flagged as spam by the Akismet anti-spam system.  "
+"Please modify your text and try again."
+msgstr ""
+
+msgid "Your profile submission was empty."
+msgstr ""
+
+msgid "Could not update the profile: database error"
+msgstr ""
+
+msgid "Could not create the profile: database error"
+msgstr ""
+
+msgid "Profile saved"
+msgstr ""
+
+msgid ""
+"Congratulations! Your profile was successfully entered into our database."
+msgstr ""
+
+msgid "%1View your profile%2"
+msgstr ""
+
+msgid "Create a profile"
+msgstr ""
+
+msgid ""
+"To prevent spam, an average credit of %1 or greater is required to create or "
+"edit a profile.  We apologize for this inconvenience."
+msgstr ""
+
+msgid "Download BOINC add-on software"
+msgstr ""
+
+msgid "You can download applications in several categories."
+msgstr ""
+
+msgid ""
+"These applications are not endorsed by %1 and you use them at your own risk."
+msgstr ""
+
+msgid ""
+"We do not provide instructions for installing these applications.\n"
+"However, the author may have provided some help on installing or "
+"uninstalling the application. \n"
+"If this is not enough you should contact the author."
+msgstr ""
+
+msgid "Instructions for installing and running BOINC are %1here%2."
+msgstr ""
+
+msgid "This list is managed centrally at %1the BOINC website%2."
+msgstr ""
+
+msgid "fll"
+msgstr ""
+
 msgid "Title"
 msgstr "Nazwa"
 
@@ -592,8 +737,409 @@ msgstr "Dodaj moją sygnaturę do tego postu"
 msgid "%1 Message boards"
 msgstr "Forum dyskusyjne %1"
 
+msgid ""
+"If you have a question or problem, please use the %1Questions & Answers%2 "
+"section of the message boards."
+msgstr ""
+
 msgid "Topic"
 msgstr "Kategorie"
+
+msgid "Create a new thread"
+msgstr "Stwórz nowy temat"
+
+msgid "Post to thread"
+msgstr "Odpowiedz na temat"
+
+#########################################
+# Forum search features
+msgid "Forum search"
+msgstr "Szukaj na forum"
+
+msgid "Forum search results"
+msgstr "Wyniki wyszukiwania na forum"
+
+msgid "No thread with id %1. Please check the link and try again."
+msgstr ""
+
+msgid "This forum is not visible to you."
+msgstr ""
+
+#########################################
+# Forum thread
+msgid "This thread has been hidden for administrative purposes"
+msgstr "Ten temat został ukryty przez administrację forum"
+
+msgid "My question was answered"
+msgstr ""
+
+msgid ""
+"If your question has been adequately answered please click here to close it!"
+msgstr ""
+
+msgid "I've also got this question"
+msgstr ""
+
+msgid "Add a new message to this thread"
+msgstr ""
+
+msgid "Unsubscribe"
+msgstr "Zakończ śledzenie tematu"
+
+msgid "You are subscribed to this thread.  Click here to unsubscribe."
+msgstr ""
+
+msgid "Subscribe"
+msgstr "Śledź ten temat"
+
+msgid "Click to get email when there are new posts in this thread"
+msgstr ""
+
+msgid "Unhide"
+msgstr ""
+
+msgid "Unhide this thread"
+msgstr ""
+
+msgid "Hide"
+msgstr ""
+
+msgid "Hide this thread"
+msgstr ""
+
+msgid "Make unsticky"
+msgstr ""
+
+msgid "Make this thread not sticky"
+msgstr ""
+
+msgid "Make sticky"
+msgstr ""
+
+msgid "Make this thread sticky"
+msgstr ""
+
+msgid "Unlock"
+msgstr ""
+
+msgid "Unlock this thread"
+msgstr ""
+
+msgid "Lock"
+msgstr ""
+
+msgid "Lock this thread"
+msgstr ""
+
+msgid "Move"
+msgstr ""
+
+msgid "Move this thread to a different forum"
+msgstr ""
+
+msgid "Edit title"
+msgstr ""
+
+msgid "Edit thread title"
+msgstr ""
+
+msgid "Sort"
+msgstr ""
+
+msgid "Already friends"
+msgstr ""
+
+msgid "You requested friendship with %1 on %2."
+msgstr ""
+
+msgid "This request is still pending confirmation."
+msgstr ""
+
+msgid "%1 is not accepting friendship requests from you"
+msgstr ""
+
+msgid "You can't be friends with yourself"
+msgstr ""
+
+msgid "No such user"
+msgstr "Użytkownik nie istnieje"
+
+#, fuzzy
+msgid "Add friend"
+msgstr "Dodaj jako przyjaciela"
+
+msgid ""
+"You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
+"to confirm that you are friends."
+msgstr ""
+
+msgid "Add an optional message here:"
+msgstr ""
+
+msgid "Database error"
+msgstr ""
+
+msgid "Friend request sent"
+msgstr ""
+
+msgid "We have notified %1 of your request."
+msgstr ""
+
+msgid "Request not found"
+msgstr ""
+
+msgid "Friend request"
+msgstr ""
+
+msgid "%1 has added you as a friend."
+msgstr ""
+
+msgid "%1 says: %2"
+msgstr ""
+
+msgid "Accept friendship"
+msgstr ""
+
+msgid "Click accept if %1 is in fact a friend"
+msgstr ""
+
+msgid "Decline"
+msgstr ""
+
+msgid "Click decline if %1 is not a friend"
+msgstr ""
+
+msgid "No request"
+msgstr ""
+
+msgid "Friendship confirmed"
+msgstr ""
+
+msgid "Your friendship with %1 has been confirmed."
+msgstr ""
+
+msgid "Friendship declined"
+msgstr ""
+
+msgid "You have declined friendship with %1"
+msgstr ""
+
+msgid "Notification not found"
+msgstr ""
+
+msgid "Friend confirmed"
+msgstr ""
+
+msgid "You are now friends with %1."
+msgstr ""
+
+#, fuzzy
+msgid "Cancel friendship?"
+msgstr "Anuluj przyjaźń"
+
+msgid "Are you sure you want to cancel your friendship with %1?"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "Stay friends"
+msgstr ""
+
+msgid "Friendship cancelled"
+msgstr ""
+
+msgid "Your friendship with %1 has been cancelled."
+msgstr ""
+
+msgid "Unknown action"
+msgstr ""
+
+msgid "Welcome to %1"
+msgstr "Witaj w %1"
+
+msgid "View and edit your account preferences using the links below."
+msgstr "Zobacz lub zmień ustawiania swojego konta używając poniższych linków."
+
+########################################
+# "Your account" page (home.php)
+#########################################
+msgid "Your account"
+msgstr "Twoje konto"
+
+#########################################
+# Rules and Policies page (info.php)
+msgid "Read our rules and policies"
+msgstr "Zasady i reguły"
+
+msgid "Run %1 only on authorized computers"
+msgstr "Uczestnicz w projekcie %1 wyłącznie na komputerach autoryzowanych."
+
+msgid ""
+"Run %1 only on computers that you own, or for which you have obtained the "
+"owner's permission. Some companies and schools have policies that prohibit "
+"using their computers for projects such as %1."
+msgstr ""
+"Uczestnicz w projekcie %1 tylko na komputerach, które są twoją własnością "
+"lub do użycia których masz zgodę właściciela. Niektóre firmy i szkoły mają "
+"zabraniają wykorzystywania ich komputerów do celów takich, jak "
+"wykorzystywanie mocy obliczeniowej w projektach naukowych."
+
+msgid "How %1 will use your computer"
+msgstr "Jak projekt %1 będzie korzystał z twojego komputera?"
+
+msgid ""
+"When you run %1 on your computer, it will use part of the computer's CPU "
+"power, disk space, and network bandwidth. You can control how much of your "
+"resources are used by %1, and when it uses them."
+msgstr ""
+"Gdy uruchomisz aplikację projektu %1 na swoim komputerze będzie ona "
+"wykorzystywać część mocy jego procesora, przestrzeni dysku i przepustowości "
+"łącza. Możesz swobodnie regulować, ile zasobów systemowych chcesz "
+"przeznaczyć na pracę w tym projekcie."
+
+msgid ""
+"The work done by your computer contributes to the goals of %1, as described "
+"on its web site. The application programs may change from time to time."
+msgstr ""
+"Praca wykonywana przez twój komputer służy celom projektu %1, które opisane "
+"są na stronie głównej. Aplikacje projektu mogą być co jakiś czas "
+"aktualizowane, bądź zmieniane."
+
+msgid "Privacy policy"
+msgstr "Polityka prywatności"
+
+msgid ""
+"Your account on %1 is identified by a name that you choose. This name may be "
+"shown on the %1 web site, along with a summary of the work your computer has "
+"done for %1. If you want to be anonymous, choose a name that doesn't reveal "
+"your identity."
+msgstr ""
+"Twoje konto w projekcie %1 jest identyfikowane dzięki nazwie, którą sam "
+"określasz. Nazwa uczestnika może być wyświetlana na stronie internetowej "
+"projektu wraz z podsumowaniem pracy, którą dla potrzeb tego projektu wykonał "
+"twój komputer. Jeżeli jednak chcesz pozostać anonimowy, możesz wybrać "
+"nazwę, która nie zdradzi twojej tożsamości."
+
+msgid ""
+"If you participate in %1, information about your computer (such as its "
+"processor type, amount of memory, etc.) will be recorded by %1 and used to "
+"decide what type of work to assign to your computer. This information will "
+"also be shown on %1's web site. Nothing that reveals your computer's "
+"location (e.g. its domain name or network address) will be shown."
+msgstr ""
+"Gdy bierzesz udział w projekcie %1, informacje o twym komputerze, takie jak "
+"rodzaj procesora, ilość pamięci operacyjnej itp. będą zapisane przez projekt "
+"i posłużą określeniu, jakiego rodzaju zadania należy przydzielić twojemu "
+"komputerowi. Dane te będą także wyświetlone na stronie projektu $PROJECT, "
+"lecz może je ukryć, jeśli tego chcesz. Zapewniamy, że nie będą wyświetlone "
+"informacje, które umożliwiłoby rozpoznanie lokacji twojego komputera (np. "
+"nazwa domeny czy adres sieciowy)."
+
+msgid ""
+"To participate in %1, you must give an address where you receive email. This "
+"address will not be shown on the %1 web site or shared with organizations. %"
+"1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr ""
+"By uczestniczyć w projekcie %1, musisz podać adres email, na który chcesz "
+"otrzymywać wiadomości odnośnie projektu. Nie będzie on ujawniony na stronie "
+"internetowej projektu, ani użyczany jakimkolwiek organizacjom. Projekt %1 "
+"może przysyłać Ci co jakiś czas wiadomości z nowinkami dotyczącymi tego "
+"projektu, możesz jednak z nich zrezygnować w każdej chwili."
+
+msgid ""
+"Private messages sent on the %1 web site are visible only to the sender and "
+"recipient.  %1 does not examine or police the content of private messages.  "
+"If you receive unwanted private messages from another %1 user, you may add "
+"them to your %2message filter%3.  This will prevent you from seeing any "
+"public or private messages from that user."
+msgstr ""
+
+msgid ""
+"If you use our web site forums you must follow the %2posting guidelines%3.  "
+"Messages posted to the %1 forums are visible to everyone, including non-"
+"members.  By posting to the forums, you are granting irrevocable license for "
+"anyone to view and copy your posts."
+msgstr ""
+
+msgid "Is it safe to run %1?"
+msgstr "Czy uruchamianie aplikacji projektu %1 jest bezpieczne?"
+
+msgid ""
+"Any time you download a program through the Internet you are taking a "
+"chance: the program might have dangerous errors, or the download server "
+"might have been hacked. %1 has made efforts to minimize these risks. We have "
+"tested our applications carefully. Our servers are behind a firewall and are "
+"configured for high security. To ensure the integrity of program downloads, "
+"all executable files are digitally signed on a secure computer not connected "
+"to the Internet."
+msgstr ""
+"Za każdym razem, gdy pobierasz z sieci program, ryzykujesz: może on zawierać "
+"niebezpieczne błędy, albo serwer, z którego go pobierasz, może zostać "
+"zainfekowany wirusem czy trojanem. W projekcie %1 staramy się sprowadzić to "
+"ryzyko do minimum, aby zapewnić uczestnikom jak najwyższy poziom "
+"bezpieczeństwa."
+
+msgid ""
+"The applications run by %1 may cause some computers to overheat. If this "
+"happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr ""
+"Aplikacje uruchamiane przez projekt %1 mogą powodować przegrzewanie się "
+"niektórych komputerów. Jeśli tak się stanie, zatrzymaj zadania pochodzące z "
+"tego projektu lub skorzystaj z %2dodatkowych programów%3, które międzyinnymi "
+"ograniczają wykorzystywanie procesora twojego komputera, przez co "
+"ograniczają wydzielane przez niego ciepło."
+
+msgid ""
+"%1 was developed by %2. BOINC was developed at the University of California."
+msgstr ""
+"Projekt %1 został stworzony w %2. Platformę BOINC stworzono na Uniwersytecie "
+"Kalifornijskim w Berkeley."
+
+msgid "Liability"
+msgstr "Odpowiedzialność"
+
+msgid ""
+"%1 and %2 assume no liability for damage to your computer, loss of data, or "
+"any other event or condition that may occur as a result of participating in %"
+"1."
+msgstr ""
+"Projekt %1 oraz %2 nie biorą odpowiedzialności za uszkodzenie twojego "
+"komputera, utratę danych czy inne wypadki, które mogą wystąpić w skutek "
+"uczestnictwa w tym projekcie."
+
+msgid "Other BOINC projects"
+msgstr "Inne projekty BOINC"
+
+msgid ""
+"Other projects use the same platform, BOINC, as %1. You may want to consider "
+"participating in one or more of these projects. By doing so, your computer "
+"will do useful work even when %1 has no work available for it."
+msgstr ""
+"Tak jak %1 wiele innych projektów korzysta z platformy BOINC. Rozważ także "
+"uczestnictwo w innych projektach przetwarzania rozproszonego. W ten sposób "
+"twój komputer może wykonywać pożyteczne dla nauki obliczenia nawet jeśli "
+"projekt %1 nie ma dla niego w danej chwili żadnych zadań."
+
+msgid ""
+"These other projects are not associated with %1, and we cannot vouch for "
+"their security practices or the nature of their research. Join them at your "
+"own risk."
+msgstr ""
+"Inne projekty nie mają związku z projektem %1, nie możemy więc odpowiadać za "
+"jakość ich zabezpieczeń czy naturę prowadzonych badań. Uczestniczysz w nich "
+"na własną odpowiedzialność oraz ryzyko."
+
+# The name of this language in an international language (English)
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "Polish"
+
+# The name of this language in this language
+msgid "LANG_NAME_NATIVE"
+msgstr "Polski"
 
 msgid "Your message has been sent."
 msgstr "Twoja wiadomość została wysłana."
@@ -601,46 +1147,20 @@ msgstr "Twoja wiadomość została wysłana."
 msgid "You have no private messages."
 msgstr "Nie masz żadnych prywatnych wiadomość."
 
+msgid "Sender and date"
+msgstr "Nadawca i data"
+
+msgid "Reply"
+msgstr "Odpisz"
+
+msgid "Delete selected messages"
+msgstr ""
+
 msgid "Sender"
 msgstr "Nadawca"
 
 msgid "Date"
 msgstr "Data"
-
-msgid "Mark as read"
-msgstr "Oznacz jako przeczytane"
-
-msgid "Mark as unread"
-msgstr "Oznacz jako nieprzeczytane"
-
-msgid "With selected"
-msgstr "Z wybranych"
-
-msgid "No such message"
-msgstr "Nie ma takiej wiadomości"
-
-msgid "Block user"
-msgstr "Zablokuj użytkownika"
-
-msgid "Reply"
-msgstr "Odpisz"
-
-msgid "Really delete?"
-msgstr "Na pewno usunąć?"
-
-msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
-msgstr ""
-"Jesteś pewny, że chcesz usunąć wiadomość o tytule &quot;%1&quot; (wysłaną %3 "
-"przez użytkownika %2)?"
-
-msgid "Yes, delete"
-msgstr "Tak, usuń"
-
-msgid "No, cancel"
-msgstr "Nie, anuluj"
-
-msgid "No such message."
-msgstr "Nie ma takiej wiadomości."
 
 msgid "You need to fill all fields to send a private message"
 msgstr "Musisz wypełnić wszystkie pola, aby wysłać prywatną wiadomość"
@@ -662,7 +1182,9 @@ msgstr "Użytkownik %1 (ID: %2) nie akceptuje prywatnych wiadomości od Ciebie."
 msgid "Really block %1?"
 msgstr "Na pewno chcesz zablokować użytkownika %1?"
 
-msgid "Are you really sure you want to block user %1 from sending you private messages?"
+msgid ""
+"Are you really sure you want to block user %1 from sending you private "
+"messages?"
 msgstr ""
 "Na pewno chcesz zablokować możliwość wysyłania prywatnych wiadomości do "
 "Ciebie przez użytkownika %1?"
@@ -670,7 +1192,9 @@ msgstr ""
 msgid "Please note that you can only block a limited amount of users."
 msgstr "Pamiętaj, że możesz zablokować tylko określoną liczbę użytkowników."
 
-msgid "Once the user has been blocked you can unblock it using forum preferences page."
+msgid ""
+"Once the user has been blocked you can unblock it using forum preferences "
+"page."
 msgstr ""
 "Zablokowanych użytkowników możesz odblokować na stronie ustawień forum "
 "dyskusyjnego."
@@ -678,8 +1202,8 @@ msgstr ""
 msgid "Add user to filter"
 msgstr "Dodaj użytkownika do filtru"
 
-msgid "No such user"
-msgstr "Użytkownik nie istnieje"
+msgid "No, cancel"
+msgstr "Nie, anuluj"
 
 msgid "User %1 blocked"
 msgstr "Użytkownik %1 został zablokowany"
@@ -690,159 +1214,22 @@ msgstr "Użytkownik %1 nie może teraz wysyłać do Ciebie prywatnych wiadomośc
 msgid "To unblock, visit %1message board preferences%2"
 msgstr "Aby odblokować, odwiedź stronę 1%ustawienia forum dyskusyjnego%2"
 
-msgid "Create a new thread"
-msgstr "Stwórz nowy temat"
-
-msgid "Post to thread"
-msgstr "Odpowiedz na temat"
-
-msgid "Forum search results"
-msgstr "Wyniki wyszukiwania na forum"
-
-#########################################
-# Forum search features
-msgid "Forum search"
-msgstr "Szukaj na forum"
-
-#########################################
-# Forum thread
-msgid "This thread has been hidden for administrative purposes"
-msgstr "Ten temat został ukryty przez administrację forum"
-
-msgid "Unsubscribe"
-msgstr "Zakończ śledzenie tematu"
-
-msgid "Subscribe"
-msgstr "Śledź ten temat"
-
-msgid "Welcome to %1"
-msgstr "Witaj w %1"
-
-msgid "View and edit your account preferences using the links below."
-msgstr "Zobacz lub zmień ustawiania swojego konta używając poniższych linków."
-
-#########################################
-# Rules and Policies page (info.php)
-msgid "Read our rules and policies"
-msgstr "Zasady i reguły"
-
-msgid "Run %1 only on authorized computers"
-msgstr "Uczestnicz w projekcie %1 wyłącznie na komputerach autoryzowanych."
-
-msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
-msgstr ""
-"Uczestnicz w projekcie %1 tylko na komputerach, które są twoją własnością "
-"lub do użycia których masz zgodę właściciela. Niektóre firmy i szkoły mają "
-"zabraniają wykorzystywania ich komputerów do celów takich, jak "
-"wykorzystywanie mocy obliczeniowej w projektach naukowych."
-
-msgid "How %1 will use your computer"
-msgstr "Jak projekt %1 będzie korzystał z twojego komputera?"
-
-msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
-msgstr ""
-"Gdy uruchomisz aplikację projektu %1 na swoim komputerze będzie ona "
-"wykorzystywać część mocy jego procesora, przestrzeni dysku i przepustowości "
-"łącza. Możesz swobodnie regulować, ile zasobów systemowych chcesz "
-"przeznaczyć na pracę w tym projekcie."
-
-msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
-msgstr ""
-"Praca wykonywana przez twój komputer służy celom projektu %1, które opisane "
-"są na stronie głównej. Aplikacje projektu mogą być co jakiś czas "
-"aktualizowane, bądź zmieniane."
-
-msgid "Privacy policy"
-msgstr "Polityka prywatności"
-
-msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
-msgstr ""
-"Twoje konto w projekcie %1 jest identyfikowane dzięki nazwie, którą sam "
-"określasz. Nazwa uczestnika może być wyświetlana na stronie internetowej "
-"projektu wraz z podsumowaniem pracy, którą dla potrzeb tego projektu wykonał "
-"twój komputer. Jeżeli jednak chcesz pozostać anonimowy, możesz wybrać "
-"nazwę, która nie zdradzi twojej tożsamości."
-
-msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
-msgstr ""
-"Gdy bierzesz udział w projekcie %1, informacje o twym komputerze, takie jak "
-"rodzaj procesora, ilość pamięci operacyjnej itp. będą zapisane przez projekt "
-"i posłużą określeniu, jakiego rodzaju zadania należy przydzielić twojemu "
-"komputerowi. Dane te będą także wyświetlone na stronie projektu $PROJECT, "
-"lecz może je ukryć, jeśli tego chcesz. Zapewniamy, że nie będą wyświetlone "
-"informacje, które umożliwiłoby rozpoznanie lokacji twojego komputera (np. "
-"nazwa domeny czy adres sieciowy)."
-
-msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr ""
-"By uczestniczyć w projekcie %1, musisz podać adres email, na który chcesz "
-"otrzymywać wiadomości odnośnie projektu. Nie będzie on ujawniony na stronie "
-"internetowej projektu, ani użyczany jakimkolwiek organizacjom. Projekt %1 "
-"może przysyłać Ci co jakiś czas wiadomości z nowinkami dotyczącymi tego "
-"projektu, możesz jednak z nich zrezygnować w każdej chwili."
-
-msgid "Is it safe to run %1?"
-msgstr "Czy uruchamianie aplikacji projektu %1 jest bezpieczne?"
-
-msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
-msgstr ""
-"Za każdym razem, gdy pobierasz z sieci program, ryzykujesz: może on zawierać "
-"niebezpieczne błędy, albo serwer, z którego go pobierasz, może zostać "
-"zainfekowany wirusem czy trojanem. W projekcie %1 staramy się sprowadzić to "
-"ryzyko do minimum, aby zapewnić uczestnikom jak najwyższy poziom "
-"bezpieczeństwa."
-
-msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr ""
-"Aplikacje uruchamiane przez projekt %1 mogą powodować przegrzewanie się "
-"niektórych komputerów. Jeśli tak się stanie, zatrzymaj zadania pochodzące z "
-"tego projektu lub skorzystaj z %2dodatkowych programów%3, które międzyinnymi "
-"ograniczają wykorzystywanie procesora twojego komputera, przez co "
-"ograniczają wydzielane przez niego ciepło."
-
-msgid "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr ""
-"Projekt %1 został stworzony w %2. Platformę BOINC stworzono na Uniwersytecie "
-"Kalifornijskim w Berkeley."
-
-msgid "Liability"
-msgstr "Odpowiedzialność"
-
-msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
-msgstr ""
-"Projekt %1 oraz %2 nie biorą odpowiedzialności za uszkodzenie twojego "
-"komputera, utratę danych czy inne wypadki, które mogą wystąpić w skutek "
-"uczestnictwa w tym projekcie."
-
-msgid "Other BOINC projects"
-msgstr "Inne projekty BOINC"
-
-msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
-msgstr ""
-"Tak jak %1 wiele innych projektów korzysta z platformy BOINC. Rozważ także "
-"uczestnictwo w innych projektach przetwarzania rozproszonego. W ten sposób "
-"twój komputer może wykonywać pożyteczne dla nauki obliczenia nawet jeśli "
-"projekt %1 nie ma dla niego w danej chwili żadnych zadań."
-
-msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
-msgstr ""
-"Inne projekty nie mają związku z projektem %1, nie możemy więc odpowiadać za "
-"jakość ich zabezpieczeń czy naturę prowadzonych badań. Uczestniczysz w nich "
-"na własną odpowiedzialność oraz ryzyko."
-
-msgid "Sender and date"
-msgstr "Nadawca i data"
-
 msgid "Profiles"
 msgstr "Profile"
 
-msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
+msgid ""
+"%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
+"community."
 msgstr ""
 
-msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
+msgid ""
+"Explore the diversity of your fellow volunteers, and contribute your own "
+"views for others to enjoy."
 msgstr ""
 
-msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
+msgid ""
+"If you haven't already, you can %1create your own user profile%2 for others "
+"to see!"
 msgstr ""
 
 msgid "User of the Day"
@@ -857,7 +1244,9 @@ msgstr "Zobacz %1galerię zdjęć uczestnika%2."
 msgid "Browse profiles %1by country%2."
 msgstr "Przeglądaj profile%1po krajach%2."
 
-msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
+msgid ""
+"Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
+"without pictures%2."
 msgstr ""
 "Przeglądaj %1losowo wybrane%2 profile, %3losowo wybrane ze zdjęciami%2 lub "
 "%4losowo wybrane bez zdjęć%2."
@@ -874,13 +1263,140 @@ msgstr "Brak profili"
 msgid "No profiles matched your query."
 msgstr "Brak profili odpowiadającym wybranym kryteriom."
 
-msgid "Top hosts"
-msgstr "Najlepsze komputery"
+msgid "Invalid vote type:"
+msgstr ""
+
+msgid "Vote Recorded"
+msgstr ""
+
+msgid "Thank you"
+msgstr ""
+
+msgid "Your recommendation has been recorded."
+msgstr ""
+
+msgid "Your vote to reject this profile has been recorded."
+msgstr ""
+
+msgid "Return to profile."
+msgstr ""
+
+msgid "This feature is turned off temporarily"
+msgstr ""
+
+msgid "No computer with ID %1 found"
+msgstr ""
+
+msgid "Tasks for computer %1"
+msgstr ""
+
+msgid "No access"
+msgstr ""
+
+msgid "Missing user ID or host ID"
+msgstr ""
+
+#, fuzzy
+msgid "User of the day"
+msgstr "Uczestnik dnia"
+
+msgid "Account data for %1"
+msgstr ""
+
+msgid "Statistics and leaderboards"
+msgstr ""
+
+msgid "Statistics for %1"
+msgstr ""
 
 #########################################
 # Various top table pages (top users, computers, teams)
 msgid "Top participants"
 msgstr "Najlepsi uczestnicy"
+
+msgid "Top computers"
+msgstr ""
+
+#, fuzzy
+msgid "Top teams"
+msgstr "Najlepsze zespoły"
+
+msgid ""
+"More detailed statistics for %1 and other BOINC-based projects are available "
+"at several web sites:"
+msgstr ""
+
+msgid ""
+"You can also get your current statistics in the form of a \"signature image"
+"\":"
+msgstr ""
+
+msgid ""
+"Additionally you can get your individual statistics summed across all BOINC "
+"projects from several sites; see your %1home page%2."
+msgstr ""
+
+msgid "%1 participants may form %2teams%3"
+msgstr ""
+
+msgid ""
+"You may belong to only one team. You can join or quit a team at any time."
+msgstr ""
+
+msgid "Each team has a %1founder%2 who may:"
+msgstr ""
+
+msgid "access team members' email addresses"
+msgstr ""
+
+msgid "edit the team's name and description"
+msgstr ""
+
+msgid "remove members from the team"
+msgstr ""
+
+msgid "disband a team if it has no members"
+msgstr ""
+
+msgid "To join a team, visit its team page and click %1Join this team%2."
+msgstr ""
+
+#, fuzzy
+msgid "Find a team"
+msgstr "znajdź zespół"
+
+msgid "All teams"
+msgstr ""
+
+msgid "%1 teams"
+msgstr ""
+
+#, fuzzy
+msgid "Create a new team"
+msgstr "Stwórz nowy temat"
+
+msgid ""
+"If you cannot find a team that is right for you, you can %1create a team%2."
+msgstr ""
+
+msgid "You must choose a non-blank team name"
+msgstr ""
+
+msgid "A team named %1 already exists - try another name"
+msgstr ""
+
+msgid "Could not create team - please try later."
+msgstr ""
+
+msgid "Create a team"
+msgstr ""
+
+msgid ""
+"You belong to %1. You must %2quit this team%3 before creating a new one."
+msgstr ""
+
+msgid "Top hosts"
+msgstr "Najlepsze komputery"
 
 msgid "Top %1 teams"
 msgstr "Najlepsze zespoły"
@@ -888,13 +1404,24 @@ msgstr "Najlepsze zespoły"
 msgid "Participant since"
 msgstr "Uczestniczy od"
 
-msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgid "This user has no profile"
+msgstr ""
+
+msgid "Account data"
+msgstr ""
+
+msgid ""
+"Your 'weak account key' lets you attach computers to your account on this "
+"project, without giving the ability to log in to your account or to change "
+"it in any way."
 msgstr ""
 "Twój 'słaby klucz konta' pozwala dołączyć komputery do twojego konta w tym "
 "projekcie bez dawania przywilejów do zalogowania się na lub dokonania "
 "jakichkolwiek zmian na twoim koncie."
 
-msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+msgid ""
+"This mechanism works only with projects that have upgraded their server "
+"software 7 Dec 2007 or later."
 msgstr ""
 "Ten mechanizm działa jedynie w projektach, które uaktualniły swoje "
 "oprogramowanie na serwerach 7 grudnia 2007 lub później."
@@ -902,7 +1429,10 @@ msgstr ""
 msgid "Your weak account key for this project is:"
 msgstr "Twój słaby klucz konta dla tego projektu to:"
 
-msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgid ""
+"To use your weak account key on a given host, find or create the 'account "
+"file' for this project. This file has a name of the form "
+"<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
 msgstr ""
 "Aby użyć słaby klucz konta na wybranym komputerze znajdź lub stwórz 'plik "
 "konta' dla tego projektu. Plik ten ma nazwę według formuły "
@@ -914,17 +1444,55 @@ msgstr ""
 "Stwórz ten plik, jeśli jest to potrzebne. Jego zawartość powinna wyglądać "
 "tak:"
 
-msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgid ""
+"Your weak account key is a function of your password. If you change your "
+"password, your weak account key changes, and your previous weak account key "
+"becomes invalid."
 msgstr ""
 "Twój słaby klucz konta jest generowany na podstawie twojego hasła. Jeśli "
 "zmienisz swoje hasło twój słaby klucz konta także ulegnie zmianie, a "
 "poprzedni słaby klucz konta stanie się nieprawidłowy."
 
-########################################
-# "Your account" page (home.php)
-#########################################
-msgid "Your account"
-msgstr "Twoje konto"
+#~ msgid "Provides"
+#~ msgstr "Pozwala na"
+
+#~ msgid "limited access"
+#~ msgstr "ograniczony dostęp"
+
+#~ msgid "to your account"
+#~ msgstr "do twojego konta"
+
+#~ msgid "Current version"
+#~ msgstr "Aktualna wersja"
+
+#~ msgid "Mark as read"
+#~ msgstr "Oznacz jako przeczytane"
+
+#~ msgid "Mark as unread"
+#~ msgstr "Oznacz jako nieprzeczytane"
+
+#~ msgid "With selected"
+#~ msgstr "Z wybranych"
+
+#~ msgid "No such message"
+#~ msgstr "Nie ma takiej wiadomości"
+
+#~ msgid "Block user"
+#~ msgstr "Zablokuj użytkownika"
+
+#~ msgid "Really delete?"
+#~ msgstr "Na pewno usunąć?"
+
+#~ msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
+#~ msgstr ""
+#~ "Jesteś pewny, że chcesz usunąć wiadomość o tytule &quot;%1&quot; (wysłaną %3 "
+#~ "przez użytkownika %2)?"
+
+#~ msgid "Yes, delete"
+#~ msgstr "Tak, usuń"
+
+#~ msgid "No such message."
+#~ msgstr "Nie ma takiej wiadomości."
 
 #~ msgid "Account creation is disabled for %1 at the moment. Please try again later."
 #~ msgstr "W tej chwili możliwość stworzenia konta w projekcie %1 jest zawieszona. Śledź nowinki tego projektu i jeśli chcesz, spróbuj stworzyć nowe konto za jakiś czas."

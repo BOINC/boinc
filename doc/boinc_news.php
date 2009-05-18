@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("May 17, 2009",
+    "Check out <a href=http://365daysofastronomy.org/2009/05/17/may-17th-citizen-scientists-making-a-difference-and-having-fun/>Citizen Scientists</a>,
+    a podcast by the 365 Days of Astronomy project."
+),
 array("May 14, 2009",
     "<a href=http://boinc.unex.es/planet>Planet BOINC</a>
     is a new RSS feed that combines many different sources of news

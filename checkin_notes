@@ -4604,3 +4604,9 @@ Charlie 16 May 2009
 
     clientgui/
         BOINCGUIApp.cpp
+
+David  17 May 2009
+    - web: fix formatting in [pre].  Fixes #891
+
+    html/inc
+        text_transform.inc
