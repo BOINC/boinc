@@ -852,14 +852,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\clientgui\res\gridrepublic.xpm"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\res\gridrepublic2.ico"
-				>
-			</File>
-			<File
 				RelativePath="..\clientgui\res\gridrepublicamwizard.xpm"
 				>
 			</File>
@@ -873,22 +865,6 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\res\result.xpm"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\res\seed16.xpm"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\res\seed32.xpm"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\res\seedamwizard.xpm"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\res\seedapwizard.xpm"
 				>
 			</File>
 			<File
