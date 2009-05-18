@@ -53,7 +53,7 @@ function getSupportedLanguages(){
  * @param compdir The output location relative to langdir
  * @param append If true the function will only append to rather than replace the compiled files
  */
-function buildLanguages($langdir,$transdir,$compdir,$append=false){
+function buildLanguages($langdir,$transdir,$compdir){
     global $lang_project_default;
 
     // Run through each language and compile their lookup arrays.
@@ -74,16 +74,19 @@ function buildLanguages($langdir,$transdir,$compdir,$append=false){
                         );
                         continue;
                     }
-                    $fh = fopen($langdir.$compdir.$file.".inc",$append?"a":"w");
+                    $path = $langdir.$compdir.$file.".inc";
+                    if (file_exists($path)) {
+                        $fh = fopen($path, "a");
+                    } else {
+                        $fh = fopen($path, "w");
+                        fwrite($fh, "<?php\n");                    
+                    }
                     if (!$fh) {
                         language_log(
                             "ERROR: could not access $langdir $compdir - please check permissions", 2
                         );
                         exit;
                     }
-                    //if (!$append) {
-                        fwrite($fh, "<?php\n");                    
-                    //}
                     foreach ($language as $key => $value){
                         if ($value !== "") {
                             //Skip if the msgstr is empty

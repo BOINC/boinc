@@ -42,8 +42,11 @@ class BoincDb extends DbConn {
         $retval = $instance->init_conn($user, $passwd, $host, $name);
         if (!$retval) {
             $instance = null;
+        } else {
+            $instance->do_query("use $name");
         }
         self::$instance = $instance;
+        return $instance;
     }
 
     // same, but

@@ -4610,3 +4610,18 @@ David  17 May 2009
 
     html/inc
         text_transform.inc
+
+David  17 May 2009
+    - upgrade: don't crash if file copy fails
+    - db_update.php: select database (not clear if this ever worked)
+    - translation: fix bug if have both BOINC and project translation
+
+    html/
+        inc/
+            boinc_db.inc
+            translation.inc
+        ops/
+            update_translations.php
+            db_update.php
+    py/Boinc
+        setup_project.py

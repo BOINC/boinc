@@ -25,7 +25,11 @@ require_once("../inc/util.inc");
 require_once("../inc/ops.inc");
 
 cli_only();
-BoincDb::get_aux(false);
+$db = BoincDb::get_aux(false);
+if (!$db) {
+    echo "Can't open database\n";
+    exit;
+}
 
 set_time_limit(0);
 

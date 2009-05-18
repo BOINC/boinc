@@ -105,7 +105,12 @@ def my_link(src,dest):
 def install(src, dest, unless_exists=False):
     if unless_exists and os.path.exists(dest):
         return
-    options.install_function(src, dest)
+    try:
+        options.install_function(src, dest)
+    except:
+        print 'failed to copy ' + src + ' to ' + dest
+        return
+
 
 def install_glob(glob_source, dest, failok=False):
     dest = os.path.join(dest, '') # append '/' if necessary

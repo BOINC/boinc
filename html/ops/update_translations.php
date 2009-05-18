@@ -31,7 +31,7 @@ buildLanguages($lang_language_dir, $lang_translations_dir, $lang_compiled_dir);
 
 // process the project-specific strings
 //
-buildLanguages($lang_language_dir, $lang_prj_translations_dir, $lang_compiled_dir, true);
+buildLanguages($lang_language_dir, $lang_prj_translations_dir, $lang_compiled_dir);
 
 echo "update_translations finished\n";
 
