@@ -7,13 +7,12 @@ $d = opendir(".");
 while ($f = readdir($d)) {
     if ($f == '.') continue;
     if ($f == '..') continue;
+    if ($f == 'templates') continue;
     $x = $f."/BOINC-Project-Generic.po";
     if (file_exists($x)) {
         $cmd = "cp $x ../html/languages/translations/$f.po";
         system($cmd);
     }
 }
-
-system("cp templates/BOINC-Project-Generic.pot ../html/languages/translations/en.po");
 
 ?>
