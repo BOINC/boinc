@@ -117,6 +117,15 @@ $m6218 = array(
     "type"=>"mac_advanced",
 );
 
+$m51045 = array(
+    "num"=>"5.10.45",
+    "status"=>"Older version (standard GUI)",
+    "file"=>"boinc_5.10.45_macOSX_universal.zip",
+    "date"=>"5 Mar 2008",
+    "type"=>"mac_advanced",
+);
+
+
 $m66c = array(
     "num"=>"6.6.29",
     "status"=>"Recommended version (Unix command-line version)",
@@ -267,6 +276,7 @@ $mac = array(
         $m66c,
         $m6218,
         $m6218c,
+        $m51045,
     )
 );
 
