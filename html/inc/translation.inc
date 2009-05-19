@@ -165,7 +165,7 @@ function getPOLineContent($line){
     $x =  substr($line, $start, $stop-$start);
     $n = ereg("[^\\]\"", $x);
     if ($n) {
-        echo "ERROR - MISMATCHED QUOTES\n";
+        echo "ERROR - MISMATCHED QUOTES IN $line\n";
         return "";
     }
     return $x;
