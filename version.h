@@ -16,7 +16,7 @@
 #define BOINC_VERSION_STRING "6.6.29"
 
 /* Package is a pre-release (Alpha/Beta) package */
-#define BOINC_PRERELEASE 1
+/* #define BOINC_PRERELEASE 1 */
 
 #if (defined(_WIN32) || defined(__APPLE__))
 /* Name of package */
