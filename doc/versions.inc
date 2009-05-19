@@ -143,10 +143,10 @@ $m6218c = array(
 );
 
 $l66 = array(
-    "num"=>"6.6.20",
+    "num"=>"6.6.29",
     "status"=>"Development version",
-    "file"=>"boinc_compat_6.6.20_i686-pc-linux-gnu.sh",
-    "date"=>"30 Mar 2009",
+    "file"=>"boinc_compat_6.6.29_i686-pc-linux-gnu.sh",
+    "date"=>"19 May 2009",
     "type"=>"sea",
 );
 
@@ -175,10 +175,10 @@ $l51045 = array(
 );
 
 $l66ubuntu = array(
-    "num"=>"6.6.20",
+    "num"=>"6.6.29",
     "status"=>"Development version",
-    "file"=>"boinc_6.6.20_i686-pc-linux-gnu.sh",
-    "date"=>"30 Mar 2009",
+    "file"=>"boinc_6.6.29_i686-pc-linux-gnu.sh",
+    "date"=>"19 May 2009",
     "type"=>"sea",
 );
 
@@ -207,10 +207,10 @@ $l51045ubuntu = array(
 );
 
 $l66ubuntux64 = array(
-    "num"=>"6.6.20",
+    "num"=>"6.6.29",
     "status"=>"Development version",
-    "file"=>"boinc_6.6.20_x86_64-pc-linux-gnu.sh",
-    "date"=>"30 Mar 2009",
+    "file"=>"boinc_6.6.29_x86_64-pc-linux-gnu.sh",
+    "date"=>"19 May 2009",
     "type"=>"sea",
 );
 
