@@ -3,13 +3,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2008-09-26 14:33+0100\n"
+"PO-Revision-Date: 2009-05-15 16:26-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -38,12 +40,11 @@ msgstr "Panells de missatges"
 msgid "%1 message board"
 msgstr "Tauler de missatges %1"
 
-#, fuzzy
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
 msgstr ""
-"Per poder crear un nou fil a %1 heu de tenir una certa quantitat de crèdits. "
+"Per poder crear un nou fil a %1 heu de tenir un mínim nombre de crèdits. "
 "Això es per prevenir i protegir d'un del sistema."
 
 msgid ""
@@ -114,22 +115,22 @@ msgid "unread"
 msgstr "no llegit"
 
 msgid "Edit your profile"
-msgstr ""
+msgstr "Editi el seu perfil"
 
 msgid "Your feedback on this profile"
-msgstr ""
+msgstr "La seva enquesta en aquest perfil"
 
 msgid "Recommend this profile for User of the Day:"
-msgstr ""
+msgstr "Recomanar aquest perfil com Usuari del Dia:"
 
 msgid "I %1like%2 this profile"
-msgstr ""
+msgstr "%1M'agrada%2 aquest perfil"
 
 msgid "Alert administrators to an offensive profile:"
-msgstr ""
+msgstr "Avisar els administradors d'un perfil ofensiu"
 
 msgid "I %1do not like%2 this profile"
-msgstr ""
+msgstr "No %1m'agrada%2 aquest perfil"
 
 msgid "Search criteria (use one or more)"
 msgstr "Criteri de recerca (utilitzar un o mes)"
@@ -186,11 +187,7 @@ msgid "Total credit"
 msgstr "Crèdit total"
 
 msgid "Recent average credit"
-msgstr "Crèdit promig més recent"
-
-#, fuzzy
-msgid "Cross-project stats"
-msgstr "Estadístiques multi-projecte"
+msgstr "Crèdit mitjà més recent"
 
 msgid "Type"
 msgstr "Tipus"
@@ -213,7 +210,7 @@ msgstr ""
 "de correu"
 
 msgid "Not accepting new members"
-msgstr ""
+msgstr "No s'accepten nous membres"
 
 msgid "Foundership change requested"
 msgstr "Canvi sol·licitat per el fundador"
@@ -320,7 +317,7 @@ msgid "Click for user page"
 msgstr "Prémer per accedir a la pàgina de l'usuari"
 
 msgid "Average credit"
-msgstr "Crèdit promig"
+msgstr "Crèdit mitjà"
 
 msgid "Since"
 msgstr "Des de"
@@ -397,9 +394,8 @@ msgstr "Proporciona accés total al vostre compte"
 msgid "Weak account key"
 msgstr "Clau de compte feble"
 
-#, fuzzy
 msgid "Provides %1limited access%2 to your account"
-msgstr "Proporciona accés total al vostre compte"
+msgstr "Proporciona accés limitat al vostre compte"
 
 msgid "Preferences"
 msgstr "Preferències"
@@ -527,7 +523,7 @@ msgid "Platform"
 msgstr "Plataforma"
 
 msgid "Version"
-msgstr ""
+msgstr "Versió"
 
 msgid "Installation time"
 msgstr "Temps d'instal·lació"
@@ -588,101 +584,117 @@ msgid "Create account"
 msgstr "Crear un compte"
 
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr ""
+msgstr "ERROR: %1 no existeix1  No es pot crear el quadre combinat.<br>"
 
 msgid "Picture"
-msgstr ""
+msgstr "Imatge"
 
 msgid "%1 Your profile picture is shown to the left."
-msgstr ""
+msgstr "%1 La imatge del seu perfil es mostrarà a l'esquerra."
 
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
+"Per canviar-ho, premi el botó \"Navegar\" i seleccioni un arxiu JPEG o PNG (%1 "
+"o menys)."
 
 msgid "To remove it from your profile, check this box:"
-msgstr ""
+msgstr "Per eliminar-lo del seu perfil, seleccioni aquesta casella:"
 
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
+"Si desitja incloure una imatge en el seu perfil, premi el botó "
+"\"Navegar\" i seleccioni un fitxer JPEG o PNG. Si us plau seleccioni imatges de %1 o menys."
 
 msgid "Language"
-msgstr ""
+msgstr "Idioma"
 
 msgid "Select the language in which your profile is written:"
-msgstr ""
+msgstr "Seleccioni l'idioma en el que està escrit el seu perfil:"
 
 msgid "Submit profile"
-msgstr ""
+msgstr "Lliurar el perfil"
 
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
 msgstr ""
+"Per protegir les pàgines del projectes de l'spam, li demanem que introdueixi "
+"les dues paraules que es mostren en la imatge:<br>\n"
 
 msgid "Create/edit profile"
-msgstr ""
+msgstr "Crear/editar el perfil"
 
 msgid "The format of your uploaded image is not supported."
-msgstr ""
+msgstr "El format d'imatge que ha lliurat no està suportat."
 
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr ""
+"El seu %1perfil%2 li permet compartir les seves opinions i coneixements amb %3 "
+"comunitat."
 
 msgid "Your ReCaptcha response was not correct.  Please try again."
-msgstr ""
+msgstr "La seva resposta 'ReCaptcha' no es correcte. Si us plau, provi-ho de nou."
 
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"La seva primera resposta ha estat marcada com spam per el sistema anti-spam Akimest.  "
+"Si us plau modifiqui el text i provi-ho de nou."
 
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"La seva segona resposta ha estat marcada com spam per el sistema anti-spam Akismet.  "
+"Si us plau modifiqui el seu text i provi-ho de nou."
 
 msgid "Your profile submission was empty."
-msgstr ""
+msgstr "El perfil que ha lliurat està buit"
 
 msgid "Could not update the profile: database error"
-msgstr ""
+msgstr "No es pot actualitzar el perfil: error de la base de dades"
 
 msgid "Could not create the profile: database error"
-msgstr ""
+msgstr "No es pot crear el perfil: error de la base de dades"
 
 msgid "Profile saved"
-msgstr ""
+msgstr "S'ha guardat el perfil"
 
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
 msgstr ""
+"Felicitats! El seu perfil ha estat incorporat a la base de dades."
 
 msgid "%1View your profile%2"
-msgstr ""
+msgstr "%1Veure el seu perfil%2"
 
 msgid "Create a profile"
-msgstr ""
+msgstr "Crear un perfil"
 
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
 msgstr ""
+"Per prevenir l'spam, necessita un crèdit promitg de %1 o mes gran per crear o "
+"editar un perfil. Disculpin aquestes molèsties."
 
 msgid "Download BOINC add-on software"
-msgstr ""
+msgstr "Descarregar programari BOINC addicional"
 
 msgid "You can download applications in several categories."
-msgstr ""
+msgstr "Pot descarregar aplicatius de diverses categories."
 
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
 msgstr ""
+"Aquestes aplicacions no estan aprovades per %1 i les ha d'utilitzar sota la seva responsabilitat."
 
 msgid ""
 "We do not provide instructions for installing these applications.\n"
@@ -690,15 +702,19 @@ msgid ""
 "uninstalling the application. \n"
 "If this is not enough you should contact the author."
 msgstr ""
+"No proporcionem instruccions per la instal·lació d'aquestes aplicacions.\n"
+"De totes maneres, es probable que l'autor hagi proporcionat algun tipus d'ajuda per "
+"la instal·lació o des-instal·lació de l'aplicació. \n"
+"Si no estès disponible contacti l'autor."
 
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr ""
+msgstr "Les instruccions per instal·lar i executar BOINC es troben %1aquí%2."
 
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr ""
+msgstr "Aquesta llista està gestionada per el servidor de la %1pagína web de BOINC%2."
 
 msgid "fll"
-msgstr ""
+msgstr "f11"
 
 msgid "Title"
 msgstr "Títol"
@@ -713,6 +729,8 @@ msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
+"Si té alguna pregunta o problema, si us plau utilitzi la secció de "
+"%1Preguntes i Respostes%2 dels plafons de missatges."
 
 msgid "Topic"
 msgstr "Tema"
@@ -730,209 +748,208 @@ msgid "Forum search results"
 msgstr "Resultats de la recerca al fòrum"
 
 msgid "No thread with id %1. Please check the link and try again."
-msgstr ""
+msgstr "No hi ha cap fil amb id %1. Si us plau comprovi l'accés i provi-ho de nou."
 
 msgid "This forum is not visible to you."
-msgstr ""
+msgstr "Aquest fòrum no està disponible per a vostè."
 
 msgid "This thread has been hidden for administrative purposes"
 msgstr "Aquest fil ha estat ocultat amb propòsits administratius"
 
 msgid "My question was answered"
-msgstr ""
+msgstr "La meva pregunta ja va ser contestada"
 
 msgid ""
 "If your question has been adequately answered please click here to close it!"
 msgstr ""
+"Si la seva pregunta ha estat resposta satisfactòriment si us plau premi aqui per finalitzar-la!"
 
 msgid "I've also got this question"
-msgstr ""
+msgstr "Jo també m'he fet aquesta pregunta"
 
 msgid "Add a new message to this thread"
-msgstr ""
+msgstr "Afegir un nou missatge a aquest fil"
 
 msgid "Unsubscribe"
 msgstr "Finalitzar subscripció"
 
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
-msgstr ""
+msgstr "vostè està subscrit a aquest fil.  Premi aquí per finalitzar-la."
 
 msgid "Subscribe"
 msgstr "Subscriure"
 
 msgid "Click to get email when there are new posts in this thread"
-msgstr ""
+msgstr "Premi per obtenir un correu quan hi hagin nous missatges en aquest fil."
 
 msgid "Unhide"
-msgstr ""
+msgstr "Fer visible"
 
 msgid "Unhide this thread"
-msgstr ""
+msgstr "Fer visible aquest fil"
 
 msgid "Hide"
-msgstr ""
+msgstr "Ocultar"
 
 msgid "Hide this thread"
-msgstr ""
+msgstr "Ocultar aquest fil"
 
 msgid "Make unsticky"
-msgstr ""
+msgstr "Des enganxar-se"
 
 msgid "Make this thread not sticky"
-msgstr ""
+msgstr "No permetre enganxar-se a aquest fil"
 
 msgid "Make sticky"
-msgstr ""
+msgstr "Enganxar-se"
 
 msgid "Make this thread sticky"
-msgstr ""
+msgstr "Permetre enganxar-se a aquest fil"
 
 msgid "Unlock"
-msgstr ""
+msgstr "Des bloquejar"
 
 msgid "Unlock this thread"
-msgstr ""
+msgstr "Des bloquejar aquest fil"
 
 msgid "Lock"
-msgstr ""
+msgstr "Bloquejar"
 
 msgid "Lock this thread"
-msgstr ""
+msgstr "Bloquejar aquest fil"
 
 msgid "Move"
-msgstr ""
+msgstr "Moure"
 
 msgid "Move this thread to a different forum"
-msgstr ""
+msgstr "Moure aquest fil a un altre fil"
 
 msgid "Edit title"
-msgstr ""
+msgstr "Editar el títol"
 
 msgid "Edit thread title"
-msgstr ""
+msgstr "Editar el títol del fil"
 
 msgid "Sort"
-msgstr ""
+msgstr "Ordenar"
 
 msgid "Already friends"
-msgstr ""
+msgstr "Ja sou amics"
 
 msgid "You requested friendship with %1 on %2."
-msgstr ""
+msgstr "Heu sol·licitat l'amistat de %1 a %2."
 
 msgid "This request is still pending confirmation."
-msgstr ""
+msgstr "Aquesta petició està pendent de confirmació."
 
 msgid "%1 is not accepting friendship requests from you"
-msgstr ""
+msgstr "%1 no accepta les peticions d'amistat de vostè"
 
 msgid "You can't be friends with yourself"
-msgstr ""
+msgstr "vostè no pot ser amic de vostè mateix"
 
 msgid "No such user"
 msgstr "No existeix l'usuari"
 
-#, fuzzy
 msgid "Add friend"
-msgstr "Afegir com amic"
+msgstr "Afegir un amic"
 
 msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
+"Heu demanat d'afegir %1 com amic. Ho notificarem a %2 i li demanarem "
+"que confirmi que sou amics."
 
 msgid "Add an optional message here:"
-msgstr ""
+msgstr "Afegir aquí un missatge opcional:"
 
 msgid "Database error"
-msgstr ""
+msgstr "Error de base de dades"
 
 msgid "Friend request sent"
-msgstr ""
+msgstr "Petició d'amic lliurada"
 
 msgid "We have notified %1 of your request."
-msgstr ""
+msgstr "Hem notificat a %1 la seva petició."
 
 msgid "Request not found"
-msgstr ""
+msgstr "Petició no trobada"
 
 msgid "Friend request"
-msgstr ""
+msgstr "Petició d'amic"
 
 msgid "%1 has added you as a friend."
-msgstr ""
+msgstr "%1 l'ha afegit com amic."
 
 msgid "%1 says: %2"
-msgstr ""
+msgstr "%1 diu: %2"
 
 msgid "Accept friendship"
-msgstr ""
+msgstr "Acceptar l'amistat"
 
 msgid "Click accept if %1 is in fact a friend"
-msgstr ""
+msgstr "Prémer acceptar si %1 efectivament un amic"
 
 msgid "Decline"
-msgstr ""
+msgstr "Rebutjar"
 
 msgid "Click decline if %1 is not a friend"
-msgstr ""
+msgstr "Prémer rebutjar si %1 no es un amic"
 
 msgid "No request"
-msgstr ""
+msgstr "Cap petició"
 
 msgid "Friendship confirmed"
-msgstr ""
+msgstr "Amistat confirmada"
 
 msgid "Your friendship with %1 has been confirmed."
-msgstr ""
+msgstr "La seva amistat amb %1 ha estat confirmada."
 
 msgid "Friendship declined"
-msgstr ""
+msgstr "Amistat rebutjada"
 
 msgid "You have declined friendship with %1"
-msgstr ""
+msgstr "Ha rebutjat l'amistat amb %1"
 
 msgid "Notification not found"
-msgstr ""
+msgstr "Notificació no trobada"
 
 msgid "Friend confirmed"
-msgstr ""
+msgstr "Amic confirmat"
 
 msgid "You are now friends with %1."
-msgstr ""
+msgstr "Ara es amic de %1."
 
-#, fuzzy
 msgid "Cancel friendship?"
-msgstr "Finalitzar amistat"
+msgstr "Finalitzar l'amistat?"
 
 msgid "Are you sure you want to cancel your friendship with %1?"
-msgstr ""
+msgstr "Està segur de que vol finalitzar l'amistat amb %1?"
 
 msgid "Yes"
-msgstr ""
+msgstr "Si"
 
 msgid "No"
-msgstr ""
+msgstr "No"
 
 msgid "Stay friends"
-msgstr ""
+msgstr "Seguir sent amics"
 
 msgid "Friendship cancelled"
-msgstr ""
+msgstr "Amistat cancel·lada"
 
 msgid "Your friendship with %1 has been cancelled."
-msgstr ""
+msgstr "La seva amistat amb %1 ha estat cancel·lada."
 
 msgid "Unknown action"
-msgstr ""
+msgstr "Acció desconeguda"
 
 msgid "Welcome to %1"
 msgstr "Benvingut a %1"
 
 msgid "View and edit your account preferences using the links below."
-msgstr ""
-"Revisi i editi les preferències del seu compte utilitzant els vincles "
-"següents."
+msgstr "Revisi i editi les preferències del seu compte utilitzant els vincles següents."
 
 msgid "Your account"
 msgstr "El seu compte"
@@ -948,7 +965,7 @@ msgid ""
 "owner's permission. Some companies and schools have policies that prohibit "
 "using their computers for projects such as %1."
 msgstr ""
-"Executeu %1 només en els ordinadors propis, o per els que heu obtingut "
+"Executi %1 només en els ordinadors propis, o per els que ha obtingut "
 "autorització del propietari. Algunes companyies i escoles tenen normes que "
 "prohibeixen la utilització dels seus ordinadors per projectes com %1."
 
@@ -1017,6 +1034,11 @@ msgid ""
 "them to your %2message filter%3.  This will prevent you from seeing any "
 "public or private messages from that user."
 msgstr ""
+"El missatges privats a la web %1 només son visibles per qui els envia i "
+"el receptor.  %1 no comprova ni restringeix el continguts del missatges privats.  "
+"Si rep un missatge privat no desitjat d'un altre usuari %1, pot afegir-lo "
+"en el seu %2filtre de missatges%3.  Això evitarà que vegi cap "
+"missatge públic o privat d'aquest usuari."
 
 msgid ""
 "If you use our web site forums you must follow the %2posting guidelines%3.  "
@@ -1024,6 +1046,10 @@ msgid ""
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
+"Si utilitza els fòrums de la nostra web ha de seguir les %2normes%3.  "
+"Els missatges que enviï missatges als fòrums de %1 seran visibles per tothom, "
+"inclosos els que no son membres.  Lliurant els missatges al fòrum, esteu autoritzant "
+"de forma incondicional a tothom a veure'ls i copiar-los."
 
 msgid "Is it safe to run %1?"
 msgstr "Es segura l'execució de %1?"
@@ -1092,13 +1118,11 @@ msgstr ""
 "seva seguretat o la naturalesa de la seva recerca. Uniu-vos-hi sota la "
 "vostra responsabilitat."
 
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Catalan"
 
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "Catalan"
+msgstr "Català"
 
 msgid "Your message has been sent."
 msgstr "El vostre missatge ha estat lliurat."
@@ -1113,7 +1137,7 @@ msgid "Reply"
 msgstr "Contestar"
 
 msgid "Delete selected messages"
-msgstr ""
+msgstr "Esborrar el missatges seleccionats"
 
 msgid "Sender"
 msgstr "Enviar"
@@ -1143,12 +1167,11 @@ msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
 msgstr ""
-"Està segur que vol bloquejar que l'usuari %1 li enviï missatges privats?"
+"Està segur que vol bloquejar que l'usuari %1 li enviï missatges "
+"privats?"
 
 msgid "Please note that you can only block a limited amount of users."
-msgstr ""
-"Si us plau, tingui en compte que només pot bloquejar un nombre limitat "
-"d'usuaris."
+msgstr "Si us plau, tingui en compte que només pot bloquejar un nombre limitat d'usuaris."
 
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
@@ -1175,7 +1198,6 @@ msgstr "Per desbloquejar, visiti les %1preferències del panell de missatges%2"
 msgid "Profiles"
 msgstr "Perfils"
 
-#, fuzzy
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
@@ -1229,149 +1251,153 @@ msgid "No profiles matched your query."
 msgstr "No hi ha perfils que coincideixin amb la seva cerca"
 
 msgid "Invalid vote type:"
-msgstr ""
+msgstr "Tipus de vot incorrecte:"
 
 msgid "Vote Recorded"
-msgstr ""
+msgstr "Vot registrat"
 
 msgid "Thank you"
-msgstr ""
+msgstr "Mercès"
 
 msgid "Your recommendation has been recorded."
-msgstr ""
+msgstr "La seva recomanació ha estat enregistrada."
 
 msgid "Your vote to reject this profile has been recorded."
-msgstr ""
+msgstr "El vot per rebutjar aquest perfil ha estat enregistrat."
 
 msgid "Return to profile."
-msgstr ""
+msgstr "Torna al perfil."
 
 msgid "This feature is turned off temporarily"
-msgstr ""
+msgstr "Aquesta opció està desactivada temporalment"
 
 msgid "No computer with ID %1 found"
-msgstr ""
+msgstr "No s'ha trobat cap ordinador amb el ID %1"
 
 msgid "Tasks for computer %1"
-msgstr ""
+msgstr "Feines de l'ordinador %1"
 
 msgid "No access"
-msgstr ""
+msgstr "No hi ha accés"
 
 msgid "Missing user ID or host ID"
-msgstr ""
+msgstr "Falta L'ID de l'usuari o del servidor"
 
-#, fuzzy
 msgid "User of the day"
 msgstr "Usuari del Dia"
 
 msgid "Account data for %1"
-msgstr ""
+msgstr "Dades del compte %1"
 
 msgid "Statistics and leaderboards"
-msgstr ""
+msgstr "Estadístiques i funcionament dels plafons"
 
 msgid "Statistics for %1"
-msgstr ""
+msgstr "Estadístiques de %1"
 
 msgid "Top participants"
 msgstr "Participants principals"
 
 msgid "Top computers"
-msgstr ""
+msgstr "Ordinadors principals"
 
-#, fuzzy
 msgid "Top teams"
-msgstr "Els %1 Grups principals"
+msgstr "Grups principals"
 
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
 "at several web sites:"
 msgstr ""
+"Estadístiques mes detallades de %1 i altres projectes BOINC disponibles "
+"a diverses pàgines web:"
 
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
 msgstr ""
+"També pot obtenir les seves estadístiques en forma de \"imatge\":"
 
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
 msgstr ""
+"També pot obtenir les seves estadístiques individuals com a suma de tots els "
+"projectes BOINC a partir de diverses pàgines web; vegi la seva %1pàgina principal%2."
 
 msgid "%1 participants may form %2teams%3"
-msgstr ""
+msgstr "%1 participants poden formar %2equips%3"
 
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
-msgstr ""
+msgstr "Només podeu pertànyer a un equip. Us podeu adjuntar o separar en qualsevol moment."
 
 msgid "Each team has a %1founder%2 who may:"
-msgstr ""
+msgstr "Cada equip te un %1fondador%2 que pot:"
 
 msgid "access team members' email addresses"
-msgstr ""
+msgstr "adreces de correu d'accés al membres de l'equip"
 
 msgid "edit the team's name and description"
-msgstr ""
+msgstr "editar el nom i descripció de l'equip"
 
 msgid "remove members from the team"
-msgstr ""
+msgstr "eliminar membres de l'equip"
 
 msgid "disband a team if it has no members"
-msgstr ""
+msgstr "dissoldre un equip si no te membres"
 
 msgid "To join a team, visit its team page and click %1Join this team%2."
-msgstr ""
+msgstr "Per adjuntar-vos a u  equip, visiteu la seva pàgina i premeu %1Adjuntar-se a aquest equip%2."
 
-#, fuzzy
 msgid "Find a team"
 msgstr "Trobar un grup"
 
 msgid "All teams"
-msgstr ""
+msgstr "Tots els equips"
 
 msgid "%1 teams"
-msgstr ""
+msgstr "%1 equips"
 
-#, fuzzy
 msgid "Create a new team"
-msgstr "Crear un nou fil"
+msgstr "Crear un nou equip"
 
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr ""
+"Si no troba un equip que sigui adequat per a vostè, pot %1crear un equip%2."
 
 msgid "You must choose a non-blank team name"
-msgstr ""
+msgstr "Ha d'escollir un nom d'equip que no sigui en blanc"
 
 msgid "A team named %1 already exists - try another name"
-msgstr ""
+msgstr "Ja existeix un equip de nom %1 - provi un altre nom"
 
 msgid "Could not create team - please try later."
-msgstr ""
+msgstr "No es pot crear l'equip - si us plau provi-ho més tard."
 
 msgid "Create a team"
-msgstr ""
+msgstr "Crear un equip"
 
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
+"Vostè pertany a %1. Vostè ha de %2separar-se d'aquest equip%3 abans de "
+"crear-ne un de nou."
 
 msgid "Top hosts"
 msgstr "Servidors principals"
 
 msgid "Top %1 teams"
-msgstr "Els %1 Grups principals"
+msgstr "Els %1 equips principals"
 
 msgid "Participant since"
 msgstr "Participant des de"
 
 msgid "This user has no profile"
-msgstr ""
+msgstr "Aquest usuari no te perfil"
 
 msgid "Account data"
-msgstr ""
+msgstr "Dades del compte"
 
 msgid ""
 "Your 'weak account key' lets you attach computers to your account on this "
@@ -1413,44 +1439,3 @@ msgstr ""
 "La seva clau de compte feble és una funció de la seva contrasenya. Si canvia "
 "la contrasenya, la clau de compte feble canvia, i la clau de compte feble "
 "anterior deixa de ser vàlida."
-
-#~ msgid "Provides"
-#~ msgstr "Proporciona"
-
-#~ msgid "limited access"
-#~ msgstr "accés limitat"
-
-#~ msgid "to your account"
-#~ msgstr "al vostre compte"
-
-#~ msgid "Current version"
-#~ msgstr "Versió actual"
-
-#~ msgid "Mark as read"
-#~ msgstr "Marcar com llegit"
-
-#~ msgid "Mark as unread"
-#~ msgstr "Marcar com no llegit"
-
-#~ msgid "With selected"
-#~ msgstr "Amplada seleccionada"
-
-#~ msgid "No such message"
-#~ msgstr "No hi ha tal missatge"
-
-#~ msgid "Block user"
-#~ msgstr "Bloquejar usuari"
-
-#~ msgid "Really delete?"
-#~ msgstr "Segur d'esborrar-lo?"
-
-#~ msgid "Are you sure you want to delete the message with subject &quot;%1&quot; (sent by %2 on %3)?"
-#~ msgstr ""
-#~ "Està segur que vol esborrar el missatge amb l'assumpte &quot;%1&quot; "
-#~ "(enviat per %2 el %3)?"
-
-#~ msgid "Yes, delete"
-#~ msgstr "Si, esborrar"
-
-#~ msgid "No such message."
-#~ msgstr "No hi ha tal missatge."

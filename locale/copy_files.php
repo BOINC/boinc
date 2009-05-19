@@ -1,3 +1,5 @@
+#!/usr/bin/env php
+
 <?php
 
 // copy project-web-site translation files from new to old location.
