@@ -178,8 +178,7 @@ msgid "Helpful and friendly message boards"
 msgstr "Plafons de missatges utils i amigables"
 
 msgid "Participation by project staff on the message boards"
-msgstr ""
-"La participació dels administradors del projecte en els plafons de misatges"
+msgstr "La participació dels administradors del projecte en els plafons de misatges"
 
 msgid "Informative project web site"
 msgstr "La pàgina web del projecte es informativa"
@@ -249,6 +248,11 @@ msgstr "Google o altres cercadors"
 
 ########################################
 # download.php
+# download.php 2006/08/03 by je2bwm
+# ######################################<br />
+# <br />
+# download.php<br />
+# #######################################<br />
 msgid "Download BOINC"
 msgstr "Descarregar BOINC"
 
@@ -348,11 +352,19 @@ msgstr ""
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr "Si ja és un Voluntari: per editar la seva configuració, %spremi aquí%s."
+msgstr ""
+"Si ja és un Voluntari: per editar la seva configuració, %spremi aquí%s."
 
 msgid "Volunteer"
 msgstr "Voluntari"
 
+# #######################################
+# download.php
+# download.php 2006/08/03 by je2bwm
+# ######################################<br />
+# <br />
+# download.php<br />
+# #######################################<br />
 msgid "Download"
 msgstr "Descarregar"
 
