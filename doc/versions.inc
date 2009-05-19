@@ -117,15 +117,6 @@ $m6218 = array(
     "type"=>"mac_advanced",
 );
 
-$m51045 = array(
-    "num"=>"5.10.45",
-    "status"=>"Older version (standard GUI)",
-    "file"=>"boinc_5.10.45_macOSX_universal.zip",
-    "date"=>"5 Mar 2008",
-    "type"=>"mac_advanced",
-);
-
-
 $m66c = array(
     "num"=>"6.6.29",
     "status"=>"Recommended version (Unix command-line version)",
@@ -166,14 +157,6 @@ $l6215 = array(
     "type"=>"sea",
 );
 
-$l51045 = array(
-    "num"=>"5.10.45",
-    "status"=>"Older version",
-    "file"=>"boinc_5.10.45_i686-pc-linux-gnu.sh",
-    "date"=>"5 Mar 2008",
-    "type"=>"sea",
-);
-
 $l66ubuntu = array(
     "num"=>"6.6.29",
     "status"=>"Development version",
@@ -198,14 +181,6 @@ $l6215ubuntu = array(
     "type"=>"sea",
 );
 
-$l51045ubuntu = array(
-    "num"=>"5.10.45",
-    "status"=>"Older version",
-    "file"=>"boinc_ubuntu_5.10.45_i686-pc-linux-gnu.sh",
-    "date"=>"5 Mar 2008",
-    "type"=>"sea",
-);
-
 $l66ubuntux64 = array(
     "num"=>"6.6.29",
     "status"=>"Development version",
@@ -227,22 +202,6 @@ $l6215ubuntux64 = array(
     "status"=>"Older version",
     "file"=>"boinc_6.2.15_x86_64-pc-linux-gnu.sh",
     "date"=>"4 Aug 2008",
-    "type"=>"sea",
-);
-
-$l51045ubuntux64 = array(
-    "num"=>"5.10.45",
-    "status"=>"Older version",
-    "file"=>"boinc_ubuntu_5.10.45_x86_64-pc-linux-gnu.sh",
-    "date"=>"5 Mar 2008",
-    "type"=>"sea",
-);
-
-$l5816 = array(
-    "num"=>"5.8.16",
-    "status"=>"Older version (includes GUI)",
-    "file"=>"boinc_5.8.16_i686-pc-linux-gnu.sh",
-    "date"=>"7 March 2007",
     "type"=>"sea",
 );
 
@@ -276,7 +235,6 @@ $mac = array(
         $m66c,
         $m6218,
         $m6218c,
-        $m51045,
     )
 );
 
@@ -288,8 +246,6 @@ $linuxcompat = array(
         $l66,
         $l64,
         $l6215,
-		$l51045,
-        $l5816,
     )
 );
 
@@ -301,7 +257,6 @@ $linux = array(
         $l66ubuntu,
         $l64ubuntu,
 		$l6215ubuntu,
-		$l51045ubuntu,
     )
 );
 
@@ -313,7 +268,6 @@ $linuxx64 = array(
         $l66ubuntux64,
         $l64ubuntux64,
 		$l6215ubuntux64,
-		$l51045ubuntux64,
     )
 );
 
