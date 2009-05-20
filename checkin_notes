@@ -4643,3 +4643,10 @@ Rom    18 May 2009
         <Numberious Files>
     win_build/
         boincmgr.vcproj
+
+Charlie 20 May 2009
+    - Mac: Fix build scripts for new screensaver.
+    
+    mac_installer/
+        release_GridRepublic.sh
+        release_boinc.sh

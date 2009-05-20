@@ -19,7 +19,7 @@
 
 ##
 # Release Script for Macintosh GridRepublic Desktop by Charlie Fenton
-## updated 1/8/09 by Charlie Fenton
+## updated 5/20/09 by Charlie Fenton
 ##
 
 ## NOTE: This script is deprecated.
@@ -135,6 +135,11 @@ cp -fpR "$BUILDPATH/setprojectgrp" "${PR_PATH}/Library/Application Support/BOINC
 ## Put Branding file into BOINC Data folder to make it available to screensaver 
 cp -fp "${BRANDING_FILE}" "${PR_PATH}/Library/Application Support/BOINC Data/Branding"
 cp -fp curl/ca-bundle.crt  "${PR_PATH}/Library/Application Support/BOINC Data/"
+
+cp -fp doc/logo/boinc_logo_black.jpg "${PR_PATH}/Library/Application Support/BOINC Data/"
+cp -fp api/txf/Helvetica.txf "${PR_PATH}/Library/Application Support/BOINC Data/"
+cp -fp clientscr/ss_config.xml "${PR_PATH}/Library/Application Support/BOINC Data/"
+cp -fpR "$BUILDPATH/boincscr" "${PR_PATH}/Library/Application Support/BOINC Data/"
 
 cp -fpR "$BUILDPATH/BOINCManager.app" "${PR_PATH}/Applications/"
 
