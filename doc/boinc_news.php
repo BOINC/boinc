@@ -2,45 +2,45 @@
 
 $project_news = array(
 array("May 17, 2009",
-    "Check out <a href=http://365daysofastronomy.org/2009/05/17/may-17th-citizen-scientists-making-a-difference-and-having-fun/>Citizen Scientists</a>,
+    "Check out <a href=\"http://365daysofastronomy.org/2009/05/17/may-17th-citizen-scientists-making-a-difference-and-having-fun/\">Citizen Scientists</a>,
     a podcast by the 365 Days of Astronomy project."
 ),
 array("May 14, 2009",
-    "<a href=http://boinc.unex.es/planet>Planet BOINC</a>
+    "<a href=\"http://boinc.unex.es/planet\">Planet BOINC</a>
     is a new RSS feed that combines many different sources of news
     about BOINC and volunteer computing."
 ),
 array("May 14, 2009",
-    "<a href=http://www2.warwick.ac.uk/newsandevents/audio/more/tedx/?podcastItem=francois_grey.mp4>Francois Grey talks about citizen cyber-science</a> at TEDx Warwick."
+    "<a href=\"http://www2.warwick.ac.uk/newsandevents/audio/more/tedx/?podcastItem=francois_grey.mp4\">Francois Grey talks about citizen cyber-science</a> at TEDx Warwick."
 ),
 array("May 13, 2009",
-    "See a <a href=http://www.youtube.com/watch?v=igB-vqS3gAc>video</a> (in Spanish with English subtitles) about Extremadura@home and volunteer computing."
+    "See a <a href=\"http://www.youtube.com/watch?v=igB-vqS3gAc\">video</a> (in Spanish with English subtitles) about Extremadura@home and volunteer computing."
 ),
 array("May 12, 2009",
     "An
-    <a href=http://www.nature.com/embor/journal/v10/n5/full/embor200979.html>article in EMBO reports</a> discusses citizen cyber-science."
+    <a href=\"http://www.nature.com/embor/journal/v10/n5/full/embor200979.html\">article in EMBO reports</a> discusses citizen cyber-science."
 ),
 array("May 1, 2009",
     "Simon Lin of Academia Sinica discusses volunteer computing (and thinking) in Asia
-    on a <a href=http://www.bbc.co.uk/worldservice/science/2009/03/000000_digital_planet.shtml>Podcast on BBC World Service</a>."
+    on a <a href=\"http://www.bbc.co.uk/worldservice/science/2009/03/000000_digital_planet.shtml\">Podcast on BBC World Service</a>."
 ),
 array("April 29, 2009",
-    "An <a href=http://www.news.cornell.edu/stories/March09/cordes.palfa.einstein.html>article in Cornell's Chronicle Online</a> discusses
+    "An <a href=\"http://www.news.cornell.edu/stories/March09/cordes.palfa.einstein.html\">article in Cornell's Chronicle Online</a> discusses
     a new application in <a href=http://einstein.phys.uwm.edu/>Einstein@home</a>
     that searches for pulsars in binary star systems."
 ),
 array("April 29, 2009",
-    "Francois Grey discusses Citizen Cyberscience (and BOINC) in <a href=http://cerncourier.com/cws/article/cern/38718>The CERN Courier</a>."
+    "Francois Grey discusses Citizen Cyberscience (and BOINC) in <a href=\"http://cerncourier.com/cws/article/cern/38718\">The CERN Courier</a>."
 ),
 array("April 21, 2009",
-    "A <a href=http://event.twgrid.org/isgc2009/asiaathome/wiki/index.php/Main_Page>workshop on volunteer computing with BOINC</a>
+    "A <a href=\"http://event.twgrid.org/isgc2009/asiaathome/wiki/index.php/Main_Page\">workshop on volunteer computing with BOINC</a>
     was held in Taipei on 16-17 April.
     Lecture outlines and slides are available online.
     "
 ),
 array("April 9, 2009",
     "BOINC 6.6 has been released to public for Windows and
-    MacOS X.  Please visit the <a href=http://boinc.berkeley.edu/download.php>download</a> page and upgrade today."
+    MacOS X.  Please visit the <a href=\"http://boinc.berkeley.edu/download.php\">download</a> page and upgrade today."
 ),
 array("April 6, 2009",
     "Check out <a href=http://boinc.starwars-holonet.com/>a new

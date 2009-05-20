@@ -23,8 +23,14 @@ if (!$news) {
     }
 }
 
-// inclue project constants and news file
-//
+function image_as_link($text){
+    // Build some regex (should be a *lot* faster)
+    $pattern = '@<img src=([^>]+)>@si'; // Gives us the URL in ${1}...
+    $replacement = '<a href=${1}>[Image Link]</a>'; // Turns that URL into a hyperlink
+    $text = preg_replace($pattern, $replacement, $text);
+    return $text;
+}
+
 require_once("boinc_news.php");
 
 // Create channel header and open XML content
@@ -63,11 +69,13 @@ for( $item=0; $item < $news; $item++ ) {
         $d = strtotime($project_news[$item][0]);
         $news_date=gmdate('D, d M Y H:i:s',$d) . ' GMT';
         $unique_url="http://boinc.berkeley.edu/all_news.php#$j";
+        $title = "BOINC news ". $project_news[$item][0];
+        $body = image_as_link($project_news[$item][1]);
         echo "<item>
-            <title>BOINC news ".strip_tags($project_news[$item][0])."</title>
+            <title>$title</title>
             <link>http://boinc.berkeley.edu/all_news.php#$j</link>
             <guid isPermaLink=\"true\">$unique_url</guid>
-            <description><![CDATA[".strip_tags($project_news[$item][1])."]]></description>
+            <description><![CDATA[$body]]></description>
             <pubDate>$news_date</pubDate>
             </item>
         ";
