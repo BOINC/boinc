@@ -17,18 +17,13 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-
-
 // rss_main.php:
 // RSS 2.0 feed for BOINC default server installation.
 // Channel Main show the current news on project mainpage 
 // - for more informations about RSS see RSS 2.0 Specification:
 //   http://blogs.law.harvard.edu/tech/rss
 
-// Check your page with http://feedvalidator.org/                                                                                                                                     
-
-// Create and send out http header
-//
+// Check your page with http://feedvalidator.org/
 
 // Get unix time that last modification was made to the news source
 //
@@ -53,6 +48,7 @@ if($news < "1" or $news > "9") {
 
 // include project constants and news file
 //
+require_once("../inc/text_transform.inc");
 require_once("../project/project.inc");
 require_once("../project/project_news.inc");
 
@@ -89,15 +85,16 @@ for ($i=0; $i < $news; $i++) {
     $news_date=gmdate('D, d M Y H:i:s',$d) . ' GMT';
     $unique_url=URL_BASE."all_news.php#$j";
     if (isset($item[2])) {
-        $title = strip_tags($item[2]);
+        $title = $item[2];
     } else {
-        $title = "Project News ".strip_tags($$item[0]);
+        $title = "Project News ".$item[0];
     }
+    $body = image_as_link($item[1]);
     echo "<item>
         <title>".$title."</title>
         <link>$unique_url</link>
         <guid isPermaLink=\"true\">$unique_url</guid>
-        <description><![CDATA[".strip_tags($item[1])."]]></description>
+        <description><![CDATA[$body]]></description>
         <pubDate>$news_date</pubDate>
     ";
     if (isset($item[3])) {

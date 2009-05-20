@@ -214,8 +214,8 @@ function externalize_links($text) {
 function image_as_link($text){
     /* This function depends on sanitized HTML */
     // Build some regex (should be a *lot* faster)
-    $pattern = '@<img src=([^>]+)>@si'; // Gives us the URL in ${1}...
-    $replacement = '<a href=${1}>[Image Link]</a>'; // Turns that URL into a hyperlink
+    $pattern = '@<img([\S\s]+)src=([^>]+)>@si'; // Gives us the URL in ${2}...
+    $replacement = '<a href=${2}>[Image link]</a>'; // Turns that URL into a hyperlink
     $text = preg_replace($pattern, $replacement, $text);
     return $text;
 }

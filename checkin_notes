@@ -4650,3 +4650,15 @@ Charlie 20 May 2009
     mac_installer/
         release_GridRepublic.sh
         release_boinc.sh
+
+David  20 May 2009
+    - web: in RSS feeds, replace images with [Image link]
+        but allow other tags (like <a>).
+        Note: if the image is itself inside a <a href=x>,
+        then the [Image link] will be linked to x, not to the image.
+
+    html/
+        inc/
+            text_transform.inc
+        user/
+            sample_rss_main.php
