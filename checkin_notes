@@ -4680,3 +4680,9 @@ Rom    20 May 2009
         
     lib/
         stackwalker_win.cpp
+
+David  20 May 2009
+    - web: the logic for using read-only DB replicas was messed up
+
+    html/inc/
+        boinc_db.inc

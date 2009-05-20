@@ -23,6 +23,10 @@ class BoincDb extends DbConn {
     static $instance;
 
     // connect to the database (possibly to a read-only replica)
+    // NOTE: choice of replica can be made only at the page level.
+    // If there's a page that's guaranteed to do only reads, put
+    // BoincDb::get(true);
+    // at the top of it.
     //
     static function get_aux($readonly) {
         $config = get_config();
@@ -37,13 +41,17 @@ class BoincDb extends DbConn {
         $instance = new DbConn();
         if ($readonly && $replica_host) {
             $retval = $instance->init_conn($user, $passwd, $replica_host, $name);
-            if ($retval) return $instance;
+            if ($retval) {
+                self::$instance = $instance;
+                return $instance;
+            }
         }
         $retval = $instance->init_conn($user, $passwd, $host, $name);
         if (!$retval) {
             $instance = null;
         } else {
             $instance->do_query("use $name");
+                // needed for places where we do direct queries
         }
         self::$instance = $instance;
         return $instance;
