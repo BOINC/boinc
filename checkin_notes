@@ -2782,3 +2782,11 @@ Rom    20 May 2009
         
     lib/
         stackwalker_win.cpp
+
+Rom    20 May 2009
+    - Tag for 6.6.30 release, all platforms
+      boinc_core_release_6_6_30
+
+    /
+        configure.ac
+        version.h
