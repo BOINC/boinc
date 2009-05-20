@@ -1694,9 +1694,9 @@ int CMainDocument::WorkShowGraphics(RESULT* result)
         // V5 and Older
         DISPLAY_INFO di;
 
-        strcpy(di.window_station, (char*)wxGetApp().m_strDefaultWindowStation.c_str());
-        strcpy(di.desktop, (char*)wxGetApp().m_strDefaultDesktop.c_str());
-        strcpy(di.display, (char*)wxGetApp().m_strDefaultDisplay.c_str());
+        strcpy(di.window_station, (char*)wxGetApp().m_strDefaultWindowStation.mb_str());
+        strcpy(di.desktop, (char*)wxGetApp().m_strDefaultDesktop.mb_str());
+        strcpy(di.display, (char*)wxGetApp().m_strDefaultDisplay.mb_str());
 
         iRetVal = rpc.show_graphics(
             result->project_url.c_str(),
