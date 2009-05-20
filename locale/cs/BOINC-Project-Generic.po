@@ -3,13 +3,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2009-05-20 14:38-0700\n"
+"Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -112,22 +114,22 @@ msgid "unread"
 msgstr "nepřečtené"
 
 msgid "Edit your profile"
-msgstr ""
+msgstr "Upravit Váš profil"
 
 msgid "Your feedback on this profile"
-msgstr ""
+msgstr "Vaše reakce na tento profil"
 
 msgid "Recommend this profile for User of the Day:"
-msgstr ""
+msgstr "Doporučit tento profil na 'Uživatele dne'\""
 
 msgid "I %1like%2 this profile"
-msgstr ""
+msgstr "%1Líbí%2 se mi tento profil"
 
 msgid "Alert administrators to an offensive profile:"
-msgstr ""
+msgstr "Upozornit administrátory na urážlivý profil\""
 
 msgid "I %1do not like%2 this profile"
-msgstr ""
+msgstr "%1Nelíbí%2 se mi tento profil"
 
 msgid "Search criteria (use one or more)"
 msgstr "Kriteria pro hledání (použijte jedno či více)"
@@ -186,7 +188,6 @@ msgstr "Celkový kredit"
 msgid "Recent average credit"
 msgstr "Současný průměrný kredit (RAC)"
 
-#, fuzzy
 msgid "Cross-project stats"
 msgstr "Statistiky napříč projekty"
 
@@ -210,7 +211,7 @@ msgstr ""
 "poskytnete jeho vlastníkovi přístup k vaší emailové adrese."
 
 msgid "Not accepting new members"
-msgstr ""
+msgstr "Nepřijímá nové členy"
 
 msgid "Foundership change requested"
 msgstr "Požádáno o změnu vlastnictví"
@@ -394,9 +395,8 @@ msgstr "Poskytuje plný přístup k Vašemu účtu"
 msgid "Weak account key"
 msgstr "Slabý klíč k účtu"
 
-#, fuzzy
 msgid "Provides %1limited access%2 to your account"
-msgstr "Poskytuje plný přístup k Vašemu účtu"
+msgstr "Poskytuje %1omezený přístup%2 k Vašemu účtu"
 
 msgid "Preferences"
 msgstr "Nastavení"
@@ -525,7 +525,7 @@ msgid "Platform"
 msgstr "Platforma"
 
 msgid "Version"
-msgstr ""
+msgstr "Verze"
 
 msgid "Installation time"
 msgstr "Čas instalace"
@@ -586,101 +586,113 @@ msgid "Create account"
 msgstr "Vytvořte si účet"
 
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr ""
+msgstr "CHYBA: %1 neexistuje! Nelze vytvořit nabídku pro volbu.<br/>"
 
 msgid "Picture"
-msgstr ""
+msgstr "Obrázek"
 
 msgid "%1 Your profile picture is shown to the left."
-msgstr ""
+msgstr "%1 Váš obrázek bude zobrazen vlevo."
 
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
+"Pro změnu klikněte na tlačítko \"Hledat\" a vyberte soubor typu JPEG nebo PNG "
+"(do %10."
 
 msgid "To remove it from your profile, check this box:"
-msgstr ""
+msgstr "Pro odebrání obrázku z Vašeho profilu zaškrtněte toto pole:"
 
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
+"Pokud si přejete mít u svého profilu obrázek, klikněte na \"Hledat\" a zvolte "
+"soubor typu JPEG nebo PNG. Obrázek může být velký maximálně %1."
 
 msgid "Language"
-msgstr ""
+msgstr "Jazyk"
 
 msgid "Select the language in which your profile is written:"
-msgstr ""
+msgstr "Zvolte jazyk, ve kterém je napsán Váš profil:"
 
 msgid "Submit profile"
-msgstr ""
+msgstr "Uložit profil"
 
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
-msgstr ""
+msgstr "Pro ochranu projektových stránek před spamem je vyžadováno zadání dvou slov "
+"které prosím opište z tohoto obrázku:<br/>\n"
 
 msgid "Create/edit profile"
-msgstr ""
+msgstr "Vytvořit/upravit profil"
 
 msgid "The format of your uploaded image is not supported."
-msgstr ""
+msgstr "Formát Vámi zvoleného obrázku není podporován."
 
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
-msgstr ""
+msgstr "Váš %1profil%2 Vám umožňuje sdílet své názory a zázemí s %3 komunitou."
 
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr ""
+"Vaše odpověď na zadání ReCaptcha nebylo správné. Zkuste to prosím znova."
 
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Váš první příspěvek byl ohodnocen anti-spamovým systémem Akismet jako spam. "
+"Upravte ho prosím a zkuste jej vložit znova."
 
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Váš druhý příspěvek byl ohodnocen anti-spamovým systémem Akismet jako spam. "
+"Upravte ho prosím a zkuste jej vložit znova."
 
 msgid "Your profile submission was empty."
-msgstr ""
+msgstr "Váš profil k uložení je prázdný."
 
 msgid "Could not update the profile: database error"
-msgstr ""
+msgstr "Není možné upravit profil: chyba databáze"
 
 msgid "Could not create the profile: database error"
-msgstr ""
+msgstr "Není možné vytvořit profil: chyba databáze"
 
 msgid "Profile saved"
-msgstr ""
+msgstr "Profil uložen"
 
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr ""
+msgstr "Blahopřejeme! Váš profil byl úspěšně uložen v naší databázi."
 
 msgid "%1View your profile%2"
-msgstr ""
+msgstr "%1Zobrazit profil%2"
 
 msgid "Create a profile"
-msgstr ""
+msgstr "Založit si profil"
 
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
 msgstr ""
+"Jako ochrana proti spamu je vyžadován kredit aspoň %1 pro založení či úpravu "
+"profilu. Omlouváme se za tuto nepříjemnost."
 
 msgid "Download BOINC add-on software"
-msgstr ""
+msgstr "Stáhnout doplňkový software BOINC"
 
 msgid "You can download applications in several categories."
-msgstr ""
+msgstr "Je možné si stáhnout aplikace různých typů."
 
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
-msgstr ""
+msgstr "Za tyto aplikace %1 nijak neručí, použití je na Vaše riziko."
 
 msgid ""
 "We do not provide instructions for installing these applications.\n"
@@ -688,15 +700,18 @@ msgid ""
 "uninstalling the application. \n"
 "If this is not enough you should contact the author."
 msgstr ""
+"Neposkytujeme informace k instalaci těchto aplikací, nicméně autor aplikace "
+"obvykle poskytuje základní informace pro instalaci a odinstalování své "
+"aplikace.Pokud nemáte dostatek informací, zkuste kontaktovat autora."
 
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr ""
+msgstr "Instrukce pro instalaci a používání BOINCu jsou %1zde%2."
 
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr ""
+msgstr "Tento seznam je spravován centrálně na %1webových stránkách BOINC%2."
 
 msgid "fll"
-msgstr ""
+msgstr "fll"
 
 msgid "Title"
 msgstr "Název"
@@ -711,6 +726,8 @@ msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
+"Pokud máte nějaké dotazy či problémy, podívejte se prosím na sekci %1Otázky "
+"a odpovědi (Questions & Answers)%2 na diskuzním fóru."
 
 msgid "Topic"
 msgstr "Téma"
@@ -729,108 +746,111 @@ msgstr "Výsledky hledání na fóru"
 
 msgid "No thread with id %1. Please check the link and try again."
 msgstr ""
+"Nenelezeno vlákno s id %1. Zkontrolujte si prosím odkaz a zkuste to znova."
 
 msgid "This forum is not visible to you."
-msgstr ""
+msgstr "Toto fórum pro Vás není přístupné."
 
 msgid "This thread has been hidden for administrative purposes"
 msgstr "Toto vlákno bylo schováno z administrativních důvodů"
 
 msgid "My question was answered"
-msgstr ""
+msgstr "Má otázka byla zodpovězena."
 
 msgid ""
 "If your question has been adequately answered please click here to close it!"
 msgstr ""
+"Pokud byla Vaše otázka dostatečně zodpovězena, klikněte prosím sem pro její "
+"zavření."
 
 msgid "I've also got this question"
-msgstr ""
+msgstr "Také mám tuto otázku"
 
 msgid "Add a new message to this thread"
-msgstr ""
+msgstr "Přidat zprávu do tohoto vlákna"
 
 msgid "Unsubscribe"
 msgstr "Zrušit odebírání příspěvků"
 
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
 msgstr ""
+"Odebíráte příspěvky z tohoto vlákna. Klikněte sem pro zrušení odebírání."
 
 msgid "Subscribe"
 msgstr "Odebírat příspěvky"
 
 msgid "Click to get email when there are new posts in this thread"
-msgstr ""
+msgstr "Klikněte pro zasílání emailu při každém novém příspěvku v tomto vlákně."
 
 msgid "Unhide"
-msgstr ""
+msgstr "Odkrýt"
 
 msgid "Unhide this thread"
-msgstr ""
+msgstr "Odkrýt toto vlákno"
 
 msgid "Hide"
-msgstr ""
+msgstr "Skrýt"
 
 msgid "Hide this thread"
-msgstr ""
+msgstr "Skrýt toto vlákno"
 
 msgid "Make unsticky"
-msgstr ""
+msgstr "Zrušit trvalou viditelnost"
 
 msgid "Make this thread not sticky"
-msgstr ""
+msgstr "Zrušit trvalou viditelnost tohoto vlákna"
 
 msgid "Make sticky"
-msgstr ""
+msgstr "Nastav trvalou viditelnost"
 
 msgid "Make this thread sticky"
-msgstr ""
+msgstr "Nastav trvalou viditelnost tohoto vlákna"
 
 msgid "Unlock"
-msgstr ""
+msgstr "Odemknout"
 
 msgid "Unlock this thread"
-msgstr ""
+msgstr "Odemknout toto vlákno"
 
 msgid "Lock"
-msgstr ""
+msgstr "Zamknout"
 
 msgid "Lock this thread"
-msgstr ""
+msgstr "Zamknout toto vlákno"
 
 msgid "Move"
-msgstr ""
+msgstr "Přesunout"
 
 msgid "Move this thread to a different forum"
-msgstr ""
+msgstr "Přesunout toto vlákno do jiného fóra"
 
 msgid "Edit title"
-msgstr ""
+msgstr "Upravit nadpis"
 
 msgid "Edit thread title"
-msgstr ""
+msgstr "Upravit nadpis vlákna"
 
 msgid "Sort"
-msgstr ""
+msgstr "Setřídit"
 
 msgid "Already friends"
-msgstr ""
+msgstr "Současní přátelé"
 
 msgid "You requested friendship with %1 on %2."
-msgstr ""
+msgstr "Požádali jste o přátelství s %1 v %2."
 
 msgid "This request is still pending confirmation."
-msgstr ""
+msgstr "Žádost stále očekává potvrzení."
 
 msgid "%1 is not accepting friendship requests from you"
-msgstr ""
+msgstr "%1 nepřijímá Vaše žádosti o přátelství"
 
 msgid "You can't be friends with yourself"
-msgstr ""
+msgstr "Nemůžete mít jako přítele sami sebe"
 
 msgid "No such user"
 msgstr "Uživatel nenalezen"
 
-#, fuzzy
 msgid "Add friend"
 msgstr "Přidat jako přítele"
 
@@ -838,91 +858,92 @@ msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
+"Požádali jste o přidání %1 jako svého přítele. %2 nyní dostane zprávu s Vaší "
+"žádostí o potvrzení přátelství."
 
 msgid "Add an optional message here:"
-msgstr ""
+msgstr "Přidat doprovodnou zprávu:"
 
 msgid "Database error"
-msgstr ""
+msgstr "Chyba databáze"
 
 msgid "Friend request sent"
-msgstr ""
+msgstr "Žádost o přátelství zaslána"
 
 msgid "We have notified %1 of your request."
-msgstr ""
+msgstr "%1 dostal Vaší žádost."
 
 msgid "Request not found"
-msgstr ""
+msgstr "Žádost nenalezena"
 
 msgid "Friend request"
-msgstr ""
+msgstr "Žádost o přátelství"
 
 msgid "%1 has added you as a friend."
-msgstr ""
+msgstr "%1 si Vás přidal jako svého přítele."
 
 msgid "%1 says: %2"
-msgstr ""
+msgstr "%1 říká: %2"
 
 msgid "Accept friendship"
-msgstr ""
+msgstr "Přijmout přátelství"
 
 msgid "Click accept if %1 is in fact a friend"
-msgstr ""
+msgstr "Klikněte na přijmout, pokud je %1 Vaším přítelem"
 
 msgid "Decline"
-msgstr ""
+msgstr "Odmítnout"
 
 msgid "Click decline if %1 is not a friend"
-msgstr ""
+msgstr "Klikněte na odmítnout, pokud %1 není Vaším přítelem"
 
 msgid "No request"
-msgstr ""
+msgstr "Žádná žádost"
 
 msgid "Friendship confirmed"
-msgstr ""
+msgstr "Přátelství potvrzeno"
 
 msgid "Your friendship with %1 has been confirmed."
-msgstr ""
+msgstr "Vaše přátelství s %1 bylo potvrzeno."
 
 msgid "Friendship declined"
-msgstr ""
+msgstr "Přátelství zamítnuto"
 
 msgid "You have declined friendship with %1"
-msgstr ""
+msgstr "Odmítli jste přítelství s %1"
 
 msgid "Notification not found"
-msgstr ""
+msgstr "Oznámení nenalezeno"
 
 msgid "Friend confirmed"
-msgstr ""
+msgstr "Přítel potvrzen"
 
 msgid "You are now friends with %1."
-msgstr ""
+msgstr "%1 je nyní Vaším přítelem."
 
-#, fuzzy
 msgid "Cancel friendship?"
-msgstr "Zrušit přátelství"
+msgstr "Zrušit přátelství?"
 
 msgid "Are you sure you want to cancel your friendship with %1?"
-msgstr ""
+msgstr "Jste si jistí, že chcete zrušit Vaše přátelství s %1?"
 
 msgid "Yes"
-msgstr ""
+msgstr "Ano"
 
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 msgid "Stay friends"
-msgstr ""
+msgstr "Zůstat přáteli"
 
 msgid "Friendship cancelled"
-msgstr ""
+msgstr "Přátelství zrušeno"
 
 msgid "Your friendship with %1 has been cancelled."
-msgstr ""
+msgstr "Vaše přátelství s %1 bylo zrušeno."
 
 msgid "Unknown action"
-msgstr ""
+msgstr "Neznámá akce"
 
 msgid "Welcome to %1"
 msgstr "Vítejte v %1"
@@ -1014,6 +1035,11 @@ msgid ""
 "them to your %2message filter%3.  This will prevent you from seeing any "
 "public or private messages from that user."
 msgstr ""
+"Soukromé zprávy poslané na webu %1 jsou viditelné jen odesílateli a "
+"příjemci. %1 nezkoumá ani nehodnotí obsah soukromých zpráv. Pokud dostáváte "
+"nevyžádané soukromé zprávy od jiného uživatele %1, je možné tohoto uživatele "
+"zablokovat pomocí %2filtru zpráv%3. Tím zabráníte doručování veřejných i "
+"soukromých zpráv od tohoto uživatele."
 
 msgid ""
 "If you use our web site forums you must follow the %2posting guidelines%3.  "
@@ -1021,6 +1047,10 @@ msgid ""
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
+"Pokud navštěvujete diskuzní fórum na našem webu, je třeba dodržovat "
+"%2pravidla psaní příspěvků%3. Příspěvky vložené do fóra jsou viditelné pro "
+"všechny uživatele, včetně ne-členů. Přispíváním do fóra také dáváte všem "
+"nezrušitelné právo na čtení a kopírování Vašich příspěvků."
 
 msgid "Is it safe to run %1?"
 msgstr "Je bezpečné být zapojen v %1?"
@@ -1087,13 +1117,11 @@ msgstr ""
 "zaručit za jejich bezpečnost či předmět výzkumu. Připojte se k nim dle "
 "Vašeho uvážení."
 
-#, fuzzy
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Czech"
 
-#, fuzzy
 msgid "LANG_NAME_NATIVE"
-msgstr "Czech"
+msgstr "Čeština"
 
 msgid "Your message has been sent."
 msgstr "Vaše zpráva byla odeslána."
@@ -1108,7 +1136,7 @@ msgid "Reply"
 msgstr "Odpovědět"
 
 msgid "Delete selected messages"
-msgstr ""
+msgstr "Smazat vybrané zprávy"
 
 msgid "Sender"
 msgstr "Odesílatel"
@@ -1223,134 +1251,140 @@ msgid "No profiles matched your query."
 msgstr "Nenalezen žádný profil odpovídající vašemu dotazu."
 
 msgid "Invalid vote type:"
-msgstr ""
+msgstr "Neplatný typ hlasu:"
 
 msgid "Vote Recorded"
-msgstr ""
+msgstr "Hlas uložen"
 
 msgid "Thank you"
-msgstr ""
+msgstr "Děkujeme"
 
 msgid "Your recommendation has been recorded."
-msgstr ""
+msgstr "Vaše doporučení bylo uloženo."
 
 msgid "Your vote to reject this profile has been recorded."
-msgstr ""
+msgstr "Váš hlas pro zamítnutí tohoto profilu byl uložen."
 
 msgid "Return to profile."
-msgstr ""
+msgstr "Vrátit se do profilu."
 
 msgid "This feature is turned off temporarily"
-msgstr ""
+msgstr "Tato vlastnost je dočasně nedostupná."
 
 msgid "No computer with ID %1 found"
-msgstr ""
+msgstr "Nenalezen žádný počítač s ID %1"
 
 msgid "Tasks for computer %1"
-msgstr ""
+msgstr "Úkoly pro počítač %1"
 
 msgid "No access"
-msgstr ""
+msgstr "Nemáte přístup"
 
 msgid "Missing user ID or host ID"
-msgstr ""
+msgstr "Chybí uživatelské ID nebo ID počítače"
 
-#, fuzzy
 msgid "User of the day"
 msgstr "Uživatel dne"
 
 msgid "Account data for %1"
-msgstr ""
+msgstr "Data o účtu %1"
 
 msgid "Statistics and leaderboards"
-msgstr ""
+msgstr "Statistiky a žebříčky"
 
 msgid "Statistics for %1"
-msgstr ""
+msgstr "Statistiky %1"
 
 msgid "Top participants"
 msgstr "Nejlepší účastníci"
 
 msgid "Top computers"
-msgstr ""
+msgstr "Nejlepší počítače"
 
-#, fuzzy
 msgid "Top teams"
-msgstr "Nejlepší %1 týmy"
+msgstr "Nejlepší týmy"
 
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
 "at several web sites:"
 msgstr ""
+"Na mnoha webových stránkách jsou dostupné detailní statistiky o %1 a jiných "
+"BOINC projektech:"
 
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
-msgstr ""
+msgstr "Je též možné získat Vaše statistiky ve formě \"obrázku do podpisu\":"
 
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
 msgstr ""
+"Též je možné získat individuální statistiky ze všech BOINC projektů, kde "
+"jste zapojeni - na Vaší %1domovské stránce%2."
 
 msgid "%1 participants may form %2teams%3"
-msgstr ""
+msgstr "%1 účastníci mohou vytvořit %2týmy%3"
 
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
 msgstr ""
+"Je možné být členem jen jednoho týmu v jeden okamžik. Tým můžete kdykoliv "
+"opustit a přidat se do jiného."
 
 msgid "Each team has a %1founder%2 who may:"
-msgstr ""
+msgstr "Každý tým má %1zakladatele%2, který může:"
 
 msgid "access team members' email addresses"
-msgstr ""
+msgstr "přistupovat k emailovým adresám členů týmu"
 
 msgid "edit the team's name and description"
-msgstr ""
+msgstr "upravovat jméno a popis týmu"
 
 msgid "remove members from the team"
-msgstr ""
+msgstr "vyloučit členy z týmu"
 
 msgid "disband a team if it has no members"
-msgstr ""
+msgstr "rozpustit tým, pokud nebude mít žádné členy"
 
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
+"Pro připojení do týmu navštivte týmovou stránku a tam klikněte na %1Připojit "
+"se do týmu%2."
 
-#, fuzzy
 msgid "Find a team"
-msgstr "najít tým"
+msgstr "Najít tým"
 
 msgid "All teams"
-msgstr ""
+msgstr "Všechny týmy"
 
 msgid "%1 teams"
-msgstr ""
+msgstr "%1 týmy"
 
-#, fuzzy
 msgid "Create a new team"
-msgstr "Vytvořit nové vlákno"
+msgstr "Vytvořit nový tým"
 
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
-msgstr ""
+msgstr "Pokud Vám nevyhovuje žádný tým, můžete si %1vytvořit vlastní%2."
 
 msgid "You must choose a non-blank team name"
-msgstr ""
+msgstr "Je třeba zvolit neprázdné jméno týmu."
 
 msgid "A team named %1 already exists - try another name"
-msgstr ""
+msgstr "Tým pojmenovaný %1 již existuje - zvolte si prosím jiné jméno."
 
 msgid "Could not create team - please try later."
-msgstr ""
+msgstr "Není možné vytvořit tým - zkuste to prosím později."
 
 msgid "Create a team"
-msgstr ""
+msgstr "Vytvořit tým"
 
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
+"Nyní jste v %1. Musíte nejdříve %2opustit tento tým%3 před vytvářením "
+"nového."
 
 msgid "Top hosts"
 msgstr "Nejlepší počítače"
@@ -1362,10 +1396,10 @@ msgid "Participant since"
 msgstr "Účastníkem od"
 
 msgid "This user has no profile"
-msgstr ""
+msgstr "Tento uživatel nemá žádný profil"
 
 msgid "Account data"
-msgstr ""
+msgstr "Data účtu"
 
 msgid ""
 "Your 'weak account key' lets you attach computers to your account on this "
