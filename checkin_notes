@@ -2772,3 +2772,13 @@ Rom    20 May 2009
         
     clientgui/
         MainDocument.cpp
+
+Rom    20 May 2009
+    - MGR: Fix bug where there was no trailing backslash before
+        'symbols' was appended to the end of the symbol path.  This
+        caused the stack tracing code not to download the actual
+        symbol files needed to debug a problem.  I have no idea
+        when this bug was introduced.
+        
+    lib/
+        stackwalker_win.cpp

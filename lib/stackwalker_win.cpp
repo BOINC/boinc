@@ -594,9 +594,9 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
         //   [DATADIR]\projects\project_dir\symbols
         //
         if (!diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION)) {
-            strLocalSymbolStore += strCurrentDirectory + std::string("symbols");
+            strLocalSymbolStore += strCurrentDirectory + std::string("\\symbols");
         } else {
-            strLocalSymbolStore += strExecutableDirectory + std::string("symbols");
+            strLocalSymbolStore += strExecutableDirectory + std::string("\\symbols");
         }
 
         // Microsoft Public Symbol Server
