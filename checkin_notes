@@ -4662,3 +4662,11 @@ David  20 May 2009
             text_transform.inc
         user/
             sample_rss_main.php
+
+Rom    20 May 2009
+    - MGR: Fix bug where *nix platforms using UCS2 Unicode encoding
+        were not able to display graphics as one or more null bytes
+        seperate each character.
+        
+    clientgui/
+        MainDocument.cpp
