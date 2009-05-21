@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-05-05 14:30-0700\n"
+"PO-Revision-Date: 2009-05-21 12:21-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -118,22 +118,22 @@ msgid "unread"
 msgstr "непрочтенных"
 
 msgid "Edit your profile"
-msgstr ""
+msgstr "Редактировать профиль"
 
 msgid "Your feedback on this profile"
-msgstr ""
+msgstr "Ваш отзыв на этот профиль"
 
 msgid "Recommend this profile for User of the Day:"
-msgstr ""
+msgstr "Рекомендовать этот профиль в качестве Пользователя дня:"
 
 msgid "I %1like%2 this profile"
-msgstr ""
+msgstr "Мне %1нравится%2 этот профиль"
 
 msgid "Alert administrators to an offensive profile:"
-msgstr ""
+msgstr "Предупредить администраторов об оскорбительном профиле:"
 
 msgid "I %1do not like%2 this profile"
-msgstr ""
+msgstr "Мне %1не нравится%2 этот профиль"
 
 msgid "Search criteria (use one or more)"
 msgstr "Критерии поиска (используйте один или несколько)"
@@ -192,7 +192,6 @@ msgstr "Всего очков"
 msgid "Recent average credit"
 msgstr "В среднем за день"
 
-#, fuzzy
 msgid "Cross-project stats"
 msgstr "Объединенная статистика по проектам"
 
@@ -217,7 +216,7 @@ msgstr ""
 "основателя к Вашему адресу электронной почты."
 
 msgid "Not accepting new members"
-msgstr ""
+msgstr "Не принимать новых участников"
 
 msgid "Foundership change requested"
 msgstr "Запрошена смена основателя"
@@ -400,9 +399,8 @@ msgstr "Предоставляет полный доступ к Вашей уч�
 msgid "Weak account key"
 msgstr "Слабый ключ учетной записи"
 
-#, fuzzy
 msgid "Provides %1limited access%2 to your account"
-msgstr "Предоставляет полный доступ к Вашей учетной записи"
+msgstr "Предоставляет %1ограниченный доступ%2 к Вашей учетной записи"
 
 msgid "Preferences"
 msgstr "Настройки"
@@ -535,7 +533,7 @@ msgid "Platform"
 msgstr "Платформа"
 
 msgid "Version"
-msgstr ""
+msgstr "Версия"
 
 msgid "Installation time"
 msgstr "Время сборки"
@@ -599,101 +597,120 @@ msgid "Create account"
 msgstr "Создать учетную запись"
 
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr ""
+msgstr "ОШИБКА: %1 не существует! Не создать combo box.<br>"
 
 msgid "Picture"
-msgstr ""
+msgstr "Фотография"
 
+#, fuzzy
 msgid "%1 Your profile picture is shown to the left."
-msgstr ""
+msgstr "%1 Фотография Вашего профиля показана слева."
 
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
+"Чтобы заменить ее, нажмите кнопку \"Обзор...\" и выберите файл формата JPEG "
+"или PNG (размером %1 или меньше)."
 
 msgid "To remove it from your profile, check this box:"
-msgstr ""
+msgstr "Чтобы удалить ее из вашего профиля, отметьте эту галку:"
 
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
+"Если Вы хотите добавить фотографию в ваш профиль, нажмите кнопку \"Обзор...\" "
+"и выберите файл формата JPEG или PNG. Пожалуйста выберите изображения "
+"размером %1 или меньше."
 
 msgid "Language"
-msgstr ""
+msgstr "Язык"
 
 msgid "Select the language in which your profile is written:"
-msgstr ""
+msgstr "Выберите язык, на котором написан ваш профиль:"
 
 msgid "Submit profile"
-msgstr ""
+msgstr "Сохранение профиля"
 
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
-msgstr ""
+msgstr "Чтобы защитить web-страницы проекта от спама, мы любезно просим, чтобы Вы "
+"напечатали здесь два слова, показанные на изображении:<br>\n"
 
 msgid "Create/edit profile"
-msgstr ""
+msgstr "Создать/отредактировать профиль"
 
 msgid "The format of your uploaded image is not supported."
-msgstr ""
+msgstr "Формат вашего загруженного изображения не поддерживается."
 
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr ""
+"Ваш %1профиль%2 позволяет Вам поделиться своим мнением и информацией о себе "
+"с сообществом %3."
 
 msgid "Your ReCaptcha response was not correct.  Please try again."
-msgstr ""
+msgstr "Ваш ответ ReCaptcha был неправилен. Пожалуйста попробуйте еще раз."
 
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Ваш первый ответ был помечен как спам антиспам-системой Akismet. Пожалуйста "
+"измените ваш текст и попробуйте еще раз."
 
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Ваш второй ответ был помечен как спам антиспам-системой Akismet. Пожалуйста "
+"измените ваш текст и попробуйте еще раз."
 
+#, fuzzy
 msgid "Your profile submission was empty."
-msgstr ""
+msgstr "Ваш профиль был пуст."
 
 msgid "Could not update the profile: database error"
-msgstr ""
+msgstr "Не удалось обновить профиль: ошибка базы данных"
 
 msgid "Could not create the profile: database error"
-msgstr ""
+msgstr "Не удалось создать профиль: ошибка базы данных"
 
 msgid "Profile saved"
-msgstr ""
+msgstr "Профиль сохранен"
 
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr ""
+msgstr "Поздравляем! Ваш профиль был успешно добавлен в нашу базу."
 
 msgid "%1View your profile%2"
-msgstr ""
+msgstr "%1Просмотр Вашего профиля%2"
 
 msgid "Create a profile"
-msgstr ""
+msgstr "Создать профиль"
 
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
 msgstr ""
+"Для предотвращения спама среднее количество очков должно быть %1 или больше, "
+"чтобы создавать или редактировать профиль. Мы приносим извинения за это "
+"неудобство."
 
+#, fuzzy
 msgid "Download BOINC add-on software"
-msgstr ""
+msgstr "Загрузите дополнительное программное обеспечение BOINC"
 
 msgid "You can download applications in several categories."
-msgstr ""
+msgstr "Вы можете загрузить приложения различных категорий."
 
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
 msgstr ""
+"Эти приложения не подтверждены %1, и Вы используете их на свой страх и риск."
 
 msgid ""
 "We do not provide instructions for installing these applications.\n"
@@ -701,15 +718,20 @@ msgid ""
 "uninstalling the application. \n"
 "If this is not enough you should contact the author."
 msgstr ""
+"Мы не предоставляем инструкции по установке этих приложений.\n"
+"Однако, автор, возможно, предоставил некоторую помощь по установке и "
+"удалении приложения.\n"
+"Если этого недостаточно, Вы должны связаться с автором."
 
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr ""
+msgstr "Инструкции по установке и запуску BOINC %1здесь%2."
 
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr ""
+msgstr "Этот список ведется централизованно на %1web-сайте BOINC%2."
 
+#, fuzzy
 msgid "fll"
-msgstr ""
+msgstr "fll"
 
 msgid "Title"
 msgstr "Тема"
@@ -724,6 +746,8 @@ msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
+"Если у Вас есть вопрос или проблема, пожалуйста воспользуйтесь разделом "
+"%1Вопросы и ответы%2 этой доски сообщений."
 
 msgid "Topic"
 msgstr "Тема"
@@ -742,108 +766,120 @@ msgstr "Результаты поиска по форуму"
 
 msgid "No thread with id %1. Please check the link and try again."
 msgstr ""
+"Нет обсуждения с id %1. Пожалуйста проверьте ссылку и попробуйте еще раз."
 
+#, fuzzy
 msgid "This forum is not visible to you."
-msgstr ""
+msgstr "Этот форум для Вас невидим."
 
 msgid "This thread has been hidden for administrative purposes"
 msgstr "Это обсуждение было скрыто в административных целях"
 
 msgid "My question was answered"
-msgstr ""
+msgstr "Мой вопрос отвечен"
 
 msgid ""
 "If your question has been adequately answered please click here to close it!"
 msgstr ""
+"Если Ваш вопрос был адекватно отвечен, пожалуйста нажмите сюда, чтобы "
+"закрыть его!"
 
 msgid "I've also got this question"
-msgstr ""
+msgstr "У меня такой же вопрос"
 
 msgid "Add a new message to this thread"
-msgstr ""
+msgstr "Добавить новое сообщение в это обсуждение"
 
 msgid "Unsubscribe"
 msgstr "Отписаться"
 
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
-msgstr ""
+msgstr "Вы подписаны на это обсуждение. Нажмите здесь чтобы отписаться."
 
 msgid "Subscribe"
 msgstr "Подписаться"
 
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
+"Нажмите, чтобы получать уведомления о новых сообщениях в этом обсуждении"
 
 msgid "Unhide"
-msgstr ""
+msgstr "Показать"
 
 msgid "Unhide this thread"
-msgstr ""
+msgstr "Показать это обсуждение"
 
 msgid "Hide"
-msgstr ""
+msgstr "Скрыть"
 
 msgid "Hide this thread"
-msgstr ""
+msgstr "Скрыть это обсуждение"
 
+#, fuzzy
 msgid "Make unsticky"
-msgstr ""
+msgstr "Открепить"
 
+#, fuzzy
 msgid "Make this thread not sticky"
-msgstr ""
+msgstr "Открепить это обсуждение"
 
+#, fuzzy
 msgid "Make sticky"
-msgstr ""
+msgstr "Закрепить"
 
+#, fuzzy
 msgid "Make this thread sticky"
-msgstr ""
+msgstr "Закрепить это обсуждение"
 
+#, fuzzy
 msgid "Unlock"
-msgstr ""
+msgstr "Разблокировать"
 
+#, fuzzy
 msgid "Unlock this thread"
-msgstr ""
+msgstr "Разблокировать это обсуждение"
 
+#, fuzzy
 msgid "Lock"
-msgstr ""
+msgstr "Заблокировать"
 
+#, fuzzy
 msgid "Lock this thread"
-msgstr ""
+msgstr "Заблокировать это обсуждение"
 
 msgid "Move"
-msgstr ""
+msgstr "Переместить"
 
 msgid "Move this thread to a different forum"
-msgstr ""
+msgstr "Переместить это обсуждение в другой форум"
 
 msgid "Edit title"
-msgstr ""
+msgstr "Редактировать тему"
 
 msgid "Edit thread title"
-msgstr ""
+msgstr "Редактировать тему обсуждения"
 
 msgid "Sort"
-msgstr ""
+msgstr "Сортировать"
 
 msgid "Already friends"
-msgstr ""
+msgstr "Уже друзья"
 
 msgid "You requested friendship with %1 on %2."
-msgstr ""
+msgstr "Вы запросили дружбу с %1 %2."
 
 msgid "This request is still pending confirmation."
-msgstr ""
+msgstr "Этот запрос все еще ожидает подтверждение."
 
 msgid "%1 is not accepting friendship requests from you"
-msgstr ""
+msgstr "%1 не принимает запросы дружбы от Вас"
 
 msgid "You can't be friends with yourself"
-msgstr ""
+msgstr "Вы не можете дружить сами с собой"
 
 msgid "No such user"
 msgstr "Нет такого пользователя"
 
-#, fuzzy
 msgid "Add friend"
 msgstr "Добавить друга"
 
@@ -851,91 +887,93 @@ msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
+"Вы попросили добавить %1 как друга. Мы уведомим %2 и попросим его/ее "
+"подтвердить, что Вы - друзья."
 
 msgid "Add an optional message here:"
-msgstr ""
+msgstr "Введите дополнительное сообщение здесь:"
 
 msgid "Database error"
-msgstr ""
+msgstr "Ошибка базы данных"
 
 msgid "Friend request sent"
-msgstr ""
-
-msgid "We have notified %1 of your request."
-msgstr ""
-
-msgid "Request not found"
-msgstr ""
-
-msgid "Friend request"
-msgstr ""
-
-msgid "%1 has added you as a friend."
-msgstr ""
-
-msgid "%1 says: %2"
-msgstr ""
-
-msgid "Accept friendship"
-msgstr ""
-
-msgid "Click accept if %1 is in fact a friend"
-msgstr ""
-
-msgid "Decline"
-msgstr ""
-
-msgid "Click decline if %1 is not a friend"
-msgstr ""
-
-msgid "No request"
-msgstr ""
-
-msgid "Friendship confirmed"
-msgstr ""
-
-msgid "Your friendship with %1 has been confirmed."
-msgstr ""
-
-msgid "Friendship declined"
-msgstr ""
-
-msgid "You have declined friendship with %1"
-msgstr ""
-
-msgid "Notification not found"
-msgstr ""
-
-msgid "Friend confirmed"
-msgstr ""
-
-msgid "You are now friends with %1."
-msgstr ""
+msgstr "Запрос на дружбу отправлен"
 
 #, fuzzy
+msgid "We have notified %1 of your request."
+msgstr "Мы оповестили %1 о Вашем запросе."
+
+msgid "Request not found"
+msgstr "Запрос не найден"
+
+msgid "Friend request"
+msgstr "Запрос на дружбу"
+
+msgid "%1 has added you as a friend."
+msgstr "%1 добавил Вас в друзья."
+
+msgid "%1 says: %2"
+msgstr "%1 сообщает: %2"
+
+msgid "Accept friendship"
+msgstr "Принять дружбу"
+
+msgid "Click accept if %1 is in fact a friend"
+msgstr "Нажмите Принять, если %1 - действительно друг"
+
+msgid "Decline"
+msgstr "Отклонить"
+
+msgid "Click decline if %1 is not a friend"
+msgstr "Нажмите Отклонить, если %1 не является другом"
+
+msgid "No request"
+msgstr "Нет запроса"
+
+msgid "Friendship confirmed"
+msgstr "Дружба подтверждена"
+
+msgid "Your friendship with %1 has been confirmed."
+msgstr "Ваша дружба с %1 была подтверждена."
+
+msgid "Friendship declined"
+msgstr "Дружба отклонена"
+
+msgid "You have declined friendship with %1"
+msgstr "Вы отказались от дружбы с %1"
+
+msgid "Notification not found"
+msgstr "Уведомление не найдено"
+
+msgid "Friend confirmed"
+msgstr "Друг подтвердил"
+
+msgid "You are now friends with %1."
+msgstr "Вы теперь друзья с %1."
+
 msgid "Cancel friendship?"
-msgstr "Прекратить дружбу"
+msgstr "Прекратить дружбу?"
 
 msgid "Are you sure you want to cancel your friendship with %1?"
-msgstr ""
+msgstr "Вы уверены, что хотите прекратить дружбу с %1?"
 
 msgid "Yes"
-msgstr ""
+msgstr "Да"
 
 msgid "No"
-msgstr ""
+msgstr "Нет"
 
 msgid "Stay friends"
-msgstr ""
+msgstr "Остаться друзьями"
 
 msgid "Friendship cancelled"
-msgstr ""
+msgstr "Дружба прекращена"
 
 msgid "Your friendship with %1 has been cancelled."
-msgstr ""
+msgstr "Ваша дружба с %1 была прекращена."
 
 msgid "Unknown action"
-msgstr ""
+msgstr "Неизвестное действие"
 
 msgid "Welcome to %1"
 msgstr "Добро пожаловать в %1"
@@ -1029,6 +1067,12 @@ msgid ""
 "them to your %2message filter%3.  This will prevent you from seeing any "
 "public or private messages from that user."
 msgstr ""
+"Личные сообщения, отправляемые на веб-сайте %1, видимы только отправителю и "
+"получателю. %1 не просматривает и не контролирует содержимое личных "
+"сообщений. Если Вы получаете нежелательные личные сообщения от некоторых "
+"пользователей %1, Вы можете добавить их в ваш %2фильтр сообщений%3. В этом "
+"случае Вы не увидите ни одного общего или личного сообщения от таких "
+"пользователей."
 
 msgid ""
 "If you use our web site forums you must follow the %2posting guidelines%3.  "
@@ -1036,6 +1080,11 @@ msgid ""
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
+"Если Вы используете форумы нашего веб-сайта, Вы должны следовать %2данным "
+"рекомендациям%3. Сообщения, публикуемые на форумах %1, видны каждому, в том "
+"числе лицам, не являющимся участниками проекта. Публикуя сообщения на "
+"форумах, Вы предоставляете каждому безотзывную лицензию на просмотр и "
+"копирование ваших сообщений."
 
 msgid "Is it safe to run %1?"
 msgstr "Безопасно ли запускать %1?"
@@ -1126,9 +1175,8 @@ msgstr "Отправитель и дата"
 msgid "Reply"
 msgstr "Ответить"
 
-#, fuzzy
 msgid "Delete selected messages"
-msgstr "С выбранными сообщениями"
+msgstr "Удалить выбранные сообщения"
 
 msgid "Sender"
 msgstr "Отправитель"
@@ -1245,135 +1293,149 @@ msgstr "Нет профилей"
 msgid "No profiles matched your query."
 msgstr "Нет профилей, соответствующих Вашему запросу."
 
+#, fuzzy
 msgid "Invalid vote type:"
-msgstr ""
+msgstr "Неверный тип голоса:"
 
 msgid "Vote Recorded"
-msgstr ""
+msgstr "Голос принят"
 
 msgid "Thank you"
-msgstr ""
+msgstr "Спасибо"
 
 msgid "Your recommendation has been recorded."
-msgstr ""
+msgstr "Ваша рекомендация была принята."
 
 msgid "Your vote to reject this profile has been recorded."
-msgstr ""
+msgstr "Ваш голос против этого профиля был принят."
 
 msgid "Return to profile."
-msgstr ""
+msgstr "Вернуться к профилю."
 
 msgid "This feature is turned off temporarily"
-msgstr ""
+msgstr "Эта возможность временно отключена"
 
 msgid "No computer with ID %1 found"
-msgstr ""
+msgstr "Компьютер с ID %1 не найден"
 
 msgid "Tasks for computer %1"
-msgstr ""
+msgstr "Задания для компьютера %1"
 
 msgid "No access"
-msgstr ""
+msgstr "Нет доступа"
 
 msgid "Missing user ID or host ID"
-msgstr ""
+msgstr "Отсутствует ID пользователя или ID компьютера"
 
-#, fuzzy
 msgid "User of the day"
 msgstr "Пользователь Дня"
 
 msgid "Account data for %1"
-msgstr ""
+msgstr "Учетные данные для %1"
 
 msgid "Statistics and leaderboards"
-msgstr ""
+msgstr "Статистика и лидеры"
 
 msgid "Statistics for %1"
-msgstr ""
+msgstr "Статистика %1"
 
 msgid "Top participants"
 msgstr "Лучшие участники"
 
 msgid "Top computers"
-msgstr ""
+msgstr "Лучшие компьютеры"
 
-#, fuzzy
 msgid "Top teams"
-msgstr "Лучшие %1 команды"
+msgstr "Лучшие команды"
 
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
 "at several web sites:"
 msgstr ""
+"Более детальная статистика %1 и других BOINC-проектов доступна на нескольких "
+"вебсайтах:"
 
+#, fuzzy
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
 msgstr ""
+"Вы также можете получить вашу текущую статистику в виде \"изображения "
+"подписи\":"
 
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
 msgstr ""
+"Дополнительно Вы можете получить вашу индивидуальную суммарную статистику по "
+"всем проектам BOINC с нескольких вебсайтов; см. вашу %1домашнюю страницу%2."
 
 msgid "%1 participants may form %2teams%3"
-msgstr ""
+msgstr "Участники %1 могут объединяться в %2команды%3"
 
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
 msgstr ""
+"Вы можете состоять только в одной команде. Вы можете присоединиться или "
+"покинуть команду в любое время."
 
 msgid "Each team has a %1founder%2 who may:"
-msgstr ""
+msgstr "У каждой команды есть %1основатель%2, который может:"
 
 msgid "access team members' email addresses"
-msgstr ""
+msgstr "иметь доступ к адресам электронной почты участников команды"
 
 msgid "edit the team's name and description"
-msgstr ""
+msgstr "редактировать название и описание команды"
 
 msgid "remove members from the team"
-msgstr ""
+msgstr "удалять участников из команды"
 
 msgid "disband a team if it has no members"
-msgstr ""
+msgstr "расформировать команду, в которой нет участников"
 
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
+"Чтобы присоединиться к команде, посетите ее страницу и нажмите "
+"%1Присоединиться к этой команде%2."
 
-#, fuzzy
 msgid "Find a team"
-msgstr "найти команду"
+msgstr "Найти команду"
 
 msgid "All teams"
-msgstr ""
-
-msgid "%1 teams"
-msgstr ""
+msgstr "Все команды"
 
 #, fuzzy
+msgid "%1 teams"
+msgstr "Команды %1"
+
 msgid "Create a new team"
-msgstr "Создать новую тему"
+msgstr "Создать новую команду"
 
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr ""
+"Если Вы не можете найти подходящую Вам команду, Вы можете %1создать новую "
+"команду%2."
 
 msgid "You must choose a non-blank team name"
-msgstr ""
+msgstr "Вы должны выбрать непустое имя команды"
 
+#, fuzzy
 msgid "A team named %1 already exists - try another name"
-msgstr ""
+msgstr "Команда с названием %1 уже существует - попробуйте другое имя"
 
 msgid "Could not create team - please try later."
-msgstr ""
+msgstr "Не удалось создать команду - пожалуйста попытайтесь позже."
 
 msgid "Create a team"
-msgstr ""
+msgstr "Создать команду"
 
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
+"Вы состоите в команде %1. Вы должны %2выйти из этой команды%3 перед "
+"созданием новой."
 
 msgid "Top hosts"
 msgstr "Лучшие компьютеры"
@@ -1382,13 +1444,13 @@ msgid "Top %1 teams"
 msgstr "Лучшие %1 команды"
 
 msgid "Participant since"
-msgstr "Учавствует с"
+msgstr "Участвует с"
 
 msgid "This user has no profile"
-msgstr ""
+msgstr "У этого пользователя нет профиля"
 
 msgid "Account data"
-msgstr ""
+msgstr "Данные учетной записи"
 
 msgid ""
 "Your 'weak account key' lets you attach computers to your account on this "
