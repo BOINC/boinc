@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-05-09 05:21-0700\n"
+"PO-Revision-Date: 2009-05-21 07:16-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -123,22 +123,22 @@ msgid "unread"
 msgstr "ungelesen"
 
 msgid "Edit your profile"
-msgstr ""
+msgstr "Profil bearbeiten"
 
 msgid "Your feedback on this profile"
-msgstr ""
+msgstr "Ihre Meinung zu diesem Profil"
 
 msgid "Recommend this profile for User of the Day:"
-msgstr ""
+msgstr "Dieses Profil für den Benutzer des Tages vorschlagen:"
 
 msgid "I %1like%2 this profile"
-msgstr ""
+msgstr "Das Profil ist %1lesenswert%2"
 
 msgid "Alert administrators to an offensive profile:"
-msgstr ""
+msgstr "Den Administrator auf ein fragwürdiges Profil hinweisen:"
 
 msgid "I %1do not like%2 this profile"
-msgstr ""
+msgstr "Das Profil ist %1nicht lesenswert%2"
 
 msgid "Search criteria (use one or more)"
 msgstr "Suchkriterien (eins oder mehrere nutzbar)"
@@ -182,7 +182,7 @@ msgid "Initiate request"
 msgstr "Übernahme einleiten"
 
 msgid "Deferred"
-msgstr "Zurückgestellt"
+msgstr "laufende Übernahme"
 
 msgid "Team info"
 msgstr "Team Informationen"
@@ -224,7 +224,7 @@ msgstr ""
 "der Gründer des Teams Ihre Emailadresse einsehen."
 
 msgid "Not accepting new members"
-msgstr ""
+msgstr "Akzeptiert keine neuen Mitglieder"
 
 msgid "Foundership change requested"
 msgstr "Wechsel des Gründerstatus beantragt"
@@ -411,9 +411,8 @@ msgstr "Ermöglicht vollen Zugriff auf Ihr Konto"
 msgid "Weak account key"
 msgstr "schwacher Kontoschlüssel"
 
-#, fuzzy
 msgid "Provides %1limited access%2 to your account"
-msgstr "Ermöglicht vollen Zugriff auf Ihr Konto"
+msgstr "Ermöglicht %1eingeschränkten Zugriff%2 auf Ihr Konto"
 
 msgid "Preferences"
 msgstr "Einstellungen"
@@ -549,7 +548,7 @@ msgid "Platform"
 msgstr "Plattform"
 
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 msgid "Installation time"
 msgstr "Installiert am"
@@ -621,98 +620,118 @@ msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
 msgstr ""
 
 msgid "Picture"
-msgstr ""
+msgstr "Bild"
 
+#, fuzzy
 msgid "%1 Your profile picture is shown to the left."
-msgstr ""
+msgstr "%1 Ihr Profilbild wird auf der linken Seite angezeigt."
 
+#, fuzzy
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
+"Zum ersetzen wählen Sie eine JPG oder PNG Datei (max. %1) mit der \"Browse\" "
+"Schaltfläche aus."
 
 msgid "To remove it from your profile, check this box:"
-msgstr ""
+msgstr "Bild aus meinem Profil entfernen:"
 
+#, fuzzy
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
+"Wenn Sie Ihr Profil mit einem Bild versehen wollen, wählen Sie eine JPEG "
+"oder PNG Datei (max. %1) mit der \"Browse\" Schaltfläche aus."
 
 msgid "Language"
-msgstr ""
+msgstr "Sprache"
 
 msgid "Select the language in which your profile is written:"
-msgstr ""
+msgstr "Die Sprache, welche in Ihrem Profil verwendet wird:"
 
 msgid "Submit profile"
-msgstr ""
+msgstr "Profil speichern"
 
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
-msgstr ""
+msgstr "Zum Schutz vor unerwünschter Werbung tragen Sie hier bitte die zwei Wörter "
+"aus dem obigen Bild ein:<br>\n"
 
 msgid "Create/edit profile"
-msgstr ""
+msgstr "Profil erstellen/bearbeiten"
 
 msgid "The format of your uploaded image is not supported."
-msgstr ""
+msgstr "Das Format Ihres hoch geladenen Bildes wird nicht unterstützt."
 
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr ""
+"Mit Ihrem %1Profil%2 können Sie Ihre Ansichten und Meinungen der %3 "
+"Community mitteilen."
 
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr ""
+"Die reCaptcha Auswertung war nicht korrekt. Bitte versuchen Sie es erneut."
 
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Ihr verwendeter Text wurde beim ersten Versuch als Spam erkannt. Bitte "
+"verändern Sie Ihren Text und versuchen Sie es erneut."
 
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Ihr verwendeter Text wurde beim zweiten Versuch als Spam erkannt. Bitte "
+"verändern Sie Ihren Text und versuchen Sie es erneut."
 
 msgid "Your profile submission was empty."
-msgstr ""
+msgstr "Die Eingabefelder Ihres Profils waren leer."
 
 msgid "Could not update the profile: database error"
-msgstr ""
+msgstr "Datenbankfehler: Profil konnte nicht aktualisiert werden"
 
 msgid "Could not create the profile: database error"
-msgstr ""
+msgstr "Datenbankfehler: Profil konnte nicht erstellt werden"
 
 msgid "Profile saved"
-msgstr ""
+msgstr "Profil gespeichert"
 
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr ""
+msgstr "Glückwunsch! Ihr Profil wurde in unsere Datenbank aufgenommen."
 
 msgid "%1View your profile%2"
-msgstr ""
+msgstr "%1Ihr Profil ansehen%2"
 
 msgid "Create a profile"
-msgstr ""
+msgstr "Profil erstellen"
 
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
 msgstr ""
+"Zum Schutz vor unerwünschter Werbung ist ein durchschnittliches Guthaben von "
+"min. %1 erforderlich um ein Profil zu erstellen. Wir entschuldigen uns für "
+"diese Unannehmlichkeit."
 
 msgid "Download BOINC add-on software"
-msgstr ""
+msgstr "BOINC Add-On's herunterladen"
 
 msgid "You can download applications in several categories."
-msgstr ""
+msgstr "Die Anwendungen sind nach Kategorien sortiert."
 
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
 msgstr ""
+"Diese Anwendungen werden nicht von %1 unterstützt. Benutzung erfolgt auf "
+"eigene Gefahr."
 
 msgid ""
 "We do not provide instructions for installing these applications.\n"
@@ -720,12 +739,16 @@ msgid ""
 "uninstalling the application. \n"
 "If this is not enough you should contact the author."
 msgstr ""
+"Wir stellen keine Anleitungen zur Installation der Anwendungen bereit.\n"
+"Weitere Informationen sind beim Urheber/Herausgeber der Anwendung "
+"erhältlich."
 
 msgid "Instructions for installing and running BOINC are %1here%2."
 msgstr ""
+"Anweisungen und Hilfe zur %1Installation von BOINC%2 sind jedoch erhältlich."
 
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr ""
+msgstr "Diese Auflistung wird von der %1zentralen BOINC Webseite%2 verwaltet."
 
 msgid "fll"
 msgstr ""
@@ -745,6 +768,8 @@ msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
+"Bei Fragen oder Problemen benutzen Sie bitte die Diskussionsforen für "
+"%1Fragen & Antworten%2."
 
 msgid "Topic"
 msgstr "Themengebiet"
@@ -765,9 +790,11 @@ msgstr "Ergebnisse der Forensuche"
 
 msgid "No thread with id %1. Please check the link and try again."
 msgstr ""
+"Kein Thema mit der ID %1 gefunden. Bitte überprüfen Sie den Link und "
+"versuchen Sie es erneut."
 
 msgid "This forum is not visible to you."
-msgstr ""
+msgstr "Dieses Forum ist für Sie nicht verfügbar."
 
 # ########################################
 # Forum thread
@@ -775,95 +802,102 @@ msgid "This thread has been hidden for administrative purposes"
 msgstr "Dieses Thema wurde von einem Administrator ausgeblendet"
 
 msgid "My question was answered"
-msgstr ""
+msgstr "Meine Frage wurde beantwortet"
 
 msgid ""
 "If your question has been adequately answered please click here to close it!"
 msgstr ""
+"Klicken Sie hier falls Ihre Frage adäquat beantwortet wurde, um diese zu "
+"schließen."
 
+#, fuzzy
 msgid "I've also got this question"
-msgstr ""
+msgstr "Ich möchte auch eine Antwort zu dieser Frage"
 
 msgid "Add a new message to this thread"
-msgstr ""
+msgstr "Eine neue Nachricht zu diesem Thema schreiben"
 
 msgid "Unsubscribe"
 msgstr "Nicht mehr abonnieren"
 
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
-msgstr ""
+msgstr "Sie haben dieses Thema abonniert. Hier klicken zum abbestellen."
 
 msgid "Subscribe"
 msgstr "Abonnieren"
 
+#, fuzzy
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
+"Anklicken um benachrichtigt zu werden, wenn neue Beiträge geschrieben "
+"wurden."
 
 msgid "Unhide"
-msgstr ""
+msgstr "Sichtbar machen"
 
 msgid "Unhide this thread"
-msgstr ""
+msgstr "Dieses Thema wieder sichtbar machen"
 
 msgid "Hide"
-msgstr ""
+msgstr "Verstecken"
 
 msgid "Hide this thread"
-msgstr ""
+msgstr "Dieses Thema vor der Öffentlichkeit verstecken"
 
+#, fuzzy
 msgid "Make unsticky"
-msgstr ""
+msgstr "Entpinnen"
 
 msgid "Make this thread not sticky"
-msgstr ""
+msgstr "Dieses Thema nicht mehr anpinnen"
 
 msgid "Make sticky"
-msgstr ""
+msgstr "Anpinnen"
 
 msgid "Make this thread sticky"
-msgstr ""
+msgstr "Dieses Thema anpinnen"
 
 msgid "Unlock"
-msgstr ""
+msgstr "Entsperren"
 
 msgid "Unlock this thread"
-msgstr ""
+msgstr "Dieses Thema entsperren"
 
 msgid "Lock"
-msgstr ""
+msgstr "Sperren"
 
 msgid "Lock this thread"
-msgstr ""
+msgstr "Dieses Thema sperren"
 
 msgid "Move"
-msgstr ""
+msgstr "Verschieben"
 
 msgid "Move this thread to a different forum"
-msgstr ""
+msgstr "Dieses Thema in ein anderes Forum verschieben"
 
 msgid "Edit title"
-msgstr ""
+msgstr "Titel bearbeiten"
 
 msgid "Edit thread title"
-msgstr ""
+msgstr "Den Titel des Themas bearbeiten"
 
 msgid "Sort"
-msgstr ""
+msgstr "Sortieren"
 
 msgid "Already friends"
-msgstr ""
+msgstr "Ihr seit bereits Freunde"
 
 msgid "You requested friendship with %1 on %2."
-msgstr ""
+msgstr "Sie haben die Freundschaft mit %1 am %2 angefragt."
 
 msgid "This request is still pending confirmation."
-msgstr ""
+msgstr "Es wird noch auf eine Antwort gewartet."
 
 msgid "%1 is not accepting friendship requests from you"
-msgstr ""
+msgstr "%1 hat einer Freundschaft mit Ihnen nicht zugestimmt"
 
 msgid "You can't be friends with yourself"
-msgstr ""
+msgstr "Sie können nicht mit sich selbst Freundschaft schließen."
 
 msgid "No such user"
 msgstr "Benutzer nicht gefunden"
@@ -876,91 +910,93 @@ msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
+"Sie möchten mit %1 Freundschaft schließen. Wir werden %2 benachrichtigen und "
+"Ihn/Sie bitten die Freundschaft zu bestätigen."
 
 msgid "Add an optional message here:"
-msgstr ""
+msgstr "Eine Nachricht mitsenden (optional):"
 
 msgid "Database error"
-msgstr ""
+msgstr "Datenbankfehler"
 
 msgid "Friend request sent"
-msgstr ""
+msgstr "Freundschaftsanfrage gesendet"
 
 msgid "We have notified %1 of your request."
-msgstr ""
+msgstr "Wir haben %1 über die Anfrage benachrichtigt."
 
 msgid "Request not found"
-msgstr ""
+msgstr "Anfrage nicht gefunden"
 
 msgid "Friend request"
-msgstr ""
+msgstr "Freundschaftsanfrage"
 
 msgid "%1 has added you as a friend."
-msgstr ""
+msgstr "%1 hat Sie als Freund hinzugefügt."
 
 msgid "%1 says: %2"
-msgstr ""
+msgstr "%1 sagt: %2"
 
 msgid "Accept friendship"
-msgstr ""
+msgstr "Freundschaft akzeptieren"
 
 msgid "Click accept if %1 is in fact a friend"
-msgstr ""
+msgstr "Akzeptieren anklicken wenn %1 tatsächlich ein Freund ist"
 
 msgid "Decline"
-msgstr ""
+msgstr "Ablehnen"
 
 msgid "Click decline if %1 is not a friend"
-msgstr ""
+msgstr "Ablehnen anklicken wenn %1 kein Freund ist"
 
 msgid "No request"
-msgstr ""
+msgstr "Keine Anfrage"
 
 msgid "Friendship confirmed"
-msgstr ""
+msgstr "Freundschaft bestätigt"
 
 msgid "Your friendship with %1 has been confirmed."
-msgstr ""
+msgstr "Ihre Freundschaft mit %1 wurde bestätigt."
 
 msgid "Friendship declined"
-msgstr ""
+msgstr "Freundschaft abgelehnt"
 
 msgid "You have declined friendship with %1"
-msgstr ""
+msgstr "Sie haben die Freundschaft mit %1 abgelehnt."
 
 msgid "Notification not found"
-msgstr ""
+msgstr "Benachrichtigung nicht gefunden"
 
 msgid "Friend confirmed"
-msgstr ""
+msgstr "Freundschaft bestätigt"
 
 msgid "You are now friends with %1."
-msgstr ""
+msgstr "Sie sind nun mit %1 befreundet."
 
-#, fuzzy
 msgid "Cancel friendship?"
 msgstr "Freundschaft aufheben"
 
+#, fuzzy
 msgid "Are you sure you want to cancel your friendship with %1?"
-msgstr ""
+msgstr "Sind Sie sicher die Freundschaft mit %1 aufzuheben?"
 
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 msgid "No"
-msgstr ""
+msgstr "Nein"
 
 msgid "Stay friends"
-msgstr ""
+msgstr "Freunde bleiben"
 
 msgid "Friendship cancelled"
-msgstr ""
+msgstr "Freundschaft aufgehoben"
 
 msgid "Your friendship with %1 has been cancelled."
-msgstr ""
+msgstr "Ihre Freundschaft mit %1 wurde aufgehoben."
 
 msgid "Unknown action"
-msgstr ""
+msgstr "Unbekannte Aktion"
 
 msgid "Welcome to %1"
 msgstr "Willkommen bei %1"
@@ -1055,6 +1091,7 @@ msgstr ""
 "Ihnen möglicherweise in regelmässigen Abständen Newsletter senden; darauf "
 "können Sie aber jederzeit verzichten."
 
+#, fuzzy
 msgid ""
 "Private messages sent on the %1 web site are visible only to the sender and "
 "recipient.  %1 does not examine or police the content of private messages.  "
@@ -1062,13 +1099,24 @@ msgid ""
 "them to your %2message filter%3.  This will prevent you from seeing any "
 "public or private messages from that user."
 msgstr ""
+"Über die %1 Webseite versendete Private Nachrichten können nur vom Sender "
+"und Empfänger gelesen werden. %1 unternimmt keine Überprüfung des Inhalts "
+"von privaten Nachrichten. Wenn Sie ungewollt private Nachrichten von einem "
+"%1 Benutzer erhalten, können Sie diesen zu Ihrem %2Filter hinzufügen%3. "
+"Damit sehen Sie keine öffentlichen und privaten Nachrichten dieses Benutzers "
+"mehr."
 
+#, fuzzy
 msgid ""
 "If you use our web site forums you must follow the %2posting guidelines%3.  "
 "Messages posted to the %1 forums are visible to everyone, including non-"
 "members.  By posting to the forums, you are granting irrevocable license for "
 "anyone to view and copy your posts."
 msgstr ""
+"Wenn Sie unsere Diskussionsforen benutzen müssen Sie die %2Regeln & "
+"Grundsätze%3 befolgen. Nachrichten in den %1 Diskussionsforen sind "
+"öffentlich sichtbar. Mit dem veröffentlichen stimmen Sie zu das jedermann "
+"Ihre Nachrichten ansehen und kopieren darf."
 
 msgid "Is it safe to run %1?"
 msgstr "Sicherheit"
@@ -1084,7 +1132,7 @@ msgid ""
 msgstr ""
 "Wann immer Sie ein Programm aus dem Internet herunterladen, riskieren Sie, "
 "dass das Programm gefährliche Fehler enthalten, oder der Download-Server "
-"gehackt worden sein könnte. Für %1 wurden grosse Anstrengungen unternommen, "
+"gehackt worden sein könnte. Für %1 wurden große Anstrengungen unternommen, "
 "diese Risiken zu minimieren. Wir haben unsere Anwendungen einer sorgfältigen "
 "Prüfung unterzogen. Unsere Server werden durch eine Firewall und weitere "
 "Sicherheitsmechanismen geschützt. Um sicherzustellen, dass die vom Programm "
@@ -1162,9 +1210,8 @@ msgstr "Absender und Zeit"
 msgid "Reply"
 msgstr "Antworten"
 
-#, fuzzy
 msgid "Delete selected messages"
-msgstr "Mit den gewählten Nachrichten"
+msgstr "Ausgewählte Nachrichten löschen"
 
 msgid "Sender"
 msgstr "Absender"
@@ -1289,47 +1336,47 @@ msgid "Invalid vote type:"
 msgstr ""
 
 msgid "Vote Recorded"
-msgstr ""
+msgstr "Stimme gespeichert"
 
 msgid "Thank you"
-msgstr ""
+msgstr "Dankeschön"
 
 msgid "Your recommendation has been recorded."
-msgstr ""
+msgstr "Ihre Empfehlung wurde gespeichert."
 
 msgid "Your vote to reject this profile has been recorded."
-msgstr ""
+msgstr "Ihre Stimme zur Abweisung dieses Profils wurde gespeichert."
 
 msgid "Return to profile."
-msgstr ""
+msgstr "Zum Profil zurückkehren."
 
 msgid "This feature is turned off temporarily"
-msgstr ""
+msgstr "Diese Funktion ist zur Zeit deaktiviert."
 
 msgid "No computer with ID %1 found"
-msgstr ""
+msgstr "Kein Computer mit der ID %1 gefunden"
 
 msgid "Tasks for computer %1"
-msgstr ""
+msgstr "Aufgaben für Computer %1"
 
 msgid "No access"
-msgstr ""
+msgstr "Zugang verweigert"
 
 msgid "Missing user ID or host ID"
-msgstr ""
+msgstr "Fehlende Benutzer oder Rechner ID"
 
 #, fuzzy
 msgid "User of the day"
 msgstr "Benutzer des Tages"
 
 msgid "Account data for %1"
-msgstr ""
+msgstr "Kontodaten von %1"
 
 msgid "Statistics and leaderboards"
-msgstr ""
+msgstr "Statistiken und Ranglisten"
 
 msgid "Statistics for %1"
-msgstr ""
+msgstr "Statistiken von %1"
 
 # ########################################
 # Various top table pages (top users, computers, teams)
@@ -1337,85 +1384,98 @@ msgid "Top participants"
 msgstr "Die besten Teilnehmer"
 
 msgid "Top computers"
-msgstr ""
+msgstr "Die besten Computer"
 
-#, fuzzy
 msgid "Top teams"
-msgstr "Die besten %1 Teams"
+msgstr "Die besten Teams"
 
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
 "at several web sites:"
 msgstr ""
+"Mehr detaillierte Statistiken von %1 und anderen BOINC-basierten Projekten "
+"sind auf den folgenden Webseiten verfügbar:"
 
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
 msgstr ""
+"Sie können außerdem Ihre aktuelle Statistik in Form eines Signaturbildes "
+"bekommen:"
 
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
 msgstr ""
+"Eine Zusammenfassung der Statistik für alle BOINC Projekte, an denen Sie "
+"teilnehmen, finden Sie auf %1Ihrer Kontoseite%2."
 
 msgid "%1 participants may form %2teams%3"
-msgstr ""
+msgstr "%1 Teilnehmer können %2Teams%2 bilden."
 
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
 msgstr ""
+"Sie können nur einem Team gleichzeitig angehören. Sie können allerdings das "
+"Team jederzeit wechseln."
 
 msgid "Each team has a %1founder%2 who may:"
-msgstr ""
+msgstr "Jedes Team besitzt einen %1Gründer%2 welcher:"
 
 msgid "access team members' email addresses"
-msgstr ""
+msgstr "die E-Mailadressen der Mitglieder einsehen kann,"
 
 msgid "edit the team's name and description"
-msgstr ""
+msgstr "den Namen und die Beschreibung des Teams ändern kann,"
 
 msgid "remove members from the team"
-msgstr ""
+msgstr "Mitglieder aus dem Team entfernen kann,"
 
 msgid "disband a team if it has no members"
-msgstr ""
+msgstr "ein Team auflösen kann, wenn es keine Mitglieder mehr hat."
 
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
+"Um einem Team beizutreten besuchen Sie die Teamseite und benutzen Sie den "
+"%1Diesem Team beitreten%2 Link."
 
-#, fuzzy
 msgid "Find a team"
-msgstr "Team finden"
+msgstr "Ein Team finden"
 
 msgid "All teams"
-msgstr ""
-
-msgid "%1 teams"
-msgstr ""
+msgstr "Alle Teams"
 
 #, fuzzy
+msgid "%1 teams"
+msgstr "Teams vom Typ %1"
+
 msgid "Create a new team"
-msgstr "Neues Thema anlegen"
+msgstr "Neues Team erstellen"
 
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr ""
+"Wenn Sie kein passendes Team finden können dann sollten Sie ein %1neues Team "
+"erstellen%2."
 
 msgid "You must choose a non-blank team name"
-msgstr ""
+msgstr "Der Name des Teams darf nicht leer sein."
 
 msgid "A team named %1 already exists - try another name"
-msgstr ""
+msgstr "Das Team %1 besteht bereits, bitte wählen Sie einen anderen Namen."
 
 msgid "Could not create team - please try later."
 msgstr ""
+"Das Team konnte nicht erstellt werden, bitte später noch einmal probieren."
 
 msgid "Create a team"
-msgstr ""
+msgstr "Ein Team erstellen"
 
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
+"Du bist Mitglied von %1. Du musst aus dem %2Team austreten%3 um ein neues zu "
+"erstellen."
 
 msgid "Top hosts"
 msgstr "Die besten Rechner"
@@ -1427,10 +1487,10 @@ msgid "Participant since"
 msgstr "Teilnehmer seit"
 
 msgid "This user has no profile"
-msgstr ""
+msgstr "Dieser Benutzer hat kein Profil."
 
 msgid "Account data"
-msgstr ""
+msgstr "Kontoinformationen"
 
 #, fuzzy
 msgid ""
