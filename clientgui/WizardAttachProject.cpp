@@ -339,12 +339,32 @@ bool CWizardAttachProject::SyncToAccountManager() {
         m_bCredentialsCached = ami.have_credentials;
     }
 
-    if ( ami.acct_mgr_url.size() && !ami.have_credentials) {
-        return RunWizard(m_AccountManagerPropertiesPage);
-    } else if ( ami.acct_mgr_url.size() && ami.have_credentials) {
+    if (ami.acct_mgr_url.size() && !m_bCredentialsCached) {
+        std::string login;
+        std::string password_hash;
+
+        if (detect_account_manager_credentials(ami.acct_mgr_url, login, password_hash)) {
+            wxString strLogin;
+            wxString strPasswordHash;
+
+            strLogin = wxURL::Unescape( wxString(login.c_str(), wxConvUTF8) );
+            strPasswordHash = wxURL::Unescape( wxString(password_hash.c_str(), wxConvUTF8) );
+
+            m_AccountInfoPage->SetAccountEmailAddress( strLogin );
+            m_AccountInfoPage->SetAccountPassword(
+                wxString(_T("hash:")) +
+                strPasswordHash
+            );
+            m_bCredentialsDetected = true;
+        }
+    }
+
+    if ( !ami.acct_mgr_url.empty() && (m_bCredentialsCached || m_bCredentialsDetected) && m_AccountManagerProcessingPage) {
         IsAccountManagerUpdateWizard = true;
         IsAccountManagerRemoveWizard = false;
         return RunWizard(m_AccountManagerProcessingPage);
+    } else if ( ami.acct_mgr_url.size() && !m_bCredentialsCached && m_AccountManagerProcessingPage) {
+        return RunWizard(m_AccountManagerPropertiesPage);
     }
 
     return FALSE;

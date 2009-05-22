@@ -789,10 +789,15 @@ static void handle_acct_mgr_rpc(char* buf, MIOFILE& fout) {
         if (!bad_arg) {
             name_lc = name;
             downcase_string(name_lc);
-            password_hash = md5_string(password+name_lc);
+            if (!starts_with(password, "hash:")) {
+                password_hash = md5_string(password+name_lc);
+            } else {
+                // Remove 'hash:'
+                password_hash = password.substr(5);
+            }
         }
     } else {
-        if (!strlen(gstate.acct_mgr_info.acct_mgr_url) || !strlen(gstate.acct_mgr_info.acct_mgr_url) || !strlen(gstate.acct_mgr_info.acct_mgr_url)) {
+        if (!strlen(gstate.acct_mgr_info.acct_mgr_url)) {
             bad_arg = true;
             msg_printf(NULL, MSG_INTERNAL_ERROR,
                 "Account manager info missing from config file"

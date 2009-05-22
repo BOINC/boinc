@@ -4686,3 +4686,16 @@ David  20 May 2009
 
     html/inc/
         boinc_db.inc
+
+Rom    22 May 2009
+    - MGR/client: Enable cookie support for Account Managers
+
+    client/
+        gui_rpc_server_ops.cpp
+    clientgui/
+        AccountManagerProcessingPage.cpp
+        AccountManagerPropertiesPage.cpp
+        browser.cpp
+        MainDocument.cpp
+        WizardAttachProject.cpp
+        

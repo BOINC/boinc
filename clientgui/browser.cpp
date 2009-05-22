@@ -491,7 +491,7 @@ bool detect_cookie_mozilla_v3(
     std::string hostname;
     char        query[1024];
     sqlite3*    db;
-    char*       szSQLErrorMessage = NULL;
+    char*       lpszSQLErrorMessage = NULL;
     int         rc;
     MOZILLA_COOKIE_SQL cookie;
 
@@ -508,17 +508,17 @@ bool detect_cookie_mozilla_v3(
     }
     
     // construct SQL query to extract the desired cookie
-    // SELECT host, name, value, expiry from moz_cookies WHERE name = '%s' AND host LIKE '%s'
+    // SELECT host, name, value, expiry from moz_cookies WHERE name = '%s' AND host LIKE '%%%s'
     snprintf(query, sizeof(query),
-        "SELECT host, name, value, expiry from moz_cookies WHERE name = '%s' AND host LIKE '%s'",
+        "SELECT host, name, value, expiry from moz_cookies WHERE name = '%s' AND host LIKE '%%%s'",
         name.c_str(),
         hostname.c_str()
     );
 
     // execute query
-    rc = sqlite3_exec(db, query, find_project_cookie_mozilla_v3, &cookie, &szSQLErrorMessage);
+    rc = sqlite3_exec(db, query, find_project_cookie_mozilla_v3, &cookie, &lpszSQLErrorMessage);
     if ( rc != SQLITE_OK ){
-        sqlite3_free(szSQLErrorMessage);
+        sqlite3_free(lpszSQLErrorMessage);
     }
 
     // cleanup
