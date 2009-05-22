@@ -9930,3 +9930,10 @@ Rom    3 Mar 2009
     /
         configure.ac
         version.h
+
+Rom    22 May 2009
+    - MGR: Support for newer versions of wxWidgets
+        (From: Sascha Manns)
+        
+    clientgui/
+        wxFlatNotebook.cpp
