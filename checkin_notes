@@ -4707,3 +4707,9 @@ Rom    20 May 2009
         configure.ac
         version.h
     
+David  22 May 2009
+    - web: escape forum RSS entries instead of stripping tags
+        (from Nicolas; fixes #899)
+
+    html/user/
+        forum_rss.php

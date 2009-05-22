@@ -122,7 +122,7 @@ foreach ($threads as $thread) {
     <title>".strip_tags($thread->title)."</title>
     <link>$unique_url</link>
     <guid isPermaLink=\"true\">$unique_url</guid>
-    <description>".substr(strip_tags($post->content),0,255)." . . .</description>
+    <description>".htmlspecialchars(htmlspecialchars(substr($post->content,0,255)))." . . .</description>
     <pubDate>$post_date</pubDate>
 </item>
 ";
