@@ -17,7 +17,9 @@ int zip_main(int argc, char** argv);
 #ifdef _WIN32
 #include <windows.h>
 #else
+#ifndef __APPLE_CC__
 #include "config.h"
+#endif
 #include <string>
 #include <string.h>
 using std::string;
