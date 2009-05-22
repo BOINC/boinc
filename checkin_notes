@@ -4698,4 +4698,12 @@ Rom    22 May 2009
         browser.cpp
         MainDocument.cpp
         WizardAttachProject.cpp
-        
+
+Rom    20 May 2009
+    - Tag for 6.7.5 release, all platforms
+      boinc_core_release_6_7_5
+
+    /
+        configure.ac
+        version.h
+    
