@@ -207,7 +207,7 @@ function language_form() {
         //."<option value=ar>العربية (Arabic)"
         //."<option value=be>Беларускі (Belarusian)"
         //."<option value=bg>Българск� (Bulgarian)"
-        //."<option value=ca>Català(Catalan)"
+        ."<option value=ca>Català(Catalan)"
         ."<option value=cs>Čeština (Czech)"
         ."<option value=de>Deutsch (German)"
         //."<option value=en>English"
