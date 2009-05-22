@@ -4713,3 +4713,10 @@ David  22 May 2009
 
     html/user/
         forum_rss.php
+
+David  22 May 2009
+    - web: clarify build_po.php
+
+    html/ops/
+        build_po.php
+        build_po_boinc.php (new)

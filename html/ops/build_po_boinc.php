@@ -1,18 +1,14 @@
 #!/usr/bin/php
 <?php
 
-// generate translation template "en.po" for project-specific pages
+// generate translation template "en.po" for BOINC web pages.
 //
-// Run this in project_root/html/.
-// edit the definition of FILE_LIST line so that it includes only your pages
-// (not BOINC-supplied pages)
+// Projects: don't use this.  Use build_po.php instead.
+//
+// Run this in boinc/html;
+// move the result to boinc/locale/templates/BOINC-Web.pot
 
-//$FILE_LIST = "user/index.php project/project.inc";
-
-if (!isset($FILE_LIST)) {
-    echo "You must edit build_po.php to specify your project's .php files\n";
-    exit;
-}
+$FILE_LIST = "inc/*.inc user/*.php project.sample/*.inc";
 
 $date = strftime('%Y-%m-%d %H:%M %Z');
 $header = <<<HDR
