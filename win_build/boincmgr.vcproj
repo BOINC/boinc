@@ -1551,18 +1551,6 @@
 				Name="Support"
 				>
 				<File
-					RelativePath="..\clientgui\BOINCBaseWizard.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\BOINCBaseWizard.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\BOINCWizards.h"
-					>
-				</File>
-				<File
 					RelativePath="..\clientgui\ProjectListCtrl.cpp"
 					>
 				</File>
@@ -1574,6 +1562,18 @@
 			<Filter
 				Name="Infrastructure"
 				>
+				<File
+					RelativePath="..\clientgui\BOINCBaseWizard.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\BOINCBaseWizard.h"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\BOINCWizards.h"
+					>
+				</File>
 				<File
 					RelativePath="..\clientgui\wizardex.cpp"
 					>
