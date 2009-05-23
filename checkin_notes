@@ -4720,3 +4720,9 @@ David  22 May 2009
     html/ops/
         build_po.php
         build_po_boinc.php (new)
+
+David  22 May 2009
+    - web: fix host-merge logic.  Fixes #893
+
+    html/inc
+        host.inc

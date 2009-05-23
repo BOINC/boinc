@@ -358,8 +358,12 @@ function cpus_compatible($host1, $host2) {
         $g1 = ghz($p1);
         $g2 = ghz($p2);
         if ($g1 && $g2) {
-            if ($g1 != $g2) return false;
-        } else {
+            if ($g1 != $g2) {
+                return false;
+            }
+        } else if ($g1 && !$g2) {
+            return false;
+        } else if (!$g1 && $g2) {
             return false;
         }
     } else if (strstr($p1, "AuthenticAMD") && strstr($p2, "AuthenticAMD")) {
@@ -369,7 +373,9 @@ function cpus_compatible($host1, $host2) {
 
         // they're compatible if models are the same,
         // or contents of [family/model/stepping] are the same
-        if ($host1pm != $host2pm) return false;
+        if ($host1pm != $host2pm) {
+            return false;
+        }
     }
     return true;
 }
