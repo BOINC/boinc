@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-02-07 11:19-0700\n"
+"PO-Revision-Date: 2009-05-23 02:02-0700\n"
 "Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -186,7 +186,7 @@ msgstr "&Salir"
 
 #: clientgui/AdvancedFrame.cpp:324
 msgid "&Advanced View\tCTRL+SHIFT+A"
-msgstr ""
+msgstr "Vista &Avanzada\tCTRL+SHIFT+A"
 
 #: clientgui/AdvancedFrame.cpp:325
 msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
@@ -196,7 +196,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "&Simple View...\tCTRL+SHIFT+S"
-msgstr ""
+msgstr "Vista &Simple...\tCTRL+SHIFT+S"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display the simple BOINC graphical interface."
@@ -751,6 +751,8 @@ msgstr "desactiva la seguridad de usuarios y permisos en BOINC"
 #: clientgui/BOINCGUIApp.cpp:529
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
+"activar modo depuración de pieles (skin) para permitir los mensajes de error "
+"del administrador de pieles"
 
 #: clientgui/BOINCGUIApp.cpp:689
 msgid "(Automatic Detection)"
@@ -1017,11 +1019,13 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:98
 msgid " Use GPU while computer is in use"
-msgstr ""
+msgstr "Usar la GPU cuando el ordenador está en uso"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
 msgid "check this if you want your GPU to do work even when you're using the computer"
 msgstr ""
+"márquela si quiere que su GPU ejecute tareas incluso cuando usted esté "
+"usando su ordenador"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:111
 msgid "Only after computer has been idle for"
@@ -1437,7 +1441,7 @@ msgstr "Asignación de recursos"
 
 #: clientgui/DlgItemProperties.cpp:111
 msgid "Scheduler RPC deferred for"
-msgstr ""
+msgstr "Petición (RPC) del planificador aplazada"
 
 #: clientgui/DlgItemProperties.cpp:114
 msgid "Non CPU intensive"
@@ -1505,31 +1509,31 @@ msgstr "Planificando"
 
 #: clientgui/DlgItemProperties.cpp:139
 msgid "CPU scheduling priority"
-msgstr ""
+msgstr "Planificación de CPU prioritaria"
 
 #: clientgui/DlgItemProperties.cpp:140
 msgid "CPU work fetch priority"
-msgstr ""
+msgstr "Búsqueda de trabajo para la CPU prioritaria"
 
 #: clientgui/DlgItemProperties.cpp:143
 msgid "CPU work fetch deferred for"
-msgstr ""
+msgstr "Búsqueda de trabajo para la CPU aplazada"
 
 #: clientgui/DlgItemProperties.cpp:144
 msgid "CPU work fetch deferral interval"
-msgstr ""
+msgstr "Intervalo de búsqueda de trabajo para la CPU"
 
 #: clientgui/DlgItemProperties.cpp:146
 msgid "NVIDIA GPU work fetch priority"
-msgstr ""
+msgstr "Búsqueda de trabajo para la GPU NVIDIA prioritaria"
 
 #: clientgui/DlgItemProperties.cpp:149
 msgid "NVIDIA GPU work fetch deferred for"
-msgstr ""
+msgstr "Búsqueda de trabajo para la GPU NVIDIA aplazada"
 
 #: clientgui/DlgItemProperties.cpp:150
 msgid "NVIDIA GPU work fetch deferral interval"
-msgstr ""
+msgstr "Intervalo de búsqueda de trabajo para la GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:152
 msgid "Duration correction factor"
@@ -1596,7 +1600,7 @@ msgstr "Tamaño conjunto trabajo"
 
 #: clientgui/DlgItemProperties.cpp:185
 msgid "Slot"
-msgstr ""
+msgstr "Espacio (slot)"
 
 #: clientgui/DlgItemProperties.cpp:283
 #: clientgui/ViewWork.cpp:1006
@@ -2212,16 +2216,15 @@ msgstr "URL del &Proyecto:"
 
 #: clientgui/ProjectInfoPage.cpp:320
 msgid "You are already attached to this project. Please choose a different project."
-msgstr ""
+msgstr "Usted ya está unido a este proyecto. Por favor, elija otro proyecto."
 
 #: clientgui/ProjectInfoPage.cpp:321
-#, fuzzy
 msgid "Already Attached to Project"
-msgstr "Unido ya a proyecto"
+msgstr "Unido ya al Proyecto"
 
 #: clientgui/ProjectInfoPage.cpp:348
 msgid "This project may not have work for your type of computer."
-msgstr ""
+msgstr "Este proyecto podría no tener trabajo para su tipo de ordenador."
 
 #: clientgui/ProjectListCtrl.cpp:338
 #, c-format
@@ -2975,23 +2978,23 @@ msgstr "Error"
 
 #: clientgui/ViewNews.cpp:76
 msgid "News Feeds"
-msgstr ""
+msgstr "Fuentes web"
 
 #: clientgui/ViewNews.cpp:80
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 #: clientgui/ViewNews.cpp:81
 msgid "Display the latest news about BOINC"
-msgstr ""
+msgstr "Mostrar las últimas noticias sobre BOINC"
 
 #: clientgui/ViewNews.cpp:87
 msgid "BOINC Website"
-msgstr ""
+msgstr "Sitio web de BOINC"
 
 #: clientgui/ViewNews.cpp:88
 msgid "Display the latest news about BOINC from the BOINC website"
-msgstr ""
+msgstr "Mostrar las últimas noticias sobre BOINC desde el sitio web de BOINC"
 
 #: clientgui/ViewProjects.cpp:173
 #: clientgui/ViewProjectsBase.cpp:107
@@ -3555,7 +3558,7 @@ msgstr "Nombre"
 
 #: clientgui/ViewWork.cpp:217
 msgid "Elapsed"
-msgstr ""
+msgstr "Transcurrido"
 
 #: clientgui/ViewWork.cpp:219
 #: clientgui/ViewWorkGrid.cpp:147
