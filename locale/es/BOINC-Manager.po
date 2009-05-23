@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-05-23 02:02-0700\n"
+"PO-Revision-Date: 2009-05-23 02:08-0700\n"
 "Last-Translator: David M <davidcomp@telefonica.net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -2978,7 +2978,7 @@ msgstr "Error"
 
 #: clientgui/ViewNews.cpp:76
 msgid "News Feeds"
-msgstr "Fuentes web"
+msgstr "Fuentes de noticias"
 
 #: clientgui/ViewNews.cpp:80
 msgid "BOINC"
