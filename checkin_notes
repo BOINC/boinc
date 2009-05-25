@@ -4732,3 +4732,9 @@ David  22 May 2009
 
     lib/
         gui_rpc_client_ops.cpp
+
+David  25 May 2009
+    - web: fix regular expression for "images as links"
+
+    html/inc/
+        text_transform.inc
