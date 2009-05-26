@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-05-04 12:15-0700\n"
+"PO-Revision-Date: 2009-05-22 13:18-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "Language: lt\n"
@@ -124,7 +124,7 @@ msgid "unread"
 msgstr "neskaityta"
 
 msgid "Edit your profile"
-msgstr ""
+msgstr "Keisti aprašymą"
 
 msgid "Your feedback on this profile"
 msgstr ""
@@ -133,13 +133,13 @@ msgid "Recommend this profile for User of the Day:"
 msgstr ""
 
 msgid "I %1like%2 this profile"
-msgstr ""
+msgstr "Man šis aprašymas %1patinka%2"
 
 msgid "Alert administrators to an offensive profile:"
 msgstr ""
 
 msgid "I %1do not like%2 this profile"
-msgstr ""
+msgstr "Man šis aprašymas %1nepatinka%2"
 
 msgid "Search criteria (use one or more)"
 msgstr "Paieškos kriterijai (naudokite vieną ar daugiau)"

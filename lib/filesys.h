@@ -27,11 +27,8 @@
 #else
 #include <dirent.h>
 #include <grp.h>
-
-#ifdef __cplusplus
-#include <cstdio>
+#include <stdio.h>
 #include <string>
-#endif
 
 #endif /* !WIN32 */
 
