@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.6 based rev.16826\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-05-13 10:54-0700\n"
+"PO-Revision-Date: 2009-05-26 13:59-0700\n"
 "Last-Translator: Kangsan Lee <netpres@chol.com>\n"
 "Language-Team: BOINC@KOREA\n"
 "Language: ko\n"
@@ -872,7 +872,7 @@ msgstr "닫으려면 완료를 클릭하세요."
 
 #: clientgui/CompletionErrorPage.cpp:235
 msgid "Messages from server:"
-msgstr "서버로부터 메시지:"
+msgstr "서버에서 온 메시지:"
 
 #: clientgui/CompletionPage.cpp:205
 msgid "Attached to project"
@@ -880,14 +880,14 @@ msgstr "프로젝트 연결됨"
 
 #: clientgui/CompletionPage.cpp:211
 msgid "You are now successfully attached to this project."
-msgstr "이 프로젝트 연결이 성공적으로 이뤄졌습니다."
+msgstr "해당 프로젝트 연결이 성공적으로 이뤄졌습니다."
 
 #: clientgui/CompletionPage.cpp:216
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
 msgstr ""
-"완료를 누르면, 브라우저가 당신이 계정 이름과 속성을\n"
+"완료를 누르면, 브라우저가 계정 이름과 속성을\n"
 "설정할 수 있는 페이지로 갈 것입니다."
 
 #: clientgui/CompletionPage.cpp:233
@@ -930,11 +930,11 @@ msgstr "%s에 오신 것을 환영합니다!"
 #, c-format
 #, c-format
 msgid "You are now successfully attached to the %s system."
-msgstr "성공적으로 %s 시스템이 연결되었습니다."
+msgstr "성공적으로 %s 시스템에 연결되었습니다."
 
 #: clientgui/CompletionPage.cpp:307
 msgid "You are now successfully attached to this account manager."
-msgstr "이 계정 관리자 연결이 성공적으로 이뤄졌습니다."
+msgstr "해당 계정 관리자 연결이 성공적으로 이뤄졌습니다."
 
 #: clientgui/DlgAbout.cpp:98
 #, c-format
@@ -1062,7 +1062,7 @@ msgstr "컴퓨터 대기 시간 설정"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:115
 msgid "do work only after you haven't used the computer for this number of minutes"
-msgstr "이 시간이후로 컴퓨터를 사용하지 않을 때 작업을 수행합니다"
+msgstr "이 시간(분) 이후로 컴퓨터를 사용하지 않을 때 작업을 수행합니다"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:119
 #: clientgui/DlgAdvPreferencesBase.cpp:239
