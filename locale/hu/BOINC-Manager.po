@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-04-04 03:56-0700\n"
+"PO-Revision-Date: 2009-05-16 06:19-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -135,7 +135,6 @@ msgstr "Fiókkezelő &URL-je:"
 #: clientgui/AccountManagerPropertiesPage.cpp:194
 #, c-format
 #, c-format
-#, fuzzy
 msgid "Communicating with %s."
 msgstr "Kommunikáció ezzel: %s."
 
@@ -186,7 +185,7 @@ msgstr "&Kilépés"
 
 #: clientgui/AdvancedFrame.cpp:324
 msgid "&Advanced View\tCTRL+SHIFT+A"
-msgstr ""
+msgstr "&Haladó nézet\tCTRL+SHIFT+A"
 
 #: clientgui/AdvancedFrame.cpp:325
 msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
@@ -196,7 +195,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "&Simple View...\tCTRL+SHIFT+S"
-msgstr ""
+msgstr "&Egyszerű nézet\tCTRL+SHIFT+S"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display the simple BOINC graphical interface."
@@ -227,9 +226,8 @@ msgstr "&Szinkronizáció ezzel: %s"
 #: clientgui/AdvancedFrame.cpp:359
 #, c-format
 #, c-format
-#, fuzzy
 msgid "Get current settings from %s"
-msgstr "Jelenlegi beállítások betöltése innen: %s"
+msgstr "Aktuális beállítások betöltése innen: %s"
 
 #: clientgui/AdvancedFrame.cpp:374
 msgid "&Run always"
@@ -238,7 +236,7 @@ msgstr "&Mindig fut"
 #: clientgui/AdvancedFrame.cpp:375
 #, fuzzy
 msgid "Allow work regardless of preferences"
-msgstr "Beállítások mellőzésével fut"
+msgstr "Munka engedélyezése a beállítások figyelmen kívül hagyásával"
 
 #: clientgui/AdvancedFrame.cpp:379
 msgid "Run based on &preferences"
@@ -247,7 +245,7 @@ msgstr "&Beállítások szerint fut"
 #: clientgui/AdvancedFrame.cpp:380
 #, fuzzy
 msgid "Allow work according to your preferences"
-msgstr "Beállítások szerint fut"
+msgstr "Munka engedélyezése a beállítások figyelembevételével"
 
 #: clientgui/AdvancedFrame.cpp:384
 msgid "&Suspend"
