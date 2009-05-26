@@ -4738,3 +4738,10 @@ David  25 May 2009
 
     html/inc/
         text_transform.inc
+
+David  26 May 2009
+    - DB: for tables w/ fulltext indices, specify engine as MyISAM
+        from Nicolas; fixes #904
+
+    db/
+        schema.sql

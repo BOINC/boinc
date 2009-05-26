@@ -307,7 +307,7 @@ create table profile (
     verification        integer     not null,
         -- UOD screening status: -1 denied, 0 unrated, 1 approved
     primary key (userid)
-);
+) engine=MyISAM;
 
 -- message board category
 -- help desk is a group of categories that are handled separately
@@ -380,7 +380,7 @@ create table thread (
     sticky              tinyint not null default 0,
     locked              tinyint not null default 0,
     primary key (id)
-);
+) engine=MyISAM;
 
 -- postings in a thread (or answers)
 -- Each thread has an initial post
@@ -402,7 +402,7 @@ create table post (
     hidden              integer     not null,
         -- nonzero if hidden by moderators
     primary key (id)
-);
+) engine=MyISAM;
 
 -- subscription to a thread
 --
