@@ -4745,3 +4745,9 @@ David  26 May 2009
 
     db/
         schema.sql
+
+David  26 May 2009
+    - Mac installer: fix off-by-1 error
+
+    mac_installer/
+        CustomInstall.cpp

@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
     Initialize();
 
 #ifdef __APPLE__
-    if (strlen(argv[0]) >= sizeof(path))
+    if (strlen(argv[0]) >= sizeof(path)-1)
     {
         show_message((StringPtr)"\pPath to application is too long.");
         return 0;
