@@ -20,6 +20,7 @@
 
 #include <string.h>
 #ifndef _WIN32
+#include <sys/select.h>
 #include <unistd.h>
 #include "config.h"
 #else

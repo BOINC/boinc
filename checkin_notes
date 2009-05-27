@@ -4757,3 +4757,14 @@ David  27 May 2009
 
     lib/
         filesys.h
+
+David  27 May 2009
+    - compile fixes for Haiku
+
+    lib/
+        network.h
+        gui_rpc_client.h
+        diagnostics.cpp
+        shmem.cpp,h
+    zip/unzip/unix/
+        unix.c

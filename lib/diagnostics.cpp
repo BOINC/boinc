@@ -595,7 +595,10 @@ void boinc_catch_signal(int signal) {
     case SIGINT: fprintf(stderr, "SIGINT: interrupt program\n"); break;
     case SIGILL: fprintf(stderr, "SIGILL: illegal instruction\n"); break;
     case SIGABRT: fprintf(stderr, "SIGABRT: abort called\n"); break;
+#if SIGBUS != SIGSEGV
+    // in case SIGBUS == SIGSEGV (e.g., Haiku)
     case SIGBUS: fprintf(stderr, "SIGBUS: bus error\n"); break;
+#endif
     case SIGSEGV: fprintf(stderr, "SIGSEGV: segmentation violation\n"); break;
     case SIGSYS: fprintf(stderr, "SIGSYS: system call given invalid argument\n"); break;
     case SIGPIPE: fprintf(stderr, "SIGPIPE: write on a pipe with no reader\n");

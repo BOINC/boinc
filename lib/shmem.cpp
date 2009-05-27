@@ -43,6 +43,8 @@ extern "C" int debug_printf(const char *fmt, ...);
 #include <sys/param.h>
 #endif
 #include <sys/shm.h>
+#else
+    you need to implement your own shmem functions
 #endif
 #endif
 
@@ -381,7 +383,6 @@ int attach_shmem_mmap(const char *path, void** pp) {
 int detach_shmem_mmap(void* p, size_t size) {
     return munmap((char *)p, size);
 }
-
 
 // Compatibility routines for Unix/Linux/Mac V5 applications 
 //

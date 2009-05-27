@@ -22,7 +22,6 @@
 
 #ifndef _WIN32
 #include <sys/types.h>
-#include <sys/shm.h>
 #endif
 
 // create_shmem(): create a shared-memory segment of the given size.

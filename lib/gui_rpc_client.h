@@ -674,6 +674,7 @@ struct RPC {
 // so the following compatibility code avoids compiler errors when 
 // building libboinc.a using config & make on system OS 10.3.9 or 
 // with the OS 10.3.9 SDK (but using config & make is not recommended.)
+//
 #if defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4) && (!defined(BUILDING_MANAGER))
 #define NO_PER_THREAD_LOCALE 1
 #endif
@@ -684,6 +685,9 @@ struct RPC {
 //#if defined(__UNIVAC__)
 //#define NO_PER_THREAD_LOCALE 1
 //#endif
+#if defined(__HAIKU__)
+#define NO_PER_THREAD_LOCALE 1
+#endif
 
 
 #ifdef NO_PER_THREAD_LOCALE  
