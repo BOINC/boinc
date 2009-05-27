@@ -28,7 +28,9 @@
 #include <dirent.h>
 #include <grp.h>
 #include <stdio.h>
+#ifdef __cplusplus
 #include <string>
+#endif
 
 #endif /* !WIN32 */
 
