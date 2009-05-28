@@ -43,8 +43,6 @@ extern "C" int debug_printf(const char *fmt, ...);
 #include <sys/param.h>
 #endif
 #include <sys/shm.h>
-#else
-    you need to implement your own shmem functions
 #endif
 #endif
 
@@ -384,6 +382,8 @@ int detach_shmem_mmap(void* p, size_t size) {
     return munmap((char *)p, size);
 }
 
+#if HAVE_SYS_SHM_H
+
 // Compatibility routines for Unix/Linux/Mac V5 applications 
 //
 int create_shmem(key_t key, int size, gid_t gid, void** pp) {
@@ -499,6 +499,30 @@ int print_shmem_info(key_t key) {
 
     return 0;
 }
+
+#else  // HAVE_SYS_SHM_H
+
+// Platforms that don't have sys/shm.h will need stubs,
+// or alternate implementations
+
+int create_shmem(key_t, int size, gid_t gid, void**) {
+   perror("create_shmem: not supported on this platform");
+   return ERR_SHMGET;
+}
+int attach_shmem(key_t, void**) {
+   perror("attach_shmem: not supported on this platform");
+   return ERR_SHMGET;
+}
+int detach_shmem(void*) {
+   perror("detach_shmem: not supported on this platform");
+   return ERR_SHMGET;
+}
+int destroy_shmem(key_t) {
+   perror("destroy_shmem: not supported on this platform");
+   return ERR_SHMCTL;
+}
+
+#endif  // !HAVE_SYS_SHM_H
 
 #endif  // !defined(_WIN32) && !defined(__EMX__)
 

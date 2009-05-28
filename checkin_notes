@@ -4768,3 +4768,9 @@ David  27 May 2009
         shmem.cpp,h
     zip/unzip/unix/
         unix.c
+
+David  27 May 2009
+    - compile fixes for Haiku
+
+    lib/
+        shmem.cpp
