@@ -144,7 +144,7 @@ int remove_project_dir(PROJECT& p) {
     int retval;
 
     get_project_dir(&p, buf, sizeof(buf));
-    retval = client_clean_out_dir(buf);
+    retval = client_clean_out_dir(buf, "remove project dir");
     if (retval) {
         msg_printf(&p, MSG_INTERNAL_ERROR, "Can't delete file %s", boinc_failed_file);
         return retval;
@@ -223,7 +223,7 @@ void delete_old_slot_dirs() {
             }
 #endif
             if (!gstate.active_tasks.is_slot_dir_in_use(path)) {
-                client_clean_out_dir(path);
+                client_clean_out_dir(path, "delete old slot dirs");
                 remove_project_owned_dir(path);
             }
         } else {
