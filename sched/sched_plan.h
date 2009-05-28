@@ -27,4 +27,7 @@
 #define PLAN_REJECT_CUDA_SPEED              6
 #define PLAN_REJECT_UNKNOWN                 7
 
+#define PLAN_CUDA_MIN_DRIVER_VERSION        17700
+#define PLAN_CUDA_MIN_RAM                   (254*1024*1024)
+
 extern int app_plan(SCHEDULER_REQUEST&, char* plan_class, HOST_USAGE&);

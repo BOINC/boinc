@@ -119,7 +119,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
     unsigned int i;
     int retval, j;
     BEST_APP_VERSION* bavp;
-    char message[256];
+    char message[256], buf[256];
 
     // see if app is already in memoized array
     //
@@ -321,19 +321,27 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
         const char* p = NULL;
         switch (app_plan_reject) {
         case PLAN_REJECT_CUDA_NO_DEVICE:
-            p = "Your computer has no CUDA device"; break;
+            p = "Your computer has no NVIDIA GPU"; break;
         case PLAN_REJECT_CUDA_VERSION:
-            p = "Your CUDA device has the wrong software version"; break;
+            p = "Your GPU lacks the needed features"; break;
         case PLAN_REJECT_NVIDIA_DRIVER_VERSION:
-            p = "Your CUDA device has the wrong driver version"; break;
+            sprintf(buf, "driver version %d or later needed",
+                PLAN_CUDA_MIN_DRIVER_VERSION
+            );
+            p = buf;
+            break;
         case PLAN_REJECT_CUDA_MEM:
-            p = "Your CUDA device has insufficient memory"; break;
+            sprintf(buf, "Your GPU has insufficient memory (need %d MB)",
+                PLAN_CUDA_MIN_RAM
+            );
+            p = buf;
+            break;
         case PLAN_REJECT_CUDA_SPEED:
-            p = "Your CUDA device is too slow"; break;
+            p = "Your GPU is too slow"; break;
         }
         if (p) {
             sprintf(message,
-                "Can't use CUDA app for %s: %s",
+                "Can't use NVIDIA GPU app for %s: %s",
                 app->user_friendly_name, p
             );
             g_wreq->insert_no_work_message(USER_MESSAGE(message, "high"));

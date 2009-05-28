@@ -4774,3 +4774,12 @@ David  27 May 2009
 
     lib/
         shmem.cpp
+
+David  28 May 2009
+    - scheduler: return better message if client has
+        too little GPU RAM, wrong driver version, etc.
+        (tell them what the specific requirement is)
+
+    sched/
+        sched_plan.cpp,h
+        sched_version.cpp

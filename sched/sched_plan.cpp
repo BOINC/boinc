@@ -88,20 +88,21 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             return PLAN_REJECT_CUDA_VERSION;
         } 
 
-        if (cp->drvVersion && cp->drvVersion < 17700) {
+        if (cp->drvVersion && cp->drvVersion < PLAN_CUDA_MIN_DRIVER_VERSION) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] NVIDIA driver version %d < 17700\n",
+                    "[version] NVIDIA driver version %d < PLAN_CUDA_MIN_DRIVER_VERSION\n",
                     cp->drvVersion
                 );
             }
             return PLAN_REJECT_NVIDIA_DRIVER_VERSION;
         }
 
-        if (cp->prop.dtotalGlobalMem < 254*1024*1024) {
+        if (cp->prop.dtotalGlobalMem < PLAN_CUDA_MIN_RAM) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] CUDA mem %d < 254MB\n", cp->prop.dtotalGlobalMem
+                    "[version] CUDA mem %d < %d\n",
+                    cp->prop.dtotalGlobalMem, PLAN_CUDA_MIN_RAM
                 );
             }
             return PLAN_REJECT_CUDA_MEM;
