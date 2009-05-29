@@ -450,7 +450,7 @@ void RESULT::clear() {
     checkpoint_cpu_time = 0;
     current_cpu_time = 0;
     fraction_done = 0;
-    elapsed_time = -1;
+    elapsed_time = 0;
     swap_size = 0;
     working_set_size_smoothed = 0;
     estimated_cpu_time_remaining = 0;

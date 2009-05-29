@@ -2823,3 +2823,9 @@ Rom    20 May 2009
     /
         configure.ac
         version.h
+
+David  22 May 2009
+    - fix display problem when talking to old clients
+
+    lib/
+        gui_rpc_client_ops.cpp
