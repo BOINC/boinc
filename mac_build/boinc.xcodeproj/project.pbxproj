@@ -440,20 +440,6 @@
 			remoteGlobalIDString = DDFF2ACA0A53D4AE002BC19D;
 			remoteInfo = setprojectgrp;
 		};
-		DD5457700D1692570046EDBD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4086C8CB063AB30000D4CD53;
-			remoteInfo = static;
-		};
-		DD5457720D1692570046EDBD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4086CBE1063AB30000D4CD53;
-			remoteInfo = dynamic;
-		};
 		DD58247C0B198BDD003B6A2F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -495,6 +481,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = DD7748970A356C880025D05E;
 			remoteInfo = SetUpSecurity;
+		};
+		DDAC1B070FCF8FF900562F67 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4086C8CB063AB30000D4CD53;
+			remoteInfo = static;
+		};
+		DDAC1B090FCF8FF900562F67 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4086CBE1063AB30000D4CD53;
+			remoteInfo = dynamic;
 		};
 		DDAD19CC09090824004E7DD0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -733,7 +733,7 @@
 		DD58C46808F334EA00C1DF66 /* WizardAttachProject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WizardAttachProject.h; path = ../clientgui/WizardAttachProject.h; sourceTree = SOURCE_ROOT; };
 		DD58C46908F334EA00C1DF66 /* wizardex.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wizardex.cpp; path = ../clientgui/wizardex.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C46A08F334EA00C1DF66 /* wizardex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wizardex.h; path = ../clientgui/wizardex.h; sourceTree = SOURCE_ROOT; };
-		DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = wxWindows.xcodeproj; path = "../../wxMac-2.8.7/src/wxWindows.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = wxWindows.xcodeproj; path = "../../wxMac-2.8.10/src/wxWindows.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		DD5EEB6A0873DD4400963F44 /* hyperlink.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = hyperlink.cpp; sourceTree = "<group>"; };
 		DD5EEB6B0873DD4400963F44 /* hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = hyperlink.h; sourceTree = "<group>"; };
 		DD5EF07007C5B329007CCE8D /* whetstone.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = whetstone.cpp; sourceTree = "<group>"; };
@@ -842,7 +842,7 @@
 		DDA6BD0F0BD4551F008F7921 /* QSymbols.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QSymbols.h; path = ../lib/mac/QSymbols.h; sourceTree = SOURCE_ROOT; };
 		DDA6BD100BD4551F008F7921 /* QTaskMemory.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = QTaskMemory.c; path = ../lib/mac/QTaskMemory.c; sourceTree = SOURCE_ROOT; };
 		DDA6BD110BD4551F008F7921 /* QTaskMemory.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QTaskMemory.h; path = ../lib/mac/QTaskMemory.h; sourceTree = SOURCE_ROOT; };
-		DDA90F260B64673D008F2E87 /* libwx_mac_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_mac_static.a; path = "../../wxMac-2.8.7/src/build/Deployment/libwx_mac_static.a"; sourceTree = SOURCE_ROOT; };
+		DDA90F260B64673D008F2E87 /* libwx_mac_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_mac_static.a; path = "../../wxMac-2.8.10/src/build/Deployment/libwx_mac_static.a"; sourceTree = SOURCE_ROOT; };
 		DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mac_GUI.cpp; path = ../clientgui/mac/Mac_GUI.cpp; sourceTree = SOURCE_ROOT; };
 		DDAD31D60EC26B14002DA09D /* mac_address.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac_address.cpp; path = ../lib/mac_address.cpp; sourceTree = SOURCE_ROOT; };
 		DDAD31D70EC26B14002DA09D /* mac_address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mac_address.h; path = ../lib/mac_address.h; sourceTree = SOURCE_ROOT; };
@@ -1216,15 +1216,6 @@
 			name = mac_installer;
 			sourceTree = SOURCE_ROOT;
 		};
-		DD54576B0D1692570046EDBD /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				DD5457710D1692570046EDBD /* libwx_mac_static.a */,
-				DD5457730D1692570046EDBD /* libwx_mac.dylib */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		DD81C3F707C5D03B0098A04D /* clientgui */ = {
 			isa = PBXGroup;
 			children = (
@@ -1399,6 +1390,15 @@
 			);
 			name = mac;
 			path = ../mac_build;
+			sourceTree = "<group>";
+		};
+		DDAC1B020FCF8FF900562F67 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DDAC1B080FCF8FF900562F67 /* libwx_mac_static.a */,
+				DDAC1B0A0FCF8FF900562F67 /* libwx_mac.dylib */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		DDB873950C85072500E0DE1F /* clientscr */ = {
@@ -1960,7 +1960,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = DD54576B0D1692570046EDBD /* Products */;
+					ProductGroup = DDAC1B020FCF8FF900562F67 /* Products */;
 					ProjectRef = DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */;
 				},
 			);
@@ -1990,18 +1990,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		DD5457710D1692570046EDBD /* libwx_mac_static.a */ = {
+		DDAC1B080FCF8FF900562F67 /* libwx_mac_static.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libwx_mac_static.a;
-			remoteRef = DD5457700D1692570046EDBD /* PBXContainerItemProxy */;
+			remoteRef = DDAC1B070FCF8FF900562F67 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		DD5457730D1692570046EDBD /* libwx_mac.dylib */ = {
+		DDAC1B0A0FCF8FF900562F67 /* libwx_mac.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
 			path = libwx_mac.dylib;
-			remoteRef = DD5457720D1692570046EDBD /* PBXContainerItemProxy */;
+			remoteRef = DDAC1B090FCF8FF900562F67 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
