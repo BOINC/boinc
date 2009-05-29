@@ -4825,3 +4825,10 @@ Charlie 28 May 2009
         screensaver.cpp, .h
         Mac_Saver_Module.h
         screensaver_win.h
+
+Rom    29 May 2009
+    - MGR: Remove references to ViewNews, it won't appear in this release.
+    
+    clientgui/
+        ViewNews.cpp, .h (Deleted)
+        AdvancedFrame.cpp
