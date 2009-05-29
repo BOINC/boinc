@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-04-30 11:28-0700\n"
-"Last-Translator: David M <davidcomp@telefonica.net>\n"
+"PO-Revision-Date: 2009-05-29 07:51-0700\n"
+"Last-Translator: David M <davidcomp at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -41,11 +41,11 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:351
 msgid "Are you already running this project?"
-msgstr "¿Ha ejecutando este proyecto antes?"
+msgstr "¿Ha ejecutado este proyecto antes?"
 
 #: clientgui/AccountInfoPage.cpp:355
 msgid "&No, new user"
-msgstr "&No, nuevo usuario"
+msgstr "&No, usuario nuevo"
 
 #: clientgui/AccountInfoPage.cpp:358
 msgid "&Yes, existing user"
