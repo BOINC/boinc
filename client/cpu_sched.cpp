@@ -925,7 +925,7 @@ bool CLIENT_STATE::enforce_schedule() {
         // in case couldn't measure swap on this host
 
     // preempt tasks as needed, and note whether there are any coproc jobs
-    // in QUIT_PENDING state
+    // in QUIT_PENDING state (in which case we won't start new coproc jobs)
     //
     bool coproc_quit_pending = false;
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
@@ -982,49 +982,44 @@ bool CLIENT_STATE::enforce_schedule() {
     bool coproc_start_deferred = false;
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
-        switch (atp->next_scheduler_state) {
-        atp = active_tasks.active_tasks[i];
-        case CPU_SCHED_SCHEDULED:
-            switch (atp->task_state()) {
-            case PROCESS_UNINITIALIZED:
-            case PROCESS_SUSPENDED:
-                // If there's a quit pending for a coproc job,
-                // don't start new ones since they may bomb out
-                // on memory allocation.  Instead, trigger a retry
-                //
-                if (atp->result->uses_coprocs() && coproc_quit_pending) {
-                    coproc_start_deferred = true;
-                    break;
-                }
-                action = true;
-                retval = atp->resume_or_start(
-                    atp->scheduler_state == CPU_SCHED_UNINITIALIZED
-                );
-                if ((retval == ERR_SHMGET) || (retval == ERR_SHMAT)) {
-                    // Assume no additional shared memory segs
-                    // will be available in the next 10 seconds
-                    // (run only tasks which are already attached to shared memory).
-                    //
-                    if (gstate.retry_shmem_time < gstate.now) {
-                        request_schedule_cpus("no more shared memory");
-                    }
-                    gstate.retry_shmem_time = gstate.now + 10.0;
-                    continue;
-                }
-                if (retval) {
-                    report_result_error(
-                        *(atp->result), "Couldn't start or resume: %d", retval
-                    );
-                    request_schedule_cpus("start failed");
-                    continue;
-                }
-                atp->run_interval_start_wall_time = now;
-                app_started = now;
+        if (atp->next_scheduler_state != CPU_SCHED_SCHEDULED) continue;
+        int ts = atp->task_state();
+        if (ts == PROCESS_UNINITIALIZED || ts == PROCESS_SUSPENDED) {
+            // If there's a quit pending for a coproc job,
+            // don't start new ones since they may bomb out
+            // on memory allocation.  Instead, trigger a retry
+            //
+            if (atp->result->uses_coprocs() && coproc_quit_pending) {
+                coproc_start_deferred = true;
+                continue;
             }
-            atp->scheduler_state = CPU_SCHED_SCHEDULED;
-            swap_left -= atp->procinfo.swap_size;
-            break;
+            action = true;
+            retval = atp->resume_or_start(
+                atp->scheduler_state == CPU_SCHED_UNINITIALIZED
+            );
+            if ((retval == ERR_SHMGET) || (retval == ERR_SHMAT)) {
+                // Assume no additional shared memory segs
+                // will be available in the next 10 seconds
+                // (run only tasks which are already attached to shared memory).
+                //
+                if (gstate.retry_shmem_time < gstate.now) {
+                    request_schedule_cpus("no more shared memory");
+                }
+                gstate.retry_shmem_time = gstate.now + 10.0;
+                continue;
+            }
+            if (retval) {
+                report_result_error(
+                    *(atp->result), "Couldn't start or resume: %d", retval
+                );
+                request_schedule_cpus("start failed");
+                continue;
+            }
+            atp->run_interval_start_wall_time = now;
+            app_started = now;
         }
+        atp->scheduler_state = CPU_SCHED_SCHEDULED;
+        swap_left -= atp->procinfo.swap_size;
     }
     if (action) {
         set_client_state_dirty("enforce_cpu_schedule");
@@ -1155,7 +1150,7 @@ ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
     ACTIVE_TASK *atp = lookup_active_task_by_result(rp);
     if (!atp) {
         atp = new ACTIVE_TASK;
-        atp->slot = active_tasks.get_free_slot();
+        atp->get_free_slot(rp);
         atp->init(rp);
         active_tasks.active_tasks.push_back(atp);
     }

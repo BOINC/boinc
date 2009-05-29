@@ -371,7 +371,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     if (!will_restart) {
         copy_output_files();
         read_stderr_file();
-        client_clean_out_dir(slot_dir);
+        client_clean_out_dir(slot_dir, "handle_exited_app()");
     }
     gstate.request_schedule_cpus("application exited");
     gstate.request_work_fetch("application exited");

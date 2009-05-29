@@ -321,8 +321,7 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
     return 0;
 }
 
-int ACTIVE_TASK_SET::get_free_slot(){
-    return 0;
+void ACTIVE_TASK::get_free_slot(RESULT*){
 }
 int ACTIVE_TASK::init(RESULT* rp) {
     result = rp;

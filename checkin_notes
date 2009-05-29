@@ -2790,3 +2790,28 @@ Rom    20 May 2009
     /
         configure.ac
         version.h
+
+David  28 May 2009
+    - client: fixed nasty bug that caused GPU jobs to crash on startup
+        when they're preempting another GPU job.
+        The problem was as follows:
+        - job A is chosen to preempt job B
+        - we tell job B to quit, and initialize job A but don't start it;
+            however, we set if scheduler state to SCHEDULED
+            (rather than UNINITIALIZED)
+        - job B exits, and we start job A.
+            Since its state is not UNITIALIZED, we don't set up its slot dir.
+        - job A runs in an empty slot dir, doesn't find its files, and bombs out.
+    - client: add <slot_debug> option (prints messages about
+        allocation of slots, creating/removing files in slot dirs).
+
+    client/
+        app.cpp,h
+        app_control.cpp
+        app_start.cpp
+        cpu_sched.cpp
+        file_names.cpp
+        sandbox.cpp,.h
+        sim_util.cpp
+    clientgui/
+        ViewWork.cpp

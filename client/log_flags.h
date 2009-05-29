@@ -96,6 +96,7 @@ struct LOG_FLAGS {
 	bool coproc_debug;
         /// show changes to duration correction factors
     bool dcf_debug;
+    bool slot_debug;
 
     LOG_FLAGS();
     int parse(XML_PARSER&);

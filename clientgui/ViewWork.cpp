@@ -995,31 +995,37 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
     wxASSERT(doc);
     wxASSERT(wxDynamicCast(doc, CMainDocument));
 
+    strBuffer.Clear();
     retval = doc->GetCoreClientStatus(status);
-
     if (retval || !result) {
-        strBuffer.Clear();
         return;
     }
+#if 0
+    if (result->active_task) {
+        char buf[256];
+        sprintf(buf, "<%d> ", result->slot);
+        strBuffer += wxString(buf, wxConvUTF8);
+    }
+#endif
 	int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT;
     switch(result->state) {
     case RESULT_NEW:
-        strBuffer = _("New"); 
+        strBuffer += _("New"); 
         break;
     case RESULT_FILES_DOWNLOADING:
         if (result->ready_to_report) {
-            strBuffer = _("Download failed");
+            strBuffer += _("Download failed");
         } else {
-            strBuffer = _("Downloading");
+            strBuffer += _("Downloading");
         }
         break;
     case RESULT_FILES_DOWNLOADED:
         if (result->project_suspended_via_gui) {
-            strBuffer = _("Project suspended by user");
+            strBuffer += _("Project suspended by user");
         } else if (result->suspended_via_gui) {
-            strBuffer = _("Task suspended by user");
+            strBuffer += _("Task suspended by user");
         } else if (status.task_suspend_reason && !throttled) {
-            strBuffer = _("Suspended");
+            strBuffer += _("Suspended");
             if (status.task_suspend_reason & SUSPEND_REASON_BATTERIES) {
                 strBuffer += _(" - on batteries");
             }
@@ -1046,14 +1052,14 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
             }
         } else if (result->active_task) {
             if (result->too_large) {
-                strBuffer = _("Waiting for memory");
+                strBuffer += _("Waiting for memory");
             } else if (result->needs_shmem) {
-                strBuffer = _("Waiting for shared memory");
+                strBuffer += _("Waiting for shared memory");
             } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
                 if (result->edf_scheduled) {
-                    strBuffer = _("Running, high priority");
+                    strBuffer += _("Running, high priority");
                 } else {
-                    strBuffer = _("Running");
+                    strBuffer += _("Running");
                 }
 #if 0
                 // doesn't work - project pointer not there
@@ -1062,44 +1068,44 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
                 }
 #endif
             } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
-                strBuffer = _("Waiting to run");
+                strBuffer += _("Waiting to run");
             } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
-                strBuffer = _("Ready to start");
+                strBuffer += _("Ready to start");
             }
             if (result->resources.size()) {
                 strBuffer += wxString(wxT(" (")) + wxString(result->resources.c_str(), wxConvUTF8) + wxString(wxT(")"));
             }
         } else {
-            strBuffer = _("Ready to start");
+            strBuffer += _("Ready to start");
         }
         break;
     case RESULT_COMPUTE_ERROR:
-        strBuffer = _("Computation error");
+        strBuffer += _("Computation error");
         break;
     case RESULT_FILES_UPLOADING:
         if (result->ready_to_report) {
-            strBuffer = _("Upload failed");
+            strBuffer += _("Upload failed");
         } else {
-            strBuffer = _("Uploading");
+            strBuffer += _("Uploading");
         }
         break;
     case RESULT_ABORTED:
         switch(result->exit_status) {
         case ERR_ABORTED_VIA_GUI:
-            strBuffer = _("Aborted by user");
+            strBuffer += _("Aborted by user");
             break;
         case ERR_ABORTED_BY_PROJECT:
-            strBuffer = _("Aborted by project");
+            strBuffer += _("Aborted by project");
             break;
         default:
-            strBuffer = _("Aborted");
+            strBuffer += _("Aborted");
         }
         break;
     default:
         if (result->got_server_ack) {
-            strBuffer = _("Acknowledged");
+            strBuffer += _("Acknowledged");
         } else if (result->ready_to_report) {
-            strBuffer = _("Ready to report");
+            strBuffer += _("Ready to report");
         } else {
             strBuffer.Format(_("Error: invalid state '%d'"), result->state);
         }

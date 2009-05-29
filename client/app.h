@@ -177,6 +177,7 @@ public:
     int init(RESULT*);
     void cleanup_task();
 
+    void get_free_slot(RESULT*);
     int start(bool first_time);         // start a process
     int request_exit();
         // ask the process to exit gracefully,
@@ -253,7 +254,6 @@ public:
     bool check_quit_timeout_exceeded();
     bool is_slot_in_use(int);
     bool is_slot_dir_in_use(char*);
-    int get_free_slot();
     void send_heartbeats();
     void send_trickle_downs();
     void report_overdue();

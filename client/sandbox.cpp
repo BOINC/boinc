@@ -29,7 +29,7 @@
 #include "str_util.h"
 #include "filesys.h"
 #include "parse.h"
-
+#include "client_msgs.h"
 #include "client_state.h"
 
 #include "sandbox.h"
@@ -168,6 +168,9 @@ int delete_project_owned_file(const char* path, bool retry) {
         safe_strcpy(boinc_failed_file, path);
         return ERR_UNLINK;
     }
+    if (log_flags.slot_debug) {
+        msg_printf(0, MSG_INFO, "[slot] removed file %s", path);
+    }
     return 0;
 }
 
@@ -175,11 +178,14 @@ int delete_project_owned_file(const char* path, bool retry) {
 // (but not the directory itself).
 // If an error occurs, delete as much as possible.
 //
-int client_clean_out_dir(const char* dirpath) {
+int client_clean_out_dir(const char* dirpath, const char* reason) {
     char filename[256], path[256];
     int retval, final_retval = 0;
     DIRREF dirp;
 
+    if (reason && log_flags.slot_debug) {
+        msg_printf(0, MSG_INFO, "[slot] cleaning out %s: %s", dirpath, reason);
+    }
     dirp = dir_open(dirpath);
     if (!dirp) {
 #ifndef _WIN32
@@ -197,7 +203,7 @@ int client_clean_out_dir(const char* dirpath) {
         if (retval) break;
         sprintf(path, "%s/%s", dirpath,  filename);
         if (is_dir(path)) {
-            retval = client_clean_out_dir(path);
+            retval = client_clean_out_dir(path, NULL);
             if (retval) final_retval = retval;
             retval = remove_project_owned_dir(path);
             if (retval) final_retval = retval;

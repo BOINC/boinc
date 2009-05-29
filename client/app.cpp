@@ -475,27 +475,30 @@ bool ACTIVE_TASK_SET::is_slot_dir_in_use(char* dir) {
 // Get a free slot,
 // and make a slot dir if needed
 //
-int ACTIVE_TASK_SET::get_free_slot() {
+void ACTIVE_TASK::get_free_slot(RESULT* rp) {
     int j, retval;
     char path[1024];
 
     for (j=0; ; j++) {
-        if (is_slot_in_use(j)) continue;
+        if (gstate.active_tasks.is_slot_in_use(j)) continue;
 
         // make sure we can make an empty directory for this slot
         //
         get_slot_dir(j, path, sizeof(path));
         if (boinc_file_exists(path)) {
             if (is_dir(path)) {
-                retval = client_clean_out_dir(path);
-                if (!retval) return j;
+                retval = client_clean_out_dir(path, "get_free_slot()");
+                if (!retval) break;
             }
         } else {
             retval = make_slot_dir(j);
-            if (!retval) return j;
+            if (!retval) break;
         }
     }
-    return ERR_NOT_FOUND;   // probably never get here
+    slot = j;
+    if (log_flags.slot_debug) {
+        msg_printf(rp->project, MSG_INFO, "[slot] assigning slot %d to %s", j, rp->name);
+    }
 }
 
 bool ACTIVE_TASK_SET::slot_taken(int slot) {
