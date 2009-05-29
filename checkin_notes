@@ -4826,9 +4826,15 @@ Charlie 28 May 2009
         Mac_Saver_Module.h
         screensaver_win.h
 
-Rom    20 May 2009
+Rom    29 May 2009
     - Change version number to 6.9.x
 
     /
         configure.ac
         version.h
+
+David  29 May 2009
+    - updated python assimilator
+
+    sched/
+        assimilator.py
