@@ -4825,3 +4825,10 @@ Charlie 28 May 2009
         screensaver.cpp, .h
         Mac_Saver_Module.h
         screensaver_win.h
+
+Rom    20 May 2009
+    - Change version number to 6.9.x
+
+    /
+        configure.ac
+        version.h
