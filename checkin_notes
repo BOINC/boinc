@@ -4816,3 +4816,12 @@ Charlie 28 May 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 28 May 2009
+    SS: Add new optional boolean xml tag <default_ss_first>; if true, then launch 
+        default screensaver graphics app first, else run science graphics first.
+
+    clientscr/
+        screensaver.cpp, .h
+        Mac_Saver_Module.h
+        screensaver_win.h
