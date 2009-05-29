@@ -4832,3 +4832,10 @@ Rom    29 May 2009
     clientgui/
         ViewNews.cpp, .h (Deleted)
         AdvancedFrame.cpp
+
+Rom    29 May 2009
+    - Change version to 6.8.0 for all platforms
+
+    /
+        configure.ac
+        version.h
