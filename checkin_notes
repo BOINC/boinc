@@ -4808,3 +4808,11 @@ David  28 May 2009
         sim_util.cpp
     clientgui/
         ViewWork.cpp
+
+Charlie 28 May 2009
+    - Mac MGR: Eliminate erroneous references to wxMac-2.8.7 in XCode (now 
+        building with wxMac-2.8.10).
+
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
