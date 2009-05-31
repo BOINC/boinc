@@ -547,7 +547,9 @@ static int boinc_rename_aux(const char* old, const char* newf) {
     if (MoveFileA(old, newf)) return 0;
     return GetLastError();
 #else
-    return rename(old, newf);
+    int retval = rename(old, newf);
+    if (retval) return ERR_RENAME;
+    return 0;
 #endif
 }
 
@@ -574,13 +576,13 @@ int boinc_mkdir(const char* path) {
     if (!CreateDirectoryA(path, NULL)) {
         return GetLastError();
     }
-    return 0;
 #else
     mode_t old_mask = umask(0);
     int retval = mkdir(path, 0771);
     umask(old_mask);
-    return retval;
+    if (retval) return ERR_MKDIR;
 #endif
+    return 0;
 }
 
 int boinc_rmdir(const char* name) {

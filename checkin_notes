@@ -4838,3 +4838,15 @@ David  29 May 2009
 
     sched/
         assimilator.py
+
+David  31 May 2009
+    - lib: return proper error codes from boinc_rename() and boinc_mkdir()
+    - client: Haiku support (from Urias McCullough)
+    - client: include plan class in other_result list in sched request
+        (for resource-specific jobs-in-progress limit)
+
+    client/
+        cs_scheduler.cpp
+        hostinfo_unix.cpp
+    lib/
+        filesys.cpp

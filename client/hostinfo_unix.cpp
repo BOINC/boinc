@@ -140,6 +140,10 @@ mach_port_t gEventHandle = NULL;
 #include <machine/cpuconf.h>
 #endif
 
+#ifdef __HAIKU__
+#include <OS.h>
+#endif
+
 // Some OS define _SC_PAGE_SIZE instead of _SC_PAGESIZE
 #if defined(_SC_PAGE_SIZE) && !defined(_SC_PAGESIZE)
 #define _SC_PAGESIZE _SC_PAGE_SIZE
@@ -148,7 +152,7 @@ mach_port_t gEventHandle = NULL;
 // The following is intended to be true both on Linux
 // and Debian GNU/kFreeBSD (see trac #521)
 //
-#define LINUX_LIKE_SYSTEM defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)
+#define LINUX_LIKE_SYSTEM (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) && !defined(__HAIKU__)
 
 // functions to get name/addr of local host
 
@@ -681,6 +685,150 @@ static void get_cpu_info_maxosx(HOST_INFO& host) {
 }
 #endif
 
+#ifdef __HAIKU__
+static void get_cpu_info_haiku(HOST_INFO& host) {
+    /* This function has been adapted from Haiku's sysinfo.c
+     * which spits out a bunch of formatted CPU info to
+     * the terminal, it was easier to copy some of the logic
+     * here.
+     */
+    system_info sys_info;
+    int32 cpu = 0; // always use first CPU for now
+    cpuid_info cpuInfo;
+    int32 maxStandardFunction;
+    int32 maxExtendedFunction = 0;
+    
+    char brand_string[256];
+
+    if (get_system_info(&sys_info) != B_OK) {
+        msg_printf(NULL, MSG_INTERNAL_ERROR, "Error getting Haiku system information!\n");
+        return;
+    }
+
+    if (get_cpuid(&cpuInfo, 0, cpu) != B_OK) {
+        // this CPU doesn't support cpuid
+        return;
+    }
+	
+    snprintf(host.p_vendor, sizeof(host.p_vendor), "%.12s",
+        cpuInfo.eax_0.vendor_id);
+    
+    maxStandardFunction = cpuInfo.eax_0.max_eax;
+    if (maxStandardFunction >= 500)
+        maxStandardFunction = 0; /* old Pentium sample chips has
+                                    cpu signature here */
+
+    /* Extended cpuid */
+    get_cpuid(&cpuInfo, 0x80000000, cpu);
+
+    // extended cpuid is only supported if max_eax is greater
+    // than the service id
+    if (cpuInfo.eax_0.max_eax > 0x80000000)
+        maxExtendedFunction = cpuInfo.eax_0.max_eax & 0xff;
+
+    if (maxExtendedFunction >=4 ) {
+        char buffer[49];
+        char *name = buffer;
+        int32 i;
+
+        memset(buffer, 0, sizeof(buffer));
+
+        for (i = 0; i < 3; i++) {
+            cpuid_info nameInfo;
+            get_cpuid(&nameInfo, 0x80000002 + i, cpu);
+
+            memcpy(name, &nameInfo.regs.eax, 4);
+            memcpy(name + 4, &nameInfo.regs.ebx, 4);
+            memcpy(name + 8, &nameInfo.regs.ecx, 4);
+            memcpy(name + 12, &nameInfo.regs.edx, 4);
+            name += 16;
+        }
+
+        // cut off leading spaces (names are right aligned)
+        name = buffer;
+        while (name[0] == ' ')
+            name++;
+
+        // the BIOS may not have set the processor name
+        if (name[0]) {
+            strlcpy(brand_string, name, sizeof(brand_string));
+        } else {
+            // Intel CPUs don't seem to have the genuine vendor field
+            snprintf(brand_string, sizeof(brand_string), "%.12s",
+                cpuInfo.eax_0.vendor_id);
+        }
+    }
+
+    get_cpuid(&cpuInfo, 1, cpu);
+	
+    int family, stepping, model;
+
+    family = cpuInfo.eax_1.family + (cpuInfo.eax_1.family == 0xf ?
+        cpuInfo.eax_1.extended_family : 0);
+
+    // model calculation is different for AMD and INTEL
+    if ((sys_info.cpu_type & B_CPU_x86_VENDOR_MASK) == B_CPU_AMD_x86) {
+        model = cpuInfo.eax_1.model + (cpuInfo.eax_1.model == 0xf ?
+            cpuInfo.eax_1.extended_model << 4 : 0);
+    } else if ((sys_info.cpu_type & B_CPU_x86_VENDOR_MASK) == B_CPU_INTEL_x86) {
+        model = cpuInfo.eax_1.model + ((cpuInfo.eax_1.family == 0xf ||
+            cpuInfo.eax_1.family == 0x6) ? cpuInfo.eax_1.extended_model << 4 : 0);
+    }
+
+    stepping = cpuInfo.eax_1.stepping;
+
+    snprintf(host.p_model, sizeof(host.p_model),
+        "%s [Family %u Model %u Stepping %u]", brand_string, family, model,
+        stepping);
+
+    static const char *kFeatures[32] = {
+        "fpu", "vme", "de", "pse",
+        "tsc", "msr", "pae", "mce",
+        "cx8", "apic", NULL, "sep",
+        "mtrr", "pge", "mca", "cmov",
+        "pat", "pse36", "psnum", "clflush",
+        NULL, "ds", "acpi", "mmx",
+        "fxsr", "sse", "sse2", "ss",
+        "htt", "tm", "ia64", "pbe",
+    };
+
+    int32 found = 0;
+    int32 i;
+    char buf[12];
+
+    for (i = 0; i < 32; i++) {
+        if ((cpuInfo.eax_1.features & (1UL << i)) && kFeatures[i] != NULL) {
+            snprintf(buf, sizeof(buf), "%s%s", found == 0 ? "" : " ", 
+                kFeatures[i]);
+            strlcat(host.p_features, buf, sizeof(host.p_features));
+            found++;
+        }
+    }
+
+    if (maxStandardFunction >= 1) {
+        /* Extended features */
+        static const char *kFeatures2[32] = {
+            "sse3", NULL, "dtes64", "monitor", "ds-cpl", "vmx", "smx" "est",
+            "tm2", "ssse3", "cnxt-id", NULL, NULL, "cx16", "xtpr", "pdcm",
+            NULL, NULL, "dca", "sse4.1", "sse4.2", "x2apic", "movbe", "popcnt",
+            NULL, NULL, "xsave", "osxsave", NULL, NULL, NULL, NULL
+        };
+
+        for (i = 0; i < 32; i++) {
+            if ((cpuInfo.eax_1.extended_features & (1UL << i)) &&
+                kFeatures2[i] != NULL) {
+                snprintf(buf, sizeof(buf), "%s%s", found == 0 ? "" : " ",
+                    kFeatures2[i]);
+                strlcat(host.p_features, buf, sizeof(host.p_features));
+                found++;
+            }
+        }
+    }
+
+    //TODO: there are additional AMD features that probably need to be queried
+}
+#endif
+
 // Rules:
 // - Keep code in the right place
 // - only one level of #if
@@ -700,6 +848,8 @@ int HOST_INFO::get_host_info() {
     CPU_INFO_t    cpuInfo;
     strlcpy( p_vendor, cpuInfo.vendor.company, sizeof(p_vendor));
     strlcpy( p_model, cpuInfo.name.fromID, sizeof(p_model));
+#elif defined(__HAIKU__)
+    get_cpu_info_haiku(*this);
 #elif defined(HAVE_SYS_SYSCTL_H)
     int mib[2];
     size_t len;
@@ -888,6 +1038,8 @@ int HOST_INFO::get_host_info() {
     statfs(".", &fs_info);
     m_swap = (double)fs_info.f_bsize * (double)fs_info.f_bfree;
 
+#elif defined(__HAIKU__)
+#warning HAIKU: missing swapfile size info
 #elif defined(HAVE_VMMETER_H) && defined(HAVE_SYS_SYSCTL_H) && defined(CTL_VM) && defined(VM_METER)
     // MacOSX, I think...
     // <http://www.osxfaq.com/man/3/sysctl.ws>
@@ -922,8 +1074,10 @@ int HOST_INFO::get_host_info() {
     struct utsname u;
     uname(&u);
     safe_strcpy(os_name, u.sysname);
-#ifdef __EMX__ // OS2: version is in u.version
+#if defined(__EMX__) // OS2: version is in u.version
     safe_strcpy(os_version, u.version);
+#elif defined(__HAIKU__)
+    snprintf(os_version, sizeof(os_version), "%s, %s", u.release, u.version); 
 #else
     safe_strcpy(os_version, u.release);
 #endif
