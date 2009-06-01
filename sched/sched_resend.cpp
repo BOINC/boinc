@@ -118,7 +118,7 @@ bool resend_lost_work() {
         bool found = false;
         for (i=0; i<g_request->other_results.size(); i++) {
             OTHER_RESULT& orp = g_request->other_results[i];
-            if (!strcmp(orp.name.c_str(), result.name)) {
+            if (!strcmp(orp.name, result.name)) {
                 found = true;
                 break;
             }
@@ -205,7 +205,7 @@ bool resend_lost_work() {
             num_resent++;
             did_any = true;
 
-            if (g_wreq->nresults >= config.max_wus_to_send) {
+            if (g_wreq->njobs_sent >= config.max_wus_to_send) {
                 result.end_enumerate();
                 break;
             }

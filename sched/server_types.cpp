@@ -95,13 +95,18 @@ int FILE_INFO::parse(FILE* f) {
 int OTHER_RESULT::parse(FILE* f) {
     char buf[256];
 
-    name = "";
+    strcpy(name, "");
+    have_plan_class = false;
     while (fgets(buf, sizeof(buf), f)) {
         if (match_tag(buf, "</other_result>")) {
             if (name=="") return ERR_XML_PARSE;
             return 0;
         }
-        if (parse_str(buf, "<name>", name)) continue;
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_str(buf, "<plan_class>", plan_class, sizeof(plan_class))) {
+            have_plan_class = true;
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -580,13 +585,13 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
             min_delay_needed = config.min_sendwork_interval+1;
         }
         if (request_delay<min_delay_needed) {
-            request_delay=min_delay_needed; 
+            request_delay = min_delay_needed; 
         }
         fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
     }
     log_messages.printf(MSG_NORMAL,
         "Sending reply to [HOST#%d]: %d results, delay req %.2f\n",
-        host.id, wreq.nresults, request_delay
+        host.id, wreq.njobs_sent, request_delay
     );
 
     if (sreq.core_client_version <= 419) {

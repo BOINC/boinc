@@ -15,7 +15,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef _SCHED_SEND_
+#define _SCHED_SEND_
+
 #include <string.h>
+
+#include "boinc_db.h"
+#include "server_types.h"
 
 extern void send_work();
 
@@ -58,3 +64,6 @@ extern const char* infeasible_string(int);
 extern bool app_not_selected(WORKUNIT&);
 extern bool work_needed(bool);
 extern void send_work_setup();
+extern int effective_ncpus();
+extern int preferred_app_message_index;
+#endif

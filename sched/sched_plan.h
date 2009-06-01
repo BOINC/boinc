@@ -31,3 +31,4 @@
 #define PLAN_CUDA_MIN_RAM                   (254*1024*1024)
 
 extern int app_plan(SCHEDULER_REQUEST&, char* plan_class, HOST_USAGE&);
+extern bool app_plan_uses_gpu(const char* plan_class);

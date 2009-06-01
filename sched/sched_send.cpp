@@ -15,7 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// scheduler code related to sending jobs
+// scheduler code related to sending jobs.
+// NOTE: there should be nothing here specific to particular
+// scheduling policies (array scan, matchmaking, locality)
 
 #include "config.h"
 #include <vector>
@@ -82,50 +84,49 @@ const double MAX_REQ_SECS = (28*SECONDS_IN_DAY);
 const int MAX_CUDA_DEVS = 8;
     // don't believe clients who claim they have more CUDA devices than this
 
-// the # of CPUs in EDF simulation
-
-inline int effective_ncpus() {
+int effective_ncpus() {
     int ncpus = g_reply->host.p_ncpus;
+    if (g_request->global_prefs.max_ncpus_pct && g_request->global_prefs.max_ncpus_pct < 100) {
+        ncpus = (int)((ncpus*g_request->global_prefs.max_ncpus_pct)/100.);
+    }
     if (ncpus > config.max_ncpus) ncpus = config.max_ncpus;
     if (ncpus < 1) ncpus = 1;
     return ncpus;
 }
 
-// max results/day is this multiplier times config.max_results_day.
-// multiplier is:
-// # CPUs + config.cuda_multiplier*#GPUs
-//
-inline void get_max_results_day_multiplier() {
-    int n = g_reply->host.p_ncpus;
-    if (n > config.max_ncpus) n = config.max_ncpus;
-    if (n < 1) n = 1;
-    if (config.cuda_multiplier) {
-        COPROC* cp = g_request->coprocs.lookup("CUDA");
-        if (cp) {
-            int m = cp->count;
-            if (m > MAX_CUDA_DEVS) m = MAX_CUDA_DEVS;
-            n += m*config.cuda_multiplier;
-        }
+inline int effective_ngpus() {
+    int m = 0;
+    COPROC* cp = g_request->coprocs.lookup("CUDA");
+    if (cp) {
+        int m = cp->count;
+        if (m > MAX_CUDA_DEVS) m = MAX_CUDA_DEVS;
     }
-    g_wreq->max_results_day_multiplier = n;
+    return m;
 }
 
-// max results in progress is this multiplier times config.max_wus_in_progress
-// multiplier is defined same as above.
+// get limits on #jobs per day and per RPC
 //
-inline void get_max_wus_in_progress_multiplier() {
-    int n = g_reply->host.p_ncpus;
-    if (n > config.max_ncpus) n = config.max_ncpus;
-    if (n < 1) n = 1;
-    if (config.cuda_multiplier) {
-        COPROC* cp = g_request->coprocs.lookup("CUDA");
-        if (cp) {
-            int m = cp->count;
-            if (m > MAX_CUDA_DEVS) m = MAX_CUDA_DEVS;
-            n += m*config.cuda_multiplier;
-        }
+inline void get_job_limits() {
+    int n;
+    int mult = effective_ncpus();
+    mult += config.gpu_multiplier * effective_ngpus();
+    n = mult * config.max_wus_to_send * mult;
+    g_wreq->max_jobs_per_rpc = n?n:999999;
+
+    if (g_reply->host.max_results_day == 0 || g_reply->host.max_results_day>config.daily_result_quota) {
+        g_reply->host.max_results_day = config.daily_result_quota;
     }
-    g_wreq->max_wus_in_progress_multiplier = n;
+    n = mult * g_reply->host.max_results_day;
+    g_wreq->max_jobs_per_day = n?n:999999;
+}
+
+inline void get_max_jobs_on_host() {
+    int n;
+    n = config.max_wus_in_progress * effective_ncpus();
+    g_wreq->max_jobs_on_host_cpu = n?n:999999;
+    n = config.max_wus_in_progress_gpu * effective_ngpus();
+    g_wreq->max_jobs_on_host_gpu = n?n:999999;
+    g_wreq->max_jobs_on_host = g_wreq->max_jobs_on_host_cpu + g_wreq->max_jobs_on_host_gpu;
 }
 
 static const char* find_user_friendly_name(int appid) {
@@ -420,7 +421,7 @@ static inline int check_memory(WORKUNIT& wu) {
             wu.rsc_memory_bound/MEGA, g_wreq->usable_ram/MEGA
         );
         g_wreq->insert_no_work_message(USER_MESSAGE(message,"high"));
-        
+
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
                 "[send] [WU#%d %s] needs %0.2fMB RAM; [HOST#%d] has %0.2fMB, %0.2fMB usable\n",
@@ -454,7 +455,7 @@ static inline int check_disk(WORKUNIT& wu) {
 
 static inline int check_bandwidth(WORKUNIT& wu) {
     if (wu.rsc_bandwidth_bound == 0) return 0;
-    
+
     // if n_bwdown is zero, the host has never downloaded anything,
     // so skip this check
     //
@@ -594,7 +595,7 @@ int wu_is_infeasible_fast(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
             return INFEASIBLE_HR;
         }
     }
-    
+
     if (config.one_result_per_user_per_wu || config.one_result_per_host_per_wu) {
         if (wu_already_in_reply(wu)) {
             return INFEASIBLE_DUP;
@@ -646,7 +647,7 @@ int insert_after(char* buffer, const char* after, const char* text) {
 //
 int insert_wu_tags(WORKUNIT& wu, APP& app) {
     char buf[BLOB_SIZE];
-    
+
     sprintf(buf,
         "    <rsc_fpops_est>%f</rsc_fpops_est>\n"
         "    <rsc_fpops_bound>%f</rsc_fpops_bound>\n"
@@ -672,7 +673,7 @@ int add_wu_to_reply(
 ) {
     int retval;
     WORKUNIT wu2, wu3;
-    
+
     APP_VERSION* avp = bavp->avp;
 
     // add the app, app_version, and workunit to the reply,
@@ -680,11 +681,11 @@ int add_wu_to_reply(
     //
     if (avp) {
         APP_VERSION av2=*avp, *avp2=&av2;
-        
+
         if (strlen(config.replace_download_url_by_timezone)) {
             process_av_timezone(avp, av2);
         }
-        
+
         g_reply->insert_app_unique(*app);
         av2.bavp = bavp;
         g_reply->insert_app_version_unique(*avp2);
@@ -710,7 +711,7 @@ int add_wu_to_reply(
     if (strlen(config.replace_download_url_by_timezone)) {
         process_wu_timezone(wu2, wu3);
     }
-    
+
     g_reply->insert_workunit_unique(wu3);
 
     // switch to tighter policy for estimating delay
@@ -744,7 +745,7 @@ int update_wu_transition_time(WORKUNIT wu, time_t x) {
     char buf[256];
 
     dbwu.id = wu.id;
-    
+
     // SQL note: can't use min() here
     //
     sprintf(buf,
@@ -794,45 +795,42 @@ bool work_needed(bool locality_sched) {
         }
     }
 
-    // host.max_results_day is between 1 and config.daily_result_quota inclusive
-    // wreq.daily_result_quota is between ncpus
-    // and ncpus*host.max_results_day inclusive
-    //
-    if (config.daily_result_quota) {
-        if (g_reply->host.max_results_day == 0 || g_reply->host.max_results_day>config.daily_result_quota) {
-            g_reply->host.max_results_day = config.daily_result_quota;
-        }
-        int mult = g_wreq->max_results_day_multiplier;
-        g_wreq->total_max_results_day = mult*g_reply->host.max_results_day;
-        if (g_reply->host.nresults_today >= g_wreq->total_max_results_day) {
-            g_wreq->daily_result_quota_exceeded = true;
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] stopping work search - daily quota exceeded\n"
-                );
-            }
-            return false;
-        }
-    }
-
-    if (config.max_wus_in_progress) {
-        int mult = g_wreq->max_wus_in_progress_multiplier;
-        if (g_wreq->nresults_on_host >= mult*config.max_wus_in_progress) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] in-progress job limit exceeded; %d >= %d*%d\n",
-                    g_wreq->nresults_on_host, config.max_wus_in_progress, mult
-                );
-            }
-            g_wreq->cache_size_exceeded = true;
-            return false;
-        }
-    }
-    if (g_wreq->nresults >= config.max_wus_to_send) {
+    if (g_reply->host.nresults_today >= g_wreq->max_jobs_per_day) {
+        g_wreq->daily_result_quota_exceeded = true;
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] stopping work search - nresults %d >= max_wus_to_send %d\n",
-                g_wreq->nresults, config.max_wus_to_send
+                "[send] stopping work search - daily quota exceeded (%d>=%d)\n",
+                g_reply->host.nresults_today, g_wreq->max_jobs_per_day
+            );
+        }
+        return false;
+    }
+
+    if (g_wreq->njobs_on_host >= g_wreq->max_jobs_on_host) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] in-progress job limit exceeded; %d >= %d\n",
+                g_wreq->njobs_on_host, g_wreq->max_jobs_on_host
+            );
+        }
+        g_wreq->max_jobs_on_host_exceeded = true;
+        return false;
+    }
+
+    if (g_wreq->njobs_on_host_cpu >= g_wreq->max_jobs_on_host_cpu) {
+        g_wreq->clear_cpu_req();
+        g_wreq->max_jobs_on_host_cpu_exceeded = true;
+    }
+    if (g_wreq->njobs_on_host_gpu >= g_wreq->max_jobs_on_host_gpu) {
+        g_wreq->clear_gpu_req();
+        g_wreq->max_jobs_on_host_gpu_exceeded = true;
+    }
+
+    if (g_wreq->njobs_sent >= g_wreq->max_jobs_per_rpc) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] stopping work search - njobs %d >= max_jobs_per_rpc %d\n",
+                g_wreq->njobs_sent, g_wreq->max_jobs_per_rpc
             );
         }
         return false;
@@ -925,7 +923,7 @@ int add_result_to_reply(
         // so we are resending it.
         //
         resent_result = true;
- 
+
         // TODO: explain the following
         //
         if (result.report_deadline < result.sent_time) {
@@ -1004,8 +1002,13 @@ int add_result_to_reply(
         g_wreq->seconds_to_fill -= est_dur;
     }
     update_estimated_delay(*bavp, est_dur);
-    g_wreq->nresults++;
-    g_wreq->nresults_on_host++;
+    g_wreq->njobs_sent++;
+    g_wreq->njobs_on_host++;
+    if (app_plan_uses_gpu(bavp->avp->plan_class)) {
+        g_wreq->njobs_on_host_gpu++;
+    } else {
+        g_wreq->njobs_on_host_cpu++;
+    }
     if (!resent_result) g_reply->host.nresults_today++;
 
     // add this result to workload for simulation
@@ -1079,7 +1082,7 @@ static void explain_to_user() {
     // NOTE: this will have to be done differently with matchmaker scheduling
     //
     if (!config.locality_scheduling && !config.matchmaker) {
-        if (g_wreq->nresults && !g_wreq->user_apps_only) {
+        if (g_wreq->njobs_sent && !g_wreq->user_apps_only) {
             g_reply->insert_message(
                 USER_MESSAGE(
                     "No work can be sent for the applications you have selected",
@@ -1126,7 +1129,7 @@ static void explain_to_user() {
 
     // if client asked for work and we're not sending any, explain why
     //
-    if (g_wreq->nresults == 0) {
+    if (g_wreq->njobs_sent == 0) {
         g_reply->set_delay(DELAY_NO_WORK_TEMP);
         g_reply->insert_message(USER_MESSAGE("No work sent", "high"));
 
@@ -1211,18 +1214,10 @@ static void explain_to_user() {
                 )
             );
         }
-        if (g_wreq->gpu_too_slow) {
-            g_reply->insert_message(
-                USER_MESSAGE(
-                    "Not sending CUDA jobs because slow GPUs can cause crashes on Windows",
-                    "low"
-                )
-            );
-        }
         if (g_wreq->no_gpus_prefs) {
             g_reply->insert_message(
                 USER_MESSAGE(
-                    "CUDA (GPU) jobs are available, but your preferences are set to not accept them",
+                    "GPU jobs are available, but your preferences are set to not accept them",
                     "low"
                 )
             );
@@ -1239,13 +1234,13 @@ static void explain_to_user() {
             struct tm *rpc_time_tm;
             int delay_time;
 
-            sprintf(helpful, "(reached daily quota of %d results)",
-                g_wreq->total_max_results_day
+            sprintf(helpful, "(reached daily quota of %d tasks)",
+                g_wreq->max_jobs_per_day
             );
             g_reply->insert_message(USER_MESSAGE(helpful, "high"));
             log_messages.printf(MSG_NORMAL,
-                "Daily result quota exceeded for host %d\n",
-                g_reply->host.id
+                "Daily result quota %d exceeded for host %d\n",
+                g_wreq->max_jobs_per_day, g_reply->host.id
             );
 
             // set delay so host won't return until a random time in
@@ -1261,75 +1256,39 @@ static void explain_to_user() {
                 + (int)(3600*(double)rand()/(double)RAND_MAX);
             g_reply->set_delay(delay_time);
         }
-        if (g_wreq->cache_size_exceeded) {
-            sprintf(helpful, "(reached per-CPU limit of %d tasks)",
-                config.max_wus_in_progress
+        if (g_wreq->max_jobs_on_host_exceeded) {
+            sprintf(helpful, "(reached limit of %d tasks)",
+                g_wreq->max_jobs_on_host
             );
             g_reply->insert_message(USER_MESSAGE(helpful, "high"));
             g_reply->set_delay(DELAY_NO_WORK_CACHE);
             log_messages.printf(MSG_NORMAL,
-                "host %d already has %d result(s) in progress\n",
-                g_reply->host.id, g_wreq->nresults_on_host
-            );
-        }        
-    }
-}
-
-// Send work by scanning the job array multiple times,
-// with different selection criteria on each scan.
-// This has been superceded by send_work_matchmaker()
-//
-static void send_work_old() {
-    g_wreq->no_jobs_available = true;
-    g_wreq->beta_only = false;
-    g_wreq->user_apps_only = true;
-    g_wreq->infeasible_only = false;
-
-    // give top priority to results that require a 'reliable host'
-    //
-    if (g_wreq->reliable) {
-        g_wreq->reliable_only = true;
-        scan_work_array();
-    }
-    g_wreq->reliable_only = false;
-
-    // give 2nd priority to results for a beta app
-    // (projects should load beta work with care,
-    // otherwise your users won't get production work done!
-    //
-    if (g_wreq->allow_beta_work) {
-        g_wreq->beta_only = true;
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL,
-                "[send] [HOST#%d] will accept beta work.  Scanning for beta work.\n",
-                g_reply->host.id
+                "host %d already has %d job(s) in progress\n",
+                g_reply->host.id, g_wreq->njobs_on_host
             );
         }
-        scan_work_array();
-    }
-    g_wreq->beta_only = false;
-
-    // give next priority to results that were infeasible for some other host
-    //
-    g_wreq->infeasible_only = true;
-    scan_work_array();
-
-    g_wreq->infeasible_only = false;
-    scan_work_array();
-    
-    // If user has selected apps but will accept any,
-    // and we haven't found any jobs for selected apps, try others
-    //
-    if (!g_wreq->nresults && g_wreq->allow_non_preferred_apps ) {
-        g_wreq->user_apps_only = false;
-        preferred_app_message_index = g_wreq->no_work_messages.size();
-        if (config.debug_send) {
+        if (g_wreq->max_jobs_on_host_cpu_exceeded) {
+            sprintf(helpful, "(reached limit of %d CPU tasks)",
+                g_wreq->max_jobs_on_host_cpu
+            );
+            g_reply->insert_message(USER_MESSAGE(helpful, "high"));
+            g_reply->set_delay(DELAY_NO_WORK_CACHE);
             log_messages.printf(MSG_NORMAL,
-                "[send] [HOST#%d] is looking for work from a non-preferred application\n",
-                g_reply->host.id
+                "host %d already has %d CPU job(s) in progress\n",
+                g_reply->host.id, g_wreq->njobs_on_host_cpu
             );
         }
-        scan_work_array();
+        if (g_wreq->max_jobs_on_host_gpu_exceeded) {
+            sprintf(helpful, "(reached limit of %d GPU tasks)",
+                g_wreq->max_jobs_on_host_gpu
+            );
+            g_reply->insert_message(USER_MESSAGE(helpful, "high"));
+            g_reply->set_delay(DELAY_NO_WORK_CACHE);
+            log_messages.printf(MSG_NORMAL,
+                "host %d already has %d GPU job(s) in progress\n",
+                g_reply->host.id, g_wreq->njobs_on_host_gpu
+            );
+        }
     }
 }
 
@@ -1370,8 +1329,8 @@ void send_work_setup() {
     get_mem_sizes();
     get_running_frac();
     get_dcf();
-    get_max_results_day_multiplier();
-    get_max_wus_in_progress_multiplier();
+    get_job_limits();
+    get_max_jobs_on_host();
 
     g_wreq->seconds_to_fill = clamp_req_sec(g_request->work_req_seconds);
     g_wreq->cpu_req_secs = clamp_req_sec(g_request->cpu_req_secs);

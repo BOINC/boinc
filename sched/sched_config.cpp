@@ -40,7 +40,7 @@ const char* CONFIG_FILE = "config.xml";
 SCHED_CONFIG config;
 
 const int MAX_NCPUS = 8;
-    // max multiplier for daily_result_quota and max_wus_in_progress;
+    // max multiplier for daily_result_quota.
     // need to change as multicore processors expand
 
 int SCHED_CONFIG::parse(FILE* f) {
@@ -108,8 +108,9 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_int(tag, "min_sendwork_interval", min_sendwork_interval)) continue;
         if (xp.parse_int(tag, "max_wus_to_send", max_wus_to_send)) continue;
         if (xp.parse_int(tag, "max_wus_in_progress", max_wus_in_progress)) continue;
+        if (xp.parse_int(tag, "max_wus_in_progress_gpu", max_wus_in_progress_gpu)) continue;
         if (xp.parse_int(tag, "daily_result_quota", daily_result_quota)) continue;
-        if (xp.parse_int(tag, "cuda_multiplier", cuda_multiplier)) continue;
+        if (xp.parse_int(tag, "gpu_multiplier", gpu_multiplier)) continue;
         if (xp.parse_int(tag, "uldl_dir_fanout", uldl_dir_fanout)) continue;
         if (xp.parse_int(tag, "locality_scheduling_wait_period", locality_scheduling_wait_period)) continue;
         if (xp.parse_int(tag, "locality_scheduling_send_timeout", locality_scheduling_send_timeout)) continue;

@@ -4850,3 +4850,32 @@ David  31 May 2009
         hostinfo_unix.cpp
     lib/
         filesys.cpp
+
+David  1 June 2009
+    - scheduler: add new config option <max_wus_in_progress_gpus>.
+        The limit on jobs in progress is now
+            max_wus_in_progress * NCPUS
+            + max_wus_in_progress * NGPUS
+        where NCPUS and NGPUS reflect prefs and are capped.
+        Furthermore: if the client reports plan class for in-progress jobs
+        (see checkin of 31 May 2009)
+        then these limits are enforced separately;
+        i.e. the # of in-progress CPU jobs is <= max_wus_in_progress*NCPUS,
+        and the # of in-progress GPU jobs is <= max_wus_in_progress_gpu*NGPUS
+    - scheduler config: rename <cuda_multiplier> to <gpu_multiplier>
+    - scheduler: <max_wus_to_send> is now scaled by
+        (NCPUS + gpu_multiplier*NGPUS)
+    - scheduler: don't keep scanning array if !work_needed()
+    - scheduler: moved array-scan logic from sched_send.cpp to sched_array.cpp
+    - scheduler: don't say "no work available" if jobs are available
+        but work_needed() is initially false
+
+    sched/
+        handle_request.cpp
+        sched_array.cpp,h
+        sched_config.cpp,h
+        sched_plan.cpp,h
+        sched_resend.cpp
+        sched_score.cpp
+        sched_send.cpp,h
+        server_types.cpp,h

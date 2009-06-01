@@ -28,19 +28,9 @@
 #include "str_util.h"
 #include "sched_config.h"
 #include "sched_msgs.h"
-#include "sched_plan.h"
+#include "sched_send.h"
 
-// return the number of usable CPUs, taking prefs into account.
-// If prefs limit apply, set bounded to true.
-//
-static void get_ncpus(SCHEDULER_REQUEST& sreq, int& ncpus, bool& bounded) {
-    ncpus = sreq.host.p_ncpus;
-    bounded = false;
-    if (sreq.global_prefs.max_ncpus_pct && sreq.global_prefs.max_ncpus_pct < 100) {
-        bounded = true;
-        ncpus = (int)((ncpus*sreq.global_prefs.max_ncpus_pct)/100.);
-    }
-}
+#include "sched_plan.h"
 
 int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
     if (!strcmp(plan_class, "mt")) {
@@ -49,11 +39,9 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         // and whose speedup is .95N
         // (on a uniprocessor, we'll use a sequential app if one is available)
         //
-        int ncpus, nthreads;
-        bool bounded;
+        int nthreads;
 
-        get_ncpus(sreq, ncpus, bounded);
-        nthreads = ncpus;
+        nthreads = effective_ncpus();
         if (nthreads > 64) nthreads = 64;
         hu.avg_ncpus = nthreads;
         hu.max_ncpus = nthreads;
@@ -156,4 +144,11 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         "Unknown plan class: %s\n", plan_class
     );
     return PLAN_REJECT_UNKNOWN;
+}
+
+bool app_plan_uses_gpu(const char* plan_class) {
+    if (!strcmp(plan_class, "cuda")) {
+        return true;
+    }
+    return false;
 }

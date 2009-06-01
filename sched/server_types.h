@@ -124,6 +124,14 @@ struct WORK_REQ {
     inline bool need_cuda() {
         return (cuda_req_secs>0) || (cuda_req_instances>0);
     }
+    inline void clear_cpu_req() {
+        cpu_req_secs = 0;
+        cpu_req_instances = 0;
+    }
+    inline void clear_gpu_req() {
+        cuda_req_secs = 0;
+        cuda_req_instances = 0;
+    }
 
     // older clients send send a single number, the requested duration of jobs
     //
@@ -137,9 +145,7 @@ struct WORK_REQ {
     double ram, usable_ram;
     double running_frac;
     double dcf;
-    int max_results_day_multiplier;
-    int max_wus_in_progress_multiplier;
-    int nresults;
+    int njobs_sent;
 
     // The following keep track of the "easiest" job that was rejected
     // by EDF simulation.
@@ -180,23 +186,32 @@ struct WORK_REQ {
     bool hr_reject_temp;
     bool hr_reject_perm;
     bool outdated_client;
-    bool gpu_too_slow;
     bool no_gpus_prefs;
     bool no_cpu_prefs;
     bool daily_result_quota_exceeded;
-    bool cache_size_exceeded;
+    bool max_jobs_on_host_exceeded;
+    bool max_jobs_on_host_cpu_exceeded;
+    bool max_jobs_on_host_gpu_exceeded;
     bool no_jobs_available;     // project has no work right now
 
-    int total_max_results_day;
+    int max_jobs_per_day;
         // host.max_results_day * (NCPUS + NCUDA*cuda_multiplier)
-    int nresults_on_host;
-        // How many results from this project are in progress on the host.
+    int max_jobs_per_rpc;
+    int njobs_on_host;
+        // How many jobs from this project are in progress on the host.
         // Initially this is the number of "other_results"
         // reported in the request message.
         // If the resend_lost_results option is used,
         // it's set to the number of outstanding results taken from the DB
         // (those that were lost are resent).
         // As new results are sent, it's incremented.
+    int njobs_on_host_cpu;
+        // same, but just CPU jobs.
+    int njobs_on_host_gpu;
+        // same, but just GPU jobs.
+    int max_jobs_on_host;
+    int max_jobs_on_host_cpu;
+    int max_jobs_on_host_gpu;
     void update_for_result(double seconds_filled);
     void insert_no_work_message(const USER_MESSAGE&);
 };
@@ -282,7 +297,9 @@ struct PROJECT_FILES {
 // or aborted if not started
 //
 struct OTHER_RESULT {
-    std::string name;
+    char name[256];
+    char plan_class[64];
+    bool have_plan_class;
     bool abort;
     bool abort_if_not_started;
     int reason;     // see codes below

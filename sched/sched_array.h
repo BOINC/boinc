@@ -15,4 +15,4 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-extern void scan_work_array();
+extern void send_work_old();

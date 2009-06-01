@@ -56,6 +56,7 @@
 #include "sched_config.h"
 #include "sched_locality.h"
 #include "sched_result.h"
+#include "sched_plan.h"
 #include "time_stats_log.h"
 
 
@@ -731,7 +732,7 @@ int send_result_abort() {
     while (!(retval = result.enumerate(g_reply->host.id, result_names.c_str()))) {
         for (i=0; i<g_request->other_results.size(); i++) {
             OTHER_RESULT& orp = g_request->other_results[i];
-            if (!strcmp(orp.name.c_str(), result.result_name)) {
+            if (!strcmp(orp.name, result.result_name)) {
                 if (result.error_mask&WU_ERROR_CANCELLED ) {
                     // if the WU has been canceled, abort the result
                     //
@@ -776,17 +777,17 @@ int send_result_abort() {
             g_reply->result_aborts.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d]: Send result_abort for result %s; reason: %s\n",
-                g_reply->host.id, orp.name.c_str(), reason_str(orp.reason)
+                g_reply->host.id, orp.name, reason_str(orp.reason)
             ); 
             // send user message 
             char buf[256];
-            sprintf(buf, "Result %s is no longer usable", orp.name.c_str());
+            sprintf(buf, "Result %s is no longer usable", orp.name);
             g_reply->insert_message(USER_MESSAGE(buf, "high"));
         } else if (orp.abort_if_not_started) {
             g_reply->result_abort_if_not_starteds.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d]: Send result_abort_if_unstarted for result %s; reason %d\n",
-                g_reply->host.id, orp.name.c_str(), orp.reason
+                g_reply->host.id, orp.name, orp.reason
             ); 
         }
     }
@@ -1376,7 +1377,17 @@ void process_request(char* code_sign_key) {
     }
     send_work_setup();
 
-    g_reply->wreq.nresults_on_host = g_request->other_results.size();
+    g_wreq->njobs_on_host = g_request->other_results.size();
+    for (i=0; i<g_request->other_results.size(); i++) {
+        OTHER_RESULT& r = g_request->other_results[i];
+        if (r.have_plan_class) {
+            if (app_plan_uses_gpu(r.plan_class)) {
+                g_wreq->njobs_on_host_gpu++;
+            } else {
+                g_wreq->njobs_on_host_cpu++;
+            }
+        }
+    }
     if (g_request->have_other_results_list) {
         if (config.resend_lost_results && ok_to_send_work) {
             if (resend_lost_work()) {

@@ -48,9 +48,8 @@ public:
     bool one_result_per_host_per_wu;
     bool msg_to_host;
     int min_sendwork_interval;
-    int max_wus_to_send;
     int max_wus_in_progress;
-        // max jobs in progress on a given host (per CPU)
+    int max_wus_in_progress_gpu;
     bool non_cpu_intensive;
     bool verify_files_on_app_start;
     int homogeneous_redundancy;
@@ -59,8 +58,9 @@ public:
     bool ignore_upload_certificates;
     bool dont_generate_upload_certificates;
     bool ignore_delay_bound;
-    int daily_result_quota;         // max results per day is this * #CPUs
-    int cuda_multiplier;           // plus this * #CUDA devices
+    int gpu_multiplier;             // mult is NCPUS + this*NGPUS
+    int daily_result_quota;         // max results per day is this * mult
+    int max_wus_to_send;            // max results per RPC is this * mult
     int uldl_dir_fanout;        // fanout of ul/dl dirs; 0 if none
     int uldl_dir_levels;
     int locality_scheduling_wait_period;

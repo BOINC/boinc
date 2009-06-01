@@ -50,16 +50,15 @@
 // beta_only:
 //      Send only jobs for beta-test apps
 //
-// Return true if we found any jobs for consideration, even if we didn't send
+// Return true if no more work is needed.
 //
-void scan_work_array() {
+static bool scan_work_array() {
     int i, j, retval, n, rnd_off, last_retval=0;;
     WORKUNIT wu;
     DB_RESULT result;
     char buf[256];
     APP* app;
-
-    if (!work_needed(false)) return;
+    bool no_more_needed = false;
 
     lock_sema();
     
@@ -308,9 +307,72 @@ dont_send:
         wu_result.state = WR_STATE_PRESENT;
 done:
         lock_sema();
-        if (!work_needed(false)) break;
+        if (!work_needed(false)) {
+            no_more_needed = true;
+            break;
+        }
     }
     unlock_sema();
+    return no_more_needed;
+}
+
+// Send work by scanning the job array multiple times,
+// with different selection criteria on each scan.
+// This has been superceded by send_work_matchmaker()
+//
+void send_work_old() {
+    if (!work_needed(false)) return;
+    g_wreq->no_jobs_available = true;
+    g_wreq->beta_only = false;
+    g_wreq->user_apps_only = true;
+    g_wreq->infeasible_only = false;
+
+    // give top priority to results that require a 'reliable host'
+    //
+    if (g_wreq->reliable) {
+        g_wreq->reliable_only = true;
+        if (scan_work_array()) return;
+    }
+    g_wreq->reliable_only = false;
+
+    // give 2nd priority to results for a beta app
+    // (projects should load beta work with care,
+    // otherwise your users won't get production work done!
+    //
+    if (g_wreq->allow_beta_work) {
+        g_wreq->beta_only = true;
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] [HOST#%d] will accept beta work.  Scanning for beta work.\n",
+                g_reply->host.id
+            );
+        }
+        if (scan_work_array()) return;
+    }
+    g_wreq->beta_only = false;
+
+    // give next priority to results that were infeasible for some other host
+    //
+    g_wreq->infeasible_only = true;
+    if (scan_work_array()) return;;
+
+    g_wreq->infeasible_only = false;
+    if (scan_work_array()) return;
+
+    // If user has selected apps but will accept any,
+    // and we haven't found any jobs for selected apps, try others
+    //
+    if (!g_wreq->njobs_sent && g_wreq->allow_non_preferred_apps ) {
+        g_wreq->user_apps_only = false;
+        preferred_app_message_index = g_wreq->no_work_messages.size();
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] [HOST#%d] is looking for work from a non-preferred application\n",
+                g_reply->host.id
+            );
+        }
+        scan_work_array();
+    }
 }
 
 const char *BOINC_RCSID_d9f764fd14="$Id$";

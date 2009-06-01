@@ -58,26 +58,11 @@ struct JOB_SET {
         est_time = 0;
         disk_usage = 0;
         disk_limit = g_wreq->disk_available;
-        max_jobs = config.max_wus_to_send;
-        int n;
+        max_jobs = g_wreq->max_jobs_per_rpc;
 
-        if (config.daily_result_quota) {
-            int mult = g_wreq->max_results_day_multiplier;
-            if (g_reply->host.max_results_day == 0 || g_reply->host.max_results_day>config.daily_result_quota) {
-                g_reply->host.max_results_day = config.daily_result_quota;
-            }
-            g_wreq->total_max_results_day = mult*g_reply->host.max_results_day;
-            n = g_wreq->total_max_results_day - g_reply->host.nresults_today;
-            if (n < 0) n = 0;
-            if (n < max_jobs) max_jobs = n;
-        }
-
-        if (config.max_wus_in_progress) {
-            int mult = g_wreq->max_wus_in_progress_multiplier;
-            n = config.max_wus_in_progress*mult - g_wreq->nresults_on_host;
-            if (n < 0) n = 0;
-            if (n < max_jobs) max_jobs = n;
-        }
+        int n = g_wreq->max_jobs_on_host - g_wreq->njobs_on_host;
+        if (n < 0) n = 0;
+        if (n < max_jobs) max_jobs = n;
     }
     void add_job(JOB&);
     double higher_score_disk_usage(double);
@@ -450,7 +435,7 @@ void send_work_matchmaker() {
     unlock_sema();
     if (slots_locked > max_locked) {
         log_messages.printf(MSG_CRITICAL,
-            "Found too many locked slots (%d>%d) - increase array size",
+            "Found too many locked slots (%d>%d) - increase array size\n",
             slots_locked, max_locked
         );
     }
