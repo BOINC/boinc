@@ -135,7 +135,7 @@ $m6218c = array(
 
 $l66 = array(
     "num"=>"6.6.31",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_compat_6.6.31_i686-pc-linux-gnu.sh",
     "date"=>"1 June 2009",
     "type"=>"sea",
@@ -143,23 +143,15 @@ $l66 = array(
 
 $l64 = array(
     "num"=>"6.4.5",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_compat_6.4.5_i686-pc-linux-gnu.sh",
     "date"=>"9 Dec 2008",
     "type"=>"sea",
 );
 
-$l6215 = array(
-    "num"=>"6.2.15",
-    "status"=>"Older version",
-    "file"=>"boinc_compat_6.2.15_i686-pc-linux-gnu.sh",
-    "date"=>"4 Aug 2008",
-    "type"=>"sea",
-);
-
 $l66ubuntu = array(
     "num"=>"6.6.31",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_6.6.31_i686-pc-linux-gnu.sh",
     "date"=>"1 June 2009",
     "type"=>"sea",
@@ -167,23 +159,15 @@ $l66ubuntu = array(
 
 $l64ubuntu = array(
     "num"=>"6.4.5",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_6.4.5_i686-pc-linux-gnu.sh",
     "date"=>"9 Dec 2008",
     "type"=>"sea",
 );
 
-$l6215ubuntu = array(
-    "num"=>"6.2.15",
-    "status"=>"Older version",
-    "file"=>"boinc_6.2.15_i686-pc-linux-gnu.sh",
-    "date"=>"4 Aug 2008",
-    "type"=>"sea",
-);
-
 $l66ubuntux64 = array(
     "num"=>"6.6.31",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_6.6.31_x86_64-pc-linux-gnu.sh",
     "date"=>"1 June 2009",
     "type"=>"sea",
@@ -191,17 +175,9 @@ $l66ubuntux64 = array(
 
 $l64ubuntux64 = array(
     "num"=>"6.4.5",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_6.4.5_x86_64-pc-linux-gnu.sh",
     "date"=>"9 Dec 2008",
-    "type"=>"sea",
-);
-
-$l6215ubuntux64 = array(
-    "num"=>"6.2.15",
-    "status"=>"Older version",
-    "file"=>"boinc_6.2.15_x86_64-pc-linux-gnu.sh",
-    "date"=>"4 Aug 2008",
     "type"=>"sea",
 );
 
@@ -245,7 +221,6 @@ $linuxcompat = array(
     "versions"=>array(
         $l66,
         $l64,
-        $l6215,
     )
 );
 
@@ -256,7 +231,6 @@ $linux = array(
     "versions"=>array(
         $l66ubuntu,
         $l64ubuntu,
-		$l6215ubuntu,
     )
 );
 
@@ -267,7 +241,6 @@ $linuxx64 = array(
     "versions"=>array(
         $l66ubuntux64,
         $l64ubuntux64,
-		$l6215ubuntux64,
     )
 );
 
