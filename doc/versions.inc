@@ -80,7 +80,7 @@ $w64= array(
 $w66x64= array(
     "num"=>"6.6.31",
     "status"=>"Recommended version",
-    "file"=>"boinc_6.6.28_windows_x86_64.exe",
+    "file"=>"boinc_6.6.31_windows_x86_64.exe",
     "date"=>"1 June 2009",
     "type"=>"win_new",
 );
