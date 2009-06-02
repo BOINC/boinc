@@ -450,10 +450,12 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     if (retval) return retval;
 
     if (log_flags.sched_ops) {
-        msg_printf(project, MSG_INFO,
-            "Scheduler request completed: got %d new tasks",
-            (int)sr.results.size()
-        );
+        if (cpu_work_fetch.req_secs || cuda_work_fetch.req_secs) {
+            sprintf(buf, ": got %d new tasks", (int)sr.results.size());
+        } else {
+            strcpy(buf, "");
+        }
+        msg_printf(project, MSG_INFO, "Scheduler request completed%s", buf);
     }
     if (log_flags.sched_op_debug) {
         if (sr.scheduler_version) {

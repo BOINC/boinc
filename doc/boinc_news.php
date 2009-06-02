@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("June 1, 2009",
+    "Mac users: check out <a href=\"http://boinc.berkeley.edu/addon_item.php?platform=mac&item=http%3A%2F%2Fbrotherbard.com%2Fboinc%2F\">BOINCMenubar 2</a>,
+    an alternative to the BOINC Manager for Mac OS X."
+),
 array("May 17, 2009",
     "Check out <a href=\"http://365daysofastronomy.org/2009/05/17/may-17th-citizen-scientists-making-a-difference-and-having-fun/\">Citizen Scientists</a>,
     a podcast by the 365 Days of Astronomy project."

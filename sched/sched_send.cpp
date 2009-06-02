@@ -1004,7 +1004,7 @@ int add_result_to_reply(
     update_estimated_delay(*bavp, est_dur);
     g_wreq->njobs_sent++;
     g_wreq->njobs_on_host++;
-    if (app_plan_uses_gpu(bavp->avp->plan_class)) {
+    if (bavp->host_usage.ncudas > 0) {
         g_wreq->njobs_on_host_gpu++;
     } else {
         g_wreq->njobs_on_host_cpu++;

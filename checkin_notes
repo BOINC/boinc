@@ -4908,3 +4908,12 @@ David  1 June 2009
 
 	py/Boinc/
 		boinc_db.py
+
+David  1 June 2009
+    - client: if scheduler request didn't request work, don't report 0 tasks
+    - scheduler: fix crash if anonymous platform
+
+    client/
+        cs_scheduler.cpp
+    sched/
+        sched_send.cpp

@@ -375,6 +375,16 @@ array('rc.boinc-slackware-linux-latest.txt',
 
 $mac = array(
 array(
+    'http://brotherbard.com/boinc/',
+    'BOINCMenubar 2',
+    '0.1.11 beta',
+    'Mac GUI for BOINC',
+    'http://brotherbard.com/boinc/',
+    'Mac OS X 10.5 or later',
+    'BOINCMenubar 2 is a status menu item that lives on the right side of your menu bar. When you open the menu you get a quick overview of which projects have tasks running as well as other information about the projects that you set up yourself.  The BOINCMenubar menu also has items for controlling BOINC running on the host computer and for controlling projects that are attached to that computer.  There is a preference panel for setting up BOINCMenubar, for setting up all the preferences for the BOINC application itself and for attaching to and detaching from projects and account managers.',
+    1243918675
+),
+array(
     'http://michaelsprogramming.home.dyndns.org/',
     'BOINC Statistics',
     '',
