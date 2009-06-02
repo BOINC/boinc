@@ -4839,3 +4839,16 @@ Rom    29 May 2009
     /
         configure.ac
         version.h
+
+Charlie 1 June 2009
+    - Mac MGR: Fix per-thread-locale logic on Mac.
+    - MGR: In Async RPC logic, change calling order for wxCondition and 
+        wxMutex from <Set Boolean, Lock, Unlock, Signal> to <Lock, 
+        Set Boolean, Signal, Unlock> to be consistent with examples in 
+        literature, hoping this might fix an intermittent hang in 
+        wxConition::Wait().
+    - Mac MGR: Mac OS 10.3.9 does not have sqlite3, so we must weak-link.
+    
+    clientgui/
+        AsyncRPC.cpp
+        browser.cpp
