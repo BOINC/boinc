@@ -484,6 +484,15 @@ bool detect_cookie_mozilla_v2(
 }
 
     
+#if defined(__APPLE__)
+    // sqlite3 is not av ailable on Mac OS 10.3.9
+    extern int sqlite3_open(const char *filename, sqlite3 **ppDb) __attribute__((weak_import));
+    extern int sqlite3_close(sqlite3 *) __attribute__((weak_import));
+    extern int sqlite3_exec(sqlite3*,  const char *sql, sqlite3_callback, void *, char **errmsg) __attribute__((weak_import));
+    extern void sqlite3_free(char *z) __attribute__((weak_import));
+#endif
+
+
 bool detect_cookie_mozilla_v3(
     std::string profile_root, std::string& project_url, std::string& name, std::string& value
 ) {
@@ -494,6 +503,11 @@ bool detect_cookie_mozilla_v3(
     char*       lpszSQLErrorMessage = NULL;
     int         rc;
     MOZILLA_COOKIE_SQL cookie;
+
+#if defined(__APPLE__)
+    // sqlite3 is not av ailable on Mac OS 10.3.9
+    if (sqlite3_open == NULL) return false;
+#endif
 
     // determine the project hostname using the project url
     parse_hostname(project_url, hostname);

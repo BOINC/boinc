@@ -4893,3 +4893,11 @@ David  1 June 2009
     sched/
         feeder.cpp
         main.cpp
+
+Charlie 1 June 2009
+    - Mac MGR: Fix per-thread-locale logic on Mac.
+    - Mac MGR: Mac OS 10.3.9 does not have sqlite3, so we must weak-link.
+    
+    clientgui/
+        AsyncRPC.cpp
+        browser.cpp

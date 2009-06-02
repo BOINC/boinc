@@ -129,25 +129,27 @@ void *RPCThread::Entry() {
     ASYNC_RPC_REQUEST *current_request;
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
     wxCondError condErr = wxCOND_NO_ERROR;
-   
-    m_pRPC_Thread_Mutex->Lock();
 
 #ifndef NO_PER_THREAD_LOCALE
 #ifdef __WXMSW__
     // On Windows, set all locales for this thread on a per-thread basis
     _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
     setlocale(LC_ALL, "C");
-#elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)
-    if (uselocale) {    // uselocale() is not available in Mac OS 10.3.9
-        locale_t RPC_Thread_Locale = newlocale(LC_ALL_MASK, NULL, NULL);
+#else
+    // We initialize RPC_Thread_Locale to fix a compiler warning
+    locale_t RPC_Thread_Locale = LC_GLOBAL_LOCALE;
+#if defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)
+    if (uselocale)    // uselocale() is not available in Mac OS 10.3.9
+#endif
+    {
+        // On Mac / Unix / Linux, set "C" locale for this thread only
+        RPC_Thread_Locale = newlocale(LC_ALL_MASK, NULL, NULL);
         uselocale(RPC_Thread_Locale);
     }
-#else
-    // On Mac / Unix / Linux, set "C" locale for this thread only
-    locale_t RPC_Thread_Locale = newlocale(LC_ALL_MASK, NULL, NULL);
-    uselocale(RPC_Thread_Locale);
-#endif
-#endif
+#endif      // ifndef __WXMSW__
+#endif      // ifndef NO_PER_THREAD_LOCALE
+   
+    m_pRPC_Thread_Mutex->Lock();
 
     while(true) {
         // Wait for main thread to wake us
@@ -158,9 +160,14 @@ void *RPCThread::Entry() {
         wxASSERT(condErr == wxCOND_NO_ERROR);
         
         if (m_pDoc->m_bShutDownRPCThread) {
-#ifdef RPC_Thread_Locale
+#if !defined(NO_PER_THREAD_LOCALE) && !defined(__WXMSW__)
+#if defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)
+        if (uselocale)    // uselocale() is not available in Mac OS 10.3.9
+#endif
+        {
             uselocale(LC_GLOBAL_LOCALE);
             freelocale(RPC_Thread_Locale);
+        }
 #endif
             m_pRPC_Thread_Mutex->Unlock();  // Just for safety - not really needed
             // Tell CMainDocument that thread has gracefully ended 
@@ -477,21 +484,21 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     
     // Start this RPC if no other RPC is already in progress.
     if (RPC_requests.size() == 1) {
+        // Wait for thread to unlock mutex with m_pRPC_Thread_Condition->Wait()
+        mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
+        wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
+
         // Make sure activation is an atomic operation
         request.isActive = false;
         current_rpc_request = request;
         current_rpc_request.isActive = true;
 
-        // Wait for thread to unlock mutex with m_pRPC_Thread_Condition->Wait()
-        mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
-        wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
+        m_pRPC_Thread_Condition->Signal();  // Unblock the thread
 
         // m_pRPC_Thread_Condition->Wait() will Lock() the mutex upon receiving Signal(), 
         // causing it to block again if we still have our lock on the mutex.
         mutexErr = m_pRPC_Thread_Mutex->Unlock();
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
-
-        m_pRPC_Thread_Condition->Signal();  // Unblock the thread
     }
 
     // If this is a user-initiated event wait for completion but show 
@@ -646,11 +653,11 @@ void CMainDocument::KillRPCThread() {
     mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
     wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
-    mutexErr = m_pRPC_Thread_Mutex->Unlock(); // Release the mutex so thread can lock it
-    wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
-
     m_bShutDownRPCThread = true;
     m_pRPC_Thread_Condition->Signal();  // Unblock the thread
+
+    mutexErr = m_pRPC_Thread_Mutex->Unlock(); // Release the mutex so thread can lock it
+    wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
     RPC_requests.clear();
     current_rpc_request.clear();
@@ -905,21 +912,21 @@ void CMainDocument::HandleCompletedRPC() {
     // We can't start this until finished processing the previous RPC's 
     // event because the two requests may write into the same buffer.
     if (RPC_requests.size() > 0) {
+        // Wait for thread to unlock mutex with m_pRPC_Thread_Condition->Wait()
+        mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
+        wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
+
         // Make sure activation is an atomic operation
         RPC_requests[0].isActive = false;
         current_rpc_request = RPC_requests[0];
         current_rpc_request.isActive = true;
 
-        // Wait for thread to unlock mutex with m_pRPC_Thread_Condition->Wait()
-        mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
-        wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
+        m_pRPC_Thread_Condition->Signal();  // Unblock the thread
 
         // m_pRPC_Thread_Condition->Wait() will Lock() the mutex upon receiving Signal(), 
         // causing it to block again if we still have our lock on the mutex.
         mutexErr = m_pRPC_Thread_Mutex->Unlock();
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
-
-        m_pRPC_Thread_Condition->Signal();  // Unblock the thread
     }
 }
 
