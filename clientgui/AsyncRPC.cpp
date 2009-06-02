@@ -451,21 +451,21 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     
     // Start this RPC if no other RPC is already in progress.
     if (RPC_requests.size() == 1) {
-        // Make sure activation is an atomic operation
+         // Wait for thread to unlock mutex with m_pRPC_Thread_Condition->Wait()
+        mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
+        wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
+
+       // Make sure activation is an atomic operation
         request.isActive = false;
         current_rpc_request = request;
         current_rpc_request.isActive = true;
 
-        // Wait for thread to unlock mutex with m_pRPC_Thread_Condition->Wait()
-        mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
-        wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
+        m_pRPC_Thread_Condition->Signal();  // Unblock the thread
 
         // m_pRPC_Thread_Condition->Wait() will Lock() the mutex upon receiving Signal(), 
         // causing it to block again if we still have our lock on the mutex.
         mutexErr = m_pRPC_Thread_Mutex->Unlock();
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
-
-        m_pRPC_Thread_Condition->Signal();  // Unblock the thread
     }
 
     // If this is a user-initiated event wait for completion but show 
@@ -620,11 +620,11 @@ void CMainDocument::KillRPCThread() {
     mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
     wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
-    mutexErr = m_pRPC_Thread_Mutex->Unlock(); // Release the mutex so thread can lock it
-    wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
-
     m_bShutDownRPCThread = true;
     m_pRPC_Thread_Condition->Signal();  // Unblock the thread
+
+    mutexErr = m_pRPC_Thread_Mutex->Unlock(); // Release the mutex so thread can lock it
+    wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
     RPC_requests.clear();
     current_rpc_request.clear();
@@ -879,21 +879,21 @@ void CMainDocument::HandleCompletedRPC() {
     // We can't start this until finished processing the previous RPC's 
     // event because the two requests may write into the same buffer.
     if (RPC_requests.size() > 0) {
-        // Make sure activation is an atomic operation
+         // Wait for thread to unlock mutex with m_pRPC_Thread_Condition->Wait()
+        mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
+        wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
+
+       // Make sure activation is an atomic operation
         RPC_requests[0].isActive = false;
         current_rpc_request = RPC_requests[0];
         current_rpc_request.isActive = true;
 
-        // Wait for thread to unlock mutex with m_pRPC_Thread_Condition->Wait()
-        mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
-        wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
+        m_pRPC_Thread_Condition->Signal();  // Unblock the thread
 
         // m_pRPC_Thread_Condition->Wait() will Lock() the mutex upon receiving Signal(), 
         // causing it to block again if we still have our lock on the mutex.
         mutexErr = m_pRPC_Thread_Mutex->Unlock();
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
-
-        m_pRPC_Thread_Condition->Signal();  // Unblock the thread
     }
 }
 
