@@ -61,7 +61,6 @@
 		DD33C6F808B5BB4500768630 /* acct_setup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.cpp */; };
 		DD33C70408B5BEDE00768630 /* http_curl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C70208B5BEDE00768630 /* http_curl.cpp */; };
 		DD35353607E1E13F00C4718D /* boinc_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5755AD302FE063A012012A7 /* boinc_api.cpp */; };
-		DD377E090F6F95650089CE9A /* ViewNews.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD377E070F6F95650089CE9A /* ViewNews.cpp */; };
 		DD3E14DB0A774397007E0084 /* boinc in Resources */ = {isa = PBXBuildFile; fileRef = DDD74D8707CF482E0065AC9D /* boinc */; };
 		DD3E14DC0A774397007E0084 /* BOINCMgr.icns in Resources */ = {isa = PBXBuildFile; fileRef = DDF3028907CCCE2C00701169 /* BOINCMgr.icns */; };
 		DD3E14DD0A774397007E0084 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
@@ -653,8 +652,6 @@
 		DD344BEE07C5B1770043025C /* proxy_info.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = proxy_info.h; path = ../lib/proxy_info.h; sourceTree = SOURCE_ROOT; };
 		DD344BEF07C5B1770043025C /* proxy_info.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = proxy_info.cpp; sourceTree = "<group>"; };
 		DD35353107E1E05C00C4718D /* libboinc_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD377E070F6F95650089CE9A /* ViewNews.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ViewNews.cpp; path = ../clientgui/ViewNews.cpp; sourceTree = SOURCE_ROOT; };
-		DD377E080F6F95650089CE9A /* ViewNews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewNews.h; path = ../clientgui/ViewNews.h; sourceTree = SOURCE_ROOT; };
 		DD3E15420A774397007E0084 /* BOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407A4A07D2FB1200163EF5 /* libboinc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD407AB707D2FC7D00163EF5 /* mem_usage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = mem_usage.cpp; sourceTree = "<group>"; };
@@ -1345,8 +1342,6 @@
 				DD81C46507C5D29F0098A04D /* ValidateURL.h */,
 				DD81C42507C5D1D70098A04D /* ViewMessages.cpp */,
 				DD81C46407C5D29F0098A04D /* ViewMessages.h */,
-				DD377E070F6F95650089CE9A /* ViewNews.cpp */,
-				DD377E080F6F95650089CE9A /* ViewNews.h */,
 				DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */,
 				DDD52DC50C03CAE6009B5FC0 /* ViewProjects.h */,
 				DD81C42307C5D1D70098A04D /* ViewResources.cpp */,
@@ -2403,7 +2398,6 @@
 				DDC132F30E2DAB1B0014D305 /* AsyncRPC.cpp in Sources */,
 				DDDE43B10EC04C1800083520 /* DlgExitMessage.cpp in Sources */,
 				DDC836E60EDEA5DB001C2EF9 /* TermsOfUsePage.cpp in Sources */,
-				DD377E090F6F95650089CE9A /* ViewNews.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

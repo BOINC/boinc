@@ -4852,3 +4852,10 @@ Charlie 1 June 2009
     clientgui/
         AsyncRPC.cpp
         browser.cpp
+
+Charlie 2 June 2009
+    - Mac: delete source files ViewNews.cpp, ViewNews.h from XCode Project.
+    
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
