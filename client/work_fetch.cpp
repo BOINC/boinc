@@ -121,7 +121,7 @@ void PROJECT_WORK_FETCH::reset(PROJECT* p) {
 
 void RSC_WORK_FETCH::accumulate_shortfall(double d_time) {
     double idle = ninstances - sim_nused;
-    if (idle > 0) {
+    if (idle > 1e-6) {
         shortfall += idle*d_time;
     }
 #if 0
@@ -135,7 +135,8 @@ void RSC_WORK_FETCH::accumulate_shortfall(double d_time) {
 // resource to be saturated.
 //
 void RSC_WORK_FETCH::update_estimated_delay(double dt) {
-    if (sim_nused+1e-6 >= ninstances) {
+    double idle = ninstances - sim_nused;
+    if (idle < 1e-6) {
         estimated_delay = dt;
     }
 #if 0

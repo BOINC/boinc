@@ -588,7 +588,7 @@ void boinc_catch_signal(int signal_num) {
     // so a write to stdout will just generate a SIGPIPE
     //
     // return_error(ERR_TRANSIENT, "while downloading %s server caught signal %d", this_filename, signal_num);
-    exit(1);
+    _exit(1);
 }
 
 void installer() {
