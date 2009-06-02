@@ -42,6 +42,24 @@
 
 #include "file_names.h"
 
+int make_soft_link(PROJECT* project, char* link_path, char* rel_file_path) {
+    FILE *fp = boinc_fopen(link_path, "w");
+    if (!fp) {
+        msg_printf(project, MSG_INTERNAL_ERROR,
+            "Can't create link file %s", link_path
+        );
+        return ERR_FOPEN;
+    }
+    fprintf(fp, "<soft_link>%s</soft_link>\n", rel_file_path);
+    fclose(fp);
+    if (log_flags.slot_debug) {
+        msg_printf(project, MSG_INFO,
+            "[slot] linked %s to %s", rel_file_path, link_path
+        );
+    }
+    return 0;
+}
+
 void get_project_dir(PROJECT* p, char* path, int len) {
     char buf[1024];
     escape_project_url(p->master_url, buf);

@@ -22,6 +22,8 @@
 #include "common_defs.h"
 #include "prefs.h"
 
+extern int make_soft_link(PROJECT* project, char* link_path, char* rel_file_path);
+
 // get the pathname (relative to client home dir) of a project file
 //
 extern void get_pathname(FILE_INFO* fip, char* path, int len);

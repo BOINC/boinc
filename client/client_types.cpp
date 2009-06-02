@@ -552,18 +552,16 @@ void PROJECT::write_project_files(MIOFILE& f) {
 // has several logical names, so try them all
 //
 int PROJECT::write_symlink_for_project_file(FILE_INFO* fip) {
-    char project_dir[256], path[256];
+    char project_dir[256], link_path[256], file_path[256];
     unsigned int i;
 
     get_project_dir(this, project_dir, sizeof(project_dir));
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
         if (fref.file_info != fip) continue;
-        sprintf(path, "%s/%s", project_dir, fref.open_name);
-        FILE* f = boinc_fopen(path, "w");
-        if (!f) continue;
-        fprintf(f, "<soft_link>%s/%s</soft_link>\n", project_dir, fip->name);
-        fclose(f);
+        sprintf(link_path, "%s/%s", project_dir, fref.open_name);
+        sprintf(file_path, "%s/%s", project_dir, fip->name);
+        make_soft_link(this, link_path, file_path);
     }
     return 0;
 }

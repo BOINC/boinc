@@ -421,13 +421,12 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
 
     for (i=0; i<ssp->max_wu_results; i++) {
         app_index = app_indices[i];
-        if (enum_phase[app_index] == ENUM_OVER) continue;
 
         DB_WORK_ITEM& wi = work_items[app_index];
         WU_RESULT& wu_result = ssp->wu_results[i];
         switch (wu_result.state) {
         case WR_STATE_PRESENT:
-                 if (purge_stale_time && wu_result.time_added_to_shared_memory < (time(0) - purge_stale_time)) {
+            if (purge_stale_time && wu_result.time_added_to_shared_memory < (time(0) - purge_stale_time)) {
                 wu_result.state = WR_STATE_EMPTY;
                 log_messages.printf(MSG_NORMAL,
                     "remove result [RESULT#%d] from slot %d because it is stale\n",
@@ -438,6 +437,7 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
                 break;
             }
         case WR_STATE_EMPTY:
+            if (enum_phase[app_index] == ENUM_OVER) continue;
             found = get_job_from_db(
                 wi, app_index, enum_phase[app_index], ncollisions
             );
@@ -478,6 +478,7 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
             struct stat s;
             char buf[256];
             sprintf(buf, "/proc/%d", pid);
+            log_messages.printf(MSG_NORMAL, "checking pid %d", pid);
             if (stat(buf, &s)) {
                 wu_result.state = WR_STATE_PRESENT;
                 log_messages.printf(MSG_NORMAL,

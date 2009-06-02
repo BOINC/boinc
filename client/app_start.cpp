@@ -288,24 +288,6 @@ int ACTIVE_TASK::write_app_init_file() {
     return retval;
 }
 
-static int make_soft_link(PROJECT* project, char* link_path, char* rel_file_path) {
-    FILE *fp = boinc_fopen(link_path, "w");
-    if (!fp) {
-        msg_printf(project, MSG_INTERNAL_ERROR,
-            "Can't create link file %s", link_path
-        );
-        return ERR_FOPEN;
-    }
-    fprintf(fp, "<soft_link>%s</soft_link>\n", rel_file_path);
-    fclose(fp);
-    if (log_flags.slot_debug) {
-        msg_printf(project, MSG_INFO,
-            "[slot] linked %s to %s", rel_file_path, link_path
-        );
-    }
-    return 0;
-}
-
 // set up a file reference, given a slot dir and project dir.
 // This means:
 // 1) copy the file to slot dir, if reference is by copy

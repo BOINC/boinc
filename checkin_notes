@@ -4879,3 +4879,17 @@ David  1 June 2009
         sched_score.cpp
         sched_send.cpp,h
         server_types.cpp,h
+
+David  1 June 2009
+    - feeder: process array slots even if enum has ended;
+        this is needed to handle stale entries and slots
+        reserved by now-dead PIDs
+    - client: unify code for writing soft link files
+
+    client/
+        app_start.cpp
+        client_types.cpp
+        file_names.cpp,h
+    sched/
+        feeder.cpp
+        main.cpp

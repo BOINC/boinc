@@ -208,7 +208,7 @@ int open_database() {
 // the cgi process will leave behind some record in the log file.
 //
 void sigterm_handler(int signo) {
-   log_messages.printf(MSG_CRITICAL, "Caught signal %d Exit(1)ing\n", signo);
+    log_messages.printf(MSG_CRITICAL, "Caught SIGTERM (sent by Apache); exiting\n");
     fflush((FILE*)NULL);
     exit(1);
     return;
