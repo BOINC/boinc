@@ -296,8 +296,10 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
             fprintf(f,
                 "    <other_result>\n"
                 "        <name>%s</name>\n"
+                "        <plan_class>%s</plan_class>\n" 
                 "    </other_result>\n",
-                rp->name
+                rp->name,
+                rp->plan_class
             );
         }
     }

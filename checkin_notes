@@ -2848,3 +2848,9 @@ Charlie 2 June 2009
         configure.ac
         version.h
 
+David  31 May 2009
+    - client: include plan class in other_result list in sched request
+        (for resource-specific jobs-in-progress limit)
+
+    client/
+        cs_scheduler.cpp
