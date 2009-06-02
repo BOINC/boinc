@@ -4917,3 +4917,10 @@ David  1 June 2009
         cs_scheduler.cpp
     sched/
         sched_send.cpp
+
+David  1 June 2009
+	- Updated Python assimilator (from Jeremy Cowles)
+
+	sched/
+		assimilator.py
+		testasm.py
