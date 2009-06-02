@@ -4901,3 +4901,10 @@ Charlie 1 June 2009
     clientgui/
         AsyncRPC.cpp
         browser.cpp
+
+David  1 June 2009
+	- python DB code: add clear cache method, and fix equality crash
+		(from Jeremy Cowles)
+
+	py/Boinc/
+		boinc_db.py
