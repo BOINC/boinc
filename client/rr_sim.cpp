@@ -349,6 +349,8 @@ void CLIENT_STATE::rr_simulation() {
         sim_status.remove_active(rpbest);
         pbest->rr_sim_status.remove_active(rpbest);
 
+        sim_now += rpbest->rrsim_finish_delay;
+
         // start new jobs; may need to start more than one
         // if this job used multiple resource instances
         //
@@ -370,7 +372,6 @@ void CLIENT_STATE::rr_simulation() {
                 pbest->rr_sim_status.activate(rp);
             }
         }
-        sim_now += rpbest->rrsim_finish_delay;
     }
 
     // if simulation ends before end of buffer, take the tail into account
