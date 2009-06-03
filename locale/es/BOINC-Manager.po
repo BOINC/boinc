@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-05-30 14:17-0700\n"
+"PO-Revision-Date: 2009-06-03 15:15-0700\n"
 "Last-Translator: David M <davidcomp at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -543,11 +543,11 @@ msgstr "Comunicando con cliente BOINC._ Por favor, espere ..."
 
 #: clientgui/AsyncRPC.cpp:977
 msgid "&Quit BOINC"
-msgstr ""
+msgstr "&Salir de BOINC"
 
 #: clientgui/AsyncRPC.cpp:979
 msgid "E&xit BOINC"
-msgstr ""
+msgstr "&Salir de BOINC"
 
 #: clientgui/AsyncRPC.cpp:996
 #: clientgui/DlgAdvPreferencesBase.cpp:585
