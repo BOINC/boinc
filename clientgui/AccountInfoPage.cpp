@@ -447,9 +447,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         );
     } else {
         m_pAccountManagerLinkLabelStaticCtrl->SetLabel(
-            _("If you have not yet registered with this account manager,\n"
-            "please do so before proceeding.  Click on the link below\n"
-            "to register or to retrieve a forgotten password." )
+            _("If you have not yet registered with this account manager,\nplease do so before proceeding.  Click on the link below\nto register or to retrieve a forgotten password." )
         );
         m_pAccountForgotPasswordCtrl->SetLabel(
             _("Account manager website")
