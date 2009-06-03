@@ -4987,3 +4987,12 @@ David  3 June 2009
 
     html/user/
         main.css
+
+David  3 June 2009
+    - make update_translations.php executable; fixes #770
+
+    html/ops/
+        update_translations.php
+    tools/
+        make_project
+        upgrade 
