@@ -769,6 +769,10 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
             if (strlen(avp->platform) == 0) {
                 strcpy(avp->platform, get_primary_platform());
             }
+            if (avp->missing_coproc()) {
+                delete avp;
+                continue;
+            }
             if (link_app_version(p, avp)) {
                 delete avp;
                 continue;

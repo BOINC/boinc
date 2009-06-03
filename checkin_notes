@@ -5011,3 +5011,10 @@ David  3 June 2009
     tools/
         make_project
         upgrade
+
+David  3 June 2009
+    - client: when parsing app_info.xml, make sure coprocessors are present.
+        fixes #911
+
+    client/
+        cs_statefile.cpp
