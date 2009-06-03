@@ -99,6 +99,7 @@ bool CAccountInfoPage::Create( CBOINCBaseWizard* parent )
     m_pAccountConfirmPasswordStaticCtrl = NULL;
     m_pAccountConfirmPasswordCtrl = NULL;
     m_pAccountPasswordRequirmentsStaticCtrl = NULL;
+    m_pAccountManagerLinkLabelStaticCtrl = NULL;
     m_pAccountForgotPasswordCtrl = NULL;
 ////@end CAccountInfoPage member initialisation
  
@@ -188,9 +189,13 @@ void CAccountInfoPage::CreateControls()
     m_pAccountPasswordRequirmentsStaticCtrl->SetFont(wxFont(7, wxDEFAULT, wxNORMAL, wxNORMAL, FALSE));
     itemFlexGridSizer64->Add(m_pAccountPasswordRequirmentsStaticCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
+    m_pAccountManagerLinkLabelStaticCtrl = new wxStaticText;
+    m_pAccountManagerLinkLabelStaticCtrl->Create( itemWizardPage56, ID_ACCOUNTLINKLABELSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer57->Add(m_pAccountManagerLinkLabelStaticCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
     m_pAccountForgotPasswordCtrl = new wxHyperLink;
     m_pAccountForgotPasswordCtrl->Create( itemWizardPage56, ID_ACCOUNTFORGOTPASSWORDCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer64->Add(m_pAccountForgotPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer57->Add(m_pAccountForgotPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators
     // m_pAccountEmailAddressCtrl is setup when the OnPageChange event is fired since
@@ -276,6 +281,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
  
     wxASSERT(pSkinAdvanced);
     wxASSERT(pSkinWizardATAM);
+    wxASSERT(pWAP);
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pAccountQuestionStaticCtrl);
     wxASSERT(m_pAccountInformationStaticCtrl);
@@ -288,6 +294,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pAccountConfirmPasswordStaticCtrl);
     wxASSERT(m_pAccountConfirmPasswordCtrl);
     wxASSERT(m_pAccountPasswordRequirmentsStaticCtrl);
+    wxASSERT(m_pAccountManagerLinkLabelStaticCtrl);
     wxASSERT(m_pAccountForgotPasswordCtrl);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     wxASSERT(wxDynamicCast(pSkinWizardATAM, CSkinWizardATAM));
@@ -317,9 +324,9 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountConfirmPasswordStaticCtrl->Hide();
         m_pAccountConfirmPasswordCtrl->Hide();
         m_pAccountPasswordRequirmentsStaticCtrl->Hide();
-    }
-
-    if (!IS_ACCOUNTMANAGERWIZARD()) {
+        m_pAccountManagerLinkLabelStaticCtrl->Show();
+    } else {
+        m_pAccountManagerLinkLabelStaticCtrl->Hide();
         if (pc.account_creation_disabled || pc.client_account_creation_disabled) {
             m_pAccountCreateCtrl->SetValue(false);
             m_pAccountCreateCtrl->Hide();
@@ -333,7 +340,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     m_pTitleStaticCtrl->SetLabel(
-        _("User information")
+        _("Identify your account ")
     );
 
     if (!IS_ACCOUNTMANAGERWIZARD() && !IS_ACCOUNTMANAGERUPDATEWIZARD()) {
@@ -430,19 +437,25 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountPasswordRequirmentsStaticCtrl->SetLabel( str );
     }
 
-    m_pAccountForgotPasswordCtrl->SetLabel(
-        _("Forgot your password?")
-    );
 
     if (!IS_ACCOUNTMANAGERWIZARD()) {
-        wxASSERT(pWAP);
+        m_pAccountForgotPasswordCtrl->SetLabel(
+            _("Forgot your password?")
+        );
         m_pAccountForgotPasswordCtrl->SetURL(
             wxString(pWAP->m_ProjectInfoPage->GetProjectURL() + _T("get_passwd.php"))
         );
     } else {
-//        wxASSERT(pWAM);
+        m_pAccountManagerLinkLabelStaticCtrl->SetLabel(
+            _("If you have not yet registered with this account manager,\n"
+            "please do so before proceeding.  Click on the link below\n"
+            "to register or to retrieve a forgotten password." )
+        );
+        m_pAccountForgotPasswordCtrl->SetLabel(
+            _("Account manager website")
+        );
         m_pAccountForgotPasswordCtrl->SetURL(
-            wxString(pWAP->m_AccountManagerInfoPage->GetProjectURL() + _T("get_passwd.php"))
+            wxString(pWAP->m_AccountManagerInfoPage->GetProjectURL())
         );
     }
 

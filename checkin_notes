@@ -4900,7 +4900,7 @@ Charlie 1 June 2009
         wxMutex from <Set Boolean, Lock, Unlock, Signal> to <Lock, 
         Set Boolean, Signal, Unlock> to be consistent with examples in 
         literature, hoping this might fix an intermittent hang in 
-        wxConition::Wait().
+        wxCondition::Wait().
     - Mac MGR: Mac OS 10.3.9 does not have sqlite3, so we must weak-link.
     
     clientgui/
@@ -4955,7 +4955,7 @@ David  2 June 2009
 
 Charlie 2 June 2009
     - MGR: cosmetic changes to combined attach wizard, partial fix 
-        to "Forgot password" link for accoount managers.
+        to "Forgot password" link for account managers.
         
     clientgui/
         AccountInfoPage.cpp
@@ -4963,3 +4963,13 @@ Charlie 2 June 2009
         ProjecttInfoPage.cpp
         ProjectListCtrl.cpp, .h
         WelcomePage.cpp
+
+Charlie 3 June 2009
+    - MGR: finish changes to combined attach wizard, change "Forgot 
+        password" link for account managers to a link to AM's home 
+        page, add static text that you must register at web site 
+        before proceeding or go to web site for forgotten psasword.
+        
+    clientgui/
+        AccountInfoPage.cpp, .h
+        BOINCWizards.h
