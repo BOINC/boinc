@@ -434,10 +434,17 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         _("Forgot your password?")
     );
 
-    wxASSERT(pWAP);
-    m_pAccountForgotPasswordCtrl->SetURL(
-        wxString(pWAP->m_ProjectInfoPage->GetProjectURL() + _T("get_passwd.php"))
-    );
+    if (!IS_ACCOUNTMANAGERWIZARD()) {
+        wxASSERT(pWAP);
+        m_pAccountForgotPasswordCtrl->SetURL(
+            wxString(pWAP->m_ProjectInfoPage->GetProjectURL() + _T("get_passwd.php"))
+        );
+    } else {
+//        wxASSERT(pWAM);
+        m_pAccountForgotPasswordCtrl->SetURL(
+            wxString(pWAP->m_AccountManagerInfoPage->GetProjectURL() + _T("get_passwd.php"))
+        );
+    }
 
     Fit();
     m_pAccountEmailAddressCtrl->SetFocus();

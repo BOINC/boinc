@@ -4952,3 +4952,14 @@ David  2 June 2009
         work_fetch.cpp
     sched/
         file_upload_handler.cpp
+
+Charlie 2 June 2009
+    - MGR: cosmetic changes to combined attach wizard, partial fix 
+        to "Forgot password" link for accoount managers.
+        
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerInfoPage.cpp
+        ProjecttInfoPage.cpp
+        ProjectListCtrl.cpp, .h
+        WelcomePage.cpp

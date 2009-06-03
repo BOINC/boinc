@@ -121,13 +121,13 @@ void CAccountManagerInfoPage::CreateControls()
 
     itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer3 = new wxFlexGridSizer(1, 1, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer3 = new wxFlexGridSizer(2, 1, 0, 0);
     itemFlexGridSizer3->AddGrowableRow(0);
     itemFlexGridSizer3->AddGrowableCol(0);
     itemBoxSizer24->Add(itemFlexGridSizer3, 1, wxGROW|wxALL, 5);
 
     m_pProjectListCtrl = new CProjectListCtrl;
-    m_pProjectListCtrl->Create( itemWizardPage23 );
+    m_pProjectListCtrl->Create( itemWizardPage23, wxSize(250,155) );
     itemFlexGridSizer3->Add(m_pProjectListCtrl, 0, wxGROW|wxRIGHT, 10);
 
     wxFlexGridSizer* itemFlexGridSizer11 = new wxFlexGridSizer(2, 1, 0, 0);
@@ -142,19 +142,13 @@ void CAccountManagerInfoPage::CreateControls()
     itemFlexGridSizer14->AddGrowableCol(1);
     itemBoxSizer24->Add(itemFlexGridSizer14, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT, 10);
 
-    itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
-    wxFlexGridSizer* itemFlexGridSizer30 = new wxFlexGridSizer(1, 2, 0, 0);
-    itemFlexGridSizer30->AddGrowableCol(1);
-    itemBoxSizer24->Add(itemFlexGridSizer30, 0, wxALIGN_LEFT|wxALL, 5);
-
     m_pProjectUrlStaticCtrl = new wxStaticText;
     m_pProjectUrlStaticCtrl->Create( itemWizardPage23, ID_PROJECTURLSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer30->Add(m_pProjectUrlStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer14->Add(m_pProjectUrlStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pProjectUrlCtrl = new wxTextCtrl;
     m_pProjectUrlCtrl->Create( itemWizardPage23, ID_PROJECTURLCTRL, wxEmptyString, wxDefaultPosition, wxSize(200, -1), 0 );
-    itemFlexGridSizer30->Add(m_pProjectUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer14->Add(m_pProjectUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators
     m_pProjectUrlCtrl->SetValidator( CValidateURL( & m_strProjectURL) );
@@ -177,10 +171,10 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pProjectUrlCtrl);
 
     m_pTitleStaticCtrl->SetLabel(
-        _("Account Manager URL")
+        _("Choose an account manager")
     );
     m_pDescriptionStaticCtrl->SetLabel(
-        _("Enter the URL of the account manager's web site.")
+        _("To choose an account manager, click its name or \ntype its URL below.")
     );
     m_pProjectUrlStaticCtrl->SetLabel(
         _("Account Manager &URL:")
