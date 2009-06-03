@@ -5004,3 +5004,10 @@ David  3 June 2009
         client_types.cpp
         cs_scheduler.cpp
         cs_statefile.cpp
+
+David  3 June 2009
+    - fix python scripts; fixes #770 (from Nicolas)
+
+    tools/
+        make_project
+        upgrade

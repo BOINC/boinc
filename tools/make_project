@@ -282,7 +282,7 @@ except:
     print '''Couldn't find svnversion'''
 
 try:
-    os.system('cd '+proot+'/html/ops; update_translations.php')
+    os.system('cd '+proot+'/html/ops; ./update_translations.php')
 except:
     print '''Couldn't install translation files'''
 
