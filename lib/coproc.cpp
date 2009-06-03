@@ -267,7 +267,7 @@ void COPROC_CUDA::get(
     }
 
     if (!gpus.size()) {
-        strings.push_back("No CUDA devices found");
+        strings.push_back("No CUDA-capable NVIDIA GPUs found");
         return;
     }
 
@@ -287,15 +287,16 @@ void COPROC_CUDA::get(
     //
     best.count = 0;
     for (i=0; i<gpus.size(); i++) {
-        char buf[256];
+        char buf[256], buf2[256];
 		cc.description(buf);
         if (use_all || !cuda_compare(gpus[i], best, true)) {
             best.device_nums[best.count] = gpus[i].device_num;
             best.count++;
-            strings.push_back("CUDA device: "+string(buf));
+            sprintf(buf2, "NVIDIA GPU %d: %s", buf);
         } else {
-            strings.push_back("CUDA device (not used): "+string(buf));
+            sprintf(buf2, "NVIDIA GPU %d (not used): %s", buf);
         }
+        strings.push_back(string(buf2));
     }
 
     COPROC_CUDA* ccp = new COPROC_CUDA;
