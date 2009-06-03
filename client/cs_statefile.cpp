@@ -330,7 +330,7 @@ int CLIENT_STATE::parse_state_file() {
             );
             if (!rp->avp) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
-                    "No app version for result: %s %d %s",
+                    "No application found for task: %s %d %s; discarding",
                     rp->platform, rp->version_num, rp->plan_class
                 );
                 delete rp;

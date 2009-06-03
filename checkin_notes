@@ -4996,3 +4996,11 @@ David  3 June 2009
     tools/
         make_project
         upgrade 
+
+David  3 June 2009
+    - client: tweak messages
+
+    client/
+        client_types.cpp
+        cs_scheduler.cpp
+        cs_statefile.cpp
