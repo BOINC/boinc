@@ -77,12 +77,10 @@ td.fieldname {
 	text-align: right;
 	padding-right: 10px;
 	margin: 2px 0;
-	vertical-align: middle;
 }
 
 td.fieldvalue {
 	margin: 2px 0;
-	vertical-align: middle;
 }
 
 td.fieldname_error {

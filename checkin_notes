@@ -4981,3 +4981,9 @@ David  3 June 2009
 
     lib/
         coproc.cpp
+
+David  3 June 2009
+    - web: align field name/value at top
+
+    html/user/
+        main.css
