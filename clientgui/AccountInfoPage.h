@@ -103,6 +103,7 @@ public:
     wxStaticText* m_pAccountConfirmPasswordStaticCtrl;
     wxTextCtrl* m_pAccountConfirmPasswordCtrl;
     wxStaticText* m_pAccountPasswordRequirmentsStaticCtrl;
+    wxStaticText* m_pAccountManagerLinkLabelStaticCtrl;
     wxString m_strAccountEmailAddress;
     wxString m_strAccountPassword;
     wxString m_strAccountConfirmPassword;

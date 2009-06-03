@@ -129,7 +129,7 @@ void CProjectInfoPage::CreateControls()
     itemBoxSizer24->Add(itemFlexGridSizer3, 1, wxGROW|wxALL, 5);
 
     m_pProjectListCtrl = new CProjectListCtrl;
-    m_pProjectListCtrl->Create( itemWizardPage23 );
+    m_pProjectListCtrl->Create( itemWizardPage23, wxSize(250,185) );
     itemFlexGridSizer3->Add(m_pProjectListCtrl, 0, wxGROW|wxRIGHT, 10);
 
     wxFlexGridSizer* itemFlexGridSizer11 = new wxFlexGridSizer(2, 1, 0, 0);

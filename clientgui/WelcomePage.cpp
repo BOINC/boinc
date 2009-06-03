@@ -362,14 +362,14 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
         m_pSelectProjectWizardCtrl->SetValue(true);
         m_pSelectAMWizardCtrl->SetValue(false);
     
+        m_pTitleStaticCtrl->SetLabel(
+            _("Attach to project or account manager")
+        );
+
         pDoc->rpc.acct_mgr_info(ami);
         is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
 
         if (is_acct_mgr_detected) {
-            m_pTitleStaticCtrl->SetLabel(
-                _("Attach to project")
-            );
-
             strBuffer.Printf(
                 _("If possible, add projects at the\n%s web site.\n\nProjects added via this wizard will not be\nlisted on or managed via %s."), 
                 wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str(),
@@ -382,12 +382,9 @@ void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
 
             m_pSelectAMWizardCtrl->Disable();
         } else {
-            m_pTitleStaticCtrl->SetLabel(
-                _("Attach to project")
-            );
             if (!wcg) {
                 m_pDescriptionStaticCtrl->SetLabel(
-                    _("We'll now guide you through the process of attaching\nto a project.")
+                    _("We'll guide you through the process of attaching\nto a project or account manager.")
                 );
             } else {
                 m_pDescriptionStaticCtrl->SetLabel(

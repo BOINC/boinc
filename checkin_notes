@@ -4859,3 +4859,24 @@ Charlie 2 June 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 2 June 2009
+    - MGR: cosmetic changes to combined attach wizard, partial fix 
+        to "Forgot password" link for account managers.
+        
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerInfoPage.cpp
+        ProjecttInfoPage.cpp
+        ProjectListCtrl.cpp, .h
+        WelcomePage.cpp
+
+Charlie 3 June 2009
+    - MGR: finish changes to combined attach wizard, change "Forgot 
+        password" link for account managers to a link to AM's home 
+        page, add static text that you must register at web site 
+        before proceeding or go to web site for forgotten psasword.
+        
+    clientgui/
+        AccountInfoPage.cpp, .h
+        BOINCWizards.h
