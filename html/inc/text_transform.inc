@@ -108,6 +108,7 @@ function bb2html($text) {
     $httpsregex = "(?:\"?)https\:\/\/([^\[\"<\ ]+)(?:\"?)";
     // List of allowable tags
     $bbtags = array (
+        "@\[pre\](.*?)\[/pre\]@eis",
         "@\[code\](.*?)\[/code\]@eis",
         "@\[b\](.*?)\[/b\]@is",
         "@\[i\](.*?)\[/i\]@is",
@@ -122,7 +123,6 @@ function bb2html($text) {
         "@\[quote\](.*?)\[/quote\]@is",
         "@\[list\](.*?)\[/list\]@is",
         "@\[list=1\](.*?)\[/list\]@is",  
-        "@\[pre\](.*?)\[/pre\]@eis",
         "@\[img\]$urlregex\[/img\]@is",
         "@\[color=(?:\"?)(.{3,8})(?:\"?)\](.*?)\[/color\]@is",
         "@((?:<ol>|<ul>).*?)\n\*([^\n]+)\n(.*?(</ol>|</ul>))@is",
@@ -139,6 +139,7 @@ function bb2html($text) {
     
     // What the above tags are turned in to
     $htmltags = array (
+        "'<div class=\"pre\">'.stop_recursion('\\1').'</div>'",
         "'<div class=\"code\">'.stop_recursion('\\1').'</div>'",
         "<b>\\1</b>",
         "<i>\\1</i>",
@@ -153,7 +154,6 @@ function bb2html($text) {
         "<blockquote class='postbody'>\\1</blockquote>",
         "<ul>\\1</ul><p>",
         "<ol>\\1</ol><p>",
-        "'<pre>'.remove_br('\\1').'</pre>'",
         "<img src=\"http://\\2\">",
         "<font color=\"\\1\">\\2</font>",
         "\\1<li>\\2\n\\3",

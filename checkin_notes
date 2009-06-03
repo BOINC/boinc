@@ -5018,3 +5018,14 @@ David  3 June 2009
 
     client/
         cs_statefile.cpp
+
+David  3 June 2009
+    - web: make [pre] work similar to [code].  fixes #798
+        Note: I had to move [pre] to the top of the
+        preg list to make this work.  Not sure why.
+
+    html/
+        inc/
+            text_transform.inc
+        user/
+            main.css
