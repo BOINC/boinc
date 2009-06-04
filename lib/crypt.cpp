@@ -544,8 +544,8 @@ int check_validity_of_cert(
         return 0;
     }
     if (pubKey->type == EVP_PKEY_RSA) {
-        BN_CTX *c;
-        if (!(c = BN_CTX_new())) {
+        BN_CTX *c = BN_CTX_new();
+        if (!c) {
 	        X509_free(cert);
 	        EVP_PKEY_free(pubKey);
 	        BIO_vfree(bio);

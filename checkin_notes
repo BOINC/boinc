@@ -5104,3 +5104,9 @@ David  4 June 2009
 
     client/
         client_state.cpp
+
+David  4 June 2009
+    - lib: fix compile warning
+
+    lib/
+        crypt.cpp
