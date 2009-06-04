@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-05-21 07:16-0700\n"
+"PO-Revision-Date: 2009-06-04 09:44-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -199,7 +199,6 @@ msgstr "Gesamtguthaben"
 msgid "Recent average credit"
 msgstr "Durchschnittliches Guthaben"
 
-#, fuzzy
 msgid "Cross-project stats"
 msgstr "Projektübergreifende Statistiken"
 
@@ -617,7 +616,7 @@ msgid "Create account"
 msgstr "Konto erstellen"
 
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr ""
+msgstr "FEHLER: %1 existiert nicht! Kombobox konnte nicht erstellt werden."
 
 msgid "Picture"
 msgstr "Bild"
