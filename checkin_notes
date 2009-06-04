@@ -5080,3 +5080,9 @@ David  4 June 2009
 
     html/inc/
         result.inc
+
+David  4 June 2009
+    - web: improve appearance of results page
+
+    html/user/
+        results.php

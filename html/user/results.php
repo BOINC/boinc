@@ -40,18 +40,19 @@ if (!$state) $state=0;
 $show_names = get_int("show_names", true);
 if (!$show_names) $show_names=0;
 
+$s = $state_name[$state];
 if ($hostid) {
     $host = BoincHost::lookup_id($hostid);
     if (!$host) error_page(tra("No computer with ID %1 found", $hostid));
     $clause = "hostid=$hostid";
-    page_head(tra("Tasks for computer %1", $host->id));
+    page_head(tra("$s tasks for computer %1", $host->id));
 } else if ($userid){
     $user = get_logged_in_user();
     if ($userid != $user->id) {
         error_page(tra("No access"));
     }
     $clause = "userid=$userid";
-    page_head(tra("Tasks for $user->name"));
+    page_head(tra("$s tasks for $user->name"));
 } else {
     error_page(tra("Missing user ID or host ID"));
 }
@@ -69,16 +70,21 @@ $info->offset = $offset;
 $info->show_names = $show_names;
 $info->state = $state;
 
-echo show_result_navigation($info);
-result_table_start(true, false, $info);
-
-$i = 0;
-foreach ($results as $result) {
-    if ($i >= $results_per_page) break;
-    show_result_row($result, true, false, $show_names, $i);
-    $i++;
+if (count($results)) {
+    echo show_result_navigation($info);
+    result_table_start(true, false, $info);
+    $i = 0;
+    foreach ($results as $result) {
+        if ($i >= $results_per_page) break;
+        show_result_row($result, true, false, $show_names, $i);
+        $i++;
+    }
+    echo "</table>\n";
+} else {
+    start_table();
+    row1(tra("No tasks to display"));
+    end_table();
 }
-echo "</table>\n";
 
 echo show_result_navigation($info);
 
