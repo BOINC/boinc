@@ -73,7 +73,7 @@ $state_clause = array(
     " and server_state=4 ",
     " and server_state=5 and outcome=1 and (validate_state=0 or validate_state=4) ",
     " and server_state=5 and outcome=1 and validate_state=1 ",
-    " and server_state=5 and (outcome=6 or (outcome=1 and (validate_state=2 or validate_state=5)) ",
+    " and server_state=5 and (outcome=6 or (outcome=1 and (validate_state=2 or validate_state=5))) ",
     " and server_state=5 and outcome=3 ",
 );
 

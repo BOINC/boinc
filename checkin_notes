@@ -5074,3 +5074,9 @@ Rom    4 June 2009
         
     clientgui/
         browser.cpp
+
+David  4 June 2009
+    - web: typo in filtered results (from R. Haselgrove)
+
+    html/inc/
+        result.inc
