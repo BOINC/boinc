@@ -5036,3 +5036,9 @@ Charlie 3 June 2009
         
     mac_installer/
         make_GridRepublic.sh
+
+Charlie 3 June 2009
+    - client: Fix missing argument in printf statements.
+    
+    lib/
+        coproc.cpp,h
