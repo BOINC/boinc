@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-05 13:41 PDT\n"
-"PO-Revision-Date: 2009-05-21 08:37-0700\n"
+"PO-Revision-Date: 2009-06-04 12:04-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -225,25 +225,25 @@ msgstr "gar nicht"
 msgid ""
 "Where do you get information to help resolve problems with BOINC and/or "
 "BOINC projects?"
-msgstr ""
+msgstr "Wo finden Sie Hilfe zu Problemen mit BOINC oder BOINC-Projekten?"
 
 msgid "The project message boards"
-msgstr ""
+msgstr "Den Diskussionsforen der Projekte"
 
 msgid "The BOINC message boards"
-msgstr ""
+msgstr "Den BOINC Diskussionsforen"
 
 msgid "BOINC mailing lists"
-msgstr ""
+msgstr "Den BOINC E-Mail Listen"
 
 msgid "The Unofficial BOINC Wiki"
-msgstr ""
+msgstr "Dem inoffiziellen BOINC-Wiki"
 
 msgid "Team web sites"
-msgstr ""
+msgstr "Der Webseite eines Teams"
 
 msgid "Google or other search engines"
-msgstr ""
+msgstr "Von Google oder einer anderen Suchmaschine"
 
 # #######################################<br />
 # download.php<br />
@@ -272,12 +272,14 @@ msgid ""
 "Note: if your computer is equipped with an NVIDIA Graphics Processing Unit "
 "(GPU), you may be able to %suse it to compute faster%s"
 msgstr ""
+"Hinweis: Wenn Ihr Computer mit einer NVIDIA Grafikkarte ausgestattet ist "
+"(GPU), könnten Sie damit %sdie Berechnung beschleunigen%s."
 
 msgid "System requirements"
 msgstr "Systemanforderungen"
 
 msgid "Release notes"
-msgstr ""
+msgstr "Versionshinweise"
 
 msgid "Help"
 msgstr "Hilfe"
@@ -296,6 +298,10 @@ msgid ""
 "through the process of installing and using BOINC; %s troubleshoot any "
 "problems you might have."
 msgstr ""
+"Die BOINC Online-Hilfe ermöglicht die schnelle Hilfe von erfahrenen BOINC "
+"Benutzern, welche: %s Fragen zu BOINC und verteiltem Rechnen beantworten, %s "
+"bei der Installation und Benutzung von BOINC unterstützen, %s eventuelle "
+"Probleme untersuchen und Hilfestellungen geben."
 
 #, php-format
 msgid ""
@@ -304,6 +310,10 @@ msgid ""
 "Skype, please %sdownload and install it now%s.  When you're finished, return "
 "to this page."
 msgstr ""
+"Die BOINC Online-Hilfe nutzt %sSkype%s, ein Internet-basierter "
+"Telefoniedienst. Skype ist kostenlos (die Software und die Anrufe). Wenn Sie "
+"nicht bereits Skype installiert haben, dann laden Sie es bitte herunter "
+"(%sSkype herunterladen%s) und kommen dann wieder zu dieser Seite zurück."
 
 msgid ""
 "The best way to get help is by voice, for which you need either built-in "
@@ -417,4 +427,3 @@ msgstr ""
 
 msgid "Survey results"
 msgstr ""
-
