@@ -5048,3 +5048,15 @@ David  3 June 2009
 
     lib/
         coproc.cpp,h
+
+Rom    3 June 2009
+    - MGR: Accept Unicode input for usernames and password in the
+        manager now that the manager is Unicode enabled.  Input will
+        show up as UTF-8 strings in the CC and project.
+        
+        Fixes #452
+        
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerInfoPage.cpp
+        ProjectInfoPage.cpp

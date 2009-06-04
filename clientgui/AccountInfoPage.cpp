@@ -200,8 +200,8 @@ void CAccountInfoPage::CreateControls()
     // Set validators
     // m_pAccountEmailAddressCtrl is setup when the OnPageChange event is fired since
     //   it can be a username or an email address.
-    m_pAccountPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_ASCII, &m_strAccountPassword) );
-    m_pAccountConfirmPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_ASCII, &m_strAccountConfirmPassword) );
+    m_pAccountPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, &m_strAccountPassword) );
+    m_pAccountConfirmPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, &m_strAccountConfirmPassword) );
 ////@end CAccountInfoPage content construction
 
 }

@@ -153,7 +153,7 @@ void CProjectInfoPage::CreateControls()
     itemFlexGridSizer14->Add(m_pProjectUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators
-    m_pProjectUrlCtrl->SetValidator( CValidateURL( & m_strProjectURL) );
+    m_pProjectUrlCtrl->SetValidator( CValidateURL( & m_strProjectURL ) );
 ////@end CProjectInfoPage content construction
 }
 
