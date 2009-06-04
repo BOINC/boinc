@@ -113,7 +113,7 @@ static void handle_get_simple_gui_info(MIOFILE& fout) {
         PROJECT* p = gstate.projects[i];
         p->write_state(fout, true);
     }
-    gstate.write_tasks_gui(fout);
+    gstate.write_tasks_gui(fout, false);
     fout.printf("</simple_gui_info>\n");
 }
 
@@ -1094,8 +1094,10 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (match_tag(request_msg, "<get_state")) {
         gstate.write_state_gui(mf);
     } else if (match_tag(request_msg, "<get_results")) {
+        bool active_only = false;
+        parse_bool(request_msg, "active_only", active_only);
         mf.printf("<results>\n");
-        gstate.write_tasks_gui(mf);
+        gstate.write_tasks_gui(mf, active_only);
         mf.printf("</results>\n");
     } else if (match_tag(request_msg, "<get_screensaver_tasks")) {
         handle_get_screensaver_tasks(mf);

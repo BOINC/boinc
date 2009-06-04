@@ -5086,3 +5086,14 @@ David  4 June 2009
 
     html/user/
         results.php
+
+David  4 June 2009
+    - GUI RPC: add active_only option to get_results() RPC
+
+    client/
+        client_state.h
+        cs_statefile.cpp
+        gui_rpc_server_ops.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp

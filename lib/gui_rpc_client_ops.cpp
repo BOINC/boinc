@@ -1165,7 +1165,7 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
     return retval;
 }
 
-int RPC_CLIENT::get_results(RESULTS& t) {
+int RPC_CLIENT::get_results(RESULTS& t, bool active_only) {
     int retval;
     SET_LOCALE sl;
     char buf[256];
@@ -1173,6 +1173,9 @@ int RPC_CLIENT::get_results(RESULTS& t) {
 
     t.clear();
 
+    sprintf(buf, "<get_results>\n<active_only>%d</active_only>\n</get_results>\n",
+        active_only?1:0
+    );
     retval = rpc.do_rpc("<get_results/>\n");
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {

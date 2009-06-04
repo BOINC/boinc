@@ -591,7 +591,7 @@ public:
     int authorize(const char* passwd);
     int exchange_versions(VERSION_INFO&);
     int get_state(CC_STATE&);
-    int get_results(RESULTS&);
+    int get_results(RESULTS&, bool active_only = false);
     int get_file_transfers(FILE_TRANSFERS&);
     int get_simple_gui_info(SIMPLE_GUI_INFO&);
     int get_project_status(PROJECTS&);
