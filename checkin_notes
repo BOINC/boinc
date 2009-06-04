@@ -5060,3 +5060,11 @@ Rom    3 June 2009
         AccountInfoPage.cpp
         AccountManagerInfoPage.cpp
         ProjectInfoPage.cpp
+
+Rom    4 June 2009
+    - MGR: Fix bug in browser cookie detection code where firefox v3
+        cookie detection was returning true even for cookies that don't
+        exist.
+        
+    clientgui/
+        browser.cpp, .h
