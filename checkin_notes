@@ -5110,3 +5110,14 @@ David  4 June 2009
 
     lib/
         crypt.cpp
+
+Charlie 3 June 2009
+    - MGR: Fix compile errors.
+    - MGR: Remove authenticator validity test from detect_cookie_safari() since 
+        it is now used for additional cookies; this had already been done for 
+        other browsers.
+
+    clientgui/
+        browser.cpp, .h
+        mac/
+            browser_safari.mm

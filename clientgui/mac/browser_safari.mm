@@ -72,14 +72,7 @@ bool detect_cookie_safari(std::string& project_url, std::string& name, std::stri
         theValueString = [ aCookie value ];
         value = [ theValueString cString ];
 #endif
-        // If validation failed, null out the authenticator just in case
-        //   somebody tries to use it, otherwise copy in the real deal.
-        if (is_authenticator_valid(value)) {
-            retval = true;
-            break;
-        } else {
-            value = "";
-        }
+        retval = true;
     }
 
 bail:

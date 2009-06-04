@@ -26,8 +26,6 @@
 #include <time.h>
 #endif
 
-#include <sqlite3.h>
-
 #include "error_numbers.h"
 #include "mfile.h"
 #include "miofile.h"

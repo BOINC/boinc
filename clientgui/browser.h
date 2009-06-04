@@ -18,6 +18,8 @@
 #ifndef _BROWSER_
 #define _BROWSER_
 
+#include <sqlite3.h>
+
 //
 // The BOINC client now supports the ability to lookup a users
 //   authenticator during automatic attachments via a browser
