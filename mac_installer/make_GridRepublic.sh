@@ -19,7 +19,7 @@
 
 ##
 # Script to convert Macintosh BOINC installer to GridRepublic Desktop installer
-# updated 10/21/08 by Charlie Fenton
+# updated 6/3/09 by Charlie Fenton
 ##
 
 ## Usage:
@@ -33,11 +33,13 @@
 ##     COPYING
 ##     COPYING.LESSER (for version 6.3.x and later only)
 ##     COPYRIGHT
-##     gridrepublic.tiff (for screensaver)
-##     gridrepublic_ss_logo (for screensaver)
 ##     skins directory containing GridRepublic skin (optional)
 ##     acct_mgr_url.xml (to have BOINC automatically connect to Account Manager)
 ##     PostInstall.app (needed only for version 6.2.x or earlier)
+##     gridrepublic.tiff (for screensaver coordinator)
+##     gridrepublic_ss_logo (for screensaver coordinator)
+##     GR_saver directory containing GridRepublic default screensaver and associated files, including:
+##          boincscr (default screensaver)
 ##
 ## NOTE: This script uses PackageMaker, which is installed as part of the 
 ##   XCode developer tools.  So you must have installed XCode Developer 
@@ -63,6 +65,7 @@ BRANDING_INFO="BrandId=1"
 ICNS_FILE="gridrepublic.icns"
 INSTALLER_ICNS_FILE="GR_install.icns"
 UNINSTALLER_ICNS_FILE="GR_uninstall.icns"
+SAVER_DIR="GR_saver"
 SAVER_SYSPREF_ICON="gridrepublic.tiff"
 SAVER_LOGO="gridrepublic_ss_logo.png"
 BRAND_NAME="GridRepublic"
@@ -149,7 +152,7 @@ cp -fp "${SOURCE_PKG_PATH}/Resources/all_projects_list.xml" "${IR_PATH}/"
 #### mkdir -p "${PR_PATH}/Library/Application Support/${BRAND_NAME} Data"
 #### mkdir -p "${PR_PATH}/Library/Application Support/${BRAND_NAME} Data/locale"
 
-## Put Branding file into BOINC Data folder to make it available to screensaver
+## Put Branding file into BOINC Data folder to make it available to screensaver coordinator
 sudo echo ${BRANDING_INFO} > "${PR_PATH}/Library/Application Support/BOINC Data/Branding"
 
 ## If skins folder is present. copy it into BOINC Data folder
@@ -180,21 +183,30 @@ sudo rm -f "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/BOINC
 sudo echo ${BRANDING_INFO} > "${IR_PATH}/Branding"
 sudo cp -fp "${IR_PATH}/Branding" "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/Branding"
 
-# Rename the screensaver bundle and its executable inside the bundle
+# Rename the screensaver coordinator bundle and its executable inside the bundle
 sudo mv -f "${PR_PATH}/Library/Screen Savers/BOINCSaver.saver" "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver"
 sudo mv -f "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/MacOS/BOINCSaver" "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/MacOS/${BRAND_NAME}"
 
-# Update screensaver's info.plist, InfoPlist.strings files
+# Update screensaver coordinator's info.plist, InfoPlist.strings files
 sudo sed -i "" s/BOINCSaver/"${BRAND_NAME}"/g "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Info.plist"
 sudo sed -i "" s/BOINC/"${BRAND_NAME}"/g "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/English.lproj/InfoPlist.strings"
 
-# Replace screensaver's boinc.tiff or boinc.jpg file
+# Replace screensaver coordinator's boinc.tiff or boinc.jpg file
 sudo rm -f "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/boinc.jpg"
 sudo cp -fp "${SAVER_SYSPREF_ICON}" "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/boinc.tiff"
 
-# Replace screensaver's boinc_ss_logo.png file
+# Replace screensaver coordinator's boinc_ss_logo.png file
 sudo rm -f "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/boinc_ss_logo.png"
 sudo cp -fp "${SAVER_LOGO}" "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/boinc_ss_logo.png"
+
+# Delete the BOINC default screensaver and its associated files
+sudo rm -f "${PR_PATH}/Library/Application Support/BOINC Data/boinc_logo_black.jpg"
+sudo rm -f "${PR_PATH}/Library/Application Support/BOINC Data/Helvetica.tx"
+sudo rm -f "${PR_PATH}/Library/Application Support/BOINC Data/ss_config.xm"
+sudo rm -f "${PR_PATH}/Library/Application Support/BOINC Data/boincsc"
+
+# Copy the GridRepublic default screensaver files into BOINC Data folder
+sudo cp -fR "${SAVER_DIR}/" "${PR_PATH}/Library/Application Support/BOINC Data/"
 
 # Copy and rename the Uninstall application's bundle and rename its executable inside the bundle
 sudo cp -fpR "Uninstall BOINC.app" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app"

@@ -5029,3 +5029,10 @@ David  3 June 2009
             text_transform.inc
         user/
             main.css
+
+Charlie 3 June 2009
+    - GR Installer: Update make_GridRepublic.sh script for new default 
+        screensaver.
+        
+    mac_installer/
+        make_GridRepublic.sh
