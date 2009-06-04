@@ -5068,3 +5068,9 @@ Rom    4 June 2009
         
     clientgui/
         browser.cpp, .h
+
+Rom    4 June 2009
+    - MGR: Add some basic validation for account manager cookie detection.
+        
+    clientgui/
+        browser.cpp

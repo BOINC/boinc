@@ -699,8 +699,9 @@ bool detect_account_manager_credentials(
          detect_cookie_firefox_2(project_url, strCookiePasswordHash, password_hash) ) goto END;
 
 END:
-    // TODO: validation
-    retval = true;
+    if (!login.empty() && !password_hash.empty()) {
+        retval = true;
+    }
 
     return retval;
 }
