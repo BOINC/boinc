@@ -2882,3 +2882,10 @@ David  2 June 2009
 		rr_sim.cpp
 		scheduler_op.cpp
 		work_fetch.cpp
+
+David  2 June 2009
+    - client: add a 1e-6 slop factor in deciding if
+        a resource is fully utilized.
+
+    client/
+        work_fetch.cpp
