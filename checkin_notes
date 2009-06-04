@@ -9937,3 +9937,11 @@ Rom    22 May 2009
         
     clientgui/
         wxFlatNotebook.cpp
+
+Rom    4 June 2009
+    - MGR: Backport a fix to the ProjectListCtrl in the
+        wizard from later branches for Linux distros.
+        Fixes# 759
+        
+    clientgui/
+        ProjectListCtrl.cpp
