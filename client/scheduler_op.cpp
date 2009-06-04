@@ -209,7 +209,7 @@ void SCHEDULER_OP::rpc_failed(const char* msg) {
 //
 int SCHEDULER_OP::start_rpc(PROJECT* p) {
     int retval;
-    char request_file[1024], reply_file[1024];
+    char request_file[1024], reply_file[1024], buf[256];
 
     safe_strcpy(scheduler_url, p->get_scheduler_url(url_index, url_random));
     if (log_flags.sched_ops) {
@@ -217,13 +217,24 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
             "Sending scheduler request: %s.", rpc_reason_string(reason)
         );
         if (cpu_work_fetch.req_secs || cuda_work_fetch.req_secs) {
+            if (coproc_cuda) {
+                if (cpu_work_fetch.req_secs && cuda_work_fetch.req_secs) {
+                    sprintf(buf, " for CPU and GPU");
+                } else if (cpu_work_fetch.req_secs) {
+                    sprintf(buf, " for CPU");
+                } else {
+                    sprintf(buf, " for GPU");
+                }
+            } else {
+                strcpy(buf, "");
+            }
             if (p->nresults_returned) {
                 msg_printf(p, MSG_INFO,
-                    "Reporting %d completed tasks, requesting new tasks",
-                    p->nresults_returned
+                    "Reporting %d completed tasks, requesting new tasks%s",
+                    p->nresults_returned, buf
                 );
             } else {
-                msg_printf(p, MSG_INFO, "Requesting new tasks");
+                msg_printf(p, MSG_INFO, "Requesting new tasks%s", buf);
             }
         } else {
             if (p->nresults_returned) {

@@ -124,15 +124,25 @@ void RSC_WORK_FETCH::accumulate_shortfall(double d_time) {
     if (idle > 0) {
         shortfall += idle*d_time;
     }
+#if 0
+    msg_printf(0, MSG_INFO, "accum shortf (%s): idle %f dt %f sf %f",
+        rsc_name(rsc_type), idle, d_time, shortfall
+    );
+#endif
 }
 
 // "estimated delay" is the interval for which we expect the
 // resource to be saturated.
 //
 void RSC_WORK_FETCH::update_estimated_delay(double dt) {
-    if (sim_nused >= ninstances) {
+    if (sim_nused+1e-6 >= ninstances) {
         estimated_delay = dt;
     }
+#if 0
+    msg_printf(0, MSG_INFO, "est delay (%s): used %e instances %d dt %f est delay %f",
+        rsc_name(rsc_type), sim_nused, ninstances, dt, estimated_delay
+    );
+#endif
 }
 
 // see if the project's debt is beyond what would normally happen;
@@ -340,7 +350,6 @@ static void print_req(PROJECT* p) {
 void RSC_WORK_FETCH::clear_request() {
     req_secs = 0;
     req_instances = 0;
-    estimated_delay = 0;
 }
 
 void WORK_FETCH::clear_request() {
@@ -668,7 +677,7 @@ void WORK_FETCH::write_request(FILE* f) {
         cpu_work_fetch.req_secs,
         cpu_work_fetch.req_secs,
         cpu_work_fetch.req_instances,
-        cpu_work_fetch.estimated_delay
+        cpu_work_fetch.req_secs?cpu_work_fetch.estimated_delay:0
     );
 }
 

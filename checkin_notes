@@ -2868,3 +2868,17 @@ David  1 June 2009
 
     client/
         cs_scheduler.cpp
+
+David  2 June 2009
+	- client: show "est. delay" correctly in work fetch debug msgs
+	- client: show times correctly in rr_sim debug msgs
+	- client: in "requesting new tasks" msg,
+		say what resources we're requesting (if there's more than CPU)
+	- client: estimated delay was possibly being calculated incorrectly
+		because of roundoff error
+
+	client/
+		cs_scheduler.cpp
+		rr_sim.cpp
+		scheduler_op.cpp
+		work_fetch.cpp
