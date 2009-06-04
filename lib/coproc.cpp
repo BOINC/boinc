@@ -292,9 +292,9 @@ void COPROC_CUDA::get(
         if (use_all || !cuda_compare(gpus[i], best, true)) {
             best.device_nums[best.count] = gpus[i].device_num;
             best.count++;
-            sprintf(buf2, "NVIDIA GPU %d: %s", best.count, buf);
+            sprintf(buf2, "NVIDIA GPU %d: %s", i, buf);
         } else {
-            sprintf(buf2, "NVIDIA GPU %d (not used): %s", best.count, buf);
+            sprintf(buf2, "NVIDIA GPU %d (not used): %s", i, buf);
         }
         strings.push_back(string(buf2));
     }

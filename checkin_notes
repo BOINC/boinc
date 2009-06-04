@@ -5042,3 +5042,9 @@ Charlie 3 June 2009
     
     lib/
         coproc.cpp,h
+
+David  3 June 2009
+    - fix to the above
+
+    lib/
+        coproc.cpp,h
