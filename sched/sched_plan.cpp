@@ -34,19 +34,20 @@
 
 int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
     if (!strcmp(plan_class, "mt")) {
-        // the following is for an app that can use anywhere
-        // from 1 to 64 threads, can control this exactly,
-        // and whose speedup is .95N
-        // (on a uniprocessor, we'll use a sequential app if one is available)
+        // the following is for an app that:
+        // - can use from 1 to 64 threads, can control this exactly
+        // - if it uses N threads, will use .65N cores on average
+        // (hence on a uniprocessor we'll use a sequential app
+        // if one is available)
         //
-        int nthreads;
-
-        nthreads = effective_ncpus();
+        double ncpus = effective_ncpus();   // take prefs into account
+        int nthreads = (int)(ncpus/.65);
+        if (!nthreads) return PLAN_REJECT_INSUFFICIENT_CPUS;
         if (nthreads > 64) nthreads = 64;
-        hu.avg_ncpus = nthreads;
+        hu.avg_ncpus = nthreads*.65;
         hu.max_ncpus = nthreads;
         sprintf(hu.cmdline, "--nthreads %d", nthreads);
-        hu.flops = 0.95*sreq.host.p_fpops*nthreads;
+        hu.flops = sreq.host.p_fpops*hu.avg_ncpus;
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] Multi-thread app estimate %.2f GFLOPS\n",
@@ -146,6 +147,9 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
     return PLAN_REJECT_UNKNOWN;
 }
 
+// the following is used to enforce limits on in-progress jobs
+// for GPUs and CPUs (see handle_request.cpp)
+//
 bool app_plan_uses_gpu(const char* plan_class) {
     if (!strcmp(plan_class, "cuda")) {
         return true;

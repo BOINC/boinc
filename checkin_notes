@@ -5131,3 +5131,9 @@ Charlie 5 June 2009
         BOINCClientManager.cpp, .h
     win_build/
         boincmgr.vcproj
+
+David  5 June 2009
+    - scheduler: improve example app plan function for multithread
+
+    sched/
+        sched_plan.cpp,h
