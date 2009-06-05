@@ -22,7 +22,6 @@
 #pragma interface "BOINCClientManager.cpp"
 #endif
 
-
 class CBOINCClientManager : public wxObject
 {
 public:
@@ -49,10 +48,19 @@ protected:
     int                 m_lBOINCCoreProcessId;
 
 #ifdef __WXMSW__
-    bool                ProcessExists(HANDLE thePID);
+    PPERF_OBJECT_TYPE           FirstObject( PPERF_DATA_BLOCK PerfData );
+    PPERF_OBJECT_TYPE           NextObject( PPERF_OBJECT_TYPE PerfObj );
+    PPERF_INSTANCE_DEFINITION   FirstInstance( PPERF_OBJECT_TYPE PerfObj );
+    PPERF_INSTANCE_DEFINITION   NextInstance( PPERF_INSTANCE_DEFINITION PerfInst );
+    PPERF_COUNTER_DEFINITION    FirstCounter( PPERF_OBJECT_TYPE PerfObj );
+    PPERF_COUNTER_DEFINITION    NextCounter( PPERF_COUNTER_DEFINITION PerfCntr );
+    PPERF_COUNTER_BLOCK         CounterBlock(PPERF_INSTANCE_DEFINITION PerfInst);
+    DWORD                       GetProcessID(LPCTSTR pProcessName);
+
+    bool                ProcessExists(HANDLE* thePID);
     HANDLE              m_hBOINCCoreProcess;
 #else
-    bool                ProcessExists(pid_t thePID);
+    bool                ProcessExists(pid_t* thePID);
 
 #endif
 

@@ -5121,3 +5121,13 @@ Charlie 3 June 2009
         browser.cpp, .h
         mac/
             browser_safari.mm
+
+Charlie 4 June 2009
+    - MGR: CBOINCClientManager::ProcessExists() finds the process by name if 
+        we don't have a pid (Mac, Linux) or process HANDLE (Windows).  On Mac
+	  and Linux, it returns the pid if the process was found.
+    
+    clientgui/
+        BOINCClientManager.cpp, .h
+    win_build/
+        boincmgr.vcproj
