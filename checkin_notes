@@ -4968,7 +4968,7 @@ Charlie 3 June 2009
     - MGR: finish changes to combined attach wizard, change "Forgot 
         password" link for account managers to a link to AM's home 
         page, add static text that you must register at web site 
-        before proceeding or go to web site for forgotten psasword.
+        before proceeding or go to web site for forgotten password.
         
     clientgui/
         AccountInfoPage.cpp, .h
@@ -5111,7 +5111,7 @@ David  4 June 2009
     lib/
         crypt.cpp
 
-Charlie 3 June 2009
+Charlie 4 June 2009
     - MGR: Fix compile errors.
     - MGR: Remove authenticator validity test from detect_cookie_safari() since 
         it is now used for additional cookies; this had already been done for 
@@ -5122,7 +5122,7 @@ Charlie 3 June 2009
         mac/
             browser_safari.mm
 
-Charlie 4 June 2009
+Charlie 5 June 2009
     - MGR: CBOINCClientManager::ProcessExists() finds the process by name if 
         we don't have a pid (Mac, Linux) or process HANDLE (Windows).  On Mac
 	  and Linux, it returns the pid if the process was found.
