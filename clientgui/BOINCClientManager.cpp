@@ -118,7 +118,6 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
 
 #ifdef __WXMSW__
     char buf[MAX_PATH] = "";
-    DWORD err = 0;    
     // Global mutex on Win2k and later
     //
     if (IsWindows2000Compatible()) {
@@ -126,14 +125,12 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     }
     strcat( buf, RUN_MUTEX);
 
-    SetLastError(0);
-    err = GetLastError();    
     HANDLE h = CreateMutexA(NULL, true, buf);
-    err = GetLastError();
+    DWORD err = GetLastError();
     if ((h==0) || (err == ERROR_ALREADY_EXISTS)) {
         running = true;
-    } else {
-//        ReleaseMutex(h);
+    }
+    if (h) {
         CloseHandle(h);
     }
 #else

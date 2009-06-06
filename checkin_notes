@@ -5148,8 +5148,8 @@ Charlie 5 June 2009
         BOINCClientManager.cpp, .h
 
 Charlie 5 June 2009
-    - MGR: Implement CBOINCClientManager::KillClient() for Windows.
-        NOTE: IsBOINCRunning() is not yet working properly on Windows.
+    - MGR: Implement CBOINCClientManager::KillClient() and IsBOINCRunning() 
+        for Windows.
         NOTE: I have confirmed that the "ps -a -x -c -o command,pid" command
 	  as used in IsBOINCRunning() should works in Ubuntu under VMWare, but 
 	  it needs to be tested on other Linux platforms.
