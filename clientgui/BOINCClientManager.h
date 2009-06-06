@@ -41,16 +41,14 @@ public:
     bool                IsBOINCCoreRunning();
     bool                StartupBOINCCore();
     void                ShutdownBOINCCore();
+    void                KillClient();
 
 protected:
     bool                m_bBOINCStartedByManager;
     int                 m_lBOINCCoreProcessId;
 
 #ifdef __WXMSW__
-    void                KillClient(HANDLE processHandle);
     HANDLE              m_hBOINCCoreProcess;
-#else
-    void                KillClient(pid_t thePID);
 #endif
 
 };

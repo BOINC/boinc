@@ -40,6 +40,10 @@ enum {
 #endif
 
 #ifdef __WXMSW__
+#include "win_util.h"
+#include "diagnostics_win.h"
+
+extern int diagnostics_get_process_information(PVOID* ppBuffer, PULONG pcbBuffer);
 EXTERN_C BOOL  IsBOINCServiceInstalled();
 EXTERN_C BOOL  IsBOINCServiceStarting();
 EXTERN_C BOOL  IsBOINCServiceRunning();
@@ -114,7 +118,7 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
 
 #ifdef __WXMSW__
     char buf[MAX_PATH] = "";
-    
+    DWORD err = 0;    
     // Global mutex on Win2k and later
     //
     if (IsWindows2000Compatible()) {
@@ -122,9 +126,15 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     }
     strcat( buf, RUN_MUTEX);
 
+    SetLastError(0);
+    err = GetLastError();    
     HANDLE h = CreateMutexA(NULL, true, buf);
-    if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
+    err = GetLastError();
+    if ((h==0) || (err == ERROR_ALREADY_EXISTS)) {
         running = true;
+    } else {
+//        ReleaseMutex(h);
+        CloseHandle(h);
     }
 #else
     char path[1024];
@@ -302,27 +312,63 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
 
 #ifdef __WXMSW__
-void CBOINCClientManager::KillClient(HANDLE processHandle) {
-	unsigned int i,j;
-    std::vector<BOINC_PROCESS> ps;
+// Provide a structure to store process measurements at the time of a
+//   crash.
+typedef struct _BOINC_PROCESS {
+    DWORD               dwProcessId;
+    DWORD               dwParentProcessId;
+    tstring             strProcessName;
+} BOINC_PROCESS, *PBOINC_PROCESS;
 
-    if (processHandle != NULL) {
-        ::wxKill(processHandle);
+
+static tstring downcase_string(tstring& orig) {
+    tstring retval = orig;
+    for (size_t i=0; i < retval.length(); i++) {
+        retval[i] = tolower(retval[i]);
+    }
+    return retval;
+}
+
+
+void CBOINCClientManager::KillClient() {
+    ULONG                   cbBuffer = 128*1024;    // 128k initial buffer
+    PVOID                   pBuffer = NULL;
+    PSYSTEM_PROCESSES       pProcesses = NULL;
+
+    if (m_hBOINCCoreProcess != NULL) {
+        kill_program(m_hBOINCCoreProcess);
         return;
     }
 
-    // Get a list of currently executing processes.
-    diagnostics_update_process_list(ps);
+    // Get a snapshot of the process and thread information.
+    diagnostics_get_process_information(&pBuffer, &cbBuffer);
 
-    // Find our root process that we are supposed to terminate and
-    //   terminate it.
-	for (i=0; i < ps.size(); i++) {
-		BOINC_PROCESS& p = ps[i];
-        if (downcase_string(p.strProcessName) == downcase_string(strProcessName)) {
-            TerminateProcessById(p.dwProcessId));
-            }
+    // Lets start walking the structures to find the good stuff.
+    pProcesses = (PSYSTEM_PROCESSES)pBuffer;
+    do {
+
+        if (pProcesses->ProcessId) {
+            BOINC_PROCESS pi;
+            pi.dwProcessId = pProcesses->ProcessId;
+            pi.dwParentProcessId = pProcesses->InheritedFromProcessId;
+            pi.strProcessName = pProcesses->ProcessName.Buffer;
+
+            if (downcase_string(pi.strProcessName) == tstring(_T("boinc.exe"))) {
+                TerminateProcessById(pi.dwProcessId);
+                break;
+            
+           }
         }
-	}
+
+        // Move to the next structure if one exists
+        if (!pProcesses->NextEntryDelta) {
+            break;
+        }
+        pProcesses = (PSYSTEM_PROCESSES)(((LPBYTE)pProcesses) + pProcesses->NextEntryDelta);
+    } while (pProcesses);
+
+    // Release resources
+    if (pBuffer) HeapFree(GetProcessHeap(), NULL, pBuffer);
 }
 
 #else
@@ -349,7 +395,7 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 // On Mac, wxProcess::Exists returns true for zombies 
 // because kill(pid, 0) returns OK for zombies
 // If we don't have a pid, searches by name.
-void CBOINCClientManager::KillClient(pid_t thePID) {
+void CBOINCClientManager::KillClient() {
     FILE *f;
     char buf[1024];
     char name[] = "boinc";
@@ -357,11 +403,18 @@ void CBOINCClientManager::KillClient(pid_t thePID) {
     char *bufp;
     pid_t apPID;
     
-    if (thePID) {
-        kill_program(thePID);
+    if (m_lBOINCCoreProcessId) {
+        kill_program(m_lBOINCCoreProcessId);
         return;
     }
     
+    // ToDo: the following command line works properly on Mac 
+    // and on Ubuntu (under VMWare) but needs testing on other 
+    // UNIX and Linux platforms.  We want a command that lists 
+    // processes (including boinc) in 2 columns: executable 
+    // name only (not the entire command line)starting in column 1
+    // and pid.  So the line showing boinc would look like this:
+    // boinc          1234 
     f = popen("ps -a -x -c -o command,pid", "r");
     if (f == NULL)
         return;
@@ -419,6 +472,8 @@ void CBOINCClientManager::ShutdownBOINCCore() {
                             wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - (localhost) Application Exit NOT Detected, Sleeping..."));
                             ::wxSleep(1);
                         }
+                    } else {
+                        bClientQuit = true;
                     }
                 }
                 rpc.close();
@@ -434,12 +489,14 @@ void CBOINCClientManager::ShutdownBOINCCore() {
                         wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - Application Exit NOT Detected, Sleeping..."));
                         ::wxSleep(1);
                     }
+                } else {
+                    bClientQuit = true;
                 }
             }
         }
 
         if (!bClientQuit) {
-            KillClient(m_lBOINCCoreProcessId);
+            KillClient();
         }
         m_lBOINCCoreProcessId = 0;
     }
