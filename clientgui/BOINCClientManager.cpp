@@ -40,8 +40,6 @@ enum {
 #endif
 
 #ifdef __WXMSW__
-#include <comdef.h>		// for using bstr_t class
-
 EXTERN_C BOOL  IsBOINCServiceInstalled();
 EXTERN_C BOOL  IsBOINCServiceStarting();
 EXTERN_C BOOL  IsBOINCServiceRunning();
@@ -115,16 +113,30 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     bool running = false;
 
 #ifdef __WXMSW__
+    char buf[MAX_PATH] = "";
     
-    if (IsBOINCServiceInstalled()) {
-        running = (FALSE != IsBOINCServiceStarting()) || (FALSE != IsBOINCServiceRunning());
-    } else {
-        running = ProcessExists(&m_hBOINCCoreProcess);
+    // Global mutex on Win2k and later
+    //
+    if (IsWindows2000Compatible()) {
+        strcpy(buf, "Global\\");
+    }
+    strcat( buf, RUN_MUTEX);
+
+    HANDLE h = CreateMutexA(NULL, true, buf);
+    if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
+        running = true;
     }
 #else
-    running = ProcessExists(&m_lBOINCCoreProcessId);
+    char path[1024];
+    static FILE_LOCK file_lock;
+    
+    sprintf(path, "%s/%s", (char *)wxGetApp().GetDataDirectory().char_str(), LOCK_FILE_NAME);
+    if (file_lock.lock(path)) {
+        running = true;
+    } else {
+        file_lock.unlock(path);
+    }
 #endif
-
     wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Returning '%d'"), (int)running);
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Function End"));
     return running;
@@ -290,180 +302,27 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
 
 #ifdef __WXMSW__
+void CBOINCClientManager::KillClient(HANDLE processHandle) {
+	unsigned int i,j;
+    std::vector<BOINC_PROCESS> ps;
 
-//Adapted from http://www.codeproject.com/KB/threads/getprocessid.aspx
-/*****************************************************************
- *                                                               *
- * Functions used to navigate through the performance data.      *
- *                                                               *
- *****************************************************************/
-
-PPERF_OBJECT_TYPE CBOINCClientManager::FirstObject( PPERF_DATA_BLOCK PerfData )
-{
-    return( (PPERF_OBJECT_TYPE)((PBYTE)PerfData + 
-        PerfData->HeaderLength) );
-}
-
-PPERF_OBJECT_TYPE CBOINCClientManager::NextObject( PPERF_OBJECT_TYPE PerfObj )
-{
-    return( (PPERF_OBJECT_TYPE)((PBYTE)PerfObj + 
-        PerfObj->TotalByteLength) );
-}
-
-PPERF_INSTANCE_DEFINITION CBOINCClientManager::FirstInstance( PPERF_OBJECT_TYPE PerfObj )
-{
-    return( (PPERF_INSTANCE_DEFINITION)((PBYTE)PerfObj + 
-        PerfObj->DefinitionLength) );
-}
-
-PPERF_INSTANCE_DEFINITION CBOINCClientManager::NextInstance( 
-    PPERF_INSTANCE_DEFINITION PerfInst )
-{
-    PPERF_COUNTER_BLOCK PerfCntrBlk;
-
-    PerfCntrBlk = (PPERF_COUNTER_BLOCK)((PBYTE)PerfInst + 
-        PerfInst->ByteLength);
-
-    return( (PPERF_INSTANCE_DEFINITION)((PBYTE)PerfCntrBlk + 
-        PerfCntrBlk->ByteLength) );
-}
-
-PPERF_COUNTER_DEFINITION CBOINCClientManager::FirstCounter( PPERF_OBJECT_TYPE PerfObj )
-{
-    return( (PPERF_COUNTER_DEFINITION) ((PBYTE)PerfObj + 
-        PerfObj->HeaderLength) );
-}
-
-PPERF_COUNTER_DEFINITION CBOINCClientManager::NextCounter( 
-    PPERF_COUNTER_DEFINITION PerfCntr )
-{
-    return( (PPERF_COUNTER_DEFINITION)((PBYTE)PerfCntr + 
-        PerfCntr->ByteLength) );
-}
-
-
-PPERF_COUNTER_BLOCK CBOINCClientManager::CounterBlock(PPERF_INSTANCE_DEFINITION PerfInst)
-{
-	return (PPERF_COUNTER_BLOCK) ((LPBYTE) PerfInst + PerfInst->ByteLength);
-}
-
-#define TOTALBYTES    64*1024
-#define BYTEINCREMENT 1024
-
-#define PROCESS_OBJECT_INDEX	230
-#define PROC_ID_COUNTER			784
-
-
-DWORD CBOINCClientManager::GetProcessID(LPCTSTR pProcessName)
-{
-    PPERF_DATA_BLOCK pPerfData = NULL;
-    PPERF_OBJECT_TYPE pPerfObj;
-    PPERF_INSTANCE_DEFINITION pPerfInst;
-    PPERF_COUNTER_DEFINITION pPerfCntr, pCurCntr;
-    PPERF_COUNTER_BLOCK PtrToCntr;
-    DWORD BufferSize = TOTALBYTES;
-    DWORD i, j;
-    DWORD pdwValue;
-	LONG k;
-
-// Allocate the buffer for the performance data.
-    pPerfData = (PPERF_DATA_BLOCK) malloc( BufferSize );
-
-//	char szKey[32];
-//	sprintf(szKey,"%d %d",PROCESS_OBJECT_INDEX, PROC_ID_COUNTER);
-	TCHAR szKey[32];
-	_stprintf(szKey,TEXT("%d %d"),PROCESS_OBJECT_INDEX, PROC_ID_COUNTER);
-	LONG lRes;
-    while( (lRes = RegQueryValueEx( HKEY_PERFORMANCE_DATA,
-                               szKey,
-                               NULL,
-                               NULL,
-                               (LPBYTE) pPerfData,
-                               &BufferSize )) == ERROR_MORE_DATA )
-    {
-		// Get a buffer that is big enough.
-        BufferSize += BYTEINCREMENT;
-        pPerfData = (PPERF_DATA_BLOCK) realloc( pPerfData, BufferSize );
+    if (processHandle != NULL) {
+        ::wxKill(processHandle);
+        return;
     }
 
-	// Get the first object type.
-    pPerfObj = FirstObject( pPerfData );
+    // Get a list of currently executing processes.
+    diagnostics_update_process_list(ps);
 
-	// Process all objects.
-    for( i=0; i < pPerfData->NumObjectTypes; i++ )
-    {
-
-		if (pPerfObj->ObjectNameTitleIndex != PROCESS_OBJECT_INDEX)
-		{
-			pPerfObj = NextObject( pPerfObj );
-			continue;
-		}
-    
-		// Get the first counter.
-        pPerfCntr = FirstCounter( pPerfObj );
-
-		// Get the first instance.
-        pPerfInst = FirstInstance( pPerfObj );
-
-		_bstr_t bstrProcessName,bstrInput;
-
-		// Retrieve all instances.
-        for( k=0; k < pPerfObj->NumInstances; k++ )
-        {
-			pCurCntr = pPerfCntr;
-			bstrInput = pProcessName;
-			bstrProcessName = (wchar_t *)((PBYTE)pPerfInst + pPerfInst->NameOffset);
-			if (!_tcsicmp((LPCTSTR)bstrProcessName, (LPCTSTR) bstrInput))
-			{
-			
-				// Retrieve all counters.
-				for( j=0; j < pPerfObj->NumCounters; j++ )
-				{
-					if (pCurCntr->CounterNameTitleIndex == PROC_ID_COUNTER)
-					{
-						PtrToCntr = CounterBlock(pPerfInst);
-						pdwValue = *((DWORD*)((LPBYTE) PtrToCntr + pCurCntr->CounterOffset));
-	                    free(pPerfData);
-	                    RegCloseKey(HKEY_PERFORMANCE_DATA);
-                        return pdwValue;					}
-
-					// Get the next counter.
-					pCurCntr = NextCounter( pCurCntr );
-				}
-			}
-
-			// Get the next instance.
-            pPerfInst = NextInstance( pPerfInst );
-        }
-    }
-	free(pPerfData);
-	RegCloseKey(HKEY_PERFORMANCE_DATA);
-    
-    return 0;
-}
-
-bool CBOINCClientManager::ProcessExists(HANDLE *thePID) {
-    DWORD               dwExitCode = 0;
-    DWORD               processID = 0;
-
-    if (*thePID == NULL) {
-        processID = GetProcessID(TEXT("boinc"));
-         if (processID != NULL) {
-            // TODO: Can we get a handle to the process here for use by wxKill)?
-            //    *thePID = SOME_FUNCTION(processID);
-            return true;
-        }
-    }
-    
-    if (*thePID != NULL) {
-        if (GetExitCodeProcess(*thePID, &dwExitCode)) {
-            if (STILL_ACTIVE == dwExitCode) {
-                return true;
+    // Find our root process that we are supposed to terminate and
+    //   terminate it.
+	for (i=0; i < ps.size(); i++) {
+		BOINC_PROCESS& p = ps[i];
+        if (downcase_string(p.strProcessName) == downcase_string(strProcessName)) {
+            TerminateProcessById(p.dwProcessId));
             }
         }
-    }
-    
-    return false;
+	}
 }
 
 #else
@@ -489,39 +348,23 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 
 // On Mac, wxProcess::Exists returns true for zombies 
 // because kill(pid, 0) returns OK for zombies
-// If we don;t have a pid, searches by name and returns pid if found.
-bool CBOINCClientManager::ProcessExists(pid_t* thePID) {
+// If we don't have a pid, searches by name.
+void CBOINCClientManager::KillClient(pid_t thePID) {
     FILE *f;
     char buf[1024];
-    pid_t aPID;
     char name[] = "boinc";
     size_t n = strlen(name);
     char *bufp;
+    pid_t apPID;
     
-    
-    if (*thePID) {
-        sprintf(buf, "ps -a -x -c -o pid,state -p %d", *thePID);
-        f = popen(buf,  "r");
-        if (f == NULL)
-            return false;
-        
-        while (PersistentFGets(buf, sizeof(buf), f)) {
-            aPID = atol(buf);
-            if (aPID == *thePID) {
-                if (strchr(buf, 'Z')) { // A 'zombie', stopped but waiting
-                    break;              // for us (its parent) to quit
-                }
-                pclose(f);
-                return true;
-            }
-        }
-        pclose(f);
-        return false;
+    if (thePID) {
+        kill_program(thePID);
+        return;
     }
     
     f = popen("ps -a -x -c -o command,pid", "r");
     if (f == NULL)
-        return 0;
+        return;
     
     while (PersistentFGets(buf, sizeof(buf), f))
     {
@@ -529,22 +372,15 @@ bool CBOINCClientManager::ProcessExists(pid_t* thePID) {
         {
             bufp = buf+n-1;
             while (*++bufp == ' ');     // Skip over white space
-            *thePID = atol(bufp);
-            pclose(f);
-            return true;
+            apPID = atol(bufp);
+            kill_program(apPID);
+            break;
         }
     }
     pclose(f);
-    return false;
 }
 #endif
 
-
-#if defined(__WXMSW__)
-#define BOINCCoreProcessToTest m_hBOINCCoreProcess
-#else
-#define BOINCCoreProcessToTest m_lBOINCCoreProcessId
-#endif
 
 void CBOINCClientManager::ShutdownBOINCCore() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCClientManager::ShutdownBOINCCore - Function Begin"));
@@ -572,10 +408,10 @@ void CBOINCClientManager::ShutdownBOINCCore() {
                 if (!rpc.init("localhost")) {
                     pDoc->m_pNetworkConnection->GetLocalPassword(strPassword);
                     rpc.authorize((const char*)strPassword.mb_str());
-                    if (ProcessExists(&BOINCCoreProcessToTest)) {
+                    if (IsBOINCCoreRunning()) {
                         rpc.quit();
                         for (iCount = 0; iCount <= 10; iCount++) {
-                            if (!bClientQuit && ProcessExists(&BOINCCoreProcessToTest)) {
+                            if (!bClientQuit && !IsBOINCCoreRunning()) {
                                 wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - (localhost) Application Exit Detected"));
                                 bClientQuit = true;
                                 break;
@@ -587,10 +423,10 @@ void CBOINCClientManager::ShutdownBOINCCore() {
                 }
                 rpc.close();
             } else {
-                if (ProcessExists(&BOINCCoreProcessToTest)) {
+                if (IsBOINCCoreRunning()) {
                     pDoc->CoreClientQuit();
                     for (iCount = 0; iCount <= 10; iCount++) {
-                        if (!bClientQuit && ProcessExists(&BOINCCoreProcessToTest)) {
+                        if (!bClientQuit && !IsBOINCCoreRunning()) {
                             wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - Application Exit Detected"));
                             bClientQuit = true;
                             break;
@@ -603,7 +439,7 @@ void CBOINCClientManager::ShutdownBOINCCore() {
         }
 
         if (!bClientQuit) {
-            ::wxKill(m_lBOINCCoreProcessId);
+            KillClient(m_lBOINCCoreProcessId);
         }
         m_lBOINCCoreProcessId = 0;
     }

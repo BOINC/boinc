@@ -5137,3 +5137,12 @@ David  5 June 2009
 
     sched/
         sched_plan.cpp,h
+
+Charlie 5 June 2009
+    - MGR: Use code like get_client_mutex() to determine if client is running.  
+        New CBOINCClientManager::KillClient() uses process name to kill client 
+        if we don't have a pid (Mac, Linux) or process HANDLE (Windows).  
+        NOTE: Windows implmentation not yet finished.
+    
+    clientgui/
+        BOINCClientManager.cpp, .h

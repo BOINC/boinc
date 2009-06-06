@@ -43,25 +43,14 @@ public:
     void                ShutdownBOINCCore();
 
 protected:
-
     bool                m_bBOINCStartedByManager;
     int                 m_lBOINCCoreProcessId;
 
 #ifdef __WXMSW__
-    PPERF_OBJECT_TYPE           FirstObject( PPERF_DATA_BLOCK PerfData );
-    PPERF_OBJECT_TYPE           NextObject( PPERF_OBJECT_TYPE PerfObj );
-    PPERF_INSTANCE_DEFINITION   FirstInstance( PPERF_OBJECT_TYPE PerfObj );
-    PPERF_INSTANCE_DEFINITION   NextInstance( PPERF_INSTANCE_DEFINITION PerfInst );
-    PPERF_COUNTER_DEFINITION    FirstCounter( PPERF_OBJECT_TYPE PerfObj );
-    PPERF_COUNTER_DEFINITION    NextCounter( PPERF_COUNTER_DEFINITION PerfCntr );
-    PPERF_COUNTER_BLOCK         CounterBlock(PPERF_INSTANCE_DEFINITION PerfInst);
-    DWORD                       GetProcessID(LPCTSTR pProcessName);
-
-    bool                ProcessExists(HANDLE* thePID);
+    void                KillClient(HANDLE processHandle);
     HANDLE              m_hBOINCCoreProcess;
 #else
-    bool                ProcessExists(pid_t* thePID);
-
+    void                KillClient(pid_t thePID);
 #endif
 
 };
