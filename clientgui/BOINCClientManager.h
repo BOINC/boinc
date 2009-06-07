@@ -22,7 +22,6 @@
 #pragma interface "BOINCClientManager.cpp"
 #endif
 
-
 class CBOINCClientManager : public wxObject
 {
 public:
@@ -42,18 +41,14 @@ public:
     bool                IsBOINCCoreRunning();
     bool                StartupBOINCCore();
     void                ShutdownBOINCCore();
+    void                KillClient();
 
 protected:
-
     bool                m_bBOINCStartedByManager;
     int                 m_lBOINCCoreProcessId;
 
 #ifdef __WXMSW__
-    bool                ProcessExists(HANDLE thePID);
     HANDLE              m_hBOINCCoreProcess;
-#else
-    bool                ProcessExists(pid_t thePID);
-
 #endif
 
 };

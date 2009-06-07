@@ -2904,3 +2904,41 @@ Rom    4 June 2009
     /
         configure.ac
         version.h
+
+Charlie 5 June 2009
+    - MGR: CBOINCClientManager::ProcessExists() finds the process by name if 
+        we don't have a pid (Mac, Linux) or process HANDLE (Windows).  On Mac
+	  and Linux, it returns the pid if the process was found.
+    
+    clientgui/
+        BOINCClientManager.cpp, .h
+    win_build/
+        boincmgr.vcproj
+
+Charlie 5 June 2009
+    - MGR: Use code like get_client_mutex() to determine if client is running.  
+        New CBOINCClientManager::KillClient() uses process name to kill client 
+        if we don't have a pid (Mac, Linux) or process HANDLE (Windows).  
+        NOTE: Windows implementation not yet finished.
+    
+    clientgui/
+        BOINCClientManager.cpp, .h
+
+Charlie 5 June 2009
+    - MGR: Implement CBOINCClientManager::KillClient() and IsBOINCRunning() 
+        for Windows.
+        NOTE: I have confirmed that the "ps -a -x -c -o command,pid" command
+        as used in IsBOINCRunning() should works in Ubuntu under VMWare, but 
+        it needs to be tested on other Linux platforms.
+        
+    clientgui/
+        BOINCClientManager.cpp, .h
+    win_build/
+        boincmgr.vcproj
+
+Charlie 5 June 2009
+    - lib: Fix FILE_LOCK::unlock() to reset fd to -1 so FILE_LOCK works 
+        correctly with repeated calls.
+
+    lib/
+        filesys.cpp

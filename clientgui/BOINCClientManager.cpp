@@ -40,6 +40,10 @@ enum {
 #endif
 
 #ifdef __WXMSW__
+#include "win_util.h"
+#include "diagnostics_win.h"
+
+extern int diagnostics_get_process_information(PVOID* ppBuffer, PULONG pcbBuffer);
 EXTERN_C BOOL  IsBOINCServiceInstalled();
 EXTERN_C BOOL  IsBOINCServiceStarting();
 EXTERN_C BOOL  IsBOINCServiceRunning();
@@ -113,18 +117,38 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     bool running = false;
 
 #ifdef __WXMSW__
+    char buf[MAX_PATH] = "";
     
     if (IsBOINCServiceInstalled()) {
         running = (FALSE != IsBOINCServiceStarting()) || (FALSE != IsBOINCServiceRunning());
     } else {
-        running = ProcessExists(m_hBOINCCoreProcess);
+        // Global mutex on Win2k and later
+        //
+        if (IsWindows2000Compatible()) {
+            strcpy(buf, "Global\\");
+        }
+        strcat( buf, RUN_MUTEX);
+
+        HANDLE h = CreateMutexA(NULL, true, buf);
+        DWORD err = GetLastError();
+        if ((h==0) || (err == ERROR_ALREADY_EXISTS)) {
+            running = true;
+        }
+        if (h) {
+            CloseHandle(h);
+        }
     }
 #else
-    if (m_lBOINCCoreProcessId != 0) {
-        running = ProcessExists(m_lBOINCCoreProcessId);
+    char path[1024];
+    static FILE_LOCK file_lock;
+    
+    sprintf(path, "%s/%s", (char *)wxGetApp().GetDataDirectory().char_str(), LOCK_FILE_NAME);
+    if (file_lock.lock(path)) {
+        running = true;
+    } else {
+        file_lock.unlock(path);
     }
 #endif
-
     wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Returning '%d'"), (int)running);
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Function End"));
     return running;
@@ -290,21 +314,52 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
 
 #ifdef __WXMSW__
-bool CBOINCClientManager::ProcessExists(HANDLE thePID) {
-    DWORD              dwExitCode = 0;
-
-    if (thePID != NULL) {
-        if (GetExitCodeProcess(thePID, &dwExitCode)) {
-            if (STILL_ACTIVE == dwExitCode) {
-                return true;
-            }
-        }
+static tstring downcase_string(tstring& orig) {
+    tstring retval = orig;
+    for (size_t i=0; i < retval.length(); i++) {
+        retval[i] = tolower(retval[i]);
     }
-    
-    return false;
+    return retval;
 }
 
-#elif defined(__WXMAC__)
+
+void CBOINCClientManager::KillClient() {
+    ULONG                   cbBuffer = 128*1024;    // 128k initial buffer
+    PVOID                   pBuffer = NULL;
+    PSYSTEM_PROCESSES       pProcesses = NULL;
+
+    if (m_hBOINCCoreProcess != NULL) {
+        kill_program(m_hBOINCCoreProcess);
+        return;
+    }
+
+    // Get a snapshot of the process and thread information.
+    diagnostics_get_process_information(&pBuffer, &cbBuffer);
+
+    // Lets start walking the structures to find the good stuff.
+    pProcesses = (PSYSTEM_PROCESSES)pBuffer;
+    do {
+        if (pProcesses->ProcessId) {
+            tstring strProcessName = pProcesses->ProcessName.Buffer;
+            if (downcase_string(strProcessName) == tstring(_T("boinc.exe"))) {
+                TerminateProcessById(pProcesses->ProcessId);
+                break;
+           }
+        }
+
+        // Move to the next structure if one exists
+        if (!pProcesses->NextEntryDelta) {
+            break;
+        }
+        pProcesses = (PSYSTEM_PROCESSES)(((LPBYTE)pProcesses) + pProcesses->NextEntryDelta);
+    } while (pProcesses);
+
+    // Release resources
+    if (pBuffer) HeapFree(GetProcessHeap(), NULL, pBuffer);
+}
+
+#else
+
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
     char *p = buf;
     size_t len = buflen;
@@ -326,44 +381,46 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 
 // On Mac, wxProcess::Exists returns true for zombies 
 // because kill(pid, 0) returns OK for zombies
-bool CBOINCClientManager::ProcessExists(pid_t thePID) {
+// If we don't have a pid, searches by name.
+void CBOINCClientManager::KillClient() {
     FILE *f;
-    char buf[256];
-    pid_t aPID;
-
-//    f = popen("ps -a -x -c -o pid,state", "r");
-    sprintf(buf, "ps -a -x -c -o pid,state -p %d", thePID);
-    f = popen(buf,  "r");
-    if (f == NULL)
-        return false;
+    char buf[1024];
+    char name[] = "boinc";
+    size_t n = strlen(name);
+    char *bufp;
+    pid_t apPID;
     
-    while (PersistentFGets(buf, sizeof(buf), f)) {
-        aPID = atol(buf);
-        if (aPID == thePID) {
-            if (strchr(buf, 'Z'))   // A 'zombie', stopped but waiting
-                break;              // for us (its parent) to quit
-            pclose(f);
-            return true;
+    if (m_lBOINCCoreProcessId) {
+        kill_program(m_lBOINCCoreProcessId);
+        return;
+    }
+    
+    // ToDo: the following command line works properly on Mac 
+    // and on Ubuntu (under VMWare) but needs testing on other 
+    // UNIX and Linux platforms.  We want a command that lists 
+    // processes (including boinc) in 2 columns: executable 
+    // name only (not the entire command line)starting in column 1
+    // and pid.  So the line showing boinc would look like this:
+    // boinc          1234 
+    f = popen("ps -a -x -c -o command,pid", "r");
+    if (f == NULL)
+        return;
+    
+    while (PersistentFGets(buf, sizeof(buf), f))
+    {
+        if (strncmp(buf, name, n) == 0)
+        {
+            bufp = buf+n-1;
+            while (*++bufp == ' ');     // Skip over white space
+            apPID = atol(bufp);
+            kill_program(apPID);
+            break;
         }
     }
     pclose(f);
-    return false;
-}
-
-#else
-
-//TODO: should Linux use the same code as Mac?
-bool CBOINCClientManager::ProcessExists(pid_t thePID) {
-    return wxProcess::Exists(thePID);
 }
 #endif
 
-
-#if defined(__WXMSW__)
-#define BOINCCoreProcessToTest m_hBOINCCoreProcess
-#else
-#define BOINCCoreProcessToTest m_lBOINCCoreProcessId
-#endif
 
 void CBOINCClientManager::ShutdownBOINCCore() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCClientManager::ShutdownBOINCCore - Function Begin"));
@@ -391,10 +448,10 @@ void CBOINCClientManager::ShutdownBOINCCore() {
                 if (!rpc.init("localhost")) {
                     pDoc->m_pNetworkConnection->GetLocalPassword(strPassword);
                     rpc.authorize((const char*)strPassword.mb_str());
-                    if (ProcessExists(BOINCCoreProcessToTest)) {
+                    if (IsBOINCCoreRunning()) {
                         rpc.quit();
                         for (iCount = 0; iCount <= 10; iCount++) {
-                            if (!bClientQuit && ProcessExists(BOINCCoreProcessToTest)) {
+                            if (!bClientQuit && !IsBOINCCoreRunning()) {
                                 wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - (localhost) Application Exit Detected"));
                                 bClientQuit = true;
                                 break;
@@ -402,14 +459,16 @@ void CBOINCClientManager::ShutdownBOINCCore() {
                             wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - (localhost) Application Exit NOT Detected, Sleeping..."));
                             ::wxSleep(1);
                         }
+                    } else {
+                        bClientQuit = true;
                     }
                 }
                 rpc.close();
             } else {
-                if (ProcessExists(BOINCCoreProcessToTest)) {
+                if (IsBOINCCoreRunning()) {
                     pDoc->CoreClientQuit();
                     for (iCount = 0; iCount <= 10; iCount++) {
-                        if (!bClientQuit && ProcessExists(BOINCCoreProcessToTest)) {
+                        if (!bClientQuit && !IsBOINCCoreRunning()) {
                             wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - Application Exit Detected"));
                             bClientQuit = true;
                             break;
@@ -417,12 +476,14 @@ void CBOINCClientManager::ShutdownBOINCCore() {
                         wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::ShutdownBOINCCore - Application Exit NOT Detected, Sleeping..."));
                         ::wxSleep(1);
                     }
+                } else {
+                    bClientQuit = true;
                 }
             }
         }
 
         if (!bClientQuit) {
-            ::wxKill(m_lBOINCCoreProcessId);
+            KillClient();
         }
         m_lBOINCCoreProcessId = 0;
     }
