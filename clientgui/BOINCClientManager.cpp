@@ -118,20 +118,25 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
 
 #ifdef __WXMSW__
     char buf[MAX_PATH] = "";
-    // Global mutex on Win2k and later
-    //
-    if (IsWindows2000Compatible()) {
-        strcpy(buf, "Global\\");
-    }
-    strcat( buf, RUN_MUTEX);
+    
+    if (IsBOINCServiceInstalled()) {
+        running = (FALSE != IsBOINCServiceStarting()) || (FALSE != IsBOINCServiceRunning());
+    } else {
+        // Global mutex on Win2k and later
+        //
+        if (IsWindows2000Compatible()) {
+            strcpy(buf, "Global\\");
+        }
+        strcat( buf, RUN_MUTEX);
 
-    HANDLE h = CreateMutexA(NULL, true, buf);
-    DWORD err = GetLastError();
-    if ((h==0) || (err == ERROR_ALREADY_EXISTS)) {
-        running = true;
-    }
-    if (h) {
-        CloseHandle(h);
+        HANDLE h = CreateMutexA(NULL, true, buf);
+        DWORD err = GetLastError();
+        if ((h==0) || (err == ERROR_ALREADY_EXISTS)) {
+            running = true;
+        }
+        if (h) {
+            CloseHandle(h);
+        }
     }
 #else
     char path[1024];
@@ -309,15 +314,6 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
 
 #ifdef __WXMSW__
-// Provide a structure to store process measurements at the time of a
-//   crash.
-typedef struct _BOINC_PROCESS {
-    DWORD               dwProcessId;
-    DWORD               dwParentProcessId;
-    tstring             strProcessName;
-} BOINC_PROCESS, *PBOINC_PROCESS;
-
-
 static tstring downcase_string(tstring& orig) {
     tstring retval = orig;
     for (size_t i=0; i < retval.length(); i++) {
@@ -343,17 +339,11 @@ void CBOINCClientManager::KillClient() {
     // Lets start walking the structures to find the good stuff.
     pProcesses = (PSYSTEM_PROCESSES)pBuffer;
     do {
-
         if (pProcesses->ProcessId) {
-            BOINC_PROCESS pi;
-            pi.dwProcessId = pProcesses->ProcessId;
-            pi.dwParentProcessId = pProcesses->InheritedFromProcessId;
-            pi.strProcessName = pProcesses->ProcessName.Buffer;
-
-            if (downcase_string(pi.strProcessName) == tstring(_T("boinc.exe"))) {
-                TerminateProcessById(pi.dwProcessId);
+            tstring strProcessName = pProcesses->ProcessName.Buffer;
+            if (downcase_string(strProcessName) == tstring(_T("boinc.exe"))) {
+                TerminateProcessById(pProcesses->ProcessId);
                 break;
-            
            }
         }
 
