@@ -440,16 +440,16 @@ int CMainDocument::OnInit() {
     current_rpc_request.clear();
 
 
-    m_pRPC_Thread_Mutex = new wxMutex();
+    m_pRPC_Thread_Mutex = new BOINC_Mutex();
     wxASSERT(m_pRPC_Thread_Mutex);
 
-    m_pRPC_Thread_Condition = new wxCondition(*m_pRPC_Thread_Mutex);
+    m_pRPC_Thread_Condition = new BOINC_Condition(*m_pRPC_Thread_Mutex);
      wxASSERT(m_pRPC_Thread_Condition);
   
-    m_pRPC_Request_Mutex = new wxMutex();
+    m_pRPC_Request_Mutex = new BOINC_Mutex();
     wxASSERT(m_pRPC_Request_Mutex);
 
-    m_pRPC_Request_Condition = new wxCondition(*m_pRPC_Request_Mutex);
+    m_pRPC_Request_Condition = new BOINC_Condition(*m_pRPC_Request_Mutex);
      wxASSERT(m_pRPC_Request_Condition);
   
     m_RPCThread = new RPCThread(this, 

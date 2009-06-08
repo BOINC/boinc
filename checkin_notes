@@ -4936,3 +4936,12 @@ Charlie 8 June 2009
         AccountInfoPage.cpp
     win_build/
         boincmgr.vcproj
+
+Charlie 8 June 2009
+    - Mac MGR: In Async RPC logic, use posix mutexes and conditions instead 
+        of wxWidgets implementations on the Mac, as this appears to fix an 
+        intermittent hang in wxCondition::Wait().
+    
+    clientgui/
+        AsyncRPC.cpp, .h
+        MainDocument.cpp. .h
