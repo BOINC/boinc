@@ -314,6 +314,9 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
 
 #ifdef __WXMSW__
+#include <tchar.h>
+#define tstring std::wstring
+
 static tstring downcase_string(tstring& orig) {
     tstring retval = orig;
     for (size_t i=0; i < retval.length(); i++) {
@@ -341,7 +344,7 @@ void CBOINCClientManager::KillClient() {
     do {
         if (pProcesses->ProcessId) {
             tstring strProcessName = pProcesses->ProcessName.Buffer;
-            if (downcase_string(strProcessName) == tstring(_T("boinc.exe"))) {
+            if (downcase_string(strProcessName) == L"boinc.exe") {
                 TerminateProcessById(pProcesses->ProcessId);
                 break;
            }

@@ -2944,6 +2944,7 @@ Charlie 5 June 2009
         filesys.cpp
 
 Charlie 8 June 2009
+    - MGR: Fix compiler error on Windows.
     - lib: Fix compiler error on Windows.
 
     lib/
