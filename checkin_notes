@@ -4928,6 +4928,11 @@ Charlie 5 June 2009
 
 Charlie 8 June 2009
     - lib: Fix compiler error on Windows.
+    - MGR: Fix compiler errors on Windows.
 
     lib/
         filesys.cpp
+    clientgui/
+        AccountInfoPage.cpp
+    win_build/
+        boincmgr.vcproj

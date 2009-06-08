@@ -1759,14 +1759,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewNews.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewNews.h"
-					>
-				</File>
-				<File
 					RelativePath="..\clientgui\ViewProjects.cpp"
 					>
 				</File>
