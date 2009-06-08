@@ -314,11 +314,9 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
 
 #ifdef __WXMSW__
-#include <tchar.h>
-#define tstring std::wstring
 
-static tstring downcase_string(tstring& orig) {
-    tstring retval = orig;
+static std::wstring downcase_string(std::wstring& orig) {
+    std::wstring retval = orig;
     for (size_t i=0; i < retval.length(); i++) {
         retval[i] = tolower(retval[i]);
     }
@@ -343,7 +341,7 @@ void CBOINCClientManager::KillClient() {
     pProcesses = (PSYSTEM_PROCESSES)pBuffer;
     do {
         if (pProcesses->ProcessId) {
-            tstring strProcessName = pProcesses->ProcessName.Buffer;
+            std::wstring strProcessName = pProcesses->ProcessName.Buffer;
             if (downcase_string(strProcessName) == L"boinc.exe") {
                 TerminateProcessById(pProcesses->ProcessId);
                 break;
