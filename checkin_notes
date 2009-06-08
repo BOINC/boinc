@@ -5171,3 +5171,13 @@ Charlie 8 June 2009
 
     lib/
         filesys.cpp
+
+David  8 June 2009
+    - GUI RPC: include hostid in PROJECT
+    - web: include timed-out and "client detached" results in error category
+
+    html/inc/
+        result.inc
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp

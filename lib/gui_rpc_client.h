@@ -97,6 +97,7 @@ public:
     std::string project_name;
     std::string user_name;
     std::string team_name;
+    int hostid;
     std::vector<GUI_URL> gui_urls;
     double user_total_credit;
     double user_expavg_credit;

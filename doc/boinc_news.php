@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("June 5, 2009",
+    "<a href=http://www.icvolunteers.org/>ICVolunteers</a>
+    is conducting an
+    <a href=http://www.surveymonkey.com/s.aspx?sm=dOgS3cfUxFKfFbeOy8L3eQ_3d_3d>online poll</a> to study motivation in volunteer computing.
+    Volunteers are encouraged to complete this poll."
+),
 array("June 1, 2009",
     "Mac users: check out <a href=\"http://boinc.berkeley.edu/addon_item.php?platform=mac&item=http%3A%2F%2Fbrotherbard.com%2Fboinc%2F\">BOINCMenubar 2</a>,
     an alternative to the BOINC Manager for Mac OS X."
