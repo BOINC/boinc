@@ -5181,3 +5181,9 @@ David  8 June 2009
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+David  8 June 2009
+	- Manager: show host ID in project properties
+
+	clientgui/
+		DltItemProperties.cpp
