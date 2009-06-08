@@ -22,6 +22,61 @@
 #pragma interface "AsyncRPC.cpp"
 #endif
 
+#ifndef __WXMAC__
+
+#define BOINC_Condition wxCondition
+#define BOINC_Mutex wxMutex
+
+#else
+
+// Adapted from wxMac-2.8.10
+#include <pthread.h>
+
+
+class BOINC_Mutex
+{
+public:
+    BOINC_Mutex( wxMutexType mutexType = wxMUTEX_DEFAULT );
+    ~BOINC_Mutex();
+
+    wxMutexError Lock();
+    wxMutexError TryLock();
+    wxMutexError Unlock();
+
+    bool IsOk() const
+    { return m_isOk; }
+
+private:
+    pthread_mutex_t m_mutex;
+    bool m_isOk;
+
+    // BOINC_Condition uses our m_mutex
+    friend class BOINC_Condition;
+};
+
+
+// Adapted from wxMac-2.8.10 but using native pthread_cond_*()
+class BOINC_Condition
+{
+public:
+    BOINC_Condition(BOINC_Mutex& mutex);
+    ~BOINC_Condition();
+    bool IsOk() const { return (m_BOINC_Mutex.IsOk() && mb_initOK); }
+    wxCondError Wait();
+    wxCondError WaitTimeout(unsigned long milliseconds);
+    void Signal();
+    void Broadcast();
+
+private:
+    BOINC_Mutex&                m_BOINC_Mutex;
+    pthread_cond_t              m_cond;
+    bool                        mb_initOK;
+
+    DECLARE_NO_COPY_CLASS(BOINC_Condition)
+};
+
+#endif
+
 
 class CMainDocument;    // Forward declaration
 
@@ -288,20 +343,20 @@ class RPCThread : public wxThread
 {
 public:
     RPCThread(CMainDocument *pDoc, 
-                wxMutex* pRPC_Thread_Mutex, 
-                wxCondition* pRPC_Thread_Condition, 
-                wxMutex* pRPC_Request_Mutex, 
-                wxCondition* RPC_Request_Condition
+                BOINC_Mutex* pRPC_Thread_Mutex, 
+                BOINC_Condition* pRPC_Thread_Condition, 
+                BOINC_Mutex* pRPC_Request_Mutex, 
+                BOINC_Condition* RPC_Request_Condition
             );
     virtual void                *Entry();
     
 private:
     int                         ProcessRPCRequest();
     CMainDocument*              m_pDoc;
-    wxMutex*                    m_pRPC_Thread_Mutex;
-    wxCondition*                m_pRPC_Thread_Condition;
-    wxMutex*                    m_pRPC_Request_Mutex;
-    wxCondition*                m_pRPC_Request_Condition;
+    BOINC_Mutex*                m_pRPC_Thread_Mutex;
+    BOINC_Condition*            m_pRPC_Thread_Condition;
+    BOINC_Mutex*                m_pRPC_Request_Mutex;
+    BOINC_Condition*            m_pRPC_Request_Condition;
 };
 
 
