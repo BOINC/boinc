@@ -28,6 +28,216 @@
 #include "error_numbers.h"
 #include "util.h"
 
+#ifdef __WXMAC__
+
+#ifdef HAVE_PTHREAD_MUTEXATTR_T
+// on some systems pthread_mutexattr_settype() is not in the headers (but it is
+// in the library, otherwise we wouldn't compile this code at all)
+extern "C" int pthread_mutexattr_settype( pthread_mutexattr_t *, int );
+#endif
+
+BOINC_Mutex::BOINC_Mutex( wxMutexType mutexType )
+{
+    int err;
+    switch ( mutexType )
+    {
+        case wxMUTEX_RECURSIVE:
+            // support recursive locks like Win32, i.e. a thread can lock a
+            // mutex which it had itself already locked
+            //
+            // unfortunately initialization of recursive mutexes is non
+            // portable, so try several methods
+#ifdef HAVE_PTHREAD_MUTEXATTR_T
+            {
+                pthread_mutexattr_t attr;
+                pthread_mutexattr_init( &attr );
+                pthread_mutexattr_settype( &attr, PTHREAD_MUTEX_RECURSIVE );
+
+                err = pthread_mutex_init( &m_mutex, &attr );
+            }
+#elif defined(HAVE_PTHREAD_RECURSIVE_MUTEX_INITIALIZER)
+            // we can use this only as initializer so we have to assign it
+            // first to a temp var - assigning directly to m_mutex wouldn't
+            // even compile
+            {
+                pthread_mutex_t mutex = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
+                m_mutex = mutex;
+            }
+#else // no recursive mutexes
+            err = EINVAL;
+#endif // HAVE_PTHREAD_MUTEXATTR_T/...
+            break;
+
+        default:
+            wxFAIL_MSG( wxT("unknown mutex type") );
+            // fall through
+
+        case wxMUTEX_DEFAULT:
+            err = pthread_mutex_init( &m_mutex, NULL );
+            break;
+    }
+
+    m_isOk = err == 0;
+    if ( !m_isOk )
+    {
+        wxLogApiError( wxT("pthread_mutex_init()"), err );
+    }
+}
+
+BOINC_Mutex::~BOINC_Mutex()
+{
+    if ( m_isOk )
+    {
+        int err = pthread_mutex_destroy( &m_mutex );
+        if ( err != 0 )
+        {
+            wxLogApiError( wxT("pthread_mutex_destroy()"), err );
+        }
+    }
+}
+
+wxMutexError BOINC_Mutex::Lock()
+{
+    int err = pthread_mutex_lock( &m_mutex );
+    switch ( err )
+    {
+        case EDEADLK:
+            // only error checking mutexes return this value and so it's an
+            // unexpected situation -- hence use assert, not wxLogDebug
+            wxFAIL_MSG( wxT("mutex deadlock prevented") );
+            return wxMUTEX_DEAD_LOCK;
+
+        case EINVAL:
+            wxLogDebug( wxT("pthread_mutex_lock(): mutex not initialized.") );
+            break;
+
+        case 0:
+            return wxMUTEX_NO_ERROR;
+
+        default:
+            wxLogApiError( wxT("pthread_mutex_lock()"), err );
+    }
+
+    return wxMUTEX_MISC_ERROR;
+}
+
+wxMutexError BOINC_Mutex::TryLock()
+{
+    int err = pthread_mutex_trylock( &m_mutex );
+    switch ( err )
+    {
+        case EBUSY:
+            // not an error: mutex is already locked, but we're prepared for this case
+            return wxMUTEX_BUSY;
+
+        case EINVAL:
+            wxLogDebug( wxT("pthread_mutex_trylock(): mutex not initialized.") );
+            break;
+
+        case 0:
+            return wxMUTEX_NO_ERROR;
+
+        default:
+            wxLogApiError( wxT("pthread_mutex_trylock()"), err );
+    }
+
+    return wxMUTEX_MISC_ERROR;
+}
+
+wxMutexError BOINC_Mutex::Unlock()
+{
+    int err = pthread_mutex_unlock( &m_mutex );
+    switch ( err )
+    {
+        case EPERM:
+            // we don't own the mutex
+            return wxMUTEX_UNLOCKED;
+
+        case EINVAL:
+            wxLogDebug( wxT("pthread_mutex_unlock(): mutex not initialized.") );
+            break;
+
+        case 0:
+            return wxMUTEX_NO_ERROR;
+
+        default:
+            wxLogApiError( wxT("pthread_mutex_unlock()"), err );
+    }
+
+    return wxMUTEX_MISC_ERROR;
+}
+
+
+// wxMac wxCondition has bugs, so use native UNIX implementation
+
+BOINC_Condition::BOINC_Condition(BOINC_Mutex& mutex) 
+        : m_BOINC_Mutex(mutex) {
+    int err;
+    
+    err = pthread_cond_init(&m_cond, NULL);
+    mb_initOK = (err == 0);
+}
+    
+BOINC_Condition::~BOINC_Condition() {
+    pthread_cond_destroy(&m_cond);
+    mb_initOK = false; 
+}
+
+wxCondError BOINC_Condition::Wait(){
+    int err;
+    
+    err = pthread_cond_wait(&m_cond, &m_BOINC_Mutex.m_mutex);
+    switch (err) {
+    case 0:
+        return wxCOND_NO_ERROR;
+    case EINVAL:
+        return wxCOND_INVALID;
+    case ETIMEDOUT:
+        return wxCOND_TIMEOUT;
+    default:
+        return wxCOND_MISC_ERROR;
+    }
+    return wxCOND_NO_ERROR;
+}
+
+wxCondError BOINC_Condition::WaitTimeout(unsigned long milliseconds) {
+    int err;
+    wxLongLong curtime = wxGetLocalTimeMillis();
+    curtime += milliseconds;
+    wxLongLong temp = curtime / 1000;
+    int sec = temp.GetLo();
+    temp *= 1000;
+    temp = curtime - temp;
+    int millis = temp.GetLo();
+
+    timespec tspec;
+
+    tspec.tv_sec = sec;
+    tspec.tv_nsec = millis * 1000L * 1000L;
+    
+    err = pthread_cond_timedwait(&m_cond, &m_BOINC_Mutex.m_mutex, &tspec);
+    switch (err) {
+    case 0:
+        return wxCOND_NO_ERROR;
+    case EINVAL:
+        return wxCOND_INVALID;
+    case ETIMEDOUT:
+        return wxCOND_TIMEOUT;
+    default:
+        return wxCOND_MISC_ERROR;
+    }
+    return wxCOND_NO_ERROR;
+}
+
+void BOINC_Condition::Signal() {
+    pthread_cond_signal(&m_cond);
+}
+
+void BOINC_Condition::Broadcast() {
+    pthread_cond_broadcast(&m_cond);
+}
+
+#endif
 
 // Delay in milliseconds before showing AsyncRPCDlg
 #define RPC_WAIT_DLG_DELAY 1500
@@ -106,10 +316,10 @@ int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2,
 
 
 RPCThread::RPCThread(CMainDocument *pDoc, 
-                        wxMutex* pRPC_Thread_Mutex, 
-                        wxCondition* pRPC_Thread_Condition, 
-                        wxMutex* pRPC_Request_Mutex, 
-                        wxCondition* pRPC_Request_Condition)
+                        BOINC_Mutex* pRPC_Thread_Mutex, 
+                        BOINC_Condition* pRPC_Thread_Condition, 
+                        BOINC_Mutex* pRPC_Request_Mutex, 
+                        BOINC_Condition* pRPC_Request_Condition)
                         : wxThread() {
     m_pDoc = pDoc;
     m_pRPC_Thread_Mutex = pRPC_Thread_Mutex;

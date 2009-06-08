@@ -194,10 +194,10 @@ private:
     bool                        m_bWaitingForRPC;
     bool                        m_bNeedRefresh;
     bool                        m_bNeedTaskBarRefresh;
-    wxMutex*                    m_pRPC_Thread_Mutex;
-    wxCondition*                m_pRPC_Thread_Condition;
-    wxMutex*                    m_pRPC_Request_Mutex;
-    wxCondition*                m_pRPC_Request_Condition;
+    BOINC_Mutex*                m_pRPC_Thread_Mutex;
+    BOINC_Condition*            m_pRPC_Thread_Condition;
+    BOINC_Mutex*                m_pRPC_Request_Mutex;
+    BOINC_Condition*            m_pRPC_Request_Condition;
 
     //
     // Project Tab
