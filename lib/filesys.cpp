@@ -683,9 +683,9 @@ int FILE_LOCK::unlock(const char* filename) {
     if (close(fd)) {
         perror("FILE_LOCK::unlock(): close failed.");
     }
+    fd = -1;
 #endif
     boinc_delete_file(filename);
-    fd = -1;
     return 0;
 }
 
