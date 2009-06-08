@@ -685,10 +685,10 @@ int FILE_LOCK::unlock(const char* filename) {
     if (close(fd)) {
         retval = -1;
     }
+    fd = -1;
 #endif
     boinc_delete_file(filename);
     locked = false;
-    fd = -1;
     return 0;
 }
 
