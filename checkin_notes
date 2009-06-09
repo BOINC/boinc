@@ -2965,3 +2965,11 @@ Charlie 9 June 2009
 
     lib/
         filesys.cpp
+
+Rom    9 June 2009
+    - Tag for 6.6.35 release, all platforms
+      boinc_core_release_6_6_35
+
+    /
+        configure.ac
+        version.h
