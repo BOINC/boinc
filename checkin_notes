@@ -2958,3 +2958,10 @@ Charlie 8 June 2009
     clientgui/
         AsyncRPC.cpp, .h
         MainDocument.cpp. .h
+
+Charlie 9 June 2009
+    - lib: FILE_LOCK::lock() makes lockfile group-writable so both client and 
+        manager can create and write it under sandbox security.
+
+    lib/
+        filesys.cpp
