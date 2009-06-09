@@ -236,13 +236,6 @@ int CLIENT_STATE::init() {
     parse_account_files();
     parse_statistics_files();
 
-    // check for app_info.xml file in project dirs.
-    // If find, read app info from there, set project.anonymous_platform
-    // NOTE: this is being done before CPU speed has been read,
-    // so we'll need to patch up avp->flops later;
-    //
-    check_anonymous();
-
     host_info.clear_host_info();
     host_info.get_host_info();
     set_ncpus();
@@ -261,6 +254,14 @@ int CLIENT_STATE::init() {
         }
         coproc_cuda = (COPROC_CUDA*)coprocs.lookup("CUDA");
     }
+
+    // check for app_info.xml file in project dirs.
+    // If find, read app info from there, set project.anonymous_platform
+    // - this must follow coproc.get() (need to know if GPUs are present)
+    // - this is being done before CPU speed has been read,
+    // so we'll need to patch up avp->flops later;
+    //
+    check_anonymous();
 
     cpu_benchmarks_set_defaults();  // for first time, make sure p_fpops nonzero
 
