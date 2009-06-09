@@ -5205,3 +5205,10 @@ Rom    9 June 2009
         
     lib/
         stackwalker_win.cpp
+
+Charlie 9 June 2009
+    - lib: FILE_LOCK::lock() makes lockfile group-writable so both client and 
+        manager can create and write it under sandbox security.
+
+    lib/
+        filesys.cpp

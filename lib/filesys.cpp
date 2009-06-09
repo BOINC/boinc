@@ -658,7 +658,7 @@ int FILE_LOCK::lock(const char* filename) {
     }
 #else
     if (fd<0) {
-        fd = open(filename, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
+        fd = open(filename, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH);
     }
     if (fd<0) {
         return ERR_OPEN;
