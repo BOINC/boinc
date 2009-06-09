@@ -5196,3 +5196,12 @@ Charlie 8 June 2009
     clientgui/
         AsyncRPC.cpp, .h
         MainDocument.cpp. .h
+
+Rom    9 June 2009
+    - DIAG: Policy change: Only include the BOINC symbol store for BOINC
+        binaries.  The old policy was kept around as a backwards compatibility
+        thing before a new flag was added to the diagnostics to identify
+        project applications.
+        
+    lib/
+        stackwalker_win.cpp

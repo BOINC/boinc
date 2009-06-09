@@ -582,44 +582,46 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
         strSymbolSearchPath += tt + std::string( ";" );
     }
 
-    if (!diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION) || 
-        (diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION) || (0 < strlen(pszSymbolStore))))
-    {
-        // Depending on if we are a BOINC application or a project application
-        // we'll need to store our symbol files in two different locations.
-        //
-        // BOINC:
-        //   [DATADIR]\symbols
-        // Project:
-        //   [DATADIR]\projects\project_dir\symbols
-        //
-        if (!diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION)) {
-            strLocalSymbolStore += strCurrentDirectory + std::string("\\symbols");
-        } else {
-            strLocalSymbolStore += strExecutableDirectory + std::string("\\symbols");
-        }
-
-        // Microsoft Public Symbol Server
-        if (std::string::npos == strSymbolSearchPath.find("http://msdl.microsoft.com/download/symbols")) {
-            strSymbolSearchPath += 
-                std::string( "srv*" ) + strLocalSymbolStore + 
-                std::string( "*http://msdl.microsoft.com/download/symbols;" );
-        }
-
-        // Project Symbol Server
-        if ((std::string::npos == strSymbolSearchPath.find(pszSymbolStore)) && (0 < strlen(pszSymbolStore))) {
-            strSymbolSearchPath += 
-                std::string( "srv*" ) + strLocalSymbolStore + std::string( "*" ) +
-                std::string( pszSymbolStore ) + std::string( ";" );
-        }
-
-        // BOINC Symbol Server
-        if (std::string::npos == strSymbolSearchPath.find("http://boinc.berkeley.edu/symstore")) {
-            strSymbolSearchPath += 
-                std::string( "srv*" ) + strLocalSymbolStore + 
-                std::string( "*http://boinc.berkeley.edu/symstore;" );
-        }
+    // Depending on if we are a BOINC application or a project application
+    // we'll need to store our symbol files in two different locations.
+    //
+    // BOINC:
+    //   [DATADIR]\symbols
+    // Project:
+    //   [DATADIR]\projects\project_dir\symbols
+    //
+    if (!diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION)) {
+        strLocalSymbolStore += strCurrentDirectory + std::string("\\symbols");
+    } else {
+        strLocalSymbolStore += strExecutableDirectory + std::string("\\symbols");
     }
+
+    // Microsoft Public Symbol Server
+	if (!diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION) || (0 < strlen(pszSymbolStore)) {
+		if (std::string::npos == strSymbolSearchPath.find("http://msdl.microsoft.com/download/symbols")) {
+			strSymbolSearchPath += 
+				std::string( "srv*" ) + strLocalSymbolStore + 
+				std::string( "*http://msdl.microsoft.com/download/symbols;" );
+		}
+	}
+
+    // Project Symbol Server
+	if (diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION) && (0 < strlen(pszSymbolStore)) {
+		if ((std::string::npos == strSymbolSearchPath.find(pszSymbolStore)) && (0 < strlen(pszSymbolStore))) {
+			strSymbolSearchPath += 
+				std::string( "srv*" ) + strLocalSymbolStore + std::string( "*" ) +
+				std::string( pszSymbolStore ) + std::string( ";" );
+		}
+	}
+
+    // BOINC Symbol Server
+	if (!diagnostics_is_flag_set(BOINC_DIAG_BOINCAPPLICATION)) {
+		if (std::string::npos == strSymbolSearchPath.find("http://boinc.berkeley.edu/symstore")) {
+			strSymbolSearchPath += 
+				std::string( "srv*" ) + strLocalSymbolStore + 
+				std::string( "*http://boinc.berkeley.edu/symstore;" );
+		}
+	}
 
     if ( strSymbolSearchPath.size() > 0 ) // if we added anything, we have a trailing semicolon
         strSymbolSearchPath = strSymbolSearchPath.substr( 0, strSymbolSearchPath.size() - 1 );
