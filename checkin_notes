@@ -5212,3 +5212,13 @@ Charlie 9 June 2009
 
     lib/
         filesys.cpp
+
+Charlie 10 June 2009
+    - Mac screensaver: Add support for ProgressThruProcessors (PTP) branding.
+    - Mac PTP Installer: Add support for ProgressThruProcessors (PTP) installer.
+
+    clientscr/
+        mac_saver_module.cpp
+    mac_installer/
+        PostInstall.cpp
+        uninstall.cpp
