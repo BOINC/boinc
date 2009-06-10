@@ -9,9 +9,4 @@
 import sys, os
 
 TOP_BUILD_DIR = "@TOP_BUILD_DIR@"
-TOP_SOURCE_DIR = "@TOP_SOURCE_DIR@"
-TOP_SOURCE_DIR = os.environ.get('TOP_SOURCE_DIR') or TOP_SOURCE_DIR
-
-sys.path.insert(0, os.path.join(TOP_SOURCE_DIR, 'py'))
-if TOP_BUILD_DIR != TOP_SOURCE_DIR:
-    sys.path.insert(0, os.path.join(TOP_BUILD_DIR, 'py'))
+sys.path.insert(0, os.path.join(TOP_BUILD_DIR, 'py'))

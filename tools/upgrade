@@ -6,6 +6,7 @@
 Usage: upgrade [options] project_name
 Options:
   --project_root    default: HOME/projects/
+  --srcdir          default: current directory
 
 Copy source/build files to a project tree,
 overwriting what's already there.
@@ -19,14 +20,14 @@ from Boinc.setup_project import *
 import os, getopt
 
 def usage():
-    print "Usage: upgrade [--project_root] [--web_only] project_name"
+    print "Usage: upgrade [--project_root] [--web_only] [--srcdir DIR] project_name"
     raise SystemExit
 
 def syntax_error(str):
     raise SystemExit('%s; See "%s --help" for help\n' % (str, sys.argv[0]))
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], '', ['help', 'project_root=', 'web_only'])
+    opts, args = getopt.getopt(sys.argv[1:], '', ['help', 'project_root=', 'web_only', 'srcdir='])
 except getopt.GetoptError, e:
     syntax_error(e)
 
@@ -34,11 +35,13 @@ home = os.path.expanduser('~')
 
 options.project_root = os.path.join(home, 'projects')
 options.web_only = False
+options.srcdir = None
 
 for o,a in opts:
     if o == '--help':   usage()
     elif o == '--project_root': options.project_root = a
     elif o == '--web_only': options.web_only = True
+    elif o == '--srcdir': options.srcdir = a
     else:
         raise SystemExit('internal error o=%s'%o)
 
@@ -46,6 +49,13 @@ if len(args) == 1:
     project_shortname = args[0]
 else:
     syntax_error('No project name')
+
+if not options.srcdir:
+    for dir in ('.', '..'):
+        if os.path.exists(os.path.join(dir, 'html', 'project.sample', 'project.inc')):
+            options.srcdir = dir
+    if not options.srcdir:
+        syntax_error('Not running in the source directory and --srcdir was not specified')
 
 INSTALL_DIR = os.path.join(options.project_root, project_shortname)
 

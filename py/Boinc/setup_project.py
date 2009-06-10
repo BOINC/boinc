@@ -168,7 +168,7 @@ def account_file_name(url):
     return 'account_' + _url_to_filename(url) + '.xml'
 
 def srcdir(*dirs):
-    return apply(os.path.join,(boinc_path_config.TOP_SOURCE_DIR,)+dirs)
+    return apply(os.path.join,(options.srcdir,)+dirs)
 
 def builddir(*dirs):
     return apply(os.path.join,(boinc_path_config.TOP_BUILD_DIR,)+dirs)
@@ -486,7 +486,6 @@ class Project:
             self.dir('html/user/rss_main.php'))
         install(srcdir('html/ops', 'sample_server_status.php'),
             self.dir('html/user/server_status.php'))
-        install(srcdir('html/languages/project_specific_translations/sample_en.po'), self.dir('html/languages/project_specific_translations/en.po'))
         install(srcdir('tools/project.xml'), self.dir('project.xml'))
         if not self.production:
             install(srcdir('test/uc_result'), self.dir('templates/uc_result'))
@@ -520,6 +519,7 @@ class Project:
 
         verbose_echo(1, "Setting up database")
         database.create_database(
+            srcdir = options.srcdir,
             config = self.config.config,
             drop_first = options.drop_db_first
             )

@@ -26,7 +26,8 @@ def test_init():
     options.have_init_t = True
 
     if not os.path.exists('testbase.py'):
-        os.chdir(os.path.join(boinc_path_config.TOP_SOURCE_DIR,'test'))
+        # automake sets the srcdir env. variable if srcdir != builddir
+        os.chdir(os.path.join(os.getenv('srcdir'),'test'))
     if not os.path.exists('testbase.py'):
         raise SystemExit('Could not find testbase.py anywhere')
 

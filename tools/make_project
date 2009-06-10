@@ -35,6 +35,7 @@ Misc options:
    --drop_db_first      drop database first (from prev installation)
    --test_app           install test application
    --web_only           install web files, no executables (for Bossa, Bolt)
+   --srcdir             where to find the source files (default: current directory)
 
 Dir-options:
    --project_root       default: HOME/projects/PROJECT
@@ -76,6 +77,7 @@ try:
             'no_query',
             'test_app',
             'web_only',
+            'srcdir=',
             'user_name=',
             'drop_db_first',
             'delete_prev_inst',
@@ -100,6 +102,7 @@ options.no_query = False
 options.test_app = False
 options.web_only = False
 options.delete_prev_inst = False
+options.srcdir = None
 
 for o,a in opts:
     if o == '-h' or o == '--help':        usage()
@@ -108,6 +111,7 @@ for o,a in opts:
     elif o == '--no_query':      options.no_query       = True
     elif o == '--test_app':      options.test_app       = True
     elif o == '--web_only':      options.web_only       = True
+    elif o == '--srcdir':        options.srcdir         = a
     elif o == '--user_name':     options.user_name      = a
     elif o == '--drop_db_first': options.drop_db_first  = True
     elif o == '--delete_prev_inst': options.delete_prev_inst  = True
@@ -130,6 +134,13 @@ elif len(args) == 1:
     (project_shortname, project_longname) = args[0], args[0]
 else:
     syntax_error('Need one or two arguments')
+
+if not options.srcdir:
+    for dir in ('.', '..'):
+        if os.path.exists(os.path.join(dir, 'html', 'project.sample', 'project.inc')):
+            options.srcdir = dir
+    if not options.srcdir:
+        syntax_error('Not running in the source directory and --srcdir was not specified')
 
 opt_repls = {'PROJECT':project_shortname,
              'PROJECT_ops':project_shortname+'_ops',
@@ -270,14 +281,17 @@ t.disabled = 1
 
 project.config.write()
 
+
 svn_version_file = proot+'/local.revision'
 try:
-    os.system('/bin/sh -c /usr/bin/svnversion > '+svn_version_file)
+    cmd = '/bin/sh -c \'/usr/bin/svnversion ' + options.srcdir + '\' > '+svn_version_file
+    os.system(cmd)
 except:
     print '''Couldn't find svnversion'''
 
 try:
-    os.system('/bin/sh -c /usr/bin/svnversion > '+proot+'/db_revision')
+    cmd = '/bin/sh -c \'/usr/bin/svnversion ' + options.srcdir + '\' > '+proot+'/db_revision'
+    os.system(cmd)
 except:
     print '''Couldn't find svnversion'''
 

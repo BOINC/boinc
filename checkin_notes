@@ -5264,3 +5264,19 @@ David  10 June 2009
 
     tools/
         update_versions
+
+David  10 June 2009
+    - make_project and upgrade: add --srcdir option so you
+        can run these commands from any directory
+        (mostly from Gabor Gombas; added a fix for svnversion)
+
+    configure.ac
+    py/Boinc/
+        boinc_path_config.py.in
+        database.py
+        setup_project.py
+    test/
+        testbase.py
+    tools/
+        make_project
+        upgrade
