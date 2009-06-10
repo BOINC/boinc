@@ -8,6 +8,7 @@ $spoken_languages = array(
     'Bengali',
     'Bhojpuri',
     'Burmese',
+    'Catalan',
     'Chinese, Gan',
     'Chinese, Hakka',
     'Chinese, Jinyu',

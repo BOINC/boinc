@@ -5245,13 +5245,15 @@ David  10 June 2009
         );
 
         Email addresses ending with any of those strings will be disallowed.
-    - Web RPCs: have am_set_info.php do the same checking for
-        email addresses (invalid, banned) as the other web code
+    - Web RPCs: have am_set_info.php and create_account.php
+        do the same checking for email addresses (invalid, banned)
+        as the other web code
 
     html/
         inc/
             user.inc
         user/
             am_set_info.php
+            create_account.php
             edit_email_form.php
             edit_email_action.php

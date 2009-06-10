@@ -49,6 +49,9 @@ $user_name = get_str("user_name");
 if (!is_valid_email_addr($email_addr)) {
     xml_error(-205);
 }
+if (is_banned_email_addr($email_addr)) {
+    xml_error(-205);
+}
 
 if (strlen($passwd_hash) != 32) {
     xml_error(-1, "password hash length not 32");
