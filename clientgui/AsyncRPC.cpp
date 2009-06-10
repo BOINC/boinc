@@ -26,6 +26,7 @@
 #include "BOINCBaseFrame.h"
 #include "BOINCTaskBar.h"
 #include "error_numbers.h"
+#include "SkinManager.h"
 #include "util.h"
 
 #ifdef __WXMAC__
@@ -1153,14 +1154,17 @@ END_EVENT_TABLE()
 IMPLEMENT_CLASS(AsyncRPCDlg, wxDialog)
 
 AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPosition ) {
-
     AsyncRPCDlg* itemDialog1 = this;
+    CSkinAdvanced*  pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxString exit_label;
+    wxASSERT(pSkinAdvanced);
 
     wxString message = wxString(_("Communicating with BOINC client.  Please wait ..."));
+    
 #ifdef __WXMAC__
-    wxString exit_label = wxString(_("&Quit BOINC"));
+    exit_label.Printf(_("&Quit %s"), pSkinAdvanced->GetApplicationName().c_str());
 #else
-    wxString exit_label = wxString(_("E&xit BOINC"));
+    exit_label.Printf(_("E&xit %s"), pSkinAdvanced->GetApplicationName().c_str());
 #endif
 
     wxBoxSizer *topsizer = new wxBoxSizer( wxVERTICAL );
