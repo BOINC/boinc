@@ -5292,3 +5292,9 @@ David  10 June 2009
         user/
             show_coproc.cpp
             main.css
+
+Charlie 10 June 2009
+    - MGR: use branded Manager name in async RPC Please Wait dialog.
+    
+    clientgui/
+        AsyncRPC.cpp
