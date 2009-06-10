@@ -251,6 +251,9 @@ OSStatus CScreensaver::initBOINCApp() {
     case 1:
         m_BrandText = "GridRepublic";
          break;
+    case 2:
+        m_BrandText = "ProgressThruProcessors";
+         break;
     default:
         m_BrandText = "BOINC";
         break;
@@ -783,3 +786,4 @@ void PrintBacktrace(void) {
 }
 
 const char *BOINC_RCSID_7ce0778d35="$Id$";
+
