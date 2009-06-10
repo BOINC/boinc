@@ -391,6 +391,17 @@ function show_profile_link($user) {
     }
 }
 
+function is_banned_email_addr($email_addr) {
+    global $banned_email_domains;
+    if (isset($banned_email_domains)) {
+        foreach($banned_email_domains as $d) {
+            $x = strstr($email_addr, $d);
+            if ($x == $d) return true;
+        }
+    }
+    return false;
+}
+
 // the following DB-escapes its args
 //
 function make_user(
@@ -398,6 +409,8 @@ function make_user(
     $country=null, $postal_code=null, $project_prefs=null, $teamid=0
 ) {
     if (!is_valid_email_addr($email_addr)) return null;
+    if (is_banned_email_addr($email_addr)) return null;
+
     $authenticator = random_string();
     $cross_project_id = random_string();
     $now = time();

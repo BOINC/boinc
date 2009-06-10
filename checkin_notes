@@ -5234,3 +5234,24 @@ David  10 June 2009
         file_deleter.cpp
         sched_config.cpp
         sched_result.cpp
+
+David  10 June 2009
+    - web: allow projects to account email addresses in certain domains.
+        Add the following to html/project/project.inc:
+
+        $banned_email_domains = array(
+            "foo.bar",
+            "blah"
+        );
+
+        Email addresses ending with any of those strings will be disallowed.
+    - Web RPCs: have am_set_info.php do the same checking for
+        email addresses (invalid, banned) as the other web code
+
+    html/
+        inc/
+            user.inc
+        user/
+            am_set_info.php
+            edit_email_form.php
+            edit_email_action.php

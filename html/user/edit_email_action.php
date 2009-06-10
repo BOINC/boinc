@@ -30,6 +30,8 @@ page_head("Change email address of account");
 
 if (!is_valid_email_addr($email_addr)) {
     echo "New email address '$email_addr' is invalid";
+} else if (is_banned_email_addr($email_addr)) {
+    echo "New email address '$email_addr' is invalid";
 } else if ($email_addr == $user->email_addr) {
     echo "New email address is same as existing address; no change.";
 } else {

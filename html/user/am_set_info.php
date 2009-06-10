@@ -48,7 +48,6 @@ function success($x) {
 ";
 }
 
-
 xml_header();
 $retval = db_init_xml();
 if ($retval) xml_error($retval);
@@ -84,7 +83,16 @@ $send_email = BoincDb::escape_string(get_str("send_email", true));
 $show_hosts = BoincDb::escape_string(get_str("show_hosts", true));
 $teamid = get_int("teamid", true);
 $venue = BoincDb::escape_string(get_str("venue", true));
-$email_addr = strtolower(BoincDb::escape_string(get_str("email_addr", true)));
+$email_addr = get_str("email_addr", true);
+if ($email_addr) {
+    if (!is_valid_email_addr($email_addr)) {
+        xml_error(-205, "Invalid email address");
+    }
+    if (is_banned_email_addr($email_addr)) {
+        xml_error(-205, "Invalid email address");
+    }
+    $email_addr = strtolower(BoincDb::escape_string($email_addr));
+}
 $password_hash = BoincDb::escape_string(get_str("password_hash", true));
 
 $query = "";

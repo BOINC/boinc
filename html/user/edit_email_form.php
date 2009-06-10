@@ -25,6 +25,7 @@ $user = get_logged_in_user();
 
 page_head("Change email address");
 
+$email_text = "";
 if (is_valid_email_addr($user->email_addr)) {
     $email_text = $user->email_addr;
 }
