@@ -5280,3 +5280,15 @@ David  10 June 2009
     tools/
         make_project
         upgrade
+
+David  10 June 2009
+    - web: don't show user ID next to posts
+    - web: fix [pre] bbcode
+
+    html/
+        inc/
+            text_transform.inc
+            forum.inc
+        user/
+            show_coproc.cpp
+            main.css

@@ -552,11 +552,11 @@ function show_post(
     if (function_exists('project_forum_user_info')){
         project_forum_user_info($user);
     } else {
+        echo "Posts: $user->nposts<br>";
         // circumvent various forms of identity spoofing
         // by displaying the  user id of the poster.
         //
-        echo "Posts: $user->nposts<br>";
-        echo "ID: ".$user->id."<br>";
+        //echo "ID: ".$user->id."<br>";
         if (!no_computing()) {
             echo "Credit: ".number_format($user->total_credit)."<br>";
             echo "RAC: ".number_format($user->expavg_credit)."<br>";

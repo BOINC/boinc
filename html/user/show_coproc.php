@@ -76,7 +76,21 @@ function show_row($x, $y, $mode, $i) {
     echo "</td><td align=right>".format_credit_large($y->credit),"</td><td align=right>$y->nresults</td></tr>\n";
 }
 
-$mode = get_str('mode');
+$mode = get_str('mode', true);
+if (!$mode) {
+    page_head("Show GPU info");
+    echo "
+        <ul>
+        <li> <a href=show_coproc.php?mode=host>Hosts</a>
+        <li> <a href=show_coproc.php?mode=user>Users</a>
+        <li> <a href=show_coproc.php?mode=team>Teams</a>
+        <li> <a href=show_coproc.php?mode=model>GPU models</a>
+        <li> <a href=show_coproc.php?mode=day>Day</a>
+        </ul>
+    ";
+    page_tail();
+    exit;
+}
 
 $fname = "../ops/".filename($mode);
 $data = file_get_contents($fname);

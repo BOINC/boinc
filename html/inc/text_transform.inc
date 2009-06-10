@@ -139,7 +139,7 @@ function bb2html($text) {
     
     // What the above tags are turned in to
     $htmltags = array (
-        "'<div class=\"pre\">'.stop_recursion('\\1').'</div>'",
+        "'<div class=\"pre\">'.stop_recursion(remove_br('\\1')).'</div>'",
         "'<div class=\"code\">'.stop_recursion('\\1').'</div>'",
         "<b>\\1</b>",
         "<i>\\1</i>",

@@ -373,10 +373,10 @@ span.inboxunread {
 	white-space: nowrap;
 }
 
-div.pre {
+.pre {
 	font-family: "Courier New", courier, monospace;
 	display: block;
-	white-space: nowrap;
+	white-space: pre;
 	overflow: auto;
 }
 
