@@ -16,14 +16,29 @@ See http://boinc.berkeley.edu/trac/wiki/UpdateVersions
 
 import database, db_mid, configxml, tools
 import sys, os, re, time, string
+from optparse import OptionParser
 
-verbose = 0
-try:
-    if sys.argv[1] == '-v':
-        verbose = 1
-        print '(verbose mode)'
-except:
-    pass
+parser = OptionParser(usage="usage: %prog [options]")
+
+parser.add_option("-v", "--verbose", dest="verbose", action="store_true", \
+                  default=False, help="Enable verbose mode")
+
+parser.add_option("-s", "--sign", dest="autosign", action="store_true", \
+                  default=False, help="Silently sign executables when unsigned (not recommended)")
+
+parser.add_option("-f", "--force", dest="force", action="store_true", \
+                  default=False, help="Do not prompt to continue before committing changes")
+
+options,args = parser.parse_args()
+
+if options.verbose:
+    verbose = 1
+    print '(verbose mode)'
+else:
+    verbose = 0
+
+autosign = options.autosign
+interactive = not options.force
 
 config = configxml.default_config().config
 database.connect()
@@ -100,7 +115,8 @@ def add_files(
         signature_files = signature_files,
         file_ref_infos = file_ref_infos,
         api_version = api_version,
-        extra_xml = extra_xml
+        extra_xml = extra_xml,
+        quiet = autosign
         )
 
     object = database.AppVersion(
@@ -115,10 +131,11 @@ def add_files(
     objects_to_commit.append(object)
 
 # Return a match if the filename is a possible exec file name (or installer)
+# i.e. it's of the form NAME_VERSION_PLATFORM[__PLAN-CLASS][.ext]
 
 def re_match_exec_filename(filepath):
     file = os.path.basename(filepath)
-    return re.match('[^.]+_([0-9]+)[.]([0-9]+)_([^.]+?(?:[0-9][0-9.]*[0-9])?)(__[^.]+)?(?:[.]gz|[.]exe|[.]sit|[.]msi)?$', file)
+    return re.match('[^.]+_([0-9]+)[.]([0-9]+)_([^.]+?(?:[0-9][0-9.]*[0-9])?)(__[^.]+)?(?:[.][a-zA-Z0-9\_\-]*)?$', file)
 
 def find_versions(app, dir):
     """Find application versions in DIR.
@@ -256,8 +273,9 @@ print "Ready to commit %d items:" %len(objects_to_commit)
 for object in objects_to_commit:
     print "   ", object
 
-if not tools.query_yesno("Continue"):
-    raise SystemExit
+if interactive:
+    if not tools.query_yesno("Continue"):
+        raise SystemExit
 
 print "Committed:"
 for object in objects_to_commit:

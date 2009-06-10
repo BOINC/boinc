@@ -5257,3 +5257,10 @@ David  10 June 2009
             create_account.php
             edit_email_form.php
             edit_email_action.php
+
+David  10 June 2009
+    - update_versions: add --sign and --force options to enable automation
+        (from Jeremy Cowles)
+
+    tools/
+        update_versions

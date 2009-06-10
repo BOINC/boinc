@@ -1,6 +1,9 @@
 <?
 
 $project_news = array(
+array("June 10, 2009",
+    "Check out <a href=http://dishmag.com/issue96/homestyle/10099/boinc-how-your-computer-can-benefit-all-of-mankind/>BOINC! How your computer can benefit all of mankind</a>, a story in the online <a href=http://dishmag.com/>Dish Magazine</a>."
+),
 array("June 5, 2009",
     "<a href=http://www.icvolunteers.org/>ICVolunteers</a>
     is conducting an
