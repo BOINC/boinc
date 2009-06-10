@@ -4962,3 +4962,9 @@ Charlie 10 June 2009
     mac_installer/
         PostInstall.cpp
         uninstall.cpp
+
+Charlie 10 June 2009
+    - MGR: use branded Manager name in async RPC Please Wait dialog.
+    
+    clientgui/
+        AsyncRPC.cpp
