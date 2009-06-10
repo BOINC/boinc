@@ -5222,3 +5222,15 @@ Charlie 10 June 2009
     mac_installer/
         PostInstall.cpp
         uninstall.cpp
+
+David  10 June 2009
+    - file deleter: detect cases where the upload/download dir doesn't exist,
+        and treat it as a recoverable error (i.e., retry).
+        The file deleter may run on a host that NSF-mounts
+        the upload/download dirs, and NSF mounts can file.
+    - scheduler: include WU#ID in log msgs for handled results
+
+    sched/
+        file_deleter.cpp
+        sched_config.cpp
+        sched_result.cpp

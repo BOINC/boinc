@@ -108,8 +108,8 @@ int handle_results() {
 
         if (config.debug_handle_results) {
             log_messages.printf(MSG_NORMAL,
-                "[handle] [HOST#%d] [RESULT#%d %s] got result (DB: server_state=%d outcome=%d client_state=%d validate_state=%d delete_state=%d)\n",
-                g_reply->host.id, srip->id, srip->name, srip->server_state,
+                "[handle] [HOST#%d] [RESULT#%d] [WU#%d] got result (DB: server_state=%d outcome=%d client_state=%d validate_state=%d delete_state=%d)\n",
+                g_reply->host.id, srip->id, srip->workunitid, srip->server_state,
                 srip->outcome, srip->client_state, srip->validate_state,
                 srip->file_delete_state
             );
@@ -163,8 +163,8 @@ int handle_results() {
             if (dont_replace_result) {
                 char buf[256];
                 log_messages.printf(MSG_CRITICAL,
-                    "[HOST#%d] [RESULT#%d %s] result already over [outcome=%d validate_state=%d]: %s\n",
-                    g_reply->host.id, srip->id, srip->name, srip->outcome,
+                    "[HOST#%d] [RESULT#%d] [WU#%d] result already over [outcome=%d validate_state=%d]: %s\n",
+                    g_reply->host.id, srip->id, srip->workunitid, srip->outcome,
                     srip->validate_state, dont_replace_result
                 );
                 sprintf(buf, "Completed result %s refused: %s", srip->name, dont_replace_result);
@@ -177,8 +177,8 @@ int handle_results() {
 
         if (srip->server_state == RESULT_SERVER_STATE_UNSENT) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] [RESULT#%d %s] got unexpected result: server state is %d\n",
-                g_reply->host.id, srip->id, srip->name, srip->server_state
+                "[HOST#%d] [RESULT#%d] [WU#%d] got unexpected result: server state is %d\n",
+                g_reply->host.id, srip->id, srip->workunitid, srip->server_state
             );
             srip->id = 0;
             g_reply->result_acks.push_back(std::string(rp->name));
@@ -187,8 +187,8 @@ int handle_results() {
 
         if (srip->received_time) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] [RESULT#%d %s] already got result, at %s \n",
-                g_reply->host.id, srip->id, srip->name,
+                "[HOST#%d] [RESULT#%d] [WU#%d] already got result, at %s \n",
+                g_reply->host.id, srip->id, srip->workunitid,
                 time_to_string(srip->received_time)
             );
             srip->id = 0;
@@ -198,32 +198,32 @@ int handle_results() {
 
         if (srip->hostid != g_reply->host.id) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] [RESULT#%d %s] got result from wrong host; expected [HOST#%d]\n",
-                g_reply->host.id, srip->id, srip->name, srip->hostid
+                "[HOST#%d] [RESULT#%d] [WU#%d] got result from wrong host; expected [HOST#%d]\n",
+                g_reply->host.id, srip->id, srip->workunitid, srip->hostid
             );
             DB_HOST result_host;
             retval = result_host.lookup_id(srip->hostid);
 
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "[RESULT#%d %s] Can't lookup [HOST#%d]\n",
-                    srip->id, srip->name, srip->hostid
+                    "[RESULT#%d] [WU#%d] Can't lookup [HOST#%d]\n",
+                    srip->id, srip->workunitid, srip->hostid
                 );
                 srip->id = 0;
                 g_reply->result_acks.push_back(std::string(rp->name));
                 continue;
             } else if (result_host.userid != g_reply->host.userid) {
                 log_messages.printf(MSG_CRITICAL,
-                    "[USER#%d] [HOST#%d] [RESULT#%d %s] Not even the same user; expected [USER#%d]\n",
-                    g_reply->host.userid, g_reply->host.id, srip->id, srip->name, result_host.userid
+                    "[USER#%d] [HOST#%d] [RESULT#%d] [WU#%d] Not even the same user; expected [USER#%d]\n",
+                    g_reply->host.userid, g_reply->host.id, srip->id, srip->workunitid, result_host.userid
                 );
                 srip->id = 0;
                 g_reply->result_acks.push_back(std::string(rp->name));
                 continue;
             } else {
                 log_messages.printf(MSG_CRITICAL,
-                    "[HOST#%d] [RESULT#%d %s] Allowing result because same USER#%d\n",
-                    g_reply->host.id, srip->id, srip->name, g_reply->host.userid
+                    "[HOST#%d] [RESULT#%d] [WU#%d] Allowing result because same USER#%d\n",
+                    g_reply->host.id, srip->id, srip->workunitid, g_reply->host.userid
                 );
                 changed_host = true;
             }
@@ -244,13 +244,13 @@ int handle_results() {
         double elapsed_time = srip->received_time - srip->sent_time;
         if (elapsed_time < 0) {
             log_messages.printf(MSG_NORMAL,
-                "[HOST#%d] [RESULT#%d] inconsistent sent/received times\n", srip->hostid, srip->id
+                "[HOST#%d] [RESULT#%d] [WU#%d] inconsistent sent/received times\n", srip->hostid, srip->id, srip->workunitid
             );
         } else {
             if (srip->cpu_time > elapsed_time) {
                 log_messages.printf(MSG_NORMAL,
-                    "[HOST#%d] [RESULT#%d] excessive CPU time: reported %f > elapsed %f%s\n",
-                    srip->hostid, srip->id, srip->cpu_time, elapsed_time, changed_host?" [OK: HOST changed]":""
+                    "[HOST#%d] [RESULT#%d] [WU#%d] excessive CPU time: reported %f > elapsed %f%s\n",
+                    srip->hostid, srip->id, srip->workunitid, srip->cpu_time, elapsed_time, changed_host?" [OK: HOST changed]":""
                 );
                 if (!changed_host) srip->cpu_time = elapsed_time;
             }
@@ -297,16 +297,16 @@ int handle_results() {
             srip->outcome = RESULT_OUTCOME_SUCCESS;
             if (config.debug_handle_results) {
                 log_messages.printf(MSG_NORMAL,
-                    "[handle] [RESULT#%d %s]: setting outcome SUCCESS\n",
-                    srip->id, srip->name
+                    "[handle] [RESULT#%d] [WU#%d]: setting outcome SUCCESS\n",
+                    srip->id, srip->workunitid
                 );
             }
             got_good_result();
         } else {
             if (config.debug_handle_results) {
                 log_messages.printf(MSG_NORMAL,
-                    "[handle] [RESULT#%d %s]: client_state %d exit_status %d; setting outcome ERROR\n",
-                    srip->id, srip->name, srip->client_state, srip->exit_status
+                    "[handle] [RESULT#%d] [WU#%d]: client_state %d exit_status %d; setting outcome ERROR\n",
+                    srip->id, srip->workunitid, srip->client_state, srip->exit_status
                 );
             }
             srip->outcome = RESULT_OUTCOME_CLIENT_ERROR;
@@ -330,8 +330,8 @@ int handle_results() {
         retval = result_handler.update_result(sri);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] [RESULT#%d %s] can't update result: %s\n",
-                g_reply->host.id, sri.id, sri.name, boinc_db.error_string()
+                "[HOST#%d] [RESULT#%d] [WU#%d] can't update result: %s\n",
+                g_reply->host.id, sri.id, sri.workunitid, boinc_db.error_string()
             );
         } else {
             g_reply->result_acks.push_back(std::string(sri.name));

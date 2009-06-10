@@ -104,6 +104,8 @@ void usage() {
 "     handle only WUs of a particular app\n"
 "-one_pass\n"
 "     instead of sleeping in 2), exit\n"
+"-delete_antiques_now\n"
+"     do 5) immediately\n"
 "-dont_retry_error\n"
 "     don't do 4)\n"
 "-dont_delete_antiques\n"
@@ -124,8 +126,9 @@ void usage() {
     exit(1);
 }
 
-// Given a filename, find its full path in the upload directory hierarchy\n"
-// Return an error if file isn't there.\n"
+// Given a filename, find its full path in the upload directory hierarchy
+// Return ERR_OPENDIR if dir isn't there (possibly recoverable error),
+// ERR_NOT_FOUND if dir is there but not file
 //
 int get_file_path(
     const char *filename, char* upload_dir, int fanout, char* path
@@ -134,7 +137,12 @@ int get_file_path(
     if (boinc_file_exists(path)) {
         return 0;
     }
-    return ERR_NOT_FOUND;
+    char* p = strrchr(path, '/');
+    *p = 0;
+    if (boinc_file_exists(path)) {
+        return ERR_NOT_FOUND;
+    }
+    return ERR_OPENDIR;
 }
 
 
@@ -159,10 +167,17 @@ int wu_delete_files(WORKUNIT& wu) {
             no_delete = true;
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
-                retval = get_file_path(filename, config.download_dir, config.uldl_dir_fanout,
+                retval = get_file_path(
+                    filename, config.download_dir, config.uldl_dir_fanout,
                     pathname
                 );
-                if (retval) {
+                if (retval == ERR_OPENDIR) {
+                    log_messages.printf(MSG_CRITICAL,
+                        "[WU#%d] missing dir for %s\n",
+                        wu.id, filename
+                    );
+                    mthd_retval = ERR_UNLINK;
+                } else if (retval) {
                     log_messages.printf(MSG_CRITICAL,
                         "[WU#%d] get_file_path: %s: %d\n",
                         wu.id, filename, retval
@@ -213,7 +228,13 @@ int result_delete_files(RESULT& result) {
                     filename, config.upload_dir, config.uldl_dir_fanout,
                     pathname
                 );
-                if (retval) {
+                if (retval == ERR_OPENDIR) {
+                    mthd_retval = ERR_OPENDIR;
+                    log_messages.printf(MSG_CRITICAL,
+                        "[RESULT#%d] missing dir for %s\n",
+                        result.id, pathname
+                    );
+                } else if (retval) {
                     // the fact that no result files were found is a critical
                     // error if this was a successful result, but is to be
                     // expected if the result outcome was failure, since in
@@ -395,6 +416,9 @@ std::list<FILE_RECORD> files_to_delete;
 // delete files in antique files list, and empty the list.
 // Returns number of files deleted, or negative for error.
 //
+// TODO: the list contains filenames, and we convert these to paths.
+// This is wacked.  The list should contain paths.
+//
 int delete_antique_files() {
     int nfiles=0;
 
@@ -415,8 +439,7 @@ int delete_antique_files() {
         );
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "get_file_path(%s) failed: %d\n",
-                fr.name.c_str(), retval
+                "get_file_path(%s) failed: %d\n", fr.name.c_str(), retval
             );
             return retval;
         }
