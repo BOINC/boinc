@@ -313,14 +313,12 @@ def contains_shell_characters(command):
 
 def exec_command_string(command):
     args = command.strip().split()
-    # set default path for program to <bin_dir>:
-    args[0] = os.path.realpath(os.path.join( bin_dir, args[0] ))
     os.chdir(tmp_dir)
     try:
         if contains_shell_characters(command):
             os.execl('/bin/sh', 'sh', '-c', ' '.join(args))
         else:
-            os.execv( args[0], args )
+            os.execvp( args[0], args )
         # on success we don't reach here
         print >>sys.stderr, "Couldn't exec '%s'"%command
     except OSError, e:
@@ -710,6 +708,11 @@ log_dir = ensure_get_dir('log_'+local_hostname)
 pid_dir = ensure_get_dir('pid_'+local_hostname)
 
 is_main_host = config.config.host == local_hostname
+
+if os.getenv('PATH'):
+    os.putenv('PATH', bin_dir + ':' + os.getenv('PATH'))
+else:
+    os.putenv('PATH', bin_dir)
 
 start_lockfile = os.path.join(pid_dir, 'start.lock.'+local_hostname)
 if lock_file(start_lockfile):

@@ -5364,3 +5364,13 @@ David  11 June 2009
     sched/
         start
         assimilator.py
+
+David  11 June 2009
+    - server: 'start' now looks for programs to execute in $PATH,
+        so the same set of binaries can be used to handle multiple projects.
+        <projectroot>/bin is always prepended to $PATH
+        to ensure that project-specific binaries always take precedence.
+        From Gabor Gombas.
+
+    sched/
+        start
