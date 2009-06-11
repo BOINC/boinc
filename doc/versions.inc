@@ -135,7 +135,7 @@ $m6218c = array(
 
 $l66 = array(
     "num"=>"6.6.36",
-    "status"=>"Recommended version",
+    "status"=>"Development version",
     "file"=>"boinc_compat_6.6.36_i686-pc-linux-gnu.sh",
     "date"=>"10 June 2009",
     "type"=>"sea",
@@ -151,7 +151,7 @@ $l64 = array(
 
 $l66ubuntu = array(
     "num"=>"6.6.36",
-    "status"=>"Recommended version",
+    "status"=>"Development version",
     "file"=>"boinc_6.6.36_i686-pc-linux-gnu.sh",
     "date"=>"10 June 2009",
     "type"=>"sea",
@@ -167,7 +167,7 @@ $l64ubuntu = array(
 
 $l66ubuntux64 = array(
     "num"=>"6.6.36",
-    "status"=>"Recommended version",
+    "status"=>"Development version",
     "file"=>"boinc_6.6.36_x86_64-pc-linux-gnu.sh",
     "date"=>"10 June 2009",
     "type"=>"sea",
