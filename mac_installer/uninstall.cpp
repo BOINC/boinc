@@ -193,7 +193,7 @@ static OSStatus DoUninstall(void) {
     err = DeleteOurBundlesFromDirectory(CFSTR("edu.berkeley.boincsaver"), "saver", "/Library/Screen Savers");
 
     // Phase 4: Delete our files and directories at our installer's default locations
-    // Remove everything we've installed, whether BOINC, GridRepublic or ProgressThruProcessors
+    // Remove everything we've installed, whether BOINC, GridRepublic or Progress Thru Processors
     // These first 4 should already have been deleted by the above code, but do them anyway for safety
     system ("rm -rf /Applications/BOINCManager.app");
     system ("rm -rf \"/Library/Screen Savers/BOINCSaver.saver\"");
@@ -201,12 +201,12 @@ static OSStatus DoUninstall(void) {
     system ("rm -rf \"/Applications/GridRepublic Desktop.app\"");
     system ("rm -rf \"/Library/Screen Savers/GridRepublic.saver\"");
     
-    system ("rm -rf \"/Applications/ProgressThruProcessors Desktop.app\"");
-    system ("rm -rf \"/Library/Screen Savers/ProgressThruProcessors.saver\"");
+    system ("rm -rf \"/Applications/Progress Thru Processors Desktop.app\"");
+    system ("rm -rf \"/Library/Screen Savers/Progress Thru Processors.saver\"");
 
 
     system ("rm -rf /Library/Receipts/GridRepublic.pkg");
-    system ("rm -rf /Library/Receipts/ProgressThruProcessors.pkg");
+    system ("rm -rf /Library/Receipts/Progress Thru Processors.pkg");
     system ("rm -rf /Library/Receipts/BOINC.pkg");
 
     // We don't customize BOINC Data directory name for branding
@@ -390,7 +390,7 @@ static OSStatus CleanupAllVisibleUsers(void)
         system (s);
         
         //  Set screensaver to "Computer Name" default screensaver only 
-        //  if it was BOINC, GridRepublic or ProgressThruProcessors.
+        //  if it was BOINC, GridRepublic or Progress Thru Processors.
         changeSaver = false;
         f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
         if (f) {
@@ -399,7 +399,7 @@ static OSStatus CleanupAllVisibleUsers(void)
                 changeSaver = true;
             if (strstr(s, "GridRepublic"))
                 changeSaver = true;
-            if (strstr(s, "ProgressThruProcessors"))
+            if (strstr(s, "Progress Thru Processors"))
                 changeSaver = true;
             pclose(f);
         }
@@ -547,7 +547,7 @@ static void DeleteLoginItem(void)
             Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
         if (strcmp(p, "GRIDREPUBLIC DESKTOP.APP") == 0)
             Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
-        if (strcmp(p, "PROGRESSTHRUPROCESSORS DESKTOP.APP") == 0)
+        if (strcmp(p, "PROGRESS THRU PROCESSORS DESKTOP.APP") == 0)
             Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
     }
 }
