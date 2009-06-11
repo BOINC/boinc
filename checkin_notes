@@ -5433,3 +5433,13 @@ Rom    11 June 2009
       
     clientscr/progress
         <Added Various Files>
+
+David  11 June 2009
+    - server: suppress verbosity of update_translations
+        in make_project and upgrade
+
+    html/ops/
+        update_translations.php
+    tools/
+        make_project
+        upgrade

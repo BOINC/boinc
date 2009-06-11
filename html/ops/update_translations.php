@@ -25,6 +25,9 @@ require_once("../inc/translation.inc");
 system("rm -f $lang_language_dir/$lang_compiled_dir/*");
 
 $lang_log_level = 0;
+if ($argc >= 3 && $argv[1] == '-d') {
+    $lang_log_level = $argv[2];
+}
 
 // process the generic BOINC web site strings
 //
