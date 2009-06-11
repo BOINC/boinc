@@ -112,9 +112,9 @@ int main(int argc, char *argv[])
     appNameEscaped[1] = "/Applications/GridRepublic\\ Desktop.app";
     brandName[1] = "GridRepublic";
 
-    appName[2] = "/Applications/ProgressThruProcessors Desktop.app";
-    appNameEscaped[2] = "/Applications/ProgressThruProcessors\\ Desktop.app";
-    brandName[2] = "ProgressThruProcessors";
+    appName[2] = "/Applications/Progress Thru Processors Desktop.app";
+    appNameEscaped[2] = "/Applications/Progress\\ Thru\\ Processors\\ Desktop.app";
+    brandName[2] = "Progress Thru Processors";
 
     for (i=0; i<argc; i++) {
         if (strcmp(argv[i], "-part2") == 0)
@@ -474,7 +474,7 @@ void SetLoginItem(long brandID, Boolean deleteLogInItem)
 
             // if (strcmp(p, "BOINCMANAGER.APP") == 0)
             // if (strcmp(p, "GRIDREPUBLIC DESKTOP.APP") == 0)
-            // if (strcmp(p, "PROGRESSTHRUPROCESSORS DESKTOP.APP") == 0)
+            // if (strcmp(p, "PROGRESS THRU PROCESSORS DESKTOP.APP") == 0)
             if (strcmp(p, s) == 0) {
                 Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
             }

@@ -5298,3 +5298,14 @@ Charlie 10 June 2009
     
     clientgui/
         AsyncRPC.cpp
+
+Charlie 10 June 2009
+    - Mac screensaver: Change "ProgressThruProcessors" to "Progress Thru Processors".
+    - Mac PTP Installer: Change "ProgressThruProcessors" to 
+        "Progress Thru Processors".
+
+    clientscr/
+        mac_saver_module.cpp
+    mac_installer/
+        PostInstall.cpp
+        uninstall.cpp

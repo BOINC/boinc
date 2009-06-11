@@ -252,7 +252,7 @@ OSStatus CScreensaver::initBOINCApp() {
         m_BrandText = "GridRepublic";
          break;
     case 2:
-        m_BrandText = "ProgressThruProcessors";
+        m_BrandText = "Progress Thru Processors";
          break;
     default:
         m_BrandText = "BOINC";
