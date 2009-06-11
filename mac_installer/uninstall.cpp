@@ -201,12 +201,12 @@ static OSStatus DoUninstall(void) {
     system ("rm -rf \"/Applications/GridRepublic Desktop.app\"");
     system ("rm -rf \"/Library/Screen Savers/GridRepublic.saver\"");
     
-    system ("rm -rf \"/Applications/Progress Thru Processors Desktop.app\"");
-    system ("rm -rf \"/Library/Screen Savers/Progress Thru Processors.saver\"");
+    system ("rm -rf \"/Applications/Progress\\ Thru\\ Processors\\ Desktop.app\"");
+    system ("rm -rf \"/Library/Screen Savers/Progress\\ Thru\\ Processors.saver\"");
 
 
     system ("rm -rf /Library/Receipts/GridRepublic.pkg");
-    system ("rm -rf /Library/Receipts/Progress Thru Processors.pkg");
+    system ("rm -rf /Library/Receipts/Progress\\ Thru\\ Processors.pkg");
     system ("rm -rf /Library/Receipts/BOINC.pkg");
 
     // We don't customize BOINC Data directory name for branding
