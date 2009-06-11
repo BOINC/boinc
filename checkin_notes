@@ -5314,6 +5314,10 @@ Charlie 10 June 2009
 
 Charlie 11 June 2009
     Mac: Fix script to properly handle UTF-16 encoded InfoPlist.strings files.
+    Mac: Update copyright date in InfoPlist.strings files to 2009.
 
+    clientgui/
+        mac/
+            SetVersion.cpp
     mac_installer/
         make_ProgThruProc.sh
