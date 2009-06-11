@@ -5426,3 +5426,10 @@ Rom    11 June 2009
 		ptp_boincmgr.vcproj
 		ptp_boincsvcctrl.vcproj
 		ptp_boinctray.vcproj
+
+Rom    11 June 2009
+    PTP: Add the 'Progress Thru Processors' screensaver to the
+      source tree.
+      
+    clientscr/progress
+        <Added Various Files>
