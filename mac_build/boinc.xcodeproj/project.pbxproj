@@ -3219,6 +3219,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = SetVersion;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 			};
 			name = Dev_noSandbox;
 		};
@@ -3226,6 +3227,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = SetVersion;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 			};
 			name = Deploy_noSandbox;
 		};
@@ -3986,6 +3988,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = SetVersion;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 			};
 			name = "Deployment-no64";
 		};
@@ -4218,6 +4221,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = SetVersion;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 			};
 			name = Deployment;
 		};
@@ -4436,6 +4440,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = SetVersion;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 			};
 			name = Development;
 		};
@@ -4443,6 +4448,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = SetVersion;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 			};
 			name = ppc_Deployment;
 		};
@@ -4767,6 +4773,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = SetVersion;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 			};
 			name = i386_Deployment;
 		};
