@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-from assimilator import *
+import boinc_path_config
+from Boinc.assimilator import *
 
 class TestAssimilator(Assimilator):
     """

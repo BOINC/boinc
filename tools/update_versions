@@ -14,7 +14,8 @@ See http://boinc.berkeley.edu/trac/wiki/UpdateVersions
 
 """
 
-import database, db_mid, configxml, tools
+import boinc_path_config
+from Boinc import database, db_mid, configxml, tools
 import sys, os, re, time, string
 from optparse import OptionParser
 

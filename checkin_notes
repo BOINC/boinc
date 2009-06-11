@@ -5321,3 +5321,20 @@ Charlie 11 June 2009
             SetVersion.cpp
     mac_installer/
         make_ProgThruProc.sh
+
+David  11 June 2009
+    - server: move python modules from PROJECT/bin to PROJECT/py/Boinc.
+        make_project now generates PROJECT/bin/boinc_path_config.py
+        to ensure that the interpreter will find the modules.
+        From Gabor Gombas.
+
+    py/Boinc/
+        setup_project.py
+    sched/
+        start
+        testasm.py
+        assimilator.py
+    tools/
+        parse_config
+        xadd
+        update_versions

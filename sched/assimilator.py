@@ -4,7 +4,8 @@ Generic Assimilator framework
 '''
 
 import os, re, signal, sys, time, hashlib
-import database, boinc_db, configxml, sched_messages
+import boinc_path_config
+from Boinc import database, boinc_db, configxml, sched_messages
 
 # Peter Norvig's Abstract base class hack
 def abstract():

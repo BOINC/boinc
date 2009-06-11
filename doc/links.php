@@ -280,6 +280,7 @@ language("Japanese", array(
         "translation by Komori Hitoshi")
 ));
 language("Korean", array(
+    site("http://setikah.mi.am/", "SETIKAH@home"),
     site("http://boincatkorea.xo.st/", "BOINC@KOREA"),
 ));
 

@@ -76,7 +76,8 @@ Both:
 
 '''
 
-import configxml
+import boinc_path_config
+from Boinc import configxml
 import sys, os, getopt, time, glob, fcntl, signal, socket
 
 right_now = int(time.time())

@@ -9,7 +9,8 @@ A program to pass config file settings to calling programs via stdout
 
 '''
 
-import configxml
+import boinc_path_config
+from Boinc import configxml
 import sys, os
 
 program_path = os.path.realpath(os.path.dirname(sys.argv[0]))

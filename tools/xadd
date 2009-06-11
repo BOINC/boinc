@@ -20,7 +20,8 @@ Reads info from "project.xml", e.g.:
 See http://boinc.berkeley.edu/tool_xadd.php
 '''
 
-import database, db_mid, projectxml
+import boinc_path_config
+from Boinc import database, db_mid, projectxml
 
 database.connect()
 projectxml.default_project().commit_all()
