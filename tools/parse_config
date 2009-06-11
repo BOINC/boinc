@@ -13,7 +13,5 @@ import boinc_path_config
 from Boinc import configxml
 import sys, os
 
-program_path = os.path.realpath(os.path.dirname(sys.argv[0]))
-config_filename = os.path.realpath(os.path.join(program_path, '../config.xml'))
-config = configxml.ConfigFile(config_filename).read()
-print config.config.__dict__.get(sys.argv[1])
+config = configxml.default_config().config
+print config.__dict__.get(sys.argv[1])

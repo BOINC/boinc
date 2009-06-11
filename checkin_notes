@@ -5349,3 +5349,18 @@ David  11 June 2009
         Makefile.am
         boinc_path_config.py.in (moved here)
         db_def_to_py (moved here)
+
+David  11 June 2009
+    - server: make the python code honor BOINC_PROJECT_PATH.
+        It is now possible to use the same set of tools for multiple
+        projects by setting BOINC_PROJECT_PATH.
+        From Gabor Gombas.
+
+    py/Boinc/
+        boinc_project_path.py
+    tools/
+        parse_config
+        update_versions
+    sched/
+        start
+        assimilator.py

@@ -15,7 +15,7 @@ See http://boinc.berkeley.edu/trac/wiki/UpdateVersions
 """
 
 import boinc_path_config
-from Boinc import database, db_mid, configxml, tools
+from Boinc import database, db_mid, configxml, tools, boinc_project_path
 import sys, os, re, time, string
 from optparse import OptionParser
 
@@ -283,6 +283,6 @@ for object in objects_to_commit:
     object.commit()
     print "   ", object
 
-touch_file('reread_db')
+touch_file(boinc_project_path.project_path('reread_db'))
 print "Touched trigger file to make feeder re-read app_version table from database"
 print "Done"

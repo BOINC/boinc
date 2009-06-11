@@ -10,19 +10,32 @@
 #       than the default one
 #    3) define environment variables
 
-import sys, os
+import sys, os, socket
 
-PROGRAM_DIR = os.path.dirname(sys.argv[0])
-PROGRAM_PARENT_DIR = os.path.join(PROGRAM_DIR,os.pardir)
+# Default locations to look for config.xml: ".", "..", "../..", and the parent
+# directory of the script's location
+_dirs = [ os.curdir, os.pardir, os.path.join(os.pardir, os.pardir),
+          os.path.join(os.path.dirname(sys.argv[0]), os.pardir) ]
 
-config_xml_filename = os.environ.get(
-    'BOINC_CONFIG_XML',
-    os.path.join(PROGRAM_PARENT_DIR,'config.xml'))
+# BOINC_PROJECT_DIR takes precedence if it is defined
+_project_dir = ''
+if os.environ.get('BOINC_PROJECT_DIR'):
+    _project_dir = os.environ.get('BOINC_PROJECT_DIR')
+else:
+    for dir in _dirs:
+        if os.path.exists(os.path.join(dir, 'config.xml')):
+            _project_dir = dir
+            break
 
-project_xml_filename = os.environ.get(
-    'BOINC_PROJECT_XML',
-    os.path.join(PROGRAM_PARENT_DIR,'project.xml'))
+_local_hostname = socket.gethostname()
+_local_hostname = _local_hostname.split('.')[0]
 
-run_state_xml_filename = os.environ.get(
-    'BOINC_RUN_STATE_XML',
-    os.path.join(PROGRAM_PARENT_DIR,'run_state.xml'))
+def project_path(name = None):
+    if name:
+        return os.path.join(_project_dir, name)
+    else:
+        return _project_dir
+
+config_xml_filename = project_path('config.xml')
+project_xml_filename = project_path('project.xml')
+run_state_xml_filename = project_path('run_state_' + _local_hostname + '.xml')

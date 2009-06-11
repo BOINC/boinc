@@ -5,7 +5,7 @@ Generic Assimilator framework
 
 import os, re, signal, sys, time, hashlib
 import boinc_path_config
-from Boinc import database, boinc_db, configxml, sched_messages
+from Boinc import database, boinc_db, boinc_project_path, configxml, sched_messages
 
 # Peter Norvig's Abstract base class hack
 def abstract():
@@ -40,7 +40,7 @@ class Assimilator():
         
         # initialize member vars
         self.config = None
-        self.STOP_TRIGGER_FILENAME = os.path.join('..', 'stop_servers')
+        self.STOP_TRIGGER_FILENAME = boinc_project_path.project_path('stop_daemons')
         self.caught_sig_int = False
         self.log=sched_messages.SchedMessages()
         self.pass_count = 0
