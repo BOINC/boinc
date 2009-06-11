@@ -20,9 +20,9 @@
 #define __SCREENSAVER_H__
 
 // Default values, overriden by screensaver config file ss_config.xml
-#define GFX_DEFAULT_PERIOD 600 /* if default OpenGL screensaver exists, display it for 600 secs */
-#define GFX_SCIENCE_PERIOD 1800 /* Display various science graphics apps for 1800 secs */
-#define GFX_CHANGE_PERIOD 600 /* if > 1 CPUs, change screensaver every 600 secs */
+#define GFX_DEFAULT_PERIOD 120 /* if default OpenGL screensaver exists, display it for 2 minutes */
+#define GFX_SCIENCE_PERIOD 600 /* Display various science graphics apps for 10 minutes */
+#define GFX_CHANGE_PERIOD 300  /* if > 1 CPUs, change screensaver every 5 minutes */
 
 enum SS_PHASE {
     DEFAULT_SS_PHASE,

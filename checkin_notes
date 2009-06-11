@@ -5443,3 +5443,21 @@ David  11 June 2009
     tools/
         make_project
         upgrade
+
+Rom    11 June 2009
+    - SCR: Update default values per BOINC defaults.
+    - PTP: Add files needed by the installer(s).
+    
+	clientscr/progress/
+	    <Added and Deleted various files>
+	clientscr/
+	    screensaver.h
+	win_build/installerv2/
+	    Progress.ism
+	    Progressx64.ism
+	win_build/installerv2/redist/0409/
+		ptp-eula.rtf
+	win_build/installerv2/redist/Progress/
+		acct_mgr_url.xml
+		progress.ico
+		ss_config.xml
