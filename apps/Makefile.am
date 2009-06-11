@@ -3,7 +3,8 @@
 
 include $(top_srcdir)/Makefile.incl
 
-bin_PROGRAMS = upper_case concat 1sec
+exampledir = $(libexecdir)/examples
+example_PROGRAMS = upper_case concat 1sec
 
 upper_case_SOURCES = upper_case.cpp
 upper_case_CXXFLAGS = $(PTHREAD_CFLAGS)

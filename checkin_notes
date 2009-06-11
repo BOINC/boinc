@@ -5374,3 +5374,16 @@ David  11 June 2009
 
     sched/
         start
+
+David  11 June 2009
+    - server: Tools that should run by hand are installed under $(bindir).
+        Daemons that are managed by 'start' go to $(libexecdir)/sched.
+        The (F)CGI stuff goes to $(libexecdir)/cgi-bin.
+        Finally, example applications go under $(libexecdir)/examples.
+
+    apps/
+        Makefile.am
+    sched/
+        Makefile.am
+    tools/
+        Makefile.am

@@ -82,38 +82,45 @@ endif
 
 if ENABLE_SERVER
 
-noinst_PROGRAMS = \
-    census \
-    cgi \
-    db_dump \
-    db_purge \
+cgidir = $(libexecdir)/cgi-bin
+scheddir = $(libexecdir)/sched
+
+bin_PROGRAMS = \
     delete_file \
-    feeder \
-    file_deleter \
-    file_upload_handler \
     get_file \
     make_work \
+    request_file_list \
+    sched_driver \
+    send_file \
+    show_shmem \
+    wu_check
+
+sched_PROGRAMS = \
+    census \
+    db_dump \
+    db_purge \
+    feeder \
+    file_deleter \
     message_handler \
     pymw_assimilator \
-    request_file_list \
     sample_assimilator \
     sample_dummy_assimilator \
     sample_bitwise_validator \
     sample_trivial_validator \
     sample_work_generator \
     single_job_assimilator \
-    sched_driver \
-    send_file \
-    show_shmem \
     transitioner \
     trickle_handler \
-    update_stats \
-    wu_check
+    update_stats
+
+cgi_PROGRAMS= \
+    cgi \
+    file_upload_handler
 
 # scripts that 'make install' should put in bindir
 bin_SCRIPTS = start stop status
 
-EXTRA_DIST = \
+noinst_HEADERS = \
     assimilate_handler.h \
     handle_request.h \
     main.h \
@@ -122,7 +129,9 @@ EXTRA_DIST = \
     sched_send.h \
     sched_shmem.h \
     sched_version.h \
-    server_types.h \
+    server_types.h
+
+EXTRA_DIST = \
     start
 
 cgi_sources = \
@@ -232,8 +241,8 @@ sched_driver_LDADD = $(SERVERLIBS)
 
 if ENABLE_FCGI
 
-noinst_PROGRAMS += fcgi \
-                   fcgi_file_upload_handler
+cgi_PROGRAMS += fcgi \
+                fcgi_file_upload_handler
 
 fcgi_SOURCES = $(cgi_sources)
 fcgi_CPPFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)
