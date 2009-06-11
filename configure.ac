@@ -854,7 +854,7 @@ AC_CONFIG_FILES([
                  clientgui/Makefile
                  clientgui/res/Makefile
                  client/Makefile
-                 client/win/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
+                 client/win/boinc_path_config.py:py/boinc_path_config.py.in
 		 client/scripts/Makefile
 		 client/scripts/boinc-client
                  db/Makefile
@@ -863,12 +863,11 @@ AC_CONFIG_FILES([
                  lib/Makefile
 		 locale/Makefile
                  Makefile
-                 py/Boinc/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
-                 py/Boinc/Makefile
-                 py/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  py/Boinc/version.py
                  py/Makefile
-                 sched/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
+                 py/boinc_path_config.py:py/boinc_path_config.py.in
+		 py/setup.py
+                 sched/boinc_path_config.py:py/boinc_path_config.py.in
                  sched/Makefile
                  packages/generic/sea/Makefile
                  packages/solaris/CSW/Makefile
@@ -884,10 +883,10 @@ AC_CONFIG_FILES([
                  packages/solaris/CSW/boincmanager/Makefile
                  packages/solaris/CSW/boincmanager/pkginfo
                  packages/solaris/CSW/boincmanager/prototype
-                 test/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
+                 test/boinc_path_config.py:py/boinc_path_config.py.in
                  test/Makefile
                  test/version.inc
-                 tools/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
+                 tools/boinc_path_config.py:py/boinc_path_config.py.in
                  tools/Makefile
                  zip/Makefile
                  zip/zip/Makefile

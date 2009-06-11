@@ -5338,3 +5338,14 @@ David  11 June 2009
         parse_config
         xadd
         update_versions
+
+David  11 June 2009
+    - server: Use distutils for installing the python modules,
+        and move files not part of the BOINC package from py/Boinc to py/
+        From Gabor Gombas.
+
+    configure.ac
+    py/
+        Makefile.am
+        boinc_path_config.py.in (moved here)
+        db_def_to_py (moved here)
