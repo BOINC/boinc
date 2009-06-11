@@ -2996,9 +2996,8 @@ Charlie 10 June 2009
         AsyncRPC.cpp
 
 Charlie 11 June 2009
-    Mac: Ensure that InfoPlist.strings file is encoded UTF-8 so make_GridRepublic.sh 
-        works properly.
+    Mac: Update copyright date in InfoPlist.strings files to 2009.
 
-    mac_build/
-        boinc.xcodeproj/
-            project.pbxproj
+    clientgui/
+        mac/
+            SetVersion.cpp
