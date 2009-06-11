@@ -65,8 +65,7 @@ static Boolean                  gQuitFlag = false;	/* global */
 static char *brandName[NUMBRANDS];
 static char *appName[NUMBRANDS];
 static char *appNameEscaped[NUMBRANDS];
-
-
+static char *receiptNameEscaped[NUMBRANDS];
 
 enum { launchWhenDone,
         logoutRequired,
@@ -107,14 +106,17 @@ int main(int argc, char *argv[])
     appName[0] = "/Applications/BOINCManager.app";
     appNameEscaped[0] = "/Applications/BOINCManager.app";
     brandName[0] = "BOINC";
+    receiptNameEscaped[0] = "/Library/Receipts/BOINC.pkg";
 
     appName[1] = "/Applications/GridRepublic Desktop.app";
     appNameEscaped[1] = "/Applications/GridRepublic\\ Desktop.app";
     brandName[1] = "GridRepublic";
+    receiptNameEscaped[1] = "/Library/Receipts/GridRepublic\\ Desktop.pkg";
 
     appName[2] = "/Applications/Progress Thru Processors Desktop.app";
     appNameEscaped[2] = "/Applications/Progress\\ Thru\\ Processors\\ Desktop.app";
     brandName[2] = "Progress Thru Processors";
+    receiptNameEscaped[2] = "/Library/Receipts/Progress\\ Thru\\ Processors.pkg";
 
     for (i=0; i<argc; i++) {
         if (strcmp(argv[i], "-part2") == 0)
@@ -159,7 +161,7 @@ int main(int argc, char *argv[])
         system (s);
         
         // "rm -rf /Library/Receipts/GridRepublic.pkg"
-        sprintf(s, "rm -rf /Library/Receipts/%s.pkg", brandName[brandID]);
+        sprintf(s, "rm -rf %s", receiptNameEscaped[brandID]);
         system (s);
 
         // We don't customize BOINC Data directory name for branding
@@ -351,7 +353,7 @@ int DeleteReceipt()
 
     // Remove installer package receipt so we can run installer again if needed to fix permissions
     // "rm -rf /Library/Receipts/GridRepublic.pkg"
-    sprintf(s, "rm -rf /Library/Receipts/%s.pkg", brandName[brandID]);
+    sprintf(s, "rm -rf %s", receiptNameEscaped[brandID]);
     system (s);
 
     // err_fsref = FSPathMakeRef((StringPtr)"/Applications/GridRepublic Desktop.app", &fileRef, NULL);

@@ -5302,10 +5302,12 @@ Charlie 10 June 2009
 Charlie 10 June 2009
     - Mac screensaver: Change "ProgressThruProcessors" to "Progress Thru Processors".
     - Mac PTP Installer: Change "ProgressThruProcessors" to 
-        "Progress Thru Processors".
+        "Progress Thru Processors"
+        New script to convert BOINC installer to Progress Thru Processors installer.
 
     clientscr/
         mac_saver_module.cpp
     mac_installer/
+        make_ProgThruProc.sh (added)
         PostInstall.cpp
         uninstall.cpp
