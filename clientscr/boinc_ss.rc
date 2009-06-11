@@ -30,17 +30,13 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 #if defined(_GRIDREPUBLIC)
-
 IDI_MAIN_ICON           ICON                    "res\\gridrepublic.ico"
-
+#elif defined(_PROGRESSTHRUPROCESSORS)
+IDI_MAIN_ICON           ICON                    "res\\progress.ico"
 #elif defined(_WCG)
-
 IDI_MAIN_ICON           ICON                    "res\\wcg.ico"
-
 #else
-
 IDI_MAIN_ICON           ICON                    "res\\icon.ico"
-
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
@@ -116,10 +112,45 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName", "GridRepublic"
-            VALUE "FileDescription", "BOINC Screensaver"
+            VALUE "FileDescription", "GridRepublic Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2008 University of California"
+            VALUE "LegalCopyright", "© 2003-2009 University of California"
+            VALUE "OriginalFilename", "boinc.scr"
+            VALUE "ProductName", "BOINC client"
+            VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#elif defined(_PROGRESSTHRUPROCESSORS)
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,BOINC_RELEASE,0
+ PRODUCTVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,BOINC_RELEASE,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "Progress Thru Processors"
+            VALUE "FileDescription", "Progress Thru Processors Screensaver"
+            VALUE "FileVersion", BOINC_VERSION_STRING "\0"
+            VALUE "InternalName", "boinc_ss"
+            VALUE "LegalCopyright", "© 2003-2009 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -151,10 +182,10 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName", "World Community Grid"
-            VALUE "FileDescription", "BOINC Screensaver"
+            VALUE "FileDescription", "World Community Grid Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2008 University of California"
+            VALUE "LegalCopyright", "© 2003-2009 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -189,7 +220,7 @@ BEGIN
             VALUE "FileDescription", "BOINC Screensaver"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
-            VALUE "LegalCopyright", "© 2003-2008 University of California"
+            VALUE "LegalCopyright", "© 2003-2009 University of California"
             VALUE "OriginalFilename", "boinc.scr"
             VALUE "ProductName", "BOINC client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -229,17 +260,13 @@ END
 //
 
 #if defined(_GRIDREPUBLIC)
-
 IDB_BOINCSPLAT          BITMAP                  "res\\gridrepublic.bmp"
-
+#elif defined(_PROGRESSTHRUPROCESSORS)
+IDB_BOINCSPLAT          BITMAP                  "res\\progress.bmp"
 #elif defined(_WCG)
-
 IDB_BOINCSPLAT          BITMAP                  "res\\wcg.bmp"
-
 #else
-
 IDB_BOINCSPLAT          BITMAP                  "res\\boinc.bmp"
-
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
@@ -264,12 +291,31 @@ BEGIN
                             "GridRepublic system status:\n\n"
     IDS_ERR_BOINCSCREENSAVERLOADING
                             "GridRepublic screensaver loading"
-    IDS_ERR_BOINCAPPFOUNDGRAPHICSLOADING
-                            "Application found, graphics loading...\n\nPlease wait..."
     IDS_ERR_BOINCSHUTDOWNEVENT
                             "Gridrepublic screensaver shutting down."
     IDS_ERR_DAEMONALLOWSNOGRAPHICS
                             "Gridrepublic screensaver cannot display graphics \nfrom older applications when configured to \nrun as a Windows service."
+END
+
+#elif defined(_PROGRESSTHRUPROCESSORS)
+
+STRINGTABLE 
+BEGIN
+    IDS_DESCRIPTION         "Progress Thru Processors"
+    IDS_ERR_GENERIC         "There was an unspecified problem\nwith the Progress Thru Processors screensaver."
+    IDS_ERR_BOINCNOTDETECTED 
+                            "Progress Thru Processors is not running.\n\nPlease launch Progress Thru Processors\nto display graphics."
+    IDS_ERR_BOINCSUSPENDED  "Progress Thru Processors is currently suspended."
+    IDS_ERR_BOINCNOAPPSEXECUTING
+                            "Progress Thru Processors is currently idle."
+    IDS_ERR_BOINCNOAPPSEXECUTINGNOPROJECTSDETECTED
+                            "Progress Thru Processors is not attached\nto any projects.\nYou can attach to projects using\nthe Attach to project wizard\nin the tools menu."
+    IDS_ERR_BOINCNOGRAPHICSAPPSEXECUTING
+                            "Progress Thru Processors system status:\n\n"
+    IDS_ERR_BOINCSCREENSAVERLOADING
+                            "Progress Thru Processors screensaver loading"
+    IDS_ERR_DAEMONALLOWSNOGRAPHICS
+                            "Progress Thru Processors screensaver cannot display graphics \nfrom older applications when configured to \nrun as a Windows service."
 END
 
 #elif defined(_WCG)
@@ -289,8 +335,6 @@ BEGIN
                             "World Community Grid system status:\n\n"
     IDS_ERR_BOINCSCREENSAVERLOADING
                             "World Community Grid screensaver loading"
-    IDS_ERR_BOINCAPPFOUNDGRAPHICSLOADING
-                            "Application found, graphics loading...\n\nPlease wait..."
     IDS_ERR_BOINCSHUTDOWNEVENT
                             "World Community Grid\nscreensaver shutting down."
     IDS_ERR_DAEMONALLOWSNOGRAPHICS
@@ -314,8 +358,6 @@ BEGIN
                             "BOINC system status:\n\n"
     IDS_ERR_BOINCSCREENSAVERLOADING
                             "BOINC screensaver loading"
-    IDS_ERR_BOINCAPPFOUNDGRAPHICSLOADING
-                            "Application found, graphics loading...\n\nPlease wait..."
     IDS_ERR_BOINCSHUTDOWNEVENT
                             "BOINC screensaver shutting down."
     IDS_ERR_DAEMONALLOWSNOGRAPHICS
@@ -326,6 +368,8 @@ END
 
 STRINGTABLE 
 BEGIN
+    IDS_ERR_BOINCAPPFOUNDGRAPHICSLOADING
+                            "Application found, graphics loading...\n\nPlease wait..."
     IDS_ERR_OUTOFMEMORY     "Not enough memory."
     IDS_ERR_NOPREVIEW       "No preview available"
 END

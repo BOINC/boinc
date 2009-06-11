@@ -100,7 +100,42 @@ BEGIN
             VALUE "FileDescription", "BOINC service controller"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boincsvcctrl"
-            VALUE "LegalCopyright", "© 2003-2008 University of California"
+            VALUE "LegalCopyright", "© 2003-2009 University of California"
+            VALUE "OriginalFilename", "boincsvcctrl.exe"
+            VALUE "ProductName", "BOINC core client"
+            VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#elif defined(_PROGRESSTHRUPROCESSORS)
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,BOINC_RELEASE,0
+ PRODUCTVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,BOINC_RELEASE,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "Progress Thru Processors"
+            VALUE "FileDescription", "BOINC service controller"
+            VALUE "FileVersion", BOINC_VERSION_STRING "\0"
+            VALUE "InternalName", "boincsvcctrl"
+            VALUE "LegalCopyright", "© 2003-2009 University of California"
             VALUE "OriginalFilename", "boincsvcctrl.exe"
             VALUE "ProductName", "BOINC core client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -135,7 +170,7 @@ BEGIN
             VALUE "FileDescription", "BOINC service controller"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boincsvcctrl"
-            VALUE "LegalCopyright", "© 2003-2008 University of California"
+            VALUE "LegalCopyright", "© 2003-2009 University of California"
             VALUE "OriginalFilename", "boincsvcctrl.exe"
             VALUE "ProductName", "BOINC core client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
@@ -170,7 +205,7 @@ BEGIN
             VALUE "FileDescription", "BOINC service controller"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boincsvcctrl"
-            VALUE "LegalCopyright", "© 2003-2008 University of California"
+            VALUE "LegalCopyright", "© 2003-2009 University of California"
             VALUE "OriginalFilename", "boincsvcctrl.exe"
             VALUE "ProductName", "BOINC core client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"

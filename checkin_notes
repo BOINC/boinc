@@ -5387,3 +5387,42 @@ David  11 June 2009
         Makefile.am
     tools/
         Makefile.am
+
+Rom    11 June 2009
+    PTP: Introduce 'Progress Thru Processors' to the Windows build
+      environment. Use GridRepublic skin until the new one is available.
+      
+	client/win/
+		boinc_cli.rc
+		boinc_cmd.rc
+	client/win/res/
+		progress.ico (Added)
+	clientctrl/
+		boincsvcctrl.rc
+	clientgui/
+		BOINCGUIApp.rc
+	clientgui/res/
+		progress.ico (Added)
+	clientgui/skins/Progress Thru Processors
+		<Various Files>
+	clientlib/win/
+		boinc_dll.rc
+	clientscr/
+		boinc_ss.rc
+	clientscr/res/
+		boinc.jpg (Deleted)
+	clientscr/res/
+		progress.bmp (Added)
+		progress.ico (Added)
+		Scricon3.ico (Deleted)
+	clienttray/
+		boinc_tray.rc
+	win_build/
+		Progress.sln
+		ptp_boinc_cli.vcproj
+		ptp_boinc_dll.vcproj
+		ptp_boinc_ss.vcproj
+		ptp_boinccmd.vcproj
+		ptp_boincmgr.vcproj
+		ptp_boincsvcctrl.vcproj
+		ptp_boinctray.vcproj
