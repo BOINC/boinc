@@ -538,7 +538,7 @@ function show_post(
     echo "<span class=\"authorinfo\">";
     if (!$filter || !$rated_below_threshold){
         if ($user->prefs && $user->prefs->avatar!="" && (!$logged_in_user || ($logged_in_user->prefs->hide_avatars==false))) {
-            echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->prefs->avatar."\" alt=\"Avatar\"><br>";
+            echo "<img class=authorinfo width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->prefs->avatar."\" alt=\"Avatar\"><br>";
         }
     }
     
@@ -571,7 +571,7 @@ function show_post(
         if (defined("COUNTRY_FLAGS")) {
             if (array_key_exists($user->country, $country_to_iso3166_2)) {
                 $code = $country_to_iso3166_2[$user->country];
-                echo "<img src=flags/$code.png><br>\n";
+                echo "<img class=flag alt=\"$user->country\" title=\"$user->country\" src=flags/$code.png><br>\n";
             }
         }
     }

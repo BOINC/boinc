@@ -321,11 +321,15 @@ div.authorcol {
 	font-size: 11px;
 }
 
-.authorinfo img { 
+img.authorinfo { 
 	border-width: 1px;
 	border-style: solid;
 	margin: 3px 9px; 
 } 
+
+img.flag {
+	margin: 2px 1px; 
+}
 
 .authorcol .button {
 	margin: 0 6px;
