@@ -20,17 +20,20 @@
 #include "config.h"
 #include <stdio.h>
 
-#include <ctype.h>
-#include <sys/types.h>
-#include <dirent.h>
+//#include <ctype.h>
+//#include <sys/types.h>
+//#include <dirent.h>
 
 #if SHOW_TIMING
 #include <Carbon/Carbon.h>
 #endif
 
 #include "procinfo.h"
+#if SHOW_TIMING
+// Compiles properly only for Client
 #include "client_msgs.h"
 #include "client_state.h"
+#endif
 
 using std::vector;
 

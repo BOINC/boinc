@@ -3015,3 +3015,15 @@ Charlie 11 June 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 12 June 2009
+    Mac Sandbox: check_security() writes path of bad file to stderr for some  
+        error codes.
+    Mac MGR: fix compile break.
+        
+    client/
+        check_security.cpp
+    clientgui/
+        BOINCGUIApp.cpp
+    lib/
+        procinfo_mac.cpp

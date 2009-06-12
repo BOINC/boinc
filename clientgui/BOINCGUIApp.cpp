@@ -248,6 +248,24 @@ bool CBOINCGUIApp::OnInit() {
 
     if (!success) iErrorCode = -1016;
  
+    // Initialize the BOINC Diagnostics Framework
+    int dwDiagnosticsFlags =
+        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_MEMORYLEAKCHECKENABLED |
+#if defined(__WXMSW__) || defined(__WXMAC__)
+        BOINC_DIAG_REDIRECTSTDERR |
+        BOINC_DIAG_REDIRECTSTDOUT |
+#endif
+        BOINC_DIAG_TRACETOSTDOUT;
+
+    diagnostics_init(
+        dwDiagnosticsFlags,
+        "stdoutgui",
+        "stderrgui"
+    );
+
+
 #ifdef SANDBOX
     // Make sure owners, groups and permissions are correct for the current setting of g_use_sandbox
     if (!iErrorCode) {
@@ -281,24 +299,6 @@ bool CBOINCGUIApp::OnInit() {
         return false;
     }
 #endif      // SANDBOX
-
-    // Initialize the BOINC Diagnostics Framework
-    int dwDiagnosticsFlags =
-        BOINC_DIAG_DUMPCALLSTACKENABLED | 
-        BOINC_DIAG_HEAPCHECKENABLED |
-        BOINC_DIAG_MEMORYLEAKCHECKENABLED |
-#if defined(__WXMSW__) || defined(__WXMAC__)
-        BOINC_DIAG_REDIRECTSTDERR |
-        BOINC_DIAG_REDIRECTSTDOUT |
-#endif
-        BOINC_DIAG_TRACETOSTDOUT;
-
-    diagnostics_init(
-        dwDiagnosticsFlags,
-        "stdoutgui",
-        "stderrgui"
-    );
-
 
     // Enable Logging and Trace Masks
     m_pLog = new wxLogBOINC();

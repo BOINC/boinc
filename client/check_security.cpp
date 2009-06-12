@@ -472,6 +472,7 @@ static int CheckNestedDirectories(char * basepath, int depth, int use_sandbox) {
     int             retval = 0;
     DIR             *dirp;
     dirent          *dp;
+    static int      errShown = 0;
 
     dirp = opendir(basepath);
     if (dirp == NULL)           // Should never happen
@@ -559,6 +560,10 @@ static int CheckNestedDirectories(char * basepath, int depth, int use_sandbox) {
 
     closedir(dirp);
     
+    if (retval && !errShown) {
+        fprintf(stderr, "Permissions error %d at %s\n", retval, full_path);
+        errShown = 1;
+    }
     return retval;
 }
 
