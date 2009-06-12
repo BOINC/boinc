@@ -5581,3 +5581,9 @@ David  12 June 2009
 
     sched/
         start
+
+Rom    12 June 2009
+    - MGR: The ReturnURL cookie is optional, not required.
+    
+    clientgui/
+        browser.cpp
