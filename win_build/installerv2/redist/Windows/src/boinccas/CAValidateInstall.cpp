@@ -62,6 +62,7 @@ UINT CAValidateInstall::OnExecution()
 {
     tstring strInstallDirectory;
     tstring strProductVersion;
+    tstring strFilename;
     tstring strTemp;
     UINT    uiReturnValue = 0;
 
@@ -74,32 +75,46 @@ UINT CAValidateInstall::OnExecution()
     // Default to success
     SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("1"));
 
+    uiReturnValue = GetComponentKeyFilename( _T("_BOINC"), strFilename );
+    if ( uiReturnValue ) return uiReturnValue;
 
-    strTemp = strInstallDirectory + _T("\\boinc.exe");
+    strTemp = strInstallDirectory + _T("\\") + strFilename;
     if (!ValidateExecutable( strTemp, strProductVersion ))
     {
         SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
     }
 
-    strTemp = strInstallDirectory + _T("\\boinc.dll");
+    uiReturnValue = GetComponentKeyFilename( _T("_BOINCDLL"), strFilename );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    strTemp = strInstallDirectory + _T("\\") + strFilename;
     if (!ValidateExecutable( strTemp, strProductVersion ))
     {
         SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
     }
     
-    strTemp = strInstallDirectory + _T("\\boincmgr.exe");
+    uiReturnValue = GetComponentKeyFilename( _T("_BOINCManager"), strFilename );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    strTemp = strInstallDirectory + _T("\\") + strFilename;
     if (!ValidateExecutable( strTemp, strProductVersion ))
     {
         SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
     }
     
-    strTemp = strInstallDirectory + _T("\\boinccmd.exe");
+    uiReturnValue = GetComponentKeyFilename( _T("_BOINCCMD"), strFilename );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    strTemp = strInstallDirectory + _T("\\") + strFilename;
     if (!ValidateExecutable( strTemp, strProductVersion ))
     {
         SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
     }
     
-    strTemp = strInstallDirectory + _T("\\boinctray.exe");
+    uiReturnValue = GetComponentKeyFilename( _T("_BOINCTray"), strFilename );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    strTemp = strInstallDirectory + _T("\\") + strFilename;
     if (!ValidateExecutable( strTemp, strProductVersion ))
     {
         SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));

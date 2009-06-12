@@ -49,19 +49,6 @@ public:
     virtual UINT OnExecution();
 
 
-    // MSI Property Management
-    UINT GetProperty( 
-        const tstring      strPropertyName, 
-        tstring&           strPropertyValue,
-        bool               bDisplayValue = true
-        );
-
-    UINT SetProperty( 
-        const tstring      strPropertyName, 
-        const tstring      strPropertyValue,
-        bool               bDisplayValue = true
-        );
-
     // Registry Property Management
     UINT GetRegistryValue( 
         const tstring      strName, 
@@ -75,9 +62,28 @@ public:
         bool               bDisplayValue = true
         );
 
+    // MSI Property Management
+    UINT GetProperty( 
+        const tstring      strPropertyName, 
+        tstring&           strPropertyValue,
+        bool               bDisplayValue = true
+        );
+
+    UINT SetProperty( 
+        const tstring      strPropertyName, 
+        const tstring      strPropertyValue,
+        bool               bDisplayValue = true
+        );
+
+	// MSI Database Management
+    UINT GetComponentKeyFilename(
+        const tstring      strComponentName, 
+        tstring&           strComponentKeyFilename
+		);
+
     // MSI UI Dialog Management
     UINT DisplayMessage(
-        const UINT         uiPushButtonStyle,       // push button sstyle to use in message box
+        const UINT         uiPushButtonStyle,       // push button style to use in message box
         const UINT         uiIconStyle,             // icon style to use in message box
         const tstring      strMessage               // message
         );

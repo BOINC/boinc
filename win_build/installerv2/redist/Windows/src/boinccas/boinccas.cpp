@@ -253,155 +253,6 @@ UINT BOINCCABase::OnExecution()
 
 /////////////////////////////////////////////////////////////////////
 // 
-// Function:    GetProperty
-//
-// Description: 
-//
-/////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::GetProperty( 
-    const tstring strPropertyName, 
-    tstring&      strPropertyValue,
-    bool          bDisplayValue
-    )
-{
-    LPTSTR  lpszBuffer = NULL;
-    DWORD   dwCharacterCount = 0;
-    tstring strMessage;
-    UINT    uiReturnValue = 0;
-
-    uiReturnValue = MsiGetProperty(m_hMSIHandle, strPropertyName.c_str(), _T(""), &dwCharacterCount);
-    switch(uiReturnValue)
-    {
-    case ERROR_INVALID_HANDLE:
-    case ERROR_INVALID_PARAMETER:
-        strMessage  = _T("Failed to get '") + strPropertyName;
-        strMessage += _T("'");
-
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
-            NULL,
-            NULL,
-            NULL,
-            strMessage.c_str()
-        );
-        return ERROR_INSTALL_FAILURE;
-    }
-
-    // Allocate memory for the property value return buffer
-    lpszBuffer = (LPTSTR) malloc( ((++dwCharacterCount)*sizeof(LPTSTR)) );
-    uiReturnValue = MsiGetProperty(m_hMSIHandle, strPropertyName.c_str(), lpszBuffer, &dwCharacterCount);
-    switch(uiReturnValue)
-    {
-    case ERROR_INVALID_HANDLE:
-    case ERROR_INVALID_PARAMETER:
-        strMessage  = _T("Failed to get '") + strPropertyName;
-        strMessage += _T("' after allocating the buffer");
-
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
-            NULL,
-            NULL,
-            NULL,
-            strMessage.c_str()
-        );
-        if ( lpszBuffer ) free( lpszBuffer );
-        return ERROR_INSTALL_FAILURE;
-    }
-
-    strPropertyValue = lpszBuffer;
-    free( lpszBuffer );
-
-    strMessage  = _T("Successfully retrieved '") + strPropertyName;
-    strMessage += _T("' with a value of '");
-    if (bDisplayValue)
-        strMessage += strPropertyValue;
-    else
-        strMessage += _T("<Value Hidden>");
-    strMessage += _T("'");
-
-    LogMessage(
-        INSTALLMESSAGE_INFO,
-        NULL, 
-        NULL,
-        NULL,
-        NULL,
-        strMessage.c_str()
-    );
-
-    return ERROR_SUCCESS;
-}
-
-
-/////////////////////////////////////////////////////////////////////
-// 
-// Function:    SetProperty
-//
-// Description: 
-//
-/////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::SetProperty( 
-    const tstring strPropertyName, 
-    const tstring strPropertyValue,
-    bool          bDisplayValue
-    )
-{
-    tstring strMessage;
-    UINT uiReturnValue = 0;
-
-    uiReturnValue = MsiSetProperty(
-        m_hMSIHandle,
-        strPropertyName.c_str(),
-        strPropertyValue.c_str()
-        );
-    switch(uiReturnValue)
-    {
-    case ERROR_FUNCTION_FAILED:
-    case ERROR_INVALID_HANDLE:
-    case ERROR_INVALID_PARAMETER:
-        strMessage  = _T("Failed to set '") + strPropertyName;
-        strMessage += _T("' to a value of '");
-        if (bDisplayValue)
-            strMessage += strPropertyValue;
-        else
-            strMessage += _T("<Value Hidden>");
-        strMessage += _T("'");
-
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL, 
-            NULL,
-            NULL,
-            NULL,
-            strMessage.c_str()
-        );
-        return ERROR_INSTALL_FAILURE;
-    }
-
-    strMessage  = _T("Successfully set '") + strPropertyName;
-    strMessage += _T("' to a value of '");
-    if (bDisplayValue)
-        strMessage += strPropertyValue;
-    else
-        strMessage += _T("<Value Hidden>");
-    strMessage += _T("'");
-
-    LogMessage(
-        INSTALLMESSAGE_INFO,
-        NULL, 
-        NULL,
-        NULL,
-        NULL,
-        strMessage.c_str()
-    );
-
-    return ERROR_SUCCESS;
-}
-
-
-/////////////////////////////////////////////////////////////////////
-// 
 // Function:    GetRegistryValue
 //
 // Description: 
@@ -532,6 +383,408 @@ UINT BOINCCABase::SetRegistryValue(
         strMessage += strValue;
     else
         strMessage += _T("<Value Hidden>");
+    strMessage += _T("'");
+
+    LogMessage(
+        INSTALLMESSAGE_INFO,
+        NULL, 
+        NULL,
+        NULL,
+        NULL,
+        strMessage.c_str()
+    );
+
+    return ERROR_SUCCESS;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+// 
+// Function:    GetProperty
+//
+// Description: 
+//
+/////////////////////////////////////////////////////////////////////
+UINT BOINCCABase::GetProperty( 
+    const tstring strPropertyName, 
+    tstring&      strPropertyValue,
+    bool          bDisplayValue
+    )
+{
+    LPTSTR  lpszBuffer = NULL;
+    DWORD   dwCharacterCount = 0;
+    tstring strMessage;
+    UINT    uiReturnValue = 0;
+
+    uiReturnValue = MsiGetProperty(m_hMSIHandle, strPropertyName.c_str(), _T(""), &dwCharacterCount);
+    switch(uiReturnValue)
+    {
+    case ERROR_INVALID_HANDLE:
+    case ERROR_INVALID_PARAMETER:
+        strMessage  = _T("Failed to get '") + strPropertyName;
+        strMessage += _T("'");
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            strMessage.c_str()
+        );
+        return ERROR_INSTALL_FAILURE;
+        break;
+    }
+
+    // Allocate memory for the property value return buffer
+    lpszBuffer = (LPTSTR) malloc( ((++dwCharacterCount)*sizeof(LPTSTR)) );
+    uiReturnValue = MsiGetProperty(m_hMSIHandle, strPropertyName.c_str(), lpszBuffer, &dwCharacterCount);
+    switch(uiReturnValue)
+    {
+    case ERROR_INVALID_HANDLE:
+    case ERROR_INVALID_PARAMETER:
+        strMessage  = _T("Failed to get '") + strPropertyName;
+        strMessage += _T("' after allocating the buffer");
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            strMessage.c_str()
+        );
+        if ( lpszBuffer ) free( lpszBuffer );
+        return ERROR_INSTALL_FAILURE;
+        break;
+    }
+
+    strPropertyValue = lpszBuffer;
+    free( lpszBuffer );
+
+    strMessage  = _T("Successfully retrieved '") + strPropertyName;
+    strMessage += _T("' with a value of '");
+    if (bDisplayValue)
+        strMessage += strPropertyValue;
+    else
+        strMessage += _T("<Value Hidden>");
+    strMessage += _T("'");
+
+    LogMessage(
+        INSTALLMESSAGE_INFO,
+        NULL, 
+        NULL,
+        NULL,
+        NULL,
+        strMessage.c_str()
+    );
+
+    return ERROR_SUCCESS;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+// 
+// Function:    SetProperty
+//
+// Description: 
+//
+/////////////////////////////////////////////////////////////////////
+UINT BOINCCABase::SetProperty( 
+    const tstring strPropertyName, 
+    const tstring strPropertyValue,
+    bool          bDisplayValue
+    )
+{
+    tstring strMessage;
+    UINT uiReturnValue = 0;
+
+    uiReturnValue = MsiSetProperty(
+        m_hMSIHandle,
+        strPropertyName.c_str(),
+        strPropertyValue.c_str()
+        );
+    switch(uiReturnValue)
+    {
+    case ERROR_FUNCTION_FAILED:
+    case ERROR_INVALID_HANDLE:
+    case ERROR_INVALID_PARAMETER:
+        strMessage  = _T("Failed to set '") + strPropertyName;
+        strMessage += _T("' to a value of '");
+        if (bDisplayValue)
+            strMessage += strPropertyValue;
+        else
+            strMessage += _T("<Value Hidden>");
+        strMessage += _T("'");
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            strMessage.c_str()
+        );
+        return ERROR_INSTALL_FAILURE;
+        break;
+    }
+
+    strMessage  = _T("Successfully set '") + strPropertyName;
+    strMessage += _T("' to a value of '");
+    if (bDisplayValue)
+        strMessage += strPropertyValue;
+    else
+        strMessage += _T("<Value Hidden>");
+    strMessage += _T("'");
+
+    LogMessage(
+        INSTALLMESSAGE_INFO,
+        NULL, 
+        NULL,
+        NULL,
+        NULL,
+        strMessage.c_str()
+    );
+
+    return ERROR_SUCCESS;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+// 
+// Function:    GetComponentKeyFilename
+//
+// Description: 
+//
+/////////////////////////////////////////////////////////////////////
+UINT BOINCCABase::GetComponentKeyFilename( 
+    const tstring strComponentName, 
+    tstring&      strComponentKeyFilename
+    )
+{
+    UINT        uiReturnValue = 0;
+    tstring     strMessage;
+    tstring     strQuery;
+    TCHAR       szBuffer[256];
+    DWORD       dwBufferSize = sizeof(szBuffer);
+    MSIHANDLE   hDatabase;
+    MSIHANDLE   hView;
+    MSIHANDLE   hRecComponentName;
+    MSIHANDLE   hRec;
+
+
+	// Get the handle to the MSI package we are executing for.
+	hDatabase = MsiGetActiveDatabase(m_hMSIHandle);
+	if (!hDatabase) return ERROR_INSTALL_FAILURE;
+
+	// Construct the query that is going to give us the result we need.
+    strQuery  = _T("SELECT `KeyPath` FROM `Component` WHERE `Component`= ?");
+
+	// Create the view
+    uiReturnValue = MsiDatabaseOpenView(hDatabase, strQuery.c_str(), &hView);
+    switch(uiReturnValue)
+    {
+    case ERROR_BAD_QUERY_SYNTAX:
+        MsiCloseHandle(hDatabase);
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("MsiDatabaseOpenView reports an invalid query was issued")
+        );
+
+        return ERROR_INSTALL_FAILURE;
+        break;
+    case ERROR_INVALID_HANDLE:
+        MsiCloseHandle(hDatabase);
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("MsiDatabaseOpenView reports an invalid handle was used")
+        );
+
+        return ERROR_INSTALL_FAILURE;
+        break;
+    }
+
+    // Create query parameter
+    hRecComponentName = MsiCreateRecord(1);
+    uiReturnValue = MsiRecordSetString(hRecComponentName, 1, strComponentName.c_str());
+    switch(uiReturnValue)
+    {
+    case ERROR_INVALID_HANDLE:
+        MsiCloseHandle(hRecComponentName);
+        MsiCloseHandle(hDatabase);
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("MsiRecordSetString reports an invalid handle was used")
+        );
+
+        return ERROR_INSTALL_FAILURE;
+        break;
+    case ERROR_INVALID_PARAMETER:
+        MsiCloseHandle(hRecComponentName);
+        MsiCloseHandle(hDatabase);
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("MsiRecordSetString reports an invalid parameter was used")
+        );
+
+        return ERROR_INSTALL_FAILURE;
+        break;
+    }
+
+
+    // Execute the query
+    uiReturnValue = MsiViewExecute(hView, hRecComponentName);
+    switch(uiReturnValue)
+    {
+    case ERROR_FUNCTION_FAILED:
+        MsiViewClose(hView);
+        MsiCloseHandle(hDatabase);
+        
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("MsiViewExecute failed to execute the view")
+        );
+
+        return ERROR_INSTALL_FAILURE;
+        break;
+    case ERROR_INVALID_HANDLE:
+        MsiViewClose(hView);
+        MsiCloseHandle(hDatabase);
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("MsiViewExecute reports an invalid handle was used")
+        );
+
+        return ERROR_INSTALL_FAILURE;
+        break;
+    }
+
+    // Only one row should be returned by the resultset, so there is no need
+    //   to execute MsiViewFetch more than once.
+    uiReturnValue = MsiViewFetch(hView, &hRec);
+    switch(uiReturnValue)
+    {
+    case ERROR_FUNCTION_FAILED:
+        MsiViewClose(hView);
+        MsiCloseHandle(hDatabase);
+        
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("MsiViewFetch: An error occurred during fetching")
+        );
+
+        return ERROR_INSTALL_FAILURE;
+        break;
+    case ERROR_INVALID_HANDLE:
+        MsiViewClose(hView);
+        MsiCloseHandle(hDatabase);
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("MsiViewFetch reports an invalid handle was used")
+        );
+
+        return ERROR_INSTALL_FAILURE;
+        break;
+    case ERROR_INVALID_HANDLE_STATE:
+        MsiViewClose(hView);
+        MsiCloseHandle(hDatabase);
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("MsiViewFetch reports the handle was in an invalid state")
+        );
+
+        return ERROR_INSTALL_FAILURE;
+        break;
+    }
+
+    // Okay, now it is time to parse the string that was returned.
+    uiReturnValue = MsiRecordGetString(hRec, 1, (LPTSTR)&szBuffer, &dwBufferSize);
+    switch(uiReturnValue)
+    {
+    case ERROR_INVALID_HANDLE:
+        MsiCloseHandle(hRec);
+        MsiViewClose(hView);
+        MsiCloseHandle(hDatabase);
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("MsiRecordGetString reports an invalid handle was used")
+        );
+
+        return ERROR_INSTALL_FAILURE;
+        break;
+    case ERROR_INVALID_PARAMETER:
+        MsiCloseHandle(hRec);
+        MsiViewClose(hView);
+        MsiCloseHandle(hDatabase);
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("MsiRecordGetString reports an invalid parameter was used")
+        );
+
+        return ERROR_INSTALL_FAILURE;
+        break;
+    }
+
+    // Save the string
+    strComponentKeyFilename = szBuffer;
+
+    strMessage  = _T("The key filename for component '");
+    strMessage += strComponentName;
+    strMessage += _T("' is '");
+    strMessage += strComponentKeyFilename;
     strMessage += _T("'");
 
     LogMessage(

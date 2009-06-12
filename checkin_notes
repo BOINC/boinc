@@ -5507,3 +5507,22 @@ Charlie 12 June 2009
         check_security.cpp
     clientgui/
         BOINCGUIApp.cpp
+
+Rom    12 June 2009
+    - WINSETUP: Change the install validation code so that it reads the MSI
+        database to determine what executable names to check instead of
+        hard coding them. BOINCMGR is renamed to Progress Thru Process or
+        in the case of GridRepublic it would be GridRepublic Desktop.
+        
+    win_build/installerv2/
+        Progress.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.cpp, .h
+        CAValidateInstall.cpp
+        CAVerifyInstallDirectories.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
