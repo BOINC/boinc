@@ -5498,3 +5498,11 @@ David  11 June 2009
     html/inc/
         countries.inc
         forum.inc
+
+    Mac Sandbox: check_security() writes path of bad file to stderr for some  
+        error codes.
+        
+    client/
+        check_security.cpp
+    clientgui/
+        BOINCGUIApp.cpp
