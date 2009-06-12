@@ -140,13 +140,15 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
     account_out.clear();
     account_created_successfully = false;
     attached_to_project_successfully = false;
-    project_url = wxEmptyString;
-    project_authenticator = wxEmptyString;
-    project_name = wxEmptyString;
+    project_url.Empty();
+    project_authenticator.Empty();
+    project_name.Empty();
     m_strProjectName.Empty();
     m_strReturnURL.Empty();
     m_bCredentialsCached = false;
     m_bCredentialsDetected = false;
+    m_bCookieRequired = false;
+    m_strCookieFailureURL.Empty();
 
 
     CSkinAdvanced*  pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
@@ -336,6 +338,8 @@ bool CWizardAttachProject::SyncToAccountManager() {
         m_AccountManagerInfoPage->SetProjectURL( wxString(ami.acct_mgr_url.c_str(), wxConvUTF8) );
         m_strProjectName = wxString(ami.acct_mgr_name.c_str(), wxConvUTF8);
         m_bCredentialsCached = ami.have_credentials;
+        m_bCookieRequired = ami.cookie_required;
+        m_strCookieFailureURL = wxString(ami.cookie_failure_url.c_str(), wxConvUTF8);
     }
 
     if (ami.acct_mgr_url.size() && !m_bCredentialsCached) {

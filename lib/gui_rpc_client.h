@@ -437,6 +437,8 @@ struct ACCT_MGR_INFO {
     std::string acct_mgr_name;
     std::string acct_mgr_url;
     bool have_credentials;
+    bool cookie_required;
+    std::string cookie_failure_url;
     
     ACCT_MGR_INFO();
     ~ACCT_MGR_INFO(){}

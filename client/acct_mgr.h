@@ -46,6 +46,16 @@ struct ACCT_MGR_INFO {
         /// whether to include GUI RPC port and password hash
         /// in AM RPCs (used for "farm management")
     bool send_gui_rpc_info;
+        /// use of cookies are required during initial signup
+        /// NOTE: This bool gets dropped after the client has
+        ///   successfully attached to an account manager
+    bool cookie_required;
+        /// if the cookies could not be detected, provide a
+        /// link to a website to go to so the user can find
+        /// what login name and password they have been assigned
+        /// NOTE: This bool gets dropped after the client has
+        ///   successfully attached to an account manager
+    char cookie_failure_url[256];
     bool password_error;
 
     ACCT_MGR_INFO();

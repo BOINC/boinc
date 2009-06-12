@@ -5557,3 +5557,21 @@ Rom    11 June 2009
         browser.cpp, .h
         CompletionPage.cpp
         WizardAttachProject.cpp, .h
+
+Rom    11 June 2009
+    - MGR: Introduce the cookie detection failure URL to the
+        acct_mgr_logon.xml file. If the cookies cannot be found provide
+        a hyperlink control on the AcctountInfo page in the wizard
+        which will point to a fallback URL the user can go to to
+        find out what logon credentials to use.
+        
+    client/
+        acct_mgr.cpp, .h
+        gui_rpc_server_ops.cpp
+    clientgui/
+        AccountInfoPage.cpp, .h
+        BOINCWizards.h
+        WizardAttachProject.cpp, .h
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp

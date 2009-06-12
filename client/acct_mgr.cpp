@@ -654,6 +654,8 @@ int ACCT_MGR_INFO::init() {
             retval = xp.element_contents("</signing_key>", signing_key, sizeof(signing_key));
             continue;
         }
+        else if (xp.parse_bool(tag, "cookie_required", cookie_required)) continue;
+        else if (xp.parse_str(tag, "cookie_failure_url", cookie_failure_url, 256)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
                 "[unparsed_xml] ACCT_MGR_INFO::init: unrecognized %s", tag

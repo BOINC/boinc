@@ -87,6 +87,8 @@ bool CAccountInfoPage::Create( CBOINCBaseWizard* parent )
 
 ////@begin CAccountInfoPage member initialisation
     m_pTitleStaticCtrl = NULL;
+    m_pCookieDetectionFailedStaticCtrl = NULL;
+    m_pCookieDetectionFailedCtrl = NULL;
     m_pAccountQuestionStaticCtrl = NULL;
     m_pAccountInformationStaticCtrl = NULL;
     m_pAccountCreateCtrl = NULL;
@@ -130,6 +132,14 @@ void CAccountInfoPage::CreateControls()
     m_pTitleStaticCtrl->Create( itemWizardPage56, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
     itemBoxSizer57->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxGROW|wxALL, 5);
+
+    m_pCookieDetectionFailedStaticCtrl = new wxStaticText;
+    m_pCookieDetectionFailedStaticCtrl->Create( itemWizardPage56, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer57->Add(m_pCookieDetectionFailedStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
+
+    m_pCookieDetectionFailedCtrl = new wxHyperLink;
+    m_pCookieDetectionFailedCtrl->Create( itemWizardPage56, ID_ACCOUNTCOOKIEDETECTIONFAILEDCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer57->Add(m_pCookieDetectionFailedCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     m_pAccountQuestionStaticCtrl = new wxStaticText;
     m_pAccountQuestionStaticCtrl->Create( itemWizardPage56, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -282,6 +292,8 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(pSkinWizardATAM);
     wxASSERT(pWAP);
     wxASSERT(m_pTitleStaticCtrl);
+    wxASSERT(m_pCookieDetectionFailedStaticCtrl);
+    wxASSERT(m_pCookieDetectionFailedCtrl);
     wxASSERT(m_pAccountQuestionStaticCtrl);
     wxASSERT(m_pAccountInformationStaticCtrl);
     wxASSERT(m_pAccountCreateCtrl);
@@ -315,6 +327,11 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     if (IS_ACCOUNTMANAGERWIZARD()) {
+        if (!(pWAP->m_bCookieRequired && !pWAP->m_bCredentialsDetected)) {
+            m_pCookieDetectionFailedStaticCtrl->Hide();
+            m_pCookieDetectionFailedCtrl->Hide();
+        }
+
         m_pAccountQuestionStaticCtrl->Hide();
         m_pAccountCreateCtrl->SetValue(false);
         m_pAccountCreateCtrl->Hide();
@@ -323,9 +340,14 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountConfirmPasswordStaticCtrl->Hide();
         m_pAccountConfirmPasswordCtrl->Hide();
         m_pAccountPasswordRequirmentsStaticCtrl->Hide();
-        m_pAccountManagerLinkLabelStaticCtrl->Show();
+
+        if (pWAP->m_bCookieRequired && !pWAP->m_bCredentialsDetected) {
+            m_pAccountManagerLinkLabelStaticCtrl->Hide();
+            m_pAccountForgotPasswordCtrl->Hide();
+        }
     } else {
-        m_pAccountManagerLinkLabelStaticCtrl->Hide();
+        m_pCookieDetectionFailedStaticCtrl->Hide();
+        m_pCookieDetectionFailedCtrl->Hide();
         if (pc.account_creation_disabled || pc.client_account_creation_disabled) {
             m_pAccountCreateCtrl->SetValue(false);
             m_pAccountCreateCtrl->Hide();
@@ -336,6 +358,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             m_pAccountCreateCtrl->Enable();
             m_pAccountUseExistingCtrl->Show();
         }
+        m_pAccountManagerLinkLabelStaticCtrl->Hide();
     }
 
     m_pTitleStaticCtrl->SetLabel(
@@ -363,6 +386,18 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             _("&Yes, existing user")
         );
     } else {
+        if (pWAP->m_bCookieRequired && !pWAP->m_bCredentialsDetected) {
+            m_pCookieDetectionFailedStaticCtrl->SetLabel(
+                _("Your web browser does not support automatic logon detection.\nPlease click on the 'Find logon information' link\nbelow to find out what to put in the email address and\npassword fields.")
+            );
+            m_pCookieDetectionFailedCtrl->SetLabel(
+                _("Find logon information")
+            );
+            m_pCookieDetectionFailedCtrl->SetURL(
+                pWAP->m_strCookieFailureURL
+            );
+        }
+
         if (pSkinAdvanced->IsBranded() && 
             !pSkinWizardATAM->GetAccountInfoMessage().IsEmpty()) {
             m_pAccountInformationStaticCtrl->SetLabel(

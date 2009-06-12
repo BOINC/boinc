@@ -138,6 +138,8 @@ public:
     bool m_bCredentialsDetected;
     wxString m_strProjectName;
     wxString m_strReturnURL;
+    bool m_bCookieRequired;
+    wxString m_strCookieFailureURL;
 };
 
 #endif // _WIZ_ATTACHPROJECT_H_

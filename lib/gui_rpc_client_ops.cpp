@@ -825,6 +825,8 @@ int ACCT_MGR_INFO::parse(MIOFILE& in) {
         if (parse_str(buf, "<acct_mgr_name>", acct_mgr_name)) continue;
         if (parse_str(buf, "<acct_mgr_url>", acct_mgr_url)) continue;
         if (parse_bool(buf, "have_credentials", have_credentials)) continue;
+        if (parse_bool(buf, "cookie_required", cookie_required)) continue;
+        if (parse_str(buf, "<cookie_failure_url>", cookie_failure_url)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -833,6 +835,8 @@ void ACCT_MGR_INFO::clear() {
     acct_mgr_name = "";
     acct_mgr_url = "";
     have_credentials = false;
+    cookie_required = false;
+    cookie_failure_url = "";
 }
 
 ACCT_MGR_RPC_REPLY::ACCT_MGR_RPC_REPLY() {
