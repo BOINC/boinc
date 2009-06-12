@@ -4992,3 +4992,17 @@ Charlie 11 June 2009
             SetVersion.cpp
     mac_installer/
         make_ProgThruProc.sh
+
+Charlie 11 June 2009
+    - Mac MGR: strip /n from command field of PROCINFO struct so <exclusive_app> 
+        log flag works properly on Mac.
+    - MGR: Change CBOINCClientManager::KillClient() to get client pid from 
+        procinfo_setup() on all non-Windows platforms.
+
+    clientgui/
+        BOINCClientManager.cpp
+    lib/
+        procinfo_mac.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
