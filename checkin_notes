@@ -5536,3 +5536,10 @@ David  11 June 2009
             countries.inc
         user/
             main.css
+
+Rom    11 June 2009
+    - PTPSCR: Updates from Carl
+    
+    clientscr/progress/win/x86/
+        boincscr.exe
+        gradient.jpg
