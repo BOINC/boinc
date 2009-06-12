@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 '''
 Generic Assimilator framework
 '''
@@ -29,9 +29,6 @@ class Assimilator():
       3) add the standard if __name__ == "__main__" bootstrap (see end of this file)
     '''
 
-    # TODO: add a usage() method
-    # TODO: improve error handling 
-    
     def __init__(self):
         # Be sure to call Assimilator.__init__(self) from child classes
         
@@ -65,10 +62,10 @@ class Assimilator():
             junk = open(self.STOP_TRIGGER_FILENAME, 'r')
         except IOError:
             if self.caught_sig_int:
-                self.log.printf(sched_messages.CRITICAL, "Caught SIGINT\n")
+                self.logCritical("Caught SIGINT\n")
                 sys.exit(1)
         else:
-            self.log.printf(sched_messages.CRITICAL, "Found stop trigger\n")
+            self.logCritical("Found stop trigger\n")
             sys.exit(1)
     
     def sigint_handler(self, sig, stack):
@@ -76,7 +73,7 @@ class Assimilator():
         This method handles the SIGINT signal. It sets a flag
         but waits to exit until check_stop_trigger is called 
         """
-        self.log.printf(sched_messages.DEBUG, "Handled SIGINT\n")
+        self.logDebug("Handled SIGINT\n")
         self.caught_sig_int = True
     
     def filename_hash(self, name, hash_fanout):
@@ -124,16 +121,16 @@ class Assimilator():
         Returns True if errors were present, False otherwise.
         """
         if wu.error_mask&boinc_db.WU_ERROR_COULDNT_SEND_RESULT:
-            self.log.printf(sched_messages.CRITICAL, "[%s] Error: couldn't send a result\n", wu.name)
+            self.logCritical("[%s] Error: couldn't send a result\n", wu.name)
             return True
         if wu.error_mask&boinc_db.WU_ERROR_TOO_MANY_ERROR_RESULTS:
-            self.log.printf(sched_messages.CRITICAL, "[%s] Error: too many error results\n", wu.name)
+            self.logCritical("[%s] Error: too many error results\n", wu.name)
             return True
         if wu.error_mask&boinc_db.WU_ERROR_TOO_MANY_TOTAL_RESULTS:
-            self.log.printf(sched_messages.CRITICAL, "[%s] Error: too many total results\n", wu.name)
+            self.logCritical("[%s] Error: too many total results\n", wu.name)
             return True
         if wu.error_mask&boinc_db.WU_ERROR_TOO_MANY_SUCCESS_RESULTS:
-            self.log.printf(sched_messages.CRITICAL, "[%s] Error: too many success results\n", wu.name)
+            self.logCritical("[%s] Error: too many success results\n", wu.name)
             return True
         return False
     
@@ -153,7 +150,7 @@ class Assimilator():
     
         units = database.Workunits.find(app=app,assimilate_state=boinc_db.ASSIMILATE_READY)
     
-        self.log.printf(sched_messages.DEBUG, "pass %d, units %d\n", self.pass_count, len(units))
+        self.logDebug("pass %d, units %d\n", self.pass_count, len(units))
     
         # look for workunits with correct appid and 
         # assimilate_state==ASSIMILATE_READY
@@ -175,17 +172,13 @@ class Assimilator():
     
             canonical_result = None
             results = None
-            self.log.printf(sched_messages.DEBUG, "[%s] assimilating: state=%d\n", wu.name, wu.assimilate_state)
+            self.logDebug("[%s] assimilating: state=%d\n", wu.name, wu.assimilate_state)
             results = database.Results.find(workunit=wu)
 
             # look for canonical result for workunit in results
-            # HACK: shouldn't have to check types for comparion
-            #       the Result object __eq__ method should handle 
-            #       the case of int vs Result
-            if type(wu.canonical_result) != type(0):
-                for result in results:
-                    if result == wu.canonical_result:
-                        canonical_result=result
+            for result in results:
+                if result == wu.canonical_result:
+                    canonical_result=result
     
             if canonical_result == None:
                 # something is wrong, flag an error
@@ -205,7 +198,7 @@ class Assimilator():
         # return did something result
         return did_something
 
-    def parse_args(self):
+    def parse_args(self, args):
         """
         Parses arguments provided on the command line and sets
         those argument values as member variables. Arguments
@@ -213,11 +206,6 @@ class Assimilator():
         not strings.
         """
         
-        # TODO: this is inflexible, it should allow child classes
-        #       to add or remove individual arguments easily
-        #       without copying the entire loop 
-        
-        args = sys.argv[1:]
         args.reverse()
         while(len(args)):
             arg = args.pop()
@@ -243,7 +231,7 @@ class Assimilator():
                 arg = args.pop()
                 self.appname = arg
             else:
-                self.log.printf(sched_messages.CRITICAL, "Unrecognized arg: %s\n", arg)
+                self.logCritical("Unrecognized arg: %s\n", arg)
 
     def run(self):
         """
@@ -252,7 +240,7 @@ class Assimilator():
         parse_args() is called, the xml config file is loaded and
         the SIGINT signal is hooked to the sigint_handler method.
         """
-        self.parse_args()
+        self.parse_args(sys.argv[1:])
         self.config = configxml.default_config().config
 
         # retrieve app where name = app.name
@@ -273,6 +261,30 @@ class Assimilator():
                 database.close()
                 if not workdone:
                     time.sleep(self.sleep_interval)
+    
+    def _writeLog(self, mode, *args):
+        """
+        A private helper function for writeing to the log
+        """
+        self.log.printf(mode, *args)
+        
+    def logCritical(self, *messageArgs):
+        """
+        A helper function for logging critical messages
+        """
+        self._writeLog(sched_messages.CRITICAL, *messageArgs)
+    
+    def logNormal(self, *messageArgs):
+        """
+        A helper function for logging normal messages
+        """
+        self._writeLog(sched_messages.NORMAL, *messageArgs)
+    
+    def logDebug(self, *messageArgs):
+        """
+        A helper function for logging debug messages
+        """
+        self._writeLog(sched_messages.DEBUG, *messageArgs)
 
 # --------------------------------------------
 # Add the following to your assimilator file:

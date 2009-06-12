@@ -5479,3 +5479,15 @@ Charlie 11 June 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  11 June 2009
+    - server: improve the Python assimilator framework;
+        add an assimilator for PyMW (Python master/worker);
+        remove old C++ PyMW assimilator
+        (from Jeremy Cowles)
+
+    sched/
+        Makefile.am
+        assimilator.py
+        pymw_assimilator.py
+        testasm.py

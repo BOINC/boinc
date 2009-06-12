@@ -102,7 +102,6 @@ sched_PROGRAMS = \
     feeder \
     file_deleter \
     message_handler \
-    pymw_assimilator \
     sample_assimilator \
     sample_dummy_assimilator \
     sample_bitwise_validator \
@@ -190,9 +189,6 @@ sample_dummy_assimilator_LDADD = $(SERVERLIBS)
 
 sample_assimilator_SOURCES = assimilator.cpp sample_assimilator.cpp validate_util.cpp validate_util.h
 sample_assimilator_LDADD = $(SERVERLIBS)
-
-pymw_assimilator_SOURCES = assimilator.cpp pymw_assimilator.cpp validate_util.cpp validate_util.h 
-pymw_assimilator_LDADD = $(SERVERLIBS)
 
 single_job_assimilator_SOURCES = assimilator.cpp single_job_assimilator.cpp validate_util.cpp validate_util.h
 single_job_assimilator_LDADD = $(SERVERLIBS)

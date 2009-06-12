@@ -1,4 +1,4 @@
-#!/usr/bin/python
+!/usr/bin/env python
 
 import boinc_path_config
 from Boinc.assimilator import *
@@ -21,13 +21,13 @@ class TestAssimilator(Assimilator):
         # check for valid wu.canonical_result
         if wu.canonical_result:
             # do application specific processing
-            self.log.printf(sched_messages.NORMAL, "[%s] Found canonical result\n", wu.name)
+            self.logNormal("[%s] Found canonical result\n", wu.name)
             result = self.get_file_path(canonical_result)
             for line in open(result, 'r').readlines():
                 line = line.strip()
-                self.log.printf(sched_messages.DEBUG, "  [%s] Answer found %s %s\n", canonical_result.name, line[-32:], line[:-33])
+                self.logDebug("  [%s] Answer found %s %s\n", canonical_result.name, line[-32:], line[:-33])
         else:
-            self.log.printf(sched_messages.NORMAL, "[%s] No canonical result\n", wu.name)
+            self.logNormal("[%s] No canonical result\n", wu.name)
         
         if self.report_errors(wu):
             # report_errors returns true if error state was present
