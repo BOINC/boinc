@@ -42,6 +42,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
     FILE* fd;
     PROCINFO p;
     int c, real_mem, virtual_mem, hours;
+    char* lf;
 
 #if SHOW_TIMING
     UnsignedWide start, end, elapsed;
@@ -101,6 +102,8 @@ int procinfo_setup(vector<PROCINFO>& pi) {
                     &virtual_mem, &p.page_fault_count, &hours, &p.user_time);
         if (c < 7) break;
         if (fgets(p.command, sizeof(p.command) , fd) == NULL) break;
+        lf = strchr(p.command, '\n');
+        if (lf) *lf = '\0';         // Strip trailing linefeed
         p.working_set_size = (double)real_mem * 1024.;
         p.swap_size = (double)virtual_mem * 1024.;
         p.user_time += 60. * (float)hours;

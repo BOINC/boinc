@@ -28,6 +28,7 @@
 #include "AdvancedFrame.h"
 #include "BOINCClientManager.h"
 #include "error_numbers.h"
+#include "procinfo.h"
 
 #include "filesys.h"
 #include "util.h"
@@ -361,64 +362,25 @@ void CBOINCClientManager::KillClient() {
 
 #else
 
-static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
-    char *p = buf;
-    size_t len = buflen;
-    size_t datalen = 0;
-
-    *buf = '\0';
-    while (datalen < (buflen - 1)) {
-        fgets(p, len, f);
-        if (feof(f)) break;
-        if (ferror(f) && (errno != EINTR)) break;
-        if (strchr(buf, '\n')) break;
-        datalen = strlen(buf);
-        p = buf + datalen;
-        len -= datalen;
-    }
-    return (buf[0] ? buf : NULL);
-}
-
-
-// On Mac, wxProcess::Exists returns true for zombies 
-// because kill(pid, 0) returns OK for zombies
-// If we don't have a pid, searches by name.
 void CBOINCClientManager::KillClient() {
-    FILE *f;
-    char buf[1024];
-    char name[] = "boinc";
-    size_t n = strlen(name);
-    char *bufp;
-    pid_t apPID;
+    std::vector<PROCINFO> piv;
+    int retval;
     
     if (m_lBOINCCoreProcessId) {
         kill_program(m_lBOINCCoreProcessId);
         return;
     }
     
-    // ToDo: the following command line works properly on Mac 
-    // and on Ubuntu (under VMWare) but needs testing on other 
-    // UNIX and Linux platforms.  We want a command that lists 
-    // processes (including boinc) in 2 columns: executable 
-    // name only (not the entire command line)starting in column 1
-    // and pid.  So the line showing boinc would look like this:
-    // boinc          1234 
-    f = popen("ps -a -x -c -o command,pid", "r");
-    if (f == NULL)
-        return;
+    retval = procinfo_setup(piv);
+	if (retval) return;     // Should never happen
     
-    while (PersistentFGets(buf, sizeof(buf), f))
-    {
-        if (strncmp(buf, name, n) == 0)
-        {
-            bufp = buf+n-1;
-            while (*++bufp == ' ');     // Skip over white space
-            apPID = atol(bufp);
-            kill_program(apPID);
+    for (unsigned int i=0; i<piv.size(); i++) {
+        PROCINFO& pi = piv[i];
+        if (!strcmp(pi.command, "boinc")) {
+            kill_program(pi.id);
             break;
         }
     }
-    pclose(f);
 }
 #endif
 
