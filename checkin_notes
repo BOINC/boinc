@@ -5491,3 +5491,10 @@ David  11 June 2009
         assimilator.py
         pymw_assimilator.py
         testasm.py
+
+David  11 June 2009
+    - web: country flags
+
+    html/inc/
+        countries.inc
+        forum.inc

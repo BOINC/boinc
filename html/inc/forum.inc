@@ -561,6 +561,17 @@ function show_post(
             echo "Credit: ".number_format($user->total_credit)."<br>";
             echo "RAC: ".number_format($user->expavg_credit)."<br>";
         }
+        // to use this feature:
+        // - get flags from http://www.famfamfam.com/lab/icons/flags/famfamfam_flag_icons.zip
+        // - put the .png's in html/user/flags/
+        // - put define(COUNTRY_FLAGS, 1) in your html/project/project.inc
+        //
+        if (defined(COUNTRY_FLAGS)) {
+            if (array_key_exists($user->country, $country_to_iso3166_2)) {
+                $code = $country_to_iso3166_2[$user->country];
+                echo "Country: <img src=flags/$code.png><br>\n";
+            }
+        }
     }
     echo "</span></div></td>";
 
