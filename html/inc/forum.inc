@@ -452,6 +452,8 @@ function is_ignoring($user, $other_user) {
 function show_post(
     $post, $thread, $forum, $logged_in_user, $last_visit, $n, $controls=FORUM_CONTROLS, $filter=true
 ) {
+    global $country_to_iso3166_2;
+
     $user = BoincUser::lookup_id($post->user);
     BoincForumPrefs::lookup($user);
     if (is_banished($user) && !is_moderator($logged_in_user, $forum)) {
@@ -566,10 +568,10 @@ function show_post(
         // - put the .png's in html/user/flags/
         // - put define(COUNTRY_FLAGS, 1) in your html/project/project.inc
         //
-        if (defined(COUNTRY_FLAGS)) {
+        if (defined("COUNTRY_FLAGS")) {
             if (array_key_exists($user->country, $country_to_iso3166_2)) {
                 $code = $country_to_iso3166_2[$user->country];
-                echo "Country: <img src=flags/$code.png><br>\n";
+                echo "<img src=flags/$code.png><br>\n";
             }
         }
     }
