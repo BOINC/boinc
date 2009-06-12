@@ -200,7 +200,7 @@
 		<advanced>  
 			<!-- name displayed in application title bar -->
 			<application_name>GridRepublic Desktop</application_name>
-			<project_name>GridRepublic</application_short_name>  
+			<application_short_name>GridRepublic</application_short_name>  
 			<application_icon>
 				<image>
 					<!-- Taskbar Icon -->
