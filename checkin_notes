@@ -5527,7 +5527,7 @@ Rom    12 June 2009
         boinccas.dll
         boinccas95.dll
 
-David  11 June 2009
+David  12 June 2009
     - web: fix up country flags a little
 
     html/
@@ -5537,14 +5537,14 @@ David  11 June 2009
         user/
             main.css
 
-Rom    11 June 2009
+Rom    12 June 2009
     - PTPSCR: Updates from Carl
     
     clientscr/progress/win/x86/
         boincscr.exe
         gradient.jpg
 
-Rom    11 June 2009
+Rom    12 June 2009
     - MGR: Introduce the notion of a Return URL to the attach to
         account manager wizard.  When successfully attached the
         account manager can have the manager launch a browser to
@@ -5558,7 +5558,7 @@ Rom    11 June 2009
         CompletionPage.cpp
         WizardAttachProject.cpp, .h
 
-Rom    11 June 2009
+Rom    12 June 2009
     - MGR: Introduce the cookie detection failure URL to the
         acct_mgr_logon.xml file. If the cookies cannot be found provide
         a hyperlink control on the AcctountInfo page in the wizard
@@ -5575,3 +5575,9 @@ Rom    11 June 2009
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+David  12 June 2009
+    - server: backed out recent changes to "start"; they broke something
+
+    sched/
+        start
