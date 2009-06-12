@@ -144,20 +144,18 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
     project_authenticator = wxEmptyString;
     project_name = wxEmptyString;
     m_strProjectName.Empty();
+    m_strReturnURL.Empty();
     m_bCredentialsCached = false;
     m_bCredentialsDetected = false;
 
 
     CSkinAdvanced*  pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CSkinWizardATP* pSkinWizardATP = wxGetApp().GetSkinManager()->GetWizards()->GetWizardATP();
-//    CSkinWizardATAM* pSkinWizardATAM = wxGetApp().GetSkinManager()->GetWizards()->GetWizardATAM();
 
     wxASSERT(pSkinAdvanced);
     wxASSERT(pSkinWizardATP);
-//    wxASSERT(pSkinWizardATAM);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     wxASSERT(wxDynamicCast(pSkinWizardATP, CSkinWizardATP));
-//    wxASSERT(wxDynamicCast(pSkinWizardATAM, CSkinWizardATAM));
 
 
     wxString strTitle;
@@ -262,6 +260,7 @@ void CWizardAttachProject::CreateControls()
     GetPageAreaSizer()->Add(m_ErrProxyPage);
 
 ////@end CWizardAttachProject content construction
+
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls - Begin Page Map"));
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_WelcomePage = id: '%d', location: '%p'"), m_WelcomePage->GetId(), m_WelcomePage);
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectInfoPage = id: '%d', location: '%p'"), m_ProjectInfoPage->GetId(), m_ProjectInfoPage);
@@ -342,19 +341,23 @@ bool CWizardAttachProject::SyncToAccountManager() {
     if (ami.acct_mgr_url.size() && !m_bCredentialsCached) {
         std::string login;
         std::string password_hash;
+        std::string return_url;
 
-        if (detect_account_manager_credentials(ami.acct_mgr_url, login, password_hash)) {
+        if (detect_account_manager_credentials(ami.acct_mgr_url, login, password_hash, return_url)) {
             wxString strLogin;
             wxString strPasswordHash;
+            wxString strReturnURL;
 
             strLogin = wxURL::Unescape( wxString(login.c_str(), wxConvUTF8) );
             strPasswordHash = wxURL::Unescape( wxString(password_hash.c_str(), wxConvUTF8) );
+            strReturnURL = wxURL::Unescape( wxString(return_url.c_str(), wxConvUTF8) );
 
             m_AccountInfoPage->SetAccountEmailAddress( strLogin );
             m_AccountInfoPage->SetAccountPassword(
                 wxString(_T("hash:")) +
                 strPasswordHash
             );
+            m_strReturnURL = strReturnURL;
             m_bCredentialsDetected = true;
         }
     }
@@ -582,19 +585,6 @@ void CWizardAttachProject::_ProcessCancelEvent( wxWizardExEvent& event ) {
     if (wxYES != iRetVal) {
         event.Veto();
     }
-/*
-    if (!bCancelWithoutNextPage) {
-        event.Veto();
-        if (wxYES == iRetVal) {
-            m_bCancelInProgress = true;
-            SimulateNextButton();
-        }
-    } else {
-        if (wxYES != iRetVal) {
-            event.Veto();
-        }
-    }
-*/
 }
 
 /*!
@@ -604,8 +594,16 @@ void CWizardAttachProject::_ProcessCancelEvent( wxWizardExEvent& event ) {
 void CWizardAttachProject::OnFinished( wxWizardExEvent& event ) {
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
 
-    if (GetAccountCreatedSuccessfully() && GetAttachedToProjectSuccessfully()) {
-        pFrame->ExecuteBrowserLink(GetProjectURL() + wxT("account_finish.php?auth=") + GetProjectAuthenticator());
+    if (IsAccountManagerWizard) {
+        // Attached to an account manager
+        if (!m_strReturnURL.empty() && GetAttachedToProjectSuccessfully()) {
+            pFrame->ExecuteBrowserLink(m_strReturnURL);
+        }
+    } else {
+        // Attached to a project
+        if (GetAccountCreatedSuccessfully() && GetAttachedToProjectSuccessfully()) {
+            pFrame->ExecuteBrowserLink(GetProjectURL() + wxT("account_finish.php?auth=") + GetProjectAuthenticator());
+        }
     }
 
     // Let the framework clean things up.

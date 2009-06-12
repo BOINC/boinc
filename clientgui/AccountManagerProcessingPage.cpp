@@ -299,6 +299,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
     
             if (!iReturnValue && !reply.error_num && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTATTACH)) {
                 SetProjectAttachSucceeded(true);
+                pWAP->SetAttachedToProjectSuccessfully(true);
             } else {
                 SetProjectAttachSucceeded(false);
 

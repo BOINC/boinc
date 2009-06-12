@@ -676,25 +676,30 @@ END:
 // the default.
 // 
 bool detect_account_manager_credentials(
-    std::string& project_url, std::string& login, std::string& password_hash
+    std::string& project_url, std::string& login, std::string& password_hash, std::string& return_url
 ) {
     bool retval = false;
     std::string strCookieLogon("Logon");
     std::string strCookiePasswordHash("PasswordHash");
+    std::string strCookieReturnURL("ReturnURL");
 
 #ifdef _WIN32
     if ( detect_cookie_ie(project_url, strCookieLogon, login) && 
-         detect_cookie_ie(project_url, strCookiePasswordHash, password_hash) ) goto END;
+         detect_cookie_ie(project_url, strCookiePasswordHash, password_hash) &&
+         detect_cookie_ie(project_url, strCookieReturnURL, return_url) ) goto END;
 #endif
 #ifdef __APPLE__
     if ( detect_cookie_safari(project_url, strCookieLogon, login) && 
-         detect_cookie_safari(project_url, strCookiePasswordHash, password_hash) ) goto END;
+         detect_cookie_safari(project_url, strCookiePasswordHash, password_hash) &&
+         detect_cookie_safari(project_url, strCookieReturnURL, return_url) ) goto END;
 #endif
     if ( detect_cookie_firefox_3(project_url, strCookieLogon, login) && 
-         detect_cookie_firefox_3(project_url, strCookiePasswordHash, password_hash) ) goto END;
+         detect_cookie_firefox_3(project_url, strCookiePasswordHash, password_hash) &&
+         detect_cookie_firefox_3(project_url, strCookieReturnURL, return_url) ) goto END;
 
     if ( detect_cookie_firefox_2(project_url, strCookieLogon, login) && 
-         detect_cookie_firefox_2(project_url, strCookiePasswordHash, password_hash) ) goto END;
+         detect_cookie_firefox_2(project_url, strCookiePasswordHash, password_hash) &&
+         detect_cookie_firefox_2(project_url, strCookieReturnURL, return_url) ) goto END;
 
 END:
     if (!login.empty() && !password_hash.empty()) {

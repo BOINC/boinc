@@ -137,6 +137,7 @@ public:
     bool m_bCredentialsCached;
     bool m_bCredentialsDetected;
     wxString m_strProjectName;
+    wxString m_strReturnURL;
 };
 
 #endif // _WIZ_ATTACHPROJECT_H_

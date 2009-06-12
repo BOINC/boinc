@@ -5543,3 +5543,17 @@ Rom    11 June 2009
     clientscr/progress/win/x86/
         boincscr.exe
         gradient.jpg
+
+Rom    11 June 2009
+    - MGR: Introduce the notion of a Return URL to the attach to
+        account manager wizard.  When successfully attached the
+        account manager can have the manager launch a browser to
+        a given URL by way of a cookie. It only works if the logon
+        credentials were also given to the manager by way of a cookie.
+        
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerProcessingPage.cpp
+        browser.cpp, .h
+        CompletionPage.cpp
+        WizardAttachProject.cpp, .h

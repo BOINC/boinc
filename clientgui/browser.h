@@ -27,7 +27,7 @@
 //
 
 bool detect_setup_authenticator(std::string& project_url, std::string& authenticator);
-bool detect_account_manager_credentials(std::string& project_url, std::string& login, std::string& password_hash);
+bool detect_account_manager_credentials(std::string& project_url, std::string& login, std::string& password_hash, std::string& return_url);
 bool is_authenticator_valid(const std::string authenticator);
 
 // platform specific browsers

@@ -38,7 +38,6 @@
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
-//#include "WizardAccountManager.h"
 #include "ProjectInfoPage.h"
 #include "AccountManagerInfoPage.h"
 #include "AccountInfoPage.h"
