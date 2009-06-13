@@ -58,6 +58,15 @@ void MIOFILE::init_buf_write(char* _buf, int _len) {
 	wbuf[0] = 0;
 }
 
+bool MIOFILE::eof() {
+    if (f) {
+        if (!feof(f)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 #ifndef _USING_FCGI_
 
 int MIOFILE::printf(const char* format, ...) {

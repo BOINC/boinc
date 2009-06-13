@@ -64,6 +64,7 @@ public:
     int printf(const char* format, ...);
     char* fgets(char*, int);
     int _ungetc(int);
+    bool eof();
     inline int _getc() {
         if (f) {
             return fgetc(f);
