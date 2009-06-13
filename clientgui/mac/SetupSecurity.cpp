@@ -50,7 +50,6 @@ static AuthorizationRef        gOurAuthRef = NULL;
 #define DELAY_TICKS 3
 #define DELAY_TICKS_R 10
 
-
 #define REAL_BOINC_MASTER_NAME "boinc_master"
 #define REAL_BOINC_PROJECT_NAME "boinc_project"
 
@@ -110,6 +109,14 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
     Boolean                 isDirectory;
     OSStatus                err = noErr;
     
+#define NUMBRANDS 3
+
+char *saverName[NUMBRANDS];
+
+saverName[0] = "BOINCSaver";
+saverName[1] = "GridRepublic";
+saverName[2] = "Progress Thru Processors";
+
 #ifdef _DEBUG
     err = SetFakeMasterNames();
     if (err)
@@ -212,44 +219,46 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
     if (err)
         return err;
 
-    // Version 6 screensaver has its own embedded switcher application, but older versions don't.
-    // We don't allow unauthorized users to run the switcher application in the BOINC Data directory 
-    // because they could use it to run as user & group boinc_project and damage project files.
-    // The screensaver's switcher application runs as user and group "nobody" to avoid this risk.
+    for (int i=0; i<NUMBRANDS; i++) {
+        // Version 6 screensaver has its own embedded switcher application, but older versions don't.
+        // We don't allow unauthorized users to run the switcher application in the BOINC Data directory 
+        // because they could use it to run as user & group boinc_project and damage project files.
+        // The screensaver's switcher application runs as user and group "nobody" to avoid this risk.
 
-    // Does switcher exist in screensaver bundle?
-    strcpy(fullpath, "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher");
-    err = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);   // Does it exist?
-    if ((err == noErr) && (! isDirectory)) {
+        // Does switcher exist in screensaver bundle?
+        sprintf(fullpath, "/Library/Screen Savers/%s.saver/Contents/Resources/gfx_switcher", saverName[i]);
+        err = FSPathMakeRef((StringPtr)fullpath, &ref, &isDirectory);   // Does it exist?
+        if ((err == noErr) && (! isDirectory)) {
 #ifdef _DEBUG
-        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
-        // chown boinc_master:boinc_master "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"
-        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
-        if (err)
-            return err;
+            sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
+            // chown boinc_master:boinc_master "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"
+            err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+            if (err)
+                return err;
 
-        // chmod u=rwx,g=rwx,o=rx "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"
-        // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
-        //  read, write and execute permission for user & group;  read and execute permission for others
-        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
-        if (err)
-            return err;
+            // chmod u=rwx,g=rwx,o=rx "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"
+            // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
+            //  read, write and execute permission for user & group;  read and execute permission for others
+            err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
+            if (err)
+                return err;
 #else
-        sprintf(buf1, "root:%s", boinc_master_group_name);
-        // chown root:boinc_master "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"
-        err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
-        if (err)
-            return err;
+            sprintf(buf1, "root:%s", boinc_master_group_name);
+            // chown root:boinc_master "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"
+            err = DoPrivilegedExec(chownPath, buf1, fullpath, NULL, NULL, NULL);
+            if (err)
+                return err;
 
-        // chmod u=rsx,g=rx,o=rx "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"
-        // 04555 = S_ISUID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
-        //  setuid-on-execution plus read and execute permission for user, group & others
-        err = DoPrivilegedExec(chmodPath, "u=rsx,g=rx,o=rx", fullpath, NULL, NULL, NULL);
-        if (err)
-            return err;
+            // chmod u=rsx,g=rx,o=rx "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher"
+            // 04555 = S_ISUID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
+            //  setuid-on-execution plus read and execute permission for user, group & others
+            err = DoPrivilegedExec(chmodPath, "u=rsx,g=rx,o=rx", fullpath, NULL, NULL, NULL);
+            if (err)
+                return err;
 #endif
+        }
     }
-
+    
     return noErr;
 }
 

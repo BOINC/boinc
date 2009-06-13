@@ -5015,3 +5015,24 @@ Charlie 12 June 2009
         check_security.cpp
     clientgui/
         BOINCGUIApp.cpp
+
+Charlie 12 June 2009
+    - Sandbox: Fix permissions for branded screensaver coordinators.
+    - Mac Installer: check that brandID is valid.
+    - Mac Uninstaller: don't delete BOINC Data directory or users' Manager 
+        settings.  Check in Rez source for uninstaller resources instead of 
+        resource file, to make it easier to modify on newer versions of XCode.
+
+    client/
+        check_security.cpp
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    mac_installer/
+        PostInstall.cpp
+        uninstall.cpp
+        Uninstaller.rsrc     
+        Uninstaller.r (added)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
