@@ -388,7 +388,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     } else {
         if (pWAP->m_bCookieRequired && !pWAP->m_bCredentialsDetected) {
             m_pCookieDetectionFailedStaticCtrl->SetLabel(
-                _("Your web browser does not support automatic logon detection.\nPlease click on the 'Find logon information' link\nbelow to find out what to put in the email address and\npassword fields.")
+                _("We were not able to set up your account information\nautomatically.\n\nPlease click on the 'Find logon information' link\nbelow to find out what to put in the email address and\npassword fields.")
             );
             m_pCookieDetectionFailedCtrl->SetLabel(
                 _("Find logon information")

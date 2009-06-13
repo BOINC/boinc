@@ -141,6 +141,10 @@ int main(int argc, char *argv[])
 
     brandID = GetBrandID();
     
+    if ((brandID < 0) || (brandID >= NUMBRANDS)) {       // Safety check
+        brandID = 0;
+    }
+    
     err = Gestalt(gestaltSystemVersion, &response);
     if (err != noErr)
         return err;

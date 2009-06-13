@@ -45,6 +45,7 @@ static void GetPathToThisProcess(char* outbuf, size_t maxLen);
 #define REAL_BOINC_MASTER_NAME "boinc_master"
 #define REAL_BOINC_PROJECT_NAME "boinc_project"
 
+
 static char         boinc_master_user_name[64];
 static char         boinc_master_group_name[64];
 static char         boinc_project_user_name[64];
@@ -84,6 +85,14 @@ int use_sandbox, int isManager
 #ifdef _MAC_INSTALLER
     char                *p;
 #endif
+
+#define NUMBRANDS 3
+
+char *saverName[NUMBRANDS];
+
+saverName[0] = "BOINCSaver";
+saverName[1] = "GridRepublic";
+saverName[2] = "Progress Thru Processors";
 
     useFakeProjectUserAndGroup = ! use_sandbox;
 #ifdef _DEBUG
@@ -254,29 +263,31 @@ int use_sandbox, int isManager
         // to avoid this risk.
 
         if (use_sandbox) {
-            // Does gfx_switcher exist in screensaver bundle?
-            strcpy(full_path, "/Library/Screen Savers/BOINCSaver.saver/Contents/Resources/gfx_switcher");
-            retval = stat(full_path, &sbuf);
-            if (! retval) {
+            for (int i=0; i<NUMBRANDS; i++) {
+                // Does gfx_switcher exist in screensaver bundle?
+                sprintf(full_path, "/Library/Screen Savers/%s.saver/Contents/Resources/gfx_switcher", saverName[i]);
+                retval = stat(full_path, &sbuf);
+                if (! retval) {
 #ifdef _DEBUG
-                if (sbuf.st_uid != boinc_master_uid)
-                    return -1101;
+                    if (sbuf.st_uid != boinc_master_uid)
+                        return -1101;
 
-                if (sbuf.st_gid != boinc_master_gid)
-                    return -1102;
+                    if (sbuf.st_gid != boinc_master_gid)
+                        return -1102;
 
-                if ((sbuf.st_mode & (S_ISUID | S_ISGID)) != 0)
-                    return -1103;
+                    if ((sbuf.st_mode & (S_ISUID | S_ISGID)) != 0)
+                        return -1103;
 #else
-                if (sbuf.st_uid != 0)
-                    return -1101;
+                    if (sbuf.st_uid != 0)
+                        return -1101;
 
-                if (sbuf.st_gid != boinc_master_gid)
-                    return -1102;
+                    if (sbuf.st_gid != boinc_master_gid)
+                        return -1102;
 
-                if ((sbuf.st_mode & (S_ISUID | S_ISGID)) != S_ISUID)
-                    return -1103;
+                    if ((sbuf.st_mode & (S_ISUID | S_ISGID)) != S_ISUID)
+                        return -1103;
 #endif
+                }
             }
         }
 #endif

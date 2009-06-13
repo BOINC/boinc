@@ -175,6 +175,7 @@
 		DD531BC60C193D3800742E50 /* MacInstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC50C193D3800742E50 /* MacInstaller.icns */; };
 		DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC70C193D5200742E50 /* MacUninstaller.icns */; };
 		DD5BF77D0D4F3D0C00EDF980 /* mac_icon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.cpp */; };
+		DD5D7EBB0FE320F600ACF87B /* Uninstaller.r in Rez */ = {isa = PBXBuildFile; fileRef = DD5D7EBA0FE320F600ACF87B /* Uninstaller.r */; };
 		DD616A3008150050006981C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD635A420D384FA500BAC1A5 /* texfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD635A410D384FA500BAC1A5 /* texfont.cpp */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.cpp */; };
@@ -349,7 +350,6 @@
 		DDD74DD407CF493E0065AC9D /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
 		DDD7EF4707F0526E00BA3B90 /* SystemMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = DD40CDFE07F038990096C645 /* SystemMenu.m */; };
 		DDDC35260909212D006076EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
-		DDDC70440C7A86A200179273 /* Uninstaller.rsrc in Rez */ = {isa = PBXBuildFile; fileRef = DDDC70430C7A86A200179273 /* Uninstaller.rsrc */; };
 		DDDE43B10EC04C1800083520 /* DlgExitMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */; };
 		DDE3A8800E90D1BF00A363A7 /* client_state.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A87F0E90D1BF00A363A7 /* client_state.cpp */; };
 		DDE3A8810E90D21A00A363A7 /* sandbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD80C83D0CBAEB4F00F1121D /* sandbox.cpp */; };
@@ -734,6 +734,7 @@
 		DD58C46808F334EA00C1DF66 /* WizardAttachProject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WizardAttachProject.h; path = ../clientgui/WizardAttachProject.h; sourceTree = SOURCE_ROOT; };
 		DD58C46908F334EA00C1DF66 /* wizardex.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wizardex.cpp; path = ../clientgui/wizardex.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C46A08F334EA00C1DF66 /* wizardex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wizardex.h; path = ../clientgui/wizardex.h; sourceTree = SOURCE_ROOT; };
+		DD5D7EBA0FE320F600ACF87B /* Uninstaller.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = Uninstaller.r; path = ../mac_installer/Uninstaller.r; sourceTree = SOURCE_ROOT; };
 		DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = wxWindows.xcodeproj; path = "../../wxMac-2.8.10/src/wxWindows.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		DD5EEB6A0873DD4400963F44 /* hyperlink.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = hyperlink.cpp; sourceTree = "<group>"; };
 		DD5EEB6B0873DD4400963F44 /* hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = hyperlink.h; sourceTree = "<group>"; };
@@ -896,7 +897,6 @@
 		DDD52DC80C03CAE6009B5FC0 /* ViewWork.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewWork.cpp; path = ../clientgui/ViewWork.cpp; sourceTree = SOURCE_ROOT; };
 		DDD52DC90C03CAE6009B5FC0 /* ViewWork.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewWork.h; path = ../clientgui/ViewWork.h; sourceTree = SOURCE_ROOT; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
-		DDDC70430C7A86A200179273 /* Uninstaller.rsrc */ = {isa = PBXFileReference; lastKnownFileType = archive.rsrc; name = Uninstaller.rsrc; path = ../mac_installer/Uninstaller.rsrc; sourceTree = SOURCE_ROOT; };
 		DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DlgExitMessage.cpp; path = ../clientgui/DlgExitMessage.cpp; sourceTree = SOURCE_ROOT; };
 		DDDE43B80EC04C3C00083520 /* DlgExitMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DlgExitMessage.h; path = ../clientgui/DlgExitMessage.h; sourceTree = SOURCE_ROOT; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
@@ -1174,7 +1174,7 @@
 				DDF3028907CCCE2C00701169 /* BOINCMgr.icns */,
 				DD531BC50C193D3800742E50 /* MacInstaller.icns */,
 				DD531BC70C193D5200742E50 /* MacUninstaller.icns */,
-				DDDC70430C7A86A200179273 /* Uninstaller.rsrc */,
+				DD5D7EBA0FE320F600ACF87B /* Uninstaller.r */,
 				DD48091E081A66F100A174AA /* BOINCSaver.nib */,
 				DDEB3CA80981084A0087E200 /* gridrepublic.icns */,
 				DDF1F4A409822F8A00482C89 /* GR-Branding */,
@@ -2070,7 +2070,7 @@
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDDC70440C7A86A200179273 /* Uninstaller.rsrc in Rez */,
+				DD5D7EBB0FE320F600ACF87B /* Uninstaller.r in Rez */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

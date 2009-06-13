@@ -99,8 +99,8 @@ int main(int argc, char *argv[])
         cancelled = (Alert(128, NULL)  == cancel);
     } else {
         // Grid Republic uses generic dialog with Uninstall application's icon
-        cancelled = ! ShowMessage(true, "Are you sure you want to completely remove %s and all its data from your computer?\n\n"
-                                        "Any unreported results will be lost.", p);
+        cancelled = ! ShowMessage(true, "Are you sure you want to completely remove %s from your computer?\n\n"
+                                        "This will remove the executables but will not touch %s data files.", p);
     }
 
     if (! cancelled)
@@ -118,7 +118,9 @@ int main(int argc, char *argv[])
     if (err)
         ShowMessage(false, "An error occurred: error code %d", err);
     else
-        ShowMessage(false, "Removal completed.");
+        ShowMessage(false, "Removal completed.\n\n You may want to remove the following remaining items using the Finder: \n"
+         "\"/Library/Application Support/BOINC Data\" directory and, for each user, the file\n"
+         "\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\".");
         
     return err;
 }
@@ -169,7 +171,7 @@ static OSStatus DoUninstall(void) {
         } else {
 
             // First delete just the application's info.plist file and update the 
-            // LaunchServices Database;; otherwise LSFindApplicationForInfo might 
+            // LaunchServices Database; otherwise LSFindApplicationForInfo might 
             // return this application again after it's been deleted.
             strlcpy(plistRmCommand, myRmCommand, sizeof(plistRmCommand));
             strlcat(plistRmCommand, "/Contents/info.plist", sizeof(plistRmCommand));
@@ -210,7 +212,7 @@ static OSStatus DoUninstall(void) {
     system ("rm -rf /Library/Receipts/BOINC.pkg");
 
     // We don't customize BOINC Data directory name for branding
-    system ("rm -rf \"/Library/Application Support/BOINC Data\"");
+//    system ("rm -rf \"/Library/Application Support/BOINC Data\"");
 
     // Phase 5: step through all users and do user-specific cleanup
     CleanupAllVisibleUsers();
@@ -341,7 +343,7 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
 
 // Find all visible users and delete their login item to launch BOINC Manager.
 // Remove each user from groups boinc_master and boinc_project.
-// Delete user's BOINC Preferences file.
+// For now, don't delete user's BOINC Preferences file.
 static OSStatus CleanupAllVisibleUsers(void)
 {
     DIR                 *dirp;
@@ -386,8 +388,8 @@ static OSStatus CleanupAllVisibleUsers(void)
 
         DeleteLoginItem();                          // Delete our login item(s) for this user
 
-        sprintf(s, "rm -f \"/Users/%s/Library/Preferences/BOINC Manager Preferences\"", dp->d_name);
-        system (s);
+//        sprintf(s, "rm -f \"/Users/%s/Library/Preferences/BOINC Manager Preferences\"", dp->d_name);
+//        system (s);
         
         //  Set screensaver to "Computer Name" default screensaver only 
         //  if it was BOINC, GridRepublic or Progress Thru Processors.
