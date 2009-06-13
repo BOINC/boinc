@@ -282,11 +282,22 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
             tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
             iReturnValue = 0;
             reply.error_num = ERR_IN_PROGRESS;
-            while ((!iReturnValue && (ERR_IN_PROGRESS == reply.error_num)) &&
-                tsExecutionTime.GetSeconds() <= 60 &&
+            while (!iReturnValue && 
+                ((ERR_IN_PROGRESS == reply.error_num) || 
+                        (ERR_RETRY == reply.error_num)) &&
+                (tsExecutionTime.GetSeconds() <= 60) &&
                 !CHECK_CLOSINGINPROGRESS()
                 )
             {
+                if (ERR_RETRY == reply.error_num) {
+                    pDoc->rpc.acct_mgr_rpc(
+                        url.c_str(),
+                        username.c_str(),
+                        password.c_str(),
+                        pWAP->m_bCredentialsCached
+                    );
+                }
+            
                 dtCurrentExecutionTime = wxDateTime::Now();
                 tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                 iReturnValue = pDoc->rpc.acct_mgr_rpc_poll(reply);

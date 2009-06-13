@@ -5610,3 +5610,9 @@ Charlie 12 June 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 13 June 2009
+    - MGR: Wizard retries acct_mgr_rpc() if acct_mgr_rpc_poll() sets ERR_RETRY.
+
+    clientgui/
+        AccountManagerProcessingPage.cpp
