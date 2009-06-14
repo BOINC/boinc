@@ -1527,6 +1527,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxWindow* pwndNotebookPage = NULL;
     CBOINCBaseView* pView = NULL;
     int iItemCount = 0, iIndex;
+    int wasShown = 0;
 
     wxASSERT(m_pNotebook);
     wxASSERT(pDoc);
@@ -1577,7 +1578,9 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
     if (ami.acct_mgr_url.size() && !ami.have_credentials) {
-        if (!IsShown()) {
+        if (IsShown()) {
+            wasShown = 1;
+        } else {
             Show();
         }
 
@@ -1585,8 +1588,10 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         if (pAPWizard->SyncToAccountManager()) {
 
 #if defined(__WXMSW__) || defined(__WXMAC__)
-            // If successful, hide the main window
-            Hide();
+            // If successful, hide the main window if we showed it
+            if (!wasShown) {
+                Hide();
+            }
 #endif
 
             // %s is the application name
