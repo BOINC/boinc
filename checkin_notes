@@ -5036,3 +5036,15 @@ Charlie 12 June 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 14 June 2009
+    - MGR: When automatically running Synchronize AM Wizard ar Manager launch, 
+        hide the main window only if it was not previously shown.
+    - Mac Installer: check in a copy of GR / PTP signing key with UNIX / Mac 
+        line endings.
+
+    clientgui/
+        AdvancedFrame.cpp
+    mac_installer/
+        Progress/
+            acct_mgr_url.xml (added)
