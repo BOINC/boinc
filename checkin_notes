@@ -5650,3 +5650,13 @@ Charlie 14 June 2009
     mac_installer/
         Progress/
             acct_mgr_url.xml (added)
+
+Rom    14 June 2009
+    - INSTALL: Make sure both installers have the cookie required flag so that
+        the correct information is displayed on the AccountInfo page in the
+        Wizard, if and when a browsers cookie could not be detected.
+        
+    mac_installer/Progress/
+        acct_mgr_url.xml
+    win_build/installerv2/redist/progress/    
+        acct_mgr_url.xml
