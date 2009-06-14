@@ -5626,3 +5626,15 @@ Rom    13 June 2009
         browser.cpp
     lib/
         miofile.cpp, .h
+
+Rom    13 June 2009
+    - MGR: Expand on Charlie's last checkin to include the rest of the polling
+        RPCs in the wizard. The polling RPCs would return ERR_RETRY when
+        the CC was in the middle of some other GUI_HTTP op (version check,
+        project list download).
+    
+    clientgui/
+        AccountManagerProcessingPage.cpp
+        AccountManagerPropertiesPage.cpp
+        ProjectProcessingPage.cpp
+        ProjectPropertiesPage.cpp

@@ -386,9 +386,6 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
             break;
         case PROJPROP_RETRPROJECTPROPERTIES_EXECUTE:
             // Attempt to retrieve the project's account creation policies
-            pDoc->rpc.get_project_config(
-                (const char*)pWAP->m_ProjectInfoPage->GetProjectURL().mb_str()
-            );
  
             // Wait until we are done processing the request.
             dtStartExecutionTime = wxDateTime::Now();
@@ -396,12 +393,19 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
             tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
             iReturnValue = 0;
             pc->clear();
-            pc->error_num = ERR_IN_PROGRESS;
-            while ((!iReturnValue && (ERR_IN_PROGRESS == pc->error_num)) &&
-                   tsExecutionTime.GetSeconds() <= 60 &&
-                   !CHECK_CLOSINGINPROGRESS()
-                  )
-            {
+            pc->error_num = ERR_RETRY;
+            while (
+                !iReturnValue &&
+                ((ERR_IN_PROGRESS == pc->error_num) || (ERR_RETRY == pc->error_num)) &&
+                tsExecutionTime.GetSeconds() <= 60 &&
+                !CHECK_CLOSINGINPROGRESS()
+            ) {
+                if (ERR_RETRY == pc->error_num) {
+                    pDoc->rpc.get_project_config(
+                        (const char*)pWAP->m_ProjectInfoPage->GetProjectURL().mb_str()
+                    );
+                }
+
                 dtCurrentExecutionTime = wxDateTime::Now();
                 tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                 iReturnValue = pDoc->rpc.get_project_config_poll(*pc);

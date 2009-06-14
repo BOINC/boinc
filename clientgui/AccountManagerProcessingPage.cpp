@@ -269,26 +269,19 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
 
             username = (const char*)pWAP->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
             password = (const char*)pWAP->m_AccountInfoPage->GetAccountPassword().mb_str();
-            pDoc->rpc.acct_mgr_rpc(
-                url.c_str(),
-                username.c_str(),
-                password.c_str(),
-                pWAP->m_bCredentialsCached
-            );
             
             // Wait until we are done processing the request.
             dtStartExecutionTime = wxDateTime::Now();
             dtCurrentExecutionTime = wxDateTime::Now();
             tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
             iReturnValue = 0;
-            reply.error_num = ERR_IN_PROGRESS;
-            while (!iReturnValue && 
-                ((ERR_IN_PROGRESS == reply.error_num) || 
-                        (ERR_RETRY == reply.error_num)) &&
+            reply.error_num = ERR_RETRY;
+            while (
+                !iReturnValue && 
+                ((ERR_IN_PROGRESS == reply.error_num) || (ERR_RETRY == reply.error_num)) &&
                 (tsExecutionTime.GetSeconds() <= 60) &&
                 !CHECK_CLOSINGINPROGRESS()
-                )
-            {
+            ) {
                 if (ERR_RETRY == reply.error_num) {
                     pDoc->rpc.acct_mgr_rpc(
                         url.c_str(),
