@@ -255,10 +255,8 @@ int TASK::run(int argct, char** argvt) {
     // Append wrapper's command-line arguments to those in the job file.
     //
     for (int i=1; i<argct; i++){
+        command_line += string(" ");
         command_line += argvt[i];
-        if ((i+1) < argct){
-            command_line += string(" ");
-        }
     }
 
     fprintf(stderr, "%s wrapper: running %s (%s)\n",

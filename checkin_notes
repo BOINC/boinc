@@ -5682,3 +5682,9 @@ David  15 June 2009
         start
     py/Boinc/
         boinc_project_path.py
+
+David  15 June 2009
+    - wrapper: fix bug in passing wrapper's args to subjobs
+
+    samples/wrapper/
+        wrapper.cpp
