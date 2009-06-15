@@ -24,7 +24,7 @@ if os.environ.get('BOINC_PROJECT_DIR'):
 else:
     for dir in _dirs:
         if os.path.exists(os.path.join(dir, 'config.xml')):
-            _project_dir = dir
+            _project_dir = os.path.abspath(dir)
             break
 
 _local_hostname = socket.gethostname()

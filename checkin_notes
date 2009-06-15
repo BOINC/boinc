@@ -5674,3 +5674,11 @@ Charlie 15 June 2009
 
     clientgui/
         BOINCClientManager.cpp
+
+David  15 June 2009
+    - python scripts: fix bugs, restore latest version of "start"
+
+    sched/
+        start
+    py/Boinc/
+        boinc_project_path.py
