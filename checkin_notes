@@ -5666,3 +5666,13 @@ David  14 June 2009
 
     html/user/
         forum_get_data.php
+
+Rom    15 June 2009
+    - Previous 6.8 was deleted, we had not created any tags, so we shouldn't
+        have any orphaned tags floating around.
+    - Change version number to 6.8.x
+
+    /
+        configure.ac
+        version.h
+        version.in
