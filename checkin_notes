@@ -5692,3 +5692,12 @@ Rom    15 June 2009
         ptp_boinc_cli.vcproj
         ptp_boincmgr.vcproj
         sim.vcproj
+
+
+Charlie 15 June 2009
+    - MGR: If LOCKFILE doesn't already exist, core client isn't running so skip 
+        further testing.  This avoids a very rare possible race condition and is 
+        more efficient.
+
+    clientgui/
+        BOINCClientManager.cpp

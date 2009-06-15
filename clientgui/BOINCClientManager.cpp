@@ -144,10 +144,12 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     static FILE_LOCK file_lock;
     
     sprintf(path, "%s/%s", (char *)wxGetApp().GetDataDirectory().char_str(), LOCK_FILE_NAME);
-    if (file_lock.lock(path)) {
-        running = true;
-    } else {
-        file_lock.unlock(path);
+    if (boinc_file_exists(path)) {   // If there is no lock file, core is not running
+        if (file_lock.lock(path)) {
+            running = true;
+        } else {
+            file_lock.unlock(path);
+        }
     }
 #endif
     wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Returning '%d'"), (int)running);
