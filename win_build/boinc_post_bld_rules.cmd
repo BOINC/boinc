@@ -20,7 +20,7 @@ rem 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 rem
 
 FOR /F "usebackq delims==" %%I IN ('%1') DO set PROJECTROOTDIR=%%~I\..
-FOR /F "usebackq delims==" %%I IN ('%1') DO set DEPENDSROOTDIR=%%~I\..\..\boinc_depends_win_vs2005
+FOR /F "usebackq delims==" %%I IN ('%1') DO set DEPENDSROOTDIR=%%~I\..\..\boinc_depends_win_vs2005_6_8
 FOR /F "usebackq delims==" %%J IN ('%2') DO set OUTPUTDIR=%%~J
 FOR /F "usebackq delims==" %%K IN ('%3') DO set PLATFORMNAME=%%~K
 FOR /F "usebackq delims==" %%L IN ('%4') DO set CONFIGNAME=%%~L

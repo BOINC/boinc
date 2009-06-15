@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswu&quot;;..\..\boinc_depends_win_vs2005\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswu&quot;;..\..\boinc_depends_win_vs2005_6_8\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
 				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;__WXNDEBUG__;WXNDEBUG;_UNICODE;UNICODE;wxUSE_GUI=1;$(NOINHERIT)"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -67,7 +67,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005\wxwidgets\include;.."
+				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005_6_8\wxwidgets\include;.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -77,7 +77,7 @@
 				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28u.lib wxbase28u_net.lib wxbase28u_xml.lib wxmsw28u_adv.lib wxmsw28u_core.lib wxmsw28u_html.lib wxregexu.lib wxexpat.lib wxpng.lib wxjpeg.lib wxtiff.lib wxzlib.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005_6_8\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
@@ -143,7 +143,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswu&quot;;..\..\boinc_depends_win_vs2005\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswu&quot;;..\..\boinc_depends_win_vs2005_6_8\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
 				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;__WXNDEBUG__;WXNDEBUG;_UNICODE;UNICODE;wxUSE_GUI=1;$(NOINHERIT)"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -165,7 +165,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005\wxwidgets\include;.."
+				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005_6_8\wxwidgets\include;.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -175,7 +175,7 @@
 				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib oleaut32.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28u.lib wxbase28u_net.lib wxbase28u_xml.lib wxmsw28u_adv.lib wxmsw28u_core.lib wxmsw28u_html.lib wxregexu.lib wxexpat.lib wxpng.lib wxtiff.lib wxjpeg.lib wxzlib.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005_6_8\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
@@ -240,7 +240,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswud&quot;;..\..\boinc_depends_win_vs2005\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswud&quot;;..\..\boinc_depends_win_vs2005_6_8\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
 				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;_UNICODE;UNICODE;wxUSE_GUI=1;$(NOINHERIT)"
 				StringPooling="false"
 				MinimalRebuild="false"
@@ -267,7 +267,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005\wxwidgets\include;.."
+				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005_6_8\wxwidgets\include;.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -277,7 +277,7 @@
 				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib oleaut32.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28ud.lib wxbase28ud_net.lib wxbase28ud_xml.lib wxmsw28ud_adv.lib wxmsw28ud_core.lib wxmsw28ud_html.lib wxregexud.lib wxexpatd.lib wxjpegd.lib wxtiffd.lib wxpngd.lib wxzlibd.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005_6_8\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
@@ -340,7 +340,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswud&quot;;..\..\boinc_depends_win_vs2005\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswud&quot;;..\..\boinc_depends_win_vs2005_6_8\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
 				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;_UNICODE;UNICODE;wxUSE_GUI=1;$(NOINHERIT)"
 				StringPooling="false"
 				MinimalRebuild="false"
@@ -367,7 +367,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005\wxwidgets\include;.."
+				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005_6_8\wxwidgets\include;.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -377,7 +377,7 @@
 				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28ud.lib wxbase28ud_net.lib wxbase28ud_xml.lib wxmsw28ud_adv.lib wxmsw28ud_core.lib wxmsw28ud_html.lib wxregexud.lib wxexpatd.lib wxpngd.lib wxtiffd.lib wxjpegd.lib wxzlibd.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005_6_8\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
@@ -439,7 +439,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswud&quot;;..\..\boinc_depends_win_vs2005\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswud&quot;;..\..\boinc_depends_win_vs2005_6_8\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
 				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;wxUSE_GUI=1"
 				StringPooling="false"
 				MinimalRebuild="false"
@@ -466,7 +466,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005\wxwidgets\include;.."
+				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005_6_8\wxwidgets\include;.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -476,7 +476,7 @@
 				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28d.lib wxbase28d_net.lib wxbase28d_xml.lib wxmsw28d_adv.lib wxmsw28d_core.lib wxmsw28d_html.lib wxregexd.lib wxexpatd.lib wxpngd.lib wxjpegd.lib wxtiffd.lib wxzlibd.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005_6_8\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
@@ -539,7 +539,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswud&quot;;..\..\boinc_depends_win_vs2005\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswud&quot;;..\..\boinc_depends_win_vs2005_6_8\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
 				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;wxUSE_GUI=1"
 				StringPooling="false"
 				MinimalRebuild="false"
@@ -566,7 +566,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005\wxwidgets\include;.."
+				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005_6_8\wxwidgets\include;.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -576,7 +576,7 @@
 				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28d.lib wxbase28d_net.lib wxbase28d_xml.lib wxmsw28d_adv.lib wxmsw28d_core.lib wxmsw28d_html.lib wxregexd.lib wxexpatd.lib wxpngd.lib wxjpegd.lib wxtiffd.lib wxzlibd.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005_6_8\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
@@ -638,7 +638,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswu&quot;;..\..\boinc_depends_win_vs2005\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswu&quot;;..\..\boinc_depends_win_vs2005_6_8\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
 				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -660,7 +660,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005\wxwidgets\include;.."
+				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005_6_8\wxwidgets\include;.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -670,7 +670,7 @@
 				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28.lib wxbase28_net.lib wxbase28_xml.lib wxmsw28_adv.lib wxmsw28_core.lib wxmsw28_html.lib wxregex.lib wxexpat.lib wxpng.lib wxjpeg.lib wxtiff.lib wxzlib.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005_6_8\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
@@ -736,7 +736,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswu&quot;;..\..\boinc_depends_win_vs2005\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswu&quot;;..\..\boinc_depends_win_vs2005_6_8\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
 				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_DLL;__WXNDEBUG__;WXNDEBUG;wxUSE_GUI=1"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -758,7 +758,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005\wxwidgets\include;.."
+				AdditionalIncludeDirectories="..\..\boinc_depends_win_vs2005_6_8\wxwidgets\include;.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -768,7 +768,7 @@
 				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28.lib wxbase28_net.lib wxbase28_xml.lib wxmsw28_adv.lib wxmsw28_core.lib wxmsw28_html.lib wxregex.lib wxexpat.lib wxpng.lib wxtiff.lib wxjpeg.lib wxzlib.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005_6_8\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005_6_8\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"

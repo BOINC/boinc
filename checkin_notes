@@ -5676,3 +5676,19 @@ Rom    15 June 2009
         configure.ac
         version.h
         version.in
+
+Rom    15 June 2009
+    - WINBUILD: Update the project files to point to the 6_8 depends tree
+    - MGR: Remove the News tab
+    
+    clientgui/
+        AdvancedFrame.cpp
+    win_build/
+        boinc_cli.vcproj
+        boinc_post_bld_rules.cmd
+        boincmgr.vcproj
+        libboinc.vcproj
+        libboinc_staticcrt.vcproj
+        ptp_boinc_cli.vcproj
+        ptp_boincmgr.vcproj
+        sim.vcproj

@@ -45,7 +45,6 @@
 #include "ViewMessages.h"
 #include "ViewStatistics.h"
 #include "ViewResources.h"
-#include "ViewNews.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
 #include "DlgSelectComputer.h"
@@ -54,16 +53,10 @@
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
-//#include "WizardAccountManager.h"
 #include "DlgAdvPreferences.h"
 
 #include "res/connect.xpm"
 #include "res/disconnect.xpm"
-
-
-// Which of the view sets should we display.
-//
-//#define VIEW_LIST       2
 
 
 enum STATUSBARFIELDS {
@@ -224,11 +217,7 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxP
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
-#ifdef __WXMAC__
     m_pRefreshStateTimer->Start(300000);            // Send event every 5 minutes
-#else
-    m_pRefreshStateTimer->Start(5000);              // Send event every 5 seconds
-#endif
 
     m_pFrameRenderTimer = new wxTimer(this, ID_FRAMERENDERTIMER);
     wxASSERT(m_pFrameRenderTimer);
@@ -646,7 +635,6 @@ bool CAdvancedFrame::RepopulateNotebook() {
     CreateNotebookPage(new CViewMessages(m_pNotebook));
     CreateNotebookPage(new CViewStatistics(m_pNotebook));
     CreateNotebookPage(new CViewResources(m_pNotebook));
-    CreateNotebookPage(new CViewNews(m_pNotebook));
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RepopulateNotebook - Function End"));
     return true;
