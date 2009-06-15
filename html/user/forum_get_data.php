@@ -38,13 +38,17 @@ if (!$user) {
 
 if ($method == "user_posts") {
     $count = get_int("count", true);
-    if (!$count || $count <= 0 || $count > 50) { $count = 10; }
+    if (!$count || $count <= 0 || $count > 50) {
+        $count = 10;
+    }
     $length = get_int("contentlength", true);
-    if (($length == null) || ($length <= 0)) { $length = 0; }
+    if (($length == null) || ($length <= 0)) {
+        $length = 0;
+    }
     $posts = BoincPost::enum("user=$userid ORDER BY timestamp DESC LIMIT $count");
-    $count = count($posts);
+    $realcount = BoincPost::count("user=$userid");
     echo "<rpc_response>\n";
-    echo "<count>$count</count>\n";
+    echo "<count>$realcount</count>\n";
     echo "<posts>\n";
         
     foreach ($posts as $post) {

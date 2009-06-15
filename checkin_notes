@@ -5660,3 +5660,9 @@ Rom    14 June 2009
         acct_mgr_url.xml
     win_build/installerv2/redist/progress/    
         acct_mgr_url.xml
+
+David  14 June 2009
+    - web RPC: tweak to forum_get_data.php
+
+    html/user/
+        forum_get_data.php
