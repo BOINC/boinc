@@ -5688,3 +5688,9 @@ David  15 June 2009
 
     samples/wrapper/
         wrapper.cpp
+
+David  16 June 2009
+    - web: change "CPU time" to "run time"
+
+    html/inc/
+        result.inc

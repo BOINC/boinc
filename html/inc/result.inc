@@ -250,7 +250,7 @@ function result_table_start($show_wu_link, $show_host_link, $info) {
             <br><span class=\"smalltext\"><a href=\"explain_state.php?field=result_time\">explain</a></span>
         </th>
         <th>Status</th>
-        <th>CPU time (sec)</th>
+        <th>Run time (sec)</th>
         <th>claimed credit</th>
         <th>granted credit</th>
         </tr>
@@ -350,7 +350,7 @@ function show_result($result) {
     row2("Exit status", exit_status_string($result));
     row2("Computer ID", host_link($result->hostid));
     row2("Report deadline", time_str($result->report_deadline));
-    row2("CPU time", $result->cpu_time);
+    row2("Run time", $result->cpu_time);
     row2("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
     row2("Validate state", validate_state_str($result));
     row2("Claimed credit", $result->claimed_credit);
