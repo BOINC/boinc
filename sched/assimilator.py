@@ -180,9 +180,13 @@ class Assimilator():
                 if result == wu.canonical_result:
                     canonical_result=result
     
-            if canonical_result == None:
-                # something is wrong, flag an error
+            if canonical_result == None and wu.error_mask == 0:
+                # If no canonical result found and WU had no other errors,
+                # something is wrong, e.g. result records got deleted prematurely.
+                # This is probably unrecoverable, so mark the WU as having
+                # an assimilation error and keep going.
                 wu.error_mask = boinc_db.WU_ERROR_NO_CANONICAL_RESULT
+                wu.commit()
                 
             # assimilate handler
             self.assimilate_handler(wu, results, canonical_result)

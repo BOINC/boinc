@@ -5727,3 +5727,9 @@ David  16 June 2009
     Makefile.am
     lib/
         Makefile.am
+
+David  16 June 2009
+    - python assimilator fix
+
+    sched/
+        assimilator.py
