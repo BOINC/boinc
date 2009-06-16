@@ -64,6 +64,7 @@ typedef BOOL (CALLBACK* FreeFn)(LPCSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARG
 
 #include "util.h"
 #include "str_util.h"
+#include "str_replace.h"
 #include "error_numbers.h"
 #include "filesys.h"
 

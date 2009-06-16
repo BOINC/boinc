@@ -26,6 +26,7 @@
 #include "error_numbers.h"
 #include "client_msgs.h"
 #include "str_util.h"
+#include "str_replace.h"
 #include "file_names.h"
 #include "filesys.h"
 #include "client_state.h"

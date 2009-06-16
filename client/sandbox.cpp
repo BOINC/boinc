@@ -27,6 +27,7 @@
 #include "file_names.h"
 #include "util.h"
 #include "str_util.h"
+#include "str_replace.h"
 #include "filesys.h"
 #include "parse.h"
 #include "client_msgs.h"

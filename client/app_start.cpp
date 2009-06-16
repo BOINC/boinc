@@ -66,6 +66,7 @@ using std::string;
 #include "error_numbers.h"
 #include "util.h"
 #include "str_util.h"
+#include "str_replace.h"
 #include "shmem.h"
 #include "client_msgs.h"
 #include "client_state.h"

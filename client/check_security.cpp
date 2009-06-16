@@ -32,6 +32,7 @@
 #endif
 
 #include "util.h"
+#include "str_replace.h"
 #include "error_numbers.h"
 #include "file_names.h"
 

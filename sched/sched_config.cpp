@@ -29,11 +29,11 @@
 #include "error_numbers.h"
 #include "filesys.h"
 #include "str_util.h"
+#include "str_replace.h"
 
 #include "sched_msgs.h"
 #include "sched_util.h"
 #include "sched_config.h"
-
 
 const char* CONFIG_FILE = "config.xml";
 

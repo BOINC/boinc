@@ -5746,3 +5746,12 @@ Charlie 16 June 2009
 
     clientgui/
         BOINCClientManager.cpp
+
+David  16 June 2009
+    - lib: created a new file for declaring "replacements"
+        for functions like strlcpy() etc.
+        config.h is included here rather than in str_util.h
+
+    lib/
+        str_replace.h (new)
+    ... and a lot of .cpp's

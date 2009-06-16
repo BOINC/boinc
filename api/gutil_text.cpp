@@ -55,6 +55,7 @@ extern "C"{
 
 #include "filesys.h"
 #include "str_util.h"
+#include "str_replace.h"
 
 #include "gutil.h"
 

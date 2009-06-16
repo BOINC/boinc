@@ -28,6 +28,7 @@
 using std::deque;
 
 #include "log_flags.h"
+#include "str_replace.h"
 #include "client_types.h"
 #include "client_msgs.h"
 

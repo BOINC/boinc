@@ -17,6 +17,7 @@
 
 #include "boinc_db.h"
 #include "str_util.h"
+#include "str_replace.h"
 #include "parse.h"
 
 #include "server_types.h"

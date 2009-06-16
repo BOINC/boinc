@@ -42,6 +42,7 @@ using std::string;
 #include "error_numbers.h"
 #include "util.h"
 #include "str_util.h"
+#include "str_replace.h"
 #include "version.h"
 #include "common_defs.h"
 
