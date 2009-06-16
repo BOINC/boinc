@@ -5755,3 +5755,9 @@ David  16 June 2009
     lib/
         str_replace.h (new)
     ... and a lot of .cpp's
+
+David  16 June 2009
+    - pymw assimilator fixes from Jeremy
+
+    sched/
+        pymw_assimilator.py

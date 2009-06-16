@@ -1,7 +1,9 @@
 #!/usr/bin/env python
+
 import boinc_path_config
 from Boinc.assimilator import *
 import os, sys, shutil
+
 class PymwAssimilator(Assimilator):
     """
     PyMW Assimilator. Copies workunit results to a predefined output directory. 
@@ -10,6 +12,42 @@ class PymwAssimilator(Assimilator):
     def __init__(self):
         Assimilator.__init__(self)
         self.pymwDir = None
+
+    def _copy_to_output(self, result, error_mask=0):
+        # validate that the destination path still exists
+        if not os.path.exists(self.pymwDir):
+            self.logCritical("PyMW path does not exist or is inaccessible: %s\n", \
+                            self.pymwDir)
+            return
+        
+        resultFullPath = self.get_file_path(result)
+        resultName = re.search('<open_name>(.*)</open_name>',result.xml_doc_in).group(1)
+
+        # validate that the source path is accessible
+        if not error_mask and not os.path.exists(resultFullPath):
+            self.logCritical("Result path does not exist or is inaccessible: %s\n", \
+                            resultFullPath)
+            return
+        
+        # copy the file to the output directory where it
+        # will be processed by PyMW
+        try:
+            dest = os.path.join(self.pymwDir, resultName)
+            if error_mask:
+                dest += ".error"
+                f = open(dest, "w")
+                try: f.writelines("BOINC error: " + error_mask)
+                finally: f.close()
+                self.logNormal("Error flag created [%s]\n", resultName)
+            else:
+                shutil.copy2(resultFullPath, dest)
+                self.logNormal("Result copied [%s]\n", resultName)
+        except Exception:
+            self.logCritical("Error copying output\n" + \
+                             "  - Source: %s\n" + \
+                             "  - Dest: %s\n" + 
+                             "  - Error: %s",
+                             resultFullPath, dest, Exception)
     
     def assimilate_handler(self, wu, results, canonical_result):
         """
@@ -20,39 +58,20 @@ class PymwAssimilator(Assimilator):
         # check for valid wu.canonical_result
         if wu.canonical_result:
             self.logNormal("[%s] Found canonical result\n", wu.name)
-            
-            # validate that the destination path still exists
-            if not os.path.exists(self.pymwDir):
-                self.logCritical("PyMW path does not exist or is inaccessible: %s\n", \
-                                self.pymwDir)
-                return
-            
-            resultFullPath = self.get_file_path(canonical_result)
-            resultName = re.search('<open_name>(.*)</open_name>',canonical_result.xml_doc_in).group(1)
-            
-            # validate that the source path is accessible
-            if not os.path.exists(resultFullPath):
-                self.logCritical("Result path does not exist or is inaccessible: %s\n", \
-                                resultFullPath)
-                return
-            
-            # copy the file to the output directory where it
-            # will be processed by PyMW
-            try:
-                dest = os.path.join(self.pymwDir, resultName)
-                shutil.copy2(resultFullPath, dest)
-                self.logNormal("Result copied [%s]\n", resultName)
-            except Exception:
-                self.logCritical("Error copying output\n" + \
-                                 "  - Source: %s\n" + \
-                                 "  - Dest: %s\n" + 
-                                 "  - Error: %s",
-                                 resultFullPath, dest, Exception)
+            self._copy_to_output(canonical_result, wu.error_mask)
+        elif wu.error_mask != 0:
+            # this is an error
+            self.logNormal("[%s] Workunit failed, sending arbitrary result\n", wu.name)
+            self._copy_to_output(results[0], wu.error_mask)
+            self.logNormal("[%s] No canonical result\n", wu.name)
         else:
             self.logNormal("[%s] No canonical result\n", wu.name)
+
         # report errors with the workunit
         if self.report_errors(wu):
             pass    
+
+
     def parse_args(self, args):
         """
         This overridden version adds support for a PyMW destination directory.
