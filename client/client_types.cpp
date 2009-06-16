@@ -929,7 +929,7 @@ int FILE_INFO::delete_file() {
 // The is_upload arg says which kind you want.
 // NULL return means there is no URL of the requested type
 //
-const char* FILE_INFO::get_init_url(bool is_upload) {
+const char* FILE_INFO::get_init_url() {
     if (!urls.size()) {
         return NULL;
     }
@@ -956,7 +956,7 @@ const char* FILE_INFO::get_init_url(bool is_upload) {
 // Call this to get the next URL of the indicated type.
 // NULL return means you've tried them all.
 //
-const char* FILE_INFO::get_next_url(bool is_upload) {
+const char* FILE_INFO::get_next_url() {
     if (!urls.size()) return NULL;
     while(1) {
         current_url = (current_url + 1)%((int)urls.size());
@@ -967,9 +967,9 @@ const char* FILE_INFO::get_next_url(bool is_upload) {
     }
 }
 
-const char* FILE_INFO::get_current_url(bool is_upload) {
+const char* FILE_INFO::get_current_url() {
     if (current_url < 0) {
-        return get_init_url(is_upload);
+        return get_init_url();
     }
     if (current_url >= (int)urls.size()) {
         msg_printf(project, MSG_INTERNAL_ERROR,

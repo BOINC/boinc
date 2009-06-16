@@ -559,3 +559,12 @@ int CLIENT_STATE::parse_host(char* name) {
 int IP_RESULT::parse(FILE*) {
     return 0;
 }
+
+bool boinc_is_finite(double x) {
+#if defined (HPUX_SOURCE)
+    return _Isfinite(x);
+    return false;
+#else
+    return finite(x);
+#endif
+}

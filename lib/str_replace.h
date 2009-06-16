@@ -20,7 +20,9 @@
 #ifndef STR_REPLACE_H
 #define STR_REPLACE_H
 
+#ifndef _WIN32
 #include "config.h"
+#endif
 
 #if !defined(HAVE_STRLCPY)
 extern size_t strlcpy(char*, const char*, size_t);

@@ -63,7 +63,7 @@ int PERS_FILE_XFER::init(FILE_INFO* f, bool is_file_upload) {
     fip = f;
     is_upload = is_file_upload;
     pers_xfer_done = false;
-    const char* p = f->get_init_url(is_file_upload);
+    const char* p = f->get_init_url();
     if (!p) {
         msg_printf(NULL, MSG_INTERNAL_ERROR, "No URL for file transfer of %s", f->name);
         return ERR_NULL;
@@ -134,7 +134,7 @@ int PERS_FILE_XFER::create_xfer() {
             );
             msg_printf(
                 fip->project, MSG_INFO, "[file_xfer_debug] URL %s: %s",
-                fip->get_current_url(is_upload), boincerror(retval)
+                fip->get_current_url(), boincerror(retval)
             );
         }
 
@@ -153,7 +153,7 @@ int PERS_FILE_XFER::create_xfer() {
     if (log_flags.file_xfer_debug) {
         msg_printf(fip->project, MSG_INFO,
             "[file_xfer_debug] URL: %s\n",
-            fip->get_current_url(is_upload)
+            fip->get_current_url()
         );
     }
     return 0;
@@ -311,7 +311,7 @@ void PERS_FILE_XFER::transient_failure(int retval) {
     // Otherwise immediately try the next URL
     //
 
-    if (fip->get_next_url(is_upload)) {
+    if (fip->get_next_url()) {
         start_xfer();
     } else {
         do_backoff();

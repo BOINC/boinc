@@ -174,9 +174,9 @@ void boinc_close_socket(int sock) {
 }
 
 int get_socket_error(int fd) {
-    socklen_t intsize = sizeof(int);
     int n;
 #if defined(_WIN32) && defined(USE_WINSOCK)
+    int intsize = sizeof(int);
     getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, &intsize);
 #elif defined(__FreeBSD__)
     // workaround for FreeBSD. I don't understand this.
@@ -184,6 +184,7 @@ int get_socket_error(int fd) {
     socklen_t sinsz = sizeof(sin);
     n = getpeername(fd, (struct sockaddr *)&sin, &sinsz);
 #else
+    socklen_t intsize = sizeof(int);
     getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, (socklen_t*)&intsize);
 #endif
     return n;
