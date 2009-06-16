@@ -5721,4 +5721,9 @@ David  16 June 2009
         parse.h
         util.cpp
 
+David  16 June 2009
+    - build system: don't install config.h
 
+    Makefile.am
+    lib/
+        Makefile.am

@@ -39,7 +39,6 @@ EXTRA_DIST =                                    \
 
 if INSTALL_HEADERS
 pkginclude_HEADERS = \
-    config.h \
     version.h
 endif
 

@@ -121,7 +121,6 @@ pkginclude_HEADERS = \
     std_fixes.h \
     str_util.h \
     synch.h \
-    unix_util.h \
     util.h \
     win_util.h \
     $(mac_headers)
