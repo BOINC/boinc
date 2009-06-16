@@ -71,5 +71,10 @@ CFLAGS="${B_SV_CFLAGS}"
 CPPFLAGS="${B_SV_CPPFLAGS}"
 AC_DEFINE_UNQUOTED([BOINC_SOCKLEN_T],[${boinc_cv_getsockopt_type}],[Define to the type pointed to by the 5th parameter of getsockopt])
 AC_LANG_POP(C)
+AH_BOTTOM([
+#ifndef HAVE_SOCKLEN_T
+typedef BOINC_SOCKLEN_T socklen_t;
+#endif
+])
 ])
 

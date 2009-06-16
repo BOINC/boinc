@@ -174,7 +174,7 @@ void boinc_close_socket(int sock) {
 }
 
 int get_socket_error(int fd) {
-    boinc_socklen_t intsize = sizeof(int);
+    socklen_t intsize = sizeof(int);
     int n;
 #if defined(_WIN32) && defined(USE_WINSOCK)
     getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, &intsize);

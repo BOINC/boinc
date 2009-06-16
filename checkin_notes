@@ -5700,3 +5700,13 @@ David  16 June 2009
 
     client/
         client_types.cpp,h
+
+David  16 June 2009
+    - don't include config.h from network.h (Gabor Gombas)
+
+    client/
+        gui_rpc_server.cpp
+    m4/
+        boinc_getsockopt.m4
+    lib/
+        network.cpp,h
