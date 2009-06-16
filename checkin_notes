@@ -3027,3 +3027,9 @@ Charlie 12 June 2009
         BOINCGUIApp.cpp
     lib/
         procinfo_mac.cpp
+
+Charlie 16 June 2009
+    - MGR: Compile fix.
+
+    clientgui/
+        BOINCClientManager.cpp
