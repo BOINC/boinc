@@ -5710,3 +5710,15 @@ David  16 June 2009
         boinc_getsockopt.m4
     lib/
         network.cpp,h
+
+David  16 June 2009
+    - don't include config.h from parse.h
+    - manager: compile fix
+
+    clientgui/
+        BOINCClientManager.cpp
+    lib/
+        parse.h
+        util.cpp
+
+

@@ -21,18 +21,10 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
-#include "config.h"
 #include <cstdio>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <math.h>
-#ifdef HAVE_IEEEFP_H
-#include <ieeefp.h>
-extern "C" {
-int finite(double);
-}
-#endif
 #endif
 
 #include "miofile.h"
@@ -55,6 +47,8 @@ public:
 	int element_contents(const char*, char*, int);
     void skip_unexpected(const char*, bool verbose, const char*);
 };
+
+extern bool boinc_is_finite(double);
 
 /////////////// START DEPRECATED XML PARSER
 // Deprecated because it makes assumptions about
@@ -92,15 +86,11 @@ inline bool parse_double(const char* buf, const char* tag, double& x) {
     const char* p = strstr(buf, tag);
     if (!p) return false;
     y = atof(p+strlen(tag));
-#if defined (HPUX_SOURCE)
-    if (_Isfinite(y)) {
-#else
-    if (finite(y)) {
-#endif
-        x = y;
-        return true;
+    if (!boinc_is_finite(y)) {
+        return false;
     }
-    return false;
+    x = y;
+    return true;
 }
 
 extern bool parse(char* , char* );

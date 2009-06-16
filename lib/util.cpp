@@ -39,6 +39,12 @@
 #include <errno.h>
 #include <string>
 #include <cstring>
+#ifdef HAVE_IEEEFP_H
+#include <ieeefp.h>
+extern "C" {
+    int finite(double);
+}
+#endif
 #endif
 
 #include "error_numbers.h"
@@ -518,6 +524,15 @@ int wait_client_mutex(const char* dir, double timeout) {
         if (dtime() - start > timeout) break;
     }
     return ERR_ALREADY_RUNNING;
+}
+
+bool boinc_is_finite(double x) {
+#if defined (HPUX_SOURCE)
+    return _Isfinite(x);
+    return false;
+#else
+    return finite(x);
+#endif
 }
 
 const char *BOINC_RCSID_ab65c90e1e = "$Id$";
