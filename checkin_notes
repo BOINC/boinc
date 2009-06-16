@@ -5694,3 +5694,9 @@ David  16 June 2009
 
     html/inc/
         result.inc
+
+David  16 June 2009
+    - client: don't require that file upload URLs contain "file_upload_handler".
+
+    client/
+        client_types.cpp,h

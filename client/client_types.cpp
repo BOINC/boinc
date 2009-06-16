@@ -949,19 +949,7 @@ const char* FILE_INFO::get_init_url(bool is_upload) {
     current_url = (int)temp;
 #endif
     start_url = current_url;
-    while(1) {
-        if (!is_correct_url_type(is_upload, urls[current_url])) {
-            current_url = (current_url + 1)%((int)urls.size());
-            if (current_url == start_url) {
-                msg_printf(project, MSG_INTERNAL_ERROR,
-                    "Couldn't find suitable URL for %s", name);
-                return NULL;
-            }
-        } else {
-            start_url = current_url;
-            return urls[current_url].c_str();
-        }
-    }
+    return urls[current_url].c_str();
 }
 
 // Call this to get the next URL of the indicated type.
@@ -974,9 +962,7 @@ const char* FILE_INFO::get_next_url(bool is_upload) {
         if (current_url == start_url) {
             return NULL;
         }
-        if (is_correct_url_type(is_upload, urls[current_url])) {
-            return urls[current_url].c_str();
-        }
+        return urls[current_url].c_str();
     }
 }
 
@@ -991,18 +977,6 @@ const char* FILE_INFO::get_current_url(bool is_upload) {
         return NULL;
     }
     return urls[current_url].c_str();
-}
-
-// Checks if the URL includes the phrase "file_upload_handler"
-// This indicates the URL is an upload url
-// 
-bool FILE_INFO::is_correct_url_type(bool is_upload, std::string& url) {
-    const char* has_str = strstr(url.c_str(), "file_upload_handler");
-    if ((is_upload && !has_str) || (!is_upload && has_str)) {
-        return false;
-    } else {
-        return true;
-    }
 }
 
 // merges information from a new FILE_INFO that has the same name as one

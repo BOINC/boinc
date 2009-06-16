@@ -114,7 +114,6 @@ public:
     const char* get_init_url(bool);
     const char* get_next_url(bool);
     const char* get_current_url(bool);
-    bool is_correct_url_type(bool, std::string&);
     bool had_failure(int& failnum);
     void failure_message(std::string&);
     int merge_info(FILE_INFO&);
