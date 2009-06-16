@@ -5740,3 +5740,9 @@ David  16 June 2009
 
     client/
         app_start.cpp
+
+Charlie 16 June 2009
+    - MGR: Compile fix of Rom's fix to David's compile fix.
+
+    clientgui/
+        BOINCClientManager.cpp
