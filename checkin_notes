@@ -5701,3 +5701,9 @@ Charlie 15 June 2009
 
     clientgui/
         BOINCClientManager.cpp
+
+Charlie 16 June 2009
+    - MGR: Compile fix.
+
+    clientgui/
+        BOINCClientManager.cpp
