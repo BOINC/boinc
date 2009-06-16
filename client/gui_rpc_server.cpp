@@ -250,7 +250,7 @@ int GUI_RPC_CONN_SET::init(bool last_time) {
     int one = 1;
     setsockopt(lsock, SOL_SOCKET, SO_REUSEADDR, (char*)&one, 4);
 
-    retval = bind(lsock, (const sockaddr*)(&addr), (boinc_socklen_t)sizeof(addr));
+    retval = bind(lsock, (const sockaddr*)(&addr), (BOINC_SOCKLEN_T)sizeof(addr));
     if (retval) {
 #ifndef _WIN32
         retval = errno;     // Display the real error code
@@ -367,8 +367,8 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
             return;
         }
 
-        boinc_socklen_t addr_len = sizeof(addr);
-        sock = accept(lsock, (struct sockaddr*)&addr, (boinc_socklen_t*)&addr_len);
+        BOINC_SOCKLEN_T addr_len = sizeof(addr);
+        sock = accept(lsock, (struct sockaddr*)&addr, (BOINC_SOCKLEN_T*)&addr_len);
         if (sock == -1) {
             return;
         }

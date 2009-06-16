@@ -49,9 +49,7 @@ extern const char* socket_error_str();
 extern void reset_dns();
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
-typedef int boinc_socklen_t;
-#else
-typedef BOINC_SOCKLEN_T boinc_socklen_t;
+typedef int BOINC_SOCKLEN_T;
 #endif
 
 #ifndef NETWORK_ALIVE_LAN

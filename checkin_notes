@@ -5761,3 +5761,11 @@ David  16 June 2009
 
     sched/
         pymw_assimilator.py
+
+David  16 June 2009
+    - compile fixes for Linux
+
+    client/
+        gui_rpc_server.cpp
+    lib/
+        network.h
