@@ -5769,3 +5769,14 @@ David  16 June 2009
         gui_rpc_server.cpp
     lib/
         network.h
+        
+Charlie 16 June 2009
+    - MGR: Fix Mac compile error in addition of DYLIB_LIBRARY_PATH.
+    - MGR: Fix several Mac build breaks due to addition of str_replace.h 
+        (had to add ../lib to search paths of several targets.)
+        
+    client/
+        app_start.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

@@ -2841,6 +2841,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2854,6 +2855,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2868,6 +2870,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2882,6 +2885,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3205,6 +3209,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_VERSION_ppc = 3.3;
+				HEADER_SEARCH_PATHS = ../lib;
+				LIBRARY_SEARCH_PATHS = ../lib;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Dev_noSandbox;
@@ -3213,6 +3219,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_VERSION_ppc = 3.3;
+				HEADER_SEARCH_PATHS = ../lib;
+				LIBRARY_SEARCH_PATHS = ../lib;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Deploy_noSandbox;
@@ -3343,6 +3351,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3364,6 +3373,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -3455,6 +3465,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3468,6 +3479,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3967,6 +3979,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_VERSION_ppc = 3.3;
+				HEADER_SEARCH_PATHS = ../lib;
+				LIBRARY_SEARCH_PATHS = ../lib;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = "Deployment-no64";
@@ -4013,6 +4027,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -4060,6 +4075,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -4198,6 +4214,8 @@
 					x86_64,
 				);
 				GCC_VERSION_ppc = 3.3;
+				HEADER_SEARCH_PATHS = ../lib;
+				LIBRARY_SEARCH_PATHS = ../lib;
 				"OTHER_CFLAGS[arch=ppc]" = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1030",
 					"-D_THREAD_SAFE",
@@ -4295,6 +4313,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -4426,6 +4445,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_VERSION_ppc = 3.3;
+				HEADER_SEARCH_PATHS = ../lib;
+				LIBRARY_SEARCH_PATHS = ../lib;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Development;
@@ -4434,6 +4455,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_VERSION_ppc = 3.3;
+				HEADER_SEARCH_PATHS = ../lib;
+				LIBRARY_SEARCH_PATHS = ../lib;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = ppc_Deployment;
@@ -4562,6 +4585,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -4584,6 +4608,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",
@@ -4767,6 +4792,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_VERSION_ppc = 3.3;
+				HEADER_SEARCH_PATHS = ../lib;
+				LIBRARY_SEARCH_PATHS = ../lib;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = i386_Deployment;
@@ -4835,6 +4862,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = stabs;
+				HEADER_SEARCH_PATHS = ../lib;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1040",

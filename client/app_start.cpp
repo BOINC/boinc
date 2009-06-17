@@ -830,7 +830,7 @@ int ACTIVE_TASK::start(bool first_time) {
         // On the Mac, do the same for DYLIB_LIBRARY_PATH
         //
 #ifdef __APPLE__
-        char* p = getenv("DYLIB_LIBRARY_PATH");
+        p = getenv("DYLIB_LIBRARY_PATH");
         if (p) {
             sprintf(libpath, "../../%s:.:../..:%s", buf, p);
         } else {
