@@ -287,17 +287,6 @@ int update_data() {
     return retval;
 }
 
-static void init_camera(double dist) {
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(
-        45.0,       // field of view in degree
-        1.0,        // aspect ratio
-        1.0,        // Z near clip
-        1000.0      // Z far
-    );
-}
-
 struct FADER {
     double grow, on, fade, off;
     double start, total;

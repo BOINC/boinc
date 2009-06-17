@@ -5780,3 +5780,9 @@ Charlie 16 June 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  17 June 2009
+    - SS: remove unused func
+
+    clientscr/
+        ss_app.cpp
