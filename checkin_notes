@@ -5707,3 +5707,11 @@ Charlie 16 June 2009
 
     clientgui/
         BOINCClientManager.cpp
+
+Rom    17 June 2009
+    - Tag for 6.8.0 release, all platforms
+      boinc_core_release_6_8_0
+
+    /
+        configure.ac
+        version.h
