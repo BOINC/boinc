@@ -836,7 +836,7 @@ bool find_site_cookie_ie(
 //   undocumented.
 //
 bool detect_cookie_ie_unsupported(std::string& project_url, std::string& name, std::string& value) {
-    char        buf[512];
+    char        buf[512], buf2[512];
     int         i;
     std::string cookie_path;
     std::string username;
@@ -846,6 +846,7 @@ bool detect_cookie_ie_unsupported(std::string& project_url, std::string& name, s
     // Initialize variables
     i = 0;
     strcpy(buf, "");
+    strcpy(buf2, "");
 
     // Determine which path to look for the cookie files in
     get_internet_explorer_cookie_path(true, cookie_path);
@@ -869,16 +870,31 @@ bool detect_cookie_ie_unsupported(std::string& project_url, std::string& name, s
         //
         // Construct the host cookie file name
         //
+
+        // Original naming scheme
         snprintf(buf, sizeof(buf), "%s%s@%s[%d].txt", cookie_path.c_str(), username.c_str(), hostname.c_str(), i);
         if (find_site_cookie_ie((char*)&buf, hostname, name, value)) {
             break;
         }
+
+        // IE 7.x or better
+        string_substitute(buf, buf2, sizeof(buf2), " ", "_");
+        if (find_site_cookie_ie((char*)&buf2, hostname, name, value)) {
+            break;
+        }
+
 
         //
         // Construct the domainname cookie file name
         //
         snprintf(buf, sizeof(buf), "%s%s@%s[%d].txt", cookie_path.c_str(), username.c_str(), domainname.c_str(), i);
         if (find_site_cookie_ie((char*)&buf, domainname, name, value)) {
+            break;
+        }
+
+        // IE 7.x or better
+        string_substitute(buf, buf2, sizeof(buf2), " ", "_");
+        if (find_site_cookie_ie((char*)&buf2, domainname, name, value)) {
             break;
         }
     }
