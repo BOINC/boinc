@@ -5804,3 +5804,9 @@ Rom    18 June 2009
         
     clientgui/
         browser.cpp
+
+David  18 June 2009
+    - setup script: remove old pymw stuff
+
+    py/Boinc/
+        setup_project.py

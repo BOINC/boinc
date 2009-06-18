@@ -4,6 +4,14 @@ $biomed = array(
     "Biology and Medicine",
     array(
         array(
+            "POEM@HOME",
+            "http://boinc.fzk.de/poem/",
+            "University of Karlsruhe",
+            "Protein structure prediction",
+            "POEM@HOME uses a computational approach to predict the biologically active structure of proteins, to understand the signal-processing mechanisms when the proteins interact with one another, to understand diseases related to protein malfunction or aggregation, and to develop new drugs on the basis of the three-dimensions structure of biologically important proteins.",
+            "poem.jpg"
+        ),
+        array(
             "Docking@Home",
             "http://docking.cis.udel.edu/",
             "University of Delaware",
