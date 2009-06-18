@@ -5709,3 +5709,12 @@ Rom    18 June 2009
         
     clientgui/
         browser.cpp
+
+Rom    18 June 2009
+    - MGR: Fix the case where user visits Grid Republic with IE 7 and
+        has a space character in their username.  IE6 and below kept
+        the space as part of the filename, IE7 and above replace the
+        space with an underscore.
+        
+    clientgui/
+        browser.cpp
