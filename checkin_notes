@@ -5718,3 +5718,11 @@ Rom    18 June 2009
         
     clientgui/
         browser.cpp
+
+Rom    18 June 2009
+    - Tag for 6.8.1 release, all platforms
+      boinc_core_release_6_8_1
+
+    /
+        configure.ac
+        version.h
