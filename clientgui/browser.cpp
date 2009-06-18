@@ -665,6 +665,7 @@ bool detect_cookie_firefox_3(
 bool detect_cookie_ie_supported(std::string& project_url, std::string& name, std::string& value)
 {
     bool        bReturnValue = false;
+    bool        bCheckDomainName = false;
     char        szCookieBuffer[2048];
     char*       pszCookieFragment = NULL;
     DWORD       dwSize = sizeof(szCookieBuffer)/sizeof(char);
@@ -680,38 +681,44 @@ bool detect_cookie_ie_supported(std::string& project_url, std::string& name, std
     //   (i.e. www.worldcommunitygrid.org becomes worldcommunitygrid.org
     parse_hostname_ie_compatible(project_url, hostname, domainname);
 
+    // InternetGetCookie expects them in URL format
+    hostname = std::string("http://") + hostname + std::string("/");
+    domainname = std::string("http://") + domainname + std::string("/");
+
+    // First check to see if the desired cookie is assigned to the hostname.
     bReturnValue = InternetGetCookieA(hostname.c_str(), NULL, szCookieBuffer, &dwSize) == TRUE;
-	if (!bReturnValue) bReturnValue = InternetGetCookieA(domainname.c_str(), NULL, szCookieBuffer, &dwSize) == TRUE;
-    if (bReturnValue)
-    {
-        // reset this becuase at this point we just know that we found some cookies for the website.  We don't
-        // know if we actually found the Setup cookie
-        //
-        bReturnValue = false;
+    if (!bReturnValue || (!strstr(szCookieBuffer, name.c_str()))) {
+        bCheckDomainName = true;
+    }
 
-        // Format of cookie buffer:
-        // 'cookie1=value1; cookie2=value2; cookie3=value3;
-        //
-        pszCookieFragment = strtok(szCookieBuffer, "; ");
-        while(pszCookieFragment)
-        {
-            // Convert to a std::string so we can go to town
-            strCookieFragment = pszCookieFragment;
-
-            // Extract the name & value
-            uiDelimeterLocation = strCookieFragment.find("=", 0);
-            strCookieName = strCookieFragment.substr(0, uiDelimeterLocation);
-            strCookieValue = strCookieFragment.substr(uiDelimeterLocation + 1);
-
-            if (name == strCookieName)
-            {
-                // Now we found it!  Yea - auto attach!
-                value = strCookieValue;
-                bReturnValue = true;
-            }
-
-            pszCookieFragment = strtok(NULL, "; ");
+    // Next check if it was assigned to the domainname.
+    if (bCheckDomainName) {
+        bReturnValue = InternetGetCookieA(domainname.c_str(), NULL, szCookieBuffer, &dwSize) == TRUE;
+        if (!bReturnValue || (!strstr(szCookieBuffer, name.c_str()))) {
+            return false;
         }
+    }
+
+    // Format of cookie buffer:
+    // 'cookie1=value1; cookie2=value2; cookie3=value3;
+    //
+    pszCookieFragment = strtok(szCookieBuffer, "; ");
+    while(pszCookieFragment) {
+        // Convert to a std::string so we can go to town
+        strCookieFragment = pszCookieFragment;
+
+        // Extract the name & value
+        uiDelimeterLocation = strCookieFragment.find("=", 0);
+        strCookieName = strCookieFragment.substr(0, uiDelimeterLocation);
+        strCookieValue = strCookieFragment.substr(uiDelimeterLocation + 1);
+
+        if (name == strCookieName) {
+            // Now we found it!  Yea - auto attach!
+            value = strCookieValue;
+            bReturnValue = true;
+        }
+
+        pszCookieFragment = strtok(NULL, "; ");
     }
 
     return bReturnValue;
@@ -859,13 +866,17 @@ bool detect_cookie_ie_unsupported(std::string& project_url, std::string& name, s
     //   manager or BOINC project there is a problem with
     //   the design.
     for ( i = 1; i <= 10; ++i ) {
+        //
         // Construct the host cookie file name
+        //
         snprintf(buf, sizeof(buf), "%s%s@%s[%d].txt", cookie_path.c_str(), username.c_str(), hostname.c_str(), i);
         if (find_site_cookie_ie((char*)&buf, hostname, name, value)) {
             break;
         }
 
+        //
         // Construct the domainname cookie file name
+        //
         snprintf(buf, sizeof(buf), "%s%s@%s[%d].txt", cookie_path.c_str(), username.c_str(), domainname.c_str(), i);
         if (find_site_cookie_ie((char*)&buf, domainname, name, value)) {
             break;
