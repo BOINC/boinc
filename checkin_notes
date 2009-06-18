@@ -5786,3 +5786,12 @@ David  17 June 2009
 
     clientscr/
         ss_app.cpp
+
+Rom    18 June 2009
+    - MGR: Fix browser cookie lookup bug I introduced when I added
+        support for looking up cookies in Internet Explorer low rights
+        environments. InternetGetCookie expects the hostname and
+        domainname to be presented as URLs.
+        
+    clientgui/
+        browser.cpp
