@@ -123,13 +123,13 @@ void CProjectInfoPage::CreateControls()
     m_pDescriptionStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer24->Add(m_pDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer3 = new wxFlexGridSizer(1, 1, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer3 = new wxFlexGridSizer(2, 1, 0, 0);
     itemFlexGridSizer3->AddGrowableRow(0);
     itemFlexGridSizer3->AddGrowableCol(0);
     itemBoxSizer24->Add(itemFlexGridSizer3, 1, wxGROW|wxALL, 5);
 
     m_pProjectListCtrl = new CProjectListCtrl;
-    m_pProjectListCtrl->Create( itemWizardPage23, wxSize(250,185) );
+    m_pProjectListCtrl->Create( itemWizardPage23, wxSize(250,155) );
     itemFlexGridSizer3->Add(m_pProjectListCtrl, 0, wxGROW|wxRIGHT, 10);
 
     wxFlexGridSizer* itemFlexGridSizer11 = new wxFlexGridSizer(2, 1, 0, 0);
@@ -142,7 +142,7 @@ void CProjectInfoPage::CreateControls()
 
     wxFlexGridSizer* itemFlexGridSizer14 = new wxFlexGridSizer(1, 2, 0, 0);
     itemFlexGridSizer14->AddGrowableCol(1);
-    itemBoxSizer22->Add(itemFlexGridSizer14, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT, 10);
+    itemBoxSizer24->Add(itemFlexGridSizer14, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT, 10);
 
     m_pProjectUrlStaticCtrl = new wxStaticText;
     m_pProjectUrlStaticCtrl->Create( itemWizardPage23, ID_PROJECTURLSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );

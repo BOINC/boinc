@@ -122,9 +122,6 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
     m_ErrProxyPage = NULL;
 ////@end CWizardAttachProject member initialisation
   
-    // Wizard support
-    m_ulDiagFlags = 0;
-
     // Cancel Checking
     m_bCancelInProgress = false;
  
@@ -132,7 +129,6 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
     IsAttachToProjectWizard = true;
     IsAccountManagerWizard = false;
     IsAccountManagerUpdateWizard = false;
-    IsAccountManagerRemoveWizard = false;
 
     // Global wizard status
     project_config.clear();
@@ -193,18 +189,6 @@ void CWizardAttachProject::CreateControls()
     m_WelcomePage->Create( itemWizard1 );
     GetPageAreaSizer()->Add(m_WelcomePage);
 
-    m_ProjectInfoPage = new CProjectInfoPage;
-    m_ProjectInfoPage->Create( itemWizard1 );
-    GetPageAreaSizer()->Add(m_ProjectInfoPage);
-
-    m_ProjectPropertiesPage = new CProjectPropertiesPage;
-    m_ProjectPropertiesPage->Create( itemWizard1 );
-    GetPageAreaSizer()->Add(m_ProjectPropertiesPage);
-
-    m_ProjectProcessingPage = new CProjectProcessingPage;
-    m_ProjectProcessingPage->Create( itemWizard1 );
-    GetPageAreaSizer()->Add(m_ProjectProcessingPage);
-
     m_AccountManagerInfoPage = new CAccountManagerInfoPage;
     m_AccountManagerInfoPage->Create( itemWizard1 );
     GetPageAreaSizer()->Add(m_AccountManagerInfoPage);
@@ -216,6 +200,18 @@ void CWizardAttachProject::CreateControls()
     m_AccountManagerProcessingPage = new CAccountManagerProcessingPage;
     m_AccountManagerProcessingPage->Create( itemWizard1 );
     GetPageAreaSizer()->Add(m_AccountManagerProcessingPage);
+
+    m_ProjectInfoPage = new CProjectInfoPage;
+    m_ProjectInfoPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ProjectInfoPage);
+
+    m_ProjectPropertiesPage = new CProjectPropertiesPage;
+    m_ProjectPropertiesPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ProjectPropertiesPage);
+
+    m_ProjectProcessingPage = new CProjectProcessingPage;
+    m_ProjectProcessingPage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ProjectProcessingPage);
 
     m_AccountInfoPage = new CAccountInfoPage;
     m_AccountInfoPage->Create( itemWizard1 );
@@ -264,24 +260,98 @@ void CWizardAttachProject::CreateControls()
 ////@end CWizardAttachProject content construction
 
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls - Begin Page Map"));
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_WelcomePage = id: '%d', location: '%p'"), m_WelcomePage->GetId(), m_WelcomePage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectInfoPage = id: '%d', location: '%p'"), m_ProjectInfoPage->GetId(), m_ProjectInfoPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectPropertiesPage = id: '%d', location: '%p'"), m_ProjectPropertiesPage->GetId(), m_ProjectPropertiesPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ProjectProcessingPage = id: '%d', location: '%p'"), m_ProjectProcessingPage->GetId(), m_ProjectProcessingPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_AccountManagerInfoPage = id: '%d', location: '%p'"), m_AccountManagerInfoPage->GetId(), m_AccountManagerInfoPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_AccountManagerPropertiesPage = id: '%d', location: '%p'"), m_AccountManagerPropertiesPage->GetId(), m_AccountManagerPropertiesPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_AccountManagerProcessingPage = id: '%d', location: '%p'"), m_AccountManagerProcessingPage->GetId(), m_AccountManagerProcessingPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_TermsOfUsePage = id: '%d', location: '%p'"), m_TermsOfUsePage->GetId(), m_TermsOfUsePage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p'"), m_AccountInfoPage->GetId(), m_AccountInfoPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_CompletionPage = id: '%d', location: '%p'"), m_CompletionPage->GetId(), m_CompletionPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_CompletionErrorPage = id: '%d', location: '%p'"), m_CompletionErrorPage->GetId(), m_CompletionErrorPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrNotDetectedPage = id: '%d', location: '%p'"), m_ErrNotDetectedPage->GetId(), m_ErrNotDetectedPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrUnavailablePage = id: '%d', location: '%p'"), m_ErrUnavailablePage->GetId(), m_ErrUnavailablePage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrNoInternetConnectionPage = id: '%d', location: '%p'"), m_ErrNoInternetConnectionPage->GetId(), m_ErrNoInternetConnectionPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrNotFoundPage = id: '%d', location: '%p'"), m_ErrNotFoundPage->GetId(), m_ErrNotFoundPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrAlreadyExistsPage = id: '%d', location: '%p'"), m_ErrAlreadyExistsPage->GetId(), m_ErrAlreadyExistsPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrProxyInfoPage = id: '%d', location: '%p'"), m_ErrProxyInfoPage->GetId(), m_ErrProxyInfoPage);
-    wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls -     m_ErrProxyPage = id: '%d', location: '%p'"), m_ErrProxyPage->GetId(), m_ErrProxyPage);
+
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_WelcomePage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_WelcomePage->GetId(), m_WelcomePage, m_WelcomePage->GetBestSize().GetHeight(), m_WelcomePage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"), 
+        wxT("CWizardAttachProject::CreateControls -     m_ProjectInfoPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_ProjectInfoPage->GetId(), m_ProjectInfoPage, m_ProjectInfoPage->GetBestSize().GetHeight(), m_ProjectInfoPage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_ProjectPropertiesPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_ProjectPropertiesPage->GetId(), m_ProjectPropertiesPage, m_ProjectPropertiesPage->GetBestSize().GetHeight(), m_ProjectPropertiesPage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_ProjectProcessingPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_ProjectProcessingPage->GetId(), m_ProjectProcessingPage, m_ProjectProcessingPage->GetBestSize().GetHeight(), m_ProjectProcessingPage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_AccountManagerInfoPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_AccountManagerInfoPage->GetId(), m_AccountManagerInfoPage, m_AccountManagerInfoPage->GetBestSize().GetHeight(), m_AccountManagerInfoPage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_AccountManagerPropertiesPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_AccountManagerPropertiesPage->GetId(), m_AccountManagerPropertiesPage, m_AccountManagerPropertiesPage->GetBestSize().GetHeight(), m_AccountManagerPropertiesPage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_AccountManagerProcessingPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_AccountManagerProcessingPage->GetId(), m_AccountManagerProcessingPage, m_AccountManagerProcessingPage->GetBestSize().GetHeight(), m_AccountManagerProcessingPage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_TermsOfUsePage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_TermsOfUsePage->GetId(), m_TermsOfUsePage, m_TermsOfUsePage->GetBestSize().GetHeight(), m_TermsOfUsePage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_AccountInfoPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_AccountInfoPage->GetId(), m_AccountInfoPage, m_AccountInfoPage->GetBestSize().GetHeight(), m_AccountInfoPage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_CompletionPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_CompletionPage->GetId(), m_CompletionPage, m_CompletionPage->GetBestSize().GetHeight(), m_CompletionPage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_CompletionErrorPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_CompletionErrorPage->GetId(), m_CompletionErrorPage, m_CompletionErrorPage->GetBestSize().GetHeight(), m_CompletionErrorPage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_ErrNotDetectedPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_ErrNotDetectedPage->GetId(), m_ErrNotDetectedPage, m_ErrNotDetectedPage->GetBestSize().GetHeight(), m_ErrNotDetectedPage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_ErrUnavailablePage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_ErrUnavailablePage->GetId(), m_ErrUnavailablePage, m_ErrUnavailablePage->GetBestSize().GetHeight(), m_ErrUnavailablePage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_ErrNoInternetConnectionPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_ErrNoInternetConnectionPage->GetId(), m_ErrNoInternetConnectionPage, m_ErrNoInternetConnectionPage->GetBestSize().GetHeight(), m_ErrNoInternetConnectionPage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_ErrNotFoundPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_ErrNotFoundPage->GetId(), m_ErrNotFoundPage, m_ErrNotFoundPage->GetBestSize().GetHeight(), m_ErrNotFoundPage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_ErrAlreadyExistsPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_ErrAlreadyExistsPage->GetId(), m_ErrAlreadyExistsPage, m_ErrAlreadyExistsPage->GetBestSize().GetHeight(), m_ErrAlreadyExistsPage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_ErrProxyInfoPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_ErrProxyInfoPage->GetId(), m_ErrProxyInfoPage, m_ErrProxyInfoPage->GetBestSize().GetHeight(), m_ErrProxyInfoPage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttachProject::CreateControls -     m_ErrProxyPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_ErrProxyPage->GetId(), m_ErrProxyPage, m_ErrProxyPage->GetBestSize().GetHeight(), m_ErrProxyPage->GetBestSize().GetWidth()
+    );
+
     wxLogTrace(wxT("Function Status"), wxT("CWizardAttachProject::CreateControls - End Page Map"));
     wxLogTrace(wxT("Function Start/End"), wxT("CWizardAttachProject::CreateControls - Function End"));
 }
@@ -324,7 +394,7 @@ bool CWizardAttachProject::Run( wxString& WXUNUSED(strName), wxString& strURL, b
 
 bool CWizardAttachProject::SyncToAccountManager() {
     ACCT_MGR_INFO ami;
-    CMainDocument*            pDoc = wxGetApp().GetDocument();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -368,7 +438,6 @@ bool CWizardAttachProject::SyncToAccountManager() {
 
     if ( !ami.acct_mgr_url.empty() && (m_bCredentialsCached || m_bCredentialsDetected) && m_AccountManagerProcessingPage) {
         IsAccountManagerUpdateWizard = true;
-        IsAccountManagerRemoveWizard = false;
         return RunWizard(m_AccountManagerProcessingPage);
     } else if ( ami.acct_mgr_url.size() && !m_bCredentialsCached && m_AccountManagerProcessingPage) {
         return RunWizard(m_AccountManagerPropertiesPage);

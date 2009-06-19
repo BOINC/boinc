@@ -5735,3 +5735,34 @@ Charlie 19 June 2009
     mac_installer/
         make_GridRepublic.sh
         make_ProgThruProc.sh
+
+Rom    19 June 2009
+    - MGR: Massive wizard cleanup
+        - Remove diagnostic framework, it wasn't being used anymore
+            and basically cluttered things up.
+        - Remove the notion of the Account Manager Remove wizard,
+            it hasn't ever been used.
+        - Simplify the welcome page
+        - Trim down the height of the wizard by hiding the new
+            cookie controls on the Account Info page.  The wizard
+            needs to stay compatible with small displays.
+    - MGR: Only display the 'This is not a BOINC project' on an
+        HTTP 404 error.  For a gethostbyname, xml parsing, and
+        socket connect error display the 'project is temporarly
+        unavailable'.
+        
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerInfoPage.cpp
+        AccountManagerProcessingPage.cpp
+        AccountManagerPropertiesPage.cpp
+        BOINCBaseWizard.cpp, .h
+        BOINCWizards.h
+        CompletionPage.cpp
+        ProjectInfoPage.cpp
+        ProjectListCtrl.cpp
+        ProjectProcessingPage.cpp
+        ProjectPropertiesPage.cpp, .h
+        UnavailablePage.cpp
+        WelcomePage.cpp, .h
+        WizardAttachProject.cpp

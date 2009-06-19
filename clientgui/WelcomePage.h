@@ -48,26 +48,15 @@ public:
     /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_WELCOMEPAGE
     void OnPageChanged( wxWizardExEvent& event );
 
-    /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_WELCOMEPAGE
-    void OnPageChanging( wxWizardExEvent& event );
-    
-    /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_SELECTPROJECTWIZARD
-    void OnProjectWizardCtrlSelected( wxCommandEvent& event );
-
-    /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_SELECTAMWIZARD
-    void OnAMWizardCtrlSelected( wxCommandEvent& event );
+    /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for
+    ///   ID_WELCOMESELECTWIZARDPROJECT or ID_WELCOMESELECTWIZARDACCOUNTMGR
+    void OnWizardSelectionChanged( wxCommandEvent& event );
 
     /// wxEVT_WIZARD_CANCEL event handler for ID_WELCOMEPAGE
     void OnCancel( wxWizardExEvent& event );
 
-    /// wxEVT_SET_FOCUS event handler for ID_WELCOMEPAGE
-    void OnSetFocus( wxFocusEvent& event );
-
-    /// wxEVT_SHOW event handler for ID_WELCOMEPAGE
-    void OnShow( wxShowEvent& event );
-
-	/// wxEVT_BUTTON event handler for ID_CHANGEAPPS
-	void OpenWCG( wxCommandEvent& event );
+	/// wxEVT_BUTTON event handler for ID_WELCOMECHANGEAPPS
+	void OnChangeApplications( wxCommandEvent& event );
 
 ////@end CWelcomePage event handler declarations
 
@@ -84,34 +73,19 @@ public:
 
     /// Retrieves icon resources
     wxIcon GetIconResource( const wxString& name );
+
 ////@end CWelcomePage member function declarations
 
     /// Should we show tooltips?
     static bool ShowToolTips();
 
-	/// Show button for changing application selections
-	wxButton* m_pAppButton;
-	bool wcg;
-
 ////@begin CWelcomePage member variables
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDescriptionStaticCtrl;
     wxStaticText* m_pDirectionsStaticCtrl;
-    wxRadioButton* m_pSelectProjectWizardCtrl;
-    wxRadioButton* m_pSelectAMWizardCtrl;
-#if defined(__WXDEBUG__)
-    wxStaticBox* m_pErrDescriptionCtrl; 
-    wxCheckBox* m_pErrProjectPropertiesCtrl;
-    wxCheckBox* m_pErrProjectCommCtrl;
-    wxCheckBox* m_pErrProjectPropertiesURLCtrl;
-    wxCheckBox* m_pErrAccountCreationDisabledCtrl;
-    wxCheckBox* m_pErrClientAccountCreationDisabledCtrl;
-    wxCheckBox* m_pErrAccountAlreadyExistsCtrl;
-    wxCheckBox* m_pErrProjectAlreadyAttachedCtrl;
-    wxCheckBox* m_pErrProjectAttachFailureCtrl;
-    wxCheckBox* m_pErrGoogleCommCtrl;
-    wxCheckBox* m_pErrNetDetectionCtrl;
-#endif
+    wxRadioButton* m_pAttachToProjectCtrl;
+    wxRadioButton* m_pAttachToAccountManagerCtrl;
+	wxButton* m_pChangeApplicationsCtrl;
 ////@end CWelcomePage member variables
 };
 

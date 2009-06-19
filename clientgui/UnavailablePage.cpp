@@ -184,14 +184,14 @@ void CErrUnavailablePage::OnPageChanged( wxWizardExEvent& event ) {
             _("Project temporarily unavailable")
         );
         m_pDirectionsStaticCtrl->SetLabel(
-            _("The project is temporarily unavailable.\n\nPlease try again later.")
+            _("The project is temporarily unavailable.\n\nPlease check the URL or try again later.")
         );
     } else if (IS_ACCOUNTMANAGERWIZARD()) {
         m_pTitleStaticCtrl->SetLabel(
             _("Account manager temporarily unavailable")
         );
         m_pDirectionsStaticCtrl->SetLabel(
-            _("The account manager is temporarily unavailable.\n\nPlease try again later.")
+            _("The account manager is temporarily unavailable.\n\nPlease check the URL or try again later.")
         );
     } else {
         wxASSERT(FALSE);

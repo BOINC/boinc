@@ -61,23 +61,23 @@ CProjectListCtrl::CProjectListCtrl( )
 {
 }
  
-CProjectListCtrl::CProjectListCtrl( wxWindow* parent, wxSize theSize )
+CProjectListCtrl::CProjectListCtrl( wxWindow* parent, wxSize size )
 {
-    Create( parent, theSize );
+    Create( parent, size );
 }
  
 /*!
  * CProjectList creator
  */
  
-bool CProjectListCtrl::Create( wxWindow* parent, wxSize theSize )
+bool CProjectListCtrl::Create( wxWindow* parent, wxSize size )
 {
 ////@begin CProjectListCtrl member initialisation
     m_pMainSizer = NULL;
 ////@end CProjectListCtrl member initialisation
  
 ////@begin CProjectListCtrl creation
-    wxScrolledWindow::Create( parent, wxID_ANY, wxDefaultPosition, theSize, wxSUNKEN_BORDER );
+    wxScrolledWindow::Create( parent, wxID_ANY, wxDefaultPosition, size, wxSUNKEN_BORDER );
     SetExtraStyle( wxWS_EX_BLOCK_EVENTS );
     SetMinSize(GetSize());
 
