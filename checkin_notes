@@ -5780,3 +5780,9 @@ Rom    19 June 2009
         AccountManagerInfoPage.cpp, .h
         ProjectInfoPage.cpp
         ProjectListCtrl.cpp, .h
+
+Charlie 19 June 2009
+    - MGR: Fix fatal error which caused crash in Accoount Manager Wizard.
+
+    clientgui/
+        AccountManagerInfoPage.cpp
