@@ -5884,3 +5884,15 @@ Rom    19 June 2009
         TermsOfUsePage.cpp, .h
         WelcomePage.cpp
         WizardAttachProject.cpp
+
+David  19 June 2009
+    - install: don't install std_fixes.h or msg_queue.cpp
+    - remove some unused code
+    - scheduler: small code cleanup
+
+    lib/
+        Makefile.am
+        network.u
+        util.h
+    sched/
+        sched_send.cpp

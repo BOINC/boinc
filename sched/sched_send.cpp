@@ -107,17 +107,22 @@ inline int effective_ngpus() {
 // get limits on #jobs per day and per RPC
 //
 inline void get_job_limits() {
-    int n;
-    int mult = effective_ncpus();
-    mult += config.gpu_multiplier * effective_ngpus();
-    n = mult * config.max_wus_to_send * mult;
-    g_wreq->max_jobs_per_rpc = n?n:999999;
+    int mult = effective_ncpus() + config.gpu_multiplier * effective_ngpus();
 
-    if (g_reply->host.max_results_day == 0 || g_reply->host.max_results_day>config.daily_result_quota) {
-        g_reply->host.max_results_day = config.daily_result_quota;
+    if (config.max_wus_to_send) {
+        g_wreq->max_jobs_per_rpc = mult * config.max_wus_to_send;
+    } else {
+        g_wreq->max_jobs_per_rpc = 999999;
     }
-    n = mult * g_reply->host.max_results_day;
-    g_wreq->max_jobs_per_day = n?n:999999;
+
+    if (config.daily_result_quota) {
+        if (g_reply->host.max_results_day == 0 || g_reply->host.max_results_day>config.daily_result_quota) {
+            g_reply->host.max_results_day = config.daily_result_quota;
+        }
+        g_wreq->max_jobs_per_day = mult * g_reply->host.max_results_day;
+    } else {
+        g_wreq->max_jobs_per_day = 999999;
+    }
 }
 
 inline void get_max_jobs_on_host() {

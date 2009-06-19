@@ -52,19 +52,6 @@ extern void reset_dns();
 typedef int BOINC_SOCKLEN_T;
 #endif
 
-#ifndef NETWORK_ALIVE_LAN
-#define NETWORK_ALIVE_LAN   0x00000001
-#endif
-
-#ifndef NETWORK_ALIVE_WAN
-#define NETWORK_ALIVE_WAN   0x00000002
-#endif
-
-#ifndef NETWORK_ALIVE_AOL
-#define NETWORK_ALIVE_AOL   0x00000004
-#endif
-
-
 #if defined(_WIN32) && defined(USE_WINSOCK)
 extern int WinsockInitialize();
 extern int WinsockCleanup();

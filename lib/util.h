@@ -27,10 +27,6 @@
 #include <string>
 #include <vector>
 
-#ifdef HAVE_PTHREAD
-#include <pthread.h>
-#endif
-
 extern double dtime();
 extern double dday();
 extern void boinc_sleep(double);

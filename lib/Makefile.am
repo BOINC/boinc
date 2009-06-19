@@ -51,7 +51,6 @@ generic_sources = \
     mfile.cpp \
     miofile.cpp \
     msg_log.cpp \
-    msg_queue.cpp \
     network.cpp \
     parse.cpp \
     prefs.cpp \
@@ -110,7 +109,6 @@ pkginclude_HEADERS = \
     mfile.h \
     miofile.h \
     msg_log.h \
-    msg_queue.h \
     network.h \
     parse.h \
     prefs.h \
@@ -118,7 +116,6 @@ pkginclude_HEADERS = \
     shmem.h \
     stackwalker_imports.h \
     stackwalker_win.h \
-    std_fixes.h \
     str_util.h \
     synch.h \
     util.h \
