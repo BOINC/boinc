@@ -19,7 +19,7 @@
 
 ##
 # Script to convert Macintosh BOINC installer to Progress Thru Processors Desktop installer
-# updated 6/11/09 by Charlie Fenton
+# updated 6/19/09 by Charlie Fenton
 ##
 
 ## Usage:
@@ -178,6 +178,7 @@ sudo chmod u+w "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/E
 sudo iconv -f UTF-16 -t UTF-8 "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings" > "${PR_PATH}/tempUTF81"
 sudo sed -i "" s/BOINC/"${MANAGER_NAME}"/g "${PR_PATH}/tempUTF81"
 sudo iconv -f UTF-8 -t UTF-16 "${PR_PATH}/tempUTF81" > "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
+sudo rm -f "${PR_PATH}/tempUTF81"
 
 # Replace the Manager's BOINCMgr.icns file
 sudo cp -fp "${ICNS_FILE}" "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/${ICNS_FILE}"
@@ -198,6 +199,7 @@ sudo chmod u+w "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Re
 sudo iconv -f UTF-16 -t UTF-8 "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/English.lproj/InfoPlist.strings" > "${PR_PATH}/tempUTF82"
 sudo sed -i "" s/BOINC/"${BRAND_NAME}"/g "${PR_PATH}/tempUTF82"
 sudo iconv -f UTF-8 -t UTF-16 "${PR_PATH}/tempUTF82" > "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/English.lproj/InfoPlist.strings"
+sudo rm -f "${PR_PATH}/tempUTF82"
 
 # Replace screensaver coordinator's boinc.tiff or boinc.jpg file
 sudo rm -f "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver/Contents/Resources/boinc.jpg"
@@ -228,6 +230,7 @@ sudo chmod u+w "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extra
 sudo iconv -f UTF-16 -t UTF-8 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings" > "${PR_PATH}/tempUTF83"
 sudo sed -i "" s/BOINC/"${BRAND_NAME}"/g "${PR_PATH}/tempUTF83"
 sudo iconv -f UTF-8 -t UTF-16 "${PR_PATH}/tempUTF83" > "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
+sudo rm -f "${PR_PATH}/tempUTF83"
 
 # Replace the Uninstall application's MacUninstaller.icns file
 sudo cp -fp "${UNINSTALLER_ICNS_FILE}" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/extras/Uninstall ${BRAND_NAME}.app/Contents/Resources/${UNINSTALLER_ICNS_FILE}"
@@ -300,6 +303,7 @@ sudo chmod u+w "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRA
 sudo iconv -f UTF-16 -t UTF-8 "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/English.lproj/InfoPlist.strings" > "${PR_PATH}/tempUTF84"
 sudo sed -i "" s/BOINC/"${MANAGER_NAME}"/g "${PR_PATH}/tempUTF84"
 sudo iconv -f UTF-8 -t UTF-16 "${PR_PATH}/tempUTF84" > "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/English.lproj/InfoPlist.strings"
+sudo rm -f "${PR_PATH}/tempUTF84"
 
 # Replace the installer wrapper application's MacInstaller.icns file
 sudo cp -fp "${INSTALLER_ICNS_FILE}" "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${INSTALLER_ICNS_FILE}"

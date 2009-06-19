@@ -5855,3 +5855,14 @@ Rom    19 June 2009
         AccountManagerInfoPage.cpp, .h
         ProjectInfoPage.cpp
         ProjectListCtrl.cpp, .h
+
+Charlie 16 June 2009
+    - MGR: Fix fatal error which caused crash in Accoount Manager Wizard.
+    - Mac Installer: Fix bugs in scripts for converting BOINC installer to 
+        Progress Thru Processors installer and to GridRepublic installer.
+
+    clientgui/
+        AccountManagerInfoPage.cpp
+    mac_installer/
+        make_GridRepublic.sh
+        make_ProgThruProc.sh
