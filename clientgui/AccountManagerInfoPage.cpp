@@ -25,6 +25,7 @@
 #include "mfile.h"
 #include "miofile.h"
 #include "parse.h"
+#include "str_util.h"
 #include "error_numbers.h"
 #include "wizardex.h"
 #include "error_numbers.h"
@@ -60,6 +61,7 @@ BEGIN_EVENT_TABLE( CAccountManagerInfoPage, wxWizardPageEx )
 
 END_EVENT_TABLE()
 
+
 /*!
  * CAccountManagerInfoPage constructors
  */
@@ -73,8 +75,9 @@ CAccountManagerInfoPage::CAccountManagerInfoPage( CBOINCBaseWizard* parent )
     Create( parent );
 }
 
+
 /*!
- * CProjectInfoPage creator
+ * CAccountManagerInfoPage creator
  */
 
 bool CAccountManagerInfoPage::Create( CBOINCBaseWizard* parent )
@@ -98,8 +101,9 @@ bool CAccountManagerInfoPage::Create( CBOINCBaseWizard* parent )
     return TRUE;
 }
 
+
 /*!
- * Control creation for CProjectInfoPage
+ * Control creation for CAccountManagerInfoPage
  */
 
 void CAccountManagerInfoPage::CreateControls()
@@ -125,7 +129,7 @@ void CAccountManagerInfoPage::CreateControls()
     itemBoxSizer24->Add(itemFlexGridSizer3, 1, wxGROW|wxALL, 5);
 
     m_pProjectListCtrl = new CProjectListCtrl;
-    m_pProjectListCtrl->Create( itemWizardPage23, wxSize(250,155) );
+    m_pProjectListCtrl->Create( itemWizardPage23 );
     itemFlexGridSizer3->Add(m_pProjectListCtrl, 0, wxGROW|wxRIGHT, 10);
 
     wxFlexGridSizer* itemFlexGridSizer11 = new wxFlexGridSizer(2, 1, 0, 0);
@@ -153,20 +157,86 @@ void CAccountManagerInfoPage::CreateControls()
 ////@end CAccountManagerInfoPage content construction
 }
 
+
+/*!
+ * Gets the previous page.
+ */
+
+wxWizardPageEx* CAccountManagerInfoPage::GetPrev() const
+{
+    return PAGE_TRANSITION_BACK;
+}
+
+
+/*!
+ * Gets the next page.
+ */
+
+wxWizardPageEx* CAccountManagerInfoPage::GetNext() const
+{
+    if (CHECK_CLOSINGINPROGRESS()) {
+        // Cancel Event Detected
+        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+    } else {
+        return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERPROPERTIESPAGE);
+    }
+    return NULL;
+}
+
+
+/*!
+ * Should we show tooltips?
+ */
+
+bool CAccountManagerInfoPage::ShowToolTips()
+{
+    return TRUE;
+}
+
+
+/*!
+ * Get bitmap resources
+ */
+
+wxBitmap CAccountManagerInfoPage::GetBitmapResource( const wxString& WXUNUSED(name) )
+{
+    // Bitmap retrieval
+////@begin CAccountManagerInfoPage bitmap retrieval
+    return wxNullBitmap;
+////@end CAccountManagerInfoPage bitmap retrieval
+}
+
+
+/*!
+ * Get icon resources
+ */
+
+wxIcon CAccountManagerInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
+{
+    // Icon retrieval
+////@begin CAccountManagerInfoPage icon retrieval
+    return wxNullIcon;
+////@end CAccountManagerInfoPage icon retrieval
+}
+
+
 /*!
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTINFOPAGE
  */
 
 void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
+    wxLogTrace(wxT("Function Start/End"), wxT("CAccountManagerInfoPage::OnPageChanged - Function Begin"));
 
-    unsigned int   i;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    unsigned int      i;
+    ALL_PROJECTS_LIST pl;
+    CMainDocument*    pDoc = wxGetApp().GetDocument();
 
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDescriptionStaticCtrl);
     wxASSERT(m_pProjectUrlStaticCtrl);
     wxASSERT(m_pProjectUrlCtrl);
+
 
     m_pTitleStaticCtrl->SetLabel(
         _("Choose an account manager")
@@ -181,13 +251,19 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     // Populate the virtual list control with project information
     //
     if (!m_bAccountManagerListPopulated) {
-        pDoc->rpc.get_all_projects_list(m_pl);
-        for (i=0; i<m_pl.account_managers.size(); i++) {
-            m_bAccountManagerListPopulated = false;
+        pDoc->rpc.get_all_projects_list(pl);
+        for (i=0; i<pl.account_managers.size(); i++) {
+            wxLogTrace(
+                wxT("Function Status"),
+                wxT("CAccountManagerInfoPage::OnPageChanged - Name: '%s', URL: '%s', Supported: '%d'"),
+                wxString(pl.account_managers[i]->name.c_str(), wxConvUTF8),
+                wxString(pl.account_managers[i]->url.c_str(), wxConvUTF8),
+                true
+            );
 
             m_pProjectListCtrl->Append(
-                wxString(m_pl.account_managers[i]->name.c_str(), wxConvUTF8),
-                wxString(m_pl.account_managers[i]->url.c_str(), wxConvUTF8),
+                wxString(pl.account_managers[i]->name.c_str(), wxConvUTF8),
+                wxString(pl.account_managers[i]->url.c_str(), wxConvUTF8),
                 true
             );
         }
@@ -195,9 +271,10 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     Layout();
-    Fit();
-    m_pProjectListCtrl->Layout();
+    FitInside();
     m_pProjectListCtrl->SetFocus();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAccountManagerInfoPage::OnPageChanged - Function End"));
 }
 
 /*!
@@ -225,61 +302,3 @@ void CAccountManagerInfoPage::OnAccountManagerSelectionChanged( ProjectListCtrlE
 void CAccountManagerInfoPage::OnCancel( wxWizardExEvent& event ) {
     PROCESS_CANCELEVENT(event);
 }
-
-/*!
- * Gets the previous page.
- */
-
-wxWizardPageEx* CAccountManagerInfoPage::GetPrev() const
-{
-    return PAGE_TRANSITION_BACK;
-}
-
-/*!
- * Gets the next page.
- */
-
-wxWizardPageEx* CAccountManagerInfoPage::GetNext() const
-{
-    if (CHECK_CLOSINGINPROGRESS()) {
-        // Cancel Event Detected
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    } else {
-        return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERPROPERTIESPAGE);
-    }
-    return NULL;
-}
-
-/*!
- * Should we show tooltips?
- */
-
-bool CAccountManagerInfoPage::ShowToolTips()
-{
-    return TRUE;
-}
-
-/*!
- * Get bitmap resources
- */
-
-wxBitmap CAccountManagerInfoPage::GetBitmapResource( const wxString& WXUNUSED(name) )
-{
-    // Bitmap retrieval
-////@begin CAccountManagerInfoPage bitmap retrieval
-    return wxNullBitmap;
-////@end CAccountManagerInfoPage bitmap retrieval
-}
-
-/*!
- * Get icon resources
- */
-
-wxIcon CAccountManagerInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
-{
-    // Icon retrieval
-////@begin CAccountManagerInfoPage icon retrieval
-    return wxNullIcon;
-////@end CAccountManagerInfoPage icon retrieval
-}
-

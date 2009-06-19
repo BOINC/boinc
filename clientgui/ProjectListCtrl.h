@@ -47,10 +47,10 @@ public:
     /// Constructors
     CProjectListCtrl( );
 
-    CProjectListCtrl( wxWindow* parent, wxSize theSize );
+    CProjectListCtrl( wxWindow* parent );
 
     /// Creation
-    bool Create( wxWindow* parent, wxSize theSize );
+    bool Create( wxWindow* parent );
 
     /// Creates the controls and sizers
     void CreateControls();

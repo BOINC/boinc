@@ -91,8 +91,7 @@ public:
     wxTextCtrl* m_pProjectUrlCtrl;
     wxString m_strProjectURL;
 ////@end CAccountManagerInfoPage member variables
-    bool                m_bAccountManagerListPopulated;
-    ALL_PROJECTS_LIST   m_pl;
+    bool m_bAccountManagerListPopulated;
 };
 
 #endif // _WIZ_ACCOUNTMANAGERINFOPAGE_H_
