@@ -19,7 +19,14 @@
 
 ##
 # Release Script for Macintosh BOINC Manager 10/31/07 by Charlie Fenton
-## updated 5/20/09 by Charlie Fenton
+## updated 6/19/09 by Charlie Fenton
+##
+## NOTE: This script uses PackageMaker, which is installed as part of the 
+##   XCode developer tools.  So you must have installed XCode Developer 
+##   Tools on the Mac before running this script.
+##
+## NOTE: PackageMaker may write 3 lines to the terminal with "Setting to : 0 (null)" 
+##   and "relocate: (null) 0".  This is normal and does not indicate a problem.
 ##
 
 ## Usage:
