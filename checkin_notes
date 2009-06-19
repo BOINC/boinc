@@ -5766,3 +5766,17 @@ Rom    19 June 2009
         UnavailablePage.cpp
         WelcomePage.cpp, .h
         WizardAttachProject.cpp
+
+Rom    19 June 2009
+    - MGR: Fix a long standing bug where the project list control
+        for the account manager info page and the project info page
+        was not consuming available screen space.  Previously
+        we hacked around it by setting an explicit size.
+        
+        Note: this works on Windows, I don't yet know about Mac and
+          Linux.
+          
+    clientgui/
+        AccountManagerInfoPage.cpp, .h
+        ProjectInfoPage.cpp
+        ProjectListCtrl.cpp, .h

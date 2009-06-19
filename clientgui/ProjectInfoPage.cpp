@@ -77,7 +77,7 @@ CProjectInfoPage::CProjectInfoPage( CBOINCBaseWizard* parent )
 
 
 /*!
- * WizardPage creator
+ * CProjectInfoPage creator
  */
  
 bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
@@ -129,7 +129,7 @@ void CProjectInfoPage::CreateControls()
     itemBoxSizer24->Add(itemFlexGridSizer3, 1, wxGROW|wxALL, 5);
 
     m_pProjectListCtrl = new CProjectListCtrl;
-    m_pProjectListCtrl->Create( itemWizardPage23, wxSize(250,155) );
+    m_pProjectListCtrl->Create( itemWizardPage23 );
     itemFlexGridSizer3->Add(m_pProjectListCtrl, 0, wxGROW|wxRIGHT, 10);
 
     wxFlexGridSizer* itemFlexGridSizer11 = new wxFlexGridSizer(2, 1, 0, 0);
@@ -225,7 +225,6 @@ wxIcon CProjectInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 
 void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
-
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnPageChanged - Function Begin"));
 
     unsigned int                i, j, k;
@@ -245,7 +244,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         _("Choose a project")
     );
     m_pDescriptionStaticCtrl->SetLabel(
-        _("To choose a project, click its name or type its URL below.")
+        _("To choose a project, click its name or\ntype its URL below.")
     );
     m_pProjectUrlStaticCtrl->SetLabel(
         _("Project &URL:")
@@ -291,8 +290,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     Layout();
-    Fit();
-    m_pProjectListCtrl->Layout();
+    FitInside();
     m_pProjectListCtrl->SetFocus();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnPageChanged - Function End"));
