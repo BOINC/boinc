@@ -5726,3 +5726,12 @@ Rom    18 June 2009
     /
         configure.ac
         version.h
+
+Charlie 19 June 2009
+    - Mac Installer: Fix bugs in scripts for converting BOINC installer to 
+        Progress Thru Processors installer and to GridRepublic installer. 
+        (checked into 6.8.1 tag.)
+
+    mac_installer/
+        make_GridRepublic.sh
+        make_ProgThruProc.sh
