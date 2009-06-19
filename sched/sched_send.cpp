@@ -104,7 +104,7 @@ inline int effective_ngpus() {
     return m;
 }
 
-// get limits on #jobs per day and per RPC
+// get limits on #jobs per day and per RPC, on in progress
 //
 inline void get_job_limits() {
     int mult = effective_ncpus() + config.gpu_multiplier * effective_ngpus();
@@ -123,15 +123,27 @@ inline void get_job_limits() {
     } else {
         g_wreq->max_jobs_per_day = 999999;
     }
-}
 
-inline void get_max_jobs_on_host() {
-    int n;
-    n = config.max_wus_in_progress * effective_ncpus();
-    g_wreq->max_jobs_on_host_cpu = n?n:999999;
-    n = config.max_wus_in_progress_gpu * effective_ngpus();
-    g_wreq->max_jobs_on_host_gpu = n?n:999999;
-    g_wreq->max_jobs_on_host = g_wreq->max_jobs_on_host_cpu + g_wreq->max_jobs_on_host_gpu;
+    int nc = effective_ncpus();
+    int ng = effective_ngpus();
+    if (config.max_wus_in_progress) {
+        g_wreq->max_jobs_on_host_cpu = config.max_wus_in_progress * nc;
+        if (config.max_wus_in_progress_gpu) {
+            g_wreq->max_jobs_on_host_gpu = config.max_wus_in_progress_gpu * ng;
+            g_wreq->max_jobs_on_host = g_wreq->max_jobs_on_host_cpu + g_wreq->max_jobs_on_host_gpu;
+        } else {
+            g_wreq->max_jobs_on_host_gpu = 999999;
+            g_wreq->max_jobs_on_host = g_wreq->max_jobs_on_host_cpu;
+        }
+    } else {
+        g_wreq->max_jobs_on_host_cpu = 999999;
+        g_wreq->max_jobs_on_host = 999999;
+        if (config.max_wus_in_progress_gpu) {
+            g_wreq->max_jobs_on_host_gpu = config.max_wus_in_progress_gpu * ng;
+        } else {
+            g_wreq->max_jobs_on_host_gpu = 999999;
+        }
+    }
 }
 
 static const char* find_user_friendly_name(int appid) {
@@ -1335,7 +1347,6 @@ void send_work_setup() {
     get_running_frac();
     get_dcf();
     get_job_limits();
-    get_max_jobs_on_host();
 
     g_wreq->seconds_to_fill = clamp_req_sec(g_request->work_req_seconds);
     g_wreq->cpu_req_secs = clamp_req_sec(g_request->cpu_req_secs);

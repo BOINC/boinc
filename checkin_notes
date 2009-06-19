@@ -5913,3 +5913,9 @@ Rom    19 June 2009
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+David  19 June 2009
+    - scheduler: fix <max_wus_in_progress> code
+
+    sched/
+        sched_send.cpp
