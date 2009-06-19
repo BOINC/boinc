@@ -5821,3 +5821,20 @@ Rom    19 June 2009
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rom    19 June 2009
+    - MGR: Keep the wizard state mahine from prematurly moving on without
+        checking network connectivity and whether credentials have been
+        detected.
+        
+    clientgui/
+        AccountManagerPropertiesPage.cpp
+        ProjectPropertiesPage.cpp
+
+Rom    19 June 2009
+    - Tag for 6.8.2 release, all platforms
+      boinc_core_release_6_8_2
+
+    /
+        configure.ac
+        version.h

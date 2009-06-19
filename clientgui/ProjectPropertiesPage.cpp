@@ -451,8 +451,6 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 } else {
                     SetTermsOfUseRequired(false);
                 }
- 
-                SetNextState(PROJPROP_CLEANUP);
             } else {
                 SetProjectPropertiesSucceeded(false);
 
@@ -492,9 +490,9 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 } else {
                     SetServerReportedError(false);
                 }
-
-                SetNextState(PROJPROP_DETERMINENETWORKSTATUS_BEGIN);
             }
+
+            SetNextState(PROJPROP_DETERMINENETWORKSTATUS_BEGIN);
             break;
         case PROJPROP_DETERMINENETWORKSTATUS_BEGIN:
             SetNextState(PROJPROP_DETERMINENETWORKSTATUS_EXECUTE);
