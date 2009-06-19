@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
         show_message((StringPtr)"\pPath to application is too long.");
         return 0;
     }
-    strncpy(path, argv[0], sizeof(path));   // Path to this application.
+    strncpy(path, argv[0], sizeof(path)-1);   // Path to this application.
     p = strstr(path, "/Contents/MacOS/");
     *p = '\0';
     p = strrchr(path, '/');
