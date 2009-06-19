@@ -5896,3 +5896,20 @@ David  19 June 2009
         util.h
     sched/
         sched_send.cpp
+
+Rom    19 June 2009
+    - WINSETUP: Provide a mechinism in the installer where the installer
+        can override the previous stored state from a previous installation.
+        
+        NOTE: Needed becuase PTP isn't going to be supporting 'Application
+          execution mode', at least not with the initial installer.
+          
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        CARestoreSetupState.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
