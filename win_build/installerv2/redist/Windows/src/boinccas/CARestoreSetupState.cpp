@@ -67,10 +67,26 @@ UINT CARestoreSetupState::OnExecution()
     tstring     strEnableScreensaver;
     tstring     strEnableProtectedApplicationExecution;
     tstring     strEnableUseByAllUsers;
+    tstring     strOverrideInstallDirectory;
+    tstring     strOverrideDataDirectory;
+    tstring     strOverrideLaunchProgram;
+    tstring     strOverrideEnableLaunchAtLogon;
+    tstring     strOverrideEnableScreensaver;
+    tstring     strOverrideEnableProtectedApplicationExecution;
+    tstring     strOverrideEnableUseByAllUsers;
+
     tstring     strSetupStateStored;
 
     GetRegistryValue( _T("SETUPSTATESTORED"), strSetupStateStored );
     if (strSetupStateStored == _T("TRUE")) {
+
+        GetProperty( _T("OVERRIDE_INSTALLDIR"), strOverrideInstallDirectory );
+        GetProperty( _T("OVERRIDE_DATADIR"), strOverrideDataDirectory );
+        GetProperty( _T("OVERRIDE_LAUNCHPROGRAM"), strOverrideLaunchProgram );
+        GetProperty( _T("OVERRIDE_ENABLELAUNCHATLOGON"), strOverrideEnableLaunchAtLogon );
+        GetProperty( _T("OVERRIDE_ENABLESCREENSAVER"), strOverrideEnableScreensaver );
+        GetProperty( _T("OVERRIDE_ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strOverrideEnableProtectedApplicationExecution );
+        GetProperty( _T("OVERRIDE_ENABLEUSEBYALLUSERS"), strOverrideEnableUseByAllUsers );
 
         GetRegistryValue( _T("INSTALLDIR"), strInstallDirectory );
         GetRegistryValue( _T("DATADIR"), strDataDirectory );
@@ -80,14 +96,47 @@ UINT CARestoreSetupState::OnExecution()
         GetRegistryValue( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strEnableProtectedApplicationExecution );
         GetRegistryValue( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
 
-        SetProperty( _T("INSTALLDIR"), strInstallDirectory );
-        SetProperty( _T("DATADIR"), strDataDirectory );
-        SetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
-        SetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
-        SetProperty( _T("ENABLESCREENSAVER"), strEnableScreensaver );
-        SetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strEnableProtectedApplicationExecution );
-        SetProperty( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
+        if (strOverrideInstallDirectory.empty()) {
+            SetProperty( _T("INSTALLDIR"), strInstallDirectory );
+        } else {
+            SetProperty( _T("INSTALLDIR"), strOverrideInstallDirectory );
+        }
 
+        if (strOverrideDataDirectory.empty()) {
+            SetProperty( _T("DATADIR"), strDataDirectory );
+        } else {
+            SetProperty( _T("DATADIR"), strOverrideDataDirectory );
+        }
+
+        if (strOverrideLaunchProgram.empty()) {
+            SetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
+        } else {
+            SetProperty( _T("LAUNCHPROGRAM"), strOverrideLaunchProgram );
+        }
+
+        if (strOverrideEnableLaunchAtLogon.empty()) {
+            SetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
+        } else {
+            SetProperty( _T("ENABLELAUNCHATLOGON"), strOverrideEnableLaunchAtLogon );
+        }
+
+        if (strOverrideEnableScreensaver.empty()) {
+            SetProperty( _T("ENABLESCREENSAVER"), strEnableScreensaver );
+        } else {
+            SetProperty( _T("ENABLESCREENSAVER"), strOverrideEnableScreensaver );
+        }
+
+        if (strOverrideEnableProtectedApplicationExecution.empty()) {
+            SetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strEnableProtectedApplicationExecution );
+        } else {
+            SetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strOverrideEnableProtectedApplicationExecution );
+        }
+
+        if (strEnableUseByAllUsers.empty()) {
+            SetProperty( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
+        } else {
+            SetProperty( _T("ENABLEUSEBYALLUSERS"), strOverrideEnableUseByAllUsers );
+        }
     }
 
     // If the Data Directory entry is empty then that means we need
