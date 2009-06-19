@@ -5928,3 +5928,9 @@ Rom    19 June 2009
     clientgui/
         AccountManagerPropertiesPage.cpp
         ProjectPropertiesPage.cpp
+
+Rom    19 June 2009
+    - Mac Install: Fix an off by one error reported during a security audit
+    
+    mac_install/
+        CustomInstall.cpp
