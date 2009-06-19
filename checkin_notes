@@ -5786,3 +5786,21 @@ Charlie 19 June 2009
 
     clientgui/
         AccountManagerInfoPage.cpp
+
+Rom    19 June 2009
+    - MGR: Make the Account Manager Properties page and the Project
+        Properties page the start for all automated wizard processes
+        so that we can successfully handle the need to check for
+        proxy servers.  When directly advancing to the Processing
+        pages the proxy server checks were being skipped.
+    - MGR: Add some more smarts to the terms of use page which should
+        advance to the processing pages and skip the Account Info
+        page when the desired credentials are already known.
+
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerPropertiesPage.cpp, .h
+        ProjectPropertiesPage.cpp, .h
+        TermsOfUsePage.cpp, .h
+        WelcomePage.cpp
+        WizardAttachProject.cpp

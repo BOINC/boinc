@@ -33,6 +33,7 @@
 #include "MainDocument.h"
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
+#include "WizardAttachProject.h"
 #include "TermsOfUsePage.h"
 
 
@@ -50,9 +51,10 @@ BEGIN_EVENT_TABLE( CTermsOfUsePage, wxWizardPageEx )
  
 ////@begin CTermsOfUsePage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CTermsOfUsePage::OnPageChanged )
+    EVT_WIZARDEX_PAGE_CHANGING( -1, CTermsOfUsePage::OnPageChanging )
     EVT_WIZARDEX_CANCEL( -1, CTermsOfUsePage::OnCancel )
-    EVT_RADIOBUTTON( ID_TERMSOFUSEAGREECTRL, CTermsOfUsePage::OnAgree )
-    EVT_RADIOBUTTON( ID_TERMSOFUSEDISAGREECTRL, CTermsOfUsePage::OnDisagree )
+    EVT_RADIOBUTTON( ID_TERMSOFUSEAGREECTRL, CTermsOfUsePage::OnTermsOfUseStatusChange )
+    EVT_RADIOBUTTON( ID_TERMSOFUSEDISAGREECTRL, CTermsOfUsePage::OnTermsOfUseStatusChange )
 ////@end CTermsOfUsePage event table entries
  
 END_EVENT_TABLE()
@@ -154,6 +156,10 @@ wxWizardPageEx* CTermsOfUsePage::GetNext() const
     if (CHECK_CLOSINGINPROGRESS()) {
         // Cancel Event Detected
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+    } else if (IS_ATTACHTOPROJECTWIZARD() && GetUserAgrees() && GetCredentialsAlreadyAvailable()) {
+        return PAGE_TRANSITION_NEXT(ID_PROJECTPROCESSINGPAGE);
+    } else if (IS_ACCOUNTMANAGERWIZARD() && GetUserAgrees() && GetCredentialsAlreadyAvailable()) {
+        return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERPROCESSINGPAGE);
     } else if (GetUserAgrees()) {
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
     } else {
@@ -238,6 +244,33 @@ void CTermsOfUsePage::OnPageChanged( wxWizardExEvent& event ) {
 }
  
 /*!
+ * wxEVT_WIZARD_PAGE_CHANGING event handler for ID_TERMSOFUSEPAGE
+ */
+ 
+void CTermsOfUsePage::OnPageChanging( wxWizardExEvent& event ) {
+    if (event.GetDirection() == false) return;
+
+    CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
+
+    wxASSERT(pWAP);
+    wxASSERT(wxDynamicCast(pWAP, CWizardAttachProject));
+
+
+    if (!CHECK_CLOSINGINPROGRESS()) {
+        // We are leaving this page.
+
+        // Determine if the account settings are already pre-populated.
+        //   If so, advance to the Account Manager Processing page or the
+        //   Project Processing page.
+        if ( pWAP->m_bCredentialsCached || pWAP->m_bCredentialsDetected) {
+            SetCredentialsAlreadyAvailable(true);
+        } else {
+            SetCredentialsAlreadyAvailable(false);
+        }
+    }
+}
+  
+/*!
  * wxEVT_WIZARD_CANCEL event handler for ID_TERMSOFUSEPAGE
  */
 
@@ -247,23 +280,19 @@ void CTermsOfUsePage::OnCancel( wxWizardExEvent& event ) {
 
 /*!
  * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_TERMSOFUSEAGREECTRL
+ *   or ID_TERMSOFUSEDISAGREECTRL
  */
 
-void CTermsOfUsePage::OnAgree( wxCommandEvent& event ) {
-    if (event.IsChecked()){
-        wxLogTrace(wxT("Function Status"), wxT("CTermsOfUsePage::OnAgree - SetUserAgrees(true)"));
+void CTermsOfUsePage::OnTermsOfUseStatusChange( wxCommandEvent& event ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CTermsOfUsePage::OnTermsOfUseStatusChange - Function Begin"));
+
+    if ((ID_TERMSOFUSEAGREECTRL == event.GetId()) && event.IsChecked()){
+        wxLogTrace(wxT("Function Status"), wxT("CTermsOfUsePage::OnTermsOfUseStatusChange - SetUserAgrees(true)"));
+        SetUserAgrees(true);
+    } else {
+        wxLogTrace(wxT("Function Status"), wxT("CTermsOfUsePage::OnTermsOfUseStatusChange - SetUserAgrees(false)"));
         SetUserAgrees(true);
     }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CTermsOfUsePage::OnTermsOfUseStatusChange - Function End"));
 }
-
-/*!
- * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_TERMSOFUSEDISAGREECTRL
- */
-
-void CTermsOfUsePage::OnDisagree( wxCommandEvent& event ) {
-    if (event.IsChecked()) {
-        wxLogTrace(wxT("Function Status"), wxT("CTermsOfUsePage::OnDisagree - SetUserAgrees(false)"));
-        SetUserAgrees(false);
-    }
-}
-

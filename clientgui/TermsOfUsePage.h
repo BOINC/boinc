@@ -48,14 +48,15 @@ public:
     /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_TERMSOFUSEPAGE
     void OnPageChanged( wxWizardExEvent& event );
 
+    /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_TERMSOFUSEPAGE
+    void OnPageChanging( wxWizardExEvent& event );
+
     /// wxEVT_WIZARD_CANCEL event handler for ID_TERMSOFUSEPAGE
     void OnCancel( wxWizardExEvent& event );
 
     /// wxEVT_COMMAND_RADIOBUTTON_SELECTED  event handler for ID_TERMSOFUSEAGREECTRL
-    void OnAgree( wxCommandEvent& event );
-
-    /// wxEVT_COMMAND_RADIOBUTTON_SELECTED  event handler for ID_TERMSOFUSEDISAGREECTRL
-    void OnDisagree( wxCommandEvent& event );
+    ///   or ID_TERMSOFUSEDISAGREECTRL
+    void OnTermsOfUseStatusChange( wxCommandEvent& event );
 
 ////@end CTermsOfUsePage event handler declarations
 
@@ -77,6 +78,9 @@ public:
     bool GetUserAgrees() const { return m_bUserAgrees ; }
     void SetUserAgrees(bool value) { m_bUserAgrees = value ; }
 
+    bool GetCredentialsAlreadyAvailable() const { return m_bCredentialsAlreadyAvailable ; }
+    void SetCredentialsAlreadyAvailable(bool value) { m_bCredentialsAlreadyAvailable = value ; }
+
     /// Should we show tooltips?
     static bool ShowToolTips();
 
@@ -88,6 +92,7 @@ public:
     wxRadioButton* m_pDisagreeCtrl;
 ////@end CTermsOfUsePage member variables
     bool m_bUserAgrees;
+    bool m_bCredentialsAlreadyAvailable;
 };
 
 #endif

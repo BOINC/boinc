@@ -55,8 +55,10 @@ END_DECLARE_EVENT_TYPES()
 #define ACCTMGRPROP_RETRPROJECTPROPERTIES_EXECUTE          2
 #define ACCTMGRPROP_DETERMINENETWORKSTATUS_BEGIN           3
 #define ACCTMGRPROP_DETERMINENETWORKSTATUS_EXECUTE         4
-#define ACCTMGRPROP_CLEANUP                                5
-#define ACCTMGRPROP_END                                    6
+#define ACCTMGRPROP_DETERMINEACCOUNTINFOSTATUS_BEGIN       5
+#define ACCTMGRPROP_DETERMINEACCOUNTINFOSTATUS_EXECUTE     6
+#define ACCTMGRPROP_CLEANUP                                7
+#define ACCTMGRPROP_END                                    8
 
 /*!
  * CAccountManagerPropertiesPage class declaration
@@ -127,6 +129,9 @@ public:
     bool GetTermsOfUseRequired() const { return m_bTermsOfUseRequired ; }
     void SetTermsOfUseRequired(bool value) { m_bTermsOfUseRequired = value ; }
 
+    bool GetCredentialsAlreadyAvailable() const { return m_bCredentialsAlreadyAvailable ; }
+    void SetCredentialsAlreadyAvailable(bool value) { m_bCredentialsAlreadyAvailable = value ; }
+
     wxInt32 GetCurrentState() const { return m_iCurrentState ; }
     void SetNextState(wxInt32 value) { m_iCurrentState = value ; }
 
@@ -150,6 +155,7 @@ public:
     bool m_bNetworkConnectionDetected;
     bool m_bServerReportedError;
     bool m_bTermsOfUseRequired;
+    bool m_bCredentialsAlreadyAvailable;
     int m_iBitmapIndex;
     int m_iCurrentState;
 };
