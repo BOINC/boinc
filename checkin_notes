@@ -5856,8 +5856,8 @@ Rom    19 June 2009
         ProjectInfoPage.cpp
         ProjectListCtrl.cpp, .h
 
-Charlie 16 June 2009
-    - MGR: Fix fatal error which caused crash in Accoount Manager Wizard.
+Charlie 19 June 2009
+    - MGR: Fix fatal error which caused crash in Account Manager Wizard.
     - Mac Installer: Fix bugs in scripts for converting BOINC installer to 
         Progress Thru Processors installer and to GridRepublic installer.
 
