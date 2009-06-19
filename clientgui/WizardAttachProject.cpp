@@ -380,9 +380,7 @@ bool CWizardAttachProject::Run( wxString& WXUNUSED(strName), wxString& strURL, b
         }
     }
 
-    if ( strURL.Length() && (bCredentialsCached || m_bCredentialsDetected) && m_ProjectProcessingPage) {
-        return RunWizard(m_ProjectProcessingPage);
-    } else if (strURL.Length() && !bCredentialsCached && m_ProjectPropertiesPage) {
+    if (strURL.Length() && m_ProjectPropertiesPage) {
         return RunWizard(m_ProjectPropertiesPage);
     } else if (m_WelcomePage) {
         return RunWizard(m_WelcomePage);
@@ -410,6 +408,10 @@ bool CWizardAttachProject::SyncToAccountManager() {
         m_bCredentialsCached = ami.have_credentials;
         m_bCookieRequired = ami.cookie_required;
         m_strCookieFailureURL = wxString(ami.cookie_failure_url.c_str(), wxConvUTF8);
+
+        if (m_bCredentialsCached) {
+            IsAccountManagerUpdateWizard = true;
+        }
     }
 
     if (ami.acct_mgr_url.size() && !m_bCredentialsCached) {
@@ -436,10 +438,7 @@ bool CWizardAttachProject::SyncToAccountManager() {
         }
     }
 
-    if ( !ami.acct_mgr_url.empty() && (m_bCredentialsCached || m_bCredentialsDetected) && m_AccountManagerProcessingPage) {
-        IsAccountManagerUpdateWizard = true;
-        return RunWizard(m_AccountManagerProcessingPage);
-    } else if ( ami.acct_mgr_url.size() && !m_bCredentialsCached && m_AccountManagerProcessingPage) {
+    if (m_AccountManagerPropertiesPage) {
         return RunWizard(m_AccountManagerPropertiesPage);
     }
 

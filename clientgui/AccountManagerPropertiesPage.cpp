@@ -38,6 +38,7 @@
 #include "WizardAttachProject.h"
 #include "AccountManagerPropertiesPage.h"
 #include "AccountManagerInfoPage.h"
+#include "AccountInfoPage.h"
 #include "CompletionErrorPage.h"
 #include "TermsOfUsePage.h"
 
@@ -117,6 +118,7 @@ bool CAccountManagerPropertiesPage::Create( CBOINCBaseWizard* parent )
     m_bNetworkConnectionDetected = false;
     m_bServerReportedError = false;
     m_bTermsOfUseRequired = true;
+    m_bCredentialsAlreadyAvailable = false;
     m_iBitmapIndex = 0;
     m_iCurrentState = ACCTMGRPROP_INIT;
  
@@ -210,6 +212,8 @@ void CAccountManagerPropertiesPage::OnPageChanged( wxWizardExEvent& event )
     SetProjectAccountCreationDisabled(false);
     SetProjectClientAccountCreationDisabled(false);
     SetNetworkConnectionDetected(false);
+    SetTermsOfUseRequired(true);
+    SetCredentialsAlreadyAvailable(false);
     SetNextState(ACCTMGRPROP_INIT);
 
     CAccountManagerPropertiesPageEvent TransitionEvent(wxEVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE, this);
@@ -232,7 +236,7 @@ void CAccountManagerPropertiesPage::OnCancel( wxWizardExEvent& event ) {
  
 void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPageEvent& WXUNUSED(event) )
 {
-    CMainDocument* pDoc         = wxGetApp().GetDocument();
+    CMainDocument*         pDoc = wxGetApp().GetDocument();
     CWizardAttachProject*  pWAP = ((CWizardAttachProject*)GetParent());
     PROJECT_CONFIG* pc;
     CC_STATUS status;
@@ -248,6 +252,8 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(pWAP);
+    wxASSERT(wxDynamicCast(pWAP, CWizardAttachProject));
  
     switch(GetCurrentState()) {
         case ACCTMGRPROP_INIT:
@@ -393,6 +399,20 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 SetNetworkConnectionDetected(false);
             }
 
+            SetNextState(ACCTMGRPROP_DETERMINEACCOUNTINFOSTATUS_BEGIN);
+            break;
+        case ACCTMGRPROP_DETERMINEACCOUNTINFOSTATUS_BEGIN:
+            SetNextState(ACCTMGRPROP_DETERMINEACCOUNTINFOSTATUS_EXECUTE);
+            break;
+        case ACCTMGRPROP_DETERMINEACCOUNTINFOSTATUS_EXECUTE:
+            // Determine if the account settings are already pre-populated.
+            //   If so, advance to the Account Manager Processing page.
+            if ( pWAP->m_bCredentialsCached || pWAP->m_bCredentialsDetected) {
+                SetCredentialsAlreadyAvailable(true);
+            } else {
+                SetCredentialsAlreadyAvailable(false);
+            }
+
             SetNextState(ACCTMGRPROP_CLEANUP);
             break;
         case ACCTMGRPROP_CLEANUP:
@@ -438,6 +458,9 @@ wxWizardPageEx* CAccountManagerPropertiesPage::GetNext() const
     } else if (GetProjectPropertiesSucceeded() && GetTermsOfUseRequired()) {
         // Terms of Use are required before requesting account information
         return PAGE_TRANSITION_NEXT(ID_TERMSOFUSEPAGE);
+    } else if (GetProjectPropertiesSucceeded() && GetCredentialsAlreadyAvailable()) {
+        // Credentials are already available, do whatever we need to do.
+        return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERPROCESSINGPAGE);
     } else if (GetProjectPropertiesSucceeded()) {
         // We were successful in retrieving the project properties
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);

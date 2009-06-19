@@ -188,6 +188,9 @@ wxWizardPageEx* CProjectPropertiesPage::GetNext() const
     } else if (GetProjectPropertiesSucceeded() && GetTermsOfUseRequired()) {
         // Terms of Use are required before requesting account information
         return PAGE_TRANSITION_NEXT(ID_TERMSOFUSEPAGE);
+    } else if (GetProjectPropertiesSucceeded() && GetCredentialsAlreadyAvailable()) {
+        // Credentials are already available, do whatever we need to do.
+        return PAGE_TRANSITION_NEXT(ID_PROJECTPROCESSINGPAGE);
     } else if (GetProjectPropertiesSucceeded()) {
         // We were successful in retrieving the project properties
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
@@ -525,8 +528,22 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
             } else {
                 SetNetworkConnectionDetected(false);
             }
-            SetNextState(PROJPROP_CLEANUP);
 
+            SetNextState(PROJPROP_DETERMINEACCOUNTINFOSTATUS_BEGIN);
+            break;
+        case PROJPROP_DETERMINEACCOUNTINFOSTATUS_BEGIN:
+            SetNextState(PROJPROP_DETERMINEACCOUNTINFOSTATUS_EXECUTE);
+            break;
+        case PROJPROP_DETERMINEACCOUNTINFOSTATUS_EXECUTE:
+            // Determine if the account settings are already pre-populated.
+            //   If so, advance to the Project Processing page.
+            if ( pWAP->m_bCredentialsCached || pWAP->m_bCredentialsDetected) {
+                SetCredentialsAlreadyAvailable(true);
+            } else {
+                SetCredentialsAlreadyAvailable(false);
+            }
+
+            SetNextState(PROJPROP_CLEANUP);
             break;
         case PROJPROP_CLEANUP:
             FinishProgress(m_pProgressIndicator);

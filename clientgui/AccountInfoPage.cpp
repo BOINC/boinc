@@ -504,8 +504,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
  * wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ACCOUNTINFOPAGE
  */
  
-void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event )
-{
+void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
     wxString               strTitle;

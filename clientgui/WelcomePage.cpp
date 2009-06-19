@@ -217,8 +217,8 @@ wxIcon CWelcomePage::GetIconResource( const wxString& WXUNUSED(name) )
  */
  
 void CWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnPageChanged - Function Begin"));
     if (event.GetDirection() == false) return;
+    wxLogTrace(wxT("Function Start/End"), wxT("CWelcomePage::OnPageChanged - Function Begin"));
 
     CMainDocument*         pDoc = wxGetApp().GetDocument();
     ACCT_MGR_INFO          ami;
