@@ -119,8 +119,6 @@ void CAccountManagerInfoPage::CreateControls()
     m_pDescriptionStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer24->Add(m_pDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
-
     wxFlexGridSizer* itemFlexGridSizer3 = new wxFlexGridSizer(2, 1, 0, 0);
     itemFlexGridSizer3->AddGrowableRow(0);
     itemFlexGridSizer3->AddGrowableCol(0);

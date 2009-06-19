@@ -135,10 +135,12 @@ void CAccountInfoPage::CreateControls()
 
     m_pCookieDetectionFailedStaticCtrl = new wxStaticText;
     m_pCookieDetectionFailedStaticCtrl->Create( itemWizardPage56, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pCookieDetectionFailedStaticCtrl->Hide();
     itemBoxSizer57->Add(m_pCookieDetectionFailedStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     m_pCookieDetectionFailedCtrl = new wxHyperLink;
     m_pCookieDetectionFailedCtrl->Create( itemWizardPage56, ID_ACCOUNTCOOKIEDETECTIONFAILEDCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pCookieDetectionFailedCtrl->Hide();
     itemBoxSizer57->Add(m_pCookieDetectionFailedCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     m_pAccountQuestionStaticCtrl = new wxStaticText;
@@ -330,6 +332,9 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         if (!(pWAP->m_bCookieRequired && !pWAP->m_bCredentialsDetected)) {
             m_pCookieDetectionFailedStaticCtrl->Hide();
             m_pCookieDetectionFailedCtrl->Hide();
+        } else {
+            m_pCookieDetectionFailedStaticCtrl->Show();
+            m_pCookieDetectionFailedCtrl->Show();
         }
 
         m_pAccountQuestionStaticCtrl->Hide();

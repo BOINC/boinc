@@ -51,7 +51,6 @@ CBOINCBaseWizard::CBOINCBaseWizard() :
     IsAttachToProjectWizard = false;
     IsAccountManagerWizard = false;
     IsAccountManagerUpdateWizard = false;
-    IsAccountManagerRemoveWizard = false;
     close_when_completed = false;
 }
 
@@ -61,29 +60,7 @@ CBOINCBaseWizard::CBOINCBaseWizard(wxWindow *parent, int id, const wxString& tit
     IsAttachToProjectWizard = false;
     IsAccountManagerWizard = false;
     IsAccountManagerUpdateWizard = false;
-    IsAccountManagerRemoveWizard = false;
     close_when_completed = false;
-}
-
-/*!
- * Set the diagnostics flags.
- */
- 
-void CBOINCBaseWizard::SetDiagFlags( unsigned long ulFlags )
-{
-    m_ulDiagFlags = ulFlags;
-}
- 
-/*!
- * Check the desired bitmask against our existing bitmask.
- */
-
-bool CBOINCBaseWizard::IsDiagFlagsSet( unsigned long ulFlags )
-{
-    if (ulFlags & m_ulDiagFlags) {
-        return true;
-    }
-    return false;
 }
 
 /*!

@@ -110,6 +110,7 @@ bool CProjectPropertiesPage::Create( CBOINCBaseWizard* parent )
  
     m_bProjectPropertiesSucceeded = false;
     m_bProjectPropertiesURLFailure = false;
+    m_bProjectPropertiesCommunicationFailure = false;
     m_bProjectAccountCreationDisabled = false;
     m_bProjectClientAccountCreationDisabled = false;
     m_bNetworkConnectionDetected = false;
@@ -334,6 +335,7 @@ void CProjectPropertiesPage::OnPageChanged( wxWizardExEvent& event ) {
 
     SetProjectPropertiesSucceeded(false);
     SetProjectPropertiesURLFailure(false);
+    SetProjectPropertiesCommunicationFailure(false);
     SetProjectAccountCreationDisabled(false);
     SetProjectClientAccountCreationDisabled(false);
     SetNetworkConnectionDetected(false);
@@ -423,25 +425,25 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
             bSuccessfulCondition = 
                 (!iReturnValue) && (!pc->error_num) ||
                 (!iReturnValue) && (ERR_ACCT_CREATION_DISABLED == pc->error_num);
-            if (bSuccessfulCondition && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIES)) {
+            if (bSuccessfulCondition) {
                 SetProjectPropertiesSucceeded(true);
 
                 bSuccessfulCondition = pc->account_creation_disabled;
-                if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRACCOUNTCREATIONDISABLED)) {
+                if (bSuccessfulCondition) {
                     SetProjectAccountCreationDisabled(true);
                 } else {
                     SetProjectAccountCreationDisabled(false);
                 }
 
                 bSuccessfulCondition = pc->client_account_creation_disabled;
-                if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRCLIENTACCOUNTCREATIONDISABLED)) {
+                if (bSuccessfulCondition) {
                     SetProjectClientAccountCreationDisabled(true);
                 } else {
                     SetProjectClientAccountCreationDisabled(false);
                 }
  
                 bSuccessfulCondition = !pc->terms_of_use.empty();
-                if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRTERMSOFUSEREQUIRED)) {
+                if (bSuccessfulCondition) {
                     SetTermsOfUseRequired(true);
                 } else {
                     SetTermsOfUseRequired(false);
@@ -452,14 +454,21 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 SetProjectPropertiesSucceeded(false);
 
                 bSuccessfulCondition = 
-                    (!iReturnValue) && (ERR_FILE_NOT_FOUND == pc->error_num) ||
-                    (!iReturnValue) && (ERR_GETHOSTBYNAME == pc->error_num) ||
-                    (!iReturnValue) && (ERR_CONNECT == pc->error_num) ||
-                    (!iReturnValue) && (ERR_XML_PARSE == pc->error_num);
-                if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
+                    (!iReturnValue) && (ERR_FILE_NOT_FOUND == pc->error_num);
+                if (bSuccessfulCondition) {
                     SetProjectPropertiesURLFailure(true);
                 } else {
                     SetProjectPropertiesURLFailure(false);
+                }
+
+                bSuccessfulCondition = 
+                    (!iReturnValue) && (ERR_GETHOSTBYNAME == pc->error_num) ||
+                    (!iReturnValue) && (ERR_CONNECT == pc->error_num) ||
+                    (!iReturnValue) && (ERR_XML_PARSE == pc->error_num);
+                if (bSuccessfulCondition) {
+                    SetProjectPropertiesCommunicationFailure(true);
+                } else {
+                    SetProjectPropertiesCommunicationFailure(false);
                 }
 
                 bSuccessfulCondition = 
@@ -468,7 +477,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                     ((!iReturnValue) && (ERR_CONNECT != pc->error_num)) &&
                     ((!iReturnValue) && (ERR_XML_PARSE != pc->error_num)) &&
                     (!iReturnValue);
-                if (bSuccessfulCondition || CHECK_DEBUG_FLAG(WIZDEBUG_ERRPROJECTPROPERTIESURL)) {
+                if (bSuccessfulCondition) {
                     SetServerReportedError(true);
 
                     strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
@@ -511,7 +520,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
             }
 
             bSuccessfulCondition = NETWORK_STATUS_WANT_CONNECTION != status.network_status;
-            if (bSuccessfulCondition && !CHECK_DEBUG_FLAG(WIZDEBUG_ERRNETDETECTION)) {
+            if (bSuccessfulCondition) {
                 SetNetworkConnectionDetected(true);
             } else {
                 SetNetworkConnectionDetected(false);

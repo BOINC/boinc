@@ -40,11 +40,6 @@ public:
              const wxPoint& pos = wxDefaultPosition,
              long style = wxDEFAULT_DIALOG_STYLE);
 
-    /// Diagnostics functions
-    virtual void SetDiagFlags( unsigned long ulFlags );
-    virtual bool IsDiagFlagsSet( unsigned long ulFlags );
-    unsigned long m_ulDiagFlags;
-
     /// Track page transitions
     wxWizardPageEx* PopPageTransition();
     virtual wxWizardPageEx* _PopPageTransition();
@@ -76,7 +71,6 @@ public:
     bool IsAttachToProjectWizard;
     bool IsAccountManagerWizard;
     bool IsAccountManagerUpdateWizard;
-    bool IsAccountManagerRemoveWizard;
 
     /// Global Wizard Status
     PROJECT_CONFIG      project_config;

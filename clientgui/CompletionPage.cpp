@@ -54,7 +54,6 @@ BEGIN_EVENT_TABLE( CCompletionPage, wxWizardPageEx )
     EVT_WIZARDEX_PAGE_CHANGED( -1, CCompletionPage::OnPageChanged )
     EVT_WIZARDEX_CANCEL( -1, CCompletionPage::OnCancel )
     EVT_WIZARDEX_FINISHED( ID_COMPLETIONPAGE, CCompletionPage::OnFinished )
-
 ////@end CCompletionPage event table entries
  
 END_EVENT_TABLE()
@@ -174,7 +173,6 @@ wxBitmap CCompletionPage::GetBitmapResource( const wxString& WXUNUSED(name) )
 wxIcon CCompletionPage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
- 
 ////@begin CCompletionPage icon retrieval
     return wxNullIcon;
 ////@end CCompletionPage icon retrieval
@@ -234,27 +232,6 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
                 );
             } else {
                 strTitle = _("Update completed.");
-            }
-
-            m_pCompletionTitle->SetLabel( strTitle );
-
-            m_pCompletionMessage->SetLabel(
-                _("Click Finish to close.")
-            );
-
-        } else if (IS_ACCOUNTMANAGERREMOVEWIZARD()) {
-            // Remove Completed
-
-            wxString strTitle;
-            if (pSkinAdvanced->IsBranded()) {
-                // %s is the project name
-                //    i.e. 'GridRepublic'
-                strTitle.Printf(
-                    _("Removal from %s completed."),
-                    pSkinAdvanced->GetApplicationShortName().c_str()
-                );
-            } else {
-                strTitle = _("Removal succeeded!");
             }
 
             m_pCompletionTitle->SetLabel( strTitle );
