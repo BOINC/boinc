@@ -45,6 +45,9 @@
 ##   XCode developer tools.  So you must have installed XCode Developer 
 ##   Tools on the Mac before running this script.
 ##
+## NOTE: PackageMaker may write 3 lines to the terminal with "Setting to : 0 (null)" 
+##   and "relocate: (null) 0".  This is normal and does not indicate a problem.
+##
 ## cd to the working directory:
 ##
 ## Invoke this script with the three parts of version number as arguments.  
