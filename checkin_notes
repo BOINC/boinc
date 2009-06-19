@@ -5919,3 +5919,12 @@ David  19 June 2009
 
     sched/
         sched_send.cpp
+
+Rom    19 June 2009
+    - MGR: Keep the wizard state mahine from prematurly moving on without
+        checking network connectivity and whether credentials have been
+        detected.
+        
+    clientgui/
+        AccountManagerPropertiesPage.cpp
+        ProjectPropertiesPage.cpp

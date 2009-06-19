@@ -329,8 +329,6 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 }
 
                 pWAP->m_strProjectName = wxString(pc->name.c_str(), wxConvUTF8);
- 
-                SetNextState(ACCTMGRPROP_CLEANUP);
             } else {
                 SetProjectPropertiesSucceeded(false);
 
@@ -362,9 +360,9 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 } else {
                     SetServerReportedError(false);
                 }
-
-                SetNextState(ACCTMGRPROP_DETERMINENETWORKSTATUS_BEGIN);
             }
+
+            SetNextState(ACCTMGRPROP_DETERMINENETWORKSTATUS_BEGIN);
             break;
         case ACCTMGRPROP_DETERMINENETWORKSTATUS_BEGIN:
             SetNextState(ACCTMGRPROP_DETERMINENETWORKSTATUS_EXECUTE);
