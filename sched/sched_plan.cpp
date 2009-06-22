@@ -40,7 +40,8 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         // (hence on a uniprocessor we'll use a sequential app
         // if one is available)
         //
-        double ncpus = effective_ncpus();   // take prefs into account
+        double ncpus = g_wreq->effective_ncpus;
+            // number of usable CPUs, taking user prefs into account
         int nthreads = (int)(ncpus/.65);
         if (!nthreads) return PLAN_REJECT_INSUFFICIENT_CPUS;
         if (nthreads > 64) nthreads = 64;

@@ -84,30 +84,27 @@ const double MAX_REQ_SECS = (28*SECONDS_IN_DAY);
 const int MAX_CUDA_DEVS = 8;
     // don't believe clients who claim they have more CUDA devices than this
 
-int effective_ncpus() {
-    int ncpus = g_reply->host.p_ncpus;
-    if (g_request->global_prefs.max_ncpus_pct && g_request->global_prefs.max_ncpus_pct < 100) {
-        ncpus = (int)((ncpus*g_request->global_prefs.max_ncpus_pct)/100.);
-    }
-    if (ncpus > config.max_ncpus) ncpus = config.max_ncpus;
-    if (ncpus < 1) ncpus = 1;
-    return ncpus;
-}
-
-inline int effective_ngpus() {
-    int m = 0;
-    COPROC* cp = g_request->coprocs.lookup("CUDA");
-    if (cp) {
-        int m = cp->count;
-        if (m > MAX_CUDA_DEVS) m = MAX_CUDA_DEVS;
-    }
-    return m;
-}
-
 // get limits on #jobs per day and per RPC, on in progress
 //
-inline void get_job_limits() {
-    int mult = effective_ncpus() + config.gpu_multiplier * effective_ngpus();
+void WORK_REQ::get_job_limits() {
+    int n;
+    n = g_reply->host.p_ncpus;
+    if (g_request->global_prefs.max_ncpus_pct && g_request->global_prefs.max_ncpus_pct < 100) {
+        n = (int)((n*g_request->global_prefs.max_ncpus_pct)/100.);
+    }
+    if (n > config.max_ncpus) n = config.max_ncpus;
+    if (n < 1) n = 1;
+    effective_ncpus = n;
+
+    n = 0;
+    COPROC* cp = g_request->coprocs.lookup("CUDA");
+    if (cp) {
+        n = cp->count;
+        if (n > MAX_CUDA_DEVS) n = MAX_CUDA_DEVS;
+    }
+    effective_ngpus = n;
+
+    int mult = effective_ncpus + config.gpu_multiplier * effective_ngpus;
 
     if (config.max_wus_to_send) {
         g_wreq->max_jobs_per_rpc = mult * config.max_wus_to_send;
@@ -124,12 +121,10 @@ inline void get_job_limits() {
         g_wreq->max_jobs_per_day = 999999;
     }
 
-    int nc = effective_ncpus();
-    int ng = effective_ngpus();
     if (config.max_wus_in_progress) {
-        g_wreq->max_jobs_on_host_cpu = config.max_wus_in_progress * nc;
+        g_wreq->max_jobs_on_host_cpu = config.max_wus_in_progress * effective_ncpus;
         if (config.max_wus_in_progress_gpu) {
-            g_wreq->max_jobs_on_host_gpu = config.max_wus_in_progress_gpu * ng;
+            g_wreq->max_jobs_on_host_gpu = config.max_wus_in_progress_gpu * effective_ngpus;
             g_wreq->max_jobs_on_host = g_wreq->max_jobs_on_host_cpu + g_wreq->max_jobs_on_host_gpu;
         } else {
             g_wreq->max_jobs_on_host_gpu = 999999;
@@ -139,7 +134,7 @@ inline void get_job_limits() {
         g_wreq->max_jobs_on_host_cpu = 999999;
         g_wreq->max_jobs_on_host = 999999;
         if (config.max_wus_in_progress_gpu) {
-            g_wreq->max_jobs_on_host_gpu = config.max_wus_in_progress_gpu * ng;
+            g_wreq->max_jobs_on_host_gpu = config.max_wus_in_progress_gpu * effective_ngpus;
         } else {
             g_wreq->max_jobs_on_host_gpu = 999999;
         }
@@ -543,9 +538,9 @@ static inline int check_deadline(
         }
         IP_RESULT candidate("", wu.delay_bound, est_dur);
         strcpy(candidate.name, wu.name);
-        if (check_candidate(candidate, effective_ncpus(), g_request->ip_results)) {
+        if (check_candidate(candidate, g_wreq->effective_ncpus, g_request->ip_results)) {
             // it passed the feasibility test,
-            // but don't add it the the workload yet;
+            // but don't add it to the workload yet;
             // wait until we commit to sending it
         } else {
             g_reply->wreq.edf_reject(est_dur, wu.delay_bound);
@@ -840,7 +835,9 @@ bool work_needed(bool locality_sched) {
     }
     if (g_wreq->njobs_on_host_gpu >= g_wreq->max_jobs_on_host_gpu) {
         g_wreq->clear_gpu_req();
-        g_wreq->max_jobs_on_host_gpu_exceeded = true;
+        if (g_wreq->effective_ngpus) {
+            g_wreq->max_jobs_on_host_gpu_exceeded = true;
+        }
     }
 
     if (g_wreq->njobs_sent >= g_wreq->max_jobs_per_rpc) {
@@ -1346,7 +1343,7 @@ void send_work_setup() {
     get_mem_sizes();
     get_running_frac();
     get_dcf();
-    get_job_limits();
+    g_wreq->get_job_limits();
 
     g_wreq->seconds_to_fill = clamp_req_sec(g_request->work_req_seconds);
     g_wreq->cpu_req_secs = clamp_req_sec(g_request->cpu_req_secs);
@@ -1432,7 +1429,8 @@ void send_work() {
 
     if (config.workload_sim && g_request->have_other_results_list) {
         init_ip_results(
-            g_request->global_prefs.work_buf_min(), effective_ncpus(), g_request->ip_results
+            g_request->global_prefs.work_buf_min(),
+            g_wreq->effective_ncpus, g_request->ip_results
         );
     }
 

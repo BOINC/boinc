@@ -111,6 +111,8 @@ struct WORK_REQ {
 
     bool trust;
         // whether to send unreplicated jobs
+    int effective_ncpus;
+    int effective_ngpus;
 
     // 6.7+ clients send separate requests for different resource types:
     //
@@ -214,6 +216,7 @@ struct WORK_REQ {
     int max_jobs_on_host_gpu;
     void update_for_result(double seconds_filled);
     void insert_no_work_message(const USER_MESSAGE&);
+    void get_job_limits();
 };
 
 // a description of a sticky file on host.

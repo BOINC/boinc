@@ -113,15 +113,23 @@ pkginclude_HEADERS = \
     parse.h \
     prefs.h \
     proxy_info.h \
-    shmem.h \
     stackwalker_imports.h \
     stackwalker_win.h \
     str_util.h \
-    synch.h \
     util.h \
     win_util.h \
     $(mac_headers)
 endif
+
+# These are used internally and are not meant to be installed
+noinst_HEADERS = \
+    msg_queue.h \
+    proc_control.h \
+    procinfo.h \
+    shmem.h \
+    str_replace.h \
+    synch.h \
+    unix_util.h
 
 lib_LTLIBRARIES = libboinc.la 
 libboinc_la_SOURCES = $(generic_sources) $(mac_sources)
