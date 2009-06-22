@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import boinc_path_config
-from Boinc.assimilator import *
+from assimilator import *
 import os, sys, shutil
 
 class PymwAssimilator(Assimilator):
@@ -69,29 +69,28 @@ class PymwAssimilator(Assimilator):
 
         # report errors with the workunit
         if self.report_errors(wu):
-            pass    
-
+            pass
 
     def parse_args(self, args):
         """
         This overridden version adds support for a PyMW destination directory.
         """
-        
+
         # scan the args for the -pymw_dir switch
         # remove it when found so the base class doesn't complain
         # then call the base parse_args method
-        
+
         newArgs = []
         args.reverse()
         found = False
-        
+
         while len(args):
             arg = args.pop()
             if arg.strip() == '-pymw_dir':
                 if len(args) == 0:
                     self.logCritical("Error, path switch found, but no path specified\n")
                     sys.exit(1)
-                
+
                 self.pymwDir = args.pop()
                 if not os.path.exists(self.pymwDir):
                     self.logCritical("Path does not exist or is inaccessible: %s\n", \

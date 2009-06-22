@@ -5949,3 +5949,12 @@ David  22 June 2009
         sched_send.cpp
         sched_plan.cpp
         server_types.cpp
+
+David  22 June 2009
+    - make_project/upgrade: install pymw assimilator
+    - make pymw_assimilator.py executable
+
+    py/Boinc/
+        setup_projects.py
+    sched/
+        pymw_assimilator.py (set svn:executable)
