@@ -21,6 +21,7 @@
 
 require_once('../inc/forum_email.inc');
 require_once('../inc/forum.inc');
+require_once('../inc/bbcode_bbcodehtml.inc');
 require_once('../inc/akismet.inc');
 
 $logged_in_user = get_logged_in_user(true);
@@ -81,7 +82,7 @@ if ($content && (!$preview)){
     }
 }
 
-page_head(tra("Post to thread"),'','','','<script type="text/javascript" src="bbcode_toolbar.js"></script>');
+page_head(tra("Post to thread"),'','','', $bbcode_js);
 
 show_forum_header($logged_in_user);
 
@@ -130,8 +131,7 @@ function show_message_row($thread, $parent_post) {
 
     $x2 .= " method=\"post\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
     $x2 .= form_tokens($g_logged_in_user->authenticator);
-    $bbcode_bbcodehtml = file_get_contents('../inc/bbcode_bbcodehtml.inc');
-    $x2 .= $bbcode_bbcodehtml."<textarea name=\"content\" rows=\"18\" cols=\"80\">";        
+    $x2 .= $bbcode_html."<textarea name=\"content\" rows=\"18\" cols=\"80\">";        
     $no_quote = get_int("no_quote", true)==1;
     if ($preview) {
         $x2 .= htmlspecialchars($content);

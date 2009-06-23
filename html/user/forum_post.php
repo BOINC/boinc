@@ -22,6 +22,7 @@
 
 require_once('../inc/forum_email.inc');
 require_once('../inc/forum.inc');
+require_once('../inc/bbcode_bbcodehtml.inc');
 require_once('../inc/akismet.inc');
 
 $logged_in_user = get_logged_in_user();
@@ -61,7 +62,7 @@ if ($content && $title && (!$preview)){
     }
 }
 
-page_head('Create new thread','','','','<script type="text/javascript" src="bbcode_toolbar.js"></script>');
+page_head('Create new thread','','','', $bbcode_js);
 show_forum_header($logged_in_user);
 
 if ($warning) {
@@ -108,9 +109,8 @@ if ($force_title && $title){
 }
 
 //Message
-$bbcode_bbcodehtml = file_get_contents('../inc/bbcode_bbcodehtml.inc');
 row2(tra("Message").html_info().post_warning().$body_help,
-     $bbcode_bbcodehtml."<textarea name=\"content\" rows=\"12\" cols=\"54\">".htmlspecialchars($content)."</textarea>"
+     $bbcode_html."<textarea name=\"content\" rows=\"12\" cols=\"54\">".htmlspecialchars($content)."</textarea>"
 );
 
 if (!$logged_in_user->prefs->no_signature_by_default) {

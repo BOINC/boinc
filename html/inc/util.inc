@@ -100,7 +100,9 @@ $cache_control_extra="";
 // To do so, define page_head() in the project include file.
 //
 if (!function_exists("page_head")){
-function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $bbcode_js_head=null) {
+function page_head(
+    $title, $java_onload=null, $title_plain=null, $prefix="", $head_extra=null
+) {
     global $caching;
     global $cache_control_extra;
 
@@ -127,19 +129,12 @@ function page_head($title, $java_onload=null, $title_plain=null, $prefix="", $bb
     } else {
         echo "<html><head><title>".strip_tags($title_plain)."</title>\n";
     }
-    if ($bbcode_js_head){
     echo "<link rel=stylesheet type=\"text/css\" href=\"main.css\" media=\"all\" />
 		<link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
-        <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">$bbcode_js_head
-        </head>
-    ";
-    } else {
-        echo "<link rel=stylesheet type=\"text/css\" href=\"main.css\" media=\"all\" />
-		<link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
         <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
+        $head_extra
         </head>
     ";
-    }
     if ($java_onload){
         echo "<body onload=\"".$java_onload."\">";
     } else {

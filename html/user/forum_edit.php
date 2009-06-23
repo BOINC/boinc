@@ -22,6 +22,7 @@
 //
 
 require_once('../inc/forum.inc');
+require_once('../inc/bbcode_bbcodehtml.inc');
 
 $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
@@ -82,7 +83,7 @@ if (post_str('submit',true) && (!$preview)) {
     }
 }
 
-page_head('Forum','','','','<script type="text/javascript" src="bbcode_toolbar.js"></script>');
+page_head('Forum','','','', $bbcode_js);
 
 show_forum_header($logged_in_user);
 switch ($forum->parent_type) {
@@ -122,17 +123,15 @@ if ($can_edit_title) {
     }
 };
 
-$bbcode_bbcodehtml = file_get_contents('../inc/bbcode_bbcodehtml.inc');
-
 if ($preview) {
     row2(
         tra("Message").html_info().post_warning(),
-        $bbcode_bbcodehtml."<textarea name=\"content\" rows=\"12\" cols=\"80\">".htmlspecialchars($content)."</textarea>"
+        $bbcode_html."<textarea name=\"content\" rows=\"12\" cols=\"80\">".htmlspecialchars($content)."</textarea>"
     );
 } else {
     row2(
         tra("Message").html_info().post_warning(),
-        $bbcode_bbcodehtml.'<textarea name="content" rows="12" cols="80">'.htmlspecialchars($post->content).'</textarea>'
+        $bbcode_html.'<textarea name="content" rows="12" cols="80">'.htmlspecialchars($post->content).'</textarea>'
     );
 }
 

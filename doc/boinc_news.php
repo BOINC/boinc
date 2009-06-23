@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("June 23, 2009",
+    "Read <a href=http://www.newswise.com/articles/view/553414/>an article
+    about Docking@Home</a> in Newswise Science News."
+),
 array("June 10, 2009",
     "Check out <a href=http://dishmag.com/issue96/homestyle/10099/boinc-how-your-computer-can-benefit-all-of-mankind/>BOINC! How your computer can benefit all of mankind</a>, a story in the online <a href=http://dishmag.com/>Dish Magazine</a>."
 ),

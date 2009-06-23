@@ -18,6 +18,7 @@
 
 require_once("boinc_db.inc");
 require_once("sanitize_html.inc");
+require_once("bbcode_bbcodehtml.inc");
 
 function pm_header() {
     echo "<div>\n";
@@ -27,8 +28,9 @@ function pm_header() {
 }
 
 function pm_create_new($error = null) {
+    global $bbcode_bbcodehtml, $bbcode_js;
     global $g_logged_in_user;
-    page_head(tra("Send private message"),'','','','<script type="text/javascript" src="bbcode_toolbar.js"></script>');
+    page_head(tra("Send private message"),'','','', $bbcode_js);
     
     if (post_str("preview", true) == tra("Preview")) {
         $options = new output_options;
@@ -84,7 +86,6 @@ function pm_create_new($error = null) {
         "<input type=\"text\" name=\"to\" value=\"$writeto\" size=\"60\">"
     );
     row2(tra("Subject"), "<input type=\"text\" name=\"subject\" value=\"$subject\" size=\"60\">");
-    $bbcode_bbcodehtml = file_get_contents('../inc/bbcode_bbcodehtml.inc');
     row2(tra("Message")."<span class=\"smalltext\">".html_info()."</span>",
         $bbcode_bbcodehtml."<textarea name=\"content\" rows=\"18\" cols=\"80\">$content</textarea>"
     );

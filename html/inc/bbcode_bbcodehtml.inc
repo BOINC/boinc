@@ -1,3 +1,8 @@
+<?php
+
+$bbcode_js = "'<script type=\"text/javascript\" src=\"bbcode_toolbar.js\"></script>'";
+
+$bbcode_html = <<<EOT
 <table width="40%" border="0" cellspacing="0" cellpadding="2">
 		  <tr align="center" valign="middle">
 			<td><span class="genmed">
@@ -32,7 +37,7 @@
 			<td colspan="9">
 			  <table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-				  <td><span class="genmed"> &nbsp;Font colour:
+				  <td><nobr><span class="genmed"> &nbsp;Font color:
 					<select name="addbbcode22" onChange="bbfontstyle('[color=' + this.form.addbbcode22.options[this.form.addbbcode22.selectedIndex].value + ']', '[/color]');this.selectedIndex=0;" title="Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000" >
 					  <option style="color:black" value="#000000" class="genmed">Default</option>
 					  <option style="color:darkred" value="darkred" class="genmed">Dark Red</option>
@@ -52,10 +57,11 @@
 					  <option value="12" selected class="genmed">Normal</option>
 					  <option value="18" class="genmed">Large</option>
 					</select>
-					</span></td>
+					</span></nobr></td>
 				  <td nowrap="nowrap" align="right"><span class="gensmall"><a href="javascript:bbstyle(-1)" class="genmed" title="Close all open bbCode tags">Close Tags</a></span></td>
 				</tr>
 			  </table>
 			</td>
 		  </tr>
 		</table>
+EOT;
