@@ -5969,3 +5969,18 @@ Rom    23 June 2009
         AccountManagerInfoPage.cpp, .h
         ProjectInfoPage.cpp, .h
         clientgui/ProjectListCtrl.cpp, .h
+
+David  23 June 2009
+	- web: add buttons for BBCode editing.
+		From John Hallissey
+
+	html/
+		inc/
+			bbcode_bbdodehtml.inc
+			pm.inc
+			util.inc
+		user/
+			bbcode_toolbar.js
+			forum_edit.php
+			forum_post.php
+			forum_reply.php

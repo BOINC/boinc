@@ -61,7 +61,7 @@ if ($content && $title && (!$preview)){
     }
 }
 
-page_head('Create new thread');
+page_head('Create new thread','','','','<script type="text/javascript" src="bbcode_toolbar.js"></script>');
 show_forum_header($logged_in_user);
 
 if ($warning) {
@@ -86,7 +86,7 @@ if ($preview == tra("Preview")) {
     echo "</div>\n";
 }
 
-echo "<form action=\"forum_post.php?id=".$forum->id."\" method=\"POST\">\n";
+echo "<form action=\"forum_post.php?id=".$forum->id."\" method=\"POST\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
 echo form_tokens($logged_in_user->authenticator);
 
 start_table();
@@ -108,8 +108,9 @@ if ($force_title && $title){
 }
 
 //Message
+$bbcode_bbcodehtml = file_get_contents('../inc/bbcode_bbcodehtml.inc');
 row2(tra("Message").html_info().post_warning().$body_help,
-    "<textarea name=\"content\" rows=\"12\" cols=\"54\">".htmlspecialchars($content)."</textarea>"
+     $bbcode_bbcodehtml."<textarea name=\"content\" rows=\"12\" cols=\"54\">".htmlspecialchars($content)."</textarea>"
 );
 
 if (!$logged_in_user->prefs->no_signature_by_default) {

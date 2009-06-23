@@ -81,7 +81,7 @@ if ($content && (!$preview)){
     }
 }
 
-page_head(tra("Post to thread"));
+page_head(tra("Post to thread"),'','','','<script type="text/javascript" src="bbcode_toolbar.js"></script>');
 
 show_forum_header($logged_in_user);
 
@@ -128,9 +128,10 @@ function show_message_row($thread, $parent_post) {
         $x2 .= "&post=".$parent_post->id;
     }
 
-    $x2 .= " method=\"post\">\n";
+    $x2 .= " method=\"post\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
     $x2 .= form_tokens($g_logged_in_user->authenticator);
-    $x2 .= "<textarea name=\"content\" rows=\"18\" cols=\"80\">";        
+    $bbcode_bbcodehtml = file_get_contents('../inc/bbcode_bbcodehtml.inc');
+    $x2 .= $bbcode_bbcodehtml."<textarea name=\"content\" rows=\"18\" cols=\"80\">";        
     $no_quote = get_int("no_quote", true)==1;
     if ($preview) {
         $x2 .= htmlspecialchars($content);

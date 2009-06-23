@@ -82,7 +82,7 @@ if (post_str('submit',true) && (!$preview)) {
     }
 }
 
-page_head('Forum');
+page_head('Forum','','','','<script type="text/javascript" src="bbcode_toolbar.js"></script>');
 
 show_forum_header($logged_in_user);
 switch ($forum->parent_type) {
@@ -103,7 +103,7 @@ if ($preview == tra("Preview")) {
     echo "</div>\n";
 }
 
-echo "<form action=\"forum_edit.php?id=".$post->id."\" method=\"POST\">\n";
+echo "<form action=\"forum_edit.php?id=".$post->id."\" method=\"POST\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
 echo form_tokens($logged_in_user->authenticator);
 start_table();
 row1("Edit your message");
@@ -122,15 +122,17 @@ if ($can_edit_title) {
     }
 };
 
+$bbcode_bbcodehtml = file_get_contents('../inc/bbcode_bbcodehtml.inc');
+
 if ($preview) {
     row2(
         tra("Message").html_info().post_warning(),
-        "<textarea name=\"content\" rows=\"12\" cols=\"80\">".htmlspecialchars($content)."</textarea>"
+        $bbcode_bbcodehtml."<textarea name=\"content\" rows=\"12\" cols=\"80\">".htmlspecialchars($content)."</textarea>"
     );
 } else {
     row2(
         tra("Message").html_info().post_warning(),
-        '<textarea name="content" rows="12" cols="80">'.htmlspecialchars($post->content).'</textarea>'
+        $bbcode_bbcodehtml.'<textarea name="content" rows="12" cols="80">'.htmlspecialchars($post->content).'</textarea>'
     );
 }
 
