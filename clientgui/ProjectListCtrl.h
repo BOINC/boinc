@@ -58,13 +58,13 @@ public:
 ////@begin CProjectListCtrl event handler declarations
 
     /// event handler for window
-    void OnItemChange( wxMouseEvent& event );
+    void OnItemChange( CProjectListItemCtrl* pSelectedItem );
 
     /// event handler for window
     void OnItemDisplay( wxCommandEvent& event );
 
     /// event handler for window
-    void OnItemFocusChange( wxMouseEvent& event );
+    void OnItemFocusChange( CProjectListItemCtrl* pSelectedItem );
 
     /// wxEVT_SET_FOCUS, wxEVT_KILL_FOCUS event handler for window
     void OnFocusChanged( wxFocusEvent& event );

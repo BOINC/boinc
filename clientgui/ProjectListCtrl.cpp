@@ -125,10 +125,9 @@ void CProjectListCtrl::CreateControls()
  *  event handler for window
  */
 
-void CProjectListCtrl::OnItemChange( wxMouseEvent& event ) {
+void CProjectListCtrl::OnItemChange( CProjectListItemCtrl* pSelectedItem ) {
 
     // Fire an event for the parent window notifing it of the new selection.
-    CProjectListItemCtrl* pSelectedItem = wxDynamicCast(event.GetEventObject(), CProjectListItemCtrl);
     if (pSelectedItem) {
 
         // Store so we know where we are
@@ -178,27 +177,26 @@ void CProjectListCtrl::OnItemDisplay( wxCommandEvent& event ) {
  *  event handler for window
  */
 
-void CProjectListCtrl::OnItemFocusChange( wxMouseEvent& event ) {
+void CProjectListCtrl::OnItemFocusChange( CProjectListItemCtrl* pSelectedItem ) {
 
     // Reset the background color back to the default
     wxWindowList::compatibility_iterator current = GetChildren().GetFirst();
     while (current) {
-        wxWindow* childWin = current->GetData();
-        childWin->SetBackgroundColour( wxNullColour );
-        childWin->Refresh();
+        wxWindow* child = current->GetData();
+
+        child->SetBackgroundColour( wxNullColour );
+        child->Refresh();
+
         current = current->GetNext();
     }
 
     // Set the background color of the window that threw the event to the
     //   default background color of a selected control. 
-    CProjectListItemCtrl* pSelectedItem = wxDynamicCast(event.GetEventObject(), CProjectListItemCtrl);
     if (pSelectedItem) {
         pSelectedItem->SetBackgroundColour( wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHT) );
         pSelectedItem->Refresh();
 
-        OnItemChange( event );
-    } else {
-        event.Skip();
+        OnItemChange( pSelectedItem );
     }
 
 }
@@ -415,7 +413,7 @@ void CProjectListItemCtrl::OnMouseClick( wxMouseEvent& event ) {
         if ( m_bLeftButtonDownDetected ) {
             CProjectListCtrl* pParent = wxDynamicCast(GetParent(), CProjectListCtrl);
             if (pParent) {
-                pParent->OnItemFocusChange( event );
+                pParent->OnItemFocusChange( this );
             }
         }
     }
