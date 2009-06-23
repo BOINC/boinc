@@ -22,7 +22,7 @@
 //
 
 require_once('../inc/forum.inc');
-require_once('../inc/bbcode_bbcodehtml.inc');
+require_once('../inc/bbcode_html.inc');
 
 $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);

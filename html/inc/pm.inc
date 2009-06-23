@@ -18,7 +18,7 @@
 
 require_once("boinc_db.inc");
 require_once("sanitize_html.inc");
-require_once("bbcode_bbcodehtml.inc");
+require_once("bbcode_html.inc");
 
 function pm_header() {
     echo "<div>\n";
@@ -28,7 +28,7 @@ function pm_header() {
 }
 
 function pm_create_new($error = null) {
-    global $bbcode_bbcodehtml, $bbcode_js;
+    global $bbcode_html, $bbcode_js;
     global $g_logged_in_user;
     page_head(tra("Send private message"),'','','', $bbcode_js);
     
@@ -87,7 +87,7 @@ function pm_create_new($error = null) {
     );
     row2(tra("Subject"), "<input type=\"text\" name=\"subject\" value=\"$subject\" size=\"60\">");
     row2(tra("Message")."<span class=\"smalltext\">".html_info()."</span>",
-        $bbcode_bbcodehtml."<textarea name=\"content\" rows=\"18\" cols=\"80\">$content</textarea>"
+        $bbcode_html."<textarea name=\"content\" rows=\"18\" cols=\"80\">$content</textarea>"
     );
     echo "<tr><td></td><td><input type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input type=\"submit\" value=\"".tra("Send message")."\"></td></tr>\n";
     end_table();

@@ -21,7 +21,7 @@
 
 require_once('../inc/forum_email.inc');
 require_once('../inc/forum.inc');
-require_once('../inc/bbcode_bbcodehtml.inc');
+require_once('../inc/bbcode_html.inc');
 require_once('../inc/akismet.inc');
 
 $logged_in_user = get_logged_in_user(true);
