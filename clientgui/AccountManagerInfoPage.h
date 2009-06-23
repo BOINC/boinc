@@ -54,8 +54,11 @@ public:
     /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ACCOUNTMANAGERINFOPAGE
     void OnPageChanging( wxWizardExEvent& event );
 
-    /// wxEVT_PROJECTLISTCTRL_SELECTION_CHANGED event handler for ID_PROJECTSELECTIONCTRL
-    void OnAccountManagerSelectionChanged( ProjectListCtrlEvent& event );
+    /// wxEVT_PROJECTLIST_ITEM_CHANGE event handler for ID_PROJECTSELECTIONCTRL
+    void OnProjectItemChange( ProjectListCtrlEvent& event );
+
+    /// wxEVT_PROJECTLIST_ITEM_DISPLAY event handler for ID_PROJECTSELECTIONCTRL
+    void OnProjectItemDisplay( ProjectListCtrlEvent& event );
 
     /// wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTMANAGERINFOPAGE
     void OnCancel( wxWizardExEvent& event );
@@ -73,6 +76,9 @@ public:
     wxString GetProjectURL() const { return m_strProjectURL ; }
     void SetProjectURL(wxString value) { m_strProjectURL = value ; }
 
+    bool GetProjectSupported() const { return m_bProjectSupported ; }
+    void SetProjectSupported(bool value) { m_bProjectSupported = value ; }
+
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
 
@@ -89,8 +95,9 @@ public:
     CProjectListCtrl* m_pProjectListCtrl;
     wxStaticText* m_pProjectUrlStaticCtrl;
     wxTextCtrl* m_pProjectUrlCtrl;
-    wxString m_strProjectURL;
 ////@end CAccountManagerInfoPage member variables
+    wxString m_strProjectURL;
+    bool m_bProjectSupported;
     bool m_bAccountManagerListPopulated;
 };
 

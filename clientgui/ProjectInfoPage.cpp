@@ -36,6 +36,7 @@
 #include "ValidateURL.h"
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
+#include "WizardAttachProject.h"
 #include "ProjectInfoPage.h"
 #include "ProjectListCtrl.h"
 
@@ -55,8 +56,9 @@ BEGIN_EVENT_TABLE( CProjectInfoPage, wxWizardPageEx )
 ////@begin CProjectInfoPage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CProjectInfoPage::OnPageChanged )
     EVT_WIZARDEX_PAGE_CHANGING( -1, CProjectInfoPage::OnPageChanging )
+    EVT_PROJECTLIST_ITEM_CHANGE( CProjectInfoPage::OnProjectItemChange )
+    EVT_PROJECTLIST_ITEM_DISPLAY( CProjectInfoPage::OnProjectItemDisplay )
     EVT_WIZARDEX_CANCEL( -1, CProjectInfoPage::OnCancel )
-    EVT_PROJECTLISTCTRL_SELECTION_CHANGED( CProjectInfoPage::OnProjectSelectionChanged )
 ////@end CProjectInfoPage event table entries
  
 END_EVENT_TABLE()
@@ -89,6 +91,8 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
     m_pProjectUrlStaticCtrl = NULL;
     m_pProjectUrlCtrl = NULL;
 ////@end CProjectInfoPage member initialisation
+    m_strProjectURL = wxEmptyString;
+    m_bProjectSupported = false;
     m_bProjectListPopulated = false;
  
 ////@begin CProjectInfoPage creation
@@ -96,6 +100,7 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
     wxWizardPageEx::Create( parent, ID_PROJECTINFOPAGE, wizardBitmap );
 
     CreateControls();
+
     GetSizer()->Fit(this);
 ////@end CProjectInfoPage creation
     return TRUE;
@@ -244,7 +249,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         _("Choose a project")
     );
     m_pDescriptionStaticCtrl->SetLabel(
-        _("To choose a project, click its name or\ntype its URL below.")
+        _("To choose a project, click its name or type its URL below.")
     );
     m_pProjectUrlStaticCtrl->SetLabel(
         _("Project &URL:")
@@ -302,57 +307,83 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
  */
 
 void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
-    // Check if we are already attached to that project: 
  	CMainDocument* pDoc = wxGetApp().GetDocument(); 
- 	for (int i = 0; i < pDoc->GetProjectCount(); ++i) { 
- 	    PROJECT* project = pDoc->project(i);
-        if (project) {
-            std::string project_url = project->master_url;
-            std::string new_project_url = (const char*)m_strProjectURL.mb_str();
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxString       strTitle;
+    int            iAnswer;
 
-            canonicalize_master_url(project_url);
-            canonicalize_master_url(new_project_url);
-            
-            if (project_url == new_project_url) {
-                wxGetApp().SafeMessageBox(
-                    _("You are already attached to this project. Please choose a different project."),
-                    _("Already Attached to Project")
-                );
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-                // We are already attached to that project, 
-                event.Veto();
-            }
+
+    strTitle.Printf(
+        wxT("%s"), 
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+
+
+    // Check to see if the project is supported:
+    if ( !GetProjectSupported() ) {
+
+        iAnswer = wxGetApp().SafeMessageBox(
+            _("This project may not have work for your type of computer. Are you sure you wish to continue?"),
+            strTitle,
+            wxCENTER | wxYES_NO | wxICON_INFORMATION
+        );
+
+        // Project is not supported
+        if (wxNO == iAnswer) {
+            event.Veto();
+        }
+
+    } else {
+
+        // Check if we are already attached to that project: 
+ 	    for (int i = 0; i < pDoc->GetProjectCount(); ++i) { 
+ 	        PROJECT* project = pDoc->project(i);
+            if (project) {
+                std::string project_url = project->master_url;
+                std::string new_project_url = (const char*)m_strProjectURL.mb_str();
+
+                canonicalize_master_url(project_url);
+                canonicalize_master_url(new_project_url);
+                
+                if (project_url == new_project_url) {
+                    wxGetApp().SafeMessageBox(
+                        _("You are already attached to this project. Please choose a different project."),
+                        strTitle,
+                        wxCENTER | wxICON_INFORMATION
+                    );
+
+                    // We are already attached to that project, 
+                    event.Veto();
+                    break;
+                }
+            } 
         } 
-    } 
+    }
 }
 
 
 /*!
- * wxEVT_PROJECTLISTCTRL_SELECTION_CHANGED event handler for ID_PROJECTSELECTIONCTRL
+ * wxEVT_PROJECTLIST_ITEM_CHANGE event handler for ID_PROJECTSELECTIONCTRL
  */
 
-void CProjectInfoPage::OnProjectSelectionChanged( ProjectListCtrlEvent& event ) {
-    if ( !event.IsSupported() ) {
-        CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-        wxString       strMessage;
-        wxString       strTitle;
+void CProjectInfoPage::OnProjectItemChange( ProjectListCtrlEvent& event ) {
+    SetProjectURL( event.GetURL() );
+    SetProjectSupported( event.IsSupported() );
+    TransferDataToWindow();
+}
 
-        strTitle.Printf(
-            wxT("%s"), 
-            pSkinAdvanced->GetApplicationName().c_str()
-        );
 
-        strMessage =
-            _("This project may not have work for your type of computer.");
+/*!
+ * wxEVT_PROJECTLIST_ITEM_DISPLAY event handler for ID_PROJECTSELECTIONCTRL
+ */
 
-        wxGetApp().SafeMessageBox(
-            strMessage,
-            strTitle
-        );
-    }
-    m_pProjectUrlCtrl->SetValue(
-        event.GetURL()
-    );
+void CProjectInfoPage::OnProjectItemDisplay( ProjectListCtrlEvent& event ) {
+    wxHyperLink::ExecuteLink( event.GetURL() );
 }
 
 

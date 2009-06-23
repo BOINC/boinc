@@ -5958,3 +5958,14 @@ David  22 June 2009
         setup_projects.py
     sched/
         pymw_assimilator.py (set svn:executable)
+
+Rom    23 June 2009
+    - MGR: First stab at making the ProjectList control keyboard
+        navigatable.  Tab order isn't quite right yet for the
+        Project Info page or the Account Manager Info page, but
+        that'll be another commit. refs #442
+        
+    clientgui/
+        AccountManagerInfoPage.cpp, .h
+        ProjectInfoPage.cpp, .h
+        clientgui/ProjectListCtrl.cpp, .h

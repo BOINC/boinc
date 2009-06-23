@@ -25,6 +25,7 @@
 
 class CProjectListItemCtrl;
 class CProjectListItemStaticCtrl;
+class CProjectListItemBitmapCtrl;
 class ProjectListCtrlEvent;
 class ProjectListItemCtrlEvent;
 
@@ -57,8 +58,20 @@ public:
 
 ////@begin CProjectListCtrl event handler declarations
 
-    /// wxEVT_PROJECTLISTITEMCTRL_CLICKED event handler for window
-    void OnItemClicked( ProjectListItemCtrlEvent& event );
+    /// event handler for window
+    void OnItemChange( wxFocusEvent& event );
+
+    /// event handler for window
+    void OnItemDisplay( wxCommandEvent& event );
+
+    /// event handler for window
+    void OnItemFocusChange( wxFocusEvent& event );
+
+    /// wxEVT_SET_FOCUS, wxEVT_KILL_FOCUS event handler for window
+    void OnFocusChanged( wxFocusEvent& event );
+
+    /// wxEVT_KEY_DOWN, wxEVT_KEY_UP event handler for window
+    void OnKeyPressed( wxKeyEvent& event );
 
 ////@end CProjectListCtrl event handler declarations
 
@@ -70,6 +83,7 @@ public:
     );
 
 private:
+    wxWindow*   m_pCurrentSelection;
     wxBoxSizer* m_pMainSizer;
 };
 
@@ -108,7 +122,8 @@ private:
 // ----------------------------------------------------------------------------
 
 BEGIN_DECLARE_EVENT_TYPES()
-    DECLARE_EVENT_TYPE( wxEVT_PROJECTLISTCTRL_SELECTION_CHANGED, 100000 )
+    DECLARE_EVENT_TYPE( wxEVT_PROJECTLIST_ITEM_CHANGE, 100000 )
+    DECLARE_EVENT_TYPE( wxEVT_PROJECTLIST_ITEM_DISPLAY, 100001 )
 END_DECLARE_EVENT_TYPES()
 
 typedef void (wxEvtHandler::*ProjectListCtrlEventFunction)(ProjectListCtrlEvent&);
@@ -116,10 +131,11 @@ typedef void (wxEvtHandler::*ProjectListCtrlEventFunction)(ProjectListCtrlEvent&
 #define ProjectListCtrlEventHandler(func) \
     (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(ProjectListCtrlEventFunction, &func)
 
-#define wx__DECLARE_PROJECTLISTCTRLEVT(evt, fn) \
-    wx__DECLARE_EVT0(wxEVT_PROJECTLISTCTRL_ ## evt, ProjectListCtrlEventHandler(fn))
+#define wx__DECLARE_PROJECTLISTEVT(evt, fn) \
+    wx__DECLARE_EVT0(wxEVT_PROJECTLIST_ ## evt, ProjectListCtrlEventHandler(fn))
 
-#define EVT_PROJECTLISTCTRL_SELECTION_CHANGED(fn) wx__DECLARE_PROJECTLISTCTRLEVT(SELECTION_CHANGED, fn)
+#define EVT_PROJECTLIST_ITEM_CHANGE(fn) wx__DECLARE_PROJECTLISTEVT(ITEM_CHANGE, fn)
+#define EVT_PROJECTLIST_ITEM_DISPLAY(fn) wx__DECLARE_PROJECTLISTEVT(ITEM_DISPLAY, fn)
 
 
 /*!
@@ -151,6 +167,12 @@ public:
     /// wxEVT_LEFT_DOWN, wxEVT_LEFT_UP event handler for window
     void OnMouseClick( wxMouseEvent& event );
 
+    /// wxEVT_SET_FOCUS, wxEVT_KILL_FOCUS event handler for window
+    void OnFocusChange( wxFocusEvent& event );
+
+    /// wxEVT_KEY_DOWN, wxEVT_KEY_UP event handler for window
+    void OnKeyPressed( wxKeyEvent& event );
+
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for window
     void OnWebsiteButtonClick( wxCommandEvent& event );
 
@@ -167,54 +189,13 @@ public:
 
 private:
     CProjectListItemStaticCtrl* m_pTitleStaticCtrl;
-    wxBitmapButton*             m_pWebsiteButtonCtrl;
+    CProjectListItemBitmapCtrl* m_pWebsiteButtonCtrl;
     wxString                    m_strTitle;
     wxString                    m_strURL;
     bool                        m_bSupported;
+
     bool                        m_bLeftButtonDownDetected;
 };
-
-
-/*!
- * ProjectListItemCtrlEvent class declaration
- */
-
-class ProjectListItemCtrlEvent : public wxNotifyEvent
-{
-public:
-    ProjectListItemCtrlEvent( wxEventType evtType = wxEVT_NULL, int iControlId = 0 ) :
-      wxNotifyEvent( evtType, wxID_ANY )
-    {
-        m_iControlId = iControlId;
-    } 
-
-    int GetControlId() { return m_iControlId; };
-
-    virtual wxNotifyEvent* Clone() const { return new ProjectListItemCtrlEvent(*this); }
-
-private:
-    int m_iControlId;
-
-    DECLARE_DYNAMIC_CLASS(ProjectListItemCtrlEvent)
-};
-
-// ----------------------------------------------------------------------------
-// macros for handling ProjectListItemCtrlEvent
-// ----------------------------------------------------------------------------
-
-BEGIN_DECLARE_EVENT_TYPES()
-    DECLARE_EVENT_TYPE( wxEVT_PROJECTLISTITEMCTRL_CLICKED, 110000 )
-END_DECLARE_EVENT_TYPES()
-
-typedef void (wxEvtHandler::*ProjectListItemCtrlEventFunction)(ProjectListItemCtrlEvent&);
-
-#define ProjectListItemCtrlEventHandler(func) \
-    (wxObjectEventFunction)(wxEventFunction)wxStaticCastEvent(ProjectListItemCtrlEventFunction, &func)
-
-#define wx__DECLARE_PROJECTLISTITEMCTRLEVT(evt, fn) \
-    wx__DECLARE_EVT0(wxEVT_PROJECTLISTITEMCTRL_ ## evt, ProjectListItemCtrlEventHandler(fn))
-
-#define EVT_PROJECTLISTITEMCTRL_CLICKED(fn) wx__DECLARE_PROJECTLISTITEMCTRLEVT(CLICKED, fn)
 
 
 /*!
@@ -223,7 +204,7 @@ typedef void (wxEvtHandler::*ProjectListItemCtrlEventFunction)(ProjectListItemCt
 
 class CProjectListItemStaticCtrl: public wxStaticText
 {    
-    DECLARE_DYNAMIC_CLASS( CProjectListItemCtrl )
+    DECLARE_DYNAMIC_CLASS( CProjectListItemStaticCtrl )
     DECLARE_EVENT_TABLE()
 
 public:
@@ -251,7 +232,7 @@ public:
         const wxString &name = _T("ProjectListItemStaticCtrl")
     );
 
-////@begin CProjectListItemCtrl event handler declarations
+////@begin CProjectListItemStaticCtrl event handler declarations
 
     /// wxEVT_ENTER_WINDOW, wxEVT_LEAVE_WINDOW event handler for window
     void OnMouseEnterLeave( wxMouseEvent& event );
@@ -259,7 +240,55 @@ public:
     /// wxEVT_LEFT_DOWN, wxEVT_LEFT_UP event handler for window
     void OnMouseClick( wxMouseEvent& event );
 
-////@end CProjectListItemCtrl event handler declarations
+////@end CProjectListItemStaticCtrl event handler declarations
+};
+
+
+/*!
+ * CProjectListItemBitmapCtrl class declaration
+ */
+
+class CProjectListItemBitmapCtrl: public wxStaticBitmap
+{    
+    DECLARE_DYNAMIC_CLASS( CProjectListItemBitmapCtrl )
+    DECLARE_EVENT_TABLE()
+
+public:
+    /// Constructors
+    CProjectListItemBitmapCtrl();
+
+    CProjectListItemBitmapCtrl(
+        wxWindow *parent,
+        wxWindowID id,
+        const wxBitmap& bitmap,
+        const wxPoint &pos = wxDefaultPosition,
+        const wxSize &size = wxDefaultSize,
+        long style = 0,
+        const wxString &name = _T("ProjectListItemBitmapCtrl")
+    );
+
+    /// Creation
+    bool Create (
+        wxWindow *parent,
+        wxWindowID id,
+        const wxBitmap& bitmap,
+        const wxPoint &pos = wxDefaultPosition,
+        const wxSize &size = wxDefaultSize,
+        long style = 0,
+        const wxString &name = _T("ProjectListItemBitmapCtrl")
+    );
+
+////@begin CProjectListItemBitmapCtrl event handler declarations
+
+    /// wxEVT_ENTER_WINDOW, wxEVT_LEAVE_WINDOW event handler for window
+    void OnMouseEnterLeave( wxMouseEvent& event );
+
+    /// wxEVT_LEFT_DOWN, wxEVT_LEFT_UP event handler for window
+    void OnMouseClick( wxMouseEvent& event );
+
+////@end CProjectListItemBitmapCtrl event handler declarations
+
+    bool m_bLeftButtonDownDetected;
 };
 
 

@@ -55,8 +55,9 @@ BEGIN_EVENT_TABLE( CAccountManagerInfoPage, wxWizardPageEx )
 ////@begin CAccountManagerInfoPage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CAccountManagerInfoPage::OnPageChanged )
     EVT_WIZARDEX_PAGE_CHANGING( -1, CAccountManagerInfoPage::OnPageChanging )
+    EVT_PROJECTLIST_ITEM_CHANGE( CAccountManagerInfoPage::OnProjectItemChange )
+    EVT_PROJECTLIST_ITEM_DISPLAY( CAccountManagerInfoPage::OnProjectItemDisplay )
     EVT_WIZARDEX_CANCEL( -1, CAccountManagerInfoPage::OnCancel )
-    EVT_PROJECTLISTCTRL_SELECTION_CHANGED( CAccountManagerInfoPage::OnAccountManagerSelectionChanged )
 ////@end CAccountManagerInfoPage event table entries
 
 END_EVENT_TABLE()
@@ -286,13 +287,21 @@ void CAccountManagerInfoPage::OnPageChanging( wxWizardExEvent& event ) {
 }
 
 /*!
- * wxEVT_PROJECTLISTCTRL_SELECTION_CHANGED event handler for ID_PROJECTSELECTIONCTRL
+ * wxEVT_PROJECTLIST_ITEM_CHANGE event handler for ID_PROJECTSELECTIONCTRL
  */
 
-void CAccountManagerInfoPage::OnAccountManagerSelectionChanged( ProjectListCtrlEvent& event ) {
-    m_pProjectUrlCtrl->SetValue(
-        event.GetURL()
-    );
+void CAccountManagerInfoPage::OnProjectItemChange( ProjectListCtrlEvent& event ) {
+    SetProjectURL( event.GetURL() );
+    SetProjectSupported( event.IsSupported() );
+    TransferDataToWindow();
+}
+
+/*!
+ * wxEVT_PROJECTLIST_ITEM_DISPLAY event handler for ID_PROJECTSELECTIONCTRL
+ */
+
+void CAccountManagerInfoPage::OnProjectItemDisplay( ProjectListCtrlEvent& event ) {
+    wxHyperLink::ExecuteLink( event.GetURL() );
 }
 
 /*!
