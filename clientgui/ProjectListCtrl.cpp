@@ -228,8 +228,6 @@ void CProjectListCtrl::OnFocusChanged( wxFocusEvent& event ) {
  */
 
 void CProjectListCtrl::OnKeyPressed( wxKeyEvent& event ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CProjectListCtrl::OnKeyPressed - Function Begin"));
-
     wxWindowList list;
     list = GetChildren();
 
@@ -278,8 +276,6 @@ void CProjectListCtrl::OnKeyPressed( wxKeyEvent& event ) {
     } else {
         event.Skip();
     }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CProjectListCtrl::OnKeyPressed - Function End"));
 }
 
 
