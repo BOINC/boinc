@@ -125,7 +125,7 @@ void CProjectListCtrl::CreateControls()
  *  event handler for window
  */
 
-void CProjectListCtrl::OnItemChange( wxFocusEvent& event ) {
+void CProjectListCtrl::OnItemChange( wxMouseEvent& event ) {
 
     // Fire an event for the parent window notifing it of the new selection.
     CProjectListItemCtrl* pSelectedItem = wxDynamicCast(event.GetEventObject(), CProjectListItemCtrl);
@@ -178,7 +178,7 @@ void CProjectListCtrl::OnItemDisplay( wxCommandEvent& event ) {
  *  event handler for window
  */
 
-void CProjectListCtrl::OnItemFocusChange( wxFocusEvent& event ) {
+void CProjectListCtrl::OnItemFocusChange( wxMouseEvent& event ) {
 
     if ( wxEVT_SET_FOCUS == event.GetEventType() ) {
         // Reset the background color back to the default
@@ -321,8 +321,6 @@ BEGIN_EVENT_TABLE( CProjectListItemCtrl, wxPanel )
     EVT_LEAVE_WINDOW( CProjectListItemCtrl::OnMouseEnterLeave )
     EVT_LEFT_DOWN( CProjectListItemCtrl::OnMouseClick )
     EVT_LEFT_UP( CProjectListItemCtrl::OnMouseClick )
-    EVT_SET_FOCUS( CProjectListItemCtrl::OnFocusChange )
-    EVT_KILL_FOCUS( CProjectListItemCtrl::OnFocusChange )
     EVT_KEY_DOWN( CProjectListItemCtrl::OnKeyPressed )
     EVT_KEY_UP( CProjectListItemCtrl::OnKeyPressed )
     EVT_BUTTON( ID_WEBSITEBUTTON, CProjectListItemCtrl::OnWebsiteButtonClick )
@@ -416,23 +414,14 @@ void CProjectListItemCtrl::OnMouseClick( wxMouseEvent& event ) {
         m_bLeftButtonDownDetected = true;
     } else {
         if ( m_bLeftButtonDownDetected ) {
-            SetFocus();
+            CProjectListCtrl* pParent = wxDynamicCast(GetParent(), CProjectListCtrl);
+            if (pParent) {
+                pParent->OnItemFocusChange( event );
+            }
         }
     }
     event.Skip();
 
-}
-
-
-/*!
- * wxEVT_SET_FOCUS, wxEVT_KILL_FOCUS event handler for window
- */
-
-void CProjectListItemCtrl::OnFocusChange( wxFocusEvent& event ) {
-    CProjectListCtrl* pParent = wxDynamicCast(GetParent(), CProjectListCtrl);
-    if (pParent) {
-        pParent->OnItemFocusChange( event );
-    }
 }
 
 

@@ -6008,3 +6008,13 @@ Jeff 23 June 2009
         ops/
             db_update.php
 
+Rom    23 June 2009
+    - MGR: Remove event handlers for wxEVT_SET_FOCUS and wxEVT_KILL_FOCUS,
+        we are no longer removing the highlight on a project unless
+        a new project is selected.  This continues to show that a certain
+        project is still selected even when you switch to the ProjectURL
+        control.  Anyways, the Mac doesn't like the focus events.
+        
+        clientgui/
+            ProjectListCtrl.cpp, .h
+    

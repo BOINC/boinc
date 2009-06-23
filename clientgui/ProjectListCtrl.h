@@ -27,7 +27,6 @@ class CProjectListItemCtrl;
 class CProjectListItemStaticCtrl;
 class CProjectListItemBitmapCtrl;
 class ProjectListCtrlEvent;
-class ProjectListItemCtrlEvent;
 
 
 ////@begin control identifiers
@@ -59,13 +58,13 @@ public:
 ////@begin CProjectListCtrl event handler declarations
 
     /// event handler for window
-    void OnItemChange( wxFocusEvent& event );
+    void OnItemChange( wxMouseEvent& event );
 
     /// event handler for window
     void OnItemDisplay( wxCommandEvent& event );
 
     /// event handler for window
-    void OnItemFocusChange( wxFocusEvent& event );
+    void OnItemFocusChange( wxMouseEvent& event );
 
     /// wxEVT_SET_FOCUS, wxEVT_KILL_FOCUS event handler for window
     void OnFocusChanged( wxFocusEvent& event );
@@ -166,9 +165,6 @@ public:
 
     /// wxEVT_LEFT_DOWN, wxEVT_LEFT_UP event handler for window
     void OnMouseClick( wxMouseEvent& event );
-
-    /// wxEVT_SET_FOCUS, wxEVT_KILL_FOCUS event handler for window
-    void OnFocusChange( wxFocusEvent& event );
 
     /// wxEVT_KEY_DOWN, wxEVT_KEY_UP event handler for window
     void OnKeyPressed( wxKeyEvent& event );
