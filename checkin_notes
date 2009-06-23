@@ -6017,4 +6017,18 @@ Rom    23 June 2009
         
         clientgui/
             ProjectListCtrl.cpp, .h
+
+Charlie 23 June 2009
+
+    - PTP: check in new PTP Mac icons and images.
     
+    clientgui/
+        mac/
+            ProgThruProg.tiff
+        res/
+            ProgThruProc.icns
+            PTP_install.icns
+            PTP_uninstall.icns
+    clientscr/
+        res/
+            ProgThruProc_ss_logo.png
