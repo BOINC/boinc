@@ -5844,3 +5844,9 @@ Rom    19 June 2009
     
     mac_install/
         CustomInstall.cpp
+
+David  22 June 2009
+    - Mac install: fix things a better way
+
+    mac_installer/
+        CustomInstall.cpp
