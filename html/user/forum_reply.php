@@ -114,9 +114,8 @@ end_table();
 page_tail();
 
 function show_message_row($thread, $parent_post) {
-    global $g_logged_in_user;
-    global $content;
-    global $preview;
+    global $g_logged_in_user, $bbcode_html;
+    global $content, $preview;
 
     $x1 = "Message:".html_info().post_warning();
     $x2 = "";
