@@ -5968,7 +5968,7 @@ Rom    23 June 2009
     clientgui/
         AccountManagerInfoPage.cpp, .h
         ProjectInfoPage.cpp, .h
-        clientgui/ProjectListCtrl.cpp, .h
+        ProjectListCtrl.cpp, .h
 
 David  23 June 2009
 	- web: add buttons for BBCode editing.
