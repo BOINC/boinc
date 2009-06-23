@@ -586,6 +586,29 @@ struct DB_CREDIT_MULTIPLIER : public DB_BASE, public CREDIT_MULTIPLIER {
     void get_nearest(int appid, int time);
 };
 
+struct STATE_COUNTS {
+    int appid; 
+    int last_update_time;   
+    int result_server_state_2;       
+    int result_server_state_4;       
+    int result_file_delete_state_1;  
+    int result_file_delete_state_2;  
+    int result_server_state_5_and_file_delete_state_0;   
+    int workunit_need_validate_1;    
+    int workunit_assimilate_state_1; 
+    int workunit_file_delete_state_1; 
+    int workunit_file_delete_state_2;
+
+    void clear();
+};
+
+struct DB_STATE_COUNTS : public DB_BASE, public STATE_COUNTS {
+    DB_STATE_COUNTS(DB_CONN* p=0);
+    int get_id();
+    void db_print(char *);
+    void db_parse(MYSQL_ROW &row);
+};
+
 struct VALIDATOR_ITEM {
     WORKUNIT wu;
     RESULT res;

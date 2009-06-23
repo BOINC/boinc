@@ -627,16 +627,34 @@ function update_10_7_2008() {
     do_query("alter table team add joinable tinyint default '1' not null");
 }
 
+function update_6_16_2009() {
+    do_query("create table state_counts (
+            appid               integer     not null, 
+            last_update_time    integer     not null,
+            result_server_state_2       integer not null,
+            result_server_state_4       integer not null,
+            result_file_delete_state_1  integer not null,
+            result_file_delete_state_2  integer not null,
+            result_server_state_5_and_file_delete_state_0       integer not null,
+            workunit_need_validate_1    integer not null,
+            workunit_assimilate_state_1 integer not null,
+            workunit_file_delete_state_1        integer not null,
+            workunit_file_delete_state_2        integer not null,
+            primary key (appid) 
+            ) engine=MyISAM
+    ");
+
+}
+
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see
 // which ones you need).
 
-//update_6_3_2008();
-
+//update_6_16_2009()
 
 $db_updates = array (
-    array(16160, "update_10_7_2008"),
+    array(18490, "update_6_16_2009"),
 );
 
 ?>

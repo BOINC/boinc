@@ -594,3 +594,17 @@ create table credit_multiplier (
     multiplier          double          not null default 0
 ) engine=MyISAM;
 
+create table state_counts (
+    appid               integer     not null,
+    last_update_time    integer     not null,
+    result_server_state_2       integer not null,
+    result_server_state_4       integer not null,
+    result_file_delete_state_1  integer not null,
+    result_file_delete_state_2  integer not null,
+    result_server_state_5_and_file_delete_state_0       integer not null,
+    workunit_need_validate_1    integer not null,
+    workunit_assimilate_state_1 integer not null,
+    workunit_file_delete_state_1        integer not null,
+    workunit_file_delete_state_2        integer not null
+    primary key (appid)
+) engine=MyISAM; 

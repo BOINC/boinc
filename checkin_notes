@@ -5987,3 +5987,24 @@ David  23 June 2009
 
 David  23 June 2009
     - web: code cleanup
+
+Jeff 23 June 2009
+    Added table state_counts. This will allow application programs
+    that make decisions based on the count of WUs or results by state
+    to do so by querying this very small table rather than by doing 
+    expensive count queries on the WU and result tables.   
+
+    Of course some other program will have to do the count queries 
+    periodically in order to update the state_counts table. But, 
+    depending on the application, this can result in fewer such queries 
+    overall. The motivation for this change was the speed up of SETI@Home 
+    work generation.
+    
+    db/
+        boinc_db.cpp
+        boinc_db.h
+        schema.sql
+    html/
+        ops/
+            db_update.php
+
