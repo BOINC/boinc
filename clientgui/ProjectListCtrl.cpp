@@ -180,27 +180,26 @@ void CProjectListCtrl::OnItemDisplay( wxCommandEvent& event ) {
 
 void CProjectListCtrl::OnItemFocusChange( wxMouseEvent& event ) {
 
-    if ( wxEVT_SET_FOCUS == event.GetEventType() ) {
-        // Reset the background color back to the default
-        wxWindowList::compatibility_iterator current = GetChildren().GetFirst();
-        while (current) {
-            wxWindow* childWin = current->GetData();
-            childWin->SetBackgroundColour( wxNullColour );
-            childWin->Refresh();
-            current = current->GetNext();
-        }
-
-        // Set the background color of the window that threw the event to the
-        //   default background color of a selected control. 
-        CProjectListItemCtrl* pSelectedItem = wxDynamicCast(event.GetEventObject(), CProjectListItemCtrl);
-        if (pSelectedItem) {
-            pSelectedItem->SetBackgroundColour( wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHT) );
-            pSelectedItem->Refresh();
-
-            OnItemChange( event );
-        }
+    // Reset the background color back to the default
+    wxWindowList::compatibility_iterator current = GetChildren().GetFirst();
+    while (current) {
+        wxWindow* childWin = current->GetData();
+        childWin->SetBackgroundColour( wxNullColour );
+        childWin->Refresh();
+        current = current->GetNext();
     }
-    event.Skip();
+
+    // Set the background color of the window that threw the event to the
+    //   default background color of a selected control. 
+    CProjectListItemCtrl* pSelectedItem = wxDynamicCast(event.GetEventObject(), CProjectListItemCtrl);
+    if (pSelectedItem) {
+        pSelectedItem->SetBackgroundColour( wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHT) );
+        pSelectedItem->Refresh();
+
+        OnItemChange( event );
+    } else {
+        event.Skip();
+    }
 
 }
 
