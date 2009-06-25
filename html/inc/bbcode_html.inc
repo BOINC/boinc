@@ -52,9 +52,10 @@ $bbcode_html = <<<EOT
 					  <option style="color:darkblue" value="darkblue" class="genmed">Dark Blue</option>
 					  <option style="color:indigo" value="indigo" class="genmed">Indigo</option>
 					  <option style="color:violet" value="violet" class="genmed">Violet</option>
-					</select> &nbsp;Font size:<select name="addbbcode24" onChange="bbfontstyle('[size=' + this.form.addbbcode24.options[this.form.addbbcode24.selectedIndex].value + ']', '[/size]')" title="Font size: [size=x-small]small text[/size]" >
-					  <option value="9" class="genmed">Small</option>
-					  <option value="12" selected class="genmed">Normal</option>
+					</select> &nbsp;Font size:<select name="addbbcode24" onChange="bbfontstyle('[size=' + this.form.addbbcode24.options[this.form.addbbcode24.selectedIndex].value + ']', '[/size]');this.selectedIndex=0;" title="Font size: [size=x-small]small text[/size]" >
+					  <option value="12" selected class="genmed">Default</option>
+            <option value="9" class="genmed">Small</option>
+					  <option value="12" class="genmed">Normal</option>
 					  <option value="18" class="genmed">Large</option>
 					</select>
 					</span></nobr></td>
