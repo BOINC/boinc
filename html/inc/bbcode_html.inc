@@ -1,6 +1,6 @@
 <?php
 
-$bbcode_js = "'<script type=\"text/javascript\" src=\"bbcode_toolbar.js\"></script>'";
+$bbcode_js = "<script type=\"text/javascript\" src=\"bbcode_toolbar.js\"></script>";
 
 $bbcode_html = <<<EOT
 <table width="40%" border="0" cellspacing="0" cellpadding="2">
