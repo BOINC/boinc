@@ -98,25 +98,21 @@ int ACTIVE_TASK::preempt(int preempt_type) {
         remove = false;
         break;
     case REMOVE_MAYBE_USER:
-        if (checkpoint_elapsed_time == 0) {
-            remove = false;
-            break;
-        }
-        if (result->uses_coprocs() && checkpoint_wall_time) {
-            remove = true;
-            break;
-        }
-        remove = !gstate.global_prefs.leave_apps_in_memory;
-        break;
     case REMOVE_MAYBE_SCHED:
-        if (checkpoint_elapsed_time == 0) {
-            remove = false;
-            break;
-        }
+        // GPU jobs: always remove from mem, since it's tying up GPU RAM
+        //
         if (result->uses_coprocs()) {
             remove = true;
             break;
         }
+        // if it's never checkpointed, leave in mem
+        //
+        if (checkpoint_elapsed_time == 0) {
+            remove = false;
+            break;
+        }
+        // otherwise obey user prefs
+        //
         remove = !gstate.global_prefs.leave_apps_in_memory;
         break;
     case REMOVE_ALWAYS:
