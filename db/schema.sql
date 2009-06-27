@@ -605,6 +605,6 @@ create table state_counts (
     workunit_need_validate_1    integer not null,
     workunit_assimilate_state_1 integer not null,
     workunit_file_delete_state_1        integer not null,
-    workunit_file_delete_state_2        integer not null
+    workunit_file_delete_state_2        integer not null,
     primary key (appid)
 ) engine=MyISAM; 

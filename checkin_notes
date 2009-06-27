@@ -6047,3 +6047,9 @@ Charlie 27 June 2009
 
     mac_installer/
         make_ProgThruProc.sh
+
+David  27 June 2009
+    - fix typo in schema
+
+    db/
+        schema.sql
