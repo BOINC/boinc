@@ -19,7 +19,7 @@
 
 ##
 # Script to convert Macintosh BOINC installer to Progress Thru Processors Desktop installer
-# updated 6/19/09 by Charlie Fenton
+# updated 6/27/09 by Charlie Fenton
 ##
 
 ## Usage:
@@ -214,9 +214,9 @@ sudo cp -fp "${SAVER_LOGO}" "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.save
 
 # Delete the BOINC default screensaver and its associated files
 sudo rm -f "${PR_PATH}/Library/Application Support/BOINC Data/boinc_logo_black.jpg"
-sudo rm -f "${PR_PATH}/Library/Application Support/BOINC Data/Helvetica.tx"
-sudo rm -f "${PR_PATH}/Library/Application Support/BOINC Data/ss_config.xm"
-sudo rm -f "${PR_PATH}/Library/Application Support/BOINC Data/boincsc"
+sudo rm -f "${PR_PATH}/Library/Application Support/BOINC Data/Helvetica.txf"
+sudo rm -f "${PR_PATH}/Library/Application Support/BOINC Data/ss_config.xml"
+sudo rm -f "${PR_PATH}/Library/Application Support/BOINC Data/boincscr"
 
 # Copy the Progress Thru Processors default screensaver files into BOINC Data folder
 sudo cp -fR "${SAVER_DIR}/" "${PR_PATH}/Library/Application Support/BOINC Data/"

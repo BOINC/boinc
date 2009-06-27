@@ -5864,3 +5864,9 @@ Charlie 23 June 2009
     clientscr/
         res/
             ProgThruProc_ss_logo.png
+
+Charlie 27 June 2009
+    Mac: Fix missing file name characters in script to make PTP installer.
+
+    mac_installer/
+        make_ProgThruProc.sh
