@@ -6041,3 +6041,9 @@ David  26 June 2009
 
     client/
         app.cpp
+
+Charlie 27 June 2009
+    Mac: Fix missing file name characters in script to make PTP installer.
+
+    mac_installer/
+        make_ProgThruProc.sh
