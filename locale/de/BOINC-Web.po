@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-05 13:41 PDT\n"
-"PO-Revision-Date: 2009-06-04 12:04-0700\n"
+"PO-Revision-Date: 2009-06-28 06:26-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -78,9 +78,8 @@ msgstr "ich bin einem Projekt beigetreten, habe aber nie Arbeitspakete bekommen"
 msgid "No - I never tried running BOINC, because..."
 msgstr "Nein - ich habe nicht versucht BOINC zu nutzen, weil..."
 
-#, fuzzy
 msgid "I was concerned about security"
-msgstr "ich Sicherheitsbedenken hatte"
+msgstr "Ich hatte Sicherheitsbedenken"
 
 msgid "I wasn't interested in any of the projects"
 msgstr "ich an keinem der Projekte Interesse hatte"
@@ -92,7 +91,7 @@ msgid "No version was available for my computer"
 msgstr "für meinen Rechner keine entsprechende Version verfügbar war"
 
 msgid "What kind of computers do you have running BOINC?"
-msgstr "Auf was für Rechnern benutzen Sie BOINC?"
+msgstr "Welche Art von Computern nutzen sie für BOINC?"
 
 msgid "Where are they?"
 msgstr "Wo befinden sich diese?"
@@ -287,7 +286,6 @@ msgstr "Hilfe"
 msgid "All versions"
 msgstr "Alle Versionen"
 
-#, fuzzy
 msgid "BOINC: compute for science"
 msgstr "BOINC: Rechenkraft für die Wissenschaft"
 
@@ -321,14 +319,21 @@ msgid ""
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
 msgstr ""
+"Der beste Weg um Hilfe zu erhalten ist über Sprache, für welche sie entweder "
+"ein eingebautes Mikrofon und Lautsprecher oder ein externes Headset "
+"benötigen. Sie können ebenfalls das von Skype genutzte Text-basierende Chat-"
+"System oder eine einfache E-Mail (falls sie kein Skype besitzen) nutzen um "
+"anderen zu helfen."
 
 msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
 msgstr ""
+"Freiwillige in verschiedenen Sprachen stehen zur Verfügung. Bitte wählen sie "
+"eine Sprache:"
 
 msgid "Be a Help Volunteer"
-msgstr ""
+msgstr "Seien sie ein freiwilliger Helfer"
 
 #, php-format
 msgid ""
@@ -336,20 +341,25 @@ msgid ""
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
 msgstr ""
+"Wenn sie ein erfahrener BOINC Nutzer sind, bitten wir sie ein %sfreiwilliger "
+"Helfer zu werden%s. Es ist eine tolle Möglichkeit der wissenschaftlichen "
+"Forschung und dem verteilten Rechnen zu helfen - und es macht Spaß!"
 
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr ""
+"Wenn sie bereits ein freiwilliger Helfer sind, können Sie hier Ihre "
+"%sEinstellungen ändern%s."
 
 msgid "Volunteer"
-msgstr ""
+msgstr "Helfer"
 
 msgid "Download"
-msgstr ""
+msgstr "Herunterladen"
 
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentation"
 
 #, php-format
 msgid ""
@@ -358,20 +368,31 @@ msgid ""
 "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
 "sDownload%s and run BOINC software  %sEnter%s an email address and password. "
 msgstr ""
+"Nutzen sie die Leerlaufzeit ihres Computers (Windows, Mac oder Linux) um "
+"Krankheiten zu heilen, globale Erwärmung zu untersuchen, Pulsare zu "
+"erforschen und vielen andere Arten der wissenschaftlichen Forschung "
+"nachzugehen. Es ist gefahrlos, sicher und einfach: %sProjekt wählen%s "
+"%sBOINC Software herunterladen%s und ausführen. %sEintragen von%s E-Mail-"
+"Adresse und Passwort."
 
 #, php-format
 msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
+"Oder, wenn sie an verschiedenen Projekte teilnehmen, probieren sie einen "
+"%sKontomanager%s wie z.B. %sGridrepublic%s oder %sBAM!%s."
 
+# Gesucht: kurze und einfache Übersetzungen um den Unterschied zwischen volunteer und grid darzustellen.
 #, php-format
+#, fuzzy
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
+"Open-Source Software für %sVolunteer Computing%s und %sGrid Computing%s."
 
 msgid "BOINC user survey"
-msgstr ""
+msgstr "Boinc-Nutzer Umfrage"
 
 msgid ""
 "Several volunteer computing projects, including Climateprediction.net, "
@@ -384,46 +405,59 @@ msgid ""
 "will replace the old ones. <p> The current results of the survey are <a "
 "href=poll_results.php>here</a>. "
 msgstr ""
+"Verschiedene Projekte (z.B. Climateprediction.net, Einstein@home und "
+"SETI@home) nutzen die BOINC Plattform für verteiltes Rechnen. Wenn Sie an "
+"diesen Projekten teilnehmen würden wir Sie bitten die folgenden Fragen zu "
+"beantworten. Dies wird den BOINC-basierten Projekten helfen bessere "
+"Leistungen zu erzielen. <p> Bitte beantworten Sie so viele Fragen wie "
+"möglich. Wenn Sie bereits an der Umfrage teilgenommen haben und Ihre "
+"Antworten ändern wollen füllen Sie die Umfrage bitte erneut aus. Die neuen "
+"Antworten überschreiben die alten. <p> Die <a "
+"href=poll_results.php>aktuellen Ergebnisse</a> sind ebenfalls online."
 
 msgid "Do you run BOINC?"
-msgstr ""
+msgstr "Benutzen Sie BOINC?"
 
 msgid "Your participation"
-msgstr ""
+msgstr "Ihre Beteiligung"
 
 msgid "Your computers"
-msgstr ""
+msgstr "Ihre Computer"
 
 msgid "You"
-msgstr ""
+msgstr "Sie"
 
 msgid "Nationality"
-msgstr ""
+msgstr "Nationalität"
 
 msgid "Comments"
-msgstr ""
+msgstr "Kommentare"
 
 msgid ""
 "Please suggest ways that BOINC, and the projects that use it, could be "
 "improved:"
 msgstr ""
+"Bitte teilen sie uns mit, wie BOINC und die Projekte, die es nutzen, "
+"verbessert werden könnten:"
 
 msgid "When done click:"
-msgstr ""
+msgstr "Wenn sie fertig sind, hier klicken:"
 
 msgid "Error - results not recorded"
-msgstr ""
+msgstr "Fehler - Ergebnisse konnten nicht gespeichert werden"
 
 msgid ""
 "An internal error has prevented us from recording your survey response.  "
 "Please try again later."
 msgstr ""
+"Ein interner Fehler hat uns daran gehindert, ihre Umfrageergebnisse zu "
+"speichern. Bitte versuchen sie es später noch einmal."
 
 msgid "Survey response recorded"
-msgstr ""
+msgstr "Umfrageergebnis gespeichert"
 
 msgid "Thank you for completing the BOINC user survey."
-msgstr ""
+msgstr "Vielen Dank, dass sie bei der BOINC-Nutzerumfrage mitgemacht haben."
 
 msgid "Survey results"
-msgstr ""
+msgstr "Umfrageergebnisse"
