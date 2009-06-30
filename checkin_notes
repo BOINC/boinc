@@ -6111,3 +6111,10 @@ Rytis  30 June 2009
         sched_config.cpp
         sched_config.h
         sched_result.cpp
+
+Rom    30 June 2009
+    - MGR: Remove project list randomization, sort on name.
+    
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
