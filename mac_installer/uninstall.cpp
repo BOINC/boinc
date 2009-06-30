@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
     } else {
         // Grid Republic uses generic dialog with Uninstall application's icon
         cancelled = ! ShowMessage(true, "Are you sure you want to completely remove %s from your computer?\n\n"
-                                        "This will remove the executables but will not touch %s data files.", p);
+                                        "This will remove the executables but will not touch %s data files.", p, p);
     }
 
     if (! cancelled)

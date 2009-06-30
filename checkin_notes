@@ -5902,7 +5902,8 @@ Rom    29 June 2009
         version.h
 
 Charlie 29 June 2009
-    - Mac Uninstaller: add extra blank lines between items user should delete.
+    - Mac Uninstaller: add blank lines between items user should delete; 
+        fix cosmetic bug.
     
     mac_installer/
         uninstall.cpp
