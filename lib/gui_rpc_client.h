@@ -73,8 +73,6 @@ public:
 
     int parse(XML_PARSER&);
     void clear();
-
-    bool operator<(const PROJECT_LIST_ENTRY& compare);
 };
 
 class AM_LIST_ENTRY {
@@ -89,8 +87,6 @@ public:
 
     int parse(XML_PARSER&);
     void clear();
-
-    bool operator<(const AM_LIST_ENTRY& compare);
 };
 
 class ALL_PROJECTS_LIST {

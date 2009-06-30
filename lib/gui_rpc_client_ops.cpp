@@ -138,10 +138,6 @@ void PROJECT_LIST_ENTRY::clear() {
     image.clear();
 }
 
-bool PROJECT_LIST_ENTRY::operator<(const PROJECT_LIST_ENTRY& compare) {
-    return name < compare.name;
-}
-
 AM_LIST_ENTRY::AM_LIST_ENTRY() {
     clear();
 }
@@ -170,10 +166,6 @@ void AM_LIST_ENTRY::clear() {
     image.clear();
 }
 
-bool AM_LIST_ENTRY::operator<(const AM_LIST_ENTRY& compare) {
-    return name < compare.name;
-}
-
 ALL_PROJECTS_LIST::ALL_PROJECTS_LIST() {
 }
 
@@ -181,9 +173,19 @@ ALL_PROJECTS_LIST::~ALL_PROJECTS_LIST() {
     clear();
 }
 
+bool compare_project_list_entry(const PROJECT_LIST_ENTRY* a, const PROJECT_LIST_ENTRY* b) 
+{
+    return a->name < b->name;
+}
+
+bool compare_am_list_entry(const AM_LIST_ENTRY* a, const AM_LIST_ENTRY* b) 
+{
+    return a->name < b->name;
+}
+
 void ALL_PROJECTS_LIST::shuffle() {
-    sort(projects.begin(), projects.end());
-    sort(account_managers.begin(), account_managers.end());
+    sort(projects.begin(), projects.end(), compare_project_list_entry);
+    sort(account_managers.begin(), account_managers.end(), compare_am_list_entry);
 }
 
 void ALL_PROJECTS_LIST::clear() {
