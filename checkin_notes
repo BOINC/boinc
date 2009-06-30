@@ -5894,9 +5894,17 @@ Rom    29 June 2009
         boinccas95.dll
 
 Charlie 29 June 2009
+    - Mac Uninstaller: add blank lines between items user should delete
+        (checked in to boinc_core_release_6_8_4).
+    
+    mac_installer/
+        uninstall.cpp
+
+Charlie 29 June 2009
     - Tag for 6.8.4 release, all platforms
       boinc_core_release_6_8_4
 
     /
         configure.ac
         version.h
+
