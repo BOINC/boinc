@@ -167,8 +167,10 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
 	addProperty(_("Application"), FormatApplicationName(result));
 	addProperty(_("Workunit name"),wxString(result->wu_name.c_str(),wxConvUTF8));
 	addProperty(_("State"), FormatStatus(result));
-    dt.Set((time_t)result->received_time);
-	addProperty(_("Received"), dt.Format());
+    if (result->received_time) {
+        dt.Set((time_t)result->received_time);
+	    addProperty(_("Received"), dt.Format());
+    }
     dt.Set((time_t)result->report_deadline);
 	addProperty(_("Report deadline"), dt.Format());
 	if (result->resources.size()) {

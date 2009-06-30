@@ -474,6 +474,7 @@ void RESULT::clear() {
     graphics_exec_path.clear();
     slot_path.clear();
     report_deadline = 0;
+    received_time = 0;
     ready_to_report = false;
     got_server_ack = false;
     final_cpu_time = 0;
