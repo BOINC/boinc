@@ -112,7 +112,9 @@
 #include <wx/html/htmlwin.h>
 #include <wx/html/htmlproc.h>
 #include <wx/fs_inet.h>
+#include <wx/fs_mem.h>
 #include <wx/dnd.h>
+#include <wx/htmllbox.h>
 
 
 #ifdef _WIN32

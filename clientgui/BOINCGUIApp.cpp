@@ -312,6 +312,7 @@ bool CBOINCGUIApp::OnInit() {
     wxInitAllImageHandlers();
 
     // Enable additional file system type handlers
+    wxFileSystem::AddHandler(new wxMemoryFSHandler);
 #if wxUSE_FS_INET && wxUSE_STREAMS && wxUSE_SOCKETS
     wxFileSystem::AddHandler(new wxInternetFSHandler);
 #endif

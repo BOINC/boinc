@@ -6053,3 +6053,23 @@ David  27 June 2009
 
     db/
         schema.sql
+
+Rom    29 June 2009
+    - MGR: My first attempt to handle the project list control was turning
+        into a mess and becoming very complicated, as my former mentor used
+        to say "if you are having to try too hard, you are doing it wrong."
+        
+        Reimplement the project list control as a wxHtmlListBox which handles
+        keyboard navigation correctly and allows us to have variable height
+        list items.  Another perk is the ability to detect when different
+        HTML elements are clicked on which might be useful for anonymous
+        attach at some point in time in the future.
+        
+    clientgui/
+        AccountManagerInfoPage.cpp
+        AdvancedFrame.cpp
+        BOINCGUIApp.cpp
+        BOINCWizards.h
+        ProjectInfoPage.cpp
+        ProjectListCtrl.cpp, .h
+        stdwx.h

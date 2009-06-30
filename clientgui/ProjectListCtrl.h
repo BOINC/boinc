@@ -23,22 +23,72 @@
 #endif
 
 
-class CProjectListItemCtrl;
-class CProjectListItemStaticCtrl;
-class CProjectListItemBitmapCtrl;
-class ProjectListCtrlEvent;
+/*!
+ * CProjectListItem class declaration
+ */
+
+class CProjectListItem: public wxObject
+{    
+    DECLARE_DYNAMIC_CLASS( CProjectListItem )
+public:
+
+    wxString GetURL() const { return m_strURL ; }
+    void SetURL(wxString value) { m_strURL = value ; }
+
+    wxString GetTitle() const { return m_strTitle ; }
+    void SetTitle(wxString value) { m_strTitle = value ; }
+
+    wxString GetOrganization() const { return m_strOrganization ; }
+    void SetOrganization(wxString value) { m_strOrganization = value ; }
+
+    wxString GetDescription() const { return m_strDescription ; }
+    void SetDescription(wxString value) { m_strDescription = value ; }
+
+    wxString GetCategory() const { return m_strCategory ; }
+    void SetCategory(wxString value) { m_strCategory = value ; }
+
+    bool IsPlatformSupported() const { return m_bSupported ; }
+    void SetPlatformSupported(bool value) { m_bSupported = value ; }
+
+private:
+    wxString m_strURL;
+    wxString m_strTitle;
+    wxString m_strOrganization;
+    wxString m_strDescription;
+    wxString m_strCategory;
+    bool m_bSupported;
+};
 
 
-////@begin control identifiers
-#define ID_WEBSITEBUTTON 10001
-////@end control identifiers
+#ifdef wxUSE_ACCESSIBILITY
+
+class CProjectListCtrlAccessible: public wxWindowAccessible
+{
+public:
+    CProjectListCtrlAccessible(wxWindow* win): wxWindowAccessible(win) {}
+
+    virtual wxAccStatus GetName(int childId, wxString* name);
+    virtual wxAccStatus HitTest(const wxPoint& pt, int* childId, wxAccessible** childObject);
+    virtual wxAccStatus GetLocation(wxRect& rect, int elementId);
+    virtual wxAccStatus Navigate(wxNavDir navDir, int fromId, int* toId, wxAccessible** toObject);
+    virtual wxAccStatus GetChildCount(int* childCount);
+    virtual wxAccStatus DoDefaultAction(int childId);
+    virtual wxAccStatus GetDefaultAction(int childId, wxString* actionName);
+    virtual wxAccStatus GetDescription(int childId, wxString* description);
+    virtual wxAccStatus GetRole(int childId, wxAccRole* role);
+    virtual wxAccStatus GetState(int childId, long* state);
+    virtual wxAccStatus Select(int childId, wxAccSelectionFlags selectFlags);
+    virtual wxAccStatus GetSelections(wxVariant* selections);
+};
+
+#endif
 
 
 /*!
  * CProjectListCtrl class declaration
  */
 
-class CProjectListCtrl: public wxScrolledWindow
+class CProjectListCtrl: public wxHtmlListBox
 {    
     DECLARE_DYNAMIC_CLASS( CProjectListCtrl )
     DECLARE_EVENT_TABLE()
@@ -52,38 +102,34 @@ public:
     /// Creation
     bool Create( wxWindow* parent );
 
-    /// Creates the controls and sizers
-    void CreateControls();
-
 ////@begin CProjectListCtrl event handler declarations
 
-    /// event handler for window
-    void OnItemChange( CProjectListItemCtrl* pSelectedItem );
-
-    /// event handler for window
-    void OnItemDisplay( wxCommandEvent& event );
-
-    /// event handler for window
-    void OnItemFocusChange( CProjectListItemCtrl* pSelectedItem );
-
-    /// wxEVT_SET_FOCUS, wxEVT_KILL_FOCUS event handler for window
-    void OnFocusChanged( wxFocusEvent& event );
-
-    /// wxEVT_KEY_DOWN, wxEVT_KEY_UP event handler for window
-    void OnKeyPressed( wxKeyEvent& event );
+    void OnSelected( wxCommandEvent& event );
+    void OnClicked( wxHtmlCellEvent& event );
+    void OnDClicked( wxCommandEvent& event );
+    void OnLinkClicked( wxHtmlLinkEvent& event );
+    void OnHover( wxHtmlCellEvent& event );
 
 ////@end CProjectListCtrl event handler declarations
 
+    virtual wxString OnGetItem(size_t i) const;
+
     /// Methods
     bool Append(
-        wxString strTitle,
         wxString strURL,
+        wxString strTitle,
+        wxString strDescription,
         bool bSupported
     );
 
+    CProjectListItem* GetItem( 
+        int iIndex
+    );
+
+    wxCoord GetTotalClientHeight();
+
 private:
-    wxWindow*   m_pCurrentSelection;
-    wxBoxSizer* m_pMainSizer;
+    std::vector<CProjectListItem*> m_Items;
 };
 
 
@@ -135,157 +181,6 @@ typedef void (wxEvtHandler::*ProjectListCtrlEventFunction)(ProjectListCtrlEvent&
 
 #define EVT_PROJECTLIST_ITEM_CHANGE(fn) wx__DECLARE_PROJECTLISTEVT(ITEM_CHANGE, fn)
 #define EVT_PROJECTLIST_ITEM_DISPLAY(fn) wx__DECLARE_PROJECTLISTEVT(ITEM_DISPLAY, fn)
-
-
-/*!
- * CProjectListItemCtrl class declaration
- */
-
-class CProjectListItemCtrl: public wxPanel
-{    
-    DECLARE_DYNAMIC_CLASS( CProjectListItemCtrl )
-    DECLARE_EVENT_TABLE()
-
-public:
-    /// Constructors
-    CProjectListItemCtrl( );
-
-    CProjectListItemCtrl( wxWindow* parent );
-
-    /// Creation
-    bool Create( wxWindow* parent );
-
-    /// Creates the controls and sizers
-    void CreateControls();
-
-////@begin CProjectListItemCtrl event handler declarations
-
-    /// wxEVT_ENTER_WINDOW, wxEVT_LEAVE_WINDOW event handler for window
-    void OnMouseEnterLeave( wxMouseEvent& event );
-
-    /// wxEVT_LEFT_DOWN, wxEVT_LEFT_UP event handler for window
-    void OnMouseClick( wxMouseEvent& event );
-
-    /// wxEVT_KEY_DOWN, wxEVT_KEY_UP event handler for window
-    void OnKeyPressed( wxKeyEvent& event );
-
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for window
-    void OnWebsiteButtonClick( wxCommandEvent& event );
-
-////@end CProjectListItemCtrl event handler declarations
-
-    /// Methods
-    wxString GetTitle() { return m_strTitle; };
-    wxString GetURL() { return m_strURL; };
-    bool     IsSupported() { return m_bSupported; };
-
-    bool SetTitle( wxString strTitle );
-    bool SetURL( wxString strURL );
-    bool SetSupportedStatus( bool bSupported );
-
-private:
-    CProjectListItemStaticCtrl* m_pTitleStaticCtrl;
-    CProjectListItemBitmapCtrl* m_pWebsiteButtonCtrl;
-    wxString                    m_strTitle;
-    wxString                    m_strURL;
-    bool                        m_bSupported;
-
-    bool                        m_bLeftButtonDownDetected;
-};
-
-
-/*!
- * CProjectListItemStaticCtrl class declaration
- */
-
-class CProjectListItemStaticCtrl: public wxStaticText
-{    
-    DECLARE_DYNAMIC_CLASS( CProjectListItemStaticCtrl )
-    DECLARE_EVENT_TABLE()
-
-public:
-    /// Constructors
-    CProjectListItemStaticCtrl();
-
-    CProjectListItemStaticCtrl(
-        wxWindow *parent,
-        wxWindowID id,
-        const wxString &label = wxEmptyString,
-        const wxPoint &pos = wxDefaultPosition,
-        const wxSize &size = wxDefaultSize,
-        long style = 0,
-        const wxString &name = _T("ProjectListItemStaticCtrl")
-    );
-
-    /// Creation
-    bool Create (
-        wxWindow *parent,
-        wxWindowID id,
-        const wxString &label = wxEmptyString,
-        const wxPoint &pos = wxDefaultPosition,
-        const wxSize &size = wxDefaultSize,
-        long style = 0,
-        const wxString &name = _T("ProjectListItemStaticCtrl")
-    );
-
-////@begin CProjectListItemStaticCtrl event handler declarations
-
-    /// wxEVT_ENTER_WINDOW, wxEVT_LEAVE_WINDOW event handler for window
-    void OnMouseEnterLeave( wxMouseEvent& event );
-
-    /// wxEVT_LEFT_DOWN, wxEVT_LEFT_UP event handler for window
-    void OnMouseClick( wxMouseEvent& event );
-
-////@end CProjectListItemStaticCtrl event handler declarations
-};
-
-
-/*!
- * CProjectListItemBitmapCtrl class declaration
- */
-
-class CProjectListItemBitmapCtrl: public wxStaticBitmap
-{    
-    DECLARE_DYNAMIC_CLASS( CProjectListItemBitmapCtrl )
-    DECLARE_EVENT_TABLE()
-
-public:
-    /// Constructors
-    CProjectListItemBitmapCtrl();
-
-    CProjectListItemBitmapCtrl(
-        wxWindow *parent,
-        wxWindowID id,
-        const wxBitmap& bitmap,
-        const wxPoint &pos = wxDefaultPosition,
-        const wxSize &size = wxDefaultSize,
-        long style = 0,
-        const wxString &name = _T("ProjectListItemBitmapCtrl")
-    );
-
-    /// Creation
-    bool Create (
-        wxWindow *parent,
-        wxWindowID id,
-        const wxBitmap& bitmap,
-        const wxPoint &pos = wxDefaultPosition,
-        const wxSize &size = wxDefaultSize,
-        long style = 0,
-        const wxString &name = _T("ProjectListItemBitmapCtrl")
-    );
-
-////@begin CProjectListItemBitmapCtrl event handler declarations
-
-    /// wxEVT_ENTER_WINDOW, wxEVT_LEAVE_WINDOW event handler for window
-    void OnMouseEnterLeave( wxMouseEvent& event );
-
-    /// wxEVT_LEFT_DOWN, wxEVT_LEFT_UP event handler for window
-    void OnMouseClick( wxMouseEvent& event );
-
-////@end CProjectListItemBitmapCtrl event handler declarations
-
-    bool m_bLeftButtonDownDetected;
-};
 
 
 #endif // _WIZ_PROJECTLISTCTRL_H_

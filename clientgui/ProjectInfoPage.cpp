@@ -286,11 +286,19 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             );
 
             m_pProjectListCtrl->Append(
-                wxString(pl.projects[i]->name.c_str(), wxConvUTF8),
                 wxString(pl.projects[i]->url.c_str(), wxConvUTF8),
+                wxString(pl.projects[i]->name.c_str(), wxConvUTF8),
+                wxString(pl.projects[i]->description.c_str(), wxConvUTF8),
                 bSupportedPlatformFound
             );
         }
+
+        // Pre select the first element
+        m_pProjectListCtrl->SetSelection(0);
+        m_strProjectURL = m_pProjectListCtrl->GetItem(0)->GetURL();
+        m_bProjectSupported = m_pProjectListCtrl->GetItem(0)->IsPlatformSupported();
+        TransferDataToWindow();
+
         m_bProjectListPopulated = true;
     }
 

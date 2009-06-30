@@ -54,16 +54,10 @@
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
-//#include "WizardAccountManager.h"
 #include "DlgAdvPreferences.h"
 
 #include "res/connect.xpm"
 #include "res/disconnect.xpm"
-
-
-// Which of the view sets should we display.
-//
-//#define VIEW_LIST       2
 
 
 enum STATUSBARFIELDS {
