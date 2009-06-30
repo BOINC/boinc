@@ -60,7 +60,7 @@ private:
 };
 
 
-#ifdef wxUSE_ACCESSIBILITY
+#if wxUSE_ACCESSIBILITY
 
 class CProjectListCtrlAccessible: public wxWindowAccessible
 {

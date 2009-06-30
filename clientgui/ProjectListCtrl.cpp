@@ -29,7 +29,7 @@
 ////@end XPM images
 
 
-#ifdef wxUSE_ACCESSIBILITY
+#if wxUSE_ACCESSIBILITY
 
 // Gets the name of the specified object.
 wxAccStatus CProjectListCtrlAccessible::GetName(int childId, wxString* name)
@@ -378,7 +378,7 @@ bool CProjectListCtrl::Create( wxWindow* parent )
     wxHtmlListBox::Create( parent, ID_PROJECTLISTCTRL, wxDefaultPosition, wxDefaultSize,
         wxSUNKEN_BORDER | wxTAB_TRAVERSAL );
 
-#ifdef wxUSE_ACCESSIBILITY
+#if wxUSE_ACCESSIBILITY
     SetAccessible(new CProjectListCtrlAccessible(this));
 #endif
 

@@ -6093,4 +6093,11 @@ Charlie 29 June 2009
     
     mac_installer/
         uninstall.cpp
-    
+
+Charlie 29 June 2009
+    - MGR: fix compile breaks on non_Windows systems.
+        NOTE: wxUSE_ACCESSIBILITY is defined as 0 on the Mac, use 
+        "#if wxUSE_ACCESSIBILITY", not "#ifdef wxUSE_ACCESSIBILITY".
+        
+    clientgui/
+        ProjectListCtrl.cpp, .h
