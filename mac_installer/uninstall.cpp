@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
         ShowMessage(false, "An error occurred: error code %d", err);
     else
         ShowMessage(false, "Removal completed.\n\n You may want to remove the following remaining items using the Finder: \n"
-         "\"/Library/Application Support/BOINC Data\" directory and, for each user, the file\n"
+         "\"/Library/Application Support/BOINC Data\" directory\n\nfor each user, the file\n"
          "\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\".");
         
     return err;
