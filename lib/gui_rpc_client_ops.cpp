@@ -127,19 +127,6 @@ int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-int AM_LIST_ENTRY::parse(XML_PARSER& xp) {
-    char tag[256];
-    bool is_tag;
-    while (!xp.get(tag, sizeof(tag), is_tag)) {
-        if (!strcmp(tag, "/account_manager")) return 0;
-        if (xp.parse_string(tag, "name", name)) continue;
-        if (xp.parse_string(tag, "url", url)) continue;
-        if (xp.parse_string(tag, "description", description)) continue;
-        if (xp.parse_string(tag, "image", image)) continue;
-    }
-    return 0;
-}
-
 void PROJECT_LIST_ENTRY::clear() {
     name.clear();
     url.clear();
@@ -155,8 +142,60 @@ bool PROJECT_LIST_ENTRY::operator<(const PROJECT_LIST_ENTRY& compare) {
     return name < compare.name;
 }
 
+AM_LIST_ENTRY::AM_LIST_ENTRY() {
+    clear();
+}
+
+AM_LIST_ENTRY::~AM_LIST_ENTRY() {
+    clear();
+}
+
+int AM_LIST_ENTRY::parse(XML_PARSER& xp) {
+    char tag[256];
+    bool is_tag;
+    while (!xp.get(tag, sizeof(tag), is_tag)) {
+        if (!strcmp(tag, "/account_manager")) return 0;
+        if (xp.parse_string(tag, "name", name)) continue;
+        if (xp.parse_string(tag, "url", url)) continue;
+        if (xp.parse_string(tag, "description", description)) continue;
+        if (xp.parse_string(tag, "image", image)) continue;
+    }
+    return 0;
+}
+
+void AM_LIST_ENTRY::clear() {
+    name.clear();
+    url.clear();
+    description.clear();
+    image.clear();
+}
+
 bool AM_LIST_ENTRY::operator<(const AM_LIST_ENTRY& compare) {
     return name < compare.name;
+}
+
+ALL_PROJECTS_LIST::ALL_PROJECTS_LIST() {
+}
+
+ALL_PROJECTS_LIST::~ALL_PROJECTS_LIST() {
+    clear();
+}
+
+void ALL_PROJECTS_LIST::shuffle() {
+    sort(projects.begin(), projects.end());
+    sort(account_managers.begin(), account_managers.end());
+}
+
+void ALL_PROJECTS_LIST::clear() {
+    unsigned int i;
+    for (i=0; i<projects.size(); i++) {
+        delete projects[i];
+    }
+    for (i=0; i<account_managers.size(); i++) {
+        delete account_managers[i];
+    }
+    projects.clear();
+    account_managers.clear();
 }
 
 PROJECT::PROJECT() {
@@ -715,30 +754,6 @@ RESULT* CC_STATE::lookup_result(string& url, string& str) {
         if (results[i]->name == str) return results[i];
     }
     return 0;
-}
-
-ALL_PROJECTS_LIST::ALL_PROJECTS_LIST() {
-}
-
-ALL_PROJECTS_LIST::~ALL_PROJECTS_LIST() {
-    clear();
-}
-
-void ALL_PROJECTS_LIST::shuffle() {
-    sort(projects.begin(), projects.end());
-    sort(account_managers.begin(), account_managers.end());
-}
-
-void ALL_PROJECTS_LIST::clear() {
-    unsigned int i;
-    for (i=0; i<projects.size(); i++) {
-        delete projects[i];
-    }
-    for (i=0; i<account_managers.size(); i++) {
-        delete account_managers[i];
-    }
-    projects.clear();
-    account_managers.clear();
 }
 
 PROJECTS::~PROJECTS() {
@@ -1311,7 +1326,9 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
             continue;
         }
     }
+
     pl.shuffle();
+
     return 0;
 }
 
