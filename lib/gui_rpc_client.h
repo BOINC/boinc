@@ -220,7 +220,8 @@ public:
     std::string project_url;
     int version_num;
     std::string plan_class;
-    int report_deadline;
+    double report_deadline;
+    double received_time;
     bool ready_to_report;
     bool got_server_ack;
     double final_cpu_time;

@@ -254,15 +254,18 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
 //
 RESULT* first_coproc_result() {
     unsigned int i;
+    RESULT* best = NULL;
     for (i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         if (!rp->runnable()) continue;
         if (rp->project->non_cpu_intensive) continue;
         if (rp->already_selected) continue;
         if (!rp->uses_coprocs()) continue;
-        return rp;
+        if (!best || (rp->received_time < best->received_time)) {
+            best = rp;
+        }
     }
-    return NULL;
+    return best;
 }
 
 // Return earliest-deadline result.

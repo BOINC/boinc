@@ -811,6 +811,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
             continue;
         }
         rp->wup->version_num = rp->version_num;
+        rp->received_time = now;
         results.push_back(rp);
         new_results.push_back(rp);
         rp->set_state(RESULT_NEW, "handle_scheduler_reply");

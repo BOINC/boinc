@@ -6118,3 +6118,17 @@ Rom    30 June 2009
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+David  30 June 2009
+    - client: record the time results are received.
+        Process non-EDF GPU jobs in this order.
+
+    client/
+        client_types.cpp,h
+        cpu_sched.cpp
+        cs_scheduler.cpp
+    clientgui/
+        DltItemProperties.cpp
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h
