@@ -6141,3 +6141,23 @@ Rom    30 June 2009
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
     
+
+David  30 June 2009
+	- manager: if a project is down, say that instead of unknown error msg
+		Programming style notes:
+		1)
+			x = y;
+
+			instead of
+
+		    if (y) {
+				x = true;
+			} else {
+				x = false;
+			}
+
+		2) use a descriptive name instead, not bSuccessfulCondition.
+			Variables are free.
+	clientgui/
+		ProjectPropertiesPage.cpp
+		UnavailablePage.cpp

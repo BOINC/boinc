@@ -425,70 +425,39 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
             //   they do not support account creation through the wizard.  In either
             //   case we should claim success and set the correct flags to show the
             //   correct 'next' page.
-            bSuccessfulCondition = 
-                (!iReturnValue) && (!pc->error_num) ||
-                (!iReturnValue) && (ERR_ACCT_CREATION_DISABLED == pc->error_num);
-            if (bSuccessfulCondition) {
+            if (
+                !iReturnValue
+                && (!pc->error_num || pc->error_num == ERR_ACCT_CREATION_DISABLED)
+            ) {
                 SetProjectPropertiesSucceeded(true);
-
-                bSuccessfulCondition = pc->account_creation_disabled;
-                if (bSuccessfulCondition) {
-                    SetProjectAccountCreationDisabled(true);
-                } else {
-                    SetProjectAccountCreationDisabled(false);
-                }
-
-                bSuccessfulCondition = pc->client_account_creation_disabled;
-                if (bSuccessfulCondition) {
-                    SetProjectClientAccountCreationDisabled(true);
-                } else {
-                    SetProjectClientAccountCreationDisabled(false);
-                }
- 
-                bSuccessfulCondition = !pc->terms_of_use.empty();
-                if (bSuccessfulCondition) {
-                    SetTermsOfUseRequired(true);
-                } else {
-                    SetTermsOfUseRequired(false);
-                }
+                SetProjectAccountCreationDisabled(pc->account_creation_disabled);
+                SetProjectClientAccountCreationDisabled(pc->client_account_creation_disabled);
+                SetTermsOfUseRequired(!pc->terms_of_use.empty());
             } else {
                 SetProjectPropertiesSucceeded(false);
+                SetProjectPropertiesURLFailure(pc->error_num == ERR_FILE_NOT_FOUND);
 
-                bSuccessfulCondition = 
-                    (!iReturnValue) && (ERR_FILE_NOT_FOUND == pc->error_num);
-                if (bSuccessfulCondition) {
-                    SetProjectPropertiesURLFailure(true);
-                } else {
-                    SetProjectPropertiesURLFailure(false);
-                }
+                bool comm_failure = !iReturnValue && (
+                    (ERR_GETHOSTBYNAME == pc->error_num)
+                    || (ERR_CONNECT == pc->error_num)
+                    || (ERR_XML_PARSE == pc->error_num)
+                );
+                SetProjectPropertiesCommunicationFailure(comm_failure);
 
-                bSuccessfulCondition = 
-                    (!iReturnValue) && (ERR_GETHOSTBYNAME == pc->error_num) ||
-                    (!iReturnValue) && (ERR_CONNECT == pc->error_num) ||
-                    (!iReturnValue) && (ERR_XML_PARSE == pc->error_num);
-                if (bSuccessfulCondition) {
-                    SetProjectPropertiesCommunicationFailure(true);
-                } else {
-                    SetProjectPropertiesCommunicationFailure(false);
-                }
-
-                bSuccessfulCondition = 
-                    ((!iReturnValue) && (ERR_FILE_NOT_FOUND != pc->error_num)) &&
-                    ((!iReturnValue) && (ERR_GETHOSTBYNAME != pc->error_num)) &&
-                    ((!iReturnValue) && (ERR_CONNECT != pc->error_num)) &&
-                    ((!iReturnValue) && (ERR_XML_PARSE != pc->error_num)) &&
-                    (!iReturnValue);
-                if (bSuccessfulCondition) {
-                    SetServerReportedError(true);
-
+                bool server_reported_error = !iReturnValue && (
+                    (ERR_FILE_NOT_FOUND != pc->error_num)
+                    && (ERR_GETHOSTBYNAME != pc->error_num)
+                    && (ERR_CONNECT != pc->error_num)
+                    && (ERR_XML_PARSE != pc->error_num)
+                    && (ERR_PROJECT_DOWN != pc->error_num)
+                );
+                SetServerReportedError(server_reported_error);
+                if (server_reported_error) {
                     strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
 				    if (pc->error_msg.size()) {
                         strBuffer += wxString(pc->error_msg.c_str(), wxConvUTF8) + wxString(wxT("\n"));
                     }
                     pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
-
-                } else {
-                    SetServerReportedError(false);
                 }
             }
 
