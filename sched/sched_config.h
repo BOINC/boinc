@@ -100,8 +100,8 @@ public:
         // will be sent to reliable hosts
     double reliable_reduced_delay_bound;
         // Reduce the delay bounds for reliable hosts by this percent
-	int granted_credit_ramp_up; 
-	double granted_credit_weight;
+    int granted_credit_ramp_up; 
+    double granted_credit_weight;
     bool distinct_beta_apps;
         // allow users to select beta apps independently
     bool workload_sim;
@@ -132,6 +132,7 @@ public:
     bool no_vista_sandbox;
     bool ignore_dcf;
     int report_max;
+    bool dont_store_success_stderr;
 
     // log flags
     //

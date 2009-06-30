@@ -6102,3 +6102,12 @@ Charlie 29 June 2009
         
     clientgui/
         ProjectListCtrl.cpp, .h
+
+Rytis  30 June 2009
+    - Sched: config option not to store stderr_out if exit_status==0 (to
+        save on DB size). With help from Nicolas Alvarez.
+    
+    sched/
+        sched_config.cpp
+        sched_config.h
+        sched_result.cpp

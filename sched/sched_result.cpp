@@ -303,6 +303,10 @@ int handle_results() {
                 );
             }
             got_good_result();
+            
+            if (config.dont_store_success_stderr) {
+                strcpy(srip->stderr_out, "");
+            }
         } else {
             if (config.debug_handle_results) {
                 log_messages.printf(MSG_NORMAL,
