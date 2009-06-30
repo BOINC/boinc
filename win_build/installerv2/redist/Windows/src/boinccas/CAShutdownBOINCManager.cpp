@@ -74,6 +74,7 @@ UINT CAShutdownBOINCManager::OnExecution()
 #ifdef _UNICODE
     TerminateProcessEx( tstring(_T("boincmgr.exe")) );
     TerminateProcessEx( tstring(_T("gridrepublic.exe")) );
+    TerminateProcessEx( tstring(_T("progressthruprocessors.exe")) );
 #endif
 
     do

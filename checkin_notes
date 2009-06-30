@@ -6073,3 +6073,17 @@ Rom    29 June 2009
         ProjectInfoPage.cpp
         ProjectListCtrl.cpp, .h
         stdwx.h
+
+Rom    29 June 2009
+    - WINSETUP: Add the PTP executable to the list of processes to terminate
+        when setup is launched.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas.rc
+        CAShutdownBOINCManager.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
