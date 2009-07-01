@@ -265,11 +265,8 @@ int ACTIVE_TASK::write_app_init_file() {
 #else
     aid.shmem_seg_name = shmem_seg_name;
 #endif
-    // wu_cpu_time is the CPU time at start of session,
-    // not the checkpoint CPU time
-    // At the start of an episode these are equal, but not in the middle!
-    //
-    aid.wu_cpu_time = episode_start_cpu_time;
+    aid.wu_cpu_time = checkpoint_cpu_time;
+    aid.starting_elapsed_time = checkpoint_elapsed_time;
 
     sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
     f = boinc_fopen(init_data_path, "w");
@@ -437,7 +434,6 @@ int ACTIVE_TASK::start(bool first_time) {
     }
 
     current_cpu_time = checkpoint_cpu_time;
-    episode_start_cpu_time = checkpoint_cpu_time;
 
     graphics_request_queue.init(result->name);        // reset message queues
     process_control_queue.init(result->name);

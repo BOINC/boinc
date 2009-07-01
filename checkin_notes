@@ -6161,3 +6161,17 @@ David  30 June 2009
 	clientgui/
 		ProjectPropertiesPage.cpp
 		UnavailablePage.cpp
+
+David  1 July 2009
+    - API: add boinc_elapsed_time() to get elapsed time since start of episode;
+        add APP_INIT_DATA::starting_elapsed_time to get
+        elapsed time from previous episodes
+
+    api/
+        boinc_api.cpp,h
+    client/
+        app.cpp,h
+        app_control.cpp
+        app_start.cpp
+    lib/
+        app_ipc.cpp,h

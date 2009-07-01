@@ -112,6 +112,9 @@ static volatile int interrupt_count = 0;
     // used to measure elapsed time in a way that's
     // not affected by user changing system clock,
     // and doesn't have big jump after hibernation
+static volatile int running_interrupt_count = 0;
+    // number of timer interrupts while not suspended.
+    // Used to compute elapsed time
 static double fpops_per_cpu_sec = 0;
 static double fpops_cumulative = 0;
 static double intops_per_cpu_sec = 0;
@@ -914,6 +917,9 @@ static void graphics_cleanup() {
 static void timer_handler() {
     if (g_sleep) return;
     interrupt_count++;
+    if (!boinc_status.suspended) {
+        running_interrupt_count++;
+    }
 
 #ifdef DEBUG_BOINC_API
     if (in_critical_section) {
@@ -1265,6 +1271,10 @@ void boinc_register_timer_callback(FUNC_PTR p) {
 
 double boinc_get_fraction_done() {
     return fraction_done;
+}
+
+double boinc_elapsed_time() {
+    return running_interrupt_count*TIMER_PERIOD;
 }
 
 const char *BOINC_RCSID_0fa0410386 = "$Id$";

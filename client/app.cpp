@@ -156,7 +156,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
     graphics_mode_acked = MODE_UNSUPPORTED;
     graphics_mode_ack_timeout = 0;
     fraction_done = 0;
-    episode_start_cpu_time = 0;
     run_interval_start_wall_time = gstate.now;
     checkpoint_cpu_time = 0;
     checkpoint_wall_time = 0;

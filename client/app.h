@@ -92,7 +92,6 @@ public:
     int scheduler_state;
     int next_scheduler_state; // temp
     int signal;
-    double episode_start_cpu_time;
         /// Wall time at the start of the current run interval
     double run_interval_start_wall_time;
         /// wall time at the last checkpoint

@@ -169,6 +169,7 @@ struct APP_INIT_DATA {
     HOST_INFO host_info;
     PROXY_INFO proxy_info;  // in case app wants to use network
     GLOBAL_PREFS global_prefs;
+    double starting_elapsed_time;   // elapsed time, counting previous episodes
 
     // info about the WU
     double rsc_fpops_est;

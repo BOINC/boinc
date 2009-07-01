@@ -1010,7 +1010,6 @@ void ACTIVE_TASK_SET::get_msgs() {
     }
     last_time = gstate.now;
 
-
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;

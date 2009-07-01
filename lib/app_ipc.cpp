@@ -99,6 +99,7 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     host_info                     = a.host_info;
     proxy_info                    = a.proxy_info;
     global_prefs                  = a.global_prefs;
+    starting_elapsed_time         = a.starting_elapsed_time;
     rsc_fpops_est                 = a.rsc_fpops_est;
     rsc_fpops_bound               = a.rsc_fpops_bound;
     rsc_memory_bound              = a.rsc_memory_bound;
@@ -170,6 +171,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     fprintf(f,
         "<slot>%d</slot>\n"
         "<wu_cpu_time>%f</wu_cpu_time>\n"
+        "<starting_elapsed_time>%f</starting_elapsed_time>\n"
         "<user_total_credit>%f</user_total_credit>\n"
         "<user_expavg_credit>%f</user_expavg_credit>\n"
         "<host_total_credit>%f</host_total_credit>\n"
@@ -185,6 +187,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<computation_deadline>%f</computation_deadline>\n",
         ai.slot,
         ai.wu_cpu_time,
+        ai.starting_elapsed_time,
         ai.user_total_credit,
         ai.user_expavg_credit,
         ai.host_total_credit,
@@ -285,6 +288,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_double(tag, "rsc_disk_bound", ai.rsc_disk_bound)) continue;
         if (xp.parse_double(tag, "computation_deadline", ai.computation_deadline)) continue;
         if (xp.parse_double(tag, "wu_cpu_time", ai.wu_cpu_time)) continue;
+        if (xp.parse_double(tag, "starting_elapsed_time", ai.starting_elapsed_time)) continue;
         if (xp.parse_double(tag, "checkpoint_period", ai.checkpoint_period)) continue;
         if (xp.parse_double(tag, "fraction_done_start", ai.fraction_done_start)) continue;
         if (xp.parse_double(tag, "fraction_done_end", ai.fraction_done_end)) continue;
