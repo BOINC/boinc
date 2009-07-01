@@ -36,18 +36,23 @@ class PymwAssimilator(Assimilator):
             if error_mask:
                 dest += ".error"
                 f = open(dest, "w")
-                try: f.writelines("BOINC error: " + error_mask)
+                try:
+                    f.writelines("BOINC error: " + str(error_mask) + "\n")
+                    if result.stderr_out:
+                        f.writelines("STD ERR: " + result.stderr_out + "\n")
+                    f.writelines("For additional information, check: " +
+                                 "$project/log_$machine/pymw_assimilator.py.log\n")
                 finally: f.close()
                 self.logNormal("Error flag created [%s]\n", resultName)
             else:
                 shutil.copy2(resultFullPath, dest)
                 self.logNormal("Result copied [%s]\n", resultName)
-        except Exception:
+        except Exception,msg:
             self.logCritical("Error copying output\n" + \
                              "  - Source: %s\n" + \
                              "  - Dest: %s\n" + 
                              "  - Error: %s",
-                             resultFullPath, dest, Exception)
+                             resultFullPath, dest, msg)
     
     def assimilate_handler(self, wu, results, canonical_result):
         """
@@ -71,6 +76,7 @@ class PymwAssimilator(Assimilator):
         if self.report_errors(wu):
             pass
 
+
     def parse_args(self, args):
         """
         This overridden version adds support for a PyMW destination directory.
@@ -93,9 +99,9 @@ class PymwAssimilator(Assimilator):
 
                 self.pymwDir = args.pop()
                 if not os.path.exists(self.pymwDir):
-                    self.logCritical("Path does not exist or is inaccessible: %s\n", \
+                    self.logNormal("Warning, path does not exist or is inaccessible: %s\n", \
                                     self.pymwDir)
-                    sys.exit(1)
+                    found = True
                 else:
                     found = True
             else:
