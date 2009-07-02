@@ -1,3 +1,9 @@
+dcapi (0.9-16) unstable; urgency=low
+
+  * Disable the Condor backend for now.
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Thu, 02 Jul 2009 16:26:11 +0200
+
 dcapi (0.9-15) unstable; urgency=low
 
   * Do not use "-Wl,-B..." in .pc files.
