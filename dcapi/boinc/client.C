@@ -30,7 +30,7 @@
 #include <boinc_api.h>
 #include <filesys.h>
 #include <diagnostics.h>
-#include <graphics_api.h>
+#include <graphics2.h>
 #include <parse.h>
 
 #include <dc_client.h>
@@ -402,14 +402,15 @@ int DC_sendMessage(const char *message)
 		return DC_ERR_NOTIMPL;
 	}
 
-	xml = (char *)malloc(6 * strlen(message) + 1);
+	int buflen = 6 * strlen(message) + 1;
+	xml = (char *)malloc(buflen);
 	if (!xml)
 	{
 		DC_log(LOG_ERR, "Sending message: Out of memory");
 		return DC_ERR_INTERNAL;
 	}
 
-	xml_escape(message, xml);
+	xml_escape(message, xml, buflen);
 	len = strlen(xml) + 24;
 	msg = (char *)malloc(len);
 	if (!msg)

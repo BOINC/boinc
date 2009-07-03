@@ -185,6 +185,7 @@ int DC_sendWUMessage(DC_Workunit *wu, const char *message)
 	{
 		DB_MSG_TO_HOST msg;
 		char *xmlout;
+		int buflen;
 
 		msg.clear();
 		msg.create_time = time(NULL);
@@ -192,7 +193,8 @@ int DC_sendWUMessage(DC_Workunit *wu, const char *message)
 		msg.handled = false;
 
 		/* BOINC tells output buffer should be 6x input size */
-		xmlout = g_new(char, 6 * strlen(message) + 1);
+		buflen = 6 * strlen(message) + 1;
+		xmlout = g_new(char, buflen);
 		if (!xmlout)
 		{
 			DC_log(LOG_WARNING, "Failed to send message because "
@@ -200,7 +202,7 @@ int DC_sendWUMessage(DC_Workunit *wu, const char *message)
 			break;
 		}
 
-		xml_escape(message, xmlout);
+		xml_escape(message, xmlout, buflen);
 		snprintf(msg.xml, sizeof(msg.xml), "<message>%s</message>", xmlout);
 		g_free(xmlout);
 

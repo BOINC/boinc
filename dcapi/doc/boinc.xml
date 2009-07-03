@@ -71,22 +71,12 @@
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term>BoincConfigXML</term>
-	  <listitem>
-	    <para>
-	      REQUIRED. The location of the BOINC <filename>config.xml</filename>
-	      configuration file.
-	    </para>
-	  </listitem>
-	</varlistentry>
-	<varlistentry>
 	  <term>ProjectRootDir</term>
 	  <listitem>
 	    <para>
-	      REQUIRED. The location of the project's root directory. This
-	      directory. This is the directory that contains the
-	      <filename>templates</filename>, <filename>upload</filename>,
-	      <filename>download</filename> and other BOINC-related
+	      OPTIONAL. The location of the project's root directory.
+	      This is the directory that contains
+	      <filename>config.xml</filename> and other BOINC-related
 	      subdirectories.
 	    </para>
 	  </listitem>

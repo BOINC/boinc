@@ -3,15 +3,13 @@ Section: devel
 Priority: extra
 Maintainer: Gábor Gombás <gombasg@sztaki.hu>
 Standards-Version: 3.6.2.1
-Build-Depends: boinc-dev (>= 1:5.6.4-1), uuid-dev, libglib2.0-dev, debhelper, automake1.9 | automaken (>= 1.9), autoconf (>= 2.53), libtool, gtk-doc-tools (>= 1.3)
+Build-Depends: boinc-dev (>= 1:6.9.0+r18425-1), uuid-dev, libglib2.0-dev, debhelper (>= 7), automake, autoconf (>= 2.53), libtool, gtk-doc-tools (>= 1.3)
 
 Package: libdcapi-common-dev
 Section: libdevel
 Priority: extra
 Architecture: all
 Recommends: libdcapi-boinc-dev | libdcapi-dev
-Replaces: libdcapi-dev (<< 0.9-7)
-Conflicts: libdcapi-dev (<< 0.9-7)
 Description: Distributed Computing Platform API - Development files
  This package contains headers and libraries for building applications using
  the Distributed Computing Platform.
@@ -23,9 +21,7 @@ Section: libdevel
 Priority: extra
 Architecture: any
 Provides: libdcapi-dev
-Replaces: libdcapi-dev (<< 0.9-7)
-Conflicts: libdcapi-dev (<< 0.9-7)
-Depends: libdcapi-common-dev, pkg-config, libglib2.0-dev, boinc-dev (>= 5.6.4-1), uuid-dev
+Depends: libdcapi-common-dev (= ${Source-Version}), pkg-config, libglib2.0-dev, boinc-dev (>= 1:6.9.0+r18425-1), uuid-dev
 Description: Distributed Computing Platform API - Development files
  This package contains headers and libraries for building applications using
  the Distributed Computing Platform.
