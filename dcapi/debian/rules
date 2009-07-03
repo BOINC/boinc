@@ -36,7 +36,7 @@ config.status: configure
 		--prefix=/usr \
 		--enable-gtk-doc \
 		--enable-backend-boinc \
-		--disable-backend-condor \
+		--enable-backend-condor \
 		--enable-backend-local \
 		--with-condor-headers=/usr/include/condor \
 		--with-html-dir=/usr/share/doc/libdcapi-doc/html \
