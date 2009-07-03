@@ -28,17 +28,17 @@ Description: Distributed Computing Platform API - Development files
  .
  This package contains the BOINC backend.
 
-#Package: libdcapi-condor-dev
-#Section: libdevel
-#Priority: extra
-#Architecture: any
-#Provides: libdcapi-dev
-#Depends: libdcapi-common-dev, pkg-config, libglib2.0-dev, libcondorapi-dev, uuid-dev
-#Description: Distributed Computing Platform API - Development files
-# This package contains headers and libraries for building applications using
-# the Distributed Computing Platform.
-# .
-# This package contains the Condor backend.
+Package: libdcapi-condor-dev
+Section: libdevel
+Priority: extra
+Architecture: any
+Provides: libdcapi-dev
+Depends: libdcapi-common-dev, pkg-config, libglib2.0-dev, libcondorapi-dev, uuid-dev
+Description: Distributed Computing Platform API - Development files
+ This package contains headers and libraries for building applications using
+ the Distributed Computing Platform.
+ .
+ This package contains the Condor backend.
 
 Package: libdcapi-local-dev
 Section: libdevel

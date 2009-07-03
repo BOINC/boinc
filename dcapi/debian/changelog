@@ -1,3 +1,11 @@
+dcapi (0.9-17) unstable; urgency=low
+
+  * Updated packaging for lenny.
+  * Bump the dependency on BOINC.
+  * Re-eanble the Condor backend.
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Fri, 03 Jul 2009 13:52:33 +0200
+
 dcapi (0.9-16) unstable; urgency=low
 
   * Disable the Condor backend for now.
