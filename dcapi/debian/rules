@@ -5,9 +5,6 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-# This is the debhelper compatibility version to use.
-export DH_COMPAT=4
-
 DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
@@ -16,7 +13,6 @@ ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
 else
 	confflags += --build `echo $(DEB_BUILD_GNU_TYPE) | sed -e 's/i[345]86/i686/'` --host `echo $(DEB_HOST_GNU_TYPE) | sed -e 's/i[345]86/i686/'`
 endif
-
 
 ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
 	CFLAGS = -g
@@ -38,7 +34,6 @@ config.status: configure
 	# autoreconf
 	./configure $(confflags) \
 		--prefix=/usr \
-		--disable-maintainer-mode \
 		--enable-gtk-doc \
 		--enable-backend-boinc \
 		--disable-backend-condor \

@@ -19,15 +19,14 @@
 
 SCHED_CONFIG dc_boinc_config;
 
-int _DC_parseConfigXML(const char *file)
+int _DC_parseConfigXML(void)
 {
 	int ret;
 
-	ret = dc_boinc_config.parse_config_file(file);
+	ret = dc_boinc_config.parse_file();
 	if (ret)
 	{
-		DC_log(LOG_ERR, "Failed to parse Boinc project "
-			"configuration file %s", file);
+		DC_log(LOG_ERR, "Failed to locate/parse the Boinc project configuration file");
 		return DC_ERR_CONFIG;
 	}
 	return 0;

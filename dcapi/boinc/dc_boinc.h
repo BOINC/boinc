@@ -24,8 +24,6 @@ extern "C" {
  * Constants
  */
 
-/* Location of config.xml */
-#define CFG_CONFIGXML		"BoincConfigXML"
 /* The root direcory of the BOINC project */
 #define CFG_PROJECTROOT		"ProjectRootDir"
 /* Level of redundancy (per-client) */
@@ -131,7 +129,7 @@ extern uuid_t project_uuid;
  */
 
 /* Parses the project's config.xml */
-int _DC_parseConfigXML(const char *file) G_GNUC_INTERNAL;
+int _DC_parseConfigXML(void) G_GNUC_INTERNAL;
 
 /* Returns the Boinc upload directory */
 char *_DC_getUploadDir(void) G_GNUC_INTERNAL;

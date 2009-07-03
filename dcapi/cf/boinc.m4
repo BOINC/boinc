@@ -19,8 +19,8 @@ AC_DEFUN([SZDG_BOINC_COMMON], [
 	if test "$no_boinc" != yes; then
 		case "$with_boinc" in
 			yes|auto)
-				BOINC_INCLUDES="/usr/include/BOINC"
-				BOINC_CPPFLAGS="-I/usr/include/BOINC"
+				BOINC_INCLUDES="/usr/include/boinc"
+				BOINC_CPPFLAGS="-I/usr/include/boinc"
 				BOINC_LDFLAGS=
 				;;
 			*)
@@ -30,7 +30,7 @@ AC_DEFUN([SZDG_BOINC_COMMON], [
 					BOINC_CPPFLAGS="-I$with_boinc/api -I$with_boinc/lib -I$with_boinc/sched -I$with_boinc/tools -I$with_boinc/db"
 					BOINC_LDFLAGS="-L$with_boinc/api -L$with_boinc/lib -L$with_boinc/sched"
 				else
-					BOINC_CPPFLAGS="-I$with_boinc/include/BOINC"
+					BOINC_CPPFLAGS="-I$with_boinc/include/boinc"
 					BOINC_LDFLAGS="-L$with_boinc/lib"
 				fi
 				;;
@@ -65,25 +65,6 @@ AC_DEFUN([SZDG_BOINC_SERVER], [
 	fi
 	AC_SUBST([MYSQL_CPPFLAGS])
 	AC_SUBST([MYSQL_LIBS])
-
-	dnl
-	dnl Check for BOINC 4.x/5.x
-	dnl
-	AC_LANG_PUSH([C++])
-	AH_TEMPLATE([BOINC_VERSION], [BOINC major version])
-	if test "$no_boinc" != yes; then
-		save_CPPFLAGS="$CPPFLAGS"
-		CPPFLAGS="$CPPFLAGS $BOINC_CPPFLAGS"
-		AC_CACHE_CHECK([for BOINC version], [boinc_cv_boinc_version], [
-			AC_COMPILE_IFELSE([AC_LANG_PROGRAM([#include <sched_msgs.h>],
-			[SCHED_MSG_LOG::Kind level = SCHED_MSG_LOG::CRITICAL;])],
-				[boinc_cv_boinc_version=4],
-				[boinc_cv_boinc_version=5])
-			])
-		CPPFLAGS="$save_CPPFLAGS"
-		AC_DEFINE_UNQUOTED([BOINC_VERSION], [$boinc_cv_boinc_version])
-	fi
-	AC_LANG_POP([C++])
 
 	if test "$no_boinc" != yes; then
 		BOINC_SERVER_CPPFLAGS="$BOINC_CPPFLAGS $MYSQL_CPPFLAGS"

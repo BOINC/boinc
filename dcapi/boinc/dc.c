@@ -110,12 +110,8 @@ int DC_initMaster(const char *config_file)
 	}
 
 	cfgval = DC_getCfgStr(CFG_PROJECTROOT);
-	if (!cfgval)
-	{
-		DC_log(LOG_ERR, "%s is not specified in the config file",
-			CFG_PROJECTROOT);
-		return DC_ERR_CONFIG;
-	}
+	if (cfgval)
+		setenv("BOINC_PROJECT_DIR", cfgval, 1);
 	free(cfgval);
 
 	/* Check & switch to the working directory */
@@ -166,25 +162,7 @@ int DC_initMaster(const char *config_file)
 	/* Enforce a canonical string representation of the UUID */
 	uuid_unparse_lower(project_uuid, project_uuid_str);
 
-	/* Check the project's configuration */
-	cfgval = DC_getCfgStr(CFG_CONFIGXML);
-	if (!cfgval)
-	{
-		DC_log(LOG_ERR, "%s is not set in the config file",
-			CFG_CONFIGXML);
-		return DC_ERR_CONFIG;
-	}
-
-	ret = access(cfgval, R_OK);
-	if (ret)
-	{
-		DC_log(LOG_ERR, "Failed to access the project's configuration "
-			"at %s: %s", cfgval, strerror(errno));
-		free(cfgval);
-		return DC_ERR_CONFIG;
-	}
-
-	ret = _DC_parseConfigXML(cfgval);
+	ret = _DC_parseConfigXML();
 	free(cfgval);
 	if (ret)
 		return ret;
