@@ -3069,6 +3069,12 @@ David  16 June 2009
     client/
         app_start.cpp
 
+Charlie 16 June 2009
+    - MGR: Fix Mac compile error in addition of DYLIB_LIBRARY_PATH.
+        
+    client/
+        app_start.cpp
+
 Rom    19 June 2009
     - MGR: Fix a long standing bug where the project list control
         for the account manager info page and the project info page
