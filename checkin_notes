@@ -3062,6 +3062,12 @@ David  3 June 2009
     lib/
         coproc.cpp,h
 
+Charlie 10 June 2009
+    - Mac Installer: Delete any old PTP branded versions.
+
+    mac_installer/
+        PostInstall.cpp
+
 David  16 June 2009
     - client: prepend rather than append to LD_LIBRARY_PATH;
         on Mac, change DYLIB_LIBRARY_PATH also.
