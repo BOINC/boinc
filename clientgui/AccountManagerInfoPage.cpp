@@ -264,8 +264,8 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             wxLogTrace(
                 wxT("Function Status"),
                 wxT("CAccountManagerInfoPage::OnPageChanged - Name: '%s', URL: '%s', Supported: '%d'"),
-                wxString(pl.account_managers[i]->name.c_str(), wxConvUTF8),
-                wxString(pl.account_managers[i]->url.c_str(), wxConvUTF8),
+                wxString(pl.account_managers[i]->name.c_str(), wxConvUTF8).c_str(),
+                wxString(pl.account_managers[i]->url.c_str(), wxConvUTF8).c_str(),
                 true
             );
 
