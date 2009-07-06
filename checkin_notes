@@ -3088,3 +3088,13 @@ Charlie 16 June 2009
 
     clientgui/
         AccountManagerInfoPage.cpp
+
+David  26 June 2009
+    - client: when suspending a GPU job,
+        always remove it from memory, even if it hasn't checkpointed.
+        Otherwise we'll typically run another GPU job right away,
+        and it will bomb out or revert to CPU mode because it
+        can't allocate video RAM
+
+    client/
+        app.cpp
