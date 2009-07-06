@@ -548,12 +548,6 @@ David  22 Jan 2009
     sched/
         sched_plan.cpp
 
-Charlie 16 June 2009
-    - MGR: Fix Mac compile error in addition of DYLIB_LIBRARY_PATH.
-        
-    client/
-        app_start.cpp
-
 Charlie Jan 22 2009
     - client sandbox: add details in switcher_exec "execv failed" message.
     - MGR: Work around bug in generic list control GetSelectedItemCount() 
@@ -3072,6 +3066,12 @@ David  16 June 2009
     - client: prepend rather than append to LD_LIBRARY_PATH;
         on Mac, change DYLIB_LIBRARY_PATH also.
 
+    client/
+        app_start.cpp
+
+Charlie 16 June 2009
+    - MGR: Fix Mac compile error in addition of DYLIB_LIBRARY_PATH.
+        
     client/
         app_start.cpp
 
