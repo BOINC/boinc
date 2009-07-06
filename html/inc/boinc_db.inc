@@ -64,12 +64,20 @@ class BoincDb extends DbConn {
     static function get($readonly = false) {
         if (!isset(self::$instance)) {
             if (web_stopped()) {
-                show_page("Project down for maintenence",
+                show_page("Project down for maintenance",
                     "Please check back in a few hours."
                 );
                 exit;
             }
             self::get_aux($readonly);
+            if (!self::$instance) {
+                show_page(
+                    "Project is down",
+                    "The project's database server is down.
+                    Please check back in a few hours."
+                );
+                exit;
+            }
         }
         return self::$instance;
     }

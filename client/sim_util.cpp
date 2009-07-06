@@ -31,6 +31,8 @@
 // If dirs are specified, chdir into each directory in sequence,
 // do the above for each one, and write summary info to stdout
 
+#include <math.h>
+
 #include "error_numbers.h"
 #include "str_util.h"
 #include "str_replace.h"
@@ -284,7 +286,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
     graphics_mode_ack_timeout = 0;
     quit_time = 0;
     fraction_done = 0;
-    episode_start_cpu_time = 0;
     run_interval_start_wall_time = gstate.now;
     checkpoint_cpu_time = 0;
     checkpoint_wall_time = 0;

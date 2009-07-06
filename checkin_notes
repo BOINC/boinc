@@ -6181,3 +6181,12 @@ David  1 July 2009
 
     sched/
         pymw_assimilator.py
+
+David  6 July 2009
+    - fix client simulator
+    - web: if DB server down, say so
+
+    client/
+        sim_util.cpp
+    html/inc/
+        boinc_db.inc
