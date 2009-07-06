@@ -67,7 +67,6 @@ public:
     std::string image;      // URL of logo
     std::vector<std::string> platforms;
         // platforms supported by project, or empty
-    double rand;
 
     PROJECT_LIST_ENTRY();
     ~PROJECT_LIST_ENTRY();
@@ -83,10 +82,12 @@ struct AM_LIST_ENTRY {
     std::string url;
     std::string description;
     std::string image;
-    double rand;
+
     AM_LIST_ENTRY(){}
     ~AM_LIST_ENTRY(){}
+
     int parse(XML_PARSER&);
+
     bool operator<(const AM_LIST_ENTRY& compare);
 };
 

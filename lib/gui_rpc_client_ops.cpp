@@ -148,15 +148,14 @@ void PROJECT_LIST_ENTRY::clear() {
     platforms.clear();
     home.clear();
     image.clear();
-    rand = 0;
 }
 
 bool PROJECT_LIST_ENTRY::operator<(const PROJECT_LIST_ENTRY& compare) {
-    return rand < compare.rand;
+    return name < compare.name;
 }
 
 bool AM_LIST_ENTRY::operator<(const AM_LIST_ENTRY& compare) {
-    return rand < compare.rand;
+    return name < compare.name;
 }
 
 PROJECT::PROJECT() {
@@ -1291,7 +1290,6 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
             project = new PROJECT_LIST_ENTRY();
             retval = project->parse(xp);
             if (!retval) {
-                project->rand = drand();
                 pl.projects.push_back(project);
             } else {
                 delete project;
@@ -1301,7 +1299,6 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
             am = new AM_LIST_ENTRY();
             retval = am->parse(xp);
             if (!retval) {
-                am->rand = drand();
                 pl.account_managers.push_back(am);
             } else {
                 delete am;
