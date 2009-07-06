@@ -421,7 +421,8 @@ int RESULT::parse(MIOFILE& in) {
         if (parse_int(buf, "<version_num>", version_num)) continue;
         if (parse_str(buf, "<plan_class>", plan_class)) continue;
         if (parse_str(buf, "<project_url>", project_url)) continue;
-        if (parse_int(buf, "<report_deadline>", report_deadline)) continue;
+        if (parse_double(buf, "<report_deadline>", report_deadline)) continue;
+        if (parse_double(buf, "<received_time>", received_time)) continue;
         if (parse_bool(buf, "ready_to_report", ready_to_report)) continue;
         if (parse_bool(buf, "got_server_ack", got_server_ack)) continue;
         if (parse_bool(buf, "suspended_via_gui", suspended_via_gui)) continue;

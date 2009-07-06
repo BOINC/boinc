@@ -111,6 +111,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 		addProperty(_("Scheduler RPC deferred for"), FormatTime(project->min_rpc_time - dtime()));
     }
 	addProperty(_("Disk usage"),FormatDiskSpace(diskusage));
+    addProperty(_("Computer ID"), wxString::Format(wxT("%d"), project->hostid));
 	addProperty(_("Non CPU intensive"),project->non_cpu_intensive ? _("yes") : _("no"));
 	addProperty(_("Suspended via GUI"),project->suspended_via_gui ? _("yes") : _("no"));
 	addProperty(_("Don't request more work"),project->dont_request_more_work ? _("yes") : _("no"));
@@ -166,6 +167,8 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
 	addProperty(_("Application"), FormatApplicationName(result));
 	addProperty(_("Workunit name"),wxString(result->wu_name.c_str(),wxConvUTF8));
 	addProperty(_("State"), FormatStatus(result));
+    dt.Set((time_t)result->received_time);
+	addProperty(_("Received"), dt.Format());
     dt.Set((time_t)result->report_deadline);
 	addProperty(_("Report deadline"), dt.Format());
 	if (result->resources.size()) {

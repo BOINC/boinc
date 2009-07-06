@@ -463,6 +463,7 @@ struct WORKUNIT {
 struct RESULT {
     char name[256];
     char wu_name[256];
+    double received_time;   // when we got this from server
     double report_deadline;
     int version_num;        // identifies the app used
     char plan_class[64];
@@ -475,7 +476,7 @@ struct RESULT {
     bool ready_to_report;
         /// time when ready_to_report was set
     double completed_time;
-        /// we're received the ack for this result from the server
+        /// we've received the ack for this result from the server
     bool got_server_ack;
     double final_cpu_time;
     double final_elapsed_time;

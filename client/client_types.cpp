@@ -1468,6 +1468,7 @@ void RESULT::clear() {
     strcpy(name, "");
     strcpy(wu_name, "");
     report_deadline = 0;
+    received_time = 0;
     output_files.clear();
     _state = RESULT_NEW;
     ready_to_report = false;
@@ -1545,6 +1546,7 @@ int RESULT::parse_state(MIOFILE& in) {
         }
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name))) continue;
+        if (parse_double(buf, "<received_time>", received_time)) continue;
         if (parse_double(buf, "<report_deadline>", report_deadline)) {
             continue;
         }
@@ -1670,8 +1672,10 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         out.printf(
             "    <wu_name>%s</wu_name>\n"
             "    <report_deadline>%f</report_deadline>\n",
+            "    <received_time>%f</received_time>\n",
             wu_name,
-            report_deadline
+            report_deadline,
+            received_time
         );
         for (i=0; i<output_files.size(); i++) {
             retval = output_files[i].write(out);
