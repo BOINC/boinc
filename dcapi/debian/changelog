@@ -1,3 +1,9 @@
+dcapi (0.9-18) unstable; urgency=low
+
+  * Fix building with newer Condor.
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Mon, 06 Jul 2009 12:47:50 +0200
+
 dcapi (0.9-17) unstable; urgency=low
 
   * Updated packaging for lenny.

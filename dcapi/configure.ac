@@ -93,11 +93,10 @@ if test "$enable_backend_condor" != no; then
 	CPPFLAGS="$CPPFLAGS $CONDOR_CPPFLAGS"
 	save_LDFLAGS="$LDFLAGS"
 	LDFLAGS="$LDFLAGS $CONDOR_LDFLAGS"
-	AC_CHECK_HEADERS([user_log.c++.h],, [no_condor=yes],
+	AC_CHECK_HEADERS([read_user_log.h],, [no_condor=yes],
 		[AC_INCLUDES_DEFAULT
 #include <time.h>
 ])
-	AC_CHECK_LIB([condorapi], [InitUserLog], [true], [no_condor=yes], [-ldl])
 	LDFLAGS="$save_LDFLAGS"
 	CPPFLAGS="$save_CPPFLAGS"
 	AC_LANG_POP([C++])

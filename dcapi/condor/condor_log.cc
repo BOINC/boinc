@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#include "user_log.c++.h"
+#include "read_user_log.h"
 
 #include "dc.h"
 #include "dc_common.h"
