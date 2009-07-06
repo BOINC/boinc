@@ -3105,3 +3105,11 @@ Rom    30 June 2009
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+Rom    30 June 2009
+    - MGR: Previous sorting method wasn't working, use a sort
+        function pointer instead.
+        
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
