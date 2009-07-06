@@ -3033,3 +3033,11 @@ Charlie 16 June 2009
 
     clientgui/
         BOINCClientManager.cpp
+
+David  3 June 2009
+    - client: include device number in message describing NVIDIA GPU,
+        and call it "NVIDIA GPU" rather than "CUDA device"
+        fixes #879
+
+    lib/
+        coproc.cpp
