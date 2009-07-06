@@ -825,7 +825,7 @@ int ACTIVE_TASK::start(bool first_time) {
         dup2(fd, STDOUT_FILENO);
         close(fd);
 
-        // add to library path:
+        // prepend to library path:
         // - the project dir (../../projects/X)
         // - the slot dir (.)
         // - the BOINC dir (../..)
@@ -836,11 +836,23 @@ int ACTIVE_TASK::start(bool first_time) {
         get_project_dir(wup->project, buf, sizeof(buf));
         char* p = getenv("LD_LIBRARY_PATH");
         if (p) {
-            sprintf(libpath, "%s:../../%s:.:../..", p, buf);
+            sprintf(libpath, "../../%s:.:../..:%s", buf, p);
         } else {
             sprintf(libpath, "../../%s:.:../..", buf);
         }
         setenv("LD_LIBRARY_PATH", libpath, 1);
+
+        // On the Mac, do the same for DYLIB_LIBRARY_PATH
+        //
+#ifdef __APPLE__
+        char* p = getenv("DYLIB_LIBRARY_PATH");
+        if (p) {
+            sprintf(libpath, "../../%s:.:../..:%s", buf, p);
+        } else {
+            sprintf(libpath, "../../%s:.:../..", buf);
+        }
+        setenv("DYLIB_LIBRARY_PATH", libpath, 1);
+#endif
 
         retval = chdir(slot_dir);
         if (retval) {

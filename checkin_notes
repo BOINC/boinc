@@ -3061,3 +3061,10 @@ David  3 June 2009
 
     lib/
         coproc.cpp,h
+
+David  16 June 2009
+    - client: prepend rather than append to LD_LIBRARY_PATH;
+        on Mac, change DYLIB_LIBRARY_PATH also.
+
+    client/
+        app_start.cpp
