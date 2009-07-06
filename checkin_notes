@@ -3041,3 +3041,11 @@ David  3 June 2009
 
     lib/
         coproc.cpp
+
+David  3 June 2009
+    - client: tweak messages
+
+    client/
+        client_types.cpp
+        cs_scheduler.cpp
+        cs_statefile.cpp

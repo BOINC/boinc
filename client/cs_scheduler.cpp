@@ -803,8 +803,8 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         );
         if (!rp->avp) {
             msg_printf(project, MSG_INTERNAL_ERROR,
-                "No app version for result: %s %d",
-                rp->platform, rp->version_num
+                "No application found for task: %s %d %s; discarding",
+                rp->platform, rp->version_num, rp->plan_class
             );
             delete rp;
             continue;

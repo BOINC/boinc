@@ -1228,7 +1228,7 @@ bool APP_VERSION::missing_coproc() {
         COPROC* cp = coprocs.coprocs[i];
         if (!gstate.coprocs.lookup(cp->type)) {
             msg_printf(project, MSG_INTERNAL_ERROR,
-                "App version uses nonexistent coprocessor %s", cp->type
+                "Application uses nonexistent coprocessor %s", cp->type
             );
             return true;
         }
