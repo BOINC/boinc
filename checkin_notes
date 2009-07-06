@@ -3127,3 +3127,11 @@ David  30 June 2009
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+
+Rom    6 June 2009
+    - Tag for 6.6.37 release, all platforms
+      boinc_core_release_6_6_37
+
+    /
+        configure.ac
+        version.h
