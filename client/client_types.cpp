@@ -1671,7 +1671,7 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         if (suspended_via_gui) out.printf("    <suspended_via_gui/>\n");
         out.printf(
             "    <wu_name>%s</wu_name>\n"
-            "    <report_deadline>%f</report_deadline>\n",
+            "    <report_deadline>%f</report_deadline>\n"
             "    <received_time>%f</received_time>\n",
             wu_name,
             report_deadline,
@@ -1699,6 +1699,7 @@ int RESULT::write_gui(MIOFILE& out) {
         "    <exit_status>%d</exit_status>\n"
         "    <state>%d</state>\n"
         "    <report_deadline>%f</report_deadline>\n"
+        "    <received_time>%f</received_time>\n"
         "    <estimated_cpu_time_remaining>%f</estimated_cpu_time_remaining>\n",
         name,
         wu_name,
@@ -1710,6 +1711,7 @@ int RESULT::write_gui(MIOFILE& out) {
         exit_status,
         state(),
         report_deadline,
+        received_time,
         estimated_time_remaining(false)
     );
     if (got_server_ack) out.printf("    <got_server_ack/>\n");
