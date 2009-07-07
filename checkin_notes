@@ -6190,3 +6190,9 @@ David  6 July 2009
         sim_util.cpp
     html/inc/
         boinc_db.inc
+
+Charlie 7 July 2009
+    - Mac Installer: use escaped form of brand name when needed.
+
+    mac_installer/
+        PostInstall.cpp
