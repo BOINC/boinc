@@ -5909,7 +5909,7 @@ Charlie 29 June 2009
         uninstall.cpp
 
 Charlie 7 July 2009
-    - Mac Installer: use escaped form of brand name when needed.
+    - Mac Installer: use escaped form of branded screensaver name when needed.
 
     mac_installer/
         PostInstall.cpp
