@@ -1717,6 +1717,25 @@ int RPC_CLIENT::get_proxy_settings(GR_PROXY_INFO& p) {
     return retval;
 }
 
+int RPC_CLIENT::get_message_count(int& seqno) {
+    int retval;
+    SET_LOCALE sl;
+    char buf[256];
+    RPC rpc(this);
+
+    sprintf(buf,
+        "<get_message_count/>\n"
+    );
+    retval = rpc.do_rpc(buf);
+    if (retval) return retval;
+    while (rpc.fin.fgets(buf, 256)) {
+        if (parse_int(buf, "<seqno>", seqno)) {
+            return 0;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
 int RPC_CLIENT::get_messages(int seqno, MESSAGES& msgs) {
     int retval;
     SET_LOCALE sl;
