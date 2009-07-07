@@ -3147,3 +3147,10 @@ Rom    6 June 2009
     /
         configure.ac
         version.h
+        
+Charlie 7 July 2009
+    - Mac Installer: use escaped form of brand name when needed.
+    (checked in to 6.6.37 tag.)
+
+    mac_installer/
+        PostInstall.cpp
