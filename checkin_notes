@@ -5907,4 +5907,9 @@ Charlie 29 June 2009
     
     mac_installer/
         uninstall.cpp
-    
+
+Charlie 7 July 2009
+    - Mac Installer: use escaped form of brand name when needed.
+
+    mac_installer/
+        PostInstall.cpp
