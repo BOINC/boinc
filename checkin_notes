@@ -6192,7 +6192,7 @@ David  6 July 2009
         boinc_db.inc
 
 Charlie 7 July 2009
-    - Mac Installer: use escaped form of brand name when needed.
+    - Mac Installer: use escaped form of branded screensaver name when needed.
 
     mac_installer/
         PostInstall.cpp

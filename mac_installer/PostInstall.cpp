@@ -63,7 +63,7 @@ extern int check_security(char *bundlePath, char *dataPath, int use_sandbox, int
 
 static Boolean                  gQuitFlag = false;	/* global */
 
-static char *brandNameEscaped[NUMBRANDS];
+static char *saverNameEscaped[NUMBRANDS];
 static char *brandName[NUMBRANDS];
 static char *appName[NUMBRANDS];
 static char *appNameEscaped[NUMBRANDS];
@@ -108,19 +108,19 @@ int main(int argc, char *argv[])
     appName[0] = "/Applications/BOINCManager.app";
     appNameEscaped[0] = "/Applications/BOINCManager.app";
     brandName[0] = "BOINC";
-    brandNameEscaped[0] = "BOINC";
+    saverNameEscaped[0] = "BOINCSaver";
     receiptNameEscaped[0] = "/Library/Receipts/BOINC.pkg";
 
     appName[1] = "/Applications/GridRepublic Desktop.app";
     appNameEscaped[1] = "/Applications/GridRepublic\\ Desktop.app";
     brandName[1] = "GridRepublic";
-    brandNameEscaped[1] = "GridRepublic";
+    saverNameEscaped[1] = "GridRepublic";
     receiptNameEscaped[1] = "/Library/Receipts/GridRepublic\\ Desktop.pkg";
 
     appName[2] = "/Applications/Progress Thru Processors Desktop.app";
     appNameEscaped[2] = "/Applications/Progress\\ Thru\\ Processors\\ Desktop.app";
     brandName[2] = "Progress Thru Processors";
-    brandNameEscaped[2] = "Progress\\ Thru\\ Processors";
+    saverNameEscaped[2] = "Progress\\ Thru\\ Processors";
     receiptNameEscaped[2] = "/Library/Receipts/Progress\\ Thru\\ Processors.pkg";
 
     for (i=0; i<argc; i++) {
@@ -166,7 +166,7 @@ int main(int argc, char *argv[])
         system (s);
         
         // "rm -rf /Library/Screen\\ Savers/GridRepublic.saver"
-        sprintf(s, "rm -rf /Library/Screen\\ Savers/%s.saver", brandNameEscaped[brandID]);
+        sprintf(s, "rm -rf /Library/Screen\\ Savers/%s.saver", saverNameEscaped[brandID]);
         system (s);
         
         // "rm -rf /Library/Receipts/GridRepublic.pkg"
@@ -283,7 +283,7 @@ int main(int argc, char *argv[])
 
     // Set owner of BOINC Screen Saver
     // "chown -Rf username /Library/Screen\\ Savers/GridRepublic.saver"
-    sprintf(s, "chown -Rf %s /Library/Screen\\ Savers/%s.saver", p, brandNameEscaped[brandID]);
+    sprintf(s, "chown -Rf %s /Library/Screen\\ Savers/%s.saver", p, saverNameEscaped[brandID]);
     system (s);
 
     //  We don't customize BOINC Data directory name for branding
@@ -306,7 +306,7 @@ int main(int argc, char *argv[])
         system (s);
         
         // "rm -rf /Library/Screen\\ Savers/GridRepublic.saver"
-        sprintf(s, "rm -rf /Library/Screen\\ Savers/%s.saver", brandNameEscaped[brandID]);
+        sprintf(s, "rm -rf /Library/Screen\\ Savers/%s.saver", saverNameEscaped[brandID]);
         system (s);
     }
     
