@@ -306,7 +306,7 @@ int main(int argc, char *argv[])
         system (s);
         
         // "rm -rf /Library/Screen\\ Savers/GridRepublic.saver"
-        sprintf(s, "rm -rf /Library/Screen\\ Savers/%s.saver", saverNameEscaped[brandID]);
+        sprintf(s, "rm -rf /Library/Screen\\ Savers/%s.saver", saverNameEscaped[i]);
         system (s);
     }
     
