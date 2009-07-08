@@ -34,7 +34,7 @@ binary: configure
 		--enable-backend-condor \
 		--enable-backend-local \
 		--with-condor-headers=/usr/include/condor \
-		--with-html-dir=/usr/share/doc/libdcapi-doc/html \
+		--with-html-dir=/usr/share/doc/libdcapi-doc \
 		--disable-shared \
 		--disable-java \
 		CFLAGS="$(CFLAGS)" \
