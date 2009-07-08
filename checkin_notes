@@ -6211,8 +6211,11 @@ David  7 July 2009
 Charlie 8 July 2009
     - Mac Installer: If BOINC screensaver is not set for every user, set it 
         for all users after getting approval from installing user.
+    - Mac Installer: fix bug in scripts to create branded installers.
 
     mac_installer/
+        make_GridRepublic.sh
+        make_ProgThruProc.sh
         PostInstall.cpp
         GR-ReadMe.rtf
         PTP-ReadMe.rtf (added)
