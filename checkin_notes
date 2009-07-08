@@ -6207,3 +6207,10 @@ David  7 July 2009
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+
+Charlie 8 July 2009
+    - Mac Installer: If BOINC screensaver is not set for every user, set it 
+        for all users after getting approval from installing user.
+
+    mac_installer/
+        PostInstall.cpp
