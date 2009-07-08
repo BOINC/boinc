@@ -1,9 +1,17 @@
-This is the Debian package for the Distributed Computing Platform.
-It was Debianized by Gabor Gombas <gombasg@sztaki.hu>.
+This is the Debian GNU/Linux packaged version of the Distributed Computing
+Platform Application Programming Interface (DC-API).
 
-This software is free for academic use; the full license is reproduced below.
+Packaging is done by Gábor Gombás <gombasg@sztaki.hu>
 
-=======================
+Upstream Authors:
+	Gábor Gombás <gombasg@sztaki.hu> (overall framework, BOINC backend)
+	Dániel Drótos <drdani@mazsola.iit.uni-miskolc.hu> (Condor & local
+		backends)
+	Attila Csaba Marosi <atisu@sztaki.hu>
+	Ádám Kornafeld <kadam@sztaki.hu>
+	Gábor Vida
+
+The package is released under the following license:
 
 END USER LICENSE AGREEMENT FOR THE ACADEMIC VERSION OF DC-API SOFTWARE
 
