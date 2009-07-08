@@ -6214,3 +6214,6 @@ Charlie 8 July 2009
 
     mac_installer/
         PostInstall.cpp
+        GR-ReadMe.rtf
+        PTP-ReadMe.rtf (added)
+        ReadMe.rtf
