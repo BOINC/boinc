@@ -1,9 +1,4 @@
 #!/usr/bin/make -f
-# Sample debian/rules that uses debhelper.
-# GNU copyright 1997 by Joey Hess.
-#
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
 
 DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
@@ -21,15 +16,15 @@ else
 	CFLAGS = -O2 -g
 	CXXFLAGS = -O2 -g
 endif
-ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
-	INSTALL_PROGRAM += -s
-	DH_STRIP = dh_strip
-else
-	DH_STRIP = :
-endif
 
-config.status: configure
-	dh_testdir
+%:
+	dh $@
+
+configure: configure.ac cf/boinc.m4
+	autoreconf --install --symlink --force
+
+binary: configure
+	dh $@ --before dh_auto_configure
 	# Add here commands to configure the package.
 	# autoreconf
 	./configure $(confflags) \
@@ -44,122 +39,4 @@ config.status: configure
 		--disable-java \
 		CFLAGS="$(CFLAGS)" \
 		CXXFLAGS="$(CXXFLAGS)"
-
-configure: configure.ac cf/boinc.m4
-	autoreconf --install --symlink --force
-
-build-arch: config.status build-arch-stamp
-build-arch-stamp:
-	dh_testdir
-
-	# Add here command to compile/build the package.
-	$(MAKE)
-
-	touch build-arch-stamp
-
-build-indep: config.status  build-indep-stamp
-build-indep-stamp:
-	dh_testdir
-
-	# Add here command to compile/build the arch indep package.
-	# It's ok not to do anything here, if you don't need to build
-	#  anything for this package.
-
-	touch build-indep-stamp
-
-build: build-arch #build-indep
-
-clean:
-	dh_testdir
-	dh_testroot
-	rm -f build-arch-stamp build-indep-stamp install-stamp
-
-	# Add here commands to clean up after the build process.
-	-$(MAKE) distclean
-
-	# Update config.(guess|sub)
-	-test -r /usr/share/misc/config.sub && \
-	  cp -pf /usr/share/misc/config.sub scripts/config.sub
-	-test -r /usr/share/misc/config.guess && \
-	  cp -pf /usr/share/misc/config.guess scripts/config.guess
-
-	-rm -rf autom4te.cache
-
-	dh_clean
-
-install: DH_OPTIONS=
-install: install-stamp
-install-stamp: build
-	dh_testdir
-	dh_testroot
-	dh_clean -k
-	dh_installdirs
-
-	# Add here commands to install the package into debian/ms.
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
-
-	dh_install
-
-	touch install-stamp
-
-# Build architecture-independent files here.
-# Pass -i to all debhelper commands in this target to reduce clutter.
-binary-indep: build install
-	dh_testdir -i
-	dh_testroot -i
-#	dh_installdebconf -i
-	dh_installdocs -i
-	dh_installexamples -i
-	dh_installmenu -i
-#	dh_installlogrotate -i
-#	dh_installemacsen -i
-#	dh_installpam -i
-#	dh_installmime -i
-#	dh_installinit -i
-#	dh_installcron -i
-#	dh_installman -i
-#	dh_installinfo -i
-#	dh_undocumented -i
-	dh_installchangelogs -i
-	dh_link -i
-	dh_compress -i -X.php
-	dh_fixperms -i
-	dh_installdeb -i
-#	dh_perl -i
-	dh_gencontrol -i
-	dh_md5sums -i
-	dh_builddeb -i
-
-# Build architecture-dependent files here.
-binary-arch: build install
-	dh_testdir -a
-	dh_testroot -a
-	dh_installdebconf -a
-	dh_installdocs -a
-	dh_installexamples -a
-#	dh_installmenu -a
-#	dh_installlogrotate -a
-#	dh_installemacsen -a
-#	dh_installpam -a
-#	dh_installmime -a
-#	dh_installinit -a
-#	dh_installcron -a
-#	dh_installman -a
-#	dh_installinfo -a
-#	dh_undocumented -a
-	dh_installchangelogs -a
-	$(DH_STRIP) -a
-	dh_link -a
-	dh_compress -a
-	dh_fixperms -a
-	dh_makeshlibs -a
-	dh_installdeb -a
-	dh_perl -a
-	dh_shlibdeps -a
-	dh_gencontrol -a
-	dh_md5sums -a
-	dh_builddeb -a
-
-binary: binary-indep binary-arch
-
-.PHONY: build clean binary-indep binary-arch binary install
+	dh $@ --after dh_auto_configure -X.svn
