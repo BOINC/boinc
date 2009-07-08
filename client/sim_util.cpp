@@ -566,6 +566,6 @@ bool boinc_is_finite(double x) {
     return _Isfinite(x);
     return false;
 #else
-    return finite(x);
+    return (finite(x) != 0);
 #endif
 }

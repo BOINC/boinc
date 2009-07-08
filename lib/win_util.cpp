@@ -21,6 +21,7 @@
 #else
 #include "boinc_win.h"
 #endif
+//#include <Wtsapi32.h>  // not present on academic version of VS2005!
 #include "win_util.h"
 
 
@@ -830,6 +831,7 @@ void chdir_to_data_dir() {
     if (lpszRegistryValue) free(lpszRegistryValue);
 }
 
+#if 0
 // return true if running under remote desktop
 // (in which case CUDA apps don't work)
 //
@@ -849,3 +851,4 @@ bool is_remote_desktop() {
     }
     return false;
 }
+#endif
