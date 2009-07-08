@@ -5918,8 +5918,11 @@ Charlie 8 July 2009
     - Mac Installer: If BOINC screensaver is not set for every user, set it 
         for all users after getting approval from installing user.
 
-    mac_installer/
+   mac_installer/
         PostInstall.cpp
+        GR-ReadMe.rtf
+        PTP-ReadMe.rtf (added)
+        ReadMe.rtf
 
 Charlie 8 July 2009
     - Tag for 6.8.5 release, all platforms
