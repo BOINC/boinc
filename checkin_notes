@@ -5913,3 +5913,10 @@ Charlie 7 July 2009
 
     mac_installer/
         PostInstall.cpp
+
+Charlie 8 July 2009
+    - Mac Installer: If BOINC screensaver is not set for every user, set it 
+        for all users after getting approval from installing user.
+
+    mac_installer/
+        PostInstall.cpp

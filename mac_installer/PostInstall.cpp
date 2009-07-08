@@ -63,6 +63,7 @@ extern int check_security(char *bundlePath, char *dataPath, int use_sandbox, int
 
 static Boolean                  gQuitFlag = false;	/* global */
 
+static char *saverName[NUMBRANDS];
 static char *saverNameEscaped[NUMBRANDS];
 static char *brandName[NUMBRANDS];
 static char *appName[NUMBRANDS];
@@ -108,18 +109,21 @@ int main(int argc, char *argv[])
     appName[0] = "/Applications/BOINCManager.app";
     appNameEscaped[0] = "/Applications/BOINCManager.app";
     brandName[0] = "BOINC";
+    saverName[0] = "BOINCSaver";
     saverNameEscaped[0] = "BOINCSaver";
     receiptNameEscaped[0] = "/Library/Receipts/BOINC.pkg";
 
     appName[1] = "/Applications/GridRepublic Desktop.app";
     appNameEscaped[1] = "/Applications/GridRepublic\\ Desktop.app";
     brandName[1] = "GridRepublic";
+    saverName[1] = "GridRepublic";
     saverNameEscaped[1] = "GridRepublic";
     receiptNameEscaped[1] = "/Library/Receipts/GridRepublic\\ Desktop.pkg";
 
     appName[2] = "/Applications/Progress Thru Processors Desktop.app";
     appNameEscaped[2] = "/Applications/Progress\\ Thru\\ Processors\\ Desktop.app";
     brandName[2] = "Progress Thru Processors";
+    saverName[2] = "Progress Thru Processors";
     saverNameEscaped[2] = "Progress\\ Thru\\ Processors";
     receiptNameEscaped[2] = "/Library/Receipts/Progress\\ Thru\\ Processors.pkg";
 
@@ -590,6 +594,57 @@ void SetUIDBackToUser (void)
     setuid(login_uid);
 }
 
+
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
+    char *p = buf;
+    size_t len = buflen;
+    size_t datalen = 0;
+
+    *buf = '\0';
+    while (datalen < (buflen - 1)) {
+        fgets(p, len, f);
+        if (feof(f)) break;
+        if (ferror(f) && (errno != EINTR)) break;
+        if (strchr(buf, '\n')) break;
+        datalen = strlen(buf);
+        p = buf + datalen;
+        len -= datalen;
+    }
+    return (buf[0] ? buf : NULL);
+}
+
+
+static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
+    va_list                 args;
+    char                    s[1024];
+    short                   itemHit;
+    AlertStdAlertParamRec   alertParams;
+    
+    ProcessSerialNumber	ourProcess;
+
+    va_start(args, format);
+    s[0] = vsprintf(s+1, format, args);
+    va_end(args);
+
+    alertParams.movable = true;
+    alertParams.helpButton = false;
+    alertParams.filterProc = NULL;
+    alertParams.defaultText = (StringPtr)"\pYes";
+    alertParams.cancelText = allowCancel ? (StringPtr)"\pNo" : NULL;
+    alertParams.otherText = NULL;
+    alertParams.defaultButton = kAlertStdAlertOKButton;
+    alertParams.cancelButton = allowCancel ? kAlertStdAlertCancelButton : 0;
+    alertParams.position = kWindowDefaultPosition;
+
+    ::GetCurrentProcess (&ourProcess);
+    ::SetFrontProcess(&ourProcess);
+
+    StandardAlert (kAlertNoteAlert, (StringPtr)s, NULL, &alertParams, &itemHit);
+    
+    return (itemHit == kAlertStdAlertOKButton);
+}
+
+
 // Find all visible users and set their login item to launch BOINC Manager.
 // If user is a member of group admin, add user to groups boinc_master and boinc_project.
 // If our install package included a skin, set all user's preferences to use that skin,
@@ -601,7 +656,10 @@ OSErr UpdateAllVisibleUsers(long brandID)
     uid_t               saved_uid;
     Boolean             deleteLoginItem;
     char                skinName[256];
+    char                s[256];
     group               *grp;
+    Boolean             saverAlreadySet = true;
+    FILE                *f;
     OSStatus            err;
 #ifdef SANDBOX
     char                *p;
@@ -655,11 +713,62 @@ OSErr UpdateAllVisibleUsers(long brandID)
         SetLoginItem(brandID, deleteLoginItem);     // Set login item for this user
 
         SetSkinInUserPrefs(dp->d_name, skinName);
+
+        f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
+        if (f) {
+            PersistentFGets(s, sizeof(s), f);
+            if (!strstr(s, saverName[brandID]))
+                saverAlreadySet = false;
+            pclose(f);
+        }
         
         seteuid(saved_uid);                         // Set effective uid back to privileged user
     }
     
     closedir(dirp);
+    
+    if (saverAlreadySet) {
+        return noErr;    
+    }
+    
+    if (!ShowMessage(true, "Do you want to set %s as the screensaver for all users on this Mac?", 
+                    brandName[brandID])) {
+        return noErr;    
+    }
+    
+    // Step through all users a second time, setting our screensaver
+    dirp = opendir("/Users");
+    if (dirp == NULL) {      // Should never happen
+        puts("opendir(\"/Users\") failed\n");
+        return -1;
+    }
+    
+    while (true) {
+        dp = readdir(dirp);
+        if (dp == NULL)
+            break;                  // End of list
+            
+        if (dp->d_name[0] == '.')
+            continue;               // Ignore names beginning with '.'
+    
+        pw = getpwnam(dp->d_name);
+        if (pw == NULL)             // "Deleted Users", "Shared", etc.
+            continue;
+
+        saved_uid = geteuid();
+        seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
+
+        sprintf(s, "defaults -currentHost write com.apple.screensaver moduleName %s", saverNameEscaped[brandID]);
+        system (s);
+        sprintf(s, "defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
+                    saverNameEscaped[brandID]);
+        system (s);
+        
+        seteuid(saved_uid);                         // Set effective uid back to privileged user
+    }
+    
+    closedir(dirp);
+
     return noErr;
 }
 
@@ -750,25 +859,6 @@ OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberP
             while ((tempInfo.processSignature != creatorToFind || tempInfo.processType != typeToFind) &&
                    myErr == noErr);
     return(myErr);
-}
-
-
-static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
-    char *p = buf;
-    size_t len = buflen;
-    size_t datalen = 0;
-
-    *buf = '\0';
-    while (datalen < (buflen - 1)) {
-        fgets(p, len, f);
-        if (feof(f)) break;
-        if (ferror(f) && (errno != EINTR)) break;
-        if (strchr(buf, '\n')) break;
-        datalen = strlen(buf);
-        p = buf + datalen;
-        len -= datalen;
-    }
-    return (buf[0] ? buf : NULL);
 }
 
 
