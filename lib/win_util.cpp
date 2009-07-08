@@ -829,3 +829,23 @@ void chdir_to_data_dir() {
 	if (hkSetupHive) RegCloseKey(hkSetupHive);
     if (lpszRegistryValue) free(lpszRegistryValue);
 }
+
+// return true if running under remote desktop
+// (in which case CUDA apps don't work)
+//
+bool is_remote_desktop() {
+    LPTSTR *buf;
+    DWORD len;
+    if (WTSQuerySessionInformation(
+        WTS_CURRENT_SERVER_HANDLE,
+        WTS_CURRENT_SESSION,
+        WTSClientProtocolType,
+        &buf,
+        &len
+    )) {
+        USHORT prot = *(USHORT*) buf;
+        WTSFreeMemory(buf);
+        if (prot == 2) return true;
+    }
+    return false;
+}
