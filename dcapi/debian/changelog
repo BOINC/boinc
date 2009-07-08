@@ -1,3 +1,9 @@
+dcapi (0.9-19) unstable; urgency=low
+
+  * Packaging fixes.
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Wed, 08 Jul 2009 17:32:48 +0200
+
 dcapi (0.9-18) unstable; urgency=low
 
   * Fix building with newer Condor.
