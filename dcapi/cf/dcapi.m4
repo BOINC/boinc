@@ -16,7 +16,10 @@ AC_DEFUN([SZDG_DCAPI_CLIENT], [
 
 	PKG_CHECK_MODULES([DCAPI_CLIENT], [dcapi-${with_dcapi_flavor}-client],,
 		[AC_MSG_ERROR([DC-API client implementation not found])])
-	
+	dnl We want to link the client libs statically
+	dnl XXX We should check if -Wl actually works
+	DCAPI_CLIENT_LIBS="-Wl,-Bstatic $DCAPI_CLIENT_LIBS -Wl,-Bdynamic"
+
 	save_CPPFLAGS="$CPPFLAGS"
 	CPPFLAGS="$CPPFLAGS $DCAPI_CLIENT_CFLAGS"
 	save_LIBS="$LIBS"
