@@ -6220,3 +6220,13 @@ Charlie 8 July 2009
         GR-ReadMe.rtf
         PTP-ReadMe.rtf (added)
         ReadMe.rtf
+
+David  9 July 2009
+    - client: error if a <file_info> in app_info.xml has any URLs
+    - client: don't write file_infos with no URLs to client_state.xml
+        for anon platform project; they must be from app_info.xml
+        
+    client/
+        cs_statefile.cpp
+    sched/
+        assimilate_handler.h
