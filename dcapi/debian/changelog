@@ -1,3 +1,10 @@
+dcapi (0.9-20) unstable; urgency=low
+
+  * Include the Condor license in the libdcapi-condor-dev package. 
+  * Small changes to ease linking clients statically
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Thu, 09 Jul 2009 13:34:31 +0200
+
 dcapi (0.9-19) unstable; urgency=low
 
   * Packaging fixes.
