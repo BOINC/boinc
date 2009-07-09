@@ -35,7 +35,7 @@
 #define PACKAGE_TARNAME "boinc"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "6.8.54"
+#define PACKAGE_VERSION "6.8.5"
 
 #endif /* #if (defined(_WIN32) || defined(__APPLE__)) */
 
