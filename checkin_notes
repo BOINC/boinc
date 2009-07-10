@@ -6245,3 +6245,13 @@ David  10 July 2009
     client/
         client_types.cpp,h
         pers_file_xfer.cpp
+
+David  10 July 2009
+    - client: if malloc fails in MFILE writes, exit.
+        We don't check the return values of printf() anywhere,
+        and it's dangerous for the client to continue if it
+        thinks something got written that didn't.
+        Fixes #281
+
+    lib/
+        mfile.cpp
