@@ -46,6 +46,9 @@ $(LIBSCHED_FCGI):
 LIBBOINC = $(top_builddir)/lib/libboinc.la
 $(LIBBOINC):
 	cd $(top_builddir)/lib; ${MAKE} libboinc.la
+LIBBOINC_CRYPT = $(top_builddir)/lib/libboinc_crypt.la
+$(LIBBOINC_CRYPT):
+	cd $(top_builddir)/lib; ${MAKE} libboinc.la
 LIBBOINC_FCGI = $(top_builddir)/lib/libboinc_fcgi.la
 $(LIBBOINC_FCGI):
 	cd $(top_builddir)/lib; ${MAKE} libboinc_fcgi.la

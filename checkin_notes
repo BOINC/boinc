@@ -6255,3 +6255,15 @@ David  10 July 2009
 
     lib/
         mfile.cpp
+
+Eric K  14 July 2009
+    - libraries:  Moved crypt.o out of libboinc and into libboinc_crypt.
+      Applications that need crypt.o will need to explicitly link
+      libboinc_crypt.
+
+    client/
+        Makefile.am
+    lib/
+	Makefile.am
+    Makefile.incl
+

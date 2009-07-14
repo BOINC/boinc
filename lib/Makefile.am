@@ -19,7 +19,6 @@ if ENABLE_LIBRARIES
 libfcgi_sources = \
     boinc_fcgi.cpp \
     coproc.cpp \
-    crypt.cpp \
     filesys.cpp \
     hostinfo.cpp \
     md5.c \
@@ -37,7 +36,6 @@ generic_sources = \
     base64.cpp \
     cert_sig.cpp \
     coproc.cpp \
-    crypt.cpp \
     diagnostics.cpp \
     filesys.cpp \
     gui_rpc_client.cpp \
@@ -131,12 +129,19 @@ noinst_HEADERS = \
     synch.h \
     unix_util.h
 
-lib_LTLIBRARIES = libboinc.la 
+lib_LTLIBRARIES = libboinc.la libboinc_crypt.la
 libboinc_la_SOURCES = $(generic_sources) $(mac_sources)
 libboinc_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
-libboinc_la_LIBADD = $(LIBCURL)
+libboinc_la_LIBADD = 
+
+libboinc_crypt_la_SOURCES = crypt.cpp
+libboinc_crypt_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
+libboinc_crypt_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
+libboinc_crypt_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
+libboinc_crypt_la_LIBADD = $(LIBCURL)
+
 
 if ENABLE_FCGI
 lib_LTLIBRARIES += libboinc_fcgi.la
@@ -152,15 +157,17 @@ endif
 # For example OS2
 if OS_OS2
 LIBBOINC_STATIC=boinc.${LIBEXT}
+LIBBOINC_CRYPT_STATIC=boinc_crypt.${LIBEXT}
 LIBBOINC_FCGI_STATIC=boinc_fcgi.${LIBEXT}
 else
 LIBBOINC_STATIC=libboinc.${LIBEXT}
+LIBBOINC_CRYPT_STATIC=libboinc_crypt.${LIBEXT}
 LIBBOINC_FCGI_STATIC=libboinc_fcgi.${LIBEXT}
 endif
 
 
 if BUILD_STATIC_LIBS
-all_local = $(LIBBOINC_STATIC)
+all_local = $(LIBBOINC_STATIC) $(LIBBOINC_CRTYPT_STATIC)
 if ENABLE_FCGI
 all_local += $(LIBBOINC_FCGI_STATIC) 
 endif
@@ -172,7 +179,11 @@ $(LIBBOINC_STATIC): libboinc.la
 	rm -f $(LIBBOINC_STATIC)
 	$(LN) .libs/$(LIBBOINC_STATIC) .
 
-libboinc_fcgi.a: libboinc_fcgi.la
+$(LIBBOINC_CRYPT_STATIC): libboinc_crypt.la
+	rm -f $(LIBBOINC_CRYPT_STATIC)
+	$(LN) .libs/$(LIBBOINC_CRYPT_STATIC)
+
+$(LIBBOINC_FCGI_STATIC): libboinc_fcgi.la
 	rm -f $(LIBBOINC_FCGI_STATIC)
 	$(LN) .libs/$(LIBBOINC_FCGI_STATIC) .
 
@@ -194,5 +205,5 @@ msg_test_CXXFLAGS = $(PTHREAD_CFLAGS)
 msg_test_LDADD = $(LIBBOINC)
 crypt_prog_SOURCES = crypt_prog.cpp 
 crypt_prog_CXXFLAGS = $(PTHREAD_CFLAGS)
-crypt_prog_LDADD = $(LIBBOINC) $(SSL_LIBS) 
+crypt_prog_LDADD = $(LIBBOINC) $(LIBBOINC_CRYPT_STATIC) $(SSL_LIBS) 
 

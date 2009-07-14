@@ -25,7 +25,7 @@ endif
 bin_PROGRAMS = boinc_client switcher boinccmd
 
 boinccmd_SOURCES = boinc_cmd.cpp
-boinccmd_DEPENDENCIES = $(LIBBOINC)
+boinccmd_DEPENDENCIES = $(LIBBOINC) 
 boinccmd_CPPFLAGS = $(AM_CPPFLAGS)
 boinccmd_LDFLAGS = $(AM_LDFLAGS) -L../lib 
 boinccmd_LDADD = $(LIBBOINC) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS)
@@ -77,7 +77,7 @@ boinc_client_SOURCES = \
 boinc_client_DEPENDENCIES = $(LIBBOINC)
 boinc_client_CPPFLAGS = $(AM_CPPFLAGS)
 boinc_client_LDFLAGS = $(AM_LDFLAGS) -L../lib 
-boinc_client_LDADD = $(LIBBOINC) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS) 
+boinc_client_LDADD = $(LIBBOINC) $(LIBBOINC_CRYPT) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS) 
 
 boinc_clientdir = $(bindir)
 
