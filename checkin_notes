@@ -6267,3 +6267,10 @@ Eric K  14 July 2009
 	Makefile.am
     Makefile.incl
 
+
+Rom    15 July 2009
+    - client: Remove backwards compatible CPU feature detection code
+        since we no longer support Win9x
+        
+    client/
+        hostinfo_win.cpp

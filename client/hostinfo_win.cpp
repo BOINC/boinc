@@ -561,81 +561,6 @@ int get_os_information(
 }
 
 
-// Check to see if a processor feature is available for use
-#ifdef _WIN64
-BOOL test_processor_feature(DWORD /*feature*/) {
-    return 0;
-}
-#else
-BOOL test_processor_feature(DWORD feature) {
-    __try {
-        switch (feature) {
-            case PF_XMMI_INSTRUCTIONS_AVAILABLE:
-                __asm {
-                    xorps xmm0, xmm0        // executing SSE instruction
-                }
-                break;
-            case PF_XMMI64_INSTRUCTIONS_AVAILABLE:
-                __asm {
-                    xorpd xmm0, xmm0        // executing SSE2 instruction
-                }
-                break;
-            case PF_3DNOW_INSTRUCTIONS_AVAILABLE:
-                __asm {
-                    pfrcp mm0, mm0          // executing 3DNow! instruction
-                    emms
-                }
-                break;
-            case PF_MMX_INSTRUCTIONS_AVAILABLE:
-                __asm {
-                    pxor mm0, mm0           // executing MMX instruction
-                    emms
-                }
-                break;
-            default:
-                return 0;
-                break;
-        }
-    }
-    __except (EXCEPTION_EXECUTE_HANDLER) {
-        return 0;
-    }
-    return 1;
-}
-#endif
-
-// Detect to see if a processor feature is available for use
-
-// IsProcessorFeaturePresent()
-typedef BOOL (__stdcall *tIPFP)( IN DWORD dwFeature );
-
-BOOL is_processor_feature_supported(DWORD feature) {
-    // Detect platform information
-    OSVERSIONINFO osvi; 
-    osvi.dwOSVersionInfoSize = sizeof(osvi);
-    GetVersionEx(&osvi);
-
-    if (VER_PLATFORM_WIN32_WINDOWS == osvi.dwPlatformId) {
-        // Win9x doesn't have the IsProcessorFeaturePresent function, so just
-        //   run a quick test.
-        return test_processor_feature(feature);
-    } else {
-        HMODULE hKernel32Lib = GetModuleHandle("kernel32.dll");
-        tIPFP pIPFP = (tIPFP)GetProcAddress(hKernel32Lib, "IsProcessorFeaturePresent");
-        if (pIPFP) {
-            // IsProcessorFeaturePresent is available, use it.
-            return pIPFP(feature);
-        } else {
-            // Ooooppppssss, whichever version of Windows we are running on
-            //   doesn't support IsProcessorFeaturePresent, so just test things
-            //   out.
-            return test_processor_feature(feature);
-        }
-    }
-    return 0;
-}
-
-
 // Returns the processor make, model, and additional cpu flags supported by
 //   the processor, use the Linux CPU processor feature descriptions.
 //
@@ -657,31 +582,31 @@ int get_processor_info(
     strcpy(temp_model, "");
 
     // determine what the cpu's capabilities are
-    if (!is_processor_feature_supported(PF_FLOATING_POINT_EMULATED)) {
+    if (!IsProcessorFeaturePresent(PF_FLOATING_POINT_EMULATED)) {
         strncat(capabilities, "fpu ", sizeof(capabilities) - strlen(capabilities));
     }
-    if (is_processor_feature_supported(PF_RDTSC_INSTRUCTION_AVAILABLE)) {
+    if (IsProcessorFeaturePresent(PF_RDTSC_INSTRUCTION_AVAILABLE)) {
         strncat(capabilities, "tsc ", sizeof(capabilities) - strlen(capabilities));
     }
-    if (is_processor_feature_supported(PF_PAE_ENABLED)) {
+    if (IsProcessorFeaturePresent(PF_PAE_ENABLED)) {
         strncat(capabilities, "pae ", sizeof(capabilities) - strlen(capabilities));
     }
-    if (is_processor_feature_supported(PF_NX_ENABLED)) {
+    if (IsProcessorFeaturePresent(PF_NX_ENABLED)) {
         strncat(capabilities, "nx ", sizeof(capabilities) - strlen(capabilities));
     }
-    if (is_processor_feature_supported(PF_XMMI_INSTRUCTIONS_AVAILABLE)) {
+    if (IsProcessorFeaturePresent(PF_XMMI_INSTRUCTIONS_AVAILABLE)) {
         strncat(capabilities, "sse ", sizeof(capabilities) - strlen(capabilities));
     }
-    if (is_processor_feature_supported(PF_XMMI64_INSTRUCTIONS_AVAILABLE)) {
+    if (IsProcessorFeaturePresent(PF_XMMI64_INSTRUCTIONS_AVAILABLE)) {
         strncat(capabilities, "sse2 ", sizeof(capabilities) - strlen(capabilities));
     }
-    if (is_processor_feature_supported(PF_SSE3_INSTRUCTIONS_AVAILABLE)) {
+    if (IsProcessorFeaturePresent(PF_SSE3_INSTRUCTIONS_AVAILABLE)) {
         strncat(capabilities, "pni ", sizeof(capabilities) - strlen(capabilities));
     }
-    if (is_processor_feature_supported(PF_3DNOW_INSTRUCTIONS_AVAILABLE)) {
+    if (IsProcessorFeaturePresent(PF_3DNOW_INSTRUCTIONS_AVAILABLE)) {
         strncat(capabilities, "3dnow ", sizeof(capabilities) - strlen(capabilities));
     }
-    if (is_processor_feature_supported(PF_MMX_INSTRUCTIONS_AVAILABLE)) {
+    if (IsProcessorFeaturePresent(PF_MMX_INSTRUCTIONS_AVAILABLE)) {
         strncat(capabilities, "mmx ", sizeof(capabilities) - strlen(capabilities));
     }
     strip_whitespace(capabilities);
