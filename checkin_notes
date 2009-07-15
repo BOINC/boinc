@@ -6274,3 +6274,12 @@ Rom    15 July 2009
         
     client/
         hostinfo_win.cpp
+
+Rom    15 July 2009
+    - clientlib: Remove backwards compatible mouse and keyboard activity
+        detection code since we no longer support Win9x
+        
+    clientlib/win/
+        boinc_dll.cpp
+        IdleTracker.cpp
+        stdafx.h

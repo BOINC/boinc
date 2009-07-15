@@ -19,7 +19,6 @@
 #include "stdafx.h"
 #include "resource.h"
 #include "win_util.h"
-#include "IdleTracker.h"
 
 // Declare a global hModule variable for this process, which will
 //   be initialized when the DLL is loaded.
