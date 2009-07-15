@@ -2,15 +2,14 @@
 # Copyright (C) 2008-2009 University of California
 # This file is distributed under the same license as BOINC.
 # FileID  : $Id$
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC Web Site\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-05 13:41 PDT\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2009-07-15 01:52+0200\n"
+"Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
+"Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,615 +17,344 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "[check all that apply]"
-msgstr ""
-
-"
+msgstr "[uygulamak için tümünü işaretleyin]"
 
 msgid "Other:"
-msgstr ""
-
-"
+msgstr "Diğer:"
 
 msgid "Yes - I have been running BOINC on my computer for..."
-msgstr ""
-
-"
+msgstr "Evet - Bilgisayarımda BOINC kullanıyorum, yaklaşık..."
 
 msgid "less than a week"
-msgstr ""
-
-"
+msgstr "bir haftadan az"
 
 msgid "less than a month"
-msgstr ""
-
-"
+msgstr "bir aydan az"
 
 msgid "less than a year"
-msgstr ""
-
-"
+msgstr "bir yıldan az"
 
 msgid "more than a year"
-msgstr ""
-
-"
+msgstr "bir yıldan fazla"
 
 msgid "No - I used to run BOINC, but..."
-msgstr ""
-
-"
+msgstr "Hayır - BOINC çalıştırdım, fakat..."
 
 msgid "I lost interest"
-msgstr ""
-
-"
+msgstr "ilgimi kaybettim"
 
 msgid "it was too complicated"
-msgstr ""
-
-"
+msgstr "çok karmaşıktı"
 
 msgid "I stopped it and forgot to start again"
-msgstr ""
-
-"
+msgstr "durdurdum ve tekrar başlatmayı unuttum"
 
 msgid "it caused problems on my computer"
-msgstr ""
-
-"
+msgstr "bilgisayarımda sorunlara neden oldu"
 
 msgid "it used too much electricity"
-msgstr ""
-
-"
+msgstr "çok fazla elektrik harcadım"
 
 msgid "I switched to a non-BOINC computing project"
-msgstr ""
-
-"
+msgstr "BOINC-kullanmayan bir projeye yöneldim"
 
 msgid "No - I tried running BOINC, but..."
-msgstr ""
-
-"
+msgstr "Hayır - BOINC kullanmayı denedim, fakat..."
 
 msgid "the software didn't install correctly"
-msgstr ""
-
-"
+msgstr "yazılım doğru şekilde kurulmadı"
 
 msgid "I couldn't figure out how to use the software"
-msgstr ""
-
-"
+msgstr "uygulamayı nasıl kullanıcağımı anlamayadım"
 
 msgid "I had network communication problems"
-msgstr ""
-
-"
+msgstr "ağ bağlantısı sorunları yaşadım"
 
 msgid "I couldn't attach to a project"
-msgstr ""
-
-"
+msgstr "bir projeye katılamadım"
 
 msgid "I attached to a project, but never got any work"
-msgstr ""
-
-"
+msgstr "bir brojeye katıldım, fakat bir iş alıp çalıştıramadım"
 
 msgid "No - I never tried running BOINC, because..."
-msgstr ""
-
-"
+msgstr "Hayır - BOINC çalıştırmayı hiç denemedim, çünkü..."
 
 msgid "I was concerned about security"
-msgstr ""
-
-"
+msgstr "güvenlik konusunda endişelerim var"
 
 msgid "I wasn't interested in any of the projects"
-msgstr ""
-
-"
+msgstr "projelerden herhangi birisi ilgimi çekmedi"
 
 msgid "I don't have permission to run it on my computer"
-msgstr ""
-
-"
+msgstr "bilgisayarımda çalıştırmak için izinlere sahip değilim"
 
 msgid "No version was available for my computer"
-msgstr ""
-
-"
+msgstr "bilgisayarıma uygun bir sürüm mevcut değil"
 
 msgid "What kind of computers do you have running BOINC?"
-msgstr ""
-
-"
+msgstr "BOINC çalıştıran ne tür bilgisayarlara sahipsiniz?"
 
 msgid "Where are they?"
-msgstr ""
-
-"
+msgstr "Neredeler?"
 
 msgid "Home"
-msgstr ""
-
-"
+msgstr "Ev"
 
 msgid "Work"
-msgstr ""
-
-"
+msgstr "İş"
 
 msgid "School"
-msgstr ""
-
-"
+msgstr "Okul"
 
 msgid "How many computers?"
-msgstr ""
-
-"
+msgstr "Kaç adet bilgisayar?"
 
 msgid "On average, how many hours per day are they powered on?"
-msgstr ""
-
-"
+msgstr "Ortalama, günde kaç saat açık kalıyorlar?"
 
 msgid "Age"
-msgstr ""
-
-"
+msgstr "Yaş"
 
 msgid "Sex"
-msgstr ""
-
-"
+msgstr "Cinsiyet"
 
 msgid "Male"
-msgstr ""
-
-"
+msgstr "Erkek"
 
 msgid "Female"
-msgstr ""
-
-"
+msgstr "Kadın"
 
 msgid "Your level of computer expertise"
-msgstr ""
-
-"
+msgstr "Bilgisayar konusundaki uzmanlık seviyeniz"
 
 msgid "Beginner"
-msgstr ""
-
-"
+msgstr "Acemi"
 
 msgid "Intermediate"
-msgstr ""
-
-"
+msgstr "Orta düzeyde"
 
 msgid "Advanced"
-msgstr ""
-
-"
+msgstr "İleri"
 
 msgid "Where did you learn about BOINC projects?"
-msgstr ""
-
-"
+msgstr "BOINC projeleri hakkında bilgiyi nereden öğrendiniz?"
 
 msgid "TV/radio/newspaper"
-msgstr ""
-
-"
+msgstr "TV/radyo/gazete"
 
 msgid "From friends, relatives, or coworkers"
-msgstr ""
-
-"
+msgstr "Arkadaşlardan, akrabalardan ya da iş arkadaşlarından"
 
 msgid "Team message boards or web sites"
-msgstr ""
-
-"
+msgstr "Takım forumlarından ya da internet sitelerinden"
 
 msgid "The BOINC web site"
-msgstr ""
-
-"
+msgstr "BOINC İnternet sitesi"
 
 msgid "Other web sites"
-msgstr ""
+msgstr "Diğer internet siteleri"
 
-"
-
-msgid ""
-"Which are the most important factors when you decide whether to participate "
-"in a BOINC project?"
-msgstr ""
-
-"
+msgid "Which are the most important factors when you decide whether to participate in a BOINC project?"
+msgstr "Bir BOINC projesine katılmanızda göz önüne aldığınız en önemli faktörler nelerdir?"
 
 msgid "Nice-looking screensaver graphics"
-msgstr ""
-
-"
+msgstr "Hoş görünen ekran koruyucu grafikleri"
 
 msgid "Fair and quick granting of credit for work done"
-msgstr ""
-
-"
+msgstr "İş tamamlandığında kredinin çok ve hızlı şekilde onaylanması"
 
 msgid "Getting more credit from this project than from others"
-msgstr ""
-
-"
+msgstr "Bu projeden diğerlerine göre fazla kredi almak"
 
 msgid "Helpful and friendly message boards"
-msgstr ""
-
-"
+msgstr "Yardımcı ve arkadaşça forum sayfaları"
 
 msgid "Participation by project staff on the message boards"
-msgstr ""
-
-"
+msgstr "Proje personelinin forum sayfalarına katkısı"
 
 msgid "Informative project web site"
-msgstr ""
-
-"
+msgstr "Aydınlatıcı proje internet sitesi"
 
 msgid "The science is important and beneficial"
-msgstr ""
-
-"
+msgstr "Bilimsel açıdan önemi ve faydası"
 
 msgid "Non-profit, and results are public"
-msgstr ""
-
-"
+msgstr "Kar amacı gütmeyen ve sonuçları halka açık olması"
 
 msgid "Personal recognition if my computer finds something"
-msgstr ""
-
-"
+msgstr "Bilgisayarım bir şey bulursa, kişisel olarak takdir edilmem"
 
 msgid "Publication by the project in scientific journals"
-msgstr ""
-
-"
+msgstr "Projenin bilimsel bültenlerde yayınlanması"
 
 msgid "Periodic email newsletters from the project"
-msgstr ""
-
-"
+msgstr "Projeden e-posta ile periyodik olarak haberler gelmesi"
 
 msgid "How many BOINC projects do you participate in?"
-msgstr ""
-
-"
+msgstr "Kaç adet BOINC projesine katılmış durumdasınız?"
 
 msgid "Do you run BOINC as a screensaver?"
-msgstr ""
-
-"
+msgstr "BOINC'i ekran koruyucu olarak çalıştırıyor musunuz?"
 
 msgid "Yes"
-msgstr ""
-
-"
+msgstr "Evet"
 
 msgid "No"
-msgstr ""
-
-"
+msgstr "Hayır"
 
 msgid "Your usage of project messages boards:"
-msgstr ""
-
-"
+msgstr "Proje forumlarını kullanma nedeniniz:"
 
 msgid "to read information"
-msgstr ""
-
-"
+msgstr "bilgileri okumak"
 
 msgid "to read and post information"
-msgstr ""
-
-"
+msgstr "bilgi okumak ve yollamak"
 
 msgid "None"
-msgstr ""
+msgstr "Yok"
 
-"
-
-msgid ""
-"Where do you get information to help resolve problems with BOINC and/or "
-"BOINC projects?"
-msgstr ""
-
-"
+msgid "Where do you get information to help resolve problems with BOINC and/or BOINC projects?"
+msgstr "BOINC ve/veya BOINC projeleriyle sorunların çözümüne yardımcı olabileceğiniz konusunda nereden bilgi aldınız?"
 
 msgid "The project message boards"
-msgstr ""
-
-"
+msgstr "Proje forumlarından"
 
 msgid "The BOINC message boards"
-msgstr ""
-
-"
+msgstr "BOINC forumlarından"
 
 msgid "BOINC mailing lists"
-msgstr ""
-
-"
+msgstr "BOINC e-posta listelerinden"
 
 msgid "The Unofficial BOINC Wiki"
-msgstr ""
-
-"
+msgstr "Resmi Olmayan BOINC Wikisi'nden"
 
 msgid "Team web sites"
-msgstr ""
-
-"
+msgstr "Takım internet sitelerinden"
 
 msgid "Google or other search engines"
-msgstr ""
-
-"
+msgstr "Google ya da diğer arama motorlarından"
 
 msgid "Download BOINC"
-msgstr ""
-
-"
+msgstr "BOINC'i İndir"
 
 #, php-format
 msgid "%s for %s (%s MB)"
-msgstr ""
+msgstr "%s için %s (%s MB)"
 
-"
-
-msgid ""
-"BOINC is a program that lets you donate your idle computer time to science "
-"projects like SETI@home, Climateprediction.net, Rosetta@home, World "
-"Community Grid, and many others. <p> After installing BOINC on your "
-"computer, you can connect it to as many of these projects as you like."
-msgstr ""
-
-"
+msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like."
+msgstr "BOINC, bilgisayarınızın boş zamanını, SETI@home, Climateprediction.net, Rosetta@home, World Community Grid ve çok daha fazlası gibi bilimsel projelere bağışlamanızı sağlar. <p> BOINC'i bilgisayarınıza kurduktan sonra, bunlar gibi istediğiniz pek çok projeye katılabilirsiniz."
 
 #, php-format
-msgid ""
-"Note: if your computer is equipped with an NVIDIA Graphics Processing Unit "
-"(GPU), you may be able to %suse it to compute faster%s"
-msgstr ""
-
-"
+msgid "Note: if your computer is equipped with an NVIDIA Graphics Processing Unit (GPU), you may be able to %suse it to compute faster%s"
+msgstr "Not: Eğer bilgisayarınız NVIDIA Grafk İşleme Ünitesi'ne (GPU) sahipse, çok daha hızlı hesaplama yaptırmak için %sonu da kullanabilirsiniz%s"
 
 msgid "System requirements"
-msgstr ""
-
-"
+msgstr "Sistem ihtiyaçları"
 
 msgid "Release notes"
-msgstr ""
-
-"
+msgstr "Sürüm notları"
 
 msgid "Help"
-msgstr ""
-
-"
+msgstr "Yardım"
 
 msgid "All versions"
-msgstr ""
-
-"
+msgstr "Tüm sürümler"
 
 msgid "BOINC: compute for science"
-msgstr ""
-
-"
+msgstr "BOINC: bilim için hesapla"
 
 #, php-format
-msgid ""
-"BOINC Online Help lets you talk one-on-one with experienced BOINC users, who "
-"can: %s answer questions about BOINC and volunteer computing; %s walk you "
-"through the process of installing and using BOINC; %s troubleshoot any "
-"problems you might have."
-msgstr ""
-
-"
+msgid "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have."
+msgstr "BOINC Online Yardım, uzman BOINC kullanıcılarıyla bire bir konuşmanızı sağlar. Bu kişiler, %s BOINC ve gönüllü hesaplama hakkındaki sorular; %s kurulum sırasındaki işlemler ile adımlar; %s karşılaştığınız sorunların çözümleri konularında yardımcı olabilirler."
 
 #, php-format
-msgid ""
-"BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. "
-"Skype is free (both the software and the calls).  If you don't already have "
-"Skype, please %sdownload and install it now%s.  When you're finished, return "
-"to this page."
-msgstr ""
+msgid "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls).  If you don't already have Skype, please %sdownload and install it now%s.  When you're finished, return to this page."
+msgstr "BOINC Online Yardım, %sSkype%s tabanlı bir İnternet telefonu sistemidir. Skype bedavadır (yazılım ve görüşmeler). Eğer Skype'a sahip değilseniz, lütfen şimdi %sindirip kurun%s.  Tamamladığınızda, bu sayfaya geri dönün."
 
-"
+msgid "The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer.  You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."
+msgstr "Sesle yardım almak için en iyi yol, bigilsayarınız için dahili mikrofon ve hoparlör ya da harici bir kulaklık seti kullanmaktır. Ayrıca gönüllülerle iletişim kurmak için Skype'ın yazı-tabanlı sohbet sistemini ya da normal e-postayı (eğer Skype'a sahip değilseniz) da kullanabilirsiniz."
 
-msgid ""
-"The best way to get help is by voice, for which you need either built-in "
-"microphone and speakers or an external headset for your computer.  You can "
-"also use Skype's text-based chat system or regular email (if you don't have "
-"Skype) to communicate with Help Volunteers."
-msgstr ""
-
-"
-
-msgid ""
-"Volunteers speaking several languages are available. Please select a "
-"language:"
-msgstr ""
-
-"
+msgid "Volunteers speaking several languages are available. Please select a language:"
+msgstr "Çeşitli dillerde konuşan gönüllüler mevcuttur. Lütfen bir dil seçin:"
 
 msgid "Be a Help Volunteer"
-msgstr ""
-
-"
+msgstr "Bir Yardım Gönüllüsü Olun"
 
 #, php-format
-msgid ""
-"If you're an experienced BOINC user, we encourage you to %sbecome a Help "
-"Volunteer%s.  It's a great way to help the cause of scientific research and "
-"volunteer computing - and it's fun!"
-msgstr ""
-
-"
+msgid "If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s.  It's a great way to help the cause of scientific research and volunteer computing - and it's fun!"
+msgstr "Eğer uzman bir BOINC kullanıcısıysanız, sizi bir %sYardım Gönüllüsü%s olmak için cesaretlendirebiliriz. Bu, bilimsel araştırmaları ve gönüllü hesaplamacılığı desteklemenin harika bir yoludur - üstelik eğlencelidir!"
 
 #, php-format
-msgid ""
-"If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr ""
-
-"
+msgid "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
+msgstr "Zaten bir Yardım Günllüsüyseniz: ayarlarınızı düzenlemek için, %sburaya tıklayın%s."
 
 msgid "Volunteer"
-msgstr ""
-
-"
+msgstr "Gönüllü"
 
 msgid "Download"
-msgstr ""
-
-"
+msgstr "İndirme"
 
 msgid "Documentation"
-msgstr ""
-
-"
+msgstr "Belgeler"
 
 #, php-format
-msgid ""
-" Use the idle time on your computer (Windows, Mac, or Linux) to cure "
-"diseases, study global warming, discover pulsars, and do many other types of "
-"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
-"sDownload%s and run BOINC software  %sEnter%s an email address and password. "
-msgstr ""
-
-"
+msgid " Use the idle time on your computer (Windows, Mac, or Linux) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "
+msgstr " Bilgisayarınızın (Windows, Mac, ya da Linux) boş zamanını, hastalıkları iyileştirmek, küresel ısınmayı araştırmak, pulsarları (elektromanyetik yıldızlar) keşfetmek ve çok daha farklı tipte bilimsel araştırmalar için kullanın.  Bu, tehlikesiz, güvenilir ve basittir:  Projeler %sseçin%s  BOINC yazılımını %sindirin%s ve çalıştırın  Bir e-posta adresi ve parola %sgirin%s. "
 
 #, php-format
-msgid ""
-"Or, if you run several projects, try an %saccount manager%s such as %"
-"sGridRepublic%s or %sBAM!%s. "
-msgstr ""
-
-"
+msgid "Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
+msgstr "Ya da, eğer çeşitli projeler çalıştırıyorsanız, bir %shesap yöneticisi%s deneyin. Örneğin %sGridRepublic%s ya da %sBAM!%s gibi. "
 
 #, php-format
-msgid ""
-"Open-source software for %svolunteer computing%s and %sgrid computing%s."
-msgstr ""
-
-"
+msgid "Open-source software for %svolunteer computing%s and %sgrid computing%s."
+msgstr "%Gönüllü hesaplama% ve %dağınık hesaplama% için açık kaynaklı yazılım."
 
 msgid "BOINC user survey"
-msgstr ""
+msgstr "BOINC kullanıcı anketi"
 
-"
-
-msgid ""
-"Several volunteer computing projects, including Climateprediction.net, "
-"Einstein@home, and SETI@home, use software called BOINC.  If you participate "
-"in projects like this, we request that you answer the following questions.  "
-"This will help BOINC-based projects increase participation and achieve "
-"greater scientific results. <p> Please answer as many questions as you want, "
-"then go to the bottom and click OK. If you previously completed the survey "
-"but your answers have changed, please complete it again - your new answers "
-"will replace the old ones. <p> The current results of the survey are <a "
-"href=poll_results.php>here</a>. "
-msgstr ""
-
-"
+msgid "Several volunteer computing projects, including Climateprediction.net, Einstein@home, and SETI@home, use software called BOINC.  If you participate in projects like this, we request that you answer the following questions.  This will help BOINC-based projects increase participation and achieve greater scientific results. <p> Please answer as many questions as you want, then go to the bottom and click OK. If you previously completed the survey but your answers have changed, please complete it again - your new answers will replace the old ones. <p> The current results of the survey are <a href=poll_results.php>here</a>. "
+msgstr "Çeşitli gönüllü hesaplama projeleri, Climateprediction.net, Einstein@home ve SETI@home da dahil, BOINC olarak adlandırılan bir yazılım kullanır.  Eğer bunlar gibi projelere katılacaksanız, aşağıdaki soruları yanıtlamanızı istiyoruz.  Bu BOINC-tabanlı projelere katılımı ve büyük bilimsel sonuçlar alma konusunda yardımcı olacak. <p> Lüften istediğiniz kadar çok soruya yanıt verin ve sonra altta bulunan Tamam butonuna tıklayın. Eğer anketi daha önce tamamladıysanız ve şu anda bazı yanıtlarınız değiştiyse, lütfen tekrar tamamlayın - yeni yanıtlarınız eskileriyle değiştirilecek. <p> Anket sonuçlarının şu andaki durumu <a href=poll_results.php>here</a>. "
 
 msgid "Do you run BOINC?"
-msgstr ""
-
-"
+msgstr "BOINC çalıştırıyor musunuz?"
 
 msgid "Your participation"
-msgstr ""
-
-"
+msgstr "Katılımınız"
 
 msgid "Your computers"
-msgstr ""
-
-"
+msgstr "Bilgisayarlarınız"
 
 msgid "You"
-msgstr ""
-
-"
+msgstr "Siz"
 
 msgid "Nationality"
-msgstr ""
-
-"
+msgstr "Ülkeniz"
 
 msgid "Comments"
-msgstr ""
+msgstr "Yorumlarınız"
 
-"
-
-msgid ""
-"Please suggest ways that BOINC, and the projects that use it, could be "
-"improved:"
-msgstr ""
-
-"
+msgid "Please suggest ways that BOINC, and the projects that use it, could be improved:"
+msgstr "Lütfen BOINC'in ve kullandığı projelerin geliştirilmesi için önerilerde bulunun:"
 
 msgid "When done click:"
-msgstr ""
-
-"
+msgstr "Tamamladığınızda tıklayın:"
 
 msgid "Error - results not recorded"
-msgstr ""
+msgstr "Hata - Sonuçlar kaydedilmedi"
 
-"
-
-msgid ""
-"An internal error has prevented us from recording your survey response.  "
-"Please try again later."
-msgstr ""
-
-"
+msgid "An internal error has prevented us from recording your survey response.  Please try again later."
+msgstr "Anket sonuçlarını kaydederken bizden kaynaklanana dahili bir hata meydana geldi. Lütfen daha sonra tekrar deneyin."
 
 msgid "Survey response recorded"
-msgstr ""
-
-"
+msgstr "Anket sonucu kaydedildi"
 
 msgid "Thank you for completing the BOINC user survey."
-msgstr ""
-
-"
+msgstr "BOINC kullanıcı anketini tamamladığınız için teşekkürler."
 
 msgid "Survey results"
-msgstr ""
+msgstr "Anket sonuçları"
 
-"
+msgid "These are the current results of the <a href=poll.php>BOINC user survey</a>.  This page is updated every hour."
+msgstr "Bunlar, <a href=poll.php>BOINC kullanıcı anketi</a>nin şu anki sonuçları.  Bu sayfa her saat güncellenir."
 
-msgid ""
-"These are the current results of the <a href=poll.php>BOINC user survey</"
-"a>.  This page is updated every hour."
-msgstr ""
-
-"
