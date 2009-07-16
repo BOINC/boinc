@@ -6303,3 +6303,23 @@ David  16 July 2009
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+
+David  16 July 2009
+    - client: changed file upload logic
+        Old: each upload attempt consists of two HTTP requests:
+            the 1st to get the current file size on server,
+            the 2nd to upload the remainder of the file.
+        Problem:
+            a) if the upload server is overloaded and requests
+                are succeeding with probability X,
+                then the chance of both requests succeeding is X^2.
+                So e.g. a per-request success rate of 0.1
+                becomes an overall success rate of 0.01.
+            b) the "get file size" request can be avoided in some cases.
+        New:
+            If we've already queried the file size
+            and haven't uploaded any additional bytes,
+            don't query the file size again.
+
+    client/
+        pers_file_xfer.cpp
