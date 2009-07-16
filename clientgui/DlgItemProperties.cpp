@@ -110,6 +110,12 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     if (project->min_rpc_time > dtime()) {
 		addProperty(_("Scheduler RPC deferred for"), FormatTime(project->min_rpc_time - dtime()));
     }
+    if (project->download_backoff) {
+		addProperty(_("File downloads deferred for"), FormatTime(project->download_backoff));
+    }
+    if (project->upload_backoff) {
+		addProperty(_("File uploads deferred for"), FormatTime(project->upload_backoff));
+    }
 	addProperty(_("Disk usage"),FormatDiskSpace(diskusage));
     addProperty(_("Computer ID"), wxString::Format(wxT("%d"), project->hostid));
 	addProperty(_("Non CPU intensive"),project->non_cpu_intensive ? _("yes") : _("no"));

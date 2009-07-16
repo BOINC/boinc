@@ -119,6 +119,9 @@ public:
                                 // contact all scheduling servers
     int master_fetch_failures;
     double min_rpc_time;           // earliest time to contact any server
+    double download_backoff;
+    double upload_backoff;
+
     double short_term_debt;
     double cpu_long_term_debt;
     double cpu_backoff_time;

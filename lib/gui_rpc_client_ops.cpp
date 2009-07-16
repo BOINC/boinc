@@ -236,6 +236,8 @@ int PROJECT::parse(MIOFILE& in) {
         if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
         if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
         if (parse_double(buf, "<min_rpc_time>", min_rpc_time)) continue;
+        if (parse_double(buf, "<download_backoff>", download_backoff)) continue;
+        if (parse_double(buf, "<upload_backoff>", upload_backoff)) continue;
         if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
         if (parse_double(buf, "<long_term_debt>", cpu_long_term_debt)) continue;
         if (parse_double(buf, "<cpu_backoff_time>", cpu_backoff_time)) continue;
@@ -286,6 +288,8 @@ void PROJECT::clear() {
     nrpc_failures = 0;
     master_fetch_failures = 0;
     min_rpc_time = 0;
+    download_backoff = 0;
+    upload_backoff = 0;
     short_term_debt = 0;
     cpu_long_term_debt = 0;
     cpu_backoff_time = 0;

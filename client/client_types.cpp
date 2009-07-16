@@ -310,6 +310,18 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
             last_rpc_time,
             project_files_downloaded_time
         );
+        if (download_backoff.next_xfer_time > gstate.now) {
+            out.printf(
+                "    <download_backoff>%f</download_backoff>\n",
+                download_backoff.next_xfer_time - gstate.now
+            );
+        }
+        if (upload_backoff.next_xfer_time > gstate.now) {
+            out.printf(
+                "    <upload_backoff>%f</upload_backoff>\n",
+                upload_backoff.next_xfer_time - gstate.now
+            );
+        }
     } else {
        for (i=0; i<scheduler_urls.size(); i++) {
             out.printf(
