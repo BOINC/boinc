@@ -433,7 +433,7 @@ bool FILE_XFER_BACKOFF::ok_to_transfer() {
         //
         dt = 0;
     }
-    return (dt > 0);
+    return (dt <= 0);
 }
 
 void FILE_XFER_BACKOFF::file_xfer_failed(PROJECT* p) {
