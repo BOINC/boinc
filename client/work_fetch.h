@@ -102,7 +102,7 @@ struct RSC_WORK_FETCH {
     double total_runnable_share;
         // total RS of projects with runnable jobs for this device
     double estimated_delay;
-        // estimated time until resource not saturated.
+        // estimated time until resource is not saturated or has no EDF jobs.
         // Passed to scheduler for crude deadline check
     double deadline_missed_instances;
         // instance count for jobs that miss deadline
@@ -121,7 +121,7 @@ struct RSC_WORK_FETCH {
 
     void rr_init();
     void accumulate_shortfall(double d_time);
-    void update_estimated_delay(double dt);
+    void update_estimated_delay(double dt, bool misses_deadline);
     PROJECT* choose_project(int);
     void accumulate_debt();
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);

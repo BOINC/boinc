@@ -298,8 +298,10 @@ void CLIENT_STATE::rr_simulation() {
 
         // "rpbest" is first result to finish.  Does it miss its deadline?
         //
+        bool misses_deadline = false;
         double diff = (sim_now + rpbest->rrsim_finish_delay) - rpbest->computation_deadline();
         if (diff > 0) {
+            misses_deadline = true;
             ACTIVE_TASK* atp = lookup_active_task_by_result(rpbest);
             if (atp && atp->procinfo.working_set_size_smoothed > ar) {
                 if (log_flags.rr_simulation) {
@@ -328,9 +330,9 @@ void CLIENT_STATE::rr_simulation() {
 
         double end_time = sim_now + rpbest->rrsim_finish_delay;
         double x = end_time - gstate.now;
-        cpu_work_fetch.update_estimated_delay(x);
+        cpu_work_fetch.update_estimated_delay(x, misses_deadline);
         if (coproc_cuda) {
-            cuda_work_fetch.update_estimated_delay(x);
+            cuda_work_fetch.update_estimated_delay(x, misses_deadline);
         }
 
         // increment resource shortfalls
