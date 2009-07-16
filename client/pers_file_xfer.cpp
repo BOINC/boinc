@@ -94,15 +94,12 @@ int PERS_FILE_XFER::create_xfer() {
         return ERR_IDLE_PERIOD;
     }
 
-    // Does the file exist already? this could happen for example if we are
-    // downloading an application which exists from a previous installation
+    // if download, see if file already exists and is valid
     //
     if (!is_upload) {
         char pathname[256];
         get_pathname(fip, pathname, sizeof(pathname));
 
-        // see if file already exists and is valid
-        //
         if (!fip->verify_file(true, false)) {
             retval = fip->set_permissions();
             fip->status = FILE_PRESENT;
@@ -268,11 +265,12 @@ bool PERS_FILE_XFER::poll() {
             transient_failure(fxp->file_xfer_retval);
         }
 
-        // If we transferred any bytes, set upload_offset back to -1
+        // If we transferred any bytes, or there are >1 URLs,
+        // set upload_offset back to -1
         // so that we'll query file size on next retry.
         // Otherwise leave it as is, avoiding unnecessary size query.
         //
-        if (fxp->bytes_xferred) {
+        if (fxp->bytes_xferred || (fip->urls.size() > 1)) {
             fip->upload_offset = -1;
         }
 

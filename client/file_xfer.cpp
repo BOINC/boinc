@@ -83,6 +83,12 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
 
     is_upload = true;
 
+    // skip file size check if file is small
+    //
+    if (fip->nbytes < FILE_SIZE_CHECK_THRESHOLD) {
+        fip->upload_offset = 0;
+    }
+
     if (file_info.upload_offset < 0) {
         bytes_xferred = 0;
         sprintf(header,

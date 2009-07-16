@@ -960,7 +960,7 @@ const char* FILE_INFO::get_init_url() {
     return urls[current_url].c_str();
 }
 
-// Call this to get the next URL of the indicated type.
+// Call this to get the next URL.
 // NULL return means you've tried them all.
 //
 const char* FILE_INFO::get_next_url() {

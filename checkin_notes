@@ -6323,3 +6323,14 @@ David  16 July 2009
 
     client/
         pers_file_xfer.cpp
+
+David  16 July 2009
+    - client: if file < 8KB, upload it in its entirety and skip size check
+    - client: (refinement to previous checkin)
+        don't skip file size check if file has multiple upload URLs.
+        We might have uploaded different amounts on different servers.
+
+    client/
+        client_types.cpp
+        file_xfer.cpp,h
+        pers_file_xfer.cpp
