@@ -447,7 +447,7 @@ static void handle_file_transfer_op(char* buf, MIOFILE& fout, const char* op) {
     if (!strcmp(op, "retry")) {
         pfx->next_request_time = 0;
             // leave file-level backoff mode
-        f->project->file_xfer_succeeded(pfx->is_upload);
+        f->project->file_xfer_backoff(pfx->is_upload).file_xfer_succeeded();
             // and leave project-level backoff mode
     } else if (!strcmp(op, "abort")) {
         f->pers_file_xfer->abort();

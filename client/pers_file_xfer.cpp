@@ -177,12 +177,13 @@ bool PERS_FILE_XFER::poll() {
         if (gstate.now < next_request_time) {
             return false;
         }
-        double next_time = fip->project->next_file_xfer_time(is_upload);
-        if (gstate.now < next_time) {
+        FILE_XFER_BACKOFF& fxb = fip->project->file_xfer_backoff(is_upload);
+        if (!fxb.ok_to_transfer()) {
             if (log_flags.file_xfer_debug) {
                 msg_printf(fip->project, MSG_INFO,
                     "[file_xfer_debug] delaying %s of %s: project-wide backoff %f sec",
-                    is_upload?"upload":"download", fip->name, next_time-gstate.now
+                    is_upload?"upload":"download", fip->name,
+                    fxb.next_xfer_time - gstate.now
                 );
             }
             return false;
@@ -217,7 +218,7 @@ bool PERS_FILE_XFER::poll() {
         }
         switch (fxp->file_xfer_retval) {
         case 0:
-            fip->project->file_xfer_succeeded(is_upload);
+            fip->project->file_xfer_backoff(is_upload).file_xfer_succeeded();
             if (log_flags.file_xfer) {
                 msg_printf(
                     fip->project, MSG_INFO, "Finished %s of %s",
@@ -336,7 +337,8 @@ void PERS_FILE_XFER::do_backoff() {
 
     // keep track of transient failures per project (not currently used)
     //
-    fip->project->file_xfer_failed(is_upload);
+    PROJECT* p = fip->project;
+    p->file_xfer_backoff(is_upload).file_xfer_failed(p);
 
     // Do an exponential backoff of e^nretry seconds,
     // keeping within the bounds of pers_retry_delay_min and

@@ -221,7 +221,7 @@ function language_form() {
         //."<option value=pt_BR>Portugu&ecirc;s - Brasil (Portuguese - Brazil)"
         ."<option value=ru>Русский (Russian)"
         //."<option value=sk>Slovenčina (Slovenian)"
-        //."<option value=tr>Türkçe (Turkish)"
+        ."<option value=tr>Türkçe (Turkish)"
         ."<option value=zh_CN>简体中文 (Chinese)"
         ."</select>
         </form>

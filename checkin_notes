@@ -6283,3 +6283,12 @@ Rom    15 July 2009
         boinc_dll.cpp
         IdleTracker.cpp
         stdafx.h
+
+David  16 July 2009
+    - client: code cleanup for project-level file xfer backoff
+
+    client/
+        client_types.cpp,h
+        client_state.cpp
+        gui_rpc_server_ops.cpp
+        pers_file_xfer.cpp

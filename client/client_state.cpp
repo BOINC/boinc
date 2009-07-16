@@ -1685,8 +1685,8 @@ void CLIENT_STATE::check_clock_reset() {
         if (p->next_rpc_time) {
             p->next_rpc_time = now;
         }
-        p->next_file_xfer_up = 0;
-        p->next_file_xfer_down = 0;
+        p->download_backoff.next_xfer_time = 0;
+        p->upload_backoff.next_xfer_time = 0;
     }
     for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
         PERS_FILE_XFER* pfx = pers_file_xfers->pers_file_xfers[i];

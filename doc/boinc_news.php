@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("July 15, 2009",
+    "The Consejer&iacute;a de Educaci&oacute;n, Spain, is
+    <a href=http://jarifa.unex.es/?p=230>using Jarifa to harness the power of 12,000 PCs.</a>"
+),
 array("June 23, 2009",
     "Read <a href=http://www.newswise.com/articles/view/553414/>an article
     about Docking@Home</a> in Newswise Science News."
