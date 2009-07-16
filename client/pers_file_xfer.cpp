@@ -179,6 +179,7 @@ bool PERS_FILE_XFER::poll() {
         }
         FILE_XFER_BACKOFF& fxb = fip->project->file_xfer_backoff(is_upload);
         if (!fxb.ok_to_transfer()) {
+#if 0
             if (log_flags.file_xfer_debug) {
                 msg_printf(fip->project, MSG_INFO,
                     "[file_xfer_debug] delaying %s of %s: project-wide backoff %f sec",
@@ -186,6 +187,7 @@ bool PERS_FILE_XFER::poll() {
                     fxb.next_xfer_time - gstate.now
                 );
             }
+#endif
             return false;
         }
         last_time = gstate.now;
