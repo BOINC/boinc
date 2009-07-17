@@ -101,9 +101,15 @@ struct RSC_WORK_FETCH {
         // total RS of projects from which we could fetch jobs for this device
     double total_runnable_share;
         // total RS of projects with runnable jobs for this device
-    double estimated_delay;
-        // estimated time until resource is not saturated or has no EDF jobs.
-        // Passed to scheduler for crude deadline check
+    double saturated_time;
+        // estimated time until resource is not saturated
+        // used to calculate work request
+    double busy_time;
+        // estimated time until a new job would start;
+        // passed to scheduler for crude deadline check.
+        // This can't be estimated with any kind of precision.
+        // Instead we calculate it as the sum of instance-secs
+        // used be missed-deadline jobs, divided by # instances
     double deadline_missed_instances;
         // instance count for jobs that miss deadline
     std::vector<RESULT*> pending;
@@ -121,7 +127,8 @@ struct RSC_WORK_FETCH {
 
     void rr_init();
     void accumulate_shortfall(double d_time);
-    void update_estimated_delay(double dt, bool misses_deadline);
+    void update_saturated_time(double dt);
+    void update_busy_time(double dur, double nused);
     PROJECT* choose_project(int);
     void accumulate_debt();
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);

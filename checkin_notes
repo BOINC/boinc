@@ -6364,3 +6364,22 @@ Rom    17 July 2009
     /
         configure.ac
         Makefile.am
+
+David  17 July 2009
+    - client: 2nd try on my last checkin.
+        We need to estimate 2 different delays for each resource type:
+        1) "saturated time": the time the resource will be fully utilized
+            (new name for the old "estimated delay").
+            This is used to compute work requests.
+        2) "busy time": the time a new job would have to wait
+            to start using this resource.
+            This is passed to the scheduler and used for a crude deadline check.
+            Note: this is ill-defined; a single number doesn't suffice.
+            But as a very rough estimate, I'll use the sum of
+                (J.duration * J.ninstances)/ninstances
+            over all jobs that miss their deadline under RR sim.
+
+    client/
+        work_fetch.cpp,h
+        rr_sim.cpp
+        cs_scheduler.cpp

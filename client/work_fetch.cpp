@@ -82,7 +82,8 @@ void RSC_WORK_FETCH::rr_init() {
     total_fetchable_share = 0;
     total_runnable_share = 0;
     deadline_missed_instances = 0;
-    estimated_delay = 0;
+    saturated_time = 0;
+    busy_time = 0;
     pending.clear();
 }
 
@@ -131,19 +132,15 @@ void RSC_WORK_FETCH::accumulate_shortfall(double d_time) {
 #endif
 }
 
-// "estimated delay" is the interval for which we expect the
-// resource to be saturated and have an EDF job.
-//
-void RSC_WORK_FETCH::update_estimated_delay(double dt, bool misses_deadline) {
+void RSC_WORK_FETCH::update_saturated_time(double dt) {
     double idle = ninstances - sim_nused;
-    if (misses_deadline && idle < 1e-6) {
-        estimated_delay = dt;
+    if (idle < 1e-6) {
+        saturated_time = dt;
     }
-#if 0
-    msg_printf(0, MSG_INFO, "est delay (%s): used %e instances %d dt %f est delay %f",
-        rsc_name(rsc_type), sim_nused, ninstances, dt, estimated_delay
-    );
-#endif
+}
+
+void RSC_WORK_FETCH::update_busy_time(double dur, double nused) {
+    busy_time += (dur*nused)/ninstances;
 }
 
 // see if the project's debt is beyond what would normally happen;
@@ -184,10 +181,10 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
         if (nidle_now == 0) return NULL;
         break;
     case FETCH_IF_MAJOR_SHORTFALL:
-        if (estimated_delay > gstate.work_buf_min()) return NULL;
+        if (saturated_time > gstate.work_buf_min()) return NULL;
         break;
     case FETCH_IF_MINOR_SHORTFALL:
-        if (estimated_delay > gstate.work_buf_total()) return NULL;
+        if (saturated_time > gstate.work_buf_total()) return NULL;
         break;
     case FETCH_IF_PROJECT_STARVED:
         if (deadline_missed_instances >= ninstances) return NULL;
@@ -300,9 +297,9 @@ void WORK_FETCH::zero_debts() {
 
 void RSC_WORK_FETCH::print_state(const char* name) {
     msg_printf(0, MSG_INFO,
-        "[wfd] %s: shortfall %.2f nidle %.2f est. delay %.2f RS fetchable %.2f runnable %.2f",
+        "[wfd] %s: shortfall %.2f nidle %.2f saturated %.2f busy %.2f RS fetchable %.2f runnable %.2f",
         name,
-        shortfall, nidle_now, estimated_delay,
+        shortfall, nidle_now, saturated_time, busy_time,
         total_fetchable_share, total_runnable_share
     );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
@@ -682,7 +679,7 @@ void WORK_FETCH::write_request(FILE* f) {
         cpu_work_fetch.req_secs,
         cpu_work_fetch.req_secs,
         cpu_work_fetch.req_instances,
-        cpu_work_fetch.req_secs?cpu_work_fetch.estimated_delay:0
+        cpu_work_fetch.req_secs?cpu_work_fetch.busy_time:0
     );
 }
 
@@ -726,11 +723,11 @@ void WORK_FETCH::handle_reply(PROJECT* p, vector<RESULT*> new_results) {
 void WORK_FETCH::set_initial_work_request() {
     cpu_work_fetch.req_secs = 1;
     cpu_work_fetch.req_instances = 0;
-    cpu_work_fetch.estimated_delay = 0;
+    cpu_work_fetch.busy_time = 0;
     if (coproc_cuda) {
         cuda_work_fetch.req_secs = 1;
         cuda_work_fetch.req_instances = 0;
-        cuda_work_fetch.estimated_delay = 0;
+        cuda_work_fetch.busy_time = 0;
     }
 }
 
