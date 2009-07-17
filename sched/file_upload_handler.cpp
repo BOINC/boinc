@@ -665,19 +665,19 @@ int main() {
     }
 
 #ifdef _USING_FCGI_
-  while(FCGI_Accept() >= 0) {
-    counter++;
-    //fprintf(stderr, "file_upload_handler (FCGI): counter: %d\n", counter);
-    log_messages.set_indent_level(0);
+    while(FCGI_Accept() >= 0) {
+        counter++;
+        //fprintf(stderr, "file_upload_handler (FCGI): counter: %d\n", counter);
+        log_messages.set_indent_level(0);
 #endif
-    handle_request(stdin, key);
+        handle_request(stdin, key);
 #ifdef _USING_FCGI_
-    // flush log for FCGI, otherwise it just buffers a lot
-    log_messages.flush();
-  }
-  // when exiting, write headers back to apache so it won't complain
-  // about "incomplete headers"
-  fprintf(stdout,"Content-type: text/plain\n\n");
+        // flush log for FCGI, otherwise it just buffers a lot
+        log_messages.flush();
+    }
+    // when exiting, write headers back to apache so it won't complain
+    // about "incomplete headers"
+    fprintf(stdout,"Content-type: text/plain\n\n");
 #endif
     return 0;
 }

@@ -1,0 +1,1192 @@
+# BOINC web translation
+# Copyright (C) 2008 University of California
+# This file is distributed under the same license as BOINC.
+# FileID  : $Id$
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC Project Generic\n"
+"Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
+"POT-Creation-Date: 2009-05-09 21:36 PDT\n"
+"PO-Revision-Date: 2009-07-17 13:01+0200\n"
+"Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
+"Language-Team: Donanım Haber <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 1.2.1\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Bookmarks: -1,364,-1,-1,-1,-1,-1,-1,-1,-1\n"
+
+msgid "Search for words in forum messages"
+msgstr "Forum mesajlarındaki kelimeler için arama yap"
+
+msgid "Search forums"
+msgstr "Forumlarda ara"
+
+msgid "Advanced search"
+msgstr "Gelişmiş arama"
+
+msgid "Private messages"
+msgstr "Özel mesajlar"
+
+msgid "Questions and Answers"
+msgstr "Soru ve Yanıtlar"
+
+msgid "Message boards"
+msgstr "Mesaj panoları"
+
+msgid "%1 message board"
+msgstr "%1 mesaj panosu"
+
+msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
+msgstr "%1 içerisinde yeni bir konu oluşturmak için, belli bir kredi miktarına sahip olmalısınız. Bu uygulamayla, sistemin kural dışı kullanımını ve suistimal edilmesini önlemeyi amaçlıyoruz."
+
+msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
+msgstr "Şu anda daha fazla yeni konu oluşturamazsınız. Lütfen yeniden denemek için bir süre bekleyin. Bu gecikmeyle, sistemin kural dışı kullanımını önlemeyi amaçlıyoruz."
+
+msgid "Thread"
+msgstr "Konu"
+
+msgid "Posts"
+msgstr "Cevaplar"
+
+msgid "Author"
+msgstr "Başlatan"
+
+msgid "Views"
+msgstr "Okunma"
+
+msgid "Last post"
+msgstr "Son mesaj"
+
+msgid "Mark all threads as read"
+msgstr "Tüm konuları okundu olarak işaretle"
+
+msgid "Mark all threads in all message boards as 'read'."
+msgstr "Tüm mesaj panolarındaki tüm konuları 'okundu' olarak işaretler."
+
+msgid "Inbox"
+msgstr "Gelen kutusu"
+
+msgid "Write"
+msgstr "Yaz"
+
+msgid "Send private message"
+msgstr "Özel mesaj gönder"
+
+msgid "Preview"
+msgstr "Önizleme"
+
+msgid "To"
+msgstr "Kime"
+
+msgid "User IDs or unique usernames, separated with commas"
+msgstr "Kullanıcı ID'leri ya da benzersiz kullanıcı adları, virgülle ayrılmış"
+
+msgid "Subject"
+msgstr "Konu"
+
+msgid "Message"
+msgstr "Mesaj"
+
+msgid "Send message"
+msgstr "Mesaj yolla"
+
+msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
+msgstr "Çok sık şekilde özel mesaj gönderemezsiniz. Daha fazla mesaj göndermek için lütfen bir süre bekleyin."
+
+msgid "unread"
+msgstr "okunmamış"
+
+msgid "Edit your profile"
+msgstr "Profilinizi düzenleyin"
+
+msgid "Your feedback on this profile"
+msgstr "Bu profil hakkındaki fikriniz"
+
+msgid "Recommend this profile for User of the Day:"
+msgstr "Bu profili Günün Kullanıcısı için öner:"
+
+msgid "I %1like%2 this profile"
+msgstr "Bu profilden %1hoşlandım%2"
+
+msgid "Alert administrators to an offensive profile:"
+msgstr "Uygunsuz profili yöneticilere bildirin:"
+
+msgid "I %1do not like%2 this profile"
+msgstr "Bu profilden %1hiç hoşlanmadım%2"
+
+msgid "Search criteria (use one or more)"
+msgstr "Arama kriteri (birini ya da daha fazlasını kullanın)"
+
+msgid "Key words"
+msgstr "Anahtar kelimeler"
+
+msgid "Find teams with these words in their names or descriptions"
+msgstr "Takımları, isimleri ya da tanıtımlarındaki bu kelimelere göre bul"
+
+msgid "Country"
+msgstr "Ülke"
+
+msgid "Type of team"
+msgstr "Takımın tipi"
+
+msgid "Show only active teams"
+msgstr "Yalnızca aktif takımları göster"
+
+msgid "Search"
+msgstr "Ara"
+
+msgid "Requested by you, and founder response deadline has passed."
+msgstr "Sizin tarafınızdan istendi ve kurucunun son yanıt tarihi geçti."
+
+msgid "Complete foundership transfer"
+msgstr "Kurucu değişimini tamamla"
+
+msgid "Requested by you"
+msgstr "Sizin tarafınızdan istendi"
+
+msgid "founder response deadline is %1"
+msgstr "kurucu son yanıt tarihi %1"
+
+msgid "None"
+msgstr "Yok"
+
+msgid "Initiate request"
+msgstr "İstekte bulun"
+
+msgid "Deferred"
+msgstr "Ertelendi"
+
+msgid "Team info"
+msgstr "Takım bilgisi"
+
+msgid "Description"
+msgstr "Tanıtım"
+
+msgid "Web site"
+msgstr "İnternet sitesi"
+
+msgid "Total credit"
+msgstr "Toplam kredi"
+
+msgid "Recent average credit"
+msgstr "Son ortalama kredi"
+
+msgid "Cross-project stats"
+msgstr "Çapraz-proje istatistikleri"
+
+msgid "Type"
+msgstr "Tip"
+
+msgid "Message board"
+msgstr "Mesaj panosu"
+
+msgid "Threads"
+msgstr "Konular"
+
+msgid "Join this team"
+msgstr "Bu takıma katıl"
+
+msgid "Note: if 'OK to email' is set in your project preferences, joining a team gives its founder access to your email address."
+msgstr "Not: Eğer proje tercihlerinizde 'E-postayla onayla' ayarlıysa, takıma katılmak, kurucusunun e-posta adresinizi görmesini sağlar."
+
+msgid "Not accepting new members"
+msgstr "Yeni üyeleri kabul etmiyor"
+
+msgid "Foundership change requested"
+msgstr "Kurucu değişimi istendi"
+
+msgid "Respond by %1"
+msgstr "%1 ile yanıtla"
+
+msgid "Team foundership change"
+msgstr "Takım kurucusu değişimi"
+
+msgid "Members"
+msgstr "Üyeler"
+
+msgid "Founder"
+msgstr "Kurucu"
+
+msgid "Admins"
+msgstr "Yöneticiler"
+
+msgid "New members in last day"
+msgstr "Son günlerdeki yeni üyeler"
+
+msgid "Total members"
+msgstr "Toplam üye"
+
+msgid "view"
+msgstr "bak"
+
+msgid "Active members"
+msgstr "Aktif üye"
+
+msgid "Members with credit"
+msgstr "Kredisi bulunan üye"
+
+msgid "Name"
+msgstr "İsim"
+
+msgid "Admin"
+msgstr "Yönetici"
+
+msgid "Last %1"
+msgstr "Son %1"
+
+msgid "Next %1"
+msgstr "Sonraki %1"
+
+msgid "No such team."
+msgstr "Eşleşen takım yok."
+
+msgid "This operation requires foundership."
+msgstr "Bu işlem kurucu olmayı gerektirir."
+
+msgid "This operation requires team admin privileges"
+msgstr "Bu işlem takım yöneticisi hakları gerektirir."
+
+msgid "Rank"
+msgstr "Sıra"
+
+msgid "%1Privacy note%2: if you create a team, your project preferences (resource share, graphics preferences) will be visible to the public."
+msgstr "%1Gizlilik notu%2: bir takım kurarsanız, proje tercihleriniz (kaynak paylaşımı, grafik tercihleri) herkese görünür olacaktır."
+
+msgid "Team name, text version"
+msgstr "Takım adı, salt metin sürümü"
+
+msgid "Don't use HTML tags."
+msgstr "HTML etiketleri kullanmayın."
+
+msgid "Team name, HTML version"
+msgstr "Takım adı, HTML sürümü"
+
+msgid "You may use %1limited HTML tags%2."
+msgstr "%1Sınırlı HTML etiketleri%2 kullanabilirsiniz."
+
+msgid "If you don't know HTML, leave this box blank."
+msgstr "HTML bilmiyorsanız, bu bölümü boş bırakın."
+
+msgid "URL of team web page, if any"
+msgstr "Mevcutsa, takımın İnternet sitesi adresi"
+
+msgid "without \"http://\""
+msgstr "\"http://\" olmadan"
+
+msgid "This URL will be linked to from the team's page on this site."
+msgstr "Belirttiğiniz URL, takımın bu sitedeki sayfasında gösterilecek."
+
+msgid "Description of team"
+msgstr "Takımın tanıtımı"
+
+msgid "Projects in which you are participating"
+msgstr "Katıldığınız projeler"
+
+msgid "Projects in which %1 is participating"
+msgstr "%1 kullanıcısının katıldığı projeler"
+
+msgid "Project"
+msgstr "Proje"
+
+msgid "Click for user page"
+msgstr "Kullanıcı safyası için tıklayın"
+
+msgid "Average credit"
+msgstr "Ortalama kredi"
+
+msgid "Since"
+msgstr "Katılma tarihi"
+
+msgid "Computing and credit"
+msgstr "Hesaplama ve kredi"
+
+msgid "Pending credit"
+msgstr "Beklenilen kredi"
+
+msgid "View"
+msgstr "Bak"
+
+msgid "Computers on this account"
+msgstr "Bu hesaptaki bilgisayarlar"
+
+msgid "Tasks"
+msgstr "İşler"
+
+msgid "Cross-project ID"
+msgstr "Çapraz-proje ID'si"
+
+msgid "Cross-project statistics"
+msgstr "Çapraz-proje istatistikleri"
+
+msgid "Certificate"
+msgstr "Sertifika"
+
+msgid "Stats on your cell phone"
+msgstr "İstatistikler cep telefonuzda"
+
+msgid "Account information"
+msgstr "Hesap bilgisi"
+
+msgid "Email address"
+msgstr "E-posta adresi"
+
+msgid "URL"
+msgstr "Site"
+
+msgid "Postal code"
+msgstr "Posta Kodu"
+
+msgid "%1 member since"
+msgstr "%1 üyelik tarihi"
+
+msgid "Change"
+msgstr "Değiştir"
+
+msgid "email address"
+msgstr "e-posta adresi"
+
+msgid "password"
+msgstr "parola"
+
+msgid "other account info"
+msgstr "diğer hesap bilgisi"
+
+msgid "Log out"
+msgstr "Çıkış"
+
+msgid "User ID"
+msgstr "Kullanıcı ID'si"
+
+msgid "Used in community functions"
+msgstr "Topluluk işlevlerinde kullanılır (özel mesaj için vs.)"
+
+msgid "Account key"
+msgstr "Hesap anahtarı"
+
+msgid "Provides full access to your account"
+msgstr "Hesabınıza tam erişimi sağlar"
+
+msgid "Weak account key"
+msgstr "Zayıf hesap anahtarı"
+
+msgid "Provides %1limited access%2 to your account"
+msgstr "Hesabınıza %1sınırlı erişimi%2 sağlar"
+
+msgid "Preferences"
+msgstr "Tercihler"
+
+msgid "When and how BOINC uses your computer"
+msgstr "BOINC bilgisayarınızı ne zaman ve nasıl kullanacak"
+
+msgid "Computing preferences"
+msgstr "Hesaplama tercihleri"
+
+msgid "Message boards and private messages"
+msgstr "Mesaj panoları ve özel mesajlar"
+
+msgid "Community preferences"
+msgstr "Topluluk tercihleri"
+
+msgid "Resource share and graphics"
+msgstr "Kaynak paylaşımı ve grafikler"
+
+msgid "%1 preferences"
+msgstr "%1 tercihleri"
+
+msgid "Community"
+msgstr "Topluluk"
+
+msgid "Delete"
+msgstr "Sil"
+
+msgid "Create"
+msgstr "Oluştur"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "%1 posts"
+msgstr "% gönderim"
+
+msgid "Notifications"
+msgstr " Uyarılar"
+
+msgid "Quit team"
+msgstr "Takımdan ayrıl"
+
+msgid "Administer"
+msgstr "Yönetim"
+
+msgid "(foundership change request pending)"
+msgstr "(kurucu değişim isteği beklemede)"
+
+msgid "Member of team"
+msgstr "Takım üyeliği"
+
+msgid "Team"
+msgstr "Takım"
+
+msgid "find a team"
+msgstr "bir takım bul"
+
+msgid "Founder but not member of"
+msgstr "Kurucusu fakat üyesi değil"
+
+msgid "Find friends"
+msgstr "Arkadaş bul"
+
+msgid "Friends"
+msgstr "Arkadaşlar"
+
+msgid "Computers"
+msgstr "Bilgisayarlar"
+
+msgid "hidden"
+msgstr "gizli"
+
+msgid "Donor"
+msgstr "Bağışçı"
+
+msgid "Contact"
+msgstr "İrtibat"
+
+msgid "This person is a friend"
+msgstr "Bu kişi arkadaşınız"
+
+msgid "Cancel friendship"
+msgstr "Arkadaşlığı bitir"
+
+msgid "Request pending"
+msgstr "İstek beklemede"
+
+msgid "Add as friend"
+msgstr "Arkadaş olarak ekle"
+
+msgid "CHARSET"
+msgstr "CHARSET"
+
+msgid "Use BBCode tags to format your text"
+msgstr "Yazınızı biçimlendirmek için BBCode etiketleri kullanın"
+
+msgid "Identifies you on our web site. Use your real name or a nickname."
+msgstr "Sizi sitemizde tanıtır. Gerçek adınızı ya da takma adınızı kullanın."
+
+msgid "Select the country you want to represent, if any."
+msgstr "Temsil ettiğiniz ülkeyi seçin, eğer mevcutsa."
+
+msgid "Postal or ZIP Code"
+msgstr "Posta ya da ZIP Kodu"
+
+msgid "Optional"
+msgstr "İsteğe bağlı"
+
+msgid "Applications"
+msgstr "Uygulamalar"
+
+msgid "%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything."
+msgstr "%1 şu anda aşağıdaki uygulamalara sahip. %1 projesine katıldığınızda, bu bir ya da daha fazla uygulamaya ait işler bilgisayarınıza gönderilecek. İşleri hesaplamak için gerekli uygulamanın son sürümü de bilgisayarınıza indirilecek. Bu otomatik olarak gerçekleşecek, herhangi bir şey yapmanız gerekmeyecek."
+
+msgid "Platform"
+msgstr "Platform"
+
+msgid "Version"
+msgstr "Sürüm"
+
+msgid "Installation time"
+msgstr "Yayınlanma tarihi"
+
+msgid "You must supply an invitation code to create an account."
+msgstr "Bir hesap oluşturmak için bir davet kodu temin etmelisiniz."
+
+msgid "The invitation code you gave is not valid."
+msgstr "Sahip olduğunuz davet kodu geçersiz."
+
+msgid "Create an account"
+msgstr "Bir hesap oluştur"
+
+msgid "Account creation is disabled"
+msgstr "Hesap oluşturma etkisizleştirildi"
+
+msgid "Account creation is currently disabled. Please try again later."
+msgstr "Şu anda yeni hesap oluşturma seçeneği mevcut değil. Lütfen daha sonra tekrar deneyin."
+
+msgid "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this form. Just run BOINC, select Attach Project, and enter an email address and password."
+msgstr "NOT: Eğer BOINC'in 5.2+ sürümünü BOINC Manager ile kullanıyorsanız, bu formu kullanmayın. Yalnızca BOINC'i çalıştırın, Projeye katıl'ı seçin ve bir e-posta adresi ile parola girin."
+
+msgid "This account will belong to the team %1 and will have the project preferences of its founder."
+msgstr "Bu hesap %1 takımının üyesi olacak ve takım kurucusunun proje tercihlerine sahip olacak."
+
+msgid "Invitation Code"
+msgstr "Davet Kodu"
+
+msgid "A valid invitation code is required to create an account."
+msgstr "Bir hesap oluşturmak için geçerli bir davet kodu gerekiyor."
+
+msgid "Email Address"
+msgstr "E-posta Adresi"
+
+msgid "Must be a valid address of the form 'name@domain'."
+msgstr "'isim@site' biçiminde geçerli bir adres olmalı"
+
+msgid "Password"
+msgstr "Parola"
+
+msgid "Must be at least %1 characters"
+msgstr "En az %1 karakter olmalı"
+
+msgid "Confirm password"
+msgstr "Parolayı doğrula"
+
+msgid "Create account"
+msgstr "Hesap oluştur"
+
+msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
+msgstr "HATA: %1 mevcut değil!  Giriş kutusu oluşturulamıyor.<br>"
+
+msgid "Picture"
+msgstr "Resim"
+
+msgid "%1 Your profile picture is shown to the left."
+msgstr "%1 Profil fotoğrafınız solda gösterilecek."
+
+msgid "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 or less)."
+msgstr "Yenisiyle değiştirmek için, \"Gözat\" butonuna tıklayın ve bir JPEG veya PNG dosyası seçin (%1 ya da daha küçük)."
+
+msgid "To remove it from your profile, check this box:"
+msgstr "Profilinizden kaldırmak için, bu kutucuğu işaretleyin:"
+
+msgid "If you would like include a picture with your profile, click the \"Browse\" button and select a JPEG or PNG file. Please select images of %1 or less."
+msgstr "Eğer profilinizin bir resim içermesini istiyorsanız, \"Gözat\" butonuna tıklayın ve bir JPEG veya PNG dosyası seçin. Lütfen %1 ya da daha küçük resim dosyalarını seçin."
+
+msgid "Language"
+msgstr "Dil"
+
+msgid "Select the language in which your profile is written:"
+msgstr "Lütfen profilinizi yazdığınız dili seçin:"
+
+msgid "Submit profile"
+msgstr "Profili gönder"
+
+msgid "To protect the project's webpages from spam, we kindly ask you to type in the two words shown in the image:<br>\n"
+msgstr "Projenin sitesini saldırılardan korumak için, resimde görülen iki kelimeyi girmenizi istemek durumundayız:<br>\n"
+
+msgid "Create/edit profile"
+msgstr "Profil oluştur/düzenle"
+
+msgid "The format of your uploaded image is not supported."
+msgstr "Gönderdiğiniz resim formatı desteklenmiyor."
+
+msgid "Your %1profile%2 lets you share your opinions and background with the %3 community."
+msgstr "%1Profiliniz%2 fikirlerinizi ve özgeçmişinizi %3 topluluğuyla paylaşmanızı sağlar."
+
+msgid "Your ReCaptcha response was not correct.  Please try again."
+msgstr "ReCaptcha yanıtınız doğru değil.  Lütfen tekrar deneyin."
+
+msgid "Your first response was flagged as spam by the Akismet anti-spam system.  Please modify your text and try again."
+msgstr "İlk yanıtınız Akismet anti-spam sistemi tarafından bir saldırı olarak algılandı.  Lütfen yazdığınızı değiştirip tekrar deneyin."
+
+msgid "Your second response was flagged as spam by the Akismet anti-spam system.  Please modify your text and try again."
+msgstr "İkinci yanıtınız Akismet anti-spam sistemi tarafından bir saldırı olarak algılandı.  Lütfen yazdığınızı değiştirip tekrar deneyin."
+
+msgid "Your profile submission was empty."
+msgstr "Gönderdiğiniz profil boş."
+
+msgid "Could not update the profile: database error"
+msgstr "Profil güncellenemedi: veritabanı hatası"
+
+msgid "Could not create the profile: database error"
+msgstr "Profil oluşturulamadı: veritabanı hatası"
+
+msgid "Profile saved"
+msgstr "Profil kaydedildi"
+
+msgid "Congratulations! Your profile was successfully entered into our database."
+msgstr "Tebrikler! Profiliniz başarıyla veritabanımıza kaydedildi."
+
+msgid "%1View your profile%2"
+msgstr "%1Profilinizi görün%2"
+
+msgid "Create a profile"
+msgstr "Bir profil oluştur"
+
+msgid "To prevent spam, an average credit of %1 or greater is required to create or edit a profile.  We apologize for this inconvenience."
+msgstr "Sitemize saldırıların önüne geçmek amacıyla, profil oluşturmak ve değiştirmek için ortalama kredinin %1 ya da fazlası olması gerekir.  Verdiğimiz rahatsızlık nedeniyle özür dileriz."
+
+msgid "Download BOINC add-on software"
+msgstr "BOINC eklenti programlarını indir"
+
+msgid "You can download applications in several categories."
+msgstr "Çeşitli kategorilerdeki bu uygulamaları indirebilirsiniz."
+
+msgid "These applications are not endorsed by %1 and you use them at your own risk."
+msgstr "Bu uygulamalar % tarafından onaylanmamıştır ve kullanmak sizin alacağınız bir risktir."
+
+msgid ""
+"We do not provide instructions for installing these applications.\n"
+"However, the author may have provided some help on installing or uninstalling the application. \n"
+"If this is not enough you should contact the author."
+msgstr ""
+"Bu uygulamaların kurulum yönergelerini sağlamıyoruz.\n"
+"Bununla birlikte, yazarı kurulumu ve kaldırılmasıyla ilgili yardım sağlıyor olabilir. \n"
+"Eğer bu sizin için yeterli değilse, yazarıyla irtibata geçmelisiniz. "
+
+msgid "Instructions for installing and running BOINC are %1here%2."
+msgstr "BOINC'in kurulumu ve çalıştırmasıyla ilgili talimatlar %1buradadır%2."
+
+msgid "This list is managed centrally at %1the BOINC website%2."
+msgstr "Bu liste %1BOINC internet sitesinden%2 merkezi olarak yönetilir."
+
+msgid "fll"
+msgstr "fll"
+
+msgid "Title"
+msgstr "Başlık"
+
+msgid "Add my signature to this post"
+msgstr "İmzamı bu iletiye ekle"
+
+msgid "%1 Message boards"
+msgstr "%1 Mesaj panoları"
+
+msgid "If you have a question or problem, please use the %1Questions & Answers%2 section of the message boards."
+msgstr "Bir soru ya da probleminiz varsa, lütfen mesaj panolarındaki %1Soru ve Yanıtlar%2 bölümünü kullanın."
+
+msgid "Topic"
+msgstr "Konusu"
+
+msgid "Create a new thread"
+msgstr "Yeni konu oluştur"
+
+msgid "Post to thread"
+msgstr "Konuya gönder"
+
+msgid "Forum search"
+msgstr "Forum ara"
+
+msgid "Forum search results"
+msgstr "Forum arama sonuçları"
+
+msgid "No thread with id %1. Please check the link and try again."
+msgstr "%1 ID'siyle bir konu mevcut değil. Lütfen bağlantıyı kontrol edip tekrar deneyin."
+
+msgid "This forum is not visible to you."
+msgstr "Bu forum sizin tarafınızdan görülebilir değil."
+
+msgid "This thread has been hidden for administrative purposes"
+msgstr "Bu konu yönetimsel amaçlar nedeniyle gizlendi"
+
+msgid "My question was answered"
+msgstr "Sorum yanıtlandı"
+
+msgid "If your question has been adequately answered please click here to close it!"
+msgstr "Eğer sorunuz yeterli şekilde yanıtlandıysa, kapatmak için lütfen buraya tıklayın!"
+
+msgid "I've also got this question"
+msgstr "Ben de aynısını soruyorum"
+
+msgid "Add a new message to this thread"
+msgstr "Bu konuya yeni bir mesaj ekle"
+
+msgid "Unsubscribe"
+msgstr "Aboneliği bitir"
+
+msgid "You are subscribed to this thread.  Click here to unsubscribe."
+msgstr "Bu konuya abonesiniz.  Aboneliği bitirmek için tıklayın."
+
+msgid "Subscribe"
+msgstr "Abone ol"
+
+msgid "Click to get email when there are new posts in this thread"
+msgstr "Bu konuya yeni mesajlar yazıldığında e-posta almak için tıklayın"
+
+msgid "Unhide"
+msgstr "Gizliliği kaldır"
+
+msgid "Unhide this thread"
+msgstr "Bu konunun gizliliğini kaldırır"
+
+msgid "Hide"
+msgstr "Gizle"
+
+msgid "Hide this thread"
+msgstr "Bu konuyu gizler"
+
+msgid "Make unsticky"
+msgstr "Üst konudan kaldır"
+
+msgid "Make this thread not sticky"
+msgstr "Bu konunun üst konu durumunu kaldır"
+
+msgid "Make sticky"
+msgstr "Üst konu yap"
+
+msgid "Make this thread sticky"
+msgstr "Bu konuyu üst konu yapar"
+
+msgid "Unlock"
+msgstr "Kilidi kaldır"
+
+msgid "Unlock this thread"
+msgstr "Bu konunun kilidini kaldırır"
+
+msgid "Lock"
+msgstr "Kilitle"
+
+msgid "Lock this thread"
+msgstr "Bi konuyu kilitler"
+
+msgid "Move"
+msgstr "Taşı"
+
+msgid "Move this thread to a different forum"
+msgstr "Bu konuyu başka bir foruma taşır"
+
+msgid "Edit title"
+msgstr "Başlığı düzenle"
+
+msgid "Edit thread title"
+msgstr "Konu başlığını düzenler"
+
+msgid "Sort"
+msgstr "Sırala"
+
+msgid "Already friends"
+msgstr "Zaten arkadaş"
+
+msgid "You requested friendship with %1 on %2."
+msgstr "%1 ile %2 üzerinde arkadaşlık isteği aldınız."
+
+msgid "This request is still pending confirmation."
+msgstr "Bu istek halen onaylanmayı bekliyor."
+
+msgid "%1 is not accepting friendship requests from you"
+msgstr "%1 gönderdiğiniz arkadaşlık isteğini onaylamadı"
+
+msgid "You can't be friends with yourself"
+msgstr "Kendinizle arkadaş olamazsınız"
+
+msgid "No such user"
+msgstr "Böyle bir kullanıcı yok"
+
+msgid "Add friend"
+msgstr "Arkadaş ekle"
+
+msgid "You have asked to add %1 as a friend. We will notify %2 and will ask him/her to confirm that you are friends."
+msgstr "%1 kullanıcısını arkadaş olarak eklemek istediniz. %2 kullanıcısını uyaracağız ve arkadaşlığınızı onaylamasını isteyeceğiz."
+
+msgid "Add an optional message here:"
+msgstr "İstiyorsanız buraya bir mesaj ekleyin:"
+
+msgid "Database error"
+msgstr "Veritabanı hatası"
+
+msgid "Friend request sent"
+msgstr "Arkadaşlık isteği gönderildi"
+
+msgid "We have notified %1 of your request."
+msgstr "%1 kullanıcısını isteğiniz konusunda uyardık."
+
+msgid "Request not found"
+msgstr "İstek bulunamadı"
+
+msgid "Friend request"
+msgstr "Arkadaşlık isteği"
+
+msgid "%1 has added you as a friend."
+msgstr "%1 sizi arkadaş olarak ekledi."
+
+msgid "%1 says: %2"
+msgstr "%1 diyor ki: %2"
+
+msgid "Accept friendship"
+msgstr "Arkadaşlığı onayla"
+
+msgid "Click accept if %1 is in fact a friend"
+msgstr "%1 gerçekten arkadaşınızsa onaylamayı tıklayın"
+
+msgid "Decline"
+msgstr "Reddet"
+
+msgid "Click decline if %1 is not a friend"
+msgstr "%1 gerçekten arkadaşınız değilse reddetmeyi tıklayın"
+
+msgid "No request"
+msgstr "İstek yok"
+
+msgid "Friendship confirmed"
+msgstr "Arkadaşlık onaylandı"
+
+msgid "Your friendship with %1 has been confirmed."
+msgstr "%1 ile arkadaşlığınız onaylandı."
+
+msgid "Friendship declined"
+msgstr "Arkadaşlık reddedildi"
+
+msgid "You have declined friendship with %1"
+msgstr "%1 ile arkadaşlığınız reddedildi"
+
+msgid "Notification not found"
+msgstr "Uyarı bulunamadı"
+
+msgid "Friend confirmed"
+msgstr "Arkadaş onayladı"
+
+msgid "You are now friends with %1."
+msgstr "%1 ile artık arkadaşsınız."
+
+msgid "Cancel friendship?"
+msgstr "Arkadaşlığı bitir?"
+
+msgid "Are you sure you want to cancel your friendship with %1?"
+msgstr "%1 ile arkadaşlığınızı bitirmek istediğinize emin misiniz?"
+
+msgid "Yes"
+msgstr "Evet"
+
+msgid "No"
+msgstr "Hayır"
+
+msgid "Stay friends"
+msgstr "Arkadaş kal"
+
+msgid "Friendship cancelled"
+msgstr "Arkadaşlık bitirildi"
+
+msgid "Your friendship with %1 has been cancelled."
+msgstr "%1 ile arkadaşlığınız bitti."
+
+msgid "Unknown action"
+msgstr "Bilinmeyen eylem"
+
+msgid "Welcome to %1"
+msgstr "%1 projesine hoş geldiniz"
+
+msgid "View and edit your account preferences using the links below."
+msgstr "Hesap tercihlerinizi aşağıdaki bağlantılardan görüp değiştirebilirsiniz."
+
+msgid "Your account"
+msgstr "Hesabınız"
+
+msgid "Read our rules and policies"
+msgstr "Kurallarımızı ve politikamızı okuyun"
+
+msgid "Run %1 only on authorized computers"
+msgstr "% projesini yalnızca yetkili bilgisayarlarda çalıştırın"
+
+msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
+msgstr "%1 projesini yalnızca kendi bilgisayarınızda ya da sahibinin izin verdiği bilgisayarlarda çalıştırın. Bazı okul ya da şirketlerin, bilgisayarlarının %1 gibi projeler için kullanılmaması konusunda politikaları bulunabilir."
+
+msgid "How %1 will use your computer"
+msgstr "%1 bilgisayarınızı nasıl kullanacak"
+
+msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
+msgstr "Bilgisayarınızda %1 çalıştırdığınızda, CPU (işlemci) gücü, disk alanı ve ağ bant genişliğinin bir kısmını kullanacak. % projesinin bu kaynakları ne zaman ve ne kadar kullanacağını belirleyebilirsiniz."
+
+msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
+msgstr "Bilgisayarınız, işi %1 projesinin hedefleri doğrultusunda ve proje sitesinde tanımlandığı şekilde tamamladı. Uygulama programları zaman zaman değişebilir."
+
+msgid "Privacy policy"
+msgstr "Gizlilik politikası"
+
+msgid "Your account on %1 is identified by a name that you choose. This name may be shown on the %1 web site, along with a summary of the work your computer has done for %1. If you want to be anonymous, choose a name that doesn't reveal your identity."
+msgstr "%1 üzerindeki hesabınız, seçeceğiniz bir isimle birlikte tanınır. Bu isim, bilgisayarınızın %1 için tamamladığı işlerin özetiyle birlikte, %1 sitesinde gösterilebilir. Eğer anonim kalmak istiyorsanız, gerçek kimliğinizi ortaya çıkarmayan bir isim seçin."
+
+msgid "If you participate in %1, information about your computer (such as its processor type, amount of memory, etc.) will be recorded by %1 and used to decide what type of work to assign to your computer. This information will also be shown on %1's web site. Nothing that reveals your computer's location (e.g. its domain name or network address) will be shown."
+msgstr "Eğer %1 projesine katılırsanız, bilgisayarınız hakkında bilgi (örneğin işlemci tipi, bellek miktarı vb.) %1 tarafından kaydedilecek ve bilgisayarınıza ne tip iş gönderileceğinin belirlenmesinde kullanılacak. Bu bilgi %1 internet sitesinde de gösterilecek. Bilgisayarınızın konumuyla ilgili herhangi bir bilgi (örneğin etki alanı adı ya da ağ adresi) gösterilmeyecek."
+
+msgid "To participate in %1, you must give an address where you receive email. This address will not be shown on the %1 web site or shared with organizations. %1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr "%1 projesine katılmak için, e-postaları alacağınız bir adres vermelisiniz. Bu adres %1 internet sitesinde gösterilmeyecek ya da başka organizasyonlarla paylaşılmayacak. %1 size düzenli olarak bilgilendirme e-postaları gönderebilecek, bununla birlikte, gönderilmemesini de sağlayabilirsiniz."
+
+msgid "Private messages sent on the %1 web site are visible only to the sender and recipient.  %1 does not examine or police the content of private messages.  If you receive unwanted private messages from another %1 user, you may add them to your %2message filter%3.  This will prevent you from seeing any public or private messages from that user."
+msgstr "%1 internet sitesinden gönderilen özel mesajları, yalnızca gönderen ve alan görebilir.  %1 özel mesajların içeriğini gözlemlemez ya da kontrol altında tutmaz.  Eğer başka bir %1 kullanıcısından istemediğiniz özel mesajlar alıyorsanız, onu %2mesaj filtrenize%3 ekleyebilirsiniz.  Böylece, bu kişiden gelen özel ya da herkese açık hiç bir mesajı görmezsiniz."
+
+msgid "If you use our web site forums you must follow the %2posting guidelines%3.  Messages posted to the %1 forums are visible to everyone, including non-members.  By posting to the forums, you are granting irrevocable license for anyone to view and copy your posts."
+msgstr "Eğer internet sitesi forumlarımızı kullanıyorsanız, %2gönderim ilkelerine%3 uymak zorundasınız.  %1 forumlarına gönderilen mesajlar herkes tarafından görülebilir, buna üye olmayanlar da dahildir.  Forumlara mesaj göndermekle, mesajların herhangi biri tarafından görülmesi ve kopyalanmasını kabul etmiş ve içeriği üzerindeki haklarınızdan vazgeçmiş oluyorsunuz."
+
+msgid "Is it safe to run %1?"
+msgstr "%1 çalıştırmak güvenli midir?"
+
+msgid "Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked. %1 has made efforts to minimize these risks. We have tested our applications carefully. Our servers are behind a firewall and are configured for high security. To ensure the integrity of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet."
+msgstr "İnternetten herhangi bir zamanda bir program indirdiğinizde, bazı olasılıkları göze almaktasınız: programın tehlikeli hataları bulunabilir ya da indirme sunucusu hack'lenmiş olabilir. %1 bu riskleri en aza indirmeye gayret etmekte. Uygulamalarımızı dikkalice test etmekteyiz. Sunucularımız bir güvenlik duvarı arkasında bulunuyor ve yüksek güvenlik için yapılandırılıyor. İndirilen programların doğruluğunu sağlamak için, tüm çalıştırılabilir dosyalar internete bağlı olmayan güvenli bir bilgisayarda dijital olarak imzalanıyor."
+
+msgid "The applications run by %1 may cause some computers to overheat. If this happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
+msgstr "%1 tarafından çalıştırılan uygulamalar, bazı bilgisayarların fazla ısınmasına neden olabilir. Bu gerçekleşirse, %1 kullanmayı durdurun ya da CPU (işlemci) kullanımını sınırlayan bir %2yardımcı program%3 kullanın."
+
+msgid "%1 was developed by %2. BOINC was developed at the University of California."
+msgstr "%1, %2 tarafından geliştirildi. BOINC, Kaliforniya Üniversitesinde geliştirildi."
+
+msgid "Liability"
+msgstr "Sorumluluk"
+
+msgid "%1 and %2 assume no liability for damage to your computer, loss of data, or any other event or condition that may occur as a result of participating in %1."
+msgstr "%1 ve %2, %1 projesine katılmakla bilgisayarınızda oluşabilecek bir hasarı, veri kaybını ya da oluşabilecek başka olayların sonuçlarını üstlenmez."
+
+msgid "Other BOINC projects"
+msgstr "Diğer BOINC projeleri"
+
+msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
+msgstr "Diğer projeler, %1 ile aynı platformu kullanır, yani BOINC'i. Bunlar gibi bir ya da daha fazla projeye katılmayı düşünebilirsiniz. Bunu yaptığınızda, bilgisayarınız %1 için bir iş bulunmadığı zamanlarda da faydalı olabilir."
+
+msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
+msgstr "Bu diğer projeler, %1 ile birleşmiş değildir ve onların güvenlik yöntemlerine ya da araştırmalarının doğasına kefil olmayız. Bunlara, kendi risklerinizi göz önüne alarak katılın."
+
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr "LANG_NAME_INTERNATIONAL"
+
+msgid "LANG_NAME_NATIVE"
+msgstr "LANG_NAME_NATIVE"
+
+msgid "Your message has been sent."
+msgstr "Mesajınız gönderildi."
+
+msgid "You have no private messages."
+msgstr "Özel mesajınız bulunmuyor."
+
+msgid "Sender and date"
+msgstr "Gönderen ve tarih"
+
+msgid "Reply"
+msgstr "Yanıtla"
+
+msgid "Delete selected messages"
+msgstr "Seçili mesajları sil"
+
+msgid "Sender"
+msgstr "Gönderen"
+
+msgid "Date"
+msgstr "Tarih"
+
+msgid "You need to fill all fields to send a private message"
+msgstr "Özel mesaj göndermek için tüm alanları doldurmalısınız"
+
+msgid "Could not find user with id %1"
+msgstr "%1 ID'siyle bir kullanıcı bulunamadı"
+
+msgid "Could not find user with username %1"
+msgstr "%1 adında bir kullanıcı bulunamadı."
+
+msgid "%1 is not a unique username; you will have to use user ID"
+msgstr "%1 benzersiz bir kullanıcı adı değil; kullanıcının ID numarasını kullanmalısınız"
+
+msgid "User %1 (ID: %2) is not accepting private messages from you."
+msgstr "%1 kullanıcısı (ID: %2) sizden gelen özel mesajları kabul etmiyor."
+
+msgid "Really block %1?"
+msgstr "%1 gerçekten engellensin mi?"
+
+msgid "Are you really sure you want to block user %1 from sending you private messages?"
+msgstr "%1 kullanıcısının size özel mesaj göndermesini engellemek istediğinize emin misiniz?"
+
+msgid "Please note that you can only block a limited amount of users."
+msgstr "Unutmayın ki, yalnızca sınırlı sayıda kullanıcıyı engelleyebilirsiniz."
+
+msgid "Once the user has been blocked you can unblock it using forum preferences page."
+msgstr "Bir kullanıcı engellendiğinizde, engelini forum tercihleri sayfasından kaldırabilirsiniz."
+
+msgid "Add user to filter"
+msgstr "Kullanıcıyı filtreye ekle"
+
+msgid "No, cancel"
+msgstr "Hayır, iptal"
+
+msgid "User %1 blocked"
+msgstr "%1 kullancısı engellendi"
+
+msgid "User %1 has been blocked from sending you private messages."
+msgstr "%1 kullanıcısının size özel mesaj göndermesi engellendi."
+
+msgid "To unblock, visit %1message board preferences%2"
+msgstr "Engellemeyi kaldırmak için, %1forum tercihlerini%2 ziyaret edin"
+
+msgid "Profiles"
+msgstr "Profiller"
+
+msgid "%1Profiles%2 let individuals share backgrounds and opinions with the %3 community."
+msgstr "%1Profilller%2, fikirlerinizi ve özgeçmişinizi %3 topluluğuyla paylaşmanızı sağlar."
+
+msgid "Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy."
+msgstr "Sizin gibi düşünen gönüllüleri arayın ve görüşlerinizle diğerlerine katkıda bulunun."
+
+msgid "If you haven't already, you can %1create your own user profile%2 for others to see!"
+msgstr "Sahip değilseniz, diğerlerinin görmesi için %1kendi kullanıcı profilinizi oluşturabilirsiniz%2."
+
+msgid "User of the Day"
+msgstr "Günün Kullanıcısı"
+
+msgid "User Profile Explorer"
+msgstr "Kullancı Profili Gezgini"
+
+msgid "View the %1User Picture Gallery%2."
+msgstr "%1Kullancı Resim Galerisi%2ne bak."
+
+msgid "Browse profiles %1by country%2."
+msgstr "Profillere %1ülkelerine göre%2 gözat."
+
+msgid "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random without pictures%2."
+msgstr "Profillere %1rasgele%2, %3resimlerle rasgele%2 ya da %4resimler olmadan rasgele%2 gözat."
+
+msgid "Alphabetical profile listings:"
+msgstr "Alfabetik profil listesi:"
+
+msgid "Search profile text"
+msgstr "Profil yazısında ara"
+
+msgid "No profiles"
+msgstr "Profil yok"
+
+msgid "No profiles matched your query."
+msgstr "Aramanızla eşleşen profil yok."
+
+msgid "Invalid vote type:"
+msgstr "Geçersiz oy tipi:"
+
+msgid "Vote Recorded"
+msgstr "Oy Kaydedildi"
+
+msgid "Thank you"
+msgstr "Teşekkürler"
+
+msgid "Your recommendation has been recorded."
+msgstr "Öneriniz kaydedildi."
+
+msgid "Your vote to reject this profile has been recorded."
+msgstr "Bu profilin çıkarılması konusundaki oyunuz kaydedildi."
+
+msgid "Return to profile."
+msgstr "Profile dön."
+
+msgid "This feature is turned off temporarily"
+msgstr "Bu özellik geçici olarak kapatıldı"
+
+msgid "No computer with ID %1 found"
+msgstr "%1 ID'siyle bilgisayar bulunamadı"
+
+msgid "Tasks for computer %1"
+msgstr "%1 bilgisayarı için işler"
+
+msgid "No access"
+msgstr "Erişim yok"
+
+msgid "Missing user ID or host ID"
+msgstr "Eksik kullanıcı ID'si ya da sunucu ID'si"
+
+msgid "User of the day"
+msgstr "Günün kullanıcısı"
+
+msgid "Account data for %1"
+msgstr "%1 için hesap bilgisi"
+
+msgid "Statistics and leaderboards"
+msgstr "İstatistikler ve en iyiler listeleri"
+
+msgid "Statistics for %1"
+msgstr "%1 için istatistikler"
+
+msgid "Top participants"
+msgstr "En iyi katılımcılar"
+
+msgid "Top computers"
+msgstr "En iyi bilgisayarlar"
+
+msgid "Top teams"
+msgstr "En iyi takımlar"
+
+msgid "More detailed statistics for %1 and other BOINC-based projects are available at several web sites:"
+msgstr "%1 ve çeşitli BOINC-tabanlı projeler için daha detaylı istatistikler, çeşitli internet sitelerinde mevcuttur:"
+
+msgid "You can also get your current statistics in the form of a \"signature image\":"
+msgstr "Güncel istatistiklerinizi, bir \"imza resmi\" biçiminde de görebilirsiniz:"
+
+msgid "Additionally you can get your individual statistics summed across all BOINC projects from several sites; see your %1home page%2."
+msgstr "Ek olarak, tüm BOINC projelerindeki kişisel istatistiklerinizin özetini de çeşitli sitelerden alabilirsiniz; %1ana sayfanıza%2 bakın."
+
+msgid "%1 participants may form %2teams%3"
+msgstr "%1 katılımcıları %2takımlara%3 katılabilir"
+
+msgid "You may belong to only one team. You can join or quit a team at any time."
+msgstr "Aynı anda yalnızca bir takımın üyesi olabilirsiniz. Bir takıma istediğiniz zaman katılıp ayrılabilirsiniz."
+
+msgid "Each team has a %1founder%2 who may:"
+msgstr "Her takım şunları yapabilen bir %1kurucuya%2 sahiptir:"
+
+msgid "access team members' email addresses"
+msgstr "Takım üyelerinin e-posta adreslerini görme"
+
+msgid "edit the team's name and description"
+msgstr "Takımın ismini ve tanıtımını düzenleme"
+
+msgid "remove members from the team"
+msgstr "Takımdan bir üyeyi çıkarma"
+
+msgid "disband a team if it has no members"
+msgstr "Üyesi yoksa bir takımı kaldırma"
+
+msgid "To join a team, visit its team page and click %1Join this team%2."
+msgstr "Bir takıma girmek için, takımın sayfasını ziyaret edin ve %1Bu takıma katıl%2a tıklayın."
+
+msgid "Find a team"
+msgstr "Bir takım bul"
+
+msgid "All teams"
+msgstr "Tüm takımlar"
+
+msgid "%1 teams"
+msgstr "%1 takımlar"
+
+msgid "Create a new team"
+msgstr "Yeni bir takım oluştur"
+
+msgid "If you cannot find a team that is right for you, you can %1create a team%2."
+msgstr "Size göre bir takım bulamadıysanız, %1bir takım oluşturabilirsiniz%2."
+
+msgid "You must choose a non-blank team name"
+msgstr "Boş olmayan bir takım adı seçmelisiniz."
+
+msgid "A team named %1 already exists - try another name"
+msgstr "%1 adında bir takım zaten mevcut - lütfen başka bir isim deneyin."
+
+msgid "Could not create team - please try later."
+msgstr "Takım oluşturulamadı - lütfen tekrar deneyin."
+
+msgid "Create a team"
+msgstr "Takım oluştur"
+
+msgid "You belong to %1. You must %2quit this team%3 before creating a new one."
+msgstr "%1 üyesisiniz. Yeni bir tane oluşturmadan önce %2bu takımdan ayrılmalısınız%3."
+
+msgid "Top hosts"
+msgstr "En iyi sunucular"
+
+msgid "Top %1 teams"
+msgstr "En iyi %1 takımlar"
+
+msgid "Participant since"
+msgstr "Katılım tarihi"
+
+msgid "This user has no profile"
+msgstr "Bu kullanıcının profili yok"
+
+msgid "Account data"
+msgstr "Hesap bilgisi"
+
+msgid "Your 'weak account key' lets you attach computers to your account on this project, without giving the ability to log in to your account or to change it in any way."
+msgstr "'Zayıf hesap anahtarınız',  bu projedeki hesabınıza bilgisayarlar eklemenizi sağlar, ancak, söz konusu bilgisayarlardan hesabınıza giriş yapılamaz ve hesabınız değiştirilemez."
+
+msgid "This mechanism works only with projects that have upgraded their server software 7 Dec 2007 or later."
+msgstr "Bu mekanizma, sunucu yazılımlarını 7 Aralık 2007 ya da daha sonraki tarihli sürüme yükseltmiş projelerde çalışır."
+
+msgid "Your weak account key for this project is:"
+msgstr "Bu proje için zayıf hesap anahtarınız:"
+
+msgid "To use your weak account key on a given host, find or create the 'account file' for this project. This file has a name of the form <b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgstr "Bir bilgisayarda zayıf hesap anahtarınızı kullanmak için, bu proje için 'hesap dosyası'nı bulun ya da oluşturun. Söz konusu dosya, <b>account_PROJE_URL'si.xml</b> biçiminde bir isme sahiptir. %1 için hesap dosyası <b>%2</b> biçimindedir."
+
+msgid "Create this file if needed. Set its contents to:"
+msgstr "Gerekiyorsa bu dosyayı oluşturun. İçeriğini şu şekilde yapın:"
+
+msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
+msgstr "Zayf hesap anahtarınız, parolanıza bağlı bir işlevdir. Parolanızı değiştirirseniz, zayıf hesap anahtarınız da değişir ve önceki zayıf hesap anahtarınız geçersiz hale gelir."
+

@@ -519,8 +519,9 @@ int handle_wu(
     if (wu_item.canonical_resultid) {
         wu_item.transition_time = INT_MAX;
     } else {
-        // If there is no canonical result, make sure that the transitioner will 'see'
-        // this WU again.  In principle this is NOT needed, but it is one way to make
+        // If there is no canonical result,
+        // make sure that the transitioner will 'see' this WU again.
+        // In principle this is NOT needed, but it is one way to make
         // the BOINC back-end more robust.
         //
         const int ten_days = 10*86400;
