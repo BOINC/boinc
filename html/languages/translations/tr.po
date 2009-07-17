@@ -933,10 +933,10 @@ msgid "These other projects are not associated with %1, and we cannot vouch for 
 msgstr "Bu diğer projeler, %1 ile birleşmiş değildir ve onların güvenlik yöntemlerine ya da araştırmalarının doğasına kefil olmayız. Bunlara, kendi risklerinizi göz önüne alarak katılın."
 
 msgid "LANG_NAME_INTERNATIONAL"
-msgstr "LANG_NAME_INTERNATIONAL"
+msgstr "Turkish"
 
 msgid "LANG_NAME_NATIVE"
-msgstr "LANG_NAME_NATIVE"
+msgstr "Turkish"
 
 msgid "Your message has been sent."
 msgstr "Mesajınız gönderildi."
