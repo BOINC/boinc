@@ -805,13 +805,13 @@ AC_CONFIG_FILES([
                  clientgui/res/Makefile
                  client/Makefile
                  client/win/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
-		 client/scripts/Makefile
-		 client/scripts/boinc-client
+                 client/scripts/Makefile
+                 client/scripts/boinc-client
                  db/Makefile
                  doc/Makefile
                  doc/manpages/Makefile
                  lib/Makefile
-		 locale/Makefile
+                 locale/Makefile
                  Makefile
                  py/Boinc/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  py/Boinc/Makefile
@@ -826,9 +826,6 @@ AC_CONFIG_FILES([
                  test/version.inc
                  tools/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  tools/Makefile
-                 zip/Makefile
-                 zip/zip/Makefile
-                 zip/unzip/Makefile
                  m4/Makefile
                  ])
 
