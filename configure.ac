@@ -2,56 +2,180 @@ dnl -*- autoconf -*-
 
 dnl $Id$
 
-dnl NOTE: on milkyway.ssl and jill.ssl , need autoconf/automake et al from quarls
-dnl directory; the _autosetup script does this.
-
 dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.57)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 6.2.28)
+AC_INIT(BOINC, 6.6.37)
+LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
+AC_SUBST([LIBBOINC_VERSION])
 
-AC_ARG_ENABLE(debug, 
-    AS_HELP_STRING([--enable-debug],
-                   [enable tracing and debugging flags for all components]),
-    [enable_debug="$enableval"],
-    [])
+AC_CANONICAL_TARGET
 
-AC_ARG_ENABLE(unicode, 
-    AS_HELP_STRING([--enable-unicode],
-                   [enable building the manager with unicode support]),
-    [enable_unicode="$enableval"],
-    [])
+dnl generate .tar.gz, .tar.bz2, .zip
+dnl AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
+AM_INIT_AUTOMAKE(dist-zip)
+
+AC_CONFIG_SRCDIR(lib/shmem.cpp)
+
+AC_REVISION([$Revision$]) 
+REV=`echo '$Revision$' | awk "{print $2}"`
+RDATE=`date '+%Y.%m.%d'`
+if test -d .svn ; then
+  REV=`svn info | grep Revision | awk '{print $2}'`
+  RDATE=`svn info | grep "Last Changed Date:" | awk '{print $4}' | sed 's/-/./g'`
+fi
+AC_SUBST(REV)
+AC_SUBST(RDATE)
+
+dnl turn dependency tracking on by default
+if test x${enable_dependency_tracking} != xno ; then
+  enable_dependency_tracking=yes
+fi
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_CPP
+AC_PROG_MAKE_SET
+SAH_LINKS
+AM_PROG_CC_C_O
+
+m4_divert_once([HELP_ENABLE],
+  AS_HELP_STRING([BOINC Default enable values], [--enable-server --enable-client --enable-libraries --enable-manager: builds server, client, and libraries]))
+
+AC_ARG_ENABLE(dynamic-client-linkage, 
+    AS_HELP_STRING([--enable-dynamic-client-linkage],
+                   [dynamically link the client to the boinc libraries]),
+    [dynamic_client=${enableval}],
+    [dynamic_client=no])
 
 AC_ARG_ENABLE(server, 
     AS_HELP_STRING([--disable-server],
                    [disable building the scheduling server]),
-    [],
+    [enable_server=no],
     [enable_server=yes])
+
+AC_ARG_ENABLE(fcgi, 
+    AS_HELP_STRING([--disable-fcgi],
+                   [disable building fcgi libraries or server components]),
+    [enable_fcgi=no],
+    [enable_fcgi=yes])
 
 AC_ARG_ENABLE(client, 
     AS_HELP_STRING([--disable-client],
                    [disable building the client]),
-    [],
+    [enable_client=no],
     [enable_client=yes])
 
-m4_divert_once([HELP_ENABLE],
-  AS_HELP_STRING([], [Default: --enable-server --enable-client: 
-                      builds both server and client]))
+AC_ARG_ENABLE(manager, 
+    AS_HELP_STRING([--disable-manager],
+                   [disable building the boinc manager gui]),
+    [enable_manager=no],
+    [enable_manager=yes])
 
-if test "${enable_server}" = yes ; then
-    if test "${enable_client}" = yes ; then
-        configured_to_build='server & client'
-    else
-        configured_to_build='server only'
-    fi
-else
-    if test "${enable_client}" = yes ; then
-        configured_to_build='client only'
-    else
-        configured_to_build='libraries only'
-    fi
+AC_ARG_ENABLE(libraries, 
+    AS_HELP_STRING([--disable-libraries],
+                   [disable building the boinc client and server libraries]),
+    [enable_libraries=no],
+    [enable_libraries=yes])
+
+AC_ARG_ENABLE(install-headers, 
+    AS_HELP_STRING([--disable-install-headers],
+                   [if building libraries do not install the boinc library 
+                    header files]),
+    [enable_install_headers=no],
+    [enable_install_headers=yes])
+
+AC_ARG_ENABLE(pkg-libs, 
+    AS_HELP_STRING([--enable-pkg-libs],
+                   [Builds and installs components that would be present in a
+		   boinc-libs package.  This is a synonym for --disable-server
+		   --disable-client --enable-libraries --disable-static
+		   --disable-install-headers --disable-manager]),
+    [
+     enable_libraries=yes
+     enable_server=no
+     enable_client=no
+     enable_manager=no
+     enable_install_headers=no
+     enable_static=no
+    ],
+    [])
+
+AC_ARG_ENABLE(pkg-devel, 
+    AS_HELP_STRING([--enable-pkg-devel],
+                   [Builds and installs components that would be present in a
+		   boinc-devel package.  This is a synonym for --disable-server
+		   --disable-client --enable-libraries --enable-install-headers
+		   --disable-manger]),
+    [
+     enable_libraries=yes
+     enable_server=no
+     enable_client=no
+     enable_manager=no
+     enable_install_headers=yes
+    ],
+    [])
+
+AC_ARG_ENABLE(pkg-client, 
+    AS_HELP_STRING([--enable-pkg-client],
+                   [Builds and installs components that would be present in a
+		   boinc-client package. This is a synonym for --disable-server
+		   --enable-client --disable-libraries --disable-manager
+    ]),
+    [
+     enable_libraries=no
+     enable_server=no
+     enable_client=yes
+     enable_manager=no
+     enable_install_headers=no
+    ],
+    [])
+
+AC_ARG_ENABLE(pkg-manager, 
+    AS_HELP_STRING([--enable-pkg-manager],
+                   [Builds and installs components that would be present in a boinc-manager package. This is a synonym for --disable-server --disable-client --disable-libraries --enable-manager
+    ]),
+    [
+     enable_libraries=no
+     enable_server=no
+     enable_client=no
+     enable_manager=yes
+     enable_install_headers=no
+    ],
+    [])
+
+
+BOINC_SET_COMPILE_FLAGS
+
+configured_to_build=
+
+if test x$enable_client = xyes ; then
+  configured_to_build="client"
 fi
+if test x$enable_manager = xyes ; then
+  configured_to_build="${configured_to_build} manager"
+fi
+if test x$enable_libraries = xyes ; then
+  configured_to_build="${configured_to_build} libraries"
+fi
+if test x$enable_server = xyes ; then
+  configured_to_build="${configured_to_build} server"
+fi
+
+if test -z "${configured_to_build}" ; then
+        AC_MSG_ERROR([
+================================================================================
+ERROR: I have been told to build nothing.
+
+    Please remove one of the --disable commands from your
+    configure command line.
+
+================================================================================
+        ])
+fi
+
 
 dnl ======================================================================
 dnl some vodoo required for building portable client-binary (client, clientgui)
@@ -63,7 +187,33 @@ AC_ARG_ENABLE([client-release],
 	(On GNU/Linux you might need to use gcc-3.0 for this to produce a 
 	binary that works for glibc <= 2.2 systems. => use CC=gcc-3.0 and CXX=g++-3.0)
 	(Default = no)]),
-    [enable_client_release=yes;disable_static_linkage=no],
+    [
+       enable_client_release=yes
+       disable_static_linkage=no
+       AC_MSG_WARN([
+================================================================================
+WARNING:  You have requested a statically linked release build.
+
+    This option is not recommended for personal use or for building
+    an application for distribution via a package management system.
+    It probably wont work unless you have built your own static curl
+    and wxWidgets libraries that have minimal dependencies.  You may
+    also need to edit Makefiles manually in order for linking to work.
+
+    It is far better to use dynamic linkage, which can resolve most
+    library interdependencies at run time.  
+
+    When the executable fails to link, and you can identify the missing
+    library, you can edit the Makefile to add it, or if there is a --with
+    option to configure, use it.
+
+    This is not easy.  It is not supported.  You have been warned.
+================================================================================
+    ])
+    echo Pausing 10 seconds...
+    sleep 10
+    ]
+    ,
     [enable_client_release=no;disable_static_linkage=yes])
 
 
@@ -76,13 +226,6 @@ fi
 echo "--- Configuring BOINC AC_PACKAGE_VERSION (${build_state}) ---"
 echo "--- Build Components: (${configured_to_build}) ---"
 
-AC_CANONICAL_TARGET
-
-dnl generate .tar.gz, .tar.bz2, .zip
-dnl AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
-AM_INIT_AUTOMAKE(dist-zip)
-
-AC_CONFIG_SRCDIR(lib/shmem.C)
 
 AC_COPYRIGHT([
 Berkeley Open Infrastructure for Network Computing
@@ -104,8 +247,6 @@ http://www.gnu.org/copyleft/lesser.html
 or write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 ])
-
-AC_REVISION([$Revision$])
 
 AC_DEFUN([KC_STRIP_LEADING_ZEROS],[m4_bregexp([$*],[^0*\(..*\)],\1)])
 
@@ -138,14 +279,6 @@ AC_SUBST([TOP_SOURCE_DIR], [`(cd \`dirname "$0"\` && pwd)`])
 ## such as automatic reconfiguring on changes in Makefile.am's and configure.ac
 ## AM_MAINTAINER_MODE
 
-dnl Checks for programs.
-AC_PROG_CC
-AC_PROG_CXX
-AC_PROG_CPP
-AC_PROG_MAKE_SET
-AC_PROG_RANLIB
-SAH_LINKS
-AM_PROG_CC_C_O
 
 dnl Check for docbook2x-man, which we use to create the manpages in
 dnl doc/manpages, and set the conditional HAVE_DOCBOOK2X_MAN to build
@@ -168,11 +301,11 @@ AC_SUBST(OBJC)
 OBJCFLAGS="-ObjC"
 AC_SUBST(OBJCFLAGS)
 
+dnl LT_INIT
 AC_LIBTOOL_DLOPEN
 AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
 AC_SUBST(PICFLAGS,${lt_prog_compiler_pic})
-
 
 SAH_OPTION_BITNESS
 
@@ -192,14 +325,15 @@ dnl Find the extensions used on shared and static libraries on this system
 SAH_LIBEXT
 SAH_DLLEXT
 
+dnl THIS IS UNNECESSARY.  THE COMPILER SHOULD SET THESE
 dnl enable debug mode on all components using standard debug flags
-if test "${enable_debug}" = yes; then
-    CXXFLAGS="$CXXFLAGS -DDEBUG -D_DEBUG"
-    CFLAGS="$CFLAGS -DDEBUG -D_DEBUG"
-
-    AC_SUBST(CXXFLAGS)
-    AC_SUBST(CFLAGS)
-fi
+dnl if test "${enable_debug}" = yes; then
+    dnl CXXFLAGS="$CXXFLAGS -DDEBUG -D_DEBUG"
+    dnl CFLAGS="$CFLAGS -DDEBUG -D_DEBUG"
+dnl 
+    dnl AC_SUBST(CXXFLAGS)
+    dnl AC_SUBST(CFLAGS)
+dnl fi
 
 if test "${enable_server}" = yes; then
    AC_CHECK_MYSQL
@@ -226,9 +360,7 @@ dnl installed everywhere should be linked statically when building portable
 dnl binaries.  Put libraries that should be linked statically on every platform
 dnl in the STATIC_LIB_LIST variable before calling SAH_CHECK_LIB.  (Note: Only 
 dnl the '*' wildcard is supported).
-STATIC_LIB_LIST="stdc++* gcc gcc_s gcc_eh atk* gtk* gdk* gmodule* gthread* gobject* 
-glib* pango* cairo* wx* tiff* jpeg* png* Xi glut socket z expat* krb5support
-freetype fontconfig* resolv* idn"
+STATIC_LIB_LIST="stdc++* gcc gcc_s gcc_eh atk* gtk* gdk* gmodule* gthread* gobject* glib* pango* cairo* wx* tiff* jpeg* png* Xi glut socket z expat* krb5support freetype fontconfig* resolv* idn c_nonshared gpg* gss* gnutls sasl2"
 
 dnl We'll store these libs in a separate variable BOINC_EXTRA_LIBS for later 
 dnl post-processing instead of the default-action, which would append 
@@ -247,6 +379,9 @@ esac
 
 dnl m4/boinc_getsockopt.m4
 BOINC_GETSOCKOPT_TYPE
+
+dnl m4/boinc_check_fcgi.m4
+BOINC_CHECK_FCGI
 
 dnl ---------- libcurl (m4/libcurl.m4) ------------------------------
 
@@ -271,10 +406,9 @@ ERROR: could not find (recent enough) development-libs for libcurl.
 	])
    else
       ## add libcurl et al. to the list of statically linked libs
-      STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn crypto ssl krb5 k5crypto gssapi_krb5 com_err resolv"
+      STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn ssh2 crypto ssl krb5 k5crypto gssapi_krb5 com_err resolv lber ldap socket nsl z rt gcrypt gpg-error"
       CPPFLAGS="${CPPFLAGS} ${LIBCURL_CPPFLAGS}"
       CURL_LIB_PATHS=`echo $LIBCURL | sed 's/[^[a-zA-Z]]*-l[^ ]*//g'`
-      LDFLAGS="$CURL_LIB_PATHS $LDFLAGS"
 
       if test "${enable_debug}" = yes; then
          echo "LIBCURL = ${LIBCURL}"
@@ -282,6 +416,7 @@ ERROR: could not find (recent enough) development-libs for libcurl.
 	 echo "CURL_LIB_PATHS = ${CURL_LIB_PATHS}"
 	 echo "LDFLAGS = ${LDFLAGS}"
       fi
+      BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"
 
    fi	
 
@@ -313,17 +448,33 @@ SAH_CHECK_LIB([z], [gzopen],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([cups], [md5_finish],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
-SAH_CHECK_LIB([curl], [curl_easy_init],
-    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"],, [${LIBCURL}])
 
 LIBS=${SAVELIBS_AAF}
 
 dnl check for pthread
 ACX_PTHREAD(AC_DEFINE(HAVE_PTHREAD,1, [Have pthread]))
-CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
-CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
-LIBS="$PTHREAD_LIBS $LIBS"
+dnl There are better ways to do this.
+dnl CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
+dnl CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
+dnl LIBS="$PTHREAD_LIBS $LIBS"
 
+# find the install directories in case we need them.
+if test "x${prefix}" = "xNONE" -o -z "${prefix}" ; then
+  prefix="${ac_default_prefix}"
+fi
+if test "x${exec_prefix}" = "xNONE" -o -z "${exec_prefix}" ; then
+  exec_prefix="${prefix}"
+fi
+if test "x${bindir}" = "xNONE" -o -z "${bindir}" ; then
+  bindir="${exec_prefix}/bin"
+fi
+if test "x${libdir}" = "xNONE" -o -z "${libdir}" ; then
+  bindir="${exec_prefix}/lib"
+fi
+
+AC_DEFINE_UNQUOTED(BOINC_PREFIX,"`eval echo ${prefix}`",[Directory tree where BOINC will be installed])
+AC_DEFINE_UNQUOTED(BOINC_EXECPREFIX,"`eval echo ${bindir}`",[Directory where BOINC executables will be installed])
+AC_DEFINE_UNQUOTED(BOINC_LIBDIR,"`eval echo ${libdir}`",[Directory where BOINC libraries will be installed])
 
 dnl ---------- decide wether to build the graphical boinc-api libs or not
 dnl check for X11 
@@ -335,8 +486,8 @@ AX_CHECK_GL
 AX_CHECK_GLU
 
 dnl check for glut and prerequesites to the glut-test: libXmu and libXi
-AC_CHECK_LIB([Xmu], [main], [have_Xmu="yes"], [have_Xmu="no"])
-AC_CHECK_LIB([Xi], [main], [have_Xi="yes"], [have_Xi="no"])
+AC_CHECK_LIB([Xmu], [fopen], [have_Xmu="yes"], [have_Xmu="no"])
+AC_CHECK_LIB([Xi], [fopen], [have_Xi="yes"], [have_Xi="no"])
 
 AX_CHECK_GLUT
 if test "X${no_x}" != "Xyes" -a "$no_glut" = yes; then
@@ -418,7 +569,7 @@ AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
-AC_CHECK_HEADERS(windows.h arpa/inet.h dirent.h fcntl.h inttypes.h stdint.h malloc.h alloca.h memory.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/auxv.h sys/file.h sys/ipc.h sys/mount.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h)
+AC_CHECK_HEADERS(windows.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h malloc.h alloca.h memory.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/auxv.h sys/file.h sys/ipc.h sys/mount.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h)
 
 dnl Unfortunately on some 32 bit systems there is a problem with wx-widgets
 dnl configuring itself for largefile support.  On these systems largefile
@@ -445,7 +596,11 @@ AC_LANG_POP
 dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(alloca _alloca setpriority strlcpy strlcat strcasestr sigaction getutent setutent getisax strdup strdupa daemon stat64)
+AC_FUNC_ALLOCA
+if test "${ac_cv_func_alloca_works}" = "yes" ; then
+  ac_cv_func_alloca="yes"
+fi
+AC_CHECK_FUNCS(alloca _alloca __builtin_alloca setpriority strlcpy strlcat strcasestr sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -479,76 +634,14 @@ if test -e "/proc/meminfo"; then
 fi
 
 dnl ---------- wxWidgets --------------------------------------------------
-
-AM_OPTIONS_WXCONFIG
-
-dnl check for wxWidgets
-
-if test "${enable_client_release}" = yes ; then
-    if test "${enable_debug}" = yes ; then
-        if test "${enable_unicode}" = yes ; then
-            echo 'Portable client-build: checking for debug unicode wx-libs ...'
-            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=yes --debug=yes)
-        else
-            echo 'Portable client-build: checking for debug wx-libs ...'
-            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=no --debug=yes)
-        fi
-    else
-        if test "${enable_unicode}" = yes ; then
-            echo 'Portable client-build: checking for unicode wx-libs ...'
-            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=yes --debug=no)
-        else
-            echo 'Portable client-build: checking for wx-libs ...'
-            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --static=yes --unicode=no --debug=no)
-        fi
-    fi
-else
-    if test "${enable_debug}" = yes ; then
-        if test "${enable_unicode}" = yes ; then
-            echo 'checking for debug unicode wx-libs ...'
-            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=yes --debug=yes)
-        else
-            echo 'checking for debug wx-libs ...'
-            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=no --debug=yes)
-        fi
-    else
-        if test "${enable_unicode}" = yes ; then
-            echo 'checking for unicode wx-libs ...'
-            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=yes --debug=no)
-        else
-            echo 'checking for wx-libs ...'
-            AM_PATH_WXCONFIG([2.6.0], [wxWin=1], [wxWin=0], --unicode=no --debug=no)
-        fi
-    fi
+if test "${enable_manager}" = yes ; then
+  BOINC_OPTIONS_WXWIDGETS([2.6.0])
+  if test "$enable_release_client" = yes -a "$disable_static_linkage" = no 
+  then
+    BOINC_CHECK_GTK
+  fi
 fi
 
-
-if ( test "${enable_client}" = yes ) && ( test "$wxWin" != 1 ); then
-   AC_MSG_WARN([
-================================================================================
-WARNING: A suitable installation of wxWidgets could not be found 
-	 ==> building client without clientgui.
-
-  If you add wxWidgets to your system, then this configure script will also
-  configure your system to build the BOINC graphical client (clientgui).  
-
-  If wxWidgets is installed on your system, please check that wx-config is 
-  in the path, that the directory where wxWidgets libraries are installed 
-  (returned by 'wx-config --libs' command) is in LD_LIBRARY_PATH (or equivalent),
-  and that wxWidgets version is 2.6.0 or above. Currently wxWidgets version
-  2.6.0 (gtk based) is known to work with boinc_gui under Linux. You can
-  use wx-config --version to find what version you have currently installed.
-
-  NOTE: if building a portable client-release, you need the *static* version
-  of the wx-libs installed!   
-
-  You can get wxWidgets by following the DOWNLOAD link at:
-  http://www.wxwindows.org/
-================================================================================
-       ])
-fi
-
-AM_CONDITIONAL(BUILD_CLIENTGUI, [ test "$wxWin" = 1 -a "${enable_client}" = yes ])
 
 dnl --------------------------------------------------------------------------------
 
@@ -564,11 +657,16 @@ AM_CONDITIONAL(OS_LINUX, [echo $host_os | grep '^linux' > /dev/null])
 dnl In case anyone wants to try building the windows code using mingw!
 AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
 
+dnl Whether to build fcgi components
+AM_CONDITIONAL(ENABLE_FCGI,[test "${enable_fcgi}" = yes])
+
 dnl tell automake about whether to build client and/or server
+AM_CONDITIONAL(DYNAMIC_CLIENT, [test "${dynamic_client}" = yes])
 AM_CONDITIONAL(ENABLE_SERVER, [test "${enable_server}" = yes])
 AM_CONDITIONAL(ENABLE_CLIENT, [test "${enable_client}" = yes])
-
-
+AM_CONDITIONAL(ENABLE_MANAGER, [ test "x${ac_cv_have_wxwidgets}" = xyes -a "${enable_manager}" = yes ])
+AM_CONDITIONAL(ENABLE_LIBRARIES, [test "${enable_libraries}" = yes])
+AM_CONDITIONAL(INSTALL_HEADERS, [test "${enable_install_headers}" = yes])
 
 dnl ======================================================================
 dnl some more vodoo required for building portable client-binary (client, clientgui)
@@ -576,56 +674,59 @@ dnl ======================================================================
 
 CLIENTLIBS=
 
-SAH_CHECK_LIB([c],[atexit], [
-    AC_DEFINE([HAVE_LIBC],[1],[Define to 1 if you have the c library])
-    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-SAH_CHECK_LIB([gcc_eh],[_Unwind_Resume],[ 
-    AC_DEFINE([HAVE_LIBGCC_EH],[1],[Define to 1 if you have the gcc_eh library])
-    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-SAH_CHECK_LIB([stdc++],[sscanf],[
-    AC_DEFINE([HAVE_LIBSTDC__],[1],[Define to 1 if you have the stdc++ library])
-    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-SAH_CHECK_LIB([gcc],[sscanf], [
-    AC_DEFINE([HAVE_LIBGCC],[1],[Define to 1 if you have the gcc library])
-    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}" ])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 SAH_CHECK_LIB([m],[sin], [
     AC_DEFINE([HAVE_LIBM],[1],[Define to 1 if you have the math library])
-    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
+    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+SAH_CHECK_LIB([c],[atexit], [
+    AC_DEFINE([HAVE_LIBC],[1],[Define to 1 if you have the c library])
+    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 SAH_CHECK_LIB([pthread],[pthread_join],[
     AC_DEFINE([HAVE_LIBPTHREAD],[1],[Define to 1 if you have the pthread library])
-    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
+    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+if test x${ac_cv_cxx_compiler_gnu} != xno ; then
+  SAH_CHECK_LIB([gcc_eh],[_Unwind_Resume],[ 
+    AC_DEFINE([HAVE_LIBGCC_EH],[1],[Define to 1 if you have the gcc_eh library])
+    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+  SAH_CHECK_LIB([gcc],[sscanf], [
+    AC_DEFINE([HAVE_LIBGCC],[1],[Define to 1 if you have the gcc library])
+    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+  SAH_CHECK_LIB([c_nonshared],[fopen],[ 
+    AC_DEFINE([HAVE_LIBC_NONSHARED],[1],[Define to 1 if you have the c_nonshared library])
+    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+  SAH_CHECK_LIB([stdc++],[sscanf],[
+    AC_DEFINE([HAVE_LIBSTDC__],[1],[Define to 1 if you have the stdc++ library])
+    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+fi
 SAH_CHECK_LIB([wsock32],[fopen],[
     AC_DEFINE([HAVE_LIBWSOCK32],[1],[Define to 1 if you have the wsock32 library])
-    CLIENTLIBS="${CLIENTLIBS} ${sah_lib_last}"])
+    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-    
 
 if ( test "${disable_static_linkage}" != yes ) && ( test "${enable_client_release}" = yes ); then
 
+   echo "----------"
+   echo "NOTE: Building portable client binaries"
+   echo "----------"
+
+if test x$ac_cv_cxx_compiler_gnu != xno ; then
 SAH_CHECK_LDFLAG([-nodefaultlibs],[CLIENTLIBS="-nodefaultlibs ${CLIENTLIBS}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 
 SAH_CHECK_LDFLAG([-lSystemStubs],[LIBS="${LIBS} -lSystemStubs"])
    echo DEBUG: LIBS=${LIBS} >&5
-
-   echo "----------"
-   echo "NOTE: Building portable client binaries"
-   echo "----------"
-   
-   SAH_CHECK_LDFLAG([-nodefaultlibs],[CLIENTLIBS="-nodefaultlibs ${CLIENTLIBS}"])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-        
-   SAH_CHECK_LDFLAG([-lSystemStubs],[LIBS="${LIBS} -lSystemStubs"])
-   echo DEBUG: LIBS=${LIBS} >&5
+fi
 
 fi
 
+AM_CONDITIONAL([ENABLE_CLIENT_RELEASE],[ ( test "${disable_static_linkage}" != yes ) && ( test "${enable_client_release}" = yes ) ])
+AM_CONDITIONAL([BUILD_STATIC_LIBS],[test "x${enable_static}" != xno])
 
 AC_SUBST(CLIENTLIBS)
 
@@ -636,10 +737,21 @@ if test "${enable_debug}" = yes; then
     CLIENTGUIFLAGS="${CLIENTGUIFLAGS} -D_DEBUG -DDEBUG"
 fi
 
-CLIENTGUILIBS=${WX_LIBS}
+AC_ARG_ENABLE(wx-debug,
+  AS_HELP_STRING([--enable-wx-debug],
+                 [ use wxWidgets debug libraries ]),
+  [enable_wx_debug="yes"
+   AC_DEFINE(USE_WX_DEBUG,[1],[Define to 1 to use the wxWidgets debug libraries])
+   ],
+  [enable_wx_debug="no"])
+
+CLIENTGUILIBS="${WX_LIBS} ${GTK_LIBS}"
 
 if test "${enable_client_release}" = "yes" ; then
-   SAH_STATICIZE_LDFLAGS([${WX_LIBS_STATIC}],[CLIENTGUILIBS])
+   if test "x${WX_LIBS_STATIC}" = "x" ; then
+     WX_LIBS_STATIC="${WX_LIBS}"
+   fi
+   SAH_STATICIZE_LDFLAGS([${WX_LIBS_STATIC} ${GTK_LIBS}],[CLIENTGUILIBS])
    SAH_STATICIZE_LDFLAGS([${GLUT_LIBS}],[GLUT_LIBS])
    SAH_STATICIZE_LDFLAGS([${BOINC_EXTRA_LIBS}],[BOINC_EXTRA_LIBS])
 
@@ -650,26 +762,56 @@ if test "${enable_client_release}" = "yes" ; then
    CPPFLAGS="$CPPFLAGS -D__NO_CTYPE"
 fi
 
-## prepend BOINC_EXTRA_LIBS (mangled or not) to LIBS for standard linking
-LIBS="${BOINC_EXTRA_LIBS} $LIBS"
-
+AC_SUBST(BOINC_EXTRA_LIBS)
 AC_SUBST(CLIENTGUIFLAGS)
 AC_SUBST(CLIENTGUILIBS)
 dnl ======================================================================
+dnl Oh! the joys of standards!
+WHOAMI=`which logname`
+if test -z "${WHOAMI}" -o -z "`${WHOAMI} 2>/dev/null`" ; then
+  WHOAMI=`which whoami`
+fi
+if test -z "${WHOAMI}" ; then
+  who am i 2>/dev/null && WHOAMI="who am i | awk '{print $1}'"
+fi
+if test -z "${WHOAMI}" -a -x "/usr/ucb/ps" ; then
+  WHOAMI="/usr/ucb/ps u $$ | tail -1 | awk '{print $1}'"
+fi
+if test -z "${WHOAMI}" ; then
+  WHOAMI="ps u $$ | tail -1 | awk '{print $1}'"
+fi
+
+
+dnl Some info about the person compiling used for making some packages.
+LOGNAME=`${WHOAMI}`
+FULLNAME=`grep ^${LOGNAME}: /etc/passwd | awk -F: '{print $5}'`
+if test -z "${FULLNAME}" ; then
+  FULLNAME=`ypcat passwd 2>/dev/null | grep ^${LOGNAME}: | awk -F: '{print $5}'`
+fi
+if test -z "${FULLNAME}" ; then
+  FULLNAME=`nidump passwd / 2>/dev/null | grep ^${LOGNAME}: | awk -F: '{print $5}'`
+fi
+if test -z "${FULLNAME}" ; then
+  FULLNAME=$LOGNAME
+fi
+AC_SUBST(LOGNAME)
+AC_SUBST(FULLNAME)
 
 AC_CONFIG_FILES([
-                 ./version.h
+                 version.h
                  api/Makefile
                  apps/Makefile
                  clientgui/Makefile
+                 clientgui/res/Makefile
                  client/Makefile
                  client/win/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
-		 client/scripts/Makefile
-		 client/scripts/boinc-client
+                 client/scripts/Makefile
+                 client/scripts/boinc-client
                  db/Makefile
                  doc/Makefile
                  doc/manpages/Makefile
                  lib/Makefile
+                 locale/Makefile
                  Makefile
                  py/Boinc/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  py/Boinc/Makefile
@@ -678,15 +820,12 @@ AC_CONFIG_FILES([
                  py/Makefile
                  sched/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  sched/Makefile
-                 sea/Makefile
+                 packages/generic/sea/Makefile
                  test/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  test/Makefile
                  test/version.inc
                  tools/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  tools/Makefile
-                 zip/Makefile
-                 zip/zip/Makefile
-                 zip/unzip/Makefile
                  m4/Makefile
                  ])
 

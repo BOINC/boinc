@@ -1,23 +1,27 @@
-## -*- mode: make; tab-width: 4 -*-
+## -*- mode: makefile; tab-width: 4 -*-
 ## $Id$
 
 AUTOMAKE_OPTIONS = foreign
 
+include Makefile.incl
+
 ## make sure rebuilding uses the right aclocal-switches
 ACLOCAL_AMFLAGS = -I m4
 
-API_SUBDIRS = api lib zip
+if ENABLE_LIBRARIES
+   API_SUBDIRS = api lib
+endif
 
 if ENABLE_SERVER
-   SERVER_SUBDIRS = db test py sched apps tools
+   SERVER_SUBDIRS = db test py sched apps tools samples/example_app
 endif
 
 if ENABLE_CLIENT
-   CLIENT_SUBDIRS = client 
+   CLIENT_SUBDIRS = client client/scripts
 endif
 
-if BUILD_CLIENTGUI
-   CLIENTGUI_SUBDIRS = clientgui sea
+if ENABLE_MANAGER
+   CLIENTGUI_SUBDIRS = clientgui clientgui/res locale
 endif
 
 # ORDER MATTERS below.  One must build dependencies FIRST, then things
@@ -33,10 +37,21 @@ EXTRA_DIST =                                    \
 	stripchart                                  \
     INSTALL										
 
-includedir = ${prefix}/include/BOINC
-include_HEADERS = \
+if INSTALL_HEADERS
+pkginclude_HEADERS = \
     config.h \
     version.h
+endif
+
+# Add a stage target for staging a distribution
+
+clean-generic:
+	rm -rf stage
+
+stage: all
+	if [ ! -d stage ] ; then mkdir stage ; fi
+	rm -rf stage/*
+	$(MAKE) DESTDIR=$(PWD)/stage install
 
 dist-hook:
 	rm -rf `find $(distdir) -name .backup -prune -o -name '*~' -o -name CVS`
