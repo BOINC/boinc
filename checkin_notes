@@ -6356,3 +6356,11 @@ David  16 July 2009
     client/
         rr_sim.cpp
         work_fetch.cpp,h
+
+Rom    17 July 2009
+    - Remove boinc_zip(InfoZip) from the main BOINC tree
+    - Remove boinc_zip from the build system
+    
+    /
+        configure.ac
+        Makefile.am
