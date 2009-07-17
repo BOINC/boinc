@@ -6,7 +6,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.57)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 6.8.5)
+AC_INIT(BOINC, 6.8.7)
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
 
@@ -855,18 +855,18 @@ AC_CONFIG_FILES([
                  clientgui/res/Makefile
                  client/Makefile
                  client/win/boinc_path_config.py:py/boinc_path_config.py.in
-		 client/scripts/Makefile
-		 client/scripts/boinc-client
+                 client/scripts/Makefile
+                 client/scripts/boinc-client
                  db/Makefile
                  doc/Makefile
                  doc/manpages/Makefile
                  lib/Makefile
-		 locale/Makefile
+                 locale/Makefile
                  Makefile
                  py/Boinc/version.py
                  py/Makefile
                  py/boinc_path_config.py:py/boinc_path_config.py.in
-		 py/setup.py
+                 py/setup.py
                  sched/boinc_path_config.py:py/boinc_path_config.py.in
                  sched/Makefile
                  packages/generic/sea/Makefile
@@ -888,9 +888,6 @@ AC_CONFIG_FILES([
                  test/version.inc
                  tools/boinc_path_config.py:py/boinc_path_config.py.in
                  tools/Makefile
-                 zip/Makefile
-                 zip/zip/Makefile
-                 zip/unzip/Makefile
                  m4/Makefile
 		])
 

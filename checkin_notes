@@ -5934,3 +5934,20 @@ Charlie 8 July 2009
     /
         configure.ac
         version.h
+
+Rom    17 July 2009
+    - Remove boinc_zip(InfoZip) from the main BOINC tree
+    - Remove boinc_zip from the build system
+    
+    /
+        configure.ac
+        Makefile.am
+
+Rom    17 July 2009
+    - Tag for 6.8.7 release, all platforms
+      boinc_core_release_6_8_7
+
+    /
+        configure.ac
+        version.h
+
