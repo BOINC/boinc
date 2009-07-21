@@ -3165,3 +3165,11 @@ David  7 July 2009
     lib/
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
+
+David  9 July 2009
+    - client: error if a <file_info> in app_info.xml has any URLs
+    - client: don't write file_infos with no URLs to client_state.xml
+        for anon platform project; they must be from app_info.xml
+        
+    client/
+        cs_statefile.cpp

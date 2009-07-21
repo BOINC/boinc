@@ -25,7 +25,14 @@
     // result to be returned and try again
     // (kludge for WCG)
 
-extern int assimilate_handler(WORKUNIT&, std::vector<RESULT>&, RESULT&);
+// This function is called to handle a completed job.
+// Return zero on success.
+//
+extern int assimilate_handler(
+    WORKUNIT&,              // the workunit
+    std::vector<RESULT>&,   // all the instances (successful or not)
+    RESULT&                 // the canonical instance
+);
 
 extern int g_argc;
 extern char** g_argv;

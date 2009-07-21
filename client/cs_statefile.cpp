@@ -621,10 +621,15 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
             }
         }
         for (i=0; i<file_infos.size(); i++) {
-            if (file_infos[i]->project == p) {
-                retval = file_infos[i]->write(f, false);
-                if (retval) return retval;
+            if (file_infos[i]->project != p) continue;
+            FILE_INFO* fip = file_infos[i];
+            // don't write file infos for anonymous platform app files
+            //
+            if (p->anonymous_platform && (fip->urls.size()==0)) {
+                continue;
             }
+            retval = fip->write(f, false);
+            if (retval) return retval;
         }
         for (i=0; i<app_versions.size(); i++) {
             if (app_versions[i]->project == p) {
@@ -735,6 +740,13 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
         if (match_tag(buf, "<file_info>")) {
             FILE_INFO* fip = new FILE_INFO;
             if (fip->parse(mf, false)) {
+                delete fip;
+                continue;
+            }
+            if (fip->urls.size()) {
+                msg_printf(p, MSG_USER_ERROR,
+                    "Can't specify URLs in app_info.xml"
+                );
                 delete fip;
                 continue;
             }
