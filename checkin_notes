@@ -3290,3 +3290,12 @@ David  17 July 2009
         work_fetch.cpp,h
         rr_sim.cpp
         cs_scheduler.cpp
+
+Rom    21 June 2009
+    - Tag for 6.6.38 release, all platforms
+      boinc_core_release_6_6_38
+
+    /
+        configure.ac
+        version.h
+        
