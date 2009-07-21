@@ -27,6 +27,8 @@
 #include "http_curl.h"
 
 #define MIN_DOWNLOAD_INCREMENT  5000
+#define FILE_SIZE_CHECK_THRESHOLD   8192
+    // upload: skip file size check if file is smaller than this
 
 class FILE_XFER : public HTTP_OP {
 public:

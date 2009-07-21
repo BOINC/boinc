@@ -973,7 +973,7 @@ const char* FILE_INFO::get_init_url(bool is_upload) {
     }
 }
 
-// Call this to get the next URL of the indicated type.
+// Call this to get the next URL.
 // NULL return means you've tried them all.
 //
 const char* FILE_INFO::get_next_url(bool is_upload) {

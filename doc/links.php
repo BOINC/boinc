@@ -82,7 +82,9 @@ echo "
 <li> <a href=#stats>Credit statistics</a>
 <li> <a href=#sigs>Credit-based signatures</a>
 <li> <a href=#team_stats>Team statistics</a>
-<li> <a href=#status>Project status</a>
+";
+//<li> <a href=#status>Project status</a>
+echo "
 <li> <a href=#misc>Miscellaneous</a>
 <li> <a href=#skins>Skins for the BOINC Manager</a>
 <li> <a href=#sites>Other BOINC-related sites</a>
@@ -125,17 +127,20 @@ echo "
 ";
 shuffle($team_stats_sites);
 site_list($team_stats_sites);
+if (0) {
+    echo "
+        <a name=status></a>
+        <h3>Project status sites</h3>
+        Show if the servers of various projects are up or down.
+        <ul>
+    ";
+    //<li> <a href=http://www.esea.dk/esea/bos.asp>BOS (BOINC Online Schedulers></a>
+    echo "
+        <li> <a href=http://boincprojectstatus.ath.cx/>BOINC Project Status</a>
+        </ul>
+    ";
+}
 echo "
-
-<a name=status></a>
-<h3>Project status sites</h3>
-Show if the servers of various projects are up or down.
-<ul>
-";
-//<li> <a href=http://www.esea.dk/esea/bos.asp>BOS (BOINC Online Schedulers></a>
-echo "
-<li> <a href=http://boincprojectstatus.ath.cx/>BOINC Project Status</a>
-</ul>
 <a name=misc></a>
 <h3>Miscellaneous</h3>
 ";
