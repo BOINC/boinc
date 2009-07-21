@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Web Site\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-05 13:41 PDT\n"
-"PO-Revision-Date: 2009-07-15 01:52+0200\n"
+"PO-Revision-Date: 2009-07-20 01:59+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "MIME-Version: 1.0\n"
@@ -236,21 +236,21 @@ msgid "Google or other search engines"
 msgstr "Google ya da diğer arama motorlarından"
 
 msgid "Download BOINC"
-msgstr "BOINC'i İndir"
+msgstr "BOINC'i indir"
 
 #, php-format
 msgid "%s for %s (%s MB)"
-msgstr "%s için %s (%s MB)"
+msgstr "%s sürümü, %s için (%s MB)"
 
 msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like."
 msgstr "BOINC, bilgisayarınızın boş zamanını, SETI@home, Climateprediction.net, Rosetta@home, World Community Grid ve çok daha fazlası gibi bilimsel projelere bağışlamanızı sağlar. <p> BOINC'i bilgisayarınıza kurduktan sonra, bunlar gibi istediğiniz pek çok projeye katılabilirsiniz."
 
 #, php-format
 msgid "Note: if your computer is equipped with an NVIDIA Graphics Processing Unit (GPU), you may be able to %suse it to compute faster%s"
-msgstr "Not: Eğer bilgisayarınız NVIDIA Grafk İşleme Ünitesi'ne (GPU) sahipse, çok daha hızlı hesaplama yaptırmak için %sonu da kullanabilirsiniz%s"
+msgstr "Not: Eğer bilgisayarınız bir NVIDIA ekran kartına (GPU) sahipse, çok daha hızlı hesaplama yaptırmak için %sonu da kullanabilirsiniz%s"
 
 msgid "System requirements"
-msgstr "Sistem ihtiyaçları"
+msgstr "Sistem gereksinimleri"
 
 msgid "Release notes"
 msgstr "Sürüm notları"
@@ -259,7 +259,7 @@ msgid "Help"
 msgstr "Yardım"
 
 msgid "All versions"
-msgstr "Tüm sürümler"
+msgstr "Diğer sürümler"
 
 msgid "BOINC: compute for science"
 msgstr "BOINC: bilim için hesapla"
@@ -273,7 +273,7 @@ msgid "BOINC Online Help is based on %sSkype%s, an Internet-based telephone syst
 msgstr "BOINC Online Yardım, %sSkype%s tabanlı bir İnternet telefonu sistemidir. Skype bedavadır (yazılım ve görüşmeler). Eğer Skype'a sahip değilseniz, lütfen şimdi %sindirip kurun%s.  Tamamladığınızda, bu sayfaya geri dönün."
 
 msgid "The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer.  You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."
-msgstr "Sesle yardım almak için en iyi yol, bigilsayarınız için dahili mikrofon ve hoparlör ya da harici bir kulaklık seti kullanmaktır. Ayrıca gönüllülerle iletişim kurmak için Skype'ın yazı-tabanlı sohbet sistemini ya da normal e-postayı (eğer Skype'a sahip değilseniz) da kullanabilirsiniz."
+msgstr "Sesle yardım almak için en iyi yol, bigilsayarınızın dahili mikrofon ve hoparlörünü ya da harici bir kulaklık setini kullanmaktır. Ayrıca gönüllülerle iletişim kurmak için Skype'ın yazı-tabanlı sohbet sistemini ya da normal e-postayı (eğer Skype'a sahip değilseniz) da kullanabilirsiniz."
 
 msgid "Volunteers speaking several languages are available. Please select a language:"
 msgstr "Çeşitli dillerde konuşan gönüllüler mevcuttur. Lütfen bir dil seçin:"
@@ -290,17 +290,17 @@ msgid "If you're already a Help Volunteer: to edit your settings, %sclick here%s
 msgstr "Zaten bir Yardım Günllüsüyseniz: ayarlarınızı düzenlemek için, %sburaya tıklayın%s."
 
 msgid "Volunteer"
-msgstr "Gönüllü"
+msgstr "Gönüllü olun"
 
 msgid "Download"
-msgstr "İndirme"
+msgstr "İndir"
 
 msgid "Documentation"
 msgstr "Belgeler"
 
 #, php-format
 msgid " Use the idle time on your computer (Windows, Mac, or Linux) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "
-msgstr " Bilgisayarınızın (Windows, Mac, ya da Linux) boş zamanını, hastalıkları iyileştirmek, küresel ısınmayı araştırmak, pulsarları (elektromanyetik yıldızlar) keşfetmek ve çok daha farklı tipte bilimsel araştırmalar için kullanın.  Bu, tehlikesiz, güvenilir ve basittir:  Projeler %sseçin%s  BOINC yazılımını %sindirin%s ve çalıştırın  Bir e-posta adresi ve parola %sgirin%s. "
+msgstr " Bilgisayarınızın (Windows, Mac ya da Linux) boş zamanını, hastalıkları iyileştirmek, küresel ısınmayı araştırmak, elektromanyetik yıldızları keşfetmek ve çok daha farklı tipte bilimsel araştırmalar için kullanın.  Bu, tehlikesiz, güvenilir ve basittir:  %sSeçin:%s Çeşitli projeler arasından beğendiğinizi seçin  %sİndirin:%s BOINC yazılımını sitemizden indirin ve çalıştırın  %sGirin:%s Bir e-posta adresi ve parola girin. "
 
 #, php-format
 msgid "Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
@@ -308,13 +308,13 @@ msgstr "Ya da, eğer çeşitli projeler çalıştırıyorsanız, bir %shesap yö
 
 #, php-format
 msgid "Open-source software for %svolunteer computing%s and %sgrid computing%s."
-msgstr "%Gönüllü hesaplama% ve %dağınık hesaplama% için açık kaynaklı yazılım."
+msgstr "Açık kaynaklı %sgönüllü hesaplama%s ve %sdağınık (grid) hesaplama%s yazılımı."
 
 msgid "BOINC user survey"
 msgstr "BOINC kullanıcı anketi"
 
 msgid "Several volunteer computing projects, including Climateprediction.net, Einstein@home, and SETI@home, use software called BOINC.  If you participate in projects like this, we request that you answer the following questions.  This will help BOINC-based projects increase participation and achieve greater scientific results. <p> Please answer as many questions as you want, then go to the bottom and click OK. If you previously completed the survey but your answers have changed, please complete it again - your new answers will replace the old ones. <p> The current results of the survey are <a href=poll_results.php>here</a>. "
-msgstr "Çeşitli gönüllü hesaplama projeleri, Climateprediction.net, Einstein@home ve SETI@home da dahil, BOINC olarak adlandırılan bir yazılım kullanır.  Eğer bunlar gibi projelere katılacaksanız, aşağıdaki soruları yanıtlamanızı istiyoruz.  Bu BOINC-tabanlı projelere katılımı ve büyük bilimsel sonuçlar alma konusunda yardımcı olacak. <p> Lüften istediğiniz kadar çok soruya yanıt verin ve sonra altta bulunan Tamam butonuna tıklayın. Eğer anketi daha önce tamamladıysanız ve şu anda bazı yanıtlarınız değiştiyse, lütfen tekrar tamamlayın - yeni yanıtlarınız eskileriyle değiştirilecek. <p> Anket sonuçlarının şu andaki durumu <a href=poll_results.php>here</a>. "
+msgstr "Çeşitli gönüllü hesaplama projeleri, Climateprediction.net, Einstein@home ve SETI@home da dahil, BOINC olarak adlandırılan bir yazılım kullanır.  Eğer bunlar gibi projelere katılacaksanız, aşağıdaki soruları yanıtlamanızı istiyoruz.  Bu BOINC-tabanlı projelere katılımı ve büyük bilimsel sonuçlar alma konusunda yardımcı olacak. <p> Lüften istediğiniz kadar çok soruya yanıt verin ve sonra altta bulunan Tamam butonuna tıklayın. Eğer anketi daha önce tamamladıysanız ve şu anda bazı yanıtlarınız değiştiyse, lütfen tekrar tamamlayın - yeni yanıtlarınız eskileriyle değiştirilecek. <p> Anket sonuçlarının şu andaki durumu <a href=poll_results.php>burada</a>. "
 
 msgid "Do you run BOINC?"
 msgstr "BOINC çalıştırıyor musunuz?"
