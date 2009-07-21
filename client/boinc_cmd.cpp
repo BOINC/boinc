@@ -67,6 +67,7 @@ Commands:\n\
  --get_disk_usage                   show disk usage\n\
  --get_proxy_settings\n\
  --get_messages [ seqno ]           show messages > seqno\n\
+ --get_message_count                show largest message seqno\n\
  --get_host_info\n\
  --version, -V                      show core client version\n\
  --result url result_name op        job operation\n\
@@ -360,6 +361,12 @@ int main(int argc, char** argv) {
         if (pi.http_user_name.size()) pi.use_http_authentication = true;
         if (pi.socks_server_name.size()) pi.use_socks_proxy = true;
         retval = rpc.set_proxy_settings(pi);
+    } else if (!strcmp(cmd, "--get_message_count")) {
+        int seqno;
+        retval = rpc.get_message_count(seqno);
+        if (!retval) {
+            printf("Greatest message sequence number: %d\n", seqno);
+        }
     } else if (!strcmp(cmd, "--get_messages")) {
         int seqno;
         if (i == argc) {

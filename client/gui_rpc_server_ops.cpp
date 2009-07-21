@@ -397,6 +397,14 @@ static void handle_get_messages(char* buf, MIOFILE& fout) {
     fout.printf("</msgs>\n");
 }
 
+static void handle_get_message_count(char*, MIOFILE& fout) {
+    if (message_descs.size() == 0) {
+        fout.printf("<seqno>0</seqno>\n");
+    } else {
+        fout.printf("<seqno>%d</seqno>\n", message_descs[0]->seqno);
+    }
+}
+
 // <retry_file_transfer>
 //    <project_url>XXX</project_url>
 //    <filename>XXX</filename>
@@ -1098,6 +1106,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_disk_usage(mf);
     } else if (match_tag(request_msg, "<get_messages")) {
         handle_get_messages(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_message_count")) {
+        handle_get_message_count(request_msg, mf);
     } else if (match_tag(request_msg, "<get_host_info")) {
         handle_get_host_info(request_msg, mf);
     } else if (match_tag(request_msg, "<get_statistics")) {

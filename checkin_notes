@@ -3154,3 +3154,14 @@ Charlie 7 July 2009
 
     mac_installer/
         PostInstall.cpp
+
+David  7 July 2009
+    - GUI RPC: add get_message_seqno() RPC.  fixes #931
+
+    client/
+        work_fetch.cpp
+        boinc_cmd.cpp
+        gui_rpc_server_ops.cpp
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h
