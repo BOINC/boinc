@@ -128,14 +128,15 @@ void RR_SIM_PROJECT_STATUS::remove_active(RESULT* rp) {
 // with weighted round-robin scheduling
 //
 void set_rrsim_flops(RESULT* rp) {
-    // if it's a coproc job, use app version estimate
+    // For coproc jobs, use app version estimate
+    //
     if (rp->uses_coprocs()) {
         rp->rrsim_flops = rp->avp->flops * gstate.overall_cpu_frac();
         return;
     }
     PROJECT* p = rp->project;
 
-    // first, estimate how many CPU seconds per second this job would get
+    // For CPU jobs, estimate how many CPU seconds per second this job would get
     // running with other jobs of this project, ignoring other factors
     //
     double x = 1;
@@ -298,10 +299,8 @@ void CLIENT_STATE::rr_simulation() {
 
         // "rpbest" is first result to finish.  Does it miss its deadline?
         //
-        bool misses_deadline = false;
         double diff = (sim_now + rpbest->rrsim_finish_delay) - rpbest->computation_deadline();
         if (diff > 0) {
-            misses_deadline = true;
             ACTIVE_TASK* atp = lookup_active_task_by_result(rpbest);
             if (atp && atp->procinfo.working_set_size_smoothed > ar) {
                 if (log_flags.rr_simulation) {
@@ -328,11 +327,23 @@ void CLIENT_STATE::rr_simulation() {
             }
         }
 
+        // update saturated time
+        //
         double end_time = sim_now + rpbest->rrsim_finish_delay;
         double x = end_time - gstate.now;
-        cpu_work_fetch.update_estimated_delay(x, misses_deadline);
+        cpu_work_fetch.update_saturated_time(x);
         if (coproc_cuda) {
-            cuda_work_fetch.update_estimated_delay(x, misses_deadline);
+            cuda_work_fetch.update_saturated_time(x);
+        }
+
+        // update busy time
+        //
+        if (rpbest->rr_sim_misses_deadline) {
+            double dur = rpbest->estimated_time_remaining(false) / gstate.overall_cpu_frac();
+            cpu_work_fetch.update_busy_time(dur, rpbest->avp->avg_ncpus);
+            if (rpbest->uses_cuda()) {
+                cuda_work_fetch.update_busy_time(dur, rpbest->avp->ncudas);
+            }
         }
 
         // increment resource shortfalls
