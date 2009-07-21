@@ -425,58 +425,39 @@ const char* PROJECT::get_scheduler_url(int index, double r) {
     return scheduler_urls[i].c_str();
 }
 
-double PROJECT::next_file_xfer_time(bool is_upload) {
-    return (is_upload ? next_file_xfer_up : next_file_xfer_down);
+bool FILE_XFER_BACKOFF::ok_to_transfer() {
+    double dt = next_xfer_time - gstate.now;
+    if (dt > gstate.pers_retry_delay_max) {
+        // must have changed the system clock
+        //
+        dt = 0;
+    }
+    return (dt > 0);
 }
 
-void PROJECT::file_xfer_failed(bool is_upload) {
-    if (is_upload) {
-        file_xfer_failures_up++;
-        if (file_xfer_failures_up < FILE_XFER_FAILURE_LIMIT) {
-            next_file_xfer_up = 0;
-        } else {
-            double backoff = calculate_exponential_backoff(
-                file_xfer_failures_up,
-                gstate.pers_retry_delay_min,
-                gstate.pers_retry_delay_max
-            );
-            if (log_flags.file_xfer_debug) {
-                msg_printf(this, MSG_INFO,
-                    "[file_xfer_debug] project-wide upload delay for %f sec",
-                    backoff
-                );
-            }
-            next_file_xfer_up = gstate.now + backoff;
-        }
+void FILE_XFER_BACKOFF::file_xfer_failed(PROJECT* p) {
+    file_xfer_failures++;
+    if (file_xfer_failures < FILE_XFER_FAILURE_LIMIT) {
+        next_xfer_time = 0;
     } else {
-        file_xfer_failures_down++;
-        if (file_xfer_failures_down < FILE_XFER_FAILURE_LIMIT) {
-            next_file_xfer_down = 0;
-        } else {
-            double backoff = calculate_exponential_backoff(
-                file_xfer_failures_down,
-                gstate.pers_retry_delay_min,
-                gstate.pers_retry_delay_max
+        double backoff = calculate_exponential_backoff(
+            file_xfer_failures,
+            gstate.pers_retry_delay_min,
+            gstate.pers_retry_delay_max
+        );
+        if (log_flags.file_xfer_debug) {
+            msg_printf(p, MSG_INFO,
+                "[file_xfer_debug] project-wide xfer delay for %f sec",
+                backoff
             );
-            next_file_xfer_down = gstate.now + backoff;
-            if (log_flags.file_xfer_debug) {
-                msg_printf(this, MSG_INFO,
-                    "[file_xfer_debug] project-wide download delay for %f sec",
-                    backoff
-                );
-            }
         }
+        next_xfer_time = gstate.now + backoff;
     }
 }
 
-void PROJECT::file_xfer_succeeded(bool is_upload) {
-    if (is_upload) {
-        file_xfer_failures_up = 0;
-        next_file_xfer_up  = 0;
-    } else {
-        file_xfer_failures_down = 0;
-        next_file_xfer_down = 0;
-    }
+void FILE_XFER_BACKOFF::file_xfer_succeeded() {
+    file_xfer_failures = 0;
+    next_xfer_time  = 0;
 }
 
 int PROJECT::parse_project_files(MIOFILE& in, bool delete_existing_symlinks) {

@@ -147,6 +147,28 @@ struct FILE_REF {
     int write(MIOFILE&);
 };
 
+// file xfer backoff state for a project and direction (up/down)
+// if file_xfer_failures exceeds FILE_XFER_FAILURE_LIMIT,
+// we switch from a per-file to a project-wide backoff policy
+// (separately for the up/down directions)
+// NOTE: this refers to transient failures, not permanent.
+//
+#define FILE_XFER_FAILURE_LIMIT 3
+struct FILE_XFER_BACKOFF {
+    int file_xfer_failures;
+        // count of consecutive failures
+    double next_xfer_time;
+        // when to start trying again
+    bool ok_to_transfer();
+    void file_xfer_failed(PROJECT*);
+    void file_xfer_succeeded();
+
+    FILE_XFER_BACKOFF() {
+        file_xfer_failures = 0;
+        next_xfer_time = 0;
+    }
+};
+
 /// statistics at a specific day
 
 struct DAILY_STATS {
@@ -162,6 +184,7 @@ struct DAILY_STATS {
 };
 bool operator < (const DAILY_STATS&, const DAILY_STATS&);
 class ACTIVE_TASK;
+
 class PROJECT {
 public:
     // the following items come from the account file
@@ -351,25 +374,11 @@ public:
         /// temporary used when scanning projects
     bool checked;
 
-    // vars related to file-transfer backoff
-    // file_xfer_failures_up: count of consecutive upload failures
-    // next_file_xfer_up: when to start trying uploads again
-    //
-    // if file_xfer_failures_up exceeds FILE_XFER_FAILURE_LIMIT,
-    // we switch from a per-file to a project-wide backoff policy
-    // (separately for the up/down directions)
-    //
-    // NOTE: all this refers to transient failures, not permanent.
-    //
-#define FILE_XFER_FAILURE_LIMIT 3
-    int file_xfer_failures_up;
-    int file_xfer_failures_down;
-    double next_file_xfer_up;
-    double next_file_xfer_down;
-
-    double next_file_xfer_time(bool);
-    void file_xfer_failed(bool);
-    void file_xfer_succeeded(bool);
+    FILE_XFER_BACKOFF download_backoff;
+    FILE_XFER_BACKOFF upload_backoff;
+    inline FILE_XFER_BACKOFF& file_xfer_backoff(bool is_upload) {
+        return is_upload?upload_backoff:download_backoff;
+    }
 
     PROJECT();
     ~PROJECT(){}
