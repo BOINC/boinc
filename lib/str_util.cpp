@@ -80,7 +80,7 @@ size_t strlcat(char *dst, const char *src, size_t size) {
 #endif // !HAVE_STRLCAT
 
 #if !defined(HAVE_STRCASESTR)
-extern char *strcasestr(const char *s1, const char *s2) {
+extern const char *strcasestr(const char *s1, const char *s2) {
   char *needle, *haystack, *p=NULL;
   // Is alloca() really less likely to fail with out of memory error 
   // than strdup?
