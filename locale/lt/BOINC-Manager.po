@@ -16,15 +16,15 @@ msgstr ""
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_8\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
-#: clientgui/AccountInfoPage.cpp:337
+#: clientgui/AccountInfoPage.cpp:336
 msgid "User information"
 msgstr "Vartotojo informacija"
 
-#: clientgui/AccountInfoPage.cpp:343
+#: clientgui/AccountInfoPage.cpp:342
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
@@ -32,7 +32,7 @@ msgstr ""
 "Įveskite vartotojo informaciją\n"
 "(norėdami prisiregistruoti, apsilankykite projekto tinklapyje)"
 
-#: clientgui/AccountInfoPage.cpp:347
+#: clientgui/AccountInfoPage.cpp:346
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
@@ -40,83 +40,85 @@ msgstr ""
 "Šis projektas neleidžia registruotis naujiems dalyviams.\n"
 "Galite prisijungti, tik jei jau esate užsiregistravęs."
 
-#: clientgui/AccountInfoPage.cpp:351
+#: clientgui/AccountInfoPage.cpp:350
 msgid "Are you already running this project?"
 msgstr "Ar jau dalyvaujate šiame projekte?"
 
-#: clientgui/AccountInfoPage.cpp:355
+#: clientgui/AccountInfoPage.cpp:354
 msgid "&No, new user"
 msgstr "&Ne, naujas dalyvis"
 
-#: clientgui/AccountInfoPage.cpp:358
+#: clientgui/AccountInfoPage.cpp:357
 msgid "&Yes, existing user"
 msgstr "&Taip, esu dalyvis"
 
-#: clientgui/AccountInfoPage.cpp:374
-#: clientgui/AccountInfoPage.cpp:537
+#: clientgui/AccountInfoPage.cpp:373
+#: clientgui/AccountInfoPage.cpp:529
 msgid "&Password:"
 msgstr "Slaptažodis:"
 
-#: clientgui/AccountInfoPage.cpp:381
-#: clientgui/AccountInfoPage.cpp:552
+#: clientgui/AccountInfoPage.cpp:380
+#: clientgui/AccountInfoPage.cpp:544
 msgid "Choose a &password:"
 msgstr "Pasirinkite slaptažodį:"
 
-#: clientgui/AccountInfoPage.cpp:384
+#: clientgui/AccountInfoPage.cpp:383
 msgid "C&onfirm password:"
 msgstr "Pakartokite slaptažodį:"
 
-#: clientgui/AccountInfoPage.cpp:391
+#: clientgui/AccountInfoPage.cpp:390
 #, c-format
 msgid "Are you already running %s?"
 msgstr "Ar jau dalyvaujate %s?"
 
-#: clientgui/AccountInfoPage.cpp:408
+#: clientgui/AccountInfoPage.cpp:407
 msgid "&Username:"
 msgstr "&Vartotojo vardas:"
 
-#: clientgui/AccountInfoPage.cpp:422
+#: clientgui/AccountInfoPage.cpp:421
 msgid "&Email address:"
 msgstr "El. pašto adresas:"
 
-#: clientgui/AccountInfoPage.cpp:430
+#: clientgui/AccountInfoPage.cpp:429
 #, c-format
 msgid "minimum length %d"
 msgstr "minimalus ilgis %d"
 
-#: clientgui/AccountInfoPage.cpp:435
+#: clientgui/AccountInfoPage.cpp:434
 msgid "Forgot your password?"
 msgstr "Pamiršote slaptažodį?"
 
-#: clientgui/AccountInfoPage.cpp:476
-#: clientgui/WelcomePage.cpp:332
-#: clientgui/WelcomePage.cpp:346
+#: clientgui/AccountInfoPage.cpp:468
+#: clientgui/WelcomePage.cpp:350
+#: clientgui/WelcomePage.cpp:370
+#: clientgui/WelcomePage.cpp:386
 msgid "Attach to project"
 msgstr "Prisijungti prie projekto"
 
-#: clientgui/AccountInfoPage.cpp:478
+#: clientgui/AccountInfoPage.cpp:470
 msgid "Update account manager"
 msgstr "Susisiekti su abonemento valdikliu"
 
-#: clientgui/AccountInfoPage.cpp:480
+#: clientgui/AccountInfoPage.cpp:472
+#: clientgui/WelcomePage.cpp:356
 msgid "Attach to account manager"
 msgstr "Prisijungti prie abonemento valdiklio"
 
-#: clientgui/AccountInfoPage.cpp:489
+#: clientgui/AccountInfoPage.cpp:481
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr ""
 "Mažiausias slaptažodžio ilgis šiame projekte yra %d. Prašome pasirinkti kitą "
 "slaptažodį."
 
-#: clientgui/AccountInfoPage.cpp:495
+#: clientgui/AccountInfoPage.cpp:487
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr ""
 "Mažiausias slaptažodžio ilgis šiame abonemento valdiklyje yra %d. Prašome "
 "pasirinkti kitą slaptažodį."
 
-#: clientgui/AccountInfoPage.cpp:506
+#: clientgui/AccountInfoPage.cpp:498
 msgid "The password and confirmation password do not match. Please type them again."
 msgstr "Nesutampa įvesti slaptažodžiai. Prašome juos įvesti dar kartą."
 
@@ -133,18 +135,18 @@ msgid "Account Manager &URL:"
 msgstr "Abonemento valdiklio tinklapio adresas:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:190
-#: clientgui/AccountManagerPropertiesPage.cpp:194
+#: clientgui/AccountManagerPropertiesPage.cpp:193
 #, c-format
 msgid "Communicating with %s."
 msgstr "Jungiamasi prie %s."
 
 #: clientgui/AccountManagerProcessingPage.cpp:197
-#: clientgui/AccountManagerPropertiesPage.cpp:201
+#: clientgui/AccountManagerPropertiesPage.cpp:200
 msgid "Communicating with server."
 msgstr "Jungiamasi prie serverio."
 
 #: clientgui/AccountManagerProcessingPage.cpp:202
-#: clientgui/AccountManagerPropertiesPage.cpp:206
+#: clientgui/AccountManagerPropertiesPage.cpp:205
 msgid "Please wait..."
 msgstr "Prašome palaukti..."
 
@@ -162,280 +164,272 @@ msgstr "Prisijungta"
 msgid "Disconnected"
 msgstr "Atsijungta"
 
-#: clientgui/AdvancedFrame.cpp:303
+#: clientgui/AdvancedFrame.cpp:302
 #: clientgui/sg_BoincSimpleGUI.cpp:100
 msgid "&Close Window\tCTRL+W"
 msgstr "&Uždaryti langą\tCtrl+W"
 
-#: clientgui/AdvancedFrame.cpp:304
+#: clientgui/AdvancedFrame.cpp:303
 #: clientgui/sg_BoincSimpleGUI.cpp:101
 msgid "Close BOINC Manager Window."
 msgstr "Uždaryti BOINC valdiklio langą."
 
-#: clientgui/AdvancedFrame.cpp:310
+#: clientgui/AdvancedFrame.cpp:309
 #, c-format
 msgid "Exit the %s"
 msgstr "Išeiti iš %s"
 
-#: clientgui/AdvancedFrame.cpp:315
+#: clientgui/AdvancedFrame.cpp:314
 #: clientgui/BOINCTaskBar.cpp:626
 #: clientgui/mac/MacSysMenu.cpp:218
 msgid "E&xit"
 msgstr "Išeiti"
 
-#: clientgui/AdvancedFrame.cpp:324
+#: clientgui/AdvancedFrame.cpp:323
 msgid "&Advanced View\tCTRL+SHIFT+A"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:325
+#: clientgui/AdvancedFrame.cpp:324
 msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
 msgstr ""
 "Pažengusiųjų režime galima rūšiuoti informaciją pagal įvairius stulpelius ir "
 "matomas grafinis būsenos atvaizdavimas."
 
-#: clientgui/AdvancedFrame.cpp:330
+#: clientgui/AdvancedFrame.cpp:329
 msgid "&Simple View...\tCTRL+SHIFT+S"
 msgstr "&Supaprastinas režimas...\tCTRL+SHIFT+S"
 
-#: clientgui/AdvancedFrame.cpp:331
+#: clientgui/AdvancedFrame.cpp:330
 msgid "Display the simple BOINC graphical interface."
 msgstr "Parodyti supaprastintą BOINC vartotojo sąsają."
 
+#: clientgui/AdvancedFrame.cpp:344
+msgid "Attach to &project or account manager..."
+msgstr ""
+
 #: clientgui/AdvancedFrame.cpp:345
-msgid "Attach to &project..."
-msgstr "Prisijungti prie &projekto..."
+msgid "Attach to a project or account manager"
+msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:346
-msgid "Attach to a project"
-msgstr "Prisijungti prie projekto"
-
-#: clientgui/AdvancedFrame.cpp:350
-msgid "Attach to &account manager..."
-msgstr "Prisijungti prie &abonemento valdiklio..."
-
-#: clientgui/AdvancedFrame.cpp:351
-msgid "Attach to an account manager"
-msgstr "Prisijungti prie abonemento valdiklio"
-
-#: clientgui/AdvancedFrame.cpp:355
+#: clientgui/AdvancedFrame.cpp:349
 #, c-format
 msgid "&Synchronize with %s"
 msgstr "&Sinchronizuoti su %s"
 
-#: clientgui/AdvancedFrame.cpp:359
+#: clientgui/AdvancedFrame.cpp:353
 #, c-format
 msgid "Get current settings from %s"
 msgstr "Gauti naujausius nustatymus iš %s"
 
-#: clientgui/AdvancedFrame.cpp:374
+#: clientgui/AdvancedFrame.cpp:368
 msgid "&Run always"
 msgstr "Veikti visada"
 
-#: clientgui/AdvancedFrame.cpp:375
+#: clientgui/AdvancedFrame.cpp:369
 msgid "Allow work regardless of preferences"
 msgstr "Darbas vykdomas nepaisant nustatymų"
 
-#: clientgui/AdvancedFrame.cpp:379
+#: clientgui/AdvancedFrame.cpp:373
 msgid "Run based on &preferences"
 msgstr "Veikti pagal nustatymus"
 
-#: clientgui/AdvancedFrame.cpp:380
+#: clientgui/AdvancedFrame.cpp:374
 msgid "Allow work according to your preferences"
 msgstr "Darbas vykdomas pagal nustatymus"
 
-#: clientgui/AdvancedFrame.cpp:384
+#: clientgui/AdvancedFrame.cpp:378
 msgid "&Suspend"
 msgstr "&Sustabdyti"
 
-#: clientgui/AdvancedFrame.cpp:385
+#: clientgui/AdvancedFrame.cpp:379
 msgid "Stop work regardless of preferences"
 msgstr "Darbas sustabdomas nepaisant nustatymų"
 
-#: clientgui/AdvancedFrame.cpp:408
+#: clientgui/AdvancedFrame.cpp:402
 msgid "&Network activity always available"
 msgstr "Veiksmai tinkle bet kada"
 
-#: clientgui/AdvancedFrame.cpp:409
+#: clientgui/AdvancedFrame.cpp:403
 msgid "Allow network activity regardless of preferences"
 msgstr "Veiksmai tinkle galimi nepaisant nustatymų"
 
-#: clientgui/AdvancedFrame.cpp:413
+#: clientgui/AdvancedFrame.cpp:407
 msgid "Network activity based on &preferences"
 msgstr "Veiksmai tinkle pagal nustatymus"
 
-#: clientgui/AdvancedFrame.cpp:414
+#: clientgui/AdvancedFrame.cpp:408
 msgid "Allow network activity according to your preferences"
 msgstr "Veiksmai tinkle vykdomi pagal nustatymus"
 
-#: clientgui/AdvancedFrame.cpp:418
+#: clientgui/AdvancedFrame.cpp:412
 msgid "&Network activity suspended"
 msgstr "Veiksmai tikle sustabdyti"
 
-#: clientgui/AdvancedFrame.cpp:419
+#: clientgui/AdvancedFrame.cpp:413
 msgid "Stop BOINC network activity"
 msgstr "Veiksmai tinkle negalimi"
 
-#: clientgui/AdvancedFrame.cpp:426
+#: clientgui/AdvancedFrame.cpp:420
 msgid "&Options..."
 msgstr "&Nustatymai..."
 
-#: clientgui/AdvancedFrame.cpp:427
+#: clientgui/AdvancedFrame.cpp:421
 msgid "Configure GUI options and proxy settings"
 msgstr "Vartotojo sąsajos ir tarpinio serverio nustatymai"
 
-#: clientgui/AdvancedFrame.cpp:431
+#: clientgui/AdvancedFrame.cpp:425
 msgid "&Preferences..."
 msgstr "&Vietiniai nustatymai..."
 
-#: clientgui/AdvancedFrame.cpp:432
+#: clientgui/AdvancedFrame.cpp:426
 msgid "Configure local preferences"
 msgstr "Pakeisti vietinius nustatymus"
 
-#: clientgui/AdvancedFrame.cpp:438
+#: clientgui/AdvancedFrame.cpp:432
 #, c-format
 msgid "Connect to another computer running %s"
 msgstr "Prisijungti prie kito kompiuterio, kuriame veikia %s"
 
-#: clientgui/AdvancedFrame.cpp:443
+#: clientgui/AdvancedFrame.cpp:437
 msgid "Select computer..."
 msgstr "Pasirinkti kompiuterį..."
 
-#: clientgui/AdvancedFrame.cpp:448
+#: clientgui/AdvancedFrame.cpp:442
 msgid "Shut down connected client..."
 msgstr "Išjungti prisijungusį klientą..."
 
-#: clientgui/AdvancedFrame.cpp:449
+#: clientgui/AdvancedFrame.cpp:443
 msgid "Shut down the currently connected core client"
 msgstr "Išjungti šiuo metu prisijungusį pagrindinį klientą"
 
-#: clientgui/AdvancedFrame.cpp:453
+#: clientgui/AdvancedFrame.cpp:447
 msgid "Run CPU &benchmarks"
 msgstr "Matuoti sistemos greitį"
 
-#: clientgui/AdvancedFrame.cpp:454
+#: clientgui/AdvancedFrame.cpp:448
 msgid "Runs BOINC CPU benchmarks"
 msgstr "Matuoja sistemos procesoraus darbo našumą"
 
-#: clientgui/AdvancedFrame.cpp:458
+#: clientgui/AdvancedFrame.cpp:452
 msgid "Do network &communication"
 msgstr "Atlikti susijungimus tinkle"
 
-#: clientgui/AdvancedFrame.cpp:459
+#: clientgui/AdvancedFrame.cpp:453
 msgid "Do all pending network communication."
 msgstr "Atlikti visus laukiančius susijungimus tinkle."
 
-#: clientgui/AdvancedFrame.cpp:463
+#: clientgui/AdvancedFrame.cpp:457
 msgid "Read config file"
 msgstr "Nuskaityti nustatymų bylą"
 
-#: clientgui/AdvancedFrame.cpp:464
+#: clientgui/AdvancedFrame.cpp:458
 msgid "Read configuration info from cc_config.xml."
 msgstr "Nuskaityti nustatymus iš cc_config.xml."
 
-#: clientgui/AdvancedFrame.cpp:468
+#: clientgui/AdvancedFrame.cpp:462
 msgid "Read local prefs file"
 msgstr "Nuskaityti vietinių nustatymų bylą"
 
-#: clientgui/AdvancedFrame.cpp:469
+#: clientgui/AdvancedFrame.cpp:463
 msgid "Read preferences from global_prefs_override.xml."
 msgstr "Nuskaityti nustatymus iš global_prefs_override.xml."
 
-#: clientgui/AdvancedFrame.cpp:473
+#: clientgui/AdvancedFrame.cpp:467
 #, c-format
 msgid "&Stop using %s..."
 msgstr "Nustoti naudoti %s..."
 
-#: clientgui/AdvancedFrame.cpp:479
+#: clientgui/AdvancedFrame.cpp:473
 msgid "Remove client from account manager control."
 msgstr "Nebenaudoti abonemento valdiklio šiame kliente."
 
-#: clientgui/AdvancedFrame.cpp:483
+#: clientgui/AdvancedFrame.cpp:477
 msgid "Attach to &project"
 msgstr "Prisijungti prie &projekto"
 
-#: clientgui/AdvancedFrame.cpp:484
+#: clientgui/AdvancedFrame.cpp:478
 msgid "Attach to a project to begin processing work"
 msgstr "Prisijungite prie projekto ir pradėkite apdoroti darbą"
 
-#: clientgui/AdvancedFrame.cpp:495
+#: clientgui/AdvancedFrame.cpp:489
 #: clientgui/sg_BoincSimpleGUI.cpp:110
 #, c-format
 msgid "%s &help"
 msgstr "%s &pagalba"
 
-#: clientgui/AdvancedFrame.cpp:501
+#: clientgui/AdvancedFrame.cpp:495
 #: clientgui/sg_BoincSimpleGUI.cpp:116
 #, c-format
 msgid "Show information about %s"
 msgstr "Rodyti informaciją apie %s"
 
-#: clientgui/AdvancedFrame.cpp:513
+#: clientgui/AdvancedFrame.cpp:507
 #, c-format
 msgid "&%s help"
 msgstr "&%s pagalba"
 
-#: clientgui/AdvancedFrame.cpp:519
+#: clientgui/AdvancedFrame.cpp:513
 #: clientgui/sg_BoincSimpleGUI.cpp:134
 #, c-format
 msgid "Show information about the %s"
 msgstr "Rodyti informaciją apie %s"
 
-#: clientgui/AdvancedFrame.cpp:531
+#: clientgui/AdvancedFrame.cpp:525
 #: clientgui/sg_BoincSimpleGUI.cpp:146
 #, c-format
 msgid "%s &website"
 msgstr "%s &tinklapis"
 
-#: clientgui/AdvancedFrame.cpp:537
+#: clientgui/AdvancedFrame.cpp:531
 #: clientgui/sg_BoincSimpleGUI.cpp:152
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "Rodyti informaciją apie BOINC ir %s"
 
-#: clientgui/AdvancedFrame.cpp:553
+#: clientgui/AdvancedFrame.cpp:547
 #: clientgui/BOINCTaskBar.cpp:616
 #, c-format
 msgid "&About %s..."
 msgstr "&Apie %s..."
 
-#: clientgui/AdvancedFrame.cpp:559
+#: clientgui/AdvancedFrame.cpp:553
 msgid "Licensing and copyright information."
 msgstr "Licensijų ir autorinių teisių informacija."
 
-#: clientgui/AdvancedFrame.cpp:566
+#: clientgui/AdvancedFrame.cpp:560
 #: clientgui/sg_BoincSimpleGUI.cpp:175
 msgid "&File"
 msgstr "&Byla"
 
-#: clientgui/AdvancedFrame.cpp:570
+#: clientgui/AdvancedFrame.cpp:564
 msgid "&View"
 msgstr "&Režimas"
 
-#: clientgui/AdvancedFrame.cpp:574
+#: clientgui/AdvancedFrame.cpp:568
 msgid "&Tools"
 msgstr "&Įrankiai"
 
-#: clientgui/AdvancedFrame.cpp:578
+#: clientgui/AdvancedFrame.cpp:572
 msgid "&Activity"
 msgstr "&Veikla"
 
-#: clientgui/AdvancedFrame.cpp:582
+#: clientgui/AdvancedFrame.cpp:576
 msgid "A&dvanced"
 msgstr "&Papildomi"
 
-#: clientgui/AdvancedFrame.cpp:586
+#: clientgui/AdvancedFrame.cpp:580
 #: clientgui/sg_BoincSimpleGUI.cpp:165
 #: clientgui/wizardex.cpp:399
 #: clientgui/wizardex.cpp:406
 msgid "&Help"
 msgstr "&Pagalba"
 
-#: clientgui/AdvancedFrame.cpp:1083
+#: clientgui/AdvancedFrame.cpp:1077
 #, c-format
 msgid "%s - Shutdown the current client..."
 msgstr "%s - išjungti prisijungusį klientą..."
 
-#: clientgui/AdvancedFrame.cpp:1092
+#: clientgui/AdvancedFrame.cpp:1086
 #, c-format
 msgid ""
 "%s will shut down the currently connected client,\n"
@@ -444,12 +438,12 @@ msgstr ""
 "%s išjungs šiuo metu prisijungusį klientą\n"
 "ir pasiūlys prisijungti prie kito kompiuterio.\n"
 
-#: clientgui/AdvancedFrame.cpp:1239
+#: clientgui/AdvancedFrame.cpp:1196
 #, c-format
 msgid "%s - Detach from %s"
 msgstr "%s - atsijungti nuo %s"
 
-#: clientgui/AdvancedFrame.cpp:1244
+#: clientgui/AdvancedFrame.cpp:1201
 #, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -464,48 +458,48 @@ msgstr ""
 "\n"
 "Ar tikrai norite atsijungti nuo %s?"
 
-#: clientgui/AdvancedFrame.cpp:1291
+#: clientgui/AdvancedFrame.cpp:1248
 msgid "Attaching to project..."
 msgstr "Prisijungiama prie projekto..."
 
-#: clientgui/AdvancedFrame.cpp:1330
+#: clientgui/AdvancedFrame.cpp:1287
 msgid "Retrying communications for project(s)..."
 msgstr "Bandoma susisiekti su projektu(-ais)..."
 
-#: clientgui/AdvancedFrame.cpp:1421
+#: clientgui/AdvancedFrame.cpp:1378
 #, c-format
 msgid "%s - Language Selection"
 msgstr "%s - kalbos pasirinkimas"
 
-#: clientgui/AdvancedFrame.cpp:1428
+#: clientgui/AdvancedFrame.cpp:1385
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr ""
 "%s aptiko pasirinktos kalbos pakeitimą. %s turi būti paleistas iš naujo, kad "
 "įsigaliotų kalbos pakeitimas."
 
-#: clientgui/AdvancedFrame.cpp:1639
+#: clientgui/AdvancedFrame.cpp:1595
 #: clientgui/DlgAbout.cpp:104
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: clientgui/AdvancedFrame.cpp:1648
+#: clientgui/AdvancedFrame.cpp:1604
 #, c-format
 msgid "%s has successfully attached to %s"
 msgstr "%s sėkmingai prisijungė prie %s"
 
-#: clientgui/AdvancedFrame.cpp:1772
+#: clientgui/AdvancedFrame.cpp:1726
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/AdvancedFrame.cpp:1775
+#: clientgui/AdvancedFrame.cpp:1729
 #, c-format
 msgid "Connecting to %s"
 msgstr "Jungiamasi prie %s"
 
-#: clientgui/AdvancedFrame.cpp:1778
+#: clientgui/AdvancedFrame.cpp:1732
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Prisijungta prie %s (%s)"
@@ -544,9 +538,22 @@ msgstr ""
 "Prašome apsilankyti projekto tinklapyje ir veikti pagal ten\n"
 "nurodytas instrukcijas."
 
-#: clientgui/AsyncRPC.cpp:948
+#: clientgui/AsyncRPC.cpp:975
 msgid "Communicating with BOINC client.  Please wait ..."
 msgstr "Jungiamasi prie BOINC kliento. Prašome palaukti..."
+
+#: clientgui/AsyncRPC.cpp:977
+msgid "&Quit BOINC"
+msgstr ""
+
+#: clientgui/AsyncRPC.cpp:979
+msgid "E&xit BOINC"
+msgstr ""
+
+#: clientgui/AsyncRPC.cpp:996
+#: clientgui/DlgAdvPreferencesBase.cpp:585
+msgid "Cancel"
+msgstr "Atšaukti"
 
 #: clientgui/BOINCBaseFrame.cpp:421
 #, c-format
@@ -1305,10 +1312,6 @@ msgstr "Gerai"
 #: clientgui/DlgAdvPreferencesBase.cpp:581
 msgid "save all values and close the dialog"
 msgstr ""
-
-#: clientgui/DlgAdvPreferencesBase.cpp:585
-msgid "Cancel"
-msgstr "Atšaukti"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:586
 msgid "close the dialog without saving"
@@ -2104,11 +2107,11 @@ msgstr "Sužinokite daugiau apie World Community Grid projektus"
 msgid "Starting client services; please wait..."
 msgstr ""
 
-#: clientgui/MainDocument.cpp:1032
+#: clientgui/MainDocument.cpp:1031
 msgid "Retrieving system state; please wait..."
 msgstr "Gaunama sistemos būklė; prašome palaukti..."
 
-#: clientgui/MainDocument.cpp:1041
+#: clientgui/MainDocument.cpp:1040
 msgid "Retrieving host information; please wait..."
 msgstr "Gaunama kompiuterio informacija; prašome palaukti..."
 
@@ -3593,11 +3596,11 @@ msgstr ""
 "Ar tikrai norite nutraukti šią užduotį '%s'?\n"
 "(Pažanga: %s, Būklė: %s)"
 
-#: clientgui/WelcomePage.cpp:222
+#: clientgui/WelcomePage.cpp:241
 msgid "Change Research Applications at World Community Grid"
 msgstr ""
 
-#: clientgui/WelcomePage.cpp:336
+#: clientgui/WelcomePage.cpp:374
 #, c-format
 msgid ""
 "If possible, add projects at the\n"
@@ -3607,14 +3610,14 @@ msgid ""
 "listed on or managed via %s."
 msgstr ""
 
-#: clientgui/WelcomePage.cpp:350
+#: clientgui/WelcomePage.cpp:390
 #, fuzzy
 msgid ""
 "We'll now guide you through the process of attaching\n"
 "to a project."
 msgstr "Dabar Jūs pradėsite prisijungimo prie projekto procesą."
 
-#: clientgui/WelcomePage.cpp:354
+#: clientgui/WelcomePage.cpp:394
 msgid ""
 "You have selected to attach to a new BOINC project.  Attaching to a new\n"
 "project means that you will be connecting your computer to a new website\n"
@@ -3630,25 +3633,24 @@ msgid ""
 "World Community Grid then please click on the following button:"
 msgstr ""
 
-#: clientgui/WelcomePage.cpp:362
-#, c-format
+#: clientgui/WelcomePage.cpp:403
 #, c-format
 #, fuzzy
 msgid "&Stop using%s"
 msgstr "Nu&stoti naudoti %s"
 
-#: clientgui/WelcomePage.cpp:369
+#: clientgui/WelcomePage.cpp:410
 #, c-format
 msgid ""
 "We'll now remove this computer from %s.  From now on,\n"
 "attach and detach projects directly from this computer.\n"
 msgstr ""
 
-#: clientgui/WelcomePage.cpp:380
+#: clientgui/WelcomePage.cpp:431
 msgid "Account manager"
 msgstr "Vartotojo abonento valdymas"
 
-#: clientgui/WelcomePage.cpp:383
+#: clientgui/WelcomePage.cpp:434
 msgid ""
 "We'll now guide you through the process of attaching\n"
 "to an account manager.\n"
@@ -3657,61 +3659,59 @@ msgid ""
 "then select the 'Attach to project' menu item instead."
 msgstr ""
 
-#: clientgui/WelcomePage.cpp:392
+#: clientgui/WelcomePage.cpp:453
 msgid "Debug Flags"
 msgstr "Programos klaidų žymės"
 
-#: clientgui/WelcomePage.cpp:395
+#: clientgui/WelcomePage.cpp:456
 msgid "Project Properties Failure"
 msgstr "Projekto nustatymu klaida"
 
-#: clientgui/WelcomePage.cpp:398
+#: clientgui/WelcomePage.cpp:459
 msgid "Project Communication Failure"
 msgstr ""
 
-#: clientgui/WelcomePage.cpp:401
+#: clientgui/WelcomePage.cpp:462
 msgid "Project Properties URL Failure"
 msgstr "Projekto nustatymų URL klaida"
 
-#: clientgui/WelcomePage.cpp:404
+#: clientgui/WelcomePage.cpp:465
 msgid "Account Creation Disabled"
 msgstr "Abonementų kūrimas yra išjungtas"
 
-#: clientgui/WelcomePage.cpp:407
+#: clientgui/WelcomePage.cpp:468
 msgid "Client Account Creation Disabled"
 msgstr "Vartotojo abonementų kūrimas yra išjungtas"
 
-#: clientgui/WelcomePage.cpp:410
+#: clientgui/WelcomePage.cpp:471
 msgid "Account Already Exists"
 msgstr "Toks abonementas jau yra"
 
-#: clientgui/WelcomePage.cpp:413
+#: clientgui/WelcomePage.cpp:474
 msgid "Project Already Attached"
 msgstr "Projektas jau prijungtas"
 
-#: clientgui/WelcomePage.cpp:416
+#: clientgui/WelcomePage.cpp:477
 msgid "Project Attach Failure"
 msgstr "Nepavyko prisijungti prie projekto"
 
-#: clientgui/WelcomePage.cpp:419
+#: clientgui/WelcomePage.cpp:480
 msgid "Failure Communicating with Reference Site"
 msgstr ""
 
-#: clientgui/WelcomePage.cpp:422
+#: clientgui/WelcomePage.cpp:483
 msgid "Net Detection Failure"
 msgstr "Tinklo aptikimo klaida"
 
-#: clientgui/WelcomePage.cpp:427
+#: clientgui/WelcomePage.cpp:488
 msgid "To continue, click Next."
 msgstr "Norėdami tęsti, spauskite Toliau."
 
-#: clientgui/WizardAccountManager.cpp:445
-#: clientgui/WizardAttachProject.cpp:454
+#: clientgui/WizardAttachProject.cpp:541
 msgid "Do you really want to cancel?"
 msgstr "Ar norite atšaukti?"
 
-#: clientgui/WizardAccountManager.cpp:446
-#: clientgui/WizardAttachProject.cpp:455
+#: clientgui/WizardAttachProject.cpp:542
 msgid "Question"
 msgstr "Klausimas"
 
@@ -3759,6 +3759,18 @@ msgstr ""
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr ""
+
+#~ msgid "Attach to &project..."
+#~ msgstr "Prisijungti prie &projekto..."
+
+#~ msgid "Attach to a project"
+#~ msgstr "Prisijungti prie projekto"
+
+#~ msgid "Attach to &account manager..."
+#~ msgstr "Prisijungti prie &abonemento valdiklio..."
+
+#~ msgid "Attach to an account manager"
+#~ msgstr "Prisijungti prie abonemento valdiklio"
 
 #~ msgid ""
 #~ "You can copy and paste the URL from your browser's\n"
