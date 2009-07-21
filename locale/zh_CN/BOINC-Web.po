@@ -852,5 +852,25 @@ msgstr "下面是 <a href=poll.php>BOINC 用户调查</a> 的当前统计结果�
 #~ msgid "HOME_BOINC"
 #~ msgstr "伯克利开放式网络计算架构"
 
+# The charset used for the text in this file (please try to use UTF-8 if possible)
+# #########################################
+# Language: English (International)
+# FileID  : $Id: zh_CN.po 15385 2008-06-11 05:27:38Z JensSeidler $
+# For more information please see:
+# http://boinc.berkeley.edu/web_translation.php
+# FileID  : $Id: en.po 15349 2008-06-02 17:24:04Z davea $
+# The name of this language in this language
+# The name of this language in an international language (English)
+# ######################################<br />
+# <br />
+# poll-related stuff<br />
+# #######################################<br />
+# poll-related stuff
+# ############################################<br />
+# help.php<br />
+# #############################################<br />
+# help.php
+# index.php<br />
+# index.php
 #~ msgid "HOME_BOINC_DESC"
 #~ msgstr "用于 %s志愿计算%s 和 %s网格计算%s 的开源软件"

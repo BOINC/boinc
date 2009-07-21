@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-01-23 10:53-0700\n"
+"PO-Revision-Date: 2009-06-28 06:29-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -95,7 +95,7 @@ msgstr "Projekt anmelden"
 
 #: clientgui/AccountInfoPage.cpp:478
 msgid "Update account manager"
-msgstr "Kontoverwaltung aktuallisieren"
+msgstr "Kontoverwaltung aktualisieren"
 
 #: clientgui/AccountInfoPage.cpp:480
 msgid "Attach to account manager"
@@ -186,7 +186,7 @@ msgstr "&Beenden"
 
 #: clientgui/AdvancedFrame.cpp:324
 msgid "&Advanced View\tCTRL+SHIFT+A"
-msgstr ""
+msgstr "&Erweiterte AnsichtSTRG+SHIFT+A"
 
 #: clientgui/AdvancedFrame.cpp:325
 msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
@@ -196,7 +196,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "&Simple View...\tCTRL+SHIFT+S"
-msgstr ""
+msgstr "&Einfache AnsichtSTRG+SHIFT+S"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display the simple BOINC graphical interface."
@@ -2138,7 +2138,7 @@ msgstr "Geräteprofile"
 
 #: clientgui/Localization.cpp:153
 msgid "Update your device settings"
-msgstr "Aktualiseren Sie Ihre Geräteeinstellungen"
+msgstr "Aktualisieren Sie Ihre Geräteeinstellungen"
 
 #: clientgui/Localization.cpp:155
 msgid "Research"
@@ -3486,7 +3486,7 @@ msgstr "Grösse"
 #: clientgui/ViewTransfers.cpp:185
 #: clientgui/ViewTransfersGrid.cpp:130
 msgid "Elapsed Time"
-msgstr "Restzeit"
+msgstr "Vergangene Zeit"
 
 #: clientgui/ViewTransfers.cpp:186
 #: clientgui/ViewTransfersGrid.cpp:130
@@ -3595,7 +3595,7 @@ msgstr "Name"
 
 #: clientgui/ViewWork.cpp:217
 msgid "Elapsed"
-msgstr ""
+msgstr "Vergangen"
 
 #: clientgui/ViewWork.cpp:219
 #: clientgui/ViewWorkGrid.cpp:147

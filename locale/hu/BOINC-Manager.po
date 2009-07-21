@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-05-16 06:19-0700\n"
+"PO-Revision-Date: 2009-06-15 15:18-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -206,13 +206,12 @@ msgid "Attach to &project..."
 msgstr "Csatlakozás &projekthez..."
 
 #: clientgui/AdvancedFrame.cpp:346
-#, fuzzy
 msgid "Attach to a project"
 msgstr "Csatlakozás egy projekthez"
 
 #: clientgui/AdvancedFrame.cpp:350
 msgid "Attach to &account manager..."
-msgstr "Csatlakozás &fiókkezelőhöz"
+msgstr "Csatlakozás &fiókkezelőhöz..."
 
 #: clientgui/AdvancedFrame.cpp:351
 msgid "Attach to an account manager"
@@ -234,7 +233,6 @@ msgid "&Run always"
 msgstr "&Mindig fut"
 
 #: clientgui/AdvancedFrame.cpp:375
-#, fuzzy
 msgid "Allow work regardless of preferences"
 msgstr "Munka engedélyezése a beállítások figyelmen kívül hagyásával"
 
@@ -243,7 +241,6 @@ msgid "Run based on &preferences"
 msgstr "&Beállítások szerint fut"
 
 #: clientgui/AdvancedFrame.cpp:380
-#, fuzzy
 msgid "Allow work according to your preferences"
 msgstr "Munka engedélyezése a beállítások figyelembevételével"
 
@@ -252,7 +249,6 @@ msgid "&Suspend"
 msgstr "&Felfüggeszt"
 
 #: clientgui/AdvancedFrame.cpp:385
-#, fuzzy
 msgid "Stop work regardless of preferences"
 msgstr "Beállítások figyelembe vétele nélkül leáll"
 
@@ -261,7 +257,6 @@ msgid "&Network activity always available"
 msgstr "&Hálózati forgalom mindig engedélyezve"
 
 #: clientgui/AdvancedFrame.cpp:409
-#, fuzzy
 msgid "Allow network activity regardless of preferences"
 msgstr "Beállítások mellőzésével a hálózatra kapcsolódik"
 
@@ -270,7 +265,6 @@ msgid "Network activity based on &preferences"
 msgstr "Hálózati forgalom a beállítások alapján"
 
 #: clientgui/AdvancedFrame.cpp:414
-#, fuzzy
 msgid "Allow network activity according to your preferences"
 msgstr "Beállítások szerint a hálózatra kapcsolódik"
 
@@ -279,12 +273,10 @@ msgid "&Network activity suspended"
 msgstr "Hálózati forgalom felfüggesztve"
 
 #: clientgui/AdvancedFrame.cpp:419
-#, fuzzy
 msgid "Stop BOINC network activity"
 msgstr "BOINC hálózati aktivitásának leállítása"
 
 #: clientgui/AdvancedFrame.cpp:426
-#, fuzzy
 msgid "&Options..."
 msgstr "&Opciók..."
 
@@ -293,7 +285,6 @@ msgid "Configure GUI options and proxy settings"
 msgstr "A grafikus felület és a proxy beállítása"
 
 #: clientgui/AdvancedFrame.cpp:431
-#, fuzzy
 msgid "&Preferences..."
 msgstr "&Beállítások..."
 
@@ -315,7 +306,6 @@ msgid "Shut down connected client..."
 msgstr "Kapcsolódott kliens leállítása..."
 
 #: clientgui/AdvancedFrame.cpp:449
-#, fuzzy
 msgid "Shut down the currently connected core client"
 msgstr "Jelenleg kapcsolódott magkliens leállítása"
 
@@ -328,14 +318,12 @@ msgid "Runs BOINC CPU benchmarks"
 msgstr "A BOINC processzor-sebesség mérésének futtatása "
 
 #: clientgui/AdvancedFrame.cpp:458
-#, fuzzy
 msgid "Do network &communication"
 msgstr "Hálózati &kommunikáció létesítése"
 
 #: clientgui/AdvancedFrame.cpp:459
-#, fuzzy
 msgid "Do all pending network communication."
-msgstr "Minden függő hálózati kommunikáció folytatása."
+msgstr "Minden függőben lévő hálózati kommunikáció folytatása."
 
 #: clientgui/AdvancedFrame.cpp:463
 msgid "Read config file"
@@ -360,12 +348,11 @@ msgstr "%s használatának &befejezése..."
 
 #: clientgui/AdvancedFrame.cpp:479
 msgid "Remove client from account manager control."
-msgstr ""
+msgstr "Kliens eltávolítása a fiókkezelő felügyelete alól."
 
 #: clientgui/AdvancedFrame.cpp:483
-#, fuzzy
 msgid "Attach to &project"
-msgstr "Csatlakozás"
+msgstr "Csatlakozás &projekthez"
 
 #: clientgui/AdvancedFrame.cpp:484
 msgid "Attach to a project to begin processing work"
@@ -410,7 +397,7 @@ msgstr "Információk a BOINC kezelőről és erről: %s"
 #: clientgui/BOINCTaskBar.cpp:616
 #, c-format
 msgid "&About %s..."
-msgstr ""
+msgstr "%s &névjegye..."
 
 #: clientgui/AdvancedFrame.cpp:559
 msgid "Licensing and copyright information."
@@ -447,7 +434,7 @@ msgstr "&Segítség"
 #: clientgui/AdvancedFrame.cpp:1083
 #, c-format
 msgid "%s - Shutdown the current client..."
-msgstr "%s - A jelenlegi kliens leállítása"
+msgstr "%s - A jelenlegi kliens leállítása..."
 
 #: clientgui/AdvancedFrame.cpp:1092
 #, c-format
@@ -472,6 +459,11 @@ msgid ""
 "\n"
 "Do you want to stop using %s?"
 msgstr ""
+"Ha befejezi %s használatát,\n"
+"azzal bár megtartja jelenlegi projektjeit,\n"
+"de csak egyenként tudja kezelni azokat.\n"
+"\n"
+"Biztosan befejezi %s használatát?"
 
 #: clientgui/AdvancedFrame.cpp:1291
 msgid "Attaching to project..."
@@ -489,11 +481,10 @@ msgstr "%s - Nyelv kiválasztása"
 #: clientgui/AdvancedFrame.cpp:1428
 #, c-format
 #, c-format
-#, fuzzy
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr ""
 "A(z) %s alapértelmezett nyelve megváltozott, a változás érvénybe lépéséhez "
-"újra kell indítani ezt: %s."
+"újra kell indítani %s-t."
 
 #: clientgui/AdvancedFrame.cpp:1639
 #: clientgui/DlgAbout.cpp:104
@@ -519,9 +510,8 @@ msgstr "Kapcsolódás %s-hoz"
 #: clientgui/AdvancedFrame.cpp:1778
 #, c-format
 #, c-format
-#, fuzzy
 msgid "Connected to %s (%s)"
-msgstr "Kapcsolódva %s-hoz"
+msgstr "Kapcsolódva ehhez: %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:183
 msgid "Username already in use"
@@ -564,7 +554,6 @@ msgstr "Kommunikáció a BOINC klienssel. Kérem, várjon..."
 #: clientgui/BOINCBaseFrame.cpp:421
 #, c-format
 #, c-format
-#, fuzzy
 msgid "%s - Connection Error"
 msgstr "%s - Hiba a kapcsolatban"
 
@@ -573,6 +562,10 @@ msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
+"Jelenleg nincs jogosultsága a kliens kezelésére.\n"
+"Kérjük, lépjen kapcsolatba a rendszergazdával és kérje meg, hogy adja hozzá "
+"a\n"
+" 'boinc_users' helyi felhasználói csoporthoz."
 
 #: clientgui/BOINCBaseFrame.cpp:439
 msgid ""
@@ -591,7 +584,7 @@ msgstr "A megadott jelszó hibás, kérem próbálja újra."
 #: clientgui/BOINCBaseFrame.cpp:488
 #, c-format
 msgid "%s - Connection Failed"
-msgstr ""
+msgstr "%s - A kapcsolódás sikertelen"
 
 #: clientgui/BOINCBaseFrame.cpp:497
 #, c-format
@@ -599,11 +592,13 @@ msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
 msgstr ""
+"%s nem tud kapcsolódni egy %s klienshez.\n"
+"Megpróbál újra kapcsolódni?"
 
 #: clientgui/BOINCBaseFrame.cpp:533
 #, c-format
 msgid "%s - Daemon Start Failed"
-msgstr ""
+msgstr "%s - A kiszolgáló indítása sikertelen"
 
 #: clientgui/BOINCBaseFrame.cpp:543
 #, c-format
@@ -611,6 +606,9 @@ msgid ""
 "%s is not able to start a %s client.\n"
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
+"%s nem tud egy %s klienst elindítani.\n"
+"Kérjük, navigáljon a Vezérlőpult->Felügyeleti eszközök->Szolgáltatások "
+"helyre és indítsa el a  BOINC szolgáltatást."
 
 #: clientgui/BOINCBaseFrame.cpp:549
 #, c-format
@@ -618,19 +616,27 @@ msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
 msgstr ""
+"%s nem tud elindítani egy %s klienst.\n"
+"Kérjük, indítsa el a kiszolgálót és próbálja újra."
 
 #: clientgui/BOINCBaseFrame.cpp:595
 #, c-format
 msgid "%s - Connection Status"
-msgstr ""
+msgstr "%s - A kapcsolat állapota"
 
 #: clientgui/BOINCBaseFrame.cpp:606
 #, c-format
+#, fuzzy
 msgid ""
 "%s is not currently connected to a %s client.\n"
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
+"%s jelenleg nem kapcsolódik egy %s klienshez.\n"
+"Kérjük, válassza a Haladó menü Számítógép kiválasztása menüpontját egy %s "
+"klienshez való csatlakozáshoz.\n"
+"A helyi számítógéphez történő csatlakozáshoz írja be a 'localhost' szót "
+"Számítógépnévnek."
 
 #: clientgui/BOINCBaseView.cpp:748
 #: clientgui/ViewProjectsGrid.cpp:644
@@ -640,91 +646,100 @@ msgstr "Weboldalak"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
+#, fuzzy
 msgid "%s - Network Status"
-msgstr ""
+msgstr "%s - Hálózati Állapot"
 
 #: clientgui/BOINCDialupManager.cpp:255
 #, c-format
+#, fuzzy
 msgid "%s needs to connect to the Internet.  Please click to open %s."
 msgstr ""
+"%s szeretne kapcsolódni az Internetre. Kérjük, kattintson %s megnyitásához."
 
 #: clientgui/BOINCDialupManager.cpp:263
 #, c-format
+#, fuzzy
 msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
+"%s nem képes kommunikálni egy projekttel, és internetkapcsolatra van "
+"szüksége.\n"
+"Kérjük, kapcsolódjon az Internetre, majd válassza Haladó menü a Hálózati "
+"kommunikáció létesítése menüpontját."
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
 #, c-format
-#, fuzzy
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
 msgstr ""
-"BOINC-nak csatlakoznia kell a hálózathoz.\n"
+"A következőnek internetkapcsolatra van szüksége: %s.\n"
 "Csatlakozzon most?"
 
 #: clientgui/BOINCDialupManager.cpp:323
 #, c-format
 #, c-format
-#, fuzzy
 msgid "%s is connecting to the Internet."
-msgstr "BOINC kapcsolódik az internetre."
+msgstr "%s kapcsolódik az internetre."
 
 #: clientgui/BOINCDialupManager.cpp:354
 #, c-format
+#, fuzzy
 msgid ""
 "%s couldn't do Internet communication, and no default connection is selected.\n"
 "Please connect to the Internet, or select a default connection\n"
 "using Advanced/Options/Connections."
 msgstr ""
+"%s nem volt képes az internetre csatlakozni, és alapértelmezett kapcsolat "
+"sincs kiválasztva.\n"
+"Kérjük, csatlakozzon az internetre, vagy válasszon alapértelmezett "
+"kapcsolatot\n"
+"a Haladó/Opciók/Kapcsolatok menüpontnál."
 
 #: clientgui/BOINCDialupManager.cpp:386
 #, c-format
 #, c-format
-#, fuzzy
 msgid "%s has successfully connected to the Internet."
-msgstr "BOINC sikeresen kapcsolódott az internetre."
+msgstr "%s sikeresen kapcsolódott az internetre."
 
 #: clientgui/BOINCDialupManager.cpp:414
 #, c-format
 #, c-format
-#, fuzzy
 msgid "%s failed to connect to the Internet."
-msgstr "Nem sikerült kapcsolódni az internetre."
+msgstr "%s nem tudott az internetre kapcsolódni."
 
 #: clientgui/BOINCDialupManager.cpp:455
 #, c-format
 #, c-format
-#, fuzzy
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
 msgstr ""
-"BOINC érzékelte, hogy kapcsolódott az internetre, minden projekt frissítése, "
-"és átvitelek újrapróbálása."
+"%s érzékelte, hogy kapcsolódott az internetre.\n"
+"Minden projekt frissítése, és az átvitelek újrapróbálása."
 
 #: clientgui/BOINCDialupManager.cpp:500
 #, c-format
 #, c-format
-#, fuzzy
 msgid "%s has successfully disconnected from the Internet."
-msgstr "BOINC sikeresen lekapcsolódott az internetről."
+msgstr "%s sikeresen lekapcsolódott az internetről."
 
 #: clientgui/BOINCDialupManager.cpp:516
 #, c-format
 #, c-format
-#, fuzzy
 msgid "%s failed to disconnected from the Internet."
-msgstr "Nem sikerült lekapcsolódni az internetrő."
+msgstr "%s nem tudott lekapcsolódni az internetről."
 
 #: clientgui/BOINCGUIApp.cpp:372
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr ""
+"A BOINC megfelelő futásához újraindítás szükséges.\n"
+"Kérjük, indítsa újra a számítógépét, majd próbálja újra."
 
 #: clientgui/BOINCGUIApp.cpp:373
 #: clientgui/DlgAbout.cpp:136
@@ -733,23 +748,28 @@ msgstr "BOINC kezelő"
 
 #: clientgui/BOINCGUIApp.cpp:523
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr ""
+msgstr "A BOINC kezelőt az operációs rendszer automatikusan indította"
 
 #: clientgui/BOINCGUIApp.cpp:525
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "BOINC indítása, így csak a tálcaikon látható."
 
 #: clientgui/BOINCGUIApp.cpp:527
+#, fuzzy
 msgid "Startup BOINC with these optional arguments"
-msgstr ""
+msgstr "A BOINC indítása ezen opcionális lehetőségekkel"
 
 #: clientgui/BOINCGUIApp.cpp:528
+#, fuzzy
 msgid "disable BOINC security users and permissions"
-msgstr ""
+msgstr "a BOINC biztonsági felhasználók és hozzáférések kikapcsolása"
 
 #: clientgui/BOINCGUIApp.cpp:529
+#, fuzzy
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
+"kinézet hibakereső mód beállítása, ezzel a kinézetkezelő hibaüzeneteinek "
+"megjelenítése"
 
 #: clientgui/BOINCGUIApp.cpp:689
 msgid "(Automatic Detection)"
@@ -761,62 +781,60 @@ msgstr "(Ismeretlen)"
 
 #: clientgui/BOINCGUIApp.cpp:691
 msgid "(User Defined)"
-msgstr "(Felhasznéló által megadott)"
+msgstr "(Felhasználó által megadott)"
 
 #: clientgui/BOINCTaskBar.cpp:336
 msgid "Computation is suspended."
-msgstr ""
+msgstr "Számítás felfüggesztve."
 
 #: clientgui/BOINCTaskBar.cpp:344
-#, fuzzy
 msgid "Network activity is suspended."
-msgstr "Hálózati forgalom felfüggesztve"
+msgstr "Hálózati aktivitás felfüggesztve."
 
 #: clientgui/BOINCTaskBar.cpp:378
 #, c-format
 msgid "%s: %.2f%% completed."
-msgstr ""
+msgstr "%s: %.2f%% kész."
 
 #: clientgui/BOINCTaskBar.cpp:391
 #, c-format
 msgid "%d tasks running."
-msgstr ""
+msgstr "%d feladat fut."
 
 #: clientgui/BOINCTaskBar.cpp:400
 msgid "Reconnecting to client."
-msgstr ""
+msgstr "Újracsatlakozás a klienshez."
 
 #: clientgui/BOINCTaskBar.cpp:406
 msgid "Not connected to a client."
-msgstr ""
+msgstr "Nincs kapcsolódva a klienshez."
 
 #: clientgui/BOINCTaskBar.cpp:597
 #, c-format
+#, fuzzy
 msgid "Open %s Web..."
-msgstr ""
+msgstr "%s Web megnyitása..."
 
 #: clientgui/BOINCTaskBar.cpp:604
 #, c-format
 msgid "Open %s..."
-msgstr ""
+msgstr "%s megnyitása"
 
 #: clientgui/BOINCTaskBar.cpp:611
 msgid "Snooze"
-msgstr ""
+msgstr "Felfüggeszt"
 
 #: clientgui/CompletionErrorPage.cpp:200
 msgid "Failed to attach to project"
 msgstr "A projekthez való csatlakozás sikertelen"
 
 #: clientgui/CompletionErrorPage.cpp:205
-#, fuzzy
 msgid "Failed to update account manager"
-msgstr "A fiókkezelőhöz való csatlakozás sikertelen"
+msgstr "A fiókkezelő frissítése sikertelen"
 
 #: clientgui/CompletionErrorPage.cpp:209
-#, fuzzy
 msgid "Failed to remove account manager"
-msgstr "A fiókkezelőhöz való csatlakozás sikertelen"
+msgstr "A fiókkezelő eltávolítása sikertelen"
 
 #: clientgui/CompletionErrorPage.cpp:213
 msgid "Failed to attach to account manager"
@@ -829,6 +847,10 @@ msgid ""
 "\n"
 "Click Finish to close."
 msgstr ""
+"Hiba történt;\n"
+"a részletekért nézze meg az Üzeneteket.\n"
+"\n"
+"Kattintson a befejezésre a bezáráshoz."
 
 #: clientgui/CompletionErrorPage.cpp:226
 #: clientgui/CompletionPage.cpp:220

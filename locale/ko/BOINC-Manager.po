@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.6 based rev.16826\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-05-26 13:59-0700\n"
+"PO-Revision-Date: 2009-05-27 13:53-0700\n"
 "Last-Translator: Kangsan Lee <netpres@chol.com>\n"
 "Language-Team: BOINC@KOREA\n"
 "Language: ko\n"
@@ -354,7 +354,7 @@ msgstr "계정 관리자 제어를 클라이언트에서 제거합니다."
 
 #: clientgui/AdvancedFrame.cpp:483
 msgid "Attach to &project"
-msgstr "프로젝트 연결(&P)..."
+msgstr "프로젝트 연결(&P)"
 
 #: clientgui/AdvancedFrame.cpp:484
 msgid "Attach to a project to begin processing work"
@@ -406,7 +406,7 @@ msgstr "BOINC와 %s에 대한 정보 보여주기"
 #, c-format
 #, c-format
 msgid "&About %s..."
-msgstr "%s 정보(&A)..."
+msgstr "%s 정보(&A)"
 
 #: clientgui/AdvancedFrame.cpp:559
 msgid "Licensing and copyright information."
@@ -857,7 +857,7 @@ msgid ""
 "\n"
 "Click Finish to close."
 msgstr ""
-"오류가 발생했습니다;\n"
+"오류가 발생했습니다.\n"
 "자세히를 눌러서 메세지를 확인하세요.\n"
 "\n"
 "닫을려면 완료를 누르세요."
