@@ -132,11 +132,11 @@ void RSC_WORK_FETCH::accumulate_shortfall(double d_time) {
 }
 
 // "estimated delay" is the interval for which we expect the
-// resource to be saturated.
+// resource to be saturated and have an EDF job.
 //
-void RSC_WORK_FETCH::update_estimated_delay(double dt) {
+void RSC_WORK_FETCH::update_estimated_delay(double dt, bool misses_deadline) {
     double idle = ninstances - sim_nused;
-    if (idle < 1e-6) {
+    if (misses_deadline && idle < 1e-6) {
         estimated_delay = dt;
     }
 #if 0

@@ -3249,3 +3249,25 @@ David  16 July 2009
         client_types.cpp
         file_xfer.cpp,h
         pers_file_xfer.cpp
+
+David  16 July 2009
+    - client: change the way a resource's "estimated delay"
+        (passed to server for crude deadline check) is computed.
+        Old: estimated delay is the interval for which the resource
+            is fully used (i.e., all instances busy).
+        Problem: this may cause unnecessary project starvation.
+            example: 1 CPU machine, has a month-long CPDN job
+            with a 1-year deadline (it's not in deadline trouble).
+            Then the CPU estimated delay will be 1 month,
+            and the client won't get any work from projects
+            with deadlines shorter than 1 month.
+        New: estimated delay is the latest time at which the
+            resource is fully used and is being used by at least 1 job
+            that is projected to miss its deadline under RR.
+
+        Note: this isn't precise, but I don't think we can improve it
+        much without getting a lot more complex.
+
+    client/
+        rr_sim.cpp
+        work_fetch.cpp,h
