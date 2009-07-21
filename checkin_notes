@@ -3207,3 +3207,14 @@ David  16 July 2009
         client_state.cpp
         gui_rpc_server_ops.cpp
         pers_file_xfer.cpp
+
+David  16 July 2009
+    - client/manager/GUI RPC: show project-level backoffs
+
+    clientgui/
+        DlgItemProperties.cpp
+    client/
+        client_types.cpp
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h
