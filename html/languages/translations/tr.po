@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project Generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-07-17 13:01+0200\n"
+"PO-Revision-Date: 2009-07-20 01:57+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,10 +15,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Bookmarks: -1,364,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
 msgid "Search for words in forum messages"
-msgstr "Forum mesajlarındaki kelimeler için arama yap"
+msgstr "Forum mesajlarında arama yap"
 
 msgid "Search forums"
 msgstr "Forumlarda ara"
@@ -39,13 +38,13 @@ msgid "%1 message board"
 msgstr "%1 mesaj panosu"
 
 msgid "In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system."
-msgstr "%1 içerisinde yeni bir konu oluşturmak için, belli bir kredi miktarına sahip olmalısınız. Bu uygulamayla, sistemin kural dışı kullanımını ve suistimal edilmesini önlemeyi amaçlıyoruz."
+msgstr "%1 içerisinde yeni bir konu başlığı oluşturmak için, belli bir kredi miktarına sahip olmalısınız. Bu uygulamayla, sistemin kural dışı kullanımını ve suistimal edilmesini önlemeyi amaçlıyoruz."
 
 msgid "You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."
-msgstr "Şu anda daha fazla yeni konu oluşturamazsınız. Lütfen yeniden denemek için bir süre bekleyin. Bu gecikmeyle, sistemin kural dışı kullanımını önlemeyi amaçlıyoruz."
+msgstr "Şu anda daha fazla yeni konu başlığı oluşturamazsınız. Lütfen yeniden denemek için bir süre bekleyin. Bu gecikmeyle, sistemin kural dışı kullanımını önlemeyi amaçlıyoruz."
 
 msgid "Thread"
-msgstr "Konu"
+msgstr "Konu Başlığı"
 
 msgid "Posts"
 msgstr "Cevaplar"
@@ -60,10 +59,10 @@ msgid "Last post"
 msgstr "Son mesaj"
 
 msgid "Mark all threads as read"
-msgstr "Tüm konuları okundu olarak işaretle"
+msgstr "Tüm konu başlıklarını okundu olarak işaretle"
 
 msgid "Mark all threads in all message boards as 'read'."
-msgstr "Tüm mesaj panolarındaki tüm konuları 'okundu' olarak işaretler."
+msgstr "Tüm mesaj panolarındaki tüm konu başlıklarını 'okundu' olarak işaretler."
 
 msgid "Inbox"
 msgstr "Gelen kutusu"
@@ -78,7 +77,7 @@ msgid "Preview"
 msgstr "Önizleme"
 
 msgid "To"
-msgstr "Kime"
+msgstr "Alıcı"
 
 msgid "User IDs or unique usernames, separated with commas"
 msgstr "Kullanıcı ID'leri ya da benzersiz kullanıcı adları, virgülle ayrılmış"
@@ -90,7 +89,7 @@ msgid "Message"
 msgstr "Mesaj"
 
 msgid "Send message"
-msgstr "Mesaj yolla"
+msgstr "Mesajı yolla"
 
 msgid "You are not allowed to send privates messages so often. Please wait some time before sending more messages."
 msgstr "Çok sık şekilde özel mesaj gönderemezsiniz. Daha fazla mesaj göndermek için lütfen bir süre bekleyin."
@@ -111,13 +110,13 @@ msgid "I %1like%2 this profile"
 msgstr "Bu profilden %1hoşlandım%2"
 
 msgid "Alert administrators to an offensive profile:"
-msgstr "Uygunsuz profili yöneticilere bildirin:"
+msgstr "Uygunsuz profili yöneticilere bildir:"
 
 msgid "I %1do not like%2 this profile"
 msgstr "Bu profilden %1hiç hoşlanmadım%2"
 
 msgid "Search criteria (use one or more)"
-msgstr "Arama kriteri (birini ya da daha fazlasını kullanın)"
+msgstr "Arama kriterleri (birini ya da daha fazlasını kullanın)"
 
 msgid "Key words"
 msgstr "Anahtar kelimeler"
@@ -171,7 +170,7 @@ msgid "Total credit"
 msgstr "Toplam kredi"
 
 msgid "Recent average credit"
-msgstr "Son ortalama kredi"
+msgstr "En son ortalama kredi"
 
 msgid "Cross-project stats"
 msgstr "Çapraz-proje istatistikleri"
@@ -183,7 +182,7 @@ msgid "Message board"
 msgstr "Mesaj panosu"
 
 msgid "Threads"
-msgstr "Konular"
+msgstr "Konu Başlıkları"
 
 msgid "Join this team"
 msgstr "Bu takıma katıl"
@@ -315,7 +314,7 @@ msgid "Tasks"
 msgstr "İşler"
 
 msgid "Cross-project ID"
-msgstr "Çapraz-proje ID'si"
+msgstr "Çapraz-proje ID"
 
 msgid "Cross-project statistics"
 msgstr "Çapraz-proje istatistikleri"
@@ -357,7 +356,7 @@ msgid "Log out"
 msgstr "Çıkış"
 
 msgid "User ID"
-msgstr "Kullanıcı ID'si"
+msgstr "Kullanıcı ID"
 
 msgid "Used in community functions"
 msgstr "Topluluk işlevlerinde kullanılır (özel mesaj için vs.)"
@@ -408,7 +407,7 @@ msgid "Profile"
 msgstr "Profil"
 
 msgid "%1 posts"
-msgstr "% gönderim"
+msgstr "%1 gönderi"
 
 msgid "Notifications"
 msgstr " Uyarılar"
@@ -465,7 +464,7 @@ msgid "Add as friend"
 msgstr "Arkadaş olarak ekle"
 
 msgid "CHARSET"
-msgstr "CHARSET"
+msgstr "UTF-8"
 
 msgid "Use BBCode tags to format your text"
 msgstr "Yazınızı biçimlendirmek için BBCode etiketleri kullanın"
@@ -621,7 +620,7 @@ msgid "You can download applications in several categories."
 msgstr "Çeşitli kategorilerdeki bu uygulamaları indirebilirsiniz."
 
 msgid "These applications are not endorsed by %1 and you use them at your own risk."
-msgstr "Bu uygulamalar % tarafından onaylanmamıştır ve kullanmak sizin alacağınız bir risktir."
+msgstr "Bu uygulamalar %1 tarafından onaylanmamıştır ve kullanmak sizin alacağınız bir risktir."
 
 msgid ""
 "We do not provide instructions for installing these applications.\n"
@@ -654,13 +653,13 @@ msgid "If you have a question or problem, please use the %1Questions & Answers%2
 msgstr "Bir soru ya da probleminiz varsa, lütfen mesaj panolarındaki %1Soru ve Yanıtlar%2 bölümünü kullanın."
 
 msgid "Topic"
-msgstr "Konusu"
+msgstr "Konu"
 
 msgid "Create a new thread"
-msgstr "Yeni konu oluştur"
+msgstr "Yeni konu başlığı oluştur"
 
 msgid "Post to thread"
-msgstr "Konuya gönder"
+msgstr "Konu başlığına gönder"
 
 msgid "Forum search"
 msgstr "Forum ara"
@@ -669,13 +668,13 @@ msgid "Forum search results"
 msgstr "Forum arama sonuçları"
 
 msgid "No thread with id %1. Please check the link and try again."
-msgstr "%1 ID'siyle bir konu mevcut değil. Lütfen bağlantıyı kontrol edip tekrar deneyin."
+msgstr "%1 ID'siyle bir konu başlığı mevcut değil. Lütfen bağlantıyı kontrol edip tekrar deneyin."
 
 msgid "This forum is not visible to you."
 msgstr "Bu forum sizin tarafınızdan görülebilir değil."
 
 msgid "This thread has been hidden for administrative purposes"
-msgstr "Bu konu yönetimsel amaçlar nedeniyle gizlendi"
+msgstr "Bu konu başlığı yönetimsel amaçlar nedeniyle gizlendi"
 
 msgid "My question was answered"
 msgstr "Sorum yanıtlandı"
@@ -687,61 +686,61 @@ msgid "I've also got this question"
 msgstr "Ben de aynısını soruyorum"
 
 msgid "Add a new message to this thread"
-msgstr "Bu konuya yeni bir mesaj ekle"
+msgstr "Bu konu başlığına yeni bir mesaj ekle"
 
 msgid "Unsubscribe"
 msgstr "Aboneliği bitir"
 
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
-msgstr "Bu konuya abonesiniz.  Aboneliği bitirmek için tıklayın."
+msgstr "Bu konu başlığına abonesiniz.  Aboneliği bitirmek için tıklayın."
 
 msgid "Subscribe"
 msgstr "Abone ol"
 
 msgid "Click to get email when there are new posts in this thread"
-msgstr "Bu konuya yeni mesajlar yazıldığında e-posta almak için tıklayın"
+msgstr "Bu konu başlığına yeni mesajlar yazıldığında e-posta almak için tıklayın"
 
 msgid "Unhide"
 msgstr "Gizliliği kaldır"
 
 msgid "Unhide this thread"
-msgstr "Bu konunun gizliliğini kaldırır"
+msgstr "Bu konu başlığının gizliliğini kaldırır"
 
 msgid "Hide"
 msgstr "Gizle"
 
 msgid "Hide this thread"
-msgstr "Bu konuyu gizler"
+msgstr "Bu konu başlığını gizler"
 
 msgid "Make unsticky"
 msgstr "Üst konudan kaldır"
 
 msgid "Make this thread not sticky"
-msgstr "Bu konunun üst konu durumunu kaldır"
+msgstr "Bu konu başlığının üst konu durumunu kaldır"
 
 msgid "Make sticky"
 msgstr "Üst konu yap"
 
 msgid "Make this thread sticky"
-msgstr "Bu konuyu üst konu yapar"
+msgstr "Bu konu başlığını üst konu başlığı yapar"
 
 msgid "Unlock"
 msgstr "Kilidi kaldır"
 
 msgid "Unlock this thread"
-msgstr "Bu konunun kilidini kaldırır"
+msgstr "Bu konu başlığının kilidini kaldırır"
 
 msgid "Lock"
 msgstr "Kilitle"
 
 msgid "Lock this thread"
-msgstr "Bi konuyu kilitler"
+msgstr "Bu konu başlığını kilitler"
 
 msgid "Move"
 msgstr "Taşı"
 
 msgid "Move this thread to a different forum"
-msgstr "Bu konuyu başka bir foruma taşır"
+msgstr "Bu konu başlığını başka bir foruma taşır"
 
 msgid "Edit title"
 msgstr "Başlığı düzenle"
@@ -810,7 +809,7 @@ msgid "Decline"
 msgstr "Reddet"
 
 msgid "Click decline if %1 is not a friend"
-msgstr "%1 gerçekten arkadaşınız değilse reddetmeyi tıklayın"
+msgstr "%1 arkadaşınız değilse reddetmeyi tıklayın"
 
 msgid "No request"
 msgstr "İstek yok"
@@ -873,19 +872,19 @@ msgid "Read our rules and policies"
 msgstr "Kurallarımızı ve politikamızı okuyun"
 
 msgid "Run %1 only on authorized computers"
-msgstr "% projesini yalnızca yetkili bilgisayarlarda çalıştırın"
+msgstr "%1 projesini yalnızca yetkili bilgisayarlarda çalıştırın"
 
 msgid "Run %1 only on computers that you own, or for which you have obtained the owner's permission. Some companies and schools have policies that prohibit using their computers for projects such as %1."
-msgstr "%1 projesini yalnızca kendi bilgisayarınızda ya da sahibinin izin verdiği bilgisayarlarda çalıştırın. Bazı okul ya da şirketlerin, bilgisayarlarının %1 gibi projeler için kullanılmaması konusunda politikaları bulunabilir."
+msgstr "%1 projesini yalnızca kendi bilgisayarınızda ya da sahibinin izin verdiği bilgisayarlarda çalıştırın. Bazı okul ya da şirketlerin, bilgisayarlarının %1 gibi projeler için kullanılmaması yönünde politikaları bulunabilir."
 
 msgid "How %1 will use your computer"
 msgstr "%1 bilgisayarınızı nasıl kullanacak"
 
 msgid "When you run %1 on your computer, it will use part of the computer's CPU power, disk space, and network bandwidth. You can control how much of your resources are used by %1, and when it uses them."
-msgstr "Bilgisayarınızda %1 çalıştırdığınızda, CPU (işlemci) gücü, disk alanı ve ağ bant genişliğinin bir kısmını kullanacak. % projesinin bu kaynakları ne zaman ve ne kadar kullanacağını belirleyebilirsiniz."
+msgstr "Bilgisayarınızda %1 çalıştırdığınızda, CPU (işlemci) gücü, disk alanı ve ağ bant genişliğinin bir kısmını kullanacak. %1 projesinin bu kaynakları ne zaman ve ne kadar kullanacağını belirleyebilirsiniz."
 
 msgid "The work done by your computer contributes to the goals of %1, as described on its web site. The application programs may change from time to time."
-msgstr "Bilgisayarınız, işi %1 projesinin hedefleri doğrultusunda ve proje sitesinde tanımlandığı şekilde tamamladı. Uygulama programları zaman zaman değişebilir."
+msgstr "Bilgisayarınız, gönderilen işleri %1 projesinin hedefleri doğrultusunda ve proje sitesinde tanımlandığı şekilde tamamlayacak. Bu kapsamda uygulama programları zaman zaman değişebilir."
 
 msgid "Privacy policy"
 msgstr "Gizlilik politikası"
@@ -915,7 +914,7 @@ msgid "The applications run by %1 may cause some computers to overheat. If this 
 msgstr "%1 tarafından çalıştırılan uygulamalar, bazı bilgisayarların fazla ısınmasına neden olabilir. Bu gerçekleşirse, %1 kullanmayı durdurun ya da CPU (işlemci) kullanımını sınırlayan bir %2yardımcı program%3 kullanın."
 
 msgid "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr "%1, %2 tarafından geliştirildi. BOINC, Kaliforniya Üniversitesinde geliştirildi."
+msgstr "%1, %2 tarafından geliştirildi. BOINC, University of California'da geliştirildi."
 
 msgid "Liability"
 msgstr "Sorumluluk"
@@ -927,16 +926,16 @@ msgid "Other BOINC projects"
 msgstr "Diğer BOINC projeleri"
 
 msgid "Other projects use the same platform, BOINC, as %1. You may want to consider participating in one or more of these projects. By doing so, your computer will do useful work even when %1 has no work available for it."
-msgstr "Diğer projeler, %1 ile aynı platformu kullanır, yani BOINC'i. Bunlar gibi bir ya da daha fazla projeye katılmayı düşünebilirsiniz. Bunu yaptığınızda, bilgisayarınız %1 için bir iş bulunmadığı zamanlarda da faydalı olabilir."
+msgstr "Diğer projeler, %1 ile aynı platformu kullanır, yani BOINC'i. Bir ya da daha fazla projeye daha katılmayı düşünebilirsiniz. Böylece, bilgisayarınız %1 için bir iş bulunmadığı zamanlarda da faydalı olmayı sürdürebilir."
 
 msgid "These other projects are not associated with %1, and we cannot vouch for their security practices or the nature of their research. Join them at your own risk."
-msgstr "Bu diğer projeler, %1 ile birleşmiş değildir ve onların güvenlik yöntemlerine ya da araştırmalarının doğasına kefil olmayız. Bunlara, kendi risklerinizi göz önüne alarak katılın."
+msgstr "Bu diğer projeler, %1 ile ortak değildir ve onların güvenlik yöntemlerine ya da araştırmalarının doğasına kefil olmayız. Diğer projelere, riski kendinize ait olmak üzere katılın."
 
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Turkish"
 
 msgid "LANG_NAME_NATIVE"
-msgstr "Turkish"
+msgstr "Türkçe"
 
 msgid "Your message has been sent."
 msgstr "Mesajınız gönderildi."
@@ -1020,7 +1019,7 @@ msgid "User Profile Explorer"
 msgstr "Kullancı Profili Gezgini"
 
 msgid "View the %1User Picture Gallery%2."
-msgstr "%1Kullancı Resim Galerisi%2ne bak."
+msgstr "%1Kullancı Resim Galerisine%2 bak."
 
 msgid "Browse profiles %1by country%2."
 msgstr "Profillere %1ülkelerine göre%2 gözat."
@@ -1071,7 +1070,7 @@ msgid "No access"
 msgstr "Erişim yok"
 
 msgid "Missing user ID or host ID"
-msgstr "Eksik kullanıcı ID'si ya da sunucu ID'si"
+msgstr "Eksik kullanıcı ID ya da sunucu ID"
 
 msgid "User of the day"
 msgstr "Günün kullanıcısı"
@@ -1104,7 +1103,7 @@ msgid "Additionally you can get your individual statistics summed across all BOI
 msgstr "Ek olarak, tüm BOINC projelerindeki kişisel istatistiklerinizin özetini de çeşitli sitelerden alabilirsiniz; %1ana sayfanıza%2 bakın."
 
 msgid "%1 participants may form %2teams%3"
-msgstr "%1 katılımcıları %2takımlara%3 katılabilir"
+msgstr "%1 katılımcıları %2takımlara%3 katılabilir."
 
 msgid "You may belong to only one team. You can join or quit a team at any time."
 msgstr "Aynı anda yalnızca bir takımın üyesi olabilirsiniz. Bir takıma istediğiniz zaman katılıp ayrılabilirsiniz."
@@ -1122,10 +1121,10 @@ msgid "remove members from the team"
 msgstr "Takımdan bir üyeyi çıkarma"
 
 msgid "disband a team if it has no members"
-msgstr "Üyesi yoksa bir takımı kaldırma"
+msgstr "Üyesi yoksa bir takımı kaldırma."
 
 msgid "To join a team, visit its team page and click %1Join this team%2."
-msgstr "Bir takıma girmek için, takımın sayfasını ziyaret edin ve %1Bu takıma katıl%2a tıklayın."
+msgstr "Bir takıma katılmak için, takımın sayfasını ziyaret edin ve %1Bu takıma katıl%2 bağlantısına tıklayın."
 
 msgid "Find a team"
 msgstr "Bir takım bul"
@@ -1134,7 +1133,7 @@ msgid "All teams"
 msgstr "Tüm takımlar"
 
 msgid "%1 teams"
-msgstr "%1 takımlar"
+msgstr "%1 takımları"
 
 msgid "Create a new team"
 msgstr "Yeni bir takım oluştur"
@@ -1188,5 +1187,5 @@ msgid "Create this file if needed. Set its contents to:"
 msgstr "Gerekiyorsa bu dosyayı oluşturun. İçeriğini şu şekilde yapın:"
 
 msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
-msgstr "Zayf hesap anahtarınız, parolanıza bağlı bir işlevdir. Parolanızı değiştirirseniz, zayıf hesap anahtarınız da değişir ve önceki zayıf hesap anahtarınız geçersiz hale gelir."
+msgstr "Zayıf hesap anahtarınız, parolanıza bağlı bir işlevdir. Parolanızı değiştirirseniz, zayıf hesap anahtarınız da değişir ve önceki zayıf hesap anahtarınız geçersiz hale gelir."
 

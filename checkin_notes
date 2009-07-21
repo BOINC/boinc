@@ -6383,3 +6383,8 @@ David  17 July 2009
         work_fetch.cpp,h
         rr_sim.cpp
         cs_scheduler.cpp
+
+David  20 July 2009
+    - lib: gcc 4.4 fix; fixes #854
+    lib/
+        str_replace.h

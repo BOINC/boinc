@@ -3,13 +3,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-05-17 00:13+0900\n"
-"Last-Translator: je2bwm <je2bwm@jarl.com>\n"
+"PO-Revision-Date: 2009-06-12 07:21-0700\n"
+"Last-Translator: komo <je2bwm@jarl.com>\n"
 "Language-Team: \n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
@@ -573,10 +575,12 @@ msgid "%1 Your profile picture is shown to the left."
 msgstr "%1 プロファイルに載せるあなたの写真は左のとおりです。"
 
 msgid "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 or less)."
-msgstr "置き換えたいなら、「参照」または「ファイルを選択」などと書かれた右のボタンををクリックして、JPEG または PNG ファイル(サイズは %1以下)を指定して下さい。"
+msgstr ""
+"置き換えたいなら、「参照」または「ファイルを選択」などと書かれた次のボタンををクリックして、JPEG または PNG ファイル(サイズは "
+"%1以下)を指定して下さい。"
 
 msgid "To remove it from your profile, check this box:"
-msgstr "あなたのプロファイルから写真を削除なら、右のボックスをクリックして下さい ："
+msgstr "あなたのプロファイルから写真を削除するには、右のボックスにチェックを入れて下さい ："
 
 msgid "If you would like include a picture with your profile, click the \"Browse\" button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr "プロファイルにあなたの写真を載せたいなら、「参照」または「ファイルを選択」などと書かれた右のボタンををクリックして、JPEG または PNG ファイルを指定して下さい。 サイズが %1　以下のものを選んでください。"
@@ -659,9 +663,8 @@ msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "この一覧は%1 BOINC のウェブサイト%2で一元管理されています。"
 
 # Ugg? It seems to be a garbage.
-#, fuzzy
 msgid "fll"
-msgstr ""
+msgstr "fll"
 
 msgid "Title"
 msgstr "題名"
@@ -1228,4 +1231,3 @@ msgstr "必要であれば、このファイルを作成して下さい。中身
 
 msgid "Your weak account key is a function of your password. If you change your password, your weak account key changes, and your previous weak account key becomes invalid."
 msgstr "\"弱い\"アカウント・キーの値はパスワードによって決まります。パスワードを変更すると、\"弱い\"アカウント・キーは変り、以前の\"弱い\"アカウント・キーは無効になります。"
-

@@ -1,6 +1,9 @@
 <?
 
 $project_news = array(
+array("July 20, 2009",
+    "Listen to a Podcast of <a href=http://www.rce-cast.com/index.php/Podcast/rce-13-boinc.html>an interview with David Anderson</a> on <a href=http://www.rce-cast.com/>RCE</a>."
+),
 array("July 15, 2009",
     "The Consejer&iacute;a de Educaci&oacute;n, Spain, is
     <a href=http://jarifa.unex.es/?p=230>using Jarifa to harness the power of 12,000 PCs.</a>"
