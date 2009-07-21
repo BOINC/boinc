@@ -38,7 +38,7 @@ extern size_t strlcat(char *dst, const char *src, size_t size);
 #endif
 
 #if !defined(HAVE_STRCASESTR)
-extern char *strcasestr(const char *s1, const char *s2);
+extern const char *strcasestr(const char *s1, const char *s2);
 #endif
 
 extern int ndays_to_string(double x, int smallest_timescale, char *buf);
