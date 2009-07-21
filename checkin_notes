@@ -3173,3 +3173,18 @@ David  9 July 2009
         
     client/
         cs_statefile.cpp
+
+David  10 July 2009
+    - client: restored code for project-wide backoff on file
+        uploads and downloads.
+        I originally added this on 30 Sept 2005
+        and disabled it 2 weeks later because there were reports of problems.
+        However, we need this functionality
+        (e.g. on GPU hosts with hundreds of files to upload,
+        we need to back off after a few failures, not try all of them).
+        I added messages (<file_xfer_debug>) so you can see what's going on.
+        Fixes #932.
+
+    client/
+        client_types.cpp,h
+        pers_file_xfer.cpp

@@ -177,11 +177,16 @@ bool PERS_FILE_XFER::poll() {
         if (gstate.now < next_request_time) {
             return false;
         }
-#if 0
-        if (gstate.now < fip->project->next_file_xfer_time(is_upload)) {
+        double next_time = fip->project->next_file_xfer_time(is_upload);
+        if (gstate.now < next_time) {
+            if (log_flags.file_xfer_debug) {
+                msg_printf(fip->project, MSG_INFO,
+                    "[file_xfer_debug] delaying %s of %s: project-wide backoff %f sec",
+                    is_upload?"upload":"download", fip->name, next_time-gstate.now
+                );
+            }
             return false;
         }
-#endif
         last_time = gstate.now;
         fip->upload_offset = -1;
         retval = create_xfer();

@@ -425,37 +425,51 @@ const char* PROJECT::get_scheduler_url(int index, double r) {
     return scheduler_urls[i].c_str();
 }
 
-double PROJECT::next_file_xfer_time(const bool is_upload) {
+double PROJECT::next_file_xfer_time(bool is_upload) {
     return (is_upload ? next_file_xfer_up : next_file_xfer_down);
 }
 
-void PROJECT::file_xfer_failed(const bool is_upload) {
+void PROJECT::file_xfer_failed(bool is_upload) {
     if (is_upload) {
         file_xfer_failures_up++;
         if (file_xfer_failures_up < FILE_XFER_FAILURE_LIMIT) {
             next_file_xfer_up = 0;
         } else {
-            next_file_xfer_up = gstate.now + calculate_exponential_backoff(
+            double backoff = calculate_exponential_backoff(
                 file_xfer_failures_up,
                 gstate.pers_retry_delay_min,
                 gstate.pers_retry_delay_max
             );
+            if (log_flags.file_xfer_debug) {
+                msg_printf(this, MSG_INFO,
+                    "[file_xfer_debug] project-wide upload delay for %f sec",
+                    backoff
+                );
+            }
+            next_file_xfer_up = gstate.now + backoff;
         }
     } else {
         file_xfer_failures_down++;
         if (file_xfer_failures_down < FILE_XFER_FAILURE_LIMIT) {
             next_file_xfer_down = 0;
         } else {
-            next_file_xfer_down = gstate.now + calculate_exponential_backoff(
+            double backoff = calculate_exponential_backoff(
                 file_xfer_failures_down,
                 gstate.pers_retry_delay_min,
                 gstate.pers_retry_delay_max
             );
+            next_file_xfer_down = gstate.now + backoff;
+            if (log_flags.file_xfer_debug) {
+                msg_printf(this, MSG_INFO,
+                    "[file_xfer_debug] project-wide download delay for %f sec",
+                    backoff
+                );
+            }
         }
     }
 }
 
-void PROJECT::file_xfer_succeeded(const bool is_upload) {
+void PROJECT::file_xfer_succeeded(bool is_upload) {
     if (is_upload) {
         file_xfer_failures_up = 0;
         next_file_xfer_up  = 0;

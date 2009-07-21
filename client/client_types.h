@@ -360,7 +360,6 @@ public:
     // (separately for the up/down directions)
     //
     // NOTE: all this refers to transient failures, not permanent.
-    // Also, none of this is used right now (commented out)
     //
 #define FILE_XFER_FAILURE_LIMIT 3
     int file_xfer_failures_up;
@@ -368,9 +367,9 @@ public:
     double next_file_xfer_up;
     double next_file_xfer_down;
 
-    double next_file_xfer_time(const bool);
-    void file_xfer_failed(const bool);
-    void file_xfer_succeeded(const bool);
+    double next_file_xfer_time(bool);
+    void file_xfer_failed(bool);
+    void file_xfer_succeeded(bool);
 
     PROJECT();
     ~PROJECT(){}
