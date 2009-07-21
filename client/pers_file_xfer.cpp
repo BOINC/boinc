@@ -179,6 +179,7 @@ bool PERS_FILE_XFER::poll() {
         }
         FILE_XFER_BACKOFF& fxb = fip->project->file_xfer_backoff(is_upload);
         if (!fxb.ok_to_transfer()) {
+#if 0
             if (log_flags.file_xfer_debug) {
                 msg_printf(fip->project, MSG_INFO,
                     "[file_xfer_debug] delaying %s of %s: project-wide backoff %f sec",
@@ -186,10 +187,10 @@ bool PERS_FILE_XFER::poll() {
                     fxb.next_xfer_time - gstate.now
                 );
             }
+#endif
             return false;
         }
         last_time = gstate.now;
-        fip->upload_offset = -1;
         retval = create_xfer();
         return (retval == 0);
     }
@@ -265,6 +266,14 @@ bool PERS_FILE_XFER::poll() {
                 );
             }
             transient_failure(fxp->file_xfer_retval);
+        }
+
+        // If we transferred any bytes, set upload_offset back to -1
+        // so that we'll query file size on next retry.
+        // Otherwise leave it as is, avoiding unnecessary size query.
+        //
+        if (fxp->bytes_xferred) {
+            fip->upload_offset = -1;
         }
 
         // fxp could have already been freed and zeroed above
