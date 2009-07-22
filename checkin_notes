@@ -3309,3 +3309,11 @@ David  22 July 2009
     lib/
         coproc.cpp
         str_util.h
+
+Rom    22 June 2009
+    - Tag for 6.6.39 release, all platforms
+      boinc_core_release_6_6_39
+
+    /
+        configure.ac
+        version.h
