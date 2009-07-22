@@ -3298,4 +3298,14 @@ Rom    21 June 2009
     /
         configure.ac
         version.h
-        
+
+David  22 July 2009
+    - client: add a bunch of debugging messages (<task_debug>)
+        for showing how GPU instances are being reserved
+
+    client/
+        app_start.cpp
+        hostinfo_network.cpp
+    lib/
+        coproc.cpp
+        str_util.h
