@@ -35,7 +35,7 @@
 int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
     if (!strcmp(plan_class, "mt")) {
         // the following is for an app that:
-        // - can use from 1 to 64 threads, can control this exactly
+        // - can use from 1 to 64 threads, and can control this exactly
         // - if it uses N threads, will use .65N cores on average
         // (hence on a uniprocessor we'll use a sequential app
         // if one is available)
@@ -99,20 +99,6 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         }
         hu.flops = cp->flops_estimate();
 
-#if 0    // THIS PROBLEM HAS BEEN FIXED IN THE SETI@HOME APP
-        // On Windows, slower GPUs sometimes get a blue screen of death
-        //
-        if (strstr(sreq.host.os_name, "Windows") && hu.flops < 60e9) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] Not sending CUDA job to Win host with slow GPU (%.1f GFLOPS)\n",
-                    hu.flops/1e9
-                );
-            }
-            return PLAN_REJECT_CUDA_SPEED;
-        }
-#endif
-
         // assume we'll need 0.5% as many CPU FLOPS as GPU FLOPS
         // to keep the GPU fed.
         //
@@ -140,6 +126,18 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         hu.flops = sreq.host.p_fpops*1.01;
             // The *1.01 is needed to ensure that we'll send this app
             // version rather than a non-plan-class one
+        return 0;
+    } else if (!strcmp(plan_class, "sse3")) {
+        // the following is for an app that requires a processor with SSE3,
+        // and will run 10% faster if so
+        //
+        downcase_string(sreq.host.p_features);
+        if (!strstr(sreq.host.p_features, "sse3")) {
+            return PLAN_REJECT_CPU_FEATURE;
+        }
+        hu.avg_ncpus = 1;
+        hu.max_ncpus = 1;
+        hu.flops = 1.1*sreq.host.p_fpops;
         return 0;
     }
     log_messages.printf(MSG_CRITICAL,

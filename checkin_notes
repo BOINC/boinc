@@ -6388,3 +6388,20 @@ David  20 July 2009
     - lib: gcc 4.4 fix; fixes #854
     lib/
         str_replace.h
+
+David  22 July 2009
+    - client: add a bunch of debugging messages (<task_debug>)
+        for showing how GPU instances are being reserved
+    - scheduler: add "sse3" plan class example
+    - web: add option (NO_TEAMS constant) for suppressing teams
+
+    client/
+        app_start.cpp
+        hostinfo_network.cpp
+    sched/
+        sched_plan.cpp,h
+    html/inc/
+        user.inc
+    lib/
+        coproc.cpp
+        str_util.h

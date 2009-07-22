@@ -127,6 +127,18 @@ static void coproc_cmdline(
             tasks_using_coproc.push_back(p);
         }
     }
+    if (log_flags.task_debug) {
+        if (tasks_using_coproc.size()) {
+            for (i=0; i<tasks_using_coproc.size(); i++) {
+                msg_printf(0, MSG_INFO,
+                    "other task using coproc: %s",
+                    tasks_using_coproc[i]->result->name
+                );
+            }
+        } else {
+            msg_printf(0, MSG_INFO, "No other tasks using coproc");
+        }
+    }
 
     // scan the coproc's owner array,
     // clearing any entries not in the above list
@@ -142,6 +154,19 @@ static void coproc_cmdline(
             }
             if (!found) {
                 coproc->owner[j] = NULL;
+            }
+        }
+        if (log_flags.task_debug) {
+            if (coproc->owner[j]) {
+                msg_printf(atp->result->project, MSG_INFO,
+                    "coproc %d (devnum %d) in use by %s",
+                    j, coproc->device_nums[j],
+                    ((ACTIVE_TASK*)coproc->owner[j])->result->name
+                );
+            } else {
+                msg_printf(atp->result->project, MSG_INFO,
+                    "coproc %d (devnum %d) not in use"
+                );
             }
         }
     }
@@ -160,8 +185,14 @@ static void coproc_cmdline(
             }
             if (coproc->owner[k] == NULL) {
                 sprintf(buf, " --device %d", coproc->device_nums[k]);
+                if (log_flags.task_debug) {
+                    msg_printf(atp->result->project, MSG_INFO,
+                        "using coproc instance %d (device num %d)",
+                        k, coproc->device_nums[k]
+                    );
+                }
                 strcat(cmdline, buf);
-                coproc->owner[k++] = atp;
+                coproc->owner[k] = atp;
                 break;
             }
             k++;

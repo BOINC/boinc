@@ -256,33 +256,35 @@ function show_community_private($user) {
         row2(tra("Notifications"), $x);
     }
 
-    if ($user->teamid) {
-        $team = lookup_team($user->teamid);
-        $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>
-            | <a href=\"team_quit_form.php\">".tra("Quit team")."</a>";
-        if (is_team_admin($user, $team)) {
-            $x .= " | <a href=\"team_manage.php?teamid=$user->teamid\">".tra("Administer")."</a>";
-        }
+    if (!defined('NO_TEAMS')) {
+        if ($user->teamid) {
+            $team = lookup_team($user->teamid);
+            $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>
+                | <a href=\"team_quit_form.php\">".tra("Quit team")."</a>";
+            if (is_team_admin($user, $team)) {
+                $x .= " | <a href=\"team_manage.php?teamid=$user->teamid\">".tra("Administer")."</a>";
+            }
 
-        // if there's a foundership request, notify the founder
-        //
-        if ($user->id==$team->userid && $team->ping_user >0) {
-            $x .= "<span style=\"color:red;\">".tra("(foundership change request pending)")."</span>";
-        }
-        row2(tra("Member of team"), $x);
-    } else {
-        row2(tra("Team"), tra("None")." | <a href=\"team_search.php\">".tra("find a team")."</a>");
-    }
-    
-    $teams_founded = BoincTeam::enum("userid=$user->id");
-    foreach ($teams_founded as $team) {
-        if ($team->id != $user->teamid) {
-            $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>";
-            $x .= "| <a href=\"team_manage.php?teamid=".$team->id."\">".tra("Administer")."</a>";
-            if ($team->ping_user > 0) {
+            // if there's a foundership request, notify the founder
+            //
+            if ($user->id==$team->userid && $team->ping_user >0) {
                 $x .= "<span style=\"color:red;\">".tra("(foundership change request pending)")."</span>";
             }
-            row2(tra("Founder but not member of"), $x);
+            row2(tra("Member of team"), $x);
+        } else {
+            row2(tra("Team"), tra("None")." | <a href=\"team_search.php\">".tra("find a team")."</a>");
+        }
+        
+        $teams_founded = BoincTeam::enum("userid=$user->id");
+        foreach ($teams_founded as $team) {
+            if ($team->id != $user->teamid) {
+                $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>";
+                $x .= "| <a href=\"team_manage.php?teamid=".$team->id."\">".tra("Administer")."</a>";
+                if ($team->ping_user > 0) {
+                    $x .= "<span style=\"color:red;\">".tra("(foundership change request pending)")."</span>";
+                }
+                row2(tra("Founder but not member of"), $x);
+            }
         }
     }
 
@@ -354,10 +356,12 @@ function community_links($clo, $logged_in_user){
     $friends = $clo->friends;
     $tot = $clo->post_count;
     
-    if ($user->teamid && $team) {
-        row2(tra("Team"), "<a href=\"".URL_BASE."team_display.php?teamid=$team->id\">$team->name</a>");
-    } else {
-        row2(tra("Team"), tra("None"));
+    if (!defined('NO_TEAMS')) {
+        if ($user->teamid && $team) {
+            row2(tra("Team"), "<a href=\"".URL_BASE."team_display.php?teamid=$team->id\">$team->name</a>");
+        } else {
+            row2(tra("Team"), tra("None"));
+        }
     }
     if ($tot) {
         row2(tra("Message boards"), "<a href=\"".URL_BASE."forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");

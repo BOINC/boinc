@@ -66,6 +66,13 @@ inline void downcase_string(std::string& w) {
     }
 }
 
+inline void downcase_string(char* p) {
+    while (*p) {
+        *p = tolower(*p);
+        p++;
+    }
+}
+
 extern int string_substitute(
     const char* haystack, char* out, int out_len,
     const char* needle, const char* target
