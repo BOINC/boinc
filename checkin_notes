@@ -6405,3 +6405,15 @@ David  22 July 2009
     lib/
         coproc.cpp
         str_util.h
+
+David  22 July 2009
+    - client: define "too many uploads" (for work fetch) as
+        2 * max(ncpus, ngpus);
+        show this in the state displayed by <work_fetch_debug>
+    - manager: show project-wide backoff in transfers tab
+
+    client/
+        client_types.h
+        work_fetch.cpp
+    clientgui/
+        ViewTransfers.cpp

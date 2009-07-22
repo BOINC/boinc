@@ -111,7 +111,7 @@ bool PROJECT_WORK_FETCH::compute_can_fetch_work(PROJECT* p) {
     if (p->dont_request_more_work) return false;
     if (p->some_download_stalled()) return false;
     if (p->some_result_suspended()) return false;
-    if (p->nuploading_results > 2*gstate.ncpus) return false;
+    if (p->too_many_uploading_results) return false;
     return true;
 }
 
@@ -308,14 +308,15 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
         double bt = pwf.backoff_time>gstate.now?pwf.backoff_time-gstate.now:0;
         msg_printf(p, MSG_INFO,
-            "[wfd] %s: fetch share %.2f debt %.2f backoff dt %.2f int %.2f%s%s%s%s%s",
+            "[wfd] %s: fetch share %.2f debt %.2f backoff dt %.2f int %.2f%s%s%s%s%s%s",
             name,
             pwf.fetchable_share, pwf.debt, bt, pwf.backoff_interval,
             p->suspended_via_gui?" (susp via GUI)":"",
             p->master_url_fetch_pending?" (master fetch pending)":"",
             p->min_rpc_time > gstate.now?" (comm deferred)":"",
             p->dont_request_more_work?" (no new tasks)":"",
-            pwf.overworked()?" (overworked)":""
+            pwf.overworked()?" (overworked)":"",
+            p->too_many_uploading_results?" (too many uploads)":""
         );
     }
 }
@@ -771,11 +772,22 @@ void CLIENT_STATE::compute_nuploading_results() {
 
     for (i=0; i<projects.size(); i++) {
         projects[i]->nuploading_results = 0;
+        projects[i]->too_many_uploading_results = false;
     }
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
         if (rp->state() == RESULT_FILES_UPLOADING) {
             rp->project->nuploading_results++;
+        }
+    }
+    int n = gstate.ncpus;
+    if (coproc_cuda && coproc_cuda->count > n) {
+        n = coproc_cuda->count;
+    }
+    n *= 2;
+    for (i=0; i<projects.size(); i++) {
+        if (projects[i]->nuploading_results > n) {
+            projects[i]->too_many_uploading_results = true;
         }
     }
 }

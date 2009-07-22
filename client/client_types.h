@@ -355,6 +355,7 @@ public:
         /// number of results in UPLOADING state
         /// Don't start new results if these exceeds 2*ncpus.
     int nuploading_results;
+    bool too_many_uploading_results;
 
     // stuff related to work fetch
     //
