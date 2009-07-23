@@ -28,7 +28,6 @@
 extern HINSTANCE g_hClientLibraryDll;
 static HANDLE g_hWindowsMonitorSystemThread = NULL;
 static DWORD g_WindowsMonitorSystemThreadID = NULL;
-static BOOL g_bIsWin9x = FALSE;
 static bool requested_suspend = false;
 static bool requested_resume = false;
 
@@ -83,10 +82,11 @@ typedef void (CALLBACK* ClientLibraryShutdown)();
 
 int finalize();
 
+
+// Determine when it is safe to leave the quit_client() handler
+//   and allow Windows to finish cleaning up.
 static bool boinc_cleanup_completed = false;
-    // Used on Windows 95/98/ME to determine when it is safe to leave
-    //   the WM_ENDSESSION message handler and allow Windows to finish
-    //   cleaning up.
+
 
 // Display a message to the user.
 // Depending on the priority, the message may be more or less obtrusive
@@ -96,9 +96,6 @@ void show_message(PROJECT *p, char* msg, int priority) {
     char message[1024];
     time_t now = time(0);
     char* time_string = time_to_string((double)now);
-#if defined(WIN32) && defined(_CONSOLE)
-    char event_message[2048];
-#endif
 
     // Cycle the log files if we need to
     diagnostics_cycle_logs();
@@ -127,6 +124,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
     printf("%s [%s] %s\n", time_string, x, message);
     if (gstate.executing_as_daemon) {
 #if defined(WIN32) && defined(_CONSOLE)
+        char event_message[2048];
         stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
         ::OutputDebugString(event_message);
 #endif
@@ -161,26 +159,10 @@ void resume_client() {
 }
 
 // Trap power events on Windows so we can clean ourselves up.
-// Trap logoff/shutdown events on Winows 95/98/ME so we can clean ourselves up.
 LRESULT CALLBACK WindowsMonitorSystemWndProc(
     HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 ) {
     switch(uMsg) {
-        // Win95 is stupid, we really only need to wait until we have
-        //   successfully shutdown the active tasks and cleaned everything
-        //   up.  Luckly WM_QUERYENDSESSION is sent before Win9x checks for any
-        //   existing console and that gives us a chance to clean-up and
-        //   then clear the console window.  Win9x will not close down
-        //   a console window if anything is displayed on it.
-        case WM_QUERYENDSESSION:
-            if (g_bIsWin9x) {
-                BOINCTRACE("***** Windows Monitor System Shutdown/Logoff Event Detected *****\n");
-                quit_client();
-                system("cls");
-                return TRUE;
-            }
-            break;
-
         // On Windows power events are broadcast via the WM_POWERBROADCAST
         //   window message.  It has the following parameters:
         //     PBT_APMQUERYSUSPEND
@@ -210,16 +192,19 @@ LRESULT CALLBACK WindowsMonitorSystemWndProc(
                 // System is critically low on battery power.  This is
                 //   only valid on Windows versions older than Vista
                 case PBT_APMBATTERYLOW:
+                    msg_printf(NULL, MSG_INFO, "Critical battery alarm, Windows is suspending operations");
                     suspend_client(true);
                     break;
 
                 // System is suspending
                 case PBT_APMSUSPEND:
+                    msg_printf(NULL, MSG_INFO, "Windows is suspending operations");
                     suspend_client(true);
                     break;
 
                 // System is resuming from a normal power event
                 case PBT_APMRESUMESUSPEND:
+                    msg_printf(NULL, MSG_INFO, "Windows is resuming operations");
                     resume_client();
                     break;
             }
@@ -601,6 +586,7 @@ int boinc_main_loop() {
         DosSleep(0);
 #endif
     }
+
     return finalize();
 }
 
@@ -764,12 +750,6 @@ int main(int argc, char** argv) {
     init_core_client(argc, argv);
 
 #ifdef _WIN32
-
-    // Figure out if we're on Win9x
-    OSVERSIONINFO osvi;
-    osvi.dwOSVersionInfoSize = sizeof(osvi);
-    GetVersionEx(&osvi);
-    g_bIsWin9x = osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS;
 
     // 
     // Create a window to receive system events that are

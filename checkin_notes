@@ -6417,3 +6417,10 @@ David  22 July 2009
         work_fetch.cpp
     clientgui/
         ViewTransfers.cpp
+
+Rom    23 July 2009
+    - client: Remove some more Win9x code.
+    - client: Add some messages while handling Windows power events.
+    
+    client/
+        main.cpp
