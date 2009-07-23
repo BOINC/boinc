@@ -507,7 +507,7 @@ msgstr "In curs de conectare la %s"
 #, c-format
 #, fuzzy
 msgid "Connected to %s (%s)"
-msgstr "Conectat la %s"
+msgstr "Conectat la %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:183
 msgid "Username already in use"
