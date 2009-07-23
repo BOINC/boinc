@@ -422,7 +422,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         tsExecutionTime.GetSeconds() <= 60 &&
                         !CHECK_CLOSINGINPROGRESS()
                     ) {
-                        if (ERR_RETRY == reply.error_num) {
+                        if (ERR_RETRY == ao->error_num) {
                             pDoc->rpc.create_account(*ai);
                         }
 
@@ -454,7 +454,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         tsExecutionTime.GetSeconds() <= 60 &&
                         !CHECK_CLOSINGINPROGRESS()
                     ) {
-                        if (ERR_RETRY == reply.error_num) {
+                        if (ERR_RETRY == ao->error_num) {
                             pDoc->rpc.lookup_account(*ai);
                         }
 

@@ -4908,11 +4908,11 @@ Charlie 1 June 2009
         browser.cpp
 
 David  1 June 2009
-	- python DB code: add clear cache method, and fix equality crash
-		(from Jeremy Cowles)
+    - python DB code: add clear cache method, and fix equality crash
+        (from Jeremy Cowles)
 
-	py/Boinc/
-		boinc_db.py
+    py/Boinc/
+        boinc_db.py
 
 David  1 June 2009
     - client: if scheduler request didn't request work, don't report 0 tasks
@@ -4924,25 +4924,25 @@ David  1 June 2009
         sched_send.cpp
 
 David  1 June 2009
-	- Updated Python assimilator (from Jeremy Cowles)
+    - Updated Python assimilator (from Jeremy Cowles)
 
-	sched/
-		assimilator.py
-		testasm.py
+    sched/
+        assimilator.py
+        testasm.py
 
 David  2 June 2009
-	- client: show "est. delay" correctly in work fetch debug msgs
-	- client: show times correctly in rr_sim debug msgs
-	- client: in "requesting new tasks" msg,
-		say what resources we're requesting (if there's more than CPU)
-	- client: estimated delay was possibly being calculated incorrectly
-		because of roundoff error
+    - client: show "est. delay" correctly in work fetch debug msgs
+    - client: show times correctly in rr_sim debug msgs
+    - client: in "requesting new tasks" msg,
+        say what resources we're requesting (if there's more than CPU)
+    - client: estimated delay was possibly being calculated incorrectly
+        because of roundoff error
 
-	client/
-		cs_scheduler.cpp
-		rr_sim.cpp
-		scheduler_op.cpp
-		work_fetch.cpp
+    client/
+        cs_scheduler.cpp
+        rr_sim.cpp
+        scheduler_op.cpp
+        work_fetch.cpp
 
 David  2 June 2009
     - client: add a 1e-6 slop factor in deciding if
@@ -5125,7 +5125,7 @@ Charlie 4 June 2009
 Charlie 5 June 2009
     - MGR: CBOINCClientManager::ProcessExists() finds the process by name if 
         we don't have a pid (Mac, Linux) or process HANDLE (Windows).  On Mac
-	  and Linux, it returns the pid if the process was found.
+      and Linux, it returns the pid if the process was found.
     
     clientgui/
         BOINCClientManager.cpp, .h
@@ -5183,10 +5183,10 @@ David  8 June 2009
         gui_rpc_client_ops.cpp
 
 David  8 June 2009
-	- Manager: show host ID in project properties
+    - Manager: show host ID in project properties
 
-	clientgui/
-		DltItemProperties.cpp
+    clientgui/
+        DltItemProperties.cpp
 
 Charlie 8 June 2009
     - Mac MGR: In Async RPC logic, use posix mutexes and conditions instead 
@@ -5392,40 +5392,40 @@ Rom    11 June 2009
     PTP: Introduce 'Progress Thru Processors' to the Windows build
       environment. Use GridRepublic skin until the new one is available.
       
-	client/win/
-		boinc_cli.rc
-		boinc_cmd.rc
-	client/win/res/
-		progress.ico (Added)
-	clientctrl/
-		boincsvcctrl.rc
-	clientgui/
-		BOINCGUIApp.rc
-	clientgui/res/
-		progress.ico (Added)
-	clientgui/skins/Progress Thru Processors
-		<Various Files>
-	clientlib/win/
-		boinc_dll.rc
-	clientscr/
-		boinc_ss.rc
-	clientscr/res/
-		boinc.jpg (Deleted)
-	clientscr/res/
-		progress.bmp (Added)
-		progress.ico (Added)
-		Scricon3.ico (Deleted)
-	clienttray/
-		boinc_tray.rc
-	win_build/
-		Progress.sln
-		ptp_boinc_cli.vcproj
-		ptp_boinc_dll.vcproj
-		ptp_boinc_ss.vcproj
-		ptp_boinccmd.vcproj
-		ptp_boincmgr.vcproj
-		ptp_boincsvcctrl.vcproj
-		ptp_boinctray.vcproj
+    client/win/
+        boinc_cli.rc
+        boinc_cmd.rc
+    client/win/res/
+        progress.ico (Added)
+    clientctrl/
+        boincsvcctrl.rc
+    clientgui/
+        BOINCGUIApp.rc
+    clientgui/res/
+        progress.ico (Added)
+    clientgui/skins/Progress Thru Processors
+        <Various Files>
+    clientlib/win/
+        boinc_dll.rc
+    clientscr/
+        boinc_ss.rc
+    clientscr/res/
+        boinc.jpg (Deleted)
+    clientscr/res/
+        progress.bmp (Added)
+        progress.ico (Added)
+        Scricon3.ico (Deleted)
+    clienttray/
+        boinc_tray.rc
+    win_build/
+        Progress.sln
+        ptp_boinc_cli.vcproj
+        ptp_boinc_dll.vcproj
+        ptp_boinc_ss.vcproj
+        ptp_boinccmd.vcproj
+        ptp_boincmgr.vcproj
+        ptp_boincsvcctrl.vcproj
+        ptp_boinctray.vcproj
 
 Rom    11 June 2009
     PTP: Add the 'Progress Thru Processors' screensaver to the
@@ -5448,19 +5448,19 @@ Rom    11 June 2009
     - SCR: Update default values per BOINC defaults.
     - PTP: Add files needed by the installer(s).
     
-	clientscr/progress/
-	    <Added and Deleted various files>
-	clientscr/
-	    screensaver.h
-	win_build/installerv2/
-	    Progress.ism
-	    Progressx64.ism
-	win_build/installerv2/redist/0409/
-		ptp-eula.rtf
-	win_build/installerv2/redist/Progress/
-		acct_mgr_url.xml
-		progress.ico
-		ss_config.xml
+    clientscr/progress/
+        <Added and Deleted various files>
+    clientscr/
+        screensaver.h
+    win_build/installerv2/
+        Progress.ism
+        Progressx64.ism
+    win_build/installerv2/redist/0409/
+        ptp-eula.rtf
+    win_build/installerv2/redist/Progress/
+        acct_mgr_url.xml
+        progress.ico
+        ss_config.xml
 
 Charlie 11 June 2009
     - Mac MGR: strip /n from command field of PROCINFO struct so <exclusive_app> 
@@ -5971,19 +5971,19 @@ Rom    23 June 2009
         ProjectListCtrl.cpp, .h
 
 David  23 June 2009
-	- web: add buttons for BBCode editing.
-		From John Hallissey
+    - web: add buttons for BBCode editing.
+        From John Hallissey
 
-	html/
-		inc/
-			bbcode_bbdodehtml.inc
-			pm.inc
-			util.inc
-		user/
-			bbcode_toolbar.js
-			forum_edit.php
-			forum_post.php
-			forum_reply.php
+    html/
+        inc/
+            bbcode_bbdodehtml.inc
+            pm.inc
+            util.inc
+        user/
+            bbcode_toolbar.js
+            forum_edit.php
+            forum_post.php
+            forum_reply.php
 
 David  23 June 2009
     - web: code cleanup
@@ -6143,24 +6143,24 @@ Rom    30 June 2009
     
 
 David  30 June 2009
-	- manager: if a project is down, say that instead of unknown error msg
-		Programming style notes:
-		1)
-			x = y;
+    - manager: if a project is down, say that instead of unknown error msg
+        Programming style notes:
+        1)
+            x = y;
 
-			instead of
+            instead of
 
-		    if (y) {
-				x = true;
-			} else {
-				x = false;
-			}
+            if (y) {
+                x = true;
+            } else {
+                x = false;
+            }
 
-		2) use a descriptive name instead, not bSuccessfulCondition.
-			Variables are free.
-	clientgui/
-		ProjectPropertiesPage.cpp
-		UnavailablePage.cpp
+        2) use a descriptive name instead, not bSuccessfulCondition.
+            Variables are free.
+    clientgui/
+        ProjectPropertiesPage.cpp
+        UnavailablePage.cpp
 
 David  1 July 2009
     - API: add boinc_elapsed_time() to get elapsed time since start of episode;
@@ -6264,7 +6264,7 @@ Eric K  14 July 2009
     client/
         Makefile.am
     lib/
-	Makefile.am
+    Makefile.am
     Makefile.incl
 
 
@@ -6446,3 +6446,9 @@ Rom    23 July 2009
     winbuild/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+David  23 July 2009
+    - manager: fix typos in attach project wizard
+
+    clientgui/
+        ProjectProcessingPage.cpp
