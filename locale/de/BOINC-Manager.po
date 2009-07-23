@@ -450,8 +450,8 @@ msgid ""
 "%s will shut down the currently connected client,\n"
 "and prompt you for another host to connect to.\n"
 msgstr ""
-"%s - beendet den aktuell verbundenen Client,und fragt nach einem anderen "
-"Rechner zum Verbinden."
+"%s - beendet den aktuell verbundenen Client,\n"
+"und fragt nach einem anderen Rechner zum Verbinden.\n"
 
 #: clientgui/AdvancedFrame.cpp:1196
 #, c-format
