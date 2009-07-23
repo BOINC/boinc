@@ -516,7 +516,7 @@ msgstr "Ідзе падлучэнне да %s"
 #, c-format
 #, fuzzy
 msgid "Connected to %s (%s)"
-msgstr "Падлучаны да %s"
+msgstr "Падлучаны да %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:183
 msgid "Username already in use"
