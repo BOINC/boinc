@@ -294,7 +294,7 @@ msgstr ""
 #, c-format
 #, fuzzy
 msgid "Connect to another computer running %s"
-msgstr "Conectare la alt computer care rulează BOINC"
+msgstr "Conectare la alt computer care rulează %s"
 
 #: clientgui/AdvancedFrame.cpp:437
 #, fuzzy
@@ -479,8 +479,8 @@ msgstr ""
 #, fuzzy
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr ""
-"Setările de limbă pentru BOINC Manager au fost schimbate. Pentru a vizualiza "
-"efectele, restartaţi BOINC manager."
+"Setările de limbă pentru %s au fost schimbate. Pentru a vizualiza "
+"efectele, restartaţi %s."
 
 #: clientgui/AdvancedFrame.cpp:1595
 #: clientgui/DlgAbout.cpp:104
