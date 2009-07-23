@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 5.x\n"
+"Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
 "PO-Revision-Date: 2005-11-29 22:46+0200\n"
@@ -289,7 +289,7 @@ msgstr ""
 #, c-format
 #, fuzzy
 msgid "Connect to another computer running %s"
-msgstr "Pieslēgties pie cita datora uz kura izpildās BOINC"
+msgstr "Pieslēgties pie cita datora uz kura izpildās %s"
 
 #: clientgui/AdvancedFrame.cpp:437
 msgid "Select computer..."
@@ -473,8 +473,8 @@ msgstr ""
 #, fuzzy
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr ""
-"BOINC menedžera noklusētā valoda tika izmainīta. Lai tā stātos spēkā ir "
-"jāpārstartē menedžeris."
+"%s noklusētā valoda tika izmainīta. Lai tā stātos spēkā ir "
+"jāpārstartē %s."
 
 #: clientgui/AdvancedFrame.cpp:1595
 #: clientgui/DlgAbout.cpp:104
@@ -501,7 +501,7 @@ msgstr "Pieslēdzas pie %s"
 #, c-format
 #, fuzzy
 msgid "Connected to %s (%s)"
-msgstr "Pieslēdzās pie %s"
+msgstr "Pieslēdzās pie %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:183
 msgid "Username already in use"
