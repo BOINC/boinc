@@ -90,7 +90,7 @@ UINT CACreateClientAuthFile::OnExecution()
 
     // The client_auth.xml file is stored in the data directory.
     //
-    strClientAuthFile = strDataDirectory + _T("client_auth.xml");
+    strClientAuthFile = strDataDirectory + _T("\\client_auth.xml");
 
     // If we are not installing in protected mode, there may not
     //   be a valid 'boinc_project' account, so delete the
