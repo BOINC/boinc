@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-05-29 07:45-0700\n"
+"PO-Revision-Date: 2009-07-23 06:58-0700\n"
 "Last-Translator: David M <davidcomp at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -129,16 +129,16 @@ msgid "Edit your profile"
 msgstr "Edite su perfil"
 
 msgid "Your feedback on this profile"
-msgstr ""
+msgstr "Su opinión sobre este perfil"
 
 msgid "Recommend this profile for User of the Day:"
-msgstr ""
+msgstr "Recomendar este perfil como Usuario del Día"
 
 msgid "I %1like%2 this profile"
 msgstr "Me %1gusta%2 este perfil"
 
 msgid "Alert administrators to an offensive profile:"
-msgstr ""
+msgstr "Alerte a los administradores de un perfil ofensivo:"
 
 msgid "I %1do not like%2 this profile"
 msgstr "%1No me gusta%2 este perfil"
@@ -636,6 +636,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
+"Para reemplazarla, haz click en el botón \"Explorar\" y elige una imagen en "
+"formato PNG o JPG (%1 o menor)"
 
 msgid "To remove it from your profile, check this box:"
 msgstr "Para quitarla de tu perfil, marque este cuadro:"
@@ -644,6 +646,9 @@ msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
+"Si desea incluir una imagen en su perfil, haga clic en el botón \"Explorar\" y "
+"seleccione un archivo JPEG o PNG. Por favor seleccione imágenes de %1 o "
+"menos."
 
 msgid "Language"
 msgstr "Idioma"
@@ -658,6 +663,8 @@ msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
 msgstr ""
+"Para proteger las páginas web del proyecto del spam, por favor introduzca "
+"las dos palabras que aparecen en la imagen:<br>"
 
 msgid "Create/edit profile"
 msgstr "Crear/editar perfil"
@@ -669,19 +676,26 @@ msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr ""
+"Su %1perfil%2 le permite compartir sus opiniones y experiencia con la %3 "
+"comunidad."
 
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr ""
+"La respuesta al ReCaptcha no es correcta.  Por favor inténtelo de nuevo."
 
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Su primera respuesta fue marcada como spam por el sistema anti-spam Akismet. "
+" Por favor, modifique su texto e inténtelo de nuevo."
 
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Su segunda respuesta fue marcada como spam por el sistema anti-spam Akismet. "
+" Por favor, modifique su texto e inténtelo de nuevo."
 
 msgid "Your profile submission was empty."
 msgstr ""
@@ -702,15 +716,17 @@ msgstr ""
 "datos"
 
 msgid "%1View your profile%2"
-msgstr ""
+msgstr "%1Ver tu perfil%2"
 
 msgid "Create a profile"
-msgstr ""
+msgstr "Crear un perfil"
 
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
 msgstr ""
+"Para evitar el Spam, necesitas un promedio de %1 créditos o más para crear o "
+"editar un perfil.  Sentimos las molestias."
 
 msgid "Download BOINC add-on software"
 msgstr ""
@@ -1289,19 +1305,19 @@ msgid "Your vote to reject this profile has been recorded."
 msgstr ""
 
 msgid "Return to profile."
-msgstr ""
+msgstr "Regresar al perfil."
 
 msgid "This feature is turned off temporarily"
-msgstr ""
+msgstr "Esta opción ha sido deshabilitada temporalmente"
 
 msgid "No computer with ID %1 found"
-msgstr ""
+msgstr "No se encontró computadora con ID %1"
 
 msgid "Tasks for computer %1"
-msgstr ""
+msgstr "Tareas para la computadora %1"
 
 msgid "No access"
-msgstr ""
+msgstr "Sin acceso"
 
 msgid "Missing user ID or host ID"
 msgstr ""
@@ -1325,11 +1341,11 @@ msgid "Top participants"
 msgstr "Mejores participantes"
 
 msgid "Top computers"
-msgstr ""
+msgstr "Mejores Computadoras"
 
 #, fuzzy
 msgid "Top teams"
-msgstr "Mejores equipos de %1"
+msgstr "Mejores equipos"
 
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
@@ -1363,47 +1379,52 @@ msgid "edit the team's name and description"
 msgstr ""
 
 msgid "remove members from the team"
-msgstr ""
+msgstr "quitar miembros del equipo"
 
 msgid "disband a team if it has no members"
 msgstr ""
 
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
+"Para unirse a un equipo, visite la pagina del equipo y pulse en %1Unirse a "
+"este equipo%2"
 
 #, fuzzy
 msgid "Find a team"
-msgstr "buscar un equipo"
+msgstr "Encontrar un equipo"
 
 msgid "All teams"
-msgstr ""
+msgstr "Todos los Equipos"
 
 msgid "%1 teams"
-msgstr ""
+msgstr "%1 equipos"
 
-#, fuzzy
 msgid "Create a new team"
-msgstr "Crear un hilo nuevo"
+msgstr "Crear un nuevo equipo"
 
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr ""
+"Si no encuentras un equipo que sea el indicado para ti, puedes %1crear un "
+"equipo%2."
 
 msgid "You must choose a non-blank team name"
-msgstr ""
+msgstr "El nombre del equipo no puede estar en blanco"
 
 msgid "A team named %1 already exists - try another name"
-msgstr ""
+msgstr "Ya existe un equipo llamado %1- intente otro nombre"
 
 msgid "Could not create team - please try later."
-msgstr ""
+msgstr "No se pudo crear el equipo - por favor, intentelo más tarde"
 
 msgid "Create a team"
-msgstr ""
+msgstr "Crear un equipo"
 
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
+"Usted pertenece a %1. Usted debe %2quitarse de este equipo%3 antes de crear "
+"uno nuevo."
 
 msgid "Top hosts"
 msgstr "Mejores ordenadores"
@@ -1415,10 +1436,10 @@ msgid "Participant since"
 msgstr "Participante desde"
 
 msgid "This user has no profile"
-msgstr ""
+msgstr "Este usuario no tiene perfil"
 
 msgid "Account data"
-msgstr ""
+msgstr "Datos de la cuenta"
 
 # ########################################
 # "Weak account key" page (weak_auth.php)
