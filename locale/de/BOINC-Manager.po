@@ -3832,24 +3832,20 @@ msgstr "&Beenden"
 
 #: clientgui/common/wxFlatNotebook.cpp:182
 #, c-format
-#, c-format
 msgid "New page inserted. Index = %i"
 msgstr "Neue Seite eingefügt. Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:187
-#, c-format
 #, c-format
 msgid "New page appended. Index = %i"
 msgstr "Neue Seite angehängt. Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2048
 #, c-format
-#, c-format
 msgid "Old Page Index = %i"
 msgstr "Alter Seitenindex = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2053
-#, c-format
 #, c-format
 msgid "OnDropTarget: index by HitTest = %i"
 msgstr "OnDropTarget: index by HitTest = %i"
@@ -3865,136 +3861,6 @@ msgstr "gebe Anfangs- und Endzeit für das Rechnen im Format HH:MM-HH:MM ein"
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "gebe Anfangs- und Endzeit der Netzwerknutzung im Format HH:MM-HH:MM ein"
-
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr ""
-#~ "Sie können die URL aus der Adresszeile ihres Internetbrowsers mit \"Kopieren "
-#~ "und Einfügen\" übertragen."
-
-#~ msgid "For a list of account managers go to:"
-#~ msgstr "Für eine Liste von Kontoverwaltungen besuchen sie:"
-
-#~ msgid "&Advanced View"
-#~ msgstr "&Tabellenansicht"
-
-#~ msgid "&Simple View..."
-#~ msgstr "&Einfache Ansicht..."
-
-#~ msgid "You are already attached to this project."
-#~ msgstr "Dieses Projekt ist bereits angemeldet!"
-
-#~ msgid "Static text"
-#~ msgstr "Statischer Text"
-
-#~ msgid "Radiobutton"
-#~ msgstr "Radioknopf"
-
-#~ msgid "Short term debt"
-#~ msgstr "Kurzfristige Bewertung"
-
-#~ msgid "Long term debt"
-#~ msgstr "Langfristige Bewerung"
-
-#~ msgid "Test"
-#~ msgstr "Test"
-
-#~ msgid "Enter account key"
-#~ msgstr "Kontoschlüssel eingeben:"
-
-#~ msgid ""
-#~ "This project uses an \"account key\" to identify you.\n"
-#~ "\n"
-#~ "Go to the project's web site to create an account. Your account\n"
-#~ "key will be emailed to you."
-#~ msgstr ""
-#~ "Dieses Projekt benutzt einen \"Kontoschlüssel\" um Sie zu identifizieren. Besuchen sie die Projektwebseite um eine Teilnehmerkonto anzulegen.\n"
-#~ "Ihr Kontoschlüssel geht Ihnen per Mail zu."
-
-#~ msgid "An account key looks like:"
-#~ msgstr "Ein Kontoschlüssel sieht so aus:"
-
-#~ msgid "82412313ac88e9a3638f66ea82186948"
-#~ msgstr "82412313ac88e9a3638f66ea82186948"
-
-#~ msgid "Account key:"
-#~ msgstr "Kontoschlüssel:"
-
-#~ msgid "&Accessible View"
-#~ msgstr "&Barrierefreie Ansicht"
-
-#~ msgid "Accessible views are compatible with accessibility aids such as screen readers."
-#~ msgstr "Barrierefreie Ansichten sind kompatibel mit Zugangshilfen wie etwa Bildschirmleseprogrammen."
-
-#~ msgid "&Grid View"
-#~ msgstr "&Tabellenansicht"
-
-#~ msgid "Retry &communications"
-#~ msgstr "&Kommunikation wiederholen"
-
-#~ msgid "Retry all deferred network communication."
-#~ msgstr "Verzögerte Netzwerk-Kommunikation wiederholen."
-
-#, c-format
-#~ msgid ""
-#~ "%s is going to shutdown the core client it is currently connected to.\n"
-#~ "NOTE: Choosing 'OK' will cause the select new computer dialog to appear \n"
-#~ "so you can attach to a different core client."
-#~ msgstr ""
-#~ "%s wird den derzeit verbundenen Basis Client herunterfahren.\n"
-#~ "HINWEIS: Auswahl von 'OK' wird den Dialog zur Auswahl eines neuen Computers anzeigen,\n"
-#~ " so daß mit einem neuen Basis Client verbunden werden kann."
-
-#, c-format
-#~ msgid ""
-#~ "%s is unable to communicate with a project and needs an Internet connection.\n"
-#~ "Please connect to the Internet, then select the 'retry communications' item off the advanced menu."
-#~ msgstr ""
-#~ "%s kann nicht mit einem Projekt kommunizieren und benötigt eine Internetverbindung.\n"
-#~ "Bitte verbinden Sie sich mit dem Internet und wählen sie anschließend \"Kommunikation wiederholen\" im Menü \"Extras\"."
-
-#, c-format
-#~ msgid ""
-#~ "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
-#~ "(Error code %d)"
-#~ msgstr ""
-#~ "BOINC Eigentümer- und/oder Zugriffsrechte sind nicht richtig gesetzt. Bitte BOINC neu installieren.\n"
-#~ "(Fehlercode: %d)"
-
-#~ msgid "processors"
-#~ msgstr "Prozessoren"
-
-#~ msgid "network usage restrictions"
-#~ msgstr "Einschränkungen der Nutzung des Netzwerks"
-
-#~ msgid "Click here to disable displaying this message in the future."
-#~ msgstr "Hier klicken um diese Meldung für die Zukunft zu unterdrücken."
-
-#~ msgid "Language Selection:"
-#~ msgstr "Sprachauswahl:"
-
-#~ msgid "What language should the manager display by default."
-#~ msgstr "Welche Sprache soll der Manager als Standardeinstellung anzeigen?"
-
-#~ msgid "Reminder Frequency:"
-#~ msgstr "Erinnerungshäufigkeit:"
-
-#~ msgid "How often, in minutes, should the manager remind you of possible connection events."
-#~ msgstr "In welchen Abständen (in Minuten) soll der Manager Sie an mögliche Verbindungsereignisse erinnern?"
-
-#~ msgid "free disk space - "
-#~ msgstr "Freier Festplattenplatz - "
-
-#~ msgid "Project Comm Failure"
-#~ msgstr "Projekt Kommunikationsfehler"
-
-#~ msgid "Google Comm Failure"
-#~ msgstr "Google Kommunikationsfehler"
-
-#, c-format
-#~ msgid "Yahoo Comm Failure"
-#~ msgstr "Yahoo Kommunikationsfehler"
 
 #: clientgui/AdvancedFrame.cpp:344
 msgid "Attach to &project or account manager..."
