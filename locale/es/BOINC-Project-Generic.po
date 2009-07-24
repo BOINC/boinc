@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-07-23 06:58-0700\n"
+"PO-Revision-Date: 2009-07-24 12:45-0700\n"
 "Last-Translator: David M <davidcomp at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -698,7 +698,7 @@ msgstr ""
 " Por favor, modifique su texto e inténtelo de nuevo."
 
 msgid "Your profile submission was empty."
-msgstr ""
+msgstr "El envío de su perfil estaba vacío."
 
 msgid "Could not update the profile: database error"
 msgstr "No se pudo actualizar el perfil: error de la base de datos"
@@ -729,14 +729,16 @@ msgstr ""
 "editar un perfil.  Sentimos las molestias."
 
 msgid "Download BOINC add-on software"
-msgstr ""
+msgstr "Descarge extensiones para BOINC"
 
 msgid "You can download applications in several categories."
-msgstr ""
+msgstr "Usted puede descargar programas de varias categorías."
 
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
 msgstr ""
+"Estos programas no están aprobados por %1 y usted asume los riesgos de "
+"usarlos."
 
 msgid ""
 "We do not provide instructions for installing these applications.\n"
@@ -744,15 +746,20 @@ msgid ""
 "uninstalling the application. \n"
 "If this is not enough you should contact the author."
 msgstr ""
+"Nosotros no proporcionamos instrucciones para instalar estos programas.\n"
+"Sin embargo, el autor puede haber proporcionado ayuda para instalar o "
+"desinstalar el programa. \n"
+"Si esto no es suficiente deberá contactar con el autor."
 
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr ""
+msgstr "Instrucciones para instalar y ejecutar BOINC están %1aquí%2."
 
 msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr ""
+"Esta lista es administrada centralmente desde %1el sitio web de BOINC%2."
 
 msgid "fll"
-msgstr ""
+msgstr "fll"
 
 msgid "Title"
 msgstr "Título"
@@ -769,6 +776,8 @@ msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
+"Si tiene alguna pregunta o problema, por favor, use la sección %1Preguntas & "
+"Respuestas%2 de los foros."
 
 msgid "Topic"
 msgstr "Tema"
@@ -786,10 +795,10 @@ msgid "Forum search results"
 msgstr "Resultados de la búsqueda en el foro"
 
 msgid "No thread with id %1. Please check the link and try again."
-msgstr ""
+msgstr "No hay hilo con id %1. Por favor, pulse en el enlace y pruebe de nuevo."
 
 msgid "This forum is not visible to you."
-msgstr ""
+msgstr "Este foro no es visible para usted."
 
 # ########################################
 # Forum thread
@@ -797,41 +806,46 @@ msgid "This thread has been hidden for administrative purposes"
 msgstr "Este hilo está oculto por motivos administrativos"
 
 msgid "My question was answered"
-msgstr ""
+msgstr "Mi pregunta fue respondida."
 
 msgid ""
 "If your question has been adequately answered please click here to close it!"
 msgstr ""
+"¡Si su pregunta ha sido respondida adecuadamente, por favor, pulse aquí para "
+"cerrarla!"
 
 msgid "I've also got this question"
-msgstr ""
+msgstr "Yo también tengo esta pregunta"
 
 msgid "Add a new message to this thread"
-msgstr ""
+msgstr "Añadir un mensaje nuevo a este hilo"
 
 msgid "Unsubscribe"
 msgstr "Cancelar suscripción"
 
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
 msgstr ""
+"Usted está suscrito a este hilo.   Pulse aquí para cancelar la suscripción."
 
 msgid "Subscribe"
-msgstr "Subscribirse"
+msgstr "Suscribirse"
 
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
+"Pulse para recibir correo electrónico cuando haya nuevos mensajes en este "
+"hilo"
 
 msgid "Unhide"
-msgstr ""
+msgstr "Hacer visible"
 
 msgid "Unhide this thread"
-msgstr ""
+msgstr "Hacer visible este hilo"
 
 msgid "Hide"
-msgstr ""
+msgstr "Ocultar"
 
 msgid "Hide this thread"
-msgstr ""
+msgstr "Ocultar este hilo"
 
 msgid "Make unsticky"
 msgstr ""
@@ -1524,5 +1538,7 @@ msgstr ""
 #~ msgid "Yes, delete"
 #~ msgstr "Sí, borrar"
 
+# ########################################
+# "Your account" page (home.php)
 #~ msgid "No such message."
 #~ msgstr "No existe dicho mensaje."
