@@ -291,7 +291,7 @@ msgstr ""
 #, c-format
 #, fuzzy
 msgid "Connect to another computer running %s"
-msgstr "Σύνδεση σε κάποιο άλλο υπολογιστή ο οποίο τρέχει το BOINC"
+msgstr "Σύνδεση σε κάποιο άλλο υπολογιστή ο οποίο τρέχει το %s"
 
 #: clientgui/AdvancedFrame.cpp:437
 msgid "Select computer..."
@@ -476,8 +476,8 @@ msgstr ""
 #, fuzzy
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr ""
-"Η εξ' ορισμού γλώσσα του BOINC Manager έχει αλλάξει. Ούτως ώστε αυτή η "
-"αλλαγή να τεθεί σε εφαρμογή πρέπει να επανεκκινήσετε το διαχειριστή."
+"Η εξ' ορισμού γλώσσα του %s έχει αλλάξει. Ούτως ώστε αυτή η "
+"αλλαγή να τεθεί σε εφαρμογή πρέπει να επανεκκινήσετε το διαχειριστή %s."
 
 #: clientgui/AdvancedFrame.cpp:1595
 #: clientgui/DlgAbout.cpp:104
@@ -504,7 +504,7 @@ msgstr "Σύνδεση στο %s"
 #, c-format
 #, fuzzy
 msgid "Connected to %s (%s)"
-msgstr "Συνδέθηκε στο %s"
+msgstr "Συνδέθηκε στο %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:183
 msgid "Username already in use"
