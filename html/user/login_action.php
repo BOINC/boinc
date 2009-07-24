@@ -99,7 +99,7 @@ if ($id && $t && $h) {
 //
 $authenticator = get_str("key", true);
 if (!$authenticator) {
-   $authenticator = post_str("authenticator", true);
+    $authenticator = post_str("authenticator", true);
 }
 if (!$authenticator) {
     error_page("You must supply an account key");

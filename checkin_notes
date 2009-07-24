@@ -6452,3 +6452,25 @@ David  23 July 2009
 
     clientgui/
         ProjectProcessingPage.cpp
+
+David  24 July 2009
+    - client: in get_project_config_poll() GUI RPC,
+        return ERR_IN_PROGRESS is the reference site check is in progress.
+        This hopefully fixes a bug where:
+        - the user is connected via a proxy
+        - the manager is run for the first time, and an attach is tried
+        - the get_project_config.php fetch fails because no proxy config
+        - the manager gets the CC_STATUS before the ref site check has
+            finished, so it thinks there's a network connection,
+            and it doesn't ask the user for proxy info
+
+    client/
+        gui_rpc_server_ops.cpp
+        net_stats.cpp,h
+    clientgui/
+        ProjectPropertiesPage.cpp
+    html/
+        inc/
+            util.inc
+        user/
+            login_action.php

@@ -645,11 +645,20 @@ void GUI_RPC_CONN::handle_get_project_config(char* buf, MIOFILE& fout) {
 
 void GUI_RPC_CONN::handle_get_project_config_poll(char*, MIOFILE& fout) {
     if (get_project_config_op.error_num) {
+        int x;
+        // if the HTTP op failed, it triggers a net status check (to google).
+        // If this is in progress, act as if the HTTP op is still in progress
+        // 
+        if (net_status.ref_site_check_in_progress()) {
+            x = ERR_IN_PROGRESS;
+        } else {
+            x = get_project_config_op.error_num;
+        }
         fout.printf(
             "<project_config>\n"
             "    <error_num>%d</error_num>\n"
             "</project_config>\n",
-            get_project_config_op.error_num
+            x
         );
     } else {
         fout.printf("%s", get_project_config_op.reply.c_str());

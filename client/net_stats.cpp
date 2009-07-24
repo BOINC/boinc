@@ -211,7 +211,9 @@ int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
     int retval;
 
     if (net_status.show_ref_message) {
-        msg_printf(0, MSG_INFO, "Project communication failed: attempting access to reference site");
+        msg_printf(0, MSG_INFO,
+            "Project communication failed: attempting access to reference site"
+        );
     }
     retval = gui_http->do_rpc(this, url, LOOKUP_WEBSITE_FILENAME);
     if (retval) {
@@ -254,6 +256,12 @@ void NET_STATUS::poll() {
 	if (net_status.need_to_contact_reference_site && gstate.gui_http.state==GUI_HTTP_STATE_IDLE) {
 		net_status.contact_reference_site();
 	}
+}
+
+bool NET_STATUS::ref_site_check_in_progress() {
+    if (need_to_contact_reference_site) return true;
+    if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) return true;
+    return false;
 }
 
 const char *BOINC_RCSID_733b4006f5 = "$Id$";

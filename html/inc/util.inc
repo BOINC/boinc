@@ -69,7 +69,7 @@ function get_logged_in_user($must_be_logged_in=true) {
     global $g_logged_in_user;
     if ($g_logged_in_user) return $g_logged_in_user;
 
-	check_web_stopped();
+    check_web_stopped();
 
     $authenticator = null;
     if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
