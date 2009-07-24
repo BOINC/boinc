@@ -152,7 +152,7 @@ msgstr "Agarde, por favor..."
 #: clientgui/ProjectProcessingPage.cpp:494
 #: clientgui/ProjectProcessingPage.cpp:552
 msgid "An internal server error has occurred.\n"
-msgstr "Houbo un erro interno no servidor."
+msgstr "Houbo un erro interno no servidor.\n"
 
 #: clientgui/AdvancedFrame.cpp:100
 msgid "Connected"
@@ -1361,7 +1361,7 @@ msgstr ""
 "\n"
 "Na maioría dos casos, é mellor pechar só a fiestra do %s\n"
 "que saír da aplicación; isto permitirá que %s realice as\n"
-"súas tarefas nos momentos que escolleu nas preferencias.\n"
+"súas tarefas nos momentos que escolleu nas preferencias."
 
 #: clientgui/DlgExitMessage.cpp:153
 msgid "Stop running science applications when exiting the Manager"
@@ -2212,7 +2212,7 @@ msgid ""
 "Please wait..."
 msgstr ""
 "A comunicar co proxecto\n"
-"Agarde, por favor...\n"
+"Agarde, por favor..."
 
 #: clientgui/ProjectProcessingPage.cpp:491
 msgid ""
@@ -2609,7 +2609,7 @@ msgstr "%4.2f GB"
 #: clientgui/sg_DlgPreferences.cpp:828
 #, c-format
 msgid "%d%%"
-msgstr "%s%%"
+msgstr "%d%%"
 
 #: clientgui/sg_DlgPreferences.cpp:864
 msgid "0 (Run Always)"
@@ -3648,12 +3648,12 @@ msgid ""
 "World Community Grid then please click on the following button:"
 msgstr ""
 "Escolleu unirse a un novo proxecto BOINC. Unirse a un novo proxecto quere\n"
-"dicir que o seu computador conectará cun novo sitio web e unha nova "
+"dicir que o seu computador conectará cun novo sitio web e unha nova\n"
 "organización.\n"
 "Se isto é o que quería facer, prema o botón 'Seguinte'.\n"
 "\n"
 "Algúns proxectos coma o World Community Grid executan múltiples aplicacións\n"
-"de investigación. Se quere cambiar as aplicacións que se envían ao seu "
+"de investigación. Se quere cambiar as aplicacións que se envían ao seu\n"
 "computador,\n"
 "debe visitar o sitio web do proxecto e modificar as súas preferencias alí.\n"
 "\n"
