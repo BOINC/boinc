@@ -5951,3 +5951,10 @@ Rom    17 July 2009
         configure.ac
         version.h
 
+Rom    23 July 2009
+    - client: Treat power events similiar to the snooze events, assign
+        a timeout so that when we resume from suspend/hybernate we
+        restore the previous activity states.
+        
+    client/
+        main.cpp

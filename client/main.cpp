@@ -584,8 +584,8 @@ int boinc_main_loop() {
         }
 #ifdef _WIN32
         if (requested_suspend) {
-            gstate.run_mode.set(RUN_MODE_NEVER, 0);
-            gstate.network_mode.set(RUN_MODE_NEVER, 0);
+            gstate.run_mode.set(RUN_MODE_NEVER, 3600);
+            gstate.network_mode.set(RUN_MODE_NEVER, 3600);
             requested_suspend = false;
         }
         if (requested_resume) {
