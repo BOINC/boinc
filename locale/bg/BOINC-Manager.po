@@ -497,7 +497,7 @@ msgstr "Свързване към %s"
 #, c-format
 #, fuzzy
 msgid "Connected to %s (%s)"
-msgstr "Свързан към %s"
+msgstr "Свързан към %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:183
 msgid "Username already in use"
