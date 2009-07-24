@@ -287,7 +287,7 @@ msgstr ""
 #, c-format
 #, fuzzy
 msgid "Connect to another computer running %s"
-msgstr "Spojite se na drugo računolo koje ima BOINC"
+msgstr "Spojite se na drugo računolo koje ima %s"
 
 #: clientgui/AdvancedFrame.cpp:437
 #, fuzzy
@@ -472,8 +472,8 @@ msgstr ""
 #, fuzzy
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr ""
-"BOINC menadžerov pretpostavljeni jezik je promijenjen, da bi ta promjena "
-"stupila na snagu menadžer mora biti restartiran."
+"%s menadžerov pretpostavljeni jezik je promijenjen, da bi ta promjena "
+"stupila na snagu menadžer mora biti restartiran %s."
 
 #: clientgui/AdvancedFrame.cpp:1595
 #: clientgui/DlgAbout.cpp:104
@@ -500,7 +500,7 @@ msgstr "Spajam se na %s"
 #, c-format
 #, fuzzy
 msgid "Connected to %s (%s)"
-msgstr "Spojeno na %s"
+msgstr "Spojeno na %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:183
 msgid "Username already in use"
