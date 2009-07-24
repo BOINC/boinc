@@ -72,9 +72,9 @@ function show_news_items() {
         echo "<a href=old_news.php>".tra("... more")."</a>\n";
     }
 
-    echo "
-        <p><font size=-2>".tra("News is available as an")."
-        <a href=rss_main.php>".tra("RSS feed")."</a> <img src=xml.gif alt=\"RSS logo\"></font>
+    echo "<p><font size=-2>";
+    printf(tra('News is available as an %sRSS feed%s'), '<a href="rss_main.php">', '</a>');
+    echo "<img src=xml.gif alt=\"RSS logo\"></font>
         </td></tr></table>
     ";
 }
