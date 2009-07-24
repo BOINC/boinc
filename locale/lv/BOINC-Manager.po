@@ -3,19 +3,19 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2005-11-29 22:46+0200\n"
-"Last-Translator: Atis Kozulis <boinc_at_latvia at mac.com>\n"
+"PO-Revision-Date: 2009-07-23 16:59-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC@Latvia <boinc_at_latvia at mac.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_8\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:336
 msgid "User information"
@@ -100,19 +100,13 @@ msgstr "Pievienoties konta menedžerim"
 
 #: clientgui/AccountInfoPage.cpp:481
 #, c-format
-#, fuzzy
 msgid "The minimum password length for this project is %d. Please enter a different password."
-msgstr ""
-"Minimālais paroles garums šim projektam ir %d. Lūdzu, izvēlieties citu "
-"paroli."
+msgstr "Minimālais paroles garums šim projektam ir %d. Lūdzu, izvēlieties citu paroli."
 
 #: clientgui/AccountInfoPage.cpp:487
 #, c-format
-#, fuzzy
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr ""
-"Minimālais paroles garums šim konta menedžerim ir %d. Lūdzu, izvēlieties "
-"citu paroli."
+msgstr "Minimālais paroles garums šim konta menedžerim ir %d. Lūdzu, izvēlieties citu paroli."
 
 #: clientgui/AccountInfoPage.cpp:498
 msgid "The password and confirmation password do not match. Please type them again."
@@ -287,7 +281,6 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:432
 #, c-format
-#, fuzzy
 msgid "Connect to another computer running %s"
 msgstr "Pieslēgties pie cita datora uz kura izpildās %s"
 
@@ -384,8 +377,6 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:531
 #: clientgui/sg_BoincSimpleGUI.cpp:152
-#, c-format
-#, c-format
 #, fuzzy
 msgid "Show information about BOINC and %s"
 msgstr "Parādīt informāciju par BOINC menedžeri"
@@ -470,11 +461,8 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1385
 #, c-format
-#, fuzzy
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr ""
-"%s noklusētā valoda tika izmainīta. Lai tā stātos spēkā ir "
-"jāpārstartē %s."
+msgstr "%s noklusētā valoda tika izmainīta. Lai tā stātos spēkā ir jāpārstartē %s."
 
 #: clientgui/AdvancedFrame.cpp:1595
 #: clientgui/DlgAbout.cpp:104
@@ -499,7 +487,6 @@ msgstr "Pieslēdzas pie %s"
 
 #: clientgui/AdvancedFrame.cpp:1732
 #, c-format
-#, fuzzy
 msgid "Connected to %s (%s)"
 msgstr "Pieslēdzās pie %s (%s)"
 
@@ -518,8 +505,7 @@ msgstr ""
 "Konts ar norādīto e-pasta adresi jau eksistē un tam ir savādāka\n"
 "parole nekā jūs ievadījāt.\n"
 "\n"
-"Lūdzu, apmeklējiet projekta tīmekļa vietni un sekojiet tur norādītajām "
-"instrukcijām."
+"Lūdzu, apmeklējiet projekta tīmekļa vietni un sekojiet tur norādītajām instrukcijām."
 
 #: clientgui/AlreadyExistsPage.cpp:190
 msgid "Email address already in use"
@@ -535,8 +521,7 @@ msgstr ""
 "Konts ar norādīto e-pasta adresi jau eksistē un tam ir savādāka\n"
 "parole nekā jūs ievadījāt.\n"
 "\n"
-"Lūdzu, apmeklējiet projekta tīmekļa vietni un sekojiet tur norādītajām "
-"instrukcijām."
+"Lūdzu, apmeklējiet projekta tīmekļa vietni un sekojiet tur norādītajām instrukcijām."
 
 #: clientgui/AsyncRPC.cpp:975
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -587,8 +572,6 @@ msgid "%s - Connection Failed"
 msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:497
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s is not able to connect to a %s client.\n"
@@ -622,8 +605,6 @@ msgid "%s - Connection Status"
 msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:606
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -631,8 +612,7 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "BOINC menedžeris pašlaik nav pieslēdzies pie BOINC klienta.\n"
-"Lūdzu no izvēlnes izvēlieties 'Fails\\Izvēlieties datoru...', lai pieslēgtos "
-"pie BOINC klienta.\n"
+"Lūdzu no izvēlnes izvēlieties 'Fails\\Izvēlieties datoru...', lai pieslēgtos pie BOINC klienta.\n"
 "Lai pieslēgtos pie pašreizējā datora izmantojiet vārdu 'localhost'."
 
 #: clientgui/BOINCBaseView.cpp:748
@@ -659,8 +639,6 @@ msgid ""
 msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:310
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s needs to connect to the Internet.\n"
@@ -670,8 +648,6 @@ msgstr ""
 "Vai drīkst to darīt tagad?"
 
 #: clientgui/BOINCDialupManager.cpp:323
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s is connecting to the Internet."
 msgstr "BOINC pieslēdzas pie Interneta."
@@ -685,40 +661,28 @@ msgid ""
 msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:386
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s has successfully connected to the Internet."
 msgstr "BOINC veiksmīgi pieslēdzās pie Interneta."
 
 #: clientgui/BOINCDialupManager.cpp:414
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s failed to connect to the Internet."
 msgstr "BOINC neizdevās pieslēgties pie Interneta."
 
 #: clientgui/BOINCDialupManager.cpp:455
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
-msgstr ""
-"BOINC noteica, ka ir pieslēdzies pie Interneta. Tagad aktualizē visus "
-"projektus un atjauno datu pārsūtīšanu."
+msgstr "BOINC noteica, ka ir pieslēdzies pie Interneta. Tagad aktualizē visus projektus un atjauno datu pārsūtīšanu."
 
 #: clientgui/BOINCDialupManager.cpp:500
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s has successfully disconnected from the Internet."
 msgstr "BOINC veiksmīgi atvienojās no Interneta."
 
 #: clientgui/BOINCDialupManager.cpp:516
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s failed to disconnected from the Internet."
 msgstr "BOINC neizdevās atvienoties no Interneta."
@@ -740,8 +704,7 @@ msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:525
 msgid "Startup BOINC so only the system tray icon is visible"
-msgstr ""
-"Startēt BOINC tā, lai rīkjoslas paziņojumu laukā būtu redzama tikai ikona"
+msgstr "Startēt BOINC tā, lai rīkjoslas paziņojumu laukā būtu redzama tikai ikona"
 
 #: clientgui/BOINCGUIApp.cpp:527
 msgid "Startup BOINC with these optional arguments"
@@ -895,8 +858,6 @@ msgid "Welcome to %s!"
 msgstr ""
 
 #: clientgui/CompletionPage.cpp:303
-#, c-format
-#, c-format
 #, fuzzy
 msgid "You are now successfully attached to the %s system."
 msgstr "Jūs veiksmīgi pieslēdzāties projektam."
@@ -1134,8 +1095,6 @@ msgid "Use at most"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:259
-#, no-c-format
-#, no-c-format
 #, fuzzy
 msgid "% CPU time"
 msgstr "CPU laiks"
@@ -1869,8 +1828,6 @@ msgid "SOCKS Proxy"
 msgstr "SOCKS proxy"
 
 #: clientgui/DlgSelectComputer.cpp:90
-#, c-format
-#, c-format
 #, fuzzy
 msgid "%s - Select Computer"
 msgstr "Izvēlieties datoru"
@@ -1885,8 +1842,6 @@ msgid "%s - Can't find web browser"
 msgstr ""
 
 #: clientgui/hyperlink.cpp:192
-#, c-format
-#, c-format
 #, fuzzy
 msgid ""
 "%s tried to display the web page\n"
@@ -1945,9 +1900,7 @@ msgstr "Jūsu rezultāti"
 #: clientgui/Localization.cpp:49
 #: clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr ""
-"Apskatīt (vismaz) pēdējās nedēļas uzdevumus un par to izpildi piešķirtos "
-"kredītpunktus"
+msgstr "Apskatīt (vismaz) pēdējās nedēļas uzdevumus un par to izpildi piešķirtos kredītpunktus"
 
 #: clientgui/Localization.cpp:51
 #: clientgui/Localization.cpp:93
@@ -1986,9 +1939,7 @@ msgstr "Lasīt detalizētu aprakstu par Einstein@Home ekrānsaudzētāju"
 
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Sarakstīties ar administratoriem un citiem lietotājiem Einstein@Home "
-"ziņojumu dēļos"
+msgstr "Sarakstīties ar administratoriem un citiem lietotājiem Einstein@Home ziņojumu dēļos"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
@@ -2024,9 +1975,7 @@ msgstr "LIGO projekts"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"Gravitācijas viļņu lāzerinterferometrijas observatorijas (LIGO projekta) "
-"mājas lapa"
+msgstr "Gravitācijas viļņu lāzerinterferometrijas observatorijas (LIGO projekta) mājas lapa"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2364,18 +2313,14 @@ msgstr "Kopēt visus ziņojumus starpliktuvē"
 #: clientgui/ViewMessagesGrid.cpp:110
 #, fuzzy
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Kopēt atzīmētos ziņojumus starpliktuvē. Jūs varat atzīmēt vairākas ziņas "
-"pieturot Shift vai Ctrl taustiņus, kamēr spiežat uz ziņojuma."
+msgstr "Kopēt atzīmētos ziņojumus starpliktuvē. Jūs varat atzīmēt vairākas ziņas pieturot Shift vai Ctrl taustiņus, kamēr spiežat uz ziņojuma."
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 #: clientgui/ViewMessages.cpp:99
 #: clientgui/ViewMessagesGrid.cpp:112
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Kopēt atzīmētos ziņojumus starpliktuvē. Jūs varat atzīmēt vairākas ziņas "
-"pieturot Shift vai Ctrl taustiņus, kamēr spiežat uz ziņojuma."
+msgstr "Kopēt atzīmētos ziņojumus starpliktuvē. Jūs varat atzīmēt vairākas ziņas pieturot Shift vai Ctrl taustiņus, kamēr spiežat uz ziņojuma."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2945,9 +2890,7 @@ msgstr "Aktualizēt"
 #: clientgui/ViewProjectsGrid.cpp:121
 #, fuzzy
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Ziņot par paveikto, aktualizēt kredītpunktus un preferences, kā arī, "
-"iespējams, iegūt jaunus uzdevumus"
+msgstr "Ziņot par paveikto, aktualizēt kredītpunktus un preferences, kā arī, iespējams, iegūt jaunus uzdevumus"
 
 #: clientgui/ViewProjects.cpp:180
 #: clientgui/ViewProjects.cpp:706
@@ -3000,10 +2943,8 @@ msgstr "Atjaunināt projektu"
 #, fuzzy
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
 msgstr ""
-"Izdzēst visus failus un uzdevumus, kas saistās ar šo projektu un iegūt "
-"jaunus.\n"
-"Pirms tam jūs varat aktualizēt projektu, lai ziņotu par izpildītiem "
-"uzdevumiem."
+"Izdzēst visus failus un uzdevumus, kas saistās ar šo projektu un iegūt jaunus.\n"
+"Pirms tam jūs varat aktualizēt projektu, lai ziņotu par izpildītiem uzdevumiem."
 
 #: clientgui/ViewProjects.cpp:201
 #: clientgui/ViewProjectsBase.cpp:139
@@ -3016,9 +2957,7 @@ msgstr "Atvienoties no projekta"
 #: clientgui/ViewProjectsGrid.cpp:149
 #, fuzzy
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"Atvienot datoru no šī projekta. Nepabeigtie uzdevumi tiks zaudēti (lietojiet "
-"vispirms 'Aktualizēt', lai ziņotu par jau izpildītajiem)."
+msgstr "Atvienot datoru no šī projekta. Nepabeigtie uzdevumi tiks zaudēti (lietojiet vispirms 'Aktualizēt', lai ziņotu par jau izpildītajiem)."
 
 #: clientgui/ViewProjects.cpp:208
 #: clientgui/ViewWork.cpp:204
@@ -3380,9 +3319,7 @@ msgstr "Pārtraukt pārsūtīšanu"
 #: clientgui/ViewTransfers.cpp:171
 #: clientgui/ViewTransfersGrid.cpp:114
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr ""
-"Klikšķiniet uz 'Pārtraukt pārsūtīšanu', lai dzēstu failu no pārsūtīšanas "
-"rindas. Tas arī neļaus jums saņemt kredītpunktus par šo uzdevumu."
+msgstr "Klikšķiniet uz 'Pārtraukt pārsūtīšanu', lai dzēstu failu no pārsūtīšanas rindas. Tas arī neļaus jums saņemt kredītpunktus par šo uzdevumu."
 
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -3491,9 +3428,7 @@ msgstr "Pārtraukt"
 #: clientgui/ViewWork.cpp:198
 #: clientgui/ViewWorkGrid.cpp:129
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr ""
-"Atteikties no darba pie šī uzdevuma. Jūs neiegūsiet kredītpunktus par "
-"nepabeigtu darbu."
+msgstr "Atteikties no darba pie šī uzdevuma. Jūs neiegūsiet kredītpunktus par nepabeigtu darbu."
 
 #: clientgui/ViewWork.cpp:205
 msgid "Show task details."
@@ -3746,319 +3681,3 @@ msgstr ""
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Attach to &project..."
-#~ msgstr "P&ievienoties projektam"
-
-#, fuzzy
-#~ msgid "Attach to a project"
-#~ msgstr "Pievienoties projektam"
-
-#, fuzzy
-#~ msgid "Attach to &account manager..."
-#~ msgstr "Pievienoties konta menedžerim"
-
-#~ msgid "Attach to an account manager"
-#~ msgstr "Pievienoties konta menedžerim"
-
-#, fuzzy
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr "Jūs varat pārkopēt URL no pārlūkprogrammas adreses joslas."
-
-#, fuzzy
-#~ msgid "For a list of account managers go to:"
-#~ msgstr "Lai iegūtu BOINC-bāzētu konta menedžeru sarakstu ejiet uz:"
-
-#~ msgid "You are already attached to this project."
-#~ msgstr "Jūs jau esat pievienojies šim projektam."
-
-#~ msgid "Account information"
-#~ msgstr "Informācija par kontu"
-
-#~ msgid "Do you want to use an existing account or create a new one?"
-#~ msgstr "Vai vēlaties izmantot esošo kontu, vai izveidosiet jaunu?"
-
-#~ msgid "Create new &account"
-#~ msgstr "Izveidot jaunu &kontu"
-
-#~ msgid "&Use existing account"
-#~ msgstr "&Lietot esošo kontu"
-
-#~ msgid ""
-#~ "If you haven't set a password, copy and paste your account\n"
-#~ "key into the Password box."
-#~ msgstr "Ja jums nav uzstādīta parole, tad pārkopējiet konta atslēgu paroles laukā."
-
-#~ msgid "Email address:"
-#~ msgstr "E-pasta adrese:"
-
-#~ msgid "Enter account key"
-#~ msgstr "Ievadiet konta atslēgu"
-
-#~ msgid "This project uses an \"account key\" to identify you."
-#~ msgstr "Šis projekts izmanto konta atslēgu (account key), lai jūs identificētu."
-
-#~ msgid ""
-#~ "Go to the project's web site to create an account. Your account\n"
-#~ "key will be emailed to you."
-#~ msgstr ""
-#~ "Ejiet uz projekta tīmekļa vietni, lai izveidotu kontu. Jūsu konta\n"
-#~ "atslēga tiks nosūtīta caur e-pastu."
-
-#~ msgid "An account key looks like:"
-#~ msgstr "Konta atslēga ir līdzīga šai te:"
-
-#~ msgid "82412313ac88e9a3638f66ea82186948"
-#~ msgstr "82412313ac88e9a3638f66ea82186948"
-
-#~ msgid "Account key:"
-#~ msgstr "Konta atslēga:"
-
-#~ msgid ""
-#~ "Communicating with account manager\n"
-#~ "Please wait..."
-#~ msgstr ""
-#~ "Komunicējas ar konta menedžeri\n"
-#~ "Lūdzu, uzgaidiet..."
-
-#~ msgid "BOINC is currently suspended...\n"
-#~ msgstr "BOINC darbība pašlaik ir atlikta...\n"
-
-#~ msgid "BOINC networking is currently suspended...\n"
-#~ msgstr "BOINC pieslēgums tīklam pašlaik ir atlikts...\n"
-
-#~ msgid "BOINC Manager is currently reconnecting to a BOINC client...\n"
-#~ msgstr "BOINC menedžeris pašlaik mēģina atkārtoti pieslēgties pie BOINC klienta...\n"
-
-#~ msgid "BOINC Manager is not currently connected to a BOINC client...\n"
-#~ msgstr "BOINC menedžeris pašlaik nav pieslēdzies pie BOINC klienta...\n"
-
-#~ msgid "&Open BOINC Manager..."
-#~ msgstr "Atvērt &BOINC menedžeri..."
-
-#~ msgid "&About BOINC Manager..."
-#~ msgstr "Pa&r BOINC menedžeri..."
-
-#~ msgid "A software platform for distributed computing using volunteered computer resources"
-#~ msgstr "Programmatūras platforma dalītai skaitļošanai, lietojot brīvprātīgi ziedotos datora resursus"
-
-#~ msgid "Your current account manager is:"
-#~ msgstr "Jūsu pašreizējais konta menedžeris ir:"
-
-#~ msgid "Name:"
-#~ msgstr "Vārds:"
-
-#~ msgid "foo"
-#~ msgstr "jebkas"
-
-#~ msgid "URL:"
-#~ msgstr "URL:"
-
-#~ msgid "&Update"
-#~ msgstr "A&ktualizēt"
-
-#~ msgid "Change"
-#~ msgstr "Mainīt"
-
-#~ msgid "Language Selection:"
-#~ msgstr "Valodas izvēle:"
-
-#~ msgid "What language should the manager display by default."
-#~ msgstr "Kādu valodu menedžerim būtu jālieto pēc noklusējuma"
-
-#~ msgid "Reminder Frequency:"
-#~ msgstr "Atgādinājumu biežums:"
-
-#~ msgid "How often, in minutes, should the manager remind you of possible connection events."
-#~ msgstr "Cik bieži (minūtēs) menedžerim vajadzētu jums atgādināt par iespējamiem pieslēguma notikumiem"
-
-#~ msgid "&Automatically detect network connection settings"
-#~ msgstr "&Automātiski noteikt tīkla pieslēguma parametrus"
-
-#~ msgid "Use my &Local Area Network(LAN) connection"
-#~ msgstr "Lietot mana l&okālā tīkla (LAN) pieslēgumu"
-
-#~ msgid "Use my &Dial-up and Virtual Private Network connection"
-#~ msgstr "Lietot manu iezvanpieejas un &virtuālā privātā tīkla pieslēgumu"
-
-#~ msgid "&Prompt for username and password"
-#~ msgstr "&Pieprasīt lietotāja vārdu un paroli"
-
-#~ msgid "Failed to create wxStaticText, needed by wxHyperLink!"
-#~ msgstr "Neizdevās izveidot wxStaticText, kas nepieciešams wxHyperLink!"
-
-#~ msgid "BOINC Manager - Can't find web browser"
-#~ msgstr "BOINC menedžeris - nevar atrast pārlūkprogrammu"
-
-#~ msgid "BOINC Manager - Connection Error"
-#~ msgstr "BOINC menedžeris - pieslēgšanās kļūda"
-
-#~ msgid "Exit the BOINC Manager"
-#~ msgstr "Iziet no BOINC menedžera"
-
-#~ msgid "Retry &communications"
-#~ msgstr "Atkārtot &datu apmaiņu ar projektu"
-
-#~ msgid "Report completed work, get latest credit, get latest preferences, and possibly get more work."
-#~ msgstr "Ziņot par paveikto, aktualizēt kredītpunktus un preferences, kā arī, iespējams, iegūt jaunus uzdevumus"
-
-#~ msgid "&Account manager"
-#~ msgstr "&Konta menedžeris"
-
-#~ msgid "&Options"
-#~ msgstr "&Opcijas"
-
-#~ msgid "&BOINC Manager\tF1"
-#~ msgstr "&BOINC menedžeris\tF1"
-
-#~ msgid "Show information about BOINC and BOINC Manager"
-#~ msgstr "Parādīt informāciju par BOINC un BOINC menedžeri"
-
-#~ msgid "&Projects"
-#~ msgstr "&Projekti"
-
-#~ msgid "Language Selection..."
-#~ msgstr "Valodas izvēle..."
-
-#~ msgid "BOINC Manager - Network Status"
-#~ msgstr "BOINC menedžeris - tīkla statuss"
-
-#~ msgid "BOINC needs a connection to the Internet to perform some maintenance, open the BOINC Manager to connect up and perform the needed work."
-#~ msgstr "BOINC ir nepieciešams pieslēgties pie Interneta, lai veiktu apkopes darbus. Atveriet BOINC menedžeri, lai pieslēgtos un izpildītu nepieciešamo darbu."
-
-#~ msgid "BOINC Manager - Connection Failed"
-#~ msgstr "BOINC menedžeris - pieslēgties neizdevās"
-
-#~ msgid "BOINC Manager - Connection Status"
-#~ msgstr "BOINC menedžeris - pieslēguma statuss"
-
-#~ msgid "The URL you supplied is not that of a BOINC-based project."
-#~ msgstr "Jūsu norādītais URL nenorāda uz BOINC-bāzētu projektu."
-
-#~ msgid "Please check the URL and try again."
-#~ msgstr "Lūdzu, pārbaudiet URL un mēģiniet vēlreiz."
-
-#~ msgid ""
-#~ "The URL you supplied is not that of a BOINC-based account\n"
-#~ "manager."
-#~ msgstr ""
-#~ "Jūsu norādītais URL nenorāda uz BOINC-bāzētu konta\n"
-#~ "menedžeri."
-
-#~ msgid "Account not found"
-#~ msgstr "Konts nav atrasts"
-
-#~ msgid "Project URL"
-#~ msgstr "Projekta URL"
-
-#~ msgid "Enter the URL of the project's web site."
-#~ msgstr "Ievadiet projekta tīmekļa vietnes URL."
-
-#~ msgid "For a list of BOINC-based projects go to:"
-#~ msgstr "Lai iegūtu BOINC-bāzēto projektu sarakstu ejiet uz:"
-
-#~ msgid ""
-#~ "BOINC failed to communicate on the Internet. The most likely\n"
-#~ "reasons are:\n"
-#~ "\n"
-#~ "1) Personal firewall software is blocking BOINC. You must\n"
-#~ "configure your personal firewall to let BOINC communicate\n"
-#~ "on port 80. Once this is fixed, click Back to try again.\n"
-#~ "\n"
-#~ "2) You are using a proxy server and BOINC needs to know\n"
-#~ "about it.\n"
-#~ "\n"
-#~ "Click Next to configure BOINC's proxy settings.\n"
-#~ msgstr ""
-#~ "BOINC neizdevās komunicēties Internetā. Iespējams, ka tam\n"
-#~ "par iemeslu ir:\n"
-#~ "\n"
-#~ "1) Jūsu ugunsmūra programmatūra bloķē BOINC. Jums vajag\n"
-#~ "nokonfigurēt ugunsmūri, lai tas ļauj BOINC komunicēties caur\n"
-#~ "80. portu. Tiklīdz tas ir darīts, noklikšķiniet Atpakaļ, lai mēģinātu\n"
-#~ "vēlreiz.\n"
-#~ "\n"
-#~ "2) Jūs lietojat proxy serveri un BOINC ir nepieciešams par to zināt.\n"
-#~ "\n"
-#~ "Noklikšķiniet uz Nākamais, lai konfigurētu BOINC proxy parametrus.\n"
-
-#~ msgid "No new work"
-#~ msgstr "Neņemt jaunus uzdevumus"
-
-#~ msgid "Total credit"
-#~ msgstr "Kopā kredītpunktu"
-
-#~ msgid "Avg. credit"
-#~ msgstr "Vidēji kredītpunktu"
-
-#~ msgid "Allow new work"
-#~ msgstr "Saņemt jaunus uzdevumus"
-
-#~ msgid "Disk Space"
-#~ msgstr "Aizņemtā diska vieta"
-
-#, c-format
-#~ msgid "Are you sure you want to abort this file transfer '%s'?"
-#~ msgstr "Vai tiešām vēlaties pārtraukt šī faila pārsūtīšanu '%s'?"
-
-#~ msgid "Work"
-#~ msgstr "Uzdevumi"
-
-#~ msgid "Resuming result..."
-#~ msgstr "Atsāk izpildīt uzdevumu..."
-
-#, c-format
-#~ msgid "Are you sure you want to abort this result '%s'?"
-#~ msgstr "Vai tiešām vēlaties pārtaukt apstrādāt šo uzdevumu '%s'?"
-
-#~ msgid "Abort result"
-#~ msgstr "Pārtraukt uzdevumu"
-
-#~ msgid "Activities suspended"
-#~ msgstr "Aktivitātes atliktas"
-
-#~ msgid "Preempted"
-#~ msgstr "Uz brīdi atlikts"
-
-#~ msgid "Ready to run"
-#~ msgstr "Gatavs palaišanai"
-
-#~ msgid "Activities suspended by user"
-#~ msgstr "Aktivitātes ir lietotāja atliktas"
-
-#~ msgid ""
-#~ "We'll now guide you through the process of \n"
-#~ "adding/updating/removing an account manager."
-#~ msgstr ""
-#~ "Tagad jūs vadīs caur konta menedžera \n"
-#~ "pievienošanas/aktualizēšanas/noņemšanas procesu."
-
-#~ msgid "Project Comm Failure"
-#~ msgstr "Projekta kom. kļūda"
-
-#~ msgid "Google Comm Failure"
-#~ msgstr "Google kom. kļūda"
-
-#~ msgid "Yahoo Comm Failure"
-#~ msgstr "Yahoo kom. kļūda"
-
-#~ msgid "Attach to Account Manager"
-#~ msgstr "Pievienoties konta menedžerim"
-
-#~ msgid "Attach to Project"
-#~ msgstr "Pievienoties projektam"
-
-#~ msgid "About BOINC Manager"
-#~ msgstr "Par BOINC menedžeri"
-
-#~ msgid "Account Manager"
-#~ msgstr "Konta menedžeris"
-
-#~ msgid "Dialup Logon"
-#~ msgstr "Iezvanpieejas pieteikšanās"
-
-#~ msgid "Options"
-#~ msgstr "Opcijas"
