@@ -420,15 +420,17 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 ::wxSafeYield(GetParent());
             }
  
-            // We either successfully retrieved the project's account creation 
-            //   policies or we were able to talk to the web server and found out
-            //   they do not support account creation through the wizard.  In either
-            //   case we should claim success and set the correct flags to show the
-            //   correct 'next' page.
             bSuccessfulCondition = 
                 (!iReturnValue) && (!pc->error_num) ||
                 (!iReturnValue) && (ERR_ACCT_CREATION_DISABLED == pc->error_num);
             if (bSuccessfulCondition) {
+                // We either successfully retrieved the project's
+                // account creation policies or we were able to talk
+                // to the web server and found out they do not support
+                // account creation through the wizard.
+                // In either case, claim success and set the correct flags
+                // to show the correct 'next' page.
+                //
                 SetProjectPropertiesSucceeded(true);
 
                 bSuccessfulCondition = pc->account_creation_disabled;
