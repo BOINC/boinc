@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 5.x\n"
+"Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
 "PO-Revision-Date: 2007-02-07 22:59+0100\n"
@@ -428,7 +428,7 @@ msgstr "&Pomoc"
 #, c-format
 #, fuzzy
 msgid "%s - Shutdown the current client..."
-msgstr "Vypnúť atuálneho klienta..."
+msgstr "%s - Vypnúť atuálneho klienta..."
 
 #: clientgui/AdvancedFrame.cpp:1086
 #, c-format
@@ -502,7 +502,7 @@ msgstr "Pripájanie k %s"
 #, c-format
 #, fuzzy
 msgid "Connected to %s (%s)"
-msgstr "Pripojené k %s"
+msgstr "Pripojené k %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:183
 msgid "Username already in use"
