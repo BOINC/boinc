@@ -5997,3 +5997,11 @@ David  24 July 2009
         net_stats.cpp,h
     clientgui/
         ProjectPropertiesPage.cpp
+
+Rom    24 July 2009
+    - Tag for 6.8.9 release, all platforms
+      boinc_core_release_6_8_9
+
+    /
+        configure.ac
+        version.h
