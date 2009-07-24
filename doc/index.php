@@ -20,10 +20,10 @@ function show_participant() {
     echo "<table cellpadding=8 cellspacing=0>
         <tr><td class=heading_right>
         <center>
-        <span class=section_title>Computing power</span>
+        <span class=section_title>".tra("Computing power")."</span>
         <br>
-        <a class=heading href=chart_list.php><b>Top 100 volunteers</b></a>
-        &middot; <a class=heading href=\"links.php#stats\"><b>Statistics</b></a>
+        <a class=heading href=chart_list.php><b>".tra("Top 100 volunteers")."</b></a>
+        &middot; <a class=heading href=\"links.php#stats\"><b>".tra("Statistics")."</b></a>
         </center>
         </td></tr>
         <tr><td>
@@ -50,8 +50,8 @@ function show_totals() {
     $hosts = number_format($hosts);
 
     $teraflops = number_format($credit_day/100000, 2);
-    echo "Active: $users volunteers, $hosts computers.
-        <br>24-hour average: $teraflops TeraFLOPS.
+    echo tra("Active:")." $users ".tra("volunteers,")." $hosts ".tra("computers.
+")."        <br>".tra("24-hour average:")." $teraflops ".tra("TeraFLOPS.")."
         <hr size=1 width=\"80%\">
     ";
 }
@@ -63,18 +63,18 @@ function show_news_items() {
         <table border=0 cellpadding=8>
         <tr><td class=heading_right>
         <center>
-        <span class=section_title>News</span>
+        <span class=section_title>".tra("News")."</span>
         </center>
     ";
     $nnews_items = 6;
     show_news($project_news, $nnews_items);
     if (count($project_news) > $nnews_items) {
-        echo "<a href=old_news.php>... more</a>\n";
+        echo "<a href=old_news.php>".tra("... more")."</a>\n";
     }
 
     echo "
-        <p><font size=-2>News is available as an
-        <a href=rss_main.php>RSS feed</a> <img src=xml.gif alt=\"RSS logo\"></font>
+        <p><font size=-2>".tra("News is available as an")."
+        <a href=rss_main.php>".tra("RSS feed")."</a> <img src=xml.gif alt=\"RSS logo\"></font>
         </td></tr></table>
     ";
 }
@@ -120,10 +120,10 @@ function show_create() {
     echo "
         <tr><td class=heading_left>
         <center>
-        <span class=section_title>Compute with BOINC</span>
+        <span class=section_title>".tra("Compute with BOINC")."</span>
         <br>
-        <a class=heading href=\"trac/wiki/ProjectMain\">Documentation</a>
-        &middot; <a class=heading href=\"trac/wiki/ServerUpdates\">Software updates</a>
+        <a class=heading href=\"trac/wiki/ProjectMain\">".tra("Documentation")."</a>
+        &middot; <a class=heading href=\"trac/wiki/ServerUpdates\">".tra("Software updates")."</a>
         </center>
         </td></tr>
         <tr><td>
@@ -150,27 +150,27 @@ function show_other() {
     echo "
         <tr><td class=heading_left>
         <center>
-        <span class=section_title>The BOINC project</span>
+        <span class=section_title>".tra("The BOINC project")."</span>
         </center>
         </td></tr>
         <tr><td>
             <ul>
-            <li> Help wanted!
+            <li> ".tra("Help wanted!")."
             <ul>
-                <li> <a href=\"trac/wiki/DevProjects\">Programming</a>
-                <li> <a href=\"trac/wiki/TranslateIntro\">Translation</a>
-                <li> <a href=\"trac/wiki/AlphaInstructions\">Testing</a>
-                <li> <a href=\"trac/wiki/WikiMeta\">Documentation</a>
+                <li> <a href=\"trac/wiki/DevProjects\">".tra("Programming")."</a>
+                <li> <a href=\"trac/wiki/TranslateIntro\">".tra("Translation")."</a>
+                <li> <a href=\"trac/wiki/AlphaInstructions\">".tra("Testing")."</a>
+                <li> <a href=\"trac/wiki/WikiMeta\">".tra("Documentation")."</a>
             </ul>
-            <li> <a href=\"trac/wiki/SoftwareDevelopment\">Software development</a>
-            <li> <a href=\"trac/wiki/SoftwareAddon\">APIs for add-on software</a>
-            <li> <a href=\"trac/wiki/ProjectPeople\">Personnel and contributors</a>
-            <li> <a href=\"dev/\">Message boards</a>
-            <li> <a href=email_lists.php>Email lists</a>
-            <li> <a href=\"trac/wiki/BoincEvents\">Events</a>
-            <li> <a href=\"trac/wiki/ConferenceList\">Conferences</a>
-            <li> <a href=\"trac/wiki/BoincPapers\">Papers and talks</a>
-            <li> <a href=logo.php>Logos and graphics</a>
+            <li> <a href=\"trac/wiki/SoftwareDevelopment\">".tra("Software development")."</a>
+            <li> <a href=\"trac/wiki/SoftwareAddon\">".tra("APIs for add-on software")."</a>
+            <li> <a href=\"trac/wiki/ProjectPeople\">".tra("Personnel and contributors")."</a>
+            <li> <a href=\"dev/\">".tra("Message boards")."</a>
+            <li> <a href=email_lists.php>".tra("Email lists")."</a>
+            <li> <a href=\"trac/wiki/BoincEvents\">".tra("Events")."</a>
+            <li> <a href=\"trac/wiki/ConferenceList\">".tra("Conferences")."</a>
+            <li> <a href=\"trac/wiki/BoincPapers\">".tra("Papers and talks")."</a>
+            <li> <a href=logo.php>".tra("Logos and graphics")."</a>
             </ul>
             <br>
         </td></tr>
@@ -203,7 +203,7 @@ function language_form() {
         <form name=language method=get action=set_language.php>
         <select class=selectbox name=lang onchange=\"javascript: submit()\">
         <option value=auto selected=\"selected\">-- language --
-        <option value=auto>Browser default"
+        <option value=auto>".tra("Browser default")
         //."<option value=ar>العربية (Arabic)"
         //."<option value=be>Беларускі (Belarusian)"
         //."<option value=bg>Българск� (Bulgarian)"

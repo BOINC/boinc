@@ -4,16 +4,18 @@
 # This file is distributed under the same license as BOINC.
 #
 # FileID  : $Id$
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC $Id$\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2009-05-05 13:41 PDT\n"
+"POT-Creation-Date: 2009-07-23 21:46 PDT\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
+
 #: poll.inc:18
 msgid "[check all that apply]"
 msgstr ""
@@ -404,6 +406,54 @@ msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr ""
 
+#: index.php:23
+msgid "Computing power"
+msgstr ""
+
+#: index.php:25
+msgid "Top 100 volunteers"
+msgstr ""
+
+#: index.php:26
+msgid "Statistics"
+msgstr ""
+
+#: index.php:53
+msgid "Active:"
+msgstr ""
+
+#: index.php:53
+msgid "volunteers,"
+msgstr ""
+
+#: index.php:53
+msgid "computers.\n"
+msgstr ""
+
+#: index.php:54
+msgid "24-hour average:"
+msgstr ""
+
+#: index.php:54
+msgid "TeraFLOPS."
+msgstr ""
+
+#: index.php:66
+msgid "News"
+msgstr ""
+
+#: index.php:72
+msgid "... more"
+msgstr ""
+
+#: index.php:76
+msgid "News is available as an"
+msgstr ""
+
+#: index.php:77
+msgid "RSS feed"
+msgstr ""
+
 #: index.php:86
 msgid "Volunteer"
 msgstr ""
@@ -412,7 +462,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: index.php:90
+#: index.php:90 index.php:125 index.php:163
 msgid "Documentation"
 msgstr ""
 
@@ -432,7 +482,75 @@ msgid ""
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
 
-#: index.php:252
+#: index.php:123
+msgid "Compute with BOINC"
+msgstr ""
+
+#: index.php:126
+msgid "Software updates"
+msgstr ""
+
+#: index.php:153
+msgid "The BOINC project"
+msgstr ""
+
+#: index.php:158
+msgid "Help wanted!"
+msgstr ""
+
+#: index.php:160
+msgid "Programming"
+msgstr ""
+
+#: index.php:161
+msgid "Translation"
+msgstr ""
+
+#: index.php:162
+msgid "Testing"
+msgstr ""
+
+#: index.php:165
+msgid "Software development"
+msgstr ""
+
+#: index.php:166
+msgid "APIs for add-on software"
+msgstr ""
+
+#: index.php:167
+msgid "Personnel and contributors"
+msgstr ""
+
+#: index.php:168
+msgid "Message boards"
+msgstr ""
+
+#: index.php:169
+msgid "Email lists"
+msgstr ""
+
+#: index.php:170
+msgid "Events"
+msgstr ""
+
+#: index.php:171
+msgid "Conferences"
+msgstr ""
+
+#: index.php:172
+msgid "Papers and talks"
+msgstr ""
+
+#: index.php:173
+msgid "Logos and graphics"
+msgstr ""
+
+#: index.php:206
+msgid "Browser default"
+msgstr ""
+
+#: index.php:250
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
