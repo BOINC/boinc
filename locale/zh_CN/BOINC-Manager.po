@@ -1155,8 +1155,6 @@ msgstr "在多处理器系统上，最多使用"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:249
 #, no-c-format
-#, no-c-format
-#, c-format
 msgid "% of the processors"
 msgstr "% 处理器"
 
@@ -1170,7 +1168,6 @@ msgid "Use at most"
 msgstr "最多使用"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:259
-#, no-c-format
 #, no-c-format
 msgid "% CPU time"
 msgstr "% CPU时间"
