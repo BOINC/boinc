@@ -6033,3 +6033,11 @@ Rom    25 July 2009
         AdvancedFrame.cpp
         BOINCGUIApp.cpp, .h
         sg_BoincSimpleGUI.cpp
+
+Rom    24 July 2009
+    - Tag for 6.8.10 release, all platforms
+      boinc_core_release_6_8_10
+
+    /
+        configure.ac
+        version.h
