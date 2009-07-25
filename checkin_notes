@@ -6034,7 +6034,7 @@ Rom    25 July 2009
         BOINCGUIApp.cpp, .h
         sg_BoincSimpleGUI.cpp
 
-Rom    24 July 2009
+Rom    25 July 2009
     - Tag for 6.8.10 release, all platforms
       boinc_core_release_6_8_10
 
@@ -6050,3 +6050,11 @@ Rom    25 July 2009
 
     clientlib/win/
         Service.cpp
+
+Rom    25 July 2009
+    - Tag for 6.8.11 release, all platforms
+      boinc_core_release_6_8_11
+
+    /
+        configure.ac
+        version.h
