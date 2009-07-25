@@ -211,23 +211,21 @@ int CScreensaver::launch_screensaver(RESULT* rp, int& graphics_application)
         memset(di.desktop, 0, sizeof(di.desktop));
         memset(di.display, 0, sizeof(di.display));
 
-        if (!m_bIs9x) {
-            // Retrieve the current window station and desktop names
-            GetUserObjectInformation(
-                GetProcessWindowStation(), 
-                UOI_NAME, 
-                di.window_station,
-                (sizeof(di.window_station)),
-                NULL
-            );
-            GetUserObjectInformation(
-                GetThreadDesktop(GetCurrentThreadId()), 
-                UOI_NAME, 
-                di.desktop,
-                sizeof(di.desktop),
-                NULL
-            );
-        }
+        // Retrieve the current window station and desktop names
+        GetUserObjectInformation(
+            GetProcessWindowStation(), 
+            UOI_NAME, 
+            di.window_station,
+            (sizeof(di.window_station)),
+            NULL
+        );
+        GetUserObjectInformation(
+            GetThreadDesktop(GetCurrentThreadId()), 
+            UOI_NAME, 
+            di.desktop,
+            sizeof(di.desktop),
+            NULL
+        );
 #else
         char *p = getenv("DISPLAY");
         if (p) strcpy(di.display, p);

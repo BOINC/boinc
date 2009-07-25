@@ -6488,3 +6488,11 @@ Rom    24 July 2009
         
     lib/
         win_util.cpp, .h
+
+Rom    24 July 2009
+    - WINSCR: Remove Win9x compatibility code from the screen saver.
+
+    clientscr/    
+        screensaver.cpp
+        screensaver_win.cpp
+        screensaver_win.h
