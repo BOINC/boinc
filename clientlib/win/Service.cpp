@@ -224,9 +224,64 @@ EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceStopped()
 
 
 /**
- * Start the BOINC Service.
+ * Start the BOINC Service via the BOINC Service Control utility.
  **/
 EXTERN_C __declspec(dllexport) BOOL StartBOINCService()
+{
+    BOOL                bRetVal = FALSE;
+    PROCESS_INFORMATION pi;
+    STARTUPINFO         si;
+    BOOL                bProcessStarted;
+    TCHAR               szPath[MAX_PATH+1];
+    unsigned long       ulExitCode;
+
+    memset(&pi, 0, sizeof(pi));
+    memset(&si, 0, sizeof(si));
+
+    // Determine the path to the BOINC Service Control utility
+    //   by finding out the path to the executable that requested
+    //   that we start the service.
+    GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
+		
+    TCHAR *pszProg = _tcsrchr(szPath, '\\');
+    if (pszProg) {
+        szPath[pszProg - szPath + 1] = 0;
+    }
+
+    si.cb = sizeof(si);
+    si.dwFlags = STARTF_USESHOWWINDOW;
+    si.wShowWindow = SW_HIDE;
+
+    bProcessStarted = CreateProcess(
+        _T("boincsvcctrl.exe"),
+        _T("--start"),
+        NULL,
+        NULL,
+        FALSE,
+        CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
+        NULL,
+        szPath,
+        &si,
+        &pi
+    );
+
+    if (bProcessStarted) {
+        WaitForSingleObject(pi.hProcess, INFINITE);
+        if (GetExitCodeProcess(pi.hProcess, &ulExitCode)) {
+            if (ulExitCode == 0) {
+                bRetVal = TRUE;
+            }
+        }
+    }
+
+    return bRetVal;
+}
+
+
+/**
+ * Start the BOINC Service.
+ **/
+EXTERN_C __declspec(dllexport) BOOL StartBOINCServiceEx()
 {
     SC_HANDLE schSCManager = NULL;
     SC_HANDLE schService = NULL;
@@ -264,9 +319,64 @@ EXTERN_C __declspec(dllexport) BOOL StartBOINCService()
 
 
 /**
- * Stop the BOINC Service.
+ * Stop the BOINC Service via the BOINC Service Control utility.
  **/
 EXTERN_C __declspec(dllexport) BOOL StopBOINCService()
+{
+    BOOL                bRetVal = FALSE;
+    PROCESS_INFORMATION pi;
+    STARTUPINFO         si;
+    BOOL                bProcessStarted;
+    TCHAR               szPath[MAX_PATH+1];
+    unsigned long       ulExitCode;
+
+    memset(&pi, 0, sizeof(pi));
+    memset(&si, 0, sizeof(si));
+
+    // Determine the path to the BOINC Service Control utility
+    //   by finding out the path to the executable that requested
+    //   that we start the service.
+    GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
+		
+    TCHAR *pszProg = _tcsrchr(szPath, '\\');
+    if (pszProg) {
+        szPath[pszProg - szPath + 1] = 0;
+    }
+
+    si.cb = sizeof(si);
+    si.dwFlags = STARTF_USESHOWWINDOW;
+    si.wShowWindow = SW_HIDE;
+
+    bProcessStarted = CreateProcess(
+        _T("boincsvcctrl.exe"),
+        _T("--stop"),
+        NULL,
+        NULL,
+        FALSE,
+        CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
+        NULL,
+        szPath,
+        &si,
+        &pi
+    );
+
+    if (bProcessStarted) {
+        WaitForSingleObject(pi.hProcess, INFINITE);
+        if (GetExitCodeProcess(pi.hProcess, &ulExitCode)) {
+            if (ulExitCode == 0) {
+                bRetVal = TRUE;
+            }
+        }
+    }
+
+    return bRetVal;
+}
+
+
+/**
+ * Stop the BOINC Service.
+ **/
+EXTERN_C __declspec(dllexport) BOOL StopBOINCServiceEx()
 {
     SC_HANDLE schSCManager = NULL;
     SC_HANDLE schService = NULL;
@@ -302,3 +412,4 @@ EXTERN_C __declspec(dllexport) BOOL StopBOINCService()
 
     return bRetVal;
 }
+

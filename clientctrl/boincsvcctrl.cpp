@@ -21,8 +21,8 @@
 
 #include "version.h"
 
-EXTERN_C BOOL  StartBOINCService();
-EXTERN_C BOOL  StopBOINCService();
+EXTERN_C BOOL  StartBOINCServiceEx();
+EXTERN_C BOOL  StopBOINCServiceEx();
 
 
 void version(){
@@ -58,11 +58,11 @@ int main(int argc, char** argv) {
     }
 
     if (!strcmp(argv[i], "--start")) {
-        retval = !StartBOINCService();
+        retval = !StartBOINCServiceEx();
     }
 
     if (!strcmp(argv[i], "--stop")) {
-        retval = !StopBOINCService();
+        retval = !StopBOINCServiceEx();
     }
 
     exit(retval);
