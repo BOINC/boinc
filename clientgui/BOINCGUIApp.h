@@ -46,10 +46,6 @@ class CTaskBarIcon;
 class CSkinManager;
 class CRPCFinishedEvent;
 
-#ifdef __WXMAC__
-    OSErr        QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon );
-#endif
-
 
 class CBOINCGUIApp : public wxApp {
 
@@ -62,6 +58,7 @@ protected:
     bool                OnCmdLineParsed(wxCmdLineParser &parser);
 
     void                DetectDisplayInfo();
+    void                DetectAccessibilityEnabled();
     void                DetectRootDirectory();
     void                DetectDataDirectory();
 
@@ -87,6 +84,8 @@ protected:
     wxString            m_strBOINCMGRRootDirectory;
     wxString            m_strBOINCMGRDataDirectory;
     wxString            m_strBOINCArguments;
+
+    bool                m_bAccessibilityEnabled;
 
     bool                m_bBOINCMGRAutoStarted;
     int                 m_iBOINCMGRDisableAutoStart;
@@ -124,23 +123,24 @@ public:
     CSkinManager*       GetSkinManager()            { return m_pSkinManager; }
     CBOINCBaseFrame*    GetFrame()                  { return m_pFrame; }
     CMainDocument*      GetDocument()               { return m_pDocument; }
-    wxString            GetArguments()              { return m_strBOINCArguments; }
     wxString            GetRootDirectory()          { return m_strBOINCMGRRootDirectory; }
     wxString            GetDataDirectory()          { return m_strBOINCMGRDataDirectory; }
+    wxString            GetArguments()              { return m_strBOINCArguments; }
 #if defined(__WXMSW__) || defined(__WXMAC__)
     CTaskBarIcon*       GetTaskBarIcon()            { return m_pTaskBarIcon; }
-   void                 DeleteTaskBarIcon();
+    void                DeleteTaskBarIcon();
 #endif
+
+    bool                IsAccessibilityEnabled()    { return m_bAccessibilityEnabled; }
+
 #ifdef __WXMAC__
     CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
     void                DeleteMacSystemMenu();
-    int                 ShouldShutdownCoreClient()
-                                                    { return true; }
+    int                 ShouldShutdownCoreClient()  { return true; }
 #else
-
-    int                 ShouldShutdownCoreClient()
-                                                    { return m_iShutdownCoreClient; }
+    int                 ShouldShutdownCoreClient()  { return m_iShutdownCoreClient; }
 #endif
+
     int                 GetBOINCMGRDisableAutoStart()
                                                     { return m_iBOINCMGRDisableAutoStart; }
     void                SetBOINCMGRDisableAutoStart(int iDisableAutoStart)
@@ -158,6 +158,7 @@ public:
     void                FrameClosed()               { m_pFrame = NULL; }
 
     int                 StartBOINCScreensaverTest();
+    int                 StartBOINCDefaultScreensaverTest();
 
     bool                SetActiveGUI(int iGUISelection, bool bShowWindow = true);
 

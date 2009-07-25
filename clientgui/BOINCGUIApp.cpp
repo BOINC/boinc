@@ -138,9 +138,6 @@ bool CBOINCGUIApp::OnInit() {
     s_bSkipExitConfirmation = false;
 
     // Initialize class variables
-    m_strBOINCArguments = wxEmptyString;
-    m_strBOINCMGRRootDirectory = wxEmptyString;
-    m_strBOINCMGRDataDirectory = wxEmptyString;
     m_pLocale = NULL;
     m_pSkinManager = NULL;
     m_pFrame = NULL;
@@ -149,6 +146,10 @@ bool CBOINCGUIApp::OnInit() {
 #ifdef __WXMAC__
     m_pMacSystemMenu = NULL;
 #endif
+    m_strBOINCMGRRootDirectory = wxEmptyString;
+    m_strBOINCMGRDataDirectory = wxEmptyString;
+    m_strBOINCArguments = wxEmptyString;
+    m_bAccessibilityEnabled = false;
     m_bGUIVisible = true;
     m_bDebugSkins = false;
     m_strDefaultWindowStation = wxEmptyString;
@@ -162,9 +163,8 @@ bool CBOINCGUIApp::OnInit() {
     m_bSafeMessageBoxDisplayed = 0;
 #ifdef __WXMSW__
     m_hClientLibraryDll = NULL;
-    
-    wxSystemOptions::SetOption(wxT("msw.staticbox.optimized-paint"), 0);
 #endif
+
 
     // Initialize local variables
     int      iErrorCode = 0;
@@ -172,6 +172,23 @@ bool CBOINCGUIApp::OnInit() {
     wxString strDesiredSkinName = wxEmptyString;
     wxString strDialogMessage = wxEmptyString;
     bool     success = false;
+
+
+    // Configure wxWidgets platform specific code
+#ifdef __WXMSW__
+    wxSystemOptions::SetOption(wxT("msw.staticbox.optimized-paint"), 0);
+#endif
+#ifdef __WXMAC__
+#if wxCHECK_VERSION(2,8,0)
+    // In wxMac-2.8.7, default wxListCtrl::RefreshItem() does not work
+    // so use traditional generic implementation.
+    // This has been fixed in wxMac-2.8.8, but the Mac native implementation:
+    //  - takes 3 times the CPU time as the Mac generic version.
+    //  - seems to always redraw entire control even if asked to refresh only one row.
+    //  - causes major flicker of progress bars, (probably due to full redraws.)
+    wxSystemOptions::SetOption(wxT("mac.listctrl.always_use_generic"), 1);
+#endif
+#endif
 
 
     // Commandline parsing is done in wxApp::OnInit()
@@ -184,16 +201,6 @@ bool CBOINCGUIApp::OnInit() {
 
     // Cache the current process serial number
     GetCurrentProcess(&m_psnCurrentProcess);
-
-#if wxCHECK_VERSION(2,8,0)
-    // In wxMac-2.8.7, default wxListCtrl::RefreshItem() does not work
-    // so use traditional generic implementation.
-    // This has been fixed in wxMac-2.8.8, but the Mac native implementation:
-    //  - takes 3 times the CPU time as the Mac generic version.
-    //  - seems to always redraw entire control even if asked to refresh only one row.
-    //  - causes major flicker of progress bars, (probably due to full redraws.)
-    wxSystemOptions::SetOption(wxT("mac.listctrl.always_use_generic"), 1);
-#endif
 #endif
 
     if (g_use_sandbox) {
@@ -225,6 +232,10 @@ bool CBOINCGUIApp::OnInit() {
     if (m_bBOINCMGRAutoStarted && m_iBOINCMGRDisableAutoStart) {
         return false;
     }
+
+    // Detect if a program that is defined as an accessibility aid is running
+    DetectAccessibilityEnabled();
+
 
     // Detect where BOINC Manager was installed too.
     DetectRootDirectory();
@@ -397,17 +408,14 @@ bool CBOINCGUIApp::OnInit() {
         }
 
         // Screen reader in use?
-#ifdef __WXMSW__
-        BOOL bScreenReaderEnabled = false;
-        SystemParametersInfo(SPI_GETSCREENREADER, NULL, &bScreenReaderEnabled, NULL);
-        if (bScreenReaderEnabled) {
+        if (IsAccessibilityEnabled()) {
             m_iGUISelected = BOINC_ADVANCEDGUI;
         }
-#endif
     }
 
 #ifdef __WXMAC__
-#if 0       // We may still need this code; don't remove it yet -- CAF 1/30/08
+#if 0
+    // We may still need this code; don't remove it yet -- CAF 1/30/08
     // When running BOINC Client as a daemon / service, the menubar icon is sometimes 
     // unresponsive to mouse clicks if we create it before connecting to the Client.
     CBOINCClientManager* pcm = m_pDocument->m_pClientManager;
@@ -598,6 +606,18 @@ void CBOINCGUIApp::DetectDisplayInfo() {
 
 
 ///
+/// Detect if an acessibility aid is running on the system.
+///
+void CBOINCGUIApp::DetectAccessibilityEnabled() {
+#ifdef __WXMSW__
+    BOOL bScreenReaderEnabled = false;
+    SystemParametersInfo(SPI_GETSCREENREADER, NULL, &bScreenReaderEnabled, NULL);
+    m_bAccessibilityEnabled = (bScreenReaderEnabled == TRUE);
+#endif
+}
+
+
+///
 /// Determines where the BOINC Manager is executing from.
 ///
 void CBOINCGUIApp::DetectRootDirectory() {
@@ -776,6 +796,16 @@ int CBOINCGUIApp::StartBOINCScreensaverTest() {
 
     // Append boinc.scr to the end of the strExecute string and get ready to rock
     strExecute = wxT("\"") + wxString(szExecutableDirectory) + wxT("\\boinc.scr\" /t");
+    ::wxExecute(strExecute);
+#endif
+    return 0;
+}
+
+
+int CBOINCGUIApp::StartBOINCDefaultScreensaverTest() {
+#ifdef __WXMSW__
+    wxString strExecute = wxEmptyString;
+    strExecute = wxT("\"") + m_strBOINCMGRRootDirectory + wxT("\\boincscr.exe\" --test");
     ::wxExecute(strExecute);
 #endif
     return 0;

@@ -6513,3 +6513,12 @@ Rom    25 July 2009
         boincsvcctrl.cpp
     clientlib/win/
         Service.cpp
+
+Rom    25 July 2009
+    - MGR: Be sure to launch the default screensaver in test mode
+        when the manager is starting up, otherwise the default
+        screensaver might lock up waiting on user input to approve
+        firewall updates to the rule set.
+        
+    clientgui/
+        BOINCGUIApp.cpp, .h
