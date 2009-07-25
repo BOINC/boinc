@@ -1546,6 +1546,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->GetConnectedComputerName(strComputer);
     if (pDoc->IsComputerNameLocal(strComputer)) {
         wxGetApp().StartBOINCScreensaverTest();
+        wxGetApp().StartBOINCDefaultScreensaverTest();
     }
 
     // Clear selected rows in all tab pages when connecting to a different host
