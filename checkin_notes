@@ -6005,3 +6005,20 @@ Rom    24 July 2009
     /
         configure.ac
         version.h
+
+Rom    25 July 2009
+    - MGR: Use the BOINC Service Control utility (boincsvcctrl.exe) to
+        start/stop the BOINC Service on Windows now.  Starting with
+        Windows Vista a normal admin account is started with a
+        restricted token, meaning that a process has to be elevated
+        in order to start and stop services.  The recommended way to
+        handle this whole process is to create a stub application that
+        has an application manifest embedded within it that tells
+        Windows that full admin rights are required and then launch
+        that program (boincsvcctrl.exe) from the application 
+        (boincmgr.exe) which normally runs with the restricted token.
+        
+    clientctrl/
+        boincsvcctrl.cpp
+    clientlib/win/
+        Service.cpp
