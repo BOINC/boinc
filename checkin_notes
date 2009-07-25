@@ -6474,3 +6474,9 @@ David  24 July 2009
             util.inc
         user/
             login_action.php
+
+Rom    24 July 2009
+    - lib: more code cleanup
+    
+    lib/
+        win_util.cpp, .h
