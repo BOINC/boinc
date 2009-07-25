@@ -6480,3 +6480,11 @@ Rom    24 July 2009
     
     lib/
         win_util.cpp, .h
+
+Rom    24 July 2009
+    - lib: revert previous commit, things in lib end up being linked
+        into project applications, projects may want to continue
+        supporting Win9x.
+        
+    lib/
+        win_util.cpp, .h
