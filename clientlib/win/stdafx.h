@@ -8,6 +8,17 @@
 #define STRICT
 #endif
 
+// Visual Studio 2005 has extended the C Run-Time Library by including "secure"
+// runtime functions and deprecating the previous function prototypes.  Since
+// we need to use the previous prototypes to maintain compatibility with other
+// platforms we are going to disable the deprecation warnings if we are compiling
+// on Visual Studio 2005
+#if _MSC_VER >= 1400
+#ifndef _CRT_SECURE_NO_DEPRECATE
+#define _CRT_SECURE_NO_DEPRECATE
+#endif
+#endif
+
 // Modify the following defines if you have to target a platform prior to the ones specified below.
 // Refer to MSDN for the latest info on corresponding values for different platforms.
 #ifndef WINVER				    // Allow use of features specific to Windows 95 and Windows NT 4 or later.
@@ -29,6 +40,7 @@
 #include <windows.h>
 #include <initguid.h>
 #include <wininet.h>
+#include <shellapi.h>
 #include <crtdbg.h>
 #include <tchar.h>
 

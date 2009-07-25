@@ -84,7 +84,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB wininet.lib kernel32.lib user32.lib advapi32.lib $(NOINHERIT)"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB wininet.lib kernel32.lib user32.lib advapi32.lib shell32.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.dll"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="true"
@@ -188,7 +188,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB wininet.lib kernel32.lib user32.lib advapi32.lib $(NOINHERIT)"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB wininet.lib kernel32.lib user32.lib advapi32.lib shell32.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.dll"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="true"
@@ -289,7 +289,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB wininet.lib kernel32.lib user32.lib advapi32.lib $(NOINHERIT)"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB wininet.lib kernel32.lib user32.lib advapi32.lib shell32.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
@@ -393,7 +393,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB wininet.lib kernel32.lib user32.lib advapi32.lib $(NOINHERIT)"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB wininet.lib kernel32.lib user32.lib advapi32.lib shell32.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"

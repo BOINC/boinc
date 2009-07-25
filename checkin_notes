@@ -6041,3 +6041,12 @@ Rom    24 July 2009
     /
         configure.ac
         version.h
+
+Rom    25 July 2009
+    - MGR: Refine yesterdays checkin with support for the BOINC
+        Service Control utility, use ShellExecuteEx instead of
+        CreateProcess.  CreateProcess doesn't have the ability
+        to elevate processes.
+
+    clientlib/win/
+        Service.cpp

@@ -229,14 +229,11 @@ EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceStopped()
 EXTERN_C __declspec(dllexport) BOOL StartBOINCService()
 {
     BOOL                bRetVal = FALSE;
-    PROCESS_INFORMATION pi;
-    STARTUPINFO         si;
     BOOL                bProcessStarted;
+    SHELLEXECUTEINFO    shex;
     TCHAR               szPath[MAX_PATH+1];
+    TCHAR               szExe[MAX_PATH+1];
     unsigned long       ulExitCode;
-
-    memset(&pi, 0, sizeof(pi));
-    memset(&si, 0, sizeof(si));
 
     // Determine the path to the BOINC Service Control utility
     //   by finding out the path to the executable that requested
@@ -245,29 +242,32 @@ EXTERN_C __declspec(dllexport) BOOL StartBOINCService()
 		
     TCHAR *pszProg = _tcsrchr(szPath, '\\');
     if (pszProg) {
-        szPath[pszProg - szPath + 1] = 0;
+        szPath[pszProg - szPath] = 0;
     }
 
-    si.cb = sizeof(si);
-    si.dwFlags = STARTF_USESHOWWINDOW;
-    si.wShowWindow = SW_HIDE;
-
-    bProcessStarted = CreateProcess(
-        _T("boincsvcctrl.exe"),
-        _T("--start"),
-        NULL,
-        NULL,
-        FALSE,
-        CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
-        NULL,
-        szPath,
-        &si,
-        &pi
+    // The executable needs to contain the path.
+    _sntprintf(
+        szExe, (sizeof(szPath)/sizeof(TCHAR)),
+        _T("\"%s\\boincsvcctrl.exe\""),
+        szPath
     );
 
+    memset( &shex, 0, sizeof( shex) );
+
+    shex.cbSize        = sizeof( SHELLEXECUTEINFO );
+    shex.fMask         = SEE_MASK_NOCLOSEPROCESS;
+    shex.hwnd          = NULL;
+    shex.lpVerb        = _T("runas");
+    shex.lpFile        = (LPCTSTR)&szExe;
+    shex.lpParameters  = _T("--start");
+    shex.lpDirectory   = (LPCTSTR)&szPath;
+    shex.nShow         = SW_HIDE;
+
+    bProcessStarted = ShellExecuteEx( &shex );
+
     if (bProcessStarted) {
-        WaitForSingleObject(pi.hProcess, INFINITE);
-        if (GetExitCodeProcess(pi.hProcess, &ulExitCode)) {
+        WaitForSingleObject(shex.hProcess, INFINITE);
+        if (GetExitCodeProcess(shex.hProcess, &ulExitCode)) {
             if (ulExitCode == 0) {
                 bRetVal = TRUE;
             }
@@ -324,14 +324,11 @@ EXTERN_C __declspec(dllexport) BOOL StartBOINCServiceEx()
 EXTERN_C __declspec(dllexport) BOOL StopBOINCService()
 {
     BOOL                bRetVal = FALSE;
-    PROCESS_INFORMATION pi;
-    STARTUPINFO         si;
     BOOL                bProcessStarted;
+    SHELLEXECUTEINFO    shex;
     TCHAR               szPath[MAX_PATH+1];
+    TCHAR               szExe[MAX_PATH+1];
     unsigned long       ulExitCode;
-
-    memset(&pi, 0, sizeof(pi));
-    memset(&si, 0, sizeof(si));
 
     // Determine the path to the BOINC Service Control utility
     //   by finding out the path to the executable that requested
@@ -340,29 +337,32 @@ EXTERN_C __declspec(dllexport) BOOL StopBOINCService()
 		
     TCHAR *pszProg = _tcsrchr(szPath, '\\');
     if (pszProg) {
-        szPath[pszProg - szPath + 1] = 0;
+        szPath[pszProg - szPath] = 0;
     }
 
-    si.cb = sizeof(si);
-    si.dwFlags = STARTF_USESHOWWINDOW;
-    si.wShowWindow = SW_HIDE;
-
-    bProcessStarted = CreateProcess(
-        _T("boincsvcctrl.exe"),
-        _T("--stop"),
-        NULL,
-        NULL,
-        FALSE,
-        CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
-        NULL,
-        szPath,
-        &si,
-        &pi
+    // The executable needs to contain the path.
+    _sntprintf(
+        szExe, (sizeof(szPath)/sizeof(TCHAR)),
+        _T("\"%s\\boincsvcctrl.exe\""),
+        szPath
     );
 
+    memset( &shex, 0, sizeof( shex) );
+
+    shex.cbSize        = sizeof( SHELLEXECUTEINFO );
+    shex.fMask         = SEE_MASK_NOCLOSEPROCESS;
+    shex.hwnd          = NULL;
+    shex.lpVerb        = _T("runas");
+    shex.lpFile        = (LPCTSTR)&szExe;
+    shex.lpParameters  = _T("--stop");
+    shex.lpDirectory   = (LPCTSTR)&szPath;
+    shex.nShow         = SW_HIDE;
+
+    bProcessStarted = ShellExecuteEx( &shex );
+
     if (bProcessStarted) {
-        WaitForSingleObject(pi.hProcess, INFINITE);
-        if (GetExitCodeProcess(pi.hProcess, &ulExitCode)) {
+        WaitForSingleObject(shex.hProcess, INFINITE);
+        if (GetExitCodeProcess(shex.hProcess, &ulExitCode)) {
             if (ulExitCode == 0) {
                 bRetVal = TRUE;
             }
