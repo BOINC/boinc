@@ -6532,16 +6532,6 @@ Rom    25 July 2009
 
     clientlib/win/
         Service.cpp
-<<<<<<< .working
-=======
-
-Rom    25 July 2009
-    - Tag for 6.8.11 release, all platforms
-      boinc_core_release_6_8_11
-
-    /
-        configure.ac
-        version.h
 
 Rom    25 July 2009
     - MGR: Refine todays checkin with support for the BOINC
@@ -6550,4 +6540,3 @@ Rom    25 July 2009
 
     clientlib/win/
         Service.cpp
->>>>>>> .merge-right.r18732
