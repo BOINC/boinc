@@ -6058,3 +6058,11 @@ Rom    25 July 2009
     /
         configure.ac
         version.h
+
+Rom    25 July 2009
+    - MGR: Refine todays checkin with support for the BOINC
+        Service Control utility, don't use the runas verb on systems
+        older than Vista.
+
+    clientlib/win/
+        Service.cpp
