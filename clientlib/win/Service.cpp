@@ -257,7 +257,9 @@ EXTERN_C __declspec(dllexport) BOOL StartBOINCService()
     shex.cbSize        = sizeof( SHELLEXECUTEINFO );
     shex.fMask         = SEE_MASK_NOCLOSEPROCESS;
     shex.hwnd          = NULL;
-    shex.lpVerb        = _T("runas");
+    if ((LOBYTE(LOWORD(GetVersion()))) >= 6) {
+        shex.lpVerb        = _T("runas");
+    }
     shex.lpFile        = (LPCTSTR)&szExe;
     shex.lpParameters  = _T("--start");
     shex.lpDirectory   = (LPCTSTR)&szPath;
@@ -352,7 +354,9 @@ EXTERN_C __declspec(dllexport) BOOL StopBOINCService()
     shex.cbSize        = sizeof( SHELLEXECUTEINFO );
     shex.fMask         = SEE_MASK_NOCLOSEPROCESS;
     shex.hwnd          = NULL;
-    shex.lpVerb        = _T("runas");
+    if ((LOBYTE(LOWORD(GetVersion()))) >= 6) {
+        shex.lpVerb        = _T("runas");
+    }
     shex.lpFile        = (LPCTSTR)&szExe;
     shex.lpParameters  = _T("--stop");
     shex.lpDirectory   = (LPCTSTR)&szPath;
