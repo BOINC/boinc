@@ -6546,3 +6546,11 @@ David  27 July 2009
 
     client/
         pers_file_xfer.cpp
+
+Eric K 27 July 2009
+    - server: fix for build of fcgi_file_upload_handler
+
+    lib/
+        crypt.h
+    sched/
+        file_upload_handler.cpp
