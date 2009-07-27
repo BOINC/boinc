@@ -6540,3 +6540,9 @@ Rom    25 July 2009
 
     clientlib/win/
         Service.cpp
+
+David  27 July 2009
+    - client: fix crashing bug introduced in [18605]
+
+    client/
+        pers_file_xfer.cpp

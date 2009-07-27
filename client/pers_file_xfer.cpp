@@ -270,7 +270,7 @@ bool PERS_FILE_XFER::poll() {
         // so that we'll query file size on next retry.
         // Otherwise leave it as is, avoiding unnecessary size query.
         //
-        if (fxp->bytes_xferred || (fip->urls.size() > 1)) {
+        if (last_bytes_xferred || (fip->urls.size() > 1)) {
             fip->upload_offset = -1;
         }
 
