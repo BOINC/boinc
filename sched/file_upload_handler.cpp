@@ -566,7 +566,11 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
     FCGI_FILE *f = FCGI::fopen(buf, "r");
 #endif
     if (!f) return -1;
+#ifdef _USING_FCGI_
+    retval = scan_key_hex(FCGI_ToFILE(f), (KEY*)&key, sizeof(key));
+#else
     retval = scan_key_hex(f, (KEY*)&key, sizeof(key));
+#endif
     fclose(f);
     if (retval) return retval;
     return 0;

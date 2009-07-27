@@ -76,18 +76,16 @@ struct DATA_BLOCK {
 
 // size of text-encoded signature
 #define SIGNATURE_SIZE_TEXT (SIGNATURE_SIZE_BINARY*2+20)
-
 extern int sprint_hex_data(char* p, DATA_BLOCK&);
-#ifndef _USING_FCGI_
+#ifdef _USING_FCGI_
+#undef FILE
+#endif
 extern int print_hex_data(FILE* f, DATA_BLOCK&);
 extern int scan_hex_data(FILE* f, DATA_BLOCK&);
 extern int print_key_hex(FILE*, KEY* key, int len);
 extern int scan_key_hex(FILE*, KEY* key, int len);
-#else
-extern int print_hex_data(FCGI_FILE* f, DATA_BLOCK&);
-extern int scan_hex_data(FCGI_FILE* f, DATA_BLOCK&);
-extern int print_key_hex(FCGI_FILE*, KEY* key, int len);
-extern int scan_key_hex(FCGI_FILE*, KEY* key, int len);
+#ifdef _USING_FCGI_
+#define FILE FCGI_FILE
 #endif
 extern int sscan_key_hex(const char*, KEY* key, int len);
 extern int encrypt_private(
