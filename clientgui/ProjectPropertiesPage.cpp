@@ -110,6 +110,7 @@ bool CProjectPropertiesPage::Create( CBOINCBaseWizard* parent )
  
     m_bProjectPropertiesSucceeded = false;
     m_bProjectPropertiesURLFailure = false;
+    m_bProjectPropertiesDNSFailure = false;
     m_bProjectPropertiesCommunicationFailure = false;
     m_bProjectAccountCreationDisabled = false;
     m_bProjectClientAccountCreationDisabled = false;
@@ -194,7 +195,7 @@ wxWizardPageEx* CProjectPropertiesPage::GetNext() const
     } else if (GetProjectPropertiesSucceeded()) {
         // We were successful in retrieving the project properties
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
-    } else if (GetProjectPropertiesURLFailure() && !GetNetworkConnectionDetected()) {
+    } else if (GetProjectPropertiesURLFailure() && (GetProjectPropertiesDNSFailure() || !GetNetworkConnectionDetected())) {
         // No Internet Connection
         return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
     } else if (GetProjectPropertiesURLFailure()) {
@@ -338,6 +339,7 @@ void CProjectPropertiesPage::OnPageChanged( wxWizardExEvent& event ) {
 
     SetProjectPropertiesSucceeded(false);
     SetProjectPropertiesURLFailure(false);
+    SetProjectPropertiesDNSFailure(false);
     SetProjectPropertiesCommunicationFailure(false);
     SetProjectAccountCreationDisabled(false);
     SetProjectClientAccountCreationDisabled(false);
@@ -373,7 +375,6 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
     wxTimeSpan tsExecutionTime;
     wxString strBuffer = wxEmptyString;
     bool bPostNewEvent = true;
-    bool bSuccessfulCondition = false;
     int  iReturnValue = 0;
  
     wxASSERT(pDoc);
@@ -435,14 +436,26 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 SetProjectAccountCreationDisabled(pc->account_creation_disabled);
                 SetProjectClientAccountCreationDisabled(pc->client_account_creation_disabled);
                 SetTermsOfUseRequired(!pc->terms_of_use.empty());
+
             } else {
+
                 SetProjectPropertiesSucceeded(false);
                 SetProjectPropertiesURLFailure(pc->error_num == ERR_FILE_NOT_FOUND);
 
+                // DNS failures can be caused by a few different situations, but
+                // the most common is the machine is sitting behind a firewall
+                // and the local DNS servers do not know about the outside world.
+                // In this situation the user is expected to use a proxy server.
+                //
+                // Project domain moves or host name changes don't happen
+                // often enough for them to be the default assumtion.
+                //
+                SetProjectPropertiesDNSFailure(pc->error_num == ERR_GETHOSTBYNAME);
+
                 bool comm_failure = !iReturnValue && (
-                    (ERR_GETHOSTBYNAME == pc->error_num)
-                    || (ERR_CONNECT == pc->error_num)
+                    (ERR_CONNECT == pc->error_num)
                     || (ERR_XML_PARSE == pc->error_num)
+                    || (ERR_PROJECT_DOWN == pc->error_num)
                 );
                 SetProjectPropertiesCommunicationFailure(comm_failure);
 
@@ -454,6 +467,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                     && (ERR_PROJECT_DOWN != pc->error_num)
                 );
                 SetServerReportedError(server_reported_error);
+
                 if (server_reported_error) {
                     strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
 				    if (pc->error_msg.size()) {
@@ -491,12 +505,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 ::wxSafeYield(GetParent());
             }
 
-            bSuccessfulCondition = NETWORK_STATUS_WANT_CONNECTION != status.network_status;
-            if (bSuccessfulCondition) {
-                SetNetworkConnectionDetected(true);
-            } else {
-                SetNetworkConnectionDetected(false);
-            }
+            SetNetworkConnectionDetected(NETWORK_STATUS_WANT_CONNECTION != status.network_status);
 
             SetNextState(PROJPROP_DETERMINEACCOUNTINFOSTATUS_BEGIN);
             break;
@@ -506,11 +515,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
         case PROJPROP_DETERMINEACCOUNTINFOSTATUS_EXECUTE:
             // Determine if the account settings are already pre-populated.
             //   If so, advance to the Project Processing page.
-            if ( pWAP->m_bCredentialsCached || pWAP->m_bCredentialsDetected) {
-                SetCredentialsAlreadyAvailable(true);
-            } else {
-                SetCredentialsAlreadyAvailable(false);
-            }
+            SetCredentialsAlreadyAvailable(pWAP->m_bCredentialsCached || pWAP->m_bCredentialsDetected);
 
             SetNextState(PROJPROP_CLEANUP);
             break;

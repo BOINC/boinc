@@ -6561,3 +6561,13 @@ Rom    27 July 2009
         
     client/
         hostinfo_win.cpp
+
+Rom    27 July 2009
+    - MGR: Special case ERR_GETHOSTBYNAME errors in the wizard, majority
+        case for DNS failures suggest that the user might need a proxy
+        to be defined instead or this project is unavailable or this
+        account manager is unavailable.
+        
+    clientgui/
+        AccountManagerPropertiesPage.cpp, .h
+        ProjectPropertiesPage.cpp, .h

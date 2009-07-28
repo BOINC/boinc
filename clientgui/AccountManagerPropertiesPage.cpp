@@ -113,6 +113,8 @@ bool CAccountManagerPropertiesPage::Create( CBOINCBaseWizard* parent )
  
     m_bProjectPropertiesSucceeded = false;
     m_bProjectPropertiesURLFailure = false;
+    m_bProjectPropertiesDNSFailure = false;
+    m_bProjectPropertiesCommunicationFailure = false;
     m_bProjectAccountCreationDisabled = false;
     m_bProjectClientAccountCreationDisabled = false;
     m_bNetworkConnectionDetected = false;
@@ -209,6 +211,8 @@ void CAccountManagerPropertiesPage::OnPageChanged( wxWizardExEvent& event )
 
     SetProjectPropertiesSucceeded(false);
     SetProjectPropertiesURLFailure(false);
+    SetProjectPropertiesDNSFailure(false);
+    SetProjectPropertiesCommunicationFailure(false);
     SetProjectAccountCreationDisabled(false);
     SetProjectClientAccountCreationDisabled(false);
     SetNetworkConnectionDetected(false);
@@ -245,7 +249,6 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
     wxTimeSpan tsExecutionTime;
     wxString strBuffer = wxEmptyString;
     bool bPostNewEvent = true;
-    bool bSuccessfulCondition = false;
     int  iReturnValue = 0;
  
     pc = &pWAP->project_config;
@@ -296,60 +299,54 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 ::wxSafeYield(GetParent());
             }
  
-            // We either successfully retrieved the project's account creation 
-            //   policies or we were able to talk to the web server and found out
-            //   they do not support account creation through the wizard.  In either
-            //   case we should claim success and set the correct flags to show the
-            //   correct 'next' page.
-            bSuccessfulCondition = 
-                (!iReturnValue) && (!pc->error_num) ||
-                (!iReturnValue) && (ERR_ACCT_CREATION_DISABLED == pc->error_num);
-            if (bSuccessfulCondition) {
+            if (
+                !iReturnValue
+                && (!pc->error_num || pc->error_num == ERR_ACCT_CREATION_DISABLED)
+            ) {
+                // We either successfully retrieved the project's account creation 
+                //   policies or we were able to talk to the web server and found out
+                //   they do not support account creation through the wizard.  In either
+                //   case we should claim success and set the correct flags to show the
+                //   correct 'next' page.
                 SetProjectPropertiesSucceeded(true);
-
-                bSuccessfulCondition = pc->account_creation_disabled;
-                if (bSuccessfulCondition) {
-                    SetProjectAccountCreationDisabled(true);
-                } else {
-                    SetProjectAccountCreationDisabled(false);
-                }
-
-                bSuccessfulCondition = pc->client_account_creation_disabled;
-                if (bSuccessfulCondition) {
-                    SetProjectClientAccountCreationDisabled(true);
-                } else {
-                    SetProjectClientAccountCreationDisabled(false);
-                }
-
-                bSuccessfulCondition = !pc->terms_of_use.empty();
-                if (bSuccessfulCondition) {
-                    SetTermsOfUseRequired(true);
-                } else {
-                    SetTermsOfUseRequired(false);
-                }
+                SetProjectAccountCreationDisabled(pc->account_creation_disabled);
+                SetProjectClientAccountCreationDisabled(pc->client_account_creation_disabled);
+                SetTermsOfUseRequired(!pc->terms_of_use.empty());
 
                 pWAP->m_strProjectName = wxString(pc->name.c_str(), wxConvUTF8);
+
             } else {
+
                 SetProjectPropertiesSucceeded(false);
+                SetProjectPropertiesURLFailure(pc->error_num == ERR_FILE_NOT_FOUND);
 
-                bSuccessfulCondition = 
-                    (!iReturnValue) && (ERR_FILE_NOT_FOUND == pc->error_num) ||
-                    (!iReturnValue) && (ERR_GETHOSTBYNAME == pc->error_num) ||
-                    (!iReturnValue) && (ERR_CONNECT == pc->error_num) ||
-                    (!iReturnValue) && (ERR_XML_PARSE == pc->error_num);
-                if (bSuccessfulCondition) {
-                    SetProjectPropertiesURLFailure(true);
-                } else {
-                    SetProjectPropertiesURLFailure(false);
-                }
+                // DNS failures can be caused by a few different situations, but
+                // the most common is the machine is sitting behind a firewall
+                // and the local DNS servers do not know about the outside world.
+                // In this situation the user is expected to use a proxy server.
+                //
+                // Project domain moves or host name changes don't happen
+                // often enough for them to be the default assumtion.
+                //
+                SetProjectPropertiesDNSFailure(pc->error_num == ERR_GETHOSTBYNAME);
 
-                bSuccessfulCondition = 
-                    ((!iReturnValue) && (ERR_FILE_NOT_FOUND != pc->error_num)) &&
-                    ((!iReturnValue) && (ERR_GETHOSTBYNAME != pc->error_num)) &&
-                    ((!iReturnValue) && (ERR_CONNECT != pc->error_num)) &&
-                    ((!iReturnValue) && (ERR_XML_PARSE != pc->error_num)) &&
-                    (!iReturnValue);
-                if (bSuccessfulCondition) {
+                bool comm_failure = !iReturnValue && (
+                    (ERR_CONNECT == pc->error_num)
+                    || (ERR_XML_PARSE == pc->error_num)
+                    || (ERR_PROJECT_DOWN == pc->error_num)
+                );
+                SetProjectPropertiesCommunicationFailure(comm_failure);
+
+                bool server_reported_error = !iReturnValue && (
+                    (ERR_FILE_NOT_FOUND != pc->error_num)
+                    && (ERR_GETHOSTBYNAME != pc->error_num)
+                    && (ERR_CONNECT != pc->error_num)
+                    && (ERR_XML_PARSE != pc->error_num)
+                    && (ERR_PROJECT_DOWN != pc->error_num)
+                );
+                SetServerReportedError(server_reported_error);
+
+                if (server_reported_error) {
                     SetServerReportedError(true);
 
                     strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
@@ -390,12 +387,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 ::wxSafeYield(GetParent());
             }
 
-            bSuccessfulCondition = NETWORK_STATUS_WANT_CONNECTION != status.network_status;
-            if (bSuccessfulCondition) {
-                SetNetworkConnectionDetected(true);
-            } else {
-                SetNetworkConnectionDetected(false);
-            }
+            SetNetworkConnectionDetected(NETWORK_STATUS_WANT_CONNECTION != status.network_status);
 
             SetNextState(ACCTMGRPROP_DETERMINEACCOUNTINFOSTATUS_BEGIN);
             break;
@@ -405,11 +397,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
         case ACCTMGRPROP_DETERMINEACCOUNTINFOSTATUS_EXECUTE:
             // Determine if the account settings are already pre-populated.
             //   If so, advance to the Account Manager Processing page.
-            if ( pWAP->m_bCredentialsCached || pWAP->m_bCredentialsDetected) {
-                SetCredentialsAlreadyAvailable(true);
-            } else {
-                SetCredentialsAlreadyAvailable(false);
-            }
+            SetCredentialsAlreadyAvailable(pWAP->m_bCredentialsCached || pWAP->m_bCredentialsDetected);
 
             SetNextState(ACCTMGRPROP_CLEANUP);
             break;
@@ -462,7 +450,7 @@ wxWizardPageEx* CAccountManagerPropertiesPage::GetNext() const
     } else if (GetProjectPropertiesSucceeded()) {
         // We were successful in retrieving the project properties
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
-    } else if (GetProjectPropertiesURLFailure() && !GetNetworkConnectionDetected()) {
+    } else if (GetProjectPropertiesURLFailure() && (GetProjectPropertiesDNSFailure() || !GetNetworkConnectionDetected())) {
         // No Internet Connection
         return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
     } else if (GetProjectPropertiesURLFailure()) {

@@ -114,6 +114,12 @@ public:
     bool GetProjectPropertiesURLFailure() const { return m_bProjectPropertiesURLFailure ; }
     void SetProjectPropertiesURLFailure(bool value) { m_bProjectPropertiesURLFailure = value ; }
 
+    bool GetProjectPropertiesDNSFailure() const { return m_bProjectPropertiesDNSFailure ; }
+    void SetProjectPropertiesDNSFailure(bool value) { m_bProjectPropertiesDNSFailure = value ; }
+
+    bool GetProjectPropertiesCommunicationFailure() const { return m_bProjectPropertiesCommunicationFailure ; }
+    void SetProjectPropertiesCommunicationFailure(bool value) { m_bProjectPropertiesCommunicationFailure = value ; }
+
     bool GetProjectAccountCreationDisabled() const { return m_bProjectAccountCreationDisabled ; }
     void SetProjectAccountCreationDisabled(bool value) { m_bProjectAccountCreationDisabled = value ; }
 
@@ -150,6 +156,8 @@ public:
 ////@end CAccountManagerPropertiesPage member variables
     bool m_bProjectPropertiesSucceeded;
     bool m_bProjectPropertiesURLFailure;
+    bool m_bProjectPropertiesDNSFailure;
+    bool m_bProjectPropertiesCommunicationFailure;
     bool m_bProjectAccountCreationDisabled;
     bool m_bProjectClientAccountCreationDisabled;
     bool m_bNetworkConnectionDetected;
