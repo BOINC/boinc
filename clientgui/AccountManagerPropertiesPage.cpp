@@ -420,9 +420,9 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
 
             bSuccessfulCondition = NETWORK_STATUS_WANT_CONNECTION == status.network_status;
             if (bSuccessfulCondition) {
-                SetNetworkConnectionDetected(true);
+                SetNetworkConnectionNotDetected(true);
             } else {
-                SetNetworkConnectionDetected(false);
+                SetNetworkConnectionNotDetected(false);
             }
 
             SetNextState(ACCTMGRPROP_DETERMINEACCOUNTINFOSTATUS_BEGIN);

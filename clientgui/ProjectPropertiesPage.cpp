@@ -543,9 +543,9 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
 
             bSuccessfulCondition = NETWORK_STATUS_WANT_CONNECTION == status.network_status;
             if (bSuccessfulCondition) {
-                SetNetworkConnectionDetected(true);
+                SetNetworkConnectionNotDetected(true);
             } else {
-                SetNetworkConnectionDetected(false);
+                SetNetworkConnectionNotDetected(false);
             }
 
             SetNextState(PROJPROP_DETERMINEACCOUNTINFOSTATUS_BEGIN);
