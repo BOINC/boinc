@@ -6614,3 +6614,13 @@ David  28 July 2009
         app_start.cpp
     sched/
         handle_request.cpp
+
+David  28 July 2009
+    - client: if an HTTP op fails within 30 sec of client startup,
+        don't skip the reference site check.
+        Instead, defer the reference site check until 30 secs after startup.
+        Also, if during this interval (when the check has been requested
+        but not started) return net status as LOOKUP_PENDING
+
+    client/
+        net_stats.cpp

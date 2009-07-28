@@ -135,7 +135,9 @@ int NET_STATUS::network_status() {
     if (gstate.http_ops->nops()) {
         last_comm_time = gstate.now;
     }
-	if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) {
+    if (need_to_contact_reference_site) {
+        retval = NETWORK_STATUS_LOOKUP_PENDING;
+    } else if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) {
         retval = NETWORK_STATUS_LOOKUP_PENDING;
 	} else if (gstate.now - last_comm_time < 10) {
         retval = NETWORK_STATUS_ONLINE;
@@ -176,24 +178,20 @@ void NET_STATUS::network_available() {
 
 // An HTTP operation failed;
 // it could be because there's no physical network connection.
-// Find out for sure by trying to contact google
+// Find out for sure by trying to contact a reference site
 //
 void NET_STATUS::got_http_error() {
-    if ((gstate.lookup_website_op.error_num != ERR_IN_PROGRESS)
-        && !need_physical_connection
-        && gstate.now > gstate.last_wakeup_time + 30
-            // for 30 seconds after wakeup, the network system (DNS etc.)
-            // may still be coming up, so don't worry for now
-        && !config.dont_contact_ref_site
-    ) {
-	    if (log_flags.network_status_debug) {
-		    msg_printf(0, MSG_INFO,
-			    "[network_status_debug] got http error and not still waking up"
-		    );
-	    }
-		need_to_contact_reference_site = true;
-        show_ref_message = true;
+    if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) return;
+    if (need_physical_connection) return;
+    if (config.dont_contact_ref_site) return;
+
+    if (log_flags.network_status_debug) {
+        msg_printf(0, MSG_INFO,
+            "[network_status_debug] got HTTP error - checking ref site"
+        );
     }
+    need_to_contact_reference_site = true;
+    show_ref_message = true;
 }
 
 void NET_STATUS::contact_reference_site() {
@@ -253,6 +251,11 @@ void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
 }
 
 void NET_STATUS::poll() {
+    // for 30 seconds after wakeup, the network system (DNS etc.)
+    // may still be coming up, so defer the reference site check;
+    // otherwise might show spurious "need connection" message
+    //
+    if (gstate.now < gstate.last_wakeup_time + 30) return;
 	if (net_status.need_to_contact_reference_site && gstate.gui_http.state==GUI_HTTP_STATE_IDLE) {
 		net_status.contact_reference_site();
 	}

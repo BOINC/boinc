@@ -259,15 +259,16 @@ function is_dev($v) {
 
 //$url_base = "http://boincdl.ssl.berkeley.edu/dl/";
 //$url_base = "http://mirror.worldcommunitygrid.org/mirror/";
-$url_base = "http://boincdl3.ssl.berkeley.edu/mirror/";
-//switch(rand(0,5)) {
+switch(rand(0,3)) {
+    case 0: $url_base = "http://einstein.ligo.caltech.edu/download/boinc/dl/"; break;
+    case 1: $url_base = "http://boincdl3.ssl.berkeley.edu/mirror/"; break;
+    case 2: $url_base = "http://einstein.aei.mpg.de/download/boinc/dl/"; break;
     //case 0: $url_base = "http://boinc.berkeley.edu/dl/"; break;
     //case 1: $url_base = "http://morel.mit.edu/download/boinc/dl/"; break;
     //case 2: $url_base = "http://einstein.aei.mpg.de/download/boinc/dl/"; break;
     //case 3: $url_base = "http://einstein.astro.gla.ac.uk/download/boinc/dl/"; break;
     //case 4: $url_base = "http://albert.gravity.psu.edu/download/boinc/dl/"; break;
-    //case 5: $url_base = "http://einstein.ligo.caltech.edu/download/boinc/dl/"; break;
     //case 6: $url_base = "http://einstein.phys.uwm.edu/download/boinc/dl/"; break;
-//}
+}
 
 ?>
