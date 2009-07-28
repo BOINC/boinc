@@ -769,13 +769,13 @@ void CViewTransfers::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
                 if (project->upload_backoff) {
                     wxString x;
                     FormatTime(project->upload_backoff, x);
-                    strBuffer += _("(project backoff: ") + x + _(")");
+                    strBuffer += _(" (project backoff: ") + x + _(")");
                 }
             } else {
                 if (project->download_backoff) {
                     wxString x;
                     FormatTime(project->download_backoff, x);
-                    strBuffer += _("(project backoff: ") + x + _(")");
+                    strBuffer += _(" (project backoff: ") + x + _(")");
                 }
             }
         }
