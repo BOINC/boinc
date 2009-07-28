@@ -139,6 +139,17 @@ void WORK_REQ::get_job_limits() {
             g_wreq->max_jobs_on_host_gpu = 999999;
         }
     }
+
+    if (config.debug_send) {
+        log_messages.printf(MSG_NORMAL,
+            "[send] effective_ncpus %d max_jobs_on_host_cpu %d max_jobs_on_host %d\n",
+            effective_ncpus, g_wreq->max_jobs_on_host_cpu, g_wreq->max_jobs_on_host
+        );
+        log_messages.printf(MSG_NORMAL,
+            "[send] effective_ngpus %d max_jobs_on_host_gpu %d\n",
+            effective_ngpus, g_wreq->max_jobs_on_host_gpu
+        );
+    }
 }
 
 static const char* find_user_friendly_name(int appid) {
@@ -345,6 +356,10 @@ static void get_prefs_info() {
 // this info affects which jobs are sent to the host.
 //
 static void get_host_info() {
+    double expavg_credit = g_reply->host.expavg_credit;
+    double expavg_time = g_reply->host.expavg_time;
+    update_average(0, 0, CREDIT_HALF_LIFE, expavg_credit, expavg_time);
+
     // Decide whether or not this computer is 'reliable'
     // A computer is reliable if the following conditions are true
     // (for those that are set in the config file)
@@ -352,12 +367,8 @@ static void get_host_info() {
     // max average turnaround
     // 2) The host error rate is less then the config max error rate
     // 3) The host results per day is equal to the config file value
-    //
-    double expavg_credit = g_reply->host.expavg_credit;
-    double expavg_time = g_reply->host.expavg_time;
-    update_average(0, 0, CREDIT_HALF_LIFE, expavg_credit, expavg_time);
 
-    // Platforms other then Windows, Linux and Intel Macs need a
+    // Platforms other than Windows, Linux and Intel Macs need a
     // larger set of computers to be marked reliable
     //
     double multiplier = 1.0;
@@ -371,23 +382,46 @@ static void get_host_info() {
         multiplier = 1.8;
     }
 
-    if (
-        (g_reply->host.avg_turnaround > 0)
-        && (config.reliable_max_avg_turnaround == 0 || g_reply->host.avg_turnaround < config.reliable_max_avg_turnaround*multiplier)
-        && (config.reliable_max_error_rate == 0 || g_reply->host.error_rate < config.reliable_max_error_rate*multiplier)
-        && (config.daily_result_quota == 0 || g_reply->host.max_results_day >= config.daily_result_quota)
-     ) {
-        g_wreq->reliable = true;
+    if (g_reply->host.avg_turnaround > 0 && config.reliable_max_avg_turnaround) {
+
+        if (g_reply->host.avg_turnaround > config.reliable_max_avg_turnaround*multiplier) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [HOST#%d] not reliable; avg_turn_hrs: %.3f\n",
+                    g_reply->host.id, g_reply->host.avg_turnaround/3600
+                );
+            }
+            g_wreq->reliable = false;
+            return;
+        }
     }
+    if (config.reliable_max_error_rate) {
+        if (g_reply->host.error_rate > config.reliable_max_error_rate*multiplier) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [HOST#%d] not reliable; error rate: %.6f\n",
+                    g_reply->host.id, g_reply->host.error_rate
+                );
+            }
+            g_wreq->reliable = false;
+            return;
+        }
+    }
+    if (config.daily_result_quota) {
+        if (g_reply->host.max_results_day < config.daily_result_quota) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [HOST#%d] not reliable; max_result_day %d\n",
+                    g_reply->host.id, g_reply->host.max_results_day
+                );
+            }
+            g_wreq->reliable = false;
+            return;
+        }
+    }
+    g_wreq->reliable = true;
     if (config.debug_send) {
-        log_messages.printf(MSG_NORMAL,
-            "[send] [HOST#%d] is%s reliable; OS: %s, error_rate: %.6f, avg_turn_hrs: %.3f max res/day %d\n",
-            g_reply->host.id,
-            g_wreq->reliable?"":" not",
-            g_reply->host.os_name, g_reply->host.error_rate,
-            g_reply->host.avg_turnaround/3600,
-            g_reply->host.max_results_day
-        );
+        log_messages.printf(MSG_NORMAL, "[send] [HOST#%d] is reliable\n");
     }
 }
 

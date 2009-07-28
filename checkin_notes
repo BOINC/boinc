@@ -6624,3 +6624,9 @@ David  28 July 2009
 
     client/
         net_stats.cpp
+
+David  28 July 2009
+    - scheduler: improved messages for debug_send
+
+    sched/
+        sched_send.cpp
