@@ -6554,3 +6554,10 @@ Eric K 27 July 2009
         crypt.h
     sched/
         file_upload_handler.cpp
+
+Rom    27 July 2009
+    - client: Remove Win9x compatibility code from memory detection
+        routine.
+        
+    client/
+        hostinfo_win.cpp

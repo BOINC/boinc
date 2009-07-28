@@ -138,22 +138,6 @@ HINSTANCE g_hClientLibraryDll;
 #endif
 
 
-// Memory Status Structure for Win2K and WinXP based systems.
-typedef struct _MYMEMORYSTATUSEX {  
-    DWORD dwLength;
-    DWORD dwMemoryLoad;
-    DWORDLONG ullTotalPhys;
-    DWORDLONG ullAvailPhys;
-    DWORDLONG ullTotalPageFile;
-    DWORDLONG ullAvailPageFile;
-    DWORDLONG ullTotalVirtual;
-    DWORDLONG ullAvailVirtual;
-    DWORDLONG ullAvailExtendedVirtual;
-} MYMEMORYSTATUSEX, *LPMYMEMORYSTATUSEX;
-
-typedef BOOL (WINAPI *MYGLOBALMEMORYSTATUSEX)(LPMYMEMORYSTATUSEX lpBuffer);
-
-
 // Returns the number of seconds difference from UTC
 //
 int get_timezone(int& timezone) {
@@ -172,29 +156,12 @@ int get_timezone(int& timezone) {
 // Returns the memory information
 //
 int get_memory_info(double& bytes, double& swap) {
-    HMODULE hKernel32Lib;
-    MYGLOBALMEMORYSTATUSEX myGlobalMemoryStatusEx=0;
-    hKernel32Lib = GetModuleHandle("kernel32.dll");
-    if (hKernel32Lib) {
-        myGlobalMemoryStatusEx = (MYGLOBALMEMORYSTATUSEX) GetProcAddress(hKernel32Lib, "GlobalMemoryStatusEx");
-    }
-
-    if (hKernel32Lib && myGlobalMemoryStatusEx) {
-	    MYMEMORYSTATUSEX mStatusEx;
-	    ZeroMemory(&mStatusEx, sizeof(MYMEMORYSTATUSEX));
-	    mStatusEx.dwLength = sizeof(MYMEMORYSTATUSEX);
-	    (*myGlobalMemoryStatusEx)(&mStatusEx);
-        bytes = (double)mStatusEx.ullTotalPhys;
-        swap = (double)mStatusEx.ullTotalPageFile;
-    } else {
-	    MEMORYSTATUS mStatus;
-	    ZeroMemory(&mStatus, sizeof(MEMORYSTATUS));
-	    mStatus.dwLength = sizeof(MEMORYSTATUS);
-	    GlobalMemoryStatus(&mStatus);
-	    bytes = (double)mStatus.dwTotalPhys;
-	    swap = (double)mStatus.dwTotalPageFile;
-    }
-
+    MEMORYSTATUSEX mStatusEx;
+    ZeroMemory(&mStatusEx, sizeof(MEMORYSTATUSEX));
+    mStatusEx.dwLength = sizeof(MEMORYSTATUSEX);
+    GlobalMemoryStatusEx(&mStatusEx);
+    bytes = (double)mStatusEx.ullTotalPhys;
+    swap = (double)mStatusEx.ullTotalPageFile;
     return 0;
 }
 
