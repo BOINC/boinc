@@ -114,6 +114,9 @@ public:
     bool GetProjectPropertiesURLFailure() const { return m_bProjectPropertiesURLFailure ; }
     void SetProjectPropertiesURLFailure(bool value) { m_bProjectPropertiesURLFailure = value ; }
 
+    bool GetProjectPropertiesDNSFailure() const { return m_bProjectPropertiesDNSFailure ; }
+    void SetProjectPropertiesDNSFailure(bool value) { m_bProjectPropertiesDNSFailure = value ; }
+
     bool GetProjectPropertiesCommunicationFailure() const { return m_bProjectPropertiesCommunicationFailure ; }
     void SetProjectPropertiesCommunicationFailure(bool value) { m_bProjectPropertiesCommunicationFailure = value ; }
 
@@ -152,6 +155,7 @@ public:
 ////@end CProjectPropertiesPage member variables
     bool m_bProjectPropertiesSucceeded;
     bool m_bProjectPropertiesURLFailure;
+    bool m_bProjectPropertiesDNSFailure;
     bool m_bProjectPropertiesCommunicationFailure;
     bool m_bProjectAccountCreationDisabled;
     bool m_bProjectClientAccountCreationDisabled;
