@@ -6097,6 +6097,14 @@ Rom    27 July 2009
         ProjectPropertiesPage.cpp, .h
 
 Rom    27 July 2009
+    - MGR: Don't make ERR_FILE_NOT_FOUND part of the requirements
+        to detect the need for a proxy server.
+        
+    clientgui/
+        AccountManagerPropertiesPage.cpp
+        ProjectPropertiesPage.cpp
+
+Rom    27 July 2009
     - Tag for 6.8.13 release, all platforms
       boinc_core_release_6_8_13
 

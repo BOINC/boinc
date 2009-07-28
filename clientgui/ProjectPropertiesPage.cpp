@@ -195,7 +195,7 @@ wxWizardPageEx* CProjectPropertiesPage::GetNext() const
     } else if (GetProjectPropertiesSucceeded()) {
         // We were successful in retrieving the project properties
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
-    } else if (GetProjectPropertiesURLFailure() && (GetProjectPropertiesDNSFailure() || !GetNetworkConnectionDetected())) {
+    } else if (GetProjectPropertiesDNSFailure() || !GetNetworkConnectionDetected()) {
         // No Internet Connection
         return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
     } else if (GetProjectPropertiesURLFailure()) {
