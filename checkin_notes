@@ -6582,3 +6582,11 @@ Rom    27 July 2009
     client/
         gui_rpc_server_ops.cpp
         net_stats.cpp, .h
+
+Rom    27 July 2009
+    - MGR: Don't make ERR_FILE_NOT_FOUND part of the requirements
+        to detect the need for a proxy server.
+        
+    clientgui/
+        AccountManagerPropertiesPage.cpp
+        ProjectPropertiesPage.cpp
