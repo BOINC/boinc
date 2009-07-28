@@ -6590,3 +6590,13 @@ Rom    27 July 2009
     clientgui/
         AccountManagerPropertiesPage.cpp
         ProjectPropertiesPage.cpp
+
+Rom    28 July 2008
+    - MGR: Fix an endless loop during wizard creation, any automatic
+        true conditions in the GetNext() GetPrev() logic causes
+        the wizard to traverse the page and then look for the next
+        page.
+        
+    clientgui/
+        AccountManagerPropertiesPage.cpp
+        ProjectPropertiesPage.cpp

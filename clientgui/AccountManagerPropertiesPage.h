@@ -126,8 +126,8 @@ public:
     bool GetProjectClientAccountCreationDisabled() const { return m_bProjectClientAccountCreationDisabled ; }
     void SetProjectClientAccountCreationDisabled(bool value) { m_bProjectClientAccountCreationDisabled = value ; }
 
-    bool GetNetworkConnectionDetected() const { return m_bNetworkConnectionDetected ; }
-    void SetNetworkConnectionDetected(bool value) { m_bNetworkConnectionDetected = value ; }
+    bool GetNetworkConnectionNotDetected() const { return m_bNetworkConnectionNotDetected ; }
+    void SetNetworkConnectionNotDetected(bool value) { m_bNetworkConnectionNotDetected = value ; }
 
     bool GetServerReportedError() const { return m_bServerReportedError ; }
     void SetServerReportedError(bool value) { m_bServerReportedError = value ; }
@@ -160,7 +160,7 @@ public:
     bool m_bProjectPropertiesCommunicationFailure;
     bool m_bProjectAccountCreationDisabled;
     bool m_bProjectClientAccountCreationDisabled;
-    bool m_bNetworkConnectionDetected;
+    bool m_bNetworkConnectionNotDetected;
     bool m_bServerReportedError;
     bool m_bTermsOfUseRequired;
     bool m_bCredentialsAlreadyAvailable;

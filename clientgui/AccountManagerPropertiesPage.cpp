@@ -117,7 +117,7 @@ bool CAccountManagerPropertiesPage::Create( CBOINCBaseWizard* parent )
     m_bProjectPropertiesCommunicationFailure = false;
     m_bProjectAccountCreationDisabled = false;
     m_bProjectClientAccountCreationDisabled = false;
-    m_bNetworkConnectionDetected = false;
+    m_bNetworkConnectionNotDetected = false;
     m_bServerReportedError = false;
     m_bTermsOfUseRequired = true;
     m_bCredentialsAlreadyAvailable = false;
@@ -215,7 +215,7 @@ void CAccountManagerPropertiesPage::OnPageChanged( wxWizardExEvent& event )
     SetProjectPropertiesCommunicationFailure(false);
     SetProjectAccountCreationDisabled(false);
     SetProjectClientAccountCreationDisabled(false);
-    SetNetworkConnectionDetected(false);
+    SetNetworkConnectionNotDetected(false);
     SetTermsOfUseRequired(true);
     SetCredentialsAlreadyAvailable(false);
     SetNextState(ACCTMGRPROP_INIT);
@@ -387,7 +387,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 ::wxSafeYield(GetParent());
             }
 
-            SetNetworkConnectionDetected(NETWORK_STATUS_WANT_CONNECTION != status.network_status);
+            SetNetworkConnectionNotDetected(NETWORK_STATUS_WANT_CONNECTION == status.network_status);
 
             SetNextState(ACCTMGRPROP_DETERMINEACCOUNTINFOSTATUS_BEGIN);
             break;
@@ -450,7 +450,7 @@ wxWizardPageEx* CAccountManagerPropertiesPage::GetNext() const
     } else if (GetProjectPropertiesSucceeded()) {
         // We were successful in retrieving the project properties
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
-    } else if (GetProjectPropertiesDNSFailure() || !GetNetworkConnectionDetected()) {
+    } else if (GetProjectPropertiesDNSFailure() || GetNetworkConnectionNotDetected()) {
         // No Internet Connection
         return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
     } else if (GetProjectPropertiesURLFailure()) {
