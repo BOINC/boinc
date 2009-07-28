@@ -6104,7 +6104,17 @@ Rom    27 July 2009
         AccountManagerPropertiesPage.cpp
         ProjectPropertiesPage.cpp
 
-Rom    27 July 2009
+Rom    28 July 2008
+    - MGR: Fix an endless loop during wizard creation, any automatic
+        true conditions in the GetNext() GetPrev() logic causes
+        the wizard to traverse the page and then look for the next
+        page.
+        
+    clientgui/
+        AccountManagerPropertiesPage.cpp
+        ProjectPropertiesPage.cpp
+
+Rom    28 July 2009
     - Tag for 6.8.13 release, all platforms
       boinc_core_release_6_8_13
 

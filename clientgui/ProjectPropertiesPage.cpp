@@ -114,7 +114,7 @@ bool CProjectPropertiesPage::Create( CBOINCBaseWizard* parent )
     m_bProjectPropertiesCommunicationFailure = false;
     m_bProjectAccountCreationDisabled = false;
     m_bProjectClientAccountCreationDisabled = false;
-    m_bNetworkConnectionDetected = false;
+    m_bNetworkConnectionNotDetected = false;
     m_bServerReportedError = false;
     m_bTermsOfUseRequired = true;
     m_iBitmapIndex = 0;
@@ -195,7 +195,7 @@ wxWizardPageEx* CProjectPropertiesPage::GetNext() const
     } else if (GetProjectPropertiesSucceeded()) {
         // We were successful in retrieving the project properties
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
-    } else if (GetProjectPropertiesDNSFailure() || !GetNetworkConnectionDetected()) {
+    } else if (GetProjectPropertiesDNSFailure() || GetNetworkConnectionNotDetected()) {
         // No Internet Connection
         return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
     } else if (GetProjectPropertiesURLFailure()) {
@@ -343,7 +343,7 @@ void CProjectPropertiesPage::OnPageChanged( wxWizardExEvent& event ) {
     SetProjectPropertiesCommunicationFailure(false);
     SetProjectAccountCreationDisabled(false);
     SetProjectClientAccountCreationDisabled(false);
-    SetNetworkConnectionDetected(false);
+    SetNetworkConnectionNotDetected(false);
     SetNextState(PROJPROP_INIT);
 
     CProjectPropertiesPageEvent TransitionEvent(wxEVT_PROJECTPROPERTIES_STATECHANGE, this);
@@ -541,7 +541,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 ::wxSafeYield(GetParent());
             }
 
-            bSuccessfulCondition = NETWORK_STATUS_WANT_CONNECTION != status.network_status;
+            bSuccessfulCondition = NETWORK_STATUS_WANT_CONNECTION == status.network_status;
             if (bSuccessfulCondition) {
                 SetNetworkConnectionDetected(true);
             } else {
