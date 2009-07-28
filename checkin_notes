@@ -6571,3 +6571,14 @@ Rom    27 July 2009
     clientgui/
         AccountManagerPropertiesPage.cpp, .h
         ProjectPropertiesPage.cpp, .h
+
+Rom    27 July 2009
+    - client: There was already a way to check if the reference site
+        check was in progress, I missed it through my first pass
+        through the manager code while trying to debug the proxy problem
+        get_cc_config returns NETWORK_STATUS_LOOKUP_PENDING which
+        then causes the manager to call get_cc_status again.
+        
+    client/
+        gui_rpc_server_ops.cpp
+        net_stats.cpp, .h
