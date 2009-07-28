@@ -394,7 +394,9 @@ lookup_user_and_make_new_host:
                     "[HOST#%d] [USER#%d] User has another host with same CPID.\n",
                     host.id, host.userid
                 );
-                if (!config.multiple_clients_per_host) {
+                if (!config.multiple_clients_per_host
+                    && (g_request->other_results.size() == 0)
+                ) {
                     mark_results_over(host);
                 }
                 goto got_host;

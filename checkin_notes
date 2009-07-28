@@ -6600,3 +6600,17 @@ Rom    28 July 2008
     clientgui/
         AccountManagerPropertiesPage.cpp
         ProjectPropertiesPage.cpp
+
+David  28 July 2009
+    - client (Linux): when launching apps, put a relative path
+        to the executable (../../projects/x/y) into argv[0],
+        not just the executable filename.
+        Apparently the new NVIDIA drivers have a bug that cause
+        CUDA apps to crash unless this is done.
+    - Scheduler: in no-host-ID case, don't mark results as "detached"
+        if request contains any in-progress results
+
+    client/
+        app_start.cpp
+    sched/
+        handle_request.cpp

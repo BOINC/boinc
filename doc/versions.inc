@@ -257,7 +257,9 @@ function is_dev($v) {
     return (strstr($v["status"], "Development") != null);
 }
 
-$url_base = "http://boincdl.ssl.berkeley.edu/dl/";
+//$url_base = "http://boincdl.ssl.berkeley.edu/dl/";
+//$url_base = "http://mirror.worldcommunitygrid.org/mirror/";
+$url_base = "http://boincdl3.ssl.berkeley.edu/mirror/";
 //switch(rand(0,5)) {
     //case 0: $url_base = "http://boinc.berkeley.edu/dl/"; break;
     //case 1: $url_base = "http://morel.mit.edu/download/boinc/dl/"; break;
