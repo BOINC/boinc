@@ -91,7 +91,6 @@ public:
 		last_comm_time = 0;
     }
     void poll();
-    bool ref_site_check_in_progress();
 };
 
 /// This is used to access a reference website (like yahoo or google)

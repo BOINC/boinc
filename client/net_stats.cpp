@@ -258,10 +258,4 @@ void NET_STATUS::poll() {
 	}
 }
 
-bool NET_STATUS::ref_site_check_in_progress() {
-    if (need_to_contact_reference_site) return true;
-    if (gstate.lookup_website_op.error_num == ERR_IN_PROGRESS) return true;
-    return false;
-}
-
 const char *BOINC_RCSID_733b4006f5 = "$Id$";
