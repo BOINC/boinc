@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-07-24 12:45-0700\n"
+"PO-Revision-Date: 2009-07-28 12:41-0700\n"
 "Last-Translator: David M <davidcomp at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -860,53 +860,54 @@ msgid "Make this thread sticky"
 msgstr ""
 
 msgid "Unlock"
-msgstr ""
+msgstr "Desbloquear"
 
 msgid "Unlock this thread"
-msgstr ""
+msgstr "Desbloquear este hilo"
 
 msgid "Lock"
-msgstr ""
+msgstr "Bloquear"
 
 msgid "Lock this thread"
-msgstr ""
+msgstr "Bloquear este hilo"
 
 msgid "Move"
-msgstr ""
+msgstr "Mover"
 
 msgid "Move this thread to a different forum"
-msgstr ""
+msgstr "Mover este hilo a un foro diferente"
 
 msgid "Edit title"
-msgstr ""
+msgstr "Editar título"
 
 msgid "Edit thread title"
-msgstr ""
+msgstr "Editar el título del hilo"
 
 msgid "Sort"
-msgstr ""
+msgstr "Clasificar"
 
 msgid "Already friends"
-msgstr ""
+msgstr "Ya amigos"
 
+#, fuzzy
 msgid "You requested friendship with %1 on %2."
-msgstr ""
+msgstr "Tu pediste amistad con %1 en %2."
 
 msgid "This request is still pending confirmation."
-msgstr ""
+msgstr "Esta petición está todavía pendiente de confirmación."
 
+#, fuzzy
 msgid "%1 is not accepting friendship requests from you"
-msgstr ""
+msgstr "%1 no está aceptando peticiones tuyas de amistad"
 
 msgid "You can't be friends with yourself"
-msgstr ""
+msgstr "No puedes hacerte amigo de ti mismo."
 
 msgid "No such user"
 msgstr "No existe dicho usuario"
 
-#, fuzzy
 msgid "Add friend"
-msgstr "Añadir como amigo"
+msgstr "Añadir amigo"
 
 msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
@@ -917,86 +918,92 @@ msgid "Add an optional message here:"
 msgstr ""
 
 msgid "Database error"
-msgstr ""
+msgstr "Error de la base de datos"
 
+#, fuzzy
 msgid "Friend request sent"
-msgstr ""
+msgstr "Petición de amigo enviada"
 
 msgid "We have notified %1 of your request."
-msgstr ""
+msgstr "Hemos notificado a %1 tu petición."
 
 msgid "Request not found"
-msgstr ""
+msgstr "Petición no encontrada"
 
+#, fuzzy
 msgid "Friend request"
-msgstr ""
+msgstr "Petición de amigo"
 
+#, fuzzy
 msgid "%1 has added you as a friend."
-msgstr ""
+msgstr "%1 te ha añadido como amigo."
 
 msgid "%1 says: %2"
-msgstr ""
+msgstr "%1 dice: %2"
 
+#, fuzzy
 msgid "Accept friendship"
-msgstr ""
+msgstr "Aceptar amistad"
 
 msgid "Click accept if %1 is in fact a friend"
-msgstr ""
+msgstr "Pulse aceptar si %1 es realmente un amigo"
 
+#, fuzzy
 msgid "Decline"
-msgstr ""
+msgstr "Declinar"
 
 msgid "Click decline if %1 is not a friend"
-msgstr ""
+msgstr "Pulse declinar si %1 no es un amigo"
 
 msgid "No request"
 msgstr ""
 
 msgid "Friendship confirmed"
-msgstr ""
+msgstr "Amistad confirmada"
 
 msgid "Your friendship with %1 has been confirmed."
-msgstr ""
+msgstr "Su amistad con %1 ha sido confirmada."
 
 msgid "Friendship declined"
-msgstr ""
+msgstr "Amistad declinada"
 
 msgid "You have declined friendship with %1"
-msgstr ""
+msgstr "Usted ha declinado la amistad con %1"
 
 msgid "Notification not found"
-msgstr ""
+msgstr "Notificación no encontrada"
 
 msgid "Friend confirmed"
-msgstr ""
+msgstr "Amigo confirmado"
 
 msgid "You are now friends with %1."
-msgstr ""
+msgstr "Ahora %1 y tu sois amigos."
 
 #, fuzzy
 msgid "Cancel friendship?"
-msgstr "Cancelar amistad"
+msgstr "¿Cancelar amistad?"
 
 msgid "Are you sure you want to cancel your friendship with %1?"
 msgstr ""
 
 msgid "Yes"
-msgstr ""
+msgstr "Sí"
 
 msgid "No"
-msgstr ""
+msgstr "No"
 
 msgid "Stay friends"
 msgstr ""
 
 msgid "Friendship cancelled"
-msgstr ""
+msgstr "Amistad cancelada"
 
 msgid "Your friendship with %1 has been cancelled."
-msgstr ""
+msgstr "Su amistad con %1 ha sido cancelada."
 
+#, fuzzy
 msgid "Unknown action"
-msgstr ""
+msgstr "Acción desconocida"
 
 msgid "Welcome to %1"
 msgstr "Bienvenido a %1"
@@ -1375,40 +1382,44 @@ msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
 msgstr ""
+"Adicionalmente usted podra acceder a sus estadísticas individuales sumadas "
+"de todos sus projectos BOINC desde varios sitios web; mire su %1página de "
+"incio%2."
 
 msgid "%1 participants may form %2teams%3"
-msgstr ""
+msgstr "%1 participantes pueden formar %2equipos%3"
 
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
 msgstr ""
+"Usted solo podrá pertenecer a un equipo. Usted puede unirse o salir de un "
+"equipo en cualquier momento."
 
 msgid "Each team has a %1founder%2 who may:"
-msgstr ""
+msgstr "Cada equipo tiene un %1fundador%2 que puede:"
 
 msgid "access team members' email addresses"
-msgstr ""
+msgstr "acceder a las direcciones de e-mail de los miembros"
 
 msgid "edit the team's name and description"
-msgstr ""
+msgstr "editar el nombre y la descripción del equipo"
 
 msgid "remove members from the team"
 msgstr "quitar miembros del equipo"
 
 msgid "disband a team if it has no members"
-msgstr ""
+msgstr "dar de baja el equipo si no tiene miembros"
 
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
-"Para unirse a un equipo, visite la pagina del equipo y pulse en %1Unirse a "
+"Para unirse a un equipo, visite la página del equipo y pulse en %1Unirse a "
 "este equipo%2"
 
-#, fuzzy
 msgid "Find a team"
 msgstr "Encontrar un equipo"
 
 msgid "All teams"
-msgstr "Todos los Equipos"
+msgstr "Todos los equipos"
 
 msgid "%1 teams"
 msgstr "%1 equipos"
