@@ -6630,3 +6630,11 @@ David  28 July 2009
 
     sched/
         sched_send.cpp
+
+Rom    29 July 2009
+    - MGR: Re-enable the ability for the manager to detect a temporary
+        name failure vs needing a proxy server or something like that.
+        
+    clientgui/
+        AccountManagerPropertiesPage.cpp, .h
+        ProjectPropertiesPage.cpp, .h
