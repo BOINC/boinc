@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2009-07-28 13:02-0700\n"
+"PO-Revision-Date: 2009-07-29 11:46-0700\n"
 "Last-Translator: David M <davidcomp at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -490,7 +490,7 @@ msgstr "... más"
 #: index.php:76
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr "Las noticias están disponibles en formato %RSS feed%"
+msgstr "Las noticias están disponibles en formato %sRSS feed%s"
 
 #: index.php:86
 msgid "Volunteer"
@@ -552,15 +552,15 @@ msgstr "¡Se busca ayuda!"
 
 #: index.php:160
 msgid "Programming"
-msgstr "Programando"
+msgstr "Programación"
 
 #: index.php:161
 msgid "Translation"
-msgstr "Traduciendo"
+msgstr "Traducción"
 
 #: index.php:162
 msgid "Testing"
-msgstr "Probando (testing)"
+msgstr "Probar (testing)"
 
 #: index.php:165
 msgid "Software development"
