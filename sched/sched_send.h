@@ -38,15 +38,16 @@ extern bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av);
 
 // values returned by wu_is_infeasible()
 //
-#define INFEASIBLE_MEM      1
-#define INFEASIBLE_DISK     2
-#define INFEASIBLE_CPU      3
-#define INFEASIBLE_WORK_BUF 4
-#define INFEASIBLE_APP_SETTING 5
-#define INFEASIBLE_WORKLOAD 6
-#define INFEASIBLE_DUP      7
-#define INFEASIBLE_HR       8
-#define INFEASIBLE_BANDWIDTH 9
+#define INFEASIBLE_MEM          1
+#define INFEASIBLE_DISK         2
+#define INFEASIBLE_CPU          3
+#define INFEASIBLE_WORK_BUF     4
+#define INFEASIBLE_APP_SETTING  5
+#define INFEASIBLE_WORKLOAD     6
+#define INFEASIBLE_DUP          7
+#define INFEASIBLE_HR           8
+#define INFEASIBLE_BANDWIDTH    9
+#define INFEASIBLE_CUSTOM       10
 
 extern int wu_is_infeasible_fast(WORKUNIT&, APP&, BEST_APP_VERSION&);
  

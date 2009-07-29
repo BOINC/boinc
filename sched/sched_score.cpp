@@ -17,8 +17,6 @@
 
 // Matchmaker scheduling code
 
-#include <list>
-
 #include "boinc_db.h"
 #include "error_numbers.h"
 #include "str_util.h"
@@ -33,45 +31,6 @@
 #include "server_types.h"
 
 #include "sched_score.h"
-
-struct JOB {
-    int index;
-    double score;
-    double est_time;
-    double disk_usage;
-    APP* app;
-    BEST_APP_VERSION* bavp;
-
-    bool get_score();
-};
-
-struct JOB_SET {
-    double work_req;
-    double est_time;
-    double disk_usage;
-    double disk_limit;
-    int max_jobs;
-    std::list<JOB> jobs;     // sorted high to low
-
-    JOB_SET() {
-        work_req = g_request->work_req_seconds;
-        est_time = 0;
-        disk_usage = 0;
-        disk_limit = g_wreq->disk_available;
-        max_jobs = g_wreq->max_jobs_per_rpc;
-
-        int n = g_wreq->max_jobs_on_host - g_wreq->njobs_on_host;
-        if (n < 0) n = 0;
-        if (n < max_jobs) max_jobs = n;
-    }
-    void add_job(JOB&);
-    double higher_score_disk_usage(double);
-    double lowest_score();
-    inline bool request_satisfied() {
-        return est_time >= work_req;
-    }
-    void send();
-};
 
 // reread result from DB, make sure it's still unsent
 // TODO: from here to add_result_to_reply()
@@ -94,114 +53,6 @@ int read_sendable_result(DB_RESULT& result) {
         return ERR_BAD_RESULT_STATE;
     }
     return 0;
-}
-
-// compute a "score" for sending this job to this host.
-// Return false if the WU is infeasible.
-// Otherwise set est_time and disk_usage.
-//
-bool JOB::get_score() {
-    WORKUNIT wu;
-    int retval;
-
-    WU_RESULT& wu_result = ssp->wu_results[index];
-    wu = wu_result.workunit;
-    app = ssp->lookup_app(wu.appid);
-
-    score = 0;
-
-    // Find the best app version to use.
-    //
-    bavp = get_app_version(wu, true);
-    if (!bavp) return false;
-
-    retval = wu_is_infeasible_fast(wu, *app, *bavp);
-    if (retval) {
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL,
-                "[send] [HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
-                g_reply->host.id, wu.id, wu.name, infeasible_string(retval)
-            );
-        }
-        return false;
-    }
-
-    score = 1;
-
-#if 0
-    // example: for CUDA app, wu.batch is the minimum number of processors.
-    // Don't send if #procs is less than this.
-    // Otherwise add min/actual to score
-    // (this favors sending jobs that need lots of procs to GPUs that have them)
-    //
-    if (!strcmp(app->name, "foobar") && bavp->host_usage.ncudas) {
-        if (!g_request->coproc_cuda) {
-            log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] expected CUDA device\n", g_reply->host.id
-            );
-            return false;
-        }
-        int n = g_request->coproc_cuda->prop.multiProcessorCount;
-        if (n < wu.batch) {
-            return false;
-        }
-        score += ((double)wu.batch)/n;
-    }
-#endif
-
-    // check if user has selected apps,
-    // and send beta work to beta users
-    //
-    if (app->beta && !config.distinct_beta_apps) {
-        if (g_wreq->allow_beta_work) {
-            score += 1;
-        } else {
-            return false;
-        }
-    } else {
-        if (app_not_selected(wu)) {
-            if (!g_wreq->allow_non_preferred_apps) {
-                return false;
-            } else {
-            // Allow work to be sent, but it will not get a bump in its score
-            }
-        } else {
-            score += 1;
-        }
-    }
-            
-    // if job needs to get done fast, send to fast/reliable host
-    //
-    if (g_wreq->reliable && (wu_result.need_reliable)) {
-        score += 1;
-    }
-    
-    // if job already committed to an HR class,
-    // try to send to host in that class
-    //
-    if (wu_result.infeasible_count) {
-        score += 1;
-    }
-
-    // Favor jobs that will run fast
-    //
-    score += bavp->host_usage.flops/1e9;
-
-    // match large jobs to fast hosts
-    //
-    if (config.job_size_matching) {
-        double host_stdev = (g_reply->host.p_fpops - ssp->perf_info.host_fpops_mean)/ ssp->perf_info.host_fpops_stdev;
-        double diff = host_stdev - wu_result.fpops_size;
-        score -= diff*diff;
-    }
-
-    // TODO: If user has selected some apps but will accept jobs from others,
-    // try to send them jobs from the selected apps
-    //
-
-    est_time = estimate_duration(wu, *bavp);
-    disk_usage = wu.rsc_disk_bound;
-    return true;
 }
 
 bool wu_is_infeasible_slow(

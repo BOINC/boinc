@@ -16,8 +16,22 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-// Replace the following with your own code.
-// WARNING: after doing this, you must prevent this file from
+// This file contains functions that can be customized to
+// implement project-specific scheduling policies.
+// The functions are:
+//
+// wu_is_infeasible_custom()
+//      Decide whether host can run a job using a particular app version
+// app_plan()
+//      Decide whether host can use an app version,
+//      and if so what resources it will use
+// app_plan_uses_gpu():
+//      Which plan classes use GPUs
+// JOB::get_score():
+//      Determine the value of sending a particular job to host;
+//      (used only by "matchmaker" scheduling)
+//
+// WARNING: if you modify this file, you must prevent it from
 // being overwritten the next time you update BOINC source code.
 // You can either:
 // 1) write-protect this file, or
@@ -26,11 +40,36 @@
 // In either case, put your version under source-code control, e.g. SVN
 
 #include "str_util.h"
+
 #include "sched_config.h"
+#include "main.h"
 #include "sched_msgs.h"
 #include "sched_send.h"
-
+#include "sched_score.h"
+#include "sched_shmem.h"
+#include "sched_version.h"
 #include "sched_plan.h"
+
+bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
+#if 1
+    // example: for CUDA app, wu.batch is the minimum number of processors.
+    // Don't send if #procs is less than this.
+    //
+    if (!strcmp(app.name, "foobar") && bav.host_usage.ncudas) {
+        if (!g_request->coproc_cuda) {
+            log_messages.printf(MSG_CRITICAL,
+                "[HOST#%d] expected CUDA device\n", g_reply->host.id
+            );
+            return true;
+        }
+        int n = g_request->coproc_cuda->prop.multiProcessorCount;
+        if (n < wu.batch) {
+            return true;
+        }
+    }
+#endif
+    return false;
+}
 
 int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
     if (!strcmp(plan_class, "mt")) {
@@ -154,4 +193,103 @@ bool app_plan_uses_gpu(const char* plan_class) {
         return true;
     }
     return false;
+}
+
+// compute a "score" for sending this job to this host.
+// Return false if the WU is infeasible.
+// Otherwise set est_time and disk_usage.
+//
+bool JOB::get_score() {
+    WORKUNIT wu;
+    int retval;
+
+    WU_RESULT& wu_result = ssp->wu_results[index];
+    wu = wu_result.workunit;
+    app = ssp->lookup_app(wu.appid);
+
+    score = 0;
+
+    // Find the best app version to use.
+    //
+    bavp = get_app_version(wu, true);
+    if (!bavp) return false;
+
+    retval = wu_is_infeasible_fast(wu, *app, *bavp);
+    if (retval) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] [HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
+                g_reply->host.id, wu.id, wu.name, infeasible_string(retval)
+            );
+        }
+        return false;
+    }
+
+    score = 1;
+
+#if 1
+    // example: for CUDA app, wu.batch is the minimum number of processors.
+    // add min/actual to score
+    // (this favors sending jobs that need lots of procs to GPUs that have them)
+    // IF YOU USE THIS, USE THE PART IN wu_is_infeasible_custom() ALSO
+    //
+    if (!strcmp(app->name, "foobar") && bavp->host_usage.ncudas) {
+        int n = g_request->coproc_cuda->prop.multiProcessorCount;
+        score += ((double)wu.batch)/n;
+    }
+#endif
+
+    // check if user has selected apps,
+    // and send beta work to beta users
+    //
+    if (app->beta && !config.distinct_beta_apps) {
+        if (g_wreq->allow_beta_work) {
+            score += 1;
+        } else {
+            return false;
+        }
+    } else {
+        if (app_not_selected(wu)) {
+            if (!g_wreq->allow_non_preferred_apps) {
+                return false;
+            } else {
+            // Allow work to be sent, but it will not get a bump in its score
+            }
+        } else {
+            score += 1;
+        }
+    }
+            
+    // if job needs to get done fast, send to fast/reliable host
+    //
+    if (g_wreq->reliable && (wu_result.need_reliable)) {
+        score += 1;
+    }
+    
+    // if job already committed to an HR class,
+    // try to send to host in that class
+    //
+    if (wu_result.infeasible_count) {
+        score += 1;
+    }
+
+    // Favor jobs that will run fast
+    //
+    score += bavp->host_usage.flops/1e9;
+
+    // match large jobs to fast hosts
+    //
+    if (config.job_size_matching) {
+        double host_stdev = (g_reply->host.p_fpops - ssp->perf_info.host_fpops_mean)/ ssp->perf_info.host_fpops_stdev;
+        double diff = host_stdev - wu_result.fpops_size;
+        score -= diff*diff;
+    }
+
+    // TODO: If user has selected some apps but will accept jobs from others,
+    // try to send them jobs from the selected apps
+    //
+
+    est_time = estimate_duration(wu, *bavp);
+    disk_usage = wu.rsc_disk_bound;
+    return true;
 }

@@ -619,6 +619,12 @@ static inline int check_deadline(
 int wu_is_infeasible_fast(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
     int retval;
 
+    // project-specific check
+    //
+    if (wu_is_infeasible_custom(wu, app, bav)) {
+        return INFEASIBLE_CUSTOM;
+    }
+
     // homogeneous redundancy, quick check
     //
     if (app_hr_type(app)) {
