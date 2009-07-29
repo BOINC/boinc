@@ -141,11 +141,11 @@ cgi_sources = \
     main.cpp \
     sched_array.cpp \
     sched_assign.cpp \
+    sched_customize.cpp \
     sched_hr.cpp \
     sched_resend.cpp \
     sched_locality.cpp \
     sched_result.cpp \
-    sched_plan.cpp \
     sched_score.cpp \
     sched_send.cpp \
     sched_timezone.cpp \

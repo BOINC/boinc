@@ -6653,3 +6653,19 @@ David  29 July 2009
     sched/
         sched_score.cpp
         server_types.h
+
+David  29 July 2009
+    - scheduler: on second thought, it would be better to add the above
+        feature without requiring use of score-based scheduling.
+        So add a new customizable function, wu_is_infeasible_custom(),
+        where projects can put job-specific checks.
+
+        Also, move customizable functions (of which there are now 4)
+        to a new file, sched_customize.cpp.
+
+    sched/
+        Makefile.am
+        sched_customize.cpp,h
+        sched_version.cpp
+        sched_send.cpp
+        handle_request.cpp

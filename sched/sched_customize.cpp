@@ -48,7 +48,7 @@
 #include "sched_score.h"
 #include "sched_shmem.h"
 #include "sched_version.h"
-#include "sched_plan.h"
+#include "sched_customize.h"
 
 bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
 #if 1

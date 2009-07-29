@@ -48,7 +48,7 @@
 #include "sched_locality.h"
 #include "sched_timezone.h"
 #include "sched_assign.h"
-#include "sched_plan.h"
+#include "sched_customize.h"
 
 #include "sched_send.h"
 

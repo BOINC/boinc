@@ -20,7 +20,7 @@
 #include "main.h"
 #include "sched_msgs.h"
 #include "sched_config.h"
-#include "sched_plan.h"
+#include "sched_customize.h"
 #include "server_types.h"
 
 #include "sched_version.h"
