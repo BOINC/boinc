@@ -152,7 +152,7 @@ public:
     );
     bool http_op_done();
 	int set_proxy(PROXY_INFO *new_pi);
-	void setupProxyCurl(bool no_proxy);
+	void setup_proxy_session(bool no_proxy);
 	bool no_proxy_for_url(const char* url);
 	bool is_active() {
 		return curlEasy!=NULL;
@@ -196,6 +196,11 @@ public:
 
 };
 
-extern void parse_url(const char* url, char* host, int &port, char* file);
+#define PARSEURL_PROTOCOL_UNKNOWN 0
+#define PARSEURL_PROTOCOL_HTTP    1
+#define PARSEURL_PROTOCOL_HTTPS   2
+#define PARSEURL_PROTOCOL_SOCKS   3
+
+extern void parse_url(const char* url, int &protocol, char* host, int &port, char* file);
 
 #endif //__HTTP_H

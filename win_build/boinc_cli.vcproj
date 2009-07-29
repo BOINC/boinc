@@ -1271,6 +1271,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\http_curl_win.h"
+				>
+			</File>
+			<File
 				RelativePath="..\client\log_flags.h"
 				>
 			</File>

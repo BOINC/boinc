@@ -44,8 +44,12 @@
 #include "file_names.h"
 #include "client_msgs.h"
 #include "base64.h"
-#include "http_curl.h"
 #include "client_state.h"
+#include "http_curl.h"
+#ifdef _WIN32
+#include "win_util.h"
+#include "http_curl_win.h"
+#endif
 
 using std::min;
 using std::vector;
@@ -56,41 +60,45 @@ static char g_user_agent_string[256] = {""};
 static const char g_content_type[] = {"Content-Type: application/x-www-form-urlencoded"};
 
 
-// Breaks a HTTP URL down into its server, port and file components
+// Breaks a URL down into its protocol, server, port and file components
 // format of url:
 // [http[s]://]host.dom.dom[:port][/dir/file]
+// [socks]://]host.dom.dom[:port][/dir/file]
 //
-void parse_url(const char* url, char* host, int &port, char* file) {
+void parse_url(const char* url, int &protocol, char* host, int &port, char* file) {
     char* p;
     char buf[256];
     bool bSSL = false;
 
     //const short csiLen = bSSL ? 8 : 7; // get right size of http/s string comparator
 
-    // strip off http:// if present
+    // strip off the protocol if present
     //
-    //if (strncmp(url, (bSSL ? "https://" : "http://"), csiLen) == 0) {
-    if (strncmp(url, "http://", 7) == 0) {
+    if        (strncmp(url, "http://", 7) == 0) {
         safe_strcpy(buf, url+7);
-    } else { 
-        // wait, may be https://
-        if (strncmp(url, "https://", 8) == 0) {
-            safe_strcpy(buf, url+8);
-            bSSL = true; // retain the fact that this was a secure http url
-        }
-        else { // no http:// or https:// prepended on url
-            safe_strcpy(buf, url);
-        }
+        protocol = PARSEURL_PROTOCOL_HTTP;
+    } else if (strncmp(url, "https://", 8) == 0) {
+        safe_strcpy(buf, url+8);
+        protocol = PARSEURL_PROTOCOL_HTTPS;
+        bSSL = true; // retain the fact that this was a secure http url
+    } else if (strncmp(url, "socks://", 8) == 0) {
+        safe_strcpy(buf, url+8);
+        protocol = PARSEURL_PROTOCOL_SOCKS;
+    } else {
+        safe_strcpy(buf, url);
+        protocol = PARSEURL_PROTOCOL_UNKNOWN;
     }
 
     // parse and strip off file part if present
     //
     p = strchr(buf, '/');
-    if (p) {
+    if (p && file) {
         strcpy(file, p+1);
         *p = 0;
     } else {
-        strcpy(file, "");
+        if (file) {
+            strcpy(file, "");
+        }
     }
 
     // parse and strip off port if present
@@ -261,29 +269,31 @@ bool HTTP_OP::no_proxy_for_url(const char* url) {
 	char hostnoproxy[256];	
 	char file[256];
 	char noproxy[256];
+	int protocol;
 	int port;
 
 	// extract the host from the url
-	parse_url(url,hosturl,port,file);
+	parse_url(url, protocol, hosturl, port, file);
 
 	// tokenize the noproxy-entry and check for identical hosts
     //
-	strcpy(noproxy,pi.noproxy_hosts);
+	strcpy(noproxy, pi.noproxy_hosts);
 	char* token = strtok(noproxy,",");
 	while(token!= NULL) {
 		// extract the host from the no_proxy url
-		parse_url(token,hostnoproxy,port,file);
-		if (!strcmp(hostnoproxy,hosturl)) {
+		parse_url(token, protocol, hostnoproxy, port, file);
+		if (!strcmp(hostnoproxy, hosturl)) {
 			if (log_flags.proxy_debug) {
 				msg_printf(0, MSG_INFO, "[proxy_debug] disabling proxy for %s",url);
 			}
 			return true;
 		}
-		token = strtok(NULL,",");
+		token = strtok(NULL, ",");
 	}
 	if (log_flags.proxy_debug) {
 		msg_printf(0, MSG_INFO, "[proxy_debug] returning false");
 	}
+
 	return false;
 }
 
@@ -453,7 +463,7 @@ int HTTP_OP::libcurl_exec(
 	
 	// setup any proxy they may need
     //
-    setupProxyCurl(no_proxy_for_url(url));
+    setup_proxy_session(no_proxy_for_url(url));
 
 
     // set the content type in the header
@@ -801,7 +811,6 @@ int libcurl_debugfunction(
 }
 
 
-void HTTP_OP::setupProxyCurl(bool no_proxy) {
 // PROXY_INFO pi useful members:
 //  pi.http_server_name
 //  pi.http_server_port
@@ -825,7 +834,7 @@ void HTTP_OP::setupProxyCurl(bool no_proxy) {
 //    CURLOPT_HTTPAUTH -- pass in one of CURLAUTH_BASIC, CURLAUTH_DIGEST, 
 //        CURLAUTH_GSSNEGOTIATE, CURLAUTH_NTLM, CURLAUTH_ANY, CURLAUTH_ANYSAFE
 //    CURLOPT_PROXYAUTH -- "or" | the above bitmasks -- only basic, digest, ntlm work
-
+void HTTP_OP::setup_proxy_session(bool no_proxy) {
     CURLcode curlErr;
 
     // CMC Note: the string szCurlProxyUserPwd must remain in memory
@@ -835,14 +844,104 @@ void HTTP_OP::setupProxyCurl(bool no_proxy) {
     strcpy(szCurlProxyUserPwd, "");
 
 	if (no_proxy) {
-		curlErr = curl_easy_setopt(curlEasy,CURLOPT_PROXY,"");
+		curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, "");
 		return;
 	}
 
+#ifdef _WIN32
+
+    // Windows provides an API on Windows 2000 or higher to auto detect
+    // the need for proxy servers using the WPAD and PAC standards.
+    //
+    HMODULE hModWinHttp = LoadLibrary("winhttp.dll");
+    if (hModWinHttp) {
+        pfnWinHttpOpen pWinHttpOpen = 
+            (pfnWinHttpOpen)GetProcAddress(hModWinHttp, "WinHttpOpen");
+        pfnWinHttpCloseHandle pWinHttpCloseHandle = 
+            (pfnWinHttpCloseHandle)(GetProcAddress(hModWinHttp, "WinHttpCloseHandle"));
+        pfnWinHttpGetProxyForUrl pWinHttpGetProxyForUrl = 
+            (pfnWinHttpGetProxyForUrl)(GetProcAddress(hModWinHttp, "WinHttpGetProxyForUrl"));
+
+        if (pWinHttpOpen && pWinHttpCloseHandle && pWinHttpGetProxyForUrl) {
+            HINTERNET hWinHttp = NULL;
+            WINHTTP_AUTOPROXY_OPTIONS autoproxy_options;
+            WINHTTP_PROXY_INFO proxy_info;
+            int proxy_protocol = 0;
+            
+            memset(&autoproxy_options, 0, sizeof(autoproxy_options));
+            memset(&proxy_info, 0, sizeof(proxy_info));
+            
+            hWinHttp = pWinHttpOpen(
+                A2W(std::string(g_user_agent_string)).c_str(),
+                WINHTTP_ACCESS_TYPE_NO_PROXY,
+                WINHTTP_NO_PROXY_NAME,
+                WINHTTP_NO_PROXY_BYPASS,
+                NULL
+            );
+
+            autoproxy_options.dwFlags =
+                WINHTTP_AUTOPROXY_AUTO_DETECT;
+            autoproxy_options.dwAutoDetectFlags =
+                WINHTTP_AUTO_DETECT_TYPE_DHCP | WINHTTP_AUTO_DETECT_TYPE_DNS_A;
+            autoproxy_options.fAutoLogonIfChallenged = TRUE;
+
+
+            if (pWinHttpGetProxyForUrl( 
+                    hWinHttp, A2W(std::string(m_url)).c_str(), &autoproxy_options, &proxy_info 
+                )
+            ) {
+                std::string proxy(W2A(std::wstring(proxy_info.lpszProxy)));
+
+                if (!proxy.empty()) {
+                    // Trim string if more than one proxy is defined
+                    // proxy list is defined as:
+                    //   ([<scheme>=][<scheme>"://"]<server>[":"<port>])
+                    proxy.erase(proxy.find(';'));
+                    proxy.erase(proxy.find(' '));
+
+                    parse_url(proxy.c_str(), proxy_protocol, pi.autodetect_server_name, pi.autodetect_server_port, NULL);
+
+                    if (log_flags.proxy_debug) {
+                        msg_printf(0, MSG_INFO, 
+                            "[proxy_debug] HTTP_OP::setup_proxy_session(): setting up automatic proxy %s:%d",
+                            pi.autodetect_server_name, pi.autodetect_server_port
+                        );
+                    }
+
+                    switch(proxy_protocol) {
+                        case PARSEURL_PROTOCOL_SOCKS:
+                            curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
+                            break;
+                        case PARSEURL_PROTOCOL_HTTP:
+                        case PARSEURL_PROTOCOL_HTTPS:
+                        default:
+                            curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+                            break;
+                    }
+                    curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.autodetect_server_port);
+                    curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.autodetect_server_name);
+                }
+
+                // Clean up
+                if (proxy_info.lpszProxy) GlobalFree(proxy_info.lpszProxy);
+                if (proxy_info.lpszProxyBypass) GlobalFree(proxy_info.lpszProxyBypass);
+            }
+            if (hWinHttp) pWinHttpCloseHandle(hWinHttp);
+        }
+        FreeLibrary(hModWinHttp);
+    }
+
+#endif
+
 	if (pi.use_http_proxy) {
-		if (log_flags.proxy_debug) {
-			msg_printf(0, MSG_INFO,"[proxy_debug]: setting up proxy %s:%d",pi.http_server_name,pi.http_server_port);
+
+        if (log_flags.proxy_debug) {
+			msg_printf(
+                0, MSG_INFO, "[proxy_debug]: setting up proxy %s:%d", 
+                pi.http_server_name, pi.http_server_port
+            );
 	    }
+
         // setup a basic http proxy
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.http_server_port);
@@ -863,28 +962,31 @@ void HTTP_OP::setupProxyCurl(bool no_proxy) {
             sprintf(szCurlProxyUserPwd, "%s:%s", pi.http_user_name, pi.http_user_passwd);
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);
         }
-    } else {    
-        if (pi.use_socks_proxy) {
-            // pi.socks_version selects between socks5 & socks4.
-            // But libcurl only supports socks5, so ignore it.
-            //
-            curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
-            curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.socks_server_port);
-            curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.socks_server_name);
-            // libcurl uses blocking sockets with socks proxy, so limit timeout.
-            // - imlemented with local patch to libcurl
-            curlErr = curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 20L);
 
-            if (
-                strlen(pi.socks5_user_passwd)>0 || strlen(pi.socks5_user_name)>0
-            ) {
-                sprintf(szCurlProxyUserPwd, "%s:%s", pi.socks5_user_name, pi.socks5_user_passwd);
-                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);
-                curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY & ~CURLAUTH_NTLM);
-            }
+    } else if (pi.use_socks_proxy) {
+
+        // pi.socks_version selects between socks5 & socks4.
+        // But libcurl only supports socks5, so ignore it.
+        //
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.socks_server_port);
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.socks_server_name);
+        // libcurl uses blocking sockets with socks proxy, so limit timeout.
+        // - imlemented with local patch to libcurl
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 20L);
+
+        if (
+            strlen(pi.socks5_user_passwd)>0 || strlen(pi.socks5_user_name)>0
+        ) {
+            sprintf(szCurlProxyUserPwd, "%s:%s", pi.socks5_user_name, pi.socks5_user_passwd);
+            curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);
+            curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY & ~CURLAUTH_NTLM);
         }
+
     }
+
 }
+
 
 // the file descriptor sets need to be global so libcurl has access always
 //
