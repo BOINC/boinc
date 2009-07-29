@@ -110,7 +110,7 @@ bool JOB::get_score() {
 
     score = 0;
 
-    // Find the app_version for the client's platform.
+    // Find the best app version to use.
     //
     bavp = get_app_version(wu, true);
     if (!bavp) return false;
@@ -127,6 +127,27 @@ bool JOB::get_score() {
     }
 
     score = 1;
+
+#if 0
+    // example: for CUDA app, wu.batch is the minimum number of processors.
+    // Don't send if #procs is less than this.
+    // Otherwise add min/actual to score
+    // (this favors sending jobs that need lots of procs to GPUs that have them)
+    //
+    if (!strcmp(app->name, "foobar") && bavp->host_usage.ncudas) {
+        if (!g_request->coproc_cuda) {
+            log_messages.printf(MSG_CRITICAL,
+                "[HOST#%d] expected CUDA device\n", g_reply->host.id
+            );
+            return false;
+        }
+        int n = g_request->coproc_cuda->prop.multiProcessorCount;
+        if (n < wu.batch) {
+            return false;
+        }
+        score += ((double)wu.batch)/n;
+    }
+#endif
 
     // check if user has selected apps,
     // and send beta work to beta users

@@ -257,6 +257,8 @@ struct BEST_APP_VERSION {
 
     // populated otherwise:
     APP_VERSION* avp;
+
+    // populated in either case:
     HOST_USAGE host_usage;
 
     BEST_APP_VERSION() {

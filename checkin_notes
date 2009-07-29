@@ -6638,3 +6638,18 @@ Rom    29 July 2009
     clientgui/
         AccountManagerPropertiesPage.cpp, .h
         ProjectPropertiesPage.cpp, .h
+
+David  29 July 2009
+    - scheduler: Gianni requested a feature where jobs have a
+        "min # of GPU processors" attribute (stored in batch)
+        and are sent only to hosts whose GPUs have at least this #.
+
+        The logical place for this is in the scoring function, JOB::get_score().
+        I added a clause (#ifdef'd out) that does this.
+        It rejects the WU if #procs is too small,
+        otherwise it adds min/actual to the score.
+        This favors sending jobs that need lots of procs to GPUs that have them.
+        
+    sched/
+        sched_score.cpp
+        server_types.h
