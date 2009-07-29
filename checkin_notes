@@ -6669,3 +6669,13 @@ David  29 July 2009
         sched_version.cpp
         sched_send.cpp
         handle_request.cpp
+
+David  29 July 2009
+    - client: to enumerate CUDA devices, use the functions in libcuda.so
+        (which ships with driver) rather than libcudart.so
+        (this eliminates the need to bundle libcudart.so with the client)
+        The functions are documented here:
+        http://developer.download.nvidia.com/compute/cuda/2_3/toolkit/docs/online/index.html
+
+    lib/
+        coproc.cpp

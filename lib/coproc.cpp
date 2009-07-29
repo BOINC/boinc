@@ -175,77 +175,70 @@ void COPROC_CUDA::get(
 
     typedef int (__stdcall *PCGDC)(int *count);
     typedef int (__stdcall *PCGDP)(struct cudaDeviceProp *prop, int device);
+    typedef int (__stdcall *PCGDV)(int* version);
 
     PCGDC __cudaGetDeviceCount = NULL;
     PCGDP __cudaGetDeviceProperties = NULL;
+    PCGDV __cudaGetDriverVersion = NULL;
 
-    HMODULE cudalib = LoadLibrary("cudart.dll");
+    HMODULE cudalib = LoadLibrary("nvcuda.dll");
     if (!cudalib) {
-        strings.push_back("Can't load library cudart.dll");
+        strings.push_back("Can't load library nvcuda.dll");
         return;
     }
 
-    __cudaGetDeviceCount = (PCGDC)GetProcAddress( cudalib, "cudaGetDeviceCount" );
+    __cudaGetDeviceCount = (PCGDC)GetProcAddress(cudalib, "cuDeviceGetCount");
     if (!__cudaGetDeviceCount) {
-        strings.push_back("Library doesn't have cudaGetDeviceCount()");
+        strings.push_back("Library doesn't have cuDeviceGetCount()");
         return;
     }
 
-    __cudaGetDeviceProperties = (PCGDP)GetProcAddress( cudalib, "cudaGetDeviceProperties" );
+    __cudaGetDeviceProperties = (PCGDP)GetProcAddress(cudalib, "cuDeviceGetProperties");
     if (!__cudaGetDeviceProperties) {
-        strings.push_back("Library doesn't have cudaGetDeviceProperties()");
+        strings.push_back("Library doesn't have cuDeviceGetProperties()");
         return;
     }
 
-#ifndef SIM
-    NvAPI_Status nvapiStatus;
-    NvDisplayHandle hDisplay;
-    NV_DISPLAY_DRIVER_VERSION Version;
-    memset(&Version, 0, sizeof(Version));
-    Version.version = NV_DISPLAY_DRIVER_VERSION_VER;
-
-    NvAPI_Initialize();
-    for (int i=0; ; i++) {
-        nvapiStatus = NvAPI_EnumNvidiaDisplayHandle(i, &hDisplay);
-        if (nvapiStatus != NVAPI_OK) break;
-        nvapiStatus = NvAPI_GetDisplayDriverVersion(hDisplay, &Version);
-        if (nvapiStatus == NVAPI_OK) break;
+    __cudaGetDriverVersion = (PCGDV)GetProcAddress(cudalib, "cuDriverGetVersion" );
+    if (!__cudaGetDeviceProperties) {
+        strings.push_back("Library doesn't have cuDriverGetVersion()");
+        return;
     }
-#endif
 
 #else
     void* cudalib;
     void (*__cudaGetDeviceCount)(int*);
     void (*__cudaGetDeviceProperties)(cudaDeviceProp*, int);
+    void (*__cudaGetDriverVersion)(int*);
 
 #ifdef __APPLE__
-    cudalib = dlopen("/usr/local/cuda/lib/libcudart.dylib", RTLD_NOW);
+    cudalib = dlopen("/usr/local/cuda/lib/libcuda.dylib", RTLD_NOW);
 #else
-    // libcudart.so is included with the BOINC install for linux,
-    // so look for it in the current dir.
-    //
-    cudalib = dlopen("./libcudart.so", RTLD_NOW);
-    if (!cudalib) {
-        // If that fails, look for it in the library search path
-        //
-        cudalib = dlopen("libcudart.so", RTLD_NOW);
-    }
+    cudalib = dlopen("libcuda.so", RTLD_NOW);
 #endif
     if (!cudalib) {
         strings.push_back("Can't load library libcudart");
         return;
     }
-    __cudaGetDeviceCount = (void(*)(int*)) dlsym(cudalib, "cudaGetDeviceCount");
+    __cudaGetDeviceCount = (void(*)(int*)) dlsym(cudalib, "cuDeviceGetCount");
     if(!__cudaGetDeviceCount) {
-        strings.push_back("Library doesn't have cudaGetDeviceCount()");
+        strings.push_back("Library doesn't have cuDeviceGetCount()");
         return;
     }
-    __cudaGetDeviceProperties = (void(*)(cudaDeviceProp*, int)) dlsym( cudalib, "cudaGetDeviceProperties" );
+    __cudaGetDeviceProperties = (void(*)(cudaDeviceProp*, int)) dlsym( cudalib, "cuDeviceGetProperties" );
     if (!__cudaGetDeviceProperties) {
-        strings.push_back("Library doesn't have cudaGetDeviceProperties()");
+        strings.push_back("Library doesn't have cuDeviceGetProperties()");
+        return;
+    }
+    __cudaGetDriverVersion = (void(*)(int*)) dlsym( cudalib, "cuDriverGetVersion" );
+    if (!__cudaGetDriverVersion) {
+        strings.push_back("Library doesn't have cuDriverGetVersion()");
         return;
     }
 #endif
+
+    int driver_version;
+    (*__cudaGetDriverVersion)(&driver_version);
 
     vector<COPROC_CUDA> gpus;
     (*__cudaGetDeviceCount)(&count);
@@ -257,11 +250,7 @@ void COPROC_CUDA::get(
         (*__cudaGetDeviceProperties)(&cc.prop, j);
         if (cc.prop.major <= 0) continue;  // major == 0 means emulation
         if (cc.prop.major > 100) continue;  // e.g. 9999 is an error
-#if defined(_WIN32) && !defined(SIM)
-        cc.drvVersion = Version.drvVersion;
-#else
-        cc.drvVersion = 0;
-#endif
+        cc.drvVersion = driver_version;
         cc.device_num = j;
         gpus.push_back(cc);
     }
