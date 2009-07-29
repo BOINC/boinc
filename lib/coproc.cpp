@@ -93,7 +93,7 @@ void COPROCS::summary_string(char* buf, int len) {
             COPROC_CUDA* cp2 = (COPROC_CUDA*) cp;
             int mem = (int)(cp2->prop.dtotalGlobalMem/MEGA);
             sprintf(buf2, "[CUDA|%s|%d|%dMB|%d]",
-                cp2->prop.name, cp2->count, mem, cp2->drvVersion
+                cp2->prop.name, cp2->count, mem, cp2->display_driver_version
             );
             strcat(bigbuf, buf2);
         }
@@ -149,8 +149,8 @@ int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2, bool loose) {
     if (c1.prop.major < c2.prop.major) return -1;
     if (c1.prop.minor > c2.prop.minor) return 1;
     if (c1.prop.minor < c2.prop.minor) return -1;
-    if (c1.drvVersion > c2.drvVersion) return 1; 
-    if (c1.drvVersion < c2.drvVersion) return -1; 
+    if (c1.cuda_version > c2.cuda_version) return 1; 
+    if (c1.cuda_version < c2.cuda_version) return -1; 
     if (loose) {
         if (c1.prop.totalGlobalMem > 1.4*c2.prop.totalGlobalMem) return 1;
         if (c1.prop.totalGlobalMem < .7* c2.prop.totalGlobalMem) return -1;
@@ -169,17 +169,29 @@ void COPROC_CUDA::get(
     COPROCS& coprocs, vector<string>& strings,
     bool use_all    // if false, use only those equivalent to most capable
 ) {
-    int count;
+    int count, retval;
 
 #ifdef _WIN32
 
     typedef int (__stdcall *PCGDC)(int *count);
     typedef int (__stdcall *PCGDP)(struct cudaDeviceProp *prop, int device);
     typedef int (__stdcall *PCGDV)(int* version);
+    typedef int (__stdcall *PCGDI)(int);
+    typedef int (__stdcall *PCGDG)(int*, int);
+    typedef int (__stdcall *PCGDA)(int*, int, int);
+    typedef int (__stdcall *PCGDN)(char*, int, int);
+    typedef int (__stdcall *PCGDM)(unsigned int*, int);
+    typedef int (__stdcall *PCGDCC)(int*, int*, int);
 
     PCGDC __cudaGetDeviceCount = NULL;
     PCGDP __cudaGetDeviceProperties = NULL;
     PCGDV __cudaGetDriverVersion = NULL;
+    PCGDI __cudaInit = NULL;
+    PCGDG __cuDeviceGet = NULL;
+    PCGDA __cuDeviceGetAttribute = NULL;
+    PCGDN __cuDeviceGetName = NULL;
+    PCGDM __cuDeviceTotalMem = NULL;
+    PCGDCC __cuDeviceComputeCapability = NULL;
 
     HMODULE cudalib = LoadLibrary("nvcuda.dll");
     if (!cudalib) {
@@ -204,7 +216,28 @@ void COPROC_CUDA::get(
         strings.push_back("Library doesn't have cuDriverGetVersion()");
         return;
     }
+    __cudaInit = (PCGDI)GetProcAddress(cudalib, "cuInit" );
+    __cuDeviceGet = (PCGDG)GetProcAddress(cudalib, "cuDeviceGet" );
+    __cuDeviceGetAttribute = (PCGDA)GetProcAddress(cudalib, "cuDeviceGetAttribute" );
+    __cuDeviceGetName = (PCGDN)GetProcAddress(cudalib, "cuDeviceGetName" );
+    __cuDeviceTotalMem = (PCGDM)GetProcAddress(cudalib, "cuDeviceTotalMem" );
+    __cuDeviceComputeCapability = (PCGDCC)GetProcAddress(cudalib, "cuDeviceComputeCapability" );
 
+    #ifndef SIM
+    NvAPI_Status nvapiStatus;
+    NvDisplayHandle hDisplay;
+    NV_DISPLAY_DRIVER_VERSION Version;
+    memset(&Version, 0, sizeof(Version));
+    Version.version = NV_DISPLAY_DRIVER_VERSION_VER;
+
+    NvAPI_Initialize();
+    for (int i=0; ; i++) {
+        nvapiStatus = NvAPI_EnumNvidiaDisplayHandle(i, &hDisplay);
+        if (nvapiStatus != NVAPI_OK) break;
+        nvapiStatus = NvAPI_GetDisplayDriverVersion(hDisplay, &Version);
+        if (nvapiStatus == NVAPI_OK) break;
+    }
+#endif
 #else
     void* cudalib;
     void (*__cudaGetDeviceCount)(int*);
@@ -237,20 +270,50 @@ void COPROC_CUDA::get(
     }
 #endif
 
-    int driver_version;
-    (*__cudaGetDriverVersion)(&driver_version);
+
+    retval = (*__cudaInit)(0);
+
+    int cuda_version;
+    retval = (*__cudaGetDriverVersion)(&cuda_version);
 
     vector<COPROC_CUDA> gpus;
-    (*__cudaGetDeviceCount)(&count);
+    retval = (*__cudaGetDeviceCount)(&count);
     int j;
     unsigned int i;
     COPROC_CUDA cc;
     string s;
     for (j=0; j<count; j++) {
-        (*__cudaGetDeviceProperties)(&cc.prop, j);
+        memset(&cc.prop, 0, sizeof(cc.prop));
+        int device;
+        retval = (*__cuDeviceGet)(&device, j);
+        (*__cuDeviceGetName)(cc.prop.name, 256, device);
+        (*__cuDeviceComputeCapability)(&cc.prop.major, &cc.prop.minor, device);
+        (*__cuDeviceTotalMem)(&cc.prop.totalGlobalMem, device);
+        (*__cuDeviceGetAttribute)(&cc.prop.sharedMemPerBlock, CU_DEVICE_ATTRIBUTE_SHARED_MEMORY_PER_BLOCK, device);
+        (*__cuDeviceGetAttribute)(&cc.prop.regsPerBlock, CU_DEVICE_ATTRIBUTE_REGISTERS_PER_BLOCK, device);
+        (*__cuDeviceGetAttribute)(&cc.prop.warpSize, CU_DEVICE_ATTRIBUTE_WARP_SIZE, device);
+        (*__cuDeviceGetAttribute)(&cc.prop.memPitch, CU_DEVICE_ATTRIBUTE_MAX_PITCH, device);
+        retval = (*__cuDeviceGetAttribute)(&cc.prop.maxThreadsPerBlock, CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK, device);
+        retval = (*__cuDeviceGetAttribute)(&cc.prop.maxThreadsDim[0], CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X, device);
+        (*__cuDeviceGetAttribute)(&cc.prop.maxThreadsDim[1], CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y, device);
+        (*__cuDeviceGetAttribute)(&cc.prop.maxThreadsDim[2], CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Z, device);
+        (*__cuDeviceGetAttribute)(&cc.prop.maxGridSize[0], CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_X, device);
+        (*__cuDeviceGetAttribute)(&cc.prop.maxGridSize[1], CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Y, device);
+        (*__cuDeviceGetAttribute)(&cc.prop.maxGridSize[2], CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Z, device);
+        (*__cuDeviceGetAttribute)(&cc.prop.clockRate, CU_DEVICE_ATTRIBUTE_CLOCK_RATE, device);
+        (*__cuDeviceGetAttribute)(&cc.prop.totalConstMem, CU_DEVICE_ATTRIBUTE_TOTAL_CONSTANT_MEMORY, device);
+        (*__cuDeviceGetAttribute)(&cc.prop.textureAlignment, CU_DEVICE_ATTRIBUTE_TEXTURE_ALIGNMENT, device);
+        (*__cuDeviceGetAttribute)(&cc.prop.deviceOverlap, CU_DEVICE_ATTRIBUTE_GPU_OVERLAP, device);
+        retval = (*__cuDeviceGetAttribute)(&cc.prop.multiProcessorCount, CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT, device);
+        //retval = (*__cudaGetDeviceProperties)(&cc.prop, device);
         if (cc.prop.major <= 0) continue;  // major == 0 means emulation
         if (cc.prop.major > 100) continue;  // e.g. 9999 is an error
-        cc.drvVersion = driver_version;
+#if defined(_WIN32) && !defined(SIM)
+        cc.display_driver_version = Version.drvVersion;
+#else
+        cc.display_driver_version = 0;
+#endif
+        cc.cuda_version = cuda_version;
         cc.device_num = j;
         gpus.push_back(cc);
     }
@@ -294,8 +357,8 @@ void COPROC_CUDA::get(
 }
 
 void COPROC_CUDA::description(char* buf) {
-	sprintf(buf, "%s (driver version %d, compute capability %d.%d, %.0fMB, est. %.0fGFLOPS)",
-		prop.name, drvVersion, prop.major, prop.minor, prop.totalGlobalMem/(1024.*1024.), flops_estimate()/1e9
+	sprintf(buf, "%s (driver version %d, CUDA version %d, compute capability %d.%d, %.0fMB, est. %.0fGFLOPS)",
+		prop.name, display_driver_version, cuda_version, prop.major, prop.minor, prop.totalGlobalMem/(1024.*1024.), flops_estimate()/1e9
 	);
 }
 
@@ -337,6 +400,7 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
         "   <req_instances>%d</req_instances>\n"
         "   <estimated_delay>%f</estimated_delay>\n"
         "   <drvVersion>%d</drvVersion>\n"
+        "   <cudaVersion>%d</cudaVersion>\n"
         "   <totalGlobalMem>%u</totalGlobalMem>\n"
         "   <sharedMemPerBlock>%u</sharedMemPerBlock>\n"
         "   <regsPerBlock>%d</regsPerBlock>\n"
@@ -358,7 +422,8 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
         req_secs,
         req_instances,
         estimated_delay,
-        drvVersion,
+        display_driver_version,
+        cuda_version,
         (unsigned int)prop.totalGlobalMem,
         (unsigned int)prop.sharedMemPerBlock,
         prop.regsPerBlock,
@@ -384,6 +449,8 @@ void COPROC_CUDA::clear() {
     req_secs = 0;
     req_instances = 0;
     estimated_delay = -1;   // mark as absent
+    cuda_version = 0;
+    display_driver_version = 0;
     strcpy(prop.name, "");
     prop.totalGlobalMem = 0;
     prop.sharedMemPerBlock = 0;
@@ -419,7 +486,8 @@ int COPROC_CUDA::parse(FILE* fin) {
         if (parse_int(buf, "<req_instances>", req_instances)) continue;
         if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
         if (parse_str(buf, "<name>", prop.name, sizeof(prop.name))) continue;
-        if (parse_int(buf, "<drvVersion>", drvVersion)) continue;
+        if (parse_int(buf, "<drvVersion>", display_driver_version)) continue;
+        if (parse_int(buf, "<cudaVersion>", cuda_version)) continue;
         if (parse_double(buf, "<totalGlobalMem>", prop.dtotalGlobalMem)) continue;
         if (parse_int(buf, "<sharedMemPerBlock>", (int&)prop.sharedMemPerBlock)) continue;
         if (parse_int(buf, "<regsPerBlock>", prop.regsPerBlock)) continue;

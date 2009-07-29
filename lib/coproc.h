@@ -174,29 +174,29 @@ struct COPROCS {
 //
 struct cudaDeviceProp {
   char   name[256];
-  size_t totalGlobalMem;
+  unsigned int totalGlobalMem;
     // not used on the server; dtotalGlobalMem is used instead
     // (since some boards have >= 4GB)
-  size_t sharedMemPerBlock;
+  int sharedMemPerBlock;
   int    regsPerBlock;
   int    warpSize;
-  size_t memPitch;
+  int memPitch;
   int    maxThreadsPerBlock;
   int    maxThreadsDim[3];
   int    maxGridSize[3]; 
   int    clockRate;
-  size_t totalConstMem; 
+  int totalConstMem; 
   int    major;
   int    minor;
-  size_t textureAlignment;
+  int textureAlignment;
   int    deviceOverlap;
   int    multiProcessorCount;
-  int    __cudaReserved[40];
   double dtotalGlobalMem;   // not defined in client
 };
 
 struct COPROC_CUDA : public COPROC {
-    int drvVersion;  // display driver version, obtained from NVAPI
+    int cuda_version;  // CUDA runtime version
+    int display_driver_version;
     cudaDeviceProp prop;
 
 #ifndef _USING_FCGI_
@@ -221,5 +221,28 @@ struct COPROC_CUDA : public COPROC {
 };
 
 void fake_cuda(COPROCS&, int);
+
+enum  	CUdevice_attribute_enum {
+  CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK = 1,
+  CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X = 2,
+  CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y = 3,
+  CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Z = 4,
+  CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_X = 5,
+  CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Y = 6,
+  CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Z = 7,
+  CU_DEVICE_ATTRIBUTE_SHARED_MEMORY_PER_BLOCK = 8,
+  CU_DEVICE_ATTRIBUTE_TOTAL_CONSTANT_MEMORY = 9,
+  CU_DEVICE_ATTRIBUTE_WARP_SIZE = 10,
+  CU_DEVICE_ATTRIBUTE_MAX_PITCH = 11,
+  CU_DEVICE_ATTRIBUTE_REGISTERS_PER_BLOCK = 12,
+  CU_DEVICE_ATTRIBUTE_CLOCK_RATE = 13,
+  CU_DEVICE_ATTRIBUTE_TEXTURE_ALIGNMENT = 14,
+  CU_DEVICE_ATTRIBUTE_GPU_OVERLAP = 15,
+  CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT = 16,
+  CU_DEVICE_ATTRIBUTE_KERNEL_EXEC_TIMEOUT = 17,
+  CU_DEVICE_ATTRIBUTE_INTEGRATED = 18,
+  CU_DEVICE_ATTRIBUTE_CAN_MAP_HOST_MEMORY = 19,
+  CU_DEVICE_ATTRIBUTE_COMPUTE_MODE = 20
+};
 
 #endif
