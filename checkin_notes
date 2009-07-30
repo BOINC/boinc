@@ -6154,3 +6154,12 @@ Rom    29 July 2009
         proxy_info.h
         util.cpp
         win_util.h
+
+Rom    29 July 2009
+    - Tag for 6.8.14 release, all platforms
+      boinc_core_release_6_8_14
+
+    /
+        configure.ac
+        version.h
+
