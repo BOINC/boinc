@@ -51,7 +51,7 @@
 #include "sched_customize.h"
 
 bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
-#if 1
+#if 0
     // example: for CUDA app, wu.batch is the minimum number of processors.
     // Don't send if #procs is less than this.
     //
@@ -117,11 +117,11 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             return PLAN_REJECT_CUDA_VERSION;
         } 
 
-        if (cp->drvVersion && cp->drvVersion < PLAN_CUDA_MIN_DRIVER_VERSION) {
+        if (cp->display_driver_version && cp->display_driver_version < PLAN_CUDA_MIN_DRIVER_VERSION) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] NVIDIA driver version %d < PLAN_CUDA_MIN_DRIVER_VERSION\n",
-                    cp->drvVersion
+                    cp->display_driver_version
                 );
             }
             return PLAN_REJECT_NVIDIA_DRIVER_VERSION;
@@ -227,7 +227,7 @@ bool JOB::get_score() {
 
     score = 1;
 
-#if 1
+#if 0
     // example: for CUDA app, wu.batch is the minimum number of processors.
     // add min/actual to score
     // (this favors sending jobs that need lots of procs to GPUs that have them)

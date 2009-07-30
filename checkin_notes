@@ -6694,3 +6694,9 @@ Rom    29 July 2009
         proxy_info.h
         util.cpp
         win_util.h
+
+David  30 July 2009
+    - scheduler: compile fixes
+
+    sched/
+        sched_customize.cpp
