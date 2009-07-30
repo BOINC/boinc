@@ -1,6 +1,9 @@
 <?
 
 $project_news = array(
+array("July 30, 2009",
+    "<a href=http://event.twgrid.org/isgc2009/asiaathome/wiki/index.php/Main_Page#Workshop_Schedule_and_Presentations>Videos of the talks at the recent Asia@home workshop in Taiwan</a> are now online."
+),
 array("July 20, 2009",
     "Listen to a Podcast of <a href=http://www.rce-cast.com/index.php/Podcast/rce-13-boinc.html>an interview with David Anderson</a> on <a href=http://www.rce-cast.com/>RCE</a>."
 ),

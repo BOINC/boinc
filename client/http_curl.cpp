@@ -68,25 +68,21 @@ static const char g_content_type[] = {"Content-Type: application/x-www-form-urle
 void parse_url(const char* url, int &protocol, char* host, int &port, char* file) {
     char* p;
     char buf[256];
-    bool bSSL = false;
-
-    //const short csiLen = bSSL ? 8 : 7; // get right size of http/s string comparator
 
     // strip off the protocol if present
     //
-    if        (strncmp(url, "http://", 7) == 0) {
+    if (strncmp(url, "http://", 7) == 0) {
         safe_strcpy(buf, url+7);
-        protocol = PARSEURL_PROTOCOL_HTTP;
+        protocol = URL_PROTOCOL_HTTP;
     } else if (strncmp(url, "https://", 8) == 0) {
         safe_strcpy(buf, url+8);
-        protocol = PARSEURL_PROTOCOL_HTTPS;
-        bSSL = true; // retain the fact that this was a secure http url
+        protocol = URL_PROTOCOL_HTTPS;
     } else if (strncmp(url, "socks://", 8) == 0) {
         safe_strcpy(buf, url+8);
-        protocol = PARSEURL_PROTOCOL_SOCKS;
+        protocol = URL_PROTOCOL_SOCKS;
     } else {
         safe_strcpy(buf, url);
-        protocol = PARSEURL_PROTOCOL_UNKNOWN;
+        protocol = URL_PROTOCOL_UNKNOWN;
     }
 
     // parse and strip off file part if present
@@ -95,10 +91,8 @@ void parse_url(const char* url, int &protocol, char* host, int &port, char* file
     if (p && file) {
         strcpy(file, p+1);
         *p = 0;
-    } else {
-        if (file) {
-            strcpy(file, "");
-        }
+    } else if (file) {
+        strcpy(file, "");
     }
 
     // parse and strip off port if present
@@ -108,10 +102,10 @@ void parse_url(const char* url, int &protocol, char* host, int &port, char* file
         port = atol(p+1);
         *p = 0;
     } else {
-        // CMC note:  if they didn't pass in a port #, 
+        // CMC note:  if they didn't pass in a port #,
         //    but the url starts with https://, assume they
         //    want a secure port (HTTPS, port 443)
-        port = (bSSL ? 443 : 80);  
+        port = (protocol==URL_PROTOCOL_HTTPS)?443:80;
     }
 
     // what remains is the host
@@ -129,7 +123,7 @@ void get_user_agent_string() {
 void HTTP_OP::init() {
     reset();
     start_time = gstate.now;
-	start_bytes_xferred = 0;
+    start_bytes_xferred = 0;
 }
 
 void HTTP_OP::reset() {
@@ -190,7 +184,7 @@ int HTTP_OP::init_get(
     // usually have an outfile on a get
     if (off != 0) {
         bytes_xferred = off;
-		start_bytes_xferred = off;
+        start_bytes_xferred = off;
     }
     http_op_type = HTTP_OP_GET;
     http_op_state = HTTP_STATE_CONNECTING;
@@ -262,39 +256,39 @@ int HTTP_OP::init_post2(
 // is URL in proxy exception list?
 //
 bool HTTP_OP::no_proxy_for_url(const char* url) {
-	if (log_flags.proxy_debug) {
+    if (log_flags.proxy_debug) {
         msg_printf(0, MSG_INFO, "[proxy_debug] HTTP_OP::no_proxy_for_url(): %s", url);
     }
-	char hosturl[256];
-	char hostnoproxy[256];	
-	char file[256];
-	char noproxy[256];
-	int protocol;
-	int port;
+    char hosturl[256];
+    char hostnoproxy[256];
+    char file[256];
+    char noproxy[256];
+    int protocol;
+    int port;
 
-	// extract the host from the url
-	parse_url(url, protocol, hosturl, port, file);
+    // extract the host from the url
+    parse_url(url, protocol, hosturl, port, file);
 
-	// tokenize the noproxy-entry and check for identical hosts
+    // tokenize the noproxy-entry and check for identical hosts
     //
-	strcpy(noproxy, pi.noproxy_hosts);
-	char* token = strtok(noproxy,",");
-	while(token!= NULL) {
-		// extract the host from the no_proxy url
-		parse_url(token, protocol, hostnoproxy, port, file);
-		if (!strcmp(hostnoproxy, hosturl)) {
-			if (log_flags.proxy_debug) {
-				msg_printf(0, MSG_INFO, "[proxy_debug] disabling proxy for %s",url);
-			}
-			return true;
-		}
-		token = strtok(NULL, ",");
-	}
-	if (log_flags.proxy_debug) {
-		msg_printf(0, MSG_INFO, "[proxy_debug] returning false");
-	}
+    strcpy(noproxy, pi.noproxy_hosts);
+    char* token = strtok(noproxy,",");
+    while(token!= NULL) {
+        // extract the host from the no_proxy url
+        parse_url(token, protocol, hostnoproxy, port, file);
+        if (!strcmp(hostnoproxy, hosturl)) {
+            if (log_flags.proxy_debug) {
+                msg_printf(0, MSG_INFO, "[proxy_debug] disabling proxy for %s",url);
+            }
+            return true;
+        }
+        token = strtok(NULL, ",");
+    }
+    if (log_flags.proxy_debug) {
+        msg_printf(0, MSG_INFO, "[proxy_debug] returning false");
+    }
 
-	return false;
+    return false;
 }
 
 // the following will do an HTTP GET or POST using libcurl
@@ -333,8 +327,8 @@ int HTTP_OP::libcurl_exec(
         return ERR_HTTP_ERROR; // returns 0 (CURLM_OK) on successful handle creation
     }
 
-	// the following seems to be a no-op
-	//curlErr = curl_easy_setopt(curlEasy, CURLOPT_ERRORBUFFER, error_msg);
+    // the following seems to be a no-op
+    //curlErr = curl_easy_setopt(curlEasy, CURLOPT_ERRORBUFFER, error_msg);
 
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_URL, m_url);
 
@@ -357,7 +351,7 @@ int HTTP_OP::libcurl_exec(
     // The default, since 7.10, is 2.
     // The checking this option controls is of the identity that
     // the server claims. The server could be lying.
-    // To control lying, see CURLOPT_SSL_VERIFYPEER. 
+    // To control lying, see CURLOPT_SSL_VERIFYPEER.
     //
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYHOST, 2L);
 
@@ -382,12 +376,12 @@ int HTTP_OP::libcurl_exec(
 
             strncat(
                 m_curl_ca_bundle_location,
-                szPath, 
+                szPath,
                 sizeof(m_curl_ca_bundle_location)-strlen(m_curl_ca_bundle_location)
             );
             strncat(
                 m_curl_ca_bundle_location,
-                CA_BUNDLE_FILENAME, 
+                CA_BUNDLE_FILENAME,
                 sizeof(m_curl_ca_bundle_location)-strlen(m_curl_ca_bundle_location)
             );
 
@@ -440,13 +434,13 @@ int HTTP_OP::libcurl_exec(
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_LIMIT, 10L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_TIME, 300L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 120L);
-    
+
     // force curl to use HTTP/1.0 if config specifies it
-	// (curl uses 1.1 by default)
-	//
-	if (config.http_1_0 || (config.force_auth == "ntlm")) {
+    // (curl uses 1.1 by default)
+    //
+    if (config.http_1_0 || (config.force_auth == "ntlm")) {
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
-	}
+    }
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 50L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_AUTOREFERER, 1L);
     curlErr = curl_easy_setopt(curlEasy, CURLOPT_FOLLOWLOCATION, 1L);
@@ -460,8 +454,8 @@ int HTTP_OP::libcurl_exec(
     if (!out || !ends_with(std::string(out), std::string(".gz"))) {
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "");
     }
-	
-	// setup any proxy they may need
+    
+    // setup any proxy they may need
     //
     setup_proxy_session(no_proxy_for_url(url));
 
@@ -470,9 +464,9 @@ int HTTP_OP::libcurl_exec(
     //
     pcurlList = curl_slist_append(pcurlList, g_content_type);
 
-	// set the file offset for resumable downloads
+    // set the file offset for resumable downloads
     //
-	if (!bPost && offset>0.0f) {
+    if (!bPost && offset>0.0f) {
         file_offset = offset;
         sprintf(strTmp, "Range: bytes=%.0f-", offset);
         pcurlList = curl_slist_append(pcurlList, strTmp);
@@ -480,14 +474,14 @@ int HTTP_OP::libcurl_exec(
 
     // set up an output file for the reply
     //
-    if (strlen(outfile)) {  
-		if (file_offset>0.0) {
+    if (strlen(outfile)) {
+        if (file_offset>0.0) {
             fileOut = boinc_fopen(outfile, "ab+");
         } else {
             fileOut = boinc_fopen(outfile, "wb+");
         }
         if (!fileOut) {
-            msg_printf(NULL, MSG_INTERNAL_ERROR, 
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
                 "Can't create HTTP response output file %s", outfile
             );
             http_op_retval = ERR_FOPEN;
@@ -515,7 +509,7 @@ int HTTP_OP::libcurl_exec(
                 http_op_state = HTTP_STATE_DONE;
                 return ERR_FOPEN;
             }
-        }        
+        }
 
         if (pcurlList) { // send custom headers if required
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTPHEADER, pcurlList);
@@ -526,7 +520,7 @@ int HTTP_OP::libcurl_exec(
 
 #if 0
         // HTTP PUT method
-        curl_off_t fs = (curl_off_t) content_length; 
+        curl_off_t fs = (curl_off_t) content_length;
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_POSTFIELDS, NULL);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_INFILESIZE, content_length);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_READDATA, fileIn);
@@ -537,16 +531,16 @@ int HTTP_OP::libcurl_exec(
         // HTTP POST method
         // set the multipart form for the file --
         // boinc just has the one section (file)
-        
+
 #if 0
-        //  if we ever want to do POST as multipart forms someday 
+        //  if we ever want to do POST as multipart forms someday
         // (many seem to prefer it that way, i.e. libcurl)
         //
         pcurlFormStart = pcurlFormEnd = NULL;
-        curl_formadd(&pcurlFormStart, &pcurlFormEnd, 
+        curl_formadd(&pcurlFormStart, &pcurlFormEnd,
                CURLFORM_FILECONTENT, infile,
                CURLFORM_CONTENTSLENGTH, content_length,
-               CURLFORM_CONTENTTYPE, g_content_type, 
+               CURLFORM_CONTENTTYPE, g_content_type,
                CURLFORM_END);
         curl_formadd(&post, &last,
                CURLFORM_COPYNAME, "logotype-image",
@@ -554,7 +548,7 @@ int HTTP_OP::libcurl_exec(
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_HTTPPOST, pcurlFormStart);
 #endif
 
-        curl_off_t fs = (curl_off_t) content_length; 
+        curl_off_t fs = (curl_off_t) content_length;
 
         pByte = NULL;
         lSeek = 0;    // initialize the vars we're going to use for byte transfers
@@ -569,7 +563,7 @@ int HTTP_OP::libcurl_exec(
         //
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_READDATA, this);
 
-        // callback function to rewind input file 
+        // callback function to rewind input file
         //
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_IOCTLFUNCTION, libcurl_ioctl);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_IOCTLDATA, this);
@@ -596,7 +590,7 @@ int HTTP_OP::libcurl_exec(
         static int trace_count = 0;
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGFUNCTION, libcurl_debugfunction);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_DEBUGDATA, this );
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_VERBOSE, 1L); 
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_VERBOSE, 1L);
         trace_id = trace_count++;
     }
 
@@ -650,7 +644,7 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
 }
 
 int HTTP_OP_SET::nops() {
-    return (int)http_ops.size();  
+    return (int)http_ops.size();
 }
 
 
@@ -661,7 +655,7 @@ int HTTP_OP::set_proxy(PROXY_INFO *new_pi) {
     strcpy(pi.http_server_name, new_pi->http_server_name);
     pi.http_server_port = new_pi->http_server_port;
     pi.use_http_auth = new_pi->use_http_auth;
-	strcpy(pi.noproxy_hosts, new_pi->noproxy_hosts);
+    strcpy(pi.noproxy_hosts, new_pi->noproxy_hosts);
 
     pi.use_socks_proxy = new_pi->use_socks_proxy;
     strcpy(pi.socks5_user_name, new_pi->socks5_user_name);
@@ -710,7 +704,7 @@ size_t libcurl_read( void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
         // need to send headers first, then data file
         // so requests from 0 to strlen(req1)-1 are from memory,
         // and from strlen(req1) to content_length are from the file
-        if (phop->lSeek < (long) strlen(phop->req1)) {  
+        if (phop->lSeek < (long) strlen(phop->req1)) {
             // need to read header, either just starting to read
             // (i.e. this is the first time in this function for this phop)
             // or the last read didn't ask for the entire header
@@ -733,21 +727,21 @@ size_t libcurl_read( void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
             // see if we're done with headers
             if (phop->lSeek >= (long) strlen(phop->req1)) {
                 phop->bSentHeader = true;
-                phop->lSeek = 0; 
+                phop->lSeek = 0;
             }
             return stRead;
         } else {
             // shouldn't happen
             phop->bSentHeader = true;
-            phop->lSeek = 0; 
+            phop->lSeek = 0;
         }
     }
-    if (phop->fileIn) { 
+    if (phop->fileIn) {
         long lFileSeek = phop->lSeek + (long) phop->file_offset;
         fseek(phop->fileIn, lFileSeek, SEEK_SET);
         if (!feof(phop->fileIn)) {
-            stRead = (int)fread(ptr, 1, stSend, phop->fileIn); 
-        }    
+            stRead = (int)fread(ptr, 1, stSend, phop->fileIn);
+        }
         phop->lSeek += (long) stRead;
         phop->bytes_xferred += (double)(stRead);
     }
@@ -779,7 +773,7 @@ int libcurl_debugfunction(
     char hdr[100];
     char buf[1024];
     size_t mysize;
-    
+
     switch (type) {
     case CURLINFO_TEXT:
         if (log_flags.http_debug) {
@@ -831,7 +825,7 @@ int libcurl_debugfunction(
 //    CURLOPT_PROXYPORT  -- a long port #
 //    CURLOPT_PROXY - pass in char* of the proxy url
 //    CURLOPT_PROXYUSERPWD -- a char* in the format username:password
-//    CURLOPT_HTTPAUTH -- pass in one of CURLAUTH_BASIC, CURLAUTH_DIGEST, 
+//    CURLOPT_HTTPAUTH -- pass in one of CURLAUTH_BASIC, CURLAUTH_DIGEST,
 //        CURLAUTH_GSSNEGOTIATE, CURLAUTH_NTLM, CURLAUTH_ANY, CURLAUTH_ANYSAFE
 //    CURLOPT_PROXYAUTH -- "or" | the above bitmasks -- only basic, digest, ntlm work
 void HTTP_OP::setup_proxy_session(bool no_proxy) {
@@ -843,10 +837,10 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
     //
     strcpy(szCurlProxyUserPwd, "");
 
-	if (no_proxy) {
-		curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, "");
-		return;
-	}
+    if (no_proxy) {
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, "");
+        return;
+    }
 
 #ifdef _WIN32
 
@@ -855,11 +849,11 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
     //
     HMODULE hModWinHttp = LoadLibrary("winhttp.dll");
     if (hModWinHttp) {
-        pfnWinHttpOpen pWinHttpOpen = 
+        pfnWinHttpOpen pWinHttpOpen =
             (pfnWinHttpOpen)GetProcAddress(hModWinHttp, "WinHttpOpen");
-        pfnWinHttpCloseHandle pWinHttpCloseHandle = 
+        pfnWinHttpCloseHandle pWinHttpCloseHandle =
             (pfnWinHttpCloseHandle)(GetProcAddress(hModWinHttp, "WinHttpCloseHandle"));
-        pfnWinHttpGetProxyForUrl pWinHttpGetProxyForUrl = 
+        pfnWinHttpGetProxyForUrl pWinHttpGetProxyForUrl =
             (pfnWinHttpGetProxyForUrl)(GetProcAddress(hModWinHttp, "WinHttpGetProxyForUrl"));
 
         if (pWinHttpOpen && pWinHttpCloseHandle && pWinHttpGetProxyForUrl) {
@@ -867,10 +861,10 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
             WINHTTP_AUTOPROXY_OPTIONS autoproxy_options;
             WINHTTP_PROXY_INFO proxy_info;
             int proxy_protocol = 0;
-            
+
             memset(&autoproxy_options, 0, sizeof(autoproxy_options));
             memset(&proxy_info, 0, sizeof(proxy_info));
-            
+
             hWinHttp = pWinHttpOpen(
                 A2W(std::string(g_user_agent_string)).c_str(),
                 WINHTTP_ACCESS_TYPE_NO_PROXY,
@@ -886,8 +880,8 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
             autoproxy_options.fAutoLogonIfChallenged = TRUE;
 
 
-            if (pWinHttpGetProxyForUrl( 
-                    hWinHttp, A2W(std::string(m_url)).c_str(), &autoproxy_options, &proxy_info 
+            if (pWinHttpGetProxyForUrl(
+                    hWinHttp, A2W(std::string(m_url)).c_str(), &autoproxy_options, &proxy_info
                 )
             ) {
                 std::string proxy(W2A(std::wstring(proxy_info.lpszProxy)));
@@ -902,21 +896,21 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
                     parse_url(proxy.c_str(), proxy_protocol, pi.autodetect_server_name, pi.autodetect_server_port, NULL);
 
                     if (log_flags.proxy_debug) {
-                        msg_printf(0, MSG_INFO, 
+                        msg_printf(0, MSG_INFO,
                             "[proxy_debug] HTTP_OP::setup_proxy_session(): setting up automatic proxy %s:%d",
                             pi.autodetect_server_name, pi.autodetect_server_port
                         );
                     }
 
                     switch(proxy_protocol) {
-                        case PARSEURL_PROTOCOL_SOCKS:
-                            curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
-                            break;
-                        case PARSEURL_PROTOCOL_HTTP:
-                        case PARSEURL_PROTOCOL_HTTPS:
-                        default:
-                            curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
-                            break;
+                    case URL_PROTOCOL_SOCKS:
+                        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
+                        break;
+                    case URL_PROTOCOL_HTTP:
+                    case URL_PROTOCOL_HTTPS:
+                    default:
+                        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+                        break;
                     }
                     curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.autodetect_server_port);
                     curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.autodetect_server_name);
@@ -933,14 +927,14 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
 
 #endif
 
-	if (pi.use_http_proxy) {
+    if (pi.use_http_proxy) {
 
         if (log_flags.proxy_debug) {
-			msg_printf(
-                0, MSG_INFO, "[proxy_debug]: setting up proxy %s:%d", 
+            msg_printf(
+                0, MSG_INFO, "[proxy_debug]: setting up proxy %s:%d",
                 pi.http_server_name, pi.http_server_port
             );
-	    }
+        }
 
         // setup a basic http proxy
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
@@ -982,9 +976,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, szCurlProxyUserPwd);
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY & ~CURLAUTH_NTLM);
         }
-
     }
-
 }
 
 
@@ -1055,14 +1047,14 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
     CURLcode curlErr;
     int retval;
 
-    curlErr = curl_easy_getinfo(curlEasy, 
+    curlErr = curl_easy_getinfo(curlEasy,
         CURLINFO_RESPONSE_CODE, &response
     );
 
     // CURLINFO_LONG+25 is a workaround for a bug in the gcc version
     // included with Mac OS X 10.3.9
     //
-    curlErr = curl_easy_getinfo(curlEasy, 
+    curlErr = curl_easy_getinfo(curlEasy,
         (CURLINFO)(CURLINFO_LONG+25) /*CURLINFO_OS_ERRNO*/, &connect_error
     );
 
@@ -1078,13 +1070,13 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
         // (we don't use it)
         //
         double size_download, total_time, starttransfer_time;
-        curlErr = curl_easy_getinfo(curlEasy, 
+        curlErr = curl_easy_getinfo(curlEasy,
             CURLINFO_SIZE_DOWNLOAD, &size_download
         );
-        curlErr = curl_easy_getinfo(curlEasy, 
+        curlErr = curl_easy_getinfo(curlEasy,
             CURLINFO_TOTAL_TIME, &total_time
         );
-        curlErr = curl_easy_getinfo(curlEasy, 
+        curlErr = curl_easy_getinfo(curlEasy,
             CURLINFO_STARTTRANSFER_TIME, &starttransfer_time
         );
         double dt = total_time - starttransfer_time;
@@ -1094,13 +1086,13 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
     }
     if (want_upload) {
         double size_upload, total_time, starttransfer_time;
-        curlErr = curl_easy_getinfo(curlEasy, 
+        curlErr = curl_easy_getinfo(curlEasy,
             CURLINFO_SIZE_UPLOAD, &size_upload
         );
-        curlErr = curl_easy_getinfo(curlEasy, 
+        curlErr = curl_easy_getinfo(curlEasy,
             CURLINFO_TOTAL_TIME, &total_time
         );
-        curlErr = curl_easy_getinfo(curlEasy, 
+        curlErr = curl_easy_getinfo(curlEasy,
             CURLINFO_STARTTRANSFER_TIME, &starttransfer_time
         );
         double dt = total_time - starttransfer_time;
@@ -1111,12 +1103,12 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
 
     // the op is done if curl_multi_msg_read gave us a msg for this http_op
     //
-    http_op_state = HTTP_STATE_DONE;        
+    http_op_state = HTTP_STATE_DONE;
     CurlResult = pcurlMsg->data.result;
 
     if (CurlResult == CURLE_OK) {
         if ((response/100)*100 == HTTP_STATUS_OK) {
-            http_op_retval = 0;  
+            http_op_retval = 0;
         } else if ((response/100)*100 == HTTP_STATUS_CONTINUE) {
             return;
         } else {
@@ -1176,7 +1168,7 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
             if (dSize >= (size_t)req1_len) {
                 dSize = req1_len-1;
             }
-            size_t nread = fread(req1, 1, dSize, fileOut); 
+            size_t nread = fread(req1, 1, dSize, fileOut);
             if (nread != dSize) {
                 if (log_flags.http_debug) {
                     msg_printf(NULL, MSG_INFO,
@@ -1220,9 +1212,9 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
 
     // read messages from curl that may have come in from the above loop
     //
-	while (1) {
-		pcurlMsg = curl_multi_info_read(g_curlMulti, &iNumMsg);
-		if (!pcurlMsg) break;
+    while (1) {
+        pcurlMsg = curl_multi_info_read(g_curlMulti, &iNumMsg);
+        if (!pcurlMsg) break;
 
         // if we have a msg, then somebody finished
         // can check also with pcurlMsg->msg == CURLMSG_DONE
@@ -1236,8 +1228,8 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
 // Return the HTTP_OP object with given Curl object
 //
 HTTP_OP* HTTP_OP_SET::lookup_curl(CURL* pcurl)  {
-	for (unsigned int i=0; i<http_ops.size(); i++) {
-		if (http_ops[i]->curlEasy == pcurl) {
+    for (unsigned int i=0; i<http_ops.size(); i++) {
+        if (http_ops[i]->curlEasy == pcurl) {
             return http_ops[i];
         }
     }
@@ -1256,7 +1248,7 @@ void HTTP_OP::update_speed() {
 
 void HTTP_OP::set_speed_limit(bool is_upload, double bytes_sec) {
 #if LIBCURL_VERSION_NUM >= 0x070f05
-	CURLcode cc = CURLE_OK;
+    CURLcode cc = CURLE_OK;
     curl_off_t bs = (curl_off_t)bytes_sec;
 
     if (is_upload) {
@@ -1264,9 +1256,12 @@ void HTTP_OP::set_speed_limit(bool is_upload, double bytes_sec) {
     } else {
         cc = curl_easy_setopt(curlEasy, CURLOPT_MAX_RECV_SPEED_LARGE, bs);
     }
-	if (cc && log_flags.http_debug) {
-		msg_printf(NULL, MSG_INFO, "[http_debug] Curl error in set_speed_limit(): %s", curl_easy_strerror(cc));
-	}
+    if (cc && log_flags.http_debug) {
+        msg_printf(NULL, MSG_INFO,
+            "[http_debug] Curl error in set_speed_limit(): %s",
+            curl_easy_strerror(cc)
+        );
+    }
 #endif
 }
 
