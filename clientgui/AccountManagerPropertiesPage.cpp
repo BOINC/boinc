@@ -113,7 +113,6 @@ bool CAccountManagerPropertiesPage::Create( CBOINCBaseWizard* parent )
  
     m_bProjectPropertiesSucceeded = false;
     m_bProjectPropertiesURLFailure = false;
-    m_bProjectPropertiesDNSFailure = false;
     m_bProjectPropertiesCommunicationFailure = false;
     m_bProjectAccountCreationDisabled = false;
     m_bProjectClientAccountCreationDisabled = false;
@@ -211,7 +210,6 @@ void CAccountManagerPropertiesPage::OnPageChanged( wxWizardExEvent& event )
 
     SetProjectPropertiesSucceeded(false);
     SetProjectPropertiesURLFailure(false);
-    SetProjectPropertiesDNSFailure(false);
     SetProjectPropertiesCommunicationFailure(false);
     SetProjectAccountCreationDisabled(false);
     SetProjectClientAccountCreationDisabled(false);
@@ -344,23 +342,8 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                     SetProjectPropertiesURLFailure(false);
                 }
 
-                // DNS failures can be caused by a few different situations, but
-                // the most common is the machine is sitting behind a firewall
-                // and the local DNS servers do not know about the outside world.
-                // In this situation the user is expected to use a proxy server.
-                //
-                // Project domain moves or host name changes don't happen
-                // often enough for them to be the default assumtion.
-                //
                 bSuccessfulCondition = 
-                    (!iReturnValue) && (ERR_GETHOSTBYNAME == pc->error_num);
-                if (bSuccessfulCondition) {
-                    SetProjectPropertiesDNSFailure(true);
-                } else {
-                    SetProjectPropertiesDNSFailure(false);
-                }
-
-                bSuccessfulCondition = 
+                    (!iReturnValue) && (ERR_GETHOSTBYNAME == pc->error_num) ||
                     (!iReturnValue) && (ERR_CONNECT == pc->error_num) ||
                     (!iReturnValue) && (ERR_XML_PARSE == pc->error_num) ||
                     (!iReturnValue) && (ERR_PROJECT_DOWN == pc->error_num);
@@ -490,7 +473,7 @@ wxWizardPageEx* CAccountManagerPropertiesPage::GetNext() const
     } else if (GetProjectPropertiesSucceeded()) {
         // We were successful in retrieving the project properties
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
-    } else if (GetProjectPropertiesDNSFailure() || GetNetworkConnectionNotDetected()) {
+    } else if (GetProjectPropertiesCommunicationFailure() && GetNetworkConnectionNotDetected()) {
         // No Internet Connection
         return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
     } else if (GetProjectPropertiesURLFailure()) {

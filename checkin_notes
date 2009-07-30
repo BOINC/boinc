@@ -6133,6 +6133,14 @@ David  28 July 2009
         net_stats.cpp
 
 Rom    29 July 2009
+    - MGR: Re-enable the ability for the manager to detect a temporary
+        name failure vs needing a proxy server or something like that.
+        
+    clientgui/
+        AccountManagerPropertiesPage.cpp, .h
+        ProjectPropertiesPage.cpp, .h
+
+Rom    29 July 2009
     - client: Initial swipe at automatic proxy server configuration
         detection on Windows.  Fixes #35
         
