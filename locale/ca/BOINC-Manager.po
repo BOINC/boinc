@@ -1443,11 +1443,11 @@ msgid ""
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
 msgstr ""
-"Això aturarà %s i les seves feines fins que el programa\n"
+"Això aturarà %s i les seves tasques fins que el programa\n"
 "%s o el protector de pantalla %s s'executin de nou.\n"
 "\n"
 "La majoria de vegades, es millor tancar la finestra de %s\n"
-"en lloc de finalitzar l'aplicació; això pemetrà %s executar les seves feines\n"
+"en lloc de finalitzar l'aplicació; això pemetrà %s executar les seves tasques\n"
 "en els períodes de temps que ha seleccionat en les seves preferències."
 
 #: clientgui/DlgExitMessage.cpp:153
@@ -2732,7 +2732,7 @@ msgstr "%d"
 
 #: clientgui/sg_ImageButton.cpp:90
 msgid "Paused: Other work running"
-msgstr "En pausa: Hi ha altres feines en execució"
+msgstr "En pausa: Hi ha altres tasques en execució"
 
 #: clientgui/sg_ImageButton.cpp:92
 msgid "Paused: User initiatied.  Click 'Resume' to continue"
@@ -3119,7 +3119,7 @@ msgstr "Suspendre"
 #: clientgui/ViewProjectsGrid.cpp:128
 #: clientgui/ViewProjectsGrid.cpp:560
 msgid "Suspend tasks for this project."
-msgstr "Suspendre les feines d'aquest projecte."
+msgstr "Suspendre les tasques d'aquest projecte."
 
 #: clientgui/ViewProjects.cpp:187
 #: clientgui/ViewProjects.cpp:725
@@ -3128,7 +3128,7 @@ msgstr "Suspendre les feines d'aquest projecte."
 #: clientgui/ViewProjectsGrid.cpp:134
 #: clientgui/ViewProjectsGrid.cpp:579
 msgid "No new tasks"
-msgstr "No hi han tasques noves"
+msgstr "No descarregar tasques noves"
 
 #: clientgui/ViewProjects.cpp:188
 #: clientgui/ViewProjectsBase.cpp:123
@@ -3286,13 +3286,13 @@ msgstr "Continuar"
 #: clientgui/ViewProjectsBase.cpp:556
 #: clientgui/ViewProjectsGrid.cpp:556
 msgid "Resume tasks for this project."
-msgstr "Continuar les feines d'aquest projecte."
+msgstr "Continuar les tasques d'aquest projecte."
 
 #: clientgui/ViewProjects.cpp:721
 #: clientgui/ViewProjectsBase.cpp:568
 #: clientgui/ViewProjectsGrid.cpp:575
 msgid "Allow new tasks"
-msgstr "Permetre noves feines"
+msgstr "Permetre noves tasques"
 
 #: clientgui/ViewProjects.cpp:721
 #: clientgui/ViewProjectsBase.cpp:568
@@ -3328,7 +3328,7 @@ msgstr "Projecte finalitzat - Apunt per separar-se"
 #: clientgui/ViewProjectsBase.cpp:683
 #: clientgui/ViewProjectsGrid.cpp:737
 msgid "Will detach when tasks done"
-msgstr "Es separarà quan les feines hagin finalitzat"
+msgstr "Es separarà quan les tasques hagin finalitzat"
 
 #: clientgui/ViewProjects.cpp:1063
 #: clientgui/ViewProjectsBase.cpp:686
@@ -3659,7 +3659,7 @@ msgstr "Per finalitzar"
 #: clientgui/ViewWork.cpp:246
 #: clientgui/ViewWorkGrid.cpp:190
 msgid "Tasks"
-msgstr "Feines"
+msgstr "Tasques"
 
 #: clientgui/ViewWork.cpp:315
 #: clientgui/ViewWorkGrid.cpp:220
