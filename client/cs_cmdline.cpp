@@ -237,11 +237,12 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
 
 void CLIENT_STATE::parse_env_vars() {
     char *p, temp[256];
+    int proto;
 
     p = getenv("HTTP_PROXY");
     if (p && strlen(p) > 0) {
         proxy_info.use_http_proxy = true;
-        parse_url(p, proxy_info.http_server_name, proxy_info.http_server_port, temp);
+        parse_url(p, proto, proxy_info.http_server_name, proxy_info.http_server_port, temp);
     }
     p = getenv("HTTP_USER_NAME");
     if (p) {
@@ -261,14 +262,14 @@ void CLIENT_STATE::parse_env_vars() {
     p = getenv("SOCKS4_SERVER");
     if (p && strlen(p)) {
         proxy_info.use_socks_proxy = true;
-        parse_url(p, proxy_info.socks_server_name, proxy_info.socks_server_port, temp);
+        parse_url(p, proto, proxy_info.socks_server_name, proxy_info.socks_server_port, temp);
     }
 
 	p = getenv("SOCKS_SERVER");
 	if (!p) p = getenv("SOCKS5_SERVER");
     if (p && strlen(p)) {
         proxy_info.use_socks_proxy = true;
-        parse_url(p, proxy_info.socks_server_name, proxy_info.socks_server_port, temp);
+        parse_url(p, proto, proxy_info.socks_server_name, proxy_info.socks_server_port, temp);
     }
 
 	p = getenv("SOCKS5_USER");

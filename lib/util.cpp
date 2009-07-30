@@ -323,7 +323,7 @@ int read_file_malloc(const char* path, char*& buf, size_t max_len, bool tail) {
 #ifndef _USING_FCGI_
     if (max_len && size > max_len) {
         if (tail) {
-            fseek(f, (long)size-max_len, SEEK_SET);
+            fseek(f, (long)size-(long)max_len, SEEK_SET);
         }
         size = max_len;
     }

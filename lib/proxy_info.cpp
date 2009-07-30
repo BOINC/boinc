@@ -107,6 +107,8 @@ void PROXY_INFO::clear() {
     strcpy(http_user_name, "");
     strcpy(http_user_passwd, "");
     socks_version = 0;
+	strcpy(autodetect_server_name, "");
+    autodetect_server_port = 80;
 	strcpy(noproxy_hosts, "");
 }
 

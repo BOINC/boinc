@@ -6121,3 +6121,18 @@ Rom    28 July 2009
     /
         configure.ac
         version.h
+
+Rom    29 July 2009
+    - client: Initial swipe at automatic proxy server configuration
+        detection on Windows.  Fixes #35
+        
+    client/
+        cs_cmdline.cpp
+        http_curl.cpp
+        http_curl.h
+    lib/
+        boinc_win.h
+        proxy_info.cpp
+        proxy_info.h
+        util.cpp
+        win_util.h
