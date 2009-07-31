@@ -6700,3 +6700,21 @@ David  30 July 2009
 
     sched/
         sched_customize.cpp
+
+David  31 July 2009
+    - file upload handler: don't treat zero-length file as an error!
+        (This bug has been there since 28 Oct 2004)
+    - GUI RPC and manager: include project backoff in FILE_TRANSFER,
+        so that manager gets up-to-date value
+
+    clientgui/
+        ViewTransfers.cpp
+    client/
+        file_xfer.cpp
+        client_types.cpp
+    sched/
+        file_upload_handler.cpp
+    lib/
+        gui_rpc_client_ops.cpp
+        gui_rpc_client.h
+

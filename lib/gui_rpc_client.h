@@ -290,6 +290,7 @@ public:
     double file_offset;
     double xfer_speed;
     std::string hostname;
+    double project_backoff;
     PROJECT* project;
 
     FILE_TRANSFER();

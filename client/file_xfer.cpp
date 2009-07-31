@@ -134,7 +134,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
         const char* url = fip->get_current_url();
         if (!url) return ERR_INVALID_URL;
         return HTTP_OP::init_post2(
-            url , header, sizeof(header), pathname, fip->upload_offset
+            url, header, sizeof(header), pathname, fip->upload_offset
         );
     }
 }
@@ -204,7 +204,7 @@ int FILE_XFER_SET::remove(FILE_XFER* fxp) {
     while (iter != file_xfers.end()) {
         if (*iter == fxp) {
             iter = file_xfers.erase(iter);
-			set_bandwidth_limits(fxp->is_upload);
+            set_bandwidth_limits(fxp->is_upload);
             return 0;
         }
         iter++;
@@ -315,12 +315,12 @@ bool FILE_XFER_SET::poll() {
                 // got HTTP error; truncate last 5KB of file, since some
                 // error-reporting HTML may have been appended
                 //
-				if (diff < MIN_DOWNLOAD_INCREMENT) {
-					diff = 0;
-				} else {
-					diff -= MIN_DOWNLOAD_INCREMENT;
-				}
-				boinc_truncate(pathname, fxp->starting_size + diff);
+                if (diff < MIN_DOWNLOAD_INCREMENT) {
+                    diff = 0;
+                } else {
+                    diff -= MIN_DOWNLOAD_INCREMENT;
+                }
+                boinc_truncate(pathname, fxp->starting_size + diff);
             }
         }
 
@@ -403,7 +403,7 @@ void FILE_XFER_SET::set_bandwidth_limits(bool is_upload) {
     int n = 0;
     for (i=0; i<file_xfers.size(); i++) {
         fxp = file_xfers[i];
-		if (!fxp->is_active()) continue;
+        if (!fxp->is_active()) continue;
         if (is_upload) {
             if (!fxp->is_upload) continue;
         } else {
@@ -415,7 +415,7 @@ void FILE_XFER_SET::set_bandwidth_limits(bool is_upload) {
     max_bytes_sec /= n;
     for (i=0; i<file_xfers.size(); i++) {
         fxp = file_xfers[i];
-		if (!fxp->is_active()) continue;
+        if (!fxp->is_active()) continue;
         if (is_upload) {
             if (!fxp->is_upload) continue;
             fxp->set_speed_limit(true, max_bytes_sec);

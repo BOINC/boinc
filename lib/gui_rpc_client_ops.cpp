@@ -551,6 +551,7 @@ int FILE_TRANSFER::parse(MIOFILE& in) {
         if (parse_double(buf, "<file_offset>", file_offset)) continue;
         if (parse_double(buf, "<xfer_speed>", xfer_speed)) continue;
         if (parse_str(buf, "<hostname>", hostname)) continue;
+        if (parse_double(buf, "<project_backoff>", project_backoff)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -576,6 +577,7 @@ void FILE_TRANSFER::clear() {
     xfer_speed = 0;
     hostname.clear();
     project = NULL;
+    project_backoff = 0;
 }
 
 MESSAGE::MESSAGE() {

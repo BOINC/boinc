@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-07-28 12:41-0700\n"
+"PO-Revision-Date: 2009-07-30 12:24-0700\n"
 "Last-Translator: David M <davidcomp at telefonica dot net>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -889,16 +889,14 @@ msgstr "Clasificar"
 msgid "Already friends"
 msgstr "Ya amigos"
 
-#, fuzzy
 msgid "You requested friendship with %1 on %2."
-msgstr "Tu pediste amistad con %1 en %2."
+msgstr "Usted ha pedido amistad con %1 en %2."
 
 msgid "This request is still pending confirmation."
 msgstr "Esta petición está todavía pendiente de confirmación."
 
-#, fuzzy
 msgid "%1 is not accepting friendship requests from you"
-msgstr "%1 no está aceptando peticiones tuyas de amistad"
+msgstr "%1 no está aceptando peticiones suyas de amistad"
 
 msgid "You can't be friends with yourself"
 msgstr "No puedes hacerte amigo de ti mismo."
@@ -913,42 +911,39 @@ msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
+"Usted pidió agregar a %1 como amigo. Nosotros avisaremos a %2 y le pediremos "
+"que confirme que ustedes son amigos."
 
 msgid "Add an optional message here:"
-msgstr ""
+msgstr "Agregue un mensaje opcional aquí:"
 
 msgid "Database error"
 msgstr "Error de la base de datos"
 
-#, fuzzy
 msgid "Friend request sent"
 msgstr "Petición de amigo enviada"
 
 msgid "We have notified %1 of your request."
-msgstr "Hemos notificado a %1 tu petición."
+msgstr "Hemos notificado a %1 su petición."
 
 msgid "Request not found"
 msgstr "Petición no encontrada"
 
-#, fuzzy
 msgid "Friend request"
 msgstr "Petición de amigo"
 
-#, fuzzy
 msgid "%1 has added you as a friend."
-msgstr "%1 te ha añadido como amigo."
+msgstr "%1 le ha añadido como amigo."
 
 msgid "%1 says: %2"
 msgstr "%1 dice: %2"
 
-#, fuzzy
 msgid "Accept friendship"
 msgstr "Aceptar amistad"
 
 msgid "Click accept if %1 is in fact a friend"
 msgstr "Pulse aceptar si %1 es realmente un amigo"
 
-#, fuzzy
 msgid "Decline"
 msgstr "Declinar"
 
@@ -956,7 +951,7 @@ msgid "Click decline if %1 is not a friend"
 msgstr "Pulse declinar si %1 no es un amigo"
 
 msgid "No request"
-msgstr ""
+msgstr "No hay petición"
 
 msgid "Friendship confirmed"
 msgstr "Amistad confirmada"
@@ -979,12 +974,11 @@ msgstr "Amigo confirmado"
 msgid "You are now friends with %1."
 msgstr "Ahora %1 y tu sois amigos."
 
-#, fuzzy
 msgid "Cancel friendship?"
 msgstr "¿Cancelar amistad?"
 
 msgid "Are you sure you want to cancel your friendship with %1?"
-msgstr ""
+msgstr "Esta seguro/segura de querer cancelar su amistad con %1?"
 
 msgid "Yes"
 msgstr "Sí"
@@ -993,7 +987,7 @@ msgid "No"
 msgstr "No"
 
 msgid "Stay friends"
-msgstr ""
+msgstr "Seguir siendo amigos"
 
 msgid "Friendship cancelled"
 msgstr "Amistad cancelada"
@@ -1001,7 +995,6 @@ msgstr "Amistad cancelada"
 msgid "Your friendship with %1 has been cancelled."
 msgstr "Su amistad con %1 ha sido cancelada."
 
-#, fuzzy
 msgid "Unknown action"
 msgstr "Acción desconocida"
 
@@ -1098,6 +1091,12 @@ msgid ""
 "them to your %2message filter%3.  This will prevent you from seeing any "
 "public or private messages from that user."
 msgstr ""
+"Los mensajes privados enviados en el sitio web de %1 son sólo visibles para "
+"la persona que los ha enviado y para la persona que los recibe.   %1 no "
+"examina o revisa el contenido de los mensajes privados.   Si usted recibe "
+"mensajes privados que no desea de otro usuario de %1, usted podrá agregarlo "
+"a su %2filtro de mensajes%3.   Esto evitará que usted vea más mensajes "
+"públicos o privados de ese usuario."
 
 msgid ""
 "If you use our web site forums you must follow the %2posting guidelines%3.  "
@@ -1193,7 +1192,7 @@ msgid "Reply"
 msgstr "Responder"
 
 msgid "Delete selected messages"
-msgstr ""
+msgstr "Borrar los mensajes seleccionados"
 
 msgid "Sender"
 msgstr "Remitente"
@@ -1317,10 +1316,10 @@ msgid "Vote Recorded"
 msgstr ""
 
 msgid "Thank you"
-msgstr ""
+msgstr "Gracias"
 
 msgid "Your recommendation has been recorded."
-msgstr ""
+msgstr "Su recomendación ha sido grabada."
 
 msgid "Your vote to reject this profile has been recorded."
 msgstr ""
@@ -1329,7 +1328,7 @@ msgid "Return to profile."
 msgstr "Regresar al perfil."
 
 msgid "This feature is turned off temporarily"
-msgstr "Esta opción ha sido deshabilitada temporalmente"
+msgstr "Esta opción está deshabilitada temporalmente"
 
 msgid "No computer with ID %1 found"
 msgstr "No se encontró computadora con ID %1"
@@ -1341,42 +1340,44 @@ msgid "No access"
 msgstr "Sin acceso"
 
 msgid "Missing user ID or host ID"
-msgstr ""
+msgstr "Falta el ID de usuario o del host"
 
-#, fuzzy
 msgid "User of the day"
-msgstr "Usuario del Día"
+msgstr "Usuario del día"
 
 msgid "Account data for %1"
-msgstr ""
+msgstr "Datos de la cuenta de %1"
 
 msgid "Statistics and leaderboards"
-msgstr ""
+msgstr "Estadísticas y tabla de posiciones"
 
 msgid "Statistics for %1"
-msgstr ""
+msgstr "Estadisticas de %1"
 
-# ########################################
+# ########################################<br />
 # Various top table pages (top users, computers, teams)
 msgid "Top participants"
-msgstr "Mejores participantes"
+msgstr "Top de participantes"
 
 msgid "Top computers"
-msgstr "Mejores Computadoras"
+msgstr "Top de computadoras"
 
-#, fuzzy
 msgid "Top teams"
-msgstr "Mejores equipos"
+msgstr "Top de equipos"
 
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
 "at several web sites:"
 msgstr ""
+"Estadisticas más detalladas de %1 y otros projectos basados en BOINC están "
+"disponibles en varios sitios web:"
 
 msgid ""
 "You can also get your current statistics in the form of a \"signature image"
 "\":"
 msgstr ""
+"Usted también puede obtener sus estadísticas actuales en formato \"imagen "
+"para firmar\""
 
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "

@@ -330,7 +330,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
         if (parse_double(buf, "<nbytes>", nbytes)) continue;
         if (parse_str(buf, "<md5_cksum>", temp, sizeof(temp))) continue;
         if (match_tag(buf, "<data>")) {
-            if (nbytes <= 0) {
+            if (nbytes < 0) {
                 return return_error(ERR_PERMANENT, "nbytes missing or negative");
             }
 

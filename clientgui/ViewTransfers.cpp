@@ -763,21 +763,10 @@ void CViewTransfers::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
                 }
             }
         }
-        PROJECT* project = pDoc->state.lookup_project(transfer->project_url);
-        if (project) {
-            if (transfer->generated_locally) {
-                if (project->upload_backoff) {
-                    wxString x;
-                    FormatTime(project->upload_backoff, x);
-                    strBuffer += _(" (project backoff: ") + x + _(")");
-                }
-            } else {
-                if (project->download_backoff) {
-                    wxString x;
-                    FormatTime(project->download_backoff, x);
-                    strBuffer += _(" (project backoff: ") + x + _(")");
-                }
-            }
+        if (transfer->project_backoff) {
+            wxString x;
+            FormatTime(project->upload_backoff, transfer->project_backoff);
+            strBuffer += _(" (project backoff: ") + x + _(")");
         }
     }
 }
