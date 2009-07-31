@@ -40,6 +40,7 @@ foreach ($apps as $app) {
     if ($xml) {
         echo "<application>\n";
         echo "    <name>$app->user_friendly_name</name>\n";
+        echo "    <id>$app->id</id>\n";
     } else {
         echo "
             <tr><th colspan=4>$app->user_friendly_name</th></tr>
