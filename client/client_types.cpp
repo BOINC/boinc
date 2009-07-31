@@ -914,9 +914,9 @@ int FILE_INFO::write_gui(MIOFILE& out) {
         pers_file_xfer->write(out);
 
         FILE_XFER_BACKOFF& fxb = project->file_xfer_backoff(pers_file_xfer->is_upload);
-        if (fxb->next_xfer_time > gstate.now) {
+        if (fxb.next_xfer_time > gstate.now) {
             out.printf("    <project_backoff>%f</project_backoff>\n",
-                fxb->next_xfer_time - gstate.now
+                fxb.next_xfer_time - gstate.now
             );
         }
     }
