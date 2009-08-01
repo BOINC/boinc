@@ -6163,3 +6163,10 @@ Rom    29 July 2009
         configure.ac
         version.h
 
+Rom    1 Aug 2009
+    - Tag for 6.8.15 release, all platforms
+      boinc_core_release_6_8_15
+
+    /
+        configure.ac
+        version.h
