@@ -1166,6 +1166,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\sysmon_win.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Client\time_stats.cpp"
 				>
 			</File>
@@ -1175,10 +1179,6 @@
 			</File>
 			<File
 				RelativePath="..\client\win\win_service.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\work_fetch.cpp"
 				>
 			</File>
 		</Filter>
@@ -1311,15 +1311,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\sysmon_win.h"
+				>
+			</File>
+			<File
 				RelativePath="..\client\time_stats.h"
 				>
 			</File>
 			<File
 				RelativePath="..\version.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\win\win_service.h"
 				>
 			</File>
 			<File
