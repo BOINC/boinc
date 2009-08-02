@@ -1178,7 +1178,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\client\win\win_service.cpp"
+				RelativePath="..\client\work_fetch.cpp"
 				>
 			</File>
 		</Filter>
