@@ -15,23 +15,263 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if defined(_WIN32) && defined(_CONSOLE)
-
+#include "boinc_win.h"
 #include "diagnostics.h"
+#include "error_numbers.h"
+#include "str_util.h"
+#include "str_replace.h"
 #include "util.h"
+#include "unix_util.h"
+#include "prefs.h"
+#include "filesys.h"
+#include "network.h"
+#include "client_state.h"
+#include "file_names.h"
+#include "log_flags.h"
+#include "client_msgs.h"
+#include "http_curl.h"
+#include "sandbox.h"
 #include "main.h"
-#include "win_service.h"
+#include "sysmon_win.h"
 
 
-// internal variables
+static HANDLE g_hWindowsMonitorSystemThread = NULL;
+static DWORD g_WindowsMonitorSystemThreadID = NULL;
+
+
+// The following 3 functions are called in a separate thread,
+// so we can't do anything directly.
+// Set flags telling the main thread what to do.
+//
+
+// Quit operations
+void quit_client() {
+    gstate.requested_exit = true;
+    while (1) {
+        boinc_sleep(1.0);
+        if (gstate.cleanup_completed) break;
+    }
+}
+
+// Suspend client operations
+void suspend_client(bool wait) {
+    gstate.requested_suspend = true;
+    if (wait) {
+        while (1) {
+            boinc_sleep(1.0);
+            if (!gstate.active_tasks.is_task_executing()) break;
+        }
+    }
+}
+
+// Resume client operations
+void resume_client() {
+    gstate.requested_resume = true;
+}
+
+// Process console messages sent by the system
+BOOL WINAPI ConsoleControlHandler( DWORD dwCtrlType ){
+    BOOL bReturnStatus = FALSE;
+    BOINCTRACE("***** Console Event Detected *****\n");
+    switch( dwCtrlType ){
+    case CTRL_LOGOFF_EVENT:
+        BOINCTRACE("Event: CTRL-LOGOFF Event\n");
+        if (!gstate.executing_as_daemon) {
+           quit_client();
+        }
+        bReturnStatus =  TRUE;
+        break;
+    case CTRL_C_EVENT:
+    case CTRL_BREAK_EVENT:
+        BOINCTRACE("Event: CTRL-C or CTRL-BREAK Event\n");
+        quit_client();
+        bReturnStatus =  TRUE;
+        break;
+    case CTRL_CLOSE_EVENT:
+    case CTRL_SHUTDOWN_EVENT:
+        BOINCTRACE("Event: CTRL-CLOSE or CTRL-SHUTDOWN Event\n");
+        quit_client();
+        break;
+    }
+    return bReturnStatus;
+}
+
+// Trap events on Windows so we can clean ourselves up.
+LRESULT CALLBACK WindowsMonitorSystemWndProc(
+    HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
+) {
+    switch(uMsg) {
+        // On Windows power events are broadcast via the WM_POWERBROADCAST
+        //   window message.  It has the following parameters:
+        //     PBT_APMQUERYSUSPEND
+        //     PBT_APMQUERYSUSPENDFAILED
+        //     PBT_APMSUSPEND
+        //     PBT_APMRESUMECRITICAL
+        //     PBT_APMRESUMESUSPEND
+        //     PBT_APMBATTERYLOW
+        //     PBT_APMPOWERSTATUSCHANGE
+        //     PBT_APMOEMEVENT
+        //     PBT_APMRESUMEAUTOMATIC 
+        case WM_POWERBROADCAST:
+            switch(wParam) {
+                // System is preparing to suspend.  This is valid on
+                //   Windows versions older than Vista
+                case PBT_APMQUERYSUSPEND:
+                    return TRUE;
+                    break;
+
+                // System is resuming from a failed request to suspend
+                //   activity.  This is only valid on Windows versions
+                //   older than Vista
+                case PBT_APMQUERYSUSPENDFAILED:
+                    resume_client();
+                    break;
+
+                // System is critically low on battery power.  This is
+                //   only valid on Windows versions older than Vista
+                case PBT_APMBATTERYLOW:
+                    msg_printf(NULL, MSG_INFO, "Critical battery alarm, Windows is suspending operations");
+                    suspend_client(true);
+                    break;
+
+                // System is suspending
+                case PBT_APMSUSPEND:
+                    msg_printf(NULL, MSG_INFO, "Windows is suspending operations");
+                    suspend_client(true);
+                    break;
+
+                // System is resuming from a normal power event
+                case PBT_APMRESUMESUSPEND:
+                    msg_printf(NULL, MSG_INFO, "Windows is resuming operations");
+                    resume_client();
+                    break;
+            }
+            break;
+        default:
+            break;
+    }
+    return (DefWindowProc(hWnd, uMsg, wParam, lParam));
+}
+
+// Create a thread to monitor system events
+DWORD WINAPI WindowsMonitorSystemThread( LPVOID  ) {
+    HWND hwndMain;
+    WNDCLASS wc;
+    MSG msg;
+
+    wc.style         = CS_GLOBALCLASS;
+    wc.lpfnWndProc   = (WNDPROC)WindowsMonitorSystemWndProc;
+    wc.cbClsExtra    = 0;
+    wc.cbWndExtra    = 0;
+    wc.hInstance     = NULL;
+    wc.hIcon         = NULL;
+    wc.hCursor       = NULL;
+    wc.hbrBackground = NULL;
+    wc.lpszMenuName  = NULL;
+	wc.lpszClassName = "BOINCWindowsMonitorSystem";
+
+    if (!RegisterClass(&wc)) {
+        fprintf(stderr, "Failed to register the WindowsMonitorSystem window class.\n");
+        return 1;
+    }
+
+    /* Create an invisible window */
+    hwndMain = CreateWindow(
+        wc.lpszClassName,
+		"BOINC Monitor System",
+        WS_OVERLAPPEDWINDOW & ~WS_VISIBLE,
+        CW_USEDEFAULT,
+        CW_USEDEFAULT,
+        CW_USEDEFAULT,
+        CW_USEDEFAULT,
+        NULL,
+        NULL,
+        NULL,
+        NULL);
+
+    if (!hwndMain) {
+        fprintf(stderr, "Failed to create the WindowsMonitorSystem window.\n");
+        return 0;
+    }
+
+    while (GetMessage(&msg, NULL, 0, 0)) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+    return 0;
+}
+
+// Setup the client software to monitor various system events
+int initialize_system_monitor(int /*argc*/, char** /*argv*/) {
+
+    // Windows: install console controls
+    if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)ConsoleControlHandler, TRUE)){
+        log_message_error("Failed to register the console control handler.");
+        return ERR_IO;
+    }
+
+    // Create a window to receive system events that are
+    //   not taken care of by the console APIs.  The console
+    //   APIs haven't been updated to handle various power states.
+    g_hWindowsMonitorSystemThread = CreateThread(
+        NULL,
+        0,
+        WindowsMonitorSystemThread,
+        NULL,
+        0,
+        &g_WindowsMonitorSystemThreadID);
+
+    if (!g_hWindowsMonitorSystemThread) {
+        g_hWindowsMonitorSystemThread = NULL;
+        g_WindowsMonitorSystemThreadID = NULL;
+    }
+
+    return 0;
+}
+
+// Cleanup the system event monitor
+int cleanup_system_monitor() {
+
+    if (g_WindowsMonitorSystemThreadID) {
+	    PostThreadMessage(g_WindowsMonitorSystemThreadID, WM_QUIT, 0, 0);
+        WaitForSingleObject(g_hWindowsMonitorSystemThread, 10000);
+    }
+
+    if (g_hWindowsMonitorSystemThread) {
+        CloseHandle(g_hWindowsMonitorSystemThread);
+        g_hWindowsMonitorSystemThread = NULL;
+        g_WindowsMonitorSystemThreadID = NULL;
+    }
+
+    return 0;
+}
+
+// internal variables for managing the service
 SERVICE_STATUS          ssStatus;       // current status of the service
 SERVICE_STATUS_HANDLE   sshStatusHandle;
 DWORD                   dwErr = 0;
 TCHAR                   szErr[1024];
 
+SERVICE_TABLE_ENTRY     service_dispatch_table[] = {
+    { TEXT(SZSERVICENAME), (LPSERVICE_MAIN_FUNCTION)BOINCServiceMain },
+    { NULL, NULL }
+};
+
+// Inform the service control manager that the service is about to
+// start.
+int initialize_service_dispatcher(int /*argc*/, char** /*argv*/) {
+    fprintf(stdout, "\nStartServiceCtrlDispatcher being called.\n");
+    fprintf(stdout, "This may take several seconds.  Please wait.\n");
+
+    if (!StartServiceCtrlDispatcher(service_dispatch_table)) {
+        log_message_error("StartServiceCtrlDispatcher failed.");
+        return ERR_IO;
+    }
+    return 0;
+}
 
 //
-//  FUNCTION: service_main
+//  FUNCTION: BOINCServiceMain
 //
 //  PURPOSE: To perform actual initialization of the service
 //
@@ -47,7 +287,7 @@ TCHAR                   szErr[1024];
 //    the user defined main() routine to perform majority
 //    of the work.
 //
-void WINAPI service_main(DWORD /*dwArgc*/, LPTSTR * /*lpszArgv*/)
+void WINAPI BOINCServiceMain(DWORD /*dwArgc*/, LPTSTR * /*lpszArgv*/)
 {
     // SERVICE_STATUS members that don't change in example
     //
@@ -58,7 +298,7 @@ void WINAPI service_main(DWORD /*dwArgc*/, LPTSTR * /*lpszArgv*/)
 
     // register our service control handler:
     //
-    sshStatusHandle = RegisterServiceCtrlHandler( TEXT(SZSERVICENAME), service_ctrl);
+    sshStatusHandle = RegisterServiceCtrlHandler( TEXT(SZSERVICENAME), BOINCServiceCtrl);
     if (!sshStatusHandle)
         goto cleanup;
 
@@ -83,7 +323,7 @@ cleanup:
 
 
 //
-//  FUNCTION: service_ctrl
+//  FUNCTION: BOINCServiceCtrl
 //
 //  PURPOSE: This function is called by the SCM whenever
 //           ControlService() is called on this service.
@@ -96,7 +336,7 @@ cleanup:
 //
 //  COMMENTS:
 //
-VOID WINAPI service_ctrl(DWORD dwCtrlCode)
+VOID WINAPI BOINCServiceCtrl(DWORD dwCtrlCode)
 {
     // Handle the requested control code.
     //
@@ -119,7 +359,7 @@ VOID WINAPI service_ctrl(DWORD dwCtrlCode)
         //
 		case SERVICE_CONTROL_PAUSE:
             ReportStatus(SERVICE_PAUSE_PENDING, ERROR_SUCCESS, 10000);
-			suspend_client();
+			suspend_client(true);
             ReportStatus(SERVICE_PAUSED, ERROR_SUCCESS, 10000);
             return;
 
@@ -323,9 +563,6 @@ VOID LogEventInfoMessage(LPTSTR lpszMsg)
         (VOID) DeregisterEventSource(hEventSource);
     }
 }
-
-
-#endif
 
 
 const char *BOINC_RCSID_ad2dd5eef4 = "$Id$";

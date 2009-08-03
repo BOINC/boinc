@@ -6718,3 +6718,14 @@ David  31 July 2009
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
 
+Rom    2 Aug 2009
+    - client: refactor the CC startup process, move majority of the
+        windows code into sysmon_win.cpp, .h
+        
+    client/
+        client_state.cpp, .h
+        cpp.h
+        http_curl.cpp
+        main.cpp, .h
+        net_stats.cpp
+        sysmon_win.cpp, .h

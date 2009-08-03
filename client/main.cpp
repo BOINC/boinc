@@ -20,24 +20,15 @@
 // This file contains no GUI-related code.
 
 #ifdef WIN32
-#define _CONSOLE 1
 #include "boinc_win.h"
-#include "win_service.h"
+#include "sysmon_win.h"
 #include "win_util.h"
 
 extern HINSTANCE g_hClientLibraryDll;
-static HANDLE g_hWindowsMonitorSystemThread = NULL;
-static DWORD g_WindowsMonitorSystemThreadID = NULL;
-static bool requested_suspend = false;
-static bool requested_resume = false;
-
 typedef BOOL (CALLBACK* ClientLibraryStartup)();
 typedef BOOL (CALLBACK* IdleTrackerStartup)();
 typedef void (CALLBACK* IdleTrackerShutdown)();
 typedef void (CALLBACK* ClientLibraryShutdown)();
-#ifndef _T
-#define _T(X) X
-#endif
 
 #else
 #include "config.h"
@@ -56,11 +47,6 @@ typedef void (CALLBACK* ClientLibraryShutdown)();
 #include "SetupSecurity.h"
 #endif
 
-#ifdef __EMX__
-#define INCL_DOS
-#include <os2.h>
-#endif
-
 #include "diagnostics.h"
 #include "error_numbers.h"
 #include "str_util.h"
@@ -70,7 +56,6 @@ typedef void (CALLBACK* ClientLibraryShutdown)();
 #include "prefs.h"
 #include "filesys.h"
 #include "network.h"
-
 #include "client_state.h"
 #include "file_names.h"
 #include "log_flags.h"
@@ -80,12 +65,9 @@ typedef void (CALLBACK* ClientLibraryShutdown)();
 
 #include "main.h"
 
+
+int initialize();
 int finalize();
-
-
-// Determine when it is safe to leave the quit_client() handler
-//   and allow Windows to finish cleaning up.
-static bool boinc_cleanup_completed = false;
 
 
 // Display a message to the user.
@@ -123,171 +105,85 @@ void show_message(PROJECT *p, char* msg, int priority) {
 
     printf("%s [%s] %s\n", time_string, x, message);
     if (gstate.executing_as_daemon) {
-#if defined(WIN32) && defined(_CONSOLE)
+#ifdef _WIN32
         char event_message[2048];
-        stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
+        sprintf(event_message, "%s [%s] %s\n", time_string,  x, message);
         ::OutputDebugString(event_message);
 #endif
     }
 }
 
-#ifdef WIN32
-// The following 3 functions are called in a separate thread,
-// so we can't do anything directly.
-// Set flags telling the main thread what to do.
+// Log informational messages to system specific places
 //
-void quit_client() {
-    gstate.requested_exit = true;
-    while (1) {
-        boinc_sleep(1.0);
-        if (boinc_cleanup_completed) break;
-    }
-}
-
-void suspend_client(bool wait) {
-    requested_suspend = true;
-    if (wait) {
-        while (1) {
-            boinc_sleep(1.0);
-            if (!gstate.active_tasks.is_task_executing()) break;
-        }
-    }
-}
-
-void resume_client() {
-    requested_resume = true;
-}
-
-// Trap power events on Windows so we can clean ourselves up.
-LRESULT CALLBACK WindowsMonitorSystemWndProc(
-    HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
-) {
-    switch(uMsg) {
-        // On Windows power events are broadcast via the WM_POWERBROADCAST
-        //   window message.  It has the following parameters:
-        //     PBT_APMQUERYSUSPEND
-        //     PBT_APMQUERYSUSPENDFAILED
-        //     PBT_APMSUSPEND
-        //     PBT_APMRESUMECRITICAL
-        //     PBT_APMRESUMESUSPEND
-        //     PBT_APMBATTERYLOW
-        //     PBT_APMPOWERSTATUSCHANGE
-        //     PBT_APMOEMEVENT
-        //     PBT_APMRESUMEAUTOMATIC 
-        case WM_POWERBROADCAST:
-            switch(wParam) {
-                // System is preparing to suspend.  This is valid on
-                //   Windows versions older than Vista
-                case PBT_APMQUERYSUSPEND:
-                    return TRUE;
-                    break;
-
-                // System is resuming from a failed request to suspend
-                //   activity.  This is only valid on Windows versions
-                //   older than Vista
-                case PBT_APMQUERYSUSPENDFAILED:
-                    resume_client();
-                    break;
-
-                // System is critically low on battery power.  This is
-                //   only valid on Windows versions older than Vista
-                case PBT_APMBATTERYLOW:
-                    msg_printf(NULL, MSG_INFO, "Critical battery alarm, Windows is suspending operations");
-                    suspend_client(true);
-                    break;
-
-                // System is suspending
-                case PBT_APMSUSPEND:
-                    msg_printf(NULL, MSG_INFO, "Windows is suspending operations");
-                    suspend_client(true);
-                    break;
-
-                // System is resuming from a normal power event
-                case PBT_APMRESUMESUSPEND:
-                    msg_printf(NULL, MSG_INFO, "Windows is resuming operations");
-                    resume_client();
-                    break;
-            }
-            break;
-        default:
-            break;
-    }
-    return (DefWindowProc(hWnd, uMsg, wParam, lParam));
-}
-
-DWORD WINAPI WindowsMonitorSystemThread( LPVOID  ) {
-    HWND hwndMain;
-    WNDCLASS wc;
-    MSG msg;
-
-    wc.style         = CS_GLOBALCLASS;
-    wc.lpfnWndProc   = (WNDPROC)WindowsMonitorSystemWndProc;
-    wc.cbClsExtra    = 0;
-    wc.cbWndExtra    = 0;
-    wc.hInstance     = NULL;
-    wc.hIcon         = NULL;
-    wc.hCursor       = NULL;
-    wc.hbrBackground = NULL;
-    wc.lpszMenuName  = NULL;
-	wc.lpszClassName = "BOINCWindowsMonitorSystem";
-
-    if (!RegisterClass(&wc)) {
-        fprintf(stderr, "Failed to register the WindowsMonitorSystem window class.\n");
-        return 1;
-    }
-
-    /* Create an invisible window */
-    hwndMain = CreateWindow(
-        wc.lpszClassName,
-		"BOINC Monitor System",
-        WS_OVERLAPPEDWINDOW & ~WS_VISIBLE,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        NULL,
-        NULL,
-        NULL,
-        NULL);
-
-    if (!hwndMain) {
-        fprintf(stderr, "Failed to create the WindowsMonitorSystem window.\n");
-        return 0;
-    }
-
-    while (GetMessage(&msg, NULL, 0, 0)) {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }
-    return 0;
-}
-
-BOOL WINAPI ConsoleControlHandler( DWORD dwCtrlType ){
-    BOOL bReturnStatus = FALSE;
-    BOINCTRACE("***** Console Event Detected *****\n");
-    switch( dwCtrlType ){
-    case CTRL_LOGOFF_EVENT:
-        BOINCTRACE("Event: CTRL-LOGOFF Event\n");
-        if (!gstate.executing_as_daemon) {
-           quit_client();
-        }
-        bReturnStatus =  TRUE;
-        break;
-    case CTRL_C_EVENT:
-    case CTRL_BREAK_EVENT:
-        BOINCTRACE("Event: CTRL-C or CTRL-BREAK Event\n");
-        quit_client();
-        bReturnStatus =  TRUE;
-        break;
-    case CTRL_CLOSE_EVENT:
-    case CTRL_SHUTDOWN_EVENT:
-        BOINCTRACE("Event: CTRL-CLOSE or CTRL-SHUTDOWN Event\n");
-        quit_client();
-        break;
-    }
-    return bReturnStatus;
-}
+void log_message_startup(char* msg) {
+    char evt_msg[2048];
+    snprintf(evt_msg, sizeof(evt_msg),
+        "%s\n",
+        msg
+    );
+    if (!gstate.executing_as_daemon) {
+        fprintf(stdout, evt_msg);
+    } else {
+#ifdef _WIN32
+        LogEventInfoMessage(evt_msg);
+#elif defined(__EMX__)
+#elif defined (__APPLE__)
 #else
+        syslog(LOG_DAEMON|LOG_INFO, evt_msg);
+#endif
+    }
+}
+
+// Log error messages to system specific places
+//
+void log_message_error(char* msg) {
+    char evt_msg[2048];
+#ifdef _WIN32
+    snprintf(evt_msg, sizeof(evt_msg),
+        "%s\n"
+        "GLE: %s\n",
+        msg, windows_error_string(evt_msg, (sizeof(evt_msg)-((int)strlen(msg)+7)))
+    );
+#else
+    snprintf(evt_msg, sizeof(evt_msg),
+        "%s\n"
+        msg
+    );
+#endif
+    if (!gstate.executing_as_daemon) {
+        fprintf(stderr, evt_msg);
+    } else {
+#ifdef _WIN32
+        LogEventErrorMessage(evt_msg);
+#elif defined(__EMX__)
+#elif defined (__APPLE__)
+#else
+        syslog(LOG_DAEMON|LOG_ERR, evt_msg);
+#endif
+    }
+}
+
+void log_message_error(char* msg, int error_code) {
+    char evt_msg[2048];
+    snprintf(evt_msg, sizeof(evt_msg),
+        "%s\n"
+        "Error Code: %d\n",
+        msg, error_code
+    );
+    if (!gstate.executing_as_daemon) {
+        fprintf(stderr, evt_msg);
+    } else {
+#ifdef _WIN32
+        LogEventErrorMessage(evt_msg);
+#elif defined(__EMX__)
+#elif defined (__APPLE__)
+#else
+        syslog(LOG_DAEMON|LOG_ERR, evt_msg);
+#endif
+    }
+}
+
+#ifndef _WIN32
 static void signal_handler(int signum) {
     msg_printf(NULL, MSG_INFO, "Received signal %d", signum);
     switch(signum) {
@@ -371,23 +267,7 @@ static void init_core_client(int argc, char** argv) {
     boinc_set_signal_handler(SIGPWR, signal_handler);
 #endif
 #endif
-
-    // Windows: install console controls
-#ifdef _WIN32
-    if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)ConsoleControlHandler, TRUE)){
-        if (!gstate.executing_as_daemon) {
-            fprintf(stderr, "Failed to register the console control handler\n");
-        } else {
-            LogEventErrorMessage(TEXT("Failed to register the console control handler\n"));
-        }
-        exit(1);
-    }
-#endif
 }
-
-#ifdef _WIN32
-char event_message[2048];
-#endif
 
 int initialize() {
     int retval;
@@ -395,33 +275,14 @@ int initialize() {
 #ifdef _WIN32
     g_hClientLibraryDll = LoadLibrary("boinc.dll");
     if(!g_hClientLibraryDll) {
-        stprintf(event_message, 
-            TEXT("BOINC Core Client Error Message\n"
-                 "Failed to initialize the BOINC Client Library.\n"
-                 "Load failed: %s\n"),
-            windows_error_string(event_message, sizeof(event_message))
-        );
-        if (!gstate.executing_as_daemon) {
-            fprintf(stderr, event_message);
-        } else {
-            LogEventErrorMessage(event_message);
-        }
+        log_message_error("Failed to initialize the BOINC Client Library.");
     }
 #endif
 
     if (!config.allow_multiple_clients) {
         retval = wait_client_mutex(".", 10);
         if (retval) {
-            fprintf(stderr, 
-                "Another instance of BOINC is running\n"
-            );
-#ifdef _WIN32
-            if (!gstate.executing_as_daemon) {
-                LogEventErrorMessage(
-                    TEXT("Another instance of BOINC is running")
-                );
-            }
-#endif
+            log_message_error("Another instance of BOINC is running.");
             return ERR_EXEC;
         }
     }
@@ -430,21 +291,7 @@ int initialize() {
     // Initialize WinSock
 #if defined(_WIN32) && defined(USE_WINSOCK)
     if (WinsockInitialize() != 0) {
-        if (!gstate.executing_as_daemon) {
-            fprintf(stderr,
-                TEXT("BOINC Core Client Error Message\n"
-                    "Failed to initialize the Windows Sockets interface\n"
-                    "Terminating Application...\n"
-                )
-            );
-        } else {
-            LogEventErrorMessage(
-                TEXT("BOINC Core Client Error Message\n"
-                    "Failed to initialize the Windows Sockets interface\n"
-                    "Terminating Application...\n"
-                )
-            );
-        }
+        log_message_error("Failed to initialize the Windows Sockets interface.");
         return ERR_IO;
     }
 #endif
@@ -456,41 +303,23 @@ int initialize() {
         ClientLibraryStartup fnClientLibraryStartup;
         IdleTrackerStartup fnIdleTrackerStartup;
 
-        fnClientLibraryStartup = (ClientLibraryStartup)GetProcAddress(g_hClientLibraryDll, _T("ClientLibraryStartup"));
+        fnClientLibraryStartup = (ClientLibraryStartup)GetProcAddress(g_hClientLibraryDll, "ClientLibraryStartup");
         if(fnClientLibraryStartup) {
             if(!fnClientLibraryStartup()) {
-                stprintf(event_message, 
-                    TEXT("BOINC Core Client Error Message\n"
-                        "Failed to initialize the BOINC Client Library Interface.\n"
-                        "BOINC will not be able to determine if the user is idle or not...\n"
-                        "Load failed: %s\n"
-                    ),
-                    windows_error_string(event_message, sizeof(event_message))
+                log_message_error(
+                    "Failed to initialize the BOINC Client Library Interface."
+                    "BOINC will not be able to determine if the user is idle or not...\n"
                 );
-                if (!gstate.executing_as_daemon) {
-                    fprintf(stderr, event_message);
-                } else {
-                    LogEventErrorMessage(event_message);
-                }
             }
         }
 
-        fnIdleTrackerStartup = (IdleTrackerStartup)GetProcAddress(g_hClientLibraryDll, _T("IdleTrackerStartup"));
+        fnIdleTrackerStartup = (IdleTrackerStartup)GetProcAddress(g_hClientLibraryDll, "IdleTrackerStartup");
         if(fnIdleTrackerStartup) {
             if(!fnIdleTrackerStartup()) {
-                stprintf(event_message, 
-                    TEXT("BOINC Core Client Error Message\n"
-                        "Failed to initialize the BOINC Idle Detection Interface.\n"
-                        "BOINC will not be able to determine if the user is idle or not...\n"
-                        "Load failed: %s\n"
-                    ),
-                    windows_error_string(event_message, sizeof(event_message))
+                log_message_error(
+                    "Failed to initialize the BOINC Client Library Interface."
+                    "BOINC will not be able to determine if the user is idle or not...\n"
                 );
-                if (!gstate.executing_as_daemon) {
-                    fprintf(stderr, event_message);
-                } else {
-                    LogEventErrorMessage(event_message);
-                }
             }
         }
     }
@@ -507,23 +336,11 @@ int boinc_main_loop() {
 
     retval = gstate.init();
     if (retval) {
-        fprintf(stderr, "gstate.init() failed: %d\n", retval);
-#ifdef _WIN32
-        if (gstate.executing_as_daemon) {
-            stprintf(event_message, TEXT("gstate.init() failed: %d\n"), retval);
-            LogEventErrorMessage(event_message);
-        }
-#endif
+        log_message_error("gstate.init() failed", retval);
         return retval;
     }
 
-#ifdef _WIN32
-    if (gstate.executing_as_daemon) {
-        LogEventInfoMessage(
-            TEXT("BOINC service initialization completed, beginning process execution...\n")
-        );
-    }
-#endif
+    log_message_startup("BOINC initialization completed, beginning process execution...");
 
     // must parse env vars after gstate.init();
     // otherwise items will get overwritten with state file info
@@ -543,6 +360,7 @@ int boinc_main_loop() {
         if (!gstate.poll_slow_events()) {
             gstate.do_io_or_sleep(POLL_INTERVAL);
         }
+        fflush(stderr);
         fflush(stdout);
 
         if (gstate.time_to_exit()) {
@@ -568,23 +386,16 @@ int boinc_main_loop() {
                 break;
             }
         }
-#ifdef _WIN32
-        if (requested_suspend) {
+        if (gstate.requested_suspend) {
             gstate.run_mode.set(RUN_MODE_NEVER, 3600);
             gstate.network_mode.set(RUN_MODE_NEVER, 3600);
-            requested_suspend = false;
+            gstate.requested_suspend = false;
         }
-        if (requested_resume) {
+        if (gstate.requested_resume) {
             gstate.run_mode.set(RUN_MODE_RESTORE, 0);
             gstate.network_mode.set(RUN_MODE_RESTORE, 0);
-            requested_resume = false;
+            gstate.requested_resume = false;
         }
-#endif
-#ifdef __EMX__
-        // give timeslice also to other processes,
-        // otherwise we will get 100% cpu
-        DosSleep(0);
-#endif
     }
 
     return finalize();
@@ -601,30 +412,18 @@ int finalize() {
         IdleTrackerShutdown fnIdleTrackerShutdown;
         ClientLibraryShutdown fnClientLibraryShutdown;
 
-        fnIdleTrackerShutdown = (IdleTrackerShutdown)GetProcAddress(g_hClientLibraryDll, _T("IdleTrackerShutdown"));
+        fnIdleTrackerShutdown = (IdleTrackerShutdown)GetProcAddress(g_hClientLibraryDll, "IdleTrackerShutdown");
         if(fnIdleTrackerShutdown) {
             fnIdleTrackerShutdown();
         }
 
-        fnClientLibraryShutdown = (ClientLibraryShutdown)GetProcAddress(g_hClientLibraryDll, _T("ClientLibraryShutdown"));
+        fnClientLibraryShutdown = (ClientLibraryShutdown)GetProcAddress(g_hClientLibraryDll, "ClientLibraryShutdown");
         if(fnClientLibraryShutdown) {
             fnClientLibraryShutdown();
         }
 
         if(!FreeLibrary(g_hClientLibraryDll)) {
-            stprintf(event_message, 
-                TEXT("BOINC Core Client Error Message\n"
-                    "Failed to cleanup the BOINC Idle Detection Interface\n"
-                    "Unload failed: %s\n"
-                ),
-                windows_error_string(event_message, sizeof(event_message))
-            );
-
-            if (!gstate.executing_as_daemon) {
-                fprintf(stderr, event_message);
-            } else {
-                LogEventErrorMessage(event_message);
-            }
+            log_message_error("Failed to cleanup the BOINC Idle Detection Interface");
         }
 
         g_hClientLibraryDll = NULL;
@@ -632,70 +431,58 @@ int finalize() {
 
 #ifdef USE_WINSOCK
     if (WinsockCleanup()) {
-        stprintf(event_message, 
-            TEXT("BOINC Core Client Error Message\n"
-                "Failed to cleanup the Windows Sockets interface\n"
-                "Unload failed: %s\n"
-            ),
-            windows_error_string(event_message, sizeof(event_message))
-        );
-        if (!gstate.executing_as_daemon) {
-            fprintf(stderr, event_message);
-        } else {
-            LogEventErrorMessage(event_message);
-        }
+        log_message_error("Failed to cleanup the Windows Sockets interface");
         return ERR_IO;
     }
 #endif
 
-    if (g_WindowsMonitorSystemThreadID) {
-	    PostThreadMessage(g_WindowsMonitorSystemThreadID, WM_QUIT, 0, 0);
-    }
+    cleanup_system_monitor();
 
 #endif
 
 	curl_cleanup();
-    boinc_cleanup_completed = true;
+    gstate.cleanup_completed = true;
     return 0;
 }
 
 int main(int argc, char** argv) {
     int retval = 0;
 
-    // TODO: clean up the following
-    //
-#ifdef _WIN32
-    int i, len;
-    char *commandLine;
-    STARTUPINFO si;
-    PROCESS_INFORMATION pi;
-
-    // Allow the system to know it is running as a Windows service
-    // and adjust its diagnostics schemes accordingly.
-    if ( (argc > 1) && ((*argv[1] == '-') || (*argv[1] == '/')) ) {
-        if ( stricmp( "daemon", argv[1]+1 ) == 0 ) {
+    for (int index = 1; index < argc; index++) {
+        if (strcmp(argv[index], "-daemon") == 0 || strcmp(argv[index], "--daemon") == 0) {
             gstate.executing_as_daemon = true;
-            LogEventInfoMessage(
-                TEXT("BOINC service is initializing...\n")
-            );
+            log_message_startup("BOINC is initializing...");
+#if !defined(_WIN32) && !defined(__EMX__) && !defined(__APPLE__)
+            // from <unistd.h>:
+            // Detach from the controlling terminal and run in the background as system daemon.
+            // Don't change working directory to root ("/"), but redirect
+            // standard input, standard output and standard error to /dev/null.
+            retval = daemon(1, 0);
+            break;
+#endif
         }
-    }
 
-    // This bit of silliness is required to properly detach when run from within a command
-    // prompt under Win32.  The root cause of the problem is that CMD.EXE does not return
-    // control to the user until the spawned program exits, detaching from the console is
-    // not enough.  So we need to do the following.  If the -detach flag is given, trap it
-    // prior to the main setup in init_core_client.  Reinvoke the program, changing the
-    // -detach into -detach_phase_two, and then exit.  At this point, cmd.exe thinks all is
-    // well, and returns control to the user.  Meanwhile the second invocation will grok the
-    // -detach_phase_two flag, and detach itself from the console, finally getting us to
-    // where we want to be.
-    for (i = 1; i < argc; i++) {
+#ifdef _WIN32
+        // This bit of silliness is required to properly detach when run from within a command
+        // prompt under Win32.  The root cause of the problem is that CMD.EXE does not return
+        // control to the user until the spawned program exits, detaching from the console is
+        // not enough.  So we need to do the following.  If the -detach flag is given, trap it
+        // prior to the main setup in init_core_client.  Reinvoke the program, changing the
+        // -detach into -detach_phase_two, and then exit.  At this point, cmd.exe thinks all is
+        // well, and returns control to the user.  Meanwhile the second invocation will grok the
+        // -detach_phase_two flag, and detach itself from the console, finally getting us to
+        // where we want to be.
+
         // FIXME FIXME.  Duplicate instances of -detach may cause this to be
         // executed unnecessarily.  At worst, I think it leads to a few extra
         // processes being created and destroyed.
-        if (strcmp(argv[i], "-detach") == 0 || strcmp(argv[i], "--detach") == 0) {
-            argv[i] = "-detach_phase_two";
+        if (strcmp(argv[index], "-detach") == 0 || strcmp(argv[index], "--detach") == 0) {
+            int i, len;
+            char *commandLine;
+            STARTUPINFO si;
+            PROCESS_INFORMATION pi;
+
+            argv[index] = "-detach_phase_two";
 
             // start with space for two '"'s
             len = 2;
@@ -726,75 +513,22 @@ int main(int argc, char** argv) {
             }
             break;
         }
-    }
-#elif defined __EMX__
-#elif ! defined (__APPLE__)
-    // non-Apple Unix
-    int i;
-    
-    for (i=1; i<argc; i++) {
-        if (strcmp(argv[i], "-daemon") == 0 || strcmp(argv[i], "--daemon") == 0) {
-            syslog(LOG_DAEMON|LOG_INFO,
-                "Starting BOINC as daemon, listening on port %d.", GUI_RPC_PORT
-            );
-            // from <unistd.h>:
-            // Detach from the controlling terminal and run in the background as system daemon.
-            // Don't change working directory to root ("/"), but redirect
-            // standard input, standard output and standard error to /dev/null.
-            retval = daemon(1, 0);
-            break;
-        }
-    }
 #endif
+    }
 
     init_core_client(argc, argv);
 
 #ifdef _WIN32
 
-    // 
-    // Create a window to receive system events that are
-    //   not taken care of by the console APIs.  The console
-    //   APIs haven't been updated to handle various power states.
-    //
-    // Win9x doesn't send us the shutdown or close console
-    //   event, so we are going to create a hidden window
-    //   to trap a WM_QUERYENDSESSION event.
-    //
-    g_hWindowsMonitorSystemThread = CreateThread(
-        NULL,
-        0,
-        WindowsMonitorSystemThread,
-        NULL,
-        0,
-        &g_WindowsMonitorSystemThreadID);
+    retval = initialize_system_monitor(argc, argv);
+    if (retval) return retval;
 
-    if (g_hWindowsMonitorSystemThread) {
-        CloseHandle(g_hWindowsMonitorSystemThread);
+    if ( (argc > 1) && (strcmp(argv[1], "-daemon") == 0 || strcmp(argv[1], "--daemon")) ) {
+        retval = initialize_service_dispatcher(argc, argv);
     } else {
-        g_hWindowsMonitorSystemThread = NULL;
-        g_WindowsMonitorSystemThreadID = NULL;
+        retval = boinc_main_loop(); 
     }
 
-    SERVICE_TABLE_ENTRY dispatchTable[] = {
-        { TEXT(SZSERVICENAME), (LPSERVICE_MAIN_FUNCTION)service_main },
-        { NULL, NULL }
-    };
-
-    if ( (argc > 1) && ((*argv[1] == '-') || (*argv[1] == '/')) ) {
-        if ( stricmp( "daemon", argv[1]+1 ) == 0 ) {
-
-            printf( "\nStartServiceCtrlDispatcher being called.\n" );
-            printf( "This may take several seconds.  Please wait.\n" );
-
-            if (!StartServiceCtrlDispatcher(dispatchTable)) {
-                LogEventErrorMessage(TEXT("StartServiceCtrlDispatcher failed."));
-            }
-        } else {
-            retval = boinc_main_loop();
-        }
-    } else {
-        retval = boinc_main_loop();
-    }
 #else
 
 #ifdef SANDBOX
@@ -827,9 +561,9 @@ int main(int argc, char** argv) {
     }
 #endif  // SANDBOX
 
-    retval = boinc_main_loop();
-#endif
+    retval = boinc_main_loop(); 
 
+#endif
     return retval;
 }
 

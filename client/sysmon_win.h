@@ -1,9 +1,22 @@
-// Contributor(s):
-//		Craig Link, Microsoft Corp., Service Sample Template
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2008 University of California
 //
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _WIN_SERVICE_H
-#define _WIN_SERVICE_H
+#ifndef _SYSMON_WIN_H
+#define _SYSMON_WIN_H
 
 #if defined(_WIN32) && defined(_CONSOLE)
 
@@ -11,14 +24,19 @@
 extern "C" {
 #endif
 
+int initialize_system_monitor(int argc, char** argv);
+int initialize_service_dispatcher(int argc, char** argv);
 
-// internal name of the service
+int cleanup_system_monitor();
+
+
+// Internal name of the service
 #define SZSERVICENAME        "BOINC"
 
-// displayed name of the service
+// Displayed name of the service
 #define SZSERVICEDISPLAYNAME "BOINC"
 
-// displayed description of the service
+// Displayed description of the service
 #define SZSERVICEDESCRIPTION "Berkeley Open Infrastructure for Network Computing"
 
 // Service Accepted Actions
@@ -28,8 +46,8 @@ extern "C" {
     SERVICE_ACCEPT_SHUTDOWN ) 
 
 // Service Control Manager Routines
-VOID WINAPI service_main(DWORD dwArgc, LPTSTR *lpszArgv);
-VOID WINAPI service_ctrl(DWORD dwCtrlCode);
+VOID WINAPI BOINCServiceMain(DWORD dwArgc, LPTSTR *lpszArgv);
+VOID WINAPI BOINCServiceCtrl(DWORD dwCtrlCode);
 BOOL		ReportStatus(DWORD dwCurrentState, DWORD dwWin32ExitCode, DWORD dwWaitHint);
 VOID		LogEventErrorMessage(LPTSTR lpszMsg);
 VOID		LogEventWarningMessage(LPTSTR lpszMsg);

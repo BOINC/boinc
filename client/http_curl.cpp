@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cpp.h"
-
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
@@ -32,6 +30,7 @@
 #endif
 #endif
 
+#include "cpp.h"
 #include "error_numbers.h"
 #include "filesys.h"
 #include "client_msgs.h"
@@ -105,7 +104,7 @@ void parse_url(const char* url, int &protocol, char* host, int &port, char* file
         // CMC note:  if they didn't pass in a port #,
         //    but the url starts with https://, assume they
         //    want a secure port (HTTPS, port 443)
-        port = (protocol==URL_PROTOCOL_HTTPS)?443:80;
+        port = (protocol == URL_PROTOCOL_HTTPS) ? 443 : 80;
     }
 
     // what remains is the host
