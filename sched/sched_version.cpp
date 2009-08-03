@@ -322,10 +322,16 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
         switch (app_plan_reject) {
         case PLAN_REJECT_CUDA_NO_DEVICE:
             p = "Your computer has no NVIDIA GPU"; break;
-        case PLAN_REJECT_CUDA_VERSION:
+        case PLAN_REJECT_NVIDIA_COMPUTE_CAPABILITY:
             p = "Your GPU lacks the needed features"; break;
+        case PLAN_REJECT_CUDA_VERSION:
+            sprintf(buf, "NVIDIA driver version %d or later needed",
+                PLAN_CUDA23_MIN_DRIVER_VERSION
+            );
+            p = buf;
+            break;
         case PLAN_REJECT_NVIDIA_DRIVER_VERSION:
-            sprintf(buf, "driver version %d or later needed",
+            sprintf(buf, "NVIDIA driver version %d or later needed",
                 PLAN_CUDA_MIN_DRIVER_VERSION
             );
             p = buf;

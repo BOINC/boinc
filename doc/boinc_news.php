@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("August 3, 2009",
+    "Intel (in cooperation with GridRepublic and BOINC) announces
+    <a href=http://apps.facebook.com/processors/new.php>Progress Thru Processors</a>,
+    a Facebook application that makes BOINC participation simpler and more sociable."
+),
 array("July 30, 2009",
     "<a href=http://event.twgrid.org/isgc2009/asiaathome/wiki/index.php/Main_Page#Workshop_Schedule_and_Presentations>Videos of the talks at the recent Asia@home workshop in Taiwan</a> are now online."
 ),

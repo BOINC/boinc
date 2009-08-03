@@ -6729,3 +6729,10 @@ Rom    2 Aug 2009
         main.cpp, .h
         net_stats.cpp
         sysmon_win.cpp, .h
+
+David  3 Aug 2009
+    - scheduler: add plan class for CUDA 2.3
+
+    sched/
+        sched_customize.cpp,h
+        sched_version.cpp

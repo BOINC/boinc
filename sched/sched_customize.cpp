@@ -95,7 +95,7 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             );
         }
         return 0;
-    } else if (!strcmp(plan_class, "cuda")) {
+    } else if (strstr(plan_class, "cuda")) {
         // the following is for an app that uses a CUDA GPU
         //
         COPROC_CUDA* cp = (COPROC_CUDA*)sreq.coprocs.lookup("CUDA");
@@ -107,24 +107,45 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             }
             return PLAN_REJECT_CUDA_NO_DEVICE;
         }
+
+        // check compute capability
+        //
         int v = (cp->prop.major)*100 + cp->prop.minor;
         if (v < 100) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] CUDA version %d < 1.0\n", v
+                    "[version] Compute capability %d < 1.0\n", v
                 );
             }
-            return PLAN_REJECT_CUDA_VERSION;
+            return PLAN_REJECT_NVIDIA_COMPUTE_CAPABILITY;
         } 
 
-        if (cp->display_driver_version && cp->display_driver_version < PLAN_CUDA_MIN_DRIVER_VERSION) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] NVIDIA driver version %d < PLAN_CUDA_MIN_DRIVER_VERSION\n",
-                    cp->display_driver_version
-                );
+        // for CUDA 2.3, we need to check the CUDA RT version.
+        // Old BOINC clients report display driver version;
+        // newer ones report CUDA RT version
+        //
+        if (!strcmp(plan_class, "cuda23")) {
+            if (cp->cuda_version) {
+                if (cp->cuda_version < 2030) {
+                    return PLAN_REJECT_CUDA_VERSION;
+                }
+            } else if (cp->display_driver_version) {
+                if (cp->display_driver_version < PLAN_CUDA_MIN_DRIVER_VERSION) {
+                    return PLAN_REJECT_CUDA_VERSION;
+                }
+            } else {
+                return PLAN_REJECT_CUDA_VERSION;
             }
-            return PLAN_REJECT_NVIDIA_DRIVER_VERSION;
+        } else {
+            if (cp->display_driver_version && cp->display_driver_version < PLAN_CUDA_MIN_DRIVER_VERSION) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] NVIDIA driver version %d < PLAN_CUDA_MIN_DRIVER_VERSION\n",
+                        cp->display_driver_version
+                    );
+                }
+                return PLAN_REJECT_NVIDIA_DRIVER_VERSION;
+            }
         }
 
         if (cp->prop.dtotalGlobalMem < PLAN_CUDA_MIN_RAM) {
