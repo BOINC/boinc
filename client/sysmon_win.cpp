@@ -45,7 +45,7 @@ static DWORD g_WindowsMonitorSystemThreadID = NULL;
 //
 
 // Quit operations
-void quit_client() {
+static void quit_client() {
     gstate.requested_exit = true;
     while (1) {
         boinc_sleep(1.0);
@@ -54,7 +54,7 @@ void quit_client() {
 }
 
 // Suspend client operations
-void suspend_client(bool wait) {
+static void suspend_client(bool wait) {
     gstate.requested_suspend = true;
     if (wait) {
         while (1) {
@@ -65,12 +65,12 @@ void suspend_client(bool wait) {
 }
 
 // Resume client operations
-void resume_client() {
+static void resume_client() {
     gstate.requested_resume = true;
 }
 
 // Process console messages sent by the system
-BOOL WINAPI ConsoleControlHandler( DWORD dwCtrlType ){
+static BOOL WINAPI ConsoleControlHandler( DWORD dwCtrlType ){
     BOOL bReturnStatus = FALSE;
     BOINCTRACE("***** Console Event Detected *****\n");
     switch( dwCtrlType ){
@@ -97,7 +97,7 @@ BOOL WINAPI ConsoleControlHandler( DWORD dwCtrlType ){
 }
 
 // Trap events on Windows so we can clean ourselves up.
-LRESULT CALLBACK WindowsMonitorSystemWndProc(
+static LRESULT CALLBACK WindowsMonitorSystemWndProc(
     HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 ) {
     switch(uMsg) {
@@ -154,7 +154,7 @@ LRESULT CALLBACK WindowsMonitorSystemWndProc(
 }
 
 // Create a thread to monitor system events
-DWORD WINAPI WindowsMonitorSystemThread( LPVOID  ) {
+static DWORD WINAPI WindowsMonitorSystemThread( LPVOID  ) {
     HWND hwndMain;
     WNDCLASS wc;
     MSG msg;
