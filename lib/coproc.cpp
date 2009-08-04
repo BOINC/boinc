@@ -242,7 +242,7 @@ void COPROC_CUDA::get(
     cudalib = dlopen("libcuda.so", RTLD_NOW);
 #endif
     if (!cudalib) {
-        strings.push_back("Can't load library libcudart");
+        strings.push_back("Can't load library libcuda");
         return;
     }
     __cuDeviceGetCount = (int(*)(int*)) dlsym(cudalib, "cuDeviceGetCount");
@@ -256,6 +256,12 @@ void COPROC_CUDA::get(
     __cuDeviceComputeCapability = (int(*)(int*, int*, int)) dlsym( cudalib, "cuDeviceComputeCapability" );
 #endif
 
+#ifdef __APPLE__
+    if (!__cuDriverGetVersion) {
+        strings.push_back("CUDA driver is out of date.  Please install CUDA driver 2.3 or later.");
+        return;
+    }
+#endif
 
     retval = (*__cuInit)(0);
 

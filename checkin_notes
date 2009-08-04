@@ -6747,3 +6747,11 @@ Charlie 3 Aug 2009
     clientgui/
         mac/
             config.h
+
+Charlie 3 Aug 2009
+    - Mac client: client would crash if an older version (< 2.3) of CUDA 
+        driver is installed because __cuDriverGetVersion does not exist, 
+        so test for that and display a message if driver is out of date.
+
+    lib/
+        coproc.cpp
