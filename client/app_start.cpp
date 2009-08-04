@@ -165,7 +165,8 @@ static void coproc_cmdline(
                 );
             } else {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "coproc %d (devnum %d) not in use"
+                    "coproc %d (devnum %d) not in use",
+                    j, coproc->device_nums[j]
                 );
             }
         }
