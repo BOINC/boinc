@@ -3140,7 +3140,7 @@ David  30 June 2009
         gui_rpc_client_ops.cpp
         gui_rpc_client.h
 
-Rom    6 June 2009
+Rom    6 July 2009
     - Tag for 6.6.37 release, all platforms
       boinc_core_release_6_6_37
 
@@ -3291,7 +3291,7 @@ David  17 July 2009
         rr_sim.cpp
         cs_scheduler.cpp
 
-Rom    21 June 2009
+Rom    21 July 2009
     - Tag for 6.6.38 release, all platforms
       boinc_core_release_6_6_38
 
@@ -3310,10 +3310,21 @@ David  22 July 2009
         coproc.cpp
         str_util.h
 
-Rom    22 June 2009
+Rom    22 July 2009
     - Tag for 6.6.39 release, all platforms
       boinc_core_release_6_6_39
 
     /
         configure.ac
         version.h
+
+Charlie 3 Aug 2009
+    - client: fix compiler warning (too few args for print format.)
+    - Mac: fix compile breaks.
+    
+    client/
+        app_start.cpp
+    clientgui/
+        mac/
+            browser_safasri.mm
+            config.h
