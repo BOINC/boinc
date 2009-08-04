@@ -3319,12 +3319,12 @@ Rom    22 July 2009
         version.h
 
 Charlie 3 Aug 2009
-    - client: fix compiler warning (too few args for print format.)
-    - Mac: fix compile breaks.
+    - client: fix compiler warning (too few args for print format)
+    - Mac: fix compile breaks
     
     client/
         app_start.cpp
     clientgui/
         mac/
-            browser_safasri.mm
+            browser_safari.mm
             config.h
