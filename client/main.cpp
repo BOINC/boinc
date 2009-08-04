@@ -523,7 +523,7 @@ int main(int argc, char** argv) {
     retval = initialize_system_monitor(argc, argv);
     if (retval) return retval;
 
-    if ( (argc > 1) && (strcmp(argv[1], "-daemon") == 0 || strcmp(argv[1], "--daemon")) ) {
+    if ( (argc > 1) && (strcmp(argv[1], "-daemon") == 0 || strcmp(argv[1], "--daemon") == 0) ) {
         retval = initialize_service_dispatcher(argc, argv);
     } else {
         retval = boinc_main_loop(); 
