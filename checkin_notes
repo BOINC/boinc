@@ -6736,3 +6736,14 @@ David  3 Aug 2009
     sched/
         sched_customize.cpp,h
         sched_version.cpp
+
+Charlie 3 Aug 2009
+    - client: fix compiler warning (too few args for print format)
+    - Mac: fix compile breaks
+    
+    client/
+        app_start.cpp
+        main.cpp
+    clientgui/
+        mac/
+            config.h

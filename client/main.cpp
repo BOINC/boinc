@@ -146,7 +146,7 @@ void log_message_error(char* msg) {
     );
 #else
     snprintf(evt_msg, sizeof(evt_msg),
-        "%s\n"
+        "%s\n",
         msg
     );
 #endif
