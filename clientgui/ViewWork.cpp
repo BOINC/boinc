@@ -472,15 +472,20 @@ void CViewWork::OnShowItemProperties( wxCommandEvent& WXUNUSED(event) ) {
 
 
 bool CViewWork::OnSaveState(wxConfigBase* pConfig) {
+    bool bReturnValue = true;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pConfig);
     wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
     if (!m_pTaskPane->OnSaveState(pConfig)) {
-        return false;
+        bReturnValue = false;
+    }
+    if (!m_pListPane->OnSaveState(pConfig)) {
+        bReturnValue = false;
     }
 
     wxString    strBaseConfigLocation = wxEmptyString;
@@ -488,7 +493,7 @@ bool CViewWork::OnSaveState(wxConfigBase* pConfig) {
 	pConfig->SetPath(strBaseConfigLocation);
 	pConfig->Write(wxT("ActiveTasksOnly"), (pDoc->m_ActiveTasksOnly ? 1 : 0));
 
-    return true;
+    return bReturnValue;
 }
 
 
@@ -499,8 +504,12 @@ bool CViewWork::OnRestoreState(wxConfigBase* pConfig) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 	wxASSERT(pConfig);
     wxASSERT(m_pTaskPane);
+    wxASSERT(m_pListPane);
 
     if (!m_pTaskPane->OnRestoreState(pConfig)) {
+        return false;
+    }
+    if (!m_pListPane->OnRestoreState(pConfig)) {
         return false;
     }
 

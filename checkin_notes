@@ -6757,10 +6757,12 @@ Charlie 3 Aug 2009
         coproc.cpp
 
 Charlie 7 Aug 2009
-    - MGR: Implement "Show active tasks / Show all tasks" button.
     - client: More efficient implementation of active_only flag in 
         get_results RPC.
+    - MGR: Implement "Show active tasks / Show all tasks" button.
     
+    client/
+        cs_statefile.cpp
     clientgui/
         AsyncRPC.cpp, .h
         Events.h    
