@@ -218,6 +218,10 @@ int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
         error_num = retval;
         net_status.need_physical_connection = true;
 		net_status.last_comm_time = 0;
+
+        // Check for a proxy
+        gstate.proxy_info.detect_autoproxy_settings();
+
         msg_printf(0, MSG_USER_ERROR,
             "BOINC can't access Internet - check network connection or proxy configuration."
         );

@@ -237,7 +237,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
 #undef ARGX2
 
 void CLIENT_STATE::parse_env_vars() {
-    char *p, temp[256];
+    char *p;
+    std::string temp;
     int proto;
 
     p = getenv("HTTP_PROXY");
@@ -248,10 +249,10 @@ void CLIENT_STATE::parse_env_vars() {
     p = getenv("HTTP_USER_NAME");
     if (p) {
         proxy_info.use_http_auth = true;
-        safe_strcpy(proxy_info.http_user_name, p);
+        proxy_info.http_user_name = p;
         p = getenv("HTTP_USER_PASSWD");
         if (p) {
-            safe_strcpy(proxy_info.http_user_passwd, p);
+            proxy_info.http_user_passwd = p;
         }
     }
 
@@ -276,12 +277,12 @@ void CLIENT_STATE::parse_env_vars() {
 	p = getenv("SOCKS5_USER");
 	if (!p) p = getenv("SOCKS_USER");
     if (p) {
-        safe_strcpy(proxy_info.socks5_user_name, p);
+        proxy_info.socks5_user_name = p;
     }
 
 	p = getenv("SOCKS5_PASSWD");
     if (p) {
-        safe_strcpy(proxy_info.socks5_user_passwd, p);
+        proxy_info.socks5_user_passwd = p;
     }
 }
 

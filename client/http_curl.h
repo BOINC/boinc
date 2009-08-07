@@ -64,7 +64,7 @@ public:
         /// string needed for ssl support
 	char m_curl_ca_bundle_location[256];
         /// string needed for proxy username/password
-	char szCurlProxyUserPwd[128];
+	char m_curl_user_credentials[128];
 
     int content_length;
     double file_offset;
@@ -201,6 +201,7 @@ public:
 #define URL_PROTOCOL_HTTPS   2
 #define URL_PROTOCOL_SOCKS   3
 
-extern void parse_url(const char* url, int &protocol, char* host, int &port, char* file);
+extern char* get_user_agent_string();
+extern void parse_url(const char* url, int &protocol, std::string& host, int &port, std::string& file);
 
 #endif //__HTTP_H
