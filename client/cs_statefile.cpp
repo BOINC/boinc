@@ -874,13 +874,17 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
 
 int CLIENT_STATE::write_tasks_gui(MIOFILE& f, bool active_only) {
     unsigned int i;
-    
-    for (i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
-        if (active_only) {
-            if (!active_tasks.lookup_result(rp)) continue;
+
+    if (active_only) {
+        for (i=0; i<active_tasks.active_tasks.size(); i++) {
+            RESULT* rp = active_tasks.active_tasks[i]->result;
+            rp->write_gui(f);
         }
-        rp->write_gui(f);
+    } else {
+        for (i=0; i<results.size(); i++) {
+            RESULT* rp = results[i];
+            rp->write_gui(f);
+        }
     }
     return 0;
 }

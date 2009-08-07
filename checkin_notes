@@ -6758,6 +6758,8 @@ Charlie 3 Aug 2009
 
 Charlie 7 Aug 2009
     - MGR: Implement "Show active tasks / Show all tasks" button.
+    - client: More efficient implementation of active_only flag in 
+        get_results RPC.
     
     clientgui/
         AsyncRPC.cpp, .h
