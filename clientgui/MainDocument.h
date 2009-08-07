@@ -252,6 +252,7 @@ public:
     RESULTS                     results;
     RESULTS                     async_results_buf;
     int                         m_iGet_results_rpc_result;
+    bool                        m_ActiveTasksOnly;
     
     RESULT*                     result(unsigned int);
     RESULT*                     result(const wxString& name, const wxString& project_url);

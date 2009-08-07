@@ -223,8 +223,8 @@ public:
             { return RPC_Wait(RPC_EXCHANGE_VERSIONS, (void*)&arg1); }
     int get_state(CC_STATE& arg1)
             { return RPC_Wait(RPC_GET_STATE, (void*)&arg1); }
-    int get_results(RESULTS& arg1)
-            { return RPC_Wait(RPC_GET_RESULTS, (void*)&arg1); }
+    int get_results(RESULTS& arg1, bool& arg2)
+            { return RPC_Wait(RPC_GET_RESULTS, (void*)&arg1, (void*)arg2); }
     int get_file_transfers(FILE_TRANSFERS& arg1)
             { return RPC_Wait(RPC_GET_FILE_TRANSFERS, (void*)&arg1); }
     int get_simple_gui_info(SIMPLE_GUI_INFO& arg1)

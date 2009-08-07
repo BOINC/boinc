@@ -6755,3 +6755,14 @@ Charlie 3 Aug 2009
 
     lib/
         coproc.cpp
+
+Charlie 7 Aug 2009
+    - MGR: Implement "Show active tasks / Show all tasks" button.
+    
+    clientgui/
+        AsyncRPC.cpp, .h
+        Events.h    
+        MainDocument.cpp, .h
+        ViewWork.cpp,.h
+    lib/
+        gui_rpc_client_ops.cpp

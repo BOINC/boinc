@@ -1205,7 +1205,7 @@ int RPC_CLIENT::get_results(RESULTS& t, bool active_only) {
     sprintf(buf, "<get_results>\n<active_only>%d</active_only>\n</get_results>\n",
         active_only?1:0
     );
-    retval = rpc.do_rpc("<get_results/>\n");
+    retval = rpc.do_rpc(buf);
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
             if (match_tag(buf, "</results>")) break;

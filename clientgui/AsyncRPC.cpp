@@ -445,7 +445,7 @@ int RPCThread::ProcessRPCRequest() {
         retval = (m_pDoc->rpcClient).get_state(*(CC_STATE*)(current_request->arg1));
         break;
     case RPC_GET_RESULTS:
-        retval = (m_pDoc->rpcClient).get_results(*(RESULTS*)(current_request->arg1));
+        retval = (m_pDoc->rpcClient).get_results(*(RESULTS*)(current_request->arg1), *(bool*)(current_request->arg2));
         break;
     case RPC_GET_FILE_TRANSFERS:
         retval = (m_pDoc->rpcClient).get_file_transfers(*(FILE_TRANSFERS*)(current_request->arg1));

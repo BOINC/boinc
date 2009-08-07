@@ -378,6 +378,8 @@ CMainDocument::CMainDocument() : rpc(this) {
 
     m_bClientStartCheckCompleted = false;
 
+    m_ActiveTasksOnly = false;
+
     m_fProjectTotalResourceShare = 0.0;
 
     m_iMessageSequenceNumber = 0;
@@ -906,6 +908,7 @@ void CMainDocument::RunPeriodicRPCs() {
             request.clear();
             request.which_rpc = RPC_GET_RESULTS;
             request.arg1 = &async_results_buf;
+            request.arg2 = &m_ActiveTasksOnly;
             request.exchangeBuf = &results;
             request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
             request.completionTime = &m_dtResultsTimestamp;
@@ -1362,11 +1365,21 @@ int CMainDocument::ProjectAllowMoreWork(const wxString& projectname) {
 
 int CMainDocument::CachedResultsStatusUpdate() {
     if (! IsConnected()) return -1;
+    bool active_tasks_only = false;
+
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+    if (pFrame) {
+        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
+
+        if (pFrame->GetCurrentViewPage() & VW_TASK) {
+            active_tasks_only = m_ActiveTasksOnly;
+        }
+    }
 
     wxTimeSpan ts(wxDateTime::Now() - m_dtResultsTimestamp);
     if (ts.GetSeconds() >= (2 * RESULTSRPC_INTERVAL)) {
         m_dtResultsTimestamp = wxDateTime::Now();
-        m_iGet_results_rpc_result = rpc.get_results(results);
+        m_iGet_results_rpc_result = rpc.get_results(results, active_tasks_only);
     }
     
     if (m_iGet_results_rpc_result) {

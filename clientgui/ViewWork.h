@@ -69,6 +69,7 @@ public:
     void                    OnWorkShowGraphics( wxCommandEvent& event );
     void                    OnWorkAbort( wxCommandEvent& event );
     void                    OnShowItemProperties( wxCommandEvent& event );
+    void                    OnActiveTasksOnly( wxCommandEvent& event );
 
     void                    OnProjectWebsiteClicked( wxEvent& event );
     
@@ -79,6 +80,9 @@ protected:
     virtual wxInt32         GetDocCount();
 
     virtual wxString        OnListGetItemText( long item, long column ) const;
+
+    virtual bool            OnSaveState( wxConfigBase* pConfig );
+    virtual bool            OnRestoreState( wxConfigBase* pConfig );
 
     virtual wxInt32         AddCacheElement();
     virtual wxInt32         EmptyCache();
@@ -108,7 +112,7 @@ protected:
     virtual wxString        GetProgressText( long item);
 
     int                     GetWorkCacheAtIndex(CWork*& workPtr, int index);
-
+    
     DECLARE_EVENT_TABLE()
 };
 

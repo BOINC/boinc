@@ -93,8 +93,8 @@
 #define ID_TASK_PROJECT_SHOW_PROPERTIES         9008
 #define ID_TASK_PROJECT_WEB_PROJDEF_MIN         9100
 #define ID_TASK_PROJECT_WEB_PROJDEF_MAX         9150
-#define ID_TASK_WORK_SUSPEND                    9200
-#define ID_TASK_WORK_RESUME                     9201
+#define ID_TASK_ACTIVE_ONLY                     9200
+#define ID_TASK_WORK_SUSPEND                    9201
 #define ID_TASK_WORK_SHOWGRAPHICS               9202
 #define ID_TASK_WORK_ABORT                      9203
 #define ID_TASK_SHOW_PROPERTIES                 9204

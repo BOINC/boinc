@@ -50,10 +50,11 @@
 #define GRP_WEBSITES 1
 
 // buttons in the "tasks" area
-#define BTN_GRAPHICS                0
-#define BTN_SUSPEND                 1
-#define BTN_ABORT                   2
-#define BTN_PROPERTIES              3
+#define BTN_ACTIVE_ONLY             0
+#define BTN_GRAPHICS                1
+#define BTN_SUSPEND                 2
+#define BTN_ABORT                   3
+#define BTN_PROPERTIES              4
 
 
 CWork::CWork() {
@@ -84,6 +85,7 @@ BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_WORK_SHOWGRAPHICS, CViewWork::OnWorkShowGraphics)
     EVT_BUTTON(ID_TASK_WORK_ABORT, CViewWork::OnWorkAbort)
     EVT_BUTTON(ID_TASK_SHOW_PROPERTIES, CViewWork::OnShowItemProperties)
+    EVT_BUTTON(ID_TASK_ACTIVE_ONLY, CViewWork::OnActiveTasksOnly)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewWork::OnProjectWebsiteClicked)
     EVT_LIST_ITEM_SELECTED(ID_LIST_WORKVIEW, CViewWork::OnListSelected)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_WORKVIEW, CViewWork::OnListDeselected)
@@ -172,12 +174,18 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     wxASSERT(m_pTaskPane);
     wxASSERT(m_pListPane);
 
-
     //
     // Setup View
     //
 	pGroup = new CTaskItemGroup( _("Commands") );
 	m_TaskGroups.push_back( pGroup );
+
+	pItem = new CTaskItem(
+        _("Show active tasks"),
+        _("Show only active tasks."),
+        ID_TASK_ACTIVE_ONLY 
+    );
+    pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
         _("Show graphics"),
@@ -286,6 +294,25 @@ int CViewWork::FindRowIndexByKeyValues(wxString& key1, wxString& key2) {
         if((work->m_strProjectURL).IsSameAs(key2)) return iRowIndex;
 	}
 	return -1;
+}
+
+
+void CViewWork::OnActiveTasksOnly( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnActiveTasksOnly - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CAdvancedFrame* pFrame      = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
+
+    pDoc->m_ActiveTasksOnly = !pDoc->m_ActiveTasksOnly;
+    UpdateSelection();
+    pFrame->FireRefreshView();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnActiveTasksOnly - Function End"));
 }
 
 
@@ -441,6 +468,50 @@ void CViewWork::OnShowItemProperties( wxCommandEvent& WXUNUSED(event) ) {
     CDlgItemProperties dlg(this);
     dlg.renderInfos(result);
     dlg.ShowModal();
+}
+
+
+bool CViewWork::OnSaveState(wxConfigBase* pConfig) {
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(pConfig);
+    wxASSERT(m_pTaskPane);
+
+    if (!m_pTaskPane->OnSaveState(pConfig)) {
+        return false;
+    }
+
+    wxString    strBaseConfigLocation = wxEmptyString;
+    strBaseConfigLocation = wxT("/Tasks");
+	pConfig->SetPath(strBaseConfigLocation);
+	pConfig->Write(wxT("ActiveTasksOnly"), (pDoc->m_ActiveTasksOnly ? 1 : 0));
+
+    return true;
+}
+
+
+bool CViewWork::OnRestoreState(wxConfigBase* pConfig) {
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+	wxASSERT(pConfig);
+    wxASSERT(m_pTaskPane);
+
+    if (!m_pTaskPane->OnRestoreState(pConfig)) {
+        return false;
+    }
+
+    int     iTempValue = 0;
+    wxString    strBaseConfigLocation = wxEmptyString;
+    strBaseConfigLocation = wxT("/Tasks");
+	pConfig->SetPath(strBaseConfigLocation);
+	pConfig->Read(wxT("ActiveTasksOnly"), &iTempValue, 0);
+    pDoc->m_ActiveTasksOnly = (iTempValue != 0);
+
+    return true;
 }
 
 
@@ -606,7 +677,21 @@ void CViewWork::UpdateSelection() {
             enableShowGraphics = false;
         }
     }
-   
+
+    if (pDoc->m_ActiveTasksOnly) {
+        m_pTaskPane->UpdateTask(
+            pGroup->m_Tasks[BTN_ACTIVE_ONLY],
+            _("Show all tasks"),
+            _("Show all tasks.")
+        );
+    } else {
+        m_pTaskPane->UpdateTask(
+            pGroup->m_Tasks[BTN_ACTIVE_ONLY],
+            _("Show active tasks"),
+            _("Show only active tasks.")
+        );
+    }
+
     row = -1;
     for (i=0; i<n; i++) {
         // Step through all selected items
