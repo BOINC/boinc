@@ -6792,10 +6792,13 @@ Rom    7 Aug 2009
         proxy_info.cpp, .h
 
 Charlie 7 Aug 2009
+    - client fix crash bug introduced by changing PROXY_INFO strings 
+        from char[] to std::string.
     - client: fix compiler warnings "call will abort at run time."
     - Sandbox: add a couple of casts for compiler warnings.
       
     client/
+        app_start.cpp
         check_security.cpp
         client_state.cpp
         http_curl.cpp

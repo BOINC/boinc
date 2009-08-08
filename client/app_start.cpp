@@ -251,8 +251,6 @@ int ACTIVE_TASK::write_app_init_file() {
     char init_data_path[256], project_dir[256], project_path[256];
     int retval;
 
-    memset(&aid, 0, sizeof(aid));
-
     aid.major_version = BOINC_MAJOR_VERSION;
     aid.minor_version = BOINC_MINOR_VERSION;
     aid.release = BOINC_RELEASE;
