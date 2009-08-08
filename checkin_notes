@@ -6805,3 +6805,20 @@ Charlie 7 Aug 2009
     clientgui/
         mac/
             SetupSecurity.cpp
+
+Charlie 7 Aug 2009
+    - MGR: Test two changes which might avoid a problem when the client 
+        is heavily loaded (e.g, very many tasks), where the RPC Wait 
+        dialog may appear continuously:
+        (1) Delay periodic RPCs for 1 second after the dialog closes.
+        (2) In functions to retrieve cached RPC data, don't do a demand 
+            RPC just because the time since th last such RPC exceeds the 
+            normal periodic RPC rates.  We still force the RPC if the 
+            this RPC has never been called since the Manager was launched 
+            or if (for some RPCs) called with the bForce argument TRUE.
+            This change #2 can be removed by setting USE_CACHE_TIMEOUTS
+            to 0.
+            
+    clientgui/
+        AsyncRPC.cpp
+        MainDocument.cpp, .h

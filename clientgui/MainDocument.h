@@ -198,6 +198,7 @@ private:
     BOINC_Condition*            m_pRPC_Thread_Condition;
     BOINC_Mutex*                m_pRPC_Request_Mutex;
     BOINC_Condition*            m_pRPC_Request_Condition;
+    wxDateTime                  m_dtLasAsyncRPCDlgTime;
 
     //
     // Project Tab

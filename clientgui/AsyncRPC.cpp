@@ -804,6 +804,8 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         //
         if (m_RPCWaitDlg) {
             response = m_RPCWaitDlg->ShowModal();
+            // Remember time the dialog was closed for use by RunPeriodicRPCs()
+            m_dtLasAsyncRPCDlgTime = wxDateTime::Now();
             if (response != wxID_OK) {
                 // TODO: If user presses Cancel in Please Wait dialog but request 
                 // has not yet been started, should we just remove it from queue? 
