@@ -101,7 +101,7 @@ saverName[2] = "Progress Thru Processors";
         useFakeProjectUserAndGroup = 1;
 #endif
 #ifdef __APPLE__
-    err = Gestalt(gestaltSystemVersion, &response);
+    err = Gestalt(gestaltSystemVersion, (SInt32*)&response);
     if ((err == noErr) && (response < 0x1040))
         useFakeProjectUserAndGroup = 1;
 #endif      // __APPLE__

@@ -6790,3 +6790,15 @@ Rom    7 Aug 2009
     lib/
         parse.cpp, .h
         proxy_info.cpp, .h
+
+Charlie 7 Aug 2009
+    - client: fix compiler warnings "call will abort at run time."
+    - Sandbox: add a couple of casts for compiler warnings.
+      
+    client/
+        check_security.cpp
+        client_state.cpp
+        http_curl.cpp
+    clientgui/
+        mac/
+            SetupSecurity.cpp

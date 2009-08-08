@@ -850,7 +850,7 @@ static OSStatus SetFakeMasterNames() {
         return -1;
     strlcpy(boinc_master_group_name, grp->gr_name, sizeof(boinc_master_group_name));
     
-    err = Gestalt(gestaltSystemVersion, &response);
+    err = Gestalt(gestaltSystemVersion, (SInt32*)&response);
 #ifndef DEBUG_WITH_FAKE_PROJECT_USER_AND_GROUP
     if ((err == noErr) && (response >= 0x1040)) {
         // For better debugging of SANDBOX permissions logic
