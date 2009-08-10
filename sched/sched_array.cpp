@@ -22,8 +22,8 @@
 #include <cstring>
 
 #include "config.h"
-#include "main.h"
-#include "server_types.h"
+#include "sched_main.h"
+#include "sched_types.h"
 #include "sched_shmem.h"
 #include "sched_hr.h"
 #include "sched_config.h"

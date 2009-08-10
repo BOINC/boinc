@@ -53,11 +53,11 @@
 #include "synch.h"
 
 #include "sched_config.h"
-#include "server_types.h"
+#include "sched_types.h"
 #include "handle_request.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
-#include "main.h"
+#include "sched_main.h"
 
 
 // Useful for debugging, if your cgi script keeps crashing.  This

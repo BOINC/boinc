@@ -42,7 +42,7 @@
 #include "str_util.h"
 
 #include "sched_config.h"
-#include "main.h"
+#include "sched_main.h"
 #include "sched_msgs.h"
 #include "sched_send.h"
 #include "sched_score.h"

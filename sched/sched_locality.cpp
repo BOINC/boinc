@@ -35,8 +35,8 @@
 #include "str_util.h"
 #include "filesys.h"
 
-#include "main.h"
-#include "server_types.h"
+#include "sched_main.h"
+#include "sched_types.h"
 #include "sched_locality.h"
 #include "sched_msgs.h"
 #include "sched_shmem.h"

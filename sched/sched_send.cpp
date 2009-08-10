@@ -36,11 +36,11 @@
 #include "str_util.h"
 #include "synch.h"
 
-#include "server_types.h"
+#include "sched_types.h"
 #include "sched_shmem.h"
 #include "sched_config.h"
 #include "sched_util.h"
-#include "main.h"
+#include "sched_main.h"
 #include "sched_array.h"
 #include "sched_msgs.h"
 #include "sched_hr.h"

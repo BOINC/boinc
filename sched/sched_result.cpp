@@ -20,7 +20,8 @@
 #include "str_replace.h"
 #include "parse.h"
 
-#include "server_types.h"
+#include "credit.h"
+#include "sched_types.h"
 #include "sched_msgs.h"
 #include "sched_util.h"
 #include "sched_config.h"

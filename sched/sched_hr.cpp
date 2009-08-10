@@ -26,10 +26,10 @@
 
 #include "error_numbers.h"
 
-#include "server_types.h"
+#include "sched_types.h"
 #include "sched_config.h"
 #include "sched_msgs.h"
-#include "main.h"
+#include "sched_main.h"
 #include "hr.h"
 #include "sched_hr.h"
 

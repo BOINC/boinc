@@ -243,19 +243,6 @@ int mylockf(int fd) {
     return -1;
 }
 
-double fpops_to_credit(double fpops, double intops) {
-    // TODO: use fp_weight if specified in config file
-    double fpc = (fpops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
-    double intc = (intops/1e9)*COBBLESTONE_FACTOR/SECONDS_PER_DAY;
-    return std::max(fpc, intc);
-}
-
-double credit_multiplier(int appid, time_t create_time) {
-    DB_CREDIT_MULTIPLIER mult;
-    mult.get_nearest(appid,create_time);
-    return mult.multiplier;
-}
-
 int count_results(char* query, int& n) {
     DB_RESULT result;
     int retval = result.count(n, query);

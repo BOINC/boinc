@@ -30,11 +30,11 @@
 #include "backend_lib.h"
 #include "error_numbers.h"
 
-#include "main.h"
+#include "sched_main.h"
 #include "sched_msgs.h"
 #include "sched_send.h"
 #include "sched_version.h"
-#include "server_types.h"
+#include "sched_types.h"
 
 #include "sched_assign.h"
 

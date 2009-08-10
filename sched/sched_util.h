@@ -29,10 +29,6 @@
 #define SECONDS_IN_DAY (3600*24)
 #define CREDIT_HALF_LIFE  (SECONDS_IN_DAY*7)
 
-// Historical note: named after Jeff Cobb
-//
-#define COBBLESTONE_FACTOR 100.0
-
 extern void write_pid_file(const char* filename);
 extern void set_debug_level(int);
 extern void check_stop_daemons();
@@ -40,7 +36,6 @@ extern bool check_stop_sched();
 extern void install_stop_signal_handler();
 extern int try_fopen(const char* path, FILE*& f, const char* mode);
 extern void get_log_path(char*, const char*);
-extern double credit_multiplier(int, time_t);
 
 // convert filename to path in a hierarchical directory system
 //
@@ -67,11 +62,6 @@ extern void compute_avg_turnaround(HOST& host, double turnaround);
 // returns PID > 0 if another process has lock
 //
 extern int mylockf(int fd);
-
-// Returns credit that should be granted for a given number of
-// floating-point and integer ops
-//
-extern double fpops_to_credit(double fpops, double intops); 
 
 extern int count_workunits(int&, const char* query);
 extern int count_unsent_results(int&, int appid);

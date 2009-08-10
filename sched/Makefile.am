@@ -122,7 +122,7 @@ bin_SCRIPTS = start stop status
 noinst_HEADERS = \
     assimilate_handler.h \
     handle_request.h \
-    main.h \
+    sched_main.h \
     sched_locality.h \
     sched_score.h \
     sched_send.h \
@@ -134,11 +134,12 @@ EXTRA_DIST = \
     start
 
 cgi_sources = \
+	credit.cpp \
     edf_sim.cpp \
     handle_request.cpp \
     hr.cpp \
     hr_info.cpp \
-    main.cpp \
+    sched_main.cpp \
     sched_array.cpp \
     sched_assign.cpp \
     sched_customize.cpp \

@@ -26,7 +26,7 @@
 #include "error_numbers.h"
 #include "str_util.h"
 #include "util.h"
-#include "main.h"
+#include "sched_main.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
 #include "time_stats_log.h"
