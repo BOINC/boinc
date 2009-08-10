@@ -21,7 +21,7 @@
 #include <string.h>
 
 #include "boinc_db.h"
-#include "server_types.h"
+#include "sched_types.h"
 
 extern void send_work();
 

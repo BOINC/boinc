@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "boinc_db.h"
-#include "server_types.h"
+#include "sched_types.h"
 
 // reasons for the planning function to reject a host
 

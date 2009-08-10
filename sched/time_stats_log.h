@@ -16,7 +16,6 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdio>
-#include "server_types.h"
 
 extern void handle_time_stats_log(FILE* fin);
 extern void write_time_stats_log();

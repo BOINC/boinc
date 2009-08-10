@@ -23,6 +23,7 @@
 
 #include "sched_msgs.h"
 #include "sched_config.h"
+#include "sched_types.h"
 
 #include "time_stats_log.h"
 

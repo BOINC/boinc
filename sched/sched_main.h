@@ -18,7 +18,7 @@
 #include "boinc_db.h"
 #include "sched_config.h"
 #include "synch.h"
-#include "server_types.h"
+#include "sched_types.h"
 #include "sched_shmem.h"
 
 // various delay params.

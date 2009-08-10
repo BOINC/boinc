@@ -26,11 +26,12 @@
 #include "error_numbers.h"
 #include "str_util.h"
 #include "util.h"
+
 #include "sched_main.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
 #include "time_stats_log.h"
-#include "server_types.h"
+#include "sched_types.h"
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"

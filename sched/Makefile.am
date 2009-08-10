@@ -128,7 +128,7 @@ noinst_HEADERS = \
     sched_send.h \
     sched_shmem.h \
     sched_version.h \
-    server_types.h
+    sched_types.h
 
 EXTRA_DIST = \
     start
@@ -151,7 +151,7 @@ cgi_sources = \
     sched_send.cpp \
     sched_timezone.cpp \
     sched_version.cpp \
-    server_types.cpp \
+    sched_types.cpp \
     time_stats_log.cpp
 
 cgi_SOURCES = $(cgi_sources)
