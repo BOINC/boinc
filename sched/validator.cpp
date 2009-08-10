@@ -141,7 +141,7 @@ int is_valid(RESULT& result, WORKUNIT& wu) {
     sprintf(
         buf, "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f",
         result.granted_credit,  user.expavg_credit, user.expavg_time
-    ); 
+    );
     retval = user.update_field(buf);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
@@ -158,7 +158,6 @@ int is_valid(RESULT& result, WORKUNIT& wu) {
     double turnaround = result.received_time - result.sent_time;
     compute_avg_turnaround(host, turnaround);
 
-        
     // compute new credit per CPU time
     //
     retval = update_credit_per_cpu_sec(
@@ -178,7 +177,8 @@ int is_valid(RESULT& result, WORKUNIT& wu) {
     sprintf(
         buf,
         "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f, avg_turnaround=%f, credit_per_cpu_sec=%f, error_rate=%f",
-        result.granted_credit,  host.expavg_credit, host.expavg_time, host.avg_turnaround, host.credit_per_cpu_sec, host.error_rate
+        result.granted_credit,  host.expavg_credit, host.expavg_time,
+        host.avg_turnaround, host.credit_per_cpu_sec, host.error_rate
     );
     retval = host.update_field(buf);
     if (retval) {
@@ -201,9 +201,12 @@ int is_valid(RESULT& result, WORKUNIT& wu) {
             );
             return retval;
         }
-        update_average(result.sent_time, result.granted_credit, CREDIT_HALF_LIFE, team.expavg_credit, team.expavg_time);
-        sprintf(
-            buf, "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f",
+        update_average(
+            result.sent_time, result.granted_credit, CREDIT_HALF_LIFE,
+            team.expavg_credit, team.expavg_time
+        );
+        sprintf(buf,
+            "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f",
             result.granted_credit,  team.expavg_credit, team.expavg_time
         );
         retval = team.update_field(buf);
@@ -272,7 +275,7 @@ int is_invalid(WORKUNIT& wu, RESULT& result) {
 //
 int handle_wu(
     DB_VALIDATOR_ITEM_SET& validator, std::vector<VALIDATOR_ITEM>& items
-) { 
+) {
     int canonical_result_index = -1;
     bool update_result, retry;
     TRANSITION_TIME transition_time = NO_CHANGE;
@@ -297,7 +300,7 @@ int handle_wu(
             RESULT& result = items[i].res;
 
             if (result.id == wu.canonical_resultid) {
-                canonical_result_index = i; 
+                canonical_result_index = i;
             }
         }
         if (canonical_result_index == -1) {
@@ -373,7 +376,7 @@ int handle_wu(
             }
             if (update_result) {
                 log_messages.printf(MSG_NORMAL,
-                    "[RESULT#%d %s] granted_credit %f\n", 
+                    "[RESULT#%d %s] granted_credit %f\n",
                     result.id, result.name, result.granted_credit
                 );
 
@@ -421,7 +424,7 @@ int handle_wu(
                 "[WU#%d %s] Enough for quorum, checking set.\n",
                 wu.id, wu.name
             );
-           
+
             retval = check_set(results, wu, canonicalid, credit, retry);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
@@ -637,7 +640,9 @@ int main_loop() {
     bool did_something;
     char buf[256];
 
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "boinc_db.open failed: %d\n", retval);
         exit(1);
@@ -656,11 +661,11 @@ int main_loop() {
         if (!did_something) {
             if (one_pass) break;
 #ifdef GCL_SIMULATOR
-             char nameforsim[64];
-             sprintf(nameforsim, "validator%i", app.id);
-             continue_simulation(nameforsim);
-             signal(SIGUSR2, simulator_signal_handler);
-             pause();
+            char nameforsim[64];
+            sprintf(nameforsim, "validator%i", app.id);
+            continue_simulation(nameforsim);
+            signal(SIGUSR2, simulator_signal_handler);
+            pause();
 #else
             sleep(sleep_interval);
 #endif
@@ -734,7 +739,10 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-credit_from_wu")) {
             credit_from_wu = true;
         } else {
-            fprintf(stderr, "Invalid option '%s'\nTry `%s --help` for more information\n", argv[i], argv[0]);
+            fprintf(stderr,
+                "Invalid option '%s'\nTry `%s --help` for more information\n",
+                argv[i], argv[0]
+            );
             log_messages.printf(MSG_CRITICAL, "unrecognized arg: %s\n", argv[i]);
             exit(1);
         }
@@ -742,9 +750,11 @@ int main(int argc, char** argv) {
 
     // -app is required
     if (app_name[0] == 0) {
-      fprintf (stderr, "\nERROR: use '-app' to specify the application to run the validator for.\n");
-      printf (usage, argv[0] );
-      exit(1);      
+        fprintf(stderr,
+            "\nERROR: use '-app' to specify the application to run the validator for.\n"
+        );
+        printf (usage, argv[0] );
+        exit(1);      
     }
 
     retval = config.parse_file();

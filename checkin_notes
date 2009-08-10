@@ -6822,3 +6822,10 @@ Charlie 7 Aug 2009
     clientgui/
         AsyncRPC.cpp
         MainDocument.cpp, .h
+
+David  9 Aug 2009
+    - validator: prepare for code cleanup
+
+    sched/
+        validate_util.cpp
+        validator.cpp

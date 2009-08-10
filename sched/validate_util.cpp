@@ -15,11 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Code to facilitate writing validators.
-// Can be used as the basis for a validator that accepts everything
-// (see sample_trivial_validator.C),
-// or that requires strict equality (see sample_bitwise_validator.C)
-// or that uses fuzzy comparison.
+// Support functions for validators:
+// 1) functions for locating the output files
+// 2) various ways of deciding how much credit to grant
+//    a group of replicated results
 
 #include <cstring>
 #include "config.h"
@@ -37,6 +36,8 @@
 
 using std::vector;
 using std::string;
+
+////////// functions for locating output files ///////////////
 
 int FILE_INFO::parse(XML_PARSER& xp) {
     char tag[256];
@@ -179,6 +180,8 @@ int get_logical_name(RESULT& result, string& path, string& name) {
     return ERR_XML_PARSE;
 }
 
+//////////////// credit computation functions ///////////////
+
 #define CREDIT_EPSILON .001
 
 // If we have N correct results with nonzero claimed credit,
@@ -249,6 +252,236 @@ int get_credit_from_wu(WORKUNIT& wu, vector<RESULT>&, double& credit) {
     }
     return ERR_XML_PARSE;
 }
+
+double stddev_credit(WORKUNIT& wu, std::vector<RESULT>& results) {
+    double credit_low_bound = 0, credit_high_bound = 0;
+    double penalize_credit_high_bound = 0;
+    double credit_avg = 0;
+    double credit = 0;
+    double old = 0;
+    double std_dev = 0;
+    int nvalid = 0;
+    unsigned int i;
+
+    // calculate average
+    //
+    for (i=0; i<results.size(); i++) {
+        RESULT& result = results[i];
+        if (result.validate_state != VALIDATE_STATE_VALID) continue;
+        credit = credit + result.claimed_credit;
+        nvalid++;
+    }
+
+    if (nvalid == 0) {
+        return CREDIT_EPSILON;
+    }
+
+    credit_avg = credit/nvalid;
+
+    nvalid = 0;
+
+    // calculate stddev difference
+    //
+    for (i=0; i<results.size(); i++) {
+        RESULT& result = results[i];
+        if (result.validate_state != VALIDATE_STATE_VALID) continue;
+        std_dev = pow(credit_avg - result.claimed_credit,2) + std_dev;
+        nvalid++;
+    }
+
+    std_dev = std_dev/ (double) nvalid;
+    std_dev = sqrt(std_dev);
+
+    credit_low_bound = credit_avg - std_dev;
+    if (credit_low_bound > credit_avg*.85) {
+        credit_low_bound = credit_avg*.85;
+    }
+    credit_low_bound = credit_low_bound - 2.5;
+    if (credit_low_bound < 1) credit_low_bound = 1;
+
+    credit_high_bound = credit_avg + std_dev;
+    if (credit_high_bound < credit_avg*1.15) {
+        credit_high_bound = credit_avg*1.15;
+    }
+    credit_high_bound = credit_high_bound + 5;
+
+    nvalid=0;
+    credit = 0;
+    for (i=0; i<results.size(); i++) {
+        RESULT& result = results[i];
+        if (result.validate_state != VALIDATE_STATE_VALID) continue;
+        if (result.claimed_credit < credit_high_bound && result.claimed_credit > credit_low_bound) {
+            credit = credit + result.claimed_credit;
+            nvalid++;
+        } else {
+            log_messages.printf(MSG_NORMAL,
+                "[RESULT#%d %s] CREDIT_CALC_SD Discarding invalid credit %.1lf, avg %.1lf, low %.1lf, high %.1lf \n",
+                result.id, result.name, result.claimed_credit,
+                credit_avg, credit_low_bound, credit_high_bound
+            );
+        }
+    }
+
+    double grant_credit;
+    switch(nvalid) {
+    case 0:
+        grant_credit = median_mean_credit(wu, results);
+        old = grant_credit;
+        break;
+    default:
+        grant_credit = credit/nvalid;
+        old = median_mean_credit(wu, results);
+    }
+
+    // Log what happened
+    if (old > grant_credit) {
+        log_messages.printf(MSG_DEBUG,
+            "CREDIT_CALC_VAL New Method grant: %.1lf  Old Method grant: %.1lf  Less awarded\n",
+            grant_credit, old
+        );
+    } else if (old == grant_credit) {
+        log_messages.printf(MSG_DEBUG,
+            "CREDIT_CALC_VAL New Method grant: %.1lf  Old Method grant: %.1lf  Same awarded\n",
+            grant_credit, old
+        );
+    } else {
+        log_messages.printf(MSG_DEBUG,
+            "CREDIT_CALC_VAL New Method grant: %.1lf  Old Method grant: %.1lf  More awarded\n",
+            grant_credit, old
+        );
+    }
+
+    // penalize hosts that are claiming too much
+    //
+    penalize_credit_high_bound = grant_credit + 1.5*std_dev;
+    if (penalize_credit_high_bound < grant_credit*1.65) {
+        penalize_credit_high_bound = grant_credit*1.65;
+    }
+    penalize_credit_high_bound = penalize_credit_high_bound + 20;
+
+    for (i=0; i<results.size(); i++) {
+        RESULT& result = results[i];
+        if (result.validate_state != VALIDATE_STATE_VALID) continue;
+        if (result.claimed_credit > penalize_credit_high_bound) {
+            result.granted_credit = grant_credit * 0.5;
+            log_messages.printf(MSG_NORMAL,
+                "[RESULT#%d %s] CREDIT_CALC_PENALTY Penalizing host for too high credit %.1lf, grant %.1lf, penalize %.1lf, stddev %.1lf, avg %.1lf, low %.1lf, high %.1lf \n",
+                result.id, result.name, result.claimed_credit, grant_credit,
+                penalize_credit_high_bound, std_dev, credit_avg,
+                credit_low_bound, credit_high_bound
+            );
+        }
+    }
+
+    return grant_credit;
+}
+
+double two_credit(WORKUNIT& wu, std::vector<RESULT>& results) {
+    int i;
+    double credit = 0;
+    double credit_avg = 0;
+    double last_credit = 0;
+    int nvalid = 0;
+
+    // calculate average
+    //
+    for (i=0; i<results.size(); i++) {
+        RESULT& result = results[i];
+        if (result.validate_state != VALIDATE_STATE_VALID) continue;
+        credit = credit + result.claimed_credit;
+        last_credit = result.claimed_credit;
+        nvalid++;
+    }
+
+    // If more then 2 valid results, compute via stddev method
+    //
+    if ( nvalid > 2 ) return stddev_credit(wu, results);
+
+    // This case should never occur
+    //
+    if (nvalid == 0 ) {
+        log_messages.printf(MSG_CRITICAL,
+            "[WORKUNIT#%d %s] No valid results\n", wu.id, wu.name
+        );
+        exit(-1);
+    }
+
+    credit_avg = credit/nvalid;
+
+    // Next check to see if there is reasonably close agreement between the
+    // two results.  A study performed at World Community Grid found that in
+    // 85% of cases the credit claimed were within 15% of the average claimed
+    // credit for the workunit.  Return the average of the claimed credit
+    // in these cases.
+    //
+    if ( fabs(last_credit - credit_avg) < 0.15*credit_avg ) return credit_avg;
+
+    // If we get here, then there was not agreement between the claimed credits
+    // So attempt to use the average of the historical granted credit instead
+    //
+    DB_HOST host;
+    double credit_hist_avg=0;
+    double credit_min_dev=credit_avg;
+        // default award in case nobody matches the cases
+    nvalid=0;
+    double deviation = -1;
+    for (i=0; i<results.size(); i++) {
+        RESULT& result = results[i];
+        if (result.validate_state != VALIDATE_STATE_VALID) continue;
+        host.lookup_id(result.hostid);
+        // skip if host is new or the cpu time is very low
+        if ( host.total_credit < config.granted_credit_ramp_up
+            || result.cpu_time < 30 ) continue;
+
+        // This is for computing the average based on the computers history
+        credit_hist_avg = credit_hist_avg + result.cpu_time*host.credit_per_cpu_sec;
+        nvalid++;
+        last_credit = result.cpu_time*host.credit_per_cpu_sec;
+
+        // This if is for finding the result whose claimed credit is the least
+        // different from the computers historical average
+        //
+        if ( (deviation < 0 || deviation > fabs(result.claimed_credit - result.cpu_time*host.credit_per_cpu_sec))
+        ) {
+            deviation = fabs(result.claimed_credit - result.cpu_time*host.credit_per_cpu_sec);
+            credit_min_dev = result.claimed_credit;
+        }
+    }
+
+    // If this case occurs, then this is becuase neither host has
+    // been participating long.  As a result, returned the claimed
+    // credit average
+    if (nvalid == 0 ) {
+        log_messages.printf(MSG_DEBUG,
+            "[WORKUNIT#%d %s] No qualifying results",
+            wu.id, wu.name
+        );
+        return credit_avg;
+    }
+
+    credit_hist_avg = credit_hist_avg/nvalid;
+
+
+    // Check to see if the result.cpu_time*host.credit_per_cpu_sec are close.
+    // If so use the average of the historical credit
+    //
+    if (fabs(last_credit-credit_hist_avg)<0.1*credit_hist_avg) {
+        log_messages.printf(MSG_DEBUG,"[WORKUNIT#%d %s] Method1: "
+            "Credit Average = %.2lf Actual Credit Granted = %.2lf \n",
+            wu.id, wu.name, credit_avg, credit_hist_avg
+        );
+        return credit_hist_avg;
+    }
+
+    log_messages.printf(MSG_DEBUG,"[WORKUNIT#%d %s] Method2: "
+        "Credit Average = %.2lf Actual Credit Granted = %.2lf \n",
+        wu.id, wu.name, credit_avg, credit_min_dev
+    );
+
+    return credit_min_dev;
+}
+
+//////////// END CREDIT CALCULATION FUNCTIONS ///////////////
 
 // This function should be called from the validator whenever credit
 // is granted to a host.  It's purpose is to track the average credit
@@ -355,227 +588,6 @@ int update_credit_per_cpu_sec(
     credit_per_cpu_sec = e * rate + (1.0 - e) * credit_per_cpu_sec;
 
     return retval;
-}
-
-double stddev_credit(WORKUNIT& wu, std::vector<RESULT>& results) {
-    double credit_low_bound = 0, credit_high_bound = 0;
-    double penalize_credit_high_bound = 0;
-    double credit_avg = 0;
-    double credit = 0;
-    double old = 0;
-    double std_dev = 0;
-    int nvalid = 0;
-    unsigned int i;
-
-    //calculate average
-    for (i=0; i<results.size(); i++) {
-        RESULT& result = results[i];
-        if (result.validate_state != VALIDATE_STATE_VALID) continue;
-        credit = credit + result.claimed_credit;
-        nvalid++;
-    }
-
-    if (nvalid == 0) {
-        return CREDIT_EPSILON;
-    }
-
-    credit_avg = credit/nvalid;
-
-    nvalid = 0;
-    //calculate stddev difference
-    for (i=0; i<results.size(); i++) {
-        RESULT& result = results[i];
-        if (result.validate_state != VALIDATE_STATE_VALID) continue;
-        std_dev = pow(credit_avg - result.claimed_credit,2) + std_dev;
-        nvalid++;
-    }
-
-    std_dev = std_dev/ (double) nvalid;
-    std_dev = sqrt(std_dev);
-
-    credit_low_bound = credit_avg-std_dev;
-    if (credit_low_bound > credit_avg*.85) {
-        credit_low_bound = credit_avg*.85;
-    }
-    credit_low_bound = credit_low_bound - 2.5;
-    if (credit_low_bound < 1) credit_low_bound = 1;
-
-    credit_high_bound = credit_avg+std_dev;
-    if (credit_high_bound < credit_avg*1.15) {
-        credit_high_bound = credit_avg*1.15;
-    }
-    credit_high_bound = credit_high_bound + 5;
-
-
-    nvalid=0;
-    credit = 0;
-    for (i=0; i<results.size(); i++) {
-        RESULT& result = results[i];
-        if (result.validate_state != VALIDATE_STATE_VALID) continue;
-        if (result.claimed_credit < credit_high_bound && result.claimed_credit > credit_low_bound) {
-            credit = credit + result.claimed_credit;
-            nvalid++;
-        } else {
-            log_messages.printf(MSG_NORMAL,
-                "[RESULT#%d %s] CREDIT_CALC_SD Discarding invalid credit %.1lf, avg %.1lf, low %.1lf, high %.1lf \n",
-                result.id, result.name, result.claimed_credit,
-                credit_avg, credit_low_bound, credit_high_bound
-            );
-        }
-    }
-
-    double grant_credit;
-    switch(nvalid) {
-    case 0:
-        grant_credit = median_mean_credit(wu, results);
-        old = grant_credit;
-        break;
-    default:
-        grant_credit = credit/nvalid;
-        old = median_mean_credit(wu, results);
-    }
-
-    // Log what happened
-    if (old > grant_credit) {
-        log_messages.printf(MSG_DEBUG,
-            "CREDIT_CALC_VAL New Method grant: %.1lf  Old Method grant: %.1lf  Less awarded\n",
-            grant_credit, old
-        );
-    } else if (old == grant_credit) {
-        log_messages.printf(MSG_DEBUG,
-            "CREDIT_CALC_VAL New Method grant: %.1lf  Old Method grant: %.1lf  Same awarded\n",
-            grant_credit, old
-        );
-    } else {
-        log_messages.printf(MSG_DEBUG,
-            "CREDIT_CALC_VAL New Method grant: %.1lf  Old Method grant: %.1lf  More awarded\n",
-            grant_credit, old
-        );
-    }
-
-    // penalize hosts that are claiming too much
-    penalize_credit_high_bound = grant_credit+1.5*std_dev;
-    if (penalize_credit_high_bound < grant_credit*1.65) {
-        penalize_credit_high_bound = grant_credit*1.65;
-    }
-    penalize_credit_high_bound = penalize_credit_high_bound + 20;
-
-    for (i=0; i<results.size(); i++) {
-        RESULT& result = results[i];
-        if (result.validate_state != VALIDATE_STATE_VALID) continue;
-        if (result.claimed_credit > penalize_credit_high_bound) {
-            result.granted_credit = grant_credit * 0.5;
-            log_messages.printf(MSG_NORMAL,
-                "[RESULT#%d %s] CREDIT_CALC_PENALTY Penalizing host for too high credit %.1lf, grant %.1lf, penalize %.1lf, stddev %.1lf, avg %.1lf, low %.1lf, high %.1lf \n",
-                result.id, result.name, result.claimed_credit, grant_credit,
-                penalize_credit_high_bound, std_dev, credit_avg,
-                credit_low_bound, credit_high_bound
-            );
-        }
-    }
-
-    return grant_credit;
-}
-
-double two_credit(WORKUNIT& wu, std::vector<RESULT>& results) {
-    int i;
-    double credit = 0;
-    double credit_avg = 0;
-    double last_credit = 0;
-    int nvalid = 0;
-
-    // calculate average
-    //
-    for (i=0; i<results.size(); i++) {
-        RESULT& result = results[i];
-        if (result.validate_state != VALIDATE_STATE_VALID) continue;
-        credit = credit + result.claimed_credit;
-        last_credit = result.claimed_credit;
-        nvalid++;
-    }
-
-    // If more then 2 valid results, compute via stddev method
-    //
-    if ( nvalid > 2 ) return stddev_credit(wu, results);
-
-    // This case should never occur
-    //
-    if (nvalid == 0 ) {
-        log_messages.printf(MSG_CRITICAL,
-            "[WORKUNIT#%d %s] No valid results\n", wu.id, wu.name
-        );
-        exit(-1);
-    }
-   
-    credit_avg = credit/nvalid;
-   
-    // Next check to see if there is reasonably close agreement between the
-    // two results.  A study performed at World Community Grid found that in
-    // 85% of cases the credit claimed were within 15% of the average claimed
-    // credit for the workunit.  Return the average of the claimed credit
-    // in these cases.
-    //
-    if ( fabs(last_credit - credit_avg) < 0.15*credit_avg ) return credit_avg;
-
-    // If we get here, then there was not agreement between the claimed credits
-    // So attempt to use the average of the historical granted credit instead
-    //
-    DB_HOST host;
-    double credit_hist_avg=0;
-    double credit_min_dev=credit_avg;
-        // default award in case nobody matches the cases
-    nvalid=0;
-    double deviation = -1;
-    for (i=0; i<results.size(); i++) {
-        RESULT& result = results[i];
-        if (result.validate_state != VALIDATE_STATE_VALID) continue;
-        host.lookup_id(result.hostid);
-        // skip if host is new or the cpu time is very low
-        if ( host.total_credit < config.granted_credit_ramp_up
-            || result.cpu_time < 30 ) continue;
-
-        // This is for computing the average based on the computers history
-        credit_hist_avg = credit_hist_avg + result.cpu_time*host.credit_per_cpu_sec;
-        nvalid++;
-        last_credit = result.cpu_time*host.credit_per_cpu_sec;
-
-        // This if is for finding the result whose claimed credit is the least
-        // different from the computers historical average
-        //
-        if ( (deviation < 0 || deviation > fabs(result.claimed_credit - result.cpu_time*host.credit_per_cpu_sec))
-        ) {
-                deviation = fabs(result.claimed_credit - result.cpu_time*host.credit_per_cpu_sec);
-                credit_min_dev = result.claimed_credit;
-        }
-    }
-   
-    // If this case occurs, then this is becuase neither host has
-    // been participating long.  As a result, returned the claimed
-    // credit average
-    if (nvalid == 0 ) {
-        log_messages.printf(MSG_DEBUG,"[WORKUNIT#%d %s] No qualifying results",
-            wu.id, wu.name);      
-        return credit_avg;
-    }
-
-    credit_hist_avg = credit_hist_avg/nvalid;
-
-   
-    // Check to see if the result.cpu_time*host.credit_per_cpu_sec are close.
-    // If so use the average of the historical credit
-    //
-    if (fabs(last_credit-credit_hist_avg)<0.1*credit_hist_avg) {
-        log_messages.printf(MSG_DEBUG,"[WORKUNIT#%d %s] Method1: "
-            "Credit Average = %.2lf Actual Credit Granted = %.2lf \n",
-            wu.id, wu.name, credit_avg, credit_hist_avg);                
-        return credit_hist_avg;
-    }
-
-    log_messages.printf(MSG_DEBUG,"[WORKUNIT#%d %s] Method2: "
-        "Credit Average = %.2lf Actual Credit Granted = %.2lf \n",
-        wu.id, wu.name, credit_avg, credit_min_dev);                
-
-    return credit_min_dev;
 }
 
 const char *BOINC_RCSID_07049e8a0e = "$Id$";
