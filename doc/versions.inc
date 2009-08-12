@@ -259,7 +259,9 @@ function is_dev($v) {
 
 //$url_base = "http://boincdl.ssl.berkeley.edu/dl/";
 //$url_base = "http://mirror.worldcommunitygrid.org/mirror/";
-switch(rand(0,3)) {
+
+// note: rand() is inclusive
+switch(rand(0,2)) {
     case 0: $url_base = "http://einstein.ligo.caltech.edu/download/boinc/dl/"; break;
     case 1: $url_base = "http://boincdl3.ssl.berkeley.edu/mirror/"; break;
     case 2: $url_base = "http://einstein.aei.mpg.de/download/boinc/dl/"; break;
