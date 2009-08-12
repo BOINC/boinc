@@ -6829,3 +6829,12 @@ David  9 Aug 2009
     sched/
         validate_util.cpp
         validator.cpp
+
+David  12 Aug 2009
+    - server code: moved everything related to credit-granting to credit.cpp,
+        where it can be used by trickle handlers as well as by validators.
+
+    sched/
+        credit.cpp,h
+        validate_util.cpp,h
+        validator.cpp

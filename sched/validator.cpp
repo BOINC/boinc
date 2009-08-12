@@ -109,9 +109,7 @@ void update_error_rate(DB_HOST& host, bool valid) {
 // Grant credit to host, user and team, and update host error rate.
 //
 int is_valid(RESULT& result, WORKUNIT& wu) {
-    DB_USER user;
     DB_HOST host;
-    DB_TEAM team;
     DB_CREDITED_JOB credited_job;
     int retval;
     char buf[256];
@@ -125,50 +123,10 @@ int is_valid(RESULT& result, WORKUNIT& wu) {
         return retval;
     }
 
-    retval = user.lookup_id(host.userid);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d] lookup of user %d failed %d\n",
-            result.id, host.userid, retval
-        );
-        return retval;
-    }
-
-    update_average(
-        result.sent_time, result.granted_credit, CREDIT_HALF_LIFE,
-        user.expavg_credit, user.expavg_time
-    );
-    sprintf(
-        buf, "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f",
-        result.granted_credit,  user.expavg_credit, user.expavg_time
-    );
-    retval = user.update_field(buf);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d] update of user %d failed %d\n",
-            result.id, host.userid, retval
-        );
-    }
-
-    update_average(
-        result.sent_time, result.granted_credit, CREDIT_HALF_LIFE,
-        host.expavg_credit, host.expavg_time
-    );
+    grant_credit(host, result.sent_time, result.cpu_time, result.granted_credit);
 
     double turnaround = result.received_time - result.sent_time;
     compute_avg_turnaround(host, turnaround);
-
-    // compute new credit per CPU time
-    //
-    retval = update_credit_per_cpu_sec(
-        result.granted_credit, result.cpu_time, host.credit_per_cpu_sec
-    );
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d][HOST#%d] claimed too much credit (%f) in too little CPU time (%f)\n",
-            result.id, result.hostid, result.granted_credit, result.cpu_time
-        );
-    }
 
     double old_error_rate = host.error_rate;
     if (!is_unreplicated(wu)) {
@@ -176,9 +134,8 @@ int is_valid(RESULT& result, WORKUNIT& wu) {
     }
     sprintf(
         buf,
-        "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f, avg_turnaround=%f, credit_per_cpu_sec=%f, error_rate=%f",
-        result.granted_credit,  host.expavg_credit, host.expavg_time,
-        host.avg_turnaround, host.credit_per_cpu_sec, host.error_rate
+        "avg_turnaround=%f, error_rate=%f",
+        host.avg_turnaround, host.error_rate
     );
     retval = host.update_field(buf);
     if (retval) {
@@ -191,32 +148,6 @@ int is_valid(RESULT& result, WORKUNIT& wu) {
         "[HOST#%d] error rate %f->%f\n",
         host.id, old_error_rate, host.error_rate
     );
-
-    if (user.teamid) {
-        retval = team.lookup_id(user.teamid);
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "[RESULT#%d] lookup of team %d failed %d\n",
-                result.id, user.teamid, retval
-            );
-            return retval;
-        }
-        update_average(
-            result.sent_time, result.granted_credit, CREDIT_HALF_LIFE,
-            team.expavg_credit, team.expavg_time
-        );
-        sprintf(buf,
-            "total_credit=total_credit+%f, expavg_credit=%f, expavg_time=%f",
-            result.granted_credit,  team.expavg_credit, team.expavg_time
-        );
-        retval = team.update_field(buf);
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "[RESULT#%d] update of team %d failed %d\n",
-                result.id, team.id, retval
-            );
-        }
-    }
 
     if (update_credited_job) {
         credited_job.userid = user.id;

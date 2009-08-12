@@ -26,4 +26,9 @@ extern double credit_multiplier(int, time_t);
 extern double fpops_to_credit(double fpops, double intops);
     // credit that should be granted for a given number of
     // floating-point and integer ops
-
+extern int update_credit_per_cpu_sec(
+    double credit, double cpu_time, double& credit_per_cpu_sec
+);
+extern int grant_credit(
+    HOST& host, double start_time, double cpu_time, double credit
+);
