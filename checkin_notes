@@ -6844,3 +6844,11 @@ David  12 Aug 2009
 
     lib/
         gui_rpc_client.cpp
+
+David  13 Aug 2009
+    - client (Unix): fix bug that caused GPU reservation to not work.
+        The problem: we were doing the reservation after the fork(),
+        so that the data structure it changed was the app's, not the client's.
+
+    client/
+        app_start.cpp
