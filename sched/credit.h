@@ -30,5 +30,5 @@ extern int update_credit_per_cpu_sec(
     double credit, double cpu_time, double& credit_per_cpu_sec
 );
 extern int grant_credit(
-    HOST& host, double start_time, double cpu_time, double credit
+    DB_HOST& host, double start_time, double cpu_time, double credit
 );

@@ -179,19 +179,34 @@ show_shmem_LDADD = $(SERVERLIBS)
 file_deleter_SOURCES = file_deleter.cpp
 file_deleter_LDADD = $(SERVERLIBS)
 
-sample_bitwise_validator_SOURCES = validator.cpp sample_bitwise_validator.cpp validate_util.cpp validate_util.h validate_util2.cpp
+VALIDATOR_SOURCES = \
+	credit.cpp \
+	validator.cpp \
+	validate_util.cpp \
+	validate_util2.cpp
+
+sample_bitwise_validator_SOURCES = $(VALIDATOR_SOURCES) \
+	sample_bitwise_validator.cpp 
 sample_bitwise_validator_LDADD = $(SERVERLIBS)
 
-sample_trivial_validator_SOURCES = validator.cpp sample_trivial_validator.cpp validate_util.cpp validate_util.h validate_util2.cpp
+sample_trivial_validator_SOURCES = $(VALIDATOR_SOURCES) \
+	sample_trivial_validator.cpp
 sample_trivial_validator_LDADD = $(SERVERLIBS)
 
-sample_dummy_assimilator_SOURCES = assimilator.cpp sample_dummy_assimilator.cpp validate_util.cpp validate_util.h
+ASSIMILATOR_SOURCES = \
+	assimilator.cpp \
+	validate_util.cpp
+
+sample_dummy_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
+	sample_dummy_assimilator.cpp
 sample_dummy_assimilator_LDADD = $(SERVERLIBS)
 
-sample_assimilator_SOURCES = assimilator.cpp sample_assimilator.cpp validate_util.cpp validate_util.h
+sample_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
+	sample_assimilator.cpp
 sample_assimilator_LDADD = $(SERVERLIBS)
 
-single_job_assimilator_SOURCES = assimilator.cpp single_job_assimilator.cpp validate_util.cpp validate_util.h
+single_job_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
+	single_job_assimilator.cpp
 single_job_assimilator_LDADD = $(SERVERLIBS)
 
 sample_work_generator_SOURCES = sample_work_generator.cpp

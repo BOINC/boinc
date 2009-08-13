@@ -46,6 +46,7 @@
 #include "str_util.h"
 #include "error_numbers.h"
 
+#include "credit.h"
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
@@ -150,18 +151,18 @@ int is_valid(RESULT& result, WORKUNIT& wu) {
     );
 
     if (update_credited_job) {
-        credited_job.userid = user.id;
+        credited_job.userid = host.userid;
         credited_job.workunitid = long(wu.opaque);
         retval = credited_job.insert();
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "[RESULT#%d] Warning: credited_job insert failed (userid: %d workunit: %f err: %d)\n",
-                result.id, user.id, wu.opaque, retval
+                result.id, host.userid, wu.opaque, retval
             );
         } else {
             log_messages.printf(MSG_DEBUG,
                 "[RESULT#%d %s] added credited_job record [WU#%d OPAQUE#%f USER#%d]\n",
-                result.id, result.name, wu.id, wu.opaque, user.id
+                result.id, result.name, wu.id, wu.opaque, host.userid
             );
         }
     }
