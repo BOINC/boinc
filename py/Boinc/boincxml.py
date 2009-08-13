@@ -120,9 +120,9 @@ class XMLConfig:
         return self
     def read(self, failopen_ok=False):
         """Read the XML object's file source and return self."""
-        if failopen_ok and not os.path.exists(self.filename)
+        if failopen_ok and not os.path.exists(self.filename):
             self._init_empty_xml()
-            return self;
+            return self
         try:
             self.xml = xml.dom.minidom.parse(self.filename)
             strip_white_space(self.xml)
