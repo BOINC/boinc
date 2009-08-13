@@ -6852,3 +6852,10 @@ David  13 Aug 2009
 
     client/
         app_start.cpp
+
+David  13 Aug 2009
+    - start: don't print "XML parse error" message if run_state file
+        doesn't exist (e.g. when start new project)
+
+    py/Boinc/
+        boincxml.py

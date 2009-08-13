@@ -120,15 +120,16 @@ class XMLConfig:
         return self
     def read(self, failopen_ok=False):
         """Read the XML object's file source and return self."""
+        if failopen_ok and not os.path.exists(self.filename)
+            self._init_empty_xml()
+            return self;
         try:
             self.xml = xml.dom.minidom.parse(self.filename)
             strip_white_space(self.xml)
         except:
             if not failopen_ok:
-                # raise
                 raise Exception("Couldn't parse XML config\n")
             print >>sys.stderr, "Warning: couldn't parse XML file"
-            # self.xml = xml.dom.minidom.Document()
             self._init_empty_xml()
         try:
             self._get_elements()
