@@ -122,15 +122,15 @@ class XMLConfig:
         """Read the XML object's file source and return self."""
         if failopen_ok and not os.path.exists(self.filename):
             self._init_empty_xml()
-            return self
-        try:
-            self.xml = xml.dom.minidom.parse(self.filename)
-            strip_white_space(self.xml)
-        except:
-            if not failopen_ok:
-                raise Exception("Couldn't parse XML config\n")
-            print >>sys.stderr, "Warning: couldn't parse XML file"
-            self._init_empty_xml()
+        else:
+            try:
+                self.xml = xml.dom.minidom.parse(self.filename)
+                strip_white_space(self.xml)
+            except:
+                if not failopen_ok:
+                    raise Exception("Couldn't parse XML config\n")
+                print >>sys.stderr, "Warning: couldn't parse XML file"
+                self._init_empty_xml()
         try:
             self._get_elements()
         except:
