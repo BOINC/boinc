@@ -214,6 +214,9 @@ int RPC_CLIENT::authorize(const char* passwd) {
             break;
         }
     }
+
+    free(rpc.mbuf);
+
     if (!found) {
         //fprintf(stderr, "Nonce not found\n");
         return ERR_AUTHENTICATOR;

@@ -6838,3 +6838,9 @@ David  12 Aug 2009
         credit.cpp,h
         validate_util.cpp,h
         validator.cpp
+
+David  12 Aug 2009
+    - GUI RPC: fix memory leak in authorize()
+
+    lib/
+        gui_rpc_client.cpp
