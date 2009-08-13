@@ -260,7 +260,7 @@ int CLIENT_STATE::init() {
             msg_printf(NULL, MSG_INFO, strs[i].c_str());
         }
 #if 0
-        fake_cuda(coprocs, 1);
+        fake_cuda(coprocs, 2);
         msg_printf(NULL, MSG_INFO, "Faking a CUDA device");
 #endif
         if (coprocs.coprocs.size() == 0) {

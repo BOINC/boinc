@@ -360,6 +360,11 @@ void fake_cuda(COPROCS& coprocs, int count) {
    COPROC_CUDA* cc = new COPROC_CUDA;
    strcpy(cc->type, "CUDA");
    cc->count = count;
+   for (int i=0; i<count; i++) {
+       cc->device_nums[i] = i;
+   }
+   cc->display_driver_version = 18000;
+   cc->cuda_version = 2020;
    strcpy(cc->prop.name, "CUDA NVIDIA chip");
    cc->prop.totalGlobalMem = 256*1024*1024;
    cc->prop.sharedMemPerBlock = 100;
