@@ -4,7 +4,7 @@
 
 # boincxml.py - xml utilities for boinc
 
-import sys
+import sys, os
 import xml.dom.minidom
 
 def append_new_element(parent_node, name):
