@@ -6909,3 +6909,10 @@ David  14 Aug 2009
     client/
         cpu_sched.cpp
         pers_file_xfer.h
+
+David  14 Aug 2009
+	- client: ATI GPU detection code (from Crunch3r)
+
+	lib/
+		coproc.cpp,h
+		cal.h

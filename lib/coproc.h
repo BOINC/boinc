@@ -245,4 +245,40 @@ enum  	CUdevice_attribute_enum {
   CU_DEVICE_ATTRIBUTE_COMPUTE_MODE = 20
 };
 
+struct calDeviceProp {
+    char name[256];
+    char version[50];
+    int struct_size;
+    int localRAM;
+    int uncachedRemoteRAM;
+    int cachedRemoteRAM;
+    int engineClock;
+    int memoryClock;
+    int wavefrontSize;
+    int numberOfSIMD;
+    int doublePrecision;
+    int pitch_alignment;
+    int surface_alignment;
+    double flops;
+};
+
+struct COPROC_CAL : public COPROC {
+    calDeviceProp prop;
+    CALdeviceattribs attribs; 
+#ifndef _USING_FCGI_
+    virtual void write_xml(MIOFILE&);
+#endif
+    COPROC_CAL(): COPROC("CAL"){}
+    virtual ~COPROC_CAL(){}
+    static std::string get(COPROCS&);
+    void clear();
+    int parse(FILE*);
+
+    // This is NOT an estimation. It's TRUE FLOPS!
+
+    inline double flops() {
+		return attribs.numberOfSIMD * attribs.wavefrontSize * 5/2 * attribs.engineClock;
+    }
+};
+
 #endif

@@ -1305,6 +1305,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\cal.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\cert_sig.h"
 				>
 			</File>
