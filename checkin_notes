@@ -6892,3 +6892,10 @@ David  14 Aug 2009
         log_flags.cpp,h
         rr_sim.cpp
         work_fetch.h
+
+David  14 Aug 2009
+    - client: don't try to maintain GPU work for all projects,
+        since use FIFO rather than RR schedling for GPUs
+
+    client/
+        work_fetch.cpp

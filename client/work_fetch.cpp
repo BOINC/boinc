@@ -448,9 +448,14 @@ PROJECT* WORK_FETCH::choose_project() {
     if (!p) {
         p = cpu_work_fetch.choose_project(FETCH_IF_MINOR_SHORTFALL);
     }
+#if 0
+    // don't try to maintain GPU work for all projects,
+    // since we don't use round-robin scheduling for GPUs
+    //
     if (!p && coproc_cuda) {
         p = cuda_work_fetch.choose_project(FETCH_IF_PROJECT_STARVED);
     }
+#endif
     if (!p) {
         p = cpu_work_fetch.choose_project(FETCH_IF_PROJECT_STARVED);
     }
