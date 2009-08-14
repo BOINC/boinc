@@ -6899,3 +6899,13 @@ David  14 Aug 2009
 
     client/
         work_fetch.cpp
+
+David  14 Aug 2009
+    - client: in the final stage of CPU scheduling,
+        give preference to multi-threaded jobs.
+        Avoid running N-1 1-thread jobs and 1 N-thread job on N CPUs
+    - client: change file transfer giveup time from 14 to 90 days
+
+    client/
+        cpu_sched.cpp
+        pers_file_xfer.h

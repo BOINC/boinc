@@ -24,7 +24,7 @@
 // Default values for exponential backoff
 #define PERS_RETRY_DELAY_MIN    60                // 1 minute
 #define PERS_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
-#define PERS_GIVEUP             (60*60*24*7*2)    // 2 weeks
+#define PERS_GIVEUP             (SECONDS_PER_DAY*90)
     // give up on xfer if this time elapses since last byte xferred
 
 /// PERS_FILE_XFER represents a "persistent file transfer",

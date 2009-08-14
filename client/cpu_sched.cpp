@@ -738,16 +738,44 @@ static inline bool in_ordered_scheduled_results(ACTIVE_TASK* atp) {
 // return true if r0 is more important to run than r1
 //
 static inline bool more_important(RESULT* r0, RESULT* r1) {
+    // favor jobs in danger of deadline miss
+    //
     bool miss0 = r0->rr_sim_misses_deadline;
     bool miss1 = r1->rr_sim_misses_deadline;
     if (miss0 && !miss1) return true;
     if (!miss0 && miss1) return false;
+
+    // favor coproc jobs, so that if we're RAM-limited
+    // we'll use the GPU instead of the CPU
+    //
+    bool cp0 = r0->uses_coprocs();
+    bool cp1 = r1->uses_coprocs();
+    if (cp0 && !cp1) return true;
+    if (!cp0 && cp1) return false;
+
+    // favor multithreaded jobs over single-threaded,
+    // even if the latter haven't finished time slice.
+    // avoid the situation where we run N-1 ST jobs and 1 MT job on N CPUs
+    //
+    bool mt0 = (r0->avp->avg_ncpus > 1);
+    bool mt1 = (r1->avp->avg_ncpus > 1);
+    if (mt0 && !mt1) return true;
+    if (!mt0 && mt1) return false;
+
+    // favor jobs in the middle of time slice
+    //
     bool unfin0 = r0->unfinished_time_slice;
     bool unfin1 = r1->unfinished_time_slice;
     if (unfin0 && !unfin1) return true;
     if (!unfin0 && unfin1) return false;
+
+    // favor jobs selected first by schedule_cpus()
+    // (e.g., because their project has high debt)
+    //
     if (r0->seqno < r1->seqno) return true;
     if (r0->seqno > r1->seqno) return false;
+
+    // tie breaker
     return (r0 < r1);
 }
 
