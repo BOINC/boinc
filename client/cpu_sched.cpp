@@ -77,12 +77,12 @@ bool COPROCS::sufficient_coprocs(
             return false;
         }
         if (cp2->used + cp->count > cp2->count) {
-			if (log_flag) {
-				msg_printf(NULL, MSG_INFO,
-					"[%s] rr_sim: insufficient coproc %s (%d + %d > %d)",
-					prefix, cp2->type, cp2->used, cp->count, cp2->count
-				);
-			}
+            if (log_flag) {
+                msg_printf(NULL, MSG_INFO,
+                    "[%s] rr_sim: insufficient coproc %s (%d + %d > %d)",
+                    prefix, cp2->type, cp2->used, cp->count, cp2->count
+                );
+            }
             return false;
         }
     }
@@ -101,11 +101,11 @@ void COPROCS::reserve_coprocs(
             );
             continue;
         }
-		if (log_flag) {
-			msg_printf(NULL, MSG_INFO,
-				"[%s] reserving %d of coproc %s", prefix, cp->count, cp2->type
-			);
-		}
+        if (log_flag) {
+            msg_printf(NULL, MSG_INFO,
+                "[%s] reserving %d of coproc %s", prefix, cp->count, cp2->type
+            );
+        }
         cp2->used += cp->count;
     }
 }
@@ -118,11 +118,11 @@ void COPROCS::free_coprocs(
         COPROC* cp = needed.coprocs[i];
         COPROC* cp2 = lookup(cp->type);
         if (!cp2) continue;
-		if (log_flag) {
-			msg_printf(NULL, MSG_INFO,
-				"[%s] freeing %d of coproc %s", prefix, cp->count, cp2->type
-			);
-		}
+        if (log_flag) {
+            msg_printf(NULL, MSG_INFO,
+                "[%s] freeing %d of coproc %s", prefix, cp->count, cp2->type
+            );
+        }
         cp2->used -= cp->count;
     }
 }
@@ -283,26 +283,26 @@ RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
         RESULT* rp = results[i];
         if (!rp->runnable()) continue;
         if (rp->already_selected) continue;
-		PROJECT* p = rp->project;
+        PROJECT* p = rp->project;
         if (p->non_cpu_intensive) continue;
         if (coproc_only) {
             if (!rp->uses_coprocs()) continue;
 
-			// TODO: break this out by resource type
+            // TODO: break this out by resource type
             if (!p->cuda_pwf.deadlines_missed_copy
-				&& p->duration_correction_factor < 90.0
-			) {
-				continue;
-			}
+                && p->duration_correction_factor < 90.0
+            ) {
+                continue;
+            }
         } else {
             if (rp->uses_coprocs()) continue;
             // treat projects with DCF>90 as if they had deadline misses
             //
             if (!p->cpu_pwf.deadlines_missed_copy
-				&& p->duration_correction_factor < 90.0
-			) {
-				continue;
-			}
+                && p->duration_correction_factor < 90.0
+            ) {
+                continue;
+            }
         }
 
         bool new_best = false;
@@ -491,7 +491,7 @@ struct PROC_RESOURCES {
     // should we stop scanning jobs?
     //
     inline bool stop_scan_cpu() {
-		return ncpus_used >= ncpus;
+        return ncpus_used >= ncpus;
     }
 
     inline bool stop_scan_coproc() {
@@ -588,7 +588,7 @@ static bool schedule_if_possible(
             "[cpu_sched_debug] scheduling %s (%s)", rp->name, description
         );
     }
-	proc_rsc.schedule(rp);
+    proc_rsc.schedule(rp);
     rp->project->anticipated_debt -= (rp->project->resource_share / rrs) * expected_payoff;
     return true;
 }
@@ -659,7 +659,7 @@ void CLIENT_STATE::schedule_cpus() {
         if (!rp) break;
         rp->already_selected = true;
         if (!proc_rsc.can_schedule(rp)) continue;
-		atp = lookup_active_task_by_result(rp);
+        atp = lookup_active_task_by_result(rp);
         can_run = schedule_if_possible(
             rp, atp, proc_rsc, rrs, expected_payoff,
             "coprocessor job, EDF"
@@ -676,7 +676,7 @@ void CLIENT_STATE::schedule_cpus() {
         if (!rp) break;
         rp->already_selected = true;
         if (!proc_rsc.can_schedule(rp)) continue;
-		atp = lookup_active_task_by_result(rp);
+        atp = lookup_active_task_by_result(rp);
         can_run = schedule_if_possible(
             rp, atp, proc_rsc, rrs, expected_payoff,
             "coprocessor job, FIFO"
@@ -695,7 +695,7 @@ void CLIENT_STATE::schedule_cpus() {
         if (!rp) break;
         rp->already_selected = true;
         if (!proc_rsc.can_schedule(rp)) continue;
-		atp = lookup_active_task_by_result(rp);
+        atp = lookup_active_task_by_result(rp);
         can_run = schedule_if_possible(
             rp, atp, proc_rsc, rrs, expected_payoff,
             "CPU job, EDF"
@@ -715,7 +715,7 @@ void CLIENT_STATE::schedule_cpus() {
         assign_results_to_projects();
         rp = largest_debt_project_best_result();
         if (!rp) break;
-		atp = lookup_active_task_by_result(rp);
+        atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp)) continue;
         can_run = schedule_if_possible(
             rp, atp, proc_rsc, rrs, expected_payoff,
@@ -729,10 +729,10 @@ void CLIENT_STATE::schedule_cpus() {
 }
 
 static inline bool in_ordered_scheduled_results(ACTIVE_TASK* atp) {
-	for (unsigned int i=0; i<gstate.ordered_scheduled_results.size(); i++) {
-		if (atp->result == gstate.ordered_scheduled_results[i]) return true;
-	}
-	return false;
+    for (unsigned int i=0; i<gstate.ordered_scheduled_results.size(); i++) {
+        if (atp->result == gstate.ordered_scheduled_results[i]) return true;
+    }
+    return false;
 }
 
 // return true if r0 is more important to run than r1
@@ -779,13 +779,13 @@ void CLIENT_STATE::append_unfinished_time_slice(
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
-		if (!atp->result->runnable()) continue;
+        if (!atp->result->runnable()) continue;
         if (atp->result->project->non_cpu_intensive) continue;
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (atp->result->uses_coprocs()) continue;
         if (finished_time_slice(atp)) continue;
         atp->result->unfinished_time_slice = true;
-		if (in_ordered_scheduled_results(atp)) continue;
+        if (in_ordered_scheduled_results(atp)) continue;
         runnable_jobs.push_back(atp->result);
         atp->result->seqno = 0;
     }
@@ -930,7 +930,7 @@ bool CLIENT_STATE::enforce_schedule() {
         // We've decided to run this job; create an ACTIVE_TASK if needed.
         //
         if (!atp) {
-			atp = get_task(rp);
+            atp = get_task(rp);
         }
         ncpus_used += rp->avp->avg_ncpus;
         atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
@@ -991,7 +991,7 @@ bool CLIENT_STATE::enforce_schedule() {
                 // "leave in memory" to "remove from memory";
                 // need to quit suspended tasks.
                 //
-				if (atp->checkpoint_cpu_time && !global_prefs.leave_apps_in_memory) {
+                if (atp->checkpoint_cpu_time && !global_prefs.leave_apps_in_memory) {
                     atp->preempt(REMOVE_ALWAYS);
                 }
                 break;
@@ -1260,7 +1260,7 @@ void CLIENT_STATE::set_ncpus() {
 // completion time for this project's results
 //
 void PROJECT::update_duration_correction_factor(ACTIVE_TASK* atp) {
-	RESULT* rp = atp->result;
+    RESULT* rp = atp->result;
 #ifdef SIM
     if (dcf_dont_use) {
         duration_correction_factor = 1.0;

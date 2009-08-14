@@ -223,7 +223,7 @@ void CLIENT_STATE::rr_simulation() {
 
     // Decide what jobs to include in the simulation,
     // and pick the ones that are initially running.
-	// NOTE: "results" is sorted by increasing arrival time
+    // NOTE: "results" is sorted by increasing arrival time
     //
     for (i=0; i<results.size(); i++) {
         rp = results[i];

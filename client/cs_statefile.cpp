@@ -68,13 +68,14 @@ static bool valid_state_file(const char* fname) {
 // used to sort result list
 //
 static inline bool arrived_first(RESULT* r0, RESULT* r1) {
-	if (r0->received_time < r1->received_time) {
-		return true;
-	}
-	if (r0->received_time > r1->received_time) {
-		return false;
-	}
-	return (r0 < r1);
+    if (r0->received_time < r1->received_time) {
+        return true;
+    }
+    if (r0->received_time > r1->received_time) {
+        return false;
+    }
+    return (strcmp(r0->name, r1->name) > 0);
+        // arbitrary but deterministic
 }
 
 // Parse the client_state.xml file
@@ -168,7 +169,7 @@ int CLIENT_STATE::parse_state_file() {
                 );
                 delete app;
                 continue;
-		    }
+            }
             apps.push_back(app);
             continue;
         }
@@ -473,11 +474,11 @@ int CLIENT_STATE::parse_state_file() {
         }
         skip_unrecognized(buf, mf);
     }
-	std::sort(
-		results.begin(),
-		results.end(),
-		arrived_first
-	);
+    std::sort(
+        results.begin(),
+        results.end(),
+        arrived_first
+    );
     fclose(f);
     return 0;
 }

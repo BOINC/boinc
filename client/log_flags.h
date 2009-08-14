@@ -89,11 +89,11 @@ struct LOG_FLAGS {
         /// show shared-mem message from apps
     bool app_msg_receive;
         /// memory usage
-	bool mem_usage_debug;
-	bool network_status_debug;
+    bool mem_usage_debug;
+    bool network_status_debug;
     bool checkpoint_debug;
         /// show coproc reserve/free
-	bool coproc_debug;
+    bool coproc_debug;
         /// show changes to duration correction factors
     bool dcf_debug;
     bool slot_debug;
@@ -105,7 +105,7 @@ struct LOG_FLAGS {
 
 struct CONFIG {
     bool dont_check_file_sizes;
-	bool http_1_0;
+    bool http_1_0;
     int save_stats_days;
     int ncpus;
     int max_file_xfers;

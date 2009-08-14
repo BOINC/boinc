@@ -6872,7 +6872,8 @@ David  14 Aug 2009
         or preempts GPU jobs needlessly.
         The change has two parts:
         1) sort the "results" vector by received_time,
-            so that the RR simulation processes GPU jobs FIFO.
+            so that the RR simulation processes GPU jobs FIFO
+            (in case of tie, use something deterministic: result name)
         2) in the CPU scheduler (earliest_deadline_result())
             instead of choosing the earliest-deadline GPU job that
             misses its deadline,

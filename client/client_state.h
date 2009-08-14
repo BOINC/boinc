@@ -69,7 +69,7 @@ public:
     vector<APP_VERSION*> app_versions;
     vector<WORKUNIT*> workunits;
     vector<RESULT*> results;
-		// list of jobs, ordered by increasing arrival time
+        // list of jobs, ordered by increasing arrival time
 
     PERS_FILE_XFER_SET* pers_file_xfers;
     HTTP_OP_SET* http_ops;
@@ -151,7 +151,7 @@ public:
 
         /// this means we are running as a daemon on unix,
         /// or as a service on Windows
-	bool executing_as_daemon;
+    bool executing_as_daemon;
         /// redirect stdout, stderr to log files
     bool redirect_io;
         /// a condition has occurred in which we know graphics will
@@ -257,7 +257,7 @@ private:
 private:
     double debt_interval_start;
     double total_cpu_time_this_debt_interval;
-	bool work_fetch_no_new_work;
+    bool work_fetch_no_new_work;
     bool must_enforce_cpu_schedule;
     bool must_schedule_cpus;
     bool must_check_work_fetch;
@@ -276,9 +276,9 @@ public:
         /// wait until at least this time to try running
         /// another task that needs a shared-mem seg
     double retry_shmem_time;
-	inline double work_buf_min() {
-		return global_prefs.work_buf_min_days * 86400;
-	}
+    inline double work_buf_min() {
+        return global_prefs.work_buf_min_days * 86400;
+    }
     inline double work_buf_additional() {
         return global_prefs.work_buf_additional_days *86400;
     }
@@ -352,12 +352,12 @@ public:
 // --------------- cs_benchmark.cpp:
 public:
     bool should_run_cpu_benchmarks();
-	void start_cpu_benchmarks();
+    void start_cpu_benchmarks();
     bool cpu_benchmarks_poll();
     void abort_cpu_benchmarks();
     bool are_cpu_benchmarks_running();
-	bool cpu_benchmarks_done();
-	void cpu_benchmarks_set_defaults();
+    bool cpu_benchmarks_done();
+    void cpu_benchmarks_set_defaults();
     void print_benchmark_results();
 
 // --------------- cs_cmdline.cpp:
@@ -396,8 +396,8 @@ public:
     int resume_network();
     void read_global_prefs();
     int save_global_prefs(char* prefs, char* url, char* sched);
-	double available_ram();
-	double max_available_ram();
+    double available_ram();
+    double max_available_ram();
 private:
     int check_suspend_processing();
     int check_suspend_network();
@@ -429,8 +429,8 @@ public:
     int write_state(MIOFILE&);
     int write_state_file();
     int write_state_file_if_needed();
-	void check_anonymous();
-	int parse_app_info(PROJECT*, FILE*);
+    void check_anonymous();
+    int parse_app_info(PROJECT*, FILE*);
     int write_state_gui(MIOFILE&);
     int write_file_transfers_gui(MIOFILE&);
     int write_tasks_gui(MIOFILE&, bool);
@@ -469,14 +469,14 @@ public:
     void free_mem();
 
 // --------------- rr_sim.cpp:
-	void rr_simulation();
+    void rr_simulation();
     void print_deadline_misses();
 
 // --------------- work_fetch.cpp:
 public:
     int proj_min_results(PROJECT*, double);
-	void check_project_timeout();
-	double overall_cpu_frac();
+    void check_project_timeout();
+    double overall_cpu_frac();
     double time_until_work_done(PROJECT*, int, double);
     bool compute_work_requests();
     void scale_duration_correction_factors(double);
