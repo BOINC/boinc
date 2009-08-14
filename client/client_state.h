@@ -57,7 +57,7 @@ using std::vector;
     // project: no downloading or runnable results
     // overall: at least one idle CPU
 
-/// encapsulates the global variables of the core client.
+// encapsulates the global variables of the core client.
 // If you add anything here, initialize it in the constructor
 //
 class CLIENT_STATE {
@@ -69,6 +69,7 @@ public:
     vector<APP_VERSION*> app_versions;
     vector<WORKUNIT*> workunits;
     vector<RESULT*> results;
+		// list of jobs, ordered by increasing arrival time
 
     PERS_FILE_XFER_SET* pers_file_xfers;
     HTTP_OP_SET* http_ops;

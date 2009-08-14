@@ -137,6 +137,7 @@ struct CONFIG {
     bool use_all_gpus;
 
     CONFIG();
+    void clear();
     int parse(FILE*);
     int parse_options(XML_PARSER&);
     void show();

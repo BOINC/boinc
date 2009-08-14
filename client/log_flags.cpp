@@ -170,6 +170,10 @@ void CONFIG::show() {
 }
 
 CONFIG::CONFIG() {
+    clear();
+}
+
+void CONFIG::clear() {
     dont_check_file_sizes = false;
     http_1_0 = false;
     save_stats_days = 30;
@@ -207,6 +211,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
     bool is_tag, btemp;
     string s;
 
+    clear();
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             msg_printf(NULL, MSG_USER_ERROR,

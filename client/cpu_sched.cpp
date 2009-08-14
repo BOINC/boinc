@@ -270,7 +270,7 @@ RESULT* first_coproc_result() {
 
 // Return earliest-deadline result.
 // if coproc_only:
-//   return only coproc jobs, and only if job is projected to miss deadline.
+//   return only coproc jobs, and only if project misses deadlines for that coproc
 // otherwise:
 //   return only CPU jobs, and only from a project with deadlines_missed>0
 //
@@ -282,16 +282,27 @@ RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
         if (!rp->runnable()) continue;
-        if (rp->project->non_cpu_intensive) continue;
         if (rp->already_selected) continue;
+		PROJECT* p = rp->project;
+        if (p->non_cpu_intensive) continue;
         if (coproc_only) {
             if (!rp->uses_coprocs()) continue;
-            if (!rp->rr_sim_misses_deadline) continue;
+
+			// TODO: break this out by resource type
+            if (!p->cuda_pwf.deadlines_missed_copy
+				&& p->duration_correction_factor < 90.0
+			) {
+				continue;
+			}
         } else {
             if (rp->uses_coprocs()) continue;
             // treat projects with DCF>90 as if they had deadline misses
             //
-            if (!rp->project->cpu_pwf.deadlines_missed_copy && rp->project->duration_correction_factor < 90.0) continue;
+            if (!p->cpu_pwf.deadlines_missed_copy
+				&& p->duration_correction_factor < 90.0
+			) {
+				continue;
+			}
         }
 
         bool new_best = false;
@@ -623,6 +634,7 @@ void CLIENT_STATE::schedule_cpus() {
         p->next_runnable_result = NULL;
         p->anticipated_debt = p->short_term_debt;
         p->cpu_pwf.deadlines_missed_copy = p->cpu_pwf.deadlines_missed;
+        p->cuda_pwf.deadlines_missed_copy = p->cuda_pwf.deadlines_missed;
     }
     for (i=0; i<app_versions.size(); i++) {
         app_versions[i]->max_working_set_size = 0;
@@ -640,7 +652,7 @@ void CLIENT_STATE::schedule_cpus() {
     expected_payoff = global_prefs.cpu_scheduling_period();
     ordered_scheduled_results.clear();
 
-    // choose missed-deadline coproc jobs in deadline order
+    // choose coproc jobs from projects with coproc deadline misses
     //
     while (!proc_rsc.stop_scan_coproc()) {
         rp = earliest_deadline_result(true);
@@ -653,6 +665,7 @@ void CLIENT_STATE::schedule_cpus() {
             "coprocessor job, EDF"
         );
         if (!can_run) continue;
+        rp->project->cuda_pwf.deadlines_missed_copy--;
         ordered_scheduled_results.push_back(rp);
     }
 

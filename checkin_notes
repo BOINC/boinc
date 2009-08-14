@@ -6865,3 +6865,29 @@ David  13 Aug 2009
 
     sched/
         sched_customize.cpp
+
+David  14 Aug 2009
+    - client: try to fix situations where the scheduler
+        runs GPU jobs in a seemingly random order,
+        or preempts GPU jobs needlessly.
+        The change has two parts:
+        1) sort the "results" vector by received_time,
+            so that the RR simulation processes GPU jobs FIFO.
+        2) in the CPU scheduler (earliest_deadline_result())
+            instead of choosing the earliest-deadline GPU job that
+            misses its deadline,
+            pick the earliest_deadline GPU from a project that
+            has a deadline miss for that GPU type
+            (this is what's done in the CPU case)
+    - client: fix bug where if you have an exclusive app,
+        then remove it from cc_config.xml and do "update config",
+        it doesn't go away.
+        Need to clear the list before parsing.
+
+    client/
+        client_state.h
+        cpu_sched.cpp
+        cs_statefile.cpp
+        log_flags.cpp,h
+        rr_sim.cpp
+        work_fetch.h
