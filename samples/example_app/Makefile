@@ -35,7 +35,7 @@ libstdc++.a:
 	ln -s `g++ -print-file-name=libstdc++.a`
 
 clean:
-	/bin/rm -f $(PROGS) *.o
+	/bin/rm -f $(PROGS) *.o libstdc++.a
 
 distclean:
 	/bin/rm -f $(PROGS) *.o libstdc++.a

@@ -6859,3 +6859,9 @@ David  13 Aug 2009
 
     py/Boinc/
         boincxml.py
+
+David  13 Aug 2009
+    - scheduler: fixes for cuda23 plan class
+
+    sched/
+        sched_customize.cpp

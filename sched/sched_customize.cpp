@@ -130,7 +130,7 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                     return PLAN_REJECT_CUDA_VERSION;
                 }
             } else if (cp->display_driver_version) {
-                if (cp->display_driver_version < PLAN_CUDA_MIN_DRIVER_VERSION) {
+                if (cp->display_driver_version < PLAN_CUDA23_MIN_DRIVER_VERSION) {
                     return PLAN_REJECT_CUDA_VERSION;
                 }
             } else {
@@ -158,6 +158,9 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             return PLAN_REJECT_CUDA_MEM;
         }
         hu.flops = cp->flops_estimate();
+        if (!strcmp(plan_class, "cuda23")) {
+            hu.flops *= 1.01;
+        }
 
         // assume we'll need 0.5% as many CPU FLOPS as GPU FLOPS
         // to keep the GPU fed.
