@@ -19,7 +19,7 @@
 #include "boinc_fcgi.h"
 #else
 #include <cstdio>
-#endif 
+#endif
 
 #include <cstring>
 #include <cstdlib>
@@ -100,9 +100,9 @@ void COPROCS::summary_string(char* buf, int len) {
         } else if (!strcmp(cp->type, "CAL")){
 		    COPROC_CAL* cp2 =(COPROC_CAL*) cp;
 		    sprintf(buf2,"[CAL|%s|%d|%dMB|%s]",
-                cp2->prop.name,cp2->count,cp2->prop.localRAM,cp2->prop.version
+                cp2->name, cp2->count, cp2->attribs.localRAM, cp2->version
             );
-		    strcat(bigbuf,buf2); 
+		    strcat(bigbuf,buf2);
 		}
     }
     bigbuf[len-1] = 0;
@@ -112,10 +112,7 @@ void COPROCS::summary_string(char* buf, int len) {
 vector<string> COPROCS::get(bool use_all) {
     vector<string> strings;
     COPROC_CUDA::get(*this, strings, use_all);
-
-    string s = COPROC_CAL::get(*this);
-    if (s.size()) strings.push_back(s);
-
+    COPROC_CAL::get(*this, strings);
     return strings;
 }
 
@@ -167,8 +164,8 @@ int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2, bool loose) {
     if (c1.prop.major < c2.prop.major) return -1;
     if (c1.prop.minor > c2.prop.minor) return 1;
     if (c1.prop.minor < c2.prop.minor) return -1;
-    if (c1.cuda_version > c2.cuda_version) return 1; 
-    if (c1.cuda_version < c2.cuda_version) return -1; 
+    if (c1.cuda_version > c2.cuda_version) return 1;
+    if (c1.cuda_version < c2.cuda_version) return -1;
     if (loose) {
         if (c1.prop.totalGlobalMem > 1.4*c2.prop.totalGlobalMem) return 1;
         if (c1.prop.totalGlobalMem < .7* c2.prop.totalGlobalMem) return -1;
@@ -550,295 +547,231 @@ int COPROC_CUDA::parse(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
-string COPROC_CAL::get(COPROCS& coprocs) {
+void COPROC_CAL::get(COPROCS& coprocs, vector<string>& strings) {
+    CALuint numDevices, cal_major, cal_minor, cal_imp;
+    CALdevice device;
+    CALdeviceinfo info;
+    CALdeviceattribs attribs;
 
-CALuint numDevices,cal_major,cal_minor,cal_imp;
-CALdevice device;
-CALdeviceinfo info;
-CALdeviceattribs attribs;
-attribs.struct_size = sizeof(CALdeviceattribs);
-device = 0;
-numDevices =0;
+    attribs.struct_size = sizeof(CALdeviceattribs);
+    device = 0;
+    numDevices =0;
 
-typedef int (__stdcall *PCGDC)(CALuint *numDevices);
-typedef int (__stdcall *ATTRIBS) (CALdeviceattribs *attribs, CALuint ordinal);
-typedef int (__stdcall *INFO) (CALdeviceinfo *info, CALuint ordinal);
-typedef int (__stdcall *VER) (CALuint *cal_major, CALuint *cal_minor, CALuint *cal_imp);
-typedef int (__stdcall *PCGDI)(void);
-typedef int (__stdcall *CLOSE)(void);
+#ifdef _WIN32
+    typedef int (__stdcall *PCGDC)(CALuint *numDevices);
+    typedef int (__stdcall *ATTRIBS) (CALdeviceattribs *attribs, CALuint ordinal);
+    typedef int (__stdcall *INFO) (CALdeviceinfo *info, CALuint ordinal);
+    typedef int (__stdcall *VER) (CALuint *cal_major, CALuint *cal_minor, CALuint *cal_imp);
+    typedef int (__stdcall *PCGDI)(void);
+    typedef int (__stdcall *CLOSE)(void);
 
-	PCGDI	__calInit = NULL;
-	VER		__calGetVersion = NULL;
+    PCGDI	__calInit = NULL;
+    VER		__calGetVersion = NULL;
     PCGDC	__calDeviceGetCount = NULL;
-	ATTRIBS __calDeviceGetAttribs = NULL;
-	INFO    __calDeviceGetInfo = NULL;
-	CLOSE	__calShutdown = NULL;
+    ATTRIBS __calDeviceGetAttribs = NULL;
+    INFO    __calDeviceGetInfo = NULL;
+    CLOSE	__calShutdown = NULL;
 
 #if defined _M_X64
-
-
-HINSTANCE callib = LoadLibrary("aticalrt64.dll");
-HINSTANCE callib2 = LoadLibrary("amdcalrt64.dll");
-if (!callib==NULL) // TRY CAL 1.4 first driver > 9.2
-{
-__calInit = (PCGDI)GetProcAddress(callib, "calInit" );
-__calGetVersion = (VER)GetProcAddress(callib, "calGetVersion" );
-__calDeviceGetInfo = (INFO)GetProcAddress(callib, "calDeviceGetInfo" );
-__calDeviceGetCount = (PCGDC)GetProcAddress(callib, "calDeviceGetCount" );
-__calDeviceGetAttribs =(ATTRIBS)GetProcAddress(callib, "calDeviceGetAttribs" );
-__calShutdown = (CLOSE)GetProcAddress(callib, "calShutdown" );
-(*__calInit)(); // INIT CAL
-(*__calDeviceGetCount)(&numDevices); //QUERY NUM DEVICES
-(*__calGetVersion)(&cal_major,&cal_minor,&cal_imp); // CAL VERSION, IMPORTANT TO KNOW FOR PROJECTS!  
-}
-else
-{
-if (!callib2==NULL)
-{
-__calInit = (PCGDI)GetProcAddress(callib2, "calInit" );
-__calDeviceGetCount = (PCGDC)GetProcAddress(callib2, "calDeviceGetCount" );
-__calGetVersion = (VER)GetProcAddress(callib2, "calGetVersion" );
-__calDeviceGetInfo = (INFO)GetProcAddress(callib2, "calDeviceGetInfo" );
-__calDeviceGetAttribs =(ATTRIBS)GetProcAddress(callib2, "calDeviceGetAttribs" );
-__calShutdown = (CLOSE)GetProcAddress(callib2, "calShutdown" );
-(*__calInit)(); // INIT CAL 
-(*__calDeviceGetCount)(&numDevices); //QUERY NUM DEVICES
-(*__calGetVersion)(&cal_major,&cal_minor,&cal_imp); // VERSION  
-}
-else
-{
-return "No CAL Runtime Libraries installed."; 
-}
-} 
+    // TRY CAL 1.4 first driver > 9.2
+    HINSTANCE callib = LoadLibrary("aticalrt64.dll");
+    if (!callib) {
+        callib = LoadLibrary("amdcalrt64.dll");
+    }
 
 #else
-HINSTANCE callib = LoadLibrary("aticalrt.dll");
-HINSTANCE callib2 = LoadLibrary("amdcalrt.dll");
-if (!callib==NULL) // TRY CAL 1.4 first driver > 9.2
-{
-__calInit = (PCGDI)GetProcAddress(callib, "calInit" );
-__calGetVersion = (VER)GetProcAddress(callib, "calGetVersion" );
-__calDeviceGetInfo = (INFO)GetProcAddress(callib, "calDeviceGetInfo" );
-__calDeviceGetCount = (PCGDC)GetProcAddress(callib, "calDeviceGetCount" );
-__calDeviceGetAttribs =(ATTRIBS)GetProcAddress(callib, "calDeviceGetAttribs" );
-__calShutdown = (CLOSE)GetProcAddress(callib, "calShutdown" );
-(*__calInit)(); // INIT CAL
-(*__calDeviceGetCount)(&numDevices); //QUERY NUM DEVICES
-(*__calGetVersion)(&cal_major,&cal_minor,&cal_imp); // VERSION  
-}
-else
-{
-if (!callib2==NULL)
-{
-__calInit = (PCGDI)GetProcAddress(callib2, "calInit" );
-__calDeviceGetCount = (PCGDC)GetProcAddress(callib2, "calDeviceGetCount" );
-__calGetVersion = (VER)GetProcAddress(callib2, "calGetVersion" );
-__calDeviceGetInfo = (INFO)GetProcAddress(callib2, "calDeviceGetInfo" );
-__calDeviceGetAttribs =(ATTRIBS)GetProcAddress(callib2, "calDeviceGetAttribs" );
-__calShutdown = (CLOSE)GetProcAddress(callib2, "calShutdown" );
-(*__calInit)(); // INIT CAL 
-(*__calDeviceGetCount)(&numDevices); //QUERY NUM DEVICES
-(*__calGetVersion)(&cal_major,&cal_minor,&cal_imp); // VERSION  
-}
-else
-{
-return "No CAL Runtime Libraries installed."; 
-}
-} 
-
+    HINSTANCE callib = LoadLibrary("aticalrt.dll");
+    if (!callib) {
+        callib = LoadLibrary("amdcalrt.dll");
+    }
 #endif
-  
-int real_count = 0; // == numDevices
-COPROC_CAL cc, cc2;
-string s,CALDEVNAME;
-if(!numDevices)
-	{
-return "No useable CAL devices found"; //NO USABLE CAL DEVICES, USUALLY TO OLD DRIVERS
-  	}
-else
-{
-if (numDevices == 1) // ONLY ONE GPU
-{
-(*__calDeviceGetInfo)(&info, 0); //DEVICE: GPU0
-(*__calDeviceGetAttribs)(&attribs, 0);	
- cc2 = cc;
-switch (info.target) //attribs.target would work too
-   {
-    case CAL_TARGET_600:
-	CALDEVNAME="ATI GPU RV600";
-	break;
-    case CAL_TARGET_610:
-	CALDEVNAME="ATI GPU RV610";
-	break;
-	case CAL_TARGET_630:
-	CALDEVNAME="ATI GPU RV630";
-	break;
-    case CAL_TARGET_670:
-	CALDEVNAME="ATI GPU RV670";
-	break;
-   case CAL_TARGET_710:
-    CALDEVNAME="ATI GPU R710";
-    break;
-   case CAL_TARGET_730:
-    CALDEVNAME="ATI GPU R730";
-    break;
-   case CAL_TARGET_7XX:
-    CALDEVNAME="ATI GPU R7XX";
-    break;
-   case CAL_TARGET_770:
-    CALDEVNAME="ATI GPU RV770";
-    break;
-   default:
-    CALDEVNAME="ATI unknown";
-    break;
-	}
-s+="";
-s+=CALDEVNAME;
-} //IF ==1
-else 
-{
-for (CALuint i = 0;i <numDevices; i++)
-{
-(*__calDeviceGetInfo)(&info, i);	
-(*__calDeviceGetAttribs)(&attribs, i);	
-if (cc.flops() > cc2.flops()) {
-    cc2 = cc;
-   }
-switch (info.target)
-   {
-    case CAL_TARGET_600:
-	CALDEVNAME="ATI GPU RV600";
-	break;
-    case CAL_TARGET_610:
-	CALDEVNAME="ATI GPU RV610";
-	break;
-	case CAL_TARGET_630:
-	CALDEVNAME="ATI GPU RV630";
-	break;
-    case CAL_TARGET_670:
-	CALDEVNAME="ATI GPU RV670";
-	break;
-   case CAL_TARGET_710:
-    CALDEVNAME="ATI GPU R710";
-    break;
-   case CAL_TARGET_730:
-    CALDEVNAME="ATI GPU R730";
-    break;
-   case CAL_TARGET_7XX:
-    CALDEVNAME="ATI GPU R7XX";
-    break;
-   case CAL_TARGET_770:
-    CALDEVNAME="ATI GPU RV770";
-    break;
-   default:
-    CALDEVNAME="ATI unknown";
-    break;
-	}
-s += ", ";
-s+=CALDEVNAME;
-}// FOR
-} //ELSE
-} // ELSE
-COPROC_CAL* ccp = new COPROC_CAL;
-*ccp = cc2;
-real_count = numDevices;
-char buffer[50];
-sprintf(buffer,"%d.%d.%d",cal_major,cal_minor,cal_imp);
-string calversion;
-calversion = reinterpret_cast<char *>(buffer);
-strcpy(ccp->prop.version,calversion.c_str());
-strcpy(ccp->prop.name,CALDEVNAME.c_str());
-strcpy(ccp->type, "CAL");
-ccp->count = numDevices;
-ccp->prop.engineClock=attribs.engineClock;
-ccp->prop.localRAM=attribs.localRAM; 
-ccp->prop.uncachedRemoteRAM=attribs.uncachedRemoteRAM;
-ccp->prop.cachedRemoteRAM=attribs.cachedRemoteRAM;
-ccp->prop.memoryClock=attribs.memoryClock;
-ccp->prop.wavefrontSize=attribs.wavefrontSize;
-ccp->prop.numberOfSIMD=attribs.numberOfSIMD;
-ccp->prop.doublePrecision=attribs.doublePrecision;
-ccp->prop.pitch_alignment=attribs.pitch_alignment;
-ccp->prop.surface_alignment=attribs.surface_alignment;
-coprocs.coprocs.push_back(ccp);
- if (numDevices == 1) {
-return "CAL device: "+s;
-} else {
-return "CAL devices: "+s;
+    if (!callib) {
+        return "No CAL Runtime Libraries installed.";
+    }
+    __calInit = (PCGDI)GetProcAddress(callib2, "calInit" );
+    __calDeviceGetCount = (PCGDC)GetProcAddress(callib2, "calDeviceGetCount" );
+    __calGetVersion = (VER)GetProcAddress(callib2, "calGetVersion" );
+    __calDeviceGetInfo = (INFO)GetProcAddress(callib2, "calDeviceGetInfo" );
+    __calDeviceGetAttribs =(ATTRIBS)GetProcAddress(callib2, "calDeviceGetAttribs" );
+    __calShutdown = (CLOSE)GetProcAddress(callib2, "calShutdown" );
+#else
+    void* callib;
+    int (*__calInit)();
+    int (*__calGetVersion)(CALuint*, CALuint*, CALuint*);
+    int (*__calDeviceGetCount)(CALuint*);
+    int (*__calDeviceGetAttribs)(CALdeviceattribs*, CALuint);
+    int (*__calDeviceGetInfo)(CALdeviceinfo*, CALuint);
+    int (*__calShutdown)();
+
+    callib = dlopen("libcal.so", RTLD_NOW);
+    if (!callib) {
+        strings.push_back("Can't load library libcal.so");
+        return;
+    }
+    __calInit = (int(*)()) dlsym(callib, "calInit");
+    __calGetVersion = (int(*)(CALuint*, CALuint*, CALuint*)) dlsym(callib, "calGetVersion");
+    __calDeviceGetCount = (int(*)(CALuint*)) dlsym(callib, "calDeviceGetCount");
+    __calDeviceGetAttribs = (int(*)(CALdeviceattribs*, CALuint)) dlsym(callib, "calDeviceGetAttribs");
+    __calDeviceGetInfo = (int(*)(CALdeviceinfo*, CALuint)) dlsym(callib, "calDeviceGetInfo");
+    __calShutdown = (int(*)()) dlsym(callib, "calShutdown");
+#endif
+
+    (*__calInit)();
+    (*__calDeviceGetCount)(&numDevices);
+    (*__calGetVersion)(&cal_major,&cal_minor,&cal_imp);
+
+    int real_count = 0; // == numDevices
+    COPROC_CAL cc, cc2;
+    string s, CALDEVNAME;
+    if (!numDevices) {
+        strings.push_back("No usable CAL devices found");
+        return;
+    }
+    for (CALuint i = 0;i <numDevices; i++) {
+        (*__calDeviceGetInfo)(&info, i);	
+        (*__calDeviceGetAttribs)(&attribs, i);	
+        switch (info.target) {
+        case CAL_TARGET_600:
+            CALDEVNAME="ATI GPU RV600"; break;
+        case CAL_TARGET_610:
+            CALDEVNAME="ATI GPU RV610"; break;
+        case CAL_TARGET_630:
+            CALDEVNAME="ATI GPU RV630"; break;
+        case CAL_TARGET_670:
+            CALDEVNAME="ATI GPU RV670"; break;
+        case CAL_TARGET_710:
+            CALDEVNAME="ATI GPU R710"; break;
+        case CAL_TARGET_730:
+            CALDEVNAME="ATI GPU R730"; break;
+        case CAL_TARGET_7XX:
+            CALDEVNAME="ATI GPU R7XX"; break;
+        case CAL_TARGET_770:
+            CALDEVNAME="ATI GPU RV770"; break;
+        default:
+            CALDEVNAME="ATI unknown"; break;
+        }
+        strings.push_back(CALDEVNAME);
+        cc.attribs = attribs;
+        strcpy(cc.name, CALDEVNAME.c_str());
+        if (i == 0) {
+            cc2 = cc;
+        } else if (cc.flops() > cc2.flops()) {
+            cc2 = cc;
+        }
+    }
+
+    COPROC_CAL* ccp = new COPROC_CAL;
+    *ccp = cc2;
+    real_count = numDevices;
+    char buffer[50];
+    sprintf(ccp->version, "%d.%d.%d", cal_major, cal_minor, cal_imp);
+    strcpy(ccp->type, "CAL");
+    ccp->count = numDevices;
+    coprocs.coprocs.push_back(ccp);
+    __calShutdown();
 }
-__calShutdown(); // CLOSE CAL
-}//CAL_DEVICE
 
 #ifndef _USING_FCGI_
 void COPROC_CAL::write_xml(MIOFILE& f) {
 	f.printf(
-  "<coproc_cal>\n"
-  "   <count>%d</count>\n"
-  "   <name>%s</name>\n"
-  "   <localRAM>%d</localRAM>\n"
-  "   <uncachedRemoteRAM>%d</uncachedRemoteRAM>\n"
-  "   <cachedRemoteRAM>%d</cachedRemoteRAM>\n"
-  "   <engineClock>%u</engineClock>\n"
-  "   <memoryClock>%d</memoryClock>\n"
-  "   <wavefrontSize>%d</wavefrontSize>\n"
-  "   <numberOfSIMD>%d</numberOfSIMD>\n"
-  "   <doublePrecision>%d</doublePrecision>\n"
-  "   <pitch_alignment>%d</pitch_alignment>\n"
-  "   <surface_alignment>%d</surface_alignment>\n"
-  "   <CALVersion>%s</CALVersion>\n"
-  "</coproc_cal>\n",
-count,
-prop.name,
-prop.localRAM, 
-prop.uncachedRemoteRAM,
-prop.cachedRemoteRAM,
-prop.engineClock,
-prop.memoryClock,
-prop.wavefrontSize,
-prop.numberOfSIMD,
-prop.doublePrecision,
-prop.pitch_alignment,
-prop.surface_alignment,
-prop.version
-   );
+        "<coproc_cal>\n"
+        "   <count>%d</count>\n"
+        "   <name>%s</name>\n"
+        "   <localRAM>%d</localRAM>\n"
+        "   <uncachedRemoteRAM>%d</uncachedRemoteRAM>\n"
+        "   <cachedRemoteRAM>%d</cachedRemoteRAM>\n"
+        "   <engineClock>%u</engineClock>\n"
+        "   <memoryClock>%d</memoryClock>\n"
+        "   <wavefrontSize>%d</wavefrontSize>\n"
+        "   <numberOfSIMD>%d</numberOfSIMD>\n"
+        "   <doublePrecision>%d</doublePrecision>\n"
+        "   <pitch_alignment>%d</pitch_alignment>\n"
+        "   <surface_alignment>%d</surface_alignment>\n"
+        "   <CALVersion>%s</CALVersion>\n"
+        "</coproc_cal>\n",
+        count,
+        name,
+        attribs.localRAM,
+        attribs.uncachedRemoteRAM,
+        attribs.cachedRemoteRAM,
+        attribs.engineClock,
+        attribs.memoryClock,
+        attribs.wavefrontSize,
+        attribs.numberOfSIMD,
+        attribs.doublePrecision,
+        attribs.pitch_alignment,
+        attribs.surface_alignment,
+        version
+    );
 };
 #endif
 
 void COPROC_CAL::clear() {
 	count = 0;
-	strcpy(prop.name, "");
-	strcpy(prop.version, "");
-	prop.localRAM = 0;
-	prop.uncachedRemoteRAM = 0;
-	prop.cachedRemoteRAM = 0;
-	prop.engineClock = 0;
-	prop.memoryClock = 0;
-	prop.wavefrontSize = 0;
-	prop.numberOfSIMD = 0;
-	prop.doublePrecision = 0;
-	prop.pitch_alignment = 0;
-	prop.surface_alignment = 0;
-	}
+	strcpy(name, "");
+	strcpy(version, "");
+	attribs.localRAM = 0;
+	attribs.uncachedRemoteRAM = 0;
+	attribs.cachedRemoteRAM = 0;
+	attribs.engineClock = 0;
+	attribs.memoryClock = 0;
+	attribs.wavefrontSize = 0;
+	attribs.numberOfSIMD = 0;
+	attribs.doublePrecision = CAL_FALSE;
+	attribs.pitch_alignment = 0;
+	attribs.surface_alignment = 0;
+}
 
 int COPROC_CAL::parse(FILE* fin) {
-    char buf[1024];//, buf2[256];
+    char buf[1024];
+    int n;
 
     clear();
     while (fgets(buf, sizeof(buf), fin)) {
         if (strstr(buf, "</coproc_cal>")) return 0;
         if (parse_int(buf, "<count>", count)) continue;
-		if (parse_str(buf, "<name>", prop.name, sizeof(prop.name))) continue;
-		if (parse_int(buf, "<localRAM>",prop.localRAM))continue;
-		if (parse_int(buf, "<uncachedRemoteRAM>",prop.uncachedRemoteRAM))  continue;
-		if (parse_int(buf, "<cachedRemoteRAM>",prop.cachedRemoteRAM))continue;
-		if (parse_int(buf, "<engineClock>",prop.engineClock))continue;
-		if (parse_int(buf, "<memoryClock>",prop.memoryClock))continue;
-		if (parse_int(buf, "<wavefrontSize>",prop.wavefrontSize))continue;
-		if (parse_int(buf, "<numberOfSIMD>"  ,prop.numberOfSIMD))continue;
-		if (parse_int(buf, "<doublePrecision>",prop.doublePrecision))continue;
-		if (parse_int(buf, "<pitch_alignment>",prop.pitch_alignment))continue;
-		if (parse_int(buf, "<surface_alignment>",prop.surface_alignment))continue;
-		if (parse_str(buf, "<CALVersion>", prop.version, sizeof(prop.version))) continue;
+		if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+		if (parse_int(buf, "<localRAM>", n)) {
+            attribs.localRAM = n;
+            continue;
+        }
+		if (parse_int(buf, "<uncachedRemoteRAM>", n)) {
+            attribs.uncachedRemoteRAM = n;
+            continue;
+        }
+		if (parse_int(buf, "<cachedRemoteRAM>", n)) {
+            attribs.cachedRemoteRAM = n;
+            continue;
+        }
+		if (parse_int(buf, "<engineClock>", n)) {
+            attribs.engineClock = n;
+            continue;
+        }
+		if (parse_int(buf, "<memoryClock>", n)) {
+            attribs.memoryClock = n;
+            continue;
+        }
+		if (parse_int(buf, "<wavefrontSize>", n)) {
+            attribs.wavefrontSize = n;
+            continue;
+        }
+		if (parse_int(buf, "<numberOfSIMD>"  , n)) {
+            attribs.numberOfSIMD = n;
+            continue;
+        }
+		if (parse_int(buf, "<doublePrecision>", n)) {
+            attribs.doublePrecision = n?CAL_TRUE:CAL_FALSE;
+            continue;
+        }
+		if (parse_int(buf, "<pitch_alignment>", n)) {
+            attribs.pitch_alignment = n;
+            continue;
+        }
+		if (parse_int(buf, "<surface_alignment>", n)) {
+            attribs.surface_alignment = n;
+            continue;
+        }
+		if (parse_str(buf, "<CALVersion>", version, sizeof(version))) continue;
 
     }
     return ERR_XML_PARSE;

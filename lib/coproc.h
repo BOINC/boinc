@@ -222,7 +222,7 @@ struct COPROC_CUDA : public COPROC {
 
 void fake_cuda(COPROCS&, int);
 
-enum  	CUdevice_attribute_enum {
+enum CUdevice_attribute_enum {
   CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK = 1,
   CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X = 2,
   CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y = 3,
@@ -245,32 +245,16 @@ enum  	CUdevice_attribute_enum {
   CU_DEVICE_ATTRIBUTE_COMPUTE_MODE = 20
 };
 
-struct calDeviceProp {
+struct COPROC_CAL : public COPROC {
     char name[256];
     char version[50];
-    int struct_size;
-    int localRAM;
-    int uncachedRemoteRAM;
-    int cachedRemoteRAM;
-    int engineClock;
-    int memoryClock;
-    int wavefrontSize;
-    int numberOfSIMD;
-    int doublePrecision;
-    int pitch_alignment;
-    int surface_alignment;
-    double flops;
-};
-
-struct COPROC_CAL : public COPROC {
-    calDeviceProp prop;
     CALdeviceattribs attribs; 
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
 #endif
     COPROC_CAL(): COPROC("CAL"){}
     virtual ~COPROC_CAL(){}
-    static std::string get(COPROCS&);
+    static void get(COPROCS&, std::vector<std::string>&);
     void clear();
     int parse(FILE*);
 

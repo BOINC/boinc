@@ -6916,3 +6916,10 @@ David  14 Aug 2009
 	lib/
 		coproc.cpp,h
 		cal.h
+
+David  14 Aug 2009
+    - client: clean up ATI code and make it work (or at least compile)
+        under Linux
+
+    lib/
+        coproc.cpp,h
