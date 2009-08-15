@@ -39,7 +39,6 @@
 #include "filesys.h"
 #include "parse.h"
 #include "str_util.h"
-#include "cal.h"
 
 #include "coproc.h"
 
@@ -586,14 +585,15 @@ void COPROC_CAL::get(COPROCS& coprocs, vector<string>& strings) {
     }
 #endif
     if (!callib) {
-        return "No CAL Runtime Libraries installed.";
+        strings.push_back("No CAL Runtime Libraries installed.");
+        return;
     }
-    __calInit = (PCGDI)GetProcAddress(callib2, "calInit" );
-    __calDeviceGetCount = (PCGDC)GetProcAddress(callib2, "calDeviceGetCount" );
-    __calGetVersion = (VER)GetProcAddress(callib2, "calGetVersion" );
-    __calDeviceGetInfo = (INFO)GetProcAddress(callib2, "calDeviceGetInfo" );
-    __calDeviceGetAttribs =(ATTRIBS)GetProcAddress(callib2, "calDeviceGetAttribs" );
-    __calShutdown = (CLOSE)GetProcAddress(callib2, "calShutdown" );
+    __calInit = (PCGDI)GetProcAddress(callib, "calInit" );
+    __calDeviceGetCount = (PCGDC)GetProcAddress(callib, "calDeviceGetCount" );
+    __calGetVersion = (VER)GetProcAddress(callib, "calGetVersion" );
+    __calDeviceGetInfo = (INFO)GetProcAddress(callib, "calDeviceGetInfo" );
+    __calDeviceGetAttribs =(ATTRIBS)GetProcAddress(callib, "calDeviceGetAttribs" );
+    __calShutdown = (CLOSE)GetProcAddress(callib, "calShutdown" );
 #else
     void* callib;
     int (*__calInit)();
@@ -663,7 +663,6 @@ void COPROC_CAL::get(COPROCS& coprocs, vector<string>& strings) {
     COPROC_CAL* ccp = new COPROC_CAL;
     *ccp = cc2;
     real_count = numDevices;
-    char buffer[50];
     sprintf(ccp->version, "%d.%d.%d", cal_major, cal_minor, cal_imp);
     strcpy(ccp->type, "CAL");
     ccp->count = numDevices;

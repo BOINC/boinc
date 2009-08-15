@@ -71,6 +71,7 @@
 #endif
 
 #include "miofile.h"
+#include "cal.h"
 
 #define MAX_COPROC_INSTANCES 64
 
