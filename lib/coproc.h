@@ -256,6 +256,7 @@ struct COPROC_CAL : public COPROC {
     COPROC_CAL(): COPROC("CAL"){}
     virtual ~COPROC_CAL(){}
     static void get(COPROCS&, std::vector<std::string>&);
+    void description(char*);
     void clear();
     int parse(FILE*);
 

@@ -6923,3 +6923,9 @@ David  14 Aug 2009
 
     lib/
         coproc.cpp,h
+
+David  14 Aug 2009
+    - client: ATI tweaks
+
+    lib/
+        coproc.cpp,h

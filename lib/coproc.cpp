@@ -346,7 +346,7 @@ void COPROC_CUDA::get(
     best.count = 0;
     for (i=0; i<gpus.size(); i++) {
         char buf[256], buf2[256];
-        cc.description(buf);
+        gpus[i].description(buf);
         if (use_all || !cuda_compare(gpus[i], best, true)) {
             best.device_nums[best.count] = gpus[i].device_num;
             best.count++;
@@ -620,49 +620,52 @@ void COPROC_CAL::get(COPROCS& coprocs, vector<string>& strings) {
     (*__calDeviceGetCount)(&numDevices);
     (*__calGetVersion)(&cal_major,&cal_minor,&cal_imp);
 
-    int real_count = 0; // == numDevices
-    COPROC_CAL cc, cc2;
-    string s, CALDEVNAME;
     if (!numDevices) {
         strings.push_back("No usable CAL devices found");
         return;
     }
-    for (CALuint i = 0;i <numDevices; i++) {
+
+    COPROC_CAL cc, cc2;
+    string s, gpu_name;
+    vector<COPROC_CAL> gpus;
+    for (CALuint i=0; i<numDevices; i++) {
         (*__calDeviceGetInfo)(&info, i);	
         (*__calDeviceGetAttribs)(&attribs, i);	
         switch (info.target) {
-        case CAL_TARGET_600:
-            CALDEVNAME="ATI GPU RV600"; break;
-        case CAL_TARGET_610:
-            CALDEVNAME="ATI GPU RV610"; break;
-        case CAL_TARGET_630:
-            CALDEVNAME="ATI GPU RV630"; break;
-        case CAL_TARGET_670:
-            CALDEVNAME="ATI GPU RV670"; break;
-        case CAL_TARGET_710:
-            CALDEVNAME="ATI GPU R710"; break;
-        case CAL_TARGET_730:
-            CALDEVNAME="ATI GPU R730"; break;
-        case CAL_TARGET_7XX:
-            CALDEVNAME="ATI GPU R7XX"; break;
-        case CAL_TARGET_770:
-            CALDEVNAME="ATI GPU RV770"; break;
-        default:
-            CALDEVNAME="ATI unknown"; break;
+        case CAL_TARGET_600: gpu_name="ATI GPU RV600"; break;
+        case CAL_TARGET_610: gpu_name="ATI GPU RV610"; break;
+        case CAL_TARGET_630: gpu_name="ATI GPU RV630"; break;
+        case CAL_TARGET_670: gpu_name="ATI GPU RV670"; break;
+        case CAL_TARGET_710: gpu_name="ATI GPU R710"; break;
+        case CAL_TARGET_730: gpu_name="ATI GPU R730"; break;
+        case CAL_TARGET_7XX: gpu_name="ATI GPU R7XX"; break;
+        case CAL_TARGET_770: gpu_name="ATI GPU RV770"; break;
+        default: gpu_name="ATI unknown"; break;
         }
-        strings.push_back(CALDEVNAME);
         cc.attribs = attribs;
-        strcpy(cc.name, CALDEVNAME.c_str());
+        strcpy(cc.name, gpu_name.c_str());
+        cc.device_num = i;
+        gpus.push_back(cc);
+    }
+
+    COPROC_CAL best;
+    for (unsigned int i=0; i<gpus.size(); i++) {
+        char buf[256], buf2[256];
         if (i == 0) {
-            cc2 = cc;
-        } else if (cc.flops() > cc2.flops()) {
-            cc2 = cc;
+            best = gpus[i];
+        } else if (gpus[i].flops() > best.flops()) {
+            best = gpus[i];
         }
+        gpus[i].description(buf);
+        sprintf(buf2, "ATI GPU %d: %s", gpus[i].device_num, buf);
+        strings.push_back(buf2);
+    }
+    for (unsigned int i=0; i<gpus.size(); i++) {
+        best.device_nums[i] = i;
     }
 
     COPROC_CAL* ccp = new COPROC_CAL;
-    *ccp = cc2;
-    real_count = numDevices;
+    *ccp = best;
     sprintf(ccp->version, "%d.%d.%d", cal_major, cal_minor, cal_imp);
     strcpy(ccp->type, "CAL");
     ccp->count = numDevices;
@@ -774,4 +777,10 @@ int COPROC_CAL::parse(FILE* fin) {
 
     }
     return ERR_XML_PARSE;
+}
+
+void COPROC_CAL::description(char* buf) {
+    sprintf(buf, "%s (CAL version %s, %.0fMB, %.0fGFLOPS)",
+        name, version, attribs.localRAM/1024.*1024., flops()
+    );
 }
