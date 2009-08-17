@@ -52,6 +52,7 @@
 
 CLIENT_STATE gstate;
 COPROC_CUDA* coproc_cuda;
+COPROC_ATI* coproc_ati;
 NET_STATUS net_status;
 bool user_active;
 double duration = 86400, delta = 60;
