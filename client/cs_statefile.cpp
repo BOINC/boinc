@@ -865,13 +865,15 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         "<core_client_minor_version>%d</core_client_minor_version>\n"
         "<core_client_release>%d</core_client_release>\n"
         "<executing_as_daemon>%d</executing_as_daemon>\n"
-        "<have_cuda>%d</have_cuda>\n",
+        "<have_cuda>%d</have_cuda>\n"
+        "<have_ati>%d</have_ati>\n",
         get_primary_platform(),
         core_client_version.major,
         core_client_version.minor,
         core_client_version.release,
         executing_as_daemon?1:0,
-        coproc_cuda?1:0
+        coproc_cuda?1:0,
+        coproc_ati?1:0
     );
     for (i=0; i<platforms.size(); i++) {
         f.printf(

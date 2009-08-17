@@ -6959,3 +6959,15 @@ David  17 Aug 2009
 
     lib/
         coproc.cpp,h
+
+David  17 Aug 2009
+    - client/manager: add ATI stuff to GUI RPCs and manager display
+
+    client/
+        cs_statefile.cpp
+        schedule_op.cpp
+    clientgui/
+        DltItemProperties.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp

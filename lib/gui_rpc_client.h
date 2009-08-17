@@ -129,6 +129,9 @@ public:
     double cuda_debt;
     double cuda_backoff_time;
     double cuda_backoff_interval;
+    double ati_debt;
+    double ati_backoff_time;
+    double ati_backoff_interval;
     double duration_correction_factor;
 
     bool master_url_fetch_pending; // need to fetch and parse the master URL
@@ -354,6 +357,7 @@ public:
     VERSION_INFO version_info;  // populated only if talking to pre-5.6 CC
     bool executing_as_daemon;   // true if Client is running as a service / daemon
     bool have_cuda;
+    bool have_ati;
 
     CC_STATE();
     ~CC_STATE();

@@ -156,6 +156,13 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
             addProperty(_("NVIDIA GPU work fetch deferred for"), FormatTime(x));
             addProperty(_("NVIDIA GPU work fetch deferral interval"), FormatTime(project->cuda_backoff_interval));
         }
+        if (pDoc->state.have_ati) {
+            addProperty(_("ATI GPU work fetch priority"),wxString::Format(wxT("%0.2f"), project->ati_debt));
+            x = project->ati_backoff_time - dtime();
+            if (x<0) x = 0;
+            addProperty(_("ATI GPU work fetch deferred for"), FormatTime(x));
+            addProperty(_("ATI GPU work fetch deferral interval"), FormatTime(project->ati_backoff_interval));
+        }
 	    addProperty(_("Duration correction factor"),wxString::Format(wxT("%0.4f"), project->duration_correction_factor));
     }
     m_gbSizer->Layout();
