@@ -781,6 +781,6 @@ int COPROC_ATI::parse(FILE* fin) {
 
 void COPROC_ATI::description(char* buf) {
     sprintf(buf, "%s (CAL version %s, %.0fMB, %.0fGFLOPS)",
-        name, version, attribs.localRAM/1024.*1024., flops()
+        name, version, attribs.localRAM/1024.*1024., flops()/1.e9
     );
 }
