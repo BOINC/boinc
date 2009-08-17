@@ -55,6 +55,11 @@ bool need_this_resource(
                 dont_need_message("CUDA", avp, cavp);
                 return false;
             }
+        } else if (host_usage.natis) {
+            if (!g_wreq->need_ati()) {
+                dont_need_message("ATI", avp, cavp);
+                return false;
+            }
         } else {
             if (!g_wreq->need_cpu()) {
                 dont_need_message("CPU", avp, cavp);
@@ -147,11 +152,27 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
                 break;
             }
 
+            // same, ATI
+            if (check_req
+                && g_wreq->rsc_spec_request
+                && bavp->host_usage.natis > 0
+                && !g_wreq->need_ati()
+            ) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] have ATI version but no more ATI work needed\n"
+                    );
+                }
+                g_wreq->best_app_versions.erase(bavi);
+                break;
+            }
+
             // same, CPU
             //
             if (check_req
                 && g_wreq->rsc_spec_request
                 && !bavp->host_usage.ncudas
+                && !bavp->host_usage.natis
                 && !g_wreq->need_cpu()
             ) {
                 if (config.debug_version_select) {
@@ -198,7 +219,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
             if (bavp->host_usage.flops == 0) {
                 bavp->host_usage.flops = g_reply->host.p_fpops;
             }
-            if (bavp->host_usage.avg_ncpus == 0 && bavp->host_usage.ncudas == 0) {
+            if (bavp->host_usage.avg_ncpus == 0 && bavp->host_usage.ncudas == 0 && bavp->host_usage.natis == 0) {
                 bavp->host_usage.avg_ncpus = 1;
             }
             bavp->cavp = cavp;
@@ -257,16 +278,16 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
 
             // skip versions that go against resource prefs
             //
-            if (host_usage.ncudas && g_wreq->no_gpus) {
+            if ((host_usage.ncudas || host_usage.natis) && g_wreq->no_gpus) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] Skipping CUDA version - user prefs say no GPUS\n"
+                        "[version] Skipping GPU version - user prefs say no GPUS\n"
                     );
                     g_wreq->no_gpus_prefs = true;
                 }
                 continue;
             }
-            if (!host_usage.ncudas && g_wreq->no_cpu) {
+            if (!(host_usage.ncudas || host_usage.natis) && g_wreq->no_cpu) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] Skipping CPU version - user prefs say no CPUs\n"

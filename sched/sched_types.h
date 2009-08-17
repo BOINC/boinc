@@ -62,6 +62,7 @@ struct USER_MESSAGE {
 
 struct HOST_USAGE {
     int ncudas;
+    int natis;
     double avg_ncpus;
     double max_ncpus;
     double flops;
@@ -69,6 +70,7 @@ struct HOST_USAGE {
 
     HOST_USAGE() {
         ncudas = 0;
+        natis = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
         flops = 0;
@@ -76,6 +78,7 @@ struct HOST_USAGE {
     }
     void sequential_app(double x) {
         ncudas = 0;
+        natis = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
         flops = x;
@@ -120,11 +123,16 @@ struct WORK_REQ {
     double cpu_req_instances;   // number of idle instances, use if possible
     double cuda_req_secs;
     double cuda_req_instances;
+    double ati_req_secs;
+    double ati_req_instances;
     inline bool need_cpu() {
         return (cpu_req_secs>0) || (cpu_req_instances>0);
     }
     inline bool need_cuda() {
         return (cuda_req_secs>0) || (cuda_req_instances>0);
+    }
+    inline bool need_ati() {
+        return (ati_req_secs>0) || (ati_req_instances>0);
     }
     inline void clear_cpu_req() {
         cpu_req_secs = 0;
@@ -133,6 +141,8 @@ struct WORK_REQ {
     inline void clear_gpu_req() {
         cuda_req_secs = 0;
         cuda_req_instances = 0;
+        ati_req_secs = 0;
+        ati_req_instances = 0;
     }
 
     // older clients send send a single number, the requested duration of jobs
@@ -197,7 +207,7 @@ struct WORK_REQ {
     bool no_jobs_available;     // project has no work right now
 
     int max_jobs_per_day;
-        // host.max_results_day * (NCPUS + NCUDA*cuda_multiplier)
+        // host.max_results_day * (NCPUS + NGPUS*gpu_multiplier)
     int max_jobs_per_rpc;
     int njobs_on_host;
         // How many jobs from this project are in progress on the host.
@@ -365,6 +375,7 @@ struct SCHEDULER_REQUEST {
                     // does NOT contain the full host record.
     COPROCS coprocs;
     COPROC_CUDA* coproc_cuda;
+    COPROC_ATI* coproc_ati;
     std::vector<RESULT> results;
         // completed results being reported
     std::vector<MSG_FROM_HOST_DESC> msgs_from_host;

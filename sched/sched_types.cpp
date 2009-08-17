@@ -74,6 +74,9 @@ int CLIENT_APP_VERSION::parse(FILE* f) {
             if (!retval && !strcmp(coproc.type, "CUDA")) {
                 host_usage.ncudas = coproc.count;
             }
+            if (!retval && !strcmp(coproc.type, "ATI")) {
+                host_usage.natis = coproc.count;
+            }
         }
     }
     return ERR_XML_PARSE;
@@ -188,6 +191,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     client_cap_plan_class = false;
     sandbox = -1;
     coproc_cuda = 0;
+    coproc_ati = 0;
 
     fgets(buf, sizeof(buf), fin);
     if (!match_tag(buf, "<scheduler_request>")) return "no start tag";
@@ -348,6 +352,7 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
         if (match_tag(buf, "coprocs")) {
             coprocs.parse(fin);
             coproc_cuda = (COPROC_CUDA*)coprocs.lookup("CUDA");
+            coproc_ati = (COPROC_ATI*)coprocs.lookup("ATI");
             continue;
         }
         if (parse_bool(buf, "client_cap_plan_class", client_cap_plan_class)) continue;
@@ -920,6 +925,15 @@ int APP_VERSION::write(FILE* fout) {
             "        <count>%d</count>\n"
             "    </coproc>\n",
             bavp->host_usage.ncudas
+        );
+    }
+    if (bavp->host_usage.natis) {
+        fprintf(fout,
+            "    <coproc>\n"
+            "        <type>ATI</type>\n"
+            "        <count>%d</count>\n"
+            "    </coproc>\n",
+            bavp->host_usage.natis
         );
     }
     fputs("</app_version>\n", fout);

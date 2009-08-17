@@ -30,6 +30,8 @@
 #define PLAN_REJECT_CPU_FEATURE             9
 #define PLAN_REJECT_NVIDIA_COMPUTE_CAPABILITY             10
 
+#define PLAN_REJECT_ATI_NO_DEVICE           11
+
 #define PLAN_CUDA_MIN_DRIVER_VERSION        17700
 #define PLAN_CUDA23_MIN_DRIVER_VERSION        19038
 #define PLAN_CUDA_MIN_RAM                   (254*1024*1024)

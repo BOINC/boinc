@@ -6943,3 +6943,13 @@ David  17 Aug 2009
         work_fetch.cpp,h
     lib/
         coproc.cpp,h
+
+David  17 Aug 2009
+    - scheduler: add support for ATI GPUs
+
+    sched/
+        handle_request.cpp
+        sched_customize.cpp,h
+        sched_send.cpp
+        sched_types.cpp,h
+        sched_version.cpp

@@ -95,6 +95,36 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             );
         }
         return 0;
+    } else if (strstr(plan_class, "ati")) {
+        // the following is for an app that uses an ATI GPU
+        //
+        COPROC_ATI* cp = (COPROC_ATI*)sreq.coprocs.lookup("ATI");
+        if (!cp) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] Host lacks ATI GPU for plan class ati\n"
+                );
+            }
+            return PLAN_REJECT_ATI_NO_DEVICE;
+        }
+
+        hu.flops = cp->flops();
+
+        // assume we'll need 0.5% as many CPU FLOPS as GPU FLOPS
+        // to keep the GPU fed.
+        //
+        double x = (hu.flops*0.005)/sreq.host.p_fpops;
+        hu.avg_ncpus = x;
+        hu.max_ncpus = x;
+
+        hu.ncudas = 1;
+
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] ATI app estimated %.2f GFLOPS\n", hu.flops/1e9
+            );
+        }
+        return 0;
     } else if (strstr(plan_class, "cuda")) {
         // the following is for an app that uses a CUDA GPU
         //

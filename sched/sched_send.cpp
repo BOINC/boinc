@@ -535,6 +535,8 @@ static inline bool hard_app(APP& app) {
 static inline double get_estimated_delay(BEST_APP_VERSION& bav) {
     if (bav.host_usage.ncudas) {
         return g_request->coproc_cuda->estimated_delay;
+    } else if (bav.host_usage.natis) {
+        return g_request->coproc_ati->estimated_delay;
     } else {
         return g_request->cpu_estimated_delay;
     }
@@ -543,6 +545,8 @@ static inline double get_estimated_delay(BEST_APP_VERSION& bav) {
 static inline void update_estimated_delay(BEST_APP_VERSION& bav, double dt) {
     if (bav.host_usage.ncudas) {
         g_request->coproc_cuda->estimated_delay += dt;
+    } else if (bav.host_usage.natis) {
+        g_request->coproc_ati->estimated_delay += dt;
     } else {
         g_request->cpu_estimated_delay += dt;
     }
@@ -892,11 +896,12 @@ bool work_needed(bool locality_sched) {
 
 #if 0
     log_messages.printf(MSG_NORMAL,
-        "work_needed: spec req %d sec to fill %.2f; CPU (%.2f, %.2f) CUDA (%.2f, %.2f)\n",
+        "work_needed: spec req %d sec to fill %.2f; CPU (%.2f, %.2f) CUDA (%.2f, %.2f) ATI(%.2f, %.2f)\n",
         g_wreq->rsc_spec_request,
         g_wreq->seconds_to_fill,
         g_wreq->cpu_req_secs, g_wreq->cpu_req_instances,
-        g_wreq->cuda_req_secs, g_wreq->cuda_req_instances
+        g_wreq->cuda_req_secs, g_wreq->cuda_req_instances,
+        g_wreq->ati_req_secs, g_wreq->ati_req_instances
     );
 #endif
     if (g_wreq->rsc_spec_request) {
@@ -904,6 +909,9 @@ bool work_needed(bool locality_sched) {
             return true;
         }
         if (g_wreq->need_cuda()) {
+            return true;
+        }
+        if (g_wreq->need_ati()) {
             return true;
         }
     } else {
@@ -1048,6 +1056,9 @@ int add_result_to_reply(
         if (bavp->host_usage.ncudas) {
             g_wreq->cuda_req_secs -= est_dur;
             g_wreq->cuda_req_instances -= bavp->host_usage.ncudas;
+        } else if (bavp->host_usage.natis) {
+            g_wreq->ati_req_secs -= est_dur;
+            g_wreq->ati_req_instances -= bavp->host_usage.natis;
         } else {
             g_wreq->cpu_req_secs -= est_dur;
             g_wreq->cpu_req_instances -= bavp->host_usage.avg_ncpus;
@@ -1059,6 +1070,8 @@ int add_result_to_reply(
     g_wreq->njobs_sent++;
     g_wreq->njobs_on_host++;
     if (bavp->host_usage.ncudas > 0) {
+        g_wreq->njobs_on_host_gpu++;
+    } else if (bavp->host_usage.natis > 0) {
         g_wreq->njobs_on_host_gpu++;
     } else {
         g_wreq->njobs_on_host_cpu++;
@@ -1397,7 +1410,14 @@ void send_work_setup() {
             g_request->coproc_cuda->estimated_delay = g_request->cpu_estimated_delay;
         }
     }
-    if (g_wreq->cpu_req_secs || g_wreq->cuda_req_secs) {
+    if (g_request->coproc_ati) {
+        g_wreq->ati_req_secs = clamp_req_sec(g_request->coproc_ati->req_secs);
+        g_wreq->ati_req_instances = g_request->coproc_ati->req_instances;
+        if (g_request->coproc_ati->estimated_delay < 0) {
+            g_request->coproc_ati->estimated_delay = g_request->cpu_estimated_delay;
+        }
+    }
+    if (g_wreq->cpu_req_secs || g_wreq->cuda_req_secs || g_wreq->ati_req_secs) {
         g_wreq->rsc_spec_request = true;
     } else {
         g_wreq->rsc_spec_request = false;
@@ -1413,6 +1433,13 @@ void send_work_setup() {
                 "[send] CUDA: req %.2f sec, %.2f instances; est delay %.2f\n",
                 g_wreq->cuda_req_secs, g_wreq->cuda_req_instances,
                 g_request->coproc_cuda->estimated_delay
+            );
+        }
+        if (g_request->coproc_ati) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] ATI: req %.2f sec, %.2f instances; est delay %.2f\n",
+                g_wreq->ati_req_secs, g_wreq->ati_req_instances,
+                g_request->coproc_ati->estimated_delay
             );
         }
         log_messages.printf(MSG_NORMAL,
