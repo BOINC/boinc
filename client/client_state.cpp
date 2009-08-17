@@ -61,6 +61,7 @@ using std::max;
 
 CLIENT_STATE gstate;
 COPROC_CUDA* coproc_cuda;
+COPROC_ATI* coproc_ati;
 
 CLIENT_STATE::CLIENT_STATE():
     lookup_website_op(&gui_http),
@@ -267,6 +268,7 @@ int CLIENT_STATE::init() {
             msg_printf(NULL, MSG_INFO, "No coprocessors");
         }
         coproc_cuda = (COPROC_CUDA*)coprocs.lookup("CUDA");
+        coproc_ati = (COPROC_ATI*)coprocs.lookup("ATI");
     }
 
     // check for app_info.xml file in project dirs.

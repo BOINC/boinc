@@ -58,6 +58,7 @@ struct RR_SIM_STATUS {
     std::vector<RESULT*> active;
     double active_ncpus;
     double active_cudas;
+    double active_atis;
 
     inline void activate(RESULT* rp, double when) {
         if (log_flags.rr_simulation) {
@@ -68,6 +69,7 @@ struct RR_SIM_STATUS {
         active.push_back(rp);
         cpu_work_fetch.sim_nused += rp->avp->avg_ncpus;
         cuda_work_fetch.sim_nused += rp->avp->ncudas;
+        ati_work_fetch.sim_nused += rp->avp->natis;
     }
     // remove *rpbest from active set,
     // and adjust FLOPS left for other results
@@ -96,11 +98,13 @@ struct RR_SIM_STATUS {
         }
         cpu_work_fetch.sim_nused -= rpbest->avp->avg_ncpus;
         cuda_work_fetch.sim_nused -= rpbest->avp->ncudas;
+        ati_work_fetch.sim_nused -= rpbest->avp->natis;
     }
 
     RR_SIM_STATUS() {
         active_ncpus = 0;
         active_cudas = 0;
+        active_atis = 0;
     }
     ~RR_SIM_STATUS() {}
 };
@@ -109,6 +113,7 @@ void RR_SIM_PROJECT_STATUS::activate(RESULT* rp) {
     active.push_back(rp);
     rp->project->cpu_pwf.sim_nused += rp->avp->avg_ncpus;
     rp->project->cuda_pwf.sim_nused += rp->avp->ncudas;
+    rp->project->ati_pwf.sim_nused += rp->avp->natis;
 }
 
 void RR_SIM_PROJECT_STATUS::remove_active(RESULT* rp) {
@@ -122,6 +127,7 @@ void RR_SIM_PROJECT_STATUS::remove_active(RESULT* rp) {
     }
     rp->project->cpu_pwf.sim_nused -= rp->avp->avg_ncpus;
     rp->project->cuda_pwf.sim_nused -= rp->avp->ncudas;
+    rp->project->ati_pwf.sim_nused -= rp->avp->natis;
 }
 
 // estimate the rate (FLOPS) that this job will get long-term
@@ -195,6 +201,12 @@ void CLIENT_STATE::print_deadline_misses() {
                 p->cuda_pwf.deadlines_missed
             );
         }
+        if (p->ati_pwf.deadlines_missed) {
+            msg_printf(p, MSG_INFO,
+                "[cpu_sched_debug] Project has %d projected ATI GPU deadline misses",
+                p->ati_pwf.deadlines_missed
+            );
+        }
     }
 }
 
@@ -247,6 +259,14 @@ void CLIENT_STATE::rr_simulation() {
             } else {
                 cuda_work_fetch.pending.push_back(rp);
             }
+        } else if (rp->uses_ati()) {
+            p->ati_pwf.has_runnable_jobs = true;
+            if (ati_work_fetch.sim_nused < coproc_ati->count) {
+                sim_status.activate(rp, 0);
+                p->rr_sim_status.activate(rp);
+            } else {
+                ati_work_fetch.pending.push_back(rp);
+            }
         } else {
             p->cpu_pwf.has_runnable_jobs = true;
             if (p->cpu_pwf.sim_nused < ncpus) {
@@ -265,6 +285,10 @@ void CLIENT_STATE::rr_simulation() {
     if (coproc_cuda) {
         cuda_work_fetch.nidle_now = coproc_cuda->count - cuda_work_fetch.sim_nused;
         if (cuda_work_fetch.nidle_now < 0) cuda_work_fetch.nidle_now = 0;
+    }
+    if (coproc_ati) {
+        ati_work_fetch.nidle_now = coproc_ati->count - ati_work_fetch.sim_nused;
+        if (ati_work_fetch.nidle_now < 0) ati_work_fetch.nidle_now = 0;
     }
 
     work_fetch.compute_shares();
@@ -315,6 +339,9 @@ void CLIENT_STATE::rr_simulation() {
                 if (rpbest->uses_cuda()) {
                     pbest->cuda_pwf.deadlines_missed++;
                     cuda_work_fetch.deadline_missed_instances += rpbest->avp->ncudas;
+                } else if (rpbest->uses_ati()) {
+                    pbest->ati_pwf.deadlines_missed++;
+                    ati_work_fetch.deadline_missed_instances += rpbest->avp->natis;
                 } else {
                     pbest->cpu_pwf.deadlines_missed++;
                     cpu_work_fetch.deadline_missed_instances += rpbest->avp->avg_ncpus;
@@ -336,6 +363,9 @@ void CLIENT_STATE::rr_simulation() {
         if (coproc_cuda) {
             cuda_work_fetch.update_saturated_time(x);
         }
+        if (coproc_ati) {
+            ati_work_fetch.update_saturated_time(x);
+        }
 
         // update busy time
         //
@@ -344,6 +374,9 @@ void CLIENT_STATE::rr_simulation() {
             cpu_work_fetch.update_busy_time(dur, rpbest->avp->avg_ncpus);
             if (rpbest->uses_cuda()) {
                 cuda_work_fetch.update_busy_time(dur, rpbest->avp->ncudas);
+            }
+            if (rpbest->uses_ati()) {
+                ati_work_fetch.update_busy_time(dur, rpbest->avp->natis);
             }
         }
 
@@ -357,6 +390,9 @@ void CLIENT_STATE::rr_simulation() {
 
             if (coproc_cuda) {
                 cuda_work_fetch.accumulate_shortfall(d_time);
+            }
+            if (coproc_ati) {
+                ati_work_fetch.accumulate_shortfall(d_time);
             }
         }
 
@@ -374,6 +410,15 @@ void CLIENT_STATE::rr_simulation() {
                 if (!cuda_work_fetch.pending.size()) break;
                 RESULT* rp = cuda_work_fetch.pending[0];
                 cuda_work_fetch.pending.erase(cuda_work_fetch.pending.begin());
+                sim_status.activate(rp, sim_now-now);
+                pbest->rr_sim_status.activate(rp);
+            }
+        } else if (rpbest->uses_ati()) {
+            while (1) {
+                if (ati_work_fetch.sim_nused >= coproc_ati->count) break;
+                if (!ati_work_fetch.pending.size()) break;
+                RESULT* rp = ati_work_fetch.pending[0];
+                ati_work_fetch.pending.erase(ati_work_fetch.pending.begin());
                 sim_status.activate(rp, sim_now-now);
                 pbest->rr_sim_status.activate(rp);
             }
@@ -395,6 +440,9 @@ void CLIENT_STATE::rr_simulation() {
         cpu_work_fetch.accumulate_shortfall(d_time);
         if (coproc_cuda) {
             cuda_work_fetch.accumulate_shortfall(d_time);
+        }
+        if (coproc_ati) {
+            ati_work_fetch.accumulate_shortfall(d_time);
         }
     }
 }

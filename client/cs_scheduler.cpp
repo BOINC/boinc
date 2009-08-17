@@ -233,6 +233,11 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         coproc_cuda->req_instances = cuda_work_fetch.req_instances;
         coproc_cuda->estimated_delay = cuda_work_fetch.req_secs?cuda_work_fetch.busy_time:0;
     }
+    if (coproc_ati) {
+        coproc_ati->req_secs = ati_work_fetch.req_secs;
+        coproc_ati->req_instances = ati_work_fetch.req_instances;
+        coproc_ati->estimated_delay = ati_work_fetch.req_secs?ati_work_fetch.busy_time:0;
+    }
 
     if (coprocs.coprocs.size()) {
         fprintf(f, "    <coprocs>\n");
@@ -371,6 +376,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 			if (p->sched_rpc_pending == RPC_REASON_USER_REQ) {
 				p->cpu_pwf.clear_backoff();
 				p->cuda_pwf.clear_backoff();
+				p->ati_pwf.clear_backoff();
 			}
             work_fetch.compute_work_request(p);
 			scheduler_op->init_op_project(p, p->sched_rpc_pending);
@@ -451,7 +457,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     if (retval) return retval;
 
     if (log_flags.sched_ops) {
-        if (cpu_work_fetch.req_secs || cuda_work_fetch.req_secs) {
+        if (cpu_work_fetch.req_secs || cuda_work_fetch.req_secs || ati_work_fetch.req_secs) {
             sprintf(buf, ": got %d new tasks", (int)sr.results.size());
         } else {
             strcpy(buf, "");
@@ -778,6 +784,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
     }
     double est_cpu_duration = 0;
     double est_cuda_duration = 0;
+    double est_ati_duration = 0;
     for (i=0; i<sr.results.size(); i++) {
         if (lookup_result(project, sr.results[i].name)) {
             msg_printf(project, MSG_INTERNAL_ERROR,
@@ -817,6 +824,8 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         rp->set_state(RESULT_NEW, "handle_scheduler_reply");
         if (rp->avp->ncudas) {
             est_cuda_duration += rp->estimated_duration(false);
+        } else if (rp->avp->natis) {
+            est_ati_duration += rp->estimated_duration(false);
         } else {
             est_cpu_duration += rp->estimated_duration(false);
         }
@@ -829,8 +838,14 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
             );
             if (coproc_cuda) {
                 msg_printf(project, MSG_INFO,
-                    "[sched_op_debug] estimated total CUDA job duration: %.0f seconds",
+                    "[sched_op_debug] estimated total NVIDIA CPU job duration: %.0f seconds",
                     est_cuda_duration
+                );
+            }
+            if (coproc_ati) {
+                msg_printf(project, MSG_INFO,
+                    "[sched_op_debug] estimated total ATI CPU job duration: %.0f seconds",
+                    est_ati_duration
                 );
             }
         }

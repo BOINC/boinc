@@ -488,6 +488,7 @@ public:
 extern CLIENT_STATE gstate;
 
 extern COPROC_CUDA* coproc_cuda;
+extern COPROC_ATI* coproc_ati;
 
 /// return a random double in the range [MIN,min(e^n,MAX))
 

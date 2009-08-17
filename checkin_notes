@@ -6929,3 +6929,17 @@ David  14 Aug 2009
 
     lib/
         coproc.cpp,h
+
+David  17 Aug 2009
+    - client: add ATI support to job scheduling and work fetch
+
+    client/
+        app.cpp
+        app_start.cpp
+        client_state.cpp,h
+        client_type.cpp,h
+        cs_scheduler.cpp
+        rr_sim.cpp
+        work_fetch.cpp,h
+    lib/
+        coproc.cpp,h

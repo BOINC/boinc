@@ -361,10 +361,12 @@ public:
     //
     RSC_PROJECT_WORK_FETCH cpu_pwf;
     RSC_PROJECT_WORK_FETCH cuda_pwf;
+    RSC_PROJECT_WORK_FETCH ati_pwf;
     PROJECT_WORK_FETCH pwf;
     inline void reset() {
         cpu_pwf.reset();
         cuda_pwf.reset();
+        ati_pwf.reset();
     }
 
         /// # of results being returned in current scheduler op
@@ -418,6 +420,7 @@ struct APP_VERSION {
     double avg_ncpus;
     double max_ncpus;
     int ncudas;
+    int natis;
     double flops;
         /// additional cmdline args
     char cmdline[256];
@@ -570,8 +573,13 @@ struct RESULT {
     inline bool uses_cuda() {
         return (avp->ncudas > 0);
     }
+    inline bool uses_ati() {
+        return (avp->natis > 0);
+    }
     inline bool uses_coprocs() {
-        return uses_cuda();
+        if (avp->ncudas > 0) return true;
+        if (avp->natis > 0) return true;
+        return false;
     }
 
     // temporaries used in CLIENT_STATE::rr_simulation():

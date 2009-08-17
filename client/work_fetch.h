@@ -25,6 +25,7 @@
 
 #define RSC_TYPE_CPU    0
 #define RSC_TYPE_CUDA   1
+#define RSC_TYPE_ATI    2
 
 class PROJECT;
 struct RESULT;
@@ -182,6 +183,7 @@ struct WORK_FETCH {
 };
 
 extern RSC_WORK_FETCH cuda_work_fetch;
+extern RSC_WORK_FETCH ati_work_fetch;
 extern RSC_WORK_FETCH cpu_work_fetch;
 extern WORK_FETCH work_fetch;
 

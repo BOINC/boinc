@@ -97,7 +97,7 @@ void COPROCS::summary_string(char* buf, int len) {
             );
             strcat(bigbuf, buf2);
         } else if (!strcmp(cp->type, "CAL")){
-		    COPROC_CAL* cp2 =(COPROC_CAL*) cp;
+		    COPROC_ATI* cp2 =(COPROC_ATI*) cp;
 		    sprintf(buf2,"[CAL|%s|%d|%dMB|%s]",
                 cp2->name, cp2->count, cp2->attribs.localRAM, cp2->version
             );
@@ -111,7 +111,7 @@ void COPROCS::summary_string(char* buf, int len) {
 vector<string> COPROCS::get(bool use_all) {
     vector<string> strings;
     COPROC_CUDA::get(*this, strings, use_all);
-    COPROC_CAL::get(*this, strings);
+    COPROC_ATI::get(*this, strings);
     return strings;
 }
 
@@ -131,8 +131,8 @@ int COPROCS::parse(FILE* fin) {
                 coprocs.push_back(cc);
             }
         }
-        if (strstr(buf, "<coproc_cal>")) {
-            COPROC_CAL* cc = new COPROC_CAL;
+        if (strstr(buf, "<coproc_ati>")) {
+            COPROC_ATI* cc = new COPROC_ATI;
             int retval = cc->parse(fin);
             if (!retval) {
                 coprocs.push_back(cc);
@@ -546,7 +546,7 @@ int COPROC_CUDA::parse(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
-void COPROC_CAL::get(COPROCS& coprocs, vector<string>& strings) {
+void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
     CALuint numDevices, cal_major, cal_minor, cal_imp;
     CALdevice device;
     CALdeviceinfo info;
@@ -625,21 +625,21 @@ void COPROC_CAL::get(COPROCS& coprocs, vector<string>& strings) {
         return;
     }
 
-    COPROC_CAL cc, cc2;
+    COPROC_ATI cc, cc2;
     string s, gpu_name;
-    vector<COPROC_CAL> gpus;
+    vector<COPROC_ATI> gpus;
     for (CALuint i=0; i<numDevices; i++) {
         (*__calDeviceGetInfo)(&info, i);	
         (*__calDeviceGetAttribs)(&attribs, i);	
         switch (info.target) {
-        case CAL_TARGET_600: gpu_name="ATI GPU RV600"; break;
-        case CAL_TARGET_610: gpu_name="ATI GPU RV610"; break;
-        case CAL_TARGET_630: gpu_name="ATI GPU RV630"; break;
-        case CAL_TARGET_670: gpu_name="ATI GPU RV670"; break;
-        case CAL_TARGET_710: gpu_name="ATI GPU R710"; break;
-        case CAL_TARGET_730: gpu_name="ATI GPU R730"; break;
-        case CAL_TARGET_7XX: gpu_name="ATI GPU R7XX"; break;
-        case CAL_TARGET_770: gpu_name="ATI GPU RV770"; break;
+        case CAL_TARGET_600: gpu_name="RV600"; break;
+        case CAL_TARGET_610: gpu_name="RV610"; break;
+        case CAL_TARGET_630: gpu_name="RV630"; break;
+        case CAL_TARGET_670: gpu_name="RV670"; break;
+        case CAL_TARGET_710: gpu_name="R710"; break;
+        case CAL_TARGET_730: gpu_name="R730"; break;
+        case CAL_TARGET_7XX: gpu_name="R7XX"; break;
+        case CAL_TARGET_770: gpu_name="RV770"; break;
         default: gpu_name="ATI unknown"; break;
         }
         cc.attribs = attribs;
@@ -648,7 +648,7 @@ void COPROC_CAL::get(COPROCS& coprocs, vector<string>& strings) {
         gpus.push_back(cc);
     }
 
-    COPROC_CAL best;
+    COPROC_ATI best;
     for (unsigned int i=0; i<gpus.size(); i++) {
         char buf[256], buf2[256];
         if (i == 0) {
@@ -664,19 +664,19 @@ void COPROC_CAL::get(COPROCS& coprocs, vector<string>& strings) {
         best.device_nums[i] = i;
     }
 
-    COPROC_CAL* ccp = new COPROC_CAL;
+    COPROC_ATI* ccp = new COPROC_ATI;
     *ccp = best;
     sprintf(ccp->version, "%d.%d.%d", cal_major, cal_minor, cal_imp);
-    strcpy(ccp->type, "CAL");
+    strcpy(ccp->type, "ATI");
     ccp->count = numDevices;
     coprocs.coprocs.push_back(ccp);
     __calShutdown();
 }
 
 #ifndef _USING_FCGI_
-void COPROC_CAL::write_xml(MIOFILE& f) {
+void COPROC_ATI::write_xml(MIOFILE& f) {
 	f.printf(
-        "<coproc_cal>\n"
+        "<coproc_ati>\n"
         "   <count>%d</count>\n"
         "   <name>%s</name>\n"
         "   <localRAM>%d</localRAM>\n"
@@ -690,7 +690,7 @@ void COPROC_CAL::write_xml(MIOFILE& f) {
         "   <pitch_alignment>%d</pitch_alignment>\n"
         "   <surface_alignment>%d</surface_alignment>\n"
         "   <CALVersion>%s</CALVersion>\n"
-        "</coproc_cal>\n",
+        "</coproc_ati>\n",
         count,
         name,
         attribs.localRAM,
@@ -708,7 +708,7 @@ void COPROC_CAL::write_xml(MIOFILE& f) {
 };
 #endif
 
-void COPROC_CAL::clear() {
+void COPROC_ATI::clear() {
 	count = 0;
 	strcpy(name, "");
 	strcpy(version, "");
@@ -724,13 +724,13 @@ void COPROC_CAL::clear() {
 	attribs.surface_alignment = 0;
 }
 
-int COPROC_CAL::parse(FILE* fin) {
+int COPROC_ATI::parse(FILE* fin) {
     char buf[1024];
     int n;
 
     clear();
     while (fgets(buf, sizeof(buf), fin)) {
-        if (strstr(buf, "</coproc_cal>")) return 0;
+        if (strstr(buf, "</coproc_ati>")) return 0;
         if (parse_int(buf, "<count>", count)) continue;
 		if (parse_str(buf, "<name>", name, sizeof(name))) continue;
 		if (parse_int(buf, "<localRAM>", n)) {
@@ -779,7 +779,7 @@ int COPROC_CAL::parse(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
-void COPROC_CAL::description(char* buf) {
+void COPROC_ATI::description(char* buf) {
     sprintf(buf, "%s (CAL version %s, %.0fMB, %.0fGFLOPS)",
         name, version, attribs.localRAM/1024.*1024., flops()
     );

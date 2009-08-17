@@ -246,22 +246,19 @@ enum CUdevice_attribute_enum {
   CU_DEVICE_ATTRIBUTE_COMPUTE_MODE = 20
 };
 
-struct COPROC_CAL : public COPROC {
+struct COPROC_ATI : public COPROC {
     char name[256];
     char version[50];
     CALdeviceattribs attribs; 
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
 #endif
-    COPROC_CAL(): COPROC("CAL"){}
-    virtual ~COPROC_CAL(){}
+    COPROC_ATI(): COPROC("ATI"){}
+    virtual ~COPROC_ATI(){}
     static void get(COPROCS&, std::vector<std::string>&);
     void description(char*);
     void clear();
     int parse(FILE*);
-
-    // This is NOT an estimation. It's TRUE FLOPS!
-
     inline double flops() {
 		return attribs.numberOfSIMD * attribs.wavefrontSize * 5/2 * attribs.engineClock;
     }

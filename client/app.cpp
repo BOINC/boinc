@@ -252,6 +252,8 @@ void ACTIVE_TASK::cleanup_task() {
     //
     if (app_version->ncudas) {
         result->project->cuda_pwf.clear_backoff();
+    } else if (app_version->natis) {
+        result->project->ati_pwf.clear_backoff();
     } else {
         result->project->cpu_pwf.clear_backoff();
     }

@@ -99,6 +99,7 @@ void PROJECT::init() {
     short_term_debt = 0;
     cpu_pwf.reset();
     cuda_pwf.reset();
+    ati_pwf.reset();
     send_file_list = false;
     send_time_stats_log = 0;
     send_job_log = 0;
@@ -192,6 +193,9 @@ int PROJECT::parse_state(MIOFILE& in) {
         if (parse_double(buf, "<cuda_debt>", cuda_pwf.debt)) continue;
         if (parse_double(buf, "<cuda_backoff_interval>", cuda_pwf.backoff_interval)) continue;
         if (parse_double(buf, "<cuda_backoff_time>", cuda_pwf.backoff_time)) continue;
+        if (parse_double(buf, "<ati_debt>", ati_pwf.debt)) continue;
+        if (parse_double(buf, "<ati_backoff_interval>", ati_pwf.backoff_interval)) continue;
+        if (parse_double(buf, "<ati_backoff_time>", ati_pwf.backoff_time)) continue;
         if (parse_double(buf, "<resource_share>", x)) continue;
             // not authoritative
         if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
@@ -249,6 +253,9 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <cuda_debt>%f</cuda_debt>\n"
         "    <cuda_backoff_interval>%f</cuda_backoff_interval>\n"
         "    <cuda_backoff_time>%f</cuda_backoff_time>\n"
+        "    <ati_debt>%f</ati_debt>\n"
+        "    <ati_backoff_interval>%f</ati_backoff_interval>\n"
+        "    <ati_backoff_time>%f</ati_backoff_time>\n"
         "    <resource_share>%f</resource_share>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
 		"    <sched_rpc_pending>%d</sched_rpc_pending>\n"
@@ -279,6 +286,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         short_term_debt,
         cpu_pwf.debt, cpu_pwf.backoff_interval, cpu_pwf.backoff_time,
         cuda_pwf.debt, cuda_pwf.backoff_interval, cuda_pwf.backoff_time,
+        ati_pwf.debt, ati_pwf.backoff_interval, ati_pwf.backoff_time,
         resource_share,
         duration_correction_factor,
 		sched_rpc_pending,
@@ -372,6 +380,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     short_term_debt = p.short_term_debt;
     cpu_pwf = p.cpu_pwf;
     cuda_pwf = p.cuda_pwf;
+    ati_pwf = p.ati_pwf;
     send_file_list = p.send_file_list;
     send_time_stats_log = p.send_time_stats_log;
     send_job_log = p.send_job_log;
@@ -1098,6 +1107,7 @@ int APP_VERSION::parse(MIOFILE& in) {
     avg_ncpus = 1;
     max_ncpus = 1;
     ncudas = 0;
+    natis = 0;
     app = NULL;
     project = NULL;
     coprocs.coprocs.clear();
@@ -1125,6 +1135,9 @@ int APP_VERSION::parse(MIOFILE& in) {
                 coprocs.coprocs.push_back(cp);
                 if (!strcmp(cp->type, "CUDA")) {
                     ncudas = cp->count;
+                }
+                if (!strcmp(cp->type, "ATI")) {
+                    natis = cp->count;
                 }
             } else {
                 msg_printf(0, MSG_INTERNAL_ERROR, "Error parsing <coproc>");

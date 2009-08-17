@@ -288,7 +288,9 @@ int ACTIVE_TASK::write_app_init_file() {
     aid.rsc_memory_bound = wup->rsc_memory_bound;
     aid.rsc_disk_bound = wup->rsc_disk_bound;
     aid.computation_deadline = result->computation_deadline();
-    int nprocs = (result->avp->ncudas)?coproc_cuda->count:gstate.ncpus;
+    int nprocs = gstate.ncpus;
+    if (result->avp->ncudas) nprocs = coproc_cuda->count;
+    if (result->avp->natis) nprocs = coproc_ati->count;
     aid.checkpoint_period = nprocs*gstate.global_prefs.disk_interval;
     aid.fraction_done_start = 0;
     aid.fraction_done_end = 1;
@@ -593,6 +595,9 @@ int ACTIVE_TASK::start(bool first_time) {
     if (coproc_cuda && app_version->ncudas) {
         coproc_cmdline(coproc_cuda, this, app_version->ncudas, cmdline);
     }
+    if (coproc_ati && app_version->natis) {
+        coproc_cmdline(coproc_ati, this, app_version->natis, cmdline);
+    }
 
     relative_to_absolute(slot_dir, slotdirpath);
     bool success = false;
@@ -780,6 +785,9 @@ int ACTIVE_TASK::start(bool first_time) {
     );
     if (coproc_cuda && app_version->ncudas) {
         coproc_cmdline(coproc_cuda, this, app_version->ncudas, cmdline);
+    }
+    if (coproc_ati && app_version->natis) {
+        coproc_cmdline(coproc_ati, this, app_version->natis, cmdline);
     }
 
     // Set up core/app shared memory seg if needed
