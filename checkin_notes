@@ -6998,3 +6998,10 @@ David  18 Aug 2009
     sched/
         handle_request.cpp
         sched_types.h
+
+David  18 Aug 2009
+    - manager: allow 24:00 to be used in advanced prefs dialog
+        (from Ian Hay; fixes #357)
+
+    clientgui/
+        DlgAdvPreferences.cpp

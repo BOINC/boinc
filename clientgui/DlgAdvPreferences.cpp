@@ -634,7 +634,8 @@ bool CDlgAdvPreferences::IsValidTimeValue(const wxString& value) {
 	//all chars are valid, now what is with the value as a whole ?
 	wxDateTime dt;
 	const wxChar* stopChar = dt.ParseFormat(value,wxT("%H:%M"));
-	if(stopChar==NULL) {//conversion failed
+	if(stopChar==NULL && value != wxT("24:00")) {
+        // conversion failed
 		return false;
 	}
 	return true;
