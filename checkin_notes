@@ -6971,3 +6971,11 @@ David  17 Aug 2009
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+        
+Rom    18 Aug 2009
+    - Change version number to 6.10.x
+
+    /
+        configure.ac
+        version.h
+
