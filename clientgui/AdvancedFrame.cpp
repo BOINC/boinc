@@ -45,7 +45,6 @@
 #include "ViewMessages.h"
 #include "ViewStatistics.h"
 #include "ViewResources.h"
-#include "ViewNews.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
 #include "DlgSelectComputer.h"
@@ -640,7 +639,6 @@ bool CAdvancedFrame::RepopulateNotebook() {
     CreateNotebookPage(new CViewMessages(m_pNotebook));
     CreateNotebookPage(new CViewStatistics(m_pNotebook));
     CreateNotebookPage(new CViewResources(m_pNotebook));
-    CreateNotebookPage(new CViewNews(m_pNotebook));
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RepopulateNotebook - Function End"));
     return true;

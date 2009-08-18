@@ -6979,3 +6979,9 @@ Rom    18 Aug 2009
         configure.ac
         version.h
 
+Rom    18 Aug 2009
+    - MGR: Remove News page.
+    
+    clientgui/
+        AdvancedFrame.cpp
+        ViewNews.cpp, .h (Deleted)
