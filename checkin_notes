@@ -6985,3 +6985,11 @@ Rom    18 Aug 2009
     clientgui/
         AdvancedFrame.cpp
         ViewNews.cpp, .h (Deleted)
+
+Rom    18 Aug 2009
+    - Tag for 6.10.0 release, all platforms
+      boinc_core_release_6_10_0
+
+    /
+        configure.ac
+        version.h
