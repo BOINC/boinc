@@ -43,10 +43,11 @@ function update_thread_timestamps() {
 function update_user_posts() {
     $users = BoincUser::enum();
     foreach ($users as $user) {
+        BoincForumPrefs::lookup($user);
         $num = BoincPost::count("user=$user->id");
-        if ($num != $user->posts) {
+        if ($num != $user->prefs->posts) {
             echo "user $user->id: $user->posts $num\n";
-            $user->update("posts=$num");
+            $user->prefs->update("posts=$num");
         }
     }
 }

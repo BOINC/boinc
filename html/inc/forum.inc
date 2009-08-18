@@ -792,7 +792,7 @@ function create_post($content, $parent_id, $user, $forum, $thread, $signature) {
             notify_subscriber($thread, $user2);
         }
     }
-    $user->update("posts=posts+1");
+    $user->prefs->update("posts=posts+1");
     $thread->update("replies=replies+1, timestamp=$now");
     $forum->update("posts=posts+1, timestamp=$now");
 }

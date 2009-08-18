@@ -6971,3 +6971,30 @@ David  17 Aug 2009
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+David  18 Aug 2009
+    - scheduler: if client request uses a weak authenticator,
+        don't modify user preferences or CPID.
+    - client: fix bug that shows ATI version incorrectly
+    - database: host.posts has been repurposed as a salt (or seqno)
+        for a new type of weak authenticator that won't depend on password
+    - web code:
+        modify forum_preferences.posts instead of host.posts.
+        (actually, the former isn't used either, we just do a select count(*);
+        should fix this at some point).
+
+    client/
+        cpu_sched.cpp
+    db/
+        boinc_db.h
+        schema.sql
+    html/
+        inc/
+            forum.inc
+        ops/
+            forum_repair.php
+    lib/
+        coproc.pp
+    sched/
+        handle_request.cpp
+        sched_types.h

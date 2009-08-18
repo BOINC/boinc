@@ -395,6 +395,10 @@ struct SCHEDULER_REQUEST {
     bool client_cap_plan_class;
     int sandbox;    // -1 = don't know
 
+    bool using_weak_auth;
+        // Request uses weak authenticator.
+        // Don't modify user prefs or CPID
+
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST();
     const char* parse(FILE*);

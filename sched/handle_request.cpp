@@ -270,25 +270,25 @@ int authenticate_user() {
         // look up user based on the ID in host record,
         // and see if the authenticator matches (regular or weak)
         //
+        g_request->using_weak_auth = false;
         sprintf(buf, "where id=%d", host.userid);
         retval = user.lookup(buf);
         if (!retval && !strcmp(user.authenticator, g_request->authenticator)) {
             // req auth matches user auth - go on
         } else {
-            bool weak_auth = false;
             if (!retval) {
                 // user for host.userid exists - check weak auth
                 //
                 get_weak_auth(user, buf);
                 if (!strcmp(buf, g_request->authenticator)) {
-                    weak_auth = true;
+                    g_request->using_weak_auth = true;
                     log_messages.printf(MSG_DEBUG,
                         "[HOST#%d] accepting weak authenticator\n",
                         host.id
                     );
                 }
             }
-            if (!weak_auth) {
+            if (!g_request->using_weak_auth) {
                 // weak auth failed - look up user based on authenticator
                 //
                 strlcpy(
@@ -478,7 +478,7 @@ got_host:
 
     // if new user CPID, update user record
     //
-    if (strlen(g_request->cross_project_id)) {
+    if (!g_request->using_weak_auth && strlen(g_request->cross_project_id)) {
         if (strcmp(g_request->cross_project_id, g_reply->user.cross_project_id)) {
             user.id = g_reply->user.id;
             escape_string(g_request->cross_project_id, sizeof(g_request->cross_project_id));
@@ -743,7 +743,7 @@ int handle_global_prefs() {
 
     // decide whether to update DB
     //
-    if (have_master_prefs) {
+    if (!g_request->using_weak_auth && have_master_prefs) {
         bool update_user_record = false;
         if (have_db_prefs) {
             if (master_mod_time > db_mod_time && same_account) {

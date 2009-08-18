@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("August 18, 2009",
+    "Check out <a href=http://www.smh.com.au/technology/new-heroes-with-a-hard-drive-20090815-elsd.html>an article in The Sydney Morning Herald</a>
+    about volunteer computing in Australia."
+),
 array("August 3, 2009",
     "Intel (in partnership with GridRepublic and BOINC) announces
     <a href=http://apps.facebook.com/processors/new.php>Progress Thru Processors</a>,

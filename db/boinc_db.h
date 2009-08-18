@@ -155,8 +155,7 @@ struct USER {
     bool show_hosts;
     int posts;                      // number of messages posted (redundant)
         // deprecated as of 9/2004 - forum_preferences.posts is used instead
-        // may be used as a temp var
-        // WARNING: it's a shortint (16 bits) in the DB
+        // now used as salt for weak auth
 
     // The following are specific to SETI@home;
     // they record info about the user's involvement in a prior project

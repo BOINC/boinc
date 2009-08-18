@@ -618,7 +618,7 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
 
     (*__calInit)();
     (*__calDeviceGetCount)(&numDevices);
-    (*__calGetVersion)(&cal_major,&cal_minor,&cal_imp);
+    (*__calGetVersion)(&cal_major, &cal_minor, &cal_imp);
 
     if (!numDevices) {
         strings.push_back("No usable CAL devices found");
@@ -644,6 +644,7 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
         }
         cc.attribs = attribs;
         strcpy(cc.name, gpu_name.c_str());
+        sprintf(cc.version, "%d.%d.%d", cal_major, cal_minor, cal_imp);
         cc.device_num = i;
         gpus.push_back(cc);
     }
@@ -666,7 +667,6 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
 
     COPROC_ATI* ccp = new COPROC_ATI;
     *ccp = best;
-    sprintf(ccp->version, "%d.%d.%d", cal_major, cal_minor, cal_imp);
     strcpy(ccp->type, "ATI");
     ccp->count = numDevices;
     coprocs.coprocs.push_back(ccp);
