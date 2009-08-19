@@ -24,11 +24,9 @@
 extern "C" {
 #endif
 
-int initialize_system_monitor(int argc, char** argv);
-int initialize_service_dispatcher(int argc, char** argv);
-
-int cleanup_system_monitor();
-
+extern int initialize_system_monitor(int argc, char** argv);
+extern int initialize_service_dispatcher(int argc, char** argv);
+extern int cleanup_system_monitor();
 
 // Internal name of the service
 #define SZSERVICENAME        "BOINC"
@@ -46,12 +44,12 @@ int cleanup_system_monitor();
     SERVICE_ACCEPT_SHUTDOWN ) 
 
 // Service Control Manager Routines
-VOID WINAPI BOINCServiceMain(DWORD dwArgc, LPTSTR *lpszArgv);
-VOID WINAPI BOINCServiceCtrl(DWORD dwCtrlCode);
-BOOL		ReportStatus(DWORD dwCurrentState, DWORD dwWin32ExitCode, DWORD dwWaitHint);
-VOID		LogEventErrorMessage(LPTSTR lpszMsg);
-VOID		LogEventWarningMessage(LPTSTR lpszMsg);
-VOID		LogEventInfoMessage(LPTSTR lpszMsg);
+extern VOID WINAPI BOINCServiceMain(DWORD dwArgc, LPTSTR *lpszArgv);
+extern VOID WINAPI BOINCServiceCtrl(DWORD dwCtrlCode);
+extern BOOL		ReportStatus(DWORD dwCurrentState, DWORD dwWin32ExitCode, DWORD dwWaitHint);
+extern VOID		LogEventErrorMessage(LPTSTR lpszMsg);
+extern VOID		LogEventWarningMessage(LPTSTR lpszMsg);
+extern VOID		LogEventInfoMessage(LPTSTR lpszMsg);
 
 #ifdef __cplusplus
 }

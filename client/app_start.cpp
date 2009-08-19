@@ -143,6 +143,20 @@ static void coproc_cmdline(
                 coproc->owner[j] = NULL;
             }
         }
+        if (log_flags.task_debug) {
+            if (coproc->owner[j]) {
+                msg_printf(atp->result->project, MSG_INFO,
+                    "coproc %d (devnum %d) in use by %s",
+                    j, coproc->device_nums[j],
+                    ((ACTIVE_TASK*)coproc->owner[j])->result->name
+                );
+            } else {
+                msg_printf(atp->result->project, MSG_INFO,
+                    "coproc %d (devnum %d) not in use",
+                    j, coproc->device_nums[j]
+                );
+            }
+        }
     }
     
     // reserve instances for this job
