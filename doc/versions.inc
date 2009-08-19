@@ -87,7 +87,7 @@ $w64= array(
 
 $w610x64dev= array(
     "num"=>"6.10.0",
-    "status"=>"Recommended version",
+    "status"=>"Development version",
     "file"=>"boinc_6.10.0_windows_x86_64.exe",
     "date"=>"19 Aug 2009",
     "type"=>"win_new",
