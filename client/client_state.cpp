@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cpp.h"
-
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
@@ -33,6 +31,12 @@
 #endif
 #endif
 
+#ifdef __EMX__
+#define INCL_DOS
+#include <os2.h>
+#endif
+
+#include "cpp.h"
 #include "parse.h"
 #include "str_util.h"
 #include "util.h"
@@ -102,6 +106,9 @@ CLIENT_STATE::CLIENT_STATE():
     network_mode.set(RUN_MODE_AUTO, 0);
     started_by_screensaver = false;
     requested_exit = false;
+    requested_suspend = false;
+    requested_resume = false;
+    cleanup_completed = false;
     in_abort_sequence = false;
     master_fetch_period = MASTER_FETCH_PERIOD;
     retry_cap = RETRY_CAP;
@@ -482,6 +489,9 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
         //
         if (loops++ > 99) {
             boinc_sleep(.01);
+#ifdef __EMX__
+            DosSleep(0);
+#endif
             break;
         }
 

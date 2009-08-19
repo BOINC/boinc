@@ -1166,15 +1166,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\sysmon_win.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Client\time_stats.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\client\whetstone.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\client\win\win_service.cpp"
 				>
 			</File>
 			<File
@@ -1311,15 +1311,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\sysmon_win.h"
+				>
+			</File>
+			<File
 				RelativePath="..\client\time_stats.h"
 				>
 			</File>
 			<File
 				RelativePath="..\version.h"
-				>
-			</File>
-			<File
-				RelativePath="..\client\win\win_service.h"
 				>
 			</File>
 			<File

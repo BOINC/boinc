@@ -16,9 +16,12 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef _WIN32
+
+extern void log_message_startup(char* msg);
+extern void log_message_error(char* msg);
+extern void log_message_error(char* msg, int error_code);
+
 extern int boinc_main_loop();
-extern void quit_client();
-extern void suspend_client(bool wait = false);
-extern void resume_client();
 extern int check_unique_instance();
+
 #endif

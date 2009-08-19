@@ -196,10 +196,10 @@ public:
 
 };
 
-#define PARSEURL_PROTOCOL_UNKNOWN 0
-#define PARSEURL_PROTOCOL_HTTP    1
-#define PARSEURL_PROTOCOL_HTTPS   2
-#define PARSEURL_PROTOCOL_SOCKS   3
+#define URL_PROTOCOL_UNKNOWN 0
+#define URL_PROTOCOL_HTTP    1
+#define URL_PROTOCOL_HTTPS   2
+#define URL_PROTOCOL_SOCKS   3
 
 extern void parse_url(const char* url, int &protocol, char* host, int &port, char* file);
 

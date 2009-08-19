@@ -6170,3 +6170,15 @@ Rom    1 Aug 2009
     /
         configure.ac
         version.h
+
+Rom    2 Aug 2009
+    - client: refactor the CC startup process, move majority of the
+        windows code into sysmon_win.cpp, .h
+        
+    client/
+        client_state.cpp, .h
+        cpp.h
+        http_curl.cpp
+        main.cpp, .h
+        net_stats.cpp
+        sysmon_win.cpp, .h

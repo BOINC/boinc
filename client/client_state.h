@@ -98,6 +98,11 @@ public:
     int cmdline_gui_rpc_port;
     bool show_projects;
     bool requested_exit;
+    bool requested_suspend;
+    bool requested_resume;
+    bool cleanup_completed;
+        /// Determine when it is safe to leave the quit_client() handler
+        /// and to finish cleaning up.
     bool in_abort_sequence;
         /// stores URL for -detach_project option
     char detach_project_url[256];
