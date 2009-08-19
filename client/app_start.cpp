@@ -107,100 +107,28 @@ static void debug_print_argv(char** argv) {
 }
 #endif
 
-// For apps that use coprocessors, reserve the instances,
-// and append "--device x" to the command line.
-// NOTE: on Linux, you must call this before the fork(), not after.
-// Otherwise the reservation is a no-op.
+// For apps that use coprocessors, append "--device x" to the command line.
 //
 static void coproc_cmdline(
     int rsc_type, ACTIVE_TASK* atp, double ninstances, char* cmdline
 ) {
-    unsigned int i;
-    int j, k;
-    vector<ACTIVE_TASK*> tasks_using_coproc;
-
-    // make a list of the executing tasks (other than this) using this coproc
-    //
-    for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
-        ACTIVE_TASK* p = gstate.active_tasks.active_tasks[i];
-        if (p == atp) continue;
-        if (p->task_state() != PROCESS_EXECUTING) continue;
-        if (p->app_version->uses_coproc(rsc_type)) {
-            tasks_using_coproc.push_back(p);
-        }
-    }
-    if (log_flags.task_debug) {
-        if (tasks_using_coproc.size()) {
-            for (i=0; i<tasks_using_coproc.size(); i++) {
-                msg_printf(0, MSG_INFO,
-                    "other task using coproc: %s",
-                    tasks_using_coproc[i]->result->name
-                );
-            }
-        } else {
-            msg_printf(0, MSG_INFO, "No other tasks using coproc");
-        }
-    }
-
     COPROC* coproc = (rsc_type==RSC_TYPE_CUDA)?(COPROC*)coproc_cuda:(COPROC*)coproc_ati;
-    // scan the coproc's owner array,
-    // clearing any entries not in the above list
-    //
-    for (j=0; j<coproc->count; j++) {
-        if (coproc->owner[j]) {
-            bool found = false;
-            for (i=0; i<tasks_using_coproc.size(); i++) {
-                if (coproc->owner[j] == tasks_using_coproc[i]) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                coproc->owner[j] = NULL;
-            }
+    for (int j=0; j<ninstances; j++) {
+        int k = atp->coproc_indices[j];
+        // sanity check
+        //
+        if (k < 0 || k >= coproc->count) {
+            *(int*)1 = 0;
         }
+        char buf[256];
+        sprintf(buf, " --device %d", coproc->device_nums[k]);
         if (log_flags.task_debug) {
-            if (coproc->owner[j]) {
-                msg_printf(atp->result->project, MSG_INFO,
-                    "coproc %d (devnum %d) in use by %s",
-                    j, coproc->device_nums[j],
-                    ((ACTIVE_TASK*)coproc->owner[j])->result->name
-                );
-            } else {
-                msg_printf(atp->result->project, MSG_INFO,
-                    "coproc %d (devnum %d) not in use",
-                    j, coproc->device_nums[j]
-                );
-            }
+            msg_printf(atp->result->project, MSG_INFO,
+                "using coproc instance %d (device num %d)",
+                k, coproc->device_nums[k]
+            );
         }
-    }
-    
-    // reserve instances for this job
-    //
-    char buf[256];
-    k = 0;
-    for (j=0; j<ninstances; j++) {
-        while (1) {
-            if (k == coproc->count) {
-                msg_printf(atp->result->project, MSG_INTERNAL_ERROR,
-                    "Can't find free %s", coproc->type
-                );
-                return;
-            }
-            if (coproc->owner[k] == NULL) {
-                sprintf(buf, " --device %d", coproc->device_nums[k]);
-                if (log_flags.task_debug) {
-                    msg_printf(atp->result->project, MSG_INFO,
-                        "using coproc instance %d (device num %d)",
-                        k, coproc->device_nums[k]
-                    );
-                }
-                strcat(cmdline, buf);
-                coproc->owner[k] = atp;
-                break;
-            }
-            k++;
-        }
+        strcat(cmdline, buf);
     }
 }
 

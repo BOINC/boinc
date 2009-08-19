@@ -93,10 +93,12 @@ struct COPROC {
     double estimated_delay;
         // resource will be saturated for this long
 
-    // Used in client to keep track of which tasks are using which instances
-    // The pointers point to ACTIVE_TASK
+    // temps used in client (enforce_schedule())
+    // to keep track of what fraction of each instance is in use
+    // during instance assignment
     //
-    void* owner[MAX_COPROC_INSTANCES];
+    double usage[MAX_COPROC_INSTANCES];
+    double pending_usage[MAX_COPROC_INSTANCES];
 
     // the device number of each instance
     // These are not sequential if we omit instances (see above)
@@ -115,7 +117,6 @@ struct COPROC {
         req_secs = 0;
         req_instances = 0;
         estimated_delay = 0;
-        memset(owner, 0, sizeof(owner));
     }
     COPROC(const char* t){
         clear();
@@ -171,6 +172,15 @@ struct COPROCS {
             cp2->count = cp->count;
 			if (copy_used) cp2->used = cp->used;
             coprocs.push_back(cp2);
+        }
+    }
+    inline void clear_usage() {
+        for (unsigned int i=0; i<coprocs.size(); i++) {
+            COPROC* cp = coprocs[i];
+            for (int j=0; j<cp->count; j++) {
+                cp->usage[j] = 0;
+                cp->pending_usage[j] = 0;
+            }
         }
     }
 };

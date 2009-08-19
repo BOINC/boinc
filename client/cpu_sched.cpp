@@ -819,6 +819,168 @@ void CLIENT_STATE::append_unfinished_time_slice(
     }
 }
 
+static inline void increment_pending_usage(
+    ACTIVE_TASK* atp, double usage, COPROC* cp
+) {
+    double x = (usage<1)?usage:1;
+    for (int i=0; i<usage; i++) {
+        int j = atp->coproc_indices[i];
+        cp->pending_usage[j] += x;
+    }
+}
+
+static inline bool current_assignment_ok(
+    ACTIVE_TASK* atp, double usage, COPROC* cp
+) {
+    double x = (usage<1)?usage:1;
+    for (int i=0; i<usage; i++) {
+        int j = atp->coproc_indices[i];
+        if (cp->usage[j] + x > 1) return false;
+    }
+    return true;
+}
+
+static inline void confirm_current_assignment(
+    ACTIVE_TASK* atp, double usage, COPROC* cp
+) {
+    double x = (usage<1)?usage:1;
+    for (int i=0; i<usage; i++) {
+        int j = atp->coproc_indices[i];
+        cp->usage[j] +=x;
+        cp->pending_usage[j] -=x;
+    }
+}
+
+static inline bool get_fractional_assignment(
+    ACTIVE_TASK* atp, double usage, COPROC* cp
+) {
+    int i;
+
+    // try to assign an instance that's already fractionally assigned
+    //
+    for (i=0; i<cp->count; i++) {
+        if ((cp->usage[i] || cp->pending_usage[i])
+            && (cp->usage[i] + cp->pending_usage[i] + usage <= 1)
+        ) {
+            atp->coproc_indices[0] = i;
+            cp->usage[i] += usage;
+            return true;
+        }
+    }
+
+    // failing that, assign an unreserved instance
+    //
+    for (i=0; i<cp->count; i++) {
+        if (!cp->usage[i]) {
+            atp->coproc_indices[0] = i;
+            cp->usage[i] += usage;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static inline bool get_integer_assignment(
+    ACTIVE_TASK* atp, double usage, COPROC* cp
+) {
+    int i;
+
+    // make sure we have enough unreserved instances
+    //
+    int nfree = 0;
+    for (i=0; i<cp->count; i++) {
+        if (!cp->usage[i]) {
+            nfree++;
+        }
+    }
+    if (nfree < usage) return false;
+
+    int n = 0;
+
+    for (i=0; i<cp->count; i++) {
+        if (!cp->usage[i] && !cp->pending_usage) {
+            cp->usage[i] = 1;
+            atp->coproc_indices[n++] = i;
+            if (n == usage) break;
+        }
+    }
+    for (i=0; i<cp->count; i++) {
+        if (!cp->usage[i]) {
+            cp->usage[i] = 1;
+            atp->coproc_indices[n++] = i;
+            if (n == usage) break;
+        }
+    }
+    return true;
+}
+
+static inline void assign_coprocs(vector<RESULT*> jobs) {
+    unsigned int i;
+    COPROC* cp;
+    double usage;
+
+    gstate.coprocs.clear_usage();
+
+    // fill in pending usage
+    //
+    for (i=0; i<jobs.size(); i++) {
+        RESULT* rp = jobs[i];
+        APP_VERSION* avp = rp->avp;
+        if (avp->ncudas) {
+            usage = avp->ncudas;
+            cp = coproc_cuda;
+        } else if (avp->natis) {
+            usage = avp->natis;
+            cp = coproc_ati;
+        } else {
+            continue;
+        }
+        ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
+        if (!atp) continue;
+        if (atp->task_state() != PROCESS_EXECUTING) continue;
+        increment_pending_usage(atp, usage, cp);
+    }
+    vector<RESULT*>::iterator job_iter;
+    job_iter = jobs.begin();
+    while (job_iter != jobs.end()) {
+        RESULT* rp = jobs[i];
+        APP_VERSION* avp = rp->avp;
+        if (avp->ncudas) {
+            usage = avp->ncudas;
+            cp = coproc_cuda;
+        } else if (avp->natis) {
+            usage = avp->natis;
+            cp = coproc_ati;
+        } else {
+            continue;
+        }
+        ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
+        if (atp && atp->task_state() == PROCESS_EXECUTING) {
+            if (current_assignment_ok(atp, usage, cp)) {
+                confirm_current_assignment(atp, usage, cp);
+                job_iter++;
+            } else {
+                job_iter = jobs.erase(job_iter);
+            }
+        } else {
+            if (usage < 1) {
+                if (get_fractional_assignment(atp, usage, cp)) {
+                    job_iter++;
+                } else {
+                    job_iter = jobs.erase(job_iter);
+                }
+            } else {
+                if (get_integer_assignment(atp, usage, cp)) {
+                    job_iter++;
+                } else {
+                    job_iter = jobs.erase(job_iter);
+                }
+            }
+        }
+    }
+}
+
 // Enforce the CPU schedule.
 // Inputs:
 //   ordered_scheduled_results
@@ -864,14 +1026,14 @@ bool CLIENT_STATE::enforce_schedule() {
         print_job_list(ordered_scheduled_results, false);
     }
 
-    // Set next_scheduler_state to preempt for all tasks
+    // Set next_scheduler_state to PREEMPT for all tasks
     //
     for (i=0; i< active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
     }
 
-    // make a copy of the to-run list
+    // make initial "to-run" list
     //
     vector<RESULT*>runnable_jobs;
     for (i=0; i<ordered_scheduled_results.size(); i++) {
@@ -881,11 +1043,11 @@ bool CLIENT_STATE::enforce_schedule() {
         runnable_jobs.push_back(rp);
     }
 
-    // append running jobs not done with time slice
+    // append running jobs not done with time slice to the to-run list
     //
     append_unfinished_time_slice(runnable_jobs);
 
-    // sort the result by decreasing importance
+    // sort to-run list by decreasing importance
     //
     std::sort(
         runnable_jobs.begin(),
@@ -920,7 +1082,13 @@ bool CLIENT_STATE::enforce_schedule() {
         }
     }
 
-    // Loop through the jobs we want to schedule.
+    // assign coprocessors to coproc jobs,
+    // and prune those that can't be assigned
+    //
+    assign_coprocs(runnable_jobs);
+
+    // prune jobs that don't fit in RAM or that exceed CPU usage limits.
+    // Mark the rest as SCHEDULED
     //
     ncpus_used = 0;
     bool running_edf_scheduled_job = false;
@@ -974,7 +1142,9 @@ bool CLIENT_STATE::enforce_schedule() {
             }
         }
 
-        if (rp->edf_scheduled) running_edf_scheduled_job = true;
+        if (rp->edf_scheduled && !rp->uses_coprocs()) {
+            running_edf_scheduled_job = true;
+        }
 
         if (log_flags.cpu_sched_debug) {
             msg_printf(rp->project, MSG_INFO,
@@ -1003,6 +1173,8 @@ bool CLIENT_STATE::enforce_schedule() {
 
     bool check_swap = (host_info.m_swap != 0);
         // in case couldn't measure swap on this host
+
+    // TODO: enforcement of swap space is broken right now
 
     // preempt tasks as needed, and note whether there are any coproc jobs
     // in QUIT_PENDING state (in which case we won't start new coproc jobs)
