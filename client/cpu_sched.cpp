@@ -64,68 +64,121 @@ using std::vector;
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
-static bool sufficient_coprocs(
-    APP_VERSION& av, bool log_flag, const char* prefix
-) {
-    double x;
-    int rsc_type;
-    if (av.ncudas) {
-        x = av.ncudas;
-        rsc_type = RSC_TYPE_CUDA;
-    } else if (av.natis) {
-        x = av.natis;
-        rsc_type = RSC_TYPE_ATI;
-    } else {
+// used in schedule_cpus() to keep track of resources used
+// by jobs tentatively scheduled so far
+//
+struct PROC_RESOURCES {
+    int ncpus;
+    double ncpus_used;
+    double ram_left;
+    COPROCS coprocs;
+
+    // should we stop scanning jobs?
+    //
+    inline bool stop_scan_cpu() {
+        return ncpus_used >= ncpus;
+    }
+
+    inline bool stop_scan_coproc() {
+        return coprocs.fully_used();
+    }
+
+    // should we consider scheduling this job?
+    //
+    bool can_schedule(RESULT* rp) {
+        if (rp->uses_coprocs()) {
+            if (gstate.user_active && !gstate.global_prefs.run_gpu_if_user_active) {
+                return false;
+            }
+            if (sufficient_coprocs(
+                *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug")
+            ) {
+                return true;
+            } else {
+                if (log_flags.cpu_sched_debug) {
+                    msg_printf(rp->project, MSG_INFO,
+                        "[cpu_sched_debug] insufficient coprocessors for %s", rp->name
+                    );
+                }
+                return false;
+            }
+        } else {
+            // otherwise, only if CPUs are available
+            //
+            return (ncpus_used < ncpus);
+        }
+    }
+
+    // we've decided to run this - update bookkeeping
+    //
+    void schedule(RESULT* rp) {
+        reserve_coprocs(
+            *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug"
+        );
+        ncpus_used += rp->avp->avg_ncpus;
+    }
+
+    bool sufficient_coprocs(
+        APP_VERSION& av, bool log_flag, const char* prefix
+    ) {
+        double x;
+        COPROC* cp2;
+        if (av.ncudas) {
+            x = av.ncudas;
+            cp2 = coprocs.lookup("CUDA");
+        } else if (av.natis) {
+            x = av.natis;
+            cp2 = coprocs.lookup("ATI");
+        } else {
+            return true;
+        }
+        if (!cp2) {
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
+                "Missing a %s coprocessor", cp2->type
+            );
+            return false;
+        }
+        if (cp2->used + x > cp2->count) {
+            if (log_flag) {
+                msg_printf(NULL, MSG_INFO,
+                    "[%s] rr_sim: insufficient coproc %s (%f + %f > %d)",
+                    prefix, cp2->type, cp2->used, x, cp2->count
+                );
+            }
+            return false;
+        }
         return true;
     }
-    COPROC* cp2 = (rsc_type==RSC_TYPE_CUDA)?(COPROC*)coproc_cuda:(COPROC*)coproc_ati;
 
-    if (!cp2) {
-        msg_printf(NULL, MSG_INTERNAL_ERROR,
-            "Missing a %s coprocessor", cp2->type
-        );
-        return false;
-    }
-    if (cp2->used + x > cp2->count) {
+    void reserve_coprocs(
+        APP_VERSION& av, bool log_flag, const char* prefix
+    ) {
+        double x;
+        COPROC* cp2;
+        int rsc_type;
+        if (av.ncudas) {
+            x = av.ncudas;
+            cp2 = coprocs.lookup("CUDA");
+        } else if (av.natis) {
+            x = av.natis;
+            cp2 = coprocs.lookup("ATI");
+        } else {
+            return;
+        }
+        if (!cp2) {
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
+                "Coproc type %s not found", cp2->type
+            );
+            return;
+        }
         if (log_flag) {
             msg_printf(NULL, MSG_INFO,
-                "[%s] rr_sim: insufficient coproc %s (%f + %f > %d)",
-                prefix, cp2->type, cp2->used, x, cp2->count
+                "[%s] reserving %f of coproc %s", prefix, x, cp2->type
             );
         }
-        return false;
+        cp2->used += x;
     }
-    return true;
-}
-
-static void reserve_coprocs(
-    APP_VERSION& av, bool log_flag, const char* prefix
-) {
-    double x;
-    int rsc_type;
-    if (av.ncudas) {
-        x = av.ncudas;
-        rsc_type = RSC_TYPE_CUDA;
-    } else if (av.natis) {
-        x = av.natis;
-        rsc_type = RSC_TYPE_ATI;
-    } else {
-        return;
-    }
-    COPROC* cp2 = (rsc_type==RSC_TYPE_CUDA)?(COPROC*)coproc_cuda:(COPROC*)coproc_ati;
-    if (!cp2) {
-        msg_printf(NULL, MSG_INTERNAL_ERROR,
-            "Coproc type %s not found", cp2->type
-        );
-        return;
-    }
-    if (log_flag) {
-        msg_printf(NULL, MSG_INFO,
-            "[%s] reserving %f of coproc %s", prefix, x, cp2->type
-        );
-    }
-    cp2->used += x;
-}
+};
 
 // return true if the task has finished its time slice
 // and has checkpointed in last 10 secs
@@ -480,58 +533,6 @@ bool CLIENT_STATE::possibly_schedule_cpus() {
     schedule_cpus();
     return true;
 }
-
-struct PROC_RESOURCES {
-    int ncpus;
-    double ncpus_used;
-    double ram_left;
-    COPROCS coprocs;
-
-    // should we stop scanning jobs?
-    //
-    inline bool stop_scan_cpu() {
-        return ncpus_used >= ncpus;
-    }
-
-    inline bool stop_scan_coproc() {
-        return coprocs.fully_used();
-    }
-
-    // should we consider scheduling this job?
-    //
-    bool can_schedule(RESULT* rp) {
-        if (rp->uses_coprocs()) {
-            if (gstate.user_active && !gstate.global_prefs.run_gpu_if_user_active) {
-                return false;
-            }
-            if (sufficient_coprocs(
-                *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug")
-            ) {
-                return true;
-            } else {
-                if (log_flags.cpu_sched_debug) {
-                    msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched_debug] insufficient coprocessors for %s", rp->name
-                    );
-                }
-                return false;
-            }
-        } else {
-            // otherwise, only if CPUs are available
-            //
-            return (ncpus_used < ncpus);
-        }
-    }
-
-    // we've decided to run this - update bookkeeping
-    //
-    void schedule(RESULT* rp) {
-        reserve_coprocs(
-            *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug"
-        );
-        ncpus_used += rp->avp->avg_ncpus;
-    }
-};
 
 // Check whether the job can be run:
 // - it will fit in RAM
