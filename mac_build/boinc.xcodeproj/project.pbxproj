@@ -176,6 +176,7 @@
 		DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC70C193D5200742E50 /* MacUninstaller.icns */; };
 		DD5BF77D0D4F3D0C00EDF980 /* mac_icon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.cpp */; };
 		DD5D7EBB0FE320F600ACF87B /* Uninstaller.r in Rez */ = {isa = PBXBuildFile; fileRef = DD5D7EBA0FE320F600ACF87B /* Uninstaller.r */; };
+		DD5E2356103B6DFB0090F8B8 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD5E2355103B6DFB0090F8B8 /* QTKit.framework */; };
 		DD616A3008150050006981C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DD635A420D384FA500BAC1A5 /* texfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD635A410D384FA500BAC1A5 /* texfont.cpp */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.cpp */; };
@@ -736,6 +737,7 @@
 		DD58C46A08F334EA00C1DF66 /* wizardex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wizardex.h; path = ../clientgui/wizardex.h; sourceTree = SOURCE_ROOT; };
 		DD5D7EBA0FE320F600ACF87B /* Uninstaller.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = Uninstaller.r; path = ../mac_installer/Uninstaller.r; sourceTree = SOURCE_ROOT; };
 		DD5DDADC0CD2AF200075461A /* wxWindows.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = wxWindows.xcodeproj; path = "../../wxMac-2.8.10/src/wxWindows.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		DD5E2355103B6DFB0090F8B8 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		DD5EEB6A0873DD4400963F44 /* hyperlink.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = hyperlink.cpp; sourceTree = "<group>"; };
 		DD5EEB6B0873DD4400963F44 /* hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = hyperlink.h; sourceTree = "<group>"; };
 		DD5EF07007C5B329007CCE8D /* whetstone.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = whetstone.cpp; sourceTree = "<group>"; };
@@ -1067,6 +1069,7 @@
 				DD130E740820C422001A0291 /* ScreenSaver.framework in Frameworks */,
 				DDB6E3EF0D5B27AA00ED12B8 /* Carbon.framework in Frameworks */,
 				DDB74A6C0D74259E00E97A40 /* AppKit.framework in Frameworks */,
+				DD5E2356103B6DFB0090F8B8 /* QTKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1187,6 +1190,7 @@
 		20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				DD5E2355103B6DFB0090F8B8 /* QTKit.framework */,
 				DDFE854A0B60CFD0009B43D9 /* AppKit.framework */,
 				DDE2552B07C62F3E008E7D6E /* IOKit.framework */,
 				20286C33FDCF999611CA2CEA /* Carbon.framework */,

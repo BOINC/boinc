@@ -7005,3 +7005,14 @@ David  18 Aug 2009
 
     clientgui/
         DlgAdvPreferences.cpp
+
+Charlie 18 Aug 2009
+    - Mac SS: Changes for compatibility with OS 10.6 while maintaining 
+        OS 10.3.9 compatibility.
+        
+    clientscr/
+        mac_saver_module.cpp
+        Mac_Saver_ModuleView.m
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
