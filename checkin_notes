@@ -6193,3 +6193,23 @@ Charlie 3 Aug 2009
     clientgui/
         mac/
             config.h
+
+Rom    7 Aug 2009
+    - client: Second pass through the automatic proxy detection code.
+    
+        During the first pass we learned that the whole process of
+        proxy detection on Win XP machines could take a few seconds
+        even with no proxies to be detected, now the proxy detection
+        code is executed in the same thread that is monitoring for
+        power change events.
+        
+    client/
+        cs_cmdline.cpp
+        http_curl.cpp
+        http_curl.h
+        http_curl_win.h
+        net_stats.cpp
+        sysmon_win.cpp, .h
+    lib/
+        parse.cpp, .h
+        proxy_info.cpp, .h

@@ -20,30 +20,44 @@
 
 #include "miofile.h"
 
-struct PROXY_INFO {
+class PROXY_INFO {
+public:
+    PROXY_INFO();
+    ~PROXY_INFO();
 
     bool use_http_proxy;
     bool use_http_auth;
-    char http_server_name[256];
+    std::string http_server_name;
     int  http_server_port;
-    char http_user_name[256];
-    char http_user_passwd[256];
+    std::string http_user_name;
+    std::string http_user_passwd;
 
     bool use_socks_proxy;
     int  socks_version;
-    char socks_server_name[256];
+    std::string socks_server_name;
     int  socks_server_port;
-    char socks5_user_name[256];
-    char socks5_user_passwd[256];
+    std::string socks5_user_name;
+    std::string socks5_user_passwd;
 
-    char noproxy_hosts[256];
+    std::string noproxy_hosts;
 
-    char autodetect_server_name[256];
+    int  autodetect_server_protocol;
+    std::string autodetect_server_name;
     int  autodetect_server_port;
+    bool autodetect_proxy_settings;
+#ifdef _WIN32
+    HANDLE autodetect_mutex;
+#endif
+    void detect_autoproxy_settings() { autodetect_proxy_settings = true; }
+    bool should_detect_autoproxy_settings() { return autodetect_proxy_settings; }
+    bool get_autoproxy_settings(int& server_protocol, std::string& server_name, int& server_port);
+    bool set_autoproxy_settings(int server_protocol, std::string server_name, int server_port);
 
     int parse(MIOFILE&);
     int write(MIOFILE&);
     void clear();
+
+    PROXY_INFO& operator=(const PROXY_INFO&);
 };
 
 #endif

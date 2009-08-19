@@ -124,6 +124,7 @@ extern bool remove_element(char* buf, const char* start, const char* end);
 extern bool str_replace(char* str, const char* old, const char* neww);
 extern char* sgets(char* buf, int len, char* &in);
 extern void xml_escape(const char*, char*, int len);
+extern void xml_unescape(std::string&);
 extern void xml_unescape(const char*, char*, int len);
 extern void extract_venue(const char*, const char*, char*);
 extern int skip_unrecognized(char* buf, MIOFILE&);
