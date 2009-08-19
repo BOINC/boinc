@@ -6213,3 +6213,10 @@ Rom    7 Aug 2009
     lib/
         parse.cpp, .h
         proxy_info.cpp, .h
+
+Charlie 7 Aug 2009
+    - client fix crash bug introduced by changing PROXY_INFO strings 
+        from char[] to std::string.
+      
+    client/
+        app_start.cpp
