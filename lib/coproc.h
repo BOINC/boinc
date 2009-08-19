@@ -227,7 +227,7 @@ struct COPROC_CUDA : public COPROC {
 
 void fake_cuda(COPROCS&, int);
 
-enum CUdevice_attribute_enum {
+enum  	CUdevice_attribute_enum {
   CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK = 1,
   CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X = 2,
   CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y = 3,
