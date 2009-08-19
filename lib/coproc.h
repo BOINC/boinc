@@ -75,18 +75,23 @@
 
 #define MAX_COPROC_INSTANCES 64
 
-// represents a set of equivalent coprocessors
+// represents a coproc on a particular computer.
+// The object will always be a derived class (COPROC_CUDA, COPROC_ATI)
+// Used in both client and server.
 //
 struct COPROC {
     char type[256];     // must be unique
     int count;          // how many are present
-    int used;           // how many are in use (used by client)
+    double used;           // how many are in use (used by client)
 
     // the following are used in both client and server for work-fetch info
     //
-    double req_secs;    // how many instance-seconds of work requested
-    int req_instances;  // requesting enough jobs to use this many instances
-    double estimated_delay; // resource will be saturated for this long
+    double req_secs;
+        // how many instance-seconds of work requested
+    double req_instances;
+        // client is requesting enough jobs to use this many instances
+    double estimated_delay;
+        // resource will be saturated for this long
 
     // Used in client to keep track of which tasks are using which instances
     // The pointers point to ACTIVE_TASK
@@ -134,6 +139,7 @@ struct COPROCS {
             delete coprocs[i];
         }
     }
+#if 0
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE& out) {
         for (unsigned int i=0; i<coprocs.size(); i++) {
@@ -141,13 +147,11 @@ struct COPROCS {
         }
     }
 #endif
+#endif
     std::vector<std::string> get(bool use_all);
     int parse(FILE*);
     void summary_string(char*, int);
     COPROC* lookup(const char*);
-    bool sufficient_coprocs(COPROCS&, bool log_flag, const char* prefix);
-    void reserve_coprocs(COPROCS&, bool log_flag, const char* prefix);
-    void free_coprocs(COPROCS&, bool log_flag, const char* prefix);
     bool fully_used() {
         for (unsigned int i=0; i<coprocs.size(); i++) {
             COPROC* cp = coprocs[i];

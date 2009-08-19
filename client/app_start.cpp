@@ -113,7 +113,7 @@ static void debug_print_argv(char** argv) {
 // Otherwise the reservation is a no-op.
 //
 static void coproc_cmdline(
-    COPROC* coproc, ACTIVE_TASK* atp, int ninstances, char* cmdline
+    int rsc_type, ACTIVE_TASK* atp, double ninstances, char* cmdline
 ) {
     unsigned int i;
     int j, k;
@@ -125,7 +125,7 @@ static void coproc_cmdline(
         ACTIVE_TASK* p = gstate.active_tasks.active_tasks[i];
         if (p == atp) continue;
         if (p->task_state() != PROCESS_EXECUTING) continue;
-        if (p->app_version->coprocs.lookup(coproc->type)) {
+        if (p->app_version->uses_coproc(rsc_type)) {
             tasks_using_coproc.push_back(p);
         }
     }
@@ -142,6 +142,7 @@ static void coproc_cmdline(
         }
     }
 
+    COPROC* coproc = (rsc_type==RSC_TYPE_CUDA)?(COPROC*)coproc_cuda:(COPROC*)coproc_ati;
     // scan the coproc's owner array,
     // clearing any entries not in the above list
     //
@@ -592,11 +593,11 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(cmdline, "%s %s %s",
         exec_path, wup->command_line.c_str(), app_version->cmdline
     );
-    if (coproc_cuda && app_version->ncudas) {
-        coproc_cmdline(coproc_cuda, this, app_version->ncudas, cmdline);
+    if (app_version->ncudas) {
+        coproc_cmdline(RSC_TYPE_CUDA, this, app_version->ncudas, cmdline);
     }
-    if (coproc_ati && app_version->natis) {
-        coproc_cmdline(coproc_ati, this, app_version->natis, cmdline);
+    if (app_version->natis) {
+        coproc_cmdline(RSC_TYPE_ATI, this, app_version->natis, cmdline);
     }
 
     relative_to_absolute(slot_dir, slotdirpath);
@@ -783,11 +784,11 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(cmdline, "%s %s",
         wup->command_line.c_str(), app_version->cmdline
     );
-    if (coproc_cuda && app_version->ncudas) {
-        coproc_cmdline(coproc_cuda, this, app_version->ncudas, cmdline);
+    if (app_version->ncudas) {
+        coproc_cmdline(RSC_TYPE_CUDA, this, app_version->ncudas, cmdline);
     }
-    if (coproc_ati && app_version->natis) {
-        coproc_cmdline(coproc_ati, this, app_version->natis, cmdline);
+    if (app_version->natis) {
+        coproc_cmdline(RSC_TYPE_ATI, this, app_version->natis, cmdline);
     }
 
     // Set up core/app shared memory seg if needed

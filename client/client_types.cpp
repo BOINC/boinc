@@ -1110,7 +1110,6 @@ int APP_VERSION::parse(MIOFILE& in) {
     natis = 0;
     app = NULL;
     project = NULL;
-    coprocs.coprocs.clear();
     flops = gstate.host_info.p_fpops;
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app_version>")) return 0;
@@ -1129,19 +1128,17 @@ int APP_VERSION::parse(MIOFILE& in) {
         if (parse_double(buf, "<flops>", flops)) continue;
         if (parse_str(buf, "<cmdline>", cmdline, sizeof(cmdline))) continue;
         if (match_tag(buf, "<coproc>")) {
-            COPROC* cp = new COPROC("");
-            int retval = cp->parse(in);
+            COPROC cp;
+            int retval = cp.parse(in);
             if (!retval) {
-                coprocs.coprocs.push_back(cp);
-                if (!strcmp(cp->type, "CUDA")) {
-                    ncudas = cp->count;
+                if (!strcmp(cp.type, "CUDA")) {
+                    ncudas = cp.count;
                 }
-                if (!strcmp(cp->type, "ATI")) {
-                    natis = cp->count;
+                if (!strcmp(cp.type, "ATI")) {
+                    natis = cp.count;
                 }
             } else {
                 msg_printf(0, MSG_INTERNAL_ERROR, "Error parsing <coproc>");
-                delete cp;
             }
             continue;
         }
@@ -1188,7 +1185,24 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
             if (retval) return retval;
         }
     }
-    coprocs.write_xml(out);
+    if (ncudas) {
+        out.printf(
+            "    <coproc>\n"
+            "        <type>CUDA</type>\n"
+            "        <count>%f</count>\n"
+            "    </coproc>\n",
+            ncudas
+        );
+    }
+    if (natis) {
+        out.printf(
+            "    <coproc>\n"
+            "        <type>ATI</type>\n"
+            "        <count>%f</count>\n"
+            "    </coproc>\n",
+            natis
+        );
+    }
 
     out.printf(
         "</app_version>\n"
@@ -1224,14 +1238,17 @@ void APP_VERSION::get_file_errors(string& str) {
 }
 
 bool APP_VERSION::missing_coproc() {
-    for (unsigned int i=0; i<coprocs.coprocs.size(); i++) {
-        COPROC* cp = coprocs.coprocs[i];
-        if (!gstate.coprocs.lookup(cp->type)) {
-            msg_printf(project, MSG_INTERNAL_ERROR,
-                "Application uses nonexistent coprocessor %s", cp->type
-            );
-            return true;
-        }
+    if (ncudas && !coproc_cuda) {
+        msg_printf(project, MSG_INTERNAL_ERROR,
+            "Application uses missing NVIDIA GPU"
+        );
+        return true;
+    }
+    if (natis && !coproc_ati) {
+        msg_printf(project, MSG_INTERNAL_ERROR,
+            "Application uses missing ATI GPU"
+        );
+        return true;
     }
     return false;
 }
@@ -1720,16 +1737,18 @@ int RESULT::write_gui(MIOFILE& out) {
     if (suspended_via_gui) out.printf("    <suspended_via_gui/>\n");
     if (project->suspended_via_gui) out.printf("    <project_suspended_via_gui/>\n");
     if (edf_scheduled) out.printf("    <edf_scheduled/>\n");
-    if (avp->coprocs.coprocs.size() || avp->avg_ncpus!= 1) {
-        char buf[256], desc[256];
-        sprintf(desc, "%.2f CPUs", avp->avg_ncpus);
-        for (unsigned int i=0; i<avp->coprocs.coprocs.size(); i++) {
-            COPROC* cp = avp->coprocs.coprocs[i];
-            sprintf(buf, ", %d %s", cp->count, cp->type);
-            strcat(desc, buf);
-        }
+    char buf[256];
+    strcpy(buf, "");
+    if (avp->ncudas) {
+        sprintf(buf, "%.2f CPUs + %.2f NVIDIA GPUs", avp->avg_ncpus, avp->ncudas);
+    } else if (avp->natis) {
+        sprintf(buf, "%.2f CPUs + %.2f ATI GPUs", avp->avg_ncpus, avp->natis);
+    } else if (avp->avg_ncpus != 1) {
+        sprintf(buf, "%.2f CPUs", avp->avg_ncpus);
+    }
+    if (strlen(buf)) {
         out.printf(
-            "    <resources>%s</resources>\n", desc
+            "    <resources>%s</resources>\n", buf
         );
     }
     ACTIVE_TASK* atp = gstate.active_tasks.lookup_result(this);

@@ -922,7 +922,7 @@ int APP_VERSION::write(FILE* fout) {
         fprintf(fout,
             "    <coproc>\n"
             "        <type>CUDA</type>\n"
-            "        <count>%d</count>\n"
+            "        <count>%f</count>\n"
             "    </coproc>\n",
             bavp->host_usage.ncudas
         );
@@ -931,7 +931,7 @@ int APP_VERSION::write(FILE* fout) {
         fprintf(fout,
             "    <coproc>\n"
             "        <type>ATI</type>\n"
-            "        <count>%d</count>\n"
+            "        <count>%f</count>\n"
             "    </coproc>\n",
             bavp->host_usage.natis
         );

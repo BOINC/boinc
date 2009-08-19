@@ -419,12 +419,11 @@ struct APP_VERSION {
     char api_version[16];
     double avg_ncpus;
     double max_ncpus;
-    int ncudas;
-    int natis;
+    double ncudas;
+    double natis;
     double flops;
         /// additional cmdline args
     char cmdline[256];
-    COPROCS coprocs;
 
     APP* app;
     PROJECT* project;
@@ -444,6 +443,13 @@ struct APP_VERSION {
     void clear_errors();
     int api_major_version();
     bool missing_coproc();
+    bool uses_coproc(int rsc_type) {
+        switch (rsc_type) {
+        case RSC_TYPE_CUDA: return (ncudas>0);
+        case RSC_TYPE_ATI: return (natis>0);
+        }
+        return false;
+    }
 };
 
 struct WORKUNIT {
