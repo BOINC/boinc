@@ -7062,3 +7062,9 @@ David  19 Aug 2009
         cpu_sched.cpp
     lib/
         coproc.h
+
+David  19 Aug 2009
+    - wrapper: compile fix
+
+    samples/wrapper/
+        wrapper.cpp
