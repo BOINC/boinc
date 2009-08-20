@@ -7068,3 +7068,9 @@ David  19 Aug 2009
 
     samples/wrapper/
         wrapper.cpp
+
+David  19 Aug 2009
+    - make_project and upgrade: copy file management programs to proj/bin/
+
+    py/Boinc/
+        setup_project.py

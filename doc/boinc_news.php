@@ -1,6 +1,12 @@
 <?
 
 $project_news = array(
+array("August 19, 2009",
+    "The EDGeS project is offering a
+    <a href=http://edges-grid.eu/web/userforum/3rdtraining>tutorial on
+    using BOINC for desktop grid computing</a>
+    on 20 Sept 2009 in Barcelona."
+),
 array("August 18, 2009",
     "Check out <a href=http://www.smh.com.au/technology/new-heroes-with-a-hard-drive-20090815-elsd.html>an article in The Sydney Morning Herald</a>
     about volunteer computing in Australia."

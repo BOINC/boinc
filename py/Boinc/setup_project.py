@@ -360,7 +360,8 @@ sys.path.insert(0, os.path.join('%s', 'py'))
           'sample_assimilator', 'sample_work_generator',
           'single_job_assimilator', 
           'assimilator.py', 'pymw_assimilator.py',
-          'update_stats', 'db_dump', 'db_purge', 'show_shmem', 'census' ])
+          'update_stats', 'db_dump', 'db_purge', 'show_shmem', 'census',
+          'delete_file', 'request_file_list', 'get_file', 'send_file' ])
     map(lambda (s): install(srcdir('tools',s), dir('bin',s)),
         [ 'create_work', 'xadd', 'dbcheck_files_exist', 'run_in_ops',
           'update_versions', 'parse_config', 'grep_logs', 'db_query',
