@@ -97,6 +97,10 @@ static BOOL WINAPI console_control_handler( DWORD dwCtrlType ){
 
 // Detect any proxy configuration settings automatically.
 static void windows_detect_autoproxy_settings() {
+    if (log_flags.proxy_debug) {
+        msg_printf(NULL, MSG_INFO, "[proxy_debug] automatic proxy check in progress");
+    }
+
     HMODULE hModWinHttp = LoadLibrary("winhttp.dll");
     if (hModWinHttp) {
         pfnWinHttpOpen pWinHttpOpen =
@@ -114,17 +118,13 @@ static void windows_detect_autoproxy_settings() {
             std::string               proxy_server;
             int                       proxy_port = 0;
             std::string               proxy_file;
+            std::wstring              user_agent_string;
+            std::wstring              network_test_url;
+            size_t                    pos;
+
 
             memset(&autoproxy_options, 0, sizeof(autoproxy_options));
             memset(&proxy_info, 0, sizeof(proxy_info));
-
-            hWinHttp = pWinHttpOpen(
-                A2W(std::string(get_user_agent_string())).c_str(),
-                WINHTTP_ACCESS_TYPE_NO_PROXY,
-                WINHTTP_NO_PROXY_NAME,
-                WINHTTP_NO_PROXY_BYPASS,
-                NULL
-            );
 
             autoproxy_options.dwFlags =
                 WINHTTP_AUTOPROXY_AUTO_DETECT;
@@ -132,20 +132,52 @@ static void windows_detect_autoproxy_settings() {
                 WINHTTP_AUTO_DETECT_TYPE_DHCP | WINHTTP_AUTO_DETECT_TYPE_DNS_A;
             autoproxy_options.fAutoLogonIfChallenged = TRUE;
 
+            user_agent_string = A2W(std::string(get_user_agent_string())).c_str();
+            network_test_url = A2W(config.network_test_url).c_str();
 
-            if (pWinHttpGetProxyForUrl(
-                hWinHttp, A2W(config.network_test_url).c_str(), &autoproxy_options, &proxy_info
-                )
-            ) {
+            hWinHttp = pWinHttpOpen(
+                user_agent_string.c_str(),
+                WINHTTP_ACCESS_TYPE_NO_PROXY,
+                WINHTTP_NO_PROXY_NAME,
+                WINHTTP_NO_PROXY_BYPASS,
+                NULL
+            );
+
+            if (log_flags.proxy_debug) {
+                msg_printf(NULL, MSG_INFO, "[proxy_debug] session #%d opened", hWinHttp);
+            }
+
+            if (pWinHttpGetProxyForUrl(hWinHttp, network_test_url.c_str(), &autoproxy_options, &proxy_info)) {
+
+                if (log_flags.proxy_debug) {
+                    msg_printf(NULL, MSG_INFO, "[proxy_debug] successfully executed proxy check", hWinHttp);
+                }
+
                 std::string proxy(W2A(std::wstring(proxy_info.lpszProxy)));
+                std::string new_proxy;
+
+                if (log_flags.proxy_debug) {
+                    msg_printf(NULL, MSG_INFO, "[proxy_debug] proxy list '%s'", proxy.c_str());
+                }
 
                 if (!proxy.empty()) {
                     // Trim string if more than one proxy is defined
                     // proxy list is defined as:
                     //   ([<scheme>=][<scheme>"://"]<server>[":"<port>])
-                    proxy.erase(proxy.find(';'));
-                    proxy.erase(proxy.find(' '));
+                    
+                    // Find and erase first delimeter type.
+                    pos = proxy.find(';');
+                    new_proxy = proxy.erase(pos);
 
+                    // Find and erase second delimeter type.
+                    proxy = new_proxy;
+                    pos = proxy.find(' ');
+                    new_proxy = proxy.erase(pos);
+
+                    // Store for future use
+                    proxy = new_proxy;
+
+                    // Parse the remaining url
                     parse_url(
                         proxy.c_str(),
                         proxy_protocol,
@@ -162,6 +194,10 @@ static void windows_detect_autoproxy_settings() {
                     );
                 }
 
+                if (log_flags.proxy_debug) {
+                    msg_printf(NULL, MSG_INFO, "[proxy_debug] automatic proxy detected %s:%d", proxy_server.c_str(), proxy_port);
+                }
+
                 // Clean up
                 if (proxy_info.lpszProxy) GlobalFree(proxy_info.lpszProxy);
                 if (proxy_info.lpszProxyBypass) GlobalFree(proxy_info.lpszProxyBypass);
@@ -173,10 +209,14 @@ static void windows_detect_autoproxy_settings() {
                     std::string(""),
                     0
                 );
+                msg_printf(NULL, MSG_INFO, "no automatic proxy detected");
             }
             if (hWinHttp) pWinHttpCloseHandle(hWinHttp);
         }
         FreeLibrary(hModWinHttp);
+    }
+    if (log_flags.proxy_debug) {
+        msg_printf(NULL, MSG_INFO, "[proxy_debug] automatic proxy check finished");
     }
 }
 

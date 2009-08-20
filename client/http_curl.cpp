@@ -812,7 +812,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
         if (log_flags.proxy_debug) {
             msg_printf(0, MSG_INFO,
                 "[proxy_debug] HTTP_OP::setup_proxy_session(): setting up automatic proxy %s:%d",
-                pi.autodetect_server_name, pi.autodetect_server_port
+                pi.autodetect_server_name.c_str(), pi.autodetect_server_port
             );
         }
 
@@ -835,7 +835,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
         if (log_flags.proxy_debug) {
             msg_printf(
                 0, MSG_INFO, "[proxy_debug]: setting up proxy %s:%d",
-                pi.http_server_name, pi.http_server_port
+                pi.http_server_name.c_str(), pi.http_server_port
             );
         }
 
@@ -856,7 +856,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
             } else {
                 curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
             }
-            sprintf(m_curl_user_credentials, "%s:%s", pi.http_user_name, pi.http_user_passwd);
+            sprintf(m_curl_user_credentials, "%s:%s", pi.http_user_name.c_str(), pi.http_user_passwd.c_str());
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, m_curl_user_credentials);
         }
 
