@@ -167,15 +167,17 @@ static void windows_detect_autoproxy_settings() {
                     
                     // Find and erase first delimeter type.
                     pos = proxy.find(';');
-                    new_proxy = proxy.erase(pos);
+                    if (pos != 0 ) {
+                        new_proxy = proxy.erase(pos);
+                        proxy = new_proxy;
+                    }
 
                     // Find and erase second delimeter type.
-                    proxy = new_proxy;
                     pos = proxy.find(' ');
-                    new_proxy = proxy.erase(pos);
-
-                    // Store for future use
-                    proxy = new_proxy;
+                    if (pos != 0 ) {
+                        new_proxy = proxy.erase(pos);
+                        proxy = new_proxy;
+                    }
 
                     // Parse the remaining url
                     parse_url(

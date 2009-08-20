@@ -6220,3 +6220,11 @@ Charlie 7 Aug 2009
       
     client/
         app_start.cpp
+
+Rom    20 Aug 2009
+    - client: Attempt to prevent a crash via a C++ exception by checking
+        for a 0 index before attempting erase the rest of the proxy
+        list.
+        
+    client/
+        sysmon_win.cpp
