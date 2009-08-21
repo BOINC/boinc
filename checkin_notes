@@ -7092,3 +7092,11 @@ Charlie 21 Aug 2009
     
     mac_installer/
         release_boinc.sh
+
+Rom    21 Aug 2009
+    - client: Attempt to prevent a crash via a C++ exception by checking
+        for a -1 index before attempting erase the rest of the proxy
+        list.
+        
+    client/
+        sysmon_win.cpp
