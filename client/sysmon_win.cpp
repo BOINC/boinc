@@ -143,10 +143,6 @@ static void windows_detect_autoproxy_settings() {
                 NULL
             );
 
-            if (log_flags.proxy_debug) {
-                msg_printf(NULL, MSG_INFO, "[proxy_debug] session #%d opened", hWinHttp);
-            }
-
             if (pWinHttpGetProxyForUrl(hWinHttp, network_test_url.c_str(), &autoproxy_options, &proxy_info)) {
 
                 if (log_flags.proxy_debug) {
@@ -167,14 +163,14 @@ static void windows_detect_autoproxy_settings() {
                     
                     // Find and erase first delimeter type.
                     pos = proxy.find(';');
-                    if (pos != 0 ) {
+                    if (pos != -1 ) {
                         new_proxy = proxy.erase(pos);
                         proxy = new_proxy;
                     }
 
                     // Find and erase second delimeter type.
                     pos = proxy.find(' ');
-                    if (pos != 0 ) {
+                    if (pos != -1 ) {
                         new_proxy = proxy.erase(pos);
                         proxy = new_proxy;
                     }
@@ -194,10 +190,10 @@ static void windows_detect_autoproxy_settings() {
                         proxy_server,
                         proxy_port
                     );
-                }
 
-                if (log_flags.proxy_debug) {
-                    msg_printf(NULL, MSG_INFO, "[proxy_debug] automatic proxy detected %s:%d", proxy_server.c_str(), proxy_port);
+                    if (log_flags.proxy_debug) {
+                        msg_printf(NULL, MSG_INFO, "[proxy_debug] automatic proxy detected %s:%d", proxy_server.c_str(), proxy_port);
+                    }
                 }
 
                 // Clean up
@@ -211,7 +207,9 @@ static void windows_detect_autoproxy_settings() {
                     std::string(""),
                     0
                 );
-                msg_printf(NULL, MSG_INFO, "no automatic proxy detected");
+                if (log_flags.proxy_debug) {
+                    msg_printf(NULL, MSG_INFO, "[proxy_debug] no automatic proxy detected");
+                }
             }
             if (hWinHttp) pWinHttpCloseHandle(hWinHttp);
         }

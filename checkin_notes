@@ -6223,7 +6223,7 @@ Charlie 7 Aug 2009
 
 Rom    20 Aug 2009
     - client: Attempt to prevent a crash via a C++ exception by checking
-        for a 0 index before attempting erase the rest of the proxy
+        for a -1 index before attempting erase the rest of the proxy
         list.
         
     client/
