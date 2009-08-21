@@ -7106,3 +7106,14 @@ David  21 Aug 2009
 
     sched/
         sched*.cpp
+
+David  21 Aug 2009
+    - scheduler: simplify and fix the way that app_plan() conveys messages
+        to the user.  app_plan() now generates the messages directly
+        rather than returning integer error codes.
+
+    sched/
+        sched_types.cpp,h
+        sched_customize.cpp,h
+        sched_send.cpp
+        sched_version.cpp

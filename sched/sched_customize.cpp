@@ -64,14 +64,15 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
         }
         int n = g_request->coproc_cuda->prop.multiProcessorCount;
         if (n < wu.batch) {
-            return true;
+           return true;
         }
     }
 #endif
     return false;
 }
 
-int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
+bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
+    char buf[256];
     if (!strcmp(plan_class, "mt")) {
         // the following is for an app that:
         // - can use from 1 to 64 threads, and can control this exactly
@@ -82,7 +83,10 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         double ncpus = g_wreq->effective_ncpus;
             // number of usable CPUs, taking user prefs into account
         int nthreads = (int)(ncpus/.65);
-        if (!nthreads) return PLAN_REJECT_INSUFFICIENT_CPUS;
+        if (!nthreads) {
+            add_no_work_message("Your computer has too few CPUs");
+            return false;
+        }
         if (nthreads > 64) nthreads = 64;
         hu.avg_ncpus = nthreads*.65;
         hu.max_ncpus = nthreads;
@@ -94,7 +98,7 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 hu.flops/1e9
             );
         }
-        return 0;
+        return true;
     } else if (strstr(plan_class, "ati")) {
         // the following is for an app that uses an ATI GPU
         //
@@ -105,7 +109,8 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                     "[version] Host lacks ATI GPU for plan class ati\n"
                 );
             }
-            return PLAN_REJECT_ATI_NO_DEVICE;
+            add_no_work_message("Your computer has no ATI GPU");
+            return false;
         }
 
         hu.flops = cp->flops();
@@ -124,7 +129,7 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 "[version] ATI app estimated %.2f GFLOPS\n", hu.flops/1e9
             );
         }
-        return 0;
+        return true;
     } else if (strstr(plan_class, "cuda")) {
         // the following is for an app that uses an NVIDIA GPU
         //
@@ -135,7 +140,8 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                     "[version] Host lacks CUDA coprocessor for plan class cuda\n"
                 );
             }
-            return PLAN_REJECT_CUDA_NO_DEVICE;
+            add_no_work_message("Your computer has no NVIDIA GPU");
+            return false;
         }
 
         // check compute capability
@@ -147,7 +153,10 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                     "[version] Compute capability %d < 1.0\n", v
                 );
             }
-            return PLAN_REJECT_NVIDIA_COMPUTE_CAPABILITY;
+            add_no_work_message(
+                "Your NVIDIA GPU lacks the needed compute capability"
+            );
+            return false;
         } 
 
         // for CUDA 2.3, we need to check the CUDA RT version.
@@ -157,14 +166,23 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         if (!strcmp(plan_class, "cuda23")) {
             if (cp->cuda_version) {
                 if (cp->cuda_version < 2030) {
-                    return PLAN_REJECT_CUDA_VERSION;
+                    add_no_work_message("CUDA version 2.3 needed");
+                    return false;
                 }
             } else if (cp->display_driver_version) {
                 if (cp->display_driver_version < PLAN_CUDA23_MIN_DRIVER_VERSION) {
-                    return PLAN_REJECT_CUDA_VERSION;
+                    sprintf(buf, "NVIDIA display driver %d or later needed",
+                        PLAN_CUDA23_MIN_DRIVER_VERSION
+                    );
+                    add_no_work_message(buf);
+                    return false;
                 }
             } else {
-                return PLAN_REJECT_CUDA_VERSION;
+                // pre-6.10 Linux clients report neither CUDA nor driver
+                // version; they'll end up here
+                //
+                add_no_work_message("CUDA version 2.3 needed");
+                return false;
             }
 #ifdef PLAN_CUDA23_MIN_RAM
             if (cp->prop.dtotalGlobalMem < PLAN_CUDA23_MIN_RAM) {
@@ -174,7 +192,12 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                         cp->prop.dtotalGlobalMem, PLAN_CUDA23_MIN_RAM
                     );
                 }
-                return PLAN_REJECT_CUDA_MEM;
+                sprintf(buf,
+                    "Your NVIDIA GPU has insufficient memory (need %.0fMB)",
+                    PLAN_CUDA23_MIN_RAM
+                );
+                add_no_work_message(buf);
+                return false;
             }
 #endif
         } else {
@@ -185,7 +208,11 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                         cp->display_driver_version
                     );
                 }
-                return PLAN_REJECT_NVIDIA_DRIVER_VERSION;
+                sprintf(buf, "NVIDIA driver version %d or later needed",
+                    PLAN_CUDA_MIN_DRIVER_VERSION
+                );
+                add_no_work_message(buf);
+                return false;
             }
         }
 
@@ -196,7 +223,12 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                     cp->prop.dtotalGlobalMem, PLAN_CUDA_MIN_RAM
                 );
             }
-            return PLAN_REJECT_CUDA_MEM;
+            sprintf(buf,
+                "Your NVIDIA GPU has insufficient memory (need %.0fMB)",
+                PLAN_CUDA_MIN_RAM
+            );
+            add_no_work_message(buf);
+            return false;
         }
 
         hu.flops = cp->flops_estimate();
@@ -220,7 +252,7 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 cp->prop.multiProcessorCount
             );
         }
-        return 0;
+        return true;
     } else if (!strcmp(plan_class, "nci")) {
         // The following is for a non-CPU-intensive application.
         // Say that we'll use 1% of a CPU.
@@ -231,24 +263,25 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         hu.flops = sreq.host.p_fpops*1.01;
             // The *1.01 is needed to ensure that we'll send this app
             // version rather than a non-plan-class one
-        return 0;
+        return true;
     } else if (!strcmp(plan_class, "sse3")) {
         // the following is for an app that requires a processor with SSE3,
         // and will run 10% faster if so
         //
         downcase_string(sreq.host.p_features);
         if (!strstr(sreq.host.p_features, "sse3")) {
-            return PLAN_REJECT_CPU_FEATURE;
+            add_no_work_message("Your CPU lacks SSE3");
+            return false;
         }
         hu.avg_ncpus = 1;
         hu.max_ncpus = 1;
         hu.flops = 1.1*sreq.host.p_fpops;
-        return 0;
+        return true;
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class
     );
-    return PLAN_REJECT_UNKNOWN;
+    return false;
 }
 
 // the following is used to enforce limits on in-progress jobs

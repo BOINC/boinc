@@ -466,7 +466,7 @@ static inline int check_memory(WORKUNIT& wu) {
             find_user_friendly_name(wu.appid),
             wu.rsc_memory_bound/MEGA, g_wreq->usable_ram/MEGA
         );
-        g_wreq->insert_no_work_message(message);
+        add_no_work_message(message);
 
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
@@ -491,7 +491,7 @@ static inline int check_disk(WORKUNIT& wu) {
             find_user_friendly_name(wu.appid),
             diff/MEGA, g_wreq->disk_available/MEGA, wu.rsc_disk_bound/MEGA
         );
-        g_wreq->insert_no_work_message(message);
+        add_no_work_message(message);
 
         g_wreq->disk.set_insufficient(diff);
         return INFEASIBLE_DISK;
@@ -515,7 +515,7 @@ static inline int check_bandwidth(WORKUNIT& wu) {
             find_user_friendly_name(wu.appid),
             wu.rsc_bandwidth_bound/KILO, g_reply->host.n_bwdown/KILO
         );
-        g_wreq->insert_no_work_message(message);
+        add_no_work_message(message);
 
         g_wreq->bandwidth.set_insufficient(diff);
         return INFEASIBLE_BANDWIDTH;

@@ -18,25 +18,11 @@
 #include "boinc_db.h"
 #include "sched_types.h"
 
-// reasons for the planning function to reject a host
-
-#define PLAN_REJECT_CUDA_NO_DEVICE          2
-#define PLAN_REJECT_CUDA_VERSION            3
-#define PLAN_REJECT_NVIDIA_DRIVER_VERSION   4
-#define PLAN_REJECT_CUDA_MEM                5
-#define PLAN_REJECT_CUDA_SPEED              6
-#define PLAN_REJECT_UNKNOWN                 7
-#define PLAN_REJECT_INSUFFICIENT_CPUS       8
-#define PLAN_REJECT_CPU_FEATURE             9
-#define PLAN_REJECT_NVIDIA_COMPUTE_CAPABILITY             10
-
-#define PLAN_REJECT_ATI_NO_DEVICE           11
-
 #define PLAN_CUDA_MIN_DRIVER_VERSION        17700
 #define PLAN_CUDA23_MIN_DRIVER_VERSION        19038
 #define PLAN_CUDA_MIN_RAM                   (254*1024*1024)
 #define PLAN_CUDA23_MIN_RAM                   (384*1024*1024)
 
 extern bool wu_is_infeasible_custom(WORKUNIT&, APP&, BEST_APP_VERSION&);
-extern int app_plan(SCHEDULER_REQUEST&, char* plan_class, HOST_USAGE&);
+extern bool app_plan(SCHEDULER_REQUEST&, char* plan_class, HOST_USAGE&);
 extern bool app_plan_uses_gpu(const char* plan_class);

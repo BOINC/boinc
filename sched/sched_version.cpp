@@ -111,7 +111,7 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app) {
             "Your app_info.xml file doesn't have a version of %s.",
             app.user_friendly_name
         );
-        g_wreq->insert_no_work_message(message);
+        add_no_work_message(message);
     }
     return best;
 }
@@ -236,7 +236,6 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
     bavp->host_usage.flops = 0;
     bavp->avp = NULL;
     bool no_version_for_platform = true;
-    int app_plan_reject = 0;
     for (i=0; i<g_request->platforms.list.size(); i++) {
         PLATFORM* p = g_request->platforms.list[i];
         for (j=0; j<ssp->napp_versions; j++) {
@@ -261,9 +260,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
                     );
                     continue;
                 }
-                retval = app_plan(*g_request, av.plan_class, host_usage);
-                if (retval) {
-                    app_plan_reject = retval;
+                if (!app_plan(*g_request, av.plan_class, host_usage)) {
                     continue;
                 }
             } else {
@@ -316,12 +313,6 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
         bavp->present = true;
     } else {
         // Here if there's no app version we can use.
-        // Could be because:
-        // - none exists for platform
-        // - one exists for platform, but host lacks processor type
-        // - one exists for platform, but no work requested for processor type
-        // - one exists but requires newer client
-        // - one exists but plan function rejects this host
         //
         if (config.debug_version_select) {
             for (i=0; i<g_request->platforms.list.size(); i++) {
@@ -337,41 +328,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
                 "%s is not available for your type of computer.",
                 app->user_friendly_name
             );
-            g_wreq->insert_no_work_message(message);
-        }
-        const char* p = NULL;
-        switch (app_plan_reject) {
-        case PLAN_REJECT_CUDA_NO_DEVICE:
-            p = "Your computer has no NVIDIA GPU"; break;
-        case PLAN_REJECT_NVIDIA_COMPUTE_CAPABILITY:
-            p = "Your GPU lacks the needed features"; break;
-        case PLAN_REJECT_CUDA_VERSION:
-            sprintf(buf, "NVIDIA driver version %d or later needed",
-                PLAN_CUDA23_MIN_DRIVER_VERSION
-            );
-            p = buf;
-            break;
-        case PLAN_REJECT_NVIDIA_DRIVER_VERSION:
-            sprintf(buf, "NVIDIA driver version %d or later needed",
-                PLAN_CUDA_MIN_DRIVER_VERSION
-            );
-            p = buf;
-            break;
-        case PLAN_REJECT_CUDA_MEM:
-            sprintf(buf, "Your GPU has insufficient memory (need %d MB)",
-                PLAN_CUDA_MIN_RAM
-            );
-            p = buf;
-            break;
-        case PLAN_REJECT_CUDA_SPEED:
-            p = "Your GPU is too slow"; break;
-        }
-        if (p) {
-            sprintf(message,
-                "Can't use NVIDIA GPU app for %s: %s",
-                app->user_friendly_name, p
-            );
-            g_wreq->insert_no_work_message(message);
+            add_no_work_message(message);
         }
         return NULL;
     }
