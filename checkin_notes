@@ -7117,3 +7117,10 @@ David  21 Aug 2009
         sched_customize.cpp,h
         sched_send.cpp
         sched_version.cpp
+
+Charlie 21 Aug 2009
+    - Mac client: in procinfo_setup(), use rss keyword not rsz in ps command 
+        for compatibility with OS 10.6 while keeping OS 10.3.9 compatibility.
+
+    lib/
+        procinfo_mac.cpp
