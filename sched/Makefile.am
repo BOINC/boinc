@@ -9,6 +9,7 @@ AM_LDFLAGS += -static
 if ENABLE_LIBRARIES
 
 libsched_sources = \
+    credit.cpp \
     sched_shmem.cpp \
     sched_util.cpp \
     sched_config.cpp \
@@ -134,7 +135,6 @@ EXTRA_DIST = \
     start
 
 cgi_sources = \
-	credit.cpp \
     edf_sim.cpp \
     handle_request.cpp \
     hr.cpp \

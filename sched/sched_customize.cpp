@@ -166,6 +166,17 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             } else {
                 return PLAN_REJECT_CUDA_VERSION;
             }
+#ifdef PLAN_CUDA23_MIN_RAM
+            if (cp->prop.dtotalGlobalMem < PLAN_CUDA23_MIN_RAM) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] CUDA23 mem %d < %d\n",
+                        cp->prop.dtotalGlobalMem, PLAN_CUDA23_MIN_RAM
+                    );
+                }
+                return PLAN_REJECT_CUDA_MEM;
+            }
+#endif
         } else {
             if (cp->display_driver_version && cp->display_driver_version < PLAN_CUDA_MIN_DRIVER_VERSION) {
                 if (config.debug_version_select) {
@@ -187,6 +198,7 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             }
             return PLAN_REJECT_CUDA_MEM;
         }
+
         hu.flops = cp->flops_estimate();
         if (!strcmp(plan_class, "cuda23")) {
             hu.flops *= 1.01;
