@@ -91,7 +91,7 @@ int delete_file_from_host() {
         } else if (g_reply->disk_limits.min_free != 0.0) {
             strcat(buf, "Review preferences for minimum disk free space allowed.");
         }
-        g_reply->insert_message(USER_MESSAGE(buf, "high"));
+        g_reply->insert_message(buf, "high");
         g_reply->set_delay(DELAY_DISK_SPACE);
         return 1;
     }
@@ -120,7 +120,7 @@ int delete_file_from_host() {
     // that depends upon this file, before it will be removed by core client.
     //
     sprintf(buf, "BOINC will delete file %s when no longer needed", fi.name);
-    g_reply->insert_message(USER_MESSAGE(buf, "low"));
+    g_reply->insert_message(buf, "low");
     g_reply->set_delay(DELAY_DELETE_FILE);
     return 0;
 }   
@@ -282,7 +282,7 @@ static int possibly_send_result(DB_RESULT& result) {
             "To get more %s work, finish current work, stop BOINC, remove app_info.xml file, and restart.",
             config.long_name
         );
-        g_reply->insert_message(USER_MESSAGE(help_msg_buf, "high"));
+        g_reply->insert_message(help_msg_buf, "high");
         g_reply->set_delay(DELAY_ANONYMOUS);
     }
 
@@ -1186,7 +1186,7 @@ void send_file_deletes() {
             );
         }
         sprintf(buf, "BOINC will delete file %s (no longer needed)", fi.name);
-        g_reply->insert_message(USER_MESSAGE(buf, "low"));
+        g_reply->insert_message(buf, "low");
      }
 
     // if we got no work, and we have no file space, delete some files

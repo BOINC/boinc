@@ -111,7 +111,7 @@ CLIENT_APP_VERSION* get_app_version_anonymous(APP& app) {
             "Your app_info.xml file doesn't have a version of %s.",
             app.user_friendly_name
         );
-        g_wreq->insert_no_work_message(USER_MESSAGE(message, "high"));
+        g_wreq->insert_no_work_message(message);
     }
     return best;
 }
@@ -337,7 +337,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
                 "%s is not available for your type of computer.",
                 app->user_friendly_name
             );
-            g_wreq->insert_no_work_message(USER_MESSAGE(message, "high"));
+            g_wreq->insert_no_work_message(message);
         }
         const char* p = NULL;
         switch (app_plan_reject) {
@@ -371,7 +371,7 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
                 "Can't use NVIDIA GPU app for %s: %s",
                 app->user_friendly_name, p
             );
-            g_wreq->insert_no_work_message(USER_MESSAGE(message, "high"));
+            g_wreq->insert_no_work_message(message);
         }
         return NULL;
     }

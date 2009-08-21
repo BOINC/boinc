@@ -126,7 +126,7 @@ int app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         }
         return 0;
     } else if (strstr(plan_class, "cuda")) {
-        // the following is for an app that uses a CUDA GPU
+        // the following is for an app that uses an NVIDIA GPU
         //
         COPROC_CUDA* cp = (COPROC_CUDA*)sreq.coprocs.lookup("CUDA");
         if (!cp) {

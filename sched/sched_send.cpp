@@ -466,7 +466,7 @@ static inline int check_memory(WORKUNIT& wu) {
             find_user_friendly_name(wu.appid),
             wu.rsc_memory_bound/MEGA, g_wreq->usable_ram/MEGA
         );
-        g_wreq->insert_no_work_message(USER_MESSAGE(message,"high"));
+        g_wreq->insert_no_work_message(message);
 
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
@@ -491,7 +491,7 @@ static inline int check_disk(WORKUNIT& wu) {
             find_user_friendly_name(wu.appid),
             diff/MEGA, g_wreq->disk_available/MEGA, wu.rsc_disk_bound/MEGA
         );
-        g_wreq->insert_no_work_message(USER_MESSAGE(message,"high"));
+        g_wreq->insert_no_work_message(message);
 
         g_wreq->disk.set_insufficient(diff);
         return INFEASIBLE_DISK;
@@ -515,7 +515,7 @@ static inline int check_bandwidth(WORKUNIT& wu) {
             find_user_friendly_name(wu.appid),
             wu.rsc_bandwidth_bound/KILO, g_reply->host.n_bwdown/KILO
         );
-        g_wreq->insert_no_work_message(USER_MESSAGE(message,"high"));
+        g_wreq->insert_no_work_message(message);
 
         g_wreq->bandwidth.set_insufficient(diff);
         return INFEASIBLE_BANDWIDTH;
@@ -1151,10 +1151,8 @@ static void explain_to_user() {
     if (!config.locality_scheduling && !config.matchmaker) {
         if (g_wreq->njobs_sent && !g_wreq->user_apps_only) {
             g_reply->insert_message(
-                USER_MESSAGE(
-                    "No work can be sent for the applications you have selected",
-                    "high"
-                )
+                "No work can be sent for the applications you have selected",
+                "high"
             );
 
             // Inform the user about applications with no work
@@ -1170,9 +1168,7 @@ static void explain_to_user() {
                             "No work is available for %s",
                             find_user_friendly_name(g_wreq->preferred_apps[i].appid)
                         );
-                        g_reply->insert_message(
-                            USER_MESSAGE(explanation, "high")
-                        );
+                        g_reply->insert_message( explanation, "high");
                     }
                 }
             }
@@ -1183,13 +1179,11 @@ static void explain_to_user() {
                 g_reply->insert_message(g_wreq->no_work_messages.at(j));
             }
             g_reply->insert_message(
-                USER_MESSAGE(
-                    "You have selected to receive work from other applications if no work is available for the applications you selected",
-                    "high"
-                )
+                "You have selected to receive work from other applications if no work is available for the applications you selected",
+                "high"
             );
             g_reply->insert_message(
-                USER_MESSAGE("Sending work from other applications", "high")
+                "Sending work from other applications", "high"
             );
         }
     }
@@ -1198,7 +1192,7 @@ static void explain_to_user() {
     //
     if (g_wreq->njobs_sent == 0) {
         g_reply->set_delay(DELAY_NO_WORK_TEMP);
-        g_reply->insert_message(USER_MESSAGE("No work sent", "high"));
+        g_reply->insert_message("No work sent", "high");
 
         // Tell the user about applications with no work
         //
@@ -1211,7 +1205,7 @@ static void explain_to_user() {
                        sprintf(explanation, "No work is available for %s",
                         find_user_friendly_name(g_wreq->preferred_apps[i].appid)
                     );
-                       g_reply->insert_message(USER_MESSAGE(explanation, "high"));
+                       g_reply->insert_message(explanation, "high");
                  }
                }
         }
@@ -1223,10 +1217,8 @@ static void explain_to_user() {
         }
         if (g_wreq->no_allowed_apps_available) {
             g_reply->insert_message(
-                USER_MESSAGE(
-                    "No work available for the applications you have selected.  Please check your settings on the web site.",
-                    "high"
-                )
+                "No work available for the applications you have selected.  Please check your settings on the web site.",
+                "high"
             );
         }
         if (g_wreq->speed.insufficient) {
@@ -1243,30 +1235,24 @@ static void explain_to_user() {
                     100.0*g_reply->host.on_frac
                 );
             }
-            g_reply->insert_message(USER_MESSAGE(helpful, "high"));
+            g_reply->insert_message(helpful, "high");
         }
         if (g_wreq->hr_reject_temp) {
             g_reply->insert_message(
-                USER_MESSAGE(
-                    "(there was work but it was committed to other platforms)",
-                    "high"
-                )
+                "(there was work but it was committed to other platforms)",
+                "high"
             );
         }
         if (g_wreq->hr_reject_perm) {
             g_reply->insert_message(
-                USER_MESSAGE(
-                    "(your platform is not supported by this project)",
-                    "high"
-                )
+                "(your platform is not supported by this project)",
+                "high"
             );
         }
         if (g_wreq->outdated_client) {
             g_reply->insert_message(
-                USER_MESSAGE(
-                    " (your BOINC client is old - please install current version)",
-                    "high"
-                )
+                " (your BOINC client is old - please install current version)",
+                "high"
             );
             g_reply->set_delay(DELAY_NO_WORK_PERM);
             log_messages.printf(MSG_NORMAL,
@@ -1275,26 +1261,20 @@ static void explain_to_user() {
         }
         if (g_wreq->excessive_work_buf) {
             g_reply->insert_message(
-                USER_MESSAGE(
-                    "(Your network connection interval is longer than WU deadline)",
-                    "high"
-                )
+                "(Your network connection interval is longer than WU deadline)",
+                "high"
             );
         }
         if (g_wreq->no_gpus_prefs) {
             g_reply->insert_message(
-                USER_MESSAGE(
-                    "GPU jobs are available, but your preferences are set to not accept them",
-                    "low"
-                )
+                "GPU jobs are available, but your preferences are set to not accept them",
+                "low"
             );
         }
         if (g_wreq->no_cpu_prefs) {
             g_reply->insert_message(
-                USER_MESSAGE(
-                    "CPU jobs are available, but your preferences are set to not accept them",
-                    "low"
-                )
+                "CPU jobs are available, but your preferences are set to not accept them",
+                "low"
             );
         }
         if (g_wreq->daily_result_quota_exceeded) {
@@ -1304,7 +1284,7 @@ static void explain_to_user() {
             sprintf(helpful, "(reached daily quota of %d tasks)",
                 g_wreq->max_jobs_per_day
             );
-            g_reply->insert_message(USER_MESSAGE(helpful, "high"));
+            g_reply->insert_message(helpful, "high");
             log_messages.printf(MSG_NORMAL,
                 "Daily result quota %d exceeded for host %d\n",
                 g_wreq->max_jobs_per_day, g_reply->host.id
@@ -1327,7 +1307,7 @@ static void explain_to_user() {
             sprintf(helpful, "(reached limit of %d tasks)",
                 g_wreq->max_jobs_on_host
             );
-            g_reply->insert_message(USER_MESSAGE(helpful, "high"));
+            g_reply->insert_message(helpful, "high");
             g_reply->set_delay(DELAY_NO_WORK_CACHE);
             log_messages.printf(MSG_NORMAL,
                 "host %d already has %d job(s) in progress\n",
@@ -1338,7 +1318,7 @@ static void explain_to_user() {
             sprintf(helpful, "(reached limit of %d CPU tasks)",
                 g_wreq->max_jobs_on_host_cpu
             );
-            g_reply->insert_message(USER_MESSAGE(helpful, "high"));
+            g_reply->insert_message(helpful, "high");
             g_reply->set_delay(DELAY_NO_WORK_CACHE);
             log_messages.printf(MSG_NORMAL,
                 "host %d already has %d CPU job(s) in progress\n",
@@ -1349,7 +1329,7 @@ static void explain_to_user() {
             sprintf(helpful, "(reached limit of %d GPU tasks)",
                 g_wreq->max_jobs_on_host_gpu
             );
-            g_reply->insert_message(USER_MESSAGE(helpful, "high"));
+            g_reply->insert_message(helpful, "high");
             g_reply->set_delay(DELAY_NO_WORK_CACHE);
             log_messages.printf(MSG_NORMAL,
                 "host %d already has %d GPU job(s) in progress\n",

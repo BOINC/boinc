@@ -7100,3 +7100,9 @@ Rom    21 Aug 2009
         
     client/
         sysmon_win.cpp
+
+David  21 Aug 2009
+    - scheduler: code cleanup
+
+    sched/
+        sched*.cpp

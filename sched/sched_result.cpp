@@ -170,7 +170,7 @@ int handle_results() {
                     srip->validate_state, dont_replace_result
                 );
                 sprintf(buf, "Completed result %s refused: %s", srip->name, dont_replace_result);
-                g_reply->insert_message(USER_MESSAGE(buf, "high"));
+                g_reply->insert_message(buf, "high");
                 srip->id = 0;
                 g_reply->result_acks.push_back(std::string(rp->name));
                 continue;

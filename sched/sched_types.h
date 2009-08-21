@@ -225,7 +225,7 @@ struct WORK_REQ {
     int max_jobs_on_host_cpu;
     int max_jobs_on_host_gpu;
     void update_for_result(double seconds_filled);
-    void insert_no_work_message(const USER_MESSAGE&);
+    void insert_no_work_message(char*);
     void get_job_limits();
 };
 
@@ -452,7 +452,8 @@ struct SCHEDULER_REPLY {
     void insert_app_version_unique(APP_VERSION&);
     void insert_workunit_unique(WORKUNIT&);
     void insert_result(RESULT&);
-    void insert_message(const USER_MESSAGE&);
+    void insert_message(const char* msg, const char* prio);
+    void insert_message(USER_MESSAGE&);
     void set_delay(double);
 };
 

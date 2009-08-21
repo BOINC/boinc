@@ -104,7 +104,7 @@ static void get_weak_auth(USER& user, char* buf) {
 }
 
 static void send_error_message(const char* msg, int delay) {
-    g_reply->insert_message(USER_MESSAGE(msg, "low"));
+    g_reply->insert_message(msg, "low");
     g_reply->set_delay(delay);
     g_reply->nucleus_only = true;
 }
@@ -254,9 +254,7 @@ int authenticate_user() {
             }
         }
         if (retval) {
-            g_reply->insert_message(
-                USER_MESSAGE("Can't find host record", "low")
-            );
+            g_reply->insert_message("Can't find host record", "low");
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d?] can't find host\n",
                 g_request->hostid
@@ -298,10 +296,8 @@ int authenticate_user() {
                 retval = user.lookup(buf);
                 if (retval) {
                     g_reply->insert_message(
-                        USER_MESSAGE("Invalid or missing account key.  "
-                            "Detach and reattach to this project to fix this.",
-                            "high"
-                        )
+                        "Invalid or missing account key.  To fix, detach and reattach to this project.",
+                        "high"
                     );
                     g_reply->set_delay(DELAY_MISSING_KEY);
                     g_reply->nucleus_only = true;
@@ -367,11 +363,8 @@ lookup_user_and_make_new_host:
         }
         if (retval) {
             g_reply->insert_message(
-                USER_MESSAGE(
-                    "Invalid or missing account key.  "
-                    "Detach and reattach to this project to fix this.",
-                    "low"
-                )
+                "Invalid or missing account key.  To fix, detach and reattach to this project .",
+                "low"
             );
             g_reply->set_delay(DELAY_MISSING_KEY);
             log_messages.printf(MSG_CRITICAL,
@@ -442,7 +435,7 @@ make_new_host:
         retval = host.insert();
         if (retval) {
             g_reply->insert_message(
-                USER_MESSAGE("Couldn't create host record in database", "low")
+                "Couldn't create host record in database", "low"
             );
             boinc_db.print_error("host.insert()");
             log_messages.printf(MSG_CRITICAL, "host.insert() failed\n");
@@ -658,7 +651,7 @@ int send_result_abort() {
             // send user message 
             char buf[256];
             sprintf(buf, "Result %s is no longer usable", orp.name);
-            g_reply->insert_message(USER_MESSAGE(buf, "high"));
+            g_reply->insert_message(buf, "high");
         } else if (orp.abort_if_not_started) {
             g_reply->result_abort_if_not_starteds.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
@@ -806,12 +799,10 @@ bool send_code_sign_key(char* code_sign_key) {
                 retval = read_file_malloc(path, oldkey);
                 if (retval) {
                     g_reply->insert_message(
-                        USER_MESSAGE(
-                           "You may have an outdated code verification key.  "
-                           "This may prevent you from accepting new executables.  "
-                           "If the problem persists, detach/attach the project. ",
-                           "high"
-                        )
+                       "You may have an outdated code signing key.  "
+                       "This may prevent you from accepting new executables.  "
+                       "If the problem persists, detach/attach the project. ",
+                       "high"
                     );
                     return false;
                 }
@@ -820,12 +811,10 @@ bool send_code_sign_key(char* code_sign_key) {
                     retval = read_file_malloc(path, signature);
                     if (retval) {
                         g_reply->insert_message(
-                            USER_MESSAGE(
-                               "You may have an outdated code verification key.  "
-                               "This may prevent you from accepting new executables.  "
-                               "If the problem persists, detach/attach the project. ",
-                               "high"
-                            )
+                           "You may have an outdated code signing key.  "
+                           "This may prevent you from accepting new executables.  "
+                           "If the problem persists, detach/attach the project. ",
+                           "high"
                         );
                     } else {
                         safe_strcpy(g_reply->code_sign_key, code_sign_key);
@@ -877,9 +866,9 @@ void warn_user_if_core_client_upgrade_scheduled() {
             // bump to high.
             //
             if (days<3) {
-                g_reply->insert_message(USER_MESSAGE(msg, "high"));
+                g_reply->insert_message(msg, "high");
             } else {
-                g_reply->insert_message(USER_MESSAGE(msg, "low"));
+                g_reply->insert_message(msg, "low");
             }
             log_messages.printf(MSG_DEBUG,
                 "Sending warning: upgrade client %d.%d.%d within %d days %d hours\n",
@@ -910,7 +899,7 @@ bool unacceptable_os() {
             sprintf(buf, "This project doesn't support OS type %s %s",
                 g_request->host.os_name, g_request->host.os_version
             );
-            g_reply->insert_message(USER_MESSAGE(buf, "low"));
+            g_reply->insert_message(buf, "low");
             g_reply->set_delay(DELAY_UNACCEPTABLE_OS);
             return true;
         }
@@ -935,7 +924,7 @@ bool unacceptable_cpu() {
             sprintf(buf, "This project doesn't support CPU type %s %s",
                 g_request->host.p_vendor, g_request->host.p_model
             );
-            g_reply->insert_message(USER_MESSAGE(buf, "low"));
+            g_reply->insert_message(buf, "low");
             g_reply->set_delay(DELAY_UNACCEPTABLE_OS);
             return true;
         }
@@ -965,7 +954,7 @@ bool wrong_core_client_version() {
         }
     }
     if (wrong_version) {
-        g_reply->insert_message(USER_MESSAGE(msg, "low"));
+        g_reply->insert_message(msg, "low");
         g_reply->set_delay(DELAY_BAD_CLIENT_VERSION);
         return true;
     }
@@ -1048,16 +1037,12 @@ bool bad_install_type() {
                     "Vista secure install - not sending work\n"
                 );
                 g_reply->insert_message(
-                    USER_MESSAGE(
-                        "Unable to send work to Vista with BOINC installed in protected mode",
-                        "high"
-                    )
+                    "Unable to send work to Vista with BOINC installed in protected mode",
+                    "high"
                 );
                 g_reply->insert_message(
-                    USER_MESSAGE(
-                        "Please reinstall BOINC and uncheck 'Protected application execution'",
-                        "high"
-                    )
+                    "Please reinstall BOINC and uncheck 'Protected application execution'",
+                    "high"
                 );
             }
         }
@@ -1131,7 +1116,7 @@ void process_request(char* code_sign_key) {
         && (g_request->results.size() == 0)
         && (g_request->hostid != 0)
     ) {
-        g_reply->insert_message(USER_MESSAGE("No work available", "low"));
+        g_reply->insert_message("No work available", "low");
         g_reply->set_delay(DELAY_NO_WORK_SKIP);
         if (!config.msg_to_host) {
             log_messages.printf(MSG_NORMAL, "No work - skipping DB access\n");
@@ -1234,7 +1219,7 @@ void process_request(char* code_sign_key) {
     }
     if (g_request->platforms.list.size() == 0) {
         sprintf(buf, "platform '%s' not found", g_request->platform.name);
-        g_reply->insert_message(USER_MESSAGE(buf, "low"));
+        g_reply->insert_message(buf, "low");
         log_messages.printf(MSG_CRITICAL,
             "[HOST#%d] platform '%s' not found\n",
             g_reply->host.id, g_request->platform.name
@@ -1294,7 +1279,7 @@ void process_request(char* code_sign_key) {
                     sprintf(buf,
                         "Not sending work - last request too recent: %d sec", (int)diff
                     );
-                    g_reply->insert_message(USER_MESSAGE(buf, "low"));
+                    g_reply->insert_message(buf, "low");
 
                     // the 1.01 is in case client's clock
                     // is slightly faster than ours
@@ -1307,12 +1292,7 @@ void process_request(char* code_sign_key) {
             }
         }
         if (g_wreq->no_jobs_available) {
-            g_reply->insert_message(
-                USER_MESSAGE(
-                    "(Project has no jobs available)",
-                    "high"
-                )
-            );
+            g_reply->insert_message("(Project has no jobs available)", "high");
         }
     }
 
@@ -1379,7 +1359,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
     } else {
         sprintf(buf, "Error in request message: %s", p);
         log_incomplete_request();
-        sreply.insert_message(USER_MESSAGE(buf, "low"));
+        sreply.insert_message(buf, "low");
     }
 
     if ((config.locality_scheduling || config.locality_scheduler_fraction) && !sreply.nucleus_only) {
