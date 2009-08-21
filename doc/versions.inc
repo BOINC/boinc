@@ -117,6 +117,14 @@ $w5816= array(
     "type"=>"win_new",
 );
 
+$m610dev = array(
+    "num"=>"6.10.0",
+    "status"=>"Development version (standard GUI)",
+    "file"=>"boinc_6.10.0_macOSX_universal.zip",
+    "date"=>"21 Aug 2009",
+    "type"=>"mac_advanced",
+);
+
 $m66 = array(
     "num"=>"6.6.36",
     "status"=>"Recommended version (standard GUI)",
@@ -131,6 +139,14 @@ $m6218 = array(
     "file"=>"boinc_6.2.18_macOSX_universal.zip",
     "date"=>"18 Aug 2008",
     "type"=>"mac_advanced",
+);
+
+$m610cdev = array(
+    "num"=>"6.10.0",
+    "status"=>"Development version (Unix command-line version)",
+    "file"=>"boinc_6.10.0_universal-apple-darwin.zip",
+    "date"=>"21 Aug 2009",
+    "type"=>"bare_core",
 );
 
 $m66c = array(
@@ -225,6 +241,8 @@ $mac = array(
     "description"=>"Version 10.3.9+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
+        $m610dev,
+        $m610cdev,
         $m66,
         $m66c,
         $m6218,
