@@ -7075,7 +7075,6 @@ David  19 Aug 2009
     py/Boinc/
         setup_project.py
 
-
 Eric K 20 Aug 2009
     - Moved credit.cpp into to the scheduler library
     - Added a separate GPU memory requirement for the CUDA23 plan
@@ -7084,3 +7083,12 @@ Eric K 20 Aug 2009
         sched_customize.cpp
         sched_customize.h
 
+Charlie 21 Aug 2009
+    - Mac: Add x86_64 screensaver for Snow Leopard OS 10.6.
+        Note: OS 10.6 is not yet released, so I am building the x86_64 
+        screensaver separately using a beta version of OS 10.6 and its 
+        development tools, then merging it into the current build, so 
+        this change is to the release script.
+    
+    mac_installer/
+        release_boinc.sh
