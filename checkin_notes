@@ -7074,3 +7074,13 @@ David  19 Aug 2009
 
     py/Boinc/
         setup_project.py
+
+
+Eric K 20 Aug 2009
+    - Moved credit.cpp into to the scheduler library
+    - Added a separate GPU memory requirement for the CUDA23 plan
+    sched/
+        Makefile.am
+        sched_customize.cpp
+        sched_customize.h
+
