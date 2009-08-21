@@ -43,7 +43,7 @@
 
 // Flags for testing & debugging
 #define CREATE_LOG 0
-#define USE_SPECIAL_LOG_FILE 0
+#define USE_SPECIAL_LOG_FILE 1
 
 #define TEXTLOGOFREQUENCY 60 /* Number of times per second to update moving logo with text */
 #define NOTEXTLOGOFREQUENCY 4 /* Times per second to call animateOneFrame if no moving logo with text */
@@ -72,7 +72,7 @@ extern CFStringRef gPathToBundleResources;
 
 static SaverState saverState = SaverState_Idle;
 // int gQuitCounter = 0;
-static long gSystemVersion = 0;
+static SInt32 gSystemVersion = 0;
 
 
 const char * CantLaunchCCMsg = "Unable to launch BOINC application.";
@@ -243,7 +243,7 @@ OSStatus CScreensaver::initBOINCApp() {
     OSStatus err;
     static int retryCount = 0;
     long brandId = 0;
-    
+
     saverState = SaverState_CantLaunchCoreClient;
     
     brandId = GetBrandID();
@@ -743,8 +743,8 @@ void print_to_log_file(const char *format, ...) {
     f = fopen(buf, "a");
     if (!f) return;
 
-  freopen(buf, "a", stdout);
-  freopen(buf, "a", stderr);
+//  freopen(buf, "a", stdout);
+//  freopen(buf, "a", stderr);
 #else
     #define f stderr
 #endif

@@ -6993,3 +6993,24 @@ Rom    18 Aug 2009
     /
         configure.ac
         version.h
+
+Charlie 18 Aug 2009
+    - Mac SS: Changes for compatibility with OS 10.6 while maintaining 
+        OS 10.3.9 compatibility. (Checked in to 6.10.0 tag.)
+        
+    clientscr/
+        mac_saver_module.cpp
+        Mac_Saver_ModuleView.m
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
+Charlie 21 Aug 2009
+    - Mac: Add x86_64 screensaver for Snow Leopard OS 10.6.
+        Note: OS 10.6 is not yet released, so I am building the x86_64 
+        screensaver separately using a beta version of OS 10.6 and its 
+        development tools, then merging it into the current build, so 
+        this change is to the release script. (Checked in to 6.10.0 tag.)
+    
+    mac_installer/
+        release_boinc.sh
