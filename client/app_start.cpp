@@ -22,6 +22,10 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#define strdup   _strdup
+#endif
 #else
 #include "config.h"
 #if HAVE_SYS_TIME_H

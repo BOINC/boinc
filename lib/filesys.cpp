@@ -19,6 +19,10 @@
 #include "boinc_win.h"
 #endif
 
+#ifdef _MSC_VER
+#define getcwd  _getcwd
+#endif
+
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 #include "config.h"
 #ifdef _USING_FCGI_

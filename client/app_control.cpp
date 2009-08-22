@@ -19,9 +19,14 @@
 
 #include "cpp.h"
 
+
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
 #ifndef STATUS_SUCCESS
 #define STATUS_SUCCESS 0x0                 // may be in ntstatus.h
 #endif

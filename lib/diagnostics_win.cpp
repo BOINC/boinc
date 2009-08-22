@@ -22,6 +22,12 @@
 #include "boinc_win.h"
 #endif
 
+#ifdef _MSC_VER
+#define snprintf    _snprintf
+#define strdate     _strdate
+#define strtime     _strtime
+#endif
+
 #ifndef __CYGWIN32__
 #include "stackwalker_win.h"
 #endif

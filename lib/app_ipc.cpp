@@ -18,7 +18,9 @@
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #endif
-
+#ifdef _MSC_VER
+#define strdup _strdup
+#endif
 #ifndef _WIN32
 #include "config.h"
 #include <cstring>

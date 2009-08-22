@@ -46,6 +46,10 @@
 #include "boinc_win.h"
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "diagnostics.h"
 #include "stackwalker_win.h"
 #include "stackwalker_imports.h"

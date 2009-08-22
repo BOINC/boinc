@@ -17,6 +17,10 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#ifdef _MSC_VER
+#define unlink _unlink
+#define chdir _chdir
+#endif
 #else
 #include "config.h"
 #include <cstring>

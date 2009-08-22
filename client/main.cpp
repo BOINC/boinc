@@ -23,6 +23,9 @@
 #include "boinc_win.h"
 #include "sysmon_win.h"
 #include "win_util.h"
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
 
 extern HINSTANCE g_hClientLibraryDll;
 typedef BOOL (CALLBACK* ClientLibraryStartup)();

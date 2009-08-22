@@ -18,14 +18,10 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-#ifdef _WIN32
-#include "boinc_win.h"
-#else
 #include <cstdio>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#endif
 
 #include "miofile.h"
 

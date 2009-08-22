@@ -31,6 +31,10 @@
 // If dirs are specified, chdir into each directory in sequence,
 // do the above for each one, and write summary info to stdout
 
+#ifdef _MSC_VER
+#define chdir _chdir
+#endif
+
 #include "error_numbers.h"
 #include "str_util.h"
 #include "util.h"

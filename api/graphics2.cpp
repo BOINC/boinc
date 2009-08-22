@@ -17,6 +17,12 @@
 
 // platform-independent part of graphics library
 //
+
+#ifdef _MSC_VER
+#define strdup _strdup
+#define snprintf _snprintf
+#endif
+
 #include "util.h"
 #include "app_ipc.h"
 #include "shmem.h"

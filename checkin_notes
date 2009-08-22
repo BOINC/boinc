@@ -7124,3 +7124,39 @@ Charlie 21 Aug 2009
 
     lib/
         procinfo_mac.cpp
+
+David  22 Aug 2009
+	- client/libs/samples: remove "#define read _read" etc. from boinc_win.h
+		These cause problems when "read" is a member name, etc.
+		Do these #defines, conditioned on _MSC_VER,
+		in the files that actually need them.
+	- don't include boinc_win.h from parse.h.
+		principle of minimal inclusion
+
+	api/
+		graphics2.cpp
+	client/
+		app_control.cpp
+		app_start.cpp
+		cs_cmdline.cpp
+		file_names.cpp
+		hostinfo_win.cpp
+		http_curl.cpp
+		log_flags.cpp
+		main.cpp
+		sim.cpp
+		sim_util.cpp
+	lib/
+		app_ipc.cpp
+		boinc_win.h
+		cert_sig.cpp
+		crypt.cpp
+		diagnostics.cpp
+		diagnostics_win.cpp
+		filesys.cpp
+		gui_rpc_client.cpp
+		parse.cpp,h
+		stackwalker.cpp
+		util.cpp
+	samples/multi_thread/
+		multi_thread.cpp

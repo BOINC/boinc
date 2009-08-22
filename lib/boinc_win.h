@@ -201,27 +201,6 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #endif
 #endif
 
-
-#ifndef __CYGWIN__
-
-#define vsnprintf               _vsnprintf
-#define snprintf                _snprintf
-#define stprintf                _stprintf
-#define stricmp                 _stricmp
-#define strdup                  _strdup
-#define fdopen                  _fdopen
-#define dup                     _dup
-#define unlink                  _unlink
-#define read                    _read
-#define stat                    _stat
-#define chdir                   _chdir
-#define finite                  _finite
-#define strdate                 _strdate
-#define strtime                 _strtime
-#define getcwd                  _getcwd
-
-#endif
-
 #ifndef __GNUC__
 #define __attribute__(x)
 #endif

@@ -16,6 +16,10 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "boinc_win.h"
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #ifndef __CYGWIN__
 #include <intrin.h>
 #endif

@@ -22,6 +22,12 @@
 #include "boinc_win.h"
 #endif
 
+#ifdef _MSC_VER
+#define snprintf    _snprintf
+#define strdate     _strdate
+#define strtime     _strtime
+#endif
+
 #ifdef __EMX__
 #include <sys/stat.h>
 #endif

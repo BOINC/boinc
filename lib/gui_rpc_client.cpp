@@ -24,6 +24,9 @@
 
 #ifdef _WIN32
 #include "../version.h"
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
 #else
 #include "config.h"
 #ifdef __EMX__

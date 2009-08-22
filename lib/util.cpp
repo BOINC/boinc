@@ -20,6 +20,9 @@
 #endif
 #ifdef _WIN32
 #include "win_util.h"
+#ifdef _MSC_VER
+#define finite _finite
+#endif
 #endif
 
 #ifndef M_LN2
