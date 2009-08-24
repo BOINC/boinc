@@ -7175,3 +7175,11 @@ David  24 Aug 2009
         tools.py
     tools/
         update_versions
+
+David  24 Aug 2009
+    - add vm_wrapper sample app (from Jarno Rantala, CERN)
+
+    samples/vm_wrapper/
+        job.xml
+        VMWrapper.py
+        setupPyBOINC.py
