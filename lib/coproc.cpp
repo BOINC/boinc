@@ -61,6 +61,21 @@ void COPROC::write_xml(MIOFILE& f) {
 }
 #endif
 
+int COPROC_REQ::parse(MIOFILE& fin) {
+    char buf[1024];
+    strcpy(type, "");
+    count = 0;
+    while (fin.fgets(buf, sizeof(buf))) {
+        if (match_tag(buf, "</coproc>")) {
+            if (!strlen(type)) return ERR_XML_PARSE;
+            return 0;
+        }
+        if (parse_str(buf, "<type>", type, sizeof(type))) continue;
+        if (parse_double(buf, "<count>", count)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
 int COPROC::parse(MIOFILE& fin) {
     char buf[1024];
     strcpy(type, "");
