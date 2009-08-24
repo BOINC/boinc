@@ -69,6 +69,9 @@ def get_api_version(exec_file):
             return s[k:]
     return ''
 
+# we've scanned an app version directory or file.
+# Now prepare to add it to the DB, and copy its files to the download dir
+#
 def add_files(
     app,                # the entry from application DB table
     match,              # the output of re_match_exec_filename(exec_files[0])
@@ -131,13 +134,15 @@ def add_files(
 
     objects_to_commit.append(object)
 
-# Return a match if the filename is a possible exec file name (or installer)
+# Return a match if the filename is a possible app version
 # i.e. it's of the form NAME_VERSION_PLATFORM[__PLAN-CLASS][.ext]
 
 def re_match_exec_filename(filepath):
     file = os.path.basename(filepath)
     return re.match('[^.]+_([0-9]+)[.]([0-9]+)_([^.]+?(?:[0-9][0-9.]*[0-9])?)(__[^.]+)?(?:[.][a-zA-Z0-9\_\-]*)?$', file)
 
+# scan the directory of a given application, process its app versions
+#
 def find_versions(app, dir):
     """Find application versions in DIR.
     If directory contains sub-directories,
@@ -191,9 +196,8 @@ def touch_file(fname):
     file_ptr = open(fname, 'w')
     file_ptr.close()
 
-# Process an app that is a bundle of files in a directory of the same name,
-# possibly with signature files included.
- 
+# Process a multi-file app version
+# 
 def find_versions__process_bundle(app, match, dir):
     '''add executable + bundle as app version'''
     exec_files = []
@@ -212,7 +216,7 @@ def find_versions__process_bundle(app, match, dir):
             exec_files.insert(0, filepath)
             found_main = True
             continue
-        # if filename is of format 'EXECFILE.sig' treat it as signature file
+        # if filename ends with '.sig', treat it as signature file
         if filepath.endswith('.sig'):
             s = filepath[:-4]
             signature_files[s] = filepath

@@ -7160,3 +7160,18 @@ David  22 Aug 2009
 		util.cpp
 	samples/multi_thread/
 		multi_thread.cpp
+
+David  24 Aug 2009
+    - update_versions: if app version files already exist in download dir,
+        make sure they're the same (i.e., enforce file immutability).
+        TODO: do this for input files too
+    - client: check return values from CUDA device detection functions
+
+    client/
+        main.h
+    lib/
+        coproc.cpp
+    py/Boinc/
+        tools.py
+    tools/
+        update_versions

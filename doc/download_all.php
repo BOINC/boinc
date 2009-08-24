@@ -215,7 +215,7 @@ if ($xml) {
         from diskless clients,
         and it also has some interfaces to set up the diskless server
         and the clients automatically.
-        <a href=boincdl.ssl.berkeley.edu/dl/dotsch_ux-10.iso>Download</a>
+        <a href=http://boincdl3.ssl.berkeley.edu/mirror/dotsch_ux-10.iso>Download</a>
         the image (515 MB).
 
         <h3>Customizing this page</h3>
