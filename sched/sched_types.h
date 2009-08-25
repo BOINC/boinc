@@ -61,8 +61,8 @@ struct USER_MESSAGE {
 };
 
 struct HOST_USAGE {
-    int ncudas;
-    int natis;
+    double ncudas;
+    double natis;
     double avg_ncpus;
     double max_ncpus;
     double flops;

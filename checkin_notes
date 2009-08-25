@@ -7036,3 +7036,29 @@ David  18 Aug 2009
 
     clientgui/
         DlgAdvPreferences.cpp
+
+David  19 Aug 2009
+    - client and scheduler: lay the groundwork for "fractional coproc jobs",
+        e.g. the Milkyway@home ATI app, of which we can typically run
+        2 or 3 instances at once on a GPU.
+        Changes include:
+        - In APP_VERSION, don't use a COPROCS to represent the GPU
+            requirements; just use doubles ncudas and natis.
+        - sufficient_coprocs() etc. are no longer members of COPROCS
+        - in HOST_USAGE, ncudas and natis are doubles
+        - in scheduler request, req_instances is now a double
+
+        This checkin doesn't include the job scheduling logic,
+        i.e. assigning jobs to GPUs.  That will follow.
+
+    client/
+        app_start.cpp
+        client_types.cpp,h
+        cpu_sched.cpp
+        cs_scheduler.cpp
+        scheduler_op.cpp
+    lib/
+        coproc.h
+    sched/
+        sched_customize.cpp
+        sched_types.cpp,h

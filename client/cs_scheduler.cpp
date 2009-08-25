@@ -748,8 +748,8 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
             avp->max_ncpus = avpp.max_ncpus;
             avp->flops = avpp.flops;
             strcpy(avp->cmdline, avpp.cmdline);
-            avp->coprocs.delete_coprocs();
-            avp->coprocs = avpp.coprocs;
+            avp->ncudas = avpp.ncudas;
+            avp->natis = avpp.natis;
             strlcpy(avp->api_version, avpp.api_version, sizeof(avp->api_version));
 
             // if we had download failures, clear them

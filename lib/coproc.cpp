@@ -77,7 +77,7 @@ int COPROC::parse(MIOFILE& fin) {
         if (parse_str(buf, "<type>", type, sizeof(type))) continue;
         if (parse_int(buf, "<count>", count)) continue;
         if (parse_double(buf, "<req_secs>", req_secs)) continue;
-        if (parse_int(buf, "<req_instances>", req_instances)) continue;
+        if (parse_double(buf, "<req_instances>", req_instances)) continue;
         if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
     }
     return ERR_XML_PARSE;
@@ -408,7 +408,7 @@ void COPROC_CUDA::write_xml(MIOFILE& f) {
         "   <count>%d</count>\n"
         "   <name>%s</name>\n"
         "   <req_secs>%f</req_secs>\n"
-        "   <req_instances>%d</req_instances>\n"
+        "   <req_instances>%f</req_instances>\n"
         "   <estimated_delay>%f</estimated_delay>\n"
         "   <drvVersion>%d</drvVersion>\n"
         "   <cudaVersion>%d</cudaVersion>\n"
@@ -494,7 +494,7 @@ int COPROC_CUDA::parse(FILE* fin) {
         }
         if (parse_int(buf, "<count>", count)) continue;
         if (parse_double(buf, "<req_secs>", req_secs)) continue;
-        if (parse_int(buf, "<req_instances>", req_instances)) continue;
+        if (parse_double(buf, "<req_instances>", req_instances)) continue;
         if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
         if (parse_str(buf, "<name>", prop.name, sizeof(prop.name))) continue;
         if (parse_int(buf, "<drvVersion>", display_driver_version)) continue;
@@ -679,6 +679,9 @@ void COPROC_ATI::write_xml(MIOFILE& f) {
         "<coproc_ati>\n"
         "   <count>%d</count>\n"
         "   <name>%s</name>\n"
+        "   <req_secs>%f</req_secs>\n"
+        "   <req_instances>%f</req_instances>\n"
+        "   <estimated_delay>%f</estimated_delay>\n"
         "   <localRAM>%d</localRAM>\n"
         "   <uncachedRemoteRAM>%d</uncachedRemoteRAM>\n"
         "   <cachedRemoteRAM>%d</cachedRemoteRAM>\n"
@@ -693,6 +696,9 @@ void COPROC_ATI::write_xml(MIOFILE& f) {
         "</coproc_ati>\n",
         count,
         name,
+        req_secs,
+        req_instances,
+        estimated_delay,
         attribs.localRAM,
         attribs.uncachedRemoteRAM,
         attribs.cachedRemoteRAM,
@@ -710,6 +716,10 @@ void COPROC_ATI::write_xml(MIOFILE& f) {
 
 void COPROC_ATI::clear() {
 	count = 0;
+    used = 0;
+    req_secs = 0;
+    req_instances = 0;
+    estimated_delay = -1;
 	strcpy(name, "");
 	strcpy(version, "");
 	attribs.localRAM = 0;
@@ -733,6 +743,10 @@ int COPROC_ATI::parse(FILE* fin) {
         if (strstr(buf, "</coproc_ati>")) return 0;
         if (parse_int(buf, "<count>", count)) continue;
 		if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_double(buf, "<req_secs>", req_secs)) continue;
+        if (parse_double(buf, "<req_instances>", req_instances)) continue;
+        if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
+
 		if (parse_int(buf, "<localRAM>", n)) {
             attribs.localRAM = n;
             continue;

@@ -64,69 +64,68 @@ using std::vector;
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
-bool COPROCS::sufficient_coprocs(
-    COPROCS& needed, bool log_flag, const char* prefix
+static bool sufficient_coprocs(
+    APP_VERSION& av, bool log_flag, const char* prefix
 ) {
-    for (unsigned int i=0; i<needed.coprocs.size(); i++) {
-        COPROC* cp = needed.coprocs[i];
-        COPROC* cp2 = lookup(cp->type);
-        if (!cp2) {
-            msg_printf(NULL, MSG_INTERNAL_ERROR,
-                "Missing a %s coprocessor", cp->type
+    double x;
+    int rsc_type;
+    if (av.ncudas) {
+        x = av.ncudas;
+        rsc_type = RSC_TYPE_CUDA;
+    } else if (av.natis) {
+        x = av.natis;
+        rsc_type = RSC_TYPE_ATI;
+    } else {
+        return true;
+    }
+    COPROC* cp2 = (rsc_type==RSC_TYPE_CUDA)?(COPROC*)coproc_cuda:(COPROC*)coproc_ati;
+
+    if (!cp2) {
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
+            "Missing a %s coprocessor", cp2->type
+        );
+        return false;
+    }
+    if (cp2->used + x > cp2->count) {
+        if (log_flag) {
+            msg_printf(NULL, MSG_INFO,
+                "[%s] rr_sim: insufficient coproc %s (%f + %f > %d)",
+                prefix, cp2->type, cp2->used, x, cp2->count
             );
-            return false;
         }
-        if (cp2->used + cp->count > cp2->count) {
-            if (log_flag) {
-                msg_printf(NULL, MSG_INFO,
-                    "[%s] rr_sim: insufficient coproc %s (%d + %d > %d)",
-                    prefix, cp2->type, cp2->used, cp->count, cp2->count
-                );
-            }
-            return false;
-        }
+        return false;
     }
     return true;
 }
 
-void COPROCS::reserve_coprocs(
-    COPROCS& needed, bool log_flag, const char* prefix
+static void reserve_coprocs(
+    APP_VERSION& av, bool log_flag, const char* prefix
 ) {
-    for (unsigned int i=0; i<needed.coprocs.size(); i++) {
-        COPROC* cp = needed.coprocs[i];
-        COPROC* cp2 = lookup(cp->type);
-        if (!cp2) {
-            msg_printf(NULL, MSG_INTERNAL_ERROR,
-                "Coproc type %s not found", cp->type
-            );
-            continue;
-        }
-        if (log_flag) {
-            msg_printf(NULL, MSG_INFO,
-                "[%s] reserving %d of coproc %s", prefix, cp->count, cp2->type
-            );
-        }
-        cp2->used += cp->count;
+    double x;
+    int rsc_type;
+    if (av.ncudas) {
+        x = av.ncudas;
+        rsc_type = RSC_TYPE_CUDA;
+    } else if (av.natis) {
+        x = av.natis;
+        rsc_type = RSC_TYPE_ATI;
+    } else {
+        return;
     }
-}
-
-#if 0
-void COPROCS::free_coprocs(
-    COPROCS& needed, bool log_flag, const char* prefix
-) {
-    for (unsigned int i=0; i<needed.coprocs.size(); i++) {
-        COPROC* cp = needed.coprocs[i];
-        COPROC* cp2 = lookup(cp->type);
-        if (!cp2) continue;
-        if (log_flag) {
-            msg_printf(NULL, MSG_INFO,
-                "[%s] freeing %d of coproc %s", prefix, cp->count, cp2->type
-            );
-        }
-        cp2->used -= cp->count;
+    COPROC* cp2 = (rsc_type==RSC_TYPE_CUDA)?(COPROC*)coproc_cuda:(COPROC*)coproc_ati;
+    if (!cp2) {
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
+            "Coproc type %s not found", cp2->type
+        );
+        return;
     }
+    if (log_flag) {
+        msg_printf(NULL, MSG_INFO,
+            "[%s] reserving %f of coproc %s", prefix, x, cp2->type
+        );
+    }
+    cp2->used += x;
 }
-#endif
 
 // return true if the task has finished its time slice
 // and has checkpointed in last 10 secs
@@ -505,8 +504,8 @@ struct PROC_RESOURCES {
             if (gstate.user_active && !gstate.global_prefs.run_gpu_if_user_active) {
                 return false;
             }
-            if (coprocs.sufficient_coprocs(
-                rp->avp->coprocs, log_flags.cpu_sched_debug, "cpu_sched_debug")
+            if (sufficient_coprocs(
+                *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug")
             ) {
                 return true;
             } else {
@@ -527,8 +526,8 @@ struct PROC_RESOURCES {
     // we've decided to run this - update bookkeeping
     //
     void schedule(RESULT* rp) {
-        coprocs.reserve_coprocs(
-            rp->avp->coprocs, log_flags.cpu_sched_debug, "cpu_sched_debug"
+        reserve_coprocs(
+            *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug"
         );
         ncpus_used += rp->avp->avg_ncpus;
     }
