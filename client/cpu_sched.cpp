@@ -64,68 +64,121 @@ using std::vector;
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
-static bool sufficient_coprocs(
-    APP_VERSION& av, bool log_flag, const char* prefix
-) {
-    double x;
-    int rsc_type;
-    if (av.ncudas) {
-        x = av.ncudas;
-        rsc_type = RSC_TYPE_CUDA;
-    } else if (av.natis) {
-        x = av.natis;
-        rsc_type = RSC_TYPE_ATI;
-    } else {
+// used in schedule_cpus() to keep track of resources used
+// by jobs tentatively scheduled so far
+//
+struct PROC_RESOURCES {
+    int ncpus;
+    double ncpus_used;
+    double ram_left;
+    COPROCS coprocs;
+
+    // should we stop scanning jobs?
+    //
+    inline bool stop_scan_cpu() {
+        return ncpus_used >= ncpus;
+    }
+
+    inline bool stop_scan_coproc() {
+        return coprocs.fully_used();
+    }
+
+    // should we consider scheduling this job?
+    //
+    bool can_schedule(RESULT* rp) {
+        if (rp->uses_coprocs()) {
+            if (gstate.user_active && !gstate.global_prefs.run_gpu_if_user_active) {
+                return false;
+            }
+            if (sufficient_coprocs(
+                *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug")
+            ) {
+                return true;
+            } else {
+                if (log_flags.cpu_sched_debug) {
+                    msg_printf(rp->project, MSG_INFO,
+                        "[cpu_sched_debug] insufficient coprocessors for %s", rp->name
+                    );
+                }
+                return false;
+            }
+        } else {
+            // otherwise, only if CPUs are available
+            //
+            return (ncpus_used < ncpus);
+        }
+    }
+
+    // we've decided to run this - update bookkeeping
+    //
+    void schedule(RESULT* rp) {
+        reserve_coprocs(
+            *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug"
+        );
+        ncpus_used += rp->avp->avg_ncpus;
+    }
+
+    bool sufficient_coprocs(
+        APP_VERSION& av, bool log_flag, const char* prefix
+    ) {
+        double x;
+        COPROC* cp2;
+        if (av.ncudas) {
+            x = av.ncudas;
+            cp2 = coprocs.lookup("CUDA");
+        } else if (av.natis) {
+            x = av.natis;
+            cp2 = coprocs.lookup("ATI");
+        } else {
+            return true;
+        }
+        if (!cp2) {
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
+                "Missing a %s coprocessor", cp2->type
+            );
+            return false;
+        }
+        if (cp2->used + x > cp2->count) {
+            if (log_flag) {
+                msg_printf(NULL, MSG_INFO,
+                    "[%s] rr_sim: insufficient coproc %s (%f + %f > %d)",
+                    prefix, cp2->type, cp2->used, x, cp2->count
+                );
+            }
+            return false;
+        }
         return true;
     }
-    COPROC* cp2 = (rsc_type==RSC_TYPE_CUDA)?(COPROC*)coproc_cuda:(COPROC*)coproc_ati;
 
-    if (!cp2) {
-        msg_printf(NULL, MSG_INTERNAL_ERROR,
-            "Missing a %s coprocessor", cp2->type
-        );
-        return false;
-    }
-    if (cp2->used + x > cp2->count) {
+    void reserve_coprocs(
+        APP_VERSION& av, bool log_flag, const char* prefix
+    ) {
+        double x;
+        COPROC* cp2;
+        int rsc_type;
+        if (av.ncudas) {
+            x = av.ncudas;
+            cp2 = coprocs.lookup("CUDA");
+        } else if (av.natis) {
+            x = av.natis;
+            cp2 = coprocs.lookup("ATI");
+        } else {
+            return;
+        }
+        if (!cp2) {
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
+                "Coproc type %s not found", cp2->type
+            );
+            return;
+        }
         if (log_flag) {
             msg_printf(NULL, MSG_INFO,
-                "[%s] rr_sim: insufficient coproc %s (%f + %f > %d)",
-                prefix, cp2->type, cp2->used, x, cp2->count
+                "[%s] reserving %f of coproc %s", prefix, x, cp2->type
             );
         }
-        return false;
+        cp2->used += x;
     }
-    return true;
-}
-
-static void reserve_coprocs(
-    APP_VERSION& av, bool log_flag, const char* prefix
-) {
-    double x;
-    int rsc_type;
-    if (av.ncudas) {
-        x = av.ncudas;
-        rsc_type = RSC_TYPE_CUDA;
-    } else if (av.natis) {
-        x = av.natis;
-        rsc_type = RSC_TYPE_ATI;
-    } else {
-        return;
-    }
-    COPROC* cp2 = (rsc_type==RSC_TYPE_CUDA)?(COPROC*)coproc_cuda:(COPROC*)coproc_ati;
-    if (!cp2) {
-        msg_printf(NULL, MSG_INTERNAL_ERROR,
-            "Coproc type %s not found", cp2->type
-        );
-        return;
-    }
-    if (log_flag) {
-        msg_printf(NULL, MSG_INFO,
-            "[%s] reserving %f of coproc %s", prefix, x, cp2->type
-        );
-    }
-    cp2->used += x;
-}
+};
 
 // return true if the task has finished its time slice
 // and has checkpointed in last 10 secs
@@ -481,58 +534,6 @@ bool CLIENT_STATE::possibly_schedule_cpus() {
     return true;
 }
 
-struct PROC_RESOURCES {
-    int ncpus;
-    double ncpus_used;
-    double ram_left;
-    COPROCS coprocs;
-
-    // should we stop scanning jobs?
-    //
-    inline bool stop_scan_cpu() {
-        return ncpus_used >= ncpus;
-    }
-
-    inline bool stop_scan_coproc() {
-        return coprocs.fully_used();
-    }
-
-    // should we consider scheduling this job?
-    //
-    bool can_schedule(RESULT* rp) {
-        if (rp->uses_coprocs()) {
-            if (gstate.user_active && !gstate.global_prefs.run_gpu_if_user_active) {
-                return false;
-            }
-            if (sufficient_coprocs(
-                *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug")
-            ) {
-                return true;
-            } else {
-                if (log_flags.cpu_sched_debug) {
-                    msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched_debug] insufficient coprocessors for %s", rp->name
-                    );
-                }
-                return false;
-            }
-        } else {
-            // otherwise, only if CPUs are available
-            //
-            return (ncpus_used < ncpus);
-        }
-    }
-
-    // we've decided to run this - update bookkeeping
-    //
-    void schedule(RESULT* rp) {
-        reserve_coprocs(
-            *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug"
-        );
-        ncpus_used += rp->avp->avg_ncpus;
-    }
-};
-
 // Check whether the job can be run:
 // - it will fit in RAM
 // - we have enough shared-mem segments (old Mac problem)
@@ -818,6 +819,168 @@ void CLIENT_STATE::append_unfinished_time_slice(
     }
 }
 
+static inline void increment_pending_usage(
+    ACTIVE_TASK* atp, double usage, COPROC* cp
+) {
+    double x = (usage<1)?usage:1;
+    for (int i=0; i<usage; i++) {
+        int j = atp->coproc_indices[i];
+        cp->pending_usage[j] += x;
+    }
+}
+
+static inline bool current_assignment_ok(
+    ACTIVE_TASK* atp, double usage, COPROC* cp
+) {
+    double x = (usage<1)?usage:1;
+    for (int i=0; i<usage; i++) {
+        int j = atp->coproc_indices[i];
+        if (cp->usage[j] + x > 1) return false;
+    }
+    return true;
+}
+
+static inline void confirm_current_assignment(
+    ACTIVE_TASK* atp, double usage, COPROC* cp
+) {
+    double x = (usage<1)?usage:1;
+    for (int i=0; i<usage; i++) {
+        int j = atp->coproc_indices[i];
+        cp->usage[j] +=x;
+        cp->pending_usage[j] -=x;
+    }
+}
+
+static inline bool get_fractional_assignment(
+    ACTIVE_TASK* atp, double usage, COPROC* cp
+) {
+    int i;
+
+    // try to assign an instance that's already fractionally assigned
+    //
+    for (i=0; i<cp->count; i++) {
+        if ((cp->usage[i] || cp->pending_usage[i])
+            && (cp->usage[i] + cp->pending_usage[i] + usage <= 1)
+        ) {
+            atp->coproc_indices[0] = i;
+            cp->usage[i] += usage;
+            return true;
+        }
+    }
+
+    // failing that, assign an unreserved instance
+    //
+    for (i=0; i<cp->count; i++) {
+        if (!cp->usage[i]) {
+            atp->coproc_indices[0] = i;
+            cp->usage[i] += usage;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static inline bool get_integer_assignment(
+    ACTIVE_TASK* atp, double usage, COPROC* cp
+) {
+    int i;
+
+    // make sure we have enough unreserved instances
+    //
+    int nfree = 0;
+    for (i=0; i<cp->count; i++) {
+        if (!cp->usage[i]) {
+            nfree++;
+        }
+    }
+    if (nfree < usage) return false;
+
+    int n = 0;
+
+    for (i=0; i<cp->count; i++) {
+        if (!cp->usage[i] && !cp->pending_usage) {
+            cp->usage[i] = 1;
+            atp->coproc_indices[n++] = i;
+            if (n == usage) break;
+        }
+    }
+    for (i=0; i<cp->count; i++) {
+        if (!cp->usage[i]) {
+            cp->usage[i] = 1;
+            atp->coproc_indices[n++] = i;
+            if (n == usage) break;
+        }
+    }
+    return true;
+}
+
+static inline void assign_coprocs(vector<RESULT*> jobs) {
+    unsigned int i;
+    COPROC* cp;
+    double usage;
+
+    gstate.coprocs.clear_usage();
+
+    // fill in pending usage
+    //
+    for (i=0; i<jobs.size(); i++) {
+        RESULT* rp = jobs[i];
+        APP_VERSION* avp = rp->avp;
+        if (avp->ncudas) {
+            usage = avp->ncudas;
+            cp = coproc_cuda;
+        } else if (avp->natis) {
+            usage = avp->natis;
+            cp = coproc_ati;
+        } else {
+            continue;
+        }
+        ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
+        if (!atp) continue;
+        if (atp->task_state() != PROCESS_EXECUTING) continue;
+        increment_pending_usage(atp, usage, cp);
+    }
+    vector<RESULT*>::iterator job_iter;
+    job_iter = jobs.begin();
+    while (job_iter != jobs.end()) {
+        RESULT* rp = jobs[i];
+        APP_VERSION* avp = rp->avp;
+        if (avp->ncudas) {
+            usage = avp->ncudas;
+            cp = coproc_cuda;
+        } else if (avp->natis) {
+            usage = avp->natis;
+            cp = coproc_ati;
+        } else {
+            continue;
+        }
+        ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
+        if (atp && atp->task_state() == PROCESS_EXECUTING) {
+            if (current_assignment_ok(atp, usage, cp)) {
+                confirm_current_assignment(atp, usage, cp);
+                job_iter++;
+            } else {
+                job_iter = jobs.erase(job_iter);
+            }
+        } else {
+            if (usage < 1) {
+                if (get_fractional_assignment(atp, usage, cp)) {
+                    job_iter++;
+                } else {
+                    job_iter = jobs.erase(job_iter);
+                }
+            } else {
+                if (get_integer_assignment(atp, usage, cp)) {
+                    job_iter++;
+                } else {
+                    job_iter = jobs.erase(job_iter);
+                }
+            }
+        }
+    }
+}
+
 // Enforce the CPU schedule.
 // Inputs:
 //   ordered_scheduled_results
@@ -863,14 +1026,14 @@ bool CLIENT_STATE::enforce_schedule() {
         print_job_list(ordered_scheduled_results, false);
     }
 
-    // Set next_scheduler_state to preempt for all tasks
+    // Set next_scheduler_state to PREEMPT for all tasks
     //
     for (i=0; i< active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
     }
 
-    // make a copy of the to-run list
+    // make initial "to-run" list
     //
     vector<RESULT*>runnable_jobs;
     for (i=0; i<ordered_scheduled_results.size(); i++) {
@@ -880,11 +1043,11 @@ bool CLIENT_STATE::enforce_schedule() {
         runnable_jobs.push_back(rp);
     }
 
-    // append running jobs not done with time slice
+    // append running jobs not done with time slice to the to-run list
     //
     append_unfinished_time_slice(runnable_jobs);
 
-    // sort the result by decreasing importance
+    // sort to-run list by decreasing importance
     //
     std::sort(
         runnable_jobs.begin(),
@@ -919,7 +1082,13 @@ bool CLIENT_STATE::enforce_schedule() {
         }
     }
 
-    // Loop through the jobs we want to schedule.
+    // assign coprocessors to coproc jobs,
+    // and prune those that can't be assigned
+    //
+    assign_coprocs(runnable_jobs);
+
+    // prune jobs that don't fit in RAM or that exceed CPU usage limits.
+    // Mark the rest as SCHEDULED
     //
     ncpus_used = 0;
     for (i=0; i<runnable_jobs.size(); i++) {
@@ -946,6 +1115,10 @@ bool CLIENT_STATE::enforce_schedule() {
                 }
                 continue;
             }
+        }
+
+        if (rp->edf_scheduled && !rp->uses_coprocs()) {
+            running_edf_scheduled_job = true;
         }
 
         if (log_flags.cpu_sched_debug) {
@@ -975,6 +1148,8 @@ bool CLIENT_STATE::enforce_schedule() {
 
     bool check_swap = (host_info.m_swap != 0);
         // in case couldn't measure swap on this host
+
+    // TODO: enforcement of swap space is broken right now
 
     // preempt tasks as needed, and note whether there are any coproc jobs
     // in QUIT_PENDING state (in which case we won't start new coproc jobs)

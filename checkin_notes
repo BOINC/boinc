@@ -7062,3 +7062,23 @@ David  19 Aug 2009
     sched/
         sched_customize.cpp
         sched_types.cpp,h
+
+David  19 Aug 2009
+    - client: finish the implementation of fractional coproc jobs.
+        - different data structure for keeping track of coproc usage;
+            instead of COPROC having per-instance pointers to ACTIVE_TASK,
+            ACTIVE_TASK now has an array of device number indices
+            for each instance that it's using.
+        - in enforce_schedule(), we call a new function assign_coprocs()
+            that decides what coproc instances each job will use,
+            and prunes jobs for which we can't get an assignment.
+            This function embodies lots of subtlety.
+        - coproc_cmdline() no longer deals with reserving instances;
+            it just has to generate the --device X cmdline
+
+    client/
+        app.h
+        app_start.cpp
+        cpu_sched.cpp
+    lib/
+        coproc.h
