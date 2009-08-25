@@ -7082,3 +7082,10 @@ David  19 Aug 2009
         cpu_sched.cpp
     lib/
         coproc.h
+
+David  24 Aug 2009
+    - client: use the right library name for ATI on Linux
+    - client: check return values from ATI device detection functions
+
+    lib/
+        coproc.cpp

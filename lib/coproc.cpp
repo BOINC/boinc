@@ -198,7 +198,7 @@ void COPROC_CUDA::get(
     typedef int (__stdcall *PCGDCC)(int*, int*, int);
 
     PCGDC __cuDeviceGetCount = NULL;
-    PCGDP __cuDeviceGetProperties = NULL;
+    //PCGDP __cuDeviceGetProperties = NULL;
     PCGDV __cuDriverGetVersion = NULL;
     PCGDI __cuInit = NULL;
     PCGDG __cuDeviceGet = NULL;
@@ -214,7 +214,7 @@ void COPROC_CUDA::get(
     }
 
     __cuDeviceGetCount = (PCGDC)GetProcAddress(cudalib, "cuDeviceGetCount");
-    __cuDeviceGetProperties = (PCGDP)GetProcAddress(cudalib, "cuDeviceGetProperties");
+    //__cuDeviceGetProperties = (PCGDP)GetProcAddress(cudalib, "cuDeviceGetProperties");
     __cuDriverGetVersion = (PCGDV)GetProcAddress(cudalib, "cuDriverGetVersion" );
     __cuInit = (PCGDI)GetProcAddress(cudalib, "cuInit" );
     __cuDeviceGet = (PCGDG)GetProcAddress(cudalib, "cuDeviceGet" );
@@ -242,7 +242,7 @@ void COPROC_CUDA::get(
     void* cudalib;
     int (*__cuInit)(int);
     int (*__cuDeviceGetCount)(int*);
-    int (*__cuDeviceGetProperties)(cudaDeviceProp*, int);
+    //int (*__cuDeviceGetProperties)(cudaDeviceProp*, int);
     int (*__cuDriverGetVersion)(int*);
     int (*__cuDeviceGet)(int*, int);
     int (*__cuDeviceGetAttribute)(int*, int, int);
@@ -260,7 +260,7 @@ void COPROC_CUDA::get(
         return;
     }
     __cuDeviceGetCount = (int(*)(int*)) dlsym(cudalib, "cuDeviceGetCount");
-    __cuDeviceGetProperties = (int(*)(cudaDeviceProp*, int)) dlsym( cudalib, "cuDeviceGetProperties" );
+    //__cuDeviceGetProperties = (int(*)(cudaDeviceProp*, int)) dlsym( cudalib, "cuDeviceGetProperties" );
     __cuDriverGetVersion = (int(*)(int*)) dlsym( cudalib, "cuDriverGetVersion" );
     __cuInit = (int(*)(int)) dlsym( cudalib, "cuInit" );
     __cuDeviceGet = (int(*)(int*, int)) dlsym( cudalib, "cuDeviceGet" );
@@ -276,6 +276,31 @@ void COPROC_CUDA::get(
         return;
     }
 #endif
+
+    if (!__cuInit) {
+        strings.push_back("cuInit() missing from CUDA library");
+        return;
+    }
+    if (!__cuDeviceGetCount) {
+        strings.push_back("cuDeviceGetCount() missing from CUDA library");
+        return;
+    }
+    if (!__cuDeviceGet) {
+        strings.push_back("cuDeviceGet() missing from CUDA library");
+        return;
+    }
+    if (!__cuDeviceGetAttribute) {
+        strings.push_back("cuDeviceGetAttribute() missing from CUDA library");
+        return;
+    }
+    if (!__cuDeviceTotalMem) {
+        strings.push_back("cuDeviceTotalMem() missing from CUDA library");
+        return;
+    }
+    if (!__cuDeviceComputeCapability) {
+        strings.push_back("cuDeviceComputeCapability() missing from CUDA library");
+        return;
+    }
 
     retval = (*__cuInit)(0);
 
@@ -551,6 +576,8 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
     CALdevice device;
     CALdeviceinfo info;
     CALdeviceattribs attribs;
+    char buf[256];
+    int retval;
 
     attribs.struct_size = sizeof(CALdeviceattribs);
     device = 0;
@@ -603,9 +630,9 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
     int (*__calDeviceGetInfo)(CALdeviceinfo*, CALuint);
     int (*__calShutdown)();
 
-    callib = dlopen("libcal.so", RTLD_NOW);
+    callib = dlopen("libaticalrt.so", RTLD_NOW);
     if (!callib) {
-        strings.push_back("Can't load library libcal.so");
+        strings.push_back("Can't load library libaticalrt.so");
         return;
     }
     __calInit = (int(*)()) dlsym(callib, "calInit");
@@ -616,9 +643,45 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
     __calShutdown = (int(*)()) dlsym(callib, "calShutdown");
 #endif
 
-    (*__calInit)();
-    (*__calDeviceGetCount)(&numDevices);
-    (*__calGetVersion)(&cal_major,&cal_minor,&cal_imp);
+    if (!__calInit) {
+        strings.push_back("calInit() missing from CAL library");
+        return;
+    }
+    if (!__calDeviceGetCount) {
+        strings.push_back("calDeviceGetCount() missing from CAL library");
+        return;
+    }
+    if (!__calGetVersion) {
+        strings.push_back("calGetVersion() missing from CAL library");
+        return;
+    }
+    if (!__calDeviceGetInfo) {
+        strings.push_back("calDeviceGetInfo() missing from CAL library");
+        return;
+    }
+    if (!__calDeviceGetAttribs) {
+        strings.push_back("calDeviceGetAttribs() missing from CAL library");
+        return;
+    }
+
+    retval = (*__calInit)();
+    if (retval != CAL_RESULT_OK) {
+        sprintf(buf, "calInit() returned %d", retval);
+        strings.push_back(buf);
+        return;
+    }
+    retval = (*__calDeviceGetCount)(&numDevices);
+    if (retval != CAL_RESULT_OK) {
+        sprintf(buf, "calDeviceGetCount() returned %d", retval);
+        strings.push_back(buf);
+        return;
+    }
+    retval = (*__calGetVersion)(&cal_major, &cal_minor, &cal_imp);
+    if (retval != CAL_RESULT_OK) {
+        sprintf(buf, "calGetVersion() returned %d", retval);
+        strings.push_back(buf);
+        return;
+    }
 
     if (!numDevices) {
         strings.push_back("No usable CAL devices found");
@@ -629,8 +692,18 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
     string s, gpu_name;
     vector<COPROC_ATI> gpus;
     for (CALuint i=0; i<numDevices; i++) {
-        (*__calDeviceGetInfo)(&info, i);	
-        (*__calDeviceGetAttribs)(&attribs, i);	
+        retval = (*__calDeviceGetInfo)(&info, i);	
+        if (retval != CAL_RESULT_OK) {
+            sprintf(buf, "calDeviceGetInfo() returned %d", retval);
+            strings.push_back(buf);
+            return;
+        }
+        retval = (*__calDeviceGetAttribs)(&attribs, i);	
+        if (retval != CAL_RESULT_OK) {
+            sprintf(buf, "calDeviceGetAttribs() returned %d", retval);
+            strings.push_back(buf);
+            return;
+        }
         switch (info.target) {
         case CAL_TARGET_600: gpu_name="RV600"; break;
         case CAL_TARGET_610: gpu_name="RV610"; break;
