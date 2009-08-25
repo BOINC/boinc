@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("August 24, 2009",
+    "UNITAR, UNIGE and CERN have agreed to collaborate on a <a href=http://www.unitar.org/citizen_cyberscience_centre_project>Citizen Cyberscience Centre</a>
+    which, among other things, will promote volunteer computing."
+),
 array("August 19, 2009",
     "The EDGeS project is offering a
     <a href=http://edges-grid.eu/web/userforum/3rdtraining>tutorial on

@@ -617,7 +617,7 @@ bool XML_PARSER::parse_str(
     if (eof) return false;
     if (!is_tag) return false;
     if (strcmp(tag, end_tag)) return false;
-    strlcpy(buf, tmp, len);
+    xml_unescape(tmp, buf, len);
     return true;
 }
 

@@ -111,6 +111,7 @@ int HOST_INFO::parse(MIOFILE& in) {
 // or in a scheduler request message
 //
 int HOST_INFO::write(MIOFILE& out, bool suppress_net_info) {
+    char pv[265], pm[256], pf[256], osn[256], osv[256]
     out.printf(
         "<host_info>\n"
         "    <timezone>%d</timezone>\n",
@@ -124,6 +125,11 @@ int HOST_INFO::write(MIOFILE& out, bool suppress_net_info) {
             ip_addr
         );
     }
+    xml_escape(p_vendor, pv, sizeof(pv));
+    xml_escape(p_model, pm, sizeof(pm));
+    xml_escape(p_features, pf, sizeof(pf));
+    xml_escape(os_name, osn, sizeof(osn));
+    xml_escape(os_version, osv, sizeof(osv));
     out.printf(
         "    <host_cpid>%s</host_cpid>\n"
         "    <p_ncpus>%d</p_ncpus>\n"
@@ -144,9 +150,9 @@ int HOST_INFO::write(MIOFILE& out, bool suppress_net_info) {
         "</host_info>\n",
         host_cpid,
         p_ncpus,
-        p_vendor,
-        p_model,
-        p_features,
+        pv,
+        pm,
+        pf,
         p_fpops,
         p_iops,
         p_membw,
@@ -156,8 +162,8 @@ int HOST_INFO::write(MIOFILE& out, bool suppress_net_info) {
         m_swap,
         d_total,
         d_free,
-        os_name,
-        os_version
+        osn,
+        osv
     );
     return 0;
 }

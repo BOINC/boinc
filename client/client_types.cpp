@@ -845,6 +845,7 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
 int FILE_INFO::write(MIOFILE& out, bool to_server) {
     unsigned int i;
     int retval;
+    char buf[1024];
 
     out.printf(
         "<file_info>\n"
@@ -874,7 +875,8 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (strlen(file_signature)) out.printf("    <file_signature>\n%s</file_signature>\n", file_signature);
     }
     for (i=0; i<urls.size(); i++) {
-        out.printf("    <url>%s</url>\n", urls[i].c_str());
+        xml_escape(urls[i].c_str(), buf, sizeof(buf));
+        out.printf("    <url>%s</url>\n", buf);
     }
     if (!to_server && pers_file_xfer) {
         retval = pers_file_xfer->write(out);

@@ -7200,3 +7200,26 @@ David  24 Aug 2009
         client_types.cpp
     lib/
         coproc.cpp,h
+
+David  25 Aug 2009
+    - client: when writing XML, entity-encode the following fields:
+        FILE_INFO::url
+        HOST_INFO::p_vendor, p_model, p_features, os_name, os_version
+
+        The following fields are already entity-encoded:
+        PROJECT::user_name, team_name
+        APP_INIT_DATA::user_name, team_name
+        PROXY_INFO:: user names and passwds
+
+        These are (as far as I know) the only fields that can
+        contain special chars.
+        This is now documented in:
+        http://boinc.berkeley.edu/trac/wiki/XmlNotes
+    - client: XML_PARSER::parse_str() now does xml_unescape(),
+        same as ::parse_str().
+
+    client/
+        client_types.cpp
+    lib/
+        hostinfo.cpp
+        parse.cpp
