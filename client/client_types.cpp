@@ -1128,7 +1128,7 @@ int APP_VERSION::parse(MIOFILE& in) {
         if (parse_double(buf, "<flops>", flops)) continue;
         if (parse_str(buf, "<cmdline>", cmdline, sizeof(cmdline))) continue;
         if (match_tag(buf, "<coproc>")) {
-            COPROC cp;
+            COPROC_REQ cp;
             int retval = cp.parse(in);
             if (!retval) {
                 if (!strcmp(cp.type, "CUDA")) {

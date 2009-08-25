@@ -7089,3 +7089,13 @@ David  24 Aug 2009
 
     lib/
         coproc.cpp
+
+David  24 Aug 2009
+    - client: in parsing <coproc> elements in <app_version>,
+        use a new type COPROC_REQ for which the count field is a double.
+        Otherwise fractional GPU jobs don't work.
+
+    client/
+        client_types.cpp
+    lib/
+        coproc.cpp,h

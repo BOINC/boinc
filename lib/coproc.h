@@ -75,6 +75,15 @@
 
 #define MAX_COPROC_INSTANCES 64
 
+// represents a requirement for a coproc.
+// This is a parsed version of the <coproc> elements in an <app_version>
+//
+struct COPROC_REQ {
+    char type[256];     // must be unique
+    double count;
+    int parse(MIOFILE&);
+};
+
 // represents a coproc on a particular computer.
 // The object will always be a derived class (COPROC_CUDA, COPROC_ATI)
 // Used in both client and server.
