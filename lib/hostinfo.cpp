@@ -111,7 +111,7 @@ int HOST_INFO::parse(MIOFILE& in) {
 // or in a scheduler request message
 //
 int HOST_INFO::write(MIOFILE& out, bool suppress_net_info) {
-    char pv[265], pm[256], pf[256], osn[256], osv[256]
+    char pv[265], pm[256], pf[256], osn[256], osv[256];
     out.printf(
         "<host_info>\n"
         "    <timezone>%d</timezone>\n",
