@@ -155,7 +155,6 @@ struct PROC_RESOURCES {
     ) {
         double x;
         COPROC* cp2;
-        int rsc_type;
         if (av.ncudas) {
             x = av.ncudas;
             cp2 = coprocs.lookup("CUDA");
@@ -944,7 +943,7 @@ static inline void assign_coprocs(vector<RESULT*> jobs) {
     vector<RESULT*>::iterator job_iter;
     job_iter = jobs.begin();
     while (job_iter != jobs.end()) {
-        RESULT* rp = jobs[i];
+        RESULT* rp = *job_iter;
         APP_VERSION* avp = rp->avp;
         if (avp->ncudas) {
             usage = avp->ncudas;
@@ -953,10 +952,16 @@ static inline void assign_coprocs(vector<RESULT*> jobs) {
             usage = avp->natis;
             cp = coproc_ati;
         } else {
+            job_iter++;
             continue;
         }
         ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
-        if (atp && atp->task_state() == PROCESS_EXECUTING) {
+
+        // we need an ACTIVE_TASK to store coproc assignments in
+        //
+        if (!atp) atp = gstate.get_task(rp);
+
+        if (atp->task_state() == PROCESS_EXECUTING) {
             if (current_assignment_ok(atp, usage, cp)) {
                 confirm_current_assignment(atp, usage, cp);
                 job_iter++;
