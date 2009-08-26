@@ -7225,6 +7225,8 @@ David  25 Aug 2009
         parse.cpp
 
 Charlie 26 Aug 2009
+    MGR: on Linux, check list of running processes from procinfo_setup() 
+        to determine if BOINC core client is running.
     MGR: on Linux, accept 2 optional arguments:
           -clientdir or -e for directory containing client executable, 
             default is the directory containing the manager executable.
