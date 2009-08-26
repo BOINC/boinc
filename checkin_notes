@@ -7099,3 +7099,11 @@ David  24 Aug 2009
         client_types.cpp
     lib/
         coproc.cpp,h
+
+Rom    26 Aug 2009
+    - Tag for 6.10.1 release, all platforms
+      boinc_core_release_6_10_1
+
+    /
+        configure.ac
+        version.h
