@@ -104,37 +104,37 @@ struct LOG_FLAGS {
 };
 
 struct CONFIG {
+    bool allow_multiple_clients;
+    std::vector<std::string> alt_platforms;
+    std::string client_version_check_url;
+    std::string client_download_url;
+    bool disallow_attach;
     bool dont_check_file_sizes;
+    bool dont_contact_ref_site;
+    std::vector<std::string> exclusive_apps;
+    std::string force_auth;
     bool http_1_0;
-    int save_stats_days;
-    int ncpus;
     int max_file_xfers;
     int max_file_xfers_per_project;
-    bool suppress_net_info;
-    bool disallow_attach;
-    bool os_random_only;
-    bool no_alt_platform;
-    bool simple_gui_only;
-    bool dont_contact_ref_site;
-    std::vector<std::string> alt_platforms;
-    int max_stdout_file_size;
     int max_stderr_file_size;
+    int max_stdout_file_size;
+    int ncpus;
+    std::string network_test_url;
+    bool no_alt_platform;
+    bool no_gpus;
+    bool no_priority_change;
+    bool os_random_only;
     bool report_results_immediately;
-    double start_delay;
     bool run_apps_manually;
-    std::string force_auth;
-    bool allow_multiple_clients;
+    int save_stats_days;
+    bool simple_gui_only;
+    double start_delay;
+    bool suppress_net_info;
+    bool use_all_gpus;
     bool use_certs;
     bool use_certs_only;
         // overrides use_certs
-    std::vector<std::string> exclusive_apps;
-    std::string client_version_check_url;
-    std::string client_download_url;
-    std::string network_test_url;
-    bool no_gpus;
     bool zero_debts;
-    bool no_priority_change;
-    bool use_all_gpus;
 
     CONFIG();
     void clear();

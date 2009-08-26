@@ -7238,3 +7238,11 @@ Charlie 26 Aug 2009
     clientgui/
         BOINCClientManager.cpp
         BOINCGUIApp.cpp,.h
+
+David  26 Aug 2009
+    - scheduler: fix CUDA RAM warning msg
+
+    client/
+        log_flags.h
+    sched/
+        sched_customize.cpp,h

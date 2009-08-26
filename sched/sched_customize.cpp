@@ -194,7 +194,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 }
                 sprintf(buf,
                     "Your NVIDIA GPU has insufficient memory (need %.0fMB)",
-                    PLAN_CUDA23_MIN_RAM
+                    PLAN_CUDA23_MIN_RAM/MEGA
                 );
                 add_no_work_message(buf);
                 return false;
@@ -225,7 +225,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             }
             sprintf(buf,
                 "Your NVIDIA GPU has insufficient memory (need %.0fMB)",
-                PLAN_CUDA_MIN_RAM
+                PLAN_CUDA_MIN_RAM/MEGA
             );
             add_no_work_message(buf);
             return false;
