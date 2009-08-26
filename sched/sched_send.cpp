@@ -421,7 +421,10 @@ static void get_host_info() {
     }
     g_wreq->reliable = true;
     if (config.debug_send) {
-        log_messages.printf(MSG_NORMAL, "[send] [HOST#%d] is reliable\n");
+        log_messages.printf(MSG_NORMAL,
+            "[send] [HOST#%d] is reliable\n",
+            g_reply->host.id
+        );
     }
 }
 
@@ -1372,6 +1375,8 @@ static double clamp_req_sec(double x) {
 // decipher request type, fill in WORK_REQ
 //
 void send_work_setup() {
+    unsigned int i;
+
     g_wreq->disk_available = max_allowable_disk();
     get_mem_sizes();
     get_running_frac();
@@ -1402,7 +1407,15 @@ void send_work_setup() {
     } else {
         g_wreq->rsc_spec_request = false;
     }
+
+    // print details of request to log
+    //
     if (config.debug_send) {
+        log_messages.printf(MSG_NORMAL,
+            "[send] %s matchmaker scheduling; %s EDF sim\n",
+            config.matchmaker?"Using":"Not using",
+            config.workload_sim?"Using":"Not using"
+        );
         log_messages.printf(MSG_NORMAL,
             "[send] CPU: req %.2f sec, %.2f instances; est delay %.2f\n",
             g_wreq->cpu_req_secs, g_wreq->cpu_req_instances,
@@ -1427,11 +1440,6 @@ void send_work_setup() {
             g_wreq->seconds_to_fill
         );
         log_messages.printf(MSG_NORMAL,
-            "[send] %s matchmaker scheduling; %s EDF sim\n",
-            config.matchmaker?"Using":"Not using",
-            config.workload_sim?"Using":"Not using"
-        );
-        log_messages.printf(MSG_NORMAL,
             "[send] available disk %.2f GB, work_buf_min %d\n",
             g_wreq->disk_available/GIGA,
             (int)g_request->global_prefs.work_buf_min()
@@ -1442,6 +1450,18 @@ void send_work_setup() {
             g_reply->host.on_frac,
             g_reply->host.duration_correction_factor
         );
+        if (g_wreq->anonymous_platform) {
+            log_messages.printf(MSG_NORMAL,
+                "Anonymous platform app versions:\n"
+            );
+            for (i=0; i<g_request->client_app_versions.size(); i++) {
+                CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
+                log_messages.printf(MSG_NORMAL,
+                    "   app: %s ver: %d\n",
+                    cav.app_name, cav.version_num
+                );
+            }
+        }
     }
 }
 

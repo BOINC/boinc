@@ -30,6 +30,7 @@
 #include "sched_main.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
+#include "sched_send.h"
 #include "time_stats_log.h"
 #include "sched_types.h"
 
@@ -182,7 +183,6 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
     strcpy(global_prefs_xml, "");
     strcpy(working_global_prefs_xml, "");
     strcpy(code_sign_key, "");
-    anonymous_platform = false;
     memset(&global_prefs, 0, sizeof(global_prefs));
     memset(&host, 0, sizeof(host));
     have_other_results_list = false;
@@ -437,7 +437,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         prrs_fraction,
         cpu_estimated_delay,
         code_sign_key,
-        anonymous_platform?"true":"false"
+        anonymous(platforms.list[0])?"true":"false"
     );
 
     for (i=0; i<client_app_versions.size(); i++) {

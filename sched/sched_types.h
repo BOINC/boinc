@@ -366,7 +366,6 @@ struct SCHEDULER_REQUEST {
     char working_global_prefs_xml[BLOB_SIZE];
     char code_sign_key[4096];
 
-    bool anonymous_platform;
     std::vector<CLIENT_APP_VERSION> client_app_versions;
     GLOBAL_PREFS global_prefs;
     char global_prefs_source_email_hash[MD5_LEN];

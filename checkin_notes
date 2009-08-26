@@ -7246,3 +7246,11 @@ David  26 Aug 2009
         log_flags.h
     sched/
         sched_customize.cpp,h
+
+David  26 Aug 2009
+    - scheduler: if request is anon platform,
+        write list of client's app versions to log
+
+    sched/
+        sched_types.cpp,h
+        sched_send.cpp
