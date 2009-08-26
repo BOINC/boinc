@@ -1096,15 +1096,40 @@ bool CLIENT_STATE::enforce_schedule() {
     // Mark the rest as SCHEDULED
     //
     ncpus_used = 0;
+    bool running_edf_scheduled_job = false;
     for (i=0; i<runnable_jobs.size(); i++) {
         RESULT* rp = runnable_jobs[i];
-        if (!rp->uses_coprocs() && (ncpus_used >= ncpus)) {
-            if (log_flags.cpu_sched_debug) {
-                msg_printf(rp->project, MSG_INFO,
-                    "[cpu_sched_debug] all CPUs used, skipping %s", rp->name
-                );
+
+        // decide if we're already using too many CPUs to run this job
+        //
+        if (!rp->uses_coprocs()) {
+            if (running_edf_scheduled_job) {
+                // if we're running an EDF job,
+                // don't use more than 150% of #CPUs.
+                //
+                double x = ncpus_used + rp->avp->avg_ncpus;
+                if (x > 1.5001*ncpus) {
+                    if (log_flags.cpu_sched_debug) {
+                        msg_printf(rp->project, MSG_INFO,
+                            "[cpu_sched_debug] have EDF job, %s would oversaturate CPUs, skipping",
+                            rp->name
+                        );
+                    }
+                    continue;
+                }
+            } else {
+                // Otherwise saturate CPUs.
+                //
+                if (ncpus_used >= ncpus) {
+                    if (log_flags.cpu_sched_debug) {
+                        msg_printf(rp->project, MSG_INFO,
+                            "[cpu_sched_debug] all CPUs used, skipping %s",
+                            rp->name
+                        );
+                    }
+                    continue;
+                }
             }
-            continue;
         }
 
         atp = lookup_active_task_by_result(rp);
