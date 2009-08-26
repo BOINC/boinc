@@ -305,21 +305,11 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
 #else   // Unix based systems
     wxString savedWD = ::wxGetCwd();
-
-    if (m_strBOINCClientExecDirectory.IsEmpty() {
-        m_strBOINCClientExecDirectory = ::wxGetCwd();
-    }
-    if (m_strBOINCClientExecDirectory.Last != '/') {
-        m_strBOINCClientExecDirectory.Append('/');
-    }
-
-    if (m_strBOINCClientDataDirectory.IsEmpty() {
-        m_strBOINCClientDataDirectory = m_strBOINCClientExecDirectory;
-    }
     
-    wxSetWorkingDirectory(m_strBOINCClientDataDirectory);
+    wxSetWorkingDirectory(wxGetApp().GetDataDirectory());
+    
     // Append boinc.exe to the end of the strExecute string and get ready to rock
-    strExecute = m_strBOINCClientExecDirectory + wxT("boinc --redirectio --launched_by_manager");
+    strExecute = wxGetApp().GetRootDirectory() + wxT("boinc --redirectio --launched_by_manager");
 #ifdef SANDBOX
     if (!g_use_sandbox) {
         strExecute += wxT(" --insecure");
@@ -327,7 +317,7 @@ bool CBOINCClientManager::StartupBOINCCore() {
 #endif
 
     wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), strExecute.c_str());
-    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), m_strBOINCClientDataDirectory.c_str());
+    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), wxGetApp().GetDataDirectory().c_str());
 
     m_lBOINCCoreProcessId = ::wxExecute(strExecute);
     

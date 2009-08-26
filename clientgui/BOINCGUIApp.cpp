@@ -148,8 +148,6 @@ bool CBOINCGUIApp::OnInit() {
 #endif
     m_strBOINCMGRRootDirectory = wxEmptyString;
     m_strBOINCMGRDataDirectory = wxEmptyString;
-    m_strBOINCClientExecDirectory = wxEmptyString;
-    m_strBOINCClientDataDirectory = wxEmptyString;
     m_strBOINCArguments = wxEmptyString;
     m_bAccessibilityEnabled = false;
     m_bGUIVisible = true;
@@ -558,21 +556,33 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     if (parser.Found(wxT("autostart"))) {
         m_bBOINCMGRAutoStarted = true;
     }
+#if defined(__WXMSW__) || defined(__WXMAC__)
     if (parser.Found(wxT("systray"))) {
         m_bGUIVisible = false;
     }
-    if (parser.Found(wxT("clientdir"), &m_strBOINCClientExecDirectory)) {
-        m_bGUIVisible = false;
-    }
-    if (parser.Found(wxT("datadir"), &m_strBOINCClientDataDirectory)) {
-        m_bGUIVisible = false;
-    }
+#endif
     if (parser.Found(wxT("insecure"))) {
         g_use_sandbox = false;
     }
     if (parser.Found(wxT("checkskins"))) {
         m_bDebugSkins = true;
     }
+
+#if !(defined(__WXMSW__) || defined(__WXMAC__))
+    if (!parser.Found(wxT("clientdir"), &m_strBOINCMGRRootDirectory)) {
+        m_strBOINCMGRRootDirectory = ::wxGetCwd();
+    }
+    if (m_strBOINCMGRRootDirectory.Last() != '/') {
+        m_strBOINCMGRRootDirectory.Append('/');
+    }
+
+    if (!parser.Found(wxT("datadir"), &m_strBOINCMGRDataDirectory)) {
+        m_strBOINCMGRDataDirectory = m_strBOINCMGRRootDirectory;
+    }
+    if (m_strBOINCMGRDataDirectory.Last() != '/') {
+        m_strBOINCMGRDataDirectory.Append('/');
+    }
+#endif    
 
     return true;
 }
