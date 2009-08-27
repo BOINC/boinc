@@ -7254,3 +7254,15 @@ David  26 Aug 2009
     sched/
         sched_types.cpp,h
         sched_send.cpp
+
+Charlie 26 Aug 2009
+    MGR: Bug fixes for Linux.
+
+    clientgui/
+        AsyncRPC.cpp
+        BOINCBaseView.cpp
+        BOINCClientManager.cpp
+        MainDocument.cpp,.h
+        sg_DlgMessages.cpp
+        ViewMessages.cpp
+

@@ -38,9 +38,9 @@ enum {
     NewStyleDaemon = 1,
     OldStyleDaemon
 };
-#endif
 
-#ifdef __WXMSW__
+#elif defined(__WXMSW__)
+
 #include "win_util.h"
 #include "diagnostics_win.h"
 
@@ -52,6 +52,9 @@ EXTERN_C BOOL  IsBOINCServiceStopping();
 EXTERN_C BOOL  IsBOINCServiceStopped();
 EXTERN_C BOOL  StartBOINCService();
 EXTERN_C BOOL  StopBOINCService();
+
+#else
+#include <sys/wait.h>
 #endif
 
 CBOINCClientManager::CBOINCClientManager() {
@@ -154,6 +157,13 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
 #else
     std::vector<PROCINFO> piv;
     int retval;
+
+    if (m_lBOINCCoreProcessId) {
+        // Prevent client from being a zombie
+        if (waitpid(m_lBOINCCoreProcessId, 0, WNOHANG) == m_lBOINCCoreProcessId) {
+            m_lBOINCCoreProcessId = 0;
+        }
+    }
 
     // Look for BOINC Client in list of all running processes
     retval = procinfo_setup(piv);

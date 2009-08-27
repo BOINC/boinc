@@ -361,7 +361,7 @@ void CPanelMessages::OnRefresh() {
             }
         }
 
-        if ((iDocCount) && (EnsureLastItemVisible()) && (m_iPreviousDocCount != iDocCount)) {
+        if ((iDocCount > 1) && (EnsureLastItemVisible()) && (m_iPreviousDocCount != iDocCount)) {
             m_pList->EnsureVisible(iDocCount - 1);
         }
 
