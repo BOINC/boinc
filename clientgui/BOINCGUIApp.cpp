@@ -532,6 +532,9 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
         { wxCMD_LINE_SWITCH, wxT("a"), wxT("autostart"), _("BOINC Manager was started by the operating system automatically")},
 #if defined(__WXMSW__) || defined(__WXMAC__)
         { wxCMD_LINE_SWITCH, wxT("s"), wxT("systray"), _("Startup BOINC so only the system tray icon is visible")},
+#else
+        { wxCMD_LINE_OPTION, wxT("e"), wxT("clientdir"), _("Directory containing the BOINC Client executable")},
+        { wxCMD_LINE_OPTION, wxT("d"), wxT("datadir"), _("BOINC data directory")},
 #endif
         { wxCMD_LINE_SWITCH, wxT("b"), wxT("boincargs"), _("Startup BOINC with these optional arguments")},
         { wxCMD_LINE_SWITCH, wxT("i"), wxT("insecure"), _("disable BOINC security users and permissions")},
@@ -553,15 +556,33 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     if (parser.Found(wxT("autostart"))) {
         m_bBOINCMGRAutoStarted = true;
     }
+#if defined(__WXMSW__) || defined(__WXMAC__)
     if (parser.Found(wxT("systray"))) {
         m_bGUIVisible = false;
     }
+#endif
     if (parser.Found(wxT("insecure"))) {
         g_use_sandbox = false;
     }
     if (parser.Found(wxT("checkskins"))) {
         m_bDebugSkins = true;
     }
+
+#if !(defined(__WXMSW__) || defined(__WXMAC__))
+    if (!parser.Found(wxT("clientdir"), &m_strBOINCMGRRootDirectory)) {
+        m_strBOINCMGRRootDirectory = ::wxGetCwd();
+    }
+    if (m_strBOINCMGRRootDirectory.Last() != '/') {
+        m_strBOINCMGRRootDirectory.Append('/');
+    }
+
+    if (!parser.Found(wxT("datadir"), &m_strBOINCMGRDataDirectory)) {
+        m_strBOINCMGRDataDirectory = m_strBOINCMGRRootDirectory;
+    }
+    if (m_strBOINCMGRDataDirectory.Last() != '/') {
+        m_strBOINCMGRDataDirectory.Append('/');
+    }
+#endif    
 
     return true;
 }

@@ -38,9 +38,9 @@ enum {
     NewStyleDaemon = 1,
     OldStyleDaemon
 };
-#endif
 
-#ifdef __WXMSW__
+#elif defined(__WXMSW__)
+
 #include "win_util.h"
 #include "diagnostics_win.h"
 
@@ -52,6 +52,9 @@ EXTERN_C BOOL  IsBOINCServiceStopping();
 EXTERN_C BOOL  IsBOINCServiceStopped();
 EXTERN_C BOOL  StartBOINCService();
 EXTERN_C BOOL  StopBOINCService();
+
+#else
+#include <sys/wait.h>
 #endif
 
 CBOINCClientManager::CBOINCClientManager() {
@@ -139,7 +142,7 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
             CloseHandle(h);
         }
     }
-#else
+#elif defined(__WXMAC__)
     char path[1024];
     static FILE_LOCK file_lock;
     
@@ -149,6 +152,32 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
             running = true;
         } else {
             file_lock.unlock(path);
+        }
+    }
+#else
+    std::vector<PROCINFO> piv;
+    int retval;
+
+    if (m_lBOINCCoreProcessId) {
+        // Prevent client from being a zombie
+        if (waitpid(m_lBOINCCoreProcessId, 0, WNOHANG) == m_lBOINCCoreProcessId) {
+            m_lBOINCCoreProcessId = 0;
+        }
+    }
+
+    // Look for BOINC Client in list of all running processes
+    retval = procinfo_setup(piv);
+    if (retval) return false;     // Should never happen
+    
+    for (unsigned int i=0; i<piv.size(); i++) {
+        PROCINFO& pi = piv[i];
+        if (!strcmp(pi.command, "boinc")) {
+            running = true;
+            break;
+        }
+        if (!strcmp(pi.command, "boinc_client")) {
+            running = true;
+            break;
         }
     }
 #endif
@@ -285,9 +314,12 @@ bool CBOINCClientManager::StartupBOINCCore() {
     }
 
 #else   // Unix based systems
-
+    wxString savedWD = ::wxGetCwd();
+    
+    wxSetWorkingDirectory(wxGetApp().GetDataDirectory());
+    
     // Append boinc.exe to the end of the strExecute string and get ready to rock
-    strExecute = ::wxGetCwd() + wxT("/boinc --redirectio --launched_by_manager");
+    strExecute = wxGetApp().GetRootDirectory() + wxT("boinc --redirectio --launched_by_manager");
 #ifdef SANDBOX
     if (!g_use_sandbox) {
         strExecute += wxT(" --insecure");
@@ -295,10 +327,11 @@ bool CBOINCClientManager::StartupBOINCCore() {
 #endif
 
     wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), strExecute.c_str());
-    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), ::wxGetCwd().c_str());
+    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), wxGetApp().GetDataDirectory().c_str());
 
     m_lBOINCCoreProcessId = ::wxExecute(strExecute);
     
+    wxSetWorkingDirectory(savedWD);
 #endif
 
     if (0 != m_lBOINCCoreProcessId) {

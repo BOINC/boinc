@@ -295,9 +295,10 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
 
         if (iDocCount > 0) {
             SynchronizeCache();
-
-            if (_EnsureLastItemVisible() && (iDocCount != iCacheCount)) {
-                m_pListPane->EnsureVisible(iDocCount - 1);
+            if (iDocCount > 1) {
+                if (_EnsureLastItemVisible() && (iDocCount != iCacheCount)) {
+                    m_pListPane->EnsureVisible(iDocCount - 1);
+                }
             }
 
             if (m_pListPane->m_bIsSingleSelection) {

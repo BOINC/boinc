@@ -444,6 +444,7 @@ int CMainDocument::OnInit() {
     m_bWaitingForRPC = false;
     m_bNeedRefresh = false;
     m_bNeedTaskBarRefresh = false;
+    m_bRPCThreadIsReady = false;
     m_bShutDownRPCThread = false;
     current_rpc_request.clear();
 
@@ -472,6 +473,11 @@ int CMainDocument::OnInit() {
     wxASSERT(!iRetVal);
     
     m_RPCThread->Run();
+    for (int i=0; i<100; i++) {
+        if (!m_bRPCThreadIsReady) {
+            boinc_sleep(0.01);  // Allow RPC thread to initialize itself
+        }
+    }
 
     return iRetVal;
 }
