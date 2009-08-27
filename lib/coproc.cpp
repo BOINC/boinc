@@ -199,6 +199,7 @@ void COPROC_CUDA::get(
     bool use_all    // if false, use only those equivalent to most capable
 ) {
     int count, retval;
+    char buf[256];
 
 #ifdef _WIN32
 
@@ -318,12 +319,28 @@ void COPROC_CUDA::get(
     }
 
     retval = (*__cuInit)(0);
+    if (retval) {
+        sprintf(buf, "cuInit() returned %d", retval);
+        strings.push_back(buf);
+        return;
+    }
 
     int cuda_version;
     retval = (*__cuDriverGetVersion)(&cuda_version);
+    if (retval) {
+        sprintf(buf, "cuDriverGetVersion() returned %d", retval);
+        strings.push_back(buf);
+        return;
+    }
 
     vector<COPROC_CUDA> gpus;
     retval = (*__cuDeviceGetCount)(&count);
+    if (retval) {
+        sprintf(buf, "cuDeviceGetCount() returned %d", retval);
+        strings.push_back(buf);
+        return;
+    }
+
     int j;
     unsigned int i;
     COPROC_CUDA cc;
@@ -332,7 +349,17 @@ void COPROC_CUDA::get(
         memset(&cc.prop, 0, sizeof(cc.prop));
         int device;
         retval = (*__cuDeviceGet)(&device, j);
+        if (retval) {
+            sprintf(buf, "cuDeviceGet(%d) returned %d", j, retval);
+            strings.push_back(buf);
+            return;
+        }
         (*__cuDeviceGetName)(cc.prop.name, 256, device);
+        if (retval) {
+            sprintf(buf, "cuDeviceGetName(%d) returned %d", j, retval);
+            strings.push_back(buf);
+            return;
+        }
         (*__cuDeviceComputeCapability)(&cc.prop.major, &cc.prop.minor, device);
         (*__cuDeviceTotalMem)(&cc.prop.totalGlobalMem, device);
         (*__cuDeviceGetAttribute)(&cc.prop.sharedMemPerBlock, CU_DEVICE_ATTRIBUTE_SHARED_MEMORY_PER_BLOCK, device);
@@ -385,7 +412,7 @@ void COPROC_CUDA::get(
     //
     best.count = 0;
     for (i=0; i<gpus.size(); i++) {
-        char buf[256], buf2[256];
+        char buf2[256];
         gpus[i].description(buf);
         if (use_all || !cuda_compare(gpus[i], best, true)) {
             best.device_nums[best.count] = gpus[i].device_num;
@@ -732,6 +759,7 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
         }
         cc.attribs = attribs;
         strcpy(cc.name, gpu_name.c_str());
+        sprintf(cc.version, "%d.%d.%d", cal_major, cal_minor, cal_imp);
         cc.device_num = i;
         gpus.push_back(cc);
     }
@@ -754,7 +782,6 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
 
     COPROC_ATI* ccp = new COPROC_ATI;
     *ccp = best;
-    sprintf(ccp->version, "%d.%d.%d", cal_major, cal_minor, cal_imp);
     strcpy(ccp->type, "ATI");
     ccp->count = numDevices;
     coprocs.coprocs.push_back(ccp);
