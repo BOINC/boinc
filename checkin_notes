@@ -7228,12 +7228,11 @@ Charlie 26 Aug 2009
     MGR: on Linux, check list of running processes from procinfo_setup() 
         to determine if BOINC core client is running.
     MGR: on Linux, accept 2 optional arguments:
-          -clientdir or -e for directory containing client executable, 
+          "--clientdir=<dir>" or "-e <dir>" for directory containing client executable, 
             default is the directory containing the manager executable.
-          -datadir or -d for BOINC data directory, default is the 
+          "--datadir=<dir>" or "-d <dir>" for BOINC data directory, default is the 
             directory containing the client executable.
           These are used by the manager when launching the client.
-
 
     clientgui/
         BOINCClientManager.cpp
@@ -7265,4 +7264,3 @@ Charlie 26 Aug 2009
         MainDocument.cpp,.h
         sg_DlgMessages.cpp
         ViewMessages.cpp
-
