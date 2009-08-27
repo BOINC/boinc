@@ -7132,3 +7132,11 @@ Charlie 26 Aug 2009
         MainDocument.cpp,.h
         sg_DlgMessages.cpp
         ViewMessages.cpp
+
+Charlie 27 Aug 2009
+    - Tag for 6.10.2 release, all platforms
+      boinc_core_release_6_10_2
+
+    /
+        configure.ac
+        version.h
