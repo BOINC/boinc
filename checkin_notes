@@ -7287,3 +7287,9 @@ David  28 Aug 2009
     tools/
         appmgr (new)
         pymw_setup (removed)
+
+David  28 Aug 2009
+    - client: fix work fetch log message for ATI GPU
+
+    client/
+        work_fetch.cpp
