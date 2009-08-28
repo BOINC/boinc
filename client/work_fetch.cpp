@@ -351,7 +351,7 @@ void WORK_FETCH::print_state() {
         cuda_work_fetch.print_state("NVIDIA GPU");
     }
     if (coproc_ati) {
-        api_work_fetch.print_state("ATI GPU");
+        ati_work_fetch.print_state("ATI GPU");
     }
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
