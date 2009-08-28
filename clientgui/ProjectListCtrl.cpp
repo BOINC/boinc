@@ -292,7 +292,7 @@ wxAccStatus CProjectListCtrlAccessible::GetState(int childId, long* state)
 
 
 // Selects the object or child.
-wxAccStatus CProjectListCtrlAccessible::Select(int childId, wxAccSelectionFlags selectFlags)
+wxAccStatus CProjectListCtrlAccessible::Select(int , wxAccSelectionFlags )
 {
     // Let the framework handle the other cases.
     return wxACC_NOT_IMPLEMENTED;
@@ -307,7 +307,7 @@ wxAccStatus CProjectListCtrlAccessible::Select(int childId, wxAccSelectionFlags 
 // - an integer representing the selected child element,
 //   or 0 if this object is selected (GetType() == wxT("long"))
 // - a "void*" pointer to a wxAccessible child object
-wxAccStatus CProjectListCtrlAccessible::GetSelections(wxVariant* selections)
+wxAccStatus CProjectListCtrlAccessible::GetSelections(wxVariant* )
 {
     // Let the framework handle the other cases.
     return wxACC_NOT_IMPLEMENTED;
