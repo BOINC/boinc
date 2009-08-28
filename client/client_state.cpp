@@ -559,6 +559,13 @@ bool CLIENT_STATE::poll_slow_events() {
     if (user_active != old_user_active) {
         request_schedule_cpus("Idle state change");
     }
+
+    if (coproc_cuda && user_active && !global_prefs.run_gpu_if_user_active) {
+        if (coproc_cuda->check_running_graphics_app()) {
+            request_schedule_cpus("GPU state change");
+        }
+    }
+
 #ifdef __APPLE__
     // Mac screensaver launches client if not already running.
     // OS X quits screensaver when energy saver puts display to sleep,

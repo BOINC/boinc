@@ -114,6 +114,8 @@ struct COPROC {
     //
     int device_nums[MAX_COPROC_INSTANCES];
     int device_num;     // temp used in scan process
+    bool running_graphics_app[MAX_COPROC_INSTANCES];
+        // is this GPU running a graphics app (NVIDIA only)
 
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
@@ -126,6 +128,10 @@ struct COPROC {
         req_secs = 0;
         req_instances = 0;
         estimated_delay = 0;
+        for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
+            device_nums[i] = 0;
+            running_graphics_app[i] = true;
+        }
     }
     COPROC(const char* t){
         clear();
@@ -242,6 +248,8 @@ struct COPROC_CUDA : public COPROC {
         double x = (prop.clockRate * prop.multiProcessorCount)*5e10/(14*1.25e6);
         return x?x:5e10;
     }
+
+    bool check_running_graphics_app();
 };
 
 void fake_cuda(COPROCS&, int);

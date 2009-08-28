@@ -7293,3 +7293,19 @@ David  28 Aug 2009
 
     client/
         work_fetch.cpp
+
+David  28 Aug 2009
+    - client: NVIDIA offers an API which tells you whether a GPU
+        is running a graphics application.
+        Change the semantics of the "don't use GPU while computer in use" pref
+        to "don't use a GPU that's running a graphics app while
+        computer is in use".
+        This will increase GPU utilization on multi-GPU systems.
+
+    client/
+        client_state.cpp
+        cpu_sched.cpp
+    sched/
+        file_deleter.cpp
+    lib/
+        coproc.cpp,h

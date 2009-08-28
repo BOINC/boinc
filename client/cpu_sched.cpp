@@ -88,7 +88,12 @@ struct PROC_RESOURCES {
     bool can_schedule(RESULT* rp) {
         if (rp->uses_coprocs()) {
             if (gstate.user_active && !gstate.global_prefs.run_gpu_if_user_active) {
-                return false;
+                if (rp->avp->natis) {
+                    return false;
+                }
+                // if it's NVIDIA, defer deciding because
+                // some GPUs may not be running user apps
+                //
             }
             if (sufficient_coprocs(
                 *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug")
@@ -981,6 +986,33 @@ static inline void assign_coprocs(vector<RESULT*> jobs) {
                 } else {
                     job_iter = jobs.erase(job_iter);
                 }
+            }
+        }
+    }
+
+    // enforce user pref in NVIDIA case
+    //
+    if (coproc_cuda && gstate.user_active && !gstate.global_prefs.run_gpu_if_user_active) {
+        job_iter = jobs.begin();
+        while (job_iter != jobs.end()) {
+            RESULT* rp = *job_iter;
+            if (!rp->avp->ncudas) {
+                job_iter++;
+                continue;
+            }
+            ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
+            bool some_gpu_busy = false;
+            for (i=0; i<rp->avp->ncudas; i++) {
+                int dev = atp->coproc_indices[i];
+                if (coproc_cuda->running_graphics_app[dev]) {
+                    some_gpu_busy = true;
+                    break;
+                }
+            }
+            if (some_gpu_busy) {
+                job_iter = jobs.erase(job_iter);
+            } else {
+                job_iter++;
             }
         }
     }
