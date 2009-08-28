@@ -202,6 +202,6 @@ public:
 #define URL_PROTOCOL_SOCKS   3
 
 extern char* get_user_agent_string();
-extern void parse_url(const char* url, int &protocol, std::string& host, int &port, std::string& file);
+extern void parse_url(const char* url, int &protocol, char* host, int &port, char* file);
 
 #endif //__HTTP_H
