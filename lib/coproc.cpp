@@ -195,25 +195,25 @@ int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2, bool loose) {
 }
 
 #ifdef _WIN32
-typedef int (__stdcall *PCGDC)(int *count);
-typedef int (__stdcall *PCGDP)(struct cudaDeviceProp *prop, int device);
-typedef int (__stdcall *PCGDV)(int* version);
-typedef int (__stdcall *PCGDI)(int);
-typedef int (__stdcall *PCGDG)(int*, int);
-typedef int (__stdcall *PCGDA)(int*, int, int);
-typedef int (__stdcall *PCGDN)(char*, int, int);
-typedef int (__stdcall *PCGDM)(unsigned int*, int);
-typedef int (__stdcall *PCGDCC)(int*, int*, int);
+typedef int (__stdcall *CUDA_GDC)(int *count);
+typedef int (__stdcall *CUDA_GDP)(struct cudaDeviceProp *prop, int device);
+typedef int (__stdcall *CUDA_GDV)(int* version);
+typedef int (__stdcall *CUDA_GDI)(int);
+typedef int (__stdcall *CUDA_GDG)(int*, int);
+typedef int (__stdcall *CUDA_GDA)(int*, int, int);
+typedef int (__stdcall *CUDA_GDN)(char*, int, int);
+typedef int (__stdcall *CUDA_GDM)(unsigned int*, int);
+typedef int (__stdcall *CUDA_GDCC)(int*, int*, int);
 
-PCGDC __cuDeviceGetCount = NULL;
-//PCGDP __cuDeviceGetProperties = NULL;
-PCGDV __cuDriverGetVersion = NULL;
-PCGDI __cuInit = NULL;
-PCGDG __cuDeviceGet = NULL;
-PCGDA __cuDeviceGetAttribute = NULL;
-PCGDN __cuDeviceGetName = NULL;
-PCGDM __cuDeviceTotalMem = NULL;
-PCGDCC __cuDeviceComputeCapability = NULL;
+CUDA_GDC __cuDeviceGetCount = NULL;
+//CUDA_GDP __cuDeviceGetProperties = NULL;
+CUDA_GDV __cuDriverGetVersion = NULL;
+CUDA_GDI __cuInit = NULL;
+CUDA_GDG __cuDeviceGet = NULL;
+CUDA_GDA __cuDeviceGetAttribute = NULL;
+CUDA_GDN __cuDeviceGetName = NULL;
+CUDA_GDM __cuDeviceTotalMem = NULL;
+CUDA_GDCC __cuDeviceComputeCapability = NULL;
 #else 
 void* cudalib;
 int (*__cuInit)(int);
@@ -243,15 +243,15 @@ void COPROC_CUDA::get(
         strings.push_back("Can't load library nvcuda.dll");
         return;
     }
-    __cuDeviceGetCount = (PCGDC)GetProcAddress(cudalib, "cuDeviceGetCount");
-    //__cuDeviceGetProperties = (PCGDP)GetProcAddress(cudalib, "cuDeviceGetProperties");
-    __cuDriverGetVersion = (PCGDV)GetProcAddress(cudalib, "cuDriverGetVersion" );
-    __cuInit = (PCGDI)GetProcAddress(cudalib, "cuInit" );
-    __cuDeviceGet = (PCGDG)GetProcAddress(cudalib, "cuDeviceGet" );
-    __cuDeviceGetAttribute = (PCGDA)GetProcAddress(cudalib, "cuDeviceGetAttribute" );
-    __cuDeviceGetName = (PCGDN)GetProcAddress(cudalib, "cuDeviceGetName" );
-    __cuDeviceTotalMem = (PCGDM)GetProcAddress(cudalib, "cuDeviceTotalMem" );
-    __cuDeviceComputeCapability = (PCGDCC)GetProcAddress(cudalib, "cuDeviceComputeCapability" );
+    __cuDeviceGetCount = (CUDA_GDC)GetProcAddress(cudalib, "cuDeviceGetCount");
+    //__cuDeviceGetProperties = (CUDA_GDP)GetProcAddress(cudalib, "cuDeviceGetProperties");
+    __cuDriverGetVersion = (CUDA_GDV)GetProcAddress(cudalib, "cuDriverGetVersion" );
+    __cuInit = (CUDA_GDI)GetProcAddress(cudalib, "cuInit" );
+    __cuDeviceGet = (CUDA_GDG)GetProcAddress(cudalib, "cuDeviceGet" );
+    __cuDeviceGetAttribute = (CUDA_GDA)GetProcAddress(cudalib, "cuDeviceGetAttribute" );
+    __cuDeviceGetName = (CUDA_GDN)GetProcAddress(cudalib, "cuDeviceGetName" );
+    __cuDeviceTotalMem = (CUDA_GDM)GetProcAddress(cudalib, "cuDeviceTotalMem" );
+    __cuDeviceComputeCapability = (CUDA_GDCC)GetProcAddress(cudalib, "cuDeviceComputeCapability" );
 
 #ifndef SIM
     NvAPI_Status nvapiStatus;
@@ -638,24 +638,25 @@ bool COPROC_CUDA::check_running_graphics_app() {
         }
         running_graphics_app[j] = new_val;
     }
+    return change;
 }
 
 ////////////////// ATI STARTS HERE /////////////////
 
 #ifdef _WIN32
-typedef int (__stdcall *PCGDC)(CALuint *numDevices);
-typedef int (__stdcall *ATTRIBS) (CALdeviceattribs *attribs, CALuint ordinal);
-typedef int (__stdcall *INFO) (CALdeviceinfo *info, CALuint ordinal);
-typedef int (__stdcall *VER) (CALuint *cal_major, CALuint *cal_minor, CALuint *cal_imp);
-typedef int (__stdcall *PCGDI)(void);
-typedef int (__stdcall *CLOSE)(void);
+typedef int (__stdcall *ATI_GDC)(CALuint *numDevices);
+typedef int (__stdcall *ATI_ATTRIBS) (CALdeviceattribs *attribs, CALuint ordinal);
+typedef int (__stdcall *ATI_INFO) (CALdeviceinfo *info, CALuint ordinal);
+typedef int (__stdcall *ATI_VER) (CALuint *cal_major, CALuint *cal_minor, CALuint *cal_imp);
+typedef int (__stdcall *ATI_GDI)(void);
+typedef int (__stdcall *ATI_CLOSE)(void);
 
-PCGDI	__calInit = NULL;
-VER		__calGetVersion = NULL;
-PCGDC	__calDeviceGetCount = NULL;
-ATTRIBS __calDeviceGetAttribs = NULL;
-INFO    __calDeviceGetInfo = NULL;
-CLOSE	__calShutdown = NULL;
+ATI_GDI	__calInit = NULL;
+ATI_VER		__calGetVersion = NULL;
+ATI_GDC	__calDeviceGetCount = NULL;
+ATI_ATTRIBS __calDeviceGetAttribs = NULL;
+ATI_INFO    __calDeviceGetInfo = NULL;
+ATI_CLOSE	__calShutdown = NULL;
 #else
 int (*__calInit)();
 int (*__calGetVersion)(CALuint*, CALuint*, CALuint*);
@@ -695,12 +696,12 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
         strings.push_back("No CAL Runtime Libraries installed.");
         return;
     }
-    __calInit = (PCGDI)GetProcAddress(callib, "calInit" );
-    __calDeviceGetCount = (PCGDC)GetProcAddress(callib, "calDeviceGetCount" );
-    __calGetVersion = (VER)GetProcAddress(callib, "calGetVersion" );
-    __calDeviceGetInfo = (INFO)GetProcAddress(callib, "calDeviceGetInfo" );
-    __calDeviceGetAttribs =(ATTRIBS)GetProcAddress(callib, "calDeviceGetAttribs" );
-    __calShutdown = (CLOSE)GetProcAddress(callib, "calShutdown" );
+    __calInit = (ATI_GDI)GetProcAddress(callib, "calInit" );
+    __calDeviceGetCount = (ATI_GDC)GetProcAddress(callib, "calDeviceGetCount" );
+    __calGetVersion = (ATI_VER)GetProcAddress(callib, "calGetVersion" );
+    __calDeviceGetInfo = (ATI_INFO)GetProcAddress(callib, "calDeviceGetInfo" );
+    __calDeviceGetAttribs =(ATI_ATTRIBS)GetProcAddress(callib, "calDeviceGetAttribs" );
+    __calShutdown = (ATI_CLOSE)GetProcAddress(callib, "calShutdown" );
 #else
     void* callib;
 
