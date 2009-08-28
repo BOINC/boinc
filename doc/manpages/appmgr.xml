@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+  <!ENTITY appmgr "<command>appmgr</command>">
+]>
+
+<refentry>
+  <refentryinfo>
+    <author>
+      <firstname>Gábor</firstname>
+      <surname>Gombás</surname>
+      <email>gombasg@sztaki.hu</email>
+    </author>
+    <date>August 27, 2009</date>
+  </refentryinfo>
+
+  <refmeta>
+    <refentrytitle>&appmgr;</refentrytitle>
+    <manvolnum>8</manvolnum>
+  </refmeta>
+
+  <refnamediv>
+    <refname>&appmgr;</refname>
+    <refpurpose>Tool to manage applications and platforms</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      &appmgr;
+      <arg choice="plain">list</arg>
+      <arg><option>--no-versions</option></arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      &appmgr;
+      <arg choice="plain">add</arg>
+      <arg choice="plain"><replaceable>NAME</replaceable></arg>
+      <arg choice="plain"><replaceable>DESC</replaceable></arg>
+      <group>
+	<arg><option>--hr=no</option></arg>
+	<arg><option>--hr=fine</option></arg>
+	<arg><option>--hr=coarse</option></arg>
+      </group>
+      <arg><option>--beta</option></arg>
+      <arg><option>--weight=<replaceable>NUM</replaceable></option></arg>
+      <arg><option>--target_nresults=<replaceable>NUM</replaceable></option></arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      &appmgr;
+      <arg choice="plain">delete</arg>
+      <arg choice="plain"><replaceable>NAME</replaceable></arg>
+      <arg><option>--version=<replaceable>VER</replaceable></option></arg>
+      <arg><option>--platform=<replaceable>NAME</replaceable></option></arg>
+      <arg><option>--plan_class=<replaceable>NAME</replaceable></option></arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      &appmgr;
+      <arg choice="plain">update</arg>
+      <arg choice="plain"><replaceable>NAME</replaceable></arg>
+      <group>
+	<arg><option>--hr=no</option></arg>
+	<arg><option>--hr=fine</option></arg>
+	<arg><option>--hr=coarse</option></arg>
+      </group>
+      <group>
+        <arg><option>--beta</option></arg>
+        <arg><option>--no-beta</option></arg>
+      </group>
+      <arg><option>--weight=<replaceable>NUM</replaceable></option></arg>
+      <arg><option>--target_nresults=<replaceable>NUM</replaceable></option></arg>
+      <arg><option>--user_friendly_name=<replaceable>DESC</replaceable></option></arg>
+      <arg><option>--min_version=<replaceable>VER</replaceable></option></arg>
+      <group>
+        <arg><option>--deprecated</option></arg>
+        <arg><option>--no-deprecated</option></arg>
+      </group>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      &appmgr;
+      <arg choice="plain">update_appver</arg>
+      <arg choice="plain"><replaceable>NAME</replaceable></arg>
+      <arg><option>--version=<replaceable>VER</replaceable></option></arg>
+      <arg><option>--platform=<replaceable>NAME</replaceable></option></arg>
+      <arg><option>--plan_class=<replaceable>NAME</replaceable></option></arg>
+      <group>
+        <arg><option>--deprecated</option></arg>
+        <arg><option>--no-deprecated</option></arg>
+      </group>
+      <arg><option>--min_core_version=<replaceable>VER</replaceable></option></arg>
+      <arg><option>--max_core_version=<replaceable>VER</replaceable></option></arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      &appmgr;
+      <arg choice="plain">list_platform</arg>
+      <arg><option>--short</option></arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      &appmgr;
+      <arg choice="plain">add_platform</arg>
+      <arg choice="plain"><replaceable>NAME</replaceable></arg>
+      <arg choice="plain"><replaceable>DESC</replaceable></arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      &appmgr;
+      <arg choice="plain">delete_platform</arg>
+      <arg choice="plain"><replaceable>NAME</replaceable></arg>
+      <arg><option>--force</option></arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      &appmgr;
+      <arg choice="plain">update_platform</arg>
+      <arg choice="plain"><replaceable>NAME</replaceable></arg>
+      <arg><option>--user_friendly_name=<replaceable>DESC</replaceable></option></arg>
+      <group>
+        <arg><option>--deprecated</option></arg>
+        <arg><option>--no-deprecated</option></arg>
+      </group>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      &appmgr;
+      <arg choice="plain">add_standard_platforms</arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      &appmgr;
+      <group choice="req">
+	<arg choice="plain"><option>-h</option></arg>
+	<arg choice="plain"><option>--help</option></arg>
+      </group>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1>
+    <title>DESCRIPTION</title>
+    <para>
+      &appmgr; is a tool to manage platforms, applications and application
+      versions from the command-line.
+    </para>
+    <para>
+      Note: <firstterm>application</firstterm> refers to data in the
+      <literal>app</literal> table; <firstterm>application version</firstterm>
+      refers to data in the <literal>app_version</literal> table and in the
+      file system.
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>COMMANDS</title>
+    <para>
+      The generic syntax is:
+    </para>
+    <para>
+      <cmdsynopsis>
+	&appmgr;
+	<arg choice="plain">COMMAND</arg>
+	<arg><replaceable>command arguments</replaceable></arg>
+      </cmdsynopsis>
+    </para>
+    <para>
+      Note that command-specific options must came after the command, never before.
+      Here is a short list of the available commands. The following sections describe
+      the commands in detail.
+    </para>
+    <variablelist>
+      <varlistentry>
+	<term>list</term>
+	<listitem>
+	  <para>
+	    List the installed applications and application versions.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>add</term>
+	<listitem>
+	  <para>
+	    Add a new application.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>delete</term>
+	<listitem>
+	  <para>
+	    Delete an application or application version.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>update</term>
+	<listitem>
+	  <para>
+	    Update the properties of an application.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>update_appver</term>
+	<listitem>
+	  <para>
+	    Update the properties of an application version.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>list_platform</term>
+	<listitem>
+	  <para>
+	    List the platforms known to the project.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>add_platform</term>
+	<listitem>
+	  <para>
+	    Add a new platform.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>delete_platform</term>
+	<listitem>
+	  <para>
+	    Delete a platform.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>update_platform</term>
+	<listitem>
+	  <para>
+	    Update the properties of a platform.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>add_standard_platforms</term>
+	<listitem>
+	  <para>
+	    Add all standard platforms to the project.
+	  </para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+
+    <refsect2>
+      <title>LIST</title>
+      <para>
+	List the installed applications and application versions, together with
+	any non-default properties (beta, deprecated, min. core version etc.). If the
+	<option>--no-versions</option> option is specified, then the
+	list of application versions is omitted and just the application definitions
+	are listed.
+      </para>
+    </refsect2>
+
+    <refsect2>
+      <title>ADD</title>
+      <para>
+	Add a new application. <replaceable>NAME</replaceable> is
+	the short name of the application as used in the file system.
+	<replaceable>DESC</replaceable> is the user-friendly name that is
+	displayed to users.
+      </para>
+      <para>
+	The following options can also be specified:
+      </para>
+      <variablelist>
+	<varlistentry>
+	  <term>
+	    <option>--hr=no</option>,
+	    <option>--hr=fine</option>,
+	    <option>--hr=coarse</option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Set the homogeneous redundancy class. <literal>no</literal> means
+	      all hosts are equivalent, <literal>fine</literal> means
+	      fine-grained classification of 80 classes,
+	      <literal>coarse</literal> means coarse classification of 4
+	      classes.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--beta</option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Indicate that this is application is in beta testing. Users can select
+	      if they are willing to test applications marked as beta in their
+	      preferences; see the wiki section "Beta-test applications" about
+	      how to enable this on the web interface.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--weight=<replaceable>NUM</replaceable></option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Specify the weight of this application if the feeder is run with
+	      the <option>-allapps</option> option. <replaceable>NUM</replaceable>
+	      is a floating-point value, the default is 1.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--target_nresults=<replaceable>NUM</replaceable></option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Set the number of replicas when an otherwise unreplicated work
+	      unit is sent to a host that is not trusted. See the wiki section
+	      "Adaptive replication" for details.
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </refsect2>
+
+    <refsect2>
+      <title>DELETE</title>
+      <para>
+	Delete applications or application versions. This command deletes both the
+	database records and the files under the <filename>download</filename> and
+	<filename>apps</filename> directories, so use with care.
+      </para>
+      <para>
+	The following options can be specified:
+      </para>
+      <variablelist>
+	<varlistentry>
+	  <term>
+	    <option>--version=<replaceable>VER</replaceable></option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Select only application versions with the version number
+	      <replaceable>VER</replaceable>.
+	      The version number must be
+	      specified as <literal>major.minor</literal>.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--platform=<replaceable>NAME</replaceable></option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Select only application versions for the platform
+	      <replaceable>NAME</replaceable>.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--plan_class=<replaceable>NAME</replaceable></option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Select only application versions having the plan class
+	      <replaceable>NAME</replaceable>.
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+      <para>
+	If more than one of the options <option>--version</option>,
+	<option>--platform</option> and <option>--plan_class</option> are
+	specified, then only application versions matching all the criteria
+	are deleted. If none of these options are specified, then the
+	application is also deleted. Note that if one or more of
+	these options are specified then the application is not
+	deleted even if there are no more application versions remaining.
+      </para>
+    </refsect2>
+
+    <refsect2>
+      <title>UPDATE</title>
+      <para>
+	Update the properties of an application. The following properties can
+	be modified:
+      </para>
+      <variablelist>
+	<varlistentry>
+	  <term>
+	    <option>--hr=no</option>,
+	    <option>--hr=fine</option>,
+	    <option>--hr=coarse</option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Set the homogeneous redundancy class. <literal>no</literal> means
+	      all hosts are equivalent, <literal>fine</literal> means
+	      fine-grained classification of 80 classes,
+	      <literal>coarse</literal> means coarse classification of 4
+	      classes.
+	    </para>
+	    <warning>
+	      Do not change the homogeneous redundancy class while there are jobs
+	      in progress!
+	    </warning>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--beta</option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Indicate that this is application is in beta testing. Users can select
+	      if they are willing to test applications marked as beta in their
+	      preferences; see the wiki about how to enable this on the web interface.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--no-beta</option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Indicate that the application is no more in beta testing.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--weight=<replaceable>NUM</replaceable></option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Specify the weight of this application if the feeder is run with
+	      the <option>-allapps</option> option. <replaceable>NUM</replaceable>
+	      is a floating-point value, the default is 1.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--target_nresults=<replaceable>NUM</replaceable></option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Set the number of replicas when an otherwise unreplicated work
+	      unit is sent to a host that is not trusted. See the wiki article
+	      on "Adaptive replication" for details.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--user_friendly_name=<replaceable>DESC</replaceable></option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Update the user-friendly description of the application.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--min_version=<replaceable>VER</replaceable></option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Set the min. version of the application that the scheduler accepts.
+	      This is checked only if the client uses the <literal>anonymous</literal>
+	      platform.
+	      The version number must be
+	      specified as <literal>major.minor</literal>.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--deprecated</option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Indicate that the application is deprecated. The feeder will then
+	      ignore this application when looking for new work.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--no-deprecated</option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Remove the deprecation mark from the application.
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </refsect2>
+
+    <refsect2>
+      <title>UPDATE_APPVER</title>
+      <para>
+	Update the properties of an application version. The version(s) to operate
+	on can be specified with the <option>--version</option>, <option>--platform</option>
+	and <option>--plan_class</option> options, as described at the <literal>DELETE</literal>
+	command.
+      </para>
+      <para>
+	The following properties can be modified:
+      </para>
+      <variablelist>
+	<varlistentry>
+	  <term>
+	    <option>--min_core_version=<replaceable>VER</replaceable></option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Set the min. version of the core client that is required to run
+	      this application version.
+	      The version number must be specified as
+	      <literal>major.minor</literal>. The 3rd component (the patch
+	      level) of the core client version is ignored.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--max_core_version=<replaceable>VER</replaceable></option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Set the max. version of the core client that is allowed to run
+	      this application. Note that the scheduler ignores this setting currently.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--deprecated</option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Indicate that the application version is deprecated. The feeder will then
+	      ignore this version when looking for new work.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--no-deprecated</option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Remove the deprecation mark from the application version.
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </refsect2>
+
+    <refsect2>
+      <title>LIST_PLATFORM</title>
+      <para>
+	List the platforms known to the project. If the <option>--short</option> option
+	is specified, then only the short names of the platforms are listed.
+      </para>
+    </refsect2>
+
+    <refsect2>
+      <title>ADD_PLATFORM</title>
+      <para>
+	Add a new platform. <replaceable>NAME</replaceable> is the short name
+	of the platform that is used in the scheduler requests.
+	<replaceable>DESC</replaceable> is the user-friendly name that is
+	displayed to users.
+      </para>
+    </refsect2>
+
+    <refsect2>
+      <title>DELETE_PLATFORM</title>
+      <para>
+	Delete a platform. If the <option>--force</option> option is specified, the
+	command deletes all application versions for this platform. Otherwise, if there
+	are such application versions, the command will fail.
+      </para>
+    </refsect2>
+
+    <refsect2>
+      <title>UPDATE_PLATFORM</title>
+      <para>
+	Update the properties of a platform. The following properties can be modified:
+      </para>
+      <variablelist>
+	<varlistentry>
+	  <term>
+	    <option>--user_friendly_name=<replaceable>DESC</replaceable></option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Update the user-friendly description of the platform.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--deprecated</option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Indicate that the platform is deprecated. The feeder will then
+	      ignore this platform when looking for new work.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <option>--no-deprecated</option>
+	  </term>
+	  <listitem>
+	    <para>
+	      Remove the deprecation mark from the platform.
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </refsect2>
+
+    <refsect2>
+      <title>ADD_STANDARD_PLATFORMS</title>
+      <para>
+	Add all the standard platform definitions to the database that do not
+	exist yet.
+      </para>
+    </refsect2>
+  </refsect1>
+
+</refentry>
