@@ -198,7 +198,6 @@ static void windows_detect_autoproxy_settings() {
             gstate.proxy_info.autodetect_server_protocol = proxy_protocol;
             strcpy(gstate.proxy_info.autodetect_server_name, proxy_server);
             gstate.proxy_info.autodetect_server_port = proxy_port;
-            gstate.proxy_info.autodetect_proxy_settings = true;
 
             if (log_flags.proxy_debug) {
                 msg_printf(NULL, MSG_INFO,
@@ -216,7 +215,6 @@ static void windows_detect_autoproxy_settings() {
         gstate.proxy_info.autodetect_server_protocol = 0;
         strcpy(gstate.proxy_info.autodetect_server_name, "");
         gstate.proxy_info.autodetect_server_port = 0;
-        gstate.proxy_info.autodetect_proxy_settings = true;
         if (log_flags.proxy_debug) {
             msg_printf(NULL, MSG_INFO, "[proxy_debug] no automatic proxy detected");
         }
@@ -239,8 +237,11 @@ static LRESULT CALLBACK WindowsMonitorSystemWndProc(
 
                 // System Monitor 1 second timer
                 case 1:
-                    if (gstate.proxy_info.autodetect_proxy_settings) {
+                    if (gstate.proxy_info.need_autodetect_proxy_settings) {
+                        gstate.proxy_info.have_autodetect_proxy_settings = false;
                         windows_detect_autoproxy_settings();
+                        gstate.proxy_info.need_autodetect_proxy_settings = false;
+                        gstate.proxy_info.have_autodetect_proxy_settings = true;
                     }
                 default:
                     break;
@@ -291,7 +292,7 @@ static LRESULT CALLBACK WindowsMonitorSystemWndProc(
                     msg_printf(NULL, MSG_INFO, "Windows is resuming operations");
 
                     // Check for a proxy
-                    gstate.proxy_info.autodetect_proxy_settings = true;
+                    gstate.proxy_info.need_autodetect_proxy_settings = true;
 
                     resume_client();
                     break;
@@ -348,7 +349,7 @@ static DWORD WINAPI WindowsMonitorSystemThread( LPVOID  ) {
     }
 
     // Check for a proxy at startup
-    gstate.proxy_info.autodetect_proxy_settings = true;
+    gstate.proxy_info.need_autodetect_proxy_settings = true;
 
     while (GetMessage(&msg, NULL, 0, 0)) {
         TranslateMessage(&msg);

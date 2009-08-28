@@ -40,7 +40,10 @@ struct PROXY_INFO {
     int autodetect_server_protocol;
     char autodetect_server_name[256];
     int autodetect_server_port;
-    bool autodetect_proxy_settings;
+    bool need_autodetect_proxy_settings;
+        // if true, we need to detect proxy settings.
+        // set to true if ref web site lookup fails
+    bool have_autodetect_proxy_settings;
 
     int parse(MIOFILE&);
     int write(MIOFILE&);
