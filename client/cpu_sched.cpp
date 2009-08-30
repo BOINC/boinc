@@ -345,10 +345,18 @@ RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
             if (!rp->uses_coprocs()) continue;
 
             // TODO: break this out by resource type
-            if (!p->cuda_pwf.deadlines_missed_copy
-                && p->duration_correction_factor < 90.0
-            ) {
-                continue;
+            if (rp->avp->ncudas) {
+                if (!p->cuda_pwf.deadlines_missed_copy
+                    && p->duration_correction_factor < 90.0
+                ) {
+                    continue;
+                }
+            } else if (rp->avp->natis) {
+                if (!p->ati_pwf.deadlines_missed_copy
+                    && p->duration_correction_factor < 90.0
+                ) {
+                    continue;
+                }
             }
         } else {
             if (rp->uses_coprocs()) continue;
@@ -416,6 +424,9 @@ void CLIENT_STATE::reset_debt_accounting() {
     if (coproc_cuda) {
         cuda_work_fetch.reset_debt_accounting();
     }
+    if (coproc_ati) {
+        ati_work_fetch.reset_debt_accounting();
+    }
     debt_interval_start = now;
 }
 
@@ -464,6 +475,9 @@ void CLIENT_STATE::adjust_debts() {
     cpu_work_fetch.update_debts();
     if (coproc_cuda) {
         cuda_work_fetch.update_debts();
+    }
+    if (coproc_ati) {
+        ati_work_fetch.update_debts();
     }
 
     // adjust short term debts
@@ -639,6 +653,7 @@ void CLIENT_STATE::schedule_cpus() {
         p->anticipated_debt = p->short_term_debt;
         p->cpu_pwf.deadlines_missed_copy = p->cpu_pwf.deadlines_missed;
         p->cuda_pwf.deadlines_missed_copy = p->cuda_pwf.deadlines_missed;
+        p->ati_pwf.deadlines_missed_copy = p->ati_pwf.deadlines_missed;
     }
     for (i=0; i<app_versions.size(); i++) {
         app_versions[i]->max_working_set_size = 0;
@@ -669,7 +684,11 @@ void CLIENT_STATE::schedule_cpus() {
             "coprocessor job, EDF"
         );
         if (!can_run) continue;
-        rp->project->cuda_pwf.deadlines_missed_copy--;
+        if (rp->avp->ncudas) {
+            rp->project->cuda_pwf.deadlines_missed_copy--;
+        } else if (rp->avp->natis) {
+            rp->project->ati_pwf.deadlines_missed_copy--;
+        }
         ordered_scheduled_results.push_back(rp);
     }
 

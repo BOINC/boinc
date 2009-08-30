@@ -944,8 +944,8 @@ static void read_all_projects_list_file(MIOFILE& fout) {
 static int set_debt(XML_PARSER& xp) {
     bool is_tag;
     char tag[256], url[256];
-    double short_term_debt = 0, long_term_debt = 0, cuda_debt=0;
-    bool got_std=false, got_ltd=false, got_cuda_debt=false;
+    double short_term_debt = 0, long_term_debt = 0, cuda_debt=0, ati_debt=0;
+    bool got_std=false, got_ltd=false, got_cuda_debt=false, got_ati_debt=false;
     strcpy(url, "");
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!strcmp(tag, "/project")) {
@@ -956,6 +956,7 @@ static int set_debt(XML_PARSER& xp) {
             if (got_std) p->short_term_debt = short_term_debt;
             if (got_ltd) p->cpu_pwf.debt = long_term_debt;
             if (got_cuda_debt) p->cuda_pwf.debt = cuda_debt;
+            if (got_ati_debt) p->ati_pwf.debt = ati_debt;
             return 0;
         }
         if (xp.parse_str(tag, "master_url", url, sizeof(url))) continue;
@@ -969,6 +970,10 @@ static int set_debt(XML_PARSER& xp) {
         }
         if (xp.parse_double(tag, "cuda_debt", cuda_debt)) {
             got_cuda_debt = true;
+            continue;
+        }
+        if (xp.parse_double(tag, "ati_debt", ati_debt)) {
+            got_ati_debt = true;
             continue;
         }
         if (log_flags.unparsed_xml) {
