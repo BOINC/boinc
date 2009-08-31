@@ -132,7 +132,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         p->duration_correction_factor,
         g_use_sandbox?1:0
     );
-    work_fetch.write_request(f);
+    work_fetch.write_request(f, p->anonymous_platform);
 
     // write client capabilities
     //

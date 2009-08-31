@@ -7179,3 +7179,12 @@ David  29 Aug 2009
     client/
         cpu_sched.cpp
         gui_rpc_server_ops.cpp
+
+David  30 Aug 2009
+    - client:  if project is anonymous platform, set the overall work req
+        to the max of the requests for different resource types.
+        Otherwise projects with old schedulers won't send us work.
+
+    client/
+        cs_scheduler.cpp
+        work_fetch.cpp,h

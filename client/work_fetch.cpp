@@ -745,13 +745,27 @@ bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
     return true;
 }
 
-void WORK_FETCH::write_request(FILE* f) {
+void WORK_FETCH::write_request(FILE* f, bool anonymous_platform) {
+    double work_req = cpu_work_fetch.req_secs;
+
+    // if project is anonymous platform, set the overall work req
+    // to the max of the requests for different resource types.
+    // Otherwise projects with old schedulers won't send us work.
+    //
+    if (anonymous_platform) {
+        if (coproc_cuda && cuda_work_fetch.req_secs > work_req) {
+            work_req = cuda_work_fetch.req_secs;
+        }
+        if (coproc_ati && ati_work_fetch.req_secs > work_req) {
+            work_req = ati_work_fetch.req_secs;
+        }
+    }
     fprintf(f,
         "    <work_req_seconds>%f</work_req_seconds>\n"
         "    <cpu_req_secs>%f</cpu_req_secs>\n"
         "    <cpu_req_instances>%d</cpu_req_instances>\n"
         "    <estimated_delay>%f</estimated_delay>\n",
-        cpu_work_fetch.req_secs,
+        work_req,
         cpu_work_fetch.req_secs,
         cpu_work_fetch.req_instances,
         cpu_work_fetch.req_secs?cpu_work_fetch.busy_time:0
