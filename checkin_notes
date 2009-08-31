@@ -6246,3 +6246,11 @@ Charlie 21 Aug 2009
     
     mac_installer/
         release_boinc.sh
+
+Charlie 31 Aug 2009
+    - Tag for 6.8.17 release, all platforms
+      boinc_core_release_6_8_17
+
+    /
+        configure.ac
+        version.h
