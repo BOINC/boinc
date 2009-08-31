@@ -808,8 +808,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
         return;
     }
 
-    if (strlen(pi.autodetect_server_name)) {
-
+    if (pi.have_autodetect_proxy_settings && strlen(pi.autodetect_server_name)) {
         if (log_flags.proxy_debug) {
             msg_printf(0, MSG_INFO,
                 "[proxy_debug] HTTP_OP::setup_proxy_session(): setting up automatic proxy %s:%d",
@@ -829,10 +828,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
         }
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.autodetect_server_port);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.autodetect_server_name);
-    }
-
-    if (pi.use_http_proxy) {
-
+    } else if (pi.use_http_proxy) {
         if (log_flags.proxy_debug) {
             msg_printf(
                 0, MSG_INFO, "[proxy_debug]: setting up proxy %s:%d",
