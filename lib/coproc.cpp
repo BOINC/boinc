@@ -194,6 +194,42 @@ int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2, bool loose) {
     return 0;
 }
 
+#ifdef _WIN32
+typedef int (__stdcall *PCGDC)(int *count);
+typedef int (__stdcall *PCGDP)(struct cudaDeviceProp *prop, int device);
+typedef int (__stdcall *PCGDV)(int* version);
+typedef int (__stdcall *PCGDI)(int);
+typedef int (__stdcall *PCGDG)(int*, int);
+typedef int (__stdcall *PCGDA)(int*, int, int);
+typedef int (__stdcall *PCGDN)(char*, int, int);
+typedef int (__stdcall *PCGDM)(unsigned int*, int);
+typedef int (__stdcall *PCGDCC)(int*, int*, int);
+
+PCGDC __cuDeviceGetCount = NULL;
+//PCGDP __cuDeviceGetProperties = NULL;
+PCGDV __cuDriverGetVersion = NULL;
+PCGDI __cuInit = NULL;
+PCGDG __cuDeviceGet = NULL;
+PCGDA __cuDeviceGetAttribute = NULL;
+PCGDN __cuDeviceGetName = NULL;
+PCGDM __cuDeviceTotalMem = NULL;
+PCGDCC __cuDeviceComputeCapability = NULL;
+#else 
+void* cudalib;
+int (*__cuInit)(int);
+int (*__cuDeviceGetCount)(int*);
+//int (*__cuDeviceGetProperties)(cudaDeviceProp*, int);
+int (*__cuDriverGetVersion)(int*);
+int (*__cuDeviceGet)(int*, int);
+int (*__cuDeviceGetAttribute)(int*, int, int);
+int (*__cuDeviceGetName)(char*, int, int);
+int (*__cuDeviceTotalMem)(unsigned int*, int);
+int (*__cuDeviceComputeCapability)(int*, int*, int);
+#endif
+
+// NVIDIA interfaces are documented here:
+// http://developer.download.nvidia.com/compute/cuda/2_3/toolkit/docs/online/index.html
+
 void COPROC_CUDA::get(
     COPROCS& coprocs, vector<string>& strings,
     bool use_all    // if false, use only those equivalent to most capable
@@ -202,33 +238,11 @@ void COPROC_CUDA::get(
     char buf[256];
 
 #ifdef _WIN32
-
-    typedef int (__stdcall *PCGDC)(int *count);
-    typedef int (__stdcall *PCGDP)(struct cudaDeviceProp *prop, int device);
-    typedef int (__stdcall *PCGDV)(int* version);
-    typedef int (__stdcall *PCGDI)(int);
-    typedef int (__stdcall *PCGDG)(int*, int);
-    typedef int (__stdcall *PCGDA)(int*, int, int);
-    typedef int (__stdcall *PCGDN)(char*, int, int);
-    typedef int (__stdcall *PCGDM)(unsigned int*, int);
-    typedef int (__stdcall *PCGDCC)(int*, int*, int);
-
-    PCGDC __cuDeviceGetCount = NULL;
-    //PCGDP __cuDeviceGetProperties = NULL;
-    PCGDV __cuDriverGetVersion = NULL;
-    PCGDI __cuInit = NULL;
-    PCGDG __cuDeviceGet = NULL;
-    PCGDA __cuDeviceGetAttribute = NULL;
-    PCGDN __cuDeviceGetName = NULL;
-    PCGDM __cuDeviceTotalMem = NULL;
-    PCGDCC __cuDeviceComputeCapability = NULL;
-
     HMODULE cudalib = LoadLibrary("nvcuda.dll");
     if (!cudalib) {
         strings.push_back("Can't load library nvcuda.dll");
         return;
     }
-
     __cuDeviceGetCount = (PCGDC)GetProcAddress(cudalib, "cuDeviceGetCount");
     //__cuDeviceGetProperties = (PCGDP)GetProcAddress(cudalib, "cuDeviceGetProperties");
     __cuDriverGetVersion = (PCGDV)GetProcAddress(cudalib, "cuDriverGetVersion" );
@@ -255,16 +269,6 @@ void COPROC_CUDA::get(
     }
 #endif
 #else
-    void* cudalib;
-    int (*__cuInit)(int);
-    int (*__cuDeviceGetCount)(int*);
-    //int (*__cuDeviceGetProperties)(cudaDeviceProp*, int);
-    int (*__cuDriverGetVersion)(int*);
-    int (*__cuDeviceGet)(int*, int);
-    int (*__cuDeviceGetAttribute)(int*, int, int);
-    int (*__cuDeviceGetName)(char*, int, int);
-    int (*__cuDeviceTotalMem)(unsigned int*, int);
-    int (*__cuDeviceComputeCapability)(int*, int*, int);
 
 #ifdef __APPLE__
     cudalib = dlopen("/usr/local/cuda/lib/libcuda.dylib", RTLD_NOW);
@@ -613,6 +617,54 @@ int COPROC_CUDA::parse(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
+// check whether each GPU is running a graphics app (assume yes)
+// return true if there's been a change since last time
+//
+bool COPROC_CUDA::check_running_graphics_app() {
+    int retval, j;
+    bool change = false;
+    for (j=0; j<count; j++) {
+        bool new_val = true;
+        int device, kernel_timeout;
+        retval = (*__cuDeviceGet)(&device, j);
+        if (!retval) {
+            retval = (*__cuDeviceGetAttribute)(&kernel_timeout, CU_DEVICE_ATTRIBUTE_KERNEL_EXEC_TIMEOUT, device);
+            if (!retval && !kernel_timeout) {
+                new_val = false;
+            }
+        }
+        if (new_val != running_graphics_app[j]) {
+            change = true;
+        }
+        running_graphics_app[j] = new_val;
+    }
+}
+
+////////////////// ATI STARTS HERE /////////////////
+
+#ifdef _WIN32
+typedef int (__stdcall *PCGDC)(CALuint *numDevices);
+typedef int (__stdcall *ATTRIBS) (CALdeviceattribs *attribs, CALuint ordinal);
+typedef int (__stdcall *INFO) (CALdeviceinfo *info, CALuint ordinal);
+typedef int (__stdcall *VER) (CALuint *cal_major, CALuint *cal_minor, CALuint *cal_imp);
+typedef int (__stdcall *PCGDI)(void);
+typedef int (__stdcall *CLOSE)(void);
+
+PCGDI	__calInit = NULL;
+VER		__calGetVersion = NULL;
+PCGDC	__calDeviceGetCount = NULL;
+ATTRIBS __calDeviceGetAttribs = NULL;
+INFO    __calDeviceGetInfo = NULL;
+CLOSE	__calShutdown = NULL;
+#else
+int (*__calInit)();
+int (*__calGetVersion)(CALuint*, CALuint*, CALuint*);
+int (*__calDeviceGetCount)(CALuint*);
+int (*__calDeviceGetAttribs)(CALdeviceattribs*, CALuint);
+int (*__calDeviceGetInfo)(CALdeviceinfo*, CALuint);
+int (*__calShutdown)();
+#endif
+
 void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
     CALuint numDevices, cal_major, cal_minor, cal_imp;
     CALdevice device;
@@ -626,20 +678,6 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
     numDevices =0;
 
 #ifdef _WIN32
-    typedef int (__stdcall *PCGDC)(CALuint *numDevices);
-    typedef int (__stdcall *ATTRIBS) (CALdeviceattribs *attribs, CALuint ordinal);
-    typedef int (__stdcall *INFO) (CALdeviceinfo *info, CALuint ordinal);
-    typedef int (__stdcall *VER) (CALuint *cal_major, CALuint *cal_minor, CALuint *cal_imp);
-    typedef int (__stdcall *PCGDI)(void);
-    typedef int (__stdcall *CLOSE)(void);
-
-    PCGDI	__calInit = NULL;
-    VER		__calGetVersion = NULL;
-    PCGDC	__calDeviceGetCount = NULL;
-    ATTRIBS __calDeviceGetAttribs = NULL;
-    INFO    __calDeviceGetInfo = NULL;
-    CLOSE	__calShutdown = NULL;
-
 #if defined _M_X64
     // TRY CAL 1.4 first driver > 9.2
     HINSTANCE callib = LoadLibrary("aticalrt64.dll");
@@ -665,12 +703,6 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
     __calShutdown = (CLOSE)GetProcAddress(callib, "calShutdown" );
 #else
     void* callib;
-    int (*__calInit)();
-    int (*__calGetVersion)(CALuint*, CALuint*, CALuint*);
-    int (*__calDeviceGetCount)(CALuint*);
-    int (*__calDeviceGetAttribs)(CALdeviceattribs*, CALuint);
-    int (*__calDeviceGetInfo)(CALdeviceinfo*, CALuint);
-    int (*__calShutdown)();
 
     callib = dlopen("libaticalrt.so", RTLD_NOW);
     if (!callib) {

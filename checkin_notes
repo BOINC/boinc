@@ -7151,24 +7151,23 @@ David  28 Aug 2009
         cs_cmdline.cpp
     lib/
         proxy_info.cpp,h
-<<<<<<< .working
-=======
-
-David  28 Aug 2009
-    - add "appmgr" script for managing apps and versions (from Gabor Gombas)
-
-    doc/manpages/
-        appmgr.xml
-        Makefile.xm
-    py/Boinc/
-        setup_project.py
-    tools/
-        appmgr (new)
-        pymw_setup (removed)
 
 David  28 Aug 2009
     - client: fix work fetch log message for ATI GPU
 
     client/
         work_fetch.cpp
->>>>>>> .merge-right.r18939
+
+David  28 Aug 2009
+    - client: NVIDIA offers an API which tells you whether a GPU
+        is running a graphics application.
+        Change the semantics of the "don't use GPU while computer in use" pref
+        to "don't use a GPU that's running a graphics app while
+        computer is in use".
+        This will increase GPU utilization on multi-GPU systems.
+
+    client/
+        client_state.cpp
+        cpu_sched.cpp
+    lib/
+        coproc.cpp,h

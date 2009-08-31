@@ -62,7 +62,6 @@
 #include "sched_util.h"
 #include "sched_msgs.h"
 
-
 #define LOCKFILE "file_deleter.out"
 #define PIDFILE  "file_deleter.pid"
 
