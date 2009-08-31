@@ -7140,3 +7140,14 @@ Charlie 27 Aug 2009
     /
         configure.ac
         version.h
+
+David  28 Aug 2009
+    - reverted changes to PROXY_INFO which broke various things
+
+    client/
+        http_curl.cpp,h
+        client_state.cpp
+        net_stats.cpp
+        cs_cmdline.cpp
+    lib/
+        proxy_info.cpp,h
