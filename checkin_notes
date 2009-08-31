@@ -7171,3 +7171,11 @@ David  28 Aug 2009
         cpu_sched.cpp
     lib/
         coproc.cpp,h
+
+David  29 Aug 2009
+    - client: various bug fixes in job scheduling and work fetch for ATI.
+        From Crunch3r.
+
+    client/
+        cpu_sched.cpp
+        gui_rpc_server_ops.cpp
