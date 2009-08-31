@@ -7151,3 +7151,24 @@ David  28 Aug 2009
         cs_cmdline.cpp
     lib/
         proxy_info.cpp,h
+<<<<<<< .working
+=======
+
+David  28 Aug 2009
+    - add "appmgr" script for managing apps and versions (from Gabor Gombas)
+
+    doc/manpages/
+        appmgr.xml
+        Makefile.xm
+    py/Boinc/
+        setup_project.py
+    tools/
+        appmgr (new)
+        pymw_setup (removed)
+
+David  28 Aug 2009
+    - client: fix work fetch log message for ATI GPU
+
+    client/
+        work_fetch.cpp
+>>>>>>> .merge-right.r18939
