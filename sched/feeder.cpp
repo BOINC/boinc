@@ -447,7 +447,9 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
                     wi.res_id, i
                 );
                 wu_result.resultid = wi.res_id;
-                wu_result.result_priority = wi.res_priority;
+                wu_result.res_priority = wi.res_priority;
+                wu_result.res_server_state = wi.res_server_state;
+                wu_result.res_report_deadline = wi.res_report_deadline;
                 wu_result.workunit = wi.wu;
                 wu_result.state = WR_STATE_PRESENT;
                 // If the workunit has already been allocated to a certain
@@ -459,12 +461,10 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
                 } else {
                     wu_result.infeasible_count = 0;
                 }
-                // If using the reliable mechanism, then set the results for
-                // workunits older then the specificed time
-                // as needing a reliable host
+                // set the need_reliable flag if needed
                 //
-                wu_result.need_reliable = 0;
-                if (config.reliable_on_priority && wu_result.result_priority >= config.reliable_on_priority) {
+                wu_result.need_reliable = false;
+                if (config.reliable_on_priority && wu_result.res_priority >= config.reliable_on_priority) {
                     wu_result.need_reliable = true;
                 }
                 wu_result.time_added_to_shared_memory = time(0);

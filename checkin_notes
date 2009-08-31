@@ -7326,3 +7326,38 @@ David  30 Aug 2009
     client/
         cs_scheduler.cpp
         work_fetch.cpp,h
+
+David  31 Aug 2009
+    - scheduler: fix messed-up deadline check logic.
+        Old:
+            1) check deadline based on wu.delay_bound
+            2) in add_result_to_reply(), potentially modify wu.delay_bound,
+                e.g. because of retry acceleration
+            problem: reducing delay bound may cause deadline miss
+        New:
+            1) new function get_delay_bound_range()
+                (called from wu_is_infeasible_fast())
+                returns optimistic and pessimistic delay bounds.
+                Retry acceleration logic is here.
+            2) check deadline based on optimistic bound;
+                if that fails, check based on pessimistic bound.
+                Set wu.delay_bound to the one that worked.
+        Notes:
+        - get_delay_bound_range() needs result priority and report deadline,
+            and it's called before we read the full result.
+            So add these items to WORK_ITEM and WU_RESULT.
+        - get_delay_bound_range() could be customized for
+            project-specific deadline policy.
+        - add_result_to_reply() was becoming a toxic waste dump.
+            Deadline-related stuff should have been factored out in any case.
+
+    db/
+        boinc_db.cpp,h
+    sched/
+        feeder.cpp
+        sched_array.cpp
+        sched_customize.cpp
+        sched_locality.cpp
+        sched_send.cpp,h
+        sched_shmem.h
+        wu_check.cpp

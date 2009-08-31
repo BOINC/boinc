@@ -555,6 +555,56 @@ static inline void update_estimated_delay(BEST_APP_VERSION& bav, double dt) {
     }
 }
 
+// return the delay bound to use for this job/host.
+// Actually, return two: optimistic (lower) and pessimistic (higher).
+// If the deadline check with the optimistic bound fails,
+// try the pessimistic bound.
+//
+static void get_delay_bound_range(
+    WORKUNIT& wu,
+    int res_server_state, int res_priority, double res_report_deadline,
+    BEST_APP_VERSION& bav,
+    double& opt, double& pess
+) {
+    if (res_server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
+        double now = dtime();
+        if (res_report_deadline < now) {
+            // if original deadline has passed, return zeros
+            // This will skip deadline check.
+            opt = pess = 0;
+        }
+        opt = res_report_deadline - now;
+        pess = wu.delay_bound;
+    } else {
+        opt = pess = wu.delay_bound;
+
+        // If the workunit needs reliable and is being sent to a reliable host,
+        // then shorten the delay bound by the percent specified
+        //
+        if (config.reliable_on_priority && res_priority >= config.reliable_on_priority && config.reliable_reduced_delay_bound > 0.01
+        ) {
+            opt = wu.delay_bound*config.reliable_reduced_delay_bound;
+            double est_wallclock_duration = estimate_duration(wu, bav);
+            // Check to see how reasonable this reduced time is.
+            // Increase it to twice the estimated delay bound
+            // if all the following apply:
+            //
+            // 1) Twice the estimate is longer then the reduced delay bound
+            // 2) Twice the estimate is less then the original delay bound
+            // 3) Twice the estimate is less then the twice the reduced delay bound
+            if (est_wallclock_duration*2 > opt
+                && est_wallclock_duration*2 < wu.delay_bound
+                && est_wallclock_duration*2 < wu.delay_bound*config.reliable_reduced_delay_bound*2
+            ) {
+                opt = est_wallclock_duration*2;
+            }
+        }
+    }
+}
+
+// return 0 if the job, with the given delay bound,
+// will complete by its deadline, and won't cause other jobs to miss deadlines.
+//
 static inline int check_deadline(
     WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav
 ) {
@@ -572,6 +622,8 @@ static inline int check_deadline(
         return INFEASIBLE_CPU;
     }
 
+    // do EDF simulation if possible; else use cruder approximation
+    //
     if (config.workload_sim && g_request->have_other_results_list) {
         double est_dur = estimate_duration(wu, bav);
         if (g_reply->wreq.edf_reject_test(est_dur, wu.delay_bound)) {
@@ -592,7 +644,10 @@ static inline int check_deadline(
         double ewd = estimate_duration(wu, bav);
         if (hard_app(app)) ewd *= 1.3;
         double est_completion_delay = get_estimated_delay(bav) + ewd;
-        double est_report_delay = std::max(est_completion_delay, g_request->global_prefs.work_buf_min());
+        double est_report_delay = std::max(
+            est_completion_delay,
+            g_request->global_prefs.work_buf_min()
+        );
         double diff = est_report_delay - wu.delay_bound;
         if (diff > 0) {
             if (config.debug_send) {
@@ -623,7 +678,14 @@ static inline int check_deadline(
 //    the host probably won't get the result done within the delay bound
 // 4) app isn't in user's "approved apps" list
 //
-int wu_is_infeasible_fast(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
+// If the job is feasible, return 0 and fill in wu.delay_bound
+// with the delay bound we've decided to use.
+//
+int wu_is_infeasible_fast(
+    WORKUNIT& wu,
+    int res_server_state, int res_priority, double res_report_deadline,
+    APP& app, BEST_APP_VERSION& bav
+) {
     int retval;
 
     // project-specific check
@@ -668,11 +730,23 @@ int wu_is_infeasible_fast(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
     retval = check_bandwidth(wu);
     if (retval) return retval;
 
-    // do this last because EDF sim uses some CPU
+    // do deadline check last because EDF sim uses some CPU
+    //
+    double opt, pess;
+    get_delay_bound_range(
+        wu, res_server_state, res_priority, res_report_deadline, bav, opt, pess
+    );
+    wu.delay_bound = (int)opt;
+    if (opt == 0) {
+        // this is a resend; skip deadline check
+        return 0;
+    }
     retval = check_deadline(wu, app, bav);
-    if (retval) return INFEASIBLE_WORKLOAD;
-
-    return 0;
+    if (retval && (opt != pess)) {
+        wu.delay_bound = (int)pess;
+        retval = check_deadline(wu, app, bav);
+    }
+    return retval;
 }
 
 // insert "text" right after "after" in the given buffer
@@ -939,9 +1013,10 @@ int add_result_to_reply(
     retval = add_wu_to_reply(wu, *g_reply, app, bavp);
     if (retval) return retval;
 
-    // in the scheduling locality case,
-    // reduce the available space by LESS than the workunit rsc_disk_bound,
-    // IF the host already has the file OR the file was not already sent.
+    // Adjust available disk space.
+    // In the scheduling locality case,
+    // reduce the available space by less than the workunit rsc_disk_bound,
+    // if the host already has the file or the file was not already sent.
     //
     if (!locality_scheduling || decrement_disk_space_locality(wu)) {
         g_wreq->disk_available -= wu.rsc_disk_bound;
@@ -952,51 +1027,18 @@ int add_result_to_reply(
     result.hostid = g_reply->host.id;
     result.userid = g_reply->user.id;
     result.sent_time = time(0);
+    result.report_deadline = result.sent_time + wu.delay_bound;
     int old_server_state = result.server_state;
 
-    int delay_bound = wu.delay_bound;
     if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {
-        // We are sending this result for the first time
+        // We're sending this result for the first time
         //
-        // If the workunit needs reliable and is being sent to a reliable host,
-        // then shorten the delay bound by the percent specified
-        //
-        if (config.reliable_on_priority && result.priority >= config.reliable_on_priority && config.reliable_reduced_delay_bound > 0.01
-        ) {
-            double reduced_delay_bound = delay_bound*config.reliable_reduced_delay_bound;
-            double est_wallclock_duration = estimate_duration(wu, *bavp);
-            // Check to see how reasonable this reduced time is.
-            // Increase it to twice the estimated delay bound
-            // if all the following apply:
-            //
-            // 1) Twice the estimate is longer then the reduced delay bound
-            // 2) Twice the estimate is less then the original delay bound
-            // 3) Twice the estimate is less then the twice the reduced delay bound
-            if (est_wallclock_duration*2 > reduced_delay_bound
-                && est_wallclock_duration*2 < delay_bound
-                && est_wallclock_duration*2 < delay_bound*config.reliable_reduced_delay_bound*2
-            ) {
-                reduced_delay_bound = est_wallclock_duration*2;
-            }
-            delay_bound = (int) reduced_delay_bound;
-        }
-
-        result.report_deadline = result.sent_time + delay_bound;
         result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
     } else {
         // Result was already sent to this host but was lost,
-        // so we are resending it.
+        // so we're resending it.
         //
         resent_result = true;
-
-        // TODO: explain the following
-        //
-        if (result.report_deadline < result.sent_time) {
-            result.report_deadline = result.sent_time + 10;
-        }
-        if (result.report_deadline > result.sent_time + delay_bound) {
-            result.report_deadline = result.sent_time + delay_bound;
-        }
 
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,

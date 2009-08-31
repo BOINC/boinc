@@ -18,6 +18,9 @@
 // wu_check [-repair]
 // look for results with missing input files
 // -repair      change them to server_state OVER, outcome COULDNT_SEND
+//
+// NOTE 1: this assumes that jobs have a single input file.
+// NOTE 2: should rewrite to enumerate WUs, not results
 
 #include "config.h"
 #include <cstdio>
@@ -36,7 +39,7 @@
 
 bool repair = false;
 
-// wu_checker
+// wu_check
 // See whether input files that should be present, are
 
 // get the path a WU's input file

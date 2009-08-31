@@ -1415,6 +1415,8 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     memset(this, 0, sizeof(WORK_ITEM));
     res_id = atoi(r[i++]);
     res_priority = atoi(r[i++]);
+    res_server_state = atoi(r[i++]);
+    res_report_deadline = atof(r[i++]);
     wu.id = atoi(r[i++]);
     wu.create_time = atoi(r[i++]);
     wu.appid = atoi(r[i++]);
@@ -1457,7 +1459,7 @@ int DB_WORK_ITEM::enumerate(
         // (historical reasons)
         //
         sprintf(query,
-            "select high_priority r1.id, r1.priority, workunit.* from result r1 force index(ind_res_st), workunit "
+            "select high_priority r1.id, r1.priority, r1.server_state, r1.report_deadline, workunit.* from result r1 force index(ind_res_st), workunit "
             " where r1.server_state=%d and r1.workunitid=workunit.id "
             " %s "
             " %s "

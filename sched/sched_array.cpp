@@ -152,9 +152,14 @@ static bool scan_work_array() {
             continue;
         }
 
-        // don't send if host can't handle it
+        // don't send job if host can't handle it
         //
-        retval = wu_is_infeasible_fast(wu, *app, *bavp);
+        retval = wu_is_infeasible_fast(
+            wu,
+            wu_result.res_server_state, wu_result.res_priority,
+            wu_result.res_report_deadline,
+            *app, *bavp
+        );
         if (retval) {
             if (retval != last_retval && config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
@@ -164,9 +169,7 @@ static bool scan_work_array() {
             }
             last_retval = retval;
             if (config.debug_array) {
-                log_messages.printf(MSG_NORMAL,
-                    "[array] infeasible\n"
-                );
+                log_messages.printf(MSG_NORMAL, "[array] infeasible\n");
             }
             continue;
         }

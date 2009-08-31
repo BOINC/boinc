@@ -53,12 +53,15 @@
 // a workunit/result pair
 struct WU_RESULT {
     int state;
+        // EMPTY, PRESENT, or PID of locking process
     int infeasible_count;
     bool need_reliable;		// try to send to a reliable host
     WORKUNIT workunit;
     int resultid;
     int time_added_to_shared_memory;
-    int result_priority;
+    int res_priority;
+    int res_server_state;
+    double res_report_deadline;
     double fpops_size;      // measured in stdevs
 };
 

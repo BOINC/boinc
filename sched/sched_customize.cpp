@@ -313,7 +313,11 @@ bool JOB::get_score() {
     bavp = get_app_version(wu, true);
     if (!bavp) return false;
 
-    retval = wu_is_infeasible_fast(wu, *app, *bavp);
+    retval = wu_is_infeasible_fast(
+        wu, wu_result.res_server_state, wu_result.res_priority,
+        wu_result.res_report_deadline,
+        *app, *bavp
+    );
     if (retval) {
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,

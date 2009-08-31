@@ -289,9 +289,11 @@ static int possibly_send_result(DB_RESULT& result) {
     if (!bavp) return ERR_NO_APP_VERSION;
 
     APP* app = ssp->lookup_app(wu.appid);
-    if (wu_is_infeasible_fast(wu, *app, *bavp)) {
-        return ERR_INSUFFICIENT_RESOURCE;
-    }
+    retval = wu_is_infeasible_fast(
+        wu, result.server_state, result.report_deadline, result.priority,
+        *app, *bavp
+    );
+    if (retval) return retval;
 
     if (config.one_result_per_user_per_wu) {
         sprintf(buf, "where userid=%d and workunitid=%d", g_reply->user.id, wu.id);

@@ -346,6 +346,12 @@ struct WORKUNIT {
     char name[256];
     char xml_doc[BLOB_SIZE];
     int batch;
+        // projects can use this for any of several purposes:
+        // - group together related jobs so you can use a DB query
+        //   to see if they're all done
+        // - defer deleting output files (see file_deleter.cpp)
+        // - GPUGRID: store the min # of processors needed for the job
+        //   (see sched_customize.cpp)
     double rsc_fpops_est;       // estimated # of FP operations
         // used to estimate how long a result will take on a host
     double rsc_fpops_bound;     // upper bound on # of FP ops
@@ -767,6 +773,8 @@ public:
 struct WORK_ITEM {
     int res_id;
     int res_priority;
+    int res_server_state;
+    double res_report_deadline;
     WORKUNIT wu;
     void parse(MYSQL_ROW& row);
 };
