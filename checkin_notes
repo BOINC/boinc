@@ -7361,3 +7361,12 @@ David  31 Aug 2009
         sched_send.cpp,h
         sched_shmem.h
         wu_check.cpp
+
+Eric K	31 Aug 2009
+	- Fixed problem that prevented backtrace from being printed after many
+          types of signal.
+
+    lib/
+       diagnostics.cpp
+
+
