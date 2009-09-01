@@ -62,7 +62,6 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 // ppid       parent process ID
 // poip       pageouts in progress
 // rss        resident set size in Kbytes
-// rsz        resident set size + (text size / text use count)
 // time       accumulated cpu time, user + system
 // vsz        virtual size in Kbytes
 //
@@ -84,7 +83,7 @@ int procinfo_setup(vector<PROCINFO>& pi) {
 // root; this was perceived by some users as a security risk.
 
 
-    fd = popen("ps -axcopid,ppid,rsz,vsz,pagein,time,command", "r");
+    fd = popen("ps -axcopid,ppid,rss,vsz,pagein,time,command", "r");
     if (!fd) return 0;
 
     // Skip over the header line
