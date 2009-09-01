@@ -48,7 +48,11 @@ struct PROXY_INFO {
     int parse(MIOFILE&);
     int write(MIOFILE&);
     void clear();
+
+    PROXY_INFO& operator=(const PROXY_INFO&);
 };
+
+
 
 #endif
 
