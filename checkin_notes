@@ -7188,3 +7188,10 @@ David  30 Aug 2009
     client/
         cs_scheduler.cpp
         work_fetch.cpp,h
+
+Charlie 31 Aug 2009
+    - Mac installer: add logic for setting BOINC as screensaver under OS 10.6.
+    
+    mac_installer/
+        PostInstall.cpp
+    
