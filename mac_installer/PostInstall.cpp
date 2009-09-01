@@ -661,9 +661,14 @@ OSErr UpdateAllVisibleUsers(long brandID)
     Boolean             saverAlreadySet = true;
     FILE                *f;
     OSStatus            err;
+    long                response;
 #ifdef SANDBOX
     char                *p;
     short               i;
+
+    err = Gestalt(gestaltSystemVersion, &response);
+    if (err != noErr)
+        return err;
 
     grp = getgrnam("admin");
     if (grp == NULL) {      // Should never happen
@@ -714,7 +719,12 @@ OSErr UpdateAllVisibleUsers(long brandID)
 
         SetSkinInUserPrefs(dp->d_name, skinName);
 
-        f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
+        if (response < 0x1060) {
+            f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
+        } else {
+            f = popen("defaults -currentHost read com.apple.screensaver moduleDict -dict", "r");
+        }
+        
         if (f) {
             PersistentFGets(s, sizeof(s), f);
             if (!strstr(s, saverName[brandID]))
@@ -758,10 +768,16 @@ OSErr UpdateAllVisibleUsers(long brandID)
         saved_uid = geteuid();
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
 
-        sprintf(s, "defaults -currentHost write com.apple.screensaver moduleName %s", saverNameEscaped[brandID]);
-        system (s);
-        sprintf(s, "defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
-                    saverNameEscaped[brandID]);
+        if (response < 0x1060) {
+            sprintf(s, "defaults -currentHost write com.apple.screensaver moduleName %s", saverNameEscaped[brandID]);
+            system (s);
+            sprintf(s, "defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
+                        saverNameEscaped[brandID]);
+        } else {
+            sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName %s path /Library/Screen\\ Savers/%s.saver", 
+                    dp->d_name, saverNameEscaped[brandID], saverNameEscaped[brandID]);
+        }
+        printf("Command: %s\n", s);
         system (s);
         
         seteuid(saved_uid);                         // Set effective uid back to privileged user

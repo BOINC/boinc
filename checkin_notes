@@ -7369,4 +7369,9 @@ Eric K	31 Aug 2009
     lib/
        diagnostics.cpp
 
-
+Charlie 31 Aug 2009
+    - Mac installer: add logic for setting BOINC as screensaver under OS 10.6.
+    
+    mac_installer/
+        PostInstall.cpp
+    
