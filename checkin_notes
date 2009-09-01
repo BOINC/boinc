@@ -6247,6 +6247,13 @@ Charlie 21 Aug 2009
     mac_installer/
         release_boinc.sh
 
+Charlie 21 Aug 2009
+    - Mac client: in procinfo_setup(), use rss keyword not rsz in ps command 
+        for compatibility with OS 10.6 while keeping OS 10.3.9 compatibility.
+
+    lib/
+        procinfo_mac.cpp
+
 Charlie 31 Aug 2009
     - Mac installer: add logic for setting BOINC as screensaver under OS 10.6.
     
