@@ -7390,4 +7390,17 @@ Rom    1 Sept 2009
         net_stats.cpp
     lib/
         proxy_info.cpp, .h
-        
+
+David  1 Sept 2009
+    - client:
+        - remove HTTP_OP::pi; just use gstate.proxy_info
+        - remove HTTP_OP::set_proxy()
+        - remove PROXY_INFO::operator=; struct assignment works
+
+    client/
+        http_curl.cpp,h
+        gui_http.cpp
+        pers_file_xfer.cpp
+        scheduler_op.cpp
+    lib/
+        proxy_info.cpp,h
