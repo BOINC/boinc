@@ -659,6 +659,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
     char                s[256];
     group               *grp;
     Boolean             saverAlreadySet = true;
+    Boolean             found = false;
     FILE                *f;
     OSStatus            err;
     long                response;
@@ -722,14 +723,23 @@ OSErr UpdateAllVisibleUsers(long brandID)
         if (response < 0x1060) {
         f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
         } else {
-            f = popen("defaults -currentHost read com.apple.screensaver moduleDict -dict", "r");
+            sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleDict -dict", 
+                    dp->d_name); 
+            f = popen(s, "r");
         }
         
         if (f) {
-            PersistentFGets(s, sizeof(s), f);
-            if (!strstr(s, saverName[brandID]))
-                saverAlreadySet = false;
+            found = false;
+            while (PersistentFGets(s, sizeof(s), f)) {
+                if (strstr(s, saverName[brandID])) {
+                    found = true;
+                    break;
+                }
+            }
             pclose(f);
+            if (!found) {
+                saverAlreadySet = false;
+            }
         }
         
         seteuid(saved_uid);                         // Set effective uid back to privileged user
