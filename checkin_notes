@@ -7440,3 +7440,12 @@ Charlie 1 Sept 2009
         Mac_SA_Secure.sh
     mac_installer/
         PostInstall.cpp
+
+David  2 Sept 2009
+    - scheduler: put client version in host.serialnum
+    - web: parse serialnum correctly
+
+    html/inc/
+        host.inc
+    sched/
+        handle_request.cpp

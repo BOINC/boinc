@@ -490,7 +490,15 @@ got_host:
 static int modify_host_struct(HOST& host) {
     host.timezone = g_request->host.timezone;
     strncpy(host.domain_name, g_request->host.domain_name, sizeof(host.domain_name));
-    g_request->coprocs.summary_string(host.serialnum, sizeof(host.serialnum));
+    char buf[256], buf2[256];
+    sprintf(buf, "[BOINC|%d.%d.%d]",
+        g_request->core_client_major_version,
+        g_request->core_client_minor_version,
+        g_request->core_client_release
+    );
+    g_request->coprocs.summary_string(buf2, sizeof(buf2));
+    strlcpy(host.serialnum, buf, sizeof(host.serialnum));
+    strlcat(host.serialnum, buf2, sizeof(host.serialnum));
     if (strcmp(host.last_ip_addr, g_request->host.last_ip_addr)) {
         strncpy(host.last_ip_addr, g_request->host.last_ip_addr, sizeof(host.last_ip_addr));
     } else {
