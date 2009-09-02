@@ -41,7 +41,8 @@
 # the --insecure option.
 # NOTE: running BOINC with security disabled is not recommended.
 #
-# Last updated 10/2/07
+# Last updated 9/1/09 for BOINC version 6.8.17 and 6.10.3
+# WARNING: do not use this script with older versions of BOINC
 
 function remove_boinc_users() {
     name=$(dscl . search /users RecordName boinc_master | cut -f1 -s)
@@ -109,7 +110,7 @@ fi
 
 if [ -x /Applications/BOINCManager.app/Contents/MacOS/BOINCManager ] ; then 
     chown ${user}:${group} /Applications/BOINCManager.app/Contents/MacOS/BOINCManager
-    chmod -R u+r-w+s,g+r-ws,o+r-ws /Applications/BOINCManager.app/Contents/MacOS/BOINCManager
+    chmod -R u+r-ws,g+r-ws,o+r-ws /Applications/BOINCManager.app/Contents/MacOS/BOINCManager
 fi
 
 if [ -x /Applications/BOINCManager.app/Contents/Resources/boinc ] ; then 
