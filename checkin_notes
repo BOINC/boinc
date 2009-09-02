@@ -7252,3 +7252,11 @@ David  1 Sept 2009
         scheduler_op.cpp
     lib/
         proxy_info.cpp,h
+
+Rom    1 Sept 2009
+    - client: Use HTTP_OP::pi to avoid a crash when using a proxy. libcurl uses
+        the proxy information after the PROXY_INFO struct in setup_proxy_session()
+        had been popped off the stack.
+        
+    client/
+        http_curl.cpp,h

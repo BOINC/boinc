@@ -802,7 +802,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
         return;
     }
 
-    PROXY_INFO pi = gstate.proxy_info;
+    pi = gstate.proxy_info;
     if (pi.use_http_proxy) {
         if (log_flags.proxy_debug) {
             msg_printf(
