@@ -7260,3 +7260,11 @@ Rom    1 Sept 2009
         
     client/
         http_curl.cpp,h
+
+Rom    2 Sept 2009
+    - Tag for 6.10.3 release, all platforms
+      boinc_core_release_6_10_3
+
+    /
+        configure.ac
+        version.h
