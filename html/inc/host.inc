@@ -233,12 +233,12 @@ function host_nresults($host) {
 // format a GPU description string of the form [BOINC|vers][type|model|number|RAM]
 //
 function gpu_desc($x) {
-    if (!$x) return "";
     // skip BOINC part
     $y = strstr($x, 'BOINC');
     if ($y) {
         $x = strstr($y, "[");
     }
+    if (!$x) return "";
     $x = substr($x, 1, -1);
     $y = explode("|", $x);
     $z = "";
