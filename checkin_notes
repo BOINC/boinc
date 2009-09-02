@@ -7412,3 +7412,28 @@ Rom    1 Sept 2009
         
     client/
         http_curl.cpp,h
+
+Charlie 1 Sept 2009
+    - Mac Sandbox: Security fixes for Mac OS 10.6 Snow Leopard.
+        Mac OS 10.6 requires administrator authorization to run setgid 
+        applications if they use the AppKit (Cocoa) framework.  The Mac 
+        installer adds all users with admin privileges (members of group 
+        admin) to group boinc_master.  Since the Manager doesn't need to 
+        run setgid boinc_master if the user is a member of that group, 
+        we eliminate the setgid.
+        This means that non-admin users will be able to run the Manager 
+        only if the sysadmin adds them to group boinc_master, so we now 
+        create a login item or set the screensaver only for those users 
+        who are members of group boinc_master.
+        If a user who is not a member of that group runs the Manager, it 
+        displays an alert saying that in order to administer BOINC, he 
+        needs to ask the sysadmin to add him to group boinc_master.
+    
+    client/
+        check_security.cpp
+    clientgui/
+        BOINCGUIApp.cpp
+        mac/
+            SetupSecurity.cpp
+    mac_installer/
+        PostInstall.cpp
