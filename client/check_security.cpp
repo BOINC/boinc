@@ -35,6 +35,10 @@
 #include "error_numbers.h"
 #include "file_names.h"
 
+#ifdef __WXMAC__                            // If Mac BOINC Manager
+bool IsUserInGroupBM();
+#endif
+
 static int CheckNestedDirectories(char * basepath, int depth, int use_sandbox);
 
 #if (! defined(__WXMAC__) && ! defined(_MAC_INSTALLER))
@@ -80,10 +84,6 @@ int use_sandbox, int isManager
     ProcessSerialNumber ourPSN;
     ProcessInfoRec      pInfo;
     FSRef               ourFSRef;
-    char                *p;
-#endif
-#ifdef _MAC_INSTALLER
-    char                *p;
 #endif
 
 #define NUMBRANDS 3
@@ -158,10 +158,14 @@ saverName[2] = "Progress Thru Processors";
 
         boinc_master_uid = sbuf.st_uid;
         boinc_master_gid = sbuf.st_gid;
+
+#ifdef __WXMAC__
+    if (!IsUserInGroupBM())
+        return -1099;
+#endif
     } else {
         boinc_master_uid = geteuid();
         boinc_master_gid = getegid();
-
     }
 
 #ifdef _MAC_INSTALLER
@@ -212,6 +216,7 @@ saverName[2] = "Progress Thru Processors";
         boinc_project_gid = grp->gr_gid;
     }
 
+#if 0   // Manager is no longer setgid
 #if (defined(__WXMAC__) || defined(_MAC_INSTALLER)) // If Mac BOINC Manager or installer
         // Get the full path to BOINC Manager executable inside this application's bundle
         strlcpy(full_path, dir_path, sizeof(full_path));
@@ -237,6 +242,8 @@ saverName[2] = "Progress Thru Processors";
                 return -1015;
         }
 #endif
+#endif   // Manager is no longer setgid
+
 
 #ifdef _MAC_INSTALLER
         // Require absolute owner and group boinc_master:boinc_master
@@ -303,12 +310,13 @@ saverName[2] = "Progress Thru Processors";
 #else       // _MAC_INSTALLER
     getcwd(dir_path, sizeof(dir_path));             // Client or Manager
 
-    if (egid != boinc_master_gid)
-        return -1019;     // Client or Manager should be running setgid boinc_master
+    if (! isManager) {                                   // If BOINC Client
+        if (egid != boinc_master_gid)
+            return -1019;     // Client should be running setgid boinc_master
 
-    if (! isManager)                                    // If BOINC Client
         if (euid != boinc_master_uid)
             return -1020;     // BOINC Client should be running setuid boinc_master
+    }
 #endif
 
     retval = stat(dir_path, &sbuf);
@@ -649,3 +657,36 @@ static void GetPathToThisProcess(char* outbuf, size_t maxLen) {
         *q = '\0';
 }
 #endif
+
+
+#ifdef __WXMAC__                            // If Mac BOINC Manager
+bool IsUserInGroupBM() {
+    group               *grp;
+    gid_t               rgid;
+    char                *userName, *groupMember;
+    int                 i;
+
+    grp = getgrgid(boinc_master_gid);
+    if (grp) {
+
+        rgid = getgid();
+        if (rgid == boinc_master_gid) {
+            return true;                // User's primary group is boinc_master
+        }
+
+        userName = getlogin();
+        if (userName) {
+            for (i=0; ; i++) {          // Step through all users in group boinc_master
+                groupMember = grp->gr_mem[i];
+                if (groupMember == NULL)
+                    return false;       // User is not a member of group boinc_master
+                if (strcmp(userName, groupMember) == 0) {
+                    return true;        // User is a member of group boinc_master
+                }
+            }       // for (i)
+        }           // if (userName)
+    }               // if grp
+
+    return false;
+}
+#endif  // __WXMAC__

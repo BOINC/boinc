@@ -304,13 +304,18 @@ bool CBOINCGUIApp::OnInit() {
 
         ShowApplication(true);
 
-        strDialogMessage.Printf(
-            wxT("BOINC ownership or permissions are not set properly; please reinstall BOINC.\n(Error code %d)\n"),
-            iErrorCode
-        );
+        if (iErrorCode == -1099) {
+            strDialogMessage = 
+                _("You currently are not authorized to manage the client.\nPlease contact your administrator to add you to the 'boinc_master' user group.");
+        } else {
+            strDialogMessage.Printf(
+                _("BOINC ownership or permissions are not set properly; please reinstall BOINC.\n(Error code %d)\n"),
+                iErrorCode
+            );
 
+        }
         wxMessageDialog* pDlg = new wxMessageDialog(NULL, strDialogMessage, wxT("BOINC Manager"), wxOK);
-
+        
         pDlg->ShowModal();
         if (pDlg)
             pDlg->Destroy();
