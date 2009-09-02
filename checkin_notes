@@ -7449,3 +7449,13 @@ David  2 Sept 2009
         host.inc
     sched/
         handle_request.cpp
+
+David  2 Sept 2009
+    - client: fix to [18945]; we only want to max the overall request
+        with a GPU request if project is anonymous platform
+        AND it has an app for that GPU type
+    - client: report overall work request as well as per-resource-type requests
+
+    client/
+        cs_scheduler.cpp
+        work_fetch.cpp,h
