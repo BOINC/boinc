@@ -7459,3 +7459,9 @@ David  2 Sept 2009
     client/
         cs_scheduler.cpp
         work_fetch.cpp,h
+
+David  2 Sept 2009
+    - client: add <sched_op_debug> msg for ATI work request
+
+    client/
+        scheduler_op.cpp
