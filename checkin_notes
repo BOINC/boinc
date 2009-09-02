@@ -7379,7 +7379,7 @@ Rom    1 Sept 2009
     - client: autoproxy detection should happen at startup too.
     - client: when autoproxy detection is in progress don't attempt to use
         old values
-    - client: user defined proxies should take presidence over automatically
+    - client: user defined proxies should take precedence over automatically
         detected ones.
     - lib: Re-implement the assignment operator for proxy_info, http_curl.cpp
         uses it to clone the proxy information for each http op.  See set_proxy();
