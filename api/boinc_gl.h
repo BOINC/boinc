@@ -18,13 +18,10 @@
 #ifndef H_BOINC_GL
 #define H_BOINC_GL
 
-
 #if defined(_WIN32)
 #  include <GL/gl.h>
 #  include <GL/glu.h>
-#if !defined(__MINGW32__) && !defined(__CYGWIN32__)
-#  include <GL/glaux.h>
-#else
+#if defined(__MINGW32__) || defined(__CYGWIN32__)
 #  include <GL/glext.h>
 #endif
 
@@ -32,7 +29,6 @@
 
 #  include <OpenGL/gl.h>
 #  include <OpenGL/glu.h>
-
 
 #else // !_WIN32, !__APPLE_CC__
 #include "config.h"

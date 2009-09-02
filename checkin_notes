@@ -7465,3 +7465,11 @@ David  2 Sept 2009
 
     client/
         scheduler_op.cpp
+
+Rom    2 Sept 2009
+    - WIN: Remove unused references to glaux.h and glaux.lib
+    
+    api/
+        boinc_gl.h
+    win_build/
+        *.vcproj

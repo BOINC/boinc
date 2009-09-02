@@ -81,7 +81,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib glaux.lib odbc32.lib odbccp32.lib wsock32.lib libcmt.lib libcpmt.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib wsock32.lib libcmt.lib libcpmt.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -182,7 +182,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib glaux.lib odbc32.lib odbccp32.lib wsock32.lib libcmt.lib libcpmt.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib wsock32.lib libcmt.lib libcpmt.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -280,7 +280,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib glaux.lib ole32.lib delayimp.lib wsock32.lib wininet.lib"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib ole32.lib delayimp.lib wsock32.lib wininet.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -378,7 +378,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib glaux.lib ole32.lib delayimp.lib wsock32.lib advapi32.lib $(NOINHERIT)"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib opengl32.lib glu32.lib ole32.lib delayimp.lib wsock32.lib advapi32.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -476,7 +476,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib advapi32.lib opengl32.lib glu32.lib glaux.lib ole32.lib delayimp.lib wsock32.lib $(NOINHERIT)"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib advapi32.lib opengl32.lib glu32.lib ole32.lib delayimp.lib wsock32.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -574,7 +574,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib advapi32.lib opengl32.lib glu32.lib glaux.lib ole32.lib delayimp.lib wsock32.lib $(NOINHERIT)"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib advapi32.lib opengl32.lib glu32.lib ole32.lib delayimp.lib wsock32.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -675,7 +675,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib gdi32.lib advapi32.lib opengl32.lib glu32.lib glaux.lib ole32.lib delayimp.lib wsock32.lib libcmt.lib libcpmt.lib $(NOINHERIT)"
+				AdditionalDependencies="kernel32.lib user32.lib gdi32.lib advapi32.lib opengl32.lib glu32.lib ole32.lib delayimp.lib wsock32.lib libcmt.lib libcpmt.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -776,7 +776,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib user32.lib gdi32.lib advapi32.lib opengl32.lib glu32.lib glaux.lib ole32.lib delayimp.lib wsock32.lib libcmt.lib libcpmt.lib $(NOINHERIT)"
+				AdditionalDependencies="kernel32.lib user32.lib gdi32.lib advapi32.lib opengl32.lib glu32.lib ole32.lib delayimp.lib wsock32.lib libcmt.lib libcpmt.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boincscr.exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
