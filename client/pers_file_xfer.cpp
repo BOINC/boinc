@@ -119,7 +119,6 @@ int PERS_FILE_XFER::create_xfer() {
     }
 
     file_xfer = new FILE_XFER;
-    file_xfer->set_proxy(&gstate.proxy_info);
     fxp = file_xfer;
     retval = start_xfer();
     if (!retval) retval = gstate.file_xfers->insert(file_xfer);

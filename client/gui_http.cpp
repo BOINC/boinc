@@ -35,7 +35,6 @@ int GUI_HTTP::do_rpc(GUI_HTTP_OP* op, string url, string output_file) {
         return ERR_RETRY;
     }
 
-    http_op.set_proxy(&gstate.proxy_info);
     boinc_delete_file(output_file.c_str());
     retval = http_op.init_get(url.c_str(), output_file.c_str(), true);
     if (retval) return retval;
@@ -52,7 +51,6 @@ int GUI_HTTP::do_rpc_post(GUI_HTTP_OP* op, string url, string input_file, string
         return ERR_RETRY;
     }
 
-    http_op.set_proxy(&gstate.proxy_info);
     boinc_delete_file(output_file.c_str());
     retval = http_op.init_post(url.c_str(), input_file.c_str(), output_file.c_str());
     if (retval) return retval;

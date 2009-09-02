@@ -151,7 +151,6 @@ public:
         const char* infile, double offset     // infile is NULL if no file sent
     );
     bool http_op_done();
-	int set_proxy(PROXY_INFO *new_pi);
 	void setup_proxy_session(bool no_proxy);
 	bool no_proxy_for_url(const char* url);
 	bool is_active() {

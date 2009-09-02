@@ -264,7 +264,6 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
     get_sched_request_filename(*p, request_file, sizeof(request_file));
     get_sched_reply_filename(*p, reply_file, sizeof(reply_file));
 
-    http_op.set_proxy(&gstate.proxy_info);
     cur_proj = p;
     retval = http_op.init_post(scheduler_url, request_file, reply_file);
     if (retval) {
@@ -293,7 +292,6 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     if (log_flags.sched_op_debug) {
         msg_printf(p, MSG_INFO, "[sched_op_debug] Fetching master file");
     }
-    http_op.set_proxy(&gstate.proxy_info);
     cur_proj = p;
     retval = http_op.init_get(p->master_url, master_filename, true);
     if (retval) {
