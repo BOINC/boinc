@@ -6291,5 +6291,8 @@ Charlie 1 Sept 2009
         BOINCGUIApp.cpp
         mac/
             SetupSecurity.cpp
+    mac_build/
+        Mac_SA_Insecure.sh
+        Mac_SA_Secure.sh
     mac_installer/
         PostInstall.cpp
