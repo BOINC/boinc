@@ -431,6 +431,10 @@ int CLIENT_STATE::init() {
     if (sandbox_account_service_token != NULL) g_use_sandbox = true;
 #endif
 
+    // Check to see if a proxy server can be detected.
+    proxy_info.need_autodetect_proxy_settings = true;
+    proxy_info.have_autodetect_proxy_settings = false;
+
     check_file_existence();
     if (!boinc_file_exists(ALL_PROJECTS_LIST_FILENAME)) {
         all_projects_list_check_time = 0;
@@ -438,6 +442,7 @@ int CLIENT_STATE::init() {
     all_projects_list_check();
 
     auto_update.init();
+
     http_ops->cleanup_temp_files();
     
     initialized = true;

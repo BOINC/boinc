@@ -25,6 +25,8 @@
 
 #include "parse.h"
 #include "error_numbers.h"
+#include "str_replace.h"
+#include "str_util.h"
 #include "proxy_info.h"
 
 int PROXY_INFO::parse(MIOFILE& in) {
@@ -109,5 +111,25 @@ void PROXY_INFO::clear() {
     strcpy(autodetect_server_name, "");
     autodetect_server_port = 80;
 }
+
+PROXY_INFO& PROXY_INFO::operator=(const PROXY_INFO& new_pi) { 
+    use_http_proxy = new_pi.use_http_proxy; 
+    use_socks_proxy = new_pi.use_socks_proxy; 
+    use_http_auth = new_pi.use_http_auth; 
+    safe_strcpy(socks_server_name, new_pi.socks_server_name);
+    safe_strcpy(http_server_name, new_pi.http_server_name);
+    socks_server_port = new_pi.socks_server_port; 
+    http_server_port = new_pi.http_server_port; 
+    safe_strcpy(socks5_user_name, new_pi.socks5_user_name);
+    safe_strcpy(socks5_user_passwd, new_pi.socks5_user_passwd);
+    safe_strcpy(http_user_name, new_pi.http_user_name);
+    safe_strcpy(http_user_passwd, new_pi.http_user_passwd);
+    socks_version = new_pi.socks_version; 
+    autodetect_server_protocol = new_pi.autodetect_server_protocol; 
+    safe_strcpy(autodetect_server_name, new_pi.autodetect_server_name);
+    autodetect_server_port = new_pi.autodetect_server_port; 
+    safe_strcpy(noproxy_hosts, new_pi.noproxy_hosts);
+    return *this; 
+} 
 
 const char *BOINC_RCSID_af13db88e5 = "$Id$";
