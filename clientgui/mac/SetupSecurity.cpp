@@ -179,14 +179,14 @@ saverName[2] = "Progress Thru Processors";
 
 #ifdef _DEBUG
         // chmod u=rwx,g=rwsx,o=rx path/BOINCManager.app/Contents/MacOS/BOINCManager
-        // 02775 = S_ISGID | S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
-        //  setgid-on-execution plus read, write and execute permission for user & group, read & execute for others
-        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwsx,o=rx", fullpath, NULL, NULL, NULL);
+        // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
+        //  read, write and execute permission for user & group, read & execute for others
+        err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=rx", fullpath, NULL, NULL, NULL);
 #else
         // chmod u=rx,g=rsx,o=rx path/BOINCManager.app/Contents/MacOS/BOINCManager
-        // 02555 = S_ISGID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
-        //  setgid-on-execution plus read and execute permission for user, group & others
-        err = DoPrivilegedExec(chmodPath, "u=rx,g=rsx,o=rx", fullpath, NULL, NULL, NULL);
+        // 0555 = S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
+        //  read and execute permission for user, group & others
+        err = DoPrivilegedExec(chmodPath, "u=rx,g=rx,o=rx", fullpath, NULL, NULL, NULL);
 #endif
     if (err)
         return err;

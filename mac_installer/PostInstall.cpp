@@ -657,12 +657,16 @@ OSErr UpdateAllVisibleUsers(long brandID)
     Boolean             deleteLoginItem;
     char                skinName[256];
     char                s[256];
-    group               *grp;
+    group               grpAdmin, *grpAdminPtr;
+    char                adminBuf[32768];
+    group               grpBOINC_master, *grpBOINC_masterPtr;
+    char                bmBuf[32768];
     Boolean             saverAlreadySet = true;
     Boolean             found = false;
     FILE                *f;
     OSStatus            err;
     long                response;
+    Boolean             isGroupMember;
 #ifdef SANDBOX
     char                *p;
     short               i;
@@ -671,9 +675,15 @@ OSErr UpdateAllVisibleUsers(long brandID)
     if (err != noErr)
         return err;
 
-    grp = getgrnam("admin");
-    if (grp == NULL) {      // Should never happen
+    err = getgrnam_r("admin", &grpAdmin, adminBuf, sizeof(adminBuf), &grpAdminPtr);
+    if (err) {          // Should never happen unless buffer too small
         puts("getgrnam(\"admin\") failed\n");
+        return -1;
+    }
+
+    err = getgrnam_r("boinc_master", &grpBOINC_master, bmBuf, sizeof(bmBuf), &grpBOINC_masterPtr);
+    if (err) {          // Should never happen unless buffer too small
+        puts("getgrnam(\"boinc_master\") failed\n");
         return -1;
     }
 #endif
@@ -699,25 +709,45 @@ OSErr UpdateAllVisibleUsers(long brandID)
             continue;
 
 #ifdef SANDBOX
+        isGroupMember = false;
         i = 0;
-        while ((p = grp->gr_mem[i]) != NULL) {  // Step through all users in group admin
+        while ((p = grpAdmin.gr_mem[i]) != NULL) {  // Step through all users in group admin
             if (strcmp(p, dp->d_name) == 0) {
                 // User is a member of group admin, so add user to groups boinc_master and boinc_project
                 err = AddAdminUserToGroups(p);
                 if (err != noErr)
                     return err;
+                isGroupMember = true;
                 break;
             }
             ++i;
         }
+        
+        if (!isGroupMember) {
+            i = 0;
+            while ((p = grpBOINC_master.gr_mem[i]) != NULL) {  // Step through all users in group boinc_master
+                if (strcmp(p, dp->d_name) == 0) {
+                    // User is a member of group boinc_master
+                    isGroupMember = true;
+                break;
+            }
+            ++i;
+        }
+        }
+#else
+        isGroupMember = true;
 #endif
 
         deleteLoginItem = CheckDeleteFile(dp->d_name);
+        if (!isGroupMember) {
+            deleteLoginItem = true;
+        }
         saved_uid = geteuid();
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
 
         SetLoginItem(brandID, deleteLoginItem);     // Set login item for this user
 
+        if (isGroupMember) {
         SetSkinInUserPrefs(dp->d_name, skinName);
 
         if (response < 0x1060) {
@@ -739,6 +769,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
             pclose(f);
             if (!found) {
                 saverAlreadySet = false;
+                }
             }
         }
         
@@ -751,8 +782,8 @@ OSErr UpdateAllVisibleUsers(long brandID)
         return noErr;    
     }
     
-    if (!ShowMessage(true, "Do you want to set %s as the screensaver for all users on this Mac?", 
-                    brandName[brandID])) {
+    if (!ShowMessage(true, "Do you want to set %s as the screensaver for all %s users on this Mac?", 
+                    brandName[brandID], brandName[brandID])) {
         return noErr;    
     }
     
@@ -774,6 +805,24 @@ OSErr UpdateAllVisibleUsers(long brandID)
         pw = getpwnam(dp->d_name);
         if (pw == NULL)             // "Deleted Users", "Shared", etc.
             continue;
+
+#ifdef SANDBOX
+        isGroupMember = false;
+
+        i = 0;
+        while ((p = grpBOINC_master.gr_mem[i]) != NULL) {  // Step through all users in group boinc_master
+            if (strcmp(p, dp->d_name) == 0) {
+                // User is a member of group boinc_master
+                isGroupMember = true;
+                break;
+            }
+            ++i;
+        }
+
+        if (!isGroupMember) {
+            continue;
+        }
+#endif
 
         saved_uid = geteuid();
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
