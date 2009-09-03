@@ -128,7 +128,6 @@ static void windows_detect_autoproxy_settings() {
     char              proxy_server[256];
     int                       proxy_port = 0;
     char               proxy_file[256];
-    std::wstring              user_agent_string;
     std::wstring              network_test_url;
     size_t                    pos;
 
@@ -142,11 +141,10 @@ static void windows_detect_autoproxy_settings() {
         WINHTTP_AUTO_DETECT_TYPE_DHCP | WINHTTP_AUTO_DETECT_TYPE_DNS_A;
     autoproxy_options.fAutoLogonIfChallenged = TRUE;
 
-    user_agent_string = A2W(std::string(get_user_agent_string())).c_str();
     network_test_url = A2W(config.network_test_url).c_str();
 
     hWinHttp = pWinHttpOpen(
-        user_agent_string.c_str(),
+        L"BOINC client",
         WINHTTP_ACCESS_TYPE_NO_PROXY,
         WINHTTP_NO_PROXY_NAME,
         WINHTTP_NO_PROXY_BYPASS,
@@ -347,9 +345,6 @@ static DWORD WINAPI WindowsMonitorSystemThread( LPVOID  ) {
     if (!SetTimer(g_hWndWindowsMonitorSystem, 1, 1000, NULL)) {
         log_message_error("Failed to create the WindowsMonitorSystem timer.");
     }
-
-    // Check for a proxy at startup
-    gstate.proxy_info.need_autodetect_proxy_settings = true;
 
     while (GetMessage(&msg, NULL, 0, 0)) {
         TranslateMessage(&msg);
