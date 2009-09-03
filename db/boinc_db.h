@@ -475,8 +475,6 @@ struct RESULT {
     int received_time;              // when result was received from host
     char name[256];
     double cpu_time;                // CPU time used to complete result
-        // NOTE: with the current scheduler and client,
-        // this is elapsed time, not the CPU time
     char xml_doc_in[BLOB_SIZE];     // descriptions of output files
     char xml_doc_out[BLOB_SIZE];    // MD5s of output files
     char stderr_out[BLOB_SIZE];     // stderr output, if any
@@ -493,6 +491,9 @@ struct RESULT {
     int teamid;
     int priority;
     char mod_time[16];
+    double elapsed_time;            // AKA runtime
+    double flops_estimate;          // as returned by app_plan()
+    int app_version_id;             // or -1 if anonymous platform
 
     // the following used by the scheduler, but not stored in the DB
     //
@@ -844,6 +845,7 @@ struct SCHED_RESULT_ITEM {
     int app_version_num;
     int exit_status;
     int file_delete_state;
+    double elapsed_time;
 
     void clear();
     void parse(MYSQL_ROW& row);

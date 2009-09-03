@@ -7494,3 +7494,22 @@ David  2 Sept 2009
 
     client/
         cpu_sched.cpp
+
+David  3 Sept 2009
+    - scheduler and back end: add new fields to result table:
+        elapsed_time: the elapsed time (runtime) as reported by client
+        flops_estimate: the app's estimated FLOPS as reported by app_plan()
+        app_version_id: the DB ID of the app_version used
+            (or -1 if anonymous platform)
+        TODO: show these in the web interfaces,
+        and use them where appropriate
+
+    db/
+        boinc_db.cpp,h
+        schema.sql
+    html/ops/
+        db_update.php
+    sched/
+        sched_result.cpp
+        sched_send.cpp
+        sched_types.cpp

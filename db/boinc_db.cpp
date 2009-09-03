@@ -661,7 +661,7 @@ void DB_WORKUNIT::db_print(char* buf){
         "max_total_results=%d, max_success_results=%d, "
         "result_template_file='%s', "
         "priority=%d, "
-     	"rsc_bandwidth_bound=%.15e ",
+        "rsc_bandwidth_bound=%.15e ",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
@@ -743,7 +743,8 @@ void DB_RESULT::db_print(char* buf){
         "batch=%d, file_delete_state=%d, validate_state=%d, "
         "claimed_credit=%.15e, granted_credit=%.15e, opaque=%f, random=%d, "
         "app_version_num=%d, appid=%d, exit_status=%d, teamid=%d, "
-        "priority=%d, mod_time=null",
+        "priority=%d, mod_time=null, elapsed_time=%f, flops_estimate=%f, "
+        "app_version_id=%d",
         create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,
@@ -753,7 +754,7 @@ void DB_RESULT::db_print(char* buf){
         batch, file_delete_state, validate_state,
         claimed_credit, granted_credit, opaque, random,
         app_version_num, appid, exit_status, teamid,
-        priority
+        priority, elapsed_time, flops_estimate, app_version_id
     );
     UNESCAPE(xml_doc_out);
     UNESCAPE(stderr_out);
@@ -774,7 +775,7 @@ void DB_RESULT::db_print_values(char* buf){
         "'%s', '%s', '%s', "
         "%d, %d, %d, "
         "%.15e, %.15e, %f, %d, "
-        "%d, %d, %d, %d, %d, null)",
+        "%d, %d, %d, %d, %d, null, 0, 0, 0)",
         create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,
@@ -798,9 +799,10 @@ int DB_RESULT::mark_as_sent(int old_server_state) {
     int retval;
 
     sprintf(query,
-        "update result set server_state=%d, hostid=%d, userid=%d, sent_time=%d, report_deadline=%d where id=%d and server_state=%d",
-        server_state, hostid, userid, sent_time, report_deadline, id,
-        old_server_state
+        "update result set server_state=%d, hostid=%d, userid=%d, sent_time=%d, report_deadline=%d, flops_estimate=%f, app_version_id=%d  where id=%d and server_state=%d",
+        server_state, hostid, userid, sent_time, report_deadline,
+        flops_estimate, app_version_id,
+        id, old_server_state
     );
     retval = db->do_query(query);
     if (retval) return retval;
@@ -840,6 +842,9 @@ void DB_RESULT::db_parse(MYSQL_ROW &r) {
     teamid = atoi(r[i++]);
     priority = atoi(r[i++]);
     strcpy2(mod_time, r[i++]);
+    elapsed_time = atof(r[i++]);
+    flops_estimate = atof(r[i++]);
+    app_version_id = atoi(r[i++]);
 }
 
 void DB_MSG_FROM_HOST::db_print(char* buf) {
@@ -998,9 +1003,9 @@ void DB_CREDIT_MULTIPLIER::get_nearest(int _appid, int t) {
 
     snprintf(query,MAX_QUERY_LEN,
         "select * from credit_multiplier where appid=%d and "
-	    "abs(time-%d)=("
-	    "select min(abs(time-%d)) from credit_multiplier where appid=%d"
-	    ") limit 1",
+        "abs(time-%d)=("
+        "select min(abs(time-%d)) from credit_multiplier where appid=%d"
+        ") limit 1",
         appid, t, t, appid
     );
     if (db->do_query(query) != 0) return;
@@ -1175,7 +1180,9 @@ int DB_TRANSITIONER_ITEM_SET::update_result(TRANSITIONER_ITEM& ti) {
         ti.res_file_delete_state,
         ti.res_id
     );
-    return db->do_query(query);
+    int retval = db->do_query(query);
+    if (db->affected_rows() != 1) return ERR_DB_NOT_FOUND;
+    return retval;
 }
 
 int DB_TRANSITIONER_ITEM_SET::update_workunit(
@@ -1386,7 +1393,9 @@ int DB_VALIDATOR_ITEM_SET::update_result(RESULT& res) {
         res.opaque,
         res.id
     );
-    return db->do_query(query);
+    int retval = db->do_query(query);
+    if (db->affected_rows() != 1) return ERR_DB_NOT_FOUND;
+    return retval;
 }
 
 
@@ -1407,7 +1416,9 @@ int DB_VALIDATOR_ITEM_SET::update_workunit(WORKUNIT& wu) {
         wu.canonical_credit,
         wu.id
     );
-    return db->do_query(query);
+    int retval = db->do_query(query);
+    if (db->affected_rows() != 1) return ERR_DB_NOT_FOUND;
+    return retval;
 }
 
 void WORK_ITEM::parse(MYSQL_ROW& r) {
@@ -1626,7 +1637,7 @@ int DB_SCHED_RESULT_ITEM_SET::enumerate() {
         "   id, "
         "   name, "
         "   workunitid, "
-	"   appid, "
+        "   appid, "
         "   server_state, "
         "   hostid, "
         "   userid, "
@@ -1706,7 +1717,8 @@ int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
         "    stderr_out='%s', "
         "    xml_doc_out='%s', "
         "    validate_state=%d, "
-        "    teamid=%d "
+        "    teamid=%d, "
+        "    elapsed_time=%f "
         "WHERE "
         "    id=%d",
         ri.hostid,
@@ -1722,11 +1734,13 @@ int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
         ri.xml_doc_out,
         ri.validate_state,
         ri.teamid,
+        ri.elapsed_time,
         ri.id
     );
     retval = db->do_query(query);
     UNESCAPE(ri.xml_doc_out);
     UNESCAPE(ri.stderr_out);
+    if (db->affected_rows() != 1) return ERR_DB_NOT_FOUND;
     return retval;
 }
 

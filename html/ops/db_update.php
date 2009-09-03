@@ -646,6 +646,18 @@ function update_6_16_2009() {
 
 }
 
+function update_9_3_2009() {
+    do_query("alter table result add (
+        elapsed_time double not null,
+        flops_estimate double not null,
+        app_version_id integer not null
+        )
+    ");
+}
+
+// Updates are done automatically if you use "upgrade".
+//
+// If you need to do updates manually,
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
 // (Look at your DB structure using "explain" queries to see
@@ -655,6 +667,7 @@ function update_6_16_2009() {
 
 $db_updates = array (
     array(18490, "update_6_16_2009"),
+    array(19001, "update_9_3_2009"),
 );
 
 ?>

@@ -1028,6 +1028,12 @@ int add_result_to_reply(
     result.userid = g_reply->user.id;
     result.sent_time = time(0);
     result.report_deadline = result.sent_time + wu.delay_bound;
+    result.flops_estimate = bavp->host_usage.flops;
+    if (bavp->avp) {
+        result.app_version_id = bavp->avp->id;
+    } else {
+        result.app_version_id = -1;
+    }
     int old_server_state = result.server_state;
 
     if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {

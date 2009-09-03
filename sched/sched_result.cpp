@@ -69,14 +69,16 @@ int handle_results() {
     }
 
     // read results from database into "result_handler".
+    //
     // Quantities that must be read from the DB are those
     // where srip (see below) appears as an rval.
     // These are: id, name, server_state, received_time, hostid, validate_state.
+    //
     // Quantities that must be written to the DB are those for
     // which srip appears as an lval. These are:
     // hostid, teamid, received_time, client_state, cpu_time, exit_status,
     // app_version_num, claimed_credit, server_state, stderr_out,
-    // xml_doc_out, outcome, validate_state
+    // xml_doc_out, outcome, validate_state, elapsed_time
     //
     retval = result_handler.enumerate();
     if (retval) {
@@ -240,26 +242,31 @@ int handle_results() {
         srip->received_time = time(0);
         srip->client_state = rp->client_state;
         srip->cpu_time = rp->cpu_time;
+        srip->elapsed_time = rp->elapsed_time;
 
         // check for impossible CPU time
         //
-        double elapsed_time = srip->received_time - srip->sent_time;
-        if (elapsed_time < 0) {
+        double turnaround_time = srip->received_time - srip->sent_time;
+        if (turnaround_time < 0) {
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%d] [RESULT#%d] [WU#%d] inconsistent sent/received times\n", srip->hostid, srip->id, srip->workunitid
             );
         } else {
-            if (srip->cpu_time > elapsed_time) {
+            if (srip->elapsed_time > turnaround_time) {
                 log_messages.printf(MSG_NORMAL,
-                    "[HOST#%d] [RESULT#%d] [WU#%d] excessive CPU time: reported %f > elapsed %f%s\n",
-                    srip->hostid, srip->id, srip->workunitid, srip->cpu_time, elapsed_time, changed_host?" [OK: HOST changed]":""
+                    "[HOST#%d] [RESULT#%d] [WU#%d] excessive elapsed time: reported %f > elapsed %f%s\n",
+                    srip->hostid, srip->id, srip->workunitid,
+                    srip->elapsed_time, turnaround_time,
+                    changed_host?" [OK: HOST changed]":""
                 );
-                if (!changed_host) srip->cpu_time = elapsed_time;
             }
         }
 
         srip->exit_status = rp->exit_status;
         srip->app_version_num = rp->app_version_num;
+
+        // TODO: this is outdated, and doesn't belong here
+
         if (rp->fpops_cumulative || rp->intops_cumulative) {
             srip->claimed_credit = fpops_to_credit(rp->fpops_cumulative, rp->intops_cumulative);
         } else if (rp->fpops_per_cpu_sec || rp->intops_per_cpu_sec) {

@@ -247,6 +247,9 @@ create table result (
     teamid              integer     not null,
     priority            integer     not null,
     mod_time            timestamp,
+    elapsed_time        double      not null,
+    flops_estimate      double      not null,
+    app_version_id      integer     not null,
     primary key (id)
 ) engine=InnoDB;
 
