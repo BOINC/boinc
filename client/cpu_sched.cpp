@@ -419,6 +419,9 @@ void CLIENT_STATE::reset_debt_accounting() {
         if (coproc_cuda) {
             p->cuda_pwf.reset_debt_accounting();
         }
+        if (coproc_ati) {
+            p->ati_pwf.reset_debt_accounting();
+        }
     }
     cpu_work_fetch.reset_debt_accounting();
     if (coproc_cuda) {
@@ -1009,7 +1012,8 @@ static inline void assign_coprocs(vector<RESULT*> jobs) {
         }
     }
 
-    // enforce user pref in NVIDIA case
+    // enforce "don't use GPUs while active" pref in NVIDIA case;
+    // it applies only to GPUs running a graphics app
     //
     if (coproc_cuda && gstate.user_active && !gstate.global_prefs.run_gpu_if_user_active) {
         job_iter = jobs.begin();
