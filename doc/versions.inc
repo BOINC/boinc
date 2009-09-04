@@ -166,12 +166,12 @@ $m6218c = array(
 );
 
 $l66 = array(
-    "num"=>"6.6.36",
-    "status"=>"Recommended version",
-    "file"=>"boinc_compat_6.6.36_i686-pc-linux-gnu.sh",
-    "date"=>"10 June 2009",
-    "type"=>"sea",
-);
+	"num"=>"6.6.36",
+	"status"=>"Recommended version",
+	"file"=>"boinc_compat_6.6.36_i686-pc-linux-gnu.sh",
+	"date"=>"10 June 2009",
+	"type"=>"sea",
+	);
 
 $l64 = array(
     "num"=>"6.4.5",
@@ -181,13 +181,21 @@ $l64 = array(
     "type"=>"sea",
 );
 
+$l610ubuntudev = array(
+	"num"=>"6.10.3",
+	"status"=>"Development version",
+	"file"=>"boinc_6.10.3_i686-pc-linux-gnu.sh",
+	"date"=>"4 Sept 2009",
+	"type"=>"sea",
+	);
+
 $l66ubuntu = array(
-    "num"=>"6.6.36",
-    "status"=>"Recommended version",
-    "file"=>"boinc_6.6.36_i686-pc-linux-gnu.sh",
-    "date"=>"10 June 2009",
-    "type"=>"sea",
-);
+	"num"=>"6.6.36",
+	"status"=>"Recommended version",
+	"file"=>"boinc_6.6.36_i686-pc-linux-gnu.sh",
+	"date"=>"10 June 2009",
+	"type"=>"sea",
+	);
 
 $l64ubuntu = array(
     "num"=>"6.4.5",
@@ -197,13 +205,21 @@ $l64ubuntu = array(
     "type"=>"sea",
 );
 
+$l610ubuntux64dev = array(
+	"num"=>"6.10.3",
+	"status"=>"Development version",
+	"file"=>"boinc_6.10.3_x86_64-pc-linux-gnu.sh",
+	"date"=>"4 Sept 2009",
+	"type"=>"sea",
+	);
+
 $l66ubuntux64 = array(
-    "num"=>"6.6.36",
-    "status"=>"Recommended version",
-    "file"=>"boinc_6.6.36_x86_64-pc-linux-gnu.sh",
-    "date"=>"10 June 2009",
-    "type"=>"sea",
-);
+	"num"=>"6.6.36",
+	"status"=>"Recommended version",
+	"file"=>"boinc_6.6.36_x86_64-pc-linux-gnu.sh",
+	"date"=>"10 June 2009",
+	"type"=>"sea",
+	);
 
 $l64ubuntux64 = array(
     "num"=>"6.4.5",
@@ -265,8 +281,9 @@ $linux = array(
     "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
-        $l66ubuntu,
-        $l64ubuntu,
+		$l610ubuntudev,
+		$l66ubuntu,
+		$l64ubuntu,
     )
 );
 
@@ -275,8 +292,9 @@ $linuxx64 = array(
     "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
-        $l66ubuntux64,
-        $l64ubuntux64,
+		$l610ubuntux64dev,
+		$l66ubuntux64,
+		$l64ubuntux64,
     )
 );
 
