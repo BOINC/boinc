@@ -191,6 +191,7 @@ AC_ARG_ENABLE([client-release],
     [
        enable_client_release=yes
        disable_static_linkage=no
+       enable_shared=no
        AC_MSG_WARN([
 ================================================================================
 WARNING:  You have requested a statically linked release build.
@@ -360,7 +361,7 @@ dnl installed everywhere should be linked statically when building portable
 dnl binaries.  Put libraries that should be linked statically on every platform
 dnl in the STATIC_LIB_LIST variable before calling SAH_CHECK_LIB.  (Note: Only 
 dnl the '*' wildcard is supported).
-STATIC_LIB_LIST="stdc++* gcc gcc_s gcc_eh atk* gtk* gdk* gmodule* gthread* gobject* glib* pango* cairo* wx* tiff* jpeg* png* Xi glut socket z expat* krb5support freetype fontconfig* resolv* idn c_nonshared gpg* gss* gnutls sasl2"
+STATIC_LIB_LIST="stdc++* gcc gcc_s gcc_eh atk* gtk* gdk* gmodule* gthread* gobject* glib* pango* cairo* wx* tiff* jpeg* png* Xi glut socket z expat* krb5support freetype fontconfig* resolv* idn c_nonshared gpg* gss* gnutls sasl2 sqlite3"
 
 dnl We'll store these libs in a separate variable BOINC_EXTRA_LIBS for later 
 dnl post-processing instead of the default-action, which would append 
