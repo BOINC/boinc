@@ -27,7 +27,7 @@ $team = BoincTeam::lookup_id($teamid);
 if (!$team) error_page("no such team");
 require_admin($user, $team);
 
-$team_name = ereg_replace("\"", "'", $team->name);
+$team_name = strtr($team->name, '"', "'");
 page_head("Edit ".$team_name);
 team_edit_form($team, "Update team info", "team_edit_action.php");
 page_tail();

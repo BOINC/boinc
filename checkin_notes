@@ -7543,3 +7543,13 @@ David  5 Sept 2009
 
     client/
         time_stats.cpp
+
+David  5 Sept 2009
+    - web: remove usage of ereg_replace()
+        Fixes #787.  From Nicolas Alvarez.
+
+    html/
+        inc/
+            util.inc
+        user/
+            team_edit_form.php

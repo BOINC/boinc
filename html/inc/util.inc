@@ -421,8 +421,7 @@ function no_computing() {
 // Generates a legal filename from a parameter string.
 
 function get_legal_filename($name) {
-    $name = ereg_replace(',', '', $name);
-    return ereg_replace(' ', '_', $name);
+    return strtr($name, array(','=>'', ' '=>'_'));
 }
 
 // Returns a string containing as many words
