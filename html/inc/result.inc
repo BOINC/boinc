@@ -16,6 +16,32 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+$apps = array();
+$app_versions = array();
+
+function app_version_string($id) {
+    global $apps, $app_versions;
+    if ($id == 0) return "";
+    if ($id == -1) return "Anonymous platform";
+    if (array_key_exists($id, $app_versions)) {
+        $av = $app_versions[$id];
+        $app = $apps[$av->appid];
+    } else {
+        $av = BoincAppVersion::lookup("id=$id");
+        $app_versions[$id] = $av;
+        $app = BoincApp::lookup_id($av->appid);
+        $apps[$av->appid] = $app;
+    }
+    $n = $app->user_friendly_name;
+    $v = sprintf("%d.%02d", $av->version_num/100, $av->version_num%100);
+    if ($av->plan_class) {
+        $c = "($av->plan_class)";
+    } else {
+        $c = "";
+    }
+    return "$n v$v $c";
+}
+
 function result_claimed_credit_string($result, $string_to_show) {
     if ($result->server_state <> 5) return "---";
     switch($result->outcome) {
@@ -250,9 +276,11 @@ function result_table_start($show_wu_link, $show_host_link, $info) {
             <br><span class=\"smalltext\"><a href=\"explain_state.php?field=result_time\">explain</a></span>
         </th>
         <th>Status</th>
-        <th>Run time (sec)</th>
-        <th>claimed credit</th>
-        <th>granted credit</th>
+        <th>Run time<br>(sec)</th>
+        <th>CPU time<br>(sec)</th>
+        <th>Claimed credit</th>
+        <th>Granted credit</th>
+        <th>Application</th>
         </tr>
     ";
 }
@@ -305,16 +333,21 @@ function show_result_row(
     }
     if ($result->server_state <> 5) {
         $cpu_time = "---";
+        $elapsed_time = "---";
     } else {
         $cpu_time = number_format($result->cpu_time, 2);
+        $elapsed_time = number_format($result->elapsed_time, 2);
     }
+    $v = app_version_string($result->app_version_id);
     echo "
         <td>$s</td>
         <td>$r</td>
         <td>$ss</td>
+        <td align=right>$elapsed_time</td>
         <td align=right>$cpu_time</td>
         <td align=right>$result_claimed_credit</td>
         <td align=right>$result_granted_credit</td>
+        <td align=right>$v</td>
         </tr>
     ";
 }
@@ -350,12 +383,13 @@ function show_result($result) {
     row2("Exit status", exit_status_string($result));
     row2("Computer ID", host_link($result->hostid));
     row2("Report deadline", time_str($result->report_deadline));
-    row2("Run time", $result->cpu_time);
+    row2("Run time", $result->elapsed_time);
+    row2("CPU time", $result->cpu_time);
     row2("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
     row2("Validate state", validate_state_str($result));
     row2("Claimed credit", $result->claimed_credit);
     row2("Granted credit", $result->granted_credit);
-    row2("application version", version_string($result->app_version_num));
+    row2("application version", app_version_string($result->app_version_id));
     end_table();
 }
 

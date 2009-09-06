@@ -317,7 +317,17 @@ RESULT* first_coproc_result() {
         if (rp->project->non_cpu_intensive) continue;
         if (rp->already_selected) continue;
         if (!rp->uses_coprocs()) continue;
-        if (!best || (rp->received_time < best->received_time)) {
+        if (!best) {
+            best = rp;
+            continue;
+        }
+        if (rp->received_time < best->received_time) {
+            best = rp;
+            continue;
+        }
+        // make it deterministic
+        //
+        if (strcmp(rp->name, best->name)) {
             best = rp;
         }
     }

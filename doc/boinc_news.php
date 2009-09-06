@@ -1,6 +1,15 @@
 <?
 
 $project_news = array(
+array("September 4, 2009",
+    "An article in PCWorld,
+    <a href=http://www.pcworld.com/article/171126/12_worthy_causes_seek_your_spare_pc_cycles.html>12 Worthy Causes Seek Your Spare PC Cycles</a>,
+    describes BOINC and 12 projects that use it."
+),
+array("September 3, 2009",
+    "Facebook users: check out the
+    <a href=http://apps.facebook.com/boinc_milestones/>BOINC Milestones</a> app."
+),
 array("August 24, 2009",
     "UNITAR, UNIGE and CERN have agreed to collaborate on a <a href=http://www.unitar.org/citizen_cyberscience_centre_project>Citizen Cyberscience Centre</a>
     which, among other things, will promote volunteer computing."
