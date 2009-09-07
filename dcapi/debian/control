@@ -20,7 +20,7 @@ Description: Distributed Computing Platform API - Development files
 Package: libdcapi-dbg
 Section: debug
 Priority: extra
-Architecture: all
+Architecture: any
 Description: Distributed Computing Platform API - Debugging symbols
  This package contains debugging symbols needed for properly debugging the
  library with gdb.

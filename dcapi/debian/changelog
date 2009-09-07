@@ -1,3 +1,9 @@
+dcapi (0.9-22) unstable; urgency=low
+
+  * The debug package should be Arch: any, not Arch: all.
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Mon, 07 Sep 2009 18:00:56 +0200
+
 dcapi (0.9-21) unstable; urgency=low
 
   * Add shared library packages for the BOINC and local server-side API.
