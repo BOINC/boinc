@@ -231,9 +231,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         // don't complain about unparsed XML;
         // there are lots of tags the scheduler doesn't know about
 
-        xp.skip_unexpected(
-            tag, log_messages.debug_level==3, "SCHED_CONFIG::parse"
-        );
+        xp.skip_unexpected(tag, false, "SCHED_CONFIG::parse");
     }   
     return ERR_XML_PARSE;
 }

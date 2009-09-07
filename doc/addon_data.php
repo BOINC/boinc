@@ -1,13 +1,16 @@
 <?php
 
-// 0 filename or URL
-// 1 name
-// 2 version
-// 3 short desc
-// 4 origin URL
-// 5 platform
-// 6 long desc
-// 7 unix date
+$example = 
+array(
+    'filename or URL',
+    'name',
+    'version',
+    'short description',
+    'origin URL',
+    'platform',
+    'long description',
+    'unix date'
+);
 
 $win = array(
 array(
@@ -563,6 +566,27 @@ array('phpBOINCer-1.5.zip',
     1215641230
 ),
 
+array(
+    'http://apps.facebook.com/boinc_milestones/',
+    'BOINC Milestones',
+    '',
+    'Facebook application that posts credit milestones in your Status',
+    '',
+    '',
+    'Enter your Cross-Project ID, and each time you pass a credit milestone (10,000, 50,000 etc.) BOINC Milestones will post a message in your Status, where all your friends can see it.',
+    1252300894
+),
+
+array(
+    'http://apps.facebook.com/processors/new.php',
+    'Progress Thru Processors',
+    '',
+    'Facebook-based interface to BOINC',
+    '',
+    '',
+    'A Facebook application that lets you attach to projects and view your status through a Facebook application.  Operated by Intel in conjunction with GridRepublic.',
+    1252300894
+),
 
 );
 
