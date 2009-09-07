@@ -190,10 +190,9 @@ if ($xml) {
         list_end();
         echo "
             <h3>GPU computing</h3>
-            If your computer is equipped with an NVIDIA
-            Graphics Processing Unit (GPU),
+            If your computer is equipped with a Graphics Processing Unit (GPU),
             you may be able to
-            <a href=cuda.php>use it to compute faster</a>.
+            <a href=gpu.php>use it to compute faster</a>.
             <h3>Other platforms</h3>
             If your computer is not of one of these types, you can
             <ul>

@@ -37,9 +37,9 @@ See also
 <a href=wiki/Project_list>a complete list of projects</a>.
 
 <p>
-Note: if your computer is equipped with an NVIDIA Graphics Processing Unit
+Note: if your computer is equipped with a Graphics Processing Unit
 (GPU), you may be able to
-<a href=http://boinc.berkeley.edu/cuda.php>use it to compute faster</a>.
+<a href=http://boinc.berkeley.edu/gpu.php>use it to compute faster</a>.
 ";
 list_start("cellpadding=2 width=100%");
 list_heading(

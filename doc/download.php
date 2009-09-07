@@ -111,8 +111,8 @@ function show_download($pname) {
         <p>
         <b>"
         .sprintf(
-            tra("Note: if your computer is equipped with an NVIDIA Graphics Processing Unit (GPU), you may be able to %suse it to compute faster%s"),
-                "<a href=cuda.php>", ".</a>"
+            tra("Note: if your computer is equipped with an Graphics Processing Unit (GPU), you may be able to %suse it to compute faster%s"),
+                "<a href=gpu.php>", ".</a>"
         )
         ."</b>
         <br><br>
