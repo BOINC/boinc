@@ -2,6 +2,9 @@ noinst_LTLIBRARIES =
 
 AM_CPPFLAGS = -I$(top_srcdir)/include
 
+# Symbol file for the master side
+EXTRA_DIST = master.sym
+
 if BUILD_MASTER
 
 noinst_LTLIBRARIES += libdc-common-master.la

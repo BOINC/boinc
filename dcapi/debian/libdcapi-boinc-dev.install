@@ -1,2 +1,5 @@
-debian/tmp/usr/lib/libdc*-boinc.a
-debian/tmp/usr/lib/pkgconfig/dcapi-boinc*.pc
+debian/tmp/usr/lib/libdc-boinc.a
+debian/tmp/usr/lib/libdc-boinc.so
+debian/tmp/usr/lib/libdc-client-boinc.a
+debian/tmp/usr/lib/pkgconfig/dcapi-boinc-client.pc
+debian/tmp/usr/lib/pkgconfig/dcapi-boinc-master.pc

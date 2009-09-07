@@ -17,6 +17,22 @@ Description: Distributed Computing Platform API - Development files
  .
  This package contains the header files.
 
+Package: libdcapi-dbg
+Section: debug
+Priority: extra
+Architecture: all
+Description: Distributed Computing Platform API - Debugging symbols
+ This package contains debugging symbols needed for properly debugging the
+ library with gdb.
+
+Package: libdcapi-boinc1
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Distributed Computing Platform API - BOINC backend
+ This package contains the BOINC backend of the Distributed Computing
+ Platform API.
+
 Package: libdcapi-boinc-dev
 Section: libdevel
 Priority: extra
@@ -40,6 +56,14 @@ Description: Distributed Computing Platform API - Development files
  the Distributed Computing Platform.
  .
  This package contains the Condor backend.
+
+Package: libdcapi-local1
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Distributed Computing Platform API - Local backend
+ This package contains the local backend of the Distributed Computing
+ Platform API.
 
 Package: libdcapi-local-dev
 Section: libdevel

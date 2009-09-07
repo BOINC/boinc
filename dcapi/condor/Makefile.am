@@ -36,12 +36,14 @@ libdc_condor_la_SOURCES = condor_master.c \
 libdc_condor_la_LIBADD = ../common/libdc-common-master.la \
 			 $(GLIB_LIBS) \
 			 -lcondorapi
+libdc_condor_la_LDFLAGS = -static
 
 libdc_client_condor_la_SOURCES = condor_slave.c \
 				 condor_common.c \
 				 condor_utils.c
 
 libdc_client_condor_la_LIBADD = ../common/libdc-common-client.la
+libdc_client_condor_la_LDFLAGS = -static
 
 #appdir		= $(libdir)/dcapi/condor
 #app_PROGRAMS	= tss tm

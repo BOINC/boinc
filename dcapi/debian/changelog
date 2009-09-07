@@ -1,3 +1,10 @@
+dcapi (0.9-21) unstable; urgency=low
+
+  * Add shared library packages for the BOINC and local server-side API.
+  * Add a debug package.
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Mon, 07 Sep 2009 17:16:04 +0200
+
 dcapi (0.9-20) unstable; urgency=low
 
   * Include the Condor license in the libdcapi-condor-dev package. 

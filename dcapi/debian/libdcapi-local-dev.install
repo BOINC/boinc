@@ -1,2 +1,5 @@
-debian/tmp/usr/lib/libdc*-local.a
-debian/tmp/usr/lib/pkgconfig/dcapi-local*.pc
+debian/tmp/usr/lib/libdc-client-local.a
+debian/tmp/usr/lib/libdc-local.a
+debian/tmp/usr/lib/libdc-local.so
+debian/tmp/usr/lib/pkgconfig/dcapi-local-client.pc
+debian/tmp/usr/lib/pkgconfig/dcapi-local-master.pc

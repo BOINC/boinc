@@ -26,9 +26,9 @@ libdc_boinc_la_SOURCES = \
 		wu.C
 libdc_boinc_la_LIBADD = \
 		../common/libdc-common-master.la \
-		$(BOINC_SERVER_LIBS) \
-		-lm
+		-lsched -lboinc -lcrypto -luuid -lm
 libdc_boinc_la_CPPFLAGS = $(AM_CPPFLAGS) $(BOINC_SERVER_CPPFLAGS)
+libdc_boinc_la_LDFLAGS = -version-info 1:0:0 -export-symbols $(top_srcdir)/common/master.sym
 
 libdc_client_boinc_la_SOURCES = \
 		client.C
@@ -36,3 +36,4 @@ libdc_client_boinc_la_LIBADD = \
 		../common/libdc-common-client.la \
 		$(BOINC_CLIENT_LIBS)
 libdc_client_boinc_la_CPPFLAGS = $(AM_CPPFLAGS) $(BOINC_CPPFLAGS)
+libdc_client_boinc_la_LDFLAGS = -static

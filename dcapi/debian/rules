@@ -35,8 +35,7 @@ binary: configure
 		--enable-backend-local \
 		--with-condor-headers=/usr/include/condor \
 		--with-html-dir=/usr/share/doc/libdcapi-doc \
-		--disable-shared \
 		--disable-java \
 		CFLAGS="$(CFLAGS)" \
 		CXXFLAGS="$(CXXFLAGS)"
-	dh $@ --after dh_auto_configure -X.svn
+	dh $@ --after dh_auto_configure -X.svn --dbg-package=libdcapi-dbg
