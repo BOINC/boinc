@@ -27,13 +27,16 @@ libdc_local_la_SOURCES = \
 		local_utils.c \
 		local_common.c \
 		local_wu.c
-libdc_local_la_LIBADD = ../common/libdc-common-master.la $(GLIB_LIBS)
+libdc_local_la_LIBADD = ../common/libdc-common-master.la $(GLIB_LIBS) -luuid
+libdc_local_la_LDFLAGS = -version-info 1:0:0 -export-symbols $(top_srcdir)/common/master.sym
 
 libdc_client_local_la_SOURCES = \
 		local_client.c \
 		local_utils.c \
 		local_common.c
 libdc_client_local_la_LIBADD = ../common/libdc-common-client.la
+libdc_client_local_la_LDFLAGS = -static
+
 
 #appdir		= $(libdir)/dcapi/local
 #app_PROGRAMS	= lss lm

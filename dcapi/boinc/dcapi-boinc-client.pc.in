@@ -6,5 +6,6 @@ includedir=@includedir@
 Name: DC-API BOINC Client
 Description: BOINC client implementation for DC-API
 Version: @PACKAGE_VERSION@
-Libs: -L${libdir} -ldc-client-boinc @BOINC_CLIENT_LIBS@
+Libs: -L${libdir} -ldc-client-boinc
+Libs.private: @BOINC_CLIENT_LIBS@
 Cflags: -I${includedir}
