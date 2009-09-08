@@ -3,11 +3,11 @@ lib_LTLIBRARIES =
 AM_CPPFLAGS = -I$(top_srcdir)/include $(GLIB_CFLAGS)
 
 if BUILD_MASTER
-lib_LTLIBRARIES += libdc-boinc.la
+lib_LTLIBRARIES += libdcapi-boinc.la
 endif
 
 if BUILD_CLIENT
-lib_LTLIBRARIES += libdc-client-boinc.la
+lib_LTLIBRARIES += libdcapi-client-boinc.la
 endif
 
 pkgconfigdir = ${libdir}/pkgconfig
@@ -17,23 +17,23 @@ AM_LDFLAGS = $(BOINC_LDFLAGS) $(GLIB_LIBS)
 
 noinst_HEADERS = common_defs.h dc_boinc.h
 
-libdc_boinc_la_SOURCES = \
+libdcapi_boinc_la_SOURCES = \
 		config.C \
 		dc.c \
 		db.C \
 		events.C \
 		result.c \
 		wu.C
-libdc_boinc_la_LIBADD = \
-		../common/libdc-common-master.la \
+libdcapi_boinc_la_LIBADD = \
+		../common/libdcapi-common-master.la \
 		-lsched -lboinc -lcrypto -luuid -lm
-libdc_boinc_la_CPPFLAGS = $(AM_CPPFLAGS) $(BOINC_SERVER_CPPFLAGS)
-libdc_boinc_la_LDFLAGS = -version-info 1:0:0 -export-symbols $(top_srcdir)/common/master.sym
+libdcapi_boinc_la_CPPFLAGS = $(AM_CPPFLAGS) $(BOINC_SERVER_CPPFLAGS)
+libdcapi_boinc_la_LDFLAGS = -version-info 1:0:0 -export-symbols $(top_srcdir)/common/master.sym
 
-libdc_client_boinc_la_SOURCES = \
+libdcapi_client_boinc_la_SOURCES = \
 		client.C
-libdc_client_boinc_la_LIBADD = \
-		../common/libdc-common-client.la \
+libdcapi_client_boinc_la_LIBADD = \
+		../common/libdcapi-common-client.la \
 		$(BOINC_CLIENT_LIBS)
-libdc_client_boinc_la_CPPFLAGS = $(AM_CPPFLAGS) $(BOINC_CPPFLAGS)
-libdc_client_boinc_la_LDFLAGS = -static
+libdcapi_client_boinc_la_CPPFLAGS = $(AM_CPPFLAGS) $(BOINC_CPPFLAGS)
+libdcapi_client_boinc_la_LDFLAGS = -static

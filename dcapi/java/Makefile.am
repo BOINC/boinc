@@ -4,7 +4,7 @@ AM_CPPFLAGS = $(JAVA_INC)
 # 1. Java classes
 # 2. dc-client.jar
 # 3. jni_proto.h
-# 4. libdc-java-client.la
+# 4. libdcapi-java-client.la
 
 
 #######################################################################
@@ -72,20 +72,20 @@ $(CLASSDIR)/client/Version.java: $(CLASSDIR)/client/Version.java.in $(top_buildd
 # Rules for building the JNI part
 
 lib_LTLIBRARIES = \
-		libdc-java-client.la
+		libdcapi-java-client.la
 noinst_HEADERS = util.h
 BUILT_SOURCES = jni_proto.h jni_export.sym
 
-libdc_java_client_la_SOURCES = \
+libdcapi_java_client_la_SOURCES = \
 		client.c \
 		util.c
-libdc_java_client_la_LDFLAGS = \
+libdcapi_java_client_la_LDFLAGS = \
 		-avoid-version \
 		-release $(PACKAGE_VERSION) \
 		-export-symbols=jni_export.sym
-libdc_java_client_la_LIBADD = \
-		$(top_builddir)/boinc/libdc-client-boinc.la
-libdc_java_client_la_DEPENDENCIES = jni_export.sym
+libdcapi_java_client_la_LIBADD = \
+		$(top_builddir)/boinc/libdcapi-client-boinc.la
+libdcapi_java_client_la_DEPENDENCIES = jni_export.sym
 
 # jni_proto.h contains both the consumer and producer-side JNI prototypes
 jni_proto.h: $(JARFILES)
@@ -104,7 +104,7 @@ jni_export.sym: jni_proto.h
 install-exec-hook:
 	case $(host_os) in \
 		darwin*) \
-			$(LN_S) -f $(DESTDIR)$(libdir)/libdc-java-client-$(PACKAGE_VERSION).dylib $(DESTDIR)$(libdir)/libdc-java-client-$(PACKAGE_VERSION).jnilib; \
+			$(LN_S) -f $(DESTDIR)$(libdir)/libdcapi-java-client-$(PACKAGE_VERSION).dylib $(DESTDIR)$(libdir)/libdcapi-java-client-$(PACKAGE_VERSION).jnilib; \
 	esac
 
 

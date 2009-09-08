@@ -6,10 +6,10 @@
 
 set +v
 
-libdc-jre=`sed -n '/^<soft_link>/ s/<[^>]*>//gp' libdc-jre.tar`
+libdcapi-jre=`sed -n '/^<soft_link>/ s/<[^>]*>//gp' libdcapi-jre.tar`
 app-jar=`sed -n '/^<soft_link>/ s/<[^>]*>//gp' Uppercase.jar`
 
-[ -d jre ] || gunzip -c "$libdc-jre" | tar xf -
+[ -d jre ] || gunzip -c "$libdcapi-jre" | tar xf -
 
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/lib
 export LD_LIBRARY_PATH

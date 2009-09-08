@@ -58,7 +58,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies=""
-				OutputFile="$(OutDir)/libdc-client-boinc_2003.lib"
+				OutputFile="$(OutDir)/libdcapi-client-boinc_2003.lib"
 				AdditionalLibraryDirectories=""
 				IgnoreAllDefaultLibraries="FALSE"/>
 			<Tool
@@ -129,7 +129,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/libdc-client-boinc-debug_2003.lib"
+				OutputFile="$(OutDir)/libdcapi-client-boinc-debug_2003.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
