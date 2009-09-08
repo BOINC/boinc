@@ -7331,3 +7331,11 @@ David  5 Sept 2009
 
     client/
         time_stats.cpp
+
+Rom    8 Sept 2009
+    - Tag for 6.10.4 release, all platforms
+      boinc_core_release_6_10_4
+
+    /
+        configure.ac
+        version.h
