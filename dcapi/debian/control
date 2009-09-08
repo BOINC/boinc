@@ -21,6 +21,7 @@ Package: libdcapi-dbg
 Section: debug
 Priority: extra
 Architecture: any
+Depends: libdcapi-boinc1 (= ${binary:Version}), libdcapi-local1 (= ${binary:Version})
 Description: Distributed Computing Platform API - Debugging symbols
  This package contains debugging symbols needed for properly debugging the
  library with gdb.
@@ -38,7 +39,8 @@ Section: libdevel
 Priority: extra
 Architecture: any
 Provides: libdcapi-dev
-Depends: libdcapi-common-dev (= ${source:Version}), pkg-config, libglib2.0-dev, boinc-dev (>= 1:6.9.0+r18425), uuid-dev
+Depends: libdcapi-common-dev (= ${source:Version}), libdcapi-boinc1 (= ${binary:Version}),
+ pkg-config, libglib2.0-dev, boinc-dev (>= 1:6.9.0+r18425), uuid-dev
 Description: Distributed Computing Platform API - Development files
  This package contains headers and libraries for building applications using
  the Distributed Computing Platform.
@@ -70,7 +72,8 @@ Section: libdevel
 Priority: extra
 Architecture: any
 Provides: libdcapi-dev
-Depends: libdcapi-common-dev (= ${source:Version}), pkg-config, libglib2.0-dev, uuid-dev
+Depends: libdcapi-common-dev (= ${source:Version}), libdcapi-local1 (= ${binary:Version}),
+ pkg-config, libglib2.0-dev, uuid-dev
 Description: Distributed Computing Platform API - Development files
  This package contains headers and libraries for building applications using
  the Distributed Computing Platform.
