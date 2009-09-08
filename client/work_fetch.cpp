@@ -385,7 +385,7 @@ static bool has_a_job(PROJECT* p) {
     return false;
 }
 
-// we're going to contact this project reasons other than work fetch;
+// we're going to contact this project for reasons other than work fetch;
 // decide if we should piggy-back a work fetch request.
 //
 void WORK_FETCH::compute_work_request(PROJECT* p) {

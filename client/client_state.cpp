@@ -262,7 +262,11 @@ int CLIENT_STATE::init() {
         }
 #if 0
         fake_cuda(coprocs, 2);
-        msg_printf(NULL, MSG_INFO, "Faking a CUDA device");
+        msg_printf(NULL, MSG_INFO, "Faking an NVIDIA GPU");
+#endif
+#if 0
+        fake_ati(coprocs, 2);
+        msg_printf(NULL, MSG_INFO, "Faking an ATI GPU");
 #endif
         if (coprocs.coprocs.size() == 0) {
             msg_printf(NULL, MSG_INFO, "No coprocessors");

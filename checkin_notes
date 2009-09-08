@@ -7560,3 +7560,12 @@ David  7 Sept 2009
 
     tools/
         make_project
+
+David  8 Sept 2009
+    - client: add code for faking ATI GPUs
+
+    client/
+        client_state.cpp
+        work_fetch.cpp
+    lib/
+        coproc.cpp,h
