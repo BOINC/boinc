@@ -122,7 +122,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         hu.avg_ncpus = x;
         hu.max_ncpus = x;
 
-        hu.natis = 1;
+        //hu.natis = 1;
+        hu.natis = .5;
 
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,

@@ -954,7 +954,7 @@ void fake_ati(COPROCS& coprocs, int count) {
     cc->count = count;
     cc->attribs.numberOfSIMD = 32;
     cc->attribs.wavefrontSize = 32;
-    cc->attribs.engineClock = 500;
+    cc->attribs.engineClock = 50;
     for (int i=0; i<count; i++) {
         cc->device_nums[i] = i;
     }
