@@ -18,6 +18,9 @@
 extern "C" {
 #endif
 
+/* For the local backend, it is OK to use glib on the client side as well */
+#include <glib.h>
+
 /* Prefix of subresult file labels */
 #define SUBRESULT_PFX		"dc_subresult_"
 
@@ -90,9 +93,9 @@ struct _DC_s_param {
 };
 
 
-extern struct _DC_s_param _DC_params[cfg_nuof];
+extern struct _DC_s_param _DC_params[cfg_nuof] G_GNUC_INTERNAL;
 
-extern void _DC_init_common(void);
+extern void _DC_init_common(void) G_GNUC_INTERNAL;
 #define _DCAPI_MSG_MESSAGE      "message"
 #define _DCAPI_MSG_LOGICAL      "logical_name"
 #define _DCAPI_MSG_COMMAND      "command"

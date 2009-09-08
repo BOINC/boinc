@@ -23,7 +23,6 @@
 #include <dc_internal.h>
 
 #include "local_common.h"
-/*#include "local_slave.h"*/
 #include "local_utils.h"
 
 

@@ -44,25 +44,28 @@ extern "C" {
  */
 
 /* Parses a configuration file */
-int _DC_parseCfg(const char *cfgfile);
+int _DC_parseCfg(const char *cfgfile) __attribute__((visibility("hidden")));
 
 /* Copies a file */
-int _DC_copyFile(const char *src, const char *dst);
+int _DC_copyFile(const char *src, const char *dst) __attribute__((visibility("hidden")));
 
 /* Processes a unit suffix and adjust the value accordingly */
-long long _DC_processSuffix(const char *suffix);
+long long _DC_processSuffix(const char *suffix) __attribute__((visibility("hidden")));
 
 /* Parses a boolean value */
-int _DC_parseBoolean(const char *value);
+int _DC_parseBoolean(const char *value) __attribute__((visibility("hidden")));
 
 /* Allocates a physical file descriptor */
-DC_PhysicalFile *_DC_createPhysicalFile(const char *label, const char *path);
+DC_PhysicalFile *_DC_createPhysicalFile(const char *label, const char *path)
+	__attribute__((visibility("hidden")));
 
 /* De-allocates a physical file descriptor */
-void _DC_destroyPhysicalFile(DC_PhysicalFile *file);
+void _DC_destroyPhysicalFile(DC_PhysicalFile *file)
+	__attribute__((visibility("hidden")));
 
 /* Initializa a config file for a client */
-int _DC_initClientConfig(const char *clientName, FILE *f);
+int _DC_initClientConfig(const char *clientName, FILE *f)
+	__attribute__((visibility("hidden")));
 
 #ifdef __cplusplus
 }

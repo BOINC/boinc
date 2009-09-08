@@ -18,7 +18,7 @@ extern "C" {
 #endif
 
 /* Get a configuration parameter */
-char *_DC_wu_cfg(DC_Workunit *wu, enum _DC_e_param what);
+char *_DC_wu_cfg(DC_Workunit *wu, enum _DC_e_param what) G_GNUC_INTERNAL;
 
 #ifdef __cplusplus
 }
