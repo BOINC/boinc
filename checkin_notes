@@ -7299,3 +7299,9 @@ David  2 Sept 2009
         client_state.cpp
         cpu_sched.cpp
         scheduler_op.cpp
+
+David  2 Sept 2009
+    - client: fix bug where client runs too many CPU jobs
+
+    client/
+        cpu_sched.cpp

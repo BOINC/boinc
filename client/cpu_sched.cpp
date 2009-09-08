@@ -1158,6 +1158,15 @@ bool CLIENT_STATE::enforce_schedule() {
         // decide if we're already using too many CPUs to run this job
         //
         if (!rp->uses_coprocs()) {
+            if (ncpus_used >= ncpus) {
+                if (log_flags.cpu_sched_debug) {
+                    msg_printf(rp->project, MSG_INFO,
+                        "[cpu_sched_debug] all CPUs used, skipping %s",
+                        rp->name
+                    );
+                }
+                continue;
+            }
             if (running_edf_scheduled_job) {
                 // if we're running an EDF job,
                 // don't use more than 150% of #CPUs.
@@ -1175,15 +1184,6 @@ bool CLIENT_STATE::enforce_schedule() {
             } else {
                 // Otherwise saturate CPUs.
                 //
-                if (ncpus_used >= ncpus) {
-                    if (log_flags.cpu_sched_debug) {
-                        msg_printf(rp->project, MSG_INFO,
-                            "[cpu_sched_debug] all CPUs used, skipping %s",
-                            rp->name
-                        );
-                    }
-                    continue;
-                }
             }
         }
 
