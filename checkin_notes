@@ -7317,3 +7317,11 @@ David  3 Sept 2009
     client/
         cs_scheduler.cpp
         work_fetch.cpp,h
+
+David  5 Sept 2009
+    - client: in choosing GPU jobs in FIFO order,
+        use job name as tiebreaker if received times are the same.
+        This makes the order deterministic.
+
+    client/
+        cpu_sched.cpp
