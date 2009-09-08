@@ -1,3 +1,9 @@
+dcapi (0.9-25) unstable; urgency=low
+
+  * Add some missing API functions for the local backend.
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Tue, 08 Sep 2009 17:27:04 +0200
+
 dcapi (0.9-24) unstable; urgency=low
 
   * Add symbols files support for the shared libraries
