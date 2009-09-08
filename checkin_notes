@@ -7284,3 +7284,9 @@ David  2 Sept 2009
 
     client/
         scheduler_op.cpp
+
+David  2 Sept 2009
+    - client: fix crashing bug in proxy autodetect
+
+    client/
+        sysmon_win.cpp
