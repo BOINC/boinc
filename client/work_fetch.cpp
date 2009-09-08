@@ -361,27 +361,6 @@ void WORK_FETCH::print_state() {
     msg_printf(0, MSG_INFO, "[wfd] ------- end work fetch state -------");
 }
 
-static void print_req(PROJECT* p) {
-    char buf[256], buf2[256];
-    sprintf(buf,
-        "[wfd] request: CPU (%.2f sec, %d)",
-        cpu_work_fetch.req_secs, cpu_work_fetch.req_instances
-    );
-    if (coproc_cuda) {
-        sprintf(buf2, " NVIDIA GPU (%.2f sec, %d)",
-            cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
-        );
-        strcat(buf, buf2);
-    }
-    if (coproc_ati) {
-        sprintf(buf2, " ATI GPU (%.2f sec, %d)",
-            ati_work_fetch.req_secs, ati_work_fetch.req_instances
-        );
-        strcat(buf, buf2);
-    }
-    msg_printf(p, MSG_INFO, buf);
-}
-
 void RSC_WORK_FETCH::clear_request() {
     req_secs = 0;
     req_instances = 0;
@@ -514,9 +493,7 @@ PROJECT* WORK_FETCH::choose_project() {
 
     if (log_flags.work_fetch_debug) {
         print_state();
-        if (p) {
-            print_req(p);
-        } else {
+        if (!p) {
             msg_printf(0, MSG_INFO, "[wfd] No project chosen for work fetch");
         }
     }
@@ -745,19 +722,37 @@ bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
     return true;
 }
 
-void WORK_FETCH::write_request(FILE* f, bool anonymous_platform) {
+inline bool has_coproc_app(PROJECT* p, int rsc_type) {
+    unsigned int i;
+    for (i=0; i<gstate.app_versions.size(); i++) {
+        APP_VERSION* avp = gstate.app_versions[i];
+        if (avp->project != p) continue;
+        switch(rsc_type) {
+        case RSC_TYPE_CUDA: if (avp->ncudas) return true;
+        case RSC_TYPE_ATI: if (avp->natis) return true;
+        }
+    }
+    return false;
+}
+
+void WORK_FETCH::write_request(FILE* f, PROJECT* p) {
     double work_req = cpu_work_fetch.req_secs;
 
     // if project is anonymous platform, set the overall work req
-    // to the max of the requests for different resource types.
+    // to the max of the requests of resource types for which we have versions.
     // Otherwise projects with old schedulers won't send us work.
+    // THIS CAN BE REMOVED AT SOME POINT
     //
-    if (anonymous_platform) {
-        if (coproc_cuda && cuda_work_fetch.req_secs > work_req) {
-            work_req = cuda_work_fetch.req_secs;
+    if (p->anonymous_platform) {
+        if (has_coproc_app(p, RSC_TYPE_CUDA)) {
+            if (cuda_work_fetch.req_secs > work_req) {
+                work_req = cuda_work_fetch.req_secs;
+            }
         }
-        if (coproc_ati && ati_work_fetch.req_secs > work_req) {
-            work_req = ati_work_fetch.req_secs;
+        if (has_coproc_app(p, RSC_TYPE_ATI)) {
+            if (ati_work_fetch.req_secs > work_req) {
+                work_req = ati_work_fetch.req_secs;
+            }
         }
     }
     fprintf(f,
@@ -770,6 +765,27 @@ void WORK_FETCH::write_request(FILE* f, bool anonymous_platform) {
         cpu_work_fetch.req_instances,
         cpu_work_fetch.req_secs?cpu_work_fetch.busy_time:0
     );
+    if (log_flags.work_fetch_debug) {
+        char buf[256], buf2[256];
+        sprintf(buf,
+            "[wfd] request: %.2f sec CPU (%.2f sec, %d)",
+            work_req,
+            cpu_work_fetch.req_secs, cpu_work_fetch.req_instances
+        );
+        if (coproc_cuda) {
+            sprintf(buf2, " NVIDIA GPU (%.2f sec, %d)",
+                cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
+            );
+            strcat(buf, buf2);
+        }
+        if (coproc_ati) {
+            sprintf(buf2, " ATI GPU (%.2f sec, %d)",
+                ati_work_fetch.req_secs, ati_work_fetch.req_instances
+            );
+            strcat(buf, buf2);
+        }
+        msg_printf(p, MSG_INFO, buf);
+    }
 }
 
 // we just got a scheduler reply with the given jobs; update backoffs

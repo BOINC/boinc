@@ -170,7 +170,7 @@ struct WORK_FETCH {
         // we're going to contact this project anyway;
         // decide how much work to task for
     void accumulate_inst_sec(ACTIVE_TASK*, double dt);
-    void write_request(FILE*, bool anonymous_platform);
+    void write_request(FILE*, PROJECT*);
     void handle_reply(PROJECT*, std::vector<RESULT*>new_results);
     void set_initial_work_request();
     void set_shortfall_requests(PROJECT*);
