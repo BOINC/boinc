@@ -231,12 +231,12 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     if (coproc_cuda) {
         coproc_cuda->req_secs = cuda_work_fetch.req_secs;
         coproc_cuda->req_instances = cuda_work_fetch.req_instances;
-        coproc_cuda->estimated_delay = cuda_work_fetch.req_secs?cuda_work_fetch.busy_time:0;
+        coproc_cuda->estimated_delay = cuda_work_fetch.req_secs?cuda_work_fetch.busy_time_estimator.get_busy_time():0;
     }
     if (coproc_ati) {
         coproc_ati->req_secs = ati_work_fetch.req_secs;
         coproc_ati->req_instances = ati_work_fetch.req_instances;
-        coproc_ati->estimated_delay = ati_work_fetch.req_secs?ati_work_fetch.busy_time:0;
+        coproc_ati->estimated_delay = ati_work_fetch.req_secs?ati_work_fetch.busy_time_estimator.get_busy_time():0;
     }
 
     if (coprocs.coprocs.size()) {

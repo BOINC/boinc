@@ -7305,3 +7305,15 @@ David  2 Sept 2009
 
     client/
         cpu_sched.cpp
+
+David  3 Sept 2009
+    - client: improve the estimation of "busy time" (see 17 July checkin).
+        If you have 2 CPUs and a 1-day job in EDF mode,
+        the busy time should be zero, not .5 days.
+
+        Add a class BUSY_TIME_ESTIMATOR that makes a somewhat better
+        (though still fairly crude) estimate.
+
+    client/
+        cs_scheduler.cpp
+        work_fetch.cpp,h

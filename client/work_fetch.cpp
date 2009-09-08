@@ -87,8 +87,8 @@ void RSC_WORK_FETCH::rr_init() {
     total_runnable_share = 0;
     deadline_missed_instances = 0;
     saturated_time = 0;
-    busy_time = 0;
     pending.clear();
+    busy_time_estimator.reset();
 }
 
 void WORK_FETCH::rr_init() {
@@ -151,7 +151,7 @@ void RSC_WORK_FETCH::update_saturated_time(double dt) {
 }
 
 void RSC_WORK_FETCH::update_busy_time(double dur, double nused) {
-    busy_time += (dur*nused)/ninstances;
+    busy_time_estimator.update(dur, nused);
 }
 
 // see if the project's debt is beyond what would normally happen;
@@ -319,7 +319,7 @@ void RSC_WORK_FETCH::print_state(const char* name) {
     msg_printf(0, MSG_INFO,
         "[wfd] %s: shortfall %.2f nidle %.2f saturated %.2f busy %.2f RS fetchable %.2f runnable %.2f",
         name,
-        shortfall, nidle_now, saturated_time, busy_time,
+        shortfall, nidle_now, saturated_time, busy_time_estimator.get_busy_time(),
         total_fetchable_share, total_runnable_share
     );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
@@ -763,7 +763,7 @@ void WORK_FETCH::write_request(FILE* f, PROJECT* p) {
         work_req,
         cpu_work_fetch.req_secs,
         cpu_work_fetch.req_instances,
-        cpu_work_fetch.req_secs?cpu_work_fetch.busy_time:0
+        cpu_work_fetch.req_secs?cpu_work_fetch.busy_time_estimator.get_busy_time():0
     );
     if (log_flags.work_fetch_debug) {
         char buf[256], buf2[256];
@@ -833,34 +833,36 @@ void WORK_FETCH::handle_reply(PROJECT* p, vector<RESULT*> new_results) {
 void WORK_FETCH::set_initial_work_request() {
     cpu_work_fetch.req_secs = 1;
     cpu_work_fetch.req_instances = 0;
-    cpu_work_fetch.busy_time = 0;
+    cpu_work_fetch.busy_time_estimator.reset();
     if (coproc_cuda) {
         cuda_work_fetch.req_secs = 1;
         cuda_work_fetch.req_instances = 0;
-        cuda_work_fetch.busy_time = 0;
+        cuda_work_fetch.busy_time_estimator.reset();
     }
     if (coproc_ati) {
         ati_work_fetch.req_secs = 1;
         ati_work_fetch.req_instances = 0;
-        ati_work_fetch.busy_time = 0;
+        ati_work_fetch.busy_time_estimator.reset();
     }
 }
 
 // called once, at client startup
 //
 void WORK_FETCH::init() {
-    cpu_work_fetch.rsc_type = RSC_TYPE_CPU;
-    cpu_work_fetch.ninstances = gstate.ncpus;
+    cpu_work_fetch.init(RSC_TYPE_CPU, gstate.ncpus, 1);
 
     if (coproc_cuda) {
-        cuda_work_fetch.rsc_type = RSC_TYPE_CUDA;
-        cuda_work_fetch.ninstances = coproc_cuda->count;
-        cuda_work_fetch.speed = coproc_cuda->flops_estimate()/gstate.host_info.p_fpops;
+        cuda_work_fetch.init(
+            RSC_TYPE_CUDA, coproc_cuda->count,
+            coproc_cuda->flops_estimate()/gstate.host_info.p_fpops
+        );
     }
     if (coproc_ati) {
-        ati_work_fetch.rsc_type = RSC_TYPE_ATI;
-        ati_work_fetch.ninstances = coproc_ati->count;
-        ati_work_fetch.speed = coproc_ati->flops()/gstate.host_info.p_fpops;
+        ati_work_fetch.init(
+            RSC_TYPE_ATI,
+            coproc_ati->count,
+            coproc_ati->flops()/gstate.host_info.p_fpops
+        );
     }
 
     if (config.zero_debts) {

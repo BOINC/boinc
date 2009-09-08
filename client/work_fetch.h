@@ -85,6 +85,57 @@ struct RSC_PROJECT_WORK_FETCH {
     bool overworked();
 };
 
+// estimate the time a resources will be saturated
+// with high-priority jobs.
+//
+struct BUSY_TIME_ESTIMATOR {
+    std::vector<double> busy_time;
+    int ninstances;
+    inline void reset() {
+        for (int i=0; i<ninstances; i++) {
+            busy_time[i] = 0;
+        }
+    }
+    inline void init(int n) {
+        ninstances = n;
+        busy_time.resize(n);
+        reset();
+    }
+    // called for each high-priority job.
+    // Find the least-busy instance, and put this job
+    // on that and following instances
+    //
+    inline void update(double dur, double nused) {
+        int i, j;
+        if (nused < 1) return;
+        double best = busy_time[0];
+        int ibest = 0;
+        for (i=1; i<ninstances; i++) {
+            if (busy_time[i] < best) {
+                best = busy_time[i];
+                ibest = i;
+            }
+        }
+        for (i=0; i<nused; i++) {
+            j = (ibest + i) % ninstances;
+            busy_time[j] += dur;
+        }
+    }
+
+    // the overall busy time is the busy time of
+    // the least busy instance
+    //
+    inline double get_busy_time() {
+        double best = busy_time[0];
+        for (int i=1; i<ninstances; i++) {
+            if (busy_time[i] < best) {
+                best = busy_time[i];
+            }
+        }
+        return best;
+    }
+};
+
 // per-resource state
 //
 struct RSC_WORK_FETCH {
@@ -105,16 +156,17 @@ struct RSC_WORK_FETCH {
     double saturated_time;
         // estimated time until resource is not saturated
         // used to calculate work request
-    double busy_time;
-        // estimated time until a new job would start;
-        // passed to scheduler for crude deadline check.
-        // This can't be estimated with any kind of precision.
-        // Instead we calculate it as the sum of instance-secs
-        // used be missed-deadline jobs, divided by # instances
     double deadline_missed_instances;
         // instance count for jobs that miss deadline
     std::vector<RESULT*> pending;
+    BUSY_TIME_ESTIMATOR busy_time_estimator;
 
+    void init(int t, int n, double sp) {
+        rsc_type = t;
+        ninstances = n;
+        speed = sp;
+        busy_time_estimator.init(n);
+    }
     // the following specify the work request for this resource
     //
     double req_secs;
