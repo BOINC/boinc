@@ -259,6 +259,12 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
                 cuda_work_fetch.req_secs, cuda_work_fetch.req_instances
             );
         }
+        if (coproc_ati) {
+            msg_printf(p, MSG_INFO,
+                "[sched_op_debug] ATI GPU work request: %.2f seconds; %d idle GPUs",
+                ati_work_fetch.req_secs, ati_work_fetch.req_instances
+            );
+        }
     }
 
     get_sched_request_filename(*p, request_file, sizeof(request_file));
