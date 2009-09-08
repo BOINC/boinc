@@ -663,7 +663,7 @@ function update_9_3_2009() {
 // (Look at your DB structure using "explain" queries to see
 // which ones you need).
 
-//update_6_16_2009()
+//update_6_16_2009();
 
 $db_updates = array (
     array(18490, "update_6_16_2009"),
