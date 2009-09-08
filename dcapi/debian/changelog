@@ -1,3 +1,12 @@
+dcapi (0.9-23) unstable; urgency=low
+
+  * Make the -dev packages depend on the repsective shared libraries
+  * Rename the libraries from libdc-* to libdcapi-* to stop lintian
+    complaining about a mismatch between the shared library package names and
+    the actual sonames
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Tue, 08 Sep 2009 15:21:34 +0200
+
 dcapi (0.9-22) unstable; urgency=low
 
   * The debug package should be Arch: any, not Arch: all.
