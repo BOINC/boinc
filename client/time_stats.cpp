@@ -166,8 +166,6 @@ void TIME_STATS::update(int suspend_reason) {
     } else {
         dt = gstate.now - last_update;
         if (dt <= 10) return;
-        if (dt > 100) return;
-            // client must have been suspended; skip
         w1 = 1 - exp(-dt/ALPHA);    // weight for recent period
         w2 = 1 - w1;                // weight for everything before that
                                     // (close to zero if long gap)
@@ -196,6 +194,13 @@ void TIME_STATS::update(int suspend_reason) {
             sprintf(buf, "version %d.%d.%d", BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, BOINC_RELEASE);
             log_append(buf, gstate.now);
             log_append("power_on", gstate.now);
+        } else if (dt > 100) {
+            // large dt - the client or host must have been suspended
+            on_frac *= w2;
+            log_append("proc_stop", last_update);
+            if (is_active) {
+                log_append("proc_start", gstate.now);
+            }
         } else {
             on_frac = w1 + w2*on_frac;
             if (connected_frac < 0) connected_frac = 0;

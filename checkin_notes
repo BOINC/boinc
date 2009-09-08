@@ -7325,3 +7325,9 @@ David  5 Sept 2009
 
     client/
         cpu_sched.cpp
+
+David  5 Sept 2009
+    - client: update of time stats was broken by [17166]
+
+    client/
+        time_stats.cpp
