@@ -88,7 +88,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				LinkLibraryDependencies="true"
-				OutputFile="$(OutDir)\libdc-client-boinc.lib"
+				OutputFile="$(OutDir)\libdcapi-client-boinc.lib"
 				AdditionalLibraryDirectories="$(OutDir)\"
 				IgnoreAllDefaultLibraries="false"
 			/>
@@ -182,7 +182,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				LinkLibraryDependencies="true"
-				OutputFile="$(OutDir)\libdc-client-boinc-debug.lib"
+				OutputFile="$(OutDir)\libdcapi-client-boinc-debug.lib"
 				AdditionalLibraryDirectories="$(OutDir)\"
 				SuppressStartupBanner="true"
 			/>

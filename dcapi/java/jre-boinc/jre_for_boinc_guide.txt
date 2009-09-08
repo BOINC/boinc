@@ -7,7 +7,7 @@ for use in a BOINC infrastructure on Linux clients.
 
    i. JRE available at http://java.sun.com/javase/downloads/index.jsp
 
-   ii. DC-API for java (libdc-java-client-0.9.so, libdc-boinc-client.so)
+   ii. DC-API for java (libdcapi-java-client-0.9.so, libdcapi-boinc-client.so)
 
 2. Preparing 
 ------------
@@ -29,7 +29,7 @@ for use in a BOINC infrastructure on Linux clients.
 -------------------------------------------------
 
    i. The java application on BOINC consists of the following 
-      a. libdc-jre.tar - the jre prepared in part 2.
+      a. libdcapi-jre.tar - the jre prepared in part 2.
       b. application.jar - the java application to be run in BOINC
       c. launcher - script that untars jre and calls java with the
 	 jar of the application on the client computer

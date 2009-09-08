@@ -1,11 +1,11 @@
 lib_LTLIBRARIES =
 
 if BUILD_MASTER
-lib_LTLIBRARIES += libdc-condor.la
+lib_LTLIBRARIES += libdcapi-condor.la
 endif
 
 if BUILD_CLIENT
-lib_LTLIBRARIES += libdc-client-condor.la
+lib_LTLIBRARIES += libdcapi-client-condor.la
 endif
 
 pkgconfigdir = ${libdir}/pkgconfig
@@ -24,7 +24,7 @@ noinst_HEADERS	= condor_common.h \
 		  condor_slave.h \
 		  condor_event.h
 
-libdc_condor_la_SOURCES = condor_master.c \
+libdcapi_condor_la_SOURCES = condor_master.c \
 			  condor_common.c \
 			  condor_wu.c \
 			  condor_managewu.c \
@@ -33,26 +33,26 @@ libdc_condor_la_SOURCES = condor_master.c \
 			  condor_result.c \
 			  condor_event.c
 
-libdc_condor_la_LIBADD = ../common/libdc-common-master.la \
+libdcapi_condor_la_LIBADD = ../common/libdcapi-common-master.la \
 			 $(GLIB_LIBS) \
 			 -lcondorapi
-libdc_condor_la_LDFLAGS = -static
+libdcapi_condor_la_LDFLAGS = -static
 
-libdc_client_condor_la_SOURCES = condor_slave.c \
+libdcapi_client_condor_la_SOURCES = condor_slave.c \
 				 condor_common.c \
 				 condor_utils.c
 
-libdc_client_condor_la_LIBADD = ../common/libdc-common-client.la
-libdc_client_condor_la_LDFLAGS = -static
+libdcapi_client_condor_la_LIBADD = ../common/libdcapi-common-client.la
+libdcapi_client_condor_la_LDFLAGS = -static
 
 #appdir		= $(libdir)/dcapi/condor
 #app_PROGRAMS	= tss tm
 
 #tss_SOURCES	= tss.c tc.c
-#tss_LDADD	= ../common/libdc-common-client.la libdc-client-condor.la
+#tss_LDADD	= ../common/libdcapi-common-client.la libdcapi-client-condor.la
 
 #tm_SOURCES 	= tm.c tc.c
-#tm_LDADD	= ../common/libdc-common-master.la libdc-condor.la -L. -ldl -luuid -lstdc++
+#tm_LDADD	= ../common/libdcapi-common-master.la libdcapi-condor.la -L. -ldl -luuid -lstdc++
 
 dd: all
 	ssh root@emma 'make -C /home/staff/drdani/prj/szdg/dcapi/trunk/condor install'

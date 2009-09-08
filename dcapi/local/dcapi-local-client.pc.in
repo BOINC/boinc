@@ -7,5 +7,5 @@ Name: DC-API Local Client
 Description: Local client implementation for DC-API
 Version: @PACKAGE_VERSION@
 Requires.private: glib-2.0
-Libs: -L${libdir} -ldc-client-local
+Libs: -L${libdir} -ldcapi-client-local
 Cflags: -I${includedir}

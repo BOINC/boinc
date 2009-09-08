@@ -7,5 +7,5 @@ Name: DC-API Condor Client
 Description: Condor client implementation for DC-API
 Version: @PACKAGE_VERSION@
 Requires.private: glib-2.0
-Libs: -L${libdir} -ldc-client-condor
+Libs: -L${libdir} -ldcapi-client-condor
 Cflags: -I${includedir}
