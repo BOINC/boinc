@@ -565,6 +565,9 @@ bool CLIENT_STATE::poll_slow_events() {
         request_schedule_cpus("Idle state change");
     }
 
+    // NVIDIA provides an interface for finding if a GPU is
+    // running a graphics app.  ATI doesn't as far as I know
+    //
     if (coproc_cuda && user_active && !global_prefs.run_gpu_if_user_active) {
         if (coproc_cuda->check_running_graphics_app()) {
             request_schedule_cpus("GPU state change");

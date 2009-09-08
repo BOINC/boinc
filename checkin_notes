@@ -7290,3 +7290,12 @@ David  2 Sept 2009
 
     client/
         sysmon_win.cpp
+
+David  2 Sept 2009
+    - client: fix log messages about scheduler RPC work req
+    - client: missing reset for ATI debt accounting
+
+    client/
+        client_state.cpp
+        cpu_sched.cpp
+        scheduler_op.cpp

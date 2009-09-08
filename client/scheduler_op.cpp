@@ -217,9 +217,10 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         msg_printf(p, MSG_INFO,
             "Sending scheduler request: %s.", rpc_reason_string(reason)
         );
-        if (cpu_work_fetch.req_secs || cuda_work_fetch.req_secs) {
-            if (coproc_cuda) {
-                if (cpu_work_fetch.req_secs && cuda_work_fetch.req_secs) {
+        double gpu_req = cuda_work_fetch.req_secs + ati_work_fetch.req_secs;
+        if (cpu_work_fetch.req_secs || gpu_req) {
+            if (coproc_cuda||coproc_ati) {
+                if (cpu_work_fetch.req_secs && gpu_req) {
                     sprintf(buf, " for CPU and GPU");
                 } else if (cpu_work_fetch.req_secs) {
                     sprintf(buf, " for CPU");
