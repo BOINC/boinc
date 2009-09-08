@@ -20,12 +20,11 @@
 #include <stdio.h>
 #include <errno.h>
 #include <fcntl.h>
-#include <glib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include "local_master.h"
 #include "local_common.h"
+#include "local_master.h"
 #include "local_utils.h"
 #include "local_wu.h"
 

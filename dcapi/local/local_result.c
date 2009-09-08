@@ -17,11 +17,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <glib.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#include <glib.h>
 #include "local_master.h"
+#include "local_result.h"
 
 
 DC_Result *

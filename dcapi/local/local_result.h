@@ -16,8 +16,8 @@ extern "C" {
 #include "local_master.h"
 
 
-extern DC_Result *_DC_result_create(DC_Workunit *wu);
-extern void _DC_result_destroy(DC_Result *result);
+DC_Result *_DC_result_create(DC_Workunit *wu) G_GNUC_INTERNAL;
+void _DC_result_destroy(DC_Result *result) G_GNUC_INTERNAL;
 
 
 #ifdef __cplusplus

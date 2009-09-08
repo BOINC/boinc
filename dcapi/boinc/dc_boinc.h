@@ -116,12 +116,12 @@ struct _DC_Result
  * Global variables
  */
 
-extern DC_ResultCallback	_dc_resultcb;
-extern DC_SubresultCallback	_dc_subresultcb;
-extern DC_MessageCallback	_dc_messagecb;
+extern DC_ResultCallback _dc_resultcb G_GNUC_INTERNAL;
+extern DC_SubresultCallback _dc_subresultcb G_GNUC_INTERNAL;
+extern DC_MessageCallback _dc_messagecb G_GNUC_INTERNAL;
 
-extern char project_uuid_str[];
-extern uuid_t project_uuid;
+extern char project_uuid_str[] G_GNUC_INTERNAL;
+extern uuid_t project_uuid G_GNUC_INTERNAL;
 
 
 /********************************************************************

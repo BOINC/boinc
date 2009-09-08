@@ -17,7 +17,7 @@
 
 #include "dc_boinc.h"
 
-SCHED_CONFIG dc_boinc_config;
+SCHED_CONFIG dc_boinc_config G_GNUC_INTERNAL;
 
 int _DC_parseConfigXML(void)
 {

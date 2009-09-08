@@ -19,11 +19,11 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-#include "dc_internal.h"
-#include "dc_common.h"
+#include <dc_internal.h>
+#include <dc_common.h>
 
-#include "local_utils.h"
 #include "local_common.h"
+#include "local_utils.h"
 
 
 void

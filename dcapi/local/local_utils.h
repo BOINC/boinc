@@ -22,27 +22,27 @@ extern "C" {
 #include "local_common.h"
 
 
-extern void _DC_init_utils(void);
+void _DC_init_utils(void) G_GNUC_INTERNAL;
 
 /* Usefull funcs */
-extern int _DC_mkdir_with_parents(char *dn, mode_t mode);
-extern int _DC_rm(char *name);
-extern int _DC_file_exists(char *fn);
-extern int _DC_file_empty(char *fn);
-extern int _DC_create_file(char *fn, char *what);
-extern char *_DC_get_file(char *fn);
+int _DC_mkdir_with_parents(char *dn, mode_t mode) G_GNUC_INTERNAL;
+int _DC_rm(char *name) G_GNUC_INTERNAL;
+int _DC_file_exists(char *fn) G_GNUC_INTERNAL;
+int _DC_file_empty(char *fn) G_GNUC_INTERNAL;
+int _DC_create_file(char *fn, char *what) G_GNUC_INTERNAL;
+char *_DC_get_file(char *fn) G_GNUC_INTERNAL;
 
 /* Message passing utilities */
-extern int _DC_create_message(char *box,
+int _DC_create_message(char *box,
 			      char *name,
 			      const char *message,
-			      char *msgfile);
-extern int _DC_nuof_messages(char *box, char *name);
-extern char *_DC_message_name(char *box, char *name);
-extern char *_DC_read_message(char *box, char *name, int del_msg);
+			      char *msgfile) G_GNUC_INTERNAL;
+int _DC_nuof_messages(char *box, char *name) G_GNUC_INTERNAL;
+char *_DC_message_name(char *box, char *name) G_GNUC_INTERNAL;
+char *_DC_read_message(char *box, char *name, int del_msg) G_GNUC_INTERNAL;
 
-extern char *_DC_quote_string(char *str);
-extern char *_DC_unquote_string(char *str);
+char *_DC_quote_string(char *str) G_GNUC_INTERNAL;
+char *_DC_unquote_string(char *str) G_GNUC_INTERNAL;
 
 
 #ifdef __cplusplus

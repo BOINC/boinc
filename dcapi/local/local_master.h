@@ -93,15 +93,15 @@ struct _DC_Result
  * Global variables
  */
 
-extern DC_ResultCallback	_DC_result_callback/*_dc_resultcb*/;
-extern DC_SubresultCallback	_DC_subresult_callback/*_dc_subresultcb*/;
-extern DC_MessageCallback	_DC_message_callback/*_dc_messagecb*/;
+extern DC_ResultCallback _DC_result_callback G_GNUC_INTERNAL;
+extern DC_SubresultCallback _DC_subresult_callback G_GNUC_INTERNAL;
+extern DC_MessageCallback _DC_message_callback G_GNUC_INTERNAL;
 
-extern GHashTable *_DC_wu_table;
+extern GHashTable *_DC_wu_table G_GNUC_INTERNAL;
 
-extern char project_uuid_str[37]; 
-extern uuid_t project_uuid;
-extern int sleep_interval;
+extern char project_uuid_str[37] G_GNUC_INTERNAL; 
+extern uuid_t project_uuid G_GNUC_INTERNAL;
+extern int sleep_interval G_GNUC_INTERNAL;
 
 /********************************************************************
  * Function prototypes
@@ -109,26 +109,26 @@ extern int sleep_interval;
 
 /* Allocates a physical file descriptor */
 DC_PhysicalFile *_DC_createPhysicalFile(const char *label,
-        const char *path);
+        const char *path) G_GNUC_INTERNAL;
 
 /* De-allocates a physical file descriptor */
-void _DC_destroyPhysicalFile(DC_PhysicalFile *file);
+void _DC_destroyPhysicalFile(DC_PhysicalFile *file) G_GNUC_INTERNAL;
 
 /* Calls a g_hash_table_foreach function for the wu_table */
-int _DC_searchForEvents(void);
+int _DC_searchForEvents(void) G_GNUC_INTERNAL;
 
 /* Creates a new DC_Result */
-DC_Result *_DC_createResult(const char *wu_name);
+DC_Result *_DC_createResult(const char *wu_name) G_GNUC_INTERNAL;
 
 /* Destroys a DC_Result */
-void _DC_destroyResult(DC_Result *result);
+void _DC_destroyResult(DC_Result *result) G_GNUC_INTERNAL;
 
 /* Looks up a WU by name */
-DC_Workunit *_DC_getWUByName(const char *name);
+DC_Workunit *_DC_getWUByName(const char *name) G_GNUC_INTERNAL;
 
-extern char *_DC_state_name(DC_WUState state);
+char *_DC_state_name(DC_WUState state) G_GNUC_INTERNAL;
 
-extern char *_DC_wu_cfg(DC_Workunit *wu, enum _DC_e_param what);
+char *_DC_wu_cfg(DC_Workunit *wu, enum _DC_e_param what) G_GNUC_INTERNAL;
 
 #ifdef __cplusplus
 }

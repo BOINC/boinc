@@ -105,7 +105,7 @@ static void wudesc_text(GMarkupParseContext *ctx, const char *text,
  * Global variables
  */
 
-extern SCHED_CONFIG dc_boinc_config;
+extern SCHED_CONFIG dc_boinc_config G_GNUC_INTERNAL;
 
 static GHashTable *wu_table;
 static int num_wus;
