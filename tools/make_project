@@ -321,9 +321,6 @@ httpd_conf_template_filename = os.path.join(
     project_shortname+'.httpd.conf'
     )
 
-html_user_url = options.html_user_url
-html_ops_url = options.html_ops_url
-
 print >>open(httpd_conf_template_filename,'w'), '''
 
     ## Settings for BOINC project %(project_longname)s
@@ -349,6 +346,16 @@ print >>open(httpd_conf_template_filename,'w'), '''
     </Directory>
 ''' %locals()
 
+htaccess_filename = options.project_root+'/html/ops/.htaccess'
+htpasswd_filename = options.project_root+'/html/ops/.htpasswd'
+
+print >>open(htaccess_filename, 'w'), '''
+AuthName "%(project_shortname)s"
+AuthType Basic
+AuthUserFile %(htpasswd_filename)s
+require valid-user
+'''%locals()
+
 cronjob_filename = os.path.join(
     options.project_root,
     project_shortname+'.cronjob'
@@ -372,6 +379,9 @@ if options.test_app:
         bin/update_versions
 '''%locals()
     
+html_user_url = options.html_user_url
+html_ops_url = options.html_ops_url
+
 print >>open(readme_filename,'w'), '''
 Steps to complete installation:
 

@@ -7553,3 +7553,10 @@ David  5 Sept 2009
             util.inc
         user/
             team_edit_form.php
+
+David  7 Sept 2009
+    - make_project: create html/ops/.htaccess;
+        secure admin web access by default
+
+    tools/
+        make_project
