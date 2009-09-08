@@ -1,3 +1,9 @@
+dcapi (0.9-24) unstable; urgency=low
+
+  * Add symbols files support for the shared libraries
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Tue, 08 Sep 2009 16:56:14 +0200
+
 dcapi (0.9-23) unstable; urgency=low
 
   * Make the -dev packages depend on the repsective shared libraries
