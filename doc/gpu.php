@@ -5,7 +5,7 @@ require_once("docutil.php");
 page_head("Use your GPU for scientific computing");
 
 echo "
-<img align=right width=264 src=images/NV_DesignedFor_CUDA_3D_sm.png>
+<img align=right src=images/cuda.png>
 Most computers are equipped with a
 <b>Graphics Processing Unit (GPU)</b>
 that handles their graphical output,
@@ -20,6 +20,7 @@ We urge BOINC participants to use them if possible.</b>
 Just follow these instructions:
 <p>
 <h3>1) Check whether your computer has a capable GPU</h3>
+<img align=right src=images/ati-stream.jpg>
 <ul>
 <li> Identify the model name of your GPU.
 On Windows, right-click on your desktop, and select Properties / Settings / Advanced / Adapter.

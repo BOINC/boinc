@@ -7569,3 +7569,10 @@ David  8 Sept 2009
         work_fetch.cpp
     lib/
         coproc.cpp,h
+
+David  8 Sept 2009
+    - client: cap time_stats dt at 2 weeks,
+        so people upgrading to 6.10 won't get big drop in on_frac.
+
+    client/
+        time_stats.cpp

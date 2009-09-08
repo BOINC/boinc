@@ -166,6 +166,17 @@ void TIME_STATS::update(int suspend_reason) {
     } else {
         dt = gstate.now - last_update;
         if (dt <= 10) return;
+
+        if (dt > 14*86400) {
+            // If dt is large it could be because user is upgrading
+            // from a client version that wasn't updating due to bug.
+            // Or it could be because user wasn't running for a while
+            // and is starting up again.
+            // In either case, limit the amount that we decay on_frac.
+            //
+            dt = 14*86400;
+        }
+
         w1 = 1 - exp(-dt/ALPHA);    // weight for recent period
         w2 = 1 - w1;                // weight for everything before that
                                     // (close to zero if long gap)
