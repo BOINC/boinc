@@ -17,6 +17,8 @@
 extern "C" {
 #endif
 
+#include <sys/types.h>
+
 #include <dc.h>
 #include <dc_internal.h>
 #include <uuid/uuid.h>
@@ -63,7 +65,7 @@ struct _DC_Workunit
 	char			*uuid_str;
 	DC_WUState		state;
 	char			*workdir;
-	int			pid;
+	pid_t			pid;
 
 	/* Input file definitions. Elements are of type DC_LogicalFile */
 	GList			*input_files;
@@ -82,6 +84,7 @@ struct _DC_Result
 	DC_Workunit		*wu;
 
 	int			exit_code;
+	double			cpu_time;
 
 	/* List of output files. Elements are of type DC_PhysicalFile */
 	GList			*output_files;

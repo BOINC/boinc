@@ -104,28 +104,72 @@ DC_Workunit *DC_getResultWU(DC_Result *result)
 	return result->wu;
 }
 
+static int wait_result(DC_Result *result)
+{
+	struct rusage rusage;
+	pid_t pid;
+
+	if (!result->wu->pid)
+		return 0;
+
+	pid = wait4(result->wu->pid, &result->exit_code, WNOHANG, &rusage);
+	if (pid != result->wu->pid)
+	{
+		DC_log(LOG_ERR, "wu with pid %d not exited according to waitpid. retval: %d",
+			 result->wu->pid, pid);
+		return DC_ERR_SYSTEM;
+	}
+
+	result->cpu_time = rusage.ru_utime.tv_sec +
+		(double)rusage.ru_utime.tv_usec / 1000000 +
+		rusage.ru_stime.tv_sec +
+		(double)rusage.ru_stime.tv_usec / 1000000;
+
+	/* Make sure we do not call wait4() again */
+	result->wu->pid = 0;
+
+	return 0;
+}
+
 int DC_getResultExit(const DC_Result *result)
 {
-	int status;
-	pid_t retval, pid;
+	int ret;
 
-	pid = (pid_t)result->wu->pid;
-
-	retval = waitpid(pid, &status, WNOHANG);
-	if (retval != pid)
+	if (!result)
 	{
-		DC_log(LOG_ERR, "DC_getResultExit: wu with pid %d not exited according to waitpid. retval: %d",
-			 pid, retval);
+		DC_log(LOG_ERR, "%s: Missing result", __func__);
+		return 0.0;
+	}
+
+	ret = wait_result((DC_Result *)result); /* XXX */
+	if (ret)
+		return -1;
+
+	if (!WIFEXITED(result->exit_code))
+	{
+		DC_log(LOG_WARNING, "DC_getResultExit: wu with pid %d terminated not normally.",
+			result->wu->pid); /* XXX pid is 0 at this point */
 		return -1;
 	}
 
-	if (!WIFEXITED(status))
+	return WEXITSTATUS(result->exit_code);
+}
+
+double DC_getResultCPUTime(const DC_Result *result)
+{
+	int ret;
+
+	if (!result)
 	{
-		DC_log(LOG_WARNING, "DC_getResultExit: wu with pid %d terminated not normally.", pid);
-		return -1;
+		DC_log(LOG_ERR, "%s: Missing result", __func__);
+		return 0.0;
 	}
 
-	return WEXITSTATUS(status);
+	ret = wait_result((DC_Result *)result); /* XXX */
+	if (ret)
+		return -1;
+
+	return result->cpu_time;
 }
 
 char *DC_getResultOutput(const DC_Result *result, const char *logicalFileName)

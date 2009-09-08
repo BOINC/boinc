@@ -18,6 +18,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <signal.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -33,9 +34,9 @@
  * Global variables
  */
 
-DC_ResultCallback	_DC_result_callback/*_dc_resultcb*/;
-DC_SubresultCallback	_DC_subresult_callback/*_dc_subresultcb*/;
-DC_MessageCallback	_DC_message_callback/*_dc_messagecb*/;
+DC_ResultCallback	_DC_result_callback;
+DC_SubresultCallback	_DC_subresult_callback;
+DC_MessageCallback	_DC_message_callback;
 
 char project_uuid_str[37];
 uuid_t project_uuid;
@@ -126,6 +127,21 @@ void DC_setMasterCb(DC_ResultCallback resultcb, DC_SubresultCallback subresultcb
 	_DC_result_callback = resultcb;
 	_DC_subresult_callback = subresultcb;
 	_DC_message_callback = msgcb;
+}
+
+void DC_setResultCb(DC_ResultCallback cb)
+{
+	_DC_result_callback = cb;
+}
+
+void DC_setSubresultCb(DC_SubresultCallback cb)
+{
+	_DC_subresult_callback = cb;
+}
+
+void DC_setMessageCb(DC_MessageCallback cb)
+{
+	_DC_message_callback = cb;
 }
 
 
@@ -614,6 +630,16 @@ int DC_submitWU(DC_Workunit *wu)
 	wu->state = DC_WU_RUNNING;
 
 	return DC_OK;
+}
+
+int DC_cancelWU(DC_Workunit *wu)
+{
+	if (!wu || wu->state != DC_WU_RUNNING)
+		return DC_ERR_BADPARAM;
+
+	kill(wu->pid, SIGTERM);
+	wu->state = DC_WU_ABORTED;
+	return 0;
 }
 
 DC_Workunit *_DC_getWUByName(const char *name)
