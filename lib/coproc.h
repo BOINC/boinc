@@ -291,9 +291,10 @@ struct COPROC_ATI : public COPROC {
     void description(char*);
     void clear();
     int parse(FILE*);
-    inline double flops() {
-		return attribs.numberOfSIMD * attribs.wavefrontSize * 2.5 * attribs.engineClock * 1.e6;
+    inline double flops_estimate() {
+		double x = attribs.numberOfSIMD * attribs.wavefrontSize * 2.5 * attribs.engineClock * 1.e6;
         // clock is in MHz
+        return x?x:5e10;
     }
 };
 

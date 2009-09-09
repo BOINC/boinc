@@ -172,9 +172,9 @@ void TIME_STATS::update(int suspend_reason) {
             // from a client version that wasn't updating due to bug.
             // Or it could be because user wasn't running for a while
             // and is starting up again.
-            // In either case, limit the amount that we decay on_frac.
+            // In either case, don't decay on_frac.
             //
-            dt = 14*86400;
+            dt = 0;
         }
 
         w1 = 1 - exp(-dt/ALPHA);    // weight for recent period

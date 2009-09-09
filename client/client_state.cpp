@@ -298,7 +298,18 @@ int CLIENT_STATE::init() {
     //
     for (i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
-        if (!avp->flops) avp->flops = host_info.p_fpops;
+        if (!avp->flops) {
+            if (!avp->avg_ncpus) {
+                avp->avg_ncpus = 1;
+            }
+            avp->flops = avp->avg_ncpus * host_info.p_fpops;
+            if (avp->ncudas) {
+                avp->flops += avp->ncudas * coproc_cuda->flops_estimate();
+            }
+            if (avp->natis) {
+                avp->flops += avp->natis * coproc_ati->flops_estimate();
+            }
+        }
     }
 
     check_clock_reset();

@@ -861,7 +861,7 @@ void WORK_FETCH::init() {
         ati_work_fetch.init(
             RSC_TYPE_ATI,
             coproc_ati->count,
-            coproc_ati->flops()/gstate.host_info.p_fpops
+            coproc_ati->flops_estimate()/gstate.host_info.p_fpops
         );
     }
 

@@ -7576,3 +7576,22 @@ David  8 Sept 2009
 
     client/
         time_stats.cpp
+
+David  8 Sept 2009
+    - client: fix bug in RR simulation:
+        start only enough jobs to fill CPUs per project,
+        not all the CPU jobs at once.
+        I'm not sure how much difference this makes,
+        but this is how it's supposed to work.
+    - client: if app_info.xml doesn't specify flops,
+        use an estimate that takes GPUs into account.
+    - client: if it's been more than 2 weeks since time stats update,
+        don't decay on_frac at all.
+
+    client/
+        client_state.cpp
+        rr_sim.cpp
+        time_stats.cpp
+        work_fetch.cpp
+    lib/
+        coproc.cpp,h
