@@ -168,10 +168,12 @@ void CLIENT_STATE::show_host_info() {
         "Processor: %d %s %s",
         host_info.p_ncpus, host_info.p_vendor, host_info.p_model
     );
-    msg_printf(NULL, MSG_INFO,
-        "Processor: %s cache",
-        buf
-    );
+    if (host_info.m_cache > 0) {
+        msg_printf(NULL, MSG_INFO,
+            "Processor: %s cache",
+            buf
+        );
+    }
     msg_printf(NULL, MSG_INFO,
         "Processor features: %s", host_info.p_features
     );
