@@ -7622,3 +7622,13 @@ David  10 Sept 2009
 
     sched/
         file_deleter.cpp
+
+Charlie 10 Sept 2009
+    - client: don't display processor cache if we don't know it.
+    - client: skip ATI detection stuff and error messages on Macs because 
+        ATI doesn't yet have a CAL library for Mac.
+
+    client/
+        client_state.cpp
+    lib/
+        coproc.cpp
