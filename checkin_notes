@@ -7595,3 +7595,9 @@ David  8 Sept 2009
         work_fetch.cpp
     lib/
         coproc.cpp,h
+
+David  10 Sept 2009
+    - client: save space in req msg.  Didn't make much difference.
+
+    client/
+        cs_scheduler.cpp
