@@ -126,7 +126,9 @@ void COPROCS::summary_string(char* buf, int len) {
 vector<string> COPROCS::get(bool use_all) {
     vector<string> strings;
     COPROC_CUDA::get(*this, strings, use_all);
+#ifndef __APPLE__       // ATI does not yet support CAL on Macs
     COPROC_ATI::get(*this, strings);
+#endif
     return strings;
 }
 
