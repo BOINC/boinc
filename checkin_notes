@@ -7614,3 +7614,11 @@ David  10 Sept 2009
             hosts_user.php
     sched/
         sched_customize.cpp
+
+David  10 Sept 2009
+    - file deleter: fix bug where it retries errors infinitely;
+        also fix bug where non-existence of hierarchy dir
+        is treated as a recoverable error
+
+    sched/
+        file_deleter.cpp

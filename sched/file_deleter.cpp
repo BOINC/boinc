@@ -133,7 +133,7 @@ void usage() {
 int get_file_path(
     const char *filename, char* upload_dir, int fanout, char* path
 ) {
-    dir_hier_path(filename, upload_dir, fanout, path);
+    dir_hier_path(filename, upload_dir, fanout, path, true);
     if (boinc_file_exists(path)) {
         return 0;
     }
@@ -281,7 +281,7 @@ int result_delete_files(RESULT& result) {
 static bool preserve_wu_files=false;
 static bool preserve_result_files=false;
 
-// return nonzero if did anything
+// return true if we changed the file_delete_state of a WU or a result
 //
 bool do_pass(bool retry_error) {
     DB_WORKUNIT wu;
@@ -289,7 +289,7 @@ bool do_pass(bool retry_error) {
     bool did_something = false;
     char buf[256];
     char clause[256];
-    int retval;
+    int retval, new_state;
 
     check_stop_daemons();
 
@@ -319,30 +319,33 @@ bool do_pass(bool retry_error) {
             }
             break;
         }
-        did_something = true;
 
-        retval = 0;
-        if (!preserve_wu_files) {
+        if (preserve_wu_files) {
+            retval = 0;
+        } else {
             retval = wu_delete_files(wu);
         }
         if (retval) {
-            wu.file_delete_state = FILE_DELETE_ERROR;
+            new_state = FILE_DELETE_ERROR;
             log_messages.printf(MSG_CRITICAL,
                 "[WU#%d] file deletion failed: %d\n", wu.id, retval
             );
         } else {
-            wu.file_delete_state = FILE_DELETE_DONE;
+            new_state = FILE_DELETE_DONE;
         }
-        sprintf(buf, "file_delete_state=%d", wu.file_delete_state);
-        retval = wu.update_field(buf);
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "[WU#%d] update failed: %d\n", wu.id, retval
-            );
-        } else {
-            log_messages.printf(MSG_DEBUG,
-                "[WU#%d] file_delete_state updated\n", wu.id
-            );
+        if (new_state != wu.file_delete_state) {
+            sprintf(buf, "file_delete_state=%d", new_state);
+            retval = wu.update_field(buf);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "[WU#%d] update failed: %d\n", wu.id, retval
+                );
+            } else {
+                log_messages.printf(MSG_DEBUG,
+                    "[WU#%d] file_delete_state updated\n", wu.id
+                );
+                did_something = true;
+            }
         } 
     }
 
@@ -362,30 +365,32 @@ bool do_pass(bool retry_error) {
             break;
         }
 
-        did_something = true;
-        retval = 0;
-        if (!preserve_result_files) {
+        if (preserve_result_files) {
+            retval = 0;
+        } else {
             retval = result_delete_files(result);
         }
         if (retval) {
-            result.file_delete_state = FILE_DELETE_ERROR;
+            new_state = FILE_DELETE_ERROR;
             log_messages.printf(MSG_CRITICAL,
                 "[RESULT#%d] file deletion failed: %d\n", result.id, retval
             );
         } else {
-            result.file_delete_state = FILE_DELETE_DONE;
+            new_state = FILE_DELETE_DONE;
         }
-        sprintf(buf, "file_delete_state=%d", result.file_delete_state); 
-        retval = result.update_field(buf);
-        retval = result.update_field(buf);
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "[RESULT#%d] update failed: %d\n", result.id, retval
-            );
-        } else {
-            log_messages.printf(MSG_DEBUG,
-                "[RESULT#%d] file_delete_state updated\n", result.id
-            );
+        if (new_state != result.file_delete_state) {
+            sprintf(buf, "file_delete_state=%d", new_state); 
+            retval = result.update_field(buf);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "[RESULT#%d] update failed: %d\n", result.id, retval
+                );
+            } else {
+                log_messages.printf(MSG_DEBUG,
+                    "[RESULT#%d] file_delete_state updated\n", result.id
+                );
+                did_something = true;
+            }
         } 
     } 
 
