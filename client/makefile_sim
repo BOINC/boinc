@@ -18,6 +18,7 @@ OBJS = \
     ../lib/coproc.o \
     ../lib/mfile.o \
     ../lib/miofile.o \
+    ../lib/msg_log.o \
     ../lib/parse.o \
     ../lib/prefs.o \
     ../lib/str_util.o

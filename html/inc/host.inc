@@ -117,6 +117,10 @@ function show_host($host, $user, $ipprivate) {
         row2("Coprocessors", gpu_desc($host->serialnum));
     }
     row2("Operating System", "$host->os_name <br> $host->os_version");
+    $v = boinc_version($host->serialnum);
+    if ($v) {
+        row2("BOINC client version", $v);
+    }
     $x = $host->m_nbytes/(1024*1024);
     $y = round($x, 2);
     row2("Memory", "$y MB");
@@ -219,6 +223,7 @@ function top_host_table_start($sort_by) {
         ";
     }
     echo "
+        <th>BOINC version</th>
         <th>CPU</th>
         <th>GPU</th>
         <th>Operating system</th>
@@ -230,7 +235,8 @@ function host_nresults($host) {
     return BoincResult::count("hostid=$host->id");
 }
 
-// format a GPU description string of the form [BOINC|vers][type|model|number|RAM]
+// Given string of the form [BOINC|vers][type|model|number|RAM],
+// return a human-readable version of the GPU info
 //
 function gpu_desc($x) {
     // skip BOINC part
@@ -238,7 +244,7 @@ function gpu_desc($x) {
     if ($y) {
         $x = strstr($y, "[");
     }
-    if (!$x) return "";
+    if (!$x) return "---";
     $x = substr($x, 1, -1);
     $y = explode("|", $x);
     $z = "";
@@ -251,7 +257,18 @@ function gpu_desc($x) {
             $z .= " driver: ".$y[4];
         }
     }
+    if ($z == '') return '---';
     return $z;
+}
+
+// Given the same string as above, return the BOINC version
+//
+function boinc_version($x) {
+    $y = strstr($x, 'BOINC');
+    if (!$y) return '';
+    $y = substr($y, 6);
+    $z = explode("]", $y, 2);
+    return $z[0];
 }
 
 function cpu_desc($host) {
@@ -306,22 +323,35 @@ function show_host_row($host, $i, $private, $show_owner) {
             <td align=right>%s</td>
             <td>%s</td>
             <td>%s</td>
+            <td>%s</td>
             <td>%s <br> %s</td>",
-               format_credit($host->expavg_credit),
-               format_credit_large($host->total_credit),
-               cpu_desc($host),
-               gpu_desc($host->serialnum),
-               $host->os_name, $host->os_version
+            format_credit($host->expavg_credit),
+            format_credit_large($host->total_credit),
+            boinc_version($host->serialnum),
+            cpu_desc($host),
+            gpu_desc($host->serialnum),
+            $host->os_name, $host->os_version
         );
     } else {
-        // This is used in constructing list of computers for a given user
+        // This is used to show the computers of a given user
         //
-        echo "<td align=right>", format_credit($host->expavg_credit), "</td>\n";
-        echo "<td align=right>", format_credit_large($host->total_credit), "</td>\n";
-        echo "<td>".cpu_desc($host)."</td>\n";
-        echo "<td>".gpu_desc($host->serialnum)."</td>\n";
-        echo "<td>$host->os_name<br><span class=note>$host->os_version</span></td>\n";
-        echo "<td>".sched_log_link($host->rpc_time)."</td>\n";
+        printf("
+            <td align=right>%s</td>
+            <td align=right>%s</td>
+            <td>%s</td>
+            <td>%s</td>
+            <td>%s</td>
+            <td>%s<br><span class=note>%s</span></td>
+            <td>%s</td>
+            ",
+            format_credit($host->expavg_credit),
+            format_credit_large($host->total_credit),
+            boinc_version($host->serialnum),
+            cpu_desc($host),
+            gpu_desc($host->serialnum),
+            $host->os_name, $host->os_version,
+            sched_log_link($host->rpc_time)
+        );
     }
 
     echo "</tr>\n";

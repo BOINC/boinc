@@ -7597,7 +7597,20 @@ David  8 Sept 2009
         coproc.cpp,h
 
 David  10 Sept 2009
-    - client: save space in req msg.  Didn't make much difference.
+    - client: try to save space in req msg.  Didn't make much difference.
 
     client/
         cs_scheduler.cpp
+
+David  10 Sept 2009
+    - web: show BOINC version in host displays
+
+    client/
+        makefile.sim
+    html/
+        inc/
+            host.inc
+        user/
+            hosts_user.php
+    sched/
+        sched_customize.cpp

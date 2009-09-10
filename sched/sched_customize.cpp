@@ -113,7 +113,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             return false;
         }
 
-        hu.flops = cp->flops();
+        hu.flops = cp->flops_estimate();
 
         // assume we'll need 0.5% as many CPU FLOPS as GPU FLOPS
         // to keep the GPU fed.

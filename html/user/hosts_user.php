@@ -66,10 +66,10 @@ function user_host_table_start($private, $sort, $rev, $show_all) {
     echo "<th><a href=$url>Avg. credit</a></th>\n";
     $url = link_url_rev($sort, "total_credit", $rev, $show_all);
     echo "<th><a href=$url>Total credit</a></th>\n";
+    echo "<th>BOINC<br>version</th>\n";
     $url = link_url_rev($sort, "cpu", $rev, $show_all);
     echo "<th><a href=$url>CPU</a></th>\n";
-    $url = link_url_rev($sort, "gpu", $rev, $show_all);
-    echo "<th><a href=$url>GPU</a></th>\n";
+    echo "<th>GPU</th>\n";
     $url = link_url_rev($sort, "os", $rev, $show_all);
     echo "<th><a href=$url>Operating System</a></th>\n";
     $url = link_url_rev($sort, "rpc_time", $rev, $show_all);
