@@ -377,7 +377,7 @@ int CLIENT_STATE::init() {
     }
 
 
-    // show host IDs and venues on various projects
+    // show projects
     //
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
@@ -387,10 +387,8 @@ int CLIENT_STATE::init() {
             strcpy(buf, "not assigned yet");
         }
         msg_printf(p, MSG_INFO,
-            "URL: %s; Computer ID: %s; location: %s; project prefs: %s",
-            p->master_url,
-            buf, strlen(p->host_venue)?p->host_venue:"(none)",
-            p->using_venue_specific_prefs?p->host_venue:"default"
+            "URL %s; Computer ID %s; resource share %.0f",
+            p->master_url, buf, p->resource_share
         );
         if (p->ended) {
             msg_printf(p, MSG_INFO, "Project has ended - OK to detach");
