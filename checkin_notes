@@ -7225,9 +7225,9 @@ David  25 Aug 2009
         parse.cpp
 
 Charlie 26 Aug 2009
-    MGR: on Linux, check list of running processes from procinfo_setup() 
+    - MGR: on Linux, check list of running processes from procinfo_setup() 
         to determine if BOINC core client is running.
-    MGR: on Linux, accept 2 optional arguments:
+    - MGR: on Linux, accept 2 optional arguments:
           "--clientdir=<dir>" or "-e <dir>" for directory containing client executable, 
             default is the directory containing the manager executable.
           "--datadir=<dir>" or "-d <dir>" for BOINC data directory, default is the 
@@ -7255,7 +7255,7 @@ David  26 Aug 2009
         sched_send.cpp
 
 Charlie 26 Aug 2009
-    MGR: Bug fixes for Linux.
+    - MGR: Bug fixes for Linux.
 
     clientgui/
         AsyncRPC.cpp
@@ -7638,3 +7638,11 @@ David  11 Sept 2009
 
     client/
         client_state.cpp
+
+Charlie 11 Sept 2009
+    - Mgr: skip exit confirmation dialog if user pressed emergency Exit button 
+        on AsyncRPCDlg.
+
+    clientgui/
+        AsyncRPC.cpp
+        BOINCGUIApp.cpp

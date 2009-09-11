@@ -34,6 +34,8 @@
 #include "SkinManager.h"
 #include "util.h"
 
+extern bool s_bSkipExitConfirmation;
+
 #ifdef __WXMAC__
 
 #ifdef HAVE_PTHREAD_MUTEXATTR_T
@@ -243,7 +245,7 @@ void BOINC_Condition::Broadcast() {
     pthread_cond_broadcast(&m_cond);
 }
 
-#endif
+#endif      // __WXMAC__
 
 // Delay in milliseconds before showing AsyncRPCDlg
 #define RPC_WAIT_DLG_DELAY 1500
@@ -834,6 +836,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                 if (response == wxID_EXIT) {
                     pFrame = wxGetApp().GetFrame();
                     wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, wxID_EXIT);
+                    s_bSkipExitConfirmation = true;
                     pFrame->AddPendingEvent(evt);
                 }
             }
