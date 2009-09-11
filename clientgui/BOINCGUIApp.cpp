@@ -72,7 +72,7 @@ BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
 END_EVENT_TABLE ()
 
 
-static bool s_bSkipExitConfirmation = false;
+bool s_bSkipExitConfirmation = false;
 
 #ifdef __WXMAC__
 
@@ -134,7 +134,6 @@ bool CBOINCGUIApp::OnInit() {
     g_use_sandbox = false;
 #endif
 
-    // Initialize statics
     s_bSkipExitConfirmation = false;
 
     // Initialize class variables
@@ -994,11 +993,12 @@ int CBOINCGUIApp::ConfirmExit() {
         }
     }
 
-#ifndef __WXMSW__
-    // Don't run confirmation dialog if logging out or shutting down
+    // Don't run confirmation dialog if logging out or shutting down Mac, 
+    // or if emergency exit from AsyncRPCDlg
     if (s_bSkipExitConfirmation)
         return 1;
 
+#ifndef __WXMSW__
     if (!m_iDisplayExitDialog) {
         return 1;   // User doesn't want to display the dialog and wants to shutdown the client.
     }

@@ -7349,3 +7349,11 @@ Charlie 10 Sept 2009
         client_state.cpp
     lib/
         coproc.cpp
+
+Charlie 11 Sept 2009
+    - Mgr: skip exit confirmation dialog if user pressed emergency Exit button 
+        on AsyncRPCDlg.
+
+    clientgui/
+        AsyncRPC.cpp
+        BOINCGUIApp.cpp
