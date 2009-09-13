@@ -7653,3 +7653,9 @@ David  12 Sept 2009
 
     client/
         cpu_sched.cpp
+
+David  12 Sept 2009
+    - client: add <fraction_done> to boinc_task_state.xml
+
+    client/
+        app_control.cpp

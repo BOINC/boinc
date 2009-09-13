@@ -1060,11 +1060,13 @@ void ACTIVE_TASK::write_task_state_file() {
         "    <result_name>%s</result_name>\n"
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "    <checkpoint_elapsed_time>%f</checkpoint_elapsed_time>\n"
+        "    <fraction_done>%f</fraction_done>\n"
         "</active_task>\n",
         result->project->master_url,
         result->name,
         checkpoint_cpu_time,
-        checkpoint_elapsed_time
+        checkpoint_elapsed_time,
+        fraction_done
     );
     fclose(f);
 }
