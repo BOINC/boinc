@@ -7659,3 +7659,13 @@ David  12 Sept 2009
 
     client/
         app_control.cpp
+
+David  13 Sept 2009
+    - client: change order in poll loop so that:
+        1) job finishes
+        2) job gets marked as "ready to report"
+        3) scheduler RPC is initiated
+        Hopefully this won't have an unintended side-effect
+
+    client/
+        client_state.cpp

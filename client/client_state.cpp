@@ -673,7 +673,6 @@ bool CLIENT_STATE::poll_slow_events() {
     //auto_update.poll();
     POLL_ACTION(active_tasks           , active_tasks.poll      );
     POLL_ACTION(garbage_collect        , garbage_collect        );
-    POLL_ACTION(update_results         , update_results         );
     POLL_ACTION(gui_http               , gui_http.poll          );
     POLL_ACTION(gui_rpc_http           , gui_rpcs.poll          );
     if (!network_suspended) {
@@ -684,6 +683,7 @@ bool CLIENT_STATE::poll_slow_events() {
         POLL_ACTION(handle_pers_file_xfers , handle_pers_file_xfers );
     }
     POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
+    POLL_ACTION(update_results         , update_results         );
     if (!tasks_suspended) {
         POLL_ACTION(possibly_schedule_cpus, possibly_schedule_cpus          );
         POLL_ACTION(enforce_schedule    , enforce_schedule  );
