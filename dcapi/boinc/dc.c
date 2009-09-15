@@ -163,7 +163,6 @@ int DC_initMaster(const char *config_file)
 	uuid_unparse_lower(project_uuid, project_uuid_str);
 
 	ret = _DC_parseConfigXML();
-	free(cfgval);
 	if (ret)
 		return ret;
 
