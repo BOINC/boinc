@@ -2,7 +2,7 @@
 
 ini_set("memory_limit", "1023M");
 
-require_once("../inc/boinc_db.inc");
+require_once("../inc/util_ops.inc");
 
 BoincDb::get();
 

@@ -16,17 +16,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// This is a script which awards credit to users/hosts/teams for WU which have been
-// cancelled or have otherwise failed (error_mask != 0).  Credit granted is credit
-// claimed, with a hardwired limit of 300 units.  To enable this script change 1 to
-// 0 in the testquery() function. The script can be run multiple times without
-// doing any harm.  It only grants credit to results which do not (yet) have any
+// Award credit to users/hosts/teams for WU which have been
+// cancelled or have otherwise failed (error_mask != 0).
+// Credit granted is credit claimed, with a hardwired limit of 300 units.
+// To enable this script change 1 to 0 in the testquery() function.
+// The script can be run multiple times without doing any harm.
+// It only grants credit to results which do not (yet) have any
 // granted credits.  So it can be run multiple times.
 
 
 require_once("../inc/db.inc");
 require_once("../inc/credit.inc");
-
+require_once("../inc/util_ops.inc");
 
 set_time_limit(0);
 

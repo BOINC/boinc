@@ -17,6 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once("../inc/bossa_db.inc");
+require_once("../inc/util_ops.inc");
 
 function do_pass() {
     $int_max = 2147483647;

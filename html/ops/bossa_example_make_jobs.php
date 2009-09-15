@@ -24,6 +24,7 @@
 // [ --calibration ]
 
 require_once("../inc/bossa.inc");
+require_once("../inc/util_ops.inc");
 
 function make_job($path, $batchid, $appid, $calibration) {
     $info = null;

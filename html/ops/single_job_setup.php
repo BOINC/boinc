@@ -53,7 +53,7 @@ function usage() {
 function get_includes() {
     $c = getcwd();
     chdir('html/ops');
-    require_once('../inc/boinc_db.inc');
+    require_once('../inc/util_ops.inc');
     BoincDb::get();
     chdir($c);
 }

@@ -20,6 +20,8 @@
 // Perform DB updates.
 // To be run in project/html/ops.
 
+require_once("../inc/util_ops.inc");
+
 echo "Checking for DB updates...\n";
 
 $db_revision = 0;

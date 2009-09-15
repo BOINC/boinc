@@ -16,9 +16,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 require_once("../inc/forum_db.inc");
+require_once("../inc/util_ops.inc");
+
 set_time_limit(0);
 
 // delete threads and posts for non-existent forums

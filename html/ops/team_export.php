@@ -21,8 +21,7 @@
 // This script for use ONLY by the BOINC-teams project.
 // It generates an XML file with team and user info
 
-require_once("../inc/boinc_db.inc");
-require_once("../inc/util.inc");
+require_once("../inc/util_ops.inc");
 
 function handle_team($team, $f) {
     $user = BoincUser::lookup_id($team->userid);

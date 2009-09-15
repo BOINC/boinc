@@ -18,6 +18,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once("../inc/cache.inc");
+require_once("../inc/util_ops.inc");
 
 set_time_limit(0);
 

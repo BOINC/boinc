@@ -9,6 +9,8 @@
 
 //$FILE_LIST = "user/index.php project/project.inc";
 
+require_once("../inc/util_ops.inc");
+
 if (!isset($FILE_LIST)) {
     echo "You must edit build_po.php to specify your project's .php files\n";
     exit;

@@ -37,7 +37,7 @@ if (get_int('hostid')) {
 $timestr = time_str(time(0));
 $title = "host ".$hostid." max_results_day set to 1 at ".$timestr;
 
-admin_page_head( $title );
+admin_page_head($title);
 
 if($hostid > 0) {
     $result = mysql_query("UPDATE host SET max_results_day=1 WHERE id=".$hostid);

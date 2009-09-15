@@ -25,6 +25,7 @@
 //
 
 require_once("../inc/db.inc");
+require_once("../inc/util_ops.inc");
 
 db_init();
 

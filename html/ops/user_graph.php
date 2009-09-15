@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once("../inc/util_ops.inc");
+
 function draw_graph($xarr, $arr) {
     require_once ("jpgraph/jpgraph.php");
     require_once ("jpgraph/jpgraph_line.php");
@@ -48,7 +50,6 @@ function show_text($xarr, $yarr) {
 }
 
 function show_graph() {
-    require_once("../inc/db.inc");
     db_init();
 
     $xaxis = $_GET['xaxis'];

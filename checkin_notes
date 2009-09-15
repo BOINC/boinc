@@ -7694,3 +7694,23 @@ David  14 Sept 2009
             login_action.php
             login_form.php (new)
             logout.php (new)
+
+David  14 Sept 2009
+    - admin web: finished the above.
+        Got rid of auth_ops_cmdline() (not needed).
+        auth_ops() is now called in util_ops.inc;
+        every script in html/ops/ must include util_ops.inc.
+
+    Note: for existing projects, the admin web interface
+        will now show "access denied".
+        Projects must think about what access control policy they want,
+        and specify it in project.inc
+
+    html/
+        inc/
+            ops.inc (removed)
+            util_ops.inc
+        project.sample/
+            project.inc
+        ops/
+            (most).php

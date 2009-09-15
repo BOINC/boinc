@@ -17,7 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once("../inc/db.inc");
-require_once("../inc/util.inc");
+require_once("../inc/util_ops.inc");
 
 db_init();
 

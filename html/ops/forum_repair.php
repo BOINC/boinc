@@ -23,6 +23,7 @@
 ini_set("memory_limit", "1024M");
 
 require_once("../inc/forum_db.inc");
+require_once("../inc/util_ops.inc");
 
 function update_thread_timestamps() {
     $threads = BoincThread::enum();

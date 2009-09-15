@@ -17,11 +17,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once("../inc/translation.inc");
+require_once("../inc/util_ops.inc");
+
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
-require_once("../inc/translation.inc");
 system("rm -f $lang_language_dir/$lang_compiled_dir/*");
 
 $lang_log_level = 0;

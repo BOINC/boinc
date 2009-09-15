@@ -41,6 +41,7 @@
 require_once('../project/project.inc');
 require_once('../inc/email.inc');
 require_once('../inc/db.inc');
+require_once('../inc/util_ops.inc');
 
 db_init();
 set_time_limit(0);

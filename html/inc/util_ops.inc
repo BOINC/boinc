@@ -93,17 +93,53 @@ function show_profile_link_ops($user) {
     }
 }
 
+function cli_only(){
+    if (array_key_exists("SERVER_PORT", $_SERVER)) {
+        die("<html><h1>
+            This script is intended to be run from the command line,
+            not from the web server!
+            </h1>"
+        );
+    }
+}
+
+// initialize database connection with username & password from
+// command line instead of config.xml
+//
+function db_init_cli() {
+    $config = get_config();
+    $db_name = parse_config($config, "<db_name>");
+    $host = parse_config($config, "<db_host>");
+    if ($host == null) {
+        $host = "localhost";
+    }
+    $in = fopen("php://stdin","r");
+    print "Database username for $db_name@$host: ";
+    $user = rtrim(fgets($in, 80));
+    print "Database password for $db_name@host: ";
+    $pass = rtrim(fgets($in, 80));
+
+    $retval = mysql_pconnect($host, $user, $pass);
+    if (!$retval) {
+        return 1;
+    }
+    if (!mysql_select_db($db_name)) {
+        return 2;
+    }
+    return 0;
+}
+
 function print_login_form_ops($next_url='') {
     if ($next_url == '') $next_url = $_SERVER['REQUEST_URI'];
+    start_table();
     echo "
         <form method=post action=login_action.php>
         <input type=hidden name=next_url value=$next_url>
-        Email: <input name=email_addr>
-        <br>
-        Password: <input type=passwd name=passwd>
-        <br>
-        <input type=submit value=OK>
     ";
+    row2("Email", "<input name=email_addr size=40>");
+    row2("Password", "<input type=password name=passwd size=40>");
+    row2("", "<input type=submit value=OK>");
+    end_table();
 }
 
 function get_logged_in_user_ops() {
@@ -119,23 +155,65 @@ function get_logged_in_user_ops() {
     return $g_logged_in_user;
 }
 
-if (!function_exists('auth_ops')) {
-    function auth_ops() {
-        echo "To allow access to admin pages,
-            you must define a function auth_ops() in html/project/project.inc
-            that specifies your access control policy.
+////////// functions for access control of admin web pages /////////////
+
+// deny access
+
+function auth_ops_deny() {
+    error_page("To allow access to admin pages,
+        you must define a function auth_ops() in html/project/project.inc
+        that specifies your access control policy.
+         <a href=http://boinc.berkeley.edu/trac/wiki/HtmlOps>See how here</a>
+         .
+    ");
+}
+
+// allow access only if logged in as user in a given set
+//
+function auth_ops_userid($admin_user_ids) {
+    $user = get_logged_in_user_ops();
+    if (!$user) {
+        admin_page_head("Log in");
+        echo "You must log in to performance admin functions.<p>\n";
+        print_login_form_ops();
+        admin_page_tail();
+        exit;
+    } else if (!in_array($user->id, $admin_user_ids)) {
+        admin_page_head("Log in");
+        echo "
+            You must be logged in as an admin to perform admin functions.
+            <p>
+            <a href=logout.php>Log out</a>
         ";
+        admin_page_tail();
         exit;
     }
 }
 
-if (!function_exists('auth_ops_cmdline')) {
-    function auth_ops_cmdline() {
-        echo "To allow access to admin scripts,
-            you must define a function auth_ops_cmdline() in html/project/project.inc
-            that specifies your access control policy.
-        ";
+// allow access only to users with ADMIN/DEV flags in forum prefs.
+// If you use this, make sure you know who has these privileges
+//
+function auth_ops_privilege() {
+    $user = get_logged_in_user_ops();
+    if (!$user) {
+        admin_page_head("Log in");
+        echo "You must log in to performance admin functions.<p>\n";
+        print_login_form_ops();
+        admin_page_tail();
         exit;
+    }
+    BoincForumPrefs::lookup($user);
+    if ($user->prefs->privilege(S_ADMIN) || $user->prefs->privilege(S_DEV)) {
+        return;
+    }
+    error_page("Access denied");
+}
+
+// if project hasn't specified a policy in project.inc, the default is no access
+//
+if (!function_exists('auth_ops')) {
+    function auth_ops() {
+        auth_ops_deny();
     }
 }
 
@@ -144,6 +222,10 @@ function error_page_ops($msg) {
     echo $msg;
     admin_page_tail();
     exit;
+}
+
+if (!defined('skip_auth_ops')) {
+    auth_ops();
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

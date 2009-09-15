@@ -21,9 +21,9 @@ ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
 require_once("../inc/db.inc");
+require_once("../inc/util_ops.inc");
 
 db_init();
-
 
 $hist = array();
 $quantum = 1e10;

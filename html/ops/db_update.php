@@ -21,8 +21,7 @@
 // Don't run this unless you know what you're doing!
 
 require_once("../inc/db.inc");
-require_once("../inc/util.inc");
-require_once("../inc/ops.inc");
+require_once("../inc/util_ops.inc");
 
 cli_only();
 $db = BoincDb::get_aux(false);

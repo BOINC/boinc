@@ -21,6 +21,8 @@
 // - set CANCELLED bit in WU error mask
 //
 
+require_once("../inc/util_ops.inc");
+
 function test_mysql_query($msg) {
     echo "mysql_query($msg)<br/>";
     return 1;

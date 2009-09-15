@@ -18,6 +18,7 @@
 
 require_once("../inc/db.inc");
 require_once("../inc/host.inc");
+require_once("../inc/util_ops.inc");
 
 host_update_credit(141006);
 ?>

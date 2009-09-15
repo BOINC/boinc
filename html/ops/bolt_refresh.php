@@ -21,6 +21,7 @@
 // (to avoid multiple emails)
 
 require_once("../inc/bolt_db.inc");
+require_once("../inc/util_ops.inc");
 
 function notify_user($user) {
     $body = "

@@ -21,7 +21,7 @@
 // but (because of crashes or bugs) they sometimes do.
 // db_purge doesn't get rid of them; this does
 
-require_once("../inc/util.inc");
+require_once("../inc/util_ops.inc");
 require_once("../inc/db.inc");
 
 set_time_limit(0);

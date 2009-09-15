@@ -20,8 +20,7 @@
 // watchdog script to ensure that the number of result records
 // increases at least every X seconds (X = crontab period)
 
-include_once("db.inc");
-include_once("util.inc");
+include_once("util_ops.inc");
 
 function fail($x) {
     $f = fopen("error_log", "a");

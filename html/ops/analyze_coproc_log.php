@@ -24,7 +24,6 @@
 // - breakdown by desc (number, credit)
 
 require_once("../inc/util_ops.inc");
-auth_ops_cmdline();
 
 ini_set ("memory_limit", "1G");
 set_time_limit(0);

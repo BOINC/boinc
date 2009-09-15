@@ -8,6 +8,8 @@
 // Run this in boinc/html;
 // move the result to boinc/locale/templates/BOINC-Web.pot
 
+require_once("../inc/util_ops.inc");
+
 $FILE_LIST = "inc/*.inc user/*.php project.sample/*.inc";
 
 $date = strftime('%Y-%m-%d %H:%M %Z');

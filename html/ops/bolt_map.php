@@ -49,6 +49,7 @@ require_once("../inc/bolt_db.inc");
 require_once("../inc/bolt_cat.inc");
 require_once("../inc/bolt.inc");
 require_once("../inc/bolt_snap.inc");
+require_once("../inc/util_ops.inc");
 
 // the following are to minimize argument passing
 

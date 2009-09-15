@@ -24,6 +24,7 @@ require_once("../inc/bolt_db.inc");
 require_once("../inc/bolt_util.inc");
 require_once("../inc/bolt.inc");
 require_once("../inc/bolt_cat.inc");
+require_once("../inc/util_ops.inc");
 
 // generate a random student
 //

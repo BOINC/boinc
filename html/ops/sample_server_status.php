@@ -60,8 +60,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
-require_once("../inc/util.inc");
-require_once("../inc/db.inc");
+require_once("../inc/util_ops.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/cache.inc");
 

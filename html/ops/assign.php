@@ -18,8 +18,6 @@
 
 require_once("../inc/util_ops.inc");
 
-auth_ops();
-
 function show_assign($asgn) {
     $when = time_str($asgn->create_time);
     switch ($asgn->target_type) {

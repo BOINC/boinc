@@ -1,13 +1,13 @@
 <?php
 
+require_once("../inc/util_ops.inc");
+
 ini_set ("memory_limit", "8000M");
 set_time_limit(0);
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
-
-require_once("../inc/boinc_db.inc");
 
 $hosts_total = 0;     // number of hosts 6.2 or better
 $hosts_gpu = 0;     // number with an nvidia gpu

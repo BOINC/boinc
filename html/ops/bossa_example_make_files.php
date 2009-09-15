@@ -25,6 +25,7 @@
 // --ellipse_frac X     fraction of images with ellipses
 
 require_once("../inc/util_basic.inc");
+require_once("../inc/util_ops.inc");
 
 function rand_color($im, $range) {
     $mid = 200;
