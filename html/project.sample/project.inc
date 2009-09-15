@@ -53,6 +53,45 @@ function project_footer($show_return, $show_date, $prefix) {
     }
 }
 
+// Authorize an access to an administrative page.
+// You can check for login, IP address, or whatever you want.
+//
+function auth_ops() {
+    if (1) {
+        echo "To allow access to admin pages,
+            you must define a function auth_ops() in html/project/project.inc
+            that specifies your access control policy.
+        ";
+        exit;
+    }
+
+    // example:
+    if (0) {
+        $admin_user_ids = array(1);
+        $user = get_logged_in_user_ops();
+        if (!$user) {
+            echo "You must log in to performance admin functions.<p>\n";
+            print_login_form_ops();
+            exit;
+        } else if (!$in_array($user->id, $admin_user_ids)) {
+            echo "
+                You must be logged in as an administrator to perform admin functions.
+                <p>
+                <a href=logout.php>Log out</a>
+            ";
+            exit;
+        }
+    }
+}
+
+// Same, but for command-line scripts
+//
+function auth_ops_cmdline() {
+    if ($_SERVER['REMOTE_ADDR']) {
+        error_page("Web access to this script is not allowed.");
+    }
+}
+
 function show_profile_heading1() {
     return "Your personal background.";
 }

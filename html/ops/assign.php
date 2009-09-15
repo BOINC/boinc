@@ -16,9 +16,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("../inc/util.inc");
 require_once("../inc/util_ops.inc");
-require_once("../inc/db_ops.inc");
+
+auth_ops();
 
 function show_assign($asgn) {
     $when = time_str($asgn->create_time);

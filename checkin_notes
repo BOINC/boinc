@@ -7669,3 +7669,28 @@ David  13 Sept 2009
 
     client/
         client_state.cpp
+
+David  14 Sept 2009
+    - admin web: add a notion of login to a project's admin pages
+        (this is separate from login to user pages,
+        since the cookie path is different).
+    - admin web: added a framework for project-specified
+        access control to admin pages.
+        Can be on the basis of user ID, user flags, etc.
+        To do this, define functions auth_ops() and auth_ops_cmdline()
+        in html/project/project.inc
+        (see the one in project.samples/ for an example)
+        This is in addition to .htaccess protection.
+
+    html/
+        inc/
+            util.inc
+            util_ops.inc
+        project.sample/
+            project.inc
+        ops/
+            assign.php
+            analyze_coproc_log
+            login_action.php
+            login_form.php (new)
+            logout.php (new)

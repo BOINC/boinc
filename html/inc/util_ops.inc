@@ -41,7 +41,17 @@ function admin_page_head($title) {
 
 function admin_page_tail() {
     echo "<br><hr noshade size=1><center>
-        <a href=\"index.php\"> Back to Main admin page </a></center>
+        <a href=\"index.php\"> Back to Main admin page </a> |
+    ";
+    $user = get_logged_in_user_ops();
+    if ($user) {
+        echo "logged in as $user->name. <a href=logout.php>Log out</a>";
+    } else {
+        echo "<a href=login_form.php>Log in</a>";
+    }
+
+    echo "
+        </center>
         </body></html>
     ";
 }
@@ -81,6 +91,59 @@ function show_profile_link_ops($user) {
             "<a href=\"".URL_BASE."view_profile.php?userid=$user->id\">View</a>"
         );
     }
+}
+
+function print_login_form_ops($next_url='') {
+    if ($next_url == '') $next_url = $_SERVER['REQUEST_URI'];
+    echo "
+        <form method=post action=login_action.php>
+        <input type=hidden name=next_url value=$next_url>
+        Email: <input name=email_addr>
+        <br>
+        Password: <input type=passwd name=passwd>
+        <br>
+        <input type=submit value=OK>
+    ";
+}
+
+function get_logged_in_user_ops() {
+    global $g_logged_in_user;
+    if ($g_logged_in_user) return $g_logged_in_user;
+    $authenticator = null;
+    if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
+
+    $authenticator = BoincDb::escape_string($authenticator);
+    if ($authenticator) {
+        $g_logged_in_user = BoincUser::lookup("authenticator='$authenticator'");
+    }
+    return $g_logged_in_user;
+}
+
+if (!function_exists('auth_ops')) {
+    function auth_ops() {
+        echo "To allow access to admin pages,
+            you must define a function auth_ops() in html/project/project.inc
+            that specifies your access control policy.
+        ";
+        exit;
+    }
+}
+
+if (!function_exists('auth_ops_cmdline')) {
+    function auth_ops_cmdline() {
+        echo "To allow access to admin scripts,
+            you must define a function auth_ops_cmdline() in html/project/project.inc
+            that specifies your access control policy.
+        ";
+        exit;
+    }
+}
+
+function error_page_ops($msg) {
+    admin_page_head("Unable to handle request");
+    echo $msg;
+    admin_page_tail();
+    exit;
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

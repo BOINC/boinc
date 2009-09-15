@@ -37,15 +37,22 @@ function send_cookie($name, $value, $permanent, $ops=false) {
     $master_url = parse_config(get_config(), "<master_url>");
     $url = parse_url($master_url);
     $path = $url['path'];
-    if ($ops) $path = "$path_ops";
+    if ($ops) {
+        $path = substr($path, 0, -1);
+        $path .= "_ops/";
+    }
     $expire = $permanent?time()+3600*24*365:0;
     setcookie($name, $value, $expire, $path);
 }
 
-function clear_cookie($name) {
+function clear_cookie($name, $ops=false) {
     $master_url = parse_config(get_config(), "<master_url>");
     $url = parse_url($master_url);
     $path = $url['path'];
+    if ($ops) {
+        $path = substr($path, 0, -1);
+        $path .= "_ops/";
+    }
     setcookie($name, '', time()-3600, $path);
 }
 
