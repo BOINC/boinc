@@ -790,9 +790,23 @@ void WORK_FETCH::write_request(FILE* f, PROJECT* p) {
 
 // we just got a scheduler reply with the given jobs; update backoffs
 //
-void WORK_FETCH::handle_reply(PROJECT* p, vector<RESULT*> new_results) {
+void WORK_FETCH::handle_reply(
+    PROJECT* p, SCHEDULER_REPLY* srp, vector<RESULT*> new_results
+) {
     unsigned int i;
     bool got_cpu = false, got_cuda = false, got_ati = false;
+
+    // handle project-supplied backoff requests
+    //
+    if (srp->cpu_backoff) {
+        p->cpu_pwf.backoff_time = gstate.now + srp->cpu_backoff;
+    }
+    if (srp->cuda_backoff) {
+        p->cuda_pwf.backoff_time = gstate.now + srp->cuda_backoff;
+    }
+    if (srp->ati_backoff) {
+        p->ati_pwf.backoff_time = gstate.now + srp->ati_backoff;
+    }
 
     // if didn't get any jobs, back off on requested resource types
     //
@@ -800,13 +814,13 @@ void WORK_FETCH::handle_reply(PROJECT* p, vector<RESULT*> new_results) {
         // but not if RPC was requested by project
         //
         if (p->sched_rpc_pending != RPC_REASON_PROJECT_REQ) {
-            if (cpu_work_fetch.req_secs) {
+            if (cpu_work_fetch.req_secs && !srp->cpu_backoff) {
                 p->cpu_pwf.backoff(p, "CPU");
             }
-            if (coproc_cuda && coproc_cuda->req_secs) {
+            if (coproc_cuda && coproc_cuda->req_secs && !srp->cuda_backoff) {
                 p->cuda_pwf.backoff(p, "NVIDIA GPU");
             }
-            if (coproc_ati && coproc_ati->req_secs) {
+            if (coproc_ati && coproc_ati->req_secs && !srp->ati_backoff) {
                 p->ati_pwf.backoff(p, "ATI GPU");
             }
         }

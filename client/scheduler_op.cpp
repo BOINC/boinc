@@ -567,6 +567,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     send_job_log = 0;
     messages.clear();
     scheduler_version = 0;
+    cuda_backoff = 0;
+    ati_backoff = 0;
 
     // First line should either be tag (HTTP 1.0) or
     // hex length of response (HTTP 1.1)
@@ -831,6 +833,12 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             retval = auto_update.parse(mf);
             if (!retval) auto_update.present = true;
 #endif
+        } else if (parse_double(buf, "<cpu_backoff>", cpu_backoff)) {
+            continue;
+        } else if (parse_double(buf, "<cuda_backoff>", cuda_backoff)) {
+            continue;
+        } else if (parse_double(buf, "<ati_backoff>", ati_backoff)) {
+            continue;
         } else if (match_tag(buf, "<!--")) {
             continue;
         } else if (strlen(buf)>1){

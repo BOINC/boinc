@@ -125,6 +125,9 @@ struct SCHEDULER_REPLY {
     int send_job_log;
     int scheduler_version;
     AUTO_UPDATE auto_update;
+    double cpu_backoff;
+    double cuda_backoff;
+    double ati_backoff;
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();
