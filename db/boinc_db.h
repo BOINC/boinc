@@ -384,9 +384,9 @@ struct WORKUNIT {
         // (in terms of numerics, performance, or both)
     double opaque;              // project-specific; usually external ID
     int min_quorum;             // minimum quorum size
-    int target_nresults;        // try to get this many successful results
-                                // may be > min_quorum to get consensus
-                                // quicker or reflect loss rate
+    int target_nresults;
+        // try to get this many successful results
+        // may be > min_quorum to get consensus quicker or reflect loss rate
     int max_error_results;      // WU error if < #error results
     int max_total_results;      // WU error if < #total results
         // (need this in case results are never returned)

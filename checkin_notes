@@ -7695,7 +7695,7 @@ David  14 Sept 2009
             login_form.php (new)
             logout.php (new)
 
-David  14 Sept 2009
+David  15 Sept 2009
     - admin web: finished the above.
         Got rid of auth_ops_cmdline() (not needed).
         auth_ops() is now called in util_ops.inc;
@@ -7714,3 +7714,16 @@ David  14 Sept 2009
             project.inc
         ops/
             (most).php
+
+David  15 Sept 2009
+    - create_work function and script:
+        check for valid ordering among max_success_results,
+        max_total_results, max_error_results, and target_nresults
+
+    db/
+        boinc_db.h
+    sched/
+        validator.cpp
+    tools/
+        backend_lib.cpp
+        create_work.cpp

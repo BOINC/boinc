@@ -493,7 +493,7 @@ int handle_wu(
                     transition_time = IMMEDIATE;
                 }
 
-                // if #success results == than target_nresults,
+                // if #success results >= target_nresults,
                 // we need more results, so bump target_nresults
                 // NOTE: nsuccess_results should never be > target_nresults,
                 // but accommodate that if it should happen

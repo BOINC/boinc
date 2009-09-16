@@ -46,6 +46,8 @@
 //  [ --assign_user_all ID ]
 //  [ --assign_team_one ID ]
 //  [ --assign_team_all ID ]
+//  [ --wu_id N ]   Pass this if you've already created the workunit record
+//           (used by boinc_submit)
 //  infile1 infile2 ...
 
 #include "config.h"

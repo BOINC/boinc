@@ -612,6 +612,18 @@ int create_work(
         fprintf(stderr, "no max_success_results given; can't create job\n");
         return ERR_NO_OPTION;
     }
+    if (wu.max_success_results > wu.max_total_results) {
+        fprintf(stderr, "max_success_results > max_total_results; can't create job\n");
+        return ERR_INVALID_PARAM;
+    }
+    if (wu.max_error_results > wu.max_total_results) {
+        fprintf(stderr, "max_error_results > max_total_results; can't create job\n");
+        return ERR_INVALID_PARAM;
+    }
+    if (wu.target_nresults > wu.max_success_results) {
+        fprintf(stderr, "target_nresults > max_success_results; can't create job\n");
+        return ERR_INVALID_PARAM;
+    }
     if (strstr(wu.name, ASSIGNED_WU_STR)) {
         wu.transition_time = INT_MAX;
     } else {
