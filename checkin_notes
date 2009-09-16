@@ -7733,3 +7733,13 @@ David  15 Sept 2009
 
     sched/
         transitioner.cpp
+
+Charlie 16 Sept 2009
+    - Mac installer: ask user whether to allow non-administrative users to run 
+        and control BOINC.
+        
+    clientgui/
+        mac/
+            SetupSecurity.cpp,.h
+    mac_installer/
+        PostInstall.cpp
