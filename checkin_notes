@@ -7765,3 +7765,11 @@ David  16 Sept 2009
         work_fetch.cpp,h
     lib/
         coproc.cpp
+
+David  16 Sept 2009
+    - client: cap project-supplied backoffs at 28 days
+    - client: anal-retentive alphabetization
+
+    client/
+        log_flags.cpp,h
+        schedule_op.cpp

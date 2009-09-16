@@ -834,10 +834,16 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             if (!retval) auto_update.present = true;
 #endif
         } else if (parse_double(buf, "<cpu_backoff>", cpu_backoff)) {
+            if (cpu_backoff > 28*SECONDS_PER_DAY) cpu_backoff = 0;
+            if (cpu_backoff < 0) cpu_backoff = 0;
             continue;
         } else if (parse_double(buf, "<cuda_backoff>", cuda_backoff)) {
+            if (cuda_backoff > 28*SECONDS_PER_DAY) cuda_backoff = 0;
+            if (cuda_backoff < 0) cuda_backoff = 0;
             continue;
         } else if (parse_double(buf, "<ati_backoff>", ati_backoff)) {
+            if (ati_backoff > 28*SECONDS_PER_DAY) ati_backoff = 0;
+            if (ati_backoff < 0) ati_backoff = 0;
             continue;
         } else if (match_tag(buf, "<!--")) {
             continue;
