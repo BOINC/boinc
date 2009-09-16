@@ -774,7 +774,7 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
 }
 
 
-int AddAdminUserToGroups(char *user_name) {        
+int AddAdminUserToGroups(char *user_name, bool add_to_boinc_project) {        
 #ifndef _DEBUG
     char            buf1[80];
     OSStatus        err = noErr;
@@ -786,12 +786,14 @@ int AddAdminUserToGroups(char *user_name) {
     if (err)
         return err;
 
+    if (add_to_boinc_project)  {
     sprintf(buf1, "/groups/%s", boinc_project_group_name);
 
     // "dscl . -merge /groups/boinc_project users user_name"
     err = DoPrivilegedExec(dsclPath, ".", "-merge", buf1, "users", user_name);
     if (err)
         return err;
+    }
 
     err = ResynchSystem();
     if (err != noErr)

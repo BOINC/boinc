@@ -7357,3 +7357,13 @@ Charlie 11 Sept 2009
     clientgui/
         AsyncRPC.cpp
         BOINCGUIApp.cpp
+
+Charlie 16 Sept 2009
+    - Mac installer: ask user whether to allow non-administrative users to run 
+        and control BOINC.
+        
+    clientgui/
+        mac/
+            SetupSecurity.cpp,.h
+    mac_installer/
+        PostInstall.cpp
