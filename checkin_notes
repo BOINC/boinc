@@ -7727,3 +7727,9 @@ David  15 Sept 2009
     tools/
         backend_lib.cpp
         create_work.cpp
+
+David  15 Sept 2009
+    - transitioner: don't create more than max_total_results results
+
+    sched/
+        transitioner.cpp

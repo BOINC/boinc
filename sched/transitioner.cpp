@@ -301,7 +301,28 @@ int handle_wu(
         );
         wu_item.error_mask |= WU_ERROR_TOO_MANY_ERROR_RESULTS;
     }
-    if ((int)items.size() > wu_item.max_total_results) {
+
+    // see how many new results we need to make
+    //
+    int n_new_results_needed = wu_item.target_nresults - nunsent - ninprogress - nsuccess;
+    if (n_new_results_needed < 0) n_new_results_needed = 0;
+    int n_new_results_allowed = wu_item.max_total_results - (int)items.size();
+
+    // if we're already at the limit and need more, error out the WU
+    //
+    bool too_many = false;
+    if (n_new_results_allowed < 0) {
+        too_many = true;
+    } else if (n_new_results_allowed == 0) {
+        if (n_new_results_needed > 0) {
+            too_many = true;
+        }
+    } else {
+        if (n_new_results_needed > n_new_results_allowed) {
+            n_new_results_needed = n_new_results_allowed;
+        }
+    }
+    if (too_many) {
         log_messages.printf(MSG_NORMAL,
             "[WU#%d %s] WU has too many total results (%d)\n",
             wu_item.id, wu_item.name, (int)items.size()
@@ -360,18 +381,17 @@ int handle_wu(
     } else if (wu_item.canonical_resultid == 0) {
         // Here if no WU-level error.
         // Generate new results if needed.
-        // NOTE: n must be signed
         //
-        int n = wu_item.target_nresults - nunsent - ninprogress - nsuccess;
         std::string values;
         char value_buf[MAX_QUERY_LEN];
-        if (n > 0) {
+        if (n_new_results_needed > 0) {
             log_messages.printf(
                 MSG_NORMAL,
                 "[WU#%d %s] Generating %d more results (%d target - %d unsent - %d in progress - %d success)\n",
-                wu_item.id, wu_item.name, n, wu_item.target_nresults, nunsent, ninprogress, nsuccess
+                wu_item.id, wu_item.name, n_new_results_needed,
+                wu_item.target_nresults, nunsent, ninprogress, nsuccess
             );
-            for (j=0; j<n; j++) {
+            for (j=0; j<n_new_results_needed; j++) {
                 sprintf(suffix, "%d", max_result_suffix+j+1);
                 const char *rtfpath = config.project_path("%s", wu_item.result_template_file);
                 int priority_increase = 0;
