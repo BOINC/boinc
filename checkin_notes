@@ -7743,3 +7743,10 @@ Charlie 16 Sept 2009
             SetupSecurity.cpp,.h
     mac_installer/
         PostInstall.cpp
+
+David  16 Sept 2009
+    - client: tweak policy for device busy time.
+        Should eliminate some spurious "job won't complete by deadline" msgs.
+
+    client/
+        work_fetch.h

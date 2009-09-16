@@ -116,7 +116,8 @@ struct BUSY_TIME_ESTIMATOR {
                 ibest = i;
             }
         }
-        for (i=0; i<nused; i++) {
+        int inused = (int) nused;     // ignore fractional usage
+        for (i=0; i<inused; i++) {
             j = (ibest + i) % ninstances;
             busy_time[j] += dur;
         }
