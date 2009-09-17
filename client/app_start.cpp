@@ -338,8 +338,10 @@ int ACTIVE_TASK::copy_output_files() {
         FILE_INFO* fip = fref.file_info;
         sprintf(slotfile, "%s/%s", slot_dir, fref.open_name);
         get_pathname(fip, projfile, sizeof(projfile));
+#if 1
+        boinc_rename(slotfile, projfile);
+#else
         int retval = boinc_rename(slotfile, projfile);
-#if 0
         // this isn't a BOINC error.
         // it just means the app didn't create an output file
         // that it was supposed to.

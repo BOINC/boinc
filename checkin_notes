@@ -7820,3 +7820,9 @@ David  17 Sept 2009
 
     sched/
         sched_customize.cpp
+
+Charlie 17 Sept 2009
+    - client: fix compiler warning.
+
+    client/
+        app_start.cpp
