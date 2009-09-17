@@ -27,6 +27,7 @@
 				DD45C4A10A53E73500E923D1 /* PBXTargetDependency */,
 				DDBD52900C16C3790074905B /* PBXTargetDependency */,
 				DD095D1F0F3B22DE000902F5 /* PBXTargetDependency */,
+				DDD3370C106224FF00867C7D /* PBXTargetDependency */,
 			);
 			name = Build_All;
 			productName = Build_All;
@@ -300,6 +301,9 @@
 		DDC988FE0F3BD44100EE8D0E /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
 		DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */; };
 		DDD095490A3EDF2D00C95BA4 /* switcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.cpp */; };
+		DDD3370A106224E800867C7D /* AddRemoveUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD33709106224E800867C7D /* AddRemoveUser.cpp */; };
+		DDD3370F10622C6C00867C7D /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */; };
+		DDD3371310622D0800867C7D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DDD52DCA0C03CAE6009B5FC0 /* ViewProjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */; };
 		DDD52DCC0C03CAE6009B5FC0 /* ViewTransfers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC60C03CAE6009B5FC0 /* ViewTransfers.cpp */; };
 		DDD52DCE0C03CAE6009B5FC0 /* ViewWork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC80C03CAE6009B5FC0 /* ViewWork.cpp */; };
@@ -553,6 +557,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = DDD0953E0A3EDD2500C95BA4;
 			remoteInfo = switcher;
+		};
+		DDD3370B106224FF00867C7D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDD336F51062235D00867C7D;
+			remoteInfo = AddRemoveUser;
 		};
 		DDFA60DC0CB338940037B88C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -892,6 +903,8 @@
 		DDCF84070E1B7C0A005EDC45 /* DlgItemProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DlgItemProperties.h; sourceTree = "<group>"; };
 		DDD0953F0A3EDD2500C95BA4 /* switcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = switcher; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD095480A3EDF2D00C95BA4 /* switcher.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = switcher.cpp; sourceTree = "<group>"; };
+		DDD337021062235D00867C7D /* AddRemoveUser */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AddRemoveUser; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDD33709106224E800867C7D /* AddRemoveUser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AddRemoveUser.cpp; path = ../mac_installer/AddRemoveUser.cpp; sourceTree = SOURCE_ROOT; };
 		DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewProjects.cpp; path = ../clientgui/ViewProjects.cpp; sourceTree = SOURCE_ROOT; };
 		DDD52DC50C03CAE6009B5FC0 /* ViewProjects.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewProjects.h; path = ../clientgui/ViewProjects.h; sourceTree = SOURCE_ROOT; };
 		DDD52DC60C03CAE6009B5FC0 /* ViewTransfers.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewTransfers.cpp; path = ../clientgui/ViewTransfers.cpp; sourceTree = SOURCE_ROOT; };
@@ -1094,6 +1107,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DDD336F81062235D00867C7D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDD3371310622D0800867C7D /* Carbon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDD74D8507CF482E0065AC9D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1142,6 +1163,7 @@
 				DDB874030C850BC800E0DE1F /* libboinc_graphics2.a */,
 				DDFA60D40CB337D40037B88C /* gfx_switcher */,
 				DD8916280F3B17E900DE5B1C /* boincscr */,
+				DDD337021062235D00867C7D /* AddRemoveUser */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -1217,6 +1239,7 @@
 				DDF1F47A09822C3400482C89 /* preinstall */,
 				DDB8D5A5081FC8C700A5A1E8 /* postinstall */,
 				DD127880081F464E007B5DE1 /* postupgrade */,
+				DDD33709106224E800867C7D /* AddRemoveUser.cpp */,
 			);
 			name = mac_installer;
 			sourceTree = SOURCE_ROOT;
@@ -1902,6 +1925,23 @@
 			productReference = DDD0953F0A3EDD2500C95BA4 /* switcher */;
 			productType = "com.apple.product-type.tool";
 		};
+		DDD336F51062235D00867C7D /* AddRemoveUser */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDD336FA1062235D00867C7D /* Build configuration list for PBXNativeTarget "AddRemoveUser" */;
+			buildPhases = (
+				DDD336F61062235D00867C7D /* Sources */,
+				DDD336F81062235D00867C7D /* Frameworks */,
+				DDD336F91062235D00867C7D /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AddRemoveUser;
+			productName = SetVersion;
+			productReference = DDD337021062235D00867C7D /* AddRemoveUser */;
+			productType = "com.apple.product-type.tool";
+		};
 		DDD74D8607CF482E0065AC9D /* BOINC_Client */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2365091CBDAE0048316E /* Build configuration list for PBXNativeTarget "BOINC_Client" */;
@@ -1990,6 +2030,7 @@
 				DD4688400C165F3C0089F500 /* Uninstaller */,
 				DDFA60C90CB337D40037B88C /* gfx_switcher */,
 				DD89161C0F3B17E900DE5B1C /* ss_app */,
+				DDD336F51062235D00867C7D /* AddRemoveUser */,
 			);
 		};
 /* End PBXProject section */
@@ -2243,6 +2284,21 @@
 			shellScript = "if [ \"$BUILD_STYLE\" = \"i386_Deployment\" ] || [ \"$BUILD_STYLE\" = \"ppc_Deployment\" ] || [ \"$BUILD_STYLE\" = \"Deployment-no64\" ] || [ \"$BUILD_STYLE\" = \"Deployment\" ]; then\n  touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_i386\"\n  touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_x86_64\"\n  touch \"$TARGET_BUILD_DIR/SymbolTables/${PRODUCT_NAME}_ppc\"\nfi";
 		};
 		DDAD1A380909139E004E7DD0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/../client/version.h",
+			);
+			outputPaths = (
+				"$(SRCROOT)/English.lproj/InfoPlist.strings",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n\"${BUILT_PRODUCTS_DIR}/SetVersion\"\n";
+		};
+		DDD336F91062235D00867C7D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2601,6 +2657,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DDD336F61062235D00867C7D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDD3370A106224E800867C7D /* AddRemoveUser.cpp in Sources */,
+				DDD3370F10622C6C00867C7D /* LoginItemAPI.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DDD74D8407CF482E0065AC9D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2821,6 +2886,11 @@
 			isa = PBXTargetDependency;
 			target = DDD0953E0A3EDD2500C95BA4 /* switcher */;
 			targetProxy = DDD095500A3EE09900C95BA4 /* PBXContainerItemProxy */;
+		};
+		DDD3370C106224FF00867C7D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDD336F51062235D00867C7D /* AddRemoveUser */;
+			targetProxy = DDD3370B106224FF00867C7D /* PBXContainerItemProxy */;
 		};
 		DDFA60DD0CB338940037B88C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -5066,6 +5136,62 @@
 			};
 			name = Deployment;
 		};
+		DDD336FB1062235D00867C7D /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = AddRemoveUser;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+			};
+			name = Development;
+		};
+		DDD336FC1062235D00867C7D /* Dev_noSandbox */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = AddRemoveUser;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+			};
+			name = Dev_noSandbox;
+		};
+		DDD336FD1062235D00867C7D /* ppc_Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = AddRemoveUser;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+			};
+			name = ppc_Deployment;
+		};
+		DDD336FE1062235D00867C7D /* i386_Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = AddRemoveUser;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+			};
+			name = i386_Deployment;
+		};
+		DDD336FF1062235D00867C7D /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = AddRemoveUser;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+			};
+			name = Deployment;
+		};
+		DDD337001062235D00867C7D /* Deployment-no64 */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = AddRemoveUser;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+			};
+			name = "Deployment-no64";
+		};
+		DDD337011062235D00867C7D /* Deploy_noSandbox */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = AddRemoveUser;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
+			};
+			name = Deploy_noSandbox;
+		};
 		DDFA60CE0CB337D40037B88C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -5387,6 +5513,20 @@
 				DDD095450A3EDD4300C95BA4 /* Deployment */,
 				DD9670750CED9A800009D32B /* Deployment-no64 */,
 				DD62C3960A801FB500B3D68A /* Deploy_noSandbox */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = ppc_Deployment;
+		};
+		DDD336FA1062235D00867C7D /* Build configuration list for PBXNativeTarget "AddRemoveUser" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDD336FB1062235D00867C7D /* Development */,
+				DDD336FC1062235D00867C7D /* Dev_noSandbox */,
+				DDD336FD1062235D00867C7D /* ppc_Deployment */,
+				DDD336FE1062235D00867C7D /* i386_Deployment */,
+				DDD336FF1062235D00867C7D /* Deployment */,
+				DDD337001062235D00867C7D /* Deployment-no64 */,
+				DDD337011062235D00867C7D /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = ppc_Deployment;
