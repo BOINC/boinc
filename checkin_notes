@@ -7423,3 +7423,9 @@ David  10 Sept 2009
 
     client/
         cs_scheduler.cpp
+
+David  11 Sept 2009
+    - client: in startup msgs, show resource shares, don't show prefs details
+
+    client/
+        client_state.cpp
