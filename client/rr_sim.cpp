@@ -51,6 +51,17 @@
 #include "coproc.h"
 #include "client_msgs.h"
 
+inline void rsc_string(RESULT* rp, char* buf) {
+    APP_VERSION* avp = rp->avp;
+    if (avp->ncudas) {
+        sprintf(buf, "%.2f CPU + %.2f NV", avp->avg_ncpus, avp->ncudas);
+    } else if (avp->natis) {
+        sprintf(buf, "%.2f CPU + %.2f ATI", avp->avg_ncpus, avp->natis);
+    } else {
+        sprintf(buf, "%.2f CPU", avp->avg_ncpus);
+    }
+}
+
 // this is here (rather than rr_sim.h) because its inline functions
 // refer to RESULT
 //
@@ -61,15 +72,24 @@ struct RR_SIM_STATUS {
     double active_atis;
 
     inline void activate(RESULT* rp, double when) {
+        PROJECT* p = rp->project;
         if (log_flags.rr_simulation) {
-            msg_printf(rp->project, MSG_INFO,
-                "[rr_sim] %.2f: starting %s", when, rp->name
+            char buf[256];
+            rsc_string(rp, buf);
+            msg_printf(p, MSG_INFO,
+                "[rr_sim] %.2f: starting %s (%s)",
+                when, rp->name, buf
             );
         }
         active.push_back(rp);
         cpu_work_fetch.sim_nused += rp->avp->avg_ncpus;
+        p->cpu_pwf.sim_nused += rp->avp->avg_ncpus;
+
         cuda_work_fetch.sim_nused += rp->avp->ncudas;
+        p->cuda_pwf.sim_nused += rp->avp->ncudas;
+
         ati_work_fetch.sim_nused += rp->avp->natis;
+        p->ati_pwf.sim_nused += rp->avp->natis;
     }
     // remove *rpbest from active set,
     // and adjust FLOPS left for other results

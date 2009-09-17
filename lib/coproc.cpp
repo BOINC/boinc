@@ -804,7 +804,7 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
         char buf[256], buf2[256];
         if (i == 0) {
             best = gpus[i];
-        } else if (gpus[i].flops() > best.flops()) {
+        } else if (gpus[i].flops_estimate() > best.flops_estimate()) {
             best = gpus[i];
         }
         gpus[i].description(buf);
@@ -945,7 +945,7 @@ int COPROC_ATI::parse(FILE* fin) {
 
 void COPROC_ATI::description(char* buf) {
     sprintf(buf, "%s (CAL version %s, %.0fMB, %.0fGFLOPS)",
-        name, version, attribs.localRAM/1024.*1024., flops()/1.e9
+        name, version, attribs.localRAM/1024.*1024., flops_estimate()/1.e9
     );
 }
 
