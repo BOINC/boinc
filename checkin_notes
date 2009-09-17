@@ -7772,7 +7772,7 @@ David  16 Sept 2009
 
     client/
         log_flags.cpp,h
-        schedule_op.cpp
+        scheduler_op.cpp
 
 Charlie 17 Sept 2009
     - Mac installer: create a new command-line tool AddRemoveUser to add users 
@@ -7786,3 +7786,9 @@ Charlie 17 Sept 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  17 Sept 2009
+    - client: if project-supplied backoff > 28 days, cap rather than ignore
+
+    client/
+        scheduler_op.cpp
