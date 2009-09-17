@@ -7482,3 +7482,12 @@ David  16 Sept 2009
     client/
         log_flags.cpp,h
         schedule_op.cpp
+
+Rom    17 Sept 2009
+    - Tag for 6.10.5 release, all platforms
+      boinc_core_release_6_10_5
+
+    /
+        configure.ac
+        version.h
+
