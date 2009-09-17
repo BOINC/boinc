@@ -31,6 +31,7 @@ class PROJECT;
 struct RESULT;
 class ACTIVE_TASK;
 struct RSC_WORK_FETCH;
+struct SCHEDULER_REPLY;
 
 // state per (resource, project) pair
 //
@@ -224,7 +225,9 @@ struct WORK_FETCH {
         // decide how much work to task for
     void accumulate_inst_sec(ACTIVE_TASK*, double dt);
     void write_request(FILE*, PROJECT*);
-    void handle_reply(PROJECT*, std::vector<RESULT*>new_results);
+    void handle_reply(
+        PROJECT*, SCHEDULER_REPLY*, std::vector<RESULT*>new_results
+    );
     void set_initial_work_request();
     void set_shortfall_requests(PROJECT*);
     void print_state();

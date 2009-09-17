@@ -7459,3 +7459,18 @@ David  16 Sept 2009
 
     client/
         work_fetch.h
+
+David  16 Sept 2009
+    - client and scheduler RPC: add optional <cpu_backoff>, <cuda_backoff>,
+        and <ati_backoff> elements to scheduler reply.
+        These specify backoffs for the resource types,
+        overriding the existing backoff mechanism.
+        Projects can supply these if they don't have apps of a particular type
+        and don't want to get periodic requests for them.
+
+    client/
+        cs_scheduler.cpp
+        schedule_op.cpp,h
+        work_fetch.cpp,h
+    lib/
+        coproc.cpp

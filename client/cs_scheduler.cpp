@@ -961,7 +961,7 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         project->next_rpc_time = 0;
     }
 
-    work_fetch.handle_reply(project, new_results);
+    work_fetch.handle_reply(project, &sr, new_results);
 
     project->nrpc_failures = 0;
     project->min_rpc_time = 0;

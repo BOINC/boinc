@@ -242,7 +242,7 @@ void COPROC_CUDA::get(
 #ifdef _WIN32
     HMODULE cudalib = LoadLibrary("nvcuda.dll");
     if (!cudalib) {
-        strings.push_back("Can't load library nvcuda.dll");
+        strings.push_back("No NVIDIA library found");
         return;
     }
     __cuDeviceGetCount = (CUDA_GDC)GetProcAddress(cudalib, "cuDeviceGetCount");
@@ -695,7 +695,7 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
     }
 #endif
     if (!callib) {
-        strings.push_back("No CAL Runtime Libraries installed.");
+        strings.push_back("No ATI Libraries found.");
         return;
     }
     __calInit = (ATI_GDI)GetProcAddress(callib, "calInit" );
