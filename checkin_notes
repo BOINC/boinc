@@ -7367,3 +7367,16 @@ Charlie 16 Sept 2009
             SetupSecurity.cpp,.h
     mac_installer/
         PostInstall.cpp
+
+Charlie 17 Sept 2009
+    - Mac installer: create a new command-line tool AddRemoveUser to add users 
+        to or remove users from group boinc_master.  It also adjusts the users' 
+        login item and screensaver selection.  Updated ReadMe file to explain 
+        changes for Unicode and for OS 10.6 Snow Leopard.
+        
+    mac_installer/
+        AddRemoveUser.cpp
+        ReadMe.rtf
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
