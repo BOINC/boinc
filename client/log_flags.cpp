@@ -65,36 +65,38 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
             continue;
         }
         if (!strcmp(tag, "/log_flags")) return 0;
-        if (xp.parse_bool(tag, "task", task)) continue;
         if (xp.parse_bool(tag, "file_xfer", file_xfer)) continue;
         if (xp.parse_bool(tag, "sched_ops", sched_ops)) continue;
-        if (xp.parse_bool(tag, "cpu_sched", cpu_sched)) continue;
-        if (xp.parse_bool(tag, "cpu_sched_debug", cpu_sched_debug)) continue;
-        if (xp.parse_bool(tag, "rr_simulation", rr_simulation)) continue;
-        if (xp.parse_bool(tag, "debt_debug", debt_debug)) continue;
-        if (xp.parse_bool(tag, "task_debug", task_debug)) continue;
-        if (xp.parse_bool(tag, "work_fetch_debug", work_fetch_debug)) continue;
-        if (xp.parse_bool(tag, "unparsed_xml", unparsed_xml)) continue;
-        if (xp.parse_bool(tag, "state_debug", state_debug)) continue;
-        if (xp.parse_bool(tag, "statefile_debug", statefile_debug)) continue;
-        if (xp.parse_bool(tag, "file_xfer_debug", file_xfer_debug)) continue;
-        if (xp.parse_bool(tag, "sched_op_debug", sched_op_debug)) continue;
-        if (xp.parse_bool(tag, "http_debug", http_debug)) continue;
-        if (xp.parse_bool(tag, "proxy_debug", proxy_debug)) continue;
-        if (xp.parse_bool(tag, "time_debug", time_debug)) continue;
-        if (xp.parse_bool(tag, "http_xfer_debug", http_xfer_debug)) continue;
-        if (xp.parse_bool(tag, "benchmark_debug", benchmark_debug)) continue;
-        if (xp.parse_bool(tag, "poll_debug", poll_debug)) continue;
-        if (xp.parse_bool(tag, "guirpc_debug", guirpc_debug)) continue;
-        if (xp.parse_bool(tag, "scrsave_debug", scrsave_debug)) continue;
-        if (xp.parse_bool(tag, "app_msg_send", app_msg_send)) continue;
+        if (xp.parse_bool(tag, "task", task)) continue;
+
         if (xp.parse_bool(tag, "app_msg_receive", app_msg_receive)) continue;
-        if (xp.parse_bool(tag, "mem_usage_debug", mem_usage_debug)) continue;
-        if (xp.parse_bool(tag, "network_status_debug", network_status_debug)) continue;
+        if (xp.parse_bool(tag, "app_msg_send", app_msg_send)) continue;
+        if (xp.parse_bool(tag, "benchmark_debug", benchmark_debug)) continue;
         if (xp.parse_bool(tag, "checkpoint_debug", checkpoint_debug)) continue;
         if (xp.parse_bool(tag, "coproc_debug", coproc_debug)) continue;
+        if (xp.parse_bool(tag, "cpu_sched", cpu_sched)) continue;
+        if (xp.parse_bool(tag, "cpu_sched_debug", cpu_sched_debug)) continue;
         if (xp.parse_bool(tag, "dcf_debug", dcf_debug)) continue;
+        if (xp.parse_bool(tag, "debt_debug", debt_debug)) continue;
+        if (xp.parse_bool(tag, "file_xfer_debug", file_xfer_debug)) continue;
+        if (xp.parse_bool(tag, "guirpc_debug", guirpc_debug)) continue;
+        if (xp.parse_bool(tag, "http_debug", http_debug)) continue;
+        if (xp.parse_bool(tag, "http_xfer_debug", http_xfer_debug)) continue;
+        if (xp.parse_bool(tag, "mem_usage_debug", mem_usage_debug)) continue;
+        if (xp.parse_bool(tag, "network_status_debug", network_status_debug)) continue;
+        if (xp.parse_bool(tag, "poll_debug", poll_debug)) continue;
+        if (xp.parse_bool(tag, "proxy_debug", proxy_debug)) continue;
+        if (xp.parse_bool(tag, "rr_simulation", rr_simulation)) continue;
+        if (xp.parse_bool(tag, "sched_op_debug", sched_op_debug)) continue;
+        if (xp.parse_bool(tag, "scrsave_debug", scrsave_debug)) continue;
         if (xp.parse_bool(tag, "slot_debug", slot_debug)) continue;
+        if (xp.parse_bool(tag, "state_debug", state_debug)) continue;
+        if (xp.parse_bool(tag, "statefile_debug", statefile_debug)) continue;
+        if (xp.parse_bool(tag, "task_debug", task_debug)) continue;
+        if (xp.parse_bool(tag, "time_debug", time_debug)) continue;
+        if (xp.parse_bool(tag, "unparsed_xml", unparsed_xml)) continue;
+        if (xp.parse_bool(tag, "work_fetch_debug", work_fetch_debug)) continue;
+
         msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );
@@ -121,35 +123,38 @@ static void show_flag(char* buf, bool flag, const char* flag_name) {
 void LOG_FLAGS::show() {
     char buf[256];
     strcpy(buf, "");
-    show_flag(buf, task, "task");
     show_flag(buf, file_xfer, "file_xfer");
     show_flag(buf, sched_ops, "sched_ops");
-    show_flag(buf, cpu_sched, "cpu_sched");
-    show_flag(buf, cpu_sched_debug, "cpu_sched_debug");
-    show_flag(buf, rr_simulation, "rr_simulation");
-    show_flag(buf, debt_debug, "debt_debug");
-    show_flag(buf, task_debug, "task_debug");
-    show_flag(buf, work_fetch_debug, "work_fetch_debug");
-    show_flag(buf, unparsed_xml, "unparsed_xml");
-    show_flag(buf, statefile_debug, "statefile_debug");
-    show_flag(buf, file_xfer_debug, "file_xfer_debug");
-    show_flag(buf, sched_op_debug, "sched_op_debug");
-    show_flag(buf, http_debug, "http_debug");
-    show_flag(buf, proxy_debug, "proxy_debug");
-    show_flag(buf, time_debug, "time_debug");
-    show_flag(buf, http_xfer_debug, "http_xfer_debug");
-    show_flag(buf, benchmark_debug, "benchmark_debug");
-    show_flag(buf, poll_debug, "poll_debug");
-    show_flag(buf, guirpc_debug, "guirpc_debug");
-    show_flag(buf, scrsave_debug, "scrsave_debug");
-    show_flag(buf, app_msg_send, "app_msg_send");
+    show_flag(buf, task, "task");
+
     show_flag(buf, app_msg_receive, "app_msg_receive");
-    show_flag(buf, mem_usage_debug, "mem_usage_debug");
-    show_flag(buf, network_status_debug, "network_status_debug");
+    show_flag(buf, app_msg_send, "app_msg_send");
+    show_flag(buf, benchmark_debug, "benchmark_debug");
     show_flag(buf, checkpoint_debug, "checkpoint_debug");
     show_flag(buf, coproc_debug, "coproc_debug");
+    show_flag(buf, cpu_sched, "cpu_sched");
+    show_flag(buf, cpu_sched_debug, "cpu_sched_debug");
     show_flag(buf, dcf_debug, "dcf_debug");
+    show_flag(buf, debt_debug, "debt_debug");
+    show_flag(buf, file_xfer_debug, "file_xfer_debug");
+    show_flag(buf, guirpc_debug, "guirpc_debug");
+    show_flag(buf, http_debug, "http_debug");
+    show_flag(buf, http_xfer_debug, "http_xfer_debug");
+    show_flag(buf, mem_usage_debug, "mem_usage_debug");
+    show_flag(buf, network_status_debug, "network_status_debug");
+    show_flag(buf, poll_debug, "poll_debug");
+    show_flag(buf, proxy_debug, "proxy_debug");
+    show_flag(buf, rr_simulation, "rr_simulation");
+    show_flag(buf, sched_op_debug, "sched_op_debug");
+    show_flag(buf, scrsave_debug, "scrsave_debug");
     show_flag(buf, slot_debug, "slot_debug");
+    show_flag(buf, state_debug, "state_debug");
+    show_flag(buf, statefile_debug, "statefile_debug");
+    show_flag(buf, task_debug, "task_debug");
+    show_flag(buf, time_debug, "time_debug");
+    show_flag(buf, unparsed_xml, "unparsed_xml");
+    show_flag(buf, work_fetch_debug, "work_fetch_debug");
+
     if (strlen(buf)) {
         msg_printf(NULL, MSG_INFO, "log flags: %s", buf);
     }
@@ -174,36 +179,36 @@ CONFIG::CONFIG() {
 }
 
 void CONFIG::clear() {
-    dont_check_file_sizes = false;
-    http_1_0 = false;
-    save_stats_days = 30;
-    ncpus = -1;
-    max_file_xfers = MAX_FILE_XFERS;
-    max_file_xfers_per_project = MAX_FILE_XFERS_PER_PROJECT;
-    suppress_net_info = false;
-    disallow_attach = false;
-    os_random_only = false;
-    no_alt_platform = false;
-    simple_gui_only = false;
-    dont_contact_ref_site = false;
-    max_stdout_file_size = 0;
-    max_stderr_file_size = 0;
-    alt_platforms.clear();
-    report_results_immediately = false;
-    start_delay = 0;
-    run_apps_manually = false;
-    force_auth = "default";
     allow_multiple_clients = false;
-    use_certs = false;
-    use_certs_only = false;
-    exclusive_apps.clear();
+    alt_platforms.clear();
     client_version_check_url = "http://boinc.berkeley.edu/download.php?xml=1";
     client_download_url = "http://boinc.berkeley.edu/download.php";
+    disallow_attach = false;
+    dont_check_file_sizes = false;
+    dont_contact_ref_site = false;
+    exclusive_apps.clear();
+    force_auth = "default";
+    http_1_0 = false;
+    max_file_xfers = MAX_FILE_XFERS;
+    max_file_xfers_per_project = MAX_FILE_XFERS_PER_PROJECT;
+    max_stderr_file_size = 0;
+    max_stdout_file_size = 0;
+    ncpus = -1;
     network_test_url = "http://www.google.com/";
+    no_alt_platform = false;
     no_gpus = false;
-    zero_debts = false;
     no_priority_change = false;
+    os_random_only = false;
+    report_results_immediately = false;
+    run_apps_manually = false;
+    save_stats_days = 30;
+    simple_gui_only = false;
+    start_delay = 0;
+    suppress_net_info = false;
     use_all_gpus = false;
+    use_certs = false;
+    use_certs_only = false;
+    zero_debts = false;
 }
 
 int CONFIG::parse_options(XML_PARSER& xp) {
@@ -222,20 +227,21 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (!strcmp(tag, "/options")) {
             return 0;
         }
-        if (xp.parse_int(tag, "save_stats_days", save_stats_days)) continue;
-        if (xp.parse_bool(tag, "dont_check_file_sizes", dont_check_file_sizes)) continue;
-        if (xp.parse_bool(tag, "http_1_0", http_1_0)) continue;
-        if (xp.parse_int(tag, "ncpus", ncpus)) continue;
-        if (xp.parse_int(tag, "max_file_xfers", max_file_xfers)) continue;
-        if (xp.parse_int(tag, "max_file_xfers_per_project", max_file_xfers_per_project)) continue;
-        if (xp.parse_bool(tag, "suppress_net_info", suppress_net_info)) continue;
-        if (xp.parse_bool(tag, "disallow_attach", disallow_attach)) continue;
-        if (xp.parse_bool(tag, "os_random_only", os_random_only)) continue;
-        if (xp.parse_bool(tag, "no_alt_platform", no_alt_platform)) continue;
-        if (xp.parse_bool(tag, "simple_gui_only", simple_gui_only)) continue;
-        if (xp.parse_bool(tag, "dont_contact_ref_site", dont_contact_ref_site)) continue;
+        if (xp.parse_bool(tag, "abort_jobs_on_exit", btemp)) {
+            gstate.abort_jobs_on_exit = true;
+            continue;
+        }
+        if (xp.parse_bool(tag, "allow_multiple_clients", allow_multiple_clients)) continue;
         if (xp.parse_string(tag, "alt_platform", s)) {
             alt_platforms.push_back(s);
+            continue;
+        }
+        if (xp.parse_string(tag, "client_download_url", client_download_url)) {
+            downcase_string(client_download_url);
+            continue;
+        }
+        if (xp.parse_string(tag, "client_version_check_url", client_version_check_url)) {
+            downcase_string(client_version_check_url);
             continue;
         }
         if (xp.parse_str(tag, "data_dir", path, sizeof(path))) {
@@ -245,48 +251,48 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             }
             continue;
         }
-        if (xp.parse_int(tag, "max_stdout_file_size", max_stdout_file_size)) continue;
-        if (xp.parse_int(tag, "max_stderr_file_size", max_stderr_file_size)) continue;
-        if (xp.parse_bool(tag, "report_results_immediately", report_results_immediately)) continue;
-        if (xp.parse_double(tag, "start_delay", start_delay)) continue;
-        if (xp.parse_bool(tag, "run_apps_manually", run_apps_manually)) continue;
-        if (xp.parse_string(tag, "force_auth", force_auth)) {
-            downcase_string(force_auth);
-            continue;
-        }
-        if (xp.parse_bool(tag, "allow_multiple_clients", allow_multiple_clients)) continue;
-        if (xp.parse_bool(tag, "use_certs", use_certs)) continue;
-        if (xp.parse_bool(tag, "use_certs_only", use_certs_only)) continue;
+        if (xp.parse_bool(tag, "disallow_attach", disallow_attach)) continue;
+        if (xp.parse_bool(tag, "dont_check_file_sizes", dont_check_file_sizes)) continue;
+        if (xp.parse_bool(tag, "dont_contact_ref_site", dont_contact_ref_site)) continue;
         if (xp.parse_string(tag, "exclusive_app", s)) {
             exclusive_apps.push_back(s);
             continue;
         }
-        if (xp.parse_string(tag, "client_version_check_url", client_version_check_url)) {
-            downcase_string(client_version_check_url);
+        if (xp.parse_string(tag, "force_auth", force_auth)) {
+            downcase_string(force_auth);
             continue;
         }
-        if (xp.parse_string(tag, "client_download_url", client_download_url)) {
-            downcase_string(client_download_url);
-            continue;
-        }
+        if (xp.parse_bool(tag, "http_1_0", http_1_0)) continue;
+        if (xp.parse_int(tag, "max_file_xfers", max_file_xfers)) continue;
+        if (xp.parse_int(tag, "max_file_xfers_per_project", max_file_xfers_per_project)) continue;
+        if (xp.parse_int(tag, "max_stderr_file_size", max_stderr_file_size)) continue;
+        if (xp.parse_int(tag, "max_stdout_file_size", max_stdout_file_size)) continue;
+        if (xp.parse_int(tag, "ncpus", ncpus)) continue;
         if (xp.parse_string(tag, "network_test_url", network_test_url)) {
             downcase_string(network_test_url);
             continue;
         }
+        if (xp.parse_bool(tag, "no_alt_platform", no_alt_platform)) continue;
         if (xp.parse_bool(tag, "no_gpus", no_gpus)) continue;
-        if (xp.parse_bool(tag, "zero_debts", zero_debts)) continue;
         if (xp.parse_bool(tag, "no_priority_change", no_priority_change)) continue;
-        if (xp.parse_bool(tag, "use_all_gpus", use_all_gpus)) continue;
-        if (xp.parse_bool(tag, "abort_jobs_on_exit", btemp)) {
-            gstate.abort_jobs_on_exit = true;
-            continue;
-        }
+        if (xp.parse_bool(tag, "os_random_only", os_random_only)) continue;
 #ifndef SIM
         if (!strcmp(tag, "proxy_info")) {
             int retval = gstate.proxy_info.parse(*xp.f);
             if (retval) return retval;
         }
 #endif
+        if (xp.parse_bool(tag, "report_results_immediately", report_results_immediately)) continue;
+        if (xp.parse_bool(tag, "run_apps_manually", run_apps_manually)) continue;
+        if (xp.parse_int(tag, "save_stats_days", save_stats_days)) continue;
+        if (xp.parse_bool(tag, "simple_gui_only", simple_gui_only)) continue;
+        if (xp.parse_double(tag, "start_delay", start_delay)) continue;
+        if (xp.parse_bool(tag, "suppress_net_info", suppress_net_info)) continue;
+        if (xp.parse_bool(tag, "use_all_gpus", use_all_gpus)) continue;
+        if (xp.parse_bool(tag, "use_certs", use_certs)) continue;
+        if (xp.parse_bool(tag, "use_certs_only", use_certs_only)) continue;
+        if (xp.parse_bool(tag, "zero_debts", zero_debts)) continue;
+
         msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
             CONFIG_FILE, tag
         );
