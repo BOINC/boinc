@@ -7812,3 +7812,11 @@ David  17 Sept 2009
         app_start.cpp
     sched/
         sample_assimilator.cpp
+
+David  17 Sept 2009
+    - scheduler: add comments in sched_customize.cpp to say that
+        wu_is_infeasible_custom() can assign the resource usage
+        and/or FLOPS estimate for a particular host.
+
+    sched/
+        sched_customize.cpp

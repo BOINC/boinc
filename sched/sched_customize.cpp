@@ -21,7 +21,10 @@
 // The functions are:
 //
 // wu_is_infeasible_custom()
-//      Decide whether host can run a job using a particular app version
+//      Decide whether host can run a job using a particular app version.
+//      In addition it can:
+//      - set its resource usage and/or FLOPS estimate
+//          (by assigning to bav.host_usage)
 // app_plan()
 //      Decide whether host can use an app version,
 //      and if so what resources it will use
@@ -56,15 +59,21 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
     // Don't send if #procs is less than this.
     //
     if (!strcmp(app.name, "foobar") && bav.host_usage.ncudas) {
-        if (!g_request->coproc_cuda) {
-            log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] expected CUDA device\n", g_reply->host.id
-            );
-            return true;
-        }
         int n = g_request->coproc_cuda->prop.multiProcessorCount;
         if (n < wu.batch) {
            return true;
+        }
+    }
+#endif
+#if 0
+    // example: if CUDA app and WU name contains "slow",
+    // cut performance estimate in half
+    //
+    if (bav.host_usage.ncudas) {
+        if (!strstr(wu.name, "slow")) {
+            bav.host_usage.flops = g_request->coproc_cuda->flops_estimate()/2;
+        } else {
+            bav.host_usage.flops = g_request->coproc_cuda->flops_estimate();
         }
     }
 #endif
