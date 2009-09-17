@@ -322,8 +322,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         fprintf(f,
             "    <ip_result>\n"
             "        <name>%s</name>\n"
-            "        <report_deadline>%f</report_deadline>\n"
-            "        <cpu_time_remaining>%f</cpu_time_remaining>\n"
+            "        <report_deadline>%.0f</report_deadline>\n"
+            "        <cpu_time_remaining>%.2f</cpu_time_remaining>\n"
             "    </ip_result>\n",
             rp->name,
             rp->report_deadline,
