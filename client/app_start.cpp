@@ -339,12 +339,18 @@ int ACTIVE_TASK::copy_output_files() {
         sprintf(slotfile, "%s/%s", slot_dir, fref.open_name);
         get_pathname(fip, projfile, sizeof(projfile));
         int retval = boinc_rename(slotfile, projfile);
+#if 0
+        // this isn't a BOINC error.
+        // it just means the app didn't create an output file
+        // that it was supposed to.
+        //
         if (retval) {
             msg_printf(wup->project, MSG_INTERNAL_ERROR,
                 "Can't rename output file %s to %s: %s",
                 fip->name, projfile, boincerror(retval)
             );
         }
+#endif
     }
     return 0;
 }

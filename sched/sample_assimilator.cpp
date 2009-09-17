@@ -59,6 +59,7 @@ int assimilate_handler(
         const char *copy_path;
         get_output_file_infos(canonical_result, output_files);
         unsigned int n = output_files.size();
+        bool file_copied = false;
         for (i=0; i<n; i++) {
             FILE_INFO& fi = output_files[i];
             if (n==1) {
@@ -67,11 +68,16 @@ int assimilate_handler(
                 copy_path = config.project_path("sample_results/%s_%d", wu.name, i);
             }
             retval = boinc_copy(fi.path.c_str() , copy_path);
-            if (retval && !fi.optional) {
-                sprintf(buf, "couldn't copy file %s\n", fi.path.c_str());
-                write_error(buf);
-                return retval;
+            if (!retval) {
+                file_copied = true;
             }
+        }
+        if (!file_copied) {
+            copy_path = config.project_path(
+                "sample_results/%s_%s", wu.name, "no_output_files"
+            );
+            FILE* f = fopen(copy_path, "w");
+            fclose(f);
         }
     } else {
         sprintf(buf, "%s: 0x%x\n", wu.name, wu.error_mask);

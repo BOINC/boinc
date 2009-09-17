@@ -7801,3 +7801,14 @@ David  17 Sept 2009
     generate_svn_version.sh
     sched/
         (most).cpp
+
+David  17 Sept 2009
+    - client: don't print error message if output file with <copy_file>
+        attribute is missing.  That's the app's problem, not BOINC's
+    - sample assimilator: if a canonical instance has no output files,
+        rather than quitting create a file named WU_NAME_no_output_files
+
+    client/
+        app_start.cpp
+    sched/
+        sample_assimilator.cpp
