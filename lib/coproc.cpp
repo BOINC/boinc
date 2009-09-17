@@ -441,7 +441,7 @@ void COPROC_CUDA::description(char* buf) {
     );
 }
 
-// add a non-existent CUDA coproc (for debugging)
+// fake a NVIDIA GPU (for debugging)
 //
 void fake_cuda(COPROCS& coprocs, int count) {
    COPROC_CUDA* cc = new COPROC_CUDA;
@@ -452,7 +452,7 @@ void fake_cuda(COPROCS& coprocs, int count) {
    }
    cc->display_driver_version = 18000;
    cc->cuda_version = 2020;
-   strcpy(cc->prop.name, "CUDA NVIDIA chip");
+   strcpy(cc->prop.name, "Fake NVIDIA GPU");
    cc->prop.totalGlobalMem = 256*1024*1024;
    cc->prop.sharedMemPerBlock = 100;
    cc->prop.regsPerBlock = 8;
@@ -947,4 +947,18 @@ void COPROC_ATI::description(char* buf) {
     sprintf(buf, "%s (CAL version %s, %.0fMB, %.0fGFLOPS)",
         name, version, attribs.localRAM/1024.*1024., flops()/1.e9
     );
+}
+
+void fake_ati(COPROCS& coprocs, int count) {
+    COPROC_ATI* cc = new COPROC_ATI;
+    strcpy(cc->type, "ATI");
+    strcpy(cc->version, "1.2.3");
+    cc->count = count;
+    cc->attribs.numberOfSIMD = 32;
+    cc->attribs.wavefrontSize = 32;
+    cc->attribs.engineClock = 500;
+    for (int i=0; i<count; i++) {
+        cc->device_nums[i] = i;
+    }
+    coprocs.coprocs.push_back(cc);
 }
