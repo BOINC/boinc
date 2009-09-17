@@ -35,6 +35,7 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "str_util.h"
+#include "svn_version.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -137,6 +138,23 @@ int main_loop(bool one_pass) {
     return 0;
 }
 
+void usage(char *name) {
+    fprintf(stderr,
+        "Framework for trickle-up message handler\n"
+        "This program must be linked with an app-specific function:\n\n"
+        "int handle_trickle(MSG_FROM_HOST&)\n"
+        "  - handle a trickle message\n\n"
+        "return nonzero on error\n\n"
+        "Usage: %s [OPTION]...\n\n"
+        "Options:\n"
+        "  -variety X                     Set Variety to X\n"
+        "  [ -d X ]                       Set debug level to X\n"
+        "  [ -one_pass ]                  Make one pass through table, then exit\n"
+        "  [ -h | -help | --help ]        Show this help text\n"
+        "  [ -v | -version | --version ]  Shows version information\n",
+        name
+    );
+}
 
 int main(int argc, char** argv) {
     int i, retval;
@@ -148,13 +166,29 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-variety")) {
-            strcpy(variety, argv[++i]);
+            if (!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            strcpy(variety, argv[i]);
         } else if (!strcmp(argv[i], "-d")) {
-            log_messages.set_debug_level(atoi(argv[++i]));
+            if (!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            log_messages.set_debug_level(atoi(argv[i]));
+        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
+        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+            usage(argv[0]);
+            exit(0);
         } else {
-            log_messages.printf(MSG_CRITICAL,
-                "unrecognized arg: %s\n", argv[i]
-            );
+            log_messages.printf(MSG_CRITICAL, "unknown command line argument: %s\n\n", argv[i]);
+            usage(argv[0]);
+            exit(1);
         }
     }
 

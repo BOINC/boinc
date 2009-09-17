@@ -43,6 +43,7 @@
 #include <cstdio>
 #include <vector>
 #include "util.h"
+#include "svn_version.h"
 
 using std::vector;
 
@@ -117,17 +118,63 @@ void make_request(int i) {
     );
 }
 
+void usage(char *name) {
+    fprintf(stderr,
+        "This program generates a stream of scheduler requests;\n"
+        "it acts as a \"driver\" for the scheduler when used as:\n"
+        "%s | cgi --batch --mark_jobs_done\n\n"
+        "This was written to test the homogeneous redundancy features\n"
+        "of the feeder and scheduler,\n"
+        "but it could be used for a variety of other purposes.\n\n"
+        "Each request asks for a uniformly-distributed random amount of work.\n"
+        "The OS and CPU info is taken from the successive lines of a file of the form\n"
+        "| os_name | p_vendor | p_model |\n"
+        "Generate this file with a SQL query, trimming off the start and end.\n\n"
+        "Notes:\n"
+        "1) Use sample_trivial_validator and sample_dummy_assimilator\n"
+        "2) Edit the following to something in your DB\n\n"
+        "Usage: %s [OPTION]...\n\n"
+        "Options: \n"
+        "  --nrequests N                  Sets the total nukmer of requests to N\n"
+        "  --reqs_per_second X            Sets the number of requests per second to X\n"
+        "  [ -h | -help | --help ]        Show this help text.\n"
+        "  [ -v | -version | --version ]  Show version information\n",
+        name
+    );
+}
+
 int main(int argc, char** argv) {
     int i, nrequests = 1;
     double reqs_per_second = 1;
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--nrequests")) {
-            nrequests = atoi(argv[++i]);
-            continue;
+            if(!argv[++i]) {
+                fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            nrequests = atoi(argv[i]);
         }
-        if (!strcmp(argv[i], "--reqs_per_second")) {
-            reqs_per_second = atof(argv[++i]);
+        else if (!strcmp(argv[i], "--reqs_per_second")) {
+            if(!argv[++i]) {
+                fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            reqs_per_second = atof(argv[i]);
+        }
+        else if(!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+            usage(argv[0]);
+            exit(0);
+        }
+        else if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
+        } else {
+            fprintf(stderr, "unknown command line argument: %s\n\n", argv[i]);
+            usage(argv[0]);
+            exit(1);
         }
     }
     read_hosts();

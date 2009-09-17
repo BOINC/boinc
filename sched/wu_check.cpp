@@ -29,6 +29,7 @@
 #include <string>
 
 #include "boinc_db.h"
+#include "svn_version.h"
 
 #include "parse.h"
 #include "util.h"
@@ -99,10 +100,40 @@ int handle_result(DB_RESULT& result) {
     return 0;
 }
 
+void usage(char *name) {
+    fprintf(stderr,
+        "Looks for results with missing input files\n\n"
+        "Usage: %s [OPTION]\n\n"
+        "Options:\n"
+        "  [ -repair ]                    change them to server_state OVER,\n"
+        "                                 outcome COULDNT_SEND\n"
+        "  [ -h | -help | --help ]        Shows this help text\n"
+        "  [ -v | -version | --version ]  Shows version information\n",
+        name
+    );
+}
+
 int main(int argc, char** argv) {
     DB_RESULT result;
     char clause[256];
     int retval, n, nerr;
+
+    for(int c = 1; c < argc; c++) {
+        std::string option(argv[c]);
+        if(option == "-h" || option == "-help" || option == "--help") {
+            usage(argv[0]);
+            exit(0);
+        } else if(option == "-v" || option == "-version" || option == "--version") {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
+        } else if (option == "-repair") {
+            repair = true;
+        } else {
+            fprintf(stderr, "unknown command line argument: %s\n\n", argv[c]);
+            usage(argv[0]);
+            exit(1);
+        }
+    }
 
     retval = config.parse_file();
     if (retval) exit(1);
@@ -112,7 +143,6 @@ int main(int argc, char** argv) {
         printf("boinc_db.open: %d\n", retval);
         exit(1);
     }
-    if (argc > 1 && !strcmp(argv[1], "-repair")) repair = true;
 
     n = nerr = 0;
     printf("Unsent results:\n");

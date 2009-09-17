@@ -51,6 +51,7 @@
 #include "util.h"
 #include "str_util.h"
 #include "synch.h"
+#include "svn_version.h"
 
 #include "sched_config.h"
 #include "sched_types.h"
@@ -84,18 +85,19 @@ bool all_apps_use_hr;
 
 static void usage(char* p) {
     fprintf(stderr,
-        "usage: %s [options]\n"
-        "\n"
-        "--batch            stdin contains a sequence of request messages.\n"
-        "                   Do them all, and ignore rpc_seqno.\n"
-        "--mark_jobs_done   When send a job, also mark it as done.\n"
-        "                   (for performance testing)\n"
-        "--debug_log        Write messages to the file 'debug_log'\n"
-        "--simulator X      Start with simulated time X\n"
-        "                   (only if compiled with GCL_SIMULATOR)\n",
+        "Usage: %s [OPTION]...\n\n"
+        "Options:\n"
+        "  --batch            stdin contains a sequence of request messages.\n"
+        "                     Do them all, and ignore rpc_seqno.\n"
+        "  --mark_jobs_done   When send a job, also mark it as done.\n"
+        "                     (for performance testing)\n"
+        "  --debug_log        Write messages to the file 'debug_log'\n"
+        "  --simulator X      Start with simulated time X\n"
+        "                     (only if compiled with GCL_SIMULATOR)\n"
+        "  -h | --help        Show this help text\n"
+        "  -v | --version     Show version information\n",
         p
     );
-    exit(1);
 }
 
 void debug_sched(const char *trigger) {
@@ -363,10 +365,23 @@ int main(int argc, char** argv) {
             debug_log = true;
 #ifdef GCL_SIMULATOR
         } else if (!strcmp(argv[i], "--simulator")) {
-            simtime = atof(argv[++i]);
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            simtime = atof(argv[i]);
 #endif 
-        } else {
+        } else if(!strcmp(argv[1], "-h") || !strcmp(argv[1], "--help")) {
             usage(argv[0]);
+            exit(0);
+        } else if(!strcmp(argv[1], "-v") || !strcmp(argv[1], "--version")) {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
+        } else {
+            log_messages.printf(MSG_CRITICAL, "unknown command line argument: %s\n\n", argv[i]);
+            usage(argv[0]);
+            exit(1);
         }
     }
 

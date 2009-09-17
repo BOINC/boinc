@@ -110,6 +110,7 @@ using std::vector;
 #include "synch.h"
 #include "util.h"
 #include "str_util.h"
+#include "svn_version.h"
 
 #include "sched_config.h"
 #include "sched_shmem.h"
@@ -623,10 +624,45 @@ void show_state(int) {
 }
 
 void show_version() {
-    log_messages.printf(MSG_NORMAL,"Version %d.%d.%d\n",
-        BOINC_MAJOR_VERSION,
-        BOINC_MINOR_VERSION,
-        BOINC_RELEASE
+    log_messages.printf(MSG_NORMAL, "%s\n", SVN_VERSION);
+}
+
+void usage(char *name)
+{
+    fprintf(stderr,
+        "%s creates a shared memory segment containing DB info,\n"
+        "including an array of work items (results/workunits to send).\n\n"
+        "Usage: %s [OPTION]...\n\n"
+        "Options:\n"
+        "  [ -d X ]                         "
+        "Set Debug level to X\n"
+        "  [ -allapps ]                     "
+        "Interleave results from all applications uniformly.\n"
+        "  [ -random_order ]                "
+        "order by \"random\" field of result\n"
+        "  [ -priority_order ]              "
+        "order by decreasing \"priority\" field of result\n"
+        "  [ -priority_order_create_time ]  "
+        "order by priority, then by increasing WU create time\n"
+        "  [ -purge_stale ]                 "
+        "remove work items from the shared memory segment\n"
+        "                                   "
+        "that have been there for longer then x minutes\n"
+        "                                   "
+        "but haven't been assigned\n"
+        "  [ -appids a1{,a2} ]              "
+        "get work only for appids a1,... (comma-separated list)\n"
+        "  [ -mod n i ]                     "
+        "handle only results with (id mod n) == i\n"
+        "  [ -wmod n i ]                    "
+        "handle only workunits with (id mod n) == i\n"
+        "  [ -sleep_interval x ]            "
+        "sleep x seconds if nothing to do\n"
+        "  [ -h | -help | --help ]          "
+        "Shows this help text.\n"
+        "  [ -v | -version | --verison ]    "
+        "Shows version information.\n",
+        name, name
     );
 }
 
@@ -636,23 +672,14 @@ int main(int argc, char** argv) {
     char path[256];
     char* appids=NULL;
 
-    retval = config.parse_file();
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "Can't parse config.xml: %s\n", boincerror(retval)
-        );
-        exit(1);
-    }
-
-    unlink(config.project_path(REREAD_DB_FILENAME));
-
-    if (argc == 2 && !strcmp(argv[1], "--version")) {
-        show_version();
-        exit(0);
-    }
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-d")) {
-            log_messages.set_debug_level(atoi(argv[++i]));
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            log_messages.set_debug_level(atoi(argv[i]));
         } else if (!strcmp(argv[i], "-random_order")) {
             order_clause = "order by r1.random ";
         } else if (!strcmp(argv[i], "-allapps")) {
@@ -664,26 +691,61 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-purge_stale")) {
             purge_stale_time = atoi(argv[++i])*60;
         } else if (!strcmp(argv[i], "-appids")) {
-           strcat(mod_select_clause, " and workunit.appid in (");
-           strcat(mod_select_clause, argv[++i]);
-           strcat(mod_select_clause, ")");
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            strcat(mod_select_clause, " and workunit.appid in (");
+            strcat(mod_select_clause, argv[i]);
+            strcat(mod_select_clause, ")");
         } else if (!strcmp(argv[i], "-mod")) {
+            if(!argv[i+1] || !argv[i+2]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires two arguments\n\n", argv[i]);
+                usage(argv[0]);
+                exit(1);
+            }
             int n = atoi(argv[++i]);
             int j = atoi(argv[++i]);
             sprintf(mod_select_clause, "and r1.id %% %d = %d ", n, j);
         } else if (!strcmp(argv[i], "-wmod")) {
+            if(!argv[i+1] || !argv[i+2]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires two arguments\n\n", argv[i]);
+                usage(argv[0]);
+                exit(1);
+            }
             int n = atoi(argv[++i]);
             int j = atoi(argv[++i]);
             sprintf(mod_select_clause, "and workunit.id %% %d = %d ", n, j);
         } else if (!strcmp(argv[i], "-sleep_interval")) {
-            sleep_interval = atof(argv[++i]);
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            sleep_interval = atof(argv[i]);
+        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+            show_version();
+            exit(0);
+        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+            usage(argv[0]);
+            exit(0);
         } else {
-            log_messages.printf(MSG_CRITICAL,
-                "bad cmdline arg: %s\n", argv[i]
-            );
+            log_messages.printf(MSG_CRITICAL, "unknown command line argument: %s\n\n", argv[i]);
+            usage(argv[0]);
             exit(1);
         }
     }
+
+    retval = config.parse_file();
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "Can't parse config.xml: %s\n", boincerror(retval)
+        );
+        exit(1);
+    }
+
+    unlink(config.project_path(REREAD_DB_FILENAME));
 
     log_messages.printf(MSG_NORMAL, "Starting\n");
     show_version();

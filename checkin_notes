@@ -7792,3 +7792,12 @@ David  17 Sept 2009
 
     client/
         scheduler_op.cpp
+
+David  17 Sept 2009
+    - server programs: add --help and --version cmdline options to all.
+        From Nils Chr. Brause.
+
+    Makefile.am
+    generate_svn_version.sh
+    sched/
+        (most).cpp

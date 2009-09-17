@@ -36,6 +36,7 @@
 #include "util.h"
 #include "str_util.h"
 #include "error_numbers.h"
+#include "svn_version.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -177,6 +178,26 @@ int update_teams() {
     return 0;
 }
 
+void usage(char *name) {
+    fprintf(stderr,
+        "Update average credit for idle users, hosts and teams.\n"
+        "These fields are updates as new credit is granted;\n"
+        "the purpose of this program is to decay credit of entities\n"
+        "that are inactive for long periods.\n"
+        "Hence it should be run about once a day at most.\n\n"
+        "Also updates the nusers field of teams\n\n"
+        "Usage: %s [OPTION]...\n\n"
+        "Options:\n"
+        "  [ -d X ]                       Set debug level to X\n"
+        "  [ -update_teams ]              Updates teams.\n"
+        "  [ -update_users ]              Updates users.\n"
+        "  [ -update_hosts ]              Updates hosts.\n"
+        "  [ -h | -help | --help ]        Shows this help text\n"
+        "  [ -v | -version | --version ]  Shows version information\n",
+        name
+    );
+}
+
 int main(int argc, char** argv) {
     int retval, i;
     bool do_update_teams = false, do_update_users = false;
@@ -194,9 +215,22 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-update_hosts")) {
             do_update_hosts = true;
         } else if (!strcmp(argv[i], "-d")) {
-            log_messages.set_debug_level(atoi(argv[++i]));
+            if (!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            log_messages.set_debug_level(atoi(argv[i]));
+        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
+        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+            usage(argv[0]);
+            exit(0);
         } else {
-            log_messages.printf(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
+            log_messages.printf(MSG_CRITICAL, "unknown command line argument: %s\n\n", argv[i]);
+            usage(argv[0]);
+            exit(1);
         }
     }
 

@@ -29,6 +29,7 @@
 #include <unistd.h>
 #include <csignal>
 #include <fcntl.h>
+#include <string>
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
@@ -42,6 +43,7 @@
 #include "error_numbers.h"
 #include "str_util.h"
 #include "filesys.h"
+#include "svn_version.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -611,13 +613,41 @@ void installer() {
     signal(SIGTERM, boinc_catch_signal); // terminate process
 }
 
-int main() {
+void usage(char *name) {
+    fprintf(stderr,
+        "This is the boinc file upload handler.\n"
+        "It receives the results from the clients\n"
+        "and puts them on the file server.\n\n"
+        "Usage: %s [OPTION]...\n\n"
+        "Options:\n"
+        "  [ -h | -help | --help ]        Show this help text.\n"
+        "  [ -v | -version | --version ]  Show version information.\n",
+        name
+    );
+}
+
+int main(int argc, char *argv[]) {
     int retval;
     R_RSA_PUBLIC_KEY key;
     char log_path[256];
 #ifdef _USING_FCGI_
     unsigned int counter=0;
 #endif
+
+    for(int c = 1; c < argc; c++) {
+        std::string option(argv[c]);
+        if(option == "-v" || option == "-version" || option == "--version") {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
+        } else if(option == "-h" || option == "-help" || option == "--help") {
+            usage(argv[0]);
+            exit(0);
+        } else {
+            fprintf(stderr, "unknown command line argument: %s\n\n", argv[c]);
+            usage(argv[0]);
+            exit(1);
+        }
+    }
 
     installer();
 

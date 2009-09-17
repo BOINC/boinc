@@ -25,7 +25,8 @@ Invocation methods:
    --disable  (default if invoked as "stop")
               Set project to DISABLED mode and stop daemons.
 
-   --status   Show status.
+   --status   (default if invoked as "status")
+              Show status.
 
 See "start --help" for options.
 
@@ -644,6 +645,8 @@ Options:
         print >>sys.stderr, "Based on the invocation name as `start', the default action is --enable."
     elif program_name == 'stop':
         print >>sys.stderr, "Based on the invocation name as `stop', the default action is --disable."
+    elif program_name == 'status':
+        print >>sys.stderr, "Based on the invocation name as `status', the default action is --status."
     sys.exit(1)
 
 config_filename = boinc_project_path.config_xml_filename

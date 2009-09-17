@@ -39,8 +39,16 @@ EXTRA_DIST =                                    \
 
 if INSTALL_HEADERS
 pkginclude_HEADERS = \
-    version.h
+    version.h \
+    svn_version.h
 endif
+
+# svn_version.h should always be rebuilt.
+
+BUILT_SOURCES = svn_version.h
+svn_version.h: generate_svn_version.sh
+	sh generate_svn_version.sh
+.PHONY: svn_version.h
 
 # Add a stage target for staging a distribution
 

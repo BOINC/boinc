@@ -57,6 +57,7 @@
 #include "str_replace.h"
 #include "filesys.h"
 #include "strings.h"
+#include "svn_version.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -77,53 +78,40 @@ bool do_input_files = true;
 bool do_output_files = true;
 int sleep_interval = DEFAULT_SLEEP_INTERVAL;
 
-void usage() {
-    fprintf(stderr,
-"file_deleter: deletes files that are no longer needed.\n"
-"\n"
-"default operation:\n"
-"1) enumerate N WUs and M results (N,M compile params)\n"
-"   that are ready to file-delete, and try to delete their files\n"
-"2) if the enums didn't yield anything, sleep for K seconds\n"
-"3) repeat from 1)\n"
-"4) every 1 hour, enumerate everything in state FILE_DELETE_ERROR\n"
-"   and try to delete it.\n"
-"5) after 1 hour, and every 24 hours thereafter,\n"
-"   scan for and delete all files in the upload directories\n"
-"   that are older than any WU in the database,\n"
-"   and were created at least one month ago.\n"
-"   This deletes files uploaded by hosts after the WU was deleted.\n"
-"\n"
-"options:\n"
-"\n"
-"-d N\n"
-"     set debug output level (1/2/3)\n"
-"-mod M R\n"
-"     handle only WUs with ID mod M == R\n"
-"-appid ID\n"
-"     handle only WUs of a particular app\n"
-"-one_pass\n"
-"     instead of sleeping in 2), exit\n"
-"-delete_antiques_now\n"
-"     do 5) immediately\n"
-"-dont_retry_error\n"
-"     don't do 4)\n"
-"-dont_delete_antiques\n"
-"     don't do 5)\n"
-"-preserve_result_files\n"
-"     update the DB, but don't delete output files.\n"
-"     For debugging.\n"
-"-preserve_wu_files\n"
-"     update the DB, but don't delete input files.\n"
-"     For debugging.\n"
-"-dont_delete_batches\n"
-"     don't delete anything with positive batch number\n"
-"-input_files_only\n"
-"     delete only input (download) files\n"
-"-output_files_only\n"
-"     delete only output (upload) files\n"
+void usage(char *name) {
+    fprintf(stderr, "Deletes files that are no longer needed.\n\n"
+        "Default operation:\n"
+        "1) enumerate N WUs and M results (N,M compile params)\n"
+        "   that are ready to file-delete, and try to delete their files\n"
+        "2) if the enums didn't yield anything, sleep for K seconds\n"
+        "3) repeat from 1)\n"
+        "4) every 1 hour, enumerate everything in state FILE_DELETE_ERROR\n"
+        "   and try to delete it.\n"
+        "5) after 1 hour, and every 24 hours thereafter,\n"
+        "   scan for and delete all files in the upload directories\n"
+        "   that are older than any WU in the database,\n"
+        "   and were created at least one month ago.\n"
+        "   This deletes files uploaded by hosts after the WU was deleted.\n\n"
+        "Usage: %s [OPTION]...\n\n"
+        "Options:\n"
+        "  -d N                           set debug output level (1/2/3)\n"
+        "  -mod M R                       handle only WUs with ID mod M == R\n"
+        "  -appid ID                      handle only WUs of a particular app\n"
+        "  -one_pass                      instead of sleeping in 2), exit\n"
+        "  -delete_antiques_now           do 5) immediately\n"
+        "  -dont_retry_error              don't do 4)\n"
+        "  -dont_delete_antiques          don't do 5)\n"
+        "  -preserve_result_files         update the DB, but don't delete output files.\n"
+        "                                 For debugging.\n"
+        "  -preserve_wu_files             update the DB, but don't delete input files.\n"
+        "                                 For debugging.\n"
+        "  -dont_delete_batches           don't delete anything with positive batch number\n"
+        "  -input_files_only              delete only input (download) files\n"
+        "  -output_files_only             delete only output (upload) files\n"
+        "  [ -h | -help | --help ]        shows this help text\n"
+        "  [ -v | -version | --version ]  shows version information\n",
+        name
     );
-    exit(1);
 }
 
 // Given a filename, find its full path in the upload directory hierarchy
@@ -645,10 +633,25 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-preserve_result_files")) {
             preserve_result_files = true;
         } else if (!strcmp(argv[i], "-appid")) {
-            appid = atoi(argv[++i]);
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            appid = atoi(argv[i]);
         } else if (!strcmp(argv[i], "-d")) {
-            log_messages.set_debug_level(atoi(argv[++i]));
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            log_messages.set_debug_level(atoi(argv[i]));
         } else if (!strcmp(argv[i], "-mod")) {
+            if(!argv[i+1] || !argv[i+2]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires two arguments\n\n", argv[i]);
+                usage(argv[0]);
+                exit(1);
+            }
             id_modulus   = atoi(argv[++i]);
             id_remainder = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-dont_delete_antiques")) {
@@ -663,14 +666,22 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-output_files_only")) {
             do_input_files = false;
         } else if (!strcmp(argv[i], "-sleep_interval")) {
-            sleep_interval = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-help")) {
-            usage();
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            sleep_interval = atoi(argv[i]);
+        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+            usage(argv[0]);
+            exit(0);
+        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
         } else {
-            log_messages.printf(MSG_CRITICAL,
-                "Unrecognized arg: %s\n", argv[i]
-            );
-            usage();
+            log_messages.printf(MSG_CRITICAL, "unknown command line argument: %s\n\n", argv[i]);
+            usage(argv[0]);
+            exit(1);
         }
     }
 

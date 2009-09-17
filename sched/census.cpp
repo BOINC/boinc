@@ -28,8 +28,9 @@
 #include "sched_util.h"
 #include "sched_msgs.h"
 #include "hr_info.h"
+#include "svn_version.h"
 
-void usage(char** argv) {
+void usage(char *name) {
     fprintf(stderr,
         "This program scans the 'host' DB table and creates two files:\n\n"
         "%s: how much RAC each HR class is getting\n"
@@ -38,19 +39,33 @@ void usage(char** argv) {
         "    (needed if you use the 'job_size_matching' scheduling option).\n\n"
         "This should be run as a periodic task (about once a day) from config.xml.\n"
         "For more info, see http://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy\n\n"
-        "Usage: %s [--help]\n",
-        HR_INFO_FILENAME, PERF_INFO_FILENAME, argv[0]
+        "Usage: %s [OPTION]...\n\n"
+        "Options:\n"
+        "  -h --help     shows this help text.\n"
+        "  -v --version  shows version information.\n",
+        HR_INFO_FILENAME, PERF_INFO_FILENAME, name
     );
-    exit(0);
 }
 
 int main(int argc, char** argv) {
     HR_INFO hri;
     int retval;
     
-    for (int i=0; i<argc; i++) {
+    for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
-            usage(argv);
+            usage(argv[0]);
+            exit(0);
+        }
+        else if(!strcmp(argv[i], "--version") || !strcmp(argv[i], "-v")) {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
+        }
+        else {
+            log_messages.printf(MSG_CRITICAL,
+                "unknown command line argument: %s\n\n", argv[i]
+            );
+            usage(argv[0]);
+            exit(1);
         }
     }
     check_stop_daemons();

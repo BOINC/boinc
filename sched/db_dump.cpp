@@ -40,6 +40,7 @@
 #include "error_numbers.h"
 #include "md5_file.h"
 #include "parse.h"
+#include "svn_version.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -736,20 +737,20 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     return 0;
 }
 
-void usage(char** argv) {
+void usage(char* name) {
     fprintf(stderr,
         "This program generates XML files containing project statistics.\n"
         "It should be run once a day as a periodic task in config.xml.\n"
         "For more info, see http://boinc.berkeley.edu/trac/wiki/DbDump\n\n"
         "Usage: %s [options]\n"
         "Options:\n"
-        "    -dump_spec filename  Use the given config file (use ../db_dump_spec.xml)\n"
-        "    [-d N]               Set verbosity level (1, 2, 3=most verbose)\n"
-        "    [-db_host H]         Use the DB server on host H\n"
-        "    [-h | --help]        Show this\n",
-        argv[0]
+        "    -dump_spec filename          Use the given config file (use ../db_dump_spec.xml)\n"
+        "    [-d N]                       Set verbosity level (1, 2, 3=most verbose)\n"
+        "    [-db_host H]                 Use the DB server on host H\n"
+        "    [-h | -help | --help]        Show this\n"
+        "    [-v | -version | --version]  Show version information\n",
+        name
     );
-    exit(0);
 }
 
 int main(int argc, char** argv) {
@@ -766,22 +767,43 @@ int main(int argc, char** argv) {
     strcpy(spec_filename, "");
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-dump_spec")) {
-            safe_strcpy(spec_filename, argv[++i]);
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            safe_strcpy(spec_filename, argv[i]);
         } else if (!strcmp(argv[i], "-d")) {
-            log_messages.set_debug_level(atoi(argv[++i]));
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            log_messages.set_debug_level(atoi(argv[i]));
         } else if (!strcmp(argv[i], "-db_host")) {
-            db_host = argv[++i];
-        } else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
-            usage(argv);
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            db_host = argv[i];
+        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+            usage(argv[0]);
+            exit(0);
+        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
         } else {
-            log_messages.printf(MSG_CRITICAL, "Bad arg: %s\n", argv[i]);
-            usage(argv);
+            log_messages.printf(MSG_CRITICAL, "unknown command line argument: %s\n\n", argv[i]);
+            usage(argv[0]);
+            exit(1);
         }
     }
 
     if (!strlen(spec_filename)) {
         log_messages.printf(MSG_CRITICAL, "no spec file given\n");
-        usage(argv);
+        usage(argv[0]);
+        exit(1);
     }
 
     FILE* f = fopen(spec_filename, "r");

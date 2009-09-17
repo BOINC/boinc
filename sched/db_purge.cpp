@@ -42,7 +42,6 @@
 #include <time.h>
 #include <errno.h>
 
-
 #include "boinc_db.h"
 #include "util.h"
 #include "filesys.h"
@@ -50,6 +49,7 @@
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
+#include "svn_version.h"
 
 #include "error_numbers.h"
 #include "str_util.h"
@@ -554,22 +554,23 @@ bool do_pass() {
     }
 }
 
-void usage(char** argv) {
+void usage(char* name) {
     fprintf(stderr,
         "Purge workunit and result records that are no longer needed.\n\n"
         "Usage: %s [options]\n"
-        "    [-d N]               Set verbosity level (1, 2, 3=most verbose)\n"
-        "    [-min_age_days N]    Purge Wus w/ mod time at least N days ago\n"
-        "    [-max N]             Purge at more N WUs\n"
-        "    [-zip]               Compuress output files using zip\n"
-        "    [-gzip]              Compuress output files using gzip\n"
-        "    [-no_archive]        Don't write output files, just purge\n"
-        "    [-max_wu_per_file N] Write at most N WUs per output file\n"
-        "    [-sleep N]           Sleep N sec after DB scan\n"
-        "    [-one_pass]         Make one DB scan, then exit\n",
-        argv[0]
+        "    [-d N]                       Set verbosity level (1, 2, 3=most verbose)\n"
+        "    [-min_age_days N]            Purge Wus w/ mod time at least N days ago\n"
+        "    [-max N]                     Purge at more N WUs\n"
+        "    [-zip]                       Compuress output files using zip\n"
+        "    [-gzip]                      uress output files using gzip\n"
+        "    [-no_archive]                Don't write output files, just purge\n"
+        "    [-max_wu_per_file N]         Write at most N WUs per output file\n"
+        "    [-sleep N]                   Sleep N sec after DB scan\n"
+        "    [-one_pass]                  Make one DB scan, then exit\n"
+        "    [-h | -help | --help]        Show this help text\n"
+        "    [-v | -version | --version]  Show version information\n",
+        name
     );
-    exit(0);
 }
 
 int main(int argc, char** argv) {
@@ -583,35 +584,66 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-d")) {
-            log_messages.set_debug_level(atoi(argv[++i]));
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            log_messages.set_debug_level(atoi(argv[i]));
         } else if (!strcmp(argv[i], "-min_age_days")) {
-            min_age_days = atoi(argv[++i]);
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            min_age_days = atoi(argv[i]);
         } else if (!strcmp(argv[i], "-max")) {
-            max_number_workunits_to_purge= atoi(argv[++i]);
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            max_number_workunits_to_purge= atoi(argv[i]);
         } else if (!strcmp(argv[i], "-zip")) {
             compression_type=COMPRESSION_ZIP;
         } else if (!strcmp(argv[i], "-gzip")) {
             compression_type=COMPRESSION_GZIP;
         } else if (!strcmp(argv[i], "-max_wu_per_file")) {
-            max_wu_per_file = atoi(argv[++i]);
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            max_wu_per_file = atoi(argv[i]);
         } else if (!strcmp(argv[i], "-no_archive")) {
             no_archive = true;
         } else if (!strcmp(argv[i], "-sleep")) {
-            sleep_sec = atoi(argv[++i]);
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            sleep_sec = atoi(argv[i]);
             if (sleep_sec < 1 || sleep_sec > 86400) {
                 log_messages.printf(MSG_CRITICAL,
                     "Unreasonable value of sleep interval: %d seconds\n",
                     sleep_sec
                 );
-                usage(argv);
+                usage(argv[0]);
+                exit(1);
             }
-        } else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
-            usage(argv);
+        } else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "-h")) {
+            usage(argv[0]);
+            return 0;
+        } else if (!strcmp(argv[i], "--version") || !strcmp(argv[i], "-version")) {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
         } else {
             log_messages.printf(MSG_CRITICAL,
-                "Unrecognized arg: %s\n", argv[i]
+                "unknown command line argument: %s\n\n", argv[i]
             );
-            usage(argv);
+            usage(argv[0]);
+            exit(1);
         }
     }
 

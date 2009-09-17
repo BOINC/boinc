@@ -42,6 +42,7 @@
 #include "common_defs.h"
 #include "error_numbers.h"
 #include "str_util.h"
+#include "svn_version.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -434,23 +435,23 @@ int handle_wu(
     //
     all_over_and_validated = true;
     bool all_over_and_ready_to_assimilate = true; // used for the defer assmilation
-	int most_recently_returned = 0;
+    int most_recently_returned = 0;
     for (i=0; i<items.size(); i++) {
         TRANSITIONER_ITEM& res_item = items[i];
         if (res_item.res_id) {
             if (res_item.res_server_state == RESULT_SERVER_STATE_OVER) {
-            	if ( res_item.res_received_time > most_recently_returned ) {
-            		most_recently_returned = res_item.res_received_time;
-            	}
+                if ( res_item.res_received_time > most_recently_returned ) {
+                    most_recently_returned = res_item.res_received_time;
+                }
                 if (res_item.res_outcome == RESULT_OUTCOME_SUCCESS) {
                     if (res_item.res_validate_state == VALIDATE_STATE_INIT) {
                         all_over_and_validated = false;
                         all_over_and_ready_to_assimilate = false;
                     }
                 } else if ( res_item.res_outcome == RESULT_OUTCOME_NO_REPLY ) {
-                	if ( ( res_item.res_report_deadline + config.grace_period_hours*60*60 ) > now ) {
-                		all_over_and_validated = false;
-                	}
+                    if ( ( res_item.res_report_deadline + config.grace_period_hours*60*60 ) > now ) {
+                        all_over_and_validated = false;
+                    }
                 }
             } else {
                 all_over_and_validated = false;
@@ -466,7 +467,7 @@ int handle_wu(
     //
     if (all_over_and_ready_to_assimilate == true && wu_item.assimilate_state == ASSIMILATE_INIT && items.size() > 0 && wu_item.canonical_resultid > 0
     ) {
-    	wu_item.assimilate_state = ASSIMILATE_READY;
+        wu_item.assimilate_state = ASSIMILATE_READY;
         log_messages.printf(MSG_NORMAL,
             "[WU#%d %s] Deferred assimililation now set to ASSIMILATE_STATE_READY\n",
             wu_item.id, wu_item.name
@@ -526,7 +527,7 @@ int handle_wu(
             }
         }
     } else if ( wu_item.assimilate_state == ASSIMILATE_DONE ) {
-		log_messages.printf(MSG_DEBUG,
+        log_messages.printf(MSG_DEBUG,
             "[WU#%d %s] not checking for items to be ready for delete because the deferred delete time has not expired.  That will occur in %d seconds\n",
             wu_item.id,
             wu_item.name,
@@ -566,30 +567,33 @@ int handle_wu(
                     wu_item.transition_time = x;
                 }
             } else if ( res_item.res_server_state == RESULT_SERVER_STATE_OVER  ) {
-            	if ( res_item.res_outcome == RESULT_OUTCOME_NO_REPLY ) {
-            		// Transition again after the grace period has expired
-                	if ( ( res_item.res_report_deadline + config.grace_period_hours*60*60 ) > now ) {
-                		x = res_item.res_report_deadline + config.grace_period_hours*60*60;
-    					if (x > max_grace_or_delay_time) {
-                    		max_grace_or_delay_time = x;
-            			}
-        			}
-                } else if ( res_item.res_outcome == RESULT_OUTCOME_SUCCESS || res_item.res_outcome == RESULT_OUTCOME_CLIENT_ERROR || res_item.res_outcome == RESULT_OUTCOME_VALIDATE_ERROR) {
-            		// Transition again after deferred delete period has experied
-                	if ( (res_item.res_received_time + config.delete_delay_hours*60*60) > now ) {
-                		x = res_item.res_received_time + config.delete_delay_hours*60*60;
-    					if (x > max_grace_or_delay_time && res_item.res_received_time > 0) {
-                    		max_grace_or_delay_time = x;
-   					    }
-                	}
+                if ( res_item.res_outcome == RESULT_OUTCOME_NO_REPLY ) {
+                    // Transition again after the grace period has expired
+                    //
+                    if ((res_item.res_report_deadline + config.grace_period_hours*60*60) > now) {
+                        x = res_item.res_report_deadline + config.grace_period_hours*60*60;
+                        if (x > max_grace_or_delay_time) {
+                            max_grace_or_delay_time = x;
+                        }
+                    }
+                } else if (res_item.res_outcome == RESULT_OUTCOME_SUCCESS || res_item.res_outcome == RESULT_OUTCOME_CLIENT_ERROR || res_item.res_outcome == RESULT_OUTCOME_VALIDATE_ERROR) {
+                    // Transition again after deferred delete period has experied
+                    //
+                    if ((res_item.res_received_time + config.delete_delay_hours*60*60) > now) {
+                        x = res_item.res_received_time + config.delete_delay_hours*60*60;
+                        if (x > max_grace_or_delay_time && res_item.res_received_time > 0) {
+                            max_grace_or_delay_time = x;
+                        }
+                    }
                 }
             }
         }
     }
+
     // If either of the grace period or delete delay is less than
     // the next transition time then use that value
     //
-    if ( max_grace_or_delay_time < wu_item.transition_time && max_grace_or_delay_time > now && ninprogress == 0) {
+    if (max_grace_or_delay_time < wu_item.transition_time && max_grace_or_delay_time > now && ninprogress == 0) {
         wu_item.transition_time = max_grace_or_delay_time;
         log_messages.printf(MSG_NORMAL,
             "[WU#%d %s] Delaying transition due to grace period or delete day.  New transition time = %d sec\n",
@@ -693,6 +697,24 @@ void main_loop() {
     }
 }
 
+void usage(char *name) {
+    fprintf(stderr,
+        "Handles transitions in the state of a WU\n"
+        " - a result has become DONE (via timeout or client reply)\n"
+        " - the WU error mask is set (e.g. by validater)\n"
+        " - assimilation is finished\n\n"
+        "Usage: %s [OPTION]...\n\n"
+        "Options: \n"
+        "  [ -one_pass ]                  do one pass, then exit\n"
+        "  [ -d x ]                       debug level x\n"
+        "  [ -mod n i ]                   process only WUs with (id mod n) == i\n"
+        "  [ -sleep_interval x ]          sleep x seconds if nothing to do\n"
+        "  [ -h | -help | --help ]        Show this help text.\n"
+        "  [ -v | -version | --version ]  Shows version information.\n",
+        name
+    );
+}
+
 int main(int argc, char** argv) {
     int i, retval;
     char path[256];
@@ -702,13 +724,38 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-d")) {
-            log_messages.set_debug_level(atoi(argv[++i]));
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            log_messages.set_debug_level(atoi(argv[i]));
         } else if (!strcmp(argv[i], "-mod")) {
+            if(!argv[i+1] || !argv[i+2]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires two arguments\n\n", argv[i]);
+                usage(argv[0]);
+                exit(1);
+            }
             mod_n = atoi(argv[++i]);
             mod_i = atoi(argv[++i]);
             do_mod = true;
         } else if (!strcmp(argv[i], "-sleep_interval")) {
-            sleep_interval = atoi(argv[++i]);
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            sleep_interval = atoi(argv[i]);
+        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+            usage(argv[0]);
+            exit(0);
+        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
+        } else {
+            log_messages.printf(MSG_CRITICAL, "unknown command line argument: %s\n\n", argv[i]);
+            usage(argv[0]);
+            exit(1);
         }
     }
     if (!one_pass) check_stop_daemons();

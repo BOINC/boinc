@@ -40,6 +40,7 @@
 #include "sched_config.h"
 #include "sched_util.h"
 #include "md5_file.h"
+#include "svn_version.h"
 
 void init_xfer_result(DB_RESULT& result) {
     result.id = 0;
@@ -139,6 +140,22 @@ int get_file(int host_id, const char* file_name) {
     return retval;
 }
 
+void usage(char *name) {
+    fprintf(stderr, "Gets a file to a specific host.\n"
+        "Creates a result entry, initialized to sent, and corresponding\n"
+        "messages to the host that is assumed to have the file.\n"
+        "Run from the project root dir.\n\n"
+        "Usage: %s [OPTION]...\n\n"
+        "Options:\n"
+        "  -host_id id                    "
+        "Specify numerical id of host to upload from.\n"
+        "  -file_name name                "
+        "Specify name of specific file, dominates workunit.\n"
+        "  [ -v | -version | --version ]  Show version information.\n"
+        "  [ -h | -help | --help ]        Show this help text.\n",
+        name
+    );
+}
 
 int main(int argc, char** argv) {
     int i, retval;
@@ -152,23 +169,29 @@ int main(int argc, char** argv) {
 
     for(i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-host_id")) {
-            host_id = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-file_name")) {
-            strcpy(file_name, argv[++i]);
-        } else if (!strcmp(argv[i], "-help")) {
-            fprintf(stdout,
-                "get_file: gets a file to a specific host\n\n"
-                "It takes the following arguments and types:\n"
-                "-hostid (int); the number of the host\n"
-                "-file_name (string); the name of the file to get\n"
-            );
-            exit(0);
-        } else {
-            if (!strncmp("-",argv[i],1)) {
-                fprintf(stderr, "get_file: bad argument '%s'\n", argv[i]);
-                fprintf(stderr, "type get_file -help for more information\n");
+            if(!argv[++i]) {
+                fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
                 exit(1);
             }
+            host_id = atoi(argv[i]);
+        } else if (!strcmp(argv[i], "-file_name")) {
+            if(!argv[++i]) {
+                fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            strcpy(file_name, argv[i]);
+        } else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+            usage(argv[0]);
+            exit(0);
+        } else if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
+        } else {
+            fprintf(stderr, "unknown command line argument: %s\n\n", argv[i]);
+            usage(argv[0]);
+            exit(1);
         }
     }
 

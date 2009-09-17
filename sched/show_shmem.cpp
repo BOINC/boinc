@@ -27,11 +27,38 @@
 #include "sched_config.h"
 #include "sched_shmem.h"
 #include "str_util.h"
+#include "svn_version.h"
 
-int main() {
+void usage(char *name) {
+    fprintf(stderr,
+        "Displays the work_item part of shared-memory structure.\n\n"
+        "Usage: %s [OPTION]\n\n"
+        "Options:\n"
+        "  [ -h | -help | --help ]        Show this help text.\n"
+        "  [ -v | -version | --version ]  Shows version information.\n",
+        name
+    );
+}
+
+int main(int argc, char *argv[]) {
     SCHED_SHMEM* ssp;
     int retval;
     void* p;
+
+    for (int c = 1; c < argc; c++) {
+        std::string option(argv[c]);
+        if(option == "-h" || option == "-help" || option == "--help") {
+            usage(argv[0]);
+            exit(0);
+        } else if(option == "-v" || option == "-version" || option == "--version") {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
+        } else {
+            fprintf(stderr, "unknown command line argument: %s\n\n", argv[c]);
+            usage(argv[0]);
+            exit(1);
+        }
+    }
 
     retval = config.parse_file();
     if (retval) {

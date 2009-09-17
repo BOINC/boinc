@@ -31,20 +31,26 @@
 #endif
 #include <stdlib.h>
 #include <string>
+#include <iostream>
 
 #include "boinc_db.h"
 #include "str_util.h"
+#include "svn_version.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
 
-void usage(char** argv) {
+void usage(char* name) {
     fprintf(stderr,
         "Arrange to delete a file from a host.\n\n"
-        "Usage: %s -host_id H -file_name F\n",
-        argv[0]
+        "Usage: %s OPTION...\n\n"
+        "Options:\n"
+        "  -file_name F                 Specify te file to delete.\n"
+        "  -host_id H                   Specify the coresponding host\n"
+        "  [-h | -help | --help]        Show this help text.\n"
+        "  [-v | -version | --version]  Show version information.\n",
+        name
     );
-    exit(0);
 }
 
 int delete_host_file(int host_id, const char* file_name) {
@@ -76,20 +82,35 @@ int main(int argc, char** argv) {
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-host_id")) {
-            host_id = atoi(argv[++i]);
+            if(!argv[++i]) {
+                fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            host_id = atoi(argv[i]);
         } else if(!strcmp(argv[i], "-file_name")) {
-            strcpy(file_name, argv[++i]);
-        } else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
-            usage(argv);
+            if(!argv[++i]) {
+                fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            strcpy(file_name, argv[i]);
+        } else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "-h")) {
+            usage(argv[0]);
+            exit(0);
+        } else if (!strcmp(argv[i], "--version") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "-v")) {
+            printf("%s\n", SVN_VERSION);
             exit(0);
         } else {
-            fprintf(stderr, "bad arg %s\n", argv[i]);
-            usage(argv);
+            fprintf(stderr, "unknown command line argument: %s\n\n", argv[i]);
+            usage(argv[0]);
+            exit(1);
         }
     }
 
     if (!strlen(file_name) || host_id == 0) {
-        usage(argv);
+        usage(argv[0]);
+        exit(1);
     }
 
     retval = config.parse_file();

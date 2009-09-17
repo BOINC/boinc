@@ -33,6 +33,7 @@
 #include "boinc_db.h"
 #include "str_util.h"
 #include "error_numbers.h"
+#include "svn_version.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -71,6 +72,22 @@ int request_files_from_all() {
     return 0;
 }
 
+void usage(char *name) {
+    fprintf(stderr,
+        "Create a msg_to_host_that requests the list of permanant files\n"
+        "associated with the project\n"
+        "Run this in the project root dir\n\n"
+        "Usage: %s [OPTION]...\n\n"
+        "Options:\n"
+        "  -host_id                       number of host to upload from\n"
+        "                                 "
+        "or 'all' or '0' if for all active hosts\n"
+        "  [ -v | -version | --version ]  show version information\n"
+        "  [ -h | -help | --help ]        show this help text\n",
+        name
+    );
+}
+
 int main(int argc, char** argv) {
     int i, retval;
     int host_id;
@@ -79,20 +96,28 @@ int main(int argc, char** argv) {
 
     check_stop_daemons();
 
-    for(i=1; i<argc; i++) {
+    for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-host_id")) {
-            if (!strcmp(argv[++i], "all")) {
+            if(!argv[++i]) {
+                fprintf(stderr, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            if (!strcmp(argv[i], "all")) {
                 host_id = 0;
             } else {
                 host_id = atoi(argv[i]);
             }
+        } else if(!strcmp(argv[i], "-h") || !strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) {
+            usage(argv[0]);
+            exit(0);
+        } else if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "-version") || !strcmp(argv[i], "--version")) {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
         } else {
-            if (!strncmp("-",argv[i],1)) {
-                fprintf(stderr,
-                    "request_file_list: bad argument '%s'\n", argv[i]
-                );
-                exit(1);
-            }
+            fprintf(stderr, "unknown command line argument: %s\n\n", argv[i]);
+            usage(argv[0]);
+            exit(1);
         }
     }
 

@@ -49,6 +49,7 @@ using std::string;
 #include "sched_util.h"
 #include "sched_msgs.h"
 #include "str_util.h"
+#include "svn_version.h"
 
 #define LOCKFILE            "make_work.out"
 #define PIDFILE             "make_work.pid"
@@ -265,25 +266,72 @@ void make_work(vector<string> &wu_names) {
     }
 }
 
+void usage(char *name) {
+    fprintf(stderr,
+        "Create WU and result records as needed to maintain a pool of work\n"
+        "(for testing purposes).\n"
+        "Clones the WU of the given name.\n\n"
+        "Usage: %s [OPTION]...\n\n"
+        "Options:\n"
+        "  -wu_name name                  the name for the WU\n"
+        "                                 (can be repeated)\n"
+        "  [ -cushion N ]                 "
+        "make work if fewer than N unsent results\n"
+        "  [ -max_wus n ]                 "
+        "don't make work if more than N total WUs\n"
+        "  [ -one_pass ]                  quit after one pass\n"
+        "  [ -d X ]                       set debug level to X.\n"
+        "  [ -h | -help | --help ]        shows this help text.\n"
+        "  [ -v | -version | --version ]  shows version information\n",
+        name
+    );
+}
+
 int main(int argc, char** argv) {
     int i;
     vector<string> wu_names;
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-cushion")) {
-            cushion = atoi(argv[++i]);
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            cushion = atoi(argv[i]);
         } else if (!strcmp(argv[i], "-d")) {
-            log_messages.set_debug_level(atoi(argv[++i]));
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            log_messages.set_debug_level(atoi(argv[i]));
         } else if (!strcmp(argv[i], "-wu_name")) {
-            wu_names.push_back(string(argv[++i]));
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            wu_names.push_back(string(argv[i]));
         } else if (!strcmp(argv[i], "-max_wus")) {
-            max_wus = atoi(argv[++i]);
+            if(!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            max_wus = atoi(argv[i]);
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
+        } else if (!strcmp(argv[1], "-h") || !strcmp(argv[1], "-help") || !strcmp(argv[1], "--help")) {
+            usage(argv[0]);
+            exit(0);
+        } else if (!strcmp(argv[1], "-v") || !strcmp(argv[1], "-version") || !strcmp(argv[1], "--version")) {
+            printf("%s\n", SVN_VERSION);
+            exit(0);
         } else {
-            log_messages.printf(
-                MSG_CRITICAL, "unknown argument: %s\n", argv[i]
-            );
+            log_messages.printf(MSG_CRITICAL, "unknown command line argument: %s\n\n", argv[i]);
+            usage(argv[0]);
+            exit(1);
         }
     }
     check_stop_daemons();
