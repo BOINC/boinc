@@ -7801,9 +7801,3 @@ David  17 Sept 2009
     generate_svn_version.sh
     sched/
         (most).cpp
-
-David  17 Sept 2009
-    - build: update libtool.m4 to version from FC11
-
-    m4/
-        libtool.m4
