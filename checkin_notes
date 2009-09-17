@@ -7429,3 +7429,21 @@ David  11 Sept 2009
 
     client/
         client_state.cpp
+<<<<<<< .working
+=======
+
+Charlie 11 Sept 2009
+    - Mgr: skip exit confirmation dialog if user pressed emergency Exit button 
+        on AsyncRPCDlg.
+
+    clientgui/
+        AsyncRPC.cpp
+        BOINCGUIApp.cpp
+
+David  12 Sept 2009
+    - client: fix bug in FIFO selection of coproc jobs
+        (senility setting in?)
+
+    client/
+        cpu_sched.cpp
+>>>>>>> .merge-right.r19049

@@ -323,12 +323,12 @@ RESULT* first_coproc_result() {
         }
         if (rp->received_time < best->received_time) {
             best = rp;
-            continue;
-        }
-        // make it deterministic
-        //
-        if (strcmp(rp->name, best->name)) {
-            best = rp;
+        } else if (rp->received_time == best->received_time) {
+            // make it deterministic
+            //
+            if (strcmp(rp->name, best->name)) {
+                best = rp;
+            }
         }
     }
     return best;
