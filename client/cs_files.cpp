@@ -152,10 +152,12 @@ int FILE_INFO::verify_file(bool strict, bool show_errors) {
     }
 
     if (nbytes && (nbytes != size) && (!config.dont_check_file_sizes)) {
-        msg_printf(project, MSG_INTERNAL_ERROR,
-            "File %s has wrong size: expected %.0f, got %.0f",
-            name, nbytes, size
-        );
+        if (show_errors) {
+            msg_printf(project, MSG_INTERNAL_ERROR,
+                "File %s has wrong size: expected %.0f, got %.0f",
+                name, nbytes, size
+            );
+        }
         status = ERR_WRONG_SIZE;
         return ERR_WRONG_SIZE;
     }

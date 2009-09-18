@@ -25,6 +25,7 @@
 #include "client_state.h"
 #endif
 
+#include "scheduler_op.h"
 #include "work_fetch.h"
 
 using std::vector;
