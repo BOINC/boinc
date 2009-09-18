@@ -567,6 +567,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     send_job_log = 0;
     messages.clear();
     scheduler_version = 0;
+    cpu_backoff = 0;
     cuda_backoff = 0;
     ati_backoff = 0;
 
