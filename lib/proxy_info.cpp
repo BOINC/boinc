@@ -70,8 +70,7 @@ int PROXY_INFO::write(MIOFILE& out) {
         "    <socks5_user_passwd>%s</socks5_user_passwd>\n"
         "    <http_user_name>%s</http_user_name>\n"
         "    <http_user_passwd>%s</http_user_passwd>\n"
-		"    <no_proxy>%s</no_proxy>\n"
-		"</proxy_info>\n",        
+		"    <no_proxy>%s</no_proxy>\n",
         use_http_proxy?"    <use_http_proxy/>\n":"",
         use_socks_proxy?"    <use_socks_proxy/>\n":"",
         use_http_auth?"    <use_http_auth/>\n":"",
@@ -85,6 +84,19 @@ int PROXY_INFO::write(MIOFILE& out) {
         hun,
         hup,
 		noproxy_hosts
+    );
+    if (strlen(autodetect_server_name)) {
+        out.printf(
+            "    <autodetect_protocol>%d</autodetect_protocol>\n"
+            "    <autodetect_server_name>%d</autodetect_server_name>\n"
+            "    <autodetect_port>%d</autodetect_port>\n",
+            autodetect_protocol,
+            autodetect_server_name,
+            autodetect_port
+        );
+    }
+    out.printf(
+		"</proxy_info>\n"
     );
     return 0;
 }
@@ -102,12 +114,10 @@ void PROXY_INFO::clear() {
     strcpy(http_user_name, "");
     strcpy(http_user_passwd, "");
     socks_version = 0;
-	strcpy(autodetect_server_name, "");
-    autodetect_server_port = 80;
 	strcpy(noproxy_hosts, "");
-    autodetect_server_protocol = 0;
-    strcpy(autodetect_server_name, "");
-    autodetect_server_port = 80;
+	strcpy(autodetect_server_name, "");
+    autodetect_port = 80;
+    autodetect_protocol = 0;
 }
 
 const char *BOINC_RCSID_af13db88e5 = "$Id$";

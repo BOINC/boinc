@@ -193,9 +193,9 @@ static void windows_detect_autoproxy_settings() {
             );
 
             // Store the results for future use.
-            gstate.proxy_info.autodetect_server_protocol = proxy_protocol;
+            gstate.proxy_info.autodetect_protocol = proxy_protocol;
             strcpy(gstate.proxy_info.autodetect_server_name, proxy_server);
-            gstate.proxy_info.autodetect_server_port = proxy_port;
+            gstate.proxy_info.autodetect_port = proxy_port;
 
             if (log_flags.proxy_debug) {
                 msg_printf(NULL, MSG_INFO,
@@ -210,9 +210,9 @@ static void windows_detect_autoproxy_settings() {
     } else {
         // We can get here if the user is switching from a network that
         // requires a proxy to one that does not require a proxy.
-        gstate.proxy_info.autodetect_server_protocol = 0;
+        gstate.proxy_info.autodetect_protocol = 0;
         strcpy(gstate.proxy_info.autodetect_server_name, "");
-        gstate.proxy_info.autodetect_server_port = 0;
+        gstate.proxy_info.autodetect_port = 0;
         if (log_flags.proxy_debug) {
             msg_printf(NULL, MSG_INFO, "[proxy_debug] no automatic proxy detected");
         }
