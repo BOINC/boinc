@@ -7541,3 +7541,15 @@ David  18 Sept 2009
 
     client/
         cpu_sched.cpp
+
+David  18 Sept 2009
+    - client: comment out [18942], which changed the meaning of
+        "don't use GPUs while computer is in use" to
+        "don't use GPUs running graphics apps while computer is in use"
+        for NVIDIA GPUs.
+        NVIDIA's API for seeing if a GPU is running a graphics app
+        doesn't seem to reflect GPU use by the OS.
+
+    client/
+        client_state.cpp
+        cpu_sched.cpp

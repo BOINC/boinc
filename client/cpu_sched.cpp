@@ -88,12 +88,16 @@ struct PROC_RESOURCES {
     bool can_schedule(RESULT* rp) {
         if (rp->uses_coprocs()) {
             if (gstate.user_active && !gstate.global_prefs.run_gpu_if_user_active) {
+#if 1
+                return false;
+#else
                 if (rp->avp->natis) {
                     return false;
                 }
                 // if it's NVIDIA, defer deciding because
                 // some GPUs may not be running user apps
                 //
+#endif
             }
             if (sufficient_coprocs(
                 *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug")
@@ -1028,6 +1032,7 @@ static inline void assign_coprocs(vector<RESULT*> jobs) {
         }
     }
 
+#if 0
     // enforce "don't use GPUs while active" pref in NVIDIA case;
     // it applies only to GPUs running a graphics app
     //
@@ -1055,6 +1060,7 @@ static inline void assign_coprocs(vector<RESULT*> jobs) {
             }
         }
     }
+#endif
 }
 
 // Enforce the CPU schedule.

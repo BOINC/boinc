@@ -580,6 +580,7 @@ bool CLIENT_STATE::poll_slow_events() {
         request_schedule_cpus("Idle state change");
     }
 
+#if 0
     // NVIDIA provides an interface for finding if a GPU is
     // running a graphics app.  ATI doesn't as far as I know
     //
@@ -588,6 +589,7 @@ bool CLIENT_STATE::poll_slow_events() {
             request_schedule_cpus("GPU state change");
         }
     }
+#endif
 
 #ifdef __APPLE__
     // Mac screensaver launches client if not already running.
