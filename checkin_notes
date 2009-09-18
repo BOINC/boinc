@@ -7878,3 +7878,18 @@ David  18 Sept 2009
     client/
         client_state.cpp
         cpu_sched.cpp
+
+David  18 Sept 2009
+    - Unix build: use autoreconf
+
+    _autosetup
+    configure.ac
+
+    removed:
+    depcomp
+    ltmain.sh
+    compile
+    config.guess
+    config.sub
+    missing
+    m4/libtool.m4

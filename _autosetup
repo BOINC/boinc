@@ -125,7 +125,7 @@ check_version()
   fi
 
   ## ---------- ok, now run aclocal, automake, autohead and autoconf
-  cmdline="aclocal -I m4 && autoheader && automake && autoconf";
+  cmdline="autoreconf -i";
 echo "$cmdline"
 if eval $cmdline; then
     echo "Done, now run ./configure"
