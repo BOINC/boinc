@@ -7531,3 +7531,13 @@ David  18 Sept 2009
         sysmon_win.cpp
     lib/
         proxy_info.cpp,h
+
+David  18 Sept 2009
+    - client: in choosing coproc jobs to run (FIFO) give priority
+        to whether job is already running.
+        This addresses a bug where several jobs are returned by sched RPC,
+        and one with a lexicographically greater name
+        happens to finish downloading first.
+
+    client/
+        cpu_sched.cpp

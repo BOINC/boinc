@@ -306,7 +306,11 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
     return rp;
 }
 
-// return coproc jobs in FIFO order
+// Return coproc jobs in FIFO order
+// Give priority to already-started jobs because of the following scenario:
+// - client gets several jobs in a sched reply and starts download files
+// - a job with a later name happens to finish downloading first, and starts
+// - a job with an earlier name finishes downloading and preempts
 //
 RESULT* first_coproc_result() {
     unsigned int i;
@@ -321,10 +325,12 @@ RESULT* first_coproc_result() {
             best = rp;
             continue;
         }
-        if (rp->received_time < best->received_time) {
+        if (!rp->not_started() && best->not_started()) {
+            best = rp;
+        } else if (rp->received_time < best->received_time) {
             best = rp;
         } else if (rp->received_time == best->received_time) {
-            // make it deterministic
+            // make it deterministic by looking at name
             //
             if (strcmp(rp->name, best->name)) {
                 best = rp;
