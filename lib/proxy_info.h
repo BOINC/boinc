@@ -20,7 +20,11 @@
 
 #include "miofile.h"
 
+// info on whether HTTP requests need to go through a proxy
+//
 struct PROXY_INFO {
+    // the following is populated is user has specified an HTTP proxy
+    //
     bool use_http_proxy;
     bool use_http_auth;
     char http_server_name[256];
@@ -28,6 +32,8 @@ struct PROXY_INFO {
     char http_user_name[256];
     char http_user_passwd[256];
 
+    // the following is populated if use has specified a SOCKs proxy
+    //
     bool use_socks_proxy;
     int socks_version;
     char socks_server_name[256];
@@ -35,15 +41,24 @@ struct PROXY_INFO {
     char socks5_user_name[256];
     char socks5_user_passwd[256];	
 
+    // a list of hosts for which we should NOT go through a proxy
+    // (e.g. a company PC attached to both local and remote projects)
+    //
     char noproxy_hosts[256];
 
-    int autodetect_server_protocol;
+    // On Windows, if neither HTTP nor SOCKS proxy is specified,
+    // we try the "autodetect" mechanism.
+    // If it gets anything, the info is filled in below
+    //
+    int autodetect_protocol;
+        // URL_PROTOCOL_SOCKS, URL_PROTOCOL_HTTP, or URL_PROTOCOL_HTTPS
     char autodetect_server_name[256];
-    int autodetect_server_port;
+    int autodetect_port;
     bool need_autodetect_proxy_settings;
         // if true, we need to detect proxy settings.
         // set to true if ref web site lookup fails
     bool have_autodetect_proxy_settings;
+        // whether above fields are defined
 
     int parse(MIOFILE&);
     int write(MIOFILE&);

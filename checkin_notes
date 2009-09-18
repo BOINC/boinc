@@ -7522,3 +7522,12 @@ David  17 Sept 2009
 
     client/
         client_types.cpp
+
+David  18 Sept 2009
+    - client/API: add autosetup proxy info to init_data.xml
+
+    client/
+        http_curl.cpp
+        sysmon_win.cpp
+    lib/
+        proxy_info.cpp,h

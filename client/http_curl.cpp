@@ -855,11 +855,11 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
         if (log_flags.proxy_debug) {
             msg_printf(0, MSG_INFO,
                 "[proxy_debug] HTTP_OP::setup_proxy_session(): setting up automatic proxy %s:%d",
-                pi.autodetect_server_name, pi.autodetect_server_port
+                pi.autodetect_server_name, pi.autodetect_port
             );
         }
 
-        switch(pi.autodetect_server_protocol) {
+        switch(pi.autodetect_protocol) {
         case URL_PROTOCOL_SOCKS:
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
             break;
@@ -869,7 +869,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
             curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
             break;
         }
-        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.autodetect_server_port);
+        curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.autodetect_port);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.autodetect_server_name);
     }
 }
