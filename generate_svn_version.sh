@@ -1,8 +1,11 @@
 #!/usr/bin/env sh
 
-echo "#ifndef SVN_VERSION_H" > svn_version.h
-echo "#define SVN_VERSION_H" >> svn_version.h
-echo "" >> svn_version.h
+HEADER="svn_version.h"
+TMPFILE="$HEADER.tmp"
+
+echo "#ifndef SVN_VERSION_H" > $TMPFILE
+echo "#define SVN_VERSION_H" >> $TMPFILE
+echo "" >> $TMPFILE
 
 if [ -d .git ]; then
     CMD="git svn info"
@@ -17,11 +20,17 @@ if [ "x$CMD" != "x" ]; then
                 /^Rev/ { rev = $2; }; \
                 END { print "#define SVN_VERSION \"Repository: " url \
                             " Revision: " rev "\""; };' \
-               >> svn_version.h
+               >> $TMPFILE
 else
-    echo "#include \"version.h\"" >> svn_version.h
-    echo "#define SVN_VERSION BOINC_VERSION_STRING" >> svn_version.h
+    echo "#include \"version.h\"" >> $TMPFILE
+    echo "#define SVN_VERSION BOINC_VERSION_STRING" >> $TMPFILE
 fi
 
-echo "" >> svn_version.h
-echo "#endif" >> svn_version.h
+echo "" >> $TMPFILE
+echo "#endif" >> $TMPFILE
+
+if cmp "$HEADER" "$TMPFILE" >/dev/null 2>&1; then
+	rm -f "$TMPFILE"
+else
+	mv "$TMPFILE" "$HEADER"
+fi

@@ -7893,3 +7893,13 @@ David  18 Sept 2009
     config.sub
     missing
     m4/libtool.m4
+
+David  18 Sept 2009
+    - client: fix bug introduced in [19035] that causes wrong nidle instances
+        (and resulting work fetch problems)
+    - Unix build: don't touch svn_version.sh if it hasn't changed,
+        to avoid remake of sched/ (from Gabor Gombas)
+
+    generate_svn_version.sh
+    client/
+        rr_sim.cpp
