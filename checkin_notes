@@ -7576,3 +7576,8 @@ Rom    18 Sept 2009
         configure.ac
         version.h
 
+Charlie 17 Sept 2009
+    - client: fix compiler warning.
+
+    client/
+        app_start.cpp
