@@ -83,13 +83,8 @@ struct RR_SIM_STATUS {
         }
         active.push_back(rp);
         cpu_work_fetch.sim_nused += rp->avp->avg_ncpus;
-        p->cpu_pwf.sim_nused += rp->avp->avg_ncpus;
-
         cuda_work_fetch.sim_nused += rp->avp->ncudas;
-        p->cuda_pwf.sim_nused += rp->avp->ncudas;
-
         ati_work_fetch.sim_nused += rp->avp->natis;
-        p->ati_pwf.sim_nused += rp->avp->natis;
     }
     // remove *rpbest from active set,
     // and adjust FLOPS left for other results

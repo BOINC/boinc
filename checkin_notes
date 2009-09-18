@@ -7553,3 +7553,10 @@ David  18 Sept 2009
     client/
         client_state.cpp
         cpu_sched.cpp
+
+David  18 Sept 2009
+    - client: fix bug introduced in [19035] that causes wrong nidle instances
+        (and resulting work fetch problems)
+
+    client/
+        rr_sim.cpp
