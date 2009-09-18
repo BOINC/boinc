@@ -190,8 +190,8 @@ int PROJECT::parse_state(MIOFILE& in) {
         if (parse_double(buf, "<long_term_debt>", cpu_pwf.debt)) continue;
         if (parse_double(buf, "<cpu_backoff_interval>", cpu_pwf.backoff_interval)) continue;
         if (parse_double(buf, "<cpu_backoff_time>", cpu_pwf.backoff_time)) {
-            if (cpu_pwf.backoff_time > 28*SECONDS_PER_DAY) {
-                cpu_pwf.backoff_time = 28*SECONDS_PER_DAY;
+            if (cpu_pwf.backoff_time > gstate.now + 28*SECONDS_PER_DAY) {
+                cpu_pwf.backoff_time = gstate.now + 28*SECONDS_PER_DAY;
             }
             continue;
         }
