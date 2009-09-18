@@ -7514,5 +7514,11 @@ David  17 Sept 2009
         Cap backoff when read statefile.
 
     client/
-        client_types.pp
+        client_types.cpp
         scheduler_op.cpp
+
+David  17 Sept 2009
+    - client: oops, backoff time is absolute not relative
+
+    client/
+        client_types.cpp
