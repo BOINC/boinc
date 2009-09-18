@@ -7826,3 +7826,12 @@ Charlie 17 Sept 2009
 
     client/
         app_start.cpp
+
+David  17 Sept 2009
+    - client: fixed failure to initialize CPU backoff;
+        leads to huge CPU backoff.
+        Cap backoff when read statefile.
+
+    client/
+        client_types.pp
+        scheduler_op.cpp
