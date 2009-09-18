@@ -7910,3 +7910,9 @@ David  18 Sept 2009
     client/
         cs_files.cpp
         work_fetch.cpp
+
+David  18 Sept 2009
+    - client: if a file fails verification, delete it.
+
+    client/
+        pers_file_xfer.cpp
