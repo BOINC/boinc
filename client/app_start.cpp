@@ -104,8 +104,10 @@ static void debug_print_argv(char** argv) {
 }
 #endif
 
-// for apps that use coprocessors, reserve the instances,
-// and append "--device x" to the command line
+// For apps that use coprocessors, reserve the instances,
+// and append "--device x" to the command line.
+// NOTE: on Linux, you must call this before the fork(), not after.
+// Otherwise the reservation is a no-op.
 //
 static void coproc_cmdline(
     COPROC* coproc, ACTIVE_TASK* atp, int ninstances, char* cmdline
@@ -794,6 +796,13 @@ int ACTIVE_TASK::start(bool first_time) {
 
     getcwd(current_dir, sizeof(current_dir));
 
+    sprintf(cmdline, "%s %s",
+        wup->command_line.c_str(), app_version->cmdline
+    );
+    if (coproc_cuda && app_version->ncudas) {
+        coproc_cmdline(coproc_cuda, this, app_version->ncudas, cmdline);
+    }
+
     // Set up core/app shared memory seg if needed
     //
     if (!app_client_shm.shm) {
@@ -925,10 +934,6 @@ int ACTIVE_TASK::start(bool first_time) {
             }
         }
 #endif
-        sprintf(cmdline, "%s %s", wup->command_line.c_str(), app_version->cmdline);
-        if (coproc_cuda && app_version->ncudas) {
-            coproc_cmdline(coproc_cuda, this, app_version->ncudas, cmdline);
-        }
         sprintf(buf, "../../%s", exec_path );
         if (g_use_sandbox) {
             char switcher_path[100];
