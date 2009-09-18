@@ -7560,3 +7560,10 @@ David  18 Sept 2009
 
     client/
         rr_sim.cpp
+
+David  18 Sept 2009
+    - client: don't print error msg if file is wrong size on startup
+
+    client/
+        cs_files.cpp
+        work_fetch.cpp
