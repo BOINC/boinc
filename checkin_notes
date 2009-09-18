@@ -7481,7 +7481,7 @@ David  16 Sept 2009
 
     client/
         log_flags.cpp,h
-        schedule_op.cpp
+        scheduler_op.cpp
 
 Rom    17 Sept 2009
     - Tag for 6.10.5 release, all platforms
@@ -7491,3 +7491,8 @@ Rom    17 Sept 2009
         configure.ac
         version.h
 
+David  17 Sept 2009
+    - client: if project-supplied backoff > 28 days, cap rather than ignore
+
+    client/
+        scheduler_op.cpp
