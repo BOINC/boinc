@@ -188,13 +188,13 @@ int PROJECT::parse_state(MIOFILE& in) {
         if (parse_bool(buf, "ended", ended)) continue;
         if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
         if (parse_double(buf, "<long_term_debt>", cpu_pwf.debt)) continue;
-        if (parse_double(buf, "<cpu_backoff_interval>", cpu_pwf.backoff_interval)) {
-            if (cpu_pwf.backoff_interval > 28*SECONDS_PER_DAY) {
-                cpu_pwf.backoff_interval = 28*SECONDS_PER_DAY;
+        if (parse_double(buf, "<cpu_backoff_interval>", cpu_pwf.backoff_interval)) continue;
+        if (parse_double(buf, "<cpu_backoff_time>", cpu_pwf.backoff_time)) {
+            if (cpu_pwf.backoff_time > 28*SECONDS_PER_DAY) {
+                cpu_pwf.backoff_time = 28*SECONDS_PER_DAY;
             }
             continue;
         }
-        if (parse_double(buf, "<cpu_backoff_time>", cpu_pwf.backoff_time)) continue;
         if (parse_double(buf, "<cuda_debt>", cuda_pwf.debt)) continue;
         if (parse_double(buf, "<cuda_backoff_interval>", cuda_pwf.backoff_interval)) continue;
         if (parse_double(buf, "<cuda_backoff_time>", cuda_pwf.backoff_time)) continue;
