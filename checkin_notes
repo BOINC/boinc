@@ -7841,3 +7841,9 @@ David  17 Sept 2009
 
     client/
         client_types.cpp
+
+David  17 Sept 2009
+    - transitioner: fix to 15 Sept checkin
+
+    sched/
+        transitioner.cpp

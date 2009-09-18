@@ -298,7 +298,7 @@ int handle_wu(
     if (nerrors > wu_item.max_error_results) {
         log_messages.printf(MSG_NORMAL,
             "[WU#%d %s] WU has too many errors (%d errors for %d results)\n",
-            wu_item.id, wu_item.name, nerrors, (int)items.size()
+            wu_item.id, wu_item.name, nerrors, ntotal
         );
         wu_item.error_mask |= WU_ERROR_TOO_MANY_ERROR_RESULTS;
     }
@@ -307,7 +307,7 @@ int handle_wu(
     //
     int n_new_results_needed = wu_item.target_nresults - nunsent - ninprogress - nsuccess;
     if (n_new_results_needed < 0) n_new_results_needed = 0;
-    int n_new_results_allowed = wu_item.max_total_results - (int)items.size();
+    int n_new_results_allowed = wu_item.max_total_results - ntotal;
 
     // if we're already at the limit and need more, error out the WU
     //
@@ -326,7 +326,7 @@ int handle_wu(
     if (too_many) {
         log_messages.printf(MSG_NORMAL,
             "[WU#%d %s] WU has too many total results (%d)\n",
-            wu_item.id, wu_item.name, (int)items.size()
+            wu_item.id, wu_item.name, ntotal
         );
         wu_item.error_mask |= WU_ERROR_TOO_MANY_TOTAL_RESULTS;
     }
@@ -337,38 +337,37 @@ int handle_wu(
     if (wu_item.error_mask) {
         for (i=0; i<items.size(); i++) {
             TRANSITIONER_ITEM& res_item = items[i];
-            if (res_item.res_id) {
-                bool update_result = false;
-                switch(res_item.res_server_state) {
-                case RESULT_SERVER_STATE_UNSENT:
-                    log_messages.printf(MSG_NORMAL,
-                        "[WU#%d %s] [RESULT#%d %s] server_state:UNSENT=>OVER; outcome:=>DIDNT_NEED\n",
-                        wu_item.id, wu_item.name, res_item.res_id, res_item.res_name
-                    );
-                    res_item.res_server_state = RESULT_SERVER_STATE_OVER;
-                    res_item.res_outcome = RESULT_OUTCOME_DIDNT_NEED;
-                    update_result = true;
-                    break;
-                case RESULT_SERVER_STATE_OVER:
-                    switch (res_item.res_outcome) {
-                    case RESULT_OUTCOME_SUCCESS:
-                        switch(res_item.res_validate_state) {
-                        case VALIDATE_STATE_INIT:
-                        case VALIDATE_STATE_INCONCLUSIVE:
-                            res_item.res_validate_state = VALIDATE_STATE_NO_CHECK;
-                            update_result = true;
-                            break;
-                        }
+            if (!res_item.res_id) continue;
+            bool update_result = false;
+            switch(res_item.res_server_state) {
+            case RESULT_SERVER_STATE_UNSENT:
+                log_messages.printf(MSG_NORMAL,
+                    "[WU#%d %s] [RESULT#%d %s] server_state:UNSENT=>OVER; outcome:=>DIDNT_NEED\n",
+                    wu_item.id, wu_item.name, res_item.res_id, res_item.res_name
+                );
+                res_item.res_server_state = RESULT_SERVER_STATE_OVER;
+                res_item.res_outcome = RESULT_OUTCOME_DIDNT_NEED;
+                update_result = true;
+                break;
+            case RESULT_SERVER_STATE_OVER:
+                switch (res_item.res_outcome) {
+                case RESULT_OUTCOME_SUCCESS:
+                    switch(res_item.res_validate_state) {
+                    case VALIDATE_STATE_INIT:
+                    case VALIDATE_STATE_INCONCLUSIVE:
+                        res_item.res_validate_state = VALIDATE_STATE_NO_CHECK;
+                        update_result = true;
+                        break;
                     }
                 }
-                if (update_result) {
-                    retval = transitioner.update_result(res_item);
-                    if (retval) {
-                        log_messages.printf(MSG_CRITICAL,
-                            "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
-                            wu_item.id, wu_item.name, res_item.res_id, res_item.res_name, retval
-                        );
-                    }
+            }
+            if (update_result) {
+                retval = transitioner.update_result(res_item);
+                if (retval) {
+                    log_messages.printf(MSG_CRITICAL,
+                        "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
+                        wu_item.id, wu_item.name, res_item.res_id, res_item.res_name, retval
+                    );
                 }
             }
         }
@@ -438,25 +437,24 @@ int handle_wu(
     int most_recently_returned = 0;
     for (i=0; i<items.size(); i++) {
         TRANSITIONER_ITEM& res_item = items[i];
-        if (res_item.res_id) {
-            if (res_item.res_server_state == RESULT_SERVER_STATE_OVER) {
-                if ( res_item.res_received_time > most_recently_returned ) {
-                    most_recently_returned = res_item.res_received_time;
-                }
-                if (res_item.res_outcome == RESULT_OUTCOME_SUCCESS) {
-                    if (res_item.res_validate_state == VALIDATE_STATE_INIT) {
-                        all_over_and_validated = false;
-                        all_over_and_ready_to_assimilate = false;
-                    }
-                } else if ( res_item.res_outcome == RESULT_OUTCOME_NO_REPLY ) {
-                    if ( ( res_item.res_report_deadline + config.grace_period_hours*60*60 ) > now ) {
-                        all_over_and_validated = false;
-                    }
-                }
-            } else {
-                all_over_and_validated = false;
-                all_over_and_ready_to_assimilate = false;
+        if (!res_item.res_id) continue;
+        if (res_item.res_server_state == RESULT_SERVER_STATE_OVER) {
+            if ( res_item.res_received_time > most_recently_returned ) {
+                most_recently_returned = res_item.res_received_time;
             }
+            if (res_item.res_outcome == RESULT_OUTCOME_SUCCESS) {
+                if (res_item.res_validate_state == VALIDATE_STATE_INIT) {
+                    all_over_and_validated = false;
+                    all_over_and_ready_to_assimilate = false;
+                }
+            } else if ( res_item.res_outcome == RESULT_OUTCOME_NO_REPLY ) {
+                if ( ( res_item.res_report_deadline + config.grace_period_hours*60*60 ) > now ) {
+                    all_over_and_validated = false;
+                }
+            }
+        } else {
+            all_over_and_validated = false;
+            all_over_and_ready_to_assimilate = false;
         }
     }
 
