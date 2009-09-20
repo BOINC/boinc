@@ -1,8 +1,0 @@
-#!/bin/sh
-
-
-# on 2004-02-02 we made a repository change that requires you to run this script in any working copies checked out before then (otherwise you will continue to see "html_user not found" messages
-
-
-cat CVS/Entries | grep -v D/html_user | grep -v D/html_ops | grep -v D/MacBoinc > CVS/Entries
-

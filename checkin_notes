@@ -7916,3 +7916,13 @@ David  18 Sept 2009
 
     client/
         pers_file_xfer.cpp
+
+David  18 Sept 2009
+    - Unix build: delete some unused files
+
+    removed:
+    export-tarball
+    mkinstalldirs
+    fix-repository-20040202
+    nightly-tarball
+    install-sh
