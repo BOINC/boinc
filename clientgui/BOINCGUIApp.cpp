@@ -152,7 +152,6 @@ bool CBOINCGUIApp::OnInit() {
     m_strBOINCMGRRootDirectory = wxEmptyString;
     m_strBOINCMGRDataDirectory = wxEmptyString;
     m_strBOINCArguments = wxEmptyString;
-    m_bAccessibilityEnabled = false;
     m_bGUIVisible = true;
     m_bDebugSkins = false;
     m_strDefaultWindowStation = wxEmptyString;
