@@ -413,7 +413,14 @@ void WORK_FETCH::compute_work_request(PROJECT* p) {
     p->cpu_pwf.backoff_time = cpu_save;
     p->cuda_pwf.backoff_time = cuda_save;
     p->ati_pwf.backoff_time = ati_save;
-    if (p == pbest) return;
+    if (p == pbest) {
+        // Ask for work for all devices w/ a shortfall.
+        // Otherwise we can have a situation where a GPU is idle,
+        // we ask only for GPU work, and the project never has any
+        //
+        work_fetch.set_shortfall_requests(pbest);
+        return;
+    }
 
     // if not, don't request any work
     //
