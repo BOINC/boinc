@@ -139,15 +139,36 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
             CloseHandle(h);
         }
     }
-#else
+#elif defined(__WXMAC__)
     char path[1024];
     static FILE_LOCK file_lock;
     
     sprintf(path, "%s/%s", (const char *)wxGetApp().GetDataDirectory().mb_str(), LOCK_FILE_NAME);
-    if (file_lock.lock(path)) {
-        running = true;
-    } else {
-        file_lock.unlock(path);
+    if (boinc_file_exists(path)) {   // If there is no lock file, core is not running
+        if (file_lock.lock(path)) {
+            running = true;
+        } else {
+            file_lock.unlock(path);
+        }
+    }
+#else
+    std::vector<PROCINFO> piv;
+    int retval;
+
+    // Look for BOINC Client in list of all running processes
+    retval = procinfo_setup(piv);
+    if (retval) return false;     // Should never happen
+    
+    for (unsigned int i=0; i<piv.size(); i++) {
+        PROCINFO& pi = piv[i];
+        if (!strcmp(pi.command, "boinc")) {
+            running = true;
+            break;
+        }
+        if (!strcmp(pi.command, "boinc_client")) {
+            running = true;
+            break;
+        }
     }
 #endif
     wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Returning '%d'"), (int)running);
@@ -283,9 +304,22 @@ bool CBOINCClientManager::StartupBOINCCore() {
     }
 
 #else   // Unix based systems
+    wxString savedWD = ::wxGetCwd();
 
+    if (m_strBOINCClientExecDirectory.IsEmpty() {
+        m_strBOINCClientExecDirectory = ::wxGetCwd();
+    }
+    if (m_strBOINCClientExecDirectory.Last != '/') {
+        m_strBOINCClientExecDirectory.Append('/');
+    }
+
+    if (m_strBOINCClientDataDirectory.IsEmpty() {
+        m_strBOINCClientDataDirectory = m_strBOINCClientExecDirectory;
+    }
+    
+    wxSetWorkingDirectory(m_strBOINCClientDataDirectory);
     // Append boinc.exe to the end of the strExecute string and get ready to rock
-    strExecute = ::wxGetCwd() + wxT("/boinc --redirectio --launched_by_manager");
+    strExecute = m_strBOINCClientExecDirectory + wxT("boinc --redirectio --launched_by_manager");
 #ifdef SANDBOX
     if (!g_use_sandbox) {
         strExecute += wxT(" --insecure");
@@ -293,10 +327,11 @@ bool CBOINCClientManager::StartupBOINCCore() {
 #endif
 
     wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), strExecute.c_str());
-    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), ::wxGetCwd().c_str());
+    wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), m_strBOINCClientDataDirectory.c_str());
 
     m_lBOINCCoreProcessId = ::wxExecute(strExecute);
     
+    wxSetWorkingDirectory(savedWD);
 #endif
 
     if (0 != m_lBOINCCoreProcessId) {
@@ -315,9 +350,8 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
 
 #ifdef __WXMSW__
-
-static std::wstring downcase_string(std::wstring& orig) {
-    std::wstring retval = orig;
+static tstring downcase_string(tstring& orig) {
+    tstring retval = orig;
     for (size_t i=0; i < retval.length(); i++) {
         retval[i] = tolower(retval[i]);
     }
@@ -342,8 +376,8 @@ void CBOINCClientManager::KillClient() {
     pProcesses = (PSYSTEM_PROCESSES)pBuffer;
     do {
         if (pProcesses->ProcessId) {
-            std::wstring strProcessName = pProcesses->ProcessName.Buffer;
-            if (downcase_string(strProcessName) == L"boinc.exe") {
+            tstring strProcessName = pProcesses->ProcessName.Buffer;
+            if (downcase_string(strProcessName) == tstring(_T("boinc.exe"))) {
                 TerminateProcessById(pProcesses->ProcessId);
                 break;
            }
@@ -370,7 +404,7 @@ void CBOINCClientManager::KillClient() {
         kill_program(m_lBOINCCoreProcessId);
         return;
     }
-    
+
     retval = procinfo_setup(piv);
 	if (retval) return;     // Should never happen
     

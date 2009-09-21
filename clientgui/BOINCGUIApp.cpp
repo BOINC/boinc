@@ -149,6 +149,12 @@ bool CBOINCGUIApp::OnInit() {
 #ifdef __WXMAC__
     m_pMacSystemMenu = NULL;
 #endif
+    m_strBOINCMGRRootDirectory = wxEmptyString;
+    m_strBOINCMGRDataDirectory = wxEmptyString;
+    m_strBOINCClientExecDirectory = wxEmptyString;
+    m_strBOINCClientDataDirectory = wxEmptyString;
+    m_strBOINCArguments = wxEmptyString;
+    m_bAccessibilityEnabled = false;
     m_bGUIVisible = true;
     m_bDebugSkins = false;
     m_strDefaultWindowStation = wxEmptyString;
@@ -516,6 +522,8 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
     static const wxCmdLineEntryDesc cmdLineDesc[] = {
         { wxCMD_LINE_SWITCH, wxT("a"), wxT("autostart"), _("BOINC Manager was started by the operating system automatically")},
         { wxCMD_LINE_SWITCH, wxT("s"), wxT("systray"), _("Startup BOINC so only the system tray icon is visible")},
+        { wxCMD_LINE_OPTION, wxT("e"), wxT("clientdir"), _("Directory containing the BOINC Client executable")},
+        { wxCMD_LINE_OPTION, wxT("d"), wxT("datadir"), _("BOINC data directory")},
         { wxCMD_LINE_SWITCH, wxT("b"), wxT("boincargs"), _("Startup BOINC with these optional arguments")},
         { wxCMD_LINE_SWITCH, wxT("i"), wxT("insecure"), _("disable BOINC security users and permissions")},
         { wxCMD_LINE_SWITCH, wxT("c"), wxT("checkskins"), _("set skin debugging mode to enable skin manager error messages")},
@@ -537,6 +545,12 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
         m_bBOINCMGRAutoStarted = true;
     }
     if (parser.Found(wxT("systray"))) {
+        m_bGUIVisible = false;
+    }
+    if (parser.Found(wxT("clientdir"), &m_strBOINCClientExecDirectory)) {
+        m_bGUIVisible = false;
+    }
+    if (parser.Found(wxT("datadir"), &m_strBOINCClientDataDirectory)) {
         m_bGUIVisible = false;
     }
     if (parser.Found(wxT("insecure"))) {

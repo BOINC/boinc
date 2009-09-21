@@ -3336,3 +3336,16 @@ David  13 Aug 2009
 
     client/
         app_start.cpp
+
+Charlie 26 Aug 2009
+    MGR: on Linux, accept 2 optional arguments:
+          -clientdir or -e for directory containing client executable, 
+            default is the directory containing the manager executable.
+          -datadir or -d for BOINC data directory, default is the 
+            directory containing the client executable.
+          These are used by the manager when launching the client.
+
+
+    clientgui/
+        BOINCClientManager.cpp
+        BOINCGUIApp.cpp,.h
