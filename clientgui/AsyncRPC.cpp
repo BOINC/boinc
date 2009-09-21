@@ -245,7 +245,7 @@ void BOINC_Condition::Broadcast() {
 // How often to check for events when minimized and waiting for Demand RPC
 #define DELAY_WHEN_MINIMIZED 500
 // Delay in milliseconds to allow thread to exit before killing it
-#define RPC_KILL_DELAY 100
+#define RPC_KILL_DELAY 2000
 
 ASYNC_RPC_REQUEST::ASYNC_RPC_REQUEST() {
     clear();
@@ -335,6 +335,25 @@ void *RPCThread::Entry() {
     ASYNC_RPC_REQUEST *current_request;
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
     wxCondError condErr = wxCOND_NO_ERROR;
+
+#ifndef NO_PER_THREAD_LOCALE
+#ifdef __WXMSW__
+    // On Windows, set all locales for this thread on a per-thread basis
+    _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
+    setlocale(LC_ALL, "C");
+#else
+    // We initialize RPC_Thread_Locale to fix a compiler warning
+    locale_t RPC_Thread_Locale = LC_GLOBAL_LOCALE;
+#if defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4)
+    if (uselocale)    // uselocale() is not available in Mac OS 10.3.9
+#endif
+    {
+        // On Mac / Unix / Linux, set "C" locale for this thread only
+        RPC_Thread_Locale = newlocale(LC_ALL_MASK, "C", NULL);
+        uselocale(RPC_Thread_Locale);
+    }
+#endif      // ifndef __WXMSW__
+#endif      // ifndef NO_PER_THREAD_LOCALE
    
     m_pRPC_Thread_Mutex->Lock();
     m_pDoc->m_bRPCThreadIsReady = true;
@@ -351,7 +370,7 @@ void *RPCThread::Entry() {
             // Tell CMainDocument that thread has gracefully ended 
             // We do this here because OnExit() is not called on Windows
             m_pDoc->m_RPCThread = NULL;
-            Exit();
+            return 0;
         }
         
         current_request = m_pDoc->GetCurrentRPCRequest();
