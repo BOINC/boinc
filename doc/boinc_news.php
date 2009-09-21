@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("September 21, 2009",
+    "The Brazilian TV networks Globonews and Futura recently broadcast
+    <a href=http://video.globo.com/Videos/Player/Noticias/0,,GIM1053196-7823-A+FILANTROPIA+VIRTUAL+AUXILIA+PESQUISAS+PARA+CURA+DE+DOENCAS,00.html>a report on IBM World Community Grid</a> (in Portuguese)."
+),
 array("September 4, 2009",
     "An article in PCWorld,
     <a href=http://www.pcworld.com/article/171126/12_worthy_causes_seek_your_spare_pc_cycles.html>12 Worthy Causes Seek Your Spare PC Cycles</a>,

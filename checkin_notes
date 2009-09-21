@@ -7931,3 +7931,9 @@ David  21 Sept 2009
     - Unix build fix
 
     configure.ac
+
+David  21 Sept 2009
+    - scheduler: don't scale by #CPUs for non-CPU-intensive projects
+
+    sched/
+        sched_send.cpp

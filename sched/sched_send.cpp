@@ -105,6 +105,11 @@ void WORK_REQ::get_job_limits() {
     effective_ngpus = n;
 
     int mult = effective_ncpus + config.gpu_multiplier * effective_ngpus;
+    if (config.non_cpu_intensive) {
+        mult = 1;
+        effective_ncpus = 1;
+        if (effective_ngpus) effective_ngpus = 1;
+    }
 
     if (config.max_wus_to_send) {
         g_wreq->max_jobs_per_rpc = mult * config.max_wus_to_send;
