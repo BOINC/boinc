@@ -7937,3 +7937,22 @@ David  21 Sept 2009
 
     sched/
         sched_send.cpp
+
+David  21 Sept 2009
+    - client: if we're doing a scheduler RPC because of user request,
+        ask for work for all devices with shortfall.
+        Avoid situation where there's an idle GPU and CPU,
+        we're contacting a project with no GPU apps,
+        and we ask it only for GPU jobs.
+
+    client/
+        work_fetch.cpp
+
+David  21 Sept 2009
+    - client: tweak CPU scheduling policy to avoid running
+        multithread apps overcommitted.
+        Actually: allow overcommitment but only a fractional CPU
+        (so that, e.g., we can run a GPU app and a 4-CPU app on a 4-CPU host)
+        
+    client/
+        cpu_sched.cpp
