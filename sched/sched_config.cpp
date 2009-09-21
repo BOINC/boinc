@@ -39,7 +39,7 @@ const char* CONFIG_FILE = "config.xml";
 
 SCHED_CONFIG config;
 
-const int MAX_NCPUS = 8;
+const int MAX_NCPUS = 16;
     // max multiplier for daily_result_quota.
     // need to change as multicore processors expand
 

@@ -7926,3 +7926,8 @@ David  18 Sept 2009
     fix-repository-20040202
     nightly-tarball
     install-sh
+
+David  21 Sept 2009
+    - Unix build fix
+
+    configure.ac
