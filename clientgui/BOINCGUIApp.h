@@ -87,8 +87,6 @@ protected:
     wxString            m_strBOINCMGRRootDirectory;
     wxString            m_strBOINCMGRDataDirectory;
     wxString            m_strBOINCArguments;
-    wxString            m_strBOINCClientExecDirectory;
-    wxString            m_strBOINCClientDataDirectory;
 
     bool                m_bBOINCMGRAutoStarted;
     int                 m_iBOINCMGRDisableAutoStart;
