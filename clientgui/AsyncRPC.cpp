@@ -337,7 +337,7 @@ void *RPCThread::Entry() {
     wxCondError condErr = wxCOND_NO_ERROR;
    
     m_pRPC_Thread_Mutex->Lock();
-
+    m_pDoc->m_bRPCThreadIsReady = true;
     while(true) {
         // Wait for main thread to wake us
         // This does the following:

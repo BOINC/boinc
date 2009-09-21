@@ -393,7 +393,7 @@ void CViewMessages::OnListRender (wxTimerEvent& event) {
             }
         }
 
-        if ((iRowCount) && (_EnsureLastItemVisible()) && (m_iPreviousRowCount != iRowCount)) {
+        if ((iRowCount>1) && (_EnsureLastItemVisible()) && (m_iPreviousRowCount != iRowCount)) {
             m_pListPane->EnsureVisible(iRowCount - 1);
         }
 

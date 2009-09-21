@@ -3351,3 +3351,14 @@ Charlie 26 Aug 2009
     clientgui/
         BOINCClientManager.cpp
         BOINCGUIApp.cpp,.h
+
+Charlie 26 Aug 2009
+    MGR: Bug fixes for Linux.
+
+    clientgui/
+        AsyncRPC.cpp
+        BOINCBaseView.cpp
+        BOINCClientManager.cpp
+        MainDocument.cpp,.h
+        sg_DlgMessages.cpp
+        ViewMessages.cpp
