@@ -7956,3 +7956,21 @@ David  21 Sept 2009
         
     client/
         cpu_sched.cpp
+
+David  22 Sept 2009
+    - client: fix bug that caused unstarted coproc jobs to preempt
+        ones already running.
+        The problem: we considered a job as started if it has an ACTIVE_TASK.
+        However, we were creating ACTIVE_TASKS for jobs before deciding
+        to run them, because we needed a place to store the coproc reservations.
+        This caused the above bug, and also had the undesirable effect
+        of creating slot directories before they're needed.
+
+        Solution: store coprocessor reservations in RESULT
+        rather than ACTIVE_TASK.
+
+    client/
+        app.h
+        app_start.cpp
+        client_types.h
+        cpu_sched.cpp

@@ -114,11 +114,11 @@ static void debug_print_argv(char** argv) {
 // For apps that use coprocessors, append "--device x" to the command line.
 //
 static void coproc_cmdline(
-    int rsc_type, ACTIVE_TASK* atp, double ninstances, char* cmdline
+    int rsc_type, RESULT* rp, double ninstances, char* cmdline
 ) {
     COPROC* coproc = (rsc_type==RSC_TYPE_CUDA)?(COPROC*)coproc_cuda:(COPROC*)coproc_ati;
     for (int j=0; j<ninstances; j++) {
-        int k = atp->coproc_indices[j];
+        int k = rp->coproc_indices[j];
         // sanity check
         //
         if (k < 0 || k >= coproc->count) {
@@ -127,7 +127,7 @@ static void coproc_cmdline(
         char buf[256];
         sprintf(buf, " --device %d", coproc->device_nums[k]);
         if (log_flags.task_debug) {
-            msg_printf(atp->result->project, MSG_INFO,
+            msg_printf(rp->project, MSG_INFO,
                 "using coproc instance %d (device num %d)",
                 k, coproc->device_nums[k]
             );
@@ -534,10 +534,10 @@ int ACTIVE_TASK::start(bool first_time) {
         exec_path, wup->command_line.c_str(), app_version->cmdline
     );
     if (app_version->ncudas) {
-        coproc_cmdline(RSC_TYPE_CUDA, this, app_version->ncudas, cmdline);
+        coproc_cmdline(RSC_TYPE_CUDA, result, app_version->ncudas, cmdline);
     }
     if (app_version->natis) {
-        coproc_cmdline(RSC_TYPE_ATI, this, app_version->natis, cmdline);
+        coproc_cmdline(RSC_TYPE_ATI, result, app_version->natis, cmdline);
     }
 
     relative_to_absolute(slot_dir, slotdirpath);
@@ -725,10 +725,10 @@ int ACTIVE_TASK::start(bool first_time) {
         wup->command_line.c_str(), app_version->cmdline
     );
     if (app_version->ncudas) {
-        coproc_cmdline(RSC_TYPE_CUDA, this, app_version->ncudas, cmdline);
+        coproc_cmdline(RSC_TYPE_CUDA, result, app_version->ncudas, cmdline);
     }
     if (app_version->natis) {
-        coproc_cmdline(RSC_TYPE_ATI, this, app_version->natis, cmdline);
+        coproc_cmdline(RSC_TYPE_ATI, result, app_version->natis, cmdline);
     }
 
     // Set up core/app shared memory seg if needed
