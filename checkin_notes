@@ -7626,3 +7626,11 @@ David  22 Sept 2009
 
     client/
         cpu_sched.cpp
+
+Rom    23 Sept 2009
+    - Tag for 6.10.7 release, all platforms
+      boinc_core_release_6_10_7
+
+    /
+        configure.ac
+        version.h
