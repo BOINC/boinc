@@ -8001,3 +8001,9 @@ David  23 Sept 2009
 
     client/
         app_start.cpp
+
+David  23 Sept 2009
+    - Unix builds: make sure we have libtoolize
+        From Gabor Gombas
+
+    _autosetup

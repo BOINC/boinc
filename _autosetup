@@ -78,6 +78,7 @@ check_version()
 	  have_gmake=yes;
       else
 	echo "Couldn't find a new-enough version of GNU 'make', please install one!";
+    echo "If you have a newer version, set the environment variable 'MAKE' to its path";
 	exit 1;
       fi
   fi
@@ -94,6 +95,7 @@ check_version()
          have_gm4=yes;
       else 
          echo "Couldn't find a new-enough version of 'm4', please install one!";
+         echo "If you have a newer version, set the environment variable 'M4' to its path";
          exit 1;
       fi
       # build_lsc_aux "m4-1.4.1"
@@ -107,11 +109,10 @@ check_version()
       # build_lsc_aux "pkgconfig-0.15.0"
   fi
 
-  if check_version autoconf 2.58; then
+  if check_version autoreconf 2.58; then
       echo >/dev/null
   else
-      echo "Couldn't find a new-enough version of 'autoconf', please install one!";
-      echo "If you have a newer version, set the environment-variable 'AUTOCONF' to its path";
+      echo "Couldn't find a new-enough version of 'autoreconf', please install one!";
       exit 1;
       # build_lsc_aux "autoconf-2.59"
   fi
@@ -119,12 +120,19 @@ check_version()
       echo >/dev/null
   else
       echo "Couldn't find a new-enough version of 'automake', please install one!";
-      echo "If you have a newer version, set the environment-variable 'AUTOMAKE' to its path";
+      echo "If you have a newer version, set the environment variable 'AUTOMAKE' and 'ACLOCAL' to its path";
       exit 1;
       # build_lsc_aux "automake-1.8.5"
   fi
+  if check_version libtoolize 1.5; then
+      echo >/dev/null
+  else
+      echo "Couldn't find a new-enough version of 'libtoolize', please install one!";
+      echo "If you have a newer version, set the environment variable 'LIBTOOLIZE' to its path";
+      exit 1;
+  fi
 
-  ## ---------- ok, now run aclocal, automake, autohead and autoconf
+  ## ---------- now run autoreconf
   cmdline="autoreconf -i";
 echo "$cmdline"
 if eval $cmdline; then
