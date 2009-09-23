@@ -8021,3 +8021,11 @@ David  23 Sept 2009
 
     sched/
         sched_customize.cpp
+
+David  23 Sept 2009
+    - scheduler: change it to:
+        "ati" means CAL 1.2 or less (Catalyst 9.1 or less)
+        "ati13" means CAL 1.3 or greater (Catalyst 9.2+)
+
+    sched/
+        sched_customize.cpp

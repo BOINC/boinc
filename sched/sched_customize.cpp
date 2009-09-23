@@ -124,17 +124,31 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         int major, minor, release;
         sscanf(cp->version, "%d.%d.%d", &major, &minor, &release);
         int vers = major*1000000 + minor*1000 + release;
-        if (!strcmp(plan_class, "ati13186")) {
-            // here if we require CAL version 1.3 or later
+        if (!strcmp(plan_class, "ati")) {
+            // here if we require CAL version 1.2 or earlier
             //
-            if (vers < 1003186) {
+            if (vers <= 1003000) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] host has CAL version %s, need 1.3.186\n",
+                        "[version] host has CAL version %s, need 1.2-\n",
                         cp->version
                     );
                 }
-                add_no_work_message("ATI driver version 1.3.186 needed to use GPU");
+                add_no_work_message("ATI driver version 1.2 needed to use GPU");
+                return false;
+            }
+        }
+        if (!strcmp(plan_class, "ati13")) {
+            // here if we require CAL version 1.3 or later
+            //
+            if (vers < 1003000) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] host has CAL version %s, need 1.3+\n",
+                        cp->version
+                    );
+                }
+                add_no_work_message("ATI driver version 1.3+ needed to use GPU");
                 return false;
             }
         }
