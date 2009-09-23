@@ -114,7 +114,9 @@ int PERS_FILE_XFER::create_xfer() {
 
             return 0;
         } else {
-            fip->delete_file();
+            // Mark file as not present but don't delete it.
+            // It might partly downloaded.
+            //
             fip->status = FILE_NOT_PRESENT;
         }
     }

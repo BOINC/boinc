@@ -8007,3 +8007,10 @@ David  23 Sept 2009
         From Gabor Gombas
 
     _autosetup
+
+David  23 Sept 2009
+    - client: revert [19110]: don't delete files that fail verification;
+        they might be partly downloaded.
+
+    client/
+        pers_file_xfer.cpp
