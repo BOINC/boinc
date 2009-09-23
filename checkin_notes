@@ -7581,3 +7581,9 @@ Charlie 17 Sept 2009
 
     client/
         app_start.cpp
+
+David  18 Sept 2009
+    - client: if a file fails verification, delete it.
+
+    client/
+        pers_file_xfer.cpp

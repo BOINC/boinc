@@ -114,6 +114,7 @@ int PERS_FILE_XFER::create_xfer() {
 
             return 0;
         } else {
+            fip->delete_file();
             fip->status = FILE_NOT_PRESENT;
         }
     }
