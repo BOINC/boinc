@@ -7587,3 +7587,12 @@ David  18 Sept 2009
 
     client/
         pers_file_xfer.cpp
+
+David  21 Sept 2009
+    - client: tweak CPU scheduling policy to avoid running
+        multithread apps overcommitted.
+        Actually: allow overcommitment but only a fractional CPU
+        (so that, e.g., we can run a GPU app and a 4-CPU app on a 4-CPU host)
+        
+    client/
+        cpu_sched.cpp

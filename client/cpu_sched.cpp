@@ -1173,7 +1173,7 @@ bool CLIENT_STATE::enforce_schedule() {
     // Mark the rest as SCHEDULED
     //
     ncpus_used = 0;
-    bool running_edf_scheduled_job = false;
+    bool running_multithread = false;
     for (i=0; i<runnable_jobs.size(); i++) {
         RESULT* rp = runnable_jobs[i];
 
@@ -1189,23 +1189,39 @@ bool CLIENT_STATE::enforce_schedule() {
                 }
                 continue;
             }
-            if (running_edf_scheduled_job) {
-                // if we're running an EDF job,
-                // don't use more than 150% of #CPUs.
-                //
-                double x = ncpus_used + rp->avp->avg_ncpus;
-                if (x > 1.5001*ncpus) {
+        
+            // Don't run a multithread app if usage would be #CPUS+1 or more.
+            // Multithread apps don't run well on an overcommitted system.
+            // Allow usage of #CPUS + fraction,
+            // so that a GPU app and a multithread app can run together.
+            //
+            if (rp->avp->avg_ncpus > 1) {
+                if (ncpus_used + rp->avp->avg_ncpus >= ncpus+1) {
                     if (log_flags.cpu_sched_debug) {
                         msg_printf(rp->project, MSG_INFO,
-                            "[cpu_sched_debug] have EDF job, %s would oversaturate CPUs, skipping",
+                            "[cpu_sched_debug] not enough CPUs for multithread job, skipping %s",
                             rp->name
                         );
                     }
                     continue;
                 }
+                running_multithread = true;
             } else {
-                // Otherwise saturate CPUs.
+                // here for a single-thread app.
+                // Don't run if we're running a multithread app,
+                // and running this app would overcommit CPUs.
                 //
+                if (running_multithread) {
+                    if (ncpus_used + 1 > ncpus) {
+                        if (log_flags.cpu_sched_debug) {
+                            msg_printf(rp->project, MSG_INFO,
+                                "[cpu_sched_debug] avoiding overcommit with multithread job, skipping %s",
+                                rp->name
+                            );
+                        }
+                        continue;
+                    }
+                }
             }
         }
 
@@ -1222,10 +1238,6 @@ bool CLIENT_STATE::enforce_schedule() {
                 }
                 continue;
             }
-        }
-
-        if (rp->edf_scheduled && !rp->uses_coprocs()) {
-            running_edf_scheduled_job = true;
         }
 
         if (log_flags.cpu_sched_debug) {
