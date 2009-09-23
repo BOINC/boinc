@@ -7979,3 +7979,9 @@ David  22 Sept 2009
     - client: extra debug msgs (remove when done)
     client/
         cpu_sched.cpp
+
+David  22 Sept 2009
+    - client: fix preemption bug, this time fer sure!
+
+    client/
+        cpu_sched.cpp
