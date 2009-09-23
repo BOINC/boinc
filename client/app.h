@@ -43,8 +43,6 @@ typedef int PROCESS_ID;
     // before sending to server,
     // to protect against apps that write unbounded amounts.
 
-#define MAX_COPROCS_PER_JOB 8
-
 /// Represents a job in progress.
 
 /// When an active task is created, it is assigned a "slot"
@@ -134,8 +132,6 @@ public:
     APP_CLIENT_SHM app_client_shm;
     MSG_QUEUE graphics_request_queue;
     MSG_QUEUE process_control_queue;
-
-    int coproc_indices[MAX_COPROCS_PER_JOB];
 
     void set_task_state(int, const char*);
     inline int task_state() {

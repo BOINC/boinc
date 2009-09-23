@@ -48,6 +48,8 @@
 #define MAX_SIGNATURE_LEN   4096
 #define MAX_KEY_LEN         4096
 
+#define MAX_COPROCS_PER_JOB 8
+
 // If the status is neither of these two,
 // it will be an error code defined in error_numbers.h,
 // indicating an unrecoverable error in the upload or download of the file,
@@ -606,6 +608,9 @@ struct RESULT {
 
         /// temporary used to tell GUI that this result is deadline-scheduled
     bool edf_scheduled;
+
+    int coproc_indices[MAX_COPROCS_PER_JOB];
+        // keep track of coprocessor reservations
 };
 
 /// represents an always/auto/never value, possibly temporarily overridden

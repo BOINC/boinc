@@ -866,39 +866,39 @@ void CLIENT_STATE::append_unfinished_time_slice(
 }
 
 static inline void increment_pending_usage(
-    ACTIVE_TASK* atp, double usage, COPROC* cp
+    RESULT* rp, double usage, COPROC* cp
 ) {
     double x = (usage<1)?usage:1;
     for (int i=0; i<usage; i++) {
-        int j = atp->coproc_indices[i];
+        int j = rp->coproc_indices[i];
         cp->pending_usage[j] += x;
     }
 }
 
 static inline bool current_assignment_ok(
-    ACTIVE_TASK* atp, double usage, COPROC* cp
+    RESULT* rp, double usage, COPROC* cp
 ) {
     double x = (usage<1)?usage:1;
     for (int i=0; i<usage; i++) {
-        int j = atp->coproc_indices[i];
+        int j = rp->coproc_indices[i];
         if (cp->usage[j] + x > 1) return false;
     }
     return true;
 }
 
 static inline void confirm_current_assignment(
-    ACTIVE_TASK* atp, double usage, COPROC* cp
+    RESULT* rp, double usage, COPROC* cp
 ) {
     double x = (usage<1)?usage:1;
     for (int i=0; i<usage; i++) {
-        int j = atp->coproc_indices[i];
+        int j = rp->coproc_indices[i];
         cp->usage[j] +=x;
         cp->pending_usage[j] -=x;
     }
 }
 
 static inline bool get_fractional_assignment(
-    ACTIVE_TASK* atp, double usage, COPROC* cp
+    RESULT* rp, double usage, COPROC* cp
 ) {
     int i;
 
@@ -908,7 +908,7 @@ static inline bool get_fractional_assignment(
         if ((cp->usage[i] || cp->pending_usage[i])
             && (cp->usage[i] + cp->pending_usage[i] + usage <= 1)
         ) {
-            atp->coproc_indices[0] = i;
+            rp->coproc_indices[0] = i;
             cp->usage[i] += usage;
             return true;
         }
@@ -918,7 +918,7 @@ static inline bool get_fractional_assignment(
     //
     for (i=0; i<cp->count; i++) {
         if (!cp->usage[i]) {
-            atp->coproc_indices[0] = i;
+            rp->coproc_indices[0] = i;
             cp->usage[i] += usage;
             return true;
         }
@@ -928,7 +928,7 @@ static inline bool get_fractional_assignment(
 }
 
 static inline bool get_integer_assignment(
-    ACTIVE_TASK* atp, double usage, COPROC* cp
+    RESULT* rp, double usage, COPROC* cp
 ) {
     int i;
 
@@ -947,14 +947,14 @@ static inline bool get_integer_assignment(
     for (i=0; i<cp->count; i++) {
         if (!cp->usage[i] && !cp->pending_usage) {
             cp->usage[i] = 1;
-            atp->coproc_indices[n++] = i;
+            rp->coproc_indices[n++] = i;
             if (n == usage) break;
         }
     }
     for (i=0; i<cp->count; i++) {
         if (!cp->usage[i]) {
             cp->usage[i] = 1;
-            atp->coproc_indices[n++] = i;
+            rp->coproc_indices[n++] = i;
             if (n == usage) break;
         }
     }
@@ -985,7 +985,7 @@ static inline void assign_coprocs(vector<RESULT*> jobs) {
         ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
         if (!atp) continue;
         if (atp->task_state() != PROCESS_EXECUTING) continue;
-        increment_pending_usage(atp, usage, cp);
+        increment_pending_usage(rp, usage, cp);
     }
     vector<RESULT*>::iterator job_iter;
     job_iter = jobs.begin();
@@ -1002,28 +1002,24 @@ static inline void assign_coprocs(vector<RESULT*> jobs) {
             job_iter++;
             continue;
         }
+
         ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
-
-        // we need an ACTIVE_TASK to store coproc assignments in
-        //
-        if (!atp) atp = gstate.get_task(rp);
-
-        if (atp->task_state() == PROCESS_EXECUTING) {
-            if (current_assignment_ok(atp, usage, cp)) {
-                confirm_current_assignment(atp, usage, cp);
+        if (atp && atp->task_state() == PROCESS_EXECUTING) {
+            if (current_assignment_ok(rp, usage, cp)) {
+                confirm_current_assignment(rp, usage, cp);
                 job_iter++;
             } else {
                 job_iter = jobs.erase(job_iter);
             }
         } else {
             if (usage < 1) {
-                if (get_fractional_assignment(atp, usage, cp)) {
+                if (get_fractional_assignment(rp, usage, cp)) {
                     job_iter++;
                 } else {
                     job_iter = jobs.erase(job_iter);
                 }
             } else {
-                if (get_integer_assignment(atp, usage, cp)) {
+                if (get_integer_assignment(rp, usage, cp)) {
                     job_iter++;
                 } else {
                     job_iter = jobs.erase(job_iter);
