@@ -8029,3 +8029,9 @@ David  23 Sept 2009
 
     sched/
         sched_customize.cpp
+
+Rom    23 Sept 2009
+    - scheduler: bug fix.
+    
+    sched/
+        sched_customize.cpp

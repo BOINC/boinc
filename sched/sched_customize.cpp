@@ -127,14 +127,14 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         if (!strcmp(plan_class, "ati")) {
             // here if we require CAL version 1.2 or earlier
             //
-            if (vers <= 1003000) {
+            if (vers >= 1003000) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] host has CAL version %s, need 1.2-\n",
                         cp->version
                     );
                 }
-                add_no_work_message("ATI driver version 1.2 needed to use GPU");
+                add_no_work_message("ATI Catalyst 9.1 or less needed to use GPU");
                 return false;
             }
         }
@@ -148,7 +148,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                         cp->version
                     );
                 }
-                add_no_work_message("ATI driver version 1.3+ needed to use GPU");
+                add_no_work_message("ATI Catalyst 9.2 or better needed to use GPU");
                 return false;
             }
         }
