@@ -28,6 +28,9 @@
 #endif
 #else
 #include "config.h"
+#ifdef HAVE_SCHED_SETSCHEDULER
+#include <sched.h>
+#endif
 #if HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
@@ -853,15 +856,24 @@ int ACTIVE_TASK::start(bool first_time) {
         //
         freopen(STDERR_FILE, "a", stderr);
 
-#ifdef HAVE_SETPRIORITY
         if (!config.no_priority_change) {
+#ifdef HAVE_SETPRIORITY
             if (setpriority(PRIO_PROCESS, 0,
                 high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)
             ) {
                 perror("setpriority");
             }
-        }
 #endif
+#ifdef HAVE_SCHED_SETSCHEDULER
+            if (!high_priority) {
+                struct sched_param p;
+                p.sched_priority = 0;
+                if (sched_setscheduler(0, SCHED_BATCH, &p)) {
+                    perror("sched_setscheduler");
+                }
+            }
+#endif
+        }
         sprintf(buf, "../../%s", exec_path );
         if (g_use_sandbox) {
             char switcher_path[100];

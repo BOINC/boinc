@@ -7991,3 +7991,13 @@ David  23 Sept 2009
 
     client/
         cpu_sched.cpp
+
+David  23 Sept 2009
+    - client: on Linux, run CPU-intensive jobs with the SCHED_BATCH scheduler.
+        Improves interactive response of system when jobs running.
+        From Clive Messer.
+
+    configure.ac
+
+    client/
+        app_start.cpp
