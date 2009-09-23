@@ -335,9 +335,16 @@ RESULT* first_coproc_result() {
             best = rp;
             continue;
         }
-        if (!rp->not_started() && best->not_started()) {
+        bool bs = !best->not_started();
+        bool rs = !rp->not_started();
+        if (rs && !bs) {
             best = rp;
-        } else if (rp->received_time < best->received_time) {
+            continue;
+        }
+        if (!rs && bs) {
+            continue;
+        }
+        if (rp->received_time < best->received_time) {
             best = rp;
         } else if (rp->received_time == best->received_time) {
             // make it deterministic by looking at name
