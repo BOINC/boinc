@@ -325,12 +325,6 @@ RESULT* first_coproc_result() {
         if (rp->project->non_cpu_intensive) continue;
         if (rp->already_selected) continue;
         if (!rp->uses_coprocs()) continue;
-        if (log_flags.cpu_sched_debug) {
-            msg_printf(0, MSG_INFO,
-                "[cpu_sched_debug] first coproc res: %s started %d recv %f",
-                rp->name, rp->not_started()?0:1, rp->received_time
-            );
-        }
         if (!best) {
             best = rp;
             continue;
@@ -353,12 +347,6 @@ RESULT* first_coproc_result() {
                 best = rp;
             }
         }
-    }
-    if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO,
-            "[cpu_sched_debug] first coproc res: returning %s",
-            best->name
-        );
     }
     return best;
 }

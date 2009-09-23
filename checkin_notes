@@ -7985,3 +7985,9 @@ David  22 Sept 2009
 
     client/
         cpu_sched.cpp
+
+David  23 Sept 2009
+    - client: removed extra msgs
+
+    client/
+        cpu_sched.cpp
