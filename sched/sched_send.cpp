@@ -1324,7 +1324,7 @@ static void explain_to_user() {
             g_reply->set_delay(delay_time);
         }
         if (g_wreq->max_jobs_on_host_exceeded) {
-            sprintf(helpful, "(reached limit of %d tasks)",
+            sprintf(helpful, "(reached limit of %d tasks in progress)",
                 g_wreq->max_jobs_on_host
             );
             g_reply->insert_message(USER_MESSAGE(helpful, "high"));
@@ -1335,7 +1335,7 @@ static void explain_to_user() {
             );
         }
         if (g_wreq->max_jobs_on_host_cpu_exceeded) {
-            sprintf(helpful, "(reached limit of %d CPU tasks)",
+            sprintf(helpful, "(reached limit of %d CPU tasks in progress)",
                 g_wreq->max_jobs_on_host_cpu
             );
             g_reply->insert_message(USER_MESSAGE(helpful, "high"));
@@ -1346,7 +1346,7 @@ static void explain_to_user() {
             );
         }
         if (g_wreq->max_jobs_on_host_gpu_exceeded) {
-            sprintf(helpful, "(reached limit of %d GPU tasks)",
+            sprintf(helpful, "(reached limit of %d GPU tasks in progress)",
                 g_wreq->max_jobs_on_host_gpu
             );
             g_reply->insert_message(USER_MESSAGE(helpful, "high"));
