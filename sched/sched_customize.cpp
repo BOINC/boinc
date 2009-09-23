@@ -121,6 +121,23 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             add_no_work_message("Your computer has no ATI GPU");
             return false;
         }
+        int major, minor, release;
+        sscanf(cp->version, "%d.%d.%d", &major, &minor, &release);
+        int vers = major*1000000 + minor*1000 + release;
+        if (!strcmp(plan_class, "ati13186")) {
+            // here if we require CAL version 1.3 or later
+            //
+            if (vers < 1003186) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] host has CAL version %s, need 1.3.186\n",
+                        cp->version
+                    );
+                }
+                add_no_work_message("ATI driver version 1.3.186 needed to use GPU");
+                return false;
+            }
+        }
 
         hu.flops = cp->flops_estimate();
 
@@ -131,8 +148,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         hu.avg_ncpus = x;
         hu.max_ncpus = x;
 
-        //hu.natis = 1;
-        hu.natis = .5;
+        hu.natis = 1;
+        //hu.natis = .5;    // you can use a fractional GPU if you want
 
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,

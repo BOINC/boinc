@@ -8014,3 +8014,10 @@ David  23 Sept 2009
 
     client/
         pers_file_xfer.cpp
+
+David  23 Sept 2009
+    - scheduler: add a plan class "ati13186" for apps that require
+        CAL version 1.3.186 or greater.
+
+    sched/
+        sched_customize.cpp
