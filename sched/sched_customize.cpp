@@ -108,8 +108,9 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             );
         }
         return true;
-    } else if (strstr(plan_class, "ati")) {
+    } else if (!strcmp(plan_class, "ati")) {
         // the following is for an app that uses an ATI GPU
+        // with 1.4+ drivers
         //
         COPROC_ATI* cp = (COPROC_ATI*)sreq.coprocs.lookup("ATI");
         if (!cp) {
@@ -124,33 +125,15 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         int major, minor, release;
         sscanf(cp->version, "%d.%d.%d", &major, &minor, &release);
         int vers = major*1000000 + minor*1000 + release;
-        if (!strcmp(plan_class, "ati")) {
-            // here if we require CAL version 1.2 or earlier
-            //
-            if (vers >= 1003000) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] host has CAL version %s, need 1.2-\n",
-                        cp->version
-                    );
-                }
-                add_no_work_message("ATI Catalyst 9.1 or less needed to use GPU");
-                return false;
+        if (vers < 1004000) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] host has CAL version %s, need 1.4+\n",
+                    cp->version
+                );
             }
-        }
-        if (!strcmp(plan_class, "ati13")) {
-            // here if we require CAL version 1.3 or later
-            //
-            if (vers < 1003000) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] host has CAL version %s, need 1.3+\n",
-                        cp->version
-                    );
-                }
-                add_no_work_message("ATI Catalyst 9.2 or better needed to use GPU");
-                return false;
-            }
+            add_no_work_message("ATI Catalyst 9.2 or better needed to use GPU");
+            return false;
         }
 
         hu.flops = cp->flops_estimate();
