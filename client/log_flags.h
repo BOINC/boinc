@@ -57,7 +57,7 @@ struct LOG_FLAGS {
         // debug CPU benchmarks
     bool checkpoint_debug;
     bool coproc_debug;
-        // show coproc reserve/free
+        // show coproc reserve/free and startup msgs
     bool cpu_sched;
         // preemption and resumption
     bool cpu_sched_debug;

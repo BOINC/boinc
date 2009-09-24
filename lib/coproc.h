@@ -164,7 +164,10 @@ struct COPROCS {
     }
 #endif
 #endif
-    std::vector<std::string> get(bool use_all);
+    void get(
+        bool use_all, std::vector<std::string> &descs,
+        std::vector<std::string> &warnings
+    );
     int parse(FILE*);
     void summary_string(char*, int);
     COPROC* lookup(const char*);
@@ -234,7 +237,10 @@ struct COPROC_CUDA : public COPROC {
 #endif
     COPROC_CUDA(): COPROC("CUDA"){}
     virtual ~COPROC_CUDA(){}
-    static void get(COPROCS&, std::vector<std::string>&, bool use_all);
+    static void get(
+        COPROCS&, bool use_all,
+        std::vector<std::string>&, std::vector<std::string>&
+    );
 	void description(char*);
     void clear();
     int parse(FILE*);
@@ -287,7 +293,9 @@ struct COPROC_ATI : public COPROC {
 #endif
     COPROC_ATI(): COPROC("ATI"){}
     virtual ~COPROC_ATI(){}
-    static void get(COPROCS&, std::vector<std::string>&);
+    static void get(COPROCS&,
+        std::vector<std::string>&, std::vector<std::string>&
+    );
     void description(char*);
     void clear();
     int parse(FILE*);

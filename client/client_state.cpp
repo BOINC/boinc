@@ -258,9 +258,19 @@ int CLIENT_STATE::init() {
     set_ncpus();
     show_host_info();
     if (!config.no_gpus) {
-        vector<string> strs = coprocs.get(config.use_all_gpus);
-        for (i=0; i<strs.size(); i++) {
-            msg_printf(NULL, MSG_INFO, strs[i].c_str());
+        vector<string> descs;
+        vector<string> warnings;
+        coprocs.get(config.use_all_gpus, descs, warnings);
+        for (i=0; i<descs.size(); i++) {
+            msg_printf(NULL, MSG_INFO, descs[i].c_str());
+        }
+        if (log_flags.coproc_debug) {
+            for (i=0; i<descs.size(); i++) {
+                msg_printf(NULL, MSG_INFO, warnings[i].c_str());
+            }
+        }
+        if (coprocs.coprocs.size() == 0) {
+            msg_printf(NULL, MSG_INFO, "No usable GPUs found");
         }
 #if 0
         fake_cuda(coprocs, 2);
@@ -270,9 +280,6 @@ int CLIENT_STATE::init() {
         fake_ati(coprocs, 2);
         msg_printf(NULL, MSG_INFO, "Faking an ATI GPU");
 #endif
-        if (coprocs.coprocs.size() == 0) {
-            msg_printf(NULL, MSG_INFO, "No coprocessors");
-        }
         coproc_cuda = (COPROC_CUDA*)coprocs.lookup("CUDA");
         coproc_ati = (COPROC_ATI*)coprocs.lookup("ATI");
     }
