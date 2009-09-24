@@ -7634,3 +7634,9 @@ Rom    23 Sept 2009
     /
         configure.ac
         version.h
+
+David  23 Sept 2009
+    - client: removed extra msgs
+
+    client/
+        cpu_sched.cpp
