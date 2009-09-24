@@ -8058,3 +8058,12 @@ David  24 Sept 2009
         sched_customize.cpp
     lib/
         coproc.cpp
+
+David  24 Sept 2009
+    - wrapper: add a mechanism so that sub-tasks can report fraction done.
+        Write your apps so that they periodically write their
+        fraction done (0..1) to a file.
+        Then include <fraction_done_filename> in the job description.
+
+    samples/wrapper/
+        wrapper.cpp

@@ -52,7 +52,7 @@
 #include "error_numbers.h"
 
 #define JOB_FILENAME "job.xml"
-#define CHECKPOINT_FILENAME "checkpoint.txt"
+#define CHECKPOINT_FILENAME "wrapper_checkpoint.txt"
 
 #define POLL_PERIOD 1.0
 
@@ -66,6 +66,8 @@ struct TASK {
     string stderr_filename;
     string checkpoint_filename;
         // name of task's checkpoint file, if any
+    string fraction_done_filename;
+        // name of file where app will write its fraction done
     string command_line;
     double weight;
         // contribution of this task to overall fraction done
@@ -104,6 +106,18 @@ struct TASK {
         stat_first = false;
         last_stat.st_mtime = new_stat.st_mtime;
         return changed;
+    }
+    inline double fraction_done() {
+        if (fraction_done_filename.size() == 0) return 0;
+        FILE* f = fopen(fraction_done_filename.c_str(), "r");
+        if (!f) return 0;
+        double frac;
+        int n = fscanf(f, "%f", &frac);
+        fclose(f);
+        if (n != 1) return 0;
+        if (frac < 0) return 0;
+        if (frac > 1) return 1;
+        return frac;
     }
 };
 
@@ -144,6 +158,7 @@ int TASK::parse(XML_PARSER& xp) {
             continue;
         }
         else if (xp.parse_string(tag, "checkpoint_filename", checkpoint_filename)) continue;
+        else if (xp.parse_string(tag, "fraction_done_filename", fraction_done_filename)) continue;
         else if (xp.parse_double(tag, "weight", weight)) continue;
     }
     return ERR_XML_PARSE;
@@ -243,6 +258,13 @@ void slash_to_backslash(char* p) {
 int TASK::run(int argct, char** argvt) {
     string stdout_path, stdin_path, stderr_path;
     char app_path[1024], buf[256];
+
+    if (checkpoint_filename.size()) {
+        boinc_delete_file(checkpoint_filename.c_str());
+    }
+    if (fraction_done_filename.size()) {
+        boinc_delete_file(fraction_done_filename.c_str());
+    }
 
     strcpy(buf, application.c_str());
     char* p = strstr(buf, "$PROJECT_DIR");
@@ -468,33 +490,33 @@ void send_status_message(
 // We keep a checkpoint file that says how many tasks we've completed
 // and how much CPU time has been used so far
 //
-void write_checkpoint(int ntasks, double cpu) {
+void write_checkpoint(int ntasks_completed, double cpu) {
     FILE* f = fopen(CHECKPOINT_FILENAME, "w");
     if (!f) return;
-    fprintf(f, "%d %f\n", ntasks, cpu);
+    fprintf(f, "%d %f\n", ntasks_completed, cpu);
     fclose(f);
 }
 
-void read_checkpoint(int& ntasks, double& cpu) {
+void read_checkpoint(int& ntasks_completed, double& cpu) {
     int nt;
     double c;
 
-    ntasks = 0;
+    ntasks_completed = 0;
     cpu = 0;
     FILE* f = fopen(CHECKPOINT_FILENAME, "r");
     if (!f) return;
     int n = fscanf(f, "%d %lf", &nt, &c);
     fclose(f);
     if (n != 2) return;
-    ntasks = nt;
+    ntasks_completed = nt;
     cpu = c;
 }
 
 int main(int argc, char** argv) {
     BOINC_OPTIONS options;
-    int retval, ntasks;
+    int retval, ntasks_completed;
     unsigned int i;
-    double total_weight=0, w=0;
+    double total_weight=0, weight_completed=0;
     double checkpoint_cpu_time;
         // overall CPU time at last checkpoint
 
@@ -523,9 +545,12 @@ int main(int argc, char** argv) {
         boinc_finish(retval);
     }
 
-    read_checkpoint(ntasks, checkpoint_cpu_time);
-    if (ntasks > (int)tasks.size()) {
-        fprintf(stderr, "Checkpoint file: ntasks %d too large\n", ntasks);
+    read_checkpoint(ntasks_completed, checkpoint_cpu_time);
+    if (ntasks_completed > (int)tasks.size()) {
+        fprintf(stderr,
+            "Checkpoint file: ntasks_completed too large: %d > %d\n",
+            ntasks_completed, (int)tasks.size()
+        );
         boinc_finish(1);
     }
     for (i=0; i<tasks.size(); i++) {
@@ -533,9 +558,11 @@ int main(int argc, char** argv) {
     }
     for (i=0; i<tasks.size(); i++) {
         TASK& task = tasks[i];
-        w += task.weight;
-        if ((int)i<ntasks) continue;
-        double frac_done = w/total_weight;
+        if ((int)i<ntasks_completed) {
+            weight_completed += task.weight;
+            continue;
+        }
+        double frac_done = weight_completed/total_weight;
 
         task.starting_cpu = checkpoint_cpu_time;
         retval = task.run(argc, argv);
@@ -543,7 +570,7 @@ int main(int argc, char** argv) {
             fprintf(stderr, "can't run app: %d\n", retval);
             boinc_finish(retval);
         }
-        while(1) {
+        while (1) {
             int status;
             if (task.poll(status)) {
                 if (status) {
@@ -559,7 +586,9 @@ int main(int argc, char** argv) {
                 break;
             }
             poll_boinc_messages(task);
-            send_status_message(task, frac_done, checkpoint_cpu_time);
+            double task_fraction_done = task.fraction_done();
+            double delta = task_fraction_done*task.weight;
+            send_status_message(task, frac_done+delta, checkpoint_cpu_time);
             if (task.has_checkpointed()) {
                 checkpoint_cpu_time = task.starting_cpu + task.cpu_time();
                 write_checkpoint(i, checkpoint_cpu_time);
@@ -568,6 +597,7 @@ int main(int argc, char** argv) {
         }
         checkpoint_cpu_time = task.starting_cpu + task.final_cpu_time;
         write_checkpoint(i+1, checkpoint_cpu_time);
+        weight_completed += task.weight;
     }
     boinc_finish(0);
 }
