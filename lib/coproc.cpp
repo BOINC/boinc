@@ -123,13 +123,11 @@ void COPROCS::summary_string(char* buf, int len) {
     strcpy(buf, bigbuf);
 }
 
-vector<string> COPROCS::get(bool use_all) {
-    vector<string> strings;
-    COPROC_CUDA::get(*this, strings, use_all);
+void COPROCS::get(bool use_all, vector<string>&descs, vector<string>&warnings) {
+    COPROC_CUDA::get(*this, use_all, descs, warnings);
 #ifndef __APPLE__       // ATI does not yet support CAL on Macs
-    COPROC_ATI::get(*this, strings);
+    COPROC_ATI::get(*this, descs, warnings);
 #endif
-    return strings;
 }
 
 // used only to parse scheduler request messages
@@ -233,8 +231,10 @@ int (*__cuDeviceComputeCapability)(int*, int*, int);
 // http://developer.download.nvidia.com/compute/cuda/2_3/toolkit/docs/online/index.html
 
 void COPROC_CUDA::get(
-    COPROCS& coprocs, vector<string>& strings,
-    bool use_all    // if false, use only those equivalent to most capable
+    COPROCS& coprocs,
+    bool use_all,    // if false, use only those equivalent to most capable
+    vector<string>& descs,
+    vector<string>& warnings
 ) {
     int count, retval;
     char buf[256];
@@ -242,7 +242,7 @@ void COPROC_CUDA::get(
 #ifdef _WIN32
     HMODULE cudalib = LoadLibrary("nvcuda.dll");
     if (!cudalib) {
-        strings.push_back("No NVIDIA library found");
+        warnings.push_back("No NVIDIA library found");
         return;
     }
     __cuDeviceGetCount = (CUDA_GDC)GetProcAddress(cudalib, "cuDeviceGetCount");
@@ -278,7 +278,7 @@ void COPROC_CUDA::get(
     cudalib = dlopen("libcuda.so", RTLD_NOW);
 #endif
     if (!cudalib) {
-        strings.push_back("Can't load library libcuda");
+        warnings.push_back("Can't load library libcuda");
         return;
     }
     __cuDeviceGetCount = (int(*)(int*)) dlsym(cudalib, "cuDeviceGetCount");
@@ -294,40 +294,40 @@ void COPROC_CUDA::get(
 
 #ifdef __APPLE__
     if (!__cuDriverGetVersion) {
-        strings.push_back("CUDA driver is out of date.  Please install CUDA driver 2.3 or later.");
+        warnings.push_back("CUDA driver is out of date.  Please install CUDA driver 2.3 or later.");
         return;
     }
 #endif
 
     if (!__cuInit) {
-        strings.push_back("cuInit() missing from CUDA library");
+        warnings.push_back("cuInit() missing from CUDA library");
         return;
     }
     if (!__cuDeviceGetCount) {
-        strings.push_back("cuDeviceGetCount() missing from CUDA library");
+        warnings.push_back("cuDeviceGetCount() missing from CUDA library");
         return;
     }
     if (!__cuDeviceGet) {
-        strings.push_back("cuDeviceGet() missing from CUDA library");
+        warnings.push_back("cuDeviceGet() missing from CUDA library");
         return;
     }
     if (!__cuDeviceGetAttribute) {
-        strings.push_back("cuDeviceGetAttribute() missing from CUDA library");
+        warnings.push_back("cuDeviceGetAttribute() missing from CUDA library");
         return;
     }
     if (!__cuDeviceTotalMem) {
-        strings.push_back("cuDeviceTotalMem() missing from CUDA library");
+        warnings.push_back("cuDeviceTotalMem() missing from CUDA library");
         return;
     }
     if (!__cuDeviceComputeCapability) {
-        strings.push_back("cuDeviceComputeCapability() missing from CUDA library");
+        warnings.push_back("cuDeviceComputeCapability() missing from CUDA library");
         return;
     }
 
     retval = (*__cuInit)(0);
     if (retval) {
         sprintf(buf, "cuInit() returned %d", retval);
-        strings.push_back(buf);
+        warnings.push_back(buf);
         return;
     }
 
@@ -335,7 +335,7 @@ void COPROC_CUDA::get(
     retval = (*__cuDriverGetVersion)(&cuda_version);
     if (retval) {
         sprintf(buf, "cuDriverGetVersion() returned %d", retval);
-        strings.push_back(buf);
+        warnings.push_back(buf);
         return;
     }
 
@@ -343,7 +343,7 @@ void COPROC_CUDA::get(
     retval = (*__cuDeviceGetCount)(&count);
     if (retval) {
         sprintf(buf, "cuDeviceGetCount() returned %d", retval);
-        strings.push_back(buf);
+        warnings.push_back(buf);
         return;
     }
 
@@ -357,13 +357,13 @@ void COPROC_CUDA::get(
         retval = (*__cuDeviceGet)(&device, j);
         if (retval) {
             sprintf(buf, "cuDeviceGet(%d) returned %d", j, retval);
-            strings.push_back(buf);
+            warnings.push_back(buf);
             return;
         }
         (*__cuDeviceGetName)(cc.prop.name, 256, device);
         if (retval) {
             sprintf(buf, "cuDeviceGetName(%d) returned %d", j, retval);
-            strings.push_back(buf);
+            warnings.push_back(buf);
             return;
         }
         (*__cuDeviceComputeCapability)(&cc.prop.major, &cc.prop.minor, device);
@@ -398,7 +398,7 @@ void COPROC_CUDA::get(
     }
 
     if (!gpus.size()) {
-        strings.push_back("No CUDA-capable NVIDIA GPUs found");
+        warnings.push_back("No CUDA-capable NVIDIA GPUs found");
         return;
     }
 
@@ -427,7 +427,7 @@ void COPROC_CUDA::get(
         } else {
             sprintf(buf2, "NVIDIA GPU %d (not used): %s", gpus[i].device_num, buf);
         }
-        strings.push_back(string(buf2));
+        descs.push_back(string(buf2));
     }
 
     COPROC_CUDA* ccp = new COPROC_CUDA;
@@ -668,7 +668,9 @@ int (*__calDeviceGetInfo)(CALdeviceinfo*, CALuint);
 int (*__calShutdown)();
 #endif
 
-void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
+void COPROC_ATI::get(COPROCS& coprocs,
+    vector<string>& descs, vector<string>& warnings
+) {
     CALuint numDevices, cal_major, cal_minor, cal_imp;
     CALdevice device;
     CALdeviceinfo info;
@@ -695,7 +697,7 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
     }
 #endif
     if (!callib) {
-        strings.push_back("No ATI Libraries found.");
+        warnings.push_back("No ATI Libraries found.");
         return;
     }
     __calInit = (ATI_GDI)GetProcAddress(callib, "calInit" );
@@ -709,7 +711,7 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
 
     callib = dlopen("libaticalrt.so", RTLD_NOW);
     if (!callib) {
-        strings.push_back("Can't load library libaticalrt.so");
+        warnings.push_back("Can't load library libaticalrt.so");
         return;
     }
     __calInit = (int(*)()) dlsym(callib, "calInit");
@@ -721,47 +723,47 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
 #endif
 
     if (!__calInit) {
-        strings.push_back("calInit() missing from CAL library");
+        warnings.push_back("calInit() missing from CAL library");
         return;
     }
     if (!__calDeviceGetCount) {
-        strings.push_back("calDeviceGetCount() missing from CAL library");
+        warnings.push_back("calDeviceGetCount() missing from CAL library");
         return;
     }
     if (!__calGetVersion) {
-        strings.push_back("calGetVersion() missing from CAL library");
+        warnings.push_back("calGetVersion() missing from CAL library");
         return;
     }
     if (!__calDeviceGetInfo) {
-        strings.push_back("calDeviceGetInfo() missing from CAL library");
+        warnings.push_back("calDeviceGetInfo() missing from CAL library");
         return;
     }
     if (!__calDeviceGetAttribs) {
-        strings.push_back("calDeviceGetAttribs() missing from CAL library");
+        warnings.push_back("calDeviceGetAttribs() missing from CAL library");
         return;
     }
 
     retval = (*__calInit)();
     if (retval != CAL_RESULT_OK) {
         sprintf(buf, "calInit() returned %d", retval);
-        strings.push_back(buf);
+        warnings.push_back(buf);
         return;
     }
     retval = (*__calDeviceGetCount)(&numDevices);
     if (retval != CAL_RESULT_OK) {
         sprintf(buf, "calDeviceGetCount() returned %d", retval);
-        strings.push_back(buf);
+        warnings.push_back(buf);
         return;
     }
     retval = (*__calGetVersion)(&cal_major, &cal_minor, &cal_imp);
     if (retval != CAL_RESULT_OK) {
         sprintf(buf, "calGetVersion() returned %d", retval);
-        strings.push_back(buf);
+        warnings.push_back(buf);
         return;
     }
 
     if (!numDevices) {
-        strings.push_back("No usable CAL devices found");
+        warnings.push_back("No usable CAL devices found");
         return;
     }
 
@@ -772,13 +774,13 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
         retval = (*__calDeviceGetInfo)(&info, i);	
         if (retval != CAL_RESULT_OK) {
             sprintf(buf, "calDeviceGetInfo() returned %d", retval);
-            strings.push_back(buf);
+            warnings.push_back(buf);
             return;
         }
         retval = (*__calDeviceGetAttribs)(&attribs, i);	
         if (retval != CAL_RESULT_OK) {
             sprintf(buf, "calDeviceGetAttribs() returned %d", retval);
-            strings.push_back(buf);
+            warnings.push_back(buf);
             return;
         }
         switch (info.target) {
@@ -809,7 +811,7 @@ void COPROC_ATI::get(COPROCS& coprocs, vector<string>& strings) {
         }
         gpus[i].description(buf);
         sprintf(buf2, "ATI GPU %d: %s", gpus[i].device_num, buf);
-        strings.push_back(buf2);
+        descs.push_back(buf2);
     }
     for (unsigned int i=0; i<gpus.size(); i++) {
         best.device_nums[i] = i;

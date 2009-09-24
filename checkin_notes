@@ -8035,3 +8035,13 @@ Rom    23 Sept 2009
     
     sched/
         sched_customize.cpp
+
+David  24 Sept 2009
+    - client: in GPU enumeration, separate warning msgs from GPU descriptions.
+        Show warning msgs only if log_flags.coproc_debug
+
+    client/
+        client_state.cpp
+        log_flags.h
+    lib/
+        coproc.cpp,h
