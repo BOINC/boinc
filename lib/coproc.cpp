@@ -278,7 +278,7 @@ void COPROC_CUDA::get(
     cudalib = dlopen("libcuda.so", RTLD_NOW);
 #endif
     if (!cudalib) {
-        warnings.push_back("Can't load library libcuda");
+        warnings.push_back("No NVIDIA library found");
         return;
     }
     __cuDeviceGetCount = (int(*)(int*)) dlsym(cudalib, "cuDeviceGetCount");
@@ -292,35 +292,32 @@ void COPROC_CUDA::get(
     __cuDeviceComputeCapability = (int(*)(int*, int*, int)) dlsym( cudalib, "cuDeviceComputeCapability" );
 #endif
 
-#ifdef __APPLE__
     if (!__cuDriverGetVersion) {
-        warnings.push_back("CUDA driver is out of date.  Please install CUDA driver 2.3 or later.");
+        warnings.push_back("cuDriverGetVersion() missing from NVIDIA library");
         return;
     }
-#endif
-
     if (!__cuInit) {
-        warnings.push_back("cuInit() missing from CUDA library");
+        warnings.push_back("cuInit() missing from NVIDIA library");
         return;
     }
     if (!__cuDeviceGetCount) {
-        warnings.push_back("cuDeviceGetCount() missing from CUDA library");
+        warnings.push_back("cuDeviceGetCount() missing from NVIDIA library");
         return;
     }
     if (!__cuDeviceGet) {
-        warnings.push_back("cuDeviceGet() missing from CUDA library");
+        warnings.push_back("cuDeviceGet() missing from NVIDIA library");
         return;
     }
     if (!__cuDeviceGetAttribute) {
-        warnings.push_back("cuDeviceGetAttribute() missing from CUDA library");
+        warnings.push_back("cuDeviceGetAttribute() missing from NVIDIA library");
         return;
     }
     if (!__cuDeviceTotalMem) {
-        warnings.push_back("cuDeviceTotalMem() missing from CUDA library");
+        warnings.push_back("cuDeviceTotalMem() missing from NVIDIA library");
         return;
     }
     if (!__cuDeviceComputeCapability) {
-        warnings.push_back("cuDeviceComputeCapability() missing from CUDA library");
+        warnings.push_back("cuDeviceComputeCapability() missing from NVIDIA library");
         return;
     }
 
@@ -684,20 +681,12 @@ void COPROC_ATI::get(COPROCS& coprocs,
 
 #ifdef _WIN32
 #if defined _M_X64
-    // TRY CAL 1.4 first driver > 9.2
     HINSTANCE callib = LoadLibrary("aticalrt64.dll");
-    if (!callib) {
-        callib = LoadLibrary("amdcalrt64.dll");
-    }
-
 #else
     HINSTANCE callib = LoadLibrary("aticalrt.dll");
-    if (!callib) {
-        callib = LoadLibrary("amdcalrt.dll");
-    }
 #endif
     if (!callib) {
-        warnings.push_back("No ATI Libraries found.");
+        warnings.push_back("No ATI library found.");
         return;
     }
     __calInit = (ATI_GDI)GetProcAddress(callib, "calInit" );
@@ -711,7 +700,7 @@ void COPROC_ATI::get(COPROCS& coprocs,
 
     callib = dlopen("libaticalrt.so", RTLD_NOW);
     if (!callib) {
-        warnings.push_back("Can't load library libaticalrt.so");
+        warnings.push_back("No ATI library found");
         return;
     }
     __calInit = (int(*)()) dlsym(callib, "calInit");

@@ -7667,3 +7667,12 @@ David  24 Sept 2009
         log_flags.h
     lib/
         coproc.cpp,h
+
+David  24 Sept 2009
+    - client: for ATI enumeration, use only aticalrt.dll
+        (amdcalrt.dll is old version w/ funky DLL names)
+    - client: make GPU enumeration warnings more consistent
+        (e.g., "NVIDIA" instead of "CUDA").
+
+    lib/
+        coproc.cpp
