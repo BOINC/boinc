@@ -7713,3 +7713,11 @@ Rom    25 Sept 2009
         
     client/
         hostinfo_win.cpp
+
+Rom    25 Sept 2009
+    - Tag for 6.10.8 release, all platforms
+      boinc_core_release_6_10_8
+
+    /
+        configure.ac
+        version.h
