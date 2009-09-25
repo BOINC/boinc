@@ -7731,3 +7731,11 @@ Rom    25 Sept 2009
         
     win_build/
         boincsvcctrl.vcproj
+
+Rom    25 Sept 2009
+    - Tag for 6.10.9 release, all platforms
+      boinc_core_release_6_10_9
+
+    /
+        configure.ac
+        version.h
