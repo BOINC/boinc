@@ -287,6 +287,8 @@ enum CUdevice_attribute_enum {
 struct COPROC_ATI : public COPROC {
     char name[256];
     char version[50];
+    bool atirt_detected;
+    bool amdrt_detected;
     CALdeviceattribs attribs; 
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);

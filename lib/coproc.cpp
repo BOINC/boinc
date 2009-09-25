@@ -650,9 +650,9 @@ typedef int (__stdcall *ATI_VER) (CALuint *cal_major, CALuint *cal_minor, CALuin
 typedef int (__stdcall *ATI_GDI)(void);
 typedef int (__stdcall *ATI_CLOSE)(void);
 
-ATI_GDI	__calInit = NULL;
+ATI_GDI     __calInit = NULL;
 ATI_VER		__calGetVersion = NULL;
-ATI_GDC	__calDeviceGetCount = NULL;
+ATI_GDC     __calDeviceGetCount = NULL;
 ATI_ATTRIBS __calDeviceGetAttribs = NULL;
 ATI_INFO    __calDeviceGetInfo = NULL;
 ATI_CLOSE	__calShutdown = NULL;
@@ -673,29 +673,60 @@ void COPROC_ATI::get(COPROCS& coprocs,
     CALdeviceinfo info;
     CALdeviceattribs attribs;
     char buf[256];
+    char* desired_atilib;
+    char* desired_amdlib;
     int retval;
 
     attribs.struct_size = sizeof(CALdeviceattribs);
     device = 0;
     numDevices =0;
-
+    
 #ifdef _WIN32
+
 #if defined _M_X64
-    HINSTANCE callib = LoadLibrary("aticalrt64.dll");
+    desired_atilib = "aticalrt64.dll";
+    desired_amdlib = "amdcalrt64.dll";
 #else
-    HINSTANCE callib = LoadLibrary("aticalrt.dll");
+    desired_atilib = "aticalrt.dll";
+    desired_amdlib = "amdcalrt.dll";
 #endif
+
+    // Detect which runtime libraries we can use
+    HINSTANCE amdlib = LoadLibrary(desired_amdlib);
+    if (amdlib) {
+        amdrt_detected = true;
+        FreeLibrary(amdlib);
+    }
+
+    HINSTANCE atilib = LoadLibrary(desired_atilib);
+    if (atilib) {
+        atirt_detected = true;
+        FreeLibrary(atilib);
+    }
+
+    // Detect capabilities, give preference to the ati runtime
+    //   since it is newer.
+    HINSTANCE callib = NULL;
+    if (atirt_detected) {
+        callib = LoadLibrary(desired_atilib);
+    } else {
+        callib = LoadLibrary(desired_amdlib);
+    }
+
     if (!callib) {
         warnings.push_back("No ATI library found.");
         return;
     }
+
     __calInit = (ATI_GDI)GetProcAddress(callib, "calInit" );
     __calDeviceGetCount = (ATI_GDC)GetProcAddress(callib, "calDeviceGetCount" );
     __calGetVersion = (ATI_VER)GetProcAddress(callib, "calGetVersion" );
     __calDeviceGetInfo = (ATI_INFO)GetProcAddress(callib, "calDeviceGetInfo" );
     __calDeviceGetAttribs =(ATI_ATTRIBS)GetProcAddress(callib, "calDeviceGetAttribs" );
     __calShutdown = (ATI_CLOSE)GetProcAddress(callib, "calShutdown" );
+
 #else
+
     void* callib;
 
     callib = dlopen("libaticalrt.so", RTLD_NOW);
@@ -703,12 +734,16 @@ void COPROC_ATI::get(COPROCS& coprocs,
         warnings.push_back("No ATI library found");
         return;
     }
+
+    atirt_detected = true;
+
     __calInit = (int(*)()) dlsym(callib, "calInit");
     __calGetVersion = (int(*)(CALuint*, CALuint*, CALuint*)) dlsym(callib, "calGetVersion");
     __calDeviceGetCount = (int(*)(CALuint*)) dlsym(callib, "calDeviceGetCount");
     __calDeviceGetAttribs = (int(*)(CALdeviceattribs*, CALuint)) dlsym(callib, "calDeviceGetAttribs");
     __calDeviceGetInfo = (int(*)(CALdeviceinfo*, CALuint)) dlsym(callib, "calDeviceGetInfo");
     __calShutdown = (int(*)()) dlsym(callib, "calShutdown");
+
 #endif
 
     if (!__calInit) {
@@ -818,6 +853,9 @@ void COPROC_ATI::get(COPROCS& coprocs,
 void COPROC_ATI::write_xml(MIOFILE& f) {
 	f.printf(
         "<coproc_ati>\n"
+    );
+
+    f.printf(
         "   <count>%d</count>\n"
         "   <name>%s</name>\n"
         "   <req_secs>%f</req_secs>\n"
@@ -833,8 +871,7 @@ void COPROC_ATI::write_xml(MIOFILE& f) {
         "   <doublePrecision>%d</doublePrecision>\n"
         "   <pitch_alignment>%d</pitch_alignment>\n"
         "   <surface_alignment>%d</surface_alignment>\n"
-        "   <CALVersion>%s</CALVersion>\n"
-        "</coproc_ati>\n",
+        "   <CALVersion>%s</CALVersion>\n",
         count,
         name,
         req_secs,
@@ -852,6 +889,22 @@ void COPROC_ATI::write_xml(MIOFILE& f) {
         attribs.surface_alignment,
         version
     );
+
+    if (atirt_detected) {
+	    f.printf(
+            "    <atirt_detected/>\n"
+        );
+    }
+
+    if (amdrt_detected) {
+	    f.printf(
+            "    <amdrt_detected/>\n"
+        );
+    }
+
+    f.printf(
+        "</coproc_ati>\n"
+    );
 };
 #endif
 
@@ -863,6 +916,8 @@ void COPROC_ATI::clear() {
     estimated_delay = -1;
 	strcpy(name, "");
 	strcpy(version, "");
+    atirt_detected = false;
+    amdrt_detected = false;
 	attribs.localRAM = 0;
 	attribs.uncachedRemoteRAM = 0;
 	attribs.cachedRemoteRAM = 0;
@@ -880,6 +935,7 @@ int COPROC_ATI::parse(FILE* fin) {
     int n;
 
     clear();
+
     while (fgets(buf, sizeof(buf), fin)) {
         if (strstr(buf, "</coproc_ati>")) return 0;
         if (parse_int(buf, "<count>", count)) continue;
@@ -929,7 +985,6 @@ int COPROC_ATI::parse(FILE* fin) {
             continue;
         }
 		if (parse_str(buf, "<CALVersion>", version, sizeof(version))) continue;
-
     }
     return ERR_XML_PARSE;
 }
