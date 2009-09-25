@@ -402,7 +402,10 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
 // for GPUs and CPUs (see handle_request.cpp)
 //
 bool app_plan_uses_gpu(const char* plan_class) {
-    if (!strcmp(plan_class, "cuda")) {
+    if (strstr(plan_class, "cuda")) {
+        return true;
+    }
+    if (strstr(plan_class, "ati")) {
         return true;
     }
     return false;

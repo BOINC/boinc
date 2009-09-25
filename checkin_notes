@@ -8130,3 +8130,15 @@ Rom    25 Sept 2009
         
     client/
         hostinfo_win.cpp
+
+David  25 Sept 2009
+    - scheduler: improve msgs if user has wrong ATI DLL names
+
+    sched/
+        sched_customize.cpp
+
+David  25 Sept 2009
+    - scheduler: fix app_plan_uses_gpu()
+
+    sched/
+        sched_customize.cpp
