@@ -8123,3 +8123,10 @@ Rom    25 Sept 2009
     
     sched/
         sched_customize.cpp
+
+Rom    25 Sept 2009
+    - client: report the different Windows 7 and Windows 2008
+        "R2" correctly.
+        
+    client/
+        hostinfo_win.cpp
