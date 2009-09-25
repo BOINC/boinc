@@ -816,7 +816,7 @@ void COPROC_ATI::get(COPROCS& coprocs,
         case CAL_TARGET_630: gpu_name="ATI Radeon HD 2600 (RV630)"; break;
         case CAL_TARGET_670: gpu_name="ATI Radeon HD 3800 (RV670)"; break;
         case CAL_TARGET_710: gpu_name="ATI Radeon HD 4350/4550 (R710)"; break;
-        case CAL_TARGET_730: gpu_name="ATI Radeon HD 4600 series ((R730)"; break;
+        case CAL_TARGET_730: gpu_name="ATI Radeon HD 4600 series (R730)"; break;
         case CAL_TARGET_7XX: gpu_name="ATI Radeon (RV700 class)"; break;
         case CAL_TARGET_770: gpu_name="ATI Radeon HD 4700/4800 (RV740/RV770)"; break;
         default: gpu_name="ATI unknown"; break;
