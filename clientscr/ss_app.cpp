@@ -15,13 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Example graphics application, paired with uc2.C
-// This demonstrates:
-// - using shared memory to communicate with the worker app
-// - reading XML preferences by which users can customize graphics
-//   (in this case, select colors)
-// - handle mouse input (in this case, to zoom and rotate)
-// - draw text and 3D objects using OpenGL
+// Default screensaver.
+// Shows the BOINC logo and a rotating display of
+// attached projects and jobs in progress
 
 #ifdef _WIN32
 #include "boinc_win.h"

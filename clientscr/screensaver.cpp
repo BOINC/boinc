@@ -15,9 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Screensaver coordinator.
+// Alternates between a "default screensaver"
+// and application graphics for running jobs.
+// Periods are configurable via config file "ss_config.xml".
+// See http://boinc.berkeley.edu/trac/wiki/ScreensaverEnhancements
 
-// System Includes
-//
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
@@ -35,7 +38,7 @@
 #include "common_defs.h"
 #include "filesys.h"
 #include "error_numbers.h"
-#include "gui_rpc_client.h" // The order of included headers is critical here.  Do not move this!
+#include "gui_rpc_client.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "screensaver.h"

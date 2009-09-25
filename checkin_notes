@@ -8107,3 +8107,13 @@ David  25 Sept 2009
 
     lib/
         coproc.cpp
+
+David  25 Sept 2009
+    - user web: remove "enforced by version X+" for X < 6.0
+    - screensaver: added some comments
+
+    clientscr/
+        screensaver.cpp
+        ss_app.cpp
+    html/inc/
+        prefs.inc

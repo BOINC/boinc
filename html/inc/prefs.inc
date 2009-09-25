@@ -75,8 +75,7 @@ define("RUN_GPU_IF_USER_ACTIVE_DESC",
 define("IDLE_TIME_TO_RUN_DESC", "'In use' means mouse/keyboard activity in last");
 define("SUSPEND_IF_NO_RECENT_INPUT_DESC",
     "Suspend work if no mouse/keyboard activity in last
-    <br><span class=note>(Needed to enter low-power mode on some computers)
-    <br>Enforced by version 5.10.14+</span>"
+    <br><span class=note>(Needed to enter low-power mode on some computers)</span>"
 );
 define("START_END_DESC", "Do work only between the hours of");
 define("START_END_DESC2", "<br><span class=note>(no restriction if equal)</span>");
@@ -100,17 +99,15 @@ define("WORK_BUF_MIN_DAYS_DESC",
     "
 );
 define("WORK_BUF_ADDITIONAL_DAYS_DESC",
-    "Maintain enough work for an additional
-    <br><span class=note>Enforced by version 5.10+</span>
-    "
+    "Maintain enough work for an additional"
 );
 define("MAX_NCPUS_PCT_DESC", "On multiprocessors, use at most<span class=note><br>Enforced by version 6.1+</span>");
 define("MAX_NCPUS_PCT_DESC2", "% of the processors");
-define("MAX_CPUS_DESC", "On multiprocessors, use at most<span class=note><br>Enforced by version 5.10 and earlier</span>");
+define("MAX_CPUS_DESC", "On multiprocessors, use at most");
 define("MAX_CPUS_DESC2", "processors");
 define("USE_AT_MOST", "Use at most");
-define("USE_AT_MOST2", "Use at most<span class=note><br>(Can be used to reduce CPU heat)<br>Enforced by version 5.6+</span>");
-define("USE_AT_MOST3", "Use at most<br><span class=note>Enforced by version 5.8+</span>");
+define("USE_AT_MOST2", "Use at most<span class=note><br>(Can be used to reduce CPU heat)</span>");
+define("USE_AT_MOST3", "Use at most");
 define("CPU_USAGE_LIMIT_DESC2", "percent of CPU time");
 define("DISK_INTERVAL_DESC", "Write to disk at most every");
 define("DISK_LIMIT_DESC", "Disk and memory usage");
@@ -124,10 +121,7 @@ define("RAM_MAX_USED_IDLE_PCT_DESC2", "% of memory when computer is not in use")
 define("NETWORK_LIMIT_DESC", "Network usage");
 define("MAX_BYTES_SEC_DOWN_DESC", "Maximum download rate:");
 define("MAX_BYTES_SEC_UP_DESC", "Maximum upload rate:");
-define("NET_START_END_DESC",
-    "Use network only between the hours of
-    <br><span class=note>Enforced by version 4.46+</span>"
-);
+define("NET_START_END_DESC", "Use network only between the hours of");
 define("DONT_VERIFY_IMAGES_DESC",
     "Skip image file verification?
     <br><span class=note>Check this ONLY if your Internet provider
