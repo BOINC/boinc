@@ -108,10 +108,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             );
         }
         return true;
-    } else if (!strcmp(plan_class, "ati")) {
-        // the following is for an app that uses an ATI GPU
-        // with 1.4+ drivers
-        //
+    } else if (strstr(plan_class, "ati")) {
         COPROC_ATI* cp = (COPROC_ATI*)sreq.coprocs.lookup("ATI");
         if (!cp) {
             if (config.debug_version_select) {
@@ -131,10 +128,10 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             if (!cp->amdrt_detected) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[runtime] No usable CAL Runtime found\n",
+                        "[version] ati libs found, need amd\n"
                     );
                 }
-                add_no_work_message("ATI Catalyst 8.12+ or better needed to use GPU (no runtime found)");
+                add_no_work_message("ATI Catalyst 8.12+ needed to use GPU");
                 return false;
             }
             if (vers < 1000000) {
@@ -144,7 +141,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                         cp->version
                     );
                 }
-                add_no_work_message("ATI Catalyst 8.12+ or better needed to use GPU (version out of date)");
+                add_no_work_message("ATI Catalyst 8.12+ needed to use GPU");
                 return false;
             }
         }
@@ -153,10 +150,10 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             if (!cp->amdrt_detected) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[runtime] No usable CAL Runtime found\n",
+                        "[version] ati libs found, need amd\n"
                     );
                 }
-                add_no_work_message("ATI Catalyst 9.1+ or better needed to use GPU (no runtime found)");
+                add_no_work_message("ATI Catalyst 9.1+ needed to use GPU");
                 return false;
             }
             if (vers < 1003000) {
@@ -166,7 +163,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                         cp->version
                     );
                 }
-                add_no_work_message("ATI Catalyst 9.1+ or better needed to use GPU (version out of date)");
+                add_no_work_message("ATI Catalyst 9.1+ needed to use GPU");
                 return false;
             }
         }
@@ -175,10 +172,10 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             if (!cp->atirt_detected) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[runtime] No usable CAL Runtime found\n",
+                        "[version] amd libs found, need ati\n"
                     );
                 }
-                add_no_work_message("ATI Catalyst 9.2+ or better needed to use GPU (no runtime found)");
+                add_no_work_message("ATI Catalyst 9.2+ needed to use GPU");
                 return false;
             }
             if (vers < 1003186) {
@@ -188,7 +185,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                         cp->version
                     );
                 }
-                add_no_work_message("ATI Catalyst 9.2+ or better needed to use GPU");
+                add_no_work_message("ATI Catalyst 9.2+ needed to use GPU");
                 return false;
             }
         }
@@ -197,10 +194,10 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             if (!cp->atirt_detected) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[runtime] No usable CAL Runtime found\n",
+                        "[version] amd libs found, need ati\n"
                     );
                 }
-                add_no_work_message("ATI Catalyst 9.7+ or better needed to use GPU (no runtime found)");
+                add_no_work_message("ATI Catalyst 9.7+ needed to use GPU");
                 return false;
             }
             if (vers < 1004000) {
@@ -210,7 +207,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                         cp->version
                     );
                 }
-                add_no_work_message("ATI Catalyst 9.7+ or better needed to use GPU");
+                add_no_work_message("ATI Catalyst 9.7+ needed to use GPU");
                 return false;
             }
         }

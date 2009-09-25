@@ -112,12 +112,12 @@ void COPROCS::summary_string(char* buf, int len) {
             );
             strcat(bigbuf, buf2);
         } else if (!strcmp(cp->type, "CAL")){
-		    COPROC_ATI* cp2 =(COPROC_ATI*) cp;
-		    sprintf(buf2,"[CAL|%s|%d|%dMB|%s]",
+            COPROC_ATI* cp2 =(COPROC_ATI*) cp;
+            sprintf(buf2,"[CAL|%s|%d|%dMB|%s]",
                 cp2->name, cp2->count, cp2->attribs.localRAM, cp2->version
             );
-		    strcat(bigbuf,buf2);
-		}
+            strcat(bigbuf,buf2);
+        }
     }
     bigbuf[len-1] = 0;
     strcpy(buf, bigbuf);
@@ -151,8 +151,8 @@ int COPROCS::parse(FILE* fin) {
             int retval = cc->parse(fin);
             if (!retval) {
                 coprocs.push_back(cc);
-			}
-	    }
+            }
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -651,11 +651,11 @@ typedef int (__stdcall *ATI_GDI)(void);
 typedef int (__stdcall *ATI_CLOSE)(void);
 
 ATI_GDI     __calInit = NULL;
-ATI_VER		__calGetVersion = NULL;
+ATI_VER        __calGetVersion = NULL;
 ATI_GDC     __calDeviceGetCount = NULL;
 ATI_ATTRIBS __calDeviceGetAttribs = NULL;
 ATI_INFO    __calDeviceGetInfo = NULL;
-ATI_CLOSE	__calShutdown = NULL;
+ATI_CLOSE    __calShutdown = NULL;
 #else
 int (*__calInit)();
 int (*__calGetVersion)(CALuint*, CALuint*, CALuint*);
@@ -673,8 +673,6 @@ void COPROC_ATI::get(COPROCS& coprocs,
     CALdeviceinfo info;
     CALdeviceattribs attribs;
     char buf[256];
-    char* desired_atilib;
-    char* desired_amdlib;
     bool amdrt_detected = false;
     bool atirt_detected = false;
     int retval;
@@ -686,21 +684,21 @@ void COPROC_ATI::get(COPROCS& coprocs,
 #ifdef _WIN32
 
 #if defined _M_X64
-    desired_atilib = "aticalrt64.dll";
-    desired_amdlib = "amdcalrt64.dll";
+    const char* atilib_name = "aticalrt64.dll";
+    const char* amdlib_name = "amdcalrt64.dll";
 #else
-    desired_atilib = "aticalrt.dll";
-    desired_amdlib = "amdcalrt.dll";
+    const char* atilib_name = "aticalrt.dll";
+    const char* amdlib_name = "amdcalrt.dll";
 #endif
 
     // Detect which runtime libraries we can use
-    HINSTANCE amdlib = LoadLibrary(desired_amdlib);
+    HINSTANCE amdlib = LoadLibrary(amdlib_name);
     if (amdlib) {
         amdrt_detected = true;
         FreeLibrary(amdlib);
     }
 
-    HINSTANCE atilib = LoadLibrary(desired_atilib);
+    HINSTANCE atilib = LoadLibrary(atilib_name);
     if (atilib) {
         atirt_detected = true;
         FreeLibrary(atilib);
@@ -710,9 +708,9 @@ void COPROC_ATI::get(COPROCS& coprocs,
     //   since it is newer.
     HINSTANCE callib = NULL;
     if (atirt_detected) {
-        callib = LoadLibrary(desired_atilib);
+        callib = LoadLibrary(atilib_name);
     } else {
-        callib = LoadLibrary(desired_amdlib);
+        callib = LoadLibrary(amdlib_name);
     }
 
     if (!callib) {
@@ -797,13 +795,13 @@ void COPROC_ATI::get(COPROCS& coprocs,
     string s, gpu_name;
     vector<COPROC_ATI> gpus;
     for (CALuint i=0; i<numDevices; i++) {
-        retval = (*__calDeviceGetInfo)(&info, i);	
+        retval = (*__calDeviceGetInfo)(&info, i);
         if (retval != CAL_RESULT_OK) {
             sprintf(buf, "calDeviceGetInfo() returned %d", retval);
             warnings.push_back(buf);
             return;
         }
-        retval = (*__calDeviceGetAttribs)(&attribs, i);	
+        retval = (*__calDeviceGetAttribs)(&attribs, i);
         if (retval != CAL_RESULT_OK) {
             sprintf(buf, "calDeviceGetAttribs() returned %d", retval);
             warnings.push_back(buf);
@@ -855,7 +853,7 @@ void COPROC_ATI::get(COPROCS& coprocs,
 
 #ifndef _USING_FCGI_
 void COPROC_ATI::write_xml(MIOFILE& f) {
-	f.printf(
+    f.printf(
         "<coproc_ati>\n"
     );
 
@@ -895,13 +893,13 @@ void COPROC_ATI::write_xml(MIOFILE& f) {
     );
 
     if (atirt_detected) {
-	    f.printf(
+        f.printf(
             "    <atirt_detected/>\n"
         );
     }
 
     if (amdrt_detected) {
-	    f.printf(
+        f.printf(
             "    <amdrt_detected/>\n"
         );
     }
@@ -913,25 +911,25 @@ void COPROC_ATI::write_xml(MIOFILE& f) {
 #endif
 
 void COPROC_ATI::clear() {
-	count = 0;
+    count = 0;
     used = 0;
     req_secs = 0;
     req_instances = 0;
     estimated_delay = -1;
-	strcpy(name, "");
-	strcpy(version, "");
+    strcpy(name, "");
+    strcpy(version, "");
     atirt_detected = false;
     amdrt_detected = false;
-	attribs.localRAM = 0;
-	attribs.uncachedRemoteRAM = 0;
-	attribs.cachedRemoteRAM = 0;
-	attribs.engineClock = 0;
-	attribs.memoryClock = 0;
-	attribs.wavefrontSize = 0;
-	attribs.numberOfSIMD = 0;
-	attribs.doublePrecision = CAL_FALSE;
-	attribs.pitch_alignment = 0;
-	attribs.surface_alignment = 0;
+    attribs.localRAM = 0;
+    attribs.uncachedRemoteRAM = 0;
+    attribs.cachedRemoteRAM = 0;
+    attribs.engineClock = 0;
+    attribs.memoryClock = 0;
+    attribs.wavefrontSize = 0;
+    attribs.numberOfSIMD = 0;
+    attribs.doublePrecision = CAL_FALSE;
+    attribs.pitch_alignment = 0;
+    attribs.surface_alignment = 0;
 }
 
 int COPROC_ATI::parse(FILE* fin) {
@@ -943,52 +941,52 @@ int COPROC_ATI::parse(FILE* fin) {
     while (fgets(buf, sizeof(buf), fin)) {
         if (strstr(buf, "</coproc_ati>")) return 0;
         if (parse_int(buf, "<count>", count)) continue;
-		if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_double(buf, "<req_secs>", req_secs)) continue;
         if (parse_double(buf, "<req_instances>", req_instances)) continue;
         if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
 
-		if (parse_int(buf, "<localRAM>", n)) {
+        if (parse_int(buf, "<localRAM>", n)) {
             attribs.localRAM = n;
             continue;
         }
-		if (parse_int(buf, "<uncachedRemoteRAM>", n)) {
+        if (parse_int(buf, "<uncachedRemoteRAM>", n)) {
             attribs.uncachedRemoteRAM = n;
             continue;
         }
-		if (parse_int(buf, "<cachedRemoteRAM>", n)) {
+        if (parse_int(buf, "<cachedRemoteRAM>", n)) {
             attribs.cachedRemoteRAM = n;
             continue;
         }
-		if (parse_int(buf, "<engineClock>", n)) {
+        if (parse_int(buf, "<engineClock>", n)) {
             attribs.engineClock = n;
             continue;
         }
-		if (parse_int(buf, "<memoryClock>", n)) {
+        if (parse_int(buf, "<memoryClock>", n)) {
             attribs.memoryClock = n;
             continue;
         }
-		if (parse_int(buf, "<wavefrontSize>", n)) {
+        if (parse_int(buf, "<wavefrontSize>", n)) {
             attribs.wavefrontSize = n;
             continue;
         }
-		if (parse_int(buf, "<numberOfSIMD>"  , n)) {
+        if (parse_int(buf, "<numberOfSIMD>"  , n)) {
             attribs.numberOfSIMD = n;
             continue;
         }
-		if (parse_int(buf, "<doublePrecision>", n)) {
+        if (parse_int(buf, "<doublePrecision>", n)) {
             attribs.doublePrecision = n?CAL_TRUE:CAL_FALSE;
             continue;
         }
-		if (parse_int(buf, "<pitch_alignment>", n)) {
+        if (parse_int(buf, "<pitch_alignment>", n)) {
             attribs.pitch_alignment = n;
             continue;
         }
-		if (parse_int(buf, "<surface_alignment>", n)) {
+        if (parse_int(buf, "<surface_alignment>", n)) {
             attribs.surface_alignment = n;
             continue;
         }
-		if (parse_str(buf, "<CALVersion>", version, sizeof(version))) continue;
+        if (parse_str(buf, "<CALVersion>", version, sizeof(version))) continue;
     }
     return ERR_XML_PARSE;
 }

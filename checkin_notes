@@ -8093,3 +8093,11 @@ Rom    25 Sept 2009
     
     lib/
         coproc.cpp
+
+David  25 Sept 2009
+    - scheduler: fix app_plan() bug, improve ATI-related msgs
+
+    lib/
+        coproc.cpp
+    sched/
+        sched_customize.cpp
