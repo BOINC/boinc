@@ -7688,3 +7688,9 @@ Rom    25 Sept 2009
 
     lib/
         coproc.cpp, .h
+
+Rom    25 Sept 2009
+    - lib: fix build break.
+    
+    lib/
+        coproc.cpp

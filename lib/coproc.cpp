@@ -675,6 +675,8 @@ void COPROC_ATI::get(COPROCS& coprocs,
     char buf[256];
     char* desired_atilib;
     char* desired_amdlib;
+    bool amdrt_detected = false;
+    bool atirt_detected = false;
     int retval;
 
     attribs.struct_size = sizeof(CALdeviceattribs);
@@ -821,6 +823,8 @@ void COPROC_ATI::get(COPROCS& coprocs,
         cc.attribs = attribs;
         strcpy(cc.name, gpu_name.c_str());
         sprintf(cc.version, "%d.%d.%d", cal_major, cal_minor, cal_imp);
+        cc.amdrt_detected = amdrt_detected;
+        cc.atirt_detected = atirt_detected;
         cc.device_num = i;
         gpus.push_back(cc);
     }
