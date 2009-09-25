@@ -7694,3 +7694,9 @@ Rom    25 Sept 2009
     
     lib/
         coproc.cpp
+
+David  25 Sept 2009
+    - client: improve ATI-related msgs
+
+    lib/
+        coproc.cpp
