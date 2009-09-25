@@ -125,15 +125,6 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         int vers = major*1000000 + minor*1000 + release;
 
         if (!strcmp(plan_class, "ati")) {
-            if (!cp->amdrt_detected) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] ati libs found, need amd\n"
-                    );
-                }
-                add_no_work_message("ATI Catalyst 8.12+ needed to use GPU");
-                return false;
-            }
             if (vers < 1000000) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
@@ -144,18 +135,18 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 add_no_work_message("ATI Catalyst 8.12+ needed to use GPU");
                 return false;
             }
-        }
-
-        if (!strcmp(plan_class, "ati13amd")) {
             if (!cp->amdrt_detected) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] ati libs found, need amd\n"
                     );
                 }
-                add_no_work_message("ATI Catalyst 9.1+ needed to use GPU");
+                add_no_work_message("Need libraries named amd* to use ATI GPU");
                 return false;
             }
+        }
+
+        if (!strcmp(plan_class, "ati13amd")) {
             if (vers < 1003000) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
@@ -166,18 +157,18 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 add_no_work_message("ATI Catalyst 9.1+ needed to use GPU");
                 return false;
             }
+            if (!cp->amdrt_detected) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] ati libs found, need amd\n"
+                    );
+                }
+                add_no_work_message("Need libraries named amd* to use ATI GPU");
+                return false;
+            }
         }
 
         if (!strcmp(plan_class, "ati13ati")) {
-            if (!cp->atirt_detected) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] amd libs found, need ati\n"
-                    );
-                }
-                add_no_work_message("ATI Catalyst 9.2+ needed to use GPU");
-                return false;
-            }
             if (vers < 1003186) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
@@ -188,18 +179,18 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 add_no_work_message("ATI Catalyst 9.2+ needed to use GPU");
                 return false;
             }
-        }
-
-        if (!strcmp(plan_class, "ati14")) {
             if (!cp->atirt_detected) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] amd libs found, need ati\n"
                     );
                 }
-                add_no_work_message("ATI Catalyst 9.7+ needed to use GPU");
+                add_no_work_message("Need libraries named ati* to use ATI GPU");
                 return false;
             }
+        }
+
+        if (!strcmp(plan_class, "ati14")) {
             if (vers < 1004000) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
@@ -208,6 +199,15 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                     );
                 }
                 add_no_work_message("ATI Catalyst 9.7+ needed to use GPU");
+                return false;
+            }
+            if (!cp->atirt_detected) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] amd libs found, need ati\n"
+                    );
+                }
+                add_no_work_message("Need libraries named ati* to use ATI GPU");
                 return false;
             }
         }
@@ -221,7 +221,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         if (!strcmp(plan_class, "ati13amd")) {
             hu.flops *= 1.01;
         }
-        if (!strcmp(plan_class, "ati13at")) {
+        if (!strcmp(plan_class, "ati13ati")) {
             hu.flops *= 1.02;
         }
         if (!strcmp(plan_class, "ati14")) {
