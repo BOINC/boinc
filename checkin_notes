@@ -7700,3 +7700,9 @@ David  25 Sept 2009
 
     lib/
         coproc.cpp
+
+David  25 Sept 2009
+    - client: improve ATI description strings (from Andreas)
+
+    lib/
+        coproc.cpp

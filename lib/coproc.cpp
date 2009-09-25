@@ -641,6 +641,9 @@ bool COPROC_CUDA::check_running_graphics_app() {
 }
 
 ////////////////// ATI STARTS HERE /////////////////
+// Docs:
+// http://developer.amd.com/gpu_assets/Stream_Computing_User_Guide.pdf
+// ?? why don't they have HTML docs??
 
 #ifdef _WIN32
 typedef int (__stdcall *ATI_GDC)(CALuint *numDevices);
@@ -808,14 +811,14 @@ void COPROC_ATI::get(COPROCS& coprocs,
             return;
         }
         switch (info.target) {
-        case CAL_TARGET_600: gpu_name="RV600"; break;
-        case CAL_TARGET_610: gpu_name="RV610"; break;
-        case CAL_TARGET_630: gpu_name="RV630"; break;
-        case CAL_TARGET_670: gpu_name="RV670"; break;
-        case CAL_TARGET_710: gpu_name="R710"; break;
-        case CAL_TARGET_730: gpu_name="R730"; break;
-        case CAL_TARGET_7XX: gpu_name="R7XX"; break;
-        case CAL_TARGET_770: gpu_name="RV770"; break;
+        case CAL_TARGET_600: gpu_name="ATI Radeon HD 2900 (RV600)"; break;
+        case CAL_TARGET_610: gpu_name="ATI Radeon HD 2300/2400/3200 (RV610)"; break;
+        case CAL_TARGET_630: gpu_name="ATI Radeon HD 2600 (RV630)"; break;
+        case CAL_TARGET_670: gpu_name="ATI Radeon HD 3800 (RV670)"; break;
+        case CAL_TARGET_710: gpu_name="ATI Radeon HD 4350/4550 (R710)"; break;
+        case CAL_TARGET_730: gpu_name="ATI Radeon HD 4600 series ((R730)"; break;
+        case CAL_TARGET_7XX: gpu_name="ATI Radeon (RV700 class)"; break;
+        case CAL_TARGET_770: gpu_name="ATI Radeon HD 4700/4800 (RV740/RV770)"; break;
         default: gpu_name="ATI unknown"; break;
         }
         cc.attribs = attribs;
