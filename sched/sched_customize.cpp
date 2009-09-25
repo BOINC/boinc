@@ -122,18 +122,97 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             add_no_work_message("Your computer has no ATI GPU");
             return false;
         }
+
         int major, minor, release;
         sscanf(cp->version, "%d.%d.%d", &major, &minor, &release);
         int vers = major*1000000 + minor*1000 + release;
-        if (vers < 1004000) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] host has CAL version %s, need 1.4+\n",
-                    cp->version
-                );
+
+        if (!strcmp(plan_class, "ati")) {
+            if (!cp->amdrt_detected) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[runtime] No usable CAL Runtime found\n",
+                    );
+                }
+                add_no_work_message("ATI Catalyst 8.12+ or better needed to use GPU (no runtime found)");
+                return false;
             }
-            add_no_work_message("ATI Catalyst 9.2 or better needed to use GPU");
-            return false;
+            if (vers < 1000000) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] host has CAL version %s, need 1.0+\n",
+                        cp->version
+                    );
+                }
+                add_no_work_message("ATI Catalyst 8.12+ or better needed to use GPU (version out of date)");
+                return false;
+            }
+        }
+
+        if (!strcmp(plan_class, "ati13amd")) {
+            if (!cp->amdrt_detected) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[runtime] No usable CAL Runtime found\n",
+                    );
+                }
+                add_no_work_message("ATI Catalyst 9.1+ or better needed to use GPU (no runtime found)");
+                return false;
+            }
+            if (vers < 1003000) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] host has CAL version %s, need 1.3.0 to 1.3.186\n",
+                        cp->version
+                    );
+                }
+                add_no_work_message("ATI Catalyst 9.1+ or better needed to use GPU (version out of date)");
+                return false;
+            }
+        }
+
+        if (!strcmp(plan_class, "ati13ati")) {
+            if (!cp->atirt_detected) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[runtime] No usable CAL Runtime found\n",
+                    );
+                }
+                add_no_work_message("ATI Catalyst 9.2+ or better needed to use GPU (no runtime found)");
+                return false;
+            }
+            if (vers < 1003186) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] host has CAL version %s, need 1.3.186+\n",
+                        cp->version
+                    );
+                }
+                add_no_work_message("ATI Catalyst 9.2+ or better needed to use GPU");
+                return false;
+            }
+        }
+
+        if (!strcmp(plan_class, "ati14")) {
+            if (!cp->atirt_detected) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[runtime] No usable CAL Runtime found\n",
+                    );
+                }
+                add_no_work_message("ATI Catalyst 9.7+ or better needed to use GPU (no runtime found)");
+                return false;
+            }
+            if (vers < 1004000) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] host has CAL version %s, need 1.4+\n",
+                        cp->version
+                    );
+                }
+                add_no_work_message("ATI Catalyst 9.7+ or better needed to use GPU");
+                return false;
+            }
         }
 
         hu.flops = cp->flops_estimate();

@@ -8073,3 +8073,17 @@ Oliver 25 Sept 2009
 
     lib/
         app_ipc.cpp
+
+Rom    25 Sept 2009
+    - client: Add support for checking for both amd* prefixed CAL libraries
+        and ati* prefixed CAL libraries.
+    - scheduler: redefine ati class plans again.
+        ati: CAL 1.0+, amd* prefixed libraries
+        ati13amd: CAL 1.3+, amd* prefixed libraries
+        ati13ati: CAL 1.3+, ati* prefixed libraries
+        ati14: CAL 1.4+, ati* prefixed libraries
+
+    sched/
+        sched_customize.cpp
+    lib/
+        coproc.cpp, .h
