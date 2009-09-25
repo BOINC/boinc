@@ -8117,3 +8117,9 @@ David  25 Sept 2009
         ss_app.cpp
     html/inc/
         prefs.inc
+
+Rom    25 Sept 2009
+    - scheduler: setup priorites for the ATI plan classes
+    
+    sched/
+        sched_customize.cpp

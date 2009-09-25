@@ -212,7 +212,21 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             }
         }
 
+        // determine priority
+        //   1. ati14
+        //   2. ati13ati
+        //   3. ati13amd
+        //   4. ati
         hu.flops = cp->flops_estimate();
+        if (!strcmp(plan_class, "ati13amd")) {
+            hu.flops *= 1.01;
+        }
+        if (!strcmp(plan_class, "ati13at")) {
+            hu.flops *= 1.02;
+        }
+        if (!strcmp(plan_class, "ati14")) {
+            hu.flops *= 1.03;
+        }
 
         // assume we'll need 0.5% as many CPU FLOPS as GPU FLOPS
         // to keep the GPU fed.
