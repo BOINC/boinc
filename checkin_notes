@@ -8101,3 +8101,9 @@ David  25 Sept 2009
         coproc.cpp
     sched/
         sched_customize.cpp
+
+David  25 Sept 2009
+    - client: improve ATI description strings (from Andreas)
+
+    lib/
+        coproc.cpp
