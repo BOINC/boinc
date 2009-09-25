@@ -8142,3 +8142,13 @@ David  25 Sept 2009
 
     sched/
         sched_customize.cpp
+
+Rom    25 Sept 2009
+    - win_build: In the future be very careful about with project
+        you choose to be the basis for a new executable.
+        boincsvcctrl.exe was overwriting the PDB file for boinc.exe
+        which causes all call stack handling code for boinc.exe
+        to stop working.
+        
+    win_build/
+        boincsvcctrl.vcproj
