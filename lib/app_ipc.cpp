@@ -143,6 +143,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     if (ai.project_preferences && strlen(ai.project_preferences)) {
         fprintf(f, "<project_preferences>\n%s</project_preferences>\n", ai.project_preferences);
     }
+    fprintf(f, "<hostid>%d</hostid>\n", ai.hostid);
     if (strlen(ai.team_name)) {
         xml_escape(ai.team_name, buf, sizeof(buf));
         fprintf(f, "<team_name>%s</team_name>\n", buf);
@@ -267,6 +268,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_str(tag, "app_name", ai.app_name, sizeof(ai.app_name))) continue;
         if (xp.parse_str(tag, "symstore", ai.symstore, sizeof(ai.symstore))) continue;
         if (xp.parse_str(tag, "acct_mgr_url", ai.acct_mgr_url, sizeof(ai.acct_mgr_url))) continue;
+        if (xp.parse_int(tag, "hostid", ai.hostid)) continue;
         if (xp.parse_str(tag, "user_name", ai.user_name, sizeof(ai.user_name))) continue;
         if (xp.parse_str(tag, "team_name", ai.team_name, sizeof(ai.team_name))) continue;
         if (xp.parse_str(tag, "project_dir", ai.project_dir, sizeof(ai.project_dir))) continue;

@@ -8067,3 +8067,9 @@ David  24 Sept 2009
 
     samples/wrapper/
         wrapper.cpp
+
+Oliver 25 Sept 2009
+    - ipc: write and parse APP_INIT_DATA "hostid"
+
+    lib/
+        app_ipc.cpp
