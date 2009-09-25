@@ -8087,3 +8087,9 @@ Rom    25 Sept 2009
         sched_customize.cpp
     lib/
         coproc.cpp, .h
+
+Rom    25 Sept 2009
+    - lib: fix build break.
+    
+    lib/
+        coproc.cpp
