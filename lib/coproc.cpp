@@ -986,6 +986,8 @@ int COPROC_ATI::parse(FILE* fin) {
             attribs.surface_alignment = n;
             continue;
         }
+        if (parse_bool(buf, "amdrt_detected", amdrt_detected)) continue;
+        if (parse_bool(buf, "atirt_detected", atirt_detected)) continue;
         if (parse_str(buf, "<CALVersion>", version, sizeof(version))) continue;
     }
     return ERR_XML_PARSE;
