@@ -265,7 +265,7 @@ int CLIENT_STATE::init() {
             msg_printf(NULL, MSG_INFO, descs[i].c_str());
         }
         if (log_flags.coproc_debug) {
-            for (i=0; i<descs.size(); i++) {
+            for (i=0; i<warnings.size(); i++) {
                 msg_printf(NULL, MSG_INFO, warnings[i].c_str());
             }
         }

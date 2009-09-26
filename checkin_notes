@@ -8159,3 +8159,11 @@ David  25 Sept 2009
 
     html/ops/
         manage_app_versions.php
+
+David  25 Sept 2009
+    - client: fix crashing bug in GPU message display
+    - client: show a couple more config flags on startup
+
+    client/
+        client_state.cpp
+        log_flags.cpp
