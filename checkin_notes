@@ -8152,3 +8152,10 @@ Rom    25 Sept 2009
         
     win_build/
         boincsvcctrl.vcproj
+
+David  25 Sept 2009
+    - admin web: show plan class in "manage app versions" page
+        from Jon Sonntag.
+
+    html/ops/
+        manage_app_versions.php

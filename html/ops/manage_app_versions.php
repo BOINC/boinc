@@ -143,6 +143,7 @@ echo "<TR><TH>ID #</TH>
       <TH>Appllication</TH>
       <TH>Version</TH>
       <TH>Platform</TH>
+      <TH>Plan Class</TH>
       <TH>minimum<br>core version</TH>
       <TH>maximum<br>core version</TH>
       <TH>deprecated?</TH>
@@ -175,6 +176,7 @@ for($j=1;$j<=$Nrow;$j++){
     $i=$item->platformid;
     echo "  <TD align='center'>$f1 $platform[$i] $f2</TD>\n";
 
+    echo "  <td align=center>$f1 $item->plan_class $f2</td>\n";
 
     $field="min_core_version_".$id;
     $v=$item->min_core_version;
@@ -200,7 +202,7 @@ for($j=1;$j<=$Nrow;$j++){
 mysql_free_result($result);
 
 
-echo "<tr><td colspan=6><font color='RED'><sup>*</sup>
+echo "<tr><td colspan=7><font color='RED'><sup>*</sup>
     To delete an entry you must enter 'DELETE' in this field.
     </font></td>
     <td align='center' colspan=2 bgcolor='#FFFF88'>
