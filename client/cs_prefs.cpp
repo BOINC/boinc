@@ -104,26 +104,29 @@ int CLIENT_STATE::check_suspend_processing() {
     case RUN_MODE_NEVER:
         return SUSPEND_REASON_USER_REQ;
     default:
+        // "run according to prefs" checks:
+        //
         if (!global_prefs.run_on_batteries
             && host_info.host_is_running_on_batteries()
         ) {
             return SUSPEND_REASON_BATTERIES;
         }
-
         if (!global_prefs.run_if_user_active && user_active) {
             return SUSPEND_REASON_USER_ACTIVE;
         }
         if (global_prefs.cpu_times.suspended()) {
             return SUSPEND_REASON_TIME_OF_DAY;
         }
-    }
-
-    if (global_prefs.suspend_if_no_recent_input) {
-        bool idle = host_info.users_idle(
-            check_all_logins, global_prefs.suspend_if_no_recent_input
-        );
-        if (idle) {
-            return SUSPEND_REASON_NO_RECENT_INPUT;
+        if (global_prefs.suspend_if_no_recent_input) {
+            bool idle = host_info.users_idle(
+                check_all_logins, global_prefs.suspend_if_no_recent_input
+            );
+            if (idle) {
+                return SUSPEND_REASON_NO_RECENT_INPUT;
+            }
+        }
+        if (active_tasks.exclusive_app_running) {
+            return SUSPEND_REASON_EXCLUSIVE_APP_RUNNING;
         }
     }
 
@@ -141,9 +144,6 @@ int CLIENT_STATE::check_suspend_processing() {
         }
     }
 
-    if (active_tasks.exclusive_app_running) {
-        return SUSPEND_REASON_EXCLUSIVE_APP_RUNNING;
-    }
     return 0;
 }
 
