@@ -123,6 +123,11 @@ def assign_task_defaults():
             task.disabled = 1
         else:
             task.disabled = 0
+        always_run = task.__dict__.get('always_run')
+        if always_run and always_run != "0":
+            task.always_run = 1
+        else:
+            task.always_run = 0
     for task in config.daemons:
         host = task.__dict__.get('host')
         if not host:
@@ -429,7 +434,7 @@ def run_tasks():
             continue
         if task.disabled:
             continue
-        if task.__dict__.get('always_run'): 
+        if task.always_run: 
             run_task(task)
             continue
         if run_state.enabled:

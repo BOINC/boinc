@@ -8222,3 +8222,10 @@ Rom    28 Sept 2009
     
     client/
         hostinfo_win.cpp
+
+David  28 Sept 2009
+    - tweak to start
+    html/inc/
+        user.inc
+    sched/
+        start

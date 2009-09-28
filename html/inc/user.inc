@@ -224,7 +224,7 @@ function show_user_info_private($user) {
         "<a href=\"edit_forum_preferences_form.php\">".tra("Community preferences")."</a>"
     );
     if (!no_computing()) {
-        row2(tra("Resource share and graphics"),
+        row2(tra("Preferences for this project"),
             "<a href=\"prefs.php?subset=project\">".tra("%1 preferences", PROJECT)."</a>"
         );
     }
