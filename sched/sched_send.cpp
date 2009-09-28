@@ -350,10 +350,20 @@ static void get_prefs_info() {
         g_wreq->allow_beta_work = flag;
     }
     if (parse_bool(buf,"no_gpus", flag)) {
-        g_wreq->no_gpus = flag;
+        // deprecated, but need to handle
+        if (flag) {
+            g_wreq->no_cuda = true;
+            g_wreq->no_ati = true;
+        }
     }
     if (parse_bool(buf,"no_cpu", flag)) {
         g_wreq->no_cpu = flag;
+    }
+    if (parse_bool(buf,"no_cuda", flag)) {
+        g_wreq->no_cuda = flag;
+    }
+    if (parse_bool(buf,"no_ati", flag)) {
+        g_wreq->no_ati = flag;
     }
 }
 
@@ -1321,15 +1331,21 @@ static void explain_to_user() {
                 "high"
             );
         }
-        if (g_wreq->no_gpus_prefs) {
+        if (g_wreq->no_cuda_prefs) {
             g_reply->insert_message(
-                "GPU jobs are available, but your preferences are set to not accept them",
+                "Jobs for NVIDIA GPU are available, but your preferences are set to not accept them",
+                "low"
+            );
+        }
+        if (g_wreq->no_ati_prefs) {
+            g_reply->insert_message(
+                "Jobs for ATI GPU are available, but your preferences are set to not accept them",
                 "low"
             );
         }
         if (g_wreq->no_cpu_prefs) {
             g_reply->insert_message(
-                "CPU jobs are available, but your preferences are set to not accept them",
+                "Jobs for CPU are available, but your preferences are set to not accept them",
                 "low"
             );
         }

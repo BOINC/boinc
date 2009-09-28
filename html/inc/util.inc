@@ -698,25 +698,23 @@ function current_url() {
     return $url;
 }
 
-/**
- * Show a single link formatted to look like a button.
- * @param url The destination URL of the button
- * @param text The text to display on the button
- * @param desc The title of the destination - typically used as a popup
- * @param class The optional CSS class of the button. Defaults to a standard button
- */ 
+// Show a single link formatted to look like a button.
+// @param url The destination URL of the button
+// @param text The text to display on the button
+// @param desc The title of the destination - typically used as a popup
+// @param class The optional CSS class of the button. Defaults to a standard button
+// 
 function show_button($url, $text, $desc, $class="button") {
     echo "<a href=\"".$url."\" title=\"".addslashes($desc)."\" class=\"".$class."\">".$text."</a>";
 }
 
-/**
- * When multiple buttons (or actions) are presented in a list you can
- * use this convenience method to avoid having to wrap each button in <li></li> elements
- * @param url The destination URL of the button
- * @param text The text to display on the button
- * @param desc The title of the destination - typically used as a popup
- * @param class The optional CSS class of the button. Defaults to a standard button
- */
+// When multiple buttons (or actions) are presented in a list you can
+// use this convenience method to avoid having to wrap each button in <li></li> elements
+// @param url The destination URL of the button
+// @param text The text to display on the button
+// @param desc The title of the destination - typically used as a popup
+// @param class The optional CSS class of the button. Defaults to a standard button
+//
 function show_actionlist_button($url, $text, $desc, $class="button"){
     echo "<li>";
     echo show_button($url, $text, $desc, $class);
@@ -767,6 +765,31 @@ function db_init($try_replica=false) {
         exit();
     }
     return 0;
+}
+
+// return a structure indicating whether project has non-deprecated apps
+// for various resource types.
+//
+function get_app_types() {
+    $t = null;
+    $t->cpu = false;
+    $t->cuda = false;
+    $t->ati = false;
+    $t->count = 0;
+    $avs = BoincAppVersion::enum("deprecated=0");
+    foreach ($avs as $av) {
+        if (strstr($av->plan_class, "ati")) {
+            $t->ati = true;
+            $t->count++;
+        } else if (strstr($av->plan_class, "cuda")) {
+            $t->cuda = true;
+            $t->count++;
+        } else {
+            $t->cpu = true;
+            $t->count++;
+        }
+    }
+    return $t;
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

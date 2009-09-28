@@ -63,16 +63,26 @@ RSC_PROJECT_WORK_FETCH& RSC_WORK_FETCH::project_state(PROJECT* p) {
 }
 
 bool RSC_WORK_FETCH::may_have_work(PROJECT* p) {
+    switch(rsc_type) {
+    case RSC_TYPE_CPU: if (p->no_cpu) return false;
+    case RSC_TYPE_CUDA: if (p->no_cuda) return false;
+    case RSC_TYPE_ATI: if (p->no_ati) return false;
+    }
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
     return (w.backoff_time < gstate.now);
 }
 
-bool RSC_PROJECT_WORK_FETCH::compute_may_have_work() {
+bool RSC_PROJECT_WORK_FETCH::compute_may_have_work(PROJECT* p, int rsc_type) {
+    switch(rsc_type) {
+    case RSC_TYPE_CPU: if (p->no_cpu) return false;
+    case RSC_TYPE_CUDA: if (p->no_cuda) return false;
+    case RSC_TYPE_ATI: if (p->no_ati) return false;
+    }
     return (backoff_time < gstate.now);
 }
 
-void RSC_PROJECT_WORK_FETCH::rr_init() {
-    may_have_work = compute_may_have_work();
+void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT* p, int rsc_type) {
+    may_have_work = compute_may_have_work(p, rsc_type);
     runnable_share = 0;
     fetchable_share = 0;
     has_runnable_jobs = false;
@@ -104,12 +114,12 @@ void WORK_FETCH::rr_init() {
         PROJECT* p = gstate.projects[i];
         p->pwf.can_fetch_work = p->pwf.compute_can_fetch_work(p);
         p->pwf.has_runnable_jobs = false;
-        p->cpu_pwf.rr_init();
+        p->cpu_pwf.rr_init(p, RSC_TYPE_CPU);
         if (coproc_cuda) {
-            p->cuda_pwf.rr_init();
+            p->cuda_pwf.rr_init(p, RSC_TYPE_CUDA);
         }
         if (coproc_ati) {
-            p->ati_pwf.rr_init();
+            p->ati_pwf.rr_init(p, RSC_TYPE_ATI);
         }
     }
 }
@@ -328,8 +338,20 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
         double bt = pwf.backoff_time>gstate.now?pwf.backoff_time-gstate.now:0;
+        bool blocked_by_prefs = false;
+        switch (rsc_type) {
+        case RSC_TYPE_CPU:
+            if (p->no_cpu) blocked_by_prefs = true;
+            break;
+        case RSC_TYPE_CUDA:
+            if (p->no_cuda) blocked_by_prefs = true;
+            break;
+        case RSC_TYPE_ATI:
+            if (p->no_ati) blocked_by_prefs = true;
+            break;
+        }
         msg_printf(p, MSG_INFO,
-            "[wfd] %s: fetch share %.2f debt %.2f backoff dt %.2f int %.2f%s%s%s%s%s%s",
+            "[wfd] %s: fetch share %.2f debt %.2f backoff dt %.2f int %.2f%s%s%s%s%s%s%s",
             name,
             pwf.fetchable_share, pwf.debt, bt, pwf.backoff_interval,
             p->suspended_via_gui?" (susp via GUI)":"",
@@ -337,7 +359,8 @@ void RSC_WORK_FETCH::print_state(const char* name) {
             p->min_rpc_time > gstate.now?" (comm deferred)":"",
             p->dont_request_more_work?" (no new tasks)":"",
             pwf.overworked()?" (overworked)":"",
-            p->too_many_uploading_results?" (too many uploads)":""
+            p->too_many_uploading_results?" (too many uploads)":"",
+            blocked_by_prefs?" (blocked by prefs)":""
         );
     }
 }

@@ -42,6 +42,9 @@
 // <project_preferences>
 //    <resource_share>4</resource_share>
 //    [ <allow_beta_work>0|1</allow_beta_work> ]
+//    [ <no_cpu>1</no_cpu> ]
+//    [ <no_cuda>1</no_cuda> ]
+//    [ <no_ati>1</no_ati> ]
 //    <project-specific>
 //            ... (arbitrary project-specific XML)
 //    </project-specific>
@@ -57,6 +60,8 @@
 // and also to/from HTML form elements
 
 include_once("../project/project_specific_prefs.inc");
+
+$app_types = get_app_types();
 
 // strings describing various preference fields
 //
@@ -128,6 +133,10 @@ define("DONT_VERIFY_IMAGES_DESC",
     modifies image files (UMTS does this, for example).
     <br>Skipping verification reduces the security of BOINC.</span>"
 );
+define('ATI_SELECT_DESC', "Use ATI GPU if present");
+define('CUDA_SELECT_DESC', "Use NVIDIA GPU if present");
+define('CPU_SELECT_DESC', "Use CPU");
+
 
 define("BYTE_CONVERSION", 1000.0);
 define("BYTE_UNITS", "Kbytes/sec");
@@ -291,7 +300,15 @@ function element_end_project($parser, $name) {
         break;
     case "allow_beta_work":
         $parse_result->allow_beta_work = $text;
-        $parse_result->allow_beta_work_text = $parse_result->allow_beta_work?"yes":"no";
+        break;
+    case "no_cpu":
+        $parse_result->no_cpu = $text;
+        break;
+    case "no_cuda":
+        $parse_result->no_cuda = $text;
+        break;
+    case "no_ati":
+        $parse_result->no_ati = $text;
         break;
     case "project_preferences":
         break;
@@ -464,8 +481,10 @@ function default_prefs_global() {
 function default_prefs_project() {
     $p = null;
     $p->resource_share = 100;
+    $p->no_cpu = false;
+    $p->no_cuda = false;
+    $p->no_ati = false;
     $p->allow_beta_work = false;
-    $p->allow_beta_work_text = "no";
     $p->project_specific = project_specific_prefs_default();
     return $p;
 }
@@ -594,6 +613,9 @@ function row_field($value, $type) {
     switch($type) {
     case "yesno":
         echo $value ?"yes":"no";
+        break;
+    case "noyes":
+        echo $value ?"no":"yes";
         break;
     case "limit":
         $x = max_bytes_display_mode($value);
@@ -762,21 +784,45 @@ function prefs_show_global($prefs) {
 }
 
 function prefs_show_resource($prefs, $columns=false) {
+    global $app_types;
     $x = "Resource share<br>
         <span class=note>If you participate in multiple BOINC projects,
-        this is the proportion of your resources used by ".PROJECT."</span>";
+        this is the proportion of your resources used by ".PROJECT."</span>
+    ";
     if ($columns) {
         row_defs($x, "resource_share", "", "" ,$prefs);
+        if ($app_types->count > 1) {
+            if ($app_types->cpu) {
+                row_defs(CPU_SELECT_DESC, "no_cpu", "", "noyes", $prefs);
+            }
+            if ($app_types->cuda) {
+                row_defs(CUDA_SELECT_DESC, "no_cuda", "", "noyes", $prefs);
+            }
+            if ($app_types->ati) {
+                row_defs(ATI_SELECT_DESC, "no_ati", "", "noyes", $prefs);
+            }
+        }
     } else {
         row2($x, $prefs->resource_share);
+        if ($app_types->count > 1) {
+            if ($app_types->cpu) {
+                row2(CPU_SELECT_DESC, $prefs->no_cpu?"no":"yes");
+            }
+            if ($app_types->cuda) {
+                row2(CUDA_SELECT_DESC, $prefs->no_cuda?"no":"yes");
+            }
+            if ($app_types->ati) {
+                row2(ATI_SELECT_DESC, $prefs->no_ati?"no":"yes");
+            }
+        }
     }
 }
 
 function prefs_show_beta($prefs, $columns=false) {
     if ($columns) {
-        row_defs(ALLOW_BETA_WORK, "allow_beta_work_text", "", "" ,$prefs);
+        row_defs(ALLOW_BETA_WORK, "allow_beta_work", "", "yesno" ,$prefs);
     } else {
-        row2(ALLOW_BETA_WORK, $prefs->allow_beta_work_text);
+        row2(ALLOW_BETA_WORK, $prefs->allow_beta_work?"yes":"no");
     }
 }
 
@@ -1200,6 +1246,7 @@ function prefs_form_privacy($user) {
 }
 
 function prefs_form_resource($prefs, $error=false) {
+    global $app_types;
     $show_error = false;
     if (isset($error->resource_share)) $show_error= true;
     row2(
@@ -1213,6 +1260,23 @@ function prefs_form_resource($prefs, $error=false) {
         "<input name=resource_share value='$prefs->resource_share'>",
         $show_error
     );
+    if ($app_types->count > 1) {
+        if ($app_types->cpu) {
+            $checked = $prefs->no_cpu?"":"checked";
+            $y = "<input type=checkbox name=use_cpu $checked>";
+            row2(CPU_SELECT_DESC, $y);
+        }
+        if ($app_types->cuda) {
+            $checked = $prefs->no_cuda?"":"checked";
+            $y = "<input type=checkbox name=use_cuda $checked>";
+            row2(CUDA_SELECT_DESC, $y);
+        }
+        if ($app_types->ati) {
+            $checked = $prefs->no_ati?"":"checked";
+            $y = "<input type=checkbox name=use_ati $checked>";
+            row2(ATI_SELECT_DESC, $y);
+        }
+    }
 }
 
 function prefs_form_beta($prefs, $error=false) {
@@ -1355,21 +1419,25 @@ function prefs_global_parse_form(&$prefs) {
 // @param object &$prefs reference to object that stores prefs
 // @return object an object with errorvalues or false in success case
 function prefs_resource_parse_form(&$prefs) {
+    global $app_types;
     $error = false;
     $resource_share = $_GET['resource_share'];
     if (!verify_numeric($resource_share, 0)) $error->resource_share = true;
     $prefs->resource_share = $resource_share;
 
+    if ($app_types->count > 1) {
+        if ($app_types->cpu) $prefs->no_cpu = ($_GET['use_cpu'])?0:1;
+        if ($app_types->cuda) $prefs->no_cuda = ($_GET['use_cuda'])?0:1;
+        if ($app_types->ati) $prefs->no_ati = ($_GET['use_ati'])?0:1;
+    }
     return $error;
 }
 
 function prefs_beta_parse_form(&$prefs) {
     $prefs->allow_beta_work = false;
-    $prefs->allow_beta_work_text = "no";
     $x = $_GET['allow_beta_work'];
     if ($x) {
         $prefs->allow_beta_work = true;
-        $prefs->allow_beta_work_text = "yes";
     }
 }
 
@@ -1477,11 +1545,19 @@ function project_prefs_make_xml($prefs, $primary=true) {
         $xml = "<project_preferences>\n";
     }
     if ($prefs->resource_share) {
-        $xml = $xml
-            ."<resource_share>$prefs->resource_share</resource_share>\n";
+        $xml = $xml ."<resource_share>$prefs->resource_share</resource_share>\n";
     }
     if ($prefs->allow_beta_work) {
         $xml = $xml . "<allow_beta_work>1</allow_beta_work>\n";
+    }
+    if ($prefs->no_cpu) {
+        $xml = $xml . "<no_cpu>1</no_cpu>\n";
+    }
+    if ($prefs->no_cuda) {
+        $xml = $xml . "<no_cuda>1</no_cuda>\n";
+    }
+    if ($prefs->no_ati) {
+        $xml = $xml . "<no_ati>1</no_ati>\n";
     }
     if ($prefs->project_specific) {
         $x = trim($prefs->project_specific);

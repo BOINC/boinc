@@ -22,11 +22,10 @@ $lang_prj_translations_dir = "project_specific_translations/";
 $lang_compiled_dir = "compiled/";
 $lang_log_level = 1;
 
-/**
- * Fetches a list of compiled languages from the directory
- * set to contain such files.
- * @returns A list of languages that have been compiled
- */
+// Fetches a list of compiled languages from the directory
+// set to contain such files.
+// @returns A list of languages that have been compiled
+//
 function getSupportedLanguages(){
     global $lang_language_dir, $lang_compiled_dir;
     $list = array();
@@ -45,14 +44,13 @@ function getSupportedLanguages(){
     return $list;
 }
 
-/**
- * Builds the lookup arrays from the 
- * language files found in the given directory tree.
- * @param langdir The language base directory
- * @param transdir The location of the .po files to compile relative to langdir
- * @param compdir The output location relative to langdir
- * @param append If true the function will only append to rather than replace the compiled files
- */
+// Builds the lookup arrays from the 
+// language files found in the given directory tree.
+// @param langdir The language base directory
+// @param transdir The location of the .po files to compile relative to langdir
+// @param compdir The output location relative to langdir
+// @param append If true the function will only append to rather than replace the compiled files
+//
 function buildLanguages($langdir,$transdir,$compdir){
     global $lang_project_default;
 
@@ -109,11 +107,10 @@ function buildLanguages($langdir,$transdir,$compdir){
     }
 }
 
-/**
- * Parses a gettext .po-file into an associative PHP array.
- * @param file The file to parse
- * checking for inconsistencies if needed.
- *************************/
+// Parses a gettext .po-file into an associative PHP array.
+// @param file The file to parse
+// checking for inconsistencies if needed.
+//
 function parseLanguage($file){
     $translation_file = file($file);
     $first_entry = true;
@@ -156,9 +153,8 @@ function parseLanguage($file){
 }
 
 
-/**
- * Returns the contents of a line (ie removes "" from start and end)
- */
+// Returns the contents of a line (ie removes "" from start and end)
+//
 function getPOLineContent($line){
     $start = strpos($line, '"')+1;
     $stop = strrpos($line, '"');
@@ -171,9 +167,8 @@ function getPOLineContent($line){
     return $x;
 }
 
-/**
- * Translate string
- */
+// Translate string
+//
 function tra($text /* ...arglist... */){
     global $language_lookup_array, $languages_in_use;
     

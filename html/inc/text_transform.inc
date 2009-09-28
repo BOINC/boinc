@@ -186,11 +186,10 @@ function remove_br($text){
 }
 
 
-/**
- * Stops recursion of BBCode by escaping any [ in the given text
- * @param $text The text to stop recursion in
- * @return A text that no longer can cause recursion
- **/
+// Stops recursion of BBCode by escaping any [ in the given text
+// @param $text The text to stop recursion in
+// @return A text that no longer can cause recursion
+//
 function stop_recursion($text){
     return str_replace("[", "&#91;", $text);
 }

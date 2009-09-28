@@ -50,9 +50,12 @@ if ($confirmed) {
         Are you sure you want to delete your separate ", subset_name($subset),
         " preferences for $venue?
         <br><br>
-        <a href=prefs_remove.php?subset=$subset&amp;venue=$venue&amp;confirmed=yes$c$tokens>Yes</a>
-        | <a href=prefs.php?subset=$subset$c>Cancel</a>
     ";
+    show_button(
+        "prefs_remove.php?subset=$subset&amp;venue=$venue&amp;confirmed=yes$c$tokens",
+        'Yes', "Remove preferences"
+    );
+    show_button("prefs.php?subset=$subset$c", "Cancel", "Cancel");
     page_tail();
 }
 

@@ -102,7 +102,8 @@ struct WORK_REQ {
     bool beta_only;
 
     // user preferences
-    bool no_gpus;
+    bool no_cuda;
+    bool no_ati;
     bool no_cpu;
 	bool allow_non_preferred_apps;
 	bool allow_beta_work;
@@ -198,7 +199,8 @@ struct WORK_REQ {
     bool hr_reject_temp;
     bool hr_reject_perm;
     bool outdated_client;
-    bool no_gpus_prefs;
+    bool no_cuda_prefs;
+    bool no_ati_prefs;
     bool no_cpu_prefs;
     bool daily_result_quota_exceeded;
     bool max_jobs_on_host_exceeded;

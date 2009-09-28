@@ -275,12 +275,21 @@ BEST_APP_VERSION* get_app_version(WORKUNIT& wu, bool check_req) {
 
             // skip versions that go against resource prefs
             //
-            if ((host_usage.ncudas || host_usage.natis) && g_wreq->no_gpus) {
+            if (host_usage.ncudas && g_wreq->no_cuda) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] Skipping GPU version - user prefs say no GPUS\n"
+                        "[version] Skipping CUDA version - user prefs say no CUDA\n"
                     );
-                    g_wreq->no_gpus_prefs = true;
+                    g_wreq->no_cuda_prefs = true;
+                }
+                continue;
+            }
+            if (host_usage.natis && g_wreq->no_ati) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] Skipping ATI version - user prefs say no ATI\n"
+                    );
+                    g_wreq->no_ati_prefs = true;
                 }
                 continue;
             }
