@@ -8215,3 +8215,10 @@ David  27 Sept 2009
         sched_send.cpp
         sched_types.h
         sched_version.cpp
+
+Rom    28 Sept 2009
+    - client: add missing Windows SKUs.
+        From Robert Kreﬂ
+    
+    client/
+        hostinfo_win.cpp

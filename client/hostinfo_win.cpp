@@ -390,6 +390,21 @@ int get_os_information(
                             case PRODUCT_STARTER:
                                strcat(szSKU, "Starter ");
                                break;
+							case PRODUCT_HOME_PREMIUM_N:
+                               strcat(szSKU, "Home Premium N ");
+                               break;
+							case PRODUCT_HOME_BASIC_N:
+                               strcat(szSKU, "Home Basic N ");
+                               break;
+                            case PRODUCT_ULTIMATE_N:
+                               strcat(szSKU, "Ultimate N ");
+                               break;
+                            case PRODUCT_ENTERPRISE_N:
+                               strcat(szSKU, "Enterprise N ");
+                               break;
+                            case PRODUCT_BUSINESS_N:
+                               strcat(szSKU, "Business N ");
+                               break;
                         }
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
                         if( osvi.wSuiteMask & VER_SUITE_PERSONAL ) {
@@ -447,6 +462,15 @@ int get_os_information(
                                break;
                             case PRODUCT_WEB_SERVER:
                                strcat( szSKU, "Web Server ");
+                               break;
+                            case PRODUCT_WEB_SERVER_CORE:
+                               strcat( szSKU, "Web Server (core installtion) ");
+                               break;
+                            case PRODUCT_HOME_SERVER:
+                               strcat( szSKU, "Home Server ");
+                               break;
+                            case PRODUCT_HOME_PREMIUM_SERVER:
+                               strcat( szSKU, "Home Premium Server ");
                                break;
                         }
 
