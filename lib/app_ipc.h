@@ -154,6 +154,7 @@ struct APP_INIT_DATA {
     char acct_mgr_url[256];
     char* project_preferences;
     int hostid;
+        // project's DB ID for this host (NOT host CPID)
     char user_name[256];
     char team_name[256];
     char project_dir[256];

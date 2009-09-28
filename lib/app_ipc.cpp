@@ -123,11 +123,13 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<major_version>%d</major_version>\n"
         "<minor_version>%d</minor_version>\n"
         "<release>%d</release>\n"
-        "<app_version>%d</app_version>\n",
+        "<app_version>%d</app_version>\n"
+        "<hostid>%d</hostid>\n",
         ai.major_version,
         ai.minor_version,
         ai.release,
-        ai.app_version
+        ai.app_version,
+        ai.hostid
     );
     if (strlen(ai.app_name)) {
         fprintf(f, "<app_name>%s</app_name>\n", ai.app_name);
