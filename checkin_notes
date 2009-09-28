@@ -7787,3 +7787,11 @@ Rom    28 Sept 2009
     
     client/
         hostinfo_win.cpp
+
+Rom    28 Sept 2009
+    - Tag for 6.10.10 release, all platforms
+      boinc_core_release_6_10_10
+
+    /
+        configure.ac
+        version.h
