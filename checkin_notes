@@ -7747,3 +7747,11 @@ David  25 Sept 2009
     client/
         client_state.cpp
         log_flags.cpp
+
+David  26 Sept 2009
+    - client: fix bug in CPU prefs enforcement:
+        enforce "suspend if no recent input" and "exclusive apps"
+        only if overall mode if RUN_MODE_AUTO (run according to prefs) 
+
+    client/
+        cs_prefs.cpp
