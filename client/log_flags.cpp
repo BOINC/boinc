@@ -163,14 +163,23 @@ void LOG_FLAGS::show() {
 // TODO: show other config options
 //
 void CONFIG::show() {
+    if (config.ncpus>=0) {
+        msg_printf(NULL, MSG_INFO, "Config: use at most %d CPUs", config.ncpus);
+    }
     if (config.no_gpus) {
-        msg_printf(NULL, MSG_INFO, "Configured to not use coprocessors");
+        msg_printf(NULL, MSG_INFO, "Config: don't use coprocessors");
     }
     if (config.no_priority_change) {
-        msg_printf(NULL, MSG_INFO, "Configured to run apps at regular priority");
+        msg_printf(NULL, MSG_INFO, "Config: run apps at regular priority");
+    }
+    if (config.report_results_immediately) {
+        msg_printf(NULL, MSG_INFO, "Config: report completed tasks immediately");
     }
     if (config.use_all_gpus) {
-        msg_printf(NULL, MSG_INFO, "Configured to use all coprocessors");
+        msg_printf(NULL, MSG_INFO, "Config: use all coprocessors");
+    }
+    if (config.zero_debts) {
+        msg_printf(NULL, MSG_INFO, "Config: zero long-term debts on startup");
     }
 }
 

@@ -7739,3 +7739,11 @@ Rom    25 Sept 2009
     /
         configure.ac
         version.h
+
+David  25 Sept 2009
+    - client: fix crashing bug in GPU message display
+    - client: show a couple more config flags on startup
+
+    client/
+        client_state.cpp
+        log_flags.cpp
