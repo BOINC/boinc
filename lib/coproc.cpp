@@ -433,8 +433,15 @@ void COPROC_CUDA::get(
 }
 
 void COPROC_CUDA::description(char* buf) {
-    sprintf(buf, "%s (driver version %d, CUDA version %d, compute capability %d.%d, %.0fMB, est. %.0fGFLOPS)",
-        prop.name, display_driver_version, cuda_version, prop.major, prop.minor, prop.totalGlobalMem/(1024.*1024.), flops_estimate()/1e9
+    char vers[256];
+    if (display_driver_version) {
+        sprintf(vers, "%d", display_driver_version);
+    } else {
+        strcpy(vers, "unknown");
+    }
+    sprintf(buf, "%s (driver version %s, CUDA version %d, compute capability %d.%d, %.0fMB, est. %.0fGFLOPS)",
+        prop.name, vers, cuda_version, prop.major, prop.minor,
+        prop.totalGlobalMem/(1024.*1024.), flops_estimate()/1e9
     );
 }
 

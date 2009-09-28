@@ -76,9 +76,9 @@ struct RSC_PROJECT_WORK_FETCH {
     }
 
     bool may_have_work;
-    bool compute_may_have_work();
+    bool compute_may_have_work(PROJECT*, int rsc_type);
     void backoff(PROJECT*, const char*);
-    void rr_init();
+    void rr_init(PROJECT*, int rsc_type);
     void clear_backoff() {
         backoff_time = 0;
         backoff_interval = 0;

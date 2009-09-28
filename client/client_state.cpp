@@ -299,6 +299,10 @@ int CLIENT_STATE::init() {
     // for projects with no account file
     //
     parse_state_file();
+
+    // parse account files again,
+    // now that we know the host's venue on each project
+    //
     parse_account_files_venue();
 
     show_proxy_info();
