@@ -7795,3 +7795,9 @@ Rom    28 Sept 2009
     /
         configure.ac
         version.h
+
+David  28 Sept 2009
+    - client: fix crash with <ncpus>0</ncpus>
+
+    client/
+        work_fetch.h

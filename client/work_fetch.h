@@ -128,6 +128,7 @@ struct BUSY_TIME_ESTIMATOR {
     // the least busy instance
     //
     inline double get_busy_time() {
+        if (!ninstances) return 0;
         double best = busy_time[0];
         for (int i=1; i<ninstances; i++) {
             if (busy_time[i] < best) {
