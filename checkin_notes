@@ -7807,3 +7807,11 @@ Rom    29 Sept 2009
     
     lib/
         coproc.cpp
+
+Rom    29 Sept 2009
+    - Tag for 6.10.11 release, all platforms
+      boinc_core_release_6_10_11
+
+    /
+        configure.ac
+        version.h
