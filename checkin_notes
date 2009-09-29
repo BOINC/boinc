@@ -8235,3 +8235,9 @@ David  28 Sept 2009
 
     client/
         work_fetch.h
+
+Rom    29 Sept 2009
+    - client: fix bug in coproc summary string.
+    
+    lib/
+        coproc.cpp
