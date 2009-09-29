@@ -8241,3 +8241,9 @@ Rom    29 Sept 2009
     
     lib/
         coproc.cpp
+
+David  29 Sept 2009
+    - user web: show ATI GPUs correctly; show multiple GPUs correctly.
+
+    html/inc/
+        host.inc

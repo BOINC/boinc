@@ -235,30 +235,36 @@ function host_nresults($host) {
     return BoincResult::count("hostid=$host->id");
 }
 
-// Given string of the form [BOINC|vers][type|model|number|RAM],
+// Given string of the form [BOINC|vers][type|model|count|RAM|driver-vers],
 // return a human-readable version of the GPU info
 //
 function gpu_desc($x) {
-    // skip BOINC part
-    $y = strstr($x, 'BOINC');
-    if ($y) {
-        $x = strstr($y, "[");
-    }
-    if (!$x) return "---";
-    $x = substr($x, 1, -1);
-    $y = explode("|", $x);
-    $z = "";
-    if ($y[2]!="" && $y[2]!="1") $z = "[".$y[2]."] ";
-    if ($y[0] == "CUDA") $z .= "NVIDIA ";
-    $z .= $y[1];
-    $z .= " (".$y[3].")";
-    if (array_key_exists(4, $y)) {
-        if ($y[4] != "" && $y[4] != 0) {
-            $z .= " driver: ".$y[4];
+    $descs = explode("]", $x);
+    array_pop($descs);
+    $str = "";
+    foreach ($descs as $desc) {
+        $desc = trim($desc, "[");
+        $d = explode("|", $desc);
+        //print_r($d);
+        if ($d[0] == "BOINC") continue;
+        if ($str) $str .= ", ";
+        if ($d[2]!="" && $d[2]!="1") $str .= "[".$d[2]."] ";
+        if ($d[0] == "CUDA") {
+            $str .= "NVIDIA";
+        } else {
+            $str .= $d[0];
         }
+        $str .= " ".$d[1];
+        $str .= " (".$d[3].")";
+        if (array_key_exists(4, $d)) {
+            if ($d[4] != "" && $d[4] != 0) {
+                $str .= " driver: ".$d[4];
+            }
+        }
+
     }
-    if ($z == '') return '---';
-    return $z;
+    if (!$str) $str = "---";
+    return $str;
 }
 
 // Given the same string as above, return the BOINC version
