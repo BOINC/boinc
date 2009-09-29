@@ -436,7 +436,9 @@ create table forum_preferences (
     hide_signatures     tinyint     not null default 0,
     rated_posts         varchar(254) not null,
     low_rating_threshold integer not null default -25,
+        -- deprecated
     high_rating_threshold integer not null default 5,
+        -- deprecated
     minimum_wrap_postcount integer  DEFAULT 100 NOT NULL,
     display_wrap_postcount integer  DEFAULT 75 NOT NULL,
     ignorelist          varchar(254) not null,

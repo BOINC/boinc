@@ -8247,3 +8247,17 @@ David  29 Sept 2009
 
     html/inc/
         host.inc
+
+David  29 Sept 2009
+    - user web: forum_preferences.{low_rating_threshold, high_rating_threshold}
+        were deprecated, but were still used in deciding whether to show a post.
+        This broke the "ignore list" function.
+
+    db/
+        schema.sql
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_forum.php
+            edit_forum_preferences_action.php

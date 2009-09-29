@@ -110,8 +110,6 @@ $jump_to_unread = ($_POST["forum_jump_to_unread"]!="")?1:0;
 $ignore_sticky_posts = ($_POST["forum_ignore_sticky_posts"]!="")?1:0;
 $no_signature_by_default = ($_POST["signature_by_default"]!="")?0:1;
 $pm_notification = post_int("pm_notification");
-//$low_rating_threshold = post_int("forum_low_rating_threshold");
-//$high_rating_threshold = post_int("forum_high_rating_threshold");
 $signature = post_str("signature", true);
 if (strlen($signature)>250) {
     error_page(

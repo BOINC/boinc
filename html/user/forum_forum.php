@@ -90,15 +90,15 @@ echo '
 show_button("forum_post.php?id=$id", "New thread", "Add a new thread to this forum");
 
 echo "</td>
-	<td valign=top align=\"right\">
+    <td valign=top align=\"right\">
     <input type=\"hidden\" name=\"id\" value=\"$forum->id\">
 ";
 echo select_from_array("sort", $forum_sort_styles, $sort_style);
 echo "<input type=\"submit\" value=\"Sort\">
-	</td>
-	</tr>
-	</table>
-	</form>
+    </td>
+    </tr>
+    </table>
+    </form>
 ";
 
 show_forum($forum, $start, $sort_style, $user);
@@ -156,12 +156,6 @@ function show_forum($forum, $start, $sort_style, $user) {
         }
         
         echo "<td width=\"1%\" align=\"right\"><nobr>";
-        if ($user && ($thread->rating()>$user->prefs->high_rating_threshold)) {
-            show_image(EMPHASIZE_IMAGE, "This message has a high average rating", "Highly rated");
-        }
-        if ($user && ($thread->rating()<$user->prefs->low_rating_threshold)) {
-            show_image(FILTER_IMAGE, "This message has a low average rating", "Low rated");
-        }
         if ($thread->hidden) {
             echo "[hidden]";
         }
