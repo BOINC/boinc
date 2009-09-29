@@ -111,7 +111,7 @@ void COPROCS::summary_string(char* buf, int len) {
                 cp2->prop.name, cp2->count, mem, cp2->display_driver_version
             );
             strcat(bigbuf, buf2);
-        } else if (!strcmp(cp->type, "CAL")){
+        } else if (!strcmp(cp->type, "ATI")){
             COPROC_ATI* cp2 =(COPROC_ATI*) cp;
             sprintf(buf2,"[CAL|%s|%d|%dMB|%s]",
                 cp2->name, cp2->count, cp2->attribs.localRAM, cp2->version
