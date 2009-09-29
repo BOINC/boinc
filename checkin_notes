@@ -8229,3 +8229,9 @@ David  28 Sept 2009
         user.inc
     sched/
         start
+
+David  28 Sept 2009
+    - client: fix crash with <ncpus>0</ncpus>
+
+    client/
+        work_fetch.h
