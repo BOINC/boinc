@@ -8270,3 +8270,11 @@ David  30 Sept 2009
         acct_setup.cpp
     lib/
         parse.cpp
+
+Rom    30 Sept 2009
+    - client: Apparently it is valid for the autoproxy to return
+        successful API completeion but a null proxy list.  Check
+        for the null instead of crashing.
+        
+    client/
+        sysmon_win.cpp
