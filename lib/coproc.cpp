@@ -653,25 +653,22 @@ bool COPROC_CUDA::check_running_graphics_app() {
 // ?? why don't they have HTML docs??
 
 #ifdef _WIN32
+typedef int (__stdcall *ATI_GDI)(void);
+typedef int (__stdcall *ATI_VER) (CALuint *cal_major, CALuint *cal_minor, CALuint *cal_imp);
 typedef int (__stdcall *ATI_GDC)(CALuint *numDevices);
 typedef int (__stdcall *ATI_ATTRIBS) (CALdeviceattribs *attribs, CALuint ordinal);
-typedef int (__stdcall *ATI_INFO) (CALdeviceinfo *info, CALuint ordinal);
-typedef int (__stdcall *ATI_VER) (CALuint *cal_major, CALuint *cal_minor, CALuint *cal_imp);
-typedef int (__stdcall *ATI_GDI)(void);
 typedef int (__stdcall *ATI_CLOSE)(void);
 
 ATI_GDI     __calInit = NULL;
-ATI_VER        __calGetVersion = NULL;
+ATI_VER     __calGetVersion = NULL;
 ATI_GDC     __calDeviceGetCount = NULL;
 ATI_ATTRIBS __calDeviceGetAttribs = NULL;
-ATI_INFO    __calDeviceGetInfo = NULL;
-ATI_CLOSE    __calShutdown = NULL;
+ATI_CLOSE   __calShutdown = NULL;
 #else
 int (*__calInit)();
 int (*__calGetVersion)(CALuint*, CALuint*, CALuint*);
 int (*__calDeviceGetCount)(CALuint*);
 int (*__calDeviceGetAttribs)(CALdeviceattribs*, CALuint);
-int (*__calDeviceGetInfo)(CALdeviceinfo*, CALuint);
 int (*__calShutdown)();
 #endif
 
@@ -731,9 +728,8 @@ void COPROC_ATI::get(COPROCS& coprocs,
     }
 
     __calInit = (ATI_GDI)GetProcAddress(callib, "calInit" );
-    __calDeviceGetCount = (ATI_GDC)GetProcAddress(callib, "calDeviceGetCount" );
     __calGetVersion = (ATI_VER)GetProcAddress(callib, "calGetVersion" );
-    __calDeviceGetInfo = (ATI_INFO)GetProcAddress(callib, "calDeviceGetInfo" );
+    __calDeviceGetCount = (ATI_GDC)GetProcAddress(callib, "calDeviceGetCount" );
     __calDeviceGetAttribs =(ATI_ATTRIBS)GetProcAddress(callib, "calDeviceGetAttribs" );
     __calShutdown = (ATI_CLOSE)GetProcAddress(callib, "calShutdown" );
 
@@ -753,7 +749,6 @@ void COPROC_ATI::get(COPROCS& coprocs,
     __calGetVersion = (int(*)(CALuint*, CALuint*, CALuint*)) dlsym(callib, "calGetVersion");
     __calDeviceGetCount = (int(*)(CALuint*)) dlsym(callib, "calDeviceGetCount");
     __calDeviceGetAttribs = (int(*)(CALdeviceattribs*, CALuint)) dlsym(callib, "calDeviceGetAttribs");
-    __calDeviceGetInfo = (int(*)(CALdeviceinfo*, CALuint)) dlsym(callib, "calDeviceGetInfo");
     __calShutdown = (int(*)()) dlsym(callib, "calShutdown");
 
 #endif
@@ -762,16 +757,12 @@ void COPROC_ATI::get(COPROCS& coprocs,
         warnings.push_back("calInit() missing from CAL library");
         return;
     }
-    if (!__calDeviceGetCount) {
-        warnings.push_back("calDeviceGetCount() missing from CAL library");
-        return;
-    }
     if (!__calGetVersion) {
         warnings.push_back("calGetVersion() missing from CAL library");
         return;
     }
-    if (!__calDeviceGetInfo) {
-        warnings.push_back("calDeviceGetInfo() missing from CAL library");
+    if (!__calDeviceGetCount) {
+        warnings.push_back("calDeviceGetCount() missing from CAL library");
         return;
     }
     if (!__calDeviceGetAttribs) {
@@ -807,27 +798,33 @@ void COPROC_ATI::get(COPROCS& coprocs,
     string s, gpu_name;
     vector<COPROC_ATI> gpus;
     for (CALuint i=0; i<numDevices; i++) {
-        retval = (*__calDeviceGetInfo)(&info, i);
-        if (retval != CAL_RESULT_OK) {
-            sprintf(buf, "calDeviceGetInfo() returned %d", retval);
-            warnings.push_back(buf);
-            return;
-        }
         retval = (*__calDeviceGetAttribs)(&attribs, i);
         if (retval != CAL_RESULT_OK) {
             sprintf(buf, "calDeviceGetAttribs() returned %d", retval);
             warnings.push_back(buf);
             return;
         }
-        switch (info.target) {
+        switch (attribs.target) {
         case CAL_TARGET_600: gpu_name="ATI Radeon HD 2900 (RV600)"; break;
-        case CAL_TARGET_610: gpu_name="ATI Radeon HD 2300/2400/3200 (RV610)"; break;
-        case CAL_TARGET_630: gpu_name="ATI Radeon HD 2600 (RV630)"; break;
+		case CAL_TARGET_610:
+			gpu_name="ATI Radeon HD 2300/2400/3200 (RV610)";
+			attribs.numberOfSIMD=1;		// set correct values (reported wrong by driver)
+			attribs.wavefrontSize=32;
+			break; 
+		case CAL_TARGET_630:
+			gpu_name="ATI Radeon HD 2600 (RV630)";
+			attribs.numberOfSIMD=3;		// set correct values (reported wrong by driver)
+			attribs.wavefrontSize=32;
+			break; 
         case CAL_TARGET_670: gpu_name="ATI Radeon HD 3800 (RV670)"; break;
         case CAL_TARGET_710: gpu_name="ATI Radeon HD 4350/4550 (R710)"; break;
         case CAL_TARGET_730: gpu_name="ATI Radeon HD 4600 series (R730)"; break;
         case CAL_TARGET_7XX: gpu_name="ATI Radeon (RV700 class)"; break;
         case CAL_TARGET_770: gpu_name="ATI Radeon HD 4700/4800 (RV740/RV770)"; break;
+		case 8: gpu_name="ATI Radeon HD5800 series (Cypress)"; break;	// not yet defined in cal.h
+		case 9: gpu_name="ATI Radeon HD5700 series (Juniper)"; break; 	// replace x with number, when announced
+		case 10: gpu_name="ATI Radeon HD5x00 series (Redwood)"; break;
+		case 11: gpu_name="ATI Radeon HD5x00 series (Cedar)"; break; 
         default: gpu_name="ATI unknown"; break;
         }
         cc.attribs = attribs;
