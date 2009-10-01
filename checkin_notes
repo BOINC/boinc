@@ -8278,3 +8278,13 @@ Rom    30 Sept 2009
         
     client/
         sysmon_win.cpp
+
+Rom    1 Oct 2009
+    - client: only support one of the ati13* plan classes at a time.
+        A couple users had not updated their amdcal* runtime libraries
+        after upgrading catalyst drivers.  This was leading to crashes
+        of the project applications when work was supplied looking
+        for the old DLL names.
+        
+    lib/
+        coproc.cpp
