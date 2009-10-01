@@ -8288,3 +8288,10 @@ Rom    1 Oct 2009
         
     lib/
         coproc.cpp
+
+Rom    1 Oct 2009
+    - client: fix a handle leak I just introduced.
+        (From: Andreas a.k.a Gipsel)
+        
+    lib/
+        coproc.cpp
