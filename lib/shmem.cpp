@@ -326,7 +326,10 @@ int create_shmem_mmap(const char *path, size_t size, void** pp) {
     if (fd < 0) return ERR_SHMGET;
 
     retval = fstat(fd, &sbuf);
-    if (retval) return ERR_SHMGET;
+    if (retval) {
+        close(fd);
+        return ERR_SHMGET;
+    }
     if (sbuf.st_size < (long)size) {
         // The following 2 lines extend the file and clear its new 
         // area to all zeros because they write beyond the old EOF. 
@@ -362,7 +365,10 @@ int attach_shmem_mmap(const char *path, void** pp) {
     if (fd < 0) return ERR_SHMGET;
 
     retval = fstat(fd, &sbuf);
-    if (retval) return ERR_SHMGET;
+    if (retval) {
+        close(fd);        
+        return ERR_SHMGET;
+    }
     if (sbuf.st_size == 0) return ERR_SHMGET;
 
     *pp = mmap(NULL, sbuf.st_size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, fd, 0);
