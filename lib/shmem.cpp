@@ -366,10 +366,13 @@ int attach_shmem_mmap(const char *path, void** pp) {
 
     retval = fstat(fd, &sbuf);
     if (retval) {
-        close(fd);        
+        close(fd);
         return ERR_SHMGET;
     }
-    if (sbuf.st_size == 0) return ERR_SHMGET;
+    if (sbuf.st_size == 0) {
+        close(fd);
+        return ERR_SHMGET;
+    }
 
     *pp = mmap(NULL, sbuf.st_size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, fd, 0);
     
