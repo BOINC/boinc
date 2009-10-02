@@ -8335,3 +8335,9 @@ David  2 Oct 2009
             util_ops.inc
         ops/
             (most).php
+
+David  2 Oct 2009
+    - wrapper: fix fraction done feature
+
+    samples/wrapper/
+        wrapper.cpp

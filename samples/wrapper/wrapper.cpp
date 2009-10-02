@@ -112,7 +112,7 @@ struct TASK {
         FILE* f = fopen(fraction_done_filename.c_str(), "r");
         if (!f) return 0;
         double frac;
-        int n = fscanf(f, "%f", &frac);
+        int n = fscanf(f, "%lf", &frac);
         fclose(f);
         if (n != 1) return 0;
         if (frac < 0) return 0;
