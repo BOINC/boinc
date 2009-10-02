@@ -31,6 +31,7 @@
 // (4) Just to be safe, back up your user database before running this script.
 
 
+$cli_only = true;
 require_once("../inc/util_ops.inc");
 require_once("../inc/db_ops.inc");
 

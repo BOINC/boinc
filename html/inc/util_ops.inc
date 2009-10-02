@@ -93,16 +93,6 @@ function show_profile_link_ops($user) {
     }
 }
 
-function cli_only(){
-    if (array_key_exists("SERVER_PORT", $_SERVER)) {
-        die("<html><h1>
-            This script is intended to be run from the command line,
-            not from the web server!
-            </h1>"
-        );
-    }
-}
-
 // initialize database connection with username & password from
 // command line instead of config.xml
 //
@@ -224,7 +214,15 @@ function error_page_ops($msg) {
     exit;
 }
 
-if (!defined('skip_auth_ops')) {
+if (isset($cli_only)) {
+    if (array_key_exists("SERVER_PORT", $_SERVER)) {
+        die("This script is intended to be run from the command line,
+            not from the web server."
+        );
+    }
+}
+
+if (!isset($skip_auth_ops) && array_key_exists("SERVER_PORT", $_SERVER)) {
     auth_ops();
 }
 

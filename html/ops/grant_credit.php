@@ -25,9 +25,9 @@
 // granted credits.  So it can be run multiple times.
 
 
-require_once("../inc/db.inc");
-require_once("../inc/credit.inc");
+$cli_only = true;
 require_once("../inc/util_ops.inc");
+require_once("../inc/credit.inc");
 
 set_time_limit(0);
 

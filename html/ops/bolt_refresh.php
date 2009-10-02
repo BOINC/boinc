@@ -20,6 +20,7 @@
 // Run this script at most once a day
 // (to avoid multiple emails)
 
+$cli_only = true;
 require_once("../inc/bolt_db.inc");
 require_once("../inc/util_ops.inc");
 

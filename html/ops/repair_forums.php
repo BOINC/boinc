@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+$cli_only = true;
 require_once("../inc/forum_db.inc");
 require_once("../inc/util_ops.inc");
 

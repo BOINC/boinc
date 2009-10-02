@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-define('skip_auth_ops', true);
+$skip_auth_ops = true;
 
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util_ops.inc");

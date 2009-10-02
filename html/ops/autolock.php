@@ -19,7 +19,7 @@
 
 // lock all threads older than N days
 
-require_once("../inc/boinc_db.inc");
+$cli_only = true;
 require_once("../inc/util_ops.inc");
 
 $max_age_days = 90;     // lock threads older than this

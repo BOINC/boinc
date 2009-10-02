@@ -20,6 +20,7 @@
 
 // fetch a list of "BOINC-wide teams" and create or update them
 
+$cli_only = true;
 require_once("../inc/util_ops.inc");
 require_once("../inc/user.inc");
 require_once("../inc/team.inc");

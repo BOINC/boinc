@@ -25,7 +25,6 @@
 //   such as a week, before purging them.  So active users will always
 //   have at least one result in the database.
 
-require_once("../inc/db.inc");
 require_once("../inc/util_ops.inc");
 require_once("../inc/email.inc");
 

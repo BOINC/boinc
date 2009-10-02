@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// tool for estimating FLOPS per job for a given app
+
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);

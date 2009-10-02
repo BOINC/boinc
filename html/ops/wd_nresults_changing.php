@@ -20,6 +20,7 @@
 // watchdog script to ensure that the number of result records
 // increases at least every X seconds (X = crontab period)
 
+$cli_only = true;
 include_once("util_ops.inc");
 
 function fail($x) {

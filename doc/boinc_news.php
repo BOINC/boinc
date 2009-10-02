@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("October 1, 2009",
+    "An <a href=\"http://www.nytimes.com/2009/09/29/science/29grid.html\">article
+    in the NY Times</a> describes a project using BOINC
+    to simulate the development of life at the molecular level."
+),
 array("September 21, 2009",
     "The Brazilian TV networks Globonews and Futura recently broadcast
     <a href=http://video.globo.com/Videos/Player/Noticias/0,,GIM1053196-7823-A+FILANTROPIA+VIRTUAL+AUXILIA+PESQUISAS+PARA+CURA+DE+DOENCAS,00.html>a report on IBM World Community Grid</a> (in Portuguese)."

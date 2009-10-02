@@ -38,6 +38,7 @@
 //
 // see http://boinc.berkeley.edu/mass_email.php for info
 
+$cli_only = true;
 require_once('../project/project.inc');
 require_once('../inc/email.inc');
 require_once('../inc/db.inc');

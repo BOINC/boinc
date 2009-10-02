@@ -8317,3 +8317,21 @@ Rom    1 Oct 2009
         
     lib/
         shmem.cpp
+
+David  2 Oct 2009
+    - admin web: changed protection scheme as follows:
+        - default: script can be run from command line;
+            to run from web you need to be logged in as a particular user.
+            (in addition to .htaccess protection).
+        - if include $cli_only at start of script:
+            can only be run from the command line.
+        - if include $skip_auth_ops at start of script:
+            can run from web without being logged in
+            (this is set ONLY in login_action.php)
+    - admin web: added $cli_only = true to a bunch of scripts
+
+    html/
+        inc/
+            util_ops.inc
+        ops/
+            (most).php

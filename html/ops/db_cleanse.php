@@ -21,6 +21,7 @@
 // but (because of crashes or bugs) they sometimes do.
 // db_purge doesn't get rid of them; this does
 
+$cli_only = true;
 require_once("../inc/util_ops.inc");
 require_once("../inc/db.inc");
 
@@ -104,6 +105,7 @@ function delete_results() {
 
         // uncomment the following to actually delete
 
+        die("edit script to enable deletion\n");
         //mysql_query("delete from result where id=$resid");
     }
 }

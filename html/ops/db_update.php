@@ -20,10 +20,9 @@
 // code for one-time database updates goes here.
 // Don't run this unless you know what you're doing!
 
-require_once("../inc/db.inc");
+$cli_only = true;
 require_once("../inc/util_ops.inc");
 
-cli_only();
 $db = BoincDb::get_aux(false);
 if (!$db) {
     echo "Can't open database\n";

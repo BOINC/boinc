@@ -21,6 +21,7 @@
 // This script for use ONLY by the BOINC-teams project.
 // It generates an XML file with team and user info
 
+$cli_only = true;
 require_once("../inc/util_ops.inc");
 
 function handle_team($team, $f) {

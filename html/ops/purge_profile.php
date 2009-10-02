@@ -26,6 +26,7 @@
 //
 // Then copy the ids into the array below and run this script
 
+$cli_only = true;
 require_once("../inc/util_ops.inc");
 
 db_init();

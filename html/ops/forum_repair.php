@@ -22,6 +22,7 @@
 
 ini_set("memory_limit", "1024M");
 
+$cli_only = true;
 require_once("../inc/forum_db.inc");
 require_once("../inc/util_ops.inc");
 

@@ -21,6 +21,7 @@
 // bossa_example4_make_jobs.php
 //   --dir dir
 
+$cli_only = true;
 require_once("../inc/bossa.inc");
 require_once("../inc/util_ops.inc");
 

@@ -9,6 +9,7 @@
 
 //$FILE_LIST = "user/index.php project/project.inc";
 
+$cli_only = true;
 require_once("../inc/util_ops.inc");
 
 if (!isset($FILE_LIST)) {
