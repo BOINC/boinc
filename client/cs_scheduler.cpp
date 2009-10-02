@@ -731,11 +731,17 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         }
         if (avpp.missing_coproc()) {
             msg_printf(project, MSG_INTERNAL_ERROR,
-                "App version uses non-existent coprocessor; ignoring"
+                "App version uses non-existent %s GPU",
+                avpp.ncudas?"NVIDIA":"ATI"
+            );
+        }
+        APP* app = lookup_app(project, avpp.app_name);
+        if (!app) {
+            msg_printf(project, MSG_INTERNAL_ERROR,
+                "Missing app %s", avpp.app_name
             );
             continue;
         }
-        APP* app = lookup_app(project, avpp.app_name);
         APP_VERSION* avp = lookup_app_version(
             app, avpp.platform, avpp.version_num, avpp.plan_class
         );
@@ -817,18 +823,26 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
             delete rp;
             continue;
         }
+        if (rp->avp->missing_coproc()) {
+            msg_printf(project, MSG_INTERNAL_ERROR,
+                "Missing coprocessor for task %s; aborting", rp->name
+            );
+            rp->abort_inactive(ERR_MISSING_COPROC);
+            continue;
+        } else {
+            rp->set_state(RESULT_NEW, "handle_scheduler_reply");
+            if (rp->avp->ncudas) {
+                est_cuda_duration += rp->estimated_duration(false);
+            } else if (rp->avp->natis) {
+                est_ati_duration += rp->estimated_duration(false);
+            } else {
+                est_cpu_duration += rp->estimated_duration(false);
+            }
+        }
         rp->wup->version_num = rp->version_num;
         rp->received_time = now;
-        results.push_back(rp);
         new_results.push_back(rp);
-        rp->set_state(RESULT_NEW, "handle_scheduler_reply");
-        if (rp->avp->ncudas) {
-            est_cuda_duration += rp->estimated_duration(false);
-        } else if (rp->avp->natis) {
-            est_ati_duration += rp->estimated_duration(false);
-        } else {
-            est_cpu_duration += rp->estimated_duration(false);
-        }
+        results.push_back(rp);
     }
     if (log_flags.sched_op_debug) {
         if (sr.results.size()) {

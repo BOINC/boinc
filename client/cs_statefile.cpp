@@ -269,8 +269,10 @@ int CLIENT_STATE::parse_state_file() {
                 }
             }
             if (avp->missing_coproc()) {
-                delete avp;
-                continue;
+                msg_printf(project, MSG_INTERNAL_ERROR,
+                    "Application uses missing %s GPU",
+                    avp->ncudas?"NVIDIA":"ATI"
+                );
             }
             retval = link_app_version(project, avp);
             if (retval) {
@@ -349,6 +351,12 @@ int CLIENT_STATE::parse_state_file() {
                 );
                 delete rp;
                 continue;
+            }
+            if (rp->avp->missing_coproc()) {
+                msg_printf(project, MSG_INTERNAL_ERROR,
+                    "Missing coprocessor for task %s; aborting", rp->name
+                );
+                rp->abort_inactive(ERR_MISSING_COPROC);
             }
             rp->wup->version_num = rp->version_num;
             results.push_back(rp);
@@ -799,10 +807,6 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
             }
             if (strlen(avp->platform) == 0) {
                 strcpy(avp->platform, get_primary_platform());
-            }
-            if (avp->missing_coproc()) {
-                delete avp;
-                continue;
             }
             if (link_app_version(p, avp)) {
                 delete avp;

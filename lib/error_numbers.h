@@ -112,12 +112,12 @@
 #define ERR_ASYNCSELECT     -157
 #define ERR_BAD_RESULT_STATE    -158
 #define ERR_DB_CANT_INIT    -159
-#define ERR_NOT_UNIQUE		-160
-	// state files had redundant entries
-#define ERR_NOT_FOUND		-161
-	// inconsistent client state
-#define ERR_NO_EXIT_STATUS	-162
-	// exit_status not found in scheduler request 
+#define ERR_NOT_UNIQUE       -160
+    // state files had redundant entries
+#define ERR_NOT_FOUND        -161
+    // inconsistent client state
+#define ERR_NO_EXIT_STATUS   -162
+    // exit_status not found in scheduler request 
 #define ERR_FILE_MISSING    -163
 #define ERR_SEMGET          -165
 #define ERR_SEMCTL          -166
@@ -188,6 +188,7 @@
 #define ERR_CRYPTO          -231
 #define ERR_ABORTED_ON_EXIT -232
 #define ERR_UNSTARTED_LATE  -233
+#define ERR_MISSING_COPROC  -234
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in str_util.cpp.
