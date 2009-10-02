@@ -3370,3 +3370,9 @@ Rom    21 Sept 2009
     /
         configure.ac
         version.h
+
+David  27 July 2009
+    - client: fix crashing bug introduced in [18605]
+
+    client/
+        pers_file_xfer.cpp
