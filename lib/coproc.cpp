@@ -214,7 +214,7 @@ CUDA_GDA __cuDeviceGetAttribute = NULL;
 CUDA_GDN __cuDeviceGetName = NULL;
 CUDA_GDM __cuDeviceTotalMem = NULL;
 CUDA_GDCC __cuDeviceComputeCapability = NULL;
-#else 
+#else
 void* cudalib;
 int (*__cuInit)(int);
 int (*__cuDeviceGetCount)(int*);
@@ -653,23 +653,26 @@ bool COPROC_CUDA::check_running_graphics_app() {
 // ?? why don't they have HTML docs??
 
 #ifdef _WIN32
-typedef int (__stdcall *ATI_GDI)(void);
-typedef int (__stdcall *ATI_VER) (CALuint *cal_major, CALuint *cal_minor, CALuint *cal_imp);
-typedef int (__stdcall *ATI_GDC)(CALuint *numDevices);
 typedef int (__stdcall *ATI_ATTRIBS) (CALdeviceattribs *attribs, CALuint ordinal);
 typedef int (__stdcall *ATI_CLOSE)(void);
+typedef int (__stdcall *ATI_GDC)(CALuint *numDevices);
+typedef int (__stdcall *ATI_GDI)(void);
+typedef int (__stdcall *ATI_INFO) (CALdeviceinfo *info, CALuint ordinal);
+typedef int (__stdcall *ATI_VER) (CALuint *cal_major, CALuint *cal_minor, CALuint *cal_imp);
 
-ATI_GDI     __calInit = NULL;
-ATI_VER     __calGetVersion = NULL;
-ATI_GDC     __calDeviceGetCount = NULL;
 ATI_ATTRIBS __calDeviceGetAttribs = NULL;
 ATI_CLOSE   __calShutdown = NULL;
+ATI_GDC     __calDeviceGetCount = NULL;
+ATI_GDI     __calInit = NULL;
+ATI_INFO    __calDeviceGetInfo = NULL;
+ATI_VER     __calGetVersion = NULL;
 #else
 int (*__calInit)();
 int (*__calGetVersion)(CALuint*, CALuint*, CALuint*);
 int (*__calDeviceGetCount)(CALuint*);
 int (*__calDeviceGetAttribs)(CALdeviceattribs*, CALuint);
 int (*__calShutdown)();
+int (*__calDeviceGetInfo)(CALdeviceinfo*, CALuint);
 #endif
 
 void COPROC_ATI::get(COPROCS& coprocs,
@@ -687,7 +690,7 @@ void COPROC_ATI::get(COPROCS& coprocs,
     attribs.struct_size = sizeof(CALdeviceattribs);
     device = 0;
     numDevices =0;
-    
+
 #ifdef _WIN32
 
 #if defined _M_X64
@@ -698,28 +701,14 @@ void COPROC_ATI::get(COPROCS& coprocs,
     const char* amdlib_name = "amdcalrt.dll";
 #endif
 
-    // Detect which runtime libraries we can use
-    HINSTANCE atilib = LoadLibrary(atilib_name);
-    if (atilib) {
+    HINSTANCE callib = LoadLibrary(atilib_name);
+    if (callib) {
         atirt_detected = true;
-        FreeLibrary(atilib);
-    }
-
-    HINSTANCE amdlib = LoadLibrary(amdlib_name);
-    if (amdlib) {
-        if (!atirt_detected) {
-            amdrt_detected = true;
-        }
-        FreeLibrary(amdlib);
-    }
-
-    // Detect capabilities, give preference to the ati runtime
-    //   since it is newer.
-    HINSTANCE callib = NULL;
-    if (atirt_detected) {
-        callib = LoadLibrary(atilib_name);
     } else {
         callib = LoadLibrary(amdlib_name);
+        if (callib) {
+            amdrt_detected = true;
+        }
     }
 
     if (!callib) {
@@ -732,6 +721,7 @@ void COPROC_ATI::get(COPROCS& coprocs,
     __calDeviceGetCount = (ATI_GDC)GetProcAddress(callib, "calDeviceGetCount" );
     __calDeviceGetAttribs =(ATI_ATTRIBS)GetProcAddress(callib, "calDeviceGetAttribs" );
     __calShutdown = (ATI_CLOSE)GetProcAddress(callib, "calShutdown" );
+    __calDeviceGetInfo = (ATI_INFO)GetProcAddress(callib, "calDeviceGetInfo" );
 
 #else
 
@@ -750,6 +740,7 @@ void COPROC_ATI::get(COPROCS& coprocs,
     __calDeviceGetCount = (int(*)(CALuint*)) dlsym(callib, "calDeviceGetCount");
     __calDeviceGetAttribs = (int(*)(CALdeviceattribs*, CALuint)) dlsym(callib, "calDeviceGetAttribs");
     __calShutdown = (int(*)()) dlsym(callib, "calShutdown");
+    __calDeviceGetInfo = (int(*)(CALdeviceinfo*, CALuint)) dlsym(callib, "calDeviceGetInfo");
 
 #endif
 
@@ -767,6 +758,10 @@ void COPROC_ATI::get(COPROCS& coprocs,
     }
     if (!__calDeviceGetAttribs) {
         warnings.push_back("calDeviceGetAttribs() missing from CAL library");
+        return;
+    }
+    if (!__calDeviceGetInfo) {
+        warnings.push_back("calDeviceGetInfo() missing from CAL library");
         return;
     }
 
@@ -798,6 +793,12 @@ void COPROC_ATI::get(COPROCS& coprocs,
     string s, gpu_name;
     vector<COPROC_ATI> gpus;
     for (CALuint i=0; i<numDevices; i++) {
+        retval = (*__calDeviceGetInfo)(&info, i);
+        if (retval != CAL_RESULT_OK) {
+            sprintf(buf, "calDeviceGetInfo() returned %d", retval);
+            warnings.push_back(buf);
+            return;
+        }
         retval = (*__calDeviceGetAttribs)(&attribs, i);
         if (retval != CAL_RESULT_OK) {
             sprintf(buf, "calDeviceGetAttribs() returned %d", retval);
@@ -805,29 +806,53 @@ void COPROC_ATI::get(COPROCS& coprocs,
             return;
         }
         switch (attribs.target) {
-        case CAL_TARGET_600: gpu_name="ATI Radeon HD 2900 (RV600)"; break;
-		case CAL_TARGET_610:
-			gpu_name="ATI Radeon HD 2300/2400/3200 (RV610)";
-			attribs.numberOfSIMD=1;		// set correct values (reported wrong by driver)
-			attribs.wavefrontSize=32;
-			break; 
-		case CAL_TARGET_630:
-			gpu_name="ATI Radeon HD 2600 (RV630)";
-			attribs.numberOfSIMD=3;		// set correct values (reported wrong by driver)
-			attribs.wavefrontSize=32;
-			break; 
-        case CAL_TARGET_670: gpu_name="ATI Radeon HD 3800 (RV670)"; break;
-        case CAL_TARGET_710: gpu_name="ATI Radeon HD 4350/4550 (R710)"; break;
-        case CAL_TARGET_730: gpu_name="ATI Radeon HD 4600 series (R730)"; break;
-        case CAL_TARGET_7XX: gpu_name="ATI Radeon (RV700 class)"; break;
-        case CAL_TARGET_770: gpu_name="ATI Radeon HD 4700/4800 (RV740/RV770)"; break;
-		case 8: gpu_name="ATI Radeon HD5800 series (Cypress)"; break;	// not yet defined in cal.h
-		case 9: gpu_name="ATI Radeon HD5700 series (Juniper)"; break; 	// replace x with number, when announced
-		case 10: gpu_name="ATI Radeon HD5x00 series (Redwood)"; break;
-		case 11: gpu_name="ATI Radeon HD5x00 series (Cedar)"; break; 
-        default: gpu_name="ATI unknown"; break;
+        case CAL_TARGET_600:
+            gpu_name="ATI Radeon HD 2900 (RV600)";
+            break;
+        case CAL_TARGET_610:
+            gpu_name="ATI Radeon HD 2300/2400/3200 (RV610)";
+            attribs.numberOfSIMD=1;        // set correct values (reported wrong by driver)
+            attribs.wavefrontSize=32;
+            break;
+        case CAL_TARGET_630:
+            gpu_name="ATI Radeon HD 2600 (RV630)";
+            // set correct values (reported wrong by driver)
+            attribs.numberOfSIMD=3;
+            attribs.wavefrontSize=32;
+            break;
+        case CAL_TARGET_670:
+            gpu_name="ATI Radeon HD 3800 (RV670)";
+            break;
+        case CAL_TARGET_710:
+            gpu_name="ATI Radeon HD 4350/4550 (R710)";
+            break;
+        case CAL_TARGET_730:
+            gpu_name="ATI Radeon HD 4600 series (R730)";
+            break;
+        case CAL_TARGET_7XX:
+            gpu_name="ATI Radeon (RV700 class)";
+            break;
+        case CAL_TARGET_770:
+            gpu_name="ATI Radeon HD 4700/4800 (RV740/RV770)";
+            break;
+        case 8:
+            gpu_name="ATI Radeon HD5800 series (Cypress)";
+            break;    // not yet defined in cal.h
+        case 9:
+            gpu_name="ATI Radeon HD5700 series (Juniper)";
+            break;     // replace x with number, when announced
+        case 10:
+            gpu_name="ATI Radeon HD5x00 series (Redwood)";
+            break;
+        case 11:
+            gpu_name="ATI Radeon HD5x00 series (Cedar)";
+            break;
+        default:
+            gpu_name="ATI unknown";
+            break;
         }
         cc.attribs = attribs;
+        cc.info = info;
         strcpy(cc.name, gpu_name.c_str());
         sprintf(cc.version, "%d.%d.%d", cal_major, cal_minor, cal_imp);
         cc.amdrt_detected = amdrt_detected;
@@ -835,6 +860,9 @@ void COPROC_ATI::get(COPROCS& coprocs,
         cc.device_num = i;
         gpus.push_back(cc);
     }
+
+    // TODO: count only GPUs with as much memory as fastest one,
+    // same as for NVIDIA
 
     COPROC_ATI best;
     for (unsigned int i=0; i<gpus.size(); i++) {
@@ -872,6 +900,7 @@ void COPROC_ATI::write_xml(MIOFILE& f) {
         "   <req_secs>%f</req_secs>\n"
         "   <req_instances>%f</req_instances>\n"
         "   <estimated_delay>%f</estimated_delay>\n"
+        "   <target>%d</target>\n"
         "   <localRAM>%d</localRAM>\n"
         "   <uncachedRemoteRAM>%d</uncachedRemoteRAM>\n"
         "   <cachedRemoteRAM>%d</cachedRemoteRAM>\n"
@@ -882,12 +911,16 @@ void COPROC_ATI::write_xml(MIOFILE& f) {
         "   <doublePrecision>%d</doublePrecision>\n"
         "   <pitch_alignment>%d</pitch_alignment>\n"
         "   <surface_alignment>%d</surface_alignment>\n"
+        "   <maxResource1DWidth>%d</maxResource1DWidth>\n"
+        "   <maxResource2DWidth>%d</maxResource2DWidth>\n"
+        "   <maxResource2DHeight>%d</maxResource2DHeight>\n"
         "   <CALVersion>%s</CALVersion>\n",
         count,
         name,
         req_secs,
         req_instances,
         estimated_delay,
+        attribs.target,
         attribs.localRAM,
         attribs.uncachedRemoteRAM,
         attribs.cachedRemoteRAM,
@@ -898,24 +931,21 @@ void COPROC_ATI::write_xml(MIOFILE& f) {
         attribs.doublePrecision,
         attribs.pitch_alignment,
         attribs.surface_alignment,
+        info.maxResource1DWidth,
+        info.maxResource2DWidth,
+        info.maxResource2DHeight,
         version
     );
 
     if (atirt_detected) {
-        f.printf(
-            "    <atirt_detected/>\n"
-        );
+        f.printf("    <atirt_detected/>\n");
     }
 
     if (amdrt_detected) {
-        f.printf(
-            "    <amdrt_detected/>\n"
-        );
+        f.printf("    <amdrt_detected/>\n");
     }
 
-    f.printf(
-        "</coproc_ati>\n"
-    );
+    f.printf("</coproc_ati>\n");
 };
 #endif
 
@@ -929,16 +959,8 @@ void COPROC_ATI::clear() {
     strcpy(version, "");
     atirt_detected = false;
     amdrt_detected = false;
-    attribs.localRAM = 0;
-    attribs.uncachedRemoteRAM = 0;
-    attribs.cachedRemoteRAM = 0;
-    attribs.engineClock = 0;
-    attribs.memoryClock = 0;
-    attribs.wavefrontSize = 0;
-    attribs.numberOfSIMD = 0;
-    attribs.doublePrecision = CAL_FALSE;
-    attribs.pitch_alignment = 0;
-    attribs.surface_alignment = 0;
+    memset(&attribs, 0, sizeof(attribs));
+    memset(&info, 0, sizeof(info));
 }
 
 int COPROC_ATI::parse(FILE* fin) {
@@ -955,6 +977,10 @@ int COPROC_ATI::parse(FILE* fin) {
         if (parse_double(buf, "<req_instances>", req_instances)) continue;
         if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
 
+        if (parse_int(buf, "<target>", n)) {
+            attribs.target = (CALtarget)n;
+            continue;
+        }
         if (parse_int(buf, "<localRAM>", n)) {
             attribs.localRAM = n;
             continue;
@@ -993,6 +1019,18 @@ int COPROC_ATI::parse(FILE* fin) {
         }
         if (parse_int(buf, "<surface_alignment>", n)) {
             attribs.surface_alignment = n;
+            continue;
+        }
+        if (parse_int(buf, "<maxResource1DWidth>", n)) {
+            info.maxResource1DWidth = n;
+            continue;
+        }
+        if (parse_int(buf, "<maxResource2DWidth>", n)) {
+            info.maxResource2DWidth = n;
+            continue;
+        }
+        if (parse_int(buf, "<maxResource2DHeight>", n)) {
+            info.maxResource2DHeight = n;
             continue;
         }
         if (parse_bool(buf, "amdrt_detected", amdrt_detected)) continue;
