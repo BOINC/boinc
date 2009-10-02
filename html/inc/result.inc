@@ -347,7 +347,7 @@ function show_result_row(
         <td align=right>$cpu_time</td>
         <td align=right>$result_claimed_credit</td>
         <td align=right>$result_granted_credit</td>
-        <td align=right>$v</td>
+        <td>$v</td>
         </tr>
     ";
 }
