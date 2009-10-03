@@ -343,7 +343,7 @@ RESULT* first_coproc_result() {
         } else if (rp->received_time == best->received_time) {
             // make it deterministic by looking at name
             //
-            if (strcmp(rp->name, best->name)) {
+            if (strcmp(rp->name, best->name) > 0) {
                 best = rp;
             }
         }

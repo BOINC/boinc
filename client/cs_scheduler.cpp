@@ -844,6 +844,8 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
         new_results.push_back(rp);
         results.push_back(rp);
     }
+    sort_results();
+
     if (log_flags.sched_op_debug) {
         if (sr.results.size()) {
             msg_printf(project, MSG_INFO,
