@@ -277,7 +277,7 @@ int CLIENT_STATE::init() {
         msg_printf(NULL, MSG_INFO, "Faking an NVIDIA GPU");
 #endif
 #if 0
-        fake_ati(coprocs, 2);
+        fake_ati(coprocs, 1);
         msg_printf(NULL, MSG_INFO, "Faking an ATI GPU");
 #endif
         coproc_cuda = (COPROC_CUDA*)coprocs.lookup("CUDA");
