@@ -1511,6 +1511,7 @@ void RESULT::clear() {
     version_num = 0;
     strcpy(platform, "");
     strcpy(plan_class, "");
+    strcpy(resources, "");
 }
 
 // parse a <result> element from scheduling server.
@@ -1741,23 +1742,43 @@ int RESULT::write_gui(MIOFILE& out) {
     if (suspended_via_gui) out.printf("    <suspended_via_gui/>\n");
     if (project->suspended_via_gui) out.printf("    <project_suspended_via_gui/>\n");
     if (edf_scheduled) out.printf("    <edf_scheduled/>\n");
-    char buf[256];
-    strcpy(buf, "");
-    if (avp->ncudas) {
-        sprintf(buf, "%.2f CPUs + %.2f NVIDIA GPUs", avp->avg_ncpus, avp->ncudas);
-    } else if (avp->natis) {
-        sprintf(buf, "%.2f CPUs + %.2f ATI GPUs", avp->avg_ncpus, avp->natis);
-    } else if (avp->avg_ncpus != 1) {
-        sprintf(buf, "%.2f CPUs", avp->avg_ncpus);
-    }
-    if (strlen(buf)) {
-        out.printf(
-            "    <resources>%s</resources>\n", buf
-        );
-    }
     ACTIVE_TASK* atp = gstate.active_tasks.lookup_result(this);
     if (atp) {
         atp->write_gui(out);
+    }
+    if (!strlen(resources)) {
+        // only need to compute this string once
+        //
+        if (avp->ncudas) {
+            sprintf(resources,
+                "%.2f CPUs + %.2f NVIDIA GPUs",
+                avp->avg_ncpus, avp->ncudas
+            );
+        } else if (avp->natis) {
+            sprintf(resources,
+                "%.2f CPUs + %.2f ATI GPUs",
+                avp->avg_ncpus, avp->natis
+                
+            );
+        } else if (avp->avg_ncpus != 1) {
+            sprintf(resources, "%.2f CPUs", avp->avg_ncpus);
+        } else {
+            strcpy(resources, " ");
+        }
+    }
+    if (strlen(resources)>1) {
+        char buf[256];
+        strcpy(buf, "");
+        if (atp && atp->task_state() == PROCESS_EXECUTING) {
+            if (avp->ncudas && coproc_cuda->count>1) {
+                sprintf(buf, " (device %d)", coproc_indices[0]);
+            } else if (avp->natis && coproc_ati->count>1) {
+                sprintf(buf, " (device %d)", coproc_indices[0]);
+            }
+        }
+        out.printf(
+            "    <resources>%s%s</resources>\n", resources, buf
+        );
     }
     out.printf("</result>\n");
     return 0;
