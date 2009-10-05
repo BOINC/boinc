@@ -7815,3 +7815,12 @@ Rom    29 Sept 2009
     /
         configure.ac
         version.h
+
+David  30 Sept 2009
+    - client: if downloaded project list file is garbage, ignore it.
+    - all: accept <foo /> as an XML bool
+
+    client/
+        acct_setup.cpp
+    lib/
+        parse.cpp

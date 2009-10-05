@@ -52,19 +52,26 @@ using std::string;
 
 
 // Parse a boolean; tag is of form "foobar"
-// Accept either <foobar/> or <foobar>0|1</foobar>
+// Accept either <foobar/>, <foobar />, or <foobar>0|1</foobar>
+// (possibly with leading/trailing white space)
 //
 bool parse_bool(const char* buf, const char* tag, bool& result) {
-    char single_tag[256], start_tag[256];
+    char tag2[256], tag3[256];
     int x;
 
-    sprintf(single_tag, "<%s/>", tag);
-    if (match_tag(buf, single_tag)) {
+    // quick check to reject most cases
+    //
+    if (!strstr(buf, tag)) {
+        return false;
+    }
+    sprintf(tag2, "<%s/>", tag);
+    sprintf(tag3, "<%s />", tag);
+    if (match_tag(buf, tag2) || match_tag(buf, tag3)) {
         result = true;
         return true;
     }
-    sprintf(start_tag, "<%s>", tag);
-    if (parse_int(buf, start_tag, x)) {
+    sprintf(tag2, "<%s>", tag);
+    if (parse_int(buf, tag2, x)) {
         result = (x != 0);
         return true;
     }
@@ -471,8 +478,11 @@ int XML_PARSER::scan_comment() {
     }
 }
 
-// we just read a <; read until we find a >,
-// and copy intervening text to buf.
+// we just read a <; read until we find a >.
+// Given <tag [attr=val attr=val] [/]>:
+// - copy tag (or tag/) to tag_buf
+// - copy "attr=val attr=val" to attr_buf
+//
 // Return:
 // 0 if got a tag
 // 1 if got a comment (ignore)
@@ -493,9 +503,13 @@ int XML_PARSER::scan_tag(
             return 0;
         }
         if (isspace(c)) {
+            if (found_space && attr_buf) {
+                if (--attr_len > 0) {
+                    *attr_buf++ = c;
+                }
+            }
             found_space = true;
-        }
-        if (c == '/') {
+        } else if (c == '/') {
             if (--tag_len > 0) {
                 *tag_buf++ = c;
             }
