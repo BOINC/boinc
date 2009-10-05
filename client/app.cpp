@@ -631,10 +631,6 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
                 || result->ready_to_report
                 || result->state() != RESULT_FILES_DOWNLOADED
             ) {
-                msg_printf(project, MSG_INTERNAL_ERROR,
-                    "State file error: result %s is in wrong state\n",
-                    result_name
-                );
                 return ERR_BAD_RESULT_STATE;
             }
 

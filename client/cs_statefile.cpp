@@ -269,7 +269,7 @@ int CLIENT_STATE::parse_state_file() {
                 }
             }
             if (avp->missing_coproc()) {
-                msg_printf(project, MSG_INTERNAL_ERROR,
+                msg_printf(project, MSG_INFO,
                     "Application uses missing %s GPU",
                     avp->ncudas?"NVIDIA":"ATI"
                 );
@@ -353,7 +353,7 @@ int CLIENT_STATE::parse_state_file() {
                 continue;
             }
             if (rp->avp->missing_coproc()) {
-                msg_printf(project, MSG_INTERNAL_ERROR,
+                msg_printf(project, MSG_INFO,
                     "Missing coprocessor for task %s; aborting", rp->name
                 );
                 rp->abort_inactive(ERR_MISSING_COPROC);

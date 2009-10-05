@@ -7899,13 +7899,21 @@ David  2 Oct 2009
         error_numbers.h
 
 David  2 Oct 2009
-	- client: fix bug where if you change project "no CPU/NVIDIA/ATI"
-		prefs and update, the change wouldn't take effect until client restart.
-	- client: fix bug in enforcement of "no CPU/NVIDIA/ATI" prefs
+    - client: fix bug where if you change project "no CPU/NVIDIA/ATI"
+        prefs and update, the change wouldn't take effect until client restart.
+    - client: fix bug in enforcement of "no CPU/NVIDIA/ATI" prefs
 
-	client/
-		client_state.cpp
-		cs_account.cpp
-		work_fetch.cpp
-	lib/
-		coproc.cpp
+    client/
+        client_state.cpp
+        cs_account.cpp
+        work_fetch.cpp
+    lib/
+        coproc.cpp
+
+David  2 Oct 2009
+    - client: if GPU is removed while jobs in progress,
+        don't show messages as internal errors.
+
+    client/
+        app.cpp
+        cs_statefile.cpp
