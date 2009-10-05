@@ -434,6 +434,7 @@ public:
     int write_state_gui(MIOFILE&);
     int write_file_transfers_gui(MIOFILE&);
     int write_tasks_gui(MIOFILE&, bool);
+    void sort_results();
 
 // --------------- cs_trickle.cpp:
 private:

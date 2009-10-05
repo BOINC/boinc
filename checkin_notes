@@ -7917,3 +7917,13 @@ David  2 Oct 2009
     client/
         app.cpp
         cs_statefile.cpp
+
+David  2 Oct 2009
+    - client: make the order of the result vector
+        consistent with the order used to select coproc jobs
+
+    client
+        client_state.h
+        cs_scheduler.cpp
+        cs_statefile.cpp
+        cpu_sched.cpp

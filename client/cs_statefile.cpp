@@ -482,15 +482,18 @@ int CLIENT_STATE::parse_state_file() {
         }
         skip_unrecognized(buf, mf);
     }
+    sort_results();
+    fclose(f);
+    return 0;
+}
+
+void CLIENT_STATE::sort_results() {
     std::sort(
         results.begin(),
         results.end(),
         arrived_first
     );
-    fclose(f);
-    return 0;
 }
-
 
 // Write the client_state.xml file
 //
