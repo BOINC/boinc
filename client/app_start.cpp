@@ -125,12 +125,6 @@ static void coproc_cmdline(
         }
         char buf[256];
         sprintf(buf, " --device %d", coproc->device_nums[k]);
-        if (log_flags.task_debug) {
-            msg_printf(rp->project, MSG_INFO,
-                "using coproc instance %d (device num %d)",
-                k, coproc->device_nums[k]
-            );
-        }
         strcat(cmdline, buf);
     }
 }

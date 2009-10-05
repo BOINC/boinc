@@ -917,6 +917,12 @@ static inline bool get_fractional_assignment(
         ) {
             rp->coproc_indices[0] = i;
             cp->usage[i] += usage;
+            if (log_flags.coproc_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[coproc_debug] Assigning %f of %s instance %d to %s",
+                    usage, cp->type, i, rp->name
+                );
+            }
             return true;
         }
     }
@@ -927,9 +933,19 @@ static inline bool get_fractional_assignment(
         if (!cp->usage[i]) {
             rp->coproc_indices[0] = i;
             cp->usage[i] += usage;
+            if (log_flags.coproc_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[coproc_debug] Assigning %f of %s instance %d to %s",
+                    usage, cp->type, i, rp->name
+                );
+            }
             return true;
         }
     }
+    msg_printf(rp->project, MSG_INFO,
+        "[coproc_debug] Insufficient %s for %s: need %f",
+        cp->type, rp->name,usage
+    );
 
     return false;
 }
@@ -947,7 +963,15 @@ static inline bool get_integer_assignment(
             nfree++;
         }
     }
-    if (nfree < usage) return false;
+    if (nfree < usage) {
+        if (log_flags.coproc_debug) {
+            msg_printf(rp->project, MSG_INFO,
+                "[coproc_debug] Insufficient %s for %s; %d < %d",
+                cp->type, rp->name, nfree, (int)usage
+            );
+        }
+        return false;
+    }
 
     int n = 0;
 
@@ -955,6 +979,12 @@ static inline bool get_integer_assignment(
         if (!cp->usage[i] && !cp->pending_usage) {
             cp->usage[i] = 1;
             rp->coproc_indices[n++] = i;
+            if (log_flags.coproc_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[coproc_debug] Assigning %s instance %d to %s",
+                    cp->type, i, rp->name
+                );
+            }
             if (n == usage) break;
         }
     }
@@ -962,6 +992,12 @@ static inline bool get_integer_assignment(
         if (!cp->usage[i]) {
             cp->usage[i] = 1;
             rp->coproc_indices[n++] = i;
+            if (log_flags.coproc_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[coproc_debug] Assigning %s instance %d to %s",
+                    cp->type, i, rp->name
+                );
+            }
             if (n == usage) break;
         }
     }

@@ -7927,3 +7927,10 @@ David  2 Oct 2009
         cs_scheduler.cpp
         cs_statefile.cpp
         cpu_sched.cpp
+
+David  3 Oct 2009
+	- client: improve coproc_debug messages
+
+	client/
+		app_start.cpp
+		cpu_sched.cpp
