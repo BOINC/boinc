@@ -157,50 +157,57 @@ static void windows_detect_autoproxy_settings() {
             msg_printf(NULL, MSG_INFO, "[proxy_debug] successfully executed proxy check", hWinHttp);
         }
 
-        std::string proxy(W2A(std::wstring(proxy_info.lpszProxy)));
-        std::string new_proxy;
-
-        if (log_flags.proxy_debug) {
-            msg_printf(NULL, MSG_INFO, "[proxy_debug] proxy list '%s'", proxy.c_str());
-        }
-
-        if (!proxy.empty()) {
-            // Trim string if more than one proxy is defined
-            // proxy list is defined as:
-            //   ([<scheme>=][<scheme>"://"]<server>[":"<port>])
-            
-            // Find and erase first delimeter type.
-            pos = proxy.find(';');
-            if (pos != -1 ) {
-                new_proxy = proxy.erase(pos);
-                proxy = new_proxy;
-            }
-
-            // Find and erase second delimeter type.
-            pos = proxy.find(' ');
-            if (pos != -1 ) {
-                new_proxy = proxy.erase(pos);
-                proxy = new_proxy;
-            }
-
-            // Parse the remaining url
-            parse_url(
-                proxy.c_str(),
-                proxy_protocol,
-                proxy_server,
-                proxy_port,
-                proxy_file
-            );
-
-            // Store the results for future use.
-            gstate.proxy_info.autodetect_protocol = proxy_protocol;
-            strcpy(gstate.proxy_info.autodetect_server_name, proxy_server);
-            gstate.proxy_info.autodetect_port = proxy_port;
+        // Apparently there are some conditions where WinHttpGetProxyForUrl can return
+        //   success but where proxy_info.lpszProxy is null.  Maybe related to UPNP?
+        //
+        // For the time being check to see if proxy_info.lpszProxy is non-null.
+        //
+        if (!proxy_info.lpszProxy) {
+            std::string proxy(W2A(std::wstring(proxy_info.lpszProxy)));
+            std::string new_proxy;
 
             if (log_flags.proxy_debug) {
-                msg_printf(NULL, MSG_INFO,
-                    "[proxy_debug] automatic proxy detected %s:%d", proxy_server, proxy_port
+                msg_printf(NULL, MSG_INFO, "[proxy_debug] proxy list '%s'", proxy.c_str());
+            }
+
+            if (!proxy.empty()) {
+                // Trim string if more than one proxy is defined
+                // proxy list is defined as:
+                //   ([<scheme>=][<scheme>"://"]<server>[":"<port>])
+                
+                // Find and erase first delimeter type.
+                pos = proxy.find(';');
+                if (pos != -1 ) {
+                    new_proxy = proxy.erase(pos);
+                    proxy = new_proxy;
+                }
+
+                // Find and erase second delimeter type.
+                pos = proxy.find(' ');
+                if (pos != -1 ) {
+                    new_proxy = proxy.erase(pos);
+                    proxy = new_proxy;
+                }
+
+                // Parse the remaining url
+                parse_url(
+                    proxy.c_str(),
+                    proxy_protocol,
+                    proxy_server,
+                    proxy_port,
+                    proxy_file
                 );
+
+                // Store the results for future use.
+                gstate.proxy_info.autodetect_protocol = proxy_protocol;
+                strcpy(gstate.proxy_info.autodetect_server_name, proxy_server);
+                gstate.proxy_info.autodetect_port = proxy_port;
+
+                if (log_flags.proxy_debug) {
+                    msg_printf(NULL, MSG_INFO,
+                        "[proxy_debug] automatic proxy detected %s:%d", proxy_server, proxy_port
+                    );
+                }
             }
         }
 
