@@ -514,7 +514,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             // is probably a benchmark process; don't show error
             //
             if (!gstate.are_cpu_benchmarks_running() && log_flags.task_debug) {
-                msg_printf(atp->result->project, MSG_INTERNAL_ERROR,
+                msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Process %d not found\n", pid
                 );
             }

@@ -8433,4 +8433,11 @@ Rom    5 Oct 2009
 
     lib/
         diagnostics_win.cpp
+
+Rom    1 Oct 2009
+    - client: Fix crash that was introduced 7 months ago.
+        (From Nicolás Alvarez)
         
+    client/
+        app_control.cpp
+
