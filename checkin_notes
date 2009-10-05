@@ -7954,3 +7954,13 @@ Rom    5 Oct 2009
         
     lib/
         diagnostics_win.cpp
+
+Rom    5 Oct 2009
+    - DIAG: Don't resume after the thread has been suspended, otherwise the
+        thread stack may be trashed after extracting the context.  This should
+        still be okay though as by the time the diagnostics framework
+        has gotten here it has already downloaded all the symbols it'll need.
+
+    lib/
+        diagnostics_win.cpp
+        
