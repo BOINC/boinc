@@ -133,9 +133,9 @@ define("DONT_VERIFY_IMAGES_DESC",
     modifies image files (UMTS does this, for example).
     <br>Skipping verification reduces the security of BOINC.</span>"
 );
-define('ATI_SELECT_DESC', "Use ATI GPU if present");
-define('CUDA_SELECT_DESC', "Use NVIDIA GPU if present");
-define('CPU_SELECT_DESC', "Use CPU");
+define('ATI_SELECT_DESC', "Use ATI GPU if present<br><span class=note>(enforced by 6.10+ clients)</span>");
+define('CUDA_SELECT_DESC', "Use NVIDIA GPU if present<br><span class=note>(enforced by 6.10+ clients)</span>");
+define('CPU_SELECT_DESC', "Use CPU<br><span class=note>(enforced by 6.10+ clients)</span>");
 
 
 define("BYTE_CONVERSION", 1000.0);

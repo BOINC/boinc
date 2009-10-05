@@ -1,6 +1,9 @@
 <?
 
 $project_news = array(
+array("October 4, 2009",
+    "<a href=\"http://www.efmer.eu/boinc/boinc_tasks/\">BoincTasks</a>, a new visual interface to BOINC, has been released for Windows.  BoincTasks lets you manage a single computer locally, or all your computers remotely."
+),
 array("October 1, 2009",
     "An <a href=\"http://www.nytimes.com/2009/09/29/science/29grid.html\">article
     in the NY Times</a> describes a project using BOINC
