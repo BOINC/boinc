@@ -702,16 +702,16 @@ void COPROC_ATI::get(COPROCS& coprocs,
 #endif
 
     // Detect which runtime libraries we can use
-    HINSTANCE amdlib = LoadLibrary(amdlib_name);
-    if (amdlib) {
-        amdrt_detected = true;
-        FreeLibrary(amdlib);
-    }
-
     HINSTANCE atilib = LoadLibrary(atilib_name);
     if (atilib) {
         atirt_detected = true;
         FreeLibrary(atilib);
+    }
+
+    HINSTANCE amdlib = LoadLibrary(amdlib_name);
+    if (!atirt_detected && amdlib) {
+        amdrt_detected = true;
+        FreeLibrary(amdlib);
     }
 
     // Detect capabilities, give preference to the ati runtime
