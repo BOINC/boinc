@@ -7963,4 +7963,11 @@ Rom    5 Oct 2009
 
     lib/
         diagnostics_win.cpp
-        
+
+Rom    5 Oct 2009
+    - Tag for 6.10.12 release, all platforms
+      boinc_core_release_6_10_12
+
+    /
+        configure.ac
+        version.h
