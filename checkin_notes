@@ -7856,3 +7856,12 @@ Rom    1 Oct 2009
         
     lib/
         shmem.cpp
+
+Rom    1 Oct 2009
+    - lib: Add additional ATI descriptions.
+    - lib: Fix some inaccurate ATI capabilities in certain cards.
+        (From: Andreas a.k.a Gipsel)
+        
+    lib/
+        coproc.cpp
+
