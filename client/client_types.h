@@ -614,6 +614,8 @@ struct RESULT {
 
     int coproc_indices[MAX_COPROCS_PER_JOB];
         // keep track of coprocessor reservations
+    char resources[256];
+        // textual description of resources used
 };
 
 /// represents an always/auto/never value, possibly temporarily overridden
