@@ -7871,3 +7871,12 @@ Rom    1 Oct 2009
         
     lib/
         shmem.cpp
+
+David  2 Oct 2009
+    - client: restore calDeviceGetInfo(), add its info to COPROC_ATI struct
+        (some plan class might need to know this).
+        Code cleanup.
+
+    lib/
+        Makefile.am
+        coproc.cpp,h

@@ -290,6 +290,7 @@ struct COPROC_ATI : public COPROC {
     bool atirt_detected;
     bool amdrt_detected;
     CALdeviceattribs attribs; 
+    CALdeviceinfo info;
 #ifndef _USING_FCGI_
     virtual void write_xml(MIOFILE&);
 #endif
