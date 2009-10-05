@@ -1839,8 +1839,6 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
                                     c.ContextFlags = CONTEXT_FULL;
 				                    GetThreadContext(pThreadEntry->thread_handle, &c);
 
-                                    ResumeThread(pThreadEntry->thread_handle);
-
                                     StackwalkThread(
                                         pThreadEntry->thread_handle,
                                         &c
