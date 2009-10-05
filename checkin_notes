@@ -7880,3 +7880,20 @@ David  2 Oct 2009
     lib/
         Makefile.am
         coproc.cpp,h
+
+David  2 Oct 2009
+    - client: better behavior if a GPU goes away:
+        1) if an APP_VERSION is missing a coprocessor,
+            don't delete it and its files.
+            (If the coprocessor returns, we won't need to re-download)
+        2) if a RESULT uses an app version that is missing a coprocessor,
+            abort it (rather than deleting it).
+            The client will report the result on the next scheduler RPC,
+            and the server will make a new instance.
+
+    client/
+        client_types.cpp
+        cs_scheduler.cpp
+        cs_statefile.cpp
+    lib/
+        error_numbers.h

@@ -1247,15 +1247,9 @@ void APP_VERSION::get_file_errors(string& str) {
 
 bool APP_VERSION::missing_coproc() {
     if (ncudas && !coproc_cuda) {
-        msg_printf(project, MSG_INTERNAL_ERROR,
-            "Application uses missing NVIDIA GPU"
-        );
         return true;
     }
     if (natis && !coproc_ati) {
-        msg_printf(project, MSG_INTERNAL_ERROR,
-            "Application uses missing ATI GPU"
-        );
         return true;
     }
     return false;
