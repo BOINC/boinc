@@ -92,6 +92,9 @@ int PROJECT::parse_account(FILE* in) {
     char buf[256];
     int retval;
     bool in_project_prefs = false;
+    no_cpu = false;
+    no_cuda = false;
+    no_ati = false;
 
     strcpy(master_url, "");
     strcpy(authenticator, "");

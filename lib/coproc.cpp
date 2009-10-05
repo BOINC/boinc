@@ -805,7 +805,7 @@ void COPROC_ATI::get(COPROCS& coprocs,
             warnings.push_back(buf);
             return;
         }
-        switch (attribs.target) {
+        switch ((int)attribs.target) {
         case CAL_TARGET_600:
             gpu_name="ATI Radeon HD 2900 (RV600)";
             break;
@@ -1049,7 +1049,7 @@ void COPROC_ATI::description(char* buf) {
 void fake_ati(COPROCS& coprocs, int count) {
     COPROC_ATI* cc = new COPROC_ATI;
     strcpy(cc->type, "ATI");
-    strcpy(cc->version, "1.2.3");
+    strcpy(cc->version, "1.4.3");
     cc->count = count;
     cc->attribs.numberOfSIMD = 32;
     cc->attribs.wavefrontSize = 32;

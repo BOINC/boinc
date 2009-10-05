@@ -74,9 +74,9 @@ bool RSC_WORK_FETCH::may_have_work(PROJECT* p) {
 
 bool RSC_PROJECT_WORK_FETCH::compute_may_have_work(PROJECT* p, int rsc_type) {
     switch(rsc_type) {
-    case RSC_TYPE_CPU: if (p->no_cpu) return false;
-    case RSC_TYPE_CUDA: if (p->no_cuda) return false;
-    case RSC_TYPE_ATI: if (p->no_ati) return false;
+    case RSC_TYPE_CPU: if (p->no_cpu) return false; break;
+    case RSC_TYPE_CUDA: if (p->no_cuda) return false; break;
+    case RSC_TYPE_ATI: if (p->no_ati) return false; break;
     }
     return (backoff_time < gstate.now);
 }

@@ -7897,3 +7897,15 @@ David  2 Oct 2009
         cs_statefile.cpp
     lib/
         error_numbers.h
+
+David  2 Oct 2009
+	- client: fix bug where if you change project "no CPU/NVIDIA/ATI"
+		prefs and update, the change wouldn't take effect until client restart.
+	- client: fix bug in enforcement of "no CPU/NVIDIA/ATI" prefs
+
+	client/
+		client_state.cpp
+		cs_account.cpp
+		work_fetch.cpp
+	lib/
+		coproc.cpp
