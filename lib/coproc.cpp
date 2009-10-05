@@ -709,8 +709,10 @@ void COPROC_ATI::get(COPROCS& coprocs,
     }
 
     HINSTANCE amdlib = LoadLibrary(amdlib_name);
-    if (!atirt_detected && amdlib) {
-        amdrt_detected = true;
+    if (amdlib) {
+        if (!atirt_detected) {
+            amdrt_detected = true;
+        }
         FreeLibrary(amdlib);
     }
 
