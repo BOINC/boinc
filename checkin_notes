@@ -7849,3 +7849,10 @@ Rom    1 Oct 2009
         
     lib/
         coproc.cpp
+
+Rom    1 Oct 2009
+    - lib: Fix memory/resource leak.
+        (From Nicolás Alvarez)
+        
+    lib/
+        shmem.cpp
