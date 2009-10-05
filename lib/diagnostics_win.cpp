@@ -1772,16 +1772,6 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
                 // Wait for the ThreadListSync mutex before writing updates
                 WaitForSingleObject(hThreadListSync, INFINITE);
 
-                // Suspend the other threads.
-                for (i=0; i<diagnostics_threads.size(); i++) {
-                    pThreadEntry = diagnostics_threads[i];
-			        // Suspend the thread before getting the threads context, otherwise
-                    //   it'll be junk.
-                    if (!pThreadEntry->crash_suspend_exempt && pThreadEntry->thread_handle) {
-                        SuspendThread(pThreadEntry->thread_handle);
-                    }
-                }
-
                 // Dump some basic stuff about runtime debugger version and date
                 diagnostics_unhandled_exception_dump_banner();
 
@@ -1834,10 +1824,16 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
                                         EXCEPTION_EXECUTE_HANDLER
                                     );
                                 } else {
+                                    // Suspend thread before extracting the contexts, 
+                                    //   otherwise it'll be trash.
+                                    SuspendThread(pThreadEntry->thread_handle);
+                                    
                                     // Get the thread context
                                     memset(&c, 0, sizeof(CONTEXT));
                                     c.ContextFlags = CONTEXT_FULL;
 				                    GetThreadContext(pThreadEntry->thread_handle, &c);
+
+                                    ResumeThread(pThreadEntry->thread_handle);
 
                                     StackwalkThread(
                                         pThreadEntry->thread_handle,

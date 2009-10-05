@@ -7944,3 +7944,13 @@ David  3 Oct 2009
         client_types.cpp,h
     clientgui/
         DlgItemProperties.cpp
+
+Rom    5 Oct 2009
+    - DIAG: Suspend threads right before extracting their context and then
+        resume them afterwords.  Otherwise we could end up in a deadlock state
+        where both the main thread and a support thread are attempting to use
+        the same system resource and the thread that owns the resource becomes
+        suspended. In the last situation it was way down in Winsock.
+        
+    lib/
+        diagnostics_win.cpp
