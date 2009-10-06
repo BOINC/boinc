@@ -575,9 +575,9 @@ function hour_range($venue, $type) {
 //
 function row_defs($pre, $item, $post, $type, $prefs) {
     $gen = $prefs->$item;
-    $hom  = isset($prefs->home) ? $prefs->home->$item : "--";
-    $schl = isset($prefs->school) ? $prefs->school->$item : "--";
-    $wrk  = isset($prefs->work) ? $prefs->work->$item : "--";
+    $hom  = (isset($prefs->home) && isset($prefs->home->item)) ? $prefs->home->$item : "--";
+    $schl = (isset($prefs->school) && isset($prefs->school->item)) ? $prefs->school->$item : "--";
+    $wrk  = (isset($prefs->work) && isset($prefs->work->item)) ? $prefs->work->$item : "--";
 
     echo "<tr><td class=fieldname>$pre</td>";
     row_field($gen,  $type);
@@ -1547,7 +1547,7 @@ function project_prefs_make_xml($prefs, $primary=true) {
     if ($prefs->resource_share) {
         $xml = $xml ."<resource_share>$prefs->resource_share</resource_share>\n";
     }
-    if ($prefs->allow_beta_work) {
+    if (isset($prefs->allow_beta_work)) {
         $xml = $xml . "<allow_beta_work>1</allow_beta_work>\n";
     }
     if ($prefs->no_cpu) {

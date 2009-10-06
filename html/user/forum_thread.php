@@ -61,17 +61,21 @@ if (!$sort_style) {
     // get the sorting style from the user or a cookie
     if ($logged_in_user){
         $sort_style = $logged_in_user->prefs->thread_sorting;
-    } else {
-        list($forum_style, $sort_style)=explode("|",$_COOKIE['sorting']);
+    } else if (array_key_exists('sorting', $_COOKIE)) {
+        list($forum_style, $sort_style) = explode("|",$_COOKIE['sorting']);
     }
 } else {
     if ($logged_in_user){
         $logged_in_user->prefs->thread_sorting = $sort_style;
         $logged_in_user->prefs->update("thread_sorting=$sort_style");
-    } else {
-        list($forum_style,$old_style)=explode("|",$_COOKIE['sorting']);
-        send_cookie('sorting', implode("|",array($forum_style,$sort_style)), true);
+        $forum_style = 0;   // I guess this is deprecated
+    } else if (array_key_exists('sorting', $_COOKIE)) {
+        list($forum_style, $old_style) = explode("|", $_COOKIE['sorting']);
     }
+    send_cookie('sorting',
+        implode("|", array($forum_style, $sort_style)),
+        true
+    );
 }
 
 if ($logged_in_user && $logged_in_user->prefs->jump_to_unread){

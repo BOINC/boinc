@@ -8434,10 +8434,23 @@ Rom    5 Oct 2009
     lib/
         diagnostics_win.cpp
 
-Rom    1 Oct 2009
+Rom    5 Oct 2009
     - client: Fix crash that was introduced 7 months ago.
         (From Nicolás Alvarez)
         
     client/
         app_control.cpp
 
+David  6 Oct 2009
+    - client: remove redundant 0s in job log
+    - user web: remove some PHP warnings (from Oliver Bock)
+
+    client/
+        client_types.cpp
+    html/
+        inc/
+            prefs.inc
+        user/
+            add_venue.cpp
+            forum_thread.cpp
+            prefs_edit.cpp

@@ -30,6 +30,7 @@ $action = get_str("action", true);
 $subset = get_str("subset");
 $venue = get_str("venue", true);
 $columns = get_str("cols", true);
+$x = "";
 $c = $columns?"&cols=$columns":"";
 check_subset($subset);
 
@@ -65,7 +66,7 @@ if ($action) {
 
         $project_error = prefs_project_parse_form($prefs);
         $error = prefs_resource_parse_form($prefs);
-        if ($project_has_beta) prefs_beta_parse_form($prefs);
+        if (isset($project_has_beta) && $project_has_beta) prefs_beta_parse_form($prefs);
         if ($error != false || $project_error != false) {
             $title = "Edit ".subset_name($subset)." preferences";
             if ($venue) $title = "$title for $venue";

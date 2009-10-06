@@ -62,7 +62,7 @@ if ($action) {
 
         $project_error = prefs_project_parse_form($new_prefs);
         $error = prefs_resource_parse_form($new_prefs);
-        if ($project_has_beta) prefs_beta_parse_form($new_prefs);
+        if (isset($project_has_beta) && $project_has_beta) prefs_beta_parse_form($new_prefs);
 
         if ($error != false || $project_error != false) {
             $title = "Edit ".subset_name($subset)." preferences";
