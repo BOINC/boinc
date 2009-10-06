@@ -162,7 +162,7 @@ static void windows_detect_autoproxy_settings() {
         //
         // For the time being check to see if proxy_info.lpszProxy is non-null.
         //
-        if (!proxy_info.lpszProxy) {
+        if (proxy_info.lpszProxy) {
             std::string proxy(W2A(std::wstring(proxy_info.lpszProxy)));
             std::string new_proxy;
 

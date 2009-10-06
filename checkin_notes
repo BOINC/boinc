@@ -7971,3 +7971,10 @@ Rom    5 Oct 2009
     /
         configure.ac
         version.h
+
+Rom    5 Oct 2009
+    - client: Fix a missed checkin that prevents a crash during autoproxy
+        detection.
+        
+    client/
+        sysmon_win.cpp
