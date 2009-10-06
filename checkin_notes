@@ -7978,3 +7978,11 @@ Rom    5 Oct 2009
         
     client/
         sysmon_win.cpp
+
+Rom    5 Oct 2009
+    - Tag for 6.10.13 release, all platforms
+      boinc_core_release_6_10_13
+
+    /
+        configure.ac
+        version.h
