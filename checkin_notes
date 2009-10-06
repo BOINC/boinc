@@ -8454,3 +8454,9 @@ David  6 Oct 2009
             add_venue.cpp
             forum_thread.cpp
             prefs_edit.cpp
+
+David  6 Oct 2009
+    - scheduler: skip deadline check for non-CPU-intensive projects
+
+    sched/
+        sched_send.cpp
