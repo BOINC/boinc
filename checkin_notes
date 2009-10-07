@@ -8489,3 +8489,12 @@ Rom    7 Oct 2009
         
     clientgui/
         ViewStatistics.cpp
+
+Rom    7 Oct 2009
+    - MGR: Some house keeping.
+    
+    clientgui/
+        ViewMessagesGrid.cpp, .h (deleted)
+        ViewProjectsGrid.cpp, .h (deleted)
+        ViewTransfersGrid.cpp, .h (deleted)
+        ViewWorkGrid.cpp, .h (deleted)
