@@ -8507,3 +8507,13 @@ Bernd	7 Oct 2009
 	boinc_win.h
 	diagnostics.h
 	filesys.cpp
+
+David  7 Oct 2009
+    - client: if anonymous platform description (app_info.xml)
+        doesn't specify FLOPS for a GPU app,
+        assume that it runs at CPU peak speed rather than GPU peak speed.
+        Better to be conservative, otherwise job might be aborted
+        due to time limit exceeded.
+
+    client/
+        client_state.cpp

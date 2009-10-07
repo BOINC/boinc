@@ -317,11 +317,17 @@ int CLIENT_STATE::init() {
                 avp->avg_ncpus = 1;
             }
             avp->flops = avp->avg_ncpus * host_info.p_fpops;
+
+            // for GPU apps, use conservative estimate:
+            // assume app will run at peak CPU speed, not peak GPU
+            //
             if (avp->ncudas) {
-                avp->flops += avp->ncudas * coproc_cuda->flops_estimate();
+                //avp->flops += avp->ncudas * coproc_cuda->flops_estimate();
+                avp->flops += avp->ncudas * host_info.p_fpops;
             }
             if (avp->natis) {
-                avp->flops += avp->natis * coproc_ati->flops_estimate();
+                //avp->flops += avp->natis * coproc_ati->flops_estimate();
+                avp->flops += avp->natis * host_info.p_fpops;
             }
         }
     }
