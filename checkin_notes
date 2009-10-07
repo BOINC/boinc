@@ -8482,3 +8482,10 @@ David  7 Oct 2009
         coproc.cpp
     samples/
         client_state_save.xml (new)
+
+Rom    7 Oct 2009
+    - MGR: Fix the Statistics page Save/Restore project display feature.
+    - MGR: Clean up warnings
+        
+    clientgui/
+        ViewStatistics.cpp
