@@ -7986,3 +7986,9 @@ Rom    5 Oct 2009
     /
         configure.ac
         version.h
+
+Rom    7 Oct 2009
+    - MGR: Fix the Statistics page Save/Restore project display feature.
+    
+    clientgui/
+        ViewStatistics.cpp

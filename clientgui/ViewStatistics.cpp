@@ -2082,7 +2082,7 @@ bool CViewStatistics::OnRestoreState(wxConfigBase* pConfig) {
 	pConfig->Read(wxT("NextProjectStatistic"), &iTempValue, -1);
 	if (iTempValue >= 0)m_PaintStatistics->m_NextProjectStatistic = iTempValue;
 // -- Hide View All projects
-	strBaseConfigLocation = wxT("/StatisticPage/ViewAll");
+	strBaseConfigLocation = wxT("/Statistics/ViewAll");
 	pConfig->SetPath(strBaseConfigLocation);
 	wxString tmpstr1;
 	if (!(m_PaintStatistics->m_HideProjectStatistic.empty())) m_PaintStatistics->m_HideProjectStatistic.clear();
