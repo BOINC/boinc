@@ -8498,3 +8498,12 @@ Rom    7 Oct 2009
         ViewProjectsGrid.cpp, .h (deleted)
         ViewTransfersGrid.cpp, .h (deleted)
         ViewWorkGrid.cpp, .h (deleted)
+
+Bernd	7 Oct 2009
+    - lib: some changes to help building the WIN32 library with MinGW/gcc
+           enable by defining MINGW_WIN32 macro, nothing should change if
+	   this is not set
+    lib/
+	boinc_win.h
+	diagnostics.h
+	filesys.cpp

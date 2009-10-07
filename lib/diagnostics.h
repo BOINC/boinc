@@ -114,7 +114,12 @@ extern int diagnostics_finish_unhandled_exception_monitor();
 #ifdef _WIN32
 extern UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter);
 extern LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
+#ifndef MINGW_WIN32
 extern void boinc_catch_signal_invalid_parameter(const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line, uintptr_t pReserved);
+#else
+extern void boinc_catch_signal_invalid_parameter(const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line);
+#endif
+
 #else
 extern void boinc_catch_signal(int signal);
 extern void boinc_set_signal_handler(int sig, void(*handler)(int));

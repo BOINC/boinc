@@ -96,7 +96,11 @@ typedef size_t socklen_t;
 
 #include <commctrl.h>
 #include <raserror.h>
+#if defined(MINGW_WIN32)
+#include <imagehlp.h>
+#else
 #include <dbghelp.h>
+#endif
 #include <tlhelp32.h>
 
 #include <io.h>
@@ -129,7 +133,9 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 // C headers
 #include <sys/stat.h>
 #include <sys/types.h>
+#if !defined(MINGW_WIN32)
 #include <fcntl.h>
+#endif
 #include <malloc.h>
 
 #if !defined(__MINGW32__) && !defined(__CYGWIN32__)
@@ -211,9 +217,11 @@ extern "C" {
 #endif
 void __cdecl _fpreset (void);
 void __cdecl fpreset (void);
+#ifndef MINGW_WIN32
 #define SetClassLongPtr SetClassLong
 #define GCLP_HICON GCL_HICON
 #define GCLP_HICONSM GCL_HICONSM
+#endif
 #ifdef __cplusplus
 }
 #endif

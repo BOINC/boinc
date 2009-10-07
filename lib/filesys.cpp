@@ -23,6 +23,10 @@
 #define getcwd  _getcwd
 #endif
 
+#if defined(MINGW_WIN32)
+#include <fcntl.h>
+#endif
+
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 #include "config.h"
 #ifdef _USING_FCGI_
