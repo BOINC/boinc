@@ -166,21 +166,22 @@ public:
     double last_wakeup_time;
     bool initialized;
         /// failed to write state file.
-
         /// In this case we continue to run for 1 minute,
         /// handling GUI RPCs but doing nothing else,
         /// so that the Manager can tell the user what the problem is
     bool cant_write_state_file;
+        /// accept unsigned app files (use for testing only!!)
+    bool unsigned_apps_ok;
+        /// use hardwired numbers rather than running benchmarks
+    bool skip_cpu_benchmarks;
 private:
     bool client_state_dirty;
     int old_major_version;
     int old_minor_version;
     int old_release;
-        /// if set, use hardwired numbers rather than running benchmarks
-    bool skip_cpu_benchmarks;
         /// if set, run benchmarks on client startup
     bool run_cpu_benchmarks;
-        /// set if a benchmark fails to start because of a process that doesn't stop.
+        /// set if a benchmark fails to start because of a job that doesn't exit
         /// Persists so that the next start of BOINC runs the benchmarks.
     bool cpu_benchmarks_pending;
 

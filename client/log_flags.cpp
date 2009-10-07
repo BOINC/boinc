@@ -240,7 +240,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             return 0;
         }
         if (xp.parse_bool(tag, "abort_jobs_on_exit", btemp)) {
-            gstate.abort_jobs_on_exit = true;
+            gstate.abort_jobs_on_exit = btemp;
             continue;
         }
         if (xp.parse_bool(tag, "allow_multiple_clients", allow_multiple_clients)) continue;
@@ -304,6 +304,18 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "use_certs", use_certs)) continue;
         if (xp.parse_bool(tag, "use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool(tag, "zero_debts", zero_debts)) continue;
+        if (xp.parse_bool(tag, "skip_cpu_benchmarks", btemp)) {
+            gstate.skip_cpu_benchmarks = btemp;
+            continue;
+        }
+        if (xp.parse_bool(tag, "unsigned_apps_ok", btemp)) {
+            gstate.unsigned_apps_ok = btemp;
+            continue;
+        }
+        if (xp.parse_bool(tag, "exit_after_finish", btemp)) {
+            gstate.exit_after_finish = btemp;
+            continue;
+        }
 
         msg_printf(NULL, MSG_USER_ERROR, "Unrecognized tag in %s: <%s>\n",
             CONFIG_FILE, tag

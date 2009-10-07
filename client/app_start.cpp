@@ -920,6 +920,11 @@ error:
     //
     gstate.input_files_available(result, true);
     gstate.report_result_error(*result, buf);
+    if (log_flags.task_debug) {
+        msg_printf(wup->project, MSG_INFO,
+            "[task_debug] couldn't start app: %s", buf
+        );
+    }
     set_task_state(PROCESS_COULDNT_START, "start");
     return retval;
 }
