@@ -397,12 +397,11 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewWork::OnWorkAbort - Function Begin"));
 
     wxInt32  iAnswer        = 0;
-    wxInt32  iResult        = 0;
     wxString strMessage     = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     CAdvancedFrame* pFrame  = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
     CWork* work;
-    int row;
+    int row, n;
 
     wxASSERT(pDoc);
     wxASSERT(pFrame);
@@ -414,15 +413,12 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
     if (!pDoc->IsUserAuthorized())
         return;
 
-    pFrame->UpdateStatusText(_("Aborting result..."));
-
+    n = m_pListPane->GetSelectedItemCount();
+    
+    if (n == 1) {
     row = -1;
-    while (1) {
-        // Step through all selected items
         row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-        if (row < 0) break;
-        
-        iResult = m_iSortedIndexes[row];
+        if (row < 0) return;
         if (GetWorkCacheAtIndex(work, m_iSortedIndexes[row])) {
             return;
         }
@@ -432,6 +428,9 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
            (work->m_strProgress).c_str(),
            (work->m_strStatus).c_str()
         );
+    } else {
+        strMessage.Printf(_("Are you sure you want to abort these %d tasks?"), n);
+    }
 
         iAnswer = wxGetApp().SafeMessageBox(
             strMessage,
@@ -440,11 +439,21 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
             this
         );
 
-        if (wxYES == iAnswer) {
+    if (wxYES != iAnswer) {
+        return;
+    }
+
+    pFrame->UpdateStatusText(_("Aborting result..."));
+
+    row = -1;
+    while (1) {
+        // Step through all selected items
+        row = m_pListPane->GetNextItem(row, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+        if (row < 0) break;
+        
             RESULT* result = pDoc->result(m_iSortedIndexes[row]);
             if (result) {
                 pDoc->WorkAbort(result->project_url, result->name);
-            }
         }
     }
 

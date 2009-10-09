@@ -7992,3 +7992,9 @@ Rom    7 Oct 2009
     
     clientgui/
         ViewStatistics.cpp
+
+Charlie 7 Oct 2009
+    - MGR: If aborting multiple tasks, ask "Are you sure?" only once.
+    
+    clientgui/
+        ViewWork.cpp
