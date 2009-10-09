@@ -8501,12 +8501,13 @@ Rom    7 Oct 2009
 
 Bernd	7 Oct 2009
     - lib: some changes to help building the WIN32 library with MinGW/gcc
-           enable by defining MINGW_WIN32 macro, nothing should change if
-	   this is not set
+        enable by defining MINGW_WIN32 macro, nothing should change if
+        this is not set
+    
     lib/
-	boinc_win.h
-	diagnostics.h
-	filesys.cpp
+        boinc_win.h
+        diagnostics.h
+        filesys.cpp
 
 David  7 Oct 2009
     - client: if anonymous platform description (app_info.xml)
@@ -8517,3 +8518,9 @@ David  7 Oct 2009
 
     client/
         client_state.cpp
+
+Charlie 7 Oct 2009
+    - MGR: If aborting multiple tasks, ask "Are you sure?" only once.
+    
+    clientgui/
+        ViewWork.cpp
