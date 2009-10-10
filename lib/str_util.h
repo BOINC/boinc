@@ -18,6 +18,7 @@
 #ifndef STR_UTIL_H
 #define STR_UTIL_H
 
+#include "config.h"
 #include <cstdlib>
 #include <ctime>
 #include <cctype>
