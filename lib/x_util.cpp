@@ -8,8 +8,6 @@
 #include <X11/Xutil.h>
 #include <X11/Shell.h>
 
-Display *d;
-
 // listen for mouse motion in all windows under the given one
 //
 void listen_for_mouse(Display* display, Window window) {
@@ -17,7 +15,7 @@ void listen_for_mouse(Display* display, Window window) {
     unsigned int nchildren;
     int retval;
 
-    retval = XQueryTree(d, window, &window, &parent, &children, &nchildren);
+    retval = XQueryTree(display, window, &window, &parent, &children, &nchildren);
     if (retval == FALSE) {
         fprintf(stderr, "XQueryTree() failed: %d\n", retval);
         return;
@@ -26,7 +24,7 @@ void listen_for_mouse(Display* display, Window window) {
     if (nchildren == 0) return;
     XSelectInput(display, window, PointerMotionMask);
     for (int i=0; i<nchildren; i++) {
-        XSelectInput(d, children[i], PointerMotionMask);
+        XSelectInput(display, children[i], PointerMotionMask);
         listen_for_mouse(display, children[i]);
     }
     XFree((char *)children);
@@ -50,7 +48,7 @@ int main(int argc, char **argv) {
     sleep(10);
     fprintf(stderr, "Checking for mouse movement\n");
     listen_for_mouse(display, DefaultRootWindow(display));
-    XNextEvent(d, &event);
+    XNextEvent(display, &event);
     if (event.type == MotionNotify) {
         fprintf(stderr, "mouse moved, exiting\n");
         exit(0);
