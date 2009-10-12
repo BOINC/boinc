@@ -8560,3 +8560,9 @@ David  12 Oct 2009
 
     client/
         gui_rpc_server_ops.cpp
+
+David  12 Oct 2009
+    - added code for Linux mouse check
+
+    lib/
+        x_util.cpp
