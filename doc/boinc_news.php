@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("October 12, 2009",
+    "Welcome to <a href=http://escatter11.fullerton.edu/nfs/>NFS@home</a>,
+    a new project from California State University Fullerton.
+    NFS@Home uses volunteer computing to do the lattice sieving step in the Number Field Sieve factorization of large integers."
+),
 array("October 4, 2009",
     "<a href=\"http://www.efmer.eu/boinc/boinc_tasks/\">BoincTasks</a>, a new visual interface to BOINC, has been released for Windows.  BoincTasks lets you manage a single computer locally, or all your computers remotely."
 ),

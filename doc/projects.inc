@@ -209,6 +209,14 @@ $math = array(
     "Mathematics, computing, and games",
     array(
         array(
+            "NFS@home",
+            "http://escatter11.fullerton.edu/nfs/",
+            "California State University Fullerton",
+            "Factorization of large integers",
+            "NFS@Home is a research project that uses Internet-connected computers to do the lattice sieving step in the Number Field Sieve factorization of large integers. As a young school student, you gained your first experience at breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. NFS@Home is a continuation of that experience, only with integers that are hundreds of digits long.",
+            "NFS_Logo.jpg"
+        ),
+        array(
             "VTU@home",
             "http://boinc.vgtu.lt/vtuathome/",
             "Vilnius Gediminas Technical University and Kaunas University of Technology (Lithuania)",
