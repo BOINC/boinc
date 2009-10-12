@@ -1102,13 +1102,11 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
     if (retval || !result) {
         return;
     }
-#if 0
-    if (result->active_task) {
-        char buf[256];
-        sprintf(buf, "<%d> ", result->slot);
-        strBuffer += wxString(buf, wxConvUTF8);
+
+    if (result->coproc_missing) {
+        strBuffer += _("GPU missing, ");
     }
-#endif
+
 	int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_USAGE_LIMIT;
     switch(result->state) {
     case RESULT_NEW:

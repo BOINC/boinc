@@ -1017,6 +1017,7 @@ bool RESULT::runnable() {
     if (suspended_via_gui) return false;
     if (project->suspended_via_gui) return false;
     if (state() != RESULT_FILES_DOWNLOADED) return false;
+    if (coproc_missing) return false;
     return true;
 }
 

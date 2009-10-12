@@ -235,6 +235,7 @@ public:
     std::string stderr_out;
     bool suspended_via_gui;
     bool project_suspended_via_gui;
+    bool coproc_missing;
 
     // the following defined if active
     bool active_task;

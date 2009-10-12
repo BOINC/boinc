@@ -8499,7 +8499,7 @@ Rom    7 Oct 2009
         ViewTransfersGrid.cpp, .h (deleted)
         ViewWorkGrid.cpp, .h (deleted)
 
-Bernd	7 Oct 2009
+Bernd    7 Oct 2009
     - lib: some changes to help building the WIN32 library with MinGW/gcc
         enable by defining MINGW_WIN32 macro, nothing should change if
         this is not set
@@ -8524,3 +8524,24 @@ Charlie 7 Oct 2009
     
     clientgui/
         ViewWork.cpp
+
+David  12 Oct 2009
+    - client: on startup, if a coproc needed by a job is missing,
+        set a "coproc_missing" flag rather than aborting the job.
+        If use removes a GPU board while there's a large queue of GPU jobs,
+        they'll stay queued (until their deadline passes).
+
+        Note: this doesn't fix the situation where user connects via
+        Remote Desktop while GPU jobs are running or queued.
+        We should check for Remote Desktop every minute or so, and stop GPU jobs.
+
+    client/
+        client_state.cpp
+        client_types.cpp,h
+        cs_statefile.cpp
+        work_fetch.cpp
+    clientgui/
+        ViewWork.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp

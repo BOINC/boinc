@@ -40,10 +40,6 @@
 #include "rr_sim.h"
 #include "work_fetch.h"
 
-#define P_LOW 1
-#define P_MEDIUM 3
-#define P_HIGH 5
-
 #define MAX_FILE_INFO_LEN   4096
 #define MAX_SIGNATURE_LEN   4096
 #define MAX_KEY_LEN         4096
@@ -531,6 +527,9 @@ struct RESULT {
         /// - <stderr_txt>X</stderr_txt>, where X is the app's stderr output
     std::string stderr_out;
     bool suspended_via_gui;
+    bool coproc_missing;
+        // a coproc needed by this job is missing
+        // (e.g. because user removed their GPU board).
 
     APP* app;
         /// this may be NULL after result is finished
