@@ -8545,3 +8545,12 @@ David  12 Oct 2009
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+David  12 Oct 2009
+    - scheduler/file upload handler: ignore zero-length cmdline args.
+        Apparently some Apaches pass them.
+        From Nils Brause.
+
+    sched/
+        file_upload_handler.cpp
+        sched_main.cpp

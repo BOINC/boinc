@@ -372,13 +372,13 @@ int main(int argc, char** argv) {
             }
             simtime = atof(argv[i]);
 #endif 
-        } else if(!strcmp(argv[1], "-h") || !strcmp(argv[1], "--help")) {
+        } else if(!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
             usage(argv[0]);
             exit(0);
-        } else if(!strcmp(argv[1], "-v") || !strcmp(argv[1], "--version")) {
+        } else if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
-        } else {
+        } else if (strlen(argv[i])){
             log_messages.printf(MSG_CRITICAL, "unknown command line argument: %s\n\n", argv[i]);
             usage(argv[0]);
             exit(1);

@@ -642,7 +642,7 @@ int main(int argc, char *argv[]) {
         } else if(option == "-h" || option == "-help" || option == "--help") {
             usage(argv[0]);
             exit(0);
-        } else {
+        } else if (option.length()){
             fprintf(stderr, "unknown command line argument: %s\n\n", argv[c]);
             usage(argv[0]);
             exit(1);
