@@ -95,7 +95,7 @@ int delete_file_from_host() {
         g_reply->set_delay(DELAY_DISK_SPACE);
         return 1;
     }
-    
+
     // pick a data file to delete.
     // Do this deterministically so that we always tell host
     // to delete the same file.
@@ -123,7 +123,7 @@ int delete_file_from_host() {
     g_reply->insert_message(buf, "low");
     g_reply->set_delay(DELAY_DELETE_FILE);
     return 0;
-}   
+}
 
 // returns true if the host already has the file, or if the file is
 // included with a previous result being sent to this host.
@@ -183,7 +183,7 @@ bool host_has_file(char *filename, bool skip_last_wu) {
         }
         return true;
     }
- 
+
     return false;
 }
 
@@ -239,7 +239,7 @@ int decrement_disk_space_locality( WORKUNIT& wu) {
     }
 
     filesize=buf.st_size;
-    
+
     if (filesize<wu.rsc_disk_bound) {
         g_wreq->disk_available -= (wu.rsc_disk_bound-filesize);
         if (config.debug_locality) {
@@ -250,7 +250,7 @@ int decrement_disk_space_locality( WORKUNIT& wu) {
         }
         return 0;
     }
-                  
+
     log_messages.printf(MSG_CRITICAL,
         "File %s size %d bytes > wu.rsc_disk_bound for WU#%d (%s)\n",
         path, filesize, wu.id, wu.name
@@ -330,7 +330,7 @@ int make_more_work_for_file(char* filename) {
         }
         return -1;
     }
-        
+
     // open and touch a file in the need_work/
     // directory as a way of indicating that we need work for this file.
     // If this operation fails, don't worry or tarry!
@@ -375,7 +375,7 @@ static void build_working_set_namelist(bool slowhost) {
 #endif
 
     retglob=glob(pattern, GLOB_ERR|GLOB_NOSORT|GLOB_NOCHECK, NULL, &globbuf);
-    
+
     if (retglob || !globbuf.gl_pathc) {
         errtype = "no directory or not readable";
     } else {
@@ -399,7 +399,7 @@ static void build_working_set_namelist(bool slowhost) {
     log_messages.printf(MSG_CRITICAL,
         "build_working_set_namelist(%s): pattern %s not found (%s)\n", hosttype, pattern, errtype
     );
-    globfree(&globbuf);        
+    globfree(&globbuf);
     return;
 }
 
@@ -570,7 +570,7 @@ static int send_results_for_file(
 
         if (query_retval) {
             int make_work_retval;
-          
+
             // no unsent results are available for this file
             //
             boinc_db.commit_transaction();
@@ -584,13 +584,13 @@ static int send_results_for_file(
                     "[locality] make_more_work_for_file(%s, %d)=%d\n", filename, i, make_work_retval
                 );
             }
-          
+
             if (make_work_retval) {
                 // can't make any more work for this file
 
                 if (config.one_result_per_user_per_wu) {
 
-                    // do an EXPENSIVE db query 
+                    // do an EXPENSIVE db query
 #ifdef USE_REGEXP
                     sprintf(query,
                         "where server_state=%d and name like binary '%s%%' limit 1",
@@ -634,7 +634,7 @@ static int send_results_for_file(
             // wait a bit and try again to find a suitable unsent result
             sleep(config.locality_scheduling_wait_period);
             sleep_made_no_work=1;
-          
+
         } // query_retval
         else {
             int retval_send;
@@ -688,7 +688,7 @@ static int send_results_for_file(
         } // query_retval
 
     } // loop over 0<i<100
-    return 0;   
+    return 0;
 }
 
 
@@ -756,7 +756,7 @@ static int send_new_file_work_deterministic_seeded(
 
         if (retval==ERR_NO_APP_VERSION || retval==ERR_INSUFFICIENT_RESOURCE) return retval;
 
-        if (nsent>0 || !work_needed(true)) break; 
+        if (nsent>0 || !work_needed(true)) break;
         // construct a name which is lexically greater than the name of any result
         // which uses this file.
         sprintf(min_resultname, "%s__~", filename);
@@ -799,7 +799,7 @@ static int send_new_file_work_deterministic() {
     if ((getfile_retval = get_working_set_filename(start_filename, /* is_host_slow() */ false))) {
         strcpy(start_filename, "");
     }
-  
+
     // start deterministic search with randomly chosen filename, go to
     // lexical maximum
     send_new_file_work_deterministic_seeded(nsent, start_filename, NULL);
@@ -870,7 +870,7 @@ static int send_new_file_work() {
 
         if (retval_sow==ERR_NO_APP_VERSION || retval_sow==ERR_INSUFFICIENT_RESOURCE) return retval_sow;
 
-    
+
         while (work_needed(true) && retry<5) {
             if (config.debug_locality) {
                 log_messages.printf(MSG_NORMAL,
@@ -881,7 +881,7 @@ static int send_new_file_work() {
             retval_snfwws=send_new_file_work_working_set();
             if (retval_snfwws==ERR_NO_APP_VERSION || retval_snfwws==ERR_INSUFFICIENT_RESOURCE) return retval_snfwws;
 
-        }    
+        }
 
         if (work_needed(true)) {
             if (config.debug_locality) {
@@ -918,17 +918,27 @@ static int send_old_work(int t_min, int t_max) {
         return 0;
     }
 
+    // restrict values to full hours;
+    // this allows the DB to cache query results in some cases
+    //
+    t_max = (t_max/3600)*3600;
 
     boinc_db.start_transaction();
 
+    // Note: the following queries look convoluted.
+    // But apparently the simpler versions (without the inner join)
+    // are a lot slower.
+    //
     if (t_min != INT_MIN) {
-        sprintf(buf, "where server_state=%d and %d<create_time and create_time<%d limit 1",
+        sprintf(buf,
+            "INNER JOIN (SELECT id FROM result WHERE server_state=%d and %d<create_time and create_time<%d limit 1) AS single USING (id)",
             RESULT_SERVER_STATE_UNSENT, t_min, t_max
         );
     }
     else {
-        sprintf(buf, "where server_state=%d and create_time<%d limit 1",
-            RESULT_SERVER_STATE_UNSENT, t_max
+        sprintf(buf,
+            "INNER JOIN (SELECT id FROM result WHERE server_state=%d and %d<create_time and create_time<%d limit 1) AS single USING (id)",
+            RESULT_SERVER_STATE_UNSENT, t_min, t_max
         );
     }
 
@@ -1016,13 +1026,13 @@ bool is_workunit_file(char*fname) {
     }
     return false;
 }
-        
+
 void send_work_locality() {
     int i, nsent, nfiles, j;
 
     // seed the random number generator
     unsigned int seed=time(0)+getpid();
-    srand(seed); 
+    srand(seed);
 
 #ifdef EINSTEIN_AT_HOME
     std::vector<FILE_INFO> eah_copy = g_request->file_infos;
@@ -1038,7 +1048,7 @@ void send_work_locality() {
         bool useful = strlen(fname) > 10 ||
                       (
                         strncmp("H1_", fname, 3) &&
-                        strncmp("h1_", fname, 3) && 
+                        strncmp("h1_", fname, 3) &&
                         strncmp("w1_", fname, 3) &&
                         strncmp("W1_", fname, 3) &&
                         strncmp("l1_", fname, 3) &&
@@ -1229,7 +1239,7 @@ void send_file_deletes() {
 // (4) If additional results are needed, send the oldest result
 // (4) created between times A and B, where
 // (4) A=random time between locality_scheduling_send timeout and
-// (4) locality_timeout/2 in the past, and B=locality_timeout/2 in 
+// (4) locality_timeout/2 in the past, and B=locality_timeout/2 in
 // (4) the past.
 
 // (5) If we did send a result in the previous step, then send any

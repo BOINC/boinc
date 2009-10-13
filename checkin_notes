@@ -8587,3 +8587,9 @@ David  12 Oct 2009
         DlgAdvPreferencesBase.cpp
     html/inc/
         prefs.inc
+
+David  13 Oct 2009
+    - scheduler: improve efficiency of a locality sched query
+
+    sched/
+        sched_locality.cpp
