@@ -846,7 +846,7 @@ bool is_remote_desktop() {
     DWORD dwLength;
 
     if (!wtsapi32lib) {
-        wtsapi32lib = LoadLibrary("wtsapi32.dll");
+        wtsapi32lib = LoadLibrary(_T("wtsapi32.dll"));
         if (wtsapi32lib) {
             pWTSQSI = (tWTSQSI)GetProcAddress(wtsapi32lib, "WTSQuerySessionInformation");
             pWTSFM = (tWTSFM)GetProcAddress(wtsapi32lib, "WTSFreeMemory");
