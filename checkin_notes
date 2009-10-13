@@ -8600,3 +8600,10 @@ Rom    13 Oct 2009
         
     lib/
         win_util.cpp, .h
+
+Rom    13 Oct 2009
+    - DOC: Update manager_links.php so that it'll compare by numerical
+        values instead of using string based comparison.
+        
+    doc/
+        manager_links.php

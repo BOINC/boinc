@@ -23,17 +23,17 @@ if (isset($_GET['target'])) $target = $_GET['target'];
 if (isset($_GET['version'])) $version = $_GET['version'];
 if (isset($_GET['controlid'])) $control_id = $_GET['controlid'];
 
-if (($target == "advanced") && ($version >= "5.10")) {
-    if ($control_id == "6024") {
-        header('Location: http://boinc.berkeley.edu');
-    } else if ($control_id == "6025") {
-        header('Location: http://boinc.berkeley.edu/wiki/Advanced_view');
-    } else if ($control_id == "6035") {
-        header('Location: http://boinc.berkeley.edu/help.php');
-    } else {
-        header('Location: http://boinc.berkeley.edu/wiki/Advanced_view');
-    }
-} else if (($target == "simple") && ($version >= "6.2")) {
+if (($target == "advanced") && version_compare($version, "5.10.0", ">=")) {
+	if ($control_id == "6024") {
+		header('Location: http://boinc.berkeley.edu');
+	} else if ($control_id == "6025") {
+		header('Location: http://boinc.berkeley.edu/wiki/Advanced_view');
+	} else if ($control_id == "6035") {
+		header('Location: http://boinc.berkeley.edu/help.php');
+	} else {
+		header('Location: http://boinc.berkeley.edu/wiki/Advanced_view');
+	}
+} else if (($target == "simple") && version_compare($version, "6.2.0", ">=")) {
     if ($control_id == "6024") {
         header('Location: http://boinc.berkeley.edu');
     } else if ($control_id == "6025") {
