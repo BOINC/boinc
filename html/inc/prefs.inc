@@ -114,7 +114,7 @@ define("USE_AT_MOST", "Use at most");
 define("USE_AT_MOST2", "Use at most<span class=note><br>(Can be used to reduce CPU heat)</span>");
 define("USE_AT_MOST3", "Use at most");
 define("CPU_USAGE_LIMIT_DESC2", "percent of CPU time");
-define("DISK_INTERVAL_DESC", "Applications checkpoint to disk at most every");
+define("DISK_INTERVAL_DESC", "Tasks checkpoint to disk at most every");
 define("DISK_LIMIT_DESC", "Disk and memory usage");
 define("DISK_MIN_FREE_GB_DESC", "Leave at least");
 define("DISK_SCHED_MIN_FREE_DESC1", "<br><span class=note>(Values smaller than ");

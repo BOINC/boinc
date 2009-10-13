@@ -8577,3 +8577,13 @@ David  12 Oct 2009
         app_start.cpp
     html/inc/
         prefs.inc
+
+David  12 Oct 2009
+    - actually, make it
+        "Tasks checkpoint to disk at most every ..."
+        and change it in the advanced prefs dialog too
+
+    clientgui/
+        DlgAdvPreferencesBase.cpp
+    html/inc/
+        prefs.inc

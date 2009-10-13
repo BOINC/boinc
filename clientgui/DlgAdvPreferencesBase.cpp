@@ -499,7 +499,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 	m_staticText45 = new wxStaticText( m_panelDiskAndMemory, ID_DEFAULT, _("% of total disk space"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizerDiskUsage->Add( m_staticText45, 0, wxALL, 5 );
 
-	m_staticText46 = new wxStaticText( m_panelDiskAndMemory, ID_DEFAULT, _("Write to disk at most every"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	m_staticText46 = new wxStaticText( m_panelDiskAndMemory, ID_DEFAULT, _("Tasks checkpoint to disk at most every"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
 	fgSizerDiskUsage->Add( m_staticText46, 0, wxALL|wxEXPAND, 5 );
 
 	m_txtDiskWriteToDisk = new wxTextCtrl( m_panelDiskAndMemory, ID_TXTDISKWRITETODISK, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
