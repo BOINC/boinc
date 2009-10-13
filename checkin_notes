@@ -8593,3 +8593,10 @@ David  13 Oct 2009
 
     sched/
         sched_locality.cpp
+
+Rom    13 Oct 2009
+    - LIB: Make the is_remote_desktop compilable for all VS versions
+        and SKUs.
+        
+    lib/
+        win_util.cpp, .h
