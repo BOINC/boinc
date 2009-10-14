@@ -8656,3 +8656,12 @@ David  14 Oct 2009
         coproc.cpp,h
     sched/
         sched_locality.cpp
+
+David  14 Oct 2009
+    - client: bug fixes to the above.
+        Don't fetch work for an unable resource.
+
+    client/
+        cpu_sched.cpp
+        cs_scheduler.cpp
+        work_fetch.cpp

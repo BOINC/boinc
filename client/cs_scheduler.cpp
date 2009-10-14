@@ -833,8 +833,11 @@ int CLIENT_STATE::handle_scheduler_reply(PROJECT* project, char* scheduler_url) 
             rp->set_state(RESULT_NEW, "handle_scheduler_reply");
             if (rp->avp->ncudas) {
                 est_cuda_duration += rp->estimated_duration(false);
+                coproc_cuda->usable = true;
+                    // trigger a check of whether GPU is actually usable
             } else if (rp->avp->natis) {
                 est_ati_duration += rp->estimated_duration(false);
+                coproc_ati->usable = true;
             } else {
                 est_cpu_duration += rp->estimated_duration(false);
             }
