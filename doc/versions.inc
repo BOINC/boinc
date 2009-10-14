@@ -229,6 +229,10 @@ $l64ubuntux64 = array(
     "type"=>"sea",
 );
 
+// platform descriptors.  For each one, "versions"
+// lists versions in reverse time order.
+// i.e. the first non-dev version is the current one
+
 $windows = array(
     "name"=>"Windows",
     "description"=>"98/ME/2000/XP/Vista ",
@@ -315,9 +319,10 @@ function is_dev($v) {
 //$url_base = "http://mirror.worldcommunitygrid.org/mirror/";
 
 // note: rand() is inclusive
-switch(rand(0,2)) {
-    case 0: $url_base = "http://einstein.ligo.caltech.edu/download/boinc/dl/"; break;
-    case 1: $url_base = "http://boincdl3.ssl.berkeley.edu/mirror/"; break;
+//switch(rand(0,2)) {
+switch(0) {
+    case 0: $url_base = "http://boincdl3.ssl.berkeley.edu/mirror/"; break;
+    case 1: $url_base = "http://einstein.ligo.caltech.edu/download/boinc/dl/"; break;
     case 2: $url_base = "http://einstein.aei.mpg.de/download/boinc/dl/"; break;
     //case 0: $url_base = "http://boinc.berkeley.edu/dl/"; break;
     //case 1: $url_base = "http://morel.mit.edu/download/boinc/dl/"; break;

@@ -538,24 +538,24 @@ static int send_results_for_file(
             //
 #ifdef USE_REGEXP
             sprintf(query,
-                "where name like binary '%s%%' and id>%d and workunitid<>%d and server_state=%d order by id limit 1 ",
+                "INNER JOIN (SELECT id FROM result WHERE name like binary '%s%%' and id>%d and workunitid<>%d and server_state=%d order by id limit 1) AS single USING (id) ",
                 escaped_pattern, prev_result.id, prev_result.workunitid, RESULT_SERVER_STATE_UNSENT
             );
 #else
             sprintf(query,
-                "where name>binary '%s__' and name<binary '%s__~' and id>%d and workunitid<>%d and server_state=%d order by id limit 1 ",
+                "INNER JOIN (SELECT id FROM result WHERE name>binary '%s__' and name<binary '%s__~' and id>%d and workunitid<>%d and server_state=%d order by id limit 1) AS single USING (id) ",
                 filename, filename, prev_result.id, prev_result.workunitid, RESULT_SERVER_STATE_UNSENT
             );
 #endif
         } else {
 #ifdef USE_REGEXP
             sprintf(query,
-                "where name like binary '%s%%' and id>%d and server_state=%d order by id limit 1 ",
+                "INNER JOIN (SELECT id FROM result WHERE name like binary '%s%%' and id>%d and server_state=%d order by id limit 1) AS single USING (id) ",
                 escaped_pattern, prev_result.id, RESULT_SERVER_STATE_UNSENT
             );
 #else
             sprintf(query,
-                "where name>binary '%s__' and name<binary '%s__~' and id>%d and server_state=%d order by id limit 1 ",
+                "INNER JOIN (SELECT id FROM result WHERE name>binary '%s__' and name<binary '%s__~' and id>%d and server_state=%d order by id limit 1) AS single USING (id) ",
                 filename, filename, prev_result.id, RESULT_SERVER_STATE_UNSENT
             );
 #endif
@@ -593,12 +593,12 @@ static int send_results_for_file(
                     // do an EXPENSIVE db query
 #ifdef USE_REGEXP
                     sprintf(query,
-                        "where server_state=%d and name like binary '%s%%' limit 1",
+                        "INNER JOIN (SELECT id FROM result WHERE server_state=%d and name like binary '%s%%' limit 1) AS single USING (id)",
                         RESULT_SERVER_STATE_UNSENT, escaped_pattern
                     );
 #else
                     sprintf(query,
-                        "where server_state=%d and name>binary '%s__' and name<binary '%s__~' limit 1",
+                        "INNER JOIN (SELECT id FROM result WHERE server_state=%d and name>binary '%s__' and name<binary '%s__~' limit 1) AS single USING (id)",
                         RESULT_SERVER_STATE_UNSENT, filename, filename
                     );
 #endif
@@ -731,14 +731,14 @@ static int send_new_file_work_deterministic_seeded(
         // an alternative here is to add ANOTHER index on name, server_state
         // to the result table.
         sprintf(query,
-            "where server_state=%d and name>'%s' order by name limit 1",
+            "INNER JOIN (SELECT id FROM result WHERE server_state=%d and name>'%s' order by name limit 1) AS single USING (id)",
             RESULT_SERVER_STATE_UNSENT, min_resultname
         );
 #endif
 
         sprintf(query,
-            "where name>'%s' order by name limit 1",
-             min_resultname
+            "INNER JOIN (SELECT id FROM result WHERE name>'%s' order by name limit 1) AS single USING (id)",
+            min_resultname
         );
 
         retval = result.lookup(query);

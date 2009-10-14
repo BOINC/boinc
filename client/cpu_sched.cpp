@@ -188,6 +188,56 @@ struct PROC_RESOURCES {
     }
 };
 
+// see whether there's been a change in coproc usability;
+// if so set or clear "coproc_missing" flags and return true.
+//
+bool check_coproc_usable(COPROC* cp) {
+    int i;
+    if (cp->usable) {
+        if (!cp->is_usable()) {
+            cp->usable = false;
+            for (i=0; i<gstate.results.size(); i++) {
+                RESULT* rp = gstate.results[i];
+                if (rp->avp->ncudas) {
+                    rp->coproc_missing = true;
+                }
+            }
+            msg_printf(NULL, MSG_INFO,
+                "%s GPU has become unusable; disabling tasks",
+                cp==coproc_cuda?"NVIDIA":"ATI"
+            );
+            return true;
+        }
+    } else {
+        if (cp->is_usable()) {
+            cp->usable = true;
+            for (i=0; i<gstate.results.size(); i++) {
+                RESULT* rp = gstate.results[i];
+                if (rp->avp->ncudas) {
+                    rp->coproc_missing = false;
+                }
+            }
+            msg_printf(NULL, MSG_INFO,
+                "%s GPU has become usable; enabling tasks",
+                cp==coproc_cuda?"NVIDIA":"ATI"
+            );
+            return true;
+        }
+    }
+    return false;
+}
+
+bool check_coprocs_usable() {
+    bool change = false;
+    if (coproc_cuda && check_coproc_usable(coproc_cuda)) {
+        change = true;
+    }
+    if (coproc_ati && check_coproc_usable(coproc_ati)) {
+        change = true;
+    }
+    return change;
+}
+
 // return true if the task has finished its time slice
 // and has checkpointed in last 10 secs
 //
@@ -1140,6 +1190,13 @@ bool CLIENT_STATE::enforce_schedule() {
     adjust_debts();
     last_time = now;
     bool action = false;
+
+    // check whether GPUs are usable
+    //
+    if (check_coprocs_usable()) {
+        request_schedule_cpus("GPU usability change");
+        return true;
+    }
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule(): start");
