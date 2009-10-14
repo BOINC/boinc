@@ -897,11 +897,16 @@ void COPROC_ATI::get(COPROCS& coprocs,
     strcpy(ccp->type, "ATI");
     ccp->count = numDevices;
     coprocs.coprocs.push_back(ccp);
+    __calShutdown();
 }
 
 bool COPROC_ATI::is_usable() {
     CALuint ndevs;
-    int retval = (*__calDeviceGetCount)(&ndevs);
+    int retval;
+    retval = (*__calInit)();
+    if (retval != CAL_RESULT_OK) return false;
+    retval = (*__calDeviceGetCount)(&ndevs);
+    __calShutdown();
     if (retval != CAL_RESULT_OK) return false;
     if (ndevs == 0) return false;
     return true;
