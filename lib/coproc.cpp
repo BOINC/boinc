@@ -897,7 +897,10 @@ void COPROC_ATI::get(COPROCS& coprocs,
 }
 
 bool COPROC_ATI::is_usable() {
-    return ((*__calInit)() == CAL_RESULT_OK);
+    int retval = (*__calInit)();
+    if (retval == CAL_RESULT_OK) return true;
+    if (retval == CAL_RESULT_ALREADY) return true;
+    return false;
 }
 
 #ifndef _USING_FCGI_
