@@ -843,16 +843,16 @@ void COPROC_ATI::get(COPROCS& coprocs,
         case CAL_TARGET_770:
             gpu_name="ATI Radeon HD 4700/4800 (RV740/RV770)";
             break;
-        case 8:
+        case CAL_TARGET_870:
             gpu_name="ATI Radeon HD5800 series (Cypress)";
-            break;    // not yet defined in cal.h
-        case 9:
+            break;    // updated in ATI Stream SDK 2.0 Beta 4
+        case CAL_TARGET_830:
             gpu_name="ATI Radeon HD5700 series (Juniper)";
-            break;     // replace x with number, when announced
-        case 10:
+            break;
+        case CAL_TARGET_REDWOOD:
             gpu_name="ATI Radeon HD5x00 series (Redwood)";
             break;
-        case 11:
+        case CAL_TARGET_CEDAR:
             gpu_name="ATI Radeon HD5x00 series (Cedar)";
             break;
         default:

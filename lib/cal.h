@@ -166,30 +166,94 @@ typedef enum CALresultEnum {
 
 /** Data format representation */
 typedef enum CALformatEnum {
-    CAL_FORMAT_UBYTE_1,     /**< A 1 component 8-bit  unsigned byte format    */
-    CAL_FORMAT_UBYTE_2,     /**< A 2 component 8-bit  unsigned byte format    */
-    CAL_FORMAT_UBYTE_4,     /**< A 4 component 8-bit  unsigned byte format    */
-    CAL_FORMAT_USHORT_1,    /**< A 1 component 16-bit unsigned short format   */
-    CAL_FORMAT_USHORT_2,    /**< A 2 component 16-bit unsigned short format   */
-    CAL_FORMAT_USHORT_4,    /**< A 4 component 16-bit unsigned short format   */
-    CAL_FORMAT_UINT_4,      /**< A 4 component 32-bit unsigned integer format */
-    CAL_FORMAT_BYTE_4,      /**< A 4 component 8-bit  byte format    */
-    CAL_FORMAT_SHORT_1,     /**< A 1 component 16-bit short format   */
-    CAL_FORMAT_SHORT_2,     /**< A 2 component 16-bit short format   */
-    CAL_FORMAT_SHORT_4,     /**< A 4 component 16-bit short format   */
-    CAL_FORMAT_FLOAT_1,     /**< A 1 component 32-bit float format   */
-    CAL_FORMAT_FLOAT_2,     /**< A 2 component 32-bit float format   */
-    CAL_FORMAT_FLOAT_4,     /**< A 4 component 32-bit float format   */
-    CAL_FORMAT_DOUBLE_1,    /**< A 1 component 64-bit float format   */
-    CAL_FORMAT_DOUBLE_2,    /**< A 2 component 64-bit float format   */
-    CAL_FORMAT_UINT_1,      /**< A 1 component 32-bit unsigned integer format */
-    CAL_FORMAT_UINT_2,      /**< A 2 component 32-bit unsigned integer format */
-    CAL_FORMAT_BYTE_1,      /**< A 1 component 8-bit  byte format    */
-    CAL_FORMAT_BYTE_2,      /**< A 2 component 8-bit  byte format    */
-    CAL_FORMAT_INT_1,       /**< A 1 component 32-bit signed integer format */
-    CAL_FORMAT_INT_2,       /**< A 2 component 32-bit signed integer format */
-    CAL_FORMAT_INT_4,       /**< A 4 component 32-bit signed integer format */
+    CAL_FORMAT_UNORM_INT8_1,        /**< 1 component, normalized unsigned 8-bit integer value per component */
+    CAL_FORMAT_UNORM_INT8_2,        /**< 2 component, normalized unsigned 8-bit integer value per component */
+    CAL_FORMAT_UNORM_INT8_4,        /**< 4 component, normalized unsigned 8-bit integer value per component */
+    CAL_FORMAT_UNORM_INT16_1,       /**< 1 component, normalized unsigned 16-bit integer value per component */
+    CAL_FORMAT_UNORM_INT16_2,       /**< 2 component, normalized unsigned 16-bit integer value per component */
+    CAL_FORMAT_UNORM_INT16_4,       /**< 4 component, normalized unsigned 16-bit integer value per component */
+    CAL_FORMAT_UNORM_INT32_4,       /**< 4 component, normalized unsigned 32-bit integer value per component */
+    CAL_FORMAT_SNORM_INT8_4,        /**< 4 component, normalized signed 8-bit integer value per component */
+    CAL_FORMAT_SNORM_INT16_1,       /**< 1 component, normalized signed 16-bit integer value per component */
+    CAL_FORMAT_SNORM_INT16_2,       /**< 2 component, normalized signed 16-bit integer value per component */
+    CAL_FORMAT_SNORM_INT16_4,       /**< 4 component, normalized signed 16-bit integer value per component */
+    CAL_FORMAT_FLOAT32_1,           /**< A 1 component, 32-bit float value per component */
+    CAL_FORMAT_FLOAT32_2,           /**< A 2 component, 32-bit float value per component */
+    CAL_FORMAT_FLOAT32_4,           /**< A 4 component, 32-bit float value per component */
+    CAL_FORMAT_FLOAT64_1,           /**< A 1 component, 64-bit float value per component */
+    CAL_FORMAT_FLOAT64_2,           /**< A 2 component, 64-bit float value per component */
+    CAL_FORMAT_UNORM_INT32_1,       /**< 1 component, normalized unsigned 32-bit integer value per component */
+    CAL_FORMAT_UNORM_INT32_2,       /**< 2 component, normalized unsigned 32-bit integer value per component */
+    CAL_FORMAT_SNORM_INT8_1,        /**< 1 component, normalized signed 8-bit integer value per component */
+    CAL_FORMAT_SNORM_INT8_2,        /**< 2 component, normalized signed 8-bit integer value per component */
+    CAL_FORMAT_SNORM_INT32_1,       /**< 1 component, normalized signed 32-bit integer value per component */
+    CAL_FORMAT_SNORM_INT32_2,       /**< 2 component, normalized signed 32-bit integer value per component */
+    CAL_FORMAT_SNORM_INT32_4,       /**< 4 component, normalized signed 32-bit integer value per component */
+
+    CAL_FORMAT_UNSIGNED_INT8_1,     /**< 1 component, unnormalized unsigned 8-bit integer value per component */
+    CAL_FORMAT_UNSIGNED_INT8_2,     /**< 2 component, unnormalized unsigned 8-bit integer value per component */
+    CAL_FORMAT_UNSIGNED_INT8_4,     /**< 4 component, unnormalized unsigned 8-bit integer value per component */
+    CAL_FORMAT_SIGNED_INT8_1,       /**< 1 component, unnormalized signed 8-bit integer value per component */
+    CAL_FORMAT_SIGNED_INT8_2,       /**< 2 component, unnormalized signed 8-bit integer value per component */
+    CAL_FORMAT_SIGNED_INT8_4,       /**< 4 component, unnormalized signed 8-bit integer value per component */
+    CAL_FORMAT_UNSIGNED_INT16_1,    /**< 1 component, unnormalized unsigned 16-bit integer value per component */
+    CAL_FORMAT_UNSIGNED_INT16_2,    /**< 2 component, unnormalized unsigned 16-bit integer value per component */
+    CAL_FORMAT_UNSIGNED_INT16_4,    /**< 4 component, unnormalized unsigned 16-bit integer value per component */
+    CAL_FORMAT_SIGNED_INT16_1,      /**< 1 component, unnormalized signed 16-bit integer value per component */
+    CAL_FORMAT_SIGNED_INT16_2,      /**< 2 component, unnormalized signed 16-bit integer value per component */
+    CAL_FORMAT_SIGNED_INT16_4,      /**< 4 component, unnormalized signed 16-bit integer value per component */
+    CAL_FORMAT_UNSIGNED_INT32_1,    /**< 1 component, unnormalized unsigned 32-bit integer value per component */
+    CAL_FORMAT_UNSIGNED_INT32_2,    /**< 2 component, unnormalized unsigned 32-bit integer value per component */
+    CAL_FORMAT_UNSIGNED_INT32_4,    /**< 4 component, unnormalized unsigned 32-bit integer value per component */
+    CAL_FORMAT_SIGNED_INT32_1,      /**< 1 component, unnormalized signed 32-bit integer value per component */
+    CAL_FORMAT_SIGNED_INT32_2,      /**< 2 component, unnormalized signed 32-bit integer value per component */
+    CAL_FORMAT_SIGNED_INT32_4,      /**< 4 component, unnormalized signed 32-bit integer value per component */
+
+    CAL_FORMAT_UNORM_SHORT_565,     /**< 3 component, normalized 5-6-5 RGB image. */
+    CAL_FORMAT_UNORM_SHORT_555,     /**< 4 component, normalized x-5-5-5 xRGB image */
+    CAL_FORMAT_UNORM_INT10_3,       /**< 4 component, normalized x-10-10-10 xRGB */
+    CAL_FORMAT_FLOAT16_1,           /**< A 1 component, 16-bit float value per component */
+    CAL_FORMAT_FLOAT16_2,           /**< A 2 component, 16-bit float value per component */
+    CAL_FORMAT_FLOAT16_4,           /**< A 4 component, 16-bit float value per component */
+
+    //Deprecated CAL formats.
+    CAL_FORMAT_UBYTE_1  = CAL_FORMAT_UNORM_INT8_1,      /**< A 1 component 8-bit  unsigned byte format    */
+    CAL_FORMAT_BYTE_1   = CAL_FORMAT_SNORM_INT8_1,      /**< A 1 component 8-bit  byte format    */
+    CAL_FORMAT_UINT_1   = CAL_FORMAT_UNORM_INT32_1,     /**< A 1 component 32-bit unsigned integer format */
+    CAL_FORMAT_INT_1    = CAL_FORMAT_SNORM_INT32_1,     /**< A 1 component 32-bit signed integer format */
+    CAL_FORMAT_UBYTE_2  = CAL_FORMAT_UNORM_INT8_2,      /**< A 2 component 8-bit  unsigned byte format    */
+    CAL_FORMAT_UBYTE_4  = CAL_FORMAT_UNORM_INT8_4,      /**< A 4 component 8-bit  unsigned byte format    */
+    CAL_FORMAT_USHORT_1 = CAL_FORMAT_UNORM_INT16_1,     /**< A 1 component 16-bit unsigned short format   */
+    CAL_FORMAT_USHORT_2 = CAL_FORMAT_UNORM_INT16_2,     /**< A 2 component 16-bit unsigned short format   */
+    CAL_FORMAT_USHORT_4 = CAL_FORMAT_UNORM_INT16_4,     /**< A 4 component 16-bit unsigned short format   */
+    CAL_FORMAT_UINT_4   = CAL_FORMAT_UNORM_INT32_4,     /**< A 4 component 32-bit unsigned integer format */
+    CAL_FORMAT_BYTE_4   = CAL_FORMAT_SNORM_INT8_4,      /**< A 4 component 8-bit  byte format    */
+    CAL_FORMAT_SHORT_1  = CAL_FORMAT_SNORM_INT16_1,     /**< A 1 component 16-bit short format   */
+    CAL_FORMAT_SHORT_2  = CAL_FORMAT_SNORM_INT16_2,     /**< A 2 component 16-bit short format   */
+    CAL_FORMAT_SHORT_4  = CAL_FORMAT_SNORM_INT16_4,     /**< A 4 component 16-bit short format   */
+    CAL_FORMAT_FLOAT_1  = CAL_FORMAT_FLOAT32_1,         /**< A 1 component 32-bit float format   */
+    CAL_FORMAT_FLOAT_2  = CAL_FORMAT_FLOAT32_2,         /**< A 2 component 32-bit float format   */
+    CAL_FORMAT_FLOAT_4  = CAL_FORMAT_FLOAT32_4,         /**< A 4 component 32-bit float format   */
+    CAL_FORMAT_DOUBLE_1 = CAL_FORMAT_FLOAT64_1,         /**< A 1 component 64-bit float format   */
+    CAL_FORMAT_DOUBLE_2 = CAL_FORMAT_FLOAT64_2,         /**< A 2 component 64-bit float format   */
+    CAL_FORMAT_UINT_2   = CAL_FORMAT_UNORM_INT32_2,     /**< A 2 component 32-bit unsigned integer format */
+    CAL_FORMAT_BYTE_2   = CAL_FORMAT_SNORM_INT8_2,      /**< A 2 component 8-bit  byte format    */
+    CAL_FORMAT_INT_2    = CAL_FORMAT_SNORM_INT32_2,     /**< A 2 component 32-bit signed integer format */
+    CAL_FORMAT_INT_4    = CAL_FORMAT_SNORM_INT32_4,     /**< A 4 component 32-bit signed integer format */
+    CAL_FORMAT_32BIT_TYPELESS = CAL_FORMAT_UNSIGNED_INT32_1,     /**< A 1 component 32-bit unsigned integer format */
+    // End Deprecated formats.
+
+    //CAL_FORMAT_LAST     = CAL_FORMAT_INT_1,
+    CAL_FORMAT_LAST     = CAL_FORMAT_FLOAT16_4,
+
 } CALformat;
+
+/** Resource type for access view */
+typedef enum _CALdimensionEnum {
+    CAL_DIM_BUFFER,                     /**< A resource dimension type */
+    CAL_DIM_1D,                         /**< A resource type */
+    CAL_DIM_2D,                         /**< A resource type */
+} CALdimension;
 
 /** Device Kernel ISA */
 typedef enum CALtargetEnum {
@@ -201,6 +265,10 @@ typedef enum CALtargetEnum {
     CAL_TARGET_770,                /**< RV770 GPU ISA */
     CAL_TARGET_710,                /**< RV710 GPU ISA */
     CAL_TARGET_730,                /**< RV730 GPU ISA */
+    CAL_TARGET_870,                /**< RV870 GPU ISA */
+    CAL_TARGET_830,                /**< RV830 GPU ISA */
+    CAL_TARGET_REDWOOD,            /**< REDWOOD GPU ISA */
+    CAL_TARGET_CEDAR,              /**< CEDAR GPU ISA */
 } CALtarget;
 
 /** CAL object container */
@@ -217,6 +285,8 @@ typedef CALuint CALfunc;        /**< function handle */
 typedef CALuint CALname;        /**< name handle */
 typedef CALuint CALmodule;      /**< module handle */
 typedef CALuint CALevent;       /**< event handle */
+
+#define CAL_EVENT_INVALID 0;
 
 /** CAL computational domain */
 typedef struct CALdomainRec {
@@ -253,6 +323,10 @@ typedef struct CALdeviceattribsRec {
     CALboolean memExport;           /**< memexport supported */
     CALuint    pitch_alignment;     /**< Required alignment for calCreateRes allocations (in data elements) */
     CALuint    surface_alignment;   /**< Required start address alignment for calCreateRes allocations (in bytes) */
+    CALuint    numberOfUAVs;        /**< Number of UAVs */
+    CALboolean bUAVMemExport;       /**< Hw only supports mem export to simulate 1 UAV */
+    CALboolean b3dProgramGrid;      /**< CALprogramGrid for have height and depth bigger than 1*/
+    CALuint    numberOfShaderEngines;/**< Number of shader engines */
 } CALdeviceattribs;
 
 /** CAL device status */
@@ -291,6 +365,7 @@ typedef struct CALprogramGridArrayRec {
     CALuint     flags;         /**< misc grid array flags */
 } CALprogramGridArray;
 
+
 /** CAL function information **/
 typedef struct CALfuncInfoRec
 {
@@ -298,7 +373,10 @@ typedef struct CALfuncInfoRec
     CALuint    numSharedGPRUser;        /**< Number of shared GPRs */
     CALuint    numSharedGPRTotal;       /**< Number of shared GPRs including ones used by SC */
     CALboolean eCsSetupMode;            /**< Slow mode */
-    CALuint    numThreadPerGroup;       /**< Number of threads per group */
+    CALuint    numThreadPerGroup;       /**< Flattend umber of threads per group */
+    CALuint    numThreadPerGroupX;      /**< x dimension of numThreadPerGroup */
+    CALuint    numThreadPerGroupY;      /**< y dimension of numThreadPerGroup */
+    CALuint    numThreadPerGroupZ;      /**< z dimension of numThreadPerGroup */
     CALuint    totalNumThreadGroup;     /**< Total number of thread groups */
     CALuint    wavefrontPerSIMD;        /**< Number of wavefronts per SIMD */ //CAL_USE_SC_PRM
     CALuint    numWavefrontPerSIMD;     /**< Number of wavefronts per SIMD */
@@ -1082,6 +1160,3 @@ CALAPI CALresult CALAPIENTRY calCtxRunProgramGridArray(CALevent* event,
 
 
 #endif /* __CAL_H__ */
-
-
-

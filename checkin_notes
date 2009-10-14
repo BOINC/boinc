@@ -8665,3 +8665,9 @@ David  14 Oct 2009
         cpu_sched.cpp
         cs_scheduler.cpp
         work_fetch.cpp
+
+David  14 Oct 2009
+    - update cal.h to current ATI code
+
+    lib/
+        coproc.cpp,h

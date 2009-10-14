@@ -49,10 +49,9 @@ If BOINC reports a GPU, your current driver is OK.
 Otherwise
 <ul>
 <li>
-NVIDIA: <a href=http://www.nvidia.com/page/drivers.html>download and install the latest driver</a> (a reboot will be required).
+<a href=http://www.nvidia.com/page/drivers.html>Get latest NVIDIA driver</a>
 <li>
-ATI GPUs: get the latest driver
-<a href=http://support.amd.com/us/gpudownload/Pages/index.aspx>here</a>.
+<a href=http://support.amd.com/us/gpudownload/Pages/index.aspx>Get latest ATI driver</a>.
 </ul>
 <p>
 You're done!
@@ -62,12 +61,13 @@ Projects with NVIDIA applications:
 <ul>
 <li> <a href=http://gpugrid.net>GPUgrid.net</a>
 <li> <a href=http://setiathome.berkeley.edu>SETI@home</a>
+<li> <a href=http://boinc.thesonntags.com/collatz/>Collatz Conjecture</a>
 </ul>
 
-Projects with ATI applications (coming soon):
+Projects with ATI applications:
 <ul>
-<li> <a href=http://milkyway.cs.rpi.edu/milkyway/>Milkyway@home</a>
 <li> <a href=http://boinc.thesonntags.com/collatz/>Collatz Conjecture</a>
+<li> <a href=http://milkyway.cs.rpi.edu/milkyway/>Milkyway@home</a> (coming soon)
 </ul>
 
 Of course, you can attach to other projects too;
