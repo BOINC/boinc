@@ -8671,3 +8671,6 @@ David  14 Oct 2009
 
     lib/
         coproc.cpp,h
+
+David  14 Oct 2009
+    - undo the above
