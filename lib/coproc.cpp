@@ -437,7 +437,11 @@ void COPROC_CUDA::get(
 }
 
 bool COPROC_CUDA::is_usable() {
-    return ((*__cuInit)(0) == 0);
+    int count;
+    int retval = (*__cuDeviceGetCount)(&count);
+    if (retval) return false;
+    if (count == 0) return false;
+    return true;
 }
 
 void COPROC_CUDA::description(char* buf) {
@@ -893,14 +897,14 @@ void COPROC_ATI::get(COPROCS& coprocs,
     strcpy(ccp->type, "ATI");
     ccp->count = numDevices;
     coprocs.coprocs.push_back(ccp);
-    __calShutdown();
 }
 
 bool COPROC_ATI::is_usable() {
-    int retval = (*__calInit)();
-    if (retval == CAL_RESULT_OK) return true;
-    if (retval == CAL_RESULT_ALREADY) return true;
-    return false;
+    CALuint ndevs;
+    int retval = (*__calDeviceGetCount)(&ndevs);
+    if (retval != CAL_RESULT_OK) return false;
+    if (ndevs == 0) return false;
+    return true;
 }
 
 #ifndef _USING_FCGI_
