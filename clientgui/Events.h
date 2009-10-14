@@ -19,53 +19,75 @@
 #ifndef _EVENTS_H_
 #define _EVENTS_H_
 
+// Common Events across GUIs
+#define ID_CLOSEWINDOW                          6100
+#define ID_CHANGEGUI                            6101
+#define ID_OPENWEBSITE                          6102
+#define ID_PERIODICRPCTIMER                     6103
+#define ID_DOCUMENTPOLLTIMER                    6104
+#define ID_ALERTPOLLTIMER                       6105
+#define ID_REFRESHSTATETIMER                    6106
+#define ID_WIZARDATTACH                         6107
+#define ID_WIZARDUPDATE                         6108
+#define ID_WIZARDDETACH                         6109
+
+
+//
+// Advanced GUI
+//
+
+// Advanced Frame
 #define ID_ADVANCEDFRAME                        6000
 #define ID_STATUSBAR                            6001
 #define ID_FRAMENOTEBOOK                        6002
-#define ID_REFRESHSTATETIMER                    6003
 #define ID_FRAMERENDERTIMER                     6004
 #define ID_FRAMETASKRENDERTIMER                 6005
-#define ID_DOCUMENTPOLLTIMER                    6007
-#define ID_ALERTPOLLTIMER                       6009
-#define ID_FILEACTIVITYRUNALWAYS                6010
-#define ID_FILEACTIVITYRUNBASEDONPREPERENCES    6011
-#define ID_FILEACTIVITYSUSPEND                  6012
-#define ID_FILENETWORKRUNALWAYS                 6013
-#define ID_FILENETWORKRUNBASEDONPREPERENCES     6014
-#define ID_FILENETWORKSUSPEND                   6015
-#define ID_COMMANDSRETRYCOMMUNICATIONS          6016
-#define ID_FILERUNBENCHMARKS                    6017
-#define ID_FILESELECTCOMPUTER                   6018
-// NO LONGER USED                               6019
-#define ID_PROJECTSATTACHPROJECT                6020
-#define ID_READ_PREFS                           6021
-#define ID_READ_CONFIG                          6022
-#define ID_OPTIONSOPTIONS                       6023
-#define ID_HELPBOINCWEBSITE                     6024
-#define ID_HELPBOINCMANAGER                     6025
-#define ID_TOOLSAMUPDATENOW                     6026
-#define ID_ADVANCEDAMDEFECT                     6027
-#define ID_OPENWEBSITE                          6028
-#define ID_FILESWITCHGUI                        6029
-#define ID_ACTIVITYMENUSEPARATOR                6031
-#define ID_FILECLOSEWINDOW                      6032
-#define ID_ADVPREFSDLG                          6033
-#define ID_SHUTDOWNCORECLIENT                   6034
-#define ID_HELPBOINC                            6035
-#define ID_VIEWLIST                             6036
-#define ID_PERIODICRPCTIMER                     6050
-#define ID_SIMPLEFRAME                          6100
-#define ID_SIMPLEMESSAGECHECKTIMER              6101
-#define ID_SIMPLE_ATTACHTOPROJECT               6600
-#define ID_SIMPLE_HELP                          6601
-#define ID_SIMPLE_MESSAGES                      6602
-#define ID_SIMPLE_MESSAGES_ALERT                6603
-#define ID_SIMPLE_SUSPEND                       6604
-#define ID_SIMPLE_RESUME                        6605
-#define ID_SIMPLE_PREFERENCES                   6606
-#define ID_SIMPLE_MESSAGESVIEW                  6607
-#define ID_SIMPLE_SYNCHRONIZE                   6608
-#define ID_TB_SUSPEND                           6801
+
+// File Menu
+//#define ID_CLOSEWINDOW
+//#define wxID_EXIT
+
+// View Menu
+#define ID_ADVVIEWBASE                          6125
+#define ID_ADVPROJECTSVIEW                      6125
+#define ID_ADVTASKSVIEW                         6126
+#define ID_ADVTRANSFERSVIEW                     6127
+#define ID_ADVMESSAGESVIEW                      6128
+#define ID_ADVSTATISTICSVIEW                    6129
+#define ID_ADVRESOURCEUSAGEVIEW                 6130
+#define ID_ADVNEWSVIEW                          6131
+
+// Tools Menu
+//#define ID_ATTACHWIZARD
+//#define ID_WIZARDUPDATE
+//#define ID_WIZARDDETACH
+
+// Activity Menu
+#define ID_ADVACTIVITYRUNALWAYS                 6010
+#define ID_ADVACTIVITYRUNBASEDONPREPERENCES     6011
+#define ID_ADVACTIVITYSUSPEND                   6012
+#define ID_ADVACTIVITYMENUSEPARATOR             6013
+#define ID_ADVNETWORKRUNALWAYS                  6014
+#define ID_ADVNETWORKRUNBASEDONPREPERENCES      6015
+#define ID_ADVNETWORKSUSPEND                    6016
+
+// Advanced Menu
+#define ID_OPTIONS                              6017
+#define ID_PREFERENCES                          6018
+#define ID_SELECTCOMPUTER                       6019
+#define ID_SHUTDOWNCORECLIENT                   6020
+#define ID_RUNBENCHMARKS                        6021
+#define ID_RETRYCOMMUNICATIONS                  6022
+#define ID_READCONFIG                           6023
+#define ID_READPREFERENCES                      6026
+
+// Help Menu
+#define ID_HELPBOINC                            6035  // Locked: Used by manager_links.php
+#define ID_HELPBOINCWEBSITE                     6024  // Locked: Used by manager_links.php
+#define ID_HELPBOINCMANAGER                     6025  // Locked: Used by manager_links.php
+//#define wxID_ABOUT
+
+// Views
 #define ID_LIST_BASE                            7000
 #define ID_LIST_PROJECTSVIEW                    7000
 #define ID_LIST_WORKVIEW                        7001
@@ -114,6 +136,29 @@
 #define ID_TASK_STATISTICS_MODEVIEW2            9612
 #define ID_TASK_NEWS_BOINC                      9700
 #define ID_TASK_NEWS_BOINCWEBSITE               9701
+
+//
+// Simple GUI
+//
+#define ID_SIMPLEFRAME                          6500
+#define ID_SIMPLEMESSAGECHECKTIMER              6501
+#define ID_SIMPLE_HELP                          6601
+#define ID_SIMPLE_MESSAGES                      6602
+#define ID_SIMPLE_MESSAGES_ALERT                6603
+#define ID_SIMPLE_SUSPEND                       6604
+#define ID_SIMPLE_RESUME                        6605
+#define ID_SIMPLE_PREFERENCES                   6606
+#define ID_SIMPLE_MESSAGESVIEW                  6607
+
+//
+// Taskbar/System Tray
+//
+#define ID_TB_SUSPEND                           6801
+
+//
+// Dialogs
+//
 #define ID_ANYDIALOG                            10000
+
 #endif
 

@@ -37,7 +37,6 @@
 #include "BOINCWizards.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttachProject.h"
-//#include "WizardAccountManager.h"
 #include "error_numbers.h"
 #include "version.h"
 
@@ -54,8 +53,7 @@ IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 
 BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_SIZE(CSimpleFrame::OnSize)
-    EVT_MENU(wxID_EXIT, CSimpleFrame::OnExit)
-    EVT_MENU(ID_FILESWITCHGUI, CSimpleFrame::OnSwitchGUI)
+    EVT_MENU(ID_CHANGEGUI, CSimpleFrame::OnChangeGUI)
     EVT_HELP(wxID_ANY, CSimpleFrame::OnHelp)
     EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
     EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
@@ -95,17 +93,23 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
     // File menu
     wxMenu *menuFile = new wxMenu;
 
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strMenuDescription.Printf(
+        _("Close the %s window"), 
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
     menuFile->Append(
-        ID_FILECLOSEWINDOW,
+        ID_CLOSEWINDOW,
         _("&Close Window\tCTRL+W"),
-		_("Close BOINC Manager Window.")
+		strMenuDescription
     );
 
     // Help menu
     wxMenu *menuHelp = new wxMenu;
 
     // %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
+    //    i.e. 'BOINC Manager', 'GridRepublic'
     strMenuName.Printf(
         _("%s &help"), 
         pSkinAdvanced->GetApplicationShortName().c_str()
@@ -176,11 +180,11 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
     );
     
     // wxMac maps Command key to wxACCEL_ALT for wxAcceleratorTable but CTRL for wxMenu.
-    m_Shortcuts[0].Set(wxACCEL_CMD|wxACCEL_SHIFT, (int)'A', ID_FILESWITCHGUI);
+    m_Shortcuts[0].Set(wxACCEL_CMD|wxACCEL_SHIFT, (int)'A', ID_CHANGEGUI);
     m_Shortcuts[1].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
     m_pAccelTable = new wxAcceleratorTable(2, m_Shortcuts);
 #else
-    m_Shortcuts[0].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'A', ID_FILESWITCHGUI);
+    m_Shortcuts[0].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'A', ID_CHANGEGUI);
     m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
 #endif
 
@@ -238,12 +242,12 @@ int CSimpleFrame::_GetCurrentViewPage() {
 }
 
 
-void CSimpleFrame::OnSwitchGUI(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function Begin"));
+void CSimpleFrame::OnChangeGUI(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnChangeGUI - Function Begin"));
 
     wxGetApp().SetActiveGUI(BOINC_ADVANCEDGUI, true);
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnChangeGUI - Function End"));
 }
 
 
@@ -370,6 +374,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->GetConnectedComputerName(strComputer);
     if (pDoc->IsComputerNameLocal(strComputer)) {
         wxGetApp().StartBOINCScreensaverTest();
+        wxGetApp().StartBOINCDefaultScreensaverTest();
     }
 
     pAPWizard = new CWizardAttachProject(this);

@@ -55,7 +55,8 @@ BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
     EVT_FRAME_ALERT(CBOINCBaseFrame::OnAlert)
     EVT_FRAME_REFRESH(CBOINCBaseFrame::OnRefreshView)
     EVT_CLOSE(CBOINCBaseFrame::OnClose)
-    EVT_MENU(ID_FILECLOSEWINDOW, CBOINCBaseFrame::OnCloseWindow)
+    EVT_MENU(ID_CLOSEWINDOW, CBOINCBaseFrame::OnCloseWindow)
+    EVT_MENU(wxID_EXIT, CBOINCBaseFrame::OnExit)
 END_EVENT_TABLE ()
 
 

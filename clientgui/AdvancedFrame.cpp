@@ -157,26 +157,32 @@ void CStatusBar::OnSize(wxSizeEvent& event) {
 IMPLEMENT_DYNAMIC_CLASS(CAdvancedFrame, CBOINCBaseFrame)
 
 BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
-    EVT_MENU(ID_FILERUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
-    EVT_MENU(ID_FILESELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
+    // View
+    EVT_MENU_RANGE(ID_ADVPROJECTSVIEW, ID_ADVNEWSVIEW, CAdvancedFrame::OnChangeView)
+    EVT_MENU(ID_CHANGEGUI, CAdvancedFrame::OnChangeGUI)
+    // Tools
+    EVT_MENU(ID_WIZARDATTACH, CAdvancedFrame::OnWizardAttach)
+    EVT_MENU(ID_WIZARDUPDATE, CAdvancedFrame::OnWizardUpdate)
+    EVT_MENU(ID_WIZARDDETACH, CAdvancedFrame::OnWizardDetach)
+    // Activity
+    EVT_MENU_RANGE(ID_ADVACTIVITYRUNALWAYS, ID_ADVACTIVITYSUSPEND, CAdvancedFrame::OnActivitySelection)
+    EVT_MENU_RANGE(ID_ADVNETWORKRUNALWAYS, ID_ADVNETWORKSUSPEND, CAdvancedFrame::OnNetworkSelection)
+    // Advanced
+    EVT_MENU(ID_OPTIONS, CAdvancedFrame::OnOptions)
+	EVT_MENU(ID_PREFERENCES, CAdvancedFrame::OnPreferences)
+    EVT_MENU(ID_SELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
     EVT_MENU(ID_SHUTDOWNCORECLIENT, CAdvancedFrame::OnClientShutdown)
-    EVT_MENU(ID_FILESWITCHGUI, CAdvancedFrame::OnSwitchGUI)
-	EVT_MENU(ID_READ_PREFS, CAdvancedFrame::Onread_prefs)
-	EVT_MENU(ID_READ_CONFIG, CAdvancedFrame::Onread_config)
-    EVT_MENU(wxID_EXIT, CAdvancedFrame::OnExit)
-    EVT_MENU_RANGE(ID_FILEACTIVITYRUNALWAYS, ID_FILEACTIVITYSUSPEND, CAdvancedFrame::OnActivitySelection)
-    EVT_MENU_RANGE(ID_FILENETWORKRUNALWAYS, ID_FILENETWORKSUSPEND, CAdvancedFrame::OnNetworkSelection)
-    EVT_MENU(ID_TOOLSAMUPDATENOW, CAdvancedFrame::OnAccountManagerUpdate)
-    EVT_MENU(ID_ADVANCEDAMDEFECT, CAdvancedFrame::OnAccountManagerDetach)
-    EVT_MENU(ID_PROJECTSATTACHPROJECT, CAdvancedFrame::OnProjectsAttachToProject)
-    EVT_MENU(ID_COMMANDSRETRYCOMMUNICATIONS, CAdvancedFrame::OnCommandsRetryCommunications)
-    EVT_MENU(ID_OPTIONSOPTIONS, CAdvancedFrame::OnOptionsOptions)
-	EVT_MENU(ID_ADVPREFSDLG, CAdvancedFrame::OnDlgPreferences)
-    EVT_HELP(wxID_ANY, CAdvancedFrame::OnHelp)
+    EVT_MENU(ID_RUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
+    EVT_MENU(ID_RETRYCOMMUNICATIONS, CAdvancedFrame::OnRetryCommunications)
+	EVT_MENU(ID_READPREFERENCES, CAdvancedFrame::OnReadPreferences)
+	EVT_MENU(ID_READCONFIG, CAdvancedFrame::OnReadConfig)
+    // Help
     EVT_MENU(ID_HELPBOINC, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCMANAGER, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CAdvancedFrame::OnHelpAbout)
+    EVT_HELP(wxID_ANY, CAdvancedFrame::OnHelp)
+    // Custom Events & Timers
     EVT_FRAME_CONNECT(CAdvancedFrame::OnConnect)
     EVT_FRAME_UPDATESTATUS(CAdvancedFrame::OnUpdateStatus)
     EVT_TIMER(ID_REFRESHSTATETIMER, CAdvancedFrame::OnRefreshState)
@@ -210,9 +216,9 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxP
     SetIcons(icons);
 
     // Create UI elements
-    wxCHECK_RET(CreateMenu(), _T("Failed to create menu bar."));
-    wxCHECK_RET(CreateNotebook(), _T("Failed to create notebook."));
-    wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
+    wxCHECK_RET(CreateMenu(false), _T("Failed to create menu bar."));
+    wxCHECK_RET(CreateNotebook(false), _T("Failed to create notebook."));
+    wxCHECK_RET(CreateStatusbar(false), _T("Failed to create status bar."));
 
     RestoreState();
 
@@ -269,7 +275,7 @@ CAdvancedFrame::~CAdvancedFrame() {
 }
 
 
-bool CAdvancedFrame::CreateMenu() {
+bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateMenu - Function Begin"));
 
     CMainDocument*     pDoc = wxGetApp().GetDocument();
@@ -284,23 +290,31 @@ bool CAdvancedFrame::CreateMenu() {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-    // Account managers have a different menu arrangement
-    pDoc->rpc.acct_mgr_info(ami);
-    is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
+    if (bRPCsSafe) {
+        // Account managers have a different menu arrangement
+        pDoc->rpc.acct_mgr_info(ami);
+        is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
+    }
 
     // File menu
     wxMenu *menuFile = new wxMenu;
 
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strMenuDescription.Printf(
+        _("Close the %s window"), 
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
     menuFile->Append(
-        ID_FILECLOSEWINDOW,
+        ID_CLOSEWINDOW,
         _("&Close Window\tCTRL+W"),
-		_("Close BOINC Manager Window.")
+        strMenuDescription
     );
 
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
-        _("Exit the %s"), 
+        _("Exit %s"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
     menuFile->Append(
@@ -312,31 +326,75 @@ bool CAdvancedFrame::CreateMenu() {
     // View menu
     wxMenu *menuView = new wxMenu;
 
-    menuView->AppendRadioItem(
-        ID_VIEWLIST,
-        _("&Advanced View\tCTRL+SHIFT+A"),
-        _("Advanced views allow you to sort various columns and displays graphical progress bars.")
+    menuView->Append(
+        ID_ADVPROJECTSVIEW,
+        _("&Projects\tCTRL+SHIFT+P"),
+        _("Display projects")
     );
 
     menuView->Append(
-        ID_FILESWITCHGUI,
+        ID_ADVTASKSVIEW,
+        _("&Tasks\tCTRL+SHIFT+T"),
+        _("Display tasks")
+    );
+
+    menuView->Append(
+        ID_ADVTRANSFERSVIEW,
+        _("Trans&fers\tCTRL+SHIFT+X"),
+        _("Display transfers")
+    );
+
+    menuView->Append(
+        ID_ADVMESSAGESVIEW,
+        _("&Messages\tCTRL+SHIFT+M"),
+        _("Display messages")
+    );
+
+    menuView->Append(
+        ID_ADVSTATISTICSVIEW,
+        _("&Statistics\tCTRL+SHIFT+S"),
+        _("Display statistics")
+    );
+
+    menuView->Append(
+        ID_ADVRESOURCEUSAGEVIEW,
+        _("&Disk usage\tCTRL+SHIFT+D"),
+        _("Display disk usage")
+    );
+
+    menuView->Append(
+        ID_ADVNEWSVIEW,
+        _("&News\tCTRL+SHIFT+N"),
+        _("Display news")
+    );
+
+    menuView->AppendSeparator();
+
+    menuView->Append(
+        ID_CHANGEGUI,
         _("&Simple View...\tCTRL+SHIFT+S"),
-        _("Display the simple BOINC graphical interface.")
+        _("Display the simple graphical interface.")
     );
 
     // Screen too small?
     if (wxGetDisplaySize().GetHeight() < 600) {
-        menuView->Enable(ID_FILESWITCHGUI, false);
+        menuView->Enable(ID_CHANGEGUI, false);
     }
+
+    // Is an accessibility aid running?
+    if (wxGetApp().IsAccessibilityEnabled()) {
+        menuView->Enable(ID_CHANGEGUI, false);
+    }
+
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
 
     if (!is_acct_mgr_detected) {
         menuTools->Append(
-            ID_PROJECTSATTACHPROJECT, 
+            ID_WIZARDATTACH, 
             _("Attach to &project or account manager..."),
-            _("Attach to a project or account manager")
+            _("Attach to a project or account manager to begin processing work")
         );
     } else {
         strMenuName.Printf(
@@ -348,9 +406,23 @@ bool CAdvancedFrame::CreateMenu() {
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         menuTools->Append(
-            ID_TOOLSAMUPDATENOW, 
+            ID_WIZARDUPDATE, 
             strMenuName,
             strMenuDescription
+        );
+        strMenuName.Printf(
+            _("&Stop using %s..."), 
+            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
+        );
+        menuTools->Append(
+            ID_WIZARDATTACH, 
+            _("Attach to &project..."),
+            _("Attach to a project to begin processing work")
+        );
+        menuTools->Append(
+            ID_WIZARDDETACH, 
+            strMenuName,
+            _("Remove client from account manager control.")
         );
     }
 
@@ -358,17 +430,17 @@ bool CAdvancedFrame::CreateMenu() {
     wxMenu *menuActivity = new wxMenu;
 
     menuActivity->AppendRadioItem(
-        ID_FILEACTIVITYRUNALWAYS,
+        ID_ADVACTIVITYRUNALWAYS,
         _("&Run always"),
         _("Allow work regardless of preferences")
     );
     menuActivity->AppendRadioItem(
-        ID_FILEACTIVITYRUNBASEDONPREPERENCES,
+        ID_ADVACTIVITYRUNBASEDONPREPERENCES,
         _("Run based on &preferences"),
         _("Allow work according to your preferences")
     );
     menuActivity->AppendRadioItem(
-        ID_FILEACTIVITYSUSPEND,
+        ID_ADVACTIVITYSUSPEND,
         _("&Suspend"),
         _("Stop work regardless of preferences")
     );
@@ -380,29 +452,29 @@ bool CAdvancedFrame::CreateMenu() {
     // selection on linux (wxGtk library) with the separator here,
     // so we add a blank disabled menu item instead
     //
-    wxMenuItem* pItem = menuActivity->Append(
-        ID_ACTIVITYMENUSEPARATOR,
-        (const wxChar *) wxT(" "),
-            // wxEmptyString here causes a wxWidgets assertion when debugging
+    menuActivity->Append(
+        ID_ADVACTIVITYMENUSEPARATOR,
+        (const wxChar *) wxT(" "), // wxEmptyString here causes a wxWidgets
+                                   //   assertion when debugging
         wxEmptyString,
-        wxITEM_NORMAL
-            // wxITEM_SEPARATOR here causes a wxWidgets assertion when debugging
+        wxITEM_NORMAL              // wxITEM_SEPARATOR here causes a wxWidgets
+                                   //   assertion when debugging
     );
-    pItem->Enable(false); // disable this menu item
+    menuActivity->Enable(ID_ADVACTIVITYMENUSEPARATOR, false);
 #endif
 
     menuActivity->AppendRadioItem(
-        ID_FILENETWORKRUNALWAYS,
+        ID_ADVNETWORKRUNALWAYS,
         _("&Network activity always available"),
         _("Allow network activity regardless of preferences")
     );
     menuActivity->AppendRadioItem(
-        ID_FILENETWORKRUNBASEDONPREPERENCES,
+        ID_ADVNETWORKRUNBASEDONPREPERENCES,
         _("Network activity based on &preferences"),
         _("Allow network activity according to your preferences")
     );
     menuActivity->AppendRadioItem(
-        ID_FILENETWORKSUSPEND,
+        ID_ADVNETWORKSUSPEND,
         _("&Network activity suspended"),
         _("Stop BOINC network activity")
     );
@@ -410,12 +482,12 @@ bool CAdvancedFrame::CreateMenu() {
     // Advanced menu
     wxMenu *menuAdvanced = new wxMenu;
     menuAdvanced->Append(
-        ID_OPTIONSOPTIONS, 
+        ID_OPTIONS, 
         _("&Options..."),
         _("Configure GUI options and proxy settings")
     );
     menuAdvanced->Append(
-		ID_ADVPREFSDLG, 
+		ID_PREFERENCES, 
         _("&Preferences..."),
         _("Configure local preferences")
     );
@@ -427,7 +499,7 @@ bool CAdvancedFrame::CreateMenu() {
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
     menuAdvanced->Append(
-        ID_FILESELECTCOMPUTER, 
+        ID_SELECTCOMPUTER, 
         _("Select computer..."),
         strMenuDescription
     );
@@ -437,41 +509,25 @@ bool CAdvancedFrame::CreateMenu() {
         _("Shut down the currently connected core client")
     );
     menuAdvanced->Append(
-        ID_FILERUNBENCHMARKS, 
+        ID_RUNBENCHMARKS, 
         _("Run CPU &benchmarks"),
         _("Runs BOINC CPU benchmarks")
     );
     menuAdvanced->Append(
-        ID_COMMANDSRETRYCOMMUNICATIONS, 
+        ID_RETRYCOMMUNICATIONS, 
         _("Do network &communication"),
         _("Do all pending network communication.")
     );
     menuAdvanced->Append(
-        ID_READ_CONFIG, 
+        ID_READCONFIG, 
         _("Read config file"),
         _("Read configuration info from cc_config.xml.")
     );
     menuAdvanced->Append(
-        ID_READ_PREFS, 
+        ID_READPREFERENCES, 
         _("Read local prefs file"),
         _("Read preferences from global_prefs_override.xml.")
     );
-    if (is_acct_mgr_detected) {
-        strMenuName.Printf(
-            _("&Stop using %s..."), 
-            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
-        );
-        menuAdvanced->Append(
-            ID_ADVANCEDAMDEFECT, 
-            strMenuName,
-            _("Remove client from account manager control.")
-        );
-        menuAdvanced->Append(
-            ID_PROJECTSATTACHPROJECT, 
-            _("Attach to &project"),
-            _("Attach to a project to begin processing work")
-        );
-    }
 
 
     // Help menu
@@ -598,7 +654,7 @@ bool CAdvancedFrame::CreateMenu() {
 }
 
 
-bool CAdvancedFrame::CreateNotebook() {
+bool CAdvancedFrame::CreateNotebook( bool /* bRPCsSafe */ ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebook - Function Begin"));
 
     // create frame panel
@@ -647,8 +703,7 @@ bool CAdvancedFrame::RepopulateNotebook() {
 }
 
 
-template < class T >
-bool CAdvancedFrame::CreateNotebookPage(T pwndNewNotebookPage) {
+bool CAdvancedFrame::CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebookPage - Function Begin"));
 
     wxImageList*    pImageList;
@@ -674,7 +729,7 @@ bool CAdvancedFrame::CreateNotebookPage(T pwndNewNotebookPage) {
 }
 
 
-bool CAdvancedFrame::CreateStatusbar() {
+bool CAdvancedFrame::CreateStatusbar( bool /* bRPCsSafe */ ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateStatusbar - Function Begin"));
 
     if (m_pStatusbar)
@@ -905,229 +960,70 @@ int CAdvancedFrame::_GetCurrentViewPage() {
 }
 
 
-void CAdvancedFrame::OnActivitySelection(wxCommandEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnActivitySelection - Function Begin"));
+void CAdvancedFrame::OnChangeView(wxCommandEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnChangeView - Function Begin"));
 
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
+    m_pNotebook->SetSelection(event.GetId() - ID_ADVVIEWBASE);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnChangeView - Function End"));
+}
+
+
+void CAdvancedFrame::OnChangeGUI(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnChangeGUI - Function Begin"));
+
+    wxGetApp().SetActiveGUI(BOINC_SIMPLEGUI, true);
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnChangeGUI - Function End"));
+}
+
+
+void CAdvancedFrame::OnWizardAttach( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnWizardAttach - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    switch(event.GetId()) {
-    case ID_FILEACTIVITYRUNALWAYS:
-        pDoc->SetActivityRunMode(RUN_MODE_ALWAYS, 0);
-        break;
-    case ID_FILEACTIVITYSUSPEND:
-        pDoc->SetActivityRunMode(RUN_MODE_NEVER, 0);
-        break;
-    case ID_FILEACTIVITYRUNBASEDONPREPERENCES:
-        pDoc->SetActivityRunMode(RUN_MODE_AUTO, 0);
-        break;
+    if (!pDoc->IsUserAuthorized())
+        return;
+
+    if (pDoc->IsConnected()) {
+        UpdateStatusText(_("Attaching to project or account manager..."));
+
+        // Stop all timers so that the wizard is the only thing doing anything
+        StopTimers();
+
+        CWizardAttachProject* pWizard = new CWizardAttachProject(this);
+
+        wxString strName = wxEmptyString;
+        wxString strURL = wxEmptyString;
+        pWizard->Run( strName, strURL, false );
+
+        if (pWizard)
+            pWizard->Destroy();
+
+        DeleteMenu();
+        CreateMenu();
+
+        // Restart timers to continue normal operations.
+        StartTimers();
+
+        UpdateStatusText(wxT(""));
+
+        pDoc->ForceCacheUpdate();
+        FireRefreshView();
+    } else {
+        ShowNotCurrentlyConnectedAlert();
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnActivitySelection - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnWizardAttach - Function End"));
 }
 
 
-void CAdvancedFrame::OnNetworkSelection(wxCommandEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNetworkSelection - Function Begin"));
-
-    CMainDocument* pDoc      = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-
-    switch(event.GetId()) {
-    case ID_FILENETWORKRUNALWAYS:
-        pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS, 0);
-        break;
-    case ID_FILENETWORKSUSPEND:
-        pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 0);
-        break;
-    case ID_FILENETWORKRUNBASEDONPREPERENCES:
-        pDoc->SetNetworkRunMode(RUN_MODE_AUTO, 0);
-        break;
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNetworkSelection - Function End"));
-}
-
-   
-void CAdvancedFrame::OnRunBenchmarks(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRunBenchmarks - Function Begin"));
-
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-    wxASSERT(m_pNotebook);
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
-    pDoc->RunBenchmarks();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRunBenchmarks - Function End"));
-}
-
-
-void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectComputer - Function Begin"));
-
-    CMainDocument*      pDoc = wxGetApp().GetDocument();
-    CDlgSelectComputer  dlg(this);
-    size_t              lIndex = 0;
-    long                lRetVal = -1;
-    wxArrayString       aComputerNames;
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-
-    // Lets copy the template store in the system state
-    aComputerNames = m_aSelectedComputerMRU;
-
-    // Lets populate the combo control with the MRU list
-    dlg.m_ComputerNameCtrl->Clear();
-    for (lIndex = 0; lIndex < aComputerNames.Count(); lIndex++) {
-        dlg.m_ComputerNameCtrl->Append(aComputerNames.Item(lIndex));
-    }
-
-    if (wxID_OK == dlg.ShowModal()) {
-
-        // Make a null hostname be the same thing as localhost
-        if (wxEmptyString == dlg.m_ComputerNameCtrl->GetValue()) {
-            lRetVal = pDoc->Connect(
-                wxT("localhost"),
-                GUI_RPC_PORT,
-                wxEmptyString,
-                TRUE,
-                TRUE
-            );
-        } else {
-            // Connect to the remote machine
-            wxString sHost = dlg.m_ComputerNameCtrl->GetValue(); 
-            long lPort = GUI_RPC_PORT; 
-            int iPos = sHost.Find(wxT(":")); 
-            if (iPos != wxNOT_FOUND) { 
-                wxString sPort = sHost.substr(iPos + 1); 
-                if (!sPort.ToLong(&lPort)) lPort = GUI_RPC_PORT; 
-                sHost.erase(iPos); 
-            } 
-            lRetVal = pDoc->Connect(
-                sHost,
-                (int)lPort,
-                dlg.m_ComputerPasswordCtrl->GetValue(),
-                TRUE,
-                FALSE
-            );
-        }
-        if (lRetVal) {
-            ShowConnectionFailedAlert();
-        }
-
-        // Insert a copy of the current combo box value to the head of the
-        //   computer names string array
-        if (wxEmptyString != dlg.m_ComputerNameCtrl->GetValue()) {
-            aComputerNames.Insert(dlg.m_ComputerNameCtrl->GetValue(), 0);
-        }
-
-        // Loops through the computer names and remove any duplicates that
-        //   might exist with the new head value
-        for (lIndex = 1; lIndex < aComputerNames.Count(); lIndex++) {
-            if (aComputerNames.Item(lIndex) == aComputerNames.Item(0))
-                aComputerNames.RemoveAt(lIndex);
-        }
-
-        // Store the modified computer name MRU list back to the system state
-        m_aSelectedComputerMRU = aComputerNames;
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectComputer - Function End"));
-}
-
-
-void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
-    wxCommandEvent     evtSelectNewComputer(wxEVT_COMMAND_MENU_SELECTED, ID_FILESELECTCOMPUTER);
-    CMainDocument*     pDoc = wxGetApp().GetDocument();
-    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-    CDlgGenericMessage dlg(this);
-    wxString           strDialogTitle = wxEmptyString;
-    wxString           strDialogMessage = wxEmptyString;
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnClientShutdown - Function Begin"));
-
-    wxASSERT(pDoc);
-    wxASSERT(pSkinAdvanced);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
-
-
-    // Stop all timers
-    StopTimers();
-
-
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-    strDialogTitle.Printf(
-        _("%s - Shutdown the current client..."),
-        pSkinAdvanced->GetApplicationName().c_str()
-    );
-
-    // 1st %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
-    // 2nd %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
-    strDialogMessage.Printf(
-        _("%s will shut down the currently connected client,\nand prompt you for another host to connect to.\n"),
-        pSkinAdvanced->GetApplicationName().c_str()
-    );
-
-    dlg.SetTitle(strDialogTitle);
-    dlg.m_DialogMessage->SetLabel(strDialogMessage);
-    dlg.Fit();
-    dlg.Centre();
-
-    if (wxID_OK == dlg.ShowModal()) {
-        pDoc->CoreClientQuit();
-        pDoc->ForceDisconnect();
-        
-        // Since the core cliet we were connected to just shutdown, prompt for a new one.
-        ProcessEvent(evtSelectNewComputer);
-    }
-
-
-    // Restart timers
-    StartTimers();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnClientShutdown - Function End"));
-}
-
-
-void CAdvancedFrame::Onread_prefs(wxCommandEvent& WXUNUSED(event)) {
-	CMainDocument* pDoc = wxGetApp().GetDocument();
-	pDoc->rpc.read_global_prefs_override();
-}
-
-
-void CAdvancedFrame::Onread_config(wxCommandEvent& WXUNUSED(event)) {
-	CMainDocument* pDoc = wxGetApp().GetDocument();
-	pDoc->rpc.read_cc_config();
-}
-
-
-void CAdvancedFrame::OnSwitchGUI(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function Begin"));
-
-    // Screen too small?
-    if (wxGetDisplaySize().GetHeight() >= 600) {
-        wxGetApp().SetActiveGUI(BOINC_SIMPLEGUI, true);
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSwitchGUI - Function End"));
-}
-
-
-void CAdvancedFrame::OnAccountManagerUpdate(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnAccountManagerUpdate - Function Begin"));
+void CAdvancedFrame::OnWizardUpdate(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnWizardUpdate - Function Begin"));
 
     CMainDocument*            pDoc = wxGetApp().GetDocument();
 
@@ -1160,12 +1056,12 @@ void CAdvancedFrame::OnAccountManagerUpdate(wxCommandEvent& WXUNUSED(event)) {
         ShowNotCurrentlyConnectedAlert();
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnAccountManagerUpdate - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnWizardUpdate - Function End"));
 }
 
 
-void CAdvancedFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnAccountManagerDetach - Function Begin"));
+void CAdvancedFrame::OnWizardDetach(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnWizardDetach - Function Begin"));
 
     CMainDocument* pDoc           = wxGetApp().GetDocument();
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
@@ -1223,80 +1119,61 @@ void CAdvancedFrame::OnAccountManagerDetach(wxCommandEvent& WXUNUSED(event)) {
         ShowNotCurrentlyConnectedAlert();
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnAccountManagerDetach - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnWizardDetach - Function End"));
 }
 
 
-void CAdvancedFrame::OnProjectsAttachToProject( wxCommandEvent& WXUNUSED(event) ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnProjectsAttachToProject - Function Begin"));
+void CAdvancedFrame::OnActivitySelection(wxCommandEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnActivitySelection - Function Begin"));
 
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    if (!pDoc->IsUserAuthorized())
-        return;
-
-    if (pDoc->IsConnected()) {
-        UpdateStatusText(_("Attaching to project..."));
-
-        // Stop all timers so that the wizard is the only thing doing anything
-        StopTimers();
-
-        CWizardAttachProject* pWizard = new CWizardAttachProject(this);
-
-        wxString strName = wxEmptyString;
-        wxString strURL = wxEmptyString;
-        pWizard->Run( strName, strURL, false );
-
-        if (pWizard)
-            pWizard->Destroy();
-
-        DeleteMenu();
-        CreateMenu();
-
-        // Restart timers to continue normal operations.
-        StartTimers();
-
-        UpdateStatusText(wxT(""));
-
-        pDoc->ForceCacheUpdate();
-        FireRefreshView();
-    } else {
-        ShowNotCurrentlyConnectedAlert();
+    switch(event.GetId()) {
+    case ID_ADVACTIVITYRUNALWAYS:
+        pDoc->SetActivityRunMode(RUN_MODE_ALWAYS, 0);
+        break;
+    case ID_ADVACTIVITYSUSPEND:
+        pDoc->SetActivityRunMode(RUN_MODE_NEVER, 0);
+        break;
+    case ID_ADVACTIVITYRUNBASEDONPREPERENCES:
+        pDoc->SetActivityRunMode(RUN_MODE_AUTO, 0);
+        break;
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnProjectsAttachToProject - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnActivitySelection - Function End"));
 }
 
 
-void CAdvancedFrame::OnCommandsRetryCommunications( wxCommandEvent& WXUNUSED(event) ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnCommandsRetryCommunications - Function Begin"));
+void CAdvancedFrame::OnNetworkSelection(wxCommandEvent& event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNetworkSelection - Function Begin"));
 
-    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    UpdateStatusText(_("Retrying communications for project(s)..."));
-    pDoc->rpc.network_available();
-    UpdateStatusText(wxT(""));
 
-    FireRefreshView();
+    switch(event.GetId()) {
+    case ID_ADVNETWORKRUNALWAYS:
+        pDoc->SetNetworkRunMode(RUN_MODE_ALWAYS, 0);
+        break;
+    case ID_ADVNETWORKSUSPEND:
+        pDoc->SetNetworkRunMode(RUN_MODE_NEVER, 0);
+        break;
+    case ID_ADVNETWORKRUNBASEDONPREPERENCES:
+        pDoc->SetNetworkRunMode(RUN_MODE_AUTO, 0);
+        break;
+    }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnCommandsRetryCommunications - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNetworkSelection - Function End"));
 }
 
-
-void CAdvancedFrame::OnDlgPreferences(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDlgPreferences - Function Begin"));
-	CDlgAdvPreferences dlg(this);
-	dlg.ShowModal();
-	wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDlgPreferences - Function End"));
-}
-
-void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnOptionsOptions - Function Begin"));
+   
+void CAdvancedFrame::OnOptions(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnOptions - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
@@ -1426,7 +1303,210 @@ void CAdvancedFrame::OnOptionsOptions(wxCommandEvent& WXUNUSED(event)) {
         }
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnOptionsOptions - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnOptions - Function End"));
+}
+
+
+void CAdvancedFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnPreferences - Function Begin"));
+
+    CDlgAdvPreferences dlg(this);
+	dlg.ShowModal();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnPreferences - Function End"));
+}
+
+
+void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectComputer - Function Begin"));
+
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+    CDlgSelectComputer  dlg(this);
+    size_t              lIndex = 0;
+    long                lRetVal = -1;
+    wxArrayString       aComputerNames;
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+
+    // Lets copy the template store in the system state
+    aComputerNames = m_aSelectedComputerMRU;
+
+    // Lets populate the combo control with the MRU list
+    dlg.m_ComputerNameCtrl->Clear();
+    for (lIndex = 0; lIndex < aComputerNames.Count(); lIndex++) {
+        dlg.m_ComputerNameCtrl->Append(aComputerNames.Item(lIndex));
+    }
+
+    if (wxID_OK == dlg.ShowModal()) {
+
+        // Make a null hostname be the same thing as localhost
+        if (wxEmptyString == dlg.m_ComputerNameCtrl->GetValue()) {
+            lRetVal = pDoc->Connect(
+                wxT("localhost"),
+                GUI_RPC_PORT,
+                wxEmptyString,
+                TRUE,
+                TRUE
+            );
+        } else {
+            // Connect to the remote machine
+            wxString sHost = dlg.m_ComputerNameCtrl->GetValue(); 
+            long lPort = GUI_RPC_PORT; 
+            int iPos = sHost.Find(wxT(":")); 
+            if (iPos != wxNOT_FOUND) { 
+                wxString sPort = sHost.substr(iPos + 1); 
+                if (!sPort.ToLong(&lPort)) lPort = GUI_RPC_PORT; 
+                sHost.erase(iPos); 
+            } 
+            lRetVal = pDoc->Connect(
+                sHost,
+                (int)lPort,
+                dlg.m_ComputerPasswordCtrl->GetValue(),
+                TRUE,
+                FALSE
+            );
+        }
+        if (lRetVal) {
+            ShowConnectionFailedAlert();
+        }
+
+        // Insert a copy of the current combo box value to the head of the
+        //   computer names string array
+        if (wxEmptyString != dlg.m_ComputerNameCtrl->GetValue()) {
+            aComputerNames.Insert(dlg.m_ComputerNameCtrl->GetValue(), 0);
+        }
+
+        // Loops through the computer names and remove any duplicates that
+        //   might exist with the new head value
+        for (lIndex = 1; lIndex < aComputerNames.Count(); lIndex++) {
+            if (aComputerNames.Item(lIndex) == aComputerNames.Item(0))
+                aComputerNames.RemoveAt(lIndex);
+        }
+
+        // Store the modified computer name MRU list back to the system state
+        m_aSelectedComputerMRU = aComputerNames;
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectComputer - Function End"));
+}
+
+
+void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
+    wxCommandEvent     evtSelectNewComputer(wxEVT_COMMAND_MENU_SELECTED, ID_SELECTCOMPUTER);
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CDlgGenericMessage dlg(this);
+    wxString           strDialogTitle = wxEmptyString;
+    wxString           strDialogMessage = wxEmptyString;
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnClientShutdown - Function Begin"));
+
+    wxASSERT(pDoc);
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+
+    // Stop all timers
+    StopTimers();
+
+
+    // %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strDialogTitle.Printf(
+        _("%s - Shutdown the current client..."),
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+
+    // 1st %s is the application name
+    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    // 2nd %s is the project name
+    //    i.e. 'BOINC', 'GridRepublic'
+    strDialogMessage.Printf(
+        _("%s will shut down the currently connected client,\nand prompt you for another host to connect to.\n"),
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+
+    dlg.SetTitle(strDialogTitle);
+    dlg.m_DialogMessage->SetLabel(strDialogMessage);
+    dlg.Fit();
+    dlg.Centre();
+
+    if (wxID_OK == dlg.ShowModal()) {
+        pDoc->CoreClientQuit();
+        pDoc->ForceDisconnect();
+        
+        // Since the core cliet we were connected to just shutdown, prompt for a new one.
+        ProcessEvent(evtSelectNewComputer);
+    }
+
+
+    // Restart timers
+    StartTimers();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnClientShutdown - Function End"));
+}
+
+
+void CAdvancedFrame::OnRunBenchmarks(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRunBenchmarks - Function Begin"));
+
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    wxASSERT(m_pNotebook);
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    m_pNotebook->SetSelection(ID_LIST_MESSAGESVIEW - ID_LIST_BASE);
+    pDoc->RunBenchmarks();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRunBenchmarks - Function End"));
+}
+
+
+void CAdvancedFrame::OnRetryCommunications( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRetryCommunications - Function Begin"));
+
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    UpdateStatusText(_("Retrying communications for project(s)..."));
+    pDoc->rpc.network_available();
+    UpdateStatusText(wxT(""));
+
+    FireRefreshView();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRetryCommunications - Function End"));
+}
+
+
+void CAdvancedFrame::OnReadConfig(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnReadConfig - Function Begin"));
+
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    pDoc->rpc.read_cc_config();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnReadConfig - Function End"));
+}
+
+
+void CAdvancedFrame::OnReadPreferences(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnReadPreferences - Function Begin"));
+
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    pDoc->rpc.read_global_prefs_override();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnReadPreferences - Function End"));
 }
 
 
@@ -1552,6 +1632,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->GetConnectedComputerName(strComputer);
     if (pDoc->IsComputerNameLocal(strComputer)) {
         wxGetApp().StartBOINCScreensaverTest();
+        wxGetApp().StartBOINCDefaultScreensaverTest();
     }
 
     // Clear selected rows in all tab pages when connecting to a different host
@@ -1694,7 +1775,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
                     UpdateNetworkModeControls(status);
 
                     if (status.disallow_attach) {
-                        pMenuBar->Enable(ID_PROJECTSATTACHPROJECT, false);
+                        pMenuBar->Enable(ID_WIZARDATTACH, false);
                     }
                 }
 
@@ -1807,20 +1888,20 @@ void CAdvancedFrame::UpdateActivityModeControls( CC_STATUS& status ) {
     //   will emulate a click event for a menu item even when the action of setting
     //   a controls value wasn't initiated via user interaction. This in turn causes
     //   the set_* RPC to be called which will cause the state file to become dirty.
-    if ((RUN_MODE_ALWAYS == status.task_mode) && pMenuBar->IsChecked(ID_FILEACTIVITYRUNALWAYS)) return;
-    if ((RUN_MODE_NEVER == status.task_mode) && pMenuBar->IsChecked(ID_FILEACTIVITYSUSPEND)) return;
-    if ((RUN_MODE_AUTO == status.task_mode) && pMenuBar->IsChecked(ID_FILEACTIVITYRUNBASEDONPREPERENCES)) return;
+    if ((RUN_MODE_ALWAYS == status.task_mode) && pMenuBar->IsChecked(ID_ADVACTIVITYRUNALWAYS)) return;
+    if ((RUN_MODE_NEVER == status.task_mode) && pMenuBar->IsChecked(ID_ADVACTIVITYSUSPEND)) return;
+    if ((RUN_MODE_AUTO == status.task_mode) && pMenuBar->IsChecked(ID_ADVACTIVITYRUNBASEDONPREPERENCES)) return;
 
     // Set things up.
-    pMenuBar->Check(ID_FILEACTIVITYRUNALWAYS, false);
-    pMenuBar->Check(ID_FILEACTIVITYSUSPEND, false);
-    pMenuBar->Check(ID_FILEACTIVITYRUNBASEDONPREPERENCES, false);
+    pMenuBar->Check(ID_ADVACTIVITYRUNALWAYS, false);
+    pMenuBar->Check(ID_ADVACTIVITYSUSPEND, false);
+    pMenuBar->Check(ID_ADVACTIVITYRUNBASEDONPREPERENCES, false);
     if (RUN_MODE_ALWAYS == status.task_mode)
-        pMenuBar->Check(ID_FILEACTIVITYRUNALWAYS, true);
+        pMenuBar->Check(ID_ADVACTIVITYRUNALWAYS, true);
     if (RUN_MODE_NEVER == status.task_mode)
-        pMenuBar->Check(ID_FILEACTIVITYSUSPEND, true);
+        pMenuBar->Check(ID_ADVACTIVITYSUSPEND, true);
     if (RUN_MODE_AUTO == status.task_mode)
-        pMenuBar->Check(ID_FILEACTIVITYRUNBASEDONPREPERENCES, true);
+        pMenuBar->Check(ID_ADVACTIVITYRUNBASEDONPREPERENCES, true);
 }
 
 
@@ -1834,20 +1915,20 @@ void CAdvancedFrame::UpdateNetworkModeControls( CC_STATUS& status ) {
     //   will emulate a click event for a menu item even when the action of setting
     //   a controls value wasn't initiated via user interaction. This in turn causes
     //   the set_* RPC to be called which will cause the state file to become dirty.
-    if ((RUN_MODE_ALWAYS == status.network_mode) && pMenuBar->IsChecked(ID_FILENETWORKRUNALWAYS)) return;
-    if ((RUN_MODE_NEVER == status.network_mode) && pMenuBar->IsChecked(ID_FILENETWORKSUSPEND)) return;
-    if ((RUN_MODE_AUTO == status.network_mode) && pMenuBar->IsChecked(ID_FILENETWORKRUNBASEDONPREPERENCES)) return;
+    if ((RUN_MODE_ALWAYS == status.network_mode) && pMenuBar->IsChecked(ID_ADVNETWORKRUNALWAYS)) return;
+    if ((RUN_MODE_NEVER == status.network_mode) && pMenuBar->IsChecked(ID_ADVNETWORKSUSPEND)) return;
+    if ((RUN_MODE_AUTO == status.network_mode) && pMenuBar->IsChecked(ID_ADVNETWORKRUNBASEDONPREPERENCES)) return;
 
     // Set things up.
-    pMenuBar->Check(ID_FILENETWORKRUNALWAYS, false);
-    pMenuBar->Check(ID_FILENETWORKSUSPEND, false);
-    pMenuBar->Check(ID_FILENETWORKRUNBASEDONPREPERENCES, false);
+    pMenuBar->Check(ID_ADVNETWORKRUNALWAYS, false);
+    pMenuBar->Check(ID_ADVNETWORKSUSPEND, false);
+    pMenuBar->Check(ID_ADVNETWORKRUNBASEDONPREPERENCES, false);
     if (RUN_MODE_ALWAYS == status.network_mode)
-        pMenuBar->Check(ID_FILENETWORKRUNALWAYS, true);
+        pMenuBar->Check(ID_ADVNETWORKRUNALWAYS, true);
     if (RUN_MODE_NEVER == status.network_mode)
-        pMenuBar->Check(ID_FILENETWORKSUSPEND, true);
+        pMenuBar->Check(ID_ADVNETWORKSUSPEND, true);
     if (RUN_MODE_AUTO == status.network_mode)
-        pMenuBar->Check(ID_FILENETWORKRUNBASEDONPREPERENCES, true);
+        pMenuBar->Check(ID_ADVNETWORKRUNBASEDONPREPERENCES, true);
 }
 
 
