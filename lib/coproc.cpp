@@ -200,7 +200,6 @@ int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2, bool loose) {
 
 #ifdef _WIN32
 typedef int (__stdcall *CUDA_GDC)(int *count);
-typedef int (__stdcall *CUDA_GDP)(struct cudaDeviceProp *prop, int device);
 typedef int (__stdcall *CUDA_GDV)(int* version);
 typedef int (__stdcall *CUDA_GDI)(int);
 typedef int (__stdcall *CUDA_GDG)(int*, int);
@@ -208,9 +207,12 @@ typedef int (__stdcall *CUDA_GDA)(int*, int, int);
 typedef int (__stdcall *CUDA_GDN)(char*, int, int);
 typedef int (__stdcall *CUDA_GDM)(unsigned int*, int);
 typedef int (__stdcall *CUDA_GDCC)(int*, int*, int);
+typedef int (__stdcall *CUDA_CC)(unsigned int*, unsigned int, unsigned int);
+typedef int (__stdcall *CUDA_CD)(unsigned int);
+typedef int (__stdcall *CUDA_MA)(unsigned int*, unsigned int);
+typedef int (__stdcall *CUDA_MF)(unsigned int);
 
 CUDA_GDC __cuDeviceGetCount = NULL;
-//CUDA_GDP __cuDeviceGetProperties = NULL;
 CUDA_GDV __cuDriverGetVersion = NULL;
 CUDA_GDI __cuInit = NULL;
 CUDA_GDG __cuDeviceGet = NULL;
@@ -218,17 +220,24 @@ CUDA_GDA __cuDeviceGetAttribute = NULL;
 CUDA_GDN __cuDeviceGetName = NULL;
 CUDA_GDM __cuDeviceTotalMem = NULL;
 CUDA_GDCC __cuDeviceComputeCapability = NULL;
+CUDA_CC __cuCtxCreate = NULL;
+CUDA_CD __cuCtxDestroy = NULL;
+CUDA_MA __cuMemAlloc = NULL;
+CUDA_MF __cuMemFree = NULL;
 #else
 void* cudalib;
 int (*__cuInit)(int);
 int (*__cuDeviceGetCount)(int*);
-//int (*__cuDeviceGetProperties)(cudaDeviceProp*, int);
 int (*__cuDriverGetVersion)(int*);
 int (*__cuDeviceGet)(int*, int);
 int (*__cuDeviceGetAttribute)(int*, int, int);
 int (*__cuDeviceGetName)(char*, int, int);
 int (*__cuDeviceTotalMem)(unsigned int*, int);
 int (*__cuDeviceComputeCapability)(int*, int*, int);
+int (*__cuCtxCreate)(unsigned int*, unsigned int, unsigned int);
+int (*__cuCtxDestroy)(unsigned int);
+int (*__cuMemAlloc)(unsigned int*, unsigned int);
+int (*__cuMemFree)(unsigned int);
 #endif
 
 // NVIDIA interfaces are documented here:
@@ -249,15 +258,18 @@ void COPROC_CUDA::get(
         warnings.push_back("No NVIDIA library found");
         return;
     }
-    __cuDeviceGetCount = (CUDA_GDC)GetProcAddress(cudalib, "cuDeviceGetCount");
-    //__cuDeviceGetProperties = (CUDA_GDP)GetProcAddress(cudalib, "cuDeviceGetProperties");
-    __cuDriverGetVersion = (CUDA_GDV)GetProcAddress(cudalib, "cuDriverGetVersion" );
-    __cuInit = (CUDA_GDI)GetProcAddress(cudalib, "cuInit" );
-    __cuDeviceGet = (CUDA_GDG)GetProcAddress(cudalib, "cuDeviceGet" );
-    __cuDeviceGetAttribute = (CUDA_GDA)GetProcAddress(cudalib, "cuDeviceGetAttribute" );
-    __cuDeviceGetName = (CUDA_GDN)GetProcAddress(cudalib, "cuDeviceGetName" );
-    __cuDeviceTotalMem = (CUDA_GDM)GetProcAddress(cudalib, "cuDeviceTotalMem" );
-    __cuDeviceComputeCapability = (CUDA_GDCC)GetProcAddress(cudalib, "cuDeviceComputeCapability" );
+    __cuDeviceGetCount = (CUDA_GDC)GetProcAddress( cudalib, "cuDeviceGetCount" );
+    __cuDriverGetVersion = (CUDA_GDV)GetProcAddress( cudalib, "cuDriverGetVersion" );
+    __cuInit = (CUDA_GDI)GetProcAddress( cudalib, "cuInit" );
+    __cuDeviceGet = (CUDA_GDG)GetProcAddress( cudalib, "cuDeviceGet" );
+    __cuDeviceGetAttribute = (CUDA_GDA)GetProcAddress( cudalib, "cuDeviceGetAttribute" );
+    __cuDeviceGetName = (CUDA_GDN)GetProcAddress( cudalib, "cuDeviceGetName" );
+    __cuDeviceTotalMem = (CUDA_GDM)GetProcAddress( cudalib, "cuDeviceTotalMem" );
+    __cuDeviceComputeCapability = (CUDA_GDCC)GetProcAddress( cudalib, "cuDeviceComputeCapability" );
+    __cuCtxCreate = (CUDA_CC)GetProcAddress( cudalib, "cuCtxCreate" );
+    __cuCtxDestroy = (CUDA_CD)GetProcAddress( cudalib, "cuCtxDestroy" );
+    __cuMemAlloc = (CUDA_MA)GetProcAddress( cudalib, "cuMemAlloc" );
+    __cuMemFree = (CUDA_MF)GetProcAddress( cudalib, "cuMemFree" );
 
 #ifndef SIM
     NvAPI_Status nvapiStatus;
@@ -286,7 +298,6 @@ void COPROC_CUDA::get(
         return;
     }
     __cuDeviceGetCount = (int(*)(int*)) dlsym(cudalib, "cuDeviceGetCount");
-    //__cuDeviceGetProperties = (int(*)(cudaDeviceProp*, int)) dlsym( cudalib, "cuDeviceGetProperties" );
     __cuDriverGetVersion = (int(*)(int*)) dlsym( cudalib, "cuDriverGetVersion" );
     __cuInit = (int(*)(int)) dlsym( cudalib, "cuInit" );
     __cuDeviceGet = (int(*)(int*, int)) dlsym( cudalib, "cuDeviceGet" );
@@ -294,6 +305,10 @@ void COPROC_CUDA::get(
     __cuDeviceGetName = (int(*)(char*, int, int)) dlsym( cudalib, "cuDeviceGetName" );
     __cuDeviceTotalMem = (int(*)(unsigned int*, int)) dlsym( cudalib, "cuDeviceTotalMem" );
     __cuDeviceComputeCapability = (int(*)(int*, int*, int)) dlsym( cudalib, "cuDeviceComputeCapability" );
+    __cuCtxCreate = (int(*)(unsigned int*, unsigned int, unsigned int)) dlsym( cudalib, "cuCtxCreate" );
+    __cuCtxDestroy = (int(*)(unsigned int)) dlsym( cudalib, "cuCtxDestroy" );
+    __cuMemAlloc = (int(*)(unsigned int*, unsigned int)) dlsym( cudalib, "cuMemAlloc" );
+    __cuMemFree = (int(*)(unsigned int)) dlsym( cudalib, "cuMemFree" );
 #endif
 
     if (!__cuDriverGetVersion) {
@@ -322,6 +337,22 @@ void COPROC_CUDA::get(
     }
     if (!__cuDeviceComputeCapability) {
         warnings.push_back("cuDeviceComputeCapability() missing from NVIDIA library");
+        return;
+    }
+    if (!__cuCtxCreate) {
+        warnings.push_back("cuCtxCreate() missing from NVIDIA library");
+        return;
+    }
+    if (!__cuCtxDestroy) {
+        warnings.push_back("cuCtxDestroy() missing from NVIDIA library");
+        return;
+    }
+    if (!__cuMemAlloc) {
+        warnings.push_back("cuMemAlloc() missing from NVIDIA library");
+        return;
+    }
+    if (!__cuMemFree) {
+        warnings.push_back("cuMemFree() missing from NVIDIA library");
         return;
     }
 
@@ -437,10 +468,16 @@ void COPROC_CUDA::get(
 }
 
 bool COPROC_CUDA::is_usable() {
-    int count;
-    int retval = (*__cuDeviceGetCount)(&count);
+    int retval;
+    unsigned int ctx, dptr;
+    retval = (*__cuCtxCreate)(&ctx, 0, 0);
     if (retval) return false;
-    if (count == 0) return false;
+    retval = (*__cuMemAlloc)(&dptr, 16);
+    if (retval) return false;
+    retval = (*__cuMemFree)(dptr);
+    if (retval) return false;
+    retval = (*__cuCtxDestroy)(ctx);
+    if (retval) return false;
     return true;
 }
 
