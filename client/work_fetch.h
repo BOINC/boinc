@@ -144,7 +144,7 @@ struct BUSY_TIME_ESTIMATOR {
 struct RSC_WORK_FETCH {
     int rsc_type;
     int ninstances;
-    double speed;   // relative to CPU
+    double speed;   // total FLOPS relative to CPU total FLOPS
 
     // the following used/set by rr_simulation():
     //

@@ -8180,3 +8180,13 @@ David  15 Oct 2009
         work_fetch.cpp
     lib/
         coproc.cpp,h
+
+David  15 Oct 2009
+    - client: the weight of GPU debt in computing total debt should be
+        (estimated throughput of all GPUs)/(estimated throughput of all CPUs)
+        rather than the ratio of 1 GPU to 1 CPU.
+        This change will hopefully cause ratios of granted credit
+        to more closely match resource shares.
+
+    client
+        work_fetch.cpp,h
