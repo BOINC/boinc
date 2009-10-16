@@ -439,6 +439,7 @@ int RESULT::parse(MIOFILE& in) {
         if (parse_bool(buf, "got_server_ack", got_server_ack)) continue;
         if (parse_bool(buf, "suspended_via_gui", suspended_via_gui)) continue;
         if (parse_bool(buf, "project_suspended_via_gui", project_suspended_via_gui)) continue;
+        if (parse_bool(buf, "coproc_missing", coproc_missing)) continue;
         if (match_tag(buf, "<active_task>")) {
             active_task = true;
             continue;
@@ -496,6 +497,7 @@ void RESULT::clear() {
     stderr_out.clear();
     suspended_via_gui = false;
     project_suspended_via_gui = false;
+    coproc_missing = false;
 
     active_task = false;
     active_task_state = 0;

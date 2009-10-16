@@ -354,9 +354,9 @@ int CLIENT_STATE::parse_state_file() {
             }
             if (rp->avp->missing_coproc()) {
                 msg_printf(project, MSG_INFO,
-                    "Missing coprocessor for task %s; aborting", rp->name
+                    "Missing coprocessor for task %s", rp->name
                 );
-                rp->abort_inactive(ERR_MISSING_COPROC);
+                rp->coproc_missing = true;
             }
             rp->wup->version_num = rp->version_num;
             results.push_back(rp);
