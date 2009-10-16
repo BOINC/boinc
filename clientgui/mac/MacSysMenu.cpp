@@ -310,7 +310,7 @@ pascal OSStatus SysMenuEventHandler( EventHandlerCallRef inHandlerCallRef,
             case kHICommandPreferences:
                 {
                     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-                    wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, ID_ADVPREFSDLG);
+                    wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, ID_PREFERENCES);
                     pFrame->AddPendingEvent(evt);
                     return noErr ;
                 }
