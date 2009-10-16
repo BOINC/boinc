@@ -8722,7 +8722,6 @@ David  15 Oct 2009
         cpu_sched.cpp
 
 Charlie 16 Oct 2009
-        boinccmd.
     - MGR: Fix build break on Mac.
 
     clientgui/
