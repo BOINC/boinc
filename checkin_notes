@@ -7964,6 +7964,7 @@ Rom    5 Oct 2009
     lib/
         diagnostics_win.cpp
 
+<<<<<<< .working
 Rom    5 Oct 2009
     - Tag for 6.10.12 release, all platforms
       boinc_core_release_6_10_12
@@ -7999,10 +8000,15 @@ Charlie 7 Oct 2009
     clientgui/
         ViewWork.cpp
 
-Rom    1 Oct 2009
+Rom    5 Oct 2009
     - client: Fix crash that was introduced 7 months ago.
         (From Nicolás Alvarez)
         
     client/
         app_control.cpp
 
+David  6 Oct 2009
+    - client: remove redundant 0s in job log
+
+    client/
+        client_types.cpp

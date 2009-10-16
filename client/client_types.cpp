@@ -1876,7 +1876,7 @@ void RESULT::append_log_record() {
     job_log_filename(*project, filename, sizeof(filename));
     FILE* f = fopen(filename, "ab");
     if (!f) return;
-    fprintf(f, "%f ue %f ct %f fe %f nm %s et %f\n",
+    fprintf(f, "%.0f ue %f ct %f fe %.0f nm %s et %f\n",
         gstate.now, estimated_duration_uncorrected(), final_cpu_time,
         wup->rsc_fpops_est, name, final_elapsed_time
     );
