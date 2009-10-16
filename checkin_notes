@@ -8705,3 +8705,15 @@ David  15 Oct 2009
 
     client
         work_fetch.cpp,h
+
+David  15 Oct 2009
+    - client: multi-thread jobs were being given too high priority;
+        in particular, they were preempting jobs in the middle of time slice.
+        Solution:
+        1) don't use MT in the sort order defined by more_important().
+        2) add a 2nd reordering in which MT jobs are moved ahead
+            of non-MT jobs, but only if #CPUs used is < #CPUs
+            (see promote_multi_thread_jobs())
+
+    client/
+        cpu_sched.cpp

@@ -842,6 +842,33 @@ static inline bool in_ordered_scheduled_results(ACTIVE_TASK* atp) {
     return false;
 }
 
+// scan the runnable list, keeping track of CPU usage X.
+// if find a MT job J, and X < ncpus, move J before all non-MT jobs
+//
+static void promote_multi_thread_jobs(vector<RESULT*>& runnable_jobs) {
+    double cpus_used = 0;
+    vector<RESULT*>::iterator first_non_mt = runnable_jobs.end();
+    vector<RESULT*>::iterator cur = runnable_jobs.begin();
+    while(1) {
+        if (cur == runnable_jobs.end()) break;
+        if (cpus_used >= gstate.ncpus) break;
+        RESULT* rp = *cur;
+        double nc = rp->avp->avg_ncpus;
+        if (nc > 1) {
+            if (first_non_mt != runnable_jobs.end()) {
+                cur = runnable_jobs.erase(cur);
+                runnable_jobs.insert(first_non_mt, rp);
+            }
+        } else {
+            if (first_non_mt != runnable_jobs.end()) {
+                first_non_mt = cur;
+            }
+        }
+        cpus_used += nc;
+        cur++;
+    }
+}
+
 // return true if r0 is more important to run than r1
 //
 static inline bool more_important(RESULT* r0, RESULT* r1) {
@@ -859,15 +886,6 @@ static inline bool more_important(RESULT* r0, RESULT* r1) {
     bool cp1 = r1->uses_coprocs();
     if (cp0 && !cp1) return true;
     if (!cp0 && cp1) return false;
-
-    // favor multithreaded jobs over single-threaded,
-    // even if the latter haven't finished time slice.
-    // avoid the situation where we run N-1 ST jobs and 1 MT job on N CPUs
-    //
-    bool mt0 = (r0->avp->avg_ncpus > 1);
-    bool mt1 = (r1->avp->avg_ncpus > 1);
-    if (mt0 && !mt1) return true;
-    if (!mt0 && mt1) return false;
 
     // favor jobs in the middle of time slice
     //
@@ -911,6 +929,7 @@ void CLIENT_STATE::append_unfinished_time_slice(
     vector<RESULT*> &runnable_jobs
 ) {
     unsigned int i;
+    int seqno = runnable_jobs.size();
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
@@ -922,7 +941,7 @@ void CLIENT_STATE::append_unfinished_time_slice(
         atp->result->unfinished_time_slice = true;
         if (in_ordered_scheduled_results(atp)) continue;
         runnable_jobs.push_back(atp->result);
-        atp->result->seqno = 0;
+        atp->result->seqno = seqno;
     }
 }
 
@@ -1236,6 +1255,8 @@ bool CLIENT_STATE::enforce_schedule() {
         runnable_jobs.end(),
         more_important
     );
+
+    promote_multi_thread_jobs(runnable_jobs);
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] final job list:");
