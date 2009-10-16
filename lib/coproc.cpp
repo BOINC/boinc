@@ -61,6 +61,10 @@ void COPROC::write_xml(MIOFILE& f) {
 }
 #endif
 
+bool COPROC::is_usable(){
+    return true;
+}
+
 int COPROC_REQ::parse(MIOFILE& fin) {
     char buf[1024];
     strcpy(type, "");
@@ -430,6 +434,10 @@ void COPROC_CUDA::get(
     COPROC_CUDA* ccp = new COPROC_CUDA;
     *ccp = best;
     coprocs.coprocs.push_back(ccp);
+}
+
+bool COPROC_CUDA::is_usable() {
+    return ((*__cuInit)(0) == 0);
 }
 
 void COPROC_CUDA::description(char* buf) {
@@ -886,6 +894,10 @@ void COPROC_ATI::get(COPROCS& coprocs,
     ccp->count = numDevices;
     coprocs.coprocs.push_back(ccp);
     __calShutdown();
+}
+
+bool COPROC_ATI::is_usable() {
+    return ((*__calInit)() == CAL_RESULT_OK);
 }
 
 #ifndef _USING_FCGI_

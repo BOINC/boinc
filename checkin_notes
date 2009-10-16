@@ -8122,3 +8122,28 @@ Rom    14 Oct 2009
         sg_BoincSimpleGUI.cpp, .h
         sg_ProjectsComponent.cpp, .h
         WizardAttachProject.cpp
+
+David  14 Oct 2009
+    - client: address the situation where GPUs become unusable
+        for certain periods (e.g. when Remote Desktop is used on Win).
+        - add is_usable() member function to COPROC.
+            Currently this just calls the respective (CUDA or CAL)
+            initialization function.
+            We need to check whether this works and/or causes problems.
+        - in enforce_schedule(), check whether usability has changed
+            for each GPU type.
+            If we've gone from usable to unusable,
+            flag all jobs for that GPU as coproc_missing
+            (so they won't get run, and will quit if they're running).
+            If we've gone from unusable to usable, clear the flag.
+        This should deal with all cases except where
+        the client is started up with GPUs unusable.
+    - scheduler: more query optimizations for locality scheduling
+        (from Oliver Bock)
+
+    client/
+        cpu_sched.cpp
+    lib/
+        coproc.cpp,h
+    sched/
+        sched_locality.cpp
