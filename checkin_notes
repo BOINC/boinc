@@ -8205,3 +8205,11 @@ David  15 Oct 2009
 
     client/
         cpu_sched.cpp
+
+Rom    16 Oct 2009
+    - Tag for 6.10.14 release, all platforms
+      boinc_core_release_6_10_14
+
+    /
+        configure.ac
+        version.h
