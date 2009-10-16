@@ -8076,3 +8076,10 @@ David  12 Oct 2009
 
     client/
         gui_rpc_server_ops.cpp
+
+David  12 Oct 2009
+    - client: don't multiply checkpoint interval (i.e., "disk interval" pref)
+        by # processors.
+
+    client/
+        app_start.cpp
