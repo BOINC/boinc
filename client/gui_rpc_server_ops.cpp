@@ -1147,6 +1147,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_newer_version(mf);
     } else if (match_tag(request_msg, "<get_cc_status")) {
         handle_get_cc_status(this, mf);
+    } else if (match_tag(request_msg, "<get_all_projects_list/>")) {
+        read_all_projects_list_file(mf);
 
     // Operations that require authentication start here
 
@@ -1222,8 +1224,6 @@ int GUI_RPC_CONN::handle_rpc() {
         gstate.set_ncpus();
         gstate.request_schedule_cpus("Core client configuration");
         gstate.request_work_fetch("Core client configuration");
-    } else if (match_tag(request_msg, "<get_all_projects_list/>")) {
-        read_all_projects_list_file(mf);
     } else if (match_tag(request_msg, "<set_debts")) {
         handle_set_debts(request_msg, mf);
     } else {

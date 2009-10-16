@@ -8070,3 +8070,9 @@ David  12 Oct 2009
     lib/
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
+
+David  12 Oct 2009
+    - client: the get_all_projects_list() RPC doesn't require auth
+
+    client/
+        gui_rpc_server_ops.cpp
