@@ -8091,3 +8091,10 @@ David  12 Oct 2009
 
     clientgui/
         DlgAdvPreferencesBase.cpp
+
+Rom    13 Oct 2009
+    - LIB: Make the is_remote_desktop compilable for all VS versions
+        and SKUs.
+        
+    lib/
+        win_util.cpp, .h

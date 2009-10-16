@@ -22,8 +22,6 @@
 #include "boinc_win.h"
 #endif
 
-//#include <Wtsapi32.h>  // not present on academic version of VS2005!
-
 #include "win_util.h"
 
 
@@ -834,31 +832,48 @@ void chdir_to_data_dir() {
 }
 
 
-#if 0
-
 // return true if running under remote desktop
 // (in which case CUDA apps don't work)
 //
+typedef BOOL (__stdcall *tWTSQSI)( IN HANDLE, IN DWORD, IN DWORD, OUT LPTSTR*, OUT DWORD* );
+typedef VOID (__stdcall *tWTSFM)( IN PVOID );
+
 bool is_remote_desktop() {
-    LPTSTR *buf;
-    DWORD len;
+    static HMODULE wtsapi32lib = NULL;
+    static tWTSQSI pWTSQSI = NULL;
+    static tWTSFM pWTSFM = NULL;
+    LPTSTR pBuf = NULL;
+    DWORD dwLength;
 
-    if (WTSQuerySessionInformation(
-        WTS_CURRENT_SERVER_HANDLE,
-        WTS_CURRENT_SESSION,
-        WTSClientProtocolType,
-        &buf,
-        &len
-    )) {
+    if (!wtsapi32lib) {
+        wtsapi32lib = LoadLibrary("wtsapi32.dll");
+        if (wtsapi32lib) {
+            pWTSQSI = (tWTSQSI)GetProcAddress(wtsapi32lib, "WTSQuerySessionInformation");
+            pWTSFM = (tWTSFM)GetProcAddress(wtsapi32lib, "WTSFreeMemory");
+        }
+    }
 
-        USHORT prot = *(USHORT*) buf;
-        WTSFreeMemory(buf);
-
-        if (prot == 2) return true;
+    // WTSQuerySessionInformation(
+    //   WTS_CURRENT_SERVER_HANDLE,
+    //   WTS_CURRENT_SESSION,
+    //   WTSClientProtocolType,
+    //   &pBuf,
+    //   &dwLength
+    // );
+    if (pWTSQSI) {
+        if (pWTSQSI(
+            (HANDLE)NULL,
+            (DWORD)-1,
+            (DWORD)16,
+            &pBuf,
+            &dwLength
+        )) {
+            USHORT prot = *(USHORT*)pBuf;
+            pWTSFM(pBuf);
+            if (prot == 2) return true;
+        }
     }
 
     return false;
 }
-
-#endif
 
