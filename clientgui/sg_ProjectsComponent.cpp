@@ -58,8 +58,8 @@ BEGIN_EVENT_TABLE(CProjectsComponent, wxPanel)
     EVT_BUTTON(ID_SIMPLE_SUSPEND, CProjectsComponent::OnSuspend)
     EVT_BUTTON(ID_SIMPLE_RESUME, CProjectsComponent::OnResume)
     EVT_BUTTON(ID_SIMPLE_PREFERENCES, CProjectsComponent::OnPreferences)
-    EVT_BUTTON(ID_SIMPLE_ATTACHTOPROJECT, CProjectsComponent::OnAttachToProject)
-    EVT_BUTTON(ID_SIMPLE_SYNCHRONIZE, CProjectsComponent::OnSynchronize)
+    EVT_BUTTON(ID_WIZARDATTACH, CProjectsComponent::OnWizardAttach)
+    EVT_BUTTON(ID_WIZARDUPDATE, CProjectsComponent::OnWizardUpdate)
     EVT_PAINT(CProjectsComponent::OnPaint)
     EVT_BUTTON(-1,CProjectsComponent::OnBtnClick)
 	EVT_ERASE_BACKGROUND(CProjectsComponent::OnEraseBackground)
@@ -106,7 +106,7 @@ void CProjectsComponent::CreateComponent()
 	wxToolTip *ttAddProject = new wxToolTip(_("Attach to an additional project"));
 	btnAddProj=new wxBitmapButton(
         this,
-        ID_SIMPLE_ATTACHTOPROJECT,
+        ID_WIZARDATTACH,
         *pSkinSimple->GetAttachProjectButton()->GetBitmap(),
         wxPoint(214,7),
         wxSize(81,18),
@@ -123,7 +123,7 @@ void CProjectsComponent::CreateComponent()
     wxToolTip *ttSynchronize = new wxToolTip(_("Synchronize projects with account manager system"));
 	btnSynchronize=new wxBitmapButton(
         this,
-        ID_SIMPLE_SYNCHRONIZE,
+        ID_WIZARDUPDATE,
         *pSkinSimple->GetSynchronizeButton()->GetBitmap(),
         wxPoint(214,7),
         wxSize(81,18),
@@ -269,7 +269,7 @@ void CProjectsComponent::CreateComponent()
 	wxToolTip *ttAdvView = new wxToolTip(_("Switch to the BOINC advanced view"));
 	btnAdvancedView = new CLinkButton(
         this,
-        -1,
+        ID_CHANGEGUI,
         *(pSkinSimple->GetAdvancedLink()->GetBitmap()),
         wxPoint(233,86),
         wxSize(101,20),
@@ -492,8 +492,8 @@ void CProjectsComponent::OnPreferences(wxCommandEvent& /*event*/) {
 }
 
 
-void CProjectsComponent::OnAttachToProject(wxCommandEvent& /*event*/) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnAttachToProject - Function Begin"));
+void CProjectsComponent::OnWizardAttach(wxCommandEvent& /*event*/) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnWizardAttach - Function Begin"));
 
 	CSimplePanel* pPanel = wxDynamicCast(GetParent(), CSimplePanel);
 
@@ -506,12 +506,12 @@ void CProjectsComponent::OnAttachToProject(wxCommandEvent& /*event*/) {
 
     pPanel->SetDlgOpen(false);
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnAttachToProject - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnWizardAttach - Function End"));
 }
 
 
-void CProjectsComponent::OnSynchronize(wxCommandEvent& /*event*/) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnSynchronize - Function Begin"));
+void CProjectsComponent::OnWizardUpdate(wxCommandEvent& /*event*/) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnWizardUpdate - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
 	CSimplePanel*  pPanel = wxDynamicCast(GetParent(), CSimplePanel);
@@ -539,7 +539,7 @@ void CProjectsComponent::OnSynchronize(wxCommandEvent& /*event*/) {
         pPanel->SetDlgOpen(false);
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnSynchronize - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnWizardUpdate - Function End"));
 }
 
 

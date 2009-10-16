@@ -69,8 +69,17 @@ wxAccStatus CProjectListCtrlAccessible::HitTest(const wxPoint& pt, int* childId,
 wxAccStatus CProjectListCtrlAccessible::GetLocation(wxRect& rect, int elementId)
 {
     CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
-    if (pCtrl && (0 != elementId))
+    if (pCtrl && (0 == elementId))
     {
+        // List control
+        rect.SetPosition(pCtrl->GetScreenPosition());
+        rect.SetWidth(pCtrl->GetSize().GetWidth());
+        rect.SetHeight(pCtrl->GetSize().GetHeight());
+        return wxACC_OK;
+    }
+    else if (pCtrl && (0 != elementId))
+    {
+        // List item
         wxSize cCtrlSize = pCtrl->GetClientSize();
         int    iItemWidth = cCtrlSize.GetWidth();
         int    iItemHeight = pCtrl->GetTotalClientHeight() / (int)pCtrl->GetItemCount();
@@ -94,7 +103,7 @@ wxAccStatus CProjectListCtrlAccessible::GetLocation(wxRect& rect, int elementId)
         return wxACC_OK;
     }
     // Let the framework handle the other cases.
-    return wxACC_NOT_IMPLEMENTED;
+    return wxACC_FALSE;
 }
 
 
@@ -276,15 +285,22 @@ wxAccStatus CProjectListCtrlAccessible::GetState(int childId, long* state)
         CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
         if (pCtrl && (pCtrl->IsSelected(childId - 1)))
         {
-            *state = wxACC_STATE_SYSTEM_SELECTED | wxACC_STATE_SYSTEM_FOCUSED;
+            *state = wxACC_STATE_SYSTEM_SELECTABLE |
+                     wxACC_STATE_SYSTEM_FOCUSABLE | 
+                     wxACC_STATE_SYSTEM_SELECTED | 
+                     wxACC_STATE_SYSTEM_FOCUSED;
         }
         else if (pCtrl && (pCtrl->IsVisible(childId - 1)))
         {
-            *state = wxACC_STATE_SYSTEM_SELECTABLE;
+            *state = wxACC_STATE_SYSTEM_SELECTABLE |
+                     wxACC_STATE_SYSTEM_FOCUSABLE;
         }
         else
         {
-            *state = wxACC_STATE_SYSTEM_SELECTABLE | wxACC_STATE_SYSTEM_INVISIBLE;
+            *state = wxACC_STATE_SYSTEM_SELECTABLE |
+                     wxACC_STATE_SYSTEM_FOCUSABLE |
+                     wxACC_STATE_SYSTEM_OFFSCREEN |
+                     wxACC_STATE_SYSTEM_INVISIBLE;
         }
     }
     return wxACC_OK;

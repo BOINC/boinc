@@ -109,7 +109,7 @@ public:
 
    ~CSimpleFrame();
 
-    void OnSwitchGUI( wxCommandEvent& event );
+    void OnChangeGUI( wxCommandEvent& event );
     void OnHelp( wxHelpEvent& event );
     void OnHelpBOINC( wxCommandEvent& event );
 

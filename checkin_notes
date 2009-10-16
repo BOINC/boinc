@@ -8098,3 +8098,27 @@ Rom    13 Oct 2009
         
     lib/
         win_util.cpp, .h
+
+Rom    14 Oct 2009
+    - MGR: Fix initial first connection problem on startup.  I'm not sure why
+        it was only happening at startup, there might have been a few crashes
+        because of this issue as well.  The basic problem is that wxWidgets
+        had an exception handler around the initial frame creation and when
+        the first GUI RPC was issues to detect whether or not we were atached
+        to an account manager during menu creation the GUI thread would go
+        about doing idle processing while waiting for the GUI RPC thread to
+        initialize.  During this time the frame pointer is NULL and was getting
+        dereferenced which would halt window construction and stay there until
+        some other event was fired.
+    - MGR: Initial dose of code cleanup and shuffling.  Order the menu functions
+        in the order in which they are displayed in the menu.
+
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.cpp
+        BOINCBaseView.cpp
+        Events.h
+        ProjectListCtrl.cpp
+        sg_BoincSimpleGUI.cpp, .h
+        sg_ProjectsComponent.cpp, .h
+        WizardAttachProject.cpp

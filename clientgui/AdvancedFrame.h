@@ -24,6 +24,8 @@
 #endif
 
 
+class CBOINCBaseView;
+
 ///
 /// Bitmask values for CMainDocument::RunPeriodicRPCs()
 ///
@@ -58,31 +60,32 @@ private:
 
 class CAdvancedFrame : public CBOINCBaseFrame
 {
-    DECLARE_DYNAMIC_CLASS(CAdvancedFrame)
+    DECLARE_DYNAMIC_CLASS( CAdvancedFrame )
 
 public:
     CAdvancedFrame();
-    CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint position, wxSize size);
+    CAdvancedFrame( wxString title, wxIcon* icon, wxIcon* icon32, wxPoint position, wxSize size );
 
     ~CAdvancedFrame(void);
 
-    void OnSwitchGUI( wxCommandEvent& event );
+    void OnChangeView( wxCommandEvent& event );
+    void OnChangeGUI( wxCommandEvent& event );
+
+    void OnWizardAttach( wxCommandEvent& event );
+    void OnWizardUpdate( wxCommandEvent& event );
+    void OnWizardDetach( wxCommandEvent& event );
 
     void OnActivitySelection( wxCommandEvent& event );
     void OnNetworkSelection( wxCommandEvent& event );
 
-    void OnProjectsAttachToProject( wxCommandEvent& event );
-    void OnAccountManagerUpdate( wxCommandEvent& event );
-    void OnAccountManagerDetach( wxCommandEvent& event );
-
-    void OnOptionsOptions( wxCommandEvent& event );
-	void OnDlgPreferences( wxCommandEvent& event );
+    void OnOptions( wxCommandEvent& event );
+	void OnPreferences( wxCommandEvent& event );
     void OnSelectComputer( wxCommandEvent& event );
     void OnClientShutdown( wxCommandEvent& event );
     void OnRunBenchmarks( wxCommandEvent& event );
-    void OnCommandsRetryCommunications( wxCommandEvent& event );
-    void Onread_prefs( wxCommandEvent& event );
-    void Onread_config( wxCommandEvent& event );
+    void OnRetryCommunications( wxCommandEvent& event );
+    void OnReadPreferences( wxCommandEvent& event );
+    void OnReadConfig( wxCommandEvent& event );
 
     void OnHelp( wxHelpEvent& event );
     void OnHelpBOINC( wxCommandEvent& event );
@@ -120,16 +123,15 @@ private:
 
     wxString        m_strBaseTitle;
 
-    bool            CreateMenu();
+    bool            CreateMenu( bool bRPCsSafe = true );
     bool            DeleteMenu();
 
-    bool            CreateNotebook();
+    bool            CreateNotebook( bool bRPCsSafe = true );
     bool            RepopulateNotebook();
-    template < class T >
-    bool            CreateNotebookPage( T pwndNewNotebookPage );
+    bool            CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage );
     bool            DeleteNotebook();
 
-    bool            CreateStatusbar();
+    bool            CreateStatusbar( bool bRPCsSafe = true );
     bool            DeleteStatusbar();
 
     bool            RestoreState();

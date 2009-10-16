@@ -81,8 +81,8 @@ public:
     void OnMessages(wxCommandEvent& event);
     void OnSuspend(wxCommandEvent& event);
     void OnResume(wxCommandEvent& event);
-    void OnAttachToProject(wxCommandEvent& event);
-    void OnSynchronize(wxCommandEvent& event);
+    void OnWizardAttach(wxCommandEvent& event);
+    void OnWizardUpdate(wxCommandEvent& event);
 
 	DECLARE_EVENT_TABLE()
 

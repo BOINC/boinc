@@ -58,10 +58,6 @@
 #include "ProxyPage.h"
 
 
-#ifdef __WXMSW__
-EXTERN_C BOOL DetectSetupAuthenticator(LPCSTR szProjectURL, LPSTR szAuthenticator, LPDWORD lpdwSize);
-#endif
-
 /*!
  * CWizardAttachProject type definition
  */
@@ -510,7 +506,7 @@ bool CWizardAttachProject::HasPrevPage( wxWizardPageEx* page )
 }
  
 /*!
- * Remove the page transition to the stack.
+ * Remove the page transition from the stack.
  */
 wxWizardPageEx* CWizardAttachProject::_PopPageTransition() {
     wxWizardPageEx* pPage = NULL;
