@@ -191,35 +191,39 @@ struct PROC_RESOURCES {
 // see whether there's been a change in coproc usability;
 // if so set or clear "coproc_missing" flags and return true.
 //
+#include "filesys.h"
 bool check_coproc_usable(COPROC* cp) {
-    int i;
+    unsigned int i;
+    bool is_cuda = (cp==coproc_cuda);
+    bool new_usable = cp->is_usable();
+    //bool new_usable = !boinc_file_exists("unusable");
     if (cp->usable) {
-        if (!cp->is_usable()) {
+        if (!new_usable) {
             cp->usable = false;
             for (i=0; i<gstate.results.size(); i++) {
                 RESULT* rp = gstate.results[i];
-                if (rp->avp->ncudas) {
+                if (is_cuda?rp->avp->ncudas:rp->avp->natis) {
                     rp->coproc_missing = true;
                 }
             }
             msg_printf(NULL, MSG_INFO,
                 "%s GPU has become unusable; disabling tasks",
-                cp==coproc_cuda?"NVIDIA":"ATI"
+                is_cuda?"NVIDIA":"ATI"
             );
             return true;
         }
     } else {
-        if (cp->is_usable()) {
+        if (new_usable) {
             cp->usable = true;
             for (i=0; i<gstate.results.size(); i++) {
                 RESULT* rp = gstate.results[i];
-                if (rp->avp->ncudas) {
+                if (is_cuda?rp->avp->ncudas:rp->avp->natis) {
                     rp->coproc_missing = false;
                 }
             }
             msg_printf(NULL, MSG_INFO,
                 "%s GPU has become usable; enabling tasks",
-                cp==coproc_cuda?"NVIDIA":"ATI"
+                is_cuda?"NVIDIA":"ATI"
             );
             return true;
         }

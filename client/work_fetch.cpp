@@ -284,10 +284,10 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
 
 void WORK_FETCH::set_shortfall_requests(PROJECT* p) {
     cpu_work_fetch.set_shortfall_request(p);
-    if (coproc_cuda) {
+    if (coproc_cuda && coproc_cuda->usable) {
         cuda_work_fetch.set_shortfall_request(p);
     }
-    if (coproc_ati) {
+    if (coproc_ati && coproc_ati->usable) {
         ati_work_fetch.set_shortfall_request(p);
     }
 }
@@ -480,28 +480,31 @@ PROJECT* WORK_FETCH::choose_project() {
     gstate.rr_simulation();
     set_overall_debts();
 
-    if (coproc_cuda) {
+    bool cuda_usable = coproc_cuda && coproc_cuda->usable;
+    bool ati_usable = coproc_ati && coproc_ati->usable;
+
+    if (cuda_usable) {
         p = cuda_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
     }
-    if (coproc_ati) {
+    if (ati_usable) {
         p = ati_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
     }
     if (!p) {
         p = cpu_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
     }
-    if (!p && coproc_cuda) {
+    if (!p && cuda_usable) {
         p = cuda_work_fetch.choose_project(FETCH_IF_MAJOR_SHORTFALL);
     }
-    if (!p && coproc_ati) {
+    if (!p && ati_usable) {
         p = ati_work_fetch.choose_project(FETCH_IF_MAJOR_SHORTFALL);
     }
     if (!p) {
         p = cpu_work_fetch.choose_project(FETCH_IF_MAJOR_SHORTFALL);
     }
-    if (!p && coproc_cuda) {
+    if (!p && cuda_usable) {
         p = cuda_work_fetch.choose_project(FETCH_IF_MINOR_SHORTFALL);
     }
-    if (!p && coproc_ati) {
+    if (!p && ati_usable) {
         p = ati_work_fetch.choose_project(FETCH_IF_MINOR_SHORTFALL);
     }
     if (!p) {
@@ -511,10 +514,10 @@ PROJECT* WORK_FETCH::choose_project() {
     // don't try to maintain GPU work for all projects,
     // since we don't use round-robin scheduling for GPUs
     //
-    if (!p && coproc_cuda) {
+    if (!p && cuda_usable) {
         p = cuda_work_fetch.choose_project(FETCH_IF_PROJECT_STARVED);
     }
-    if (!p && coproc_ati) {
+    if (!p && ati_usable) {
         p = ati_work_fetch.choose_project(FETCH_IF_PROJECT_STARVED);
     }
 #endif

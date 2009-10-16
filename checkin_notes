@@ -8138,12 +8138,17 @@ David  14 Oct 2009
             If we've gone from unusable to usable, clear the flag.
         This should deal with all cases except where
         the client is started up with GPUs unusable.
-    - scheduler: more query optimizations for locality scheduling
-        (from Oliver Bock)
 
     client/
         cpu_sched.cpp
     lib/
         coproc.cpp,h
-    sched/
-        sched_locality.cpp
+
+David  14 Oct 2009
+    - client: bug fixes to the above.
+        Don't fetch work for an unable resource.
+
+    client/
+        cpu_sched.cpp
+        cs_scheduler.cpp
+        work_fetch.cpp
