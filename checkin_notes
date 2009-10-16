@@ -377,7 +377,7 @@ David  14 Jan 2009
         app_control.cpp
 
 David  14 Jan 2009
-    - client: clamp long term debts tp +- 1 week
+    - client: clamp long term debts to +- 1 week
     - client: fix CUDA debt calculation
     - client: don't accumulate debt if project->dont_request_more_work
     - client: improves messages
@@ -1027,7 +1027,7 @@ David  30 Jan 2009
         scheduler_op.cpp
 
 David  31 Jan 2009
-    - client: there was a problem with how the round simulator
+    - client: there was a problem with how the round-robin simulator
         worked in the presence of coprocessors.
         The simulator maintained per-project queues of pending jobs.
         When a job finished (in the simulation) it would get
@@ -5236,7 +5236,7 @@ David  10 June 2009
         sched_result.cpp
 
 David  10 June 2009
-    - web: allow projects to account email addresses in certain domains.
+    - web: allow projects to ban email addresses in certain domains.
         Add the following to html/project/project.inc:
 
         $banned_email_domains = array(
@@ -6455,7 +6455,7 @@ David  23 July 2009
 
 David  24 July 2009
     - client: in get_project_config_poll() GUI RPC,
-        return ERR_IN_PROGRESS is the reference site check is in progress.
+        return ERR_IN_PROGRESS if the reference site check is in progress.
         This hopefully fixes a bug where:
         - the user is connected via a proxy
         - the manager is run for the first time, and an attach is tried
@@ -8161,3 +8161,22 @@ David  14 Oct 2009
 
 David  14 Oct 2009
     - undo the above
+
+David  15 Oct 2009
+    - client/scheduler: standardize the FLOPS estimate between NVIDIA and ATI.
+        Make them both peak FLOPS,
+        according to the formula supplied by the manufacturer.
+
+        The impact on the client is minor:
+        - the startup message describing the GPU
+        - the weight of the resource type in computing long-term debt
+
+        On the server, I changed the example app_plan() function
+        to assume that app FLOPS is 20% of peak FLOPS
+        (that's about what it is for SETI@home)
+
+    client/
+        client_state.cpp
+        work_fetch.cpp
+    lib/
+        coproc.cpp,h

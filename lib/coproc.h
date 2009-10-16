@@ -256,13 +256,16 @@ struct COPROC_CUDA : public COPROC {
     int parse(FILE*);
     virtual bool is_usable();
 
-    // rough estimate of FLOPS
-    // The following is based on SETI@home CUDA,
-    // which gets 50 GFLOPS on a Quadro FX 3700,
-    // which has 14 MPs and a clock rate of 1.25 MHz
+    // Estimate of peak FLOPS.
+    // FLOPS for a given app may be much less;
+    // e.g. for SETI@home it's about 0.18 of the peak
     //
-    inline double flops_estimate() {
-        double x = (prop.clockRate * prop.multiProcessorCount)*5e10/(14*1.25e6);
+    inline double peak_flops() {
+        // clock rate is scaled down by 1000;
+        // each processor has 8 cores;
+        // each core can do 2 ops per clock
+        //
+        double x = (1000.*prop.clockRate) * prop.multiProcessorCount * 8. * 2.;
         return x?x:5e10;
     }
 
@@ -314,7 +317,7 @@ struct COPROC_ATI : public COPROC {
     void clear();
     int parse(FILE*);
     virtual bool is_usable();
-    inline double flops_estimate() {
+    inline double peak_flops() {
 		double x = attribs.numberOfSIMD * attribs.wavefrontSize * 2.5 * attribs.engineClock * 1.e6;
         // clock is in MHz
         return x?x:5e10;
