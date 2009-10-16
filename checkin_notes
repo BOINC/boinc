@@ -8714,6 +8714,9 @@ David  15 Oct 2009
         2) add a 2nd reordering in which MT jobs are moved ahead
             of non-MT jobs, but only if #CPUs used is < #CPUs
             (see promote_multi_thread_jobs())
+    - client: the seqno of jobs in progress but not selected
+        was being set to zero.  It should be runnable_jobs.size().
+        This could potentially cause wrong scheduling decisions.
 
     client/
         cpu_sched.cpp
