@@ -7964,7 +7964,6 @@ Rom    5 Oct 2009
     lib/
         diagnostics_win.cpp
 
-<<<<<<< .working
 Rom    5 Oct 2009
     - Tag for 6.10.12 release, all platforms
       boinc_core_release_6_10_12
@@ -8012,15 +8011,6 @@ David  6 Oct 2009
 
     client/
         client_types.cpp
-<<<<<<< .working
-=======
-    html/
-        inc/
-            prefs.inc
-        user/
-            add_venue.cpp
-            forum_thread.cpp
-            prefs_edit.cpp
 
 David  6 Oct 2009
     - scheduler: skip deadline check for non-CPU-intensive projects
@@ -8049,4 +8039,13 @@ David  7 Oct 2009
         coproc.cpp
     samples/
         client_state_save.xml (new)
->>>>>>> .merge-right.r19276
+
+David  7 Oct 2009
+    - client: if anonymous platform description (app_info.xml)
+        doesn't specify FLOPS for a GPU app,
+        assume that it runs at CPU peak speed rather than GPU peak speed.
+        Better to be conservative, otherwise job might be aborted
+        due to time limit exceeded.
+
+    client/
+        client_state.cpp
