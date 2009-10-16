@@ -9253,7 +9253,7 @@ David  5 Nov 2008
 David  5 Nov 2008
     - client: add OS name into the hash for host CPID
         (for multi-OS hosts)
-    - scheduler: use sqrt(x) instead of x in stop-checking
+    - scheduler: use sqrt(x) instead of x in spot-checking
         for single redundancy.
 
     client/
@@ -9285,7 +9285,7 @@ Charlie 5 Nov 2008
             project.pbxproj
 
 David  6 Nov
-    - API: remove debugging printf from trickly down code
+    - API: remove debugging printf from trickle down code
     - API: use non-verbose option to zip
     - scheduler: if multiple_client_per_host is set,
         don't mark results as over if get repeat CPID

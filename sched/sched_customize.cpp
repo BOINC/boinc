@@ -71,9 +71,9 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
     //
     if (bav.host_usage.ncudas) {
         if (!strstr(wu.name, "slow")) {
-            bav.host_usage.flops = g_request->coproc_cuda->flops_estimate()/2;
+            bav.host_usage.flops = g_request->coproc_cuda->peak_flops()/10;
         } else {
-            bav.host_usage.flops = g_request->coproc_cuda->flops_estimate();
+            bav.host_usage.flops = g_request->coproc_cuda->peak_flops()/5;
         }
     }
 #endif
@@ -217,7 +217,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         //   2. ati13ati
         //   3. ati13amd
         //   4. ati
-        hu.flops = cp->flops_estimate();
+        hu.flops = cp->peak_flops()/5;
         if (!strcmp(plan_class, "ati13amd")) {
             hu.flops *= 1.01;
         }
@@ -273,6 +273,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             return false;
         } 
 
+        double min_ram;
+
         // for CUDA 2.3, we need to check the CUDA RT version.
         // Old BOINC clients report display driver version;
         // newer ones report CUDA RT version
@@ -298,22 +300,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 add_no_work_message("CUDA version 2.3 needed");
                 return false;
             }
-#ifdef PLAN_CUDA23_MIN_RAM
-            if (cp->prop.dtotalGlobalMem < PLAN_CUDA23_MIN_RAM) {
-                if (config.debug_version_select) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[version] CUDA23 mem %d < %d\n",
-                        cp->prop.dtotalGlobalMem, PLAN_CUDA23_MIN_RAM
-                    );
-                }
-                sprintf(buf,
-                    "Your NVIDIA GPU has insufficient memory (need %.0fMB)",
-                    PLAN_CUDA23_MIN_RAM/MEGA
-                );
-                add_no_work_message(buf);
-                return false;
-            }
-#endif
+            min_ram = PLAN_CUDA23_MIN_RAM;
         } else {
             if (cp->display_driver_version && cp->display_driver_version < PLAN_CUDA_MIN_DRIVER_VERSION) {
                 if (config.debug_version_select) {
@@ -328,24 +315,25 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 add_no_work_message(buf);
                 return false;
             }
+            min_ram = PLAN_CUDA_MIN_RAM;
         }
 
-        if (cp->prop.dtotalGlobalMem < PLAN_CUDA_MIN_RAM) {
+        if (cp->prop.dtotalGlobalMem < min_ram) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] CUDA mem %d < %d\n",
-                    cp->prop.dtotalGlobalMem, PLAN_CUDA_MIN_RAM
+                    cp->prop.dtotalGlobalMem, min_ram
                 );
             }
             sprintf(buf,
                 "Your NVIDIA GPU has insufficient memory (need %.0fMB)",
-                PLAN_CUDA_MIN_RAM/MEGA
+                min_ram/MEGA
             );
             add_no_work_message(buf);
             return false;
         }
 
-        hu.flops = cp->flops_estimate();
+        hu.flops = cp->peak_flops()/5;
         if (!strcmp(plan_class, "cuda23")) {
             hu.flops *= 1.01;
         }

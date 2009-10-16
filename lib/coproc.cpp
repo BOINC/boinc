@@ -191,8 +191,8 @@ int cuda_compare(COPROC_CUDA& c1, COPROC_CUDA& c2, bool loose) {
     }
     if (c1.prop.totalGlobalMem > c2.prop.totalGlobalMem) return 1;
     if (c1.prop.totalGlobalMem < c2.prop.totalGlobalMem) return -1;
-    double s1 = c1.flops_estimate();
-    double s2 = c2.flops_estimate();
+    double s1 = c1.peak_flops();
+    double s2 = c2.peak_flops();
     if (s1 > s2) return 1;
     if (s1 < s2) return -1;
     return 0;
@@ -488,9 +488,9 @@ void COPROC_CUDA::description(char* buf) {
     } else {
         strcpy(vers, "unknown");
     }
-    sprintf(buf, "%s (driver version %s, CUDA version %d, compute capability %d.%d, %.0fMB, est. %.0fGFLOPS)",
+    sprintf(buf, "%s (driver version %s, CUDA version %d, compute capability %d.%d, %.0fMB, %.0f GFLOPS peak)",
         prop.name, vers, cuda_version, prop.major, prop.minor,
-        prop.totalGlobalMem/(1024.*1024.), flops_estimate()/1e9
+        prop.totalGlobalMem/(1024.*1024.), peak_flops()/1e9
     );
 }
 
@@ -918,7 +918,7 @@ void COPROC_ATI::get(COPROCS& coprocs,
         char buf[256], buf2[256];
         if (i == 0) {
             best = gpus[i];
-        } else if (gpus[i].flops_estimate() > best.flops_estimate()) {
+        } else if (gpus[i].peak_flops() > best.peak_flops()) {
             best = gpus[i];
         }
         gpus[i].description(buf);
@@ -1102,8 +1102,8 @@ int COPROC_ATI::parse(FILE* fin) {
 }
 
 void COPROC_ATI::description(char* buf) {
-    sprintf(buf, "%s (CAL version %s, %.0fMB, %.0fGFLOPS)",
-        name, version, attribs.localRAM/1024.*1024., flops_estimate()/1.e9
+    sprintf(buf, "%s (CAL version %s, %.0fMB, %.0f GFLOPS peak)",
+        name, version, attribs.localRAM/1024.*1024., peak_flops()/1.e9
     );
 }
 

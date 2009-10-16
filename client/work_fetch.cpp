@@ -899,17 +899,19 @@ void WORK_FETCH::set_initial_work_request() {
 void WORK_FETCH::init() {
     cpu_work_fetch.init(RSC_TYPE_CPU, gstate.ncpus, 1);
 
+    // use 20% as a rough estimate of GPU efficiency
+
     if (coproc_cuda) {
         cuda_work_fetch.init(
             RSC_TYPE_CUDA, coproc_cuda->count,
-            coproc_cuda->flops_estimate()/gstate.host_info.p_fpops
+            0.2*coproc_cuda->peak_flops()/gstate.host_info.p_fpops
         );
     }
     if (coproc_ati) {
         ati_work_fetch.init(
             RSC_TYPE_ATI,
             coproc_ati->count,
-            coproc_ati->flops_estimate()/gstate.host_info.p_fpops
+            0.2*coproc_ati->peak_flops()/gstate.host_info.p_fpops
         );
     }
 
