@@ -126,6 +126,7 @@ CLIENT_STATE::CLIENT_STATE():
     disable_graphics = false;
     work_fetch_no_new_work = false;
     cant_write_state_file = false;
+    unsigned_apps_ok = false;
 
     debt_interval_start = 0;
     retry_shmem_time = 0;
@@ -864,7 +865,10 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
 
         // any file associated with an app version must be signed
         //
-        fip->signature_required = true;
+        if (!unsigned_apps_ok) {
+            fip->signature_required = true;
+        }
+
         file_ref.file_info = fip;
     }
     return 0;
@@ -993,6 +997,10 @@ bool CLIENT_STATE::abort_unstarted_late_jobs() {
         RESULT* rp = results[i];
         if (!rp->not_started()) continue;
         if (rp->report_deadline > now) continue;
+        msg_printf(rp->project, MSG_INFO,
+            "Aborting task %s; not started and deadline has passed",
+            rp->name
+        );
         rp->abort_inactive(ERR_UNSTARTED_LATE);
         action = true;
     }

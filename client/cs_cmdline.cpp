@@ -80,6 +80,7 @@ static void print_options(char* prog) {
         "    --show_projects                show attached projects\n"
         "    --skip_cpu_benchmarks          don't run CPU benchmarks\n"
         "    --start_delay X                delay starting apps for X secs\n"
+        "    --unsigned_apps_ok             allow unsigned apps (for testing)\n"
         "    --update_prefs <URL>           contact a project to update preferences\n"
         "    --version                      show version info\n"
         ,
@@ -216,6 +217,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(start_delay)) {
             if (i == argc-1) show_options = true;
             else config.start_delay = atof(argv[++i]);
+        } else if (ARG(unsigned_apps_ok)) {
+            unsigned_apps_ok = true;
         } else if (ARG(update_prefs)) {
             if (i == argc-1) show_options = true;
             else safe_strcpy(update_prefs_url, argv[++i]);

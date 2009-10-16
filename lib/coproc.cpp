@@ -323,7 +323,7 @@ void COPROC_CUDA::get(
 
     retval = (*__cuInit)(0);
     if (retval) {
-        sprintf(buf, "cuInit() returned %d", retval);
+        sprintf(buf, "NVIDIA drivers present but no GPUs found");
         warnings.push_back(buf);
         return;
     }

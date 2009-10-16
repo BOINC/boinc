@@ -1,0 +1,66 @@
+<client_state>
+<host_info>
+    <p_fpops>1e9</p_fpops>
+    <p_calculated>2e9</p_calculated>
+    <m_nbytes>2e9</m_nbytes>
+    <d_total>1e11</d_total>
+    <d_free>1e11</d_free>
+</host_info>
+<project>
+    <master_url>http://test.test</master_url>        
+    <project_name>test_project</project_name>
+</project>
+
+<app>
+    <name>test_app</name>
+    <user_friendly_name>test_app</user_friendly_name>
+</app>
+
+<file_info>
+    <name>test.exe</name>
+    <executable/>
+    <status>1</status>
+</file_info>
+<file_info>
+    <name>input.txt</name>
+    <status>1</status>
+</file_info>
+<file_info>
+    <name>output.txt</name>
+    <generated_locally/>
+    <upload_when_present/>
+    <max_nbytes>1e6</max_nbytes>
+</file_info>
+
+<app_version>
+    <app_name>test_app</app_name>
+    <api_version>6.3.0</api_version>
+    <file_ref>
+        <file_name>test.exe</file_name>
+        <main_program/>
+    </file_ref>
+</app_version>
+
+<workunit>
+    <name>test_wu</name>
+    <app_name>test_app</app_name>
+    <file_ref>
+        <file_name>input.txt</file_name>
+        <open_name>in</open_name>
+    </file_ref>
+</workunit>
+
+<result>
+    <name>test_result</name>
+    <wu_name>test_wu</wu_name>
+    <state>2</state>
+    <report_deadline>2e9</report_deadline>
+    <file_ref>
+        <file_name>output.txt</file_name>
+        <open_name>out</open_name>
+    </file_ref>
+</result>
+
+<user_network_request>3</user_network_request>
+
+</client_state>

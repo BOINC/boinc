@@ -212,6 +212,10 @@ int CLIENT_STATE::resume_tasks(int reason) {
 }
 
 int CLIENT_STATE::check_suspend_network() {
+    // no network traffic if we're allowing unsigned apps
+    //
+    if (unsigned_apps_ok) return SUSPEND_REASON_USER_REQ;
+
     switch(network_mode.get_current()) {
     case RUN_MODE_ALWAYS: return 0;
     case RUN_MODE_NEVER:

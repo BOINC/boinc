@@ -8012,3 +8012,41 @@ David  6 Oct 2009
 
     client/
         client_types.cpp
+<<<<<<< .working
+=======
+    html/
+        inc/
+            prefs.inc
+        user/
+            add_venue.cpp
+            forum_thread.cpp
+            prefs_edit.cpp
+
+David  6 Oct 2009
+    - scheduler: skip deadline check for non-CPU-intensive projects
+
+    sched/
+        sched_send.cpp
+
+David  7 Oct 2009
+    - client: add --unsigned_apps_ok cmdline option
+        and <unsigned_apps_ok> config option.
+        This tells the client to allow unsigned apps.
+        For testing.
+        No file xfers or other network traffic will be allowed if set.
+    - client: add <exit_after_finish> option (same as cmdline flag)
+    - client: add <skip_cpu_benchmarks> option (same as cmdline flag)
+    - client: print message if abort past-deadline unstarted job
+    - client: improve message when have NVIDIA drivers but no GPU
+        
+    client/
+        app_start.cpp
+        client_state.cpp,h
+        cs_cmdline.cpp
+        cs_prefs.cpp
+        log_flags.cpp
+    lib/
+        coproc.cpp
+    samples/
+        client_state_save.xml (new)
+>>>>>>> .merge-right.r19276
