@@ -8727,3 +8727,11 @@ Charlie 16 Oct 2009
     clientgui/
         mac/
             MacSysMenu.cpp
+
+Rom    19 Oct 2009
+    - client: Use is_remote_desktop() instead of the various GPU functions
+        to determine when the client software has been switched into Remote
+        Desktop mode and shutsdown GPU apps.  This will prevent App crashes.
+        
+    lib/
+        coproc.cpp
