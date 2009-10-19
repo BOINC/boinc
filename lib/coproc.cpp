@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#include "boinc_win.h"
+#endif
 #ifndef _USING_FCGI_
 #include "boinc_fcgi.h"
 #else
@@ -39,6 +42,9 @@
 #include "filesys.h"
 #include "parse.h"
 #include "str_util.h"
+#ifdef _WIN32
+#include "win_util.h"
+#endif
 
 #include "coproc.h"
 
@@ -468,16 +474,9 @@ void COPROC_CUDA::get(
 }
 
 bool COPROC_CUDA::is_usable() {
-    int retval;
-    unsigned int ctx, dptr;
-    retval = (*__cuCtxCreate)(&ctx, 0, 0);
-    if (retval) return false;
-    retval = (*__cuMemAlloc)(&dptr, 16);
-    if (retval) return false;
-    retval = (*__cuMemFree)(dptr);
-    if (retval) return false;
-    retval = (*__cuCtxDestroy)(ctx);
-    if (retval) return false;
+#ifdef _WIN32
+    if (is_remote_desktop()) return false;
+#endif
     return true;
 }
 
@@ -934,18 +933,12 @@ void COPROC_ATI::get(COPROCS& coprocs,
     strcpy(ccp->type, "ATI");
     ccp->count = numDevices;
     coprocs.coprocs.push_back(ccp);
-    __calShutdown();
 }
 
 bool COPROC_ATI::is_usable() {
-    CALuint ndevs;
-    int retval;
-    retval = (*__calInit)();
-    if (retval != CAL_RESULT_OK) return false;
-    retval = (*__calDeviceGetCount)(&ndevs);
-    __calShutdown();
-    if (retval != CAL_RESULT_OK) return false;
-    if (ndevs == 0) return false;
+#ifdef _WIN32
+    if (is_remote_desktop()) return false;
+#endif
     return true;
 }
 
