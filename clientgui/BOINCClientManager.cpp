@@ -350,15 +350,6 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
 
 #ifdef __WXMSW__
-static tstring downcase_string(tstring& orig) {
-    tstring retval = orig;
-    for (size_t i=0; i < retval.length(); i++) {
-        retval[i] = tolower(retval[i]);
-    }
-    return retval;
-}
-
-
 void CBOINCClientManager::KillClient() {
     ULONG                   cbBuffer = 128*1024;    // 128k initial buffer
     PVOID                   pBuffer = NULL;
@@ -376,8 +367,8 @@ void CBOINCClientManager::KillClient() {
     pProcesses = (PSYSTEM_PROCESSES)pBuffer;
     do {
         if (pProcesses->ProcessId) {
-            tstring strProcessName = pProcesses->ProcessName.Buffer;
-            if (downcase_string(strProcessName) == tstring(_T("boinc.exe"))) {
+            wxString strProcessName = W2A(pProcesses->ProcessName.Buffer);
+            if (strProcessName.MakeLower() == _T("boinc.exe")) {
                 TerminateProcessById(pProcesses->ProcessId);
                 break;
            }
