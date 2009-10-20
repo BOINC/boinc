@@ -8243,3 +8243,11 @@ Rom    20 Oct 2009
         
     lib/
         coproc.cpp
+
+Rom    19 Oct 2009
+    - Tag for 6.10.16 release, all platforms
+      boinc_core_release_6_10_16
+
+    /
+        configure.ac
+        version.h
