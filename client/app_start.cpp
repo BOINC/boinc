@@ -937,7 +937,9 @@ int ACTIVE_TASK::start(bool first_time) {
         sprintf(buf, "../../%s", exec_path );
         if (g_use_sandbox) {
             char switcher_path[100];
-            sprintf(switcher_path, "../../%s/%s", SWITCHER_DIR, SWITCHER_FILE_NAME);
+            sprintf(switcher_path, "../../%s/%s",
+                SWITCHER_DIR, SWITCHER_FILE_NAME
+            );
             argv[0] = SWITCHER_FILE_NAME;
             argv[1] = buf;
             argv[2] = exec_name;
@@ -945,17 +947,20 @@ int ACTIVE_TASK::start(bool first_time) {
             if (log_flags.task_debug) {
                 debug_print_argv(argv);
             }
-            // Files written by projects have user boinc_project and group boinc_project, 
+            // Files written by projects have user boinc_project
+            // and group boinc_project, 
             // so they must be world-readable so BOINC CLient can read them 
+            //
             umask(2);
             retval = execv(switcher_path, argv);
         } else {
-            argv[0] = exec_name;
+            argv[0] = buf;
             parse_command_line(cmdline, argv+1);
             retval = execv(buf, argv);
         }
         msg_printf(wup->project, MSG_INTERNAL_ERROR,
-            "Process creation (%s) failed: %s, errno=%d\n", buf, boincerror(retval), errno
+            "Process creation (%s) failed: %s, errno=%d\n",
+            buf, boincerror(retval), errno
         );
         perror("execv");
         fflush(NULL);

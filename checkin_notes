@@ -3376,3 +3376,13 @@ David  27 July 2009
 
     client/
         pers_file_xfer.cpp
+
+David  28 July 2009
+    - client (Linux): when launching apps, put a relative path
+        to the executable (../../projects/x/y) into argv[0],
+        not just the executable filename.
+        Apparently the new NVIDIA drivers have a bug that cause
+        CUDA apps to crash unless this is done.
+
+    client/
+        app_start.cpp
