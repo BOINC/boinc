@@ -848,7 +848,7 @@ bool is_remote_desktop() {
     if (!wtsapi32lib) {
         wtsapi32lib = LoadLibrary(_T("wtsapi32.dll"));
         if (wtsapi32lib) {
-            pWTSQSI = (tWTSQSI)GetProcAddress(wtsapi32lib, "WTSQuerySessionInformation");
+            pWTSQSI = (tWTSQSI)GetProcAddress(wtsapi32lib, "WTSQuerySessionInformationA");
             pWTSFM = (tWTSFM)GetProcAddress(wtsapi32lib, "WTSFreeMemory");
         }
     }
