@@ -3386,3 +3386,11 @@ David  28 July 2009
 
     client/
         app_start.cpp
+
+Rom    20 Oct 2009
+    - Tag for 6.6.41 release, all platforms
+      boinc_core_release_6_6_41
+
+    /
+        configure.ac
+        version.h
