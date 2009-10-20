@@ -3387,6 +3387,21 @@ David  28 July 2009
     client/
         app_start.cpp
 
+Rom    14 Oct 2009
+    - MGR: Fix initial first connection problem on startup.  I'm not sure why
+        it was only happening at startup, there might have been a few crashes
+        because of this issue as well.  The basic problem is that wxWidgets
+        had an exception handler around the initial frame creation and when
+        the first GUI RPC was issues to detect whether or not we were attached
+        to an account manager during menu creation the GUI thread would go
+        about doing idle processing while waiting for the GUI RPC thread to
+        initialize.  During this time the frame pointer is NULL and was getting
+        dereferenced which would halt window construction and stay there until
+        some other event was fired.
+
+    clientgui/
+        AdvancedFrame.cpp, .h
+
 Rom    20 Oct 2009
     - Tag for 6.6.41 release, all platforms
       boinc_core_release_6_6_41

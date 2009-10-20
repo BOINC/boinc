@@ -121,16 +121,16 @@ private:
 
     wxString        m_strBaseTitle;
 
-    bool            CreateMenu();
+    bool            CreateMenu( bool bRPCsSafe = true );
     bool            DeleteMenu();
 
-    bool            CreateNotebook();
+    bool            CreateNotebook( bool bRPCsSafe = true );
     bool            RepopulateNotebook();
     template < class T >
     bool            CreateNotebookPage( T pwndNewNotebookPage );
     bool            DeleteNotebook();
 
-    bool            CreateStatusbar();
+    bool            CreateStatusbar( bool bRPCsSafe = true );
     bool            DeleteStatusbar();
 
     bool            RestoreState();
