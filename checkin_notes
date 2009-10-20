@@ -8735,3 +8735,11 @@ Rom    19 Oct 2009
         
     lib/
         coproc.cpp
+
+Rom    20 Oct 2009
+    - client: Use the ANSI version of WTSQuerySessionInformation to determine
+        is Remote Desktop is in use.
+        
+    lib/
+        coproc.cpp
+    
