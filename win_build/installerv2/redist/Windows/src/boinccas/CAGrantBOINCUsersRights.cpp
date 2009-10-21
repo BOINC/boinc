@@ -157,18 +157,7 @@ UINT CAGrantBOINCUsersRights::OnExecution()
             );
         }
 
-        if (!GrantUserRight(pSid, L"SeDebugPrivilege", TRUE))
-        {
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                _T("Failed call to GrantUserRight - SeDebugPrivilege")
-            );
-        }
-
+        GrantUserRight(pSid, L"SeDebugPrivilege", FALSE);
         GrantUserRight(pSid, L"SeEnableDelegationPrivilege", FALSE);
         GrantUserRight(pSid, L"SeRemoteShutdownPrivilege", FALSE);
         GrantUserRight(pSid, L"SeAuditPrivilege", FALSE);

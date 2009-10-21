@@ -8742,4 +8742,17 @@ Rom    20 Oct 2009
         
     lib/
         coproc.cpp
-    
+
+Rom    21 Oct 2009
+    - WINSETUP: Remove the 'SeDebugPrivilege' prev from the list of privs
+        the installer sets for BOINC.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAGrantBOINCAdminsRights.cpp
+        CAGrantBOINCUsersRights.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll

@@ -206,17 +206,7 @@ UINT CAGrantBOINCAdminsRights::OnExecution()
         LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
 
         LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeDebugPrivilege' right."));
-        if (!GrantUserRight(pSid, L"SeDebugPrivilege", TRUE))
-        {
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                NULL,
-                _T("Failed call to GrantUserRight - SeDebugPrivilege")
-            );
-        }
+        GrantUserRight(pSid, L"SeDebugPrivilege", FALSE);
         LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Check completed."));
 
         LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL, _T("Checking the 'SeEnableDelegationPrivilege' right."));
