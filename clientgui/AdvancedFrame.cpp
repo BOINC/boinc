@@ -290,8 +290,8 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
+    // Account managers have a different menu arrangement
     if (bRPCsSafe) {
-        // Account managers have a different menu arrangement
         pDoc->rpc.acct_mgr_info(ami);
         is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
     }
