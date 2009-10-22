@@ -187,7 +187,7 @@ $l610ubuntudev = array(
 	"file"=>"boinc_6.10.16_i686-pc-linux-gnu.sh",
 	"date"=>"22 Oct 2009",
 	"type"=>"sea",
-	);
+);
 
 $l66ubuntu = array(
 	"num"=>"6.6.41",
@@ -195,7 +195,7 @@ $l66ubuntu = array(
 	"file"=>"boinc_6.6.41_i686-pc-linux-gnu.sh",
 	"date"=>"22 Oct 2009",
 	"type"=>"sea",
-	);
+);
 
 $l64ubuntu = array(
     "num"=>"6.4.5",
@@ -211,7 +211,7 @@ $l610ubuntux64dev = array(
 	"file"=>"boinc_6.10.16_x86_64-pc-linux-gnu.sh",
 	"date"=>"22 Oct 2009",
 	"type"=>"sea",
-	);
+);
 
 $l66ubuntux64 = array(
 	"num"=>"6.6.41",
@@ -219,7 +219,7 @@ $l66ubuntux64 = array(
 	"file"=>"boinc_6.6.41_x86_64-pc-linux-gnu.sh",
 	"date"=>"22 Oct 2009",
 	"type"=>"sea",
-	);
+);
 
 $l64ubuntux64 = array(
     "num"=>"6.4.5",
