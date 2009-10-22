@@ -70,10 +70,10 @@ $w610dev= array(
 );
 
 $w66= array(
-    "num"=>"6.6.38",
+    "num"=>"6.6.41",
     "status"=>"Recommended version",
-    "file"=>"boinc_6.6.38_windows_intelx86.exe",
-    "date"=>"24 Sept 2009",
+    "file"=>"boinc_6.6.41_windows_intelx86.exe",
+    "date"=>"22 Oct 2009",
     "type"=>"win_new",
 );
 
@@ -94,10 +94,10 @@ $w610x64dev= array(
 );
 
 $w66x64= array(
-    "num"=>"6.6.38",
+    "num"=>"6.6.41",
     "status"=>"Recommended version",
-    "file"=>"boinc_6.6.38_windows_x86_64.exe",
-    "date"=>"24 Sept 2009",
+    "file"=>"boinc_6.6.41_windows_x86_64.exe",
+    "date"=>"22 Oct 2009",
     "type"=>"win_new",
 );
 
@@ -166,10 +166,10 @@ $m6218c = array(
 );
 
 $l66 = array(
-	"num"=>"6.6.40",
+	"num"=>"6.6.41",
 	"status"=>"Recommended version",
-	"file"=>"boinc_compat_6.6.40_i686-pc-linux-gnu.sh",
-	"date"=>"21 Sept 2009",
+	"file"=>"boinc_compat_6.6.41_i686-pc-linux-gnu.sh",
+	"date"=>"22 Oct 2009",
 	"type"=>"sea",
 	);
 
@@ -190,10 +190,10 @@ $l610ubuntudev = array(
 	);
 
 $l66ubuntu = array(
-	"num"=>"6.6.40",
+	"num"=>"6.6.41",
 	"status"=>"Recommended version",
-	"file"=>"boinc_6.6.40_i686-pc-linux-gnu.sh",
-	"date"=>"21 Sept 2009",
+	"file"=>"boinc_6.6.41_i686-pc-linux-gnu.sh",
+	"date"=>"22 Oct 2009",
 	"type"=>"sea",
 	);
 
@@ -214,10 +214,10 @@ $l610ubuntux64dev = array(
 	);
 
 $l66ubuntux64 = array(
-	"num"=>"6.6.40",
+	"num"=>"6.6.41",
 	"status"=>"Recommended version",
-	"file"=>"boinc_6.6.40_x86_64-pc-linux-gnu.sh",
-	"date"=>"21 Sept 2009",
+	"file"=>"boinc_6.6.41_x86_64-pc-linux-gnu.sh",
+	"date"=>"22 Oct 2009",
 	"type"=>"sea",
 	);
 
