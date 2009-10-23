@@ -8756,3 +8756,9 @@ Rom    21 Oct 2009
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+Rom    23 Oct 2009
+    - MGR: Change the shortcut key for switching to the simple view.
+    
+    clientgui/
+        AdvancedFrame.cpp
