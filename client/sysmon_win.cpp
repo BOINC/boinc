@@ -125,9 +125,9 @@ static void windows_detect_autoproxy_settings() {
     WINHTTP_AUTOPROXY_OPTIONS autoproxy_options;
     WINHTTP_PROXY_INFO        proxy_info;
     int                       proxy_protocol = 0;
-    char              proxy_server[256];
+    char                      proxy_server[256];
     int                       proxy_port = 0;
-    char               proxy_file[256];
+    char                      proxy_file[256];
     std::wstring              network_test_url;
     size_t                    pos;
 
@@ -145,7 +145,7 @@ static void windows_detect_autoproxy_settings() {
 
     hWinHttp = pWinHttpOpen(
         L"BOINC client",
-        WINHTTP_ACCESS_TYPE_NO_PROXY,
+        WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
         WINHTTP_NO_PROXY_NAME,
         WINHTTP_NO_PROXY_BYPASS,
         NULL

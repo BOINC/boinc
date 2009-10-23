@@ -8762,3 +8762,11 @@ Rom    23 Oct 2009
     
     clientgui/
         AdvancedFrame.cpp
+
+Rom    23 Oct 2009
+    - client: If an administrator has deployed proxy settings at runtime or
+        during a VPN connection allow the client to read the new proxy
+        configuration from the registry.
+        
+    client/
+        sysmon_win.cpp
