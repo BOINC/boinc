@@ -87,6 +87,9 @@ struct SCHED_SHMEM {
     int max_app_versions;
     int max_assignments;
     int max_wu_results;
+    bool have_cpu_apps;
+    bool have_cuda_apps;
+    bool have_ati_apps;
     PERF_INFO perf_info;
     PLATFORM platforms[MAX_PLATFORMS];
     APP apps[MAX_APPS];

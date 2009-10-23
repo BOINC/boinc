@@ -156,6 +156,22 @@ int SCHED_SHMEM::scan_tables() {
     }
     napp_versions = n;
 
+    // see which resources we have app versions for
+    //
+    have_cpu_apps = false;
+    have_cuda_apps = false;
+    have_ati_apps = false;
+    for (i=0; i<napp_versions; i++) {
+        APP_VERSION& av = app_versions[i];
+        if (strstr(av.plan_class, "cuda")) {
+            have_cuda_apps = true;
+        } else if (strstr(av.plan_class, "ati")) {
+            have_ati_apps = true;
+        } else {
+            have_cpu_apps = true;
+        }
+    }
+
     n = 0;
     while (!assignment.enumerate()) {
         assignments[n++] = assignment;

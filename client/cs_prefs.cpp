@@ -216,6 +216,9 @@ int CLIENT_STATE::check_suspend_network() {
     //
     if (unsigned_apps_ok) return SUSPEND_REASON_USER_REQ;
 
+    if (are_cpu_benchmarks_running()) {
+        return SUSPEND_REASON_BENCHMARKS;
+    }
     switch(network_mode.get_current()) {
     case RUN_MODE_ALWAYS: return 0;
     case RUN_MODE_NEVER:

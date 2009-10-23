@@ -8770,3 +8770,14 @@ Rom    23 Oct 2009
         
     client/
         sysmon_win.cpp
+
+David  23 Oct 2009
+    - client: no network activity if running CPU benchmarks
+
+    client/
+        client_types.h,cpp
+        cs_prefs.cpp
+        cs_account.cpp
+        work_fetch.cpp
+    sched/
+        sched_shmem.cpp,h

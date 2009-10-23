@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("October 21, 2009",
+    "An <a href=http://online.wsj.com/article/SB10001424052748703816204574483481567116994.html>article in the Wall Street Journal</a>
+    discusses the use of volunteer computing in medical research."
+),
 array("October 12, 2009",
     "Welcome to <a href=http://escatter11.fullerton.edu/nfs/>NFS@home</a>,
     a new project from California State University Fullerton.
