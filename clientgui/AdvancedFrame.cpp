@@ -315,7 +315,7 @@ bool CAdvancedFrame::CreateMenu() {
 
     menuView->Append(
         ID_FILESWITCHGUI,
-        _("&Simple View...\tCTRL+SHIFT+S"),
+        _("Simple &View...\tCTRL+SHIFT+V"),
         _("Display the simple BOINC graphical interface.")
     );
 

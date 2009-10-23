@@ -6305,3 +6305,616 @@ Rom    25 Sept 2009
         
     win_build/
         boincsvcctrl.vcproj
+<<<<<<< .working
+=======
+
+David  25 Sept 2009
+    - admin web: show plan class in "manage app versions" page
+        from Jon Sonntag.
+
+    html/ops/
+        manage_app_versions.php
+
+David  25 Sept 2009
+    - client: fix crashing bug in GPU message display
+    - client: show a couple more config flags on startup
+
+    client/
+        client_state.cpp
+        log_flags.cpp
+
+David  26 Sept 2009
+    - client: fix bug in CPU prefs enforcement:
+        enforce "suspend if no recent input" and "exclusive apps"
+        only if overall mode is RUN_MODE_AUTO (run according to prefs) 
+
+    client/
+        cs_prefs.cpp
+
+David  27 Sept 2009
+    - client/scheduler/web: add per-project preferences for whether
+        to accept CPU, NVIDIA and ATI jobs.
+        These prefs are shown only where relevant:
+        e.g., only for processor types for which the project has app versions,
+        and if it has versions for only one type, no pref is shown.
+
+        These prefs affect both client and scheduler.
+        The client won't ask for work for a device blocked by prefs,
+        and the scheduler won't send it.
+
+        This replaces earlier optional project-specific prefs for
+        "no CPU jobs" and "no GPU jobs".
+        (However, these prefs continue to be honored on the server side).
+
+    - client: if NVIDIA driver is unknown, say that rather than 0
+
+    client/
+        client_state.cpp
+        client_types.cpp,h
+        cs_account.cpp
+        work_fetch.cpp,h
+    html/
+        inc/
+            db_conn.inc
+            prefs.inc
+            text_transform.inc
+            translation.inc
+            util.inc
+        project.sample/
+            project_specific_prefs.inc
+        user/
+            prefs_remove.php
+    lib/
+        coproc.cpp
+    sched/
+        sched_send.cpp
+        sched_types.h
+        sched_version.cpp
+
+Rom    28 Sept 2009
+    - client: add missing Windows SKUs.
+        From Robert Kreß
+    
+    client/
+        hostinfo_win.cpp
+
+David  28 Sept 2009
+    - tweak to start
+    html/inc/
+        user.inc
+    sched/
+        start
+
+David  28 Sept 2009
+    - client: fix crash with <ncpus>0</ncpus>
+
+    client/
+        work_fetch.h
+
+Rom    29 Sept 2009
+    - client: fix bug in coproc summary string.
+    
+    lib/
+        coproc.cpp
+
+David  29 Sept 2009
+    - user web: show ATI GPUs correctly; show multiple GPUs correctly.
+
+    html/inc/
+        host.inc
+
+David  29 Sept 2009
+    - user web: forum_preferences.{low_rating_threshold, high_rating_threshold}
+        were deprecated, but were still used in deciding whether to show a post.
+        This broke the "ignore list" function.
+
+    db/
+        schema.sql
+    html/
+        inc/
+            forum.inc
+        user/
+            forum_forum.php
+            edit_forum_preferences_action.php
+
+David  30 Sept 2009
+    - client: if downloaded project list file is garbage, ignore it.
+    - all: accept <foo /> as an XML bool
+
+    client/
+        acct_setup.cpp
+    lib/
+        parse.cpp
+
+Rom    30 Sept 2009
+    - client: Apparently it is valid for the autoproxy to return
+        successful API completeion but a null proxy list.  Check
+        for the null instead of crashing.
+        
+    client/
+        sysmon_win.cpp
+
+Rom    1 Oct 2009
+    - client: only support one of the ati13* plan classes at a time.
+        A couple users had not updated their amdcal* runtime libraries
+        after upgrading catalyst drivers.  This was leading to crashes
+        of the project applications when work was supplied looking
+        for the old DLL names.
+        
+    lib/
+        coproc.cpp
+
+Rom    1 Oct 2009
+    - client: fix a handle leak I just introduced.
+        (From: Andreas a.k.a Gipsel)
+        
+    lib/
+        coproc.cpp
+
+Rom    1 Oct 2009
+    - lib: Fix memory/resource leak.
+        (From Nicolás Alvarez)
+        
+    lib/
+        shmem.cpp
+
+Rom    1 Oct 2009
+    - lib: Add additional ATI descriptions.
+    - lib: Fix some inaccurate ATI capabilities in certain cards.
+        (From: Andreas a.k.a Gipsel)
+        
+    lib/
+        coproc.cpp
+
+Rom    1 Oct 2009
+    - lib: Fix memory/resource leak.
+        (From Nicolás Alvarez)
+        
+    lib/
+        shmem.cpp
+
+David  2 Oct 2009
+    - admin web: changed protection scheme as follows:
+        - default: script can be run from command line;
+            to run from web you need to be logged in as a particular user.
+            (in addition to .htaccess protection).
+        - if include $cli_only at start of script:
+            can only be run from the command line.
+        - if include $skip_auth_ops at start of script:
+            can run from web without being logged in
+            (this is set ONLY in login_action.php)
+    - admin web: added $cli_only = true to a bunch of scripts
+
+    html/
+        inc/
+            util_ops.inc
+        ops/
+            (most).php
+
+David  2 Oct 2009
+    - wrapper: fix fraction done feature
+
+    samples/wrapper/
+        wrapper.cpp
+
+David  2 Oct 2009
+    - client: restore calDeviceGetInfo(), add its info to COPROC_ATI struct
+        (some plan class might need to know this).
+        Code cleanup.
+
+    lib/
+        Makefile.am
+        coproc.cpp,h
+
+David  2 Oct 2009
+    - client: better behavior if a GPU goes away:
+        1) if an APP_VERSION is missing a coprocessor,
+            don't delete it and its files.
+            (If the coprocessor returns, we won't need to re-download)
+        2) if a RESULT uses an app version that is missing a coprocessor,
+            abort it (rather than deleting it).
+            The client will report the result on the next scheduler RPC,
+            and the server will make a new instance.
+
+    client/
+        client_types.cpp
+        cs_scheduler.cpp
+        cs_statefile.cpp
+    lib/
+        error_numbers.h
+
+David  2 Oct 2009
+    - client: fix bug where if you change project "no CPU/NVIDIA/ATI"
+        prefs and update, the change wouldn't take effect until client restart.
+    - client: fix bug in enforcement of "no CPU/NVIDIA/ATI" prefs
+
+    client/
+        client_state.cpp
+        cs_account.cpp
+        work_fetch.cpp
+    lib/
+        coproc.cpp
+
+David  2 Oct 2009
+    - client: if GPU is removed while jobs in progress,
+        don't show messages as internal errors.
+
+    client/
+        app.cpp
+        cs_statefile.cpp
+
+David  2 Oct 2009
+    - client: make the order of the result vector
+        consistent with the order used to select coproc jobs
+
+    client
+        client_state.h
+        cs_scheduler.cpp
+        cs_statefile.cpp
+        cpu_sched.cpp
+
+David  3 Oct 2009
+    - client: improve coproc_debug messages
+
+    client/
+        app_start.cpp
+        cpu_sched.cpp
+
+David  3 Oct 2009
+    - client: if a task is running, uses a GPU, and the system has >1 GPU,
+        append text to its resource string saying which GPU it's using
+    - manager: tweak Task properties text
+
+    client/
+        client_types.cpp,h
+    clientgui/
+        DlgItemProperties.cpp
+
+Rom    5 Oct 2009
+    - DIAG: Suspend threads right before extracting their context and then
+        resume them afterwords.  Otherwise we could end up in a deadlock state
+        where both the main thread and a support thread are attempting to use
+        the same system resource and the thread that owns the resource becomes
+        suspended. In the last situation it was way down in Winsock.
+        
+    lib/
+        diagnostics_win.cpp
+
+Rom    5 Oct 2009
+    - DIAG: Don't resume after the thread has been suspended, otherwise the
+        thread stack may be trashed after extracting the context.  This should
+        still be okay though as by the time the diagnostics framework
+        has gotten here it has already downloaded all the symbols it'll need.
+
+    lib/
+        diagnostics_win.cpp
+
+Rom    5 Oct 2009
+    - client: Fix crash that was introduced 7 months ago.
+        (From Nicolás Alvarez)
+        
+    client/
+        app_control.cpp
+
+David  6 Oct 2009
+    - client: remove redundant 0s in job log
+    - user web: remove some PHP warnings (from Oliver Bock)
+
+    client/
+        client_types.cpp
+    html/
+        inc/
+            prefs.inc
+        user/
+            add_venue.cpp
+            forum_thread.cpp
+            prefs_edit.cpp
+
+David  6 Oct 2009
+    - scheduler: skip deadline check for non-CPU-intensive projects
+
+    sched/
+        sched_send.cpp
+
+David  7 Oct 2009
+    - client: add --unsigned_apps_ok cmdline option
+        and <unsigned_apps_ok> config option.
+        This tells the client to allow unsigned apps.
+        For testing.
+        No file xfers or other network traffic will be allowed if set.
+    - client: add <exit_after_finish> option (same as cmdline flag)
+    - client: add <skip_cpu_benchmarks> option (same as cmdline flag)
+    - client: print message if abort past-deadline unstarted job
+    - client: improve message when have NVIDIA drivers but no GPU
+        
+    client/
+        app_start.cpp
+        client_state.cpp,h
+        cs_cmdline.cpp
+        cs_prefs.cpp
+        log_flags.cpp
+    lib/
+        coproc.cpp
+    samples/
+        client_state_save.xml (new)
+
+Rom    7 Oct 2009
+    - MGR: Fix the Statistics page Save/Restore project display feature.
+    - MGR: Clean up warnings
+        
+    clientgui/
+        ViewStatistics.cpp
+
+Rom    7 Oct 2009
+    - MGR: Some house keeping.
+    
+    clientgui/
+        ViewMessagesGrid.cpp, .h (deleted)
+        ViewProjectsGrid.cpp, .h (deleted)
+        ViewTransfersGrid.cpp, .h (deleted)
+        ViewWorkGrid.cpp, .h (deleted)
+
+Bernd    7 Oct 2009
+    - lib: some changes to help building the WIN32 library with MinGW/gcc
+        enable by defining MINGW_WIN32 macro, nothing should change if
+        this is not set
+    
+    lib/
+        boinc_win.h
+        diagnostics.h
+        filesys.cpp
+
+David  7 Oct 2009
+    - client: if anonymous platform description (app_info.xml)
+        doesn't specify FLOPS for a GPU app,
+        assume that it runs at CPU peak speed rather than GPU peak speed.
+        Better to be conservative, otherwise job might be aborted
+        due to time limit exceeded.
+
+    client/
+        client_state.cpp
+
+Charlie 7 Oct 2009
+    - MGR: If aborting multiple tasks, ask "Are you sure?" only once.
+    
+    clientgui/
+        ViewWork.cpp
+
+David  12 Oct 2009
+    - client: on startup, if a coproc needed by a job is missing,
+        set a "coproc_missing" flag rather than aborting the job.
+        If use removes a GPU board while there's a large queue of GPU jobs,
+        they'll stay queued (until their deadline passes).
+
+        Note: this doesn't fix the situation where user connects via
+        Remote Desktop while GPU jobs are running or queued.
+        We should check for Remote Desktop every minute or so, and stop GPU jobs.
+
+    client/
+        client_state.cpp
+        client_types.cpp,h
+        cs_statefile.cpp
+        work_fetch.cpp
+    clientgui/
+        ViewWork.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
+
+David  12 Oct 2009
+    - scheduler/file upload handler: ignore zero-length cmdline args.
+        Apparently some Apaches pass them.
+        From Nils Brause.
+
+    sched/
+        file_upload_handler.cpp
+        sched_main.cpp
+
+David  12 Oct 2009
+    - client: the get_all_projects_list() RPC doesn't require auth
+
+    client/
+        gui_rpc_server_ops.cpp
+
+David  12 Oct 2009
+    - added code for Linux mouse check
+
+    lib/
+        x_util.cpp
+
+David  12 Oct 2009
+    - client: don't multiply checkpoint interval (i.e., "disk interval" pref)
+        by # processors.
+    - web: change description of pref to
+        "Applications checkpoint to disk at most every ..."
+
+    client/
+        app_start.cpp
+    html/inc/
+        prefs.inc
+
+David  12 Oct 2009
+    - actually, make it
+        "Tasks checkpoint to disk at most every ..."
+        and change it in the advanced prefs dialog too
+
+    clientgui/
+        DlgAdvPreferencesBase.cpp
+    html/inc/
+        prefs.inc
+
+David  13 Oct 2009
+    - scheduler: improve efficiency of a locality sched query
+
+    sched/
+        sched_locality.cpp
+
+Rom    13 Oct 2009
+    - LIB: Make the is_remote_desktop compilable for all VS versions
+        and SKUs.
+        
+    lib/
+        win_util.cpp, .h
+
+Rom    13 Oct 2009
+    - DOC: Update manager_links.php so that it'll compare by numerical
+        values instead of using string based comparison.
+        
+    doc/
+        manager_links.php
+
+Rom    14 Oct 2009
+    - MGR: Fix initial first connection problem on startup.  I'm not sure why
+        it was only happening at startup, there might have been a few crashes
+        because of this issue as well.  The basic problem is that wxWidgets
+        had an exception handler around the initial frame creation and when
+        the first GUI RPC was issues to detect whether or not we were atached
+        to an account manager during menu creation the GUI thread would go
+        about doing idle processing while waiting for the GUI RPC thread to
+        initialize.  During this time the frame pointer is NULL and was getting
+        dereferenced which would halt window construction and stay there until
+        some other event was fired.
+    - MGR: Initial dose of code cleanup and shuffling.  Order the menu functions
+        in the order in which they are displayed in the menu.
+
+    clientgui/
+        AdvancedFrame.cpp, .h
+        BOINCBaseFrame.cpp
+        BOINCBaseView.cpp
+        Events.h
+        ProjectListCtrl.cpp
+        sg_BoincSimpleGUI.cpp, .h
+        sg_ProjectsComponent.cpp, .h
+        WizardAttachProject.cpp
+
+David  14 Oct 2009
+    - client: address the situation where GPUs become unusable
+        for certain periods (e.g. when Remote Desktop is used on Win).
+        - add is_usable() member function to COPROC.
+            Currently this just calls the respective (CUDA or CAL)
+            initialization function.
+            We need to check whether this works and/or causes problems.
+        - in enforce_schedule(), check whether usability has changed
+            for each GPU type.
+            If we've gone from usable to unusable,
+            flag all jobs for that GPU as coproc_missing
+            (so they won't get run, and will quit if they're running).
+            If we've gone from unusable to usable, clear the flag.
+        This should deal with all cases except where
+        the client is started up with GPUs unusable.
+    - scheduler: more query optimizations for locality scheduling
+        (from Oliver Bock)
+
+    client/
+        cpu_sched.cpp
+    lib/
+        coproc.cpp,h
+    sched/
+        sched_locality.cpp
+
+David  14 Oct 2009
+    - client: bug fixes to the above.
+        Don't fetch work for an unable resource.
+
+    client/
+        cpu_sched.cpp
+        cs_scheduler.cpp
+        work_fetch.cpp
+
+David  14 Oct 2009
+    - update cal.h to current ATI code
+
+    lib/
+        coproc.cpp,h
+
+David  14 Oct 2009
+    - undo the above
+
+David  15 Oct 2009
+    - client/scheduler: standardize the FLOPS estimate between NVIDIA and ATI.
+        Make them both peak FLOPS,
+        according to the formula supplied by the manufacturer.
+
+        The impact on the client is minor:
+        - the startup message describing the GPU
+        - the weight of the resource type in computing long-term debt
+
+        On the server, I changed the example app_plan() function
+        to assume that app FLOPS is 20% of peak FLOPS
+        (that's about what it is for SETI@home)
+
+    client/
+        client_state.cpp
+        work_fetch.cpp
+    lib/
+        coproc.cpp,h
+    sched/
+        sched_customize.cpp
+
+David  15 Oct 2009
+    - client: the weight of GPU debt in computing total debt should be
+        (estimated throughput of all GPUs)/(estimated throughput of all CPUs)
+        rather than the ratio of 1 GPU to 1 CPU.
+        This change will hopefully cause ratios of granted credit
+        to more closely match resource shares.
+
+    client
+        work_fetch.cpp,h
+
+David  15 Oct 2009
+    - client: multi-thread jobs were being given too high priority;
+        in particular, they were preempting jobs in the middle of time slice.
+        Solution:
+        1) don't use MT in the sort order defined by more_important().
+        2) add a 2nd reordering in which MT jobs are moved ahead
+            of non-MT jobs, but only if #CPUs used is < #CPUs
+            (see promote_multi_thread_jobs())
+    - client: the seqno of jobs in progress but not selected
+        was being set to zero.  It should be runnable_jobs.size().
+        This could potentially cause wrong scheduling decisions.
+
+    client/
+        cpu_sched.cpp
+
+Charlie 16 Oct 2009
+    - MGR: Fix build break on Mac.
+
+    clientgui/
+        mac/
+            MacSysMenu.cpp
+
+Rom    19 Oct 2009
+    - client: Use is_remote_desktop() instead of the various GPU functions
+        to determine when the client software has been switched into Remote
+        Desktop mode and shutsdown GPU apps.  This will prevent App crashes.
+        
+    lib/
+        coproc.cpp
+
+Rom    20 Oct 2009
+    - client: Use the ANSI version of WTSQuerySessionInformation to determine
+        is Remote Desktop is in use.
+        
+    lib/
+        coproc.cpp
+
+Rom    21 Oct 2009
+    - WINSETUP: Remove the 'SeDebugPrivilege' prev from the list of privs
+        the installer sets for BOINC.
+        
+    win_build/installerv2/redist/Windows/src/boinccas/
+        CAGrantBOINCAdminsRights.cpp
+        CAGrantBOINCUsersRights.cpp
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
+
+Rom    23 Oct 2009
+    - MGR: Change the shortcut key for switching to the simple view.
+    
+    clientgui/
+        AdvancedFrame.cpp
+>>>>>>> .merge-right.r19369
