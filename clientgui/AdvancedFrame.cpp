@@ -371,7 +371,7 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
 
     menuView->Append(
         ID_CHANGEGUI,
-        _("&Simple View...\tCTRL+SHIFT+S"),
+        _("Simple &View...\tCTRL+SHIFT+V"),
         _("Display the simple graphical interface.")
     );
 
