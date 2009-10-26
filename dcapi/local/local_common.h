@@ -74,14 +74,10 @@ enum _DC_e_param {
 	cfg_master_message_box,
 	cfg_subresults_box,
 	cfg_management_box,
-	cfg_architectures,
-	cfg_submit_file,
 	cfg_executable,
 	cfg_leave_files,
-	cfg_condor_log,
 	cfg_checkpoint_file,
 	cfg_output_cache,
-	cfg_condor_submit_template,
 	cfg_nuof
 };
 

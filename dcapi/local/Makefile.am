@@ -36,18 +36,3 @@ libdcapi_client_local_la_SOURCES = \
 		local_common.c
 libdcapi_client_local_la_LIBADD = ../common/libdcapi-common-client.la
 libdcapi_client_local_la_LDFLAGS = -static
-
-
-#appdir		= $(libdir)/dcapi/local
-#app_PROGRAMS	= lss lm
-
-#lss_SOURCES	= ../condor/tss.c ../condor/tc.c
-#lss_LDADD	= ../common/libdcapi-common-client.la libdcapi-client-local.la
-
-#lm_SOURCES 	= ../condor/tm.c ../condor/tc.c
-#lm_LDADD	= ../common/libdcapi-common-master.la libdcapi-local.la -L. -ldl -luuid -lstdc++
-
-#dd: all install_local
-
-#install_local:
-#	ssh root@emma 'make -C /home/staff/drdani/prj/szdg/dcapi/trunk/local install'
