@@ -3,7 +3,9 @@ Section: devel
 Priority: extra
 Maintainer: Gábor Gombás <gombasg@sztaki.hu>
 Standards-Version: 3.8.0
-Build-Depends: boinc-dev (>= 1:6.9.0+r18425), uuid-dev, libglib2.0-dev, debhelper (>= 7), automake, autoconf (>= 2.53), libtool, gtk-doc-tools (>= 1.3), libcondorapi-dev
+Build-Depends: boinc-dev (>= 1:6.9.0+r18425), uuid-dev, libglib2.0-dev, debhelper (>= 7),
+ automake, autoconf (>= 2.53), libtool, gtk-doc-tools (>= 1.3), libcondorapi-dev, python-dev,
+ python-support
 
 Package: libdcapi-common-dev
 Section: libdevel
@@ -87,3 +89,19 @@ Architecture: all
 Description: Distributed Computing Platform API - Documentation
  This package contains the documentation for the Distributed Computing
  Platform.
+
+Package: python-dcapi
+Section: python
+Priority: extra
+Architecture: all
+Depends: ${python:Depends}
+Description: Distributed Computing Platform API - Python modules
+ This package contains Python modules for DC-API.
+
+Package: dcapi-tools
+Section: devel
+Priority: extra
+Architecture: all
+Depends: python-dcapi, ${python:Depends}
+Description: Distributed Computing Platform API - Utilities
+ This package contains the DC-API deployment script.

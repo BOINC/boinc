@@ -1,3 +1,9 @@
+dcapi (0.9-27) unstable; urgency=low
+
+  * Added the dcapi-tools and python-dcapi packages
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Tue, 29 Sep 2009 16:47:57 +0200
+
 dcapi (0.9-26) unstable; urgency=low
 
   * Remove leftover free() call in the BOINC backend
