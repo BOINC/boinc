@@ -8285,3 +8285,10 @@ Charlie 26 Oct 2009
         
     clientgui/
         sg_BoincSimpleGUI.cpp, .h
+
+Rom    26 Oct 2009
+    - WININSTALL: Abort install if Win9x detected.
+    
+    win_build/installerv2/
+        BOINC.ism
+        BOINCx64.ism
