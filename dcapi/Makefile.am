@@ -22,4 +22,4 @@ SUBDIRS += java
 endif
 
 aclocaldir = $(datadir)/aclocal
-dist_aclocal_DATA = cf/dcapi.m4
+dist_aclocal_DATA = dcapi.m4
