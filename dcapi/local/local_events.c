@@ -472,20 +472,9 @@ DC_MasterEvent *DC_waitWUEvent(DC_Workunit *wu, int timeout)
 	now= start;
 	do
 	{
-		/*_DC_wu_update_condor_events(wu);*/
 		if ((me= _DC_wu_check_client_messages(wu)) != NULL)
 			DC_log(LOG_DEBUG, "DC_waitWUEvent found a message for "
 			       "wu %p-\"%s\"", wu, wu->name);
-		/*
-		if (!me)
-		{
-			if ((me= _DC_wu_condor2api_event(wu)) != NULL)
-				DC_log(LOG_DEBUG,
-				       "DC_waitWUEvent found a "
-				       "condor event for wu %p-\"%s\"",
-				       wu, wu->data.name);
-		}
-		*/
 		if (!me)
 		{
 			if ((me= _DC_wu_infra2api_event(wu)) != NULL)

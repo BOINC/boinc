@@ -10,8 +10,8 @@
 /* $Date$ */
 /* $Revision$ */
 
-#ifndef __DC_API_CONDOR_UTILS_H_
-#define __DC_API_CONDOR_UTILS_H_
+#ifndef __DC_API_LOCAL_UTILS_H_
+#define __DC_API_LOCAL_UTILS_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -49,10 +49,4 @@ char *_DC_unquote_string(char *str) G_GNUC_INTERNAL;
 }
 #endif
 
-#endif
-
-/* End of local/local_utils.h */
-
-/* Local variables: */
-/* c-file-style: "linux" */
-/* End: */
+#endif /* __DCAPI_LOCAL_UTILS_H_ */

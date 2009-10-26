@@ -41,29 +41,17 @@ _DC_init_common(void)
 	_DC_params[cfg_management_box].name= "SystemMessageBox";
 	_DC_params[cfg_management_box].def= "_dcapi_system_messages";
 
-	_DC_params[cfg_architectures].name= "Architectures";
-	_DC_params[cfg_architectures].def= "Client_%s_%s";/* client_name, architecture */
-
-	_DC_params[cfg_submit_file].name= "SubmitFile";
-	_DC_params[cfg_submit_file].def= "_dcapi_condor_submit.txt";
-
 	_DC_params[cfg_executable].name= "Executable";
 	_DC_params[cfg_executable].def= 0/*NULL*/;
 	
 	_DC_params[cfg_leave_files].name= "LeaveFiles";
 	_DC_params[cfg_leave_files].def= "0";
 
-	_DC_params[cfg_condor_log].name= "CondorLog";
-	_DC_params[cfg_condor_log].def= "_dcapi_internal_log.txt";
-
 	_DC_params[cfg_checkpoint_file].name= "CheckpointFile";
 	_DC_params[cfg_checkpoint_file].def= "_dcapi_checkpoint";
 
 	_DC_params[cfg_output_cache].name= "SavedOutputs";
 	_DC_params[cfg_output_cache].def= "_dcapi_saved_output";
-
-	_DC_params[cfg_condor_submit_template].name= "CondorSubmitTemplate";
-	_DC_params[cfg_condor_submit_template].def= 0;
 }
 
 
