@@ -8276,3 +8276,12 @@ Rom    23 Oct 2009
         
     client/
         sysmon_win.cpp
+
+Charlie 26 Oct 2009
+    - MGR: Add View menu with Cmd+Shift+A to Mac Simple GUI for disabled users 
+        because Mac manager cannot eliminate menu bar or detect active screen 
+        reader.  On Windows, manager prevents switch to Simple GUI if screen 
+        reader is active.
+        
+    clientgui/
+        sg_BoincSimpleGUI.cpp, .h

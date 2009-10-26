@@ -105,6 +105,15 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
 		strMenuDescription
     );
 
+    // View menu
+    wxMenu *menuView = new wxMenu;
+
+    menuView->Append(
+        ID_CHANGEGUI,
+        _("Advanced View...\tCTRL+SHIFT+A"),
+        _("Display the advanced (accessible) graphical interface.")
+    );
+
     // Help menu
     wxMenu *menuHelp = new wxMenu;
 
@@ -179,9 +188,12 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
         _("&File")
     );
     
-    // wxMac maps Command key to wxACCEL_ALT for wxAcceleratorTable but CTRL for wxMenu.
-    m_Shortcuts[0].Set(wxACCEL_CMD|wxACCEL_SHIFT, (int)'A', ID_CHANGEGUI);
-    m_Shortcuts[1].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
+    m_pMenubar->Append(
+        menuView,
+        _("&View")
+    );
+
+    m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
     m_pAccelTable = new wxAcceleratorTable(2, m_Shortcuts);
 #else
     m_Shortcuts[0].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'A', ID_CHANGEGUI);
