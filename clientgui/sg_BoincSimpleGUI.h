@@ -129,10 +129,8 @@ protected:
 
 #ifdef __WXMAC__
 	wxMenuBar* m_pMenubar;
-    wxAcceleratorEntry  m_Shortcuts[2];
-#else
-    wxAcceleratorEntry  m_Shortcuts[1];
 #endif
+    wxAcceleratorEntry  m_Shortcuts[1];
     wxAcceleratorTable* m_pAccelTable;
 
 	CSimplePanel* m_pBackgroundPanel;
