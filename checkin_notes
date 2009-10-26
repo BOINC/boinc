@@ -8292,3 +8292,11 @@ Rom    26 Oct 2009
     win_build/installerv2/
         BOINC.ism
         BOINCx64.ism
+
+Rom    26 Oct 2009
+    - Tag for 6.10.17 release, all platforms
+      boinc_core_release_6_10_17
+
+    /
+        configure.ac
+        version.h
