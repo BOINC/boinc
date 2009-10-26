@@ -1,4 +1,4 @@
-AC_INIT([Uppercase Example Application], [5.01], [desktopgrid@lpds.sztaki.hu], [uppercase-example])
+AC_INIT([Uppercase Example Application], [6.00], [desktopgrid@lpds.sztaki.hu], [uppercase-example])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SRCDIR([client.c])
 
@@ -24,13 +24,11 @@ AM_CONDITIONAL([BUILD_CLIENT], [test "$enable_client" = yes])
 AM_CONDITIONAL([BUILD_MASTER], [test "$enable_master" = yes])
 
 if test "$enable_client" = yes; then
-	SZDG_DCAPI_CLIENT
-	AC_MSG_NOTICE([will build client])
+	SZDG_DCAPI_CLIENT([], [AC_MSG_ERROR([DC-API client libraries were not found])])
 fi
 
 if test "$enable_master" = yes; then
-	SZDG_DCAPI_MASTER
-	AC_MSG_NOTICE([will build master])
+	SZDG_DCAPI_MASTER([], [AC_MSG_ERROR([DC-API master libraries were not found])])
 fi
 
 AC_CONFIG_FILES([Makefile])
