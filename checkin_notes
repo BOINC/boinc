@@ -8790,3 +8790,9 @@ Charlie 26 Oct 2009
         
     clientgui/
         sg_BoincSimpleGUI.cpp, .h
+
+Rom    26 Oct 2009
+    - client: cleanup formatting of linux platform detection code.
+    
+    client/
+        cs_platforms.cpp

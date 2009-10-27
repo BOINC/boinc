@@ -118,6 +118,7 @@ void CLIENT_STATE::detect_platforms() {
     do {
         if (boinc_file_exists(uname[eno])) break; 
     } while (uname[++eno] != 0);
+
     // run it and check the kernel machine architecture.
     if ( uname[eno] != 0 ) {
         strlcpy(cmdline,uname[eno],256);
@@ -125,11 +126,12 @@ void CLIENT_STATE::detect_platforms() {
         if ((f=popen(cmdline,"r"))) {
             while (!std::feof(f)) {
 	        fgets(cmdline,256,f);
-		if (strstr(cmdline,"x86_64")) support64=1;
+		    if (strstr(cmdline,"x86_64")) support64=1;
 	    }
 	    pclose(f);
 	}
-        if (!support64) {
+
+    if (!support64) {
 	    // we're running on a 32 bit kernel, so we will assume
 	    // we are i686-pc-linux-gnu only.
 	    support32=1;
@@ -138,66 +140,65 @@ void CLIENT_STATE::detect_platforms() {
 	    // Now comes the hard part.  How to tell whether we can run
 	    // 32-bit binaries.
 #if defined(__i386__) && !defined(__x86_64__)
-            // If we're a 32 bit binary, then we obviously can.
+        // If we're a 32 bit binary, then we obviously can.
 	    support32=1;
 #else
-            // If we're a 64 bit binary, the check is a bit harder.
+        // If we're a 64 bit binary, the check is a bit harder.
 	    // We'll use the file command to check installation of
 	    // 32 bit libraries or executables.
 	    const char *file[]={"/usr/bin/file","/bin/file",0};
 	    const char *libdir[]={"/lib","/lib32","/lib/32","/usr/lib","/usr/lib32","/usr/lib/32"};
 	    const int nlibdirs=sizeof(libdir)/sizeof(char *);
 	    
-
-            // find 'file'
-            eno=0;
-            do {
-                if (boinc_file_exists(file[eno])) break; 
-            } while (file[++eno] != 0);
-	    // now try to find a 32-bit C library.
+        // find 'file'
+        eno=0;
+        do {
+            if (boinc_file_exists(file[eno])) break; 
+        } while (file[++eno] != 0);
+	    
+        // now try to find a 32-bit C library.
 	    if (file[eno] != 0) {
 	        int i;
-	        for (i=0;i<nlibdirs;i++) {
+	        for (i=0; i < nlibdirs; i++) {
 	            struct dirent *entry;
-	            DIR *a=opendir(libdir[i]);
-		    // if dir doesn't exist, do to the next one
-		    if ( a == 0 ) continue;
-		    // dir exists. read each entry until you find a 32bit lib
-		    while ((support32 == 0) && ((entry=readdir(a)) != 0)) {
-		        strlcpy(cmdline,file[eno],256);
-		        strlcat(cmdline," -L ",256);
-		        strlcat(cmdline,libdir[i],256);
-		        strlcat(cmdline,"/",256);
-		        strlcat(cmdline,entry->d_name,256);
-		        if ((f=popen(cmdline,"r"))) {
-                            while (!std::feof(f)) {
+	            DIR *a = opendir(libdir[i]);
+                // if dir doesn't exist, do to the next one
+                if (a == 0) continue;
+                // dir exists. read each entry until you find a 32bit lib
+                while ((support32 == 0) && ((entry=readdir(a)) != 0)) {
+                    strlcpy(cmdline, file[eno], 256);
+                    strlcat(cmdline, " -L ", 256);
+                    strlcat(cmdline, libdir[i], 256);
+                    strlcat(cmdline, "/", 256);
+                    strlcat(cmdline, entry->d_name, 256);
+                    f = popen(cmdline, "r");
+                    if (f) {
+                        while (!std::feof(f)) {
 	                        fgets(cmdline,256,f);
-			        // If the library is 32-bit ELF, then we're
-			        // golden.
-		                if (strstr(cmdline,"ELF") && 
-			            strstr(cmdline,"32-bit")) support32=1;
+                            // If the library is 32-bit ELF, then we're
+                            // golden.
+		                    if (strstr(cmdline, "ELF") && strstr(cmdline, "32-bit")) support32=1;
 	                    }
-			    pclose(f);
-		        }  
-		    }
-		    closedir(a);
-		    if (support32) break;
-                 }
-	     }
+			            pclose(f);
+                    }  
+                }
+                closedir(a);
+                if (support32) break;
+            }
+	    }
 #endif
-	 }
-    }
+	}
 
     if (support64) {
-       add_platform("x86_64-pc-linux-gnu");
+        add_platform("x86_64-pc-linux-gnu");
     }
     if (support32) {
-       add_platform("i686-pc-linux-gnu");
+        add_platform("i686-pc-linux-gnu");
     }
 
     if (!(support64 || support32)) {
         // Something went wrong. Assume HOSTTYPE and HOSTTYPEALT
-	// are correct
+        // are correct
         add_platform(HOSTTYPE);
 #ifdef HOSTTYPEALT
         add_platform(HOSTTYPEALT);
