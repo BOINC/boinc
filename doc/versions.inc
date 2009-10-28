@@ -70,10 +70,10 @@ $w610dev= array(
 );
 
 $w66= array(
-    "num"=>"6.6.41",
+    "num"=>"6.6.38",
     "status"=>"Recommended version",
-    "file"=>"boinc_6.6.41_windows_intelx86.exe",
-    "date"=>"22 Oct 2009",
+    "file"=>"boinc_6.6.38_windows_intelx86.exe",
+    "date"=>"28 Oct 2009",
     "type"=>"win_new",
 );
 
@@ -94,10 +94,10 @@ $w610x64dev= array(
 );
 
 $w66x64= array(
-    "num"=>"6.6.41",
+    "num"=>"6.6.38",
     "status"=>"Recommended version",
-    "file"=>"boinc_6.6.41_windows_x86_64.exe",
-    "date"=>"22 Oct 2009",
+    "file"=>"boinc_6.6.38_windows_x86_64.exe",
+    "date"=>"28 Oct 2009",
     "type"=>"win_new",
 );
 
