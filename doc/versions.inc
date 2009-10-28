@@ -62,10 +62,10 @@ function type_text($type) {
 }
 
 $w610dev= array(
-    "num"=>"6.10.16",
+    "num"=>"6.10.17",
     "status"=>"Development version",
-    "file"=>"boinc_6.10.16_windows_intelx86.exe",
-    "date"=>"20 Oct 2009",
+    "file"=>"boinc_6.10.17_windows_intelx86.exe",
+    "date"=>"28 Oct 2009",
     "type"=>"win_new",
 );
 
@@ -86,10 +86,10 @@ $w64= array(
 );
 
 $w610x64dev= array(
-    "num"=>"6.10.16",
+    "num"=>"6.10.17",
     "status"=>"Development version",
-    "file"=>"boinc_6.10.16_windows_x86_64.exe",
-    "date"=>"20 Oct 2009",
+    "file"=>"boinc_6.10.17_windows_x86_64.exe",
+    "date"=>"28 Oct 2009",
     "type"=>"win_new",
 );
 
@@ -118,10 +118,10 @@ $w5816= array(
 );
 
 $m610dev = array(
-    "num"=>"6.10.14",
+    "num"=>"6.10.17",
     "status"=>"Development version (standard GUI)",
-    "file"=>"boinc_6.10.14_macOSX_universal.zip",
-    "date"=>"19 Oct 2009",
+    "file"=>"boinc_6.10.17_macOSX_universal.zip",
+    "date"=>"28 Oct 2009",
     "type"=>"mac_advanced",
 );
 
@@ -142,10 +142,10 @@ $m6218 = array(
 );
 
 $m610cdev = array(
-    "num"=>"6.10.14",
+    "num"=>"6.10.17",
     "status"=>"Development version (Unix command-line version)",
-    "file"=>"boinc_6.10.14_universal-apple-darwin.zip",
-    "date"=>"19 Oct 2009",
+    "file"=>"boinc_6.10.17_universal-apple-darwin.zip",
+    "date"=>"28 Oct 2009",
     "type"=>"bare_core",
 );
 
@@ -182,10 +182,10 @@ $l64 = array(
 );
 
 $l610ubuntudev = array(
-	"num"=>"6.10.16",
+	"num"=>"6.10.17",
 	"status"=>"Development version",
-	"file"=>"boinc_6.10.16_i686-pc-linux-gnu.sh",
-	"date"=>"22 Oct 2009",
+	"file"=>"boinc_6.10.17_i686-pc-linux-gnu.sh",
+	"date"=>"28 Oct 2009",
 	"type"=>"sea",
 );
 
@@ -206,10 +206,10 @@ $l64ubuntu = array(
 );
 
 $l610ubuntux64dev = array(
-	"num"=>"6.10.16",
+	"num"=>"6.10.17",
 	"status"=>"Development version",
-	"file"=>"boinc_6.10.16_x86_64-pc-linux-gnu.sh",
-	"date"=>"22 Oct 2009",
+	"file"=>"boinc_6.10.17_x86_64-pc-linux-gnu.sh",
+	"date"=>"28 Oct 2009",
 	"type"=>"sea",
 );
 
