@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-05-15 16:26-0700\n"
+"PO-Revision-Date: 2009-10-29 15:43-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -189,7 +189,6 @@ msgstr "Crèdit total"
 msgid "Recent average credit"
 msgstr "Crèdit mitjà més recent"
 
-#, fuzzy
 msgid "Cross-project stats"
 msgstr "Estadístiques multi-projecte"
 
