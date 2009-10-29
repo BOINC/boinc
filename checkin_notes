@@ -8796,3 +8796,19 @@ Rom    26 Oct 2009
     
     client/
         cs_platforms.cpp
+
+Charlie 29 Oct 2009
+    - MGR: Add accessibility support for disabled users to BOINCListCtrl on 
+        Mac.
+        
+    clientgui/
+        BOINCBaseView.cpp, .h
+        BOINCListCtrl.cpp, .h
+        ViewProjects.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+        Mac/
+            MacAccessibility.cpp (added)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj

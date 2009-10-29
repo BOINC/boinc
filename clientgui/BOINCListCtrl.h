@@ -91,6 +91,17 @@ private:
     void                    DrawProgressBars(void);
     wxScrolledWindow*       GetMainWin(void) { return (wxScrolledWindow*) m_mainWin; }
     wxCoord                 GetHeaderHeight(void) { return m_headerHeight; }
+#ifdef __WXMAC__
+    void                    SetupMacListControlAccessibilitySupport(wxWindowID iListWindowID);
+    void                    RemoveMacListControlAccessibilitySupport();
+    CBOINCBaseView*         GetParentView() { return m_pParentView; }
+    
+    HIViewRef               m_headerView;
+    HIViewRef               m_bodyView;
+
+    EventHandlerRef         m_pHeaderAccessibilityEventHandlerRef;
+    EventHandlerRef         m_pBodyAccessibilityEventHandlerRef;
+#endif
 #endif
 };
 
