@@ -53,15 +53,15 @@ AC_DEFUN([SZDG_DCAPI_CLIENT], [
 
 	dnl Backward compatibility: produce an error if the above tests fail
 	dnl and both $1 and $2 are empty
-	m4_ifblank([$1], [m4_ifblank([$2],
+	m4_ifval(m4_normalize[$1], [], [m4_ifvaln(m4_normalize[$2], [],
 	if test "$dcapi_client" != yes; then
 		AC_MSG_ERROR([DC-API client libraries were not found])
-	fi)])
+	fi)])dnl
 
 	if test "$dcapi_client" = yes; then
-		m4_ifblank([$1], [:], [$1])
-	m4_ifnblank([$2],[else
-		$2])
+		m4_ifval(m4_normalize[$1], [$1], [:])
+	m4_ifvaln([$2],[else
+		$2])dnl
 	fi
 ])
 
@@ -96,14 +96,14 @@ AC_DEFUN([SZDG_DCAPI_MASTER], [
 
 	dnl Backward compatibility: produce an error if the above tests fail
 	dnl and both $1 and $2 are empty
-	m4_ifblank([$1], [m4_ifblank([$2],
+	m4_ifval(m4_normalize[$1], [], [m4_ifvaln(m4_normalize[$2], [],
 	if test "$dcapi_master" != yes; then
 		AC_MSG_ERROR([DC-API master libraries were not found])
-	fi)])
+	fi)])dnl
 
 	if test "$dcapi_master" = yes; then
-		m4_ifblank([$1], [:], [$1])
-	m4_ifnblank([$2],[else
-		$2])
+		m4_ifval(m4_normalize[$1], [$1], [:])
+	m4_ifvaln([$2],[else
+		$2])dnl
 	fi
 ])
