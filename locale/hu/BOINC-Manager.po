@@ -626,6 +626,7 @@ msgstr "%s - A kapcsolat állapota"
 
 #: clientgui/BOINCBaseFrame.cpp:606
 #, c-format
+#, c-format
 #, fuzzy
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -646,11 +647,13 @@ msgstr "Weboldalak"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
+#, c-format
 #, fuzzy
 msgid "%s - Network Status"
 msgstr "%s - Hálózati Állapot"
 
 #: clientgui/BOINCDialupManager.cpp:255
+#, c-format
 #, c-format
 #, fuzzy
 msgid "%s needs to connect to the Internet.  Please click to open %s."
@@ -658,6 +661,7 @@ msgstr ""
 "%s szeretne kapcsolódni az Internetre. Kérjük, kattintson %s megnyitásához."
 
 #: clientgui/BOINCDialupManager.cpp:263
+#, c-format
 #, c-format
 #, fuzzy
 msgid ""
@@ -686,6 +690,7 @@ msgid "%s is connecting to the Internet."
 msgstr "%s kapcsolódik az internetre."
 
 #: clientgui/BOINCDialupManager.cpp:354
+#, c-format
 #, c-format
 #, fuzzy
 msgid ""
@@ -810,6 +815,7 @@ msgid "Not connected to a client."
 msgstr "Nincs kapcsolódva a klienshez."
 
 #: clientgui/BOINCTaskBar.cpp:597
+#, c-format
 #, c-format
 #, fuzzy
 msgid "Open %s Web..."

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-04-14 01:38-0700\n"
+"PO-Revision-Date: 2009-10-17 08:58-0700\n"
 "Last-Translator: Bartosz Kaszubowski <gosimek@gmail.com>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "Language: pl\n"
@@ -1034,11 +1034,13 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:98
 msgid " Use GPU while computer is in use"
-msgstr ""
+msgstr " Używaj procesora karty graficznej, gdy komputer jest w użyciu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
 msgid "check this if you want your GPU to do work even when you're using the computer"
 msgstr ""
+"zaznacz tą opcje jeśli chcesz, aby procesor karty graficznej wykonywał "
+"zadania, gdy twój komputer jest w uzyciu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:111
 msgid "Only after computer has been idle for"
@@ -2218,7 +2220,7 @@ msgstr "Adres projektu:"
 
 #: clientgui/ProjectInfoPage.cpp:320
 msgid "You are already attached to this project. Please choose a different project."
-msgstr ""
+msgstr "Jesteś już przyłączony do tego projektu. Proszę wybierz inny projekt."
 
 #: clientgui/ProjectInfoPage.cpp:321
 #, fuzzy
@@ -2227,7 +2229,7 @@ msgstr "Przyłączony do projektu"
 
 #: clientgui/ProjectInfoPage.cpp:348
 msgid "This project may not have work for your type of computer."
-msgstr ""
+msgstr "Ten projekt może nie mieć zadań dla tego typu komputera."
 
 #: clientgui/ProjectListCtrl.cpp:338
 #, c-format
@@ -2985,19 +2987,19 @@ msgstr ""
 
 #: clientgui/ViewNews.cpp:80
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 #: clientgui/ViewNews.cpp:81
 msgid "Display the latest news about BOINC"
-msgstr ""
+msgstr "Wyświetl ostatnie nowinki o BOINC"
 
 #: clientgui/ViewNews.cpp:87
 msgid "BOINC Website"
-msgstr ""
+msgstr "Strona internetowa BOINC"
 
 #: clientgui/ViewNews.cpp:88
 msgid "Display the latest news about BOINC from the BOINC website"
-msgstr ""
+msgstr "Wyświetl ostatnie nowinki o BOINC z oficjalnej strony BOINC"
 
 #: clientgui/ViewProjects.cpp:173
 #: clientgui/ViewProjectsBase.cpp:107

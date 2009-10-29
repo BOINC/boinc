@@ -1170,8 +1170,9 @@ msgstr ""
 msgid "To unblock, visit %1message board preferences%2"
 msgstr ""
 
+#, fuzzy
 msgid "Profiles"
-msgstr ""
+msgstr "Profil"
 
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
@@ -1311,8 +1312,9 @@ msgstr ""
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
 
+#, fuzzy
 msgid "Find a team"
-msgstr ""
+msgstr "trouver une équipe"
 
 msgid "All teams"
 msgstr ""
@@ -1320,8 +1322,9 @@ msgstr ""
 msgid "%1 teams"
 msgstr ""
 
+#, fuzzy
 msgid "Create a new team"
-msgstr ""
+msgstr "Créer une nouvelle discussion"
 
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."

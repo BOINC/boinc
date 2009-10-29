@@ -6,3 +6,4 @@ rights:
   JensSeidler = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   DavidM = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  davea = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
