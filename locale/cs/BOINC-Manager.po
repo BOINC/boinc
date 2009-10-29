@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-08-18 12:42-0500\n"
-"PO-Revision-Date: 2009-08-20 08:31+0100\n"
+"PO-Revision-Date: 2009-09-23 00:40+0100\n"
 "Last-Translator: Spok <spok.3d@atlas.cz>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -278,27 +278,27 @@ msgstr "Pozastavit práci bez ohledu na nastavení"
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "&Network activity always available"
-msgstr "Trvale po&volit přístup k síti"
+msgstr "Trvale po&volit přístup k internetu"
 
 #: clientgui/AdvancedFrame.cpp:397
 msgid "Allow network activity regardless of preferences"
-msgstr "Povolit připojení k síti bez ohledu na nastavení"
+msgstr "Povolit připojení k internetu bez ohledu na nastavení"
 
 #: clientgui/AdvancedFrame.cpp:401
 msgid "Network activity based on &preferences"
-msgstr "Připojovat k &síti podle nastavení"
+msgstr "Připojovat k &internetu podle nastavení"
 
 #: clientgui/AdvancedFrame.cpp:402
 msgid "Allow network activity according to your preferences"
-msgstr "Využívat připojení k síti podle nastavení"
+msgstr "Využívat připojení k internetu podle nastavení"
 
 #: clientgui/AdvancedFrame.cpp:406
 msgid "&Network activity suspended"
-msgstr "Z&akázat přístup k síti"
+msgstr "Z&akázat přístup k internetu"
 
 #: clientgui/AdvancedFrame.cpp:407
 msgid "Stop BOINC network activity"
-msgstr "Zakázat Správci BOINC využívat síť"
+msgstr "Zakázat Správci BOINC využívat internet"
 
 #: clientgui/AdvancedFrame.cpp:414
 msgid "&Options..."
@@ -319,7 +319,7 @@ msgstr "Nastavit lokální předvolby"
 #: clientgui/AdvancedFrame.cpp:426
 #, c-format
 msgid "Connect to another computer running %s"
-msgstr "Připojit k jinému počítači se spuštěným %s"
+msgstr "Připojit k jinému počítači se spuštěným klientem %s"
 
 #: clientgui/AdvancedFrame.cpp:431
 msgid "Select computer..."
@@ -339,7 +339,7 @@ msgstr "Spustit &testy procesoru"
 
 #: clientgui/AdvancedFrame.cpp:442
 msgid "Runs BOINC CPU benchmarks"
-msgstr "Spustit testy procesoru"
+msgstr "Spustit BOINC testy procesoru"
 
 #: clientgui/AdvancedFrame.cpp:446
 msgid "Do network &communication"
@@ -372,73 +372,7 @@ msgstr "&Ukončit %s..."
 
 #: clientgui/AdvancedFrame.cpp:467
 msgid "Remove client from account manager control."
-msgstr "Odpojit tohoto klienta od Správce účtu."
-
-#: clientgui/AdvancedFrame.cpp:471
-msgid "Attach to &project"
-msgstr "&Připojit k projektu"
-
-#: clientgui/AdvancedFrame.cpp:472
-msgid "Attach to a project to begin processing work"
-msgstr "Práci zahájíte připojením se k projektu."
-
-#: clientgui/AdvancedFrame.cpp:483
-#, c-format
-msgid "%s &help"
-msgstr "&Nápověda pro %s"
-
-#: clientgui/AdvancedFrame.cpp:489
-#, c-format
-msgid "Show information about %s"
-msgstr "Zobrazí informace o %s"
-
-#: clientgui/AdvancedFrame.cpp:501
-#, c-format
-msgid "&%s help"
-msgstr "Nápověda pro &%s"
-
-#: clientgui/AdvancedFrame.cpp:507
-#, c-format
-msgid "Show information about the %s"
-msgstr "Zobrazí informace o %s"
-
-#: clientgui/AdvancedFrame.cpp:519
-#, c-format
-msgid "%s &website"
-msgstr "&Webové stránky %s"
-
-#: clientgui/AdvancedFrame.cpp:525
-#, c-format
-msgid "Show information about BOINC and %s"
-msgstr "Zobrazí informace o BOINC a %s"
-
-#: clientgui/AdvancedFrame.cpp:541
-#: clientgui/BOINCTaskBar.cpp:616
-#, c-format
-msgid "&About %s..."
-msgstr "&O aplikaci %s"
-
-#: clientgui/AdvancedFrame.cpp:547
-msgid "Licensing and copyright information."
-msgstr "Informace o licencích a autorských právech."
-
-#: clientgui/AdvancedFrame.cpp:554
-msgid "&File"
-msgstr "&Soubor"
-
-#: clientgui/AdvancedFrame.cpp:558
-msgid "&View"
-msgstr "&Vzhled"
-
-#: clientgui/AdvancedFrame.cpp:562
-msgid "&Tools"
-msgstr "&Nástroje"
-
-#: clientgui/AdvancedFrame.cpp:566
-msgid "&Activity"
-msgstr "&Aktivita"
-
-#: clientgui/AdvancedFrame.cpp:570
+msgstr "Odpojit tohoto klienta od Správc#: clientgui/AdvancedFrame.cpp:570
 msgid "A&dvanced"
 msgstr "Nas&tavení"
 
@@ -1709,7 +1643,7 @@ msgstr "Potvrzeno"
 
 #: clientgui/DlgItemProperties.cpp:381
 msgid "Ready to report"
-msgstr "Výsledek odeslán"
+msgstr "Odeslán. Připraven k ohlášení"
 
 #: clientgui/DlgItemProperties.cpp:383
 #, c-format
@@ -1759,7 +1693,7 @@ msgstr "Zobrazovat nabídku s informacemi při ukončování Správce."
 
 #: clientgui/DlgOptions.cpp:213
 msgid "Dial-up and Virtual Private Network settings"
-msgstr "Nastavení \"Dial-up\" a \"Virtual Private Network\""
+msgstr "Nastavení vytáčeného (\"Dial-up\") připojení a \"Virtual Private Network\""
 
 #: clientgui/DlgOptions.cpp:227
 msgid "&Set Default"
@@ -1874,7 +1808,7 @@ msgstr "Diskutovat s ostatními uživateli na diskuzním fóru SETI@home"
 
 #: clientgui/Localization.cpp:37
 msgid "Ask questions and report problems"
-msgstr "Zeptat se nebo nahlásit problém"
+msgstr "Zeptat se nebo ohlásit problém"
 
 #: clientgui/Localization.cpp:39
 #: clientgui/Localization.cpp:81
@@ -1958,7 +1892,7 @@ msgstr "Současný stav serveru Einstein@Home"
 
 #: clientgui/Localization.cpp:77
 msgid "Report problems"
-msgstr "Oznámit problémy"
+msgstr "Ohlásit problémy"
 
 #: clientgui/Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
@@ -2039,7 +1973,7 @@ msgstr "Celková statistika World Community Grid"
 
 #: clientgui/Localization.cpp:147
 msgid "My Grid"
-msgstr "Můj Grid"
+msgstr "Můj Grid (My Grid)"
 
 #: clientgui/Localization.cpp:149
 msgid "Your statistics and settings"
@@ -2071,7 +2005,7 @@ msgstr "Zjišťuji stav systému. Prosím čekejte..."
 
 #: clientgui/MainDocument.cpp:1062
 msgid "Retrieving host information; please wait..."
-msgstr "Zjišťuji stav hostitele. Prosím čekejte... "
+msgstr "Zjišťuji stav počítače. Prosím čekejte... "
 
 #: clientgui/NoInternetConnectionPage.cpp:180
 msgid "No Internet connection"
@@ -2201,7 +2135,7 @@ msgstr ""
 "Poté klikněte na tlačítko <Zpět> a zopakujte předchozí krok.\n"
 "\n"
 "3) Jste připojeni k internetu přes proxy server.\n"
-"Je třeba nastavit proxy server v menu 'Nastavení / Možnosti'."
+"Je třeba ve Správci BOINC, v menu 'Nastavení / Možnosti' nastavit proxy server."
 
 #: clientgui/ProxyInfoPage.cpp:217
 msgid ""
@@ -2248,7 +2182,7 @@ msgstr "Server:"
 
 #: clientgui/ProxyPage.cpp:351
 msgid "Autodetect"
-msgstr "Autodekuji"
+msgstr "Autodekce"
 
 #: clientgui/ProxyPage.cpp:355
 msgid "SOCKS proxy"
@@ -2608,7 +2542,7 @@ msgstr "Otevře okno s Předvolbami"
 
 #: clientgui/sg_ProjectsComponent.cpp:269
 msgid "Switch to the BOINC advanced view"
-msgstr "Přepne BOINC do rozšířeného zobrazení"
+msgstr "Přepne Správce BOINC do rozšířeného zobrazení"
 
 #: clientgui/sg_ProjectsComponent.cpp:296
 msgid "My Projects:"
@@ -2623,7 +2557,7 @@ msgstr ""
 
 #: clientgui/sg_StatImageLoader.cpp:154
 msgid "Remove Project"
-msgstr "Odstranit projekt"
+msgstr "Opustit projekt"
 
 #: clientgui/sg_StatImageLoader.cpp:217
 #: clientgui/ViewProjects.cpp:490
@@ -2649,7 +2583,7 @@ msgstr "%d h %d m %d s"
 
 #: clientgui/sg_ViewTabPage.cpp:421
 msgid "Are you sure you want to display graphics on a remote machine?"
-msgstr "Opravdu chcete zobrazit grafiku na vzdáleném počítači?"
+msgstr "Opravdu chcete zobrazit grafické okno na vzdáleném počítači?"
 
 #: clientgui/sg_ViewTabPage.cpp:422
 msgid "Show graphics"
@@ -3043,7 +2977,7 @@ msgstr "Zpracovávám požadavek plánovače"
 
 #: clientgui/ViewProjects.cpp:1073
 msgid "Communication deferred "
-msgstr "Přenos odložen"
+msgstr "Přenos odložen "
 
 #: clientgui/ViewProjectsGrid.cpp:193
 msgid "ProjectsGrid"
@@ -3284,7 +3218,7 @@ msgstr "Znovu zkusím za "
 #: clientgui/ViewTransfers.cpp:762
 #: clientgui/ViewTransfersGrid.cpp:431
 msgid "Upload pending"
-msgstr "Nevyřízené odeslání"
+msgstr "Připraveno k odeslání "
 
 #: clientgui/ViewTransfers.cpp:762
 #: clientgui/ViewTransfersGrid.cpp:431
