@@ -1366,8 +1366,9 @@ msgstr ""
 msgid "Could not create team - please try later."
 msgstr ""
 
+#, fuzzy
 msgid "Create a team"
-msgstr ""
+msgstr "Opret nyt emne"
 
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."

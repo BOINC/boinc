@@ -1382,8 +1382,9 @@ msgstr ""
 msgid "Could not create team - please try later."
 msgstr ""
 
+#, fuzzy
 msgid "Create a team"
-msgstr ""
+msgstr "Új téma létrehozása"
 
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
