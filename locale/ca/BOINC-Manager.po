@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-29 13:11-0500\n"
-"PO-Revision-Date: 2009-05-01 15:22-0700\n"
+"PO-Revision-Date: 2009-10-29 13:16-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:370
 msgid "Identify your account "
-msgstr ""
+msgstr "Identifiqui el seu compte "
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid ""
@@ -60,10 +60,15 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
+"No podem actualitzar la informació del seu compte\n"
+"de forma automàtica.\n"
+"Si us plau premi l'accés 'Obtenir informació d'inici de sessió'\n"
+"per obtenir el que s'ha de posar a l'adreça de correu i\n"
+"contrassenya."
 
 #: clientgui/AccountInfoPage.cpp:399
 msgid "Find logon information"
-msgstr ""
+msgstr "Obtenir informació d'inici de sessió"
 
 #: clientgui/AccountInfoPage.cpp:419
 #: clientgui/AccountInfoPage.cpp:585
@@ -107,10 +112,13 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
+"Si encara no s'ha registrat en aquest administrador de comptes,\n"
+"si us plau fasi-ho abans de continuar.  Premi el següent accés\n"
+"per registrar-se o recuperar la contrassenya que ha oblidat."
 
 #: clientgui/AccountInfoPage.cpp:492
 msgid "Account manager website"
-msgstr ""
+msgstr "Pàgina web de l'administrador de comptes"
 
 #: clientgui/AccountInfoPage.cpp:524
 msgid "Attach to project"
@@ -145,7 +153,7 @@ msgstr ""
 
 #: clientgui/AccountManagerInfoPage.cpp:243
 msgid "Choose an account manager"
-msgstr ""
+msgstr "Esculli un administrador de comptes"
 
 #: clientgui/AccountManagerInfoPage.cpp:246
 #, fuzzy
@@ -191,7 +199,7 @@ msgstr "Desconnectat"
 #: clientgui/AdvancedFrame.cpp:304
 #, c-format
 msgid "Close the %s window"
-msgstr ""
+msgstr "Tancar la finestra %s"
 
 #: clientgui/AdvancedFrame.cpp:309
 msgid "&Close Window\tCTRL+W"
@@ -200,7 +208,7 @@ msgstr "&Tancar la Finestra\tCTRL+W"
 #: clientgui/AdvancedFrame.cpp:316
 #, c-format
 msgid "Exit %s"
-msgstr ""
+msgstr "Tancar %s"
 
 #: clientgui/AdvancedFrame.cpp:321
 #: clientgui/BOINCTaskBar.cpp:626
@@ -209,59 +217,59 @@ msgstr "&Sortir"
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "&Projects\tCTRL+SHIFT+P"
-msgstr ""
+msgstr "&Projectes\tCTRL+SHIFT+P"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
-msgstr ""
+msgstr "Mostrar els projectes"
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "&Tasks\tCTRL+SHIFT+T"
-msgstr ""
+msgstr "&Tasques\tCTRL+SHIFT+T"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
-msgstr ""
+msgstr "Mostrar les tasques"
 
 #: clientgui/AdvancedFrame.cpp:342
 msgid "Trans&fers\tCTRL+SHIFT+X"
-msgstr ""
+msgstr "&Lliuraments\tCTRL+SHIFT+X"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
-msgstr ""
+msgstr "Mostrar lliuraments"
 
 #: clientgui/AdvancedFrame.cpp:348
 msgid "&Messages\tCTRL+SHIFT+M"
-msgstr ""
+msgstr "&Missatges\tCTRL+SHIFT+M"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
-msgstr ""
+msgstr "Mostrar lliuraments"
 
 #: clientgui/AdvancedFrame.cpp:354
 msgid "&Statistics\tCTRL+SHIFT+S"
-msgstr ""
+msgstr "&Estadístiques\tCTRL+SHIFT+S"
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
-msgstr ""
+msgstr "Mostrar estadístiques"
 
 #: clientgui/AdvancedFrame.cpp:360
 msgid "&Disk usage\tCTRL+SHIFT+D"
-msgstr ""
+msgstr "Utilització de &disc\tCTRL+SHIFT+D"
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
-msgstr ""
+msgstr "Mostrar la utilització de disc"
 
 #: clientgui/AdvancedFrame.cpp:366
 msgid "&News\tCTRL+SHIFT+N"
-msgstr ""
+msgstr "&Notícies\tCTRL+SHIFT+N"
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
-msgstr ""
+msgstr "Mostrar les notícies"
 
 #: clientgui/AdvancedFrame.cpp:374
 #, fuzzy
@@ -275,11 +283,13 @@ msgstr "Mostrar la interfície gràfica senzilla de BOINC."
 
 #: clientgui/AdvancedFrame.cpp:395
 msgid "Attach to &project or account manager..."
-msgstr ""
+msgstr "Adjuntar-se al projecte o administrador de comptes..."
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "Attach to a project or account manager to begin processing work"
 msgstr ""
+"Adjuntar-se al projecte o administrador de comptes per començar a processar "
+"feina"
 
 #: clientgui/AdvancedFrame.cpp:400
 #, c-format
@@ -489,7 +499,7 @@ msgstr "Ajuda"
 
 #: clientgui/AdvancedFrame.cpp:993
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "Adjuntant-se al projecte o administrador de comptes..."
 
 #: clientgui/AdvancedFrame.cpp:1086
 #, c-format
@@ -3810,5 +3820,6 @@ msgstr ""
 #~ msgid "Failure Communicating with Reference Site"
 #~ msgstr "Ha fallat la comunicació amb el lloc web de referència"
 
+#, c-format
 #~ msgid "Net Detection Failure"
 #~ msgstr "Ha Fallat la Detecció de Xarxa"
