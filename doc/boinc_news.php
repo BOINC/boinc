@@ -1,6 +1,11 @@
 <?
 
 $project_news = array(
+array("October 28, 2009",
+    "The Windows builds of 6.6.41 has been pulled from the <a href=http://boinc.berkeley.edu/download.php>Download</a>
+    page due to a application version mismatch with some Microsoft components. Please use the 6.6.38 version until
+    6.10 is released."
+),
 array("October 21, 2009",
     "An <a href=http://online.wsj.com/article/SB10001424052748703816204574483481567116994.html>article in the Wall Street Journal</a>
     discusses the use of volunteer computing in medical research."

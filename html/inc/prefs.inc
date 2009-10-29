@@ -1547,7 +1547,7 @@ function project_prefs_make_xml($prefs, $primary=true) {
     if ($prefs->resource_share) {
         $xml = $xml ."<resource_share>$prefs->resource_share</resource_share>\n";
     }
-    if (isset($prefs->allow_beta_work)) {
+    if ($prefs->allow_beta_work) {
         $xml = $xml . "<allow_beta_work>1</allow_beta_work>\n";
     }
     if ($prefs->no_cpu) {

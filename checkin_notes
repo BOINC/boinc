@@ -8782,6 +8782,9 @@ David  23 Oct 2009
     sched/
         sched_shmem.cpp,h
 
+David  23 Oct 2009
+    - back out the above
+
 Charlie 26 Oct 2009
     - MGR: Add View menu with Cmd+Shift+A to Mac Simple GUI for disabled users 
         because Mac manager cannot eliminate menu bar or detect active screen 
@@ -8812,3 +8815,10 @@ Charlie 29 Oct 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  29 Oct 2009
+    - user web: fix bug in "allow beta work" pref.
+        The presence of a bool doesn't mean it's true.
+
+    html/inc/
+        prefs.inc
