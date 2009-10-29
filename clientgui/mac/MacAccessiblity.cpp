@@ -83,8 +83,10 @@ void CBOINCListCtrl::SetupMacListControlAccessibilitySupport(wxWindowID iListWin
 
 
 void CBOINCListCtrl::RemoveMacListControlAccessibilitySupport() {
+#if !USE_NATIVE_LISTCONTROL
     ::RemoveEventHandler(m_pHeaderAccessibilityEventHandlerRef);
-//    ::RemoveEventHandler(m_pBodyAccessibilityEventHandlerRef);
+    ::RemoveEventHandler(m_pBodyAccessibilityEventHandlerRef);
+#endif
 }
 
 
