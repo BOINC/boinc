@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-29 13:11-0500\n"
-"PO-Revision-Date: 2009-10-29 13:16-0700\n"
+"PO-Revision-Date: 2009-10-29 15:50-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -156,13 +156,12 @@ msgid "Choose an account manager"
 msgstr "Esculli un administrador de comptes"
 
 #: clientgui/AccountManagerInfoPage.cpp:246
-#, fuzzy
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
-"Per escollir un projecte, premi el seu nom o introdueixi la seva URL a "
-"continuació."
+"Per escollir un administrador de comptes, premi el seu nom o introdueixi la "
+"seva URL a continuació."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Account Manager &URL:"
@@ -272,14 +271,12 @@ msgid "Display news"
 msgstr "Mostrar les notícies"
 
 #: clientgui/AdvancedFrame.cpp:374
-#, fuzzy
 msgid "Simple &View...\tCTRL+SHIFT+V"
 msgstr "Vista &Senzilla...\tCTRL+SHIFT+S"
 
 #: clientgui/AdvancedFrame.cpp:375
-#, fuzzy
 msgid "Display the simple graphical interface."
-msgstr "Mostrar la interfície gràfica senzilla de BOINC."
+msgstr "Mostrar la interfície gràfica senzilla."
 
 #: clientgui/AdvancedFrame.cpp:395
 msgid "Attach to &project or account manager..."
@@ -351,18 +348,16 @@ msgid "Allow network activity regardless of preferences"
 msgstr "Permetre l'accés al xarxa tot i les preferències"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Network activity based on pre&ferences"
-msgstr "Accés a la xarxa basat en les preferències"
+msgstr "Accés a la xarxa basat en les pre&ferències"
 
 #: clientgui/AdvancedFrame.cpp:475
 msgid "Allow network activity according to your preferences"
 msgstr "Permetre l'accés a la xarxa segons les preferències"
 
 #: clientgui/AdvancedFrame.cpp:479
-#, fuzzy
 msgid "Network activity s&uspended"
-msgstr "Accés la xarxa suspès"
+msgstr "Supès l'accés a la xarxa"
 
 #: clientgui/AdvancedFrame.cpp:480
 msgid "Stop BOINC network activity"
@@ -615,12 +610,12 @@ msgstr "Establint comunicació amb el client BOINC.  Esperi si us plau ..."
 #: clientgui/AsyncRPC.cpp:1203
 #, c-format
 msgid "&Quit %s"
-msgstr ""
+msgstr "&Sortir de %s"
 
 #: clientgui/AsyncRPC.cpp:1205
 #, c-format
 msgid "E&xit %s"
-msgstr ""
+msgstr "&Tancar %s"
 
 #: clientgui/AsyncRPC.cpp:1222
 msgid "Cancel"
@@ -795,14 +790,13 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "%s no ha pogut desconnectar-se d'Internet."
 
 #: clientgui/BOINCGUIApp.cpp:308
-#, fuzzy
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_master' user group."
 msgstr ""
-"Actualment no està autoritzat per administrar el client.\n"
-"Si us plau posi's en contacte amb l'administrador per afegir-lo al grup "
-"local 'boinc_users'."
+"Actualment no està autoritzat per administrar el client.Si us plau posi's en "
+"contacte amb el seu administrador per afegir-lo al grup per afegir-lo al "
+"grup 'boinc_master'."
 
 #: clientgui/BOINCGUIApp.cpp:311
 #, c-format
@@ -810,6 +804,9 @@ msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)\n"
 msgstr ""
+"Les propietats o permisos de BOINC no estan definides correctament; si us "
+"plau reinstal·li BOINC.\n"
+"(Codi d'error %d)\n"
 
 #: clientgui/BOINCGUIApp.cpp:388
 msgid ""
@@ -836,11 +833,11 @@ msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:540
 msgid "Directory containing the BOINC Client executable"
-msgstr ""
+msgstr "Directori que conté l'executable del Client BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:541
 msgid "BOINC data directory"
-msgstr ""
+msgstr "Directori de les dades de BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:543
 msgid "Startup BOINC with these optional arguments"
@@ -1367,7 +1364,7 @@ msgstr "% del total d'espai en disc"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:502
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Actualitzar els punts de control de les tasques cada"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "seconds"
@@ -1524,15 +1521,15 @@ msgstr "La programació RPC s'ha ajornat durant"
 
 #: clientgui/DlgItemProperties.cpp:114
 msgid "File downloads deferred for"
-msgstr ""
+msgstr "Descàrrega de fitxers posposada durant"
 
 #: clientgui/DlgItemProperties.cpp:117
 msgid "File uploads deferred for"
-msgstr ""
+msgstr "Lliurament de fitxers posposada durant"
 
 #: clientgui/DlgItemProperties.cpp:120
 msgid "Computer ID"
-msgstr ""
+msgstr "ID de l'ordinador"
 
 #: clientgui/DlgItemProperties.cpp:121
 msgid "Non CPU intensive"
@@ -1627,19 +1624,16 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Interval d'ajornament de la feina a la GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:160
-#, fuzzy
 msgid "ATI GPU work fetch priority"
-msgstr "Prioritat de la feina a la GPU NVIDIA"
+msgstr "Prioritat de la feina a la GPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:163
-#, fuzzy
 msgid "ATI GPU work fetch deferred for"
-msgstr "Feina a la GPU NVIDIA ajornada durant"
+msgstr "Feina a la GPU ATI ajornada durant"
 
 #: clientgui/DlgItemProperties.cpp:164
-#, fuzzy
 msgid "ATI GPU work fetch deferral interval"
-msgstr "Interval d'ajornament de la feina a la GPU NVIDIA"
+msgstr "Interval d'ajornament de la feina a la GPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:166
 msgid "Duration correction factor"
@@ -1663,7 +1657,7 @@ msgstr "Estat"
 
 #: clientgui/DlgItemProperties.cpp:185
 msgid "Received"
-msgstr ""
+msgstr "Rebut"
 
 #: clientgui/DlgItemProperties.cpp:188
 msgid "Report deadline"
@@ -1705,7 +1699,7 @@ msgstr "Grandària del bloc de treball"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Directory"
-msgstr ""
+msgstr "Directori"
 
 #: clientgui/DlgItemProperties.cpp:301
 msgid "New"
@@ -2248,6 +2242,8 @@ msgstr "&URL del projecte:"
 #: clientgui/ProjectInfoPage.cpp:339
 msgid "This project may not have work for your type of computer. Are you sure you wish to continue?"
 msgstr ""
+"Aquest projecte poder no te feina per al seu ordinador. Està segur que vol "
+"continuar?"
 
 #: clientgui/ProjectInfoPage.cpp:363
 msgid "You are already attached to this project. Please choose a different project."
@@ -2256,7 +2252,7 @@ msgstr ""
 
 #: clientgui/ProjectListCtrl.cpp:239
 msgid "Click"
-msgstr ""
+msgstr "Clic"
 
 #: clientgui/ProjectProcessingPage.cpp:323
 #: clientgui/ProjectPropertiesPage.cpp:336
@@ -2362,13 +2358,12 @@ msgid "SOCKS proxy"
 msgstr "SOCKS proxy"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-#, fuzzy
 msgid "Advanced View...\tCTRL+SHIFT+A"
-msgstr "Vista &avançada\tCTRL+SHIFT+A"
+msgstr "Vista Avançada...CTRL+SHIFT+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
 msgid "Display the advanced (accessible) graphical interface."
-msgstr ""
+msgstr "Mostrar la interfície gràfica avançada (accessible)."
 
 #: clientgui/sg_BoincSimpleGUI.cpp:141
 #, c-format
@@ -3411,11 +3406,11 @@ msgstr "Descàrrega pendent"
 
 #: clientgui/ViewTransfers.cpp:769
 msgid " (project backoff: "
-msgstr ""
+msgstr " (backoff del projecte: "
 
 #: clientgui/ViewTransfers.cpp:769
 msgid ")"
-msgstr ""
+msgstr ")"
 
 #: clientgui/ViewTransfersGrid.cpp:161
 msgid "TransfersGrid"
@@ -3442,12 +3437,12 @@ msgstr "Avortar el Lliurament del(s) Fitxer(s)"
 #: clientgui/ViewWork.cpp:184
 #: clientgui/ViewWork.cpp:708
 msgid "Show active tasks"
-msgstr ""
+msgstr "Mostrar les tasques actives"
 
 #: clientgui/ViewWork.cpp:185
 #: clientgui/ViewWork.cpp:709
 msgid "Show only active tasks."
-msgstr ""
+msgstr "Mostrar només les tasques actives."
 
 #: clientgui/ViewWork.cpp:192
 #: clientgui/ViewWorkGrid.cpp:115
@@ -3519,7 +3514,7 @@ msgstr ""
 #: clientgui/ViewWork.cpp:432
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr ""
+msgstr "Està segur que vol avortar aquestes %d tasques?"
 
 #: clientgui/ViewWork.cpp:437
 #: clientgui/ViewWorkGrid.cpp:335
@@ -3533,11 +3528,11 @@ msgstr "Avortant el resultat..."
 
 #: clientgui/ViewWork.cpp:702
 msgid "Show all tasks"
-msgstr ""
+msgstr "Mostrar totes les tasques"
 
 #: clientgui/ViewWork.cpp:703
 msgid "Show all tasks."
-msgstr ""
+msgstr "Mostrar totes les tasques."
 
 #: clientgui/ViewWork.cpp:727
 #: clientgui/ViewWorkGrid.cpp:445
@@ -3551,7 +3546,7 @@ msgstr "Aturar el treball d'aquesta tasca."
 
 #: clientgui/ViewWork.cpp:1107
 msgid "GPU missing, "
-msgstr ""
+msgstr "GPU inexistent, "
 
 #: clientgui/ViewWork.cpp:1148
 msgid " - an exclusive app is running"
@@ -3577,7 +3572,7 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:250
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "Adjuntis al projecte o administrador de comptes"
 
 #: clientgui/WelcomePage.cpp:258
 #, c-format
@@ -3599,6 +3594,8 @@ msgid ""
 "We'll guide you through the process of attaching\n"
 "to a project or account manager."
 msgstr ""
+"Nosaltres el guiarem en el procés de adjuntar-se\n"
+"a un projecte o un administrador de comptes."
 
 #: clientgui/WelcomePage.cpp:275
 msgid ""
