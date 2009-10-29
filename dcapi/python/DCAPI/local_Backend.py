@@ -13,4 +13,4 @@ class local_Backend(DCAPI_Backend):
                                  ("Executable", True),
                                  ("LeaveFiles", False),
                                  ("CheckpointFile", False),
-                                 ("SavedOutputs", False)]
+                                 ("SavedOutputs", False)])

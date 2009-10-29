@@ -16,4 +16,4 @@ class Condor_Backend(DCAPI_Backend):
                                  ("SavedOutputs", False),
                                  ("SubmitFile", False),
                                  ("CondorLog", False),
-                                 ("CondorSubmitTemplate", False)]
+                                 ("CondorSubmitTemplate", False)])
