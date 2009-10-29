@@ -409,14 +409,16 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
             strMenuName,
             strMenuDescription
         );
-        strMenuName.Printf(
-            _("&Stop using %s..."), 
-            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
-        );
+
         menuTools->Append(
             ID_WIZARDATTACH, 
             _("Attach to &project..."),
             _("Attach to a project to begin processing work")
+        );
+
+        strMenuName.Printf(
+            _("&Stop using %s..."), 
+            wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         menuTools->Append(
             ID_WIZARDDETACH, 
@@ -469,12 +471,12 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
     );
     menuActivity->AppendRadioItem(
         ID_ADVNETWORKRUNBASEDONPREPERENCES,
-        _("Network activity based on &preferences"),
+        _("Network activity based on pre&ferences"),
         _("Allow network activity according to your preferences")
     );
     menuActivity->AppendRadioItem(
         ID_ADVNETWORKSUSPEND,
-        _("&Network activity suspended"),
+        _("Network activity s&uspended"),
         _("Stop BOINC network activity")
     );
 

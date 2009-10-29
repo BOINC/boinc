@@ -8300,3 +8300,9 @@ Rom    26 Oct 2009
     /
         configure.ac
         version.h
+
+Rom    29 Oct 2009
+    - MGR: Remove more conflicting menu item shortcuts.
+    
+    clientgui/
+        AdvancedFrame.cpp
