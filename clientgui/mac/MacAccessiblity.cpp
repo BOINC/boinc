@@ -374,9 +374,10 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                         int             currentTabView;
 
                         CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-                        if (pFrame) {
-                            currentTabView = pFrame->GetCurrentViewPage();
+                        if (!pFrame) {
+                            return eventNotHandledErr;
                         }
+                        currentTabView = pFrame->GetCurrentViewPage();
                         
                         pList->GetColumn(col, headerItem);
                         buf.Printf(_("%d of %d "), col+1, pList->GetColumnCount());
@@ -437,9 +438,10 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     }
                     
                     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-                    if (pFrame) {
-                        currentTabView = pFrame->GetCurrentViewPage();
+                    if (!pFrame) {
+                        return eventNotHandledErr;
                     }
+                    currentTabView = pFrame->GetCurrentViewPage();
                     
                     if (currentTabView & (VW_PROJ | VW_TASK |VW_XFER)) {
                         subRole = kAXSortButtonSubrole;
@@ -459,9 +461,10 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
 
                     if (isHeader) {
                         CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-                        if (pFrame) {
-                            currentTabView = pFrame->GetCurrentViewPage();
+                        if (!pFrame) {
+                            return eventNotHandledErr;
                         }
+                        currentTabView = pFrame->GetCurrentViewPage();
                         
                         if (currentTabView & (VW_PROJ | VW_TASK |VW_XFER)) {
                             role = kAXButtonRole;
@@ -482,24 +485,22 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     
                     if (isHeader) {
                         CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-                        if (pFrame) {
-                            currentTabView = pFrame->GetCurrentViewPage();
+                        if (!pFrame) {
+                            return eventNotHandledErr;
                         }
+                        currentTabView = pFrame->GetCurrentViewPage();
                         
                         if (currentTabView & (VW_PROJ | VW_TASK |VW_XFER)) {
                             roleDesc = HICopyAccessibilityRoleDescription( kAXButtonRole, kAXSortButtonSubrole );
-                            SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( roleDesc ), &roleDesc );
-                            CFRelease( roleDesc );
                         } else {
-                            roleDesc = CFSTR("");
-                            SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( roleDesc ), &roleDesc );
+                            roleDesc = CFStringCreateCopy(NULL, CFSTR(""));
                         }
                     } else {    // ! isHeader
                         roleDesc = HICopyAccessibilityRoleDescription( kAXStaticTextRole, NULL );
-                            SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( roleDesc ), &roleDesc );
-                            CFRelease( roleDesc );
                     }
 
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( roleDesc ), &roleDesc );
+                    CFRelease( roleDesc );
                     return noErr;
 
                 } else if ( CFStringCompare( attribute, kAXSizeAttribute, 0 ) == kCFCompareEqualTo ) {
