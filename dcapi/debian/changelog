@@ -1,3 +1,9 @@
+dcapi (0.9-28) unstable; urgency=low
+
+  * Use m4_ifval() in dcapi.m4 instead of m4_ifblank(); the latter is too new
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Thu, 29 Oct 2009 14:57:33 +0100
+
 dcapi (0.9-27) unstable; urgency=low
 
   * Added the dcapi-tools and python-dcapi packages
