@@ -8822,3 +8822,9 @@ David  29 Oct 2009
 
     html/inc/
         prefs.inc
+
+David  29 Oct 2009
+    - manager: fix typo
+
+    clientgui/
+        DlgAdvPreferencesBase.cpp
