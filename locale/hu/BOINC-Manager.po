@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-01-05 12:28-0500\n"
-"PO-Revision-Date: 2009-07-20 15:41-0700\n"
+"PO-Revision-Date: 2009-08-28 02:59-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -389,7 +389,6 @@ msgstr "Információk a BOINC kezelőről és erről: %s"
 #: clientgui/AdvancedFrame.cpp:547
 #: clientgui/BOINCTaskBar.cpp:616
 #, c-format
-#, fuzzy
 msgid "&About %s..."
 msgstr "%s &névjegye..."
 
@@ -795,7 +794,6 @@ msgstr "Hálózati forgalom felfüggesztve"
 
 #: clientgui/BOINCTaskBar.cpp:378
 #, c-format
-#, fuzzy
 msgid "%s: %.2f%% completed."
 msgstr "%s: %.2f%% kész."
 
@@ -912,7 +910,6 @@ msgstr "Csatlakozott a fiókkezelőhöz"
 
 #: clientgui/CompletionPage.cpp:289
 #, c-format
-#, fuzzy
 msgid "Welcome to %s!"
 msgstr "Üdvözöljük a(z) %s projektben!"
 
@@ -1000,7 +997,6 @@ msgid "%s - Preferences"
 msgstr "%s - Beállítások"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:49
-#, fuzzy
 msgid ""
 "This dialog controls preferences for this computer only.\n"
 "Click OK to set preferences.\n"
@@ -1016,58 +1012,48 @@ msgid "Clear"
 msgstr "Törlés"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:53
-#, fuzzy
 msgid "clear all local preferences and close the dialog"
 msgstr "minden helyi beállítás törlése és a párbeszédpanel bezárása"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:76
-#, fuzzy
 msgid "Computing allowed"
 msgstr "Számítás engedélyezve"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:80
-#, fuzzy
 msgid " While computer is on batteries"
 msgstr "Ha a gép akkumulátorról működik"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:83
-#, fuzzy
 msgid "check this if you want this computer to do work while it runs on batteries"
 msgstr ""
 "jelölje be, ha azt szeretné, hogy a számítógépe akkor is (fel)dolgozzon, "
 "amikor akkumulátorról működik"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:89
-#, fuzzy
 msgid " While computer is in use"
 msgstr "Ha a számítógép használatban van"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:92
-#, fuzzy
 msgid "check this if you want this computer to do work even when you're using it"
 msgstr ""
 "jelölje be, ha azt szeretné, hogy a számítógépe akkor is (fel)dolgozzon, "
 "amikor Ön használja azt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:98
-#, fuzzy
 msgid " Use GPU while computer is in use"
 msgstr "GPU használata, amikor a számítógép használatban van"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
-#, fuzzy
 msgid "check this if you want your GPU to do work even when you're using the computer"
 msgstr ""
 "jelölje be, ha azt szeretné, hogy a GPU is (fel)dolgozzon, mialatt Ön a "
 "számítógépet használja"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:111
-#, fuzzy
 msgid "Only after computer has been idle for"
 msgstr "Csak miután a számítógép legalább ennyi ideje tétlen:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:115
-#, fuzzy
 msgid "do work only after you haven't used the computer for this number of minutes"
 msgstr ""
 "csak akkor kezd el dolgozni, miután Ön a számítógépet már ennyi perce nem "
@@ -1082,89 +1068,91 @@ msgstr "perc"
 #: clientgui/DlgAdvPreferencesBase.cpp:130
 #: clientgui/DlgAdvPreferencesBase.cpp:355
 msgid "Every day between hours of"
-msgstr ""
+msgstr "Minden nap ezen időtartamban:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:134
 msgid "start work at this time"
-msgstr ""
+msgstr "ekkor kezdje a feldolgozást"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:138
 #: clientgui/DlgAdvPreferencesBase.cpp:363
 #: clientgui/sg_DlgPreferences.cpp:362
 #: clientgui/sg_DlgPreferences.cpp:384
 msgid "and"
-msgstr ""
+msgstr "és"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:142
 msgid "stop work at this time"
-msgstr ""
+msgstr "ekkor fejezze be a feldolgozást"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:146
 #: clientgui/DlgAdvPreferencesBase.cpp:371
 msgid "(no restriction if equal)"
-msgstr ""
+msgstr "(ha megegyeznek, nincs korlátozva)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:151
 #: clientgui/DlgAdvPreferencesBase.cpp:376
 msgid "Day-of-week override:"
-msgstr ""
+msgstr "Felülírás a hét napjaira:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:156
 #: clientgui/DlgAdvPreferencesBase.cpp:381
 msgid "check box to specify hours for this day of week"
 msgstr ""
+"jelölje be a négyzetet, ha a hét ezen napjára külön szeretné beállítani az "
+"időtartományt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:166
 #: clientgui/DlgAdvPreferencesBase.cpp:391
 msgid "Monday"
-msgstr ""
+msgstr "Hétfő"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:173
 #: clientgui/DlgAdvPreferencesBase.cpp:398
 msgid "Tuesday"
-msgstr ""
+msgstr "Kedd"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:180
 #: clientgui/DlgAdvPreferencesBase.cpp:405
 msgid "Wednesday"
-msgstr ""
+msgstr "Szerda"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:187
 #: clientgui/DlgAdvPreferencesBase.cpp:412
 msgid "Thursday"
-msgstr ""
+msgstr "Csütörtök"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:194
 #: clientgui/DlgAdvPreferencesBase.cpp:419
 msgid "Friday"
-msgstr ""
+msgstr "Péntek"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:201
 #: clientgui/DlgAdvPreferencesBase.cpp:426
 msgid "Saturday"
-msgstr ""
+msgstr "Szombat"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:208
 #: clientgui/DlgAdvPreferencesBase.cpp:433
 msgid "Sunday"
-msgstr ""
+msgstr "Vasárnap"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:225
 msgid "Other options"
-msgstr ""
+msgstr "Egyéb beállítások"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:233
 msgid "Switch between applications between every"
-msgstr ""
+msgstr "Váltás az alkalmazások között ilyen gyakorisággal:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:242
 msgid "On multiprocessor systems, use at most"
-msgstr ""
+msgstr "Többprocesszoros rendszereken maximálisan a processzorok "
 
 #: clientgui/DlgAdvPreferencesBase.cpp:249
 #, no-c-format
 msgid "% of the processors"
-msgstr ""
+msgstr "%-át használja"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:252
 #: clientgui/DlgAdvPreferencesBase.cpp:468
@@ -1173,49 +1161,50 @@ msgstr ""
 #: clientgui/DlgAdvPreferencesBase.cpp:534
 #: clientgui/DlgAdvPreferencesBase.cpp:544
 msgid "Use at most"
-msgstr ""
+msgstr "A processzoridőnek legfeljebb a"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:259
 #, no-c-format
 #, no-c-format
-#, fuzzy
 msgid "% CPU time"
-msgstr "Processzor idő"
+msgstr "%-át használja"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:269
 msgid "processor usage"
-msgstr ""
+msgstr "processzor használat"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:277
 msgid "General options"
-msgstr ""
+msgstr "Általános beállítások"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:284
 msgid "Maximum download rate"
-msgstr ""
+msgstr "Maximális letöltési ráta"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:290
 #: clientgui/DlgAdvPreferencesBase.cpp:299
 msgid "KBytes/sec."
-msgstr ""
+msgstr "KBájt/sec."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:293
 msgid "Maximum upload rate"
-msgstr ""
+msgstr "Maximális feltöltési ráta"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:302
 msgid "Connect about every"
-msgstr ""
+msgstr "Csatlakozás kb. ennyi időnként:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:306
 msgid ""
 "this computer is connected to the Internet about every X days\n"
 "(0 if it's always connected)"
 msgstr ""
+"ez a számítógép minden X napban csatlakozik az Internetre\n"
+"(0 ha mindig csatlakozik)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:310
 msgid "days"
-msgstr ""
+msgstr "nap"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:313
 msgid "Additional work buffer"

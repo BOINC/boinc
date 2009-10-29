@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-05-24 03:28-0700\n"
+"PO-Revision-Date: 2009-09-20 03:30-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -122,44 +122,49 @@ msgstr ""
 msgid "unread"
 msgstr "olvasatlan"
 
+#, fuzzy
 msgid "Edit your profile"
-msgstr ""
+msgstr "Profilod szerkesztése"
 
+#, fuzzy
 msgid "Your feedback on this profile"
-msgstr ""
+msgstr "Visszajelzésed ezen a profilon"
 
+#, fuzzy
 msgid "Recommend this profile for User of the Day:"
-msgstr ""
+msgstr "Ezt a profilt javaslom a Nap felhasználójának"
 
 msgid "I %1like%2 this profile"
-msgstr ""
+msgstr "%1Tetszik%2 ez a profil"
 
 msgid "Alert administrators to an offensive profile:"
-msgstr ""
+msgstr "Adminisztrátorok figyelmeztetése sértő profilra:"
 
 msgid "I %1do not like%2 this profile"
-msgstr ""
+msgstr "%1Nem tetszik%2 ez a profil"
 
 msgid "Search criteria (use one or more)"
-msgstr ""
+msgstr "Keresési feltétel (egy vagy több)"
 
 msgid "Key words"
-msgstr ""
+msgstr "Kulcsszavak"
 
+#, fuzzy
 msgid "Find teams with these words in their names or descriptions"
-msgstr ""
+msgstr "Csapatok keresése ezekkel a szavakkal a nevükben vagy a leírásukban"
 
 msgid "Country"
 msgstr "Ország"
 
+#, fuzzy
 msgid "Type of team"
-msgstr ""
+msgstr "A csapat típusa"
 
 msgid "Show only active teams"
-msgstr ""
+msgstr "Csak az aktív csapatok mutatása"
 
 msgid "Search"
-msgstr ""
+msgstr "Keresés"
 
 msgid "Requested by you, and founder response deadline has passed."
 msgstr ""

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-05-17 00:13+0900\n"
+"PO-Revision-Date: 2009-07-22 23:28+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -659,9 +659,8 @@ msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr "この一覧は%1 BOINC のウェブサイト%2で一元管理されています。"
 
 # Ugg? It seems to be a garbage.
-#, fuzzy
 msgid "fll"
-msgstr ""
+msgstr "fll"
 
 msgid "Title"
 msgstr "題名"
