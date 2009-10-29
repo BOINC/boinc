@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.10.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-18 12:42-0500\n"
-"PO-Revision-Date: 2009-08-18 12:43-0500\n"
+"POT-Creation-Date: 2009-10-29 13:11-0500\n"
+"PO-Revision-Date: 2009-10-29 13:11-0500\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -162,278 +162,319 @@ msgstr ""
 msgid "An internal server error has occurred.\n"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:94
+#: clientgui/AdvancedFrame.cpp:93
 msgid "Connected"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:102
+#: clientgui/AdvancedFrame.cpp:101
 msgid "Disconnected"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:296
+#: clientgui/AdvancedFrame.cpp:304
+#, c-format
+msgid "Close the %s window"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:309
 msgid "&Close Window\tCTRL+W"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:297
-msgid "Close BOINC Manager Window."
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:303
+#: clientgui/AdvancedFrame.cpp:316
 #, c-format
-msgid "Exit the %s"
+msgid "Exit %s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:308
+#: clientgui/AdvancedFrame.cpp:321
 #: clientgui/BOINCTaskBar.cpp:626
 msgid "E&xit"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:317
-msgid "&Advanced View\tCTRL+SHIFT+A"
+#: clientgui/AdvancedFrame.cpp:330
+msgid "&Projects\tCTRL+SHIFT+P"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:318
-msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
+#: clientgui/AdvancedFrame.cpp:331
+msgid "Display projects"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:323
-msgid "&Simple View...\tCTRL+SHIFT+S"
+#: clientgui/AdvancedFrame.cpp:336
+msgid "&Tasks\tCTRL+SHIFT+T"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:324
-msgid "Display the simple BOINC graphical interface."
+#: clientgui/AdvancedFrame.cpp:337
+msgid "Display tasks"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:338
-msgid "Attach to &project or account manager..."
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:339
-msgid "Attach to a project or account manager"
+#: clientgui/AdvancedFrame.cpp:342
+msgid "Trans&fers\tCTRL+SHIFT+X"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:343
+msgid "Display transfers"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:348
+msgid "&Messages\tCTRL+SHIFT+M"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:349
+msgid "Display messages"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:354
+msgid "&Statistics\tCTRL+SHIFT+S"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:355
+msgid "Display statistics"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:360
+msgid "&Disk usage\tCTRL+SHIFT+D"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:361
+msgid "Display disk usage"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:366
+msgid "&News\tCTRL+SHIFT+N"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:367
+msgid "Display news"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:374
+msgid "Simple &View...\tCTRL+SHIFT+V"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:375
+msgid "Display the simple graphical interface."
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:395
+msgid "Attach to &project or account manager..."
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:396
+msgid "Attach to a project or account manager to begin processing work"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:400
 #, c-format
 msgid "&Synchronize with %s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:347
+#: clientgui/AdvancedFrame.cpp:404
 #, c-format
 msgid "Get current settings from %s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:362
-msgid "&Run always"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:363
-msgid "Allow work regardless of preferences"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:367
-msgid "Run based on &preferences"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:368
-msgid "Allow work according to your preferences"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:372
-msgid "&Suspend"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:373
-msgid "Stop work regardless of preferences"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:396
-msgid "&Network activity always available"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:397
-msgid "Allow network activity regardless of preferences"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:401
-msgid "Network activity based on &preferences"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:402
-msgid "Allow network activity according to your preferences"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:406
-msgid "&Network activity suspended"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:407
-msgid "Stop BOINC network activity"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:414
-msgid "&Options..."
-msgstr ""
-
 #: clientgui/AdvancedFrame.cpp:415
-msgid "Configure GUI options and proxy settings"
+msgid "Attach to &project..."
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:419
-msgid "&Preferences..."
+#: clientgui/AdvancedFrame.cpp:416
+msgid "Attach to a project to begin processing work"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:420
-msgid "Configure local preferences"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:426
-#, c-format
-msgid "Connect to another computer running %s"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:431
-msgid "Select computer..."
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:436
-msgid "Shut down connected client..."
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:437
-msgid "Shut down the currently connected core client"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:441
-msgid "Run CPU &benchmarks"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:442
-msgid "Runs BOINC CPU benchmarks"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:446
-msgid "Do network &communication"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:447
-msgid "Do all pending network communication."
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:451
-msgid "Read config file"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:452
-msgid "Read configuration info from cc_config.xml."
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:456
-msgid "Read local prefs file"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:457
-msgid "Read preferences from global_prefs_override.xml."
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:461
 #, c-format
 msgid "&Stop using %s..."
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:467
+#: clientgui/AdvancedFrame.cpp:426
 msgid "Remove client from account manager control."
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:471
-msgid "Attach to &project"
+#: clientgui/AdvancedFrame.cpp:435
+msgid "&Run always"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:472
-msgid "Attach to a project to begin processing work"
+#: clientgui/AdvancedFrame.cpp:436
+msgid "Allow work regardless of preferences"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:483
+#: clientgui/AdvancedFrame.cpp:440
+msgid "Run based on &preferences"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:441
+msgid "Allow work according to your preferences"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:445
+msgid "&Suspend"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:446
+msgid "Stop work regardless of preferences"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:469
+msgid "&Network activity always available"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:470
+msgid "Allow network activity regardless of preferences"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:474
+msgid "Network activity based on pre&ferences"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:475
+msgid "Allow network activity according to your preferences"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:479
+msgid "Network activity s&uspended"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:480
+msgid "Stop BOINC network activity"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:487
+msgid "&Options..."
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:488
+msgid "Configure GUI options and proxy settings"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:492
+msgid "&Preferences..."
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:493
+msgid "Configure local preferences"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:499
+#, c-format
+msgid "Connect to another computer running %s"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:504
+msgid "Select computer..."
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:509
+msgid "Shut down connected client..."
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:510
+msgid "Shut down the currently connected core client"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:514
+msgid "Run CPU &benchmarks"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:515
+msgid "Runs BOINC CPU benchmarks"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:519
+msgid "Do network &communication"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:520
+msgid "Do all pending network communication."
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:524
+msgid "Read config file"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:525
+msgid "Read configuration info from cc_config.xml."
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:529
+msgid "Read local prefs file"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:530
+msgid "Read preferences from global_prefs_override.xml."
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:540
 #, c-format
 msgid "%s &help"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:489
+#: clientgui/AdvancedFrame.cpp:546
 #, c-format
 msgid "Show information about %s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:501
+#: clientgui/AdvancedFrame.cpp:558
 #, c-format
 msgid "&%s help"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:507
+#: clientgui/AdvancedFrame.cpp:564
 #, c-format
 msgid "Show information about the %s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:519
+#: clientgui/AdvancedFrame.cpp:576
 #, c-format
 msgid "%s &website"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:525
+#: clientgui/AdvancedFrame.cpp:582
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:541
+#: clientgui/AdvancedFrame.cpp:598
 #: clientgui/BOINCTaskBar.cpp:616
 #, c-format
 msgid "&About %s..."
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:547
+#: clientgui/AdvancedFrame.cpp:604
 msgid "Licensing and copyright information."
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:554
+#: clientgui/AdvancedFrame.cpp:611
 msgid "&File"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:558
+#: clientgui/AdvancedFrame.cpp:615
 msgid "&View"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:562
+#: clientgui/AdvancedFrame.cpp:619
 msgid "&Tools"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:566
+#: clientgui/AdvancedFrame.cpp:623
 msgid "&Activity"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:570
+#: clientgui/AdvancedFrame.cpp:627
 msgid "A&dvanced"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:574
+#: clientgui/AdvancedFrame.cpp:631
 msgid "&Help"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:1071
-#, c-format
-msgid "%s - Shutdown the current client..."
+#: clientgui/AdvancedFrame.cpp:993
+msgid "Attaching to project or account manager..."
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:1080
-#, c-format
-msgid ""
-"%s will shut down the currently connected client,\n"
-"and prompt you for another host to connect to.\n"
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:1190
+#: clientgui/AdvancedFrame.cpp:1086
 #, c-format
 msgid "%s - Detach from %s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:1195
+#: clientgui/AdvancedFrame.cpp:1091
 #, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -443,45 +484,53 @@ msgid ""
 "Do you want to stop using %s?"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:1242
-msgid "Attaching to project..."
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:1281
-msgid "Retrying communications for project(s)..."
-msgstr ""
-
-#: clientgui/AdvancedFrame.cpp:1372
+#: clientgui/AdvancedFrame.cpp:1249
 #, c-format
 msgid "%s - Language Selection"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:1379
+#: clientgui/AdvancedFrame.cpp:1256
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:1594
+#: clientgui/AdvancedFrame.cpp:1419
+#, c-format
+msgid "%s - Shutdown the current client..."
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:1428
+#, c-format
+msgid ""
+"%s will shut down the currently connected client,\n"
+"and prompt you for another host to connect to.\n"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:1475
+msgid "Retrying communications for project(s)..."
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:1675
 #, c-format
 msgid "%s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:1603
+#: clientgui/AdvancedFrame.cpp:1684
 #, c-format
 msgid "%s has successfully attached to %s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:1725
+#: clientgui/AdvancedFrame.cpp:1806
 #, c-format
 msgid "%s - (%s)"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:1728
+#: clientgui/AdvancedFrame.cpp:1809
 #, c-format
 msgid "Connecting to %s"
 msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:1731
+#: clientgui/AdvancedFrame.cpp:1812
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr ""
@@ -510,86 +559,86 @@ msgid ""
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
 
-#: clientgui/AsyncRPC.cpp:1197
+#: clientgui/AsyncRPC.cpp:1200
 msgid "Communicating with BOINC client.  Please wait ..."
 msgstr ""
 
-#: clientgui/AsyncRPC.cpp:1200
+#: clientgui/AsyncRPC.cpp:1203
 #, c-format
 msgid "&Quit %s"
 msgstr ""
 
-#: clientgui/AsyncRPC.cpp:1202
+#: clientgui/AsyncRPC.cpp:1205
 #, c-format
 msgid "E&xit %s"
 msgstr ""
 
-#: clientgui/AsyncRPC.cpp:1219
+#: clientgui/AsyncRPC.cpp:1222
 msgid "Cancel"
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:421
+#: clientgui/BOINCBaseFrame.cpp:422
 #, c-format
 msgid "%s - Connection Error"
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:430
+#: clientgui/BOINCBaseFrame.cpp:431
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:439
+#: clientgui/BOINCBaseFrame.cpp:440
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:441
+#: clientgui/BOINCBaseFrame.cpp:442
 msgid "Authorization failed connecting to running client."
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:449
+#: clientgui/BOINCBaseFrame.cpp:450
 msgid "The password you have provided is incorrect, please try again."
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:488
+#: clientgui/BOINCBaseFrame.cpp:489
 #, c-format
 msgid "%s - Connection Failed"
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:497
+#: clientgui/BOINCBaseFrame.cpp:498
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:533
+#: clientgui/BOINCBaseFrame.cpp:534
 #, c-format
 msgid "%s - Daemon Start Failed"
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:543
+#: clientgui/BOINCBaseFrame.cpp:544
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:549
+#: clientgui/BOINCBaseFrame.cpp:550
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:595
+#: clientgui/BOINCBaseFrame.cpp:596
 #, c-format
 msgid "%s - Connection Status"
 msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:606
+#: clientgui/BOINCBaseFrame.cpp:607
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -597,7 +646,7 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 
-#: clientgui/BOINCBaseView.cpp:748
+#: clientgui/BOINCBaseView.cpp:750
 msgid "Web sites"
 msgstr ""
 
@@ -665,45 +714,66 @@ msgstr ""
 msgid "%s failed to disconnected from the Internet."
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:384
+#: clientgui/BOINCGUIApp.cpp:308
+msgid ""
+"You currently are not authorized to manage the client.\n"
+"Please contact your administrator to add you to the 'boinc_master' user group."
+msgstr ""
+
+#: clientgui/BOINCGUIApp.cpp:311
+#, c-format
+msgid ""
+"BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
+"(Error code %d)\n"
+msgstr ""
+
+#: clientgui/BOINCGUIApp.cpp:388
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:385
+#: clientgui/BOINCGUIApp.cpp:389
 msgid "BOINC Manager"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:532
+#: clientgui/BOINCGUIApp.cpp:536
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:534
+#: clientgui/BOINCGUIApp.cpp:538
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:536
+#: clientgui/BOINCGUIApp.cpp:540
+msgid "Directory containing the BOINC Client executable"
+msgstr ""
+
+#: clientgui/BOINCGUIApp.cpp:541
+msgid "BOINC data directory"
+msgstr ""
+
+#: clientgui/BOINCGUIApp.cpp:543
 msgid "Startup BOINC with these optional arguments"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:537
+#: clientgui/BOINCGUIApp.cpp:544
 msgid "disable BOINC security users and permissions"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:538
+#: clientgui/BOINCGUIApp.cpp:545
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:710
+#: clientgui/BOINCGUIApp.cpp:735
 msgid "(Automatic Detection)"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:711
+#: clientgui/BOINCGUIApp.cpp:736
 msgid "(Unknown)"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:712
+#: clientgui/BOINCGUIApp.cpp:737
 msgid "(User Defined)"
 msgstr ""
 
@@ -884,11 +954,11 @@ msgstr ""
 msgid "Validation Error"
 msgstr ""
 
-#: clientgui/DlgAdvPreferences.cpp:736
+#: clientgui/DlgAdvPreferences.cpp:737
 msgid "Do you really want to clear all local preferences ?"
 msgstr ""
 
-#: clientgui/DlgAdvPreferences.cpp:737
+#: clientgui/DlgAdvPreferences.cpp:738
 msgid "Confirmation"
 msgstr ""
 
@@ -1176,7 +1246,7 @@ msgid "% of total disk space"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:502
-msgid "Write to disk at most every"
+msgid "Tasks checkpoint to disk at most every"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:508
@@ -1495,7 +1565,7 @@ msgid "Working set size"
 msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:203
-msgid "Slot"
+msgid "Directory"
 msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:301
@@ -1939,15 +2009,15 @@ msgstr ""
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr ""
 
-#: clientgui/MainDocument.cpp:530
+#: clientgui/MainDocument.cpp:536
 msgid "Starting client services; please wait..."
 msgstr ""
 
-#: clientgui/MainDocument.cpp:1053
+#: clientgui/MainDocument.cpp:1059
 msgid "Retrieving system state; please wait..."
 msgstr ""
 
-#: clientgui/MainDocument.cpp:1062
+#: clientgui/MainDocument.cpp:1068
 msgid "Retrieving host information; please wait..."
 msgstr ""
 
@@ -2014,7 +2084,7 @@ msgstr ""
 msgid "You are already attached to this project. Please choose a different project."
 msgstr ""
 
-#: clientgui/ProjectListCtrl.cpp:230
+#: clientgui/ProjectListCtrl.cpp:239
 msgid "Click"
 msgstr ""
 
@@ -2090,7 +2160,15 @@ msgstr ""
 msgid "SOCKS proxy"
 msgstr ""
 
-#: clientgui/sg_BoincSimpleGUI.cpp:128
+#: clientgui/sg_BoincSimpleGUI.cpp:113
+msgid "Advanced View...\tCTRL+SHIFT+A"
+msgstr ""
+
+#: clientgui/sg_BoincSimpleGUI.cpp:114
+msgid "Display the advanced (accessible) graphical interface."
+msgstr ""
+
+#: clientgui/sg_BoincSimpleGUI.cpp:141
 #, c-format
 msgid "&%s"
 msgstr ""
@@ -3126,12 +3204,12 @@ msgid "Abort File Transfer(s)"
 msgstr ""
 
 #: clientgui/ViewWork.cpp:184
-#: clientgui/ViewWork.cpp:699
+#: clientgui/ViewWork.cpp:708
 msgid "Show active tasks"
 msgstr ""
 
 #: clientgui/ViewWork.cpp:185
-#: clientgui/ViewWork.cpp:700
+#: clientgui/ViewWork.cpp:709
 msgid "Show only active tasks."
 msgstr ""
 
@@ -3193,46 +3271,55 @@ msgstr ""
 msgid "Showing graphics for task..."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:417
-#: clientgui/ViewWorkGrid.cpp:313
-msgid "Aborting result..."
-msgstr ""
-
-#: clientgui/ViewWork.cpp:430
+#: clientgui/ViewWork.cpp:426
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:438
+#: clientgui/ViewWork.cpp:432
+#, c-format
+msgid "Are you sure you want to abort these %d tasks?"
+msgstr ""
+
+#: clientgui/ViewWork.cpp:437
 #: clientgui/ViewWorkGrid.cpp:335
 msgid "Abort task"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:693
+#: clientgui/ViewWork.cpp:446
+#: clientgui/ViewWorkGrid.cpp:313
+msgid "Aborting result..."
+msgstr ""
+
+#: clientgui/ViewWork.cpp:702
 msgid "Show all tasks"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:694
+#: clientgui/ViewWork.cpp:703
 msgid "Show all tasks."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:718
+#: clientgui/ViewWork.cpp:727
 #: clientgui/ViewWorkGrid.cpp:445
 msgid "Resume work for this task."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:724
+#: clientgui/ViewWork.cpp:733
 #: clientgui/ViewWorkGrid.cpp:451
 msgid "Suspend work for this task."
 msgstr ""
 
-#: clientgui/ViewWork.cpp:1141
+#: clientgui/ViewWork.cpp:1107
+msgid "GPU missing, "
+msgstr ""
+
+#: clientgui/ViewWork.cpp:1148
 msgid " - an exclusive app is running"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:1160
+#: clientgui/ViewWork.cpp:1167
 #: clientgui/ViewWorkGrid.cpp:822
 msgid " (non-CPU-intensive)"
 msgstr ""
@@ -3292,11 +3379,11 @@ msgstr ""
 msgid "To continue, click Next."
 msgstr ""
 
-#: clientgui/WizardAttachProject.cpp:616
+#: clientgui/WizardAttachProject.cpp:612
 msgid "Do you really want to cancel?"
 msgstr ""
 
-#: clientgui/WizardAttachProject.cpp:617
+#: clientgui/WizardAttachProject.cpp:613
 msgid "Question"
 msgstr ""
 
