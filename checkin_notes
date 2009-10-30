@@ -8841,3 +8841,10 @@ Charlie 30 Oct 2009
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Rom    30 Oct 2009
+    - Use mo files instead of po files when executing make install.
+      Fixes #940
+      
+    locale/
+        Makefile.am
