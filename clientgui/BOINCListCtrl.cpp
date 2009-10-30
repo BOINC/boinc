@@ -57,7 +57,7 @@ CBOINCListCtrl::CBOINCListCtrl(
     m_bProgressBarEventPending = false;
 #else
 #ifdef __WXMAC__
-    SetupMacListControlAccessibilitySupport(iListWindowID);
+    SetupMacListControlAccessibilitySupport();
 #endif
 #endif
 

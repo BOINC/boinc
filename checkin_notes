@@ -8828,3 +8828,16 @@ David  29 Oct 2009
 
     clientgui/
         DlgAdvPreferencesBase.cpp
+
+Charlie 30 Oct 2009
+    - MGR: Add accessibility support for disabled users to Attach Wizard's 
+        ProjectListCtrl on Mac.
+        
+    clientgui/
+        BOINCListCtrl.cpp, .h
+        ProjectListCtrl.cpp, .h
+        Mac/
+            MacAccessibility.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
