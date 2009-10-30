@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-29 13:11-0500\n"
-"PO-Revision-Date: 2009-09-23 00:40+0100\n"
-"Last-Translator: Spok <spok.3d@atlas.cz>\n"
+"PO-Revision-Date: 2009-10-30 08:46-0700\n"
+"Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -197,7 +197,7 @@ msgstr "Odpojen"
 #: clientgui/AdvancedFrame.cpp:304
 #, c-format
 msgid "Close the %s window"
-msgstr ""
+msgstr "Zavřít okno %s"
 
 #: clientgui/AdvancedFrame.cpp:309
 msgid "&Close Window\tCTRL+W"
@@ -205,7 +205,6 @@ msgstr "&Zavřít okno\tCTRL+W"
 
 #: clientgui/AdvancedFrame.cpp:316
 #, c-format
-#, fuzzy
 msgid "Exit %s"
 msgstr "&Ukončit %s"
 
@@ -216,77 +215,75 @@ msgstr "&Ukončit"
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "&Projects\tCTRL+SHIFT+P"
-msgstr ""
+msgstr "&Projekty\tCTRL+SHIFT+P"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
-msgstr ""
+msgstr "Zobrazit projekty"
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "&Tasks\tCTRL+SHIFT+T"
-msgstr ""
+msgstr "Úkoly\tCTRL+SHIFT+T"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
-msgstr ""
+msgstr "Zobrazit úkoly"
 
 #: clientgui/AdvancedFrame.cpp:342
 msgid "Trans&fers\tCTRL+SHIFT+X"
-msgstr ""
+msgstr "Přenosy\tCTRL+SHIFT+X"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
-msgstr ""
+msgstr "Zobrazit přenosy"
 
 #: clientgui/AdvancedFrame.cpp:348
 msgid "&Messages\tCTRL+SHIFT+M"
-msgstr ""
+msgstr "Zprávy\tCTRL+SHIFT+M"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
-msgstr ""
+msgstr "Zobrazit zprávy"
 
 #: clientgui/AdvancedFrame.cpp:354
 msgid "&Statistics\tCTRL+SHIFT+S"
-msgstr ""
+msgstr "&Statistiky\tCTRL+SHIFT+S"
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
-msgstr ""
+msgstr "Zobrazit statistiky"
 
 #: clientgui/AdvancedFrame.cpp:360
 msgid "&Disk usage\tCTRL+SHIFT+D"
-msgstr ""
+msgstr "Využití &disku\tCTRL+SHIFT+D"
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
-msgstr ""
+msgstr "Zobrazit využití disku"
 
 #: clientgui/AdvancedFrame.cpp:366
 msgid "&News\tCTRL+SHIFT+N"
-msgstr ""
+msgstr "&Novinky\tCTRL+SHIFT+N"
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
-msgstr ""
+msgstr "Zobrazit novinky"
 
 #: clientgui/AdvancedFrame.cpp:374
-#, fuzzy
 msgid "Simple &View...\tCTRL+SHIFT+V"
-msgstr "&Jednoduché zobrazení...\tCTRL+SHIFT+S"
+msgstr "Jednoduché zobrazení...\tCTRL+SHIFT+V"
 
 #: clientgui/AdvancedFrame.cpp:375
-#, fuzzy
 msgid "Display the simple graphical interface."
-msgstr "Přepne BOINC do režimu volitelných zobrazení"
+msgstr "Přepne BOINC do režimu zjednodušeného zobrazení"
 
 #: clientgui/AdvancedFrame.cpp:395
 msgid "Attach to &project or account manager..."
-msgstr "Připojit k &Projektu nebo Správci účtu..."
+msgstr "Připojit k &projektu nebo správci účtu..."
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "Attach to a project or account manager to begin processing work"
-msgstr ""
+msgstr "Připojit k projektu nebo správci účtu a zahájit práci"
 
 #: clientgui/AdvancedFrame.cpp:400
 #, c-format
@@ -299,22 +296,21 @@ msgid "Get current settings from %s"
 msgstr "Použít aktuální nastavení z %s"
 
 #: clientgui/AdvancedFrame.cpp:415
-#, fuzzy
 msgid "Attach to &project..."
-msgstr "Připojuji se k projektu..."
+msgstr "Připojit se k &projektu..."
 
 #: clientgui/AdvancedFrame.cpp:416
 msgid "Attach to a project to begin processing work"
-msgstr ""
+msgstr "Připojit se k projektu a začít pracovat"
 
 #: clientgui/AdvancedFrame.cpp:420
 #, c-format
 msgid "&Stop using %s..."
-msgstr "&Ukončit %s..."
+msgstr "Ukončit %s..."
 
 #: clientgui/AdvancedFrame.cpp:426
 msgid "Remove client from account manager control."
-msgstr ""
+msgstr "Odebrat klienta ze spravování správcem účtů."
 
 #: clientgui/AdvancedFrame.cpp:435
 msgid "&Run always"
@@ -349,18 +345,16 @@ msgid "Allow network activity regardless of preferences"
 msgstr "Povolit připojení k internetu bez ohledu na nastavení"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Network activity based on pre&ferences"
-msgstr "Připojovat k &internetu podle nastavení"
+msgstr "Připojovat k internetu podle nastavení"
 
 #: clientgui/AdvancedFrame.cpp:475
 msgid "Allow network activity according to your preferences"
 msgstr "Využívat připojení k internetu podle nastavení"
 
 #: clientgui/AdvancedFrame.cpp:479
-#, fuzzy
 msgid "Network activity s&uspended"
-msgstr "Z&akázat přístup k internetu"
+msgstr "Pozastaven přístup k internetu"
 
 #: clientgui/AdvancedFrame.cpp:480
 msgid "Stop BOINC network activity"
@@ -434,72 +428,70 @@ msgstr "Načíst nastavení z \"global_prefs_override.xml\""
 #: clientgui/AdvancedFrame.cpp:540
 #, c-format
 msgid "%s &help"
-msgstr ""
+msgstr "%s nápověda"
 
 #: clientgui/AdvancedFrame.cpp:546
 #, c-format
 msgid "Show information about %s"
-msgstr ""
+msgstr "Zobrazit informace o %s"
 
 #: clientgui/AdvancedFrame.cpp:558
 #, c-format
 msgid "&%s help"
-msgstr ""
+msgstr "&%s nápověda"
 
 #: clientgui/AdvancedFrame.cpp:564
 #, c-format
 msgid "Show information about the %s"
-msgstr ""
+msgstr "Zobrazit informace o %s"
 
 #: clientgui/AdvancedFrame.cpp:576
 #, c-format
 msgid "%s &website"
-msgstr ""
+msgstr "%s &webové stránky"
 
 #: clientgui/AdvancedFrame.cpp:582
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr ""
+msgstr "Zobrazit informace o BOINC a %s"
 
 #: clientgui/AdvancedFrame.cpp:598
 #: clientgui/BOINCTaskBar.cpp:616
 #, c-format
 msgid "&About %s..."
-msgstr ""
+msgstr "Informace o %s..."
 
 #: clientgui/AdvancedFrame.cpp:604
 msgid "Licensing and copyright information."
-msgstr ""
+msgstr "Informace o licencování a copyrightu."
 
 #: clientgui/AdvancedFrame.cpp:611
-#, fuzzy
 msgid "&File"
 msgstr "Soubor"
 
 #: clientgui/AdvancedFrame.cpp:615
 msgid "&View"
-msgstr ""
+msgstr "&Vzhled"
 
 #: clientgui/AdvancedFrame.cpp:619
 msgid "&Tools"
-msgstr ""
+msgstr "Nás&troje"
 
 #: clientgui/AdvancedFrame.cpp:623
 msgid "&Activity"
-msgstr ""
+msgstr "&Aktivity"
 
 #: clientgui/AdvancedFrame.cpp:627
 msgid "A&dvanced"
-msgstr ""
+msgstr "Pokročilé"
 
 #: clientgui/AdvancedFrame.cpp:631
 msgid "&Help"
-msgstr "Náp&ověda"
+msgstr "Nápověda"
 
 #: clientgui/AdvancedFrame.cpp:993
-#, fuzzy
 msgid "Attaching to project or account manager..."
-msgstr "Připojit k &Projektu nebo Správci účtu..."
+msgstr "Připojuji se k projektu nebo správci účtu..."
 
 #: clientgui/AdvancedFrame.cpp:1086
 #, c-format
@@ -790,14 +782,13 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "Selhalo odpojení %s z internetu."
 
 #: clientgui/BOINCGUIApp.cpp:308
-#, fuzzy
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_master' user group."
 msgstr ""
 "Momentálně nejste oprávněn spravovat tohoto klienta.\n"
 "Kontaktujte prosím vašeho administrátora, aby vás přidal do lokální "
-"uživatelské skupiny 'boinc_users'."
+"uživatelské skupiny 'boinc_master'."
 
 #: clientgui/BOINCGUIApp.cpp:311
 #, c-format
@@ -805,6 +796,9 @@ msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)\n"
 msgstr ""
+"Práva či vlastnictví souborů BOINC nejsou nastavena správně, prosím "
+"přeinstalujte BOINC.\n"
+"(Chybový kód %d)\n"
 
 #: clientgui/BOINCGUIApp.cpp:388
 msgid ""
@@ -828,11 +822,11 @@ msgstr "Spustit BOINC minimalizovaný."
 
 #: clientgui/BOINCGUIApp.cpp:540
 msgid "Directory containing the BOINC Client executable"
-msgstr ""
+msgstr "Složka obsahující spustitelného BOINC klienta"
 
 #: clientgui/BOINCGUIApp.cpp:541
 msgid "BOINC data directory"
-msgstr ""
+msgstr "Složka pro BOINC data"
 
 #: clientgui/BOINCGUIApp.cpp:543
 msgid "Startup BOINC with these optional arguments"
@@ -1364,7 +1358,7 @@ msgstr "% celkového místa na disku"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:502
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Ukládat kontrolní body úkolů na disk každých"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "seconds"
@@ -1697,7 +1691,7 @@ msgstr "Velikost pracovní sady"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Directory"
-msgstr ""
+msgstr "Složka"
 
 #: clientgui/DlgItemProperties.cpp:301
 msgid "New"
@@ -2353,13 +2347,12 @@ msgid "SOCKS proxy"
 msgstr "SOCKS proxy server"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-#, fuzzy
 msgid "Advanced View...\tCTRL+SHIFT+A"
-msgstr "&Pokročilé zobrazení\tCTRL+SHIFT+A"
+msgstr "Pokročilé zobrazení...\tCTRL+SHIFT+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
 msgid "Display the advanced (accessible) graphical interface."
-msgstr ""
+msgstr "Zobrazit pokročilé grafické rozhraní."
 
 #: clientgui/sg_BoincSimpleGUI.cpp:141
 #, c-format
@@ -3517,7 +3510,7 @@ msgstr ""
 #: clientgui/ViewWork.cpp:432
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr ""
+msgstr "Jste si jisti, že chcete zrušit těchto %d úkolů?"
 
 #: clientgui/ViewWork.cpp:437
 #: clientgui/ViewWorkGrid.cpp:335
@@ -3549,7 +3542,7 @@ msgstr "Pozastavit práci na tomto úkolu."
 
 #: clientgui/ViewWork.cpp:1107
 msgid "GPU missing, "
-msgstr ""
+msgstr "Grafická karta nenalezena, "
 
 #: clientgui/ViewWork.cpp:1148
 msgid " - an exclusive app is running"
