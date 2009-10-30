@@ -31,8 +31,6 @@
 
 #ifdef __WXMAC__
 
-extern 
-
 CProjectListCtrlAccessible::CProjectListCtrlAccessible(wxWindow* win) {
     mp_win = win;
     SetupMacListControlAccessibilitySupport();
