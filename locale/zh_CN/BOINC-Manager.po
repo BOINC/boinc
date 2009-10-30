@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 6.5.x\n"
+"Project-Id-Version: BOINC Manager 6.10.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-29 13:11-0500\n"
-"PO-Revision-Date: 2009-05-07 20:03-0700\n"
+"PO-Revision-Date: 2009-10-30 10:26+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
@@ -12,16 +12,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: clientgui\n"
+"X-Poedit-Language: Chinese\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
+"X-Poedit-Basepath: E:\\Works\\boinc_src\\\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-Country: CHINA\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:370
 msgid "Identify your account "
-msgstr ""
+msgstr "确认您的帐户"
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid ""
@@ -60,10 +60,14 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
+"我们无法自动建立您的帐户信息。\n"
+"\n"
+"请点击下方的“寻找登录信息”超链接以查明\n"
+"应该在电子邮件地址和密码栏中填写什么内容。"
 
 #: clientgui/AccountInfoPage.cpp:399
 msgid "Find logon information"
-msgstr ""
+msgstr "寻找登录信息"
 
 #: clientgui/AccountInfoPage.cpp:419
 #: clientgui/AccountInfoPage.cpp:585
@@ -107,10 +111,13 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
+"如果您还没有注册过这个帐户管理器，\n"
+"请在继续之前先注册。点击下方的超链接\n"
+"就可以进行注册或取回您已忘记的密码。"
 
 #: clientgui/AccountInfoPage.cpp:492
 msgid "Account manager website"
-msgstr ""
+msgstr "帐户管理器网站"
 
 #: clientgui/AccountInfoPage.cpp:524
 msgid "Attach to project"
@@ -140,14 +147,13 @@ msgstr "两次输入的密码不匹配，请重新输入。"
 
 #: clientgui/AccountManagerInfoPage.cpp:243
 msgid "Choose an account manager"
-msgstr ""
+msgstr "选择一个帐户管理器"
 
 #: clientgui/AccountManagerInfoPage.cpp:246
-#, fuzzy
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr "要选择一个项目，请点击它的项目名称或在下方输入它的项目网址。"
+msgstr "要选择一个帐户管理器，请点击它的名称或在下方输入它的网址。"
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Account Manager &URL:"
@@ -184,7 +190,7 @@ msgstr "已断开"
 #: clientgui/AdvancedFrame.cpp:304
 #, c-format
 msgid "Close the %s window"
-msgstr ""
+msgstr "关闭 %s 窗口"
 
 #: clientgui/AdvancedFrame.cpp:309
 msgid "&Close Window\tCTRL+W"
@@ -193,7 +199,7 @@ msgstr "关闭窗口(&C)\tCTRL+W"
 #: clientgui/AdvancedFrame.cpp:316
 #, c-format
 msgid "Exit %s"
-msgstr ""
+msgstr "退出 %s"
 
 #: clientgui/AdvancedFrame.cpp:321
 #: clientgui/BOINCTaskBar.cpp:626
@@ -202,77 +208,75 @@ msgstr "退出(&X)"
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "&Projects\tCTRL+SHIFT+P"
-msgstr ""
+msgstr "项目(&P)\tCTRL+SHIFT+P"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
-msgstr ""
+msgstr "显示项目页"
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "&Tasks\tCTRL+SHIFT+T"
-msgstr ""
+msgstr "任务(&T)\tCTRL+SHIFT+T"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
-msgstr ""
+msgstr "显示任务页"
 
 #: clientgui/AdvancedFrame.cpp:342
 msgid "Trans&fers\tCTRL+SHIFT+X"
-msgstr ""
+msgstr "网络传输(&F)\tCTRL+SHIFT+X"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
-msgstr ""
+msgstr "显示网络传输页"
 
 #: clientgui/AdvancedFrame.cpp:348
 msgid "&Messages\tCTRL+SHIFT+M"
-msgstr ""
+msgstr "消息(&M)\tCTRL+SHIFT+M"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
-msgstr ""
+msgstr "显示消息页"
 
 #: clientgui/AdvancedFrame.cpp:354
 msgid "&Statistics\tCTRL+SHIFT+S"
-msgstr ""
+msgstr "统计(&S)\tCTRL+SHIFT+S"
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
-msgstr ""
+msgstr "显示统计页"
 
 #: clientgui/AdvancedFrame.cpp:360
 msgid "&Disk usage\tCTRL+SHIFT+D"
-msgstr ""
+msgstr "磁盘使用情况(&D)\tCTRL+SHIFT+D"
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
-msgstr ""
+msgstr "显示磁盘使用情况页"
 
 #: clientgui/AdvancedFrame.cpp:366
 msgid "&News\tCTRL+SHIFT+N"
-msgstr ""
+msgstr "新闻(&N)\tCTRL+SHIFT+N"
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
-msgstr ""
+msgstr "显示新闻页"
 
 #: clientgui/AdvancedFrame.cpp:374
-#, fuzzy
 msgid "Simple &View...\tCTRL+SHIFT+V"
-msgstr "简易视图(&S)\tCTRL+SHIFT+S"
+msgstr "简易视图(&V)...\tCTRL+SHIFT+S"
 
 #: clientgui/AdvancedFrame.cpp:375
-#, fuzzy
 msgid "Display the simple graphical interface."
-msgstr "显示简洁的 BOINC 图形界面。"
+msgstr "显示简洁的图形界面。"
 
 #: clientgui/AdvancedFrame.cpp:395
 msgid "Attach to &project or account manager..."
-msgstr ""
+msgstr "加入项目(&P)或帐户管理器..."
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "Attach to a project or account manager to begin processing work"
-msgstr ""
+msgstr "加入一个项目或帐户管理器以取得计算任务"
 
 #: clientgui/AdvancedFrame.cpp:400
 #, c-format
@@ -334,18 +338,16 @@ msgid "Allow network activity regardless of preferences"
 msgstr "允许使用网络且不受参数设置的影响"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Network activity based on pre&ferences"
-msgstr "依照参数使用网络(&P)"
+msgstr "依照参数使用网络(&F)"
 
 #: clientgui/AdvancedFrame.cpp:475
 msgid "Allow network activity according to your preferences"
 msgstr "允许使用网络且依照用户的参数设置"
 
 #: clientgui/AdvancedFrame.cpp:479
-#, fuzzy
 msgid "Network activity s&uspended"
-msgstr "暂停使用网络(&N)"
+msgstr "暂停使用网络(&U)"
 
 #: clientgui/AdvancedFrame.cpp:480
 msgid "Stop BOINC network activity"
@@ -482,7 +484,7 @@ msgstr "帮助(&H)"
 
 #: clientgui/AdvancedFrame.cpp:993
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "正在加入项目或帐户管理器..."
 
 #: clientgui/AdvancedFrame.cpp:1086
 #, c-format
@@ -594,12 +596,12 @@ msgstr "正在连接 BOINC 客户端。请稍候..."
 #: clientgui/AsyncRPC.cpp:1203
 #, c-format
 msgid "&Quit %s"
-msgstr ""
+msgstr "退出 %s (&Q)"
 
 #: clientgui/AsyncRPC.cpp:1205
 #, c-format
 msgid "E&xit %s"
-msgstr ""
+msgstr "退出 %s (&X)"
 
 #: clientgui/AsyncRPC.cpp:1222
 msgid "Cancel"
@@ -764,13 +766,12 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "%s 断开至互联网的连接失败。"
 
 #: clientgui/BOINCGUIApp.cpp:308
-#, fuzzy
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_master' user group."
 msgstr ""
 "您当前未被授权管理本客户端。\n"
-"请联系系统管理员将您添加到名称为 boinc_users 的本地用户组。"
+"请联系系统管理员将您添加到名称为 boinc_master 的用户组。"
 
 #: clientgui/BOINCGUIApp.cpp:311
 #, c-format
@@ -778,6 +779,8 @@ msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)\n"
 msgstr ""
+"BOINC 相关的本地用户权限设置有误，请重新安装 BOINC。\n"
+"( 错误代码 %d )\n"
 
 #: clientgui/BOINCGUIApp.cpp:388
 msgid ""
@@ -801,11 +804,11 @@ msgstr "启动 BOINC 时仅显示在系统托盘区"
 
 #: clientgui/BOINCGUIApp.cpp:540
 msgid "Directory containing the BOINC Client executable"
-msgstr ""
+msgstr "包含 BOINC 客户端执行程序的目录"
 
 #: clientgui/BOINCGUIApp.cpp:541
 msgid "BOINC data directory"
-msgstr ""
+msgstr "BOINC 数据目录"
 
 #: clientgui/BOINCGUIApp.cpp:543
 msgid "Startup BOINC with these optional arguments"
@@ -1172,7 +1175,6 @@ msgstr "在多处理器系统上，最多使用"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:249
 #, no-c-format
-#, c-format
 msgid "% of the processors"
 msgstr "% 处理器"
 
@@ -1315,7 +1317,7 @@ msgstr "% 总磁盘空间"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:502
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "任务的最快存盘间隔"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "seconds"
@@ -1464,15 +1466,15 @@ msgstr "远程调度请求被延迟"
 
 #: clientgui/DlgItemProperties.cpp:114
 msgid "File downloads deferred for"
-msgstr ""
+msgstr "文件下载被延迟"
 
 #: clientgui/DlgItemProperties.cpp:117
 msgid "File uploads deferred for"
-msgstr ""
+msgstr "文件上传被延迟"
 
 #: clientgui/DlgItemProperties.cpp:120
 msgid "Computer ID"
-msgstr ""
+msgstr "计算机编号"
 
 #: clientgui/DlgItemProperties.cpp:121
 msgid "Non CPU intensive"
@@ -1567,19 +1569,16 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "NVIDIA GPU 任务获取延迟间隔"
 
 #: clientgui/DlgItemProperties.cpp:160
-#, fuzzy
 msgid "ATI GPU work fetch priority"
-msgstr "NVIDIA GPU 任务获取优先级"
+msgstr "ATI GPU 任务获取优先级"
 
 #: clientgui/DlgItemProperties.cpp:163
-#, fuzzy
 msgid "ATI GPU work fetch deferred for"
-msgstr "NVIDIA GPU 任务获取被延迟"
+msgstr "ATI GPU 任务获取被延迟"
 
 #: clientgui/DlgItemProperties.cpp:164
-#, fuzzy
 msgid "ATI GPU work fetch deferral interval"
-msgstr "NVIDIA GPU 任务获取延迟间隔"
+msgstr "ATI GPU 任务获取延迟间隔"
 
 #: clientgui/DlgItemProperties.cpp:166
 msgid "Duration correction factor"
@@ -1603,7 +1602,7 @@ msgstr "状态"
 
 #: clientgui/DlgItemProperties.cpp:185
 msgid "Received"
-msgstr ""
+msgstr "接收时间"
 
 #: clientgui/DlgItemProperties.cpp:188
 msgid "Report deadline"
@@ -1645,7 +1644,7 @@ msgstr "工作集大小"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Directory"
-msgstr ""
+msgstr "目录"
 
 #: clientgui/DlgItemProperties.cpp:301
 msgid "New"
@@ -2169,7 +2168,7 @@ msgstr "项目网址(&U)："
 
 #: clientgui/ProjectInfoPage.cpp:339
 msgid "This project may not have work for your type of computer. Are you sure you wish to continue?"
-msgstr ""
+msgstr "该项目可能没有适合您计算机的任务类型。您确定还要继续吗？"
 
 #: clientgui/ProjectInfoPage.cpp:363
 msgid "You are already attached to this project. Please choose a different project."
@@ -2177,7 +2176,7 @@ msgstr "您当前已经加入了这个项目，请选择一个其它的项目。
 
 #: clientgui/ProjectListCtrl.cpp:239
 msgid "Click"
-msgstr ""
+msgstr "点击"
 
 #: clientgui/ProjectProcessingPage.cpp:323
 #: clientgui/ProjectPropertiesPage.cpp:336
@@ -2274,13 +2273,12 @@ msgid "SOCKS proxy"
 msgstr "SOCKS 代理"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-#, fuzzy
 msgid "Advanced View...\tCTRL+SHIFT+A"
-msgstr "高级视图(&A)\tCTRL+SHIFT+A"
+msgstr "高级视图...\tCTRL+SHIFT+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
 msgid "Display the advanced (accessible) graphical interface."
-msgstr ""
+msgstr "显示高级图形界面。"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:141
 #, c-format
@@ -3306,11 +3304,11 @@ msgstr "等待下载"
 
 #: clientgui/ViewTransfers.cpp:769
 msgid " (project backoff: "
-msgstr ""
+msgstr "( 项目延后："
 
 #: clientgui/ViewTransfers.cpp:769
 msgid ")"
-msgstr ""
+msgstr ")"
 
 #: clientgui/ViewTransfersGrid.cpp:161
 msgid "TransfersGrid"
@@ -3336,12 +3334,12 @@ msgstr "中断文件传输"
 #: clientgui/ViewWork.cpp:184
 #: clientgui/ViewWork.cpp:708
 msgid "Show active tasks"
-msgstr ""
+msgstr "显示活动任务"
 
 #: clientgui/ViewWork.cpp:185
 #: clientgui/ViewWork.cpp:709
 msgid "Show only active tasks."
-msgstr ""
+msgstr "只显示正在处理过程中的任务。"
 
 #: clientgui/ViewWork.cpp:192
 #: clientgui/ViewWorkGrid.cpp:115
@@ -3413,7 +3411,7 @@ msgstr ""
 #: clientgui/ViewWork.cpp:432
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr ""
+msgstr "您确定想要中止这 %d 个任务吗？"
 
 #: clientgui/ViewWork.cpp:437
 #: clientgui/ViewWorkGrid.cpp:335
@@ -3427,11 +3425,11 @@ msgstr "正在中止任务..."
 
 #: clientgui/ViewWork.cpp:702
 msgid "Show all tasks"
-msgstr ""
+msgstr "显示所有任务"
 
 #: clientgui/ViewWork.cpp:703
 msgid "Show all tasks."
-msgstr ""
+msgstr "显示所有的任务。"
 
 #: clientgui/ViewWork.cpp:727
 #: clientgui/ViewWorkGrid.cpp:445
@@ -3445,7 +3443,7 @@ msgstr "暂停计算当前任务。"
 
 #: clientgui/ViewWork.cpp:1107
 msgid "GPU missing, "
-msgstr ""
+msgstr "无可用 GPU, "
 
 #: clientgui/ViewWork.cpp:1148
 msgid " - an exclusive app is running"
@@ -3471,7 +3469,7 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:250
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "加入项目或帐户管理器"
 
 #: clientgui/WelcomePage.cpp:258
 #, c-format
@@ -3490,7 +3488,7 @@ msgstr ""
 msgid ""
 "We'll guide you through the process of attaching\n"
 "to a project or account manager."
-msgstr ""
+msgstr " 我们将引导您完成加入一个项目或帐户管理器的过程。"
 
 #: clientgui/WelcomePage.cpp:275
 msgid ""
@@ -3581,75 +3579,55 @@ msgstr "指定开始和停止使用网络的时间，格式是 HH:MM-HH:MM"
 
 #~ msgid "User information"
 #~ msgstr "用户信息"
-
 #~ msgid "Account Manager URL"
 #~ msgstr "帐户管理器的网址"
-
 #~ msgid "Enter the URL of the account manager's web site."
 #~ msgstr "请输入帐户管理器的网址。"
-
 #~ msgid "Close BOINC Manager Window."
 #~ msgstr "关闭 BOINC Manager 的窗口。"
 
 #, c-format
-#, c-format
 #~ msgid "Exit the %s"
 #~ msgstr "退出 %s"
-
 #~ msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
 #~ msgstr "高级视图允许用户按表格列进行排序并可显示图形化的进度条。"
-
 #~ msgid "Attach to a project"
 #~ msgstr "加入一个项目"
-
 #~ msgid "Attach to &account manager..."
 #~ msgstr "加入帐户管理器(&A)..."
-
 #~ msgid "Attach to an account manager"
 #~ msgstr "加入帐户管理器"
-
 #~ msgid "Attach to &project"
 #~ msgstr "加入项目(&P)"
-
 #~ msgid "Attaching to project..."
 #~ msgstr "正在加入项目..."
 
 #, c-format
-#, c-format
 #~ msgid "Removal from %s completed."
 #~ msgstr "退出 %s 已完成。"
-
 #~ msgid "Removal succeeded!"
 #~ msgstr "退出成功！"
-
 #~ msgid "Write to disk at most every"
 #~ msgstr "写磁盘的最小时间间隔"
-
 #~ msgid "Slot"
 #~ msgstr "槽位"
-
 #~ msgid "Already Attached to Project"
 #~ msgstr "已加入到该项目"
-
 #~ msgid "This project may not have work for your type of computer."
 #~ msgstr "该项目可能没有适合您计算机的任务类型。"
 
 #, c-format
-#, c-format
 #~ msgid "Click here to go to %s's website."
 #~ msgstr "点击可访问 %s 的项目网站。"
-
 #~ msgid ""
 #~ "We'll now guide you through the process of attaching\n"
 #~ "to a project."
 #~ msgstr "我们将引导您完成加入一个项目的过程。"
 
 #, c-format
-#, c-format
 #~ msgid "&Stop using%s"
 #~ msgstr "停止使用 %s(&S)"
 
-#, c-format
 #, c-format
 #~ msgid ""
 #~ "We'll now remove this computer from %s.  From now on,\n"
@@ -3657,10 +3635,8 @@ msgstr "指定开始和停止使用网络的时间，格式是 HH:MM-HH:MM"
 #~ msgstr ""
 #~ "我们将从 %s 中移除当前计算机。\n"
 #~ "从现在开始，请直接在该客户端中加入或退出项目。\n"
-
 #~ msgid "Account manager"
 #~ msgstr "帐户管理器"
-
 #~ msgid ""
 #~ "We'll now guide you through the process of attaching\n"
 #~ "to an account manager.\n"
@@ -3672,78 +3648,54 @@ msgstr "指定开始和停止使用网络的时间，格式是 HH:MM-HH:MM"
 #~ "\n"
 #~ "如果您只想要加入一个项目，请点击取消，\n"
 #~ "然后选择菜单中的'加入项目'。"
-
 #~ msgid "Debug Flags"
 #~ msgstr "调试标志位"
-
 #~ msgid "Project Properties Failure"
 #~ msgstr "项目属性错误"
-
 #~ msgid "Project Communication Failure"
 #~ msgstr "项目通讯失败"
-
 #~ msgid "Project Properties URL Failure"
 #~ msgstr "项目网址错误"
-
 #~ msgid "Account Creation Disabled"
 #~ msgstr "帐户创建已被停用"
-
 #~ msgid "Client Account Creation Disabled"
 #~ msgstr "客户端的帐户创建已被停用"
-
 #~ msgid "Account Already Exists"
 #~ msgstr "帐户已存在"
-
 #~ msgid "Project Already Attached"
 #~ msgstr "项目已被加入"
-
 #~ msgid "Project Attach Failure"
 #~ msgstr "加入项目失败"
-
 #~ msgid "Failure Communicating with Reference Site"
 #~ msgstr "参考站点通讯失败"
-
 #~ msgid "Net Detection Failure"
 #~ msgstr "网络检测失败"
-
 #~ msgid ""
 #~ "You can copy and paste the URL from your browser's\n"
 #~ "address bar."
 #~ msgstr "您可以从浏览器的地址栏中复制网址(URL)。"
-
 #~ msgid "For a list of account managers go to:"
 #~ msgstr "查看帐户管理器的列表请到："
-
 #~ msgid "&Advanced View"
 #~ msgstr "高级视图(&A)"
-
 #~ msgid "&Simple View..."
 #~ msgstr "简易视图(&S)"
-
 #~ msgid "Already attached to project"
 #~ msgstr "已经加入到项目"
-
 #~ msgid "You are already attached to this project."
 #~ msgstr "您已经加入到项目。"
-
 #~ msgid "Static text"
 #~ msgstr "静态文本"
-
 #~ msgid "Radiobutton"
 #~ msgstr "单选按钮"
-
 #~ msgid "Short term debt"
 #~ msgstr "短期债项"
-
 #~ msgid "Long term debt"
 #~ msgstr "长期债项"
-
 #~ msgid "Test"
 #~ msgstr "测试"
-
 #~ msgid "Enter account key"
 #~ msgstr "输入帐户密钥"
-
 #~ msgid ""
 #~ "This project uses an \"account key\" to identify you.\n"
 #~ "\n"
@@ -3753,36 +3705,28 @@ msgstr "指定开始和停止使用网络的时间，格式是 HH:MM-HH:MM"
 #~ "该项目通过\"帐户密钥\"来鉴别您的身份。\n"
 #~ "\n"
 #~ "请访问项目网站以创建一个帐户。您的帐户密钥将通过电子邮件发送给您。"
-
 #~ msgid "An account key looks like:"
 #~ msgstr "帐户密钥看上去就像："
-
 #~ msgid "82412313ac88e9a3638f66ea82186948"
 #~ msgstr "82412313ac88e9a3638f66ea82186948"
-
 #~ msgid "Account key:"
 #~ msgstr "帐户密钥："
-
 #~ msgid "Checkpoint CPU time"
 #~ msgstr "上一次进度存储的 CPU 时间"
-
 #~ msgid "Current CPU time"
 #~ msgstr "当前的 CPU 时间"
-
 #~ msgid "Language Selection:"
 #~ msgstr "语言选择："
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "BOINC Manager 缺省显示的语言。"
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "提醒间隔："
-
 #~ msgid "How often, in minutes, should the manager remind you of possible connection events."
 #~ msgstr "BOINC Manager 应该隔多久提醒您可能的连接事件。( 以分钟为单位 )"
-
 #~ msgid "Run BOINC Manager at startup:"
 #~ msgstr "在启动时运行 BOINC Manager："
 
+#, c-format
 #~ msgid "Enable BOINC Manager exit message:"
 #~ msgstr "启用 BOINC Manager 的退出消息："
+
