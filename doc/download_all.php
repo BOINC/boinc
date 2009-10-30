@@ -11,17 +11,18 @@
 // platform=x       show only versions for platform x (win/mac/linux/solaris)
 
 require_once("docutil.php");
+require_once("versions.inc");
 
 $xml = $_GET["xml"];
 $dev = $_GET["dev"];
-if (!$xml) $dev=1;
 $pname = $_GET["platform"];
 $min_version = $_GET["min_version"];
 $max_version = $_GET["max_version"];
 $version = $_GET["version"];
 $type_name = $_GET["type"];
+$client_info = $_SERVER['HTTP_USER_AGENT'];
 
-require_once("versions.inc");
+if (!$xml) $dev=1;
 
 function dl_item($x, $y) {
     echo "<tr><td valign=top  align=right width=\"30%\">$x</td>
@@ -165,8 +166,10 @@ if ($xml) {
     echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n
 <versions>\n
 ";
-    foreach($platforms as $short_name=>$p) {
-        show_platform_xml($short_name, $p, $dev);
+	if (FALSE === strpos($client_info, '6.8.')) {
+        foreach($platforms as $short_name=>$p) {
+            show_platform_xml($short_name, $p, $dev);
+        }
     }
     echo "
 </versions>\n
