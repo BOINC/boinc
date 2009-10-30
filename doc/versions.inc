@@ -71,7 +71,7 @@ $w610= array(
 
 $w66= array(
     "num"=>"6.6.38",
-	"status"=>"Older version",
+	"status"=>"Older version (also works on Windows 98 and Windows ME)",
     "file"=>"boinc_6.6.38_windows_intelx86.exe",
     "date"=>"28 Oct 2009",
     "type"=>"win_new",
@@ -87,7 +87,7 @@ $w610x64= array(
 
 $w66x64= array(
     "num"=>"6.6.38",
-    "status"=>"Older version",
+	"status"=>"Older version",
     "file"=>"boinc_6.6.38_windows_x86_64.exe",
     "date"=>"28 Oct 2009",
     "type"=>"win_new",
@@ -187,7 +187,7 @@ $l66ubuntux64 = array(
 
 $windows = array(
     "name"=>"Windows",
-    "description"=>"98/ME/2000/XP/Vista ",
+    "description"=>"XP/Vista/7",
     "dbname" => "windows_intelx86",
     "versions"=>array(
         $w610,
@@ -198,7 +198,7 @@ $windows = array(
 
 $windowsx64 = array(
     "name"=>"Windows 64-bit",
-    "description"=>"XP/Vista",
+    "description"=>"XP/Vista/7",
     "dbname" => "windows_x86_64",
     "versions"=>array(
         $w610x64,
