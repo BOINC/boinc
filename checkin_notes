@@ -8848,3 +8848,10 @@ Rom    30 Oct 2009
       
     locale/
         Makefile.am
+
+Charlie 30 Oct 2009
+    - MGR: Clarify alert when running as a non-admin user which is not a 
+        member of group boinc_master.
+        
+    clientgui/
+        BOINCGUIApp.cpp
