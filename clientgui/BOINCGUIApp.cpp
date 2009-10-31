@@ -283,6 +283,34 @@ bool CBOINCGUIApp::OnInit() {
     m_pLog->AddTraceMask(wxT("Function Start/End"));
     m_pLog->AddTraceMask(wxT("Function Status"));
 
+
+    // Initialize the internationalization module
+#ifdef __WXMSW__
+    // On Windows, set all locales for this thread on a per-thread basis
+    _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
+#endif
+    m_pLocale = new wxLocale();
+    wxASSERT(m_pLocale);
+
+
+    // Look for the localization files by absolute and relative locations.
+    //   preference given to the absolute location.
+    m_pLocale->Init(iSelectedLanguage);
+    if (!m_strBOINCMGRRootDirectory.IsEmpty()) {
+        m_pLocale->AddCatalogLookupPathPrefix(
+            wxString(m_strBOINCMGRRootDirectory + wxT("locale"))
+        );
+    }
+    m_pLocale->AddCatalogLookupPathPrefix(wxT("locale"));
+    m_pLocale->AddCatalog(wxT("BOINC-Manager"));
+
+    InitSupportedLanguages();
+
+
+    // Note: JAWS for Windows will only speak the context-sensitive
+    // help if you use this help provider:
+    wxHelpProvider::Set(new wxHelpControllerHelpProvider());
+
  
 #ifdef SANDBOX
     // Make sure owners, groups and permissions are correct for the current setting of g_use_sandbox
@@ -323,6 +351,7 @@ bool CBOINCGUIApp::OnInit() {
     }
 #endif      // SANDBOX
 
+
     // Enable known image types
     wxInitAllImageHandlers();
 
@@ -331,34 +360,6 @@ bool CBOINCGUIApp::OnInit() {
 #if wxUSE_FS_INET && wxUSE_STREAMS && wxUSE_SOCKETS
     wxFileSystem::AddHandler(new wxInternetFSHandler);
 #endif
-
-
-    // Initialize the internationalization module
-#ifdef __WXMSW__
-    // On Windows, set all locales for this thread on a per-thread basis
-    _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
-#endif
-    m_pLocale = new wxLocale();
-    wxASSERT(m_pLocale);
-
-
-    // Look for the localization files by absolute and relative locations.
-    //   preference given to the absolute location.
-    m_pLocale->Init(iSelectedLanguage);
-    if (!m_strBOINCMGRRootDirectory.IsEmpty()) {
-        m_pLocale->AddCatalogLookupPathPrefix(
-            wxString(m_strBOINCMGRRootDirectory + wxT("locale"))
-        );
-    }
-    m_pLocale->AddCatalogLookupPathPrefix(wxT("locale"));
-    m_pLocale->AddCatalog(wxT("BOINC-Manager"));
-
-    InitSupportedLanguages();
-
-
-    // Note: JAWS for Windows will only speak the context-sensitive
-    // help if you use this help provider:
-    wxHelpProvider::Set(new wxHelpControllerHelpProvider());
 
 
     // Initialize the skin manager
