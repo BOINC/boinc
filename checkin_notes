@@ -8858,10 +8858,17 @@ Charlie 30 Oct 2009
 
 Charlie 31 Oct 2009
     - MGR: initialize localization stuff before checking permissions so that 
-        the Mac Sandbox permissions error alerts can be translated.
+        the Mac Sandbox permissions error alerts can be translated.  
+    - MGR: Removed a trailing newline character from the permissions error 
+        alert string, because it was preventing translation.
     - Mac installer: set locale directory permissions to world readable so 
         the Mac Sandbox permissions error alerts can be translated when the 
         user is not a member of group boinc_master.
+
+        NOTE: There seems to be a bug in the localization software: if a 
+        localizable string ends with a newline character, that terailing 
+        newline is not included in the .mo file, so apparently the string 
+        never matches and is not translated. 
         
     clientgui/
         BOINCGUIApp.cpp
