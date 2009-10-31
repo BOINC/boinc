@@ -3,15 +3,15 @@ require_once("docutil.php");
 page_head("Sandbox design");
 
 echo "
-This document describes a proposed modification to the Unix
-(including Linux and Mac OS X) versions of BOINC.
-The goal of this change is to 'sandbox' BOINC applications,
+This document describes the permissions structure for 
+BOINC on the Macintosh.  It has been updated for BOINC 6.11 and later.
+The purpose of this scheme is to 'sandbox' BOINC applications,
 i.e. to limit the amount of damage that a malicious
 or malfunctioning application can cause.
 <p>
 In our design, BOINC applications run under a specially-created account
 having a minimal set of privileges.
-Previously, the applications typically ran as the user who installed BOINC,
+In early versions of BOINC, the applications typically ran as the user who installed BOINC,
 and had the full privileges of that account.
 ";
 
@@ -31,7 +31,8 @@ $mp2500 = prot('boinc_master', 'boinc_project', '0500+setgid');
 $rm4050 = prot('root', 'boinc_master', '0050+setuid');
 $rm4555 = prot('root', 'boinc_master', '0555+setuid');
 $mm0550 = prot('boinc_master', 'boinc_master', '0550');
-$mm0440 = prot('boinc_master', 'boinc_master', '0440');
+$mm0555 = prot('boinc_master', 'boinc_master', '0555');
+$mm0444 = prot('boinc_master', 'boinc_master', '0444');
 $mm0660 = prot('boinc_master', 'boinc_master', '0660');
 $mm0664 = prot('boinc_master', 'boinc_master', '0664');
 $mm0771 = prot('boinc_master', 'boinc_master', '0771');
@@ -39,7 +40,7 @@ $mm0775 = prot('boinc_master', 'boinc_master', '0775');
 $mp0775 = prot('boinc_master', 'boinc_project', '0775');
 $mp06610771 = prot('boinc_master', 'boinc_project', '0661 or 0771');
 $mp06640775 = prot('boinc_master', 'boinc_project', '0664 or 0775');
-$mm2555 = prot('boinc_master', 'boinc_master', '0555+setgid');
+$mm2555 = prot('boinc_master', 'boinc_master', '0555');
 $mm6555 = prot('boinc_master', 'boinc_master', '0555+setuid+setgid');
 $ua0555 = prot('(installing user)', 'admin', '0555');
 
@@ -119,10 +120,10 @@ echo
             show_file('switcher (executable)', $rm4050),
             show_file('setprojectgrp (executable)', $mp2500)
         )),
-        show_dir(1, 'locale', $mm0550, array(
-            show_dir(2, 'de', $mm0550, array(
-                show_file('BOINC Manager.mo', $mm0440),
-                show_file('wxstd.mo', $mm0440)
+        show_dir(1, 'locale', $mm0555, array(
+            show_dir(2, 'de', $mm0555, array(
+                show_file('BOINC Manager.mo', $mm0444),
+                show_file('wxstd.mo', $mm0444)
             ))
         )),
         show_file('account_*.xml', $mm0660),
@@ -181,12 +182,15 @@ group <b>boinc_master</b>; all other access is forbidden.
 its real and effective user ID and group ID to <b>boinc_project</b>, disabling 
 its superuser privileges.
 </ul>
-<li>BOINC Manager runs setgid to group <b>boinc_master</b>.
-It can access all files in group <b>boinc_master</b>.  
-It runs as the user who launched it,
-which is necessary for a number of GUI features to work correctly.  
-Although this means that BOINC Manager cannot modify files
-created by project applications, there is no need for it to do so.  
+<li>As of BOINC Version 6.10.5, BOINC Manager no longer runs setgid to group 
+<b>boinc_master</b>, because Mac OS 10.6 does not allow it.  So it can be run 
+only by users who are members of group <b>boinc_master</b>. By default, the 
+BOINC installer automatically adds all users who are members of group 
+<b>admin</b> to group <b>boinc_master</b>, and optionally adds non-admin 
+users to group <b>boinc_master</b>.  The Manager runs as the user who 
+launched it, which is necessary for a number of GUI features to work correctly.  
+Although this means that BOINC Manager cannot modify files created by project 
+applications, there is no need for it to do so.  
 <li>Starting with BOINC version 6.0, project science applications use a 
 separate companion application to display graphics.  These graphics 
 applications are launched by the BOINC Manager when the user clicks on 
