@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-29 13:11-0500\n"
-"PO-Revision-Date: 2009-05-05 10:55-0700\n"
+"PO-Revision-Date: 2009-10-31 04:42-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:370
 msgid "Identify your account "
-msgstr ""
+msgstr "Je account gegevens "
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid ""
@@ -57,10 +57,16 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
+"Het was helaas niet mogelijk om je account gegevens\n"
+"automatisch in te stellen.\n"
+"\n"
+"Klik a.u.b. op de 'zoek inlog informatie' link\n"
+"hieronder om te bepalen wat er moet worden ingevuld\n"
+"in het email- en wachtwoord vak. "
 
 #: clientgui/AccountInfoPage.cpp:399
 msgid "Find logon information"
-msgstr ""
+msgstr "Zoek inlog informatie"
 
 #: clientgui/AccountInfoPage.cpp:419
 #: clientgui/AccountInfoPage.cpp:585
@@ -104,10 +110,13 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
+"Indien je je nog niet hebt geregistreerd bij deze account manager,\n"
+"doe dit dan voor je verder gaat.  Klik op de link hieronder\n"
+"om dit nu te doen of een vergeten wachtwoord op te halen."
 
 #: clientgui/AccountInfoPage.cpp:492
 msgid "Account manager website"
-msgstr ""
+msgstr "Account manager website"
 
 #: clientgui/AccountInfoPage.cpp:524
 msgid "Attach to project"
@@ -143,14 +152,14 @@ msgstr ""
 
 #: clientgui/AccountManagerInfoPage.cpp:243
 msgid "Choose an account manager"
-msgstr ""
+msgstr "Kies een account manager"
 
 #: clientgui/AccountManagerInfoPage.cpp:246
-#, fuzzy
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr "Klik op de naam om een project te kiezen of vul onder het URL in."
+msgstr ""
+"Klik op de naam om een account manager te kiezen of vul onder het URL in."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Account Manager &URL:"
@@ -187,7 +196,7 @@ msgstr "Verbinding verbroken"
 #: clientgui/AdvancedFrame.cpp:304
 #, c-format
 msgid "Close the %s window"
-msgstr ""
+msgstr "Sluit het %s venster"
 
 #: clientgui/AdvancedFrame.cpp:309
 msgid "&Close Window\tCTRL+W"
@@ -196,7 +205,7 @@ msgstr "Sluit Venster\tCTRL+W"
 #: clientgui/AdvancedFrame.cpp:316
 #, c-format
 msgid "Exit %s"
-msgstr ""
+msgstr "%s afsluiten"
 
 #: clientgui/AdvancedFrame.cpp:321
 #: clientgui/BOINCTaskBar.cpp:626
@@ -205,77 +214,75 @@ msgstr "Afsluiten"
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "&Projects\tCTRL+SHIFT+P"
-msgstr ""
+msgstr "&Projecten\tCTRL+SHIFT+P"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
-msgstr ""
+msgstr "Projecten weergeven"
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "&Tasks\tCTRL+SHIFT+T"
-msgstr ""
+msgstr "&Werk\tCTRL+SHIFT+T"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
-msgstr ""
+msgstr "Werk weergeven"
 
 #: clientgui/AdvancedFrame.cpp:342
 msgid "Trans&fers\tCTRL+SHIFT+X"
-msgstr ""
+msgstr "&Overdracht\tCTRL+SHIFT+X"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
-msgstr ""
+msgstr "Overdracht weergeven"
 
 #: clientgui/AdvancedFrame.cpp:348
 msgid "&Messages\tCTRL+SHIFT+M"
-msgstr ""
+msgstr "&Berichten\tCTRL+SHIFT+M"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
-msgstr ""
+msgstr "Berichten weergeven"
 
 #: clientgui/AdvancedFrame.cpp:354
 msgid "&Statistics\tCTRL+SHIFT+S"
-msgstr ""
+msgstr "&Statistieken\tCTRL+SHIFT+S"
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
-msgstr ""
+msgstr "Statistieken weergeven"
 
 #: clientgui/AdvancedFrame.cpp:360
 msgid "&Disk usage\tCTRL+SHIFT+D"
-msgstr ""
+msgstr "&Schijfgebruik\tCTRL+SHIFT+D"
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
-msgstr ""
+msgstr "Schijfgebruik weergeven"
 
 #: clientgui/AdvancedFrame.cpp:366
 msgid "&News\tCTRL+SHIFT+N"
-msgstr ""
+msgstr "&Nieuws\tCTRL+SHIFT+N"
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
-msgstr ""
+msgstr "Nieuws weergeven"
 
 #: clientgui/AdvancedFrame.cpp:374
-#, fuzzy
 msgid "Simple &View...\tCTRL+SHIFT+V"
-msgstr "Eenvoudig"
+msgstr "Eenvoudig...\tCTRL+SHIFT+V"
 
 #: clientgui/AdvancedFrame.cpp:375
-#, fuzzy
 msgid "Display the simple graphical interface."
 msgstr "Schakel over naar de eenvoudige BOINC weergave."
 
 #: clientgui/AdvancedFrame.cpp:395
 msgid "Attach to &project or account manager..."
-msgstr ""
+msgstr "&Project of account manager toevoegen..."
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "Attach to a project or account manager to begin processing work"
-msgstr ""
+msgstr "Een project of account manager toevoegen om werk binnen te kunnen halen"
 
 #: clientgui/AdvancedFrame.cpp:400
 #, c-format
@@ -337,7 +344,6 @@ msgid "Allow network activity regardless of preferences"
 msgstr "Netwerkverbinding actief ongeacht de persoonlijke voorkeuren"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Network activity based on pre&ferences"
 msgstr "Netwerkverbinding &op basis van voorkeuren"
 
@@ -346,7 +352,6 @@ msgid "Allow network activity according to your preferences"
 msgstr "Netwerkverbinding actief op basis van de persoonlijke voorkeuren"
 
 #: clientgui/AdvancedFrame.cpp:479
-#, fuzzy
 msgid "Network activity s&uspended"
 msgstr "Netwerkverbinding opgeschort"
 
@@ -485,7 +490,7 @@ msgstr "&Help"
 
 #: clientgui/AdvancedFrame.cpp:993
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "Project of account manager toevoegen..."
 
 #: clientgui/AdvancedFrame.cpp:1086
 #, c-format
@@ -601,12 +606,12 @@ msgstr "Aan het communiceren met de client.  Even geduld ..."
 #: clientgui/AsyncRPC.cpp:1203
 #, c-format
 msgid "&Quit %s"
-msgstr ""
+msgstr "%s &Sluiten"
 
 #: clientgui/AsyncRPC.cpp:1205
 #, c-format
 msgid "E&xit %s"
-msgstr ""
+msgstr "%s &Afsluiten"
 
 #: clientgui/AsyncRPC.cpp:1222
 msgid "Cancel"
@@ -776,24 +781,22 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "%s kon de internet verbinding niet verbreken."
 
 #: clientgui/BOINCGUIApp.cpp:308
-#, fuzzy
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_master' user group."
 msgstr ""
-"Je hebt momenteel niet de benodigde rechten om de client te kunnen\n"
-"onderhouden. Neem contact op met de systeembeheerder."
+"Je hebt momenteel niet de benodigde rechten om de\n"
+" client te kunnen onderhouden. Neem contact op met de systeembeheerder."
 
 #: clientgui/BOINCGUIApp.cpp:311
 #, c-format
-#, fuzzy
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)\n"
 msgstr ""
 "BOINC gebruiker en/of rechten zijn niet goed ingesteld. Herinstalleer a.u.b. "
 "BOINC.\n"
-"(Foutcode: %d)"
+"(Foutcode: %d)\n"
 
 #: clientgui/BOINCGUIApp.cpp:388
 msgid ""
@@ -817,11 +820,11 @@ msgstr "Start BOINC zodat deze alleen zichtbaar is in het systeemvak"
 
 #: clientgui/BOINCGUIApp.cpp:540
 msgid "Directory containing the BOINC Client executable"
-msgstr ""
+msgstr "Map waar de BOINC client zich bevindt"
 
 #: clientgui/BOINCGUIApp.cpp:541
 msgid "BOINC data directory"
-msgstr ""
+msgstr "BOINC data map"
 
 #: clientgui/BOINCGUIApp.cpp:543
 msgid "Startup BOINC with these optional arguments"
@@ -1338,7 +1341,7 @@ msgstr "% van totaal schijfgebuik"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:502
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Controlepunt van werk op schijf opslaan elke"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "seconds"
@@ -1491,15 +1494,15 @@ msgstr "Taakverdeling uitgesteld voor"
 
 #: clientgui/DlgItemProperties.cpp:114
 msgid "File downloads deferred for"
-msgstr ""
+msgstr "Bestand downloaden uitgesteld voor"
 
 #: clientgui/DlgItemProperties.cpp:117
 msgid "File uploads deferred for"
-msgstr ""
+msgstr "Bestand uploaden uitgesteld voor"
 
 #: clientgui/DlgItemProperties.cpp:120
 msgid "Computer ID"
-msgstr ""
+msgstr "Computer ID"
 
 #: clientgui/DlgItemProperties.cpp:121
 msgid "Non CPU intensive"
@@ -1583,7 +1586,7 @@ msgstr "Interval voor CPU werkverzoek"
 
 #: clientgui/DlgItemProperties.cpp:153
 msgid "NVIDIA GPU work fetch priority"
-msgstr "Prioriteit voor GPU werkverzoek"
+msgstr "Prioriteit voor NVIDIA GPU werkverzoek"
 
 #: clientgui/DlgItemProperties.cpp:156
 msgid "NVIDIA GPU work fetch deferred for"
@@ -1594,19 +1597,16 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Interval voor NVIDIA GPU werkverzoek"
 
 #: clientgui/DlgItemProperties.cpp:160
-#, fuzzy
 msgid "ATI GPU work fetch priority"
-msgstr "Prioriteit voor GPU werkverzoek"
+msgstr "Prioriteit voor ATI GPU werkverzoek"
 
 #: clientgui/DlgItemProperties.cpp:163
-#, fuzzy
 msgid "ATI GPU work fetch deferred for"
-msgstr "NVIDIA GPU werkverzoek uitgesteld voor"
+msgstr "ATI GPU werkverzoek uitgesteld voor"
 
 #: clientgui/DlgItemProperties.cpp:164
-#, fuzzy
 msgid "ATI GPU work fetch deferral interval"
-msgstr "Interval voor NVIDIA GPU werkverzoek"
+msgstr "Interval voor ATI GPU werkverzoek"
 
 #: clientgui/DlgItemProperties.cpp:166
 msgid "Duration correction factor"
@@ -1630,7 +1630,7 @@ msgstr "Status"
 
 #: clientgui/DlgItemProperties.cpp:185
 msgid "Received"
-msgstr ""
+msgstr "Ontvangen"
 
 #: clientgui/DlgItemProperties.cpp:188
 msgid "Report deadline"
@@ -1672,7 +1672,7 @@ msgstr "Grootte van taak"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Directory"
-msgstr ""
+msgstr "Map"
 
 #: clientgui/DlgItemProperties.cpp:301
 msgid "New"
@@ -2206,6 +2206,8 @@ msgstr "Project &URL:"
 #: clientgui/ProjectInfoPage.cpp:339
 msgid "This project may not have work for your type of computer. Are you sure you wish to continue?"
 msgstr ""
+"Dit project heeft mogelijk geen werk voor jouw type computer. Weet je zeker "
+"dat je verder wilt gaan?"
 
 #: clientgui/ProjectInfoPage.cpp:363
 msgid "You are already attached to this project. Please choose a different project."
@@ -2213,7 +2215,7 @@ msgstr "Je hebt dit project reeds toegevoegd. Kies a.u.b. een ander project."
 
 #: clientgui/ProjectListCtrl.cpp:239
 msgid "Click"
-msgstr ""
+msgstr "Klik"
 
 #: clientgui/ProjectProcessingPage.cpp:323
 #: clientgui/ProjectPropertiesPage.cpp:336
@@ -2318,13 +2320,12 @@ msgid "SOCKS proxy"
 msgstr "SOCKS proxy"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-#, fuzzy
 msgid "Advanced View...\tCTRL+SHIFT+A"
-msgstr "Geavanceerd\tCTRL+SHIFT+A"
+msgstr "Geavanceerd...\tCTRL+SHIFT+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
 msgid "Display the advanced (accessible) graphical interface."
-msgstr ""
+msgstr "Overschakelen naar de geavanceerde weergave."
 
 #: clientgui/sg_BoincSimpleGUI.cpp:141
 #, c-format
@@ -3368,11 +3369,11 @@ msgstr "Downloaden in behandeling"
 
 #: clientgui/ViewTransfers.cpp:769
 msgid " (project backoff: "
-msgstr ""
+msgstr " (project teruggetrokken: "
 
 #: clientgui/ViewTransfers.cpp:769
 msgid ")"
-msgstr ""
+msgstr ")"
 
 #: clientgui/ViewTransfersGrid.cpp:161
 msgid "TransfersGrid"
@@ -3399,12 +3400,12 @@ msgstr "Bestands Overdracht Afbreken"
 #: clientgui/ViewWork.cpp:184
 #: clientgui/ViewWork.cpp:708
 msgid "Show active tasks"
-msgstr ""
+msgstr "Actieve taken weergeven"
 
 #: clientgui/ViewWork.cpp:185
 #: clientgui/ViewWork.cpp:709
 msgid "Show only active tasks."
-msgstr ""
+msgstr "Alleen actieve taken weergeven"
 
 #: clientgui/ViewWork.cpp:192
 #: clientgui/ViewWorkGrid.cpp:115
@@ -3477,39 +3478,39 @@ msgstr ""
 #: clientgui/ViewWork.cpp:432
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr ""
+msgstr "Weet je zeker dat je deze %d taken wilt afbreken?"
 
 #: clientgui/ViewWork.cpp:437
 #: clientgui/ViewWorkGrid.cpp:335
 msgid "Abort task"
-msgstr "Annuleer resultaat"
+msgstr "Taak afbreken"
 
 #: clientgui/ViewWork.cpp:446
 #: clientgui/ViewWorkGrid.cpp:313
 msgid "Aborting result..."
-msgstr "Resultaat word geannuleerd..."
+msgstr "Resultaat word afgebroken..."
 
 #: clientgui/ViewWork.cpp:702
 msgid "Show all tasks"
-msgstr ""
+msgstr "Alle taken weergeven"
 
 #: clientgui/ViewWork.cpp:703
 msgid "Show all tasks."
-msgstr ""
+msgstr "Alle taken weergeven."
 
 #: clientgui/ViewWork.cpp:727
 #: clientgui/ViewWorkGrid.cpp:445
 msgid "Resume work for this task."
-msgstr "Hervat werk voor dit resultaat."
+msgstr "Hervat werk voor deze taak."
 
 #: clientgui/ViewWork.cpp:733
 #: clientgui/ViewWorkGrid.cpp:451
 msgid "Suspend work for this task."
-msgstr "Onderbreek werk voor dit resultaat."
+msgstr "Onderbreek het werk voor deze taak."
 
 #: clientgui/ViewWork.cpp:1107
 msgid "GPU missing, "
-msgstr ""
+msgstr "Ontbrekende GPU, "
 
 #: clientgui/ViewWork.cpp:1148
 msgid " - an exclusive app is running"
@@ -3535,7 +3536,7 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:250
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "Een project of account manager toevoegen"
 
 #: clientgui/WelcomePage.cpp:258
 #, c-format
@@ -3557,6 +3558,8 @@ msgid ""
 "We'll guide you through the process of attaching\n"
 "to a project or account manager."
 msgstr ""
+"Met behulp van deze wizard is het mogelijk om een\n"
+"project of een account manager toe te voegen."
 
 #: clientgui/WelcomePage.cpp:275
 msgid ""
