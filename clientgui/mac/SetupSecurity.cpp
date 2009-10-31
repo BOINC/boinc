@@ -450,9 +450,10 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 #endif
 
         // chmod -R u+r-w,g+r-w,o= "/Library/Application Support/BOINC Data/locale"
-        // 0550 = S_IRUSR | S_IXUSR | S_IRGRP | S_IXUSR
-        // set read and execute only permission for user, group, no access for others
-        err = DoPrivilegedExec(chmodPath, "-R", "u+r-w,g+r-w,o=", fullpath, NULL, NULL);
+        // 0550 = S_IRUSR | S_IXUSR | S_IRGRP | S_IXUSR | S_IROTH | S_IXOTH 
+        // set read and execute only permission for user, group, and others
+        err = DoPrivilegedExec(chmodPath, "-R", "+X", fullpath, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "-R", "u+r-w,g+r-w,o+r-w", fullpath, NULL, NULL);
         if (err)
             return err;
     }       // locale directory

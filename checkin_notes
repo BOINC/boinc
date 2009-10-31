@@ -8313,3 +8313,17 @@ Charlie 30 Oct 2009
         
     clientgui/
         BOINCGUIApp.cpp
+
+Charlie 31 Oct 2009
+    - MGR: initialize localization stuff before checking permissions so that 
+        the Mac Sandbox permissions error alerts can be translated.
+    - Mac installer: set locale directory permissions to world readable so 
+        the Mac Sandbox permissions error alerts can be translated when the 
+        user is not a member of group boinc_master.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+        mac/
+            SetupSecurity.cpp
+    mac_build/
+        Mac_SA_Secure.sh
