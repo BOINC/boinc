@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-29 13:11-0500\n"
-"PO-Revision-Date: 2009-05-02 08:09-0700\n"
-"Last-Translator: Max F <mifistor.x@gmail.com>\n"
+"PO-Revision-Date: 2009-10-30 13:09-0700\n"
+"Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: mifistor_x <mifistor.x@gmail.com>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -21,8 +21,9 @@ msgstr ""
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 
 #: clientgui/AccountInfoPage.cpp:370
+#, fuzzy
 msgid "Identify your account "
-msgstr ""
+msgstr "Идентификация Вашей учетной записи "
 
 # ???
 #: clientgui/AccountInfoPage.cpp:376
@@ -55,6 +56,7 @@ msgid "&Yes, existing user"
 msgstr "Да, уже зарегистрирован"
 
 #: clientgui/AccountInfoPage.cpp:396
+#, fuzzy
 msgid ""
 "We were not able to set up your account information\n"
 "automatically.\n"
@@ -63,10 +65,17 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
+"Не удалось настроить вашу учетную запись\n"
+"автоматически.\n"
+"\n"
+"Пожалуйста нажмите ссылку 'Найти информацию для входа',\n"
+"находящуюся ниже, чтобы узнать, что ввести в поля\n"
+"адреса электронной почты и пароля."
 
 #: clientgui/AccountInfoPage.cpp:399
+#, fuzzy
 msgid "Find logon information"
-msgstr ""
+msgstr "Найти информацию для входа"
 
 #: clientgui/AccountInfoPage.cpp:419
 #: clientgui/AccountInfoPage.cpp:585
@@ -105,15 +114,20 @@ msgid "Forgot your password?"
 msgstr "Забыли пароль?"
 
 #: clientgui/AccountInfoPage.cpp:489
+#, fuzzy
 msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
+"Если Вы еще не зарегистрировались в этом менеджере проектов,\n"
+"пожалуйста сделайте это перед тем, как продолжить.  Нажмите на ссылку ниже,\n"
+"чтобы зарегистрироваться или восстановить забытый пароль."
 
 #: clientgui/AccountInfoPage.cpp:492
+#, fuzzy
 msgid "Account manager website"
-msgstr ""
+msgstr "Вебсайт менеджера проектов"
 
 #: clientgui/AccountInfoPage.cpp:524
 msgid "Attach to project"
@@ -147,8 +161,9 @@ msgid "The password and confirmation password do not match. Please type them aga
 msgstr "'Пароль' и 'Подтверждение пароля' не совпадают. Повторите ввод пароля."
 
 #: clientgui/AccountManagerInfoPage.cpp:243
+#, fuzzy
 msgid "Choose an account manager"
-msgstr ""
+msgstr "Выбор менеджера проектов"
 
 #: clientgui/AccountManagerInfoPage.cpp:246
 #, fuzzy
@@ -156,7 +171,7 @@ msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
-"Выберите понравившийся проект щёлкнув на его\n"
+"Выберите понравившийся менеджер проектов щёлкнув на его\n"
 "названии, или введите его адрес URL в поле ниже."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
@@ -196,8 +211,9 @@ msgstr "Отсутствует соединение"
 
 #: clientgui/AdvancedFrame.cpp:304
 #, c-format
+#, fuzzy
 msgid "Close the %s window"
-msgstr ""
+msgstr "Закрыть окно %s"
 
 #: clientgui/AdvancedFrame.cpp:309
 msgid "&Close Window\tCTRL+W"
@@ -205,8 +221,9 @@ msgstr "Закрыть окно\tCTRL+W"
 
 #: clientgui/AdvancedFrame.cpp:316
 #, c-format
+#, fuzzy
 msgid "Exit %s"
-msgstr ""
+msgstr "Выйти из %s"
 
 #: clientgui/AdvancedFrame.cpp:321
 #: clientgui/BOINCTaskBar.cpp:626
@@ -215,59 +232,59 @@ msgstr "Выход"
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "&Projects\tCTRL+SHIFT+P"
-msgstr ""
+msgstr "Проекты\tCTRL+SHIFT+P"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
-msgstr ""
+msgstr "Показать проекты"
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "&Tasks\tCTRL+SHIFT+T"
-msgstr ""
+msgstr "Задания\tCTRL+SHIFT+T"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
-msgstr ""
+msgstr "Показать задания"
 
 #: clientgui/AdvancedFrame.cpp:342
 msgid "Trans&fers\tCTRL+SHIFT+X"
-msgstr ""
+msgstr "Передача\tCTRL+SHIFT+X"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
-msgstr ""
+msgstr "Показать передачу данных"
 
 #: clientgui/AdvancedFrame.cpp:348
 msgid "&Messages\tCTRL+SHIFT+M"
-msgstr ""
+msgstr "Сообщения\tCTRL+SHIFT+M"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
-msgstr ""
+msgstr "Показать сообщения"
 
 #: clientgui/AdvancedFrame.cpp:354
 msgid "&Statistics\tCTRL+SHIFT+S"
-msgstr ""
+msgstr "Статистика\tCTRL+SHIFT+S"
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
-msgstr ""
+msgstr "Показать статистику"
 
 #: clientgui/AdvancedFrame.cpp:360
 msgid "&Disk usage\tCTRL+SHIFT+D"
-msgstr ""
+msgstr "Диск\tCTRL+SHIFT+D"
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
-msgstr ""
+msgstr "Показать использование диска"
 
 #: clientgui/AdvancedFrame.cpp:366
 msgid "&News\tCTRL+SHIFT+N"
-msgstr ""
+msgstr "Новости\tCTRL+SHIFT+N"
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
-msgstr ""
+msgstr "Показать новости"
 
 #: clientgui/AdvancedFrame.cpp:374
 #, fuzzy
@@ -280,12 +297,16 @@ msgid "Display the simple graphical interface."
 msgstr "Изменить внешний вид BOINC менеджера на более понятный."
 
 #: clientgui/AdvancedFrame.cpp:395
+#, fuzzy
 msgid "Attach to &project or account manager..."
-msgstr ""
+msgstr "Подключиться к проекту или менеджеру проектов..."
 
 #: clientgui/AdvancedFrame.cpp:396
+#, fuzzy
 msgid "Attach to a project or account manager to begin processing work"
 msgstr ""
+"Чтобы начать обработку заданий, необходимо подключиться к проекту или "
+"менеджеру проектов"
 
 # обновить данные
 #: clientgui/AdvancedFrame.cpp:400
@@ -504,8 +525,9 @@ msgid "&Help"
 msgstr "Справка"
 
 #: clientgui/AdvancedFrame.cpp:993
+#, fuzzy
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "Подключение к проекту или менеджеру проектов..."
 
 # ?
 #: clientgui/AdvancedFrame.cpp:1086
@@ -622,13 +644,15 @@ msgstr "Устанавливается связь с BOINC клиентом.  П
 
 #: clientgui/AsyncRPC.cpp:1203
 #, c-format
+#, fuzzy
 msgid "&Quit %s"
-msgstr ""
+msgstr "Закрыть %s"
 
 #: clientgui/AsyncRPC.cpp:1205
 #, c-format
+#, fuzzy
 msgid "E&xit %s"
-msgstr ""
+msgstr "Закрыть %s"
 
 #: clientgui/AsyncRPC.cpp:1222
 msgid "Cancel"
@@ -805,7 +829,7 @@ msgstr "%s разорвал подключение к интернету."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s не удалось разорвать подключение к интернету."
 
-# Пью пиво,
+# Пью пиво,&lt;br /&gt;<br />
 # меняю пароли.
 #: clientgui/BOINCGUIApp.cpp:308
 #, fuzzy
@@ -813,16 +837,20 @@ msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_master' user group."
 msgstr ""
-"У вас недостаточно прав для управления BOINC клиентом.\n"
-"Управление станет возможно после добавления вас в группу 'boinc_users' "
+"У Вас недостаточно прав для управления BOINC клиентом.\n"
+"Управление станет возможно после добавления Вас в группу 'boinc_master' "
 "Администратором компьютера."
 
 #: clientgui/BOINCGUIApp.cpp:311
 #, c-format
+#, fuzzy
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)\n"
 msgstr ""
+"Владелец BOINC или разрешения установлены некорректно; пожалуйста "
+"переустановите BOINC.\n"
+"(Код ошибки %d)\n"
 
 #: clientgui/BOINCGUIApp.cpp:388
 msgid ""
@@ -845,12 +873,14 @@ msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "сворачивать BOINC менеджер в значок на панели задач при запуске"
 
 #: clientgui/BOINCGUIApp.cpp:540
+#, fuzzy
 msgid "Directory containing the BOINC Client executable"
-msgstr ""
+msgstr "Каталог, содержащий исполняемый файл клиента BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:541
+#, fuzzy
 msgid "BOINC data directory"
-msgstr ""
+msgstr "Каталог данных BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:543
 msgid "Startup BOINC with these optional arguments"
@@ -1412,8 +1442,9 @@ msgid "% of total disk space"
 msgstr "% от объёма диска"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:502
+#, fuzzy
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Период сохранения на диск промежуточных результатов"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "seconds"
@@ -1569,16 +1600,19 @@ msgid "Scheduler RPC deferred for"
 msgstr "Запрос к планировщику отложен на"
 
 #: clientgui/DlgItemProperties.cpp:114
+#, fuzzy
 msgid "File downloads deferred for"
-msgstr ""
+msgstr "Загрузка файлов отложена на"
 
 #: clientgui/DlgItemProperties.cpp:117
+#, fuzzy
 msgid "File uploads deferred for"
-msgstr ""
+msgstr "Отправка файлов отложена на"
 
 #: clientgui/DlgItemProperties.cpp:120
+#, fuzzy
 msgid "Computer ID"
-msgstr ""
+msgstr "Идентификатор компьютера"
 
 #: clientgui/DlgItemProperties.cpp:121
 msgid "Non CPU intensive"
@@ -1676,19 +1710,16 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Интервал задержки запроса заданий для GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:160
-#, fuzzy
 msgid "ATI GPU work fetch priority"
-msgstr "Приоритет запроса заданий для GPU NVIDIA"
+msgstr "Приоритет запроса заданий для GPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:163
-#, fuzzy
 msgid "ATI GPU work fetch deferred for"
-msgstr "Запрос заданий для GPU NVIDIA отложен на"
+msgstr "Запрос заданий для GPU ATI отложен на"
 
 #: clientgui/DlgItemProperties.cpp:164
-#, fuzzy
 msgid "ATI GPU work fetch deferral interval"
-msgstr "Интервал задержки запроса заданий для GPU NVIDIA"
+msgstr "Интервал задержки запроса заданий для GPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:166
 msgid "Duration correction factor"
@@ -1713,7 +1744,7 @@ msgstr "Состояние"
 
 #: clientgui/DlgItemProperties.cpp:185
 msgid "Received"
-msgstr ""
+msgstr "Получено"
 
 #: clientgui/DlgItemProperties.cpp:188
 msgid "Report deadline"
@@ -1757,7 +1788,7 @@ msgstr "Использование памяти"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Directory"
-msgstr ""
+msgstr "Каталог"
 
 #: clientgui/DlgItemProperties.cpp:301
 msgid "New"
@@ -2346,16 +2377,20 @@ msgid "Project &URL:"
 msgstr "Адрес (URL):"
 
 #: clientgui/ProjectInfoPage.cpp:339
+#, fuzzy
 msgid "This project may not have work for your type of computer. Are you sure you wish to continue?"
 msgstr ""
+"Возможно, что данный проект не поддерживает тип вашего компьютера или "
+"операционную систему. Вы всё равно хотите продолжить?"
 
 #: clientgui/ProjectInfoPage.cpp:363
 msgid "You are already attached to this project. Please choose a different project."
 msgstr "Этот проект уже подключен. Выберите другой проект."
 
 #: clientgui/ProjectListCtrl.cpp:239
+#, fuzzy
 msgid "Click"
-msgstr ""
+msgstr "Нажать"
 
 #: clientgui/ProjectProcessingPage.cpp:323
 #: clientgui/ProjectPropertiesPage.cpp:336
@@ -2467,8 +2502,9 @@ msgid "Advanced View...\tCTRL+SHIFT+A"
 msgstr "Полный вид\tCTRL+SHIFT+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
+#, fuzzy
 msgid "Display the advanced (accessible) graphical interface."
-msgstr ""
+msgstr "Показать расширенный (полностью доступный) графический интерфейс."
 
 #: clientgui/sg_BoincSimpleGUI.cpp:141
 #, c-format
@@ -3550,12 +3586,13 @@ msgid "Download pending"
 msgstr "Ожидание загрузки данных"
 
 #: clientgui/ViewTransfers.cpp:769
+#, fuzzy
 msgid " (project backoff: "
-msgstr ""
+msgstr "(запрос к проекту отложен на: "
 
 #: clientgui/ViewTransfers.cpp:769
 msgid ")"
-msgstr ""
+msgstr ")"
 
 # ипользуется внутри программы
 #: clientgui/ViewTransfersGrid.cpp:161
@@ -3585,13 +3622,15 @@ msgstr "Прерывание передачи файла(ов)"
 
 #: clientgui/ViewWork.cpp:184
 #: clientgui/ViewWork.cpp:708
+#, fuzzy
 msgid "Show active tasks"
-msgstr ""
+msgstr "Показать активные задания"
 
 #: clientgui/ViewWork.cpp:185
 #: clientgui/ViewWork.cpp:709
+#, fuzzy
 msgid "Show only active tasks."
-msgstr ""
+msgstr "Показать только активные задания."
 
 #: clientgui/ViewWork.cpp:192
 #: clientgui/ViewWorkGrid.cpp:115
@@ -3665,8 +3704,9 @@ msgstr ""
 
 #: clientgui/ViewWork.cpp:432
 #, c-format
+#, fuzzy
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr ""
+msgstr "Вы уверены, что хотите прервать обработку этих %d заданий?"
 
 #: clientgui/ViewWork.cpp:437
 #: clientgui/ViewWorkGrid.cpp:335
@@ -3679,12 +3719,14 @@ msgid "Aborting result..."
 msgstr "Прерывается обработка выделенного задания..."
 
 #: clientgui/ViewWork.cpp:702
+#, fuzzy
 msgid "Show all tasks"
-msgstr ""
+msgstr "Показать все задания"
 
 #: clientgui/ViewWork.cpp:703
+#, fuzzy
 msgid "Show all tasks."
-msgstr ""
+msgstr "Показать все задания."
 
 #: clientgui/ViewWork.cpp:727
 #: clientgui/ViewWorkGrid.cpp:445
@@ -3697,8 +3739,9 @@ msgid "Suspend work for this task."
 msgstr "Приостановить обработку выделенного задания."
 
 #: clientgui/ViewWork.cpp:1107
+#, fuzzy
 msgid "GPU missing, "
-msgstr ""
+msgstr "Отсутствие GPU, "
 
 #: clientgui/ViewWork.cpp:1148
 msgid " - an exclusive app is running"
@@ -3724,8 +3767,9 @@ msgstr ""
 "(Прогресс: %s %%, Состояние: %s)"
 
 #: clientgui/WelcomePage.cpp:250
+#, fuzzy
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "Подключение к проекту или менеджеру проектов"
 
 #: clientgui/WelcomePage.cpp:258
 #, c-format
@@ -3743,10 +3787,13 @@ msgstr ""
 "мастера, не будут управляться через %s."
 
 #: clientgui/WelcomePage.cpp:271
+#, fuzzy
 msgid ""
 "We'll guide you through the process of attaching\n"
 "to a project or account manager."
 msgstr ""
+"Данный мастер поможет вам подключиться\n"
+"к проекту распределённых вычислений или менеджеру проектов."
 
 #: clientgui/WelcomePage.cpp:275
 msgid ""
