@@ -320,7 +320,7 @@ void CProjectProcessingPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pProgressIndicator);
 
     m_pTitleStaticCtrl->SetLabel(
-        _("Communicating with project\nPlease wait...")
+        _("Communicating with project.")
     );
 
     SetProjectCommunitcationsSucceeded(false);
@@ -496,10 +496,10 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                     if ((HTTP_STATUS_NOT_FOUND == ao->error_num)) {
                         strBuffer += 
-                            _("Required wizard file(s) are missing from the target server.\n(lookup_account.php/create_account.php)\n");
+                            _("Required files not found on the server.");
                     } else if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == ao->error_num)) {
                         strBuffer += 
-                            _("An internal server error has occurred.\n");
+                            _("An internal server error has occurred.");
                     } else {
 						if (ao->error_msg.size()) {
                             strBuffer += wxString(ao->error_msg.c_str(), wxConvUTF8) + wxString(wxT("\n"));
@@ -561,7 +561,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
                     if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == reply.error_num)) {
                         strBuffer += 
-                            _("An internal server error has occurred.\n");
+                            _("An internal server error has occurred.");
                     } else {
                         for (i=0; i<reply.messages.size(); i++) {
                             strBuffer += wxString(reply.messages[i].c_str(), wxConvUTF8) + wxString(wxT("\n"));

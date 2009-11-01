@@ -8877,3 +8877,9 @@ Charlie 31 Oct 2009
     mac_build/
         Mac_SA_Secure.sh
 
+David  31 Oct 2009
+    - MGR: fixed some strings, removed trailing \n's
+
+    clientgui
+        AdvancedFrame.cpp
+        ProjectProcessingPage.cpp

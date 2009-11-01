@@ -1,10 +1,18 @@
 <?
 
 $project_news = array(
+array("October 30, 2009",
+    "The <a href=http://boinc.berkeley.edu/trac/wiki/WorkShop09>Fifth BOINC Workshop</a> was held Oct. 22-23 in Barcelona.
+    There were 35 attendees and 21 excellent talks;
+    many of the presentation slides and discussion notes are online."
+),
+array("October 30, 2009",
+    "Version 6.10 of the BOINC client software has been released for general use. Download it <a href=http://boinc.berkeley.edu/download.php>here</a>."
+),
 array("October 28, 2009",
-    "The Windows builds of 6.6.41 has been pulled from the <a href=http://boinc.berkeley.edu/download.php>Download</a>
-    page due to a application version mismatch with some Microsoft components. Please use the 6.6.38 version until
-    6.10 is released."
+    "The Windows versions of 6.6.41 have been recalled
+    due to a version mismatch with recent Microsoft updates.
+    Please use the 6.6.38 version until 6.10 is released."
 ),
 array("October 21, 2009",
     "An <a href=http://online.wsj.com/article/SB10001424052748703816204574483481567116994.html>article in the Wall Street Journal</a>

@@ -1416,7 +1416,7 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strDialogTitle.Printf(
-        _("%s - Shutdown the current client..."),
+        _("%s - Shut down the current client..."),
         pSkinAdvanced->GetApplicationName().c_str()
     );
 
@@ -1425,7 +1425,7 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     // 2nd %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strDialogMessage.Printf(
-        _("%s will shut down the currently connected client,\nand prompt you for another host to connect to.\n"),
+        _("%s will shut down the current client\nand prompt you for another host to connect to."),
         pSkinAdvanced->GetApplicationName().c_str()
     );
 
@@ -1472,7 +1472,7 @@ void CAdvancedFrame::OnRetryCommunications( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    UpdateStatusText(_("Retrying communications for project(s)..."));
+    UpdateStatusText(_("Retrying communications."));
     pDoc->rpc.network_available();
     UpdateStatusText(wxT(""));
 
