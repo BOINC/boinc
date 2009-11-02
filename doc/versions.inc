@@ -187,7 +187,7 @@ $l66ubuntux64 = array(
 
 $windows = array(
     "name"=>"Windows",
-    "description"=>"XP/Vista/7",
+    "description"=>"2000/XP/Vista/7",
     "dbname" => "windows_intelx86",
     "versions"=>array(
         $w610,
