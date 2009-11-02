@@ -71,7 +71,7 @@ $w610= array(
 
 $w66= array(
     "num"=>"6.6.38",
-	"status"=>"Older version (also works on Windows 98, Windows ME, and Windows 2000)",
+	"status"=>"Older version (also works on Windows 98, Windows ME)",
     "file"=>"boinc_6.6.38_windows_intelx86.exe",
     "date"=>"28 Oct 2009",
     "type"=>"win_new",
