@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.8.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-29 20:06-0500\n"
-"PO-Revision-Date: 2009-10-29 20:06-0500\n"
+"POT-Creation-Date: 2009-11-03 17:36-0500\n"
+"PO-Revision-Date: 2009-11-03 17:36-0500\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -1096,7 +1096,7 @@ msgid "Other options"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:233
-msgid "Switch between applications between every"
+msgid "Switch between applications every"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:242
@@ -2084,7 +2084,7 @@ msgstr ""
 msgid "You are already attached to this project. Please choose a different project."
 msgstr ""
 
-#: clientgui/ProjectListCtrl.cpp:239
+#: clientgui/ProjectListCtrl.cpp:275
 msgid "Click"
 msgstr ""
 
@@ -3371,52 +3371,62 @@ msgstr ""
 msgid "Pie Ctrl"
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:313
+#: clientgui/mac/MacAccessiblity.cpp:344
 msgid "list of "
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:382
+#: clientgui/mac/MacAccessiblity.cpp:414
 #, c-format
 msgid "%d of %d "
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:384
+#: clientgui/mac/MacAccessiblity.cpp:416
 msgid "current sort column "
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:386
+#: clientgui/mac/MacAccessiblity.cpp:418
 msgid " descending order "
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:386
+#: clientgui/mac/MacAccessiblity.cpp:418
 msgid " ascending order "
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:388
+#: clientgui/mac/MacAccessiblity.cpp:420
 msgid "column "
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:394
+#: clientgui/mac/MacAccessiblity.cpp:426
+#: clientgui/mac/MacAccessiblity.cpp:1003
 msgid "selected "
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:399
+#: clientgui/mac/MacAccessiblity.cpp:431
 #, c-format
 msgid "row %d "
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:402
+#: clientgui/mac/MacAccessiblity.cpp:434
 #, c-format
 msgid "of %d "
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:405
+#: clientgui/mac/MacAccessiblity.cpp:437
 #, c-format
 msgid "column %d "
 msgstr ""
 
-#: clientgui/mac/MacAccessiblity.cpp:409
+#: clientgui/mac/MacAccessiblity.cpp:441
 msgid "blank"
+msgstr ""
+
+#: clientgui/mac/MacAccessiblity.cpp:965
+msgid "list of projects or account managers"
+msgstr ""
+
+#: clientgui/mac/MacAccessiblity.cpp:1007
+#, c-format
+msgid "row %d of %d "
 msgstr ""
 
 #: clientgui/DlgAdvPreferences.h:29
