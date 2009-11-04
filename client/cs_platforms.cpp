@@ -126,10 +126,10 @@ void CLIENT_STATE::detect_platforms() {
         if ((f=popen(cmdline,"r"))) {
             while (!std::feof(f)) {
                 fgets(cmdline,256,f);
-		        if (strstr(cmdline,"x86_64")) support64=1;
-	        }
-	        pclose(f);
-	    }
+                if (strstr(cmdline,"x86_64")) support64=1;
+            }
+            pclose(f);
+        }
 
         if (!support64) {
 	        // we're running on a 32 bit kernel, so we will assume
