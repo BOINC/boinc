@@ -188,6 +188,14 @@ $mixed = array(
     "Multiple applications",
     array(
         array(
+            "EDGeS@Home",
+            "http://home.edges-grid.eu/home/",
+            "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Budapest)",
+            "Scientific research in multiple areas",
+            "The EDGeS@Home Beta project integrates volunteer computing into the service grid network of Europe by allowing service grids to send workunits to be processed by the volunteers of this project. The scientific projects covered by the project include math, physics, biology, etc.",
+            "logo_edges.png"
+        ),
+        array(
             "Ibercivis",
             "http://registro.ibercivis.es/",
             "Spanish universities and research centers",

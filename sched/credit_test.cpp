@@ -1,0 +1,163 @@
+#include <stdio.h>
+#include "sched_config.h"
+#include "boinc_db.h"
+
+struct HOST_APP {
+    int host_id;
+    int app_id;
+    AVERAGE vnpfc;
+};
+
+struct HOST_APP_VERSION {
+    int host_id;
+    int app_version_id;
+    AVERAGE et;
+};
+
+vector<APP_VERSION> app_versions;
+vector<APP> apps;
+vector<HOST_APP> host_apps;
+vector<HOST_APP_VERSION> host_app_versions;
+
+// update app version scale factors
+//
+void update_av_scales() {
+    unsigned int i, j;
+    for (i=0; i<apps.size(); i++) {
+        APP& app = apps[i];
+        int n=0;
+        double min_pfc;
+        for (j=0; j<app_versions.size(); j++) {
+            APP_VERSION& av = app_versions[j];
+            if (av.appid != app.id) continue;
+            if (av.pfc.n < 10) continue;
+            if (n) {
+                if (av.pfc.recent_mean < min_pfc) {
+                    min_pfc = av.pfc.recent_mean;
+                }
+            } else {
+                min_pfc = av.pfc.recent_mean;
+            }
+            n++;
+        }
+        if (n < 2) continue;
+
+        // if at least 2 versions have at least 10 samples,
+        // update their scale factors
+        //
+        for (j=0; j<app_versions.size(); j++) {
+            APP_VERSION& av = app_versions[j];
+            if (av.appid != app.id) continue;
+            if (av.pfc.n < 10) continue;
+            av.pfc_scale_factor = min_pfc/av.pfc.recent_mean;
+        }
+    }
+}
+
+void read_db() {
+    DB_APP app;
+    DB_APP_VERSION av;
+
+    while (!app.enumerate("where deprecated=0")) {
+        app.vnpfc.clear();
+        apps.push_back(app);
+    }
+    while (!av.enumerate("where deprecated=0")) {
+        av.pfc.clear();
+        av.pfc_scale_factor = 1;
+        app_versions.push_back(av);
+    }
+}
+
+APP_VERSION& lookup_av(int id) {
+    unsigned int i;
+    for (i=0; i<app_versions.size(); i++) {
+        APP_VERSION& av = app_versions[i];
+        if (av.id == id) return av;
+    }
+    printf("missing app version %d\n", id);
+}
+
+APP& lookup_app(int id) {
+    unsigned int i;
+    for (i=0; i<apps.size(); i++) {
+        APP& app = apps[i];
+        if (app.id == id) return app;
+    }
+    printf("missing app%d\n", id);
+}
+
+HOST_APP& lookup_host_app(int hostid, int appid) {
+    unsigned int i;
+    for (i=0; i<host_apps.size(); i++) {
+        HOST_APP& ha = host_apps[i];
+        if (ha.host_id != hostid) continue;
+        if (ha.app_id != appid) continue;
+        return ha;
+    }
+    HOST_APP h;
+    h.host_id = hostid;
+    h.app_id = appid;
+    h.vnpfc.clear();
+    host_apps.push_back(h);
+    return host_apps.back();
+}
+
+int main() {
+    DB_RESULT r;
+    char clause[256];
+    int retval;
+
+    retval = config.parse_file();
+    if (retval) {printf("no config: %d\n", retval); exit(1);}
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
+    if (retval) {printf("no db\n"); exit(1);}
+
+    read_db();
+
+    sprintf(clause, "where server_state=%d and outcome=%d limit 1000",
+        RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS
+    );
+
+    int n=0;
+    while (!r.enumerate(clause)) {
+        if (!r.elapsed_time) {printf("no elapsed_time\n"); continue;}
+        if (!r.flops_estimate) {printf("no flops_estimate\n"); continue;}
+        if (!r.app_version_id) {printf("no app_version_id\n"); continue;}
+
+        double pfc = r.elapsed_time * r.flops_estimate;
+        printf("handling %s: %f\n", r.name, pfc);
+
+        // cross-version normalization
+
+        APP_VERSION& av = lookup_av(r.app_version_id);
+        APP& app = lookup_app(av.appid);
+
+        double vnpfc = pfc * av.pfc_scale_factor;
+
+        // host normalization
+
+        HOST_APP& host_app = lookup_host_app(r.hostid, app.id);
+        double scale = app.vnpfc.recent_mean/host_app.vnpfc.recent_mean;
+        double claimed_flops = vnpfc * scale;
+        double claimed_credit = claimed_flops * 100/86400e9;
+
+        printf("cc %f claimed %f granted %f\n", claimed_credit,
+            r.claimed_credit, r.granted_credit
+        );
+
+        // update averages
+
+        av.pfc.update(pfc);
+        app.vnpfc.update(vnpfc);
+        host_app.vnpfc.update(vnpfc);
+
+        n++;
+
+        if (n%20 ==0) {
+            update_av_scales();
+        }
+    }
+}

@@ -8889,3 +8889,14 @@ Rom    4 Nov 2009
     
     client
         cs_platforms.cpp
+
+David  4 Nov 2009
+    - test code for new credit system
+
+    db/
+        boinc_db.h
+    lib/
+        average.h
+    sched/
+        Makefile.am
+        credit_test.cpp

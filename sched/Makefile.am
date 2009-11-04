@@ -98,6 +98,7 @@ bin_PROGRAMS = \
 
 sched_PROGRAMS = \
     census \
+	credit_test \
     db_dump \
     db_purge \
     feeder \
@@ -162,6 +163,10 @@ census_SOURCES = \
     hr.cpp \
     hr_info.cpp
 census_LDADD = $(SERVERLIBS)
+
+credit_test_SOURCES = \
+	credit_test.cpp
+credit_test_LDADD = $(SERVERLIBS)
 
 feeder_SOURCES = \
     feeder.cpp \

@@ -29,6 +29,7 @@
 #include <vector>
 
 #include "db_base.h"
+#include "average.h"
 
 extern DB_CONN boinc_db;
 
@@ -75,6 +76,7 @@ struct APP {
                             // should come from this app
     bool beta;
     int target_nresults;
+    AVERAGE vnpfc;
 
     int write(FILE*);
     void clear();
@@ -115,6 +117,8 @@ struct APP_VERSION {
     // the following used by scheduler, not in DB
     //
     BEST_APP_VERSION* bavp;
+    AVERAGE pfc;
+    double pfc_scale_factor;
 
     int write(FILE*);
     void clear();
@@ -506,6 +510,7 @@ struct RESULT {
     int parse_from_client(FILE*);
     char platform_name[256];
     BEST_APP_VERSION* bavp;
+
     void clear();
     int write_to_client(FILE*);
 };
