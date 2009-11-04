@@ -17,7 +17,7 @@
     // cap samples at recent_mean*10
 
 struct AVERAGE {
-    int n;
+    double n;       // double to avoid integer overflow
     double mean;
     double sum_var;
         // sample variance is this divided by (n-1)

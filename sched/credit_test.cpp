@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <string.h>
+
 #include "sched_config.h"
 #include "boinc_db.h"
 
@@ -26,21 +28,23 @@ void update_av_scales() {
     for (i=0; i<apps.size(); i++) {
         APP& app = apps[i];
         int n=0;
-        double min_pfc;
+
+        // find the average PFC of CPU versions
+
+        double sum_avg = 0;
+        double sum_n = 0;
         for (j=0; j<app_versions.size(); j++) {
             APP_VERSION& av = app_versions[j];
             if (av.appid != app.id) continue;
             if (av.pfc.n < 10) continue;
-            if (n) {
-                if (av.pfc.recent_mean < min_pfc) {
-                    min_pfc = av.pfc.recent_mean;
-                }
-            } else {
-                min_pfc = av.pfc.recent_mean;
-            }
+            if (strstr(av.plan_class, "cuda")) continue;
+            if (strstr(av.plan_class, "ati")) continue;
+            sum_avg += av.pfc.recent_mean * av.pfc.n;
+            sum_n += av.pfc.n;
             n++;
         }
-        if (n < 2) continue;
+        if (n < 1) continue;
+        double cpu_avg = sum_avg / sum_n;
 
         // if at least 2 versions have at least 10 samples,
         // update their scale factors
@@ -49,7 +53,7 @@ void update_av_scales() {
             APP_VERSION& av = app_versions[j];
             if (av.appid != app.id) continue;
             if (av.pfc.n < 10) continue;
-            av.pfc_scale_factor = min_pfc/av.pfc.recent_mean;
+            av.pfc_scale_factor = cpu_avg/av.pfc.recent_mean;
         }
     }
 }
@@ -103,6 +107,23 @@ HOST_APP& lookup_host_app(int hostid, int appid) {
     return host_apps.back();
 }
 
+void print_average(AVERAGE& a) {
+    printf("n %f avg %fG ravg %fG", a.n, a.mean/1e9, a.recent_mean/1e9);
+}
+
+void print_avs() {
+    unsigned int i;
+    for (i=0; i<app_versions.size(); i++) {
+        APP_VERSION& av = app_versions[i];
+        if (!av.pfc.n) continue;
+        printf("app %d vers %d (%s) scale %f ",
+            av.appid, av.id, av.plan_class, av.pfc_scale_factor
+        );
+        print_average(av.pfc);
+        printf("\n");
+    }
+}
+
 int main() {
     DB_RESULT r;
     char clause[256];
@@ -117,7 +138,7 @@ int main() {
 
     read_db();
 
-    sprintf(clause, "where server_state=%d and outcome=%d limit 1000",
+    sprintf(clause, "where server_state=%d and outcome=%d order by id desc limit 10000",
         RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS
     );
 
@@ -128,29 +149,40 @@ int main() {
         if (!r.app_version_id) {printf("no app_version_id\n"); continue;}
 
         double pfc = r.elapsed_time * r.flops_estimate;
-        printf("handling %s: %f\n", r.name, pfc);
+        printf("handling host %d %f s %f Gflops\n",
+            r.hostid, r.elapsed_time, r.flops_estimate/1e9
+        );
+        APP& app = lookup_app(r.appid);
 
-        // cross-version normalization
 
-        APP_VERSION& av = lookup_av(r.app_version_id);
-        APP& app = lookup_app(av.appid);
-
-        double vnpfc = pfc * av.pfc_scale_factor;
+        double vnpfc;
+        if (r.app_version_id < 0) {
+            // anonymous platform case
+            vnpfc = pfc;
+            printf(" anonymous platform\n");
+        } else {
+            // cross-version normalization
+            APP_VERSION& av = lookup_av(r.app_version_id);
+            vnpfc = pfc * av.pfc_scale_factor;
+            printf(" version scale (%s): %f\n", av.plan_class, av.pfc_scale_factor);
+            av.pfc.update(pfc);
+        }
 
         // host normalization
 
         HOST_APP& host_app = lookup_host_app(r.hostid, app.id);
-        double scale = app.vnpfc.recent_mean/host_app.vnpfc.recent_mean;
-        double claimed_flops = vnpfc * scale;
+        double host_scale = 1;
+        if (host_app.vnpfc.n > 5) {
+            host_scale = app.vnpfc.recent_mean/host_app.vnpfc.recent_mean;
+            printf(" host scale: %f\n", host_scale);
+        }
+        double claimed_flops = vnpfc * host_scale;
         double claimed_credit = claimed_flops * 100/86400e9;
 
-        printf("cc %f claimed %f granted %f\n", claimed_credit,
-            r.claimed_credit, r.granted_credit
+        printf(" cc %f claimed %f granted %f\n",
+            claimed_credit, r.claimed_credit, r.granted_credit
         );
 
-        // update averages
-
-        av.pfc.update(pfc);
         app.vnpfc.update(vnpfc);
         host_app.vnpfc.update(vnpfc);
 
@@ -160,4 +192,5 @@ int main() {
             update_av_scales();
         }
     }
+    print_avs();
 }
