@@ -8883,3 +8883,9 @@ David  31 Oct 2009
     clientgui
         AdvancedFrame.cpp
         ProjectProcessingPage.cpp
+
+Rom    4 Nov 2009
+    - client: Fix linux build break.
+    
+    client
+        cs_platforms.cpp
