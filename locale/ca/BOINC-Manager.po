@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-29 13:11-0500\n"
-"PO-Revision-Date: 2009-10-29 15:50-0700\n"
+"POT-Creation-Date: 2009-11-05 13:41-0500\n"
+"PO-Revision-Date: 2009-11-05 14:31-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -60,11 +60,9 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
-"No podem actualitzar la informació del seu compte\n"
-"de forma automàtica.\n"
-"Si us plau premi l'accés 'Obtenir informació d'inici de sessió'\n"
-"per obtenir el que s'ha de posar a l'adreça de correu i\n"
-"contrassenya."
+"No podem actualitzar la informació del seu comptede forma automàtica.Si us "
+"plau premi l'accés 'Obtenir informació d'inici de sessió'per obtenir el que "
+"s'ha de posar a l'adreça de correu icontrasenya."
 
 #: clientgui/AccountInfoPage.cpp:399
 msgid "Find logon information"
@@ -112,9 +110,9 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
-"Si encara no s'ha registrat en aquest administrador de comptes,\n"
-"si us plau fasi-ho abans de continuar.  Premi el següent accés\n"
-"per registrar-se o recuperar la contrassenya que ha oblidat."
+"Si encara no s'ha registrat en aquest administrador de comptes,si us plau "
+"faci-ho abans de continuar.  Premi el següent accésper registrar-se o "
+"recuperar la contrasenya que ha oblidat."
 
 #: clientgui/AccountInfoPage.cpp:492
 msgid "Account manager website"
@@ -136,7 +134,7 @@ msgstr "Adjuntar-se a un administrador de comptes"
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr ""
-"La longitud mínima de la contrassenya per aquest projecte es %d. Si us plau, "
+"La longitud mínima de la contrasenya per aquest projecte es %d. Si us plau, "
 "entri una contrasenya diferent."
 
 #: clientgui/AccountInfoPage.cpp:543
@@ -201,7 +199,7 @@ msgid "Close the %s window"
 msgstr "Tancar la finestra %s"
 
 #: clientgui/AdvancedFrame.cpp:309
-msgid "&Close Window\tCTRL+W"
+msgid "&Close Window\tCtrl+W"
 msgstr "&Tancar la Finestra\tCTRL+W"
 
 #: clientgui/AdvancedFrame.cpp:316
@@ -215,64 +213,64 @@ msgid "E&xit"
 msgstr "&Sortir"
 
 #: clientgui/AdvancedFrame.cpp:330
-msgid "&Projects\tCTRL+SHIFT+P"
-msgstr "&Projectes\tCTRL+SHIFT+P"
+msgid "&Projects\tCtrl+Shift+P"
+msgstr "&Projectes\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
 msgstr "Mostrar els projectes"
 
 #: clientgui/AdvancedFrame.cpp:336
-msgid "&Tasks\tCTRL+SHIFT+T"
-msgstr "&Tasques\tCTRL+SHIFT+T"
+msgid "&Tasks\tCtrl+Shift+T"
+msgstr "&Treballs\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
 msgstr "Mostrar les tasques"
 
 #: clientgui/AdvancedFrame.cpp:342
-msgid "Trans&fers\tCTRL+SHIFT+X"
-msgstr "&Lliuraments\tCTRL+SHIFT+X"
+msgid "Trans&fers\tCtrl+Shift+X"
+msgstr "&Lliuraments\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
 msgstr "Mostrar lliuraments"
 
 #: clientgui/AdvancedFrame.cpp:348
-msgid "&Messages\tCTRL+SHIFT+M"
-msgstr "&Missatges\tCTRL+SHIFT+M"
+msgid "&Messages\tCtrl+Shift+M"
+msgstr "&Missatges\tCtrl+Shift+M"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
 msgstr "Mostrar lliuraments"
 
 #: clientgui/AdvancedFrame.cpp:354
-msgid "&Statistics\tCTRL+SHIFT+S"
-msgstr "&Estadístiques\tCTRL+SHIFT+S"
+msgid "&Statistics\tCtrl+Shift+S"
+msgstr "&Estadístiques\tCtrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
 msgstr "Mostrar estadístiques"
 
 #: clientgui/AdvancedFrame.cpp:360
-msgid "&Disk usage\tCTRL+SHIFT+D"
-msgstr "Utilització de &disc\tCTRL+SHIFT+D"
+msgid "&Disk usage\tCtrl+Shift+D"
+msgstr "Utilització de &disc\tCtrol+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
 msgstr "Mostrar la utilització de disc"
 
 #: clientgui/AdvancedFrame.cpp:366
-msgid "&News\tCTRL+SHIFT+N"
-msgstr "&Notícies\tCTRL+SHIFT+N"
+msgid "&News\tCtrl+Shift+N"
+msgstr "&Notícies\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
 msgstr "Mostrar les notícies"
 
 #: clientgui/AdvancedFrame.cpp:374
-msgid "Simple &View...\tCTRL+SHIFT+V"
-msgstr "Vista &Senzilla...\tCTRL+SHIFT+S"
+msgid "Simple &View...\tCtrl+Shift+V"
+msgstr "&Vista Senzilla...\tCTRL+SHIFT+V"
 
 #: clientgui/AdvancedFrame.cpp:375
 msgid "Display the simple graphical interface."
@@ -337,7 +335,7 @@ msgstr "&Suspendre"
 
 #: clientgui/AdvancedFrame.cpp:446
 msgid "Stop work regardless of preferences"
-msgstr "Aturar treballs tot i les preferències"
+msgstr "Aturar els treballs tot i les preferències"
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "&Network activity always available"
@@ -789,26 +787,37 @@ msgstr "%s s'ha desconnectat d'Internet."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s no ha pogut desconnectar-se d'Internet."
 
-#: clientgui/BOINCGUIApp.cpp:308
+#: clientgui/BOINCGUIApp.cpp:336
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_master' user group."
+"\n"
+"To run BOINC as this user, please:\n"
+"  - reinstall BOINC answering \"Yes\" to the question about\n"
+"     non-administrative users\n"
+" or\n"
+"  - contact your administrator to add you to the 'boinc_master'\n"
+"     user group."
 msgstr ""
-"Actualment no està autoritzat per administrar el client.Si us plau posi's en "
-"contacte amb el seu administrador per afegir-lo al grup per afegir-lo al "
-"grup 'boinc_master'."
+"En aquests moment no te autorització per gestionar el client.\n"
+"\n"
+"Per executar BOINC amb aquest usuari, si us plau:\n"
+"  - reinstal·li BOINC i respongui \"Si\" a la pregunta sobre\n"
+"     usuaris no-administradors\n"
+" o\n"
+"  - contacti amb el seu administrador per afegir-lo al grup\n"
+"     d'usuaris 'boinc_master'."
 
-#: clientgui/BOINCGUIApp.cpp:311
+#: clientgui/BOINCGUIApp.cpp:339
 #, c-format
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
-"(Error code %d)\n"
+"(Error code %d)"
 msgstr ""
 "Les propietats o permisos de BOINC no estan definides correctament; si us "
 "plau reinstal·li BOINC.\n"
-"(Codi d'error %d)\n"
+"(Codi d'error %d)"
 
-#: clientgui/BOINCGUIApp.cpp:388
+#: clientgui/BOINCGUIApp.cpp:389
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -817,51 +826,51 @@ msgstr ""
 "correctament.\n"
 "Si us plau reiniciï l'ordinador i provi-ho de nou."
 
-#: clientgui/BOINCGUIApp.cpp:389
+#: clientgui/BOINCGUIApp.cpp:390
 msgid "BOINC Manager"
 msgstr "Administrador BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:536
+#: clientgui/BOINCGUIApp.cpp:537
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "El sistema ha iniciat automàticament l'Administrador BOINC "
 
-#: clientgui/BOINCGUIApp.cpp:538
+#: clientgui/BOINCGUIApp.cpp:539
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr ""
 "Iniciar BOINC de manera que només la icona de la barra de tasques sigui "
 "visible"
 
-#: clientgui/BOINCGUIApp.cpp:540
+#: clientgui/BOINCGUIApp.cpp:541
 msgid "Directory containing the BOINC Client executable"
 msgstr "Directori que conté l'executable del Client BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:541
+#: clientgui/BOINCGUIApp.cpp:542
 msgid "BOINC data directory"
 msgstr "Directori de les dades de BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:543
+#: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
 msgstr "Iniciar BOINC amb aquests arguments opcionals"
 
-#: clientgui/BOINCGUIApp.cpp:544
+#: clientgui/BOINCGUIApp.cpp:545
 msgid "disable BOINC security users and permissions"
 msgstr "desactivar la seguretat d'usuaris i permisos BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:545
+#: clientgui/BOINCGUIApp.cpp:546
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 "seleccioni el mode de depuració per activar els missatges d'error de "
 "l'administrador"
 
-#: clientgui/BOINCGUIApp.cpp:735
+#: clientgui/BOINCGUIApp.cpp:736
 msgid "(Automatic Detection)"
 msgstr "(Detecció Automàtica)"
 
-#: clientgui/BOINCGUIApp.cpp:736
+#: clientgui/BOINCGUIApp.cpp:737
 msgid "(Unknown)"
 msgstr "(Desconegut)"
 
-#: clientgui/BOINCGUIApp.cpp:737
+#: clientgui/BOINCGUIApp.cpp:738
 msgid "(User Defined)"
 msgstr "(Definit per l'Usuari)"
 
@@ -1020,7 +1029,7 @@ msgstr ""
 #: clientgui/DlgAbout.cpp:179
 #: clientgui/DlgAbout.cpp:183
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr "Infrastuctura Oberta de Berkeley per la Computació en xarxa"
+msgstr "Infraestructura Oberta de Berkeley per la Computació en xarxa"
 
 #: clientgui/DlgAbout.cpp:195
 #: clientgui/DlgExitMessage.cpp:172
@@ -1103,12 +1112,11 @@ msgstr " Mentre l'ordinador està en us"
 msgid "check this if you want this computer to do work even when you're using it"
 msgstr ""
 "seleccioni aquesta opció si desitja que l'ordinador treballi mentre l'està "
-"utilitzantseleccioni-ho si desitja que l'ordinador treballi mentre l'està "
 "utilitzant"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:98
 msgid " Use GPU while computer is in use"
-msgstr "Utitlitzar la GPU al mateix temps que l'ordinador s'està fent servir"
+msgstr "Utilitzar la GPU al mateix temps que l'ordinador s'està fent servir"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
 msgid "check this if you want your GPU to do work even when you're using the computer"
@@ -1158,7 +1166,7 @@ msgstr "(cap restricció si és igual)"
 #: clientgui/DlgAdvPreferencesBase.cpp:376
 msgid "Day-of-week override:"
 msgstr ""
-"Horari preferit dels dias de la setmana. Aquesta selecció és la que "
+"Horari preferit dels dies de la setmana. Aquesta selecció és la que "
 "s'aplicarà:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:156
@@ -1439,13 +1447,10 @@ msgid ""
 "If you also want to stop running the science applications when you\n"
 "exit the Manager, then choose from the following options:"
 msgstr ""
-"Ha sol·licitat sortir de %s,\n"
-"que li permet veure i administrar\n"
-"les aplicacions científiques que s'executen en el seu ordinador.\n"
-"\n"
-"Si també vol finalitzar l'execució de les aplicacions cientifiques que "
-"s'executen quan\n"
-"surti de l'Administrador, esculli una de les següent opcions:"
+"Ha sol·licitat sortir de %s,que li permet veure i administrarles aplicacions "
+"científiques que s'executen en el seu ordinador.Si també vol finalitzar "
+"l'execució de les aplicacions científiques que s'executen quansurti de "
+"l'Administrador, esculli una de les següent opcions:"
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
@@ -1457,13 +1462,11 @@ msgid ""
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
 msgstr ""
-"Això aturarà %s i les seves tasques fins que el programa\n"
-"%s o el protector de pantalla %s s'executin de nou.\n"
-"\n"
-"La majoria de vegades, es millor tancar la finestra de %s\n"
-"en lloc de finalitzar l'aplicació; això pemetrà %s executar les seves "
-"tasques\n"
-"en els períodes de temps que ha seleccionat en les seves preferències."
+"Això aturarà %s i les seves tasques fins que el programa%s o el protector de "
+"pantalla %s s'executin de nou.La majoria de vegades, es millor tancar la "
+"finestra de %sen lloc de finalitzar l'aplicació; això permetrà %s executar "
+"les seves tasquesen els períodes de temps que ha seleccionat en les seves "
+"preferències."
 
 #: clientgui/DlgExitMessage.cpp:153
 msgid "Stop running science applications when exiting the Manager"
@@ -1683,7 +1686,7 @@ msgstr "Temps transcorregut"
 
 #: clientgui/DlgItemProperties.cpp:198
 msgid "Estimated time remaining"
-msgstr "Temps estimat remanent"
+msgstr "Temps estimat que resta"
 
 #: clientgui/DlgItemProperties.cpp:199
 msgid "Fraction done"
@@ -2358,8 +2361,8 @@ msgid "SOCKS proxy"
 msgstr "SOCKS proxy"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-msgid "Advanced View...\tCTRL+SHIFT+A"
-msgstr "Vista Avançada...CTRL+SHIFT+A"
+msgid "Advanced View...\tCtrl+Shift+A"
+msgstr "Vista Avançada...\tCTRL+SHIFT+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
 msgid "Display the advanced (accessible) graphical interface."
@@ -3612,18 +3615,14 @@ msgid ""
 "To change which research applications are sent to you from\n"
 "World Community Grid then please click on the following button:"
 msgstr ""
-"Ha seleccionat adjuntar-se a un nou projecte BOINC.  Adjuntar-se a un nou\n"
-"projecte significa que el seu ordinador es connectarà a un nou lloc web\n"
-"i organització.  Si es això el que desitja, si us plau premi\n"
-"el botó Següent abaix.\n"
-"\n"
-"Alguns projectes com World Community Grid executen diverses aplicacions.\n"
-"Si desitja les aplicaciones que li son lliurades per executar-les en\n"
-"el seu ordinador, visiti el lloc web del projecte i modifiqui\n"
-"les seves preferències.\n"
-"\n"
-"Per canviar les aplicacions de recerca que li son lliurades des de\n"
-"World Community Grid premi en el següent botó:"
+"Ha seleccionat adjuntar-se a un nou projecte BOINC.  Adjuntar-se a un "
+"nouprojecte significa que el seu ordinador es connectarà a un nou lloc webi "
+"organització.  Si es això el que desitja, si us plau premiel botó Següent "
+"abaix.Alguns projectes com World Community Grid executen diverses "
+"aplicacions.Si desitja les aplicacions que li son lliurades per executar-les "
+"enel seu ordinador, visiti el lloc web del projecte i modifiquiles seves "
+"preferències.Per canviar les aplicacions de recerca que li son lliurades des "
+"deWorld Community Grid premi en el següent botó:"
 
 #: clientgui/WelcomePage.cpp:278
 msgid "Change Research Applications at World Community Grid"
@@ -3687,6 +3686,35 @@ msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr ""
 "especifiqui les hores de inici i fi d'ús de la xarxa en el format HH:MM-"
 "HH:MM"
+
+#~ msgid "&Projects\tCTRL+SHIFT+P"
+#~ msgstr "&Projectes\tCTRL+SHIFT+P"
+
+#~ msgid "&Tasks\tCTRL+SHIFT+T"
+#~ msgstr "&Tasques\tCTRL+SHIFT+T"
+
+#~ msgid "Trans&fers\tCTRL+SHIFT+X"
+#~ msgstr "&Lliuraments\tCTRL+SHIFT+X"
+
+#~ msgid "&Messages\tCTRL+SHIFT+M"
+#~ msgstr "&Missatges\tCTRL+SHIFT+M"
+
+#~ msgid "&Statistics\tCTRL+SHIFT+S"
+#~ msgstr "&Estadístiques\tCTRL+SHIFT+S"
+
+#~ msgid "&Disk usage\tCTRL+SHIFT+D"
+#~ msgstr "Utilització de &disc\tCTRL+SHIFT+D"
+
+#~ msgid "&News\tCTRL+SHIFT+N"
+#~ msgstr "&Notícies\tCTRL+SHIFT+N"
+
+#~ msgid ""
+#~ "You currently are not authorized to manage the client.\n"
+#~ "Please contact your administrator to add you to the 'boinc_master' user group."
+#~ msgstr ""
+#~ "Actualment no està autoritzat per administrar el client.Si us plau posi's en "
+#~ "contacte amb el seu administrador per afegir-lo al grup per afegir-lo al "
+#~ "grup 'boinc_master'."
 
 #~ msgid "User information"
 #~ msgstr "Informació de l'usuari"
