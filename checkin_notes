@@ -8345,3 +8345,12 @@ Charlie 4 Nov 2009
             SetupSecurity.cpp
     mac_build/
         Mac_SA_Secure.sh
+
+Rom    5 Nov 2009
+    - MGR: Use mixed case keyboard accelerators instead of all caps, the
+        wxGetTranslation function is case sensitive even though the
+        rest of the menu code does not care about case.
+        
+    clientgui/
+        AdvancedFrame.cpp
+        sg_BoincSimpleGUI.cpp

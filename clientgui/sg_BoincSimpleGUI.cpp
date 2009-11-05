@@ -101,7 +101,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
     );
     menuFile->Append(
         ID_CLOSEWINDOW,
-        _("&Close Window\tCTRL+W"),
+        _("&Close Window\tCtrl+W"),
 		strMenuDescription
     );
 
@@ -110,7 +110,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
 
     menuView->Append(
         ID_CHANGEGUI,
-        _("Advanced View...\tCTRL+SHIFT+A"),
+        _("Advanced View...\tCtrl+Shift+A"),
         _("Display the advanced (accessible) graphical interface.")
     );
 
