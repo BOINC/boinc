@@ -306,7 +306,7 @@ bool CBOINCGUIApp::OnInit() {
 
         if (iErrorCode == -1099) {
             strDialogMessage = 
-                _("You currently are not authorized to manage the client.\nPlease contact your administrator to add you to the 'boinc_master' user group.");
+                _("You currently are not authorized to manage the client.\n\nTo run BOINC as this user, please:\n  - reinstall BOINC answering \"Yes\" to the question about\n     non-administrative users\n or\n  - contact your administrator to add you to the 'boinc_master'\n     user group.");
         } else {
             strDialogMessage.Printf(
                 _("BOINC ownership or permissions are not set properly; please reinstall BOINC.\n(Error code %d)\n"),

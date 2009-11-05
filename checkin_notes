@@ -6330,6 +6330,13 @@ Rom    23 Oct 2009
     client/
         sysmon_win.cpp
 
+Charlie 30 Oct 2009
+    - MGR: Clarify alert when running as a non-admin user which is not a 
+        member of group boinc_master.
+        
+    clientgui/
+        BOINCGUIApp.cpp
+
 Charlie 4 Nov 2009
     - Mac Installer: set most files in BOINC Data directory world-readable 
         (with certain exceptions like gui_rpc_auth.cfg.)  This assures that 
