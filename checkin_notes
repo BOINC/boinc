@@ -8911,3 +8911,13 @@ Charlie 4 Nov 2009
             SetupSecurity.cpp
     mac_build/
         Mac_SA_Secure.sh
+
+David  5 Nov 2009
+    - credit: weight averages by PFC.  Else in SETI@home,
+        a large number of short jobs makes the CUDA version
+        look much less efficient than it actually is.
+
+    lib/
+        average.h
+    sched/
+        credit_test.cpp

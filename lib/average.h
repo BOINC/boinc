@@ -62,7 +62,7 @@ struct AVERAGE {
             weight += SAMPLE_WEIGHT*(w - weight);
         }
     }
-    double get_mean() {
+    inline double get_mean() {
         if (n < MIN_SAMPLES) {
             return mean/weight;
         } else {

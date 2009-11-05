@@ -39,7 +39,7 @@ void update_av_scales() {
             if (av.pfc.n < 10) continue;
             if (strstr(av.plan_class, "cuda")) continue;
             if (strstr(av.plan_class, "ati")) continue;
-            sum_avg += av.pfc.recent_mean * av.pfc.n;
+            sum_avg += av.pfc.get_mean() * av.pfc.n;
             sum_n += av.pfc.n;
             n++;
         }
@@ -53,7 +53,7 @@ void update_av_scales() {
             APP_VERSION& av = app_versions[j];
             if (av.appid != app.id) continue;
             if (av.pfc.n < 10) continue;
-            av.pfc_scale_factor = cpu_avg/av.pfc.recent_mean;
+            av.pfc_scale_factor = cpu_avg/av.pfc.get_mean();
         }
     }
 }
@@ -108,7 +108,7 @@ HOST_APP& lookup_host_app(int hostid, int appid) {
 }
 
 void print_average(AVERAGE& a) {
-    printf("n %f avg %fG ravg %fG", a.n, a.mean/1e9, a.recent_mean/1e9);
+    printf("n %f avg %fG ravg %fG", a.n, a.mean/1e9, a.get_mean()/1e9);
 }
 
 void print_avs() {
@@ -165,7 +165,7 @@ int main() {
             APP_VERSION& av = lookup_av(r.app_version_id);
             vnpfc = pfc * av.pfc_scale_factor;
             printf(" version scale (%s): %f\n", av.plan_class, av.pfc_scale_factor);
-            av.pfc.update(pfc);
+            av.pfc.update(pfc, pfc);
         }
 
         // host normalization
@@ -173,7 +173,7 @@ int main() {
         HOST_APP& host_app = lookup_host_app(r.hostid, app.id);
         double host_scale = 1;
         if (host_app.vnpfc.n > 5) {
-            host_scale = app.vnpfc.recent_mean/host_app.vnpfc.recent_mean;
+            host_scale = app.vnpfc.get_mean()/host_app.vnpfc.get_mean();
             printf(" host scale: %f\n", host_scale);
         }
         double claimed_flops = vnpfc * host_scale;
@@ -183,8 +183,8 @@ int main() {
             claimed_credit, r.claimed_credit, r.granted_credit
         );
 
-        app.vnpfc.update(vnpfc);
-        host_app.vnpfc.update(vnpfc);
+        app.vnpfc.update(vnpfc, vnpfc);
+        host_app.vnpfc.update(vnpfc, vnpfc);
 
         n++;
 
