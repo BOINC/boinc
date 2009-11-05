@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-29 13:11-0500\n"
-"PO-Revision-Date: 2009-11-04 11:28-0700\n"
+"PO-Revision-Date: 2009-11-05 07:37-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -276,7 +276,7 @@ msgstr "Nachrichten anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:374
 msgid "Simple &View...\tCTRL+SHIFT+V"
-msgstr "&Einfache AnsichtSTRG+UMSCH+E"
+msgstr "&Einfache Ansicht...\tSTRG+UMSCH+E"
 
 #: clientgui/AdvancedFrame.cpp:375
 msgid "Display the simple graphical interface."
@@ -1446,7 +1446,7 @@ msgid ""
 "exit the Manager, then choose from the following options:"
 msgstr ""
 "Sie wollen den %s verlassen, der Ihnen erlaubt\n"
-"die auf Ihrem PC laufenden wissenschaftlichenAnwendungen\n"
+"die auf Ihrem PC laufenden wissenschaftlichen Anwendungen\n"
 "zu überwachen und zu verwalten.\n"
 "\n"
 "Wenn Sie diese Anwendungen ebenfalls beenden\n"
@@ -2010,7 +2010,7 @@ msgstr "Ihre Resultate"
 #: clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
 msgstr ""
-"Anzeige der Ergebnissse und Berechnungen der letzten Woche (oder länger). "
+"Anzeige der Ergebnisse und Berechnungen der letzten Woche (oder länger). "
 
 #: clientgui/Localization.cpp:51
 #: clientgui/Localization.cpp:93
@@ -2086,7 +2086,7 @@ msgstr "Kontoübersicht"
 #: clientgui/Localization.cpp:95
 msgid "View a listing of all the computers on which you are running Einstein@Home"
 msgstr ""
-"Rufen Sie eine Liste aller Komputer ab auf denen Sie Einstein@home ablaufen "
+"Rufen Sie eine Liste aller Computer ab auf denen Sie Einstein@home ablaufen "
 "lassen."
 
 #: clientgui/Localization.cpp:101
