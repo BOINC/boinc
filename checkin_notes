@@ -6296,6 +6296,16 @@ Charlie 1 Sept 2009
     mac_installer/
         PostInstall.cpp
 
+Charlie 16 Sept 2009
+    - Mac installer: ask user whether to allow non-administrative users to run 
+        and control BOINC.
+        
+    clientgui/
+        mac/
+            SetupSecurity.cpp,.h
+    mac_installer/
+        PostInstall.cpp
+
 Rom    25 Sept 2009
     - win_build: In the future be very careful about with project
         you choose to be the basis for a new executable.
@@ -6319,3 +6329,14 @@ Rom    23 Oct 2009
         
     client/
         sysmon_win.cpp
+
+Charlie 4 Nov 2009
+    - Mac Installer: set most files in BOINC Data directory world-readable 
+        (with certain exceptions like gui_rpc_auth.cfg.)  This assures that 
+        the screensaver can read its support files. 
+        
+    clientgui/
+        mac/
+            SetupSecurity.cpp, .h
+    mac_build/
+        Mac_SA_Secure.sh

@@ -62,8 +62,9 @@
 # sudo dscl . -delete /groups/boinc_master users mary
 # 
 
-# Last updated 9/1/09 for BOINC version 6.8.17 and 6.10.3
-# WARNING: do not use this script with older versions of BOINC
+# Last updated 11/4/09 for BOINC version 6.8.18, 6.10.18 and 6.11.0
+# WARNING: do not use this script with versions of BOINC older 
+# than 6.8.17 and 6.10.3
 
 function make_boinc_user() {
     # Check whether group already exists
@@ -179,7 +180,7 @@ make_boinc_users
 dscl . -merge /groups/boinc_master users "$(LOGNAME)"
 dscl . -merge /groups/boinc_project users "$(LOGNAME)"
 
-set_perm_recursive . boinc_master boinc_master u+rw,g+rw,o-rw
+set_perm_recursive . boinc_master boinc_master u+rw,g+rw,o+r-w
 set_perm . boinc_master boinc_master 0771
 if [ -f gui_rpc_auth.cfg ] ; then
     set_perm gui_rpc_auth.cfg boinc_master boinc_master 0660
@@ -207,7 +208,8 @@ set_perm switcher/setprojectgrp boinc_master boinc_project 2500
 set_perm switcher boinc_master boinc_master 0550
 
 if [ -d locale ] ; then
-    set_perm_recursive locale boinc_master boinc_master u+r-w,g+r-w,o-rwx
+    set_perm_recursive locale boinc_master boinc_master +X
+    set_perm_recursive locale boinc_master boinc_master u+r-w,g+r-w,o+r-w
 fi
 
 if [ -f boinc ] ; then

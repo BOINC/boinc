@@ -294,9 +294,9 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 
     // Set permissions of BOINC Data directory's contents
     // chmod -R u+rw,g+rw,o-rw "/Library/Application Support/BOINC Data"
-    // 0660 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP
+    // 0661 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
     // set read and write permission for user and group, no access for others (leaves execute bits unchanged)
-    err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o-rw", fullpath, NULL, NULL);
+    err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o+r-w", fullpath, NULL, NULL);
     if (err)
         return err;
 
@@ -316,9 +316,6 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=x", fullpath, NULL, NULL, NULL);
     if (err)
         return err;
-    
-    // Since we no longer allow read access for others (S_IROTH), setting ownership 
-    // and permissions for gui_rpc_auth.cfg file is probably now redundant
     
     // Does gui_rpc_auth.cfg file exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
@@ -450,9 +447,10 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 #endif
 
         // chmod -R u+r-w,g+r-w,o= "/Library/Application Support/BOINC Data/locale"
-        // 0550 = S_IRUSR | S_IXUSR | S_IRGRP | S_IXUSR
-        // set read and execute only permission for user, group, no access for others
-        err = DoPrivilegedExec(chmodPath, "-R", "u+r-w,g+r-w,o=", fullpath, NULL, NULL);
+        // 0550 = S_IRUSR | S_IXUSR | S_IRGRP | S_IXUSR | S_IROTH | S_IXOTH 
+        // set read and execute only permission for user, group, and others
+        err = DoPrivilegedExec(chmodPath, "-R", "+X", fullpath, NULL, NULL);
+        err = DoPrivilegedExec(chmodPath, "-R", "u+r-w,g+r-w,o+r-w", fullpath, NULL, NULL);
         if (err)
             return err;
     }       // locale directory
@@ -774,7 +772,7 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
 }
 
 
-int AddAdminUserToGroups(char *user_name) {        
+int AddAdminUserToGroups(char *user_name, bool add_to_boinc_project) {        
 #ifndef _DEBUG
     char            buf1[80];
     OSStatus        err = noErr;
@@ -786,12 +784,14 @@ int AddAdminUserToGroups(char *user_name) {
     if (err)
         return err;
 
+    if (add_to_boinc_project)  {
     sprintf(buf1, "/groups/%s", boinc_project_group_name);
 
     // "dscl . -merge /groups/boinc_project users user_name"
     err = DoPrivilegedExec(dsclPath, ".", "-merge", buf1, "users", user_name);
     if (err)
         return err;
+    }
 
     err = ResynchSystem();
     if (err != noErr)

@@ -27,5 +27,5 @@
 int CreateBOINCUsersAndGroups(void);
 int SetBOINCAppOwnersGroupsAndPermissions(char *path);
 int SetBOINCDataOwnersGroupsAndPermissions(void);
-int AddAdminUserToGroups(char *user_name);
+int AddAdminUserToGroups(char *user_name, bool add_to_boinc_project=true);
 void ShowSecurityError(const char *format, ...);

@@ -87,7 +87,7 @@ enum { launchWhenDone,
 int main(int argc, char *argv[])
 {
     Boolean                 Success;
-    long                    response;
+    long                    OSVersion;
     ProcessSerialNumber     ourProcess, installerPSN;
     short                   itemHit;
     long                    brandID = 0;
@@ -154,11 +154,11 @@ int main(int argc, char *argv[])
         brandID = 0;
     }
     
-    err = Gestalt(gestaltSystemVersion, &response);
+    err = Gestalt(gestaltSystemVersion, &OSVersion);
     if (err != noErr)
         return err;
 
-    if (response < 0x1039) {
+    if (OSVersion < 0x1039) {
         ::SetFrontProcess(&ourProcess);
         // Remove everything we've installed
         // "\pSorry, this version of GridRepublic requires system 10.3.9 or higher."
@@ -645,9 +645,12 @@ static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
 }
 
 
-// Find all visible users and set their login item to launch BOINC Manager.
+// Find all visible users.
 // If user is a member of group admin, add user to groups boinc_master and boinc_project.
-// If our install package included a skin, set all user's preferences to use that skin,
+// Optionally add non-admin users to group boinc_master but not to group boinc_project.
+// Set login item for all members of group boinc_master to launch BOINC Manager.
+// If our install package included a skin, set those user's preferences to use that skin.
+// Optionally set BOINC as screensaver for all users running BOINC.
 OSErr UpdateAllVisibleUsers(long brandID)
 {
     DIR                 *dirp;
@@ -661,17 +664,20 @@ OSErr UpdateAllVisibleUsers(long brandID)
     char                adminBuf[32768];
     group               grpBOINC_master, *grpBOINC_masterPtr;
     char                bmBuf[32768];
-    Boolean             saverAlreadySet = true;
+    Boolean             saverAlreadySetForAll = true;
+    Boolean             setSaverForAllUsers = false;
+    Boolean             allNonAdminUsersAreSet = true;
+    Boolean             allowNonAdminUsersToRunBOINC = false;
     Boolean             found = false;
     FILE                *f;
     OSStatus            err;
-    long                response;
+    long                OSVersion;
     Boolean             isGroupMember;
 #ifdef SANDBOX
     char                *p;
     short               i;
 
-    err = Gestalt(gestaltSystemVersion, &response);
+    err = Gestalt(gestaltSystemVersion, &OSVersion);
     if (err != noErr)
         return err;
 
@@ -696,6 +702,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
         return -1;
     }
     
+    // Step through all users
     while (true) {
         dp = readdir(dirp);
         if (dp == NULL)
@@ -734,23 +741,18 @@ OSErr UpdateAllVisibleUsers(long brandID)
                 ++i;
             }
         }
+        if (!isGroupMember) {
+            allNonAdminUsersAreSet = false;
+        }
 #else
         isGroupMember = true;
 #endif
 
-        deleteLoginItem = CheckDeleteFile(dp->d_name);
-        if (!isGroupMember) {
-            deleteLoginItem = true;
-        }
+        if (isGroupMember) {
         saved_uid = geteuid();
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
 
-        SetLoginItem(brandID, deleteLoginItem);     // Set login item for this user
-
-        if (isGroupMember) {
-            SetSkinInUserPrefs(dp->d_name, skinName);
-
-            if (response < 0x1060) {
+            if (OSVersion < 0x1060) {
             f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
             } else {
                 sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleDict -dict", 
@@ -768,26 +770,35 @@ OSErr UpdateAllVisibleUsers(long brandID)
                 }
                 pclose(f);
                 if (!found) {
-                    saverAlreadySet = false;
+                    saverAlreadySetForAll = false;
                 }
             }
-        }
         
         seteuid(saved_uid);                         // Set effective uid back to privileged user
-    }
+        }       // End if (isGroupMember)
+    }           // End while (true)
     
     closedir(dirp);
     
-    if (saverAlreadySet) {
-        return noErr;    
+    if (! allNonAdminUsersAreSet) {
+        if (ShowMessage(true, 
+            "Users who are permitted to administer this computer will automatically be allowed to "
+            "run and control %s.\n\n"
+            "Do you also want non-administrative users to be able to run and control %s on this Mac?",
+            brandName[brandID], brandName[brandID])
+        ) {
+            allowNonAdminUsersToRunBOINC = true;
+            saverAlreadySetForAll = false;
+        }
     }
     
-    if (!ShowMessage(true, "Do you want to set %s as the screensaver for all %s users on this Mac?", 
-                    brandName[brandID], brandName[brandID])) {
-        return noErr;    
+    if (! saverAlreadySetForAll) {
+        setSaverForAllUsers = ShowMessage(true, 
+                    "Do you want to set %s as the screensaver for all %s users on this Mac?", 
+                    brandName[brandID], brandName[brandID]);    
     }
     
-    // Step through all users a second time, setting our screensaver
+    // Step through all users a second time, setting non-admin users and / or our screensaver
     dirp = opendir("/Users");
     if (dirp == NULL) {      // Should never happen
         puts("opendir(\"/Users\") failed\n");
@@ -819,15 +830,31 @@ OSErr UpdateAllVisibleUsers(long brandID)
             ++i;
         }
 
-        if (!isGroupMember) {
-            continue;
+        if (! isGroupMember) {
+            if (allowNonAdminUsersToRunBOINC) {
+                // Add to group boinc_master but not group boinc_project
+                err = AddAdminUserToGroups(dp->d_name, false);
+                isGroupMember = true;
+            }
         }
+#else
+        isGroupMember = true;
 #endif
 
         saved_uid = geteuid();
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
+        deleteLoginItem = CheckDeleteFile(dp->d_name);
+        if (!isGroupMember) {
+            deleteLoginItem = true;
+        }
 
-        if (response < 0x1060) {
+        SetLoginItem(brandID, deleteLoginItem);     // Set login item for this user
+
+        if (isGroupMember) {
+            SetSkinInUserPrefs(dp->d_name, skinName);
+        
+            if (setSaverForAllUsers) {
+                if (OSVersion < 0x1060) {
         sprintf(s, "defaults -currentHost write com.apple.screensaver moduleName %s", saverNameEscaped[brandID]);
         system (s);
         sprintf(s, "defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
@@ -836,8 +863,9 @@ OSErr UpdateAllVisibleUsers(long brandID)
             sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName %s path /Library/Screen\\ Savers/%s.saver", 
                     dp->d_name, saverNameEscaped[brandID], saverNameEscaped[brandID]);
         }
-        printf("Command: %s\n", s);
         system (s);
+            }
+        }
         
         seteuid(saved_uid);                         // Set effective uid back to privileged user
     }
