@@ -25,8 +25,9 @@
 #include "mfile.h"
 #include "miofile.h"
 #include "parse.h"
-#include "str_util.h"
+#include "url.h"
 #include "error_numbers.h"
+
 #include "wizardex.h"
 #include "error_numbers.h"
 #include "BOINCGUIApp.h"
