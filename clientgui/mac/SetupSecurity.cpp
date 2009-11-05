@@ -294,9 +294,9 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 
     // Set permissions of BOINC Data directory's contents
     // chmod -R u+rw,g+rw,o-rw "/Library/Application Support/BOINC Data"
-    // 0660 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP
+    // 0661 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
     // set read and write permission for user and group, no access for others (leaves execute bits unchanged)
-    err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o-rw", fullpath, NULL, NULL);
+    err = DoPrivilegedExec(chmodPath, "-R", "u+rw,g+rw,o+r-w", fullpath, NULL, NULL);
     if (err)
         return err;
 
@@ -316,9 +316,6 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     err = DoPrivilegedExec(chmodPath, "u=rwx,g=rwx,o=x", fullpath, NULL, NULL, NULL);
     if (err)
         return err;
-    
-    // Since we no longer allow read access for others (S_IROTH), setting ownership 
-    // and permissions for gui_rpc_auth.cfg file is probably now redundant
     
     // Does gui_rpc_auth.cfg file exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
