@@ -307,7 +307,7 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
     );
     menuFile->Append(
         ID_CLOSEWINDOW,
-        _("&Close Window\tCTRL+W"),
+        _("&Close Window\tCtrl+W"),
         strMenuDescription
     );
 
@@ -328,43 +328,43 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
 
     menuView->Append(
         ID_ADVPROJECTSVIEW,
-        _("&Projects\tCTRL+SHIFT+P"),
+        _("&Projects\tCtrl+Shift+P"),
         _("Display projects")
     );
 
     menuView->Append(
         ID_ADVTASKSVIEW,
-        _("&Tasks\tCTRL+SHIFT+T"),
+        _("&Tasks\tCtrl+Shift+T"),
         _("Display tasks")
     );
 
     menuView->Append(
         ID_ADVTRANSFERSVIEW,
-        _("Trans&fers\tCTRL+SHIFT+X"),
+        _("Trans&fers\tCtrl+Shift+X"),
         _("Display transfers")
     );
 
     menuView->Append(
         ID_ADVMESSAGESVIEW,
-        _("&Messages\tCTRL+SHIFT+M"),
+        _("&Messages\tCtrl+Shift+M"),
         _("Display messages")
     );
 
     menuView->Append(
         ID_ADVSTATISTICSVIEW,
-        _("&Statistics\tCTRL+SHIFT+S"),
+        _("&Statistics\tCtrl+Shift+S"),
         _("Display statistics")
     );
 
     menuView->Append(
         ID_ADVRESOURCEUSAGEVIEW,
-        _("&Disk usage\tCTRL+SHIFT+D"),
+        _("&Disk usage\tCtrl+Shift+D"),
         _("Display disk usage")
     );
 
     menuView->Append(
         ID_ADVNEWSVIEW,
-        _("&News\tCTRL+SHIFT+N"),
+        _("&News\tCtrl+Shift+N"),
         _("Display news")
     );
 
@@ -372,7 +372,7 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
 
     menuView->Append(
         ID_CHANGEGUI,
-        _("Simple &View...\tCTRL+SHIFT+V"),
+        _("Simple &View...\tCtrl+Shift+V"),
         _("Display the simple graphical interface.")
     );
 
