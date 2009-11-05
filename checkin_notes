@@ -6306,6 +6306,13 @@ Charlie 16 Sept 2009
     mac_installer/
         PostInstall.cpp
 
+Charlie 17 Sept 2009
+    - Mac installer: Updated ReadMe file to explain changes for Unicode and for 
+        OS 10.6 Snow Leopard.
+        
+    mac_installer/
+        PTP-ReadMe.rtf
+
 Rom    25 Sept 2009
     - win_build: In the future be very careful about with project
         you choose to be the basis for a new executable.
