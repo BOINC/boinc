@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-29 13:11-0500\n"
-"PO-Revision-Date: 2009-11-05 08:05-0700\n"
+"POT-Creation-Date: 2009-11-05 13:41-0500\n"
+"PO-Revision-Date: 2009-11-05 11:08-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -205,7 +205,7 @@ msgid "Close the %s window"
 msgstr "Das %s Fenster schließen."
 
 #: clientgui/AdvancedFrame.cpp:309
-msgid "&Close Window\tCTRL+W"
+msgid "&Close Window\tCtrl+W"
 msgstr "&Fenster schließen\tStrg+W"
 
 #: clientgui/AdvancedFrame.cpp:316
@@ -219,64 +219,64 @@ msgid "E&xit"
 msgstr "&Beenden"
 
 #: clientgui/AdvancedFrame.cpp:330
-msgid "&Projects\tCTRL+SHIFT+P"
-msgstr "&Projekte\tSTRG+UMSCH+P"
+msgid "&Projects\tCtrl+Shift+P"
+msgstr "&Projekte\tStrg+Umsch+P"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
 msgstr "Projekte anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:336
-msgid "&Tasks\tCTRL+SHIFT+T"
-msgstr "&Aufgaben\tSTRG+UMSCH+A"
+msgid "&Tasks\tCtrl+Shift+T"
+msgstr "&Aufgaben\tStrg+Umsch+A"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
 msgstr "Aufgaben anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:342
-msgid "Trans&fers\tCTRL+SHIFT+X"
-msgstr "Ü&bertragungen\tSTRG+UMSCH+B"
+msgid "Trans&fers\tCtrl+Shift+X"
+msgstr "Ü&bertragungen\tStrg+Umsch+B"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
 msgstr "Übertragungen anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:348
-msgid "&Messages\tCTRL+SHIFT+M"
-msgstr "&Meldungen\tSTRG+UMSCH+M"
+msgid "&Messages\tCtrl+Shift+M"
+msgstr "&Meldungen\tStrg+Umsch+M"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
 msgstr "Meldungen anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:354
-msgid "&Statistics\tCTRL+SHIFT+S"
-msgstr "&Statistik\tSTRG+UMSCH+S"
+msgid "&Statistics\tCtrl+Shift+S"
+msgstr "Statistiken\tStrg+Umsch+S"
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
 msgstr "Statistiken anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:360
-msgid "&Disk usage\tCTRL+SHIFT+D"
-msgstr "&Festplatte\tSTRG+UMSCH+F"
+msgid "&Disk usage\tCtrl+Shift+D"
+msgstr "&Festplatte\tStrg+Umsch+F"
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
 msgstr "Festplattennutzung anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:366
-msgid "&News\tCTRL+SHIFT+N"
-msgstr "&Nachrichten\tSTRG+UMSCH+N"
+msgid "&News\tCtrl+Shift+N"
+msgstr "&Nachrichten\tStrg+Umsch+N"
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
 msgstr "Nachrichten anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:374
-msgid "Simple &View...\tCTRL+SHIFT+V"
-msgstr "&Einfache Ansicht...\tSTRG+UMSCH+E"
+msgid "Simple &View...\tCtrl+Shift+V"
+msgstr "&Einfache Ansicht...\tStrg+Umsch+E"
 
 #: clientgui/AdvancedFrame.cpp:375
 msgid "Display the simple graphical interface."
@@ -800,26 +800,37 @@ msgstr "%s hat die Internetverbindung erfolgreich beendet."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s konnte die Internetverbindung nicht beenden."
 
-#: clientgui/BOINCGUIApp.cpp:308
+#: clientgui/BOINCGUIApp.cpp:336
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_master' user group."
+"\n"
+"To run BOINC as this user, please:\n"
+"  - reinstall BOINC answering \"Yes\" to the question about\n"
+"     non-administrative users\n"
+" or\n"
+"  - contact your administrator to add you to the 'boinc_master'\n"
+"     user group."
 msgstr ""
-"Sie sind nicht autorisiert diesen Client zu verwalten.Bitte fragen Sie Ihren "
-"Administrator, ob er sie zu der lokalen Nutzergruppe 'boinc_master' "
-"hinzufügen kann."
+"Sie sind momentan nicht berechtigt diesen BOINC Client zu verwalten.\n"
+"\n"
+"Um BOINC mit diesem Benutzer zu nutzen müssen Sie:\n"
+"  - BOINC erneut installieren und \"Ja\" bei der Frage nach eingeschränkten "
+"Benutzern auswählen\n"
+" oder\n"
+"  - Ihren Administrator bitten Sie der \"boinc_master\" Benutzergruppe "
+"hinzuzufügen."
 
-#: clientgui/BOINCGUIApp.cpp:311
+#: clientgui/BOINCGUIApp.cpp:339
 #, c-format
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
-"(Error code %d)\n"
+"(Error code %d)"
 msgstr ""
 "BOINC Eigentümer- und/oder Zugriffsrechte sind nicht richtig gesetzt. Bitte "
 "BOINC neu installieren.\n"
 "(Fehlercode: %d)"
 
-#: clientgui/BOINCGUIApp.cpp:388
+#: clientgui/BOINCGUIApp.cpp:389
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -828,49 +839,49 @@ msgstr ""
 " funktioniert. Bitte starten sie den Computer neu und\n"
 "versuchen es erneut."
 
-#: clientgui/BOINCGUIApp.cpp:389
+#: clientgui/BOINCGUIApp.cpp:390
 msgid "BOINC Manager"
 msgstr "BOINC-Manager"
 
-#: clientgui/BOINCGUIApp.cpp:536
+#: clientgui/BOINCGUIApp.cpp:537
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "Der BOINC-Manager wurde automatisch vom Betriebssystem gestartet."
 
-#: clientgui/BOINCGUIApp.cpp:538
+#: clientgui/BOINCGUIApp.cpp:539
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr ""
 "Starte BOINC so, dass nur das Symbol im Infobereich der Taskleiste sichtbar "
 "ist."
 
-#: clientgui/BOINCGUIApp.cpp:540
+#: clientgui/BOINCGUIApp.cpp:541
 msgid "Directory containing the BOINC Client executable"
 msgstr "Verzeichnis der BOINC-Client Programmdateien"
 
-#: clientgui/BOINCGUIApp.cpp:541
+#: clientgui/BOINCGUIApp.cpp:542
 msgid "BOINC data directory"
 msgstr "Datenverzeichnis des BOINC-Client"
 
-#: clientgui/BOINCGUIApp.cpp:543
+#: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
 msgstr "Starte BOINC mit diesen optionalen Argumenten"
 
-#: clientgui/BOINCGUIApp.cpp:544
+#: clientgui/BOINCGUIApp.cpp:545
 msgid "disable BOINC security users and permissions"
 msgstr "BOINC Sicherheit Benutzer und Rechte abschalten"
 
-#: clientgui/BOINCGUIApp.cpp:545
+#: clientgui/BOINCGUIApp.cpp:546
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "Skin-Debugmodus einschalten um Skin-Manager Fehlermeldungen zu sehen"
 
-#: clientgui/BOINCGUIApp.cpp:735
+#: clientgui/BOINCGUIApp.cpp:736
 msgid "(Automatic Detection)"
 msgstr "(Automatische Erkennung)"
 
-#: clientgui/BOINCGUIApp.cpp:736
+#: clientgui/BOINCGUIApp.cpp:737
 msgid "(Unknown)"
 msgstr "(Unbekannt)"
 
-#: clientgui/BOINCGUIApp.cpp:737
+#: clientgui/BOINCGUIApp.cpp:738
 msgid "(User Defined)"
 msgstr "(Benutzerauswahl)"
 
@@ -2371,8 +2382,8 @@ msgid "SOCKS proxy"
 msgstr "SOCKS Proxy"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-msgid "Advanced View...\tCTRL+SHIFT+A"
-msgstr "Erweiterte &Ansicht\tSTRG+UMSCH+A"
+msgid "Advanced View...\tCtrl+Shift+A"
+msgstr "Erweiterte &Ansicht...\tStrg+Umsch+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
 msgid "Display the advanced (accessible) graphical interface."
@@ -3438,7 +3449,6 @@ msgid "Download pending"
 msgstr "Herunterladen pausiert"
 
 #: clientgui/ViewTransfers.cpp:769
-#, fuzzy
 msgid " (project backoff: "
 msgstr " (Projektverzögerung: "
 
@@ -3725,6 +3735,44 @@ msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr ""
 "geben Sie die Anfangs- und Endzeiten der Netzwerknutzung im Format HH:MM-"
 "HH:MM ein"
+
+#~ msgid "&Projects\tCTRL+SHIFT+P"
+#~ msgstr "&Projekte\tSTRG+UMSCH+P"
+
+#~ msgid "&Tasks\tCTRL+SHIFT+T"
+#~ msgstr "&Aufgaben\tSTRG+UMSCH+A"
+
+#~ msgid "Trans&fers\tCTRL+SHIFT+X"
+#~ msgstr "Ü&bertragungen\tSTRG+UMSCH+B"
+
+#~ msgid "&Messages\tCTRL+SHIFT+M"
+#~ msgstr "&Meldungen\tSTRG+UMSCH+M"
+
+#~ msgid "&Statistics\tCTRL+SHIFT+S"
+#~ msgstr "&Statistik\tSTRG+UMSCH+S"
+
+#~ msgid "&Disk usage\tCTRL+SHIFT+D"
+#~ msgstr "&Festplatte\tSTRG+UMSCH+F"
+
+#~ msgid "&News\tCTRL+SHIFT+N"
+#~ msgstr "&Nachrichten\tSTRG+UMSCH+N"
+
+#~ msgid ""
+#~ "You currently are not authorized to manage the client.\n"
+#~ "Please contact your administrator to add you to the 'boinc_master' user group."
+#~ msgstr ""
+#~ "Sie sind nicht autorisiert diesen Client zu verwalten.Bitte fragen Sie Ihren "
+#~ "Administrator, ob er sie zu der lokalen Nutzergruppe 'boinc_master' "
+#~ "hinzufügen kann."
+
+#, c-format
+#~ msgid ""
+#~ "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
+#~ "(Error code %d)\n"
+#~ msgstr ""
+#~ "BOINC Eigentümer- und/oder Zugriffsrechte sind nicht richtig gesetzt. Bitte "
+#~ "BOINC neu installieren.\n"
+#~ "(Fehlercode: %d)"
 
 #~ msgid "User information"
 #~ msgstr "Teilnehmerinformation"
