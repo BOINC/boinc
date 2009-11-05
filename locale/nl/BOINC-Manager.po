@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-03 17:36-0500\n"
-"PO-Revision-Date: 2009-11-05 10:47-0700\n"
+"POT-Creation-Date: 2009-11-05 13:37-0500\n"
+"PO-Revision-Date: 2009-11-05 13:02-0700\n"
 "Last-Translator: Rene Oskam <oskamjr@wanadoo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -200,8 +200,8 @@ msgid "Close the %s window"
 msgstr "Sluit het %s venster"
 
 #: clientgui/AdvancedFrame.cpp:310
-msgid "&Close Window\tCTRL+W"
-msgstr "Sluit Venster\tCTRL+W"
+msgid "&Close Window\tCtrl+W"
+msgstr "Sluit &Venster\tCtrl+W"
 
 #: clientgui/AdvancedFrame.cpp:317
 #, c-format
@@ -214,64 +214,64 @@ msgid "E&xit"
 msgstr "Afsluiten"
 
 #: clientgui/AdvancedFrame.cpp:331
-msgid "&Projects\tCTRL+SHIFT+P"
-msgstr "&Projecten\tCTRL+SHIFT+P"
+msgid "&Projects\tCtrl+Shift+P"
+msgstr "&Projecten\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:332
 msgid "Display projects"
 msgstr "Projecten weergeven"
 
 #: clientgui/AdvancedFrame.cpp:337
-msgid "&Tasks\tCTRL+SHIFT+T"
-msgstr "&Werk\tCTRL+SHIFT+T"
+msgid "&Tasks\tCtrl+Shift+T"
+msgstr "&Werk\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:338
 msgid "Display tasks"
 msgstr "Werk weergeven"
 
 #: clientgui/AdvancedFrame.cpp:343
-msgid "Trans&fers\tCTRL+SHIFT+X"
-msgstr "&Overdracht\tCTRL+SHIFT+X"
+msgid "Trans&fers\tCtrl+Shift+X"
+msgstr "Over&dracht\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:344
 msgid "Display transfers"
 msgstr "Overdracht weergeven"
 
 #: clientgui/AdvancedFrame.cpp:349
-msgid "&Messages\tCTRL+SHIFT+M"
-msgstr "&Berichten\tCTRL+SHIFT+M"
+msgid "&Messages\tCtrl+Shift+M"
+msgstr "&Berichten\tCtrl+Shift+M"
 
 #: clientgui/AdvancedFrame.cpp:350
 msgid "Display messages"
 msgstr "Berichten weergeven"
 
 #: clientgui/AdvancedFrame.cpp:355
-msgid "&Statistics\tCTRL+SHIFT+S"
-msgstr "&Statistieken\tCTRL+SHIFT+S"
+msgid "&Statistics\tCtrl+Shift+S"
+msgstr "&Statistieken\tCtrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:356
 msgid "Display statistics"
 msgstr "Statistieken weergeven"
 
 #: clientgui/AdvancedFrame.cpp:361
-msgid "&Disk usage\tCTRL+SHIFT+D"
-msgstr "&Schijfgebruik\tCTRL+SHIFT+D"
+msgid "&Disk usage\tCtrl+Shift+D"
+msgstr "Schijf&gebruik\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:362
 msgid "Display disk usage"
 msgstr "Schijfgebruik weergeven"
 
 #: clientgui/AdvancedFrame.cpp:367
-msgid "&News\tCTRL+SHIFT+N"
-msgstr "&Nieuws\tCTRL+SHIFT+N"
+msgid "&News\tCtrl+Shift+N"
+msgstr "&Nieuws\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:368
 msgid "Display news"
 msgstr "Nieuws weergeven"
 
 #: clientgui/AdvancedFrame.cpp:375
-msgid "Simple &View...\tCTRL+SHIFT+V"
-msgstr "Eenvoudig...\tCTRL+SHIFT+V"
+msgid "Simple &View...\tCtrl+Shift+V"
+msgstr "Een&voudig...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:376
 msgid "Display the simple graphical interface."
@@ -527,21 +527,21 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1419
 #, c-format
-msgid "%s - Shutdown the current client..."
+msgid "%s - Shut down the current client..."
 msgstr "%s - De huidige client afsluiten..."
 
 #: clientgui/AdvancedFrame.cpp:1428
 #, c-format
 msgid ""
-"%s will shut down the currently connected client,\n"
-"and prompt you for another host to connect to.\n"
+"%s will shut down the current client\n"
+"and prompt you for another host to connect to."
 msgstr ""
 "%s gaat de huidige client afsluiten en je vragen\n"
-"naar een 'host' om een andere verbinding te maken.\n"
+"naar een 'host' om een andere verbinding te maken."
 
 #: clientgui/AdvancedFrame.cpp:1475
-msgid "Retrying communications for project(s)..."
-msgstr "Project(en) opnieuw aan het verbinden..."
+msgid "Retrying communications."
+msgstr "Opnieuw verbinding aan het maken."
 
 #: clientgui/AdvancedFrame.cpp:1675
 #, c-format
@@ -781,25 +781,37 @@ msgstr "%s heeft de internet verbinding verbroken."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s kon de internet verbinding niet verbreken."
 
-#: clientgui/BOINCGUIApp.cpp:308
+#: clientgui/BOINCGUIApp.cpp:336
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_master' user group."
+"\n"
+"To run BOINC as this user, please:\n"
+"  - reinstall BOINC answering \"Yes\" to the question about\n"
+"     non-administrative users\n"
+" or\n"
+"  - contact your administrator to add you to the 'boinc_master'\n"
+"     user group."
 msgstr ""
-"Je hebt momenteel niet de benodigde rechten om de client\n"
-"te kunnen onderhouden. Neem contact op met de systeembeheerder."
+"Momenteel heb je niet de rechten om de client te onderhouden.\n"
+"\n"
+"Om als deze gebruiker BOINC uit te voeren:\n"
+"  - herinstalleer BOINC met de optie om alle gebruikers\n"
+"     toestemming te geven\n"
+" of\n"
+"  - neem contact op met de beheerder om je aan de 'boinc_master'\n"
+"     gebruikersgroep toe te voegen."
 
-#: clientgui/BOINCGUIApp.cpp:311
+#: clientgui/BOINCGUIApp.cpp:339
 #, c-format
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
-"(Error code %d)\n"
+"(Error code %d)"
 msgstr ""
-"BOINC gebruiker en/of rechten zijn niet goed ingesteld; Herinstalleer a.u.b. "
+"BOINC gebruiker en/of rechten zijn niet goed ingesteld; herinstalleer a.u.b. "
 "BOINC.\n"
-"(Foutcode: %d)\n"
+"(Foutcode: %d)"
 
-#: clientgui/BOINCGUIApp.cpp:388
+#: clientgui/BOINCGUIApp.cpp:389
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -807,49 +819,49 @@ msgstr ""
 "Er is een herstart nodig om BOINC goed te kunnen uitvoeren.Herstart a.u.b. "
 "je computer om het opnieuw te proberen."
 
-#: clientgui/BOINCGUIApp.cpp:389
+#: clientgui/BOINCGUIApp.cpp:390
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
-#: clientgui/BOINCGUIApp.cpp:536
+#: clientgui/BOINCGUIApp.cpp:537
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC Manager is automatisch opgestart door het besturingssysteem"
 
-#: clientgui/BOINCGUIApp.cpp:538
+#: clientgui/BOINCGUIApp.cpp:539
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Start BOINC zodat deze alleen zichtbaar is in het systeemvak"
 
-#: clientgui/BOINCGUIApp.cpp:540
+#: clientgui/BOINCGUIApp.cpp:541
 msgid "Directory containing the BOINC Client executable"
 msgstr "Map waar de BOINC client zich bevindt"
 
-#: clientgui/BOINCGUIApp.cpp:541
+#: clientgui/BOINCGUIApp.cpp:542
 msgid "BOINC data directory"
 msgstr "BOINC data map"
 
-#: clientgui/BOINCGUIApp.cpp:543
+#: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
 msgstr "Start BOINC op met deze opties"
 
-#: clientgui/BOINCGUIApp.cpp:544
+#: clientgui/BOINCGUIApp.cpp:545
 msgid "disable BOINC security users and permissions"
 msgstr "schakel de BOINC toegangs- en gebruikersrechten uit"
 
-#: clientgui/BOINCGUIApp.cpp:545
+#: clientgui/BOINCGUIApp.cpp:546
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 "schakel de skin-debugger modus in om fout berichten mogelijk te maken van de "
 "skin-manager"
 
-#: clientgui/BOINCGUIApp.cpp:735
+#: clientgui/BOINCGUIApp.cpp:736
 msgid "(Automatic Detection)"
 msgstr "(Automatische Detectie)"
 
-#: clientgui/BOINCGUIApp.cpp:736
+#: clientgui/BOINCGUIApp.cpp:737
 msgid "(Unknown)"
 msgstr "(Onbekend)"
 
-#: clientgui/BOINCGUIApp.cpp:737
+#: clientgui/BOINCGUIApp.cpp:738
 msgid "(User Defined)"
 msgstr "(Gedefineerd door gebruiker)"
 
@@ -2192,33 +2204,45 @@ msgstr "Controleer de gebruikersnaam en het wachtwoord en probeer opnieuw."
 msgid "Check the email address and password, and try again."
 msgstr "Controleer het email adres en het wachtwoord en probeer opnieuw."
 
-#: clientgui/ProjectInfoPage.cpp:249
+#: clientgui/ProjectInfoPage.cpp:250
 msgid "Choose a project"
 msgstr "Kies een project"
 
-#: clientgui/ProjectInfoPage.cpp:252
+#: clientgui/ProjectInfoPage.cpp:253
 msgid "To choose a project, click its name or type its URL below."
 msgstr "Klik op de naam om een project te kiezen of vul onder het URL in."
 
-#: clientgui/ProjectInfoPage.cpp:255
+#: clientgui/ProjectInfoPage.cpp:256
 msgid "Project &URL:"
 msgstr "Project &URL:"
 
-#: clientgui/ProjectInfoPage.cpp:339
+#: clientgui/ProjectInfoPage.cpp:340
 msgid "This project may not have work for your type of computer. Are you sure you wish to continue?"
 msgstr ""
 "Dit project heeft mogelijk geen werk voor jouw type computer. Weet je zeker "
 "dat je verder wilt gaan?"
 
-#: clientgui/ProjectInfoPage.cpp:363
+#: clientgui/ProjectInfoPage.cpp:364
 msgid "You are already attached to this project. Please choose a different project."
 msgstr "Je hebt dit project reeds toegevoegd. Kies a.u.b. een ander project."
 
-#: clientgui/ProjectListCtrl.cpp:275
+#: clientgui/ProjectListCtrl.cpp:273
 msgid "Click"
 msgstr "Klik"
 
 #: clientgui/ProjectProcessingPage.cpp:323
+msgid "Communicating with project."
+msgstr "Aan het communiceren met het project."
+
+#: clientgui/ProjectProcessingPage.cpp:499
+msgid "Required files not found on the server."
+msgstr "Benodigde bestanden niet gevonden op de server."
+
+#: clientgui/ProjectProcessingPage.cpp:502
+#: clientgui/ProjectProcessingPage.cpp:564
+msgid "An internal server error has occurred."
+msgstr "Er is een server fout opgetreden."
+
 #: clientgui/ProjectPropertiesPage.cpp:336
 msgid ""
 "Communicating with project\n"
@@ -2226,14 +2250,6 @@ msgid ""
 msgstr ""
 "Aan het communiceren met\n"
 "het project. Even geduld..."
-
-#: clientgui/ProjectProcessingPage.cpp:499
-msgid ""
-"Required wizard file(s) are missing from the target server.\n"
-"(lookup_account.php/create_account.php)\n"
-msgstr ""
-"Benodigde bestanden zijn niet gevonden op de server.\n"
-"(lookup_account.php/create_account.php)\n"
 
 #: clientgui/ProxyInfoPage.cpp:196
 msgid "Network communication failure"
@@ -2321,8 +2337,8 @@ msgid "SOCKS proxy"
 msgstr "SOCKS proxy"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-msgid "Advanced View...\tCTRL+SHIFT+A"
-msgstr "Geavanceerd...\tCTRL+SHIFT+A"
+msgid "Advanced View...\tCtrl+Shift+A"
+msgstr "Geavanceerd...\tCtrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
 msgid "Display the advanced (accessible) graphical interface."
@@ -3650,6 +3666,44 @@ msgstr "geef de werk start- en stoptijd aan in UU:MM - UU:MM"
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "geef de netwerk start- en stoptijd aan in UU:MM - UU:MM"
+
+#~ msgid "&Projects\tCTRL+SHIFT+P"
+#~ msgstr "&Projecten\tCTRL+SHIFT+P"
+
+#~ msgid "&Tasks\tCTRL+SHIFT+T"
+#~ msgstr "&Werk\tCTRL+SHIFT+T"
+
+#~ msgid "Trans&fers\tCTRL+SHIFT+X"
+#~ msgstr "&Overdracht\tCTRL+SHIFT+X"
+
+#~ msgid "&Messages\tCTRL+SHIFT+M"
+#~ msgstr "&Berichten\tCTRL+SHIFT+M"
+
+#~ msgid "&Statistics\tCTRL+SHIFT+S"
+#~ msgstr "&Statistieken\tCTRL+SHIFT+S"
+
+#~ msgid "&Disk usage\tCTRL+SHIFT+D"
+#~ msgstr "&Schijfgebruik\tCTRL+SHIFT+D"
+
+#~ msgid "&News\tCTRL+SHIFT+N"
+#~ msgstr "&Nieuws\tCTRL+SHIFT+N"
+
+#~ msgid "Retrying communications for project(s)..."
+#~ msgstr "Project(en) opnieuw aan het verbinden..."
+
+#~ msgid ""
+#~ "You currently are not authorized to manage the client.\n"
+#~ "Please contact your administrator to add you to the 'boinc_master' user group."
+#~ msgstr ""
+#~ "Je hebt momenteel niet de benodigde rechten om de client\n"
+#~ "te kunnen onderhouden. Neem contact op met de systeembeheerder."
+
+#~ msgid ""
+#~ "Required wizard file(s) are missing from the target server.\n"
+#~ "(lookup_account.php/create_account.php)\n"
+#~ msgstr ""
+#~ "Benodigde bestanden zijn niet gevonden op de server.\n"
+#~ "(lookup_account.php/create_account.php)\n"
 
 #~ msgid "User information"
 #~ msgstr "Gebruikers informatie"
