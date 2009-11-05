@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-29 13:11-0500\n"
-"PO-Revision-Date: 2009-11-05 07:37-0700\n"
+"PO-Revision-Date: 2009-11-05 07:52-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -488,7 +488,7 @@ msgstr "&Ansicht"
 
 #: clientgui/AdvancedFrame.cpp:619
 msgid "&Tools"
-msgstr "&Assistenten"
+msgstr "Ass&istenten"
 
 #: clientgui/AdvancedFrame.cpp:623
 msgid "&Activity"
