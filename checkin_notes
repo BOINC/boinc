@@ -8334,3 +8334,14 @@ Charlie 31 Oct 2009
             SetupSecurity.cpp
     mac_build/
         Mac_SA_Secure.sh
+
+Charlie 4 Nov 2009
+    - Mac Installer: set most files in BOINC Data directory world-readable 
+        (with certain exceptions like gui_rpc_auth.cfg.)  This assures that 
+        the screensaver can read its support files. 
+        
+    clientgui/
+        mac/
+            SetupSecurity.cpp
+    mac_build/
+        Mac_SA_Secure.sh
