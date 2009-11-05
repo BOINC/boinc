@@ -35,6 +35,7 @@
 #include "filesys.h"
 #include "parse.h"
 #include "str_util.h"
+#include "url.h"
 #include "str_replace.h"
 #include "client_state.h"
 #include "client_msgs.h"

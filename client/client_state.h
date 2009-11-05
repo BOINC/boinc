@@ -41,7 +41,6 @@ using std::vector;
 #include "prefs.h"
 #include "scheduler_op.h"
 #include "time_stats.h"
-#include "http_curl.h"
 #include "coproc.h"
 
 #define WORK_FETCH_DONT_NEED 0

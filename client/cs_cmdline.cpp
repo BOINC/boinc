@@ -30,6 +30,7 @@
 
 #include "main.h"
 #include "str_util.h"
+#include "url.h"
 #include "str_replace.h"
 #include "util.h"
 #include "client_msgs.h"
@@ -260,17 +261,6 @@ void CLIENT_STATE::parse_env_vars() {
         if (p) {
             strcpy(proxy_info.http_user_passwd, p);
         }
-    }
-
-    proxy_info.socks_version = SOCKS_VERSION_5;
-    if (getenv("SOCKS4_SERVER")) {
-        proxy_info.socks_version = SOCKS_VERSION_4;
-    }
-
-    p = getenv("SOCKS4_SERVER");
-    if (p && strlen(p)) {
-        proxy_info.use_socks_proxy = true;
-        parse_url(p, proto, proxy_info.socks_server_name, proxy_info.socks_server_port, temp);
     }
 
 	p = getenv("SOCKS_SERVER");
