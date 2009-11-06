@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-06 11:57-0700\n"
+"PO-Revision-Date: 2009-11-06 12:16-0700\n"
 "Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "Language: pl\n"
@@ -803,7 +803,6 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "%s nie udało się rozłączyć z internetem."
 
 #: clientgui/BOINCGUIApp.cpp:336
-#, fuzzy
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -1392,7 +1391,7 @@ msgstr "% obszaru całego dysku"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:502
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Zapisywanie etapów pośrednnich na dysku najwyżej co "
 
 #: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "seconds"
@@ -1547,15 +1546,15 @@ msgstr "Wywołanie serwera projektu opóźnione o "
 
 #: clientgui/DlgItemProperties.cpp:114
 msgid "File downloads deferred for"
-msgstr ""
+msgstr "Transfer pliku wstrzymany na"
 
 #: clientgui/DlgItemProperties.cpp:117
 msgid "File uploads deferred for"
-msgstr ""
+msgstr "Odsyłanie wyniku wstrzymane na"
 
 #: clientgui/DlgItemProperties.cpp:120
 msgid "Computer ID"
-msgstr ""
+msgstr "Identyfikator komputera"
 
 #: clientgui/DlgItemProperties.cpp:121
 msgid "Non CPU intensive"
@@ -1654,23 +1653,18 @@ msgstr ""
 "graficznej nVidia"
 
 #: clientgui/DlgItemProperties.cpp:160
-#, fuzzy
 msgid "ATI GPU work fetch priority"
-msgstr ""
-"Priorytety przyporządkowania zadań dla procesora karty graficznej nVidia"
+msgstr "Priorytety przyporządkowania zadań dla procesora karty graficznej ATI"
 
 #: clientgui/DlgItemProperties.cpp:163
-#, fuzzy
 msgid "ATI GPU work fetch deferred for"
-msgstr ""
-"Przyporządkowanie zadań dla procesora karty graficznej nVidia opóźnione o "
+msgstr "Przyporządkowanie zadań dla procesora karty graficznej ATI opóźnione o "
 
 #: clientgui/DlgItemProperties.cpp:164
-#, fuzzy
 msgid "ATI GPU work fetch deferral interval"
 msgstr ""
 "Odstęp pomiędzy opóźnieniami przyporządkowania zadań dla procesora karty "
-"graficznej nVidia"
+"graficznej ATI"
 
 #: clientgui/DlgItemProperties.cpp:166
 msgid "Duration correction factor"
@@ -1694,7 +1688,7 @@ msgstr "Stan"
 
 #: clientgui/DlgItemProperties.cpp:185
 msgid "Received"
-msgstr ""
+msgstr "Odebrane"
 
 #: clientgui/DlgItemProperties.cpp:188
 msgid "Report deadline"
@@ -1737,7 +1731,7 @@ msgstr "Rozmiar zajętej pamięci"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Directory"
-msgstr ""
+msgstr "Katalog"
 
 #: clientgui/DlgItemProperties.cpp:301
 msgid "New"
@@ -2269,6 +2263,8 @@ msgstr "Adres projektu:"
 #: clientgui/ProjectInfoPage.cpp:339
 msgid "This project may not have work for your type of computer. Are you sure you wish to continue?"
 msgstr ""
+"Projekt może nie dysponować zadaniami odpowiednimi dla twojego komputera. "
+"Czy na pewno chcesz kontynuować?"
 
 #: clientgui/ProjectInfoPage.cpp:363
 msgid "You are already attached to this project. Please choose a different project."
@@ -2276,7 +2272,7 @@ msgstr "Jesteś już przyłączony do tego projektu. Wybierz inny projekt."
 
 #: clientgui/ProjectListCtrl.cpp:239
 msgid "Click"
-msgstr ""
+msgstr "Kliknij"
 
 #: clientgui/ProjectProcessingPage.cpp:323
 #: clientgui/ProjectPropertiesPage.cpp:336
@@ -2382,11 +2378,11 @@ msgstr "Serwer SOCKS Proxy"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr ""
+msgstr "Widok zaawansowany...\tCtrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
 msgid "Display the advanced (accessible) graphical interface."
-msgstr ""
+msgstr "Pokaż zaawansowany interfejs graficzny."
 
 #: clientgui/sg_BoincSimpleGUI.cpp:141
 #, c-format
@@ -2996,23 +2992,24 @@ msgstr "Błąd"
 
 #: clientgui/ViewNews.cpp:76
 msgid "News Feeds"
-msgstr ""
+msgstr "Wiadomości"
 
 #: clientgui/ViewNews.cpp:80
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 #: clientgui/ViewNews.cpp:81
 msgid "Display the latest news about BOINC"
-msgstr ""
+msgstr "Pokaż najnowsze wiadomości dotyczące BOINC"
 
 #: clientgui/ViewNews.cpp:87
 msgid "BOINC Website"
-msgstr ""
+msgstr "Strona główna Projektu BOINC"
 
 #: clientgui/ViewNews.cpp:88
 msgid "Display the latest news about BOINC from the BOINC website"
 msgstr ""
+"Pokaż najnowsze wiadomości dotyczące BOINC ze strony głównej Projektu BOINC"
 
 #: clientgui/ViewProjects.cpp:173
 msgid "Update"
@@ -3433,12 +3430,13 @@ msgid "Download pending"
 msgstr "Kolejka pobierania"
 
 #: clientgui/ViewTransfers.cpp:769
+#, fuzzy
 msgid " (project backoff: "
-msgstr ""
+msgstr "(dziwne jakieś "
 
 #: clientgui/ViewTransfers.cpp:769
 msgid ")"
-msgstr ""
+msgstr ")"
 
 #: clientgui/ViewTransfersGrid.cpp:161
 msgid "TransfersGrid"
@@ -3465,12 +3463,12 @@ msgstr "Przerywanie przesyłania plików"
 #: clientgui/ViewWork.cpp:184
 #: clientgui/ViewWork.cpp:708
 msgid "Show active tasks"
-msgstr ""
+msgstr "Pokaż aktywne zadania"
 
 #: clientgui/ViewWork.cpp:185
 #: clientgui/ViewWork.cpp:709
 msgid "Show only active tasks."
-msgstr ""
+msgstr "Wyświetla wyłącznie aktywne zadania."
 
 #: clientgui/ViewWork.cpp:192
 #: clientgui/ViewWorkGrid.cpp:115
@@ -3544,7 +3542,7 @@ msgstr ""
 #: clientgui/ViewWork.cpp:432
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr ""
+msgstr "Czy jesteś pewien, że chcesz przerwać te zadania %d?"
 
 #: clientgui/ViewWork.cpp:437
 #: clientgui/ViewWorkGrid.cpp:335
@@ -3558,11 +3556,11 @@ msgstr "Przerywanie zadania..."
 
 #: clientgui/ViewWork.cpp:702
 msgid "Show all tasks"
-msgstr ""
+msgstr "Pokaż wszystkie zadania"
 
 #: clientgui/ViewWork.cpp:703
 msgid "Show all tasks."
-msgstr ""
+msgstr "Wyświetla wszystkie zadania."
 
 #: clientgui/ViewWork.cpp:727
 #: clientgui/ViewWorkGrid.cpp:445
@@ -3575,8 +3573,9 @@ msgid "Suspend work for this task."
 msgstr "Wstrzymaj to zadanie."
 
 #: clientgui/ViewWork.cpp:1107
+#, fuzzy
 msgid "GPU missing, "
-msgstr ""
+msgstr "Brak dostępnego GPU, "
 
 #: clientgui/ViewWork.cpp:1148
 msgid " - an exclusive app is running"
@@ -3603,7 +3602,7 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:250
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "Przyłącz się do projektu albo menadżera kont"
 
 #: clientgui/WelcomePage.cpp:258
 #, c-format
@@ -3625,6 +3624,8 @@ msgid ""
 "We'll guide you through the process of attaching\n"
 "to a project or account manager."
 msgstr ""
+"Zostaniesz przeprowadzony przez proces przyłączania się\n"
+"do projektu albo łączenia się z menadżerem kont."
 
 #: clientgui/WelcomePage.cpp:275
 msgid ""
