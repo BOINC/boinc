@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-06 12:16-0700\n"
+"PO-Revision-Date: 2009-11-06 15:30-0700\n"
 "Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "Language: pl\n"
@@ -266,30 +266,27 @@ msgstr "Pokaż kartę dysk twardy"
 
 #: clientgui/AdvancedFrame.cpp:366
 msgid "&News\tCtrl+Shift+N"
-msgstr "&Wiadomości\tCtrl+Shift+N"
+msgstr "&Info\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
-msgstr "Pokaż kartę wiadomości"
+msgstr "Pokaż info"
 
 #: clientgui/AdvancedFrame.cpp:374
 msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "Widok uproszczony...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:375
-#, fuzzy
 msgid "Display the simple graphical interface."
-msgstr "Przełączanie do widoku uproszczonego."
+msgstr "Przełączanie do widoku uproszczonego"
 
 #: clientgui/AdvancedFrame.cpp:395
 msgid "Attach to &project or account manager..."
-msgstr "Przyłącz do &projektu albo menadżera kont..."
+msgstr "Przyłącz się do &projektu albo menadżera kont..."
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "Attach to a project or account manager to begin processing work"
-msgstr ""
-"Przyłącz się do projektu albo do menadżera kont aby rozpocząć przetwarzanie "
-"zadań"
+msgstr "Przyłącz się do projektu albo do menadżera kont"
 
 #: clientgui/AdvancedFrame.cpp:400
 #, c-format
@@ -1151,12 +1148,13 @@ msgstr "tylko kiedy komputer pozostaje nieużywany przez nie mniej niż"
 #: clientgui/DlgAdvPreferencesBase.cpp:115
 msgid "do work only after you haven't used the computer for this number of minutes"
 msgstr ""
-"Przetwarzaj dane tylko gdy komputer nie jest używany od co najmniej X minut"
+"Przetwarzaj dane tylko gdy komputer nie jest używany od co najmniej zadanej "
+"ilości minut"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:119
 #: clientgui/DlgAdvPreferencesBase.cpp:239
 msgid "minutes"
-msgstr "minut(y)"
+msgstr "minut"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:130
 #: clientgui/DlgAdvPreferencesBase.cpp:355
@@ -1467,12 +1465,11 @@ msgid ""
 "If you also want to stop running the science applications when you\n"
 "exit the Manager, then choose from the following options:"
 msgstr ""
-"Wybrałeś zamknięcie %s'a,\n"
-"który umożliwia ci zarządzanie aplikacjami projektów\n"
-"uruchomionymi na twoim komputerze.\n"
+"Wybrałeś zamknięcie %s'a, który ułatwia zarządzanie\n"
+"aplikacjami projektów uruchomionymi na tym komputerze.\n"
 "\n"
-"Jeżeli chcesz także po zamknięciu Menadżera BOINC\n"
-"zakończyć pracę aplikacji projektów, wybierz z poniższych opcji"
+"Jeżeli chcesz po zamknięciu Menadżera BOINC zakończyć także\n"
+"pracę aplikacji projektów, wybierz spośród poniższych opcji:"
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
@@ -1494,7 +1491,7 @@ msgstr ""
 
 #: clientgui/DlgExitMessage.cpp:153
 msgid "Stop running science applications when exiting the Manager"
-msgstr "Zamknij aplikacje projektów gdy zamykasz Menadżera BOINC"
+msgstr "Zamknij aplikacje projektów gdy zamykasz Menadżera BOINC."
 
 #: clientgui/DlgExitMessage.cpp:164
 msgid "Remember this decision and do not show this dialog."
@@ -1727,7 +1724,9 @@ msgstr "Rozmiar pamięci wirtualnej"
 #: clientgui/DlgItemProperties.cpp:201
 #, fuzzy
 msgid "Working set size"
-msgstr "Rozmiar zajętej pamięci"
+msgstr ""
+"Ilość stron wirtualnej pamięci stronicowanej rezydującej aktualnie w pamięci "
+"fizycznej"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Directory"
@@ -1862,7 +1861,7 @@ msgid ""
 "(minutes)"
 msgstr ""
 "Częstotliwość wyświetlania informacji:\n"
-"(minuty)"
+"(w minutach)"
 
 #: clientgui/DlgOptions.cpp:180
 msgid "How often should the Manager remind you when a network connection is needed?"
@@ -1872,7 +1871,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
-msgstr "Uruchamiać Menadżera BOINC przy logowaniu?"
+msgstr "Uruchamianie przy logowaniu."
 
 #: clientgui/DlgOptions.cpp:191
 msgid "Run the BOINC Manager when you log on."
@@ -1880,7 +1879,7 @@ msgstr "Menadżer BOINC jest uruchamiany przy logowaniu."
 
 #: clientgui/DlgOptions.cpp:196
 msgid "Enable Manager exit dialog?"
-msgstr "Wyświetlać okno dialogowe przy zamykaniu Menadżera BOINC?"
+msgstr "Okno dialogowe przy zamykaniu."
 
 #: clientgui/DlgOptions.cpp:202
 msgid "Display the exit dialog when shutting down the Manager."
@@ -2627,19 +2626,19 @@ msgstr "Używaj nie więcej niż:"
 
 #: clientgui/sg_DlgPreferences.cpp:406
 msgid "of disk space"
-msgstr "przestrzeni dysku"
+msgstr "przestrzeni dysku."
 
 #: clientgui/sg_DlgPreferences.cpp:423
 msgid "of the processor"
-msgstr "mocy obliczeniowej procesora"
+msgstr "mocy obliczeniowej procesora."
 
 #: clientgui/sg_DlgPreferences.cpp:427
 msgid "Do work while on battery?"
-msgstr "Przetwarzanie danych podczas zasilania z baterii?"
+msgstr "Przetwarzaj dane przy zasilaniu z baterii."
 
 #: clientgui/sg_DlgPreferences.cpp:440
 msgid "Do work after idle for:"
-msgstr "Przetwarzanie danych tylko po bezczynności przez:"
+msgstr "Przetwarzanie tylko po bezczynności przez:"
 
 #: clientgui/sg_DlgPreferences.cpp:678
 #: clientgui/sg_DlgPreferences.cpp:681
@@ -2669,7 +2668,7 @@ msgstr "%d%%"
 
 #: clientgui/sg_DlgPreferences.cpp:864
 msgid "0 (Run Always)"
-msgstr "0 (natychmiast)"
+msgstr "0 (ciągle)"
 
 #: clientgui/sg_DlgPreferences.cpp:867
 #, c-format
@@ -2793,11 +2792,11 @@ msgstr "Aplikacja: "
 #: clientgui/sg_ViewTabPage.cpp:447
 #: clientgui/sg_ViewTabPage.cpp:451
 msgid "Time Remaining: "
-msgstr "Do końca:"
+msgstr "Pozostały czas: "
 
 #: clientgui/sg_ViewTabPage.cpp:450
 msgid "Elapsed Time: "
-msgstr "Czas trwania"
+msgstr "Czas trwania: "
 
 #: clientgui/TermsOfUsePage.cpp:219
 msgid "Terms of Use"
@@ -2929,7 +2928,7 @@ msgstr "Kopiuj wybrane wiadomości"
 #: clientgui/ViewMessages.cpp:106
 #: clientgui/ViewMessages.cpp:502
 msgid "Show only this project"
-msgstr "Pokaż tylko ten projekt"
+msgstr "Tylko wybrany projekt"
 
 #: clientgui/ViewMessages.cpp:107
 #: clientgui/ViewMessages.cpp:503
@@ -3430,9 +3429,8 @@ msgid "Download pending"
 msgstr "Kolejka pobierania"
 
 #: clientgui/ViewTransfers.cpp:769
-#, fuzzy
 msgid " (project backoff: "
-msgstr "(dziwne jakieś "
+msgstr "(dziwne jakieś ścierwo "
 
 #: clientgui/ViewTransfers.cpp:769
 msgid ")"
@@ -3507,7 +3505,7 @@ msgstr "Upłynęło"
 #: clientgui/ViewWork.cpp:227
 #: clientgui/ViewWorkGrid.cpp:147
 msgid "To completion"
-msgstr "Pozostało"
+msgstr "Do ukończenia"
 
 #: clientgui/ViewWork.cpp:254
 #: clientgui/ViewWorkGrid.cpp:190
