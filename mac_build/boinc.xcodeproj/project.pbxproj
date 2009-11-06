@@ -295,6 +295,9 @@
 		DDBC6CA50D5D458700564C49 /* boinc_ss_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */; };
 		DDBD51760C169B770074905B /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */; };
 		DDBE74390C03B1C600453BB8 /* cs_platforms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */; };
+		DDC06AB410A3E93F00C8D9A5 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
+		DDC06AB810A3E97700C8D9A5 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
+		DDC06ABC10A3E98D00C8D9A5 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DDC132F30E2DAB1B0014D305 /* AsyncRPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC132F20E2DAB1B0014D305 /* AsyncRPC.cpp */; };
 		DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */; };
 		DDC836E60EDEA5DB001C2EF9 /* TermsOfUsePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */; };
@@ -877,6 +880,8 @@
 		DDBDF4A90987091800464F83 /* ValidateEmailAddress.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ValidateEmailAddress.cpp; path = ../clientgui/ValidateEmailAddress.cpp; sourceTree = SOURCE_ROOT; };
 		DDBDF4AA0987091800464F83 /* ValidateEmailAddress.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ValidateEmailAddress.h; path = ../clientgui/ValidateEmailAddress.h; sourceTree = SOURCE_ROOT; };
 		DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = cs_platforms.cpp; sourceTree = "<group>"; };
+		DDC06AB210A3E93F00C8D9A5 /* url.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = url.cpp; path = ../lib/url.cpp; sourceTree = SOURCE_ROOT; };
+		DDC06AB310A3E93F00C8D9A5 /* url.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = url.h; path = ../lib/url.h; sourceTree = SOURCE_ROOT; };
 		DDC132F10E2DAB1B0014D305 /* AsyncRPC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncRPC.h; sourceTree = "<group>"; };
 		DDC132F20E2DAB1B0014D305 /* AsyncRPC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AsyncRPC.cpp; sourceTree = "<group>"; };
 		DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCClientManager.cpp; path = ../clientgui/BOINCClientManager.cpp; sourceTree = SOURCE_ROOT; };
@@ -1520,6 +1525,8 @@
 				DD7BF7D80B8E7A9800A009F7 /* str_util.h */,
 				DD407AED07D2FE7200163EF5 /* synch.cpp */,
 				DD407AEA07D2FE6500163EF5 /* synch.h */,
+				DDC06AB210A3E93F00C8D9A5 /* url.cpp */,
+				DDC06AB310A3E93F00C8D9A5 /* url.h */,
 				F5EAD479031AF001018E201A /* util.cpp */,
 				F5EAD478031AF001018E201A /* util.h */,
 			);
@@ -2466,6 +2473,7 @@
 				DD377E090F6F95650089CE9A /* ViewNews.cpp in Sources */,
 				DDA0C8350FE1D704001E02E6 /* procinfo_mac.cpp in Sources */,
 				DDA99BF41099AF18002F8E9B /* MacAccessiblity.cpp in Sources */,
+				DDC06ABC10A3E98D00C8D9A5 /* url.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2505,6 +2513,7 @@
 				DD7475510D86273300860636 /* coproc.cpp in Sources */,
 				DD6802300E701ACD0067D009 /* cert_sig.cpp in Sources */,
 				DDAD31D80EC26B14002DA09D /* mac_address.cpp in Sources */,
+				DDC06AB410A3E93F00C8D9A5 /* url.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2743,6 +2752,7 @@
 				DDE3A8850E90D23400A363A7 /* scheduler_op.cpp in Sources */,
 				DD9AB0340EB7D5DE00AF1616 /* rr_sim.cpp in Sources */,
 				DDAD31D90EC26B14002DA09D /* mac_address.cpp in Sources */,
+				DDC06AB810A3E97700C8D9A5 /* url.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

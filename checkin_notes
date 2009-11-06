@@ -8940,3 +8940,10 @@ Rom    5 Nov 2009
     clientgui/
         AdvancedFrame.cpp
         sg_BoincSimpleGUI.cpp
+
+Charlie 5 Nov 2009
+    - Mac: update XCode project for new files url.ccp,.h
+
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
