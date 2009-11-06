@@ -8947,3 +8947,9 @@ Charlie 5 Nov 2009
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  6 Nov 2009
+    - feeder: fix crashing bug
+
+    db/
+        boinc_db.cpp

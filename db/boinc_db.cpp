@@ -1510,7 +1510,7 @@ int DB_WORK_ITEM::enumerate_all(
         // (historical reasons)
         //
         sprintf(query,
-            "select high_priority r1.id, r1.priority, workunit.* from result r1 force index(ind_res_st), workunit force index(primary)"
+            "select high_priority r1.id, r1.priority, r1.server_state, r1.report_deadline, workunit.* from result r1 force index(ind_res_st), workunit force index(primary)"
             " where r1.server_state=%d and r1.workunitid=workunit.id and r1.id>%d "
             " %s "
             "limit %d",
