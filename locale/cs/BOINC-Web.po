@@ -439,6 +439,51 @@ msgstr ""
 "Pokud jste již dobrovolným pomocníkem: k úpravě svého nastavení %sklikněte "
 "zde%s."
 
+#: index.php:23
+msgid "Computing power"
+msgstr "Výpočetní síla"
+
+#: index.php:25
+msgid "Top 100 volunteers"
+msgstr "100 nejvýkonnějších dobrovolníků"
+
+#: index.php:26
+msgid "Statistics"
+msgstr "Statistiky"
+
+#: index.php:53
+msgid "Active:"
+msgstr "Aktivní:"
+
+#: index.php:53
+msgid "volunteers,"
+msgstr "dobrovolníků,"
+
+#: index.php:53
+msgid "computers.\n"
+msgstr "počítačů.\n"
+
+#: index.php:54
+msgid "24-hour average:"
+msgstr "24 hodinový průměr:"
+
+#: index.php:54
+msgid "TeraFLOPS."
+msgstr "TeraFLOPů."
+
+#: index.php:66
+msgid "News"
+msgstr "Novinky"
+
+#: index.php:72
+msgid "... more"
+msgstr "... více"
+
+#: index.php:76
+#, php-format
+msgid "News is available as an %sRSS feed%s"
+msgstr "Novinky jsou dostupné jako %szprávy RSS%s"
+
 #: index.php:86
 msgid "Volunteer"
 msgstr "Staňte se dobrovolníkem"
@@ -473,6 +518,74 @@ msgid ""
 msgstr ""
 "Případně, pokud používáte více projektů současně, vyzkoušejte některého ze "
 "%ssprávce účtů%s, jako jsou %sGridRepublic%s nebo %sBAM!%s."
+
+#: index.php:123
+msgid "Compute with BOINC"
+msgstr "Počítejte s BOINCem"
+
+#: index.php:126
+msgid "Software updates"
+msgstr "Aktualizace softwaru"
+
+#: index.php:153
+msgid "The BOINC project"
+msgstr "Projekt BOINC"
+
+#: index.php:158
+msgid "Help wanted!"
+msgstr "Uvítáme výpomoc!"
+
+#: index.php:160
+msgid "Programming"
+msgstr "Programování"
+
+#: index.php:161
+msgid "Translation"
+msgstr "Překlad"
+
+#: index.php:162
+msgid "Testing"
+msgstr "Testování"
+
+#: index.php:165
+msgid "Software development"
+msgstr "Vývoj softwaru"
+
+#: index.php:166
+msgid "APIs for add-on software"
+msgstr "API pro doplňkový software"
+
+#: index.php:167
+msgid "Personnel and contributors"
+msgstr "Pracovníci a přispěvatelé"
+
+#: index.php:168
+msgid "Message boards"
+msgstr "Diskuzní fóra"
+
+#: index.php:169
+msgid "Email lists"
+msgstr "Emailové konference"
+
+#: index.php:170
+msgid "Events"
+msgstr "Události"
+
+#: index.php:171
+msgid "Conferences"
+msgstr "Konference"
+
+#: index.php:172
+msgid "Papers and talks"
+msgstr "Dokumenty a přednášky"
+
+#: index.php:173
+msgid "Logos and graphics"
+msgstr "Loga a grafika"
+
+#: index.php:206
+msgid "Browser default"
+msgstr "Podle nastavení prohlížeče"
 
 #: index.php:250
 #, php-format
@@ -985,116 +1098,3 @@ msgstr ""
 # index.php
 #~ msgid "HOME_BOINC_DESC"
 #~ msgstr "Open-source software pro %sdobrovolnické počítání%s a %sgrid computing%s."
-
-#: index.php:23
-msgid "Computing power"
-msgstr "Výpočetní síla"
-
-#: index.php:25
-msgid "Top 100 volunteers"
-msgstr "100 nejvýkonnějších dobrovolníků"
-
-#: index.php:26
-msgid "Statistics"
-msgstr "Statistiky"
-
-#: index.php:53
-msgid "Active:"
-msgstr "Aktivní:"
-
-#: index.php:53
-msgid "volunteers,"
-msgstr "dobrovolníků,"
-
-#: index.php:53
-msgid "computers.\n"
-msgstr "počítačů.\n"
-
-#: index.php:54
-msgid "24-hour average:"
-msgstr "24 hodinový průměr:"
-
-#: index.php:54
-msgid "TeraFLOPS."
-msgstr "TeraFLOPů."
-
-#: index.php:66
-msgid "News"
-msgstr "Novinky"
-
-#: index.php:72
-msgid "... more"
-msgstr "... více"
-
-#: index.php:76
-#, php-format
-msgid "News is available as an %sRSS feed%s"
-msgstr "Novinky jsou dostupné jako %szprávy RSS%s"
-
-#: index.php:123
-msgid "Compute with BOINC"
-msgstr "Počítejte s BOINCem"
-
-#: index.php:126
-msgid "Software updates"
-msgstr "Aktualizace softwaru"
-
-#: index.php:153
-msgid "The BOINC project"
-msgstr "Projekt BOINC"
-
-#: index.php:158
-msgid "Help wanted!"
-msgstr "Uvítáme výpomoc!"
-
-#: index.php:160
-msgid "Programming"
-msgstr "Programování"
-
-#: index.php:161
-msgid "Translation"
-msgstr "Překlad"
-
-#: index.php:162
-msgid "Testing"
-msgstr "Testování"
-
-#: index.php:165
-msgid "Software development"
-msgstr "Vývoj softwaru"
-
-#: index.php:166
-msgid "APIs for add-on software"
-msgstr "API pro doplňkový software"
-
-#: index.php:167
-msgid "Personnel and contributors"
-msgstr "Pracovníci a přispěvatelé"
-
-#: index.php:168
-msgid "Message boards"
-msgstr "Diskuzní fóra"
-
-#: index.php:169
-msgid "Email lists"
-msgstr "Emailové konference"
-
-#: index.php:170
-msgid "Events"
-msgstr "Události"
-
-#: index.php:171
-msgid "Conferences"
-msgstr "Konference"
-
-#: index.php:172
-msgid "Papers and talks"
-msgstr "Dokumenty a přednášky"
-
-#: index.php:173
-msgid "Logos and graphics"
-msgstr "Loga a grafika"
-
-#: index.php:206
-msgid "Browser default"
-msgstr "Podle nastavení prohlížeče"

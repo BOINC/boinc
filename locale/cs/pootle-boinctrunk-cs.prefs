@@ -6,3 +6,5 @@ rights:
   nobody = u'view'
   Necroman = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   JensSeidler = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  davea = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'

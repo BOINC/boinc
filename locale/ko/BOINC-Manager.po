@@ -2,22 +2,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-29 20:06-0500\n"
+"POT-Creation-Date: 2009-11-05 13:37-0500\n"
 "PO-Revision-Date: 2009-11-01 00:44+0900\n"
 "Last-Translator: Lee kangsan <treppolse@gmail.com>\n"
 "Language-Team: BOINC@KOREA\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Korean\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: KOREA, REPUBLIC OF\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:370
 msgid "Identify your account "
@@ -197,7 +197,8 @@ msgid "Close the %s window"
 msgstr "%s 창 닫기"
 
 #: clientgui/AdvancedFrame.cpp:310
-msgid "&Close Window\tCTRL+W"
+#, fuzzy
+msgid "&Close Window\tCtrl+W"
 msgstr "창 닫기(&C)\tCTRL+W"
 
 #: clientgui/AdvancedFrame.cpp:317
@@ -211,63 +212,64 @@ msgid "E&xit"
 msgstr "종료(&X)"
 
 #: clientgui/AdvancedFrame.cpp:331
-msgid "&Projects\tCTRL+SHIFT+P"
-msgstr "프로젝트(&P)\tCTRL+SHIFT+P"
+msgid "&Projects\tCtrl+Shift+P"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:332
 msgid "Display projects"
 msgstr "프로젝트를 보여줍니다"
 
 #: clientgui/AdvancedFrame.cpp:337
-msgid "&Tasks\tCTRL+SHIFT+T"
-msgstr "작업(&T)\tCTRL+SHIFT+T"
+msgid "&Tasks\tCtrl+Shift+T"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:338
 msgid "Display tasks"
 msgstr "작업 현황을 보여줍니다"
 
 #: clientgui/AdvancedFrame.cpp:343
-msgid "Trans&fers\tCTRL+SHIFT+X"
-msgstr "전송(&F)\tCTRL+SHIFT+X"
+msgid "Trans&fers\tCtrl+Shift+X"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:344
 msgid "Display transfers"
 msgstr "전송 현황을 보여줍니다"
 
 #: clientgui/AdvancedFrame.cpp:349
-msgid "&Messages\tCTRL+SHIFT+M"
-msgstr "메세지(&M)\tCTRL+SHIFT+M"
+msgid "&Messages\tCtrl+Shift+M"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:350
 msgid "Display messages"
 msgstr "메세지를 보여줍니다"
 
 #: clientgui/AdvancedFrame.cpp:355
-msgid "&Statistics\tCTRL+SHIFT+S"
-msgstr "통계(&S)\tCTRL+SHIFT+S"
+msgid "&Statistics\tCtrl+Shift+S"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:356
 msgid "Display statistics"
 msgstr "통계를 보여줍니다"
 
 #: clientgui/AdvancedFrame.cpp:361
-msgid "&Disk usage\tCTRL+SHIFT+D"
-msgstr "디스크 사용량(&D)\tCTRL+SHIFT+D"
+msgid "&Disk usage\tCtrl+Shift+D"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:362
 msgid "Display disk usage"
 msgstr "디스크 사용량을 보여줍니다"
 
 #: clientgui/AdvancedFrame.cpp:367
-msgid "&News\tCTRL+SHIFT+N"
-msgstr "뉴스(&N)\tCTRL+SHIFT+N"
+msgid "&News\tCtrl+Shift+N"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:368
 msgid "Display news"
 msgstr "뉴스를 보여줍니다"
 
 #: clientgui/AdvancedFrame.cpp:375
-msgid "Simple &View...\tCTRL+SHIFT+V"
+#, fuzzy
+msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "간단히 보기(&V)...\tCTRL+SHIFT+V"
 
 #: clientgui/AdvancedFrame.cpp:376
@@ -522,21 +524,23 @@ msgstr "%s가 기본 언어로 설정되었습니다. 이 설정은 %s을(를) �
 
 #: clientgui/AdvancedFrame.cpp:1419
 #, c-format
-msgid "%s - Shutdown the current client..."
+#, fuzzy
+msgid "%s - Shut down the current client..."
 msgstr "%s - 현재 클라이언트 종료..."
 
 #: clientgui/AdvancedFrame.cpp:1428
 #, c-format
+#, fuzzy
 msgid ""
-"%s will shut down the currently connected client,\n"
-"and prompt you for another host to connect to.\n"
+"%s will shut down the current client\n"
+"and prompt you for another host to connect to."
 msgstr ""
 "%s는 현재 연결된 클라이언트에서 종료될 것이며,\n"
 "또다른 호스트로 연결해서 명령을 내릴 수 있습니다.\n"
 
 #: clientgui/AdvancedFrame.cpp:1475
-msgid "Retrying communications for project(s)..."
-msgstr "프로젝트와의 통신 재시도 중..."
+msgid "Retrying communications."
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1675
 #, c-format
@@ -772,24 +776,29 @@ msgstr "%s가 성공적으로 인터넷 연결을 종료했습니다."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s가 인터넷 연결 종료에 실패했습니다."
 
-#: clientgui/BOINCGUIApp.cpp:308
+#: clientgui/BOINCGUIApp.cpp:336
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_master' user group."
+"\n"
+"To run BOINC as this user, please:\n"
+"  - reinstall BOINC answering \"Yes\" to the question about\n"
+"     non-administrative users\n"
+" or\n"
+"  - contact your administrator to add you to the 'boinc_master'\n"
+"     user group."
 msgstr ""
-"현재 클라이언트 관리를 승인받지 못했습니다.\n"
-"관리자에게 문의해서 여러분을 'boinc_master' 사용자 그룹에 추가하십시오."
 
-#: clientgui/BOINCGUIApp.cpp:311
+#: clientgui/BOINCGUIApp.cpp:339
 #, c-format
+#, fuzzy
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
-"(Error code %d)\n"
+"(Error code %d)"
 msgstr ""
 "BOINC 소유권이나 권한이 적절히 설정되지 않았습니다. BOINC를 다시 설치해주세요.\n"
 "(Error code %d)\n"
 
-#: clientgui/BOINCGUIApp.cpp:388
+#: clientgui/BOINCGUIApp.cpp:389
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -797,47 +806,47 @@ msgstr ""
 "BOINC를 정상적으로 실행하려면 재부팅이 필요합니다.\n"
 "컴퓨터를 다시 시작하고 재시도해 주세요."
 
-#: clientgui/BOINCGUIApp.cpp:389
+#: clientgui/BOINCGUIApp.cpp:390
 msgid "BOINC Manager"
 msgstr "BOINC 관리자"
 
-#: clientgui/BOINCGUIApp.cpp:536
+#: clientgui/BOINCGUIApp.cpp:537
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC 관리자를 운영 체제에서 자동적으로 시작시켰습니다"
 
-#: clientgui/BOINCGUIApp.cpp:538
+#: clientgui/BOINCGUIApp.cpp:539
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "BOINC는 시스템 트레이 상태로 시작됨"
 
-#: clientgui/BOINCGUIApp.cpp:540
+#: clientgui/BOINCGUIApp.cpp:541
 msgid "Directory containing the BOINC Client executable"
 msgstr "실행 가능한 BOINC 클라이언트를 포함한 디렉토리"
 
-#: clientgui/BOINCGUIApp.cpp:541
+#: clientgui/BOINCGUIApp.cpp:542
 msgid "BOINC data directory"
 msgstr "BOINC 데이터 디렉토리"
 
-#: clientgui/BOINCGUIApp.cpp:543
+#: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
 msgstr "BOINC는 해당 인수를 가지고 시작됨"
 
-#: clientgui/BOINCGUIApp.cpp:544
+#: clientgui/BOINCGUIApp.cpp:545
 msgid "disable BOINC security users and permissions"
 msgstr "BOINC 보안 사용자 및 권한 비활성화"
 
-#: clientgui/BOINCGUIApp.cpp:545
+#: clientgui/BOINCGUIApp.cpp:546
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "스킨 관리자 오류 메세지 활성화를 위해 스킨 디버깅 모드 설정"
 
-#: clientgui/BOINCGUIApp.cpp:735
+#: clientgui/BOINCGUIApp.cpp:736
 msgid "(Automatic Detection)"
 msgstr "(자동 감지)"
 
-#: clientgui/BOINCGUIApp.cpp:736
+#: clientgui/BOINCGUIApp.cpp:737
 msgid "(Unknown)"
 msgstr "(알 수 없음)"
 
-#: clientgui/BOINCGUIApp.cpp:737
+#: clientgui/BOINCGUIApp.cpp:738
 msgid "(User Defined)"
 msgstr "(사용자 지정)"
 
@@ -1171,7 +1180,8 @@ msgid "Other options"
 msgstr "다른 선택 사항"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:233
-msgid "Switch between applications between every"
+#, fuzzy
+msgid "Switch between applications every"
 msgstr "이 시간 이후로 응용 프로그램을 바꿈"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:242
@@ -2169,31 +2179,45 @@ msgstr "사용자 이름과 비밀번호를 확인하시고 다시 시도해 주
 msgid "Check the email address and password, and try again."
 msgstr "Email 주소와 비밀번호를 확인하시고, 다시 시도해 주세요."
 
-#: clientgui/ProjectInfoPage.cpp:249
+#: clientgui/ProjectInfoPage.cpp:250
 msgid "Choose a project"
 msgstr "프로젝트를 선택하세요"
 
-#: clientgui/ProjectInfoPage.cpp:252
+#: clientgui/ProjectInfoPage.cpp:253
 msgid "To choose a project, click its name or type its URL below."
 msgstr "프로젝트를 선택하려면 이를을 클릭하거나 하단에 URL을 입력하세요."
 
-#: clientgui/ProjectInfoPage.cpp:255
+#: clientgui/ProjectInfoPage.cpp:256
 msgid "Project &URL:"
 msgstr "프로젝트 &URL:"
 
-#: clientgui/ProjectInfoPage.cpp:339
+#: clientgui/ProjectInfoPage.cpp:340
 msgid "This project may not have work for your type of computer. Are you sure you wish to continue?"
 msgstr "이 프로젝트는 해당 컴퓨터에서 동작하지 않을 수도 있습니다. 계속하시겠습니까?"
 
-#: clientgui/ProjectInfoPage.cpp:363
+#: clientgui/ProjectInfoPage.cpp:364
 msgid "You are already attached to this project. Please choose a different project."
 msgstr "이미 이 프로젝트에 연결되어 있습니다. 다른 프로젝트를 선택해주세요."
 
-#: clientgui/ProjectListCtrl.cpp:239
+#: clientgui/ProjectListCtrl.cpp:273
 msgid "Click"
 msgstr "Click"
 
 #: clientgui/ProjectProcessingPage.cpp:323
+#, fuzzy
+msgid "Communicating with project."
+msgstr "서버와 통신 중"
+
+#: clientgui/ProjectProcessingPage.cpp:499
+msgid "Required files not found on the server."
+msgstr ""
+
+#: clientgui/ProjectProcessingPage.cpp:502
+#: clientgui/ProjectProcessingPage.cpp:564
+#, fuzzy
+msgid "An internal server error has occurred."
+msgstr "내부 서버 오류가 발생했습니다.\n"
+
 #: clientgui/ProjectPropertiesPage.cpp:336
 msgid ""
 "Communicating with project\n"
@@ -2201,14 +2225,6 @@ msgid ""
 msgstr ""
 "프로젝트 서버와 통신하고 있습니다\n"
 "잠시 기다려 주세요..."
-
-#: clientgui/ProjectProcessingPage.cpp:499
-msgid ""
-"Required wizard file(s) are missing from the target server.\n"
-"(lookup_account.php/create_account.php)\n"
-msgstr ""
-"대상 서버에서 필요한 마법사 파일이 빠졌습니다.\n"
-"(lookup_account.php/create_account.php)\n"
 
 #: clientgui/ProxyInfoPage.cpp:196
 msgid "Network communication failure"
@@ -2294,7 +2310,8 @@ msgid "SOCKS proxy"
 msgstr "SOCKS 프록시"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-msgid "Advanced View...\tCTRL+SHIFT+A"
+#, fuzzy
+msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "고급 보기...\tCTRL+SHIFT+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
@@ -2379,12 +2396,15 @@ msgstr "모든 메시지를 클립보드에 복사"
 #: clientgui/sg_DlgMessages.cpp:202
 #: clientgui/sg_DlgMessages.cpp:210
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr "선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
+msgstr ""
+"선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr "클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 있습니다."
+msgstr ""
+"클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 "
+"있습니다."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2934,7 +2954,9 @@ msgstr "프로젝트 다시 설정"
 #: clientgui/ViewProjects.cpp:195
 #: clientgui/ViewProjectsBase.cpp:130
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr "이 프로젝트와 관련된 모든 작업과 파일들을 삭제하고 새 작업을 받아옵니다. 그 전에 먼저 완료된 작업을 보고하도록 업데이트할 수 있습니다."
+msgstr ""
+"이 프로젝트와 관련된 모든 작업과 파일들을 삭제하고 새 작업을 받아옵니다. 그 전에 먼저 완료된 작업을 보고하도록 업데이트할 수 "
+"있습니다."
 
 #: clientgui/ViewProjects.cpp:201
 #: clientgui/ViewProjectsBase.cpp:139
@@ -3540,53 +3562,63 @@ msgstr "OnDropTarget: index by HitTest = %i"
 msgid "Pie Ctrl"
 msgstr "Pie Ctrl"
 
-#: clientgui/mac/MacAccessiblity.cpp:313
+#: clientgui/mac/MacAccessiblity.cpp:344
 msgid "list of "
 msgstr "목록"
 
-#: clientgui/mac/MacAccessiblity.cpp:382
+#: clientgui/mac/MacAccessiblity.cpp:414
 #, c-format
 msgid "%d of %d "
 msgstr "%d %d "
 
-#: clientgui/mac/MacAccessiblity.cpp:384
+#: clientgui/mac/MacAccessiblity.cpp:416
 msgid "current sort column "
 msgstr "현재 분류된 컬럼"
 
-#: clientgui/mac/MacAccessiblity.cpp:386
+#: clientgui/mac/MacAccessiblity.cpp:418
 msgid " descending order "
 msgstr " 내림차순 정렬"
 
-#: clientgui/mac/MacAccessiblity.cpp:386
+#: clientgui/mac/MacAccessiblity.cpp:418
 msgid " ascending order "
 msgstr " 오름차순 정렬"
 
-#: clientgui/mac/MacAccessiblity.cpp:388
+#: clientgui/mac/MacAccessiblity.cpp:420
 msgid "column "
 msgstr "컬럼"
 
-#: clientgui/mac/MacAccessiblity.cpp:394
+#: clientgui/mac/MacAccessiblity.cpp:426
+#: clientgui/mac/MacAccessiblity.cpp:1003
 msgid "selected "
 msgstr "선택됨"
 
-#: clientgui/mac/MacAccessiblity.cpp:399
+#: clientgui/mac/MacAccessiblity.cpp:431
 #, c-format
 msgid "row %d "
 msgstr "행 %d"
 
-#: clientgui/mac/MacAccessiblity.cpp:402
+#: clientgui/mac/MacAccessiblity.cpp:434
 #, c-format
 msgid "of %d "
 msgstr "%d로"
 
-#: clientgui/mac/MacAccessiblity.cpp:405
+#: clientgui/mac/MacAccessiblity.cpp:437
 #, c-format
 msgid "column %d "
 msgstr "열 %d"
 
-#: clientgui/mac/MacAccessiblity.cpp:409
+#: clientgui/mac/MacAccessiblity.cpp:441
 msgid "blank"
 msgstr "공백"
+
+#: clientgui/mac/MacAccessiblity.cpp:965
+msgid "list of projects or account managers"
+msgstr ""
+
+#: clientgui/mac/MacAccessiblity.cpp:1007
+#, c-format
+msgid "row %d of %d "
+msgstr ""
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
@@ -3596,42 +3628,43 @@ msgstr "작업 시작 및 중지 시간을 HH:MM-HH:MM 형식대로 입력해 �
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "네트워크 사용 시작 및 중지 시간을 HH:MM-HH:MM 형식대로 입력해 주세요"
 
+#~ msgid "&Projects\tCTRL+SHIFT+P"
+#~ msgstr "프로젝트(&P)\tCTRL+SHIFT+P"
+
+#~ msgid "&Tasks\tCTRL+SHIFT+T"
+#~ msgstr "작업(&T)\tCTRL+SHIFT+T"
+
+#~ msgid "Trans&fers\tCTRL+SHIFT+X"
+#~ msgstr "전송(&F)\tCTRL+SHIFT+X"
+
+#~ msgid "&Messages\tCTRL+SHIFT+M"
+#~ msgstr "메세지(&M)\tCTRL+SHIFT+M"
+
+#~ msgid "&Statistics\tCTRL+SHIFT+S"
+#~ msgstr "통계(&S)\tCTRL+SHIFT+S"
+
+#~ msgid "&Disk usage\tCTRL+SHIFT+D"
+#~ msgstr "디스크 사용량(&D)\tCTRL+SHIFT+D"
+
+#~ msgid "&News\tCTRL+SHIFT+N"
+#~ msgstr "뉴스(&N)\tCTRL+SHIFT+N"
+
+#~ msgid "Retrying communications for project(s)..."
+#~ msgstr "프로젝트와의 통신 재시도 중..."
+
+#~ msgid ""
+#~ "You currently are not authorized to manage the client.\n"
+#~ "Please contact your administrator to add you to the 'boinc_master' user group."
+#~ msgstr ""
+#~ "현재 클라이언트 관리를 승인받지 못했습니다.\n"
+#~ "관리자에게 문의해서 여러분을 'boinc_master' 사용자 그룹에 추가하십시오."
+
+#~ msgid ""
+#~ "Required wizard file(s) are missing from the target server.\n"
+#~ "(lookup_account.php/create_account.php)\n"
+#~ msgstr ""
+#~ "대상 서버에서 필요한 마법사 파일이 빠졌습니다.\n"
+#~ "(lookup_account.php/create_account.php)\n"
+
 #~ msgid "ID"
 #~ msgstr "ID"
-#~ msgid "Priority"
-#~ msgstr "우선 순위"
-#~ msgid "MessagesGrid"
-#~ msgstr "메세지"
-#~ msgid "Copying selected messages to Clipboard..."
-#~ msgstr "선택한 메시지를 클립보드로 복사하고 있습니다..."
-#~ msgid "Info"
-#~ msgstr "알림"
-#~ msgid "Warning"
-#~ msgstr "경고"
-#~ msgid "Error"
-#~ msgstr "오류"
-#~ msgid "ProjectsGrid"
-#~ msgstr "프로젝트"
-#~ msgid "TransfersGrid"
-#~ msgstr "전송"
-#~ msgid "Aborting transfer(s)..."
-#~ msgstr "전송을 중지하고 있습니다..."
-#~ msgid ""
-#~ "Are you sure you want to abort this file(s) transfer ?\n"
-#~ "NOTE: Aborting a transfer will invalidate a task and you\n"
-#~ "will not receive credit for it."
-#~ msgstr ""
-#~ "정말로 이 파일 전송을 중지하시겠습니까?\n"
-#~ "참고: 전송을 중지하면 작업 인증이 되지 않으며\n"
-#~ "크레딧을 받을 수 없습니다."
-#~ msgid "Abort File Transfer(s)"
-#~ msgstr "파일 전송 중지"
-#~ msgid "TasksGrid"
-#~ msgstr "작업"
-#~ msgid ""
-#~ "Are you sure you want to abort this task '%s'?\n"
-#~ "(Progress: %s %%, Status: %s)"
-#~ msgstr ""
-#~ "정말로 '%s' 작업을 중지하시겠습니까?\n"
-#~ "(진행: %s, 상태: %s)"
-

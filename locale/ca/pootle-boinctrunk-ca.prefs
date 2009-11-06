@@ -4,3 +4,5 @@ rights:
   Xavi = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   default = u'view, suggest, archive, pocompile'
   nobody = u'view'
+  romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  davea = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
