@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2009-05-13 15:49-0700\n"
+"PO-Revision-Date: 2009-11-04 02:01-0700\n"
 "Last-Translator: pH!Lm0 <philmo_one@yahoo.fr>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -447,35 +447,36 @@ msgstr ""
 
 #: index.php:23
 msgid "Computing power"
-msgstr ""
+msgstr "Puissance de calcul"
 
 #: index.php:25
 msgid "Top 100 volunteers"
-msgstr ""
+msgstr "100 meilleurs participants"
 
 #: index.php:26
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiques"
 
+# de quoi parle-t-on ?
 #: index.php:53
 msgid "Active:"
-msgstr ""
+msgstr "Actif : "
 
 #: index.php:53
 msgid "volunteers,"
-msgstr ""
+msgstr "participants,"
 
 #: index.php:53
 msgid "computers.\n"
-msgstr ""
+msgstr "ordinateurs.\n"
 
 #: index.php:54
 msgid "24-hour average:"
-msgstr ""
+msgstr "moyenne sur 24 heures : "
 
 #: index.php:54
 msgid "TeraFLOPS."
-msgstr ""
+msgstr "TeraFLOPS."
 
 #: index.php:66
 msgid "News"
@@ -532,31 +533,32 @@ msgstr ""
 
 #: index.php:126
 msgid "Software updates"
-msgstr ""
+msgstr "Mises à jour logicielles"
 
 #: index.php:153
 msgid "The BOINC project"
-msgstr ""
+msgstr "Le projet BOINC"
 
+# Vérifier la longueur du libellé...
 #: index.php:158
 msgid "Help wanted!"
-msgstr ""
+msgstr "Nous avons besoin de votre aide !"
 
 #: index.php:160
 msgid "Programming"
-msgstr ""
+msgstr "Programmation"
 
 #: index.php:161
 msgid "Translation"
-msgstr ""
+msgstr "Traduction"
 
 #: index.php:162
 msgid "Testing"
-msgstr ""
+msgstr "Tests"
 
 #: index.php:165
 msgid "Software development"
-msgstr ""
+msgstr "Développement"
 
 #: index.php:166
 msgid "APIs for add-on software"

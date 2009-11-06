@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2009-01-05 12:28-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-11-05 13:41-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,15 +14,15 @@ msgstr ""
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_8\n"
+"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 
-#: clientgui/AccountInfoPage.cpp:336
-msgid "User information"
-msgstr "Informação do Utilizador"
+#: clientgui/AccountInfoPage.cpp:370
+msgid "Identify your account "
+msgstr ""
 
-#: clientgui/AccountInfoPage.cpp:342
+#: clientgui/AccountInfoPage.cpp:376
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
@@ -30,7 +30,7 @@ msgstr ""
 "Por favor, insira os dados da sua conta\n"
 "(para criar uma conta, visite o website do projecto)"
 
-#: clientgui/AccountInfoPage.cpp:346
+#: clientgui/AccountInfoPage.cpp:380
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
@@ -38,404 +38,467 @@ msgstr ""
 "Este projecto não está de momento a aceitar novas contas.\n"
 "Só pode anexar se já tiver uma conta criada."
 
-#: clientgui/AccountInfoPage.cpp:350
+#: clientgui/AccountInfoPage.cpp:384
 msgid "Are you already running this project?"
-msgstr "Já está a correr este projecto?""
+msgstr "Já está a correr este projecto?"
 
-#: clientgui/AccountInfoPage.cpp:354
+#: clientgui/AccountInfoPage.cpp:388
 msgid "&No, new user"
 msgstr "Não, novo utilizador"
 
-#: clientgui/AccountInfoPage.cpp:357
+#: clientgui/AccountInfoPage.cpp:391
 msgid "&Yes, existing user"
 msgstr "Sim, utilizador já existente"
 
-#: clientgui/AccountInfoPage.cpp:373
-#: clientgui/AccountInfoPage.cpp:529
+#: clientgui/AccountInfoPage.cpp:396
+msgid ""
+"We were not able to set up your account information\n"
+"automatically.\n"
+"\n"
+"Please click on the 'Find logon information' link\n"
+"below to find out what to put in the email address and\n"
+"password fields."
+msgstr ""
+
+#: clientgui/AccountInfoPage.cpp:399
+msgid "Find logon information"
+msgstr ""
+
+#: clientgui/AccountInfoPage.cpp:419
+#: clientgui/AccountInfoPage.cpp:585
 msgid "&Password:"
 msgstr "&Palavra-passe:"
 
-#: clientgui/AccountInfoPage.cpp:380
-#: clientgui/AccountInfoPage.cpp:544
+#: clientgui/AccountInfoPage.cpp:426
+#: clientgui/AccountInfoPage.cpp:600
 msgid "Choose a &password:"
 msgstr "Escolha uma &palavra-passe:"
 
-#: clientgui/AccountInfoPage.cpp:383
+#: clientgui/AccountInfoPage.cpp:429
 msgid "C&onfirm password:"
 msgstr "C&onfirme a palavra-passe:"
 
-#: clientgui/AccountInfoPage.cpp:390
+#: clientgui/AccountInfoPage.cpp:436
 #, c-format
 msgid "Are you already running %s?"
 msgstr "Já está a correr %s?"
 
-#: clientgui/AccountInfoPage.cpp:407
+#: clientgui/AccountInfoPage.cpp:453
 msgid "&Username:"
 msgstr "&Nome de utilizador:"
 
-#: clientgui/AccountInfoPage.cpp:421
+#: clientgui/AccountInfoPage.cpp:467
 msgid "&Email address:"
 msgstr "&Endereço de e-mail:"
 
-#: clientgui/AccountInfoPage.cpp:429
+#: clientgui/AccountInfoPage.cpp:475
 #, c-format
 msgid "minimum length %d"
 msgstr "comprimento minimo %d"
 
-#: clientgui/AccountInfoPage.cpp:434
+#: clientgui/AccountInfoPage.cpp:482
 msgid "Forgot your password?"
 msgstr "Esqueceu a sua palavra-passe?"
 
-#: clientgui/AccountInfoPage.cpp:468
-#: clientgui/WelcomePage.cpp:350
-#: clientgui/WelcomePage.cpp:370
-#: clientgui/WelcomePage.cpp:386
+#: clientgui/AccountInfoPage.cpp:489
+msgid ""
+"If you have not yet registered with this account manager,\n"
+"please do so before proceeding.  Click on the link below\n"
+"to register or to retrieve a forgotten password."
+msgstr ""
+
+#: clientgui/AccountInfoPage.cpp:492
+msgid "Account manager website"
+msgstr ""
+
+#: clientgui/AccountInfoPage.cpp:524
 msgid "Attach to project"
 msgstr "Anexar ao projecto"
 
-#: clientgui/AccountInfoPage.cpp:470
+#: clientgui/AccountInfoPage.cpp:526
 msgid "Update account manager"
 msgstr "Actualizar o gestor de conta"
 
-#: clientgui/AccountInfoPage.cpp:472
-#: clientgui/WelcomePage.cpp:356
+#: clientgui/AccountInfoPage.cpp:528
 msgid "Attach to account manager"
 msgstr "Axenar ao gestor de conta"
 
-#: clientgui/AccountInfoPage.cpp:481
+#: clientgui/AccountInfoPage.cpp:537
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
-msgstr "O comprimento minimo da palavra-passe para este projecto é %d. Por favor insira uma palavra-passe diferente."
+msgstr ""
+"O comprimento minimo da palavra-passe para este projecto é %d. Por favor "
+"insira uma palavra-passe diferente."
 
-#: clientgui/AccountInfoPage.cpp:487
+#: clientgui/AccountInfoPage.cpp:543
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
-msgstr "O comprimento minimo da palavra-passe para este gestor de conta é %d. Por favor insira uma palavra-passe diferente."
+msgstr ""
+"O comprimento minimo da palavra-passe para este gestor de conta é %d. Por "
+"favor insira uma palavra-passe diferente."
 
-#: clientgui/AccountInfoPage.cpp:498
+#: clientgui/AccountInfoPage.cpp:554
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr "A palavra-passe original e a palavra-passe de confirmação não condizem. Por favor escreva-as novamente."
+msgstr ""
+"A palavra-passe original e a palavra-passe de confirmação não condizem. Por "
+"favor escreva-as novamente."
 
-#: clientgui/AccountManagerInfoPage.cpp:180
-msgid "Account Manager URL"
-msgstr "URL do Gestor de Conta"
+#: clientgui/AccountManagerInfoPage.cpp:243
+msgid "Choose an account manager"
+msgstr ""
 
-#: clientgui/AccountManagerInfoPage.cpp:183
-msgid "Enter the URL of the account manager's web site."
-msgstr "Insira o URL do website do gestor de conta."
+#: clientgui/AccountManagerInfoPage.cpp:246
+#, fuzzy
+msgid ""
+"To choose an account manager, click its name or \n"
+"type its URL below."
+msgstr ""
+"Para escolher um projecto, carregue no seu nome ou escreva o URL em baixo"
 
-#: clientgui/AccountManagerInfoPage.cpp:186
+#: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Account Manager &URL:"
 msgstr "Gestor de Conta &URL:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:190
-#: clientgui/AccountManagerPropertiesPage.cpp:193
+#: clientgui/AccountManagerPropertiesPage.cpp:196
 #, c-format
 msgid "Communicating with %s."
 msgstr "A comunicar com %s."
 
 #: clientgui/AccountManagerProcessingPage.cpp:197
-#: clientgui/AccountManagerPropertiesPage.cpp:200
+#: clientgui/AccountManagerPropertiesPage.cpp:203
 msgid "Communicating with server."
 msgstr "A comunicar com o servidor."
 
 #: clientgui/AccountManagerProcessingPage.cpp:202
-#: clientgui/AccountManagerPropertiesPage.cpp:205
+#: clientgui/AccountManagerPropertiesPage.cpp:208
 msgid "Please wait..."
 msgstr "Por favor aguarde..."
 
-#: clientgui/AccountManagerProcessingPage.cpp:322
-#: clientgui/ProjectProcessingPage.cpp:494
-#: clientgui/ProjectProcessingPage.cpp:552
+#: clientgui/AccountManagerProcessingPage.cpp:326
 msgid "An internal server error has occurred.\n"
 msgstr "Ocorreu um erro interno no servidor.\n"
 
-#: clientgui/AdvancedFrame.cpp:100
+#: clientgui/AdvancedFrame.cpp:93
 msgid "Connected"
 msgstr "Conectado"
 
-#: clientgui/AdvancedFrame.cpp:108
+#: clientgui/AdvancedFrame.cpp:101
 msgid "Disconnected"
 msgstr "Disconectado"
 
-#: clientgui/AdvancedFrame.cpp:302
-#: clientgui/sg_BoincSimpleGUI.cpp:100
-msgid "&Close Window\tCTRL+W"
-msgstr "&Fechar Janela\tCTRL+W"
-
-#: clientgui/AdvancedFrame.cpp:303
-#: clientgui/sg_BoincSimpleGUI.cpp:101
-msgid "Close BOINC Manager Window."
-msgstr "Fechar Janela do Gestor do BOINC"
+#: clientgui/AdvancedFrame.cpp:304
+#, c-format
+msgid "Close the %s window"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:309
-#, c-format
-msgid "Exit the %s"
-msgstr "Sair do %s"
+#, fuzzy
+msgid "&Close Window\tCtrl+W"
+msgstr "&Fechar Janela\tCTRL+W"
 
-#: clientgui/AdvancedFrame.cpp:314
+#: clientgui/AdvancedFrame.cpp:316
+#, c-format
+msgid "Exit %s"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:321
 #: clientgui/BOINCTaskBar.cpp:626
-#: clientgui/mac/MacSysMenu.cpp:218
 msgid "E&xit"
 msgstr "S&air"
 
-#: clientgui/AdvancedFrame.cpp:323
-msgid "&Advanced View\tCTRL+SHIFT+A"
-msgstr "Vista Avançada\tCTRL+SHIFT+A"
+#: clientgui/AdvancedFrame.cpp:330
+msgid "&Projects\tCtrl+Shift+P"
+msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:324
-msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
-msgstr "A vista avançada permite-lhe mostrar vários tipos de colunas e mostrar graficamente as barras de progresso"
+#: clientgui/AdvancedFrame.cpp:331
+msgid "Display projects"
+msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:329
-msgid "&Simple View...\tCTRL+SHIFT+S"
+#: clientgui/AdvancedFrame.cpp:336
+msgid "&Tasks\tCtrl+Shift+T"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:337
+msgid "Display tasks"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:342
+msgid "Trans&fers\tCtrl+Shift+X"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:343
+msgid "Display transfers"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:348
+msgid "&Messages\tCtrl+Shift+M"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:349
+msgid "Display messages"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:354
+msgid "&Statistics\tCtrl+Shift+S"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:355
+msgid "Display statistics"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:360
+msgid "&Disk usage\tCtrl+Shift+D"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:361
+msgid "Display disk usage"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:366
+msgid "&News\tCtrl+Shift+N"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:367
+msgid "Display news"
+msgstr ""
+
+#: clientgui/AdvancedFrame.cpp:374
+#, fuzzy
+msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "Vista Simples...\tCTRL+SHIFT+S"
 
-#: clientgui/AdvancedFrame.cpp:330
-msgid "Display the simple BOINC graphical interface."
+#: clientgui/AdvancedFrame.cpp:375
+#, fuzzy
+msgid "Display the simple graphical interface."
 msgstr "Mostrar o interface gráfico simples do BOINC"
 
-#: clientgui/AdvancedFrame.cpp:344
+#: clientgui/AdvancedFrame.cpp:395
 msgid "Attach to &project or account manager..."
 msgstr "Anexar ao &projecto ou gestor de conta..."
 
-#: clientgui/AdvancedFrame.cpp:345
-msgid "Attach to a project or account manager"
-msgstr "Anexar ao projecto ou gestor de conta..."
+#: clientgui/AdvancedFrame.cpp:396
+msgid "Attach to a project or account manager to begin processing work"
+msgstr ""
 
-#: clientgui/AdvancedFrame.cpp:349
+#: clientgui/AdvancedFrame.cpp:400
 #, c-format
 msgid "&Synchronize with %s"
 msgstr "&Sincronizar com %s"
 
-#: clientgui/AdvancedFrame.cpp:353
+#: clientgui/AdvancedFrame.cpp:404
 #, c-format
 msgid "Get current settings from %s"
 msgstr "Receber as configurações actuais de %s"
 
-#: clientgui/AdvancedFrame.cpp:368
-msgid "&Run always"
-msgstr "&Correr sempre"
+#: clientgui/AdvancedFrame.cpp:415
+#, fuzzy
+msgid "Attach to &project..."
+msgstr "Anexar ao &projecto"
 
-#: clientgui/AdvancedFrame.cpp:369
-msgid "Allow work regardless of preferences"
-msgstr "Permitir trabalhar independentemente das preferências"
-
-#: clientgui/AdvancedFrame.cpp:373
-msgid "Run based on &preferences"
-msgstr "Correr baseado nas &preferências"
-
-#: clientgui/AdvancedFrame.cpp:374
-msgid "Allow work according to your preferences"
-msgstr "Permitir trabalhar de acordo com as preferências"
-
-#: clientgui/AdvancedFrame.cpp:378
-msgid "&Suspend"
-msgstr "&Suspender"
-
-#: clientgui/AdvancedFrame.cpp:379
-msgid "Stop work regardless of preferences"
-msgstr "Parar de trabalhar independentemente das preferências"
-
-#: clientgui/AdvancedFrame.cpp:402
-msgid "&Network activity always available"
-msgstr "Actividade de rede sempre possivel"
-
-#: clientgui/AdvancedFrame.cpp:403
-msgid "Allow network activity regardless of preferences"
-msgstr "Permitir actividade de rede independentemente das preferências"
-
-#: clientgui/AdvancedFrame.cpp:407
-msgid "Network activity based on &preferences"
-msgstr "Actividade de rede baseada nas &preferências"
-
-#: clientgui/AdvancedFrame.cpp:408
-msgid "Allow network activity according to your preferences"
-msgstr "Permitir actividade de rede de acordo com as suas preferências"
-
-#: clientgui/AdvancedFrame.cpp:412
-msgid "&Network activity suspended"
-msgstr "&Suspender actividade de rede"
-
-#: clientgui/AdvancedFrame.cpp:413
-msgid "Stop BOINC network activity"
-msgstr "Parar actividade de rede do BOINC"
+#: clientgui/AdvancedFrame.cpp:416
+msgid "Attach to a project to begin processing work"
+msgstr "Anexar ao projecto para começar a trabalhar"
 
 #: clientgui/AdvancedFrame.cpp:420
-msgid "&Options..."
-msgstr "&Opções..."
-
-#: clientgui/AdvancedFrame.cpp:421
-msgid "Configure GUI options and proxy settings"
-msgstr "Configurar opções de GUI e definições de proxy"
-
-#: clientgui/AdvancedFrame.cpp:425
-msgid "&Preferences..."
-msgstr "&Preferências"
-
-#: clientgui/AdvancedFrame.cpp:426
-msgid "Configure local preferences"
-msgstr "Configurar preferências locais"
-
-#: clientgui/AdvancedFrame.cpp:432
-#, c-format
-msgid "Connect to another computer running %s"
-msgstr "Ligar a outro computador a correr %s"
-
-#: clientgui/AdvancedFrame.cpp:437
-msgid "Select computer..."
-msgstr "Escolha computador..."
-
-#: clientgui/AdvancedFrame.cpp:442
-msgid "Shut down connected client..."
-msgstr "Desligar clientes ligados..."
-
-#: clientgui/AdvancedFrame.cpp:443
-msgid "Shut down the currently connected core client"
-msgstr "Desligar o cliente actualmente ligado"
-
-#: clientgui/AdvancedFrame.cpp:447
-msgid "Run CPU &benchmarks"
-msgstr "Correr os &benchmarks do CPU"
-
-#: clientgui/AdvancedFrame.cpp:448
-msgid "Runs BOINC CPU benchmarks"
-msgstr "Correr os benchmarks do CPU"
-
-#: clientgui/AdvancedFrame.cpp:452
-msgid "Do network &communication"
-msgstr "Realizar comunicação com a Rede"
-
-#: clientgui/AdvancedFrame.cpp:453
-msgid "Do all pending network communication."
-msgstr "Realizar comunicação com a rede para todos os pendentes"
-
-#: clientgui/AdvancedFrame.cpp:457
-msgid "Read config file"
-msgstr "Ler ficheiro de configuração"
-
-#: clientgui/AdvancedFrame.cpp:458
-msgid "Read configuration info from cc_config.xml."
-msgstr "Ler informação de configuração de cc_config.xml"
-
-#: clientgui/AdvancedFrame.cpp:462
-msgid "Read local prefs file"
-msgstr "Ler ficheiro de preferências local"
-
-#: clientgui/AdvancedFrame.cpp:463
-msgid "Read preferences from global_prefs_override.xml."
-msgstr "Ler preferências de global_prefs_override.xml"
-
-#: clientgui/AdvancedFrame.cpp:467
 #, c-format
 msgid "&Stop using %s..."
 msgstr "&Parar de usar %s..."
 
-#: clientgui/AdvancedFrame.cpp:473
+#: clientgui/AdvancedFrame.cpp:426
 msgid "Remove client from account manager control."
 msgstr "Remover cliente do controle do gestor de conta."
 
-#: clientgui/AdvancedFrame.cpp:477
-msgid "Attach to &project"
-msgstr "Anexar ao &projecto"
+#: clientgui/AdvancedFrame.cpp:435
+msgid "&Run always"
+msgstr "&Correr sempre"
 
-#: clientgui/AdvancedFrame.cpp:478
-msgid "Attach to a project to begin processing work"
-msgstr "Anexar ao projecto para começar a trabalhar"
+#: clientgui/AdvancedFrame.cpp:436
+msgid "Allow work regardless of preferences"
+msgstr "Permitir trabalhar independentemente das preferências"
 
-#: clientgui/AdvancedFrame.cpp:489
-#: clientgui/sg_BoincSimpleGUI.cpp:110
+#: clientgui/AdvancedFrame.cpp:440
+msgid "Run based on &preferences"
+msgstr "Correr baseado nas &preferências"
+
+#: clientgui/AdvancedFrame.cpp:441
+msgid "Allow work according to your preferences"
+msgstr "Permitir trabalhar de acordo com as preferências"
+
+#: clientgui/AdvancedFrame.cpp:445
+msgid "&Suspend"
+msgstr "&Suspender"
+
+#: clientgui/AdvancedFrame.cpp:446
+msgid "Stop work regardless of preferences"
+msgstr "Parar de trabalhar independentemente das preferências"
+
+#: clientgui/AdvancedFrame.cpp:469
+msgid "&Network activity always available"
+msgstr "Actividade de rede sempre possivel"
+
+#: clientgui/AdvancedFrame.cpp:470
+msgid "Allow network activity regardless of preferences"
+msgstr "Permitir actividade de rede independentemente das preferências"
+
+#: clientgui/AdvancedFrame.cpp:474
+#, fuzzy
+msgid "Network activity based on pre&ferences"
+msgstr "Actividade de rede baseada nas &preferências"
+
+#: clientgui/AdvancedFrame.cpp:475
+msgid "Allow network activity according to your preferences"
+msgstr "Permitir actividade de rede de acordo com as suas preferências"
+
+#: clientgui/AdvancedFrame.cpp:479
+#, fuzzy
+msgid "Network activity s&uspended"
+msgstr "&Suspender actividade de rede"
+
+#: clientgui/AdvancedFrame.cpp:480
+msgid "Stop BOINC network activity"
+msgstr "Parar actividade de rede do BOINC"
+
+#: clientgui/AdvancedFrame.cpp:487
+msgid "&Options..."
+msgstr "&Opções..."
+
+#: clientgui/AdvancedFrame.cpp:488
+msgid "Configure GUI options and proxy settings"
+msgstr "Configurar opções de GUI e definições de proxy"
+
+#: clientgui/AdvancedFrame.cpp:492
+msgid "&Preferences..."
+msgstr "&Preferências"
+
+#: clientgui/AdvancedFrame.cpp:493
+msgid "Configure local preferences"
+msgstr "Configurar preferências locais"
+
+#: clientgui/AdvancedFrame.cpp:499
+#, c-format
+msgid "Connect to another computer running %s"
+msgstr "Ligar a outro computador a correr %s"
+
+#: clientgui/AdvancedFrame.cpp:504
+msgid "Select computer..."
+msgstr "Escolha computador..."
+
+#: clientgui/AdvancedFrame.cpp:509
+msgid "Shut down connected client..."
+msgstr "Desligar clientes ligados..."
+
+#: clientgui/AdvancedFrame.cpp:510
+msgid "Shut down the currently connected core client"
+msgstr "Desligar o cliente actualmente ligado"
+
+#: clientgui/AdvancedFrame.cpp:514
+msgid "Run CPU &benchmarks"
+msgstr "Correr os &benchmarks do CPU"
+
+#: clientgui/AdvancedFrame.cpp:515
+msgid "Runs BOINC CPU benchmarks"
+msgstr "Correr os benchmarks do CPU"
+
+#: clientgui/AdvancedFrame.cpp:519
+msgid "Do network &communication"
+msgstr "Realizar comunicação com a Rede"
+
+#: clientgui/AdvancedFrame.cpp:520
+msgid "Do all pending network communication."
+msgstr "Realizar comunicação com a rede para todos os pendentes"
+
+#: clientgui/AdvancedFrame.cpp:524
+msgid "Read config file"
+msgstr "Ler ficheiro de configuração"
+
+#: clientgui/AdvancedFrame.cpp:525
+msgid "Read configuration info from cc_config.xml."
+msgstr "Ler informação de configuração de cc_config.xml"
+
+#: clientgui/AdvancedFrame.cpp:529
+msgid "Read local prefs file"
+msgstr "Ler ficheiro de preferências local"
+
+#: clientgui/AdvancedFrame.cpp:530
+msgid "Read preferences from global_prefs_override.xml."
+msgstr "Ler preferências de global_prefs_override.xml"
+
+#: clientgui/AdvancedFrame.cpp:540
 #, c-format
 msgid "%s &help"
 msgstr "%s &ajuda"
 
-#: clientgui/AdvancedFrame.cpp:495
-#: clientgui/sg_BoincSimpleGUI.cpp:116
+#: clientgui/AdvancedFrame.cpp:546
 #, c-format
 msgid "Show information about %s"
 msgstr "Mostrar informação acerca %s"
 
-#: clientgui/AdvancedFrame.cpp:507
+#: clientgui/AdvancedFrame.cpp:558
 #, c-format
 msgid "&%s help"
 msgstr "&%s ajuda"
 
-#: clientgui/AdvancedFrame.cpp:513
-#: clientgui/sg_BoincSimpleGUI.cpp:134
+#: clientgui/AdvancedFrame.cpp:564
 #, c-format
 msgid "Show information about the %s"
 msgstr "Mostrar informação acerca de"
 
-#: clientgui/AdvancedFrame.cpp:525
-#: clientgui/sg_BoincSimpleGUI.cpp:146
+#: clientgui/AdvancedFrame.cpp:576
 #, c-format
 msgid "%s &website"
 msgstr "%s &website"
 
-#: clientgui/AdvancedFrame.cpp:531
-#: clientgui/sg_BoincSimpleGUI.cpp:152
+#: clientgui/AdvancedFrame.cpp:582
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "Mostrar informação acerca do BOINC e %s"
 
-#: clientgui/AdvancedFrame.cpp:547
+#: clientgui/AdvancedFrame.cpp:598
 #: clientgui/BOINCTaskBar.cpp:616
 #, c-format
 msgid "&About %s..."
 msgstr "&Acerca %s..."
 
-#: clientgui/AdvancedFrame.cpp:553
+#: clientgui/AdvancedFrame.cpp:604
 msgid "Licensing and copyright information."
 msgstr "Licenças e informações sobre direitos de autor"
 
-#: clientgui/AdvancedFrame.cpp:560
-#: clientgui/sg_BoincSimpleGUI.cpp:175
+#: clientgui/AdvancedFrame.cpp:611
 msgid "&File"
 msgstr "&Ficheiro"
 
-#: clientgui/AdvancedFrame.cpp:564
+#: clientgui/AdvancedFrame.cpp:615
 msgid "&View"
 msgstr "&Ver"
 
-#: clientgui/AdvancedFrame.cpp:568
+#: clientgui/AdvancedFrame.cpp:619
 msgid "&Tools"
 msgstr "&Ferramentas"
 
-#: clientgui/AdvancedFrame.cpp:572
+#: clientgui/AdvancedFrame.cpp:623
 msgid "&Activity"
 msgstr "&Actividade"
 
-#: clientgui/AdvancedFrame.cpp:576
+#: clientgui/AdvancedFrame.cpp:627
 msgid "A&dvanced"
 msgstr "A&vançado"
 
-#: clientgui/AdvancedFrame.cpp:580
-#: clientgui/sg_BoincSimpleGUI.cpp:165
-#: clientgui/wizardex.cpp:399
-#: clientgui/wizardex.cpp:406
+#: clientgui/AdvancedFrame.cpp:631
 msgid "&Help"
 msgstr "&Ajuda"
 
-#: clientgui/AdvancedFrame.cpp:1077
-#, c-format
-msgid "%s - Shutdown the current client..."
-msgstr "%s - Desligar o cliente actual..."
+#: clientgui/AdvancedFrame.cpp:993
+#, fuzzy
+msgid "Attaching to project or account manager..."
+msgstr "Anexar ao &projecto ou gestor de conta..."
 
 #: clientgui/AdvancedFrame.cpp:1086
-#, c-format
-msgid ""
-"%s will shut down the currently connected client,\n"
-"and prompt you for another host to connect to.\n"
-msgstr ""
-"%s vai desligar o cliente actualmente ligado,\n"
-"e pedir para ligar outro host a.\n"
-
-#: clientgui/AdvancedFrame.cpp:1196
 #, c-format
 msgid "%s - Detach from %s"
 msgstr "%s - Desanexar de %s"
 
-#: clientgui/AdvancedFrame.cpp:1201
+#: clientgui/AdvancedFrame.cpp:1091
 #, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -450,46 +513,57 @@ msgstr ""
 "\n"
 "Quer parar de usar %s?"
 
-#: clientgui/AdvancedFrame.cpp:1248
-msgid "Attaching to project..."
-msgstr "Anexando ao projecto..."
-
-#: clientgui/AdvancedFrame.cpp:1287
-msgid "Retrying communications for project(s)..."
-msgstr "A repetir as comunicações com o/os projecto(s)..."
-
-#: clientgui/AdvancedFrame.cpp:1378
+#: clientgui/AdvancedFrame.cpp:1249
 #, c-format
 msgid "%s - Language Selection"
 msgstr "%s  - Selecção de Linguagem"
 
-#: clientgui/AdvancedFrame.cpp:1385
+#: clientgui/AdvancedFrame.cpp:1256
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
-msgstr "A %s linguagem por default foi mudada, para que estas alterações tenham efeito, deve reiniciar a %s."
+msgstr ""
+"A %s linguagem por default foi mudada, para que estas alterações tenham "
+"efeito, deve reiniciar a %s."
 
-#: clientgui/AdvancedFrame.cpp:1595
-#: clientgui/DlgAbout.cpp:104
+#: clientgui/AdvancedFrame.cpp:1419
+#, c-format
+msgid "%s - Shutdown the current client..."
+msgstr "%s - Desligar o cliente actual..."
+
+#: clientgui/AdvancedFrame.cpp:1428
+#, c-format
+msgid ""
+"%s will shut down the currently connected client,\n"
+"and prompt you for another host to connect to.\n"
+msgstr ""
+"%s vai desligar o cliente actualmente ligado,\n"
+"e pedir para ligar outro host a.\n"
+
+#: clientgui/AdvancedFrame.cpp:1475
+msgid "Retrying communications for project(s)..."
+msgstr "A repetir as comunicações com o/os projecto(s)..."
+
+#: clientgui/AdvancedFrame.cpp:1675
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: clientgui/AdvancedFrame.cpp:1604
+#: clientgui/AdvancedFrame.cpp:1684
 #, c-format
 msgid "%s has successfully attached to %s"
 msgstr "%s foi anexado com sucesso"
 
-#: clientgui/AdvancedFrame.cpp:1726
+#: clientgui/AdvancedFrame.cpp:1806
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: clientgui/AdvancedFrame.cpp:1729
+#: clientgui/AdvancedFrame.cpp:1809
 #, c-format
 msgid "Connecting to %s"
 msgstr "A ligar a %s"
 
-#: clientgui/AdvancedFrame.cpp:1732
+#: clientgui/AdvancedFrame.cpp:1812
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Ligado a %s (%s)"
@@ -526,37 +600,39 @@ msgstr ""
 "\n"
 "Por favor visite o website do projecto e siga as instruções lá indicadas."
 
-#: clientgui/AsyncRPC.cpp:975
+#: clientgui/AsyncRPC.cpp:1200
 msgid "Communicating with BOINC client.  Please wait ..."
 msgstr "A comunicar com o cliente BOINC. Por favor aguarde..."
 
-#: clientgui/AsyncRPC.cpp:977
-msgid "&Quit BOINC"
-msgstr "&Sair do BOINC"
+#: clientgui/AsyncRPC.cpp:1203
+#, c-format
+msgid "&Quit %s"
+msgstr ""
 
-#: clientgui/AsyncRPC.cpp:979
-msgid "E&xit BOINC"
-msgstr "S&air do BOINC"
+#: clientgui/AsyncRPC.cpp:1205
+#, c-format
+msgid "E&xit %s"
+msgstr ""
 
-#: clientgui/AsyncRPC.cpp:996
-#: clientgui/DlgAdvPreferencesBase.cpp:585
+#: clientgui/AsyncRPC.cpp:1222
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: clientgui/BOINCBaseFrame.cpp:421
+#: clientgui/BOINCBaseFrame.cpp:422
 #, c-format
 msgid "%s - Connection Error"
 msgstr "%s - Erro de conexão"
 
-#: clientgui/BOINCBaseFrame.cpp:430
+#: clientgui/BOINCBaseFrame.cpp:431
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 "Não está autorizado actualmente para gerir o cliente.\n"
-"Por favor contacte o administrador para que o adicione ao grupo local 'boinc_users'." 
+"Por favor contacte o administrador para que o adicione ao grupo local "
+"'boinc_users'."
 
-#: clientgui/BOINCBaseFrame.cpp:439
+#: clientgui/BOINCBaseFrame.cpp:440
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
@@ -564,20 +640,20 @@ msgstr ""
 "A autorização falhou ao conectar-se ao cliente em uso.\n"
 "Confirme que inicia o programa na mesma directoria que a do cliente."
 
-#: clientgui/BOINCBaseFrame.cpp:441
+#: clientgui/BOINCBaseFrame.cpp:442
 msgid "Authorization failed connecting to running client."
-msgstr ""A autorização falhou ao conectar-se ao cliente em uso."
+msgstr ""
 
-#: clientgui/BOINCBaseFrame.cpp:449
+#: clientgui/BOINCBaseFrame.cpp:450
 msgid "The password you have provided is incorrect, please try again."
 msgstr "A palavra-passe que inseriu está incorrecta, por favor tente novamente."
 
-#: clientgui/BOINCBaseFrame.cpp:488
+#: clientgui/BOINCBaseFrame.cpp:489
 #, c-format
 msgid "%s - Connection Failed"
 msgstr "%s - Conexão falhada"
 
-#: clientgui/BOINCBaseFrame.cpp:497
+#: clientgui/BOINCBaseFrame.cpp:498
 #, c-format
 msgid ""
 "%s is not able to connect to a %s client.\n"
@@ -586,21 +662,19 @@ msgstr ""
 "%s não é capaz de conectar ao %s cliente.\n"
 "Quer tentar se conectar novamente?"
 
-#: clientgui/BOINCBaseFrame.cpp:533
+#: clientgui/BOINCBaseFrame.cpp:534
 #, c-format
 msgid "%s - Daemon Start Failed"
 msgstr "%s - O Início do Daemon falhou"
 
-#: clientgui/BOINCBaseFrame.cpp:543
+#: clientgui/BOINCBaseFrame.cpp:544
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
-msgstr ""
-"%s não é capaz de iniciar o %s cliente.\n"
-"Por favor vá ao Painel de Controlo->Ferramentas Administrativas->Serviços e inicie o serviço do BOINC
+msgstr "%s não é capaz de iniciar o %s cliente.\n"
 
-#: clientgui/BOINCBaseFrame.cpp:549
+#: clientgui/BOINCBaseFrame.cpp:550
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
@@ -609,12 +683,12 @@ msgstr ""
 "%s não é capaz de iniciar o %s cliente.\n"
 "Por favor inicie o daemon e tente novamente."
 
-#: clientgui/BOINCBaseFrame.cpp:595
+#: clientgui/BOINCBaseFrame.cpp:596
 #, c-format
 msgid "%s - Connection Status"
 msgstr "%s - Estado da Conexão"
 
-#: clientgui/BOINCBaseFrame.cpp:606
+#: clientgui/BOINCBaseFrame.cpp:607
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -622,18 +696,17 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s não está actualmente conectado ao %s cliente.\n"
-"Por favor vá à opção 'Avançado\\Escolher Computador...' para se conectar ao %s cliente.\n"
+"Por favor vá à opção 'Avançado\\Escolher Computador...' para se conectar ao "
+"%s cliente.\n"
 
-#: clientgui/BOINCBaseView.cpp:748
-#: clientgui/ViewProjectsGrid.cpp:644
-#: clientgui/ViewWorkGrid.cpp:542
+#: clientgui/BOINCBaseView.cpp:750
 msgid "Web sites"
 msgstr "Websites"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
 msgid "%s - Network Status"
-msgstr "%s - Estado da Ligação à Rede""
+msgstr "%s - Estado da Ligação à Rede"
 
 #: clientgui/BOINCDialupManager.cpp:255
 #, c-format
@@ -646,8 +719,10 @@ msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
-"%s não é capaz de comunicar com o projecto e precisa duma conexão à Internet.\n"
-"Por favor conecte-se à Internet, depois seleccione o item 'Fazer comunicação com a rede' do menu Avançado."
+"%s não é capaz de comunicar com o projecto e precisa duma conexão à "
+"Internet.\n"
+"Por favor conecte-se à Internet, depois seleccione o item 'Fazer comunicação "
+"com a rede' do menu Avançado."
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
@@ -670,7 +745,8 @@ msgid ""
 "Please connect to the Internet, or select a default connection\n"
 "using Advanced/Options/Connections."
 msgstr ""
-"%s não conseguiu conectar-se à Internet e a conexão por default não foi seleccionada.\n"
+"%s não conseguiu conectar-se à Internet e a conexão por default não foi "
+"seleccionada.\n"
 "Por favor conecte-se à Internet, ou seleccione a conexão por default\n"
 "usando Avançado/Opções/Conexões."
 
@@ -691,7 +767,8 @@ msgid ""
 "Updating all projects and retrying all transfers."
 msgstr ""
 "%s detectou que está agora conectado à Internet.\n"
-"Actualizando todos os projectos e tentando novamente todas as transferências.\n"
+"Actualizando todos os projectos e tentando novamente todas as "
+"transferências.\n"
 
 #: clientgui/BOINCDialupManager.cpp:500
 #, c-format
@@ -703,7 +780,26 @@ msgstr "%s desconectou-se da Internet com sucesso."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s falhou a disconectar-se da Internet."
 
-#: clientgui/BOINCGUIApp.cpp:372
+#: clientgui/BOINCGUIApp.cpp:336
+msgid ""
+"You currently are not authorized to manage the client.\n"
+"\n"
+"To run BOINC as this user, please:\n"
+"  - reinstall BOINC answering \"Yes\" to the question about\n"
+"     non-administrative users\n"
+" or\n"
+"  - contact your administrator to add you to the 'boinc_master'\n"
+"     user group."
+msgstr ""
+
+#: clientgui/BOINCGUIApp.cpp:339
+#, c-format
+msgid ""
+"BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
+"(Error code %d)"
+msgstr ""
+
+#: clientgui/BOINCGUIApp.cpp:389
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -711,40 +807,48 @@ msgstr ""
 "Um reinício do computador é necessário para que o BOINC corra correctamente.\n"
 "Por favor reinicie o seu computador e tente novamente."
 
-#: clientgui/BOINCGUIApp.cpp:373
-#: clientgui/DlgAbout.cpp:136
+#: clientgui/BOINCGUIApp.cpp:390
 msgid "BOINC Manager"
 msgstr "Gestor do BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:523
+#: clientgui/BOINCGUIApp.cpp:537
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "O Gestor do BOINC foi iniciado pelo Sistema Operativo automaticamente"
 
-#: clientgui/BOINCGUIApp.cpp:525
+#: clientgui/BOINCGUIApp.cpp:539
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Inicie o BOINC para que o icon seja apenas visível na barra de tarefas"
 
-#: clientgui/BOINCGUIApp.cpp:527
+#: clientgui/BOINCGUIApp.cpp:541
+msgid "Directory containing the BOINC Client executable"
+msgstr ""
+
+#: clientgui/BOINCGUIApp.cpp:542
+msgid "BOINC data directory"
+msgstr ""
+
+#: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
 msgstr "Inicie o BOINC com estes argumentos opcionais"
 
-#: clientgui/BOINCGUIApp.cpp:528
+#: clientgui/BOINCGUIApp.cpp:545
 msgid "disable BOINC security users and permissions"
-msgstr "desabilite no BOINC os utilizadores de gestão de segurança e as permissões"
+msgstr ""
+"desabilite no BOINC os utilizadores de gestão de segurança e as permissões"
 
-#: clientgui/BOINCGUIApp.cpp:529
+#: clientgui/BOINCGUIApp.cpp:546
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "inicie o modo de depuração para habilitar o gestor de mensagens de erro"
 
-#: clientgui/BOINCGUIApp.cpp:689
+#: clientgui/BOINCGUIApp.cpp:736
 msgid "(Automatic Detection)"
 msgstr "(Detecção Automática)"
 
-#: clientgui/BOINCGUIApp.cpp:690
+#: clientgui/BOINCGUIApp.cpp:737
 msgid "(Unknown)"
 msgstr "(Desconhecido)"
 
-#: clientgui/BOINCGUIApp.cpp:691
+#: clientgui/BOINCGUIApp.cpp:738
 msgid "(User Defined)"
 msgstr "(Definido pelo Utilizador)"
 
@@ -817,10 +921,9 @@ msgstr ""
 "Carregue Terminar para fechar."
 
 #: clientgui/CompletionErrorPage.cpp:226
-#: clientgui/CompletionPage.cpp:220
-#: clientgui/CompletionPage.cpp:243
-#: clientgui/CompletionPage.cpp:264
-#: clientgui/CompletionPage.cpp:313
+#: clientgui/CompletionPage.cpp:217
+#: clientgui/CompletionPage.cpp:240
+#: clientgui/CompletionPage.cpp:289
 msgid "Click Finish to close."
 msgstr "Carregue Terminar para fechar."
 
@@ -828,60 +931,52 @@ msgstr "Carregue Terminar para fechar."
 msgid "Messages from server:"
 msgstr "Mensagens do servidor:"
 
-#: clientgui/CompletionPage.cpp:205
+#: clientgui/CompletionPage.cpp:202
 msgid "Attached to project"
 msgstr "Anexado ao projecto"
 
-#: clientgui/CompletionPage.cpp:211
+#: clientgui/CompletionPage.cpp:208
 msgid "You are now successfully attached to this project."
 msgstr "Está agora anexado com sucesso a este projecto"
 
-#: clientgui/CompletionPage.cpp:216
+#: clientgui/CompletionPage.cpp:213
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
 msgstr ""
-"Quando carrega no Terminar, o seu navegador de internet irá para uma página onde\n"
+"Quando carrega no Terminar, o seu navegador de internet irá para uma página "
+"onde\n"
 "pode definir o seu nome de conta e preferências."
 
-#: clientgui/CompletionPage.cpp:233
+#: clientgui/CompletionPage.cpp:230
 #, c-format
 msgid "Update from %s completed."
 msgstr "Actualização de %s completa."
 
-#: clientgui/CompletionPage.cpp:237
+#: clientgui/CompletionPage.cpp:234
 msgid "Update completed."
 msgstr "Actualização completa"
 
-#: clientgui/CompletionPage.cpp:254
-#, c-format
-msgid "Removal from %s completed."
-msgstr "Remoção de %s completa."
-
-#: clientgui/CompletionPage.cpp:258
-msgid "Removal succeeded!"
-msgstr "Remoção bem sucedida!"
-
-#: clientgui/CompletionPage.cpp:275
+#: clientgui/CompletionPage.cpp:251
 #, c-format
 msgid "Attached to %s"
 msgstr "Anexado a %s"
 
-#: clientgui/CompletionPage.cpp:279
+#: clientgui/CompletionPage.cpp:255
 msgid "Attached to account manager"
 msgstr "Anexado ao gestor de conta"
 
-#: clientgui/CompletionPage.cpp:289
+#: clientgui/CompletionPage.cpp:265
 #, c-format
 msgid "Welcome to %s!"
 msgstr "Bem vindo a %s!"
 
-#: clientgui/CompletionPage.cpp:303
+#: clientgui/CompletionPage.cpp:279
 #, c-format
 msgid "You are now successfully attached to the %s system."
 msgstr "Está agora anexado com sucesso ao %s sistema."
 
-#: clientgui/CompletionPage.cpp:307
+#: clientgui/CompletionPage.cpp:283
 msgid "You are now successfully attached to this account manager."
 msgstr "Está agora anexado com sucesso a este gestor de conta"
 
@@ -943,16 +1038,15 @@ msgstr "valor de input inválido detectado"
 msgid "Validation Error"
 msgstr "Erro de validação"
 
-#: clientgui/DlgAdvPreferences.cpp:736
+#: clientgui/DlgAdvPreferences.cpp:737
 msgid "Do you really want to clear all local preferences ?"
 msgstr "Quer mesmo limpar todas as suas preferências locais?"
 
-#: clientgui/DlgAdvPreferences.cpp:737
+#: clientgui/DlgAdvPreferences.cpp:738
 msgid "Confirmation"
 msgstr "Confirmação"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:31
-#: clientgui/sg_DlgPreferences.cpp:1036
 #, c-format
 msgid "%s - Preferences"
 msgstr "%s - Preferências"
@@ -962,7 +1056,7 @@ msgid ""
 "This dialog controls preferences for this computer only.\n"
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings."
-msgstr "" 
+msgstr ""
 "Esta janela controla as preferêncis para este computador apenas.\n"
 "Carregue OK para definir as preferências.\n"
 "Carregue limpar para restaurar as definições web."
@@ -985,7 +1079,9 @@ msgstr "Enquanto o computador está ligado à bateria"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:83
 msgid "check this if you want this computer to do work while it runs on batteries"
-msgstr "certifique se quiser que o seu computador execute trabalho enquanto está ligado à bateria"
+msgstr ""
+"certifique se quiser que o seu computador execute trabalho enquanto está "
+"ligado à bateria"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:89
 msgid " While computer is in use"
@@ -993,7 +1089,9 @@ msgstr "Enquanto o computador está em uso"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:92
 msgid "check this if you want this computer to do work even when you're using it"
-msgstr "certifique aqui se quiser que o seu computador execute trabalho enquanto está a ser usado""
+msgstr ""
+"certifique aqui se quiser que o seu computador execute trabalho enquanto "
+"está a ser usado"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:98
 msgid " Use GPU while computer is in use"
@@ -1001,7 +1099,9 @@ msgstr "Usar GPU enquanto o computador está a ser usado"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
 msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr "certifique aqui se quiser que o seu GPU execute trabalho enquanto está a ser usado"
+msgstr ""
+"certifique aqui se quiser que o seu GPU execute trabalho enquanto está a ser "
+"usado"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:111
 msgid "Only after computer has been idle for"
@@ -1009,11 +1109,12 @@ msgstr "Apenas depois do computador estar inactivo por"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:115
 msgid "do work only after you haven't used the computer for this number of minutes"
-msgstr "executar trabalho só depois do computador não estar em uso por este número de minutos"
+msgstr ""
+"executar trabalho só depois do computador não estar em uso por este número "
+"de minutos"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:119
 #: clientgui/DlgAdvPreferencesBase.cpp:239
-#: clientgui/sg_DlgPreferences.cpp:453
 msgid "minutes"
 msgstr "minutos"
 
@@ -1028,8 +1129,6 @@ msgstr "iniciar trabalho a esta hora"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:138
 #: clientgui/DlgAdvPreferencesBase.cpp:363
-#: clientgui/sg_DlgPreferences.cpp:362
-#: clientgui/sg_DlgPreferences.cpp:384
 msgid "and"
 msgstr "e"
 
@@ -1169,7 +1268,9 @@ msgstr "Saltar verificação do ficheiro de imagem"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:324
 msgid "check this if your Internet provider modifies image files"
-msgstr "certifique aqui se o seu provedor de Internet modifica os ficheiros de imagem"
+msgstr ""
+"certifique aqui se o seu provedor de Internet modifica os ficheiros de "
+"imagem"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:333
 msgid "Connect options"
@@ -1181,7 +1282,9 @@ msgstr "Confirme antes de se conectar à Internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:337
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
-msgstr "se certificado, um diálogo de confirmação aparecerá antes de se tentar conectar à Internet"
+msgstr ""
+"se certificado, um diálogo de confirmação aparecerá antes de se tentar "
+"conectar à Internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:341
 msgid "Disconnect when done"
@@ -1212,7 +1315,7 @@ msgid "network usage"
 msgstr "uso de rede"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:460
-#: clientgui/DlgItemProperties.cpp:113
+#: clientgui/DlgItemProperties.cpp:119
 msgid "Disk usage"
 msgstr "Uso de disco"
 
@@ -1230,7 +1333,9 @@ msgstr "Deixar pelo menos"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:483
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
-msgstr "O BOINC deixa pelo menos este montante de espaço em disco livre (em Gigabytes)"
+msgstr ""
+"O BOINC deixa pelo menos este montante de espaço em disco livre (em "
+"Gigabytes)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:487
 msgid "Gigabytes disk space free"
@@ -1246,8 +1351,8 @@ msgid "% of total disk space"
 msgstr "%s de espaço total no disco"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:502
-msgid "Write to disk at most every"
-msgstr "Escrever no disco no máximo a cada"
+msgid "Tasks checkpoint to disk at most every"
+msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "seconds"
@@ -1300,8 +1405,9 @@ msgstr "fechar caixa de diálogo sem salvar"
 #: clientgui/Localization.cpp:35
 #: clientgui/Localization.cpp:121
 #: clientgui/Localization.cpp:139
+#, fuzzy
 msgid "Help"
-msgstr "Ajuda
+msgstr "&Ajuda"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:591
 msgid "shows the preferences web page"
@@ -1322,8 +1428,7 @@ msgid ""
 "If you also want to stop running the science applications when you\n"
 "exit the Manager, then choose from the following options:"
 msgstr ""
-"Solicitou a saída do %s,n\"
-"que lhe permite ver e gerir\n"
+"Solicitou a saída do %s,n\\\"que lhe permite ver e gerir\n"
 "as aplicações de ciência a correr no seu computador.\n"
 "\n"
 "Se também quiser parar de correr as aplicações de ciência quando\n"
@@ -1358,7 +1463,6 @@ msgstr "Lembrar desta decisão e não mostrar esta caixa de diálogo."
 #: clientgui/DlgGenericMessage.cpp:125
 #: clientgui/DlgOptions.cpp:388
 #: clientgui/DlgSelectComputer.cpp:152
-#: clientgui/wizardex.cpp:403
 msgid "&Cancel"
 msgstr "&Cancelar"
 
@@ -1392,9 +1496,6 @@ msgid "Team name"
 msgstr "Nome da Equipa"
 
 #: clientgui/DlgItemProperties.cpp:109
-#: clientgui/ViewProjects.cpp:223
-#: clientgui/ViewProjectsBase.cpp:156
-#: clientgui/ViewProjectsGrid.cpp:164
 msgid "Resource share"
 msgstr "Quota de recursos"
 
@@ -1403,337 +1504,296 @@ msgid "Scheduler RPC deferred for"
 msgstr "Agendador RPC deferido por"
 
 #: clientgui/DlgItemProperties.cpp:114
+msgid "File downloads deferred for"
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:117
+msgid "File uploads deferred for"
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:120
+msgid "Computer ID"
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:121
 msgid "Non CPU intensive"
 msgstr "CPU não intensivo"
 
-#: clientgui/DlgItemProperties.cpp:114
-#: clientgui/DlgItemProperties.cpp:115
-#: clientgui/DlgItemProperties.cpp:116
-#: clientgui/DlgItemProperties.cpp:117
-#: clientgui/DlgItemProperties.cpp:118
-#: clientgui/DlgItemProperties.cpp:119
-#: clientgui/DlgItemProperties.cpp:120
+#: clientgui/DlgItemProperties.cpp:121
+#: clientgui/DlgItemProperties.cpp:122
+#: clientgui/DlgItemProperties.cpp:123
+#: clientgui/DlgItemProperties.cpp:124
+#: clientgui/DlgItemProperties.cpp:125
+#: clientgui/DlgItemProperties.cpp:126
+#: clientgui/DlgItemProperties.cpp:127
 msgid "yes"
 msgstr "sim"
 
-#: clientgui/DlgItemProperties.cpp:114
-#: clientgui/DlgItemProperties.cpp:115
-#: clientgui/DlgItemProperties.cpp:116
-#: clientgui/DlgItemProperties.cpp:117
-#: clientgui/DlgItemProperties.cpp:118
-#: clientgui/DlgItemProperties.cpp:119
-#: clientgui/DlgItemProperties.cpp:120
+#: clientgui/DlgItemProperties.cpp:121
+#: clientgui/DlgItemProperties.cpp:122
+#: clientgui/DlgItemProperties.cpp:123
+#: clientgui/DlgItemProperties.cpp:124
+#: clientgui/DlgItemProperties.cpp:125
+#: clientgui/DlgItemProperties.cpp:126
+#: clientgui/DlgItemProperties.cpp:127
 msgid "no"
 msgstr "não"
 
-#: clientgui/DlgItemProperties.cpp:115
+#: clientgui/DlgItemProperties.cpp:122
 msgid "Suspended via GUI"
 msgstr "Suspendido através de GUI"
 
-#: clientgui/DlgItemProperties.cpp:116
+#: clientgui/DlgItemProperties.cpp:123
 msgid "Don't request more work"
 msgstr "Não solicitar mais trabalhos "
 
-#: clientgui/DlgItemProperties.cpp:117
+#: clientgui/DlgItemProperties.cpp:124
 msgid "Scheduler call in progress"
 msgstr "Agendador de tarefas em progresso"
 
-#: clientgui/DlgItemProperties.cpp:118
+#: clientgui/DlgItemProperties.cpp:125
 msgid "Attached via account manager"
 msgstr "Anexado através do gestor de conta"
 
-#: clientgui/DlgItemProperties.cpp:119
+#: clientgui/DlgItemProperties.cpp:126
 msgid "Detach when done"
 msgstr "Desanexar quando feito"
 
-#: clientgui/DlgItemProperties.cpp:120
+#: clientgui/DlgItemProperties.cpp:127
 msgid "Ended"
 msgstr "Terminado"
 
-#: clientgui/DlgItemProperties.cpp:121
+#: clientgui/DlgItemProperties.cpp:128
 msgid "Credit"
 msgstr "Crédito"
 
-#: clientgui/DlgItemProperties.cpp:122
+#: clientgui/DlgItemProperties.cpp:129
 msgid "User"
 msgstr "Utilizador"
 
-#: clientgui/DlgItemProperties.cpp:129
+#: clientgui/DlgItemProperties.cpp:136
 msgid "Host"
 msgstr "Host"
 
-#: clientgui/DlgItemProperties.cpp:138
+#: clientgui/DlgItemProperties.cpp:145
 msgid "Scheduling"
 msgstr "Agendando"
 
-#: clientgui/DlgItemProperties.cpp:139
+#: clientgui/DlgItemProperties.cpp:146
 msgid "CPU scheduling priority"
 msgstr "prioridade de agendamento do CPU"
 
-#: clientgui/DlgItemProperties.cpp:140
+#: clientgui/DlgItemProperties.cpp:147
 msgid "CPU work fetch priority"
 msgstr "Prioridade de ir buscar trabalho para CPU"
 
-#: clientgui/DlgItemProperties.cpp:143
+#: clientgui/DlgItemProperties.cpp:150
 msgid "CPU work fetch deferred for"
 msgstr "Buscar de trabalho para CPU deferido para"
 
-#: clientgui/DlgItemProperties.cpp:144
+#: clientgui/DlgItemProperties.cpp:151
 msgid "CPU work fetch deferral interval"
 msgstr "Intervalo de busca de trabalho para CPU deferido"
 
-#: clientgui/DlgItemProperties.cpp:146
+#: clientgui/DlgItemProperties.cpp:153
 msgid "NVIDIA GPU work fetch priority"
 msgstr "Busca de trabalho para NVIDIA GPU prioritário"
 
-#: clientgui/DlgItemProperties.cpp:149
+#: clientgui/DlgItemProperties.cpp:156
 msgid "NVIDIA GPU work fetch deferred for"
 msgstr "Busca de trabalho para NVIDIA GPU deferido para"
 
-#: clientgui/DlgItemProperties.cpp:150
+#: clientgui/DlgItemProperties.cpp:157
 msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Intervalo de busca de trabalho para NVIDIA GPU deferido"
 
-#: clientgui/DlgItemProperties.cpp:152
+#: clientgui/DlgItemProperties.cpp:160
+#, fuzzy
+msgid "ATI GPU work fetch priority"
+msgstr "Busca de trabalho para NVIDIA GPU prioritário"
+
+#: clientgui/DlgItemProperties.cpp:163
+#, fuzzy
+msgid "ATI GPU work fetch deferred for"
+msgstr "Busca de trabalho para NVIDIA GPU deferido para"
+
+#: clientgui/DlgItemProperties.cpp:164
+#, fuzzy
+msgid "ATI GPU work fetch deferral interval"
+msgstr "Intervalo de busca de trabalho para NVIDIA GPU deferido"
+
+#: clientgui/DlgItemProperties.cpp:166
 msgid "Duration correction factor"
 msgstr "Duração do factor de coreccção"
 
-#: clientgui/DlgItemProperties.cpp:162
+#: clientgui/DlgItemProperties.cpp:176
 msgid "Properties of task "
 msgstr "Propriedades da tarefa"
 
-#: clientgui/DlgItemProperties.cpp:166
-#: clientgui/ViewWork.cpp:215
-#: clientgui/ViewWorkGrid.cpp:146
+#: clientgui/DlgItemProperties.cpp:180
 msgid "Application"
 msgstr "Aplicação"
 
-#: clientgui/DlgItemProperties.cpp:167
+#: clientgui/DlgItemProperties.cpp:181
 msgid "Workunit name"
 msgstr "Name da unidade de trabalho"
 
-#: clientgui/DlgItemProperties.cpp:168
+#: clientgui/DlgItemProperties.cpp:182
 msgid "State"
 msgstr "Estado"
 
-#: clientgui/DlgItemProperties.cpp:170
-#: clientgui/ViewWork.cpp:220
-#: clientgui/ViewWorkGrid.cpp:147
+#: clientgui/DlgItemProperties.cpp:185
+msgid "Received"
+msgstr ""
+
+#: clientgui/DlgItemProperties.cpp:188
 msgid "Report deadline"
 msgstr "Reportar prazo de entrega"
 
-#: clientgui/DlgItemProperties.cpp:172
+#: clientgui/DlgItemProperties.cpp:190
 msgid "Resources"
 msgstr "Recursos"
 
-#: clientgui/DlgItemProperties.cpp:175
+#: clientgui/DlgItemProperties.cpp:193
 msgid "CPU time at last checkpoint"
 msgstr "Tempo de CPU no ultimo checkpoint"
 
-#: clientgui/DlgItemProperties.cpp:176
-#: clientgui/DlgItemProperties.cpp:188
-#: clientgui/ViewWorkGrid.cpp:146
+#: clientgui/DlgItemProperties.cpp:194
+#: clientgui/DlgItemProperties.cpp:206
 msgid "CPU time"
 msgstr "Tempo de CPU"
 
-#: clientgui/DlgItemProperties.cpp:178
-#: clientgui/DlgItemProperties.cpp:189
+#: clientgui/DlgItemProperties.cpp:196
+#: clientgui/DlgItemProperties.cpp:207
 msgid "Elapsed time"
 msgstr "Tempo decorrido"
 
-#: clientgui/DlgItemProperties.cpp:180
+#: clientgui/DlgItemProperties.cpp:198
 msgid "Estimated time remaining"
 msgstr "Tempo restante previsto"
 
-#: clientgui/DlgItemProperties.cpp:181
+#: clientgui/DlgItemProperties.cpp:199
 msgid "Fraction done"
 msgstr "Fracção terminada"
 
-#: clientgui/DlgItemProperties.cpp:182
+#: clientgui/DlgItemProperties.cpp:200
 msgid "Virtual memory size"
 msgstr "Tamanho de memória virtual"
 
-#: clientgui/DlgItemProperties.cpp:183
+#: clientgui/DlgItemProperties.cpp:201
 msgid "Working set size"
 msgstr "tamanho previsto do trabalho"
 
-#: clientgui/DlgItemProperties.cpp:185
-msgid "Slot"
-msgstr "Slot"
+#: clientgui/DlgItemProperties.cpp:203
+msgid "Directory"
+msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:283
-#: clientgui/ViewWork.cpp:1006
-#: clientgui/ViewWorkGrid.cpp:774
+#: clientgui/DlgItemProperties.cpp:301
 msgid "New"
 msgstr "Novo"
 
-#: clientgui/DlgItemProperties.cpp:287
-#: clientgui/ViewTransfers.cpp:752
-#: clientgui/ViewTransfersGrid.cpp:421
-#: clientgui/ViewWork.cpp:1010
-#: clientgui/ViewWorkGrid.cpp:778
+#: clientgui/DlgItemProperties.cpp:305
 msgid "Download failed"
 msgstr "Download falhado"
 
-#: clientgui/DlgItemProperties.cpp:289
-#: clientgui/ViewTransfers.cpp:760
-#: clientgui/ViewTransfersGrid.cpp:429
-#: clientgui/ViewWork.cpp:1012
-#: clientgui/ViewWorkGrid.cpp:780
+#: clientgui/DlgItemProperties.cpp:307
 msgid "Downloading"
 msgstr "A fazer o download"
 
-#: clientgui/DlgItemProperties.cpp:294
-#: clientgui/ViewWork.cpp:1017
-#: clientgui/ViewWorkGrid.cpp:785
+#: clientgui/DlgItemProperties.cpp:312
 msgid "Project suspended by user"
 msgstr "Porjecto suspenso pelo utilizador"
 
-#: clientgui/DlgItemProperties.cpp:296
-#: clientgui/ViewWork.cpp:1019
-#: clientgui/ViewWorkGrid.cpp:787
+#: clientgui/DlgItemProperties.cpp:314
 msgid "Task suspended by user"
 msgstr "Tarefa suspensa pelo utilizador"
 
-#: clientgui/DlgItemProperties.cpp:298
-#: clientgui/ViewTransfers.cpp:757
-#: clientgui/ViewTransfersGrid.cpp:426
-#: clientgui/ViewWork.cpp:1021
-#: clientgui/ViewWorkGrid.cpp:789
+#: clientgui/DlgItemProperties.cpp:316
 msgid "Suspended"
 msgstr "Suspenso"
 
-#: clientgui/DlgItemProperties.cpp:300
-#: clientgui/ViewWork.cpp:1023
-#: clientgui/ViewWorkGrid.cpp:791
+#: clientgui/DlgItemProperties.cpp:318
 msgid " - on batteries"
 msgstr " - em bateria"
 
-#: clientgui/DlgItemProperties.cpp:303
-#: clientgui/ViewWork.cpp:1026
-#: clientgui/ViewWorkGrid.cpp:794
+#: clientgui/DlgItemProperties.cpp:321
 msgid " - user active"
 msgstr " - utilizador activo"
 
-#: clientgui/DlgItemProperties.cpp:306
-#: clientgui/ViewWork.cpp:1029
-#: clientgui/ViewWorkGrid.cpp:797
+#: clientgui/DlgItemProperties.cpp:324
 msgid " - computation suspended"
 msgstr " - computação suspensa"
 
-#: clientgui/DlgItemProperties.cpp:309
-#: clientgui/ViewWork.cpp:1032
-#: clientgui/ViewWorkGrid.cpp:800
+#: clientgui/DlgItemProperties.cpp:327
 msgid " - time of day"
 msgstr " - hora do dia"
 
-#: clientgui/DlgItemProperties.cpp:312
-#: clientgui/ViewWork.cpp:1035
-#: clientgui/ViewWorkGrid.cpp:803
+#: clientgui/DlgItemProperties.cpp:330
 msgid " - CPU benchmarks"
 msgstr " - Performance do CPU"
 
-#: clientgui/DlgItemProperties.cpp:315
-#: clientgui/ViewWork.cpp:1038
-#: clientgui/ViewWorkGrid.cpp:806
+#: clientgui/DlgItemProperties.cpp:333
 msgid " - need disk space"
 msgstr " - precisa de espaço em disco"
 
-#: clientgui/DlgItemProperties.cpp:319
-#: clientgui/ViewWork.cpp:1048
-#: clientgui/ViewWorkGrid.cpp:810
+#: clientgui/DlgItemProperties.cpp:337
 msgid "Waiting for memory"
 msgstr "Esperando por memória"
 
-#: clientgui/DlgItemProperties.cpp:321
-#: clientgui/ViewWork.cpp:1050
-#: clientgui/ViewWorkGrid.cpp:812
+#: clientgui/DlgItemProperties.cpp:339
 msgid "Waiting for shared memory"
 msgstr "Esperando por memória partilhada"
 
-#: clientgui/DlgItemProperties.cpp:324
-#: clientgui/ViewWork.cpp:1053
-#: clientgui/ViewWorkGrid.cpp:815
+#: clientgui/DlgItemProperties.cpp:342
 msgid "Running, high priority"
 msgstr "A correr com alta prioridade"
 
-#: clientgui/DlgItemProperties.cpp:326
-#: clientgui/sg_ImageButton.cpp:88
-#: clientgui/ViewWork.cpp:1055
-#: clientgui/ViewWorkGrid.cpp:817
+#: clientgui/DlgItemProperties.cpp:344
 msgid "Running"
 msgstr "A correr"
 
-#: clientgui/DlgItemProperties.cpp:329
-#: clientgui/ViewWork.cpp:1064
-#: clientgui/ViewWorkGrid.cpp:826
+#: clientgui/DlgItemProperties.cpp:347
 msgid "Waiting to run"
 msgstr "À espera de correr"
 
-#: clientgui/DlgItemProperties.cpp:331
-#: clientgui/DlgItemProperties.cpp:334
-#: clientgui/ViewWork.cpp:1066
-#: clientgui/ViewWork.cpp:1072
-#: clientgui/ViewWorkGrid.cpp:828
-#: clientgui/ViewWorkGrid.cpp:831
+#: clientgui/DlgItemProperties.cpp:349
+#: clientgui/DlgItemProperties.cpp:352
 msgid "Ready to start"
 msgstr "Pronto para começar"
 
-#: clientgui/DlgItemProperties.cpp:338
-#: clientgui/ViewWork.cpp:1076
-#: clientgui/ViewWorkGrid.cpp:835
+#: clientgui/DlgItemProperties.cpp:356
 msgid "Computation error"
 msgstr "Erro de Computação"
 
-#: clientgui/DlgItemProperties.cpp:342
-#: clientgui/ViewTransfers.cpp:754
-#: clientgui/ViewTransfersGrid.cpp:423
-#: clientgui/ViewWork.cpp:1080
-#: clientgui/ViewWorkGrid.cpp:839
+#: clientgui/DlgItemProperties.cpp:360
 msgid "Upload failed"
 msgstr "Upload falhado"
 
-#: clientgui/DlgItemProperties.cpp:344
-#: clientgui/ViewTransfers.cpp:760
-#: clientgui/ViewTransfersGrid.cpp:429
-#: clientgui/ViewWork.cpp:1082
-#: clientgui/ViewWorkGrid.cpp:841
+#: clientgui/DlgItemProperties.cpp:362
 msgid "Uploading"
 msgstr "A fazer o Upload"
 
-#: clientgui/DlgItemProperties.cpp:350
-#: clientgui/ViewWork.cpp:1088
-#: clientgui/ViewWorkGrid.cpp:847
+#: clientgui/DlgItemProperties.cpp:368
 msgid "Aborted by user"
 msgstr "Cancelado pelo utilizador"
 
-#: clientgui/DlgItemProperties.cpp:353
-#: clientgui/ViewWork.cpp:1091
-#: clientgui/ViewWorkGrid.cpp:850
+#: clientgui/DlgItemProperties.cpp:371
 msgid "Aborted by project"
 msgstr "Cancelado pelo projecto"
 
-#: clientgui/DlgItemProperties.cpp:356
-#: clientgui/ViewWork.cpp:1094
-#: clientgui/ViewWorkGrid.cpp:853
+#: clientgui/DlgItemProperties.cpp:374
 msgid "Aborted"
 msgstr "Cancelado"
 
-#: clientgui/DlgItemProperties.cpp:361
-#: clientgui/ViewWork.cpp:1099
-#: clientgui/ViewWorkGrid.cpp:858
-msgid "Reconhecido"
+#: clientgui/DlgItemProperties.cpp:379
+msgid "Acknowledged"
 msgstr ""
 
-#: clientgui/DlgItemProperties.cpp:363
-#: clientgui/ViewWork.cpp:1101
-#: clientgui/ViewWorkGrid.cpp:860
+#: clientgui/DlgItemProperties.cpp:381
 msgid "Ready to report"
 msgstr "Pronto para reportar"
 
-#: clientgui/DlgItemProperties.cpp:365
-#: clientgui/ViewWork.cpp:1103
-#: clientgui/ViewWorkGrid.cpp:862
+#: clientgui/DlgItemProperties.cpp:383
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Erro - estado inválido '%d"
@@ -1761,7 +1821,9 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:180
 msgid "How often should the Manager remind you when a network connection is needed?"
-msgstr "Com que frequência deve o gestor lembra-lhe quuando é preciso uma conexão de rede"
+msgstr ""
+"Com que frequência deve o gestor lembra-lhe quuando é preciso uma conexão de "
+"rede"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
@@ -1814,8 +1876,6 @@ msgstr "Endereço:"
 
 #: clientgui/DlgOptions.cpp:275
 #: clientgui/DlgOptions.cpp:339
-#: clientgui/ProxyPage.cpp:341
-#: clientgui/ProxyPage.cpp:361
 msgid "Port:"
 msgstr "Porta:"
 
@@ -1831,16 +1891,12 @@ msgstr "Deixar em branco se não necessário"
 
 #: clientgui/DlgOptions.cpp:296
 #: clientgui/DlgOptions.cpp:360
-#: clientgui/ProxyPage.cpp:344
-#: clientgui/ProxyPage.cpp:364
 msgid "User Name:"
 msgstr "Nome de Utilizador:"
 
 #: clientgui/DlgOptions.cpp:304
 #: clientgui/DlgOptions.cpp:368
 #: clientgui/DlgSelectComputer.cpp:136
-#: clientgui/ProxyPage.cpp:347
-#: clientgui/ProxyPage.cpp:367
 msgid "Password:"
 msgstr "Palavra-passe:"
 
@@ -1972,7 +2028,9 @@ msgstr "Ler uma descrição detalhada da protecção de ecrã no Einstein@Home"
 
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr "Corresponder-se com administradores e outros utilizadores nos fóruns do Einstein@Home"
+msgstr ""
+"Corresponder-se com administradores e outros utilizadores nos fóruns do "
+"Einstein@Home"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
@@ -2000,7 +2058,8 @@ msgstr "Resumo da conta"
 
 #: clientgui/Localization.cpp:95
 msgid "View a listing of all the computers on which you are running Einstein@Home"
-msgstr "Ver uma lista de todos os computadores onde está a correr o Einstein@Home"
+msgstr ""
+"Ver uma lista de todos os computadores onde está a correr o Einstein@Home"
 
 #: clientgui/Localization.cpp:101
 msgid "LIGO project"
@@ -2008,7 +2067,9 @@ msgstr "Projecto LIGO"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr "A página principal do projecto LASER Interferometer Gravitational-wave Observatory (LIGO)"
+msgstr ""
+"A página principal do projecto LASER Interferometer Gravitational-wave "
+"Observatory (LIGO)"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2020,10 +2081,6 @@ msgstr "A página principal do projecto GEO-600"
 
 #: clientgui/Localization.cpp:115
 #: clientgui/Localization.cpp:133
-#: clientgui/ViewProjects.cpp:220
-#: clientgui/ViewProjectsBase.cpp:153
-#: clientgui/ViewProjectsGrid.cpp:163
-#: clientgui/ViewStatistics.cpp:411
 msgid "Team"
 msgstr "Equipa"
 
@@ -2036,13 +2093,12 @@ msgid "Get help for climateprediction.net"
 msgstr "Obter ajuda para climateprediction.net"
 
 #: clientgui/Localization.cpp:125
-#: clientgui/ViewNews.cpp:115
 msgid "News"
 msgstr "Novidades"
 
 #: clientgui/Localization.cpp:127
 msgid "climateprediction.net News"
-msgstr ""Novidades de climaprediction.net"
+msgstr ""
 
 #: clientgui/Localization.cpp:131
 msgid "View your account information, credits, and trickles"
@@ -2088,15 +2144,15 @@ msgstr "Pesquisa"
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr "Aprender acerca dos projectos alojados em World Community Grid"
 
-#: clientgui/MainDocument.cpp:522
+#: clientgui/MainDocument.cpp:536
 msgid "Starting client services; please wait..."
 msgstr "A iniciar os serviços do client, por favor aguarde..."
 
-#: clientgui/MainDocument.cpp:1031
+#: clientgui/MainDocument.cpp:1059
 msgid "Retrieving system state; please wait..."
 msgstr "A rever o estado do sistema, por favor aguarde..."
 
-#: clientgui/MainDocument.cpp:1040
+#: clientgui/MainDocument.cpp:1068
 msgid "Retrieving host information; please wait..."
 msgstr "A rever a informação do host, por favor aguarde..."
 
@@ -2149,37 +2205,34 @@ msgstr "Verifique o nome de utilizador e palavra-passe, e tente novamente."
 msgid "Check the email address and password, and try again."
 msgstr "Verifique o endereço de e-mail e palavra-passe e tente novamente"
 
-#: clientgui/ProjectInfoPage.cpp:245
+#: clientgui/ProjectInfoPage.cpp:249
 msgid "Choose a project"
 msgstr "Escolha um projecto"
 
-#: clientgui/ProjectInfoPage.cpp:248
+#: clientgui/ProjectInfoPage.cpp:252
 msgid "To choose a project, click its name or type its URL below."
-msgstr "Para escolher um projecto, carregue no seu nome ou escreva o URL em baixo"
+msgstr ""
+"Para escolher um projecto, carregue no seu nome ou escreva o URL em baixo"
 
-#: clientgui/ProjectInfoPage.cpp:251
+#: clientgui/ProjectInfoPage.cpp:255
 msgid "Project &URL:"
 msgstr "&URL do Projecto"
 
-#: clientgui/ProjectInfoPage.cpp:320
+#: clientgui/ProjectInfoPage.cpp:339
+msgid "This project may not have work for your type of computer. Are you sure you wish to continue?"
+msgstr ""
+
+#: clientgui/ProjectInfoPage.cpp:363
 msgid "You are already attached to this project. Please choose a different project."
-msgstr "Já está anexado a este projecto. Por favor escolha um projecto diferente"
+msgstr ""
+"Já está anexado a este projecto. Por favor escolha um projecto diferente"
 
-#: clientgui/ProjectInfoPage.cpp:321
-msgid "Already Attached to Project"
-msgstr "Já anexado ao Projecto"
-
-#: clientgui/ProjectInfoPage.cpp:348
-msgid "This project may not have work for your type of computer."
-msgstr "Este projecto pode não ter trabalhos para este tipo de computador"
-
-#: clientgui/ProjectListCtrl.cpp:338
-#, c-format
-msgid "Click here to go to %s's website."
-msgstr "Carregue aqui para ir ao %s's website"
+#: clientgui/ProjectListCtrl.cpp:239
+msgid "Click"
+msgstr ""
 
 #: clientgui/ProjectProcessingPage.cpp:323
-#: clientgui/ProjectPropertiesPage.cpp:332
+#: clientgui/ProjectPropertiesPage.cpp:336
 msgid ""
 "Communicating with project\n"
 "Please wait..."
@@ -2187,7 +2240,7 @@ msgstr ""
 "A comunicar com o projecto\n"
 "Por favor aguarde..."
 
-#: clientgui/ProjectProcessingPage.cpp:491
+#: clientgui/ProjectProcessingPage.cpp:499
 msgid ""
 "Required wizard file(s) are missing from the target server.\n"
 "(lookup_account.php/create_account.php)\n"
@@ -2228,7 +2281,6 @@ msgstr ""
 "\n"
 "3) Está a usar um servidor de proxy.\n"
 "Carregue em Próximo para configurar as definições de proxy do BOINC."
-
 
 #: clientgui/ProxyInfoPage.cpp:217
 msgid ""
@@ -2281,7 +2333,16 @@ msgstr "Detectar Automaticamente"
 msgid "SOCKS proxy"
 msgstr "SOCKS proxy"
 
-#: clientgui/sg_BoincSimpleGUI.cpp:128
+#: clientgui/sg_BoincSimpleGUI.cpp:113
+#, fuzzy
+msgid "Advanced View...\tCtrl+Shift+A"
+msgstr "Vista Avançada\tCTRL+SHIFT+A"
+
+#: clientgui/sg_BoincSimpleGUI.cpp:114
+msgid "Display the advanced (accessible) graphical interface."
+msgstr ""
+
+#: clientgui/sg_BoincSimpleGUI.cpp:141
 #, c-format
 msgid "&%s"
 msgstr "&%s"
@@ -2340,56 +2401,39 @@ msgid "Unable to connect to the core client"
 msgstr "Incapaz de se conectar ao cliente de core"
 
 #: clientgui/sg_DlgMessages.cpp:107
-#: clientgui/ViewMessages.cpp:117
-#: clientgui/ViewMessagesGrid.cpp:128
-#: clientgui/ViewProjects.cpp:218
-#: clientgui/ViewProjectsBase.cpp:151
-#: clientgui/ViewProjectsGrid.cpp:163
-#: clientgui/ViewStatistics.cpp:381
-#: clientgui/ViewStatistics.cpp:1772
-#: clientgui/ViewTransfers.cpp:181
-#: clientgui/ViewTransfersGrid.cpp:129
-#: clientgui/ViewWork.cpp:214
-#: clientgui/ViewWorkGrid.cpp:146
 msgid "Project"
 msgstr "Projecto"
 
 #: clientgui/sg_DlgMessages.cpp:108
-#: clientgui/ViewMessages.cpp:118
-#: clientgui/ViewMessagesGrid.cpp:128
 msgid "Time"
 msgstr "Hora"
 
 #: clientgui/sg_DlgMessages.cpp:109
-#: clientgui/ViewMessages.cpp:119
-#: clientgui/ViewMessagesGrid.cpp:128
 msgid "Message"
 msgstr "Mensagem"
 
 #: clientgui/sg_DlgMessages.cpp:177
 #: clientgui/sg_DlgMessages.cpp:181
-#: clientgui/ViewMessages.cpp:89
-#: clientgui/ViewMessagesGrid.cpp:102
 msgid "Copy all the messages to the clipboard."
 msgstr "Copiar todas as mensagens para o clipboard."
 
 #: clientgui/sg_DlgMessages.cpp:202
 #: clientgui/sg_DlgMessages.cpp:210
-#: clientgui/ViewMessages.cpp:97
-#: clientgui/ViewMessagesGrid.cpp:110
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr "Copias as mensagens seleccionadas para o clipboard. Pode seleccionar multiplas mensagem pressionando o shift enquanto carrega nas mensagens."
+msgstr ""
+"Copias as mensagens seleccionadas para o clipboard. Pode seleccionar "
+"multiplas mensagem pressionando o shift enquanto carrega nas mensagens."
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
-#: clientgui/ViewMessages.cpp:99
-#: clientgui/ViewMessagesGrid.cpp:112
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr "Copiar as mensagens seleccionadas para o clipboard. Pode seleccionar multiplas mensagens pressionando o shift ou o control enquanto carrega nas mensagens."
+msgstr ""
+"Copiar as mensagens seleccionadas para o clipboard. Pode seleccionar "
+"multiplas mensagens pressionando o shift ou o control enquanto carrega nas "
+"mensagens."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
-#: clientgui/sg_ProjectsComponent.cpp:141
 msgid "Get help with BOINC"
 msgstr "Obter ajuda com o BOINC"
 
@@ -2670,16 +2714,12 @@ msgstr "Remover Projecto"
 
 #: clientgui/sg_StatImageLoader.cpp:217
 #: clientgui/ViewProjects.cpp:490
-#: clientgui/ViewProjectsBase.cpp:343
-#: clientgui/ViewProjectsGrid.cpp:418
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
 msgstr "Tem a certeza que quer desanexar do projecto '%s'?"
 
 #: clientgui/sg_StatImageLoader.cpp:223
 #: clientgui/ViewProjects.cpp:496
-#: clientgui/ViewProjectsBase.cpp:349
-#: clientgui/ViewProjectsGrid.cpp:424
 msgid "Detach from Project"
 msgstr "Desanexar do Projecto"
 
@@ -2695,14 +2735,10 @@ msgid "%d hr %d min %d sec"
 msgstr "%d hr %d min %d seg"
 
 #: clientgui/sg_ViewTabPage.cpp:421
-#: clientgui/ViewWorkGrid.cpp:258
 msgid "Are you sure you want to display graphics on a remote machine?"
 msgstr "Tem a certeza que quer mostrar os gráficos numa máquina remota?"
 
 #: clientgui/sg_ViewTabPage.cpp:422
-#: clientgui/ViewWork.cpp:183
-#: clientgui/ViewWorkGrid.cpp:114
-#: clientgui/ViewWorkGrid.cpp:259
 msgid "Show graphics"
 msgstr "Mostrar gráficos"
 
@@ -2719,19 +2755,19 @@ msgstr "Tempo Restante:"
 msgid "Elapsed Time: "
 msgstr "Tempo Decorrido:"
 
-#: clientgui/TermsOfUsePage.cpp:213
+#: clientgui/TermsOfUsePage.cpp:219
 msgid "Terms of Use"
 msgstr "Termos de Uso"
 
-#: clientgui/TermsOfUsePage.cpp:217
+#: clientgui/TermsOfUsePage.cpp:223
 msgid "Please read the following terms of use:"
 msgstr "Por favor leia os seguintes termos de uso:"
 
-#: clientgui/TermsOfUsePage.cpp:226
+#: clientgui/TermsOfUsePage.cpp:232
 msgid "I agree to the terms of use."
 msgstr "Eu concordo com os termos de uso."
 
-#: clientgui/TermsOfUsePage.cpp:232
+#: clientgui/TermsOfUsePage.cpp:238
 msgid "I do not agree with the terms of use."
 msgstr "Eu não concordo com os termos de uso."
 
@@ -2782,7 +2818,8 @@ msgstr "Por favor especifique um endereço de e-mail"
 
 #: clientgui/ValidateEmailAddress.cpp:75
 msgid "Invalid email address; please enter a valid email address"
-msgstr "Endereço de e-mail inválido; por favor insira um endereço de email válido"
+msgstr ""
+"Endereço de e-mail inválido; por favor insira um endereço de email válido"
 
 #: clientgui/ValidateURL.cpp:69
 msgid "Missing URL"
@@ -2793,7 +2830,7 @@ msgid ""
 "Please specify a URL.\n"
 "For example:\n"
 "http://www.example.com/"
-msgstr "
+msgstr ""
 "Por favor especifique um URL.\n"
 "Por exemplo:\n"
 "http://www.example.com/"
@@ -2833,13 +2870,6 @@ msgstr "'%s' não contém um caminho válido."
 #: clientgui/ViewMessages.cpp:84
 #: clientgui/ViewMessagesGrid.cpp:97
 #: clientgui/ViewProjects.cpp:169
-#: clientgui/ViewProjectsBase.cpp:103
-#: clientgui/ViewProjectsGrid.cpp:116
-#: clientgui/ViewStatistics.cpp:1741
-#: clientgui/ViewTransfers.cpp:159
-#: clientgui/ViewTransfersGrid.cpp:102
-#: clientgui/ViewWork.cpp:179
-#: clientgui/ViewWorkGrid.cpp:110
 msgid "Commands"
 msgstr "Comandos"
 
@@ -2935,83 +2965,60 @@ msgstr "Website do BOINC"
 
 #: clientgui/ViewNews.cpp:88
 msgid "Display the latest news about BOINC from the BOINC website"
-msgstr "Mostrar as ultimas novidades acerca do BOINC a partir do website do BOINC"
+msgstr ""
+"Mostrar as ultimas novidades acerca do BOINC a partir do website do BOINC"
 
 #: clientgui/ViewProjects.cpp:173
-#: clientgui/ViewProjectsBase.cpp:107
-#: clientgui/ViewProjectsGrid.cpp:120
 msgid "Update"
 msgstr "Actualizar"
 
 #: clientgui/ViewProjects.cpp:174
-#: clientgui/ViewProjectsBase.cpp:108
-#: clientgui/ViewProjectsGrid.cpp:121
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr "Reportar todas as tarefas completas, obter os ultimos créditos, obter as ultimas preferências e possivelmente mais tarefas."
+msgstr ""
+"Reportar todas as tarefas completas, obter os ultimos créditos, obter as "
+"ultimas preferências e possivelmente mais tarefas."
 
 #: clientgui/ViewProjects.cpp:180
 #: clientgui/ViewProjects.cpp:706
-#: clientgui/ViewProjectsBase.cpp:115
-#: clientgui/ViewProjectsBase.cpp:560
-#: clientgui/ViewProjectsGrid.cpp:127
-#: clientgui/ViewProjectsGrid.cpp:560
-#: clientgui/ViewWork.cpp:190
-#: clientgui/ViewWork.cpp:629
-#: clientgui/ViewWorkGrid.cpp:121
-#: clientgui/ViewWorkGrid.cpp:450
 msgid "Suspend"
 msgstr "Suspender"
 
 #: clientgui/ViewProjects.cpp:181
 #: clientgui/ViewProjects.cpp:706
-#: clientgui/ViewProjectsBase.cpp:116
-#: clientgui/ViewProjectsBase.cpp:560
-#: clientgui/ViewProjectsGrid.cpp:128
-#: clientgui/ViewProjectsGrid.cpp:560
 msgid "Suspend tasks for this project."
 msgstr "Suspender tarefas para este projecto"
 
 #: clientgui/ViewProjects.cpp:187
 #: clientgui/ViewProjects.cpp:725
-#: clientgui/ViewProjectsBase.cpp:122
-#: clientgui/ViewProjectsBase.cpp:572
-#: clientgui/ViewProjectsGrid.cpp:134
-#: clientgui/ViewProjectsGrid.cpp:579
 msgid "No new tasks"
 msgstr "Não obter novas tarefas"
 
 #: clientgui/ViewProjects.cpp:188
-#: clientgui/ViewProjectsBase.cpp:123
-#: clientgui/ViewProjectsGrid.cpp:135
 msgid "Don't get new tasks for this project."
 msgstr "Não obter novas tarefas para este projecto."
 
 #: clientgui/ViewProjects.cpp:194
-#: clientgui/ViewProjectsBase.cpp:129
-#: clientgui/ViewProjectsGrid.cpp:141
 msgid "Reset project"
 msgstr "Fazer reset ao projecto"
 
 #: clientgui/ViewProjects.cpp:195
-#: clientgui/ViewProjectsBase.cpp:130
-#: clientgui/ViewProjectsGrid.cpp:142
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr "Apaga todos os ficheiro e tarefas associadas com este projecto e obtém novas tarefas. Pode actualizar o projecto primeiro para reportar tarefas concluidas."
+msgstr ""
+"Apaga todos os ficheiro e tarefas associadas com este projecto e obtém novas "
+"tarefas. Pode actualizar o projecto primeiro para reportar tarefas "
+"concluidas."
 
 #: clientgui/ViewProjects.cpp:201
-#: clientgui/ViewProjectsBase.cpp:139
-#: clientgui/ViewProjectsGrid.cpp:148
 msgid "Detach"
 msgstr "Desanexar"
 
 #: clientgui/ViewProjects.cpp:202
-#: clientgui/ViewProjectsBase.cpp:140
-#: clientgui/ViewProjectsGrid.cpp:149
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr "Desanexar computador deste projecto. Tarefas em progresso serão perdidas (use 'Actualizar' primeiro para reportar tarefas concluidas)."
+msgstr ""
+"Desanexar computador deste projecto. Tarefas em progresso serão perdidas "
+"(use 'Actualizar' primeiro para reportar tarefas concluidas)."
 
 #: clientgui/ViewProjects.cpp:208
-#: clientgui/ViewWork.cpp:204
 msgid "Properties"
 msgstr "Propriedades"
 
@@ -3020,175 +3027,111 @@ msgid "Show project details."
 msgstr "Mostrar detalhes do projecto"
 
 #: clientgui/ViewProjects.cpp:219
-#: clientgui/ViewProjectsBase.cpp:152
-#: clientgui/ViewProjectsGrid.cpp:163
-#: clientgui/ViewStatistics.cpp:396
 msgid "Account"
 msgstr "Conta"
 
 #: clientgui/ViewProjects.cpp:221
-#: clientgui/ViewProjectsBase.cpp:154
-#: clientgui/ViewProjectsGrid.cpp:163
 msgid "Work done"
 msgstr "Trabalho realizado"
 
 #: clientgui/ViewProjects.cpp:222
-#: clientgui/ViewProjectsBase.cpp:155
-#: clientgui/ViewProjectsGrid.cpp:164
 msgid "Avg. work done"
 msgstr "Média do trabalho realizado"
 
 #: clientgui/ViewProjects.cpp:224
-#: clientgui/ViewProjectsBase.cpp:157
-#: clientgui/ViewProjectsGrid.cpp:164
-#: clientgui/ViewTransfers.cpp:187
-#: clientgui/ViewTransfersGrid.cpp:130
-#: clientgui/ViewWork.cpp:221
-#: clientgui/ViewWorkGrid.cpp:148
 msgid "Status"
 msgstr "Estado"
 
 #: clientgui/ViewProjects.cpp:249
-#: clientgui/ViewProjectsBase.cpp:170
-#: clientgui/ViewProjectsBase.cpp:176
-#: clientgui/ViewProjectsGrid.cpp:199
 msgid "Projects"
 msgstr "Projectos"
 
 #: clientgui/ViewProjects.cpp:296
-#: clientgui/ViewProjectsBase.cpp:197
-#: clientgui/ViewProjectsGrid.cpp:223
 msgid "Updating project..."
 msgstr "Actualizando o projecto..."
 
 #: clientgui/ViewProjects.cpp:338
-#: clientgui/ViewProjectsBase.cpp:224
-#: clientgui/ViewProjectsGrid.cpp:271
 msgid "Resuming project..."
 msgstr "Resumindo o projecto..."
 
 #: clientgui/ViewProjects.cpp:342
-#: clientgui/ViewProjectsBase.cpp:228
-#: clientgui/ViewProjectsGrid.cpp:274
 msgid "Suspending project..."
 msgstr "Suspendendo o projecto..."
 
 #: clientgui/ViewProjects.cpp:379
-#: clientgui/ViewProjectsBase.cpp:255
-#: clientgui/ViewProjectsGrid.cpp:315
 msgid "Telling project to allow additional task downloads..."
 msgstr "Informando o projecto para permitir downloads de tarefas adicionais..."
 
 #: clientgui/ViewProjects.cpp:383
-#: clientgui/ViewProjectsBase.cpp:259
-#: clientgui/ViewProjectsGrid.cpp:318
 msgid "Telling project to not fetch any additional tasks..."
 msgstr "Informando o projecto para não procurar por tarefas adicionais..."
 
 #: clientgui/ViewProjects.cpp:419
-#: clientgui/ViewProjectsBase.cpp:291
-#: clientgui/ViewProjectsGrid.cpp:354
 msgid "Resetting project..."
 msgstr "Fazendo o reset ao projecto..."
 
 #: clientgui/ViewProjects.cpp:432
-#: clientgui/ViewProjectsBase.cpp:296
-#: clientgui/ViewProjectsGrid.cpp:363
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr "Tem a certeza que quer fazer o reset ao projecto '%s?"
 
 #: clientgui/ViewProjects.cpp:438
-#: clientgui/ViewProjectsBase.cpp:302
-#: clientgui/ViewProjectsGrid.cpp:369
 msgid "Reset Project"
 msgstr "Fazer Reset ao Projecto"
 
 #: clientgui/ViewProjects.cpp:477
-#: clientgui/ViewProjectsBase.cpp:338
-#: clientgui/ViewProjectsGrid.cpp:409
 msgid "Detaching from project..."
 msgstr "Desanexando do projecto..."
 
 #: clientgui/ViewProjects.cpp:537
-#: clientgui/ViewProjectsBase.cpp:376
-#: clientgui/ViewProjectsGrid.cpp:453
-#: clientgui/ViewWork.cpp:457
-#: clientgui/ViewWorkGrid.cpp:367
 msgid "Launching browser..."
 msgstr "Lançando o navegador..."
 
 #: clientgui/ViewProjects.cpp:702
-#: clientgui/ViewProjectsBase.cpp:556
-#: clientgui/ViewProjectsGrid.cpp:556
-#: clientgui/ViewWork.cpp:623
-#: clientgui/ViewWorkGrid.cpp:444
 msgid "Resume"
 msgstr "Resumir"
 
 #: clientgui/ViewProjects.cpp:702
-#: clientgui/ViewProjectsBase.cpp:556
-#: clientgui/ViewProjectsGrid.cpp:556
 msgid "Resume tasks for this project."
 msgstr "Resumir tarefas para este projecto"
 
 #: clientgui/ViewProjects.cpp:721
-#: clientgui/ViewProjectsBase.cpp:568
-#: clientgui/ViewProjectsGrid.cpp:575
 msgid "Allow new tasks"
 msgstr "Permitir novas tarefas"
 
 #: clientgui/ViewProjects.cpp:721
-#: clientgui/ViewProjectsBase.cpp:568
-#: clientgui/ViewProjectsGrid.cpp:575
 msgid "Allow fetching new tasks for this project."
 msgstr "Permitir is buscar novas tarefas para este projecto."
 
 #: clientgui/ViewProjects.cpp:725
-#: clientgui/ViewProjectsBase.cpp:572
-#: clientgui/ViewProjectsGrid.cpp:579
 msgid "Don't fetch new tasks for this project."
 msgstr "Não ir buscar novas tarefas para este projecto."
 
 #: clientgui/ViewProjects.cpp:1051
-#: clientgui/ViewProjectsBase.cpp:674
-#: clientgui/ViewProjectsGrid.cpp:728
 msgid "Suspended by user"
 msgstr "Suspenso pelo utilizador"
 
 #: clientgui/ViewProjects.cpp:1054
-#: clientgui/ViewProjectsBase.cpp:677
-#: clientgui/ViewProjectsGrid.cpp:731
 msgid "Won't get new tasks"
 msgstr "Não obter novas tarefas"
 
 #: clientgui/ViewProjects.cpp:1057
-#: clientgui/ViewProjectsBase.cpp:680
-#: clientgui/ViewProjectsGrid.cpp:734
 msgid "Project ended - OK to detach"
 msgstr "Projecto terminado - OK para desanexar"
 
 #: clientgui/ViewProjects.cpp:1060
-#: clientgui/ViewProjectsBase.cpp:683
-#: clientgui/ViewProjectsGrid.cpp:737
 msgid "Will detach when tasks done"
 msgstr "Irá desanexar quando as tarefas concluirem"
 
 #: clientgui/ViewProjects.cpp:1063
-#: clientgui/ViewProjectsBase.cpp:686
-#: clientgui/ViewProjectsGrid.cpp:740
 msgid "Scheduler request pending"
 msgstr "Requisitar agendador pendente"
 
 #: clientgui/ViewProjects.cpp:1067
-#: clientgui/ViewProjectsBase.cpp:690
-#: clientgui/ViewProjectsGrid.cpp:744
 msgid "Scheduler request in progress"
 msgstr "Requisitar agendador em progresso"
 
 #: clientgui/ViewProjects.cpp:1073
-#: clientgui/ViewProjectsBase.cpp:696
-#: clientgui/ViewProjectsGrid.cpp:750
 msgid "Communication deferred "
 msgstr "Comunicação deferida"
 
@@ -3363,7 +3306,9 @@ msgstr "Cancelar Transferência"
 #: clientgui/ViewTransfers.cpp:171
 #: clientgui/ViewTransfersGrid.cpp:114
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr "Carregue em 'Cancelar transferência' para apagar o ficheiro em espera. Isto prevenirá que lhe seja atribuido crédito para este resultado. "
+msgstr ""
+"Carregue em 'Cancelar transferência' para apagar o ficheiro em espera. Isto "
+"prevenirá que lhe seja atribuido crédito para este resultado. "
 
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -3372,7 +3317,7 @@ msgstr "Ficheiro"
 
 #: clientgui/ViewTransfers.cpp:183
 #: clientgui/ViewTransfersGrid.cpp:129
-#: clientgui/ViewWork.cpp:218
+#: clientgui/ViewWork.cpp:226
 #: clientgui/ViewWorkGrid.cpp:147
 msgid "Progress"
 msgstr "Progresso"
@@ -3436,6 +3381,14 @@ msgstr "Upload pendente"
 msgid "Download pending"
 msgstr "Download pendente"
 
+#: clientgui/ViewTransfers.cpp:769
+msgid " (project backoff: "
+msgstr ""
+
+#: clientgui/ViewTransfers.cpp:769
+msgid ")"
+msgstr ""
+
 #: clientgui/ViewTransfersGrid.cpp:161
 msgid "TransfersGrid"
 msgstr "Grelha de Transferências"
@@ -3459,69 +3412,74 @@ msgid "Abort File Transfer(s)"
 msgstr "Cancelar Transferência(s) do(s) Ficheiro(s)"
 
 #: clientgui/ViewWork.cpp:184
+#: clientgui/ViewWork.cpp:708
+msgid "Show active tasks"
+msgstr ""
+
+#: clientgui/ViewWork.cpp:185
+#: clientgui/ViewWork.cpp:709
+msgid "Show only active tasks."
+msgstr ""
+
+#: clientgui/ViewWork.cpp:192
 #: clientgui/ViewWorkGrid.cpp:115
 msgid "Show application graphics in a window."
 msgstr "Mostrar gráfico da aplicação numa janela."
 
-#: clientgui/ViewWork.cpp:191
+#: clientgui/ViewWork.cpp:199
 #: clientgui/ViewWorkGrid.cpp:122
 msgid "Suspend work for this result."
 msgstr "Suspender trabalho para este rsultado."
 
-#: clientgui/ViewWork.cpp:197
+#: clientgui/ViewWork.cpp:205
 #: clientgui/ViewWorkGrid.cpp:128
 msgid "Abort"
 msgstr "Cancelar"
 
-#: clientgui/ViewWork.cpp:198
+#: clientgui/ViewWork.cpp:206
 #: clientgui/ViewWorkGrid.cpp:129
 msgid "Abandon work on the result. You will get no credit for it."
 msgstr "Abandonar resultado do trabalho. Não receberá crédito por ele"
 
-#: clientgui/ViewWork.cpp:205
+#: clientgui/ViewWork.cpp:213
 msgid "Show task details."
 msgstr "Mostrar detalhes da tarefa"
 
-#: clientgui/ViewWork.cpp:216
+#: clientgui/ViewWork.cpp:224
 #: clientgui/ViewWorkGrid.cpp:146
 msgid "Name"
 msgstr "Nome"
 
-#: clientgui/ViewWork.cpp:217
+#: clientgui/ViewWork.cpp:225
 msgid "Elapsed"
 msgstr "Decorrido"
 
-#: clientgui/ViewWork.cpp:219
+#: clientgui/ViewWork.cpp:227
 #: clientgui/ViewWorkGrid.cpp:147
 msgid "To completion"
 msgstr "Para completar"
 
-#: clientgui/ViewWork.cpp:246
+#: clientgui/ViewWork.cpp:254
 #: clientgui/ViewWorkGrid.cpp:190
 msgid "Tasks"
 msgstr "Tarefas"
 
-#: clientgui/ViewWork.cpp:315
+#: clientgui/ViewWork.cpp:342
 #: clientgui/ViewWorkGrid.cpp:220
 msgid "Resuming task..."
 msgstr "Resumindo tarefa..."
 
-#: clientgui/ViewWork.cpp:318
+#: clientgui/ViewWork.cpp:345
 #: clientgui/ViewWorkGrid.cpp:223
 msgid "Suspending task..."
 msgstr "Suspendendo tarefa..."
 
-#: clientgui/ViewWork.cpp:346
+#: clientgui/ViewWork.cpp:373
 #: clientgui/ViewWorkGrid.cpp:251
 msgid "Showing graphics for task..."
 msgstr "Mostrando gráficos para a tarefa..."
 
-#: clientgui/ViewWork.cpp:390
-#: clientgui/ViewWorkGrid.cpp:313
-msgid "Aborting result..."
-msgstr "Cancelando resultado..."
-
-#: clientgui/ViewWork.cpp:403
+#: clientgui/ViewWork.cpp:426
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
@@ -3530,26 +3488,48 @@ msgstr ""
 "Tem a certeza que quer cancelar esta tarefa '%s'?\n"
 "(Progresso: %s, Estado: %s)"
 
-#: clientgui/ViewWork.cpp:411
+#: clientgui/ViewWork.cpp:432
+#, c-format
+msgid "Are you sure you want to abort these %d tasks?"
+msgstr ""
+
+#: clientgui/ViewWork.cpp:437
 #: clientgui/ViewWorkGrid.cpp:335
 msgid "Abort task"
 msgstr "Cancelar tarefa"
 
-#: clientgui/ViewWork.cpp:624
+#: clientgui/ViewWork.cpp:446
+#: clientgui/ViewWorkGrid.cpp:313
+msgid "Aborting result..."
+msgstr "Cancelando resultado..."
+
+#: clientgui/ViewWork.cpp:702
+msgid "Show all tasks"
+msgstr ""
+
+#: clientgui/ViewWork.cpp:703
+msgid "Show all tasks."
+msgstr ""
+
+#: clientgui/ViewWork.cpp:727
 #: clientgui/ViewWorkGrid.cpp:445
 msgid "Resume work for this task."
 msgstr "Resumir trabalho para esta tarefa."
 
-#: clientgui/ViewWork.cpp:630
+#: clientgui/ViewWork.cpp:733
 #: clientgui/ViewWorkGrid.cpp:451
 msgid "Suspend work for this task."
 msgstr "Suspender trabalho para esta tarefa."
 
-#: clientgui/ViewWork.cpp:1041
+#: clientgui/ViewWork.cpp:1107
+msgid "GPU missing, "
+msgstr ""
+
+#: clientgui/ViewWork.cpp:1148
 msgid " - an exclusive app is running"
 msgstr " - uma aplicação exclusiva está a correr"
 
-#: clientgui/ViewWork.cpp:1060
+#: clientgui/ViewWork.cpp:1167
 #: clientgui/ViewWorkGrid.cpp:822
 msgid " (non-CPU-intensive)"
 msgstr " (CPU não intensivo)"
@@ -3567,11 +3547,12 @@ msgstr ""
 "Tem a certeza que quer cancelar esta tarefa '%s'?\n"
 "(Progresso: %s %%, Estado: %s)"
 
-#: clientgui/WelcomePage.cpp:241
-msgid "Change Research Applications at World Community Grid"
-msgstr "Trocar Aplicações de Pesquisa no World Community Grid"
+#: clientgui/WelcomePage.cpp:250
+#, fuzzy
+msgid "Attach to project or account manager"
+msgstr "Anexar ao projecto ou gestor de conta..."
 
-#: clientgui/WelcomePage.cpp:374
+#: clientgui/WelcomePage.cpp:258
 #, c-format
 msgid ""
 "If possible, add projects at the\n"
@@ -3584,19 +3565,16 @@ msgstr ""
 "%s website.\n"
 "\n"
 "Projectos adicionados através do assistente não ficará\n"
-"listado ou possivel de gerir através do %s."
-"%s website.\n"
+"listado ou possivel de gerir através do %s.%s website.\n"
 "\n"
 
-#: clientgui/WelcomePage.cpp:390
+#: clientgui/WelcomePage.cpp:271
 msgid ""
-"We'll now guide you through the process of attaching\n"
-"to a project."
+"We'll guide you through the process of attaching\n"
+"to a project or account manager."
 msgstr ""
-"Vamos agora guiá-lo atraves do processo de anexação\n"
-"a um projecto."
 
-#: clientgui/WelcomePage.cpp:394
+#: clientgui/WelcomePage.cpp:275
 msgid ""
 "You have selected to attach to a new BOINC project.  Attaching to a new\n"
 "project means that you will be connecting your computer to a new website\n"
@@ -3616,99 +3594,29 @@ msgstr ""
 "e organização. Se é isto que quer fazer, então carregue no\n"
 "botão 'Próximo' em baixo.\n"
 "\n"
-"Algnus projectos como o World Community Grid correm variadas aplicações de pesquisa.\n"
-"Se quer trocar as aplicações de pesquisa que são mandadas para correrem no seu computador\n"
+"Algnus projectos como o World Community Grid correm variadas aplicações de "
+"pesquisa.\n"
+"Se quer trocar as aplicações de pesquisa que são mandadas para correrem no "
+"seu computador\n"
 "então deve visita o website do projecto e modificar as suas\n"
 "preferências lá.\n"
 "\n"
 "Para mudar que aplicações são mandadas para si do\n"
 "World Community Grid, então carregue no seguinte botão:"
 
-#: clientgui/WelcomePage.cpp:403
-#, c-format
-msgid "&Stop using%s"
-msgstr "&Parar de usar%s"
+#: clientgui/WelcomePage.cpp:278
+msgid "Change Research Applications at World Community Grid"
+msgstr "Trocar Aplicações de Pesquisa no World Community Grid"
 
-#: clientgui/WelcomePage.cpp:410
-#, c-format
-msgid ""
-"We'll now remove this computer from %s.  From now on,\n"
-"attach and detach projects directly from this computer.\n"
-msgstr ""
-"Vamos agora remover este computador de %s. De agora em diante,\n"
-"anexar e desanexar projectos directamente deste computador.\n"
-
-#: clientgui/WelcomePage.cpp:431
-msgid "Account manager"
-msgstr "Gestor de Conta"
-
-#: clientgui/WelcomePage.cpp:434
-msgid ""
-"We'll now guide you through the process of attaching\n"
-"to an account manager.\n"
-"\n"
-"If you want to attach to a single project, click Cancel,\n"
-"then select the 'Attach to project' menu item instead."
-msgstr ""
-"Vamos agora guiá-lo através do processo de anexação\n"
-"a um gestor de conta.\n"
-"\n"
-"Se quer anexar-se apenas a um projecto, carregue em Cancelar,\n"
-"e seleccione antes a opção do menu 'Anexar a projecto'  
-
-#: clientgui/WelcomePage.cpp:453
-msgid "Debug Flags"
-msgstr "Bandeiras de Depuração"
-
-#: clientgui/WelcomePage.cpp:456
-msgid "Project Properties Failure"
-msgstr "Falha nas Propriedades do Projecto"
-
-#: clientgui/WelcomePage.cpp:459
-msgid "Project Communication Failure"
-msgstr "Falha na Comunicação do Projecto"
-
-#: clientgui/WelcomePage.cpp:462
-msgid "Project Properties URL Failure"
-msgstr "Falha no URL das Propriedades do Projecto"
-
-#: clientgui/WelcomePage.cpp:465
-msgid "Account Creation Disabled"
-msgstr "Criação de Conta Desabilitada"
-
-#: clientgui/WelcomePage.cpp:468
-msgid "Client Account Creation Disabled"
-msgstr "Criação de Conta de Cliente Desabilitada"
-
-#: clientgui/WelcomePage.cpp:471
-msgid "Account Already Exists"
-msgstr "A Conta Já Existe"
-
-#: clientgui/WelcomePage.cpp:474
-msgid "Project Already Attached"
-msgstr "Projecto Já Anexado"
-
-#: clientgui/WelcomePage.cpp:477
-msgid "Project Attach Failure"
-msgstr "Falha no Anexamento ao Projecto"
-
-#: clientgui/WelcomePage.cpp:480
-msgid "Failure Communicating with Reference Site"
-msgstr "Falha ao Comunicar com o Site de Referência"
-
-#: clientgui/WelcomePage.cpp:483
-msgid "Net Detection Failure"
-msgstr "Falha na Detecção de NEM"
-
-#: clientgui/WelcomePage.cpp:488
+#: clientgui/WelcomePage.cpp:295
 msgid "To continue, click Next."
 msgstr "Para continuar, carregue em Próximo."
 
-#: clientgui/WizardAttachProject.cpp:541
+#: clientgui/WizardAttachProject.cpp:612
 msgid "Do you really want to cancel?"
 msgstr "Quer mesmo cancelar?"
 
-#: clientgui/WizardAttachProject.cpp:542
+#: clientgui/WizardAttachProject.cpp:613
 msgid "Question"
 msgstr "Questão"
 
@@ -3755,4 +3663,133 @@ msgstr "especifique as horas de começo e fim do trabalho no formato HH:MM-HH:MM
 
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-msgstr "especifique as horas de começo e fim do uso da rede no formato HH:MM-HH:MM" 
+msgstr ""
+"especifique as horas de começo e fim do uso da rede no formato HH:MM-HH:MM"
+
+#, fuzzy
+#~ msgid ""
+#~ "You currently are not authorized to manage the client.\n"
+#~ "Please contact your administrator to add you to the 'boinc_master' user group."
+#~ msgstr ""
+#~ "Não está autorizado actualmente para gerir o cliente.\n"
+#~ "Por favor contacte o administrador para que o adicione ao grupo local "
+#~ "'boinc_users'."
+
+#~ msgid "User information"
+#~ msgstr "Informação do Utilizador"
+
+#~ msgid "Account Manager URL"
+#~ msgstr "URL do Gestor de Conta"
+
+#~ msgid "Enter the URL of the account manager's web site."
+#~ msgstr "Insira o URL do website do gestor de conta."
+
+#~ msgid "Close BOINC Manager Window."
+#~ msgstr "Fechar Janela do Gestor do BOINC"
+
+#, c-format
+#~ msgid "Exit the %s"
+#~ msgstr "Sair do %s"
+
+#~ msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
+#~ msgstr "A vista avançada permite-lhe mostrar vários tipos de colunas e mostrar graficamente as barras de progresso"
+
+#~ msgid "Attaching to project..."
+#~ msgstr "Anexando ao projecto..."
+
+#~ msgid "&Quit BOINC"
+#~ msgstr "&Sair do BOINC"
+
+#~ msgid "E&xit BOINC"
+#~ msgstr "S&air do BOINC"
+
+#, c-format
+#~ msgid "Removal from %s completed."
+#~ msgstr "Remoção de %s completa."
+
+#~ msgid "Removal succeeded!"
+#~ msgstr "Remoção bem sucedida!"
+
+#~ msgid "Write to disk at most every"
+#~ msgstr "Escrever no disco no máximo a cada"
+
+#~ msgid "Slot"
+#~ msgstr "Slot"
+
+#~ msgid "Already Attached to Project"
+#~ msgstr "Já anexado ao Projecto"
+
+#~ msgid "This project may not have work for your type of computer."
+#~ msgstr "Este projecto pode não ter trabalhos para este tipo de computador"
+
+#, c-format
+#~ msgid "Click here to go to %s's website."
+#~ msgstr "Carregue aqui para ir ao %s's website"
+
+#~ msgid ""
+#~ "We'll now guide you through the process of attaching\n"
+#~ "to a project."
+#~ msgstr ""
+#~ "Vamos agora guiá-lo atraves do processo de anexação\n"
+#~ "a um projecto."
+
+#, c-format
+#~ msgid "&Stop using%s"
+#~ msgstr "&Parar de usar%s"
+
+#, c-format
+#~ msgid ""
+#~ "We'll now remove this computer from %s.  From now on,\n"
+#~ "attach and detach projects directly from this computer.\n"
+#~ msgstr ""
+#~ "Vamos agora remover este computador de %s. De agora em diante,\n"
+#~ "anexar e desanexar projectos directamente deste computador.\n"
+
+#~ msgid "Account manager"
+#~ msgstr "Gestor de Conta"
+
+#~ msgid ""
+#~ "We'll now guide you through the process of attaching\n"
+#~ "to an account manager.\n"
+#~ "\n"
+#~ "If you want to attach to a single project, click Cancel,\n"
+#~ "then select the 'Attach to project' menu item instead."
+#~ msgstr ""
+#~ "Vamos agora guiá-lo através do processo de anexação\n"
+#~ "a um gestor de conta.\n"
+#~ "\n"
+#~ "Se quer anexar-se apenas a um projecto, carregue em Cancelar,\n"
+#~ "
+
+#~ msgid "Debug Flags"
+#~ msgstr "Bandeiras de Depuração"
+
+#~ msgid "Project Properties Failure"
+#~ msgstr "Falha nas Propriedades do Projecto"
+
+#~ msgid "Project Communication Failure"
+#~ msgstr "Falha na Comunicação do Projecto"
+
+#~ msgid "Project Properties URL Failure"
+#~ msgstr "Falha no URL das Propriedades do Projecto"
+
+#~ msgid "Account Creation Disabled"
+#~ msgstr "Criação de Conta Desabilitada"
+
+#~ msgid "Client Account Creation Disabled"
+#~ msgstr "Criação de Conta de Cliente Desabilitada"
+
+#~ msgid "Account Already Exists"
+#~ msgstr "A Conta Já Existe"
+
+#~ msgid "Project Already Attached"
+#~ msgstr "Projecto Já Anexado"
+
+#~ msgid "Project Attach Failure"
+#~ msgstr "Falha no Anexamento ao Projecto"
+
+#~ msgid "Failure Communicating with Reference Site"
+#~ msgstr "Falha ao Comunicar com o Site de Referência"
+
+#~ msgid "Net Detection Failure"
+#~ msgstr "Falha na Detecção de NEM"

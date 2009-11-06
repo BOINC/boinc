@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-29 13:11-0500\n"
-"PO-Revision-Date: 2009-10-30 13:09-0700\n"
+"POT-Creation-Date: 2009-11-05 13:41-0500\n"
+"PO-Revision-Date: 2009-11-06 11:48-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: mifistor_x <mifistor.x@gmail.com>\n"
 "Language: ru\n"
@@ -216,7 +216,8 @@ msgid "Close the %s window"
 msgstr "Закрыть окно %s"
 
 #: clientgui/AdvancedFrame.cpp:309
-msgid "&Close Window\tCTRL+W"
+#, fuzzy
+msgid "&Close Window\tCtrl+W"
 msgstr "Закрыть окно\tCTRL+W"
 
 #: clientgui/AdvancedFrame.cpp:316
@@ -231,56 +232,56 @@ msgid "E&xit"
 msgstr "Выход"
 
 #: clientgui/AdvancedFrame.cpp:330
-msgid "&Projects\tCTRL+SHIFT+P"
-msgstr "Проекты\tCTRL+SHIFT+P"
+msgid "&Projects\tCtrl+Shift+P"
+msgstr "Проекты\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
 msgstr "Показать проекты"
 
 #: clientgui/AdvancedFrame.cpp:336
-msgid "&Tasks\tCTRL+SHIFT+T"
-msgstr "Задания\tCTRL+SHIFT+T"
+msgid "&Tasks\tCtrl+Shift+T"
+msgstr "Задания\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
 msgstr "Показать задания"
 
 #: clientgui/AdvancedFrame.cpp:342
-msgid "Trans&fers\tCTRL+SHIFT+X"
-msgstr "Передача\tCTRL+SHIFT+X"
+msgid "Trans&fers\tCtrl+Shift+X"
+msgstr "Передача\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
 msgstr "Показать передачу данных"
 
 #: clientgui/AdvancedFrame.cpp:348
-msgid "&Messages\tCTRL+SHIFT+M"
-msgstr "Сообщения\tCTRL+SHIFT+M"
+msgid "&Messages\tCtrl+Shift+M"
+msgstr "Сообщения\tCtrl+Shift+M"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
 msgstr "Показать сообщения"
 
 #: clientgui/AdvancedFrame.cpp:354
-msgid "&Statistics\tCTRL+SHIFT+S"
-msgstr "Статистика\tCTRL+SHIFT+S"
+msgid "&Statistics\tCtrl+Shift+S"
+msgstr "Статистика\tCtrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
 msgstr "Показать статистику"
 
 #: clientgui/AdvancedFrame.cpp:360
-msgid "&Disk usage\tCTRL+SHIFT+D"
-msgstr "Диск\tCTRL+SHIFT+D"
+msgid "&Disk usage\tCtrl+Shift+D"
+msgstr "Диск\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
 msgstr "Показать использование диска"
 
 #: clientgui/AdvancedFrame.cpp:366
-msgid "&News\tCTRL+SHIFT+N"
-msgstr "Новости\tCTRL+SHIFT+N"
+msgid "&News\tCtrl+Shift+N"
+msgstr "Новости\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
@@ -288,7 +289,7 @@ msgstr "Показать новости"
 
 #: clientgui/AdvancedFrame.cpp:374
 #, fuzzy
-msgid "Simple &View...\tCTRL+SHIFT+V"
+msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "Сокращённый вид...\tCTRL+SHIFT+S"
 
 #: clientgui/AdvancedFrame.cpp:375
@@ -829,30 +830,30 @@ msgstr "%s разорвал подключение к интернету."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s не удалось разорвать подключение к интернету."
 
-# Пью пиво,&lt;br /&gt;<br />
-# меняю пароли.
-#: clientgui/BOINCGUIApp.cpp:308
-#, fuzzy
+#: clientgui/BOINCGUIApp.cpp:336
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_master' user group."
+"\n"
+"To run BOINC as this user, please:\n"
+"  - reinstall BOINC answering \"Yes\" to the question about\n"
+"     non-administrative users\n"
+" or\n"
+"  - contact your administrator to add you to the 'boinc_master'\n"
+"     user group."
 msgstr ""
-"У Вас недостаточно прав для управления BOINC клиентом.\n"
-"Управление станет возможно после добавления Вас в группу 'boinc_master' "
-"Администратором компьютера."
 
-#: clientgui/BOINCGUIApp.cpp:311
+#: clientgui/BOINCGUIApp.cpp:339
 #, c-format
 #, fuzzy
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
-"(Error code %d)\n"
+"(Error code %d)"
 msgstr ""
 "Владелец BOINC или разрешения установлены некорректно; пожалуйста "
 "переустановите BOINC.\n"
 "(Код ошибки %d)\n"
 
-#: clientgui/BOINCGUIApp.cpp:388
+#: clientgui/BOINCGUIApp.cpp:389
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -860,51 +861,51 @@ msgstr ""
 "Требуется перезагрузка для корректной работы клиента BOINC.\n"
 "Пожалуйста, перезагрузите Ваш компьютер и попытайтесь еще раз."
 
-#: clientgui/BOINCGUIApp.cpp:389
+#: clientgui/BOINCGUIApp.cpp:390
 msgid "BOINC Manager"
 msgstr "BOINC менеджер"
 
-#: clientgui/BOINCGUIApp.cpp:536
+#: clientgui/BOINCGUIApp.cpp:537
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC менеджер был автоматически запущен операционной системой"
 
-#: clientgui/BOINCGUIApp.cpp:538
+#: clientgui/BOINCGUIApp.cpp:539
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "сворачивать BOINC менеджер в значок на панели задач при запуске"
 
-#: clientgui/BOINCGUIApp.cpp:540
+#: clientgui/BOINCGUIApp.cpp:541
 #, fuzzy
 msgid "Directory containing the BOINC Client executable"
 msgstr "Каталог, содержащий исполняемый файл клиента BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:541
+#: clientgui/BOINCGUIApp.cpp:542
 #, fuzzy
 msgid "BOINC data directory"
 msgstr "Каталог данных BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:543
+#: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
 msgstr "запускать BOINC клиент с ключами запуска"
 
-#: clientgui/BOINCGUIApp.cpp:544
+#: clientgui/BOINCGUIApp.cpp:545
 msgid "disable BOINC security users and permissions"
 msgstr "отключить политику безопасности доступа пользователей к BOINC"
 
 # Это описание ключа запуска BOINC managera. Не переводится.
-#: clientgui/BOINCGUIApp.cpp:545
+#: clientgui/BOINCGUIApp.cpp:546
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 "включить режим отладки менеджера обложек для вывода сообщений об ошибках"
 
-#: clientgui/BOINCGUIApp.cpp:735
+#: clientgui/BOINCGUIApp.cpp:736
 msgid "(Automatic Detection)"
 msgstr "(Автоопределение)"
 
-#: clientgui/BOINCGUIApp.cpp:736
+#: clientgui/BOINCGUIApp.cpp:737
 msgid "(Unknown)"
 msgstr "(Неизвестный)"
 
-#: clientgui/BOINCGUIApp.cpp:737
+#: clientgui/BOINCGUIApp.cpp:738
 msgid "(User Defined)"
 msgstr "(Пользовательский)"
 
@@ -2498,7 +2499,7 @@ msgstr "SOCKS прокси"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
 #, fuzzy
-msgid "Advanced View...\tCTRL+SHIFT+A"
+msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Полный вид\tCTRL+SHIFT+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
@@ -3887,6 +3888,38 @@ msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr ""
 "задайте время, когда клиенту разрешено подключаться к интернету, в формате "
 "ЧЧ:мм-ЧЧ:мм"
+
+#~ msgid "&Projects\tCTRL+SHIFT+P"
+#~ msgstr "Проекты\tCTRL+SHIFT+P"
+
+#~ msgid "&Tasks\tCTRL+SHIFT+T"
+#~ msgstr "Задания\tCTRL+SHIFT+T"
+
+#~ msgid "Trans&fers\tCTRL+SHIFT+X"
+#~ msgstr "Передача\tCTRL+SHIFT+X"
+
+#~ msgid "&Messages\tCTRL+SHIFT+M"
+#~ msgstr "Сообщения\tCTRL+SHIFT+M"
+
+#~ msgid "&Statistics\tCTRL+SHIFT+S"
+#~ msgstr "Статистика\tCTRL+SHIFT+S"
+
+#~ msgid "&Disk usage\tCTRL+SHIFT+D"
+#~ msgstr "Диск\tCTRL+SHIFT+D"
+
+#~ msgid "&News\tCTRL+SHIFT+N"
+#~ msgstr "Новости\tCTRL+SHIFT+N"
+
+# Пью пиво,&lt;br /&gt;<br />
+# меняю пароли.
+#, fuzzy
+#~ msgid ""
+#~ "You currently are not authorized to manage the client.\n"
+#~ "Please contact your administrator to add you to the 'boinc_master' user group."
+#~ msgstr ""
+#~ "У Вас недостаточно прав для управления BOINC клиентом.\n"
+#~ "Управление станет возможно после добавления Вас в группу 'boinc_master' "
+#~ "Администратором компьютера."
 
 #~ msgid "User information"
 #~ msgstr "Информация об участнике"

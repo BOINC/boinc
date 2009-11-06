@@ -6,3 +6,4 @@ rights:
   nobody = u'view'
   romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   Csega = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  Vandorr = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'

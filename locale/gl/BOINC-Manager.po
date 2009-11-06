@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.6.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-29 13:11-0500\n"
+"POT-Creation-Date: 2009-11-05 13:41-0500\n"
 "PO-Revision-Date: 2009-01-31 HO:MI+ZONE\n"
 "Last-Translator: Xurxo Suarez <webmaster@hexentreffen.net>\n"
 "Language-Team: Galician <LL@li.org>\n"
@@ -188,7 +188,8 @@ msgid "Close the %s window"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:309
-msgid "&Close Window\tCTRL+W"
+#, fuzzy
+msgid "&Close Window\tCtrl+W"
 msgstr "&Pechar fiestra\tCTRL+W"
 
 #: clientgui/AdvancedFrame.cpp:316
@@ -202,7 +203,7 @@ msgid "E&xit"
 msgstr "&Saír"
 
 #: clientgui/AdvancedFrame.cpp:330
-msgid "&Projects\tCTRL+SHIFT+P"
+msgid "&Projects\tCtrl+Shift+P"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:331
@@ -210,7 +211,7 @@ msgid "Display projects"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:336
-msgid "&Tasks\tCTRL+SHIFT+T"
+msgid "&Tasks\tCtrl+Shift+T"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:337
@@ -218,7 +219,7 @@ msgid "Display tasks"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:342
-msgid "Trans&fers\tCTRL+SHIFT+X"
+msgid "Trans&fers\tCtrl+Shift+X"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:343
@@ -226,7 +227,7 @@ msgid "Display transfers"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:348
-msgid "&Messages\tCTRL+SHIFT+M"
+msgid "&Messages\tCtrl+Shift+M"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:349
@@ -234,7 +235,7 @@ msgid "Display messages"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:354
-msgid "&Statistics\tCTRL+SHIFT+S"
+msgid "&Statistics\tCtrl+Shift+S"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:355
@@ -242,7 +243,7 @@ msgid "Display statistics"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:360
-msgid "&Disk usage\tCTRL+SHIFT+D"
+msgid "&Disk usage\tCtrl+Shift+D"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:361
@@ -250,7 +251,7 @@ msgid "Display disk usage"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:366
-msgid "&News\tCTRL+SHIFT+N"
+msgid "&News\tCtrl+Shift+N"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:367
@@ -258,7 +259,7 @@ msgid "Display news"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:374
-msgid "Simple &View...\tCTRL+SHIFT+V"
+msgid "Simple &View...\tCtrl+Shift+V"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:375
@@ -774,24 +775,26 @@ msgstr "%s desconectou correctamente da Internet."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s fallou ao desconectar da Internet."
 
-#: clientgui/BOINCGUIApp.cpp:308
-#, fuzzy
+#: clientgui/BOINCGUIApp.cpp:336
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_master' user group."
+"\n"
+"To run BOINC as this user, please:\n"
+"  - reinstall BOINC answering \"Yes\" to the question about\n"
+"     non-administrative users\n"
+" or\n"
+"  - contact your administrator to add you to the 'boinc_master'\n"
+"     user group."
 msgstr ""
-"Neste momento non está autorizado a controlar o xestor.\n"
-"Contacte co seu administrador para que o engada ao grupo de usuarios "
-"'boinc_users'."
 
-#: clientgui/BOINCGUIApp.cpp:311
+#: clientgui/BOINCGUIApp.cpp:339
 #, c-format
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
-"(Error code %d)\n"
+"(Error code %d)"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:388
+#: clientgui/BOINCGUIApp.cpp:389
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -799,47 +802,47 @@ msgstr ""
 "Cómpre un reinicio para que o BOINC funcione bem.\n"
 "Reinicie a súa computadora e probe de novo."
 
-#: clientgui/BOINCGUIApp.cpp:389
+#: clientgui/BOINCGUIApp.cpp:390
 msgid "BOINC Manager"
 msgstr "Xestor BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:536
+#: clientgui/BOINCGUIApp.cpp:537
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "O Xestor BOINC foi iniciado polo sistema automáticamente."
 
-#: clientgui/BOINCGUIApp.cpp:538
+#: clientgui/BOINCGUIApp.cpp:539
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Iniciar o BOINC para que só a icona da bandexa sexa visible"
 
-#: clientgui/BOINCGUIApp.cpp:540
+#: clientgui/BOINCGUIApp.cpp:541
 msgid "Directory containing the BOINC Client executable"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:541
+#: clientgui/BOINCGUIApp.cpp:542
 msgid "BOINC data directory"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:543
+#: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
 msgstr "Iniciar o BOINC con estes argumentos opcionais"
 
-#: clientgui/BOINCGUIApp.cpp:544
+#: clientgui/BOINCGUIApp.cpp:545
 msgid "disable BOINC security users and permissions"
 msgstr "desactivar os permisos e usuarios de seguridade do BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:545
+#: clientgui/BOINCGUIApp.cpp:546
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:735
+#: clientgui/BOINCGUIApp.cpp:736
 msgid "(Automatic Detection)"
 msgstr "(Detección Automática)"
 
-#: clientgui/BOINCGUIApp.cpp:736
+#: clientgui/BOINCGUIApp.cpp:737
 msgid "(Unknown)"
 msgstr "(Descoñecido)"
 
-#: clientgui/BOINCGUIApp.cpp:737
+#: clientgui/BOINCGUIApp.cpp:738
 msgid "(User Defined)"
 msgstr "(Definido polo usuario)"
 
@@ -2309,7 +2312,7 @@ msgid "SOCKS proxy"
 msgstr "Proxy SOCKS"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-msgid "Advanced View...\tCTRL+SHIFT+A"
+msgid "Advanced View...\tCtrl+Shift+A"
 msgstr ""
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
@@ -3632,6 +3635,15 @@ msgstr ""
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr ""
 "especifica as horas de inicio e remate do uso da rede co formato HH:MM-HH:MM"
+
+#, fuzzy
+#~ msgid ""
+#~ "You currently are not authorized to manage the client.\n"
+#~ "Please contact your administrator to add you to the 'boinc_master' user group."
+#~ msgstr ""
+#~ "Neste momento non está autorizado a controlar o xestor.\n"
+#~ "Contacte co seu administrador para que o engada ao grupo de usuarios "
+#~ "'boinc_users'."
 
 #~ msgid "User information"
 #~ msgstr "Información do usuario"

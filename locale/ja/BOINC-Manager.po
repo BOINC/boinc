@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-29 13:11-0500\n"
+"POT-Creation-Date: 2009-11-05 13:41-0500\n"
 "PO-Revision-Date: 2009-05-17 01:08+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
@@ -194,7 +194,8 @@ msgid "Close the %s window"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:309
-msgid "&Close Window\tCTRL+W"
+#, fuzzy
+msgid "&Close Window\tCtrl+W"
 msgstr "ウィンドウを閉じる(&C)\tCTRL+W"
 
 #: clientgui/AdvancedFrame.cpp:316
@@ -208,7 +209,7 @@ msgid "E&xit"
 msgstr "終了(&X)"
 
 #: clientgui/AdvancedFrame.cpp:330
-msgid "&Projects\tCTRL+SHIFT+P"
+msgid "&Projects\tCtrl+Shift+P"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:331
@@ -216,7 +217,7 @@ msgid "Display projects"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:336
-msgid "&Tasks\tCTRL+SHIFT+T"
+msgid "&Tasks\tCtrl+Shift+T"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:337
@@ -224,7 +225,7 @@ msgid "Display tasks"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:342
-msgid "Trans&fers\tCTRL+SHIFT+X"
+msgid "Trans&fers\tCtrl+Shift+X"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:343
@@ -232,7 +233,7 @@ msgid "Display transfers"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:348
-msgid "&Messages\tCTRL+SHIFT+M"
+msgid "&Messages\tCtrl+Shift+M"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:349
@@ -240,7 +241,7 @@ msgid "Display messages"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:354
-msgid "&Statistics\tCTRL+SHIFT+S"
+msgid "&Statistics\tCtrl+Shift+S"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:355
@@ -248,7 +249,7 @@ msgid "Display statistics"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:360
-msgid "&Disk usage\tCTRL+SHIFT+D"
+msgid "&Disk usage\tCtrl+Shift+D"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:361
@@ -256,7 +257,7 @@ msgid "Display disk usage"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:366
-msgid "&News\tCTRL+SHIFT+N"
+msgid "&News\tCtrl+Shift+N"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:367
@@ -265,7 +266,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:374
 #, fuzzy
-msgid "Simple &View...\tCTRL+SHIFT+V"
+msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "簡易ビュー(&S)...\tCTRL+SHIFT+S"
 
 #: clientgui/AdvancedFrame.cpp:375
@@ -781,24 +782,26 @@ msgstr "%s はインターネットとの接続を切ることに成功しまし
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s はインターネットとの接続を切ることにに失敗しました。"
 
-#: clientgui/BOINCGUIApp.cpp:308
-#, fuzzy
+#: clientgui/BOINCGUIApp.cpp:336
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_master' user group."
+"\n"
+"To run BOINC as this user, please:\n"
+"  - reinstall BOINC answering \"Yes\" to the question about\n"
+"     non-administrative users\n"
+" or\n"
+"  - contact your administrator to add you to the 'boinc_master'\n"
+"     user group."
 msgstr ""
-"現在のところあなたはこのクライアントを管理する権限がありません。\n"
-"管理者に連絡して、'boinc_users' ローカルユーザグループにあなたを\n"
-"加えて下さい。"
 
-#: clientgui/BOINCGUIApp.cpp:311
+#: clientgui/BOINCGUIApp.cpp:339
 #, c-format
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
-"(Error code %d)\n"
+"(Error code %d)"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:388
+#: clientgui/BOINCGUIApp.cpp:389
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -806,47 +809,47 @@ msgstr ""
 "BOINC を正常に実行するためには再起動が必要です。\n"
 "あなたのコンピュータを再起動してから、もう一度試して下さい。"
 
-#: clientgui/BOINCGUIApp.cpp:389
+#: clientgui/BOINCGUIApp.cpp:390
 msgid "BOINC Manager"
 msgstr "BOINC マネージャ"
 
-#: clientgui/BOINCGUIApp.cpp:536
+#: clientgui/BOINCGUIApp.cpp:537
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC マネージャはオペレーティング・システムにより自動的に起動されました。"
 
-#: clientgui/BOINCGUIApp.cpp:538
+#: clientgui/BOINCGUIApp.cpp:539
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "BOINC が起動すると、システムトレイにアイコンだけが現れます"
 
-#: clientgui/BOINCGUIApp.cpp:540
+#: clientgui/BOINCGUIApp.cpp:541
 msgid "Directory containing the BOINC Client executable"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:541
+#: clientgui/BOINCGUIApp.cpp:542
 msgid "BOINC data directory"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:543
+#: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
 msgstr "オプション引数を付けて BOINC を起動します"
 
-#: clientgui/BOINCGUIApp.cpp:544
+#: clientgui/BOINCGUIApp.cpp:545
 msgid "disable BOINC security users and permissions"
 msgstr "BOINC のユーザとアクセス許可のセキュリティを無効にします"
 
-#: clientgui/BOINCGUIApp.cpp:545
+#: clientgui/BOINCGUIApp.cpp:546
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "skin マネージャのエラーメッセージを有効にするために、skin debugging モードをセットして下さい。"
 
-#: clientgui/BOINCGUIApp.cpp:735
+#: clientgui/BOINCGUIApp.cpp:736
 msgid "(Automatic Detection)"
 msgstr "(言語の自動判別)"
 
-#: clientgui/BOINCGUIApp.cpp:736
+#: clientgui/BOINCGUIApp.cpp:737
 msgid "(Unknown)"
 msgstr "(実装上のダミーエントリ1)"
 
-#: clientgui/BOINCGUIApp.cpp:737
+#: clientgui/BOINCGUIApp.cpp:738
 msgid "(User Defined)"
 msgstr "(実装上のダミーエントリ2)"
 
@@ -2342,7 +2345,7 @@ msgstr "SOCKS プロキシ"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
 #, fuzzy
-msgid "Advanced View...\tCTRL+SHIFT+A"
+msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "拡張ビュー(&A)\tCTRL+SHIFT+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
@@ -3670,6 +3673,15 @@ msgstr "処理をする時間帯を「HH:MM-HH:MM」の形式で指定して下�
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指定して下さい。"
+
+#, fuzzy
+#~ msgid ""
+#~ "You currently are not authorized to manage the client.\n"
+#~ "Please contact your administrator to add you to the 'boinc_master' user group."
+#~ msgstr ""
+#~ "現在のところあなたはこのクライアントを管理する権限がありません。\n"
+#~ "管理者に連絡して、'boinc_users' ローカルユーザグループにあなたを\n"
+#~ "加えて下さい。"
 
 # This dialog title is rendered not correctly if it is translated into Japanese, as "ユーザ情報"
 #, fuzzy

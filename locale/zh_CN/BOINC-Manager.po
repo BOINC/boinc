@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.10.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-29 13:11-0500\n"
-"PO-Revision-Date: 2009-11-02 18:44-0700\n"
+"POT-Creation-Date: 2009-11-05 13:41-0500\n"
+"PO-Revision-Date: 2009-11-06 08:36+0800\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
-"X-Poedit-Basepath: E:\\Works\\boinc_src\\\n"
+"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: CHINA\n"
 "X-Poedit-SearchPath-0: clientgui\n"
@@ -193,8 +193,8 @@ msgid "Close the %s window"
 msgstr "关闭 %s 窗口"
 
 #: clientgui/AdvancedFrame.cpp:309
-msgid "&Close Window\tCTRL+W"
-msgstr "关闭窗口(&C)\tCTRL+W"
+msgid "&Close Window\tCtrl+W"
+msgstr "关闭窗口(&C)\tCtrl+W"
 
 #: clientgui/AdvancedFrame.cpp:316
 #, c-format
@@ -207,64 +207,64 @@ msgid "E&xit"
 msgstr "退出(&X)"
 
 #: clientgui/AdvancedFrame.cpp:330
-msgid "&Projects\tCTRL+SHIFT+P"
-msgstr "项目(&P)\tCTRL+SHIFT+P"
+msgid "&Projects\tCtrl+Shift+P"
+msgstr "项目(&P)\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
 msgstr "显示项目页"
 
 #: clientgui/AdvancedFrame.cpp:336
-msgid "&Tasks\tCTRL+SHIFT+T"
-msgstr "任务(&T)\tCTRL+SHIFT+T"
+msgid "&Tasks\tCtrl+Shift+T"
+msgstr "任务(&T)\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
 msgstr "显示任务页"
 
 #: clientgui/AdvancedFrame.cpp:342
-msgid "Trans&fers\tCTRL+SHIFT+X"
-msgstr "网络传输(&F)\tCTRL+SHIFT+X"
+msgid "Trans&fers\tCtrl+Shift+X"
+msgstr "网络传输(&F)\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
 msgstr "显示网络传输页"
 
 #: clientgui/AdvancedFrame.cpp:348
-msgid "&Messages\tCTRL+SHIFT+M"
-msgstr "消息(&M)\tCTRL+SHIFT+M"
+msgid "&Messages\tCtrl+Shift+M"
+msgstr "消息(&M)\tCtrl+Shift+M"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
 msgstr "显示消息页"
 
 #: clientgui/AdvancedFrame.cpp:354
-msgid "&Statistics\tCTRL+SHIFT+S"
-msgstr "统计(&S)\tCTRL+SHIFT+S"
+msgid "&Statistics\tCtrl+Shift+S"
+msgstr "统计(&S)\tCtrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
 msgstr "显示统计页"
 
 #: clientgui/AdvancedFrame.cpp:360
-msgid "&Disk usage\tCTRL+SHIFT+D"
-msgstr "磁盘使用情况(&D)\tCTRL+SHIFT+D"
+msgid "&Disk usage\tCtrl+Shift+D"
+msgstr "磁盘使用情况(&D)\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
 msgstr "显示磁盘使用情况页"
 
 #: clientgui/AdvancedFrame.cpp:366
-msgid "&News\tCTRL+SHIFT+N"
-msgstr "新闻(&N)\tCTRL+SHIFT+N"
+msgid "&News\tCtrl+Shift+N"
+msgstr "新闻(&N)\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
 msgstr "显示新闻页"
 
 #: clientgui/AdvancedFrame.cpp:374
-msgid "Simple &View...\tCTRL+SHIFT+V"
-msgstr "简易视图(&V)...\tCTRL+SHIFT+S"
+msgid "Simple &View...\tCtrl+Shift+V"
+msgstr "简易视图(&V)...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:375
 msgid "Display the simple graphical interface."
@@ -765,24 +765,33 @@ msgstr "%s 已经成功地断开至互联网的连接。"
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s 断开至互联网的连接失败。"
 
-#: clientgui/BOINCGUIApp.cpp:308
+#: clientgui/BOINCGUIApp.cpp:336
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_master' user group."
+"\n"
+"To run BOINC as this user, please:\n"
+"  - reinstall BOINC answering \"Yes\" to the question about\n"
+"     non-administrative users\n"
+" or\n"
+"  - contact your administrator to add you to the 'boinc_master'\n"
+"     user group."
 msgstr ""
 "您当前未被授权管理本客户端。\n"
-"请联系系统管理员将您添加到名称为 boinc_master 的用户组。"
+"\n"
+"要在当前用户下运行 BOINC，请：\n"
+" - 重新安装 BOINC，在被问到关于非系统管理员用户的问题时，回答\"是\"\n"
+" - 联系系统管理员将您加入到“boinc_master”用户组。"
 
-#: clientgui/BOINCGUIApp.cpp:311
+#: clientgui/BOINCGUIApp.cpp:339
 #, c-format
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
-"(Error code %d)\n"
+"(Error code %d)"
 msgstr ""
 "BOINC 相关的本地用户权限设置有误，请重新安装 BOINC。\n"
-"( 错误代码 %d )\n"
+"( 错误代码 %d )"
 
-#: clientgui/BOINCGUIApp.cpp:388
+#: clientgui/BOINCGUIApp.cpp:389
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -790,47 +799,47 @@ msgstr ""
 "BOINC 需要在计算机重新启动后才能正常运行。\n"
 "请您先重启计算机再重试当前的操作。"
 
-#: clientgui/BOINCGUIApp.cpp:389
+#: clientgui/BOINCGUIApp.cpp:390
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
-#: clientgui/BOINCGUIApp.cpp:536
+#: clientgui/BOINCGUIApp.cpp:537
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC Manager 已经由操作系统自动运行"
 
-#: clientgui/BOINCGUIApp.cpp:538
+#: clientgui/BOINCGUIApp.cpp:539
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "启动 BOINC 时仅显示在系统托盘区"
 
-#: clientgui/BOINCGUIApp.cpp:540
+#: clientgui/BOINCGUIApp.cpp:541
 msgid "Directory containing the BOINC Client executable"
 msgstr "包含 BOINC 客户端执行程序的目录"
 
-#: clientgui/BOINCGUIApp.cpp:541
+#: clientgui/BOINCGUIApp.cpp:542
 msgid "BOINC data directory"
 msgstr "BOINC 数据目录"
 
-#: clientgui/BOINCGUIApp.cpp:543
+#: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
 msgstr "使用可选参数来启动 BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:544
+#: clientgui/BOINCGUIApp.cpp:545
 msgid "disable BOINC security users and permissions"
 msgstr "禁用 BOINC 中用户和权限相关的安全选项"
 
-#: clientgui/BOINCGUIApp.cpp:545
+#: clientgui/BOINCGUIApp.cpp:546
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "设置皮肤调试模式已启用皮肤管理器的错误消息记录"
 
-#: clientgui/BOINCGUIApp.cpp:735
+#: clientgui/BOINCGUIApp.cpp:736
 msgid "(Automatic Detection)"
 msgstr "( 自动检测 )"
 
-#: clientgui/BOINCGUIApp.cpp:736
+#: clientgui/BOINCGUIApp.cpp:737
 msgid "(Unknown)"
 msgstr "( 未知 )"
 
-#: clientgui/BOINCGUIApp.cpp:737
+#: clientgui/BOINCGUIApp.cpp:738
 msgid "(User Defined)"
 msgstr "( 用户自定义 )"
 
@@ -2273,8 +2282,8 @@ msgid "SOCKS proxy"
 msgstr "SOCKS 代理"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-msgid "Advanced View...\tCTRL+SHIFT+A"
-msgstr "高级视图...\tCTRL+SHIFT+A"
+msgid "Advanced View...\tCtrl+Shift+A"
+msgstr "高级视图...\tCtrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
 msgid "Display the advanced (accessible) graphical interface."
@@ -3577,32 +3586,28 @@ msgstr "指定开始和停止计算的时间，格式是 HH:MM-HH:MM"
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "指定开始和停止使用网络的时间，格式是 HH:MM-HH:MM"
 
+#~ msgid "&Projects\tCTRL+SHIFT+P"
+#~ msgstr "项目(&P)\tCTRL+SHIFT+P"
+#~ msgid "&Tasks\tCTRL+SHIFT+T"
+#~ msgstr "任务(&T)\tCTRL+SHIFT+T"
+#~ msgid "Trans&fers\tCTRL+SHIFT+X"
+#~ msgstr "网络传输(&F)\tCTRL+SHIFT+X"
+#~ msgid "&Messages\tCTRL+SHIFT+M"
+#~ msgstr "消息(&M)\tCTRL+SHIFT+M"
+#~ msgid "&Statistics\tCTRL+SHIFT+S"
+#~ msgstr "统计(&S)\tCTRL+SHIFT+S"
+#~ msgid "&Disk usage\tCTRL+SHIFT+D"
+#~ msgstr "磁盘使用情况(&D)\tCTRL+SHIFT+D"
+#~ msgid "&News\tCTRL+SHIFT+N"
+#~ msgstr "新闻(&N)\tCTRL+SHIFT+N"
+#~ msgid ""
+#~ "You currently are not authorized to manage the client.\n"
+#~ "Please contact your administrator to add you to the 'boinc_master' user group."
+#~ msgstr ""
+#~ "您当前未被授权管理本客户端。\n"
+#~ "请联系系统管理员将您添加到名称为 boinc_master 的用户组。"
 #~ msgid "User information"
 #~ msgstr "用户信息"
-
-#~ msgid ""
-#~ msgstr "帐户管理器的网址"
-
-#~ msgid ""
-#~ msgstr "请输入帐户管理器的网址。"
-
-#~ msgid ""
-#~ msgstr "关闭 BOINC Manager 的窗口。"
-
-#~ msgid ""
-#~ msgstr ""
-
 #~ msgid "Exit the %s"
 #~ msgstr "退出 %s"
 
-#~ msgid ""
-#~ msgstr "高级视图允许用户按表格列进行排序并可显示图形化的进度条。"
-
-#~ msgid ""
-#~ msgstr "加入一个项目"
-
-#~ msgid ""
-#~ msgstr "加入帐户管理器(&A)..."
-
-#~ msgid ""
-#~ msgstr "加入帐户管理器"

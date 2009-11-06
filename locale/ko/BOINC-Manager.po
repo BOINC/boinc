@@ -2,22 +2,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-29 13:11-0500\n"
+"POT-Creation-Date: 2009-11-05 13:41-0500\n"
 "PO-Revision-Date: 2009-10-30 05:24+0900\n"
 "Last-Translator: Lee kangsan <treppolse@gmail.com>\n"
 "Language-Team: BOINC@KOREA\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: Korean\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
+"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: KOREA, REPUBLIC OF\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:370
 msgid "Identify your account "
@@ -197,7 +197,8 @@ msgid "Close the %s window"
 msgstr "%s 창 닫기"
 
 #: clientgui/AdvancedFrame.cpp:309
-msgid "&Close Window\tCTRL+W"
+#, fuzzy
+msgid "&Close Window\tCtrl+W"
 msgstr "창 닫기(&C)\tCTRL+W"
 
 #: clientgui/AdvancedFrame.cpp:316
@@ -211,63 +212,64 @@ msgid "E&xit"
 msgstr "종료(&X)"
 
 #: clientgui/AdvancedFrame.cpp:330
-msgid "&Projects\tCTRL+SHIFT+P"
-msgstr "프로젝트(&P)\tCTRL+SHIFT+P"
+msgid "&Projects\tCtrl+Shift+P"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
 msgstr "프로젝트를 보여줍니다"
 
 #: clientgui/AdvancedFrame.cpp:336
-msgid "&Tasks\tCTRL+SHIFT+T"
-msgstr "작업(&T)\tCTRL+SHIFT+T"
+msgid "&Tasks\tCtrl+Shift+T"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
 msgstr "작업 현황을 보여줍니다"
 
 #: clientgui/AdvancedFrame.cpp:342
-msgid "Trans&fers\tCTRL+SHIFT+X"
-msgstr "전송(&F)\tCTRL+SHIFT+X"
+msgid "Trans&fers\tCtrl+Shift+X"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
 msgstr "전송 현황을 보여줍니다"
 
 #: clientgui/AdvancedFrame.cpp:348
-msgid "&Messages\tCTRL+SHIFT+M"
-msgstr "메세지(&M)\tCTRL+SHIFT+M"
+msgid "&Messages\tCtrl+Shift+M"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
 msgstr "메세지를 보여줍니다"
 
 #: clientgui/AdvancedFrame.cpp:354
-msgid "&Statistics\tCTRL+SHIFT+S"
-msgstr "통계(&S)\tCTRL+SHIFT+S"
+msgid "&Statistics\tCtrl+Shift+S"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
 msgstr "통계를 보여줍니다"
 
 #: clientgui/AdvancedFrame.cpp:360
-msgid "&Disk usage\tCTRL+SHIFT+D"
-msgstr "디스크 사용량(&D)\tCTRL+SHIFT+D"
+msgid "&Disk usage\tCtrl+Shift+D"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
 msgstr "디스크 사용량을 보여줍니다"
 
 #: clientgui/AdvancedFrame.cpp:366
-msgid "&News\tCTRL+SHIFT+N"
-msgstr "뉴스(&N)\tCTRL+SHIFT+N"
+msgid "&News\tCtrl+Shift+N"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
 msgstr "뉴스를 보여줍니다"
 
 #: clientgui/AdvancedFrame.cpp:374
-msgid "Simple &View...\tCTRL+SHIFT+V"
+#, fuzzy
+msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "간단히 보기(&V)...\tCTRL+SHIFT+V"
 
 #: clientgui/AdvancedFrame.cpp:375
@@ -772,24 +774,29 @@ msgstr "%s가 성공적으로 인터넷 연결을 종료했습니다."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s가 인터넷 연결 종료에 실패했습니다."
 
-#: clientgui/BOINCGUIApp.cpp:308
+#: clientgui/BOINCGUIApp.cpp:336
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_master' user group."
+"\n"
+"To run BOINC as this user, please:\n"
+"  - reinstall BOINC answering \"Yes\" to the question about\n"
+"     non-administrative users\n"
+" or\n"
+"  - contact your administrator to add you to the 'boinc_master'\n"
+"     user group."
 msgstr ""
-"현재 클라이언트 관리를 승인받지 못했습니다.\n"
-"관리자에게 문의해서 여러분을 'boinc_master' 사용자 그룹에 추가하십시오."
 
-#: clientgui/BOINCGUIApp.cpp:311
+#: clientgui/BOINCGUIApp.cpp:339
 #, c-format
+#, fuzzy
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
-"(Error code %d)\n"
+"(Error code %d)"
 msgstr ""
 "BOINC 소유권이나 권한이 적절히 설정되지 않았습니다. BOINC를 다시 설치해주세요.\n"
 "(Error code %d)\n"
 
-#: clientgui/BOINCGUIApp.cpp:388
+#: clientgui/BOINCGUIApp.cpp:389
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -797,47 +804,47 @@ msgstr ""
 "BOINC를 정상적으로 실행하려면 재부팅이 필요합니다.\n"
 "컴퓨터를 다시 시작하고 재시도해 주세요."
 
-#: clientgui/BOINCGUIApp.cpp:389
+#: clientgui/BOINCGUIApp.cpp:390
 msgid "BOINC Manager"
 msgstr "BOINC 관리자"
 
-#: clientgui/BOINCGUIApp.cpp:536
+#: clientgui/BOINCGUIApp.cpp:537
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC 관리자를 운영 체제에서 자동적으로 시작시켰습니다"
 
-#: clientgui/BOINCGUIApp.cpp:538
+#: clientgui/BOINCGUIApp.cpp:539
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "BOINC는 시스템 트레이 상태로 시작됨"
 
-#: clientgui/BOINCGUIApp.cpp:540
+#: clientgui/BOINCGUIApp.cpp:541
 msgid "Directory containing the BOINC Client executable"
 msgstr "실행 가능한 BOINC 클라이언트를 포함한 디렉토리"
 
-#: clientgui/BOINCGUIApp.cpp:541
+#: clientgui/BOINCGUIApp.cpp:542
 msgid "BOINC data directory"
 msgstr "BOINC 데이터 디렉토리"
 
-#: clientgui/BOINCGUIApp.cpp:543
+#: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
 msgstr "BOINC는 해당 인수를 가지고 시작됨"
 
-#: clientgui/BOINCGUIApp.cpp:544
+#: clientgui/BOINCGUIApp.cpp:545
 msgid "disable BOINC security users and permissions"
 msgstr "BOINC 보안 사용자 및 권한 비활성화"
 
-#: clientgui/BOINCGUIApp.cpp:545
+#: clientgui/BOINCGUIApp.cpp:546
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "스킨 관리자 오류 메세지 활성화를 위해 스킨 디버깅 모드 설정"
 
-#: clientgui/BOINCGUIApp.cpp:735
+#: clientgui/BOINCGUIApp.cpp:736
 msgid "(Automatic Detection)"
 msgstr "(자동 감지)"
 
-#: clientgui/BOINCGUIApp.cpp:736
+#: clientgui/BOINCGUIApp.cpp:737
 msgid "(Unknown)"
 msgstr "(알 수 없음)"
 
-#: clientgui/BOINCGUIApp.cpp:737
+#: clientgui/BOINCGUIApp.cpp:738
 msgid "(User Defined)"
 msgstr "(사용자 지정)"
 
@@ -2294,7 +2301,8 @@ msgid "SOCKS proxy"
 msgstr "SOCKS 프록시"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-msgid "Advanced View...\tCTRL+SHIFT+A"
+#, fuzzy
+msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "고급 보기...\tCTRL+SHIFT+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
@@ -2379,12 +2387,15 @@ msgstr "모든 메시지를 클립보드에 복사"
 #: clientgui/sg_DlgMessages.cpp:202
 #: clientgui/sg_DlgMessages.cpp:210
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr "선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
+msgstr ""
+"선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr "클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 있습니다."
+msgstr ""
+"클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 "
+"있습니다."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2953,7 +2964,9 @@ msgstr "프로젝트 다시 설정"
 
 #: clientgui/ViewProjects.cpp:195
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr "이 프로젝트와 관련된 모든 작업과 파일들을 삭제하고 새 작업을 받아옵니다. 그 전에 먼저 완료된 작업을 보고하도록 업데이트할 수 있습니다."
+msgstr ""
+"이 프로젝트와 관련된 모든 작업과 파일들을 삭제하고 새 작업을 받아옵니다. 그 전에 먼저 완료된 작업을 보고하도록 업데이트할 수 "
+"있습니다."
 
 #: clientgui/ViewProjects.cpp:201
 msgid "Detach"
@@ -3606,3 +3619,30 @@ msgstr "작업 시작 및 중지 시간을 HH:MM-HH:MM 형식대로 입력해 �
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "네트워크 사용 시작 및 중지 시간을 HH:MM-HH:MM 형식대로 입력해 주세요"
 
+#~ msgid "&Projects\tCTRL+SHIFT+P"
+#~ msgstr "프로젝트(&P)\tCTRL+SHIFT+P"
+
+#~ msgid "&Tasks\tCTRL+SHIFT+T"
+#~ msgstr "작업(&T)\tCTRL+SHIFT+T"
+
+#~ msgid "Trans&fers\tCTRL+SHIFT+X"
+#~ msgstr "전송(&F)\tCTRL+SHIFT+X"
+
+#~ msgid "&Messages\tCTRL+SHIFT+M"
+#~ msgstr "메세지(&M)\tCTRL+SHIFT+M"
+
+#~ msgid "&Statistics\tCTRL+SHIFT+S"
+#~ msgstr "통계(&S)\tCTRL+SHIFT+S"
+
+#~ msgid "&Disk usage\tCTRL+SHIFT+D"
+#~ msgstr "디스크 사용량(&D)\tCTRL+SHIFT+D"
+
+#~ msgid "&News\tCTRL+SHIFT+N"
+#~ msgstr "뉴스(&N)\tCTRL+SHIFT+N"
+
+#~ msgid ""
+#~ "You currently are not authorized to manage the client.\n"
+#~ "Please contact your administrator to add you to the 'boinc_master' user group."
+#~ msgstr ""
+#~ "현재 클라이언트 관리를 승인받지 못했습니다.\n"
+#~ "관리자에게 문의해서 여러분을 'boinc_master' 사용자 그룹에 추가하십시오."

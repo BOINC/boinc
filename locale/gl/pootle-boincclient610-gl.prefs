@@ -6,3 +6,5 @@ rights:
   nobody = u'view'
   JensSeidler = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   thebigjens = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, commit'
+  romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  davea = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'

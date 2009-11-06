@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-05 11:08-0700\n"
+"PO-Revision-Date: 2009-11-05 12:25-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -220,7 +220,7 @@ msgstr "&Beenden"
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "&Projects\tCtrl+Shift+P"
-msgstr "&Projekte\tStrg+Umsch+P"
+msgstr "&Projekte\tCtrl+Umschalt+P"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
@@ -228,7 +228,7 @@ msgstr "Projekte anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr "&Aufgaben\tStrg+Umsch+A"
+msgstr "&Aufgaben\tStrg+Umschalt+A"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
@@ -236,7 +236,7 @@ msgstr "Aufgaben anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:342
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr "Ü&bertragungen\tStrg+Umsch+B"
+msgstr "Ü&bertragungen\tCtrl+Umsch+B"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
@@ -252,7 +252,7 @@ msgstr "Meldungen anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:354
 msgid "&Statistics\tCtrl+Shift+S"
-msgstr "Statistiken\tStrg+Umsch+S"
+msgstr "Statistiken\tCtrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
@@ -3340,7 +3340,7 @@ msgstr "Eine Grafik mit allen Projekten anzeigen"
 
 #: clientgui/ViewStatistics.cpp:1826
 msgid "Statistics"
-msgstr "Statistik"
+msgstr "Statistiken"
 
 #: clientgui/ViewStatistics.cpp:1846
 #: clientgui/ViewStatistics.cpp:1867

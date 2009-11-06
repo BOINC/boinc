@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-29 13:11-0500\n"
+"POT-Creation-Date: 2009-11-05 13:41-0500\n"
 "PO-Revision-Date: 2008-05-23 06:57+0100\n"
 "Last-Translator: Ahmad Gharbeia أحمد غربية <gharbeia@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
@@ -186,7 +186,8 @@ msgid "Close the %s window"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:309
-msgid "&Close Window\tCTRL+W"
+#, fuzzy
+msgid "&Close Window\tCtrl+W"
 msgstr "أ&غلق النافذة\tCTRL+W"
 
 #: clientgui/AdvancedFrame.cpp:316
@@ -200,7 +201,7 @@ msgid "E&xit"
 msgstr "ا&خرج"
 
 #: clientgui/AdvancedFrame.cpp:330
-msgid "&Projects\tCTRL+SHIFT+P"
+msgid "&Projects\tCtrl+Shift+P"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:331
@@ -208,7 +209,7 @@ msgid "Display projects"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:336
-msgid "&Tasks\tCTRL+SHIFT+T"
+msgid "&Tasks\tCtrl+Shift+T"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:337
@@ -216,7 +217,7 @@ msgid "Display tasks"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:342
-msgid "Trans&fers\tCTRL+SHIFT+X"
+msgid "Trans&fers\tCtrl+Shift+X"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:343
@@ -224,7 +225,7 @@ msgid "Display transfers"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:348
-msgid "&Messages\tCTRL+SHIFT+M"
+msgid "&Messages\tCtrl+Shift+M"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:349
@@ -232,7 +233,7 @@ msgid "Display messages"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:354
-msgid "&Statistics\tCTRL+SHIFT+S"
+msgid "&Statistics\tCtrl+Shift+S"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:355
@@ -240,7 +241,7 @@ msgid "Display statistics"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:360
-msgid "&Disk usage\tCTRL+SHIFT+D"
+msgid "&Disk usage\tCtrl+Shift+D"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:361
@@ -248,7 +249,7 @@ msgid "Display disk usage"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:366
-msgid "&News\tCTRL+SHIFT+N"
+msgid "&News\tCtrl+Shift+N"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:367
@@ -256,7 +257,7 @@ msgid "Display news"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:374
-msgid "Simple &View...\tCTRL+SHIFT+V"
+msgid "Simple &View...\tCtrl+Shift+V"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:375
@@ -754,72 +755,75 @@ msgstr "قطع %s اتصاله بإنترنت بنجاح."
 msgid "%s failed to disconnected from the Internet."
 msgstr "فشل %s في قطع اتصاله بإنترنت."
 
-#: clientgui/BOINCGUIApp.cpp:308
-#, fuzzy
+#: clientgui/BOINCGUIApp.cpp:336
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_master' user group."
+"\n"
+"To run BOINC as this user, please:\n"
+"  - reinstall BOINC answering \"Yes\" to the question about\n"
+"     non-administrative users\n"
+" or\n"
+"  - contact your administrator to add you to the 'boinc_master'\n"
+"     user group."
 msgstr ""
-"ليست لك حاليا الصلاحية لإدارة العميل.\n"
-"اتصل بمدير نظامك ليضيفك إلى محموعة المستخدمين 'boinc_users'"
 
-#: clientgui/BOINCGUIApp.cpp:311
+#: clientgui/BOINCGUIApp.cpp:339
 #, c-format
 #, fuzzy
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
-"(Error code %d)\n"
+"(Error code %d)"
 msgstr ""
 "ملكية و أذون BOINC غير مضبوطة كما ينبغي؛ أعد تثبيت BOINC.\n"
 "(Error code %d)"
 
-#: clientgui/BOINCGUIApp.cpp:388
+#: clientgui/BOINCGUIApp.cpp:389
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:389
+#: clientgui/BOINCGUIApp.cpp:390
 msgid "BOINC Manager"
 msgstr "مدير BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:536
+#: clientgui/BOINCGUIApp.cpp:537
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:538
+#: clientgui/BOINCGUIApp.cpp:539
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "يبدأ تشغيل BOINC بحيث تكون فقط أيقونة صينية النظام هي الظاهرة"
 
-#: clientgui/BOINCGUIApp.cpp:540
+#: clientgui/BOINCGUIApp.cpp:541
 msgid "Directory containing the BOINC Client executable"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:541
+#: clientgui/BOINCGUIApp.cpp:542
 msgid "BOINC data directory"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:543
+#: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
 msgstr "يبدأ تشغيل BOINC بهذه الحجج الاختيارية"
 
-#: clientgui/BOINCGUIApp.cpp:544
+#: clientgui/BOINCGUIApp.cpp:545
 msgid "disable BOINC security users and permissions"
 msgstr "عطِّل مستخدمي السرية و أذون BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:545
+#: clientgui/BOINCGUIApp.cpp:546
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:735
+#: clientgui/BOINCGUIApp.cpp:736
 msgid "(Automatic Detection)"
 msgstr "تحسُّسٌ أوتوماتيّ)"
 
-#: clientgui/BOINCGUIApp.cpp:736
+#: clientgui/BOINCGUIApp.cpp:737
 msgid "(Unknown)"
 msgstr "(غير معروف)"
 
-#: clientgui/BOINCGUIApp.cpp:737
+#: clientgui/BOINCGUIApp.cpp:738
 msgid "(User Defined)"
 msgstr "(بتعريف المستخدم)"
 
@@ -2276,7 +2280,7 @@ msgid "SOCKS proxy"
 msgstr "خادوم SOCLS"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-msgid "Advanced View...\tCTRL+SHIFT+A"
+msgid "Advanced View...\tCtrl+Shift+A"
 msgstr ""
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
@@ -3592,6 +3596,14 @@ msgstr "حدد ساعات بدء و توقف الشغل في الصيغة HH:MM-
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "حدد ساعات بدء و توقف استغلال الشبكة في الصيغة HH:MM-HH:MM"
+
+#, fuzzy
+#~ msgid ""
+#~ "You currently are not authorized to manage the client.\n"
+#~ "Please contact your administrator to add you to the 'boinc_master' user group."
+#~ msgstr ""
+#~ "ليست لك حاليا الصلاحية لإدارة العميل.\n"
+#~ "اتصل بمدير نظامك ليضيفك إلى محموعة المستخدمين 'boinc_users'"
 
 #~ msgid "User information"
 #~ msgstr "معلومات المستخدم"

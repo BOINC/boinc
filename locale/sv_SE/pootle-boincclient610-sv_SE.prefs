@@ -1,2 +1,7 @@
 # Pootle preferences for project boinctrunk, language sv_SE
 
+rights:
+  default = u'view, suggest, archive, pocompile'
+  nobody = u'view'
+  romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
+  davea = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'

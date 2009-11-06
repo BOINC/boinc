@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-29 13:11-0500\n"
+"POT-Creation-Date: 2009-11-05 13:41-0500\n"
 "PO-Revision-Date: 2009-10-30 08:46-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
@@ -200,7 +200,8 @@ msgid "Close the %s window"
 msgstr "Zavřít okno %s"
 
 #: clientgui/AdvancedFrame.cpp:309
-msgid "&Close Window\tCTRL+W"
+#, fuzzy
+msgid "&Close Window\tCtrl+W"
 msgstr "&Zavřít okno\tCTRL+W"
 
 #: clientgui/AdvancedFrame.cpp:316
@@ -214,63 +215,64 @@ msgid "E&xit"
 msgstr "&Ukončit"
 
 #: clientgui/AdvancedFrame.cpp:330
-msgid "&Projects\tCTRL+SHIFT+P"
-msgstr "&Projekty\tCTRL+SHIFT+P"
+msgid "&Projects\tCtrl+Shift+P"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
 msgstr "Zobrazit projekty"
 
 #: clientgui/AdvancedFrame.cpp:336
-msgid "&Tasks\tCTRL+SHIFT+T"
-msgstr "Úkoly\tCTRL+SHIFT+T"
+msgid "&Tasks\tCtrl+Shift+T"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
 msgstr "Zobrazit úkoly"
 
 #: clientgui/AdvancedFrame.cpp:342
-msgid "Trans&fers\tCTRL+SHIFT+X"
-msgstr "Přenosy\tCTRL+SHIFT+X"
+msgid "Trans&fers\tCtrl+Shift+X"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
 msgstr "Zobrazit přenosy"
 
 #: clientgui/AdvancedFrame.cpp:348
-msgid "&Messages\tCTRL+SHIFT+M"
-msgstr "Zprávy\tCTRL+SHIFT+M"
+msgid "&Messages\tCtrl+Shift+M"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
 msgstr "Zobrazit zprávy"
 
 #: clientgui/AdvancedFrame.cpp:354
-msgid "&Statistics\tCTRL+SHIFT+S"
-msgstr "&Statistiky\tCTRL+SHIFT+S"
+msgid "&Statistics\tCtrl+Shift+S"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
 msgstr "Zobrazit statistiky"
 
 #: clientgui/AdvancedFrame.cpp:360
-msgid "&Disk usage\tCTRL+SHIFT+D"
-msgstr "Využití &disku\tCTRL+SHIFT+D"
+msgid "&Disk usage\tCtrl+Shift+D"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
 msgstr "Zobrazit využití disku"
 
 #: clientgui/AdvancedFrame.cpp:366
-msgid "&News\tCTRL+SHIFT+N"
-msgstr "&Novinky\tCTRL+SHIFT+N"
+msgid "&News\tCtrl+Shift+N"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
 msgstr "Zobrazit novinky"
 
 #: clientgui/AdvancedFrame.cpp:374
-msgid "Simple &View...\tCTRL+SHIFT+V"
+#, fuzzy
+msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "Jednoduché zobrazení...\tCTRL+SHIFT+V"
 
 #: clientgui/AdvancedFrame.cpp:375
@@ -781,26 +783,30 @@ msgstr "%s byl úspěšně odpojen z internetu."
 msgid "%s failed to disconnected from the Internet."
 msgstr "Selhalo odpojení %s z internetu."
 
-#: clientgui/BOINCGUIApp.cpp:308
+#: clientgui/BOINCGUIApp.cpp:336
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_master' user group."
+"\n"
+"To run BOINC as this user, please:\n"
+"  - reinstall BOINC answering \"Yes\" to the question about\n"
+"     non-administrative users\n"
+" or\n"
+"  - contact your administrator to add you to the 'boinc_master'\n"
+"     user group."
 msgstr ""
-"Momentálně nejste oprávněn spravovat tohoto klienta.\n"
-"Kontaktujte prosím vašeho administrátora, aby vás přidal do lokální "
-"uživatelské skupiny 'boinc_master'."
 
-#: clientgui/BOINCGUIApp.cpp:311
+#: clientgui/BOINCGUIApp.cpp:339
 #, c-format
+#, fuzzy
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
-"(Error code %d)\n"
+"(Error code %d)"
 msgstr ""
 "Práva či vlastnictví souborů BOINC nejsou nastavena správně, prosím "
 "přeinstalujte BOINC.\n"
 "(Chybový kód %d)\n"
 
-#: clientgui/BOINCGUIApp.cpp:388
+#: clientgui/BOINCGUIApp.cpp:389
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -808,49 +814,49 @@ msgstr ""
 "Pro správné fungování BOINC je vyžadován restart.\n"
 "Prosím restartujte počítač a pokus opakujte."
 
-#: clientgui/BOINCGUIApp.cpp:389
+#: clientgui/BOINCGUIApp.cpp:390
 msgid "BOINC Manager"
 msgstr "Správce BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:536
+#: clientgui/BOINCGUIApp.cpp:537
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "Správce BOINC byl automaticky spuštěn operačním systémem"
 
-#: clientgui/BOINCGUIApp.cpp:538
+#: clientgui/BOINCGUIApp.cpp:539
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Spustit BOINC minimalizovaný."
 
-#: clientgui/BOINCGUIApp.cpp:540
+#: clientgui/BOINCGUIApp.cpp:541
 msgid "Directory containing the BOINC Client executable"
 msgstr "Složka obsahující spustitelného BOINC klienta"
 
-#: clientgui/BOINCGUIApp.cpp:541
+#: clientgui/BOINCGUIApp.cpp:542
 msgid "BOINC data directory"
 msgstr "Složka pro BOINC data"
 
-#: clientgui/BOINCGUIApp.cpp:543
+#: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
 msgstr "Spustit BOINC s těmito volitelnými parametry"
 
-#: clientgui/BOINCGUIApp.cpp:544
+#: clientgui/BOINCGUIApp.cpp:545
 msgid "disable BOINC security users and permissions"
 msgstr "Zrušit bezpečnostní uživatele a práva BOINC"
 
-#: clientgui/BOINCGUIApp.cpp:545
+#: clientgui/BOINCGUIApp.cpp:546
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 "Nastavit vývojový režim (debugging mode) pro zobrazení chybových zpráv "
 "správce vzhledů"
 
-#: clientgui/BOINCGUIApp.cpp:735
+#: clientgui/BOINCGUIApp.cpp:736
 msgid "(Automatic Detection)"
 msgstr "(Zjistit automaticky)"
 
-#: clientgui/BOINCGUIApp.cpp:736
+#: clientgui/BOINCGUIApp.cpp:737
 msgid "(Unknown)"
 msgstr "(Neznámý)"
 
-#: clientgui/BOINCGUIApp.cpp:737
+#: clientgui/BOINCGUIApp.cpp:738
 msgid "(User Defined)"
 msgstr "(Definováno uživatelem)"
 
@@ -2347,7 +2353,8 @@ msgid "SOCKS proxy"
 msgstr "SOCKS proxy server"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-msgid "Advanced View...\tCTRL+SHIFT+A"
+#, fuzzy
+msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Pokročilé zobrazení...\tCTRL+SHIFT+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
@@ -3686,6 +3693,35 @@ msgstr "Časové rozmezí, kdy je povoleno provádět výpočty (formát HH:MM-H
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr "Časové rozmezí, kdy je povoleno využívat internet (formát HH:MM-HH:MM)"
+
+#~ msgid "&Projects\tCTRL+SHIFT+P"
+#~ msgstr "&Projekty\tCTRL+SHIFT+P"
+
+#~ msgid "&Tasks\tCTRL+SHIFT+T"
+#~ msgstr "Úkoly\tCTRL+SHIFT+T"
+
+#~ msgid "Trans&fers\tCTRL+SHIFT+X"
+#~ msgstr "Přenosy\tCTRL+SHIFT+X"
+
+#~ msgid "&Messages\tCTRL+SHIFT+M"
+#~ msgstr "Zprávy\tCTRL+SHIFT+M"
+
+#~ msgid "&Statistics\tCTRL+SHIFT+S"
+#~ msgstr "&Statistiky\tCTRL+SHIFT+S"
+
+#~ msgid "&Disk usage\tCTRL+SHIFT+D"
+#~ msgstr "Využití &disku\tCTRL+SHIFT+D"
+
+#~ msgid "&News\tCTRL+SHIFT+N"
+#~ msgstr "&Novinky\tCTRL+SHIFT+N"
+
+#~ msgid ""
+#~ "You currently are not authorized to manage the client.\n"
+#~ "Please contact your administrator to add you to the 'boinc_master' user group."
+#~ msgstr ""
+#~ "Momentálně nejste oprávněn spravovat tohoto klienta.\n"
+#~ "Kontaktujte prosím vašeho administrátora, aby vás přidal do lokální "
+#~ "uživatelské skupiny 'boinc_master'."
 
 # ############################################
 # FileID	: BOINC Manager.po, ver18860, 2008/08/20 07:05:10

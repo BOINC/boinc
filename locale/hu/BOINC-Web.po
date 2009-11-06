@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2009-06-16 03:53-0700\n"
-"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
+"PO-Revision-Date: 2009-11-06 01:45-0700\n"
+"Last-Translator: M T <molnart@mail.bibl.u-szeged.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -34,35 +34,35 @@ msgstr ""
 
 #: poll_data.inc:22
 msgid "less than a week"
-msgstr ""
+msgstr "kevesebb mint egy hét"
 
 #: poll_data.inc:23
 msgid "less than a month"
-msgstr ""
+msgstr "kevesebb mint egy hónap"
 
 #: poll_data.inc:24
 msgid "less than a year"
-msgstr ""
+msgstr "kevesebb mint egy év"
 
 #: poll_data.inc:25
 msgid "more than a year"
-msgstr ""
+msgstr "több mint egy év"
 
 #: poll_data.inc:31
 msgid "No - I used to run BOINC, but..."
-msgstr ""
+msgstr "Nem, én régebben futattam a BOINC-ot, de..."
 
 #: poll_data.inc:34
 msgid "I lost interest"
-msgstr ""
+msgstr "már nem érdekel"
 
 #: poll_data.inc:35
 msgid "it was too complicated"
-msgstr ""
+msgstr "túl bonyolult volt"
 
 #: poll_data.inc:36
 msgid "I stopped it and forgot to start again"
-msgstr ""
+msgstr "Leállítottam, majd elfelejtettem újraindítani"
 
 #: poll_data.inc:37
 msgid "it caused problems on my computer"

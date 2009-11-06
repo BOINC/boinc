@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-29 13:11-0500\n"
+"POT-Creation-Date: 2009-11-05 13:41-0500\n"
 "PO-Revision-Date: 2009-05-04 12:32-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
@@ -191,7 +191,8 @@ msgid "Close the %s window"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:309
-msgid "&Close Window\tCTRL+W"
+#, fuzzy
+msgid "&Close Window\tCtrl+W"
 msgstr "&Uždaryti langą\tCtrl+W"
 
 #: clientgui/AdvancedFrame.cpp:316
@@ -205,7 +206,7 @@ msgid "E&xit"
 msgstr "Išeiti"
 
 #: clientgui/AdvancedFrame.cpp:330
-msgid "&Projects\tCTRL+SHIFT+P"
+msgid "&Projects\tCtrl+Shift+P"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:331
@@ -213,7 +214,7 @@ msgid "Display projects"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:336
-msgid "&Tasks\tCTRL+SHIFT+T"
+msgid "&Tasks\tCtrl+Shift+T"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:337
@@ -221,7 +222,7 @@ msgid "Display tasks"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:342
-msgid "Trans&fers\tCTRL+SHIFT+X"
+msgid "Trans&fers\tCtrl+Shift+X"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:343
@@ -229,7 +230,7 @@ msgid "Display transfers"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:348
-msgid "&Messages\tCTRL+SHIFT+M"
+msgid "&Messages\tCtrl+Shift+M"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:349
@@ -237,7 +238,7 @@ msgid "Display messages"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:354
-msgid "&Statistics\tCTRL+SHIFT+S"
+msgid "&Statistics\tCtrl+Shift+S"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:355
@@ -245,7 +246,7 @@ msgid "Display statistics"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:360
-msgid "&Disk usage\tCTRL+SHIFT+D"
+msgid "&Disk usage\tCtrl+Shift+D"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:361
@@ -253,7 +254,7 @@ msgid "Display disk usage"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:366
-msgid "&News\tCTRL+SHIFT+N"
+msgid "&News\tCtrl+Shift+N"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:367
@@ -262,7 +263,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:374
 #, fuzzy
-msgid "Simple &View...\tCTRL+SHIFT+V"
+msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "&Supaprastinas režimas...\tCTRL+SHIFT+S"
 
 #: clientgui/AdvancedFrame.cpp:375
@@ -776,24 +777,26 @@ msgstr "%s sėkmingai atsijungė nuo interneto."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s nepavyko atsijungti nuo interneto."
 
-#: clientgui/BOINCGUIApp.cpp:308
-#, fuzzy
+#: clientgui/BOINCGUIApp.cpp:336
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_master' user group."
+"\n"
+"To run BOINC as this user, please:\n"
+"  - reinstall BOINC answering \"Yes\" to the question about\n"
+"     non-administrative users\n"
+" or\n"
+"  - contact your administrator to add you to the 'boinc_master'\n"
+"     user group."
 msgstr ""
-"Jums nėra leidžiama valdyti kliento.\n"
-"Susisiekite su savo administratoriumi, kad jis pridėtų jus į \"boinc_users\" "
-"vartotojų grupę."
 
-#: clientgui/BOINCGUIApp.cpp:311
+#: clientgui/BOINCGUIApp.cpp:339
 #, c-format
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
-"(Error code %d)\n"
+"(Error code %d)"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:388
+#: clientgui/BOINCGUIApp.cpp:389
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -801,49 +804,49 @@ msgstr ""
 "Kad BOINC veiktų teisingai, būtina perkrauti sistemą.\n"
 "Perkraukite kompiuterį ir pamėginkite dar kartą."
 
-#: clientgui/BOINCGUIApp.cpp:389
+#: clientgui/BOINCGUIApp.cpp:390
 msgid "BOINC Manager"
 msgstr "BOINC valdiklis"
 
-#: clientgui/BOINCGUIApp.cpp:536
+#: clientgui/BOINCGUIApp.cpp:537
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC valdiklis buvo automatiškai paleistas operacinės sistemos"
 
-#: clientgui/BOINCGUIApp.cpp:538
+#: clientgui/BOINCGUIApp.cpp:539
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Paleisti BOINC tik su matoma piktograma sistemos dėkle"
 
-#: clientgui/BOINCGUIApp.cpp:540
+#: clientgui/BOINCGUIApp.cpp:541
 msgid "Directory containing the BOINC Client executable"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:541
+#: clientgui/BOINCGUIApp.cpp:542
 msgid "BOINC data directory"
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:543
+#: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
 msgstr "Paleisti BOINC su šiais parametrais"
 
-#: clientgui/BOINCGUIApp.cpp:544
+#: clientgui/BOINCGUIApp.cpp:545
 msgid "disable BOINC security users and permissions"
 msgstr "atjungti BOINC saugumo vartotojus ir įgaliojimus"
 
-#: clientgui/BOINCGUIApp.cpp:545
+#: clientgui/BOINCGUIApp.cpp:546
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 "įjungti apvalkalų derinimo režimą, kad būtų įjungti apvalkalų valdiklio "
 "klaidų pranešimai"
 
-#: clientgui/BOINCGUIApp.cpp:735
+#: clientgui/BOINCGUIApp.cpp:736
 msgid "(Automatic Detection)"
 msgstr "(Automatinis aptikimas)"
 
-#: clientgui/BOINCGUIApp.cpp:736
+#: clientgui/BOINCGUIApp.cpp:737
 msgid "(Unknown)"
 msgstr "(Nežinoma)"
 
-#: clientgui/BOINCGUIApp.cpp:737
+#: clientgui/BOINCGUIApp.cpp:738
 msgid "(User Defined)"
 msgstr "(Vartotojo nustatyta)"
 
@@ -2297,7 +2300,7 @@ msgid "SOCKS proxy"
 msgstr "SOCKS tarpinis serveris"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-msgid "Advanced View...\tCTRL+SHIFT+A"
+msgid "Advanced View...\tCtrl+Shift+A"
 msgstr ""
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
@@ -3603,6 +3606,15 @@ msgstr ""
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr ""
+
+#, fuzzy
+#~ msgid ""
+#~ "You currently are not authorized to manage the client.\n"
+#~ "Please contact your administrator to add you to the 'boinc_master' user group."
+#~ msgstr ""
+#~ "Jums nėra leidžiama valdyti kliento.\n"
+#~ "Susisiekite su savo administratoriumi, kad jis pridėtų jus į \"boinc_users\" "
+#~ "vartotojų grupę."
 
 #~ msgid "User information"
 #~ msgstr "Vartotojo informacija"
