@@ -8354,3 +8354,11 @@ Rom    5 Nov 2009
     clientgui/
         AdvancedFrame.cpp
         sg_BoincSimpleGUI.cpp
+
+Rom    6 Oct 2009
+    - Tag for 6.10.18 release, all platforms
+      boinc_core_release_6_10_18
+
+    /
+        configure.ac
+        version.h
