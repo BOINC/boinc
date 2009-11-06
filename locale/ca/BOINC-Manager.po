@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:37-0500\n"
-"PO-Revision-Date: 2009-11-05 14:42-0700\n"
+"PO-Revision-Date: 2009-11-06 15:09-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -157,13 +157,12 @@ msgid "Choose an account manager"
 msgstr "Esculli un administrador de comptes"
 
 #: clientgui/AccountManagerInfoPage.cpp:246
-#, fuzzy
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
-"Per escollir un administrador de comptes, premi el seu nom o introdueixi la "
-"seva URL a continuació."
+"Per escollir un administrador de comptes, premi el seu nom o \n"
+"introdueixi la seva URL a continuació."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Account Manager &URL:"
@@ -203,7 +202,6 @@ msgid "Close the %s window"
 msgstr "Tancar la finestra %s"
 
 #: clientgui/AdvancedFrame.cpp:310
-#, fuzzy
 msgid "&Close Window\tCtrl+W"
 msgstr "&Tancar la Finestra\tCTRL+W"
 
@@ -274,12 +272,10 @@ msgid "Display news"
 msgstr "Mostrar les notícies"
 
 #: clientgui/AdvancedFrame.cpp:375
-#, fuzzy
 msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "&Vista Senzilla...\tCTRL+SHIFT+V"
 
 #: clientgui/AdvancedFrame.cpp:376
-#, fuzzy
 msgid "Display the simple graphical interface."
 msgstr "Mostrar la interfície gràfica senzilla."
 
@@ -535,18 +531,16 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1419
 #, c-format
-#, fuzzy
 msgid "%s - Shut down the current client..."
 msgstr "%s - Aturar el client actual..."
 
 #: clientgui/AdvancedFrame.cpp:1428
 #, c-format
-#, fuzzy
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
 msgstr ""
-"%s aturarà el client connectat actiu,\n"
+"%s aturarà el client connectat actiu\n"
 "i demanarà per connectar-vos a un altre servidor.\n"
 
 #: clientgui/AdvancedFrame.cpp:1475
@@ -1224,7 +1218,6 @@ msgid "Other options"
 msgstr "Altres opcions"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:233
-#, fuzzy
 msgid "Switch between applications every"
 msgstr "Canviar entre aplicacions cada"
 
@@ -1637,17 +1630,14 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Interval d'ajornament de la feina a la GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:160
-#, fuzzy
 msgid "ATI GPU work fetch priority"
 msgstr "Prioritat de la feina a la GPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:163
-#, fuzzy
 msgid "ATI GPU work fetch deferred for"
 msgstr "Feina a la GPU ATI ajornada durant"
 
 #: clientgui/DlgItemProperties.cpp:164
-#, fuzzy
 msgid "ATI GPU work fetch deferral interval"
 msgstr "Interval d'ajornament de la feina a la GPU ATI"
 
@@ -2271,7 +2261,6 @@ msgid "Click"
 msgstr "Clic"
 
 #: clientgui/ProjectProcessingPage.cpp:323
-#, fuzzy
 msgid "Communicating with project."
 msgstr "Establint comunicació amb el servidor."
 
@@ -2281,9 +2270,8 @@ msgstr "Els fitxers sol·licitats no s'han trobat en el servidor."
 
 #: clientgui/ProjectProcessingPage.cpp:502
 #: clientgui/ProjectProcessingPage.cpp:564
-#, fuzzy
 msgid "An internal server error has occurred."
-msgstr "Ha ocorregut un error intern del servidor.\n"
+msgstr "Ha ocorregut un error intern del servidor."
 
 #: clientgui/ProjectPropertiesPage.cpp:336
 msgid ""
@@ -2380,7 +2368,6 @@ msgid "SOCKS proxy"
 msgstr "SOCKS proxy"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-#, fuzzy
 msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Vista Avançada...\tCTRL+SHIFT+A"
 
