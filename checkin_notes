@@ -8889,3 +8889,10 @@ Rom    4 Nov 2009
     
     client
         cs_platforms.cpp
+
+David  6 Nov 2009
+    - feeder: fix crashing bug
+
+    db/
+        boinc_db.cpp
+
