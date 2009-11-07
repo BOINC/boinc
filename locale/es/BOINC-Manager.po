@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:37-0500\n"
-"PO-Revision-Date: 2009-11-06 11:30-0700\n"
+"PO-Revision-Date: 2009-11-07 04:07-0700\n"
 "Last-Translator: David M <davidcomp at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -282,11 +282,13 @@ msgstr "Muestra el interfaz gráfico simple de BOINC."
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "Attach to &project or account manager..."
-msgstr ""
+msgstr "Unirse a un &proyecto o administrador de cuentas..."
 
 #: clientgui/AdvancedFrame.cpp:397
 msgid "Attach to a project or account manager to begin processing work"
 msgstr ""
+"Unirse a un proyecto o administrador de cuentas para comenzar a procesar "
+"trabajo"
 
 #: clientgui/AdvancedFrame.cpp:401
 #, c-format
@@ -494,7 +496,7 @@ msgstr "A&yuda"
 
 #: clientgui/AdvancedFrame.cpp:993
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "Conectando a proyecto o administrador de cuentas..."
 
 #: clientgui/AdvancedFrame.cpp:1086
 #, c-format
@@ -530,23 +532,21 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1419
 #, c-format
-#, fuzzy
 msgid "%s - Shut down the current client..."
-msgstr "%s - Cerrar el cliente actual"
+msgstr "%s - Cerrar el cliente actual..."
 
 #: clientgui/AdvancedFrame.cpp:1428
 #, c-format
-#, fuzzy
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
 msgstr ""
-"%s cerrá el cliente conectado actualmente,\n"
-" y le pedirá otro ordenador al que conectarse (host).\n"
+"%s cerrá el cliente actual y le pedirá\n"
+"otro ordenador al que conectarse (host)."
 
 #: clientgui/AdvancedFrame.cpp:1475
 msgid "Retrying communications."
-msgstr ""
+msgstr "Reintentando comunicaciones."
 
 #: clientgui/AdvancedFrame.cpp:1675
 #, c-format
@@ -612,12 +612,12 @@ msgstr "Comunicando con cliente BOINC._ Por favor, espere ..."
 #: clientgui/AsyncRPC.cpp:1203
 #, c-format
 msgid "&Quit %s"
-msgstr ""
+msgstr "&Cerrar %s"
 
 #: clientgui/AsyncRPC.cpp:1205
 #, c-format
 msgid "E&xit %s"
-msgstr ""
+msgstr "&Salir de %s"
 
 #: clientgui/AsyncRPC.cpp:1222
 msgid "Cancel"
@@ -790,6 +790,7 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "%s falló al desconectarse de Internet."
 
 #: clientgui/BOINCGUIApp.cpp:336
+#, fuzzy
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -800,6 +801,14 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
+"Usted actualmente no está autorizado para administrar el cliente.\n"
+"\n"
+"Para ejecutar BOINC con este usuario, por favor:\n"
+"    - reinstale BOINC respondiendo \"Yes\" a la pregunta acerca de\n"
+"           usuarios no administradores\n"
+"  o\n"
+"    - contacte con su administrador para que le añada al\n"
+"           grupo de usuarios 'boinc_master'."
 
 #: clientgui/BOINCGUIApp.cpp:339
 #, c-format
