@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-06 15:30-0700\n"
+"PO-Revision-Date: 2009-11-07 06:32-0700\n"
 "Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "Language: pl\n"
@@ -81,7 +81,7 @@ msgstr "&Hasło:"
 #: clientgui/AccountInfoPage.cpp:426
 #: clientgui/AccountInfoPage.cpp:600
 msgid "Choose a &password:"
-msgstr "Podaj &hasło:"
+msgstr "Wybierz &hasło:"
 
 #: clientgui/AccountInfoPage.cpp:429
 msgid "C&onfirm password:"
@@ -1389,7 +1389,7 @@ msgstr "% obszaru całego dysku"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:502
 msgid "Tasks checkpoint to disk at most every"
-msgstr "Zapisywanie etapów pośrednnich na dysku najwyżej co "
+msgstr "zapisywanie na dysku co "
 
 #: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "seconds"
