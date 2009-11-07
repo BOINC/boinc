@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-05 14:31-0700\n"
+"PO-Revision-Date: 2009-11-06 16:01-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -60,13 +60,13 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
-"No podem actualitzar la informació del seu comptede forma automàtica.Si us "
-"plau premi l'accés 'Obtenir informació d'inici de sessió'per obtenir el que "
-"s'ha de posar a l'adreça de correu icontrasenya."
+"No podem actualitzar automàticament la informaciódel seu compte.Si us plau "
+"premi l'accés 'Obtenir la informació d'inici de sessió'per saber el que ha "
+"de posar en els camps adreça de correu icontrasenya."
 
 #: clientgui/AccountInfoPage.cpp:399
 msgid "Find logon information"
-msgstr "Obtenir informació d'inici de sessió"
+msgstr "Obtenir la informació d'inici de sessió"
 
 #: clientgui/AccountInfoPage.cpp:419
 #: clientgui/AccountInfoPage.cpp:585
@@ -111,7 +111,7 @@ msgid ""
 "to register or to retrieve a forgotten password."
 msgstr ""
 "Si encara no s'ha registrat en aquest administrador de comptes,si us plau "
-"faci-ho abans de continuar.  Premi el següent accésper registrar-se o "
+"faci-ho abans de continuar.  Premi el següent accés perregistrar-se o "
 "recuperar la contrasenya que ha oblidat."
 
 #: clientgui/AccountInfoPage.cpp:492
@@ -222,7 +222,7 @@ msgstr "Mostrar els projectes"
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr "&Treballs\tCtrl+Shift+T"
+msgstr "&Tasques\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
@@ -234,7 +234,7 @@ msgstr "&Lliuraments\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
-msgstr "Mostrar lliuraments"
+msgstr "Mostrar els lliuraments"
 
 #: clientgui/AdvancedFrame.cpp:348
 msgid "&Messages\tCtrl+Shift+M"
@@ -242,7 +242,7 @@ msgstr "&Missatges\tCtrl+Shift+M"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
-msgstr "Mostrar lliuraments"
+msgstr "Mostrar els missatges"
 
 #: clientgui/AdvancedFrame.cpp:354
 msgid "&Statistics\tCtrl+Shift+S"
@@ -250,7 +250,7 @@ msgstr "&Estadístiques\tCtrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
-msgstr "Mostrar estadístiques"
+msgstr "Mostrar les estadístiques"
 
 #: clientgui/AdvancedFrame.cpp:360
 msgid "&Disk usage\tCtrl+Shift+D"
@@ -335,7 +335,7 @@ msgstr "&Suspendre"
 
 #: clientgui/AdvancedFrame.cpp:446
 msgid "Stop work regardless of preferences"
-msgstr "Aturar els treballs tot i les preferències"
+msgstr "Aturar les tasques tot i les preferències"
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "&Network activity always available"
@@ -355,7 +355,7 @@ msgstr "Permetre l'accés a la xarxa segons les preferències"
 
 #: clientgui/AdvancedFrame.cpp:479
 msgid "Network activity s&uspended"
-msgstr "Supès l'accés a la xarxa"
+msgstr "S&uspès l'accés a la xarxa"
 
 #: clientgui/AdvancedFrame.cpp:480
 msgid "Stop BOINC network activity"
@@ -580,10 +580,9 @@ msgid ""
 "\n"
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
-"Ja existeix un compta d'usuari amb aquest nom i te una\n"
-"contrasenya diferent a la que ha introduït.\n"
-"\n"
-"Si us plau, visiti la pàgina web del projecte i segueixi les instruccions."
+"Ja existeix un compte d'usuari amb aquest nom i te unacontrasenya diferent a "
+"la que ha introduït.Si us plau, visiti la pàgina web del projecte i "
+"segueixi les instruccions."
 
 #: clientgui/AlreadyExistsPage.cpp:190
 msgid "Email address already in use"
@@ -596,10 +595,9 @@ msgid ""
 "\n"
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
-"Ja existeix un compta amb aquest correu i te una\n"
-"contrasenya diferent a la que ha introduït.\n"
-"\n"
-"Si us plau, visiti la pàgina web del projecte i segueixi les instruccions."
+"Ja existeix un compte amb aquest correu i te unacontrasenya diferent a la "
+"que ha introduït.Si us plau, visiti la pàgina web del projecte i segueixi "
+"les instruccions."
 
 #: clientgui/AsyncRPC.cpp:1200
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -728,23 +726,21 @@ msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
-"%s no pot comunicar amb el projecte i necessita connexió amb internet.\n"
-"Si us plau connecti amb internet, després seleccioni 'Executar comunicacions "
-"de xarxa' en el menú Avançat."
+"%s no pot comunicar amb el projecte i necessita connexió a internet.Si us "
+"plau connecti a internet, després seleccioni 'Executar comunicacions de "
+"xarxa' en el menú Avançat."
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
-msgstr ""
-"%s necessita connectar amb Internet.\n"
-"Pot fer-ho ara?"
+msgstr "%s necessita connectar a Internet.Pot fer-ho ara?"
 
 #: clientgui/BOINCDialupManager.cpp:323
 #, c-format
 msgid "%s is connecting to the Internet."
-msgstr "%s està connectant amb Internet."
+msgstr "%s està connectant a Internet."
 
 #: clientgui/BOINCDialupManager.cpp:354
 #, c-format
@@ -753,20 +749,19 @@ msgid ""
 "Please connect to the Internet, or select a default connection\n"
 "using Advanced/Options/Connections."
 msgstr ""
-"%s no pot connectar amb Internet, i no hi ha una connexió per defecte "
-"seleccionada.\n"
-"Si us plau connecti amb Internet, o seleccioni una connexió per defecte\n"
-"utilitzant Avançat/Opcions/Connexions."
+"%s no pot connectar a Internet, i no hi ha una connexió per defecte "
+"seleccionada.Si us plau connecti a Internet, o seleccioni una connexió per "
+"defecteutilitzant Avançat/Opcions/Connexions."
 
 #: clientgui/BOINCDialupManager.cpp:386
 #, c-format
 msgid "%s has successfully connected to the Internet."
-msgstr "%s a connectat amb Internet."
+msgstr "%s a connectat a Internet."
 
 #: clientgui/BOINCDialupManager.cpp:414
 #, c-format
 msgid "%s failed to connect to the Internet."
-msgstr "%s no ha pogut connectar amb Internet."
+msgstr "%s no ha pogut connectar a Internet."
 
 #: clientgui/BOINCDialupManager.cpp:455
 #, c-format
@@ -774,8 +769,8 @@ msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
 msgstr ""
-"%s ha detectat que està connectat amb Internet.\n"
-"Actualitzant tots els projectes i intentant de nou totes les transferències."
+"%s ha detectat que està connectat a Internet.Actualitzant tots els projectes "
+"i intentant de nou totes les transferències."
 
 #: clientgui/BOINCDialupManager.cpp:500
 #, c-format
@@ -1300,13 +1295,13 @@ msgstr "Opcions de connexió"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:335
 msgid "Confirm before connecting to internet"
-msgstr "Confirmar abans de connectar amb internet"
+msgstr "Confirmar abans de connectar a internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:337
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
 msgstr ""
 "si està seleccionat, una finestra de confirmació es mostrarà abans "
-"d'intentar connectar amb Internet"
+"d'intentar connectar a Internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:341
 msgid "Disconnect when done"
@@ -1322,7 +1317,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:350
 msgid "Network usage allowed"
-msgstr "Utilització de xarxa permesa"
+msgstr "Es permet la utilització de la xarxa"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:359
 msgid "network usage start hour"
@@ -1449,8 +1444,8 @@ msgid ""
 msgstr ""
 "Ha sol·licitat sortir de %s,que li permet veure i administrarles aplicacions "
 "científiques que s'executen en el seu ordinador.Si també vol finalitzar "
-"l'execució de les aplicacions científiques que s'executen quansurti de "
-"l'Administrador, esculli una de les següent opcions:"
+"l'execució de les aplicacions científiques quan surtide l'Administrador, "
+"esculli una de les següent opcions:"
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
@@ -2111,7 +2106,7 @@ msgstr "Informació respecte de l'equip"
 
 #: clientgui/Localization.cpp:123
 msgid "Get help for climateprediction.net"
-msgstr "Obtingui ajuda des de climateprediction.net"
+msgstr "Obtingui ajuda per a climateprediction.net"
 
 #: clientgui/Localization.cpp:125
 msgid "News"
@@ -2179,7 +2174,7 @@ msgstr "Recuperant informació de l'ordinador; esperi si is plau..."
 
 #: clientgui/NoInternetConnectionPage.cpp:180
 msgid "No Internet connection"
-msgstr "No hi ha connexió amb Internet"
+msgstr "No hi ha connexió a Internet"
 
 #: clientgui/NoInternetConnectionPage.cpp:183
 msgid "Please connect to the Internet and try again."
@@ -2262,9 +2257,7 @@ msgstr "Clic"
 msgid ""
 "Communicating with project\n"
 "Please wait..."
-msgstr ""
-"Comunicant amb el projecte\n"
-"Si us pla, esperi ..."
+msgstr "Comunicant amb el projecteSi us plau, esperi ..."
 
 #: clientgui/ProjectProcessingPage.cpp:499
 msgid ""
@@ -3203,7 +3196,7 @@ msgstr "utilitzat per altres programes:"
 
 #: clientgui/ViewStatistics.cpp:1142
 msgid "User Total"
-msgstr "Total Usuari"
+msgstr "Total de l'Usuari"
 
 #: clientgui/ViewStatistics.cpp:1143
 msgid "User Average"
@@ -3211,7 +3204,7 @@ msgstr "Mitjana de l'Usuari"
 
 #: clientgui/ViewStatistics.cpp:1144
 msgid "Host Total"
-msgstr "Total Ordinador"
+msgstr "Total de l'Ordinador"
 
 #: clientgui/ViewStatistics.cpp:1145
 msgid "Host Average"
@@ -3317,7 +3310,7 @@ msgstr "Actualitzant les gràfiques..."
 #: clientgui/ViewTransfers.cpp:163
 #: clientgui/ViewTransfersGrid.cpp:106
 msgid "Retry Now"
-msgstr "Re intentar ara"
+msgstr "Re-intentar ara"
 
 #: clientgui/ViewTransfers.cpp:164
 #: clientgui/ViewTransfersGrid.cpp:107
@@ -3371,7 +3364,7 @@ msgstr "Lliuraments"
 #: clientgui/ViewTransfers.cpp:271
 #: clientgui/ViewTransfersGrid.cpp:190
 msgid "Retrying transfer now..."
-msgstr "Re intentar el lliurament ara..."
+msgstr "Re-intentar el lliurament ara..."
 
 #: clientgui/ViewTransfers.cpp:309
 msgid "Aborting transfer..."
@@ -3395,7 +3388,7 @@ msgstr "Avortar el Lliurament del Fitxer"
 #: clientgui/ViewTransfers.cpp:750
 #: clientgui/ViewTransfersGrid.cpp:419
 msgid "Retry in "
-msgstr "Re intentar en "
+msgstr "Re-intentar en "
 
 #: clientgui/ViewTransfers.cpp:762
 #: clientgui/ViewTransfersGrid.cpp:431
@@ -3616,13 +3609,14 @@ msgid ""
 "World Community Grid then please click on the following button:"
 msgstr ""
 "Ha seleccionat adjuntar-se a un nou projecte BOINC.  Adjuntar-se a un "
-"nouprojecte significa que el seu ordinador es connectarà a un nou lloc webi "
-"organització.  Si es això el que desitja, si us plau premiel botó Següent "
-"abaix.Alguns projectes com World Community Grid executen diverses "
-"aplicacions.Si desitja les aplicacions que li son lliurades per executar-les "
-"enel seu ordinador, visiti el lloc web del projecte i modifiquiles seves "
-"preferències.Per canviar les aplicacions de recerca que li son lliurades des "
-"deWorld Community Grid premi en el següent botó:"
+"nouprojecte significa que el seu ordinador es connectarà a un nou lloc "
+"weborganització.  Si es això el que desitja, si us plau premi el botó "
+"'Següent' abaix.Alguns projectes com World Community Grid executen diverses "
+"aplicacions.Si desitja canviar les aplicacions de recerca que li son "
+"lliurades per executar-lesen el seu ordinador, visiti el lloc web del "
+"projecte i modifiqui les seves preferències.Per canviar les aplicacions de "
+"recerca que li son lliurades des deWorld Community Grid premi en el següent "
+"botó:"
 
 #: clientgui/WelcomePage.cpp:278
 msgid "Change Research Applications at World Community Grid"
