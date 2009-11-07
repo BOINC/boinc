@@ -247,11 +247,25 @@ void CLIENT_STATE::parse_env_vars() {
     char *p;
     char temp[256];
     int proto;
+    PARSED_URL purl;
 
     p = getenv("HTTP_PROXY");
     if (p && strlen(p) > 0) {
-        proxy_info.use_http_proxy = true;
-        parse_url(p, proto, proxy_info.http_server_name, proxy_info.http_server_port, temp);
+        parse_url(p, purl);
+        switch (purl.protocol) {
+        case URL_PROTOCOL_HTTP:
+        case URL_PROTOCOL_HTTPS:
+            proxy_info.use_http_proxy = true;
+            strcpy(proxy_info.http_user_name, purl.user);
+            strcpy(proxy_info.http_user_passwd, purl.passwd);
+            strcpy(proxy_info.http_server_name, purl.host);
+            proxy_info.http_server_port = purl.port;
+            break;
+        default:
+            msg_printf(0, MSG_USER_ERROR,
+                "The HTTP_PROXY environment variable must specify an HTTP proxy"
+            );
+        }
     }
     p = getenv("HTTP_USER_NAME");
     if (p) {
@@ -266,8 +280,12 @@ void CLIENT_STATE::parse_env_vars() {
 	p = getenv("SOCKS_SERVER");
 	if (!p) p = getenv("SOCKS5_SERVER");
     if (p && strlen(p)) {
+        parse_url(p, purl);
         proxy_info.use_socks_proxy = true;
-        parse_url(p, proto, proxy_info.socks_server_name, proxy_info.socks_server_port, temp);
+        strcpy(proxy_info.socks5_user_name, purl.user);
+        strcpy(proxy_info.socks5_user_passwd, purl.passwd);
+        strcpy(proxy_info.socks_server_name, purl.host);
+        proxy_info.socks_server_port = purl.port;
     }
 
 	p = getenv("SOCKS5_USER");

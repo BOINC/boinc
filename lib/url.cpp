@@ -31,52 +31,71 @@ using std::string;
 // URL format:
 // [{http|https|socks}://][user[:passwd]@]host.dom.dom[:port][/dir/file]
 //
-void parse_url(const char* url, int &protocol, char* host, int &port, char* file) {
-    char* p;
-    char buf[256];
+void parse_url(const char* url, PARSED_URL& purl) {
+    char* p, *q, *buf;
+    char _buf[256];
 
     // strip off the protocol if present
     //
     if (strncmp(url, "http://", 7) == 0) {
-        safe_strcpy(buf, url+7);
-        protocol = URL_PROTOCOL_HTTP;
+        safe_strcpy(_buf, url+7);
+        purl.protocol = URL_PROTOCOL_HTTP;
     } else if (strncmp(url, "https://", 8) == 0) {
-        safe_strcpy(buf, url+8);
-        protocol = URL_PROTOCOL_HTTPS;
+        safe_strcpy(_buf, url+8);
+        purl.protocol = URL_PROTOCOL_HTTPS;
     } else if (strncmp(url, "socks://", 8) == 0) {
-        safe_strcpy(buf, url+8);
-        protocol = URL_PROTOCOL_SOCKS;
+        safe_strcpy(_buf, url+8);
+        purl.protocol = URL_PROTOCOL_SOCKS;
     } else {
-        safe_strcpy(buf, url);
-        protocol = URL_PROTOCOL_UNKNOWN;
+        safe_strcpy(_buf, url);
+        purl.protocol = URL_PROTOCOL_UNKNOWN;
+    }
+    buf = _buf;
+
+    // parse user name and password
+    //
+    strcpy(purl.user, "");
+    strcpy(purl.passwd, "");
+    p = strchr(buf, '@');
+    if (p) {
+        *p = 0;
+        q = strchr(buf, ':');
+        if (q) {
+            *q = 0;
+            strcpy(purl.user, buf);
+            strcpy(purl.passwd, q+1);
+        } else {
+            strcpy(purl.user, buf);
+        }
+        buf = p+1;
     }
 
     // parse and strip off file part if present
     //
     p = strchr(buf, '/');
     if (p) {
-        strcpy(file, p+1);
+        strcpy(purl.file, p+1);
         *p = 0;
     } else {
-        strcpy(file, "");
+        strcpy(purl.file, "");
     }
 
     // parse and strip off port if present
     //
     p = strchr(buf,':');
     if (p) {
-        port = atol(p+1);
+        purl.port = atol(p+1);
         *p = 0;
     } else {
         // CMC note:  if they didn't pass in a port #,
         //    but the url starts with https://, assume they
         //    want a secure port (HTTPS, port 443)
-        port = (protocol == URL_PROTOCOL_HTTPS) ? 443 : 80;
+        purl.port = (purl.protocol == URL_PROTOCOL_HTTPS) ? 443 : 80;
     }
 
     // what remains is the host
     //
-    strcpy(host, buf);
+    strcpy(purl.host, buf);
 }
 
 static char x2c(char *what) {

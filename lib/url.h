@@ -20,9 +20,16 @@
 #define URL_PROTOCOL_HTTPS   2
 #define URL_PROTOCOL_SOCKS   3
 
-extern void parse_url(
-    const char* url, int &protocol, char* host, int &port, char* file
-);
+struct PARSED_URL {
+    int protocol;
+    char user[256];
+    char passwd[256];
+    char host[256];
+    int port;
+    char file[256];
+};
+
+extern void parse_url(const char* url, PARSED_URL&);
 extern void unescape_url(std::string& url);
 extern void unescape_url(char *url);
 extern void escape_url(std::string& url);

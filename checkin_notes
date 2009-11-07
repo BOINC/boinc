@@ -8953,3 +8953,17 @@ David  6 Nov 2009
 
     db/
         boinc_db.cpp
+
+David  6 Nov 2009
+    - client: parse HTTP_PROXY strings of the form
+        http://username:passwd@host.dom.dom:port/file
+        (we weren't parsing the username and password before).
+    - client: fix the feature that lets you exclude a list of hosts
+        from going the proxy.
+
+    client/
+        cs_cmdline.cpp
+        http_curl.cpp
+        sysmon_win.cpp
+    lib/
+        url.cpp,h
