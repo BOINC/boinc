@@ -271,6 +271,8 @@ static int possibly_send_result(DB_RESULT& result) {
     char buf[256];
     BEST_APP_VERSION* bavp;
 
+    g_wreq->no_jobs_available = false;
+
     retval = wu.lookup_id(result.workunitid);
     if (retval) return ERR_DB_NOT_FOUND;
 
