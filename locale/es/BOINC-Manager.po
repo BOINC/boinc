@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:37-0500\n"
-"PO-Revision-Date: 2009-11-07 04:07-0700\n"
+"PO-Revision-Date: 2009-11-09 11:39-0700\n"
 "Last-Translator: David M <davidcomp at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -790,7 +790,6 @@ msgid "%s failed to disconnected from the Internet."
 msgstr "%s falló al desconectarse de Internet."
 
 #: clientgui/BOINCGUIApp.cpp:336
-#, fuzzy
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -846,11 +845,11 @@ msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:541
 msgid "Directory containing the BOINC Client executable"
-msgstr ""
+msgstr "Carpeta que contiene el ejecutable del Cliente BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:542
 msgid "BOINC data directory"
-msgstr ""
+msgstr "Carpeta con los datos de BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
@@ -1217,9 +1216,8 @@ msgid "Other options"
 msgstr "Otras opciones"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:233
-#, fuzzy
 msgid "Switch between applications every"
-msgstr "Cambiar entre aplicaciones cada"
+msgstr "Cambio entre aplicaciones cada"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:242
 msgid "On multiprocessor systems, use at most"
@@ -1377,7 +1375,7 @@ msgstr "% del espacio total de disco"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:502
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Las tareas vuelcan al disco al menos cada"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "seconds"
@@ -1533,15 +1531,15 @@ msgstr "Petición (RPC) del planificador aplazada"
 
 #: clientgui/DlgItemProperties.cpp:114
 msgid "File downloads deferred for"
-msgstr ""
+msgstr "Descargas de archivos aplazada durante"
 
 #: clientgui/DlgItemProperties.cpp:117
 msgid "File uploads deferred for"
-msgstr ""
+msgstr "Envíos de archivos aplazados durante"
 
 #: clientgui/DlgItemProperties.cpp:120
 msgid "Computer ID"
-msgstr ""
+msgstr "ID del ordenador"
 
 #: clientgui/DlgItemProperties.cpp:121
 msgid "Non CPU intensive"
@@ -1636,9 +1634,8 @@ msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "Intervalo de búsqueda de trabajo para la GPU NVIDIA"
 
 #: clientgui/DlgItemProperties.cpp:160
-#, fuzzy
 msgid "ATI GPU work fetch priority"
-msgstr "Búsqueda de trabajo para la GPU NVIDIA prioritaria"
+msgstr "Búsqueda de trabajo para la GPU ATI prioritaria"
 
 #: clientgui/DlgItemProperties.cpp:163
 #, fuzzy
