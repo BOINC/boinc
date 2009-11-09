@@ -8981,3 +8981,9 @@ David  9 Nov 2009
         cs_cmdline.cpp
         cs_scheduler.cpp
         sysmon_win.cpp
+
+David  9 Nov 2009
+    - client: add --no_gpus cmdline option
+
+    client/
+        cs_cmdline.cpp
