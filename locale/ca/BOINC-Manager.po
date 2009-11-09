@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-06 16:05-0700\n"
+"PO-Revision-Date: 2009-11-09 11:37-0700\n"
 "Last-Translator: Xavier Mor-Mur <xmormur@telepolis.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -254,7 +254,7 @@ msgstr "Mostrar les estadístiques"
 
 #: clientgui/AdvancedFrame.cpp:360
 msgid "&Disk usage\tCtrl+Shift+D"
-msgstr "Utilització de &disc\tCtrol+Shift+D"
+msgstr "Utilització de &disc\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
@@ -1459,8 +1459,8 @@ msgid ""
 msgstr ""
 "Això aturarà %s i les seves tasques fins que el programa%s o el protector de "
 "pantalla %s s'executin de nou.La majoria de vegades, es millor tancar la "
-"finestra de %s en lloc definalitzar l'aplicació; això permetrà %s executar "
-"les seves tasques enels períodes de temps que ha seleccionat en les seves "
+"finestra de %sen lloc de finalitzar l'aplicació; això permetrà %s executar "
+"les seves tasquesen els períodes de temps que ha seleccionat en les seves "
 "preferències."
 
 #: clientgui/DlgExitMessage.cpp:153
@@ -3680,165 +3680,3 @@ msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
 msgstr ""
 "especifiqui les hores de inici i fi d'ús de la xarxa en el format HH:MM-"
 "HH:MM"
-
-#~ msgid "&Projects\tCTRL+SHIFT+P"
-#~ msgstr "&Projectes\tCTRL+SHIFT+P"
-
-#~ msgid "&Tasks\tCTRL+SHIFT+T"
-#~ msgstr "&Tasques\tCTRL+SHIFT+T"
-
-#~ msgid "Trans&fers\tCTRL+SHIFT+X"
-#~ msgstr "&Lliuraments\tCTRL+SHIFT+X"
-
-#~ msgid "&Messages\tCTRL+SHIFT+M"
-#~ msgstr "&Missatges\tCTRL+SHIFT+M"
-
-#~ msgid "&Statistics\tCTRL+SHIFT+S"
-#~ msgstr "&Estadístiques\tCTRL+SHIFT+S"
-
-#~ msgid "&Disk usage\tCTRL+SHIFT+D"
-#~ msgstr "Utilització de &disc\tCTRL+SHIFT+D"
-
-#~ msgid "&News\tCTRL+SHIFT+N"
-#~ msgstr "&Notícies\tCTRL+SHIFT+N"
-
-#~ msgid ""
-#~ "You currently are not authorized to manage the client.\n"
-#~ "Please contact your administrator to add you to the 'boinc_master' user group."
-#~ msgstr ""
-#~ "Actualment no està autoritzat per administrar el client.Si us plau posi's en "
-#~ "contacte amb el seu administrador per afegir-lo al grup per afegir-lo al "
-#~ "grup 'boinc_master'."
-
-#~ msgid "User information"
-#~ msgstr "Informació de l'usuari"
-
-#~ msgid "Account Manager URL"
-#~ msgstr "URL del Administrador de Comptes"
-
-#~ msgid "Enter the URL of the account manager's web site."
-#~ msgstr "Entri la URL de web del administrador de comptes."
-
-#~ msgid "Close BOINC Manager Window."
-#~ msgstr "Tancar la finestra de l'Administrador BOINC"
-
-#, c-format
-#, c-format
-#~ msgid "Exit the %s"
-#~ msgstr "Sortir de %s"
-
-#~ msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
-#~ msgstr ""
-#~ "La visualització avançada li permet reordenar varies columnes i mostrar "
-#~ "barres de progrés gràfiques."
-
-#~ msgid "Attach to a project"
-#~ msgstr "Adjuntar-se a un projecte"
-
-#~ msgid "Attach to &account manager..."
-#~ msgstr "Adjuntar-se al administrador de &comptes..."
-
-#~ msgid "Attach to an account manager"
-#~ msgstr "Adjuntar-se a un administrador de comptes"
-
-#~ msgid "Attach to &project"
-#~ msgstr "Adjuntar-se al &projecte"
-
-#~ msgid "Attaching to project..."
-#~ msgstr "Adjuntant-se al projecte..."
-
-#, c-format
-#, c-format
-#~ msgid "Removal from %s completed."
-#~ msgstr "Eliminació des de %s finalitzada."
-
-#~ msgid "Removal succeeded!"
-#~ msgstr "Eliminació finalitzada."
-
-#~ msgid "Write to disk at most every"
-#~ msgstr "Escriure a disc al menys cada"
-
-#~ msgid "Slot"
-#~ msgstr "Ranura"
-
-#~ msgid "Already Attached to Project"
-#~ msgstr "Ja està adjuntat al projecte"
-
-#~ msgid "This project may not have work for your type of computer."
-#~ msgstr "Aquest projecte pot no tenir feina per el seu tipus d'ordinador."
-
-#, c-format
-#, c-format
-#~ msgid "Click here to go to %s's website."
-#~ msgstr "Prémer aquí per accedir a la pàgina de %s"
-
-#~ msgid ""
-#~ "We'll now guide you through the process of attaching\n"
-#~ "to a project."
-#~ msgstr ""
-#~ "El guiarem en el procés per adjuntar-se\n"
-#~ "a un projecte."
-
-#, c-format
-#, c-format
-#~ msgid "&Stop using%s"
-#~ msgstr "Aturar utilitzant%s"
-
-#, c-format
-#, c-format
-#~ msgid ""
-#~ "We'll now remove this computer from %s.  From now on,\n"
-#~ "attach and detach projects directly from this computer.\n"
-#~ msgstr ""
-#~ "Ara eliminarem aquest ordinador de %s. A partir d'ara,\n"
-#~ "adjuntar-se i separar-se directament des d'aquest ordinador.\n"
-
-#~ msgid "Account manager"
-#~ msgstr "Administrador de comptes"
-
-#~ msgid ""
-#~ "We'll now guide you through the process of attaching\n"
-#~ "to an account manager.\n"
-#~ "\n"
-#~ "If you want to attach to a single project, click Cancel,\n"
-#~ "then select the 'Attach to project' menu item instead."
-#~ msgstr ""
-#~ "Ara el guiarem en el procés per adjuntar-se\n"
-#~ "a un administrador de comptes.\n"
-#~ "\n"
-#~ "Si desitja adjuntar-se a un sol projecte, premi cancel·lar,\n"
-#~ "després seleccioni 'Adjuntar-se a un projecte' en el menú corresponent."
-
-#~ msgid "Debug Flags"
-#~ msgstr "Senyals per depurar"
-
-#~ msgid "Project Properties Failure"
-#~ msgstr "Han Fallat les Propietats del Projecte"
-
-#~ msgid "Project Communication Failure"
-#~ msgstr "Ha fallat la comunicació del projecte"
-
-#~ msgid "Project Properties URL Failure"
-#~ msgstr "Ha Fallat la URL de les Propietats del Projecte"
-
-#~ msgid "Account Creation Disabled"
-#~ msgstr "Creació de Comptes Desactivada"
-
-#~ msgid "Client Account Creation Disabled"
-#~ msgstr "Creació de Comptes de Client Desactivada"
-
-#~ msgid "Account Already Exists"
-#~ msgstr "El Compte ja Existeix"
-
-#~ msgid "Project Already Attached"
-#~ msgstr "EL Projecte ja hi està Adjuntat"
-
-#~ msgid "Project Attach Failure"
-#~ msgstr "Ha Fallat Ajuntar-se al Projecte"
-
-#~ msgid "Failure Communicating with Reference Site"
-#~ msgstr "Ha fallat la comunicació amb el lloc web de referència"
-
-#, c-format
-#~ msgid "Net Detection Failure"
-#~ msgstr "Ha Fallat la Detecció de Xarxa"
