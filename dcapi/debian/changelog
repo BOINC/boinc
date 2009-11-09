@@ -1,3 +1,9 @@
+dcapi (0.9-29) unstable; urgency=low
+
+  * Fix the install location of the Python modules.
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Mon, 09 Nov 2009 13:36:59 +0100
+
 dcapi (0.9-28) unstable; urgency=low
 
   * Use m4_ifval() in dcapi.m4 instead of m4_ifblank(); the latter is too new
