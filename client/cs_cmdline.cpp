@@ -245,8 +245,6 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
 
 void CLIENT_STATE::parse_env_vars() {
     char *p;
-    char temp[256];
-    int proto;
     PARSED_URL purl;
 
     p = getenv("HTTP_PROXY");

@@ -189,10 +189,6 @@ static void windows_detect_autoproxy_settings() {
 
                 // Parse the remaining url
                 parse_url(proxy.c_str(), purl);
-                    proxy_protocol,
-                    proxy_server,
-                    proxy_port,
-                    proxy_file
 
                 // Store the results for future use.
                 gstate.proxy_info.autodetect_protocol = purl.protocol;
