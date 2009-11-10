@@ -81,8 +81,8 @@ const char* infeasible_string(int code) {
 const double MIN_REQ_SECS = 0;
 const double MAX_REQ_SECS = (28*SECONDS_IN_DAY);
 
-const int MAX_CUDA_DEVS = 8;
-    // don't believe clients who claim they have more CUDA devices than this
+const int MAX_GPUS = 8;
+    // don't believe clients who claim they have more GPUs than this
 
 // get limits on #jobs per day and per RPC, on in progress
 //
@@ -100,7 +100,13 @@ void WORK_REQ::get_job_limits() {
     COPROC* cp = g_request->coprocs.lookup("CUDA");
     if (cp) {
         n = cp->count;
-        if (n > MAX_CUDA_DEVS) n = MAX_CUDA_DEVS;
+        if (n > MAX_GPUS) n = MAX_GPUS;
+    }
+    cp = g_request->coprocs.lookup("ATI");
+    if (cp) {
+        if (cp->count <= MAX_GPUS && cp->count > n) {
+            n = cp->count;
+        }
     }
     effective_ngpus = n;
 

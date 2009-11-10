@@ -9013,3 +9013,10 @@ David  10 Nov 2009
         average.h
     sched/
         credit_test.cpp
+
+David  10 Nov 2009
+    - scheduler: fix bug that caused no ATI jobs to be sent
+        if max_jobs_in_progress defined.
+
+    sched/
+        sched_send.cpp
