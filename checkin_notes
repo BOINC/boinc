@@ -8998,3 +8998,10 @@ David  9 Nov 2009
         log_flags.cpp
     sched/
         sched_locality.cpp
+
+David  9 Nov 2009
+	- client: fix bug that crashed client if client_state.xml
+		had garbage within <file_info>
+
+	client/
+		client_types.cpp
