@@ -9021,7 +9021,7 @@ David  10 Nov 2009
     sched/
         sched_send.cpp
 
-Charlie 17 Sept 2009
+Charlie 10 Nov 2009
     - Mac installer: fix crash bug in AddRemoveUser utility.
         
     mac_installer/
