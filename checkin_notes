@@ -8362,3 +8362,9 @@ Rom    6 Oct 2009
     /
         configure.ac
         version.h
+
+Charlie 10 Nov 2009
+    - Mac installer: fix crash bug in AddRemoveUser utility.
+        
+    mac_installer/
+        AddRemoveUser.cpp
