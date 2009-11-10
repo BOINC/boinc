@@ -271,6 +271,7 @@ int main(int argc, char** argv) {
     int n=0, nstats=0, rsc_type;
     double total_old_credit = 0;
     double total_new_credit = 0;
+    printf("DB query: select * from result %s\n", clause);
     while (!r.enumerate(clause)) {
         printf("%d) result %d host %d\n", n, r.id, r.hostid);
 
@@ -395,6 +396,11 @@ int main(int argc, char** argv) {
             print_avs();
         }
     }
+    if (nstats == 0) {
+        printf("Insufficient jobs were read from DB\n");
+        exit(0);
+    }
+
     print_avs();
 
     printf("Average old credit: %f\n", total_old_credit/nstats);
