@@ -9005,3 +9005,11 @@ David  9 Nov 2009
 
 	client/
 		client_types.cpp
+
+David  10 Nov 2009
+    - Progress on new credit system.  Seems to work!
+
+    lib/
+        average.h
+    sched/
+        credit_test.cpp
