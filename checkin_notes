@@ -9026,3 +9026,10 @@ Charlie 10 Nov 2009
         
     mac_installer/
         AddRemoveUser.cpp
+
+David  10 Nov 2009
+    - client (Mac/Linux): if the NVIDIA or ATI detection functions
+        cause a SIGSEGV, recover from it.
+
+    lib/
+        coproc.cpp
