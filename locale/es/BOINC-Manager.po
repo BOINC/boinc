@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:37-0500\n"
-"PO-Revision-Date: 2009-11-09 11:39-0700\n"
+"PO-Revision-Date: 2009-11-10 11:29-0700\n"
 "Last-Translator: David M <davidcomp at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -1638,14 +1638,12 @@ msgid "ATI GPU work fetch priority"
 msgstr "Búsqueda de trabajo para la GPU ATI prioritaria"
 
 #: clientgui/DlgItemProperties.cpp:163
-#, fuzzy
 msgid "ATI GPU work fetch deferred for"
-msgstr "Búsqueda de trabajo para la GPU NVIDIA aplazada"
+msgstr "Búsqueda de trabajo para la GPU ATI aplazada"
 
 #: clientgui/DlgItemProperties.cpp:164
-#, fuzzy
 msgid "ATI GPU work fetch deferral interval"
-msgstr "Intervalo de búsqueda de trabajo para la GPU NVIDIA"
+msgstr "Intervalo de búsqueda de trabajo para la GPU ATI"
 
 #: clientgui/DlgItemProperties.cpp:166
 msgid "Duration correction factor"
@@ -1669,7 +1667,7 @@ msgstr "Estado"
 
 #: clientgui/DlgItemProperties.cpp:185
 msgid "Received"
-msgstr ""
+msgstr "Recibido"
 
 #: clientgui/DlgItemProperties.cpp:188
 msgid "Report deadline"
@@ -1711,7 +1709,7 @@ msgstr "Tamaño conjunto trabajo"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Directory"
-msgstr ""
+msgstr "Carpeta"
 
 #: clientgui/DlgItemProperties.cpp:301
 msgid "New"
@@ -2250,6 +2248,8 @@ msgstr "URL del &Proyecto:"
 #: clientgui/ProjectInfoPage.cpp:340
 msgid "This project may not have work for your type of computer. Are you sure you wish to continue?"
 msgstr ""
+"Este proyecto puede que no tenga trabajo para su tipo de ordenador. ¿Está "
+"seguro de desear continuar?"
 
 #: clientgui/ProjectInfoPage.cpp:364
 msgid "You are already attached to this project. Please choose a different project."
@@ -2257,22 +2257,20 @@ msgstr "Usted ya está unido a este proyecto. Por favor, elija otro proyecto."
 
 #: clientgui/ProjectListCtrl.cpp:273
 msgid "Click"
-msgstr ""
+msgstr "Pulsar"
 
 #: clientgui/ProjectProcessingPage.cpp:323
-#, fuzzy
 msgid "Communicating with project."
-msgstr "Comunicándose con el servidor."
+msgstr "Comunicando con el proyecto."
 
 #: clientgui/ProjectProcessingPage.cpp:499
 msgid "Required files not found on the server."
-msgstr ""
+msgstr "Los archivos requeridos no se encuentran en el servidor."
 
 #: clientgui/ProjectProcessingPage.cpp:502
 #: clientgui/ProjectProcessingPage.cpp:564
-#, fuzzy
 msgid "An internal server error has occurred."
-msgstr "Ha ocurrido un error interno en el servidor.\n"
+msgstr "Ha ocurrido un error interno en el servidor."
 
 #: clientgui/ProjectPropertiesPage.cpp:336
 msgid ""
@@ -2368,13 +2366,12 @@ msgid "SOCKS proxy"
 msgstr "Proxy SOCKS"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-#, fuzzy
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr "Vista &Avanzada\tCTRL+SHIFT+A"
+msgstr "Vista Avanzada\tCtrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
 msgid "Display the advanced (accessible) graphical interface."
-msgstr ""
+msgstr "Cambiar al interfaz gráfico avanzado (accesible)."
 
 #: clientgui/sg_BoincSimpleGUI.cpp:141
 #, c-format
@@ -3408,21 +3405,21 @@ msgstr "Descarga pendiente"
 
 #: clientgui/ViewTransfers.cpp:770
 msgid " (project backoff: "
-msgstr ""
+msgstr "  (proyecto parado:_"
 
 #: clientgui/ViewTransfers.cpp:770
 msgid ")"
-msgstr ""
+msgstr ")"
 
 #: clientgui/ViewWork.cpp:184
 #: clientgui/ViewWork.cpp:709
 msgid "Show active tasks"
-msgstr ""
+msgstr "Mostrar tareas activas"
 
 #: clientgui/ViewWork.cpp:185
 #: clientgui/ViewWork.cpp:710
 msgid "Show only active tasks."
-msgstr ""
+msgstr "Mostrar sólo tareas activas."
 
 #: clientgui/ViewWork.cpp:192
 msgid "Show application graphics in a window."
