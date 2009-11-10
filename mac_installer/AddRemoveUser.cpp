@@ -192,6 +192,7 @@ void SetLoginItem(Boolean addLogInItem){
     for (Counter = NumberOfLoginItems ; Counter > 0 ; Counter--)
     {
         p = ReturnLoginItemPropertyAtIndex(kCurrentUser, kApplicationNameInfo, Counter-1);
+        if (p == NULL) continue;
         q = p;
         while (*q)
         {
