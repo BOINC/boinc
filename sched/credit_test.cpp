@@ -248,7 +248,7 @@ int main(int argc, char** argv) {
 
     retval = config.parse_file();
     if (retval) {printf("no config: %d\n", retval); exit(1);}
-    strcpy(config.db_host, "jocelyn");
+    //strcpy(config.db_host, "jocelyn");
     retval = boinc_db.open(
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
