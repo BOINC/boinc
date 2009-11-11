@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:37-0500\n"
-"PO-Revision-Date: 2009-11-10 11:29-0700\n"
+"PO-Revision-Date: 2009-11-11 11:21-0700\n"
 "Last-Translator: David M <davidcomp at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -3481,7 +3481,7 @@ msgstr ""
 #: clientgui/ViewWork.cpp:432
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr ""
+msgstr "¿Está seguro de querer abortar estas %d tareas?"
 
 #: clientgui/ViewWork.cpp:437
 msgid "Abort task"
@@ -3493,11 +3493,11 @@ msgstr "Cancelando resultado..."
 
 #: clientgui/ViewWork.cpp:703
 msgid "Show all tasks"
-msgstr ""
+msgstr "Mostrar todas las tareas"
 
 #: clientgui/ViewWork.cpp:704
 msgid "Show all tasks."
-msgstr ""
+msgstr "Mostrar todas las tareas."
 
 #: clientgui/ViewWork.cpp:728
 msgid "Resume work for this task."
@@ -3509,7 +3509,7 @@ msgstr "Suspender el trabajo para esta tarea."
 
 #: clientgui/ViewWork.cpp:1108
 msgid "GPU missing, "
-msgstr ""
+msgstr "falta GPU,  "
 
 #: clientgui/ViewWork.cpp:1149
 msgid " - an exclusive app is running"
@@ -3521,7 +3521,7 @@ msgstr "(no-CPU-intensivo)"
 
 #: clientgui/WelcomePage.cpp:250
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "Unirse a proyecto o administrador de cuentas"
 
 #: clientgui/WelcomePage.cpp:258
 #, c-format
@@ -3543,6 +3543,8 @@ msgid ""
 "We'll guide you through the process of attaching\n"
 "to a project or account manager."
 msgstr ""
+"Le guiaremos a través del proceso de unirse\n"
+"a un proyecto o administrador de cuentas."
 
 #: clientgui/WelcomePage.cpp:275
 msgid ""
@@ -3629,12 +3631,12 @@ msgstr "Control de Gráficas"
 
 #: clientgui/mac/MacAccessiblity.cpp:344
 msgid "list of "
-msgstr ""
+msgstr "lista de  "
 
 #: clientgui/mac/MacAccessiblity.cpp:414
 #, c-format
 msgid "%d of %d "
-msgstr ""
+msgstr "%d de %d  "
 
 #: clientgui/mac/MacAccessiblity.cpp:416
 msgid "current sort column "
@@ -3642,35 +3644,35 @@ msgstr ""
 
 #: clientgui/mac/MacAccessiblity.cpp:418
 msgid " descending order "
-msgstr ""
+msgstr "  orden descendente  "
 
 #: clientgui/mac/MacAccessiblity.cpp:418
 msgid " ascending order "
-msgstr ""
+msgstr "  orden ascendente  "
 
 #: clientgui/mac/MacAccessiblity.cpp:420
 msgid "column "
-msgstr ""
+msgstr "columna  "
 
 #: clientgui/mac/MacAccessiblity.cpp:426
 #: clientgui/mac/MacAccessiblity.cpp:1003
 msgid "selected "
-msgstr ""
+msgstr "seleccionada  "
 
 #: clientgui/mac/MacAccessiblity.cpp:431
 #, c-format
 msgid "row %d "
-msgstr ""
+msgstr "fila %d  "
 
 #: clientgui/mac/MacAccessiblity.cpp:434
 #, c-format
 msgid "of %d "
-msgstr ""
+msgstr "de %d  "
 
 #: clientgui/mac/MacAccessiblity.cpp:437
 #, c-format
 msgid "column %d "
-msgstr ""
+msgstr "columna %d  "
 
 #: clientgui/mac/MacAccessiblity.cpp:441
 msgid "blank"
