@@ -368,6 +368,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../lib"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_ATL_ATTRIBUTES"
+				ExceptionHandling="2"
 				RuntimeLibrary="2"
 				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
