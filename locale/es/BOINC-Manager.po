@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:37-0500\n"
-"PO-Revision-Date: 2009-11-11 11:21-0700\n"
+"PO-Revision-Date: 2009-11-11 11:23-0700\n"
 "Last-Translator: David M <davidcomp at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -3662,7 +3662,7 @@ msgstr "seleccionada  "
 #: clientgui/mac/MacAccessiblity.cpp:431
 #, c-format
 msgid "row %d "
-msgstr "fila %d  "
+msgstr "fila %d   "
 
 #: clientgui/mac/MacAccessiblity.cpp:434
 #, c-format
@@ -3685,7 +3685,7 @@ msgstr ""
 #: clientgui/mac/MacAccessiblity.cpp:1007
 #, c-format
 msgid "row %d of %d "
-msgstr ""
+msgstr "fila %d de %d"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
