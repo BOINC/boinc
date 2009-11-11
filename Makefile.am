@@ -47,7 +47,7 @@ endif
 
 BUILT_SOURCES = svn_version.h
 svn_version.h: generate_svn_version.sh
-	sh generate_svn_version.sh
+	cd $(srcdir) && sh generate_svn_version.sh
 .PHONY: svn_version.h
 
 # Add a stage target for staging a distribution

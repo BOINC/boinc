@@ -9059,3 +9059,9 @@ David  10 Nov 2009
 
     client/
         cs_account.cpp
+
+David  10 Nov 2009
+    - unix build: fix "out of tree" build (what's that?)
+        from Oliver Bock
+
+    Makefile.am
