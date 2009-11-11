@@ -176,6 +176,9 @@ int PROJECT::parse_account_file_venue() {
             if (!strcmp(venue, host_venue)) {
                 using_venue_specific_prefs = true;
                 in_right_venue = true;
+                no_cpu_pref = false;    // reset these
+                no_cuda_pref = false;
+                no_ati_pref = false;
             } else {
                 std::string devnull;
                 retval = copy_element_contents(in, "</venue>", devnull);
