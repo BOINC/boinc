@@ -9080,3 +9080,13 @@ Rom    11 Nov 2009
         coproc.cpp
     win_build/
         *.vcproj
+
+Rom    11 Nov 2009
+    - Backout previous change.  The problem doesn't yet manifest
+        itself on Windows and the change has too many implications.
+        
+    lib/
+        boinc_in.h
+        coproc.cpp
+    win_build/
+        *.vcproj

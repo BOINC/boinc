@@ -141,17 +141,8 @@ void COPROCS::summary_string(char* buf, int len) {
 #ifdef _WIN32
 
 void COPROCS::get(bool use_all, vector<string>&descs, vector<string>&warnings) {
-    try {
-        COPROC_CUDA::get(*this, use_all, descs, warnings);
-    } catch(...) {
-        warnings.push_back("Caught exception in NVIDIA GPU detection");
-    }
-
-    try {
-        COPROC_ATI::get(*this, descs, warnings);
-    } catch(...) {
-        warnings.push_back("Caught exception in ATI GPU detection");
-    }
+    COPROC_CUDA::get(*this, use_all, descs, warnings);
+    COPROC_ATI::get(*this, descs, warnings);
 }
 
 #else

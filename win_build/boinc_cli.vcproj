@@ -383,7 +383,7 @@
 				AdditionalIncludeDirectories="../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;../coprocs/cuda/include"
 				PreprocessorDefinitions="WIN32;_WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL"
 				StringPooling="false"
-				ExceptionHandling="2"
+				ExceptionHandling="1"
 				RuntimeLibrary="2"
 				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
