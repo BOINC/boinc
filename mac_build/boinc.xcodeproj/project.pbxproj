@@ -387,6 +387,8 @@
 		DDFD5F2C0818F368002B23D4 /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
 		DDFD5F2D0818F372002B23D4 /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B901602AC0A2201FB7237 /* parse.cpp */; };
 		DDFD5F2E0818F3A1002B23D4 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
+		DDFE4E3D10AB778100919319 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
+		DDFE4E9110AB7C3A00919319 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DDFE84E50B60CD66009B43D9 /* DlgAdvPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFE84E10B60CD66009B43D9 /* DlgAdvPreferences.cpp */; };
 		DDFE84E70B60CD66009B43D9 /* DlgAdvPreferencesBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFE84E30B60CD66009B43D9 /* DlgAdvPreferencesBase.cpp */; };
 		DDFF2AE90A53D599002BC19D /* setprojectgrp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFF2AE80A53D599002BC19D /* setprojectgrp.cpp */; };
@@ -2604,6 +2606,7 @@
 				DD8917F60F3B21EF00DE5B1C /* texture.cpp in Sources */,
 				DD8917F80F3B21F500DE5B1C /* txf_util.cpp in Sources */,
 				DDC988FE0F3BD44100EE8D0E /* gui_rpc_client_ops.cpp in Sources */,
+				DDFE4E9110AB7C3A00919319 /* url.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2773,6 +2776,7 @@
 				DDFA61900CB348E90037B88C /* md5_file.cpp in Sources */,
 				DDFA61920CB349020037B88C /* proxy_info.cpp in Sources */,
 				DDFA61940CB349160037B88C /* prefs.cpp in Sources */,
+				DDFE4E3D10AB778100919319 /* url.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
