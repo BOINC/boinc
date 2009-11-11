@@ -1144,11 +1144,11 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_host_info(request_msg, mf);
     } else if (match_tag(request_msg, "<get_statistics")) {
         handle_get_statistics(request_msg, mf);
-    } else if (match_tag(request_msg, "<get_newer_version>")) {
+    } else if (match_tag(request_msg, "<get_newer_version")) {
         handle_get_newer_version(mf);
     } else if (match_tag(request_msg, "<get_cc_status")) {
         handle_get_cc_status(this, mf);
-    } else if (match_tag(request_msg, "<get_all_projects_list/>")) {
+    } else if (match_tag(request_msg, "<get_all_projects_list")) {
         read_all_projects_list_file(mf);
 
     // Operations that require authentication start here
@@ -1197,7 +1197,7 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_quit(request_msg, mf);
     } else if (match_tag(request_msg, "<acct_mgr_info")) {
         handle_acct_mgr_info(request_msg, mf);
-    } else if (match_tag(request_msg, "<read_global_prefs_override/>")) {
+    } else if (match_tag(request_msg, "<read_global_prefs_override")) {
         mf.printf("<success/>\n");
         gstate.read_global_prefs();
         gstate.request_schedule_cpus("Preferences override");
@@ -1216,7 +1216,7 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_cc_config(mf);
     } else if (match_tag(request_msg, "<set_cc_config")) {
         handle_set_cc_config(request_msg, mf);
-    } else if (match_tag(request_msg, "<read_cc_config/>")) {
+    } else if (match_tag(request_msg, "<read_cc_config")) {
         mf.printf("<success/>\n");
         read_config_file(false);
         msg_printf(0, MSG_INFO, "Re-read config file");
@@ -1243,23 +1243,23 @@ int GUI_RPC_CONN::handle_rpc() {
             handle_project_op(request_msg, mf, "reset");
         } else if (match_tag(request_msg, "<project_update")) {
             handle_project_op(request_msg, mf, "update");
-        } else if (match_tag(request_msg, "<get_project_config>")) {
+        } else if (match_tag(request_msg, "<get_project_config")) {
             handle_get_project_config(request_msg, mf);
         } else if (match_tag(request_msg, "<get_project_config_poll")) {
             handle_get_project_config_poll(request_msg, mf);
-        } else if (match_tag(request_msg, "<lookup_account>")) {
+        } else if (match_tag(request_msg, "<lookup_account")) {
             handle_lookup_account(request_msg, mf);
         } else if (match_tag(request_msg, "<lookup_account_poll")) {
             handle_lookup_account_poll(request_msg, mf);
-        } else if (match_tag(request_msg, "<create_account>")) {
+        } else if (match_tag(request_msg, "<create_account")) {
             handle_create_account(request_msg, mf);
         } else if (match_tag(request_msg, "<create_account_poll")) {
             handle_create_account_poll(request_msg, mf);
-        } else if (match_tag(request_msg, "<project_attach>")) {
+        } else if (match_tag(request_msg, "<project_attach")) {
             handle_project_attach(request_msg, mf);
         } else if (match_tag(request_msg, "<project_attach_poll")) {
             handle_project_attach_poll(request_msg, mf);
-        } else if (match_tag(request_msg, "<acct_mgr_rpc>")) {
+        } else if (match_tag(request_msg, "<acct_mgr_rpc")) {
             handle_acct_mgr_rpc(request_msg, mf);
         } else if (match_tag(request_msg, "<acct_mgr_rpc_poll")) {
             handle_acct_mgr_rpc_poll(request_msg, mf);
