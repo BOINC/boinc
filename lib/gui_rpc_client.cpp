@@ -219,6 +219,7 @@ int RPC_CLIENT::authorize(const char* passwd) {
     }
 
     free(rpc.mbuf);
+    rpc.mbuf = 0;
 
     if (!found) {
         //fprintf(stderr, "Nonce not found\n");

@@ -416,6 +416,8 @@ void COPROC_CUDA::get(
         warnings.push_back(buf);
         return;
     }
+    sprintf(buf, "NVIDIA library reports %d GPU%s", count, (count==1)?"":"s");
+    warnings.push_back(buf);
 
     int j;
     unsigned int i;

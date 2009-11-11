@@ -9060,7 +9060,7 @@ David  10 Nov 2009
     client/
         cs_account.cpp
 
-David  10 Nov 2009
+David  11 Nov 2009
     - unix build: fix "out of tree" build (what's that?)
         from Oliver Bock
 
@@ -9090,3 +9090,17 @@ Rom    11 Nov 2009
         coproc.cpp
     win_build/
         *.vcproj
+
+David  11 Nov 2009
+    - client: fix yesterday's checkin to remove restrictions
+        on GUI RPC request elements.
+        You can now use either <foo></foo> or <foo/>
+        for empty request messages.
+    - GUI RPC client library: fix double-free bug.
+        it's not clear how this ever worked.
+
+    client
+        gui_rpc_server_ops.cpp
+    lib/
+        coproc.cpp
+        gui_rpc_client.cpp
