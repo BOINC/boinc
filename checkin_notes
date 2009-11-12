@@ -9157,3 +9157,16 @@ David  12 Nov 2009
         sched_array.cpp
         sched_score.cpp
         sched_send.cpp
+
+David  12 Nov 2009
+    - client: add new config options:
+        <ignore_cuda_dev>n</ignore_cuda_dev>
+        <ignore_ati_dev>n</ignore_ati_dev>
+        to ignore (not use) specific NVIDIA or ATI GPUs.
+        You can ignore more than one.
+
+    client/
+        client_state.cpp
+        log_flags.cpp,h
+    lib/
+        coproc.cpp,h

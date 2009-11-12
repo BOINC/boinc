@@ -176,7 +176,9 @@ struct COPROCS {
 #endif
     void get(
         bool use_all, std::vector<std::string> &descs,
-        std::vector<std::string> &warnings
+        std::vector<std::string> &warnings,
+        std::vector<int>& ignore_cuda_dev,
+        std::vector<int>& ignore_ati_dev
     );
     int parse(FILE*);
     void summary_string(char*, int);
@@ -249,7 +251,8 @@ struct COPROC_CUDA : public COPROC {
     virtual ~COPROC_CUDA(){}
     static void get(
         COPROCS&, bool use_all,
-        std::vector<std::string>&, std::vector<std::string>&
+        std::vector<std::string>&, std::vector<std::string>&,
+        std::vector<int>& ignore_devs
     );
 	void description(char*);
     void clear();
@@ -311,7 +314,8 @@ struct COPROC_ATI : public COPROC {
     COPROC_ATI(): COPROC("ATI"){}
     virtual ~COPROC_ATI(){}
     static void get(COPROCS&,
-        std::vector<std::string>&, std::vector<std::string>&
+        std::vector<std::string>&, std::vector<std::string>&,
+        std::vector<int>& ignore_devs
     );
     void description(char*);
     void clear();

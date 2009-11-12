@@ -163,6 +163,12 @@ void LOG_FLAGS::show() {
     }
 }
 
+static void show_gpu_ignore(vector<int>& devs, const char* name) {
+    for (unsigned int i=0; i<devs.size(); i++) {
+        msg_printf(NULL, MSG_INFO, "Config: ignoring %s GPU %d", name, devs[i]);
+    }
+}
+
 // TODO: show other config options
 //
 void CONFIG::show() {
@@ -184,6 +190,8 @@ void CONFIG::show() {
     if (config.zero_debts) {
         msg_printf(NULL, MSG_INFO, "Config: zero long-term debts on startup");
     }
+    show_gpu_ignore(ignore_cuda_dev, "NVIDIA");
+    show_gpu_ignore(ignore_ati_dev, "ATI");
 }
 
 CONFIG::CONFIG() {
@@ -201,6 +209,8 @@ void CONFIG::clear() {
     exclusive_apps.clear();
     force_auth = "default";
     http_1_0 = false;
+    ignore_cuda_dev.clear();
+    ignore_ati_dev.clear();
     max_file_xfers = MAX_FILE_XFERS;
     max_file_xfers_per_project = MAX_FILE_XFERS_PER_PROJECT;
     max_stderr_file_size = 0;
@@ -227,6 +237,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
     char tag[1024], path[256];
     bool is_tag, btemp;
     string s;
+    int n;
 
     clear();
     while (!xp.get(tag, sizeof(tag), is_tag)) {
@@ -275,6 +286,14 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool(tag, "http_1_0", http_1_0)) continue;
+        if (xp.parse_int(tag, "ignore_cuda_dev", n)) {
+            ignore_cuda_dev.push_back(n);
+            continue;
+        }
+        if (xp.parse_int(tag, "ignore_ati_dev", n)) {
+            ignore_ati_dev.push_back(n);
+            continue;
+        }
         if (xp.parse_int(tag, "max_file_xfers", max_file_xfers)) continue;
         if (xp.parse_int(tag, "max_file_xfers_per_project", max_file_xfers_per_project)) continue;
         if (xp.parse_int(tag, "max_stderr_file_size", max_stderr_file_size)) continue;

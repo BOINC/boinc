@@ -114,6 +114,8 @@ struct CONFIG {
     std::vector<std::string> exclusive_apps;
     std::string force_auth;
     bool http_1_0;
+    std::vector<int> ignore_cuda_dev;
+    std::vector<int> ignore_ati_dev;
     int max_file_xfers;
     int max_file_xfers_per_project;
     int max_stderr_file_size;
