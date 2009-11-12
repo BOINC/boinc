@@ -9145,3 +9145,15 @@ David  12 Nov 2009
     - Mac compile fix
     lib/
         coproc.cpp
+
+David  12 Nov 2009
+    - scheduler: compute no_jobs_available correctly
+        in the presence of multiple scheduling types
+        (e.g., locality and job array)
+        From Nils Brause
+
+    sched/
+        handle_request.cpp
+        sched_array.cpp
+        sched_score.cpp
+        sched_send.cpp

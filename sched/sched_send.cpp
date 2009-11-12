@@ -1580,6 +1580,11 @@ void send_work() {
         );
     }
 
+    // assume no jobs are available to send;
+    // if this turns out not to be the case, clear this flag
+    //
+    g_wreq->no_jobs_available = true;
+
     if (config.locality_scheduler_fraction > 0) {
         if (drand() < config.locality_scheduler_fraction) {
            if (config.debug_locality)

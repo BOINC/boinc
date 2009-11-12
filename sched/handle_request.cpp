@@ -1113,14 +1113,19 @@ void process_request(char* code_sign_key) {
         }
     }
 
-    // if there's no work, and client isn't returning results,
-    // this isn't an initial RPC,
-    // and client is requesting work, return without accessing DB
+    // If:
+    // - there's no work,
+    // - a config flag is set,
+    // - client isn't returning results,
+    // - this isn't an initial RPC,
+    // - client is requesting work
+    // then return without accessing the DB.
+    // This is an efficiency hack for when servers are overloaded
     //
     if (
-        config.nowork_skip
+        have_no_work
+        && config.nowork_skip
         && requesting_work()
-        && have_no_work
         && (g_request->results.size() == 0)
         && (g_request->hostid != 0)
     ) {
@@ -1132,11 +1137,10 @@ void process_request(char* code_sign_key) {
         }
     }
 
-    // FROM HERE ON DON'T RETURN; goto leave instead
-    // because we've tagged an entry in the work array with our process ID
+    // FROM HERE ON DON'T RETURN; "goto leave" instead
+    // (because ssp->no_work() may have tagged an entry in the work array
+    // with our process ID)
 
-    // now open the database
-    //
     retval = open_database();
     if (retval) {
         send_error_message("Server can't open database", 3600);

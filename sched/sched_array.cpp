@@ -325,7 +325,6 @@ done:
 //
 void send_work_old() {
     if (!work_needed(false)) return;
-    g_wreq->no_jobs_available = true;
     g_wreq->beta_only = false;
     g_wreq->user_apps_only = true;
     g_wreq->infeasible_only = false;
