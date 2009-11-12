@@ -3,7 +3,7 @@
 rights:
   Thrawn = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   default = u'view, suggest, archive, pocompile'
-  nobody = u'view'
+  nobody = u'view, pocompile'
   romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   Csega = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   davea = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
