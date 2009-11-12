@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-05 12:25-0700\n"
+"PO-Revision-Date: 2009-11-12 10:43-0700\n"
 "Last-Translator: Christian Beer <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -206,7 +206,7 @@ msgstr "Das %s Fenster schließen."
 
 #: clientgui/AdvancedFrame.cpp:309
 msgid "&Close Window\tCtrl+W"
-msgstr "&Fenster schließen\tStrg+W"
+msgstr "&Fenster schließen\tCtrl+F"
 
 #: clientgui/AdvancedFrame.cpp:316
 #, c-format
@@ -220,7 +220,7 @@ msgstr "&Beenden"
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "&Projects\tCtrl+Shift+P"
-msgstr "&Projekte\tCtrl+Umschalt+P"
+msgstr "&Projekte\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
@@ -228,7 +228,7 @@ msgstr "Projekte anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr "&Aufgaben\tStrg+Umschalt+A"
+msgstr "&Aufgaben\tCtrl+Shift+A"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
@@ -236,7 +236,7 @@ msgstr "Aufgaben anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:342
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr "Ü&bertragungen\tCtrl+Umsch+B"
+msgstr "Ü&bertragungen\tCtrl+Shift+B"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
@@ -244,7 +244,7 @@ msgstr "Übertragungen anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:348
 msgid "&Messages\tCtrl+Shift+M"
-msgstr "&Meldungen\tStrg+Umsch+M"
+msgstr "&Meldungen\tCtrl+Shift+M"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
@@ -260,7 +260,7 @@ msgstr "Statistiken anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:360
 msgid "&Disk usage\tCtrl+Shift+D"
-msgstr "&Festplatte\tStrg+Umsch+F"
+msgstr "&Festplatte\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
@@ -268,7 +268,7 @@ msgstr "Festplattennutzung anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:366
 msgid "&News\tCtrl+Shift+N"
-msgstr "&Nachrichten\tStrg+Umsch+N"
+msgstr "&Nachrichten\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
@@ -276,7 +276,7 @@ msgstr "Nachrichten anzeigen"
 
 #: clientgui/AdvancedFrame.cpp:374
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "&Einfache Ansicht...\tStrg+Umsch+E"
+msgstr "&Einfache Ansicht...\tCtrl+Shift+E"
 
 #: clientgui/AdvancedFrame.cpp:375
 msgid "Display the simple graphical interface."
@@ -2383,7 +2383,7 @@ msgstr "SOCKS Proxy"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr "Erweiterte &Ansicht...\tStrg+Umsch+A"
+msgstr "Erweiterte &Ansicht...\tCtrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
 msgid "Display the advanced (accessible) graphical interface."
