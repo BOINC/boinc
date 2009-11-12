@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-06 11:48-0700\n"
+"PO-Revision-Date: 2009-11-12 10:33-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: mifistor_x <mifistor.x@gmail.com>\n"
 "Language: ru\n"
@@ -21,9 +21,8 @@ msgstr ""
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 
 #: clientgui/AccountInfoPage.cpp:370
-#, fuzzy
 msgid "Identify your account "
-msgstr "Идентификация Вашей учетной записи "
+msgstr "Ваша учетная запись "
 
 # ???
 #: clientgui/AccountInfoPage.cpp:376
@@ -56,7 +55,6 @@ msgid "&Yes, existing user"
 msgstr "Да, уже зарегистрирован"
 
 #: clientgui/AccountInfoPage.cpp:396
-#, fuzzy
 msgid ""
 "We were not able to set up your account information\n"
 "automatically.\n"
@@ -68,14 +66,13 @@ msgstr ""
 "Не удалось настроить вашу учетную запись\n"
 "автоматически.\n"
 "\n"
-"Пожалуйста нажмите ссылку 'Найти информацию для входа',\n"
-"находящуюся ниже, чтобы узнать, что ввести в поля\n"
-"адреса электронной почты и пароля."
+"Пожалуйста нажмите ссылку 'Найти информацию для регистрации',\n"
+"находящуюся ниже, чтобы узнать, что ввести в\n"
+"поле адреса электронной почты и пароля."
 
 #: clientgui/AccountInfoPage.cpp:399
-#, fuzzy
 msgid "Find logon information"
-msgstr "Найти информацию для входа"
+msgstr "Найти информацию для регистрации"
 
 #: clientgui/AccountInfoPage.cpp:419
 #: clientgui/AccountInfoPage.cpp:585
@@ -114,7 +111,6 @@ msgid "Forgot your password?"
 msgstr "Забыли пароль?"
 
 #: clientgui/AccountInfoPage.cpp:489
-#, fuzzy
 msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
@@ -125,7 +121,6 @@ msgstr ""
 "чтобы зарегистрироваться или восстановить забытый пароль."
 
 #: clientgui/AccountInfoPage.cpp:492
-#, fuzzy
 msgid "Account manager website"
 msgstr "Вебсайт менеджера проектов"
 
@@ -161,18 +156,16 @@ msgid "The password and confirmation password do not match. Please type them aga
 msgstr "'Пароль' и 'Подтверждение пароля' не совпадают. Повторите ввод пароля."
 
 #: clientgui/AccountManagerInfoPage.cpp:243
-#, fuzzy
 msgid "Choose an account manager"
 msgstr "Выбор менеджера проектов"
 
 #: clientgui/AccountManagerInfoPage.cpp:246
-#, fuzzy
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
-"Выберите понравившийся менеджер проектов щёлкнув на его\n"
-"названии, или введите его адрес URL в поле ниже."
+"Выберите понравившийся менеджер проектов, щёлкнув на его названии,\n"
+"или введите его адрес URL в поле ниже."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Account Manager &URL:"
@@ -211,18 +204,15 @@ msgstr "Отсутствует соединение"
 
 #: clientgui/AdvancedFrame.cpp:304
 #, c-format
-#, fuzzy
 msgid "Close the %s window"
 msgstr "Закрыть окно %s"
 
 #: clientgui/AdvancedFrame.cpp:309
-#, fuzzy
 msgid "&Close Window\tCtrl+W"
-msgstr "Закрыть окно\tCTRL+W"
+msgstr "Закрыть окно\tCtrl+W"
 
 #: clientgui/AdvancedFrame.cpp:316
 #, c-format
-#, fuzzy
 msgid "Exit %s"
 msgstr "Выйти из %s"
 
@@ -288,22 +278,18 @@ msgid "Display news"
 msgstr "Показать новости"
 
 #: clientgui/AdvancedFrame.cpp:374
-#, fuzzy
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "Сокращённый вид...\tCTRL+SHIFT+S"
+msgstr "Упрощенный вид...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:375
-#, fuzzy
 msgid "Display the simple graphical interface."
-msgstr "Изменить внешний вид BOINC менеджера на более понятный."
+msgstr "Изменить внешний вид на более простой и понятный."
 
 #: clientgui/AdvancedFrame.cpp:395
-#, fuzzy
 msgid "Attach to &project or account manager..."
 msgstr "Подключиться к проекту или менеджеру проектов..."
 
 #: clientgui/AdvancedFrame.cpp:396
-#, fuzzy
 msgid "Attach to a project or account manager to begin processing work"
 msgstr ""
 "Чтобы начать обработку заданий, необходимо подключиться к проекту или "
@@ -375,7 +361,6 @@ msgstr ""
 "от настроек"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Network activity based on pre&ferences"
 msgstr "Доступ в интернет определяется настройками"
 
@@ -385,7 +370,6 @@ msgstr ""
 "Обмен данными через интернет осуществляется в соответствии с настройками"
 
 #: clientgui/AdvancedFrame.cpp:479
-#, fuzzy
 msgid "Network activity s&uspended"
 msgstr "Работать автономно"
 
@@ -526,7 +510,6 @@ msgid "&Help"
 msgstr "Справка"
 
 #: clientgui/AdvancedFrame.cpp:993
-#, fuzzy
 msgid "Attaching to project or account manager..."
 msgstr "Подключение к проекту или менеджеру проектов..."
 
@@ -645,15 +628,13 @@ msgstr "Устанавливается связь с BOINC клиентом.  П
 
 #: clientgui/AsyncRPC.cpp:1203
 #, c-format
-#, fuzzy
 msgid "&Quit %s"
-msgstr "Закрыть %s"
+msgstr "Выйти из %s"
 
 #: clientgui/AsyncRPC.cpp:1205
 #, c-format
-#, fuzzy
 msgid "E&xit %s"
-msgstr "Закрыть %s"
+msgstr "Выйти из %s"
 
 #: clientgui/AsyncRPC.cpp:1222
 msgid "Cancel"
@@ -841,17 +822,24 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
+"В настоящий момент у Вас нет права на управление клиентом.\n"
+"\n"
+"Чтобы запустить BOINC под текущим пользователем, необходимо:\n"
+" - переустановить ПО BOINC, ответив \"Да\" на вопрос\n"
+"   о пользователях без административных прав\n"
+"или\n"
+" - обратиться к Вашему администратору, чтобы он добавил Вас\n"
+"   в группу пользователей 'boinc_master'."
 
 #: clientgui/BOINCGUIApp.cpp:339
 #, c-format
-#, fuzzy
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)"
 msgstr ""
-"Владелец BOINC или разрешения установлены некорректно; пожалуйста "
-"переустановите BOINC.\n"
-"(Код ошибки %d)\n"
+"Владелец BOINC или права доступа установлены некорректно; пожалуйста "
+"переустановите ПО BOINC.\n"
+"(Код ошибки %d)"
 
 #: clientgui/BOINCGUIApp.cpp:389
 msgid ""
@@ -874,12 +862,10 @@ msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "сворачивать BOINC менеджер в значок на панели задач при запуске"
 
 #: clientgui/BOINCGUIApp.cpp:541
-#, fuzzy
 msgid "Directory containing the BOINC Client executable"
 msgstr "Каталог, содержащий исполняемый файл клиента BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:542
-#, fuzzy
 msgid "BOINC data directory"
 msgstr "Каталог данных BOINC"
 
@@ -1443,9 +1429,8 @@ msgid "% of total disk space"
 msgstr "% от объёма диска"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:502
-#, fuzzy
 msgid "Tasks checkpoint to disk at most every"
-msgstr "Период сохранения на диск промежуточных результатов"
+msgstr "Период сохранения на диск промежуточных результатов заданий"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "seconds"
@@ -1601,17 +1586,14 @@ msgid "Scheduler RPC deferred for"
 msgstr "Запрос к планировщику отложен на"
 
 #: clientgui/DlgItemProperties.cpp:114
-#, fuzzy
 msgid "File downloads deferred for"
 msgstr "Загрузка файлов отложена на"
 
 #: clientgui/DlgItemProperties.cpp:117
-#, fuzzy
 msgid "File uploads deferred for"
 msgstr "Отправка файлов отложена на"
 
 #: clientgui/DlgItemProperties.cpp:120
-#, fuzzy
 msgid "Computer ID"
 msgstr "Идентификатор компьютера"
 
@@ -2378,7 +2360,6 @@ msgid "Project &URL:"
 msgstr "Адрес (URL):"
 
 #: clientgui/ProjectInfoPage.cpp:339
-#, fuzzy
 msgid "This project may not have work for your type of computer. Are you sure you wish to continue?"
 msgstr ""
 "Возможно, что данный проект не поддерживает тип вашего компьютера или "
@@ -2389,7 +2370,6 @@ msgid "You are already attached to this project. Please choose a different proje
 msgstr "Этот проект уже подключен. Выберите другой проект."
 
 #: clientgui/ProjectListCtrl.cpp:239
-#, fuzzy
 msgid "Click"
 msgstr "Нажать"
 
@@ -2498,14 +2478,14 @@ msgid "SOCKS proxy"
 msgstr "SOCKS прокси"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-#, fuzzy
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr "Полный вид\tCTRL+SHIFT+A"
+msgstr "Полный вид...\tCtrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
-#, fuzzy
 msgid "Display the advanced (accessible) graphical interface."
-msgstr "Показать расширенный (полностью доступный) графический интерфейс."
+msgstr ""
+"Изменить внешний вид на расширенный (Будут полностью доступны все функции "
+"управления)."
 
 #: clientgui/sg_BoincSimpleGUI.cpp:141
 #, c-format
@@ -3587,7 +3567,6 @@ msgid "Download pending"
 msgstr "Ожидание загрузки данных"
 
 #: clientgui/ViewTransfers.cpp:769
-#, fuzzy
 msgid " (project backoff: "
 msgstr "(запрос к проекту отложен на: "
 
@@ -3623,13 +3602,11 @@ msgstr "Прерывание передачи файла(ов)"
 
 #: clientgui/ViewWork.cpp:184
 #: clientgui/ViewWork.cpp:708
-#, fuzzy
 msgid "Show active tasks"
 msgstr "Показать активные задания"
 
 #: clientgui/ViewWork.cpp:185
 #: clientgui/ViewWork.cpp:709
-#, fuzzy
 msgid "Show only active tasks."
 msgstr "Показать только активные задания."
 
@@ -3705,7 +3682,6 @@ msgstr ""
 
 #: clientgui/ViewWork.cpp:432
 #, c-format
-#, fuzzy
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Вы уверены, что хотите прервать обработку этих %d заданий?"
 
@@ -3720,12 +3696,10 @@ msgid "Aborting result..."
 msgstr "Прерывается обработка выделенного задания..."
 
 #: clientgui/ViewWork.cpp:702
-#, fuzzy
 msgid "Show all tasks"
 msgstr "Показать все задания"
 
 #: clientgui/ViewWork.cpp:703
-#, fuzzy
 msgid "Show all tasks."
 msgstr "Показать все задания."
 
@@ -3740,7 +3714,6 @@ msgid "Suspend work for this task."
 msgstr "Приостановить обработку выделенного задания."
 
 #: clientgui/ViewWork.cpp:1107
-#, fuzzy
 msgid "GPU missing, "
 msgstr "Отсутствие GPU, "
 
@@ -3768,7 +3741,6 @@ msgstr ""
 "(Прогресс: %s %%, Состояние: %s)"
 
 #: clientgui/WelcomePage.cpp:250
-#, fuzzy
 msgid "Attach to project or account manager"
 msgstr "Подключение к проекту или менеджеру проектов"
 
@@ -3788,7 +3760,6 @@ msgstr ""
 "мастера, не будут управляться через %s."
 
 #: clientgui/WelcomePage.cpp:271
-#, fuzzy
 msgid ""
 "We'll guide you through the process of attaching\n"
 "to a project or account manager."
