@@ -386,6 +386,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CACreateProjectInitFile.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CAMigrateBOINCData.cpp"
 				>
 			</File>
@@ -496,6 +500,10 @@
 			</File>
 			<File
 				RelativePath=".\CACleanupOldBinaries.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CACreateProjectInitFile.h"
 				>
 			</File>
 			<File

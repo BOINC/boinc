@@ -9125,3 +9125,18 @@ David  12 Nov 2009
 
     client/
         work_fetch.cpp
+
+Rom    12 Nov 2009
+    - WINSETUP: Add the PROJINIT_URL and PROJINIT_AUTH properties
+        to the installer custom action code, a project_init.xml
+        file will be created in the data directory.
+        
+    win_build/installerv2/redist/Windows/src/boinccas
+        boinccas95.vcproj
+        CACreateProjectInitFile.cpp, .h
+    win_build/installerv2/redist/Windows/Win32/
+        boinccas.dll
+        boinccas95.dll
+    win_build/installerv2/redist/Windows/x64/
+        boinccas.dll
+        boinccas95.dll
