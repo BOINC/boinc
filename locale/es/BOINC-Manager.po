@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:37-0500\n"
-"PO-Revision-Date: 2009-11-11 11:23-0700\n"
+"PO-Revision-Date: 2009-11-12 11:15-0700\n"
 "Last-Translator: David M <davidcomp at telefonica dot net>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -3640,7 +3640,7 @@ msgstr "%d de %d  "
 
 #: clientgui/mac/MacAccessiblity.cpp:416
 msgid "current sort column "
-msgstr ""
+msgstr "columna de orden actual  "
 
 #: clientgui/mac/MacAccessiblity.cpp:418
 msgid " descending order "
@@ -3676,11 +3676,11 @@ msgstr "columna %d  "
 
 #: clientgui/mac/MacAccessiblity.cpp:441
 msgid "blank"
-msgstr ""
+msgstr "en blanco"
 
 #: clientgui/mac/MacAccessiblity.cpp:965
 msgid "list of projects or account managers"
-msgstr ""
+msgstr "lista de proyectos o administradores de cuenta"
 
 #: clientgui/mac/MacAccessiblity.cpp:1007
 #, c-format
