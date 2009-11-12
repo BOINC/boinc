@@ -2,7 +2,7 @@
 
 rights:
   default = u'view, suggest, archive, pocompile'
-  nobody = u'view'
+  nobody = u'view, pocompile'
   romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   josesun = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
   treppolse = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
