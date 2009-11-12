@@ -9140,3 +9140,8 @@ Rom    12 Nov 2009
     win_build/installerv2/redist/Windows/x64/
         boinccas.dll
         boinccas95.dll
+
+David  12 Nov 2009
+    - Mac compile fix
+    lib/
+        coproc.cpp

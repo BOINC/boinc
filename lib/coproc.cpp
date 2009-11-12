@@ -154,7 +154,7 @@ void segv_handler(int) {
 }
 
 void COPROCS::get(bool use_all, vector<string>&descs, vector<string>&warnings) {
-    sighandler_t old_sig = signal(SIGSEGV, segv_handler);
+    void (*old_sig)(int) = signal(SIGSEGV, segv_handler);
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
     } else {
