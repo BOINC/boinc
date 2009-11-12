@@ -26,6 +26,8 @@
 #define SCALE_AV_PERIOD 20
 #define MIN_HOST_SCALE_SAMPLES  5
     // don't use host scaling unless have this many samples for host
+#define MIN_SCALE_SAMPLES   100
+    // don't update a version's scale unless it has this many samples
 
 #define RSC_TYPE_CPU    -1
 #define RSC_TYPE_CUDA   -2
@@ -62,6 +64,8 @@ vector<APP> apps;
 vector<HOST_APP_VERSION> host_app_versions;
 vector<PLATFORM> platforms;
 int windows_platformid;
+int linux_platformid;
+int mac_platformid;
 bool accumulate_stats = false;
 
 void read_db() {
@@ -75,9 +79,9 @@ void read_db() {
     while (!av.enumerate("where deprecated=0 order by id desc")) {
         av.pfc.clear();
         av.pfc_scale_factor = 1;
-        if (strstr(av.plan_class, "cuda")) {
-            //av.pfc_scale_factor = 0.15;
-        }
+        //if (strstr(av.plan_class, "cuda")) {
+        //    av.pfc_scale_factor = 0.15;
+        //}
         app_versions.push_back(av);
     }
     DB_PLATFORM platform;
@@ -85,6 +89,12 @@ void read_db() {
         platforms.push_back(platform);
         if (!strcmp(platform.name, "windows_intelx86")) {
             windows_platformid = platform.id;
+        }
+        if (!strcmp(platform.name, "i686-pc-linux-gnu")) {
+            linux_platformid = platform.id;
+        }
+        if (!strcmp(platform.name, "i686-apple-darwin")) {
+            mac_platformid = platform.id;
         }
     }
 }
@@ -107,6 +117,21 @@ APP_VERSION* lookup_av(int id) {
     printf(" missing app version %d\n", id);
     exit(1);
 }
+
+
+APP_VERSION* lookup_av_old(int appid, HOST& host) {
+    unsigned int i;
+    for (i=0; i<app_versions.size(); i++) {
+        APP_VERSION& av = app_versions[i];
+        if (av.appid != appid) continue;
+        if (av.platformid == windows_platformid && strstr(host.os_name, "Microsoft") != NULL ) return &av;
+        if (av.platformid == mac_platformid && strstr(host.os_name, "Darwin") != NULL ) return &av;
+        if (av.platformid == linux_platformid && strstr(host.os_name, "Linux") != NULL ) return &av;        
+    }
+    printf(" missing app version app %d type %s\n", appid, host.os_name);
+    return 0;
+}
+
 
 APP_VERSION* lookup_av_anon(int appid, int rsc_type) {
     unsigned int i;
@@ -202,7 +227,7 @@ void update_av_scales() {
         for (j=0; j<app_versions.size(); j++) {
             APP_VERSION& av = app_versions[j];
             if (av.appid != app.id) continue;
-            if (av.pfc.n < 100) continue;
+            if (av.pfc.n < MIN_SCALE_SAMPLES) continue;
             if (strstr(av.plan_class, "cuda")) continue;
             if (strstr(av.plan_class, "ati")) continue;
             sum_avg += av.pfc.get_mean() * av.pfc.n;
@@ -213,13 +238,13 @@ void update_av_scales() {
         double cpu_avg = sum_avg / sum_n;
         printf("cpu avg is %0.fG\n", cpu_avg/1e9);
 
-        // if at least 2 versions have at least 100 samples,
+        // if at least 2 versions have at least MIN_SCALE_SAMPLES samples,
         // update their scale factors
         //
         for (j=0; j<app_versions.size(); j++) {
             APP_VERSION& av = app_versions[j];
             if (av.appid != app.id) continue;
-            if (av.pfc.n < 100) continue;
+            if (av.pfc.n < MIN_SCALE_SAMPLES) continue;
             av.pfc_scale_factor = cpu_avg/av.pfc.get_mean();
             PLATFORM* p = lookup_platform(av.platformid);
             printf("updating scale factor for (%s %s)\n",
@@ -260,8 +285,9 @@ int main(int argc, char** argv) {
     }
 
     sprintf(clause,
-        "where server_state=%d and outcome=%d and claimed_credit<%f and claimed_credit>%f %s order by id desc limit %d",
+        "where server_state=%d and outcome=%d and validate_state=%d and claimed_credit<%f and claimed_credit>%f %s order by id desc limit %d",
         RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS,
+        VALIDATE_STATE_VALID,
         MAX_CLAIMED_CREDIT, MIN_CLAIMED_CREDIT,
         subclause, NJOBS
     );
@@ -336,13 +362,15 @@ int main(int argc, char** argv) {
             printf("  (old client)\n");
             
             lookup_host(host, r.hostid);
-            avp = lookup_av_anon(r.appid, RSC_TYPE_CPU);
+            avp = lookup_av_old(r.appid, host);
+            if (!avp) continue;
             r.elapsed_time = r.cpu_time;
             r.flops_estimate =  host.p_fpops;
             pfc = r.elapsed_time * r.flops_estimate;
             printf("  sec: %.0f GFLOPS: %.0f PFC: %.0fG raw credit: %.2f\n",
                 r.elapsed_time, r.flops_estimate/1e9, pfc/1e9, pfc*COBBLESTONE_SCALE
             );
+            avp->pfc.update(pfc);
         }
 
 
@@ -372,8 +400,6 @@ int main(int argc, char** argv) {
             printf("  host scale: %f\n", host_scale);
         }
         double claimed_flops = vnpfc * host_scale;
-        //double claimed_flops = vnpfc;
-        claimed_flops = vnpfc;
         double new_claimed_credit = claimed_flops * COBBLESTONE_SCALE;
 
         app.vnpfc.update(vnpfc);
@@ -405,8 +431,10 @@ int main(int argc, char** argv) {
 
     print_avs();
 
-    printf("Average old credit: %f\n", total_old_credit/nstats);
-    printf("Average new credit: %f\n", total_new_credit/nstats);
+    printf("Average credit: old %.2f new %.2f (ratio %.2f)\n",
+        total_old_credit/nstats, total_new_credit/nstats,
+        total_new_credit/total_old_credit
+    );
     //printf("Variance claimed to grant old credit: %f\n", sqrt(variance_old/nstats));
     //printf("Variance claimed to grant old credit: %f\n", sqrt(variance_old/nstats));
 }
