@@ -22,6 +22,10 @@
     // Small jobs are noisy.
 #define COBBLESTONE_SCALE 100/86400e9
     // FLOPS to cobblestones
+#define PRINT_AV_PERIOD 100
+#define SCALE_AV_PERIOD 20
+#define MIN_HOST_SCALE_SAMPLES  5
+    // don't use host scaling unless have this many samples for host
 
 #define RSC_TYPE_CPU    -1
 #define RSC_TYPE_CUDA   -2
@@ -46,21 +50,15 @@ inline const char* rsc_type_name(int t) {
     }
 }
 
-struct HOST_APP {
-    int host_id;
-    int app_id;
-    AVERAGE vnpfc;
-};
-
 struct HOST_APP_VERSION {
     int host_id;
-    int app_version_id;
+    int app_version_id;     // -1 means anon platform
+    AVERAGE vnpfc;
     AVERAGE et;
 };
 
 vector<APP_VERSION> app_versions;
 vector<APP> apps;
-vector<HOST_APP> host_apps;
 vector<HOST_APP_VERSION> host_app_versions;
 vector<PLATFORM> platforms;
 int windows_platformid;
@@ -142,20 +140,20 @@ APP& lookup_app(int id) {
     printf("missing app%d\n", id);
 }
 
-HOST_APP& lookup_host_app(int hostid, int appid) {
+HOST_APP_VERSION& lookup_host_app_version(int hostid, int avid) {
     unsigned int i;
-    for (i=0; i<host_apps.size(); i++) {
-        HOST_APP& ha = host_apps[i];
-        if (ha.host_id != hostid) continue;
-        if (ha.app_id != appid) continue;
-        return ha;
+    for (i=0; i<host_app_versions.size(); i++) {
+        HOST_APP_VERSION& hav = host_app_versions[i];
+        if (hav.host_id != hostid) continue;
+        if (hav.app_version_id != avid) continue;
+        return hav;
     }
-    HOST_APP h;
+    HOST_APP_VERSION h;
     h.host_id = hostid;
-    h.app_id = appid;
+    h.app_version_id = avid;
     h.vnpfc.clear();
-    host_apps.push_back(h);
-    return host_apps.back();
+    host_app_versions.push_back(h);
+    return host_app_versions.back();
 }
 
 void print_average(AVERAGE& a) {
@@ -362,10 +360,14 @@ int main(int argc, char** argv) {
 
         // host normalization
 
-        HOST_APP& host_app = lookup_host_app(r.hostid, app.id);
+        HOST_APP_VERSION& hav = lookup_host_app_version(
+            r.hostid, avp?avp->id:-1
+        );
         double host_scale = 1;
-        if (host_app.vnpfc.n > 5) {
-            host_scale = app.vnpfc.get_mean()/host_app.vnpfc.get_mean();
+
+        // only apply it if have at MIN_HOST_SCALE_SAMPLES
+        if (hav.vnpfc.n >= MIN_HOST_SCALE_SAMPLES) {
+            host_scale = app.vnpfc.get_mean()/hav.vnpfc.get_mean();
             // if (host_scale > 1) host_scale = 1;
             printf("  host scale: %f\n", host_scale);
         }
@@ -375,7 +377,7 @@ int main(int argc, char** argv) {
         double new_claimed_credit = claimed_flops * COBBLESTONE_SCALE;
 
         app.vnpfc.update(vnpfc);
-        host_app.vnpfc.update(vnpfc);
+        hav.vnpfc.update(vnpfc);
 
         printf(" new credit %.2f old credit %.2f\n",
             new_claimed_credit, r.claimed_credit
@@ -389,10 +391,10 @@ int main(int argc, char** argv) {
 
         n++;
 
-        if (n%20 ==0) {
+        if (n%SCALE_AV_PERIOD ==0) {
             update_av_scales();
         }
-        if (n%100 ==0) {
+        if (n%PRINT_AV_PERIOD ==0) {
             print_avs();
         }
     }
@@ -405,4 +407,6 @@ int main(int argc, char** argv) {
 
     printf("Average old credit: %f\n", total_old_credit/nstats);
     printf("Average new credit: %f\n", total_new_credit/nstats);
+    //printf("Variance claimed to grant old credit: %f\n", sqrt(variance_old/nstats));
+    //printf("Variance claimed to grant old credit: %f\n", sqrt(variance_old/nstats));
 }
