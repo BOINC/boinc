@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-07 13:14-0700\n"
+"PO-Revision-Date: 2009-11-10 08:57-0700\n"
 "Last-Translator: M T <molnart@mail.bibl.u-szeged.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -1512,22 +1512,18 @@ msgid "Resource share"
 msgstr "Erőforrásmegosztás"
 
 #: clientgui/DlgItemProperties.cpp:111
-#, fuzzy
 msgid "Scheduler RPC deferred for"
-msgstr "Ütemezett RPC elhalasztva ennyi időre"
+msgstr "Ütemező RPC elhalasztva ennyi időre"
 
 #: clientgui/DlgItemProperties.cpp:114
-#, fuzzy
 msgid "File downloads deferred for"
 msgstr "Fájlok letöltése elhalasztva ennyi időre"
 
 #: clientgui/DlgItemProperties.cpp:117
-#, fuzzy
 msgid "File uploads deferred for"
 msgstr "Fájlok feltöltése elhalasztva ennyi időre"
 
 #: clientgui/DlgItemProperties.cpp:120
-#, fuzzy
 msgid "Computer ID"
 msgstr "Számítógép azonosító (ID)"
 
@@ -1556,7 +1552,6 @@ msgid "no"
 msgstr "nem"
 
 #: clientgui/DlgItemProperties.cpp:122
-#, fuzzy
 msgid "Suspended via GUI"
 msgstr "Felfüggesztve a GUIn keresztül"
 
@@ -1569,7 +1564,6 @@ msgid "Scheduler call in progress"
 msgstr "Ütemező hívása folyamatban"
 
 #: clientgui/DlgItemProperties.cpp:125
-#, fuzzy
 msgid "Attached via account manager"
 msgstr "Csatlakozva fiókkezelőn keresztül"
 
@@ -1602,58 +1596,48 @@ msgid "CPU scheduling priority"
 msgstr "CPU ütemezési prioritás"
 
 #: clientgui/DlgItemProperties.cpp:147
-#, fuzzy
 msgid "CPU work fetch priority"
-msgstr "CPU munkakezelési prioritás"
+msgstr "CPU munkabehívási prioritás"
 
 #: clientgui/DlgItemProperties.cpp:150
-#, fuzzy
 msgid "CPU work fetch deferred for"
 msgstr "CPU munka behívás elhalasztva ennyi időre"
 
 #: clientgui/DlgItemProperties.cpp:151
-#, fuzzy
 msgid "CPU work fetch deferral interval"
 msgstr "CPU munka behívás elhalasztási intervalluma"
 
 #: clientgui/DlgItemProperties.cpp:153
-#, fuzzy
 msgid "NVIDIA GPU work fetch priority"
 msgstr "nVidia GPU munkabehívási prioritás"
 
 #: clientgui/DlgItemProperties.cpp:156
-#, fuzzy
 msgid "NVIDIA GPU work fetch deferred for"
 msgstr "nVidia GPU munkabehívás elhalasztva ennyi időre"
 
 #: clientgui/DlgItemProperties.cpp:157
-#, fuzzy
 msgid "NVIDIA GPU work fetch deferral interval"
 msgstr "nVidia GPU munkabehívás elhalasztási intervalluma"
 
 #: clientgui/DlgItemProperties.cpp:160
-#, fuzzy
 msgid "ATI GPU work fetch priority"
 msgstr "ATI GPU munkabehívási prioritás"
 
 #: clientgui/DlgItemProperties.cpp:163
-#, fuzzy
 msgid "ATI GPU work fetch deferred for"
 msgstr "ATI GPU munka behívás elhalasztva ennyi időre"
 
 #: clientgui/DlgItemProperties.cpp:164
-#, fuzzy
 msgid "ATI GPU work fetch deferral interval"
 msgstr "ATI GPU munka behívás elhalasztási intervalluma"
 
 #: clientgui/DlgItemProperties.cpp:166
-#, fuzzy
 msgid "Duration correction factor"
-msgstr "Időtartam korrekciós faktor"
+msgstr "Futási idő korrekciós faktor"
 
 #: clientgui/DlgItemProperties.cpp:176
 msgid "Properties of task "
-msgstr "Feladat tulajdonságok"
+msgstr "Feladat beállításai"
 
 #: clientgui/DlgItemProperties.cpp:180
 msgid "Application"
@@ -1680,7 +1664,6 @@ msgid "Resources"
 msgstr "Források"
 
 #: clientgui/DlgItemProperties.cpp:193
-#, fuzzy
 msgid "CPU time at last checkpoint"
 msgstr "CPU idő a legutóbbi ellenőrzőpontnál"
 
@@ -1755,7 +1738,6 @@ msgid " - time of day"
 msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:330
-#, fuzzy
 msgid " - CPU benchmarks"
 msgstr "- CPU sebességmérés"
 
@@ -1839,10 +1821,13 @@ msgid "What language should the manager use?"
 msgstr "Melyik nyelvet használja a manager?"
 
 #: clientgui/DlgOptions.cpp:168
+#, fuzzy
 msgid ""
 "Network reminder interval:\n"
 "(minutes)"
 msgstr ""
+"Hálózati emlékeztető intervallum:\n"
+"(perc)"
 
 #: clientgui/DlgOptions.cpp:180
 msgid "How often should the Manager remind you when a network connection is needed?"
@@ -1943,9 +1928,8 @@ msgstr "SOCKS proxy"
 
 #: clientgui/DlgSelectComputer.cpp:90
 #, c-format
-#, fuzzy
 msgid "%s - Select Computer"
-msgstr "Számítógép kiválasztása"
+msgstr "%s - Számítógép kiválasztása"
 
 #: clientgui/DlgSelectComputer.cpp:127
 msgid "Host name:"
@@ -1954,7 +1938,7 @@ msgstr "Számítógépnév:"
 #: clientgui/hyperlink.cpp:181
 #, c-format
 msgid "%s - Can't find web browser"
-msgstr "%s - Nem talál webböngészőt"
+msgstr "%s - Nem található webböngésző"
 
 #: clientgui/hyperlink.cpp:192
 #, c-format
@@ -1966,15 +1950,21 @@ msgid ""
 "BROWSER to the path of your web browser,\n"
 "then restart the %s."
 msgstr ""
+"%s megpróbálta megjeleníteni a weblapot\n"
+"\t%s\n"
+"de nem található webböngésző.\n"
+"Ennek kijavításához a BROWSER környezeti változóban\n"
+"állítsa be a webböngésző elérési útját,\n"
+"majd indítsa újra %s-t."
 
 #: clientgui/Localization.cpp:31
 #: clientgui/Localization.cpp:69
 msgid "Message boards"
-msgstr "Üzenőtáblák"
+msgstr "Üzenőfalak"
 
 #: clientgui/Localization.cpp:33
 msgid "Correspond with other users on the SETI@home message boards"
-msgstr "A többi felhasználőval levelezhet  SETI@home üzenőtábláin"
+msgstr "Levelezés a többi felhasználóval a SETI@home üzenőfalain"
 
 #: clientgui/Localization.cpp:37
 msgid "Ask questions and report problems"
@@ -2035,19 +2025,19 @@ msgstr "Megnézheti a csapatának adatait"
 
 #: clientgui/Localization.cpp:61
 msgid "Common questions"
-msgstr ""
+msgstr "Gyakori kérdések"
 
 #: clientgui/Localization.cpp:63
 msgid "Read the Einstein@Home Frequently Asked Question list"
-msgstr ""
+msgstr "Olvassa el az Einstein@Home Gyakran Ismételt Kérdések listáját"
 
 #: clientgui/Localization.cpp:65
 msgid "Screensaver info"
-msgstr ""
+msgstr "Képernyővédő infó"
 
 #: clientgui/Localization.cpp:67
 msgid "Read a detailed description of the Einstein@Home screensaver"
-msgstr ""
+msgstr "Olvassa el az Einstein@Home képernyővédőjének részletes leírását"
 
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
@@ -2411,18 +2401,19 @@ msgstr "Minden üzenet másolása a vágólapra."
 
 #: clientgui/sg_DlgMessages.cpp:202
 #: clientgui/sg_DlgMessages.cpp:210
-#, fuzzy
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
 msgstr ""
-"A kiválasztott üzenetek másolása a vágólapra. Több üzenetek is kiváaszthat a "
-"SHIFT vagy CTRL gombok lenyomásával, miközben az üzenetekre kattint."
+"A kiválasztott üzenetek másolása a vágólapra. Több üzenetet is kiválaszthat, "
+"ha az üzenetkre történő kattintás közben nyomva tartja a Shift, vagy a "
+"parancsbillentyűt."
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr ""
-"A kiválasztott üzenetek másolása a vágólapra. Több üzenetek is kiváaszthat a "
-"SHIFT vagy CTRL gombok lenyomásával, miközben az üzenetekre kattint."
+"A kiválasztott üzenetek másolása a vágólapra. Több üzenetet is kiválaszthat, "
+"ha az üzenetkre történő kattintás közben nyomva tartja a Shift, vagy a Ctrl "
+"billentyűt."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2901,9 +2892,8 @@ msgid "Copying all messages to the clipboard..."
 msgstr "Minden üzenet másolása a vágólapra..."
 
 #: clientgui/ViewMessages.cpp:223
-#, fuzzy
 msgid "Copying selected messages to the clipboard..."
-msgstr "Minden üzenet másolása a vágólapra..."
+msgstr "Kiválasztott üzenetek másolása a vágólapra..."
 
 #: clientgui/ViewMessages.cpp:286
 msgid "Filtering messages..."
@@ -2931,9 +2921,8 @@ msgid "MessagesGrid"
 msgstr ""
 
 #: clientgui/ViewMessagesGrid.cpp:209
-#, fuzzy
 msgid "Copying selected messages to Clipboard..."
-msgstr "Minden üzenet másolása a vágólapra..."
+msgstr "Kiválasztott üzenetek másolása a vágólapra..."
 
 #: clientgui/ViewMessagesGrid.cpp:396
 msgid "Info"
@@ -3444,7 +3433,7 @@ msgstr "Jelen csomag eldobása. Nem fog kreditet kapni érte."
 
 #: clientgui/ViewWork.cpp:213
 msgid "Show task details."
-msgstr ""
+msgstr "Mutassa meg a munkacsomag részleteit."
 
 #: clientgui/ViewWork.cpp:224
 #: clientgui/ViewWorkGrid.cpp:146
@@ -3640,7 +3629,7 @@ msgstr ""
 
 #: clientgui/common/wxPieCtrl.cpp:66
 msgid "Pie Ctrl"
-msgstr ""
+msgstr "Kördiagram kontroll"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
@@ -4064,7 +4053,7 @@ msgstr "&Statisztikák\tCtrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:360
 msgid "&Disk usage\tCtrl+Shift+D"
-msgstr ""
+msgstr "&Lemezhasználat\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:366
 msgid "&News\tCtrl+Shift+N"

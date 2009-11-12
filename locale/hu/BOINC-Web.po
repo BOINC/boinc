@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2009-11-06 01:45-0700\n"
-"Last-Translator: M T <molnart@mail.bibl.u-szeged.hu>\n"
+"PO-Revision-Date: 2009-11-08 08:59-0700\n"
+"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -21,16 +21,17 @@ msgstr ""
 "X-Poedit-KeywordsList: tra\n"
 
 #: poll.inc:18
+#, fuzzy
 msgid "[check all that apply]"
-msgstr ""
+msgstr "[minden Önre érvényest jelöljön be]"
 
 #: poll.inc:47
 msgid "Other:"
-msgstr ""
+msgstr "Egyéb:"
 
 #: poll_data.inc:19
 msgid "Yes - I have been running BOINC on my computer for..."
-msgstr ""
+msgstr "Igen - A BOINCot már ennyi ideje futtatom  a számítógépemen..."
 
 #: poll_data.inc:22
 msgid "less than a week"
@@ -66,31 +67,31 @@ msgstr "Leállítottam, majd elfelejtettem újraindítani"
 
 #: poll_data.inc:37
 msgid "it caused problems on my computer"
-msgstr ""
+msgstr "problémákat okozott a számítógépemen"
 
 #: poll_data.inc:38
 msgid "it used too much electricity"
-msgstr ""
+msgstr "túl sok áramot használt"
 
 #: poll_data.inc:39
 msgid "I switched to a non-BOINC computing project"
-msgstr ""
+msgstr "Nem BOINCot használó számítási projektre váltottam"
 
 #: poll_data.inc:45
 msgid "No - I tried running BOINC, but..."
-msgstr ""
+msgstr "Nem - próbáltam futtatni a BOINCot, de..."
 
 #: poll_data.inc:48
 msgid "the software didn't install correctly"
-msgstr ""
+msgstr "a szoftver nem települt megfelelően"
 
 #: poll_data.inc:49
 msgid "I couldn't figure out how to use the software"
-msgstr ""
+msgstr "Nem jöttem rá, hogyan kell használni a szoftvert"
 
 #: poll_data.inc:50
 msgid "I had network communication problems"
-msgstr ""
+msgstr "Hálózati kommunikációs problémáim voltak."
 
 #: poll_data.inc:51
 msgid "I couldn't attach to a project"

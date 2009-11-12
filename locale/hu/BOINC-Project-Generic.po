@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-05-24 03:28-0700\n"
-"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
+"PO-Revision-Date: 2009-11-11 15:39-0700\n"
+"Last-Translator: M T <molnart@mail.bibl.u-szeged.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -123,55 +123,57 @@ msgid "unread"
 msgstr "olvasatlan"
 
 msgid "Edit your profile"
-msgstr ""
+msgstr "Profil szerkesztése"
 
 msgid "Your feedback on this profile"
-msgstr ""
+msgstr "Visszajelzése ehhez a profilhoz"
 
 msgid "Recommend this profile for User of the Day:"
-msgstr ""
+msgstr "Javasolja ezt a profilt a Nap felhasználójának:"
 
 msgid "I %1like%2 this profile"
-msgstr ""
+msgstr "%1Tetszik%2 ez a profil"
 
 msgid "Alert administrators to an offensive profile:"
-msgstr ""
+msgstr "Adminisztrátorok értesítése sértő profilról:"
 
 msgid "I %1do not like%2 this profile"
-msgstr ""
+msgstr "%1Nem tetszik%2 ez a profil"
 
 msgid "Search criteria (use one or more)"
-msgstr ""
+msgstr "Keresési kritéria (használjon egyet vagy többet)"
 
 msgid "Key words"
-msgstr ""
+msgstr "Kulcsszavak"
 
 msgid "Find teams with these words in their names or descriptions"
 msgstr ""
+"Keressen csapatot ezekkel a szavakkal a csapatnevekben vagy -leírásokban"
 
 msgid "Country"
 msgstr "Ország"
 
 msgid "Type of team"
-msgstr ""
+msgstr "Csapattípus"
 
 msgid "Show only active teams"
-msgstr ""
+msgstr "Csak az aktív csapatokat mutassa"
 
 msgid "Search"
-msgstr ""
+msgstr "Keresés"
 
 msgid "Requested by you, and founder response deadline has passed."
-msgstr ""
+msgstr "Ön megigényelte és az alapító válaszának határideje lejárt."
 
+#, fuzzy
 msgid "Complete foundership transfer"
-msgstr ""
+msgstr "Teljes alapítói transzfer"
 
 msgid "Requested by you"
-msgstr ""
+msgstr "Ön megigényelte"
 
 msgid "founder response deadline is %1"
-msgstr ""
+msgstr "az alapítói válasz határideje %1"
 
 msgid "None"
 msgstr "Semmi"
@@ -183,13 +185,13 @@ msgid "Deferred"
 msgstr ""
 
 msgid "Team info"
-msgstr ""
+msgstr "Csapatinformáció"
 
 msgid "Description"
-msgstr ""
+msgstr "Leírás"
 
 msgid "Web site"
-msgstr ""
+msgstr "Honlap"
 
 msgid "Total credit"
 msgstr "Összes kredit"
@@ -202,83 +204,85 @@ msgid "Cross-project stats"
 msgstr "Projekt-közti statisztikák"
 
 msgid "Type"
-msgstr ""
+msgstr "Típus"
 
-#, fuzzy
 msgid "Message board"
-msgstr "Üzenőfalak"
+msgstr "Üzenőfal"
 
 msgid "Threads"
 msgstr "Témák"
 
 msgid "Join this team"
-msgstr ""
+msgstr "Csatlakozás ehhez a csapathoz"
 
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
 msgstr ""
+"Megjegyzés: ha az 'E-mail jóváhagyása' be van állítva a projekt beállítások "
+"között, akkor csapatba lépéskor a csapat alapítója hozzáfér az Ön e-mail "
+"címéhez."
 
 msgid "Not accepting new members"
-msgstr ""
+msgstr "Nem fogad új tagokat"
 
 msgid "Foundership change requested"
-msgstr ""
+msgstr "Alapító váltás megigényelve"
 
 msgid "Respond by %1"
-msgstr ""
+msgstr "Válaszolva %1 által"
 
 msgid "Team foundership change"
-msgstr ""
+msgstr "Csapat alapító változása"
 
 msgid "Members"
 msgstr "Tagok"
 
 msgid "Founder"
-msgstr ""
+msgstr "Alapító"
 
 msgid "Admins"
-msgstr ""
+msgstr "Adminok"
 
 msgid "New members in last day"
-msgstr ""
+msgstr "Új tagok az elmúlt napban"
 
 msgid "Total members"
-msgstr ""
+msgstr "Minden tag"
 
 #, fuzzy
 msgid "view"
 msgstr "Megtekint"
 
 msgid "Active members"
-msgstr ""
+msgstr "Aktív tagok"
 
 msgid "Members with credit"
-msgstr ""
+msgstr "Tagok kredittel"
 
 msgid "Name"
 msgstr "Név"
 
 msgid "Admin"
-msgstr ""
+msgstr "Adminisztrátor"
 
 msgid "Last %1"
-msgstr ""
+msgstr "Utolsó %1"
 
 msgid "Next %1"
-msgstr ""
+msgstr "Következő %1"
 
 msgid "No such team."
-msgstr ""
+msgstr "Nincs ilyen csapat."
 
 msgid "This operation requires foundership."
-msgstr ""
+msgstr "Ez a művelet alapítói joghoz kötött."
 
 msgid "This operation requires team admin privileges"
-msgstr ""
+msgstr "Ez a művelet csapat adminisztrátori joghoz kötött"
 
 msgid "Rank"
-msgstr "Rang"
+msgstr "Helyezés"
 
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
@@ -289,7 +293,7 @@ msgid "Team name, text version"
 msgstr "Csapatnév, szöveges változat"
 
 msgid "Don't use HTML tags."
-msgstr ""
+msgstr "Ne használjon HTML formázásokat."
 
 msgid "Team name, HTML version"
 msgstr "Csapatnév, HTML változat"
@@ -1277,31 +1281,31 @@ msgid "Return to profile."
 msgstr ""
 
 msgid "This feature is turned off temporarily"
-msgstr ""
+msgstr "Ez a tulajdonság átmenetileg nem elérhető"
 
 msgid "No computer with ID %1 found"
-msgstr ""
+msgstr "Nem található számítógép %1 ezzel az azonosítóval"
 
 msgid "Tasks for computer %1"
-msgstr ""
+msgstr "Feladatok %1 számítógép részére"
 
 msgid "No access"
-msgstr ""
+msgstr "Nincs hozzáférés"
 
 msgid "Missing user ID or host ID"
-msgstr ""
+msgstr "Hiányzó felhasználó vagy gép azonosító"
 
 msgid "User of the day"
-msgstr ""
+msgstr "A nap felhasználója"
 
 msgid "Account data for %1"
-msgstr ""
+msgstr "Fiókadatok %1 részére"
 
 msgid "Statistics and leaderboards"
-msgstr ""
+msgstr "Statisztikák és helyezési listák"
 
 msgid "Statistics for %1"
-msgstr ""
+msgstr "Statisztikák %1 részére"
 
 #########################################
 # Various top table pages (top users, computers, teams)
@@ -1338,32 +1342,33 @@ msgid ""
 msgstr ""
 
 msgid "Each team has a %1founder%2 who may:"
-msgstr ""
+msgstr "Minden csapatnak van egy %1alapítója%2, aki:"
 
 msgid "access team members' email addresses"
-msgstr ""
+msgstr "elérheti a csapattagok e-mail címét"
 
 msgid "edit the team's name and description"
-msgstr ""
+msgstr "szerkesztheti a csapat nevét és leírását"
 
 msgid "remove members from the team"
-msgstr ""
+msgstr "törölhet tagokat a csapatból"
 
 msgid "disband a team if it has no members"
-msgstr ""
+msgstr "megszüntetheti a csapatot, ha nincsenek tagok"
 
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
+"Ha csapathoz szeretne csatlakozni, akkor látogass meg annak oldalát és "
+"kattintson a következőre: %1Csatlakozás ehhez a csapathoz%2."
 
-#, fuzzy
 msgid "Find a team"
-msgstr "csapat keresése"
+msgstr "Csapat keresése"
 
 msgid "All teams"
-msgstr ""
+msgstr "Minden csapat"
 
 msgid "%1 teams"
-msgstr ""
+msgstr "%1 csapat"
 
 #, fuzzy
 msgid "Create a new team"
@@ -1371,24 +1376,25 @@ msgstr "Új téma létrehozása"
 
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
-msgstr ""
+msgstr "Ha nem talál kedvére való csapatot, %1létrehozhat egyet%2."
 
 msgid "You must choose a non-blank team name"
-msgstr ""
+msgstr "Nem hagyhatja üresen a csapat nevét"
 
 msgid "A team named %1 already exists - try another name"
-msgstr ""
+msgstr "Egy csapat ezen a néven %1 már létezik - próbáljon másik nevet"
 
 msgid "Could not create team - please try later."
-msgstr ""
+msgstr "Nem tud csapatot létrehozni - próbálja meg később."
 
-#, fuzzy
 msgid "Create a team"
-msgstr "Új téma létrehozása"
+msgstr "Hozzon létre egy új csapatot"
 
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
+"Ön ide tartozik %1. Ki kell %2 lépnie ebből a csapatból%3 mielőtt létrehozna "
+"egy újat."
 
 msgid "Top hosts"
 msgstr "Legjobb hostok"
@@ -1400,10 +1406,10 @@ msgid "Participant since"
 msgstr "Ennyi ideje tag:"
 
 msgid "This user has no profile"
-msgstr ""
+msgstr "Ez a felhasználó nem adott meg magáról semmit"
 
 msgid "Account data"
-msgstr ""
+msgstr "Fiók adatok"
 
 #########################################
 # "Weak account key" page (weak_auth.php)
