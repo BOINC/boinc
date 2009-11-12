@@ -2,22 +2,47 @@
 
 # Automate the compilation of the various locale PO files by automatically
 # generating them at night.
+#
 projname=boinctrunk
 projdir=$HOME/pootle/po/$projname
 
-echo $projname
-echo $projdir
+cd $projdir
 
-exit 0
-
-for file in `find -name 'BOINC-Manager.mo'` ; do
+# Iterrate through the various PO files looking for those that need to be compiled.
+#
+for file in `find -name 'BOINC-Manager.po'` ; do
   dir=`dirname $file`
   locale=`basename $dir`
-  
-  cp -f $file BOINC/locale/${locale}
+ 
+  timestampPO=`date -r ${projdir}/${locale}/BOINC-Manager.po`
+  timestampMO=`date -r ${projdir}/${locale}/BOINC-Manager.mo`
+ 
+  if [ "${timestampPO}" -ne "${timestampMO}" ]; then
 
-  # http://boinc.berkeley.edu/translate/ar/boinctrunk/BOINC-Manager.mo
+    # Remove old MO from previous compilation
+    #
+    rm ${projdir}/BOINC-Manager.mo
 
-done  
+    # Use wget to cause the Pottle system to compile the PO file into an MO file.
+    #
+    # poEdit has a hard time with the Pootle markup in the PO files.
+    #
+    # Example: http://boinc.berkeley.edu/translate/ar/boinctrunk/BOINC-Manager.mo
+    #
+    wget http://boinc.berkeley.edu/translate/${locale}/${projname}/BOINC-Manager.mo
+    
+    # Add any new MO files to SVN
+    svn add ${projdir}/${locale}/BOINC-Manager.mo
+
+    # Touch each file to adjust timestamps
+    touch ${projdir}/${locale}/BOINC-Manager.po
+    touch ${projdir}/${locale}/BOINC-Manager.mo 
+
+  fi  
+
+done
+
+# Commit any changes to SVN
+svn commit -m 'Update Translations'
 
 exit 0
