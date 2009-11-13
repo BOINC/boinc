@@ -53,9 +53,7 @@ Otherwise
 <li>
 <a href=http://support.amd.com/us/gpudownload/Pages/index.aspx>Get latest ATI driver</a>.
 </ul>
-<p>
-You're done!
-Now start up BOINC, and soon you'll be racking up big credit numbers.
+<h3>4) Attach to projects with GPU applications</h3>
 <p>
 Projects with NVIDIA applications:
 <ul>
@@ -70,6 +68,9 @@ Projects with ATI applications:
 <li> <a href=http://milkyway.cs.rpi.edu/milkyway/>Milkyway@home</a> (coming soon)
 </ul>
 
+<p>
+You're done!
+Soon you'll be racking up big credit numbers.
 Of course, you can attach to other projects too;
 BOINC will keep both your CPU and GPU busy.
 ";

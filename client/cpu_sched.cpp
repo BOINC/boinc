@@ -87,6 +87,7 @@ struct PROC_RESOURCES {
     //
     bool can_schedule(RESULT* rp) {
         if (rp->uses_coprocs()) {
+            if (exclusive_gpu_app_running) return false;
             if (gstate.user_active && !gstate.global_prefs.run_gpu_if_user_active) {
 #if 1
                 return false;

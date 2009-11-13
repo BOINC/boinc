@@ -9170,3 +9170,13 @@ David  12 Nov 2009
         log_flags.cpp,h
     lib/
         coproc.cpp,h
+
+David  13 Nov 2009
+    - client: add <exclusive_gpu_app> option:
+        suspend GPU usage when particular apps are running
+
+    client/
+        app.cpp,h
+        cs_prefs.cpp
+        cpu_sched.cpp
+        log_flags.cpp,h
