@@ -52,9 +52,6 @@ typedef enum
 	FILE_DCAPI
 } WorkdirFile;
 
-/* Name of the result template file */
-#define RESULT_TEMPLATE		"result_template.xml"
-
 
 /********************************************************************
  * Data types
