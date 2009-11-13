@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-12 22:18+0200\n"
+"PO-Revision-Date: 2009-11-13 10:11+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "Language: tr\n"
@@ -393,7 +393,7 @@ msgstr "&CPU testlerini çalıştır"
 
 #: clientgui/AdvancedFrame.cpp:515
 msgid "Runs BOINC CPU benchmarks"
-msgstr "BOINC'in CPU (işlemci) testlerini çalıştırır."
+msgstr "BOINC'in CPU (işlemci) testlerini çalıştırır. Sonuçları Mesajlar'da görebilirsiniz."
 
 #: clientgui/AdvancedFrame.cpp:519
 msgid "Do network &communication"
@@ -555,12 +555,12 @@ msgstr "%s - (%s)"
 #: clientgui/AdvancedFrame.cpp:1809
 #, c-format
 msgid "Connecting to %s"
-msgstr "%s'a bağlanılıyor"
+msgstr "%s istemcisine bağlanıyor"
 
 #: clientgui/AdvancedFrame.cpp:1812
 #, c-format
 msgid "Connected to %s (%s)"
-msgstr "%s'a bağlanıldı (%s)"
+msgstr "%s istemcisine bağlı (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:183
 msgid "Username already in use"
@@ -1805,7 +1805,7 @@ msgid ""
 "Network reminder interval:\n"
 "(minutes)"
 msgstr ""
-"Ağ ihtiyacını hatırlatma aralığı\n"
+"Ağ ihtiyacı hatırlatma aralığı\n"
 "(dakika)"
 
 #: clientgui/DlgOptions.cpp:180
@@ -2727,11 +2727,11 @@ msgstr "Uygulama: "
 #: clientgui/sg_ViewTabPage.cpp:447
 #: clientgui/sg_ViewTabPage.cpp:451
 msgid "Time Remaining: "
-msgstr "Kalan Süre: "
+msgstr "Kalan süre: "
 
 #: clientgui/sg_ViewTabPage.cpp:450
 msgid "Elapsed Time: "
-msgstr "Geçen Süre: "
+msgstr "Geçen süre: "
 
 #: clientgui/TermsOfUsePage.cpp:219
 msgid "Terms of Use"
@@ -3299,7 +3299,7 @@ msgstr "Boyut"
 #: clientgui/ViewTransfers.cpp:185
 #: clientgui/ViewTransfersGrid.cpp:130
 msgid "Elapsed Time"
-msgstr "Geçen Süre"
+msgstr "Geçen süre"
 
 #: clientgui/ViewTransfers.cpp:186
 #: clientgui/ViewTransfersGrid.cpp:130
@@ -3397,7 +3397,7 @@ msgstr "Uygulama grafiklerini bir pencerede gösterir."
 #: clientgui/ViewWork.cpp:199
 #: clientgui/ViewWorkGrid.cpp:122
 msgid "Suspend work for this result."
-msgstr "Seçili işin çalışmasını durdurur."
+msgstr "Seçili işlerin çalışmasını durdurur."
 
 #: clientgui/ViewWork.cpp:205
 #: clientgui/ViewWorkGrid.cpp:128
@@ -3407,11 +3407,11 @@ msgstr "İptal"
 #: clientgui/ViewWork.cpp:206
 #: clientgui/ViewWorkGrid.cpp:129
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr "Üzerinde çalışılan işi iptal eder (işten kredi alamazsınız)."
+msgstr "Seçili işleri iptal eder (işten kredi alamazsınız)."
 
 #: clientgui/ViewWork.cpp:213
 msgid "Show task details."
-msgstr "İş detaylarını gösterir."
+msgstr "Seçili işin detaylı bilgilerini gösterir."
 
 #: clientgui/ViewWork.cpp:224
 #: clientgui/ViewWorkGrid.cpp:146
@@ -3435,7 +3435,7 @@ msgstr "İşler"
 #: clientgui/ViewWork.cpp:342
 #: clientgui/ViewWorkGrid.cpp:220
 msgid "Resuming task..."
-msgstr "İş sürdürülüyor.."
+msgstr "İş sürdürülüyor..."
 
 #: clientgui/ViewWork.cpp:345
 #: clientgui/ViewWorkGrid.cpp:223
@@ -3483,12 +3483,12 @@ msgstr "Çalışan, bekleyen ve durdurulmuş tüm işleri gösterir."
 #: clientgui/ViewWork.cpp:727
 #: clientgui/ViewWorkGrid.cpp:445
 msgid "Resume work for this task."
-msgstr "Seçili işin çalışmasını sürdürür."
+msgstr "Seçili işlerin çalışmasını sürdürür."
 
 #: clientgui/ViewWork.cpp:733
 #: clientgui/ViewWorkGrid.cpp:451
 msgid "Suspend work for this task."
-msgstr "Seçili işin çalışmasını durdurur."
+msgstr "Seçili işlerin çalışmasını durdurur."
 
 #: clientgui/ViewWork.cpp:1107
 msgid "GPU missing, "
