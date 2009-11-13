@@ -234,7 +234,7 @@
 	      OPTIONAL. Boolean value telling if work units for this client can
 	      be suspended using <function><link
 		  linkend="DC-suspendWU">DC_suspendWU()</link></function> or
-	      not. The default value is true.
+	      not. The default value is false.
 	      <note>
 		<para>
 		  When the redundancy is greater than 1, the work unit can not
@@ -243,6 +243,17 @@
 		  regardless of the value of this configuration option.
 		</para>
 	      </note>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>NativeClient</term>
+	  <listitem>
+	    <para>
+	      OPTIONAL. Boolean value telling if the client application uses the
+	      native BOINC API instead of DC-API. This will prevent adding
+	      DC-API specific input and output files to the workunit
+	      description.
 	    </para>
 	  </listitem>
 	</varlistentry>
