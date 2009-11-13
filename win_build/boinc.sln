@@ -7,13 +7,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc", "boinc_cli.vcproj",
 	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
-		{B06280CB-82A4-46DE-8956-602643078BDF} = {B06280CB-82A4-46DE-8956-602643078BDF}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_dll", "boinc_dll.vcproj", "{B06280CB-82A4-46DE-8956-602643078BDF}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_ss", "boinc_ss.vcproj", "{4A2C5963-6A8D-4CA1-A312-C3D749B2EA81}"
@@ -38,7 +31,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincmgr", "boincmgr.vcproj
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
-		{B06280CB-82A4-46DE-8956-602643078BDF} = {B06280CB-82A4-46DE-8956-602643078BDF}
 		{C04F0FCC-BB5D-4627-8656-6173B28BD69E} = {C04F0FCC-BB5D-4627-8656-6173B28BD69E}
 	EndProjectSection
 EndProject
@@ -69,7 +61,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinctray", "boinctray.vcpr
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
-		{B06280CB-82A4-46DE-8956-602643078BDF} = {B06280CB-82A4-46DE-8956-602643078BDF}
+		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "image_libs", "image_libs.vcproj", "{D3D21F11-A7E7-4EA2-8518-E24695133BFF}"
@@ -177,7 +169,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boincsvcctrl", "boincsvcctr
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
-		{B06280CB-82A4-46DE-8956-602643078BDF} = {B06280CB-82A4-46DE-8956-602643078BDF}
+		{E8F6BD7E-461A-4733-B7D8-37B09A099ED8} = {E8F6BD7E-461A-4733-B7D8-37B09A099ED8}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ss_app", "ss_app.vcproj", "{C3163ACA-C2E6-49D2-AA21-B8B953331EF7}"
@@ -209,14 +201,6 @@ Global
 		{C04F0FCC-BB5D-4627-8656-6173B28BD69E}.Release|Win32.Build.0 = Release|Win32
 		{C04F0FCC-BB5D-4627-8656-6173B28BD69E}.Release|x64.ActiveCfg = Release|x64
 		{C04F0FCC-BB5D-4627-8656-6173B28BD69E}.Release|x64.Build.0 = Release|x64
-		{B06280CB-82A4-46DE-8956-602643078BDF}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B06280CB-82A4-46DE-8956-602643078BDF}.Debug|Win32.Build.0 = Debug|Win32
-		{B06280CB-82A4-46DE-8956-602643078BDF}.Debug|x64.ActiveCfg = Debug|x64
-		{B06280CB-82A4-46DE-8956-602643078BDF}.Debug|x64.Build.0 = Debug|x64
-		{B06280CB-82A4-46DE-8956-602643078BDF}.Release|Win32.ActiveCfg = Release|Win32
-		{B06280CB-82A4-46DE-8956-602643078BDF}.Release|Win32.Build.0 = Release|Win32
-		{B06280CB-82A4-46DE-8956-602643078BDF}.Release|x64.ActiveCfg = Release|x64
-		{B06280CB-82A4-46DE-8956-602643078BDF}.Release|x64.Build.0 = Release|x64
 		{4A2C5963-6A8D-4CA1-A312-C3D749B2EA81}.Debug|Win32.ActiveCfg = Debug|Win32
 		{4A2C5963-6A8D-4CA1-A312-C3D749B2EA81}.Debug|Win32.Build.0 = Debug|Win32
 		{4A2C5963-6A8D-4CA1-A312-C3D749B2EA81}.Debug|x64.ActiveCfg = Debug|x64

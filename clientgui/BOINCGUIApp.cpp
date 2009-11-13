@@ -36,6 +36,7 @@
 #include "mfile.h"
 #include "miofile.h"
 #include "parse.h"
+#include "idlemon.h"
 #include "Events.h"
 #include "common/wxFlatNotebook.h"
 #include "LogBOINC.h"
@@ -50,15 +51,6 @@
 #include "sg_StatImageLoader.h"
 #include "sg_BoincSimpleGUI.h"
 #include "DlgExitMessage.h"
-
-
-#ifdef __WXMSW__
-EXTERN_C BOOL  ClientLibraryStartup();
-EXTERN_C BOOL  IdleTrackerAttach();
-EXTERN_C void  IdleTrackerDetach();
-EXTERN_C void  ClientLibraryShutdown();
-EXTERN_C DWORD BOINCGetIdleTickCount();
-#endif
 
 
 DEFINE_EVENT_TYPE(wxEVT_RPC_FINISHED)
@@ -456,7 +448,6 @@ bool CBOINCGUIApp::OnInit() {
 
 
     // Startup the System Idle Detection code
-    ClientLibraryStartup();
     IdleTrackerAttach();
 
 #ifdef __WXMAC__
@@ -499,7 +490,6 @@ bool CBOINCGUIApp::OnInit() {
 int CBOINCGUIApp::OnExit() {
     // Shutdown the System Idle Detection code
     IdleTrackerDetach();
-    ClientLibraryShutdown();
 
     if (m_pDocument) {
         m_pDocument->OnExit();
@@ -746,17 +736,9 @@ void CBOINCGUIApp::InitSupportedLanguages() {
 }
 
 
-int CBOINCGUIApp::ClientLibraryStartup() {
-#ifdef __WXMSW__
-    ::ClientLibraryStartup();
-#endif
-    return 0;
-}
-
-
 int CBOINCGUIApp::IdleTrackerAttach() {
 #ifdef __WXMSW__
-    ::IdleTrackerAttach();
+    ::attach_idle_monitor();
 #endif
     return 0;
 }
@@ -764,15 +746,7 @@ int CBOINCGUIApp::IdleTrackerAttach() {
 
 int CBOINCGUIApp::IdleTrackerDetach() {
 #ifdef __WXMSW__
-    ::IdleTrackerDetach();
-#endif
-    return 0;
-}
-
-
-int CBOINCGUIApp::ClientLibraryShutdown() {
-#ifdef __WXMSW__
-    ::ClientLibraryShutdown();
+    ::detach_idle_monitor();
 #endif
     return 0;
 }
@@ -801,7 +775,7 @@ void CBOINCGUIApp::OnSystemShutDown( wxCloseEvent& event ) {
 
 int CBOINCGUIApp::UpdateSystemIdleDetection() {
 #ifdef __WXMSW__
-    return BOINCGetIdleTickCount();
+    return get_idle_tick_count();
 #else
     return TRUE;
 #endif

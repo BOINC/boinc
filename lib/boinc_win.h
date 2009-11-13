@@ -41,7 +41,7 @@
 #endif
 #endif
 
-// Target Windows 2000 or better with Internet Explorer 5.0 or better
+// Target Windows 2000 or better with Internet Explorer 5.01 or better
 #ifndef WINVER
 #define WINVER 0x0500
 #endif
@@ -52,7 +52,7 @@
 #define _WIN32_WINDOWS 0x0500
 #endif
 #ifndef _WIN32_IE
-#define _WIN32_IE 0x0500
+#define _WIN32_IE 0x0501
 #endif
 
 #include <windows.h>

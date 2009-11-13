@@ -16,22 +16,22 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include "stdafx.h"
-#include "boinc_dll.h"
+#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#include "boinc_win.h"
+#endif
+
 #include "win_util.h"
 
 
 /**
- * The following global data is only shared in this instance of the DLL
+ * The following global data is only shared in this process
  **/ 
 HANDLE    g_hMemoryMappedData = NULL;
 
 /**
- * The following global data is SHARED among all instances of the DLL
- * (processes); i.e., these are system-wide globals.
+ * The following global data is SHARED among all (processes); i.e., these are system-wide globals.
  **/
-struct SystemWideIdleData
-{
+struct SystemWideIdleData {
 	DWORD	dwLastTick;         // tick time of last input event
 };
 
@@ -40,8 +40,7 @@ struct SystemWideIdleData* g_pSystemWideIdleData = NULL;
 /**
  * Get tick count of last keyboard or mouse event
  **/
-EXTERN_C __declspec(dllexport) DWORD BOINCGetIdleTickCount()
-{
+long get_idle_tick_count() {
     DWORD dwCurrentTickCount = GetTickCount();
     DWORD dwLastTickCount = 0;
 
@@ -73,10 +72,9 @@ EXTERN_C __declspec(dllexport) DWORD BOINCGetIdleTickCount()
 }
 
 
-EXTERN_C __declspec(dllexport) BOOL IdleTrackerStartup()
-{
+bool startup_idle_monitor() {
  	BOOL                bExists = FALSE;
-	BOOL                bResult = FALSE;
+	bool                bResult = false;
  	SECURITY_ATTRIBUTES	sec_attr;
  	SECURITY_DESCRIPTOR sd;
 
@@ -103,7 +101,7 @@ EXTERN_C __declspec(dllexport) BOOL IdleTrackerStartup()
 		    PAGE_READWRITE,
 		    0,
 		    4096,
-		    "Global\\BoincIdleTracker"
+		    _T("Global\\BoincIdleTracker")
         );
     if( NULL == g_hMemoryMappedData )
     {
@@ -114,7 +112,7 @@ EXTERN_C __declspec(dllexport) BOOL IdleTrackerStartup()
 		        PAGE_READWRITE,
 		        0,
 		        4096,
-		        "BoincIdleTracker"
+		        _T("BoincIdleTracker")
             );
     }
 
@@ -142,19 +140,18 @@ EXTERN_C __declspec(dllexport) BOOL IdleTrackerStartup()
 
 
     if (!g_hMemoryMappedData || !g_pSystemWideIdleData )
-	    bResult = FALSE;
+	    bResult = false;
     else
-	    bResult = TRUE;
+	    bResult = true;
 
 
     return bResult;
 }
 
 
-EXTERN_C __declspec(dllexport) BOOL IdleTrackerAttach()
-{
+bool attach_idle_monitor() {
  	BOOL                bExists = FALSE;
-	BOOL                bResult = FALSE;
+	bool                bResult = false;
  	SECURITY_ATTRIBUTES	sec_attr;
  	SECURITY_DESCRIPTOR sd;
 
@@ -178,7 +175,7 @@ EXTERN_C __declspec(dllexport) BOOL IdleTrackerAttach()
         OpenFileMapping(
             FILE_MAP_READ | FILE_MAP_WRITE,
 		    FALSE,
-		    "Global\\BoincIdleTracker"
+		    _T("Global\\BoincIdleTracker")
         );
     if( NULL == g_hMemoryMappedData )
     {
@@ -186,7 +183,7 @@ EXTERN_C __declspec(dllexport) BOOL IdleTrackerAttach()
             OpenFileMapping(
                 FILE_MAP_READ | FILE_MAP_WRITE,
 		        FALSE,
-		        "BoincIdleTracker"
+		        _T("BoincIdleTracker")
             );
     }
 
@@ -214,15 +211,15 @@ EXTERN_C __declspec(dllexport) BOOL IdleTrackerAttach()
 
 
     if (!g_hMemoryMappedData || !g_pSystemWideIdleData )
-	    bResult = FALSE;
+	    bResult = false;
     else
-	    bResult = TRUE;
+	    bResult = true;
 
     return bResult;
 }
 
 
-EXTERN_C __declspec(dllexport) void IdleTrackerShutdown()
+void shutdown_idle_monitor()
 {
     if( NULL != g_pSystemWideIdleData )
     {
@@ -232,10 +229,7 @@ EXTERN_C __declspec(dllexport) void IdleTrackerShutdown()
 }
 
 
-EXTERN_C __declspec(dllexport) void IdleTrackerDetach()
+void detach_idle_monitor()
 {
-	IdleTrackerShutdown();
+	shutdown_idle_monitor();
 }
-
-
-const char *BOINC_RCSID_14d432d5b3 = "$Id$";

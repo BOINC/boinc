@@ -9180,3 +9180,35 @@ David  13 Nov 2009
         cs_prefs.cpp
         cpu_sched.cpp
         log_flags.cpp,h
+
+Rom    13 Nov 2009
+    - Remove need for boinc.dll from the client.
+    
+    client/
+        hostinfo_win.cpp
+        main.cpp
+    clientctrl/
+        boincsvcctrl.cpp
+    clientgui/
+        BOINCClientManager.cpp
+        BOINCGUIApp.cpp
+        BOINCGUIApp.h
+        stdwx.h
+    clienttray/
+        tray_win.cpp
+        tray_win.h
+    lib/
+        boinc_win.h
+        daemonmgt.cpp (Deleted)
+        daemonmgt.h (Added)
+        daemonmgt_win.cpp (Added)
+        idlemon.h (Added)
+        idlemon_win.cpp (Added)
+        idlemon_win.h (Deleted)
+    win_build/
+        boinc.sln
+        boinc_dll.vcproj
+        boincmgr.vcproj
+        boincsvcctrl.vcproj
+        boinctray.vcproj
+        libboinc.vcproj

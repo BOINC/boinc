@@ -29,8 +29,8 @@
 #include "BOINCClientManager.h"
 #include "error_numbers.h"
 #include "procinfo.h"
-
 #include "filesys.h"
+#include "daemonmgt.h"
 #include "util.h"
 
 #ifdef __WXMAC__
@@ -45,13 +45,6 @@ enum {
 #include "diagnostics_win.h"
 
 extern int diagnostics_get_process_information(PVOID* ppBuffer, PULONG pcbBuffer);
-EXTERN_C BOOL  IsBOINCServiceInstalled();
-EXTERN_C BOOL  IsBOINCServiceStarting();
-EXTERN_C BOOL  IsBOINCServiceRunning();
-EXTERN_C BOOL  IsBOINCServiceStopping();
-EXTERN_C BOOL  IsBOINCServiceStopped();
-EXTERN_C BOOL  StartBOINCService();
-EXTERN_C BOOL  StopBOINCService();
 
 #else
 #include <sys/wait.h>
@@ -81,7 +74,7 @@ CBOINCClientManager::~CBOINCClientManager() {
 bool CBOINCClientManager::AutoRestart() {
     if (IsBOINCCoreRunning()) return true;
 #ifndef __WXMAC__       // Mac can restart Client as a daemon
-    if (! m_bBOINCStartedByManager) return false;
+    if (!m_bBOINCStartedByManager) return false;
 #endif
     m_lBOINCCoreProcessId = 0;
     StartupBOINCCore();
@@ -103,7 +96,7 @@ bool CBOINCClientManager::IsSystemBooting() {
 int CBOINCClientManager::IsBOINCConfiguredAsDaemon() {
     bool bReturnValue = false;
 #if   defined(__WXMSW__)
-    if (IsBOINCServiceInstalled()) bReturnValue = 1;
+    if (is_daemon_installed()) bReturnValue = 1;
 #elif defined(__WXMAC__)
     if ( boinc_file_exists("/Library/LaunchDaemons/edu.berkeley.boinc.plist")) {
         bReturnValue = NewStyleDaemon;                      // New-style daemon uses launchd
@@ -123,8 +116,8 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
 #ifdef __WXMSW__
     char buf[MAX_PATH] = "";
     
-    if (IsBOINCServiceInstalled()) {
-        running = (FALSE != IsBOINCServiceStarting()) || (FALSE != IsBOINCServiceRunning());
+    if (is_daemon_installed()) {
+        running = (FALSE != is_daemon_starting()) || (FALSE != is_daemon_running());
     } else {
         // Global mutex on Win2k and later
         //
@@ -195,12 +188,12 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
     if (IsBOINCCoreRunning()) return true;
 
-#if   defined(__WXMSW__)
+#if defined(__WXMSW__)
     LPTSTR  szExecute = NULL;
     LPTSTR  szDataDirectory = NULL;
 
     if (IsBOINCConfiguredAsDaemon()) {
-        StartBOINCService();
+        start_daemon_via_daemonctrl();
 
         m_bBOINCStartedByManager = true;
         bReturnValue = IsBOINCCoreRunning();
@@ -434,7 +427,7 @@ void CBOINCClientManager::ShutdownBOINCCore() {
     if (m_bBOINCStartedByManager) {
 #ifdef __WXMSW__
         if (IsBOINCConfiguredAsDaemon()) {
-            StopBOINCService();
+            stop_daemon_via_daemonctrl();
             bClientQuit = true;
         } else
 #endif

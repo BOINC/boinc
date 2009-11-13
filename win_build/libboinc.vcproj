@@ -636,6 +636,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\daemonmgt.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\diagnostics.h"
 				>
 			</File>
@@ -653,6 +657,10 @@
 			</File>
 			<File
 				RelativePath="..\lib\hostinfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\idlemon.h"
 				>
 			</File>
 			<File
@@ -912,6 +920,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\daemonmgt_win.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\diagnostics.cpp"
 				>
 				<FileConfiguration
@@ -1021,6 +1033,10 @@
 			</File>
 			<File
 				RelativePath="..\lib\hostinfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\idlemon_win.cpp"
 				>
 			</File>
 			<File

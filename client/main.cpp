@@ -27,12 +27,6 @@
 #define snprintf _snprintf
 #endif
 
-extern HINSTANCE g_hClientLibraryDll;
-typedef BOOL (CALLBACK* ClientLibraryStartup)();
-typedef BOOL (CALLBACK* IdleTrackerStartup)();
-typedef void (CALLBACK* IdleTrackerShutdown)();
-typedef void (CALLBACK* ClientLibraryShutdown)();
-
 #else
 #include "config.h"
 #ifdef HAVE_SYS_SOCKET_H
@@ -59,6 +53,7 @@ typedef void (CALLBACK* ClientLibraryShutdown)();
 #include "prefs.h"
 #include "filesys.h"
 #include "network.h"
+#include "idlemon.h"
 #include "client_state.h"
 #include "file_names.h"
 #include "log_flags.h"
@@ -275,13 +270,6 @@ static void init_core_client(int argc, char** argv) {
 int initialize() {
     int retval;
 
-#ifdef _WIN32
-    g_hClientLibraryDll = LoadLibrary("boinc.dll");
-    if(!g_hClientLibraryDll) {
-        log_message_error("Failed to initialize the BOINC Client Library.");
-    }
-#endif
-
     if (!config.allow_multiple_clients) {
         retval = wait_client_mutex(".", 10);
         if (retval) {
@@ -302,32 +290,14 @@ int initialize() {
 	curl_init();
 
 #ifdef _WIN32
-    if(g_hClientLibraryDll) {
-        ClientLibraryStartup fnClientLibraryStartup;
-        IdleTrackerStartup fnIdleTrackerStartup;
-
-        fnClientLibraryStartup = (ClientLibraryStartup)GetProcAddress(g_hClientLibraryDll, "ClientLibraryStartup");
-        if(fnClientLibraryStartup) {
-            if(!fnClientLibraryStartup()) {
-                log_message_error(
-                    "Failed to initialize the BOINC Client Library Interface."
-                    "BOINC will not be able to determine if the user is idle or not...\n"
-                );
-            }
-        }
-
-        fnIdleTrackerStartup = (IdleTrackerStartup)GetProcAddress(g_hClientLibraryDll, "IdleTrackerStartup");
-        if(fnIdleTrackerStartup) {
-            if(!fnIdleTrackerStartup()) {
-                log_message_error(
-                    "Failed to initialize the BOINC Client Library Interface."
-                    "BOINC will not be able to determine if the user is idle or not...\n"
-                );
-            }
-        }
+    if(!startup_idle_monitor()) {
+        log_message_error(
+            "Failed to initialize the BOINC Client Library Interface."
+            "BOINC will not be able to determine if the user is idle or not...\n"
+        );
     }
-
 #endif
+
     return 0;
 }
 
@@ -411,26 +381,7 @@ int finalize() {
     gstate.quit_activities();
 
 #ifdef _WIN32
-    if(g_hClientLibraryDll) {
-        IdleTrackerShutdown fnIdleTrackerShutdown;
-        ClientLibraryShutdown fnClientLibraryShutdown;
-
-        fnIdleTrackerShutdown = (IdleTrackerShutdown)GetProcAddress(g_hClientLibraryDll, "IdleTrackerShutdown");
-        if(fnIdleTrackerShutdown) {
-            fnIdleTrackerShutdown();
-        }
-
-        fnClientLibraryShutdown = (ClientLibraryShutdown)GetProcAddress(g_hClientLibraryDll, "ClientLibraryShutdown");
-        if(fnClientLibraryShutdown) {
-            fnClientLibraryShutdown();
-        }
-
-        if(!FreeLibrary(g_hClientLibraryDll)) {
-            log_message_error("Failed to cleanup the BOINC Idle Detection Interface");
-        }
-
-        g_hClientLibraryDll = NULL;
-    }
+    shutdown_idle_monitor();
 
 #ifdef USE_WINSOCK
     if (WinsockCleanup()) {

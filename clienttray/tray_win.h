@@ -41,7 +41,6 @@ protected:
     static LRESULT CALLBACK TrayProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
     HANDLE                  m_hDataManagementThread;
-    BOOL                    m_bClientLibraryInitialized;
     BOOL                    m_bIdleTrackerInitialized;
 };
 

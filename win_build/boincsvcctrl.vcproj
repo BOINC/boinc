@@ -85,7 +85,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB boinc_dll.lib"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -196,7 +196,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB boinc_dll.lib"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -306,7 +306,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB boinc_dll.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
@@ -419,7 +419,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB boinc_dll.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
@@ -532,7 +532,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB boinc_dll.lib"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -643,7 +643,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB boinc_dll.lib"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -753,7 +753,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB boinc_dll.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
@@ -865,7 +865,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB boinc_dll.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"

@@ -15,7 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
+#endif
+
 #ifdef _MSC_VER
 #define snprintf _snprintf
 #endif
@@ -31,8 +34,7 @@
 #include "client_msgs.h"
 #include "hostinfo_network.h"
 #include "hostinfo.h"
-
-HINSTANCE g_hClientLibraryDll;
+#include "idlemon.h"
 
 
 // Newer system metrics values
@@ -798,15 +800,9 @@ bool HOST_INFO::host_is_running_on_batteries() {
 }
 
 bool HOST_INFO::users_idle(bool /*check_all_logins*/, double idle_time_to_run) {
-    typedef DWORD (CALLBACK* GetFn)();
-    static GetFn fn = (GetFn)GetProcAddress(g_hClientLibraryDll, "BOINCGetIdleTickCount");
-
-    if (g_hClientLibraryDll && fn) {
-        double seconds_idle = fn() / 1000;
-        double seconds_time_to_run = 60 * idle_time_to_run;
-        return seconds_idle > seconds_time_to_run;
-    }
-
+    double seconds_idle = get_idle_tick_count() / 1000;
+    double seconds_time_to_run = 60 * idle_time_to_run;
+    return seconds_idle > seconds_time_to_run;
     return false;
 }
 

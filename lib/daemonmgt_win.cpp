@@ -15,17 +15,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#include "stdafx.h"
+#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#include "boinc_win.h"
+#endif
 
 /**
  * Find out if BOINC has been installed as a service.
  **/
-EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceInstalled()
+bool is_daemon_installed()
 {
     SC_HANDLE schSCManager = NULL;
     SC_HANDLE schService = NULL;
-    BOOL bRetVal = FALSE;
+    bool bRetVal = false;
 
     schSCManager = OpenSCManager( 
         NULL,                    // local machine 
@@ -41,7 +42,7 @@ EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceInstalled()
      
         if (schService) 
         {
-            bRetVal = TRUE;
+            bRetVal = true;
         }
     }
 
@@ -58,12 +59,12 @@ EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceInstalled()
 /**
  * Find out if BOINC has been told to start.
  **/
-EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceStarting()
+bool is_daemon_starting()
 {
     SC_HANDLE schSCManager = NULL;
     SC_HANDLE schService = NULL;
     SERVICE_STATUS ssStatus;
-    BOOL bRetVal = FALSE;
+    bool bRetVal = false;
 
     schSCManager = OpenSCManager( 
         NULL,                    // local machine 
@@ -82,7 +83,7 @@ EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceStarting()
             if (QueryServiceStatus(schService, &ssStatus))
             {
                 if (ssStatus.dwCurrentState == SERVICE_START_PENDING)
-                    bRetVal = TRUE;
+                    bRetVal = true;
             }
         }
     }
@@ -100,12 +101,12 @@ EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceStarting()
 /**
  * Find out if BOINC is executing as a service.
  **/
-EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceRunning()
+bool is_daemon_running()
 {
     SC_HANDLE schSCManager = NULL;
     SC_HANDLE schService = NULL;
     SERVICE_STATUS ssStatus;
-    BOOL bRetVal = FALSE;
+    bool bRetVal = false;
 
     schSCManager = OpenSCManager( 
         NULL,                    // local machine 
@@ -124,7 +125,7 @@ EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceRunning()
             if (QueryServiceStatus(schService, &ssStatus))
             {
                 if (ssStatus.dwCurrentState == SERVICE_RUNNING)
-                    bRetVal = TRUE;
+                    bRetVal = true;
             }
         }
     }
@@ -142,12 +143,12 @@ EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceRunning()
 /**
  * Find out if BOINC has been told to stop.
  **/
-EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceStopping()
+bool is_daemon_stopping()
 {
     SC_HANDLE schSCManager = NULL;
     SC_HANDLE schService = NULL;
     SERVICE_STATUS ssStatus;
-    BOOL bRetVal = FALSE;
+    bool bRetVal = false;
 
     schSCManager = OpenSCManager( 
         NULL,                    // local machine 
@@ -166,7 +167,7 @@ EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceStopping()
             if (QueryServiceStatus(schService, &ssStatus))
             {
                 if (ssStatus.dwCurrentState == SERVICE_STOP_PENDING)
-                    bRetVal = TRUE;
+                    bRetVal = true;
             }
         }
     }
@@ -184,12 +185,12 @@ EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceStopping()
 /**
  * Find out if BOINC has stopped executing as a service.
  **/
-EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceStopped()
+bool is_daemon_stopped()
 {
     SC_HANDLE schSCManager = NULL;
     SC_HANDLE schService = NULL;
     SERVICE_STATUS ssStatus;
-    BOOL bRetVal = FALSE;
+    bool bRetVal = false;
 
     schSCManager = OpenSCManager( 
         NULL,                    // local machine 
@@ -208,7 +209,7 @@ EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceStopped()
             if (QueryServiceStatus(schService, &ssStatus))
             {
                 if (ssStatus.dwCurrentState == SERVICE_STOPPED)
-                    bRetVal = TRUE;
+                    bRetVal = true;
             }
         }
     }
@@ -226,9 +227,9 @@ EXTERN_C __declspec(dllexport) BOOL IsBOINCServiceStopped()
 /**
  * Start the BOINC Service via the BOINC Service Control utility.
  **/
-EXTERN_C __declspec(dllexport) BOOL StartBOINCService()
+bool start_daemon_via_daemonctrl()
 {
-    BOOL                bRetVal = FALSE;
+    bool                bRetVal = false;
     BOOL                bProcessStarted;
     SHELLEXECUTEINFO    shex;
     TCHAR               szPath[MAX_PATH+1];
@@ -271,7 +272,7 @@ EXTERN_C __declspec(dllexport) BOOL StartBOINCService()
         WaitForSingleObject(shex.hProcess, INFINITE);
         if (GetExitCodeProcess(shex.hProcess, &ulExitCode)) {
             if (ulExitCode == 0) {
-                bRetVal = TRUE;
+                bRetVal = true;
             }
         }
     }
@@ -283,11 +284,11 @@ EXTERN_C __declspec(dllexport) BOOL StartBOINCService()
 /**
  * Start the BOINC Service.
  **/
-EXTERN_C __declspec(dllexport) BOOL StartBOINCServiceEx()
+bool start_daemon()
 {
     SC_HANDLE schSCManager = NULL;
     SC_HANDLE schService = NULL;
-    BOOL bRetVal = FALSE;
+    bool bRetVal = false;
 
     schSCManager = OpenSCManager( 
         NULL,                    // local machine 
@@ -305,7 +306,7 @@ EXTERN_C __declspec(dllexport) BOOL StartBOINCServiceEx()
         {
             if (StartService(schService, 0, NULL))
             {
-                bRetVal = TRUE;
+                bRetVal = true;
             }
         }
     }
@@ -323,9 +324,9 @@ EXTERN_C __declspec(dllexport) BOOL StartBOINCServiceEx()
 /**
  * Stop the BOINC Service via the BOINC Service Control utility.
  **/
-EXTERN_C __declspec(dllexport) BOOL StopBOINCService()
+bool stop_daemon_via_daemonctrl()
 {
-    BOOL                bRetVal = FALSE;
+    bool                bRetVal = false;
     BOOL                bProcessStarted;
     SHELLEXECUTEINFO    shex;
     TCHAR               szPath[MAX_PATH+1];
@@ -368,7 +369,7 @@ EXTERN_C __declspec(dllexport) BOOL StopBOINCService()
         WaitForSingleObject(shex.hProcess, INFINITE);
         if (GetExitCodeProcess(shex.hProcess, &ulExitCode)) {
             if (ulExitCode == 0) {
-                bRetVal = TRUE;
+                bRetVal = true;
             }
         }
     }
@@ -380,12 +381,12 @@ EXTERN_C __declspec(dllexport) BOOL StopBOINCService()
 /**
  * Stop the BOINC Service.
  **/
-EXTERN_C __declspec(dllexport) BOOL StopBOINCServiceEx()
+bool stop_daemon()
 {
     SC_HANDLE schSCManager = NULL;
     SC_HANDLE schService = NULL;
     SERVICE_STATUS ssStatus;
-    BOOL bRetVal = FALSE;
+    bool bRetVal = false;
 
     schSCManager = OpenSCManager( 
         NULL,                    // local machine 
@@ -403,7 +404,7 @@ EXTERN_C __declspec(dllexport) BOOL StopBOINCServiceEx()
         {
             if (ControlService(schService, SERVICE_CONTROL_STOP, &ssStatus))
             {
-                bRetVal = TRUE;
+                bRetVal = true;
             }
         }
     }

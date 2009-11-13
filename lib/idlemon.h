@@ -15,7 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#pragma once
+#ifndef _BOINC_IDLEMONITOR_H_
+#define _BOINC_IDLEMONITOR_H_
 
-extern BOOL IdleTrackerStartup();
-extern void IdleTrackerShutdown();
+extern bool startup_idle_monitor();
+extern bool attach_idle_monitor();
+extern void shutdown_idle_monitor();
+extern void detach_idle_monitor();
+
+extern long get_idle_tick_count();
+
+#endif

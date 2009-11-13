@@ -20,13 +20,10 @@
 #endif
 
 #include "version.h"
-
-EXTERN_C BOOL  StartBOINCServiceEx();
-EXTERN_C BOOL  StopBOINCServiceEx();
-
+#include "daemonmgt.h"
 
 void version(){
-    printf("boincsvcctrl,  built from %s \n", PACKAGE_STRING );
+    printf("boincsvcctrl, built from %s \n", PACKAGE_STRING );
     exit(0);
 }
 
@@ -58,11 +55,11 @@ int main(int argc, char** argv) {
     }
 
     if (!strcmp(argv[i], "--start")) {
-        retval = !StartBOINCServiceEx();
+        retval = !start_daemon();
     }
 
     if (!strcmp(argv[i], "--stop")) {
-        retval = !StopBOINCServiceEx();
+        retval = !stop_daemon();
     }
 
     exit(retval);

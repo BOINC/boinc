@@ -85,7 +85,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib advapi32.lib boinc_dll.lib"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -195,7 +195,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib advapi32.lib boinc_dll.lib"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -304,7 +304,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib advapi32.lib boinc_dll.lib"
+				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
@@ -414,7 +414,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib advapi32.lib boinc_dll.lib"
+				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
@@ -522,7 +522,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib advapi32.lib boinc_dll.lib"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -632,7 +632,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib advapi32.lib boinc_dll.lib"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -741,7 +741,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib advapi32.lib boinc_dll.lib"
+				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
@@ -850,7 +850,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib advapi32.lib boinc_dll.lib"
+				AdditionalDependencies="libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib advapi32.lib"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"

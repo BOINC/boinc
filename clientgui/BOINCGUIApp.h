@@ -64,10 +64,8 @@ protected:
 
     void                InitSupportedLanguages();
 
-    int                 ClientLibraryStartup();
     int                 IdleTrackerAttach();
     int                 IdleTrackerDetach();
-    int                 ClientLibraryShutdown();
 
     wxConfig*           m_pConfig;
     wxLocale*           m_pLocale;
