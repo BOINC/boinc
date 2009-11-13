@@ -9212,3 +9212,11 @@ Rom    13 Nov 2009
         boincsvcctrl.vcproj
         boinctray.vcproj
         libboinc.vcproj
+
+David  13 Nov 2009
+    - client: fix exclusive_gpu_app feature so that it responds
+        within 10 sec instead of 60 sec
+
+    client/
+        app.cpp
+        log_flags.cpp
