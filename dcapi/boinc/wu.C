@@ -46,6 +46,7 @@ typedef enum
 	WU_SERIALIZED,
 	WU_SUSPENDED,
 	WU_NOSUSPEND,
+	WU_NATIVECLIENT,
 	WU_PRIORITY
 } wu_tag;
 
@@ -123,6 +124,7 @@ static const struct tag_desc tags[] =
 	{ WU_SUSPENDED,		"suspended" },
 	{ WU_SERIALIZED,	"serialized" },
 	{ WU_NOSUSPEND,		"nosuspend" },
+	{ WU_NATIVECLIENT,	"nativeclient" },
 	{ WU_PRIORITY,		"priority" }
 };
 
@@ -327,6 +329,9 @@ static void wudesc_start(GMarkupParseContext *ctx, const char *element_name,
 		case WU_NOSUSPEND:
 			pctx->wu->nosuspend = TRUE;
 			break;
+		case WU_NATIVECLIENT:
+			pctx->wu->nativeclient = TRUE;
+			break;
 		default:
 			break;
 	}
@@ -396,6 +401,7 @@ static void wudesc_text(GMarkupParseContext *ctx, const char *text,
 		case WU_SUBMITTED:
 		case WU_SERIALIZED:
 		case WU_NOSUSPEND:
+		case WU_NATIVECLIENT:
 			/* XXX Emit error? */
 			break;
 		default:
@@ -423,6 +429,8 @@ static int write_wudesc(const DC_Workunit *wu)
 		fprintf(f, "\t<suspended/>\n");
 	if (wu->nosuspend)
 		fprintf(f, "\t<nosuspend/>\n");
+	if (wu->nativeclient)
+		fprintf(f, "\t<nativeclient/>\n");
 	fprintf(f, "\t<tag>%s</tag>\n", wu->tag);
 
 	fprintf(f, "\t<client_name>%s</client_name>\n", wu->client_name);
@@ -521,22 +529,30 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 	/* Set the default priority */
 	wu->priority = DC_getClientCfgInt(clientName, CFG_DEFAULTPRIO, 0, TRUE);
 
-	/* Add the client config as an internal input file */
-	ret = generate_client_config(wu);
-	if (ret)
-	{
-		DC_destroyWU(wu);
-		return NULL;
-	}
-
 	/* Add the internal output files */
-	DC_addWUOutput(wu, DC_LABEL_STDOUT);
-	DC_addWUOutput(wu, DC_LABEL_STDERR);
-	DC_addWUOutput(wu, DC_LABEL_CLIENTLOG);
-	if (DC_getClientCfgBool(clientName, CFG_ENABLESUSPEND, TRUE, TRUE))
-		DC_addWUOutput(wu, CKPT_LABEL_OUT);
-	else
+	if (DC_getClientCfgBool(clientName, CFG_NATIVECLIENT, FALSE, TRUE))
+	{
+		wu->nativeclient = TRUE;
 		wu->nosuspend = TRUE;
+	}
+	else
+	{
+		/* Add the client config as an internal input file */
+		ret = generate_client_config(wu);
+		if (ret)
+		{
+			DC_destroyWU(wu);
+			return NULL;
+		}
+
+		DC_addWUOutput(wu, DC_LABEL_STDOUT);
+		DC_addWUOutput(wu, DC_LABEL_STDERR);
+		DC_addWUOutput(wu, DC_LABEL_CLIENTLOG);
+		if (DC_getClientCfgBool(clientName, CFG_ENABLESUSPEND, FALSE, TRUE))
+			DC_addWUOutput(wu, CKPT_LABEL_OUT);
+		else
+			wu->nosuspend = TRUE;
+	}
 
 	g_hash_table_insert(wu_table, wu->uuid, wu);
 	++num_wus;

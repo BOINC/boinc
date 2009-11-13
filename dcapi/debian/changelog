@@ -1,3 +1,9 @@
+dcapi (0.9-30) unstable; urgency=low
+
+  * Add support for client applications using the native BOINC API.
+
+ -- Gábor Gombás <gombasg@sztaki.hu>  Fri, 13 Nov 2009 16:18:07 +0100
+
 dcapi (0.9-29) unstable; urgency=low
 
   * Fix the install location of the Python modules.

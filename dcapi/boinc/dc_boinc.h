@@ -42,6 +42,8 @@ extern "C" {
 #define CFG_DELAYBOUND		"DelayBound"
 /* Suspending enabled or not */
 #define CFG_ENABLESUSPEND	"EnableSuspend"
+/* Client uses native BOINC API instead of DC-API */
+#define CFG_NATIVECLIENT	"NativeClient"
 
 /* File types in the working directory */
 typedef enum
@@ -71,6 +73,7 @@ struct _DC_Workunit
 	int			submitted : 1;
 	int			suspended : 1;
 	int			nosuspend : 1;
+	int			nativeclient : 1;
 
 	/* The WU's UUID */
 	uuid_t			uuid;
