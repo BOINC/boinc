@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-14 03:58-0700\n"
+"PO-Revision-Date: 2009-11-14 04:05-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -2041,28 +2041,27 @@ msgstr "Olvassa el az Einstein@Home képernyővédőjének részletes leírásá
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
 msgstr ""
+"Beszéljen az adminokkal és más felhasználókkal az Einstein@Home üzenőfalakon"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
-msgstr ""
+msgstr "Einstein állapota"
 
 #: clientgui/Localization.cpp:75
 msgid "Current status of the Einstein@Home server"
-msgstr ""
+msgstr "Az Einstein@Home szerver jelenlegi állapota"
 
 #: clientgui/Localization.cpp:77
 msgid "Report problems"
-msgstr ""
+msgstr "Problémák bejelentése"
 
 #: clientgui/Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
-msgstr ""
+msgstr "Ez a link az Einstein@Home hibabejelentő üzenőfalára mutat"
 
 #: clientgui/Localization.cpp:83
-#, fuzzy
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr ""
-"Megnézheti és megváltoztathatja a SETI@home fiók profilját és beállításait"
+msgstr "Az Einstein@Home fiók profiljának és beállításainak megtekintése"
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
