@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-10 08:57-0700\n"
-"Last-Translator: M T <molnart@mail.bibl.u-szeged.hu>\n"
+"PO-Revision-Date: 2009-11-14 03:58-0700\n"
+"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -1691,7 +1691,7 @@ msgstr "Virtuális memória méret"
 
 #: clientgui/DlgItemProperties.cpp:201
 msgid "Working set size"
-msgstr ""
+msgstr "Kiosztott munkamemória"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Directory"
@@ -1735,7 +1735,7 @@ msgstr "- számítás felfüggesztve"
 
 #: clientgui/DlgItemProperties.cpp:327
 msgid " - time of day"
-msgstr ""
+msgstr "- napszak"
 
 #: clientgui/DlgItemProperties.cpp:330
 msgid " - CPU benchmarks"
@@ -1821,12 +1821,11 @@ msgid "What language should the manager use?"
 msgstr "Melyik nyelvet használja a manager?"
 
 #: clientgui/DlgOptions.cpp:168
-#, fuzzy
 msgid ""
 "Network reminder interval:\n"
 "(minutes)"
 msgstr ""
-"Hálózati emlékeztető intervallum:\n"
+"Hálózati kapcsolat emlékeztető intervalluma:\n"
 "(perc)"
 
 #: clientgui/DlgOptions.cpp:180
