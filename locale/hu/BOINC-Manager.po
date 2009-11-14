@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-14 04:05-0700\n"
+"PO-Revision-Date: 2009-11-14 05:56-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -2065,30 +2065,31 @@ msgstr "Az Einstein@Home fiók profiljának és beállításainak megtekintése"
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
-msgstr ""
+msgstr "Fiók áttekintése"
 
 #: clientgui/Localization.cpp:95
-#, fuzzy
 msgid "View a listing of all the computers on which you are running Einstein@Home"
 msgstr ""
-"Megnézheti azon számítógépeinek listáját, amelyekkel Ön a SETI@home-hoz "
-"csatlakozott"
+"Azon számítógépek listájának megtekintése, amelyekkel Ön az Einstein@Home-"
+"hoz csatlakozott"
 
 #: clientgui/Localization.cpp:101
 msgid "LIGO project"
-msgstr ""
+msgstr "LIGO projekt"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
 msgstr ""
+"A Lézer-Interferometriás Gravitációshullám Obszervatórium (LIGO) projekt "
+"honlapja"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
-msgstr ""
+msgstr "GEO-600 projekt"
 
 #: clientgui/Localization.cpp:107
 msgid "The home page of the GEO-600 project"
-msgstr ""
+msgstr "A GEO-600 projekt honlapja"
 
 #: clientgui/Localization.cpp:115
 #: clientgui/Localization.cpp:133
@@ -2097,68 +2098,71 @@ msgstr "Csapat"
 
 #: clientgui/Localization.cpp:117
 msgid "Info about your Team"
-msgstr ""
+msgstr "Infó az Ön csapatáról"
 
 #: clientgui/Localization.cpp:123
 msgid "Get help for climateprediction.net"
-msgstr ""
+msgstr "Segítség kérése a climateprediction.net-hez"
 
 #: clientgui/Localization.cpp:125
-#, fuzzy
 msgid "News"
-msgstr "Új"
+msgstr "Hírek"
 
 #: clientgui/Localization.cpp:127
 msgid "climateprediction.net News"
-msgstr ""
+msgstr "climateprediction.net hírek"
 
 #: clientgui/Localization.cpp:131
 msgid "View your account information, credits, and trickles"
-msgstr ""
+msgstr "Fiók-, és kreditinformációk megtekintése"
 
 #: clientgui/Localization.cpp:135
 msgid "Info about your team"
-msgstr ""
+msgstr "Infó az Ön csapatáról"
 
 #: clientgui/Localization.cpp:141
+#, fuzzy
 msgid "Search for help in our help system"
-msgstr ""
+msgstr "Segítség keresése támogatási rendszerünkben"
 
 #: clientgui/Localization.cpp:143
 msgid "Global Statistics"
-msgstr ""
+msgstr "Globális statisztikák"
 
 #: clientgui/Localization.cpp:145
 msgid "Summary statistics for World Community Grid"
-msgstr ""
+msgstr "Összegző statisztikák a World Community Grid-hez"
 
+# Ezt a francia fordításban találtam. De jobban hangzik, mint a Hálózatom, vagy valami hasonló... És bár jelentésében eltér, az értelme nem vész el.
 #: clientgui/Localization.cpp:147
 msgid "My Grid"
-msgstr ""
+msgstr "Számításaim"
 
 #: clientgui/Localization.cpp:149
 msgid "Your statistics and settings"
-msgstr ""
+msgstr "Az Ön statisztikái és beállításai"
 
 #: clientgui/Localization.cpp:151
 msgid "Device Profiles"
-msgstr ""
+msgstr "Eszköz profilok"
 
 #: clientgui/Localization.cpp:153
 msgid "Update your device settings"
-msgstr ""
+msgstr "Eszközbeállítások frissítése"
 
 #: clientgui/Localization.cpp:155
 msgid "Research"
-msgstr ""
+msgstr "Kutatás"
 
 #: clientgui/Localization.cpp:157
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr ""
+"Tudjon meg többet azon projektekről, melyeknek a World Community Grid ad "
+"otthont"
 
 #: clientgui/MainDocument.cpp:536
 msgid "Starting client services; please wait..."
-msgstr ""
+msgstr "Kliensszolgáltatások indítása; kérem várjon..."
 
 #: clientgui/MainDocument.cpp:1059
 msgid "Retrieving system state; please wait..."
@@ -2186,6 +2190,8 @@ msgid ""
 "\n"
 "Please check the URL and try again."
 msgstr ""
+"Az Ön által megadott URL nem egy BOINC-alapú projektre mutat.\n"
+"Kérjük, ellenőrizze az URL-t és próbálja újra."
 
 #: clientgui/NotDetectedPage.cpp:189
 msgid "Account manager not found"
@@ -2198,28 +2204,30 @@ msgid ""
 "\n"
 "Please check the URL and try again."
 msgstr ""
+"Az Ön által megadott URL nem egy BOINC-alapú fiókkezelőre mutat.\n"
+"\n"
+"Kérjük, ellenőrizze az URL-t és próbálja újra."
 
 #: clientgui/NotFoundPage.cpp:182
 msgid "Login Failed."
-msgstr ""
+msgstr "Bejelentkezés sikertelen."
 
 #: clientgui/NotFoundPage.cpp:186
 msgid "Check the username and password, and try again."
-msgstr ""
+msgstr "Ellenőrizze a felhasználónevet és a jelszót, majd próbálja újra."
 
 #: clientgui/NotFoundPage.cpp:190
 msgid "Check the email address and password, and try again."
-msgstr ""
+msgstr "Ellenőrizze az emailcímet és a jelszót, majd próbálja újra."
 
 #: clientgui/ProjectInfoPage.cpp:249
 msgid "Choose a project"
-msgstr ""
+msgstr "Válasszon egy projektet"
 
 #: clientgui/ProjectInfoPage.cpp:252
-#, fuzzy
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
-"Fiókkezelő kiválasztásához kattintson a fiókkezelő nevére\n"
+"Projekt választásához kattintson a projekt nevére\n"
 "vagy gépelje alább be az URL-jét."
 
 #: clientgui/ProjectInfoPage.cpp:255
@@ -2229,34 +2237,37 @@ msgstr "Projekt URL:"
 #: clientgui/ProjectInfoPage.cpp:339
 msgid "This project may not have work for your type of computer. Are you sure you wish to continue?"
 msgstr ""
+"Lehetséges, hogy ez a projekt nem tud munkát biztosítani az Ön "
+"számítógéptípusához. Biztosan folytatni akarja?"
 
 #: clientgui/ProjectInfoPage.cpp:363
 msgid "You are already attached to this project. Please choose a different project."
-msgstr ""
+msgstr "Már csatlakozott ehhez a projekthez. Kérjük, válasszon másik projektet."
 
 #: clientgui/ProjectListCtrl.cpp:239
 msgid "Click"
-msgstr ""
+msgstr "Kattintás"
 
 #: clientgui/ProjectProcessingPage.cpp:323
 #: clientgui/ProjectPropertiesPage.cpp:336
-#, fuzzy
 msgid ""
 "Communicating with project\n"
 "Please wait..."
 msgstr ""
-"Kapcsolat a projekttel.\n"
-"Kérem várjon"
+"Kommunikáció projekttel\n"
+"Kérem várjon..."
 
 #: clientgui/ProjectProcessingPage.cpp:499
 msgid ""
 "Required wizard file(s) are missing from the target server.\n"
 "(lookup_account.php/create_account.php)\n"
 msgstr ""
+"A szükséges varázsló fájl(ok) nem találhatók a célszerveren.\n"
+"(lookup_accout.php/create_account.php)\n"
 
 #: clientgui/ProxyInfoPage.cpp:196
 msgid "Network communication failure"
-msgstr ""
+msgstr "Hálózati kommunikációs hiba"
 
 #: clientgui/ProxyInfoPage.cpp:200
 msgid ""
@@ -2415,9 +2426,8 @@ msgstr ""
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
-#, fuzzy
 msgid "Get help with BOINC"
-msgstr "Segítség a BOINChoz"
+msgstr "Segítség kérése a BOINChoz"
 
 #: clientgui/sg_DlgMessages.cpp:754
 #, c-format
