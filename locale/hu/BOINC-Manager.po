@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-14 05:56-0700\n"
+"PO-Revision-Date: 2009-11-14 06:22-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -2285,6 +2285,20 @@ msgid ""
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
 msgstr ""
+"A World Community Grid - BOINC szoftver nem tudott kommunikálni\n"
+"az interneten keresztül. A legvalószínűbb okok:\n"
+"\n"
+"1) Kapcsolódási probléma. Ellenőrizze a hálózati, vagy modemes kapcsolatot,\n"
+"majd kattintson a Vissza gombra és próbálja újra.\n"
+"\n"
+"2) Személyes tűzfal szoftver blokkolja a World Community Grid - BOINC "
+"szoftvert. Állítsa be úgy a személyes tűzfalát, hogy az\n"
+"engedélyezze a BONIC és BOINC Kezelő kommunikációját a 80-as és a 443-as "
+"porton,\n"
+"majd kattintson a Vissza gombra és próbálja újra.\n"
+"\n"
+"3) Ön proxy szervert használ.\n"
+"Kattintson a Tovább gombra a BOINC proxybeállításainak módosításához."
 
 #: clientgui/ProxyInfoPage.cpp:217
 msgid ""
@@ -2302,6 +2316,20 @@ msgid ""
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
 msgstr ""
+"A BOINC nem tudott kommunikálni az interneten keresztül.\n"
+"A legvalószínűbb okok:\n"
+"\n"
+"1) Kapcsolódási probléma. Ellenőrizze a hálózati, vagy modemes kapcsolatot,\n"
+"majd kattintson a Vissza gombra és próbálja újra.\n"
+"\n"
+"2) Személyes tűzfal szoftver blokkolja a BOINCot. Állítsa be úgy a személyes "
+"tűzfalát, hogy az\n"
+"engedélyezze a BONIC és BOINC Kezelő kommunikációját a 80-as és a 443-as "
+"porton,\n"
+"majd kattintson a Vissza gombra és próbálja újra.\n"
+"\n"
+"3) Ön proxy szervert használ.\n"
+"Kattintson a Tovább gombra a BOINC proxybeállításainak módosításához."
 
 #: clientgui/ProxyPage.cpp:332
 msgid "Proxy configuration"
@@ -2314,7 +2342,7 @@ msgstr "HTTP proxy"
 #: clientgui/ProxyPage.cpp:338
 #: clientgui/ProxyPage.cpp:358
 msgid "Server:"
-msgstr "Server:"
+msgstr "Szerver:"
 
 #: clientgui/ProxyPage.cpp:351
 msgid "Autodetect"
@@ -2325,54 +2353,57 @@ msgid "SOCKS proxy"
 msgstr "SOCKS proxy"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-#, fuzzy
 msgid "Advanced View...\tCTRL+SHIFT+A"
-msgstr "&Haladó nézet\tCTRL+SHIFT+A"
+msgstr "Haladó nézet...\tCtrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
+#, fuzzy
 msgid "Display the advanced (accessible) graphical interface."
-msgstr ""
+msgstr "A Haladó (elérhető) grafikus felület megjelenítése"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:141
 #, c-format
 msgid "&%s"
-msgstr ""
+msgstr "&%s"
 
 #: clientgui/sg_ClientStateIndicator.cpp:288
+#, fuzzy
 msgid "Retrieving current status."
-msgstr ""
+msgstr "Jelenlegi státusz visszaállítása."
 
 #: clientgui/sg_ClientStateIndicator.cpp:291
+#, fuzzy
 msgid "You don't have any projects.  Please Add a Project."
-msgstr ""
+msgstr "Nincsenek projektjei. Kérjük, Adjon hozzá projektet."
 
 #: clientgui/sg_ClientStateIndicator.cpp:294
 msgid "Downloading work from the server."
-msgstr ""
+msgstr "Munka letöltése a szerverről."
 
 #: clientgui/sg_ClientStateIndicator.cpp:299
+#, fuzzy
 msgid "Processing Suspended:  Running On Batteries."
-msgstr ""
+msgstr "Számítás felfüggesztve: Működés akkumulátorról."
 
 #: clientgui/sg_ClientStateIndicator.cpp:301
 msgid "Processing Suspended:  User Active."
-msgstr ""
+msgstr "Számítás felfüggesztve: a felhasználó aktív."
 
 #: clientgui/sg_ClientStateIndicator.cpp:303
 msgid "Processing Suspended:  User paused processing."
-msgstr ""
+msgstr "Számítás felfüggesztve: a felhasználó szünetelteti a számítást."
 
 #: clientgui/sg_ClientStateIndicator.cpp:305
 msgid "Processing Suspended:  Time of Day."
-msgstr ""
+msgstr "Számítás felfüggesztve: napszak"
 
 #: clientgui/sg_ClientStateIndicator.cpp:307
 msgid "Processing Suspended:  Benchmarks Running."
-msgstr ""
+msgstr "Számítás felfüggesztve: sebességmérés fut."
 
 #: clientgui/sg_ClientStateIndicator.cpp:309
 msgid "Processing Suspended."
-msgstr ""
+msgstr "Számítás felfüggesztve."
 
 #: clientgui/sg_ClientStateIndicator.cpp:313
 msgid "Waiting to contact project servers."
