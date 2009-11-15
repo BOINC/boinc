@@ -12,7 +12,7 @@
 #include "sched_config.h"
 #include "boinc_db.h"
 
-#define NJOBS   50000
+#define NJOBS   100000
     // scan this many jobs
 #define MAX_CLAIMED_CREDIT  1e3
     // Ignore jobs whose claimed (old) credit is greater than this.
@@ -24,10 +24,11 @@
     // FLOPS to cobblestones
 #define PRINT_AV_PERIOD 100
 #define SCALE_AV_PERIOD 20
-#define MIN_HOST_SCALE_SAMPLES  5
+#define MIN_HOST_SCALE_SAMPLES  10
     // don't use host scaling unless have this many samples for host
 #define MIN_SCALE_SAMPLES   100
-    // don't update a version's scale unless it has this many samples
+    // don't update a version's scale unless it has this many samples,
+    // and don't accumulate stats until this occurs
 
 #define RSC_TYPE_CPU    -1
 #define RSC_TYPE_CUDA   -2
@@ -118,12 +119,16 @@ APP_VERSION* lookup_av(int id) {
     exit(1);
 }
 
-
+// find CPU app version matching host's OS
+// Note: app_versions is sorted by decreasing ID
+// so we'll automatically find the newest one
+//
 APP_VERSION* lookup_av_old(int appid, HOST& host) {
     unsigned int i;
     for (i=0; i<app_versions.size(); i++) {
         APP_VERSION& av = app_versions[i];
         if (av.appid != appid) continue;
+        if (strlen(av.plan_class)) continue;
         if (av.platformid == windows_platformid && strstr(host.os_name, "Microsoft") != NULL ) return &av;
         if (av.platformid == mac_platformid && strstr(host.os_name, "Darwin") != NULL ) return &av;
         if (av.platformid == linux_platformid && strstr(host.os_name, "Linux") != NULL ) return &av;        
@@ -132,7 +137,9 @@ APP_VERSION* lookup_av_old(int appid, HOST& host) {
     return 0;
 }
 
-
+// find the newest Windows app version for the given resource type,
+// if there is one.
+//
 APP_VERSION* lookup_av_anon(int appid, int rsc_type) {
     unsigned int i;
     for (i=0; i<app_versions.size(); i++) {
@@ -264,6 +271,7 @@ int main(int argc, char** argv) {
     char clause[256], subclause[256];
     int retval;
     int appid=0;
+    FILE* f = fopen("credit_test_unsorted", "w");
 
     if (argc >= 3 && !strcmp(argv[1], "--app")) {
         appid = atoi(argv[2]);
@@ -285,9 +293,8 @@ int main(int argc, char** argv) {
     }
 
     sprintf(clause,
-        "where server_state=%d and outcome=%d and validate_state=%d and claimed_credit<%f and claimed_credit>%f %s order by id desc limit %d",
+        "where server_state=%d and outcome=%d and claimed_credit<%f and claimed_credit>%f %s order by id desc limit %d",
         RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS,
-        VALIDATE_STATE_VALID,
         MAX_CLAIMED_CREDIT, MIN_CLAIMED_CREDIT,
         subclause, NJOBS
     );
@@ -297,7 +304,7 @@ int main(int argc, char** argv) {
     double total_new_credit = 0;
     printf("DB query: select * from result %s\n", clause);
     while (!r.enumerate(clause)) {
-        printf("%d) result %d host %d\n", n, r.id, r.hostid);
+        printf("%d) result %d WU %d host %d\n", n, r.id, r.workunitid, r.hostid);
 
         // Compute or estimate peak FLOP count (PFC).
         // This is done as follows:
@@ -319,26 +326,36 @@ int main(int argc, char** argv) {
         if (r.elapsed_time && r.flops_estimate && r.app_version_id) {
             // new client
             if (r.app_version_id < 0) {
+                // user is using anon platform app.
+                // Don't trust the FLOPS estimate.
+                // If it's a CPU app, use benchmarks*time.
+                // Otherwise use mean PFC for (resource type, app)
+                //
                 rsc_type = get_rsc_type(r);
                 printf("  anonymous platform, rsc type %s\n",
                     rsc_type_name(rsc_type)
                 );
-                avp = lookup_av_anon(r.appid, rsc_type);
-                if (!avp) {
-                    printf(" no version for resource type %s; skipping\n",
-                        rsc_type_name(rsc_type)
-                    );
-                    continue;
+                if (rsc_type == RSC_TYPE_CPU) {
+                    lookup_host(host, r.hostid);
+                    pfc = host.p_fpops * r.elapsed_time;
+                } else {
+                    avp = lookup_av_anon(r.appid, rsc_type);
+                    if (!avp) {
+                        printf(" no version for resource type %s; skipping\n",
+                            rsc_type_name(rsc_type)
+                        );
+                        continue;
+                    }
+                    if (avp->pfc.n < 10) {
+                        printf(
+                            "  app version %d has too few samples %f; skipping\n",
+                            avp->id, avp->pfc.n
+                        );
+                        continue;
+                    }
+                    pfc = avp->pfc.get_mean();
+                    printf("  using mean PFC: %.0fG\n", pfc/1e9);
                 }
-                if (avp->pfc.n < 10) {
-                    printf(
-                        "  app version %d has too few samples %f; skipping\n",
-                        avp->id, avp->pfc.n
-                    );
-                    continue;
-                }
-                pfc = avp->pfc.get_mean();
-                printf("  using mean PFC: %.0fG\n", pfc/1e9);
                 printf("  PFC: %.0fG raw credit: %.2f\n",
                     pfc/1e9, pfc*COBBLESTONE_SCALE
                 );
@@ -409,10 +426,12 @@ int main(int argc, char** argv) {
             new_claimed_credit, r.claimed_credit
         );
 
+
         if (accumulate_stats) {
             total_old_credit += r.claimed_credit;
             total_new_credit += new_claimed_credit;
             nstats++;
+            fprintf(f, "%d %d %.2f %.2f\n", r.workunitid, r.id, new_claimed_credit, r.claimed_credit);
         }
 
         n++;
@@ -423,7 +442,11 @@ int main(int argc, char** argv) {
         if (n%PRINT_AV_PERIOD ==0) {
             print_avs();
         }
+        if (n%1000 == 0) {
+            fprintf(stderr, "%d\n", n);
+        }
     }
+    fclose(f);
     if (nstats == 0) {
         printf("Insufficient jobs were read from DB\n");
         exit(0);

@@ -9220,3 +9220,9 @@ David  13 Nov 2009
     client/
         app.cpp
         log_flags.cpp
+
+David  15 Nov 2009
+    - credit tweaks
+
+    sched/
+        credit_test.cpp
