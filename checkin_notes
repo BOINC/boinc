@@ -9242,3 +9242,10 @@ Bernd 16 Nov 2009
     api/
         Makefile.mingw
         boinc_api.h
+
+
+Bernd 16 Nov 2009
+    - fixed lib/Makefile.mingw for recent BOINC (compile url.o)
+
+    lib/
+        Makefile.mingw
