@@ -97,6 +97,7 @@ typedef size_t socklen_t;
 #include <commctrl.h>
 #include <raserror.h>
 #if defined(MINGW_WIN32)
+#include <stdint.h>
 #include <imagehlp.h>
 #else
 #include <dbghelp.h>

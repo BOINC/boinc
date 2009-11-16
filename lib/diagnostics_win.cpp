@@ -22,7 +22,7 @@
 #include "boinc_win.h"
 #endif
 
-#ifdef _MSC_VER
+#if defined(_WIN32) && !defined(__CYGWIN__)
 #define snprintf    _snprintf
 #define strdate     _strdate
 #define strtime     _strtime
@@ -2070,7 +2070,7 @@ LONG CALLBACK boinc_catch_signal(PEXCEPTION_POINTERS pExPtrs) {
 //   then throw a breakpoint exception to dump all the rest of the useful
 //   information.
 void boinc_catch_signal_invalid_parameter(
-    const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line,	uintptr_t /* pReserved */
+    const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line, uintptr_t /* pReserved */
 ) {
 	fprintf(
 		stderr,

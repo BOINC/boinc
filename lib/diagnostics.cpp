@@ -22,7 +22,7 @@
 #include "boinc_win.h"
 #endif
 
-#ifdef _MSC_VER
+#if defined(_WIN32) && !defined(__CYGWIN32__)
 #define snprintf    _snprintf
 #define strdate     _strdate
 #define strtime     _strtime
@@ -152,7 +152,7 @@ int boinc_finish_diag() {
 int boinc_install_signal_handlers() {
 #ifdef _WIN32
     SetUnhandledExceptionFilter(boinc_catch_signal);
-#if _MSC_VER >= 1400
+#if defined(_MSC_VER) && (_MSC_VER >= 1400)
 	_set_invalid_parameter_handler(boinc_catch_signal_invalid_parameter);
 #endif
 #else  //_WIN32

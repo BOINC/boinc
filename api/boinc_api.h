@@ -22,6 +22,10 @@
 #include <Carbon/Carbon.h>
 #endif
 
+#ifdef _WIN32
+#include "boinc_win.h"
+#endif
+
 // ANSI C API BEGINS HERE
 // Do not put implementation stuff here
 

@@ -9226,3 +9226,19 @@ David  15 Nov 2009
 
     sched/
         credit_test.cpp
+
+
+Bernd 16 Nov 2009
+    - api: updates for building Win32 libs & API with MinGW gcc
+      added Makefile.mingw used for Einstein@home in lib/ as an
+      _alternative_ to api/Makefile.mingw
+
+    lib/
+        diagnostics.h
+        boinc_win.h
+        diagnostics.cpp
+        Makefile.mingw
+        diagnostics_win.cpp
+    api/
+        Makefile.mingw
+        boinc_api.h
