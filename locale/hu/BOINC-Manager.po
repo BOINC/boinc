@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-17 06:45-0700\n"
+"PO-Revision-Date: 2009-11-17 08:05-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -2408,7 +2408,7 @@ msgstr ""
 #: clientgui/sg_ClientStateIndicator.cpp:317
 #: clientgui/sg_ClientStateIndicator.cpp:325
 msgid "Retrieving current status"
-msgstr ""
+msgstr "Jelenlegi státusz betöltése"
 
 #: clientgui/sg_ClientStateIndicator.cpp:320
 msgid "No work available to process"
