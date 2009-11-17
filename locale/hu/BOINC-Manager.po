@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-14 06:22-0700\n"
+"PO-Revision-Date: 2009-11-17 06:45-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -2357,7 +2357,6 @@ msgid "Advanced View...\tCTRL+SHIFT+A"
 msgstr "Haladó nézet...\tCtrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
-#, fuzzy
 msgid "Display the advanced (accessible) graphical interface."
 msgstr "A Haladó (elérhető) grafikus felület megjelenítése"
 
@@ -2367,21 +2366,18 @@ msgid "&%s"
 msgstr "&%s"
 
 #: clientgui/sg_ClientStateIndicator.cpp:288
-#, fuzzy
 msgid "Retrieving current status."
-msgstr "Jelenlegi státusz visszaállítása."
+msgstr "Jelenlegi státusz betöltése."
 
 #: clientgui/sg_ClientStateIndicator.cpp:291
-#, fuzzy
 msgid "You don't have any projects.  Please Add a Project."
-msgstr "Nincsenek projektjei. Kérjük, Adjon hozzá projektet."
+msgstr "Nincsenek projektjei. Kérjük, vegyen fel projektet."
 
 #: clientgui/sg_ClientStateIndicator.cpp:294
 msgid "Downloading work from the server."
 msgstr "Munka letöltése a szerverről."
 
 #: clientgui/sg_ClientStateIndicator.cpp:299
-#, fuzzy
 msgid "Processing Suspended:  Running On Batteries."
 msgstr "Számítás felfüggesztve: Működés akkumulátorról."
 
