@@ -116,8 +116,7 @@ bool CProjectProcessingPage::Create( CBOINCBaseWizard* parent )
     m_iCurrentState = ATTACHPROJECT_INIT;
  
 ////@begin CProjectProcessingPage creation
-    wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, ID_PROJECTPROCESSINGPAGE, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_PROJECTPROCESSINGPAGE );
 
     CreateControls();
     GetSizer()->Fit(this);

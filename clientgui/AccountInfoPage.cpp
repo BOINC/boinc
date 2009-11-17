@@ -105,8 +105,7 @@ bool CAccountInfoPage::Create( CBOINCBaseWizard* parent )
 ////@end CAccountInfoPage member initialisation
  
 ////@begin CAccountInfoPage creation
-    wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, ID_ACCOUNTINFOPAGE, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_ACCOUNTINFOPAGE );
 
     CreateControls();
     GetSizer()->Fit(this);

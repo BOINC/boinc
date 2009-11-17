@@ -91,8 +91,7 @@ bool CWelcomePage::Create( CBOINCBaseWizard* parent )
 ////@end CWelcomePage member initialisation
  
 ////@begin CWelcomePage creation
-    wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, ID_WELCOMEPAGE, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_WELCOMEPAGE );
 
     CreateControls();
     GetSizer()->Fit(this);

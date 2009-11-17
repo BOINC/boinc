@@ -159,10 +159,8 @@ bool CWizardAttachProject::Create( wxWindow* parent, wxWindowID id, const wxPoin
         strTitle = pSkinAdvanced->GetApplicationName();
     }
 
-    wxBitmap wizardBitmap = wxBitmap(*(pSkinWizardATP->GetWizardBitmap()));
-
 ////@begin CWizardAttachProject creation
-    CBOINCBaseWizard::Create( parent, id, strTitle, wizardBitmap, pos );
+    CBOINCBaseWizard::Create( parent, id, strTitle, pos );
 
     CreateControls();
 ////@end CWizardAttachProject creation

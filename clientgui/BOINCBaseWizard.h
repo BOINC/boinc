@@ -36,7 +36,6 @@ public:
     CBOINCBaseWizard(wxWindow *parent,
              int id = wxID_ANY,
              const wxString& title = wxEmptyString,
-             const wxBitmap& bitmap = wxNullBitmap,
              const wxPoint& pos = wxDefaultPosition,
              long style = wxDEFAULT_DIALOG_STYLE);
 

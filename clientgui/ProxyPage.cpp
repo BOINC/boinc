@@ -102,8 +102,7 @@ bool CErrProxyPage::Create( CBOINCBaseWizard* parent )
 ////@end CErrProxyPage member initialisation
  
 ////@begin CErrProxyPage creation
-    wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, ID_ERRPROXYPAGE, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_ERRPROXYPAGE );
 
     CreateControls();
     GetSizer()->Fit(this);

@@ -9249,3 +9249,31 @@ Bernd 16 Nov 2009
 
     lib/
         Makefile.mingw
+
+Rom    17 Nov 2009
+    - MGR: Remove bitmap that is part of the Wizard.
+    
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerInfoPage.cpp
+        AccountManagerProcessingPage.cpp
+        AccountManagerPropertiesPage.cpp
+        AlreadyExistsPage.cpp
+        BOINCBaseWizard.cpp, .h
+        CompletionErrorPage.cpp
+        CompletionPage.cpp
+        NoInternetConnectionPage.cpp
+        NotDetectedPage.cpp
+        NotFoundPage.cpp
+        ProjectInfoPage.cpp
+        ProjectProcessingPage.cpp
+        ProjectPropertiesPage.cpp
+        ProxyInfoPage.cpp
+        ProxyPage.cpp
+        TermsOfUsePage.cpp
+        UnavailablePage.cpp
+        WelcomePage.cpp
+        WizardAttachProject.cpp
+        wizardex.cpp, .h
+    win_build/
+        boincmgr.vcproj

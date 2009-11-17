@@ -176,22 +176,19 @@ IMPLEMENT_ABSTRACT_CLASS(wxWizardPageEx, wxPanel)
 
 void wxWizardPageEx::Init()
 {
-    m_bitmap = wxNullBitmap;
 }
 
 wxWizardPageEx::wxWizardPageEx(
                            wxWizardEx *parent,
                            int id,
-                           const wxBitmap& bitmap,
                            const wxChar *resource)
 {
-    Create(parent, id, bitmap, resource);
+    Create(parent, id, resource);
 }
 
 bool wxWizardPageEx::Create(
                           wxWizardEx *parent,
                           int id,
-                          const wxBitmap& bitmap,
                           const wxChar *resource)
 {
     if ( !wxPanel::Create(parent, id) )
@@ -208,8 +205,6 @@ bool wxWizardPageEx::Create(
 #endif
 #endif // wxUSE_RESOURCES
     }
-
-    m_bitmap = bitmap;
 
     // initially the page is hidden, it's shown only when it becomes current
     Hide();
@@ -264,14 +259,12 @@ void wxWizardEx::Init()
 bool wxWizardEx::Create(wxWindow *parent,
                       int id,
                       const wxString& title,
-                      const wxBitmap& bitmap,
                       const wxPoint& pos,
                       long style)
 {
     bool result = wxDialog::Create(parent,id,title,pos,wxDefaultSize,style);
 
     m_posWizard = pos;
-    m_bitmap = bitmap ;
 
     DoCreateControls();
 
@@ -290,24 +283,6 @@ void wxWizardEx::AddBitmapRow(wxBoxSizer *mainColumn)
         0, // No vertical stretching
         wxEXPAND // No border, (mostly useless) horizontal stretching
     );
-
-#if wxUSE_STATBMP
-    if ( m_bitmap.Ok() )
-    {
-        m_statbmp = new wxStaticBitmap(this, wxID_ANY, m_bitmap);
-        m_sizerBmpAndPage->Add(
-            m_statbmp,
-            0, // No horizontal stretching
-            wxALL, // Border all around, top alignment
-            5 // Border width
-        );
-        m_sizerBmpAndPage->Add(
-            5,0,
-            0, // No horizontal stretching
-            wxEXPAND // No border, (mostly useless) vertical stretching
-        );
-    }
-#endif
 
     // Added to m_sizerBmpAndPage later
     m_sizerPage = new wxWizardExSizer(this);
@@ -526,8 +501,6 @@ bool wxWizardEx::ShowPage(wxWizardPageEx *page, bool goingForward)
 
         btnLabelWasNext = HasNextPage(m_page);
 
-        bmpPrev = m_page->GetBitmap();
-
         if ( !m_usingSizer )
             m_sizerBmpAndPage->Detach(m_page);
     }
@@ -570,30 +543,6 @@ bool wxWizardEx::ShowPage(wxWizardPageEx *page, bool goingForward)
         m_sizerBmpAndPage->Add(m_page, flags);
         m_sizerBmpAndPage->SetItemMinSize(m_page, GetPageSize());
     }
-
-#if wxUSE_STATBMP
-    // update the bitmap if:it changed
-    if ( m_statbmp )
-    {
-        wxBitmap bmp = m_page->GetBitmap();
-        if ( !bmp.Ok() )
-            bmp = m_bitmap;
-
-        if ( !bmpPrev.Ok() )
-            bmpPrev = m_bitmap;
-
-#if wxCHECK_VERSION(2,8,0)
-        if ( !bmp.IsSameAs(bmpPrev) )
-            m_statbmp->SetBitmap(bmp);
-#else
-        if ( !(bmp == bmpPrev) )
-            m_statbmp->SetBitmap(bmp);
-#endif
-
-
-    }
-#endif // wxUSE_STATBMP
-
 
     // and update the buttons state
     m_btnPrev->Enable(HasPrevPage(m_page));
@@ -673,12 +622,6 @@ wxSize wxWizardEx::GetPageSize() const
 
     // make the page at least as big as specified by user
     pageSize.IncTo(m_sizePage);
-
-    if ( m_statbmp )
-    {
-        // make the page at least as tall as the bitmap
-        pageSize.IncTo(wxSize(0, m_bitmap.GetHeight()));
-    }
 
     if ( m_usingSizer )
     {

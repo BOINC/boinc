@@ -97,8 +97,7 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
     m_bProjectListPopulated = false;
  
 ////@begin CProjectInfoPage creation
-    wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, ID_PROJECTINFOPAGE, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_PROJECTINFOPAGE );
 
     CreateControls();
 
