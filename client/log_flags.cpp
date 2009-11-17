@@ -174,7 +174,7 @@ static void show_gpu_ignore(vector<int>& devs, const char* name) {
 void CONFIG::show() {
     unsigned int i;
     if (config.ncpus>=0) {
-        msg_printf(NULL, MSG_INFO, "Config: use at most %d CPUs", config.ncpus);
+        msg_printf(NULL, MSG_INFO, "Config: simulate %d CPUs", config.ncpus);
     }
     if (config.no_gpus) {
         msg_printf(NULL, MSG_INFO, "Config: don't use coprocessors");

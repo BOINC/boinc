@@ -52,13 +52,13 @@ foreach($proj_list as $p) {
     $platforms = get_platforms_cached($p->web_url);
     if ($platforms) {
         echo "    <platforms>\n";
-        foreach ($platforms as $p) {
-            if ($p == 'Unknown') continue;
-            echo "        <name>$p</name>\n";
+        foreach ($platforms as $platform) {
+            if ($platform == 'Unknown') continue;
+            echo "        <name>$platform</name>\n";
         }
         echo "    </platforms>\n";
     }
-    if ($p->image) {
+    if (isset($p->image)) {
         echo "      <image>http://boinc.berkeley.edu/images/$p->image</image>
 ";
     }

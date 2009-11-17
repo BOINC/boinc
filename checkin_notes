@@ -9277,3 +9277,12 @@ Rom    17 Nov 2009
         wizardex.cpp, .h
     win_build/
         boincmgr.vcproj
+
+David  17 Nov 2009
+    - change project_list.php so that it shows platform[plan_class].
+        That way the client can know which projects have GPU
+        and multithread apps.
+
+    doc/
+        get_platforms.inc
+        project_list.php
