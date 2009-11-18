@@ -8479,3 +8479,10 @@ David  10 Nov 2009
 
     client/
         app_control.cpp
+
+David  10 Nov 2009
+    - client: handle no_cpu, no_cuda, no_ati prefs correctly
+        when they're in venue-specific prefs.
+
+    client/
+        cs_account.cpp
