@@ -9317,9 +9317,12 @@ Charlie 18 Nov 2009
         mac/
             SetVersion.cpp
     mac_installer/
+        GR-ReadMe.rtf
         make_GridRepublic.sh
         make_ProgThruProc.sh
         PostInstall.cpp
+        PTP-ReadMe.rtf
+        ReadMe.rtf
         release_boinc.sh
         WaitPermissions.cpp (Added)
     mac_build/
