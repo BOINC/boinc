@@ -63,6 +63,8 @@ int main(int argc, char** argv) {
     if (err) retval = err;
     err = FixInfoPlistFile("./Uninstaller-Info.plist");
     if (err) retval = err;
+    err = FixInfoPlistFile("./WaitPermissions-Info.plist");
+    if (err) retval = err;
     err = MakeInstallerInfoPlistFile("./Pkg-Info.plist", "BOINC Manager");
     return retval;
 }

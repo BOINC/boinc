@@ -8368,3 +8368,27 @@ Charlie 10 Nov 2009
         
     mac_installer/
         AddRemoveUser.cpp
+
+Charlie 18 Nov 2009
+    - Mac installer: fix 2 installer bugs:
+        - Install by non-admin user failed to set login items.
+        - Clean installs failed with permissions error -1037.  A reboot would 
+            fix this, but system reboots are undesireable.  The problem is 
+            that when we create group boinc_master and add the user to the 
+            group, it takes about a minute for the permissions to take effect.
+            I added a test which delays launching the manager until the 
+            permissions are stable.
+
+    clientgui/
+        mac/
+            SetVersion.cpp
+    mac_installer/
+        make_GridRepublic.sh
+        make_ProgThruProc.sh
+        PostInstall.cpp
+        release_boinc.sh
+        WaitPermissions.cpp (Added)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+        WaitPermissions-Info.plist (Added)

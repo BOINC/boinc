@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2009 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -34,7 +34,6 @@
 #include <netinet/in.h>
 #include <cerrno>
 
-
 #include "LoginItemAPI.h"  //please take a look at LoginItemAPI.h for an explanation of the routines available to you.
 
 #include "SetupSecurity.h"
@@ -42,13 +41,15 @@
 void Initialize(void);	/* function prototypes */
 int DeleteReceipt(void);
 OSStatus CheckLogoutRequirement(int *finalAction);
-void SetLoginItem(long brandID, Boolean deleteLogInItem);
+Boolean SetLoginItem(long brandID, Boolean deleteLogInItem);
 void SetSkinInUserPrefs(char *userName, char *skinName);
 Boolean CheckDeleteFile(char *name);
-void SetUIDBackToUser (void);
+void SetEUIDBackToUser (void);
+static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 OSErr UpdateAllVisibleUsers(long brandID);
 long GetBrandID(void);
 int TestRPCBind(void);
+static OSStatus ResynchSystem(void);
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 pid_t FindProcessPID(char* name, pid_t thePID);
 int FindSkinName(char *name, size_t len);
@@ -72,7 +73,8 @@ static char *receiptNameEscaped[NUMBRANDS];
 
 enum { launchWhenDone,
         logoutRequired,
-        restartRequired
+        restartRequired,
+        nothingrequired
     };
 
 /******************************************************************
@@ -92,20 +94,20 @@ int main(int argc, char *argv[])
     short                   itemHit;
     long                    brandID = 0;
     int                     i;
-    pid_t                   installerPID = 0, coreClientPID = 0;
+    pid_t                   installerPID = 0, coreClientPID = 0, waitPermissionsPID = 0;
     FSRef                   fileRef;
     OSStatus                err, err_fsref;
     FILE                    *f;
     char                    s[256];
+    char                    *q;
 #ifdef SANDBOX
-    uid_t                   savedeuid, b_m_uid;
+    uid_t                   saved_euid, saved_uid, b_m_uid;
     passwd                  *pw;
     int                     finalInstallAction;
 #else
-    char                    *q;
     group                   *grp;
 #endif
-    
+
     appName[0] = "/Applications/BOINCManager.app";
     appNameEscaped[0] = "/Applications/BOINCManager.app";
     brandName[0] = "BOINC";
@@ -131,7 +133,7 @@ int main(int argc, char *argv[])
         if (strcmp(argv[i], "-part2") == 0)
             return DeleteReceipt();
     }
-    
+
     Initialize();
 
     ::GetCurrentProcess (&ourProcess);
@@ -228,28 +230,6 @@ int main(int argc, char *argv[])
 //          print_to_log_file("check_security returned %d (repetition=%d)", err, i);
     }
     
-    err = CheckLogoutRequirement(&finalInstallAction);
-    
-    if (finalInstallAction != restartRequired) {
-    // Wait for BOINC's RPC socket address to become available to user boinc_master, in
-    // case we are upgrading from a version which did not run as user boinc_master.
-    savedeuid = geteuid();
-
-    pw = getpwnam("boinc_master");
-    b_m_uid = pw->pw_uid;
-    seteuid(b_m_uid);
-
-    for (i=0; i<120; i++) {
-        err = TestRPCBind();
-        if (err == noErr)
-            break;
-
-        sleep(1);
-    }
-        
-    seteuid(savedeuid);
-    }
-
 #else   // ! defined(SANDBOX)
 
     // The BOINC Manager and Core Client have the set-user-ID-on-execution 
@@ -328,6 +308,83 @@ int main(int argc, char *argv[])
     if (err != noErr)
         return err;
  
+#ifdef SANDBOX
+    err = CheckLogoutRequirement(&finalInstallAction);
+    
+    if (finalInstallAction == launchWhenDone) {
+        // Wait for BOINC's RPC socket address to become available to user boinc_master, in
+        // case we are upgrading from a version which did not run as user boinc_master.
+        saved_uid = getuid();
+        saved_euid = geteuid();
+        
+        pw = getpwnam("boinc_master");
+        b_m_uid = pw->pw_uid;
+        seteuid(b_m_uid);
+        
+        for (i=0; i<120; i++) {
+            err = TestRPCBind();
+            if (err == noErr)
+                break;
+            
+            sleep(1);
+        }
+        
+        seteuid(saved_euid);
+
+        ProcessSerialNumber ourPSN;
+        ProcessInfoRec      pInfo;
+        FSRef               ourFSRef, theFSRef;
+        char                thePath[MAXPATHLEN];
+        
+        // Get the full path to this PostInstall application's bundle
+        err = GetCurrentProcess (&ourPSN);
+        if (err)
+            return -1000;          // Should never happen
+        
+        memset(&pInfo, 0, sizeof(pInfo));
+        pInfo.processInfoLength = sizeof( ProcessInfoRec );
+        err = GetProcessInformation(&ourPSN, &pInfo);
+        if (err)
+            return -1001;          // Should never happen
+        
+        err = GetProcessBundleLocation(&ourPSN, &ourFSRef);
+        if (err)
+            return -1002;          // Should never happen
+
+        err = FSRefMakePath (&ourFSRef, (UInt8*)thePath, sizeof(thePath));
+        if (err)
+            return -1003;          // Should never happen
+        
+        q = strrchr(thePath, '/');
+        if (q == NULL)
+            return -1004;          // Should never happen
+
+        *++q = '\0';
+        strlcat(thePath, "WaitPermissions.app", sizeof(thePath));
+        err = FSPathMakeRef((StringPtr)thePath, &theFSRef, NULL);
+        
+        // When we first create the boinc_master group and add the current user to the 
+        // new group, there is a delay before the new group membership is recognized.  
+        // If we launch the BOINC Manager too soon, it will fail with a -1037 permissions 
+        // error, so we wait until the current user can access the switcher application.
+        // Apparently, in order to get the changed permissions / group membership, we must 
+        // launch a new process belonging to the user.  It may also need to be in a new 
+        // process group or new session. Neither system() nor popen() works, even after 
+        // setting the uid and euid back to the logged in user, but LSOpenFSRef() does.
+        // The WaitPermissions application loops until it can access the switcher 
+        // application.
+        err = LSOpenFSRef(&theFSRef, NULL);
+
+        for (i=0; i<180; i++) {     // Limit delay to 3 minutes
+            waitPermissionsPID = FindProcessPID("WaitPermissions", 0);
+            if (waitPermissionsPID == 0) {
+                break;
+            }
+            sleep(1);
+        }
+    }
+#endif   // SANDBOX
+    
     return 0;
 }
 
@@ -344,10 +401,10 @@ int DeleteReceipt()
     int                     finalInstallAction;
     FSRef                   fileRef;
     char                    s[256];
+    struct stat             sbuf;
     OSStatus                err_fsref;
 
     Initialize();
-
     err = CheckLogoutRequirement(&finalInstallAction);
 
     err = FindProcess ('APPL', 'xins', &installerPSN);
@@ -373,14 +430,15 @@ int DeleteReceipt()
     err_fsref = FSPathMakeRef((StringPtr)appName[brandID], &fileRef, NULL);
 
     if (finalInstallAction == launchWhenDone) {
-        if (err_fsref == noErr) {
-            // If system is set up to run BOINC Client as a daemon using launchd, launch it 
-            //  as a daemon and allow time for client to start before launching BOINC Manager.
+        // If system is set up to run BOINC Client as a daemon using launchd, launch it 
+        //  as a daemon and allow time for client to start before launching BOINC Manager.
+        err = stat("launchctl unload /Library/LaunchDaemons/edu.berkeley.boinc.plist", &sbuf);
+        if (err == noErr) {
             system("launchctl unload /Library/LaunchDaemons/edu.berkeley.boinc.plist");
             i = system("launchctl load /Library/LaunchDaemons/edu.berkeley.boinc.plist");
             if (i == 0) sleep (2);
-            err = LSOpenFSRef(&fileRef, NULL);
         }
+        err = LSOpenFSRef(&fileRef, NULL);
     }
 
     return 0;
@@ -402,9 +460,34 @@ OSStatus CheckLogoutRequirement(int *finalAction)
     CFStringRef             valueNoRestart = CFSTR("NoRestart");
     CFStringRef             errorString = NULL;
     OSStatus                err = noErr;
-    
+#ifdef SANDBOX
+    char                    *p, *loginName = NULL;
+    group                   *grp = NULL;
+    int                     i;
+    Boolean                 isMember = false;
+#endif
     
     *finalAction = restartRequired;
+
+#ifdef SANDBOX
+    loginName = getlogin();
+    grp = getgrnam("boinc_master");
+    if (loginName && grp) {
+        i = 0;
+        while ((p = grp->gr_mem[i]) != NULL) {   // Step through all users in group boinc_master
+            if (strcmp(p, loginName) == 0) {
+                isMember = true;                // Logged in user is a member of group boinc_master
+                break;
+            }
+        ++i;
+        }
+    }
+
+    if (!isMember) {
+        *finalAction = nothingrequired;
+        return noErr;
+    }
+#endif
     
     getcwd(path, sizeof(path));
     strlcat(path, "/Contents/Info.plist", sizeof(path));
@@ -453,7 +536,7 @@ OSStatus CheckLogoutRequirement(int *finalAction)
 }
 
 
-void SetLoginItem(long brandID, Boolean deleteLogInItem)
+Boolean SetLoginItem(long brandID, Boolean deleteLogInItem)
 {
     Boolean                 Success;
     int                     NumberOfLoginItems, Counter;
@@ -497,9 +580,11 @@ void SetLoginItem(long brandID, Boolean deleteLogInItem)
     }
 
     if (deleteLogInItem)
-        return;
+        return false;
         
     Success = AddLoginItemWithPropertiesToUser(kCurrentUser, appName[brandID], kHideOnLaunch);
+
+    return Success;
 }
 
 // Sets the skin selection in the specified user's preferences to the specified skin
@@ -581,7 +666,7 @@ Boolean CheckDeleteFile(char *name)
     return false;
 }
 
-void SetUIDBackToUser (void)
+void SetEUIDBackToUser (void)
 {
     char *p;
     uid_t login_uid;
@@ -592,6 +677,7 @@ void SetUIDBackToUser (void)
     login_uid = pw->pw_uid;
 
     setuid(login_uid);
+    seteuid(login_uid);
 }
 
 
@@ -736,10 +822,10 @@ OSErr UpdateAllVisibleUsers(long brandID)
                 if (strcmp(p, dp->d_name) == 0) {
                     // User is a member of group boinc_master
                     isGroupMember = true;
-                break;
+                    break;
+                }
+                ++i;
             }
-            ++i;
-        }
         }
         if (!isGroupMember) {
             allNonAdminUsersAreSet = false;
@@ -749,36 +835,44 @@ OSErr UpdateAllVisibleUsers(long brandID)
 #endif
 
         if (isGroupMember) {
-        saved_uid = geteuid();
-        seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
-
+            saved_uid = geteuid();
+            seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
+            
             if (OSVersion < 0x1060) {
-        f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
-        } else {
-            sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleDict -dict", 
-                    dp->d_name); 
-            f = popen(s, "r");
-        }
-        
-        if (f) {
-            found = false;
-            while (PersistentFGets(s, sizeof(s), f)) {
-                if (strstr(s, saverName[brandID])) {
-                    found = true;
-                    break;
-                }
+                f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
+            } else {
+                sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleDict -dict", 
+                        dp->d_name); 
+                f = popen(s, "r");
             }
-            pclose(f);
-            if (!found) {
+            
+            if (f) {
+                found = false;
+                while (PersistentFGets(s, sizeof(s), f)) {
+                    if (strstr(s, saverName[brandID])) {
+                        found = true;
+                        break;
+                    }
+                }
+                pclose(f);
+                if (!found) {
                     saverAlreadySetForAll = false;
                 }
             }
-        
-        seteuid(saved_uid);                         // Set effective uid back to privileged user
+            
+            seteuid(saved_uid);                         // Set effective uid back to privileged user
         }       // End if (isGroupMember)
     }           // End while (true)
     
     closedir(dirp);
+
+    ResynchSystem();
+
+    err = getgrnam_r("boinc_master", &grpBOINC_master, bmBuf, sizeof(bmBuf), &grpBOINC_masterPtr);
+    if (err) {          // Should never happen unless buffer too small
+        puts("getgrnam(\"boinc_master\") failed\n");
+        return -1;
+    }
     
     if (! allNonAdminUsersAreSet) {
         if (ShowMessage(true, 
@@ -797,7 +891,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
                     "Do you want to set %s as the screensaver for all %s users on this Mac?", 
                     brandName[brandID], brandName[brandID]);    
     }
-    
+
     // Step through all users a second time, setting non-admin users and / or our screensaver
     dirp = opendir("/Users");
     if (dirp == NULL) {      // Should never happen
@@ -855,15 +949,15 @@ OSErr UpdateAllVisibleUsers(long brandID)
         
             if (setSaverForAllUsers) {
                 if (OSVersion < 0x1060) {
-        sprintf(s, "defaults -currentHost write com.apple.screensaver moduleName %s", saverNameEscaped[brandID]);
-        system (s);
-        sprintf(s, "defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
-                    saverNameEscaped[brandID]);
-        } else {
-            sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName %s path /Library/Screen\\ Savers/%s.saver", 
-                    dp->d_name, saverNameEscaped[brandID], saverNameEscaped[brandID]);
-        }
-        system (s);
+                    sprintf(s, "defaults -currentHost write com.apple.screensaver moduleName %s", saverNameEscaped[brandID]);
+                    system (s);
+                    sprintf(s, "defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
+                                saverNameEscaped[brandID]);
+                } else {
+                    sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName %s path /Library/Screen\\ Savers/%s.saver", 
+                            dp->d_name, saverNameEscaped[brandID], saverNameEscaped[brandID]);
+                }
+                system (s);
             }
         }
         
@@ -871,6 +965,8 @@ OSErr UpdateAllVisibleUsers(long brandID)
     }
     
     closedir(dirp);
+
+    ResynchSystem();
 
     return noErr;
 }
@@ -931,6 +1027,30 @@ int TestRPCBind()
     close(lsock);
     
     return retval;
+}
+
+
+static OSStatus ResynchSystem() {
+    SInt32          response;
+    OSStatus        err = noErr;
+    
+    err = Gestalt(gestaltSystemVersion, &response);
+    if (err) return err;
+    
+    if (response >= 0x1050) {
+        // OS 10.5
+        err = system("dscacheutil -flushcache");
+        err = system("dsmemberutil flushcache");
+        return noErr;
+    }
+    
+    err = system("lookupd -flushcache");
+    
+    err = Gestalt(gestaltSystemVersion, &response);
+    if ((err == noErr) && (response >= 0x1040))
+        err = system("memberd -r");           // Available only in OS 10.4
+    
+    return noErr;
 }
 
 
@@ -1016,7 +1136,7 @@ pid_t FindProcessPID(char* name, pid_t thePID)
     
     while (PersistentFGets(buf, sizeof(buf), f))
     {
-        if (name != NULL) {     // Search ny name
+        if (name != NULL) {     // Search by name
             if (strncmp(buf, name, n) == 0)
             {
                 aPID = atol(buf+16);

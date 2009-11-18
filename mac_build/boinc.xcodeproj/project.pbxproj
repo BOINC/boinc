@@ -28,6 +28,7 @@
 				DDBD52900C16C3790074905B /* PBXTargetDependency */,
 				DD095D1F0F3B22DE000902F5 /* PBXTargetDependency */,
 				DDD3370C106224FF00867C7D /* PBXTargetDependency */,
+				DD662CFC10B3FB950049C9A2 /* PBXTargetDependency */,
 			);
 			name = Build_All;
 			productName = Build_All;
@@ -182,6 +183,7 @@
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.cpp */; };
 		DD63F7510B64EECE0053037F /* libwx_mac_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA90F260B64673D008F2E87 /* libwx_mac_static.a */; };
 		DD6617880A3FFD8C00FFEBEB /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
+		DD662D2010B3FDD30049C9A2 /* WaitPermissions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD662D1F10B3FDD30049C9A2 /* WaitPermissions.cpp */; };
 		DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */; };
 		DD6802300E701ACD0067D009 /* cert_sig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD68022E0E701ACD0067D009 /* cert_sig.cpp */; };
 		DD6802310E701ACD0067D009 /* cert_sig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD68022E0E701ACD0067D009 /* cert_sig.cpp */; };
@@ -451,6 +453,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = DD3E14D30A774397007E0084;
 			remoteInfo = mgr_boinc;
+		};
+		DD662CFB10B3FB950049C9A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD662CE410B3FA3D0049C9A2;
+			remoteInfo = WaitPermissions;
 		};
 		DD664F18084321A2009BFB11 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -761,6 +770,9 @@
 		DD65020809F599B9008E8A3A /* txf_util.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = txf_util.cpp; sourceTree = "<group>"; };
 		DD65020909F599B9008E8A3A /* txf_util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = txf_util.h; path = ../api/txf_util.h; sourceTree = SOURCE_ROOT; };
 		DD6617870A3FFD8C00FFEBEB /* check_security.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = check_security.cpp; sourceTree = "<group>"; };
+		DD662CE510B3FA3D0049C9A2 /* WaitPermissions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaitPermissions.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD662CE710B3FA3D0049C9A2 /* WaitPermissions-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WaitPermissions-Info.plist"; sourceTree = "<group>"; };
+		DD662D1F10B3FDD30049C9A2 /* WaitPermissions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WaitPermissions.cpp; path = ../mac_installer/WaitPermissions.cpp; sourceTree = SOURCE_ROOT; };
 		DD68022E0E701ACD0067D009 /* cert_sig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cert_sig.cpp; sourceTree = "<group>"; };
 		DD68022F0E701ACD0067D009 /* cert_sig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cert_sig.h; path = ../lib/cert_sig.h; sourceTree = SOURCE_ROOT; };
 		DD69FEE808416C1300C01361 /* boinccmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinccmd; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1047,6 +1059,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD662CE310B3FA3D0049C9A2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DD69FEE608416C1300C01361 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1161,6 +1180,7 @@
 				DDFA60D40CB337D40037B88C /* gfx_switcher */,
 				DD8916280F3B17E900DE5B1C /* boincscr */,
 				DDD337021062235D00867C7D /* AddRemoveUser */,
+				DD662CE510B3FA3D0049C9A2 /* WaitPermissions.app */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -1184,6 +1204,7 @@
 				DD1277B5081F3D67007B5DE1 /* PostInstall-Info.plist */,
 				DD1AFE8F0A512D2600EE5B82 /* Installer-Info.plist */,
 				DD4688430C165F3C0089F500 /* Uninstaller-Info.plist */,
+				DD662CE710B3FA3D0049C9A2 /* WaitPermissions-Info.plist */,
 			);
 			name = "¬´PROJECTNAME¬ª";
 			sourceTree = "<group>";
@@ -1236,6 +1257,7 @@
 				DDB8D5A5081FC8C700A5A1E8 /* postinstall */,
 				DD127880081F464E007B5DE1 /* postupgrade */,
 				DDD33709106224E800867C7D /* AddRemoveUser.cpp */,
+				DD662D1F10B3FDD30049C9A2 /* WaitPermissions.cpp */,
 			);
 			name = mac_installer;
 			sourceTree = SOURCE_ROOT;
@@ -1803,6 +1825,23 @@
 			productReference = DD6381EA0870DC9D007A2F8E /* MakeAppIcon_h */;
 			productType = "com.apple.product-type.tool";
 		};
+		DD662CE410B3FA3D0049C9A2 /* WaitPermissions */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD662CEF10B3FA3E0049C9A2 /* Build configuration list for PBXNativeTarget "WaitPermissions" */;
+			buildPhases = (
+				DD662CE110B3FA3D0049C9A2 /* Resources */,
+				DD662CE210B3FA3D0049C9A2 /* Sources */,
+				DD662CE310B3FA3D0049C9A2 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WaitPermissions;
+			productName = WaitPermissions;
+			productReference = DD662CE510B3FA3D0049C9A2 /* WaitPermissions.app */;
+			productType = "com.apple.product-type.application";
+		};
 		DD69FEE708416C1300C01361 /* cmd_boinc */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2375091CBDAE0048316E /* Build configuration list for PBXNativeTarget "cmd_boinc" */;
@@ -2027,6 +2066,7 @@
 				DDFA60C90CB337D40037B88C /* gfx_switcher */,
 				DD89161C0F3B17E900DE5B1C /* ss_app */,
 				DDD336F51062235D00867C7D /* AddRemoveUser */,
+				DD662CE410B3FA3D0049C9A2 /* WaitPermissions */,
 			);
 		};
 /* End PBXProject section */
@@ -2089,6 +2129,13 @@
 			files = (
 				DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */,
 				DD32CC8F0C27CF860016F571 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD662CE110B3FA3D0049C9A2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2529,6 +2576,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD662CE210B3FA3D0049C9A2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD662D2010B3FDD30049C9A2 /* WaitPermissions.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DD69FEE508416C1300C01361 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2817,6 +2872,11 @@
 			isa = PBXTargetDependency;
 			target = DD3E14D30A774397007E0084 /* mgr_boinc */;
 			targetProxy = DD58247C0B198BDD003B6A2F /* PBXContainerItemProxy */;
+		};
+		DD662CFC10B3FB950049C9A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD662CE410B3FA3D0049C9A2 /* WaitPermissions */;
+			targetProxy = DD662CFB10B3FB950049C9A2 /* PBXContainerItemProxy */;
 		};
 		DD664F19084321A2009BFB11 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3795,6 +3855,145 @@
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
 				);
+			};
+			name = Deploy_noSandbox;
+		};
+		DD662CE810B3FA3E0049C9A2 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "WaitPermissions-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = WaitPermissions;
+			};
+			name = Development;
+		};
+		DD662CE910B3FA3E0049C9A2 /* Dev_noSandbox */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "WaitPermissions-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = WaitPermissions;
+			};
+			name = Dev_noSandbox;
+		};
+		DD662CEA10B3FA3E0049C9A2 /* ppc_Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "WaitPermissions-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = WaitPermissions;
+			};
+			name = ppc_Deployment;
+		};
+		DD662CEB10B3FA3E0049C9A2 /* i386_Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "WaitPermissions-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = WaitPermissions;
+			};
+			name = i386_Deployment;
+		};
+		DD662CEC10B3FA3E0049C9A2 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "WaitPermissions-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = WaitPermissions;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		DD662CED10B3FA3E0049C9A2 /* Deployment-no64 */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "WaitPermissions-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = WaitPermissions;
+			};
+			name = "Deployment-no64";
+		};
+		DD662CEE10B3FA3E0049C9A2 /* Deploy_noSandbox */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "WaitPermissions-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = WaitPermissions;
 			};
 			name = Deploy_noSandbox;
 		};
@@ -5299,6 +5498,20 @@
 				DD4688490C165F3C0089F500 /* Deployment */,
 				DD9670790CED9A800009D32B /* Deployment-no64 */,
 				DD46884A0C165F3C0089F500 /* Deploy_noSandbox */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = ppc_Deployment;
+		};
+		DD662CEF10B3FA3E0049C9A2 /* Build configuration list for PBXNativeTarget "WaitPermissions" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD662CE810B3FA3E0049C9A2 /* Development */,
+				DD662CE910B3FA3E0049C9A2 /* Dev_noSandbox */,
+				DD662CEA10B3FA3E0049C9A2 /* ppc_Deployment */,
+				DD662CEB10B3FA3E0049C9A2 /* i386_Deployment */,
+				DD662CEC10B3FA3E0049C9A2 /* Deployment */,
+				DD662CED10B3FA3E0049C9A2 /* Deployment-no64 */,
+				DD662CEE10B3FA3E0049C9A2 /* Deploy_noSandbox */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = ppc_Deployment;
