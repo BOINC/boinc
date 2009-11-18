@@ -105,6 +105,10 @@ struct LOG_FLAGS {
 
 struct CONFIG {
     bool dont_check_file_sizes;
+    bool dont_contact_ref_site;
+    std::vector<std::string> exclusive_apps;
+    std::vector<std::string> exclusive_gpu_apps;
+    std::string force_auth;
     bool http_1_0;
     int save_stats_days;
     int ncpus;

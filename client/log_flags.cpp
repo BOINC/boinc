@@ -204,6 +204,7 @@ void CONFIG::clear() {
     dont_check_file_sizes = false;
     dont_contact_ref_site = false;
     exclusive_apps.clear();
+    exclusive_gpu_apps.clear();
     force_auth = "default";
     http_1_0 = false;
     ignore_cuda_dev.clear();
@@ -276,6 +277,10 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "dont_contact_ref_site", dont_contact_ref_site)) continue;
         if (xp.parse_string(tag, "exclusive_app", s)) {
             exclusive_apps.push_back(s);
+            continue;
+        }
+        if (xp.parse_string(tag, "exclusive_gpu_app", s)) {
+            exclusive_gpu_apps.push_back(s);
             continue;
         }
         if (xp.parse_string(tag, "force_auth", force_auth)) {

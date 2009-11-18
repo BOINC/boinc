@@ -75,6 +75,9 @@
 using std::max;
 using std::min;
 
+bool exclusive_app_running;
+bool exclusive_gpu_app_running;
+
 #define ABORT_TIMEOUT   60
     // if we send app <abort> request, wait this long before killing it.
     // This gives it time to download symbol files (which can be several MB)
@@ -345,9 +348,16 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     }
 
     exclusive_app_running = false;
+    exclusive_gpu_app_running = false;
     for (i=0; i<config.exclusive_apps.size(); i++) {
         if (app_running(piv, config.exclusive_apps[i].c_str())) {
             exclusive_app_running = true;
+            break;
+        }
+    }
+    for (i=0; i<config.exclusive_gpu_apps.size(); i++) {
+        if (app_running(piv, config.exclusive_gpu_apps[i].c_str())) {
+            exclusive_gpu_app_running = true;
             break;
         }
     }

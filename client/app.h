@@ -262,7 +262,6 @@ public:
     void free_mem();
     bool slot_taken(int);
     void get_memory_usage();
-    bool exclusive_app_running;
 
     // graphics-related functions
     void graphics_poll();
@@ -274,4 +273,6 @@ public:
     int parse(MIOFILE&);
 };
 
+extern bool exclusive_app_running;
+extern bool exclusive_gpu_app_running;
 #endif
