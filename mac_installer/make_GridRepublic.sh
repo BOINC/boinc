@@ -156,8 +156,7 @@ cp -fp "${SOURCE_PKG_PATH}/Resources/all_projects_list.xml" "${IR_PATH}/"
 #### mkdir -p "${PR_PATH}/Library/Application Support/${BRAND_NAME} Data"
 #### mkdir -p "${PR_PATH}/Library/Application Support/${BRAND_NAME} Data/locale"
 
-## Put Branding file into BOINC Data folder to make it available to screensaver coordinator
-sudo echo ${BRANDING_INFO} > "${PR_PATH}/Library/Application Support/BOINC Data/Branding"
+mkdir -p "${PR_PATH}/Library/Application Support/BOINC Data"
 
 ## If skins folder is present. copy it into BOINC Data folder
 if [ -d "skins" ]; then
@@ -190,6 +189,9 @@ sudo rm -f "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/BOINC
 # Put Branding file in both Installer Package and Application Bundle
 sudo echo ${BRANDING_INFO} > "${IR_PATH}/Branding"
 sudo cp -fp "${IR_PATH}/Branding" "${PR_PATH}/Applications/${MANAGER_NAME}.app/Contents/Resources/Branding"
+
+## Put Branding file into BOINC Data folder to make it available to screensaver coordinator
+sudo cp -fp "${IR_PATH}/Branding" "${PR_PATH}/Library/Application Support/BOINC Data/Branding"
 
 # Rename the screensaver coordinator bundle and its executable inside the bundle
 sudo mv -f "${PR_PATH}/Library/Screen Savers/BOINCSaver.saver" "${PR_PATH}/Library/Screen Savers/${BRAND_NAME}.saver"
