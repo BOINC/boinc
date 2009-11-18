@@ -16,26 +16,32 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 /* XPM */
-static const char *externalweblink_xpm[] = {
+static char *externalweblink_xpm[] = {
 /* columns rows colors chars-per-pixel */
-"12 12 6 1",
-"  c #FFFFFF",
-"+ c #99CCFF",
-"X c #3399CC",
-"o c #6699CC",
-"O c #0066CC",
-". c #0066FF",
+"16 16 8 1",
+"  c None",
+"@ c #99D5FF",
+"+ c #0055CC",
+"o c #33AACC",
+". c #0055FF",
+"O c #66AACC",
+"# c #0080CC",
+"X c #0080FF",
 /* pixels */
-"            ",
-"     ...... ",
-"    Xo    . ",
-"     .X   . ",
-" OOOO.+   . ",
-" O  .+ +X . ",
-" O .+ +..o. ",
-" O +o+.O X  ",
-" O  +. O    ",
-" O     O    ",
-" OOOOOOO    ",
-"            "
+"                ",
+"                ",
+"                ",
+"       ..X...   ",
+"      oO    .   ",
+"       .o   .   ",
+"   ++++.@   .   ",
+"   +  .@ @o .   ",
+"   + .@ @..O.   ",
+"   + @O@.+ o    ",
+"   +  @. +      ",
+"   +     +      ",
+"   #++++#+      ",
+"                ",
+"                ",
+"                "
 };

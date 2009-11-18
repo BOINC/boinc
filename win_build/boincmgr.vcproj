@@ -865,6 +865,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\clientgui\res\multicore.xpm"
+				>
+			</File>
+			<File
 				RelativePath="..\clientgui\res\nvidiaicon.xpm"
 				>
 			</File>

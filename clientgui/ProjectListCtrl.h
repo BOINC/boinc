@@ -182,6 +182,7 @@ public:
 
 private:
     std::vector<CProjectListItem*> m_Items;
+    wxTipWindow *m_pTipWindow;
     
 #ifdef __WXMAC__
     CProjectListCtrlAccessible*    m_accessible;

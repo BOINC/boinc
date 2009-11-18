@@ -9329,3 +9329,14 @@ Charlie 18 Nov 2009
         boinc.xcodeproj/
             project.pbxproj
         WaitPermissions-Info.plist (Added)
+
+Rom    18 Nov 2009
+    - MGR: Add descriptions for each project as a tooltip and add
+        an icon for multicore capable projects.
+        
+    clientgui/
+        ProjectListCtrl.cpp, .h
+    clientgui/res/
+        multicore.xpm (Added)
+    win_build/
+        boincmgr.vcproj
