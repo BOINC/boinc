@@ -8441,12 +8441,15 @@ David  9 Nov 2009
         cs_cmdline.cpp
 
 David  9 Nov 2009
-    - scheduler: maintain WORK_REQ::no_jobs_available correctly
-        for locality scheduling
     - client: avoid spurious error message when parsing
         <proxy_info> from cc_config.xml
 
     client/
         log_flags.cpp
-    sched/
-        sched_locality.cpp
+
+David  9 Nov 2009
+	- client: fix bug that crashed client if client_state.xml
+		had garbage within <file_info>
+
+	client/
+		client_types.cpp
