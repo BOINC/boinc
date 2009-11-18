@@ -8460,3 +8460,15 @@ David  10 Nov 2009
 
     lib/
         coproc.cpp
+
+David  10 Nov 2009
+    - client: the handling of GUI RPCs was inconsistent;
+        some expected <request>, some expected <request/>,
+        and some would accept either.
+        Changed them all to accept either.
+
+        NOTE: this means no request can be a substring of another
+
+    client/
+        gui_rpc_server_ops.cpp
+
