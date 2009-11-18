@@ -62,12 +62,20 @@ RSC_PROJECT_WORK_FETCH& RSC_WORK_FETCH::project_state(PROJECT* p) {
     }
 }
 
-bool RSC_WORK_FETCH::may_have_work(PROJECT* p) {
+inline bool prefs_prevent_fetch(PROJECT* p, int rsc_type) {
     switch(rsc_type) {
-    case RSC_TYPE_CPU: if (p->no_cpu) return false;
-    case RSC_TYPE_CUDA: if (p->no_cuda) return false;
-    case RSC_TYPE_ATI: if (p->no_ati) return false;
+    case RSC_TYPE_CPU:
+        if (p->no_cpu_pref) return true;
+    case RSC_TYPE_CUDA:
+        if (p->no_cuda_pref) return true;
+    case RSC_TYPE_ATI:
+        if (p->no_ati_pref) return true;
     }
+    return false;
+}
+
+bool RSC_WORK_FETCH::may_have_work(PROJECT* p) {
+    if (prefs_prevent_fetch(p, rsc_type)) return false;
     RSC_PROJECT_WORK_FETCH& w = project_state(p);
     return (w.backoff_time < gstate.now);
 }
@@ -742,6 +750,13 @@ bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
     if (p->dont_request_more_work) return false;
     if (has_runnable_jobs) return true;
     if (backoff_time > gstate.now) return false;
+    if (prefs_prevent_fetch(p, rwf.rsc_type)) return false;
+
+    // NOTE: it's critical that all conditions that might prevent
+    // us from asking the project for work of this type
+    // be included in the above list.
+    // Otherwise we might get in a state where debt accumulates,
+    // pushing other projects into overworked state
 
     // The last time we asked for work we didn't get any,
     // but it's been a while since we asked.

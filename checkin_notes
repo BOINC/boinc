@@ -8531,3 +8531,12 @@ David  11 Nov 2009
     lib/
         coproc.cpp
         gui_rpc_client.cpp
+
+David  12 Nov 2009
+    - client: if a project has a no_{cpu,cuda,ati} pref set,
+        don't accumulate debt for that resource.
+        Otherwise we'll accumulate debt forever,
+        pushing other projects into overworked state.
+
+    client/
+        work_fetch.cpp
