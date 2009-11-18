@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-05-17 01:08+0900\n"
+"PO-Revision-Date: 2009-11-18 23:55+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -11,15 +11,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 
 #: clientgui/AccountInfoPage.cpp:370
 msgid "Identify your account "
-msgstr ""
+msgstr "アカウントを確認する"
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid ""
@@ -58,10 +58,15 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
+"あなたのアカウント情報を自動的には設定できませんでした。\n"
+"\n"
+"次の 'ログオン情報を探す' のリンクをクリックして、\n"
+"Eメイルアドレスとパスワードの2つのフィールに入れる内容を\n"
+"見つけて下さい。"
 
 #: clientgui/AccountInfoPage.cpp:399
 msgid "Find logon information"
-msgstr ""
+msgstr "ログオン情報を探す"
 
 #: clientgui/AccountInfoPage.cpp:419
 #: clientgui/AccountInfoPage.cpp:585
@@ -84,7 +89,7 @@ msgstr "既に %s に参加していますか？"
 
 #: clientgui/AccountInfoPage.cpp:453
 msgid "&Username:"
-msgstr "参加者の名前:"
+msgstr "参加者の名前(&U):"
 
 #: clientgui/AccountInfoPage.cpp:467
 msgid "&Email address:"
@@ -105,10 +110,13 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
+"このアカウントマネージャにまだ登録していないでしたら、処理を\n"
+"開始する前にぜひ登録をお願いします。次のリンクをクリックして\n"
+"登録ができます。忘れたパスワードを見つけることも可能です。"
 
 #: clientgui/AccountInfoPage.cpp:492
 msgid "Account manager website"
-msgstr ""
+msgstr "アカウント・マネージャのウェブサイト"
 
 # This dialog title is rendered not correctly if it is translated into Japanese, as  "プロジェクトに参加"
 #: clientgui/AccountInfoPage.cpp:524
@@ -140,7 +148,7 @@ msgstr "確認のために2つ入力していただいたパスワードが同�
 
 #: clientgui/AccountManagerInfoPage.cpp:243
 msgid "Choose an account manager"
-msgstr ""
+msgstr "アカウント・マネージャを1つ選ぶ"
 
 #: clientgui/AccountManagerInfoPage.cpp:246
 #, fuzzy
@@ -157,7 +165,6 @@ msgstr "アカウント・マネージャ URL(&U)："
 #: clientgui/AccountManagerProcessingPage.cpp:190
 #: clientgui/AccountManagerPropertiesPage.cpp:196
 #, c-format
-#, fuzzy, c-format
 msgid "Communicating with %s."
 msgstr "Communicating with %s."
 
@@ -191,7 +198,7 @@ msgstr "接続を切りました"
 #: clientgui/AdvancedFrame.cpp:304
 #, c-format
 msgid "Close the %s window"
-msgstr ""
+msgstr "この %s ウィンドーを閉じる"
 
 #: clientgui/AdvancedFrame.cpp:309
 #, fuzzy
@@ -201,7 +208,7 @@ msgstr "ウィンドウを閉じる(&C)\tCTRL+W"
 #: clientgui/AdvancedFrame.cpp:316
 #, c-format
 msgid "Exit %s"
-msgstr ""
+msgstr "%s を終了する"
 
 #: clientgui/AdvancedFrame.cpp:321
 #: clientgui/BOINCTaskBar.cpp:626
@@ -210,64 +217,63 @@ msgstr "終了(&X)"
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "&Projects\tCtrl+Shift+P"
-msgstr ""
+msgstr "プロジェクト(&P)\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
-msgstr ""
+msgstr "プロジェクトを表示"
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr ""
+msgstr "タスク(&T)\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
-msgstr ""
+msgstr "タスクを表示"
 
 #: clientgui/AdvancedFrame.cpp:342
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr ""
+msgstr "転送(&f)\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
-msgstr ""
+msgstr "転送を表示"
 
 #: clientgui/AdvancedFrame.cpp:348
 msgid "&Messages\tCtrl+Shift+M"
-msgstr ""
+msgstr "メッセージ(&M)\tCtrl+Shift+M"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
-msgstr ""
+msgstr "メッセージを表示"
 
 #: clientgui/AdvancedFrame.cpp:354
 msgid "&Statistics\tCtrl+Shift+S"
-msgstr ""
+msgstr "統計(&S)\tCtrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
-msgstr ""
+msgstr "統計を表示"
 
 #: clientgui/AdvancedFrame.cpp:360
 msgid "&Disk usage\tCtrl+Shift+D"
-msgstr ""
+msgstr "ディスク(&D)使用量\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
-msgstr ""
+msgstr "ディスク使用量を表示"
 
 #: clientgui/AdvancedFrame.cpp:366
 msgid "&News\tCtrl+Shift+N"
-msgstr ""
+msgstr "ニュース(&N)\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
-msgstr ""
+msgstr "ニュースを表示"
 
 #: clientgui/AdvancedFrame.cpp:374
-#, fuzzy
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "簡易ビュー(&S)...\tCTRL+SHIFT+S"
+msgstr "簡易ビュー(&V)...\tCTRL+SHIFT+S"
 
 #: clientgui/AdvancedFrame.cpp:375
 #, fuzzy
@@ -276,11 +282,11 @@ msgstr "BOINC 簡易グラフィックで表示します"
 
 #: clientgui/AdvancedFrame.cpp:395
 msgid "Attach to &project or account manager..."
-msgstr ""
+msgstr "プロジェクト(&P)またはアカウント・マネージャに接続"
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "Attach to a project or account manager to begin processing work"
-msgstr ""
+msgstr "仕事を処理し始めるためにプロジェクトまたはアカウント・マネージャへ接続する"
 
 #: clientgui/AdvancedFrame.cpp:400
 #, c-format
@@ -342,18 +348,16 @@ msgid "Allow network activity regardless of preferences"
 msgstr "プレファレンス (好みの設定) に関わらずネットワークアクセスを許可します"
 
 #: clientgui/AdvancedFrame.cpp:474
-#, fuzzy
 msgid "Network activity based on pre&ferences"
-msgstr "プレファレンスに従ってネットワークを使用(&P)"
+msgstr "プレファレンスに従ってネットワークを使用(&F)"
 
 #: clientgui/AdvancedFrame.cpp:475
 msgid "Allow network activity according to your preferences"
 msgstr "プレファレンス (好みの設定) に従ってネットワークアクセスを許可します"
 
 #: clientgui/AdvancedFrame.cpp:479
-#, fuzzy
 msgid "Network activity s&uspended"
-msgstr "ネットワークの使用を一時停止(&N)"
+msgstr "ネットワークの使用を一時停止(&U)"
 
 #: clientgui/AdvancedFrame.cpp:480
 msgid "Stop BOINC network activity"
@@ -490,7 +494,7 @@ msgstr "ヘルプ(&H)"
 
 #: clientgui/AdvancedFrame.cpp:993
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "プロジェクトあるいはアカウント・マネージャに接続しようとしています・・・"
 
 #: clientgui/AdvancedFrame.cpp:1086
 #, c-format
@@ -610,12 +614,12 @@ msgstr "BOINC クライアントと通信中です。お待ちください ...."
 #: clientgui/AsyncRPC.cpp:1203
 #, c-format
 msgid "&Quit %s"
-msgstr ""
+msgstr "終了する(Q)　%s"
 
 #: clientgui/AsyncRPC.cpp:1205
 #, c-format
 msgid "E&xit %s"
-msgstr ""
+msgstr "終了する(Q)　%s"
 
 #: clientgui/AsyncRPC.cpp:1222
 msgid "Cancel"
@@ -793,6 +797,14 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
+"このクライアントを管理する権限が現在あなたにはありませせん。\n"
+"\n"
+"このユーザのもとで BOINC を走らせるためには、以下のようにして下さい:\n"
+"  - BOINC を再インストールし、その際に、non-administrative users に関する\n"
+"    質問に\"Yes\"（はい）と答えます\n"
+" あるいは、\n"
+"  - 管理者に依頼してあなたを ユーザグループ　'boinc_master' の１人\n"
+"    に加えてもらいます。"
 
 #: clientgui/BOINCGUIApp.cpp:339
 #, c-format
@@ -800,6 +812,8 @@ msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)"
 msgstr ""
+"BOINC の所有権あるいはパーミッションの設定が不適切です。 BOINC を\n"
+"再インストールして下さい。 (エラーコード %d)"
 
 #: clientgui/BOINCGUIApp.cpp:389
 msgid ""
@@ -823,11 +837,11 @@ msgstr "BOINC が起動すると、システムトレイにアイコンだけが
 
 #: clientgui/BOINCGUIApp.cpp:541
 msgid "Directory containing the BOINC Client executable"
-msgstr ""
+msgstr "BOINCクライアントの実行可能ファイルがあるディレクトリ"
 
 #: clientgui/BOINCGUIApp.cpp:542
 msgid "BOINC data directory"
-msgstr ""
+msgstr "BOINC用データディレクトリ "
 
 #: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
@@ -1348,7 +1362,7 @@ msgstr "% (ディスク全体に対する使用率)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:502
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "タスクがチェックポイントでディスクに書く最小間隔"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "seconds"
@@ -1501,15 +1515,15 @@ msgstr "スケジューラ RPC の保留時間"
 
 #: clientgui/DlgItemProperties.cpp:114
 msgid "File downloads deferred for"
-msgstr ""
+msgstr "ファイルダウンロード 待機"
 
 #: clientgui/DlgItemProperties.cpp:117
 msgid "File uploads deferred for"
-msgstr ""
+msgstr "ファイルアップロード 待機"
 
 #: clientgui/DlgItemProperties.cpp:120
 msgid "Computer ID"
-msgstr ""
+msgstr "計算機 ID"
 
 #: clientgui/DlgItemProperties.cpp:121
 msgid "Non CPU intensive"
@@ -1641,7 +1655,7 @@ msgstr "状態"
 
 #: clientgui/DlgItemProperties.cpp:185
 msgid "Received"
-msgstr ""
+msgstr "受信時刻 "
 
 #: clientgui/DlgItemProperties.cpp:188
 msgid "Report deadline"
@@ -1683,7 +1697,7 @@ msgstr "ワーキング・セットの大きさ"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Directory"
-msgstr ""
+msgstr "ディレクトリ"
 
 #: clientgui/DlgItemProperties.cpp:301
 msgid "New"
@@ -2058,8 +2072,7 @@ msgstr "LIGO プロジェクト"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"Laser Interferometer Gravitational-wave Observatory (LIGO) プロジェクトのホームページ"
+msgstr "Laser Interferometer Gravitational-wave Observatory (LIGO) プロジェクトのホームページ"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2220,15 +2233,17 @@ msgstr "プロジェクトの URL(&U)："
 
 #: clientgui/ProjectInfoPage.cpp:339
 msgid "This project may not have work for your type of computer. Are you sure you wish to continue?"
-msgstr ""
+msgstr "このプロジェクトにはあなたのコンピュータに適合する仕事がないかもしれません。 それでも、さらに続けたいですか？"
 
 #: clientgui/ProjectInfoPage.cpp:363
 msgid "You are already attached to this project. Please choose a different project."
 msgstr "すでに指定したプロジェクトには参加済みです。別のプロジェクトを選んで下さい。"
 
+# This string is the default action of objects specified for GetDefaultAction. I'm not sure this is meaningful to be translated, that is, is it a string for Human?
 #: clientgui/ProjectListCtrl.cpp:239
+#, fuzzy
 msgid "Click"
-msgstr ""
+msgstr "Click"
 
 # This dialog title is rendered not correctly if it is translated into Japanese, as  "プロジェクトと通信中\n
 # お待ち下さい..."
@@ -2344,13 +2359,12 @@ msgid "SOCKS proxy"
 msgstr "SOCKS プロキシ"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-#, fuzzy
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr "拡張ビュー(&A)\tCTRL+SHIFT+A"
+msgstr "詳細表示\tCTRL+SHIFT+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
 msgid "Display the advanced (accessible) graphical interface."
-msgstr ""
+msgstr "より使いやすい詳細グラフィカルインタフェースを表示する。"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:141
 #, c-format
@@ -2435,9 +2449,7 @@ msgstr "選択したメッセージをクリップボードにコピーします
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"選択したメッセージをクリップボードにコピーします。シフトキーまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にで"
-"きます。 "
+msgstr "選択したメッセージをクリップボードにコピーします。シフトキーまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にできます。 "
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -3012,9 +3024,7 @@ msgstr "プロジェクトをリセット"
 
 #: clientgui/ViewProjects.cpp:195
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得します。 "
-"完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」してください。"
+msgstr "このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得します。 完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」してください。"
 
 #: clientgui/ViewProjects.cpp:201
 msgid "Detach"
@@ -3022,9 +3032,7 @@ msgstr "離脱"
 
 #: clientgui/ViewProjects.cpp:202
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"このコンピュータをこのプロジェクトから離脱させます。作業中のタスクは消えてしまいます。 "
-"(完了したタスクを報告するため、離脱する前にプロジェクトの「更新」を行ってください)"
+msgstr "このコンピュータをこのプロジェクトから離脱させます。作業中のタスクは消えてしまいます。 (完了したタスクを報告するため、離脱する前にプロジェクトの「更新」を行ってください)"
 
 #: clientgui/ViewProjects.cpp:208
 msgid "Properties"
@@ -3314,9 +3322,7 @@ msgstr "ファイル転送を中止"
 #: clientgui/ViewTransfers.cpp:171
 #: clientgui/ViewTransfersGrid.cpp:114
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr ""
-"ファイル転送の待ち行列からこのファイルを削除するには、「ファイル転送を中止」をクリックします。 この場合、対応するリザルトについての功績 "
-"(credit) は付与されなくなります。"
+msgstr "ファイル転送の待ち行列からこのファイルを削除するには、「ファイル転送を中止」をクリックします。 この場合、対応するリザルトについての功績 (credit) は付与されなくなります。"
 
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -3391,11 +3397,11 @@ msgstr "ダウンロード保留中"
 
 #: clientgui/ViewTransfers.cpp:769
 msgid " (project backoff: "
-msgstr ""
+msgstr " (プロジェクトとの通信待機: "
 
 #: clientgui/ViewTransfers.cpp:769
 msgid ")"
-msgstr ""
+msgstr ")"
 
 #: clientgui/ViewTransfersGrid.cpp:161
 msgid "TransfersGrid"
@@ -3422,12 +3428,12 @@ msgstr "ファイル転送を中止"
 #: clientgui/ViewWork.cpp:184
 #: clientgui/ViewWork.cpp:708
 msgid "Show active tasks"
-msgstr ""
+msgstr "活動中のタスクを表示する"
 
 #: clientgui/ViewWork.cpp:185
 #: clientgui/ViewWork.cpp:709
 msgid "Show only active tasks."
-msgstr ""
+msgstr "活動中のタスクだけを表示する。"
 
 #: clientgui/ViewWork.cpp:192
 #: clientgui/ViewWorkGrid.cpp:115
@@ -3499,7 +3505,7 @@ msgstr ""
 #: clientgui/ViewWork.cpp:432
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr ""
+msgstr "この %d 番のタスクを本当に中断したいですか？"
 
 #: clientgui/ViewWork.cpp:437
 #: clientgui/ViewWorkGrid.cpp:335
@@ -3513,11 +3519,11 @@ msgstr "リザルトの中止処理をしています..."
 
 #: clientgui/ViewWork.cpp:702
 msgid "Show all tasks"
-msgstr ""
+msgstr "全てのタスクを表示"
 
 #: clientgui/ViewWork.cpp:703
 msgid "Show all tasks."
-msgstr ""
+msgstr "すべてのタスクを表示する。"
 
 #: clientgui/ViewWork.cpp:727
 #: clientgui/ViewWorkGrid.cpp:445
@@ -3531,7 +3537,7 @@ msgstr "このタスクに対する仕事を一時停止します。"
 
 #: clientgui/ViewWork.cpp:1107
 msgid "GPU missing, "
-msgstr ""
+msgstr "GPUがありません"
 
 #: clientgui/ViewWork.cpp:1148
 msgid " - an exclusive app is running"
@@ -3557,7 +3563,7 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:250
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "プロジェクトあるいはアカウント・マネージャに接続"
 
 #: clientgui/WelcomePage.cpp:258
 #, c-format
@@ -3579,6 +3585,8 @@ msgid ""
 "We'll guide you through the process of attaching\n"
 "to a project or account manager."
 msgstr ""
+"プロジェクトあるいはアカウント・マネージャに接続する手順を\n"
+"初めから最後までガイドします。"
 
 #: clientgui/WelcomePage.cpp:275
 msgid ""
@@ -3639,25 +3647,21 @@ msgstr "終了(&F)"
 
 #: clientgui/common/wxFlatNotebook.cpp:182
 #, c-format
-#, fuzzy, c-format
 msgid "New page inserted. Index = %i"
 msgstr "New page inserted. Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:187
 #, c-format
-#, fuzzy, c-format
 msgid "New page appended. Index = %i"
 msgstr "New page appended. Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2048
 #, c-format
-#, fuzzy, c-format
 msgid "Old Page Index = %i"
 msgstr "Old Page Index = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2053
 #, c-format
-#, fuzzy, c-format
 msgid "OnDropTarget: index by HitTest = %i"
 msgstr "OnDropTarget: index by HitTest = %i"
 
@@ -3692,58 +3696,44 @@ msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指�
 #, fuzzy
 #~ msgid "Account Manager URL"
 #~ msgstr "Account Manager URL"
-
 #~ msgid "Enter the URL of the account manager's web site."
 #~ msgstr "アカウント・マネージャのウェブサイトの URL を入力して下さい。"
-
 #~ msgid "Close BOINC Manager Window."
 #~ msgstr "BOINC マネージャのウィンドウを閉じる"
 
 #, c-format
 #~ msgid "Exit the %s"
 #~ msgstr "%s を終了します"
-
 #~ msgid "Advanced views allow you to sort various columns and displays graphical progress bars."
 #~ msgstr "拡張表示では、任意の列でソートができます。また、進捗をバーグラフで表示できます。"
-
 #~ msgid "Attach to a project"
 #~ msgstr "プロジェクトに参加します"
-
 #~ msgid "Attach to &account manager..."
 #~ msgstr "アカウント・マネージャに接続(&A)..."
-
 #~ msgid "Attach to an account manager"
 #~ msgstr "アカウント・マネージャに接続します"
-
 #~ msgid "Attach to &project"
 #~ msgstr "プロジェクトに参加(&P)"
-
 #~ msgid "Attaching to project..."
 #~ msgstr "プロジェクトに参加処理中..."
 
 #, c-format
 #~ msgid "Removal from %s completed."
 #~ msgstr "%s からの削除が完了しました。"
-
 #~ msgid "Removal succeeded!"
 #~ msgstr "削除に成功しました！"
-
 #~ msgid "Write to disk at most every"
 #~ msgstr "ディスクへの書き込み頻度"
-
 #~ msgid "Slot"
 #~ msgstr "スロット"
-
 #~ msgid "Already Attached to Project"
 #~ msgstr "プロジェクトに参加済み"
-
 #~ msgid "This project may not have work for your type of computer."
 #~ msgstr "このプロジェクトには、この種のコンピュータに与える仕事はないかもしれません。"
 
 #, c-format
 #~ msgid "Click here to go to %s's website."
 #~ msgstr "%s のウェブサイトに行くにはここをクリック。"
-
 #~ msgid ""
 #~ "We'll now guide you through the process of attaching\n"
 #~ "to a project."
@@ -3768,7 +3758,6 @@ msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指�
 #, fuzzy
 #~ msgid "Account manager"
 #~ msgstr "Account manager"
-
 #~ msgid ""
 #~ "We'll now guide you through the process of attaching\n"
 #~ "to an account manager.\n"
@@ -3781,40 +3770,28 @@ msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指�
 #~ "\n"
 #~ "ひとつのプロジェクトに参加する場合は，[キャンセル] をクリックして\n"
 #~ "代わりにメニューの「プロジェクトに参加」を選択してください。"
-
 #~ msgid "Debug Flags"
 #~ msgstr "デバッグ・フラグ"
-
 #~ msgid "Project Properties Failure"
 #~ msgstr "プロジェクト プロパティに問題があります"
-
 #~ msgid "Project Communication Failure"
 #~ msgstr "プロジェクトとの通信に失敗しました"
-
 #~ msgid "Project Properties URL Failure"
 #~ msgstr "プロジェクト プロパティの URL に問題があります"
-
 #~ msgid "Account Creation Disabled"
 #~ msgstr "アカウントの作成が停止されています"
-
 #~ msgid "Client Account Creation Disabled"
 #~ msgstr "クライアント・アカウントの作成が停止されています"
-
 #~ msgid "Account Already Exists"
 #~ msgstr "アカウントは既に存在しています"
-
 #~ msgid "Project Already Attached"
 #~ msgstr "プロジェクトに参加済みでした"
-
 #~ msgid "Project Attach Failure"
 #~ msgstr "プロジェクトへの参加に失敗"
-
 #~ msgid "Failure Communicating with Reference Site"
 #~ msgstr "インターネット接続可否の基準としているサイトとの通信に失敗しました"
-
 #~ msgid "Net Detection Failure"
 #~ msgstr "ネットワーク検出に失敗"
-
 #~ msgid ""
 #~ "You can copy and paste the URL from your browser's\n"
 #~ "address bar."
@@ -3825,3 +3802,4 @@ msgstr "ネットワークを使う時間帯を「HH:MM-HH:MM」の形式で指�
 #, fuzzy
 #~ msgid "For a list of account managers go to:"
 #~ msgstr "BOINC ベースのアカウント・マネージャの一覧表を見るには下記のリンクへ："
+

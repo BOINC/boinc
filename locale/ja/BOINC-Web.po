@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2009-05-17 00:48+0900\n"
+"PO-Revision-Date: 2009-11-19 00:29+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: Japanese <nobody@example.com>\n"
 "MIME-Version: 1.0\n"
@@ -11,12 +11,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 1.2.1\n"
 "X-Poedit-Language: English\n"
-"X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: D:\\_Trans\\BTS\\20090509\n"
 "X-BOINC-UTF8-Marker: 日本語\n"
 "X-Poedit-Country: JAPAN\n"
 "X-Poedit-KeywordsList: tra\n"
+"X-Poedit-SearchPath-0: doc\n"
 
 #: poll.inc:18
 msgid "[check all that apply]"
@@ -194,7 +194,8 @@ msgstr "友人、親戚、あるいは同僚から"
 msgid "Team message boards or web sites"
 msgstr "チームの掲示板・ウェブサイトで"
 
-#: poll_data.inc:154 poll_data.inc:210
+#: poll_data.inc:154
+#: poll_data.inc:210
 msgid "The BOINC web site"
 msgstr "BOINC のウェブサイトで"
 
@@ -203,9 +204,7 @@ msgid "Other web sites"
 msgstr "その他のウェブサイトで"
 
 #: poll_data.inc:161
-msgid ""
-"Which are the most important factors when you decide whether to participate "
-"in a BOINC project?"
+msgid "Which are the most important factors when you decide whether to participate in a BOINC project?"
 msgstr "BOINC のプロジェクトに参加するかどうか判断するときに、以下のどの要因が一番重要ですか。"
 
 #: poll_data.inc:163
@@ -285,9 +284,7 @@ msgid "None"
 msgstr "使っていません"
 
 #: poll_data.inc:206
-msgid ""
-"Where do you get information to help resolve problems with BOINC and/or "
-"BOINC projects?"
+msgid "Where do you get information to help resolve problems with BOINC and/or BOINC projects?"
 msgstr "BOINC あるいは BOINC プロジェクトで問題が生じたときにどこで解決のための情報を得ますか"
 
 #: poll_data.inc:208
@@ -324,25 +321,13 @@ msgid "%s for %s (%s MB)"
 msgstr "%s 版 %s 用 (%s MB)"
 
 #: download.php:89
-msgid ""
-"BOINC is a program that lets you donate your idle computer time to science "
-"projects like SETI@home, Climateprediction.net, Rosetta@home, World "
-"Community Grid, and many others. <p> After installing BOINC on your "
-"computer, you can connect it to as many of these projects as you like."
-msgstr ""
-" BOINC はあなたのコンピュータの空き時間を、色々な科学プロジェクトに寄付するために使えるプログラムです。 "
-"<br>それらの科学プロジェクトとしては、SETI@home、Climateprediction.net、Rosetta@home、World "
-"Community Grid など、すでにたくさんのものがあります。 <p>あなたのコンピュータに BOINC  "
-"のインストールが済めば、上記のプロジェクトのいくつにでも好きなだけつなげることができます。 "
+msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like."
+msgstr " BOINC はあなたのコンピュータの空き時間を、色々な科学プロジェクトに寄付するために使えるプログラムです。 <br>それらの科学プロジェクトとしては、SETI@home、Climateprediction.net、Rosetta@home、World Community Grid など、すでにたくさんのものがあります。 <p>あなたのコンピュータに BOINC  のインストールが済めば、上記のプロジェクトのいくつにでも好きなだけつなげることができます。 "
 
 #: download.php:114
 #, php-format
-msgid ""
-"Note: if your computer is equipped with an NVIDIA Graphics Processing Unit "
-"(GPU), you may be able to %suse it to compute faster%s"
-msgstr ""
-"注: あなたのコンピュータに NVIDIA 社の GPU(Graphics Processing Unit) "
-"がついているなら、%sそれを使ってより速く計算する%s ことができるかもしれません。"
+msgid "Note: if your computer is equipped with an NVIDIA Graphics Processing Unit (GPU), you may be able to %suse it to compute faster%s"
+msgstr "注: あなたのコンピュータに NVIDIA 社の GPU(Graphics Processing Unit) がついているなら、%sそれを使ってより速く計算する%s ことができるかもしれません。"
 
 #: download.php:120
 msgid "System requirements"
@@ -352,7 +337,8 @@ msgstr "コンピュータの条件"
 msgid "Release notes"
 msgstr "公開時の注意書き"
 
-#: download.php:122 index.php:89
+#: download.php:122
+#: index.php:89
 msgid "Help"
 msgstr "ヘルプ"
 
@@ -366,42 +352,20 @@ msgstr "科学のための計算をしよう"
 
 #: help.php:12
 #, php-format
-msgid ""
-"BOINC Online Help lets you talk one-on-one with experienced BOINC users, who "
-"can: %s answer questions about BOINC and volunteer computing; %s walk you "
-"through the process of installing and using BOINC; %s troubleshoot any "
-"problems you might have."
-msgstr ""
-"BOINC のオンライン・ヘルプでは、経験ある BOINC 参加者と1対1で話ができます。話の相手となってくれる方は、%s BOINC "
-"とボランティア・コンピューティングについて質問に答えることができますし、%s BOINC "
-"をインストールして使うところまで、あなたをガイドできます。さらに%s あなたが遭遇するかもしれない問題も解決できるでしょう。"
+msgid "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have."
+msgstr "BOINC のオンライン・ヘルプでは、経験ある BOINC 参加者と1対1で話ができます。話の相手となってくれる方は、%s BOINC とボランティア・コンピューティングについて質問に答えることができますし、%s BOINC をインストールして使うところまで、あなたをガイドできます。さらに%s あなたが遭遇するかもしれない問題も解決できるでしょう。"
 
 #: help.php:21
 #, php-format
-msgid ""
-"BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. "
-"Skype is free (both the software and the calls).  If you don't already have "
-"Skype, please %sdownload and install it now%s.  When you're finished, return "
-"to this page."
-msgstr ""
-"BOINC オンライン・ヘルプは インターネット・ベースの電話システムの1つである %sSkype%s を使います。Skype は無料 "
-"(ソフトウェアも通話料も）です。まだ Skype をもっていなければ、どうぞ %s "
-"今すぐダウンロードしてインストールして下さい%s。それが済んだら、このページに戻って下さい。"
+msgid "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls).  If you don't already have Skype, please %sdownload and install it now%s.  When you're finished, return to this page."
+msgstr "BOINC オンライン・ヘルプは インターネット・ベースの電話システムの1つである %sSkype%s を使います。Skype は無料 (ソフトウェアも通話料も）です。まだ Skype をもっていなければ、どうぞ %s 今すぐダウンロードしてインストールして下さい%s。それが済んだら、このページに戻って下さい。"
 
 #: help.php:28
-msgid ""
-"The best way to get help is by voice, for which you need either built-in "
-"microphone and speakers or an external headset for your computer.  You can "
-"also use Skype's text-based chat system or regular email (if you don't have "
-"Skype) to communicate with Help Volunteers."
-msgstr ""
-"助けを得る一番良いやり方は、口頭で相談することです。そのためには、あなたのコンピュータに組み込まれたマイクとスピーカ、あるいは、外部接続のヘッドセットが"
-"要ります。別の方法としては、Skype のテキストベースのチャットシステムを使って、ヘルプを担当してくれるボランティアとやりとりをすることもできます。 "
+msgid "The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer.  You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."
+msgstr "助けを得る一番良いやり方は、口頭で相談することです。そのためには、あなたのコンピュータに組み込まれたマイクとスピーカ、あるいは、外部接続のヘッドセットが要ります。別の方法としては、Skype のテキストベースのチャットシステムを使って、ヘルプを担当してくれるボランティアとやりとりをすることもできます。 "
 
 #: help.php:31
-msgid ""
-"Volunteers speaking several languages are available. Please select a "
-"language:"
+msgid "Volunteers speaking several languages are available. Please select a language:"
 msgstr "数ヶ国語についてボランティアはヘルプを提供できます。使いたい言語を以下から選択してください:"
 
 #: help.php:47
@@ -410,64 +374,58 @@ msgstr "ヘルプ担当のボランティアになるには"
 
 #: help.php:50
 #, php-format
-msgid ""
-"If you're an experienced BOINC user, we encourage you to %sbecome a Help "
-"Volunteer%s.  It's a great way to help the cause of scientific research and "
-"volunteer computing - and it's fun!"
-msgstr ""
-"あなたが BOINC 参加者として経験がおありなら、是非、%s ヘルプ担当のボランティアをやって%s "
-"いただけませんか。科学研究とボランティア・コンピューティングの主旨を支援する、重要な活動の1つです。さらに、楽しい活動でもあります！"
+msgid "If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s.  It's a great way to help the cause of scientific research and volunteer computing - and it's fun!"
+msgstr "あなたが BOINC 参加者として経験がおありなら、是非、%s ヘルプ担当のボランティアをやって%s いただけませんか。科学研究とボランティア・コンピューティングの主旨を支援する、重要な活動の1つです。さらに、楽しい活動でもあります！"
 
 #: help.php:56
 #, php-format
-msgid ""
-"If you're already a Help Volunteer: to edit your settings, %sclick here%s."
+msgid "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr "既にヘルプ担当のボランティアをされている方へ：あなたの%s 設定を編集する%s には左のリンクをクリックして下さい。"
 
 #: index.php:23
 msgid "Computing power"
-msgstr ""
+msgstr "計算能力"
 
 #: index.php:25
 msgid "Top 100 volunteers"
-msgstr ""
+msgstr "上位100位までの参加者"
 
 #: index.php:26
 msgid "Statistics"
-msgstr ""
+msgstr "統計"
 
 #: index.php:53
 msgid "Active:"
-msgstr ""
+msgstr "活動中： "
 
 #: index.php:53
 msgid "volunteers,"
-msgstr ""
+msgstr "人の参加者、"
 
 #: index.php:53
 msgid "computers.\n"
-msgstr ""
+msgstr "台の計算機\n"
 
 #: index.php:54
 msgid "24-hour average:"
-msgstr ""
+msgstr "24時間の平均： "
 
 #: index.php:54
 msgid "TeraFLOPS."
-msgstr ""
+msgstr "TeraFLOPS."
 
 #: index.php:66
 msgid "News"
-msgstr ""
+msgstr "ニュース"
 
 #: index.php:72
 msgid "... more"
-msgstr ""
+msgstr "..... 続きを見る"
 
 #: index.php:76
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "ニュースは %sRSS%s からも読めます"
 
 #: index.php:86
 msgid "Volunteer"
@@ -477,105 +435,94 @@ msgstr "ボランティアとして参加してくださる方へ"
 msgid "Download"
 msgstr "ダウンロード"
 
-#: index.php:90 index.php:125 index.php:163
+#: index.php:90
+#: index.php:125
+#: index.php:163
 msgid "Documentation"
 msgstr "説明資料"
 
 #: index.php:96
 #, php-format
-msgid ""
-" Use the idle time on your computer (Windows, Mac, or Linux) to cure "
-"diseases, study global warming, discover pulsars, and do many other types of "
-"scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
-"sDownload%s and run BOINC software  %sEnter%s an email address and password. "
-msgstr ""
-"あなたのコンピュータの空き時間を、病気を治すためや、地球温暖化を研究するため、 "
-"パルサーを発見するため、そしてその他たくさんの種類の科学研究のために使って下さい。 (コンピュータは、Windows、Mac、Linux "
-"のどれでも大丈夫です)。  やり方は以下のように簡単で、安全かつ安心です。 %s プロジェクトを選択し%s、 %s BOINC ソフトウェアを "
-"ダウンロード%s して走らせます。  %s その後、入力 %s する必要があるのは、あなたのメイルアドレスとパスワードです。"
+msgid " Use the idle time on your computer (Windows, Mac, or Linux) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "
+msgstr "あなたのコンピュータの空き時間を、病気を治すためや、地球温暖化を研究するため、 パルサーを発見するため、そしてその他たくさんの種類の科学研究のために使って下さい。 (コンピュータは、Windows、Mac、Linux のどれでも大丈夫です)。  やり方は以下のように簡単で、安全かつ安心です。 %s プロジェクトを選択し%s、 %s BOINC ソフトウェアを ダウンロード%s して走らせます。  %s その後、入力 %s する必要があるのは、あなたのメイルアドレスとパスワードです。"
 
 #: index.php:107
 #, php-format
-msgid ""
-"Or, if you run several projects, try an %saccount manager%s such as %"
-"sGridRepublic%s or %sBAM!%s. "
-msgstr ""
-"あるいは、もし複数のプロジェクトに参加したいなら、%3$s GridRepublic %4$s や %5$s BAM! %6$s のような %1$s "
-"アカウント・マネージャ%2$s を試して下さい。"
+msgid "Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
+msgstr "あるいは、もし複数のプロジェクトに参加したいなら、%3$s GridRepublic %4$s や %5$s BAM! %6$s のような %1$s アカウント・マネージャ%2$s を試して下さい。"
 
 #: index.php:123
 msgid "Compute with BOINC"
-msgstr ""
+msgstr " BOINC を使って計算する"
 
 #: index.php:126
 msgid "Software updates"
-msgstr ""
+msgstr "ソフトウェアのアップデイト"
 
 #: index.php:153
 msgid "The BOINC project"
-msgstr ""
+msgstr "BOINC プロジェクト"
 
 #: index.php:158
 msgid "Help wanted!"
-msgstr ""
+msgstr "支援を求む！"
 
 #: index.php:160
 msgid "Programming"
-msgstr ""
+msgstr "プログラミング"
 
 #: index.php:161
 msgid "Translation"
-msgstr ""
+msgstr "翻訳"
 
 #: index.php:162
 msgid "Testing"
-msgstr ""
+msgstr "テスト"
 
 #: index.php:165
 msgid "Software development"
-msgstr ""
+msgstr "ソフトウェア開発"
 
 #: index.php:166
 msgid "APIs for add-on software"
-msgstr ""
+msgstr "アドオン・ソフトウェアのための API"
 
 #: index.php:167
 msgid "Personnel and contributors"
-msgstr ""
+msgstr "主要メンバーと貢献してくれている人々"
 
 #: index.php:168
 msgid "Message boards"
-msgstr ""
+msgstr "掲示板"
 
 #: index.php:169
 msgid "Email lists"
-msgstr ""
+msgstr "メイリングリスト"
 
 #: index.php:170
 msgid "Events"
-msgstr ""
+msgstr "イベント・催し物"
 
 #: index.php:171
 msgid "Conferences"
-msgstr ""
+msgstr "カンファレンス"
 
 #: index.php:172
 msgid "Papers and talks"
-msgstr ""
+msgstr "論文、講演"
 
 #: index.php:173
 msgid "Logos and graphics"
-msgstr ""
+msgstr "ロゴ、グラフィクス"
 
 #: index.php:206
 msgid "Browser default"
-msgstr ""
+msgstr "ブラウザに設定された既定値"
 
 # %s アカウント・マネージャ%s (たとえば、%s GridRepublic %s や %s BAM! %s ) を試して下さい。"
 #: index.php:250
 #, php-format
-msgid ""
-"Open-source software for %svolunteer computing%s and %sgrid computing%s."
+msgid "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr "BOINC は %sボランティア・コンピューティング%s と %sグリッド・コンピューティング%sのためのオープンソース・ソフトウェアです。"
 
 #: poll.php:9
@@ -583,24 +530,8 @@ msgid "BOINC user survey"
 msgstr "BOINC 参加者サーベイ"
 
 #: poll.php:19
-msgid ""
-"Several volunteer computing projects, including Climateprediction.net, "
-"Einstein@home, and SETI@home, use software called BOINC.  If you participate "
-"in projects like this, we request that you answer the following questions.  "
-"This will help BOINC-based projects increase participation and achieve "
-"greater scientific results. <p> Please answer as many questions as you want, "
-"then go to the bottom and click OK. If you previously completed the survey "
-"but your answers have changed, please complete it again - your new answers "
-"will replace the old ones. <p> The current results of the survey are <a "
-"href=poll_results.php>here</a>. "
-msgstr ""
-"BOINC ソフトウェアは、いくつものボランティア・コンピューティング・プロジェクトで使われています。 "
-"たとえば、Climateprediction.net、 Einstein@home、そして SETI@home といったプロジェクトです。 "
-"もしこれらのプロジェクトとのどれかに参加しているなら、以下の質問に答えていただけませんか。 答えることによって、あなたは BOINC "
-"を使ったプロジェクトの参加者を増やすことを助け、プロジェクトの科学成果をより大きなものにするでしょう。 <p> "
-"答えたいところだけ記入していただければ結構です。 入力し終わったら、ページ末尾のOK ボタンを押して下さい。 "
-"一旦、サーベイに協力した後で、答えた内容を変更したいときには、お手数ですがもう一度入力し直してください。 そうすれば、古い答えは上書きされます。 <p> "
-"<a href='poll_results.php'>現在時点のサーベイの結果</a> はここにあります。 "
+msgid "Several volunteer computing projects, including Climateprediction.net, Einstein@home, and SETI@home, use software called BOINC.  If you participate in projects like this, we request that you answer the following questions.  This will help BOINC-based projects increase participation and achieve greater scientific results. <p> Please answer as many questions as you want, then go to the bottom and click OK. If you previously completed the survey but your answers have changed, please complete it again - your new answers will replace the old ones. <p> The current results of the survey are <a href=poll_results.php>here</a>. "
+msgstr "BOINC ソフトウェアは、いくつものボランティア・コンピューティング・プロジェクトで使われています。 たとえば、Climateprediction.net、 Einstein@home、そして SETI@home といったプロジェクトです。 もしこれらのプロジェクトとのどれかに参加しているなら、以下の質問に答えていただけませんか。 答えることによって、あなたは BOINC を使ったプロジェクトの参加者を増やすことを助け、プロジェクトの科学成果をより大きなものにするでしょう。 <p> 答えたいところだけ記入していただければ結構です。 入力し終わったら、ページ末尾のOK ボタンを押して下さい。 一旦、サーベイに協力した後で、答えた内容を変更したいときには、お手数ですがもう一度入力し直してください。 そうすれば、古い答えは上書きされます。 <p> <a href='poll_results.php'>現在時点のサーベイの結果</a> はここにあります。 "
 
 #: poll.php:25
 msgid "Do you run BOINC?"
@@ -627,9 +558,7 @@ msgid "Comments"
 msgstr "コメント"
 
 #: poll.php:46
-msgid ""
-"Please suggest ways that BOINC, and the projects that use it, could be "
-"improved:"
+msgid "Please suggest ways that BOINC, and the projects that use it, could be improved:"
 msgstr "BOINC とそれを使うプロジェクト群がより良くなる方法について示唆を書いていただきたい:"
 
 #: poll.php:50
@@ -641,9 +570,7 @@ msgid "Error - results not recorded"
 msgstr "異常発生 - 結果は記録されていません"
 
 #: poll_action.php:10
-msgid ""
-"An internal error has prevented us from recording your survey response.  "
-"Please try again later."
+msgid "An internal error has prevented us from recording your survey response.  Please try again later."
 msgstr "内部異常が発生しました。あなたがサーベイに記入してくれた内容を記録できませんでした。申し訳ありませんが、のちほどまた試してみてください。"
 
 #: poll_action.php:32
@@ -659,9 +586,7 @@ msgid "Survey results"
 msgstr "サーベイの結果"
 
 #: poll_results.php:196
-msgid ""
-"These are the current results of the <a href=poll.php>BOINC user survey</"
-"a>.  This page is updated every hour."
+msgid "These are the current results of the <a href=poll.php>BOINC user survey</a>.  This page is updated every hour."
 msgstr "以下は <a href=poll.php>BOINC 参加者サーベイ</a> の現時点での結果です。 このページは1時間ごとに更新されます。 "
 
 # The charset used for the text in this file (please try to use UTF-8 if possible)
@@ -670,7 +595,6 @@ msgstr "以下は <a href=poll.php>BOINC 参加者サーベイ</a> の現時点�
 # msgstr "UTF-8"
 #~ msgid "CHARSET"
 #~ msgstr "UTF-8"
-
 # msgid "LANG_NAME_NATIVE"
 # msgstr "English"
 #, fuzzy
@@ -1215,3 +1139,4 @@ msgstr "以下は <a href=poll.php>BOINC 参加者サーベイ</a> の現時点�
 #, fuzzy
 #~ msgid "HOME_BOINC_DESC"
 #~ msgstr "Open-source software for %svolunteer computing%s and %sgrid computing%s"
+
