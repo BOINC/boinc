@@ -180,6 +180,7 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #include <list>
 #include <map>
 #include <set>
+#include <stdexcept>
 #endif
 
 // Define a generic string type that can be a Unicode string on

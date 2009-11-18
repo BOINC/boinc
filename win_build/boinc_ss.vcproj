@@ -379,6 +379,7 @@
 				AdditionalIncludeDirectories="../api/,../lib/,../client,.."
 				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS;_CONSOLE"
 				StringPooling="false"
+				ExceptionHandling="1"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="false"
 				FloatingPointModel="2"

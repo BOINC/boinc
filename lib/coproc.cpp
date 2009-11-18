@@ -27,6 +27,7 @@
 
 #include <cstring>
 #include <cstdlib>
+
 #ifdef _WIN32
 #ifndef SIM
 #include <nvapi.h>
@@ -136,19 +137,23 @@ void COPROCS::summary_string(char* buf, int len) {
     strcpy(buf, bigbuf);
 }
 
-#ifndef _WIN32_
+
+#ifdef _WIN32
+
+void COPROCS::get(bool use_all, vector<string>&descs, vector<string>&warnings) {
+    COPROC_CUDA::get(*this, use_all, descs, warnings);
+    COPROC_ATI::get(*this, descs, warnings);
+}
+
+#else
+
 jmp_buf resume;
 
 void segv_handler(int) {
     longjmp(resume, 1);
 }
-#endif
 
 void COPROCS::get(bool use_all, vector<string>&descs, vector<string>&warnings) {
-#ifdef _WIN32_
-    COPROC_CUDA::get(*this, use_all, descs, warnings);
-    COPROC_ATI::get(*this, descs, warnings);
-#else
     sighandler_t old_sig = signal(SIGSEGV, segv_handler);
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
@@ -163,8 +168,9 @@ void COPROCS::get(bool use_all, vector<string>&descs, vector<string>&warnings) {
     }
 #endif
     signal(SIGSEGV, old_sig);
-#endif
 }
+
+#endif
 
 // used only to parse scheduler request messages
 //

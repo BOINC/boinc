@@ -155,6 +155,7 @@
 				AdditionalIncludeDirectories=".;../;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut"
 				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS"
 				StringPooling="false"
+				ExceptionHandling="1"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"

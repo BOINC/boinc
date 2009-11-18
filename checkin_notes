@@ -8486,3 +8486,34 @@ David  10 Nov 2009
 
     client/
         cs_account.cpp
+
+David  10 Nov 2009
+    - unix build: fix "out of tree" build (what's that?)
+        from Oliver Bock
+
+    Makefile.am
+
+Rom    11 Nov 2009
+    - On Windows treat all SEH exceptions as C++ style exceptions.
+        NOTE: I'll need to do a little more research and adjust the
+          diagnostics stuff later.  I believe that the diagnostics
+          framework will now always report an unhandled C++ exception
+          for things like an Access Violation.
+    - client: On Windows, recover from an Access Violation if/when 
+        the GPU functions access violate.
+        
+    lib/
+        boinc_win.h
+        coproc.cpp
+    win_build/
+        *.vcproj
+
+Rom    11 Nov 2009
+    - Backout previous change.  The problem doesn't yet manifest
+        itself on Windows and the change has too many implications.
+        
+    lib/
+        boinc_win.h
+        coproc.cpp
+    win_build/
+        *.vcproj
