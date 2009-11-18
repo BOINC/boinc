@@ -817,6 +817,10 @@
 			UniqueIdentifier="{08DB1F42-8D4B-491a-870C-2A991D5ED0DB}"
 			>
 			<File
+				RelativePath="..\clientgui\res\atiicon.xpm"
+				>
+			</File>
+			<File
 				RelativePath="..\clientgui\res\boinc.xpm"
 				>
 			</File>
@@ -858,6 +862,10 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\res\mess.xpm"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\res\nvidiaicon.xpm"
 				>
 			</File>
 			<File

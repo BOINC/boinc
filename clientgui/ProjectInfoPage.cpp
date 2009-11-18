@@ -234,6 +234,9 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
     unsigned int                i, j, k;
     bool                        bSupportedPlatformFound = false;
+    bool                        bProjectSupportsNvidiaGPU = false;
+    bool                        bProjectSupportsATIGPU = false;
+    bool                        bProjectSupportsMulticore = false;
     ALL_PROJECTS_LIST           pl;
     CMainDocument*              pDoc = wxGetApp().GetDocument();
 
@@ -264,31 +267,71 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
         for (i=0; i<pl.projects.size(); i++) {
             bSupportedPlatformFound = false;
+            bProjectSupportsNvidiaGPU = false;
+            bProjectSupportsATIGPU = false;
+            bProjectSupportsMulticore = false;
+
+            wxLogTrace(
+                wxT("Function Status"),
+                wxT("CProjectInfoPage::OnPageChanged - Name: '%s', URL: '%s'"),
+                wxString(pl.projects[i]->name.c_str(), wxConvUTF8).c_str(),
+                wxString(pl.projects[i]->url.c_str(), wxConvUTF8).c_str()
+            );
+
+            std::vector<std::string> &project_platforms = pl.projects[i]->platforms;
 
             // Can the core client support a platform that this project
             //   supports?
-            std::vector<std::string> &project_platforms = pl.projects[i]->platforms;
             for (j = 0;j < client_platforms.size(); j++) {
                 for (k = 0;k < project_platforms.size(); k++) {
-                    if (client_platforms[j] == project_platforms[k]) {
+                    wxString strClientPlatform = wxString(client_platforms[j].c_str(), wxConvUTF8);
+                    wxString strProjectPlatform = wxString(project_platforms[k].c_str(), wxConvUTF8);
+                    wxString strRootProjectPlatform = strProjectPlatform.SubString(0, strProjectPlatform.Find(_T("[")) - 1);
+                    
+                    if (strProjectPlatform.Find(_T("[cuda")) != wxNOT_FOUND) {
+                        bProjectSupportsNvidiaGPU = true;
+                        if ((pDoc->state.have_cuda) && (strClientPlatform == strRootProjectPlatform)) {
+                            bSupportedPlatformFound = true;
+                        }
+                    }
+
+                    if (strProjectPlatform.Find(_T("[ati")) != wxNOT_FOUND) {
+                        bProjectSupportsATIGPU = true;
+                        if ((pDoc->state.have_ati) && (strClientPlatform == strRootProjectPlatform)) {
+                            bSupportedPlatformFound = true;
+                        }
+                    }
+
+                    if (strProjectPlatform.Find(_T("[mt")) != wxNOT_FOUND) {
+                        bProjectSupportsMulticore = true;
+                        if (strClientPlatform == strRootProjectPlatform) {
+                            bSupportedPlatformFound = true;
+                        }
+                    }
+
+                    if (strClientPlatform == strRootProjectPlatform) {
                         bSupportedPlatformFound = true;
-                        break;
                     }
                 }
             }
 
             wxLogTrace(
                 wxT("Function Status"),
-                wxT("CProjectInfoPage::OnPageChanged - Name: '%s', URL: '%s', Supported: '%d'"),
-                wxString(pl.projects[i]->name.c_str(), wxConvUTF8).c_str(),
-                wxString(pl.projects[i]->url.c_str(), wxConvUTF8).c_str(),
+                wxT("CProjectInfoPage::OnPageChanged - Nvidia: '%d', ATI: '%d', Multicore: '%d', Platform: '%d'"),
+                bProjectSupportsNvidiaGPU,
+                bProjectSupportsATIGPU,
+                bProjectSupportsMulticore,
                 bSupportedPlatformFound
             );
 
             m_pProjectListCtrl->Append(
                 wxString(pl.projects[i]->url.c_str(), wxConvUTF8),
                 wxString(pl.projects[i]->name.c_str(), wxConvUTF8),
+                wxString(pl.projects[i]->image.c_str(), wxConvUTF8),
                 wxString(pl.projects[i]->description.c_str(), wxConvUTF8),
+                bProjectSupportsNvidiaGPU,
+                bProjectSupportsATIGPU,
+                bProjectSupportsMulticore,
                 bSupportedPlatformFound
             );
         }
@@ -297,6 +340,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pProjectListCtrl->SetSelection(0);
         m_strProjectURL = m_pProjectListCtrl->GetItem(0)->GetURL();
         m_bProjectSupported = m_pProjectListCtrl->GetItem(0)->IsPlatformSupported();
+
         TransferDataToWindow();
 
         m_bProjectListPopulated = true;

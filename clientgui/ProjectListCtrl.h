@@ -38,6 +38,9 @@ public:
     wxString GetTitle() const { return m_strTitle ; }
     void SetTitle(wxString value) { m_strTitle = value ; }
 
+    wxString GetImage() const { return m_strImage ; }
+    void SetImage(wxString value) { m_strImage = value ; }
+
     wxString GetOrganization() const { return m_strOrganization ; }
     void SetOrganization(wxString value) { m_strOrganization = value ; }
 
@@ -47,15 +50,28 @@ public:
     wxString GetCategory() const { return m_strCategory ; }
     void SetCategory(wxString value) { m_strCategory = value ; }
 
+    bool IsNvidiaGPUSupported() const { return m_bNvidiaGPUSupported ; }
+    void SetNvidiaGPUSupported(bool value) { m_bNvidiaGPUSupported = value ; }
+
+    bool IsATIGPUSupported() const { return m_bATIGPUSupported ; }
+    void SetATIGPUSupported(bool value) { m_bATIGPUSupported = value ; }
+
+    bool IsMulticoreSupported() const { return m_bMulticoreSupported ; }
+    void SetMulticoreSupported(bool value) { m_bMulticoreSupported = value ; }
+
     bool IsPlatformSupported() const { return m_bSupported ; }
     void SetPlatformSupported(bool value) { m_bSupported = value ; }
 
 private:
     wxString m_strURL;
     wxString m_strTitle;
+    wxString m_strImage;
     wxString m_strOrganization;
     wxString m_strDescription;
     wxString m_strCategory;
+    bool m_bNvidiaGPUSupported;
+    bool m_bATIGPUSupported;
+    bool m_bMulticoreSupported;
     bool m_bSupported;
 };
 
@@ -118,7 +134,11 @@ public:
     bool Append(
         wxString strURL,
         wxString strTitle,
+        wxString strImage,
         wxString strDescription,
+        bool bNvidiaGPUSupported,
+        bool bATIGPUSupported,
+        bool bMulticoreSupported,
         bool bSupported
     );
 
@@ -130,6 +150,10 @@ public:
 
 private:
     std::vector<CProjectListItem*> m_Items;
+    
+#ifdef __WXMAC__
+    CProjectListCtrlAccessible*    m_accessible;
+#endif
 };
 
 

@@ -26,6 +26,8 @@
 
 ////@begin XPM images
 #include "res/externalweblink.xpm"
+#include "res/nvidiaicon.xpm"
+#include "res/atiicon.xpm"
 ////@end XPM images
 
 
@@ -399,6 +401,8 @@ bool CProjectListCtrl::Create( wxWindow* parent )
 #endif
 
     wxMemoryFSHandler::AddFile(wxT("webexternallink.xpm"), wxBitmap(externalweblink_xpm), wxBITMAP_TYPE_XPM);
+    wxMemoryFSHandler::AddFile(wxT("nvidiaicon.xpm"), wxBitmap(nvidiaicon_xpm), wxBITMAP_TYPE_XPM);
+    wxMemoryFSHandler::AddFile(wxT("atiicon.xpm"), wxBitmap(atiicon_xpm), wxBITMAP_TYPE_XPM);
 ////@end CProjectListCtrl creation
     return TRUE;
 }
@@ -454,20 +458,36 @@ void CProjectListCtrl::OnHover( wxHtmlCellEvent& event )
 
 wxString CProjectListCtrl::OnGetItem(size_t i) const
 {
+    wxString retval = wxEmptyString;
     wxString buf = wxEmptyString;
 
+    retval += wxT("  <table cellpadding=0 cellspacing=1>");
+    retval += wxT("    <tr>");
+
     buf.Printf(
-        wxT("  <table cellpadding=0 cellspacing=1>")
-        wxT("    <tr>")
-        wxT("      <td width=100%%>%s</td>")
-        wxT("      <td><a href=\"%s\"><img src=\"memory:webexternallink.xpm\"></a></td>")
-        wxT("    </tr>")
-        wxT("  </table>"),
-        m_Items[i]->GetTitle().c_str(),
+        wxT("      <td width=100%%>%s</td>"),
+        m_Items[i]->GetTitle().c_str()
+    );
+    retval += buf;
+    
+    if (m_Items[i]->IsNvidiaGPUSupported()) {
+        retval += wxT("      <td><img src=\"memory:nvidiaicon.xpm\"></td>");
+    }
+
+    if (m_Items[i]->IsATIGPUSupported()) {
+        retval += wxT("      <td><img src=\"memory:atiicon.xpm\"></td>");
+    }
+
+    buf.Printf(
+        wxT("      <td><a href=\"%s\"><img src=\"memory:webexternallink.xpm\"></a></td>"),
         m_Items[i]->GetURL().c_str()
     );
+    retval += buf;
 
-    return buf;
+    retval += wxT("    </tr>");
+    retval += wxT("  </table>");
+
+    return retval;
 }
 
 
@@ -478,7 +498,11 @@ wxString CProjectListCtrl::OnGetItem(size_t i) const
 bool CProjectListCtrl::Append(
     wxString strURL,
     wxString strTitle,
+    wxString strImage,
     wxString strDescription,
+    bool bNvidiaGPUSupported,
+    bool bATIGPUSupported,
+    bool bMulticoreSupported,
     bool bSupported
 )
 {
@@ -486,7 +510,11 @@ bool CProjectListCtrl::Append(
 
     pItem->SetURL( strURL );
     pItem->SetTitle( strTitle );
+    pItem->SetImage( strImage );
     pItem->SetDescription( strDescription );
+    pItem->SetNvidiaGPUSupported( bNvidiaGPUSupported );
+    pItem->SetATIGPUSupported( bATIGPUSupported );
+    pItem->SetMulticoreSupported( bMulticoreSupported );
     pItem->SetPlatformSupported( bSupported );
 
     m_Items.push_back(pItem);

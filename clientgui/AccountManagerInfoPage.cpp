@@ -264,7 +264,11 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             m_pProjectListCtrl->Append(
                 wxString(pl.account_managers[i]->url.c_str(), wxConvUTF8),
                 wxString(pl.account_managers[i]->name.c_str(), wxConvUTF8),
+                wxString(pl.account_managers[i]->image.c_str(), wxConvUTF8),
                 wxString(pl.account_managers[i]->description.c_str(), wxConvUTF8),
+                false,
+                false,
+                false,
                 true
             );
         }
