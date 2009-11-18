@@ -137,40 +137,48 @@ void COPROCS::summary_string(char* buf, int len) {
     strcpy(buf, bigbuf);
 }
 
-
-#ifdef _WIN32
-
-void COPROCS::get(bool use_all, vector<string>&descs, vector<string>&warnings) {
-    COPROC_CUDA::get(*this, use_all, descs, warnings);
-    COPROC_ATI::get(*this, descs, warnings);
+static bool in_vector(int n, vector<int>& v) {
+    for (unsigned int i=0; i<v.size(); i++) {
+        if (v[i] == n) return true;
+    }
+    return false;
 }
 
-#else
-
+#ifndef _WIN32
 jmp_buf resume;
 
 void segv_handler(int) {
     longjmp(resume, 1);
 }
+#endif
 
-void COPROCS::get(bool use_all, vector<string>&descs, vector<string>&warnings) {
+void COPROCS::get(
+    bool use_all, vector<string>&descs, vector<string>&warnings,
+    vector<int>& ignore_cuda_dev,
+    vector<int>& ignore_ati_dev
+) {
+
+#ifdef _WIN32
+    COPROC_CUDA::get(*this, use_all, descs, warnings, ignore_cuda_dev);
+    COPROC_ATI::get(*this, descs, warnings, ignore_ati_dev);
+#else
     void (*old_sig)(int) = signal(SIGSEGV, segv_handler);
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
     } else {
-        COPROC_CUDA::get(*this, use_all, descs, warnings);
+        COPROC_CUDA::get(*this, use_all, descs, warnings, ignore_cuda_dev);
     }
 #ifndef __APPLE__       // ATI does not yet support CAL on Macs
     if (setjmp(resume)) {
         warnings.push_back("Caught SIGSEGV in ATI GPU detection");
     } else {
-        COPROC_ATI::get(*this, descs, warnings);
+        COPROC_ATI::get(*this, descs, warnings, ignore_ati_dev);
     }
 #endif
     signal(SIGSEGV, old_sig);
+#endif
 }
 
-#endif
 
 // used only to parse scheduler request messages
 //
@@ -285,7 +293,8 @@ void COPROC_CUDA::get(
     COPROCS& coprocs,
     bool use_all,    // if false, use only those equivalent to most capable
     vector<string>& descs,
-    vector<string>& warnings
+    vector<string>& warnings,
+    vector<int>& ignore_devs
 ) {
     int count, retval;
     char buf[256];
@@ -474,12 +483,15 @@ void COPROC_CUDA::get(
         return;
     }
 
-    // identify the most capable instance
+    // identify the most capable non-ignored instance
     //
     COPROC_CUDA best;
+    bool first = true;
     for (i=0; i<gpus.size(); i++) {
-        if (i==0) {
+        if (in_vector(gpus[i].device_num, ignore_devs)) continue;
+        if (first) {
             best = gpus[i];
+            first = false;
         } else if (cuda_compare(gpus[i], best, false) > 0) {
             best = gpus[i];
         }
@@ -492,7 +504,9 @@ void COPROC_CUDA::get(
     for (i=0; i<gpus.size(); i++) {
         char buf2[256];
         gpus[i].description(buf);
-        if (use_all || !cuda_compare(gpus[i], best, true)) {
+        if (in_vector(gpus[i].device_num, ignore_devs)) {
+            sprintf(buf2, "NVIDIA GPU %d (ignored by config): %s", gpus[i].device_num, buf);
+        } else if (use_all || !cuda_compare(gpus[i], best, true)) {
             best.device_nums[best.count] = gpus[i].device_num;
             best.count++;
             sprintf(buf2, "NVIDIA GPU %d: %s", gpus[i].device_num, buf);
@@ -502,9 +516,11 @@ void COPROC_CUDA::get(
         descs.push_back(string(buf2));
     }
 
-    COPROC_CUDA* ccp = new COPROC_CUDA;
-    *ccp = best;
-    coprocs.coprocs.push_back(ccp);
+    if (best.count) {
+        COPROC_CUDA* ccp = new COPROC_CUDA;
+        *ccp = best;
+        coprocs.coprocs.push_back(ccp);
+    }
 }
 
 bool COPROC_CUDA::is_usable() {
@@ -758,7 +774,7 @@ int (*__calDeviceGetInfo)(CALdeviceinfo*, CALuint);
 #endif
 
 void COPROC_ATI::get(COPROCS& coprocs,
-    vector<string>& descs, vector<string>& warnings
+    vector<string>& descs, vector<string>& warnings, vector<int>& ignore_devs
 ) {
     CALuint numDevices, cal_major, cal_minor, cal_imp;
     CALdevice device;
@@ -947,25 +963,33 @@ void COPROC_ATI::get(COPROCS& coprocs,
     // same as for NVIDIA
 
     COPROC_ATI best;
+    bool first = true;
     for (unsigned int i=0; i<gpus.size(); i++) {
         char buf[256], buf2[256];
-        if (i == 0) {
-            best = gpus[i];
-        } else if (gpus[i].peak_flops() > best.peak_flops()) {
-            best = gpus[i];
-        }
         gpus[i].description(buf);
-        sprintf(buf2, "ATI GPU %d: %s", gpus[i].device_num, buf);
+        if (in_vector(gpus[i].device_num, ignore_devs)) {
+            sprintf(buf2, "ATI GPU %d (ignored by config): %s", gpus[i].device_num, buf);
+        } else {
+            if (first) {
+                best = gpus[i];
+                first = false;
+            } else if (gpus[i].peak_flops() > best.peak_flops()) {
+                best = gpus[i];
+            }
+            sprintf(buf2, "ATI GPU %d: %s", gpus[i].device_num, buf);
+        }
         descs.push_back(buf2);
     }
+    best.count = 0;
     for (unsigned int i=0; i<gpus.size(); i++) {
-        best.device_nums[i] = i;
+        if (in_vector(gpus[i].device_num, ignore_devs)) continue;
+        best.device_nums[best.count] = i;
+        best.count++;
     }
 
     COPROC_ATI* ccp = new COPROC_ATI;
     *ccp = best;
     strcpy(ccp->type, "ATI");
-    ccp->count = numDevices;
     coprocs.coprocs.push_back(ccp);
 }
 

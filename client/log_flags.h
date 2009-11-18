@@ -108,6 +108,8 @@ struct CONFIG {
     bool http_1_0;
     int save_stats_days;
     int ncpus;
+    std::vector<int> ignore_cuda_dev;
+    std::vector<int> ignore_ati_dev;
     int max_file_xfers;
     int max_file_xfers_per_project;
     bool suppress_net_info;
