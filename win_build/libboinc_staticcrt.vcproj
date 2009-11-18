@@ -1227,6 +1227,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\url.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\util.cpp"
 				>
 				<FileConfiguration

@@ -22,7 +22,7 @@
 #include "stdwx.h"
 #include "ValidateURL.h"
 #include "BOINCGUIApp.h"
-#include "str_util.h"
+#include "url.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CValidateURL, wxValidator)
