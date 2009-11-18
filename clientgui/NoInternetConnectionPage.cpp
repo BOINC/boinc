@@ -81,8 +81,7 @@ bool CErrNoInternetConnectionPage::Create( CBOINCBaseWizard* parent )
 ////@end CErrNoInternetConnectionPage member initialisation
 
 ////@begin CErrNoInternetConnectionPage creation
-    wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, ID_ERRNOINTERNETCONNECTIONPAGE, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_ERRNOINTERNETCONNECTIONPAGE );
 
     CreateControls();
     GetSizer()->Fit(this);

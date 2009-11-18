@@ -124,8 +124,7 @@ bool CAccountManagerPropertiesPage::Create( CBOINCBaseWizard* parent )
     m_iCurrentState = ACCTMGRPROP_INIT;
  
 ////@begin CAccountManagerPropertiesPage creation
-    wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, ID_ACCOUNTMANAGERPROPERTIESPAGE, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_ACCOUNTMANAGERPROPERTIESPAGE );
 
     CreateControls();
     GetSizer()->Fit(this);

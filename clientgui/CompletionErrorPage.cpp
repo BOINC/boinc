@@ -84,8 +84,7 @@ bool CCompletionErrorPage::Create( CBOINCBaseWizard* parent )
 ////@end CCompletionErrorPage member initialisation
  
 ////@begin CCompletionErrorPage creation
-    wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, ID_COMPLETIONERRORPAGE, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_COMPLETIONERRORPAGE );
 
     CreateControls();
     GetSizer()->Fit(this);

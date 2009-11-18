@@ -8568,40 +8568,6 @@ David  13 Nov 2009
         cs_prefs.cpp
         cpu_sched.cpp
         log_flags.cpp,h
-<<<<<<< .working
-=======
-
-Rom    13 Nov 2009
-    - Remove need for boinc.dll from the client.
-    
-    client/
-        hostinfo_win.cpp
-        main.cpp
-    clientctrl/
-        boincsvcctrl.cpp
-    clientgui/
-        BOINCClientManager.cpp
-        BOINCGUIApp.cpp
-        BOINCGUIApp.h
-        stdwx.h
-    clienttray/
-        tray_win.cpp
-        tray_win.h
-    lib/
-        boinc_win.h
-        daemonmgt.cpp (Deleted)
-        daemonmgt.h (Added)
-        daemonmgt_win.cpp (Added)
-        idlemon.h (Added)
-        idlemon_win.cpp (Added)
-        idlemon_win.h (Deleted)
-    win_build/
-        boinc.sln
-        boinc_dll.vcproj
-        boincmgr.vcproj
-        boincsvcctrl.vcproj
-        boinctray.vcproj
-        libboinc.vcproj
 
 David  13 Nov 2009
     - client: fix exclusive_gpu_app feature so that it responds
@@ -8610,4 +8576,31 @@ David  13 Nov 2009
     client/
         app.cpp
         log_flags.cpp
->>>>>>> .merge-right.r19577
+
+Rom    17 Nov 2009
+    - MGR: Remove bitmap that is part of the Wizard.
+    
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerInfoPage.cpp
+        AccountManagerProcessingPage.cpp
+        AccountManagerPropertiesPage.cpp
+        AlreadyExistsPage.cpp
+        BOINCBaseWizard.cpp, .h
+        CompletionErrorPage.cpp
+        CompletionPage.cpp
+        NoInternetConnectionPage.cpp
+        NotDetectedPage.cpp
+        NotFoundPage.cpp
+        ProjectInfoPage.cpp
+        ProjectProcessingPage.cpp
+        ProjectPropertiesPage.cpp
+        ProxyInfoPage.cpp
+        ProxyPage.cpp
+        TermsOfUsePage.cpp
+        UnavailablePage.cpp
+        WelcomePage.cpp
+        WizardAttachProject.cpp
+        wizardex.cpp, .h
+    win_build/
+        boincmgr.vcproj

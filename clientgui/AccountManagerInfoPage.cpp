@@ -93,8 +93,7 @@ bool CAccountManagerInfoPage::Create( CBOINCBaseWizard* parent )
     m_bAccountManagerListPopulated = false;
 
 ////@begin CAccountManagerInfoPage creation
-    wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, ID_ACCOUNTMANAGERINFOPAGE, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_ACCOUNTMANAGERINFOPAGE );
 
     CreateControls();
     GetSizer()->Fit(this);

@@ -1381,6 +1381,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\url.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\util.cpp"
 				>
 			</File>

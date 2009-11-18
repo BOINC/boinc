@@ -46,14 +46,12 @@ public:
     wxWizardPageEx(
                  wxWizardEx *parent,
                  int id = wxID_ANY,
-                 const wxBitmap& bitmap = wxNullBitmap,
                  const wxChar* resource = NULL
     );
 
     virtual bool Create(
                 wxWizardEx *parent,
                 int id = wxID_ANY,
-                const wxBitmap& bitmap = wxNullBitmap,
                 const wxChar* resource = NULL
     );
 
@@ -61,12 +59,6 @@ public:
     // user chooses "Back" or "Next" button
     virtual wxWizardPageEx *GetPrev() const = 0;
     virtual wxWizardPageEx *GetNext() const = 0;
-
-    // default GetBitmap() will just return m_bitmap which is ok in 99% of
-    // cases - override this method if you want to create the bitmap to be used
-    // dynamically or to do something even more fancy. It's ok to return
-    // wxNullBitmap from here - the default one will be used then.
-    virtual wxBitmap GetBitmap() const { return m_bitmap; }
 
 #if wxUSE_VALIDATOR
     /// Override the base functions to allow a validator to be assigned to this page.
@@ -90,8 +82,6 @@ public:
 protected:
     // common part of ctors:
     void Init();
-
-    wxBitmap m_bitmap;
 
 private:
     DECLARE_DYNAMIC_CLASS_NO_COPY(wxWizardPageEx)
@@ -178,18 +168,16 @@ public:
     wxWizardEx(wxWindow *parent,
              int id = wxID_ANY,
              const wxString& title = wxEmptyString,
-             const wxBitmap& bitmap = wxNullBitmap,
              const wxPoint& pos = wxDefaultPosition,
              long style = wxDEFAULT_DIALOG_STYLE)
     {
         Init();
-        Create(parent, id, title, bitmap, pos, style);
+        Create(parent, id, title, pos, style);
     }
 
     bool Create(wxWindow *parent,
              int id = wxID_ANY,
              const wxString& title = wxEmptyString,
-             const wxBitmap& bitmap = wxNullBitmap,
              const wxPoint& pos = wxDefaultPosition,
              long style = wxDEFAULT_DIALOG_STYLE);
     void Init();
@@ -242,7 +230,6 @@ private:
 
     // wizard state
     wxWizardPageEx *m_page;       // the current page or NULL
-    wxBitmap      m_bitmap;     // the default bitmap to show
 
     // wizard controls
 protected:

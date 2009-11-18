@@ -81,8 +81,7 @@ bool CErrUnavailablePage::Create( CBOINCBaseWizard* parent )
 ////@end CErrUnavailablePage member initialisation
  
 ////@begin CErrUnavailablePage creation
-    wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, ID_ERRUNAVAILABLEPAGE, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_ERRUNAVAILABLEPAGE );
 
     CreateControls();
     GetSizer()->Fit(this);

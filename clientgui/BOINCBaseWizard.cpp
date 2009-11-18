@@ -54,8 +54,8 @@ CBOINCBaseWizard::CBOINCBaseWizard() :
     close_when_completed = false;
 }
 
-CBOINCBaseWizard::CBOINCBaseWizard(wxWindow *parent, int id, const wxString& title, const wxBitmap& bitmap, const wxPoint& pos, long style) :
-    wxWizardEx(parent, id, title, bitmap, pos, style)
+CBOINCBaseWizard::CBOINCBaseWizard(wxWindow *parent, int id, const wxString& title, const wxPoint& pos, long style) :
+    wxWizardEx(parent, id, title, pos, style)
 {
     IsAttachToProjectWizard = false;
     IsAccountManagerWizard = false;

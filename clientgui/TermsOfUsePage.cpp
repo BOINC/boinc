@@ -88,8 +88,7 @@ bool CTermsOfUsePage::Create( CBOINCBaseWizard* parent )
 ////@end CTermsOfUsePage member initialisation
  
 ////@begin CTermsOfUsePage creation
-    wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, ID_TERMSOFUSEPAGE, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_TERMSOFUSEPAGE );
 
     CreateControls();
     GetSizer()->Fit(this);

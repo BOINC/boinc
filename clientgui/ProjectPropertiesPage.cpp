@@ -120,8 +120,7 @@ bool CProjectPropertiesPage::Create( CBOINCBaseWizard* parent )
     m_iCurrentState = PROJPROP_INIT;
  
 ////@begin CProjectPropertiesPage creation
-    wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, ID_PROJECTPROPERTIESPAGE, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_PROJECTPROPERTIESPAGE );
 
     CreateControls();
     GetSizer()->Fit(this);

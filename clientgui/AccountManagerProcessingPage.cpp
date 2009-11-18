@@ -117,8 +117,7 @@ bool CAccountManagerProcessingPage::Create( CBOINCBaseWizard* parent )
     m_iCurrentState = ATTACHACCTMGR_INIT;
  
 ////@begin CAccountManagerProcessingPage creation
-    wxBitmap wizardBitmap(wxNullBitmap);
-    wxWizardPageEx::Create( parent, ID_ACCOUNTMANAGERPROCESSINGPAGE, wizardBitmap );
+    wxWizardPageEx::Create( parent, ID_ACCOUNTMANAGERPROCESSINGPAGE );
 
     CreateControls();
     GetSizer()->Fit(this);
