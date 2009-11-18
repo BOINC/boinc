@@ -169,6 +169,7 @@ static void show_gpu_ignore(vector<int>& devs, const char* name) {
 // TODO: show other config options
 //
 void CONFIG::show() {
+    unsigned int i;
     if (config.ncpus>=0) {
         msg_printf(NULL, MSG_INFO, "Config: use at most %d CPUs", config.ncpus);
     }
@@ -189,6 +190,18 @@ void CONFIG::show() {
     }
     show_gpu_ignore(ignore_cuda_dev, "NVIDIA");
     show_gpu_ignore(ignore_ati_dev, "ATI");
+    for (i=0; i<exclusive_apps.size(); i++) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: don't compute while %s is running",
+            exclusive_apps[i].c_str()
+        );
+    }
+    for (i=0; i<exclusive_gpu_apps.size(); i++) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: don't use GPUs while %s is running",
+            exclusive_gpu_apps[i].c_str()
+        );
+    }
 }
 
 CONFIG::CONFIG() {

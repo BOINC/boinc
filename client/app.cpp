@@ -297,6 +297,7 @@ void ACTIVE_TASK_SET::free_mem() {
 bool app_running(vector<PROCINFO>& piv, const char* p) {
     for (unsigned int i=0; i<piv.size(); i++) {
         PROCINFO& pi = piv[i];
+        //msg_printf(0, MSG_INFO, "running: [%s]", pi.command);
         if (!strcmp(pi.command, p)) {
             return true;
         }
@@ -348,6 +349,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     }
 
     exclusive_app_running = false;
+    bool old_egar = exclusive_gpu_app_running;
     exclusive_gpu_app_running = false;
     for (i=0; i<config.exclusive_apps.size(); i++) {
         if (app_running(piv, config.exclusive_apps[i].c_str())) {
@@ -360,6 +362,9 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             exclusive_gpu_app_running = true;
             break;
         }
+    }
+    if (old_egar != exclusive_gpu_app_running) {
+        gstate.request_schedule_cpus("Exclusive GPU app status changed");
     }
 
 #if 0
