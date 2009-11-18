@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-18 23:55+0900\n"
+"PO-Revision-Date: 2009-11-19 01:23+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-Language: English\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-BOINC-UTF8-Marker: ?体中文, 日本語\n"
 "X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
@@ -282,7 +282,7 @@ msgstr "BOINC 簡易グラフィックで表示します"
 
 #: clientgui/AdvancedFrame.cpp:395
 msgid "Attach to &project or account manager..."
-msgstr "プロジェクト(&P)またはアカウント・マネージャに接続"
+msgstr "プロジェクト(&P)またはアカウント・マネージャに接続..."
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "Attach to a project or account manager to begin processing work"
@@ -614,12 +614,12 @@ msgstr "BOINC クライアントと通信中です。お待ちください ...."
 #: clientgui/AsyncRPC.cpp:1203
 #, c-format
 msgid "&Quit %s"
-msgstr "終了する(Q)　%s"
+msgstr "終了する(Q) %s"
 
 #: clientgui/AsyncRPC.cpp:1205
 #, c-format
 msgid "E&xit %s"
-msgstr "終了する(Q)　%s"
+msgstr "終了する(X) %s"
 
 #: clientgui/AsyncRPC.cpp:1222
 msgid "Cancel"
@@ -797,14 +797,14 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
-"このクライアントを管理する権限が現在あなたにはありませせん。\n"
+"このクライアントを管理する権限が現在あなたにはありません。\n"
 "\n"
 "このユーザのもとで BOINC を走らせるためには、以下のようにして下さい:\n"
 "  - BOINC を再インストールし、その際に、non-administrative users に関する\n"
 "    質問に\"Yes\"（はい）と答えます\n"
 " あるいは、\n"
-"  - 管理者に依頼してあなたを ユーザグループ　'boinc_master' の１人\n"
-"    に加えてもらいます。"
+"  - 管理者に依頼してあなたを ユーザグループ　'boinc_master' に加えて\n"
+"    もらいます。"
 
 #: clientgui/BOINCGUIApp.cpp:339
 #, c-format
@@ -841,7 +841,7 @@ msgstr "BOINCクライアントの実行可能ファイルがあるディレク�
 
 #: clientgui/BOINCGUIApp.cpp:542
 msgid "BOINC data directory"
-msgstr "BOINC用データディレクトリ "
+msgstr "BOINC用データディレクトリ"
 
 #: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
@@ -3505,7 +3505,7 @@ msgstr ""
 #: clientgui/ViewWork.cpp:432
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr "この %d 番のタスクを本当に中断したいですか？"
+msgstr "この %d 番のタスクを本当に中止したいですか？"
 
 #: clientgui/ViewWork.cpp:437
 #: clientgui/ViewWorkGrid.cpp:335
@@ -3537,7 +3537,7 @@ msgstr "このタスクに対する仕事を一時停止します。"
 
 #: clientgui/ViewWork.cpp:1107
 msgid "GPU missing, "
-msgstr "GPUがありません"
+msgstr "GPUがありません、"
 
 #: clientgui/ViewWork.cpp:1148
 msgid " - an exclusive app is running"
@@ -3586,7 +3586,7 @@ msgid ""
 "to a project or account manager."
 msgstr ""
 "プロジェクトあるいはアカウント・マネージャに接続する手順を\n"
-"初めから最後までガイドします。"
+"初めから終わりまでガイドします。"
 
 #: clientgui/WelcomePage.cpp:275
 msgid ""
