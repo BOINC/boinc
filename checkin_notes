@@ -9340,3 +9340,10 @@ Rom    18 Nov 2009
         multicore.xpm (Added)
     win_build/
         boincmgr.vcproj
+
+Rom    18 Nov 2009
+    - MGR: Fix the minimum wizard size problem introduced by removing
+        the wizard graphic.
+
+    clientgui/        
+        wizardex.cpp

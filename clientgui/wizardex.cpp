@@ -292,7 +292,7 @@ void wxWizardEx::AddStaticLine(wxBoxSizer *mainColumn)
 {
 #if wxUSE_STATLINE
     mainColumn->Add(
-        new wxStaticLine(this, wxID_ANY),
+        new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxSize(495, -1)),
         0, // Vertically unstretchable
         wxEXPAND | wxALL, // Border all around, horizontally stretchable
         5 // Border width
