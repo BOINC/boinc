@@ -203,9 +203,9 @@ public:
     std::string gui_urls;
         /// project's resource share relative to other projects.
     double resource_share;
-    bool no_cpu;
-    bool no_cuda;
-    bool no_ati;
+    bool no_cpu_pref;
+    bool no_cuda_pref;
+    bool no_ati_pref;
         /// logically, this belongs in the client state file
         /// rather than the account file.
         /// But we need it in the latter in order to parse prefs.

@@ -65,9 +65,9 @@ void PROJECT::init() {
     project_specific_prefs = "";
     gui_urls = "";
     resource_share = 100;
-    no_cpu = false;
-    no_cuda = false;
-    no_ati = false;
+    no_cpu_pref = false;
+    no_cuda_pref = false;
+    no_ati_pref = false;
     strcpy(host_venue, "");
     using_venue_specific_prefs = false;
     scheduler_urls.clear();

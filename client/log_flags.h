@@ -121,19 +121,16 @@ struct CONFIG {
     bool os_random_only;
     bool no_alt_platform;
     bool simple_gui_only;
-    bool dont_contact_ref_site;
     std::vector<std::string> alt_platforms;
     int max_stdout_file_size;
     int max_stderr_file_size;
     bool report_results_immediately;
     double start_delay;
     bool run_apps_manually;
-    std::string force_auth;
     bool allow_multiple_clients;
     bool use_certs;
     bool use_certs_only;
         // overrides use_certs
-    std::vector<std::string> exclusive_apps;
     std::string client_version_check_url;
     std::string client_download_url;
     std::string network_test_url;

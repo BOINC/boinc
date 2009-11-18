@@ -82,9 +82,9 @@ bool RSC_WORK_FETCH::may_have_work(PROJECT* p) {
 
 bool RSC_PROJECT_WORK_FETCH::compute_may_have_work(PROJECT* p, int rsc_type) {
     switch(rsc_type) {
-    case RSC_TYPE_CPU: if (p->no_cpu) return false; break;
-    case RSC_TYPE_CUDA: if (p->no_cuda) return false; break;
-    case RSC_TYPE_ATI: if (p->no_ati) return false; break;
+    case RSC_TYPE_CPU: if (p->no_cpu_pref) return false; break;
+    case RSC_TYPE_CUDA: if (p->no_cuda_pref) return false; break;
+    case RSC_TYPE_ATI: if (p->no_ati_pref) return false; break;
     }
     return (backoff_time < gstate.now);
 }
@@ -349,13 +349,13 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         bool blocked_by_prefs = false;
         switch (rsc_type) {
         case RSC_TYPE_CPU:
-            if (p->no_cpu) blocked_by_prefs = true;
+            if (p->no_cpu_pref) blocked_by_prefs = true;
             break;
         case RSC_TYPE_CUDA:
-            if (p->no_cuda) blocked_by_prefs = true;
+            if (p->no_cuda_pref) blocked_by_prefs = true;
             break;
         case RSC_TYPE_ATI:
-            if (p->no_ati) blocked_by_prefs = true;
+            if (p->no_ati_pref) blocked_by_prefs = true;
             break;
         }
         msg_printf(p, MSG_INFO,

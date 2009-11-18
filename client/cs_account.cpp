@@ -93,9 +93,9 @@ int PROJECT::parse_account(FILE* in) {
     char buf[256];
     int retval;
     bool in_project_prefs = false;
-    no_cpu = false;
-    no_cuda = false;
-    no_ati = false;
+    no_cpu_pref = false;
+    no_cuda_pref = false;
+    no_ati_pref = false;
 
     strcpy(master_url, "");
     strcpy(authenticator, "");
@@ -121,9 +121,9 @@ int PROJECT::parse_account(FILE* in) {
             continue;
         } else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
         else if (parse_double(buf, "<resource_share>", resource_share)) continue;
-        else if (parse_bool(buf, "no_cpu", no_cpu)) continue;
-        else if (parse_bool(buf, "no_cuda", no_cuda)) continue;
-        else if (parse_bool(buf, "no_ati", no_ati)) continue;
+        else if (parse_bool(buf, "no_cpu", no_cpu_pref)) continue;
+        else if (parse_bool(buf, "no_cuda", no_cuda_pref)) continue;
+        else if (parse_bool(buf, "no_ati", no_ati_pref)) continue;
         else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
         else if (match_tag(buf, "<gui_urls>")) {
             string foo;
@@ -201,9 +201,9 @@ int PROJECT::parse_account_file_venue() {
         } else if (parse_double(buf, "<resource_share>", resource_share)) {
             continue;
         }
-        else if (parse_bool(buf, "no_cpu", no_cpu)) continue;
-        else if (parse_bool(buf, "no_cuda", no_cuda)) continue;
-        else if (parse_bool(buf, "no_ati", no_ati)) continue;
+        else if (parse_bool(buf, "no_cpu", no_cpu_pref)) continue;
+        else if (parse_bool(buf, "no_cuda", no_cuda_pref)) continue;
+        else if (parse_bool(buf, "no_ati", no_ati_pref)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(0, MSG_INFO,
