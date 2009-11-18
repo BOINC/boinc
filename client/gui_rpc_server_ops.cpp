@@ -51,6 +51,7 @@
 #endif
 
 #include "str_util.h"
+#include "url.h"
 #include "client_state.h"
 #include "util.h"
 #include "error_numbers.h"

@@ -37,6 +37,7 @@
 #include "log_flags.h"
 #include "str_util.h"
 #include "str_replace.h"
+#include "url.h"
 #include "util.h"
 
 #include "network.h"
@@ -52,60 +53,6 @@ using std::vector;
 static CURLM* g_curlMulti = NULL;
 static char g_user_agent_string[256] = {""};
 static const char g_content_type[] = {"Content-Type: application/x-www-form-urlencoded"};
-
-
-// Breaks a URL down into its protocol, server, port and file components
-// format of url:
-// [http[s]://]host.dom.dom[:port][/dir/file]
-// [socks]://]host.dom.dom[:port][/dir/file]
-//
-void parse_url(const char* url, int &protocol, char* host, int &port, char* file) {
-    char* p;
-    char buf[256];
-
-    // strip off the protocol if present
-    //
-    if (strncmp(url, "http://", 7) == 0) {
-        safe_strcpy(buf, url+7);
-        protocol = URL_PROTOCOL_HTTP;
-    } else if (strncmp(url, "https://", 8) == 0) {
-        safe_strcpy(buf, url+8);
-        protocol = URL_PROTOCOL_HTTPS;
-    } else if (strncmp(url, "socks://", 8) == 0) {
-        safe_strcpy(buf, url+8);
-        protocol = URL_PROTOCOL_SOCKS;
-    } else {
-        safe_strcpy(buf, url);
-        protocol = URL_PROTOCOL_UNKNOWN;
-    }
-
-    // parse and strip off file part if present
-    //
-    p = strchr(buf, '/');
-    if (p) {
-        strcpy(file, p+1);
-        *p = 0;
-    } else {
-        strcpy(file, "");
-    }
-
-    // parse and strip off port if present
-    //
-    p = strchr(buf,':');
-    if (p) {
-        port = atol(p+1);
-        *p = 0;
-    } else {
-        // CMC note:  if they didn't pass in a port #,
-        //    but the url starts with https://, assume they
-        //    want a secure port (HTTPS, port 443)
-        port = (protocol == URL_PROTOCOL_HTTPS) ? 443 : 80;
-    }
-
-    // what remains is the host
-    //
-    strcpy(host, buf);
-}
 
 char* get_user_agent_string() {
     sprintf(g_user_agent_string, "BOINC client (%s %d.%d.%d)",
@@ -833,10 +780,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
         }
 
     } else if (pi.use_socks_proxy) {
-
-        // pi.socks_version selects between socks5 & socks4.
-        // But libcurl only supports socks5, so ignore it.
-        //
+        // CURL only supports SOCKS version 5
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.socks_server_port);
         curlErr = curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.socks_server_name);

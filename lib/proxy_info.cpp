@@ -36,7 +36,6 @@ int PROXY_INFO::parse(MIOFILE& in) {
         else if (parse_bool(buf, "use_http_proxy", use_http_proxy)) continue;
         else if (parse_bool(buf, "use_socks_proxy", use_socks_proxy)) continue;
         else if (parse_bool(buf, "use_http_auth", use_http_auth)) continue;
-        else if (parse_int(buf, "<socks_version>", socks_version)) continue;
         else if (parse_str(buf, "<socks_server_name>", socks_server_name, sizeof(socks_server_name))) continue;
         else if (parse_int(buf, "<socks_server_port>", socks_server_port)) continue;
         else if (parse_str(buf, "<http_server_name>", http_server_name, sizeof(http_server_name))) continue;
@@ -61,7 +60,6 @@ int PROXY_INFO::write(MIOFILE& out) {
         "%s"
         "%s"
         "%s"
-        "    <socks_version>%d</socks_version>\n"
         "    <socks_server_name>%s</socks_server_name>\n"
         "    <socks_server_port>%d</socks_server_port>\n"
         "    <http_server_name>%s</http_server_name>\n"
@@ -74,7 +72,6 @@ int PROXY_INFO::write(MIOFILE& out) {
         use_http_proxy?"    <use_http_proxy/>\n":"",
         use_socks_proxy?"    <use_socks_proxy/>\n":"",
         use_http_auth?"    <use_http_auth/>\n":"",
-        socks_version,
         socks_server_name,
         socks_server_port,
         http_server_name,
@@ -113,7 +110,6 @@ void PROXY_INFO::clear() {
     strcpy(socks5_user_passwd, "");
     strcpy(http_user_name, "");
     strcpy(http_user_passwd, "");
-    socks_version = 0;
 	strcpy(noproxy_hosts, "");
 	strcpy(autodetect_server_name, "");
     autodetect_port = 80;

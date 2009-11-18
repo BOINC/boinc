@@ -32,10 +32,10 @@ struct PROXY_INFO {
     char http_user_name[256];
     char http_user_passwd[256];
 
-    // the following is populated if use has specified a SOCKs proxy
+    // the following is populated if user has specified a SOCKS proxy.
+    // Only SOCKS 5 is supported.
     //
     bool use_socks_proxy;
-    int socks_version;
     char socks_server_name[256];
     int socks_server_port;
     char socks5_user_name[256];

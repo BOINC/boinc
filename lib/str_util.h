@@ -35,15 +35,6 @@ extern int parse_command_line(char*, char**);
 extern void c2x(char *what);
 extern void strip_whitespace(char *str);
 extern void strip_whitespace(std::string&);
-extern void unescape_url(std::string& url);
-extern void unescape_url(char *url);
-extern void escape_url(std::string& url);
-extern void escape_url(char *in, char*out);
-extern void escape_url_readable(char* in, char* out);
-extern void escape_project_url(char *in, char* out);
-extern bool valid_master_url(char*);
-extern void canonicalize_master_url(char *url);
-extern void canonicalize_master_url(std::string&);
 #define safe_strcpy(x, y) strlcpy(x, y, sizeof(x))
 #define safe_strcat(x, y) if (strlen(x)+strlen(y)<sizeof(x)) strcat(x, y)
 extern char* time_to_string(double);

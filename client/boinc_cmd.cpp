@@ -43,6 +43,7 @@ using std::string;
 #include "util.h"
 #include "str_util.h"
 #include "str_replace.h"
+#include "url.h"
 #include "version.h"
 #include "common_defs.h"
 

@@ -8395,3 +8395,13 @@ Charlie 18 Nov 2009
         boinc.xcodeproj/
             project.pbxproj
         WaitPermissions-Info.plist (Added)
+
+David  5 Nov 2009
+    - Move URL-related code to a new file
+    - Remove stuff related to SOCKS version, since we only support 5
+
+    lib/
+        url.cpp,h
+        (several).cpp
+    client/
+        (several).cpp

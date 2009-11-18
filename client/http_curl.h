@@ -21,12 +21,8 @@
 
 // We use libcurl: http://curl.haxx.se/libcurl
 
-#ifndef _HTTP_
-#define _HTTP_
-
-// SOCKS #defines
-#define SOCKS_VERSION_4             0x04
-#define SOCKS_VERSION_5             0x05
+#ifndef _HTTP_CURL_
+#define _HTTP_CURL_
 
 #include <curl/curl.h>
 
@@ -195,12 +191,6 @@ public:
 
 };
 
-#define URL_PROTOCOL_UNKNOWN 0
-#define URL_PROTOCOL_HTTP    1
-#define URL_PROTOCOL_HTTPS   2
-#define URL_PROTOCOL_SOCKS   3
-
 extern char* get_user_agent_string();
-extern void parse_url(const char* url, int &protocol, char* host, int &port, char* file);
 
-#endif //__HTTP_H
+#endif //__HTTP_CURL_
