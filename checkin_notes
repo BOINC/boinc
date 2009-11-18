@@ -9286,3 +9286,19 @@ David  17 Nov 2009
     doc/
         get_platforms.inc
         project_list.php
+
+Rom    17 Nov 2009
+    - MGR: Add basic support for displaying the Nvidia and ATI logos
+        for projects whom support Nvidia and ATI GPUs.
+        
+        Todo: add descriptions and project images when selected.
+        
+    clientgui/
+        AccountManagerInfoPage.cpp
+        ProjectInfoPage.cpp
+        ProjectListCtrl.cpp, .h
+    clientgui/res/
+        atiicon.xpm (Added)
+        nvidiaicon.xpm (Added)
+    win_build/
+        boincmgr.vcproj
