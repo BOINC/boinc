@@ -8620,3 +8620,14 @@ Rom    17 Nov 2009
         nvidiaicon.xpm (Added)
     win_build/
         boincmgr.vcproj
+
+Rom    18 Nov 2009
+    - MGR: Add descriptions for each project as a tooltip and add
+        an icon for multicore capable projects.
+        
+    clientgui/
+        ProjectListCtrl.cpp, .h
+    clientgui/res/
+        multicore.xpm (Added)
+    win_build/
+        boincmgr.vcproj

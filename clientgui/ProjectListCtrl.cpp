@@ -28,6 +28,7 @@
 #include "res/externalweblink.xpm"
 #include "res/nvidiaicon.xpm"
 #include "res/atiicon.xpm"
+#include "res/multicore.xpm"
 ////@end XPM images
 
 
@@ -383,6 +384,15 @@ CProjectListCtrl::CProjectListCtrl( wxWindow* parent )
     Create( parent );
 }
  
+#ifdef __WXMAC__
+CProjectListCtrl::~CProjectListCtrl( )
+{
+    if (m_accessible) {
+        delete m_accessible;
+    }
+}
+#endif
+
 /*!
  * CProjectList creator
  */
@@ -390,6 +400,7 @@ CProjectListCtrl::CProjectListCtrl( wxWindow* parent )
 bool CProjectListCtrl::Create( wxWindow* parent )
 {
 ////@begin CProjectListCtrl member initialisation
+    m_pTipWindow = NULL;
 ////@end CProjectListCtrl member initialisation
 
 ////@begin CProjectListCtrl creation
@@ -403,7 +414,9 @@ bool CProjectListCtrl::Create( wxWindow* parent )
     wxMemoryFSHandler::AddFile(wxT("webexternallink.xpm"), wxBitmap(externalweblink_xpm), wxBITMAP_TYPE_XPM);
     wxMemoryFSHandler::AddFile(wxT("nvidiaicon.xpm"), wxBitmap(nvidiaicon_xpm), wxBITMAP_TYPE_XPM);
     wxMemoryFSHandler::AddFile(wxT("atiicon.xpm"), wxBitmap(atiicon_xpm), wxBITMAP_TYPE_XPM);
+    wxMemoryFSHandler::AddFile(wxT("multicore.xpm"), wxBitmap(multicore_xpm), wxBITMAP_TYPE_XPM);
 ////@end CProjectListCtrl creation
+
     return TRUE;
 }
 
@@ -452,6 +465,36 @@ void CProjectListCtrl::OnLinkClicked( wxHtmlLinkEvent& event )
 
 void CProjectListCtrl::OnHover( wxHtmlCellEvent& event )
 {
+    wxString buf = wxEmptyString;
+    wxHtmlCell* cell = NULL;
+    wxRect rc;
+    wxPoint p;
+    unsigned long i = 0;
+
+    // Get which item in the list control this event belongs to.
+    cell = event.GetCell();
+    cell = cell->GetRootCell();
+    cell->GetId().ToULong(&i);
+
+    // Determine bounding rect for new tooltip
+    GetScreenPosition(&p.x, &p.y);
+    p.y += cell->GetHeight() * i;
+
+    rc.SetPosition(p);
+    rc.SetHeight(cell->GetHeight());
+    rc.SetWidth(cell->GetWidth());
+    
+    // Construct the tooltip text
+    if (!m_Items[i]->GetOrganization().IsEmpty()) {
+        buf += m_Items[i]->GetOrganization() + wxT("\n\n");
+    }
+    buf += m_Items[i]->GetDescription();
+
+    // Display tooltip
+    if (!m_pTipWindow) {
+        m_pTipWindow = new wxTipWindow(this, buf, 250, &m_pTipWindow, &rc); 
+    }
+
     event.Skip();
 }
 
@@ -461,31 +504,39 @@ wxString CProjectListCtrl::OnGetItem(size_t i) const
     wxString retval = wxEmptyString;
     wxString buf = wxEmptyString;
 
-    retval += wxT("  <table cellpadding=0 cellspacing=1>");
-    retval += wxT("    <tr>");
+    if (m_Items[i]->IsNvidiaGPUSupported() || m_Items[i]->IsATIGPUSupported()) {
+        retval += wxT("<table cellpadding=0 cellspacing=1 bgcolor=#ffff00>");
+    } else {
+        retval += wxT("<table cellpadding=0 cellspacing=1>");
+    }
+    retval += wxT("<tr>");
 
     buf.Printf(
-        wxT("      <td width=100%%>%s</td>"),
+        wxT("<td width=100%%>%s</td>"),
         m_Items[i]->GetTitle().c_str()
     );
     retval += buf;
     
+    if (m_Items[i]->IsMulticoreSupported()) {
+        retval += wxT("<td><img height=16 width=16 src=\"memory:multicore.xpm\"></td>");
+    }
+
     if (m_Items[i]->IsNvidiaGPUSupported()) {
-        retval += wxT("      <td><img src=\"memory:nvidiaicon.xpm\"></td>");
+        retval += wxT("<td><img height=16 width=16 src=\"memory:nvidiaicon.xpm\"></td>");
     }
 
     if (m_Items[i]->IsATIGPUSupported()) {
-        retval += wxT("      <td><img src=\"memory:atiicon.xpm\"></td>");
+        retval += wxT("<td><img height=16 width=16 src=\"memory:atiicon.xpm\"></td>");
     }
 
     buf.Printf(
-        wxT("      <td><a href=\"%s\"><img src=\"memory:webexternallink.xpm\"></a></td>"),
+        wxT("<td><a href=\"%s\"><img height=16 width=16 src=\"memory:webexternallink.xpm\"></a></td>"),
         m_Items[i]->GetURL().c_str()
     );
     retval += buf;
 
-    retval += wxT("    </tr>");
-    retval += wxT("  </table>");
+    retval += wxT("</tr>");
+    retval += wxT("</table>");
 
     return retval;
 }
