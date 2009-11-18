@@ -125,10 +125,7 @@ static void windows_detect_autoproxy_settings() {
     HINTERNET                 hWinHttp = NULL;
     WINHTTP_AUTOPROXY_OPTIONS autoproxy_options;
     WINHTTP_PROXY_INFO        proxy_info;
-    int                       proxy_protocol = 0;
-    char                      proxy_server[256];
-    int                       proxy_port = 0;
-    char                      proxy_file[256];
+    PARSED_URL purl;
     std::wstring              network_test_url;
     size_t                    pos;
 
@@ -191,22 +188,21 @@ static void windows_detect_autoproxy_settings() {
                 }
 
                 // Parse the remaining url
-                parse_url(
-                    proxy.c_str(),
+                parse_url(proxy.c_str(), purl);
                     proxy_protocol,
                     proxy_server,
                     proxy_port,
                     proxy_file
-                );
 
                 // Store the results for future use.
-                gstate.proxy_info.autodetect_protocol = proxy_protocol;
-                strcpy(gstate.proxy_info.autodetect_server_name, proxy_server);
-                gstate.proxy_info.autodetect_port = proxy_port;
+                gstate.proxy_info.autodetect_protocol = purl.protocol;
+                strcpy(gstate.proxy_info.autodetect_server_name, purl.host);
+                gstate.proxy_info.autodetect_port = purl.port;
 
                 if (log_flags.proxy_debug) {
                     msg_printf(NULL, MSG_INFO,
-                        "[proxy_debug] automatic proxy detected %s:%d", proxy_server, proxy_port
+                        "[proxy_debug] automatic proxy detected %s:%d",
+                        purl.host, purl.port
                     );
                 }
             }

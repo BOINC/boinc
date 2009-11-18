@@ -198,27 +198,23 @@ int HTTP_OP::init_post2(
 // is URL in proxy exception list?
 //
 bool HTTP_OP::no_proxy_for_url(const char* url) {
+    PARSED_URL purl, purl2;
+    char noproxy[256];
+
     if (log_flags.proxy_debug) {
         msg_printf(0, MSG_INFO, "[proxy_debug] HTTP_OP::no_proxy_for_url(): %s", url);
     }
-    char hosturl[256];
-    char file[256];
-    char hostnoproxy[256];
-    char noproxy[256];
-    int protocol;
-    int port;
 
-    // extract the host from the url
-    parse_url(url, protocol, hosturl, port, file);
+    parse_url(url, purl);
 
     // tokenize the noproxy-entry and check for identical hosts
     //
     strcpy(noproxy, gstate.proxy_info.noproxy_hosts);
     char* token = strtok(noproxy, ",");
-    while(token!= NULL) {
+    while (token != NULL) {
         // extract the host from the no_proxy url
-        parse_url(token, protocol, hostnoproxy, port, file);
-        if (hostnoproxy == hosturl) {
+        parse_url(token, purl2);
+        if (!strcmp(purl.host, purl2.host)) {
             if (log_flags.proxy_debug) {
                 msg_printf(0, MSG_INFO, "[proxy_debug] disabling proxy for %s", url);
             }
