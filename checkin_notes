@@ -8645,4 +8645,13 @@ Rom    18 Nov 2009
         
     clientgui/
         ProjectListCtrl.cpp
+
+Rom    18 Nov 2009
+    - Tag for 6.10.19 release, all platforms
+      boinc_core_release_6_10_19
+
+    /
+        configure.ac
+        version.h
+
     
