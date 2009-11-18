@@ -289,6 +289,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (!strcmp(tag, "proxy_info")) {
             int retval = gstate.proxy_info.parse(*xp.f);
             if (retval) return retval;
+            continue;
         }
 #endif
         if (xp.parse_bool(tag, "report_results_immediately", report_results_immediately)) continue;
