@@ -8419,3 +8419,17 @@ David  6 Nov 2009
         sysmon_win.cpp
     lib/
         url.cpp,h
+
+David  9 Nov 2009
+    - client: the checkin of 15 Oct related to multi-thread apps
+        didn't work due to a typo.
+    - client: if <ncpus> is present in cc_config.xml,
+        we're supposed to act as if there were that many physical CPUs.
+        In particular, we need to set host_info.p_ncpus to that value,
+        since that's what is reported in scheduler requests.
+
+    client/
+        cpu_sched.cpp
+        cs_cmdline.cpp
+        cs_scheduler.cpp
+        sysmon_win.cpp

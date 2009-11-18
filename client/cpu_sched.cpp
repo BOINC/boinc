@@ -858,9 +858,13 @@ static void promote_multi_thread_jobs(vector<RESULT*>& runnable_jobs) {
             if (first_non_mt != runnable_jobs.end()) {
                 cur = runnable_jobs.erase(cur);
                 runnable_jobs.insert(first_non_mt, rp);
+                cpus_used = 0;
+                first_non_mt = runnable_jobs.end();
+                cur = runnable_jobs.begin();
+                continue;
             }
         } else {
-            if (first_non_mt != runnable_jobs.end()) {
+            if (first_non_mt == runnable_jobs.end()) {
                 first_non_mt = cur;
             }
         }
@@ -929,7 +933,7 @@ void CLIENT_STATE::append_unfinished_time_slice(
     vector<RESULT*> &runnable_jobs
 ) {
     unsigned int i;
-    int seqno = runnable_jobs.size();
+    int seqno = (int)runnable_jobs.size();
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
@@ -1667,6 +1671,7 @@ void CLIENT_STATE::set_ncpus() {
     int ncpus_old = ncpus;
 
     if (config.ncpus>=0) {
+        host_info.p_ncpus = config.ncpus;
         ncpus = config.ncpus;
     } else if (host_info.p_ncpus>0) {
         ncpus = host_info.p_ncpus;
