@@ -8453,3 +8453,10 @@ David  9 Nov 2009
 
 	client/
 		client_types.cpp
+
+David  10 Nov 2009
+    - client (Mac/Linux): if the NVIDIA or ATI detection functions
+        cause a SIGSEGV, recover from it.
+
+    lib/
+        coproc.cpp

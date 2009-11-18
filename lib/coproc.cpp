@@ -18,6 +18,7 @@
 #if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
 #include "boinc_win.h"
 #endif
+
 #ifndef _USING_FCGI_
 #include "boinc_fcgi.h"
 #else
@@ -36,6 +37,8 @@
 #define DLOPEN_NO_WARN
 #endif
 #include <dlfcn.h>
+#include <setjmp.h>
+#include <signal.h>
 #endif
 
 #include "error_numbers.h"
@@ -133,10 +136,33 @@ void COPROCS::summary_string(char* buf, int len) {
     strcpy(buf, bigbuf);
 }
 
+#ifndef _WIN32_
+jmp_buf resume;
+
+void segv_handler(int) {
+    longjmp(resume, 1);
+}
+#endif
+
 void COPROCS::get(bool use_all, vector<string>&descs, vector<string>&warnings) {
+#ifdef _WIN32_
     COPROC_CUDA::get(*this, use_all, descs, warnings);
-#ifndef __APPLE__       // ATI does not yet support CAL on Macs
     COPROC_ATI::get(*this, descs, warnings);
+#else
+    sighandler_t old_sig = signal(SIGSEGV, segv_handler);
+    if (setjmp(resume)) {
+        warnings.push_back("Caught SIGSEGV in NVIDIA GPU detection");
+    } else {
+        COPROC_CUDA::get(*this, use_all, descs, warnings);
+    }
+#ifndef __APPLE__       // ATI does not yet support CAL on Macs
+    if (setjmp(resume)) {
+        warnings.push_back("Caught SIGSEGV in ATI GPU detection");
+    } else {
+        COPROC_ATI::get(*this, descs, warnings);
+    }
+#endif
+    signal(SIGSEGV, old_sig);
 #endif
 }
 
