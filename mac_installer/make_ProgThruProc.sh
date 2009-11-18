@@ -19,7 +19,7 @@
 
 ##
 # Script to convert Macintosh BOINC installer to Progress Thru Processors Desktop installer
-# updated 7/8/09 by Charlie Fenton
+# updated 11/18/09 by Charlie Fenton
 ##
 
 ## Usage:
@@ -148,6 +148,7 @@ if [ "$1" = "6" ] && [ "$2" = "2" ]; then
     cp -fpR "PostInstall.app" "${IR_PATH}/"
 else
     cp -fpR "${SOURCE_PKG_PATH}/Resources/PostInstall.app" "${IR_PATH}/"
+    cp -fpR "${SOURCE_PKG_PATH}/Resources/WaitPermissions.app" "${IR_PATH}/"
 fi
 cp -fp "${SOURCE_PKG_PATH}/Resources/all_projects_list.xml" "${IR_PATH}/"
 
