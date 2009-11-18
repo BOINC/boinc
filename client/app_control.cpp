@@ -502,7 +502,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
 #else
     int pid, stat;
 
-    if ((pid = waitpid(0, &stat, WNOHANG)) > 0) {
+    if ((pid = waitpid(-1, &stat, WNOHANG)) > 0) {
         atp = lookup_pid(pid);
         if (!atp) {
             // if we're running benchmarks, exited process

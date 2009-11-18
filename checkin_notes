@@ -8472,3 +8472,10 @@ David  10 Nov 2009
     client/
         gui_rpc_server_ops.cpp
 
+David  10 Nov 2009
+    - client (Unix): use waitpid(-1, ...) instead of waitpid(0, ...).
+        This reaps child processes even if they've changed their process group
+        (from Michael Melanson)
+
+    client/
+        app_control.cpp
