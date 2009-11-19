@@ -14,7 +14,6 @@ locale_dirs = \
 	de \
 	el \
 	es \
-	fa \
 	fr \
 	gl \
 	hr \
@@ -26,14 +25,12 @@ locale_dirs = \
 	lv \
 	nl \
 	pl \
-	pt \
 	pt_BR \
 	ro \
 	ru \
 	sk \
 	sv_SE \
 	tr \
-	uk \
 	zh_CN \
 	zh_TW
 
