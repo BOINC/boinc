@@ -8646,6 +8646,16 @@ Rom    18 Nov 2009
     clientgui/
         ProjectListCtrl.cpp
 
+Charlie 18 Nov 2009
+    - Mac: Fix build breaks: add url.cpp to gfx_switcher and ss_app, 
+        remove unused m_pTipWindow.
+    
+    clientgui/
+        ProjectListCtrl.cpp, .h
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
 Rom    18 Nov 2009
     - Tag for 6.10.19 release, all platforms
       boinc_core_release_6_10_19
