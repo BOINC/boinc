@@ -421,7 +421,6 @@ CProjectListCtrl::~CProjectListCtrl( )
 bool CProjectListCtrl::Create( wxWindow* parent )
 {
 ////@begin CProjectListCtrl member initialisation
-    m_pTipWindow = NULL;
 ////@end CProjectListCtrl member initialisation
 
 ////@begin CProjectListCtrl creation
