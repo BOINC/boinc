@@ -32,7 +32,21 @@
 ////@end XPM images
 
 
-#if wxUSE_ACCESSIBILITY
+#ifdef __WXMAC__
+
+CProjectListCtrlAccessible::CProjectListCtrlAccessible(wxWindow* win) {
+    mp_win = win;
+    SetupMacListControlAccessibilitySupport();
+}
+
+
+CProjectListCtrlAccessible::~CProjectListCtrlAccessible() {
+    RemoveMacListControlAccessibilitySupport();
+}
+
+#endif
+
+#if wxUSE_ACCESSIBILITY || defined(__WXMAC__)
 
 // Gets the name of the specified object.
 wxAccStatus CProjectListCtrlAccessible::GetName(int childId, wxString* name)
@@ -110,6 +124,72 @@ wxAccStatus CProjectListCtrlAccessible::GetLocation(wxRect& rect, int elementId)
 }
 
 
+// Gets the number of children.
+wxAccStatus CProjectListCtrlAccessible::GetChildCount(int* childCount)
+{
+    CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
+    if (pCtrl)
+    {
+        *childCount = (int)pCtrl->GetItemCount();
+        return wxACC_OK;
+    }
+    // Let the framework handle the other cases.
+    return wxACC_NOT_IMPLEMENTED;
+}
+
+
+// Performs the default action. childId is 0 (the action for this object)
+// or > 0 (the action for a child).
+// Return wxACC_NOT_SUPPORTED if there is no default action for this
+// window (e.g. an edit control).
+wxAccStatus CProjectListCtrlAccessible::DoDefaultAction(int childId)
+{
+    CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
+    if (pCtrl && (childId != wxACC_SELF))
+    {
+        // Zero-based array index
+        int iRealChildId = childId - 1;
+
+        pCtrl->SetSelection(iRealChildId);
+
+        // Fire Event 
+        ProjectListCtrlEvent evt( 
+            wxEVT_PROJECTLIST_ITEM_CHANGE, 
+            pCtrl->GetItem(iRealChildId)->GetTitle(),  
+            pCtrl->GetItem(iRealChildId)->GetURL(), 
+            true 
+        ); 
+#ifdef __WXMAC__
+        evt.SetEventObject(pCtrl); 
+#else
+        evt.SetEventObject(this); 
+#endif
+
+        pCtrl->GetParent()->AddPendingEvent( evt ); 
+
+        return wxACC_OK;
+    }
+    // Let the framework handle the other cases.
+    return wxACC_NOT_IMPLEMENTED;
+}
+
+
+// Returns the description for this object or a child.
+wxAccStatus CProjectListCtrlAccessible::GetDescription(int childId, wxString* description)
+{
+    CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
+    if (pCtrl && (childId != wxACC_SELF))
+    {
+        *description = pCtrl->GetItem(childId - 1)->GetDescription().c_str();
+        return wxACC_OK;
+    }
+    // Let the framework handle the other cases.
+    return wxACC_NOT_IMPLEMENTED;
+}
+
+
+#ifndef __WXMAC__
+
 // Navigates from fromId to toId/toObject.
 wxAccStatus CProjectListCtrlAccessible::Navigate(
     wxNavDir navDir, int fromId, int* toId, wxAccessible** toObject
@@ -182,52 +262,6 @@ wxAccStatus CProjectListCtrlAccessible::Navigate(
 }
 
 
-// Gets the number of children.
-wxAccStatus CProjectListCtrlAccessible::GetChildCount(int* childCount)
-{
-    CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
-    if (pCtrl)
-    {
-        *childCount = (int)pCtrl->GetItemCount();
-        return wxACC_OK;
-    }
-    // Let the framework handle the other cases.
-    return wxACC_NOT_IMPLEMENTED;
-}
-
-
-// Performs the default action. childId is 0 (the action for this object)
-// or > 0 (the action for a child).
-// Return wxACC_NOT_SUPPORTED if there is no default action for this
-// window (e.g. an edit control).
-wxAccStatus CProjectListCtrlAccessible::DoDefaultAction(int childId)
-{
-    CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
-    if (pCtrl && (childId != wxACC_SELF))
-    {
-        // Zero-based array index
-        int iRealChildId = childId - 1;
-
-        pCtrl->SetSelection(iRealChildId);
-
-        // Fire Event 
-        ProjectListCtrlEvent evt( 
-            wxEVT_PROJECTLIST_ITEM_CHANGE, 
-            pCtrl->GetItem(iRealChildId)->GetTitle(),  
-            pCtrl->GetItem(iRealChildId)->GetURL(), 
-            true 
-        ); 
-        evt.SetEventObject(this); 
-
-        pCtrl->GetParent()->AddPendingEvent( evt ); 
-
-        return wxACC_OK;
-    }
-    // Let the framework handle the other cases.
-    return wxACC_NOT_IMPLEMENTED;
-}
-
-
 // Gets the default action for this object (0) or > 0 (the action for a child).
 // Return wxACC_OK even if there is no action. actionName is the action, or the empty
 // string if there is no action.
@@ -240,20 +274,6 @@ wxAccStatus CProjectListCtrlAccessible::GetDefaultAction(int childId, wxString* 
     if (pCtrl && (childId != wxACC_SELF))
     {
         *actionName = _("Click");
-        return wxACC_OK;
-    }
-    // Let the framework handle the other cases.
-    return wxACC_NOT_IMPLEMENTED;
-}
-
-
-// Returns the description for this object or a child.
-wxAccStatus CProjectListCtrlAccessible::GetDescription(int childId, wxString* description)
-{
-    CProjectListCtrl* pCtrl = wxDynamicCast(GetWindow(), CProjectListCtrl);
-    if (pCtrl && (childId != wxACC_SELF))
-    {
-        *description = pCtrl->GetItem(childId - 1)->GetDescription().c_str();
         return wxACC_OK;
     }
     // Let the framework handle the other cases.
@@ -331,8 +351,8 @@ wxAccStatus CProjectListCtrlAccessible::GetSelections(wxVariant* )
     // Let the framework handle the other cases.
     return wxACC_NOT_IMPLEMENTED;
 }
-
-#endif
+#endif      // ifndef __WXMAC__
+#endif      // wxUSE_ACCESSIBILITY || defined(__WXMAC__)
 
 
 /*!
@@ -384,6 +404,16 @@ CProjectListCtrl::CProjectListCtrl( wxWindow* parent )
     Create( parent );
 }
  
+ 
+ #ifdef __WXMAC__
+CProjectListCtrl::~CProjectListCtrl( )
+{
+    if (m_accessible) {
+        delete m_accessible;
+    }
+}
+#endif
+
 /*!
  * CProjectList creator
  */
@@ -399,6 +429,9 @@ bool CProjectListCtrl::Create( wxWindow* parent )
 
 #if wxUSE_ACCESSIBILITY
     SetAccessible(new CProjectListCtrlAccessible(this));
+#endif
+#ifdef __WXMAC__
+    m_accessible = new CProjectListCtrlAccessible(this);
 #endif
 
     wxMemoryFSHandler::AddFile(wxT("webexternallink.xpm"), wxBitmap(externalweblink_xpm), wxBITMAP_TYPE_XPM);

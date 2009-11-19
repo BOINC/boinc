@@ -55,6 +55,10 @@ CBOINCListCtrl::CBOINCListCtrl(
     
 #if USE_NATIVE_LISTCONTROL
     m_bProgressBarEventPending = false;
+#else
+#ifdef __WXMAC__
+    SetupMacListControlAccessibilitySupport();
+#endif
 #endif
 
     Connect(
@@ -68,6 +72,9 @@ CBOINCListCtrl::CBOINCListCtrl(
 CBOINCListCtrl::~CBOINCListCtrl()
 {
     m_iRowsNeedingProgressBars.Clear();
+#ifdef __WXMAC__
+    RemoveMacListControlAccessibilitySupport();
+#endif
 }
 
 

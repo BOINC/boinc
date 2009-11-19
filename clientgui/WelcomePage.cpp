@@ -147,6 +147,12 @@ void CWelcomePage::CreateControls()
 
     itemWizardPage2->SetSizer(itemBoxSizer3);
 
+#ifdef __WXMAC__
+    //Accessibility
+    HIViewRef buttonView = (HIViewRef)m_pAttachToProjectCtrl->GetHandle();
+    HIObjectRef   theObject = (HIObjectRef)HIViewGetSuperview(buttonView);
+    HIObjectSetAccessibilityIgnored(theObject, true);
+#endif
 ////@end CWelcomePage content construction
 }
 

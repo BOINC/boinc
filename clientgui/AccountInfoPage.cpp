@@ -212,6 +212,13 @@ void CAccountInfoPage::CreateControls()
     //   it can be a username or an email address.
     m_pAccountPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, &m_strAccountPassword) );
     m_pAccountConfirmPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, &m_strAccountConfirmPassword) );
+    
+#ifdef __WXMAC__
+    //Accessibility
+    HIViewRef buttonView = (HIViewRef)m_pAccountCreateCtrl->GetHandle();
+    HIObjectRef   theObject = (HIObjectRef)HIViewGetSuperview(buttonView);
+    HIObjectSetAccessibilityIgnored(theObject, true);
+#endif
 ////@end CAccountInfoPage content construction
 
 }

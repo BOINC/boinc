@@ -75,26 +75,55 @@ private:
     bool m_bSupported;
 };
 
+#if wxUSE_ACCESSIBILITY || defined(__WXMAC__)
 
-#if wxUSE_ACCESSIBILITY
+#ifdef __WXMAC__
 
+#define wxACC_SELF              0
+#define wxACC_OK                noErr
+#define wxAccStatus             OSStatus
+#define wxACC_NOT_IMPLEMENTED   eventNotHandledErr
+#define wxACC_FALSE             eventNotHandledErr
+#define wxAccessible            wxObject
+
+class CProjectListCtrlAccessible
+#else
 class CProjectListCtrlAccessible: public wxWindowAccessible
+#endif
 {
 public:
+
+#ifdef __WXMAC__
+    CProjectListCtrlAccessible(wxWindow* win);
+    virtual ~CProjectListCtrlAccessible();
+#else
     CProjectListCtrlAccessible(wxWindow* win): wxWindowAccessible(win) {}
+#endif
 
     virtual wxAccStatus GetName(int childId, wxString* name);
     virtual wxAccStatus HitTest(const wxPoint& pt, int* childId, wxAccessible** childObject);
     virtual wxAccStatus GetLocation(wxRect& rect, int elementId);
-    virtual wxAccStatus Navigate(wxNavDir navDir, int fromId, int* toId, wxAccessible** toObject);
     virtual wxAccStatus GetChildCount(int* childCount);
     virtual wxAccStatus DoDefaultAction(int childId);
-    virtual wxAccStatus GetDefaultAction(int childId, wxString* actionName);
     virtual wxAccStatus GetDescription(int childId, wxString* description);
+#ifndef __WXMAC__
+    virtual wxAccStatus Navigate(wxNavDir navDir, int fromId, int* toId, wxAccessible** toObject);
+    virtual wxAccStatus GetDefaultAction(int childId, wxString* actionName);
     virtual wxAccStatus GetRole(int childId, wxAccRole* role);
     virtual wxAccStatus GetState(int childId, long* state);
     virtual wxAccStatus Select(int childId, wxAccSelectionFlags selectFlags);
     virtual wxAccStatus GetSelections(wxVariant* selections);
+#endif
+
+#ifdef __WXMAC__
+    wxWindow                *mp_win;
+    HIViewRef               m_listView;
+    EventHandlerRef         m_plistAccessibilityEventHandlerRef;
+    
+    wxWindow *GetWindow() { return mp_win; }
+    void SetupMacListControlAccessibilitySupport();
+    void RemoveMacListControlAccessibilitySupport();
+#endif
 };
 
 #endif
@@ -114,6 +143,9 @@ public:
     CProjectListCtrl( );
 
     CProjectListCtrl( wxWindow* parent );
+#ifdef __WXMAC__
+    ~CProjectListCtrl();
+#endif
 
     /// Creation
     bool Create( wxWindow* parent );
@@ -150,6 +182,10 @@ public:
 
 private:
     std::vector<CProjectListItem*> m_Items;
+    
+#ifdef __WXMAC__
+    CProjectListCtrlAccessible*    m_accessible;
+#endif
 };
 
 

@@ -8363,6 +8363,35 @@ Rom    6 Oct 2009
         configure.ac
         version.h
 
+Charlie 29 Oct 2009
+    - MGR: Add accessibility support for disabled users to BOINCListCtrl on 
+        Mac.
+        
+    clientgui/
+        BOINCBaseView.cpp, .h
+        BOINCListCtrl.cpp, .h
+        ViewProjects.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+        Mac/
+            MacAccessibility.cpp (added)
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
+Charlie 30 Oct 2009
+    - MGR: Add accessibility support for disabled users to Attach Wizard's 
+        ProjectListCtrl on Mac.
+        
+    clientgui/
+        BOINCListCtrl.cpp, .h
+        ProjectListCtrl.cpp, .h
+        Mac/
+            MacAccessibility.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
 Charlie 10 Nov 2009
     - Mac installer: fix crash bug in AddRemoveUser utility.
         
@@ -8666,6 +8695,18 @@ Charlie 19 Nov 2009
         BOINCGUIApp.cpp
     mac_installer/
         uninstall.cpp
+
+Charlie 19 Nov 2009
+    - MGR: Attach Wizard's accessibility support ignores extra panels in 
+        several pages to improve clarity for disabled users (checked into 
+        6.10.19 tag).
+        
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerInfoPage.cpp
+        CompletionPage.cpp
+        ProjectInfoPage.cpp
+        WelcomePage.cpp
 
 Rom    18 Nov 2009
     - Tag for 6.10.19 release, all platforms
