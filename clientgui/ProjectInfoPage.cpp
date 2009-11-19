@@ -159,7 +159,14 @@ void CProjectInfoPage::CreateControls()
 
     // Set validators
     m_pProjectUrlCtrl->SetValidator( CValidateURL( & m_strProjectURL ) );
-////@end CProjectInfoPage content construction
+
+#ifdef __WXMAC__
+    //Accessibility
+    HIViewRef listView = (HIViewRef)m_pProjectListCtrl->GetHandle();
+    HIObjectRef   theObject = (HIObjectRef)HIViewGetSuperview(listView);
+    HIObjectSetAccessibilityIgnored(theObject, true);
+#endif
+    ////@end CProjectInfoPage content construction
 }
 
 

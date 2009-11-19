@@ -123,7 +123,14 @@ void CCompletionPage::CreateControls()
     m_pCompletionMessage = new wxStaticText;
     m_pCompletionMessage->Create( itemWizardPage79, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer80->Add(m_pCompletionMessage, 0, wxALIGN_LEFT|wxALL, 5);
-////@end CCompletionPage content construction
+    
+#ifdef __WXMAC__
+    //Accessibility
+    HIViewRef textView = (HIViewRef)m_pCompletionTitle->GetHandle();
+    HIObjectRef   theObject = (HIObjectRef)HIViewGetSuperview(textView);
+    HIObjectSetAccessibilityIgnored(theObject, true);
+#endif
+    ////@end CCompletionPage content construction
 }
   
 /*!

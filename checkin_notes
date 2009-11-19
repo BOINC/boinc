@@ -9374,3 +9374,14 @@ Charlie 19 Nov 2009
         BOINCGUIApp.cpp
     mac_installer/
         uninstall.cpp
+
+Charlie 19 Nov 2009
+    - MGR: Attach Wizard's accessibility support ignores extra panels in 
+        several pages to improve clarity for disabled users.
+        
+    clientgui/
+        AccountInfoPage.cpp
+        AccountManagerInfoPage.cpp
+        CompletionPage.cpp
+        ProjectInfoPage.cpp
+        WelcomePage.cpp

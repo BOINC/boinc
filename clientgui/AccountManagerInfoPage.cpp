@@ -154,7 +154,14 @@ void CAccountManagerInfoPage::CreateControls()
 
     // Set validators
     m_pProjectUrlCtrl->SetValidator( CValidateURL( & m_strProjectURL ) );
-////@end CAccountManagerInfoPage content construction
+    
+#ifdef __WXMAC__
+    //Accessibility
+    HIViewRef listView = (HIViewRef)m_pProjectListCtrl->GetHandle();
+    HIObjectRef   theObject = (HIObjectRef)HIViewGetSuperview(listView);
+    HIObjectSetAccessibilityIgnored(theObject, true);
+#endif
+    ////@end CAccountManagerInfoPage content construction
 }
 
 
