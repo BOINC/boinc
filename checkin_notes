@@ -6411,3 +6411,10 @@ Charlie 18 Nov 2009
         boinc.xcodeproj/
             project.pbxproj
         WaitPermissions-Info.plist (Added)
+
+Charlie 19 Nov 2009
+    - Mac MGR: fix bug - don't show exit confirmation dialog if shutting 
+         down or restarting system.
+         
+    clientgui/
+        BOINCGUIApp.cpp
