@@ -8656,6 +8656,13 @@ Charlie 18 Nov 2009
         boinc.xcodeproj/
             project.pbxproj
 
+Charlie 19 Nov 2009
+    - Mac MGR: fix bug - don't show exit confirmation dialog if shutting 
+         down or restarting system (checked into 6.10.19 tag).
+         
+    clientgui/
+        BOINCGUIApp.cpp
+
 Rom    18 Nov 2009
     - Tag for 6.10.19 release, all platforms
       boinc_core_release_6_10_19
