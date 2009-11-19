@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-07 06:32-0700\n"
+"PO-Revision-Date: 2009-11-19 11:58-0700\n"
 "Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "Language: pl\n"
@@ -161,8 +161,8 @@ msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
-"Aby wybrać projekt kliknij jego nazwę \n"
-"albo wpisz jego adres URL poniżej."
+"Aby wybrać menadżera kont kliknij jego nazwę albo wpisz jego adres URL "
+"poniżej."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Account Manager &URL:"
@@ -286,7 +286,9 @@ msgstr "Przyłącz się do &projektu albo menadżera kont..."
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "Attach to a project or account manager to begin processing work"
-msgstr "Przyłącz się do projektu albo do menadżera kont"
+msgstr ""
+"Przyłącz się do projektu\n"
+"albo do menadżera kont"
 
 #: clientgui/AdvancedFrame.cpp:400
 #, c-format
@@ -1871,7 +1873,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
-msgstr "Uruchamianie przy logowaniu."
+msgstr "Uruchamianie przy logowaniu"
 
 #: clientgui/DlgOptions.cpp:191
 msgid "Run the BOINC Manager when you log on."
@@ -1879,7 +1881,7 @@ msgstr "Menadżer BOINC jest uruchamiany przy logowaniu."
 
 #: clientgui/DlgOptions.cpp:196
 msgid "Enable Manager exit dialog?"
-msgstr "Okno dialogowe przy zamykaniu."
+msgstr "Okno dialogowe przy zamykaniu"
 
 #: clientgui/DlgOptions.cpp:202
 msgid "Display the exit dialog when shutting down the Manager."
@@ -3600,7 +3602,7 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:250
 msgid "Attach to project or account manager"
-msgstr "Przyłącz się do projektu albo menadżera kont"
+msgstr "Przyłącz się do projektu albo menadżera kont!"
 
 #: clientgui/WelcomePage.cpp:258
 #, c-format
