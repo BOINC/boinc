@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-19 03:59-0700\n"
+"PO-Revision-Date: 2009-11-19 04:44-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -2591,12 +2591,13 @@ msgid "Customized Preferences"
 msgstr "Személyre szabott beállítások"
 
 #: clientgui/sg_DlgPreferences.cpp:349
+#, fuzzy
 msgid "Do work only between:"
-msgstr ""
+msgstr "Csak ezen időtartamban dolgozzon:"
 
 #: clientgui/sg_DlgPreferences.cpp:371
 msgid "Connect to internet only between:"
-msgstr ""
+msgstr "Csak ekkor csatlakozzon az internetre:"
 
 #: clientgui/sg_DlgPreferences.cpp:393
 #: clientgui/sg_DlgPreferences.cpp:410
@@ -2612,12 +2613,13 @@ msgid "of the processor"
 msgstr "processzorteljesítmény"
 
 #: clientgui/sg_DlgPreferences.cpp:427
+#, fuzzy
 msgid "Do work while on battery?"
-msgstr ""
+msgstr "Folyjon feldolgozás, amikor akkumulátorról működik?"
 
 #: clientgui/sg_DlgPreferences.cpp:440
 msgid "Do work after idle for:"
-msgstr ""
+msgstr "Dolgozzon, ha ennyi ideje tétlen:"
 
 #: clientgui/sg_DlgPreferences.cpp:678
 #: clientgui/sg_DlgPreferences.cpp:681
@@ -2628,43 +2630,44 @@ msgstr ""
 #: clientgui/sg_DlgPreferences.cpp:927
 #: clientgui/sg_DlgPreferences.cpp:938
 msgid "Anytime"
-msgstr ""
+msgstr "Bármikor"
 
 #: clientgui/sg_DlgPreferences.cpp:785
 #, c-format
 msgid "%d MB"
-msgstr ""
+msgstr "%d MB"
 
 #: clientgui/sg_DlgPreferences.cpp:787
 #, c-format
 msgid "%4.2f GB"
-msgstr ""
+msgstr "%4.2f GB"
 
 #: clientgui/sg_DlgPreferences.cpp:828
 #, c-format
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 #: clientgui/sg_DlgPreferences.cpp:864
 msgid "0 (Run Always)"
-msgstr ""
+msgstr "0 (Mindig fut)"
 
 #: clientgui/sg_DlgPreferences.cpp:867
 #, c-format
 msgid "%d"
-msgstr ""
+msgstr "%d"
 
 #: clientgui/sg_ImageButton.cpp:90
 msgid "Paused: Other work running"
-msgstr ""
+msgstr "Felfüggesztve: Másik munka fut"
 
 #: clientgui/sg_ImageButton.cpp:92
 msgid "Paused: User initiatied.  Click 'Resume' to continue"
 msgstr ""
+"Felfüggesztve: Felhasználó által. Kattinston a 'Folytatás'-ra a folytatáshoz"
 
 #: clientgui/sg_ImageButton.cpp:94
 msgid "Paused: User active"
-msgstr ""
+msgstr "Felfüggesztve: Felhasználó aktív"
 
 #: clientgui/sg_ImageButton.cpp:96
 msgid "Paused: Computer on battery"
