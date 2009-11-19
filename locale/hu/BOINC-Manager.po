@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-19 04:44-0700\n"
+"PO-Revision-Date: 2009-11-19 05:43-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -2663,7 +2663,7 @@ msgstr "Felfüggesztve: Másik munka fut"
 #: clientgui/sg_ImageButton.cpp:92
 msgid "Paused: User initiatied.  Click 'Resume' to continue"
 msgstr ""
-"Felfüggesztve: Felhasználó által. Kattinston a 'Folytatás'-ra a folytatáshoz"
+"Felfüggesztve: Felhasználó által. Kattintson a 'Folytatás'-ra a folytatáshoz"
 
 #: clientgui/sg_ImageButton.cpp:94
 msgid "Paused: User active"
@@ -2671,35 +2671,36 @@ msgstr "Felfüggesztve: Felhasználó aktív"
 
 #: clientgui/sg_ImageButton.cpp:96
 msgid "Paused: Computer on battery"
-msgstr ""
+msgstr "Felfüggesztve: A számítógép akkumulátorról működik"
 
 #: clientgui/sg_ImageButton.cpp:98
 msgid "Paused: Time of Day"
-msgstr ""
+msgstr "Felfüggesztve: Napszak"
 
 #: clientgui/sg_ImageButton.cpp:100
 msgid "Paused: Benchmarks running"
-msgstr ""
+msgstr "Felfüggesztve: Sebességmérés fut"
 
 #: clientgui/sg_ImageButton.cpp:102
 msgid "Paused"
-msgstr ""
+msgstr "Felfüggesztve"
 
 #: clientgui/sg_ImageButton.cpp:104
 msgid "Paused: Application start delayed"
-msgstr ""
+msgstr "Felfüggesztve: Alkalmazásindítás elhalasztva"
 
 #: clientgui/sg_ImageButton.cpp:132
+#, fuzzy
 msgid "Click to show project graphics"
-msgstr ""
+msgstr "Kattintson a projektgrafika indításához"
 
 #: clientgui/sg_ProjectsComponent.cpp:106
 msgid "Attach to an additional project"
-msgstr ""
+msgstr "Csatlakozás egy további projekthez"
 
 #: clientgui/sg_ProjectsComponent.cpp:123
 msgid "Synchronize projects with account manager system"
-msgstr ""
+msgstr "Projektek szinkronizálása a fiókkezelő rendszerrel"
 
 #: clientgui/sg_ProjectsComponent.cpp:194
 #: clientgui/sg_ProjectsComponent.cpp:205
