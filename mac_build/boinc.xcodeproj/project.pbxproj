@@ -376,6 +376,11 @@
 		DDFA61900CB348E90037B88C /* md5_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159564029EB02001F5651B /* md5_file.cpp */; };
 		DDFA61920CB349020037B88C /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.cpp */; };
 		DDFA61940CB349160037B88C /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BE407C5B1670043025C /* prefs.cpp */; };
+		DDFADC7210B4DBA400D13EFA /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFADC7010B4DBA400D13EFA /* url.cpp */; };
+		DDFADC7310B4DBA400D13EFA /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFADC7010B4DBA400D13EFA /* url.cpp */; };
+		DDFADC7410B4DBA400D13EFA /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFADC7010B4DBA400D13EFA /* url.cpp */; };
+		DDFADC7510B4DBA400D13EFA /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFADC7010B4DBA400D13EFA /* url.cpp */; };
+		DDFADC7610B4DBA400D13EFA /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFADC7010B4DBA400D13EFA /* url.cpp */; };
 		DDFD5F0F0818F2EE002B23D4 /* gui_rpc_client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.cpp */; };
 		DDFD5F270818F329002B23D4 /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
 		DDFD5F280818F33C002B23D4 /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.c */; };
@@ -940,6 +945,8 @@
 		DDF9A32E0B2E3D4D00091FCB /* auto_update.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = auto_update.h; path = ../client/auto_update.h; sourceTree = SOURCE_ROOT; };
 		DDFA60D40CB337D40037B88C /* gfx_switcher */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gfx_switcher; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDFA60E30CB3396C0037B88C /* gfx_switcher.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = gfx_switcher.cpp; path = ../clientscr/gfx_switcher.cpp; sourceTree = SOURCE_ROOT; };
+		DDFADC7010B4DBA400D13EFA /* url.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = url.cpp; path = ../lib/url.cpp; sourceTree = SOURCE_ROOT; };
+		DDFADC7110B4DBA400D13EFA /* url.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = url.h; path = ../lib/url.h; sourceTree = SOURCE_ROOT; };
 		DDFE84E10B60CD66009B43D9 /* DlgAdvPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgAdvPreferences.cpp; path = ../clientgui/DlgAdvPreferences.cpp; sourceTree = SOURCE_ROOT; };
 		DDFE84E20B60CD66009B43D9 /* DlgAdvPreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgAdvPreferences.h; path = ../clientgui/DlgAdvPreferences.h; sourceTree = SOURCE_ROOT; };
 		DDFE84E30B60CD66009B43D9 /* DlgAdvPreferencesBase.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgAdvPreferencesBase.cpp; path = ../clientgui/DlgAdvPreferencesBase.cpp; sourceTree = SOURCE_ROOT; };
@@ -1540,6 +1547,8 @@
 				DD7BF7D80B8E7A9800A009F7 /* str_util.h */,
 				DD407AED07D2FE7200163EF5 /* synch.cpp */,
 				DD407AEA07D2FE6500163EF5 /* synch.h */,
+				DDFADC7010B4DBA400D13EFA /* url.cpp */,
+				DDFADC7110B4DBA400D13EFA /* url.h */,
 				F5EAD479031AF001018E201A /* util.cpp */,
 				F5EAD478031AF001018E201A /* util.h */,
 			);
@@ -2509,6 +2518,7 @@
 				DDC836E60EDEA5DB001C2EF9 /* TermsOfUsePage.cpp in Sources */,
 				DD377E090F6F95650089CE9A /* ViewNews.cpp in Sources */,
 				DDA0C8350FE1D704001E02E6 /* procinfo_mac.cpp in Sources */,
+				DDFADC7410B4DBA400D13EFA /* url.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2548,6 +2558,7 @@
 				DD7475510D86273300860636 /* coproc.cpp in Sources */,
 				DD6802300E701ACD0067D009 /* cert_sig.cpp in Sources */,
 				DDAD31D80EC26B14002DA09D /* mac_address.cpp in Sources */,
+				DDFADC7310B4DBA400D13EFA /* url.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2646,6 +2657,7 @@
 				DD8917F60F3B21EF00DE5B1C /* texture.cpp in Sources */,
 				DD8917F80F3B21F500DE5B1C /* txf_util.cpp in Sources */,
 				DDC988FE0F3BD44100EE8D0E /* gui_rpc_client_ops.cpp in Sources */,
+				DDFADC7610B4DBA400D13EFA /* url.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2794,6 +2806,7 @@
 				DDE3A8850E90D23400A363A7 /* scheduler_op.cpp in Sources */,
 				DD9AB0340EB7D5DE00AF1616 /* rr_sim.cpp in Sources */,
 				DDAD31D90EC26B14002DA09D /* mac_address.cpp in Sources */,
+				DDFADC7210B4DBA400D13EFA /* url.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2814,6 +2827,7 @@
 				DDFA61900CB348E90037B88C /* md5_file.cpp in Sources */,
 				DDFA61920CB349020037B88C /* proxy_info.cpp in Sources */,
 				DDFA61940CB349160037B88C /* prefs.cpp in Sources */,
+				DDFADC7510B4DBA400D13EFA /* url.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3867,7 +3881,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INFOPLIST_FILE = "WaitPermissions-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -3886,7 +3900,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INFOPLIST_FILE = "WaitPermissions-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -3905,7 +3919,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INFOPLIST_FILE = "WaitPermissions-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -3924,7 +3938,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INFOPLIST_FILE = "WaitPermissions-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -3965,7 +3979,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INFOPLIST_FILE = "WaitPermissions-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -3984,7 +3998,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INFOPLIST_FILE = "WaitPermissions-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";

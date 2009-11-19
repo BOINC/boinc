@@ -384,15 +384,6 @@ CProjectListCtrl::CProjectListCtrl( wxWindow* parent )
     Create( parent );
 }
  
-#ifdef __WXMAC__
-CProjectListCtrl::~CProjectListCtrl( )
-{
-    if (m_accessible) {
-        delete m_accessible;
-    }
-}
-#endif
-
 /*!
  * CProjectList creator
  */
@@ -400,7 +391,6 @@ CProjectListCtrl::~CProjectListCtrl( )
 bool CProjectListCtrl::Create( wxWindow* parent )
 {
 ////@begin CProjectListCtrl member initialisation
-    m_pTipWindow = NULL;
 ////@end CProjectListCtrl member initialisation
 
 ////@begin CProjectListCtrl creation
