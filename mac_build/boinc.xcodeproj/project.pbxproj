@@ -249,6 +249,7 @@
 		DD8917F60F3B21EF00DE5B1C /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4EC60F08A0A083009AA08F /* texture.cpp */; };
 		DD8917F80F3B21F500DE5B1C /* txf_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD65020809F599B9008E8A3A /* txf_util.cpp */; };
 		DD9AB0340EB7D5DE00AF1616 /* rr_sim.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9AB0320EB7D5DE00AF1616 /* rr_sim.cpp */; };
+		DDA0322110B55C44003E8179 /* MacAccessiblity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA0322010B55C44003E8179 /* MacAccessiblity.cpp */; };
 		DDA0C8350FE1D704001E02E6 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
 		DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
@@ -853,6 +854,7 @@
 		DD9C94A10A5A3A4100AB0D10 /* AdvancedFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AdvancedFrame.h; path = ../clientgui/AdvancedFrame.h; sourceTree = SOURCE_ROOT; };
 		DD9C94A20A5A3A4100AB0D10 /* BOINCBaseFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCBaseFrame.cpp; path = ../clientgui/BOINCBaseFrame.cpp; sourceTree = SOURCE_ROOT; };
 		DD9C94A30A5A3A4100AB0D10 /* BOINCBaseFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCBaseFrame.h; path = ../clientgui/BOINCBaseFrame.h; sourceTree = SOURCE_ROOT; };
+		DDA0322010B55C44003E8179 /* MacAccessiblity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MacAccessiblity.cpp; path = ../clientgui/mac/MacAccessiblity.cpp; sourceTree = SOURCE_ROOT; };
 		DDA12A910A369AB500FBDD12 /* SetupSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetupSecurity.h; path = ../clientgui/mac/SetupSecurity.h; sourceTree = SOURCE_ROOT; };
 		DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SecurityUtility.cpp; path = ../clientgui/mac/SecurityUtility.cpp; sourceTree = SOURCE_ROOT; };
 		DDA290360CB5D80E00512BD8 /* Mac_Saver_Module.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_Module.h; path = ../clientscr/Mac_Saver_Module.h; sourceTree = SOURCE_ROOT; };
@@ -1670,6 +1672,7 @@
 				DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */,
 				DD30446A0864332D00D73756 /* config.h */,
 				DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */,
+				DDA0322010B55C44003E8179 /* MacAccessiblity.cpp */,
 				DD2F32F707F2A88B00645DDC /* MacSysMenu.cpp */,
 				DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */,
 				DD2F32EF07F2A83E00645DDC /* MacSysMenu.h */,
@@ -2519,6 +2522,7 @@
 				DD377E090F6F95650089CE9A /* ViewNews.cpp in Sources */,
 				DDA0C8350FE1D704001E02E6 /* procinfo_mac.cpp in Sources */,
 				DDFADC7410B4DBA400D13EFA /* url.cpp in Sources */,
+				DDA0322110B55C44003E8179 /* MacAccessiblity.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
