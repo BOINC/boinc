@@ -21,3 +21,4 @@ EXPORTS
     SaveExecutionState
     RestoreExecutionState
     CCConfigMd5sum
+    CreateProjectInitFile
