@@ -6415,6 +6415,10 @@ Charlie 18 Nov 2009
 Charlie 19 Nov 2009
     - Mac MGR: fix bug - don't show exit confirmation dialog if shutting 
          down or restarting system.
+    - Mac Uninstaller: change owner and group of BOINC Data to those of 
+        the user running the uninstaller.
          
     clientgui/
         BOINCGUIApp.cpp
+    mac_installer/
+        uninstall.cpp
