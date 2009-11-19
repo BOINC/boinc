@@ -509,9 +509,8 @@ bool CBOINCBaseView::SynchronizeCacheItem(wxInt32 WXUNUSED(iRowIndex), wxInt32 W
 void CBOINCBaseView::OnColClick(wxListEvent& event) {
     wxListItem      item;
     int             newSortColumn = event.GetColumn();
-     wxArrayInt selections;
-    int i, j, m;
-    
+    wxArrayInt      selections;
+    int             i, j, m;
 
     item.SetMask(wxLIST_MASK_IMAGE);
     if (newSortColumn == m_iSortColumn) {

@@ -120,6 +120,10 @@ public:
 	void                    ClearSavedSelections();
 	void                    ClearSelections();
     void                    RefreshTaskPane();
+
+#ifdef __WXMAC__
+    CBOINCListCtrl*         GetListCtrl() { return m_pListPane; }
+#endif    
  
     std::vector<CTaskItemGroup*> m_TaskGroups;
 
