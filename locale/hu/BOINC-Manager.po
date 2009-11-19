@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-19 01:05-0700\n"
-"Last-Translator: M T <molnart@mail.bibl.u-szeged.hu>\n"
+"PO-Revision-Date: 2009-11-19 03:59-0700\n"
+"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -2583,12 +2583,10 @@ msgid "Preferences"
 msgstr "Beállítások"
 
 #: clientgui/sg_DlgPreferences.cpp:324
-#, fuzzy
 msgid "I want to customize my preferences for this computer only."
 msgstr "Szeretném csak ehhez a számítógéphez személyre szabni a beállításaimat."
 
 #: clientgui/sg_DlgPreferences.cpp:333
-#, fuzzy
 msgid "Customized Preferences"
 msgstr "Személyre szabott beállítások"
 
