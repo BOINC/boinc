@@ -9385,3 +9385,10 @@ Charlie 19 Nov 2009
         CompletionPage.cpp
         ProjectInfoPage.cpp
         WelcomePage.cpp
+
+Rom    19 Nov 2009
+    - MGR: Switch back to tooltips for descriptions.
+    
+    clientgui/
+        ProjectListCtrl.cpp
+    

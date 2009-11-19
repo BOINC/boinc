@@ -488,6 +488,15 @@ void CProjectListCtrl::OnLinkClicked( wxHtmlLinkEvent& event )
 
 void CProjectListCtrl::OnHover( wxHtmlCellEvent& event )
 {
+    // Convert current HTML cell into an array index
+    long i = 0;
+    wxHtmlCell* pCell = event.GetCell();
+    pCell = pCell->GetRootCell();
+    pCell->GetId().ToLong(&i);
+
+    // Set Tooltip to the item currently being hovered over
+    SetToolTip(m_Items[i]->GetDescription());
+
     event.Skip();
 }
 
@@ -495,7 +504,7 @@ void CProjectListCtrl::OnHover( wxHtmlCellEvent& event )
 wxString CProjectListCtrl::OnGetItem(size_t i) const
 {
     wxString strTopRow = wxEmptyString;
-    wxString strBottomRow = wxEmptyString;
+    //wxString strBottomRow = wxEmptyString;
     wxString strBuffer = wxEmptyString;
 
 
@@ -508,7 +517,6 @@ wxString CProjectListCtrl::OnGetItem(size_t i) const
         strTopRow += wxT("<table cellpadding=0 cellspacing=1>");
     }
 
-    // Top row
     strTopRow += wxT("<tr>");
 
     strBuffer.Printf(
@@ -541,6 +549,8 @@ wxString CProjectListCtrl::OnGetItem(size_t i) const
     //
     // Bottom row
     //
+
+/*
     strBottomRow += wxT("<table cellpadding=0 cellspacing=1>");
     strBottomRow += wxT("<tr>");
     strBottomRow += wxT("<td width=10></td>");
@@ -555,7 +565,7 @@ wxString CProjectListCtrl::OnGetItem(size_t i) const
     strBottomRow += wxT("</td>");
     strBottomRow += wxT("</tr>");
     strBottomRow += wxT("</table>");
-
+*/
 
     //
     // Whole item description
@@ -567,11 +577,13 @@ wxString CProjectListCtrl::OnGetItem(size_t i) const
     strBuffer += strTopRow;
     strBuffer += wxT("</td>");
     strBuffer += wxT("</tr>");
+/*
     strBuffer += wxT("<tr>");
     strBuffer += wxT("<td width=100%%>");
     strBuffer += strBottomRow;
     strBuffer += wxT("</td>");
     strBuffer += wxT("</tr>");
+*/
     strBuffer += wxT("</table>");
 
     return strBuffer;
