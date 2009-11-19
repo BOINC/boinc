@@ -8659,9 +8659,13 @@ Charlie 18 Nov 2009
 Charlie 19 Nov 2009
     - Mac MGR: fix bug - don't show exit confirmation dialog if shutting 
          down or restarting system (checked into 6.10.19 tag).
+    - Mac Uninstaller: change owner and group of BOINC Data to those of 
+        the user running the uninstaller (checked into 6.10.19 tag).
          
     clientgui/
         BOINCGUIApp.cpp
+    mac_installer/
+        uninstall.cpp
 
 Rom    18 Nov 2009
     - Tag for 6.10.19 release, all platforms
