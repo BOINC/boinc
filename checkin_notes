@@ -9363,3 +9363,10 @@ Charlie 18 Nov 2009
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie 19 Nov 2009
+    - Mac MGR: fix bug - don't show exit confirmation dialog if shutting 
+         down or restarting system.
+         
+    clientgui/
+        BOINCGUIApp.cpp

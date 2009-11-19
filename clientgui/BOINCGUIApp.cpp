@@ -72,8 +72,7 @@ bool s_bSkipExitConfirmation = false;
 OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon ) {
         DescType            senderType;
         Size                actualSize;
-        ProcessSerialNumber SenderPSN, ourPSN;
-        Boolean             isSame;
+        ProcessSerialNumber SenderPSN;
         ProcessInfoRec      pInfo;
         FSSpec              fileSpec;
         OSStatus            anErr;
@@ -89,28 +88,18 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
                                     &senderType, &SenderPSN, sizeof(SenderPSN), &actualSize);
 
         if (anErr == noErr) {
-             
-            GetCurrentProcess(&ourPSN);
+            pInfo.processInfoLength = sizeof( ProcessInfoRec );
+            pInfo.processName = NULL;
+            pInfo.processAppSpec = &fileSpec;
 
-            anErr = SameProcess(&SenderPSN, &ourPSN, &isSame);
+            anErr = GetProcessInformation(&SenderPSN, &pInfo);
 
-            if (anErr == noErr) {
-                if (!isSame) {
-
-                pInfo.processInfoLength = sizeof( ProcessInfoRec );
-                pInfo.processName = NULL;
-                pInfo.processAppSpec = &fileSpec;
-
-                anErr = GetProcessInformation(&SenderPSN, &pInfo);
-
-                // Consider a Quit command from our Dock menu as coming from this application
-                if (pInfo.processSignature != 'dock') {
-                    s_bSkipExitConfirmation = true; // Not from our app, our dock icon or our taskbar icon
-                    wxGetApp().ExitMainLoop();  // Prevents wxMac from issuing events to closed frames
-                }
+            // Consider a Quit command from our Dock menu as coming from this application
+            if ( (pInfo.processSignature != 'dock') && (pInfo.processSignature != 'BNC!') ) {
+                s_bSkipExitConfirmation = true; // Not from our app, our dock icon or our taskbar icon
+                wxGetApp().ExitMainLoop();  // Prevents wxMac from issuing events to closed frames
             }
         }
-    }
     
     return wxGetApp().MacHandleAEQuit((AppleEvent*)appleEvt, reply);
 }
