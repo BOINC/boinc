@@ -130,8 +130,10 @@ static OSStatus DoUninstall(void) {
     pid_t                   coreClientPID = 0;
     char                    myRmCommand[MAXPATHLEN+10], plistRmCommand[MAXPATHLEN+10], *p;
     char                    notBoot[] = "/Volumes/";
+    char                    cmd[1024];
     FSRef                   theFSRef;
     int                     pathOffset, i;
+    passwd                  *pw;
     OSStatus                err = noErr;
 
 #if TESTING
@@ -211,17 +213,25 @@ static OSStatus DoUninstall(void) {
     system ("rm -rf /Library/Receipts/Progress\\ Thru\\ Processors.pkg");
     system ("rm -rf /Library/Receipts/BOINC.pkg");
 
+    // Phase 5: Set BOINC Data owner and group to logged in user
     // We don't customize BOINC Data directory name for branding
 //    system ("rm -rf \"/Library/Application Support/BOINC Data\"");
-
-    // Phase 5: step through all users and do user-specific cleanup
+    p = getlogin();
+    pw = getpwnam(p);
+    sprintf(cmd, "chown -R %d:%d \"/Library/Application Support/BOINC Data\"", pw->pw_uid, pw->pw_gid);
+    system (cmd);
+    system("chmod -R u+rw-s,g+r-w-s,o+r-w \"/Library/Application Support/BOINC Data\"");
+    system("chmod 600 \"/Library/Application Support/BOINC Data/gui_rpc_auth.cfg\"");
+    
+    // Phase 6: step through all users and do user-specific cleanup
     CleanupAllVisibleUsers();
     
     system ("dscl . -delete /users/boinc_master");
     system ("dscl . -delete /groups/boinc_master");
     system ("dscl . -delete /users/boinc_project");
     system ("dscl . -delete /groups/boinc_project");
-    
+
+
     return 0;
 }
 
