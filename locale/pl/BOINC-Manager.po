@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-19 11:58-0700\n"
+"PO-Revision-Date: 2009-11-21 15:49-0700\n"
 "Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "Language: pl\n"
@@ -199,7 +199,7 @@ msgstr "Rozłączony"
 #: clientgui/AdvancedFrame.cpp:304
 #, c-format
 msgid "Close the %s window"
-msgstr "Zamknij okno %s"
+msgstr "Zamknij okno %s'a"
 
 #: clientgui/AdvancedFrame.cpp:309
 msgid "&Close Window\tCtrl+W"
@@ -207,9 +207,8 @@ msgstr "Zamknij okno\tCtrl+W"
 
 #: clientgui/AdvancedFrame.cpp:316
 #, c-format
-#, fuzzy
 msgid "Exit %s"
-msgstr "Opuść %s"
+msgstr "Zamknij %s'a"
 
 #: clientgui/AdvancedFrame.cpp:321
 #: clientgui/BOINCTaskBar.cpp:626
