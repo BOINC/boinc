@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2009-01-05 09:59-0700\n"
-"Last-Translator: Bartosz Kaszubowski <gosimek@gmail.com>\n"
+"PO-Revision-Date: 2009-11-21 16:18-0700\n"
+"Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -23,83 +23,86 @@ msgstr ""
 
 #: poll.inc:18
 msgid "[check all that apply]"
-msgstr ""
+msgstr "[zaznacz wszystko co dotyczy]"
 
 #: poll.inc:47
 msgid "Other:"
-msgstr ""
+msgstr "Inny:"
 
 #: poll_data.inc:19
 msgid "Yes - I have been running BOINC on my computer for..."
-msgstr ""
+msgstr "Tak - używałem BOINC na moim komputerze..."
 
 #: poll_data.inc:22
 msgid "less than a week"
-msgstr ""
+msgstr "krócej niż tydzień"
 
 #: poll_data.inc:23
 msgid "less than a month"
-msgstr ""
+msgstr "krócej niż miesiąc"
 
 #: poll_data.inc:24
 msgid "less than a year"
-msgstr ""
+msgstr "krócej niż rok"
 
 #: poll_data.inc:25
 msgid "more than a year"
-msgstr ""
+msgstr "dłużej niż rok"
 
 #: poll_data.inc:31
 msgid "No - I used to run BOINC, but..."
-msgstr ""
+msgstr "Nie - kiedyś używałem BOINC, ale..."
 
 #: poll_data.inc:34
 msgid "I lost interest"
-msgstr ""
+msgstr "straciłem zainteresowanie"
 
 #: poll_data.inc:35
 msgid "it was too complicated"
-msgstr ""
+msgstr "to było zbyt skomplikowane"
 
 #: poll_data.inc:36
 msgid "I stopped it and forgot to start again"
-msgstr ""
+msgstr "wyłączyłem go i zapomniałem uruchomić ponownie"
 
 #: poll_data.inc:37
 msgid "it caused problems on my computer"
-msgstr ""
+msgstr "spowodował problemy z moim komputerem"
 
 #: poll_data.inc:38
 msgid "it used too much electricity"
-msgstr ""
+msgstr "zużywał zbyt wiele energii elektrycznej"
 
 #: poll_data.inc:39
 msgid "I switched to a non-BOINC computing project"
 msgstr ""
+"przeszedłem na inny projekt przetwarzania rozproszonego poza platformą BOINC"
 
 #: poll_data.inc:45
 msgid "No - I tried running BOINC, but..."
-msgstr ""
+msgstr "Nie - próbowałem używać BOINC, ale..."
 
 #: poll_data.inc:48
 msgid "the software didn't install correctly"
-msgstr ""
+msgstr "oprogramowanie nie zainstalowało się poprawnie"
 
 #: poll_data.inc:49
 msgid "I couldn't figure out how to use the software"
-msgstr ""
+msgstr "nie mogłem zrozumieć jak korzystać z oprogramowania"
 
 #: poll_data.inc:50
 msgid "I had network communication problems"
-msgstr ""
+msgstr "miałem problemy z połączeniem się z siecią"
 
 #: poll_data.inc:51
 msgid "I couldn't attach to a project"
-msgstr ""
+msgstr "nie mogłem przyłączyć się do projektu"
 
 #: poll_data.inc:52
 msgid "I attached to a project, but never got any work"
 msgstr ""
+"przyłączyłem się do projektu, ale nie otrzymałem żadnego zadania do "
+"przetwarzania"
 
 #: poll_data.inc:58
 msgid "No - I never tried running BOINC, because..."
