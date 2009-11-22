@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-10-30 08:46-0700\n"
+"PO-Revision-Date: 2009-11-22 02:56-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: cs\n"
@@ -200,9 +200,8 @@ msgid "Close the %s window"
 msgstr "Zavřít okno %s"
 
 #: clientgui/AdvancedFrame.cpp:309
-#, fuzzy
 msgid "&Close Window\tCtrl+W"
-msgstr "&Zavřít okno\tCTRL+W"
+msgstr "Zavřít okno\tCTRL+W"
 
 #: clientgui/AdvancedFrame.cpp:316
 #, c-format
@@ -216,7 +215,7 @@ msgstr "&Ukončit"
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "&Projects\tCtrl+Shift+P"
-msgstr ""
+msgstr "&Projekty\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
@@ -224,7 +223,7 @@ msgstr "Zobrazit projekty"
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr ""
+msgstr "Úkoly\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
@@ -232,7 +231,7 @@ msgstr "Zobrazit úkoly"
 
 #: clientgui/AdvancedFrame.cpp:342
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr ""
+msgstr "Přenosy\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
@@ -240,7 +239,7 @@ msgstr "Zobrazit přenosy"
 
 #: clientgui/AdvancedFrame.cpp:348
 msgid "&Messages\tCtrl+Shift+M"
-msgstr ""
+msgstr "Zprávy\tCtrl+Shift+M"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
@@ -248,7 +247,7 @@ msgstr "Zobrazit zprávy"
 
 #: clientgui/AdvancedFrame.cpp:354
 msgid "&Statistics\tCtrl+Shift+S"
-msgstr ""
+msgstr "&Statistiky\tCtrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
@@ -256,7 +255,7 @@ msgstr "Zobrazit statistiky"
 
 #: clientgui/AdvancedFrame.cpp:360
 msgid "&Disk usage\tCtrl+Shift+D"
-msgstr ""
+msgstr "Využití &disku\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
@@ -264,16 +263,15 @@ msgstr "Zobrazit využití disku"
 
 #: clientgui/AdvancedFrame.cpp:366
 msgid "&News\tCtrl+Shift+N"
-msgstr ""
+msgstr "&Novinky\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
 msgstr "Zobrazit novinky"
 
 #: clientgui/AdvancedFrame.cpp:374
-#, fuzzy
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "Jednoduché zobrazení...\tCTRL+SHIFT+V"
+msgstr "Jednoduché zobrazení...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:375
 msgid "Display the simple graphical interface."
