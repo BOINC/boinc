@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-22 02:56-0700\n"
+"PO-Revision-Date: 2009-11-22 03:01-0700\n"
 "Last-Translator: Martin Suchan <martin.suchan@email.cz>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: cs\n"
@@ -792,17 +792,23 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
+"Momentálně nemáte práva na správu klienta.\n"
+"\n"
+"Abyste mohl používat BOINC jako aktuální uživatel:\n"
+"- přeinstalujte BOINC se zvolením \"Ano\" u otázky na\n"
+"ne-administrátorské účty nebo\n"
+"- kontaktujte vašeho administrátora, aby vás přidal\n"
+"do uživatelské skupiny 'boinc_master'."
 
 #: clientgui/BOINCGUIApp.cpp:339
 #, c-format
-#, fuzzy
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)"
 msgstr ""
 "Práva či vlastnictví souborů BOINC nejsou nastavena správně, prosím "
 "přeinstalujte BOINC.\n"
-"(Chybový kód %d)\n"
+"(Chybový kód %d)"
 
 #: clientgui/BOINCGUIApp.cpp:389
 msgid ""
@@ -2351,9 +2357,8 @@ msgid "SOCKS proxy"
 msgstr "SOCKS proxy server"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-#, fuzzy
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr "Pokročilé zobrazení...\tCTRL+SHIFT+A"
+msgstr "Pokročilé zobrazení...\tCtrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
 msgid "Display the advanced (accessible) graphical interface."
