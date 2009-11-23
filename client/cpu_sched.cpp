@@ -423,10 +423,11 @@ RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
         if (rp->already_selected) continue;
         PROJECT* p = rp->project;
         if (p->non_cpu_intensive) continue;
+
+        // treat projects with DCF>90 as if they had deadline misses
+        //
         if (coproc_only) {
             if (!rp->uses_coprocs()) continue;
-
-            // TODO: break this out by resource type
             if (rp->avp->ncudas) {
                 if (!p->cuda_pwf.deadlines_missed_copy
                     && p->duration_correction_factor < 90.0
@@ -442,8 +443,6 @@ RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
             }
         } else {
             if (rp->uses_coprocs()) continue;
-            // treat projects with DCF>90 as if they had deadline misses
-            //
             if (!p->cpu_pwf.deadlines_missed_copy
                 && p->duration_correction_factor < 90.0
             ) {
@@ -485,7 +484,7 @@ RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(best_result->project, MSG_INFO,
-            "[cpu_sched_debug] earliest deadline: %f %s",
+            "[cpu_sched_debug] earliest deadline: %.0f %s",
             best_result->report_deadline, best_result->name
         );
     }

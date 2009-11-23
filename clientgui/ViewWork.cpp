@@ -1198,6 +1198,9 @@ void CViewWork::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
         case ERR_ABORTED_BY_PROJECT:
             strBuffer += _("Aborted by project");
             break;
+        case ERR_UNSTARTED_LATE:
+            strBuffer += _("Aborted: not started by deadline");
+            break;
         default:
             strBuffer += _("Aborted");
         }
