@@ -9391,4 +9391,36 @@ Rom    19 Nov 2009
     
     clientgui/
         ProjectListCtrl.cpp
+
+Rom    23 Nov 2009
+    - WINBUILD: Introduce the beginning of an automated build system for
+        Windows.  The goal is to completely automate the build process
+        by creating a self contained environment for the scripts to
+        execute under.  When completed it'll be able to do the following:
+          * Increment version information
+          * Build client software using installed version of VS.
+          * Validate symbol files for specific components.
+          * Add source file information to symbol files. (This will allow
+              VS to automatically download the source file from SVN while
+              single-stepping through the code on a clean machine)
+          * Code sign executables
+          * Build installer
+          * Code sign installer
+          * Upload updated symbol files and and setup packages
+          
+        When building interactively:
+          * Automatically update the DLLs BOINC and BOINCMgr depend on
+              when they have been updated in the source tree.
+          * Fix-up BOINC project files when new branches are created
+          * Fix-up project files for components BOINC depends on when
+              new versions are released.
     
+    /
+        version.log (added)      
+    win_build/
+        buildenv.cmd (added)
+        boinc_post_bld_rules.cmd
+        boinc_cli.vcproj
+        boincmgr.vcproj
+    ../boinc_depends_win_vs2005
+        <Various Files>

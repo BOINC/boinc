@@ -10,10 +10,10 @@
 #define BOINC_MINOR_VERSION 11
 
 /* Release part of BOINC version number */
-#define BOINC_RELEASE 0
+#define BOINC_RELEASE 1
 
 /* String representation of BOINC version number */
-#define BOINC_VERSION_STRING "6.11.0"
+#define BOINC_VERSION_STRING "6.11.1"
 
 /* Package is a pre-release (Alpha/Beta) package */
 #define BOINC_PRERELEASE 1
@@ -23,19 +23,19 @@
 #define PACKAGE "boinc"
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT ""
+#define PACKAGE_BUGREPORT "boinc_dev@ssl.berkeley.edu"
 
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "BOINC"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "BOINC 6.11.0"
+#define PACKAGE_STRING "BOINC 6.11.1"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "boinc"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "6.11.0"
+#define PACKAGE_VERSION "6.11.1"
 
 #endif /* #if (defined(_WIN32) || defined(__APPLE__)) */
 
