@@ -92,6 +92,14 @@ public:
 
 protected:
     void OnEraseBackground(wxEraseEvent& event);
+#ifdef __WXMAC__
+    void SetupMacAccessibilitySupport();
+    void RemoveMacAccessibilitySupport();
+    
+    int oldSimpleGUIWorkCount;
+    EventHandlerRef m_pSGAccessibilityEventHandlerRef;
+
+#endif
 
 private:
     bool dlgOpen;
@@ -128,7 +136,7 @@ protected:
     virtual int     _GetCurrentViewPage();
 
 #ifdef __WXMAC__
-	wxMenuBar* m_pMenubar;
+	wxMenuBar*      m_pMenubar;
 #endif
     wxAcceleratorEntry  m_Shortcuts[1];
     wxAcceleratorTable* m_pAccelTable;

@@ -9434,3 +9434,22 @@ David  23 Nov 2009
         cpu_sched.cpp
     clientgui/
         ViewWork.cpp
+
+Charlie 23 Nov 2009
+    - MGR: In Simple View, have Mac screen reader tell user to switch to 
+        Advanced View.
+    - Mac Installer: update ReadMe files to emphasize that installer may 
+        take longer than expected.
+        
+    clientgui/
+        BOINCSimpleGUI.cpp, .h
+        ProjectListCtrl.cpp, .h
+        Mac/
+            MacAccessibility.cpp
+    mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        GR-ReadMe.rtf
+        PTP-ReadMe.rtf
+        ReadMe.rtf

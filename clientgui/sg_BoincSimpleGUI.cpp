@@ -39,6 +39,7 @@
 #include "WizardAttachProject.h"
 #include "error_numbers.h"
 #include "version.h"
+#include "macAccessiblity.h"
 
 #include "sg_BoincSimpleGUI.h"
 #include "sg_ImageLoader.h"
@@ -437,7 +438,6 @@ CSimplePanel::CSimplePanel() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Default Constructor Function End"));
 }
 
-
 CSimplePanel::CSimplePanel(wxWindow* parent) : 
     wxPanel(parent, -1, wxDefaultPosition, wxDefaultSize, wxNO_BORDER)
 {
@@ -454,6 +454,13 @@ CSimplePanel::CSimplePanel(wxWindow* parent) :
 
 	InitEmptyView();
 
+#ifdef __WXMAC__
+    // Have the screen reader tell user to switch to advanced view.
+    oldSimpleGUIWorkCount = -1;
+    
+    SetupMacAccessibilitySupport();
+#endif    
+
     wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Overloaded Constructor Function End"));
 }
 
@@ -462,6 +469,10 @@ CSimplePanel::~CSimplePanel()
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Destructor Function Begin"));
     
+#ifdef __WXMAC__
+    RemoveMacAccessibilitySupport();
+#endif    
+
     wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Destructor Function End"));
 }
 
@@ -508,8 +519,9 @@ void CSimplePanel::OnProjectsAttachToProject() {
 
 // called from CSimpleFrame::OnRefreshView()
 void CSimplePanel::OnFrameRender() {
-    CMainDocument*    pDoc = wxGetApp().GetDocument();
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
+    int                 workCount = pDoc->GetSimpleGUIWorkCount();
 
     // OnFrameRender() may be called while SimpleGUI initialization is 
     // in progress due to completion of a periodic get_messages RPC, 
@@ -527,7 +539,7 @@ void CSimplePanel::OnFrameRender() {
 	    }
 
 	    // Now check to see if we show the empty state or results
-	    if ( pDoc->GetSimpleGUIWorkCount() > 0 ) {
+	    if ( workCount > 0 ) {
 		    // State changes can cause the BSG to crash if a dialogue is open.
 		    // Defer state change until after the dialogue is closed
 		    if ( (emptyViewInitialized || !notebookViewInitialized) && dlgOpen ) {
@@ -543,6 +555,7 @@ void CSimplePanel::OnFrameRender() {
 			    InitNotebook();
 		    }
 		    wrkUnitNB->Update();
+        
 	    } else {
 		    // State changes can cause the BSG to crash if a dialogue is open.
 		    // Defer state change until after the dialogue is closed
@@ -558,6 +571,17 @@ void CSimplePanel::OnFrameRender() {
 		    }
 		    UpdateEmptyView();
 	    }
+            
+#ifdef __WXMAC__
+        //Accessibility
+        // Hide all but top level view from accessibility support so that 
+        // the screen reader will tell user to switch to advanced view.
+        if (oldSimpleGUIWorkCount != workCount) {
+            oldSimpleGUIWorkCount = workCount;
+            HIViewRef simple = (HIViewRef)GetHandle();
+            AccessibilityIgnoreAllChildren(simple, 1);
+        }
+#endif
     }
 }
 
