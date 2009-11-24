@@ -85,30 +85,6 @@ void show_error(int retval) {
 }
 
 
-// Convert local time into a human readable format using RFC1123
-//
-std::string rfc1123time(time_t timestamp) {
-   struct tm conv = *gmtime(&timestamp);
-   char buf[256];
-
-   const char *day[] = {
-       "Sun","Mon","Tue","Wed","Thu","Fri","Sat"
-   };
-   const char *month[] = {
-       "Jan","Feb","Mar","Apr","May","Jun","Jul",
-       "Aug","Sep","Oct","Nov","Dec"
-   };
-
-   sprintf(buf,
-       "%s, %02i %s %i %02i:%02i:%02i GMT",
-       day[conv.tm_wday], conv.tm_mday, month[conv.tm_mon],
-       conv.tm_year+1900, conv.tm_hour, conv.tm_min, conv.tm_sec
-   );
-
-   return std::string(buf);
-}
-
-
 const char* prio_name(int prio) {
     switch (prio) {
     case MSG_INFO: return "low";
@@ -237,7 +213,7 @@ int main(int argc, char** argv) {
             msg_type.clear();
             msg_body.clear();
 
-            msg_datetime = rfc1123time((time_t)pMsg->timestamp);
+            msg_datetime = time_to_string(double(pMsg->timestamp));
             msg_project = pMsg->project;
             msg_priority = prio_name(pMsg->priority);
             msg_body = pMsg->body;
@@ -252,10 +228,19 @@ int main(int argc, char** argv) {
                 msg_body.replace(0, msg_tmp.size(), "");
             }
 
+            // If the last character if the message body is a newline character,
+            // remove it before continueing on.  Standard BOINC messages contain
+            // a newline character at the end.
+            if (msg_body[msg_body.size() - 1] == '\n') {
+                msg_body[msg_body.size() - 1] = ' ';
+            }
+
             // If line feeds are detected in the message body, replace them with
             // the pipe symbol.
             for (unsigned int j = 0; j < msg_body.size(); j++) {
-                if (msg_body[j] == '\n') msg_body[j] = '|';
+                if (msg_body[j] == '\n') {
+                    msg_body[j] = '|';
+                }
             }
 
             // Dump to tab delimited file

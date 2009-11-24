@@ -9470,3 +9470,13 @@ Rom    24 Nov 2009
         boinc_log.cpp
     win_build/
         boinclog.vcproj (added)
+
+Rom    24 Nov 2009
+    - log: Use the standard BOINC time logging rountine for reporting
+        date and time information instead of RFCXXXX.
+    - log: Remove the ending newline character from the messages before
+        looking for any newline characters which would appear in
+        multi-line messages like those from http_debug.
+        
+    client/
+        boinc_log.cpp
