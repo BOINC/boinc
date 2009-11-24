@@ -2,15 +2,14 @@
 # Copyright (C) 2008-2009 University of California
 # This file is distributed under the same license as BOINC.
 # FileID  : $Id$
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC610-web\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2009-11-24 22:50+0100\n"
+"Last-Translator: Kenneth Skjold <kenneth@skjold.biz>\n"
+"Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,19 +30,19 @@ msgstr ""
 
 #: poll_data.inc:22
 msgid "less than a week"
-msgstr ""
+msgstr "mindre enn en uke"
 
 #: poll_data.inc:23
 msgid "less than a month"
-msgstr ""
+msgstr "mindre enn en måned"
 
 #: poll_data.inc:24
 msgid "less than a year"
-msgstr ""
+msgstr "mindre enn et år"
 
 #: poll_data.inc:25
 msgid "more than a year"
-msgstr ""
+msgstr "mer enn et år"
 
 #: poll_data.inc:31
 msgid "No - I used to run BOINC, but..."
@@ -127,19 +126,19 @@ msgstr ""
 
 #: poll_data.inc:87
 msgid "Home"
-msgstr ""
+msgstr "Hjem"
 
 #: poll_data.inc:88
 msgid "Work"
-msgstr ""
+msgstr "Arbeid"
 
 #: poll_data.inc:89
 msgid "School"
-msgstr ""
+msgstr "Skole"
 
 #: poll_data.inc:96
 msgid "How many computers?"
-msgstr ""
+msgstr "Hvor mange datamaskiner?"
 
 #: poll_data.inc:107
 msgid "On average, how many hours per day are they powered on?"
@@ -147,19 +146,19 @@ msgstr ""
 
 #: poll_data.inc:119
 msgid "Age"
-msgstr ""
+msgstr "Alder"
 
 #: poll_data.inc:129
 msgid "Sex"
-msgstr ""
+msgstr "Kjønn"
 
 #: poll_data.inc:131
 msgid "Male"
-msgstr ""
+msgstr "Mann"
 
 #: poll_data.inc:132
 msgid "Female"
-msgstr ""
+msgstr "Kvinne"
 
 #: poll_data.inc:137
 msgid "Your level of computer expertise"
@@ -183,7 +182,7 @@ msgstr ""
 
 #: poll_data.inc:151
 msgid "TV/radio/newspaper"
-msgstr ""
+msgstr "TV/radio/avis"
 
 #: poll_data.inc:152
 msgid "From friends, relatives, or coworkers"
@@ -193,13 +192,14 @@ msgstr ""
 msgid "Team message boards or web sites"
 msgstr ""
 
-#: poll_data.inc:154 poll_data.inc:210
+#: poll_data.inc:154
+#: poll_data.inc:210
 msgid "The BOINC web site"
-msgstr ""
+msgstr "BOINC nettside"
 
 #: poll_data.inc:155
 msgid "Other web sites"
-msgstr ""
+msgstr "Andre nettsider"
 
 #: poll_data.inc:161
 msgid ""
@@ -261,11 +261,11 @@ msgstr ""
 
 #: poll_data.inc:192
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: poll_data.inc:193
 msgid "No"
-msgstr ""
+msgstr "Nei"
 
 #: poll_data.inc:198
 msgid "Your usage of project messages boards:"
@@ -281,7 +281,7 @@ msgstr ""
 
 #: poll_data.inc:202
 msgid "None"
-msgstr ""
+msgstr "Ingen"
 
 #: poll_data.inc:206
 msgid ""
@@ -299,7 +299,7 @@ msgstr ""
 
 #: poll_data.inc:211
 msgid "BOINC mailing lists"
-msgstr ""
+msgstr "BOINC epost liste"
 
 #: poll_data.inc:212
 msgid "The Unofficial BOINC Wiki"
@@ -315,7 +315,7 @@ msgstr ""
 
 #: download.php:40
 msgid "Download BOINC"
-msgstr ""
+msgstr "Last ned BOINC"
 
 #: download.php:42
 #, php-format
@@ -345,13 +345,14 @@ msgstr ""
 msgid "Release notes"
 msgstr ""
 
-#: download.php:122 index.php:89
+#: download.php:122
+#: index.php:89
 msgid "Help"
 msgstr ""
 
 #: download.php:123
 msgid "All versions"
-msgstr ""
+msgstr "Alle versjoner"
 
 #: download.php:141
 msgid "BOINC: compute for science"
@@ -429,7 +430,7 @@ msgstr ""
 
 #: index.php:53
 msgid "computers.\n"
-msgstr ""
+msgstr "datamaskiner.\n"
 
 #: index.php:54
 msgid "24-hour average:"
@@ -437,11 +438,11 @@ msgstr ""
 
 #: index.php:54
 msgid "TeraFLOPS."
-msgstr ""
+msgstr "TeraFLOPS."
 
 #: index.php:66
 msgid "News"
-msgstr ""
+msgstr "Nyheter"
 
 #: index.php:72
 msgid "... more"
@@ -454,13 +455,15 @@ msgstr ""
 
 #: index.php:86
 msgid "Volunteer"
-msgstr ""
+msgstr "Frivillig"
 
 #: index.php:88
 msgid "Download"
-msgstr ""
+msgstr "Last ned"
 
-#: index.php:90 index.php:125 index.php:163
+#: index.php:90
+#: index.php:125
+#: index.php:163
 msgid "Documentation"
 msgstr ""
 
@@ -486,7 +489,7 @@ msgstr ""
 
 #: index.php:126
 msgid "Software updates"
-msgstr ""
+msgstr "Software oppdateringer"
 
 #: index.php:153
 msgid "The BOINC project"
@@ -506,7 +509,7 @@ msgstr ""
 
 #: index.php:162
 msgid "Testing"
-msgstr ""
+msgstr "Testing"
 
 #: index.php:165
 msgid "Software development"
@@ -526,15 +529,15 @@ msgstr ""
 
 #: index.php:169
 msgid "Email lists"
-msgstr ""
+msgstr "Epost liste"
 
 #: index.php:170
 msgid "Events"
-msgstr ""
+msgstr "Hendelser"
 
 #: index.php:171
 msgid "Conferences"
-msgstr ""
+msgstr "Konferanser"
 
 #: index.php:172
 msgid "Papers and talks"
@@ -577,19 +580,19 @@ msgstr ""
 
 #: poll.php:30
 msgid "Your participation"
-msgstr ""
+msgstr "Din deltagelse"
 
 #: poll.php:32
 msgid "Your computers"
-msgstr ""
+msgstr "Dine datamaskiner"
 
 #: poll.php:34
 msgid "You"
-msgstr ""
+msgstr "Du"
 
 #: poll.php:39
 msgid "Nationality"
-msgstr ""
+msgstr "Nasjonalitet"
 
 #: poll.php:44
 msgid "Comments"
