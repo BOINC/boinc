@@ -9443,7 +9443,6 @@ Charlie 23 Nov 2009
         
     clientgui/
         BOINCSimpleGUI.cpp, .h
-        ProjectListCtrl.cpp, .h
         Mac/
             MacAccessibility.cpp
     mac_build/
