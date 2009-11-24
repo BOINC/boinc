@@ -260,7 +260,7 @@ int main(int argc, char** argv) {
 
             // Dump to tab delimited file
             fprintf(f, 
-                "%s\t%s\t%s\t%s\t%s",
+                "%s\t%s\t%s\t%s\t%s\n",
                 msg_datetime.c_str(),
                 msg_priority.c_str(),
                 msg_project.c_str(),
