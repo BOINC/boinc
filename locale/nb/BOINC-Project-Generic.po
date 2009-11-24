@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-11-24 10:52-0700\n"
+"PO-Revision-Date: 2009-11-24 11:24-0700\n"
 "Last-Translator: Kenneth Skjold <kenneth@skjold.biz>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nb\n"
@@ -579,22 +579,22 @@ msgid "Password"
 msgstr "Passord"
 
 msgid "Must be at least %1 characters"
-msgstr ""
+msgstr "Må være minst %1 karakterer"
 
 msgid "Confirm password"
-msgstr ""
+msgstr "Bekreft passord"
 
 msgid "Create account"
-msgstr ""
+msgstr "Lag konto"
 
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr ""
+msgstr "ERROR: %1 eksisterer ikke! __ Kan ike lage combo oks.<br>"
 
 msgid "Picture"
-msgstr ""
+msgstr "Bilde"
 
 msgid "%1 Your profile picture is shown to the left."
-msgstr ""
+msgstr "%1 Ditt profil bilde blir vist til venstre."
 
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
