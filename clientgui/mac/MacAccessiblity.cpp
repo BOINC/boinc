@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-//  mac_accessiblity.cpp
+//  macAccessiblity.cpp
 
 #include <Carbon/Carbon.h>
 
@@ -27,9 +27,28 @@
 #include "AdvancedFrame.h"
 #include "BOINCListCtrl.h"
 #include "ProjectListCtrl.h"
+#include "sg_BoincSimpleGUI.h"
 #include "Events.h"
+#include "macAccessiblity.h"
 
 #define MAX_LIST_COL 100
+
+void AccessibilityIgnoreAllChildren(HIViewRef parent, int recursionLevel) {
+    HIViewRef       child;
+    OSStatus        err;
+    
+    if (recursionLevel > 100) {
+        fprintf(stderr, "Error: AccessibilityIgnoreAllChildren recursion level > 100\n");
+        return;
+    }
+
+    child = HIViewGetFirstSubview(parent);
+    while (child) {
+        err = HIObjectSetAccessibilityIgnored((HIObjectRef)child, true);
+        AccessibilityIgnoreAllChildren(child, recursionLevel + 1);
+        child = HIViewGetNextView(child);
+    }
+}
 
 
 OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
@@ -61,6 +80,15 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
                                     { kEventClassAccessibility, kEventAccessibleGetNamedActionDescription },
                                     { kEventClassAccessibility, kEventAccessiblePerformNamedAction }			
                                 };
+
+
+    static EventTypeSpec sg_AccessibilityEvents[] = {
+                                    { kEventClassAccessibility, kEventAccessibleGetNamedAttribute }			
+                                };
+
+extern pascal OSStatus SimpleGUIAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
+                                    EventRef inEvent, void* pData);
+
 
 
 void CBOINCListCtrl::SetupMacListControlAccessibilitySupport() {
@@ -117,6 +145,29 @@ void CProjectListCtrlAccessible::SetupMacListControlAccessibilitySupport() {
 void CProjectListCtrlAccessible::RemoveMacListControlAccessibilitySupport() {
     if (m_plistAccessibilityEventHandlerRef) {
         ::RemoveEventHandler(m_plistAccessibilityEventHandlerRef);
+   }
+}
+
+
+void CSimplePanel::SetupMacAccessibilitySupport() {
+    OSStatus        err;
+    wxString        str = _("for accessibility support, please select advanced from the view menu or type command shift a");
+    HIViewRef       simple = (HIViewRef)GetHandle();
+    CFStringRef     description = CFStringCreateWithCString(NULL, str.char_str(), kCFStringEncodingUTF8);
+                                               
+    // Have the screen reader tell user to switch to advanced view.
+    HIObjectSetAuxiliaryAccessibilityAttribute((HIObjectRef)simple, 0, kAXDescriptionAttribute, description);
+    CFRelease( description );
+
+    err = InstallHIObjectEventHandler((HIObjectRef)simple, NewEventHandlerUPP(SimpleGUIAccessibilityEventHandler), 
+                                sizeof(sg_AccessibilityEvents) / sizeof(EventTypeSpec), sg_AccessibilityEvents, 
+                                                        this, &m_pSGAccessibilityEventHandlerRef);
+}
+
+
+void CSimplePanel::RemoveMacAccessibilitySupport() {
+    if (m_pSGAccessibilityEventHandlerRef) {
+        ::RemoveEventHandler(m_pSGAccessibilityEventHandlerRef);
    }
 }
 
@@ -1204,6 +1255,43 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
         default:
             return eventNotHandledErr;
     }   // End switch(eventKind)
+    
+    return eventNotHandledErr;
+}
+
+pascal OSStatus SimpleGUIAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
+                                    EventRef inEvent, void* pData) {
+    const UInt32                eventClass = GetEventClass(inEvent);
+    const UInt32                eventKind = GetEventKind(inEvent);
+    OSStatus                    err;
+    
+    if (eventClass != kEventClassAccessibility) {
+        return eventNotHandledErr;
+    }
+
+    switch (eventKind) {
+
+        case kEventAccessibleGetNamedAttribute:
+            CFStringRef			attribute;
+
+            err = GetEventParameter (inEvent, kEventParamAccessibleAttributeName, 
+                        typeCFStringRef, NULL, sizeof(typeCFStringRef), NULL, &attribute);
+            if (err) return err;
+
+            if ( CFStringCompare( attribute, kAXRoleAttribute, 0 ) == kCFCompareEqualTo ) {
+                    CFStringRef		role = kAXStaticTextRole;       // kAXRowRole;
+
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( role ), &role );
+                    return noErr;
+            }
+
+        return eventNotHandledErr;
+    break;
+
+    
+    default:
+        return eventNotHandledErr;
+    }
     
     return eventNotHandledErr;
 }
