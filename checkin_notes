@@ -9445,6 +9445,7 @@ Charlie 23 Nov 2009
         BOINCSimpleGUI.cpp, .h
         Mac/
             MacAccessibility.cpp
+            MacAccessibility.h (added)
     mac_build/
         boinc.xcodeproj/
             project.pbxproj
