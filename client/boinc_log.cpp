@@ -154,7 +154,7 @@ int main(int argc, char** argv) {
         } else if (ARG(host)) {
             if ((i+1) == (unsigned int)argc) usage();
             hostname = hostname_buf;
-            safe_strcpy(hostname_buf, argv[i+1]);
+            safe_strcpy(hostname_buf, argv[++i]);
             p = strchr(hostname, ':');
             if (p) {
                 port = atoi(p+1);
@@ -162,10 +162,10 @@ int main(int argc, char** argv) {
             }
         } else if (ARG(passwd)) {
             if ((i+1) == (unsigned int)argc) usage();
-            safe_strcpy(passwd_buf, argv[i+1]);
+            safe_strcpy(passwd_buf, argv[++i]);
         } else if (ARG(datadir)) {
             if ((i+1) == (unsigned int)argc) usage();
-            safe_strcpy(datadir, argv[i+1]);
+            safe_strcpy(datadir, argv[++i]);
         } else {
             printf("Unknown option: %s\n", argv[i]);
             usage();

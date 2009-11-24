@@ -9487,3 +9487,13 @@ Rom    24 Nov 2009
         
     client/
         boinc_log.cpp
+
+Rom    24 Nov 2009
+    - log: Fix a parameter parsing bug, hazards of copy/paste/fix-up I
+        suppose.  Increment the index before use instead of just adding
+        1.  Next iteration through the main loop will then pick-up
+        new parameter instead of the value for the previously
+        processed command. Parameter parsing 101.
+        
+    client/
+        boinc_log.cpp
