@@ -125,9 +125,10 @@ int main(int argc, char** argv) {
     std::string msg_body;
     std::string msg_tmp;
 
+	strcpy(buf, "");
+	strcpy(datadir, "");
 	strcpy(hostname_buf, "");
 	strcpy(passwd_buf, "");
-	strcpy(buf, "");
 	strcpy(g_log_filename, "");
     g_message_sequence = 0;
 
