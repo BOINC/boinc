@@ -9453,3 +9453,9 @@ Charlie 23 Nov 2009
         GR-ReadMe.rtf
         PTP-ReadMe.rtf
         ReadMe.rtf
+
+David  23 Nov 2009
+    - web: fix bug in column-mode prefs display
+
+    html/inc/
+        prefs.inc
