@@ -9480,3 +9480,10 @@ Rom    24 Nov 2009
         
     client/
         boinc_log.cpp
+
+Rom    24 Nov 2009
+    - log: Introduce the ability to specify where the data directory is
+        in case we are attempting to talk to a 5.10 client.
+        
+    client/
+        boinc_log.cpp

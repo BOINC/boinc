@@ -28,6 +28,7 @@
 #define snprintf    _snprintf
 #define strdate     _strdate
 #define strtime     _strtime
+#define chdir       _chdir
 #endif
 
 #ifdef _WIN32
@@ -71,9 +72,10 @@ void version(){
 
 void usage() {
     fprintf(stderr, "\n\
-usage: boinclog [--host hostname] [--passwd passwd]\n\n\
+usage: boinclog [--host hostname] [--passwd passwd] [commands]\n\n\
 Commands:\n\
  --version, -V                      show version of the logging tool\n\
+ --datadir <directory>              where the data directory is located\n\
 "
 );
     exit(1);
@@ -109,9 +111,10 @@ int main(int argc, char** argv) {
     int retval, port=0;
     RPC_CLIENT rpc;
     MESSAGES msgs;
+    char buf[256];
+    char datadir[256];
 	char hostname_buf[256], passwd_buf[256];
     char *hostname = 0, *passwd = passwd_buf, *p;
-    char buf[256];
     struct tm* ptm;
     time_t timestamp;
     FILE* f = NULL;
@@ -127,12 +130,6 @@ int main(int argc, char** argv) {
 	strcpy(buf, "");
 	strcpy(g_log_filename, "");
     g_message_sequence = 0;
-
-#ifdef _WIN32
-    chdir_to_data_dir();
-#endif
-
-    read_gui_rpc_password(passwd_buf);
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
     WSADATA wsdata;
@@ -165,11 +162,24 @@ int main(int argc, char** argv) {
         } else if (ARG(passwd)) {
             if ((i+1) == (unsigned int)argc) usage();
             safe_strcpy(passwd_buf, argv[i+1]);
+        } else if (ARG(datadir)) {
+            if ((i+1) == (unsigned int)argc) usage();
+            safe_strcpy(datadir, argv[i+1]);
         } else {
             printf("Unknown option: %s\n", argv[i]);
             usage();
         }
     }
+
+    if (strlen(datadir)) {
+        chdir(datadir);
+    } else {
+#ifdef _WIN32
+        chdir_to_data_dir();
+#endif
+    }
+
+    read_gui_rpc_password(passwd_buf);
 
     retval = rpc.init(hostname, port);
     if (retval) {
