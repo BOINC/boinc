@@ -9459,3 +9459,14 @@ David  23 Nov 2009
 
     html/inc/
         prefs.inc
+
+Rom    24 Nov 2009
+    - Introduce boinclog, it basically creates a tab delimited file using
+        the message log cache of the client.  Useful for debugging debt
+        related issues using Excel or various databases.
+        
+    client/
+        boinc_cmd.cpp
+        boinc_log.cpp
+    win_build/
+        boinclog.vcproj (added)

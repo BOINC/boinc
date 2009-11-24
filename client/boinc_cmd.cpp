@@ -127,9 +127,9 @@ char* next_arg(int argc, char** argv, int& i) {
 
 const char* prio_name(int prio) {
     switch (prio) {
-    case 1: return "low";
-    case 2: return "medium";
-    case 3: return "high";
+    case MSG_INFO: return "low";
+    case MSG_USER_ERROR: return "medium";
+    case MSG_INTERNAL_ERROR: return "high";
     }
     return "unknown";
 }
@@ -184,7 +184,7 @@ int main(int argc, char** argv) {
 #if 1
     retval = rpc.init(hostname, port);
     if (retval) {
-        fprintf(stderr, "can't connect to %s\n", hostname?hostname:"local host");
+        fprintf(stderr, "can't connect to %s\n", strlen(hostname)?hostname:"local host");
         exit(1);
     }
 #else
