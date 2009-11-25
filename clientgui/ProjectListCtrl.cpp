@@ -36,12 +36,12 @@
 
 CProjectListCtrlAccessible::CProjectListCtrlAccessible(wxWindow* win) {
     mp_win = win;
-    SetupMacListControlAccessibilitySupport();
+    SetupMacAccessibilitySupport();
 }
 
 
 CProjectListCtrlAccessible::~CProjectListCtrlAccessible() {
-    RemoveMacListControlAccessibilitySupport();
+    RemoveMacAccessibilitySupport();
 }
 
 #endif

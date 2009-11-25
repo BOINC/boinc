@@ -56,8 +56,17 @@ class CTaskItemGroup : wxObject {
 public:
 	CTaskItemGroup();
 	CTaskItemGroup( wxString strName ) :
-		m_strName(strName), m_pStaticBox(NULL), m_pStaticBoxSizer(NULL) { m_Tasks.clear(); };
-    ~CTaskItemGroup() {};
+            m_strName(strName), m_pStaticBox(NULL), m_pStaticBoxSizer(NULL) {
+            m_Tasks.clear();
+#ifdef __WXMAC__
+            m_pTaskGroupAccessibilityEventHandlerRef = NULL;
+#endif
+        };
+    ~CTaskItemGroup() {
+#ifdef __WXMAC__
+        RemoveMacAccessibilitySupport();
+#endif
+    };
     wxButton* button(int i) {return m_Tasks[i]->m_pButton;}
 
     wxString                m_strName;
@@ -66,6 +75,14 @@ public:
     wxStaticBoxSizer*       m_pStaticBoxSizer;
 
 	std::vector<CTaskItem*> m_Tasks;
+
+#ifdef __WXMAC__
+    void                    SetupMacAccessibilitySupport();
+    void                    RemoveMacAccessibilitySupport();
+    
+private:
+    EventHandlerRef         m_pTaskGroupAccessibilityEventHandlerRef;
+#endif
 };
 
 typedef bool     (*ListSortCompareFunc)(int, int);
