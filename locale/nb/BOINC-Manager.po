@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC 610\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-25 17:46+0100\n"
+"PO-Revision-Date: 2009-11-25 18:56+0100\n"
 "Last-Translator: Kenneth Skjold <kenneth@skjold.biz>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,8 @@ msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr ""
+"Vennligst skriv inn din konto informasjon\n"
+"(for å lage en konto, besøk prosjektets nettside)"
 
 #: clientgui/AccountInfoPage.cpp:380
 msgid ""
@@ -125,15 +127,21 @@ msgstr "Koble til den spesifiserte serveren i Serveradministrasjonen"
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr ""
+"Minimums passordlengde for dette prosjektet er %d. Vennligst tast inn et "
+"annet passord."
 
 #: clientgui/AccountInfoPage.cpp:543
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr ""
+"Minimums passordlengde for denne konto manageren er %d. Vennligst tast inn "
+"et annet passord."
 
 #: clientgui/AccountInfoPage.cpp:554
 msgid "The password and confirmation password do not match. Please type them again."
 msgstr ""
+"Passordet og bekreftese av passordet stemmer ikke. Vennligst skriv dem "
+"igjen."
 
 #: clientgui/AccountManagerInfoPage.cpp:243
 #, fuzzy
@@ -227,7 +235,7 @@ msgstr "Vis innhold"
 
 #: clientgui/AdvancedFrame.cpp:342
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr ""
+msgstr "Overføringer\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:343
 #, fuzzy
@@ -256,7 +264,7 @@ msgstr "Vis innhold"
 
 #: clientgui/AdvancedFrame.cpp:360
 msgid "&Disk usage\tCtrl+Shift+D"
-msgstr ""
+msgstr "&Disk bruk\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:361
 #, fuzzy
@@ -339,11 +347,11 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:445
 msgid "&Suspend"
-msgstr ""
+msgstr "&Suspendert"
 
 #: clientgui/AdvancedFrame.cpp:446
 msgid "Stop work regardless of preferences"
-msgstr ""
+msgstr "Stopp arbeid uavhengig av preferanser"
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "&Network activity always available"
@@ -801,6 +809,8 @@ msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr ""
+"En restart er nødvendig for at BOINC skal kjøre skikkelig.\n"
+"Vennligst restart din datamaskin og forsøk igjen."
 
 #: clientgui/BOINCGUIApp.cpp:390
 #, fuzzy
@@ -1418,11 +1428,11 @@ msgstr "OK"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:581
 msgid "save all values and close the dialog"
-msgstr ""
+msgstr "lagre alle verdier og lukk dialogen"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:586
 msgid "close the dialog without saving"
-msgstr ""
+msgstr "lukk dialogen uten å lagre"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:590
 #: clientgui/Localization.cpp:35
@@ -1561,7 +1571,7 @@ msgstr "nei"
 
 #: clientgui/DlgItemProperties.cpp:122
 msgid "Suspended via GUI"
-msgstr ""
+msgstr "Suspendert via GUI"
 
 #: clientgui/DlgItemProperties.cpp:123
 msgid "Don't request more work"
@@ -1655,7 +1665,7 @@ msgstr "Kolonneegenskaper"
 
 #: clientgui/DlgItemProperties.cpp:180
 msgid "Application"
-msgstr ""
+msgstr "Program"
 
 #: clientgui/DlgItemProperties.cpp:181
 #, fuzzy
@@ -1745,7 +1755,7 @@ msgstr "Overføringen avbrutt av bruker"
 
 #: clientgui/DlgItemProperties.cpp:316
 msgid "Suspended"
-msgstr ""
+msgstr "Suspendert"
 
 #: clientgui/DlgItemProperties.cpp:318
 #, fuzzy
@@ -1759,7 +1769,7 @@ msgstr "Aktiv modus"
 
 #: clientgui/DlgItemProperties.cpp:324
 msgid " - computation suspended"
-msgstr ""
+msgstr " - databehandling suspendert"
 
 #: clientgui/DlgItemProperties.cpp:327
 #, fuzzy
@@ -1915,7 +1925,7 @@ msgstr "&Maksimalt antall tilkoblinger:"
 
 #: clientgui/DlgOptions.cpp:255
 msgid "Connect via HTTP proxy server"
-msgstr ""
+msgstr "Koble til via HTTP proxy server"
 
 #: clientgui/DlgOptions.cpp:259
 msgid "HTTP Proxy Server Configuration"
@@ -2138,7 +2148,7 @@ msgstr "Kryss-prosjekt statistikk"
 
 #: clientgui/Localization.cpp:107
 msgid "The home page of the GEO-600 project"
-msgstr ""
+msgstr "Hjemmesiden til GEO-600 prosjektet"
 
 #: clientgui/Localization.cpp:115
 #: clientgui/Localization.cpp:133
@@ -2401,23 +2411,23 @@ msgstr "Kobler fra forrige server"
 
 #: clientgui/sg_ClientStateIndicator.cpp:299
 msgid "Processing Suspended:  Running On Batteries."
-msgstr ""
+msgstr "Prosessering Suspendert: Kjører på batterier."
 
 #: clientgui/sg_ClientStateIndicator.cpp:301
 msgid "Processing Suspended:  User Active."
-msgstr ""
+msgstr "Prosessering Suspendert: Bruker er aktiv."
 
 #: clientgui/sg_ClientStateIndicator.cpp:303
 msgid "Processing Suspended:  User paused processing."
-msgstr ""
+msgstr "Prosessering Suspendert: Bruker har pauset prosesseringen."
 
 #: clientgui/sg_ClientStateIndicator.cpp:305
 msgid "Processing Suspended:  Time of Day."
-msgstr ""
+msgstr "Prosessering Suspendert: Tid på dag."
 
 #: clientgui/sg_ClientStateIndicator.cpp:307
 msgid "Processing Suspended:  Benchmarks Running."
-msgstr ""
+msgstr "Prosessering Suspendert: Benchmarks kjører."
 
 #: clientgui/sg_ClientStateIndicator.cpp:309
 #, fuzzy
@@ -2472,7 +2482,7 @@ msgstr ""
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
 msgid "Get help with BOINC"
-msgstr ""
+msgstr "Få hjelp med BOINC"
 
 #: clientgui/sg_DlgMessages.cpp:754
 #, c-format
@@ -2590,11 +2600,11 @@ msgstr "60"
 
 #: clientgui/sg_DlgPreferences.cpp:284
 msgid "Skin"
-msgstr ""
+msgstr "Skin"
 
 #: clientgui/sg_DlgPreferences.cpp:291
 msgid "Skin:"
-msgstr ""
+msgstr "Skin:"
 
 #: clientgui/sg_DlgPreferences.cpp:307
 #, fuzzy
@@ -2864,7 +2874,6 @@ msgstr ""
 
 #: clientgui/ValidateAccountKey.cpp:82
 #: clientgui/ValidateEmailAddress.cpp:86
-#, fuzzy
 msgid "Validation conflict"
 msgstr "Valideringskonflikt"
 
@@ -2912,7 +2921,7 @@ msgstr ""
 #: clientgui/ValidateURL.cpp:108
 #, c-format
 msgid "'%s' does not contain a valid host name."
-msgstr ""
+msgstr "'%s' inneholder ikke et gyldig verts navn."
 
 #: clientgui/ValidateURL.cpp:111
 #, c-format
@@ -3216,7 +3225,7 @@ msgstr "Total diskbruk"
 
 #: clientgui/ViewResources.cpp:82
 msgid "Disk usage by BOINC projects"
-msgstr ""
+msgstr "Disk bruk av BOINC prosjekter"
 
 #: clientgui/ViewResources.cpp:117
 msgid "Disk"
