@@ -2,15 +2,14 @@
 # Copyright (C) 2008 University of California
 # This file is distributed under the same license as BOINC.
 # FileID  : $Id$
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC project generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2009-11-25 10:53+0100\n"
+"Last-Translator: Kenneth Skjold <kenneth@skjold.biz>\n"
+"Language-Team: Hjel andre <kenneth@skjold.biz>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,25 +17,25 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "Search for words in forum messages"
-msgstr ""
+msgstr "Søk etter ord i forum meldinger"
 
 msgid "Search forums"
-msgstr ""
+msgstr "Søk i forumene"
 
 msgid "Advanced search"
-msgstr ""
+msgstr "Avansert søk"
 
 msgid "Private messages"
-msgstr ""
+msgstr "Private meldinger"
 
 msgid "Questions and Answers"
-msgstr ""
+msgstr "Spørsmål og svar"
 
 msgid "Message boards"
-msgstr ""
+msgstr "Oppslagstavler"
 
 msgid "%1 message board"
-msgstr ""
+msgstr "%1 oppslagstavle"
 
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
@@ -50,49 +49,49 @@ msgid ""
 msgstr ""
 
 msgid "Thread"
-msgstr ""
+msgstr "Tråd"
 
 msgid "Posts"
-msgstr ""
+msgstr "Innlegg"
 
 msgid "Author"
-msgstr ""
+msgstr "Forfatter"
 
 msgid "Views"
-msgstr ""
+msgstr "Visninger"
 
 msgid "Last post"
-msgstr ""
+msgstr "Siste innlegg"
 
 msgid "Mark all threads as read"
-msgstr ""
+msgstr "Merk alle trådene som lest"
 
 msgid "Mark all threads in all message boards as 'read'."
-msgstr ""
+msgstr "Merk alle trådene i alle meldings-tavler som 'lest'."
 
 msgid "Inbox"
-msgstr ""
+msgstr "Innboks"
 
 msgid "Write"
-msgstr ""
+msgstr "Skriv"
 
 msgid "Send private message"
-msgstr ""
+msgstr "Send en privat melding"
 
 msgid "Preview"
-msgstr ""
+msgstr "Forhåndsvisning"
 
 msgid "To"
-msgstr ""
+msgstr "Til"
 
 msgid "User IDs or unique usernames, separated with commas"
 msgstr ""
 
 msgid "Subject"
-msgstr ""
+msgstr "Emne"
 
 msgid "Message"
-msgstr ""
+msgstr "Melding"
 
 msgid "Send message"
 msgstr ""
@@ -106,10 +105,10 @@ msgid "unread"
 msgstr ""
 
 msgid "Edit your profile"
-msgstr ""
+msgstr "Redigere din profil"
 
 msgid "Your feedback on this profile"
-msgstr ""
+msgstr "Din tilbakemelding på denne profilen"
 
 msgid "Recommend this profile for User of the Day:"
 msgstr ""
@@ -127,73 +126,73 @@ msgid "Search criteria (use one or more)"
 msgstr ""
 
 msgid "Key words"
-msgstr ""
+msgstr "Nøkkelord"
 
 msgid "Find teams with these words in their names or descriptions"
 msgstr ""
 
 msgid "Country"
-msgstr ""
+msgstr "Land"
 
 msgid "Type of team"
-msgstr ""
+msgstr "Type team"
 
 msgid "Show only active teams"
 msgstr ""
 
 msgid "Search"
-msgstr ""
+msgstr "Søk"
 
 msgid "Requested by you, and founder response deadline has passed."
 msgstr ""
 
 msgid "Complete foundership transfer"
-msgstr ""
+msgstr "Fullført grunnlegger overføring"
 
 msgid "Requested by you"
-msgstr ""
+msgstr "Anmodet av deg"
 
 msgid "founder response deadline is %1"
 msgstr ""
 
 msgid "None"
-msgstr ""
+msgstr "Ingen"
 
 msgid "Initiate request"
-msgstr ""
+msgstr "Initiere anmodning"
 
 msgid "Deferred"
-msgstr ""
+msgstr "Utsatt"
 
 msgid "Team info"
-msgstr ""
+msgstr "Team info"
 
 msgid "Description"
-msgstr ""
+msgstr "Beskrivelse"
 
 msgid "Web site"
-msgstr ""
+msgstr "Nettside"
 
 msgid "Total credit"
-msgstr ""
+msgstr "Total kreditt"
 
 msgid "Recent average credit"
-msgstr ""
+msgstr "Nylig gjennomsnitts kreditt"
 
 msgid "Cross-project stats"
-msgstr ""
+msgstr "Kryss-prosjekt statistikk"
 
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 msgid "Message board"
-msgstr ""
+msgstr "Meldingstavle"
 
 msgid "Threads"
-msgstr ""
+msgstr "Tråder"
 
 msgid "Join this team"
-msgstr ""
+msgstr "Bli med i dette teamet "
 
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
@@ -210,46 +209,46 @@ msgid "Respond by %1"
 msgstr ""
 
 msgid "Team foundership change"
-msgstr ""
+msgstr "Team grunnlegger endring"
 
 msgid "Members"
-msgstr ""
+msgstr "Medlemmer"
 
 msgid "Founder"
-msgstr ""
+msgstr "Grunnlegger"
 
 msgid "Admins"
-msgstr ""
+msgstr "Administratorer"
 
 msgid "New members in last day"
-msgstr ""
+msgstr "Nye medlemmer, siste dag"
 
 msgid "Total members"
-msgstr ""
+msgstr "Medlemmer totalt"
 
 msgid "view"
-msgstr ""
+msgstr "visning"
 
 msgid "Active members"
-msgstr ""
+msgstr "Aktive medlemmer"
 
 msgid "Members with credit"
-msgstr ""
+msgstr "Medlemmer med kreditt"
 
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 msgid "Admin"
-msgstr ""
+msgstr "Administrator"
 
 msgid "Last %1"
-msgstr ""
+msgstr "Sist %1"
 
 msgid "Next %1"
-msgstr ""
+msgstr "Neste %1"
 
 msgid "No such team."
-msgstr ""
+msgstr "Ingen slikt team."
 
 msgid "This operation requires foundership."
 msgstr ""
@@ -258,7 +257,7 @@ msgid "This operation requires team admin privileges"
 msgstr ""
 
 msgid "Rank"
-msgstr ""
+msgstr "Plassering"
 
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
@@ -269,163 +268,163 @@ msgid "Team name, text version"
 msgstr ""
 
 msgid "Don't use HTML tags."
-msgstr ""
+msgstr "Ikke bruk HTML tags."
 
 msgid "Team name, HTML version"
-msgstr ""
+msgstr "Team navn, HTML versjon"
 
 msgid "You may use %1limited HTML tags%2."
-msgstr ""
+msgstr "Du kan bruke %1begrensede HTML tags%2."
 
 msgid "If you don't know HTML, leave this box blank."
-msgstr ""
+msgstr "Hvis du ikke kan HTML, la denne boksen være blank."
 
 msgid "URL of team web page, if any"
-msgstr ""
+msgstr "URL til Teamets nettside, hvis det er en nettside"
 
 msgid "without \"http://\""
-msgstr ""
+msgstr "uten \"http://\""
 
 msgid "This URL will be linked to from the team's page on this site."
-msgstr ""
+msgstr "Denne URL'en vil bli linket til, fra teamsiden på dette nettstedet."
 
 msgid "Description of team"
-msgstr ""
+msgstr "Beskrivelse av teamet"
 
 msgid "Projects in which you are participating"
-msgstr ""
+msgstr "Prosjekter du deltar i."
 
 msgid "Projects in which %1 is participating"
-msgstr ""
+msgstr "Prosjekter som %1 deltar i"
 
 msgid "Project"
-msgstr ""
+msgstr "Prosjekt"
 
 msgid "Click for user page"
-msgstr ""
+msgstr "Klikk for brukerside"
 
 msgid "Average credit"
-msgstr ""
+msgstr "Gjennomsnittlig kreditt"
 
 msgid "Since"
-msgstr ""
+msgstr "Siden"
 
 msgid "Computing and credit"
-msgstr ""
+msgstr "Databehandling og kreditt"
 
 msgid "Pending credit"
-msgstr ""
+msgstr "Forestående kreditt"
 
 msgid "View"
-msgstr ""
+msgstr "Vis"
 
 msgid "Computers on this account"
-msgstr ""
+msgstr "Datamaskiner på denne kontoen"
 
 msgid "Tasks"
-msgstr ""
+msgstr "Oppgaver"
 
 msgid "Cross-project ID"
-msgstr ""
+msgstr "Kryss-prosjekt ID"
 
 msgid "Cross-project statistics"
-msgstr ""
+msgstr "Kryss-prosjekt statistikk"
 
 msgid "Certificate"
-msgstr ""
+msgstr "Sertifikat"
 
 msgid "Stats on your cell phone"
-msgstr ""
+msgstr "Statistikk på din mobiltelefon"
 
 msgid "Account information"
-msgstr ""
+msgstr "Konto informasjon"
 
 msgid "Email address"
-msgstr ""
+msgstr "Epost adresse"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "Postal code"
-msgstr ""
+msgstr "Postnummer"
 
 msgid "%1 member since"
-msgstr ""
+msgstr "%1 medlem siden"
 
 msgid "Change"
-msgstr ""
+msgstr "Endre"
 
 msgid "email address"
-msgstr ""
+msgstr "epost adresse"
 
 msgid "password"
-msgstr ""
+msgstr "passord"
 
 msgid "other account info"
-msgstr ""
+msgstr "annen konto informasjon"
 
 msgid "Log out"
-msgstr ""
+msgstr "Logg ut"
 
 msgid "User ID"
-msgstr ""
+msgstr "Bruker ID"
 
 msgid "Used in community functions"
-msgstr ""
+msgstr "Brukes i fellesskap funksjoner"
 
 msgid "Account key"
-msgstr ""
+msgstr "Konto nøkkel"
 
 msgid "Provides full access to your account"
-msgstr ""
+msgstr "Gir full tilgang til din konto"
 
 msgid "Weak account key"
-msgstr ""
+msgstr "Svak konto nøkkel"
 
 msgid "Provides %1limited access%2 to your account"
-msgstr ""
+msgstr "Gir %1begrenset tilgang%2 til din konto"
 
 msgid "Preferences"
-msgstr ""
+msgstr "Preferanser"
 
 msgid "When and how BOINC uses your computer"
-msgstr ""
+msgstr "Når og hvordan BOINC bruker din datamaskin"
 
 msgid "Computing preferences"
-msgstr ""
+msgstr "Databehandling preferanser"
 
 msgid "Message boards and private messages"
-msgstr ""
+msgstr "Meldingstavle og private meldinger"
 
 msgid "Community preferences"
-msgstr ""
+msgstr "Fellesskap preferanser"
 
 msgid "Resource share and graphics"
-msgstr ""
+msgstr "Resurs deling og grafikk"
 
 msgid "%1 preferences"
-msgstr ""
+msgstr "%1 preferanser"
 
 msgid "Community"
-msgstr ""
+msgstr "Fellesskap"
 
 msgid "Delete"
-msgstr ""
+msgstr "Slett"
 
 msgid "Create"
-msgstr ""
+msgstr "Lag"
 
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 msgid "%1 posts"
-msgstr ""
+msgstr "%1 innlegg"
 
 msgid "Notifications"
-msgstr ""
+msgstr "Varsler"
 
 msgid "Quit team"
-msgstr ""
+msgstr "Forlat team"
 
 msgid "Administer"
 msgstr ""
@@ -434,28 +433,28 @@ msgid "(foundership change request pending)"
 msgstr ""
 
 msgid "Member of team"
-msgstr ""
+msgstr "Medlem av team"
 
 msgid "Team"
-msgstr ""
+msgstr "Team"
 
 msgid "find a team"
-msgstr ""
+msgstr "Finn et team"
 
 msgid "Founder but not member of"
 msgstr ""
 
 msgid "Find friends"
-msgstr ""
+msgstr "Finn venner"
 
 msgid "Friends"
-msgstr ""
+msgstr "Venner"
 
 msgid "Computers"
-msgstr ""
+msgstr "Datamaskiner"
 
 msgid "hidden"
-msgstr ""
+msgstr "skjult"
 
 msgid "Donor"
 msgstr ""
@@ -473,7 +472,7 @@ msgid "Request pending"
 msgstr ""
 
 msgid "Add as friend"
-msgstr ""
+msgstr "Legg til venn"
 
 msgid "CHARSET"
 msgstr ""
@@ -491,7 +490,7 @@ msgid "Postal or ZIP Code"
 msgstr ""
 
 msgid "Optional"
-msgstr ""
+msgstr "Valgfritt"
 
 msgid "Applications"
 msgstr ""
@@ -507,7 +506,7 @@ msgid "Platform"
 msgstr ""
 
 msgid "Version"
-msgstr ""
+msgstr "Versjon"
 
 msgid "Installation time"
 msgstr ""
@@ -526,50 +525,56 @@ msgstr ""
 
 msgid "Account creation is currently disabled. Please try again later."
 msgstr ""
+"Konto etablering er midlertidig deaktivert. Vennligst prøv igjen senere."
 
 msgid ""
 "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
 "form. Just run BOINC, select Attach Project, and enter an email address and "
 "password."
 msgstr ""
+"Obs: Hvis du bruker BOINC versjon 5.2+ med BOINC Manager, ikke bruk dette "
+"skjemaet. Bare kjør BOINC, velg Legg til Prosjekt og skriv epost adresse og "
+"passord."
 
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
 msgstr ""
+"Denne kontoen vil tilhøre team %1 og vil ha samme prosjekt preferanser som "
+"grunnleggeren."
 
 msgid "Invitation Code"
-msgstr ""
+msgstr "Invitasjons kode"
 
 msgid "A valid invitation code is required to create an account."
-msgstr ""
+msgstr "En gyldig invitasjons kode er nødvendig for å lage en konto."
 
 msgid "Email Address"
-msgstr ""
+msgstr "Epost adresse"
 
 msgid "Must be a valid address of the form 'name@domain'."
-msgstr ""
+msgstr "Må være en gyldig adresse i denne formen 'name@domene'."
 
 msgid "Password"
-msgstr ""
+msgstr "Passord"
 
 msgid "Must be at least %1 characters"
-msgstr ""
+msgstr "Må være minst %1 karakterer"
 
 msgid "Confirm password"
-msgstr ""
+msgstr "Bekreft passord"
 
 msgid "Create account"
-msgstr ""
+msgstr "Lag konto"
 
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr ""
+msgstr "ERROR: %1 eksisterer ikke!  Kan ikke lage combo boks.<br>"
 
 msgid "Picture"
-msgstr ""
+msgstr "Bilde"
 
 msgid "%1 Your profile picture is shown to the left."
-msgstr ""
+msgstr "%1 Ditt profil bilde blir vist til venstre."
 
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
@@ -585,7 +590,7 @@ msgid ""
 msgstr ""
 
 msgid "Language"
-msgstr ""
+msgstr "Språk"
 
 msgid "Select the language in which your profile is written:"
 msgstr ""
@@ -632,7 +637,7 @@ msgid "Could not create the profile: database error"
 msgstr ""
 
 msgid "Profile saved"
-msgstr ""
+msgstr "Profilen er lagret"
 
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
@@ -642,7 +647,7 @@ msgid "%1View your profile%2"
 msgstr ""
 
 msgid "Create a profile"
-msgstr ""
+msgstr "Lag en profil"
 
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
@@ -673,10 +678,10 @@ msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr ""
 
 msgid "fll"
-msgstr ""
+msgstr "fll"
 
 msgid "Title"
-msgstr ""
+msgstr "Tittel"
 
 msgid "Add my signature to this post"
 msgstr ""
@@ -733,7 +738,7 @@ msgid "You are subscribed to this thread.  Click here to unsubscribe."
 msgstr ""
 
 msgid "Subscribe"
-msgstr ""
+msgstr "Abonnér"
 
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
@@ -745,7 +750,7 @@ msgid "Unhide this thread"
 msgstr ""
 
 msgid "Hide"
-msgstr ""
+msgstr "Skjul"
 
 msgid "Hide this thread"
 msgstr ""
@@ -775,7 +780,7 @@ msgid "Lock this thread"
 msgstr ""
 
 msgid "Move"
-msgstr ""
+msgstr "&Flytt"
 
 msgid "Move this thread to a different forum"
 msgstr ""
@@ -808,7 +813,7 @@ msgid "No such user"
 msgstr ""
 
 msgid "Add friend"
-msgstr ""
+msgstr "Legg til venn"
 
 msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
@@ -819,7 +824,7 @@ msgid "Add an optional message here:"
 msgstr ""
 
 msgid "Database error"
-msgstr ""
+msgstr "Databasefeil"
 
 msgid "Friend request sent"
 msgstr ""
@@ -837,7 +842,7 @@ msgid "%1 has added you as a friend."
 msgstr ""
 
 msgid "%1 says: %2"
-msgstr ""
+msgstr "%1 sier: %2"
 
 msgid "Accept friendship"
 msgstr ""
@@ -846,7 +851,7 @@ msgid "Click accept if %1 is in fact a friend"
 msgstr ""
 
 msgid "Decline"
-msgstr ""
+msgstr "Avslå"
 
 msgid "Click decline if %1 is not a friend"
 msgstr ""
@@ -882,10 +887,10 @@ msgid "Are you sure you want to cancel your friendship with %1?"
 msgstr ""
 
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 msgid "No"
-msgstr ""
+msgstr "Nei"
 
 msgid "Stay friends"
 msgstr ""
@@ -906,7 +911,7 @@ msgid "View and edit your account preferences using the links below."
 msgstr ""
 
 msgid "Your account"
-msgstr ""
+msgstr "Din konto"
 
 msgid "Read our rules and policies"
 msgstr ""
@@ -1035,16 +1040,16 @@ msgid "Sender and date"
 msgstr ""
 
 msgid "Reply"
-msgstr ""
+msgstr "Svar"
 
 msgid "Delete selected messages"
 msgstr ""
 
 msgid "Sender"
-msgstr ""
+msgstr "Avsender"
 
 msgid "Date"
-msgstr ""
+msgstr "Dato"
 
 msgid "You need to fill all fields to send a private message"
 msgstr ""
@@ -1093,7 +1098,7 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr ""
 
 msgid "Profiles"
-msgstr ""
+msgstr "Profiler"
 
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
@@ -1134,7 +1139,7 @@ msgid "Search profile text"
 msgstr ""
 
 msgid "No profiles"
-msgstr ""
+msgstr "Ingen profiler"
 
 msgid "No profiles matched your query."
 msgstr ""
@@ -1167,7 +1172,7 @@ msgid "Tasks for computer %1"
 msgstr ""
 
 msgid "No access"
-msgstr ""
+msgstr "Ingen tilgang"
 
 msgid "Missing user ID or host ID"
 msgstr ""
@@ -1188,10 +1193,10 @@ msgid "Top participants"
 msgstr ""
 
 msgid "Top computers"
-msgstr ""
+msgstr "Topp datamaskiner"
 
 msgid "Top teams"
-msgstr ""
+msgstr "Topp teams"
 
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
@@ -1234,16 +1239,16 @@ msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
 
 msgid "Find a team"
-msgstr ""
+msgstr "Finn et team"
 
 msgid "All teams"
-msgstr ""
+msgstr "Alle team"
 
 msgid "%1 teams"
-msgstr ""
+msgstr "%1 team"
 
 msgid "Create a new team"
-msgstr ""
+msgstr "Lag et nytt team"
 
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
@@ -1266,7 +1271,7 @@ msgid ""
 msgstr ""
 
 msgid "Top hosts"
-msgstr ""
+msgstr "Topp vert"
 
 msgid "Top %1 teams"
 msgstr ""
@@ -1278,7 +1283,7 @@ msgid "This user has no profile"
 msgstr ""
 
 msgid "Account data"
-msgstr ""
+msgstr "Konto informasjon"
 
 msgid ""
 "Your 'weak account key' lets you attach computers to your account on this "
