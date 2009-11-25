@@ -666,11 +666,10 @@ bool IsUserInGroupBM() {
     char                *userName, *groupMember;
     int                 i;
 
-    grp = getgrgid(boinc_master_gid);
+    grp = getgrnam(REAL_BOINC_MASTER_NAME);
     if (grp) {
-
         rgid = getgid();
-        if (rgid == boinc_master_gid) {
+        if (rgid == grp->gr_gid) {
             return true;                // User's primary group is boinc_master
         }
 
