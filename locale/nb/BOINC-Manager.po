@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC 610\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-24 22:22+0100\n"
+"PO-Revision-Date: 2009-11-25 08:42+0100\n"
 "Last-Translator: Kenneth Skjold <kenneth@skjold.biz>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
 "MIME-Version: 1.0\n"
@@ -198,11 +198,10 @@ msgstr "Lukk dette vinduet"
 #: clientgui/AdvancedFrame.cpp:316
 #, c-format
 msgid "Exit %s"
-msgstr ""
+msgstr "Avslutt %s"
 
 #: clientgui/AdvancedFrame.cpp:321
 #: clientgui/BOINCTaskBar.cpp:626
-#, fuzzy
 msgid "E&xit"
 msgstr "&Avslutt"
 
@@ -489,18 +488,16 @@ msgid "Licensing and copyright information."
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:611
-#, fuzzy
 msgid "&File"
 msgstr "&Fil"
 
 #: clientgui/AdvancedFrame.cpp:615
-#, fuzzy
 msgid "&View"
 msgstr "&Visning"
 
 #: clientgui/AdvancedFrame.cpp:619
 msgid "&Tools"
-msgstr ""
+msgstr "&Verktøy"
 
 #: clientgui/AdvancedFrame.cpp:623
 msgid "&Activity"
@@ -511,7 +508,6 @@ msgid "A&dvanced"
 msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:631
-#, fuzzy
 msgid "&Help"
 msgstr "&Hjelp"
 
@@ -605,7 +601,7 @@ msgstr ""
 
 #: clientgui/AlreadyExistsPage.cpp:190
 msgid "Email address already in use"
-msgstr ""
+msgstr "Epost adressen er alllerede i bruk"
 
 #: clientgui/AlreadyExistsPage.cpp:193
 msgid ""
@@ -632,7 +628,6 @@ msgid "E&xit %s"
 msgstr "&Avslutt"
 
 #: clientgui/AsyncRPC.cpp:1222
-#, fuzzy
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -1013,7 +1008,7 @@ msgstr "Se etter _oppdateringer..."
 
 #: clientgui/DlgAbout.cpp:171
 msgid "Copyright:"
-msgstr ""
+msgstr "Copyright:"
 
 #: clientgui/DlgAbout.cpp:175
 msgid ""
@@ -1065,7 +1060,6 @@ msgid "Do you really want to clear all local preferences ?"
 msgstr ""
 
 #: clientgui/DlgAdvPreferences.cpp:738
-#, fuzzy
 msgid "Confirmation"
 msgstr "Bekreftelse"
 
@@ -1398,7 +1392,7 @@ msgstr "prosessor bruk"
 #: clientgui/DlgAdvPreferencesBase.cpp:541
 #, no-c-format
 msgid "% when computer is in use"
-msgstr ""
+msgstr "% når datamaskinen er i bruk"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:551
 #, no-c-format
@@ -1418,7 +1412,6 @@ msgid "disk and memory usage"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:580
-#, fuzzy
 msgid "OK"
 msgstr "OK"
 
@@ -1434,7 +1427,6 @@ msgstr ""
 #: clientgui/Localization.cpp:35
 #: clientgui/Localization.cpp:121
 #: clientgui/Localization.cpp:139
-#, fuzzy
 msgid "Help"
 msgstr "Hjelp"
 
@@ -1824,12 +1816,10 @@ msgid "Computation error"
 msgstr "(feil %ld: %s)"
 
 #: clientgui/DlgItemProperties.cpp:360
-#, fuzzy
 msgid "Upload failed"
 msgstr "Opplasting feilet"
 
 #: clientgui/DlgItemProperties.cpp:362
-#, fuzzy
 msgid "Uploading"
 msgstr "Laster opp"
 
@@ -1965,7 +1955,6 @@ msgstr "Brukernavn"
 #: clientgui/DlgOptions.cpp:304
 #: clientgui/DlgOptions.cpp:368
 #: clientgui/DlgSelectComputer.cpp:136
-#, fuzzy
 msgid "Password:"
 msgstr "Passord:"
 
@@ -2158,7 +2147,6 @@ msgstr ""
 
 #: clientgui/Localization.cpp:115
 #: clientgui/Localization.cpp:133
-#, fuzzy
 msgid "Team"
 msgstr "Team"
 
@@ -2190,7 +2178,7 @@ msgstr "Klarte ikke finne informasjon om registernøkkel «%s»"
 
 #: clientgui/Localization.cpp:141
 msgid "Search for help in our help system"
-msgstr ""
+msgstr "Søk etter hjelp i vårt hjelp system"
 
 #: clientgui/Localization.cpp:143
 #, fuzzy
@@ -2221,7 +2209,7 @@ msgstr ""
 
 #: clientgui/Localization.cpp:155
 msgid "Research"
-msgstr ""
+msgstr "Forskning"
 
 #: clientgui/Localization.cpp:157
 msgid "Learn about the projects hosted at World Community Grid"
@@ -2376,7 +2364,6 @@ msgstr "%s - Proxy bruker"
 
 #: clientgui/ProxyPage.cpp:338
 #: clientgui/ProxyPage.cpp:358
-#, fuzzy
 msgid "Server:"
 msgstr "Server:"
 
@@ -2465,12 +2452,10 @@ msgid "Project"
 msgstr "Prosjekt"
 
 #: clientgui/sg_DlgMessages.cpp:108
-#, fuzzy
 msgid "Time"
 msgstr "Tid"
 
 #: clientgui/sg_DlgMessages.cpp:109
-#, fuzzy
 msgid "Message"
 msgstr "Melding"
 
@@ -3003,7 +2988,6 @@ msgid "ID"
 msgstr "ID"
 
 #: clientgui/ViewMessagesGrid.cpp:128
-#, fuzzy
 msgid "Priority"
 msgstr "Prioritet"
 
@@ -3021,12 +3005,10 @@ msgid "Info"
 msgstr "2 - Informasjon"
 
 #: clientgui/ViewMessagesGrid.cpp:399
-#, fuzzy
 msgid "Warning"
 msgstr "Advarsel"
 
 #: clientgui/ViewMessagesGrid.cpp:403
-#, fuzzy
 msgid "Error"
 msgstr "Feil"
 
@@ -3052,7 +3034,6 @@ msgid "Display the latest news about BOINC from the BOINC website"
 msgstr ""
 
 #: clientgui/ViewProjects.cpp:173
-#, fuzzy
 msgid "Update"
 msgstr "Oppdater"
 
@@ -3108,7 +3089,6 @@ msgid "Show project details."
 msgstr "Vis oppgave detajer."
 
 #: clientgui/ViewProjects.cpp:219
-#, fuzzy
 msgid "Account"
 msgstr "Konto"
 
@@ -3122,13 +3102,12 @@ msgid "Avg. work done"
 msgstr "Klarte ikke konvertere til tegnsett «%s»."
 
 #: clientgui/ViewProjects.cpp:224
-#, fuzzy
 msgid "Status"
 msgstr "Status"
 
 #: clientgui/ViewProjects.cpp:249
 msgid "Projects"
-msgstr ""
+msgstr "Prosjekter"
 
 #: clientgui/ViewProjects.cpp:296
 #, fuzzy
@@ -3435,7 +3414,7 @@ msgstr "Fil"
 #: clientgui/ViewWork.cpp:226
 #: clientgui/ViewWorkGrid.cpp:147
 msgid "Progress"
-msgstr ""
+msgstr "Fremdrift"
 
 #: clientgui/ViewTransfers.cpp:184
 #: clientgui/ViewTransfersGrid.cpp:129
@@ -3506,7 +3485,7 @@ msgstr "Slett prosjekt"
 
 #: clientgui/ViewTransfers.cpp:769
 msgid ")"
-msgstr ""
+msgstr ")"
 
 #: clientgui/ViewTransfersGrid.cpp:161
 msgid "TransfersGrid"
@@ -3583,7 +3562,6 @@ msgstr "Kobler til %s"
 
 #: clientgui/ViewWork.cpp:254
 #: clientgui/ViewWorkGrid.cpp:190
-#, fuzzy
 msgid "Tasks"
 msgstr "Oppgaver"
 
