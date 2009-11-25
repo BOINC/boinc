@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC 610\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-25 12:27+0100\n"
+"PO-Revision-Date: 2009-11-25 17:46+0100\n"
 "Last-Translator: Kenneth Skjold <kenneth@skjold.biz>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
 "MIME-Version: 1.0\n"
@@ -377,7 +377,7 @@ msgstr "Opsjoner"
 
 #: clientgui/AdvancedFrame.cpp:488
 msgid "Configure GUI options and proxy settings"
-msgstr ""
+msgstr "Konfigurer GUI alternativer og proxy settinger"
 
 #: clientgui/AdvancedFrame.cpp:492
 #, fuzzy
@@ -413,7 +413,7 @@ msgstr "&Kjør konfigurasjonsveiviser nå..."
 
 #: clientgui/AdvancedFrame.cpp:515
 msgid "Runs BOINC CPU benchmarks"
-msgstr ""
+msgstr "Kjører BOINC CPU benchmarks"
 
 #: clientgui/AdvancedFrame.cpp:519
 #, fuzzy
@@ -1091,7 +1091,7 @@ msgstr "Databehandling preferanser"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:80
 msgid " While computer is on batteries"
-msgstr ""
+msgstr "Mens datamaskinen er på batterier"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:83
 msgid "check this if you want this computer to do work while it runs on batteries"
@@ -1108,7 +1108,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:98
 msgid " Use GPU while computer is in use"
-msgstr ""
+msgstr "Bruk GPU mens datamaskinen er i bruk"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
 msgid "check this if you want your GPU to do work even when you're using the computer"
@@ -1135,7 +1135,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:134
 msgid "start work at this time"
-msgstr ""
+msgstr "start arbeid klokken"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:138
 #: clientgui/DlgAdvPreferencesBase.cpp:363
@@ -1145,12 +1145,12 @@ msgstr "%s og %s. Total størrelse: %s"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:142
 msgid "stop work at this time"
-msgstr ""
+msgstr "stopp arbeid klokken"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:146
 #: clientgui/DlgAdvPreferencesBase.cpp:371
 msgid "(no restriction if equal)"
-msgstr ""
+msgstr "(ingen begrensninger hvis lik)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:151
 #: clientgui/DlgAdvPreferencesBase.cpp:376
@@ -1537,7 +1537,7 @@ msgstr "Bruker ID"
 
 #: clientgui/DlgItemProperties.cpp:121
 msgid "Non CPU intensive"
-msgstr ""
+msgstr "Ikke CPU intensiv"
 
 #: clientgui/DlgItemProperties.cpp:121
 #: clientgui/DlgItemProperties.cpp:122
@@ -1682,7 +1682,7 @@ msgstr "Ressurser"
 
 #: clientgui/DlgItemProperties.cpp:193
 msgid "CPU time at last checkpoint"
-msgstr ""
+msgstr "CPU tid ved siste sjekkpunkt"
 
 #: clientgui/DlgItemProperties.cpp:194
 #: clientgui/DlgItemProperties.cpp:206
@@ -1919,7 +1919,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:259
 msgid "HTTP Proxy Server Configuration"
-msgstr ""
+msgstr "HTTP Proxy server konfigurasjon"
 
 #: clientgui/DlgOptions.cpp:267
 #: clientgui/DlgOptions.cpp:331
@@ -1961,7 +1961,7 @@ msgstr "%s - Proxy bruker"
 
 #: clientgui/DlgOptions.cpp:319
 msgid "Connect via SOCKS proxy server"
-msgstr ""
+msgstr "Koble til via SOCS proxy server"
 
 #: clientgui/DlgOptions.cpp:323
 #, fuzzy
@@ -2012,7 +2012,7 @@ msgstr ""
 
 #: clientgui/Localization.cpp:37
 msgid "Ask questions and report problems"
-msgstr ""
+msgstr "Still spårsmål og rapporter problemer"
 
 #: clientgui/Localization.cpp:39
 #: clientgui/Localization.cpp:81
@@ -2067,7 +2067,7 @@ msgstr "Team navn"
 #: clientgui/Localization.cpp:57
 #: clientgui/Localization.cpp:99
 msgid "View information about your team"
-msgstr ""
+msgstr "Se informasjon om teamet ditt"
 
 #: clientgui/Localization.cpp:61
 #, fuzzy
@@ -3298,7 +3298,7 @@ msgstr "%d fil. Total størrelse: %s"
 
 #: clientgui/ViewStatistics.cpp:1760
 msgid "Show total credit for host"
-msgstr ""
+msgstr "Vis total kreditt for vert"
 
 #: clientgui/ViewStatistics.cpp:1766
 #, fuzzy
