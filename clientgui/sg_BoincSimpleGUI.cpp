@@ -21,6 +21,9 @@
 #endif
 
 #include "stdwx.h"
+#ifdef __WXMAC__
+#include "MacAccessiblity.h"
+#endif
 #include "diagnostics.h"
 #include "str_util.h"
 #include "mfile.h"
@@ -39,7 +42,6 @@
 #include "WizardAttachProject.h"
 #include "error_numbers.h"
 #include "version.h"
-#include "macAccessiblity.h"
 
 #include "sg_BoincSimpleGUI.h"
 #include "sg_ImageLoader.h"
