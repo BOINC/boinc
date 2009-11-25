@@ -121,8 +121,8 @@ public:
     EventHandlerRef         m_plistAccessibilityEventHandlerRef;
     
     wxWindow *GetWindow() { return mp_win; }
-    void SetupMacListControlAccessibilitySupport();
-    void RemoveMacListControlAccessibilitySupport();
+    void SetupMacAccessibilitySupport();
+    void RemoveMacAccessibilitySupport();
 #endif
 };
 

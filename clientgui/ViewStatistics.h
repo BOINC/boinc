@@ -226,7 +226,14 @@ public:
 
 protected:
 
-	CPaintStatistics*       m_PaintStatistics;
+    CPaintStatistics*       m_PaintStatistics;
+
+#ifdef __WXMAC__
+    void                    SetupMacAccessibilitySupport();
+    void                    RemoveMacAccessibilitySupport();
+    
+    EventHandlerRef         m_pStatisticsAccessibilityEventHandlerRef;
+#endif
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );

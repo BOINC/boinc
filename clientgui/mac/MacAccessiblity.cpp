@@ -27,6 +27,8 @@
 #include "AdvancedFrame.h"
 #include "BOINCListCtrl.h"
 #include "ProjectListCtrl.h"
+#include "ViewStatistics.h"
+#include "wxPieCtrl.h"
 #include "sg_BoincSimpleGUI.h"
 #include "Events.h"
 #include "macAccessiblity.h"
@@ -82,27 +84,27 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
                                 };
 
 
-    static EventTypeSpec sg_AccessibilityEvents[] = {
+    static EventTypeSpec Simple_AccessibilityEvents[] = {
                                     { kEventClassAccessibility, kEventAccessibleGetNamedAttribute }			
                                 };
 
-extern pascal OSStatus SimpleGUIAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
+pascal OSStatus SimpleAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
+                                    EventRef inEvent, void* pData);
+
+pascal OSStatus PieCtrlAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     EventRef inEvent, void* pData);
 
 
 
-void CBOINCListCtrl::SetupMacListControlAccessibilitySupport() {
+void CBOINCListCtrl::SetupMacAccessibilitySupport() {
 #if !USE_NATIVE_LISTCONTROL
-    HIViewRef   listControlView;
-    OSErr       err;
+    HIViewRef       listControlView;
+    OSErr           err;
 
-    // For accessibility support
     listControlView = (HIViewRef)GetHandle();
     m_headerView = HIViewGetFirstSubview(listControlView);
     m_bodyView = HIViewGetNextView(m_headerView);
-  
     err = HIViewSetEnabled(m_headerView, true);
-    
     err = InstallHIObjectEventHandler((HIObjectRef)m_headerView, NewEventHandlerUPP(BOINCListHeaderAccessibilityEventHandler), 
                                 sizeof(myAccessibilityEvents) / sizeof(EventTypeSpec), myAccessibilityEvents, 
                                                         this, &m_pHeaderAccessibilityEventHandlerRef);
@@ -114,7 +116,7 @@ void CBOINCListCtrl::SetupMacListControlAccessibilitySupport() {
 }
 
 
-void CBOINCListCtrl::RemoveMacListControlAccessibilitySupport() {
+void CBOINCListCtrl::RemoveMacAccessibilitySupport() {
 #if !USE_NATIVE_LISTCONTROL
     ::RemoveEventHandler(m_pHeaderAccessibilityEventHandlerRef);
     ::RemoveEventHandler(m_pBodyAccessibilityEventHandlerRef);
@@ -122,7 +124,7 @@ void CBOINCListCtrl::RemoveMacListControlAccessibilitySupport() {
 }
 
 
-void CProjectListCtrlAccessible::SetupMacListControlAccessibilitySupport() {
+void CProjectListCtrlAccessible::SetupMacAccessibilitySupport() {
     OSErr       err;
 
     CProjectListCtrl* pCtrl = wxDynamicCast(mp_win, CProjectListCtrl);
@@ -142,9 +144,10 @@ void CProjectListCtrlAccessible::SetupMacListControlAccessibilitySupport() {
 }
 
 
-void CProjectListCtrlAccessible::RemoveMacListControlAccessibilitySupport() {
+void CProjectListCtrlAccessible::RemoveMacAccessibilitySupport() {
     if (m_plistAccessibilityEventHandlerRef) {
         ::RemoveEventHandler(m_plistAccessibilityEventHandlerRef);
+        m_plistAccessibilityEventHandlerRef = NULL;
    }
 }
 
@@ -159,8 +162,8 @@ void CSimplePanel::SetupMacAccessibilitySupport() {
     HIObjectSetAuxiliaryAccessibilityAttribute((HIObjectRef)simple, 0, kAXDescriptionAttribute, description);
     CFRelease( description );
 
-    err = InstallHIObjectEventHandler((HIObjectRef)simple, NewEventHandlerUPP(SimpleGUIAccessibilityEventHandler), 
-                                sizeof(sg_AccessibilityEvents) / sizeof(EventTypeSpec), sg_AccessibilityEvents, 
+    err = InstallHIObjectEventHandler((HIObjectRef)simple, NewEventHandlerUPP(SimpleAccessibilityEventHandler), 
+                                sizeof(Simple_AccessibilityEvents) / sizeof(EventTypeSpec), Simple_AccessibilityEvents, 
                                                         this, &m_pSGAccessibilityEventHandlerRef);
 }
 
@@ -168,6 +171,68 @@ void CSimplePanel::SetupMacAccessibilitySupport() {
 void CSimplePanel::RemoveMacAccessibilitySupport() {
     if (m_pSGAccessibilityEventHandlerRef) {
         ::RemoveEventHandler(m_pSGAccessibilityEventHandlerRef);
+        m_pSGAccessibilityEventHandlerRef = NULL;
+   }
+}
+
+
+void CTaskItemGroup::SetupMacAccessibilitySupport() {
+    OSStatus        err;
+    HIViewRef       boxView = (HIViewRef)m_pStaticBox->GetHandle();
+
+    if (m_pTaskGroupAccessibilityEventHandlerRef == NULL) {
+        err = InstallHIObjectEventHandler((HIObjectRef)boxView, NewEventHandlerUPP(SimpleAccessibilityEventHandler), 
+                                sizeof(Simple_AccessibilityEvents) / sizeof(EventTypeSpec), Simple_AccessibilityEvents, 
+                                                        this, &m_pTaskGroupAccessibilityEventHandlerRef);
+    }
+}
+
+
+void CTaskItemGroup::RemoveMacAccessibilitySupport() {
+    if (m_pTaskGroupAccessibilityEventHandlerRef) {
+        ::RemoveEventHandler(m_pTaskGroupAccessibilityEventHandlerRef);
+        m_pTaskGroupAccessibilityEventHandlerRef = NULL;
+   }
+}
+
+
+void CViewStatistics::SetupMacAccessibilitySupport() {
+    OSStatus        err;
+    HIViewRef       paintPanelView = (HIViewRef)m_PaintStatistics->GetHandle();
+    wxString        str = _("This panel contains graphs showing user totals for projects");
+    CFStringRef     description = CFStringCreateWithCString(NULL, str.char_str(), kCFStringEncodingUTF8);
+                                               
+    // Have the screen reader tell user to switch to advanced view.
+    HIObjectSetAuxiliaryAccessibilityAttribute((HIObjectRef)paintPanelView, 0, kAXDescriptionAttribute, description);
+    CFRelease( description );
+
+    err = InstallHIObjectEventHandler((HIObjectRef)paintPanelView, NewEventHandlerUPP(SimpleAccessibilityEventHandler), 
+                                sizeof(Simple_AccessibilityEvents) / sizeof(EventTypeSpec), Simple_AccessibilityEvents, 
+                                                        this, &m_pStatisticsAccessibilityEventHandlerRef);
+}
+
+
+void CViewStatistics::RemoveMacAccessibilitySupport() {
+    ::RemoveEventHandler(m_pStatisticsAccessibilityEventHandlerRef);
+}
+
+
+void wxPieCtrl::SetupMacAccessibilitySupport() {
+    OSStatus        err;
+    HIViewRef       pieControlView = (HIViewRef)GetHandle();
+
+    HIObjectSetAuxiliaryAccessibilityAttribute((HIObjectRef)pieControlView, 0, kAXDescriptionAttribute, CFSTR(""));
+
+    err = InstallHIObjectEventHandler((HIObjectRef)pieControlView, NewEventHandlerUPP(PieCtrlAccessibilityEventHandler), 
+                                sizeof(Simple_AccessibilityEvents) / sizeof(EventTypeSpec), Simple_AccessibilityEvents, 
+                                                        this, &m_pPieCtrlAccessibilityEventHandlerRef);
+}
+
+
+void wxPieCtrl::RemoveMacAccessibilitySupport() {
+    if (m_pPieCtrlAccessibilityEventHandlerRef) {
+        ::RemoveEventHandler(m_pPieCtrlAccessibilityEventHandlerRef);
+        m_pPieCtrlAccessibilityEventHandlerRef = NULL;
    }
 }
 
@@ -293,7 +358,6 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                 // size, position, parent window, top level element and isFocused attributes.
                 CFArrayAppendValue( namesArray, kAXWindowAttribute );
                 CFArrayAppendValue( namesArray, kAXTopLevelUIElementAttribute );
-                CFArrayAppendValue( namesArray, kAXDescriptionAttribute );
                 CFArrayAppendValue( namesArray, kAXSizeAttribute );
                 CFArrayAppendValue( namesArray, kAXPositionAttribute );
                 if (isHeader) {
@@ -305,6 +369,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
             CFArrayAppendValue( namesArray, kAXFocusedAttribute );
             CFArrayAppendValue( namesArray, kAXRoleAttribute );
             CFArrayAppendValue( namesArray, kAXRoleDescriptionAttribute );
+            CFArrayAppendValue( namesArray, kAXDescriptionAttribute );
             CFArrayAppendValue( namesArray, kAXParentAttribute );
 
             return noErr;
@@ -390,14 +455,26 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
 
                 } else if ( CFStringCompare( attribute, kAXRoleDescriptionAttribute, 0 ) == kCFCompareEqualTo ) {
                     // Return a string indicating the role of this part.
-                    wxString        str;
 
-                    str = _("list of ");
-                    str += pView->GetViewName();
-                    
-                    CFStringRef		roleDesc = CFStringCreateWithCString(NULL, str.char_str(), kCFStringEncodingUTF8);
+                    CFStringRef		roleDesc = CFSTR("");
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( roleDesc ), &roleDesc );
                     CFRelease( roleDesc );
+                    return noErr;
+
+                } else if ( CFStringCompare( attribute, kAXDescriptionAttribute, 0 ) == kCFCompareEqualTo ) {
+                    // Return a string indicating the role of this part.
+                    wxString        str;
+
+                    if (isHeader) {
+                        str = _("list of ");
+                        str += pView->GetViewName();
+                    } else {
+                        str = _("blank");
+                    }
+                    
+                    CFStringRef		description = CFStringCreateWithCString(NULL, str.char_str(), kCFStringEncodingUTF8);
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( description ), &description );
+                    CFRelease( description );
                     return noErr;
 
                 } else if ( CFStringCompare( attribute, kAXParentAttribute, 0 ) == kCFCompareEqualTo ) {
@@ -450,6 +527,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
             
                 if ( CFStringCompare( attribute, kAXDescriptionAttribute, 0 ) == kCFCompareEqualTo ) {
                     wxString        str, buf;
+                    int             rowCount;
 
                     if (isHeader) {
                         wxListItem      headerItem;
@@ -462,7 +540,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                         currentTabView = pFrame->GetCurrentViewPage();
                         
                         pList->GetColumn(col, headerItem);
-                        buf.Printf(_("%d of %d "), col+1, pList->GetColumnCount());
+                        buf.Printf(_("%d of %d; "), col+1, pList->GetColumnCount());
                         if (col == pView->m_iSortColumn) {
                             str = _("current sort column ");
                             str += buf;
@@ -473,27 +551,31 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                         }
                         str += headerItem.GetText();
                     } else {    // ! isHeader
-                        if (pList->GetItemState(row, wxLIST_STATE_SELECTED) & wxLIST_STATE_SELECTED) {
-                           str = _("selected "); 
+                        rowCount = pList->GetItemCount();
+                        if (rowCount <= 0) {
+                            str = _("blank");                         
                         } else {
-                           str = wxEmptyString; 
-                        }
+                            if (pList->GetItemState(row, wxLIST_STATE_SELECTED) & wxLIST_STATE_SELECTED) {
+                               str = _("selected "); 
+                            } else {
+                               str = wxEmptyString; 
+                            }
 
-                        buf.Printf(_("row %d "), row+1);
-                        str += buf;
-                        if (col == 0) {
-                            buf.Printf(_("of %d "), pList->GetItemCount());
+                            buf.Printf(_("row %d "), row+1);
                             str += buf;
-                       }
-                        buf.Printf(_("column %d "), col+1);
-                        str += buf;
-                        buf = pView->FireOnListGetItemText(row, col);
-                        if (buf.IsEmpty()) {
-                            buf = _("blank");
+                            if (col == 0) {
+                                buf.Printf(_("of %d; "), rowCount);
+                                str += buf;
+                           }
+                            buf.Printf(_("column %d; "), col+1);
+                            str += buf;
+                            buf = pView->FireOnListGetItemText(row, col);
+                            if (buf.IsEmpty()) {
+                                buf = _("blank");
+                            }
+                            str += buf;
                         }
-                        str += buf;
                     }
-                    
                     CFStringRef		description = CFStringCreateWithCString(NULL, str.char_str(), kCFStringEncodingUTF8);
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( description ), &description );
                     CFRelease( description );
@@ -1055,7 +1137,7 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
                     } else {
                         str = wxEmptyString;
                     }
-                    buf.Printf(_("row %d of %d "), row, n);
+                    buf.Printf(_("row %d of %d; "), row, n);
                     str += buf;
 
                     err = pAccessible->GetDescription(row, &buf);
@@ -1259,7 +1341,7 @@ pascal OSStatus AttachListAccessibilityEventHandler( EventHandlerCallRef inHandl
     return eventNotHandledErr;
 }
 
-pascal OSStatus SimpleGUIAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
+pascal OSStatus SimpleAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     EventRef inEvent, void* pData) {
     const UInt32                eventClass = GetEventClass(inEvent);
     const UInt32                eventKind = GetEventKind(inEvent);
@@ -1279,19 +1361,82 @@ pascal OSStatus SimpleGUIAccessibilityEventHandler( EventHandlerCallRef inHandle
             if (err) return err;
 
             if ( CFStringCompare( attribute, kAXRoleAttribute, 0 ) == kCFCompareEqualTo ) {
-                    CFStringRef		role = kAXStaticTextRole;       // kAXRowRole;
+                    CFStringRef		role = kAXStaticTextRole;
 
                     SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( role ), &role );
                     return noErr;
             }
 
+        return CallNextEventHandler( inHandlerCallRef, inEvent );
         return eventNotHandledErr;
     break;
 
     
     default:
+    return CallNextEventHandler( inHandlerCallRef, inEvent );
+
         return eventNotHandledErr;
     }
     
     return eventNotHandledErr;
 }
+
+
+pascal OSStatus PieCtrlAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
+                                    EventRef inEvent, void* pData) {
+    const UInt32                eventClass = GetEventClass(inEvent);
+    const UInt32                eventKind = GetEventKind(inEvent);
+    OSStatus                    err;
+    wxPieCtrl*                  pPieCtrl = (wxPieCtrl*)pData;
+
+    if (eventClass != kEventClassAccessibility) {
+        return eventNotHandledErr;
+    }
+
+    switch (eventKind) {
+
+        case kEventAccessibleGetNamedAttribute:
+            CFStringRef			attribute;
+
+            err = GetEventParameter (inEvent, kEventParamAccessibleAttributeName, 
+                        typeCFStringRef, NULL, sizeof(typeCFStringRef), NULL, &attribute);
+            if (err) return err;
+
+            if ( CFStringCompare( attribute, kAXRoleAttribute, 0 ) == kCFCompareEqualTo ) {
+                    CFStringRef		role = kAXStaticTextRole;
+
+                    SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( role ), &role );
+                    return noErr;
+
+            } else if ( CFStringCompare( attribute, kAXDescriptionAttribute, 0 ) == kCFCompareEqualTo ) {
+                // Return a string indicating the role of this part.
+                wxString            str;
+                CFStringRef         description;
+                unsigned int        i;
+                
+                str = pPieCtrl->GetLabel();
+                for(i=0; i<pPieCtrl->m_Series.Count(); i++) {
+                    str += wxT("; ");
+                    str += pPieCtrl->m_Series[i].GetLabel();
+                }
+                
+                description = CFStringCreateWithCString(NULL, str.char_str(), kCFStringEncodingUTF8);
+                SetEventParameter( inEvent, kEventParamAccessibleAttributeValue, typeCFTypeRef, sizeof( description ), &description );
+                CFRelease( description );
+                return noErr;
+            }
+
+        return CallNextEventHandler( inHandlerCallRef, inEvent );
+        return eventNotHandledErr;
+    break;
+
+    
+    default:
+    return CallNextEventHandler( inHandlerCallRef, inEvent );
+
+        return eventNotHandledErr;
+    }
+    
+    return eventNotHandledErr;
+}
+

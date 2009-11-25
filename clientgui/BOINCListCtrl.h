@@ -92,8 +92,8 @@ private:
     wxScrolledWindow*       GetMainWin(void) { return (wxScrolledWindow*) m_mainWin; }
     wxCoord                 GetHeaderHeight(void) { return m_headerHeight; }
 #ifdef __WXMAC__
-    void                    SetupMacListControlAccessibilitySupport();
-    void                    RemoveMacListControlAccessibilitySupport();
+    void                    SetupMacAccessibilitySupport();
+    void                    RemoveMacAccessibilitySupport();
     CBOINCBaseView*         GetParentView() { return m_pParentView; }
     
     HIViewRef               m_headerView;

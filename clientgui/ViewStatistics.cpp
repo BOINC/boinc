@@ -1806,10 +1806,17 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
     m_pTaskPane->UpdateControls();
 
     UpdateSelection();
+
+#ifdef __WXMAC__
+    SetupMacAccessibilitySupport();
+#endif
 }
 
 CViewStatistics::~CViewStatistics() {
     EmptyTasks();
+#ifdef __WXMAC__
+    RemoveMacAccessibilitySupport();
+#endif
 }
 
 wxString& CViewStatistics::GetViewName() {

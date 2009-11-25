@@ -105,6 +105,8 @@ public:
 	wxPieCtrl(wxWindow * parent, wxWindowID id = wxID_ANY, wxPoint pos = wxDefaultPosition,
 		wxSize sz = wxDefaultSize, long style = 0, wxString name = wxT("wxPieCtrl"));
 
+        ~wxPieCtrl();
+        
 	wxColour GetBackColour();
 	void SetBackColour(wxColour colour);
 
@@ -148,6 +150,15 @@ public:
 	void OnSize(wxSizeEvent & event);
 	void OnMouseMove(wxMouseEvent& ev);
 	void OnEraseBackground(wxEraseEvent & /*event*/);
+
+#ifdef __WXMAC__
+private:
+    void                    SetupMacAccessibilitySupport();
+    void                    RemoveMacAccessibilitySupport();
+    
+    EventHandlerRef         m_pPieCtrlAccessibilityEventHandlerRef;
+#endif
+
 };
 
 #endif

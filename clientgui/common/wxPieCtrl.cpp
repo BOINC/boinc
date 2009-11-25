@@ -69,6 +69,16 @@ wxPieCtrl::wxPieCtrl(wxWindow * parent, wxWindowID id, wxPoint pos,
 	SetSize(sz);
 	m_CanvasBitmap.Create(1,1);
 	RecreateCanvas();
+
+#ifdef __WXMAC__
+    SetupMacAccessibilitySupport();
+#endif
+}
+
+wxPieCtrl::~wxPieCtrl() {
+#ifdef __WXMAC__
+    RemoveMacAccessibilitySupport();
+#endif
 }
 
 /* getter and setter */
