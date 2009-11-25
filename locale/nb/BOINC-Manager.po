@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC 610\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-25 08:42+0100\n"
+"PO-Revision-Date: 2009-11-25 12:27+0100\n"
 "Last-Translator: Kenneth Skjold <kenneth@skjold.biz>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
 "MIME-Version: 1.0\n"
@@ -275,7 +275,7 @@ msgstr "Vis innhold"
 
 #: clientgui/AdvancedFrame.cpp:374
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr ""
+msgstr "Enkel &Visning...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:375
 msgid "Display the simple graphical interface."
@@ -331,7 +331,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:440
 msgid "Run based on &preferences"
-msgstr ""
+msgstr "Kjør basert på &preferansene"
 
 #: clientgui/AdvancedFrame.cpp:441
 msgid "Allow work according to your preferences"
@@ -368,7 +368,7 @@ msgstr "&Veiviser for nettverkskonfigurasjon..."
 
 #: clientgui/AdvancedFrame.cpp:480
 msgid "Stop BOINC network activity"
-msgstr ""
+msgstr "Stopp BOINC nettverks aktivitet"
 
 #: clientgui/AdvancedFrame.cpp:487
 #, fuzzy
@@ -475,7 +475,7 @@ msgstr "BOINC Nettside"
 #: clientgui/AdvancedFrame.cpp:582
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr ""
+msgstr "Vis informasjon om BOINC og %s"
 
 #: clientgui/AdvancedFrame.cpp:598
 #: clientgui/BOINCTaskBar.cpp:616
@@ -505,7 +505,7 @@ msgstr "&Aktivitet"
 
 #: clientgui/AdvancedFrame.cpp:627
 msgid "A&dvanced"
-msgstr ""
+msgstr "Avansert"
 
 #: clientgui/AdvancedFrame.cpp:631
 msgid "&Help"
@@ -576,7 +576,7 @@ msgstr "%s - (%s)"
 
 #: clientgui/AdvancedFrame.cpp:1809
 #, c-format
-#, fuzzy, c-format
+#, c-format
 msgid "Connecting to %s"
 msgstr "Kobler til %s"
 
@@ -1021,14 +1021,13 @@ msgstr ""
 #: clientgui/DlgAbout.cpp:179
 #: clientgui/DlgAbout.cpp:183
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr ""
+msgstr "Berkeley Open Infrastructure for Network Computing"
 
 #: clientgui/DlgAbout.cpp:195
 #: clientgui/DlgExitMessage.cpp:172
 #: clientgui/DlgGenericMessage.cpp:120
 #: clientgui/DlgOptions.cpp:383
 #: clientgui/DlgSelectComputer.cpp:147
-#, fuzzy
 msgid "&OK"
 msgstr "&OK"
 
@@ -1099,8 +1098,9 @@ msgid "check this if you want this computer to do work while it runs on batterie
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:89
+#, fuzzy
 msgid " While computer is in use"
-msgstr ""
+msgstr "% når datamaskinen er i bruk"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:92
 msgid "check this if you want this computer to do work even when you're using it"
@@ -1396,8 +1396,9 @@ msgstr "% når datamaskinen er i bruk"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:551
 #, no-c-format
+#, fuzzy, no-c-format
 msgid "% when computer is idle"
-msgstr ""
+msgstr "% når datamaskinen er i bruk"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:556
 msgid " Leave applications in memory while suspended"
@@ -1409,7 +1410,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:567
 msgid "disk and memory usage"
-msgstr ""
+msgstr "disk og minne bruk"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:580
 msgid "OK"
@@ -1475,7 +1476,6 @@ msgstr ""
 #: clientgui/DlgGenericMessage.cpp:125
 #: clientgui/DlgOptions.cpp:388
 #: clientgui/DlgSelectComputer.cpp:152
-#, fuzzy
 msgid "&Cancel"
 msgstr "&Avbryt"
 
@@ -1485,7 +1485,6 @@ msgid "Don't show this dialog again."
 msgstr "&Ikke vis denne dialogen igjen."
 
 #: clientgui/DlgItemProperties.cpp:57
-#, fuzzy
 msgid "&Close"
 msgstr "&Lukk"
 
@@ -1496,7 +1495,6 @@ msgstr "Slett prosjekt"
 
 #: clientgui/DlgItemProperties.cpp:105
 #: clientgui/DlgOptions.cpp:205
-#, fuzzy
 msgid "General"
 msgstr "Generell"
 
@@ -1567,7 +1565,7 @@ msgstr ""
 
 #: clientgui/DlgItemProperties.cpp:123
 msgid "Don't request more work"
-msgstr ""
+msgstr "Ikke anmod om mer arbeid"
 
 #: clientgui/DlgItemProperties.cpp:124
 #, fuzzy
@@ -1680,7 +1678,7 @@ msgstr "&Rapporter en feil..."
 
 #: clientgui/DlgItemProperties.cpp:190
 msgid "Resources"
-msgstr ""
+msgstr "Ressurser"
 
 #: clientgui/DlgItemProperties.cpp:193
 msgid "CPU time at last checkpoint"
@@ -1718,7 +1716,6 @@ msgid "Working set size"
 msgstr "Skriftpunktstørrelse"
 
 #: clientgui/DlgItemProperties.cpp:203
-#, fuzzy
 msgid "Directory"
 msgstr "Mappe"
 
@@ -1733,7 +1730,6 @@ msgid "Download failed"
 msgstr "Forgrening feilet"
 
 #: clientgui/DlgItemProperties.cpp:307
-#, fuzzy
 msgid "Downloading"
 msgstr "Laster  ned"
 
@@ -1797,7 +1793,7 @@ msgstr "Klarte ikke sette trådprioritet"
 
 #: clientgui/DlgItemProperties.cpp:344
 msgid "Running"
-msgstr ""
+msgstr "Kjører"
 
 #: clientgui/DlgItemProperties.cpp:347
 #, fuzzy
@@ -1840,7 +1836,7 @@ msgstr "Program avbrutt."
 
 #: clientgui/DlgItemProperties.cpp:379
 msgid "Acknowledged"
-msgstr ""
+msgstr "Erkjent"
 
 #: clientgui/DlgItemProperties.cpp:381
 #, fuzzy
@@ -1879,7 +1875,7 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
-msgstr ""
+msgstr "Kjør Manager ved pålogging?"
 
 #: clientgui/DlgOptions.cpp:191
 msgid "Run the BOINC Manager when you log on."
@@ -2007,7 +2003,6 @@ msgstr ""
 
 #: clientgui/Localization.cpp:31
 #: clientgui/Localization.cpp:69
-#, fuzzy
 msgid "Message boards"
 msgstr "Oppslagstavler"
 
@@ -2165,7 +2160,7 @@ msgstr "Nyheter"
 
 #: clientgui/Localization.cpp:127
 msgid "climateprediction.net News"
-msgstr ""
+msgstr "climateprediction.net Nyheter"
 
 #: clientgui/Localization.cpp:131
 msgid "View your account information, credits, and trickles"
@@ -2268,7 +2263,7 @@ msgstr "Forgrening feilet"
 
 #: clientgui/NotFoundPage.cpp:186
 msgid "Check the username and password, and try again."
-msgstr ""
+msgstr "Sjekk brukernavn og passord, og prøv igjen."
 
 #: clientgui/NotFoundPage.cpp:190
 msgid "Check the email address and password, and try again."
@@ -2656,7 +2651,7 @@ msgstr ""
 #: clientgui/sg_DlgPreferences.cpp:927
 #: clientgui/sg_DlgPreferences.cpp:938
 msgid "Anytime"
-msgstr ""
+msgstr "Alltid"
 
 #: clientgui/sg_DlgPreferences.cpp:785
 #, c-format
@@ -2929,7 +2924,7 @@ msgstr "Filen inneholder ikke data vi kan importere"
 #: clientgui/ViewMessagesGrid.cpp:97
 #: clientgui/ViewProjects.cpp:169
 msgid "Commands"
-msgstr ""
+msgstr "Kommandoer"
 
 #: clientgui/ViewMessages.cpp:88
 #: clientgui/ViewMessagesGrid.cpp:101
@@ -3533,7 +3528,7 @@ msgstr ""
 #: clientgui/ViewWork.cpp:205
 #: clientgui/ViewWorkGrid.cpp:128
 msgid "Abort"
-msgstr ""
+msgstr "Avbryt"
 
 #: clientgui/ViewWork.cpp:206
 #: clientgui/ViewWorkGrid.cpp:129
