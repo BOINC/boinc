@@ -9519,3 +9519,11 @@ Charlie 25 Nov 2009
             wxPieCtrl.cpp, .h
         Mac/
             MacAccessibility.cpp
+
+Rom    25 Nov 2009
+    - client: Treat each HTTP header sent to the server as a new log message.
+        Some tools get confused when more than one delimeter is used in
+        common file types.
+        
+    client/
+        http_curl.cpp, .h
