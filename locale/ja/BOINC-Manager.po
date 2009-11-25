@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-19 01:23+0900\n"
+"PO-Revision-Date: 2009-11-24 23:52+0900\n"
 "Last-Translator: je2bwm <je2bwm@jarl.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -614,12 +614,12 @@ msgstr "BOINC クライアントと通信中です。お待ちください ...."
 #: clientgui/AsyncRPC.cpp:1203
 #, c-format
 msgid "&Quit %s"
-msgstr "終了する(Q) %s"
+msgstr "%s を終了する(Q)"
 
 #: clientgui/AsyncRPC.cpp:1205
 #, c-format
 msgid "E&xit %s"
-msgstr "終了する(X) %s"
+msgstr "%s を終了する(X)"
 
 #: clientgui/AsyncRPC.cpp:1222
 msgid "Cancel"
@@ -1523,7 +1523,7 @@ msgstr "ファイルアップロード 待機"
 
 #: clientgui/DlgItemProperties.cpp:120
 msgid "Computer ID"
-msgstr "計算機 ID"
+msgstr "コンピュータ ID"
 
 #: clientgui/DlgItemProperties.cpp:121
 msgid "Non CPU intensive"
@@ -3537,7 +3537,7 @@ msgstr "このタスクに対する仕事を一時停止します。"
 
 #: clientgui/ViewWork.cpp:1107
 msgid "GPU missing, "
-msgstr "GPUがありません、"
+msgstr "GPU がありません、"
 
 #: clientgui/ViewWork.cpp:1148
 msgid " - an exclusive app is running"
