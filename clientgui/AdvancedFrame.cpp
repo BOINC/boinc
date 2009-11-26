@@ -305,9 +305,11 @@ bool CAdvancedFrame::CreateMenu( bool bRPCsSafe ) {
         _("Close the %s window"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
+    strMenuName = _("&Close Window");
+    strMenuName += wxT("\tCtrl+W");
     menuFile->Append(
         ID_CLOSEWINDOW,
-        _("&Close Window\tCtrl+W"),
+        strMenuName,
         strMenuDescription
     );
 

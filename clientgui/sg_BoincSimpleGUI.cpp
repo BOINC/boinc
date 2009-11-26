@@ -102,10 +102,12 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
         _("Close the %s window"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
+    strMenuName = _("&Close Window");
+    strMenuName += wxT("\tCtrl+W");
     menuFile->Append(
         ID_CLOSEWINDOW,
-        _("&Close Window\tCtrl+W"),
-		strMenuDescription
+        strMenuName,
+        strMenuDescription
     );
 
     // View menu
@@ -440,6 +442,7 @@ CSimplePanel::CSimplePanel() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimplePanel::CSimplePanel - Default Constructor Function End"));
 }
 
+
 CSimplePanel::CSimplePanel(wxWindow* parent) : 
     wxPanel(parent, -1, wxDefaultPosition, wxDefaultSize, wxNO_BORDER)
 {
@@ -557,7 +560,6 @@ void CSimplePanel::OnFrameRender() {
 			    InitNotebook();
 		    }
 		    wrkUnitNB->Update();
-        
 	    } else {
 		    // State changes can cause the BSG to crash if a dialogue is open.
 		    // Defer state change until after the dialogue is closed
