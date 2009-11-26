@@ -466,10 +466,13 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     wxString        str;
 
                     if (isHeader) {
+                        str = _("blank");
+                    } else {
                         str = _("list of ");
                         str += pView->GetViewName();
-                    } else {
-                        str = _("blank");
+                        if (pList->GetItemCount() <= 0) {
+                            str += _(" is empty"); 
+                        }
                     }
                     
                     CFStringRef		description = CFStringCreateWithCString(NULL, str.char_str(), kCFStringEncodingUTF8);
@@ -553,7 +556,7 @@ OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRe
                     } else {    // ! isHeader
                         rowCount = pList->GetItemCount();
                         if (rowCount <= 0) {
-                            str = _("blank");                         
+                            str = _("list is empty");                         
                         } else {
                             if (pList->GetItemState(row, wxLIST_STATE_SELECTED) & wxLIST_STATE_SELECTED) {
                                str = _("selected "); 
