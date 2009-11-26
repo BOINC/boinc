@@ -9442,7 +9442,7 @@ Charlie 23 Nov 2009
         take longer than expected.
         
     clientgui/
-        BOINCSimpleGUI.cpp, .h
+        sg_BoincSimpleGUI.cpp, .h
         Mac/
             MacAccessibility.cpp
             MacAccessibility.h (added)
@@ -9527,3 +9527,22 @@ Rom    25 Nov 2009
         
     client/
         http_curl.cpp, .h
+
+Charlie 26 Nov 2009
+    - MGR: Don't localize keyboard shortcut for Close Window.
+    - MGR: Tweaks to Mac accessibility.
+    - Mac Installer: Check for our boinc_master and boinc_project users and 
+        groups having IDs which conflict with other users and groups on the 
+        system.  This can happen when a newer version of the OS includes new 
+        users or groups, or when software is installed which defines them.  
+        This was causing some of the problems reported by users.  If the 
+        installer finds a conflict, it deletes our user or group and creates 
+        a new one with a unique ID.
+
+    clientgui/
+        AdvancedFrame.cpp
+        sg_BoincSimpleGUI.cpp
+        Mac/
+            MacAccessibility.cpp
+    mac_installer/
+        PostInstall.cpp

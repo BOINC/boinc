@@ -38,9 +38,16 @@
 
 #include "SetupSecurity.h"
 
+
+#define boinc_master_user_name "boinc_master"
+#define boinc_master_group_name "boinc_master"
+#define boinc_project_user_name "boinc_project"
+#define boinc_project_group_name "boinc_project"
+
 void Initialize(void);	/* function prototypes */
 int DeleteReceipt(void);
 OSStatus CheckLogoutRequirement(int *finalAction);
+void CheckUserAndGroupConflicts();
 Boolean SetLoginItem(long brandID, Boolean deleteLogInItem);
 void SetSkinInUserPrefs(char *userName, char *skinName);
 Boolean CheckDeleteFile(char *name);
@@ -104,9 +111,9 @@ int main(int argc, char *argv[])
     uid_t                   saved_euid, saved_uid, b_m_uid;
     passwd                  *pw;
     int                     finalInstallAction;
-#else
+#else   // SANDBOX
     group                   *grp;
-#endif
+#endif  // SANDBOX
 
     appName[0] = "/Applications/BOINCManager.app";
     appNameEscaped[0] = "/Applications/BOINCManager.app";
@@ -202,6 +209,8 @@ int main(int argc, char *argv[])
     Success = false;
     
 #ifdef SANDBOX
+
+    CheckUserAndGroupConflicts();
 
     for (i=0; i<5; ++i) {
         err = CreateBOINCUsersAndGroups();
@@ -465,7 +474,7 @@ OSStatus CheckLogoutRequirement(int *finalAction)
     group                   *grp = NULL;
     int                     i;
     Boolean                 isMember = false;
-#endif
+#endif  // SANDBOX
     
     *finalAction = restartRequired;
 
@@ -487,7 +496,7 @@ OSStatus CheckLogoutRequirement(int *finalAction)
         *finalAction = nothingrequired;
         return noErr;
     }
-#endif
+#endif  // SANDBOX
     
     getcwd(path, sizeof(path));
     strlcat(path, "/Contents/Info.plist", sizeof(path));
@@ -533,6 +542,119 @@ OSStatus CheckLogoutRequirement(int *finalAction)
         CFRelease(propertyListRef);
 
     return err;
+}
+
+
+// Some newer versions of the OS define users and groups which may conflict with 
+// our previously created boinc_master or boinc_project user or group.  This could 
+// also happen when the user installs new software.  So we must check for such 
+// duplicate UserIDs and groupIDs; if found, we delete our user or group so that 
+// the PostInstall application will cerate a new one that does not conflict.
+
+// NOTE: getgrnam and getgrgid use one static memory area to return their results, 
+//  so each call to getgrnam or getgrgid overwrites the data from any previous calls.
+void CheckUserAndGroupConflicts()
+{
+#ifdef SANDBOX
+    passwd          *pw = NULL;
+    group           *grp = NULL;
+    gid_t           boinc_master_gid = 0, boinc_project_gid = 0;
+    uid_t           boinc_master_uid = 0, boinc_project_uid = 0;
+    
+    FILE            *f;
+    char            cmd[256], buf[256];
+    int             entryCount;
+
+    entryCount = 0;
+    grp = getgrnam(boinc_master_group_name);
+    if (grp) {
+        boinc_master_gid = grp->gr_gid;
+        sprintf(cmd, "dscl . -search /Groups PrimaryGroupID %d", boinc_master_gid);
+        f = popen(cmd, "r");
+        if (f) {
+            while (PersistentFGets(buf, sizeof(buf), f)) {
+                if (strstr(buf, "PrimaryGroupID")) {
+                    ++entryCount;
+                }
+            }
+            pclose(f);
+        }    
+    }
+        
+    if (entryCount > 1) {
+        system ("dscl . -delete /groups/boinc_master");
+        // User boinc_master must have group boinc_master as its primary group.
+        // Since this group no longer exists, delete the user as well.
+        system ("dscl . -delete /users/boinc_master");
+        ResynchSystem();
+    }
+
+    entryCount = 0;
+    grp = getgrnam(boinc_project_group_name);
+    if (grp) {
+        boinc_project_gid = grp->gr_gid;
+        sprintf(cmd, "dscl . -search /Groups PrimaryGroupID %d", boinc_project_gid);
+        f = popen(cmd, "r");
+        if (f) {
+            while (PersistentFGets(buf, sizeof(buf), f)) {
+                if (strstr(buf, "PrimaryGroupID")) {
+                    ++entryCount;
+                }
+            }
+            pclose(f);
+        }    
+    }
+
+    if (entryCount > 1) {
+        system ("dscl . -delete /groups/boinc_project");
+        // User boinc_project must have group boinc_project as its primary group.
+        // Since this group no longer exists, delete the user as well.
+        system ("dscl . -delete /users/boinc_project");
+        ResynchSystem();
+    }
+
+    entryCount = 0;
+    pw = getpwnam(boinc_master_user_name);
+    if (pw) {
+        boinc_master_uid = pw->pw_uid;
+        sprintf(cmd, "dscl . -search /Users UniqueID %d", boinc_master_uid);
+        f = popen(cmd, "r");
+        if (f) {
+            while (PersistentFGets(buf, sizeof(buf), f)) {
+                if (strstr(buf, "UniqueID")) {
+                    ++entryCount;
+                }
+            }
+            pclose(f);
+        }    
+    }
+
+    if (entryCount > 1) {
+        system ("dscl . -delete /users/boinc_master");
+        ResynchSystem();
+    }
+        
+    entryCount = 0;
+    pw = getpwnam(boinc_project_user_name);
+    if (pw) {
+        boinc_project_uid = pw->pw_uid;
+        sprintf(cmd, "dscl . -search /Users UniqueID %d", boinc_project_uid);
+        f = popen(cmd, "r");
+        if (f) {
+            while (PersistentFGets(buf, sizeof(buf), f)) {
+                if (strstr(buf, "UniqueID")) {
+                    ++entryCount;
+                }
+            }
+            pclose(f);
+        }    
+    }
+
+    if (entryCount > 1) {
+        system ("dscl . -delete /users/boinc_project");
+        ResynchSystem();
+    }
+#endif  // SANDBOX
 }
 
 
@@ -778,7 +900,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
         puts("getgrnam(\"boinc_master\") failed\n");
         return -1;
     }
-#endif
+#endif  // SANDBOX
 
     FindSkinName(skinName, sizeof(skinName));
 
@@ -830,9 +952,9 @@ OSErr UpdateAllVisibleUsers(long brandID)
         if (!isGroupMember) {
             allNonAdminUsersAreSet = false;
         }
-#else
+#else   // SANDBOX
         isGroupMember = true;
-#endif
+#endif  // SANDBOX
 
         if (isGroupMember) {
             saved_uid = geteuid();
@@ -931,9 +1053,9 @@ OSErr UpdateAllVisibleUsers(long brandID)
                 isGroupMember = true;
             }
         }
-#else
+#else   // SANDBOX
         isGroupMember = true;
-#endif
+#endif  // SANDBOX
 
         saved_uid = geteuid();
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
