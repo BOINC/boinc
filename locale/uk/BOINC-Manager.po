@@ -1,47 +1,53 @@
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2009-11-26 14:57-0700\n"
+"Last-Translator: Valeriy Khakhutskyy <v.khakhutskyy@web.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 #: clientgui/AccountInfoPage.cpp:370
 msgid "Identify your account "
-msgstr ""
+msgstr "Ваш обліковий запис "
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr ""
+"Будь ласка, введить данні Вашого акаунту (для того щоб зареєструвати аканту, "
+"зайдить на веб-сайт проєкту)"
 
 #: clientgui/AccountInfoPage.cpp:380
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
 msgstr ""
+"На даний момент цій проєет не приймає нових користувачів.Ви можете "
+"приєднатися тільки якщо вже маєте акаунт."
 
 #: clientgui/AccountInfoPage.cpp:384
 msgid "Are you already running this project?"
-msgstr ""
+msgstr "Чи Ви вже виконуєте цій проєкт?"
 
 #: clientgui/AccountInfoPage.cpp:388
 msgid "&No, new user"
-msgstr ""
+msgstr "Ні, новий користувач"
 
 #: clientgui/AccountInfoPage.cpp:391
 msgid "&Yes, existing user"
-msgstr ""
+msgstr "Так, вже зареєстрован"
 
 #: clientgui/AccountInfoPage.cpp:396
 msgid ""
@@ -52,15 +58,18 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
+"Ми не змогли автоматично зароєструвати Ваш акаунт.Будь ласка клікніть на "
+"посилання \"Знайти інформацію потрібну для входу в систему\" внизу, щоб "
+"з'ясувати, що треба ввести в поле емейл.-адрес та пароль."
 
 #: clientgui/AccountInfoPage.cpp:399
 msgid "Find logon information"
-msgstr ""
+msgstr "Знайти інформацію потрібну для входу в систему"
 
 #: clientgui/AccountInfoPage.cpp:419
 #: clientgui/AccountInfoPage.cpp:585
 msgid "&Password:"
-msgstr ""
+msgstr "Пароль:"
 
 #: clientgui/AccountInfoPage.cpp:426
 #: clientgui/AccountInfoPage.cpp:600
