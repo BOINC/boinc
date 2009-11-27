@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-26 14:57-0700\n"
+"PO-Revision-Date: 2009-11-26 15:08-0700\n"
 "Last-Translator: Valeriy Khakhutskyy <v.khakhutskyy@web.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -26,16 +26,17 @@ msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr ""
-"Будь ласка, введить данні Вашого акаунту (для того щоб зареєструвати аканту, "
-"зайдить на веб-сайт проєкту)"
+"Будь ласка, введить данні Вашого облікового запису\n"
+"(для того щоб створити обліковий запис, зайдіть на веб-сайт проєкту)"
 
 #: clientgui/AccountInfoPage.cpp:380
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
 msgstr ""
-"На даний момент цій проєет не приймає нових користувачів.Ви можете "
-"приєднатися тільки якщо вже маєте акаунт."
+"На даний момент створення новий облікових записів у цьому проєкті не "
+"можливо.\n"
+"Ви можете підлючитися тільки якщо вже маєте обліковий запис."
 
 #: clientgui/AccountInfoPage.cpp:384
 msgid "Are you already running this project?"
@@ -58,13 +59,16 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
-"Ми не змогли автоматично зароєструвати Ваш акаунт.Будь ласка клікніть на "
-"посилання \"Знайти інформацію потрібну для входу в систему\" внизу, щоб "
-"з'ясувати, що треба ввести в поле емейл.-адрес та пароль."
+"Ми не змогли автоматично зароєструвати Ваш обліковий\n"
+"запис.\n"
+"\n"
+"Будь ласка клікніть на посилання \"Знайти інформацію для реєстрації\" внизу, "
+"щоб з'ясувати, що треба ввести в поле емейл-адрес\n"
+"та пароль."
 
 #: clientgui/AccountInfoPage.cpp:399
 msgid "Find logon information"
-msgstr "Знайти інформацію потрібну для входу в систему"
+msgstr "Знайти інформацію для реєстрації"
 
 #: clientgui/AccountInfoPage.cpp:419
 #: clientgui/AccountInfoPage.cpp:585
@@ -74,16 +78,16 @@ msgstr "Пароль:"
 #: clientgui/AccountInfoPage.cpp:426
 #: clientgui/AccountInfoPage.cpp:600
 msgid "Choose a &password:"
-msgstr ""
+msgstr "Обрати пароль:"
 
 #: clientgui/AccountInfoPage.cpp:429
 msgid "C&onfirm password:"
-msgstr ""
+msgstr "Підтвердити пароль:"
 
 #: clientgui/AccountInfoPage.cpp:436
 #, c-format
 msgid "Are you already running %s?"
-msgstr ""
+msgstr "Чи Ви вже зареєстровані у проєкті %s?"
 
 #: clientgui/AccountInfoPage.cpp:453
 msgid "&Username:"
