@@ -1,6 +1,10 @@
 <?
 
 $project_news = array(
+array("November 27, 2009",
+    "An <a href=http://www.lanacion.com.ar/nota.asp?nota_id=1204531>article on
+    volunteer computing</a> appeared today in the Argentine newspaper <i>La Nacion</i>."
+),
 array("October 30, 2009",
     "The <a href=http://boinc.berkeley.edu/trac/wiki/WorkShop09>Fifth BOINC Workshop</a> was held Oct. 22-23 in Barcelona.
     There were 35 attendees and 21 excellent talks;

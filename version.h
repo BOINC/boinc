@@ -23,7 +23,7 @@
 #define PACKAGE "boinc"
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT "boinc_dev@ssl.berkeley.edu"
+#define PACKAGE_BUGREPORT ""
 
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "BOINC"

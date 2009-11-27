@@ -9546,3 +9546,9 @@ Charlie 26 Nov 2009
             MacAccessibility.cpp
     mac_installer/
         PostInstall.cpp
+
+David  27 Nov 2009
+    - client: use [wfd] consistently
+
+    client/
+        cs_scheduler.cpp
