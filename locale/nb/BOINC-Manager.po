@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC 610\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-25 18:56+0100\n"
+"PO-Revision-Date: 2009-11-27 23:55+0100\n"
 "Last-Translator: Kenneth Skjold <kenneth@skjold.biz>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
 "MIME-Version: 1.0\n"
@@ -1308,7 +1308,7 @@ msgstr "Skriveropsjoner"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:335
 msgid "Confirm before connecting to internet"
-msgstr ""
+msgstr "Bekreft før internett tilkobling"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:337
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
@@ -1332,11 +1332,11 @@ msgstr "Total diskbruk"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:359
 msgid "network usage start hour"
-msgstr ""
+msgstr "nettverksbruk start tidspunkt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:367
 msgid "network usage stop hour"
-msgstr ""
+msgstr "nettverksbruk stopp tidspunkt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:452
 msgid "network usage"
@@ -1593,7 +1593,7 @@ msgstr "Når jeg trykker lukk-knappen:"
 
 #: clientgui/DlgItemProperties.cpp:127
 msgid "Ended"
-msgstr ""
+msgstr "Ferdig"
 
 #: clientgui/DlgItemProperties.cpp:128
 #, fuzzy
@@ -1674,7 +1674,7 @@ msgstr "Vanlig navn:"
 
 #: clientgui/DlgItemProperties.cpp:182
 msgid "State"
-msgstr ""
+msgstr "Tilstand"
 
 #: clientgui/DlgItemProperties.cpp:185
 #, fuzzy
@@ -1713,7 +1713,7 @@ msgstr "Sammenlign &modifikasjonstidspunkt"
 
 #: clientgui/DlgItemProperties.cpp:199
 msgid "Fraction done"
-msgstr ""
+msgstr "Brøkdel ferdig"
 
 #: clientgui/DlgItemProperties.cpp:200
 #, fuzzy
@@ -1871,7 +1871,7 @@ msgstr "Språk:"
 
 #: clientgui/DlgOptions.cpp:164
 msgid "What language should the manager use?"
-msgstr ""
+msgstr "Hvilket språk skal manageren bruke?"
 
 #: clientgui/DlgOptions.cpp:168
 msgid ""
@@ -2201,7 +2201,7 @@ msgstr "Min Datamaskin"
 
 #: clientgui/Localization.cpp:149
 msgid "Your statistics and settings"
-msgstr ""
+msgstr "Dine statestikker og settinger"
 
 #: clientgui/Localization.cpp:151
 #, fuzzy
@@ -2277,7 +2277,7 @@ msgstr "Sjekk brukernavn og passord, og prøv igjen."
 
 #: clientgui/NotFoundPage.cpp:190
 msgid "Check the email address and password, and try again."
-msgstr ""
+msgstr "Sjekk epost adresse og passord, og prøv igjen."
 
 #: clientgui/ProjectInfoPage.cpp:249
 #, fuzzy
@@ -2436,7 +2436,7 @@ msgstr "Skrur av og på prosessering av overføringskøen"
 
 #: clientgui/sg_ClientStateIndicator.cpp:313
 msgid "Waiting to contact project servers."
-msgstr ""
+msgstr "Venter for å kontakte prosjekt servere."
 
 #: clientgui/sg_ClientStateIndicator.cpp:317
 #: clientgui/sg_ClientStateIndicator.cpp:325
@@ -2446,7 +2446,7 @@ msgstr "Status&bar til filliste"
 
 #: clientgui/sg_ClientStateIndicator.cpp:320
 msgid "No work available to process"
-msgstr ""
+msgstr "Ingen arbeid tilgjengelig for prosessering"
 
 #: clientgui/sg_ClientStateIndicator.cpp:322
 msgid "Unable to connect to the core client"
@@ -2473,11 +2473,15 @@ msgstr ""
 #: clientgui/sg_DlgMessages.cpp:210
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
 msgstr ""
+"Kopier valgte meldinger til utklipstavlen. Du kan velge flere meldinger ved "
+"å holde nede shift eller kommando knappen, mens du klikker på meldingene."
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr ""
+"Kopier valgte meldinger til utklipstavlen. Du kan velge flere meldinger ved "
+"å holde nede shift eller kontrol knappen, mens du klikker på meldingene."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
@@ -2726,7 +2730,7 @@ msgstr ""
 
 #: clientgui/sg_ImageButton.cpp:132
 msgid "Click to show project graphics"
-msgstr ""
+msgstr "Klikk for å vise prosjektets grafikk"
 
 #: clientgui/sg_ProjectsComponent.cpp:106
 #, fuzzy
@@ -2768,7 +2772,7 @@ msgstr "Min Datamaskin"
 #: clientgui/sg_StatImageLoader.cpp:101
 #, c-format
 msgid "%s. Work done by %s: %0.2f"
-msgstr ""
+msgstr "%s. Arbeid gjort av %s: %0.2f"
 
 #: clientgui/sg_StatImageLoader.cpp:154
 #, fuzzy
@@ -2810,7 +2814,7 @@ msgstr "Vis alle"
 
 #: clientgui/sg_ViewTabPage.cpp:444
 msgid "Application: "
-msgstr ""
+msgstr "Program:"
 
 #: clientgui/sg_ViewTabPage.cpp:447
 #: clientgui/sg_ViewTabPage.cpp:451
@@ -2985,7 +2989,7 @@ msgstr "Vis alle oppgaver"
 
 #: clientgui/ViewMessages.cpp:495
 msgid "Show messages for all projects."
-msgstr ""
+msgstr "Vis meldinger for alle prosjekter."
 
 #: clientgui/ViewMessagesGrid.cpp:128
 msgid "ID"
@@ -3048,12 +3052,12 @@ msgstr ""
 #: clientgui/ViewProjects.cpp:180
 #: clientgui/ViewProjects.cpp:706
 msgid "Suspend"
-msgstr ""
+msgstr "Suspender"
 
 #: clientgui/ViewProjects.cpp:181
 #: clientgui/ViewProjects.cpp:706
 msgid "Suspend tasks for this project."
-msgstr ""
+msgstr "Suspender oppgaver for dette prosjektet."
 
 #: clientgui/ViewProjects.cpp:187
 #: clientgui/ViewProjects.cpp:725
@@ -3063,7 +3067,7 @@ msgstr "&Nei, ny bruker"
 
 #: clientgui/ViewProjects.cpp:188
 msgid "Don't get new tasks for this project."
-msgstr ""
+msgstr "Ikke hent nye oppgaver for dette prosjektet."
 
 #: clientgui/ViewProjects.cpp:194
 #, fuzzy
@@ -3076,11 +3080,13 @@ msgstr ""
 
 #: clientgui/ViewProjects.cpp:201
 msgid "Detach"
-msgstr ""
+msgstr "Koble fra"
 
 #: clientgui/ViewProjects.cpp:202
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
 msgstr ""
+"Koble fra datamaskinen fra dette prosjektet. Oppgaver i fremgang vil bli "
+"mistet (bruk 'oppdater' først for å rapportere fullførte oppgaver)."
 
 #: clientgui/ViewProjects.cpp:208
 #, fuzzy
@@ -3098,7 +3104,7 @@ msgstr "Konto"
 
 #: clientgui/ViewProjects.cpp:221
 msgid "Work done"
-msgstr ""
+msgstr "Arbeid gjort"
 
 #: clientgui/ViewProjects.cpp:222
 #, fuzzy
@@ -3191,7 +3197,7 @@ msgstr "Avbrutt av bruker"
 
 #: clientgui/ViewProjects.cpp:1054
 msgid "Won't get new tasks"
-msgstr ""
+msgstr "Henter ikke nye oppgaver"
 
 #: clientgui/ViewProjects.cpp:1057
 msgid "Project ended - OK to detach"
@@ -3213,7 +3219,7 @@ msgstr "Filoverføring pågår fremdeles."
 
 #: clientgui/ViewProjects.cpp:1073
 msgid "Communication deferred "
-msgstr ""
+msgstr "Kommunikasjon utsatt"
 
 #: clientgui/ViewProjectsGrid.cpp:193
 msgid "ProjectsGrid"
@@ -3242,15 +3248,15 @@ msgstr "Avbrutt av bruker"
 
 #: clientgui/ViewResources.cpp:270
 msgid "free, available to BOINC: "
-msgstr ""
+msgstr "ledig, tilgjengelig for BOINC"
 
 #: clientgui/ViewResources.cpp:280
 msgid "free, not available to BOINC: "
-msgstr ""
+msgstr "ledig, ikke tilgjengelig for BOINC"
 
 #: clientgui/ViewResources.cpp:290
 msgid "free: "
-msgstr ""
+msgstr "ledig:"
 
 #: clientgui/ViewResources.cpp:300
 #, fuzzy
@@ -3532,7 +3538,7 @@ msgstr ""
 #: clientgui/ViewWork.cpp:199
 #: clientgui/ViewWorkGrid.cpp:122
 msgid "Suspend work for this result."
-msgstr ""
+msgstr "Suspender arbeid for dette resultatet."
 
 #: clientgui/ViewWork.cpp:205
 #: clientgui/ViewWorkGrid.cpp:128
@@ -3626,7 +3632,7 @@ msgstr ""
 #: clientgui/ViewWork.cpp:733
 #: clientgui/ViewWorkGrid.cpp:451
 msgid "Suspend work for this task."
-msgstr ""
+msgstr "Suspender arbeidet på denne oppgaven"
 
 #: clientgui/ViewWork.cpp:1107
 #, fuzzy
@@ -3691,7 +3697,7 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:278
 msgid "Change Research Applications at World Community Grid"
-msgstr ""
+msgstr "Skift forsknings program på World Community Grid"
 
 #: clientgui/WelcomePage.cpp:295
 #, fuzzy
