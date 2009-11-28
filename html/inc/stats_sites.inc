@@ -44,7 +44,7 @@ $cpid_stats_sites = array(
 
 $stats_sites = array(
     array(
-        "http://www.myboinc.com/FormulaBoinc/",
+        "http://www.formula-boinc.org/",
         "Formula BOINC",
         "(Team ranking based on position within projects,
         as in Formula 1 racing, rather than total points)"
@@ -100,6 +100,10 @@ $stats_sites = array(
     array("http://www.teamocuk.co.uk/",
         "Team OcUK stats",
         ""
+    ),
+    array("http://statsbzh.boinc-af.org/listteams.php",
+        "SETIBZH Stats",
+        "(cross-project team stats; available in French, English, Spanish, German)"
     ),
 );
 
