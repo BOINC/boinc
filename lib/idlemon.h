@@ -22,7 +22,6 @@ extern bool startup_idle_monitor();
 extern bool attach_idle_monitor();
 extern void shutdown_idle_monitor();
 extern void detach_idle_monitor();
-
 extern long get_idle_tick_count();
 
 #endif

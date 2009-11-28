@@ -568,6 +568,7 @@ void CLIENT_STATE::adjust_debts() {
     //
     rrs = runnable_resource_share();
     for (i=0; i<projects.size(); i++) {
+        double delta;
         p = projects[i];
         if (p->non_cpu_intensive) continue;
         nprojects++;
@@ -575,9 +576,16 @@ void CLIENT_STATE::adjust_debts() {
         if (p->runnable()) {
             nrprojects++;
             share_frac = p->resource_share/rrs;
-            p->short_term_debt += share_frac*cpu_work_fetch.secs_this_debt_interval
+            delta = share_frac*cpu_work_fetch.secs_this_debt_interval
                 - p->cpu_pwf.secs_this_debt_interval;
+            p->short_term_debt += delta;
             total_short_term_debt += p->short_term_debt;
+            if (log_flags.std_debug) {
+                msg_printf(p, MSG_INFO,
+                    "[std_debug] std delta %.2f (work done %.2f)",
+                    delta, cpu_work_fetch.secs_this_debt_interval
+                );
+            }
         } else {
             p->short_term_debt = 0;
             p->anticipated_debt = 0;
@@ -600,6 +608,11 @@ void CLIENT_STATE::adjust_debts() {
                 if (p->short_term_debt < -MAX_STD) {
                     p->short_term_debt = -MAX_STD;
                 }
+            }
+            if (log_flags.std_debug) {
+                msg_printf(p, MSG_INFO,
+                    "[std_debug] std %.2f", p->short_term_debt
+                );
             }
         }
     }
@@ -1488,6 +1501,12 @@ bool CLIENT_STATE::enforce_schedule() {
             }
             atp->run_interval_start_wall_time = now;
             app_started = now;
+        }
+        if (log_flags.cpu_sched_status) {
+            msg_printf(atp->result->project, MSG_INFO,
+                "[css] running %s (%s)",
+                atp->result->name, atp->result->resources
+            );
         }
         atp->scheduler_state = CPU_SCHED_SCHEDULED;
         swap_left -= atp->procinfo.swap_size;

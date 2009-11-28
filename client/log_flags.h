@@ -62,10 +62,14 @@ struct LOG_FLAGS {
         // preemption and resumption
     bool cpu_sched_debug;
         // explain scheduler decisions
+    bool cpu_sched_status;
+        // show what's running
     bool dcf_debug;
         // show changes to duration correction factors
     bool debt_debug;
-        // changes to debt
+        // changes to long-term debt
+    bool std_debug;
+        // changes to short-term debt
     bool file_xfer_debug;
         // show completion of FILE_XFER
     bool guirpc_debug;

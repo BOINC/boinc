@@ -79,8 +79,10 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "coproc_debug", coproc_debug)) continue;
         if (xp.parse_bool(tag, "cpu_sched", cpu_sched)) continue;
         if (xp.parse_bool(tag, "cpu_sched_debug", cpu_sched_debug)) continue;
+        if (xp.parse_bool(tag, "cpu_sched_status", cpu_sched_status)) continue;
         if (xp.parse_bool(tag, "dcf_debug", dcf_debug)) continue;
         if (xp.parse_bool(tag, "debt_debug", debt_debug)) continue;
+        if (xp.parse_bool(tag, "std_debug", std_debug)) continue;
         if (xp.parse_bool(tag, "file_xfer_debug", file_xfer_debug)) continue;
         if (xp.parse_bool(tag, "guirpc_debug", guirpc_debug)) continue;
         if (xp.parse_bool(tag, "http_debug", http_debug)) continue;
@@ -137,6 +139,7 @@ void LOG_FLAGS::show() {
     show_flag(buf, coproc_debug, "coproc_debug");
     show_flag(buf, cpu_sched, "cpu_sched");
     show_flag(buf, cpu_sched_debug, "cpu_sched_debug");
+    show_flag(buf, cpu_sched_status, "cpu_sched_status");
     show_flag(buf, dcf_debug, "dcf_debug");
     show_flag(buf, debt_debug, "debt_debug");
     show_flag(buf, file_xfer_debug, "file_xfer_debug");
@@ -153,6 +156,7 @@ void LOG_FLAGS::show() {
     show_flag(buf, slot_debug, "slot_debug");
     show_flag(buf, state_debug, "state_debug");
     show_flag(buf, statefile_debug, "statefile_debug");
+    show_flag(buf, std_debug, "std_debug");
     show_flag(buf, task_debug, "task_debug");
     show_flag(buf, time_debug, "time_debug");
     show_flag(buf, unparsed_xml, "unparsed_xml");
