@@ -4,12 +4,12 @@
 # FileID  : $Id$
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC-prject-generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-11-24 11:24-0700\n"
+"PO-Revision-Date: 2009-11-29 09:58+0100\n"
 "Last-Translator: Kenneth Skjold <kenneth@skjold.biz>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -610,13 +610,13 @@ msgid ""
 msgstr ""
 
 msgid "Language"
-msgstr ""
+msgstr "Språk"
 
 msgid "Select the language in which your profile is written:"
 msgstr ""
 
 msgid "Submit profile"
-msgstr ""
+msgstr "Send inn profil"
 
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
@@ -624,7 +624,7 @@ msgid ""
 msgstr ""
 
 msgid "Create/edit profile"
-msgstr ""
+msgstr "Lag/rediger profil"
 
 msgid "The format of your uploaded image is not supported."
 msgstr ""
@@ -657,7 +657,7 @@ msgid "Could not create the profile: database error"
 msgstr ""
 
 msgid "Profile saved"
-msgstr ""
+msgstr "Profilen er lagret"
 
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
@@ -667,7 +667,7 @@ msgid "%1View your profile%2"
 msgstr ""
 
 msgid "Create a profile"
-msgstr ""
+msgstr "Lag en profil"
 
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
@@ -675,7 +675,7 @@ msgid ""
 msgstr ""
 
 msgid "Download BOINC add-on software"
-msgstr ""
+msgstr "Last ned BOINC legg-til software"
 
 msgid "You can download applications in several categories."
 msgstr ""
@@ -698,16 +698,16 @@ msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr ""
 
 msgid "fll"
-msgstr ""
+msgstr "fll"
 
 msgid "Title"
-msgstr ""
+msgstr "Tittel"
 
 msgid "Add my signature to this post"
-msgstr ""
+msgstr "Legg til min signatur til dette innlegget"
 
 msgid "%1 Message boards"
-msgstr ""
+msgstr "%1Oppslagstavler"
 
 msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
@@ -715,50 +715,50 @@ msgid ""
 msgstr ""
 
 msgid "Topic"
-msgstr ""
+msgstr "Emne"
 
 msgid "Create a new thread"
-msgstr ""
+msgstr "Lag en ny tråd"
 
 msgid "Post to thread"
-msgstr ""
+msgstr "Post til tråd"
 
 msgid "Forum search"
-msgstr ""
+msgstr "Forum søk"
 
 msgid "Forum search results"
-msgstr ""
+msgstr "Forum søkeresultat"
 
 msgid "No thread with id %1. Please check the link and try again."
 msgstr ""
 
 msgid "This forum is not visible to you."
-msgstr ""
+msgstr "Dette forumet er ikke synlig for deg."
 
 msgid "This thread has been hidden for administrative purposes"
 msgstr ""
 
 msgid "My question was answered"
-msgstr ""
+msgstr "Mitt spørsmål ble besvart"
 
 msgid ""
 "If your question has been adequately answered please click here to close it!"
 msgstr ""
 
 msgid "I've also got this question"
-msgstr ""
+msgstr "Jeg har også fått dette spørsmålet"
 
 msgid "Add a new message to this thread"
-msgstr ""
+msgstr "Legg til en ny melding til denne tråden"
 
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Avslutt abonement"
 
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
 msgstr ""
 
 msgid "Subscribe"
-msgstr ""
+msgstr "Abonnér"
 
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
@@ -770,7 +770,7 @@ msgid "Unhide this thread"
 msgstr ""
 
 msgid "Hide"
-msgstr ""
+msgstr "Skjul"
 
 msgid "Hide this thread"
 msgstr ""
@@ -788,34 +788,34 @@ msgid "Make this thread sticky"
 msgstr ""
 
 msgid "Unlock"
-msgstr ""
+msgstr "Lås opp"
 
 msgid "Unlock this thread"
-msgstr ""
+msgstr "Lås opp denne tråden"
 
 msgid "Lock"
-msgstr ""
+msgstr "Lås"
 
 msgid "Lock this thread"
-msgstr ""
+msgstr "Lås denne tråden"
 
 msgid "Move"
-msgstr ""
+msgstr "&Flytt"
 
 msgid "Move this thread to a different forum"
 msgstr ""
 
 msgid "Edit title"
-msgstr ""
+msgstr "Rediger tittel"
 
 msgid "Edit thread title"
-msgstr ""
+msgstr "Rediger tråd tittel"
 
 msgid "Sort"
-msgstr ""
+msgstr "Sorter"
 
 msgid "Already friends"
-msgstr ""
+msgstr "Allerede venner"
 
 msgid "You requested friendship with %1 on %2."
 msgstr ""
@@ -824,16 +824,16 @@ msgid "This request is still pending confirmation."
 msgstr ""
 
 msgid "%1 is not accepting friendship requests from you"
-msgstr ""
+msgstr "%1 aksepterer ikke vennskaps forespørsler fra deg"
 
 msgid "You can't be friends with yourself"
-msgstr ""
+msgstr "Du kan ikke være venner med deg selv"
 
 msgid "No such user"
-msgstr ""
+msgstr "Ingen slik bruker"
 
 msgid "Add friend"
-msgstr ""
+msgstr "Legg til venn"
 
 msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
@@ -841,52 +841,52 @@ msgid ""
 msgstr ""
 
 msgid "Add an optional message here:"
-msgstr ""
+msgstr "Legg til en valgfri melding her:"
 
 msgid "Database error"
-msgstr ""
+msgstr "Databasefeil"
 
 msgid "Friend request sent"
-msgstr ""
+msgstr "Venne forespørsel sent"
 
 msgid "We have notified %1 of your request."
 msgstr ""
 
 msgid "Request not found"
-msgstr ""
+msgstr "Forespørselen ikke funnet"
 
 msgid "Friend request"
-msgstr ""
+msgstr "Venne forespørsel"
 
 msgid "%1 has added you as a friend."
-msgstr ""
+msgstr "%1 har lagt deg til som venn."
 
 msgid "%1 says: %2"
-msgstr ""
+msgstr "%1 sier: %2"
 
 msgid "Accept friendship"
-msgstr ""
+msgstr "Aksepter vennskap"
 
 msgid "Click accept if %1 is in fact a friend"
 msgstr ""
 
 msgid "Decline"
-msgstr ""
+msgstr "Avslå"
 
 msgid "Click decline if %1 is not a friend"
 msgstr ""
 
 msgid "No request"
-msgstr ""
+msgstr "Ingen anmodning"
 
 msgid "Friendship confirmed"
-msgstr ""
+msgstr "Vennskap bekreftet"
 
 msgid "Your friendship with %1 has been confirmed."
 msgstr ""
 
 msgid "Friendship declined"
-msgstr ""
+msgstr "Vennskap avslått"
 
 msgid "You have declined friendship with %1"
 msgstr ""
@@ -895,43 +895,43 @@ msgid "Notification not found"
 msgstr ""
 
 msgid "Friend confirmed"
-msgstr ""
+msgstr "Venn bekreftet"
 
 msgid "You are now friends with %1."
-msgstr ""
+msgstr "Du er nå venn med %1."
 
 msgid "Cancel friendship?"
-msgstr ""
+msgstr "Kanslere vennskap?"
 
 msgid "Are you sure you want to cancel your friendship with %1?"
 msgstr ""
 
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 msgid "No"
-msgstr ""
+msgstr "Nei"
 
 msgid "Stay friends"
-msgstr ""
+msgstr "Forbli venner"
 
 msgid "Friendship cancelled"
-msgstr ""
+msgstr "Vennskap kanselert"
 
 msgid "Your friendship with %1 has been cancelled."
 msgstr ""
 
 msgid "Unknown action"
-msgstr ""
+msgstr "Ukjent handling"
 
 msgid "Welcome to %1"
-msgstr ""
+msgstr "Velkommen til %1"
 
 msgid "View and edit your account preferences using the links below."
 msgstr ""
 
 msgid "Your account"
-msgstr ""
+msgstr "Din konto"
 
 msgid "Read our rules and policies"
 msgstr ""
@@ -946,7 +946,7 @@ msgid ""
 msgstr ""
 
 msgid "How %1 will use your computer"
-msgstr ""
+msgstr "Hvordan %1 vil bruke din datamaskin"
 
 msgid ""
 "When you run %1 on your computer, it will use part of the computer's CPU "
@@ -960,7 +960,7 @@ msgid ""
 msgstr ""
 
 msgid "Privacy policy"
-msgstr ""
+msgstr "Personvern"
 
 msgid ""
 "Your account on %1 is identified by a name that you choose. This name may be "
@@ -1021,7 +1021,7 @@ msgid ""
 msgstr ""
 
 msgid "Liability"
-msgstr ""
+msgstr "Ansvar"
 
 msgid ""
 "%1 and %2 assume no liability for damage to your computer, loss of data, or "
@@ -1030,7 +1030,7 @@ msgid ""
 msgstr ""
 
 msgid "Other BOINC projects"
-msgstr ""
+msgstr "Andre BOINC prosjekter"
 
 msgid ""
 "Other projects use the same platform, BOINC, as %1. You may want to consider "
@@ -1051,34 +1051,34 @@ msgid "LANG_NAME_NATIVE"
 msgstr ""
 
 msgid "Your message has been sent."
-msgstr ""
+msgstr "Meldingen din har blitt sendt"
 
 msgid "You have no private messages."
-msgstr ""
+msgstr "Du har ingen private meldinger."
 
 msgid "Sender and date"
-msgstr ""
+msgstr "Avsender og dato"
 
 msgid "Reply"
-msgstr ""
+msgstr "Svar"
 
 msgid "Delete selected messages"
-msgstr ""
+msgstr "Slett valgte meldinger"
 
 msgid "Sender"
-msgstr ""
+msgstr "Avsender"
 
 msgid "Date"
-msgstr ""
+msgstr "Dato"
 
 msgid "You need to fill all fields to send a private message"
 msgstr ""
 
 msgid "Could not find user with id %1"
-msgstr ""
+msgstr "Kunne ikke finne bruker med id %1"
 
 msgid "Could not find user with username %1"
-msgstr ""
+msgstr "Kunne ikke finne bruker med brukernavn %1"
 
 msgid "%1 is not a unique username; you will have to use user ID"
 msgstr ""
@@ -1106,10 +1106,10 @@ msgid "Add user to filter"
 msgstr ""
 
 msgid "No, cancel"
-msgstr ""
+msgstr "Nei, avbryt"
 
 msgid "User %1 blocked"
-msgstr ""
+msgstr "Bruker %1 blokkert"
 
 msgid "User %1 has been blocked from sending you private messages."
 msgstr ""
@@ -1118,7 +1118,7 @@ msgid "To unblock, visit %1message board preferences%2"
 msgstr ""
 
 msgid "Profiles"
-msgstr ""
+msgstr "Profiler"
 
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
@@ -1136,10 +1136,10 @@ msgid ""
 msgstr ""
 
 msgid "User of the Day"
-msgstr ""
+msgstr "Dagens Bruker"
 
 msgid "User Profile Explorer"
-msgstr ""
+msgstr "Bruker Profil Utforsker"
 
 msgid "View the %1User Picture Gallery%2."
 msgstr ""
@@ -1156,67 +1156,67 @@ msgid "Alphabetical profile listings:"
 msgstr ""
 
 msgid "Search profile text"
-msgstr ""
+msgstr "Søk profil tekst"
 
 msgid "No profiles"
-msgstr ""
+msgstr "Ingen profiler"
 
 msgid "No profiles matched your query."
-msgstr ""
+msgstr "Ingen prifiler passet med din spørring"
 
 msgid "Invalid vote type:"
-msgstr ""
+msgstr "Ugyldig stemme type:"
 
 msgid "Vote Recorded"
-msgstr ""
+msgstr "Stemme registrert"
 
 msgid "Thank you"
-msgstr ""
+msgstr "Takk"
 
 msgid "Your recommendation has been recorded."
-msgstr ""
+msgstr "Din anbefaling har blitt registrert"
 
 msgid "Your vote to reject this profile has been recorded."
 msgstr ""
 
 msgid "Return to profile."
-msgstr ""
+msgstr "Retuner til profil."
 
 msgid "This feature is turned off temporarily"
-msgstr ""
+msgstr "Denne funksjonen er midlertidig avslått "
 
 msgid "No computer with ID %1 found"
-msgstr ""
+msgstr "Ingen datamaskin medID %1 funnet"
 
 msgid "Tasks for computer %1"
-msgstr ""
+msgstr "Oppgaver for datamaskin %1"
 
 msgid "No access"
-msgstr ""
+msgstr "Ingen tilgang"
 
 msgid "Missing user ID or host ID"
-msgstr ""
+msgstr "Mangler bruker ID eller verts ID"
 
 msgid "User of the day"
-msgstr ""
+msgstr "Dagens Bruker"
 
 msgid "Account data for %1"
-msgstr ""
+msgstr "Konto data for %1"
 
 msgid "Statistics and leaderboards"
 msgstr ""
 
 msgid "Statistics for %1"
-msgstr ""
+msgstr "Statistikk for %1"
 
 msgid "Top participants"
 msgstr ""
 
 msgid "Top computers"
-msgstr ""
+msgstr "Topp datamaskiner"
 
 msgid "Top teams"
-msgstr ""
+msgstr "Topp teams"
 
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available "
@@ -1247,10 +1247,10 @@ msgid "access team members' email addresses"
 msgstr ""
 
 msgid "edit the team's name and description"
-msgstr ""
+msgstr "Rediger teamet's navn og beskrivelse"
 
 msgid "remove members from the team"
-msgstr ""
+msgstr "fjern medlemmer fra teamet"
 
 msgid "disband a team if it has no members"
 msgstr ""
@@ -1259,51 +1259,51 @@ msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
 
 msgid "Find a team"
-msgstr ""
+msgstr "Finn et team"
 
 msgid "All teams"
-msgstr ""
+msgstr "Alle team"
 
 msgid "%1 teams"
-msgstr ""
+msgstr "%1 team"
 
 msgid "Create a new team"
-msgstr ""
+msgstr "Lag et nytt team"
 
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
 msgstr ""
 
 msgid "You must choose a non-blank team name"
-msgstr ""
+msgstr "Du må velge et ikke-blankt team navn"
 
 msgid "A team named %1 already exists - try another name"
-msgstr ""
+msgstr "Et team med det navnet %1 eksisterer allerede - velg et annet navn"
 
 msgid "Could not create team - please try later."
-msgstr ""
+msgstr "Kunne ikke lage team - vennligst prøv igjen senere"
 
 msgid "Create a team"
-msgstr ""
+msgstr "Lag et team"
 
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
 msgstr ""
 
 msgid "Top hosts"
-msgstr ""
+msgstr "Topp vert"
 
 msgid "Top %1 teams"
-msgstr ""
+msgstr "Topp %1 team"
 
 msgid "Participant since"
-msgstr ""
+msgstr "Deltatt siden"
 
 msgid "This user has no profile"
-msgstr ""
+msgstr "Denne brukeren har ingen profil"
 
 msgid "Account data"
-msgstr ""
+msgstr "Konto informasjon"
 
 msgid ""
 "Your 'weak account key' lets you attach computers to your account on this "
