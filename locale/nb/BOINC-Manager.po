@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC 610\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-27 23:55+0100\n"
+"PO-Revision-Date: 2009-11-29 08:55+0100\n"
 "Last-Translator: Kenneth Skjold <kenneth@skjold.biz>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:384
 msgid "Are you already running this project?"
-msgstr ""
+msgstr "Kjører du dette prosjektet allerede?"
 
 #: clientgui/AccountInfoPage.cpp:388
 msgid "&No, new user"
@@ -287,15 +287,17 @@ msgstr "Enkel &Visning...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:375
 msgid "Display the simple graphical interface."
-msgstr ""
+msgstr "Vis det enkle grafiske brukergrensesnittet."
 
 #: clientgui/AdvancedFrame.cpp:395
 msgid "Attach to &project or account manager..."
-msgstr ""
+msgstr "Koble til et &prosjekt eller en konto manager..."
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "Attach to a project or account manager to begin processing work"
 msgstr ""
+"Koble til et prosjekt eller en konto manager for å begynne å prosessere "
+"arbeid"
 
 #: clientgui/AdvancedFrame.cpp:400
 #, c-format
@@ -316,7 +318,7 @@ msgstr "Kryss-prosjekt statistikk"
 
 #: clientgui/AdvancedFrame.cpp:416
 msgid "Attach to a project to begin processing work"
-msgstr ""
+msgstr "Koble til et prosjekt for å begynne å prosessere arbeid"
 
 #: clientgui/AdvancedFrame.cpp:420
 #, c-format
@@ -326,7 +328,7 @@ msgstr "Bruker proxy %s"
 
 #: clientgui/AdvancedFrame.cpp:426
 msgid "Remove client from account manager control."
-msgstr ""
+msgstr "Fjern klient fra konto manager kontroll."
 
 #: clientgui/AdvancedFrame.cpp:435
 #, fuzzy
@@ -335,7 +337,7 @@ msgstr "Kjø&r kommando..."
 
 #: clientgui/AdvancedFrame.cpp:436
 msgid "Allow work regardless of preferences"
-msgstr ""
+msgstr "Tillat arbeid uavhengig av preferanser"
 
 #: clientgui/AdvancedFrame.cpp:440
 msgid "Run based on &preferences"
@@ -343,7 +345,7 @@ msgstr "Kjør basert på &preferansene"
 
 #: clientgui/AdvancedFrame.cpp:441
 msgid "Allow work according to your preferences"
-msgstr ""
+msgstr "Tillat arbeid i henhold til dine preferanser"
 
 #: clientgui/AdvancedFrame.cpp:445
 msgid "&Suspend"
@@ -355,19 +357,19 @@ msgstr "Stopp arbeid uavhengig av preferanser"
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "&Network activity always available"
-msgstr ""
+msgstr "&Nettverks aktivitet alltid tillatt"
 
 #: clientgui/AdvancedFrame.cpp:470
 msgid "Allow network activity regardless of preferences"
-msgstr ""
+msgstr "Tillat nettverks bruk uavhengig av preferansene"
 
 #: clientgui/AdvancedFrame.cpp:474
 msgid "Network activity based on pre&ferences"
-msgstr ""
+msgstr "Nettverks bruk basert på pre&feransene"
 
 #: clientgui/AdvancedFrame.cpp:475
 msgid "Allow network activity according to your preferences"
-msgstr ""
+msgstr "Tillat nettverks bruk i henhold til dine preferanser"
 
 #: clientgui/AdvancedFrame.cpp:479
 #, fuzzy
@@ -408,11 +410,11 @@ msgstr "Velg datamaskin..."
 
 #: clientgui/AdvancedFrame.cpp:509
 msgid "Shut down connected client..."
-msgstr ""
+msgstr "Avslutt tilkoblet klient..."
 
 #: clientgui/AdvancedFrame.cpp:510
 msgid "Shut down the currently connected core client"
-msgstr ""
+msgstr "Avslutt den nåværende tilkoblete kjerne klient"
 
 #: clientgui/AdvancedFrame.cpp:514
 #, fuzzy
@@ -439,7 +441,7 @@ msgstr "Lesefeil i fil «%s»"
 
 #: clientgui/AdvancedFrame.cpp:525
 msgid "Read configuration info from cc_config.xml."
-msgstr ""
+msgstr "Les konfigurasjon info fra cc_config.xml."
 
 #: clientgui/AdvancedFrame.cpp:529
 #, fuzzy
@@ -448,7 +450,7 @@ msgstr "Lesefeil i fil «%s»"
 
 #: clientgui/AdvancedFrame.cpp:530
 msgid "Read preferences from global_prefs_override.xml."
-msgstr ""
+msgstr "Les preferanser fra global_prefs_overide.xml."
 
 #: clientgui/AdvancedFrame.cpp:540
 #, c-format
@@ -493,7 +495,7 @@ msgstr "&Om %s..."
 
 #: clientgui/AdvancedFrame.cpp:604
 msgid "Licensing and copyright information."
-msgstr ""
+msgstr "Lisensiering og informasjon om opphavsrett."
 
 #: clientgui/AdvancedFrame.cpp:611
 msgid "&File"
@@ -521,7 +523,7 @@ msgstr "&Hjelp"
 
 #: clientgui/AdvancedFrame.cpp:993
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "Kobler til et prosjekt eller en konto manager..."
 
 #: clientgui/AdvancedFrame.cpp:1086
 #, c-format
@@ -868,7 +870,7 @@ msgstr "er lik"
 
 #: clientgui/BOINCTaskBar.cpp:344
 msgid "Network activity is suspended."
-msgstr ""
+msgstr "Nettverks aktiviteten er suspendert."
 
 #: clientgui/BOINCTaskBar.cpp:378
 #, c-format
@@ -906,7 +908,7 @@ msgstr "&Åpne"
 
 #: clientgui/BOINCTaskBar.cpp:611
 msgid "Snooze"
-msgstr ""
+msgstr "Snooze"
 
 #: clientgui/CompletionErrorPage.cpp:200
 #, fuzzy
@@ -1048,11 +1050,11 @@ msgstr "«%s» er ugyldig"
 
 #: clientgui/DlgAdvPreferences.cpp:481
 msgid "invalid time, format is HH:MM"
-msgstr ""
+msgstr "ugyldig tid, formatet er TT:MM"
 
 #: clientgui/DlgAdvPreferences.cpp:482
 msgid "invalid time interval, format is HH:MM-HH:MM"
-msgstr ""
+msgstr "ugyldig tidsintervall, formatet er TT:MM-TT:MM"
 
 #: clientgui/DlgAdvPreferences.cpp:591
 #, fuzzy
@@ -2859,7 +2861,7 @@ msgstr ""
 
 #: clientgui/UnavailablePage.cpp:191
 msgid "Account manager temporarily unavailable"
-msgstr ""
+msgstr "Konto manager midlertidig utilgjegelig"
 
 #: clientgui/UnavailablePage.cpp:194
 msgid ""
@@ -2867,14 +2869,17 @@ msgid ""
 "\n"
 "Please try again later."
 msgstr ""
+"Konto manager midlertidig utilgjegelig.\n"
+"\n"
+"Vennigst prøv igjen senere."
 
 #: clientgui/ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
-msgstr ""
+msgstr "Vennligst spesifiser en kontonøkkel for å fortsette."
 
 #: clientgui/ValidateAccountKey.cpp:71
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr ""
+msgstr "Ugyldig Kontonøkkel; vennligst tast inn en gyldig Kontonøkkel"
 
 #: clientgui/ValidateAccountKey.cpp:82
 #: clientgui/ValidateEmailAddress.cpp:86
@@ -2888,7 +2893,7 @@ msgstr "Vennligst angi din eksterne IP-adresse"
 
 #: clientgui/ValidateEmailAddress.cpp:75
 msgid "Invalid email address; please enter a valid email address"
-msgstr ""
+msgstr "Ugyldig epost adresse; vennligst tast inn en gyldig epost adresse"
 
 #: clientgui/ValidateURL.cpp:69
 #, fuzzy
@@ -2901,6 +2906,9 @@ msgid ""
 "For example:\n"
 "http://www.example.com/"
 msgstr ""
+"Vennligst spesifiser en URL.\n"
+"For eksempel:\n"
+"http://www.eksempel.com/"
 
 #: clientgui/ValidateURL.cpp:83
 #: clientgui/ValidateURL.cpp:87
@@ -2920,6 +2928,9 @@ msgid ""
 "For example:\n"
 "http://boincproject.example.com"
 msgstr ""
+"Vennligst spesifiser en gyldig URL.\n"
+"For eksempel:\n"
+"http://boincprosjekt.eksempel.com"
 
 #: clientgui/ValidateURL.cpp:104
 #: clientgui/ValidateURL.cpp:108
@@ -2960,7 +2971,7 @@ msgstr "vis denne hjelpmeldingen"
 #: clientgui/ViewMessages.cpp:107
 #: clientgui/ViewMessages.cpp:503
 msgid "Show only the messages for the selected project."
-msgstr ""
+msgstr "Vis bare meldinger fra valgte prosjekt."
 
 #: clientgui/ViewMessages.cpp:164
 #: clientgui/ViewMessagesGrid.cpp:157
@@ -2971,11 +2982,11 @@ msgstr "Beskjeder"
 #: clientgui/ViewMessages.cpp:187
 #: clientgui/ViewMessagesGrid.cpp:179
 msgid "Copying all messages to the clipboard..."
-msgstr ""
+msgstr "Kopierer alle meldinger til utklippstavlen..."
 
 #: clientgui/ViewMessages.cpp:223
 msgid "Copying selected messages to the clipboard..."
-msgstr ""
+msgstr "Kopierer valgte meldinger til Utklippstavlen..."
 
 #: clientgui/ViewMessages.cpp:286
 #, fuzzy
@@ -3001,11 +3012,11 @@ msgstr "Prioritet"
 
 #: clientgui/ViewMessagesGrid.cpp:151
 msgid "MessagesGrid"
-msgstr ""
+msgstr "MeldingsGrid"
 
 #: clientgui/ViewMessagesGrid.cpp:209
 msgid "Copying selected messages to Clipboard..."
-msgstr ""
+msgstr "Kopierer valgte meldinger til utklippstavlen..."
 
 #: clientgui/ViewMessagesGrid.cpp:396
 #, fuzzy
@@ -3031,7 +3042,7 @@ msgstr "BOINC"
 
 #: clientgui/ViewNews.cpp:81
 msgid "Display the latest news about BOINC"
-msgstr ""
+msgstr "Vis de siste nyhetene om BOINC"
 
 #: clientgui/ViewNews.cpp:87
 msgid "BOINC Website"
@@ -3039,7 +3050,7 @@ msgstr "BOINC Nettside"
 
 #: clientgui/ViewNews.cpp:88
 msgid "Display the latest news about BOINC from the BOINC website"
-msgstr ""
+msgstr "Vis de siste nyhetene om BOINC fra BOINC sin nettside"
 
 #: clientgui/ViewProjects.cpp:173
 msgid "Update"
@@ -3223,7 +3234,7 @@ msgstr "Kommunikasjon utsatt"
 
 #: clientgui/ViewProjectsGrid.cpp:193
 msgid "ProjectsGrid"
-msgstr ""
+msgstr "ProsjektGrid"
 
 #: clientgui/ViewResources.cpp:61
 msgid "Total disk usage"
@@ -3499,7 +3510,7 @@ msgstr ")"
 
 #: clientgui/ViewTransfersGrid.cpp:161
 msgid "TransfersGrid"
-msgstr ""
+msgstr "OverføringsGrid"
 
 #: clientgui/ViewTransfersGrid.cpp:228
 #, fuzzy
@@ -3650,7 +3661,7 @@ msgstr ""
 
 #: clientgui/ViewWorkGrid.cpp:184
 msgid "TasksGrid"
-msgstr ""
+msgstr "OppgaveGrid"
 
 #: clientgui/ViewWorkGrid.cpp:327
 #, c-format
