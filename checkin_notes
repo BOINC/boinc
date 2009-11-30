@@ -9564,3 +9564,9 @@ David  27 Nov 2009
     client/
         cpu_sched.cpp
         log_flags.cpp,h
+
+Rom    30 Nov 2009
+    - MGR: Fix-up tools tips for various elements in the project list control.
+    
+    clientgui/
+        ProjectListCtrl.cpp, .h
