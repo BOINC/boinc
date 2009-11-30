@@ -366,7 +366,10 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
  */
 
 void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
- 	CMainDocument* pDoc = wxGetApp().GetDocument(); 
+    if (event.GetDirection() == false) return;
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnPageChanging - Function Begin"));
+
+    CMainDocument* pDoc = wxGetApp().GetDocument(); 
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString       strTitle;
     int            iAnswer;
@@ -423,6 +426,8 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
             } 
         } 
     }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnPageChanging - Function End"));
 }
 
 
