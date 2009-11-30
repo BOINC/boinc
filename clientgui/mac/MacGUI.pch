@@ -15,10 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// HTTP_OP represents an HTTP operation.
-// There are variants for GET and POST,
-// and for the data source/sink (see below).
-
 #ifndef _MACGUI_H_
 #define _MACGUI_H_
 /*
