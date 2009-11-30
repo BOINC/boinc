@@ -9566,7 +9566,7 @@ David  27 Nov 2009
         log_flags.cpp,h
 
 Rom    30 Nov 2009
-    - MGR: Fix-up tools tips for various elements in the project list control.
+    - MGR: Fix-up tooltips for various elements in the project list control.
     
     clientgui/
         ProjectListCtrl.cpp, .h
