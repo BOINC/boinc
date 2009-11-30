@@ -184,7 +184,7 @@ int main(int argc, char** argv) {
 
     retval = rpc.init(hostname, port);
     if (retval) {
-        fprintf(stderr, "can't connect to %s\n", strlen(hostname)?hostname:"local host");
+        fprintf(stderr, "can't connect to %s\n", hostname?hostname:"local host");
         show_error(retval);
         exit(1);
     }
@@ -250,7 +250,7 @@ int main(int argc, char** argv) {
             // the pipe symbol.
             for (unsigned int j = 0; j < msg_body.size(); j++) {
                 if (msg_body[j] == '\n') {
-                    msg_body[j] = '|';
+                    msg_body[j] = '^';
                 }
             }
 

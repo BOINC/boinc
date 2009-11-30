@@ -9570,3 +9570,10 @@ Rom    30 Nov 2009
     
     clientgui/
         ProjectListCtrl.cpp, .h
+
+Rom    30 Nov 2009
+    - LOG: Change the secondary delimeter to '^' for messages that contain
+        newline characters.
+        
+    client/
+        boinc_log.cpp
