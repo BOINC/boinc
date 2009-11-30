@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC 610\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-29 08:55+0100\n"
+"PO-Revision-Date: 2009-11-30 12:04+0100\n"
 "Last-Translator: Kenneth Skjold <kenneth@skjold.biz>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
 "MIME-Version: 1.0\n"
@@ -1143,7 +1143,7 @@ msgstr "Minutter"
 #: clientgui/DlgAdvPreferencesBase.cpp:130
 #: clientgui/DlgAdvPreferencesBase.cpp:355
 msgid "Every day between hours of"
-msgstr ""
+msgstr "Hver dag mellom"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:134
 msgid "start work at this time"
@@ -1221,7 +1221,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:242
 msgid "On multiprocessor systems, use at most"
-msgstr ""
+msgstr "På flerprosessor systemer, ikke bruk mer enn"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:249
 #, no-c-format
