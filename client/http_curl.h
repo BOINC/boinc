@@ -64,7 +64,7 @@ public:
 
     int content_length;
     double file_offset;
-    int trace_id;
+    unsigned int trace_id;
     char request_header[4096];
 
     FILE* fileIn;
@@ -160,15 +160,6 @@ private:
 		double offset, bool bPost
     );
 };
-
-// global function used by libcurl to write http replies to disk
-//
-size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop);
-size_t libcurl_read( void *ptr, size_t size, size_t nmemb, HTTP_OP* phop);
-curlioerr libcurl_ioctl(CURL *handle, curliocmd cmd, HTTP_OP* phop);
-int libcurl_debugfunction(CURL *handle, curl_infotype type,
-	unsigned char *data, size_t size, HTTP_OP* phop
-);
 
 /// represents a set of HTTP requests in progress
 

@@ -8756,6 +8756,7 @@ Charlie 25 Nov 2009
             wxPieCtrl.cpp, .h
         Mac/
             MacAccessibility.cpp
+<<<<<<< .working
 
 Charlie 26 Nov 2009
     - MGR: Don't localize keyboard shortcut for Close Window.
@@ -8791,3 +8792,11 @@ David  23 Nov 2009
         cpu_sched.cpp
     clientgui/
         ViewWork.cpp
+
+Rom    25 Nov 2009
+    - client: Treat each HTTP header sent to the server as a new log message.
+        Some tools get confused when more than one delimeter is used in
+        common file types.
+        
+    client/
+        http_curl.cpp, .h
