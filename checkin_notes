@@ -8775,3 +8775,9 @@ Charlie 26 Nov 2009
             MacAccessibility.cpp
     mac_installer/
         PostInstall.cpp
+
+Rom    19 Nov 2009
+    - MGR: Switch back to tooltips for descriptions.
+    
+    clientgui/
+        ProjectListCtrl.cpp
