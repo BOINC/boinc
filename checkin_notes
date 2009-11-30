@@ -8756,7 +8756,6 @@ Charlie 25 Nov 2009
             wxPieCtrl.cpp, .h
         Mac/
             MacAccessibility.cpp
-<<<<<<< .working
 
 Charlie 26 Nov 2009
     - MGR: Don't localize keyboard shortcut for Close Window.
@@ -8800,3 +8799,9 @@ Rom    25 Nov 2009
         
     client/
         http_curl.cpp, .h
+
+David  27 Nov 2009
+    - client: use [wfd] consistently
+
+    client/
+        cs_scheduler.cpp
