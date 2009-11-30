@@ -395,18 +395,19 @@ void CLIENT_STATE::read_global_prefs() {
         fclose(f);
     }
 
+    msg_printf(NULL, MSG_INFO, "Preferences:");
     msg_printf(NULL, MSG_INFO,
-        "Preferences limit memory usage when active to %.2fMB",
+        "   max memory usage when active: %.2fMB",
         (host_info.m_nbytes*global_prefs.ram_max_used_busy_frac)/MEGA
     );
     msg_printf(NULL, MSG_INFO,
-        "Preferences limit memory usage when idle to %.2fMB",
+        "   max memory usage when idle: %.2fMB",
         (host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/MEGA
     );
     double x;
     total_disk_usage(x);
     msg_printf(NULL, MSG_INFO,
-        "Preferences limit disk usage to %.2fGB",
+        "   max disk usage: %.2fGB",
         allowed_disk_usage(x)/GIGA
     );
     // max_cpus, bandwidth limits may have changed
@@ -414,11 +415,35 @@ void CLIENT_STATE::read_global_prefs() {
     set_ncpus();
     if (ncpus != host_info.p_ncpus) {
         msg_printf(NULL, MSG_INFO,
-            "Preferences limit # CPUs to %d", ncpus
+            "   max CPUs used: %d", ncpus
+        );
+    }
+    if (!global_prefs.run_if_user_active) {
+        msg_printf(NULL, MSG_INFO, "   don't compute while active");
+    }
+    if (!global_prefs.run_gpu_if_user_active) {
+        msg_printf(NULL, MSG_INFO, "   don't use GPU while active");
+    }
+    if (global_prefs.max_bytes_sec_down) {
+        msg_printf(NULL, MSG_INFO,
+            "   max download rate: %.0f bytes/sec",
+            global_prefs.max_bytes_sec_down
+        );
+    }
+    if (global_prefs.max_bytes_sec_up) {
+        msg_printf(NULL, MSG_INFO,
+            "   max upload rate: %.0f bytes/sec",
+            global_prefs.max_bytes_sec_up
         );
     }
     file_xfers->set_bandwidth_limits(true);
     file_xfers->set_bandwidth_limits(false);
+    msg_printf(NULL, MSG_INFO,
+        "   (to change, visit the web site of an attached project,"
+    );
+    msg_printf(NULL, MSG_INFO,
+        "   or click on Preferences)"
+    );
     request_schedule_cpus("Prefs update");
     request_work_fetch("Prefs update");
 }

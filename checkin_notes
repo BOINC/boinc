@@ -8781,3 +8781,13 @@ Rom    19 Nov 2009
     
     clientgui/
         ProjectListCtrl.cpp
+
+David  23 Nov 2009
+    - client: show more general prefs on startup
+    - manager: show status for jobs aborted because not started by deadline
+
+    client/
+        cs_prefs.cpp
+        cpu_sched.cpp
+    clientgui/
+        ViewWork.cpp
