@@ -8817,3 +8817,11 @@ David  27 Nov 2009
     client/
         cpu_sched.cpp
         log_flags.cpp,h
+
+Rom    30 Nov 2009
+    - Tag for 6.10.20 release, all platforms
+      boinc_core_release_6_10_20
+
+    /
+        configure.ac
+        version.h
