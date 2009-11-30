@@ -8805,3 +8805,15 @@ David  27 Nov 2009
 
     client/
         cs_scheduler.cpp
+
+David  27 Nov 2009
+    - client: add <cpu_sched_status> log flag.
+        This tells you what's running, not why
+    - client: add <std_debug> log flag; changes in STD
+
+    The above are to let you log just stuff relevant to debt.
+    Right now I'm not sure why we need STD at all.
+
+    client/
+        cpu_sched.cpp
+        log_flags.cpp,h
