@@ -6450,3 +6450,11 @@ Charlie 26 Nov 2009
 
     mac_installer/
         PostInstall.cpp
+
+Charlie 31 Aug 2009
+    - Tag for 6.8.19 release, all platforms
+      boinc_core_release_6_8_19
+
+    /
+        configure.ac
+        version.h
