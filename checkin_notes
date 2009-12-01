@@ -9601,3 +9601,9 @@ Rom    1 Dec 2009
     clientgui/
         ProjectInfoPage.cpp
 
+David  1 Dec 2009
+    - client: apply the LTD normalizing offset to all projects,
+        even non-debt-eligible ones.
+
+    client/
+        work_fetch.cpp
