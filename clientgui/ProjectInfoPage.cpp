@@ -296,22 +296,22 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                     wxString strRootProjectPlatform = strProjectPlatform.SubString(0, strProjectPlatform.Find(_T("[")) - 1);
                     
                     if (strProjectPlatform.Find(_T("[cuda")) != wxNOT_FOUND) {
-                        bProjectSupportsNvidiaGPU = true;
                         if ((pDoc->state.have_cuda) && (strClientPlatform == strRootProjectPlatform)) {
+                            bProjectSupportsNvidiaGPU = true;
                             bSupportedPlatformFound = true;
                         }
                     }
 
                     if (strProjectPlatform.Find(_T("[ati")) != wxNOT_FOUND) {
-                        bProjectSupportsATIGPU = true;
                         if ((pDoc->state.have_ati) && (strClientPlatform == strRootProjectPlatform)) {
+                            bProjectSupportsATIGPU = true;
                             bSupportedPlatformFound = true;
                         }
                     }
 
                     if (strProjectPlatform.Find(_T("[mt")) != wxNOT_FOUND) {
-                        bProjectSupportsMulticore = true;
-                        if (strClientPlatform == strRootProjectPlatform) {
+                        if ((pDoc->host.p_ncpus >= 4) && (strClientPlatform == strRootProjectPlatform)) {
+                            bProjectSupportsMulticore = true;
                             bSupportedPlatformFound = true;
                         }
                     }

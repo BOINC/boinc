@@ -9593,3 +9593,11 @@ David  1 Dec 2009
 
     sched, lib/
         Makefile.am
+
+Rom    1 Dec 2009
+    - MGR: Filter project list icons so that the icon will only be displayed
+        if the volunteer has the hardware to go with it.
+        
+    clientgui/
+        ProjectInfoPage.cpp
+
