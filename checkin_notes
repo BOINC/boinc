@@ -8831,3 +8831,13 @@ Rom    30 Nov 2009
     
     clientgui/
         ProjectListCtrl.cpp, .h
+
+Rom    30 Nov 2009
+    - MGR: Hitting the back button on the ProjectInfo page in the wizard when
+        you have highlighted a project you are already attached too, should
+        not cause the 'you are already attached to project' dialog to be
+        displayed.  This also appears to have fixed the random page being
+        displayed when the dialog has been dismissed.
+        
+    clientgui/
+        ProjectInfoPage.cpp
