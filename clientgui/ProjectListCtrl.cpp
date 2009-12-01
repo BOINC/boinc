@@ -520,7 +520,7 @@ void CProjectListCtrl::OnHover( wxHtmlCellEvent& event )
 #ifdef __WXMSW__
     wxRect rc;
     rc.SetTop(pCell->GetAbsPos().x);
-    rc.SetBottom(pCell->GetAbsPos().y);
+    rc.SetLeft(pCell->GetAbsPos().y);
     rc.SetHeight(pCell->GetHeight());
     rc.SetWidth(pCell->GetWidth());
 
