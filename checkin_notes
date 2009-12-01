@@ -8841,3 +8841,11 @@ Rom    30 Nov 2009
         
     clientgui/
         ProjectInfoPage.cpp
+
+Rom    30 Nov 2009
+    - Tag for 6.10.21 release, all platforms
+      boinc_core_release_6_10_21
+
+    /
+        configure.ac
+        version.h
