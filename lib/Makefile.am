@@ -184,7 +184,7 @@ $(LIBBOINC_STATIC): libboinc.la
 
 $(LIBBOINC_CRYPT_STATIC): libboinc_crypt.la
 	rm -f $(LIBBOINC_CRYPT_STATIC)
-	$(LN) .libs/$(LIBBOINC_CRYPT_STATIC)
+	$(LN) .libs/$(LIBBOINC_CRYPT_STATIC) .
 
 $(LIBBOINC_FCGI_STATIC): libboinc_fcgi.la
 	rm -f $(LIBBOINC_FCGI_STATIC)
@@ -208,5 +208,5 @@ msg_test_CXXFLAGS = $(PTHREAD_CFLAGS)
 msg_test_LDADD = $(LIBBOINC)
 crypt_prog_SOURCES = crypt_prog.cpp 
 crypt_prog_CXXFLAGS = $(PTHREAD_CFLAGS)
-crypt_prog_LDADD = $(LIBBOINC) $(LIBBOINC_CRYPT_STATIC) $(SSL_LIBS) 
+crypt_prog_LDADD = $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC) $(SSL_LIBS) 
 

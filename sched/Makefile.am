@@ -71,11 +71,11 @@ all-local: $(all_local)
 
 $(LIBSCHED_STATIC): libsched.la
 	rm -f $(LIBSCHED_STATIC)
-	$(LN) .libs/$(LIBSCHED_STATIC)
+	$(LN) .libs/$(LIBSCHED_STATIC) .
 
 $(LIBSCHED_FCGI_STATIC): libsched_fcgi.la
 	rm -f $(LIBSCHED_FCGI_STATIC)
-	$(LN) .libs/$(LIBSCHED_FCGI_STATIC)
+	$(LN) .libs/$(LIBSCHED_FCGI_STATIC) .
 
 
 endif

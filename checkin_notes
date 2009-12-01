@@ -9587,3 +9587,9 @@ Rom    30 Nov 2009
         
     clientgui/
         ProjectInfoPage.cpp
+
+David  1 Dec 2009
+    - unix: build fixes
+
+    sched, lib/
+        Makefile.am
