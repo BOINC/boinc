@@ -422,6 +422,9 @@ bool CProjectListCtrl::Create( wxWindow* parent )
 {
 ////@begin CProjectListCtrl member initialisation
 ////@end CProjectListCtrl member initialisation
+#ifdef __WXMSW__
+    m_pTipWindow = NULL;
+#endif
 
 ////@begin CProjectListCtrl creation
     wxHtmlListBox::Create( parent, ID_PROJECTLISTCTRL, wxDefaultPosition, wxDefaultSize,
@@ -488,14 +491,44 @@ void CProjectListCtrl::OnLinkClicked( wxHtmlLinkEvent& event )
 
 void CProjectListCtrl::OnHover( wxHtmlCellEvent& event )
 {
-    // Convert current HTML cell into an array index
     long i = 0;
     wxHtmlCell* pCell = event.GetCell();
-    pCell = pCell->GetRootCell();
-    pCell->GetId().ToLong(&i);
+    wxHtmlCell* pRootCell = pCell->GetRootCell();
+    wxString strMulticoreIcon = wxT("multicore");
+    wxString strNvidiaIcon = wxT("nvidiaicon");
+    wxString strATIIcon = wxT("atiicon");
+    wxString strWebsiteIcon = wxT("website");
+    wxString strTooltip = wxEmptyString;
 
+    wxHtmlCell* pAnchor = pCell->GetParent()->GetFirstChild();
+
+    if (pAnchor->Find(wxHTML_COND_ISANCHOR, &strMulticoreIcon)) {
+        strTooltip = _("Multicore CPU Supported");
+    } else if (pAnchor->Find(wxHTML_COND_ISANCHOR, &strNvidiaIcon)) {
+        strTooltip = _("Nvidia GPU Supported");
+    } else if (pAnchor->Find(wxHTML_COND_ISANCHOR, &strATIIcon)) {
+        strTooltip = _("ATI GPU Supported");
+    } else if (pAnchor->Find(wxHTML_COND_ISANCHOR, &strWebsiteIcon)) {
+        strTooltip = _("Project Website");
+    } else {
+        // Convert current HTML cell into an array index
+        pRootCell->GetId().ToLong(&i);
+
+        strTooltip = m_Items[i]->GetDescription();
+    }
+
+#ifdef __WXMSW__
+    wxRect rc;
+    rc.SetTop(pCell->GetAbsPos().x);
+    rc.SetBottom(pCell->GetAbsPos().y);
+    rc.SetHeight(pCell->GetHeight());
+    rc.SetWidth(pCell->GetWidth());
+
+    m_pTipWindow = new wxTipWindow(this, strTooltip, 350, &m_pTipWindow, &rc);
+#else
     // Set Tooltip to the item currently being hovered over
-    SetToolTip(m_Items[i]->GetDescription());
+    SetToolTip(strTooltip);
+#endif
 
     event.Skip();
 }
@@ -504,18 +537,13 @@ void CProjectListCtrl::OnHover( wxHtmlCellEvent& event )
 wxString CProjectListCtrl::OnGetItem(size_t i) const
 {
     wxString strTopRow = wxEmptyString;
-    //wxString strBottomRow = wxEmptyString;
     wxString strBuffer = wxEmptyString;
 
 
     //
     // Top Row
     // 
-    if (m_Items[i]->IsNvidiaGPUSupported() || m_Items[i]->IsATIGPUSupported()) {
-        strTopRow += wxT("<table cellpadding=0 cellspacing=1 bgcolor=#ffff00>");
-    } else {
-        strTopRow += wxT("<table cellpadding=0 cellspacing=1>");
-    }
+    strTopRow += wxT("<table cellpadding=0 cellspacing=1>");
 
     strTopRow += wxT("<tr>");
 
@@ -526,19 +554,19 @@ wxString CProjectListCtrl::OnGetItem(size_t i) const
     strTopRow += strBuffer;
     
     if (m_Items[i]->IsMulticoreSupported()) {
-        strTopRow += wxT("<td><img height=16 width=16 src=\"memory:multicore.xpm\"></td>");
+        strTopRow += wxT("<td><a name=\"multicore\"><img height=16 width=16 src=\"memory:multicore.xpm\"></a></td>");
     }
 
     if (m_Items[i]->IsNvidiaGPUSupported()) {
-        strTopRow += wxT("<td><img height=16 width=16 src=\"memory:nvidiaicon.xpm\"></td>");
+        strTopRow += wxT("<td><a name=\"nvidiaicon\"><img height=16 width=16 src=\"memory:nvidiaicon.xpm\"></a></td>");
     }
 
     if (m_Items[i]->IsATIGPUSupported()) {
-        strTopRow += wxT("<td><img height=16 width=16 src=\"memory:atiicon.xpm\"></td>");
+        strTopRow += wxT("<td><a name=\"atiicon\"><img height=16 width=16 src=\"memory:atiicon.xpm\"></a></td>");
     }
 
     strBuffer.Printf(
-        wxT("<td><a href=\"%s\"><img height=16 width=16 src=\"memory:webexternallink.xpm\"></a></td>"),
+        wxT("<td><a name=\"website\"href=\"%s\"><img height=16 width=16 src=\"memory:webexternallink.xpm\"></a></td>"),
         m_Items[i]->GetURL().c_str()
     );
     strTopRow += strBuffer;
@@ -546,47 +574,7 @@ wxString CProjectListCtrl::OnGetItem(size_t i) const
     strTopRow += wxT("</tr>");
     strTopRow += wxT("</table>");
 
-    //
-    // Bottom row
-    //
-
-/*
-    strBottomRow += wxT("<table cellpadding=0 cellspacing=1>");
-    strBottomRow += wxT("<tr>");
-    strBottomRow += wxT("<td width=10></td>");
-    strBottomRow += wxT("<td width=100%%>");
-
-    strBuffer.Printf(
-        wxT("%s"),
-        m_Items[i]->GetDescription().c_str()
-    );
-    strBottomRow += strBuffer;
-
-    strBottomRow += wxT("</td>");
-    strBottomRow += wxT("</tr>");
-    strBottomRow += wxT("</table>");
-*/
-
-    //
-    // Whole item description
-    //
-    strBuffer.Empty();
-    strBuffer += wxT("<table cellpadding=0 cellspacing=0>");
-    strBuffer += wxT("<tr>");
-    strBuffer += wxT("<td width=100%%>");
-    strBuffer += strTopRow;
-    strBuffer += wxT("</td>");
-    strBuffer += wxT("</tr>");
-/*
-    strBuffer += wxT("<tr>");
-    strBuffer += wxT("<td width=100%%>");
-    strBuffer += strBottomRow;
-    strBuffer += wxT("</td>");
-    strBuffer += wxT("</tr>");
-*/
-    strBuffer += wxT("</table>");
-
-    return strBuffer;
+    return strTopRow;
 }
 
 
