@@ -311,7 +311,7 @@ saverName[2] = "Progress Thru Processors";
     getcwd(dir_path, sizeof(dir_path));             // Client or Manager
 
     if (! isManager) {                                   // If BOINC Client
-        if (egid != boinc_master_gid)
+    if (egid != boinc_master_gid)
             return -1019;     // Client should be running setgid boinc_master
 
         if (euid != boinc_master_uid)
@@ -666,11 +666,10 @@ bool IsUserInGroupBM() {
     char                *userName, *groupMember;
     int                 i;
 
-    grp = getgrgid(boinc_master_gid);
+    grp = getgrnam(REAL_BOINC_MASTER_NAME);
     if (grp) {
-
         rgid = getgid();
-        if (rgid == boinc_master_gid) {
+        if (rgid == grp->gr_gid) {
             return true;                // User's primary group is boinc_master
         }
 

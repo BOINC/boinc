@@ -6422,3 +6422,31 @@ Charlie 19 Nov 2009
         BOINCGUIApp.cpp
     mac_installer/
         uninstall.cpp
+
+Charlie 23 Nov 2009
+    - Mac Installer: update ReadMe files to emphasize that installer may 
+        take longer than expected.
+    mac_installer/
+        GR-ReadMe.rtf
+        PTP-ReadMe.rtf
+        ReadMe.rtf
+
+Charlie 25 Nov 2009
+    - Mac Sandbox: attempt to fix bug where Manager reports that admin user 
+        is not authorized to run BOINC.  I haven't been able to reproduce 
+        this bug, so this fix is a shot in the dark.
+    
+    client/
+        check_security.cpp
+
+Charlie 26 Nov 2009
+    - Mac Installer: Check for our boinc_master and boinc_project users and 
+        groups having IDs which conflict with other users and groups on the 
+        system.  This can happen when a newer version of the OS includes new 
+        users or groups, or when software is installed which defines them.  
+        This was causing some of the problems reported by users.  If the 
+        installer finds a conflict, it deletes our user or group and creates 
+        a new one with a unique ID.
+
+    mac_installer/
+        PostInstall.cpp
