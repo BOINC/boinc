@@ -582,8 +582,11 @@ void CLIENT_STATE::adjust_debts() {
             total_short_term_debt += p->short_term_debt;
             if (log_flags.std_debug) {
                 msg_printf(p, MSG_INFO,
-                    "[std_debug] std delta %.2f (work done %.2f)",
-                    delta, cpu_work_fetch.secs_this_debt_interval
+                    "[std_debug] std delta %.2f (%.2f * %.2f / %.2f)",
+                    delta,
+                    share_frac,
+                    cpu_work_fetch.secs_this_debt_interval,
+                    p->cpu_pwf.secs_this_debt_interval
                 );
             }
         } else {
