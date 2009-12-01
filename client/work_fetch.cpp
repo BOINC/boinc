@@ -655,9 +655,10 @@ void RSC_WORK_FETCH::update_debts() {
             w.debt += delta;
             if (log_flags.debt_debug) {
                 msg_printf(p, MSG_INFO,
-                    "[debt] %s debt %.2f delta %.2f share frac %.2f (%.2f/%.2f) secs %.2f rsc_secs %.2f",
+                    "[debt] %s debt %.2f delta %.2f (%.2f * %.2f - %.2f)",
                     rsc_name(rsc_type),
-                    w.debt, delta, share_frac, p->resource_share, ders, secs_this_debt_interval,
+                    w.debt, delta, share_frac,
+                    secs_this_debt_interval,
                     w.secs_this_debt_interval
                 );
             }
