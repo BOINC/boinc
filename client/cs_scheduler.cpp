@@ -82,7 +82,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     if (!f) return ERR_FOPEN;
 
     double trs = total_resource_share();
-    double rrs = runnable_resource_share();
+    double rrs = runnable_resource_share(RSC_TYPE_ANY);
     double prrs = potentially_runnable_resource_share();
     double resource_share_fraction, rrs_fraction, prrs_fraction;
     if (trs) {

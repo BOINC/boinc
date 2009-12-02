@@ -332,8 +332,8 @@ public:
 
         /// not suspended and not deferred and not no more work
     bool can_request_work();
-        /// has a runnable result
-    bool runnable();
+        /// has a runnable result using the given resource type
+    bool runnable(int rsc_type);
         /// has a result in downloading state
     bool downloading();
         /// runnable or contactable or downloading
