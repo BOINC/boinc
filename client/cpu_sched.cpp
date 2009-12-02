@@ -519,7 +519,7 @@ void CLIENT_STATE::reset_debt_accounting() {
 void CLIENT_STATE::adjust_debts() {
     unsigned int i;
     double total_short_term_debt = 0;
-    double rrs, rrs_cuda, rrs_ati;
+    double rrs, rrs_cuda=0, rrs_ati=0;
     int nprojects=0, nrprojects=0;
     PROJECT *p;
     double share_frac;
