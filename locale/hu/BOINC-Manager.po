@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-02 01:58-0700\n"
+"PO-Revision-Date: 2009-12-02 02:28-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -2702,28 +2702,30 @@ msgstr "Projektek szinkronizálása a fiókkezelő rendszerrel"
 
 #: clientgui/sg_ProjectsComponent.cpp:194
 #: clientgui/sg_ProjectsComponent.cpp:205
+#, fuzzy
 msgid "Open a window to view messages"
-msgstr ""
+msgstr "Ablak nyitása az üzenetek megtekintéséhez"
 
 #: clientgui/sg_ProjectsComponent.cpp:223
 msgid "Stop all activity"
-msgstr ""
+msgstr "Minden aktivitás leállítása"
 
 #: clientgui/sg_ProjectsComponent.cpp:235
 msgid "Resume activity"
-msgstr ""
+msgstr "Aktivitás folytatása"
 
 #: clientgui/sg_ProjectsComponent.cpp:252
+#, fuzzy
 msgid "Open a window to set your preferences"
-msgstr ""
+msgstr "Ablak nyitása a beállítások megváltoztatásához"
 
 #: clientgui/sg_ProjectsComponent.cpp:269
 msgid "Switch to the BOINC advanced view"
-msgstr ""
+msgstr "Váltás a BOINC haladó nézetére"
 
 #: clientgui/sg_ProjectsComponent.cpp:296
 msgid "My Projects:"
-msgstr ""
+msgstr "Projektjeim:"
 
 #: clientgui/sg_StatImageLoader.cpp:101
 #, c-format
@@ -2732,7 +2734,7 @@ msgstr ""
 
 #: clientgui/sg_StatImageLoader.cpp:154
 msgid "Remove Project"
-msgstr ""
+msgstr "Projekt eltávolítása"
 
 #: clientgui/sg_StatImageLoader.cpp:217
 #: clientgui/ViewProjects.cpp:490
@@ -2749,15 +2751,14 @@ msgstr "Leválasztás a projektről"
 #: clientgui/sg_ViewTabPage.cpp:278
 #, c-format
 msgid "%.1lf"
-msgstr ""
+msgstr "%.1lf"
 
 #: clientgui/sg_ViewTabPage.cpp:407
 #, c-format
 msgid "%d hr %d min %d sec"
-msgstr ""
+msgstr "%d óra %d perc %d mp"
 
 #: clientgui/sg_ViewTabPage.cpp:421
-#, fuzzy
 msgid "Are you sure you want to display graphics on a remote machine?"
 msgstr "Biztosan egy távoli gépen szeretné megjeleníteni a grafikus ablakot?"
 
@@ -2766,35 +2767,33 @@ msgid "Show graphics"
 msgstr "Grafikus ablak megjelenítése"
 
 #: clientgui/sg_ViewTabPage.cpp:444
-#, fuzzy
 msgid "Application: "
-msgstr "Alkalmazás"
+msgstr "Alkalmazás:"
 
 #: clientgui/sg_ViewTabPage.cpp:447
 #: clientgui/sg_ViewTabPage.cpp:451
 msgid "Time Remaining: "
-msgstr ""
+msgstr "Hátralévő idő:"
 
 #: clientgui/sg_ViewTabPage.cpp:450
-#, fuzzy
 msgid "Elapsed Time: "
-msgstr "Eltelt idő"
+msgstr "Eltelt idő:"
 
 #: clientgui/TermsOfUsePage.cpp:219
 msgid "Terms of Use"
-msgstr ""
+msgstr "Felhasználási feltételek"
 
 #: clientgui/TermsOfUsePage.cpp:223
 msgid "Please read the following terms of use:"
-msgstr ""
+msgstr "Kérjük olvassa el az alábbi felhasználási feltételeket:"
 
 #: clientgui/TermsOfUsePage.cpp:232
 msgid "I agree to the terms of use."
-msgstr ""
+msgstr "Elfogadom a felhasználási feltételeket."
 
 #: clientgui/TermsOfUsePage.cpp:238
 msgid "I do not agree with the terms of use."
-msgstr ""
+msgstr "Nem fogadom el a felhasználási feltételeket."
 
 #: clientgui/UnavailablePage.cpp:184
 msgid "Project temporarily unavailable"
@@ -2839,11 +2838,11 @@ msgstr "Ellenőrzési hiba"
 
 #: clientgui/ValidateEmailAddress.cpp:72
 msgid "Please specify an email address"
-msgstr ""
+msgstr "Kérjük, adja meg email címét"
 
 #: clientgui/ValidateEmailAddress.cpp:75
 msgid "Invalid email address; please enter a valid email address"
-msgstr ""
+msgstr "Érvénytelen email cím; kérjük, adjon meg egy érvényes címet"
 
 #: clientgui/ValidateURL.cpp:69
 msgid "Missing URL"
@@ -2871,15 +2870,14 @@ msgstr "Érvénytelen URL"
 #: clientgui/ValidateURL.cpp:84
 #: clientgui/ValidateURL.cpp:88
 #: clientgui/ValidateURL.cpp:92
-#, fuzzy
 msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
 "http://boincproject.example.com"
 msgstr ""
-"Kérem adjon meg egy érvényes számítógépnevet.\n"
+"Kérem adjon meg egy érvényes URL-t.\n"
 "Például:\n"
-"boincprojekt.pelda.hu"
+"http://boincprojekt.pelda.hu"
 
 #: clientgui/ValidateURL.cpp:104
 #: clientgui/ValidateURL.cpp:108
@@ -2934,20 +2932,19 @@ msgstr "Kiválasztott üzenetek másolása a vágólapra..."
 
 #: clientgui/ViewMessages.cpp:286
 msgid "Filtering messages..."
-msgstr ""
+msgstr "Üzenetek szűrése..."
 
 #: clientgui/ViewMessages.cpp:494
-#, fuzzy
 msgid "Show all messages"
-msgstr "Minden üzenet másolása"
+msgstr "Minden üzenet mutatása"
 
 #: clientgui/ViewMessages.cpp:495
 msgid "Show messages for all projects."
-msgstr ""
+msgstr "Az összes projekt üzeneteinek mutatása."
 
 #: clientgui/ViewMessagesGrid.cpp:128
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: clientgui/ViewMessagesGrid.cpp:128
 msgid "Priority"
@@ -2955,7 +2952,7 @@ msgstr "Prioritás"
 
 #: clientgui/ViewMessagesGrid.cpp:151
 msgid "MessagesGrid"
-msgstr ""
+msgstr "ÜzenetHáló"
 
 #: clientgui/ViewMessagesGrid.cpp:209
 msgid "Copying selected messages to Clipboard..."
@@ -2963,7 +2960,7 @@ msgstr "Kiválasztott üzenetek másolása a vágólapra..."
 
 #: clientgui/ViewMessagesGrid.cpp:396
 msgid "Info"
-msgstr ""
+msgstr "Infó"
 
 #: clientgui/ViewMessagesGrid.cpp:399
 msgid "Warning"
@@ -3029,7 +3026,6 @@ msgid "Reset project"
 msgstr "Projekt nullázása"
 
 #: clientgui/ViewProjects.cpp:195
-#, fuzzy
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
 msgstr ""
 "A projekthez kapcsolódó összes fájl és munka törlése, és új munka kérése. "
@@ -3087,15 +3083,14 @@ msgid "Suspending project..."
 msgstr "Projekt felfüggesztése..."
 
 #: clientgui/ViewProjects.cpp:379
-#, fuzzy
 msgid "Telling project to allow additional task downloads..."
-msgstr "A projekt tájékoztatása, hogy további munka letöltése engedélyezett..."
+msgstr ""
+"A projekt tájékoztatása, hogy további feladat letöltése engedélyezett..."
 
 #: clientgui/ViewProjects.cpp:383
-#, fuzzy
 msgid "Telling project to not fetch any additional tasks..."
 msgstr ""
-"A projekt tájékoztatása, hogy további munka letöltése nem engedélyezett..."
+"A projekt tájékoztatása, hogy további feladat letöltése nem engedélyezett..."
 
 #: clientgui/ViewProjects.cpp:419
 msgid "Resetting project..."
@@ -3389,6 +3384,9 @@ msgid ""
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
 msgstr ""
+"Biztosan félbeszakítja a '%s' fájlátvitelt?\n"
+"MEGJEGYZÉS: Az átvitel megszakítása érvényteleníti a feladatot,\n"
+"így nem jár érte kredit."
 
 #: clientgui/ViewTransfers.cpp:328
 msgid "Abort File Transfer"
@@ -3402,12 +3400,12 @@ msgstr "Újrapróbálás..."
 #: clientgui/ViewTransfers.cpp:762
 #: clientgui/ViewTransfersGrid.cpp:431
 msgid "Upload pending"
-msgstr ""
+msgstr "Feltöltés függőben"
 
 #: clientgui/ViewTransfers.cpp:762
 #: clientgui/ViewTransfersGrid.cpp:431
 msgid "Download pending"
-msgstr ""
+msgstr "Letöltés függőben"
 
 #: clientgui/ViewTransfers.cpp:769
 msgid " (project backoff: "
@@ -3415,16 +3413,15 @@ msgstr ""
 
 #: clientgui/ViewTransfers.cpp:769
 msgid ")"
-msgstr ""
+msgstr ")"
 
 #: clientgui/ViewTransfersGrid.cpp:161
 msgid "TransfersGrid"
-msgstr ""
+msgstr "ÁtvitelHáló"
 
 #: clientgui/ViewTransfersGrid.cpp:228
-#, fuzzy
 msgid "Aborting transfer(s)..."
-msgstr "Átvitel megszakítása..."
+msgstr "Átvitel(ek) megszakítása..."
 
 #: clientgui/ViewTransfersGrid.cpp:230
 msgid ""
@@ -3432,16 +3429,18 @@ msgid ""
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
 msgstr ""
+"Biztosan megszakítja ez(eke)t az átvitel(eke)t?\n"
+"MEGJEGYZÉS: Az átvitel megszakítása érvényteleníti a feladatot,\n"
+"így nem jár érte kredit."
 
 #: clientgui/ViewTransfersGrid.cpp:231
-#, fuzzy
 msgid "Abort File Transfer(s)"
-msgstr "Adatátvitel megszakítása"
+msgstr "Fájlátvitel(ek) megszakítása"
 
 #: clientgui/ViewWork.cpp:184
 #: clientgui/ViewWork.cpp:708
 msgid "Show active tasks"
-msgstr ""
+msgstr "Aktív feladatok mutatása"
 
 #: clientgui/ViewWork.cpp:185
 #: clientgui/ViewWork.cpp:709
@@ -3498,28 +3497,28 @@ msgstr "Munka folytatása..."
 
 #: clientgui/ViewWork.cpp:345
 #: clientgui/ViewWorkGrid.cpp:223
-#, fuzzy
 msgid "Suspending task..."
-msgstr "Munka felfüggesztése a jelen csomagon..."
+msgstr "Feladat felfüggesztése..."
 
 #: clientgui/ViewWork.cpp:373
 #: clientgui/ViewWorkGrid.cpp:251
-#, fuzzy
 msgid "Showing graphics for task..."
-msgstr "A jelen csomag grafikájának megjelenítése..."
+msgstr "A feladat grafikájának megjelenítése..."
 
 #: clientgui/ViewWork.cpp:426
 #, c-format
+#, fuzzy
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
 msgstr ""
+"Biztosan megszakítja '%s' feladatot?\n"
+"(Állapot: %s, Státusz: %s)"
 
 #: clientgui/ViewWork.cpp:432
 #, c-format
-#, fuzzy
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr "Biztosan eldobja a(z) \"%s\" csomagot?"
+msgstr "Biztosan eldobja %s feladato(ka)t?"
 
 #: clientgui/ViewWork.cpp:437
 #: clientgui/ViewWorkGrid.cpp:335
@@ -3541,15 +3540,13 @@ msgstr "Mutassa az összes feladatot."
 
 #: clientgui/ViewWork.cpp:727
 #: clientgui/ViewWorkGrid.cpp:445
-#, fuzzy
 msgid "Resume work for this task."
-msgstr "Munka folytatása a jelen csomagon."
+msgstr "Munka folytatása a jelen feladaton."
 
 #: clientgui/ViewWork.cpp:733
 #: clientgui/ViewWorkGrid.cpp:451
-#, fuzzy
 msgid "Suspend work for this task."
-msgstr "Munka felfüggesztése a jelen csomagon."
+msgstr "Munka felfüggesztése a jelen feladaton."
 
 #: clientgui/ViewWork.cpp:1107
 msgid "GPU missing, "
@@ -3566,7 +3563,7 @@ msgstr "(nem processzor igényes)"
 
 #: clientgui/ViewWorkGrid.cpp:184
 msgid "TasksGrid"
-msgstr ""
+msgstr "FeladatHáló"
 
 #: clientgui/ViewWorkGrid.cpp:327
 #, c-format
@@ -3578,9 +3575,8 @@ msgstr ""
 "(Feldolgozottság: %s %%, Állapot: %s)"
 
 #: clientgui/WelcomePage.cpp:250
-#, fuzzy
 msgid "Attach to project or account manager"
-msgstr "Csatlakozás &projekthez vagy fiókkezelőhöz..."
+msgstr "Csatlakozás projekthez vagy fiókkezelőhöz"
 
 #: clientgui/WelcomePage.cpp:258
 #, c-format
