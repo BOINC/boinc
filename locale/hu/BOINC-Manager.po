@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-19 05:43-0700\n"
-"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
+"PO-Revision-Date: 2009-12-02 00:20-0700\n"
+"Last-Translator: M T <molnart@mail.bibl.u-szeged.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -4080,7 +4080,7 @@ msgstr "&Feladatok\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:342
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr ""
+msgstr "Adatforgalom\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:348
 msgid "&Messages\tCtrl+Shift+M"
