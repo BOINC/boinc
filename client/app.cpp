@@ -848,10 +848,7 @@ void ACTIVE_TASK_SET::report_overdue() {
         double diff = (gstate.now - atp->result->report_deadline)/86400;
         if (diff > 0) {
             msg_printf(atp->result->project, MSG_USER_ERROR,
-                "Task %s is %.2f days overdue.", atp->result->name, diff
-            );
-            msg_printf(atp->result->project, MSG_USER_ERROR,
-                "You may not get credit for it.  Consider aborting it."
+                "Task %s is %.2f days overdue; you may not get credit for it.  Consider aborting it.", atp->result->name, diff
             );
         }
     }
