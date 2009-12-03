@@ -660,7 +660,6 @@ void CLIENT_STATE::schedule_cpus() {
     RESULT* rp;
     PROJECT* p;
     unsigned int i;
-    double rrs = runnable_resource_share(RSC_TYPE_CPU);
     PROC_RESOURCES proc_rsc;
     ACTIVE_TASK* atp;
     bool can_run;

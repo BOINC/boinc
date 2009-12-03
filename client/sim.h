@@ -317,3 +317,6 @@ extern bool work_fetch_old;
     // debt is adjusted at least this often,
     // since adjust_debts() is called from enforce_schedule()
 #define HANDLE_FINISHED_APPS_PERIOD 1.0
+
+#define MAX_STD   (86400)
+    // maximum short-term debt
