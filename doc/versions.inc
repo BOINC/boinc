@@ -101,17 +101,17 @@ $w5816= array(
     "type"=>"win_new",
 );
 
-$m610dev = array(
+$m610 = array(
     "num"=>"6.10.21",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_6.10.21_macOSX_universal.zip",
     "date"=>"1 Dec 2009",
     "type"=>"mac_advanced",
 );
 
-$m610 = array(
+$m61017 = array(
     "num"=>"6.10.17",
-    "status"=>"Recommended version (standard GUI)",
+    "status"=>"Older version (standard GUI)",
     "file"=>"boinc_6.10.17_macOSX_universal.zip",
     "date"=>"28 Oct 2009",
     "type"=>"mac_advanced",
@@ -125,17 +125,17 @@ $m66 = array(
     "type"=>"mac_advanced",
 );
 
-$m610cdev = array(
+$m610c = array(
     "num"=>"6.10.21",
-    "status"=>"Development version (Unix command-line version)",
+    "status"=>"Recommended version (Unix command-line version)",
     "file"=>"boinc_6.10.21_universal-apple-darwin.zip",
     "date"=>"1 Dec 2009",
     "type"=>"bare_core",
 );
 
-$m610c = array(
+$m61017c = array(
     "num"=>"6.10.17",
-    "status"=>"Recommended version (Unix command-line version)",
+    "status"=>"Older version (Unix command-line version)",
     "file"=>"boinc_6.10.17_universal-apple-darwin.zip",
     "date"=>"28 Oct 2009",
     "type"=>"bare_core",
@@ -227,10 +227,10 @@ $mac = array(
     "description"=>"Version 10.3.9+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
-        $m610dev,
-        $m610cdev,
         $m610,
         $m610c,
+        $m61017,
+        $m61017c,
         $m66,
         $m66c,
     )
