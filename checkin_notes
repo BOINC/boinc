@@ -6458,3 +6458,10 @@ Charlie 31 Aug 2009
     /
         configure.ac
         version.h
+
+Charlie  1 Dec 2009
+    - Mac Installer: Rearrange License Agreement so Restrictions section 
+        is visible without scrolling and is in bold text.
+
+    mac_installer/
+        License.rtf
