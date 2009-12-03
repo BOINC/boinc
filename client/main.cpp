@@ -208,6 +208,7 @@ static void init_core_client(int argc, char** argv) {
     setbuf(stdout, 0);
     setbuf(stderr, 0);
 
+    config.clear();
     gstate.parse_cmdline(argc, argv);
 
 #ifdef _WIN32

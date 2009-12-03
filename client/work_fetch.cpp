@@ -714,6 +714,7 @@ void RSC_WORK_FETCH::update_debts() {
         p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
+        if (w.debt_eligible(p, *this) && offset < 0) continue;
         w.debt += offset;
         if (w.debt > 0) w.debt = 0;
     }
