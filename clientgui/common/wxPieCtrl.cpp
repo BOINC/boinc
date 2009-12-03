@@ -304,7 +304,7 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
 void wxPieCtrl::DrawLegend(int left, int top)
 {
 	unsigned int i;
-	int dy(m_LegendVerBorder),tw,th,titlew,titleh;
+	int dy(m_LegendVerBorder),tw,th=0,titlew,titleh;
 
 	// First determine the size of the legend box
 	m_CanvasDC.SetFont(m_TitleFont);
