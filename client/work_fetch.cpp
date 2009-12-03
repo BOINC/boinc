@@ -180,7 +180,7 @@ void RSC_WORK_FETCH::update_busy_time(double dur, double nused) {
 bool RSC_PROJECT_WORK_FETCH::overworked() {
     double x = gstate.work_buf_total() + gstate.global_prefs.cpu_scheduling_period(); 
     if (x < 86400) x = 86400;
-    return (debt < -x);
+    return (long_term_debt < -x);
 }
 
 #define FETCH_IF_IDLE_INSTANCE          0
@@ -311,12 +311,12 @@ void RSC_WORK_FETCH::set_shortfall_request(PROJECT* p) {
 void WORK_FETCH::set_overall_debts() {
     for (unsigned i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        p->pwf.overall_debt = p->cpu_pwf.debt;
+        p->pwf.overall_debt = p->cpu_pwf.long_term_debt;
         if (coproc_cuda) {
-            p->pwf.overall_debt += cuda_work_fetch.speed*p->cuda_pwf.debt;
+            p->pwf.overall_debt += cuda_work_fetch.speed*p->cuda_pwf.long_term_debt;
         }
         if (coproc_ati) {
-            p->pwf.overall_debt += ati_work_fetch.speed*p->ati_pwf.debt;
+            p->pwf.overall_debt += ati_work_fetch.speed*p->ati_pwf.long_term_debt;
         }
     }
 }
@@ -324,12 +324,12 @@ void WORK_FETCH::set_overall_debts() {
 void WORK_FETCH::zero_debts() {
     for (unsigned i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        p->cpu_pwf.debt = 0;
+        p->cpu_pwf.long_term_debt = 0;
         if (coproc_cuda) {
-            p->cuda_pwf.debt = 0;
+            p->cuda_pwf.long_term_debt = 0;
         }
         if (coproc_ati) {
-            p->ati_pwf.debt = 0;
+            p->ati_pwf.long_term_debt = 0;
         }
     }
 }
@@ -359,9 +359,9 @@ void RSC_WORK_FETCH::print_state(const char* name) {
             break;
         }
         msg_printf(p, MSG_INFO,
-            "[wfd] %s: fetch share %.2f debt %.2f backoff dt %.2f int %.2f%s%s%s%s%s%s%s",
+            "[wfd] %s: fetch share %.2f LTD %.2f backoff dt %.2f int %.2f%s%s%s%s%s%s%s",
             name,
-            pwf.fetchable_share, pwf.debt, bt, pwf.backoff_interval,
+            pwf.fetchable_share, pwf.long_term_debt, bt, pwf.backoff_interval,
             p->suspended_via_gui?" (susp via GUI)":"",
             p->master_url_fetch_pending?" (master fetch pending)":"",
             p->min_rpc_time > gstate.now?" (comm deferred)":"",
@@ -388,7 +388,7 @@ void WORK_FETCH::print_state() {
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
-        msg_printf(p, MSG_INFO, "[wfd] overall_debt %.0f", p->pwf.overall_debt);
+        msg_printf(p, MSG_INFO, "[wfd] overall LTD %.2f", p->pwf.overall_debt);
     }
     msg_printf(0, MSG_INFO, "[wfd] ------- end work fetch state -------");
 }
@@ -582,7 +582,7 @@ void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {
     }
 }
 
-// should this project be accumulating debt for this resource?
+// should this project be accumulating LTD for this resource?
 //
 bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
     if (p->non_cpu_intensive) return false;
@@ -604,7 +604,7 @@ bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
     // In this case, accumulate debt until we reach (around) zero, then stop.
     //
     if (backoff_interval == MAX_BACKOFF_INTERVAL) {
-        if (debt > -rwf.ninstances*DEBT_ADJUST_PERIOD) {
+        if (long_term_debt > -rwf.ninstances*DEBT_ADJUST_PERIOD) {
             return false;
         }
     }
@@ -614,7 +614,7 @@ bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
 
 // update long-term debts for a resource.
 //
-void RSC_WORK_FETCH::update_debts() {
+void RSC_WORK_FETCH::update_long_term_debts() {
     unsigned int i;
     int neligible = 0;
     double ders = 0;
@@ -652,29 +652,29 @@ void RSC_WORK_FETCH::update_debts() {
             // (how much it's owed) - (how much it got)
             //
             double delta = share_frac*secs_this_debt_interval - w.secs_this_debt_interval;
-            w.debt += delta;
+            w.long_term_debt += delta;
             if (log_flags.debt_debug) {
                 msg_printf(p, MSG_INFO,
-                    "[debt] %s debt %.2f delta %.2f (%.2f * %.2f - %.2f)",
+                    "[debt] %s LTD %.2f delta %.2f (%.2f*%.2f - %.2f)",
                     rsc_name(rsc_type),
-                    w.debt, delta, share_frac,
+                    w.long_term_debt, delta, share_frac,
                     secs_this_debt_interval,
                     w.secs_this_debt_interval
                 );
             }
             if (first) {
-                max_debt = w.debt;
+                max_debt = w.long_term_debt;
                 first = false;
             } else {
-                if (w.debt > max_debt) {
-                    max_debt = w.debt;
+                if (w.long_term_debt > max_debt) {
+                    max_debt = w.long_term_debt;
                 }
             }
         } else {
             if (log_flags.debt_debug) {
                 msg_printf(p, MSG_INFO,
-                    "[debt] %s ineligible; debt %.2f",
-                    rsc_name(rsc_type), w.debt
+                    "[debt] %s ineligible; LTD %.2f",
+                    rsc_name(rsc_type), w.long_term_debt
                 );
             }
         }
@@ -715,8 +715,76 @@ void RSC_WORK_FETCH::update_debts() {
         if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
         if (w.debt_eligible(p, *this) && offset < 0) continue;
-        w.debt += offset;
-        if (w.debt > 0) w.debt = 0;
+        w.long_term_debt += offset;
+        if (w.long_term_debt > 0) w.long_term_debt = 0;
+    }
+}
+
+
+// update short-term debts for a resource.
+//
+void RSC_WORK_FETCH::update_short_term_debts() {
+    unsigned int i;
+    PROJECT* p;
+    int nprojects=0, nrprojects=0;
+    double share_frac;
+    double total_short_term_debt = 0;
+    double rrs = gstate.runnable_resource_share(rsc_type);
+
+    for (i=0; i<gstate.projects.size(); i++) {
+        double delta;
+        p = gstate.projects[i];
+        if (p->non_cpu_intensive) continue;
+        RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
+        nprojects++;
+
+        if (p->runnable(rsc_type)) {
+            nrprojects++;
+            share_frac = p->resource_share/rrs;
+            delta = share_frac*secs_this_debt_interval
+                - rpwf.secs_this_debt_interval;
+            if (log_flags.std_debug) {
+                msg_printf(p, MSG_INFO,
+                    "[std_debug] %s STD delta %.2f (%.2f*%.2f - %.2f)",
+                    rsc_name(rsc_type),
+                    delta,
+                    share_frac,
+                    secs_this_debt_interval,
+                    rpwf.secs_this_debt_interval
+                );
+            }
+            rpwf.short_term_debt += delta;
+            total_short_term_debt += rpwf.short_term_debt;
+        } else {
+            rpwf.short_term_debt = 0;
+            rpwf.anticipated_debt = 0;
+        }
+    }
+
+    //  normalize so mean is zero, and limit abs value to MAX_STD
+    //
+    if (nrprojects) {
+        double avg_short_term_debt = total_short_term_debt / nrprojects;
+        for (i=0; i<gstate.projects.size(); i++) {
+            p = gstate.projects[i];
+            if (p->non_cpu_intensive) continue;
+            RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
+            if (p->runnable(rsc_type)) {
+                rpwf.short_term_debt -= avg_short_term_debt;
+                if (rpwf.short_term_debt > MAX_STD) {
+                    rpwf.short_term_debt = MAX_STD;
+                }
+                if (rpwf.short_term_debt < -MAX_STD) {
+                    rpwf.short_term_debt = -MAX_STD;
+                }
+            }
+            if (log_flags.std_debug) {
+                msg_printf(p, MSG_INFO,
+                    "[std_debug] %s STD %.2f",
+                    rsc_name(rsc_type), rpwf.short_term_debt
+                );
+            }
+        }
     }
 }
 

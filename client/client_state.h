@@ -238,6 +238,7 @@ public:
     bool abort_jobs_on_exit;
     void start_abort_sequence();
     bool abort_sequence_done();
+    int quit_activities();
 private:
     int link_app(PROJECT*, APP*);
     int link_file_info(PROJECT*, FILE_INFO*);
@@ -255,6 +256,10 @@ private:
 
 // --------------- cpu_sched.cpp:
 private:
+    double total_resource_share();
+    double potentially_runnable_resource_share();
+    double nearly_runnable_resource_share();
+    double fetchable_resource_share();
     double debt_interval_start;
     double total_cpu_time_this_debt_interval;
     bool work_fetch_no_new_work;
@@ -270,6 +275,8 @@ private:
     bool enforce_schedule();
     void append_unfinished_time_slice(vector<RESULT*>&);
 public:
+    double runnable_resource_share(int);
+        /// Check if work fetch needed.
     void adjust_debts();
     std::vector <RESULT*> ordered_scheduled_results;
         /// if we fail to start a task due to no shared-mem segments,
@@ -299,6 +306,7 @@ public:
         /// - any project op is done via RPC (suspend/resume)
         /// - any result op is done via RPC (suspend/resume)
     void request_schedule_cpus(const char*);
+    void set_ncpus();
 
 // --------------- cs_account.cpp:
 public:
@@ -314,34 +322,13 @@ private:
         // should be move to a new file, but this will do it for testing
 
 // --------------- cs_apps.cpp:
-private:
-    double total_resource_share();
-    double potentially_runnable_resource_share();
-    double nearly_runnable_resource_share();
-    double fetchable_resource_share();
 public:
-    double runnable_resource_share(int);
-        /// Check if work fetch needed.
-
-        /// Called when:
-        /// - core client starts (CS::init())
-        /// - task is completed or fails
-        /// - tasks are killed
-        /// - an RPC completes
-        /// - project suspend/detch/attach/reset GUI RPC
-        /// - result suspend/abort GUI RPC
-    void request_work_fetch(const char*);
-    int quit_activities();
-    void set_ncpus();
-    double estimate_cpu_time(WORKUNIT&);
     double get_fraction_done(RESULT* result);
     int input_files_available(RESULT*, bool, FILE_INFO** f=0);
     ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
         /// number of usable cpus
     int ncpus;
 private:
-    int nslots;
-
     int latest_version(APP*, char*);
     int app_finished(ACTIVE_TASK&);
     bool start_apps();
@@ -407,6 +394,14 @@ private:
 
 // --------------- cs_scheduler.cpp:
 public:
+        /// Called when:
+        /// - core client starts (CS::init())
+        /// - task is completed or fails
+        /// - tasks are killed
+        /// - an RPC completes
+        /// - project suspend/detch/attach/reset GUI RPC
+        /// - result suspend/abort GUI RPC
+    void request_work_fetch(const char*);
     int make_scheduler_request(PROJECT*);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url);
     SCHEDULER_OP* scheduler_op;
@@ -539,5 +534,8 @@ extern void print_suspend_tasks_message(int);
 #define GUI_HTTP_POLL_PERIOD    1.0
 
 #define CONNECT_ERROR_PERIOD    600.0
+
+#define MAX_STD   (86400)
+    // maximum short-term debt
 
 #endif

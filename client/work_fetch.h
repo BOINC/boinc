@@ -40,9 +40,11 @@ struct RSC_PROJECT_WORK_FETCH {
     // the following are persistent (saved in state file)
     double backoff_time;
     double backoff_interval;
-    double debt;
+    double long_term_debt;
+    double short_term_debt;
 
     // the following used by debt accounting
+    double anticipated_debt;
     double secs_this_debt_interval;
     inline void reset_debt_accounting() {
         secs_this_debt_interval = 0;
@@ -73,7 +75,9 @@ struct RSC_PROJECT_WORK_FETCH {
     inline void reset() {
         backoff_time = 0;
         backoff_interval = 0;
-        debt = 0;
+        long_term_debt = 0;
+        short_term_debt = 0;
+        anticipated_debt = 0;
     }
 
     bool may_have_work;
@@ -189,7 +193,8 @@ struct RSC_WORK_FETCH {
     PROJECT* choose_project(int);
     void accumulate_debt();
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);
-    void update_debts();
+    void update_long_term_debts();
+    void update_short_term_debts();
     void print_state(const char*);
     void clear_request();
     void set_request(PROJECT*, double);
