@@ -39,14 +39,14 @@ else
   doclean=""
 fi
 
-if [ ! -d /Developer/SDKs/MacOSX10.3.9.sdk/ ]; then
-    echo "ERROR: System 10.3.9 SDK is missing.  For details, see build instructions at"
+if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
+    echo "ERROR: System 10.4u SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
     return 1
 fi
 
-if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
-    echo "ERROR: System 10.4u SDK is missing.  For details, see build instructions at"
+if [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
+    echo "ERROR: System 10.5 SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
     return 1
 fi
@@ -81,7 +81,7 @@ if [ "$1" != "-clean" ] && [ -f src/build/Deployment/libwx_mac_static.a ]; then
     echo "Deployment libwx_mac_static.a already built"
 else
      export DEVELOPER_SDK_DIR="/Developer/SDKs"
-     xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386 ppc" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
+     xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Deployment $doclean build GCC_VERSION=4.0 GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET=10.4 MACOSX_DEPLOYMENT_TARGET_ppc=10.4 SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk SDKROOT_ppc=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386 ppc" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi
@@ -90,10 +90,10 @@ if [ "$1" != "-clean" ] && [ -f src/build/Development/libwx_mac_static.a ]; then
     echo "Development libwx_mac_static.a already built"
 else
      export DEVELOPER_SDK_DIR="/Developer/SDKs"
-     xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk GCC_VERSION_i386=4.0 MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
+     xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build GCC_VERSION=4.0 GCC_VERSION_ppc=4.0 MACOSX_DEPLOYMENT_TARGET=10.4 MACOSX_DEPLOYMENT_TARGET_ppc=10.4 SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk SDKROOT_ppc=/Developer/SDKs/MacOSX10.4u.sdk OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -fvisibility=hidden -fvisibility-inlines-hidden"
 ## The above line does Development build for only the native architecture.  
 ## Use line below instead for Universal Binary Development build
-##    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build MACOSX_DEPLOYMENT_TARGET_ppc=10.3 SDKROOT_ppc=/Developer/SDKs/MacOSX10.3.9.sdk MACOSX_DEPLOYMENT_TARGET_i386=10.4 SDKROOT_i386=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386 ppc" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -fvisibility=hidden -fvisibility-inlines-hidden"
+##    xcodebuild -project src/wxWindows.xcodeproj -target static -configuration Development $doclean build MACOSX_DEPLOYMENT_TARGET=10.4 SDKROOT=/Developer/SDKs/MacOSX10.4u.sdk ARCHS="i386 ppc" OTHER_CPLUSPLUSFLAGS="-DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -fvisibility=hidden -fvisibility-inlines-hidden"
 
 if [  $? -ne 0 ]; then return 1; fi
 fi

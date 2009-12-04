@@ -263,7 +263,7 @@ int CScreensaver::terminate_v6_screensaver(int& graphics_application)
     // match that of the target process, though in practice that seems 
     // not to be true on the Mac.
     
-    char current_dir[MAXPATHLEN];
+    char current_dir[PATH_MAX];
     char gfx_pid[16];
     pid_t thePID;
     int i;

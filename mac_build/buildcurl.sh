@@ -22,58 +22,31 @@
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
-# Updated 12/3/09
+# Updated 12/3/09 for OS 10.6 Snow Leopard and XCode 3.2.1
 #
 ## In Terminal, CD to the curl-7.19.7 directory.
 ##     cd [path]/curl-7.19.7/
 ## then run this script:
-##     source [path]/buildcurl.sh [ -clean ] [ -gcc33 ]
+##     source [path]/buildcurl.sh [ -clean ]
 ##
 ## the -clean argument will force a full rebuild.
 ##
-## the -gcc33 argument will cause the PowerPC build to use gcc-3.3
-## otherwise both architectures will be built using gcc_4.0
-##
-## Use -gcc33 if you need to link with a project application using BOINC 
-## libraries built with gcc-3.3 for backward compatibility to OS 10.3.0
-##
-## Build with gcc-4.0 to link with the BOINC client 
-#
-
-AlreadyBuilt=0
 
 if [ "$1" != "-clean" ]; then
-    if [ -f lib/.libs/libcurl_ppc.a ] && [ -f lib/.libs/libcurl_i386.a ] && [ -f lib/.libs/libcurl.a ]; then
-        AlreadyBuilt=1
+    if [ -f lib/.libs/libcurl_ppc.a ] && [ -f lib/.libs/libcurl_i386.a ] && [ -f lib/.libs/libcurl_x86_64.a ] && [ -f lib/.libs/libcurl.a ]; then
+        echo "curl-7.19.7 already built"
+        return 0
     fi
-fi
-    
- if [ -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
-    # Build for x86_64 architecture if OS 10.5 SDK is present
-    if [ ! -f lib/.libs/libcurl_x86_64.a ]; then
-        AlreadyBuilt=0
-    fi
-fi
-
-if [ $AlreadyBuilt -ne 0 ]; then
-    echo "curl-7.19.7 already built"
-    return 0
-fi
-
-if [ "$1" = "-gcc33" ] || [ "$2" = "-gcc33" ]; then
-    usegcc33=1
-else
-    usegcc33=0
-fi
-
-if [ ! -d /Developer/SDKs/MacOSX10.3.9.sdk/ ]; then
-    echo "ERROR: System 10.3.9 SDK is missing.  For details, see build instructions at"
-    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
-    return 1
 fi
 
 if [ ! -d /Developer/SDKs/MacOSX10.4u.sdk/ ]; then
     echo "ERROR: System 10.4u SDK is missing.  For details, see build instructions at"
+    echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
+    return 1
+fi
+
+if [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
+    echo "ERROR: System 10.5 SDK is missing.  For details, see build instructions at"
     echo "boinc/mac_build/HowToBuildBOINC_XCode.rtf or http://boinc.berkeley.edu/trac/wiki/MacBuild"
     return 1
 fi
@@ -275,8 +248,8 @@ cd ../c-ares-1.7.0
 make install 
 cd "${CURL_DIR}"
 
-export SDKROOT="/Developer/SDKs/MacOSX10.3.9.sdk"
-export MACOSX_DEPLOYMENT_TARGET=10.3
+export SDKROOT="/Developer/SDKs/MacOSX10.4u.sdk"
+export MACOSX_DEPLOYMENT_TARGET=10.4
 
 rm -f lib/.libs/libcurl.a
 rm -f lib/.libs/libcurl_ppc.a
@@ -289,27 +262,15 @@ rm -f include/curl/curlbuild_ppc.h
 rm -f include/curl/curlbuild_i386.h
 rm -f include/curl/curlbuild_x86_64.h
 
-if [ $usegcc33 -ne 0 ]; then
-
-export CC=/usr/bin/gcc-3.3;export CXX=/usr/bin/g++-3.3
-export LDFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk"
-export CPPFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
-export CFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
-
-else
-
 export CC=/usr/bin/gcc-4.0;export CXX=/usr/bin/g++-4.0
-export LDFLAGS=" -isysroot /Developer/SDKs/MacOSX10.3.9.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
-export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
-export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.3.9.sdk -arch ppc"
-
-fi
+export LDFLAGS=" -isysroot /Developer/SDKs/MacOSX10.4u.sdk -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch ppc"
+export CPPFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc"
+export CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc"
 
 # c-ares configure creates a different ares_build.h file for each architecture
 cp -f ../c-ares-1.7.0/ares_build_ppc.h /tmp/installed-c-ares/include/ares_build.h
 
 ./configure --enable-shared=NO --enable-ares=/tmp/installed-c-ares --host=ppc
-
 if [  $? -ne 0 ]; then return 1; fi
 
 make clean
@@ -345,17 +306,7 @@ export CPPFLAGS=""
 export CFLAGS=""
 export SDKROOT=""
 
-if [ ! -d /Developer/SDKs/MacOSX10.5.sdk/ ]; then
-    mv -f lib/.libs/libcurl.a lib/.libs/libcurl_i386.a
-    mv -f lib/libcurl_ppc.a lib/.libs/
-    lipo -create lib/.libs/libcurl_i386.a lib/.libs/libcurl_ppc.a -output lib/.libs/libcurl.a
-    if [  $? -ne 0 ]; then return 1; fi
-    return 0
-fi
-
-
-# Build for x86_64 architecture if OS 10.5 SDK is present
-
+# Build for x86_64 architecture using OS 10.5 SDK
 mv -f include/curl/curlbuild.h include/curl/curlbuild_i386.h
 mv -f lib/.libs/libcurl.a lib/libcurl_i386.a
 

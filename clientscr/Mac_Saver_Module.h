@@ -72,7 +72,7 @@ protected:
     void            setSSMessageText(const char *msg);
     void            updateSSMessageText(char *msg);
     void            strip_cr(char *buf);
-    char            m_gfx_Switcher_Path[MAXPATHLEN];
+    char            m_gfx_Switcher_Path[PATH_MAX];
     bool            m_bErrorMode;        // Whether to draw moving logo and possibly display an error
     unsigned int    m_hrError;           // Error code to display
 

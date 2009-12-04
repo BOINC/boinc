@@ -9699,3 +9699,23 @@ Charlie  3 Dec 2009
         setupForBOINC.sh
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie  4 Dec 2009
+    - Mac: Update XCode project and build scripts to build under XCode 3.2.1 
+        and OS 10.6 Snow Leopard.
+        NOTE: We no longer support OS 10.3.9, but have fully integrated 
+        support for OS 10.6.x.
+
+    clientscr/
+        Mac_Saver_Module.h
+        screensaver.cpp
+    mac_build/
+        HowToBuildBOINC_XCode.rtf
+        buildc-ares.sh
+        buildcurl.sh
+        buildjpeg.sh
+        buildWxMac.sh
+        boinc.xcodeproj/
+            project.pbxproj
+    mac-installer/
+        Installer.cpp

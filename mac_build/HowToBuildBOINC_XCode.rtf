@@ -1,9 +1,9 @@
-{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf250
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fnil\fcharset0 LucidaGrande;
 \f3\fswiss\fcharset0 ArialMT;\f4\fmodern\fcharset0 Courier-Oblique;}
 {\colortbl;\red255\green255\blue255;\red174\green0\blue0;\red0\green0\blue239;}
-{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc2\leveljcn2\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid0\'02\'05.;}{\levelnumbers\'01;}}{\listname ;}\listid1}
-{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc2\leveljcn2\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid0\'02\'05.;}{\levelnumbers\'01;}}{\listlevel\levelnfc23\levelnfcn23\leveljc2\leveljcn2\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{circle\}}{\leveltext\leveltemplateid1\'02\'05.;}{\levelnumbers\'01;}}{\listname ;}\listid2}}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{circle\}}{\leveltext\leveltemplateid102\'01\uc0\u9702 ;}{\levelnumbers;}\fi-360\li1440\lin1440 }{\listname ;}\listid2}}
 {\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
 \margl1440\margr1440\vieww14740\viewh11840\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
@@ -14,10 +14,10 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 12/3/09\
+Last updated 12/4/09\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
-This document applies to BOINC version 6.10.22 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
+This document applies to BOINC version 6.11.1 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
 \
 Note: the information in this document changes from time to time for different versions of BOINC.  For any version of BOINC source files, the corresponding version of this document can be found in the source tree at:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -45,7 +45,7 @@ Contents of this document:\
 \pard\tx220\tx720\pardeftab720\li720\fi-720\ql\qnatural
 \ls1\ilvl0\cf0 {\listtext	\'95	}
 \b powerpc-apple-darwin
-\b0 : PowerPC processors running OS 10.3.0 and above\
+\b0 : PowerPC processors running OS 10.4.0 and above\
 {\listtext	\'95	}
 \b i686-apple-darwin
 \b0 : 32-bit intel processors running OS 10.4.0 and above\
@@ -60,7 +60,7 @@ You need to take certain steps to ensure that you use only APIs that are availab
 \pard\tx940\tx1440\pardeftab720\li1440\fi-1440\ql\qnatural
 \ls2\ilvl1\cf0 {\listtext	
 \f2 \uc0\u9702 
-\f0 	}A PowerPC development system running OS 10.3.9\
+\f0 	}A PowerPC development system running OS 10.4.x\
 {\listtext	
 \f2 \uc0\u9702 
 \f0 	}An Intel development system running OS 10.4.x\
@@ -78,7 +78,7 @@ You need to take certain steps to ensure that you use only APIs that are availab
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 \cf0 \
 \pard\pardeftab720\sa260\ql\qnatural
-\cf0 Starting with version 6.1.0, the BOINC Client supports only Mac OS X 10.3.9 and later; support for OS 10.3.0 through 10.3.8 has been discontinued. This allows us to build the BOINC Client and Manager using only GCC 4.0, which offers a number of advantages.\
+\cf0 Starting with version 6.11.1, the BOINC Client supports only Mac OS X 10.4.0 and later; support for OS 10.3.0 through 10.3.9 has been discontinued. This allows us to build the BOINC Client and Manager using only GCC 4.0, which offers a number of advantages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 Be sure to follow the directions in this document to ensure that these requirements are met.\
 \
@@ -92,16 +92,16 @@ You need to take certain steps to ensure that you use only APIs that are availab
 \f3\fs32 \
 \pard\pardeftab720\sa260\ql\qnatural
 
-\f0\b0\fs24 \cf0 Apple provides the tools necessary to cross-compile for all three BOINC Mac platform on any Mac running OS 10.5.x.\
-Apple provides Software Developer Kits (SDKs) for OS 10.3.9, OS 10.4 and OS 10.5. These include all the header files and stub libraries appropriate to the corresponding versions of OS X.\
-You get these tools, including the GCC compilers and system library header files, by installing the XCode Tools package. I recommend running OS 10.5.x and installing XCode Tools 3.0 or later. If you have the OS 10.5 installation DVD for your system, you can install XCode Tools at the time you install the OS, or you can install it later by opening the file Optional Installs/XCode Tools/XCodeTools.mpkg.\
+\f0\b0\fs24 \cf0 Apple provides the tools necessary to cross-compile for all three BOINC Mac platform on any Mac running OS 10.6.x.\
+Apple provides Software Developer Kits (SDKs) for  OS 10.4, OS 10.5 and OS 10.6. These include all the header files and stub libraries appropriate to the corresponding versions of OS X.\
+You get these tools, including the GCC compilers and system library header files, by installing the XCode Tools package. Building BOINC 6.11.1 and later requires running OS 10.6.x and installing XCode Tools 3.2.1 or later. If you have the OS 10.6 installation DVD for your system, you can install XCode Tools at the time you install the OS, or you can install it later by opening the file Optional Installs/XCode Tools/XCodeTools.mpkg.\
 Otherwise, you can download it from Apple's web site (it is large: 1.1 GB). You must be a member of the Apple Developer Connection to download the software, but you can join for free at: {\field{\*\fldinst{HYPERLINK "http://connect.apple.com/"}}{\fldrslt \cf2 http://connect.apple.com}}\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\b \cf0 Building BOINC now requires XCode Tools version 3.0 or later. 
-\b0  Note that the MacOS10.3.9 SDK is not automatically included unless you customize the installation; click  the 
+\b \cf0 Building BOINC now requires XCode Tools version 3.2.1 or later. 
+\b0  Note that the MacOS10.4u SDK is not automatically included unless you customize the installation; click  the 
 \b Customize
 \b0  button in the 
 \i Installation type
@@ -191,10 +191,10 @@ XCode installed these utilities in the
 
 \i0 \cf0 \
 \pard\pardeftab720\sa260\ql\qnatural
-\cf0 All BOINC software for Power PC Macs must be built using MacOS10.3.9 SDK to assure backward compatibility with OS 10.3.9.\uc0\u8232 All 32-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling.\u8232 All 64-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.5 SDK.\
+\cf0 All BOINC software for Power PC Macs must be built using MacOS10.4u SDK to assure backward compatibility with OS 10.4.0.\uc0\u8232 All 32-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.4.u SDK to allow cross-compiling.\u8232 All 64-bit BOINC software for Intel Macs must be built using GCC 4.0 and MacOS10.5 SDK.\
 These are not done by either the XCode projects which come with wxMac-2.8.10, nor  the AutoMake scripts supplied with wxMac-2.8.10, c-ares-1.7.0, curl-7.19.7, or jpeg-6b.  So be sure to use our special scripts to build these packages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
-\cf0 Building BOINC and the library packages on which it depends requires OS 10.5 and XCode 3.0 (or greater).  \
+\cf0 Building BOINC and the library packages on which it depends requires OS 10.6 and XCode 3.2.1 (or greater).  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 [1] Create a parent directory within which to work.  In this description , we will call it BOINC_dev, but you can name it anything you wish.\
@@ -315,7 +315,7 @@ The options for BuildMacBOINC.sh are:\
 \i Deployment
 \i0  build configuration builds a universal binary and is suitable for release builds.\
 \
-The standard release of BOINC version 6.1.0 and later contains a universal binary of the BOINC Client containing builds for three architectures: ppc, i386 and x86_64.  The Mac OS automatically chooses the appropriate architecture as follows:\
+The standard release of BOINC version 6.11.1 and later contains a universal binary of the BOINC Client containing builds for three architectures: ppc, i386 and x86_64.  The Mac OS automatically chooses the appropriate architecture as follows:\
  \'95 On a PowerPC Mac, it runs the ppc executable.\
  * On a Mac with a 64-bit Intel processor running OS 10.5 or later, it runs the x86_64 executable.\
  * On any other Intel Mac, it runs the i386 executable.\
