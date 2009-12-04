@@ -771,11 +771,12 @@ void RSC_WORK_FETCH::update_short_term_debts() {
             if (p->non_cpu_intensive) continue;
             RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
             rpwf.short_term_debt -= avg_short_term_debt;
-            if (rpwf.short_term_debt > MAX_STD) {
-                rpwf.short_term_debt = MAX_STD;
+            double bound = ninstances*MAX_STD;
+            if (rpwf.short_term_debt > bound) {
+                rpwf.short_term_debt = bound;
             }
-            if (rpwf.short_term_debt < -MAX_STD) {
-                rpwf.short_term_debt = -MAX_STD;
+            if (rpwf.short_term_debt < -bound) {
+                rpwf.short_term_debt = -bound;
             }
             if (p->runnable(rsc_type)) {
                 if (log_flags.std_debug) {
