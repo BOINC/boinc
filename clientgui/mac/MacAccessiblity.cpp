@@ -95,12 +95,27 @@ pascal OSStatus PieCtrlAccessibilityEventHandler( EventHandlerCallRef inHandlerC
                                     EventRef inEvent, void* pData);
 
 
+static Boolean IsAccessibilityAvailable() {
+    SInt32          response;
+    OSStatus        err = noErr;
+
+    err = Gestalt(gestaltSystemVersion, &response);
+    if ((err == noErr) && (response >= 0x1040)) {
+        return true;
+    }
+    
+    return false;
+}
 
 void CBOINCListCtrl::SetupMacAccessibilitySupport() {
 #if !USE_NATIVE_LISTCONTROL
     HIViewRef       listControlView;
     OSErr           err;
 
+    if (!IsAccessibilityAvailable()) {
+        return;
+    }
+    
     listControlView = (HIViewRef)GetHandle();
     m_headerView = HIViewGetFirstSubview(listControlView);
     m_bodyView = HIViewGetNextView(m_headerView);
@@ -118,6 +133,10 @@ void CBOINCListCtrl::SetupMacAccessibilitySupport() {
 
 void CBOINCListCtrl::RemoveMacAccessibilitySupport() {
 #if !USE_NATIVE_LISTCONTROL
+    if (!IsAccessibilityAvailable()) {
+        return;
+    }
+    
     ::RemoveEventHandler(m_pHeaderAccessibilityEventHandlerRef);
     ::RemoveEventHandler(m_pBodyAccessibilityEventHandlerRef);
 #endif
@@ -129,6 +148,10 @@ void CProjectListCtrlAccessible::SetupMacAccessibilitySupport() {
 
     CProjectListCtrl* pCtrl = wxDynamicCast(mp_win, CProjectListCtrl);
     wxASSERT(pCtrl);
+    
+    if (!IsAccessibilityAvailable()) {
+        return;
+    }
     
     if (pCtrl)
     {
@@ -145,6 +168,10 @@ void CProjectListCtrlAccessible::SetupMacAccessibilitySupport() {
 
 
 void CProjectListCtrlAccessible::RemoveMacAccessibilitySupport() {
+    if (!IsAccessibilityAvailable()) {
+        return;
+    }
+    
     if (m_plistAccessibilityEventHandlerRef) {
         ::RemoveEventHandler(m_plistAccessibilityEventHandlerRef);
         m_plistAccessibilityEventHandlerRef = NULL;
@@ -158,6 +185,10 @@ void CSimplePanel::SetupMacAccessibilitySupport() {
     HIViewRef       simple = (HIViewRef)GetHandle();
     CFStringRef     description = CFStringCreateWithCString(NULL, str.char_str(), kCFStringEncodingUTF8);
                                                
+    if (!IsAccessibilityAvailable()) {
+        return;
+    }
+    
     // Have the screen reader tell user to switch to advanced view.
     HIObjectSetAuxiliaryAccessibilityAttribute((HIObjectRef)simple, 0, kAXDescriptionAttribute, description);
     CFRelease( description );
@@ -169,6 +200,10 @@ void CSimplePanel::SetupMacAccessibilitySupport() {
 
 
 void CSimplePanel::RemoveMacAccessibilitySupport() {
+    if (!IsAccessibilityAvailable()) {
+        return;
+    }
+    
     if (m_pSGAccessibilityEventHandlerRef) {
         ::RemoveEventHandler(m_pSGAccessibilityEventHandlerRef);
         m_pSGAccessibilityEventHandlerRef = NULL;
@@ -180,6 +215,10 @@ void CTaskItemGroup::SetupMacAccessibilitySupport() {
     OSStatus        err;
     HIViewRef       boxView = (HIViewRef)m_pStaticBox->GetHandle();
 
+    if (!IsAccessibilityAvailable()) {
+        return;
+    }
+    
     if (m_pTaskGroupAccessibilityEventHandlerRef == NULL) {
         err = InstallHIObjectEventHandler((HIObjectRef)boxView, NewEventHandlerUPP(SimpleAccessibilityEventHandler), 
                                 sizeof(Simple_AccessibilityEvents) / sizeof(EventTypeSpec), Simple_AccessibilityEvents, 
@@ -189,6 +228,10 @@ void CTaskItemGroup::SetupMacAccessibilitySupport() {
 
 
 void CTaskItemGroup::RemoveMacAccessibilitySupport() {
+    if (!IsAccessibilityAvailable()) {
+        return;
+    }
+    
     if (m_pTaskGroupAccessibilityEventHandlerRef) {
         ::RemoveEventHandler(m_pTaskGroupAccessibilityEventHandlerRef);
         m_pTaskGroupAccessibilityEventHandlerRef = NULL;
@@ -202,6 +245,10 @@ void CViewStatistics::SetupMacAccessibilitySupport() {
     wxString        str = _("This panel contains graphs showing user totals for projects");
     CFStringRef     description = CFStringCreateWithCString(NULL, str.char_str(), kCFStringEncodingUTF8);
                                                
+    if (!IsAccessibilityAvailable()) {
+        return;
+    }
+    
     // Have the screen reader tell user to switch to advanced view.
     HIObjectSetAuxiliaryAccessibilityAttribute((HIObjectRef)paintPanelView, 0, kAXDescriptionAttribute, description);
     CFRelease( description );
@@ -213,6 +260,10 @@ void CViewStatistics::SetupMacAccessibilitySupport() {
 
 
 void CViewStatistics::RemoveMacAccessibilitySupport() {
+    if (!IsAccessibilityAvailable()) {
+        return;
+    }
+    
     ::RemoveEventHandler(m_pStatisticsAccessibilityEventHandlerRef);
 }
 
@@ -221,6 +272,10 @@ void wxPieCtrl::SetupMacAccessibilitySupport() {
     OSStatus        err;
     HIViewRef       pieControlView = (HIViewRef)GetHandle();
 
+    if (!IsAccessibilityAvailable()) {
+        return;
+    }
+    
     HIObjectSetAuxiliaryAccessibilityAttribute((HIObjectRef)pieControlView, 0, kAXDescriptionAttribute, CFSTR(""));
 
     err = InstallHIObjectEventHandler((HIObjectRef)pieControlView, NewEventHandlerUPP(PieCtrlAccessibilityEventHandler), 
@@ -230,6 +285,10 @@ void wxPieCtrl::SetupMacAccessibilitySupport() {
 
 
 void wxPieCtrl::RemoveMacAccessibilitySupport() {
+    if (!IsAccessibilityAvailable()) {
+        return;
+    }
+    
     if (m_pPieCtrlAccessibilityEventHandlerRef) {
         ::RemoveEventHandler(m_pPieCtrlAccessibilityEventHandlerRef);
         m_pPieCtrlAccessibilityEventHandlerRef = NULL;

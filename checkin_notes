@@ -8868,3 +8868,11 @@ Charlie  3 Dec 2009
         setupForBOINC.sh
         boinc.xcodeproj/
             project.pbxproj
+
+Charlie  4 Dec 2009
+    - Mac MGR: Fix crashes on OS 10.3.9 because some accessibility APIs are 
+        available only starting with OS 10.4.
+        
+    clientgui/
+        Mac/
+            MacAccessibility.cpp
