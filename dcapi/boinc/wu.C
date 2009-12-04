@@ -698,6 +698,18 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 
 	switch (fileMode)
 	{
+		case DC_FILE_PERSISTENT:
+			ret = link(URL, file->path);
+			if (!ret)
+			{
+				/* Remember the file mode */
+				file->mode = DC_FILE_PERSISTENT;
+				break;
+			}
+
+			DC_log(LOG_DEBUG, "Hardlinking failed for input file %s: %s; "
+				"falling back to copy", URL, strerror(errno));
+			/* Fall through */
 		case DC_FILE_REGULAR:
 			ret = _DC_copyFile(URL, file->path);
 			if (ret)
@@ -708,31 +720,22 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 				return ret;
 			}
 			break;
-		case DC_FILE_PERSISTENT:
-			ret = link(URL, file->path);
-			if (ret)
-			{
-				ret = errno;
-				DC_log(LOG_ERR, "Failed to link %s to %s: %s",
-					URL, file->path, strerror(ret));
-				_DC_destroyPhysicalFile(file);
-				errno = ret;
-				return DC_ERR_SYSTEM;
-			}
-			/* Remember the file mode */
-			file->mode = DC_FILE_PERSISTENT;
-			break;
 		case DC_FILE_VOLATILE:
 			ret = rename(URL, file->path);
+			if (!ret)
+				break;
+
+			DC_log(LOG_DEBUG, "Renaming failed for input file %s: %s; "
+				"falling back to copy/delete", URL, strerror(errno));
+			ret = _DC_copyFile(URL, file->path);
 			if (ret)
 			{
-				ret = errno;
-				DC_log(LOG_ERR, "Failed to rename %s to %s: %s",
-					URL, file->path, strerror(ret));
+				DC_log(LOG_ERR, "Failed to copy the input file %s to %s",
+					URL, file->path);
 				_DC_destroyPhysicalFile(file);
-				errno = ret;
-				return DC_ERR_SYSTEM;
+				return ret;
 			}
+			unlink(URL);
 			break;
 		default:
 			DC_log(LOG_ERR, "Invalid file mode %d", fileMode);
@@ -795,8 +798,8 @@ static int install_input_files(DC_Workunit *wu)
 		if (ret)
 		{
 			DC_log(LOG_ERR, "Failed to install file %s to the "
-				"Boinc download directory at %s", file->path,
-				dest);
+				"Boinc download directory at %s: %s",
+				file->path, dest, strerror(errno));
 			g_free(dest);
 			return DC_ERR_INTERNAL;
 		}
@@ -814,7 +817,8 @@ static int install_input_files(DC_Workunit *wu)
 		if (ret)
 		{
 			DC_log(LOG_ERR, "Failed to install file %s to the "
-				"Boinc download directory at %s", src, dest);
+				"Boinc download directory at %s: %s",
+				src, dest, strerror(errno));
 			g_free(src);
 			g_free(dest);
 			return DC_ERR_INTERNAL;
