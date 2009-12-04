@@ -18,14 +18,14 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh Universal Binary library of c-ares-1.6.0 for
+# Script to build Macintosh Universal Binary library of c-ares-1.7.0 for
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
-# Updated 12/17/08
+# Updated 12/3/09
 #
-## In Terminal, CD to the c-ares-1.6.0 directory.
-##     cd [path]/c-ares-1.6.0/
+## In Terminal, CD to the c-ares-1.7.0 directory.
+##     cd [path]/c-ares-1.7.0/
 ## then run this script:
 ##     source [path]/buildc-ares.sh [ -clean ] [ -gcc33 ]
 ##
@@ -56,7 +56,7 @@ fi
 fi
 
 if [ $AlreadyBuilt -ne 0 ]; then
-    echo "c-ares-1.6.0 already built"
+    echo "c-ares-1.7.0 already built"
     return 0
 fi
 
@@ -94,7 +94,7 @@ export LDFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9
 export CPPFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
 export CFLAGS="-arch ppc -D_NONSTD_SOURCE -isystem /Developer/SDKs/MacOSX10.3.9.sdk"
 
-# curl configure and make expect a path to _installed_ c-ares-1.6.0
+# curl configure and make expect a path to _installed_ c-ares-1.7.0
 # so set a temporary install path that does not contain spaces.
 ./configure --enable-shared=NO prefix=/tmp/installed-c-ares --host=ppc
 if [  $? -ne 0 ]; then return 1; fi
@@ -116,6 +116,8 @@ make clean
 
 make
 if [  $? -ne 0 ]; then return 1; fi
+# c-ares configure creates a different ares_build.h file for each architecture
+cp -f ares_build.h ares_build_ppc.h
 mv -f .libs/libcares.a libcares_ppc.a
 
 make clean
@@ -134,6 +136,8 @@ if [  $? -ne 0 ]; then return 1; fi
 
 make
 if [  $? -ne 0 ]; then return 1; fi
+# c-ares configure creates a different ares_build.h file for each architecture
+cp -f ares_build.h ares_build_i386.h
 
 export CC="";export CXX=""
 export LDFLAGS=""
@@ -170,6 +174,8 @@ if [  $? -ne 0 ]; then return 1; fi
 
 make
 if [  $? -ne 0 ]; then return 1; fi
+# c-ares configure creates a different ares_build.h file for each architecture
+cp -f ares_build.h ares_build_x86_64.h
 
 export CC="";export CXX=""
 export LDFLAGS=""

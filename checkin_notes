@@ -9687,3 +9687,15 @@ David  3 Dec 2009
         cpu_sched.cpp
         gui_rpc_server_ops.cpp
         work_fetch.cpp,h
+
+Charlie  3 Dec 2009
+    - Mac client: update build scripts, XCode project for curl-7.19.7 and 
+        c-ares 1.7.0.
+    
+     mac_build/
+        HowToBuildBOINC_XCode.rtf
+        buildc-ares.sh
+        buildcurl.sh
+        setupForBOINC.sh
+        boinc.xcodeproj/
+            project.pbxproj
