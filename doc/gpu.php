@@ -39,8 +39,7 @@ A full list is
 <h3>2) Get the latest BOINC software</h3>
 <ul>
 <li> <a href=download.php>Download and install</a>
-version 6.6.36 or later of the BOINC software.
-<li>ATI GPUs: you'll need 6.10.3 or later.
+the latest version of the BOINC software.
 </ul>
 <p>
 <h3>3) Get the latest driver</h3>
@@ -59,7 +58,11 @@ Projects with NVIDIA applications:
 <ul>
 <li> <a href=http://gpugrid.net>GPUgrid.net</a>
 <li> <a href=http://setiathome.berkeley.edu>SETI@home</a>
+<li> <a href=http://milkyway.cs.rpi.edu/milkyway/>Milkyway@home</a>
+<li> <a href=http://aqua.dwavesys.com/>AQUA@home</a>
+<li> <a href=http://boinc.umiacs.umd.edu/>Lattice</a>
 <li> <a href=http://boinc.thesonntags.com/collatz/>Collatz Conjecture</a>
+<li> <a href=http://hydrogenathome.org/>Hydrogen@home</a>
 </ul>
 
 Projects with ATI applications:

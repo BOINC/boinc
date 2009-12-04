@@ -324,13 +324,9 @@ void WORK_FETCH::set_overall_debts() {
 void WORK_FETCH::zero_debts() {
     for (unsigned i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        p->cpu_pwf.long_term_debt = 0;
-        if (coproc_cuda) {
-            p->cuda_pwf.long_term_debt = 0;
-        }
-        if (coproc_ati) {
-            p->ati_pwf.long_term_debt = 0;
-        }
+        p->cpu_pwf.zero_debt();
+        p->cuda_pwf.zero_debt();
+        p->ati_pwf.zero_debt();
     }
 }
 
@@ -706,7 +702,7 @@ void RSC_WORK_FETCH::update_long_term_debts() {
         offset = 2*delta_limit;
     }
     if (log_flags.debt_debug) {
-        msg_printf(0, MSG_INFO, "[debt] %s debt: adding offset %.2f",
+        msg_printf(0, MSG_INFO, "[debt] %s LTD: adding offset %.2f",
             rsc_name(rsc_type), offset
         );
     }
@@ -714,8 +710,13 @@ void RSC_WORK_FETCH::update_long_term_debts() {
         p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
-        if (w.debt_eligible(p, *this) && offset < 0) continue;
-        w.long_term_debt += offset;
+        if (w.debt_eligible(p, *this)) {
+            w.long_term_debt += offset;
+        } else {
+            if (offset > 0) {
+                w.long_term_debt += offset;
+            }
+        }
         if (w.long_term_debt > 0) w.long_term_debt = 0;
     }
 }

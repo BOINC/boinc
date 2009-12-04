@@ -9719,3 +9719,10 @@ Charlie  4 Dec 2009
             project.pbxproj
     mac-installer/
         Installer.cpp
+
+David  4 Dec 2009
+    - client: fix bug in debt calculation
+    - client: <zero_debts> zeroes STD too
+
+    client/
+        work_fetch.cpp,h

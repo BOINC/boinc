@@ -43,9 +43,11 @@ function friendly_name($p) {
 //
 function get_platforms(&$url) {
     $url .= 'get_project_config.php';
-    $x = file_get_contents($url);
+    $x = @file_get_contents($url);
     if (!$x) return null;
-    $s = new SimpleXMLElement($x);
+    libxml_use_internal_errors(true);
+    $s = simplexml_load_string($x);
+    if (!$s) return null;
     if (array_key_exists('rpc_prefix', $s)) {
         $url = $s->rpc_prefix;
     }
@@ -60,7 +62,6 @@ function get_platforms(&$url) {
     } else {
         $list = array();
         foreach ($p->platform as $r) {
-            print_r($r);
             if (array_key_exists('plan_class', $r)) {
                 $list[] = (string)$r->platform_name.'['.(string)$r->plan_class.']';
             } else {
@@ -75,9 +76,10 @@ function get_platforms(&$url) {
 //
 function get_platforms2($url) {
     $url .= 'apps.php?xml=1';
-    $x = file_get_contents($url);
+    $x = @file_get_contents($url);
     if (!$x) return null;
-    $s = new SimpleXMLElement($x);
+    libxml_use_internal_errors(true);
+    $s = simplexml_load_string($x);
     $list = null;
     foreach($s->application as $a) {
         foreach ($a->version as $v) {
@@ -88,10 +90,9 @@ function get_platforms2($url) {
                 $pc = $v->plan_class[0];
             }
             if (strlen($pc)) {
-                $list[] = $p.'['.$pc.']';
-            } else {
-                $list[] = $p;
+                $p = $p.'['.$pc.']';
             }
+            $list[] = (string)$p;
         }
     }
     return array_unique($list);

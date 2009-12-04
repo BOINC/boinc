@@ -70,8 +70,15 @@ struct RSC_PROJECT_WORK_FETCH {
         memset(this, 0, sizeof(*this));
     }
 
-    // whether this project is accumulating debt for this resource
+    // whether this project should accumulate debt for this resource
+    //
     bool debt_eligible(PROJECT*, RSC_WORK_FETCH&);
+
+    inline void zero_debt() {
+        long_term_debt = 0;
+        short_term_debt = 0;
+    }
+
     inline void reset() {
         backoff_time = 0;
         backoff_interval = 0;
