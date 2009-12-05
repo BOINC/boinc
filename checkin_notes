@@ -8876,3 +8876,11 @@ Charlie  4 Dec 2009
     clientgui/
         Mac/
             MacAccessibility.cpp
+
+Charlie  5 Dec 2009
+    - Mac installer: fix a bug where installer would not start Maanger 
+        because getlogin() is not reliable under OS 10.6 when running 
+        with authentication; use getenv("USER") instead.
+    
+    mac_installer/
+        PostInstall.cpp
