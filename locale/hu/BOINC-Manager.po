@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-05 09:16-0700\n"
+"PO-Revision-Date: 2009-12-05 10:28-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -2121,9 +2121,8 @@ msgid "Info about your team"
 msgstr "Infó az Ön csapatáról"
 
 #: clientgui/Localization.cpp:141
-#, fuzzy
 msgid "Search for help in our help system"
-msgstr "Segítség keresése támogatási rendszerünkben"
+msgstr "Segítség keresése segítség központunkban"
 
 #: clientgui/Localization.cpp:143
 msgid "Global Statistics"
@@ -2611,7 +2610,6 @@ msgid "of the processor"
 msgstr "processzorteljesítmény"
 
 #: clientgui/sg_DlgPreferences.cpp:427
-#, fuzzy
 msgid "Do work while on battery?"
 msgstr "Folyjon feldolgozás, amikor akkumulátorról működik?"
 
@@ -2726,7 +2724,6 @@ msgstr "Projektjeim:"
 
 #: clientgui/sg_StatImageLoader.cpp:101
 #, c-format
-#, fuzzy
 msgid "%s. Work done by %s: %0.2f"
 msgstr "%s. A munkát végezte: %s: %0.2f"
 
@@ -3406,7 +3403,6 @@ msgid "Download pending"
 msgstr "Letöltés függőben"
 
 #: clientgui/ViewTransfers.cpp:769
-#, fuzzy
 msgid " (project backoff: "
 msgstr "(projekt leállás:"
 
@@ -3506,7 +3502,6 @@ msgstr "A feladat grafikájának megjelenítése..."
 
 #: clientgui/ViewWork.cpp:426
 #, c-format
-#, fuzzy
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
@@ -3579,7 +3574,6 @@ msgstr "Csatlakozás projekthez vagy fiókkezelőhöz"
 
 #: clientgui/WelcomePage.cpp:258
 #, c-format
-#, fuzzy
 msgid ""
 "If possible, add projects at the\n"
 "%s web site.\n"
@@ -3591,16 +3585,15 @@ msgstr ""
 "a %s weboldalon adjon hozzá.\n"
 "\n"
 "A varázslóval hozzáadott projektek nem lesznek\n"
-"láthatóak vagy kezelhetőek a %s kezelővel."
+"láthatóak vagy kezelhetőek a(z) %s kezelővel."
 
 #: clientgui/WelcomePage.cpp:271
-#, fuzzy
 msgid ""
 "We'll guide you through the process of attaching\n"
 "to a project or account manager."
 msgstr ""
 "Most lépésről-lépésre végigvezetjük egy\n"
-"projekthez vagy fiókkezelőhöz való csatlakozáson."
+"projekthez vagy fiókkezelőhöz való csatlakozás folyamatán."
 
 #: clientgui/WelcomePage.cpp:275
 msgid ""
@@ -3617,14 +3610,26 @@ msgid ""
 "To change which research applications are sent to you from\n"
 "World Community Grid then please click on the following button:"
 msgstr ""
+"Úgy döntött, hogy csatlakozik egy új BOINC projekthez. Az új projekthez\n"
+"való csatlakozás során számítógépét egy új weboldalhoz, illetve\n"
+"szervezethez csatlakoztatja. Ha valóban ezt akarja, nyomja meg az\n"
+"alábbi 'Következő' gombot.\n"
+"\n"
+"Néhány projekt, mint például a World Community Grid többféle tudományos "
+"alkalmazást\n"
+"is futtat. Ha meg akarja határozni, mely alkalmazások fussanak számítógépén,\n"
+"látogassa meg a projekt weboldalát, és ott módosítsa a beállításait.\n"
+"\n"
+"A tudományos alkalmazások kiválasztásához a World Community Griden\n"
+"kattintson a következő gombra:"
 
 #: clientgui/WelcomePage.cpp:278
 msgid "Change Research Applications at World Community Grid"
-msgstr ""
+msgstr "Tudományos alkalmazások kiválasztása a World Community Griden"
 
 #: clientgui/WelcomePage.cpp:295
 msgid "To continue, click Next."
-msgstr "A folytatáshoz kattintson az Előre gomba"
+msgstr "A folytatáshoz kattintson a Következő gombra."
 
 #: clientgui/WizardAttachProject.cpp:612
 msgid "Do you really want to cancel?"
@@ -3665,7 +3670,7 @@ msgstr "Régi oldal index = %i"
 #: clientgui/common/wxFlatNotebook.cpp:2053
 #, c-format
 msgid "OnDropTarget: index by HitTest = %i"
-msgstr ""
+msgstr "OnDropTarget: index by HitTest = %i"
 
 #: clientgui/common/wxPieCtrl.cpp:66
 msgid "Pie Ctrl"
@@ -4067,7 +4072,6 @@ msgstr ""
 #~ msgstr "Beállítások"
 
 #: clientgui/AdvancedFrame.cpp:309
-#, fuzzy
 msgid "&Close Window\tCtrl+W"
 msgstr "Ablak &bezárása\tCtrl+W"
 
@@ -4100,7 +4104,6 @@ msgid "&News\tCtrl+Shift+N"
 msgstr "&News\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:374
-#, fuzzy
 msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "&Egyszerű nézet\tCtrl+Shift+V"
 
@@ -4115,19 +4118,25 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
+"Jelenleg nem jogosult a kliens kezelésére.\n"
+"\n"
+"A BOINC használata ezzel a felhasználóval:\n"
+"- telepítse újra a BOINCot és válaszoljon \"Igen\"-nel a\n"
+"nem adminisztratív felhasználóra vonatkozó kérdésre\n"
+"vagy\n"
+"- lépjen kapcsolatba a rendszergazdával és kérje meg, hogy adja hozzá a\n"
+"'boinc_master' felhasználói csoporthoz."
 
 #: clientgui/BOINCGUIApp.cpp:339
 #, c-format
-#, fuzzy
 msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)"
 msgstr ""
 "A BOINC tulajdonosi és hozzáférési jogai nincsenek megfelelően beállítva; "
 "kérjük, telepítse újra a BOINCot.\n"
-"(Hibakód %d)\n"
+"(Hibakód %d)"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
-#, fuzzy
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr "&Haladó nézet\tCtrl+Shift+A"
+msgstr "Haladó nézet\tCtrl+Shift+A"
