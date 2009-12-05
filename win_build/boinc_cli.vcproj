@@ -1079,6 +1079,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\cs_proxy.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Client\cs_scheduler.cpp"
 				>
 			</File>
@@ -1233,6 +1237,10 @@
 			</File>
 			<File
 				RelativePath="..\client\cpu_benchmark.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\cs_proxy.h"
 				>
 			</File>
 			<File

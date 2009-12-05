@@ -31,6 +31,8 @@
 #include "http_curl.h"
 #include "sandbox.h"
 #include "main.h"
+#include "cs_proxy.h"
+
 #include "sysmon_win.h"
 
 
@@ -191,9 +193,9 @@ static void windows_detect_autoproxy_settings() {
                 parse_url(proxy.c_str(), purl);
 
                 // Store the results for future use.
-                gstate.proxy_info.autodetect_protocol = purl.protocol;
-                strcpy(gstate.proxy_info.autodetect_server_name, purl.host);
-                gstate.proxy_info.autodetect_port = purl.port;
+                working_proxy_info.autodetect_protocol = purl.protocol;
+                strcpy(working_proxy_info.autodetect_server_name, purl.host);
+                working_proxy_info.autodetect_port = purl.port;
 
                 if (log_flags.proxy_debug) {
                     msg_printf(NULL, MSG_INFO,
@@ -210,9 +212,9 @@ static void windows_detect_autoproxy_settings() {
     } else {
         // We can get here if the user is switching from a network that
         // requires a proxy to one that does not require a proxy.
-        gstate.proxy_info.autodetect_protocol = 0;
-        strcpy(gstate.proxy_info.autodetect_server_name, "");
-        gstate.proxy_info.autodetect_port = 0;
+        working_proxy_info.autodetect_protocol = 0;
+        strcpy(working_proxy_info.autodetect_server_name, "");
+        working_proxy_info.autodetect_port = 0;
         if (log_flags.proxy_debug) {
             msg_printf(NULL, MSG_INFO, "[proxy_debug] no automatic proxy detected");
         }
@@ -235,11 +237,11 @@ static LRESULT CALLBACK WindowsMonitorSystemWndProc(
 
                 // System Monitor 1 second timer
                 case 1:
-                    if (gstate.proxy_info.need_autodetect_proxy_settings) {
-                        gstate.proxy_info.have_autodetect_proxy_settings = false;
+                    if (working_proxy_info.need_autodetect_proxy_settings) {
+                        working_proxy_info.have_autodetect_proxy_settings = false;
                         windows_detect_autoproxy_settings();
-                        gstate.proxy_info.need_autodetect_proxy_settings = false;
-                        gstate.proxy_info.have_autodetect_proxy_settings = true;
+                        working_proxy_info.need_autodetect_proxy_settings = false;
+                        working_proxy_info.have_autodetect_proxy_settings = true;
                     }
                 default:
                     break;
@@ -290,7 +292,7 @@ static LRESULT CALLBACK WindowsMonitorSystemWndProc(
                     msg_printf(NULL, MSG_INFO, "Windows is resuming operations");
 
                     // Check for a proxy
-                    gstate.proxy_info.need_autodetect_proxy_settings = true;
+                    working_proxy_info.need_autodetect_proxy_settings = true;
 
                     resume_client();
                     break;
