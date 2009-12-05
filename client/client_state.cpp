@@ -98,7 +98,6 @@ CLIENT_STATE::CLIENT_STATE():
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;
-    proxy_info.clear();
     show_projects = false;
     strcpy(detach_project_url, "");
     strcpy(main_host_venue, "");
@@ -143,22 +142,6 @@ CLIENT_STATE::CLIENT_STATE():
     initialized = false;
     last_wakeup_time = dtime();
     abort_jobs_on_exit = false;
-}
-
-void CLIENT_STATE::show_proxy_info() {
-    if (proxy_info.use_http_proxy) {
-        msg_printf(NULL, MSG_INFO, "Using HTTP proxy %s:%d",
-            proxy_info.http_server_name, proxy_info.http_server_port
-        );
-    }
-    if (proxy_info.use_socks_proxy) {
-        msg_printf(NULL, MSG_INFO, "Using SOCKS proxy %s:%d",
-            proxy_info.socks_server_name, proxy_info.socks_server_port
-        );
-    }
-    if (!proxy_info.use_http_proxy && !proxy_info.use_socks_proxy) {
-        msg_printf(NULL, MSG_INFO, "Not using a proxy");
-    }
 }
 
 void CLIENT_STATE::show_host_info() {
@@ -308,8 +291,6 @@ int CLIENT_STATE::init() {
     // now that we know the host's venue on each project
     //
     parse_account_files_venue();
-
-    show_proxy_info();
 
     // fill in avp->flops for anonymous project
     //
@@ -464,10 +445,6 @@ int CLIENT_STATE::init() {
     get_sandbox_account_service_token();
     if (sandbox_account_service_token != NULL) g_use_sandbox = true;
 #endif
-
-    // Check to see if a proxy server can be detected.
-    proxy_info.need_autodetect_proxy_settings = true;
-    proxy_info.have_autodetect_proxy_settings = false;
 
     check_file_existence();
     if (!boinc_file_exists(ALL_PROJECTS_LIST_FILENAME)) {

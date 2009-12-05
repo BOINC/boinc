@@ -28,14 +28,16 @@
 #include <unistd.h>
 #endif
 
-#include "main.h"
 #include "str_util.h"
 #include "url.h"
 #include "str_replace.h"
 #include "util.h"
+
+#include "main.h"
 #include "client_msgs.h"
 #include "client_state.h"
 #include "sandbox.h"
+#include "cs_proxy.h"
 
 static void print_options(char* prog) {
     printf(
@@ -255,11 +257,12 @@ void CLIENT_STATE::parse_env_vars() {
         switch (purl.protocol) {
         case URL_PROTOCOL_HTTP:
         case URL_PROTOCOL_HTTPS:
-            proxy_info.use_http_proxy = true;
-            strcpy(proxy_info.http_user_name, purl.user);
-            strcpy(proxy_info.http_user_passwd, purl.passwd);
-            strcpy(proxy_info.http_server_name, purl.host);
-            proxy_info.http_server_port = purl.port;
+            env_var_proxy_info.present = true;
+            env_var_proxy_info.use_http_proxy = true;
+            strcpy(env_var_proxy_info.http_user_name, purl.user);
+            strcpy(env_var_proxy_info.http_user_passwd, purl.passwd);
+            strcpy(env_var_proxy_info.http_server_name, purl.host);
+            env_var_proxy_info.http_server_port = purl.port;
             break;
         default:
             msg_printf(0, MSG_USER_ERROR,
@@ -269,11 +272,11 @@ void CLIENT_STATE::parse_env_vars() {
     }
     p = getenv("HTTP_USER_NAME");
     if (p) {
-        proxy_info.use_http_auth = true;
-        strcpy(proxy_info.http_user_name, p);
+        env_var_proxy_info.use_http_auth = true;
+        strcpy(env_var_proxy_info.http_user_name, p);
         p = getenv("HTTP_USER_PASSWD");
         if (p) {
-            strcpy(proxy_info.http_user_passwd, p);
+            strcpy(env_var_proxy_info.http_user_passwd, p);
         }
     }
 
@@ -281,22 +284,23 @@ void CLIENT_STATE::parse_env_vars() {
 	if (!p) p = getenv("SOCKS5_SERVER");
     if (p && strlen(p)) {
         parse_url(p, purl);
-        proxy_info.use_socks_proxy = true;
-        strcpy(proxy_info.socks5_user_name, purl.user);
-        strcpy(proxy_info.socks5_user_passwd, purl.passwd);
-        strcpy(proxy_info.socks_server_name, purl.host);
-        proxy_info.socks_server_port = purl.port;
+        env_var_proxy_info.present = true;
+        env_var_proxy_info.use_socks_proxy = true;
+        strcpy(env_var_proxy_info.socks5_user_name, purl.user);
+        strcpy(env_var_proxy_info.socks5_user_passwd, purl.passwd);
+        strcpy(env_var_proxy_info.socks_server_name, purl.host);
+        env_var_proxy_info.socks_server_port = purl.port;
     }
 
 	p = getenv("SOCKS5_USER");
 	if (!p) p = getenv("SOCKS_USER");
     if (p) {
-        strcpy(proxy_info.socks5_user_name, p);
+        strcpy(env_var_proxy_info.socks5_user_name, p);
     }
 
 	p = getenv("SOCKS5_PASSWD");
     if (p) {
-        strcpy(proxy_info.socks5_user_passwd, p);
+        strcpy(env_var_proxy_info.socks5_user_passwd, p);
     }
 }
 

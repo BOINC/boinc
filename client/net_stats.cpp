@@ -40,6 +40,7 @@
 #include "client_msgs.h"
 #include "client_state.h"
 #include "file_names.h"
+#include "cs_proxy.h"
 
 #include "net_stats.h"
 
@@ -219,8 +220,8 @@ int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
         net_status.need_physical_connection = true;
 		net_status.last_comm_time = 0;
 
-        gstate.proxy_info.need_autodetect_proxy_settings = true;
-        gstate.proxy_info.have_autodetect_proxy_settings = false;
+        working_proxy_info.need_autodetect_proxy_settings = true;
+        working_proxy_info.have_autodetect_proxy_settings = false;
         msg_printf(0, MSG_USER_ERROR,
             "BOINC can't access Internet - check network connection or proxy configuration."
         );

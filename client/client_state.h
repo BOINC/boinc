@@ -79,7 +79,6 @@ public:
     NET_STATS net_stats;
     GUI_RPC_CONN_SET gui_rpcs;
     TIME_STATS time_stats;
-    PROXY_INFO proxy_info;
     GUI_HTTP gui_http;
     COPROCS coprocs;
 
@@ -215,7 +214,6 @@ public:
 public:
     CLIENT_STATE();
     void show_host_info();
-    void show_proxy_info();
     int init();
         /// Never blocks.
         /// Returns true if it actually did something,

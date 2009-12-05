@@ -23,7 +23,10 @@
 // info on whether HTTP requests need to go through a proxy
 //
 struct PROXY_INFO {
-    // the following is populated is user has specified an HTTP proxy
+    bool present;
+        // set if rest of structure is filled in
+
+    // the following is populated if user has specified an HTTP proxy
     //
     bool use_http_proxy;
     bool use_http_auth;
@@ -65,7 +68,4 @@ struct PROXY_INFO {
     void clear();
 };
 
-
-
 #endif
-
