@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-02 02:28-0700\n"
+"PO-Revision-Date: 2009-12-05 09:16-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -2688,9 +2688,8 @@ msgid "Paused: Application start delayed"
 msgstr "Felfüggesztve: Alkalmazásindítás elhalasztva"
 
 #: clientgui/sg_ImageButton.cpp:132
-#, fuzzy
 msgid "Click to show project graphics"
-msgstr "Kattintson a projektgrafika indításához"
+msgstr "Kattintson a projektgrafika mutatásához"
 
 #: clientgui/sg_ProjectsComponent.cpp:106
 msgid "Attach to an additional project"
@@ -2702,7 +2701,6 @@ msgstr "Projektek szinkronizálása a fiókkezelő rendszerrel"
 
 #: clientgui/sg_ProjectsComponent.cpp:194
 #: clientgui/sg_ProjectsComponent.cpp:205
-#, fuzzy
 msgid "Open a window to view messages"
 msgstr "Ablak nyitása az üzenetek megtekintéséhez"
 
@@ -2715,7 +2713,6 @@ msgid "Resume activity"
 msgstr "Aktivitás folytatása"
 
 #: clientgui/sg_ProjectsComponent.cpp:252
-#, fuzzy
 msgid "Open a window to set your preferences"
 msgstr "Ablak nyitása a beállítások megváltoztatásához"
 
@@ -2729,8 +2726,9 @@ msgstr "Projektjeim:"
 
 #: clientgui/sg_StatImageLoader.cpp:101
 #, c-format
+#, fuzzy
 msgid "%s. Work done by %s: %0.2f"
-msgstr ""
+msgstr "%s. A munkát végezte: %s: %0.2f"
 
 #: clientgui/sg_StatImageLoader.cpp:154
 msgid "Remove Project"
@@ -3408,8 +3406,9 @@ msgid "Download pending"
 msgstr "Letöltés függőben"
 
 #: clientgui/ViewTransfers.cpp:769
+#, fuzzy
 msgid " (project backoff: "
-msgstr ""
+msgstr "(projekt leállás:"
 
 #: clientgui/ViewTransfers.cpp:769
 msgid ")"
@@ -3580,6 +3579,7 @@ msgstr "Csatlakozás projekthez vagy fiókkezelőhöz"
 
 #: clientgui/WelcomePage.cpp:258
 #, c-format
+#, fuzzy
 msgid ""
 "If possible, add projects at the\n"
 "%s web site.\n"
@@ -3587,13 +3587,20 @@ msgid ""
 "Projects added via this wizard will not be\n"
 "listed on or managed via %s."
 msgstr ""
+"Amennyiben lehetséges, projekteket\n"
+"a %s weboldalon adjon hozzá.\n"
+"\n"
+"A varázslóval hozzáadott projektek nem lesznek\n"
+"láthatóak vagy kezelhetőek a %s kezelővel."
 
 #: clientgui/WelcomePage.cpp:271
 #, fuzzy
 msgid ""
 "We'll guide you through the process of attaching\n"
 "to a project or account manager."
-msgstr "Most lépésről-lépésre segítjük egy fiókkezelőhöz való csatlakozásban."
+msgstr ""
+"Most lépésről-lépésre végigvezetjük egy\n"
+"projekthez vagy fiókkezelőhöz való csatlakozáson."
 
 #: clientgui/WelcomePage.cpp:275
 msgid ""
