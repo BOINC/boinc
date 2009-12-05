@@ -36,6 +36,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		DD0052F910CA6F1D0067570C /* cs_proxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0052F710CA6F1D0067570C /* cs_proxy.cpp */; };
 		DD01B6790C16723C0023A806 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD01B7120C16723D0023A806 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD0A06F50869A2D2007CD86E /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BE407C5B1670043025C /* prefs.cpp */; };
@@ -607,6 +608,8 @@
 		AA8B6B1C046C364400A80164 /* app_ipc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = app_ipc.h; path = ../lib/app_ipc.h; sourceTree = SOURCE_ROOT; };
 		AAA31C97042157A800A80164 /* shmem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = shmem.cpp; sourceTree = "<group>"; };
 		AAA31C98042157A800A80164 /* shmem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shmem.h; path = ../lib/shmem.h; sourceTree = SOURCE_ROOT; };
+		DD0052F710CA6F1D0067570C /* cs_proxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cs_proxy.cpp; path = ../client/cs_proxy.cpp; sourceTree = SOURCE_ROOT; };
+		DD0052F810CA6F1D0067570C /* cs_proxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cs_proxy.h; path = ../client/cs_proxy.h; sourceTree = SOURCE_ROOT; };
 		DD04BE1A0EDD836A006D5603 /* TermsOfUsePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TermsOfUsePage.h; path = ../clientgui/TermsOfUsePage.h; sourceTree = SOURCE_ROOT; };
 		DD0C5A8A0816711400CEC5D7 /* boinc.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = boinc.jpg; path = ../clientscr/res/boinc.jpg; sourceTree = SOURCE_ROOT; };
 		DD1277B3081F3D67007B5DE1 /* PostInstall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PostInstall.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1592,6 +1595,8 @@
 				F54B8FC802AC0A0C01FB7237 /* cs_files.cpp */,
 				DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */,
 				DD344B8D07C5ADFA0043025C /* cs_prefs.cpp */,
+				DD0052F710CA6F1D0067570C /* cs_proxy.cpp */,
+				DD0052F810CA6F1D0067570C /* cs_proxy.h */,
 				F54B8FC902AC0A0C01FB7237 /* cs_scheduler.cpp */,
 				DD344B9307C5AE2E0043025C /* cs_statefile.cpp */,
 				DD344B9407C5AE2E0043025C /* cs_trickle.cpp */,
@@ -2813,6 +2818,7 @@
 				DD9AB0340EB7D5DE00AF1616 /* rr_sim.cpp in Sources */,
 				DDAD31D90EC26B14002DA09D /* mac_address.cpp in Sources */,
 				DDC06AB810A3E97700C8D9A5 /* url.cpp in Sources */,
+				DD0052F910CA6F1D0067570C /* cs_proxy.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

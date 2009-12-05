@@ -9764,3 +9764,15 @@ David  4 Dec 2009
         net_stats.cpp
     lib/
         proxy_info.cpp,h
+
+Charlie  5 Dec 2009
+    - Mac: Update XCode project for new files cs_proxy.cpp,h.
+    - Mac installer: fix a bug where installer would not start Maanger 
+        because getlogin() is not reliable under OS 10.6 when running 
+        with authentication; use getenv("USER") instead.
+    
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+    mac_installer/
+        PostInstall.cpp
