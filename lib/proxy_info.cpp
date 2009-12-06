@@ -53,10 +53,12 @@ int PROXY_INFO::parse(MIOFILE& in) {
 }
 
 int PROXY_INFO::parse_config(MIOFILE& in) {
-    parse(in);
+    int retval = parse(in);
+    if (retval) return retval;
     if (strlen(http_server_name)) use_http_proxy = true;
     if (strlen(socks_server_name)) use_socks_proxy = true;
     if (strlen(http_user_name)) use_http_auth = true;
+    return 0;
 }
 
 int PROXY_INFO::write(MIOFILE& out) {
