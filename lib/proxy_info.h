@@ -64,6 +64,7 @@ struct PROXY_INFO {
         // whether above fields are defined
 
     int parse(MIOFILE&);
+    int parse_config(MIOFILE&);
     int write(MIOFILE&);
     void clear();
 };

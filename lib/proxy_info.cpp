@@ -52,6 +52,13 @@ int PROXY_INFO::parse(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
+int PROXY_INFO::parse_config(MIOFILE& in) {
+    parse(in);
+    if (strlen(http_server_name)) use_http_proxy = true;
+    if (strlen(socks_server_name)) use_socks_proxy = true;
+    if (strlen(http_user_name)) use_http_auth = true;
+}
+
 int PROXY_INFO::write(MIOFILE& out) {
     char s5un[2048], s5up[2048], hun[2048], hup[2048];
     xml_escape(socks5_user_name, s5un, sizeof(s5un));

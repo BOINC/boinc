@@ -9776,3 +9776,13 @@ Charlie  5 Dec 2009
             project.pbxproj
     mac_installer/
         PostInstall.cpp
+
+David  5 Dec 2009
+    - client: bug fixes to recent proxy info checkin
+
+    client/
+        cs_proxy.cpp
+        main.cpp
+        log_flags.cpp
+    lib/
+        proxy_info.cpp,h
