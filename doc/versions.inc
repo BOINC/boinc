@@ -119,7 +119,7 @@ $m61017 = array(
 
 $m66 = array(
     "num"=>"6.6.36",
-    "status"=>"Older version (standard GUI)",
+    "status"=>"Older version (standard GUI works on OS 10.3.9 - OS 10.5.8)",
     "file"=>"boinc_6.6.36_macOSX_universal.zip",
     "date"=>"10 June 2009",
     "type"=>"mac_advanced",
@@ -143,7 +143,7 @@ $m61017c = array(
 
 $m66c = array(
     "num"=>"6.6.36",
-    "status"=>"Older version (Unix command-line version)",
+    "status"=>"Older version (Unix command-line version works on OS 10.3.9 - OS 10.5.8)",
     "file"=>"boinc_6.6.36_universal-apple-darwin.zip",
     "date"=>"10 June 2009",
     "type"=>"bare_core",
@@ -224,7 +224,7 @@ $windowsx64 = array(
 
 $mac = array(
     "name"=>"Mac OS X",
-    "description"=>"Version 10.3.9+",
+    "description"=>"Version 10.4.0+",
     "dbname" => "powerpc-apple-darwin",
     "versions"=>array(
         $m610,
