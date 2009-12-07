@@ -485,7 +485,7 @@ OSStatus CheckLogoutRequirement(int *finalAction)
     *finalAction = restartRequired;
 
     if (OSVersion < 0x1040) {
-        return noErr;   // Always reuire restart on OS 10.3.9
+        return noErr;   // Always require restart on OS 10.3.9
     }
     
 #ifdef SANDBOX

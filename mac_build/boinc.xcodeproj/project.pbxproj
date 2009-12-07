@@ -360,6 +360,11 @@
 		DDD74DD307CF493D0065AC9D /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA31C97042157A800A80164 /* shmem.cpp */; };
 		DDD74DD407CF493E0065AC9D /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
 		DDD7EF4707F0526E00BA3B90 /* SystemMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = DD40CDFE07F038990096C645 /* SystemMenu.m */; };
+		DDD9C59310CCF54300A1E4CD /* coproc_detect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD9C59210CCF54300A1E4CD /* coproc_detect.cpp */; };
+		DDD9C5A510CCF61F00A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
+		DDD9C5AA10CCF6A000A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
+		DDD9C5AB10CCF6A300A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
+		DDD9C5AC10CCF6AB00A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDDC35260909212D006076EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51BDF4903086C46012012A7 /* InfoPlist.strings */; };
 		DDDE43B10EC04C1800083520 /* DlgExitMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */; };
 		DDE3A8800E90D1BF00A363A7 /* client_state.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A87F0E90D1BF00A363A7 /* client_state.cpp */; };
@@ -935,6 +940,7 @@
 		DDD52DC80C03CAE6009B5FC0 /* ViewWork.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewWork.cpp; path = ../clientgui/ViewWork.cpp; sourceTree = SOURCE_ROOT; };
 		DDD52DC90C03CAE6009B5FC0 /* ViewWork.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewWork.h; path = ../clientgui/ViewWork.h; sourceTree = SOURCE_ROOT; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDD9C59210CCF54300A1E4CD /* coproc_detect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coproc_detect.cpp; path = ../client/coproc_detect.cpp; sourceTree = SOURCE_ROOT; };
 		DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DlgExitMessage.cpp; path = ../clientgui/DlgExitMessage.cpp; sourceTree = SOURCE_ROOT; };
 		DDDE43B80EC04C3C00083520 /* DlgExitMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DlgExitMessage.h; path = ../clientgui/DlgExitMessage.h; sourceTree = SOURCE_ROOT; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
@@ -1585,6 +1591,7 @@
 				F54B8FC502AC0A0C01FB7237 /* client_types.cpp */,
 				F54B8FC602AC0A0C01FB7237 /* client_types.h */,
 				DD69FEF608416C9A00C01361 /* boinc_cmd.cpp */,
+				DDD9C59210CCF54300A1E4CD /* coproc_detect.cpp */,
 				DD81C3D507C5CEB50098A04D /* cpp.h */,
 				DD344B7F07C5ADC30043025C /* cs_benchmark.cpp */,
 				DD16BF8F099D6CE5003E4B69 /* cpu_benchmark.h */,
@@ -2530,6 +2537,7 @@
 				DDA0C8350FE1D704001E02E6 /* procinfo_mac.cpp in Sources */,
 				DDA99BF41099AF18002F8E9B /* MacAccessiblity.cpp in Sources */,
 				DDC06ABC10A3E98D00C8D9A5 /* url.cpp in Sources */,
+				DDD9C5A510CCF61F00A1E4CD /* coproc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2661,6 +2669,7 @@
 				DD8917F80F3B21F500DE5B1C /* txf_util.cpp in Sources */,
 				DDC988FE0F3BD44100EE8D0E /* gui_rpc_client_ops.cpp in Sources */,
 				DDFE4E9110AB7C3A00919319 /* url.cpp in Sources */,
+				DDD9C5AB10CCF6A300A1E4CD /* coproc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2685,6 +2694,7 @@
 				DDB8739A0C85072500E0DE1F /* Mac_Saver_ModuleView.m in Sources */,
 				DD7AEB4A0C87CE1300AC3B5C /* screensaver.cpp in Sources */,
 				DD6803440E70A61D0067D009 /* diagnostics.cpp in Sources */,
+				DDD9C5AC10CCF6AB00A1E4CD /* coproc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2819,6 +2829,7 @@
 				DDAD31D90EC26B14002DA09D /* mac_address.cpp in Sources */,
 				DDC06AB810A3E97700C8D9A5 /* url.cpp in Sources */,
 				DD0052F910CA6F1D0067570C /* cs_proxy.cpp in Sources */,
+				DDD9C59310CCF54300A1E4CD /* coproc_detect.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2840,6 +2851,7 @@
 				DDFA61920CB349020037B88C /* proxy_info.cpp in Sources */,
 				DDFA61940CB349160037B88C /* prefs.cpp in Sources */,
 				DDFE4E3D10AB778100919319 /* url.cpp in Sources */,
+				DDD9C5AA10CCF6A000A1E4CD /* coproc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
