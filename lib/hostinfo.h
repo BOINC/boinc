@@ -29,6 +29,7 @@
 // NET_STATS (average network bandwidths)
 
 #include "miofile.h"
+#include "coproc.h"
 
 class HOST_INFO {
 public:
@@ -56,6 +57,8 @@ public:
 
     char os_name[256];
     char os_version[256];
+
+    COPROCS coprocs;
 
     HOST_INFO();
     int parse(MIOFILE&);

@@ -27,6 +27,8 @@
 using std::string;
 using std::vector;
 
+#include "coproc.h"
+
 #include "acct_mgr.h"
 #include "acct_setup.h"
 #include "app.h"
@@ -41,7 +43,6 @@ using std::vector;
 #include "prefs.h"
 #include "scheduler_op.h"
 #include "time_stats.h"
-#include "coproc.h"
 
 #define WORK_FETCH_DONT_NEED 0
     // project: suspended, deferred, or no new work (can't ask for more work)
@@ -80,7 +81,6 @@ public:
     GUI_RPC_CONN_SET gui_rpcs;
     TIME_STATS time_stats;
     GUI_HTTP gui_http;
-    COPROCS coprocs;
 
     VERSION_INFO core_client_version;
     string statefile_platform_name;

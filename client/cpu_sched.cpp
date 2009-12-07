@@ -655,7 +655,7 @@ void CLIENT_STATE::schedule_cpus() {
     proc_rsc.ncpus = ncpus;
     proc_rsc.ncpus_used = 0;
     proc_rsc.ram_left = available_ram();
-    proc_rsc.coprocs.clone(coprocs, false);
+    proc_rsc.coprocs.clone(host_info.coprocs, false);
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] schedule_cpus(): start");
@@ -1027,7 +1027,7 @@ static inline void assign_coprocs(vector<RESULT*> jobs) {
     COPROC* cp;
     double usage;
 
-    gstate.coprocs.clear_usage();
+    gstate.host_info.coprocs.clear_usage();
 
     // fill in pending usage
     //

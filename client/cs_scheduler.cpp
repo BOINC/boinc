@@ -241,10 +241,10 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         coproc_ati->estimated_delay = ati_work_fetch.req_secs?ati_work_fetch.busy_time_estimator.get_busy_time():0;
     }
 
-    if (coprocs.coprocs.size()) {
+    if (host_info.coprocs.coprocs.size()) {
         fprintf(f, "    <coprocs>\n");
-        for (i=0; i<coprocs.coprocs.size(); i++) {
-            COPROC* c = coprocs.coprocs[i];
+        for (i=0; i<host_info.coprocs.coprocs.size(); i++) {
+            COPROC* c = host_info.coprocs.coprocs[i];
             c->write_xml(mf);
         }
         fprintf(f, "    </coprocs>\n");
