@@ -509,7 +509,7 @@ static void handle_result_op(char* buf, MIOFILE& fout, const char* op) {
 }
 
 static void handle_get_host_info(char*, MIOFILE& fout) {
-    gstate.host_info.write(fout, false);
+    gstate.host_info.write(fout, false, true);
 }
 
 static void handle_get_screensaver_tasks(MIOFILE& fout) {

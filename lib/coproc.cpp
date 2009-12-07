@@ -116,12 +116,10 @@ void COPROCS::summary_string(char* buf, int len) {
     strcpy(buf, bigbuf);
 }
 
-// used only to parse scheduler request messages
-//
-int COPROCS::parse(FILE* fin) {
+int COPROCS::parse(MIOFILE& fin) {
     char buf[1024];
 
-    while (fgets(buf, sizeof(buf), fin)) {
+    while (fin.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</coprocs>")) {
             return 0;
         }
@@ -141,6 +139,17 @@ int COPROCS::parse(FILE* fin) {
         }
     }
     return ERR_XML_PARSE;
+}
+
+void COPROCS::write_xml(MIOFILE& mf) {
+#ifndef _USING_FCGI_
+    mf.printf("    <coprocs>\n");
+    for (unsigned i=0; i<coprocs.size(); i++) {
+        COPROC* c = coprocs[i];
+        c->write_xml(mf);
+    }
+    mf.printf("    </coprocs>\n");
+#endif
 }
 
 COPROC* COPROCS::lookup(const char* type) {
@@ -251,11 +260,11 @@ void COPROC_CUDA::clear() {
     prop.multiProcessorCount = 0;
 }
 
-int COPROC_CUDA::parse(FILE* fin) {
+int COPROC_CUDA::parse(MIOFILE& fin) {
     char buf[1024], buf2[256];
 
     clear();
-    while (fgets(buf, sizeof(buf), fin)) {
+    while (fin.fgets(buf, sizeof(buf))) {
         if (strstr(buf, "</coproc_cuda>")) {
             return 0;
         }
@@ -390,13 +399,13 @@ void COPROC_ATI::clear() {
     memset(&info, 0, sizeof(info));
 }
 
-int COPROC_ATI::parse(FILE* fin) {
+int COPROC_ATI::parse(MIOFILE& fin) {
     char buf[1024];
     int n;
 
     clear();
 
-    while (fgets(buf, sizeof(buf), fin)) {
+    while (fin.fgets(buf, sizeof(buf))) {
         if (strstr(buf, "</coproc_ati>")) return 0;
         if (parse_int(buf, "<count>", count)) continue;
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;

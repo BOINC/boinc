@@ -210,7 +210,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     );
     MIOFILE mf;
     mf.init_file(f);
-    ai.host_info.write(mf, false);
+    ai.host_info.write(mf, false, true);
     ai.proxy_info.write(mf);
     ai.global_prefs.write(mf);
     fprintf(f, "</app_init_data>\n");

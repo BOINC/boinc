@@ -350,7 +350,9 @@ const char* SCHEDULER_REQUEST::parse(FILE* fin) {
             continue;
         }
         if (match_tag(buf, "coprocs")) {
-            coprocs.parse(fin);
+            MIOFILE mf;
+            mf.init_file(fin);
+            coprocs.parse(mf);
             coproc_cuda = (COPROC_CUDA*)coprocs.lookup("CUDA");
             coproc_ati = (COPROC_ATI*)coprocs.lookup("ATI");
             continue;

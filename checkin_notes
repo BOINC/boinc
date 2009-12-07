@@ -9808,3 +9808,17 @@ David  6 Dec 2009
         cpu_sched.cpp
     lib/
         hostinfo.h
+
+David  6 Dec 2009
+    - result of code shuffle: the HOST_INFO structure returned
+        by the get_host_info() GUI RPC now contains GPU info
+
+    client/
+        gui_rpc_server_ops.cpp
+        cs_scheduler.cpp
+        cs_statefile.cpp
+    lib/
+        hostinfo.cpp,h
+        coproc.cpp,h
+    sched/
+        sched_types.cpp

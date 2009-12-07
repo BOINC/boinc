@@ -636,7 +636,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     int retval;
 
     f.printf("<client_state>\n");
-    retval = host_info.write(f, false);
+    retval = host_info.write(f, false, false);
     if (retval) return retval;
     retval = time_stats.write(f, false);
     if (retval) return retval;
@@ -842,7 +842,7 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
     // However, BoincView (which does its own parsing) expects it
     // to be in the get_state() reply, so leave it in for now
     //
-    retval = host_info.write(f, false);
+    retval = host_info.write(f, false, false);
     if (retval) return retval;
     retval = time_stats.write(f, false);
     if (retval) return retval;
