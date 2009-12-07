@@ -9786,3 +9786,15 @@ David  5 Dec 2009
         log_flags.cpp
     lib/
         proxy_info.cpp,h
+
+David  6 Dec 2009
+    - code shuffle: move client-specific GPU code to a separate file
+    client/
+        coproc_detect.cpp (new)
+        cpu_sched.cpp
+        cs_scheduler.cpp
+        Makefile.am
+        work_fetch.cpp
+        client_state.h
+    lib/
+        coproc.cpp,h

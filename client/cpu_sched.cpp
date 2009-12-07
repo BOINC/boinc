@@ -189,55 +189,41 @@ struct PROC_RESOURCES {
 // see whether there's been a change in coproc usability;
 // if so set or clear "coproc_missing" flags and return true.
 //
-#include "filesys.h"
-bool check_coproc_usable(COPROC* cp) {
+bool gpus_usable = true;
+bool check_coprocs_usable() {
+#ifdef _WIN32
     unsigned int i;
-    bool is_cuda = (cp==coproc_cuda);
-    bool new_usable = cp->is_usable();
-    //bool new_usable = !boinc_file_exists("unusable");
-    if (cp->usable) {
+    if (gpus_usable) {
         if (!new_usable) {
-            cp->usable = false;
+            gpus_usable = false;
             for (i=0; i<gstate.results.size(); i++) {
                 RESULT* rp = gstate.results[i];
-                if (is_cuda?rp->avp->ncudas:rp->avp->natis) {
+                if (avp->ncudas || rp->avp->natis) {
                     rp->coproc_missing = true;
                 }
             }
             msg_printf(NULL, MSG_INFO,
-                "%s GPU has become unusable; disabling tasks",
-                is_cuda?"NVIDIA":"ATI"
+                "GPUs have become unusable; disabling tasks"
             );
             return true;
         }
     } else {
         if (new_usable) {
-            cp->usable = true;
+            gpus_usable = true;
             for (i=0; i<gstate.results.size(); i++) {
                 RESULT* rp = gstate.results[i];
-                if (is_cuda?rp->avp->ncudas:rp->avp->natis) {
+                if (rp->avp->ncudas || rp->avp->natis) {
                     rp->coproc_missing = false;
                 }
             }
             msg_printf(NULL, MSG_INFO,
-                "%s GPU has become usable; enabling tasks",
-                is_cuda?"NVIDIA":"ATI"
+                "GPUs have become usable; enabling tasks"
             );
             return true;
         }
     }
+#endif
     return false;
-}
-
-bool check_coprocs_usable() {
-    bool change = false;
-    if (coproc_cuda && check_coproc_usable(coproc_cuda)) {
-        change = true;
-    }
-    if (coproc_ati && check_coproc_usable(coproc_ati)) {
-        change = true;
-    }
-    return change;
 }
 
 // return true if the task has finished its time slice

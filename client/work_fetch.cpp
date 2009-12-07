@@ -292,10 +292,10 @@ PROJECT* RSC_WORK_FETCH::choose_project(int criterion) {
 
 void WORK_FETCH::set_shortfall_requests(PROJECT* p) {
     cpu_work_fetch.set_shortfall_request(p);
-    if (coproc_cuda && coproc_cuda->usable) {
+    if (coproc_cuda && gpus_usable) {
         cuda_work_fetch.set_shortfall_request(p);
     }
-    if (coproc_ati && coproc_ati->usable) {
+    if (coproc_ati && gpus_usable) {
         ati_work_fetch.set_shortfall_request(p);
     }
 }
@@ -484,8 +484,8 @@ PROJECT* WORK_FETCH::choose_project() {
     gstate.rr_simulation();
     set_overall_debts();
 
-    bool cuda_usable = coproc_cuda && coproc_cuda->usable;
-    bool ati_usable = coproc_ati && coproc_ati->usable;
+    bool cuda_usable = coproc_cuda && gpus_usable;
+    bool ati_usable = coproc_ati && gpus_usable;
 
     if (cuda_usable) {
         p = cuda_work_fetch.choose_project(FETCH_IF_IDLE_INSTANCE);
