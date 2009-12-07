@@ -1047,6 +1047,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\coproc_detect.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\client\cpu_sched.cpp"
 				>
 			</File>

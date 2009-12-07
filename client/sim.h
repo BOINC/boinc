@@ -307,6 +307,7 @@ extern bool dcf_stats;
 extern bool cpu_sched_rr_only;
 extern bool dual_dcf;
 extern bool work_fetch_old;
+extern bool gpus_usable;
 
 #define WORK_FETCH_PERIOD   60
 
