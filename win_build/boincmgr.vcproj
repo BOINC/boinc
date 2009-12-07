@@ -1245,6 +1245,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\coproc.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\daemonmgt.h"
 				>
 			</File>
