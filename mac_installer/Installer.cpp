@@ -62,8 +62,10 @@ int main(int argc, char *argv[])
     CFPropertyListRef       propertyListRef = NULL;
     CFStringRef             restartKey = CFSTR("IFPkgFlagRestartAction");
     CFStringRef             currentValue = NULL, desiredValue = NULL;
+#if 0   // We no longer support OS < 10.4
     CFStringRef             valueRestartRequired = CFSTR("RequiredRestart");
     CFStringRef             valueLogoutRequired = CFSTR("RequiredLogout");
+#endif
     CFStringRef             valueNoRestart = CFSTR("NoRestart");
     CFStringRef             errorString = NULL;
     Boolean                 needLogout;
@@ -97,12 +99,12 @@ int main(int argc, char *argv[])
     if (err != noErr)
         return err;
 
-    if (response < 0x1039) {
+    if (response < 0x1040) {
         ::SetFrontProcess(&ourPSN);
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
         if (p)
             *p = '\0'; 
-        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.3.9 or higher.", brand);
+        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.4 or higher.", brand);
         StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, NULL, &itemHit);
 
         err = FindProcess ('APPL', 'xins', &installerPSN);
@@ -123,6 +125,7 @@ int main(int argc, char *argv[])
     if (err != noErr)
         return err;
     
+#if 0   // We no longer support OS < 10.4
     if (response < 0x1040) {   // Logout is never needed on OS 10.4 and later    
     err = IsLogoutNeeded(&needLogout);
         if (needLogout) {
@@ -132,6 +135,7 @@ int main(int argc, char *argv[])
                 desiredValue = valueLogoutRequired;    // Logout is requires and sufficient on OS 10.3.9
         }
     }
+#endif
     
     strlcpy(infoPlistPath, pkgPath, sizeof(infoPlistPath));
     strlcat(infoPlistPath, "/Contents/Info.plist", sizeof(infoPlistPath));

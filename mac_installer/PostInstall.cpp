@@ -175,11 +175,11 @@ int main(int argc, char *argv[])
         brandID = 0;
     }
     
-    if (OSVersion < 0x1039) {
+    if (OSVersion < 0x1040) {
         ::SetFrontProcess(&ourProcess);
         // Remove everything we've installed
-        // "\pSorry, this version of GridRepublic requires system 10.3.9 or higher."
-        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.3.9 or higher.", brandName[brandID]);
+        // "\pSorry, this version of GridRepublic requires system 10.4.0 or higher."
+        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.4.0 or higher.", brandName[brandID]);
         StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, NULL, &itemHit);
 
         // "rm -rf /Applications/GridRepublic\\ Desktop.app"

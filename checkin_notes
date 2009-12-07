@@ -8884,3 +8884,12 @@ Charlie  5 Dec 2009
     
     mac_installer/
         PostInstall.cpp
+
+Charlie  7 Dec 2009
+    - Mac installer: Changes for OS 10.6 compatibility have broken the installer 
+        on OS 10.3.9, so we no longer support OS 10.3.9 on BOINC 6.10.x.  If 
+        user tries to install on OS 10.3.9, display an alert and quit.
+
+    mac-installer/
+        Installer.cpp
+        PostInstall.cpp
