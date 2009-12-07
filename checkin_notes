@@ -9829,3 +9829,13 @@ Charlie  7 Dec 2009
      mac_build/
         boinc.xcodeproj/
             project.pbxproj
+
+David  7 Dec 2009
+    - client: don't set STDs for non-runnable projects to zero.
+        Let them float around with other projects.
+        Fixes problem where, when a project finishes its last job
+        and has a negative STD, it gets an unfair increment
+        by being set to zero.
+
+    client/
+        work_fetch.cpp

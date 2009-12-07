@@ -756,9 +756,6 @@ void RSC_WORK_FETCH::update_short_term_debts() {
             }
             rpwf.short_term_debt += delta;
             total_short_term_debt += rpwf.short_term_debt;
-        } else {
-            rpwf.short_term_debt = 0;
-            rpwf.anticipated_debt = 0;
         }
     }
 
