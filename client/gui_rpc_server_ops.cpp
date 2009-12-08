@@ -954,10 +954,14 @@ static int set_debt(XML_PARSER& xp) {
             canonicalize_master_url(url);
             PROJECT* p = gstate.lookup_project(url);
             if (!p) return ERR_NOT_FOUND;
-            if (got_std) p->short_term_debt = short_term_debt;
-            if (got_ltd) p->cpu_pwf.debt = long_term_debt;
-            if (got_cuda_debt) p->cuda_pwf.debt = cuda_debt;
-            if (got_ati_debt) p->ati_pwf.debt = ati_debt;
+            if (got_std) {
+                p->cpu_pwf.short_term_debt = short_term_debt;
+                p->cuda_pwf.short_term_debt = short_term_debt;
+                p->ati_pwf.short_term_debt = short_term_debt;
+            }
+            if (got_ltd) p->cpu_pwf.long_term_debt = long_term_debt;
+            if (got_cuda_debt) p->cuda_pwf.long_term_debt = cuda_debt;
+            if (got_ati_debt) p->ati_pwf.long_term_debt = ati_debt;
             return 0;
         }
         if (xp.parse_str(tag, "master_url", url, sizeof(url))) continue;

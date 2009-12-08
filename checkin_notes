@@ -8957,3 +8957,26 @@ David  3 Dec 2009
         work_fetch.cpp
         main.cpp
         log_flags.cpp
+
+David  3 Dec 2009
+    - client: my STD-related checkin of Dec 1 was bad.
+        It computed an "overall STD" as the sum of CPU and coprocs,
+        weighted by the coproc's speed, as we do for LTD.
+        This was the wrong idea; in the presence of GPUs,
+        STDs quickly get pushed to +- 1 day and are truncated there.
+
+        New scheme: STD is maintained per (resource type, project).
+        This fixes the above problem,
+        and it opens to door to round-robin scheduling of GPUs.
+    - client: the calculation of "anticipated debt" was scaling
+        by relative resource share.
+        This wasn't correct, seems to me.
+    - client: rename "debt" to "long_term_debt" in a few places
+        (but not in the client state file, for compatibility)
+
+    client/
+        client_state.cpp,h
+        client_types.cpp,h
+        cpu_sched.cpp
+        gui_rpc_server_ops.cpp
+        work_fetch.cpp,h

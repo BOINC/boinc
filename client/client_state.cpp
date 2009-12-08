@@ -1591,8 +1591,10 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
     project->duration_correction_factor = 1;
     project->ams_resource_share = -1;
     project->min_rpc_time = 0;
-	project->short_term_debt = 0;
     project->pwf.reset(project);
+    project->cpu_pwf.reset();
+    project->cuda_pwf.reset();
+    project->ati_pwf.reset();
     write_state_file();
     return 0;
 }

@@ -58,9 +58,6 @@
 
 using std::vector;
 
-#define MAX_STD   (86400)
-    // maximum short-term debt
-
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
@@ -345,10 +342,10 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
         PROJECT* p = projects[i];
         if (!p->next_runnable_result) continue;
         if (p->non_cpu_intensive) continue;
-        if (first || p->anticipated_debt > best_debt) {
+        if (first || p->cpu_pwf.anticipated_debt > best_debt) {
             first = false;
             best_project = p;
-            best_debt = p->anticipated_debt;
+            best_debt = p->cpu_pwf.anticipated_debt;
         }
     }
     if (!best_project) return NULL;
@@ -356,7 +353,7 @@ RESULT* CLIENT_STATE::largest_debt_project_best_result() {
     if (log_flags.cpu_sched_debug) {
         msg_printf(best_project, MSG_INFO,
             "[cpu_sched_debug] highest debt: %f %s",
-            best_project->anticipated_debt,
+            best_project->cpu_pwf.anticipated_debt,
             best_project->next_runnable_result->name
         );
     }
@@ -518,11 +515,6 @@ void CLIENT_STATE::reset_debt_accounting() {
 //
 void CLIENT_STATE::adjust_debts() {
     unsigned int i;
-    double total_short_term_debt = 0;
-    double rrs, rrs_cuda=0, rrs_ati=0;
-    int nprojects=0, nrprojects=0;
-    PROJECT *p;
-    double share_frac;
     double elapsed_time = now - debt_interval_start;
 
     // If the elapsed time is more than 2*DEBT_ADJUST_PERIOD
@@ -546,115 +538,25 @@ void CLIENT_STATE::adjust_debts() {
         return;
     }
 
+    // total up how many instance-seconds projects got
+    //
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        p = atp->result->project;
+        PROJECT* p = atp->result->project;
         if (p->non_cpu_intensive) continue;
         work_fetch.accumulate_inst_sec(atp, elapsed_time);
     }
 
-    // adjust long term debts
-    //
-    cpu_work_fetch.update_debts();
+    cpu_work_fetch.update_long_term_debts();
+    cpu_work_fetch.update_short_term_debts();
     if (coproc_cuda) {
-        cuda_work_fetch.update_debts();
+        cuda_work_fetch.update_long_term_debts();
+        cuda_work_fetch.update_short_term_debts();
     }
     if (coproc_ati) {
-        ati_work_fetch.update_debts();
-    }
-
-    // adjust short term debts
-    //
-    rrs = runnable_resource_share(RSC_TYPE_CPU);
-    if (coproc_cuda) {
-        rrs_cuda = runnable_resource_share(RSC_TYPE_CUDA);
-    }
-    if (coproc_ati) {
-        rrs_ati = runnable_resource_share(RSC_TYPE_ATI);
-    }
-
-    for (i=0; i<projects.size(); i++) {
-        double delta;
-        p = projects[i];
-        if (p->non_cpu_intensive) continue;
-        nprojects++;
-
-        if (p->runnable(RSC_TYPE_ANY)) {
-            nrprojects++;
-            share_frac = p->resource_share/rrs;
-            delta = share_frac*cpu_work_fetch.secs_this_debt_interval
-                - p->cpu_pwf.secs_this_debt_interval;
-            if (log_flags.std_debug) {
-                msg_printf(p, MSG_INFO,
-                    "[std_debug] std delta %.2f (%.2f * %.2f - %.2f)",
-                    delta,
-                    share_frac,
-                    cpu_work_fetch.secs_this_debt_interval,
-                    p->cpu_pwf.secs_this_debt_interval
-                );
-            }
-            if (rrs_cuda) {
-                share_frac = p->resource_share/rrs_cuda;
-                delta += cuda_work_fetch.speed*
-                    (share_frac*cuda_work_fetch.secs_this_debt_interval
-                    - p->cuda_pwf.secs_this_debt_interval);
-                if (log_flags.std_debug) {
-                    msg_printf(p, MSG_INFO,
-                        "[std_debug] CUDA std delta %.2f (%.2f * %.2f - %.2f)",
-                        delta,
-                        share_frac,
-                        cuda_work_fetch.secs_this_debt_interval,
-                        p->cuda_pwf.secs_this_debt_interval
-                    );
-                }
-            }
-            if (rrs_ati) {
-                share_frac = p->resource_share/rrs_ati;
-                delta += ati_work_fetch.speed*
-                    (share_frac*ati_work_fetch.secs_this_debt_interval
-                    - p->ati_pwf.secs_this_debt_interval);
-                if (log_flags.std_debug) {
-                    msg_printf(p, MSG_INFO,
-                        "[std_debug] ATI std delta %.2f (%.2f * %.2f - %.2f)",
-                        delta,
-                        share_frac,
-                        ati_work_fetch.secs_this_debt_interval,
-                        p->ati_pwf.secs_this_debt_interval
-                    );
-                }
-            }
-            p->short_term_debt += delta;
-            total_short_term_debt += p->short_term_debt;
-        } else {
-            p->short_term_debt = 0;
-            p->anticipated_debt = 0;
-        }
-    }
-
-    // short-term debt:
-    //  normalize so mean is zero, and limit abs value at MAX_STD
-    //
-    if (nrprojects) {
-        double avg_short_term_debt = total_short_term_debt / nrprojects;
-        for (i=0; i<projects.size(); i++) {
-            p = projects[i];
-            if (p->non_cpu_intensive) continue;
-            if (p->runnable(RSC_TYPE_ANY)) {
-                p->short_term_debt -= avg_short_term_debt;
-                if (p->short_term_debt > MAX_STD) {
-                    p->short_term_debt = MAX_STD;
-                }
-                if (p->short_term_debt < -MAX_STD) {
-                    p->short_term_debt = -MAX_STD;
-                }
-            }
-            if (log_flags.std_debug) {
-                msg_printf(p, MSG_INFO,
-                    "[std_debug] std %.2f", p->short_term_debt
-                );
-            }
-        }
+        ati_work_fetch.update_long_term_debts();
+        ati_work_fetch.update_short_term_debts();
     }
 
     reset_debt_accounting();
@@ -692,11 +594,11 @@ bool CLIENT_STATE::possibly_schedule_cpus() {
 // Check whether the job can be run:
 // - it will fit in RAM
 // - we have enough shared-mem segments (old Mac problem)
-// If so, update proc_rsc accordingly and return true
+// If so, update proc_rsc and anticipated debts, and return true
 //
 static bool schedule_if_possible(
     RESULT* rp, ACTIVE_TASK* atp, PROC_RESOURCES& proc_rsc,
-    double rrs, double expected_payoff, const char* description
+    const char* description
 ) {
     if (atp) {
         // see if it fits in available RAM
@@ -744,7 +646,10 @@ static bool schedule_if_possible(
         );
     }
     proc_rsc.schedule(rp);
-    rp->project->anticipated_debt -= (rp->project->resource_share / rrs) * expected_payoff;
+    double dt = gstate.global_prefs.cpu_scheduling_period();
+    rp->project->cpu_pwf.anticipated_debt -= dt*rp->avp->avg_ncpus;
+    rp->project->cuda_pwf.anticipated_debt -= dt*rp->avp->ncudas;
+    rp->project->ati_pwf.anticipated_debt -= dt*rp->avp->natis;
     return true;
 }
 
@@ -754,7 +659,6 @@ static bool schedule_if_possible(
 void CLIENT_STATE::schedule_cpus() {
     RESULT* rp;
     PROJECT* p;
-    double expected_payoff;
     unsigned int i;
     double rrs = runnable_resource_share(RSC_TYPE_CPU);
     PROC_RESOURCES proc_rsc;
@@ -787,7 +691,9 @@ void CLIENT_STATE::schedule_cpus() {
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         p->next_runnable_result = NULL;
-        p->anticipated_debt = p->short_term_debt;
+        p->cpu_pwf.anticipated_debt = p->cpu_pwf.short_term_debt;
+        p->cuda_pwf.anticipated_debt = p->cuda_pwf.short_term_debt;
+        p->ati_pwf.anticipated_debt = p->ati_pwf.short_term_debt;
         p->cpu_pwf.deadlines_missed_copy = p->cpu_pwf.deadlines_missed;
         p->cuda_pwf.deadlines_missed_copy = p->cuda_pwf.deadlines_missed;
         p->ati_pwf.deadlines_missed_copy = p->ati_pwf.deadlines_missed;
@@ -805,7 +711,6 @@ void CLIENT_STATE::schedule_cpus() {
         }
     }
 
-    expected_payoff = global_prefs.cpu_scheduling_period();
     ordered_scheduled_results.clear();
 
     // choose coproc jobs from projects with coproc deadline misses
@@ -817,8 +722,7 @@ void CLIENT_STATE::schedule_cpus() {
         if (!proc_rsc.can_schedule(rp)) continue;
         atp = lookup_active_task_by_result(rp);
         can_run = schedule_if_possible(
-            rp, atp, proc_rsc, rrs, expected_payoff,
-            "coprocessor job, EDF"
+            rp, atp, proc_rsc, "coprocessor job, EDF"
         );
         if (!can_run) continue;
         if (rp->avp->ncudas) {
@@ -838,8 +742,7 @@ void CLIENT_STATE::schedule_cpus() {
         if (!proc_rsc.can_schedule(rp)) continue;
         atp = lookup_active_task_by_result(rp);
         can_run = schedule_if_possible(
-            rp, atp, proc_rsc, rrs, expected_payoff,
-            "coprocessor job, FIFO"
+            rp, atp, proc_rsc, "coprocessor job, FIFO"
         );
         if (!can_run) continue;
         ordered_scheduled_results.push_back(rp);
@@ -857,8 +760,7 @@ void CLIENT_STATE::schedule_cpus() {
         if (!proc_rsc.can_schedule(rp)) continue;
         atp = lookup_active_task_by_result(rp);
         can_run = schedule_if_possible(
-            rp, atp, proc_rsc, rrs, expected_payoff,
-            "CPU job, EDF"
+            rp, atp, proc_rsc, "CPU job, EDF"
         );
         if (!can_run) continue;
         rp->project->cpu_pwf.deadlines_missed_copy--;
@@ -878,8 +780,7 @@ void CLIENT_STATE::schedule_cpus() {
         atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp)) continue;
         can_run = schedule_if_possible(
-            rp, atp, proc_rsc, rrs, expected_payoff,
-            "CPU job, debt order"
+            rp, atp, proc_rsc, "CPU job, debt order"
         );
         if (!can_run) continue;
         ordered_scheduled_results.push_back(rp);
