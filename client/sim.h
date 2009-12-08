@@ -226,7 +226,7 @@ private:
     double potentially_runnable_resource_share();
     double nearly_runnable_resource_share();
 public:
-    double runnable_resource_share();
+    double runnable_resource_share(int);
     void request_work_fetch(const char*);
         // Check if work fetch needed.  Called when:
         // - core client starts (CS::init())
