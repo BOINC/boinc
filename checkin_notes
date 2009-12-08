@@ -8933,3 +8933,14 @@ David  1 Dec 2009
         cpu_sched.cpp
         cs_scheduler.cpp
         work_fetch.cpp,h
+
+David  3 Dec 2009
+	- client: fix divide-by-zero bug in STD code
+	- fix compile warnings
+
+	client/
+		cpu_sched.cpp
+	clientgui/common/
+		wxPieCtrl.cpp
+	lib/
+		util.cpp

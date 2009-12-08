@@ -594,7 +594,7 @@ void CLIENT_STATE::adjust_debts() {
                     p->cpu_pwf.secs_this_debt_interval
                 );
             }
-            if (coproc_cuda) {
+            if (rrs_cuda) {
                 share_frac = p->resource_share/rrs_cuda;
                 delta += cuda_work_fetch.speed*
                     (share_frac*cuda_work_fetch.secs_this_debt_interval
@@ -609,7 +609,7 @@ void CLIENT_STATE::adjust_debts() {
                     );
                 }
             }
-            if (coproc_ati) {
+            if (rrs_ati) {
                 share_frac = p->resource_share/rrs_ati;
                 delta += ati_work_fetch.speed*
                     (share_frac*ati_work_fetch.secs_this_debt_interval
