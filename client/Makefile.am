@@ -42,6 +42,7 @@ boinc_client_SOURCES = \
     client_msgs.cpp \
     client_state.cpp \
     client_types.cpp \
+	coproc_detect.cpp \
     cpu_sched.cpp \
     cs_account.cpp \
     cs_apps.cpp \
