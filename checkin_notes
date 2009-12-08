@@ -9081,3 +9081,11 @@ David  7 Dec 2009
 
     client/
         work_fetch.cpp
+
+Rom    30 Nov 2009
+    - Tag for 6.10.22 release, all platforms
+      boinc_core_release_6_10_22
+
+    /
+        configure.ac
+        version.h
