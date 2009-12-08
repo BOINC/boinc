@@ -37,6 +37,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "win_util.h"
 #endif
 
 #include <string>
@@ -193,12 +194,13 @@ bool gpus_usable = true;
 bool check_coprocs_usable() {
 #ifdef _WIN32
     unsigned int i;
+    bool new_usable = !is_remote_desktop();
     if (gpus_usable) {
         if (!new_usable) {
             gpus_usable = false;
             for (i=0; i<gstate.results.size(); i++) {
                 RESULT* rp = gstate.results[i];
-                if (avp->ncudas || rp->avp->natis) {
+                if (rp->avp->ncudas || rp->avp->natis) {
                     rp->coproc_missing = true;
                 }
             }
