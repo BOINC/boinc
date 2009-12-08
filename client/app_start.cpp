@@ -203,7 +203,7 @@ int ACTIVE_TASK::write_app_init_file() {
     aid.user_expavg_credit = wup->project->user_expavg_credit;
     aid.host_total_credit = wup->project->host_total_credit;
     aid.host_expavg_credit = wup->project->host_expavg_credit;
-    double rrs = gstate.runnable_resource_share();
+    double rrs = gstate.runnable_resource_share(RSC_TYPE_CPU);
     if (rrs) {
         aid.resource_share_fraction = wup->project->resource_share/rrs;
     } else {

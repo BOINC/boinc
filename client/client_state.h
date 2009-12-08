@@ -320,7 +320,7 @@ private:
     double nearly_runnable_resource_share();
     double fetchable_resource_share();
 public:
-    double runnable_resource_share();
+    double runnable_resource_share(int);
         /// Check if work fetch needed.
 
         /// Called when:

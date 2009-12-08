@@ -23,9 +23,10 @@
 
 #include <vector>
 
-#define RSC_TYPE_CPU    0
-#define RSC_TYPE_CUDA   1
-#define RSC_TYPE_ATI    2
+#define RSC_TYPE_ANY    0
+#define RSC_TYPE_CPU    1
+#define RSC_TYPE_CUDA   2
+#define RSC_TYPE_ATI    3
 
 class PROJECT;
 struct RESULT;

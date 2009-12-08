@@ -519,7 +519,7 @@ void CLIENT_STATE::reset_debt_accounting() {
 void CLIENT_STATE::adjust_debts() {
     unsigned int i;
     double total_short_term_debt = 0;
-    double rrs;
+    double rrs, rrs_cuda, rrs_ati;
     int nprojects=0, nrprojects=0;
     PROJECT *p;
     double share_frac;
@@ -566,29 +566,66 @@ void CLIENT_STATE::adjust_debts() {
 
     // adjust short term debts
     //
-    rrs = runnable_resource_share();
+    rrs = runnable_resource_share(RSC_TYPE_CPU);
+    if (coproc_cuda) {
+        rrs_cuda = runnable_resource_share(RSC_TYPE_CUDA);
+    }
+    if (coproc_ati) {
+        rrs_ati = runnable_resource_share(RSC_TYPE_ATI);
+    }
+
     for (i=0; i<projects.size(); i++) {
         double delta;
         p = projects[i];
         if (p->non_cpu_intensive) continue;
         nprojects++;
 
-        if (p->runnable()) {
+        if (p->runnable(RSC_TYPE_ANY)) {
             nrprojects++;
             share_frac = p->resource_share/rrs;
             delta = share_frac*cpu_work_fetch.secs_this_debt_interval
                 - p->cpu_pwf.secs_this_debt_interval;
-            p->short_term_debt += delta;
-            total_short_term_debt += p->short_term_debt;
             if (log_flags.std_debug) {
                 msg_printf(p, MSG_INFO,
-                    "[std_debug] std delta %.2f (%.2f * %.2f / %.2f)",
+                    "[std_debug] std delta %.2f (%.2f * %.2f - %.2f)",
                     delta,
                     share_frac,
                     cpu_work_fetch.secs_this_debt_interval,
                     p->cpu_pwf.secs_this_debt_interval
                 );
             }
+            if (coproc_cuda) {
+                share_frac = p->resource_share/rrs_cuda;
+                delta += cuda_work_fetch.speed*
+                    (share_frac*cuda_work_fetch.secs_this_debt_interval
+                    - p->cuda_pwf.secs_this_debt_interval);
+                if (log_flags.std_debug) {
+                    msg_printf(p, MSG_INFO,
+                        "[std_debug] CUDA std delta %.2f (%.2f * %.2f - %.2f)",
+                        delta,
+                        share_frac,
+                        cuda_work_fetch.secs_this_debt_interval,
+                        p->cuda_pwf.secs_this_debt_interval
+                    );
+                }
+            }
+            if (coproc_ati) {
+                share_frac = p->resource_share/rrs_ati;
+                delta += ati_work_fetch.speed*
+                    (share_frac*ati_work_fetch.secs_this_debt_interval
+                    - p->ati_pwf.secs_this_debt_interval);
+                if (log_flags.std_debug) {
+                    msg_printf(p, MSG_INFO,
+                        "[std_debug] ATI std delta %.2f (%.2f * %.2f - %.2f)",
+                        delta,
+                        share_frac,
+                        ati_work_fetch.secs_this_debt_interval,
+                        p->ati_pwf.secs_this_debt_interval
+                    );
+                }
+            }
+            p->short_term_debt += delta;
+            total_short_term_debt += p->short_term_debt;
         } else {
             p->short_term_debt = 0;
             p->anticipated_debt = 0;
@@ -603,7 +640,7 @@ void CLIENT_STATE::adjust_debts() {
         for (i=0; i<projects.size(); i++) {
             p = projects[i];
             if (p->non_cpu_intensive) continue;
-            if (p->runnable()) {
+            if (p->runnable(RSC_TYPE_ANY)) {
                 p->short_term_debt -= avg_short_term_debt;
                 if (p->short_term_debt > MAX_STD) {
                     p->short_term_debt = MAX_STD;
@@ -719,7 +756,7 @@ void CLIENT_STATE::schedule_cpus() {
     PROJECT* p;
     double expected_payoff;
     unsigned int i;
-    double rrs = runnable_resource_share();
+    double rrs = runnable_resource_share(RSC_TYPE_CPU);
     PROC_RESOURCES proc_rsc;
     ACTIVE_TASK* atp;
     bool can_run;
@@ -1586,12 +1623,12 @@ double CLIENT_STATE::total_resource_share() {
 
 // same, but only runnable projects (can use CPU right now)
 //
-double CLIENT_STATE::runnable_resource_share() {
+double CLIENT_STATE::runnable_resource_share(int rsc_type) {
     double x = 0;
     for (unsigned int i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
         if (p->non_cpu_intensive) continue;
-        if (p->runnable()) {
+        if (p->runnable(rsc_type)) {
             x += p->resource_share;
         }
     }

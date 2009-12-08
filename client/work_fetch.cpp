@@ -655,9 +655,10 @@ void RSC_WORK_FETCH::update_debts() {
             w.debt += delta;
             if (log_flags.debt_debug) {
                 msg_printf(p, MSG_INFO,
-                    "[debt] %s debt %.2f delta %.2f share frac %.2f (%.2f/%.2f) secs %.2f rsc_secs %.2f",
+                    "[debt] %s debt %.2f delta %.2f (%.2f * %.2f - %.2f)",
                     rsc_name(rsc_type),
-                    w.debt, delta, share_frac, p->resource_share, ders, secs_this_debt_interval,
+                    w.debt, delta, share_frac,
+                    secs_this_debt_interval,
                     w.secs_this_debt_interval
                 );
             }
@@ -982,11 +983,24 @@ void CLIENT_STATE::compute_nuploading_results() {
     }
 }
 
-bool PROJECT::runnable() {
+bool PROJECT::runnable(int rsc_type) {
     if (suspended_via_gui) return false;
     for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         if (rp->project != this) continue;
+        switch (rsc_type) {
+        case RSC_TYPE_ANY:
+            break;
+        case RSC_TYPE_CPU:
+            if (rp->uses_coprocs()) continue;
+            break;
+        case RSC_TYPE_CUDA:
+            if (rp->avp->ncudas == 0) continue;
+            break;
+        case RSC_TYPE_ATI:
+            if (rp->avp->natis == 0) continue;
+            break;
+        }
         if (rp->runnable()) return true;
     }
     return false;
@@ -1022,14 +1036,14 @@ bool PROJECT::can_request_work() {
 }
 
 bool PROJECT::potentially_runnable() {
-    if (runnable()) return true;
+    if (runnable(RSC_TYPE_ANY)) return true;
     if (can_request_work()) return true;
     if (downloading()) return true;
     return false;
 }
 
 bool PROJECT::nearly_runnable() {
-    if (runnable()) return true;
+    if (runnable(RSC_TYPE_ANY)) return true;
     if (downloading()) return true;
     return false;
 }

@@ -8907,3 +8907,29 @@ David  1 Dec 2009
 
     client/
         work_fetch.cpp
+
+David  1 Dec 2009
+    - client: change how short term debt is updated.
+        Old: it's based entirely on CPU time.
+            So a GPU project, whose app uses only a fraction
+            of a CPU, accrues positive debt.
+            This is OK if the project has only GPU apps,
+            since STD is not (currently) used for GPU scheduling.
+            But some projects have both CPU and GPU apps.
+        New: STD is based on total processing.
+            It has terms for each resource type.
+            The notion of "runnable resource share" is specific to a type.
+        Note: the notion of "resource share fraction" appears in
+            a couple of other places:
+            - it's passed to apps in app_init_data.xml
+            - it's passed in scheduler requests.
+            It should be broken down by resource type in these cases too.
+            Note to self: do this later.
+
+    client/
+        app_start.cpp
+        client_state.h
+        client_types.h
+        cpu_sched.cpp
+        cs_scheduler.cpp
+        work_fetch.cpp,h
