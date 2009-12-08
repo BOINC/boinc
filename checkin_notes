@@ -9839,3 +9839,19 @@ David  7 Dec 2009
 
     client/
         work_fetch.cpp
+
+David  8 Dec 2009
+	- client: scheduling tweak.
+		Old: if a project has RR sim deadline misses,
+			select jobs to run high-priority on the basis of:
+			1) deadline (earliest first)
+			2) estimated time to completion (least first)
+			This ignores whether jobs missed their deadline in RR sim,
+			so it may choose to run a job that's actually in no
+			danger of missing its deadline over one that is.
+		New: choose only jobs that miss their deadline in RR sim
+
+	client/
+		cpu_sched.cpp
+		rr_sim.cpp
+		work_fetch.cpp

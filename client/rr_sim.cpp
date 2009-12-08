@@ -182,8 +182,8 @@ void set_rrsim_flops(RESULT* rp) {
 #if 0
     if (log_flags.rr_simulation) {
         msg_printf(p, MSG_INFO,
-            "[rr_sim] set_rrsim_flops: %f (r1 %f r2 %f r3 %f)",
-            rp->rrsim_flops, r1, r2, r3
+            "[rr_sim] set_rrsim_flops: %.2fG (r1 %.4f r2 %.4f r3 %.4f)",
+            rp->rrsim_flops/1e9, r1, r2, r3
         );
     }
 #endif
