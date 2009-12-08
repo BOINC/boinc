@@ -213,7 +213,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     //
     host_info.get_host_info();
     set_ncpus();
-    retval = host_info.write(mf, config.suppress_net_info);
+    retval = host_info.write(mf, config.suppress_net_info, false);
     //if (retval) return retval;
 
     // get and write disk usage
@@ -242,12 +242,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     }
 
     if (host_info.coprocs.coprocs.size()) {
-        fprintf(f, "    <coprocs>\n");
-        for (i=0; i<host_info.coprocs.coprocs.size(); i++) {
-            COPROC* c = host_info.coprocs.coprocs[i];
-            c->write_xml(mf);
-        }
-        fprintf(f, "    </coprocs>\n");
+        host_info.coprocs.write_xml(mf);
     }
 
     // report results

@@ -157,22 +157,14 @@ struct COPROCS {
             delete coprocs[i];
         }
     }
-#if 0
-#ifndef _USING_FCGI_
-    void write_xml(MIOFILE& out) {
-        for (unsigned int i=0; i<coprocs.size(); i++) {
-            coprocs[i]->write_xml(out);
-        }
-    }
-#endif
-#endif
+    void write_xml(MIOFILE& out);
     void get(
         bool use_all, std::vector<std::string> &descs,
         std::vector<std::string> &warnings,
         std::vector<int>& ignore_cuda_dev,
         std::vector<int>& ignore_ati_dev
     );
-    int parse(FILE*);
+    int parse(MIOFILE&);
     void summary_string(char*, int);
     COPROC* lookup(const char*);
     bool fully_used() {
@@ -248,7 +240,7 @@ struct COPROC_CUDA : public COPROC {
     );
 	void description(char*);
     void clear();
-    int parse(FILE*);
+    int parse(MIOFILE&);
 
     // Estimate of peak FLOPS.
     // FLOPS for a given app may be much less;
@@ -310,7 +302,7 @@ struct COPROC_ATI : public COPROC {
     );
     void description(char*);
     void clear();
-    int parse(FILE*);
+    int parse(MIOFILE&);
     inline double peak_flops() {
 		double x = attribs.numberOfSIMD * attribs.wavefrontSize * 2.5 * attribs.engineClock * 1.e6;
         // clock is in MHz
