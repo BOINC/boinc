@@ -28,14 +28,26 @@ PROXY_INFO working_proxy_info;
 
 static void show_proxy_info(PROXY_INFO& p) {
     if (p.use_http_proxy) {
-        msg_printf(NULL, MSG_INFO, "Using HTTP proxy %s:%d",
-            p.http_server_name, p.http_server_port
-        );
+        if (p.http_server_port) {
+            msg_printf(NULL, MSG_INFO, "Using HTTP proxy %s:%d",
+                p.http_server_name, p.http_server_port
+            );
+        } else {
+            msg_printf(NULL, MSG_INFO, "Using HTTP proxy %s",
+                p.http_server_name
+            );
+        }
     }
     if (p.use_socks_proxy) {
-        msg_printf(NULL, MSG_INFO, "Using SOCKS proxy %s:%d",
-            p.socks_server_name, p.socks_server_port
-        );
+        if (p.socks_server_port) {
+            msg_printf(NULL, MSG_INFO, "Using SOCKS proxy %s:%d",
+                p.socks_server_name, p.socks_server_port
+            );
+        } else {
+            msg_printf(NULL, MSG_INFO, "Using SOCKS proxy %s",
+                p.socks_server_name
+            );
+        }
     }
     if (!p.use_http_proxy && !p.use_socks_proxy) {
         msg_printf(NULL, MSG_INFO, "Not using a proxy");

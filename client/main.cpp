@@ -343,8 +343,6 @@ int boinc_main_loop() {
         return retval;
     }
 
-    log_message_startup("BOINC initialization completed, beginning process execution...");
-
     // must parse env vars after gstate.init();
     // otherwise items will get overwritten with state file info
     //
@@ -362,6 +360,8 @@ int boinc_main_loop() {
             "Visit http://boinc.berkeley.edu for instructions"
         );
     }
+
+    log_message_startup("Initialization completed");
 
     while (1) {
         if (!gstate.poll_slow_events()) {

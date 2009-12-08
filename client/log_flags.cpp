@@ -333,7 +333,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "os_random_only", os_random_only)) continue;
 #ifndef SIM
         if (!strcmp(tag, "proxy_info")) {
-            int retval = config_proxy_info.parse(*xp.f);
+            int retval = config_proxy_info.parse_config(*xp.f);
             if (retval) return retval;
             continue;
         }
