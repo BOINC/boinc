@@ -62,6 +62,7 @@
 #include "file_names.h"
 #include "client_msgs.h"
 #include "client_state.h"
+#include "cs_proxy.h"
 
 using std::string;
 using std::vector;
@@ -347,10 +348,13 @@ static void handle_run_benchmarks(char* , MIOFILE& fout) {
 static void handle_set_proxy_settings(char* buf, MIOFILE& fout) {
     MIOFILE in;
     in.init_buf_read(buf);
-    gstate.proxy_info.parse(in);
+    gui_proxy_info.parse(in);
+    if (!strlen(gui_proxy_info.http_server_name) && !strlen(gui_proxy_info.socks_server_name)) {
+        gui_proxy_info.present = false;
+    }
     gstate.set_client_state_dirty("Set proxy settings RPC");
     fout.printf("<success/>\n");
-    gstate.show_proxy_info();
+    select_proxy_info();
 
     // tell running apps to reread app_info file (for F@h)
     //
@@ -358,7 +362,7 @@ static void handle_set_proxy_settings(char* buf, MIOFILE& fout) {
 }
 
 static void handle_get_proxy_settings(char* , MIOFILE& fout) {
-    gstate.proxy_info.write(fout);
+    gui_proxy_info.write(fout);
 }
 
 // params:

@@ -56,6 +56,8 @@ typedef void (CALLBACK* ClientLibraryShutdown)();
 #include "prefs.h"
 #include "filesys.h"
 #include "network.h"
+
+#include "cs_proxy.h"
 #include "client_state.h"
 #include "file_names.h"
 #include "log_flags.h"
@@ -347,6 +349,10 @@ int boinc_main_loop() {
     // otherwise items will get overwritten with state file info
     //
     gstate.parse_env_vars();
+
+    // do this after parsing env vars
+    //
+    proxy_info_startup();
 
     if (gstate.projects.size() == 0) {
         msg_printf(NULL, MSG_INFO,

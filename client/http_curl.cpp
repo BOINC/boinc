@@ -45,6 +45,8 @@
 #include "client_msgs.h"
 #include "base64.h"
 #include "client_state.h"
+#include "cs_proxy.h"
+
 #include "http_curl.h"
 
 using std::min;
@@ -353,7 +355,7 @@ bool HTTP_OP::no_proxy_for_url(const char* url) {
 
     // tokenize the noproxy-entry and check for identical hosts
     //
-    strcpy(noproxy, gstate.proxy_info.noproxy_hosts);
+    strcpy(noproxy, working_proxy_info.noproxy_hosts);
     char* token = strtok(noproxy, ",");
     while (token != NULL) {
         // extract the host from the no_proxy url
@@ -749,7 +751,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
         return;
     }
 
-    pi = gstate.proxy_info;
+    pi = working_proxy_info;
     if (pi.use_http_proxy) {
         if (log_flags.proxy_debug) {
             msg_printf(

@@ -29,6 +29,8 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "filesys.h"
+
+#include "cs_proxy.h"
 #include "file_names.h"
 #include "client_msgs.h"
 #include "client_state.h"
@@ -442,7 +444,7 @@ int CLIENT_STATE::parse_state_file() {
             continue;
         }
         if (match_tag(buf, "<proxy_info>")) {
-            retval = proxy_info.parse(mf);
+            retval = gui_proxy_info.parse(mf);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse proxy info in state file"
@@ -704,7 +706,9 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     for (i=1; i<platforms.size(); i++) {
         f.printf("<alt_platform>%s</alt_platform>\n", platforms[i].name.c_str());
     }
-    proxy_info.write(f);
+    if (gui_proxy_info.present) {
+        gui_proxy_info.write(f);
+    }
     if (strlen(main_host_venue)) {
         f.printf("<host_venue>%s</host_venue>\n", main_host_venue);
     }

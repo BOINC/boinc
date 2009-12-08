@@ -8989,7 +8989,39 @@ David  4 Dec 2009
         work_fetch.cpp,h
 
 David  4 Dec 2009
-    - client: scale STD limit by # instances
+    - client: scale STD limit by # of device instances
 
     client/
         work_fetch.cpp
+
+David  4 Dec 2009
+    - client: sort out proxy_info mess.
+        Source of proxy info (descending priority)
+        - GUI RPC (Manager or boinccmd)
+            This and only this is saved in state file.
+            If neither HTTP nor SOCKS server name present,
+            this is viewed as not present
+        - environment vars
+        - cc_config.xml
+
+        Show sources of proxy info in message log.
+        If one is present but overridden, show a message to that effect.
+
+        This fixes a bug where someone had a proxy info env var and
+        forgot about it.
+        They got an erroneous message saying no proxy was being used.
+
+    client/
+        Makefile.am
+        app_start.cpp
+        client_state.cpp,h
+        cs_cmdline.cpp
+        cs_proxy.cpp,h (new)
+        cs_statefile.cpp
+        gui_rpc_server_ops.cpp
+        http_curl.cpp
+        log_flags.cpp
+        main.cpp
+        net_stats.cpp
+    lib/
+        proxy_info.cpp,h

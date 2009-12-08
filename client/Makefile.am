@@ -50,6 +50,7 @@ boinc_client_SOURCES = \
     cs_files.cpp \
     cs_platforms.cpp \
     cs_prefs.cpp \
+    cs_proxy.cpp \
     cs_scheduler.cpp \
     cs_statefile.cpp \
     cs_trickle.cpp \

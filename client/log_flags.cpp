@@ -30,12 +30,14 @@
 
 #include "error_numbers.h"
 #include "common_defs.h"
-#include "file_names.h"
-#include "client_state.h"
-#include "client_msgs.h"
 #include "parse.h"
 #include "str_util.h"
 #include "filesys.h"
+
+#include "file_names.h"
+#include "client_state.h"
+#include "client_msgs.h"
+#include "cs_proxy.h"
 
 using std::string;
 
@@ -331,7 +333,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool(tag, "os_random_only", os_random_only)) continue;
 #ifndef SIM
         if (!strcmp(tag, "proxy_info")) {
-            int retval = gstate.proxy_info.parse(*xp.f);
+            int retval = config_proxy_info.parse(*xp.f);
             if (retval) return retval;
             continue;
         }
