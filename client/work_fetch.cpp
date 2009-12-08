@@ -582,6 +582,36 @@ void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {
     }
 }
 
+// should this project be accumulating debt for this resource?
+//
+bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
+    if (p->non_cpu_intensive) return false;
+    if (p->suspended_via_gui) return false;
+    if (has_runnable_jobs) return true;
+        // must precede the done_request_more_work check
+    if (p->dont_request_more_work) return false;
+    if (backoff_time > gstate.now) return false;
+    if (prefs_prevent_fetch(p, rwf.rsc_type)) return false;
+
+    // NOTE: it's critical that all conditions that might prevent
+    // us from asking the project for work of this type
+    // be included in the above list.
+    // Otherwise we might get in a state where debt accumulates,
+    // pushing other projects into overworked state
+
+    // The last time we asked for work we didn't get any,
+    // but it's been a while since we asked.
+    // In this case, accumulate debt until we reach (around) zero, then stop.
+    //
+    if (backoff_interval == MAX_BACKOFF_INTERVAL) {
+        if (debt > -rwf.ninstances*DEBT_ADJUST_PERIOD) {
+            return false;
+        }
+    }
+    if (p->min_rpc_time > gstate.now) return false;
+    return true;
+}
+
 // update long-term debts for a resource.
 //
 void RSC_WORK_FETCH::update_debts() {
@@ -683,9 +713,8 @@ void RSC_WORK_FETCH::update_debts() {
         p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& w = project_state(p);
-        if (w.debt_eligible(p, *this)) {
-            w.debt += offset;
-        }
+        w.debt += offset;
+        if (w.debt > 0) w.debt = 0;
     }
 }
 
@@ -740,36 +769,6 @@ void WORK_FETCH::compute_shares() {
             p->ati_pwf.fetchable_share = p->resource_share/ati_work_fetch.total_fetchable_share;
         }
     }
-}
-
-// should this project be accumulating debt for this resource?
-//
-bool RSC_PROJECT_WORK_FETCH::debt_eligible(PROJECT* p, RSC_WORK_FETCH& rwf) {
-    if (p->non_cpu_intensive) return false;
-    if (p->suspended_via_gui) return false;
-    if (has_runnable_jobs) return true;
-        // must precede the done_request_more_work check
-    if (p->dont_request_more_work) return false;
-    if (backoff_time > gstate.now) return false;
-    if (prefs_prevent_fetch(p, rwf.rsc_type)) return false;
-
-    // NOTE: it's critical that all conditions that might prevent
-    // us from asking the project for work of this type
-    // be included in the above list.
-    // Otherwise we might get in a state where debt accumulates,
-    // pushing other projects into overworked state
-
-    // The last time we asked for work we didn't get any,
-    // but it's been a while since we asked.
-    // In this case, accumulate debt until we reach (around) zero, then stop.
-    //
-    if (backoff_interval == MAX_BACKOFF_INTERVAL) {
-        if (debt > -rwf.ninstances*DEBT_ADJUST_PERIOD) {
-            return false;
-        }
-    }
-    if (p->min_rpc_time > gstate.now) return false;
-    return true;
 }
 
 inline bool has_coproc_app(PROJECT* p, int rsc_type) {
