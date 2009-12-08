@@ -9047,3 +9047,13 @@ David  6 Dec 2009
         client_state.h
     lib/
         coproc.cpp,h
+
+David  6 Dec 2009
+    - more code shuffle: add COPROCS to HOST_INFO
+
+    client/
+        client_state.cpp,h
+        cs_scheduler.cpp
+        cpu_sched.cpp
+    lib/
+        hostinfo.h

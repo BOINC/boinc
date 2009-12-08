@@ -244,7 +244,7 @@ int CLIENT_STATE::init() {
     if (!config.no_gpus) {
         vector<string> descs;
         vector<string> warnings;
-        coprocs.get(
+        host_info.coprocs.get(
             config.use_all_gpus, descs, warnings,
             config.ignore_cuda_dev, config.ignore_ati_dev
         );
@@ -256,7 +256,7 @@ int CLIENT_STATE::init() {
                 msg_printf(NULL, MSG_INFO, warnings[i].c_str());
             }
         }
-        if (coprocs.coprocs.size() == 0) {
+        if (host_info.coprocs.coprocs.size() == 0) {
             msg_printf(NULL, MSG_INFO, "No usable GPUs found");
         }
 #if 0
@@ -267,8 +267,8 @@ int CLIENT_STATE::init() {
         fake_ati(coprocs, 2);
         msg_printf(NULL, MSG_INFO, "Faking an ATI GPU");
 #endif
-        coproc_cuda = (COPROC_CUDA*)coprocs.lookup("CUDA");
-        coproc_ati = (COPROC_ATI*)coprocs.lookup("ATI");
+        coproc_cuda = (COPROC_CUDA*)host_info.coprocs.lookup("CUDA");
+        coproc_ati = (COPROC_ATI*)host_info.coprocs.lookup("ATI");
     }
 
     // check for app_info.xml file in project dirs.
