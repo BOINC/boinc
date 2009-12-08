@@ -1249,14 +1249,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\lib\daemonmgt.h"
-				>
-			</File>
-			<File
-				RelativePath="..\lib\daemonmgt_win.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\lib\diagnostics.cpp"
 				>
 			</File>

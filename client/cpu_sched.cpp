@@ -401,6 +401,7 @@ RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
     RESULT *best_result = NULL;
     ACTIVE_TASK* best_atp = NULL;
     unsigned int i;
+    bool only_deadline_misses = true;
 
     for (i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
@@ -414,27 +415,36 @@ RESULT* CLIENT_STATE::earliest_deadline_result(bool coproc_only) {
         if (coproc_only) {
             if (!rp->uses_coprocs()) continue;
             if (rp->avp->ncudas) {
-                if (!p->cuda_pwf.deadlines_missed_copy
-                    && p->duration_correction_factor < 90.0
-                ) {
-                    continue;
+                if (p->duration_correction_factor < 90.0) {
+                    if (!p->cuda_pwf.deadlines_missed_copy) {
+                        continue;
+                    }
+                } else {
+                    only_deadline_misses = false;
                 }
             } else if (rp->avp->natis) {
-                if (!p->ati_pwf.deadlines_missed_copy
-                    && p->duration_correction_factor < 90.0
-                ) {
-                    continue;
+                if (p->duration_correction_factor < 90.0) {
+                    if (!p->ati_pwf.deadlines_missed_copy) {
+                        continue;
+                    }
+                } else {
+                    only_deadline_misses = false;
                 }
             }
         } else {
             if (rp->uses_coprocs()) continue;
-            if (!p->cpu_pwf.deadlines_missed_copy
-                && p->duration_correction_factor < 90.0
-            ) {
-                continue;
+            if (p->duration_correction_factor < 90.0) {
+                if (!p->cpu_pwf.deadlines_missed_copy) {
+                    continue;
+                }
+            } else {
+                only_deadline_misses = false;
             }
         }
-
+        
+        if (only_deadline_misses && !rp->rr_sim_misses_deadline) {
+            continue;
+        }
         bool new_best = false;
         if (best_result) {
             if (rp->report_deadline < best_result->report_deadline) {

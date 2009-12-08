@@ -1190,7 +1190,15 @@ double ACTIVE_TASK::est_time_to_completion(bool for_work_fetch) {
     double fraction_left = 1-fraction_done;
     double wu_weight = fraction_left * fraction_left;
     double fd_weight = 1 - wu_weight;
-    double x = fd_weight*frac_est + wu_weight*fraction_left*wu_est;
+    double x = fd_weight*frac_est + wu_weight*wu_est;
+#if 0
+    if (log_flags.rr_simulation) {
+        msg_printf(result->project, MSG_INFO,
+            "[rr_sim] %s: %.2f = %.3f*%.2f + %.3f*%.2f",
+            result->name, x, fd_weight, frac_est, wu_weight, wu_est
+        );
+    }
+#endif
     return x;
 }
 
