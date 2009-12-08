@@ -138,7 +138,6 @@ void SIM_PROJECT::init() {
     anonymous_platform = false;
     non_cpu_intensive = false;
     verify_files_on_app_start = false;
-    short_term_debt = 0;
     send_file_list = false;
     suspended_via_gui = false;
     dont_request_more_work = false;
@@ -147,7 +146,6 @@ void SIM_PROJECT::init() {
     strcpy(code_sign_key, "");
     user_files.clear();
     project_files.clear();
-    anticipated_debt = 0;
     next_runnable_result = NULL;
     duration_correction_factor = 1;
     project_files_downloaded_time = 0;

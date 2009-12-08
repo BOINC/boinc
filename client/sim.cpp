@@ -281,7 +281,7 @@ bool ACTIVE_TASK_SET::poll() {
         p = (SIM_PROJECT*) gstate.projects[i];
         p->idle = true;
         sprintf(buf, "%s STD: %f min RPC<br>",
-            p->project_name, p->short_term_debt,
+            p->project_name, p->cpu_pwf.short_term_debt,
             time_to_string(p->min_rpc_time)
         );
         gstate.html_msg += buf;
