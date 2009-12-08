@@ -254,7 +254,10 @@ int CONFIG::parse_options(XML_PARSER& xp) {
     string s;
     int n;
 
-    clear();
+    //clear();
+    // don't do this because some options are set by cmdline args,
+    // which are parsed first
+
     while (!xp.get(tag, sizeof(tag), is_tag)) {
         if (!is_tag) {
             msg_printf(NULL, MSG_USER_ERROR,

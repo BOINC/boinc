@@ -8944,3 +8944,16 @@ David  3 Dec 2009
 		wxPieCtrl.cpp
 	lib/
 		util.cpp
+
+David  3 Dec 2009
+    - client: Add offset to LTD of non-eligible projects
+        only if the offset is positive.
+    - client: some cmdline args set members of config.
+        However, config was being cleared after cmdline args were parsed,
+        so these args had no effect.
+        Instead, clear config before parsing cmdline
+
+    client/
+        work_fetch.cpp
+        main.cpp
+        log_flags.cpp

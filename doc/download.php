@@ -86,7 +86,9 @@ function show_pictures() {
 function show_download($pname) {
     echo "
         <table cellpadding=10><tr><td valign=top>
-        ".tra("BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like.").
+        ".tra("BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like.")
+        ."<p>"
+        .tra("You may run this software on a computer only if you own the computer or have the permission of its owner.").
         "<p>"
     ;
     if ($_GET['foo']) $pname = null;
