@@ -196,8 +196,6 @@
 		DD73E36E08A0720500656EB1 /* gui_rpc_server_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.cpp */; };
 		DD73E3A708A07CA600656EB1 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; };
 		DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
-		DD7475510D86273300860636 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
-		DD7475520D86273300860636 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD7749680A3596380025D05E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD7AEB4A0C87CE1300AC3B5C /* screensaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7AEB490C87CE1300AC3B5C /* screensaver.cpp */; };
@@ -248,6 +246,11 @@
 		DD8917F40F3B21EA00DE5B1C /* texfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD635A410D384FA500BAC1A5 /* texfont.cpp */; };
 		DD8917F60F3B21EF00DE5B1C /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4EC60F08A0A083009AA08F /* texture.cpp */; };
 		DD8917F80F3B21F500DE5B1C /* txf_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD65020809F599B9008E8A3A /* txf_util.cpp */; };
+		DD90856810CFA2FA00E17C21 /* cs_proxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90856610CFA2FA00E17C21 /* cs_proxy.cpp */; };
+		DD90859010CFADF800E17C21 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
+		DD90859410CFAE1300E17C21 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
+		DD90859C10CFAE6000E17C21 /* coproc_detect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90855510CFA28400E17C21 /* coproc_detect.cpp */; };
+		DD9085F610CFB64F00E17C21 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DD9AB0340EB7D5DE00AF1616 /* rr_sim.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9AB0320EB7D5DE00AF1616 /* rr_sim.cpp */; };
 		DDA0322110B55C44003E8179 /* MacAccessiblity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA0322010B55C44003E8179 /* MacAccessiblity.cpp */; };
 		DDA0C8350FE1D704001E02E6 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
@@ -847,6 +850,9 @@
 		DD8917940F3B1FDE00DE5B1C /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjpeg.a; path = "../../jpeg-6b/libjpeg.a"; sourceTree = SOURCE_ROOT; };
 		DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCDialupManager.cpp; path = ../clientgui/BOINCDialupManager.cpp; sourceTree = SOURCE_ROOT; };
 		DD8DD4A609D9432F0043019E /* BOINCDialupManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCDialupManager.h; path = ../clientgui/BOINCDialupManager.h; sourceTree = SOURCE_ROOT; };
+		DD90855510CFA28400E17C21 /* coproc_detect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coproc_detect.cpp; path = ../client/coproc_detect.cpp; sourceTree = SOURCE_ROOT; };
+		DD90856610CFA2FA00E17C21 /* cs_proxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cs_proxy.cpp; path = ../client/cs_proxy.cpp; sourceTree = SOURCE_ROOT; };
+		DD90856710CFA2FA00E17C21 /* cs_proxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cs_proxy.h; path = ../client/cs_proxy.h; sourceTree = SOURCE_ROOT; };
 		DD96AFF90811075000A06F22 /* BOINCSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BOINCSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD96AFFA0811075100A06F22 /* ScreenSaver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ScreenSaver-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DD9AB0320EB7D5DE00AF1616 /* rr_sim.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rr_sim.cpp; sourceTree = "<group>"; };
@@ -1582,6 +1588,7 @@
 				F54B8FC502AC0A0C01FB7237 /* client_types.cpp */,
 				F54B8FC602AC0A0C01FB7237 /* client_types.h */,
 				DD69FEF608416C9A00C01361 /* boinc_cmd.cpp */,
+				DD90855510CFA28400E17C21 /* coproc_detect.cpp */,
 				DD81C3D507C5CEB50098A04D /* cpp.h */,
 				DD344B7F07C5ADC30043025C /* cs_benchmark.cpp */,
 				DD16BF8F099D6CE5003E4B69 /* cpu_benchmark.h */,
@@ -1592,6 +1599,8 @@
 				F54B8FC802AC0A0C01FB7237 /* cs_files.cpp */,
 				DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */,
 				DD344B8D07C5ADFA0043025C /* cs_prefs.cpp */,
+				DD90856610CFA2FA00E17C21 /* cs_proxy.cpp */,
+				DD90856710CFA2FA00E17C21 /* cs_proxy.h */,
 				F54B8FC902AC0A0C01FB7237 /* cs_scheduler.cpp */,
 				DD344B9307C5AE2E0043025C /* cs_statefile.cpp */,
 				DD344B9407C5AE2E0043025C /* cs_trickle.cpp */,
@@ -2525,6 +2534,7 @@
 				DDA0C8350FE1D704001E02E6 /* procinfo_mac.cpp in Sources */,
 				DDFADC7410B4DBA400D13EFA /* url.cpp in Sources */,
 				DDA0322110B55C44003E8179 /* MacAccessiblity.cpp in Sources */,
+				DD90859410CFAE1300E17C21 /* coproc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2561,7 +2571,6 @@
 				DDA6BD1D0BD4551F008F7921 /* QMachOImageList.c in Sources */,
 				DDA6BD1E0BD4551F008F7921 /* QSymbols.c in Sources */,
 				DDA6BD1F0BD4551F008F7921 /* QTaskMemory.c in Sources */,
-				DD7475510D86273300860636 /* coproc.cpp in Sources */,
 				DD6802300E701ACD0067D009 /* cert_sig.cpp in Sources */,
 				DDAD31D80EC26B14002DA09D /* mac_address.cpp in Sources */,
 				DDFADC7310B4DBA400D13EFA /* url.cpp in Sources */,
@@ -2611,6 +2620,7 @@
 				DD4EC65B08A0A83F009AA08F /* gui_rpc_client_print.cpp in Sources */,
 				DD69FF0C084171CF00C01361 /* network.cpp in Sources */,
 				DD7BF7E10B8E7B3700A009F7 /* str_util.cpp in Sources */,
+				DD9085F610CFB64F00E17C21 /* coproc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2805,7 +2815,6 @@
 				DDA6BD170BD4551F008F7921 /* QSymbols.c in Sources */,
 				DDA6BD180BD4551F008F7921 /* QTaskMemory.c in Sources */,
 				DDBE74390C03B1C600453BB8 /* cs_platforms.cpp in Sources */,
-				DD7475520D86273300860636 /* coproc.cpp in Sources */,
 				DD6802310E701ACD0067D009 /* cert_sig.cpp in Sources */,
 				DDE3A8800E90D1BF00A363A7 /* client_state.cpp in Sources */,
 				DDE3A8810E90D21A00A363A7 /* sandbox.cpp in Sources */,
@@ -2813,6 +2822,9 @@
 				DD9AB0340EB7D5DE00AF1616 /* rr_sim.cpp in Sources */,
 				DDAD31D90EC26B14002DA09D /* mac_address.cpp in Sources */,
 				DDFADC7210B4DBA400D13EFA /* url.cpp in Sources */,
+				DD90856810CFA2FA00E17C21 /* cs_proxy.cpp in Sources */,
+				DD90859010CFADF800E17C21 /* coproc.cpp in Sources */,
+				DD90859C10CFAE6000E17C21 /* coproc_detect.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9129,6 +9129,20 @@ David  8 Dec 2009
     lib/
         hostinfo.cpp, .h
 
+Charlie  5 Dec 2009
+    - Mac: Update XCode project for new files cs_proxy.cpp,h.
+    
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
+Charlie  7 Dec 2009
+    - Mac: Update XCode project for new file coproc_detect.cpp.
+    
+     mac_build/
+        boinc.xcodeproj/
+            project.pbxproj
+
 Rom    8 Dec 2009
     - Tag for 6.10.24 release, all platforms
       boinc_core_release_6_10_24
