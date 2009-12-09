@@ -241,6 +241,30 @@ int CLIENT_STATE::init() {
     host_info.get_host_info();
     set_ncpus();
     show_host_info();
+
+    // check for app_info.xml file in project dirs.
+    // If find, read app info from there, set project.anonymous_platform
+    // - this must follow coproc.get() (need to know if GPUs are present)
+    // - this is being done before CPU speed has been read,
+    // so we'll need to patch up avp->flops later;
+    //
+    check_anonymous();
+
+    cpu_benchmarks_set_defaults();  // for first time, make sure p_fpops nonzero
+
+    // Parse the client state file,
+    // ignoring any <project> tags (and associated stuff)
+    // for projects with no account file
+    //
+    parse_state_file();
+
+    // parse account files again,
+    // now that we know the host's venue on each project
+    //
+    parse_account_files_venue();
+
+    // check for GPUs.  This must go after parse_state_file()
+    //
     if (!config.no_gpus) {
         vector<string> descs;
         vector<string> warnings;
@@ -270,27 +294,6 @@ int CLIENT_STATE::init() {
         coproc_cuda = (COPROC_CUDA*)host_info.coprocs.lookup("CUDA");
         coproc_ati = (COPROC_ATI*)host_info.coprocs.lookup("ATI");
     }
-
-    // check for app_info.xml file in project dirs.
-    // If find, read app info from there, set project.anonymous_platform
-    // - this must follow coproc.get() (need to know if GPUs are present)
-    // - this is being done before CPU speed has been read,
-    // so we'll need to patch up avp->flops later;
-    //
-    check_anonymous();
-
-    cpu_benchmarks_set_defaults();  // for first time, make sure p_fpops nonzero
-
-    // Parse the client state file,
-    // ignoring any <project> tags (and associated stuff)
-    // for projects with no account file
-    //
-    parse_state_file();
-
-    // parse account files again,
-    // now that we know the host's venue on each project
-    //
-    parse_account_files_venue();
 
     // fill in avp->flops for anonymous project
     //
