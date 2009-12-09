@@ -194,7 +194,6 @@
 		DD6ABCD10BD4C5CA009AA7A1 /* browser_safari.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */; };
 		DD6D0A8707E9A61E007F882B /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
 		DD73E36E08A0720500656EB1 /* gui_rpc_server_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.cpp */; };
-		DD73E3A708A07CA600656EB1 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; };
 		DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
 		DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD7749680A3596380025D05E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
@@ -250,13 +249,16 @@
 		DD90859010CFADF800E17C21 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DD90859410CFAE1300E17C21 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DD90859C10CFAE6000E17C21 /* coproc_detect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90855510CFA28400E17C21 /* coproc_detect.cpp */; };
-		DD9085F610CFB64F00E17C21 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DD9AB0340EB7D5DE00AF1616 /* rr_sim.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9AB0320EB7D5DE00AF1616 /* rr_sim.cpp */; };
 		DDA0322110B55C44003E8179 /* MacAccessiblity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA0322010B55C44003E8179 /* MacAccessiblity.cpp */; };
 		DDA0C8350FE1D704001E02E6 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
 		DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */; };
+		DDA197D210CFD02000BE275C /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
+		DDA1980210CFD48D00BE275C /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
+		DDA1980310CFD48D00BE275C /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
+		DDA1980410CFD49000BE275C /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDA546610D16964E008CC69A /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA546600D16964E008CC69A /* QuickTime.framework */; };
 		DDA6BD120BD4551F008F7921 /* mac_backtrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */; };
 		DDA6BD130BD4551F008F7921 /* QBacktrace.c in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD060BD4551F008F7921 /* QBacktrace.c */; };
@@ -300,6 +302,7 @@
 		DDBC6CA50D5D458700564C49 /* boinc_ss_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */; };
 		DDBD51760C169B770074905B /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD1277BE081F3E73007B5DE1 /* LoginItemAPI.c */; };
 		DDBE74390C03B1C600453BB8 /* cs_platforms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */; };
+		DDBF080510CFC82300948125 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; };
 		DDC132F30E2DAB1B0014D305 /* AsyncRPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC132F20E2DAB1B0014D305 /* AsyncRPC.cpp */; };
 		DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */; };
 		DDC836E60EDEA5DB001C2EF9 /* TermsOfUsePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */; };
@@ -2574,6 +2577,7 @@
 				DD6802300E701ACD0067D009 /* cert_sig.cpp in Sources */,
 				DDAD31D80EC26B14002DA09D /* mac_address.cpp in Sources */,
 				DDFADC7310B4DBA400D13EFA /* url.cpp in Sources */,
+				DDA197D210CFD02000BE275C /* coproc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2620,7 +2624,6 @@
 				DD4EC65B08A0A83F009AA08F /* gui_rpc_client_print.cpp in Sources */,
 				DD69FF0C084171CF00C01361 /* network.cpp in Sources */,
 				DD7BF7E10B8E7B3700A009F7 /* str_util.cpp in Sources */,
-				DD9085F610CFB64F00E17C21 /* coproc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2674,6 +2677,7 @@
 				DD8917F80F3B21F500DE5B1C /* txf_util.cpp in Sources */,
 				DDC988FE0F3BD44100EE8D0E /* gui_rpc_client_ops.cpp in Sources */,
 				DDFADC7610B4DBA400D13EFA /* url.cpp in Sources */,
+				DDA1980310CFD48D00BE275C /* coproc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2684,7 +2688,6 @@
 				DDFD5F0F0818F2EE002B23D4 /* gui_rpc_client.cpp in Sources */,
 				DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.cpp in Sources */,
 				DDFD5F270818F329002B23D4 /* filesys.cpp in Sources */,
-				DD73E3A708A07CA600656EB1 /* hostinfo.cpp in Sources */,
 				DDFD5F280818F33C002B23D4 /* md5.c in Sources */,
 				DDFD5F290818F346002B23D4 /* md5_file.cpp in Sources */,
 				DDFD5F2A0818F34F002B23D4 /* mfile.cpp in Sources */,
@@ -2698,6 +2701,8 @@
 				DDB8739A0C85072500E0DE1F /* Mac_Saver_ModuleView.m in Sources */,
 				DD7AEB4A0C87CE1300AC3B5C /* screensaver.cpp in Sources */,
 				DD6803440E70A61D0067D009 /* diagnostics.cpp in Sources */,
+				DDBF080510CFC82300948125 /* hostinfo.cpp in Sources */,
+				DDA1980410CFD49000BE275C /* coproc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2846,6 +2851,7 @@
 				DDFA61920CB349020037B88C /* proxy_info.cpp in Sources */,
 				DDFA61940CB349160037B88C /* prefs.cpp in Sources */,
 				DDFADC7510B4DBA400D13EFA /* url.cpp in Sources */,
+				DDA1980210CFD48D00BE275C /* coproc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
