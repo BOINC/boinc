@@ -282,6 +282,7 @@
 		DDAD31D80EC26B14002DA09D /* mac_address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAD31D60EC26B14002DA09D /* mac_address.cpp */; };
 		DDAD31D90EC26B14002DA09D /* mac_address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAD31D60EC26B14002DA09D /* mac_address.cpp */; };
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.cpp */; };
+		DDAF5A5510CFD87300883632 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDB693500ABFE9C600689FD8 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
 		DDB6E3EF0D5B27AA00ED12B8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DDB74A6C0D74259E00E97A40 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
@@ -2574,6 +2575,7 @@
 				DD6802300E701ACD0067D009 /* cert_sig.cpp in Sources */,
 				DDAD31D80EC26B14002DA09D /* mac_address.cpp in Sources */,
 				DDFADC7310B4DBA400D13EFA /* url.cpp in Sources */,
+				DDAF5A5510CFD87300883632 /* coproc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
