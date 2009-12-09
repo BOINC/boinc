@@ -67,20 +67,11 @@ void HOST_INFO::clear_host_info() {
     strcpy(os_version, "");
 }
 
-int HOST_INFO::parse(MIOFILE& in) {
+int HOST_INFO::parse(MIOFILE& in, bool benchmarks_only) {
     char buf[1024];
 
-    memset(this, 0, sizeof(HOST_INFO));
     while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</host_info>")) return 0;
-        else if (parse_int(buf, "<timezone>", timezone)) continue;
-        else if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
-        else if (parse_str(buf, "<ip_addr>", ip_addr, sizeof(ip_addr))) continue;
-        else if (parse_str(buf, "<host_cpid>", host_cpid, sizeof(host_cpid))) continue;
-        else if (parse_int(buf, "<p_ncpus>", p_ncpus)) continue;
-        else if (parse_str(buf, "<p_vendor>", p_vendor, sizeof(p_vendor))) continue;
-        else if (parse_str(buf, "<p_model>", p_model, sizeof(p_model))) continue;
-        else if (parse_str(buf, "<p_features>", p_features, sizeof(p_features))) continue;
         else if (parse_double(buf, "<p_fpops>", p_fpops)) {
             // fix foolishness that could result in negative value here
             //
@@ -96,6 +87,17 @@ int HOST_INFO::parse(MIOFILE& in) {
             continue;
         }
         else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
+
+        if (benchmarks_only) continue;
+
+        if (parse_int(buf, "<timezone>", timezone)) continue;
+        else if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
+        else if (parse_str(buf, "<ip_addr>", ip_addr, sizeof(ip_addr))) continue;
+        else if (parse_str(buf, "<host_cpid>", host_cpid, sizeof(host_cpid))) continue;
+        else if (parse_int(buf, "<p_ncpus>", p_ncpus)) continue;
+        else if (parse_str(buf, "<p_vendor>", p_vendor, sizeof(p_vendor))) continue;
+        else if (parse_str(buf, "<p_model>", p_model, sizeof(p_model))) continue;
+        else if (parse_str(buf, "<p_features>", p_features, sizeof(p_features))) continue;
         else if (parse_double(buf, "<m_nbytes>", m_nbytes)) continue;
         else if (parse_double(buf, "<m_cache>", m_cache)) continue;
         else if (parse_double(buf, "<m_swap>", m_swap)) continue;

@@ -377,7 +377,7 @@ int CLIENT_STATE::parse_state_file() {
             continue;
         }
         if (match_tag(buf, "<host_info>")) {
-            retval = host_info.parse(mf);
+            retval = host_info.parse(mf, true);
             if (retval) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Can't parse host info in state file"
