@@ -9128,3 +9128,11 @@ David  8 Dec 2009
         cs_statefile.cpp
     lib/
         hostinfo.cpp, .h
+
+Rom    8 Dec 2009
+    - Tag for 6.10.24 release, all platforms
+      boinc_core_release_6_10_24
+
+    /
+        configure.ac
+        version.h
