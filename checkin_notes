@@ -9105,3 +9105,9 @@ Rom    30 Nov 2009
     /
         configure.ac
         version.h
+
+David  8 Dec 2009
+    - fix initialization bug that made GPUs invisible
+    
+    client/
+        client_state.cpp
