@@ -77,6 +77,7 @@ using std::min;
 
 bool exclusive_app_running;
 bool exclusive_gpu_app_running;
+bool gpu_suspended;
 
 #define ABORT_TIMEOUT   60
     // if we send app <abort> request, wait this long before killing it.

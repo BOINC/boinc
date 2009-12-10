@@ -104,6 +104,7 @@ CLIENT_STATE::CLIENT_STATE():
     strcpy(attach_project_url, "");
     strcpy(attach_project_auth, "");
     run_mode.set(RUN_MODE_AUTO, 0);
+    gpu_mode.set(RUN_MODE_AUTO, 0);
     network_mode.set(RUN_MODE_AUTO, 0);
     started_by_screensaver = false;
     requested_exit = false;

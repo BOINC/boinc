@@ -50,6 +50,7 @@
 
 #include "client_msgs.h"
 #include "log_flags.h"
+#include "app.h"
 
 #ifdef SIM
 #include "sim.h"
@@ -85,19 +86,7 @@ struct PROC_RESOURCES {
     //
     bool can_schedule(RESULT* rp) {
         if (rp->uses_coprocs()) {
-            if (exclusive_gpu_app_running) return false;
-            if (gstate.user_active && !gstate.global_prefs.run_gpu_if_user_active) {
-#if 1
-                return false;
-#else
-                if (rp->avp->natis) {
-                    return false;
-                }
-                // if it's NVIDIA, defer deciding because
-                // some GPUs may not be running user apps
-                //
-#endif
-            }
+            if (gpu_suspended) return false;
             if (sufficient_coprocs(
                 *rp->avp, log_flags.cpu_sched_debug, "cpu_sched_debug")
             ) {

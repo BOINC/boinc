@@ -86,6 +86,7 @@ public:
     string statefile_platform_name;
     int file_xfer_giveup_period;
     MODE run_mode;
+    MODE gpu_mode;
     MODE network_mode;
     bool started_by_screensaver;
     bool exit_when_idle;

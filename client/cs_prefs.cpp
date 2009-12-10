@@ -99,7 +99,7 @@ int CLIENT_STATE::check_suspend_processing() {
         return SUSPEND_REASON_INITIAL_DELAY;
     }
 
-    switch(run_mode.get_current()) {
+    switch (run_mode.get_current()) {
     case RUN_MODE_ALWAYS: break;
     case RUN_MODE_NEVER:
         return SUSPEND_REASON_USER_REQ;
@@ -141,6 +141,24 @@ int CLIENT_STATE::check_suspend_processing() {
             } else {
                 debt -= diff;
             }
+        }
+    }
+
+    gpu_suspended = false;
+    switch (gpu_mode.get_current()) {
+    case RUN_MODE_ALWAYS:
+        break;
+    case RUN_MODE_NEVER:
+        gpu_suspended = true;
+        break;
+    default:
+        if (exclusive_gpu_app_running) {
+            gpu_suspended = true;
+            break;
+        }
+        if (user_active && !global_prefs.run_gpu_if_user_active) {
+            gpu_suspended = true;
+            break;
         }
     }
 

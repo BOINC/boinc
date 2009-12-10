@@ -154,6 +154,7 @@
 // Taskbar/System Tray
 //
 #define ID_TB_SUSPEND                           6801
+#define ID_TB_SUSPEND_GPU                       6802
 
 //
 // Dialogs
