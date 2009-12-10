@@ -76,6 +76,21 @@ You're done!
 Soon you'll be racking up big credit numbers.
 Of course, you can attach to other projects too;
 BOINC will keep both your CPU and GPU busy.
+
+<h3>Some things to be aware of</h3>
+
+<ul>
+<li> By default, your GPU will be used only when you're
+not using the computer;
+otherwise graphical updates become jerky.
+If you want to use the GPU all the time, you must change your
+<a href=http://boinc.berkeley.edu/wiki/Preferences>preferences</a>.
+<li> You can <a href=http://boinc.berkeley.edu/wiki/Client_configuration#Options>configure BOINC</a> to not use GPUs when particular applications are running.
+<li> You can <a href=http://boinc.berkeley.edu/wiki/Client_configuration#Options>configure BOINC</a> to not use specific GPUs on a multi-GPU system.
+<li> If you have questions or problems related to GPUs,
+check the page at
+at <a href=http://boincfaq.mundayweb.com/index.php?language=1&view=471>BOINCFAQ</a>.
+</ul>
 ";
 
 page_tail();
