@@ -101,7 +101,7 @@ $w610x64 = array(
 	"type"=>"win_new",
 );
 
-$w66x64= array(
+$w66x64 = array(
     "num"=>"6.6.38",
 	"status"=>"Older version",
     "file"=>"boinc_6.6.38_windows_x86_64.exe",
@@ -109,7 +109,7 @@ $w66x64= array(
     "type"=>"win_new",
 );
 
-$w5816= array(
+$w5816 = array(
     "num"=>"5.8.16",
     "status"=>"Older version (also works on Windows 95 and NT 4.0)",
     "file"=>"boinc_5.8.16_windows_intelx86.exe",
@@ -181,13 +181,21 @@ $l64 = array(
     "type"=>"sea",
 );
 
+$l610ubuntudev = array(
+	"num"=>"6.10.24",
+	"status"=>"Development version",
+	"file"=>"boinc_6.10.24_i686-pc-linux-gnu.sh",
+	"date"=>"10 Dec 2009",
+	"type"=>"sea",
+);
+
 $l610ubuntu = array(
 	"num"=>"6.10.17",
 	"status"=>"Recommended version",
 	"file"=>"boinc_6.10.17_i686-pc-linux-gnu.sh",
 	"date"=>"28 Oct 2009",
 	"type"=>"sea",
-);
+	);
 
 $l66ubuntu = array(
 	"num"=>"6.6.41",
@@ -196,6 +204,14 @@ $l66ubuntu = array(
 	"date"=>"22 Oct 2009",
 	"type"=>"sea",
 );
+
+$l610ubuntux64dev = array(
+	"num"=>"6.10.24",
+	"status"=>"Development version",
+	"file"=>"boinc_6.10.24_x86_64-pc-linux-gnu.sh",
+	"date"=>"10 Dec 2009",
+	"type"=>"sea",
+	);
 
 $l610ubuntux64 = array(
 	"num"=>"6.10.17",
@@ -269,6 +285,7 @@ $linux = array(
     "description"=>"For most current Linux/x86 versions; graphical and command-line interfaces",
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
+		$l610ubuntudev,
 		$l610ubuntu,
 		$l66ubuntu,
     )
@@ -279,6 +296,7 @@ $linuxx64 = array(
     "description"=>"For most current Linux/x64 versions; graphical and command-line interfaces",
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
+		$l610ubuntux64dev,
 		$l610ubuntux64,
 		$l66ubuntux64,
     )
