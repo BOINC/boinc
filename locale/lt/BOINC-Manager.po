@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:37-0500\n"
-"PO-Revision-Date: 2009-12-11 10:59-0700\n"
+"PO-Revision-Date: 2009-12-11 11:04-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: lt\n"
@@ -152,6 +152,8 @@ msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
+"Kad pasirinktumėte abonento valdiklį, spragtelėkite jo vardą\n"
+"arba įveskite jo internetinį adresą žemiau."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Account Manager &URL:"
@@ -188,17 +190,16 @@ msgstr "Atsijungta"
 #: clientgui/AdvancedFrame.cpp:305
 #, c-format
 msgid "Close the %s window"
-msgstr ""
+msgstr "Uždaryti %s langą"
 
 #: clientgui/AdvancedFrame.cpp:310
-#, fuzzy
 msgid "&Close Window\tCtrl+W"
 msgstr "&Uždaryti langą\tCtrl+W"
 
 #: clientgui/AdvancedFrame.cpp:317
 #, c-format
 msgid "Exit %s"
-msgstr ""
+msgstr "Išeiti iš %s"
 
 #: clientgui/AdvancedFrame.cpp:322
 #: clientgui/BOINCTaskBar.cpp:626
@@ -207,11 +208,11 @@ msgstr "Išeiti"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "&Projects\tCtrl+Shift+P"
-msgstr ""
+msgstr "&Projektai\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:332
 msgid "Display projects"
-msgstr ""
+msgstr "Rodyti projektus"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "&Tasks\tCtrl+Shift+T"
