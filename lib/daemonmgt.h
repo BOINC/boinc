@@ -24,7 +24,6 @@ extern bool is_daemon_running();
 extern bool is_daemon_stopping();
 extern bool is_daemon_stopped();
 
-
 extern bool start_daemon_via_daemonctrl();
 extern bool start_daemon();
 extern bool stop_daemon_via_daemonctrl();

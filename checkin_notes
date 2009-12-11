@@ -9942,3 +9942,12 @@ David  11 Dec 2009
     sched/
         sched_customize.cpp,h
         sched_types.h
+
+David  11 Dec 2009
+    - manager: add GPU always/auto/never menu items
+
+    clientgui
+        AdvancedFrame.cpp,h
+        Events.h
+    lib/
+        daemonmgt.h
