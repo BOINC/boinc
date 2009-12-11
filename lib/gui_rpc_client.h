@@ -549,12 +549,16 @@ struct CC_STATUS {
     bool ams_password_error;
     bool manager_must_quit;
     int task_suspend_reason;    // bitmap, see common_defs.h
-    int network_suspend_reason;
     int task_mode;              // always/auto/never; see common_defs.h
-    int network_mode;
     int task_mode_perm;			// same, but permanent version
-    int network_mode_perm;
 	double task_mode_delay;		// time until perm becomes actual
+    int gpu_suspend_reason;
+    int gpu_mode;
+    int gpu_mode_perm;
+	double gpu_mode_delay;
+    int network_suspend_reason;
+    int network_mode;
+    int network_mode_perm;
 	double network_mode_delay;
     bool disallow_attach;
     bool simple_gui_only;
@@ -618,6 +622,7 @@ public:
         // if duration is zero, change is permanent.
         // otherwise, after duration expires,
         // restore last permanent mode
+    int set_gpu_mode(int mode, double duration);
     int set_network_mode(int mode, double duration);
     int get_screensaver_tasks(int& suspend_reason, RESULTS&);
     int run_benchmarks();

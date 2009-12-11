@@ -9881,3 +9881,16 @@ David  10 Dec 2009
     clientgui/
         BOINCTaskBar.cpp
         Events.h
+
+David  10 Dec 2009
+	- client/manager: finish "snooze GPU" button
+
+	client/
+		gui_rpc_server_ops.cpp
+	clientgui/
+		AsynchRPC.cpp,h
+		BOINCTaskBar.cpp
+		MainDocument.cpp,h
+	lib/
+		gui_rpc_client.h
+		gui_rpc_client_ops.cpp

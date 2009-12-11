@@ -739,6 +739,21 @@ int CMainDocument::SetActivityRunMode(int iMode, int iTimeout) {
 }
 
 
+int CMainDocument::SetGPURunMode(int iMode, int iTimeout) {
+    CC_STATUS ccs;
+
+    if (IsConnected()) {
+        int retval = rpc.set_gpu_mode(iMode, iTimeout);
+        if (retval) return retval;
+        if (iMode == RUN_MODE_RESTORE) {
+            GetCoreClientStatus(ccs, true);
+        } else {
+            status.network_mode = iMode;
+        }
+    }
+    return 0;
+}
+
 int CMainDocument::SetNetworkRunMode(int iMode, int iTimeout) {
     int       iRetVal = 0;
     CC_STATUS ccs;
@@ -756,7 +771,6 @@ int CMainDocument::SetNetworkRunMode(int iMode, int iTimeout) {
 
     return iRetVal;
 }
-
 
 void CMainDocument::RefreshRPCs() {
 

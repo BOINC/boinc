@@ -95,6 +95,7 @@ enum RPC_SELECTOR {
     RPC_SHOW_GRAPHICS,
     RPC_PROJECT_OP,
     RPC_SET_RUN_MODE,
+    RPC_SET_GPU_MODE,
     RPC_SET_NETWORK_MODE,
     RPC_GET_SCREENSAVER_TASKS,
     RPC_RUN_BENCHMARKS,
@@ -249,6 +250,8 @@ public:
         // if duration is zero, change is permanent.
         // otherwise, after duration expires,
         // restore last permanent mode
+    int set_gpu_mode(int mode, double duration)
+            { return RPC_Wait(RPC_SET_GPU_MODE, (void*)&mode, (void*)&duration); }
     int set_network_mode(int mode, double duration)
             { return RPC_Wait(RPC_SET_NETWORK_MODE, (void*)&mode, (void*)&duration); }
     int get_screensaver_tasks(int& suspend_reason, RESULTS& rbuf)

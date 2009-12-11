@@ -1056,12 +1056,15 @@ int CC_STATUS::parse(MIOFILE& in) {
         if (parse_bool(buf, "ams_password_error", ams_password_error)) continue;
         if (parse_bool(buf, "manager_must_quit", manager_must_quit)) continue;
         if (parse_int(buf, "<task_suspend_reason>", task_suspend_reason)) continue;
-        if (parse_int(buf, "<network_suspend_reason>", network_suspend_reason)) continue;
         if (parse_int(buf, "<task_mode>", task_mode)) continue;
-        if (parse_int(buf, "<network_mode>", network_mode)) continue;
         if (parse_int(buf, "<task_mode_perm>", task_mode_perm)) continue;
-        if (parse_int(buf, "<network_mode_perm>", network_mode_perm)) continue;
 		if (parse_double(buf, "<task_mode_delay>", task_mode_delay)) continue;
+        if (parse_int(buf, "<gpu_mode>", gpu_mode)) continue;
+        if (parse_int(buf, "<gpu_mode_perm>", gpu_mode_perm)) continue;
+		if (parse_double(buf, "<gpu_mode_delay>", gpu_mode_delay)) continue;
+        if (parse_int(buf, "<network_suspend_reason>", network_suspend_reason)) continue;
+        if (parse_int(buf, "<network_mode>", network_mode)) continue;
+        if (parse_int(buf, "<network_mode_perm>", network_mode_perm)) continue;
 		if (parse_double(buf, "<network_mode_delay>", network_mode_delay)) continue;
         if (parse_bool(buf, "disallow_attach", disallow_attach)) continue;
         if (parse_bool(buf, "simple_gui_only", simple_gui_only)) continue;
@@ -1625,6 +1628,24 @@ int RPC_CLIENT::set_run_mode(int mode, double duration) {
         "%s\n"
         "  <duration>%f</duration>\n"
         "</set_run_mode>\n",
+        mode_name(mode), duration
+    );
+
+    retval = rpc.do_rpc(buf);
+    return retval;
+}
+
+int RPC_CLIENT::set_gpu_mode(int mode, double duration) {
+    int retval;
+    SET_LOCALE sl;
+    char buf[256];
+    RPC rpc(this);
+
+    sprintf(buf, 
+        "<set_gpu_mode>\n"
+        "%s\n"
+        "  <duration>%f</duration>\n"
+        "</set_gpu_mode>\n",
         mode_name(mode), duration
     );
 

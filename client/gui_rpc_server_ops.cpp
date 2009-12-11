@@ -332,6 +332,7 @@ static void handle_set_gpu_mode(char* buf, MIOFILE& fout) {
         return;
     }
     gstate.gpu_mode.set(mode, duration);
+    gstate.request_schedule_cpus("GPU mode changed");
     fout.printf("<success/>\n");
 }
 

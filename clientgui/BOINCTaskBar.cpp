@@ -53,7 +53,7 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_MENU(wxID_OPEN, CTaskBarIcon::OnOpen)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
     EVT_MENU(ID_TB_SUSPEND, CTaskBarIcon::OnSuspendResume)
-    EVT_MENU(ID_TB_SUSPENDGPU, CTaskBarIcon::OnSuspendResumeGPU)
+    EVT_MENU(ID_TB_SUSPEND_GPU, CTaskBarIcon::OnSuspendResumeGPU)
     EVT_MENU(wxID_ABOUT, CTaskBarIcon::OnAbout)
     EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
 
@@ -221,26 +221,37 @@ void CTaskBarIcon::OnOpenWebsite(wxCommandEvent& WXUNUSED(event)) {
 
 void CTaskBarIcon::OnSuspendResume(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnSuspendResume - Function Begin"));
-
     CMainDocument* pDoc      = wxGetApp().GetDocument();
     CC_STATUS      status;
-
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     ResetTaskBar();
-
     pDoc->GetCoreClientStatus(status);
     if (status.task_mode_perm != status.task_mode) {
         pDoc->SetActivityRunMode(RUN_MODE_RESTORE, 0);
     } else {
         pDoc->SetActivityRunMode(RUN_MODE_NEVER, 3600);
     }
-
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnSuspendResume - Function End"));
 }
 
+void CTaskBarIcon::OnSuspendResumeGPU(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnSuspendResumeGPU - Function Begin"));
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+    CC_STATUS      status;
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
+    ResetTaskBar();
+    pDoc->GetCoreClientStatus(status);
+    if (status.gpu_mode_perm != status.gpu_mode) {
+        pDoc->SetGPURunMode(RUN_MODE_RESTORE, 0);
+    } else {
+        pDoc->SetGPURunMode(RUN_MODE_NEVER, 3600);
+    }
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnSuspendResumeGPU - Function End"));
+}
 void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
     bool bWasVisible;
 
