@@ -63,6 +63,7 @@ struct USER_MESSAGE {
 struct HOST_USAGE {
     double ncudas;
     double natis;
+    double gpu_ram;
     double avg_ncpus;
     double max_ncpus;
     double flops;
@@ -71,6 +72,7 @@ struct HOST_USAGE {
     HOST_USAGE() {
         ncudas = 0;
         natis = 0;
+        gpu_ram = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
         flops = 0;
@@ -79,6 +81,7 @@ struct HOST_USAGE {
     void sequential_app(double x) {
         ncudas = 0;
         natis = 0;
+        gpu_ram = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
         flops = x;

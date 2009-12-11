@@ -942,6 +942,12 @@ int APP_VERSION::write(FILE* fout) {
             bavp->host_usage.natis
         );
     }
+    if (bavp->host_usage.gpu_ram) {
+        fprintf(fout,
+            "    <gpu_ram>%f</gpu_ram>\n",
+            bavp->host_usage.gpu_ram
+        );
+    }
     fputs("</app_version>\n", fout);
     return 0;
 }

@@ -254,6 +254,7 @@ struct COPROC_CUDA : public COPROC {
         double x = (1000.*prop.clockRate) * prop.multiProcessorCount * 8. * 2.;
         return x?x:5e10;
     }
+    int available_ram(int dev, double&);
 
     bool check_running_graphics_app();
 };
@@ -308,6 +309,7 @@ struct COPROC_ATI : public COPROC {
         // clock is in MHz
         return x?x:5e10;
     }
+    int available_ram(int dev, double&);
 };
 
 #endif

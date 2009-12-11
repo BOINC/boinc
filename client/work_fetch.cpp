@@ -1122,6 +1122,7 @@ bool RESULT::runnable() {
     if (project->suspended_via_gui) return false;
     if (state() != RESULT_FILES_DOWNLOADED) return false;
     if (coproc_missing) return false;
+    if (schedule_backoff > gstate.now) return false;
     return true;
 }
 

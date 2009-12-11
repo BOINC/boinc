@@ -9900,3 +9900,45 @@ David  10 Dec 2009
 
 	clientgui/
 		BOINCTaskBar.cpp
+
+David  11 Dec 2009
+    - client/scheduler: deal with situation where GPU has enough
+        RAM to run job, but when we actually run the job
+        not enough GPU RAM is free, so the application fails.
+        This can cause a large number of jobs to fail.
+        Solution:
+        - app_plan() can specify the GPU RAM requirements of an app version.
+            This is passed to the client in a new field
+            <gpu_ram> of the <app_version> element.
+        - prior to starting or restarting a GPU app, the client
+            checks the amount of free RAM on the particular GPU.
+            If it's not enough for the app version,
+            the client doesn't start it,
+            and arranges for the scheduler to ignore it for 5 minutes
+            (by which point there might be more free GPU RAM)
+        Notes:
+        1) this change will have effect only when
+            both client and scheduler are updated.
+        2) the check is done in enforce_schedule(),
+            rather than schedule_cpus(),
+            because only at that point
+            have we assigned a specific GPU to the job.
+        3) there's another case to deal with:
+            a GPU app's malloc of GPU RAM fails in the middle of the job.
+            Currently the job fails.
+            I plan to add an API call boinc_temporary_exit(x) so
+            that the job can exit and potentially restart in x seconds.
+            (In principle this mechanism is sufficient for all cases,
+            but it could lead to a lot of starting/exiting,
+            so the current change is worthwhile).
+
+    client/
+        client_types.cpp,h
+        coproc_detect.cpp
+        cpu_sched.cpp
+        work_fetch.cpp
+    lib/
+        coproc.h
+    sched/
+        sched_customize.cpp,h
+        sched_types.h

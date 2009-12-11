@@ -627,6 +627,7 @@ static bool schedule_if_possible(
             return false;
         }
     }
+
     if (log_flags.cpu_sched_debug) {
         msg_printf(rp->project, MSG_INFO,
             "[cpu_sched_debug] scheduling %s (%s)", rp->name, description
@@ -1241,10 +1242,21 @@ bool CLIENT_STATE::enforce_schedule() {
     bool running_multithread = false;
     for (i=0; i<runnable_jobs.size(); i++) {
         RESULT* rp = runnable_jobs[i];
+        atp = lookup_active_task_by_result(rp);
 
-        // decide if we're already using too many CPUs to run this job
-        //
-        if (!rp->uses_coprocs()) {
+        if (rp->uses_coprocs()) {
+            // for coproc jobs, make sure there's enough video RAM
+            // currently free on the assigned device
+            //
+            if (!atp || !atp->process_exists()) {
+                if (rp->insufficient_video_ram()) {
+                    rp->schedule_backoff = now + 300; // try again in 5 minutes
+                    continue;
+                }
+            }
+        } else {
+            // see if we're already using too many CPUs to run this job
+            //
             if (ncpus_used >= ncpus) {
                 if (log_flags.cpu_sched_debug) {
                     msg_printf(rp->project, MSG_INFO,
@@ -1290,7 +1302,6 @@ bool CLIENT_STATE::enforce_schedule() {
             }
         }
 
-        atp = lookup_active_task_by_result(rp);
         if (atp) {
             atp->too_large = false;
             if (atp->procinfo.working_set_size_smoothed > ram_left) {

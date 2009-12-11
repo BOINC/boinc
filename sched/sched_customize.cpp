@@ -80,6 +80,11 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
     return false;
 }
 
+#define PLAN_CUDA_MIN_DRIVER_VERSION        17700
+#define PLAN_CUDA23_MIN_DRIVER_VERSION        19038
+#define PLAN_CUDA_MIN_RAM                   (254.*1024*1024)
+#define PLAN_CUDA23_MIN_RAM                   (384.*1024*1024)
+
 bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
     char buf[256];
     if (!strcmp(plan_class, "mt")) {
@@ -123,6 +128,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         int major, minor, release;
         sscanf(cp->version, "%d.%d.%d", &major, &minor, &release);
         int vers = major*1000000 + minor*1000 + release;
+
+        double min_ram = 250*MEGA;
 
         if (!strcmp(plan_class, "ati")) {
             if (vers < 1000000) {
@@ -211,6 +218,22 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
                 return false;
             }
         }
+
+        if (cp->attribs.localRAM*MEGA < min_ram) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] ATI mem %dMB < %d\n",
+                    cp->attribs.localRAM, (int)(min_ram/MEGA)
+                );
+            }
+            sprintf(buf,
+                "Your ATI GPU has insufficient memory (need %.0fMB)",
+                min_ram/MEGA
+            );
+            add_no_work_message(buf);
+            return false;
+        }
+        hu.gpu_ram = 200*MEGA;
 
         // determine priority
         //   1. ati14
@@ -332,6 +355,7 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             add_no_work_message(buf);
             return false;
         }
+        hu.gpu_ram = min_ram - 16*MEGA;
 
         hu.flops = cp->peak_flops()/5;
         if (!strcmp(plan_class, "cuda23")) {

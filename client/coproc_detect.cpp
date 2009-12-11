@@ -32,6 +32,8 @@
 #include <signal.h>
 #endif
 
+#include "str_util.h"
+
 #include "coproc.h"
 
 using std::string;
@@ -116,6 +118,7 @@ typedef int (__stdcall *CUDA_CC)(unsigned int*, unsigned int, unsigned int);
 typedef int (__stdcall *CUDA_CD)(unsigned int);
 typedef int (__stdcall *CUDA_MA)(unsigned int*, unsigned int);
 typedef int (__stdcall *CUDA_MF)(unsigned int);
+typedef int (__stdcall *CUDA_MGI)(unsigned int*, unsigned int*);
 
 CUDA_GDC __cuDeviceGetCount = NULL;
 CUDA_GDV __cuDriverGetVersion = NULL;
@@ -129,6 +132,7 @@ CUDA_CC __cuCtxCreate = NULL;
 CUDA_CD __cuCtxDestroy = NULL;
 CUDA_MA __cuMemAlloc = NULL;
 CUDA_MF __cuMemFree = NULL;
+CUDA_MGI __cuMemGetInfo = NULL;
 #else
 void* cudalib;
 int (*__cuInit)(int);
@@ -143,6 +147,7 @@ int (*__cuCtxCreate)(unsigned int*, unsigned int, unsigned int);
 int (*__cuCtxDestroy)(unsigned int);
 int (*__cuMemAlloc)(unsigned int*, unsigned int);
 int (*__cuMemFree)(unsigned int);
+int (*__cuMemGetInfo)(unsigned int*, unsigned int*);
 #endif
 
 // NVIDIA interfaces are documented here:
@@ -176,6 +181,7 @@ void COPROC_CUDA::get(
     __cuCtxDestroy = (CUDA_CD)GetProcAddress( cudalib, "cuCtxDestroy" );
     __cuMemAlloc = (CUDA_MA)GetProcAddress( cudalib, "cuMemAlloc" );
     __cuMemFree = (CUDA_MF)GetProcAddress( cudalib, "cuMemFree" );
+    __cuMemGetInfo = (CUDA_MGI)GetProcAddress( cudalib, "cuMemGetInfo" );
 
 #ifndef SIM
     NvAPI_Status nvapiStatus;
@@ -259,6 +265,10 @@ void COPROC_CUDA::get(
     }
     if (!__cuMemFree) {
         warnings.push_back("cuMemFree() missing from NVIDIA library");
+        return;
+    }
+    if (!__cuMemGetInfo) {
+        warnings.push_back("cuMemGetInfo() missing from NVIDIA library");
         return;
     }
 
@@ -415,6 +425,22 @@ void fake_cuda(COPROCS& coprocs, int count) {
    coprocs.coprocs.push_back(cc);
 }
 
+int COPROC_CUDA::available_ram(int devnum, double& ar) {
+    int device;
+    unsigned int memfree, memtotal;
+    unsigned int ctx;
+    
+    int retval = (*__cuDeviceGet)(&device, devnum);
+    if (retval) return retval;
+    retval = (*__cuCtxCreate)(&ctx, 0, device);
+    if (retval) return retval;
+    retval = (*__cuMemGetInfo)(&memfree, &memtotal);
+    if (retval) return retval;
+    retval = (*__cuCtxDestroy)(ctx);
+    ar = (double) memfree;
+    return 0;
+}
+
 // check whether each GPU is running a graphics app (assume yes)
 // return true if there's been a change since last time
 //
@@ -452,6 +478,7 @@ typedef int (__stdcall *ATI_GDC)(CALuint *numDevices);
 typedef int (__stdcall *ATI_GDI)(void);
 typedef int (__stdcall *ATI_INFO) (CALdeviceinfo *info, CALuint ordinal);
 typedef int (__stdcall *ATI_VER) (CALuint *cal_major, CALuint *cal_minor, CALuint *cal_imp);
+typedef int (__stdcall *ATI_STATUS) (Caldevicestatus*, CALdevice);
 
 ATI_ATTRIBS __calDeviceGetAttribs = NULL;
 ATI_CLOSE   __calShutdown = NULL;
@@ -459,6 +486,7 @@ ATI_GDC     __calDeviceGetCount = NULL;
 ATI_GDI     __calInit = NULL;
 ATI_INFO    __calDeviceGetInfo = NULL;
 ATI_VER     __calGetVersion = NULL;
+ATI_STATUS  __calDeviceGetStatus = NULL;
 #else
 int (*__calInit)();
 int (*__calGetVersion)(CALuint*, CALuint*, CALuint*);
@@ -466,6 +494,7 @@ int (*__calDeviceGetCount)(CALuint*);
 int (*__calDeviceGetAttribs)(CALdeviceattribs*, CALuint);
 int (*__calShutdown)();
 int (*__calDeviceGetInfo)(CALdeviceinfo*, CALuint);
+int (*__calDeviceGetStatus)(CALdevicestatus*, CALdevice);
 #endif
 
 void COPROC_ATI::get(COPROCS& coprocs,
@@ -515,6 +544,7 @@ void COPROC_ATI::get(COPROCS& coprocs,
     __calDeviceGetAttribs =(ATI_ATTRIBS)GetProcAddress(callib, "calDeviceGetAttribs" );
     __calShutdown = (ATI_CLOSE)GetProcAddress(callib, "calShutdown" );
     __calDeviceGetInfo = (ATI_INFO)GetProcAddress(callib, "calDeviceGetInfo" );
+    __calDeviceGetStatus = (ATI_STATUS)GetProcAddress(callib, "calDeviceGetStatus" );
 
 #else
 
@@ -534,6 +564,7 @@ void COPROC_ATI::get(COPROCS& coprocs,
     __calDeviceGetAttribs = (int(*)(CALdeviceattribs*, CALuint)) dlsym(callib, "calDeviceGetAttribs");
     __calShutdown = (int(*)()) dlsym(callib, "calShutdown");
     __calDeviceGetInfo = (int(*)(CALdeviceinfo*, CALuint)) dlsym(callib, "calDeviceGetInfo");
+    __calDeviceGetStatus = (int(*)(CALdevicestatus*, CALdevice)) dlsym(callib, "calDeviceGetStatus");
 
 #endif
 
@@ -555,6 +586,10 @@ void COPROC_ATI::get(COPROCS& coprocs,
     }
     if (!__calDeviceGetInfo) {
         warnings.push_back("calDeviceGetInfo() missing from CAL library");
+        return;
+    }
+    if (!__calDeviceGetStatus) {
+        warnings.push_back("calDeviceGetStatus() missing from CAL library");
         return;
     }
 
@@ -700,4 +735,12 @@ void fake_ati(COPROCS& coprocs, int count) {
         cc->device_nums[i] = i;
     }
     coprocs.coprocs.push_back(cc);
+}
+
+int COPROC_ATI::available_ram(int devnum, double& ar) {
+    CALdevicestatus st;
+    int retval = (*__calDeviceGetStatus)(&st, devnum);
+    if (retval) return retval;
+    ar = st.availLocalRAM*MEGA;
+    return 0;
 }
