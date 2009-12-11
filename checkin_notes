@@ -9894,3 +9894,9 @@ David  10 Dec 2009
 	lib/
 		gui_rpc_client.h
 		gui_rpc_client_ops.cpp
+
+David  10 Dec 2009
+	- manager: fix bug in the above
+
+	clientgui/
+		BOINCTaskBar.cpp

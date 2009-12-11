@@ -718,34 +718,38 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
                 pMenu->Enable(ID_TB_SUSPEND, true);
             }
         }
-        pMenu->Check(ID_TB_SUSPEND_GPU, false);
-        pMenu->Enable(ID_TB_SUSPEND_GPU, false);
+        if (pDoc->state.have_cuda || pDoc->state.have_ati) {
+            pMenu->Check(ID_TB_SUSPEND_GPU, false);
+            pMenu->Enable(ID_TB_SUSPEND_GPU, false);
+        }
         break;
     default:
         pMenu->Check(ID_TB_SUSPEND, false);
         if (!is_dialog_detected) {
             pMenu->Enable(ID_TB_SUSPEND, true);
         }
-        switch (status.gpu_mode) {
-        case RUN_MODE_NEVER:
-            switch (status.gpu_mode_perm) {
+        if (pDoc->state.have_cuda || pDoc->state.have_ati) {
+            switch (status.gpu_mode) {
             case RUN_MODE_NEVER:
-                pMenu->Check(ID_TB_SUSPEND_GPU, false);
-                pMenu->Enable(ID_TB_SUSPEND_GPU, false);
+                switch (status.gpu_mode_perm) {
+                case RUN_MODE_NEVER:
+                    pMenu->Check(ID_TB_SUSPEND_GPU, false);
+                    pMenu->Enable(ID_TB_SUSPEND_GPU, false);
+                    break;
+                default:
+                    pMenu->Check(ID_TB_SUSPEND_GPU, true);
+                    if (!is_dialog_detected) {
+                        pMenu->Enable(ID_TB_SUSPEND_GPU, true);
+                    }
+                }
                 break;
             default:
-                pMenu->Check(ID_TB_SUSPEND_GPU, true);
+                pMenu->Check(ID_TB_SUSPEND_GPU, false);
                 if (!is_dialog_detected) {
                     pMenu->Enable(ID_TB_SUSPEND_GPU, true);
                 }
+                break;
             }
-            break;
-        default:
-            pMenu->Check(ID_TB_SUSPEND_GPU, false);
-            if (!is_dialog_detected) {
-                pMenu->Enable(ID_TB_SUSPEND_GPU, true);
-            }
-            break;
         }
     }
 }
