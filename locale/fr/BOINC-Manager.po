@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-08 05:47-0700\n"
+"PO-Revision-Date: 2009-12-11 10:34-0700\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -1245,18 +1245,20 @@ msgstr "utilisation du processeur"
 msgid "General options"
 msgstr "Options générales"
 
+# Texte français trop long dans l'écran de préférences : anglicisme acceptable pour un boinceur ;-)
 #: clientgui/DlgAdvPreferencesBase.cpp:284
 msgid "Maximum download rate"
-msgstr "Débit de téléchargement (descendant) maximum"
+msgstr "Download maximum"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:290
 #: clientgui/DlgAdvPreferencesBase.cpp:299
 msgid "KBytes/sec."
 msgstr "KOctets/sec."
 
+# Texte français trop long dans l'écran de préférences : anglicisme acceptable pour un boinceur ;-)
 #: clientgui/DlgAdvPreferencesBase.cpp:293
 msgid "Maximum upload rate"
-msgstr "Débit téléchargement (ascendant) maximum"
+msgstr "Upload maximum"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:302
 msgid "Connect about every"
@@ -1369,8 +1371,7 @@ msgstr "% de l'espace disque total "
 
 #: clientgui/DlgAdvPreferencesBase.cpp:502
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
-"Ecrire les points de contrôle des tâches sur le disque au plus toutes les"
+msgstr "Points de contrôle au plus toutes les"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "seconds"
@@ -1710,7 +1711,7 @@ msgstr "Nouveau"
 
 #: clientgui/DlgItemProperties.cpp:305
 msgid "Download failed"
-msgstr "Echec du téléchargement"
+msgstr "Échec du téléchargement"
 
 #: clientgui/DlgItemProperties.cpp:307
 msgid "Downloading"
