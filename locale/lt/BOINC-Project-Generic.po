@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-05-22 13:18-0700\n"
+"PO-Revision-Date: 2009-12-11 10:57-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "Language: lt\n"
@@ -127,16 +127,16 @@ msgid "Edit your profile"
 msgstr "Keisti aprašymą"
 
 msgid "Your feedback on this profile"
-msgstr ""
+msgstr "Jūsų atsiliepimai apie šį aprašymą"
 
 msgid "Recommend this profile for User of the Day:"
-msgstr ""
+msgstr "Rekomenduokite šį aprašymą kaip dienos vartotoją:"
 
 msgid "I %1like%2 this profile"
 msgstr "Man šis aprašymas %1patinka%2"
 
 msgid "Alert administrators to an offensive profile:"
-msgstr ""
+msgstr "Praneškite administratoriams apie įžeidžiantį aprašymą:"
 
 msgid "I %1do not like%2 this profile"
 msgstr "Man šis aprašymas %1nepatinka%2"
@@ -198,7 +198,6 @@ msgstr "Iš viso kreditų"
 msgid "Recent average credit"
 msgstr "Vidutinis kreditas"
 
-#, fuzzy
 msgid "Cross-project stats"
 msgstr "Tarpprojektinė statistika"
 
@@ -223,7 +222,7 @@ msgstr ""
 "adreso."
 
 msgid "Not accepting new members"
-msgstr ""
+msgstr "Nauji dalyviai nepriimami"
 
 msgid "Foundership change requested"
 msgstr "Laukiamas įkūrėjo pakeitimas"
@@ -412,9 +411,8 @@ msgstr "Suteikia pilną priėjimą prie jūsų abonemento"
 msgid "Weak account key"
 msgstr "Silpnas abonemento raktas"
 
-#, fuzzy
 msgid "Provides %1limited access%2 to your account"
-msgstr "Suteikia pilną priėjimą prie jūsų abonemento"
+msgstr "Suteikia %1ribotą priėjimą%2 prie jūsų abonemento"
 
 msgid "Preferences"
 msgstr "Nustatymai"
@@ -560,7 +558,7 @@ msgid "Platform"
 msgstr "Platforma"
 
 msgid "Version"
-msgstr ""
+msgstr "Versija"
 
 msgid "Installation time"
 msgstr "Įdiegimo laikas"
@@ -626,10 +624,10 @@ msgid "Create account"
 msgstr "Sukurti abonementą"
 
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr ""
+msgstr "KLAIDA: %1 neegzistuoja! Nepavyksta sukurti pasirinkimo laukelio.<br>"
 
 msgid "Picture"
-msgstr ""
+msgstr "Paveikslėlis"
 
 msgid "%1 Your profile picture is shown to the left."
 msgstr ""

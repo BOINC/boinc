@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:37-0500\n"
-"PO-Revision-Date: 2009-05-04 12:32-0700\n"
+"PO-Revision-Date: 2009-12-11 10:59-0700\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: lt\n"
@@ -64,7 +64,7 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:399
 msgid "Find logon information"
-msgstr ""
+msgstr "Rasti prisijungimo informaciją"
 
 #: clientgui/AccountInfoPage.cpp:419
 #: clientgui/AccountInfoPage.cpp:585
@@ -111,7 +111,7 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:492
 msgid "Account manager website"
-msgstr ""
+msgstr "Abonento valdiklio tinklapis"
 
 #: clientgui/AccountInfoPage.cpp:524
 msgid "Attach to project"
@@ -145,7 +145,7 @@ msgstr "Nesutampa įvesti slaptažodžiai. Prašome juos įvesti dar kartą."
 
 #: clientgui/AccountManagerInfoPage.cpp:243
 msgid "Choose an account manager"
-msgstr ""
+msgstr "Pasirinkite abonento valdiklį"
 
 #: clientgui/AccountManagerInfoPage.cpp:246
 msgid ""
