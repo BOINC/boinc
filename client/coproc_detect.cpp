@@ -478,7 +478,7 @@ typedef int (__stdcall *ATI_GDC)(CALuint *numDevices);
 typedef int (__stdcall *ATI_GDI)(void);
 typedef int (__stdcall *ATI_INFO) (CALdeviceinfo *info, CALuint ordinal);
 typedef int (__stdcall *ATI_VER) (CALuint *cal_major, CALuint *cal_minor, CALuint *cal_imp);
-typedef int (__stdcall *ATI_STATUS) (Caldevicestatus*, CALdevice);
+typedef int (__stdcall *ATI_STATUS) (CALdevicestatus*, CALdevice);
 
 ATI_ATTRIBS __calDeviceGetAttribs = NULL;
 ATI_CLOSE   __calShutdown = NULL;
