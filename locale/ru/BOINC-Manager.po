@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-11-12 10:33-0700\n"
+"PO-Revision-Date: 2009-12-11 13:57-0700\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: mifistor_x <mifistor.x@gmail.com>\n"
 "Language: ru\n"
@@ -3742,7 +3742,7 @@ msgstr ""
 
 #: clientgui/WelcomePage.cpp:250
 msgid "Attach to project or account manager"
-msgstr "Подключение к проекту или менеджеру проектов"
+msgstr "Выбор проекта или менеджера проектов"
 
 #: clientgui/WelcomePage.cpp:258
 #, c-format
