@@ -409,7 +409,7 @@ void CBOINCListCtrl::OnDrawProgressBar(CDrawProgressBarEvent& event) {
 void MyEvtHandler::OnPaint(wxPaintEvent & event)
 {
     if (m_listCtrl) {
-        (m_listCtrl->GetMainWin())->ProcessEvent(event);
+        (m_listCtrl->GetMainWin())->GetEventHandler()->ProcessEvent(event);
         m_listCtrl->DrawProgressBars();
     } else {
         event.Skip();

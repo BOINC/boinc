@@ -375,7 +375,7 @@ void wxFlatNotebookBase::OnNavigationKey(wxNavigationKeyEvent& event)
 		if ( GetParent() ) 
 		{
 			event.SetCurrentFocus(this);
-			GetParent()->ProcessEvent(event);
+			GetParent()->GetEventHandler()->ProcessEvent(event);
 		}
 	}
 }
@@ -1351,18 +1351,18 @@ int wxPageContainerBase::HitTest(const wxPoint& pt, wxPageInfo& pageInfo, int &t
 	}
 
 	rect = wxRect(btnXPos, 5, 12, 12);
-	if(rect.Inside(pt))
+	if(rect.Contains(pt))
 	{
 		return (style & wxFNB_NO_X_BUTTON) ? wxFNB_NOWHERE : wxFNB_X;
 	}
 
 	rect = wxRect(btnRightPos, 5, 12, 12);
-	if(rect.Inside(pt))
+	if(rect.Contains(pt))
 	{
 		return (style & wxFNB_NO_NAV_BUTTONS) ? wxFNB_NOWHERE : wxFNB_RIGHT_ARROW;
 	}
 	rect = wxRect(btnLeftPos, 5, 12, 12);
-	if(rect.Inside(pt))
+	if(rect.Contains(pt))
 	{
 		return (style & wxFNB_NO_NAV_BUTTONS) ? wxFNB_NOWHERE : wxFNB_LEFT_ARROW;
 	}
@@ -1377,7 +1377,7 @@ int wxPageContainerBase::HitTest(const wxPoint& pt, wxPageInfo& pageInfo, int &t
 		if(style & wxFNB_X_ON_TAB && (int)cur == GetSelection())
 		{
 			// 'x' button exists on a tab
-			if(m_pagesInfoVec[cur].GetXRect().Inside(pt))
+			if(m_pagesInfoVec[cur].GetXRect().Contains(pt))
 			{
 				pageInfo = pgInfo;
 				tabIdx = (int)cur;
@@ -1387,7 +1387,7 @@ int wxPageContainerBase::HitTest(const wxPoint& pt, wxPageInfo& pageInfo, int &t
 
 		wxRect tabRect = wxRect(pgInfo.GetPosition().x, pgInfo.GetPosition().y, 
 			pgInfo.GetSize().x, pgInfo.GetSize().y);
-		if(tabRect.Inside(pt))
+		if(tabRect.Contains(pt))
 		{
 			// We have a match
 			// wxGetApp().SafeMessageBox(pgInfo.m_strCaption);
@@ -1918,13 +1918,13 @@ void wxPageContainerBase::OnMouseLeave(wxMouseEvent& event)
 	m_nTabXButtonStatus = wxFNB_BTN_NONE;
 
 	wxClientDC dc(this);
-	dc.BeginDrawing();
+	//dc.BeginDrawing();
 
 	DrawX(dc);
 	DrawLeftArrow(dc);
 	DrawRightArrow(dc);
 	DrawTabX(dc, m_pagesInfoVec[GetSelection()].GetXRect(), GetSelection());
-	dc.EndDrawing();
+	//dc.EndDrawing();
 	event.Skip();
 }
 

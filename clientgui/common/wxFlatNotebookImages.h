@@ -25,7 +25,7 @@ namespace FNB
 	// Images used by the control
 	////////////////////////////////////////////////////////////
 	/* XPM */
-	static char *left_arrow_disabled_xpm[] = {
+	static const char *left_arrow_disabled_xpm[] = {
 		/* width height num_colors chars_per_pixel */
 		"    16    16        8            1",
 			/* colors */
@@ -57,7 +57,7 @@ namespace FNB
 	};
 
 	/* XPM */
-	static char *x_button_pressed_xpm[] = {
+	static const char *x_button_pressed_xpm[] = {
 		/* width height num_colors chars_per_pixel */
 		"    16    16        8            1",
 			/* colors */
@@ -90,7 +90,7 @@ namespace FNB
 
 
 	/* XPM */
-	static char *left_arrow_xpm[] = {
+	static const char *left_arrow_xpm[] = {
 		/* width height num_colors chars_per_pixel */
 		"    16    16        8            1",
 			/* colors */
@@ -122,7 +122,7 @@ namespace FNB
 	};
 
 	/* XPM */
-	static char *x_button_hilite_xpm[] = {
+	static const char *x_button_hilite_xpm[] = {
 		/* width height num_colors chars_per_pixel */
 		"    16    16        8            1",
 			/* colors */
@@ -154,7 +154,7 @@ namespace FNB
 	};
 
 	/* XPM */
-	static char *x_button_xpm[] = {
+	static const char *x_button_xpm[] = {
 		/* width height num_colors chars_per_pixel */
 		"    16    16        8            1",
 			/* colors */
@@ -186,7 +186,7 @@ namespace FNB
 	};
 
 	/* XPM */
-	static char *left_arrow_pressed_xpm[] = {
+	static const char *left_arrow_pressed_xpm[] = {
 		/* width height num_colors chars_per_pixel */
 		"    16    16        8            1",
 			/* colors */
@@ -218,7 +218,7 @@ namespace FNB
 	};
 
 	/* XPM */
-	static char *left_arrow_hilite_xpm[] = {
+	static const char *left_arrow_hilite_xpm[] = {
 		/* width height num_colors chars_per_pixel */
 		"    16    16        8            1",
 			/* colors */
@@ -250,7 +250,7 @@ namespace FNB
 	};
 
 	/* XPM */
-	static char *right_arrow_disabled_xpm[] = {
+	static const char *right_arrow_disabled_xpm[] = {
 		/* width height num_colors chars_per_pixel */
 		"    16    16        8            1",
 			/* colors */
@@ -282,7 +282,7 @@ namespace FNB
 	};
 
 	/* XPM */
-	static char *right_arrow_hilite_xpm[] = {
+	static const char *right_arrow_hilite_xpm[] = {
 		/* width height num_colors chars_per_pixel */
 		"    16    16        8            1",
 			/* colors */
@@ -314,7 +314,7 @@ namespace FNB
 	};
 
 	/* XPM */
-	static char *right_arrow_pressed_xpm[] = {
+	static const char *right_arrow_pressed_xpm[] = {
 		/* width height num_colors chars_per_pixel */
 		"    16    16        8            1",
 			/* colors */
@@ -347,7 +347,7 @@ namespace FNB
 
 
 	/* XPM */
-	static char *right_arrow_xpm[] = {
+	static const char *right_arrow_xpm[] = {
 		/* width height num_colors chars_per_pixel */
 		"    16    16        8            1",
 			/* colors */
@@ -381,7 +381,7 @@ namespace FNB
 	const int tab_x_size = 9;
 
 	/* XPM */
-	static char *tab_x_button_pressed_xpm[] = {
+	static const char *tab_x_button_pressed_xpm[] = {
 		/* width height num_colors chars_per_pixel */
 		"     9     9        8            1",
 			/* colors */
@@ -406,7 +406,7 @@ namespace FNB
 	};
 
 	/* XPM */
-	static char *tab_x_button_xpm[] = {
+	static const char *tab_x_button_xpm[] = {
 		/* width height num_colors chars_per_pixel */
 		"     9     9        8            1",
 			/* colors */
@@ -431,7 +431,7 @@ namespace FNB
 	};
 
 	/* XPM */
-	static char *tab_x_button_hilite_xpm[] = {
+	static const char *tab_x_button_hilite_xpm[] = {
 		/* width height num_colors chars_per_pixel */
 		"     9     9        8            1",
 			/* colors */

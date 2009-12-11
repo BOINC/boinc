@@ -458,7 +458,7 @@ void CProjectListCtrl::OnSelected( wxCommandEvent& event )
     ); 
     evt.SetEventObject(this); 
 
-    GetParent()->AddPendingEvent( evt ); 
+    GetParent()->GetEventHandler()->AddPendingEvent( evt ); 
 }
 
 
@@ -485,7 +485,7 @@ void CProjectListCtrl::OnLinkClicked( wxHtmlLinkEvent& event )
     ); 
     evt.SetEventObject(this); 
 
-    GetParent()->AddPendingEvent( evt ); 
+    GetParent()->GetEventHandler()->AddPendingEvent( evt ); 
 }
 
 

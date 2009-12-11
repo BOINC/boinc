@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 /* XPM */
-static char *multicore_xpm[] = {
+static const char *multicore_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "16 16 91 1",
 "O c Black",

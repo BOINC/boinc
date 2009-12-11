@@ -843,7 +843,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                     pFrame = wxGetApp().GetFrame();
                     wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, wxID_EXIT);
                     s_bSkipExitConfirmation = true;
-                    pFrame->AddPendingEvent(evt);
+                    pFrame->GetEventHandler()->AddPendingEvent(evt);
                 }
             }
             if (m_RPCWaitDlg) {
@@ -1107,7 +1107,7 @@ void CMainDocument::HandleCompletedRPC() {
 
         if (pFrame) {
             CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
-            pFrame->ProcessEvent(event);
+            pFrame->GetEventHandler()->ProcessEvent(event);
         }
     }
 

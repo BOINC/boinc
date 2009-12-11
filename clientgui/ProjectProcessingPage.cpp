@@ -566,7 +566,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                             strBuffer += wxString(reply.messages[i].c_str(), wxConvUTF8) + wxString(wxT("\n"));
                         }
                     }
-                    pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(wxString(strBuffer, wxConvUTF8));
+                    pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                 }
             } else {
                 SetProjectAttachSucceeded(false);

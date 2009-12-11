@@ -833,7 +833,7 @@ void CMainDocument::RunPeriodicRPCs() {
 
     if (!IsConnected()) {
         CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
-        pFrame->AddPendingEvent(event);
+        pFrame->GetEventHandler()->AddPendingEvent(event);
 
 #if defined(__WXMSW__) || defined(__WXMAC__)
         CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();

@@ -513,16 +513,16 @@ int CBOINCGUIApp::OnExit() {
 void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
     wxApp::OnInitCmdLine(parser);
     static const wxCmdLineEntryDesc cmdLineDesc[] = {
-        { wxCMD_LINE_SWITCH, wxT("a"), wxT("autostart"), _("BOINC Manager was started by the operating system automatically")},
+        { wxCMD_LINE_SWITCH, "a", "autostart", _("BOINC Manager was started by the operating system automatically")},
 #if defined(__WXMSW__) || defined(__WXMAC__)
-        { wxCMD_LINE_SWITCH, wxT("s"), wxT("systray"), _("Startup BOINC so only the system tray icon is visible")},
+        { wxCMD_LINE_SWITCH, "s", "systray", _("Startup BOINC so only the system tray icon is visible")},
 #else
-        { wxCMD_LINE_OPTION, wxT("e"), wxT("clientdir"), _("Directory containing the BOINC Client executable")},
-        { wxCMD_LINE_OPTION, wxT("d"), wxT("datadir"), _("BOINC data directory")},
+        { wxCMD_LINE_OPTION, "e", "clientdir", _("Directory containing the BOINC Client executable")},
+        { wxCMD_LINE_OPTION, "d", "datadir", _("BOINC data directory")},
 #endif
-        { wxCMD_LINE_SWITCH, wxT("b"), wxT("boincargs"), _("Startup BOINC with these optional arguments")},
-        { wxCMD_LINE_SWITCH, wxT("i"), wxT("insecure"), _("disable BOINC security users and permissions")},
-        { wxCMD_LINE_SWITCH, wxT("c"), wxT("checkskins"), _("set skin debugging mode to enable skin manager error messages")},
+        { wxCMD_LINE_SWITCH, "b", "boincargs", _("Startup BOINC with these optional arguments")},
+        { wxCMD_LINE_SWITCH, "i", "insecure", _("disable BOINC security users and permissions")},
+        { wxCMD_LINE_SWITCH, "c", "checkskins", _("set skin debugging mode to enable skin manager error messages")},
         { wxCMD_LINE_NONE}  //DON'T forget this line!!
     };
     parser.SetDesc(cmdLineDesc);
@@ -604,7 +604,7 @@ void CBOINCGUIApp::DetectDisplayInfo() {
 
 #else
     wxString p = wxString(getenv("DISPLAY"), wxConvUTF8);
-    if (p) m_strDefaultDisplay = p;
+    if (wxAtoi(p)) m_strDefaultDisplay = p;
 #endif
 
 }
