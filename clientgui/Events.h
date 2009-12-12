@@ -75,14 +75,14 @@
 #define ID_ADVACTIVITYGPUSUSPEND                6019
 
 // Advanced Menu
-#define ID_OPTIONS                              6017
-#define ID_PREFERENCES                          6018
-#define ID_SELECTCOMPUTER                       6019
-#define ID_SHUTDOWNCORECLIENT                   6020
-#define ID_RUNBENCHMARKS                        6021
-#define ID_RETRYCOMMUNICATIONS                  6022
-#define ID_READCONFIG                           6023
-#define ID_READPREFERENCES                      6026
+#define ID_OPTIONS                              6020
+#define ID_PREFERENCES                          6021
+#define ID_SELECTCOMPUTER                       6022
+#define ID_SHUTDOWNCORECLIENT                   6023
+#define ID_RUNBENCHMARKS                        6024
+#define ID_RETRYCOMMUNICATIONS                  6025
+#define ID_READCONFIG                           6026
+#define ID_READPREFERENCES                      6027
 
 // Help Menu
 #define ID_HELPBOINC                            6035  // Locked: Used by manager_links.php
