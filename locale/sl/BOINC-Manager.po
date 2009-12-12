@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-12 11:39-0700\n"
+"PO-Revision-Date: 2009-12-12 13:39-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -430,7 +430,7 @@ msgstr "Preberi nastavitve iz global_prefs_override.xml."
 #: clientgui/AdvancedFrame.cpp:540
 #, c-format
 msgid "%s &help"
-msgstr "&s &pomoč"
+msgstr "%s &pomoč"
 
 #: clientgui/AdvancedFrame.cpp:546
 #, c-format
@@ -493,12 +493,12 @@ msgstr "Po&moč"
 
 #: clientgui/AdvancedFrame.cpp:993
 msgid "Attaching to project or account manager..."
-msgstr ""
+msgstr "Priklapljam se na projekt ali upravitelj računov..."
 
 #: clientgui/AdvancedFrame.cpp:1086
 #, c-format
 msgid "%s - Detach from %s"
-msgstr ""
+msgstr "%s - Odklopi se od %s"
 
 #: clientgui/AdvancedFrame.cpp:1091
 #, c-format
@@ -509,21 +509,28 @@ msgid ""
 "\n"
 "Do you want to stop using %s?"
 msgstr ""
+"Če nehate uporabljati %s,\n"
+"boste obdržali vse trenutne projekte,\n"
+"vendar jih boste morali upravljati ročno.\n"
+"\n"
+"Ali želite prenehati uporabljati %s?"
 
 #: clientgui/AdvancedFrame.cpp:1249
 #, c-format
 msgid "%s - Language Selection"
-msgstr ""
+msgstr "%s - Izbira jezika"
 
 #: clientgui/AdvancedFrame.cpp:1256
 #, c-format
 msgid "The %s's default language has been changed, in order for this change to take affect you must restart the %s."
 msgstr ""
+"Privzeti jezik za %s je bil spremenjen, da to začne veljati morate ponovno "
+"zagnati %s."
 
 #: clientgui/AdvancedFrame.cpp:1419
 #, c-format
 msgid "%s - Shutdown the current client..."
-msgstr ""
+msgstr "%s - Zaustavi trenutnega odjemalca"
 
 #: clientgui/AdvancedFrame.cpp:1428
 #, c-format
@@ -531,39 +538,41 @@ msgid ""
 "%s will shut down the currently connected client,\n"
 "and prompt you for another host to connect to.\n"
 msgstr ""
+"%s bo zaustavil trenutno povezanega odjemalca,\n"
+"in vas vprašal po drugem gostitelju, na katerega naj se poveže.\n"
 
 #: clientgui/AdvancedFrame.cpp:1475
 msgid "Retrying communications for project(s)..."
-msgstr ""
+msgstr "Ponoven poskus komunikacije za projekt(e)..."
 
 #: clientgui/AdvancedFrame.cpp:1675
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: clientgui/AdvancedFrame.cpp:1684
 #, c-format
 msgid "%s has successfully attached to %s"
-msgstr ""
+msgstr "%s se je uspešno priklopil(-a) na %s"
 
 #: clientgui/AdvancedFrame.cpp:1806
 #, c-format
 msgid "%s - (%s)"
-msgstr ""
+msgstr "%s - (%s)"
 
 #: clientgui/AdvancedFrame.cpp:1809
 #, c-format
 msgid "Connecting to %s"
-msgstr ""
+msgstr "Povezujem se na %s"
 
 #: clientgui/AdvancedFrame.cpp:1812
 #, c-format
 msgid "Connected to %s (%s)"
-msgstr ""
+msgstr "Povezan na %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:183
 msgid "Username already in use"
-msgstr ""
+msgstr "Uporabniško ime je že v uporabi"
 
 #: clientgui/AlreadyExistsPage.cpp:186
 msgid ""
@@ -572,10 +581,14 @@ msgid ""
 "\n"
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
+"Račun s tem uporabniškim imenom že obstaja in ima\n"
+"drugačno geslo od tistega, ki ste ga vnesli.\n"
+"\n"
+"Prosim, obiščite spletno stran projekta in sledite tamkajšnjim navodilom."
 
 #: clientgui/AlreadyExistsPage.cpp:190
 msgid "Email address already in use"
-msgstr ""
+msgstr "Naslov elektronske pošte je že v uporabi"
 
 #: clientgui/AlreadyExistsPage.cpp:193
 msgid ""
@@ -584,15 +597,19 @@ msgid ""
 "\n"
 "Please visit the project's web site and follow the instructions there."
 msgstr ""
+"Račun s tem naslovom elektronske pošte že obstaja in ima\n"
+"drugačno geslo od tistega, ki ste ga vnesli.\n"
+"\n"
+"Prosim, obiščite spletno stran projekta in sledite tamkajšnjim navodilom."
 
 #: clientgui/AsyncRPC.cpp:1200
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr ""
+msgstr "Komuniciram z BOINC odjemalcem.  Prosim, počakajte ..."
 
 #: clientgui/AsyncRPC.cpp:1203
 #, c-format
 msgid "&Quit %s"
-msgstr ""
+msgstr "Za&pusti %s"
 
 #: clientgui/AsyncRPC.cpp:1205
 #, c-format
