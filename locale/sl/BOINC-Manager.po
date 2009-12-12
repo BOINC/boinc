@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-12 10:59-0700\n"
+"PO-Revision-Date: 2009-12-12 11:39-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -121,7 +121,7 @@ msgstr "Spletna stran upravitelja računov"
 
 #: clientgui/AccountInfoPage.cpp:524
 msgid "Attach to project"
-msgstr "Priklopite se projektu"
+msgstr "Priklopite se k projektu"
 
 #: clientgui/AccountInfoPage.cpp:526
 msgid "Update account manager"
@@ -342,152 +342,154 @@ msgstr "Mrež&na aktivnost vedno na voljo"
 
 #: clientgui/AdvancedFrame.cpp:470
 msgid "Allow network activity regardless of preferences"
-msgstr ""
+msgstr "Dovoli mrežno aktivnost ne glede na nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:474
 msgid "Network activity based on pre&ferences"
-msgstr ""
+msgstr "Mrežna aktivnost glede na &nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:475
 msgid "Allow network activity according to your preferences"
-msgstr ""
+msgstr "Dovoli mrežno aktivnost glede na vaše nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:479
 msgid "Network activity s&uspended"
-msgstr ""
+msgstr "Mrežna aktivnost na ča&kanju"
 
 #: clientgui/AdvancedFrame.cpp:480
 msgid "Stop BOINC network activity"
-msgstr ""
+msgstr "Ustavi mrežno aktivnost BOINC"
 
 #: clientgui/AdvancedFrame.cpp:487
 msgid "&Options..."
-msgstr ""
+msgstr "M&ožnosti"
 
 #: clientgui/AdvancedFrame.cpp:488
 msgid "Configure GUI options and proxy settings"
 msgstr ""
+"Nastavi možnosti grafičnega uporabniškega vmesnika in nastavitve "
+"posredniškega strežnika (proxy)"
 
 #: clientgui/AdvancedFrame.cpp:492
 msgid "&Preferences..."
-msgstr ""
+msgstr "&Nastavitve..."
 
 #: clientgui/AdvancedFrame.cpp:493
 msgid "Configure local preferences"
-msgstr ""
+msgstr "Nastavi lokalne nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:499
 #, c-format
 msgid "Connect to another computer running %s"
-msgstr ""
+msgstr "Poveži se na drug računalnik, ki poganja %s"
 
 #: clientgui/AdvancedFrame.cpp:504
 msgid "Select computer..."
-msgstr ""
+msgstr "Izberi računalnik..."
 
 #: clientgui/AdvancedFrame.cpp:509
 msgid "Shut down connected client..."
-msgstr ""
+msgstr "Izklopi povezanega odjemalca..."
 
 #: clientgui/AdvancedFrame.cpp:510
 msgid "Shut down the currently connected core client"
-msgstr ""
+msgstr "Izklopi povezanega odjemalca jedra"
 
 #: clientgui/AdvancedFrame.cpp:514
 msgid "Run CPU &benchmarks"
-msgstr ""
+msgstr "Poženi meritev &hitrost procesorja"
 
 #: clientgui/AdvancedFrame.cpp:515
 msgid "Runs BOINC CPU benchmarks"
-msgstr ""
+msgstr "Požene BOINC meritve hitrosti procesorja"
 
 #: clientgui/AdvancedFrame.cpp:519
 msgid "Do network &communication"
-msgstr ""
+msgstr "Izvedi &komunikacijo po mreži"
 
 #: clientgui/AdvancedFrame.cpp:520
 msgid "Do all pending network communication."
-msgstr ""
+msgstr "Izvedi vso čakajočo komunikacijo po mreži"
 
 #: clientgui/AdvancedFrame.cpp:524
 msgid "Read config file"
-msgstr ""
+msgstr "Preberi konfiguracijsko datoteko"
 
 #: clientgui/AdvancedFrame.cpp:525
 msgid "Read configuration info from cc_config.xml."
-msgstr ""
+msgstr "Preberi konfiguracijske informacije iz cc_config.xml."
 
 #: clientgui/AdvancedFrame.cpp:529
 msgid "Read local prefs file"
-msgstr ""
+msgstr "Preberi lokalno datoteko z nastavitvami"
 
 #: clientgui/AdvancedFrame.cpp:530
 msgid "Read preferences from global_prefs_override.xml."
-msgstr ""
+msgstr "Preberi nastavitve iz global_prefs_override.xml."
 
 #: clientgui/AdvancedFrame.cpp:540
 #, c-format
 msgid "%s &help"
-msgstr ""
+msgstr "&s &pomoč"
 
 #: clientgui/AdvancedFrame.cpp:546
 #, c-format
 msgid "Show information about %s"
-msgstr ""
+msgstr "Prikaži informacije o %s"
 
 #: clientgui/AdvancedFrame.cpp:558
 #, c-format
 msgid "&%s help"
-msgstr ""
+msgstr "&%s pomoč"
 
 #: clientgui/AdvancedFrame.cpp:564
 #, c-format
 msgid "Show information about the %s"
-msgstr ""
+msgstr "Prikaži informacije o %s"
 
 #: clientgui/AdvancedFrame.cpp:576
 #, c-format
 msgid "%s &website"
-msgstr ""
+msgstr "%s &domača stran"
 
 #: clientgui/AdvancedFrame.cpp:582
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr ""
+msgstr "Prikaži informacije o BOINC in %s"
 
 #: clientgui/AdvancedFrame.cpp:598
 #: clientgui/BOINCTaskBar.cpp:616
 #, c-format
 msgid "&About %s..."
-msgstr ""
+msgstr "&O %s..."
 
 #: clientgui/AdvancedFrame.cpp:604
 msgid "Licensing and copyright information."
-msgstr ""
+msgstr "Informacije o licencah in avtorskih pravicah."
 
 #: clientgui/AdvancedFrame.cpp:611
 msgid "&File"
-msgstr ""
+msgstr "&Datoteka"
 
 #: clientgui/AdvancedFrame.cpp:615
 msgid "&View"
-msgstr ""
+msgstr "&Pogled"
 
 #: clientgui/AdvancedFrame.cpp:619
 msgid "&Tools"
-msgstr ""
+msgstr "&Orodja"
 
 #: clientgui/AdvancedFrame.cpp:623
 msgid "&Activity"
-msgstr ""
+msgstr "&Aktivnost"
 
 #: clientgui/AdvancedFrame.cpp:627
 msgid "A&dvanced"
-msgstr ""
+msgstr "Nap&redno"
 
 #: clientgui/AdvancedFrame.cpp:631
 msgid "&Help"
-msgstr ""
+msgstr "Po&moč"
 
 #: clientgui/AdvancedFrame.cpp:993
 msgid "Attaching to project or account manager..."
