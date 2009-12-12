@@ -1,47 +1,53 @@
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2009-12-12 10:59-0700\n"
+"Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3);\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\branches\\boinc_core_release_6_10\n"
 
 #: clientgui/AccountInfoPage.cpp:370
 msgid "Identify your account "
-msgstr ""
+msgstr "Identificirajte vaš uporabniški račun"
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr ""
+"Prosim vnesite informacije o vašem uporabniškem računu\n"
+"(da ustvarite račun, obiščite domačo stran projekta)"
 
 #: clientgui/AccountInfoPage.cpp:380
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
 msgstr ""
+"Ta projekt trenutne ne sprejema novih uporabniških računov.\n"
+"Lahko se priklopite le, če račun že imate."
 
 #: clientgui/AccountInfoPage.cpp:384
 msgid "Are you already running this project?"
-msgstr ""
+msgstr "Ali že poganjate ta projekt?"
 
 #: clientgui/AccountInfoPage.cpp:388
 msgid "&No, new user"
-msgstr ""
+msgstr "&Ne, nov uporabnik"
 
 #: clientgui/AccountInfoPage.cpp:391
 msgid "&Yes, existing user"
-msgstr ""
+msgstr "&Da, obstoječi uporabnik"
 
 #: clientgui/AccountInfoPage.cpp:396
 msgid ""
@@ -52,46 +58,52 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
+"Nismo vam mogli samodejno nastaviti informacij\n"
+"vašega uporabniškega računa.\n"
+"\n"
+"Prosim kliknite na povezavo \"Najdi prijavne informacije\"\n"
+"spodaj, da izveste kaj napisati v vnosni polji\n"
+"elektronska pošta in geslo."
 
 #: clientgui/AccountInfoPage.cpp:399
 msgid "Find logon information"
-msgstr ""
+msgstr "Najdi prijavne informacije"
 
 #: clientgui/AccountInfoPage.cpp:419
 #: clientgui/AccountInfoPage.cpp:585
 msgid "&Password:"
-msgstr ""
+msgstr "&Geslo:"
 
 #: clientgui/AccountInfoPage.cpp:426
 #: clientgui/AccountInfoPage.cpp:600
 msgid "Choose a &password:"
-msgstr ""
+msgstr "Izberite &geslo:"
 
 #: clientgui/AccountInfoPage.cpp:429
 msgid "C&onfirm password:"
-msgstr ""
+msgstr "P&otrdi geslo:"
 
 #: clientgui/AccountInfoPage.cpp:436
 #, c-format
 msgid "Are you already running %s?"
-msgstr ""
+msgstr "Ali že poganjate %s?"
 
 #: clientgui/AccountInfoPage.cpp:453
 msgid "&Username:"
-msgstr ""
+msgstr "&Uporabniško ime:"
 
 #: clientgui/AccountInfoPage.cpp:467
 msgid "&Email address:"
-msgstr ""
+msgstr "&Elektronska pošta:"
 
 #: clientgui/AccountInfoPage.cpp:475
 #, c-format
 msgid "minimum length %d"
-msgstr ""
+msgstr "minimalna dolžina %d"
 
 #: clientgui/AccountInfoPage.cpp:482
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Ste pozabili geslo?"
 
 #: clientgui/AccountInfoPage.cpp:489
 msgid ""
@@ -99,224 +111,234 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
+"Če še niste registrirani s tem upraviteljem računov,\n"
+"prosim to storite pred nadaljevanjem. Kliknite na povezavo spodaj\n"
+"za registriracijo ali da spet pridobite pozabljeno geslo."
 
 #: clientgui/AccountInfoPage.cpp:492
 msgid "Account manager website"
-msgstr ""
+msgstr "Spletna stran upravitelja računov"
 
 #: clientgui/AccountInfoPage.cpp:524
 msgid "Attach to project"
-msgstr ""
+msgstr "Priklopite se projektu"
 
 #: clientgui/AccountInfoPage.cpp:526
 msgid "Update account manager"
-msgstr ""
+msgstr "Posodobite upravitelja računov"
 
 #: clientgui/AccountInfoPage.cpp:528
 msgid "Attach to account manager"
-msgstr ""
+msgstr "Priklopite se na upravitelja računov"
 
 #: clientgui/AccountInfoPage.cpp:537
 #, c-format
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr ""
+"Najmanjša dolžina gesla za ta projekt je %d. Prosim vnesite drugo geslo."
 
 #: clientgui/AccountInfoPage.cpp:543
 #, c-format
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr ""
+"Najmanjša dolžina gesla za ta upravitelj računov je %d. Prosim vnesite drugo "
+"geslo."
 
 #: clientgui/AccountInfoPage.cpp:554
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr ""
+msgstr "Geslo in potrditev gesla se ne ujemata. Prosim, vtipkajte jih znova."
 
 #: clientgui/AccountManagerInfoPage.cpp:243
 msgid "Choose an account manager"
-msgstr ""
+msgstr "Izberite upravitelja računov"
 
 #: clientgui/AccountManagerInfoPage.cpp:246
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
+"Da izberete upravitelja računov, kliknite njegovo ime ali\n"
+"spodaj napišite njegov URL."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Account Manager &URL:"
-msgstr ""
+msgstr "Upravitelj računov &URL:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:190
 #: clientgui/AccountManagerPropertiesPage.cpp:196
 #, c-format
 msgid "Communicating with %s."
-msgstr ""
+msgstr "Poteka komunikacija z %s."
 
 #: clientgui/AccountManagerProcessingPage.cpp:197
 #: clientgui/AccountManagerPropertiesPage.cpp:203
 msgid "Communicating with server."
-msgstr ""
+msgstr "Poteka komunikacija s strežnikom."
 
 #: clientgui/AccountManagerProcessingPage.cpp:202
 #: clientgui/AccountManagerPropertiesPage.cpp:208
 msgid "Please wait..."
-msgstr ""
+msgstr "Prosim, počakajte..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:326
 msgid "An internal server error has occurred.\n"
-msgstr ""
+msgstr "Pojavila se je notranja napaka strežnika\n"
 
 #: clientgui/AdvancedFrame.cpp:93
 msgid "Connected"
-msgstr ""
+msgstr "Povezan"
 
 #: clientgui/AdvancedFrame.cpp:101
 msgid "Disconnected"
-msgstr ""
+msgstr "Odklopljen"
 
 #: clientgui/AdvancedFrame.cpp:304
 #, c-format
 msgid "Close the %s window"
-msgstr ""
+msgstr "Zapri okno %s"
 
 #: clientgui/AdvancedFrame.cpp:309
 msgid "&Close Window\tCtrl+W"
-msgstr ""
+msgstr "&Zapri okno\tCtrl+W"
 
 #: clientgui/AdvancedFrame.cpp:316
 #, c-format
 msgid "Exit %s"
-msgstr ""
+msgstr "Zapusti %s"
 
 #: clientgui/AdvancedFrame.cpp:321
 #: clientgui/BOINCTaskBar.cpp:626
 msgid "E&xit"
-msgstr ""
+msgstr "Iz&hod"
 
 #: clientgui/AdvancedFrame.cpp:330
 msgid "&Projects\tCtrl+Shift+P"
-msgstr ""
+msgstr "&Projekti\tCtrl-Shitf+P"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "Display projects"
-msgstr ""
+msgstr "Prikaži projekte"
 
 #: clientgui/AdvancedFrame.cpp:336
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr ""
+msgstr "&Opravila\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "Display tasks"
-msgstr ""
+msgstr "Prikaži opravila"
 
 #: clientgui/AdvancedFrame.cpp:342
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr ""
+msgstr "P&renosi\tCtrl-Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Display transfers"
-msgstr ""
+msgstr "Prikaži prenose"
 
 #: clientgui/AdvancedFrame.cpp:348
 msgid "&Messages\tCtrl+Shift+M"
-msgstr ""
+msgstr "S&poročila\tCtrl+Shift+M"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Display messages"
-msgstr ""
+msgstr "Prikaži sporočila"
 
 #: clientgui/AdvancedFrame.cpp:354
 msgid "&Statistics\tCtrl+Shift+S"
-msgstr ""
+msgstr "&Statistika\tCtrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "Display statistics"
-msgstr ""
+msgstr "Prikaži statistiko"
 
 #: clientgui/AdvancedFrame.cpp:360
 msgid "&Disk usage\tCtrl+Shift+D"
-msgstr ""
+msgstr "Poraba &diska\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "Display disk usage"
-msgstr ""
+msgstr "Prikaži porabo diska"
 
 #: clientgui/AdvancedFrame.cpp:366
 msgid "&News\tCtrl+Shift+N"
-msgstr ""
+msgstr "&Novice\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "Display news"
-msgstr ""
+msgstr "Prikaži novice"
 
 #: clientgui/AdvancedFrame.cpp:374
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr ""
+msgstr "Preprosti &pogled...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:375
 msgid "Display the simple graphical interface."
-msgstr ""
+msgstr "Prikaži preprost uporabniški vmesnik."
 
 #: clientgui/AdvancedFrame.cpp:395
 msgid "Attach to &project or account manager..."
-msgstr ""
+msgstr "Priklopite se na &projekt ali na upravitelja računov..."
 
 #: clientgui/AdvancedFrame.cpp:396
 msgid "Attach to a project or account manager to begin processing work"
 msgstr ""
+"Priklopite se na projekt ali upravitelja računov za začetek dela "
+"procesiranja."
 
 #: clientgui/AdvancedFrame.cpp:400
 #, c-format
 msgid "&Synchronize with %s"
-msgstr ""
+msgstr "&Sinhroniziraj s %s"
 
 #: clientgui/AdvancedFrame.cpp:404
 #, c-format
 msgid "Get current settings from %s"
-msgstr ""
+msgstr "Dobi trenutne nastavitve od %s"
 
 #: clientgui/AdvancedFrame.cpp:415
 msgid "Attach to &project..."
-msgstr ""
+msgstr "Priklopite se na &projekt..."
 
 #: clientgui/AdvancedFrame.cpp:416
 msgid "Attach to a project to begin processing work"
-msgstr ""
+msgstr "Priklopite se na projekt za začetek dela procesiranja"
 
 #: clientgui/AdvancedFrame.cpp:420
 #, c-format
 msgid "&Stop using %s..."
-msgstr ""
+msgstr "&Nehajte uporabljati %s..."
 
 #: clientgui/AdvancedFrame.cpp:426
 msgid "Remove client from account manager control."
-msgstr ""
+msgstr "Odstrani odjemalca iz nadzora upravitelja računov."
 
 #: clientgui/AdvancedFrame.cpp:435
 msgid "&Run always"
-msgstr ""
+msgstr "&Poganjaj vedno"
 
 #: clientgui/AdvancedFrame.cpp:436
 msgid "Allow work regardless of preferences"
-msgstr ""
+msgstr "Dovoli delo, ne glede na nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:440
 msgid "Run based on &preferences"
-msgstr ""
+msgstr "Poganjaj glede na &nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:441
 msgid "Allow work according to your preferences"
-msgstr ""
+msgstr "Dovoli delo glede na vaše nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:445
 msgid "&Suspend"
-msgstr ""
+msgstr "Na ča&kanje"
 
 #: clientgui/AdvancedFrame.cpp:446
 msgid "Stop work regardless of preferences"
-msgstr ""
+msgstr "Ustavi delo ne glede na nastavitve"
 
 #: clientgui/AdvancedFrame.cpp:469
 msgid "&Network activity always available"
-msgstr ""
+msgstr "Mrež&na aktivnost vedno na voljo"
 
 #: clientgui/AdvancedFrame.cpp:470
 msgid "Allow network activity regardless of preferences"
