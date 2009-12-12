@@ -58,6 +58,11 @@ void GUI_URL::print() {
     );
 }
 
+void PROJECT::print_disk_usage() {
+    printf("   master URL: %s\n", master_url.c_str());
+    printf("   disk usage: %.2fMB\n", disk_usage/MEGA);
+}
+
 void PROJECT::print() {
     unsigned int i;
 
@@ -242,7 +247,7 @@ void DISK_USAGE::print() {
     printf("free: %f\n", d_free);
     for (i=0; i<projects.size(); i++) {
         printf("%d) -----------\n", i+1);
-        projects[i]->print();
+        projects[i]->print_disk_usage();
     }
 }
 
