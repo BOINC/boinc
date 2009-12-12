@@ -66,10 +66,13 @@ inline bool prefs_prevent_fetch(PROJECT* p, int rsc_type) {
     switch(rsc_type) {
     case RSC_TYPE_CPU:
         if (p->no_cpu_pref) return true;
+        break;
     case RSC_TYPE_CUDA:
         if (p->no_cuda_pref) return true;
+        break;
     case RSC_TYPE_ATI:
         if (p->no_ati_pref) return true;
+        break;
     }
     return false;
 }
@@ -82,9 +85,15 @@ bool RSC_WORK_FETCH::may_have_work(PROJECT* p) {
 
 bool RSC_PROJECT_WORK_FETCH::compute_may_have_work(PROJECT* p, int rsc_type) {
     switch(rsc_type) {
-    case RSC_TYPE_CPU: if (p->no_cpu_pref) return false; break;
-    case RSC_TYPE_CUDA: if (p->no_cuda_pref) return false; break;
-    case RSC_TYPE_ATI: if (p->no_ati_pref) return false; break;
+    case RSC_TYPE_CPU:
+        if (p->no_cpu_pref) return false;
+        break;
+    case RSC_TYPE_CUDA:
+        if (p->no_cuda_pref) return false;
+        break;
+    case RSC_TYPE_ATI:
+        if (p->no_ati_pref) return false;
+        break;
     }
     return (backoff_time < gstate.now);
 }
@@ -847,8 +856,12 @@ inline bool has_coproc_app(PROJECT* p, int rsc_type) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->project != p) continue;
         switch(rsc_type) {
-        case RSC_TYPE_CUDA: if (avp->ncudas) return true;
-        case RSC_TYPE_ATI: if (avp->natis) return true;
+        case RSC_TYPE_CUDA:
+            if (avp->ncudas) return true;
+            break;
+        case RSC_TYPE_ATI:
+            if (avp->natis) return true;
+            break;
         }
     }
     return false;

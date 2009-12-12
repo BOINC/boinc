@@ -9951,3 +9951,11 @@ David  11 Dec 2009
         Events.h
     lib/
         daemonmgt.h
+
+David  11 Dec 2009
+    - client: a couple of switch statements were missing breaks.
+        This would have caused work-fetch errors if
+        using the no_cuda, no_cpu etc. prefs
+
+    client/
+        work_fetch.cpp
