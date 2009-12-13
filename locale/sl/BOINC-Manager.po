@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-12 13:39-0700\n"
+"PO-Revision-Date: 2009-12-12 15:04-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -614,22 +614,24 @@ msgstr "Za&pusti %s"
 #: clientgui/AsyncRPC.cpp:1205
 #, c-format
 msgid "E&xit %s"
-msgstr ""
+msgstr "Za&pusti %s"
 
 #: clientgui/AsyncRPC.cpp:1222
 msgid "Cancel"
-msgstr ""
+msgstr "Prekliči"
 
 #: clientgui/BOINCBaseFrame.cpp:422
 #, c-format
 msgid "%s - Connection Error"
-msgstr ""
+msgstr "%s - Napaka pri povezavi"
 
 #: clientgui/BOINCBaseFrame.cpp:431
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
+"Trenutno nimate dovoljenja upravljati odjemalca.\n"
+"Prosim, kontaktirajte skrbnika sistema da vas doda v skupino 'boinc_users'."
 
 #: clientgui/BOINCBaseFrame.cpp:440
 msgid ""
