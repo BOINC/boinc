@@ -483,6 +483,17 @@ int boinc_finish(int status) {
     return 0;   // never reached
 }
 
+int boinc_temporary_exit(int delay) {
+    FILE* f = fopen(TEMPORARY_EXIT_FILE, "w");
+    if (!f) {
+        return ERR_FOPEN;
+    }
+    fprintf(f, "%d\n", delay);
+    fclose(f);
+    boinc_exit(0);
+    return 0;
+}
+
 // unlock the lockfile and call the appropriate exit function
 // Unix: called only from the worker thread.
 // Win: called from the worker or timer thread.

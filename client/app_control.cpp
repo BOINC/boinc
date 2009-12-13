@@ -266,6 +266,13 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 set_task_state(PROCESS_EXITED, "handle_exited_app");
                 break;
             }
+            double x;
+            if (temporary_exit_file_present(x)) {
+                set_task_state(PROCESS_UNINITIALIZED, "temporary exit");
+                will_restart = true;
+                result->schedule_backoff = gstate.now + x;
+                break;
+            }
             handle_premature_exit(will_restart);
             break;
         case 0xc000013a:        // control-C??
@@ -386,6 +393,22 @@ bool ACTIVE_TASK::finish_file_present() {
     char path[256];
     sprintf(path, "%s/%s", slot_dir, BOINC_FINISH_CALLED_FILE);
     return (boinc_file_exists(path) != 0);
+}
+
+bool ACTIVE_TASK::temporary_exit_file_present(double& x) {
+    char path[256];
+    sprintf(path, "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
+    FILE* f = fopen(path, "r");
+    if (!f) return false;
+    double y;
+    int n = fscanf(f, "%d", &y);
+    fclose(f);
+    if (n != 1 || y < 0 || y > 86400) {
+        x = 300;
+    } else {
+        x = y;
+    }
+    return true;
 }
 
 void ACTIVE_TASK_SET::send_trickle_downs() {
