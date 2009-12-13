@@ -9974,3 +9974,10 @@ David  11 Dec 2009
         stripchart
         stripchart.cgi
         stripchart.cnf
+
+David  12 Dec 2009
+    - client: maintain mean STD at zero over all projects,
+        not just runnable ones
+
+    client/
+        work_fetch.cpp
