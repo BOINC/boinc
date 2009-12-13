@@ -10005,3 +10005,9 @@ David  12 Dec 2009
         app_control.cpp
     lib/
         app_ipc.h
+
+David  13 Dec 2009
+    - wrapper: fix fraction-done bug
+
+    samples/wrapper/
+        wrapper.cpp

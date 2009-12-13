@@ -587,7 +587,7 @@ int main(int argc, char** argv) {
             }
             poll_boinc_messages(task);
             double task_fraction_done = task.fraction_done();
-            double delta = task_fraction_done*task.weight;
+            double delta = task_fraction_done*task.weight/total_weight;
             send_status_message(task, frac_done+delta, checkpoint_cpu_time);
             if (task.has_checkpointed()) {
                 checkpoint_cpu_time = task.starting_cpu + task.cpu_time();
