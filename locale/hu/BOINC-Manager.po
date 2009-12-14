@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-05 10:28-0700\n"
+"PO-Revision-Date: 2009-12-13 15:52-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -2122,7 +2122,7 @@ msgstr "Infó az Ön csapatáról"
 
 #: clientgui/Localization.cpp:141
 msgid "Search for help in our help system"
-msgstr "Segítség keresése segítség központunkban"
+msgstr "Segítség kell? Kattintson!"
 
 #: clientgui/Localization.cpp:143
 msgid "Global Statistics"
