@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-14 07:59-0700\n"
+"PO-Revision-Date: 2009-12-14 08:59-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -2169,7 +2169,7 @@ msgstr "Prosim, povežite se na internet in poskusite znova."
 
 #: clientgui/NotDetectedPage.cpp:182
 msgid "Project not found"
-msgstr ""
+msgstr "Projekt ni bil najden"
 
 #: clientgui/NotDetectedPage.cpp:185
 msgid ""
@@ -2177,10 +2177,13 @@ msgid ""
 "\n"
 "Please check the URL and try again."
 msgstr ""
+"URL, ki ste ga podali, ni od projekta, temelječega na BOINC.\n"
+"\n"
+"Prosim, preverite URL in poskusite znova."
 
 #: clientgui/NotDetectedPage.cpp:189
 msgid "Account manager not found"
-msgstr ""
+msgstr "Upravitelj računov ni bil najden"
 
 #: clientgui/NotDetectedPage.cpp:192
 msgid ""
@@ -2189,42 +2192,49 @@ msgid ""
 "\n"
 "Please check the URL and try again."
 msgstr ""
+"URL, ki ste ga podali, ni od na BOINC temelječega upravitelja\n"
+"računov.\n"
+"\n"
+"Prosim, preverite URL in poskusite znova."
 
 #: clientgui/NotFoundPage.cpp:182
 msgid "Login Failed."
-msgstr ""
+msgstr "Prijava ni uspela."
 
 #: clientgui/NotFoundPage.cpp:186
 msgid "Check the username and password, and try again."
-msgstr ""
+msgstr "Preverite uporabniško ime in geslo ter poskusite znova."
 
 #: clientgui/NotFoundPage.cpp:190
 msgid "Check the email address and password, and try again."
-msgstr ""
+msgstr "Preverite naslov elektronske pošte in geslo ter poskusite znova."
 
 #: clientgui/ProjectInfoPage.cpp:249
 msgid "Choose a project"
-msgstr ""
+msgstr "Izberite projekt"
 
 #: clientgui/ProjectInfoPage.cpp:252
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
+"Da izberete projekt, kliknite na njegovo ime ali spodaj napišite njegov URL."
 
 #: clientgui/ProjectInfoPage.cpp:255
 msgid "Project &URL:"
-msgstr ""
+msgstr "&URL projekta:"
 
 #: clientgui/ProjectInfoPage.cpp:339
 msgid "This project may not have work for your type of computer. Are you sure you wish to continue?"
 msgstr ""
+"Ta projekt morda nima dela za vaš tip računalnika. Ali ste prepričani, da "
+"želite nadaljevati?"
 
 #: clientgui/ProjectInfoPage.cpp:363
 msgid "You are already attached to this project. Please choose a different project."
-msgstr ""
+msgstr "Na ta projekt ste že priklopljeni. Prosim, izberite drug projekt."
 
 #: clientgui/ProjectListCtrl.cpp:239
 msgid "Click"
-msgstr ""
+msgstr "Kliknite"
 
 #: clientgui/ProjectProcessingPage.cpp:323
 #: clientgui/ProjectPropertiesPage.cpp:336
@@ -2232,16 +2242,20 @@ msgid ""
 "Communicating with project\n"
 "Please wait..."
 msgstr ""
+"Komuniciram s projektom\n"
+"Prosim, počakajte..."
 
 #: clientgui/ProjectProcessingPage.cpp:499
 msgid ""
 "Required wizard file(s) are missing from the target server.\n"
 "(lookup_account.php/create_account.php)\n"
 msgstr ""
+"Zahtevane datoteke čarovnika manjkajo na ciljnem strežniku.\n"
+"(lookup_account.php/create_account.php)\n"
 
 #: clientgui/ProxyInfoPage.cpp:196
 msgid "Network communication failure"
-msgstr ""
+msgstr "Napaka pri komunikaciji po mreži"
 
 #: clientgui/ProxyInfoPage.cpp:200
 msgid ""
@@ -2259,6 +2273,19 @@ msgid ""
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
 msgstr ""
+"World Community Grid - BOINC programska oprema ni uspel komunicirati\n"
+"po internetu. Najbolj verjetni razlogi so:\n"
+"\n"
+"1) Problem pri povezavi.  Preverite vašo mrežno ali modemsko povezavo\n"
+"in nato kliknite Nazaj, da poskusite znova.\n"
+"\n"
+"2) Programska oprema požarnega zidu blokira World Community\n"
+"Grid - BOINC programsko opremo.  Nastavite požarni zid, da dovoli\n"
+"BOINC in BOINC Upravitelju komunicirati na vratih 80 in 443,\n"
+"nato kliknite Nazaj, da poskusite znova.\n"
+"\n"
+"3) Uporabljate posredniški strežnik\n"
+"Kliknite Naprej, da nastavite BOINC nastavitve posredniškega strežnika."
 
 #: clientgui/ProxyInfoPage.cpp:217
 msgid ""
@@ -2276,279 +2303,296 @@ msgid ""
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
 msgstr ""
+"BOINC ni uspel komunicirati po internetu.\n"
+"Najbolj verjetni razlogi so:\n"
+"\n"
+"1) Problem pri povezavi. Preverite vašo mrežno ali modemsko povezavo\n"
+"in nato kliknite Nazaj, da poskusite znova.\n"
+"\n"
+"2) Programska oprema požarnega zidu blokira BOINC.\n"
+"Nastavite požarni zid, da dovoli BOINC\n"
+"in BOINC Upravitelju komunicirati na vratih 80,\n"
+"nato kliknite Nazaj, da poskusite znova.\n"
+"\n"
+"3) Uporabljate posredniški strežnik\n"
+"Kliknite Naprej, da nastavite BOINC nastavitve posredniškega strežnika."
 
 #: clientgui/ProxyPage.cpp:332
 msgid "Proxy configuration"
-msgstr ""
+msgstr "Nastavitve posredniškega strežnika"
 
 #: clientgui/ProxyPage.cpp:335
 msgid "HTTP proxy"
-msgstr ""
+msgstr "HTTP posrednik"
 
 #: clientgui/ProxyPage.cpp:338
 #: clientgui/ProxyPage.cpp:358
 msgid "Server:"
-msgstr ""
+msgstr "Strežnik:"
 
 #: clientgui/ProxyPage.cpp:351
 msgid "Autodetect"
-msgstr ""
+msgstr "Samodejno prepoznaj"
 
 #: clientgui/ProxyPage.cpp:355
 msgid "SOCKS proxy"
-msgstr ""
+msgstr "SOCKS posrednik"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:113
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr ""
+msgstr "Napredni pogled...\\Ctrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleGUI.cpp:114
 msgid "Display the advanced (accessible) graphical interface."
-msgstr ""
+msgstr "Prikaži napredni (dostopen) grafični vmesnik."
 
 #: clientgui/sg_BoincSimpleGUI.cpp:141
 #, c-format
 msgid "&%s"
-msgstr ""
+msgstr "&%s"
 
 #: clientgui/sg_ClientStateIndicator.cpp:288
 msgid "Retrieving current status."
-msgstr ""
+msgstr "Pridobivam trenutni status."
 
 #: clientgui/sg_ClientStateIndicator.cpp:291
 msgid "You don't have any projects.  Please Add a Project."
-msgstr ""
+msgstr "Nimate projektov.  Prosimo dodajte projekt."
 
 #: clientgui/sg_ClientStateIndicator.cpp:294
 msgid "Downloading work from the server."
-msgstr ""
+msgstr "Prejemam delo s strežnika."
 
 #: clientgui/sg_ClientStateIndicator.cpp:299
 msgid "Processing Suspended:  Running On Batteries."
-msgstr ""
+msgstr "Obdelava na čakanju:  Teče na baterijah."
 
 #: clientgui/sg_ClientStateIndicator.cpp:301
 msgid "Processing Suspended:  User Active."
-msgstr ""
+msgstr "Obdelava na čakanju:  Uporabnik aktiven."
 
 #: clientgui/sg_ClientStateIndicator.cpp:303
 msgid "Processing Suspended:  User paused processing."
-msgstr ""
+msgstr "Obdelava na čakanju:  Na željo uporabnika."
 
 #: clientgui/sg_ClientStateIndicator.cpp:305
 msgid "Processing Suspended:  Time of Day."
-msgstr ""
+msgstr "Obdelava na čakanju:  Čas dneva."
 
 #: clientgui/sg_ClientStateIndicator.cpp:307
 msgid "Processing Suspended:  Benchmarks Running."
-msgstr ""
+msgstr "Obdelava na čakanju:  Potekajo meritve hitrosti."
 
 #: clientgui/sg_ClientStateIndicator.cpp:309
 msgid "Processing Suspended."
-msgstr ""
+msgstr "Obdelava na čakanju."
 
 #: clientgui/sg_ClientStateIndicator.cpp:313
 msgid "Waiting to contact project servers."
-msgstr ""
+msgstr "Čakam, da kontaktiram strežnike projektov."
 
 #: clientgui/sg_ClientStateIndicator.cpp:317
 #: clientgui/sg_ClientStateIndicator.cpp:325
 msgid "Retrieving current status"
-msgstr ""
+msgstr "Pridobivam trenutni status"
 
 #: clientgui/sg_ClientStateIndicator.cpp:320
 msgid "No work available to process"
-msgstr ""
+msgstr "Na voljo ni dela za obdelati."
 
 #: clientgui/sg_ClientStateIndicator.cpp:322
 msgid "Unable to connect to the core client"
-msgstr ""
+msgstr "Ne morem se povezati na odjemalca jedra"
 
 #: clientgui/sg_DlgMessages.cpp:107
 msgid "Project"
-msgstr ""
+msgstr "Projekt"
 
 #: clientgui/sg_DlgMessages.cpp:108
 msgid "Time"
-msgstr ""
+msgstr "Čas"
 
 #: clientgui/sg_DlgMessages.cpp:109
 msgid "Message"
-msgstr ""
+msgstr "Sporočilo"
 
 #: clientgui/sg_DlgMessages.cpp:177
 #: clientgui/sg_DlgMessages.cpp:181
 msgid "Copy all the messages to the clipboard."
-msgstr ""
+msgstr "Kopiraj vsa sporočila na odložišče."
 
 #: clientgui/sg_DlgMessages.cpp:202
 #: clientgui/sg_DlgMessages.cpp:210
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
 msgstr ""
+"Kopiraj označena sporočila na odložišče. Označite lahko več sporočil s tem, "
+"da držite pritisnjeno shift ali ctrl tipko med klikanjem na sporočila."
 
 #: clientgui/sg_DlgMessages.cpp:204
 #: clientgui/sg_DlgMessages.cpp:212
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
 msgstr ""
+"Kopiraj označena sporočila na odložišče. Označite lahko več sporočil s tem, "
+"da držite pritisnjeno shift ali ctrl tipko med klikanjem na sporočila."
 
 #: clientgui/sg_DlgMessages.cpp:252
 #: clientgui/sg_DlgPreferences.cpp:509
 msgid "Get help with BOINC"
-msgstr ""
+msgstr "Dobi pomoč za BOINC"
 
 #: clientgui/sg_DlgMessages.cpp:754
 #, c-format
 msgid "%s - Messages"
-msgstr ""
+msgstr "%s - Sporočila"
 
 #: clientgui/sg_DlgPreferences.cpp:95
 msgid "100 MB"
-msgstr ""
+msgstr "100 MB"
 
 #: clientgui/sg_DlgPreferences.cpp:96
 msgid "200 MB"
-msgstr ""
+msgstr "200 MB"
 
 #: clientgui/sg_DlgPreferences.cpp:97
 msgid "500 MB"
-msgstr ""
+msgstr "500 MB"
 
 #: clientgui/sg_DlgPreferences.cpp:98
 msgid "1 GB"
-msgstr ""
+msgstr "1 GB"
 
 #: clientgui/sg_DlgPreferences.cpp:99
 msgid "2 GB"
-msgstr ""
+msgstr "2 GB"
 
 #: clientgui/sg_DlgPreferences.cpp:100
 msgid "5 GB"
-msgstr ""
+msgstr "5 GB"
 
 #: clientgui/sg_DlgPreferences.cpp:101
 msgid "10 GB"
-msgstr ""
+msgstr "10 GB"
 
 #: clientgui/sg_DlgPreferences.cpp:102
 msgid "20 GB"
-msgstr ""
+msgstr "20 GB"
 
 #: clientgui/sg_DlgPreferences.cpp:103
 msgid "50 GB"
-msgstr ""
+msgstr "50 GB"
 
 #: clientgui/sg_DlgPreferences.cpp:104
 msgid "100 GB"
-msgstr ""
+msgstr "100 GB"
 
 #: clientgui/sg_DlgPreferences.cpp:135
 msgid "10%"
-msgstr ""
+msgstr "10%"
 
 #: clientgui/sg_DlgPreferences.cpp:136
 msgid "20%"
-msgstr ""
+msgstr "20%"
 
 #: clientgui/sg_DlgPreferences.cpp:137
 msgid "30%"
-msgstr ""
+msgstr "30%"
 
 #: clientgui/sg_DlgPreferences.cpp:138
 msgid "40%"
-msgstr ""
+msgstr "40%"
 
 #: clientgui/sg_DlgPreferences.cpp:139
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: clientgui/sg_DlgPreferences.cpp:140
 msgid "60%"
-msgstr ""
+msgstr "60%"
 
 #: clientgui/sg_DlgPreferences.cpp:141
 msgid "70%"
-msgstr ""
+msgstr "70%"
 
 #: clientgui/sg_DlgPreferences.cpp:142
 msgid "80%"
-msgstr ""
+msgstr "80%"
 
 #: clientgui/sg_DlgPreferences.cpp:143
 msgid "90%"
-msgstr ""
+msgstr "90%"
 
 #: clientgui/sg_DlgPreferences.cpp:144
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: clientgui/sg_DlgPreferences.cpp:169
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: clientgui/sg_DlgPreferences.cpp:170
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: clientgui/sg_DlgPreferences.cpp:171
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: clientgui/sg_DlgPreferences.cpp:172
 msgid "10"
-msgstr ""
+msgstr "10"
 
 #: clientgui/sg_DlgPreferences.cpp:173
 msgid "15"
-msgstr ""
+msgstr "15"
 
 #: clientgui/sg_DlgPreferences.cpp:174
 msgid "30"
-msgstr ""
+msgstr "30"
 
 #: clientgui/sg_DlgPreferences.cpp:175
 msgid "60"
-msgstr ""
+msgstr "60"
 
 #: clientgui/sg_DlgPreferences.cpp:284
 msgid "Skin"
-msgstr ""
+msgstr "Preobleka"
 
 #: clientgui/sg_DlgPreferences.cpp:291
 msgid "Skin:"
-msgstr ""
+msgstr "Preobleka:"
 
 #: clientgui/sg_DlgPreferences.cpp:307
 msgid "Preferences"
-msgstr ""
+msgstr "Nastavitve"
 
 #: clientgui/sg_DlgPreferences.cpp:324
 msgid "I want to customize my preferences for this computer only."
-msgstr ""
+msgstr "Želim prikrojiti moje nastavitve samo za ta računalnik."
 
 #: clientgui/sg_DlgPreferences.cpp:333
 msgid "Customized Preferences"
-msgstr ""
+msgstr "Prikrojene nastavitve"
 
 #: clientgui/sg_DlgPreferences.cpp:349
 msgid "Do work only between:"
-msgstr ""
+msgstr "Opravljaj delo le med:"
 
 #: clientgui/sg_DlgPreferences.cpp:371
 msgid "Connect to internet only between:"
-msgstr ""
+msgstr "Poveži se na internet samo med:"
 
 #: clientgui/sg_DlgPreferences.cpp:393
 #: clientgui/sg_DlgPreferences.cpp:410
 msgid "Use no more than:"
-msgstr ""
+msgstr "Ne uporabi več kot:"
 
 #: clientgui/sg_DlgPreferences.cpp:406
 msgid "of disk space"
-msgstr ""
+msgstr "prostora na disku"
 
 #: clientgui/sg_DlgPreferences.cpp:423
 msgid "of the processor"
-msgstr ""
+msgstr "procesorskega časa"
 
 #: clientgui/sg_DlgPreferences.cpp:427
 msgid "Do work while on battery?"
