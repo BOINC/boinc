@@ -91,7 +91,7 @@ const char *  DefaultGFXAppCrashedMsg = "Default screensaver module had an unrec
 // If there are multiple displays, this may get called 
 // multiple times (once for each display), so we need to guard 
 // against any problems that may cause.
-int initBOINCSaver() {
+void initBOINCSaver() {
 #ifdef _DEBUG
     char buf1[256], buf2[256];
     strcpy(buf1, getenv("HOME"));
@@ -107,10 +107,17 @@ int initBOINCSaver() {
 
     if (gspScreensaver == NULL) {
         gspScreensaver = new CScreensaver();
+    }
+}
+
+
+int startBOINCSaver() {
+    if (gspScreensaver) {
         return gspScreensaver->Create();
     }
     return TEXTLOGOFREQUENCY;
 }
+
 
 int getSSMessage(char **theMessage, int* coveredFreq) {
     if (gspScreensaver) {
@@ -148,7 +155,69 @@ void closeBOINCSaver() {
     }
 }
 
+
+double getGFXDefaultPeriod() {
+    if (gspScreensaver) {
+        return gspScreensaver->m_fGFXDefaultPeriod;
+    }
+    return 0;
+}
+
+
+double getGFXSciencePeriod() {
+    if (gspScreensaver) {
+        return gspScreensaver->m_fGFXSciencePeriod;
+    }
+    return 0;
+}
+
+
+double getGGFXChangePeriod() {
+    if (gspScreensaver) {
+        return gspScreensaver->m_fGFXChangePeriod;
+    }
+    return 0;
+}
+
+
+void setGFXDefaultPeriod(double value) {
+    if (gspScreensaver) {
+        gspScreensaver->m_fGFXDefaultPeriod = value;
+    }
+}
+
+
+void setGFXSciencePeriod(double value) {
+    if (gspScreensaver) {
+        gspScreensaver->m_fGFXSciencePeriod = value;
+    }
+}
+
+
+void setGGFXChangePeriod(double value) {
+    if (gspScreensaver) {
+        gspScreensaver->m_fGFXChangePeriod = value;
+    }
+}
+
+
+bool validateNumericString(CFStringRef s) {
+    CFIndex i;
+    CFRange range, result;
+    CFIndex len = CFStringGetLength(s);
+    CFCharacterSetRef theSet = CFCharacterSetGetPredefined(kCFCharacterSetDecimalDigit);
+    
+    for (i=0; i<len; i++) {
+        range = CFRangeMake(i, 1);
+        if (!CFStringFindCharacterFromSet(s, theSet, range, kCFCompareAnchored, &result))
+            return false;
+    }
+    return true;
+}
+
+
 CScreensaver::CScreensaver() {
+    struct ss_periods periods;
     OSStatus err;
     
     m_dwBlankScreen = 0;
@@ -175,6 +244,15 @@ CScreensaver::CScreensaver() {
     if (err != noErr) {
         gSystemVersion = 0;
     }
+
+    // Get project-defined default values for GFXDefaultPeriod, GFXSciencePeriod, GFXChangePeriod
+    GetDefaultDisplayPeriods(periods);
+    m_bShow_default_ss_first = periods.Show_default_ss_first;
+
+
+    m_fGFXDefaultPeriod = periods.GFXDefaultPeriod;
+    m_fGFXSciencePeriod = periods.GFXSciencePeriod;
+    m_fGFXChangePeriod = periods.GFXChangePeriod;
 }
 
 
@@ -208,14 +286,6 @@ int CScreensaver::Create() {
     // multiple times (once for each display), so we need to guard 
     // against launching multiple instances of the core client
     if (saverState == SaverState_Idle) {
-        // Calculate the estimated blank time by adding the starting 
-        //  time and and the user-specified time which is in minutes
-        m_dwBlankScreen = gGoToBlank;
-        if (gGoToBlank)
-            m_dwBlankTime = time(0) + (gBlankingTime * 60);
-        else
-            m_dwBlankTime = 0;
-
         CFStringGetCString(gPathToBundleResources, m_gfx_Switcher_Path, sizeof(m_gfx_Switcher_Path), kCFStringEncodingMacRoman);
         strlcat(m_gfx_Switcher_Path, "/gfx_switcher", sizeof(m_gfx_Switcher_Path));
 
@@ -542,6 +612,14 @@ void CScreensaver::HandleRPCError() {
 
 bool CScreensaver::CreateDataManagementThread() {
     int retval;
+    
+    // Calculate the estimated blank time by adding the starting 
+    //  time and and the user-specified time which is in minutes
+    m_dwBlankScreen = gGoToBlank;
+    if (gGoToBlank && (gBlankingTime > 0))
+        m_dwBlankTime = time(0) + (gBlankingTime * 60);
+    else
+        m_dwBlankTime = 0;
     
     if (m_hDataManagementThread == NULL) {
         retval = pthread_create(&m_hDataManagementThread, NULL, DataManagementProcStub, 0);
