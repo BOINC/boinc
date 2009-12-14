@@ -3,13 +3,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2009-12-14 14:59-0700\n"
+"Last-Translator: Nick Liolios <anarchist_jesus@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -410,7 +412,7 @@ msgstr ""
 
 #: index.php:23
 msgid "Computing power"
-msgstr ""
+msgstr "Υπολογιστική δύναμη"
 
 #: index.php:25
 msgid "Top 100 volunteers"
@@ -418,52 +420,52 @@ msgstr ""
 
 #: index.php:26
 msgid "Statistics"
-msgstr ""
+msgstr "Στατιστικά"
 
 #: index.php:53
 msgid "Active:"
-msgstr ""
+msgstr "Ενεργοί:"
 
 #: index.php:53
 msgid "volunteers,"
-msgstr ""
+msgstr "εθελοντές,"
 
 #: index.php:53
 msgid "computers.\n"
-msgstr ""
+msgstr "υπολογιστές."
 
 #: index.php:54
 msgid "24-hour average:"
-msgstr ""
+msgstr "24ωρος μέσος όρος:"
 
 #: index.php:54
 msgid "TeraFLOPS."
-msgstr ""
+msgstr "TeraFLOPS"
 
 #: index.php:66
 msgid "News"
-msgstr ""
+msgstr "Νέα"
 
 #: index.php:72
 msgid "... more"
-msgstr ""
+msgstr "... περισσότερα"
 
 #: index.php:76
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr ""
+msgstr "Τα νέα είναι διαθέσιμα ως %sτροφοδοσία RSS%s"
 
 #: index.php:86
 msgid "Volunteer"
-msgstr ""
+msgstr "Γίνετε εθελοντές"
 
 #: index.php:88
 msgid "Download"
-msgstr ""
+msgstr "Λήψη"
 
 #: index.php:90 index.php:125 index.php:163
 msgid "Documentation"
-msgstr ""
+msgstr "Εγχειρίδιο χρήστη"
 
 #: index.php:96
 #, php-format
@@ -473,6 +475,12 @@ msgid ""
 "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %"
 "sDownload%s and run BOINC software  %sEnter%s an email address and password. "
 msgstr ""
+"Χρησιμοποιήστε τον αδρανή χρόνο στον υπολογιστή σας (Windows, Mac, ή Linux) "
+"για την θεραπεία ασθενειών, τη μελέτη της παγκόσμιας ανόδου της "
+"θερμοκρασίας, την ανακάλυψη άστρων pulsar, και πολλά άλλα είδη επιστημονικής "
+"έρευνας. Είναι σίγουρο, ασφαλές και έυκολο: %sΕπιλέξτε έργα%s %sΚατεβάστε%s "
+"και τρέξτε το λειτουργικό BOINC %sΕισάγετε%s μία διεύθυνση ηλεκτρονικού "
+"ταχυδρομείου κι έναν κωδικό."
 
 #: index.php:107
 #, php-format
@@ -480,38 +488,40 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
+"Ή, αν τρέχετε περισσότερα έργα, δοκιμάστε ένα %sπρόγραμμα διαχείρισης "
+"λογαριασμού%s όπως το %sGridRepublic%s ή το %sBAM!%s."
 
 #: index.php:123
 msgid "Compute with BOINC"
-msgstr ""
+msgstr "\"Υπολογίστε\" με το BOINC"
 
 #: index.php:126
 msgid "Software updates"
-msgstr ""
+msgstr "Ενημερώσεις λογισμικού"
 
 #: index.php:153
 msgid "The BOINC project"
-msgstr ""
+msgstr "Το έργο BOINC"
 
 #: index.php:158
 msgid "Help wanted!"
-msgstr ""
+msgstr "Ζητείται βοήθεια!"
 
 #: index.php:160
 msgid "Programming"
-msgstr ""
+msgstr "Προγραμματισμός"
 
 #: index.php:161
 msgid "Translation"
-msgstr ""
+msgstr "Μετάφραση"
 
 #: index.php:162
 msgid "Testing"
-msgstr ""
+msgstr "Δοκιμή"
 
 #: index.php:165
 msgid "Software development"
-msgstr ""
+msgstr "Ανάπτυξη λογισμικού"
 
 #: index.php:166
 msgid "APIs for add-on software"
@@ -519,45 +529,47 @@ msgstr ""
 
 #: index.php:167
 msgid "Personnel and contributors"
-msgstr ""
+msgstr "Προσωπικό και συντελεστές"
 
 #: index.php:168
 msgid "Message boards"
-msgstr ""
+msgstr "Πίνακας μηνυμάτων (forum)"
 
 #: index.php:169
 msgid "Email lists"
-msgstr ""
+msgstr "Λίστες ηλεκτρονικού ταχυδρομείου"
 
 #: index.php:170
 msgid "Events"
-msgstr ""
+msgstr "Εκδηλώσεις"
 
 #: index.php:171
 msgid "Conferences"
-msgstr ""
+msgstr "Συνέδρια"
 
 #: index.php:172
 msgid "Papers and talks"
-msgstr ""
+msgstr "Άρθρα και ομιλίες"
 
 #: index.php:173
 msgid "Logos and graphics"
-msgstr ""
+msgstr "Λογότυτα και γραφικά"
 
 #: index.php:206
 msgid "Browser default"
-msgstr ""
+msgstr "Προεπιλεγμένη"
 
 #: index.php:250
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
+"Λογισμικό ανοιχτού κώδικα για %sεθελοντικό υπολογισμό%s και %sυπολογισμό "
+"πλέγματος%s."
 
 #: poll.php:9
 msgid "BOINC user survey"
-msgstr ""
+msgstr "Έρευνα για χρήστες του BOINC"
 
 #: poll.php:19
 msgid ""
@@ -571,62 +583,77 @@ msgid ""
 "will replace the old ones. <p> The current results of the survey are <a "
 "href=poll_results.php>here</a>. "
 msgstr ""
+"Αρκετά προγράμματα εθελοντικού υπολογισμού, όπως τα Climateprediction.net, "
+"Einstein@home, και SETI@home, χρησιμοποιούν το λογισμικό που ονομάζεται "
+"BOINC. Εάν συμμετέχετε σε προγράμματα όπως αυτά, σας ζητούμε να απαντήσετε "
+"στις παρακάτω ερωτήσεις. Αυτό θα βοηθήσει τα προγράμματα που βασίζονται στο "
+"BOINC να αυξήσουν τη συμμετοχή και να πετύχουν μεγαλύτερα επιστημονικά "
+"αποτελέσματα. <p> Παρακαλούμε απαντήστε όσες από τις ερωτήσεις επιθυμείτε, "
+"έπειτα πηγαίνεται στο κάτω μέρος της σελίδας και πατήστε το πλήκτρο OK. Αν "
+"έχετε συμπληρώσει την έρευνα στο παρελθόν αλλά οι απαντήσεις σας έχουν "
+"αλλάξει, παρακαλούμε συμπληρώστε την ξανά - οι νέες σας απαντήσεις θα "
+"αντικαταστήσουν τις προηγούμενες. <p> Τα τρέχοντα αποτελέσματα της έρευνας "
+"βρίσκονται <a href=poll_results.php>εδώ</a>."
 
 #: poll.php:25
 msgid "Do you run BOINC?"
-msgstr ""
+msgstr "Χρησιμοποιείτε το πρόγραμμα BOINC;"
 
 #: poll.php:30
 msgid "Your participation"
-msgstr ""
+msgstr "Η συμμετοχή σας"
 
 #: poll.php:32
 msgid "Your computers"
-msgstr ""
+msgstr "Οι υπολογιστές σας"
 
 #: poll.php:34
 msgid "You"
-msgstr ""
+msgstr "Εσείς"
 
 #: poll.php:39
 msgid "Nationality"
-msgstr ""
+msgstr "Εθνικότητα"
 
 #: poll.php:44
 msgid "Comments"
-msgstr ""
+msgstr "Σχόλια"
 
 #: poll.php:46
 msgid ""
 "Please suggest ways that BOINC, and the projects that use it, could be "
 "improved:"
 msgstr ""
+"Παρακαλούμε προτείνετε τρόπους που το BOINC, και τα προγράμματα που το "
+"χρησιμοποιούν, μπορούν αν βελτιωθούν:"
 
 #: poll.php:50
 msgid "When done click:"
-msgstr ""
+msgstr "Όταν τελειώσετε πατήστε:"
 
 #: poll_action.php:9
 msgid "Error - results not recorded"
-msgstr ""
+msgstr "Σφάλμα - τα αποτελέσματα δεν έχουν καταγραφεί"
 
 #: poll_action.php:10
 msgid ""
 "An internal error has prevented us from recording your survey response.  "
 "Please try again later."
 msgstr ""
+"Ένα εσωτερικό σφάλμα μας εμπόδισε από το να καταγράψουμε τις απαντήσεις σας "
+"στην έρευνα. Παρακαλούμε δοκιμάστε ξανά αργότερα."
 
 #: poll_action.php:32
 msgid "Survey response recorded"
-msgstr ""
+msgstr "Οι απαντήσεις σας στην έρευνα καταγράφηκαν."
 
 #: poll_action.php:33
 msgid "Thank you for completing the BOINC user survey."
-msgstr ""
+msgstr "Σας ευχαριστούμε που συμπληρώσατε την έρευνα για χρήστες του BOINC."
 
 #: poll_results.php:195
 msgid "Survey results"
-msgstr ""
+msgstr "Αποτελέσματα της έρευνας"
 
 #: poll_results.php:196
 msgid ""
