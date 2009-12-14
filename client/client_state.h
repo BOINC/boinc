@@ -293,7 +293,7 @@ public:
         if (x < 1) x = 1;
         return x;
     }
-    void request_enforce_schedule(const char*);
+    void request_enforce_schedule(PROJECT*, const char*);
         /// Check for reschedule CPUs ASAP.
 
         /// Called when:

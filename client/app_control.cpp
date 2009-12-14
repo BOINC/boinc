@@ -142,7 +142,9 @@ int ACTIVE_TASK::kill_task(bool restart) {
     cleanup_task();
 	if (restart) {
 		set_task_state(PROCESS_UNINITIALIZED, "kill_task");
-		gstate.request_enforce_schedule("Task restart");
+        char buf[256];
+        sprintf(buf, "restarting %s", result->name);
+		gstate.request_enforce_schedule(result->project, buf);
 	} else {
 		set_task_state(PROCESS_ABORTED, "kill_task");
 	}
@@ -1047,7 +1049,9 @@ void ACTIVE_TASK_SET::get_msgs() {
         }
         if (atp->get_app_status_msg()) {
             if (old_time != atp->checkpoint_cpu_time) {
-                gstate.request_enforce_schedule("Checkpoint reached");
+                char buf[256];
+                sprintf(buf, "%s checkpointed", atp->result->name);
+                gstate.request_enforce_schedule(atp->result->project, buf);
                 atp->checkpoint_wall_time = gstate.now;
                 atp->premature_exit_count = 0;
                 atp->checkpoint_elapsed_time = atp->elapsed_time;

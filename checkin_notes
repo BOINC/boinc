@@ -10057,3 +10057,16 @@ David  14 Dec 2009
         gui_rpc_client.h
         gui_rpc_client_ops.cpp
 
+David  14 Dec 2009
+	- client: fix bug in insufficient video RAM feature
+	- client: improve CPU sched debug msgs
+	- client: fix "temporary exit" feature
+	
+	client/
+		app_control.cpp
+		app_start.cpp
+		client_state.h
+		cpu_sched.cpp
+		sandbox.h
+	lib/
+		filesys.h

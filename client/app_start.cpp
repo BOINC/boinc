@@ -498,7 +498,7 @@ int ACTIVE_TASK::start(bool first_time) {
     // make sure temporary exit file isn't there
     //
     sprintf(file_path, "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
-    remove_project_owned_file_or_dir(file_path);
+    delete_project_owned_file(file_path, true);
 
     if (gstate.exit_before_start) {
         exit(0);
