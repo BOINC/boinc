@@ -10011,3 +10011,12 @@ David  13 Dec 2009
 
     samples/wrapper/
         wrapper.cpp
+
+Charlie 13 Dec 2009
+    - API and client: Fix bugs (indicated by compiler warnings) in recent 
+        check-ins.  David: please confirm these changes.
+    
+    client/
+        app_control.cpp
+        client_types.cpp
+    

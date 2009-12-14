@@ -400,7 +400,7 @@ bool ACTIVE_TASK::temporary_exit_file_present(double& x) {
     sprintf(path, "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
     FILE* f = fopen(path, "r");
     if (!f) return false;
-    double y;
+    int y;
     int n = fscanf(f, "%d", &y);
     fclose(f);
     if (n != 1 || y < 0 || y > 86400) {

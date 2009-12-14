@@ -1942,7 +1942,7 @@ bool RESULT::insufficient_video_ram() {
             msg_printf(project, MSG_INFO,
                 "[cpu_sched_debug] %s: insufficient GPU RAM (%.0fMB < %.0fMB)",
                 name,
-                available_ram/MEGA < avp->gpu_ram/MEGA
+                available_ram/MEGA, avp->gpu_ram/MEGA
             );
         }
         return true;
