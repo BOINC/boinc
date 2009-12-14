@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-14 04:56-0700\n"
+"PO-Revision-Date: 2009-12-14 05:51-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -889,41 +889,41 @@ msgstr "Poteka %d opravil."
 
 #: clientgui/BOINCTaskBar.cpp:400
 msgid "Reconnecting to client."
-msgstr ""
+msgstr "Ponovno se povezujem na odjemalca."
 
 #: clientgui/BOINCTaskBar.cpp:406
 msgid "Not connected to a client."
-msgstr ""
+msgstr "Nisem povezan na odjemalca."
 
 #: clientgui/BOINCTaskBar.cpp:597
 #, c-format
 msgid "Open %s Web..."
-msgstr ""
+msgstr "Odpri spletno stran %s..."
 
 #: clientgui/BOINCTaskBar.cpp:604
 #, c-format
 msgid "Open %s..."
-msgstr ""
+msgstr "Odpri %s..."
 
 #: clientgui/BOINCTaskBar.cpp:611
 msgid "Snooze"
-msgstr ""
+msgstr "Dremež"
 
 #: clientgui/CompletionErrorPage.cpp:200
 msgid "Failed to attach to project"
-msgstr ""
+msgstr "Nisem se uspel priklopiti na projekt"
 
 #: clientgui/CompletionErrorPage.cpp:205
 msgid "Failed to update account manager"
-msgstr ""
+msgstr "Nisem uspel posodobiti upravitelja računov"
 
 #: clientgui/CompletionErrorPage.cpp:209
 msgid "Failed to remove account manager"
-msgstr ""
+msgstr "Nisem uspel odstraniti upravitelja računov"
 
 #: clientgui/CompletionErrorPage.cpp:213
 msgid "Failed to attach to account manager"
-msgstr ""
+msgstr "Nisem se uspel priklopiti na upravitelja računov"
 
 #: clientgui/CompletionErrorPage.cpp:222
 msgid ""
@@ -932,91 +932,99 @@ msgid ""
 "\n"
 "Click Finish to close."
 msgstr ""
+"Pripetila se je napaka;\n"
+"za podrobnosti preveri Sporočila.\n"
+"\n"
+"Kliknite Končaj, da zaprete."
 
 #: clientgui/CompletionErrorPage.cpp:226
 #: clientgui/CompletionPage.cpp:217
 #: clientgui/CompletionPage.cpp:240
 #: clientgui/CompletionPage.cpp:289
 msgid "Click Finish to close."
-msgstr ""
+msgstr "Kliknite Končaj, da zaprete."
 
 #: clientgui/CompletionErrorPage.cpp:235
 msgid "Messages from server:"
-msgstr ""
+msgstr "Sporočila strežnika:"
 
 #: clientgui/CompletionPage.cpp:202
 msgid "Attached to project"
-msgstr ""
+msgstr "Priklopljen na projekt"
 
 #: clientgui/CompletionPage.cpp:208
 msgid "You are now successfully attached to this project."
-msgstr ""
+msgstr "Zdaj ste se uspešno priklopili na ta projekt."
 
 #: clientgui/CompletionPage.cpp:213
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
 msgstr ""
+"Ko kliknete Končaj, bo vaš spletni brskalnik šel na stran, kjer\n"
+"lahko nastavite vaše uporabniško ime in nastavitve."
 
 #: clientgui/CompletionPage.cpp:230
 #, c-format
 msgid "Update from %s completed."
-msgstr ""
+msgstr "Posodobitev iz %s je dokončana."
 
 #: clientgui/CompletionPage.cpp:234
 msgid "Update completed."
-msgstr ""
+msgstr "Posodobitev je dokončana."
 
 #: clientgui/CompletionPage.cpp:251
 #, c-format
 msgid "Attached to %s"
-msgstr ""
+msgstr "Priklopljen na %s"
 
 #: clientgui/CompletionPage.cpp:255
 msgid "Attached to account manager"
-msgstr ""
+msgstr "Priklopljen na upravitelja računov"
 
 #: clientgui/CompletionPage.cpp:265
 #, c-format
 msgid "Welcome to %s!"
-msgstr ""
+msgstr "Dobrodošli pri %s!"
 
 #: clientgui/CompletionPage.cpp:279
 #, c-format
 msgid "You are now successfully attached to the %s system."
-msgstr ""
+msgstr "Zdaj ste uspešno priklopljeni na sistem %s."
 
 #: clientgui/CompletionPage.cpp:283
 msgid "You are now successfully attached to this account manager."
-msgstr ""
+msgstr "Zdaj ste uspešno priklopljeni na ta upravitelj računov."
 
 #: clientgui/DlgAbout.cpp:98
 #, c-format
 msgid "About %s"
-msgstr ""
+msgstr "O %s"
 
 #: clientgui/DlgAbout.cpp:155
 msgid "Version:"
-msgstr ""
+msgstr "Različica:"
 
 #: clientgui/DlgAbout.cpp:163
 msgid "wxWidgets Version:"
-msgstr ""
+msgstr "wxWidgets različica:"
 
 #: clientgui/DlgAbout.cpp:171
 msgid "Copyright:"
-msgstr ""
+msgstr "Avtorske pravice:"
 
 #: clientgui/DlgAbout.cpp:175
 msgid ""
 "(C) 2003-2008 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"(C) 2003-2008 University of California, Berkeley.\n"
+"Vse pravice pridržane."
 
 #: clientgui/DlgAbout.cpp:179
 #: clientgui/DlgAbout.cpp:183
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr ""
+msgstr "Berkeleyeva odprta infrastruktura za mrežno računanje"
 
 #: clientgui/DlgAbout.cpp:195
 #: clientgui/DlgExitMessage.cpp:172
@@ -1024,40 +1032,40 @@ msgstr ""
 #: clientgui/DlgOptions.cpp:383
 #: clientgui/DlgSelectComputer.cpp:147
 msgid "&OK"
-msgstr ""
+msgstr "&V redu"
 
 #: clientgui/DlgAdvPreferences.cpp:480
 msgid "invalid float"
-msgstr ""
+msgstr "napačno število s plavajočo vejico (float)"
 
 #: clientgui/DlgAdvPreferences.cpp:481
 msgid "invalid time, format is HH:MM"
-msgstr ""
+msgstr "napačen čas, format je HH:MM"
 
 #: clientgui/DlgAdvPreferences.cpp:482
 msgid "invalid time interval, format is HH:MM-HH:MM"
-msgstr ""
+msgstr "napačen časovni interval, format je HH:MM-HH:MM"
 
 #: clientgui/DlgAdvPreferences.cpp:591
 msgid "invalid input value detected"
-msgstr ""
+msgstr "zaznana je bila napačna vhodna vrednost"
 
 #: clientgui/DlgAdvPreferences.cpp:593
 msgid "Validation Error"
-msgstr ""
+msgstr "Napaka pri validaciji"
 
 #: clientgui/DlgAdvPreferences.cpp:737
 msgid "Do you really want to clear all local preferences ?"
-msgstr ""
+msgstr "Res želite počistiti vse lokalne nastavitve?"
 
 #: clientgui/DlgAdvPreferences.cpp:738
 msgid "Confirmation"
-msgstr ""
+msgstr "Potrditev"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:31
 #, c-format
 msgid "%s - Preferences"
-msgstr ""
+msgstr "%s - Nastavitve"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:49
 msgid ""
@@ -1065,140 +1073,149 @@ msgid ""
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings."
 msgstr ""
+"Ta dialog nadzoruje nastavitve samo za ta računalnik.\n"
+"Kliknite V redu, da nastavite nastavitve.\n"
+"Kliknite Počisti, da obnovite nastavitve temelječe na spletu."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:52
 msgid "Clear"
-msgstr ""
+msgstr "Počisti"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:53
 msgid "clear all local preferences and close the dialog"
-msgstr ""
+msgstr "počisti vse lokalne nastavitve in zapri ta dialog"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:76
 msgid "Computing allowed"
-msgstr ""
+msgstr "Računanje dovoljeno"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:80
 msgid " While computer is on batteries"
-msgstr ""
+msgstr " Med tem, ko računalnik deluje na baterije"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:83
 msgid "check this if you want this computer to do work while it runs on batteries"
 msgstr ""
+"obkljukajte to, če želite, da računalnik opravlja delo med tem ko deluje na "
+"baterije"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:89
 msgid " While computer is in use"
-msgstr ""
+msgstr " Medtem, ko je računalnik v uporabi"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:92
 msgid "check this if you want this computer to do work even when you're using it"
 msgstr ""
+"obkljukajte to, če želite, da računalnik opravlja delo tudi, ko ga "
+"uporabljate vi"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:98
 msgid " Use GPU while computer is in use"
-msgstr ""
+msgstr " Uporabi grafični procesor, ko je računalnik v uporabi"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:101
 msgid "check this if you want your GPU to do work even when you're using the computer"
 msgstr ""
+"obkljukajte to, če želite uporabiti vaš grafični procesor za delo tudi, ko "
+"računalnik uporabljate vi"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:111
 msgid "Only after computer has been idle for"
-msgstr ""
+msgstr "Samo, ko je računalnik bil nedejeven že"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:115
 msgid "do work only after you haven't used the computer for this number of minutes"
-msgstr ""
+msgstr "opravljaj delo samo, kadar niste uporabljali računalnik že toliko minut"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:119
 #: clientgui/DlgAdvPreferencesBase.cpp:239
 msgid "minutes"
-msgstr ""
+msgstr "minut"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:130
 #: clientgui/DlgAdvPreferencesBase.cpp:355
 msgid "Every day between hours of"
-msgstr ""
+msgstr "Vsak dan med urami"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:134
 msgid "start work at this time"
-msgstr ""
+msgstr "prični z delom ob tem času"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:138
 #: clientgui/DlgAdvPreferencesBase.cpp:363
 msgid "and"
-msgstr ""
+msgstr "in"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:142
 msgid "stop work at this time"
-msgstr ""
+msgstr "zaključi z delom ob tem času"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:146
 #: clientgui/DlgAdvPreferencesBase.cpp:371
 msgid "(no restriction if equal)"
-msgstr ""
+msgstr "(če sta enaka, ni omejitve)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:151
 #: clientgui/DlgAdvPreferencesBase.cpp:376
 msgid "Day-of-week override:"
-msgstr ""
+msgstr "Dan-v-tednu povozi nastavitve:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:156
 #: clientgui/DlgAdvPreferencesBase.cpp:381
 msgid "check box to specify hours for this day of week"
-msgstr ""
+msgstr "kliknite tu, da podate ure za ta dan v tednu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:166
 #: clientgui/DlgAdvPreferencesBase.cpp:391
 msgid "Monday"
-msgstr ""
+msgstr "ponedeljek"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:173
 #: clientgui/DlgAdvPreferencesBase.cpp:398
 msgid "Tuesday"
-msgstr ""
+msgstr "torek"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:180
 #: clientgui/DlgAdvPreferencesBase.cpp:405
 msgid "Wednesday"
-msgstr ""
+msgstr "sreda"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:187
 #: clientgui/DlgAdvPreferencesBase.cpp:412
 msgid "Thursday"
-msgstr ""
+msgstr "četrtek"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:194
 #: clientgui/DlgAdvPreferencesBase.cpp:419
 msgid "Friday"
-msgstr ""
+msgstr "petek"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:201
 #: clientgui/DlgAdvPreferencesBase.cpp:426
 msgid "Saturday"
-msgstr ""
+msgstr "sobota"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:208
 #: clientgui/DlgAdvPreferencesBase.cpp:433
 msgid "Sunday"
-msgstr ""
+msgstr "nedelja"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:225
 msgid "Other options"
-msgstr ""
+msgstr "Druge možnosti"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:233
 msgid "Switch between applications between every"
-msgstr ""
+msgstr "Preklopi med aplikacijami vsakih"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:242
 msgid "On multiprocessor systems, use at most"
-msgstr ""
+msgstr "Na večprocesorskih sistemih, uporabi največ"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:249
 #, no-c-format
 msgid "% of the processors"
-msgstr ""
+msgstr "% procesorjev"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:252
 #: clientgui/DlgAdvPreferencesBase.cpp:468
@@ -1207,51 +1224,53 @@ msgstr ""
 #: clientgui/DlgAdvPreferencesBase.cpp:534
 #: clientgui/DlgAdvPreferencesBase.cpp:544
 msgid "Use at most"
-msgstr ""
+msgstr "Uporabi največ"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:259
 #, no-c-format
 msgid "% CPU time"
-msgstr ""
+msgstr "% procesorskega časa"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:269
 msgid "processor usage"
-msgstr ""
+msgstr "uporaba procesorja"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:277
 msgid "General options"
-msgstr ""
+msgstr "Splošne možnosti"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:284
 msgid "Maximum download rate"
-msgstr ""
+msgstr "Največja hitrost prejemanja"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:290
 #: clientgui/DlgAdvPreferencesBase.cpp:299
 msgid "KBytes/sec."
-msgstr ""
+msgstr "KBajtov/sekundo"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:293
 msgid "Maximum upload rate"
-msgstr ""
+msgstr "Največja hitrost pošiljanja"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:302
 msgid "Connect about every"
-msgstr ""
+msgstr "Poveži se približno vsakih"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:306
 msgid ""
 "this computer is connected to the Internet about every X days\n"
 "(0 if it's always connected)"
 msgstr ""
+"ta računalni je povezan na internet približno vsakih X dni\n"
+"(0, če je zmeraj povezan)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:310
 msgid "days"
-msgstr ""
+msgstr "dni"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:313
 msgid "Additional work buffer"
-msgstr ""
+msgstr "Dodatni delovni medpomnilnik"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:319
 msgid "days (max. 10)"
