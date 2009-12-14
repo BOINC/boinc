@@ -10040,3 +10040,10 @@ Charlie 14 Dec 2009
         screensaver_win.cpp, .h
         res/
             BOINCSaver.nib
+
+David  14 Dec 2009
+    - client: ATI: call calShutdown() when done.
+        Otherwise Lenovo can't switch to low-power GPU
+
+    client/
+        coproc_detect.cpp
