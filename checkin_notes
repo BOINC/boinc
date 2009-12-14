@@ -10020,3 +10020,9 @@ Charlie 13 Dec 2009
         app_control.cpp
         client_types.cpp
     
+Charlie 13 Dec 2009
+    Mac command-line install: add .txt extension to copyright files.
+    
+    mac_installer/
+        release_boinc.sh
+    
