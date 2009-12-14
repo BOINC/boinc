@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-14 03:59-0700\n"
+"PO-Revision-Date: 2009-12-14 04:56-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -752,7 +752,7 @@ msgid ""
 msgstr ""
 "%s ni mogel opraviti komunikacije po internetu, privzeta povezava pa ni "
 "nastavljena.\n"
-"Prosim, povzežite se na internet ali izberite privzeto povezavo\n"
+"Prosim, povežite se na internet ali izberite privzeto povezavo\n"
 "z uporabo Napredno/Možnosti/Povezave."
 
 #: clientgui/BOINCDialupManager.cpp:386
@@ -763,7 +763,7 @@ msgstr "%s se je uspešno povezal na internet."
 #: clientgui/BOINCDialupManager.cpp:414
 #, c-format
 msgid "%s failed to connect to the Internet."
-msgstr ""
+msgstr "%s se ni uspel povezati na internet."
 
 #: clientgui/BOINCDialupManager.cpp:455
 #, c-format
@@ -771,16 +771,18 @@ msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
 msgstr ""
+"%s je ugotovil, da je zdaj povezan na internet.\n"
+"Posodobljajo se vsi projekti in ponovno se poskušajo izvesti vsi prenosi."
 
 #: clientgui/BOINCDialupManager.cpp:500
 #, c-format
 msgid "%s has successfully disconnected from the Internet."
-msgstr ""
+msgstr "%s se je uspešno odklopil z interneta."
 
 #: clientgui/BOINCDialupManager.cpp:516
 #, c-format
 msgid "%s failed to disconnected from the Internet."
-msgstr ""
+msgstr "%s se ni uspel odklopiti z interneta."
 
 #: clientgui/BOINCGUIApp.cpp:336
 msgid ""
@@ -793,6 +795,14 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
+"Trenutno nimate dovoljenja za upravljanje odjemalca.\n"
+"\n"
+"Da poganjate BOINC kot ta uporabnik, prosim:\n"
+"  - ponovno namestite BOINC in odgovorite z \"Da\" na vprašanje o\n"
+"     ne-administrativnih uporabnikih\n"
+" ali\n"
+"  - kontaktirajte vašega sistemskega skrbnika, da vas doda v      "
+"uporabniško skupino \"boinc_master\"."
 
 #: clientgui/BOINCGUIApp.cpp:339
 #, c-format
@@ -800,74 +810,82 @@ msgid ""
 "BOINC ownership or permissions are not set properly; please reinstall BOINC.\n"
 "(Error code %d)"
 msgstr ""
+"Lastništvo BOINC ali pravice niso prav nastavljene; prosim, ponovno "
+"namestite BOINC.\n"
+"(Koda napake %d)"
 
 #: clientgui/BOINCGUIApp.cpp:389
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
 msgstr ""
+"Ponovni zagon je potreben, da bo lahko BOINC pravilno tekel.\n"
+"Prosim, ponovno zaženite vaš računalnik in poskusite znova."
 
 #: clientgui/BOINCGUIApp.cpp:390
 msgid "BOINC Manager"
-msgstr ""
+msgstr "BOINC Upravitelj"
 
 #: clientgui/BOINCGUIApp.cpp:537
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr ""
+msgstr "BOINC Upravitelj je bil samodejno pognan s strani operacijskega sistema"
 
 #: clientgui/BOINCGUIApp.cpp:539
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr ""
+"Poženi BOINC ob zagonu, tako da je vidna samo ikona v sistemskem pladnju."
 
 #: clientgui/BOINCGUIApp.cpp:541
 msgid "Directory containing the BOINC Client executable"
-msgstr ""
+msgstr "Imenik, ki vsebuje program BOINC Odjemalec."
 
 #: clientgui/BOINCGUIApp.cpp:542
 msgid "BOINC data directory"
-msgstr ""
+msgstr "BOINC podatkovni imenik"
 
 #: clientgui/BOINCGUIApp.cpp:544
 msgid "Startup BOINC with these optional arguments"
-msgstr ""
+msgstr "Ob zagonu poženi BOINC s temi opcijskimi argumenti."
 
 #: clientgui/BOINCGUIApp.cpp:545
 msgid "disable BOINC security users and permissions"
-msgstr ""
+msgstr "onemogoči BOINC varnostne uporabnike in dovoljenja"
 
 #: clientgui/BOINCGUIApp.cpp:546
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
+"nastavi razhroščevalni način preobleke, da omogočite sporočila o napakah "
+"upravitelja preoblek"
 
 #: clientgui/BOINCGUIApp.cpp:736
 msgid "(Automatic Detection)"
-msgstr ""
+msgstr "(samodejna prepoznava)"
 
 #: clientgui/BOINCGUIApp.cpp:737
 msgid "(Unknown)"
-msgstr ""
+msgstr "(neznano)"
 
 #: clientgui/BOINCGUIApp.cpp:738
 msgid "(User Defined)"
-msgstr ""
+msgstr "(določeno s strani uporabnika)"
 
 #: clientgui/BOINCTaskBar.cpp:336
 msgid "Computation is suspended."
-msgstr ""
+msgstr "Računanje je na čakanju."
 
 #: clientgui/BOINCTaskBar.cpp:344
 msgid "Network activity is suspended."
-msgstr ""
+msgstr "Mrežna aktivnost je na čakanju."
 
 #: clientgui/BOINCTaskBar.cpp:378
 #, c-format
 msgid "%s: %.2f%% completed."
-msgstr ""
+msgstr "%s: %.2f%% dokončano."
 
 #: clientgui/BOINCTaskBar.cpp:391
 #, c-format
 msgid "%d tasks running."
-msgstr ""
+msgstr "Poteka %d opravil."
 
 #: clientgui/BOINCTaskBar.cpp:400
 msgid "Reconnecting to client."
