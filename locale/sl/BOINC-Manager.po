@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-14 06:59-0700\n"
+"PO-Revision-Date: 2009-12-14 07:59-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -1698,241 +1698,244 @@ msgstr "Imenik"
 
 #: clientgui/DlgItemProperties.cpp:301
 msgid "New"
-msgstr ""
+msgstr "Novo"
 
 #: clientgui/DlgItemProperties.cpp:305
 msgid "Download failed"
-msgstr ""
+msgstr "Prejemanje ni uspelo"
 
 #: clientgui/DlgItemProperties.cpp:307
 msgid "Downloading"
-msgstr ""
+msgstr "Prejemam"
 
 #: clientgui/DlgItemProperties.cpp:312
 msgid "Project suspended by user"
-msgstr ""
+msgstr "Uporabnik je dal projekt na čakanje"
 
 #: clientgui/DlgItemProperties.cpp:314
 msgid "Task suspended by user"
-msgstr ""
+msgstr "Uporabnik je dal opravilo na čakanje"
 
 #: clientgui/DlgItemProperties.cpp:316
 msgid "Suspended"
-msgstr ""
+msgstr "Na čakanju"
 
 #: clientgui/DlgItemProperties.cpp:318
 msgid " - on batteries"
-msgstr ""
+msgstr " - na baterijah"
 
 #: clientgui/DlgItemProperties.cpp:321
 msgid " - user active"
-msgstr ""
+msgstr " - uporabnik aktiven"
 
 #: clientgui/DlgItemProperties.cpp:324
 msgid " - computation suspended"
-msgstr ""
+msgstr " - računanje na čakanju"
 
 #: clientgui/DlgItemProperties.cpp:327
 msgid " - time of day"
-msgstr ""
+msgstr " - čas dneva"
 
 #: clientgui/DlgItemProperties.cpp:330
 msgid " - CPU benchmarks"
-msgstr ""
+msgstr " - meritve hitrosti procesorja"
 
 #: clientgui/DlgItemProperties.cpp:333
 msgid " - need disk space"
-msgstr ""
+msgstr " - potrebuje prostor na disku"
 
 #: clientgui/DlgItemProperties.cpp:337
 msgid "Waiting for memory"
-msgstr ""
+msgstr "Čakam na pomnilnik"
 
 #: clientgui/DlgItemProperties.cpp:339
 msgid "Waiting for shared memory"
-msgstr ""
+msgstr "Čakam na deljeni pomnilnik"
 
 #: clientgui/DlgItemProperties.cpp:342
 msgid "Running, high priority"
-msgstr ""
+msgstr "Se izvaja, visoka prioriteta"
 
 #: clientgui/DlgItemProperties.cpp:344
 msgid "Running"
-msgstr ""
+msgstr "Se izvaja"
 
 #: clientgui/DlgItemProperties.cpp:347
 msgid "Waiting to run"
-msgstr ""
+msgstr "Čakanje na izvajanje"
 
 #: clientgui/DlgItemProperties.cpp:349
 #: clientgui/DlgItemProperties.cpp:352
 msgid "Ready to start"
-msgstr ""
+msgstr "Pripravljen na pričetek"
 
 #: clientgui/DlgItemProperties.cpp:356
 msgid "Computation error"
-msgstr ""
+msgstr "Napaka pri računanju"
 
 #: clientgui/DlgItemProperties.cpp:360
 msgid "Upload failed"
-msgstr ""
+msgstr "Pošiljanje ni uspelo"
 
 #: clientgui/DlgItemProperties.cpp:362
 msgid "Uploading"
-msgstr ""
+msgstr "Pošiljam"
 
 #: clientgui/DlgItemProperties.cpp:368
 msgid "Aborted by user"
-msgstr ""
+msgstr "Opuščeno s strani uporabnika"
 
 #: clientgui/DlgItemProperties.cpp:371
 msgid "Aborted by project"
-msgstr ""
+msgstr "Opuščeno s strani projekta"
 
 #: clientgui/DlgItemProperties.cpp:374
 msgid "Aborted"
-msgstr ""
+msgstr "Opuščeno"
 
 #: clientgui/DlgItemProperties.cpp:379
 msgid "Acknowledged"
-msgstr ""
+msgstr "Potrjeno"
 
 #: clientgui/DlgItemProperties.cpp:381
 msgid "Ready to report"
-msgstr ""
+msgstr "Pripravljen na poročanje"
 
 #: clientgui/DlgItemProperties.cpp:383
 #, c-format
 msgid "Error: invalid state '%d'"
-msgstr ""
+msgstr "Napaka: neveljavno stanje '%d'"
 
 #: clientgui/DlgOptions.cpp:119
 #, c-format
 msgid "%s - Options"
-msgstr ""
+msgstr "%s - Možnosti"
 
 #: clientgui/DlgOptions.cpp:157
 msgid "Language:"
-msgstr ""
+msgstr "Jezik:"
 
 #: clientgui/DlgOptions.cpp:164
 msgid "What language should the manager use?"
-msgstr ""
+msgstr "Kateri jezik naj uporablja upravitelj?"
 
 #: clientgui/DlgOptions.cpp:168
 msgid ""
 "Network reminder interval:\n"
 "(minutes)"
 msgstr ""
+"Interval opomnika mreže:\n"
+"(minute)"
 
 #: clientgui/DlgOptions.cpp:180
 msgid "How often should the Manager remind you when a network connection is needed?"
 msgstr ""
+"Kako pogosto naj vas Upravitelj opominja, kadar je potrebna mrežna povezava?"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "Run Manager at login?"
-msgstr ""
+msgstr "Poženi Upravitelja ob prijavi?"
 
 #: clientgui/DlgOptions.cpp:191
 msgid "Run the BOINC Manager when you log on."
-msgstr ""
+msgstr "Požene BOINC Upravitelja, ko se prijavite."
 
 #: clientgui/DlgOptions.cpp:196
 msgid "Enable Manager exit dialog?"
-msgstr ""
+msgstr "Omogoči izhodni dialog Upravitelja?"
 
 #: clientgui/DlgOptions.cpp:202
 msgid "Display the exit dialog when shutting down the Manager."
-msgstr ""
+msgstr "Prikaži izhodni dialog  ob zaustavljanju Upravitelja."
 
 #: clientgui/DlgOptions.cpp:213
 msgid "Dial-up and Virtual Private Network settings"
-msgstr ""
+msgstr "Nastavitve klicnega dostopa in navideznega privatnega omrežja (VPN)"
 
 #: clientgui/DlgOptions.cpp:227
 msgid "&Set Default"
-msgstr ""
+msgstr "&Nastavi privzeto"
 
 #: clientgui/DlgOptions.cpp:232
 msgid "&Clear Default"
-msgstr ""
+msgstr "&Počisti privzeto"
 
 #: clientgui/DlgOptions.cpp:239
 msgid "Default Connection:"
-msgstr ""
+msgstr "Privzeta povezava:"
 
 #: clientgui/DlgOptions.cpp:246
 msgid "Connections"
-msgstr ""
+msgstr "Povezave"
 
 #: clientgui/DlgOptions.cpp:255
 msgid "Connect via HTTP proxy server"
-msgstr ""
+msgstr "Poveži se preko HTTP posredniškega strežnika (proxy)"
 
 #: clientgui/DlgOptions.cpp:259
 msgid "HTTP Proxy Server Configuration"
-msgstr ""
+msgstr "Nastavitve HTTP posredniškega strežnika"
 
 #: clientgui/DlgOptions.cpp:267
 #: clientgui/DlgOptions.cpp:331
 msgid "Address:"
-msgstr ""
+msgstr "Naslov:"
 
 #: clientgui/DlgOptions.cpp:275
 #: clientgui/DlgOptions.cpp:339
 msgid "Port:"
-msgstr ""
+msgstr "Vrata:"
 
 #: clientgui/DlgOptions.cpp:283
 #: clientgui/DlgOptions.cpp:347
 msgid "Don't use proxy for:"
-msgstr ""
+msgstr "Ne uporabljaj posrednika za:"
 
 #: clientgui/DlgOptions.cpp:290
 #: clientgui/DlgOptions.cpp:354
 msgid "Leave these blank if not needed"
-msgstr ""
+msgstr "Pusti prazno, če ni potrebno"
 
 #: clientgui/DlgOptions.cpp:296
 #: clientgui/DlgOptions.cpp:360
 msgid "User Name:"
-msgstr ""
+msgstr "Uporabniško ime:"
 
 #: clientgui/DlgOptions.cpp:304
 #: clientgui/DlgOptions.cpp:368
 #: clientgui/DlgSelectComputer.cpp:136
 msgid "Password:"
-msgstr ""
+msgstr "Geslo:"
 
 #: clientgui/DlgOptions.cpp:311
 msgid "HTTP Proxy"
-msgstr ""
+msgstr "HTTP posrednik:"
 
 #: clientgui/DlgOptions.cpp:319
 msgid "Connect via SOCKS proxy server"
-msgstr ""
+msgstr "Poveži se preko SOCKS posredniškega strežnika (proxy)"
 
 #: clientgui/DlgOptions.cpp:323
 msgid "SOCKS Proxy Server Configuration"
-msgstr ""
+msgstr "Nastavitve SOCKS posredniškega strežnika"
 
 #: clientgui/DlgOptions.cpp:375
 msgid "SOCKS Proxy"
-msgstr ""
+msgstr "SOCKS posrednik"
 
 #: clientgui/DlgSelectComputer.cpp:90
 #, c-format
 msgid "%s - Select Computer"
-msgstr ""
+msgstr "%s - Izberi računalnik"
 
 #: clientgui/DlgSelectComputer.cpp:127
 msgid "Host name:"
-msgstr ""
+msgstr "Ime gostitelja:"
 
 #: clientgui/hyperlink.cpp:181
 #, c-format
 msgid "%s - Can't find web browser"
-msgstr ""
+msgstr "%s - Ne najdem spletnega brskalnika"
 
 #: clientgui/hyperlink.cpp:192
 #, c-format
@@ -1944,218 +1947,225 @@ msgid ""
 "BROWSER to the path of your web browser,\n"
 "then restart the %s."
 msgstr ""
+"%s je poskusil prikazati spletno stran\n"
+"\t%,s\n"
+"a ni mogel najti spletnega brskalnika.\n"
+"Da to popravite, nastavite spremenljivko okolja\n"
+"BROWSER na pot do vašega spletnega brskalnika,\n"
+"nato pa ponovno zaženite %s."
 
 #: clientgui/Localization.cpp:31
 #: clientgui/Localization.cpp:69
 msgid "Message boards"
-msgstr ""
+msgstr "Forumi"
 
 #: clientgui/Localization.cpp:33
 msgid "Correspond with other users on the SETI@home message boards"
-msgstr ""
+msgstr "Dopisuj si z drugimi uporabniki na SETI@home forumih."
 
 #: clientgui/Localization.cpp:37
 msgid "Ask questions and report problems"
-msgstr ""
+msgstr "Postavi vprašanja in prijavi probleme"
 
 #: clientgui/Localization.cpp:39
 #: clientgui/Localization.cpp:81
 #: clientgui/Localization.cpp:111
 #: clientgui/Localization.cpp:129
 msgid "Your account"
-msgstr ""
+msgstr "Vaš uporabniški račun"
 
 #: clientgui/Localization.cpp:41
 #: clientgui/Localization.cpp:87
 #: clientgui/Localization.cpp:113
 msgid "View your account information and credit totals"
-msgstr ""
+msgstr "Poglej informacije vašega uporabniškega računa in skupno zaslug"
 
 #: clientgui/Localization.cpp:43
 msgid "Your preferences"
-msgstr ""
+msgstr "Vaše nastavitve"
 
 #: clientgui/Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr ""
+msgstr "Poglej in spremeni vaš SETI@home uporabniški profil in nastavitve"
 
 #: clientgui/Localization.cpp:47
 #: clientgui/Localization.cpp:89
 msgid "Your results"
-msgstr ""
+msgstr "Vaši rezultati"
 
 #: clientgui/Localization.cpp:49
 #: clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr ""
+msgstr "Poglej zadnji teden (ali dlje) rezultatov računanja in dela"
 
 #: clientgui/Localization.cpp:51
 #: clientgui/Localization.cpp:93
 msgid "Your computers"
-msgstr ""
+msgstr "Vaši računalniki"
 
 #: clientgui/Localization.cpp:53
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr ""
+msgstr "Poglej seznam vseh računalnikov, na katerih poganjate SETI@home"
 
 #: clientgui/Localization.cpp:55
 #: clientgui/Localization.cpp:97
 msgid "Your team"
-msgstr ""
+msgstr "Vaša ekipa"
 
 #: clientgui/Localization.cpp:57
 #: clientgui/Localization.cpp:99
 msgid "View information about your team"
-msgstr ""
+msgstr "Poglej informacije o vaši ekipi"
 
 #: clientgui/Localization.cpp:61
 msgid "Common questions"
-msgstr ""
+msgstr "Pogosta vprašanja"
 
 #: clientgui/Localization.cpp:63
 msgid "Read the Einstein@Home Frequently Asked Question list"
-msgstr ""
+msgstr "Preberi Einstein@Home seznam pogosto zastavljenih vprašanj"
 
 #: clientgui/Localization.cpp:65
 msgid "Screensaver info"
-msgstr ""
+msgstr "Informacija o ohranjevalniku zaslona"
 
 #: clientgui/Localization.cpp:67
 msgid "Read a detailed description of the Einstein@Home screensaver"
-msgstr ""
+msgstr "Preberi podrobno razlago Einstein@Home ohranjevalnika zaslona"
 
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
 msgstr ""
+"Dopisuj si z administratorji in drugimi uporabniki na Einstein@Home forumu"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
-msgstr ""
+msgstr "Einsteinov status"
 
 #: clientgui/Localization.cpp:75
 msgid "Current status of the Einstein@Home server"
-msgstr ""
+msgstr "Trenutni status Einstein@Home strežnika"
 
 #: clientgui/Localization.cpp:77
 msgid "Report problems"
-msgstr ""
+msgstr "Sporoči probleme"
 
 #: clientgui/Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
-msgstr ""
+msgstr "Povezava na Einstein@Home forum problemi in sporočanje napak"
 
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr ""
+msgstr "Poglej in spremeni vaš Einstein@Home uporabniški profil in nastavitve"
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
-msgstr ""
+msgstr "Povzetek o računu"
 
 #: clientgui/Localization.cpp:95
 msgid "View a listing of all the computers on which you are running Einstein@Home"
-msgstr ""
+msgstr "Poglej seznam vseh računalnikov, na katerih poganjate Einstein@Home"
 
 #: clientgui/Localization.cpp:101
 msgid "LIGO project"
-msgstr ""
+msgstr "Projekt LIGO"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
+msgstr "Domača stran Laser Interferometer Gravitational-wave Observatory (LIGO)"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
-msgstr ""
+msgstr "Projekt GEO-600"
 
 #: clientgui/Localization.cpp:107
 msgid "The home page of the GEO-600 project"
-msgstr ""
+msgstr "Domača stran projekta GEO-600"
 
 #: clientgui/Localization.cpp:115
 #: clientgui/Localization.cpp:133
 msgid "Team"
-msgstr ""
+msgstr "Ekipa"
 
 #: clientgui/Localization.cpp:117
 msgid "Info about your Team"
-msgstr ""
+msgstr "Informacije o vaši ekipi"
 
 #: clientgui/Localization.cpp:123
 msgid "Get help for climateprediction.net"
-msgstr ""
+msgstr "Dobi pomoč za climateprediction.net"
 
 #: clientgui/Localization.cpp:125
 msgid "News"
-msgstr ""
+msgstr "Novice"
 
 #: clientgui/Localization.cpp:127
 msgid "climateprediction.net News"
-msgstr ""
+msgstr "Novice climateprediction.net"
 
 #: clientgui/Localization.cpp:131
 msgid "View your account information, credits, and trickles"
-msgstr ""
+msgstr "Poglej informacije o vašem računu, zaslugah in korakih"
 
 #: clientgui/Localization.cpp:135
 msgid "Info about your team"
-msgstr ""
+msgstr "Informacije o vaši ekipi"
 
 #: clientgui/Localization.cpp:141
 msgid "Search for help in our help system"
-msgstr ""
+msgstr "Poišči pomoč v našem sistemu pomoči"
 
 #: clientgui/Localization.cpp:143
 msgid "Global Statistics"
-msgstr ""
+msgstr "Globalna statistika"
 
 #: clientgui/Localization.cpp:145
 msgid "Summary statistics for World Community Grid"
-msgstr ""
+msgstr "Povzetek statistike za World Community Grid"
 
 #: clientgui/Localization.cpp:147
 msgid "My Grid"
-msgstr ""
+msgstr "Moja mreža"
 
 #: clientgui/Localization.cpp:149
 msgid "Your statistics and settings"
-msgstr ""
+msgstr "Vaša statistika in nastavitve"
 
 #: clientgui/Localization.cpp:151
 msgid "Device Profiles"
-msgstr ""
+msgstr "Profili naprav"
 
 #: clientgui/Localization.cpp:153
 msgid "Update your device settings"
-msgstr ""
+msgstr "Posodobite vaše nastavitve naprav"
 
 #: clientgui/Localization.cpp:155
 msgid "Research"
-msgstr ""
+msgstr "Raziskave"
 
 #: clientgui/Localization.cpp:157
 msgid "Learn about the projects hosted at World Community Grid"
-msgstr ""
+msgstr "Izvedi o projektih, ki gostujejo na World Community Grid"
 
 #: clientgui/MainDocument.cpp:536
 msgid "Starting client services; please wait..."
-msgstr ""
+msgstr "Zaganjam storitve odjemalca; prosim, počakajte..."
 
 #: clientgui/MainDocument.cpp:1059
 msgid "Retrieving system state; please wait..."
-msgstr ""
+msgstr "Pridobivam stanje sistema; prosim, počakajte..."
 
 #: clientgui/MainDocument.cpp:1068
 msgid "Retrieving host information; please wait..."
-msgstr ""
+msgstr "Pridobivam informacije o gostitelju; prosim počakajte..."
 
 #: clientgui/NoInternetConnectionPage.cpp:180
 msgid "No Internet connection"
-msgstr ""
+msgstr "Ni povezave na internet"
 
 #: clientgui/NoInternetConnectionPage.cpp:183
 msgid "Please connect to the Internet and try again."
-msgstr ""
+msgstr "Prosim, povežite se na internet in poskusite znova."
 
 #: clientgui/NotDetectedPage.cpp:182
 msgid "Project not found"
