@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-13 15:52-0700\n"
+"PO-Revision-Date: 2009-12-14 01:59-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -1763,7 +1763,7 @@ msgstr "Fut"
 
 #: clientgui/DlgItemProperties.cpp:347
 msgid "Waiting to run"
-msgstr "Futásra várakozva"
+msgstr "Futásra várakozik"
 
 #: clientgui/DlgItemProperties.cpp:349
 #: clientgui/DlgItemProperties.cpp:352
