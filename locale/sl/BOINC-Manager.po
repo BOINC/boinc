@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-14 05:51-0700\n"
+"PO-Revision-Date: 2009-12-14 06:59-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -1274,154 +1274,159 @@ msgstr "Dodatni delovni medpomnilnik"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:319
 msgid "days (max. 10)"
-msgstr ""
+msgstr "dni (največ 10)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:322
 msgid " Skip image file verification"
-msgstr ""
+msgstr " Preskoči verifikacijo slikovne datoteke"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:324
 msgid "check this if your Internet provider modifies image files"
-msgstr ""
+msgstr "obkljukajte to, če vaš ponudnik interneta spreminja slikovne datoteke"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:333
 msgid "Connect options"
-msgstr ""
+msgstr "Možnosti povezave"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:335
 msgid "Confirm before connecting to internet"
-msgstr ""
+msgstr "Zahtevaj potrditev pred povezavo na internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:337
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
 msgstr ""
+"če je obkljukano, bo prikazan potrditveni dialog pred poskusom povezave na "
+"internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:341
 msgid "Disconnect when done"
-msgstr ""
+msgstr "Odklopi, ko je končano"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:343
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
 msgstr ""
+"če je obkljukano, bo BOINC prekinil mrežno povezavo, ko bo pošiljanje "
+"končano\n"
+"(smiselno le za klicne povezave)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:350
 msgid "Network usage allowed"
-msgstr ""
+msgstr "Dovoljena uporaba mreže"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:359
 msgid "network usage start hour"
-msgstr ""
+msgstr "začetna ura uporabe mreže"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:367
 msgid "network usage stop hour"
-msgstr ""
+msgstr "končna ura uporabe mreže"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:452
 msgid "network usage"
-msgstr ""
+msgstr "uporaba mreže"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:460
 #: clientgui/DlgItemProperties.cpp:119
 msgid "Disk usage"
-msgstr ""
+msgstr "Poraba diska"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:472
 msgid "the maximum disk space used by BOINC (in Gigabytes)"
-msgstr ""
+msgstr "največji dovoljeni prostor za uporabo s strani BOINC (v gigabajtih)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:476
 msgid "Gigabytes disk space"
-msgstr ""
+msgstr "Prostor na disku v gigabajtih"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:479
 msgid "Leave at least"
-msgstr ""
+msgstr "Pusti vsaj"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:483
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
-msgstr ""
+msgstr "BOINC naj pusti prosto vsaj to količino diska (v gigabajtih)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:487
 msgid "Gigabytes disk space free"
-msgstr ""
+msgstr "Gigabajtov prostega prostora na disku"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:494
 msgid "BOINC uses at most this percentage of total disk space"
-msgstr ""
+msgstr "BOINC naj uporablja največ ta odstotek prostora na disku"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:499
 #, no-c-format
 msgid "% of total disk space"
-msgstr ""
+msgstr "% skupnega prostora na disku"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:502
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Opravila nastavijo kontrolno točko na disk največ na vsakih"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "seconds"
-msgstr ""
+msgstr "sekund"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:518
 #, no-c-format
 msgid "% of page file (swap space)"
-msgstr ""
+msgstr "% izmenjevalne datoteke (navidezni pomnilnik)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:526
 msgid "Memory usage"
-msgstr ""
+msgstr "Poraba pomnilnika"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:541
 #, no-c-format
 msgid "% when computer is in use"
-msgstr ""
+msgstr "%, ko je računalnik v uporabi"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:551
 #, no-c-format
 msgid "% when computer is idle"
-msgstr ""
+msgstr "%, ko je računalnik nedejaven"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:556
 msgid " Leave applications in memory while suspended"
-msgstr ""
+msgstr "Pusti aplikacije v pomnilniku med tem, ko so na čakanju."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:558
 msgid "if checked, suspended work units are left in memory"
-msgstr ""
+msgstr "če je obkljukano, bodo delovne enote na čakanju ostale v pomnilniku"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:567
 msgid "disk and memory usage"
-msgstr ""
+msgstr "poraba diska in pomnilnika"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:580
 msgid "OK"
-msgstr ""
+msgstr "V redu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:581
 msgid "save all values and close the dialog"
-msgstr ""
+msgstr "shrani vse vrednosti in zapri dialog"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:586
 msgid "close the dialog without saving"
-msgstr ""
+msgstr "zapri ta dialog brez shranjevanja"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:590
 #: clientgui/Localization.cpp:35
 #: clientgui/Localization.cpp:121
 #: clientgui/Localization.cpp:139
 msgid "Help"
-msgstr ""
+msgstr "Pomoč"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:591
 msgid "shows the preferences web page"
-msgstr ""
+msgstr "prikaže spletno stran z nastavitvami"
 
 #: clientgui/DlgExitMessage.cpp:82
 #, c-format
 msgid "%s - Exit Confirmation"
-msgstr ""
+msgstr "%s - Potrditev pred izhodom"
 
 #: clientgui/DlgExitMessage.cpp:130
 #, c-format
@@ -1433,6 +1438,12 @@ msgid ""
 "If you also want to stop running the science applications when you\n"
 "exit the Manager, then choose from the following options:"
 msgstr ""
+"Zahtevali ste izhod iz %s,\n"
+"ki vam omogoča videti in upravljati\n"
+"znanstvene aplikacije, ki tečejo na vašem računalniku.\n"
+"\n"
+"Če želite tudi ustaviti delujoče znanstvene aplikacije, ko\n"
+"zapuščate Upravljalca, potem izberite sledeče možnosti:"
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
@@ -1444,74 +1455,80 @@ msgid ""
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
 msgstr ""
+"To bo v celoti zaustavilo %s in njegova opravilai, dokler ali\n"
+"%s aplikacija ali %s ohranjevalnik zaslona spet ne tečeta.\n"
+"\n"
+"V večini primerov je bolje samo zapreti okno %s,\n"
+"namesto izhoda iz aplikacije; to bo omogočalo %s, da poganja\n"
+"svoja opravila ob časih, ki ste jih izbrali v nastavitvah."
 
 #: clientgui/DlgExitMessage.cpp:153
 msgid "Stop running science applications when exiting the Manager"
-msgstr ""
+msgstr "Zaustavi delujoče znanstvene aplikacije ob izhodu iz Upravitelja"
 
 #: clientgui/DlgExitMessage.cpp:164
 msgid "Remember this decision and do not show this dialog."
-msgstr ""
+msgstr "Zapomni si to odločitev in ne prikaži tega dialoga."
 
 #: clientgui/DlgExitMessage.cpp:177
 #: clientgui/DlgGenericMessage.cpp:125
 #: clientgui/DlgOptions.cpp:388
 #: clientgui/DlgSelectComputer.cpp:152
 msgid "&Cancel"
-msgstr ""
+msgstr "&Prekliči"
 
 #: clientgui/DlgGenericMessage.cpp:112
 msgid "Don't show this dialog again."
-msgstr ""
+msgstr "Ne prikaži znova tega dialoga."
 
 #: clientgui/DlgItemProperties.cpp:57
 msgid "&Close"
-msgstr ""
+msgstr "&Zapri"
 
 #: clientgui/DlgItemProperties.cpp:101
 msgid "Properties of project "
-msgstr ""
+msgstr "Lastnosti projekta"
 
 #: clientgui/DlgItemProperties.cpp:105
 #: clientgui/DlgOptions.cpp:205
 msgid "General"
-msgstr ""
+msgstr "Splošno"
 
 #: clientgui/DlgItemProperties.cpp:106
 msgid "Master URL"
-msgstr ""
+msgstr "Glavni URL"
 
 #: clientgui/DlgItemProperties.cpp:107
 msgid "User name"
-msgstr ""
+msgstr "Uporabniško ime"
 
 #: clientgui/DlgItemProperties.cpp:108
 msgid "Team name"
-msgstr ""
+msgstr "Ime ekipe"
 
 #: clientgui/DlgItemProperties.cpp:109
 msgid "Resource share"
-msgstr ""
+msgstr "Delitev sredstev"
 
 #: clientgui/DlgItemProperties.cpp:111
 msgid "Scheduler RPC deferred for"
-msgstr ""
+msgstr "RPC razvrščevalnika odložena za"
 
 #: clientgui/DlgItemProperties.cpp:114
 msgid "File downloads deferred for"
-msgstr ""
+msgstr "Prejemanje datotek odloženo za"
 
 #: clientgui/DlgItemProperties.cpp:117
 msgid "File uploads deferred for"
-msgstr ""
+msgstr "Nalaganje datotek odloženo za"
 
 #: clientgui/DlgItemProperties.cpp:120
 msgid "Computer ID"
-msgstr ""
+msgstr "ID računalnika"
 
 #: clientgui/DlgItemProperties.cpp:121
 msgid "Non CPU intensive"
-msgstr ""
+msgstr "Ne procesorsko intenzivno"
 
 #: clientgui/DlgItemProperties.cpp:121
 #: clientgui/DlgItemProperties.cpp:122
@@ -1521,7 +1538,7 @@ msgstr ""
 #: clientgui/DlgItemProperties.cpp:126
 #: clientgui/DlgItemProperties.cpp:127
 msgid "yes"
-msgstr ""
+msgstr "da"
 
 #: clientgui/DlgItemProperties.cpp:121
 #: clientgui/DlgItemProperties.cpp:122
@@ -1531,153 +1548,153 @@ msgstr ""
 #: clientgui/DlgItemProperties.cpp:126
 #: clientgui/DlgItemProperties.cpp:127
 msgid "no"
-msgstr ""
+msgstr "ne"
 
 #: clientgui/DlgItemProperties.cpp:122
 msgid "Suspended via GUI"
-msgstr ""
+msgstr "Daj na čakanje preko grafičnega uporabniškega vmesnika"
 
 #: clientgui/DlgItemProperties.cpp:123
 msgid "Don't request more work"
-msgstr ""
+msgstr "Ne zahtevaj več dela"
 
 #: clientgui/DlgItemProperties.cpp:124
 msgid "Scheduler call in progress"
-msgstr ""
+msgstr "Poteka klic razvrščevalnika"
 
 #: clientgui/DlgItemProperties.cpp:125
 msgid "Attached via account manager"
-msgstr ""
+msgstr "Priklopljen preko upravitelja računov"
 
 #: clientgui/DlgItemProperties.cpp:126
 msgid "Detach when done"
-msgstr ""
+msgstr "Odklopi se, ko je opravljeno"
 
 #: clientgui/DlgItemProperties.cpp:127
 msgid "Ended"
-msgstr ""
+msgstr "Končano"
 
 #: clientgui/DlgItemProperties.cpp:128
 msgid "Credit"
-msgstr ""
+msgstr "Zasluge"
 
 #: clientgui/DlgItemProperties.cpp:129
 msgid "User"
-msgstr ""
+msgstr "Uporabnik"
 
 #: clientgui/DlgItemProperties.cpp:136
 msgid "Host"
-msgstr ""
+msgstr "Gostitelj"
 
 #: clientgui/DlgItemProperties.cpp:145
 msgid "Scheduling"
-msgstr ""
+msgstr "Razvrščanje"
 
 #: clientgui/DlgItemProperties.cpp:146
 msgid "CPU scheduling priority"
-msgstr ""
+msgstr "Prioriteta razvrščanja procesorja"
 
 #: clientgui/DlgItemProperties.cpp:147
 msgid "CPU work fetch priority"
-msgstr ""
+msgstr "Prioriteta prevzemanja dela za procesor"
 
 #: clientgui/DlgItemProperties.cpp:150
 msgid "CPU work fetch deferred for"
-msgstr ""
+msgstr "Prevzemanje dela za procesor odloženo za"
 
 #: clientgui/DlgItemProperties.cpp:151
 msgid "CPU work fetch deferral interval"
-msgstr ""
+msgstr "Odložitveni interval prevzemanja dela za procesor"
 
 #: clientgui/DlgItemProperties.cpp:153
 msgid "NVIDIA GPU work fetch priority"
-msgstr ""
+msgstr "Prioriteta prevzemanja dela za NVIDIA grafični procesor"
 
 #: clientgui/DlgItemProperties.cpp:156
 msgid "NVIDIA GPU work fetch deferred for"
-msgstr ""
+msgstr "Prevzemanje dela za NVIDIA grafični procesor odloženo za"
 
 #: clientgui/DlgItemProperties.cpp:157
 msgid "NVIDIA GPU work fetch deferral interval"
-msgstr ""
+msgstr "Odložitveni interval prevzemanja dela za NVIDIA grafični procesor"
 
 #: clientgui/DlgItemProperties.cpp:160
 msgid "ATI GPU work fetch priority"
-msgstr ""
+msgstr "Prioriteta prevzemanje dela za ATI grafični procesor"
 
 #: clientgui/DlgItemProperties.cpp:163
 msgid "ATI GPU work fetch deferred for"
-msgstr ""
+msgstr "Prevzemanje dela za ATI grafični procesor odloženo za"
 
 #: clientgui/DlgItemProperties.cpp:164
 msgid "ATI GPU work fetch deferral interval"
-msgstr ""
+msgstr "Odložitveni interval prevzemanja dela za ATI grafični procesor"
 
 #: clientgui/DlgItemProperties.cpp:166
 msgid "Duration correction factor"
-msgstr ""
+msgstr "Korekcijski faktor trajanja"
 
 #: clientgui/DlgItemProperties.cpp:176
 msgid "Properties of task "
-msgstr ""
+msgstr "Lastnosti opravila"
 
 #: clientgui/DlgItemProperties.cpp:180
 msgid "Application"
-msgstr ""
+msgstr "Aplikacija"
 
 #: clientgui/DlgItemProperties.cpp:181
 msgid "Workunit name"
-msgstr ""
+msgstr "Ime delovne enote"
 
 #: clientgui/DlgItemProperties.cpp:182
 msgid "State"
-msgstr ""
+msgstr "Stanje"
 
 #: clientgui/DlgItemProperties.cpp:185
 msgid "Received"
-msgstr ""
+msgstr "Prejeto"
 
 #: clientgui/DlgItemProperties.cpp:188
 msgid "Report deadline"
-msgstr ""
+msgstr "Rok za poročanje"
 
 #: clientgui/DlgItemProperties.cpp:190
 msgid "Resources"
-msgstr ""
+msgstr "Viri"
 
 #: clientgui/DlgItemProperties.cpp:193
 msgid "CPU time at last checkpoint"
-msgstr ""
+msgstr "Procesorski čas ob zadnji kontrolni točki"
 
 #: clientgui/DlgItemProperties.cpp:194
 #: clientgui/DlgItemProperties.cpp:206
 msgid "CPU time"
-msgstr ""
+msgstr "Procesorski čas"
 
 #: clientgui/DlgItemProperties.cpp:196
 #: clientgui/DlgItemProperties.cpp:207
 msgid "Elapsed time"
-msgstr ""
+msgstr "Pretečeni čas"
 
 #: clientgui/DlgItemProperties.cpp:198
 msgid "Estimated time remaining"
-msgstr ""
+msgstr "Ocena preostalega časa"
 
 #: clientgui/DlgItemProperties.cpp:199
 msgid "Fraction done"
-msgstr ""
+msgstr "Opravljeni del"
 
 #: clientgui/DlgItemProperties.cpp:200
 msgid "Virtual memory size"
-msgstr ""
+msgstr "Velikost navideznega pomnilnika"
 
 #: clientgui/DlgItemProperties.cpp:201
 msgid "Working set size"
-msgstr ""
+msgstr "Velikost delovne množice"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Directory"
-msgstr ""
+msgstr "Imenik"
 
 #: clientgui/DlgItemProperties.cpp:301
 msgid "New"
