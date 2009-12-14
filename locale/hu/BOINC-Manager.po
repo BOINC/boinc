@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-14 01:59-0700\n"
+"PO-Revision-Date: 2009-12-14 02:04-0700\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -3473,12 +3473,12 @@ msgstr "Név"
 
 #: clientgui/ViewWork.cpp:225
 msgid "Elapsed"
-msgstr "Eltelt"
+msgstr "Eltelt idő"
 
 #: clientgui/ViewWork.cpp:227
 #: clientgui/ViewWorkGrid.cpp:147
 msgid "To completion"
-msgstr "Idő a befejezésig"
+msgstr "Hátralévő idő"
 
 #: clientgui/ViewWork.cpp:254
 #: clientgui/ViewWorkGrid.cpp:190
