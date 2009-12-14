@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-14 08:59-0700\n"
+"PO-Revision-Date: 2009-12-14 09:59-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -2596,11 +2596,11 @@ msgstr "procesorskega časa"
 
 #: clientgui/sg_DlgPreferences.cpp:427
 msgid "Do work while on battery?"
-msgstr ""
+msgstr "Opravljaj delo med delovanjem na baterije?"
 
 #: clientgui/sg_DlgPreferences.cpp:440
 msgid "Do work after idle for:"
-msgstr ""
+msgstr "Opravljaj delo, ko je neaktiven že:"
 
 #: clientgui/sg_DlgPreferences.cpp:678
 #: clientgui/sg_DlgPreferences.cpp:681
@@ -2611,172 +2611,173 @@ msgstr ""
 #: clientgui/sg_DlgPreferences.cpp:927
 #: clientgui/sg_DlgPreferences.cpp:938
 msgid "Anytime"
-msgstr ""
+msgstr "Kdajkoli"
 
 #: clientgui/sg_DlgPreferences.cpp:785
 #, c-format
 msgid "%d MB"
-msgstr ""
+msgstr "%d MB"
 
 #: clientgui/sg_DlgPreferences.cpp:787
 #, c-format
 msgid "%4.2f GB"
-msgstr ""
+msgstr "%4.2f GB"
 
 #: clientgui/sg_DlgPreferences.cpp:828
 #, c-format
 msgid "%d%%"
-msgstr ""
+msgstr "%d%%"
 
 #: clientgui/sg_DlgPreferences.cpp:864
 msgid "0 (Run Always)"
-msgstr ""
+msgstr "0 (Vedno naj teče)"
 
 #: clientgui/sg_DlgPreferences.cpp:867
 #, c-format
 msgid "%d"
-msgstr ""
+msgstr "%d"
 
 #: clientgui/sg_ImageButton.cpp:90
 msgid "Paused: Other work running"
-msgstr ""
+msgstr "Na pavzi: teče drugo delo"
 
 #: clientgui/sg_ImageButton.cpp:92
 msgid "Paused: User initiatied.  Click 'Resume' to continue"
-msgstr ""
+msgstr "Na pavzi: na željo uporabnika.  Za nadaljevanje kliknite 'Nadaljuj'."
 
 #: clientgui/sg_ImageButton.cpp:94
 msgid "Paused: User active"
-msgstr ""
+msgstr "Na pavzi: uporabnik aktiven"
 
 #: clientgui/sg_ImageButton.cpp:96
 msgid "Paused: Computer on battery"
-msgstr ""
+msgstr "Na pavzi: računalnik dela na baterije"
 
 #: clientgui/sg_ImageButton.cpp:98
 msgid "Paused: Time of Day"
-msgstr ""
+msgstr "Na pavzi: čas dneva"
 
 #: clientgui/sg_ImageButton.cpp:100
 msgid "Paused: Benchmarks running"
-msgstr ""
+msgstr "Na pavzi: potekajo meritve hitrosti"
 
 #: clientgui/sg_ImageButton.cpp:102
 msgid "Paused"
-msgstr ""
+msgstr "Na pavzi"
 
 #: clientgui/sg_ImageButton.cpp:104
 msgid "Paused: Application start delayed"
-msgstr ""
+msgstr "Na pavzi: Odložen pričetek aplikacije"
 
 #: clientgui/sg_ImageButton.cpp:132
 msgid "Click to show project graphics"
-msgstr ""
+msgstr "Kliknite za prikaz grafike projekta"
 
 #: clientgui/sg_ProjectsComponent.cpp:106
 msgid "Attach to an additional project"
-msgstr ""
+msgstr "Priklopite se na dodaten projekt"
 
 #: clientgui/sg_ProjectsComponent.cpp:123
 msgid "Synchronize projects with account manager system"
-msgstr ""
+msgstr "Sinhronizirajte projekte s sistemom upravljanja računov"
 
 #: clientgui/sg_ProjectsComponent.cpp:194
 #: clientgui/sg_ProjectsComponent.cpp:205
 msgid "Open a window to view messages"
-msgstr ""
+msgstr "Odprite okno za pregled sporočil"
 
 #: clientgui/sg_ProjectsComponent.cpp:223
 msgid "Stop all activity"
-msgstr ""
+msgstr "Ustavi vse aktivnosti"
 
 #: clientgui/sg_ProjectsComponent.cpp:235
 msgid "Resume activity"
-msgstr ""
+msgstr "Nadaljuj aktivnosti"
 
 #: clientgui/sg_ProjectsComponent.cpp:252
 msgid "Open a window to set your preferences"
-msgstr ""
+msgstr "Odprite okno, da nastavite svoje nastavitve"
 
 #: clientgui/sg_ProjectsComponent.cpp:269
 msgid "Switch to the BOINC advanced view"
-msgstr ""
+msgstr "Preklopite na BOINC napredni pogled"
 
 #: clientgui/sg_ProjectsComponent.cpp:296
 msgid "My Projects:"
-msgstr ""
+msgstr "Moji projekti:"
 
 #: clientgui/sg_StatImageLoader.cpp:101
 #, c-format
 msgid "%s. Work done by %s: %0.2f"
-msgstr ""
+msgstr "%s. Delo opravljeno s strani %s: %0.2f"
 
 #: clientgui/sg_StatImageLoader.cpp:154
 msgid "Remove Project"
-msgstr ""
+msgstr "Odstrani projekt"
 
 #: clientgui/sg_StatImageLoader.cpp:217
 #: clientgui/ViewProjects.cpp:490
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
-msgstr ""
+msgstr "Ali ste prepričani, da se želite odklopiti od projekta '%s'?"
 
 #: clientgui/sg_StatImageLoader.cpp:223
 #: clientgui/ViewProjects.cpp:496
 msgid "Detach from Project"
-msgstr ""
+msgstr "Odklopi se od projekta"
 
 #: clientgui/sg_ViewTabPage.cpp:138
 #: clientgui/sg_ViewTabPage.cpp:278
 #, c-format
 msgid "%.1lf"
-msgstr ""
+msgstr "%.1lf"
 
 #: clientgui/sg_ViewTabPage.cpp:407
 #, c-format
 msgid "%d hr %d min %d sec"
-msgstr ""
+msgstr "%d ur %d minut %d sekund"
 
 #: clientgui/sg_ViewTabPage.cpp:421
 msgid "Are you sure you want to display graphics on a remote machine?"
 msgstr ""
+"Ali ste prepričani, da želite prikazati grafiko na oddaljenem računalniku?"
 
 #: clientgui/sg_ViewTabPage.cpp:422
 msgid "Show graphics"
-msgstr ""
+msgstr "Prikaži grafiko"
 
 #: clientgui/sg_ViewTabPage.cpp:444
 msgid "Application: "
-msgstr ""
+msgstr "Aplikacija: "
 
 #: clientgui/sg_ViewTabPage.cpp:447
 #: clientgui/sg_ViewTabPage.cpp:451
 msgid "Time Remaining: "
-msgstr ""
+msgstr "Preostali čas: "
 
 #: clientgui/sg_ViewTabPage.cpp:450
 msgid "Elapsed Time: "
-msgstr ""
+msgstr "Pretečeni čas: "
 
 #: clientgui/TermsOfUsePage.cpp:219
 msgid "Terms of Use"
-msgstr ""
+msgstr "Pogoji uporabe"
 
 #: clientgui/TermsOfUsePage.cpp:223
 msgid "Please read the following terms of use:"
-msgstr ""
+msgstr "Prosim, preberite sledeče pogoje uporabe:"
 
 #: clientgui/TermsOfUsePage.cpp:232
 msgid "I agree to the terms of use."
-msgstr ""
+msgstr "Strinjam se s pogoji uporabe."
 
 #: clientgui/TermsOfUsePage.cpp:238
 msgid "I do not agree with the terms of use."
-msgstr ""
+msgstr "Ne strinjam se s pogoji uporabe."
 
 #: clientgui/UnavailablePage.cpp:184
 msgid "Project temporarily unavailable"
-msgstr ""
+msgstr "Projekt začasno ni na voljo"
 
 #: clientgui/UnavailablePage.cpp:187
 msgid ""
@@ -2784,10 +2785,13 @@ msgid ""
 "\n"
 "Please try again later."
 msgstr ""
+"Projekt začasno ni na voljo.\n"
+"\n"
+"Prosim, poskusite kasneje."
 
 #: clientgui/UnavailablePage.cpp:191
 msgid "Account manager temporarily unavailable"
-msgstr ""
+msgstr "Upravitelj računov začasno ni na voljo"
 
 #: clientgui/UnavailablePage.cpp:194
 msgid ""
@@ -2795,31 +2799,36 @@ msgid ""
 "\n"
 "Please try again later."
 msgstr ""
+"Upravitelj računov začasno ni na voljo.\n"
+"\n"
+"Prosim, poskusite kasneje."
 
 #: clientgui/ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
-msgstr ""
+msgstr "Za nadaljevanje, prosim, podajte ključ računa. "
 
 #: clientgui/ValidateAccountKey.cpp:71
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr ""
+msgstr "Napačen ključ računa; prosim vnesite veljaven ključ računa."
 
 #: clientgui/ValidateAccountKey.cpp:82
 #: clientgui/ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
-msgstr ""
+msgstr "Konflikt pri validaciji"
 
 #: clientgui/ValidateEmailAddress.cpp:72
 msgid "Please specify an email address"
-msgstr ""
+msgstr "Prosim, vnesite naslov elektronske pošte"
 
 #: clientgui/ValidateEmailAddress.cpp:75
 msgid "Invalid email address; please enter a valid email address"
 msgstr ""
+"Napačen naslov elektronske pošte; prosim vnesite pravilen naslov elektronske "
+"pošte"
 
 #: clientgui/ValidateURL.cpp:69
 msgid "Missing URL"
-msgstr ""
+msgstr "Manjkajoč URL"
 
 #: clientgui/ValidateURL.cpp:70
 msgid ""
@@ -2827,6 +2836,9 @@ msgid ""
 "For example:\n"
 "http://www.example.com/"
 msgstr ""
+"Prosim podajte URL.\n"
+"Na primer:\n"
+"http://www.primer.si/"
 
 #: clientgui/ValidateURL.cpp:83
 #: clientgui/ValidateURL.cpp:87
@@ -2835,7 +2847,7 @@ msgstr ""
 #: clientgui/ValidateURL.cpp:107
 #: clientgui/ValidateURL.cpp:110
 msgid "Invalid URL"
-msgstr ""
+msgstr "Napačen URL"
 
 #: clientgui/ValidateURL.cpp:84
 #: clientgui/ValidateURL.cpp:88
@@ -2845,418 +2857,429 @@ msgid ""
 "For example:\n"
 "http://boincproject.example.com"
 msgstr ""
+"Prosim podajte veljaven URL.\n"
+"Na primer:\n"
+"http://www.primer.si/"
 
 #: clientgui/ValidateURL.cpp:104
 #: clientgui/ValidateURL.cpp:108
 #, c-format
 msgid "'%s' does not contain a valid host name."
-msgstr ""
+msgstr "'%s' ne vsebuje veljavnega imena gostitelja."
 
 #: clientgui/ValidateURL.cpp:111
 #, c-format
 msgid "'%s' does not contain a valid path."
-msgstr ""
+msgstr "'%s' ne vsebuje veljavne poti."
 
 #: clientgui/ViewMessages.cpp:84
 #: clientgui/ViewMessagesGrid.cpp:97
 #: clientgui/ViewProjects.cpp:169
 msgid "Commands"
-msgstr ""
+msgstr "Ukazi"
 
 #: clientgui/ViewMessages.cpp:88
 #: clientgui/ViewMessagesGrid.cpp:101
 msgid "Copy all messages"
-msgstr ""
+msgstr "Kopiraj vsa sporočila"
 
 #: clientgui/ViewMessages.cpp:95
 #: clientgui/ViewMessagesGrid.cpp:108
 msgid "Copy selected messages"
-msgstr ""
+msgstr "Kopiraj izbrana sporočila"
 
 #: clientgui/ViewMessages.cpp:106
 #: clientgui/ViewMessages.cpp:502
 msgid "Show only this project"
-msgstr ""
+msgstr "Prikaži samo ta projekt"
 
 #: clientgui/ViewMessages.cpp:107
 #: clientgui/ViewMessages.cpp:503
 msgid "Show only the messages for the selected project."
-msgstr ""
+msgstr "Prikaži samo sporočila za izbrani projekt."
 
 #: clientgui/ViewMessages.cpp:164
 #: clientgui/ViewMessagesGrid.cpp:157
 msgid "Messages"
-msgstr ""
+msgstr "Sporočila"
 
 #: clientgui/ViewMessages.cpp:187
 #: clientgui/ViewMessagesGrid.cpp:179
 msgid "Copying all messages to the clipboard..."
-msgstr ""
+msgstr "Kopiram vsa sporočila na odložišče..."
 
 #: clientgui/ViewMessages.cpp:223
 msgid "Copying selected messages to the clipboard..."
-msgstr ""
+msgstr "Kopiraj izbrana sporočila na odložišče..."
 
 #: clientgui/ViewMessages.cpp:286
 msgid "Filtering messages..."
-msgstr ""
+msgstr "Filtriram sporočila..."
 
 #: clientgui/ViewMessages.cpp:494
 msgid "Show all messages"
-msgstr ""
+msgstr "Prikaži vsa sporočila"
 
 #: clientgui/ViewMessages.cpp:495
 msgid "Show messages for all projects."
-msgstr ""
+msgstr "Prikaži sporočila za vse projekte."
 
 #: clientgui/ViewMessagesGrid.cpp:128
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: clientgui/ViewMessagesGrid.cpp:128
 msgid "Priority"
-msgstr ""
+msgstr "Prioriteta"
 
 #: clientgui/ViewMessagesGrid.cpp:151
 msgid "MessagesGrid"
-msgstr ""
+msgstr "Mreža sporočil"
 
 #: clientgui/ViewMessagesGrid.cpp:209
 msgid "Copying selected messages to Clipboard..."
-msgstr ""
+msgstr "Kopiram izbrana sporočila na odložišče..."
 
 #: clientgui/ViewMessagesGrid.cpp:396
 msgid "Info"
-msgstr ""
+msgstr "Informacije"
 
 #: clientgui/ViewMessagesGrid.cpp:399
 msgid "Warning"
-msgstr ""
+msgstr "Opozorilo"
 
 #: clientgui/ViewMessagesGrid.cpp:403
 msgid "Error"
-msgstr ""
+msgstr "Napaka"
 
 #: clientgui/ViewNews.cpp:76
 msgid "News Feeds"
-msgstr ""
+msgstr "Viri novic"
 
 #: clientgui/ViewNews.cpp:80
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 #: clientgui/ViewNews.cpp:81
 msgid "Display the latest news about BOINC"
-msgstr ""
+msgstr "Prikaži najnovejše novice o BOINC"
 
 #: clientgui/ViewNews.cpp:87
 msgid "BOINC Website"
-msgstr ""
+msgstr "BOINC spletna stran"
 
 #: clientgui/ViewNews.cpp:88
 msgid "Display the latest news about BOINC from the BOINC website"
-msgstr ""
+msgstr "Prikaži zadnje novice o BOINC iz BOINC spletne strani"
 
 #: clientgui/ViewProjects.cpp:173
 msgid "Update"
-msgstr ""
+msgstr "Posodobi"
 
 #: clientgui/ViewProjects.cpp:174
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
 msgstr ""
+"Poročaj o vseh opravljenih opravilih, dobi najnovejše zasluge, dobi "
+"najnovejše nastavitve in morda dobi več opravil."
 
 #: clientgui/ViewProjects.cpp:180
 #: clientgui/ViewProjects.cpp:706
 msgid "Suspend"
-msgstr ""
+msgstr "Na čakanju"
 
 #: clientgui/ViewProjects.cpp:181
 #: clientgui/ViewProjects.cpp:706
 msgid "Suspend tasks for this project."
-msgstr ""
+msgstr "Daj opravila tega projekta na čakanje."
 
 #: clientgui/ViewProjects.cpp:187
 #: clientgui/ViewProjects.cpp:725
 msgid "No new tasks"
-msgstr ""
+msgstr "Ni novih opravil"
 
 #: clientgui/ViewProjects.cpp:188
 msgid "Don't get new tasks for this project."
-msgstr ""
+msgstr "Ne dobi novih opravil za ta projekt."
 
 #: clientgui/ViewProjects.cpp:194
 msgid "Reset project"
-msgstr ""
+msgstr "Resetiraj projekt"
 
 #: clientgui/ViewProjects.cpp:195
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
 msgstr ""
+"Briši vse datoteke in opravila povezana s tem projektom in dobi nova "
+"opravila.  Lahko najprej posodobite projekt, da poročate o morebitnih "
+"opravljenih opravilih."
 
 #: clientgui/ViewProjects.cpp:201
 msgid "Detach"
-msgstr ""
+msgstr "Odklopi"
 
 #: clientgui/ViewProjects.cpp:202
 msgid "Detach computer from this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
 msgstr ""
+"Odklopi računalnik s tega projekta.  Opravila, ki potekajo, bodo izgubljena "
+"(najprej uporabi 'Posodobi' za poročanje o morebitnih opravljenih "
+"opravilih)."
 
 #: clientgui/ViewProjects.cpp:208
 msgid "Properties"
-msgstr ""
+msgstr "Lastnosti"
 
 #: clientgui/ViewProjects.cpp:209
 msgid "Show project details."
-msgstr ""
+msgstr "Prikaži podrobnosti projekta."
 
 #: clientgui/ViewProjects.cpp:219
 msgid "Account"
-msgstr ""
+msgstr "Račun"
 
 #: clientgui/ViewProjects.cpp:221
 msgid "Work done"
-msgstr ""
+msgstr "Opravljeno delo"
 
 #: clientgui/ViewProjects.cpp:222
 msgid "Avg. work done"
-msgstr ""
+msgstr "Povprečje opravljenega dela"
 
 #: clientgui/ViewProjects.cpp:224
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: clientgui/ViewProjects.cpp:249
 msgid "Projects"
-msgstr ""
+msgstr "Projekti"
 
 #: clientgui/ViewProjects.cpp:296
 msgid "Updating project..."
-msgstr ""
+msgstr "Posodobljam projekt..."
 
 #: clientgui/ViewProjects.cpp:338
 msgid "Resuming project..."
-msgstr ""
+msgstr "Nadaljujem projekt..."
 
 #: clientgui/ViewProjects.cpp:342
 msgid "Suspending project..."
-msgstr ""
+msgstr "Dajem projekt na čakanje..."
 
 #: clientgui/ViewProjects.cpp:379
 msgid "Telling project to allow additional task downloads..."
-msgstr ""
+msgstr "Sporočam projektom, da je dovoljeno prejemanje dodatnih opravil..."
 
 #: clientgui/ViewProjects.cpp:383
 msgid "Telling project to not fetch any additional tasks..."
-msgstr ""
+msgstr "Sporočam projektom, naj ne pobirajo dodatnih opravil..."
 
 #: clientgui/ViewProjects.cpp:419
 msgid "Resetting project..."
-msgstr ""
+msgstr "Resetiram projekt..."
 
 #: clientgui/ViewProjects.cpp:432
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
-msgstr ""
+msgstr "Ali ste prepričani, da želite resetirati projekt '%s'?"
 
 #: clientgui/ViewProjects.cpp:438
 msgid "Reset Project"
-msgstr ""
+msgstr "Resetiraj projekt"
 
 #: clientgui/ViewProjects.cpp:477
 msgid "Detaching from project..."
-msgstr ""
+msgstr "Odklapljam se od projekta..."
 
 #: clientgui/ViewProjects.cpp:537
 msgid "Launching browser..."
-msgstr ""
+msgstr "Zaganjam brskalnik..."
 
 #: clientgui/ViewProjects.cpp:702
 msgid "Resume"
-msgstr ""
+msgstr "Nadaljuj"
 
 #: clientgui/ViewProjects.cpp:702
 msgid "Resume tasks for this project."
-msgstr ""
+msgstr "Nadaljuj opravila tega projekta."
 
 #: clientgui/ViewProjects.cpp:721
 msgid "Allow new tasks"
-msgstr ""
+msgstr "Dovoli nova opravila"
 
 #: clientgui/ViewProjects.cpp:721
 msgid "Allow fetching new tasks for this project."
-msgstr ""
+msgstr "Dovoli pobiranje novih opravil za ta projekt."
 
 #: clientgui/ViewProjects.cpp:725
 msgid "Don't fetch new tasks for this project."
-msgstr ""
+msgstr "Ne poberi novih opravil za ta projekt."
 
 #: clientgui/ViewProjects.cpp:1051
 msgid "Suspended by user"
-msgstr ""
+msgstr "Uporabnik dal na čakanje"
 
 #: clientgui/ViewProjects.cpp:1054
 msgid "Won't get new tasks"
-msgstr ""
+msgstr "Ne bom pridobil novih opravil"
 
 #: clientgui/ViewProjects.cpp:1057
 msgid "Project ended - OK to detach"
-msgstr ""
+msgstr "Projekt končan - lahko odklopim"
 
 #: clientgui/ViewProjects.cpp:1060
 msgid "Will detach when tasks done"
-msgstr ""
+msgstr "Odklopil bom, ko bodo opravila opravljena"
 
 #: clientgui/ViewProjects.cpp:1063
 msgid "Scheduler request pending"
-msgstr ""
+msgstr "Čakajoča zahteva razvrščevalnika"
 
 #: clientgui/ViewProjects.cpp:1067
 msgid "Scheduler request in progress"
-msgstr ""
+msgstr "Poteka zahteva razvrščevalnika"
 
 #: clientgui/ViewProjects.cpp:1073
 msgid "Communication deferred "
-msgstr ""
+msgstr "Komunikacija odložena "
 
 #: clientgui/ViewProjectsGrid.cpp:193
 msgid "ProjectsGrid"
-msgstr ""
+msgstr "Mreža projektov"
 
 #: clientgui/ViewResources.cpp:61
 msgid "Total disk usage"
-msgstr ""
+msgstr "Skupna poraba diska"
 
 #: clientgui/ViewResources.cpp:82
 msgid "Disk usage by BOINC projects"
-msgstr ""
+msgstr "Poraba diska s strani BOINC projektov"
 
 #: clientgui/ViewResources.cpp:117
 msgid "Disk"
-msgstr ""
+msgstr "Disk"
 
 #: clientgui/ViewResources.cpp:223
 msgid "not attached to any BOINC project: 0 bytes"
-msgstr ""
+msgstr "nisem priklopljen na noben BOINC projekt: 0 bajtov"
 
 #: clientgui/ViewResources.cpp:260
 msgid "used by BOINC: "
-msgstr ""
+msgstr "BOINC uporablja: "
 
 #: clientgui/ViewResources.cpp:270
 msgid "free, available to BOINC: "
-msgstr ""
+msgstr "prosto, na voljo za BOINC: "
 
 #: clientgui/ViewResources.cpp:280
 msgid "free, not available to BOINC: "
-msgstr ""
+msgstr "prosto, ni na voljo za BOINC: "
 
 #: clientgui/ViewResources.cpp:290
 msgid "free: "
-msgstr ""
+msgstr "prosto: "
 
 #: clientgui/ViewResources.cpp:300
 msgid "used by other programs: "
-msgstr ""
+msgstr "uporabljajo drugi programi: "
 
 #: clientgui/ViewStatistics.cpp:1142
 msgid "User Total"
-msgstr ""
+msgstr "Skupaj od uporabnika"
 
 #: clientgui/ViewStatistics.cpp:1143
 msgid "User Average"
-msgstr ""
+msgstr "Uporabnikovo povprečje"
 
 #: clientgui/ViewStatistics.cpp:1144
 msgid "Host Total"
-msgstr ""
+msgstr "Skupaj gostiteljev"
 
 #: clientgui/ViewStatistics.cpp:1145
 msgid "Host Average"
-msgstr ""
+msgstr "Gostiteljev v povprečju"
 
 #: clientgui/ViewStatistics.cpp:1283
 #, c-format
 msgid "Last update: %.0f days ago"
-msgstr ""
+msgstr "Zadnja posodobitev: pred %.0f dnevi"
 
 #: clientgui/ViewStatistics.cpp:1745
 msgid "Show user total"
-msgstr ""
+msgstr "Prikaži skupaj od uporabnika"
 
 #: clientgui/ViewStatistics.cpp:1746
 msgid "Show total credit for user"
-msgstr ""
+msgstr "Prikaži vse uporabnikove zasluge"
 
 #: clientgui/ViewStatistics.cpp:1752
 msgid "Show user average"
-msgstr ""
+msgstr "Prikaži povprečje za uporabnika"
 
 #: clientgui/ViewStatistics.cpp:1753
 msgid "Show average credit for user"
-msgstr ""
+msgstr "Prikaži povprečne zasluge za uporabnika"
 
 #: clientgui/ViewStatistics.cpp:1759
 msgid "Show host total"
-msgstr ""
+msgstr "Prikaži skupno gostitelja"
 
 #: clientgui/ViewStatistics.cpp:1760
 msgid "Show total credit for host"
-msgstr ""
+msgstr "Prikaži skupno zasluge za gostitelja"
 
 #: clientgui/ViewStatistics.cpp:1766
 msgid "Show host average"
-msgstr ""
+msgstr "Prikaži povprečje gostitelja"
 
 #: clientgui/ViewStatistics.cpp:1767
 msgid "Show average credit for host"
-msgstr ""
+msgstr "Prikaži povprečne zasluge za gostitelja"
 
 #: clientgui/ViewStatistics.cpp:1776
 msgid "< &Previous project"
-msgstr ""
+msgstr "< &Predhodni projekt"
 
 #: clientgui/ViewStatistics.cpp:1777
 msgid "Show chart for previous project"
-msgstr ""
+msgstr "Prikaži graf za predhodni projekt"
 
 #: clientgui/ViewStatistics.cpp:1782
 msgid "&Next project >"
-msgstr ""
+msgstr "&Naslednji projekt >"
 
 #: clientgui/ViewStatistics.cpp:1783
 msgid "Show chart for next project"
-msgstr ""
+msgstr "Prikaži graf za naslednji projekt"
 
 #: clientgui/ViewStatistics.cpp:1788
 msgid "Mode view"
-msgstr ""
+msgstr "Način pogleda"
 
 #: clientgui/ViewStatistics.cpp:1791
 msgid "All projects"
-msgstr ""
+msgstr "Vsi projekti"
 
 #: clientgui/ViewStatistics.cpp:1792
 msgid "Show all projects, one chart per project"
-msgstr ""
+msgstr "Prikaži vse projekte, en graf na projekt"
 
 #: clientgui/ViewStatistics.cpp:1798
 msgid "One project"
-msgstr ""
+msgstr "En projekt"
 
 #: clientgui/ViewStatistics.cpp:1799
 msgid "Show one chart with selected project"
-msgstr ""
+msgstr "Prikaži en graf z izbranim projektom"
 
 #: clientgui/ViewStatistics.cpp:1805
 msgid "All projects(sum)"
-msgstr ""
+msgstr "Vsi projekti (vsota)"
 
 #: clientgui/ViewStatistics.cpp:1806
 msgid "Show one chart with all projects"
-msgstr ""
+msgstr "Prikaži en graf z vsemi projekti"
 
 #: clientgui/ViewStatistics.cpp:1826
 msgid "Statistics"
-msgstr ""
+msgstr "Statistika"
 
 #: clientgui/ViewStatistics.cpp:1846
 #: clientgui/ViewStatistics.cpp:1867
@@ -3268,68 +3291,70 @@ msgstr ""
 #: clientgui/ViewStatistics.cpp:1994
 #: clientgui/ViewStatistics.cpp:2017
 msgid "Updating charts..."
-msgstr ""
+msgstr "Posodobljam grafe..."
 
 #: clientgui/ViewTransfers.cpp:163
 #: clientgui/ViewTransfersGrid.cpp:106
 msgid "Retry Now"
-msgstr ""
+msgstr "Ponovno poskusi zdaj"
 
 #: clientgui/ViewTransfers.cpp:164
 #: clientgui/ViewTransfersGrid.cpp:107
 msgid "Click 'Retry now' to transfer the file now"
-msgstr ""
+msgstr "Kliknite 'Ponovno poskusi zdaj', da zdaj prenesete datoteko"
 
 #: clientgui/ViewTransfers.cpp:170
 #: clientgui/ViewTransfersGrid.cpp:113
 msgid "Abort Transfer"
-msgstr ""
+msgstr "Opusti prenos"
 
 #: clientgui/ViewTransfers.cpp:171
 #: clientgui/ViewTransfersGrid.cpp:114
 msgid "Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
 msgstr ""
+"Kliknite 'Opusti prenos', da izbrišete datoteko iz čakalne vrste prenosov. "
+"To vam bo prepričilo, da bi bili nagrajeni z zaslugami za ta rezultat."
 
 #: clientgui/ViewTransfers.cpp:182
 #: clientgui/ViewTransfersGrid.cpp:129
 msgid "File"
-msgstr ""
+msgstr "Datoteka"
 
 #: clientgui/ViewTransfers.cpp:183
 #: clientgui/ViewTransfersGrid.cpp:129
 #: clientgui/ViewWork.cpp:226
 #: clientgui/ViewWorkGrid.cpp:147
 msgid "Progress"
-msgstr ""
+msgstr "Napredek"
 
 #: clientgui/ViewTransfers.cpp:184
 #: clientgui/ViewTransfersGrid.cpp:129
 msgid "Size"
-msgstr ""
+msgstr "Velikost"
 
 #: clientgui/ViewTransfers.cpp:185
 #: clientgui/ViewTransfersGrid.cpp:130
 msgid "Elapsed Time"
-msgstr ""
+msgstr "Pretečeni čas"
 
 #: clientgui/ViewTransfers.cpp:186
 #: clientgui/ViewTransfersGrid.cpp:130
 msgid "Speed"
-msgstr ""
+msgstr "Hitrost"
 
 #: clientgui/ViewTransfers.cpp:212
 #: clientgui/ViewTransfersGrid.cpp:167
 msgid "Transfers"
-msgstr ""
+msgstr "Prenosi"
 
 #: clientgui/ViewTransfers.cpp:271
 #: clientgui/ViewTransfersGrid.cpp:190
 msgid "Retrying transfer now..."
-msgstr ""
+msgstr "Zdaj ponovno poskušam prenesti..."
 
 #: clientgui/ViewTransfers.cpp:309
 msgid "Aborting transfer..."
-msgstr ""
+msgstr "Opuščam prenos..."
 
 #: clientgui/ViewTransfers.cpp:322
 #, c-format
