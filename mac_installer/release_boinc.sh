@@ -20,6 +20,7 @@
 ##
 # Release Script for Macintosh BOINC Manager 10/31/07 by Charlie Fenton
 ## updated 11/18/09 by Charlie Fenton for OS 10.6 Snow Leopard
+## updated 12/13/09 by Charlie Fenton
 ##
 ## NOTE: This script uses PackageMaker, which is installed as part of the 
 ##   XCode developer tools.  So you must have installed XCode Developer 
