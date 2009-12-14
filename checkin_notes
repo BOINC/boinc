@@ -10047,3 +10047,13 @@ David  14 Dec 2009
 
     client/
         coproc_detect.cpp
+
+David  14 Dec 2009
+    - client/manager: show coprocessor short-term debts
+
+    clientgui/
+        DlgItemProperties.cpp
+    lib/
+        gui_rpc_client.h
+        gui_rpc_client_ops.cpp
+

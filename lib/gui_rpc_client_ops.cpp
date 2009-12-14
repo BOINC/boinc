@@ -238,14 +238,16 @@ int PROJECT::parse(MIOFILE& in) {
         if (parse_double(buf, "<min_rpc_time>", min_rpc_time)) continue;
         if (parse_double(buf, "<download_backoff>", download_backoff)) continue;
         if (parse_double(buf, "<upload_backoff>", upload_backoff)) continue;
-        if (parse_double(buf, "<short_term_debt>", short_term_debt)) continue;
+        if (parse_double(buf, "<short_term_debt>", cpu_short_term_debt)) continue;
         if (parse_double(buf, "<long_term_debt>", cpu_long_term_debt)) continue;
         if (parse_double(buf, "<cpu_backoff_time>", cpu_backoff_time)) continue;
         if (parse_double(buf, "<cpu_backoff_interval>", cpu_backoff_interval)) continue;
         if (parse_double(buf, "<cuda_debt>", cuda_debt)) continue;
+        if (parse_double(buf, "<cuda_short_term_debt>", cuda_short_term_debt)) continue;
         if (parse_double(buf, "<cuda_backoff_time>", cuda_backoff_time)) continue;
         if (parse_double(buf, "<cuda_backoff_interval>", cuda_backoff_interval)) continue;
         if (parse_double(buf, "<ati_debt>", ati_debt)) continue;
+        if (parse_double(buf, "<ati_short_term_debt>", ati_short_term_debt)) continue;
         if (parse_double(buf, "<ati_backoff_time>", ati_backoff_time)) continue;
         if (parse_double(buf, "<ati_backoff_interval>", ati_backoff_interval)) continue;
         if (parse_double(buf, "<duration_correction_factor>", duration_correction_factor)) continue;
@@ -293,7 +295,7 @@ void PROJECT::clear() {
     min_rpc_time = 0;
     download_backoff = 0;
     upload_backoff = 0;
-    short_term_debt = 0;
+    cpu_short_term_debt = 0;
     cpu_long_term_debt = 0;
     cpu_backoff_time = 0;
     cpu_backoff_interval = 0;
@@ -2268,7 +2270,7 @@ int RPC_CLIENT::set_debts(vector<PROJECT> projects) {
             "        <long_term_debt>%f</long_term_debt>\n"
             "    </project>\n",
             p.master_url.c_str(),
-            p.short_term_debt,
+            p.cpu_short_term_debt,
             p.cpu_long_term_debt
         );
         s += string(buf);
