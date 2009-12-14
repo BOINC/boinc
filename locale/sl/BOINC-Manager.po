@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-12 15:04-0700\n"
+"PO-Revision-Date: 2009-12-14 03:59-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -638,19 +638,21 @@ msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
 msgstr ""
+"Avtorizacija je bila neuspešna med povezovanje na delujoči odjemalec.\n"
+"Preverite, da poganjate ta program iz istega imenika kot odjemalec."
 
 #: clientgui/BOINCBaseFrame.cpp:442
 msgid "Authorization failed connecting to running client."
-msgstr ""
+msgstr "Avtorizacija je bila neuspešna med povezovanjem na delujoči odjemalec."
 
 #: clientgui/BOINCBaseFrame.cpp:450
 msgid "The password you have provided is incorrect, please try again."
-msgstr ""
+msgstr "Geslo, ki ste ga vnesli, ni pravilno. Prosim, poskusite znova."
 
 #: clientgui/BOINCBaseFrame.cpp:489
 #, c-format
 msgid "%s - Connection Failed"
-msgstr ""
+msgstr "%s - Povezava ni uspela"
 
 #: clientgui/BOINCBaseFrame.cpp:498
 #, c-format
@@ -658,11 +660,13 @@ msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
 msgstr ""
+"%s se ni mogel povezati na odjemalca %s.\n"
+"Se želite ponovno poskusiti povezati?"
 
 #: clientgui/BOINCBaseFrame.cpp:534
 #, c-format
 msgid "%s - Daemon Start Failed"
-msgstr ""
+msgstr "%s - Zagon strežniškega procesa (daemon) ni uspel"
 
 #: clientgui/BOINCBaseFrame.cpp:544
 #, c-format
@@ -670,6 +674,9 @@ msgid ""
 "%s is not able to start a %s client.\n"
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
+"%s ni mogel zagnati odjemalca %s.\n"
+"Prosim, poženite Nadzorna plošča->Skrbniška orodja->Storitve in poženite "
+"BOINC storitev."
 
 #: clientgui/BOINCBaseFrame.cpp:550
 #, c-format
@@ -677,11 +684,13 @@ msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
 msgstr ""
+"%s ne more zagnati odjemalca %s.\n"
+"Prosim, poženite strežniki proces (daemon) in poskusite znova."
 
 #: clientgui/BOINCBaseFrame.cpp:596
 #, c-format
 msgid "%s - Connection Status"
-msgstr ""
+msgstr "%s - Status povezave"
 
 #: clientgui/BOINCBaseFrame.cpp:607
 #, c-format
@@ -690,20 +699,25 @@ msgid ""
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
+"%s trenutno ni povezan na odjemalca %s.\n"
+"Prosim, uporabite 'Napredno/Izberi računalnik'  opcijo menuja, da se "
+"povežete na odjemalca %s.\n"
+"Za povezavo na lokalni računalnik, prosim, uporabite 'localhost' kot ime "
+"gostitelja."
 
 #: clientgui/BOINCBaseView.cpp:750
 msgid "Web sites"
-msgstr ""
+msgstr "Spletne strani"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
 msgid "%s - Network Status"
-msgstr ""
+msgstr "%s - status omrežja"
 
 #: clientgui/BOINCDialupManager.cpp:255
 #, c-format
 msgid "%s needs to connect to the Internet.  Please click to open %s."
-msgstr ""
+msgstr "%s se mora povezati na internet.  Prosim kliknite, da odprete %s."
 
 #: clientgui/BOINCDialupManager.cpp:263
 #, c-format
@@ -711,6 +725,9 @@ msgid ""
 "%s is unable to communicate with a project and needs an Internet connection.\n"
 "Please connect to the Internet, then select the 'Do network communications' item from the Advanced menu."
 msgstr ""
+"%s ne more komunicirati s projektom in potrebuje internetno povezavo.\n"
+"Prosim povežite se na internet in nato izberite 'Opravi komunikacijo po "
+"mreži' v menuju Napredno."
 
 #: clientgui/BOINCDialupManager.cpp:310
 #, c-format
@@ -718,11 +735,13 @@ msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
 msgstr ""
+"%s se mora povezati na internet.\n"
+"Ali lahko to stori zdaj?"
 
 #: clientgui/BOINCDialupManager.cpp:323
 #, c-format
 msgid "%s is connecting to the Internet."
-msgstr ""
+msgstr "%s se povezuje na internet."
 
 #: clientgui/BOINCDialupManager.cpp:354
 #, c-format
@@ -731,11 +750,15 @@ msgid ""
 "Please connect to the Internet, or select a default connection\n"
 "using Advanced/Options/Connections."
 msgstr ""
+"%s ni mogel opraviti komunikacije po internetu, privzeta povezava pa ni "
+"nastavljena.\n"
+"Prosim, povzežite se na internet ali izberite privzeto povezavo\n"
+"z uporabo Napredno/Možnosti/Povezave."
 
 #: clientgui/BOINCDialupManager.cpp:386
 #, c-format
 msgid "%s has successfully connected to the Internet."
-msgstr ""
+msgstr "%s se je uspešno povezal na internet."
 
 #: clientgui/BOINCDialupManager.cpp:414
 #, c-format
