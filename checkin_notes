@@ -9150,3 +9150,9 @@ Rom    8 Dec 2009
     /
         configure.ac
         version.h
+
+Charlie 13 Dec 2009
+    Mac command-line install: add .txt extension to copyright files.
+    
+    mac_installer/
+        release_boinc.sh
