@@ -3,13 +3,15 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2005-11-09 07:38+0100\n"
-"Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
+"PO-Revision-Date: 2009-12-14 13:46-0700\n"
+"Last-Translator: Nick Liolios <anarchist_jesus@hotmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
@@ -113,27 +115,25 @@ msgstr "Σύνδεση σε πρόγραμμα"
 
 #: clientgui/AccountInfoPage.cpp:526
 msgid "Update account manager"
-msgstr ""
+msgstr "Ενημέρωση του προγράμματος διαχείρισης λογαριασμού"
 
 #: clientgui/AccountInfoPage.cpp:528
 msgid "Attach to account manager"
-msgstr "Σύνδεση στο πρόγραμμα διαχείρησης λογαριασμού"
+msgstr "Σύνδεση στο πρόγραμμα διαχείρισης λογαριασμού"
 
 #: clientgui/AccountInfoPage.cpp:537
 #, c-format
-#, fuzzy
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr ""
-"Το ελάχιστο μήκος κωδικού για αυτό το πρόγραμμα είναι %d χαρακτήρες. "
-"Παρακαλούμε επιλέξτε άλλο κωδικο."
+"Το ελάχιστο μήκος κωδικού για αυτό το έργο είναι %d χαρακτήρες. Παρακαλούμε "
+"επιλέξτε άλλον κωδικο."
 
 #: clientgui/AccountInfoPage.cpp:543
 #, c-format
-#, fuzzy
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr ""
-"Το ελάχιστο μήκος κωδικού για αυτό το πρόγραμμα διαχείρησης λογαριασμού "
-"είναι %d χαρακτήρες. Παρακαλούμε επιλέξτε άλλο κωδικο."
+"Το ελάχιστο μήκος κωδικού για αυτό το πρόγραμμα διαχείρισης λογαριασμού "
+"είναι %d χαρακτήρες. Παρακαλούμε επιλέξτε άλλον κωδικο."
 
 #: clientgui/AccountInfoPage.cpp:554
 msgid "The password and confirmation password do not match. Please type them again."
@@ -143,17 +143,19 @@ msgstr ""
 
 #: clientgui/AccountManagerInfoPage.cpp:243
 msgid "Choose an account manager"
-msgstr ""
+msgstr "Επιλογή ενός προγράμματος διαχείρισης λογαριασμού"
 
 #: clientgui/AccountManagerInfoPage.cpp:246
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
+"Για να επιλέξετε ένα πρόγραμμα διαχείρισης λογαριασμού, πατήστε το όνομά του "
+"ή πληκτρολογήστε τη διεύθυνσή του παρακάτω."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Account Manager &URL:"
-msgstr "Διεύθυνση ιστοσελίδας διαχειρηστή λογαριασμού:"
+msgstr "Διεύθυνση ιστοσελίδας διαχειριστή λογαριασμού:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:190
 #: clientgui/AccountManagerPropertiesPage.cpp:196
@@ -164,12 +166,12 @@ msgstr ""
 #: clientgui/AccountManagerProcessingPage.cpp:197
 #: clientgui/AccountManagerPropertiesPage.cpp:203
 msgid "Communicating with server."
-msgstr ""
+msgstr "Γίνεται επικοινωνία με τον εξυπηρετητή (server)."
 
 #: clientgui/AccountManagerProcessingPage.cpp:202
 #: clientgui/AccountManagerPropertiesPage.cpp:208
 msgid "Please wait..."
-msgstr ""
+msgstr "Παρακαλούμε περιμένετε..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:326
 msgid "An internal server error has occurred.\n"
