@@ -82,6 +82,9 @@ int signof(float x) {
 - (void)startAnimation {
     NSBundle * myBundle;
     int newFrequency;
+    int period;
+    
+    initBOINCSaver();  
 
     if (gBOINC_Logo == NULL) {
         if (self) {
@@ -102,22 +105,38 @@ int signof(float x) {
             mVersion = [defaults floatForKey:@"version"];
             if (!mVersion) {
                 // no previous settings so define our defaults
-                mVersion = 1;
                 gGoToBlank = NO;
                 gBlankingTime = 1;
                 
                 // write out the defaults
-                [ defaults setInteger:mVersion forKey:@"version" ];
                 [ defaults setInteger:gGoToBlank forKey:@"GoToBlank" ];
                 [ defaults setInteger:gBlankingTime forKey:@"BlankingTime" ];
+            }
+            
+            if (mVersion < 2) {
+                mVersion = 2;
+            
+                [ defaults setInteger:mVersion forKey:@"version" ];
+                period = getGFXDefaultPeriod() / 60;
+                [ defaults setInteger:period forKey:@"DefaultPeriod" ];
+                period = getGFXSciencePeriod() / 60;
+                [ defaults setInteger:period forKey:@"SciencePeriod" ];
+                period = getGGFXChangePeriod() / 60;
+                [ defaults setInteger:period forKey:@"ChangePeriod" ];
                 
                 // synchronize
                 [defaults synchronize];
             }
 
-            // set defaults...
+            // get defaults...
             gGoToBlank = [ defaults integerForKey:@"GoToBlank" ];
             gBlankingTime = [ defaults integerForKey:@"BlankingTime" ];
+            period = [ defaults integerForKey:@"DefaultPeriod" ];
+            setGFXDefaultPeriod((double)(period * 60));
+            period = [ defaults integerForKey:@"SciencePeriod" ];
+            setGFXSciencePeriod((double)(period * 60));
+            period = [ defaults integerForKey:@"ChangePeriod" ];
+            setGGFXChangePeriod((double)(period * 60));
 
            [ self setAutoresizesSubviews:YES ];	// make sure the subview resizes.
 
@@ -156,7 +175,7 @@ int signof(float x) {
         return;
     }
     
-    newFrequency = initBOINCSaver();        
+    newFrequency = startBOINCSaver();  
     if (newFrequency)
         [ self setAnimationTimeInterval:1.0/newFrequency ];
 }
@@ -459,13 +478,28 @@ int signof(float x) {
 // Display the configuration sheet for the user to choose their settings
 - (NSWindow*)configureSheet
 {
+    int period;
+
 	// if we haven't loaded our configure sheet, load the nib named MyScreenSaver.nib
 	if (!mConfigureSheet)
-            [ NSBundle loadNibNamed:@"BOINCSaver" owner:self ];
+        [ NSBundle loadNibNamed:@"BOINCSaver" owner:self ];
 	// set the UI state
 	[ mGoToBlankCheckbox setState:gGoToBlank ];
-        mBlankingTimeString = [[ NSString alloc ] initWithFormat:@"%d", gBlankingTime ];
+
+    mBlankingTimeString = [[ NSString alloc ] initWithFormat:@"%d", gBlankingTime ];
 	[ mBlankingTimeTextField setStringValue:mBlankingTimeString ];
+    
+    period = getGFXDefaultPeriod() / 60;
+    mDefaultPeriodString = [[ NSString alloc ] initWithFormat:@"%d", period ];
+	[ mDefaultPeriodTextField setStringValue:mDefaultPeriodString ];
+    
+    period = getGFXSciencePeriod() / 60;
+    mSciencePeriodString = [[ NSString alloc ] initWithFormat:@"%d", period ];
+	[ mSciencePeriodTextField setStringValue:mSciencePeriodString ];
+    
+    period = getGGFXChangePeriod() / 60;
+    mChangePeriodString = [[ NSString alloc ] initWithFormat:@"%d", period ];
+	[ mChangePeriodTextField setStringValue:mChangePeriodString ];
     
 	return mConfigureSheet;
 }
@@ -473,23 +507,58 @@ int signof(float x) {
 // Called when the user clicked the SAVE button
 - (IBAction) closeSheetSave:(id) sender
 {
+    int period;
+
     // get the defaults
 	ScreenSaverDefaults *defaults = [ ScreenSaverDefaults defaultsForModuleWithName:mBundleID ];
 
 	// save the UI state
 	gGoToBlank = [ mGoToBlankCheckbox state ];
 	mBlankingTimeString = [ mBlankingTimeTextField stringValue ];
-        gBlankingTime = [ mBlankingTimeString intValue ];
+    gBlankingTime = [ mBlankingTimeString intValue ];
+    if ((gBlankingTime < 0) || (gBlankingTime > 999)) goto Bad;
+
+	mDefaultPeriodString = [ mDefaultPeriodTextField stringValue ];
+    period = [ mDefaultPeriodString intValue ];
+    if (!validateNumericString((CFStringRef)mDefaultPeriodString)) goto Bad;
+    if ((period < 0) || (period > 999)) goto Bad;
+    setGFXDefaultPeriod((double)(period * 60));
+
+	mSciencePeriodString = [ mSciencePeriodTextField stringValue ];
+    period = [ mSciencePeriodString intValue ];
+    if (!validateNumericString((CFStringRef)mSciencePeriodString)) goto Bad;
+    if ((period < 0) || (period > 999)) goto Bad;
+    setGFXSciencePeriod((double)(period * 60));
+
+	mChangePeriodString = [ mChangePeriodTextField stringValue ];
+    period = [ mChangePeriodString intValue ];
+     if (!validateNumericString((CFStringRef)mChangePeriodString)) goto Bad;
+   if ((period < 0) || (period > 999)) goto Bad;
+    setGGFXChangePeriod((double)(period * 60));
 	
 	// write the defaults
 	[ defaults setInteger:gGoToBlank forKey:@"GoToBlank" ];
 	[ defaults setInteger:gBlankingTime forKey:@"BlankingTime" ];
+    period = getGFXDefaultPeriod() / 60;
+    [ defaults setInteger:period forKey:@"DefaultPeriod" ];
+    period = getGFXSciencePeriod() / 60;
+    [ defaults setInteger:period forKey:@"SciencePeriod" ];
+    period = getGGFXChangePeriod() / 60;
+    [ defaults setInteger:period forKey:@"ChangePeriod" ];
 	
 	// synchronize
     [ defaults synchronize ];
 
 	// end the sheet
     [ NSApp endSheet:mConfigureSheet ];
+    return;
+Bad:
+;   // Empty statement is needed to prevent compiler error
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    [alert addButtonWithTitle:@"OK"];
+    [alert setMessageText:@"Please enter a number between 0 and 999."];
+    [alert setAlertStyle:NSCriticalAlertStyle];
+    [alert beginSheetModalForWindow:mConfigureSheet modalDelegate:self didEndSelector:nil contextInfo:nil];
 }
 
 // Called when the user clicked the CANCEL button

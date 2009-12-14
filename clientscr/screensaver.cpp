@@ -474,7 +474,6 @@ void *CScreensaver::DataManagementProc()
     int             exit_status                 = 0;
     
     char*           default_ss_dir_path         = NULL;
-    char*           default_data_dir_path       = NULL;
     char            full_path[1024];
 
     BOINCTRACE(_T("CScreensaver::DataManagementProc - Display screen saver loading message\n"));
@@ -491,24 +490,17 @@ void *CScreensaver::DataManagementProc()
     m_bScience_gfx_running = false;
     m_bDefault_gfx_running = false;
     m_bShow_default_ss_first = false;
-    m_fGFXDefaultPeriod = GFX_DEFAULT_PERIOD;
-    m_fGFxSciencePeriod = GFX_SCIENCE_PERIOD;
-    m_fGFXChangePeriod = GFX_CHANGE_PERIOD;
 
 #ifdef __APPLE__
-    default_data_dir_path = "/Library/Application Support/BOINC Data";
-    default_ss_dir_path = default_data_dir_path;
+    default_ss_dir_path = "/Library/Application Support/BOINC Data";
 #else
-    default_data_dir_path = (char*)m_strBOINCDataDirectory.c_str();
     default_ss_dir_path = (char*)m_strBOINCInstallDirectory.c_str();
 #endif
 
     strlcpy(full_path, default_ss_dir_path, sizeof(full_path));
     strlcat(full_path, PATH_SEPARATOR, sizeof(full_path));
     strlcat(full_path, THE_DEFAULT_SS_EXECUTABLE, sizeof(full_path));
-    
-    GetDisplayPeriods(default_data_dir_path);
-    
+        
     if (boinc_file_exists(full_path)) {
         m_bDefault_ss_exists = true;
     } else {
@@ -558,7 +550,7 @@ void *CScreensaver::DataManagementProc()
         // ***
 
         // Blank screen saver?
-        if ((m_dwBlankScreen) && (time(0) > m_dwBlankTime)) {
+        if ((m_dwBlankScreen) && (time(0) > m_dwBlankTime) && (m_dwBlankTime > 0)) {
             BOINCTRACE(_T("CScreensaver::DataManagementProc - Time to blank\n"));
             SetError(FALSE, SCRAPPERR_SCREENSAVERBLANKED);    // Blanked - hide moving BOINC logo
             m_QuitDataManagementProc = true;
@@ -598,8 +590,8 @@ void *CScreensaver::DataManagementProc()
         }
         
         // Time to switch to default graphics phase?
-        if (m_bDefault_ss_exists && (ss_phase == SCIENCE_SS_PHASE)) {
-            if (science_phase_start_time && ((dtime() - science_phase_start_time) > m_fGFxSciencePeriod)) {
+        if (m_bDefault_ss_exists && (ss_phase == SCIENCE_SS_PHASE) && (m_fGFXDefaultPeriod > 0)) {
+            if (science_phase_start_time && ((dtime() - science_phase_start_time) > m_fGFXSciencePeriod)) {
                 if (!m_bDefault_gfx_running) {
                     switch_to_default_gfx = true;
                 }
@@ -615,7 +607,7 @@ void *CScreensaver::DataManagementProc()
         }
         
         // Time to switch to science graphics phase?
-        if ((ss_phase == DEFAULT_SS_PHASE) && m_bConnected) {
+        if ((ss_phase == DEFAULT_SS_PHASE) && m_bConnected && (m_fGFXSciencePeriod > 0)) {
             if (default_phase_start_time && 
                     ((dtime() - default_phase_start_time + default_saver_duration_in_science_phase) 
                     > m_fGFXDefaultPeriod)) {
@@ -721,7 +713,7 @@ void *CScreensaver::DataManagementProc()
                         }
                     }
 
-                     if (last_change_time && ((dtime() - last_change_time) > m_fGFXChangePeriod)) {
+                     if (last_change_time && (m_fGFXChangePeriod > 0) && ((dtime() - last_change_time) > m_fGFXChangePeriod) ) {
                         if (count_active_graphic_apps(results, previous_result_ptr) > 0) {
                             if (previous_result_ptr) {
                                 BOINCTRACE(_T("CScreensaver::DataManagementProc - time to change: %s / %s\n"), 
@@ -871,12 +863,25 @@ bool CScreensaver::HasProcessExited(pid_t pid, int &exitCode) {
 #endif
 
 
-void CScreensaver::GetDisplayPeriods(char *dir_path) {
-    char buf[1024];
-    FILE* f;
-    MIOFILE mf;
+void CScreensaver::GetDefaultDisplayPeriods(struct ss_periods &periods)
+{
+    char*           default_data_dir_path = NULL;
+    char            buf[1024];
+    FILE*           f;
+    MIOFILE         mf;
 
-    strlcpy(buf, dir_path, sizeof(buf));
+    periods.GFXDefaultPeriod = GFX_DEFAULT_PERIOD;
+    periods.GFXSciencePeriod = GFX_SCIENCE_PERIOD;
+    periods.GFXChangePeriod = GFX_CHANGE_PERIOD;
+    periods.Show_default_ss_first = false;
+
+#ifdef __APPLE__
+    default_data_dir_path = "/Library/Application Support/BOINC Data";
+#else
+    default_data_dir_path = (char*)m_strBOINCDataDirectory.c_str();
+#endif
+
+    strlcpy(buf, default_data_dir_path, sizeof(buf));
     strlcat(buf, PATH_SEPARATOR, sizeof(buf));
     strlcat(buf, THE_SS_CONFIG_FILE, sizeof(buf));
 
@@ -887,14 +892,14 @@ void CScreensaver::GetDisplayPeriods(char *dir_path) {
     XML_PARSER xp(&mf);
 
     while (mf.fgets(buf, sizeof(buf))) {
-        if (parse_bool(buf, "default_ss_first", m_bShow_default_ss_first)) continue;
-        if (parse_double(buf, "<default_gfx_duration>", m_fGFXDefaultPeriod)) continue;
-        if (parse_double(buf, "<science_gfx_duration>", m_fGFxSciencePeriod)) continue;
-        if (parse_double(buf, "<science_gfx_change_interval>", m_fGFXChangePeriod)) continue;
+        if (parse_bool(buf, "default_ss_first", periods.Show_default_ss_first)) continue;
+        if (parse_double(buf, "<default_gfx_duration>", periods.GFXDefaultPeriod)) continue;
+        if (parse_double(buf, "<science_gfx_duration>", periods.GFXSciencePeriod)) continue;
+        if (parse_double(buf, "<science_gfx_change_interval>", periods.GFXChangePeriod)) continue;
         
     }
     fclose(f);
     
-    BOINCTRACE(_T("CScreensaver::GetDisplayPeriods: m_bShow_default_ss_first=%d, m_fGFXDefaultPeriod=%f, m_fGFxSciencePeriod=%f, m_fGFXChangePeriod=%f\n"),
-                    (int)m_bShow_default_ss_first, m_fGFXDefaultPeriod, m_fGFxSciencePeriod, m_fGFXChangePeriod);
+    BOINCTRACE(_T("CScreensaver::GetDefaultDisplayPeriods: m_bShow_default_ss_first=%d, m_fGFXDefaultPeriod=%f, m_fGFXSciencePeriod=%f, m_fGFXChangePeriod=%f\n"),
+                    (int)periods.Show_default_ss_first, periods.GFXDefaultPeriod, periods.GFXSciencePeriod, periods.GFXChangePeriod);
 }

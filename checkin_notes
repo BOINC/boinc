@@ -10025,3 +10025,18 @@ Charlie 13 Dec 2009
     
     mac_installer/
         release_boinc.sh
+
+Charlie 14 Dec 2009
+    - SS: Allow users to set Default (BOINC) screensaver duration, application 
+        screensaver duration and application screensaver change interval from 
+        screensaver control panel.  Implemented on Mac, needs additional work 
+        for Windows.
+
+    clientscr/
+        mac_saver_module.cpp
+        Mac_Saver_Module.h
+        Mac_Saver_ModuleView.m, .h
+        screensaver.cpp
+        screensaver_win.cpp, .h
+        res/
+            BOINCSaver.nib

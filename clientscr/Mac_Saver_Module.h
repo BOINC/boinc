@@ -32,19 +32,37 @@
 extern "C" {
 #endif
 
-int initBOINCSaver(void);
-int getSSMessage(char **theMessage, int* coveredFreq);
-void windowIsCovered();
-void drawPreview(CGContextRef myContext);
-void closeBOINCSaver(void);
-void print_to_log_file(const char *format, ...);
-void strip_cr(char *buf);
-void PrintBacktrace(void);
+void            initBOINCSaver(void);
+int             startBOINCSaver(void);
+int             getSSMessage(char **theMessage, int* coveredFreq);
+void            windowIsCovered();
+void            drawPreview(CGContextRef myContext);
+void            closeBOINCSaver(void);
+void            setDefaultDisplayPeriods(void);
+bool            getShow_default_ss_first();
+double          getGFXDefaultPeriod();
+double          getGFXSciencePeriod();
+double          getGGFXChangePeriod();
+bool            validateNumericString(CFStringRef s);
+void            setShow_default_ss_first(bool value);
+void            setGFXDefaultPeriod(double value);
+void            setGFXSciencePeriod(double value);
+void            setGGFXChangePeriod(double value);
+void            print_to_log_file(const char *format, ...);
+void            strip_cr(char *buf);
+void            PrintBacktrace(void);
 
 #ifdef __cplusplus
 }	// extern "C"
 #endif
 
+struct ss_periods
+{
+    double          GFXDefaultPeriod;
+    double          GFXSciencePeriod;
+    double          GFXChangePeriod;
+    bool            Show_default_ss_first;
+};
 
 //-----------------------------------------------------------------------------
 // Name: class CScreensaver
@@ -82,10 +100,6 @@ protected:
     time_t          m_dwBlankTime;
     int             m_iGraphicsStartingMsgCounter;
     bool            m_bDefault_ss_exists;
-    double          m_fGFXDefaultPeriod;
-    double          m_fGFxSciencePeriod;
-    double          m_fGFXChangePeriod;
-    bool            m_bShow_default_ss_first;
     bool            m_bScience_gfx_running;
     bool            m_bDefault_gfx_running;
     bool            m_bConnected;
@@ -106,7 +120,7 @@ protected:
     int             launch_default_screensaver(char *dir_path, int& graphics_application);
     void            HandleRPCError(void);
     OSErr           KillScreenSaver(void);
-    void            GetDisplayPeriods(char *dir_path);
+    void            GetDefaultDisplayPeriods(struct ss_periods &periods);
     bool            HasProcessExited(pid_t pid, int &exitCode);
     pthread_t       m_hDataManagementThread;
     pid_t           m_hGraphicsApplication;
@@ -143,6 +157,11 @@ public:
     void            windowIsCovered(void);
     void            drawPreview(CGContextRef myContext);
     void            ShutdownSaver();
+
+    double          m_fGFXDefaultPeriod;
+    double          m_fGFXSciencePeriod;
+    double          m_fGFXChangePeriod;
+    bool            m_bShow_default_ss_first;
 
 protected:
 };

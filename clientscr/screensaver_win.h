@@ -75,6 +75,15 @@ struct DISPLAY_DEVICE_FULL
 };
 
 
+struct ss_periods
+{
+    double          GFXDefaultPeriod;
+    double          GFXSciencePeriod;
+    double          GFXChangePeriod;
+    bool            Show_default_ss_first;
+};
+
+
 //-----------------------------------------------------------------------------
 // Name: class CScreensaver
 // Desc: Screensaver class
@@ -161,7 +170,7 @@ protected:
 	int             launch_screensaver(RESULT* rp, HANDLE& graphics_application);
 	int             launch_default_screensaver(char *dir_path, HANDLE& graphics_application);
     void            HandleRPCError(void);
-    void            GetDisplayPeriods(char *dir_path);
+    void            GetDefaultDisplayPeriods(struct ss_periods &periods);
     BOOL            HasProcessExited(HANDLE pid_handle, int &exitCode);
     
     // Determine if two RESULT pointers refer to the same task
@@ -189,7 +198,7 @@ protected:
     time_t          m_tThreadCreateTime;
 
     double          m_fGFXDefaultPeriod;
-    double          m_fGFxSciencePeriod;
+    double          m_fGFXSciencePeriod;
     double          m_fGFXChangePeriod;
     bool            m_bShow_default_ss_first;
 

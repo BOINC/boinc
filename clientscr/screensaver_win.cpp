@@ -156,7 +156,7 @@ CScreensaver::CScreensaver() {
 HRESULT CScreensaver::Create(HINSTANCE hInstance) {
     HRESULT hr;
     BOOL    bReturnValue;
-
+    struct ss_periods periods;
     m_hInstance = hInstance;
 
     // Parse the command line and do the appropriate thing
@@ -174,7 +174,10 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
     // Enumerate Monitors
     EnumMonitors();
 
-
+    // Get project-defined default values for GFXDefaultPeriod, GFXSciencePeriod, GFXChangePeriod
+    GetDefaultDisplayPeriods(periods);
+    m_bShow_default_ss_first = periods.Show_default_ss_first;
+        
     // Retrieve the locations of the install directory and data directory
 	bReturnValue = UtilGetRegDirectoryStr(_T("DATADIR"), m_strBOINCDataDirectory);
     BOINCTRACE("CScreensaver::Create - BOINC Data Directory '%s'\n", m_strBOINCDataDirectory.c_str());
@@ -195,6 +198,9 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
     BOINCTRACE("CScreensaver::Create - Get Reg Key REG_BLANK_TIME return value '%d'\n", bReturnValue);
 	if (!bReturnValue) m_dwBlankTime = 5;
 
+//TODO: Update m_fGFXDefaultPeriod, m_fGFXSciencePeriod, m_fGFXChangePeriod from registry if present
+// Otherwise use values in periods struct returned from GetDefaultDisplayPeriods() call above.
+
     // Save the value back to the registry in case this is the first
     // execution and so we need the default value later.
 	bReturnValue = UtilSetRegKey(REG_BLANK_NAME, m_dwBlankScreen);
@@ -206,8 +212,10 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
 
     // Calculate the estimated blank time by adding the current time
     //   and and the user specified time which is in minutes
-    m_dwBlankTime = (DWORD)time(0) + (m_dwBlankTime * 60);
-
+    if (m_dwBlankTime > 0) {
+        m_dwBlankTime = (DWORD)time(0) + (m_dwBlankTime * 60);
+    }
+    
     // Create the infrastructure mutexes so we can properly aquire them to report
     //   errors
     if (!CreateInfrastructureMutexes()) {
