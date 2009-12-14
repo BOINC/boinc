@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:41-0500\n"
-"PO-Revision-Date: 2009-12-14 09:59-0700\n"
+"PO-Revision-Date: 2009-12-14 10:28-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -3363,41 +3363,44 @@ msgid ""
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
 msgstr ""
+"Ali ste prepričani, da želite opustiti prenos datoteke '%s'?\n"
+"OPOMBA: Opustitev prenosa bo razveljavila opravilo in\n"
+"zanj ne boste dobili zaslug."
 
 #: clientgui/ViewTransfers.cpp:328
 msgid "Abort File Transfer"
-msgstr ""
+msgstr "Opusti prenos datoteke"
 
 #: clientgui/ViewTransfers.cpp:750
 #: clientgui/ViewTransfersGrid.cpp:419
 msgid "Retry in "
-msgstr ""
+msgstr "Ponovno poskusi čez_"
 
 #: clientgui/ViewTransfers.cpp:762
 #: clientgui/ViewTransfersGrid.cpp:431
 msgid "Upload pending"
-msgstr ""
+msgstr "Čakajoče pošiljanje"
 
 #: clientgui/ViewTransfers.cpp:762
 #: clientgui/ViewTransfersGrid.cpp:431
 msgid "Download pending"
-msgstr ""
+msgstr "Čakajoče prejemanje"
 
 #: clientgui/ViewTransfers.cpp:769
 msgid " (project backoff: "
-msgstr ""
+msgstr " (projekt je odstopil: "
 
 #: clientgui/ViewTransfers.cpp:769
 msgid ")"
-msgstr ""
+msgstr ")"
 
 #: clientgui/ViewTransfersGrid.cpp:161
 msgid "TransfersGrid"
-msgstr ""
+msgstr "Mreža prenosov"
 
 #: clientgui/ViewTransfersGrid.cpp:228
 msgid "Aborting transfer(s)..."
-msgstr ""
+msgstr "Opuščam prenos(e)..."
 
 #: clientgui/ViewTransfersGrid.cpp:230
 msgid ""
@@ -3405,78 +3408,81 @@ msgid ""
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
 msgstr ""
+"Ali ste prepričani, da želite opustiti prenos te datoteke/datotek?\n"
+"OPOMBA: Opustitev prenosa bo razveljavila opravilo in zanj\n"
+"ne boste prejeli zaslug."
 
 #: clientgui/ViewTransfersGrid.cpp:231
 msgid "Abort File Transfer(s)"
-msgstr ""
+msgstr "Opusti prenos(e) datotek"
 
 #: clientgui/ViewWork.cpp:184
 #: clientgui/ViewWork.cpp:708
 msgid "Show active tasks"
-msgstr ""
+msgstr "Prikaži aktivna opravila"
 
 #: clientgui/ViewWork.cpp:185
 #: clientgui/ViewWork.cpp:709
 msgid "Show only active tasks."
-msgstr ""
+msgstr "Prikaži samo aktivna opravila"
 
 #: clientgui/ViewWork.cpp:192
 #: clientgui/ViewWorkGrid.cpp:115
 msgid "Show application graphics in a window."
-msgstr ""
+msgstr "V oknu prikaži grafiko aplikacije."
 
 #: clientgui/ViewWork.cpp:199
 #: clientgui/ViewWorkGrid.cpp:122
 msgid "Suspend work for this result."
-msgstr ""
+msgstr "Delo za ta rezultat daj na čakanje."
 
 #: clientgui/ViewWork.cpp:205
 #: clientgui/ViewWorkGrid.cpp:128
 msgid "Abort"
-msgstr ""
+msgstr "Opusti"
 
 #: clientgui/ViewWork.cpp:206
 #: clientgui/ViewWorkGrid.cpp:129
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr ""
+msgstr "Opusti delo na tem rezultatu. Zanj ne boste dobili zaslug."
 
 #: clientgui/ViewWork.cpp:213
 msgid "Show task details."
-msgstr ""
+msgstr "Prikaži podrobnosti opravila."
 
 #: clientgui/ViewWork.cpp:224
 #: clientgui/ViewWorkGrid.cpp:146
 msgid "Name"
-msgstr ""
+msgstr "Ime"
 
 #: clientgui/ViewWork.cpp:225
 msgid "Elapsed"
-msgstr ""
+msgstr "Preteklo"
 
 #: clientgui/ViewWork.cpp:227
 #: clientgui/ViewWorkGrid.cpp:147
 msgid "To completion"
-msgstr ""
+msgstr "Do zaključka"
 
 #: clientgui/ViewWork.cpp:254
 #: clientgui/ViewWorkGrid.cpp:190
 msgid "Tasks"
-msgstr ""
+msgstr "Opravila"
 
 #: clientgui/ViewWork.cpp:342
 #: clientgui/ViewWorkGrid.cpp:220
 msgid "Resuming task..."
-msgstr ""
+msgstr "Nadaljujem opravilo..."
 
 #: clientgui/ViewWork.cpp:345
 #: clientgui/ViewWorkGrid.cpp:223
 msgid "Suspending task..."
-msgstr ""
+msgstr "Opravilo dajem na čakanje..."
 
 #: clientgui/ViewWork.cpp:373
 #: clientgui/ViewWorkGrid.cpp:251
 msgid "Showing graphics for task..."
-msgstr ""
+msgstr "Prikazujem grafiko za to opravilo..."
 
 #: clientgui/ViewWork.cpp:426
 #, c-format
@@ -3484,56 +3490,58 @@ msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
 msgstr ""
+"Ali ste prepričani, da želite opustiti to opravilo '%s'?\n"
+"(Napredek: %s, Status: %s)"
 
 #: clientgui/ViewWork.cpp:432
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr ""
+msgstr "Ali ste prepričani, da želite opustiti teh %d opravil?"
 
 #: clientgui/ViewWork.cpp:437
 #: clientgui/ViewWorkGrid.cpp:335
 msgid "Abort task"
-msgstr ""
+msgstr "Opusti opravilo"
 
 #: clientgui/ViewWork.cpp:446
 #: clientgui/ViewWorkGrid.cpp:313
 msgid "Aborting result..."
-msgstr ""
+msgstr "Opuščam rezultat..."
 
 #: clientgui/ViewWork.cpp:702
 msgid "Show all tasks"
-msgstr ""
+msgstr "Prikaži vsa opravila"
 
 #: clientgui/ViewWork.cpp:703
 msgid "Show all tasks."
-msgstr ""
+msgstr "Prikaži vsa opravila."
 
 #: clientgui/ViewWork.cpp:727
 #: clientgui/ViewWorkGrid.cpp:445
 msgid "Resume work for this task."
-msgstr ""
+msgstr "Nadaljuj z delom za to opravila."
 
 #: clientgui/ViewWork.cpp:733
 #: clientgui/ViewWorkGrid.cpp:451
 msgid "Suspend work for this task."
-msgstr ""
+msgstr "Daj delo za to opravilo na čakanje."
 
 #: clientgui/ViewWork.cpp:1107
 msgid "GPU missing, "
-msgstr ""
+msgstr "Manjka grafični procesor, "
 
 #: clientgui/ViewWork.cpp:1148
 msgid " - an exclusive app is running"
-msgstr ""
+msgstr " - teče eksluzivna aplikacija"
 
 #: clientgui/ViewWork.cpp:1167
 #: clientgui/ViewWorkGrid.cpp:822
 msgid " (non-CPU-intensive)"
-msgstr ""
+msgstr " (ne-procesorsko-intenzitvno)"
 
 #: clientgui/ViewWorkGrid.cpp:184
 msgid "TasksGrid"
-msgstr ""
+msgstr "Mreža opravil"
 
 #: clientgui/ViewWorkGrid.cpp:327
 #, c-format
@@ -3541,10 +3549,12 @@ msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s %%, Status: %s)"
 msgstr ""
+"Ali ste prepričani, da želite opustiti to opravilo '%s'?\n"
+"(Napredek: %s %%, Status: %s)"
 
 #: clientgui/WelcomePage.cpp:250
 msgid "Attach to project or account manager"
-msgstr ""
+msgstr "Priklopite se na projekt ali upravitelja računov"
 
 #: clientgui/WelcomePage.cpp:258
 #, c-format
@@ -3555,12 +3565,18 @@ msgid ""
 "Projects added via this wizard will not be\n"
 "listed on or managed via %s."
 msgstr ""
+"Če je možno, dodajte projekte na\n"
+"%s spletni strani.\n"
+"Projekti dodani preko tega čarovnika ne bodo\n"
+"prikazani ali upravljani prek %s."
 
 #: clientgui/WelcomePage.cpp:271
 msgid ""
 "We'll guide you through the process of attaching\n"
 "to a project or account manager."
 msgstr ""
+"Vodili vas bomo skozi proces priklapljanja\n"
+"k projektu ali upravitelju računov."
 
 #: clientgui/WelcomePage.cpp:275
 msgid ""
@@ -3577,64 +3593,75 @@ msgid ""
 "To change which research applications are sent to you from\n"
 "World Community Grid then please click on the following button:"
 msgstr ""
+"Izbrali ste priklop na nov BOINC projekt.  Priklop na nov projekt\n"
+"pomeni, da boste povezovali svoj računalnik na novo spletno stran\n"
+"in organizacijo.  Če je to, kar želite storiti, potem prosim kliknite na\n"
+"gumb 'Naslednje' spodaj.\n"
+"Nekateri projekti kot naprimer World Community Grid poganjanjo več\n"
+"raziskovalnih aplikacij. Če želite spremeniti katere raziskovalne aplikacije "
+"so\n"
+"poslane na vaš računalnik v izvajanje, morate obiskat spletno stran projekta\n"
+"in tam spremeniti vaše nastavitve.\n"
+"Da spremenite katere raziskovalne aplikacije so poslane vam iz\n"
+"World Community Grid, prosim kliknite sledeči gumb:"
 
 #: clientgui/WelcomePage.cpp:278
 msgid "Change Research Applications at World Community Grid"
-msgstr ""
+msgstr "Spremeni raziskovalne aplikacije na World Community Grid"
 
 #: clientgui/WelcomePage.cpp:295
 msgid "To continue, click Next."
-msgstr ""
+msgstr "Za nadaljevanje kliknite Naprej."
 
 #: clientgui/WizardAttachProject.cpp:612
 msgid "Do you really want to cancel?"
-msgstr ""
+msgstr "Res želite preklicati?"
 
 #: clientgui/WizardAttachProject.cpp:613
 msgid "Question"
-msgstr ""
+msgstr "Vprašanje"
 
 #: clientgui/wizardex.cpp:402
 #: clientgui/wizardex.cpp:604
 msgid "&Next >"
-msgstr ""
+msgstr "&Naprej >"
 
 #: clientgui/wizardex.cpp:408
 msgid "< &Back"
-msgstr ""
+msgstr "< Na&zaj"
 
 #: clientgui/wizardex.cpp:604
 msgid "&Finish"
-msgstr ""
+msgstr "&Končaj"
 
 #: clientgui/common/wxFlatNotebook.cpp:182
 #, c-format
 msgid "New page inserted. Index = %i"
-msgstr ""
+msgstr "Nova stran vstavljena. Indeks = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:187
 #, c-format
 msgid "New page appended. Index = %i"
-msgstr ""
+msgstr "Nova stran dopolnjena. Indeks = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2048
 #, c-format
 msgid "Old Page Index = %i"
-msgstr ""
+msgstr "Stari indeks strani = %i"
 
 #: clientgui/common/wxFlatNotebook.cpp:2053
 #, c-format
 msgid "OnDropTarget: index by HitTest = %i"
-msgstr ""
+msgstr "OnDropTarget: indeks od HitTest = %i"
 
 #: clientgui/common/wxPieCtrl.cpp:66
 msgid "Pie Ctrl"
-msgstr ""
+msgstr "Pie Ctrl"
 
 #: clientgui/DlgAdvPreferences.h:29
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
-msgstr ""
+msgstr "podajte začetne in končne ure dela v formatu HH:MM-HH:MM"
 
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-msgstr ""
+msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
