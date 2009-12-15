@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:37-0500\n"
-"PO-Revision-Date: 2009-05-10 03:08-0700\n"
-"Last-Translator: Marek Czerwonka <marekz@mensa.org.pl>\n"
+"PO-Revision-Date: 2009-12-15 04:55-0700\n"
+"Last-Translator: Bartosz Kaszubowski <gosimek@gmail.com>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -112,7 +112,7 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:492
 msgid "Account manager website"
-msgstr ""
+msgstr "Strona internetowa menadżera kont"
 
 #: clientgui/AccountInfoPage.cpp:524
 msgid "Attach to project"
@@ -145,15 +145,15 @@ msgstr "Wprowadzone hasła nie są identyczne. Wprowadź je poprawnie ponownie."
 
 #: clientgui/AccountManagerInfoPage.cpp:243
 msgid "Choose an account manager"
-msgstr ""
+msgstr "Wybierz menedżera kont"
 
 #: clientgui/AccountManagerInfoPage.cpp:246
-#, fuzzy
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
-"Aby wybrać projekt kliknij jego nazwę albo wpisz jego adres URL poniżej."
+"Aby wybrać menedżera kont kliknij jego nazwę, albo \n"
+" wpisz jego adres URL poniżej."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Account Manager &URL:"
@@ -190,7 +190,7 @@ msgstr "Rozłączony"
 #: clientgui/AdvancedFrame.cpp:305
 #, c-format
 msgid "Close the %s window"
-msgstr ""
+msgstr "Zamknij okno %s"
 
 #: clientgui/AdvancedFrame.cpp:310
 #, fuzzy
@@ -200,7 +200,7 @@ msgstr "&Zamknij okno\tCtrl+W"
 #: clientgui/AdvancedFrame.cpp:317
 #, c-format
 msgid "Exit %s"
-msgstr ""
+msgstr "Zamknij %s"
 
 #: clientgui/AdvancedFrame.cpp:322
 #: clientgui/BOINCTaskBar.cpp:626
@@ -209,19 +209,19 @@ msgstr "&Zamknij"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "&Projects\tCtrl+Shift+P"
-msgstr ""
+msgstr "&Projekty\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:332
 msgid "Display projects"
-msgstr ""
+msgstr "Wyświetl projekty"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr ""
+msgstr "&Zadania\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:338
 msgid "Display tasks"
-msgstr ""
+msgstr "Wyświetl zadania"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Trans&fers\tCtrl+Shift+X"
