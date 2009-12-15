@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-12-15 02:58-0700\n"
+"PO-Revision-Date: 2009-12-15 03:52-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -465,49 +465,51 @@ msgid "Friends"
 msgstr "Prijatelji"
 
 msgid "Computers"
-msgstr ""
+msgstr "Računalniki"
 
 msgid "hidden"
-msgstr ""
+msgstr "skrito"
 
 msgid "Donor"
-msgstr ""
+msgstr "Donator"
 
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 msgid "This person is a friend"
-msgstr ""
+msgstr "Ta oseba je prijatelj"
 
 msgid "Cancel friendship"
-msgstr ""
+msgstr "Prekliči prijateljstvo"
 
 msgid "Request pending"
-msgstr ""
+msgstr "Čakajoča zahteva"
 
 msgid "Add as friend"
-msgstr ""
+msgstr "Dodaj kot prijatelja"
 
 msgid "CHARSET"
-msgstr ""
+msgstr "nabor znakov"
 
 msgid "Use BBCode tags to format your text"
-msgstr ""
+msgstr "Uporabite BBCode oznake za oblikovanje vašega besedila"
 
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr ""
+"Identificira vas na naši spletni strani. Uporabite vaše pravo ime ali "
+"vzdevek."
 
 msgid "Select the country you want to represent, if any."
-msgstr ""
+msgstr "Če želite, izberite državo, ki jo želite predstavljati."
 
 msgid "Postal or ZIP Code"
-msgstr ""
+msgstr "Poštna številka ali oznaka"
 
 msgid "Optional"
-msgstr ""
+msgstr "Opcijsko"
 
 msgid "Applications"
-msgstr ""
+msgstr "Aplikacije"
 
 msgid ""
 "%1 currently has the following applications. When you participate in %1, "
@@ -515,93 +517,106 @@ msgid ""
 "computer. The current version of the application will be downloaded to your "
 "computer. This happens automatically; you don't have to do anything."
 msgstr ""
+"% ima trenutno sledeče aplikacije. Ko sodelujete v %1, bo vašemu računalniku "
+"dodeljeno delo za eno ali več teh aplikacij. Trenutna različica aplikacije "
+"bo naložena na vaš računalnik. To se zgodi samodejno, ni vam streba storiti "
+"ničesar."
 
 msgid "Platform"
-msgstr ""
+msgstr "Platforma"
 
 msgid "Version"
-msgstr ""
+msgstr "Različica"
 
 msgid "Installation time"
-msgstr ""
+msgstr "Čas namestitve"
 
 msgid "You must supply an invitation code to create an account."
-msgstr ""
+msgstr "Podati morate kodo vabila, da ustvarite račun."
 
 msgid "The invitation code you gave is not valid."
-msgstr ""
+msgstr "Koda vabila, ki ste jo podali, ni veljavna."
 
 msgid "Create an account"
-msgstr ""
+msgstr "Ustvarite račun"
 
 msgid "Account creation is disabled"
-msgstr ""
+msgstr "Ustvarjanje računov je onemogočeno"
 
 msgid "Account creation is currently disabled. Please try again later."
-msgstr ""
+msgstr "Ustvarjanje računov je trenutno onemogočeno. Prosim, poskusite kasneje."
 
 msgid ""
 "NOTE: If you use BOINC version 5.2+ with the BOINC Manager, don't use this "
 "form. Just run BOINC, select Attach Project, and enter an email address and "
 "password."
 msgstr ""
+"OPOMBA: Če uporabljate BOINC različico 5.2 ali novejšo z BOINC Upraviteljem, "
+"ne uporabljajte tega obrazca. Samo poženite BOINC, izberite Pripni projet "
+"in vnesi naslov elektronske pošte in geslo."
 
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
 msgstr ""
+"Ta račun bo pripadal ekipi %1 in bo imel nastavitve projekta njenega "
+"ustanovitelja."
 
 msgid "Invitation Code"
-msgstr ""
+msgstr "Koda vabila"
 
 msgid "A valid invitation code is required to create an account."
-msgstr ""
+msgstr "Da ustvarite račun, je potrebna veljavna koda vabila."
 
 msgid "Email Address"
-msgstr ""
+msgstr "Naslov elektronske pošte"
 
 msgid "Must be a valid address of the form 'name@domain'."
-msgstr ""
+msgstr "Mora biti veljaven naslov v obliki 'ime@domena'."
 
 msgid "Password"
-msgstr ""
+msgstr "Geslo"
 
 msgid "Must be at least %1 characters"
-msgstr ""
+msgstr "Biti mora vsaj %1 znakov"
 
 msgid "Confirm password"
-msgstr ""
+msgstr "Potrdi geslo"
 
 msgid "Create account"
-msgstr ""
+msgstr "Ustvari račun"
 
 msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-msgstr ""
+msgstr "NAPAKA: %1 ne obstaja!  Ne morem ustvariti kombo izbirnika.<br>"
 
 msgid "Picture"
-msgstr ""
+msgstr "Slika"
 
 msgid "%1 Your profile picture is shown to the left."
-msgstr ""
+msgstr "%1 Vaša slika profila je prikazana na levi."
 
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
+"Da jo zamenjate, kliknite gumb \"Brskaj\" in izberite JPEG ali PNG datoteko "
+"(%1 ali manjšo)."
 
 msgid "To remove it from your profile, check this box:"
-msgstr ""
+msgstr "Da odstranite sliko z vašega profila, kliknite ta okvir:"
 
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
 msgstr ""
+"Če bi k vašemu profilu radi vključili sliko, kliknite gumb \"Brskaj\" in "
+"izberite JPEG ali PNG datoteko. Prosim, izberite slike dolžine %1 ali manj."
 
 msgid "Language"
-msgstr ""
+msgstr "Jezik"
 
 msgid "Select the language in which your profile is written:"
-msgstr ""
+msgstr "Izberite jezik v katerem naj bo napisan vaš profil:"
 
 msgid "Submit profile"
 msgstr ""
