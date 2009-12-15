@@ -2,177 +2,185 @@
 # Copyright (C) 2008 University of California
 # This file is distributed under the same license as BOINC.
 # FileID  : $Id$
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2009-12-15 01:57-0700\n"
+"Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3);\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "Search for words in forum messages"
-msgstr ""
+msgstr "Išči besede v sporočilih foruma"
 
 msgid "Search forums"
-msgstr ""
+msgstr "Išči po forumih"
 
 msgid "Advanced search"
-msgstr ""
+msgstr "Napredno iskanje"
 
 msgid "Private messages"
-msgstr ""
+msgstr "Zasebna sporočila"
 
 msgid "Questions and Answers"
-msgstr ""
+msgstr "Vprašanja in odgovori"
 
 msgid "Message boards"
-msgstr ""
+msgstr "Razpravljalnice"
 
 msgid "%1 message board"
-msgstr ""
+msgstr "%1 razpravljalnica"
 
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
 msgstr ""
+"Da lahko ustvarite novo temo v %1, morate imeti določeno količino zaslug. To "
+"preprečuje in ščiti pred zlorabo sistema."
 
 msgid ""
 "You cannot create any more threads right now. Please wait a while before "
 "trying again. This delay has been enforced to protect against abuse of the "
 "system."
 msgstr ""
+"Trenutno ne morete ustvariti novih tem. Prosim, malo počakajte, preden spet "
+"poskusite. Ta odlog je bil uveljavljen za zaščito pred zlorabo sistema."
 
 msgid "Thread"
-msgstr ""
+msgstr "Tema"
 
 msgid "Posts"
-msgstr ""
+msgstr "Objave"
 
 msgid "Author"
-msgstr ""
+msgstr "Avtor"
 
 msgid "Views"
-msgstr ""
+msgstr "Pogledi"
 
 msgid "Last post"
-msgstr ""
+msgstr "Zadnja objava"
 
 msgid "Mark all threads as read"
-msgstr ""
+msgstr "Označi vse teme kot prebrane"
 
 msgid "Mark all threads in all message boards as 'read'."
-msgstr ""
+msgstr "Označi vse teme na vseh oglasnih deskah kot 'prebrane'."
 
 msgid "Inbox"
-msgstr ""
+msgstr "Nabiralnik"
 
 msgid "Write"
-msgstr ""
+msgstr "Napiši"
 
 msgid "Send private message"
-msgstr ""
+msgstr "Pošlji zasebno sporočilo"
 
 msgid "Preview"
-msgstr ""
+msgstr "Predogled"
 
 msgid "To"
-msgstr ""
+msgstr "Za"
 
 msgid "User IDs or unique usernames, separated with commas"
-msgstr ""
+msgstr "IDji uporabnikov ali unikatna uporabniška imena, ločena z vejicami"
 
 msgid "Subject"
-msgstr ""
+msgstr "Zadeva"
 
 msgid "Message"
-msgstr ""
+msgstr "Sporočilo"
 
 msgid "Send message"
-msgstr ""
+msgstr "Pošlji sporočilo"
 
 msgid ""
 "You are not allowed to send privates messages so often. Please wait some "
 "time before sending more messages."
 msgstr ""
+"Ni vam dovoljeno tako pogosto pošiljati sporočil. Prosim, počakajte nekaj "
+"časa, preden pošljete nova."
 
 msgid "unread"
-msgstr ""
+msgstr "neprebrano"
 
 msgid "Edit your profile"
-msgstr ""
+msgstr "Uredite vaš profil"
 
 msgid "Your feedback on this profile"
-msgstr ""
+msgstr "Vaše povratne informacije o tem profilu"
 
 msgid "Recommend this profile for User of the Day:"
-msgstr ""
+msgstr "Predlagaj ta profil za Uporabnika dneva:"
 
 msgid "I %1like%2 this profile"
-msgstr ""
+msgstr "Ta profil mi je %1všeč%2"
 
 msgid "Alert administrators to an offensive profile:"
-msgstr ""
+msgstr "Opozori skrbnike na žaljiv profil:"
 
 msgid "I %1do not like%2 this profile"
-msgstr ""
+msgstr "Ta profil mi %1ni všeč%2"
 
 msgid "Search criteria (use one or more)"
-msgstr ""
+msgstr "Iskalni kriteriji (uporabite enega ali več)"
 
 msgid "Key words"
-msgstr ""
+msgstr "Ključne besede"
 
 msgid "Find teams with these words in their names or descriptions"
-msgstr ""
+msgstr "Poišči ekipe s temi besedami v njihovem imenu ali opisu"
 
 msgid "Country"
-msgstr ""
+msgstr "Država"
 
 msgid "Type of team"
-msgstr ""
+msgstr "Tip ekipe"
 
 msgid "Show only active teams"
-msgstr ""
+msgstr "Prikaži le aktivne ekipe"
 
 msgid "Search"
-msgstr ""
+msgstr "Išči"
 
 msgid "Requested by you, and founder response deadline has passed."
-msgstr ""
+msgstr "Zahtevali ste vi in rok za ustanoviteljev odgovor je potekel."
 
 msgid "Complete foundership transfer"
-msgstr ""
+msgstr "Dokončaj prenos ustanoviteljstva"
 
 msgid "Requested by you"
-msgstr ""
+msgstr "Zahtevali ste vi"
 
 msgid "founder response deadline is %1"
-msgstr ""
+msgstr "rok za ustanoviteljev odgovor je %1"
 
 msgid "None"
-msgstr ""
+msgstr "brez"
 
 msgid "Initiate request"
-msgstr ""
+msgstr "Prični zahtevo"
 
 msgid "Deferred"
-msgstr ""
+msgstr "Odloženo"
 
 msgid "Team info"
-msgstr ""
+msgstr "Informacije o ekipi"
 
 msgid "Description"
-msgstr ""
+msgstr "Opis"
 
 msgid "Web site"
-msgstr ""
+msgstr "Spletna stran"
 
 msgid "Total credit"
 msgstr ""
