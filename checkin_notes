@@ -10076,3 +10076,22 @@ David  14 Dec 2009
 
     client/
         cs_scheduler.cpp
+
+David  15 Dec 2009
+    - web: bb2html() previously generated HTML that assumed
+        the BOINC stylesheet (main.css) was included.
+        This is no good if we're exporting the HTML.
+        Add an option to generate generic HTML.
+    - web: add options to the forum RSS feed:
+        1) threads_only: just show threads (i.e. 1st post in each thread)
+        2) truncate: truncate posts to 256 chars.
+            If this is not set, convert post from BBcode to generic HTML,
+            and put this (XML-encoded) in item.description
+    This is preparation for using the forum code for project news,
+    and for displaying forum RSS feeds in the manager.
+
+    html/
+        inc/
+            text_transform.inc
+        user/
+            forum_rss.php

@@ -102,8 +102,9 @@ function get_output_options($user) {
 }
 
 // Converts bbcode to proper HTML
+// If $export is true, don't use BOINC CSS
 
-function bb2html($text) {
+function bb2html($text, $export=false) {
     $urlregex = "(?:\"?)(?:(http\:\/\/)?)([^\[\"<\ ]+)(?:\"?)";
     $httpsregex = "(?:\"?)https\:\/\/([^\[\"<\ ]+)(?:\"?)";
     // List of allowable tags
@@ -138,32 +139,61 @@ function bb2html($text) {
     );
     
     // What the above tags are turned in to
-    $htmltags = array (
-        "'<div class=\"pre\">'.stop_recursion(remove_br('\\1')).'</div>'",
-        "'<div class=\"code\">'.stop_recursion('\\1').'</div>'",
-        "<b>\\1</b>",
-        "<i>\\1</i>",
-        "<u>\\1</u>",
-        "<a href=\"https://\\1\" rel=\"nofollow\">\\2</a>",
-        "<a href=\"https://\\1\" rel=\"nofollow\">https://\\1</a>",
-        "<a href=\"http://\\2\" rel=\"nofollow\">\\3</a>",
-        "<a href=\"http://\\2\" rel=\"nofollow\">http://\\2</a>",
-        "<a href=\"http://\\2\" rel=\"nofollow\">\\3</a>",
-        "<a href=\"http://\\2\" rel=\"nofollow\">http://\\2</a>",
-        "<div style='font-style: oblique'>\\1 wrote:</div><blockquote class='postbody'>\\2</blockquote>",
-        "<blockquote class='postbody'>\\1</blockquote>",
-        "<ul>\\1</ul><p>",
-        "<ol>\\1</ol><p>",
-        "<img src=\"http://\\2\">",
-        "<font color=\"\\1\">\\2</font>",
-        "\\1<li>\\2\n\\3",
-        "<span style=\"font-size: \\1px;\">\\2</span>",
-        "<a href=\"mailto:\\1\">\\1</a>",
-        "<a href=\"mailto:\\1\">\\1</a>",
-        "<a href=\"http://boinc.berkeley.edu/trac/ticket/\\1\">#\\1</a>",
-        "<a href=\"http://boinc.berkeley.edu/trac/wiki/\\1\">\\1</a>",
-        "<a href=\"http://boinc.berkeley.edu/trac/changeset/\\1\">[\\1]</a>"
-    );
+    if ($export) {
+        $htmltags = array (
+            "'<pre>'.stop_recursion(remove_br('\\1')).'</pre>'",
+            "'<code>'.stop_recursion('\\1').'</code>'",
+            "<b>\\1</b>",
+            "<i>\\1</i>",
+            "<u>\\1</u>",
+            "<a href=\"https://\\1\" rel=\"nofollow\">\\2</a>",
+            "<a href=\"https://\\1\" rel=\"nofollow\">https://\\1</a>",
+            "<a href=\"http://\\2\" rel=\"nofollow\">\\3</a>",
+            "<a href=\"http://\\2\" rel=\"nofollow\">http://\\2</a>",
+            "<a href=\"http://\\2\" rel=\"nofollow\">\\3</a>",
+            "<a href=\"http://\\2\" rel=\"nofollow\">http://\\2</a>",
+            "<i>\\1 wrote:</i><blockquote>\\2</blockquote>",
+            "<blockquote>\\1</blockquote>",
+            "<ul>\\1</ul><p>",
+            "<ol>\\1</ol><p>",
+            "<img src=\"http://\\2\">",
+            "<font color=\"\\1\">\\2</font>",
+            "\\1<li>\\2\n\\3",
+            "<span style=\"font-size: \\1px;\">\\2</span>",
+            "<a href=\"mailto:\\1\">\\1</a>",
+            "<a href=\"mailto:\\1\">\\1</a>",
+            "<a href=\"http://boinc.berkeley.edu/trac/ticket/\\1\">#\\1</a>",
+            "<a href=\"http://boinc.berkeley.edu/trac/wiki/\\1\">\\1</a>",
+            "<a href=\"http://boinc.berkeley.edu/trac/changeset/\\1\">[\\1]</a>"
+        );
+    } else {
+        $htmltags = array (
+            "'<div class=\"pre\">'.stop_recursion(remove_br('\\1')).'</div>'",
+            "'<div class=\"code\">'.stop_recursion('\\1').'</div>'",
+            "<b>\\1</b>",
+            "<i>\\1</i>",
+            "<u>\\1</u>",
+            "<a href=\"https://\\1\" rel=\"nofollow\">\\2</a>",
+            "<a href=\"https://\\1\" rel=\"nofollow\">https://\\1</a>",
+            "<a href=\"http://\\2\" rel=\"nofollow\">\\3</a>",
+            "<a href=\"http://\\2\" rel=\"nofollow\">http://\\2</a>",
+            "<a href=\"http://\\2\" rel=\"nofollow\">\\3</a>",
+            "<a href=\"http://\\2\" rel=\"nofollow\">http://\\2</a>",
+            "<div style='font-style: oblique'>\\1 wrote:</div><blockquote class='postbody'>\\2</blockquote>",
+            "<blockquote class='postbody'>\\1</blockquote>",
+            "<ul>\\1</ul><p>",
+            "<ol>\\1</ol><p>",
+            "<img src=\"http://\\2\">",
+            "<font color=\"\\1\">\\2</font>",
+            "\\1<li>\\2\n\\3",
+            "<span style=\"font-size: \\1px;\">\\2</span>",
+            "<a href=\"mailto:\\1\">\\1</a>",
+            "<a href=\"mailto:\\1\">\\1</a>",
+            "<a href=\"http://boinc.berkeley.edu/trac/ticket/\\1\">#\\1</a>",
+            "<a href=\"http://boinc.berkeley.edu/trac/wiki/\\1\">\\1</a>",
+            "<a href=\"http://boinc.berkeley.edu/trac/changeset/\\1\">[\\1]</a>"
+        );
+    }
     
     // Do the actual replacing - iterations for nested items
     $lasttext = "";
