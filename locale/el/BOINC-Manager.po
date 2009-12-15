@@ -3,13 +3,15 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-05 13:37-0500\n"
-"PO-Revision-Date: 2005-11-09 07:38+0100\n"
-"Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
+"PO-Revision-Date: 2009-12-14 17:58-0700\n"
+"Last-Translator: Nick Liolios <anarchist_jesus@hotmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.2.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
@@ -19,31 +21,36 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:370
 msgid "Identify your account "
-msgstr ""
+msgstr "Εξακριβώστε τον λογαριασμό σας"
 
 #: clientgui/AccountInfoPage.cpp:376
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
 msgstr ""
+"Παρακαλούμε εισάγετε τις πληροφορίες του λογαριασμού σας\n"
+"(για να δημιουργήσετε έναν λογαριασμό, επισκεφθείτε την ιστοσελίδα του "
+"έργου)"
 
 #: clientgui/AccountInfoPage.cpp:380
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can attach only if you already have an account."
 msgstr ""
+"Το πρόγραμμα δεν δέχεται νέους λογαριασμούς αυτή τη στιγμή.\n"
+"Μπορείτε να το χρησιμοποιήσετε μόνο εάν έχετε ήδη έναν λογαριασμό."
 
 #: clientgui/AccountInfoPage.cpp:384
 msgid "Are you already running this project?"
-msgstr ""
+msgstr "Τρέχετε ήδη αυτό το πρόγραμμα;"
 
 #: clientgui/AccountInfoPage.cpp:388
 msgid "&No, new user"
-msgstr ""
+msgstr "&Όχι, νέος χρήστης"
 
 #: clientgui/AccountInfoPage.cpp:391
 msgid "&Yes, existing user"
-msgstr ""
+msgstr "&Ναι, υπάρχων χρήστης"
 
 #: clientgui/AccountInfoPage.cpp:396
 msgid ""
@@ -54,47 +61,53 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
+"Δεν είμασταν σε θέση να προετοιμάσουμε τις πληροφορίες του λογαριασμού σας "
+"αυτόματα.\n"
+"\n"
+"Παρακαλούμε πατήστε τον σύνδεσμο \"Εύρεση πληροφοριών σύνδεσης\"\n"
+"παρακάτω για να δείτε πώς να συμπληρώσετε τα πεδία της διεύθυνσης "
+"ηλεκτρονικού ταχυδρομείου (e-mail) και\n"
+"του κωδικού."
 
 #: clientgui/AccountInfoPage.cpp:399
 msgid "Find logon information"
-msgstr ""
+msgstr "Έυρεση πληροφοριών σύνδεσης"
 
 #: clientgui/AccountInfoPage.cpp:419
 #: clientgui/AccountInfoPage.cpp:585
 msgid "&Password:"
-msgstr "Κωδικός:"
+msgstr "&Κωδικός:"
 
 #: clientgui/AccountInfoPage.cpp:426
 #: clientgui/AccountInfoPage.cpp:600
 msgid "Choose a &password:"
-msgstr ""
+msgstr "Επιλέξτε έναν &κωδικό:"
 
 #: clientgui/AccountInfoPage.cpp:429
 msgid "C&onfirm password:"
-msgstr "Επιβεβαίωση Κωδικού:"
+msgstr "Ε&πιβεβαιώστε τον κωδικό:"
 
 #: clientgui/AccountInfoPage.cpp:436
 #, c-format
 msgid "Are you already running %s?"
-msgstr ""
+msgstr "Τρέχετε ήδη το &s;"
 
 #: clientgui/AccountInfoPage.cpp:453
-#, fuzzy
 msgid "&Username:"
-msgstr "Όνομα Χρήστη:"
+msgstr "&Όνομα χρήστη:"
 
 #: clientgui/AccountInfoPage.cpp:467
 msgid "&Email address:"
-msgstr "Διεύθυνση email:"
+msgstr "&Διεύθυνση ηλεκτρονικού ταχυδρομείου (email):"
 
 #: clientgui/AccountInfoPage.cpp:475
 #, c-format
 msgid "minimum length %d"
-msgstr ""
+msgstr "ελάχιστο μήκος %d"
 
 #: clientgui/AccountInfoPage.cpp:482
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Ξεχάσαστε τον κωδικό σας;"
 
 #: clientgui/AccountInfoPage.cpp:489
 msgid ""
@@ -102,38 +115,39 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
+"Αν δεν έχετε εγγραφεί ήδη με αυτό το πρόγραμμα διαχείρισης λογαριασμού,\n"
+"παρακαλούμε κάντε το προτού προσωρήσετε. Πατήστε στον παρακάτω σύνδεσμο\n"
+"για να εγγραφείτε ή για να ανακτήσετε έναν ξεχασμένο κωδικό."
 
 #: clientgui/AccountInfoPage.cpp:492
 msgid "Account manager website"
-msgstr ""
+msgstr "Ιστοσελίδα του προγράμματος διαχείρισης λογαριασμού"
 
 #: clientgui/AccountInfoPage.cpp:524
 msgid "Attach to project"
-msgstr "Σύνδεση σε πρόγραμμα"
+msgstr "Σύνδεση σε έργο"
 
 #: clientgui/AccountInfoPage.cpp:526
 msgid "Update account manager"
-msgstr ""
+msgstr "Ενημέρωση του προγράμματος διαχείρισης λογαριασμού"
 
 #: clientgui/AccountInfoPage.cpp:528
 msgid "Attach to account manager"
-msgstr "Σύνδεση στο πρόγραμμα διαχείρησης λογαριασμού"
+msgstr "Σύνδεση στο πρόγραμμα διαχείρισης λογαριασμού"
 
 #: clientgui/AccountInfoPage.cpp:537
 #, c-format
-#, fuzzy
 msgid "The minimum password length for this project is %d. Please enter a different password."
 msgstr ""
 "Το ελάχιστο μήκος κωδικού για αυτό το πρόγραμμα είναι %d χαρακτήρες. "
-"Παρακαλούμε επιλέξτε άλλο κωδικο."
+"Παρακαλούμε επιλέξτε άλλον κωδικο."
 
 #: clientgui/AccountInfoPage.cpp:543
 #, c-format
-#, fuzzy
 msgid "The minimum password length for this account manager is %d. Please enter a different password."
 msgstr ""
-"Το ελάχιστο μήκος κωδικού για αυτό το πρόγραμμα διαχείρησης λογαριασμού "
-"είναι %d χαρακτήρες. Παρακαλούμε επιλέξτε άλλο κωδικο."
+"Το ελάχιστο μήκος κωδικού για αυτό το πρόγραμμα διαχείρισης λογαριασμού "
+"είναι %d χαρακτήρες. Παρακαλούμε επιλέξτε άλλον κωδικό."
 
 #: clientgui/AccountInfoPage.cpp:554
 msgid "The password and confirmation password do not match. Please type them again."
@@ -143,124 +157,127 @@ msgstr ""
 
 #: clientgui/AccountManagerInfoPage.cpp:243
 msgid "Choose an account manager"
-msgstr ""
+msgstr "Επιλέξτε ένα πρόγραμμα διαχείρισης λογαριασμού"
 
 #: clientgui/AccountManagerInfoPage.cpp:246
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
+"Για να επιλέξετε ένα πρόγραμμα διαχείρισης λογαριασμού, πατήστε το όνομά του "
+"ή \n"
+"πληκτρολογήστε τη διεύθυνσή του παρακάτω."
 
 #: clientgui/AccountManagerInfoPage.cpp:249
 msgid "Account Manager &URL:"
-msgstr "Διεύθυνση ιστοσελίδας διαχειρηστή λογαριασμού:"
+msgstr "&Διεύθυνση ιστοσελίδας του προγράμματος διαχείρισης λογαριασμού:"
 
 #: clientgui/AccountManagerProcessingPage.cpp:190
 #: clientgui/AccountManagerPropertiesPage.cpp:196
 #, c-format
 msgid "Communicating with %s."
-msgstr ""
+msgstr "Επικοινωνία με %s."
 
 #: clientgui/AccountManagerProcessingPage.cpp:197
 #: clientgui/AccountManagerPropertiesPage.cpp:203
 msgid "Communicating with server."
-msgstr ""
+msgstr "Επικοινωνία με τον εξυπηρετητή (server)."
 
 #: clientgui/AccountManagerProcessingPage.cpp:202
 #: clientgui/AccountManagerPropertiesPage.cpp:208
 msgid "Please wait..."
-msgstr ""
+msgstr "Παρακαλούμε περιμένετε..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:326
 msgid "An internal server error has occurred.\n"
-msgstr ""
+msgstr "Προέκυψε ένα εσωτερικό σφάλμα στον εξυπηρετητή (internal server error).\n"
 
 #: clientgui/AdvancedFrame.cpp:94
 msgid "Connected"
-msgstr "Σύνδεση"
+msgstr "Συνδεδεμένος"
 
 #: clientgui/AdvancedFrame.cpp:102
 msgid "Disconnected"
-msgstr "Αποσύνδεση"
+msgstr "Αποσυνδεδεμένος"
 
 #: clientgui/AdvancedFrame.cpp:305
 #, c-format
 msgid "Close the %s window"
-msgstr ""
+msgstr "Κλείσιμο του παραθύρου %s"
 
 #: clientgui/AdvancedFrame.cpp:310
 msgid "&Close Window\tCtrl+W"
-msgstr ""
+msgstr "&Κλείσιμο του Παραθύρου\tCtrl+W"
 
 #: clientgui/AdvancedFrame.cpp:317
 #, c-format
 msgid "Exit %s"
-msgstr ""
+msgstr "Έξοδος %s"
 
 #: clientgui/AdvancedFrame.cpp:322
 #: clientgui/BOINCTaskBar.cpp:626
 msgid "E&xit"
-msgstr "Έξοδος"
+msgstr "Έ%ξοδος"
 
 #: clientgui/AdvancedFrame.cpp:331
 msgid "&Projects\tCtrl+Shift+P"
-msgstr ""
+msgstr "&Προγράμματα\tCtrl+Shift+Π"
 
 #: clientgui/AdvancedFrame.cpp:332
 msgid "Display projects"
-msgstr ""
+msgstr "Εμφάνιση των προγραμμάτων"
 
 #: clientgui/AdvancedFrame.cpp:337
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr ""
+msgstr "&Εργασίες\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:338
 msgid "Display tasks"
-msgstr ""
+msgstr "Εμφάνιση των εργασιών"
 
 #: clientgui/AdvancedFrame.cpp:343
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr ""
+msgstr "Μετα&φορές\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:344
 msgid "Display transfers"
-msgstr ""
+msgstr "Εμφάνιση των μεταφορών"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "&Messages\tCtrl+Shift+M"
-msgstr ""
+msgstr "&Μηνύματα\tCtrl+Shift+M"
 
 #: clientgui/AdvancedFrame.cpp:350
 msgid "Display messages"
-msgstr ""
+msgstr "Εμφάνιση των μηνυμάτων"
 
 #: clientgui/AdvancedFrame.cpp:355
 msgid "&Statistics\tCtrl+Shift+S"
-msgstr ""
+msgstr "&Στατιστικά\tCtrl+Shift+Σ"
 
 #: clientgui/AdvancedFrame.cpp:356
 msgid "Display statistics"
-msgstr ""
+msgstr "Εμφάνιση των στατιστικών"
 
 #: clientgui/AdvancedFrame.cpp:361
 msgid "&Disk usage\tCtrl+Shift+D"
-msgstr ""
+msgstr "Χρήση &δίσκου\tCtrl+Shift+Δ"
 
 #: clientgui/AdvancedFrame.cpp:362
 msgid "Display disk usage"
-msgstr ""
+msgstr "Εμφάνιση χρήσης δίσκου"
 
 #: clientgui/AdvancedFrame.cpp:367
 msgid "&News\tCtrl+Shift+N"
-msgstr ""
+msgstr "&Νέα\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:368
 msgid "Display news"
-msgstr ""
+msgstr "Εμφάνιση νέων"
 
 #: clientgui/AdvancedFrame.cpp:375
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr ""
+msgstr "Απλή &Εμφάνιση...\tCtrl+Shift+Ε"
 
 #: clientgui/AdvancedFrame.cpp:376
 msgid "Display the simple graphical interface."

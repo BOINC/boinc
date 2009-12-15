@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2009-12-14 16:58-0700\n"
+"PO-Revision-Date: 2009-12-14 17:02-0700\n"
 "Last-Translator: Nick Liolios <anarchist_jesus@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: el\n"
@@ -433,12 +433,17 @@ msgid ""
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
 msgstr ""
+"Αν είστε έμπειρος χρήστης του BOINC, σας ενθαρρύνουμε να %sγίνετε ένας "
+"Εθελοντής Βοήθειας%s. Είναι ένας πολύ καλός τρόπος να βοηθήσετε το έργο της "
+"επιστημονικής έρευνας και του εθελοντικού υπολογισμού - κι έχει πλάκα!"
 
 #: help.php:56
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr ""
+"Αν είστε ήδη Εθελοντής Βοήθειας: για να επεξεργαστείτε τις ρυθμίσεις σας, "
+"%sπατήστε εδώ%s."
 
 #: index.php:23
 msgid "Computing power"
@@ -446,7 +451,7 @@ msgstr "Υπολογιστική δύναμη"
 
 #: index.php:25
 msgid "Top 100 volunteers"
-msgstr ""
+msgstr "Πρώτοι 100 εθελοντές"
 
 #: index.php:26
 msgid "Statistics"
@@ -555,7 +560,7 @@ msgstr "Ανάπτυξη λογισμικού"
 
 #: index.php:166
 msgid "APIs for add-on software"
-msgstr ""
+msgstr "APIs for add-on software"
 
 #: index.php:167
 msgid "Personnel and contributors"
