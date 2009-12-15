@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2009-12-14 14:59-0700\n"
+"PO-Revision-Date: 2009-12-14 15:58-0700\n"
 "Last-Translator: Nick Liolios <anarchist_jesus@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: el\n"
@@ -26,304 +26,308 @@ msgstr ""
 
 #: poll.inc:47
 msgid "Other:"
-msgstr ""
+msgstr "Άλλο:"
 
 #: poll_data.inc:19
 msgid "Yes - I have been running BOINC on my computer for..."
-msgstr ""
+msgstr "Ναι - χρησιμοποιώ το BOINC στον υπολογιστή μου εδώ και..."
 
 #: poll_data.inc:22
 msgid "less than a week"
-msgstr ""
+msgstr "λιγότερο από μία εβδομάδα"
 
 #: poll_data.inc:23
 msgid "less than a month"
-msgstr ""
+msgstr "λιγότερο από έναν μήνα"
 
 #: poll_data.inc:24
 msgid "less than a year"
-msgstr ""
+msgstr "λιγότερο από έναν χρόνο"
 
 #: poll_data.inc:25
 msgid "more than a year"
-msgstr ""
+msgstr "περισσότερο από έναν χρόνο"
 
 #: poll_data.inc:31
 msgid "No - I used to run BOINC, but..."
-msgstr ""
+msgstr "Όχι - χρησιμοποιούσα το BOINC, αλλά..."
 
 #: poll_data.inc:34
 msgid "I lost interest"
-msgstr ""
+msgstr "έχασα το ενδιαφέρον"
 
 #: poll_data.inc:35
 msgid "it was too complicated"
-msgstr ""
+msgstr "ήταν πολύ περίπλοκο"
 
 #: poll_data.inc:36
 msgid "I stopped it and forgot to start again"
-msgstr ""
+msgstr "το σταμάτησα και ξέχασα να το ξαναξεκινήσω"
 
 #: poll_data.inc:37
 msgid "it caused problems on my computer"
-msgstr ""
+msgstr "μου προξένησε προβλήματα στον υπολογιστή"
 
 #: poll_data.inc:38
 msgid "it used too much electricity"
-msgstr ""
+msgstr "κατανάλωνε πάρα πολύ ρεύμα"
 
 #: poll_data.inc:39
 msgid "I switched to a non-BOINC computing project"
-msgstr ""
+msgstr "άρχισα να χρησιμοποιώ κάποιο άλλο υπολογιστικό πρόγραμμα"
 
 #: poll_data.inc:45
 msgid "No - I tried running BOINC, but..."
-msgstr ""
+msgstr "Όχι - προσπάθησα να χρησιμοποιήσω το BOINC, αλλά..."
 
 #: poll_data.inc:48
 msgid "the software didn't install correctly"
-msgstr ""
+msgstr "το λογισμικό δεν εγκαταστάθηκε σωστά"
 
 #: poll_data.inc:49
 msgid "I couldn't figure out how to use the software"
-msgstr ""
+msgstr "δεν μπόρεσα να καταλάβω πώς χρησιμοποιείται το λογισμικό"
 
 #: poll_data.inc:50
 msgid "I had network communication problems"
-msgstr ""
+msgstr "είχα πρόβλημα στην επικοινωνία με το δίκτυο"
 
 #: poll_data.inc:51
 msgid "I couldn't attach to a project"
-msgstr ""
+msgstr "δεν μπορούσα να επιλέξω κάποιο έργο"
 
 #: poll_data.inc:52
 msgid "I attached to a project, but never got any work"
-msgstr ""
+msgstr "επέλεξα κάποιο έργο, αλλά δεν λειτούργησε ποτέ"
 
 #: poll_data.inc:58
 msgid "No - I never tried running BOINC, because..."
-msgstr ""
+msgstr "Όχι - δεν προσπάθησα ποτέ να χρησιμοποιήσω το BOINC, επειδή..."
 
 #: poll_data.inc:61
 msgid "I was concerned about security"
-msgstr ""
+msgstr "ανησυχούσα για την ασφάλεια"
 
 #: poll_data.inc:62
 msgid "I wasn't interested in any of the projects"
-msgstr ""
+msgstr "δεν με ενδιέφερε κάποιο από τα έργα"
 
 #: poll_data.inc:63
 msgid "I don't have permission to run it on my computer"
-msgstr ""
+msgstr "δεν έχω την άδεια να το χρησιμοποιήσω στον υπολογιστή μου"
 
 #: poll_data.inc:64
 msgid "No version was available for my computer"
-msgstr ""
+msgstr "δεν υπήρχε καμία έκδοση του προγράμματος για τον υπολογιστή μου"
 
 #: poll_data.inc:75
 msgid "What kind of computers do you have running BOINC?"
-msgstr ""
+msgstr "Σε τι είδους υπολογιστές χρησιμοποιείτε το BOINC;"
 
 #: poll_data.inc:85
 msgid "Where are they?"
-msgstr ""
+msgstr "Πού βρίσκονται;"
 
 #: poll_data.inc:87
 msgid "Home"
-msgstr ""
+msgstr "Στο σπίτι"
 
 #: poll_data.inc:88
 msgid "Work"
-msgstr ""
+msgstr "Στη δουλειά"
 
 #: poll_data.inc:89
 msgid "School"
-msgstr ""
+msgstr "Στο σχολείο"
 
 #: poll_data.inc:96
 msgid "How many computers?"
-msgstr ""
+msgstr "Πόσους υπολογιστές;"
 
 #: poll_data.inc:107
 msgid "On average, how many hours per day are they powered on?"
-msgstr ""
+msgstr "Κατά μέσο όρο, πόσες ώρες την ημέρα βρίσκονται σε λειτουργία;"
 
 #: poll_data.inc:119
 msgid "Age"
-msgstr ""
+msgstr "Ηλικία"
 
 #: poll_data.inc:129
 msgid "Sex"
-msgstr ""
+msgstr "Φύλο"
 
 #: poll_data.inc:131
 msgid "Male"
-msgstr ""
+msgstr "Αρσενικό"
 
 #: poll_data.inc:132
 msgid "Female"
-msgstr ""
+msgstr "Θηλυκό"
 
 #: poll_data.inc:137
 msgid "Your level of computer expertise"
-msgstr ""
+msgstr "Το γνωστικό σας επίπεδο στη χρήση του υπολογιστή"
 
 #: poll_data.inc:139
 msgid "Beginner"
-msgstr ""
+msgstr "Αρχάριος"
 
 #: poll_data.inc:140
 msgid "Intermediate"
-msgstr ""
+msgstr "Μέτριος"
 
 #: poll_data.inc:141
 msgid "Advanced"
-msgstr ""
+msgstr "Προχωρημένος"
 
 #: poll_data.inc:149
 msgid "Where did you learn about BOINC projects?"
-msgstr ""
+msgstr "Από πού μάθατε για τα προγράμματα του BOINC;"
 
 #: poll_data.inc:151
 msgid "TV/radio/newspaper"
-msgstr ""
+msgstr "τηλεόραση/ραδιόφωνο/εφημερίδα"
 
 #: poll_data.inc:152
 msgid "From friends, relatives, or coworkers"
-msgstr ""
+msgstr "Από φίλους, συγγενείς, ή συνεργάτες"
 
 #: poll_data.inc:153
 msgid "Team message boards or web sites"
-msgstr ""
+msgstr "Από φόρουμ ή ιστοσελίδες ομάδων"
 
 #: poll_data.inc:154 poll_data.inc:210
 msgid "The BOINC web site"
-msgstr ""
+msgstr "Από την ιστοσελίδα του BOINC"
 
 #: poll_data.inc:155
 msgid "Other web sites"
-msgstr ""
+msgstr "Από άλλες ιστοσελίδες"
 
 #: poll_data.inc:161
 msgid ""
 "Which are the most important factors when you decide whether to participate "
 "in a BOINC project?"
 msgstr ""
+"Ποιοι είναι οι σημαντικότεροι παράγοντες που παίζουν ρόλο στην απόφαση για "
+"συμμετοχή ή μη σε κάποιο έργο του BOINC;"
 
 #: poll_data.inc:163
 msgid "Nice-looking screensaver graphics"
-msgstr ""
+msgstr "Όμορφα γραφικά προφύλαξης οθόνης"
 
 #: poll_data.inc:164
 msgid "Fair and quick granting of credit for work done"
-msgstr ""
+msgstr "Δίκαιη και άμεση απόδοση ευσήμων για την ολοκήρωμένη δουλειά"
 
 #: poll_data.inc:165
 msgid "Getting more credit from this project than from others"
-msgstr ""
+msgstr "Λήψη περισσότερων ευσήμων από αυτό το έργο από ότι στα υπόλοιπα"
 
 #: poll_data.inc:166
 msgid "Helpful and friendly message boards"
-msgstr ""
+msgstr "Εξυπηρετικοί και φιλικοί πίνακες μηνυμάτων (forum)"
 
 #: poll_data.inc:167
 msgid "Participation by project staff on the message boards"
-msgstr ""
+msgstr "Συμμετοχή του προσωπικού του έργου στους πίνακες μηνυμάτων (forum)"
 
 #: poll_data.inc:168
 msgid "Informative project web site"
-msgstr ""
+msgstr "Κατατοπιστική ιστοσελίδα του έργου"
 
 #: poll_data.inc:169
 msgid "The science is important and beneficial"
-msgstr ""
+msgstr "Η επιστήμη είναι σημαντική και ωφέλιμη"
 
 #: poll_data.inc:170
 msgid "Non-profit, and results are public"
-msgstr ""
+msgstr "Μη κερδοσκοπικό, και τα αποτελέσματα είναι δημόσια"
 
 #: poll_data.inc:171
 msgid "Personal recognition if my computer finds something"
-msgstr ""
+msgstr "Προσωπική αναγνώριση σε περίπτωση που ο υπολογιστής μου βρει κάτι"
 
 #: poll_data.inc:172
 msgid "Publication by the project in scientific journals"
-msgstr ""
+msgstr "Δημοσίευση του έργου σε επιστημονικές περιοδικές εκδόσεις"
 
 #: poll_data.inc:173
 msgid "Periodic email newsletters from the project"
-msgstr ""
+msgstr "Περιοδική ενημέρωση για το έργο μέσω ηλεκτρονικού ταχυδρομείου (e-mail)"
 
 #: poll_data.inc:180
 msgid "How many BOINC projects do you participate in?"
-msgstr ""
+msgstr "Σε πόσα έργα του BOINC συμμετέχετε;"
 
 #: poll_data.inc:190
 msgid "Do you run BOINC as a screensaver?"
-msgstr ""
+msgstr "Χρησιμοποιείται το BOINC ως προφύλαξη οθόνης;"
 
 #: poll_data.inc:192
 msgid "Yes"
-msgstr ""
+msgstr "Ναι"
 
 #: poll_data.inc:193
 msgid "No"
-msgstr ""
+msgstr "Όχι"
 
 #: poll_data.inc:198
 msgid "Your usage of project messages boards:"
-msgstr ""
+msgstr "Χρησιμοποιείτε τους πίνακες μηνυμάτων (forum) του έργου:"
 
 #: poll_data.inc:200
 msgid "to read information"
-msgstr ""
+msgstr "για να βρίσκετε πληροφορίες"
 
 #: poll_data.inc:201
 msgid "to read and post information"
-msgstr ""
+msgstr "για να βρίσκετε και να δίνετε πληροφορίες"
 
 #: poll_data.inc:202
 msgid "None"
-msgstr ""
+msgstr "Τίποτα από τα παραπάνω"
 
 #: poll_data.inc:206
 msgid ""
 "Where do you get information to help resolve problems with BOINC and/or "
 "BOINC projects?"
 msgstr ""
+"Από πού παίρνετε πληροφορίες για την επίλυση προβλημάτων του BOINC ή/και των "
+"έργων του BOINC;"
 
 #: poll_data.inc:208
 msgid "The project message boards"
-msgstr ""
+msgstr "Τους πίνακες μηνυμάτων (forum) του έργου"
 
 #: poll_data.inc:209
 msgid "The BOINC message boards"
-msgstr ""
+msgstr "Τους πίνακες μηνυμάτων (forum) του BOINC"
 
 #: poll_data.inc:211
 msgid "BOINC mailing lists"
-msgstr ""
+msgstr "Τις λίστες ηλεκτρονικού ταχυδρομείου (e-mail) του BOINC"
 
 #: poll_data.inc:212
 msgid "The Unofficial BOINC Wiki"
-msgstr ""
+msgstr "Την Ανεπίσημη Εγκυκλοπαίδεια του BOINC (Unofficial BOINC Wiki)"
 
 #: poll_data.inc:213
 msgid "Team web sites"
-msgstr ""
+msgstr "Τις ιστοσελίδες των ομάδων"
 
 #: poll_data.inc:214
 msgid "Google or other search engines"
-msgstr ""
+msgstr "Το Google ή άλλες μηχανές αναζήτησης"
 
 #: download.php:40
 msgid "Download BOINC"
-msgstr ""
+msgstr "Λήψη του BOINC"
 
 #: download.php:42
 #, php-format
 msgid "%s for %s (%s MB)"
-msgstr ""
+msgstr "%s για %s (%s MB)"
 
 #: download.php:89
 msgid ""
@@ -332,6 +336,11 @@ msgid ""
 "Community Grid, and many others. <p> After installing BOINC on your "
 "computer, you can connect it to as many of these projects as you like."
 msgstr ""
+"Το BOINC είναι ένα πρόγραμμα που σας επιτρέπει να προσφέρετε τον αδρανή "
+"χρόνο του υπολογιστή σας σε επιστημονικά προγράμματα όπως τα SETI@home, "
+"Climateprediction.net, Rosetta@home, World Community Grid και πολλά άλλα. "
+"<p> Αφού εγκαταστήσετε το BOINC στον υπολογιστή σας, μπορείτε να συνδεθείτε "
+"σε όσα από αυτά τα προγράμματα επιθυμείτε."
 
 #: download.php:114
 #, php-format
@@ -660,6 +669,8 @@ msgid ""
 "These are the current results of the <a href=poll.php>BOINC user survey</"
 "a>.  This page is updated every hour."
 msgstr ""
+"Αυτά είναι τα τρέχοντα αποτελέσματα της <a href=poll.php>έρευνας για χρήστες "
+"του BOINC</a>. Αυτή η σελίδα ανανεώνεται κάθε μία ώρα."
 
 # The charset used for the text in this file (please try to use UTF-8 if possible)
 #~ msgid "CHARSET"
