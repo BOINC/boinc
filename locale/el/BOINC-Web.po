@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2009-07-23 22:09 PDT\n"
-"PO-Revision-Date: 2009-12-14 15:58-0700\n"
+"PO-Revision-Date: 2009-12-14 16:58-0700\n"
 "Last-Translator: Nick Liolios <anarchist_jesus@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: el\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: poll.inc:18
 msgid "[check all that apply]"
-msgstr ""
+msgstr "[check all that apply]"
 
 #: poll.inc:47
 msgid "Other:"
@@ -348,26 +348,29 @@ msgid ""
 "Note: if your computer is equipped with an NVIDIA Graphics Processing Unit "
 "(GPU), you may be able to %suse it to compute faster%s"
 msgstr ""
+"Σημείωση: Αν ο υπολογιστής σας είναι εφοδιασμένος με έναν επεξεργαστή "
+"γραφικών (Graphics Processing Unit) μάρκας NVIDIA, είναι πιθανό να μπορείτε "
+"να τον %sχρησιμοποιήσετε για γρηγορότερους υπολογισμούς.%s"
 
 #: download.php:120
 msgid "System requirements"
-msgstr ""
+msgstr "Απαιτήσεις συστήματος"
 
 #: download.php:121
 msgid "Release notes"
-msgstr ""
+msgstr "Συμειώσεις κυκλοφορίας"
 
 #: download.php:122 index.php:89
 msgid "Help"
-msgstr ""
+msgstr "Βοήθεια"
 
 #: download.php:123
 msgid "All versions"
-msgstr ""
+msgstr "Όλες οι εκδόσεις"
 
 #: download.php:141
 msgid "BOINC: compute for science"
-msgstr ""
+msgstr "BOINC: υπολογισμοί για την επιστήμη"
 
 #: help.php:12
 #, php-format
@@ -377,6 +380,11 @@ msgid ""
 "through the process of installing and using BOINC; %s troubleshoot any "
 "problems you might have."
 msgstr ""
+"Η διαδικτυακή βοήθεια (Online Help) του BOINC σας επιτρέπει να μιλήσετε "
+"απευθείας με έμπειρους χρήστες του BOINC, οι οποίοι είναι σε θέση: %s να "
+"απαντήσουν σε ερωτήσεις σχετικά με το BOINC και τον εθελοντικό υπολογισμό, "
+"%s να βοηθήσουν βήμα προς βήμα στην διαδικασία της εγκατάστασης και χρήσης "
+"του BOINC, να αντιμετωπίσουν όποια προβλήματα μπορεί να έχετε."
 
 #: help.php:21
 #, php-format
@@ -386,6 +394,11 @@ msgid ""
 "Skype, please %sdownload and install it now%s.  When you're finished, return "
 "to this page."
 msgstr ""
+"Η διαδικτυακή βοήθεια (Online Help) του BOINC βασίζετει στο %sSkype%s, ένα "
+"τηλεφωνικό σύστημα στο Ίντερνετ. Το Skype διατίθεται δωρεάν (και το "
+"λογισμικό και οι κλήσεις). Αν δεν έχετε ήδη το Skype, παρακαλούμε "
+"%sκατεβάστε το και εγκαταστήστε το τώρα%s. Όταν τελειώσετε, επιστρέψτε σε "
+"αυτή την σελίδα"
 
 #: help.php:28
 msgid ""
@@ -394,16 +407,24 @@ msgid ""
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
 msgstr ""
+"Ο καλύτερος τρόπος για να βρείτε βοήθεια είναι η ομιλία, για την οποία "
+"χρειάζεστε είτε ένα σταθερό μικρόφωνο και ηχεία είτε ακουστικά με "
+"ενσωματωμένο μικρόφωνο (headset) για τον υπολογιστή σας. Μπορείτε επίσης να "
+"χρησιμοποιήσετε το σύστημα συνομιλίας με κείμενο του Skype ή το ηλεκτρονικό "
+"ταχυδρομείο (αν δεν έχετε το Skype) για να επικοινωνείτε με τους Εθελοντές "
+"της Βοήθειας (Help Volunteers)."
 
 #: help.php:31
 msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
 msgstr ""
+"Εθελοντές που μιλούν διάφορες γλώσσες είναι διαθέσιμοι. Παρακαλούμε επιλέξτε "
+"μία γλώσσα:"
 
 #: help.php:47
 msgid "Be a Help Volunteer"
-msgstr ""
+msgstr "Γίνετε Εθελοντής Βοήθειας (Help Volunteer)"
 
 #: help.php:50
 #, php-format
