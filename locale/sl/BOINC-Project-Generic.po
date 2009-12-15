@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-12-15 01:57-0700\n"
+"PO-Revision-Date: 2009-12-15 02:58-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -183,281 +183,286 @@ msgid "Web site"
 msgstr "Spletna stran"
 
 msgid "Total credit"
-msgstr ""
+msgstr "Skupaj točk"
 
 msgid "Recent average credit"
-msgstr ""
+msgstr "Povprečje točk v zadnjem času"
 
 msgid "Cross-project stats"
-msgstr ""
+msgstr "Medprojektna statistika"
 
 msgid "Type"
-msgstr ""
+msgstr "Tip"
 
 msgid "Message board"
-msgstr ""
+msgstr "Razpravljalnica"
 
 msgid "Threads"
-msgstr ""
+msgstr "Teme"
 
 msgid "Join this team"
-msgstr ""
+msgstr "Pridruži se tej ekipi"
 
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
 msgstr ""
+"Opomba: če je 'Dovoljeno pošiljanje pošte' nastavljeno v nastavitvah vašega "
+"projekta, ob pridružitvi ekipi daje njenemu ustanovitelju dostop do naslova "
+"vaše elektronske pošte."
 
 msgid "Not accepting new members"
-msgstr ""
+msgstr "Ne sprejema novih članov"
 
 msgid "Foundership change requested"
-msgstr ""
+msgstr "Zahtevana sprememba ustanoviteljstva"
 
 msgid "Respond by %1"
-msgstr ""
+msgstr "Odgovori z %1"
 
 msgid "Team foundership change"
-msgstr ""
+msgstr "Sprememba ustanoviteljstva ekipe"
 
 msgid "Members"
-msgstr ""
+msgstr "Člani"
 
 msgid "Founder"
-msgstr ""
+msgstr "Ustanovitelj"
 
 msgid "Admins"
-msgstr ""
+msgstr "Skrbniki"
 
 msgid "New members in last day"
-msgstr ""
+msgstr "Novi člani v zadnjem dnevu"
 
 msgid "Total members"
-msgstr ""
+msgstr "Skupaj članov"
 
 msgid "view"
-msgstr ""
+msgstr "poglej"
 
 msgid "Active members"
-msgstr ""
+msgstr "Aktivni člani"
 
 msgid "Members with credit"
-msgstr ""
+msgstr "Člani s točkami"
 
 msgid "Name"
-msgstr ""
+msgstr "Ime"
 
 msgid "Admin"
-msgstr ""
+msgstr "Skrbnik"
 
 msgid "Last %1"
-msgstr ""
+msgstr "Zadnjih %1"
 
 msgid "Next %1"
-msgstr ""
+msgstr "Naslednjih %1"
 
 msgid "No such team."
-msgstr ""
+msgstr "Ekipa ne obstaja."
 
 msgid "This operation requires foundership."
-msgstr ""
+msgstr "Ta operacija zahteva ustanoviteljstvo."
 
 msgid "This operation requires team admin privileges"
-msgstr ""
+msgstr "Ta operacija zahteva skrbniške pravice za ekipo"
 
 msgid "Rank"
-msgstr ""
+msgstr "Uvrstitev"
 
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
 msgstr ""
+"%1Opomba o zasebnosti%2: če ustvarite ekipo, bodo vaše nastavitve projekta "
+"(delitev virov, grafične nastavitve) vidne javnosti."
 
 msgid "Team name, text version"
-msgstr ""
+msgstr "Ime ekipe, tekstovna različica"
 
 msgid "Don't use HTML tags."
-msgstr ""
+msgstr "Ne uporabljajte HTML oznak."
 
 msgid "Team name, HTML version"
-msgstr ""
+msgstr "Ime ekipe, HTML različica"
 
 msgid "You may use %1limited HTML tags%2."
-msgstr ""
+msgstr "Lahko uporabljajte %1omejen nabor HTML oznak%2."
 
 msgid "If you don't know HTML, leave this box blank."
-msgstr ""
+msgstr "Če ne znate HTML, pustite ta okvir prazen."
 
 msgid "URL of team web page, if any"
-msgstr ""
+msgstr "URL spletne strani ekipe, če obstaja"
 
 msgid "without \"http://\""
-msgstr ""
+msgstr "brez \"http://\""
 
 msgid "This URL will be linked to from the team's page on this site."
-msgstr ""
+msgstr "Na spletni strani ekipe bo povezava s tem URL."
 
 msgid "Description of team"
-msgstr ""
+msgstr "Opis ekipe"
 
 msgid "Projects in which you are participating"
-msgstr ""
+msgstr "Projekti, v katerih sodelujete"
 
 msgid "Projects in which %1 is participating"
-msgstr ""
+msgstr "Projekti, v katerih sodeluje %1"
 
 msgid "Project"
-msgstr ""
+msgstr "Projekt"
 
 msgid "Click for user page"
-msgstr ""
+msgstr "Kliknite za spletno stran uporabnika"
 
 msgid "Average credit"
-msgstr ""
+msgstr "Točk v povprečju"
 
 msgid "Since"
-msgstr ""
+msgstr "Od"
 
 msgid "Computing and credit"
-msgstr ""
+msgstr "Računanje in točke"
 
 msgid "Pending credit"
-msgstr ""
+msgstr "Čakajoče točke"
 
 msgid "View"
-msgstr ""
+msgstr "Pogled"
 
 msgid "Computers on this account"
-msgstr ""
+msgstr "Računalniki tega računa"
 
 msgid "Tasks"
-msgstr ""
+msgstr "Opravila"
 
 msgid "Cross-project ID"
-msgstr ""
+msgstr "Medprojektni ID"
 
 msgid "Cross-project statistics"
-msgstr ""
+msgstr "Medprojektna statistika"
 
 msgid "Certificate"
-msgstr ""
+msgstr "Certifikat"
 
 msgid "Stats on your cell phone"
-msgstr ""
+msgstr "Statistika na vašem mobilnem telefonu"
 
 msgid "Account information"
-msgstr ""
+msgstr "Informacije o računu"
 
 msgid "Email address"
-msgstr ""
+msgstr "Naslov elektronske pošte"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "Postal code"
-msgstr ""
+msgstr "Poštna številka"
 
 msgid "%1 member since"
-msgstr ""
+msgstr "%1 član od"
 
 msgid "Change"
-msgstr ""
+msgstr "Spremeni"
 
 msgid "email address"
-msgstr ""
+msgstr "naslov elektronske pošte"
 
 msgid "password"
-msgstr ""
+msgstr "geslo"
 
 msgid "other account info"
-msgstr ""
+msgstr "druge informacije o računu"
 
 msgid "Log out"
-msgstr ""
+msgstr "Odjava"
 
 msgid "User ID"
-msgstr ""
+msgstr "ID uporabnika"
 
 msgid "Used in community functions"
-msgstr ""
+msgstr "Uporabljeno v funkcijah skupnosti"
 
 msgid "Account key"
-msgstr ""
+msgstr "Ključ računa"
 
 msgid "Provides full access to your account"
-msgstr ""
+msgstr "Priskrbi poln dostop do vašega računa"
 
 msgid "Weak account key"
-msgstr ""
+msgstr "Šibek ključ računa"
 
 msgid "Provides %1limited access%2 to your account"
-msgstr ""
+msgstr "Priskrbi %1omejen dostop%2 do vašega računa"
 
 msgid "Preferences"
-msgstr ""
+msgstr "Nastavitve"
 
 msgid "When and how BOINC uses your computer"
-msgstr ""
+msgstr "Kdaj in kako BOINC uporablja vaš računalnik"
 
 msgid "Computing preferences"
-msgstr ""
+msgstr "Nastavitve računanja"
 
 msgid "Message boards and private messages"
-msgstr ""
+msgstr "Razpravljalnice in zasebna sporočila"
 
 msgid "Community preferences"
-msgstr ""
+msgstr "Nastavitve skupnosti"
 
 msgid "Resource share and graphics"
-msgstr ""
+msgstr "Delitev virov in grafika"
 
 msgid "%1 preferences"
-msgstr ""
+msgstr "%1 nastavitve"
 
 msgid "Community"
-msgstr ""
+msgstr "Skupnost"
 
 msgid "Delete"
-msgstr ""
+msgstr "Briši"
 
 msgid "Create"
-msgstr ""
+msgstr "Ustvari"
 
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 msgid "%1 posts"
-msgstr ""
+msgstr "Objave %1"
 
 msgid "Notifications"
-msgstr ""
+msgstr "Obvestila"
 
 msgid "Quit team"
-msgstr ""
+msgstr "Zapusti ekipo"
 
 msgid "Administer"
-msgstr ""
+msgstr "Administriraj"
 
 msgid "(foundership change request pending)"
-msgstr ""
+msgstr "(čakajoča zahteva po spremembi ustanoviteljstva)"
 
 msgid "Member of team"
-msgstr ""
+msgstr "Član ekipe"
 
 msgid "Team"
-msgstr ""
+msgstr "Ekipa"
 
 msgid "find a team"
-msgstr ""
+msgstr "poišči ekipo"
 
 msgid "Founder but not member of"
-msgstr ""
+msgstr "Ustanovitelj, vendar ne član"
 
 msgid "Find friends"
-msgstr ""
+msgstr "Poišči prijatelje"
 
 msgid "Friends"
-msgstr ""
+msgstr "Prijatelji"
 
 msgid "Computers"
 msgstr ""
