@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <translate@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2009-05-09 21:36 PDT\n"
-"PO-Revision-Date: 2009-12-15 03:52-0700\n"
+"PO-Revision-Date: 2009-12-15 04:59-0700\n"
 "Last-Translator: Miha P <miha@wolfey.si>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -619,73 +619,83 @@ msgid "Select the language in which your profile is written:"
 msgstr "Izberite jezik v katerem naj bo napisan vaš profil:"
 
 msgid "Submit profile"
-msgstr ""
+msgstr "Vnesi profil"
 
 msgid ""
 "To protect the project's webpages from spam, we kindly ask you to type in "
 "the two words shown in the image:<br>\n"
-msgstr ""
+msgstr "Za zaščito spletne strani projekta pred smetjem, vas vljudno prosimo, da "
+"napišete besedi, prikazani na sliki:<br>\n"
 
 msgid "Create/edit profile"
-msgstr ""
+msgstr "Ustvari/uredi profil"
 
 msgid "The format of your uploaded image is not supported."
-msgstr ""
+msgstr "Format vaše naložene slike ni podprt."
 
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
 msgstr ""
+"Vaš %1profil%2 vam omogoča deliti vaša mnenja in ozadje s skupnostjo %3."
 
 msgid "Your ReCaptcha response was not correct.  Please try again."
 msgstr ""
+"Vaš \"Recaptcha\" odgovor na vsebino slike ni bil pravilen.  Prosim, poskusite "
+"znova."
 
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Vaš prvi odgovor je bil označen kot smetje s strani Akismet proti-smetnega "
+"sistema.  Prosim, spremenite vaše besedilo in poskusite znova."
 
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
 msgstr ""
+"Vaš drugi odgovor je bil označen kot smetje s strani Akismet proti-smetnega "
+"sistema.  Prosim, spremenite vaše besedilo in poskusite znova."
 
 msgid "Your profile submission was empty."
-msgstr ""
+msgstr "Vnesli ste prazen profil."
 
 msgid "Could not update the profile: database error"
-msgstr ""
+msgstr "Ne morem posodobiti profila: napaka v podatkovni bazi"
 
 msgid "Could not create the profile: database error"
-msgstr ""
+msgstr "Ne morem ustvariti profila: napaka v podatkovni bazi"
 
 msgid "Profile saved"
-msgstr ""
+msgstr "Profil shranjen"
 
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr ""
+msgstr "Čestitke! Vaš profil je bil uspešno vnesen v našo podatkovno bazo."
 
 msgid "%1View your profile%2"
-msgstr ""
+msgstr "%1Poglejte vaš profil%2"
 
 msgid "Create a profile"
-msgstr ""
+msgstr "Ustvarite profil"
 
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or "
 "edit a profile.  We apologize for this inconvenience."
 msgstr ""
+"Za preprečitev smetja, je za ustvarjanje ali urejanje profila zahtevano "
+"povprečje točk %1 ali več.  Za to nevšečnost se vam opravičujemo."
 
 msgid "Download BOINC add-on software"
-msgstr ""
+msgstr "Naloži dodatno programsko opremo BOINC"
 
 msgid "You can download applications in several categories."
-msgstr ""
+msgstr "Naložite lahko aplikacije iz večih kategorij."
 
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
-msgstr ""
+msgstr "Te aplikacije %1 ne podpira. Lahko jo uporabljate na lastno odgvornost."
 
 msgid ""
 "We do not provide instructions for installing these applications.\n"
@@ -693,263 +703,279 @@ msgid ""
 "uninstalling the application. \n"
 "If this is not enough you should contact the author."
 msgstr ""
+"Ne ponujamo navodil za namestitev teh aplikacij.\n"
+"Kakorkoli, avtor je morda priskrbel kaj pomoči o namestitvi ali "
+"odstranjeanju\n"
+"aplikacije.\n"
+"Če za vas to ni dovolj, bi morali kontaktirati avtorja."
 
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr ""
+msgstr "Navodila za namestitev in poganjanje BOINC so %1tukaj%2."
 
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr ""
+msgstr "Ta seznam je centralno upravljan na %1spletni strani BOINC%2."
 
 msgid "fll"
-msgstr ""
+msgstr "fll"
 
 msgid "Title"
-msgstr ""
+msgstr "Naslov"
 
 msgid "Add my signature to this post"
-msgstr ""
+msgstr "Dodaj moj podpis k tej objavi"
 
 msgid "%1 Message boards"
-msgstr ""
+msgstr "%1 razpravljalnice"
 
 msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
 msgstr ""
+"Če imate vprašanje ali problem, prosim uporabite odsek %1Vprašanja in "
+"odgovori%2 razpravljalnic."
 
 msgid "Topic"
-msgstr ""
+msgstr "Tema"
 
 msgid "Create a new thread"
-msgstr ""
+msgstr "Ustvari novo temo"
 
 msgid "Post to thread"
-msgstr ""
+msgstr "Objavi k temi"
 
 msgid "Forum search"
-msgstr ""
+msgstr "Iskanje po forumu"
 
 msgid "Forum search results"
-msgstr ""
+msgstr "Rezultati iskanja po forumu"
 
 msgid "No thread with id %1. Please check the link and try again."
 msgstr ""
+"Tema s tem ID %1 ne obstaja. Prosim, preverite povezavo in poskusite znova."
 
 msgid "This forum is not visible to you."
-msgstr ""
+msgstr "Ta forum za vas ni viden."
 
 msgid "This thread has been hidden for administrative purposes"
-msgstr ""
+msgstr "Ta tema je bila skrita zaradi skrbniških razlogov"
 
 msgid "My question was answered"
-msgstr ""
+msgstr "Na moje vprašanje je bilo odgovorjeno"
 
 msgid ""
 "If your question has been adequately answered please click here to close it!"
 msgstr ""
+"Če je bilo na vaše vprašanje zadovoljivo odgovorjeno, prosim kliknite tu, da "
+"ga zaprete!"
 
 msgid "I've also got this question"
-msgstr ""
+msgstr "Imam tudi to vprašanje"
 
 msgid "Add a new message to this thread"
-msgstr ""
+msgstr "Dodaj novo sporočilo k tej temi"
 
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Odjavi naročilo"
 
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
-msgstr ""
+msgstr "Naročeni ste na to temo.  Kliknite tu, da odjavite naročilo."
 
 msgid "Subscribe"
-msgstr ""
+msgstr "Naroči se"
 
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
+"Kliknite tu, da dobite elektronsko pošto, kadar so v tej temi nove objave."
 
 msgid "Unhide"
-msgstr ""
+msgstr "Naredi vidno"
 
 msgid "Unhide this thread"
-msgstr ""
+msgstr "Naredi temo vidno"
 
 msgid "Hide"
-msgstr ""
+msgstr "Skrij"
 
 msgid "Hide this thread"
-msgstr ""
+msgstr "Skrij to temo"
 
 msgid "Make unsticky"
-msgstr ""
+msgstr "Odstrani lepljivost"
 
 msgid "Make this thread not sticky"
-msgstr ""
+msgstr "Odstrani lepljivost te teme"
 
 msgid "Make sticky"
-msgstr ""
+msgstr "Naredi lepljivo"
 
 msgid "Make this thread sticky"
-msgstr ""
+msgstr "Naredi to temo lepljivo"
 
 msgid "Unlock"
-msgstr ""
+msgstr "Odkleni"
 
 msgid "Unlock this thread"
-msgstr ""
+msgstr "Odkleni to temo"
 
 msgid "Lock"
-msgstr ""
+msgstr "Zakleni"
 
 msgid "Lock this thread"
-msgstr ""
+msgstr "Zakleni to temo"
 
 msgid "Move"
-msgstr ""
+msgstr "Premakni"
 
 msgid "Move this thread to a different forum"
-msgstr ""
+msgstr "Premakni to temo v drug forum"
 
 msgid "Edit title"
-msgstr ""
+msgstr "Uredi naslov"
 
 msgid "Edit thread title"
-msgstr ""
+msgstr "Uredi naslov teme"
 
 msgid "Sort"
-msgstr ""
+msgstr "Uredi"
 
 msgid "Already friends"
-msgstr ""
+msgstr "Že prijatelja"
 
 msgid "You requested friendship with %1 on %2."
-msgstr ""
+msgstr "Zahtevali ste prijateljstvo z %1 na %2."
 
 msgid "This request is still pending confirmation."
-msgstr ""
+msgstr "Ta zahteva še vedno čaka na potrditev."
 
 msgid "%1 is not accepting friendship requests from you"
-msgstr ""
+msgstr "%1 ne sprejema vaših zahtev po prijateljstvu"
 
 msgid "You can't be friends with yourself"
-msgstr ""
+msgstr "Ne morete biti prijatelj samemu sebi"
 
 msgid "No such user"
-msgstr ""
+msgstr "Uporabnik ne obstaja"
 
 msgid "Add friend"
-msgstr ""
+msgstr "Dodaj prijatelja"
 
 msgid ""
 "You have asked to add %1 as a friend. We will notify %2 and will ask him/her "
 "to confirm that you are friends."
 msgstr ""
+"Prosili ste, da bi dodali %1 kot prijatelja. Obvestili bomo %2 in ga/jo "
+"vprašali za potrditev, da sta prijatelja/prijateljici."
 
 msgid "Add an optional message here:"
-msgstr ""
+msgstr "Tu lahko dodate sporočilo:"
 
 msgid "Database error"
-msgstr ""
+msgstr "Napaka v podatkovni bazi"
 
 msgid "Friend request sent"
-msgstr ""
+msgstr "Prošnja za prijateljstvo je poslana"
 
 msgid "We have notified %1 of your request."
-msgstr ""
+msgstr "O vaši prošnji smo obvestili %1."
 
 msgid "Request not found"
-msgstr ""
+msgstr "Prošnja ni najdena"
 
 msgid "Friend request"
-msgstr ""
+msgstr "Prošnja za prijateljstvo"
 
 msgid "%1 has added you as a friend."
-msgstr ""
+msgstr "%1 vas je dodal(-a) kot prijatelja."
 
 msgid "%1 says: %2"
-msgstr ""
+msgstr "%1 pravi: %2"
 
 msgid "Accept friendship"
-msgstr ""
+msgstr "Sprejmi prijateljstvo"
 
 msgid "Click accept if %1 is in fact a friend"
-msgstr ""
+msgstr "Klknite sprejmi, če je %1 zares vaš prijatelj(-ica)"
 
 msgid "Decline"
-msgstr ""
+msgstr "Odkloni"
 
 msgid "Click decline if %1 is not a friend"
-msgstr ""
+msgstr "Kliknite odkloni, če %1 ni vaš prijatelj(-ica)"
 
 msgid "No request"
-msgstr ""
+msgstr "Ni prošnje"
 
 msgid "Friendship confirmed"
-msgstr ""
+msgstr "Prijateljstvo potrjeno"
 
 msgid "Your friendship with %1 has been confirmed."
-msgstr ""
+msgstr "Vaše prijateljstvo z %1 je bilo potrjeno."
 
 msgid "Friendship declined"
-msgstr ""
+msgstr "Prijateljstvo odklonjeno"
 
 msgid "You have declined friendship with %1"
-msgstr ""
+msgstr "Odklonili ste prijateljstvo z %1"
 
 msgid "Notification not found"
-msgstr ""
+msgstr "Obvestilo ni najdeno"
 
 msgid "Friend confirmed"
-msgstr ""
+msgstr "Prijatelj(-ica) potrjen(-a)"
 
 msgid "You are now friends with %1."
-msgstr ""
+msgstr "Zdaj sta s/z %1 prijatelja."
 
 msgid "Cancel friendship?"
-msgstr ""
+msgstr "Preklic prijateljstva?"
 
 msgid "Are you sure you want to cancel your friendship with %1?"
-msgstr ""
+msgstr "Ali ste prepričani, da želite preklicati prijateljstvo z %1?"
 
 msgid "Yes"
-msgstr ""
+msgstr "Da"
 
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 msgid "Stay friends"
-msgstr ""
+msgstr "Ostani prijatelj"
 
 msgid "Friendship cancelled"
-msgstr ""
+msgstr "Prijateljstvo preklicano"
 
 msgid "Your friendship with %1 has been cancelled."
-msgstr ""
+msgstr "Vaše prijateljstvo s/z %1 je bilo preklicano."
 
 msgid "Unknown action"
-msgstr ""
+msgstr "Neznano dejanje"
 
 msgid "Welcome to %1"
-msgstr ""
+msgstr "Dobrodošli k %1"
 
 msgid "View and edit your account preferences using the links below."
-msgstr ""
+msgstr "Poglejte in uredite nastavitve vašega računa s spodnjimi povezavami."
 
 msgid "Your account"
-msgstr ""
+msgstr "Vaš račun"
 
 msgid "Read our rules and policies"
-msgstr ""
+msgstr "Preberite naša pravila in politiko"
 
 msgid "Run %1 only on authorized computers"
-msgstr ""
+msgstr "Poganjajte %1 le na dovoljenih računalnikih"
 
 msgid ""
 "Run %1 only on computers that you own, or for which you have obtained the "
 "owner's permission. Some companies and schools have policies that prohibit "
 "using their computers for projects such as %1."
 msgstr ""
+"Poganjajte %1 le na računalnikih, katerih lastnik ste ali za katere ste "
+"pridobili dovoljenje lastnika. Nekatera podjetja in šole imajo pravila, ki "
+"prepovedujejo uporabo njihovih računalnikov za projekte, kot je %1."
 
 msgid "How %1 will use your computer"
-msgstr ""
+msgstr "Kako bo %1 uporabljal vaš računalnik"
 
 msgid ""
 "When you run %1 on your computer, it will use part of the computer's CPU "
