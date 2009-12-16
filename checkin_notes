@@ -10104,3 +10104,9 @@ Charlie 15 Dec 2009
     clientscr/
         res/
             BOINCSaver.nib
+
+David  15 Dec 2009
+    - boinccmd: compile fix
+
+    client/
+        boinc_cmd.cpp
