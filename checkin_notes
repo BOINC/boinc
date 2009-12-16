@@ -9316,10 +9316,16 @@ David  12 Dec 2009
         We don't want the job to fail,
         and we want to wait for a while before trying the allocation again.
 
-    api/
-        boinc_api.cpp,h
     client/
         app.h
         app_control.cpp
     lib/
         app_ipc.h
+
+Charlie 13 Dec 2009
+    - API and client: Fix bugs (indicated by compiler warnings) in recent 
+        check-ins.  David: please confirm these changes.
+    
+    client/
+        app_control.cpp
+        client_types.cpp
