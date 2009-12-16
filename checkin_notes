@@ -9400,3 +9400,11 @@ Rom    16 Dec 2009
         sleeper.vcproj
         ss_app.vcproj
         uc2_graphics.vcproj
+
+Rom    16 Dec 2009
+    - Tag for 6.10.25 release, all platforms
+      boinc_core_release_6_10_25
+
+    /
+        configure.ac
+        version.h
